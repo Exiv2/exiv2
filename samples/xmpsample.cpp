@@ -40,7 +40,7 @@ try {
     xmpData["Xmp.dc.two"]     = 3.1415;
     xmpData["Xmp.dc.three"]   = Exiv2::Rational(5, 7);
     xmpData["Xmp.dc.four"]    = uint16_t(255);
-    xmpData["Xmp.dc.five"]    = int32_t(256);
+    xmpData["Xmp.dc.five"]    = 256;
     xmpData["Xmp.dc.six"]     = false;
 
     // In addition, there is a dedicated assignment operator for Exiv2::Value
@@ -53,13 +53,13 @@ try {
     assert(xmpData["Xmp.dc.one"].value().ok());
 
     const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
-    assert(isEqual(getv1.toFloat(), -1)); 
+    assert(isEqual(getv1.toFloat(), -1));
     assert(getv1.ok());
     assert(getv1.toRational() == Exiv2::Rational(-1, 1));
     assert(getv1.ok());
 
     const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
-    assert(isEqual(getv2.toFloat(), 3.1415f)); 
+    assert(isEqual(getv2.toFloat(), 3.1415f));
     assert(getv2.ok());
     assert(getv2.toLong() == 3);
     assert(getv2.ok());
@@ -68,29 +68,29 @@ try {
     assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f ));
 
     const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
-    assert(isEqual(getv3.toFloat(), 5.0f/7.0f)); 
+    assert(isEqual(getv3.toFloat(), 5.0f/7.0f));
     assert(getv3.ok());
-    assert(getv3.toLong() == 0);  // long(5.0 / 7.0) 
+    assert(getv3.toLong() == 0);  // long(5.0 / 7.0)
     assert(getv3.ok());
     assert(getv3.toRational() == Exiv2::Rational(5, 7));
     assert(getv3.ok());
-    
+
     const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
     assert(getv6.toLong() == 0);
     assert(getv6.ok());
-    assert(getv6.toFloat() == 0.0);
+    assert(getv6.toFloat() == 0.0f);
     assert(getv6.ok());
     assert(getv6.toRational() == Exiv2::Rational(0, 1));
     assert(getv6.ok());
-    
+
     const Exiv2::Value &getv7 = xmpData["Xmp.dc.seven"].value();
     getv7.toLong(); // this should fail
-    assert(!getv7.ok()); 
+    assert(!getv7.ok());
 
     const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
     assert(getv8.toLong() == 1);
     assert(getv8.ok());
-    assert(getv8.toFloat() == 1.0);
+    assert(getv8.toFloat() == 1.0f);
     assert(getv8.ok());
     assert(getv8.toRational() == Exiv2::Rational(1, 1));
     assert(getv8.ok());
@@ -104,7 +104,7 @@ try {
     // Exiv2 has specialized values for simple XMP properties, arrays of simple
     // properties and language alternatives.
 
-    // Add a simple XMP property in a known namespace    
+    // Add a simple XMP property in a known namespace
     Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpText);
     v->read("image/jpeg");
     xmpData.add(Exiv2::XmpKey("Xmp.dc.format"), v.get());
@@ -118,7 +118,7 @@ try {
 
     // Add a language alternative property
     v = Exiv2::Value::create(Exiv2::langAlt);
-    v->read("lang=de-DE Hallo, Welt");       // The default doesn't need a 
+    v->read("lang=de-DE Hallo, Welt");       // The default doesn't need a
     v->read("Hello, World");                 // qualifier
     xmpData.add(Exiv2::XmpKey("Xmp.dc.description"), v.get());
 
@@ -183,8 +183,8 @@ try {
 
     // -------------------------------------------------------------------------
     // Output XMP properties
-    for (Exiv2::XmpData::const_iterator md = xmpData.begin(); 
-         md != xmpData.end(); ++md) {
+    for (Exiv2::XmpData::const_iterator md = xmpData.begin();
+        md != xmpData.end(); ++md) {
         std::cout << std::setfill(' ') << std::left
                   << std::setw(44)
                   << md->key() << " "

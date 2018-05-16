@@ -29,7 +29,7 @@ try {
     // tag is added.
     exifData["Exif.Image.Model"] = "Test 1";                     // AsciiValue
     exifData["Exif.Image.SamplesPerPixel"] = uint16_t(162);      // UShortValue
-    exifData["Exif.Image.XResolution"] = int32_t(-2);            // LongValue
+    exifData["Exif.Image.XResolution"] = -2;            // LongValue
     exifData["Exif.Image.YResolution"] = Exiv2::Rational(-2, 3); // RationalValue
     std::cout << "Added a few tags the quick way.\n";
 

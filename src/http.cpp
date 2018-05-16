@@ -109,7 +109,7 @@ static void Sleep(int millisecs)
 
 ////////////////////////////////////////
 // code
-const char* httpTemplate =
+static const char* httpTemplate =
 "%s %s HTTP/%s\r\n"            // $verb $page $version
 "User-Agent: exiv2http/1.0.0\r\n"
 "Accept: */*\r\n"
@@ -135,11 +135,6 @@ const char*   blankLines[] =
 int             snooze    = SNOOZE    ;
 int             sleep_    =  SLEEP    ;
 
-static void report(const char* msg,std::string& errors)
-{
-    errors += std::string(msg) + '\n';
-}
-
 static int forgive(int n,int& err)
 {
     err  = WSAGetLastError() ;
@@ -153,22 +148,24 @@ static int forgive(int n,int& err)
     return n ;
 }
 
-static int error(std::string errors,const char* msg,const char* x=NULL,const char* y=NULL,int z=0);
-static int error(std::string errors,const char* msg,const char* x     ,const char* y     ,int z )
+static int error(std::string& errors, const char* msg, const char* x = NULL, const char* y = NULL, int z = 0);
+static int error(std::string& errors, const char* msg, const char* x, const char* y, int z)
 {
-    char buffer[512] ;
+    static const size_t buffer_size = 512;
+    char buffer[buffer_size];
+    memset(buffer, 0, buffer_size);
 #ifdef MSDEV_2003
 	sprintf(buffer,msg,x,y,z);
 #else
-	snprintf(buffer,sizeof buffer,msg,x,y,z) ;
+	snprintf(buffer, buffer_size, msg, x, y, z) ;
 #endif
     if ( errno ) {
         perror(buffer) ;
     } else {
-        fprintf(stderr,"%s\n",buffer);
+        fprintf(stderr, "%s\n", buffer);
     }
-    report(buffer,errors) ;
-    return -1 ;
+    errors += std::string(msg) + '\n';
+    return -1;
 }
 
 static void flushBuffer(const char* buffer,size_t start,int& end,std::string& file)
@@ -271,8 +268,8 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // open the socket
-    int     sockfd = (int) socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
-    if (    sockfd < 0 ) return error("unable to create socket\n",NULL,NULL,0) ;
+    int     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
+    if (    sockfd < 0 ) return error(errors, "unable to create socket\n",NULL,NULL,0) ;
 
     // connect the socket to the server
     int     server  = -1 ;
@@ -291,7 +288,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     if (serv_addr.sin_addr.s_addr == (unsigned long)INADDR_NONE)
     {
         struct hostent* host = gethostbyname(servername_p);
-        if ( !host )  return error("no such host",servername_p,NULL,0);
+        if ( !host )  return error(errors, "no such host", servername_p);
         memcpy(&serv_addr.sin_addr,host->h_addr,sizeof(serv_addr.sin_addr));
     }
 
@@ -362,16 +359,16 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 response[""]=std::string(buffer+i).substr(0,h-buffer-2);
                 result = atoi(strchr(buffer,' '));
                 char* c = strchr(h,C);
-                char* n = strchr(h,N);
-                while ( c && n && c < n && h < buffer+body ) {
+                char* first_newline = strchr(h,N);
+                while ( c && first_newline && c < first_newline && h < buffer+body ) {
                     std::string key(h);
                     std::string value(c+1);
                     key   = key.substr(0,c-h);
-                    value = value.substr(0,n-c-1);
+                    value = value.substr(0,first_newline-c-1);
                     response[key]=value;
-                    h = n+1;
+                    h = first_newline+1;
                     c = strchr(h,C);
-                    n = strchr(h,N);
+                    first_newline = strchr(h,N);
                 }
             }
 

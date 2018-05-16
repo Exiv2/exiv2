@@ -35,7 +35,7 @@
 // + standard includes
 #include <string>
 
-#if (defined(__GNUG__) || defined(__GNUC__)) && ! defined(__clang__)
+#if (defined(__GNUG__) || defined(__GNUC__)) || defined(__clang__)
 #define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 0)))
 #else
 #define ATTRIBUTE_FORMAT_PRINTF

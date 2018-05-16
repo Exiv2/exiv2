@@ -1572,7 +1572,7 @@ namespace Exiv2 {
         {
             std::string data;
             getDataByRange( (long) lowBlock, (long) highBlock, data);
-            rcount = (size_t)data.length();
+            rcount = data.length();
             if (rcount == 0) {
                 throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
@@ -1613,7 +1613,7 @@ namespace Exiv2 {
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
                 std::string data;
                 p_->getDataByRange(-1, -1, data);
-                p_->size_ = (size_t) data.length();
+                p_->size_ = data.length();
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;

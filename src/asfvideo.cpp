@@ -334,7 +334,7 @@ namespace Exiv2 {
     {
         const long bufMinSize = 9;
         DataBuf buf(bufMinSize);
-        unsigned long size = 0;
+        uint64_t size = 0;
         buf.pData_[8] = '\0' ;
         const TagVocabulary* tv;
         uint64_t cur_pos = io_->tell();
@@ -354,7 +354,7 @@ namespace Exiv2 {
 
         std::memset(buf.pData_, 0x0, buf.size_);
         io_->read(buf.pData_, 8);
-        size = static_cast<unsigned long>(getUint64_t(buf));
+        size = getUint64_t(buf);
 
         if(tv) {
             tagDecoder(tv,size-24);

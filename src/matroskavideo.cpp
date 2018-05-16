@@ -655,7 +655,7 @@ namespace Exiv2 {
             switch (mt->val_) {
             case 0x0489:
                 if(size <= 4) {
-                    duration_in_ms = static_cast<int64_t>(getFloat(buf, bigEndian) * time_code_scale * 1000);
+                    duration_in_ms = static_cast<int64_t>(getFloat(buf, bigEndian) * static_cast<float>(time_code_scale) * 1000.0f);
                 }
                 else {
                     duration_in_ms = static_cast<int64_t>(getDouble(buf, bigEndian) * time_code_scale * 1000);
