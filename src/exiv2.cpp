@@ -193,6 +193,14 @@ Params& Params::instance()
     return *instance_;
 }
 
+Params::~Params() {
+#if defined(EXV_HAVE_REGEX_H)
+    for (size_t i=0; i<instance().greps_.size(); ++i) {
+        regfree(&instance().greps_.at(i));
+    }
+#endif
+}
+
 void Params::cleanup()
 {
     delete instance_;
