@@ -30,6 +30,10 @@ if (EXIV2_ENABLE_XMP)
     find_package(EXPAT REQUIRED)
 endif ()
 
+if (EXIV2_ENABLE_EXTERNAL_XMP)
+    find_package(XmpSdk REQUIRED)
+endif()
+
 if( EXIV2_ENABLE_NLS )
     find_package(Intl)
     if(Intl_FOUND)

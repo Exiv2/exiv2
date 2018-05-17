@@ -32,6 +32,7 @@ set( GENERIC_LIB_SOVERSION  "26" )
 # options and their default values
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
+option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
 option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      ON  )
 option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
@@ -81,7 +82,7 @@ endif()
 
 include(config/findDependencies.cmake)
 include(config/compilerFlags.cmake)
-include( config/generateConfigFile.cmake )
+include(config/generateConfigFile.cmake )
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
 include( config/CMakeChecks.txt )
@@ -93,6 +94,7 @@ endif()
 if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
+
 add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )

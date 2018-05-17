@@ -4,8 +4,12 @@ from conans.tools import os_info
 class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
     generators = 'cmake'
-    options = {'unitTests': [True, False]}
-    default_options = 'unitTests=True'
+    options = {'unitTests': [True, False],
+               'xmp': [True, False],
+              }
+    default_options = ('unitTests=True',
+                       'xmp=False',
+                      )
 
     def configure(self):
         if not os_info.is_macos:
@@ -19,6 +23,9 @@ class Exiv2Conan(ConanFile):
 
         if self.options.unitTests:
             self.requires('gtest/1.8.0@bincrafters/stable')
+
+        if self.options.xmp:
+            self.requires('XmpSdk/2016.7@piponazo/testing')
 
     def imports(self):
         self.copy('*.dll', dst='conanDlls', src='bin')

@@ -204,9 +204,13 @@ if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
     set (FREEBSD 1)
 endif()
 
-if ( EXIV2_ENABLE_XMP )
+if (EXIV2_ENABLE_XMP)
     #target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
     target_link_libraries(exiv2lib PUBLIC xmp)
+elseif(EXIV2_ENABLE_EXTERNAL_XMP)
+    target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
+    target_include_directories(exiv2lib PUBLIC ${XMPSDK_INCLUDE_DIR})
+    target_compile_definitions(exiv2lib PUBLIC EXV_ADOBE_XMPSDK=2016)
 endif()
 
 # TODO : We should not include include/exiv2 but only include !!!
