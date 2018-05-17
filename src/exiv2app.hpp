@@ -296,6 +296,9 @@ private:
     //! Prevent copy-construction: not implemented.
     Params(const Params& rhs);
 
+    //! Destructor, frees any allocated regexes in greps_
+    ~Params();
+
     //! @name Helpers
     //@{
     int setLogLevel(const std::string& optarg);
