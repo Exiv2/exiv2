@@ -25,7 +25,7 @@ class Exiv2Conan(ConanFile):
             self.requires('gtest/1.8.0@bincrafters/stable')
 
         if self.options.xmp:
-            self.requires('XmpSdk/2016.7@piponazo/testing')
+            self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
 
     def imports(self):
         self.copy('*.dll', dst='conanDlls', src='bin')

@@ -81,11 +81,13 @@ For other installation methods (brew, installers, from sources), visit this [lin
 conan](http://docs.conan.io/en/latest/installation.html)).
 
 By default, conan only point to few public conan repositories. However you can add more easily. We rely in the usage of
-the bincrafters's repository to find some of the dependencies. Therefore, we will need to add it to the list of remotes
+the **bincrafters** and **piponazo** repositories to find some of the dependencies (libcurl and XmpSdk) . Therefore, we
+will need to add it to the list of remotes
 (we only need to do this once):
 
 ```bash
 conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponazo
 ```
 
 ## Basic usage
