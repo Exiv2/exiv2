@@ -13,9 +13,9 @@ class SetCommentOnImageWithEmptyComment(metaclass=system_tests.CaseMeta):
     empty_jpg = "$data_path/exiv2-empty_copy.jpg"
 
     commands = [
-        "$exiv2 -u -v -M'set Exif.Photo.UserComment A comment' $bug_repr",
+        """$exiv2 -u -v -M"set Exif.Photo.UserComment A comment" $bug_repr""",
         "$exiv2 -u -b -pt $bug_repr",
-        "$exiv2 -u -v -M'set Exif.Photo.UserComment A comment' $empty_jpg",
+        """$exiv2 -u -v -M"set Exif.Photo.UserComment A comment" $empty_jpg""",
         "$exiv2 -u -b -pt $empty_jpg"
     ]
 

@@ -11,9 +11,9 @@ class ReadDataAfterTagDelete(metaclass=system_tests.CaseMeta):
     filename = "$data_path/exiv2-empty_copy.jpg"
 
     commands = [
-        "$exiv2 -u -v -M\"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1\" $filename",
+        """$exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude 0/1 1/1 2/1" $filename""",
         "$exiv2 -u -v -pv $filename",
-        "$exiv2 -u -v -M\"del Exif.GPSInfo.GPSLatitude\" $filename",
+        """$exiv2 -u -v -M"del Exif.GPSInfo.GPSLatitude" $filename""",
         "$exiv2 -u -v -pv $filename"
     ]
 

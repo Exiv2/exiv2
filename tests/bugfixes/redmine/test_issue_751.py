@@ -13,10 +13,10 @@ class AdobeXmpNamespace(metaclass=system_tests.CaseMeta):
     xmpname = "$data_path/exiv2-empty_copy.xmp"
 
     commands = [
-        "$exiv2 -v -M'reg imageapp orig/' -M 'set Xmp.imageapp.uuid abcd' $filename",
+        """$exiv2 -v -M"reg imageapp orig/" -M "set Xmp.imageapp.uuid abcd" $filename""",
         "$exiv2 -f -eX $filename",
         "$cat $xmpname",
-        "$exiv2 -v -M'reg imageapp dest/' -M 'set Xmp.imageapp.uuid abcd' $filename",
+        """$exiv2 -v -M"reg imageapp dest/" -M "set Xmp.imageapp.uuid abcd" $filename""",
         "$exiv2 -f -eX $filename",
         "$cat $xmpname",
     ]

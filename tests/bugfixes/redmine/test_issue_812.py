@@ -30,9 +30,9 @@ class DoNotDestroyHardLinks(metaclass=system_tests.CaseMeta):
     file_list = "{!s} {!s} {!s}".format(filename, link_1,  link_2)
 
     commands = [
-        "$exiv2 -u -v -M\"set Exif.Photo.UserComment Test Bug $num\" $filename",
+        """$exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num" $filename""",
         "$exiv2 -PE -g UserComment $file_list",
-        "$exiv2 -u -v -M\"set Exif.Photo.UserComment Test Bug $num modified\" $filename",
+        """$exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num modified" $filename""",
         "$exiv2 -PE -g UserComment $file_list"
     ]
 

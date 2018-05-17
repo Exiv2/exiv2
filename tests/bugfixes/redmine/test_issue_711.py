@@ -6,14 +6,12 @@ import system_tests
 URL = "http://dev.exiv2.org/issues/711"
 
 COMMANDS = [
-    "$exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Initial values, read from the command line' "
-    "-M'set Exif.Image.DocumentName Float 0.12345' "
-    "-M'set Exif.Image.ImageDescription Double 0.987654321' $filename",
+    """$exiv2 -u -v -M"set Exif.Image.ProcessingSoftware Initial values, read from the command line" -M"set Exif.Image.DocumentName Float 0.12345" -M"set Exif.Image.ImageDescription Double 0.987654321" $filename""",
 
     "$exiv2 -u -v -PEkyct $filename",
-    "$exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Non-intrusive update' $filename",
+    """$exiv2 -u -v -M"set Exif.Image.ProcessingSoftware Non-intrusive update" $filename""",
     "$exiv2 -u -v -PEkyct $filename",
-    "$exiv2 -u -v -M'set Exif.Image.ProcessingSoftware Intrusive update, writing the structure from scratch' $filename",
+    """$exiv2 -u -v -M"set Exif.Image.ProcessingSoftware Intrusive update, writing the structure from scratch" $filename""",
     "$exiv2 -u -v -PEkyct $filename",
 ]
 

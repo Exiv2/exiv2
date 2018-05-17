@@ -12,7 +12,7 @@ class TypeSizeForExifOnly(metaclass=system_tests.CaseMeta):
 
     commands = [
         "$exiv2 -u -pt $filename",
-        "$exiv2 -u -v -M\"set Exif.Image.Software GI\" $filename"
+        """$exiv2 -u -v -M"set Exif.Image.Software GI" $filename"""
     ]
 
     stdout = ["""Exif.Image.ProcessingSoftware                Ascii      20  digiKam-0.9.4-beta4

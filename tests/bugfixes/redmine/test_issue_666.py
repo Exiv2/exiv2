@@ -10,13 +10,7 @@ class OptimizeBinaryArrayElements(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/exiv2-empty_copy.jpg"
     commands = [
-        "$exiv2 -u -v -M'set Exif.Image.Make NIKON' "
-        "-M'set Exif.Image.Model D90' "
-        "-M'set Exif.Nikon3.ShutterCount 100' "
-        "-M'set Exif.Nikon3.SerialNumber 123' "
-        "-M'set Exif.NikonSi02xx.Version 48 50 51 52' "
-        "-M'set Exif.NikonSi02xx.ShutterCount 100' $filename",
-
+        """$exiv2 -u -v -M"set Exif.Image.Make NIKON" -M"set Exif.Image.Model D90" -M"set Exif.Nikon3.ShutterCount 100" -M"set Exif.Nikon3.SerialNumber 123" -M"set Exif.NikonSi02xx.Version 48 50 51 52" -M"set Exif.NikonSi02xx.ShutterCount 100" $filename""",
         "$exiv2 -u -pa -u -b $filename"
     ]
     stdout = [

@@ -9,7 +9,7 @@ class EasyaccessTest(metaclass=system_tests.CaseMeta):
     filename = "$data_path/exiv2-empty_copy.jpg"
 
     commands = [
-        "$exiv2 -u -v -M\"set Exif.Image.Make Samsung\" $filename",
+        """$exiv2 -u -v -M"set Exif.Image.Make Samsung" $filename""",
         "$easyaccess_test $filename"
     ]
     stdout = [

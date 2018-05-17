@@ -10,9 +10,9 @@ class NonIntrusiveWriteUpdateIFD(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/exiv2-empty_copy.jpg"
     commands = [
-        "$exiv2 -u -v -M\"set Exif.GPSInfo.GPSLatitude SRational -1/3 -2/3 -3/3\" $filename",
+        """$exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude SRational -1/3 -2/3 -3/3" $filename""",
         "$exiv2 -u -pv $filename",
-        "$exiv2 -u -v -M\"set Exif.GPSInfo.GPSLatitude Rational 1/3 2/3 3/3\" $filename",
+        """$exiv2 -u -v -M"set Exif.GPSInfo.GPSLatitude Rational 1/3 2/3 3/3" $filename""",
         "$exiv2 -u -pv $filename",
 
     ]

@@ -13,7 +13,7 @@ class WritingXmpLrHierarchicalSubjectWritesWrongDatatype(
 
     commands = [
         "$exiv2 -px $filename",
-        "$exiv2 -M\"add Xmp.lr.hierarchicalSubject root|1st|2nd|3rd|4th|5th\" $filename",
+        """$exiv2 -M"add Xmp.lr.hierarchicalSubject root|1st|2nd|3rd|4th|5th" $filename""",
         "$exiv2 -px $filename",
     ]
 
