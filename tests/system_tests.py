@@ -13,6 +13,9 @@ import unittest
 
 
 if sys.platform == 'win32':
+    #: invoke subprocess.Popen with shell=True on Windows
+    _SUBPROCESS_SHELL = True
+
     def _cmd_splitter(cmd):
         return cmd
 
@@ -20,6 +23,9 @@ if sys.platform == 'win32':
         return output.replace('\r\n', '\n')
 
 else:
+    #: invoke subprocess.Popen with shell=False on Unix
+    _SUBPROCESS_SHELL = False
+
     def _cmd_splitter(cmd):
         return shlex.split(cmd)
 
@@ -503,7 +509,8 @@ def test_run(self):
             _cmd_splitter(command),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            cwd=self.work_dir
+            cwd=self.work_dir,
+            shell=_SUBPROCESS_SHELL
         )
 
         def timeout_reached(timeout):
