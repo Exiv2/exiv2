@@ -26,13 +26,16 @@ if( EXIV2_ENABLE_WEBREADY )
     endif( )
 endif( )
 
-if (EXIV2_ENABLE_XMP)
-    find_package(EXPAT REQUIRED)
-endif ()
-
-if (EXIV2_ENABLE_EXTERNAL_XMP)
-    find_package(XmpSdk REQUIRED)
+if (EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP)
+    message(FATAL_ERROR "EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP are mutually exclusive.  You can only choose one of them")
+else()
+    if (EXIV2_ENABLE_XMP)
+        find_package(EXPAT REQUIRED)
+    elseif (EXIV2_ENABLE_EXTERNAL_XMP)
+        find_package(XmpSdk REQUIRED)
+    endif ()
 endif()
+
 
 if( EXIV2_ENABLE_NLS )
     find_package(Intl)
