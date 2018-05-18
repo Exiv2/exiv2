@@ -34,6 +34,8 @@ T A B L E   o f   C O N T E N T S
 5.5 How do the MakerNotes get decoded?
 5.6 How do the encoders work?
 
+6   Using external XMP SDK via Conan
+
 ==========================================================================
 
 1   Building XMPsdk and Samples in Terminal with the ./Generate_XXX_mac.sh scripts
@@ -811,5 +813,44 @@ Modified: 2017-09-24
     I understand writeMetadata() and will document that soon.
     I still have to study how the TiffVisitor writes metadata.
 
-# That's all Folks!
-==========================================================================
+
+6   Using external XMP SDK via Conan
+
+Section 1 describes how to compile the newer versions of XMP SDK with a bash script. This
+approach had few limitations:
+
+    1) We had to include sources from other projects into the Exiv2 repository: Check the folder
+    xmpsdk/third-party.
+    2) Different scripts for compiling XMP SDK on Linux, Mac OSX and Windows.
+    3) Lot of configuration/compilation issues depending on the system configuration.
+
+Taking into account that during the last months we have done a big effort in migrating the
+manipulation of 3rd party dependencies to Conan, we have decided to do the same here. A conan recipe
+has been written for XmpSdk at:
+
+https://github.com/piponazo/conan-xmpsdk
+
+And the recipe and package binaries can be found in the piponazo's bintray repository:
+
+https://bintray.com/piponazo/piponazo
+
+This conan recipe provides a custom CMake finder that will be used by our CMake code to properly
+find XMP SDK in the conan cache and then be able to use the CMake variables: ${XMPSDK_LIBRARY} and
+${XMPSDK_INCLUDE_DIR}.
+
+These are the steps you will need to follow to configure the project with the external XMP support:
+
+    # Add the conan-piponazo remote to your conan configuration (only once)
+    conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponazo 
+
+    mkdir build && cd build
+
+    # Run conan to bring the dependencies. Note that the XMPSDK is not enabled by default and you will
+    # need to enable the xmp option to bring it.
+    conan install .. --options xmp=True
+
+    # Configure the project with support for the external XMP version. Disable the normal XMP version
+    cmake -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_XMP=OFF -DEXIV2_ENABLE_EXTERNAL_XMP=ON -DBUILD_SHARED_LIBS=ON ..
+
+Note that the usage of the newer versions of XMP is experimental and it was included in Exiv2
+because few users has requested it.
