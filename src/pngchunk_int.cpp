@@ -33,6 +33,7 @@
 #include "iptc.hpp"
 #include "image.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 
 // + standard includes
 #include <sstream>
@@ -42,6 +43,7 @@
 #include <iostream>
 #include <cassert>
 #include <cstdio>
+#include <algorithm>
 
 #include <zlib.h>     // To uncompress or compress text chunk
 
@@ -162,6 +164,9 @@ namespace Exiv2 {
         }
         else if(type == iTXt_Chunk)
         {
+            const int nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_-1], '\0');
+            enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
+
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
             // we get the compression flag after the key
