@@ -12,6 +12,10 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
 
         if ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98") # to support snprintf
+            # We also fall in this case for apple-clang
+            if (EXIV2_ENABLE_EXTERNAL_XMP AND APPLE)
+                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++ -fvisibility=hidden -fvisibility-inlines-hidden")
+            endif()
         else()
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
         endif()
