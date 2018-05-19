@@ -396,15 +396,21 @@ namespace Exiv2 {
 #endif
             std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
             long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
-            if (io_->error()) throw Error(kerFailedToReadImageData);
-            if (bufRead != cheaderBuf.size_) throw Error(kerInputDataReadFailed);
+            if (io_->error()) {
+                throw Error(kerFailedToReadImageData);
+            }
+            if (bufRead != cheaderBuf.size_) {
+                throw Error(kerInputDataReadFailed);
+            }
 
             // Decode chunk data length.
             uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
             long pos = io_->tell();
-            if (   pos == -1
-                || dataOffset > uint32_t(0x7FFFFFFF)
-                || static_cast<long>(dataOffset) > imgSize - pos) throw Exiv2::Error(kerFailedToReadImageData);
+            if (pos == -1 ||
+                dataOffset > uint32_t(0x7FFFFFFF) ||
+                static_cast<long>(dataOffset) > imgSize - pos) {
+                throw Exiv2::Error(kerFailedToReadImageData);
+            }
 
             // Perform a chunk triage for item that we need.
 
@@ -419,8 +425,12 @@ namespace Exiv2 {
 
                 DataBuf cdataBuf(dataOffset);
                 bufRead = io_->read(cdataBuf.pData_, dataOffset);
-                if (io_->error()) throw Error(kerFailedToReadImageData);
-                if (bufRead != (long)dataOffset) throw Error(kerInputDataReadFailed);
+                if (io_->error()) {
+                    throw Error(kerFailedToReadImageData);
+                }
+                if (bufRead != (long)dataOffset) {
+                    throw Error(kerInputDataReadFailed);
+                }
 
                 if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4))
                 {
@@ -478,7 +488,9 @@ namespace Exiv2 {
             std::cout << "Exiv2::PngImage::readMetadata: Seek to offset: " << dataOffset + 4 << std::endl;
 #endif
             io_->seek(dataOffset + 4 , BasicIo::cur);
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            if (io_->error() || io_->eof()) {
+                throw Error(kerFailedToReadImageData);
+            }
         }
 
     } // PngImage::readMetadata
