@@ -82,7 +82,7 @@ namespace Exiv2 {
 
 #ifdef DEBUG
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
-                  << std::string((const char*)arr.pData_, arr.size_) << "\n";
+                  << std::string((const char*)arr.pData_, arr.size_) << std::endl;
 #endif
         parseChunkContent(pImage, key.pData_, key.size_, arr);
 
@@ -95,7 +95,7 @@ namespace Exiv2 {
 
 #ifdef DEBUG
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
-                  << std::string((const char*)key.pData_, key.size_) << "\n";
+                  << std::string((const char*)key.pData_, key.size_) << std::endl;
 #endif
         return parseTXTChunk(data, key.size_, type);
 
