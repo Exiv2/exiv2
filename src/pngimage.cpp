@@ -412,8 +412,12 @@ namespace Exiv2 {
                 throw Exiv2::Error(kerFailedToReadImageData);
             }
 
-            // Perform a chunk triage for item that we need.
+#ifdef DEBUG
+            std::string chunkName(reinterpret_cast<char *>(cheaderBuf.pData_) + 4, 4);
+            std::cout << "Exiv2::PngImage::readMetadata: chunk name: " << chunkName << std::endl;
+#endif
 
+            // Perform a chunk triage for item that we need.
             if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4) ||
                 !memcmp(cheaderBuf.pData_ + 4, "IHDR", 4) ||
                 !memcmp(cheaderBuf.pData_ + 4, "tEXt", 4) ||
