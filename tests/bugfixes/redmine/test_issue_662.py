@@ -10,31 +10,29 @@ class UnicodeEncodingOfExifUserCommentTag(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/exiv2-empty_copy.jpg"
     commands = [
-        "$exiv2 -u -M'set Exif.Photo.UserComment charset=Ascii An ascii comment' $filename",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Ascii An ascii comment" $filename""",
         "$exiv2 -u -PEnh $filename",
 
-        """$exiv2 -u -M'set Exif.Photo.UserComment charset=Ascii A
-newline' $filename""",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Ascii A\\nnewline" $filename""",
         "$exiv2 -u -PEnh $filename",
 
-        "$exiv2 -u -M'set Exif.Photo.UserComment charset=Unicode A Unicode comment' $filename",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode A Unicode comment" $filename""",
         "$exiv2 -u -PEnh $filename",
 
-        "$exiv2 -u -M'set Exif.Photo.UserComment charset=Unicode \u01c4' $filename",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode \\u01c4" $filename""",
         "$exiv2 -u -PEnh $filename",
 
-        "$exiv2 -u -M'set Exif.Photo.UserComment charset=Unicode A\u01c4C' $filename",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode A\\u01c4C" $filename""",
         "$exiv2 -u -PEnh $filename",
 
-        """$exiv2 -u -M'set Exif.Photo.UserComment charset=Unicode With
-Newline' $filename""",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode With\\nNewline" $filename""",
         "$exiv2 -u -PEnh $filename",
 
-        "$exiv2 -u -M'set Exif.Photo.UserComment charset=Unicode With\tTab' $filename",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode With\\tTab" $filename""",
         "$exiv2 -u -PEnh $filename",
 
         #Test invalid escape sequences
-        "$exiv2 -u -M'set Exif.Photo.UserComment charset=Unicode \\\\ugggg' $filename",
+        """$exiv2 -u -M"set Exif.Photo.UserComment charset=Unicode \\ugggg" $filename""",
         "$exiv2 -u -PEnh $filename",
     ]
     stdout = [
