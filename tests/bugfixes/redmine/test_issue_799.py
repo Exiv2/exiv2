@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
+import os
 
 
 @system_tests.DeleteFiles("$xmpfile")
@@ -10,9 +11,9 @@ class WrongXmpTypeForNestedXmpKeys(metaclass=system_tests.CaseMeta):
     url = "http://dev.exiv2.org/issues/$num"
 
     num = 799
-    cmdfile = "$data_path/bug$num.cmd"
+    cmdfile = os.path.join("$data_path", "bug$num.cmd")
 
-    filename_common = "$data_path/exiv2-empty_copy"
+    filename_common = os.path.join("$data_path", "exiv2-empty_copy")
     filename = "$filename_common.jpg"
     xmpfile = "$filename_common.xmp"
 

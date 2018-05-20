@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
+import os.path
 
 
 @system_tests.DeleteFiles("$xmpname")
@@ -9,8 +10,8 @@ class AdobeXmpNamespace(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/751"
 
-    filename = "$data_path/exiv2-empty_copy.jpg"
-    xmpname = "$data_path/exiv2-empty_copy.xmp"
+    filename = os.path.join("$data_path", "exiv2-empty_copy.jpg")
+    xmpname = os.path.join("$data_path", "exiv2-empty_copy.xmp")
 
     commands = [
         """$exiv2 -v -M"reg imageapp orig/" -M "set Xmp.imageapp.uuid abcd" $filename""",
