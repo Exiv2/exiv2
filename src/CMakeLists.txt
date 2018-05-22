@@ -229,19 +229,11 @@ if (EXIV2_ENABLE_WEBREADY)
 
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
-
+        target_link_libraries(exiv2lib PUBLIC ${CURL_LIBRARIES})
         if (USING_CONAN)
-            # TODO : Improve libcurl recipe so we do not need to have all these conditionals here
-            if ( MSVC )
-                target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARY})
-            else()
-                target_link_libraries( exiv2lib PUBLIC ${CONAN_LIBS_LIBCURL})
-            endif()
             target_compile_definitions(exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
-        else()
-            target_link_libraries( exiv2lib PUBLIC ${CURL_LIBRARIES})
+            target_link_libraries(exiv2lib PUBLIC ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
         endif()
-
     endif()
 
 endif()
