@@ -10,7 +10,6 @@ class Exiv2Conan(ConanFile):
     def configure(self):
         if not os_info.is_macos:
             self.options['libcurl'].shared = True
-        self.options['gtest'].shared = True
 
     def requirements(self):
         self.requires('Expat/2.2.5@pix4d/stable')
