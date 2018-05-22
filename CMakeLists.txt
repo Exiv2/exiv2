@@ -14,8 +14,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
 
 set(CMAKE_MACOSX_RPATH ON)
+
 if (APPLE)
-    set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+    set(CMAKE_INSTALL_RPATH "@loader_path")
 endif()
 
 set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
