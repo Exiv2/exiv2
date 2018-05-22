@@ -7,6 +7,17 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
 
     set (CMAKE_CXX_FLAGS_DEBUG      "-g3 -gstrict-dwarf -O0")
 
+    if (CMAKE_GENERATOR MATCHES "Xcode")
+        set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
+        if (EXIV2_ENABLE_EXTERNAL_XMP)
+            # XMP SDK 2016 uses libstdc++ even when it is deprecated in modern versions of the OSX SDK.
+            # The only way to make Exiv2 work with the external XMP SDK is to use the same standard library.
+            set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libstdc++")
+        else()
+            set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+        endif()
+    endif()
+
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
 
