@@ -1,0 +1,21 @@
+#!/bin/sh
+
+function get_distro_id() {
+    local distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
+    echo "$distro_id"
+}
+
+# Debian & derivatives don't provide binary packages of googletest
+# => have to build them ourselves
+#
+# This script builds a shared library of googletest (not googlemock!) inside
+# gtest_build and copies it to /usr/lib/
+function debian_build_gtest() {
+    pushd .
+    [ -d gtest_build ] || mkdir gtest_build
+    cd gtest_build
+    cmake -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
+    make
+    cp libgtest* /usr/lib/
+    popd
+}

@@ -1,0 +1,53 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.define "Fedora" do |fedora|
+    fedora.vm.box = "fedora/28-cloud-base"
+    fedora.vm.hostname = "Fedora-exiv2"
+  end
+
+  config.vm.define "Debian" do |debian|
+    debian.vm.box = "generic/debian9"
+    debian.vm.hostname = "debian-exiv2"
+  end
+
+  config.vm.define "Archlinux" do |archlinux|
+    archlinux.vm.box = "archlinux/archlinux"
+    archlinux.vm.hostname = "archlinux-exiv2"
+  end
+
+  config.vm.define "Ubuntu" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.hostname = "ubuntu-exiv2"
+  end
+
+  config.vm.define "CentOS" do |centos|
+    centos.vm.box = "centos/7"
+    centos.vm.hostname = "centos-exiv2"
+  end
+
+  config.vm.define "OpenSUSE" do |opensuse|
+    opensuse.vm.box = "opensuse/openSUSE-Tumbleweed-x86_64"
+    opensuse.vm.hostname = "opensuse-exiv2"
+  end
+
+  config.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant",
+                          disabled: false, type: "rsync"
+
+  # use the CI script from gitlab to setup all dependencies
+  config.vm.provision "install_dependencies", type: "shell" do |shell|
+    shell.path = "../../ci/install_dependencies.sh"
+    shell.args = "/vagrant/utils.source"
+  end
+
+  # install additional dependencies for development
+  config.vm.provision "install_devel_dependencies", type: "shell" do |shell|
+    shell.path = "setup.sh"
+  end
+
+  # install conan & clone the exiv2 repo
+  config.vm.provision "setup_repository", type: "shell" do |shell|
+    shell.path = "setup_user.sh"
+    shell.privileged = false
+  end
+
+end
