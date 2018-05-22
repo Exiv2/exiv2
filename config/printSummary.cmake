@@ -10,6 +10,7 @@ endmacro( OptionOutput _outputstring )
 
 message( STATUS "Install prefix:    ${CMAKE_INSTALL_PREFIX}")
 message( STATUS "------------------------------------------------------------------" )
+message( STATUS "CMake Generator:   ${CMAKE_GENERATOR}" )
 message( STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
 message( STATUS "Compiler flags")
 message( STATUS "General:           ${CMAKE_CXX_FLAGS}" )
