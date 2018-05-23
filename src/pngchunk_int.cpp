@@ -164,7 +164,7 @@ namespace Exiv2 {
         }
         else if(type == iTXt_Chunk)
         {
-            const int nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_-1], '\0');
+            const int nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_], '\0');
             enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata, "iTXt chunk: not enough null separators");
 
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
