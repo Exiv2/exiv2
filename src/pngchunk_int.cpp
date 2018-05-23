@@ -165,14 +165,20 @@ namespace Exiv2 {
         else if(type == iTXt_Chunk)
         {
             const int nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_-1], '\0');
-            enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
+            enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata, "iTXt chunk: not enough null separators");
 
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
             // we get the compression flag after the key
-            const byte* compressionFlag   = data.pData_ + keysize + 1;
+            const byte compressionFlag   = data.pData_[keysize + 1];
             // we get the compression method after the compression flag
-            const byte* compressionMethod = data.pData_ + keysize + 2;
+            const byte compressionMethod = data.pData_[keysize + 2];
+
+            enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerCorruptedMetadata,
+                    "iTXt chunk: not valid value in compressionFlag");
+            enforce(compressionMethod == 0x00, Exiv2::kerCorruptedMetadata,
+                    "iTXt chunk: not valid value in compressionMethod");
+
             // language description string after the compression technique spec
             std::string languageText((const char*)(data.pData_ + keysize + 3));
             unsigned int languageTextSize = static_cast<unsigned int>(languageText.size());
@@ -180,7 +186,7 @@ namespace Exiv2 {
             std::string translatedKeyText((const char*)(data.pData_ + keysize + 3 + languageTextSize +1));
             unsigned int translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
-            if ( compressionFlag[0] == 0x00 )
+            if ( compressionFlag == 0x00 )
             {
                 // then it's an uncompressed iTXt chunk
 #ifdef DEBUG
@@ -194,7 +200,7 @@ namespace Exiv2 {
                 arr.alloc(textsize);
                 arr = DataBuf(text, textsize);
             }
-            else if ( compressionFlag[0] == 0x01 && compressionMethod[0] == 0x00 )
+            else if ( compressionFlag == 0x01 && compressionMethod == 0x00 )
             {
                 // then it's a zlib compressed iTXt chunk
 #ifdef DEBUG
