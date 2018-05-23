@@ -165,7 +165,7 @@ namespace Exiv2 {
         else if(type == iTXt_Chunk)
         {
             const int nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_], '\0');
-            enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata, "iTXt chunk: not enough null separators");
+            enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
 
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
@@ -174,10 +174,8 @@ namespace Exiv2 {
             // we get the compression method after the compression flag
             const byte compressionMethod = data.pData_[keysize + 2];
 
-            enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerCorruptedMetadata,
-                    "iTXt chunk: not valid value in compressionFlag");
-            enforce(compressionMethod == 0x00, Exiv2::kerCorruptedMetadata,
-                    "iTXt chunk: not valid value in compressionMethod");
+            enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerCorruptedMetadata);
+            enforce(compressionMethod == 0x00, Exiv2::kerCorruptedMetadata);
 
             // language description string after the compression technique spec
             std::string languageText((const char*)(data.pData_ + keysize + 3));
