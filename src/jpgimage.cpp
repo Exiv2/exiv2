@@ -658,8 +658,8 @@ namespace Exiv2 {
                         // extract XMP
                         if (size > 0) {
                             io_->seek(-bufRead, BasicIo::cur);
-                            byte* xmp = new byte[size + 1];
-                            io_->read(xmp, size);
+                            std::vector<byte> xmp(size + 1);
+                            io_->read(xmp.data(), size);
                             int start = 0;
 
                             // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf
@@ -670,10 +670,11 @@ namespace Exiv2 {
                             // and dumping the XMP in a post read operation similar to kpsIptcErase
                             // for the moment, dumping 'on the fly' is working fine
                             if (!bExtXMP) {
-                                while (xmp[start])
+                                while (xmp.at(start))
                                     start++;
                                 start++;
-                                if (::strstr((char*)xmp + start, "HasExtendedXMP")) {
+                                std::string xmp_from_start = string_from_unterminated((char*)&xmp.at(start), size - start);
+                                if (xmp_from_start.find("HasExtendedXMP", start) != xmp_from_start.npos) {
                                     start = size;  // ignore this packet, we'll get on the next time around
                                     bExtXMP = true;
                                 }
@@ -681,8 +682,7 @@ namespace Exiv2 {
                                 start = 2 + 35 + 32 + 4 + 4;  // Adobe Spec, p19
                             }
 
-                            out.write((const char*)(xmp + start), size - start);
-                            delete[] xmp;
+                            out.write((const char*)(&xmp.at(start)), size - start);
                             bufRead = size;
                             done = !bExtXMP;
                         }
