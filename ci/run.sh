@@ -21,6 +21,3 @@ make tests
 make install
 cd bin
 ./unit_tests
-
-cd ../../tests/
-python3 runner.py
