@@ -99,7 +99,7 @@ set( LIBEXIV2_HDR
 set( LIBEXIV2_PRIVATE_SRC
     canonmn_int.cpp
     casiomn_int.cpp
-    cr2image_int.cpp
+    cr2header_int.cpp
     crwimage_int.cpp
     fujimn_int.cpp
     makernote_int.cpp
@@ -122,7 +122,7 @@ set( LIBEXIV2_PRIVATE_SRC
 set( LIBEXIV2_PRIVATE_HDR
     canonmn_int.hpp
     casiomn_int.hpp
-    cr2image_int.hpp
+    cr2header_int.hpp
     crwimage_int.hpp
     fujimn_int.hpp
     makernote_int.hpp

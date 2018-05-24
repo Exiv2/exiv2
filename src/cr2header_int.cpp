@@ -1,4 +1,4 @@
-#include "cr2image_int.hpp"
+#include "cr2header_int.hpp"
 
 namespace Exiv2 {
     namespace Internal {
