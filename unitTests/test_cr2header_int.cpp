@@ -39,8 +39,8 @@ TEST(ACr2Header, failToReadDataFromBufferWithCorrectSizeButNull)
 TEST(ACr2Header, failToReadDataFromBufferWithSizeDifferentThan16)
 {
     Internal::Cr2Header header;
-    ASSERT_FALSE(header.read(NULL, 15));
-    ASSERT_FALSE(header.read(NULL, 17));
+    ASSERT_FALSE(header.read(cr2LittleEndian, 15));
+    ASSERT_FALSE(header.read(cr2LittleEndian, 0));
 }
 
 TEST(ACr2Header, failToReadDataFromBufferWithInvalidByteOrder)
