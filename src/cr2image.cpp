@@ -27,7 +27,7 @@
 
 #include "cr2image.hpp"
 #include "tiffimage.hpp"
-#include "cr2image_int.hpp"
+#include "cr2header_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "image.hpp"
