@@ -1,7 +1,7 @@
 # CMakeLists.txt for exiv2 library and command-line program
 
 # C++ source files
-set( LIBEXIV2_SRC         
+set( LIBEXIV2_SRC
     asfvideo.cpp
     basicio.cpp
     bigtiffimage.cpp
@@ -48,7 +48,7 @@ set( LIBEXIV2_SRC
 )
 
 # Public C++ header files
-set( LIBEXIV2_HDR         
+set( LIBEXIV2_HDR
     ../include/exiv2/asfvideo.hpp
     ../include/exiv2/basicio.hpp
     ../include/exiv2/bmpimage.hpp
@@ -96,7 +96,7 @@ set( LIBEXIV2_HDR
     ${CMAKE_BINARY_DIR}/exv_conf.h
 )
 
-set( LIBEXIV2_PRIVATE_SRC 
+set( LIBEXIV2_PRIVATE_SRC
     canonmn_int.cpp
     casiomn_int.cpp
     cr2image_int.cpp
@@ -116,11 +116,10 @@ set( LIBEXIV2_PRIVATE_SRC
     tiffcomposite_int.cpp
     tiffimage_int.cpp
     tiffvisitor_int.cpp
-#tags_int.cpp
 )
 
 # Private headers only needed to build the library
-set( LIBEXIV2_PRIVATE_HDR 
+set( LIBEXIV2_PRIVATE_HDR
     canonmn_int.hpp
     casiomn_int.hpp
     cr2image_int.hpp
