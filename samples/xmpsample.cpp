@@ -11,6 +11,8 @@
 #include <cassert>
 #include <cmath>
 
+#define UNUSED(expr) do { (void)(expr); } while (0)
+
 bool isEqual(float a, float b)
 {
     double d = std::fabs(a - b);
@@ -54,21 +56,25 @@ try {
     assert(xmpData["Xmp.dc.one"].value().ok());
 
     const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
+    UNUSED(getv1);
     assert(isEqual(getv1.toFloat(), -1));
     assert(getv1.ok());
     assert(getv1.toRational() == Exiv2::Rational(-1, 1));
     assert(getv1.ok());
 
     const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
+    UNUSED(getv2);
     assert(isEqual(getv2.toFloat(), 3.1415f));
     assert(getv2.ok());
     assert(getv2.toLong() == 3);
     assert(getv2.ok());
     Exiv2::Rational R = getv2.toRational();
+    UNUSED(R);
     assert(getv2.ok());
     assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f ));
 
     const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
+    UNUSED(getv3);
     assert(isEqual(getv3.toFloat(), 5.0f/7.0f));
     assert(getv3.ok());
     assert(getv3.toLong() == 0);  // long(5.0 / 7.0)
@@ -77,6 +83,7 @@ try {
     assert(getv3.ok());
 
     const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
+    UNUSED(getv6);
     assert(getv6.toLong() == 0);
     assert(getv6.ok());
     assert(getv6.toFloat() == 0.0f);
@@ -89,6 +96,7 @@ try {
     assert(!getv7.ok());
 
     const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
+    UNUSED(getv8);
     assert(getv8.toLong() == 1);
     assert(getv8.ok());
     assert(getv8.toFloat() == 1.0f);
