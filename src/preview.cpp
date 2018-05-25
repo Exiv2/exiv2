@@ -803,13 +803,13 @@ namespace {
                 else {
                     // FIXME: the buffer is probably copied twice, it should be optimized
                     DataBuf buf(size_);
-                    Exiv2::byte* pos = buf.pData_;
+                    uint32_t idxBuf = 0;
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
                         if (size!=0 && offset + size <= static_cast<uint32_t>(io.size()))
-                            memcpy(pos, base + offset, size);
-                        pos += size;
+                            memcpy(&buf.pData_[idxBuf], base + offset, size);
+                        idxBuf += size;
                     }
                     dataValue.setDataArea(buf.pData_, buf.size_);
                 }
