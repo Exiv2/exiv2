@@ -33,6 +33,7 @@
 #include "makernote_int.hpp"
 #include "value.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 
 // + standard includes
 #include <string>
@@ -1174,7 +1175,7 @@ namespace Exiv2 {
             uint32_t sv = (*i)->size();
             if (sv > 4) {
                 uint32_t d = (*i)->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
-                assert(sv == d);
+                enforce(sv == d, kerImageWriteFailed);
                 if ((sv & 1) == 1) {
                     ioWrapper.putb(0x0);    // Align value to word boundary
                     sv += 1;
