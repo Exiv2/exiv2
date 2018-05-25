@@ -179,8 +179,6 @@ namespace Action {
         bool printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* image);
         //! Print the label for a summary line
         void printLabel(const std::string& label) const;
-        //! Print image Structure information
-        int printStructure(std::ostream& out, Exiv2::PrintStructureOption option);
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.
@@ -277,10 +275,6 @@ namespace Action {
           @brief Erase ICCProfile from the file.
          */
         int eraseIccProfile(Exiv2::Image* image) const;
-        /*!
-          @brief Print image Structure information (used by ctIptcRaw/kpsIptcErase)
-         */
-        int printStructure(std::ostream& out, Exiv2::PrintStructureOption option);
 
 
     private:

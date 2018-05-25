@@ -158,6 +158,9 @@ namespace {
              os << make_pair( myString, width)
      */
     std::ostream& operator<<( std::ostream& os, std::pair<std::string, int> strAndWidth);
+
+    //! Print image Structure information
+    int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string &path);
 }
 
 // *****************************************************************************
@@ -232,6 +235,12 @@ namespace Action {
     {
     }
 
+    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path)
+    {
+        _setmode(_fileno(stdout),O_BINARY);
+        return printStructure(std::cout, option, path);
+    }
+
     int Print::run(const std::string& path)
     {
         try {
@@ -243,18 +252,17 @@ namespace Action {
                 case Params::pmList:      rc = printList();        break;
                 case Params::pmComment:   rc = printComment();     break;
                 case Params::pmPreview:   rc = printPreviewList(); break;
-                case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic)     ; break;
-                case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive) ; break;
-
+                case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic, path_)     ; break;
+                case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive, path_) ; break;
                 case Params::pmXMP:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsXMP;
-                    // drop
+                    rc = setModeAndPrintStructure(option, path_);
+                    break;
                 case Params::pmIccProfile:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsIccProfile;
-                    _setmode(_fileno(stdout),O_BINARY);
-                    rc = printStructure(std::cout,option);
+                    rc = setModeAndPrintStructure(option, path_);
                     break;
             }
             return rc;
@@ -269,19 +277,6 @@ namespace Action {
                       << path << ":\n" << e.what() << "\n";
             return 1;
         }
-    }
-
-    int Print::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
-    {
-        if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_ << ": "
-                      << _("Failed to open the file\n");
-            return -1;
-        }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
-        image->printStructure(out,option);
-        return 0;
     }
 
     int Print::printSummary()
@@ -962,7 +957,7 @@ namespace Action {
             rc = eraseIccProfile(image.get());
         }
         if (0 == rc && Params::instance().target_ & Params::ctIptcRaw) {
-            rc = printStructure(std::cout,Exiv2::kpsIptcErase);
+            rc = printStructure(std::cout,Exiv2::kpsIptcErase,path_);
         }
 
         if (0 == rc) {
@@ -978,19 +973,6 @@ namespace Action {
                   << ":\n" << e << "\n";
         return 1;
     } // Erase::run
-
-    int Erase::printStructure(std::ostream& out, Exiv2::PrintStructureOption option)
-    {
-        if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_ << ": "
-                      << _("Failed to open the file\n");
-            return -1;
-        }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
-        image->printStructure(out,option);
-        return 0;
-    }
 
     int Erase::eraseThumbnail(Exiv2::Image* image) const
     {
@@ -2379,4 +2361,16 @@ namespace {
       return os << std::setw( minChCount) << str;
     }
 
+    int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string &path)
+    {
+        if (!Exiv2::fileExists(path, true)) {
+            std::cerr << path << ": "
+                      << _("Failed to open the file\n");
+            return -1;
+        }
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->printStructure(out,option);
+        return 0;
+    }
 }
