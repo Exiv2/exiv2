@@ -1065,12 +1065,13 @@ namespace Exiv2 {
                               << " Entries considered invalid. Not Processed.\n";
 #endif
                     io_->seek(io_->tell() + dataLength, BasicIo::beg);
+                } else {
+                    io_->read(buf.pData_, dataLength);
                 }
-            else
-                io_->read(buf.pData_, dataLength);
 
-                if(td)
+                if(td) {
                     xmpData_[exvGettext(td->label_)] = Exiv2::toString(buf.pData_);
+                }
             }
             else if(dataType == 4)  {
                 dataLength = Exiv2::getUShort(buf.pData_, bigEndian) * 4;
@@ -1577,8 +1578,10 @@ namespace Exiv2 {
                 if (timeScale_ <= 0) timeScale_ = 1;
                 break;
             case Duration:
-                if(timeScale_ != 0) // To prevent division by zero
-                xmpData_["Xmp.video.Duration"] = returnBufValue(buf) * 1000 / timeScale_; break;
+                if(timeScale_ != 0) { // To prevent division by zero
+                    xmpData_["Xmp.video.Duration"] = returnBufValue(buf) * 1000 / timeScale_;
+                }
+                break;
             case PreferredRate:
                 xmpData_["Xmp.video.PreferredRate"] = returnBufValue(buf, 2) + ((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01); break;
             case PreferredVolume:

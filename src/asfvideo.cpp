@@ -644,9 +644,9 @@ namespace Exiv2 {
                               << " entries considered invalid; not read.\n";
 #endif
                     io_->seek(io_->tell() + nameLength, BasicIo::beg);
+                } else {
+                    io_->read(buf.pData_, nameLength);
                 }
-            else
-                io_->read(buf.pData_, nameLength);
 
                 v->read(toString16(buf));
                 if(dataType == 6) {
@@ -676,9 +676,9 @@ namespace Exiv2 {
                               << " entries considered invalid; not read.\n";
 #endif
                     io_->seek(io_->tell() + nameLength, BasicIo::beg);
+                } else {
+                    io_->read(buf.pData_, nameLength);
                 }
-            else
-                io_->read(buf.pData_, nameLength);
 
                 v->read(toString16(buf));
 
