@@ -807,7 +807,7 @@ namespace {
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        if (offset + size <= static_cast<uint32_t>(io.size()))
+                        if (size!=0 && offset + size <= static_cast<uint32_t>(io.size()))
                             memcpy(pos, base + offset, size);
                         pos += size;
                     }
