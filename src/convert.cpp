@@ -67,10 +67,6 @@
 # include <MD5.h>
 #endif // EXV_HAVE_XMP_TOOLKIT
 
-#ifndef UNUSED
-#define UNUSED(x) (void)(x)
-#endif
-
 // *****************************************************************************
 // local declarations
 namespace {

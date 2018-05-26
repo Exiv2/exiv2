@@ -143,6 +143,7 @@ set( LIBEXIV2_PRIVATE_HDR
     tifffwd_int.hpp
     tiffimage_int.hpp
     tiffvisitor_int.hpp
+    unused.h
 )
 
 
