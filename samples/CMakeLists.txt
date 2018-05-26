@@ -40,6 +40,7 @@ foreach(entry ${SAMPLES})
     list(APPEND APPLICATIONS ${target})
     add_test( ${target}_test ${target} )
     target_link_libraries( ${target} PRIVATE exiv2lib)
+    target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endforeach()
 
@@ -80,6 +81,7 @@ if( EXPAT_FOUND )
     list(APPEND APPLICATIONS geotag)
     target_link_libraries( geotag    PRIVATE exiv2lib ${EXPAT_LIBRARIES})
     target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
+    target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
 
     if (WIN32)
         target_compile_definitions(geotag PRIVATE XML_STATIC)

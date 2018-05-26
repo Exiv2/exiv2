@@ -3,6 +3,7 @@
 // Sample/test for high level XMP classes. See also addmoddel.cpp
 
 #include <exiv2/exiv2.hpp>
+#include "unused.h"
 
 #include <string>
 #include <iostream>

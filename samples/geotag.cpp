@@ -5,6 +5,7 @@
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
 #include <exiv2/exiv2.hpp>
+#include "unused.h"
 
 #include <iostream>
 #include <iomanip>
@@ -56,8 +57,6 @@ char*    realpath(const char* file,char* path);
 #ifndef _MAX_PATH
 #define _MAX_PATH 1024
 #endif
-
-#define UNUSED(x) (void)(x)
 
 // prototypes
 class Options;
@@ -849,16 +848,16 @@ int main(int argc,const char* argv[])
         }
 /*
         if ( options.verbose ) {
-        	printf("Time Dictionary\n");
-        	for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
-        		std::string sTime = getExifTime(it->first);
-        	    Position*   pPos  = &it->second;
-        		std::string sPos  = Position::toExifString(pPos->lat(),false,true)
-        		                  + " "
-        		                  + Position::toExifString(pPos->lon(),false,true)
-        		                  ;
-        		printf("%s %s\n",sTime.c_str(), sPos.c_str());
-        	}
+            printf("Time Dictionary\n");
+            for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
+                std::string sTime = getExifTime(it->first);
+                Position*   pPos  = &it->second;
+                std::string sPos  = Position::toExifString(pPos->lat(),false,true)
+                                  + " "
+                                  + Position::toExifString(pPos->lon(),false,true)
+                                  ;
+                printf("%s %s\n",sTime.c_str(), sPos.c_str());
+            }
         }
 */
         for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
