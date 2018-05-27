@@ -645,7 +645,8 @@ namespace Exiv2 {
                 // print signature for APPn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
                     // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
-                    const std::string signature = string_from_unterminated((const char*)buf.pData_ + 2, buf.size_ - 2);
+                    const std::string signature =
+                        string_from_unterminated(reinterpret_cast<const char*>(buf.pData_ + 2), buf.size_ - 2);
 
                     // 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
                     // STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
@@ -670,10 +671,12 @@ namespace Exiv2 {
                             // and dumping the XMP in a post read operation similar to kpsIptcErase
                             // for the moment, dumping 'on the fly' is working fine
                             if (!bExtXMP) {
-                                while (xmp.at(start))
+                                while (xmp.at(start)) {
                                     start++;
+                                }
                                 start++;
-                                std::string xmp_from_start = string_from_unterminated((char*)&xmp.at(start), size - start);
+                                const std::string xmp_from_start = string_from_unterminated(
+                                    reinterpret_cast<const char*>(&xmp.at(start)), size - start);
                                 if (xmp_from_start.find("HasExtendedXMP", start) != xmp_from_start.npos) {
                                     start = size;  // ignore this packet, we'll get on the next time around
                                     bExtXMP = true;
@@ -682,7 +685,7 @@ namespace Exiv2 {
                                 start = 2 + 35 + 32 + 4 + 4;  // Adobe Spec, p19
                             }
 
-                            out.write((const char*)(&xmp.at(start)), size - start);
+                            out.write(reinterpret_cast<const char*>(&xmp.at(start)), size - start);
                             bufRead = size;
                             done = !bExtXMP;
                         }
@@ -693,7 +696,7 @@ namespace Exiv2 {
                             io_->seek(14 + 2, BasicIo::cur);    // step over header
                             DataBuf icc(size - (14 + 2));
                             io_->read(icc.pData_, icc.size_);
-                            out.write((const char*)icc.pData_, icc.size_);
+                            out.write(reinterpret_cast<const char*>(icc.pData_), icc.size_);
 #ifdef DEBUG
                             std::cout << "iccProfile size = " << icc.size_ << std::endl;
 #endif
