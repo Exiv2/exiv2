@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import system_tests
-import os
+from system_tests import DeleteFiles, CopyFiles, CaseMeta, path
 
 
-@system_tests.DeleteFiles("$xmpfile")
-@system_tests.CopyFiles("$data_path/exiv2-empty.jpg")
-class WrongXmpTypeForNestedXmpKeys(metaclass=system_tests.CaseMeta):
+@DeleteFiles("$xmpfile")
+@CopyFiles("$data_path/exiv2-empty.jpg")
+class WrongXmpTypeForNestedXmpKeys(metaclass=CaseMeta):
 
     url = "http://dev.exiv2.org/issues/$num"
 
     num = 799
-    cmdfile = os.path.join("$data_path", "bug$num.cmd")
+    cmdfile = path("$data_path/bug$num.cmd")
 
-    filename_common = os.path.join("$data_path", "exiv2-empty_copy")
+    filename_common = path("$data_path/exiv2-empty_copy")
     filename = "$filename_common.jpg"
     xmpfile = "$filename_common.xmp"
 
