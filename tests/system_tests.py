@@ -177,6 +177,12 @@ def configure_suite(config_file):
                 )
             _parameters[key] = abs_path
 
+    for key in _parameters:
+        if key in globals():
+            raise ValueError("Variable name {!s} already used.")
+
+        globals()[key] = _parameters[key]
+
 
 class FileDecoratorBase(object):
     """

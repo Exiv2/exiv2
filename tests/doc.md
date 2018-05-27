@@ -220,10 +220,14 @@ following a `$` with variables either defined in this class alongside (like
 configuration file. Please note that defining a variable with the same name as a
 variable in the suite's configuration file will result in an error (otherwise
 one of the variables would take precedence leading to unexpected results). The
-substitution of values is performed using the template module from Python's
-string library via `safe_substitute`.
+variables defined in the test suites configuration file are also available in
+the `system_tests` namespace. In the above example it would be therefore
+possible to access `abort_exit_value` via `system_tests.abort_exit_value`
+(please be aware that all values will be strings though).
 
-In the above example the command would thus expand to:
+The substitution of values is performed using the template module from Python's
+string library via `safe_substitute`. In the above example the command would
+thus expand to:
 ``` shell
 /path/to/the/dir/build/bin/binary -c /path/to/the/dir/conf/main.cfg -i invalid_input_file
 ```
