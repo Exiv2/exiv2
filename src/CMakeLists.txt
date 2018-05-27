@@ -17,6 +17,7 @@ set( LIBEXIV2_SRC
     exif.cpp
     futils.cpp
     gifimage.cpp
+    helper_functions.cpp
     http.cpp
     image.cpp
     ini.cpp

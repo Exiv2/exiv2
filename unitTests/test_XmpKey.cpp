@@ -24,6 +24,11 @@ public:
         XmpProperties::registerNs(expectedFamily, expectedPrefix);
     }
 
+    static void TearDownTestCase()
+    {
+        XmpProperties::unregisterNs();
+    }
+
     void checkValidity(const XmpKey& key)
     {
         ASSERT_EQ(expectedKey, key.key());

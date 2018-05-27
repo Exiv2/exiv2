@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2018 Exiv2 authors
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -30,6 +30,7 @@
 #include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "helper_functions.hpp"
 #include "enforce.hpp"
 
 #ifdef WIN32
@@ -46,6 +47,7 @@
 #include <cstdio>                               // for EOF
 #include <cstring>
 #include <cassert>
+#include <stdexcept>
 
 // *****************************************************************************
 // class member definitions
@@ -643,7 +645,8 @@ namespace Exiv2 {
                 // print signature for APPn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
                     // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
-                    const char* signature = (const char*)buf.pData_ + 2;
+                    const std::string signature =
+                        string_from_unterminated(reinterpret_cast<const char*>(buf.pData_ + 2), buf.size_ - 2);
 
                     // 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
                     // STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
@@ -652,12 +655,12 @@ namespace Exiv2 {
                     //       2 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
                     //     915 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
                     //    1787 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
-                    if (option == kpsXMP && std::string(signature).find("http://ns.adobe.com/x") == 0) {
+                    if (option == kpsXMP && signature.find("http://ns.adobe.com/x") == 0) {
                         // extract XMP
                         if (size > 0) {
                             io_->seek(-bufRead, BasicIo::cur);
-                            byte* xmp = new byte[size + 1];
-                            io_->read(xmp, size);
+                            std::vector<byte> xmp(size + 1);
+                            io_->read(xmp.data(), size);
                             int start = 0;
 
                             // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf
@@ -668,10 +671,13 @@ namespace Exiv2 {
                             // and dumping the XMP in a post read operation similar to kpsIptcErase
                             // for the moment, dumping 'on the fly' is working fine
                             if (!bExtXMP) {
-                                while (xmp[start])
+                                while (xmp.at(start)) {
                                     start++;
+                                }
                                 start++;
-                                if (::strstr((char*)xmp + start, "HasExtendedXMP")) {
+                                const std::string xmp_from_start = string_from_unterminated(
+                                    reinterpret_cast<const char*>(&xmp.at(start)), size - start);
+                                if (xmp_from_start.find("HasExtendedXMP", start) != xmp_from_start.npos) {
                                     start = size;  // ignore this packet, we'll get on the next time around
                                     bExtXMP = true;
                                 }
@@ -679,25 +685,24 @@ namespace Exiv2 {
                                 start = 2 + 35 + 32 + 4 + 4;  // Adobe Spec, p19
                             }
 
-                            out.write((const char*)(xmp + start), size - start);
-                            delete[] xmp;
+                            out.write(reinterpret_cast<const char*>(&xmp.at(start)), size - start);
                             bufRead = size;
                             done = !bExtXMP;
                         }
-                    } else if (option == kpsIccProfile && std::strcmp(signature, iccId_) == 0) {
+                    } else if (option == kpsIccProfile && signature.compare(iccId_) == 0) {
                         // extract ICCProfile
                         if (size > 0) {
                             io_->seek(-bufRead, BasicIo::cur);  // back to buffer (after marker)
                             io_->seek(14 + 2, BasicIo::cur);    // step over header
                             DataBuf icc(size - (14 + 2));
                             io_->read(icc.pData_, icc.size_);
-                            out.write((const char*)icc.pData_, icc.size_);
+                            out.write(reinterpret_cast<const char*>(icc.pData_), icc.size_);
 #ifdef DEBUG
                             std::cout << "iccProfile size = " << icc.size_ << std::endl;
 #endif
                             bufRead = size;
                         }
-                    } else if (option == kpsIptcErase && std::strcmp(signature, "Photoshop 3.0") == 0) {
+                    } else if (option == kpsIptcErase && signature.compare("Photoshop 3.0") == 0) {
                         // delete IPTC data segment from JPEG
                         if (size > 0) {
                             io_->seek(-bufRead, BasicIo::cur);
@@ -706,19 +711,29 @@ namespace Exiv2 {
                         }
                     } else if (bPrint) {
                         out << "| " << Internal::binaryToString(buf, size > 32 ? 32 : size, size > 0 ? 2 : 0);
-                        if (std::strcmp(signature, iccId_) == 0) {
-                            int chunk = (int)signature[12];
-                            int chunks = (int)signature[13];
+                        if (signature.compare(iccId_) == 0) {
+                            // extract the chunk information from the buffer
+                            //
+                            // the buffer looks like this in this branch
+                            // ICC_PROFILE\0AB
+                            // where A & B are bytes (the variables chunk & chunks)
+                            //
+                            // We cannot extract the variables A and B from the signature string, as they are beyond the
+                            // null termination (and signature ends there).
+                            // => Read the chunk info from the DataBuf directly
+                            enforce<std::out_of_range>(buf.size_ - 2 > 14, "Buffer too small to extract chunk information.");
+                            const int chunk = buf.pData_[2 + 12];
+                            const int chunks = buf.pData_[2 + 13];
                             out << Internal::stringFormat(" chunk %d/%d", chunk, chunks);
                         }
                     }
 
                     // for MPF: http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
                     // for FLIR: http://owl.phy.queensu.ca/~phil/exiftool/TagNames/FLIR.html
-                    bool bFlir = option == kpsRecursive && marker == (app0_ + 1) && std::strcmp(signature, "FLIR") == 0;
-                    bool bExif = option == kpsRecursive && marker == (app0_ + 1) && std::strcmp(signature, "Exif") == 0;
-                    bool bMPF = option == kpsRecursive && marker == (app0_ + 2) && std::strcmp(signature, "MPF") == 0;
-                    bool bPS = option == kpsRecursive && std::strcmp(signature, "Photoshop 3.0") == 0;
+                    bool bFlir = option == kpsRecursive && marker == (app0_ + 1) && signature.compare("FLIR") == 0;
+                    bool bExif = option == kpsRecursive && marker == (app0_ + 1) && signature.compare("Exif") == 0;
+                    bool bMPF = option == kpsRecursive && marker == (app0_ + 2) && signature.compare("MPF") == 0;
+                    bool bPS = option == kpsRecursive && signature.compare("Photoshop 3.0") == 0;
                     if (bFlir || bExif || bMPF || bPS) {
                         // extract Exif data block which is tiff formatted
                         if (size > 0) {
@@ -731,7 +746,7 @@ namespace Exiv2 {
                             // copy the data to memory
                             io_->seek(-bufRead, BasicIo::cur);
                             io_->read(exif, size);
-                            uint32_t start = std::strcmp(signature, "Exif") == 0 ? 8 : 6;
+                            uint32_t start = signature.compare("Exif") == 0 ? 8 : 6;
                             uint32_t max = (uint32_t)size - 1;
 
                             // is this an fff block?
