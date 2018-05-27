@@ -474,6 +474,24 @@ class DeleteFiles(FileDecoratorBase):
         return expanded_file_name
 
 
+def path(path_string):
+    r"""
+    Converts a path which uses ``/`` as a separator into a path which uses the
+    path separator of the current operating system.
+
+    Example
+    -------
+
+    >>> import platform
+    >>> sep = "\\" if platform.system() == "Windows" else "/"
+    >>> path("a/b") == "a" + sep + "b"
+    True
+    >>> path("a/more/complex/path") == sep.join(['a', 'more', 'complex', 'path'])
+    True
+    """
+    return os.path.join(*path_string.split('/'))
+
+
 def test_run(self):
     """
     This function reads in the members commands, retval, stdout, stderr and runs

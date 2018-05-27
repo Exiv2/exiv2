@@ -271,6 +271,31 @@ as the indentation might have suggested.
 Also note that in this example the string will not be terminated with a newline
 character. To achieve that put the `"""` on the following line.
 
+### Paths
+
+Some test cases require the specification of paths (e.g. to the location of test
+cases). This can be problematic when working with the Windows operating system,
+as it sometimes exhibits problems with `/` as path separators instead of `\`,
+which cannot be used on every other platform.
+
+This can be circumvented by creating the paths via `os.path.join`, but that is
+quite verbose. A slightly simpler alternative is the function `path` from
+`system_tests` which converts all `/` inside your string into the platform's
+default path separator:
+
+``` python
+# -*- coding: utf-8 -*-
+
+from system_tests import CaseMeta, path
+
+
+class AnInformativeName(metaclass=CaseMeta):
+
+    filename = path("$path_to_test_files/invalid_input_file")
+
+    # the rest of your test case
+```
+
 
 ## Advanced test cases
 
