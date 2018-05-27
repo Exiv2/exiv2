@@ -236,13 +236,22 @@ and similarly for `stdout` and `stderr`.
 Once the substitution is performed, each command is run using Python's
 `subprocess` module, its output is compared to the values in `stdout` and
 `stderr` and its return value to `retval`. Please note that for portability
-reasons the subprocess module is run with `shell=False`, thus shell expansions
-or pipes will not work.
+reasons the subprocess module is run with `shell=False`, thus shell expansions,
+pipes and redirections into files will not work.
 
 As the test cases are implemented in Python, one can take full advantage of
 Python for the construction of the necessary lists. For example when 10 commands
 should be run and all return 0, one can write `retval = 10 * [0]` instead of
 writing 0 ten times. The same is of course possible for strings.
+
+
+### Multiline strings
+
+It is generally recommended to use Python's multiline strings (strings starting
+and ending with three `"` instead of one `"`) for the elements of the `commands`
+list, especially when the commands include `"` or escape sequences. Proper
+escaping is tricky to get right in a platform independent way, as it depends on
+the terminal that is used. Using multiline strings circumvents this issue.
 
 There are however some peculiarities with multiline strings in Python. Normal
 strings start and end with a single `"` but multiline strings start with three
