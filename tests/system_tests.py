@@ -584,6 +584,10 @@ def test_run(self):
             retval, proc.returncode, msg="Return value does not match"
         )
 
+        self.post_command_hook(i, command)
+
+    self.post_tests_hook()
+
 
 class Case(unittest.TestCase):
     """
@@ -645,6 +649,34 @@ class Case(unittest.TestCase):
         """
         return string.Template(str(unexpanded_string))\
             .safe_substitute(**self.variable_dict)
+
+    def post_command_hook(self, i, command):
+        """ Function that is run after the successful execution of one command.
+
+        It is invoked with the following parameters:
+        i - the index of the current command that is run in self.commands
+        command - the command that was run
+
+        It should return nothing.
+
+        This function can be overridden to perform additional checks after the
+        command ran, for instance it can check whether files were created.
+
+        The default implementation does nothing.
+        """
+        pass
+
+    def post_tests_hook(self):
+        """
+        Function that is run after the successful execution all commands. It
+        should return nothing.
+
+        This function can be overridden to run additional checks that only make
+        sense after all commands ran.
+
+        The default implementation does nothing.
+        """
+        pass
 
 
 class CaseMeta(type):

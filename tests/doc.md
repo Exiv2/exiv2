@@ -359,6 +359,7 @@ the test suite features a decorator which creates a copy of the supplied files
 and deletes the copies after the test ran.
 
 Example:
+
 ``` python
 # -*- coding: utf-8 -*-
 
@@ -396,10 +397,12 @@ cases, one can customize how stdout and stderr checked for errors.
 
 The `system_tests.Case` class has two public functions for the check of stdout &
 stderr: `compare_stdout` & `compare_stderr`. They have the following interface:
+
 ``` python
 compare_stdout(self, i, command, got_stdout, expected_stdout)
 compare_stderr(self, i, command, got_stderr, expected_stderr)
 ```
+
 with the parameters:
 - i: index of the command in the `commands` list
 - command: a string of the actually invoked command
@@ -420,6 +423,7 @@ errors from AddressSanitizer and undefined behavior sanitizer are not present in
 the obtained output to standard error **and nothing else**. This is useful for
 test cases where stderr is filled with warnings that are not worth being tracked
 by the test suite. It can be used in the following way:
+
 ``` python
 # -*- coding: utf-8 -*-
 
@@ -449,6 +453,7 @@ variable substitution using the test suite's configuration file.
 
 Unfortunately, it has to run in a class member function. The `setUp()` function
 can be used for this, as it is run before each test. For example like this:
+
 ``` python
 class SomeName(metaclass=system_tests.CaseMeta):
 
@@ -463,6 +468,7 @@ This example will work, as the test runner reads the data for `commands`,
 `stderr`, `stdout` and `retval` from the class instance. What however will not
 work is creating a new member in `setUp()` and trying to use it as a variable
 for expansion, like this:
+
 ``` python
 class SomeName(metaclass=system_tests.CaseMeta):
 
@@ -487,6 +493,53 @@ class SomeName(metaclass=system_tests.CaseMeta):
 ```
 
 will result in `another_string` being "foo" and not "bar".
+
+
+### Hooks
+
+The `Case` class provides two hooks that are run after each command and after
+all commands, respectively. The hook which is run after each successful command
+has the following signature:
+
+``` Python
+post_command_hook(self, i, command)
+```
+with the following parameters:
+- `i`: index of the command in the `commands` list
+- `command`: a string of the actually invoked command
+
+The hook which is run after all test takes no parameters except `self`:
+
+``` Python
+post_tests_hook(self)
+```
+
+By default, these hooks do nothing. They can be used to implement custom checks
+after certain commands, e.g. to check if a file was created. Such a test can be
+implemented as follows:
+
+``` Python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    filename = "input_file"
+    output = "out"
+    commands = ["$binary -o output -i $filename"]
+    retval = [0]
+    stdout = [""]
+    stderr = [""]
+
+    output_contents = """Hello World!
+"""
+
+    def post_tests_hook(self):
+        with open(self.output, "r") as out:
+            self.assertMultiLineEqual(self.output_contents, out.read(-1))
+```
 
 
 ### Possible pitfalls
