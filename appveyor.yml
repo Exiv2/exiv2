@@ -43,7 +43,6 @@ build_script:
     - cmd: unit_tests.exe
     - cmd: cd ../../tests/
     - cmd: set EXIV2_EXT=.exe
-    - cmd: set EXIV2_CAT=type
     - cmd: c:\Python36\python.exe runner.py -v
 
 cache:

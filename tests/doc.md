@@ -220,10 +220,14 @@ following a `$` with variables either defined in this class alongside (like
 configuration file. Please note that defining a variable with the same name as a
 variable in the suite's configuration file will result in an error (otherwise
 one of the variables would take precedence leading to unexpected results). The
-substitution of values is performed using the template module from Python's
-string library via `safe_substitute`.
+variables defined in the test suites configuration file are also available in
+the `system_tests` namespace. In the above example it would be therefore
+possible to access `abort_exit_value` via `system_tests.abort_exit_value`
+(please be aware that all values will be strings though).
 
-In the above example the command would thus expand to:
+The substitution of values is performed using the template module from Python's
+string library via `safe_substitute`. In the above example the command would
+thus expand to:
 ``` shell
 /path/to/the/dir/build/bin/binary -c /path/to/the/dir/conf/main.cfg -i invalid_input_file
 ```
@@ -232,13 +236,22 @@ and similarly for `stdout` and `stderr`.
 Once the substitution is performed, each command is run using Python's
 `subprocess` module, its output is compared to the values in `stdout` and
 `stderr` and its return value to `retval`. Please note that for portability
-reasons the subprocess module is run with `shell=False`, thus shell expansions
-or pipes will not work.
+reasons the subprocess module is run with `shell=False`, thus shell expansions,
+pipes and redirections into files will not work.
 
 As the test cases are implemented in Python, one can take full advantage of
 Python for the construction of the necessary lists. For example when 10 commands
 should be run and all return 0, one can write `retval = 10 * [0]` instead of
 writing 0 ten times. The same is of course possible for strings.
+
+
+### Multiline strings
+
+It is generally recommended to use Python's multiline strings (strings starting
+and ending with three `"` instead of one `"`) for the elements of the `commands`
+list, especially when the commands include `"` or escape sequences. Proper
+escaping is tricky to get right in a platform independent way, as it depends on
+the terminal that is used. Using multiline strings circumvents this issue.
 
 There are however some peculiarities with multiline strings in Python. Normal
 strings start and end with a single `"` but multiline strings start with three
@@ -266,6 +279,31 @@ as the indentation might have suggested.
 
 Also note that in this example the string will not be terminated with a newline
 character. To achieve that put the `"""` on the following line.
+
+### Paths
+
+Some test cases require the specification of paths (e.g. to the location of test
+cases). This can be problematic when working with the Windows operating system,
+as it sometimes exhibits problems with `/` as path separators instead of `\`,
+which cannot be used on every other platform.
+
+This can be circumvented by creating the paths via `os.path.join`, but that is
+quite verbose. A slightly simpler alternative is the function `path` from
+`system_tests` which converts all `/` inside your string into the platform's
+default path separator:
+
+``` python
+# -*- coding: utf-8 -*-
+
+from system_tests import CaseMeta, path
+
+
+class AnInformativeName(metaclass=CaseMeta):
+
+    filename = path("$path_to_test_files/invalid_input_file")
+
+    # the rest of your test case
+```
 
 
 ## Advanced test cases
@@ -321,6 +359,7 @@ the test suite features a decorator which creates a copy of the supplied files
 and deletes the copies after the test ran.
 
 Example:
+
 ``` python
 # -*- coding: utf-8 -*-
 
@@ -358,10 +397,12 @@ cases, one can customize how stdout and stderr checked for errors.
 
 The `system_tests.Case` class has two public functions for the check of stdout &
 stderr: `compare_stdout` & `compare_stderr`. They have the following interface:
+
 ``` python
 compare_stdout(self, i, command, got_stdout, expected_stdout)
 compare_stderr(self, i, command, got_stderr, expected_stderr)
 ```
+
 with the parameters:
 - i: index of the command in the `commands` list
 - command: a string of the actually invoked command
@@ -382,6 +423,7 @@ errors from AddressSanitizer and undefined behavior sanitizer are not present in
 the obtained output to standard error **and nothing else**. This is useful for
 test cases where stderr is filled with warnings that are not worth being tracked
 by the test suite. It can be used in the following way:
+
 ``` python
 # -*- coding: utf-8 -*-
 
@@ -411,6 +453,7 @@ variable substitution using the test suite's configuration file.
 
 Unfortunately, it has to run in a class member function. The `setUp()` function
 can be used for this, as it is run before each test. For example like this:
+
 ``` python
 class SomeName(metaclass=system_tests.CaseMeta):
 
@@ -425,6 +468,7 @@ This example will work, as the test runner reads the data for `commands`,
 `stderr`, `stdout` and `retval` from the class instance. What however will not
 work is creating a new member in `setUp()` and trying to use it as a variable
 for expansion, like this:
+
 ``` python
 class SomeName(metaclass=system_tests.CaseMeta):
 
@@ -449,6 +493,53 @@ class SomeName(metaclass=system_tests.CaseMeta):
 ```
 
 will result in `another_string` being "foo" and not "bar".
+
+
+### Hooks
+
+The `Case` class provides two hooks that are run after each command and after
+all commands, respectively. The hook which is run after each successful command
+has the following signature:
+
+``` Python
+post_command_hook(self, i, command)
+```
+with the following parameters:
+- `i`: index of the command in the `commands` list
+- `command`: a string of the actually invoked command
+
+The hook which is run after all test takes no parameters except `self`:
+
+``` Python
+post_tests_hook(self)
+```
+
+By default, these hooks do nothing. They can be used to implement custom checks
+after certain commands, e.g. to check if a file was created. Such a test can be
+implemented as follows:
+
+``` Python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    filename = "input_file"
+    output = "out"
+    commands = ["$binary -o output -i $filename"]
+    retval = [0]
+    stdout = [""]
+    stderr = [""]
+
+    output_contents = """Hello World!
+"""
+
+    def post_tests_hook(self):
+        with open(self.output, "r") as out:
+            self.assertMultiLineEqual(self.output_contents, out.read(-1))
+```
 
 
 ### Possible pitfalls
