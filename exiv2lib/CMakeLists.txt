@@ -1,5 +1,10 @@
 # CMakeLists.txt for exiv2 library and command-line program
 
+if( EXIV2_BUILD_UNIT_TESTS )
+    # Since we need to test some internal parts of the library, we export all the symbols.
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
+endif()
+
 # C++ source files
 set( LIBEXIV2_SRC
     asfvideo.cpp
@@ -287,6 +292,10 @@ install(FILES ${LIBEXIV2_HDR}
 )
 
 install(EXPORT exiv2Config DESTINATION "share/exiv2/cmake")
+
+if( EXIV2_BUILD_UNIT_TESTS )
+    add_subdirectory ( unitTests )
+endif()
 
 # ******************************************************************************
 # exiv2 application
