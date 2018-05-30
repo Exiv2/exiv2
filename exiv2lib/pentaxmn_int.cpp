@@ -28,10 +28,10 @@
 #include <exiv2/exif.hpp>
 #include <exiv2/tags.hpp>
 #include <exiv2/metadatum.hpp>
+#include <exiv2/i18n.h>
 
 #include "pentaxmn_int.hpp"
 #include "makernote_int.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <string>

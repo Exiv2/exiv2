@@ -30,11 +30,11 @@
 #include <exiv2/config.h>
 #include <exiv2/convert.hpp>
 #include <exiv2/xmp_exiv2.hpp>
+#include <exiv2/i18n.h>
 
 #include "exiv2app.hpp"
 #include "actions.hpp"
 #include "utils.hpp"
-#include "i18n.h"      // NLS support.
 
 #include <iostream>
 #include <fstream>

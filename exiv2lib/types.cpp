@@ -27,8 +27,7 @@
 // *****************************************************************************
 // included header files
 #include <exiv2/types.hpp>
-
-#include "i18n.h"                               // for _exvGettext
+#include <exiv2/i18n.h>
 
 // + standard includes
 #ifdef EXV_UNICODE_PATH

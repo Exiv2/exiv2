@@ -35,6 +35,7 @@
 #include <exiv2/preview.hpp>
 #include <exiv2/futils.hpp>
 #include <exiv2/version.hpp>
+#include <exiv2/i18n.h>
 
 #ifndef EXV_HAVE_TIMEGM
 # include "timegm.h"
@@ -42,7 +43,6 @@
 #include "actions.hpp"
 #include "exiv2app.hpp"
 #include "utils.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <string>

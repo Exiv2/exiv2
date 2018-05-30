@@ -33,9 +33,9 @@
 #include <exiv2/metadatum.hpp>
 #include <exiv2/xmp_exiv2.hpp>
 #include <exiv2/rwlock.hpp>
+#include <exiv2/i18n.h>
 
 #include "tags_int.hpp"
-#include "i18n.h"                // NLS support.
 
 #include <iostream>
 #include <iomanip>

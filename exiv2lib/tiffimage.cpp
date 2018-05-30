@@ -31,6 +31,7 @@
 #include <exiv2/futils.hpp>
 #include <exiv2/types.hpp>
 #include <exiv2/basicio.hpp>
+#include <exiv2/i18n.h>
 
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
@@ -38,7 +39,6 @@
 #include "makernote_int.hpp"
 #include "nikonmn_int.hpp"
 #include "image_int.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <string>

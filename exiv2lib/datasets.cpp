@@ -31,7 +31,7 @@
 #include <exiv2/types.hpp>
 #include <exiv2/value.hpp>
 #include <exiv2/metadatum.hpp>
-#include "i18n.h"                // NLS support.
+#include <exiv2/i18n.h>
 
 #include <iostream>
 #include <iomanip>

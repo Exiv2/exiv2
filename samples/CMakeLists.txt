@@ -49,16 +49,16 @@ if (MSVC)
     link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 endif()
 
-add_executable( metacopy metacopy.cpp ${PROJECT_SOURCE_DIR}/exiv2lib/utils.cpp)
+add_executable( metacopy metacopy.cpp ${PROJECT_SOURCE_DIR}/exiv2app/utils.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_link_libraries( metacopy PRIVATE exiv2lib)
-target_include_directories(metacopy PRIVATE ${PROJECT_SOURCE_DIR}/exiv2lib) # To find utils.hpp
+target_include_directories(metacopy PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app) # To find utils.hpp
 
-add_executable(          pathtest  path-test.cpp ${PROJECT_SOURCE_DIR}/exiv2lib/utils.cpp)
+add_executable(          pathtest  path-test.cpp ${PROJECT_SOURCE_DIR}/exiv2app/utils.cpp)
 list(APPEND APPLICATIONS pathtest)
 set_target_properties(   pathtest  PROPERTIES OUTPUT_NAME path-test )
 target_link_libraries(   pathtest  PRIVATE exiv2lib)
-target_include_directories(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2lib) # To find utils.hpp
+target_include_directories(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app) # To find utils.hpp
 
 if(NOT EXV_HAVE_TIMEGM )
     target_sources(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2lib/localtime.c)

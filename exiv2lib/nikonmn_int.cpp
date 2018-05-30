@@ -35,11 +35,11 @@
 #include <exiv2/value.hpp>
 #include <exiv2/image.hpp>
 #include <exiv2/error.hpp>
+#include <exiv2/i18n.h>
 
 #include "nikonmn_int.hpp"
 #include "tags_int.hpp"
 #include "makernote_int.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <string>

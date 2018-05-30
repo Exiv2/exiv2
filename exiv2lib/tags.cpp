@@ -33,9 +33,9 @@
 #include <exiv2/futils.hpp>
 #include <exiv2/value.hpp>
 #include <exiv2/convert.hpp>
+#include <exiv2/i18n.h>
 
 #include "tags_int.hpp"
-#include "i18n.h"                // NLS support.
 
 #include "canonmn_int.hpp"
 #include "casiomn_int.hpp"

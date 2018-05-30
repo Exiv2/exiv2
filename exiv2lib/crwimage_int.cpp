@@ -1,6 +1,7 @@
+#include <exiv2/i18n.h>
+
 #include "crwimage_int.hpp"
 #include "canonmn_int.hpp"
-#include "i18n.h"                // NLS support.
 
 #ifndef EXV_HAVE_TIMEGM
 # include "timegm.h"

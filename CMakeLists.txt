@@ -98,6 +98,10 @@ endif()
 
 add_subdirectory( exiv2lib )
 
+if(EXIV2_BUILD_EXIV2_COMMAND)
+    add_subdirectory( exiv2app )
+endif()
+
 if( EXIV2_BUILD_SAMPLES )
     add_subdirectory( samples )
 endif()

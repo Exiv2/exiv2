@@ -29,11 +29,11 @@
 #include <exiv2/image.hpp>
 #include <exiv2/error.hpp>
 #include <exiv2/futils.hpp>
+#include <exiv2/i18n.h>
 
 #include "cr2header_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <iostream>

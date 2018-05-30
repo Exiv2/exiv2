@@ -27,11 +27,11 @@
 // included header files
 #include <exiv2/types.hpp>
 #include <exiv2/value.hpp>
+#include <exiv2/i18n.h>
 
 #include "minoltamn_int.hpp"
 #include "sonymn_int.hpp"
 #include "tags_int.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
 #include <string>

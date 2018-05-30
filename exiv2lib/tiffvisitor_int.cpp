@@ -31,13 +31,13 @@
 #include <exiv2/value.hpp>
 #include <exiv2/image.hpp>
 #include <exiv2/jpgimage.hpp>
+#include <exiv2/i18n.h>
 
 #include "tiffcomposite_int.hpp" // Do not change the order of these 2 includes,
 #include "tiffvisitor_int.hpp"   // see bug #487
 #include "tiffimage_int.hpp"
 #include "makernote_int.hpp"
 #include "enforce.hpp"
-#include "i18n.h"             // NLS support.
 
 // + standard includes
 #include <string>
