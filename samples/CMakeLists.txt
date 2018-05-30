@@ -58,10 +58,10 @@ add_executable(          pathtest  path-test.cpp ${PROJECT_SOURCE_DIR}/exiv2app/
 list(APPEND APPLICATIONS pathtest)
 set_target_properties(   pathtest  PROPERTIES OUTPUT_NAME path-test )
 target_link_libraries(   pathtest  PRIVATE exiv2lib)
-target_include_directories(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app) # To find utils.hpp
+target_include_directories(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app) # To find utils.hpp, getopt_win32.h
 
 if(NOT EXV_HAVE_TIMEGM )
-    target_sources(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2lib/localtime.c)
+    target_sources(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app/localtime.c)
 endif()
 
 add_executable(          exiv2json exiv2json.cpp Jzon.cpp)
@@ -71,8 +71,8 @@ target_link_libraries(   exiv2json PRIVATE exiv2lib)
 install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if (MSVC)
-    target_sources(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2lib/getopt_win32.c)
-    target_sources(metacopy PRIVATE ${PROJECT_SOURCE_DIR}/exiv2lib/getopt_win32.c)
+    target_sources(pathtest PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app/getopt_win32.c)
+    target_sources(metacopy PRIVATE ${PROJECT_SOURCE_DIR}/exiv2app/getopt_win32.c)
 endif()
 
 if( EXPAT_FOUND )
