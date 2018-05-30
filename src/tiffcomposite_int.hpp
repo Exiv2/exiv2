@@ -30,9 +30,10 @@
 
 // *****************************************************************************
 // included header files
-#include "value.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/value.hpp>
+
 #include "tifffwd_int.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <iosfwd>

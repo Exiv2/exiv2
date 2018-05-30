@@ -28,13 +28,14 @@
 
 // *****************************************************************************
 // included header files
+#include <exiv2/value.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/datasets.hpp>
+
 #include "minoltamn_int.hpp"
 #include "tags_int.hpp"
 #include "makernote_int.hpp"
-#include "value.hpp"
-#include "exif.hpp"
 #include "i18n.h"                // NLS support.
-#include "datasets.hpp"
 
 #include <string>
 #include <sstream>

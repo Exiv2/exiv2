@@ -25,12 +25,13 @@
  */
 // *****************************************************************************
 // included header files
-#include "iptc.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "value.hpp"
-#include "datasets.hpp"
-#include "jpgimage.hpp"
+#include <exiv2/iptc.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/datasets.hpp>
+#include <exiv2/jpgimage.hpp>
+
 #include "image_int.hpp"
 
 // + standard includes

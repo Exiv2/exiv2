@@ -23,7 +23,8 @@
  */
 // *****************************************************************************
 // included header files
-#include "error.hpp"
+#include <exiv2/error.hpp>
+
 #include "i18n.h"                // NLS support.
 
 // + standard includes

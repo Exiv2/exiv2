@@ -5,8 +5,8 @@
 //
 // https://github.com/benhoyt/inih
 
-#include "config.h"
-#include "ini.hpp"
+#include <exiv2/config.h>
+#include <exiv2/ini.hpp>
 
 #include <algorithm>
 #include <cctype>

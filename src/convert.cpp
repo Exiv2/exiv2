@@ -27,13 +27,13 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-#include "types.hpp"
-#include "exif.hpp"
-#include "iptc.hpp"
-#include "xmp_exiv2.hpp"
-#include "futils.hpp"
-#include "convert.hpp"
+#include <exiv2/config.h>
+#include <exiv2/types.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/iptc.hpp>
+#include <exiv2/xmp_exiv2.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/convert.hpp>
 
 // + standard includes
 #include <utility>

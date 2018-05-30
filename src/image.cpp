@@ -23,45 +23,45 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/image.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/cr2image.hpp>
+#include <exiv2/crwimage.hpp>
+#include <exiv2/epsimage.hpp>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/mrwimage.hpp>
+#include <exiv2/rafimage.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/bigtiffimage.hpp>
+#include <exiv2/webpimage.hpp>
+#include <exiv2/orfimage.hpp>
+#include <exiv2/gifimage.hpp>
+#include <exiv2/psdimage.hpp>
+#include <exiv2/tgaimage.hpp>
+#include <exiv2/bmpimage.hpp>
+#include <exiv2/jp2image.hpp>
+#include <exiv2/rw2image.hpp>
+#include <exiv2/pgfimage.hpp>
+#include <exiv2/xmpsidecar.hpp>
 
-#include "image.hpp"
-#include "image_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-
-#include "cr2image.hpp"
-#include "crwimage.hpp"
-#include "epsimage.hpp"
-#include "jpgimage.hpp"
-#include "mrwimage.hpp"
 #ifdef EXV_HAVE_LIBZ
-# include "pngimage.hpp"
+# include <exiv2/pngimage.hpp>
 #endif // EXV_HAVE_LIBZ
-#include "rafimage.hpp"
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "bigtiffimage.hpp"
-#include "webpimage.hpp"
-#include "orfimage.hpp"
-#include "gifimage.hpp"
-#include "psdimage.hpp"
-#include "tgaimage.hpp"
-#include "bmpimage.hpp"
-#include "jp2image.hpp"
+
+#include "image_int.hpp"
 #include "nikonmn_int.hpp"
 
 #ifdef EXV_ENABLE_VIDEO
-#include "matroskavideo.hpp"
-#include "quicktimevideo.hpp"
-#include "riffvideo.hpp"
-#include "asfvideo.hpp"
+#include <exiv2/matroskavideo.hpp>
+#include <exiv2/quicktimevideo.hpp>
+#include <exiv2/riffvideo.hpp>
+#include <exiv2/asfvideo.hpp>
 #endif // EXV_ENABLE_VIDEO
-#include "rw2image.hpp"
-#include "pgfimage.hpp"
-#include "xmpsidecar.hpp"
 
 // + standard includes
 #include <cerrno>

@@ -27,10 +27,10 @@
  */
 // *****************************************************************************
 // included header files
-#include "value.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "convert.hpp"
+#include <exiv2/value.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/convert.hpp>
 
 // + standard includes
 #include <iostream>

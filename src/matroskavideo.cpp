@@ -26,13 +26,13 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef EXV_ENABLE_VIDEO
-#include "matroskavideo.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
-#include "tags.hpp"
+#include <exiv2/matroskavideo.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/tags.hpp>
 #include "tags_int.hpp"
 
 // + standard includes

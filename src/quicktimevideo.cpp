@@ -26,14 +26,15 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef EXV_ENABLE_VIDEO
-#include "tags.hpp"
+#include <exiv2/tags.hpp>
+#include <exiv2/quicktimevideo.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/basicio.hpp>
+
 #include "tags_int.hpp"
-#include "quicktimevideo.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
 // + standard includes
 #include <cmath>
 

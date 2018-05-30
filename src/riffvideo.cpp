@@ -26,15 +26,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef EXV_ENABLE_VIDEO
-#include "riffvideo.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
-#include "tags.hpp"
+#include <exiv2/riffvideo.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/tags.hpp>
+#include <exiv2/types.hpp>
+
 #include "tags_int.hpp"
-#include "types.hpp"
 #include "tiffimage_int.hpp"
 #include "image_int.hpp"
 // + standard includes

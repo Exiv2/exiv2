@@ -23,21 +23,21 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/orfimage.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/basicio.hpp>
 
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "orfimage.hpp"
 #include "makernote_int.hpp"
 #include "nikonmn_int.hpp"
-#include "image.hpp"
 #include "image_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "types.hpp"
-#include "basicio.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes

@@ -26,15 +26,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "properties.hpp"
+#include <exiv2/properties.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/metadatum.hpp>
+#include <exiv2/xmp_exiv2.hpp>
+#include <exiv2/rwlock.hpp>
+
 #include "tags_int.hpp"
-#include "error.hpp"
-#include "types.hpp"
-#include "value.hpp"
-#include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
-#include "xmp_exiv2.hpp"
-#include "rwlock.hpp"
 
 #include <iostream>
 #include <iomanip>

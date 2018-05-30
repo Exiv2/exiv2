@@ -24,7 +24,9 @@
 
 // *****************************************************************************
 
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/http.hpp>
+#include <exiv2/version.hpp>
 
 #ifdef EXV_USE_CURL
 #include <curl/curl.h>
@@ -40,13 +42,11 @@
 # endif
 #endif
 
-#include "http.hpp"
-#include "version.hpp"
 #include "makernote_int.hpp"
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
-#include "xmp_exiv2.hpp"
+#include <exiv2/xmp_exiv2.hpp>
 #endif
 
 // + standard includes

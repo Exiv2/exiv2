@@ -30,10 +30,11 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/basicio.hpp>
+
 #include "tags_int.hpp"
-#include "image.hpp"
-#include "basicio.hpp"
 
 // + standard includes
 #include <iosfwd>

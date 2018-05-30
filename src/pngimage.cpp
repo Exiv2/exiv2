@@ -23,19 +23,20 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef   EXV_HAVE_LIBZ
+#include <exiv2/pngimage.hpp>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/types.hpp>
+
 #include "pngchunk_int.hpp"
-#include "pngimage.hpp"
-#include "jpgimage.hpp"
-#include "tiffimage.hpp"
-#include "image.hpp"
 #include "image_int.hpp"
-#include "basicio.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <string>

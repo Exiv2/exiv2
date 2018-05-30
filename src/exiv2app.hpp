@@ -31,9 +31,9 @@
 // *****************************************************************************
 // included header files
 #include <exiv2/exiv2.hpp>
+#include <exiv2/types.hpp>
 
 #include "utils.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <string>

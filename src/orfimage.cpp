@@ -26,17 +26,17 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/orfimage.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
 
-#include "orfimage.hpp"
 #include "orfimage_int.hpp"
-#include "tiffimage.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
-#include "image.hpp"
-#include "basicio.hpp"
-#include "error.hpp"
-#include "futils.hpp"
 
 // + standard includes
 #include <string>

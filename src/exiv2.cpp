@@ -27,14 +27,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/convert.hpp>
+#include <exiv2/xmp_exiv2.hpp>
 
 #include "exiv2app.hpp"
 #include "actions.hpp"
 #include "utils.hpp"
-#include "convert.hpp"
 #include "i18n.h"      // NLS support.
-#include "xmp_exiv2.hpp"
 
 #include <iostream>
 #include <fstream>

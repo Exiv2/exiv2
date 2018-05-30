@@ -26,9 +26,9 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/futils.hpp>
 
-#include "futils.hpp"
 #include "enforce.hpp"
 
 // + standard includes

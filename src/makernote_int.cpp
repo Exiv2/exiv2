@@ -25,13 +25,13 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/ini.hpp>
+#include <exiv2/tiffimage.hpp>
 
 #include "makernote_int.hpp"
-#include "ini.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
 // + standard includes

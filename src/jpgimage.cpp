@@ -23,13 +23,13 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
 
-#include "jpgimage.hpp"
-#include "tiffimage.hpp"
 #include "image_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
 #include "helper_functions.hpp"
 #include "enforce.hpp"
 

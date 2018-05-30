@@ -29,11 +29,10 @@
 #endif
 
 // included header files
-#include "config.h"
-
-#include "datasets.hpp"
-#include "http.hpp"
-#include "futils.hpp"
+#include <exiv2/config.h>
+#include <exiv2/datasets.hpp>
+#include <exiv2/http.hpp>
+#include <exiv2/futils.hpp>
 
 #include <sys/types.h>
 #include <stdio.h>

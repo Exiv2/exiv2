@@ -26,11 +26,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "datasets.hpp"
-#include "error.hpp"
-#include "types.hpp"
-#include "value.hpp"
-#include "metadatum.hpp"
+#include <exiv2/datasets.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/metadatum.hpp>
 #include "i18n.h"                // NLS support.
 
 #include <iostream>

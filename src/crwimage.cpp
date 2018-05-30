@@ -26,14 +26,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/crwimage.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/tags.hpp>
 
-#include "crwimage.hpp"
 #include "crwimage_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "value.hpp"
-#include "tags.hpp"
 #include "tags_int.hpp"
 
 // + standard includes

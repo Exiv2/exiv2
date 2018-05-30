@@ -26,17 +26,17 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/exif.hpp>
+#include <exiv2/metadatum.hpp>
+#include <exiv2/tags.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/tiffimage.hpp>
 
-#include "exif.hpp"
-#include "metadatum.hpp"
-#include "tags.hpp"
 #include "tags_int.hpp"
-#include "value.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "basicio.hpp"
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp" // for Tag::root
 

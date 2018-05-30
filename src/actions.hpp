@@ -31,15 +31,15 @@
 
 // *****************************************************************************
 // included header files
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/iptc.hpp>
+
+#include "exiv2app.hpp"
 
 // + standard includes
 #include <string>
 #include <map>
-
-#include "exiv2app.hpp"
-#include "image.hpp"
-#include "exif.hpp"
-#include "iptc.hpp"
 
 // *****************************************************************************
 // class declarations

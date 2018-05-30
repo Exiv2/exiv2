@@ -26,7 +26,8 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
+#include <exiv2/types.hpp>
+
 #include "i18n.h"                               // for _exvGettext
 
 // + standard includes

@@ -26,16 +26,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/rw2image.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/preview.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
 
-#include "rw2image.hpp"
 #include "rw2image_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
-#include "image.hpp"
-#include "preview.hpp"
-#include "error.hpp"
-#include "futils.hpp"
 
 // + standard includes
 #ifdef DEBUG

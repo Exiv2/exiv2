@@ -26,8 +26,8 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-#include "ssh.hpp"
+#include <exiv2/config.h>
+#include <exiv2/ssh.hpp>
 
 #ifdef EXV_USE_SSH
 // class member definitions

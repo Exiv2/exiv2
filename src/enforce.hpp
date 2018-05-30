@@ -28,7 +28,7 @@
 
 #include <string>
 
-#include "error.hpp"
+#include <exiv2/error.hpp>
 
 /*!
  * @brief Ensure that condition is true, otherwise throw an exception of the

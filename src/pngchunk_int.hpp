@@ -36,8 +36,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
-#include "pngimage.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/pngimage.hpp>
 
 // + standard includes
 #include <iosfwd>

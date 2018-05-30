@@ -27,13 +27,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
-#include "tags.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/tags.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/convert.hpp>
+
 #include "tags_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "value.hpp"
-#include "convert.hpp"
 #include "i18n.h"                // NLS support.
 
 #include "canonmn_int.hpp"

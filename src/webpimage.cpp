@@ -28,19 +28,19 @@
 
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/webpimage.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/tags.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/convert.hpp>
 
-#include "webpimage.hpp"
 #include "image_int.hpp"
 #include "enforce.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
-#include "tags.hpp"
 #include "tags_int.hpp"
-#include "types.hpp"
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
-#include "convert.hpp"
 
 #include <cmath>
 #include <iomanip>

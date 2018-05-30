@@ -25,13 +25,12 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
-#include "tgaimage.hpp"
-#include "image.hpp"
-#include "basicio.hpp"
-#include "error.hpp"
-#include "futils.hpp"
+#include <exiv2/config.h>
+#include <exiv2/tgaimage.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
 
 // + standard includes
 #include <string>

@@ -30,7 +30,7 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
+#include <exiv2/types.hpp>
 #include "tags_int.hpp"
 
 // + standard includes

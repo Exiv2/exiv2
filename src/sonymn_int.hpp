@@ -35,8 +35,8 @@ Email communication with <a href="mailto:caulier dot gilles at gmail dot com">ca
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
-#include "types.hpp"
+#include <exiv2/tags.hpp>
+#include <exiv2/types.hpp>
 
 // + standard includes
 #include <string>

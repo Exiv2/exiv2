@@ -23,16 +23,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/cr2image.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
 
-#include "cr2image.hpp"
-#include "tiffimage.hpp"
 #include "cr2header_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
-#include "image.hpp"
-#include "error.hpp"
-#include "futils.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes

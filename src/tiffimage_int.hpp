@@ -32,9 +32,10 @@
 // included header files
 #include "tifffwd_int.hpp"
 #include "tiffcomposite_int.hpp"
-#include "image.hpp"
 #include "tags_int.hpp"
-#include "types.hpp"
+
+#include <exiv2/image.hpp>
+#include <exiv2/types.hpp>
 
 // + standard includes
 #include <map>

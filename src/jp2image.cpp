@@ -27,16 +27,16 @@
 // #define DEBUG
 
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/jp2image.hpp>
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/types.hpp>
 
-#include "jp2image.hpp"
-#include "tiffimage.hpp"
-#include "image.hpp"
 #include "image_int.hpp"
-#include "basicio.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "types.hpp"
 #include "safe_op.hpp"
 
 // + standard includes

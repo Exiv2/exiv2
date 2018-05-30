@@ -26,15 +26,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
-#include "xmpsidecar.hpp"
-#include "image.hpp"
-#include "basicio.hpp"
-#include "error.hpp"
-#include "xmp_exiv2.hpp"
-#include "futils.hpp"
-#include "convert.hpp"
+#include <exiv2/config.h>
+#include <exiv2/xmpsidecar.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/xmp_exiv2.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/convert.hpp>
 
 // + standard includes
 #include <string>

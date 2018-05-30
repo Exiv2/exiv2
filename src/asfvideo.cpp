@@ -26,17 +26,20 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef EXV_ENABLE_VIDEO
-#include "tags.hpp"
+#include "tags_int.hpp" /// \todo This header seems to be needed by asfvideo.hpp
+
+#include <exiv2/tags.hpp>
+#include <exiv2/asfvideo.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/riffvideo.hpp>
+#include <exiv2/convert.hpp>
+
 #include "tags_int.hpp"
-#include "asfvideo.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
-#include "types.hpp"
-#include "riffvideo.hpp"
-#include "convert.hpp"
 
 // + standard includes
 #include <cmath>

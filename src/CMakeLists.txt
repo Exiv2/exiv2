@@ -50,50 +50,50 @@ set( LIBEXIV2_SRC
 
 # Public C++ header files
 set( LIBEXIV2_HDR
-    ../include/exiv2/asfvideo.hpp
-    ../include/exiv2/basicio.hpp
-    ../include/exiv2/bmpimage.hpp
-    ../include/exiv2/config.h
-    ../include/exiv2/convert.hpp
-    ../include/exiv2/cr2image.hpp
-    ../include/exiv2/crwimage.hpp
-    ../include/exiv2/datasets.hpp
-    ../include/exiv2/easyaccess.hpp
-    ../include/exiv2/epsimage.hpp
-    ../include/exiv2/error.hpp
-    ../include/exiv2/exif.hpp
-    ../include/exiv2/exiv2.hpp
-    ../include/exiv2/futils.hpp
-    ../include/exiv2/gifimage.hpp
-    ../include/exiv2/http.hpp
-    ../include/exiv2/image.hpp
-    ../include/exiv2/ini.hpp
-    ../include/exiv2/iptc.hpp
-    ../include/exiv2/jp2image.hpp
-    ../include/exiv2/jpgimage.hpp
-    ../include/exiv2/matroskavideo.hpp
-    ../include/exiv2/metadatum.hpp
-    ../include/exiv2/mrwimage.hpp
-    ../include/exiv2/orfimage.hpp
-    ../include/exiv2/pgfimage.hpp
-    ../include/exiv2/preview.hpp
-    ../include/exiv2/properties.hpp
-    ../include/exiv2/psdimage.hpp
-    ../include/exiv2/quicktimevideo.hpp
-    ../include/exiv2/rafimage.hpp
-    ../include/exiv2/riffvideo.hpp
-    ../include/exiv2/rw2image.hpp
-    ../include/exiv2/rwlock.hpp
-    ../include/exiv2/tags.hpp
-    ../include/exiv2/tgaimage.hpp
-    ../include/exiv2/tiffimage.hpp
-    ../include/exiv2/types.hpp
-    ../include/exiv2/utilsvideo.hpp
-    ../include/exiv2/value.hpp
-    ../include/exiv2/version.hpp
-    ../include/exiv2/webpimage.hpp
-    ../include/exiv2/xmp_exiv2.hpp
-    ../include/exiv2/xmpsidecar.hpp
+    include/exiv2/asfvideo.hpp
+    include/exiv2/basicio.hpp
+    include/exiv2/bmpimage.hpp
+    include/exiv2/config.h
+    include/exiv2/convert.hpp
+    include/exiv2/cr2image.hpp
+    include/exiv2/crwimage.hpp
+    include/exiv2/datasets.hpp
+    include/exiv2/easyaccess.hpp
+    include/exiv2/epsimage.hpp
+    include/exiv2/error.hpp
+    include/exiv2/exif.hpp
+    include/exiv2/exiv2.hpp
+    include/exiv2/futils.hpp
+    include/exiv2/gifimage.hpp
+    include/exiv2/http.hpp
+    include/exiv2/image.hpp
+    include/exiv2/ini.hpp
+    include/exiv2/iptc.hpp
+    include/exiv2/jp2image.hpp
+    include/exiv2/jpgimage.hpp
+    include/exiv2/matroskavideo.hpp
+    include/exiv2/metadatum.hpp
+    include/exiv2/mrwimage.hpp
+    include/exiv2/orfimage.hpp
+    include/exiv2/pgfimage.hpp
+    include/exiv2/preview.hpp
+    include/exiv2/properties.hpp
+    include/exiv2/psdimage.hpp
+    include/exiv2/quicktimevideo.hpp
+    include/exiv2/rafimage.hpp
+    include/exiv2/riffvideo.hpp
+    include/exiv2/rw2image.hpp
+    include/exiv2/rwlock.hpp
+    include/exiv2/tags.hpp
+    include/exiv2/tgaimage.hpp
+    include/exiv2/tiffimage.hpp
+    include/exiv2/types.hpp
+    include/exiv2/utilsvideo.hpp
+    include/exiv2/value.hpp
+    include/exiv2/version.hpp
+    include/exiv2/webpimage.hpp
+    include/exiv2/xmp_exiv2.hpp
+    include/exiv2/xmpsidecar.hpp
     ${CMAKE_BINARY_DIR}/exv_conf.h
 )
 
@@ -149,12 +149,12 @@ set( LIBEXIV2_PRIVATE_HDR
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} easyaccess.cpp)
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/easyaccess.hpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} include/exiv2/easyaccess.hpp)
     endif()
 
     if( EXIV2_ENABLE_SSH )
         set( LIBEXIV2_SRC ${LIBEXIV2_SRC} ssh.cpp)
-        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/ssh.hpp)
+        set( LIBEXIV2_HDR ${LIBEXIV2_HDR} include/exiv2/ssh.hpp)
     endif()
 endif()
 
@@ -162,16 +162,16 @@ endif()
 # add png*.cpp files if PNG support requested
 if( EXIV2_ENABLE_PNG )
     set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngimage.cpp)
-    set( LIBEXIV2_HDR ${LIBEXIV2_HDR} ../include/exiv2/pngimage.hpp )
+    set( LIBEXIV2_HDR ${LIBEXIV2_HDR} include/exiv2/pngimage.hpp )
     set( LIBEXIV2_PRIVATE_SRC ${LIBEXIV2_PRIVATE_SRC} pngchunk_int.cpp)
-    set( LIBEXIV2_PRIVATE_HDR ${LIBEXIV2_PRIVATE_HDR} ../include/exiv2/pngimage.hpp)
+    set( LIBEXIV2_PRIVATE_HDR ${LIBEXIV2_PRIVATE_HDR} include/exiv2/pngimage.hpp)
 endif()
 
 source_group("Header Files" FILES ${LIBEXIV2_HDR} )
 source_group("Header Files" FILES ${LIBCURL_HDR} )
 source_group("Header Files" FILES ${SSH_HDR} )
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+#include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ******************************************************************************
 # exiv2lib library
@@ -213,15 +213,13 @@ elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_compile_definitions(exiv2lib PUBLIC EXV_ADOBE_XMPSDK=2016)
 endif()
 
-# TODO : We should not include include/exiv2 but only include !!!
 target_include_directories(exiv2lib PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
 
 target_include_directories(exiv2lib_int PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include/exiv2>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
 if (EXIV2_ENABLE_WEBREADY)

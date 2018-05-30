@@ -25,11 +25,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "xmp_exiv2.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "value.hpp"
-#include "properties.hpp"
+#include <exiv2/xmp_exiv2.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/properties.hpp>
 
 // + standard includes
 #include <iostream>

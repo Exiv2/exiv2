@@ -25,20 +25,19 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
+#include <exiv2/preview.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/cr2image.hpp>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/tiffimage.hpp>
+
+#include "enforce.hpp"
+#include "tiffimage_int.hpp"
 
 #include <climits>
 #include <string>
-
-#include "preview.hpp"
-#include "futils.hpp"
-#include "enforce.hpp"
-
-#include "image.hpp"
-#include "cr2image.hpp"
-#include "jpgimage.hpp"
-#include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
 
 // *****************************************************************************
 namespace {

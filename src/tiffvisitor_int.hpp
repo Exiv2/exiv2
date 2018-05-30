@@ -31,9 +31,10 @@
 
 // *****************************************************************************
 // included header files
-#include "exif.hpp"
+#include <exiv2/exif.hpp>
+#include <exiv2/types.hpp>
+
 #include "tifffwd_int.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <memory>

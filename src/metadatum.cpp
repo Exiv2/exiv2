@@ -27,7 +27,7 @@
  */
 // *****************************************************************************
 // included header files
-#include "metadatum.hpp"
+#include <exiv2/metadatum.hpp>
 
 // + standard includes
 #include <iostream>

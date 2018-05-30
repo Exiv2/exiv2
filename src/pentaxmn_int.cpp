@@ -23,13 +23,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/value.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/tags.hpp>
+#include <exiv2/metadatum.hpp>
+
 #include "pentaxmn_int.hpp"
 #include "makernote_int.hpp"
-#include "value.hpp"
-#include "exif.hpp"
-#include "tags.hpp"
-#include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes

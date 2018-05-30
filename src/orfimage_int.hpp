@@ -31,8 +31,8 @@
 
 // *****************************************************************************
 // included header files
+#include <exiv2/types.hpp>
 #include "tiffimage_int.hpp"
-#include "types.hpp"
 
 // *****************************************************************************
 // namespace extensions

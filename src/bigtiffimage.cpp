@@ -1,13 +1,12 @@
 
-#include "bigtiffimage.hpp"
+#include <exiv2/bigtiffimage.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/error.hpp>
 
 #include <cassert>
 #include <limits>
 
-#include "exif.hpp"
-#include "error.hpp"
 #include "image_int.hpp"
-
 
 namespace Exiv2
 {

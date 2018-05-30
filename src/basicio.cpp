@@ -23,14 +23,14 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-#include "datasets.hpp"
-#include "basicio.hpp"
-#include "futils.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "http.hpp"
-#include "properties.hpp"
+#include <exiv2/config.h>
+#include <exiv2/datasets.hpp>
+#include <exiv2/basicio.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
+#include <exiv2/http.hpp>
+#include <exiv2/properties.hpp>
 
 // + standard includes
 #include <string>
@@ -58,7 +58,7 @@
 #endif
 
 #ifdef EXV_USE_SSH
-# include "ssh.hpp"
+# include <exiv2/ssh.hpp>
 #else
 # define mode_t unsigned short
 #endif

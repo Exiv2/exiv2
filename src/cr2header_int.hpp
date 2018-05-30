@@ -31,7 +31,7 @@
 // *****************************************************************************
 // included header files
 #include "tiffimage_int.hpp"
-#include "types.hpp"
+#include <exiv2/types.hpp>
 
 // + standard includes
 #include <string>

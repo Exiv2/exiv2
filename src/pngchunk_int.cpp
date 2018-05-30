@@ -23,16 +23,17 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef EXV_HAVE_LIBZ
+#include <exiv2/tiffimage.hpp>
+#include <exiv2/jpgimage.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/iptc.hpp>
+#include <exiv2/image.hpp>
+#include <exiv2/error.hpp>
+
 #include "pngchunk_int.hpp"
-#include "tiffimage.hpp"
-#include "jpgimage.hpp"
-#include "exif.hpp"
-#include "iptc.hpp"
-#include "image.hpp"
-#include "error.hpp"
 #include "enforce.hpp"
 
 // + standard includes

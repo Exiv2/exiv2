@@ -30,9 +30,10 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include <exiv2/tags.hpp>
+#include <exiv2/types.hpp>
+
 #include "tags_int.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <iostream>

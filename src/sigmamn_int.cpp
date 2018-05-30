@@ -28,10 +28,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
+#include <exiv2/types.hpp>
+#include <exiv2/value.hpp>
+
 #include "sigmamn_int.hpp"
 #include "tags_int.hpp"
-#include "value.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
