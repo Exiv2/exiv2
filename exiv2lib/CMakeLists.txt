@@ -22,7 +22,6 @@ set( LIBEXIV2_SRC
     exif.cpp
     futils.cpp
     gifimage.cpp
-    helper_functions.cpp
     http.cpp
     image.cpp
     ini.cpp
@@ -123,6 +122,7 @@ set( LIBEXIV2_PRIVATE_SRC
     tiffcomposite_int.cpp
     tiffimage_int.cpp
     tiffvisitor_int.cpp
+    helper_functions.cpp
 )
 
 # Private headers only needed to build the library
@@ -149,6 +149,11 @@ set( LIBEXIV2_PRIVATE_HDR
     tifffwd_int.hpp
     tiffimage_int.hpp
     tiffvisitor_int.hpp
+    enforce.hpp
+    image_int.hpp
+    helper_functions.hpp
+    fff.h
+    timegm.h
 )
 
 
@@ -170,7 +175,7 @@ if( EXIV2_ENABLE_PNG )
     set( LIBEXIV2_SRC ${LIBEXIV2_SRC} pngimage.cpp)
     set( LIBEXIV2_HDR ${LIBEXIV2_HDR} include/exiv2/pngimage.hpp )
     set( LIBEXIV2_PRIVATE_SRC ${LIBEXIV2_PRIVATE_SRC} pngchunk_int.cpp)
-    set( LIBEXIV2_PRIVATE_HDR ${LIBEXIV2_PRIVATE_HDR} include/exiv2/pngimage.hpp)
+    set( LIBEXIV2_PRIVATE_HDR ${LIBEXIV2_PRIVATE_HDR} include/exiv2/pngimage.hpp pngchunk_int.hpp)
 endif()
 
 source_group("Header Files" FILES ${LIBEXIV2_HDR} )
