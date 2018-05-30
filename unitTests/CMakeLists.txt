@@ -21,7 +21,7 @@ target_link_libraries(unit_tests
 target_include_directories(unit_tests
     PRIVATE
         ${GTEST_INCLUDE_DIRS}
-        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/exiv2lib
 )
 
 target_compile_definitions(unit_tests

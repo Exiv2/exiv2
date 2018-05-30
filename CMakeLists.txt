@@ -100,7 +100,7 @@ if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
 
-add_subdirectory( src )
+add_subdirectory( exiv2lib )
 
 if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
