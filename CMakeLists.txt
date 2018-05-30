@@ -81,10 +81,6 @@ if ( EXIV2_ENABLE_EXTERNAL_XMP )
     set(EXIV2_ENABLE_XMP OFF)
 endif()
 
-if( EXIV2_BUILD_UNIT_TESTS )
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
-endif()
-
 include(config/findDependencies.cmake)
 include(config/compilerFlags.cmake)
 include(config/generateConfigFile.cmake )
@@ -100,10 +96,10 @@ if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
 
-add_subdirectory( src )
+add_subdirectory( exiv2lib )
 
-if( EXIV2_BUILD_UNIT_TESTS )
-    add_subdirectory ( unitTests )
+if(EXIV2_BUILD_EXIV2_COMMAND)
+    add_subdirectory( exiv2app )
 endif()
 
 if( EXIV2_BUILD_SAMPLES )
