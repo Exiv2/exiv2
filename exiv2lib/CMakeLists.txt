@@ -99,6 +99,7 @@ set( LIBEXIV2_HDR
     include/exiv2/xmp_exiv2.hpp
     include/exiv2/xmpsidecar.hpp
     include/exiv2/i18n.h
+    include/exiv2/timegm.h
     ${CMAKE_BINARY_DIR}/exv_conf.h
 )
 
@@ -153,7 +154,6 @@ set( LIBEXIV2_PRIVATE_HDR
     image_int.hpp
     helper_functions.hpp
     fff.h
-    timegm.h
 )
 
 

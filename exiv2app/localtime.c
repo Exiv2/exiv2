@@ -3,7 +3,7 @@
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
 */
 
-#include "config.h"
+#include <exiv2/config.h>
 
 #ifdef  _MSC_VER
 #if     _MSC_VER >= _MSC_VER_2015
@@ -11,7 +11,7 @@
 #endif
 #endif
 
-#include "timegm.h"
+#include <exiv2/timegm.h>
 
 /*
 ** This file is in the public domain, so clarified as of

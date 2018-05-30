@@ -37,13 +37,6 @@ if (USING_CONAN AND WIN32)
 endif()
 
 install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-# modify source lists to suit environment
-if(NOT EXV_HAVE_TIMEGM )
-    target_sources(exiv2lib PRIVATE localtime.c)
-endif()
-
-# ******************************************************************************
 # Man page
 install( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 

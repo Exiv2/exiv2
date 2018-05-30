@@ -38,7 +38,7 @@
 #include <exiv2/i18n.h>
 
 #ifndef EXV_HAVE_TIMEGM
-# include "timegm.h"
+    #include <exiv2/timegm.h>
 #endif
 #include "actions.hpp"
 #include "exiv2app.hpp"

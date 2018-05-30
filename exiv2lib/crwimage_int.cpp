@@ -4,7 +4,7 @@
 #include "canonmn_int.hpp"
 
 #ifndef EXV_HAVE_TIMEGM
-# include "timegm.h"
+# include <exiv2/timegm.h>
 #endif
 
 #include <cassert>
