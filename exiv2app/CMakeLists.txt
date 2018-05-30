@@ -5,6 +5,8 @@ set( EXIV2_SRC
      actions.hpp
      utils.cpp
      utils.hpp
+     private.h
+     tzfile.h
 )
 
 add_executable( exiv2 ${EXIV2_SRC} )
@@ -26,7 +28,7 @@ if(NOT EXV_HAVE_TIMEGM )
     target_sources(exiv2    PRIVATE localtime.c)
 endif()
 
-target_sources(exiv2    PRIVATE getopt_win32.c)
+target_sources(exiv2 PRIVATE getopt_win32.c getopt_win32.h)
 
 # Copy DLLs from conan packages to the bin folder
 if (USING_CONAN AND WIN32)
