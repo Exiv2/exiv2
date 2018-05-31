@@ -85,9 +85,11 @@ if( EXIV2_BUILD_UNIT_TESTS )
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
 endif()
 
-include(config/findDependencies.cmake)
-include(config/compilerFlags.cmake)
-include(config/generateConfigFile.cmake )
+include(config/findDependencies.cmake   REQUIRED)
+include(config/compilerFlags.cmake      REQUIRED)
+include(config/generateConfigFile.cmake REQUIRED)
+include(config/generateDoc.cmake        REQUIRED)
+
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
 include( config/CMakeChecks.txt )
@@ -117,19 +119,6 @@ endif()
 ##
 # tests
 add_custom_target(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
-
-##
-# http://dev.exiv2.org/boards/3/topics/1364
-# effectively does a make doc on the root directory
-# has to run 'make config' and './configure'
-# and copy bin/taglist to <exiv2dir>/bin/taglist for use by 'make doc'
-if( MINGW OR UNIX OR APPLE)
-  add_custom_target(doc
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/doc"
-    COMMAND chmod +x ./cmake_doc.sh
-    COMMAND ./cmake_doc.sh "${CMAKE_BINARY_DIR}"
-  )
-endif()
 
 include( config/printSummary.cmake )
 
