@@ -60,7 +60,7 @@ endif()
 # If any cache variable is already set, we'll skip this test.
 if(NOT DEFINED Iconv_IS_BUILT_IN)
   if(UNIX AND NOT DEFINED Iconv_INCLUDE_DIR AND NOT DEFINED Iconv_LIBRARY)
-    cmake_push_check_state(RESET)
+    include(CheckCSourceCompiles)
     # We always suppress the message here: Otherwise on supported systems
     # not having iconv in their C library (e.g. those using libiconv)
     # would always display a confusing "Looking for iconv - not found" message
@@ -87,7 +87,6 @@ if(NOT DEFINED Iconv_IS_BUILT_IN)
     else()
       check_cxx_source_compiles("${Iconv_IMPLICIT_TEST_CODE}" Iconv_IS_BUILT_IN)
     endif()
-    cmake_pop_check_state()
   else()
     set(Iconv_IS_BUILT_IN FALSE)
   endif()
