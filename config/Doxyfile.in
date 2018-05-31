@@ -14,18 +14,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 
-# This tag specifies the encoding used for all characters in the config file
-# that follow. The default is UTF-8 which is also the encoding used for all
-# text before the first occurrence of this tag. Doxygen uses libiconv (or the
-# iconv built into libc) for the transcoding. See
-# http://www.gnu.org/software/libiconv for the list of possible encodings.
-
 DOXYFILE_ENCODING      = UTF-8
-
-# The PROJECT_NAME tag is a single word (or sequence of words) that should
-# identify the project. Note that if you do not use Doxywizard you need
-# to put quotes around the project name if it contains spaces.
-
 PROJECT_NAME           = Exiv2
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number.
@@ -668,7 +657,8 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = ../src/ ../include/exiv2/
+INPUT                  = @INCDIR@ \
+                         @SRCDIR@
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -700,19 +690,19 @@ RECURSIVE              = NO
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = ../samples/Jzon.h \
-                         ../samples/Jzon.cpp \
-                         ../src/actions.hpp \
-                         ../src/actions.cpp \
-                         ../src/getopt_win32.c \
-                         ../src/localtime.c \
-                         ../src/getopt_win32.h \
-                         ../src/private.h \
-                         ../src/timegm.h \
-                         ../src/tzfile.h \
-                         ../src/fff.h \
-                         ../include/exiv2/exv_msvc.h \
-                         ../include/exiv2/exv_msvc-webready.h
+EXCLUDE                = @ROOTDIR@/samples/Jzon.h \
+                         @ROOTDIR@/samples/Jzon.cpp \
+                         @SRCDIR@/actions.hpp \
+                         @SRCDIR@/actions.cpp \
+                         @SRCDIR@/getopt_win32.c \
+                         @SRCDIR@/localtime.c \
+                         @SRCDIR@/getopt_win32.h \
+                         @SRCDIR@/private.h \
+                         @SRCDIR@/timegm.h \
+                         @SRCDIR@/tzfile.h \
+                         @SRCDIR@/fff.h \
+                         @INCDIR@/exv_msvc.h \
+                         @INCDIR@/exv_msvc-webready.h
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -740,7 +730,7 @@ EXCLUDE_SYMBOLS        =
 # directories that contain example code fragments that are included (see
 # the \include command).
 
-EXAMPLE_PATH           = ../samples/
+EXAMPLE_PATH           = @ROOTDIR@/samples/
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp
@@ -1043,42 +1033,11 @@ DOCSET_PUBLISHER_NAME  = Publisher
 # of the generated HTML documentation.
 
 GENERATE_HTMLHELP      = NO
-
-# If the GENERATE_HTMLHELP tag is set to YES, the CHM_FILE tag can
-# be used to specify the file name of the resulting .chm file. You
-# can add a path in front of the file if the result should not be
-# written to the html output directory.
-
 CHM_FILE               =
-
-# If the GENERATE_HTMLHELP tag is set to YES, the HHC_LOCATION tag can
-# be used to specify the location (absolute path including file name) of
-# the HTML help compiler (hhc.exe). If non-empty doxygen will try to run
-# the HTML help compiler on the generated index.hhp.
-
 HHC_LOCATION           =
-
-# If the GENERATE_HTMLHELP tag is set to YES, the GENERATE_CHI flag
-# controls if a separate .chi index file is generated (YES) or that
-# it should be included in the master .chm file (NO).
-
 GENERATE_CHI           = NO
-
-# If the GENERATE_HTMLHELP tag is set to YES, the CHM_INDEX_ENCODING
-# is used to encode HtmlHelp index (hhk), content (hhc) and project file
-# content.
-
 CHM_INDEX_ENCODING     =
-
-# If the GENERATE_HTMLHELP tag is set to YES, the BINARY_TOC flag
-# controls whether a binary table of contents is generated (YES) or a
-# normal table of contents (NO) in the .chm file.
-
 BINARY_TOC             = NO
-
-# The TOC_EXPAND flag can be set to YES to add extra items for group members
-# to the contents of the HTML help documentation and to the tree view.
-
 TOC_EXPAND             = NO
 
 # If the GENERATE_QHP tag is set to YES and both QHP_NAMESPACE and
