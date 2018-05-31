@@ -275,8 +275,7 @@ if( EXIV2_ENABLE_NLS )
 endif()
 
 if( ICONV_FOUND )
-    target_include_directories( exiv2lib SYSTEM PRIVATE ${ICONV_INCLUDE_DIR})
-    target_link_libraries( exiv2lib PRIVATE  ${ICONV_LIBRARIES} )
+    target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
 endif()
 
 

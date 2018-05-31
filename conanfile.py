@@ -20,6 +20,9 @@ class Exiv2Conan(ConanFile):
         self.requires('zlib/1.2.11@conan/stable')
         self.requires('libcurl/7.60.0@bincrafters/stable')
 
+        if os_info.is_windows:
+            self.requires('libiconv/1.15@bincrafters/stable')
+
         if self.options.unitTests:
             self.requires('gtest/1.8.0@bincrafters/stable')
 

@@ -50,13 +50,10 @@ if( EXIV2_ENABLE_NLS )
     # the manual check in config/generateConfigFile.cmake
 endif( )
 
-if(UNIX) # TODO: Try to support this on Windows
-    include( FindIconv )
-    if( ICONV_FOUND )
-        message ( "-- ICONV_INCLUDE_DIR : " ${ICONV_INCLUDE_DIR} )
-        message ( "-- ICONV_LIBRARIES : " ${ICONV_LIBRARIES} )
-        message ( "-- ICONV_ACCEPTS_CONST_INPUT : ${ICONV_ACCEPTS_CONST_INPUT}" )
-    endif()
+include( FindIconv )
+if( ICONV_FOUND )
+    message ( "-- ICONV_INCLUDE_DIR : " ${Iconv_INCLUDE_DIR} )
+    message ( "-- ICONV_LIBRARIES : " ${Iconv_LIBRARY} )
 endif()
 
 if( EXIV2_BUILD_PO )
