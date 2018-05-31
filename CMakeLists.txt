@@ -1,6 +1,6 @@
 # CMakeLists.txt for exiv2 library
 
-cmake_minimum_required( VERSION 3.1.0 )
+cmake_minimum_required( VERSION 3.3.2 )
 project( exiv2 )
 
 include(GNUInstallDirs)
