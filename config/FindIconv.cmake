@@ -1,82 +1,128 @@
-# vim:ts=4:sw=4:expandtab:autoindent:
-#
-# The MIT License
-#
-# Copyright (c) 2008, 2009 Aristid Breitkreuz, Ash Berlin, Ruediger Sonderfeld
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-#
+# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+# file Copyright.txt or https://cmake.org/licensing for details.
 
-include(CheckCXXSourceCompiles)
+#[=======================================================================[.rst:
+FindIconv
+---------
 
-if(ICONV_INCLUDE_DIR)
-  set(ICONV_FIND_QUIETLY TRUE)
+This module finds the ``iconv()`` POSIX.1 functions on the system.
+These functions might be provided in the regular C library or externally
+in the form of an additional library.
+
+The following variables are provided to indicate iconv support:
+
+.. variable:: Iconv_FOUND
+
+  Variable indicating if the iconv support was found.
+
+.. variable:: Iconv_INCLUDE_DIRS
+
+  The directories containing the iconv headers.
+
+.. variable:: Iconv_LIBRARIES
+
+  The iconv libraries to be linked.
+
+.. variable:: Iconv_IS_BUILT_IN
+
+  A variable indicating whether iconv support is stemming from the
+  C library or not. Even if the C library provides `iconv()`, the presence of
+  an external `libiconv` implementation might lead to this being false.
+
+Additionally, the following :prop_tgt:`IMPORTED` target is being provided:
+
+.. variable:: Iconv::Iconv
+
+  Imported target for using iconv.
+
+The following cache variables may also be set:
+
+.. variable:: Iconv_INCLUDE_DIR
+
+  The directory containing the iconv headers.
+
+.. variable:: Iconv_LIBRARY
+
+  The iconv library (if not implicitly given in the C library).
+
+.. note::
+  On POSIX platforms, iconv might be part of the C library and the cache
+  variables ``Iconv_INCLUDE_DIR`` and ``Iconv_LIBRARY`` might be empty.
+
+#]=======================================================================]
+
+if (WIN32)
+  # If neither C nor CXX are loaded, implicit iconv makes no sense.
+  set(Iconv_IS_BUILT_IN FALSE)
 endif()
 
-find_path(ICONV_INCLUDE_DIR iconv.h)
-
-if(NOT ICONV_INCLUDE_DIR STREQUAL "ICONV_INCLUDE_DIR-NOTFOUND")
-    check_function_exists(iconv_open ICONV_IN_GLIBC)
+# iconv can only be provided in libc on a POSIX system.
+# If any cache variable is already set, we'll skip this test.
+if(NOT DEFINED Iconv_IS_BUILT_IN)
+  if(UNIX AND NOT DEFINED Iconv_INCLUDE_DIR AND NOT DEFINED Iconv_LIBRARY)
+    cmake_push_check_state(RESET)
+    # We always suppress the message here: Otherwise on supported systems
+    # not having iconv in their C library (e.g. those using libiconv)
+    # would always display a confusing "Looking for iconv - not found" message
+    set(CMAKE_FIND_QUIETLY TRUE)
+    # The following code will not work, but it's sufficient to see if it compiles.
+    # Note: libiconv will define the iconv functions as macros, so CheckSymbolExists
+    # will not yield correct results.
+    set(Iconv_IMPLICIT_TEST_CODE
+      "
+      #include <stddef.h>
+      #include <iconv.h>
+      int main() {
+        char *a, *b;
+        size_t i, j;
+        iconv_t ic;
+        ic = iconv_open(\"to\", \"from\");
+        iconv(ic, &a, &i, &b, &j);
+        iconv_close(ic);
+      }
+      "
+    )
+    if(CMAKE_C_COMPILER_LOADED)
+      check_c_source_compiles("${Iconv_IMPLICIT_TEST_CODE}" Iconv_IS_BUILT_IN)
+    else()
+      check_cxx_source_compiles("${Iconv_IMPLICIT_TEST_CODE}" Iconv_IS_BUILT_IN)
+    endif()
+    cmake_pop_check_state()
+  else()
+    set(Iconv_IS_BUILT_IN FALSE)
+  endif()
 endif()
 
-if(NOT ICONV_IN_GLIBC)
-    find_library(ICONV_LIBRARY NAMES iconv)
-    set(ICONV_TEST ${ICONV_LIBRARY})
+if(NOT Iconv_IS_BUILT_IN)
+  find_path(Iconv_INCLUDE_DIR
+    NAMES "iconv.h"
+    DOC "iconv include directory")
+  set(Iconv_LIBRARY_NAMES "iconv" "libiconv")
 else()
-    set(ICONV_TEST "In glibc")
+  set(Iconv_INCLUDE_DIR "" CACHE FILEPATH "iconv include directory")
+  set(Iconv_LIBRARY_NAMES "c")
 endif()
 
-set(CMAKE_REQUIRED_LIBRARIES ${ICONV_LIBRARY})
-check_cxx_source_compiles(
-    "#include <iconv.h>
-     int main() {
-        iconv(iconv_t(-1), 0, 0, 0, 0);
-     }"
-    ICONV_COMPILES)
+find_library(Iconv_LIBRARY
+  NAMES ${Iconv_LIBRARY_NAMES}
+  DOC "iconv library (potentially the C library)")
+
+mark_as_advanced(Iconv_INCLUDE_DIR)
+mark_as_advanced(Iconv_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(ICONV DEFAULT_MSG ICONV_TEST ICONV_INCLUDE_DIR ICONV_COMPILES)
-
-if(ICONV_FOUND)
-  set(ICONV_LIBRARIES ${ICONV_LIBRARY})
-else(ICONV_FOUND)
-  set(ICONV_LIBRARIES)
-endif(ICONV_FOUND)
-
-if(ICONV_FOUND)  
-    set(CMAKE_REQUIRED_LIBRARIES ${ICONV_LIBRARIES})
-    check_cxx_source_compiles(
-        "#include <iconv.h>
-         int main() {
-            char *p = 0;
-            iconv(iconv_t(-1), &p, 0, 0, 0);
-         }"
-        ICONV_ACCEPTS_NONCONST_INPUT)
-
-    set(CMAKE_REQUIRED_LIBRARIES ${ICONV_LIBRARIES})
-    check_cxx_source_compiles(
-        "#include <iconv.h>
-         int main() {
-            char const *p = 0;
-            iconv(iconv_t(-1), &p, 0, 0, 0);
-         }"
-        ICONV_ACCEPTS_CONST_INPUT)
+if(NOT Iconv_IS_BUILT_IN)
+  find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY Iconv_INCLUDE_DIR)
+else()
+  find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY)
 endif()
 
-mark_as_advanced(ICONV_LIBRARY ICONV_INCLUDE_DIR)
+if(Iconv_FOUND)
+  set(Iconv_INCLUDE_DIRS "${Iconv_INCLUDE_DIR}")
+  set(Iconv_LIBRARIES "${Iconv_LIBRARY}")
+  if(NOT TARGET Iconv::Iconv)
+    add_library(Iconv::Iconv INTERFACE IMPORTED)
+  endif()
+  set_property(TARGET Iconv::Iconv PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${Iconv_INCLUDE_DIRS}")
+  set_property(TARGET Iconv::Iconv PROPERTY INTERFACE_LINK_LIBRARIES "${Iconv_LIBRARIES}")
+endif()
