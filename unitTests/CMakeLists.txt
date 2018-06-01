@@ -7,6 +7,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_safe_op.cpp
     test_XmpKey.cpp
     test_DateValue.cpp
+    test_TimeValue.cpp
     test_cr2header_int.cpp
     test_helper_functions.cpp
 )
