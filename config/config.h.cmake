@@ -76,11 +76,7 @@
 #cmakedefine EXV_HAVE_TIMEGM
 
 /* Define if you have the <unistd.h> header file. */
-#cmakedefine EXV_HAVE_UNISTD_H 1
-
-#if !defined( EXV_HAVE_UNISTD_H) && defined(__CYGWIN__)
-#define EXV_HAVE_UNISTD_H 1
-#endif
+#cmakedefine EXV_HAVE_UNISTD_H
 
 // Define if you have the <sys/mman.h> header file.
 #cmakedefine EXV_HAVE_SYS_MMAN_H
@@ -102,7 +98,7 @@
 
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
-#cmakedefine EXV_LSTAT_FOLLOWS_SLASHED_SYMLINK 1
+#cmakedefine EXV_LSTAT_FOLLOWS_SLASHED_SYMLINK
 
 /* Define to the name of this package. */
 #cmakedefine EXV_PACKAGE "@EXV_PACKAGE@"
