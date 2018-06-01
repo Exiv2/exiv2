@@ -180,6 +180,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_library( exiv2lib_int OBJECT ${LIBEXIV2_PRIVATE_SRC} ${LIBEXIV2_PRIVATE_HDR})
 add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} $<TARGET_OBJECTS:exiv2lib_int>)
 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+    # Do not check format overflows on this file, to skip a false positive warning
+    set_source_files_properties(value.cpp PROPERTIES COMPILE_FLAGS -Wno-format-overflow)
+endif()
+
 set_target_properties( exiv2lib PROPERTIES
     VERSION       ${GENERIC_LIB_VERSION}
     SOVERSION     ${GENERIC_LIB_SOVERSION}
