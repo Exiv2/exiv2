@@ -1137,10 +1137,11 @@ namespace Exiv2 {
         const ExifKey kX("Exif.Photo.PixelXDimension");
         const ExifKey kY("Exif.Photo.PixelYDimension");
         const ExifKey kO("Exif.Image.Orientation");
-        const ExifData::const_iterator edX = image.exifData().findKey(kX);
-        const ExifData::const_iterator edY = image.exifData().findKey(kY);
-        const ExifData::const_iterator edO = image.exifData().findKey(kO);
-        const ExifData::const_iterator edEnd = image.exifData().end();
+        const ExifData &exivData = image.exifData();
+        const ExifData::const_iterator edX = exivData.findKey(kX);
+        const ExifData::const_iterator edY = exivData.findKey(kY);
+        const ExifData::const_iterator edO = exivData.findKey(kO);
+        const ExifData::const_iterator edEnd = exivData.end();
 
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);

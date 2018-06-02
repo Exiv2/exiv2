@@ -842,7 +842,7 @@ namespace Exiv2 {
                 bool bOdd = (i % 2) != 0;
                 bool bEven = !bOdd;
                 pos[i + 1] = bEven ? *it : pos[i] + *it;
-                it++;
+                ++it;
             }
             pos[count + 1] = io_->size() - pos[count];
 #ifdef DEBUG

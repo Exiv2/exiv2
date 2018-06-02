@@ -479,7 +479,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"curl"          , use_curl);
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; lib++ )
+        for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
             output(os,keys,"library",*lib);
     }
 
@@ -530,7 +530,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     Exiv2::Dictionary ns;
     Exiv2::XmpProperties::registeredNamespaces(ns);
-    for ( Exiv2::Dictionary_i it = ns.begin(); it != ns.end() ; it++ ) {
+    for ( Exiv2::Dictionary_i it = ns.begin(); it != ns.end() ; ++it ) {
         std::string xmlns = (*it).first;
         std::string uri   = (*it).second;
         output(os,keys,name,xmlns+":"+uri);

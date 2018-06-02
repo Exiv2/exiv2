@@ -291,7 +291,7 @@ namespace Exiv2 {
     bool fileExists(const std::string& path, bool ct)
     {
         // special case: accept "-" (means stdin)
-        if (path.compare("-") == 0 || fileProtocol(path)) {
+        if (path.compare("-") == 0 || fileProtocol(path) != pFile) {
             return true;
         }
 
@@ -306,7 +306,7 @@ namespace Exiv2 {
     bool fileExists(const std::wstring& wpath, bool ct)
     {
         // special case: accept "-" (means stdin)
-        if (wpath.compare(L"-") == 0 || fileProtocol(wpath)) {
+        if (wpath.compare(L"-") == 0 || fileProtocol(wpath) != pFile) {
             return true;
         }
 
@@ -411,12 +411,12 @@ namespace Exiv2 {
             iterator_t userEnd   = std::find(authStart, authEnd, ':');
             if (userEnd != authEnd) {
                 result.Username = std::string(userStart, userEnd);
-                userEnd++;
+                ++userEnd;
                 result.Password = std::string(userEnd, authEnd);
             } else {
                 result.Username = std::string(authStart, authEnd);
             }
-            authEnd++;
+            ++authEnd;
         } else {
           authEnd = protocolEnd;
         }
@@ -434,7 +434,7 @@ namespace Exiv2 {
         // port
         if ((hostEnd != uriEnd) && ((&*(hostEnd))[0] == ':'))  // we have a port
         {
-            hostEnd++;
+            ++hostEnd;
             iterator_t portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
             result.Port = std::string(hostEnd, portEnd);
         }
