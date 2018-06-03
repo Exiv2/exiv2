@@ -267,88 +267,88 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 }
 
 int main(int argc, char* const argv[])
-try {
-    if (argc < 2 || argc > 3) {
-        std::cout << "Usage: " << argv[0] << " [-option] file"       << std::endl;
-        std::cout << "Option: all | exif | iptc | xmp | filesystem"  << std::endl;
-        return 1;
-    }
-    const char* path   = argv[argc-1];
-    const char* opt    = argc == 3 ? argv[1] : "-all" ;
-    while      (opt[0] == '-') opt++ ; // skip past leading -'s
-    char        option = opt[0];
-
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
-    assert(image.get() != 0);
-    image->readMetadata();
-
-    Jzon::Object   root;
-
-    if ( option == 'f' ) { // only report filesystem when requested
-        const char*    FS="FS";
-        Jzon::Object      fs  ;
-        root.Add(FS,fs) ;
-        fileSystemPush(path,root.Get(FS));
-    }
-
-    if ( option == 'a' || option == 'e' ) {
-        Exiv2::ExifData &exifData = image->exifData();
-        for ( Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i ) {
-            std::string name   ;
-            Jzon::Node& object = objectForKey(i->key(),root,name);
-            push(object,name,i);
+{
+    try {
+        if (argc < 2 || argc > 3) {
+            std::cout << "Usage: " << argv[0] << " [-option] file"       << std::endl;
+            std::cout << "Option: all | exif | iptc | xmp | filesystem"  << std::endl;
+            return 1;
         }
-    }
+        const char* path   = argv[argc-1];
+        const char* opt    = argc == 3 ? argv[1] : "-all" ;
+        while      (opt[0] == '-') opt++ ; // skip past leading -'s
+        char        option = opt[0];
 
-    if ( option == 'a' || option == 'i' ) {
-        Exiv2::IptcData &iptcData = image->iptcData();
-        for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcData.end(); ++i) {
-            std::string name   ;
-            Jzon::Node& object = objectForKey(i->key(),root,name);
-            push(object,name,i);
+        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        assert(image.get() != 0);
+        image->readMetadata();
+
+        Jzon::Object   root;
+
+        if ( option == 'f' ) { // only report filesystem when requested
+            const char*    FS="FS";
+            Jzon::Object      fs  ;
+            root.Add(FS,fs) ;
+            fileSystemPush(path,root.Get(FS));
         }
-    }
 
-#ifdef EXV_HAVE_XMP_TOOLKIT
-    if ( option == 'a' || option == 'x' ) {
-
-        Exiv2::XmpData  &xmpData  = image->xmpData();
-        if ( !xmpData.empty() ) {
-            // get the xmpData and recursively parse into a Jzon Object
-            Exiv2::StringSet     namespaces;
-            for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
+        if ( option == 'a' || option == 'e' ) {
+            Exiv2::ExifData &exifData = image->exifData();
+            for ( Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i ) {
                 std::string name   ;
-                Jzon::Node& object = objectForKey(i->key(),root,name,&namespaces);
+                Jzon::Node& object = objectForKey(i->key(),root,name);
                 push(object,name,i);
             }
-
-            // get the namespace dictionary from XMP
-            Exiv2::Dictionary                          nsDict;
-            Exiv2::XmpProperties::registeredNamespaces(nsDict);
-
-            // create and populate a Jzon::Object for the namespaces
-            Jzon::Object    xmlns;
-            for ( Exiv2::StringSet_i it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
-                std::string ns  = *it       ;
-                std::string uri = nsDict[ns];
-                xmlns.Add(ns,uri);
-            }
-
-            // add xmlns as Xmp.xmlns
-            root.Get("Xmp").AsObject().Add("xmlns",xmlns);
         }
+
+        if ( option == 'a' || option == 'i' ) {
+            Exiv2::IptcData &iptcData = image->iptcData();
+            for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcData.end(); ++i) {
+                std::string name   ;
+                Jzon::Node& object = objectForKey(i->key(),root,name);
+                push(object,name,i);
+            }
+        }
+
+    #ifdef EXV_HAVE_XMP_TOOLKIT
+        if ( option == 'a' || option == 'x' ) {
+
+            Exiv2::XmpData  &xmpData  = image->xmpData();
+            if ( !xmpData.empty() ) {
+                // get the xmpData and recursively parse into a Jzon Object
+                Exiv2::StringSet     namespaces;
+                for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
+                    std::string name   ;
+                    Jzon::Node& object = objectForKey(i->key(),root,name,&namespaces);
+                    push(object,name,i);
+                }
+
+                // get the namespace dictionary from XMP
+                Exiv2::Dictionary                          nsDict;
+                Exiv2::XmpProperties::registeredNamespaces(nsDict);
+
+                // create and populate a Jzon::Object for the namespaces
+                Jzon::Object    xmlns;
+                for ( Exiv2::StringSet_i it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
+                    std::string ns  = *it       ;
+                    std::string uri = nsDict[ns];
+                    xmlns.Add(ns,uri);
+                }
+
+                // add xmlns as Xmp.xmlns
+                root.Get("Xmp").AsObject().Add("xmlns",xmlns);
+            }
+        }
+    #endif
+
+        Jzon::Writer writer(root, Jzon::StandardFormat);
+        writer.Write();
+        std::cout << writer.GetResult() << std::endl;
+        return 0;
     }
-#endif
 
-    Jzon::Writer writer(root,Jzon::StandardFormat);
-    writer.Write();
-    std::cout << writer.GetResult() << std::endl;
-    return 0;
-}
-
-//catch (std::exception& e) {
-//catch (Exiv2::AnyError& e) {
-catch (Exiv2::Error& e) {
-    std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
-    return -1;
+    catch (Exiv2::Error& e) {
+        std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
+        return -1;
+    }
 }
