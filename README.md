@@ -2,151 +2,169 @@
 |:-------------:|:-------------:|:-----:|
 | [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/master?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/master) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/master/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/master) |
 
-
-<pre><code>
-    @@@Marco@@@@@b                   ;mm                       /##Gilles###\
-    j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
-     @@@#       \                     ##                     @@@b     |@@@b
-     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
-     @@@#           j@@@@,   ]@@#/  '@@@#  j@@@#      ]@@^           ;@@@"
-     @@@Andreas@C     "@@@p @@@"     @@@b   j@@@p     @@b           @@@#/
-     @@@#^7"7%#\       ^@@@@@#~      Benb    1@@@    {@#          s@@@#
-     @@@#                Niels       @@@b     @@@Q  ]@#         ;@@@#/
-     @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
-     @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
-    ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
-</code></pre>
-
-Exiv2
-======================
+# Building Exiv2 Library and Command-line tools
 
 Welcome to Exiv2, a C++ library and a command line utility to read and
-write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
+write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is: [http://exiv2.org](http://exiv2.org)
 
-    http://www.exiv2.org/
+<pre><code>
+    @@@Luis@@@@@b                    ;mm                        /#####Dan###\
+    j@@@#Robin",                     ;MM                      /@@@Michal@@@@Q
+     @@@#       \                     ##                     @@@b     |@@@b
+     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      |@@#
+     @@@#           j@@@@,   ]@@#/  '@@@#  j@@@#      ]@@^           ;@@@"
+     @@@Andreas@C     "@@@p @@@"     @@@b   j@@@p     @@b           @@@#/
+     @@@#^7"7%#\       ^@@@@@#~      @@@b    1@@@    {@#          s@@@#
+     @@@#                Henri       @@@b     @@@Q  ]@#         ;@@@#/
+     @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
+     @@@#       ,/    s@@#   @@@@    @@@b       @@@@@@       @@@@@@@K
+    ]@@Elizabeth@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@Alison@@#
+    /http://www.exiv2.org/\    C++  Metadata   Library    /@Exiv2@@@v0.27\
+</code></pre>
 
-See [doc/ChangeLog](https://github.com/Exiv2/exiv2/blob/master/doc/ChangeLog)
-for a list of recent changes to Exiv2.
+<name id="TOC"></a>
+----
+### T A B L E &nbsp;&nbsp;&nbsp; O&nbsp;&nbsp;F &nbsp;&nbsp;&nbsp; C O N T E N T S
 
-Exiv2 API and tag reference documentation is at http://www.exiv2.org/doc
-or you can build it and point your browser to `doc/index.html`.
+1. [Building and Installing Exiv2](#1)
+    1. [Build and install dependent libraries](#1-1)
+    2. [Using CMake](#1-2)
+    3. [Exiv2 Build Options](#1-3)
+    4. [Build, test and install on *ix* Platforms](#1-4)
+    5. [Building with Visual Studio](#1-5)
+    6. [Building Exiv2 using conan](#1-6)
 
-For more information on XMP support in Exiv2, see [doc/README-XMP](https://github.com/Exiv2/exiv2/blob/master/doc/README-XMP).
+2. [Linking your own code to the Exiv2 library] (#2)
+3. [Trouble Shooting and Support] (#3)
+4. [Building Exiv2 Documentation] (#4)
+5. [License] (#5)
 
-Building and Installing
-=======================
+<name id="1"></a>
+----
+## 1) Building and Installing
 
-You can build the libraries in the following ways:
+You build Exiv2 using CMake with the compiler tool-chain on your platform.
+Exiv2 supports Linux, MacOS-X, Cygwin and Visual Studio (2015 and 2017).
 
-1 Autotools: UNIX-like systems (including GNU/Linux, MacOS-X, Cygwin (32 and 64), MinGW (32 and 64)
-  - general notes follow
-  - FAQ concerning Cygwin/MSYS and Mac OS X:
-    http://dev.exiv2.org/projects/exiv2/wiki/FAQ
+CMake is freely available from [http://www.cmake.org/](http://www.cmake.org/).
 
-2 Microsoft Visual C++ solutions
-  - see [msvc/ReadMe.txt](https://github.com/Exiv2/exiv2/blob/master/msvc/ReadMe.txt)      (32bit and 64bit builds Visual Studio 2005,08,10,12,13,15)
+<name id="1-1"></a>
+### 1.1) Build and install dependent libraries
 
-3 CMake (support for all platforms/compilers except MinGW)
-  - see [README-CMAKE](https://github.com/Exiv2/exiv2/blob/master/README-CMAKE)
-    for more information
+| Library | Available | Purpose |
+|:--------|:----------|:--------|
+| _**expat**_       | http://expat.sourceforge.net/ | XML Support (required by XMP) |
+| _**zlib**_        |  http://zlib.net/ | PNG Support |
+| _**gettext**_ \*  |  http://www.gnu.org/software/gettext/ | Natural Language Support |
+| _**libiconv**_ \* | http://www.gnu.org/software/libiconv/ | Character set conversions |
 
-To build a commercial version of the Exiv2 library, see also section
-"Commercial version" at the end of this file.
+\* On many Linux distros, gettext and libiconv are included in the default libraries, or within libc and can be used without special installation.
 
-On UNIX-like systems, use the GNU configure script. Run the following
-commands from the top directory (containing this file) to configure,
-build and install the library and utility:
+To install libraries, download the source bundle and build with the usual:
 
-    $ ./configure
-    $ make
-    $ sudo make install  (Cygwin/MinGW $ make install)
+```bash
+$ cd <expatdir>
+$ ./configure
+$ make
+$ sudo make install
+```
 
-Caution:
-    If you downloaded the source code from the git repository,
-    you will have to generate the configure script:
+If you encounter difficulties when building a dependent library, consult the documentation included with the source code of the library.
 
-    $ make config
-    $ ./configure
-    $ make
-    $ sudo make install  (Cygwin/MinGW $ make install)
+An alternative way to use the cross-platform package manage conan to install the  dependent libraries is to use conan (except Cygwin).  See [README-CONAN](README-CONAN.md)
 
-To build the sample applications:
+<name id="1-2"></a>
+### 1.2) Using CMake
+CMake has many options and the following are very useful with Exiv2 :
 
-    $ make samples
+<name id="install-prefix"></a>
 
-The default install locations are `/usr/local/lib` for the library,
-`/usr/local/bin` for the `exiv2` utility and `/usr/local/include/exiv2` for the
-header files. Use the `--prefix=directory` option of the configure script to
-change the default. Run `./configure --help` to see a list of all options.
+<table>
+<tr><th>cmake option&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </th><th> Meaning </th><th> More </th></tr>
+<tr><td>&#x2011;DCMAKE_INSTALL_PREFIX=</td><td colspan="2""> Installation tree for the build.  Default: <i>/usr/local/</i></td></tr>
+<tr><td>&#x2011;DCMAKE_BUILD_TYPE=     <td colspan=2> Type of build. Choices: </td></tr>
+<tr><td></td><td>                         debugfull     </td><td> Include all debug information. </td></tr>
+<tr><td></td><td>                         debug</td><td></td></tr>
+<tr><td></td><td>                         profile</td><td></td></tr>
+<tr><td></td><td>                         relwithdebinfo </td><td>Default: use gcc -O2 -g options.</td></tr>
+<tr><td></td><td>                         release        </td><td>generate stripped and optimized bin files. For packaging.</td></tr>
+<tr><td>&#x2011;DBUILD_SHARED_LIBS=ON <td> Build DLL </td><td>OFF for static library.</td></tr>
+<tr><td>&#x2011;DCMAKE_CXX_FLAGS="xxxxx"  <td colspan=2> Pass specific compiler flags or definitions to the
+compiler.<br>Example: &#x2011;DCMAKE_CXX_FLAGS="-DDEBUG" to compile debug blocks of code. </td></tr>
+</table>
 
-To uninstall Exiv2 from a UNIX-like system, run:
+<name id="1-3"></a>
+### 1.3) Exiv2 Build Options
 
-    $ sudo make uninstall
+Exiv2 has many build options:
 
-Dependencies
-============
+```bash
+$ cd <exiv2dir>
+$ grep ^option CMakeLists.txt
+option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
+option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
+option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
+option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
+option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      ON  )
+option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
+option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
+option( EXIV2_ENABLE_VIDEO            "Build video support into library"                      OFF )
+option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
+option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            OFF )
+option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
+option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo"                                OFF )
+option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo"                                  OFF )
+option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
+option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
+option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
+option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
+option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
+option( EXIV2_TEAM_WARNINGS_AS_ERRORS "Treat warnings as errors"                              OFF )
+option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
+```
 
-The following libexiv2 features are enabled by default and may
-require external libraries. They can be controlled through configure
-options. See also `./configure --help`.
+You specify and option with the syntax:
 
-    Feature                     Package   Configure options
-    --------------------------  --------  ----------------------------
-    PNG image support           zlib      --without-zlib
-                                          --with-zlib=DIR
-    Native language support     gettext   --disable-nls
-    Characterset conversions    libiconv  --without-libiconv-prefix
-                                          --with-libiconv-prefix[=DIR]
-    XMP support                 expat     --disable-xmp
-                                          --with-expat=DIR
+```bash
+$ cmake .. -DBUILD_SHARED_LIBS=OFF .. -DEXIV2_ENABLE_XMP=OFF
+```
 
-	zlib         http://zlib.net/
-	gettext  *)  http://www.gnu.org/software/gettext/
-	libiconv *)  http://www.gnu.org/software/libiconv/
-	expat        http://expat.sourceforge.net/
+<name id="1-4"></a>
+### 1.4) Build, test and install on _***ix**_ platforms (Linux, Cygwin and MacOS-X)
+On _***ix**_ p platforms such as Linux, Cygwin and MacOS-X, the recommended way to build Exiv2 is:
 
-*) Some systems have gettext and iconv in libc. The configure script
-(and CMake) should detect this.
 
-On Linux, it is usually best to install the dependencies through the
-package management system of the distribution together with the
-corresponding development packages (for the header files and static
-libraries).
+```bash
+$ cd <exiv2dir>
+$ mkdir build
+$ cd build
+$ cmake ..
+$ cmake --build . --config Release
+$ make test
+$ sudo make install
+```
 
-To build the sample programs in the
-[samples/](https://github.com/Exiv2/exiv2/tree/master/samples)
-directory (`make samples`), you also need to have the `pkg-config`
-program.
+##### Uninstall:
 
-To generate the documentation (`make doc`), you will further need
-`doxygen`, `graphviz`, `python` and `xsltproc`.
+```bash
+$ sudo make uninstall
+```
 
-	pkg-config   http://pkg-config.freedesktop.org/wiki/
-	doxygen      http://www.doxygen.org/
-	graphviz     http://www.graphviz.org/
-	python       http://www.python.org/
-	xsltproc     http://xmlsoft.org/XSLT/
-	md5sum       http://www.microbrew.org/tools/md5sha1sum/
+<name id="1-5"></a>
+### 1.5) Build and install using Visual Studio
 
-Troubleshooting
-===============
+See [README-CONAN](README-CONAN.md)
 
-If you have problems building Exiv2 on UNIX-like systems, check the
-generated `config/config.mk` and `config/config.h` files. You should *not*
-need to modify any Makefile directly, in particular not `src/Makefile`!
+<name id="1-6"></a>
+### 1.6) Building Exiv2 with CMake and conan
 
-Support
-=======
+See [README-CONAN](README-CONAN.md)
 
-All project resources are accessible from the project website at
-http://dev.exiv2.org/projects/exiv2/wiki
 
-Please send feedback or queries to the Exiv2 forum. For new bug reports
-and feature requests, please open an issue.
 
-Linking your own code with Exiv2
-================================
+<name id="2"></a>
+## 2) Linking your own code with Exiv2
+
 
 A pkg-config .pc file is installed together with the library.
 Application developers can use `pkg-config(1)` to obtain correct
@@ -169,10 +187,47 @@ be a pain when trying to debug a program. For that reason, compilation
 of shared libraries can be turned off by specifying the
 `--disable-shared` option to the configure script.
 
-License
-=======
+[TOC](#TOC)
 
-Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
+<name id="3"></a>
+## 3) Troubleshooting and Support
+
+<name id="3-1"></a>
+### 3.1) Troubleshooting
+
+If you have problems building Exiv2 on UNIX-like systems, check the
+generated `config/config.mk` and `config/config.h` files. You should *not*
+need to modify any Makefile directly, in particular not `src/Makefile`!
+
+<name id="3-2"></a>
+### 3.2) Support
+
+All project resources are accessible from the project website at
+http://dev.exiv2.org/projects/exiv2/wiki
+
+Please send feedback or queries to the Exiv2 forum. For new bug reports
+and feature requests, please open an issue.
+
+[TOC](#TOC)
+
+<name id="4"></a>
+## 4) Building Exiv2 Documentation
+
+To generate the documentation (`make doc`), you will further need
+`doxygen`, `graphviz`, `python` and `xsltproc`.
+
+| Tool | Available | Purpose |
+|:---- | :-------- | :------ |
+|	doxygen    |  http://www.doxygen.org/ | Generates documentation from code comments |
+|	graphviz   |  http://www.graphviz.org/ | Graphics generator used by doxygen |
+|	python     |  http://www.python.org/ | Scripting language |
+|	xsltproc   |  http://xmlsoft.org/XSLT/ | XML Manipulation Language Processor |
+|	md5sum     |  http://www.microbrew.org/tools/md5sha1sum/ | Checksum calculator |
+
+[TOC](#TOC)
+
+<name id="5"></a>
+## 5) License
 
 Exiv2 is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free
@@ -189,18 +244,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, 5th Floor, Boston,
 MA 02110-1301 USA.
 
-Commercial version
-==================
-
-If you have a commercial license, you must disable NLS support and
-the conversion of Nikon lens data to readable lens names to build a
-commercial version of the Exiv2 library.
-
-To do this on Windows, compile the library with the preprocessor
-symbol `EXV_COMMERCIAL_VERSION` defined in `msvc\include\exv_msvc.h`
-
-On UNIX-like systems, run the configure script with the options
-`--enable-commercial --disable-nls --disable-lensdata`.
-
-# That's all Folks
-##
+[TOC](#TOC)
