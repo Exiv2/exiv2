@@ -3,12 +3,13 @@
 from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
 
 
-class TestFirstPoC(metaclass=CaseMeta):
+class TestCvePoC(metaclass=CaseMeta):
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/283
     """
     url = "https://github.com/Exiv2/exiv2/issues/283"
+    cve_url = "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-11531"
 
     def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
         """ Override of system_tests.check_no_ASAN_UBSAN_errors for this particular test case.
