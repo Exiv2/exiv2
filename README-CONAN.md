@@ -1,108 +1,83 @@
-# How to use conan
+# How to use conan to build Exiv2 and dependencies
 
-Conan is a portable package manager for C/C++ libraries. It can be used for bringing all the dependencies needed to
+Conan is a portable package manager for C/C++ libraries. It can be used to bring all the dependencies needed to
 build Exiv2 into local directories, without needing to install system packages.
 
 This document provides a step-by-step guide to show you the basic usage of conan. For more details about the tool,
-please visit their [documentation website](http://docs.conan.io/en/latest/).
+please visit the [Conan documentation website](http://docs.conan.io/en/latest/).
 
+Although we provide step-by-step instructions to enable you to build Exiv2 with conan, we strongly recommend that you
+read conan's documentation to understand the main concepts: [Getting started with Conan](http://docs.conan.io/en/latest/getting_started.html)
 
-## Main concepts
+To build Exiv2 with conan, you will also need to install CMake.  For more information see [README-CMAKE](README-CMAKE)
 
-Even when the following instructions will allow you to use conan directly, we strongly recommend to take a look to their
-"Getting started" [page](http://docs.conan.io/en/latest/getting_started.html), to better understand the main concepts.
+<name id="TOC"></a>
+----
+### T A B L E &nbsp;&nbsp;&nbsp; O&nbsp;&nbsp;F &nbsp;&nbsp;&nbsp; C O N T E N T S
 
-In the root level of the **Exiv2** repository, there is a file named `conanfile.py` that defines the C/C++ dependencies
-of the project. One of the dependencies is **Expat**, and it is stated like this:
+1. [Step by Step Guide](#1)
+    1. [Install conan](#1-1)
+    2. [Test conan installation](#1-2)
+    3. [Create a build directory](#1-3)
+    4. [Build dependencies and install conan artefacts in your build directory](#1-4)
+    5. [Execute cmake to generate build files for your environment:](#1-5)
+2. [Platform Notes](#2)
+    1. [Linux Notes](#2-1)
+    2. [Visual Studio Notes](#2-2)
+    3. [Cygwin Notes](#2-3)
+    4. [MinGW Notes](#2-4)
+3. [Conan Architecture](#3)
+    1. [conanfile.py](#3-1)
+    2. [Conan Recipes](#3-2)
+    3. [Conan server search path](#3-3)
+    4. [Configuring conan on your machine](#3-4)
+4. [Building Exiv2 with Adobe XMPsdk 2016](#4)
+    1. [Add a remote directory to conan's recipe search path](#4-1)
+    2. [Build dependencies and install conan artefacts in your build directory](#4-2)
+    3. [Execute cmake to generate build files for your environment](#4-3)
+    4. [Build Exiv2 and link Adobe XMPsdk library](#4-4)
 
-```python
-self.requires('Expat/2.2.5@pix4d/stable')
-```
+<name id="1"></a>
+----
+# 1 Step by Step Guide
 
-The syntax stands for: `Library/version@user/channel`.
-
-Conan will search for these dependencies in a list of remotes. In those servers there are recipes (the python code that
-explains how to build a library from its sources) and binary packages (different versions of the library for several
-combinations of configurations: Platform/Compiler/Settings). If there is already a packages for your configuration,
-conan will fetch them. Otherwise, it will compile the libraries for you by using the instructions provided in the
-recipe. To better illustrate this idea, here we show a list of packages that is returned by the command `conan search`
-
-```bash
-conan search -r conan-center zlib/1.2.11@conan/stable
-
-   # conan-center zlib/1.2.11@conan/stable (This is the recipe for which we were searching packages)
-
-   Package_ID: ff0b79bd9b0fc1d915200da2fe02ae326cef4b1b
-       [options]
-           shared: False
-       [settings]
-           arch: x86_64
-           build_type: Debug
-           compiler: gcc
-           compiler.exception: seh
-           compiler.threads: posix
-           compiler.version: 4.9
-           os: Windows
-       Outdated from recipe: False
-
-   Package_ID: ff5ec8938c949149b25b89d656bed297cd5d5aad
-       [options]
-           shared: False
-       [settings]
-           arch: x86
-           build_type: Debug
-           compiler: clang
-           compiler.version: 3.9
-           os: Linux
-       Outdated from recipe: False
-
-   Package_ID: ff82a1e70ba8430648a79986385b20a3648f8c19
-       [options]
-           shared: True
-       [settings]
-           arch: x86_64
-           build_type: Debug
-           compiler: Visual Studio
-           compiler.runtime: MDd
-           compiler.version: 15
-           os: Windows
-       Outdated from recipe: False
-```
-
-## Installation
-
-There are several ways to install conan, but the recommended one is using **pip**.
+<name id="1-1"></a>
+##### 1.1) </a>Install conan:
 
 ```bash
-pip install conan
+$ pip install conan
 ```
-
 For other installation methods (brew, installers, from sources), visit this [link]([install
 conan](http://docs.conan.io/en/latest/installation.html)).
 
-By default, conan only point to few public conan repositories. However you can add more easily. We rely in the usage of
-the **bincrafters** and **piponazo** repositories to find some of the dependencies (libcurl and XmpSdk) . Therefore, we
-will need to add it to the list of remotes
-(we only need to do this once):
+To upgrade the version of conan:
 
 ```bash
-conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponazo
+$ pip install conan --upgrade
 ```
 
-## Basic usage
+<name id="1-2"></a>
+##### 1.2) Test conan installation
 
-The first thing we need to do, is to check that conan was properly installed and you can access it:
 ```bash
 $ conan --version
-Conan version 1.1.1
+Conan version 1.4.1
 ```
 
-The first time you run conan, it will auto-detect your configuration and store it in a default profile in the file
-$HOME/.conan/profiles/default. In case you are using Windows, and have a installation of Visual Studio 2017, the default
-profile will look like this:
+<name id="1-3"></a>
+##### 1.3) Create a build directory<name id="1-3"></a>
 
-```Ini
+Create a build directory and will run the conan commands:
+
+```bash
+$ mkdir build
+$ cd build
+$ conan profile list
+```
+
+**IMPORTANT** _**Visual Studio Users**_ require the profile msvc2017Release64 in %HOMEPATH%/.conan/profile/msvc2017Release64
+
+```ini
 [build_requires]
 [settings]
 arch=x86_64
@@ -117,25 +92,318 @@ os_build=Windows
 [env]
 ```
 
-But normally you will want to define new profiles for choosing different compilers (msvc, gcc, clang), different
-build_type (Release, Debug), runtimes (MD, MT, MDd, MTd), etc. Let´s create a copy of the default profile and name if
-**msvc2017Release**.
+<name id="1-4"></a>
+##### 1.4) Build dependencies and install conan artefacts in your build directory</a>
 
-Then, we will create a build directory where we will run the conan commands and we access it:
+Execute `$ conan install` pointing to the directory containing `conanfile.py`.
+
 ```bash
-$ mkdir build
-$ cd build
+$ conan install .. --build missing  # --profile msvc2017Release64
 ```
 
-Finally, we use the `conan install` command pointing to the directory where the `conanfile.py` is, to bring the
-dependencies:
+_**Visual Studio Users**_ should use `--profile msvc2017Release64`
+
+The output from this command is quite long as conan downloads or builds zlib, expat, curl and other dependencies.
+
+<name id="1-5"></a>
+##### 1.5) Execute cmake to generate build files for your environment.
+
 ```bash
-$ conan install .. --profile msvc2017Release
+$ cmake ..  # -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
 ```
+
+_**Visual Studio Users**_ should use define the Generator and Build Type:
+
+More information about CMake/Exiv2: [README-CMAKE](README-CMAKE).
+
+<name id="1-6"></a>
+##### 1.6) Build Exiv2:
+
+```bash
+$ cmake --build . --config Release
+```
+
+[TOC](#TOC)
+
+<name id="2"></a>
+## 2) Platform Notes
+
+<name id="2-1"></a>
+### 2.1) Linux Notes
+
+##### Default Profile
+
+When you run conan install for the first time, it will detect and write the default profile ~/.conan/profile/default.  On my Ubuntu system with GCC 4.9, this is:
+
+```bash
+[settings]
+os=Linux
+os_build=Linux
+arch=x86_64
+arch_build=x86_64
+compiler=gcc
+compiler.version=4.9
+compiler.libcxx=libstdc++
+build_type=Release
+[options]
+[build_requires]
+[env]
+```
+
+##### Changing profile settings
+
+One of the most important **profile** settings to be adjusted in your conan profile when working on Linux is the field
+
+```bash
+compiler.libcxx=libstdc++11  # Possible values: libstdc++, libstdc++11, libc++
+```
+With the arrival of the c++11 standard, and the growing popularity of the *clang* compiler, it is increasingly important which version of the standard library to use (corresponds to the `-stdlib` compiler flag).
+
+Recommended **libcxx**
+settings works with conan and different compilers:
+
+```bash
+compiler.libcxx=libstdc++11  # will use -stdlib=libstdc++ and define _GLIBCXX_USE_CXX11_ABI=1
+compiler.libcxx=libstdc++    # will use -stdlib=libstdc++ and define _GLIBCXX_USE_CXX11_ABI=0
+compiler.libcxx=libc++       # will use -stdlib=libc++
+
+```
+
+As a rule of thumb, set `compiler.libcxx=libstdc++11` when using a version of gcc >= 5.1.
+
+More information about the standard library and GCC [dual ABI in gcc](https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html) with GCC works.
+
+Please, be aware that normally when using gcc >= 5.1, \_GLIBCXX\_USE\_CXX11\_ABI is set to 1 by default. However some linux
+distributions might set that definition to 0 by default. In case you get linking errors about standard c++ containers or
+algorithms when bringing the Exiv2 dependencies with conan, this might indicate a mismatch between the value set in
+**compiler.libcxx** and the default values used in your distribution.
+
+<name id="2-2"></a>
+### 2.2) Visual Studio Notes
+
+### Profiles for Visual Studio
+
+You can build Exiv2 with either Visual Studio 2015 (version 14) or 2017 (version 15).  You create profiles in %HOMEPATH%\.conan\profiles with a text editor.
+
+If you have an installation of Visual Studio 2017, the profile msvc2017Release64 is as follows:
+
+```ini
+[build_requires]
+[settings]
+arch=x86_64
+build_type=Release
+compiler=Visual Studio
+compiler.runtime=MD
+compiler.version=15
+os=Windows
+arch_build=x86_64
+os_build=Windows
+[options]
+[env]
+```
+
+### CMake Generators for Visual Studio
+
+In the step-by-step guide, the command `$ cmake ..` uses
+the default CMake generator.  Always use the generator for your version of Visual Studio.  For example:
+
+```bash
+c:\....\exiv2\build> conan install .. --profile msvc2017Release64 --build missing
+c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
+c:\....\exiv2\build> cmake --build .  --config Release
+```
+
+CMake provides 4 Generators.  The 64 and 32 bit Generators have different names:
+
+| Architecture | Visual Studio 2015 | Visual Studio 2017|
+|:---------|--------------------|--------------------|
+| 64 bit | "Visual Studio 14 2015 Win64"    | "Visual Studio 15 2017 Win64" |
+| 32 bit | "Visual Studio 14 2015"    | "Visual Studio 15 2017" |
+
+### Recommended settings for Visual Studio
+
+
+##### 64 bit Release Build
+
+| | Visual Studio 2015 | Visual Studio 2017|
+|:---------|--------------------|--------------------|
+| _**conan install .. --profile**_ | msvc2015Release64 | msvc2017Release64 |
+| _**cmake -G**_                   |  "Visual Studio 14 2015 Win64"    | "Visual Studio 15 2017 Win64" |
+| _**cmake**_                      | -DCMAKE\_BUILD\_TYPE=Release | -DCMAKE\_BUILD\_TYPE=Release |
+| _**profile**_ | arch=x86\_64  | arch=x86\_64 |
+| | arch\_build=x86\_64 | arch\_build=x86\_64 |
+| | build\_type=Release | build\_type=Release |
+| | compiler.runtime=MD | compiler.runtime=MD |
+| | compiler.version=14 | compiler.version=15 |
+| | compiler=Visual Studio | compiler=Visual Studio |
+| | os=Windows | os=Windows |
+| | os\_build=Windows | os\_build=Windows |
+
+##### Debug Builds
+
+|| Visual Studio 2015 | Visual Studio 2017|
+|:-------|-------|------|
+| _**conan install .. --profile**_ | msvc2015Debug64 | msvc2017Debug64 |
+| _**cmake**_ | -DCMAKE\_BUILD\_TYPE=Debug | -DCMAKE\_BUILD\_TYPE=Debug |
+| _**profile**_ | build_type=Debug | build_type=Debug |
+| | compiler.runtime=MDd | compiler.runtime=MDd |
+
+##### 32bit Builds
+
+|| Visual Studio 2015 | Visual Studio 2017|
+|:-----------|--------------------|--------------------|
+| _**conan install .. --profile**_ | msvc2015Release32 | msvc2017Release32 |
+| _**cmake -G**_ | "Visual Studio 14 2015" | "Visual Studio 15 2017" |
+| _**profile**_ | arch=x86 | arch=x86 |
+| | arch_build=x86 | arch_build=x86 |
+
+### Modifying build settings in the Visual Studio IDE
+
+**CAUTION** You can change the runtime library in Visual Studio once you open the
+solution generated by CMake.  If you have generated a project to use the dynamic run-time library
+with the profile setting `compiler.runtime=MD` (or MDd), Visual Studio allows you to change that setting.
+However the libraries (provided by conan) to which you link are tied
+to a specific configuration and you will obtain linking errors.
+
+If you want to work with the static runtime library `MT` (or `MTd`), set up the profiles and build in a different directory such as build-static.
+
+### Changing profile settings with the conan command
+
+It is recommended that you create 8 profiles for msvc{2017|2015}{Release|Debug}{64|32}.
+
+You can modify profile settings on the command line.
+The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!
+
+```bash
+$ conan install .. --profile msvc2017Release64 -s arch_build=x86 -s arch=x86 -s compiler.version=14
+$ cmake         .. -G "Visual Studio 2015"
+$ cmake --build .  --config Release
+```
+
+### CMake/Cygwin Collisions on the build machine
+
+If you have Cygwin installed on your build machine, you may encounter the situation
+that CMake erroneously finds library files in Cygwin directories and adds `c:\\cygwin64\\usr\\include` to the
+compiler header search path.  FindIntl is a prime suspect and believe it's caused by %PATH%.
+
+If necessary, temporarily rename c:\\cygwin64\\usr\\include as c:\\cygwin64\\usr\\uncle to hide those files when working with CMake.
+
+<name id="2-3"></a>
+### 2.3) Cygwin Notes
+
+Do not use conan on the Cygwin Platform.  To build Exiv2 for Cygwin use CMake.  See [README-CMAKE](README-CMAKE)
+
+<name id="2-4"></a>
+### 2.4) MinGW Notes
+
+Team Exiv2 does not provide support for MinGW.
+
+Users have reported success with CMake (without conan) on both msys/1.0 and msys/2.0.
+
+[TOC](#TOC)
+
+<name id="3">
+## 3 Conan Architecture
+
+<name id="3-1">
+##### 3.1) conanfile.py
+
+In the root level of the **Exiv2** repository, the file `conanfile.py` defines C/C++ dependencies with the syntax: `Library/version@user/channel`
+
+For example, **zlib**:
+
+```python
+self.requires('self.requires('zlib/1.2.11@conan/stable')')
+```
+
+<name id="3-2">
+##### 3.2) Conan _**Recipes**_
+
+Conan searches remote servers for a _**recipe**_ to build a dependency.
+
+A _**recipe**_ is a python file which indicates how to build a library from sources. The recipe
+understands configurations: Platform/Compiler/Settings.  If the remote server has a pre-compiled package for
+your configuration, it will be downloaded.  Otherwise, conan will compile the libraries on your machine using instructions in the recipe.
+
+To illustrate, here is list of packages that returned by the command `$ conan search`
+
+```bash
+$ conan search --remote conan-center zlib/1.2.11@conan/stable
+```
+
+The output should be:
+
+```bash
+Existing packages for recipe zlib/1.2.11@conan/stable:
+
+    Package_ID: 0000193ac313953e78a4f8e82528100030ca70ee
+        [options]
+            shared: False
+        [settings]
+            arch: x86_64
+            build_type: Debug
+            compiler: gcc
+            compiler.version: 4.9
+            os: Linux
+        Outdated from recipe: False
+
+    Package_ID: 014be746b283391f79d11e4e8af3154344b58223
+        [options]
+            shared: False
+        [settings]
+            arch: x86_64
+            build_type: Debug
+            compiler: gcc
+            compiler.exception: seh
+            compiler.threads: posix
+            compiler.version: 5
+            os: Windows
+        Outdated from recipe: False
+
+... deleted ....
+
+```
+
+<name id="3-3">
+##### 3.3) Conan server search path
+
+Conan searches remote servers for a _**recipe**_ to build the dependency.  You can list them with the command:
+
+```bash
+$ conan remote list
+```
+
+You can add servers to the conan server search path:
+
+```bash
+$ conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponazo
+```
+
+<name id="3-4">
+##### 3.4) Configuring conan on your machine
+
+Conan stores its configuration and local builds in the directory ~/.conan (%HOMEPATH%\\.conan on Windows).
+
+Conan installs several files and two directories:
+
+```bash
+$HOME/.conan/profiles	Configuration files for compilers/platforms
+$HOME/.conan/data	    Dependencies are built/stored in this directory
+```
+
+<name id="3-5">
+##### 3.5) Running `conan install` for the first time
+
+The first time you run `$ conan install`, it will auto-detect your configuration and store a default profile in the file
+$HOME/.conan/profiles/default
+
+Normally you will want to define new profiles for choosing different compilers (msvc, gcc, clang), different
+build_type (Release, Debug), runtimes (MD, MT, MDd, MTd)
 
 The expected output should be something like this, in case it's the first time you run conan:
+
 ```bash
-$ conan install ..
+$ conan install ..  --build missing
 Expat/2.2.5@pix4d/stable: Retrieving from predefined remote 'conan-center'
 Expat/2.2.5@pix4d/stable: Trying with 'conan-center'...
 Downloading conanmanifest.txt
@@ -193,11 +461,11 @@ PROJECT imports(): Copied 5 '.dll' files
 (conan)
 ```
 
-Note that it first downloads the recipes, and then the binary packages. In this case everything went well, conan found
+Note that it first downloads the recipes, and then the binary packages. When everything goes well, conan found
 the recipes in the remotes, and it also found packages for our configuration (msvc2017, Release, MD).
 
-However, if you use other configuration for which there are not packages in the remotes, you will get an error similar
-to this:
+However, if you use other configuration for which there are no packages in the remotes, you will get an error such as:
+
 ```bash
     PROJECT: WARN: Can't find a 'zlib/1.2.11@conan/stable' package for the specified options and settings:
     - Settings: arch=x86_64, build_type=Release, compiler=clang, compiler.version=3.9, os=Macos
@@ -208,14 +476,14 @@ to this:
     Or read "http://docs.conan.io/en/latest/faq/troubleshooting.html#error-missing-prebuilt-package"
 ```
 
-In that case, we still have the chance to compile the library by ourselves by telling conan to do so:
+In that case, we can tell conan to build the library:
 
 ```bash
-    $ conan install ../ --profile MyEsotericProfile --build missing
+$ conan install .. --profile MyEsotericProfile --build missing
 ```
 
 Once the command succeeds, we will have the libraries in our system (you can find the recipes and packages in
-`$HOME/.conan/data`). Any new call to `conan install` with the same profile, will produce this output:
+`$HOME/.conan/data`). When you execute the command `conan install` with the same profile, the following output is typical:
 
 ```bash
 $ conan install ..
@@ -246,33 +514,54 @@ PROJECT imports(): Copied 5 '.dll' files
 
 Indicating that the packages were found in the local cache.
 
-That´s all. After a successful call to `conan install`, some files will be generated in the `build` folder that will
-allow to CMake (or other systems) to find the headers and libraries of the dependencies handled by conan. By simply
-running:
+[TOC](#TOC)
+
+<name id="4">
+## 4 Building Exiv2 with Adobe XMPsdk 2016
+
+With Exiv2 v0.27, you can build Exiv2 with Adobe XMPsdk 2016 on Linux/GCC, Mac/clang and Visual Studio 2017.
+Other platforms such as Cygwin are not supported by Adobe.  Adobe/XMPsdk is built as a external library.
+Applications which wish use the Adobe XMPsdk directly should build Exiv2 in this configuration and the
+library can be used by the application and Exiv2.  The Adobe XMPsdk can be built as a static or shared library (.DLL)
+
+To build Exiv2 with Adobe XMPsdk 2016, should perform steps 1.1, 1.2 and 1.3 described above, then perform the following:
+
+<name id="4-1">
+##### 4.1) Add a remote directory to conan's recipe search path
+
+By default, conan knows about several public conan repositories. Exiv2 requires
+the **piponazo** repository to find the XmpSdk dependency which is not available from **conan-center** repository.
 
 ```bash
-$ cmake ..
+$ conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponazo
 ```
 
-CMake should manage to configure the project finding all the dependencies. If you want to know more about how to use
-CMake in this project, refer to [README-CMAKE](README-CMAKE).
-
-### Windows specific notes
-
-Some people have difficulties when starting to use conan + CMake + Visual Studio, but most of them are due to the lack
-of awareness in some details off the tool chain. In the previous section, the call `cmake ..` from a terminal, will pick
-a default CMake generator, that will depend on different factors.
-
-To choose a specific generator you can use the option `-G "Generator Name"`. If in your conan profile, you use a 64bits
-architecture  (`arch: x86_64`), and you want to use a Visual Studio generator, you will need to indicate it in the first
-CMake call:
+<name id="4-2">
+##### 4.2) Build dependencies and install conan artefacts in your build directory
 
 ```bash
-cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release ...
+$ conan install .. --options xmp=True --build missing
 ```
 
-It is also important to remark that, even when you can change the build type within Visual Studio once you open the
-solution generated by CMake, the dependencies brought by conan will use a specific configuration. If you try to mix
-conan dependencies that use a certain Visual Studio Runtime (example: `MD`), and try to compile Exiv2 with other one
-(example: `MT`), you will obtain linking errors. In order to make experiments with different runtime options, it is
-preferable to have different build folders.
+<name id="4-3">
+##### 4.3) Execute cmake to generate build files for your environment:
+
+You must tell CMake to link Adobe's library:
+
+```bash
+$ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On # -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
+```
+**MacOS-X** users should use the cmake _**Xcode**_ Generator
+
+```bash
+$ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On -G Xcode
+```
+
+<name id="4-4">
+##### 4.4) Build Exiv2 and link Adobe XMPsdk library
+
+```bash
+$ cmake --build . --config Release
+```
+[TOC](#TOC)
+
