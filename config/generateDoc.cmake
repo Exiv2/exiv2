@@ -4,6 +4,8 @@
 # target "doc" allows building the documentation with doxygen/dot on WIN32, Linux and Mac
 #
 
+find_package(Doxygen REQUIRED dot)
+
 macro(generate_documentation DOX_CONFIG_FILE)
     if(NOT EXISTS "${DOX_CONFIG_FILE}")
         message(FATAL_ERROR "Configuration file for doxygen not found")
@@ -23,13 +25,3 @@ macro(generate_documentation DOX_CONFIG_FILE)
 
     set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES doc)
 endmacro()
-
-find_package(Doxygen)
-
-if(DOXYGEN_FOUND AND DOXYGEN_DOT_EXECUTABLE)
-    message(STATUS "Doxygen and dot found. Adding 'doc' target for generating the documentation")
-    generate_documentation("${PROJECT_SOURCE_DIR}/config/Doxyfile.in")
-else()
-    message(STATUS "doxygen or dot not found. Both commands are needed for the adding the 'doc' target")
-endif()
-
