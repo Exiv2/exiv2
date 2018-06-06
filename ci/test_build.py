@@ -37,10 +37,8 @@ def call_wrapper(*args, **kwargs):
         sys.exit(return_code)
 
 
-# create build & ccache directory (ccache could already exist in the CI's cache)
+# create build directory
 os.mkdir("build")
-if not os.path.exists('ccache'):
-    os.mkdir("ccache")
 
 root_dir = os.path.abspath(os.getcwd())
 
@@ -64,8 +62,6 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     env_copy = os.environ.copy()
     env_copy["CC"] = cc
     env_copy["CXX"] = cxx
-    env_copy["CCACHE_BASEDIR"] = root_dir
-    env_copy["CCACHE_DIR"] = os.path.join(root_dir, "ccache")
 
     # location of the binaries for the new test suite:
     env_copy["EXIV2_BINDIR"] = os.path.join(cwd, "bin")
