@@ -68,7 +68,7 @@ for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
     env_copy["CCACHE_DIR"] = os.path.join(root_dir, "ccache")
 
     # location of the binaries for the new test suite:
-    env_copy["EXIV2_PATH"] = os.path.join(cwd, "bin")
+    env_copy["EXIV2_BINDIR"] = os.path.join(cwd, "bin")
 
     kwargs = {"env": env_copy, "cwd": cwd}
 

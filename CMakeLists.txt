@@ -124,7 +124,7 @@ endif()
 
 ##
 # tests
-add_custom_target(tests       COMMAND env EXIV2_BINDIR="${CMAKE_BINARY_DIR}"/bin make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+add_custom_target(tests       COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
 
 include( config/printSummary.cmake )
 
