@@ -27,7 +27,6 @@ variables:
     paths:
       - build/
 
-
 stages:
   - test
   - deploy
@@ -73,3 +72,20 @@ Install:
     - make install
     - make clean
     - EXIV2_BINDIR=/usr/bin/ make tests
+
+pages:
+  image: fedora:28
+  stage: deploy
+  <<: *default_config
+  script:
+    - dnf -y install doxygen graphviz
+    - mkdir build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_DOC=ON ..
+    - make doc
+    - cd ..
+    - mv build/doc/html/ public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
