@@ -193,7 +193,6 @@ class FileDecoratorBase(object):
     tearDown() functions of the type it is called on with custom ones.
 
     The new setUp() function performs the following steps:
-    - call the old setUp()
     - create a file list in the decorated class with the name stored in
       FILE_LIST_NAME (defaults to _files)
     - iterate over all files, performing:
@@ -201,6 +200,7 @@ class FileDecoratorBase(object):
           of the decorated class)
         - call self.setUp_file_action(expanded file name)
         - append the result to the file list in the decorated class
+    - call the old setUp()
 
     The function self.setUp_file_action is provided by this class and
     is intended to be overridden by child classes to provide some
@@ -208,9 +208,9 @@ class FileDecoratorBase(object):
 
 
     The new tearDown() function performs the following steps:
+    - call the old tearDown() function
     - iterate over all files in the file list:
          - call self.tearDown_file_action(filename)
-    - call the old tearDown() function
 
     The function self.tearDown_file_action can be overridden by child
     classes. The default version provided by this class simply deletes
@@ -252,17 +252,17 @@ class FileDecoratorBase(object):
     the constructor of the decorator, passes them to expand_variables
     and then to setUp_file_action:
     >>> M.setUp()
-    calling MockCase.setUp()
     setUp_file_action with one_file
     setUp_file_action with two_file
     setUp_file_action with three_file
+    calling MockCase.setUp()
 
     The tearDown() function works accordingly:
     >>> M.tearDown()
+    calling MockCase.tearDown()
     tearDown_file_action with One_file
     tearDown_file_action with Two_file
     tearDown_file_action with Three_file
-    calling MockCase.tearDown()
 
     Please note the capitalized "file" names (this is due to
     setUp_file_action returning f.capitalized()) and that the old
@@ -321,7 +321,6 @@ class FileDecoratorBase(object):
         """
 
         def setUp(other):
-            old_setUp(other)
             if hasattr(other, self.FILE_LIST_NAME):
                 raise TypeError(
                     "{!s} already has an attribute with the name {!s} which "
@@ -334,6 +333,7 @@ class FileDecoratorBase(object):
                 getattr(other, self.FILE_LIST_NAME).append(
                     self.setUp_file_action(expanded_fname)
                 )
+            old_setUp(other)
         return setUp
 
     def setUp_file_action(self, expanded_file_name):
@@ -368,9 +368,9 @@ class FileDecoratorBase(object):
         """
 
         def tearDown(other):
+            old_tearDown(other)
             for f in getattr(other, self.FILE_LIST_NAME):
                 self.tearDown_file_action(f)
-            old_tearDown(other)
 
         return tearDown
 
@@ -436,7 +436,7 @@ class CopyFiles(FileDecoratorBase):
     self._files and then calls the original tearDown method.
 
     This function will also complain if it is called without arguments or
-    without paranthesis, which is valid decorator syntax but is obviously a bug
+    without parenthesis, which is valid decorator syntax but is obviously a bug
     in this case as it can result in tests not being run without a warning.
     """
 
