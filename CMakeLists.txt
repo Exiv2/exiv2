@@ -49,6 +49,7 @@ option( EXIV2_BUILD_SAMPLES           "Build sample applications"               
 option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
+option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentation"            OFF )
 
 # Only intended to be used by Exiv2 developers/contributors
 option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
@@ -88,7 +89,12 @@ endif()
 include(config/findDependencies.cmake   REQUIRED)
 include(config/compilerFlags.cmake      REQUIRED)
 include(config/generateConfigFile.cmake REQUIRED)
-include(config/generateDoc.cmake        REQUIRED)
+
+if (EXIV2_BUILD_DOC)
+    include(config/generateDoc.cmake        REQUIRED)
+    generate_documentation("${PROJECT_SOURCE_DIR}/config/Doxyfile.in")
+endif()
+
 
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
