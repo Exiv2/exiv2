@@ -15,6 +15,10 @@
     paths:
       - ccache/
 
+stages:
+  - test
+  - deploy
+
 Fedora:
   image: fedora:28
   <<: *distro_build
@@ -38,3 +42,16 @@ CentOS:
 OpenSUSE:
   image: opensuse:tumbleweed
   <<: *distro_build
+
+Install:
+  image: fedora:28
+  stage: deploy
+  before_script:
+    - ci/install_dependencies.sh
+  script:
+    - mkdir build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/ -DBUILD_WITH_CCACHE=ON ..
+    - make -j $(nproc)
+    - make install
+    - make clean
+    - EXIV2_BINDIR=/usr/bin/ make tests
