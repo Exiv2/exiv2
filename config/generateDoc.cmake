@@ -26,8 +26,10 @@ endmacro()
 
 find_package(Doxygen)
 
-if(DOXYGEN_FOUND)
-    message(STATUS "Doxygen found. Adding 'doc' target for generating the documentation")
+if(DOXYGEN_FOUND AND DOXYGEN_DOT_EXECUTABLE)
+    message(STATUS "Doxygen and dot found. Adding 'doc' target for generating the documentation")
     generate_documentation("${PROJECT_SOURCE_DIR}/config/Doxyfile.in")
+else()
+    message(STATUS "doxygen or dot not found. Both commands are needed for the adding the 'doc' target")
 endif()
 
