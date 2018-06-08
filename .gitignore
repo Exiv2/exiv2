@@ -15,10 +15,10 @@ libtool
 .libs/
 bin/
 build*
-config/autom4te.cache/
-config/config.h
-config/config.mk
-config/exiv2.pc
+cmake/autom4te.cache/
+cmake/config.h
+cmake/config.mk
+cmake/exiv2.pc
 po/Makefile
 po/Makefile.in
 po/POTFILES

@@ -35,13 +35,13 @@ if( EXIV2_ENABLE_COMMERCIAL )
     add_definitions( -DEXV_COMMERCIAL_VERSION )
 endif()
 
-configure_file(config/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
+configure_file(cmake/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
 
 if( NOT MSVC )
-    configure_file( config/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc @ONLY )
+    configure_file( cmake/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc @ONLY )
     install( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
-    configure_file( config/exiv2.lsm.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm)
+    configure_file( cmake/exiv2.lsm.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
 endif()
 

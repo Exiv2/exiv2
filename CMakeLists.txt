@@ -86,19 +86,19 @@ if( EXIV2_BUILD_UNIT_TESTS )
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
 endif()
 
-include(config/findDependencies.cmake   REQUIRED)
-include(config/compilerFlags.cmake      REQUIRED)
-include(config/generateConfigFile.cmake REQUIRED)
+include(cmake/findDependencies.cmake   REQUIRED)
+include(cmake/compilerFlags.cmake      REQUIRED)
+include(cmake/generateConfigFile.cmake REQUIRED)
 
 if (EXIV2_BUILD_DOC)
-    include(config/generateDoc.cmake        REQUIRED)
-    generate_documentation("${PROJECT_SOURCE_DIR}/config/Doxyfile.in")
+    include(cmake/generateDoc.cmake        REQUIRED)
+    generate_documentation("${PROJECT_SOURCE_DIR}/cmake/Doxyfile.in")
 endif()
 
 
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
-include( config/CMakeChecks.txt )
+include(cmake/CMakeChecks.txt)
 
 if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
@@ -122,7 +122,7 @@ endif()
 # tests
 add_custom_target(tests       COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
 
-include( config/printSummary.cmake )
+include(cmake/printSummary.cmake)
 
 # That's all Folks!
 ##
