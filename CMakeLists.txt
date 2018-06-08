@@ -74,21 +74,23 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
 
 if( MINGW OR UNIX )
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-        ADD_DEFINITIONS(-Wall
-                    -Wcast-align
-                    -Wpointer-arith
-                    -Wformat-security
-                    -Wmissing-format-attribute
-                    -Woverloaded-virtual
-                    -W
-                   )
+        string(CONCAT WARNING_FLAGS " -Wall"
+          " -Wcast-align"
+          " -Wpointer-arith"
+          " -Wformat-security"
+          " -Wmissing-format-attribute"
+          " -Woverloaded-virtual"
+          " -W"
+          )
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
     ENDIF()
 
     message(STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
     IF ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
-        ADD_DEFINITIONS( -std=gnu++98 ) # to support snprintf
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98" ) # to support snprintf
     ELSE()
-        ADD_DEFINITIONS( -std=c++98 )
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98" )
     ENDIF()
 
 ENDIF( MINGW OR UNIX )

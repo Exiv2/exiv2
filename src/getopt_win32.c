@@ -194,6 +194,10 @@ permute_args(panonopt_start, panonopt_end, opt_end, nargv)
 	}
 }
 
+#ifdef __GETOPT_DEFINE_ARGV__
+char * const *__argv;
+#endif
+
 /*
  * getopt_internal --
  *	Parse argc/argv argument vector.  Called by user level routines.
@@ -205,6 +209,11 @@ getopt_internal(nargc, nargv, options)
 	char * const *nargv;
 	const char *options;
 {
+
+#ifdef __GETOPT_DEFINE_ARGV__
+    __argv=nargv;
+#endif
+
 	char *oli;				/* option letter list index */
 	int optchar;
 

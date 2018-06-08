@@ -32,18 +32,15 @@ EXIV2_RCSID("@(#) $Id$")
 #include "config.h"
 
 #include "utils.hpp"
-
-// + standard includes
-#if defined(_MSC_VER) || defined(__MINGW__)
-# include "getopt_win32.h"
-#endif
+#include "getopt_win32.h"
 
 #if defined(_MSC_VER)
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
 
+// + standard includes
 #ifdef EXV_HAVE_UNISTD_H
-# include <unistd.h>                     // for getopt(), stat()
+# include <unistd.h>                     // for stat()
 #endif
 
 #include <sys/types.h>

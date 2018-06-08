@@ -218,10 +218,7 @@ IF(NOT HAVE_TIMEGM )
     SET( PATHTEST_SRC     ${PATHTEST_SRC} localtime.c    )
 ENDIF( NOT HAVE_TIMEGM )
 
-IF( MSVC )
-    SET( EXIV2_SRC        ${EXIV2_SRC}    getopt_win32.c )
-    SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )
-ENDIF( MSVC )
+SET( EXIV2_SRC        ${EXIV2_SRC}    getopt_win32.c )
 
 ##
 # msvn tuning
