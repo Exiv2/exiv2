@@ -1,5 +1,5 @@
 # set include path for FindXXX.cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/config/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Check if the conan file exist to find the dependencies
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -47,7 +47,7 @@ if( EXIV2_ENABLE_NLS )
     endif()
     set( ENABLE_NLS 1 )
     # TODO : This is assuming that Intl is always found. This check should be improved and remove
-    # the manual check in config/generateConfigFile.cmake
+    # the manual check in cmake/generateConfigFile.cmake
 endif( )
 
 find_package(Iconv)

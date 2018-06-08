@@ -43,4 +43,4 @@ if (NOT EXV_HAVE_LIBINTL_H)
     set(EXV_ENABLE_NLS 0)
 endif()
 
-configure_file( config/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)
+configure_file(cmake/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)
