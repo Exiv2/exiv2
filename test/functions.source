@@ -442,7 +442,11 @@ prepareTest()
 	datadir="../data"
 
 	if [ -z "$EXIV2_BINDIR" ] ; then
-		bin="$here/../bin/"
+                if [ -z "$EXIV2_BUILDDIR" ]; then
+                        bin="$EXIV2_BUILDDIR/bin/"
+                else
+                        bin="$here/../build/bin/"
+                fi
 	else
 		bin="$EXIV2_BINDIR/"
 	fi

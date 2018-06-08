@@ -1,40 +1,91 @@
-# default build for all distros
-# only create artifacts of the build directory when something fails (for cmake logs)
-# cache the ccache/ directory for each job separately
-.build_template: &distro_build
+# all builds use the same ccache folder in the project root that is cached
+variables:
+  CCACHE_BASEDIR: '$CI_PROJECT_DIR'
+  CCACHE_DIR: '$CI_PROJECT_DIR/ccache'
+
+# default config for all distros:
+# - install dependencies via script
+# - create ccache dir & setup caching of it (for each job separately)
+.build_config: &default_config
   before_script:
     - ci/install_dependencies.sh
+    - mkdir -p ccache
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - ccache/
+
+# default build job:
+# - run build script
+# - only create artifacts of the build directory when something fails
+#   (for cmake logs)
+.build_template: &distro_build
   script:
     - python3 ci/test_build.py
   artifacts:
     when: on_failure
     paths:
       - build/
-  cache:
-    key: "$CI_JOB_NAME"
-    paths:
-      - ccache/
+
+stages:
+  - test
+  - deploy
 
 Fedora:
   image: fedora:28
+  <<: *default_config
   <<: *distro_build
 
 Debian:
   image: debian:9
+  <<: *default_config
   <<: *distro_build
 
 Archlinux:
   image: base/archlinux
+  <<: *default_config
   <<: *distro_build
 
 Ubuntu:
   image: ubuntu:18.04
+  <<: *default_config
   <<: *distro_build
 
 CentOS:
   image: centos:7
+  <<: *default_config
   <<: *distro_build
 
 OpenSUSE:
   image: opensuse:tumbleweed
+  <<: *default_config
   <<: *distro_build
+
+Install:
+  image: fedora:28
+  stage: deploy
+  <<: *default_config
+  script:
+    - mkdir build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=/usr/ -DBUILD_WITH_CCACHE=ON ..
+    - make -j $(nproc)
+    - make install
+    - make clean
+    - EXIV2_BINDIR=/usr/bin/ make tests
+
+pages:
+  image: fedora:28
+  stage: deploy
+  <<: *default_config
+  script:
+    - dnf -y install doxygen graphviz
+    - mkdir build && cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_DOC=ON ..
+    - make doc
+    - cd ..
+    - mv build/doc/html/ public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
