@@ -120,7 +120,13 @@ endif()
 
 ##
 # tests
-add_custom_target(tests       COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make tests       WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+add_custom_target(tests
+    COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make test
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+)
+
+get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
+add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 
 include(cmake/printSummary.cmake)
 
