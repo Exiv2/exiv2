@@ -29,6 +29,7 @@
 // included header files
 #include "value.hpp"
 #include "types.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "convert.hpp"
 #include "unused.h"
@@ -1149,17 +1150,17 @@ namespace Exiv2 {
 
     long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        // sprintf wants to add the null terminator, so use oversized buffer
         char temp[12];
         char plusMinus = '+';
-        if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
+        if (time_.tzHour < 0 || time_.tzMinute < 0)
+            plusMinus = '-';
 
-        const int wrote = sprintf(temp,
+        const int wrote = snprintf(temp, sizeof(temp), // 11 bytes are written + \0
                    "%02d%02d%02d%1c%02d%02d",
                    time_.hour, time_.minute, time_.second,
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
-        assert(wrote == 11);
+        enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
         std::memcpy(buf, temp, wrote);
         return wrote;
     }
