@@ -33,6 +33,7 @@
 #include "preview.hpp"
 #include "futils.hpp"
 #include "enforce.hpp"
+#include "safe_op.hpp"
 
 #include "image.hpp"
 #include "cr2image.hpp"
@@ -382,7 +383,7 @@ namespace {
             return AutoPtr();
 
         if (loaderList_[id].imageMimeType_ &&
-            std::string(loaderList_[id].imageMimeType_) != std::string(image.mimeType()))
+            std::string(loaderList_[id].imageMimeType_) != image.mimeType())
             return AutoPtr();
 
         AutoPtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
@@ -545,7 +546,8 @@ namespace {
             }
         }
 
-        if (offset_ + size_ > static_cast<uint32_t>(image_.io().size())) return;
+        if (Safe::add(offset_, size_) > static_cast<uint32_t>(image_.io().size()))
+            return;
 
         valid_ = true;
     }
@@ -799,7 +801,7 @@ namespace {
                     // this saves one copying of the buffer
                     uint32_t offset = dataValue.toLong(0);
                     uint32_t size = sizes.toLong(0);
-                    if (offset + size <= static_cast<uint32_t>(io.size()))
+                    if (Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                         dataValue.setDataArea(base + offset, size);
                 }
                 else {
@@ -809,8 +811,8 @@ namespace {
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        enforce(idxBuf + size < size_, kerCorruptedMetadata);
-                        if (size!=0 && offset + size <= static_cast<uint32_t>(io.size()))
+                        enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);
+                        if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
                         idxBuf += size;
                     }
@@ -927,7 +929,7 @@ namespace {
 
     DataBuf decodeBase64(const std::string& src)
     {
-        const unsigned long srcSize = static_cast<const unsigned long>(src.size());
+        const unsigned long srcSize = src.size();
 
         // create decoding table
         unsigned long invalid = 64;
