@@ -801,7 +801,7 @@ namespace {
                     // this saves one copying of the buffer
                     uint32_t offset = dataValue.toLong(0);
                     uint32_t size = sizes.toLong(0);
-                    if (offset + size <= static_cast<uint32_t>(io.size()))
+                    if (Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                         dataValue.setDataArea(base + offset, size);
                 }
                 else {
@@ -811,8 +811,8 @@ namespace {
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        enforce(idxBuf + size < size_, kerCorruptedMetadata);
-                        if (size!=0 && offset + size <= static_cast<uint32_t>(io.size()))
+                        enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);
+                        if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
                         idxBuf += size;
                     }
