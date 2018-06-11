@@ -33,6 +33,7 @@
 #include "preview.hpp"
 #include "futils.hpp"
 #include "enforce.hpp"
+#include "safe_op.hpp"
 
 #include "image.hpp"
 #include "cr2image.hpp"
@@ -545,7 +546,8 @@ namespace {
             }
         }
 
-        if (offset_ + size_ > static_cast<uint32_t>(image_.io().size())) return;
+        if (Safe::add(offset_, size_) > static_cast<uint32_t>(image_.io().size()))
+            return;
 
         valid_ = true;
     }
