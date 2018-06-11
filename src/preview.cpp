@@ -383,7 +383,7 @@ namespace {
             return AutoPtr();
 
         if (loaderList_[id].imageMimeType_ &&
-            std::string(loaderList_[id].imageMimeType_) != std::string(image.mimeType()))
+            std::string(loaderList_[id].imageMimeType_) != image.mimeType())
             return AutoPtr();
 
         AutoPtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
@@ -929,7 +929,7 @@ namespace {
 
     DataBuf decodeBase64(const std::string& src)
     {
-        const unsigned long srcSize = static_cast<const unsigned long>(src.size());
+        const unsigned long srcSize = src.size();
 
         // create decoding table
         unsigned long invalid = 64;
