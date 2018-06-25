@@ -10,6 +10,14 @@ endif()
 
 find_package(Threads REQUIRED)
 
+if(MINGW)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(REGX REQUIRED regex)
+    if(REGX_FOUND)
+        include_directories(${REGX_INCLUDE_DIRS})
+    endif()
+endif()
+
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
     include_directories( ${ZLIB_INCLUDE_DIR} )
