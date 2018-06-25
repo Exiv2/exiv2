@@ -261,6 +261,7 @@ else()
 
     if (CYGWIN OR MINGW)
         target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
+        target_link_libraries( exiv2lib PRIVATE ${REGX_LIBRARIES} )
     endif()
 
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
@@ -313,6 +314,11 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(exiv2 PRIVATE EXV_HAVE_DLL )
     endif()
+    
+    if (MINGW)
+        target_link_libraries( exiv2 PRIVATE ${REGX_LIBRARIES} )
+    endif()
+
     # modify source lists to suit environment
 
     # TODO This should not be needed here! we need to fix the previous TODO
