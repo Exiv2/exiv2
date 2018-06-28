@@ -12,9 +12,9 @@ find_package(Threads REQUIRED)
 
 if(MINGW)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(REGX REQUIRED regex)
-    if(REGX_FOUND)
-        include_directories(${REGX_INCLUDE_DIRS})
+    pkg_check_modules(REGEX REQUIRED regex)
+    if(REGEX_FOUND)
+        include_directories(${REGEX_INCLUDE_DIRS})
     endif()
 endif()
 
