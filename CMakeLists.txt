@@ -111,22 +111,20 @@ if( EXIV2_BUILD_UNIT_TESTS )
 endif()
 
 if( EXIV2_BUILD_SAMPLES )
+    ##
+    # tests
+    add_custom_target(tests
+        COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make test
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+    )
     add_subdirectory( samples )
+    get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
+    add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 endif()
 
 if( EXIV2_BUILD_PO )
     add_subdirectory( po )
 endif()
-
-##
-# tests
-add_custom_target(tests
-    COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make test
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
-)
-
-get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
-add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 
 include(cmake/printSummary.cmake)
 
