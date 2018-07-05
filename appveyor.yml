@@ -1,9 +1,15 @@
-image: Visual Studio 2015
+environment:
+  matrix:
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+      #CMAKE_GENERATOR: Visual Studio 12 2013 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: Visual Studio 14 2015 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CMAKE_GENERATOR: Visual Studio 15 2017 Win64
 
 shallow_clone: true
 
 install:
-    - nuget install clcache
     - echo %APPVEYOR_BUILD_FOLDER%
     - mkdir C:\projects\deps
     - cd C:\projects\deps
@@ -24,20 +30,17 @@ before_build:
     - cmd: conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
+    - cmd: conan profile new --detect default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
-    - cmd: mkdir c:\Users\appveyor\.conan\profiles
 
 build_script:
     - cmd: md build
     - cmd: cd build
     - cmd: conan install .. --build missing
-    - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
-    - cmd: set CLCACHE_PATH=%APPVEYOR_BUILD_FOLDER%\clcache.4.1.0\clcache-4.1.0
-    - cmd: set CLCACHE_DIR=%APPVEYOR_BUILD_FOLDER%\clcache.4.1.0\cache
-    - cmd: cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
-    - cmd: ninja
-    - cmd: ..\clcache.4.1.0\clcache-4.1.0\clcache -s
-    - cmd: ninja install
+    - cmd: echo %CMAKE_GENERATOR%
+    - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake --build . --config Release
+    - cmd: cmake --build . --config Release --target install
     - cmd: cd bin
     - cmd: unit_tests.exe
     - cmd: cd ../../tests/
@@ -46,5 +49,4 @@ build_script:
 
 cache:
     - envs                          # Conan installation
-    - clcache.4.1.0                 # clcache installation and cache
     - c:\Users\appveyor\conanCache  # Conan cache
