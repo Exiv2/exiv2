@@ -354,7 +354,10 @@ namespace Exiv2 {
 		while  ( i < size-3 && bytes[i] != 0x1c ) i++;
 		depth++;
 		out << Internal::indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
-		while ( bytes[i] == 0x1c && i < size-3 ) {
+		while ( i < size-3 ) {
+                        if (bytes[i] != 0x1c) {
+                                break;
+                        }
 			char buff[100];
 			uint16_t record  = bytes[i+1];
 			uint16_t dataset = bytes[i+2];
