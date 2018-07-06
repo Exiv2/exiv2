@@ -236,6 +236,12 @@ namespace Exiv2 {
                  buffer.
          */
         std::pair<byte*, long> release();
+
+         /*!
+           @brief Free the internal buffer and reset the size to 0.
+          */
+        void free();
+
         //! Reset value
         void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
         //@}

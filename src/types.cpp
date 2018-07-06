@@ -163,6 +163,13 @@ namespace Exiv2 {
         return p;
     }
 
+    void DataBuf::free()
+    {
+        delete[] pData_;
+        pData_ = 0;
+        size_ = 0;
+    }
+
     void DataBuf::reset(std::pair<byte*, long> p)
     {
         if (pData_ != p.first) {
