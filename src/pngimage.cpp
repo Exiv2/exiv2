@@ -99,13 +99,14 @@ namespace Exiv2 {
             zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             // if result buffer is large than necessary, redo to fit perfectly.
             if (zlibResult == Z_OK && (long) uncompressedLen < result.size_ ) {
-                result.release();
+                result.free();
+
                 result.alloc(uncompressedLen);
                 zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             }
             if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressed buffer needs to be larger
-                result.release();
+                result.free();
 
                 // Sanity - never bigger than 16mb
                 if  (uncompressedLen > 16*1024*1024) zlibResult = Z_DATA_ERROR;
@@ -126,10 +127,10 @@ namespace Exiv2 {
             zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
             if (zlibResult == Z_BUF_ERROR) {
                 // the compressedArray needs to be larger
-                result.release();
+                result.free();
                 compressedLen *= 2;
             } else {
-                result.release();
+                result.free();
                 result.alloc(compressedLen);
                 zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
             }

@@ -662,7 +662,7 @@ namespace Exiv2 {
 
     void Image::clearIccProfile()
     {
-        iccProfile_.release();
+        iccProfile_.free();
     }
 
     void Image::setByteOrder(ByteOrder byteOrder)
