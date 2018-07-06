@@ -155,12 +155,21 @@ namespace Exiv2 {
         }
 
         // calculate length and allocate result;
+        // count: number of \n in the header
         long        count=0;
+        // p points to the current position in the array bytes
         const byte* p = bytes ;
-        // header is \nsomething\n number\n hex
-        while ( count < 3 )
-            if ( *p++ == '\n' )
+
+        // header is '\nsomething\n number\n hex'
+        // => increment p until it points to the byte after the last \n
+        //    p must stay within bounds of the bytes array!
+        while ((count < 3) && (p - bytes < length)) {
+            // length is later used for range checks of p => decrement it for each increment of p
+            --length;
+            if ( *p++ == '\n' ) {
                 count++;
+            }
+        }
         for ( long i = 0 ; i < length ; i++ )
             if ( value[p[i]] )
                 ++count;
