@@ -2460,11 +2460,12 @@ namespace Exiv2 {
         if (protocol_ == pSftp) {
             if (sftp_seek(fileHandler_, (uint32_t) (lowBlock * blockSize_)) < 0) throw Error(kerErrorMessage, "SFTP: unable to sftp_seek");
             size_t buffSize = (highBlock - lowBlock + 1) * blockSize_;
-            char* buffer = new char[buffSize];
-            long nBytes = (long) sftp_read(fileHandler_, buffer, buffSize);
-            if (nBytes < 0) throw Error(kerErrorMessage, "SFTP: unable to sftp_read");
-            response.assign(buffer, buffSize);
-            delete[] buffer;
+            std::vector<char> buffer(buffSize);
+            long nBytes = static_cast<long>(sftp_read(fileHandler_, &buffer.at(0), buffSize));
+            if (nBytes < 0) {
+                throw Error(kerErrorMessage, "SFTP: unable to sftp_read");
+            }
+            response.assign(&buffer.at(0), buffSize);
         } else {
             std::stringstream ss;
             if (lowBlock > -1 && highBlock > -1) {
