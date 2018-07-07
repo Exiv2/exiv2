@@ -85,6 +85,14 @@
 //! Simple common max macro
 #define EXV_MAX(a,b) ((a) > (b) ? (a) : (b))
 
+#if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
+#define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
+#elif defined(_MSC_VER) && (_MSC_VER >= 1700)
+#define EXV_WARN_UNUSED_RESULT _Check_return_
+#else
+#define EXV_WARN_UNUSED_RESULT
+#endif
+
 // *****************************************************************************
 // forward declarations
 struct tm;
@@ -235,7 +243,7 @@ namespace Exiv2 {
                  buffer as a data pointer and size pair, resets the internal
                  buffer.
          */
-        std::pair<byte*, long> release();
+        EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
 
          /*!
            @brief Free the internal buffer and reset the size to 0.
