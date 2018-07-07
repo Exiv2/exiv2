@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2018 Exiv2 authors
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -56,6 +56,16 @@ const unsigned char pngBlank[] = { 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,
                                    0xff,0x3f,0x00,0x05,0xfe,0x02,0xfe,0xdc,0xcc,0x59,0xe7,0x00,0x00,0x00,0x00,0x49,
                                    0x45,0x4e,0x44,0xae,0x42,0x60,0x82
                                  };
+
+namespace
+{
+    inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
+    {
+        // str & length should compile time constants => only running this in DEBUG mode is ok
+        assert(strlen(str) <= length);
+        return memcmp(str, buf.pData_, std::min(static_cast<long>(length), buf.size_)) == 0;
+    }
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -688,14 +698,14 @@ namespace Exiv2 {
                      !memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
             {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
-                if (memcmp("Raw profile type exif", key.pData_, 21) == 0 ||
-                    memcmp("Raw profile type APP1", key.pData_, 21) == 0 ||
-                    memcmp("Raw profile type iptc", key.pData_, 21) == 0 ||
-                    memcmp("Raw profile type xmp",  key.pData_, 20) == 0 ||
-                    memcmp("XML:com.adobe.xmp",     key.pData_, 17) == 0 ||
-                    memcmp("icc",                   key.pData_,  3) == 0 || // see test/data/imagemagick.png
-                    memcmp("ICC",                   key.pData_,  3) == 0 ||
-                    memcmp("Description",           key.pData_, 11) == 0)
+                if (compare("Raw profile type exif", key, 21) ||
+                    compare("Raw profile type APP1", key, 21) ||
+                    compare("Raw profile type iptc", key, 21) ||
+                    compare("Raw profile type xmp",  key, 20) ||
+                    compare("XML:com.adobe.xmp",     key, 17) ||
+                    compare("icc",                   key,  3) || // see test/data/imagemagick.png
+                    compare("ICC",                   key,  3) ||
+                    compare("Description",           key, 11))
                 {
 #ifdef DEBUG
                     std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk
