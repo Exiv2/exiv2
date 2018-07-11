@@ -1654,9 +1654,16 @@ namespace Exiv2 {
     )
     {
         if (pData == 0 || size == 0) return TiffComponent::AutoPtr(0);
-        if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
-            throw Error(kerNotAnImage, "TIFF");
-        }
+       // if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
+       //    throw Error(kerNotAnImage, "TIFF");
+       // }
+	//20180711 #1359Issue 
+        if (!pHeader->read(pData, size)) {
+           throw Error(kerNotAnImage, "TIFF"); 
+	} else if (pHeader->offset() >= size){
+           pHeader->setOffset(size);
+	}
+
         TiffComponent::AutoPtr rootDir = TiffCreator::create(root, ifdIdNotSet);
         if (0 != rootDir.get()) {
             rootDir->setStart(pData + pHeader->offset());
