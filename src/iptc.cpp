@@ -348,27 +348,30 @@ namespace Exiv2 {
         return iptcMetadata_.erase(pos);
     }
 
-	void IptcData::printStructure(std::ostream& out, const byte* bytes,const size_t size,uint32_t depth)
-	{
-		uint32_t i     = 0 ;
-		while  ( i < size-3 && bytes[i] != 0x1c ) i++;
-		depth++;
-		out << Internal::indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
-		while ( i < size-3 ) {
-                        if (bytes[i] != 0x1c) {
-                                break;
-                        }
-			char buff[100];
-			uint16_t record  = bytes[i+1];
-			uint16_t dataset = bytes[i+2];
-			uint16_t len     = getUShort(bytes+i+3,bigEndian);
-			sprintf(buff,"  %6d | %7d | %-24s | %6d | ",record,dataset, Exiv2::IptcDataSets::dataSetName(dataset,record).c_str(), len);
+    void IptcData::printStructure(std::ostream& out, const byte* bytes, const size_t size, uint32_t depth)
+    {
+        uint32_t i = 0;
+        while (i < size - 3 && bytes[i] != 0x1c)
+            i++;
+        depth++;
+        out << Internal::indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
+        while (i < size - 3) {
+            if (bytes[i] != 0x1c) {
+                break;
+            }
+            char buff[100];
+            uint16_t record = bytes[i + 1];
+            uint16_t dataset = bytes[i + 2];
+            uint16_t len = getUShort(bytes + i + 3, bigEndian);
+            sprintf(buff, "  %6d | %7d | %-24s | %6d | ", record, dataset,
+                    Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
-			out << buff << Internal::binaryToString(bytes,(len>40?40:len),i+5) << (len>40?"...":"") << std::endl;
-			i += 5 + len;
-		}
-		depth--;
-	}
+            out << buff << Internal::binaryToString(bytes, (len > 40 ? 40 : len), i + 5) << (len > 40 ? "..." : "")
+                << std::endl;
+            i += 5 + len;
+        }
+        depth--;
+    }
 
     const char *IptcData::detectCharset() const
     {
