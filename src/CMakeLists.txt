@@ -306,6 +306,7 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     add_executable( exiv2 ${EXIV2_SRC} )
     set_target_properties( exiv2 PROPERTIES
         COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
+        XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
     )
 
     target_compile_definitions(exiv2 PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
