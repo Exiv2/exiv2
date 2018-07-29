@@ -594,7 +594,8 @@ namespace Exiv2 {
                 io_->read(payload.pData_, payload.size_);
 
                 byte  size_buff[2];
-                byte  exifLongHeader[]   = { 0xFF, 0x01, 0xFF, 0xE1 };
+                // 4 meaningful bytes + 2 padding bytes
+                byte  exifLongHeader[]   = { 0xFF, 0x01, 0xFF, 0xE1, 0x00, 0x00 };
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
