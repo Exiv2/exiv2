@@ -108,6 +108,19 @@ endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
 if(MSVC)
+    find_program(CLCACHE name clcache.exe
+        PATHS ENV CLCACHE_PATH
+        PATH_SUFFIXES Scripts clcache-4.1.0
+    )
+    if (CLCACHE)
+        message(STATUS "clcache found in ${CLCACHE}")
+        if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+            message(WARNING "clcache only works for Release builds")
+        else()
+            set(CMAKE_CXX_COMPILER ${CLCACHE})
+        endif()
+    endif()
+    
     set(variables
       CMAKE_CXX_FLAGS_DEBUG
       CMAKE_CXX_FLAGS_MINSIZEREL

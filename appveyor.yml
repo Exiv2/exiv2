@@ -3,8 +3,7 @@ image: Visual Studio 2015
 shallow_clone: true
 
 install:
-    - set PROJECT_DIR=%cd%
-    - echo %PROJECT_DIR%
+    - nuget install clcache
     - echo %APPVEYOR_BUILD_FOLDER%
     - mkdir C:\projects\deps
     - cd C:\projects\deps
@@ -14,7 +13,7 @@ install:
     - ninja --version
 
 before_build:
-    - cmd: cd %PROJECT_DIR%
+    - cmd: cd %APPVEYOR_BUILD_FOLDER%
     - cmd: if not exist envs mkdir envs
     - cmd: cd envs
     - cmd: python -m virtualenv conan
@@ -33,8 +32,11 @@ build_script:
     - cmd: cd build
     - cmd: conan install .. --build missing
     - cmd: call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+    - cmd: set CLCACHE_PATH=%APPVEYOR_BUILD_FOLDER%\clcache.4.1.0\clcache-4.1.0
+    - cmd: set CLCACHE_DIR=%APPVEYOR_BUILD_FOLDER%\clcache.4.1.0\cache
     - cmd: cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: ninja
+    - cmd: ..\clcache.4.1.0\clcache-4.1.0\clcache -s
     - cmd: ninja install
     - cmd: cd bin
     - cmd: unit_tests.exe
@@ -44,4 +46,5 @@ build_script:
 
 cache:
     - envs                          # Conan installation
+    - clcache.4.1.0                 # clcache installation and cache
     - c:\Users\appveyor\conanCache  # Conan cache
