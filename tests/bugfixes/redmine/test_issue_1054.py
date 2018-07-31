@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import unittest
+import os
 
 import system_tests
 
+@unittest.skipUnless(os.getenv('TZ') == 'UTC', "Testcase only works with the timezone set to UTC")
 class Exiv2jsonRecursiveJsonTreeWithXMP(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1054"
