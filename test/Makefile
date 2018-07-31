@@ -62,7 +62,6 @@ SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 ##
 # Add test drivers to this list
 TESTS  = addmoddel.sh         \
-         bugfixes-test.sh     \
          conversions.sh       \
          exifdata-test.sh     \
          exiv2-test.sh        \
