@@ -64,6 +64,7 @@ mark_as_advanced(
 )
 
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
+option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
 
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
