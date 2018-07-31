@@ -31,3 +31,8 @@ make tests
 make install
 cd bin
 ./unit_tests
+
+if [ -n "$COVERAGE" ]; then
+    cd ..
+    bash <(curl -s https://codecov.io/bash)
+fi
