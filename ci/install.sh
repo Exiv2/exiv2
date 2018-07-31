@@ -28,7 +28,8 @@ fi
 
 python --version
 pip install urllib3[secure] -U #Should solve SSL issues
-pip install conan==1.1.1
+pip install conan==1.6.1
+pip install codecov
 conan --version
 conan config set storage.path=~/conanData
 conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
