@@ -1655,8 +1655,9 @@ namespace Exiv2 {
     {
         if (pData == 0 || size == 0) return TiffComponent::AutoPtr(0);
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
-            throw Error(kerNotAnImage, "TIFF");
+           throw Error(kerNotAnImage, "TIFF");
         }
+
         TiffComponent::AutoPtr rootDir = TiffCreator::create(root, ifdIdNotSet);
         if (0 != rootDir.get()) {
             rootDir->setStart(pData + pHeader->offset());
@@ -1734,6 +1735,7 @@ namespace Exiv2 {
         }
         if (tag_ != getUShort(pData + 2, byteOrder_)) return false;
         offset_ = getULong(pData + 4, byteOrder_);
+	if ( offset_ >= size) offset_ = size-1;
 
         return true;
     } // TiffHeaderBase::read
