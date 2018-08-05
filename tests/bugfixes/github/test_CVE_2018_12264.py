@@ -10,12 +10,12 @@ class AdditionOverflowInLoaderTiffGetData(metaclass=system_tests.CaseMeta):
     aka CVE-2018-12264
     https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-12264
     """
-    filename = system_tests.path("$data_path/2-out-of-read-Poc")
+    filename = "$data_path/2-out-of-read-Poc"
     commands = ["$exiv2 -ep $filename"]
     stdout = [""]
     stderr = [
         """Warning: Directory Image, entry 0x0111: Strip 0 is outside of the data area; ignored.
-$uncaught_exception $addition_overflow_message
+$uncaught_exception Overflow in addition
 """
     ]
     retval = [1]

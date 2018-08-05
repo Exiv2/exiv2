@@ -10,7 +10,7 @@ class AdditionOverflowInLoaderExifJpeg(metaclass=system_tests.CaseMeta):
     aka CVE 2018-12265:
     https://cve.mitre.org/cgi-bin/cvename.cgi?name=2018-12265
     """
-    filename = system_tests.path("$data_path/1-out-of-read-Poc")
+    filename = "$data_path/1-out-of-read-Poc"
     commands = ["$exiv2 -ep $filename"]
     stdout = [""]
     stderr = [
@@ -18,7 +18,7 @@ class AdditionOverflowInLoaderExifJpeg(metaclass=system_tests.CaseMeta):
 Warning: Directory Image, entry 0x0201: Strip 0 is outside of the data area; ignored.
 Warning: Directory Image, entry 0x0201: Strip 7 is outside of the data area; ignored.
 Error: Offset of directory Thumbnail, entry 0x0201 is out of bounds: Offset = 0x00000000; truncating the entry
-$uncaught_exception $addition_overflow_message
+$uncaught_exception Overflow in addition
 """
     ]
     retval = [1]
