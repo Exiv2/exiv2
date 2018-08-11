@@ -806,8 +806,11 @@ int main(int argc,const char* argv[])
                 if ( options.verbose ) printf("%s %s ",arg,types[type]) ;
                 if ( type == typeImage ) {
                     time_t t    = readImageTime(std::string(arg)) ;
-#ifdef __APPLE__
+#if   defined(__APPLE__)
                     char   buffer[1024];
+#elif defined(__gnu_linux__)
+                    char   buffer[_MAX_PATH];
+                    pathconf(arg ,_MAX_PATH);
 #else
                     char*  buffer = NULL;
 #endif
