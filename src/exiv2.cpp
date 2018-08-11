@@ -150,30 +150,36 @@ int main(int argc, char* const argv[])
         return 0;
     }
 
-    // Create the required action class
-    Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-    Action::Task::AutoPtr task
-        = taskFactory.create(Action::TaskType(params.action_));
-    assert(task.get());
-
-    // Process all files
     int rc = 0;
-    int n = 1;
-    int s = static_cast<int>(params.files_.size());
-    int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-    for (Params::Files::const_iterator i = params.files_.begin();
-         i != params.files_.end(); ++i) {
-        if (params.verbose_) {
-            std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": "
-                      << *i << std::endl;
-        }
-        int ret = task->run(*i);
-        if (rc == 0) rc = ret;
-    }
 
-    taskFactory.cleanup();
-    params.cleanup();
-    Exiv2::XmpParser::terminate();
+    try {
+        // Create the required action class
+        Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
+        Action::Task::AutoPtr task = taskFactory.create(Action::TaskType(params.action_));
+        assert(task.get());
+
+        // Process all files
+        int n = 1;
+        int s = static_cast<int>(params.files_.size());
+        int w = s > 9 ? s > 99 ? 3 : 2 : 1;
+        for (Params::Files::const_iterator i = params.files_.begin(); i != params.files_.end(); ++i) {
+            if (params.verbose_) {
+                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << *i
+                          << std::endl;
+            }
+            int ret = task->run(*i);
+            if (rc == 0)
+                rc = ret;
+        }
+
+        taskFactory.cleanup();
+        params.cleanup();
+        Exiv2::XmpParser::terminate();
+
+    } catch (const std::exception& exc) {
+        std::cerr << "Uncaught exception: " << exc.what() << std::endl;
+        rc = 1;
+    }
 
     // Return a positive one byte code for better consistency across platforms
     return static_cast<unsigned int>(rc) % 256;
