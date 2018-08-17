@@ -28,14 +28,12 @@
 
 #include "helper_functions.hpp"
 
-#include <algorithm>
+#include <string.h>
 
 
 std::string string_from_unterminated(const char* data, size_t data_length)
 {
-    const char* termination = std::find(data, data + data_length, 0);
-    // if find returned the end iterator => no \0 found
-    const size_t string_length = termination == data + data_length ? data_length : termination - data;
+    const size_t StringLength = strnlen(data, data_length);
 
-    return std::string(data, string_length);
+    return std::string(data, StringLength);
 }
