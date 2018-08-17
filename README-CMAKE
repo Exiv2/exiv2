@@ -20,17 +20,13 @@ STATUS:
 * CMake scripts are functional and used to perform the daily build on the buildserver
   for MacOS-X, Cygwin, Linux and Visual Studio (2005, 8, 10, 12, 13, 15 and 17)
 
-* The existing automake (./configure) is currently still supported by exiv2.
-  The long term plan is to adopt CMake as the only build platform.
-  automake and msvc solutions/project are likely to removed with Exiv2 v0.27
-
 * Team Exiv2 no longer provide support for MinGW (with/without CMake)
   Exiv2 is very difficult to build on MinGW with CMake.
   This is discussed in TODO-CMAKE
 
-Luis Díaz Más
+Luis Diaz Mas
 piponazo@gmail.com
-2017-09-10
+2018-08-17
 
 -------------------------------------------------------------------------------
 
@@ -42,6 +38,7 @@ TABLE OF CONTENTS
 3 Building and installing for Visual Studio Users
 4 Building and installing for MinGW Users
 5 Using conan to build exiv2 and project dependencies
+6 Consuming Exiv2 with CMake
 
 1 CMake resources
 =================
@@ -193,6 +190,16 @@ Basically, all you need to do is to have conan installed on your system and run 
     $ mkdir build && cd build
     $ conan install ..
     $ cmake .. or cmake-gui ..
+
+6 Consuming Exiv2 with CMake
+=====================================================
+
+When installing exiv2 by running the `install` target we get some files under the folder
+${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/.
+
+In the example project https://github.com/piponazo/exiv2Consumer you could see how to consume
+exiv2 via CMake by using these files.
+
 
 # That's all Folks
 ##
