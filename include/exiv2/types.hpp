@@ -38,6 +38,7 @@
 #include <string>
 #include <vector>
 #include <iosfwd>
+#include <limits>
 #include <utility>
 #include <algorithm>
 #include <sstream>
@@ -555,8 +556,13 @@ namespace Exiv2 {
 #ifdef _MSC_VER
 #pragma warning( disable : 4146 )
 #endif
-        if (n < zero)
-            n = -n;
+        if (n < zero) {
+            if (n == std::numeric_limits<IntType>::min()) {
+                n = std::numeric_limits<IntType>::max();
+            } else {
+                n = -n;
+            }
+        }
         if (m < zero)
             m = -m;
 #ifdef _MSC_VER
