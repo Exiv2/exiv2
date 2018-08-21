@@ -11,7 +11,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     source conan/bin/activate
 else
     brew update
-    brew install gettext libssh md5sha1sum openssl pyenv-virtualenv
+    brew install gettext md5sha1sum pyenv-virtualenv
     export CFLAGS="-I/usr/local/opt/openssl/include $CFLAGS"
     export LDFLAGS="-L/usr/local/opt/openssl/lib $LDFLAGS"
     pyenv install $PYTHON
