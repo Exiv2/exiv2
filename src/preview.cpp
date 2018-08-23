@@ -40,6 +40,7 @@
 #include "jpgimage.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "unused.h"
 
 // *****************************************************************************
 namespace {
@@ -525,7 +526,7 @@ namespace {
         : Loader(id, image)
     {
         offset_ = 0;
-		const ExifData &exifData = image_.exifData();
+        const ExifData &exifData = image_.exifData();
         ExifData::const_iterator pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
         if (pos != exifData.end() && pos->count() > 0) {
             offset_ = pos->toLong();
@@ -1038,7 +1039,8 @@ namespace Exiv2 {
     {
         pData_ = data.pData_;
         size_ = data.size_;
-        data.release();
+        std::pair<byte*, long> ret = data.release();
+        UNUSED(ret);
     }
 
     PreviewImage::~PreviewImage()

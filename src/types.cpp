@@ -28,6 +28,7 @@
 // included header files
 #include "types.hpp"
 #include "i18n.h"                               // for _exvGettext
+#include "unused.h"
 
 // + standard includes
 #ifdef EXV_UNICODE_PATH
@@ -124,7 +125,8 @@ namespace Exiv2 {
     DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        rhs.release();
+        std::pair<byte*, long> ret = rhs.release();
+        UNUSED(ret);
     }
 
     DataBuf::DataBuf(const byte* pData, long size)
