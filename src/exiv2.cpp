@@ -1133,49 +1133,73 @@ namespace {
         return true;
     } // parseTime
 
-    int parseCommonTargets(const std::string& optarg,
-                           const std::string& action)
+    void printUnrecognizedArgument(const char argc, const std::string& action)
     {
-        int rc     = 0;
+        std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
+                  << action << " " << _("target") << " `"  << argc << "'\n";
+    }
+
+    int parseCommonTargets(const std::string& optarg, const std::string& action)
+    {
+        int rc = 0;
         int target = 0;
-        int all    = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
-        int extra  = Params::ctXmpSidecar|Params::ctExif|Params::ctIptc|Params::ctXmp;
+        int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
+        int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
         for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
             switch (optarg[i]) {
-            case 'e': target |= Params::ctExif; break;
-            case 'i': target |= Params::ctIptc; break;
-            case 'x': target |= Params::ctXmp; break;
-            case 'c': target |= Params::ctComment; break;
-            case 't': target |= Params::ctThumb; break;
-            case 'C': target |= Params::ctIccProfile; break;
-            case 'I': target |= Params::ctIptcRaw;break;
-            case '-': target |= Params::ctStdInOut;break;
-            case 'a': target |= all ; break;
-            case 'X': target |= extra ; // -eX
-                 if ( i > 0 ) { // -eXX or -iXX
-                    target |=  Params::ctXmpRaw ;
-                    target &= ~extra; // turn off those bits
-                 }
-            break;
+                case 'e':
+                    target |= Params::ctExif;
+                    break;
+                case 'i':
+                    target |= Params::ctIptc;
+                    break;
+                case 'x':
+                    target |= Params::ctXmp;
+                    break;
+                case 'c':
+                    target |= Params::ctComment;
+                    break;
+                case 't':
+                    target |= Params::ctThumb;
+                    break;
+                case 'C':
+                    target |= Params::ctIccProfile;
+                    break;
+                case 'I':
+                    target |= Params::ctIptcRaw;
+                    break;
+                case '-':
+                    target |= Params::ctStdInOut;
+                    break;
+                case 'a':
+                    target |= all;
+                    break;
+                case 'X':
+                    target |= extra;  // -eX
+                    if (i > 0) {      // -eXX or -iXX
+                        target |= Params::ctXmpRaw;
+                        target &= ~extra;  // turn off those bits
+                    }
+                    break;
 
-            case 'p':
-            {
-                if (strcmp(action.c_str(), "extract") == 0) {
-                    i += (size_t) parsePreviewNumbers(Params::instance().previewNumbers_, optarg, (int) i + 1);
-                    target |= Params::ctPreview;
+                case 'p': {
+                    if (strcmp(action.c_str(), "extract") == 0) {
+                        i += (size_t)parsePreviewNumbers(Params::instance().previewNumbers_, optarg, (int)i + 1);
+                        target |= Params::ctPreview;
+                        break;
+                    }
+                    printUnrecognizedArgument(optarg[i], action);
+                    rc = -1;
                     break;
                 }
-                // fallthrough
-            }
-            default:
-                std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
-                          << action << " " << _("target") << " `"  << optarg[i] << "'\n";
-                rc = -1;
-                break;
+                default:
+                    printUnrecognizedArgument(optarg[i], action);
+                    rc = -1;
+                    break;
             }
         }
         return rc ? rc : target;
-    } // parseCommonTargets
+    }
 
     int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
                             const std::string& optarg,
