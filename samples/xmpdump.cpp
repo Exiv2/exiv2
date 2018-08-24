@@ -2,14 +2,12 @@
 // xmpdump.cpp
 // Sample program to dump the XMP packet of an image
 
-#include "image.hpp"
-#include <string>
-#include <iostream>
 #include <cassert>
+#include <iostream>
+#include <string>
+#include "image.hpp"
 
-int main(int argc, char* const argv[])
-try {
-
+int main(int argc, char* const argv[]) try {
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
@@ -23,13 +21,12 @@ try {
     if (xmpPacket.empty()) {
         std::string error(argv[1]);
         error += ": No XMP packet found in the file";
-        throw Exiv2::Error(kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
     std::cout << xmpPacket << "\n";
 
     return 0;
-}
-catch (Exiv2::AnyError& e) {
+} catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }
