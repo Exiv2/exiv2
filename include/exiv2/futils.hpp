@@ -54,11 +54,11 @@ namespace Exiv2 {
 // free functions
     /*!
       @brief  Return the value of environmental variable.
-      @param  var The name of environmental variable.
+      @param[in]  var The name of environmental variable. Must be a member of the enumeration @ref EnVar.
       @return the value of environmental variable. If it's empty, the default value is returned.
       @throws std::out_of_range when an unexpected EnVar is given as input.
      */
-    EXIV2API std::string getEnv(EnVar var);
+    EXIV2API std::string getEnv(int env_var);
     /*!
       @brief Convert an integer value to its hex character.
       @param code The integer value.
