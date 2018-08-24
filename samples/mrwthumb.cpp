@@ -2,13 +2,12 @@
 // mrwthumb.cpp
 // Sample program to extract a Minolta thumbnail from the makernote
 
-#include "image.hpp"
-#include "exif.hpp"
-#include "error.hpp"
 #include <cassert>
+#include "error.hpp"
+#include "exif.hpp"
+#include "image.hpp"
 
-int main(int argc, char* const argv[])
-try {
+int main(int argc, char* const argv[]) try {
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
@@ -18,11 +17,11 @@ try {
     assert(image.get() != 0);
     image->readMetadata();
 
-    Exiv2::ExifData &exifData = image->exifData();
+    Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
         std::string error(argv[1]);
         error += ": No Exif data found in the file";
-        throw Exiv2::Error(kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
 
     Exiv2::ExifKey key("Exif.Minolta.ThumbnailOffset");
@@ -42,8 +41,7 @@ try {
     }
 
     return 0;
-}
-catch (Exiv2::AnyError& e) {
+} catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }

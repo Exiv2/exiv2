@@ -17,6 +17,7 @@ set( SAMPLES
      key-test.cpp
      largeiptc-test.cpp
      mmap-test.cpp
+     mrwthumb.cpp
      prevtest.cpp
      stringto-test.cpp
      taglist.cpp
