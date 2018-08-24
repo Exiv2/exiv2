@@ -29,6 +29,7 @@ set( SAMPLES
      xmpprint.cpp
      xmpsample.cpp
      crwedit.cpp
+     crwparse.cpp
 )
 
 ##
