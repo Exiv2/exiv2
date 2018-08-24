@@ -60,12 +60,13 @@ namespace Exiv2 {
     const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
 // *****************************************************************************
 // free functions
-    std::string getEnv(EnVar var)
+    std::string getEnv(int env_var)
     {
-        if (var < envHTTPPOST || var > envTIMEOUT) {
+        // this check is relying on undefined behavior and might not be effective
+        if (env_var < envHTTPPOST || env_var > envTIMEOUT) {
             throw std::out_of_range("Unexpected env variable");
         }
-        return getenv(ENVARKEY[var]) ? getenv(ENVARKEY[var]) : ENVARDEF[var];
+        return getenv(ENVARKEY[env_var]) ? getenv(ENVARKEY[env_var]) : ENVARDEF[env_var];
     }
 
     /// @brief Convert an integer value to its hex character.
