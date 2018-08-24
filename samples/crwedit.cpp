@@ -6,17 +6,16 @@
 #include "crwimage_int.hpp"
 #include "futils.hpp"
 
+#include <cstring>
 #include <iostream>
 #include <string>
-#include <cstring>
 
 void remove(Exiv2::Internal::CiffHeader* pHead);
 void add(Exiv2::Internal::CiffHeader* pHead);
 void help();
 void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead);
 
-int main(int argc, char* const argv[])
-try {
+int main(int argc, char* const argv[]) try {
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         std::cout << "Edit the CIFF structure of a CRW file\n";
@@ -25,14 +24,15 @@ try {
 
     std::string filename(argv[1]);
     Exiv2::FileIo io(filename);
-    if(io.open() != 0) {
+    if (io.open() != 0) {
         throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
     Exiv2::IoCloser closer(io);
 
     // Ensure that this is a CRW image
     if (!Exiv2::isCrwType(io, false)) {
-        if (io.error() || io.eof()) throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+        if (io.error() || io.eof())
+            throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
         throw Exiv2::Error(Exiv2::kerNotACrwImage);
     }
 
@@ -40,7 +40,8 @@ try {
     long len = (long)io.size();
     Exiv2::DataBuf buf(len);
     io.read(buf.pData_, len);
-    if (io.error() || io.eof()) throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+    if (io.error() || io.eof())
+        throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
 
     // Parse the image, starting with a CIFF header component
     Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
@@ -53,18 +54,29 @@ try {
         std::cout << "command> ";
         std::cin >> cmd;
         switch (cmd) {
-        case 'q': go = false; break;
-        case 'p': parseTree->print(std::cout); break;
-        case 'a': add(parseTree.get()); break;
-        case 'd': remove(parseTree.get()); break;
-        case 'w': write(filename, parseTree.get()); break;
-        case 'h': help(); break;
+            case 'q':
+                go = false;
+                break;
+            case 'p':
+                parseTree->print(std::cout);
+                break;
+            case 'a':
+                add(parseTree.get());
+                break;
+            case 'd':
+                remove(parseTree.get());
+                break;
+            case 'w':
+                write(filename, parseTree.get());
+                break;
+            case 'h':
+                help();
+                break;
         }
     }
 
     return 0;
-}
-catch (Exiv2::AnyError& e) {
+} catch (Exiv2::AnyError& e) {
     std::cerr << e << "\n";
     return -1;
 }
@@ -75,12 +87,13 @@ void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead
     pHead->write(blob);
 
     Exiv2::FileIo io(filename);
-    if(io.open("wb") != 0) {
+    if (io.open("wb") != 0) {
         throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
     Exiv2::IoCloser closer(io);
-    long ret = io.write(&blob[0], (long) blob.size());
-    if (static_cast<size_t>(ret) != blob.size()) throw Exiv2::Error(Exiv2::kerImageWriteFailed);
+    long ret = io.write(&blob[0], (long)blob.size());
+    if (static_cast<size_t>(ret) != blob.size())
+        throw Exiv2::Error(Exiv2::kerImageWriteFailed);
     io.close();
 }
 
@@ -91,14 +104,12 @@ void remove(Exiv2::Internal::CiffHeader* pHead)
     std::cin >> std::hex >> crwTag;
     std::cout << "crwDir> 0x";
     std::cin >> std::hex >> crwDir;
-    std::cout << "Deleting tag 0x" << std::hex << crwTag
-              << " in dir 0x" << crwDir << ", ok? ";
+    std::cout << "Deleting tag 0x" << std::hex << crwTag << " in dir 0x" << crwDir << ", ok? ";
     char cmd;
     std::cin >> cmd;
     if (cmd != 'n' && cmd != 'N') {
         pHead->remove(crwTag, crwDir);
-    }
-    else {
+    } else {
         std::cout << "Canceled.\n";
     }
 }
@@ -113,16 +124,14 @@ void add(Exiv2::Internal::CiffHeader* pHead)
     std::cin >> std::hex >> crwDir;
     std::cout << "size> ";
     std::cin >> std::dec >> size;
-    std::cout << "Adding tag 0x" << std::hex << crwTag
-              << " in dir 0x" << crwDir << ", " << size << " bytes, ok? ";
+    std::cout << "Adding tag 0x" << std::hex << crwTag << " in dir 0x" << crwDir << ", " << size << " bytes, ok? ";
     char cmd;
     std::cin >> cmd;
     if (cmd != 'n' && cmd != 'N') {
         Exiv2::DataBuf buf(size);
         std::memset(buf.pData_, 0xaa, size);
         pHead->add(crwTag, crwDir, buf);
-    }
-    else {
+    } else {
         std::cout << "Canceled.\n";
     }
 }
