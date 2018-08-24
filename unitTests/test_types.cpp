@@ -1,5 +1,7 @@
 #include <exiv2/types.hpp>
 
+#include <math.h>
+
 #include "gtestwrapper.h"
 
 using namespace Exiv2;
@@ -36,4 +38,23 @@ TEST(DataBuf, allocatesDataWithNonEmptyConstructor)
     DataBuf instance (5);
     ASSERT_NE(static_cast<byte *>(NULL), instance.pData_); /// \todo use nullptr once we move to c++11
     ASSERT_EQ(5,    instance.size_);
+}
+
+TEST(Rational, floatToRationalCast)
+{
+    static const float floats[] = {0.5, 0.015, 0.0000625};
+
+    for (size_t i = 0; i < sizeof(floats) / sizeof(*floats); ++i) {
+        const Rational r = floatToRationalCast(floats[i]);
+        const float fraction = static_cast<float>(r.first) / static_cast<float>(r.second);
+        ASSERT_TRUE(fabs((floats[i] - fraction) / floats[i]) < 0.01f);
+    }
+
+    const Rational plus_inf = floatToRationalCast(INFINITY);
+    ASSERT_EQ(plus_inf.first, 1);
+    ASSERT_EQ(plus_inf.second, 0);
+
+    const Rational minus_inf = floatToRationalCast(-1 * INFINITY);
+    ASSERT_EQ(minus_inf.first, -1);
+    ASSERT_EQ(minus_inf.second, 0);
 }
