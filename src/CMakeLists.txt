@@ -8,7 +8,6 @@ set( LIBEXIV2_SRC
     bmpimage.cpp
     convert.cpp
     cr2image.cpp
-    crwedit.cpp
     crwimage.cpp
     datasets.cpp
     easyaccess.cpp

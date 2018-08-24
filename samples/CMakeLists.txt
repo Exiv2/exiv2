@@ -28,6 +28,7 @@ set( SAMPLES
      xmpparser-test.cpp
      xmpprint.cpp
      xmpsample.cpp
+     crwedit.cpp
 )
 
 ##
