@@ -2,10 +2,6 @@
 #include "canonmn_int.hpp"
 #include "i18n.h"                // NLS support.
 
-#ifndef EXV_HAVE_TIMEGM
-# include "timegm.h"
-#endif
-
 #include <cassert>
 
 // *****************************************************************************
