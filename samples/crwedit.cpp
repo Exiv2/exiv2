@@ -15,70 +15,73 @@ void add(Exiv2::Internal::CiffHeader* pHead);
 void help();
 void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead);
 
-int main(int argc, char* const argv[]) try {
-    if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " file\n";
-        std::cout << "Edit the CIFF structure of a CRW file\n";
-        return 1;
-    }
+int main(int argc, char* const argv[])
+{
+    try {
+        if (argc != 2) {
+            std::cout << "Usage: " << argv[0] << " file\n";
+            std::cout << "Edit the CIFF structure of a CRW file\n";
+            return 1;
+        }
 
-    std::string filename(argv[1]);
-    Exiv2::FileIo io(filename);
-    if (io.open() != 0) {
-        throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
-    }
-    Exiv2::IoCloser closer(io);
+        std::string filename(argv[1]);
+        Exiv2::FileIo io(filename);
+        if (io.open() != 0) {
+            throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
+        }
+        Exiv2::IoCloser closer(io);
 
-    // Ensure that this is a CRW image
-    if (!Exiv2::isCrwType(io, false)) {
+        // Ensure that this is a CRW image
+        if (!Exiv2::isCrwType(io, false)) {
+            if (io.error() || io.eof())
+                throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+            throw Exiv2::Error(Exiv2::kerNotACrwImage);
+        }
+
+        // Read the image into a memory buffer
+        long len = (long)io.size();
+        Exiv2::DataBuf buf(len);
+        io.read(buf.pData_, len);
         if (io.error() || io.eof())
             throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
-        throw Exiv2::Error(Exiv2::kerNotACrwImage);
-    }
 
-    // Read the image into a memory buffer
-    long len = (long)io.size();
-    Exiv2::DataBuf buf(len);
-    io.read(buf.pData_, len);
-    if (io.error() || io.eof())
-        throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+        // Parse the image, starting with a CIFF header component
+        Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
+        parseTree->read(buf.pData_, buf.size_);
 
-    // Parse the image, starting with a CIFF header component
-    Exiv2::Internal::CiffHeader::AutoPtr parseTree(new Exiv2::Internal::CiffHeader);
-    parseTree->read(buf.pData_, buf.size_);
-
-    // Allow user to make changes
-    bool go = true;
-    while (go) {
-        char cmd;
-        std::cout << "command> ";
-        std::cin >> cmd;
-        switch (cmd) {
-            case 'q':
-                go = false;
-                break;
-            case 'p':
-                parseTree->print(std::cout);
-                break;
-            case 'a':
-                add(parseTree.get());
-                break;
-            case 'd':
-                remove(parseTree.get());
-                break;
-            case 'w':
-                write(filename, parseTree.get());
-                break;
-            case 'h':
-                help();
-                break;
+        // Allow user to make changes
+        bool go = true;
+        while (go) {
+            char cmd;
+            std::cout << "command> ";
+            std::cin >> cmd;
+            switch (cmd) {
+                case 'q':
+                    go = false;
+                    break;
+                case 'p':
+                    parseTree->print(std::cout);
+                    break;
+                case 'a':
+                    add(parseTree.get());
+                    break;
+                case 'd':
+                    remove(parseTree.get());
+                    break;
+                case 'w':
+                    write(filename, parseTree.get());
+                    break;
+                case 'h':
+                    help();
+                    break;
+            }
         }
-    }
 
-    return 0;
-} catch (Exiv2::AnyError& e) {
-    std::cerr << e << "\n";
-    return -1;
+        return 0;
+    } catch (Exiv2::AnyError& e) {
+        std::cerr << e << "\n";
+        return -1;
+    }
 }
 
 void write(const std::string& filename, const Exiv2::Internal::CiffHeader* pHead)
