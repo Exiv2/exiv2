@@ -72,9 +72,6 @@
 // Define if you have  the <sys/types.h> header file.
 #cmakedefine EXV_HAVE_SYS_TYPES_H
 
-// Define if you have the timegm function.
-#cmakedefine EXV_HAVE_TIMEGM
-
 /* Define if you have the <unistd.h> header file. */
 #cmakedefine EXV_HAVE_UNISTD_H
 

@@ -25,9 +25,6 @@
 // included header files
 #include "config.h"
 
-#ifndef EXV_HAVE_TIMEGM
-# include "timegm.h"
-#endif
 #include "actions.hpp"
 #include "exiv2app.hpp"
 #include "image.hpp"

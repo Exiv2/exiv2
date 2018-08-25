@@ -142,6 +142,7 @@ set( LIBEXIV2_PRIVATE_HDR
     tifffwd_int.hpp
     tiffimage_int.hpp
     tiffvisitor_int.hpp
+    timegm.h
     unused.h
 )
 
@@ -318,10 +319,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     # TODO This should not be needed here! we need to fix the previous TODO
     target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
 
-    if(NOT EXV_HAVE_TIMEGM )
-        target_sources(exiv2    PRIVATE localtime.c)
-    endif()
-
     target_sources(exiv2    PRIVATE getopt_win32.c)
 
     # Copy DLLs from conan packages to the bin folder
@@ -331,11 +328,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     endif()
 
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-endif()
-
-# modify source lists to suit environment
-if(NOT EXV_HAVE_TIMEGM )
-    target_sources(exiv2lib PRIVATE localtime.c)
 endif()
 
 # ******************************************************************************

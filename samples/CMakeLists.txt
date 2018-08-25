@@ -62,10 +62,6 @@ list(APPEND APPLICATIONS pathtest)
 set_target_properties(   pathtest  PROPERTIES OUTPUT_NAME path-test )
 target_include_directories(pathtest PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
-if(NOT EXV_HAVE_TIMEGM )
-    target_sources(pathtest PRIVATE ../src/localtime.c)
-endif()
-
 add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
 list(APPEND APPLICATIONS exiv2json)
 

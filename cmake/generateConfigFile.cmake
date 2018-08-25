@@ -27,7 +27,6 @@ check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )
 check_function_exists( mmap     EXV_HAVE_MMAP )
 check_function_exists( munmap   EXV_HAVE_MUNMAP )
 check_function_exists( strerror_r   EXV_HAVE_STRERROR_R )
-check_function_exists( timegm       EXV_HAVE_TIMEGM )
 
 # TODO: This check should be removed and rely on the check done in findDependencies.cmake
 check_include_file( "libintl.h" EXV_HAVE_LIBINTL_H )
