@@ -38,13 +38,15 @@ option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentatio
 # Only intended to be used by Exiv2 developers/contributors
 option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
 option( EXIV2_TEAM_WARNINGS_AS_ERRORS "Treat warnings as errors"                              OFF )
+option( EXIV2_TEAM_USE_SANITIZERS     "Enable ASAN and UBSAN when available"                  OFF )
 set(EXTRA_COMPILE_FLAGS " ")
 
 mark_as_advanced(
-    EXIV2_TEAM_EXTRA_WARNINGS 
+    EXIV2_TEAM_EXTRA_WARNINGS
     EXIV2_TEAM_WARNINGS_AS_ERRORS
     EXIV2_ENABLE_EXTERNAL_XMP
     EXTRA_COMPILE_FLAGS
+    EXIV2_TEAM_USE_SANITIZERS
 )
 
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
