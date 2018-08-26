@@ -106,3 +106,32 @@ TEST(urldecode, decodesGivenUrlInPlace)
     urldecode(url);
     ASSERT_STREQ(expectedDecodedUrl.c_str(), url.c_str());
 }
+
+TEST(base64encode, encodesValidString)
+{
+    const std::string original ("This is a unit test");
+    const std::string expected ("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
+    size_t encodeLength = ((original.size() + 2) / 3) * 4 + 1;
+    char * result = new char [encodeLength];
+    ASSERT_EQ(1, base64encode(original.c_str(), original.size(), result, encodeLength));
+    ASSERT_STREQ(expected.c_str(), result);
+    delete [] result;
+}
+
+TEST(base64encode, doesNotEncodeWithNotBigEnoughResultSize)
+{
+    const std::string original ("This is a unit test");
+    size_t encodeLength = (original.size());
+    char * result = new char [encodeLength];
+    ASSERT_EQ(0, base64encode(original.c_str(), original.size(), result, encodeLength));
+}
+
+TEST(base64decode, decodesValidString)
+{
+    const std::string original ("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
+    const std::string expected ("This is a unit test");
+    char * result = new char [original.size()];
+    ASSERT_EQ(expected.size()+1, base64decode(original.c_str(), result, original.size()));
+    ASSERT_STREQ(expected.c_str(), result);
+    delete [] result;
+}
