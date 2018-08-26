@@ -65,20 +65,6 @@ namespace Exiv2
     EXIV2API std::string getEnv(EnVar var);
 
     /*!
-      @brief Convert an integer value to its hex character.
-      @param code The integer value.
-      @return the input's hex character.
-     */
-    EXIV2API char to_hex(char code);
-
-    /*!
-      @brief Convert a hex character to its integer value.
-      @param ch The hex character.
-      @return the input's integer value.
-     */
-    EXIV2API char from_hex(char ch);
-
-    /*!
       @brief Encode the input url.
       @param str The url needs encoding.
       @return the url-encoded version of str.

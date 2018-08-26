@@ -68,14 +68,16 @@ namespace Exiv2 {
         return getenv(ENVARKEY[var]) ? getenv(ENVARKEY[var]) : ENVARDEF[var];
     }
 
+    /// @brief Convert an integer value to its hex character.
     char to_hex(char code) {
         static char hex[] = "0123456789abcdef";
         return hex[code & 15];
-    } // to_hex
+    }
 
+    /// @brief Convert a hex character to its integer value.
     char from_hex(char ch) {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
-    } // from_hex
+    }
 
     std::string urlencode(const char* str) {
         const char* pstr = str;
@@ -117,13 +119,13 @@ namespace Exiv2 {
         }
         *pbuf = '\0';
         return buf;
-    } // urldecode
+    }
 
     void urldecode(std::string& str) {
         char* decodeStr = Exiv2::urldecode(str.c_str());
         str = std::string(decodeStr);
         free(decodeStr);
-    } // urldecode(const std::string& str)
+    }
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
