@@ -29,21 +29,11 @@
 #ifndef FUTILS_HPP_
 #define FUTILS_HPP_
 
-// *********************************************************************
-// included header files
 #include "config.h"
-#include "types.hpp"
 
-#ifdef EXV_HAVE_STDINT_H
-# include <stdint.h>                     // for uint8_t
-#endif
-
-// + standard includes
 #include <string>
-#include <map>
-#include <limits.h>						 // for UINT_MAX
 
-// *********************************************************************
+
 // namespace extensions
 namespace Exiv2 {
     //! the name of environmental variables.
