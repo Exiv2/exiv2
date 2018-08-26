@@ -83,3 +83,26 @@ TEST(urlencode, encodesGivenUrl)
     const std::string url = urlencode("http://www.geekhideout.com/urlcode.shtml");
     ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml", url.c_str());
 }
+
+TEST(urlencode, encodesGivenUrlWithSpace)
+{
+    const std::string url = urlencode("http://www.geekhideout.com/url code.shtml");
+    ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furl+code.shtml", url.c_str());
+}
+
+TEST(urldecode, decodesGivenUrl)
+{
+    const std::string expectedDecodedUrl ("http://www.geekhideout.com/urlcode.shtml");
+    const std::string url ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml");
+    char * url3 = urldecode(url.c_str());
+    ASSERT_STREQ(expectedDecodedUrl.c_str(), url3);
+    free(url3);
+}
+
+TEST(urldecode, decodesGivenUrlInPlace)
+{
+    const std::string expectedDecodedUrl ("http://www.geekhideout.com/urlcode.shtml");
+    std::string url ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml");
+    urldecode(url);
+    ASSERT_STREQ(expectedDecodedUrl.c_str(), url.c_str());
+}
