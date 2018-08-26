@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstdio>
 #include <cerrno>
+#include <stdexcept>
 
 #include "gtestwrapper.h"
 
