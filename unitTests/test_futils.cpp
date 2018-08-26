@@ -124,6 +124,7 @@ TEST(base64encode, doesNotEncodeWithNotBigEnoughResultSize)
     size_t encodeLength = (original.size());
     char * result = new char [encodeLength];
     ASSERT_EQ(0, base64encode(original.c_str(), original.size(), result, encodeLength));
+    delete [] result;
 }
 
 TEST(base64decode, decodesValidString)
@@ -134,4 +135,20 @@ TEST(base64decode, decodesValidString)
     ASSERT_EQ(expected.size()+1, base64decode(original.c_str(), result, original.size()));
     ASSERT_STREQ(expected.c_str(), result);
     delete [] result;
+}
+
+TEST(AUri, parsesAndDecoreUrl)
+{
+    const std::string url("http://www.geekhideout.com/urlcode.shtml");
+    Uri uri = Uri::Parse(url);
+
+    ASSERT_EQ("", uri.QueryString);
+    ASSERT_EQ("http", uri.Protocol);
+    ASSERT_EQ("www.geekhideout.com", uri.Host);
+    ASSERT_EQ("80", uri.Port);
+    ASSERT_EQ("/urlcode.shtml", uri.Path);
+    ASSERT_EQ("", uri.Username);
+    ASSERT_EQ("", uri.Password);
+
+    Uri::Decode(uri);
 }
