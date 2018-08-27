@@ -7,6 +7,20 @@ matrix:
       sudo: required
       compiler: gcc
       env: COVERAGE=1 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DBUILD_WITH_COVERAGE=ON -DEXIV2_TEAM_USE_SANITIZERS=ON" # All enabled + Coverage
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc-8
+      addons:
+        apt:
+          update: true
+          sources:
+          - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - g++-8
+      env: CC=gcc-8 CXX=g++-8 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON"
+
     - os: linux
       dist: trusty
       sudo: required
