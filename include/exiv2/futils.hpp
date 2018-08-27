@@ -79,7 +79,7 @@ namespace Exiv2
       @param str The url needs decoding.
       @return the url-decoded version of str.
 
-      @note Be sure to free() the returned string after use
+      @note Be sure to 'free' the returned string after use with 'delete []'.
             Source: http://www.geekhideout.com/urlcode.shtml
       @todo This function can probably be hidden into the implementation details
      */

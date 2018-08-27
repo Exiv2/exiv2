@@ -96,7 +96,7 @@ TEST(urldecode, decodesGivenUrl)
     const std::string url ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml");
     char * url3 = urldecode(url.c_str());
     ASSERT_STREQ(expectedDecodedUrl.c_str(), url3);
-    free(url3);
+    delete [] url3;
 }
 
 TEST(urldecode, decodesGivenUrlInPlace)
