@@ -6,15 +6,16 @@ matrix:
       dist: trusty
       sudo: required
       compiler: gcc
-      env: COVERAGE=1 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DBUILD_WITH_COVERAGE=ON" # All enabled + Coverage
+      env: COVERAGE=1 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DBUILD_WITH_COVERAGE=ON -DEXIV2_TEAM_USE_SANITIZERS=ON" # All enabled + Coverage
     - os: linux
       dist: trusty
       sudo: required
       compiler: clang
+
     - os: osx
       osx_image: xcode9
       compiler: clang
-      env: PYTHON=3.6.2 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON" # All enabled
+      env: PYTHON=3.6.2 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON" # All enabled
 
 env:
     #- CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release" # Default

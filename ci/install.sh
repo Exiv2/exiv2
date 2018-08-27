@@ -37,11 +37,8 @@ conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/pub
 mkdir -p ~/.conan/profiles
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    if [ ${CC} == "clang" ]; then
-        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=clang\ncompiler.version=5.0\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
-    else
-        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=gcc\ncompiler.version=4.8\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
-    fi
+    CC_VER=$(${CC} --version | head -1 | awk '{print $3}'| awk -F'.' '{ print $1"."$2 }')
+    printf "[settings]\nos=Linux\narch=x86_64\ncompiler=$CC\ncompiler.version=$CC_VER\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
 else
     printf "[settings]\nos=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=9.0\ncompiler.libcxx=libc++\nbuild_type=Release\n" > ~/.conan/profiles/release
 fi
