@@ -19,9 +19,6 @@ conan install .. --build missing --profile release
 cmake ${CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=install ..
 make -j2 VERBOSE=1
 
-#On most systems, you can set the TZ environment variable to set the timezone for a process. It's a POSIX feature.
-export TZ=UTC
-
 make tests
 make install
 cd bin
