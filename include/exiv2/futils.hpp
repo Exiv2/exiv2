@@ -26,7 +26,8 @@
   @date    12-Dec-03, ahu: created<BR>
            02-Apr-05, ahu: moved to Exiv2 namespace
  */
-#pragma once
+#ifndef FUTILS_HPP_
+#define FUTILS_HPP_
 
 #include "config.h"
 
@@ -202,3 +203,5 @@ namespace Exiv2
     };
 
 }  // namespace Exiv2
+
+#endif // #ifndef FUTILS_HPP_
