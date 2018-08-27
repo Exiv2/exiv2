@@ -102,7 +102,7 @@ namespace Exiv2 {
 
     char* urldecode(const char* str) {
         const char* pstr = str;
-        char* buf  = (char*)malloc(strlen(str) + 1);
+        char* buf  = new char [(strlen(str) + 1)];
         char* pbuf = buf;
         while (*pstr) {
             if (*pstr == '%') {
@@ -124,7 +124,7 @@ namespace Exiv2 {
     void urldecode(std::string& str) {
         char* decodeStr = Exiv2::urldecode(str.c_str());
         str = std::string(decodeStr);
-        free(decodeStr);
+        delete [] decodeStr;
     }
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
