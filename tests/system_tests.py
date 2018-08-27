@@ -701,6 +701,9 @@ class CaseMeta(type):
 
     def __new__(mcs, clsname, bases, dct):
 
+        assert len(_parameters) != 0, \
+            "Internal error: substitution dictionary not populated"
+
         changed = True
 
         # expand all non-private variables by brute force

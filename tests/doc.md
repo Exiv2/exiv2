@@ -562,7 +562,9 @@ python3 runner.py
 
 One can supply the script with a directory where the suite should look for the
 tests (it will search the directory recursively). If omitted, the runner will
-look in the directory where the configuration file is located.
+look in the directory where the configuration file is located. It is also
+possible to instead pass a file as the parameter, the test suite will then only
+run the tests from this file.
 
 The runner script also supports the optional arguments `--config_file` which
 allows to provide a different test suite configuration file than the default
