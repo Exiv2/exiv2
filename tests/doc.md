@@ -381,6 +381,40 @@ Using the bytes encoding has the following limitations:
   valid `bytes`
 
 
+### Setting and modifying environment variables
+
+The test suite supports setting or modifying environment variables for
+individual test cases. This can be accomplished by adding a member dictionary
+named `env` with the appropriate variable names and keys:
+``` python
+# -*- coding: utf-8 -*-
+
+from system_tests import CaseMeta, path
+
+
+class AnInformativeName(metaclass=CaseMeta):
+
+    env = {
+        "MYVAR": 26,
+        "USER": "foobar"
+    }
+
+    # if you want a pristine environment, consisting only of MYVAR & USER,
+    # uncomment the following line:
+    # inherit_env = False
+
+    # the rest of the test case follows
+```
+
+All commands belonging to this test case will be run with a modified environment
+where the variables `MYVAR` and `USER` will be set to the specified
+values. By default the environment is inherited from the user's environment and
+the specified variables in `env` take precedence over the variables in the
+user's environment (in the above example the variable `$USER` would be
+overridden). If no variables should be inherited set `inherit_env` to `False`
+and your test case will get only the specified environment variables.
+
+
 ### Creating file copies
 
 For tests that modify their input file it is useful to run these with a

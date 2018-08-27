@@ -535,6 +535,7 @@ def test_run(self):
             _cmd_splitter(command),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            env=self._get_env(),
             cwd=self.work_dir,
             shell=_SUBPROCESS_SHELL
         )
@@ -611,6 +612,8 @@ class Case(unittest.TestCase):
     #: the first encoding that does not raise a UnicodeError is used
     encodings = ['utf-8', 'iso-8859-1']
 
+    inherit_env = True
+
     @classmethod
     def setUpClass(cls):
         """
@@ -618,6 +621,27 @@ class Case(unittest.TestCase):
         path to the directory where the python source file is located.
         """
         cls.work_dir = os.path.dirname(inspect.getfile(cls))
+
+    def _get_env(self):
+        """ Return an appropriate env value for subprocess.Popen.
+
+        This function returns either an appropriately populated dictionary or
+        None (the latter if this class has no attribute env). If a dictionary
+        is returned, then it will be either exactly self.env (when inherit_env
+        is False) or a copy of the current environment merged with self.env
+        (the values from self.env take precedence).
+        """
+        if not hasattr(self, "env"):
+            return None
+
+        if not self.inherit_env:
+            return self.env
+
+        env_copy = os.environ.copy()
+        for key in self.env:
+            env_copy[key] = self.env[key]
+
+        return env_copy
 
     def _compare_output(self, i, command, got, expected, msg=None):
         """ Compares the expected and actual output of a test case. """
