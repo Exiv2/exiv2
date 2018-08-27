@@ -35,14 +35,15 @@ else:
 
 def _disjoint_dict_merge(d1, d2):
     """
-    Merges two dictionaries with no common keys together and returns the result.
+    Merges two dictionaries whose keys are disjoint sets and returns the
+    resulting dictionary:
 
     >>> d1 = {"a": 1}
     >>> d2 = {"b": 2, "c": 3}
     >>> _disjoint_dict_merge(d1, d2) == {"a": 1, "b": 2, "c": 3}
     True
 
-    Calling this function with dictionaries that share keys raises a ValueError:
+    Passing dictionaries that share keys raises a ValueError:
     >>> _disjoint_dict_merge({"a": 1, "b": 6}, {"b": 2, "a": 3})
     Traceback (most recent call last):
      ..
@@ -112,12 +113,12 @@ def configure_suite(config_file):
     3. extract the environment variables given in the ``ENV`` section
     4. save all entries from the ``variables`` section in the global
        datastructure
-    5. interpret all entries in the ``paths`` section as relative paths from the
-       configuration file, expand them to absolute paths and save them in the
-       global datastructure
+    5. interpret all entries in the ``paths`` section as relative paths from
+       the configuration file, expand them to absolute paths and save them in
+       the global datastructure
 
-    For further information concerning the rationale behind this, please consult
-    the documentation in ``doc.md``.
+    For further information concerning the rationale behind this, please
+    consult the documentation in ``doc.md``.
     """
 
     if not os.path.exists(config_file):
@@ -134,11 +135,12 @@ def configure_suite(config_file):
     config.read(config_file)
 
     _parameters["suite_root"] = os.path.split(os.path.abspath(config_file))[0]
-    _parameters["timeout"] = config.getfloat("General", "timeout", fallback=1.0)
+    _parameters["timeout"] = config.getfloat(
+        "General", "timeout", fallback=1.0)
 
     if 'variables' in config and 'paths' in config:
-        intersecting_keys = set(config["paths"].keys())\
-                            .intersection(set(config["variables"].keys()))
+        intersecting_keys = set(config["paths"].keys()) \
+            .intersection(set(config["variables"].keys()))
         if len(intersecting_keys) > 0:
             raise ValueError(
                 "The sections 'paths' and 'variables' must not share keys, "
@@ -494,10 +496,10 @@ def path(path_string):
 
 def test_run(self):
     """
-    This function reads in the members commands, retval, stdout, stderr and runs
-    the `expand_variables` function on each. The resulting commands are then run
-    using the subprocess module and compared against the expected values that
-    were provided in the static members via `compare_stdout` and
+    This function reads in the members commands, retval, stdout, stderr and
+    runs the `expand_variables` function on each. The resulting commands are
+    then run using the subprocess module and compared against the expected
+    values that were provided in the static members via `compare_stdout` and
     `compare_stderr`. Furthermore a threading.Timer is used to abort the
     execution if a configured timeout is reached.
 
@@ -608,8 +610,8 @@ class Case(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """
-        This function adds the variable work_dir to the class, which is the path
-        to the directory where the python source file is located.
+        This function adds the variable work_dir to the class, which is the
+        path to the directory where the python source file is located.
         """
         cls.work_dir = os.path.dirname(inspect.getfile(cls))
 
@@ -641,8 +643,8 @@ class Case(unittest.TestCase):
 
     def expand_variables(self, unexpanded_string):
         """
-        Expands all variables of the form ``$var`` in the given string using the
-        dictionary `variable_dict`.
+        Expands all variables of the form ``$var`` in the given string using
+        the dictionary `variable_dict`.
 
         The expansion itself is performed by the string's template module using
         via `safe_substitute`.
@@ -686,17 +688,17 @@ class CaseMeta(type):
 
     1. Add the `test_run` function as a member of the test class
     2. Add the `Case` class as the parent class
-    3. Expand all variables already defined in the class, so that any additional
-       code does not have to perform this task
+    3. Expand all variables already defined in the class, so that any
+       additional code does not have to perform this task
 
-    Using a metaclass instead of inheriting from case has the advantage, that we
-    can expand all variables in the strings before any test case or even the
+    Using a metaclass instead of inheriting from Case has the advantage, that
+    we can expand all variables in the strings before any test case or even the
     class constructor is run! Thus users will immediately see the expanded
     result. Also adding the `test_run` function as a direct member and not via
     inheritance enforces that it is being run **after** the test cases setUp &
     setUpClass (which oddly enough seems not to be the case in the unittest
-    module where test functions of the parent class run before setUpClass of the
-    child class).
+    module where test functions of the parent class run before setUpClass of
+    the child class).
     """
 
     def __new__(mcs, clsname, bases, dct):
