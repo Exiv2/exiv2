@@ -302,6 +302,37 @@ namespace Safe
         return res;
     }
 
+    /*!
+     * @brief Calculates the absolute value of a number without producing
+     * negative values.
+     *
+     * The "standard" implementation of `abs(num)` (`num < 0 ? -num : num`)
+     * produces negative values when `num` is the smallest negative number. This
+     * is caused by `-1 * INTMAX = INTMIN + 1`, i.e. the real result of
+     * `abs(INTMIN)` overflows the integer type and results in `INTMIN` again
+     * (this is not guaranteed as it invokes undefined behavior).
+     *
+     * This function does not exhibit this behavior, it returns
+     * `std::numeric_limits<T>::max()` when the input is
+     * `std::numeric_limits<T>::min()`. The downside of this is that two
+     * negative values produce the same absolute value:
+     * `std::numeric_limits<T>::min()` and `std::numeric_limits<T>::min() + 1`.
+     *
+     * @tparam T  a signed integer type
+     * @param[in] num  The number which absolute value should be computed.
+     * @throws  Never throws an exception.
+     * @return  The absolute value of `num` or `std::numeric_limits<T>::max()`
+     *          when `num == std::numeric_limits<T>::min()`.
+     */
+    template <typename T>
+    typename Internal::enable_if<Internal::is_signed<T>::VALUE, T>::type abs(T num) throw()
+    {
+        if (num == std::numeric_limits<T>::min()) {
+            return std::numeric_limits<T>::max();
+        }
+        return num < 0 ? -num : num;
+    }
+
 }  // namespace Safe
 
 #endif  // SAFE_OP_HPP_

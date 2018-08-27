@@ -181,3 +181,12 @@ TEST(safeAdd, checkSignedOverflow)
     test_safe_add<long>();
     test_safe_add<long long>();
 }
+
+TEST(safeAbs, checkValues)
+{
+    static const int values[] = {-1, 1, std::numeric_limits<int>::max(), std::numeric_limits<int>::min() + 1};
+    for (size_t i = 0; i < sizeof(values) / sizeof(*values); ++i) {
+        ASSERT_EQ(Safe::abs(values[i]), abs(values[i]));
+    }
+    ASSERT_EQ(Safe::abs(std::numeric_limits<int>::min()), std::numeric_limits<int>::max());
+}
