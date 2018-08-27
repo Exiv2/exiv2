@@ -553,6 +553,10 @@ def test_run(self):
         processed_stdout = None
         processed_stderr = None
         for encoding in self.encodings:
+            if encoding == bytes:
+                processed_stdout = got_stdout
+                processed_stderr = got_stderr
+                break
             try:
                 processed_stdout = _process_output_post(
                     got_stdout.decode(encoding)
@@ -615,6 +619,15 @@ class Case(unittest.TestCase):
         """
         cls.work_dir = os.path.dirname(inspect.getfile(cls))
 
+    def _compare_output(self, i, command, got, expected, msg=None):
+        """ Compares the expected and actual output of a test case. """
+        if isinstance(got, bytes):
+            self.assertEqual(got, expected, msg=msg)
+        else:
+            self.assertMultiLineEqual(
+                expected, got, msg=msg
+            )
+
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         """
         Function to compare whether the expected & obtained stdout match.
@@ -627,18 +640,21 @@ class Case(unittest.TestCase):
                      platform so that lines always end with \n
         expected_stdout - the expected stdout extracted from self.stdout
 
-        The default implementation simply uses assertMultiLineEqual from
-        unittest.TestCase. This function can be overridden in a child class to
-        implement a custom check.
+        The default implementation uses assertMultiLineEqual from
+        unittest.TestCase for ordinary strings and assertEqual for binary
+        output. This function can be overridden in a child class to implement a
+        custom check.
         """
-        self.assertMultiLineEqual(
-            expected_stdout, got_stdout, msg="Standard output does not match"
+        self._compare_output(
+            i, command, expected_stdout, got_stdout,
+            msg="Standard output does not match"
         )
 
     def compare_stderr(self, i, command, got_stderr, expected_stderr):
         """ Same as compare_stdout only for standard-error. """
-        self.assertMultiLineEqual(
-            expected_stderr, got_stderr, msg="Standard error does not match"
+        self._compare_output(
+            i, command, expected_stderr, got_stderr,
+            msg="Standard error does not match"
         )
 
     def expand_variables(self, unexpanded_string):
@@ -647,8 +663,14 @@ class Case(unittest.TestCase):
         the dictionary `variable_dict`.
 
         The expansion itself is performed by the string's template module using
-        via `safe_substitute`.
+        the function `safe_substitute`.
+
+        If unexpanded_string is of the type bytes, then no expansion is
+        performed.
         """
+        if isinstance(unexpanded_string, bytes):
+            return unexpanded_string
+
         return string.Template(str(unexpanded_string))\
             .safe_substitute(**self.variable_dict)
 

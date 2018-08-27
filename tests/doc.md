@@ -351,6 +351,36 @@ encodings can be found
 [here](https://docs.python.org/3/library/codecs.html#standard-encodings).
 
 
+### Working with binary output
+
+Some programs output binary data directly to stdout or stderr. Such programs can
+be also tested by specifying the type `bytes` as the only member in the
+`encodings` list and supplying `stdout` and/or `stderr` as `bytes` and not as a
+string.
+
+An example test case would look like this:
+``` python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    encodings = [bytes]
+
+    commands = ["$prog --dump-binary"]
+    retval = [1]
+    stdout = [bytes([1, 2, 3, 4, 16, 42])]
+    stderr = [bytes()]
+```
+
+Using the bytes encoding has the following limitations:
+- variables of the form `$some_var` cannot be expanded in `stdout` and `stderr`
+- if the `bytes` encoding is specified, then both `stderr` and `stdout` must be
+  valid `bytes`
+
+
 ### Creating file copies
 
 For tests that modify their input file it is useful to run these with a
