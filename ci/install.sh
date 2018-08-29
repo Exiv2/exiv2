@@ -6,6 +6,9 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
     sudo apt-get install cmake zlib1g-dev libssh-dev gettext
     sudo apt-get install python-pip libxml2-utils
+    if [ -n "$WITH_VALGRIND" ]; then
+        sudo apt-get install valgrind
+    fi
     sudo pip install virtualenv
     virtualenv conan
     source conan/bin/activate
