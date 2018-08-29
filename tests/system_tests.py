@@ -496,32 +496,37 @@ def path(path_string):
 
 def test_run(self):
     """
-    This function reads in the members commands, retval, stdout, stderr and
-    runs the `expand_variables` function on each. The resulting commands are
-    then run using the subprocess module and compared against the expected
-    values that were provided in the static members via `compare_stdout` and
-    `compare_stderr`. Furthermore a threading.Timer is used to abort the
+    This function reads in the attributes commands, retval, stdout, stderr,
+    stdin and runs the `expand_variables` function on each. The resulting
+    commands are then run using the subprocess module and compared against the
+    expected values that were provided in the attributes via `compare_stdout`
+    and `compare_stderr`. Furthermore a threading.Timer is used to abort the
     execution if a configured timeout is reached.
 
-    It is automatically added as a member function to each system test by the
-    CaseMeta metaclass. This ensures that it is run by each system test
-    **after** setUp() and setUpClass() were run.
+    This function is automatically added as a member function to each system
+    test by the CaseMeta metaclass. This ensures that it is run by each system
+    test **after** setUp() and setUpClass() were run.
     """
     if not (len(self.commands) == len(self.retval)
-            == len(self.stdout) == len(self.stderr)):
+            == len(self.stdout) == len(self.stderr) == len(self.stdin)):
         raise ValueError(
-            "commands, retval, stdout and stderr don't have the same length"
+            "commands, retval, stdout, stderr and stdin don't have the same "
+            "length"
         )
-    for i, command, retval, stdout, stderr in zip(range(len(self.commands)),
-                                                  self.commands,
-                                                  self.retval,
-                                                  self.stdout,
-                                                  self.stderr):
-        command, retval, stdout, stderr = map(
-            self.expand_variables, [command, retval, stdout, stderr]
-        )
+
+    for i, command, retval, stdout, stderr, stdin in \
+        zip(range(len(self.commands)),
+            self.commands,
+            self.retval,
+            self.stdout,
+            self.stderr,
+            self.stdin):
+        command, retval, stdout, stderr, stdin = [
+            self.expand_variables(var) for var in
+            (command, retval, stdout, stderr, stdin)
+        ]
+
         retval = int(retval)
-        timeout = {"flag": False}
 
         if _debug_mode:
             print(
@@ -535,46 +540,71 @@ def test_run(self):
             _cmd_splitter(command),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            stdin=subprocess.PIPE if stdin is not None else None,
             env=self._get_env(),
             cwd=self.work_dir,
             shell=_SUBPROCESS_SHELL
         )
 
-        def timeout_reached(timeout):
-            timeout["flag"] = True
+        # Setup a threading.Timer which will terminate the command if it takes
+        # too long. Don't use the timeout parameter in subprocess.Popen, since
+        # that is not available for all Python 3 versions.
+        # Use a dictionary to indicate a timeout, as booleans get passed by
+        # value and the changes made timeout_reached function will not be
+        # visible once it exits (the command will still be terminated once the
+        # timeout expires).
+        timeout = {"flag": False}
+
+        def timeout_reached(tmout):
+            tmout["flag"] = True
             proc.kill()
 
         t = threading.Timer(
             _parameters["timeout"], timeout_reached, args=[timeout]
         )
+
+        def get_encode_err():
+            """ Return an error message indicating that the encoding of stdin
+            failed.
+            """
+            return "Could not encode stdin {!s} for the command {!s} with the"\
+                " following encodings: {!s}"\
+                .format(stdin, command, ','.join(self.encodings))
+
+        # Prepare stdin: try to encode it or keep it at None if it was not
+        # provided
+        encoded_stdin = None
+        if stdin is not None:
+            encoded_stdin = self._encode(
+                stdin, lambda data_in, encoding: data_in.encode(encoding),
+                get_encode_err
+            )
+
+        if _debug_mode:
+            print('', "stdin:", stdin or "", sep='\n')
+
         t.start()
-        got_stdout, got_stderr = proc.communicate()
+        got_stdout, got_stderr = proc.communicate(input=encoded_stdin)
         t.cancel()
 
-        processed_stdout = None
-        processed_stderr = None
-        for encoding in self.encodings:
-            if encoding == bytes:
-                processed_stdout = got_stdout
-                processed_stderr = got_stderr
-                break
-            try:
-                processed_stdout = _process_output_post(
-                    got_stdout.decode(encoding)
-                )
-                processed_stderr = _process_output_post(
-                    got_stderr.decode(encoding)
-                )
-            except UnicodeError:
-                pass
-            else:
-                break
-        if processed_stdout is None or processed_stderr is None:
-            raise ValueError(
-                "Could not decode the output of the command '{!s}' with the "
-                "following encodings: {!s}"
+        def get_decode_error():
+            """ Return an error indicating the the decoding of stdout/stderr
+            failed.
+            """
+            return "Could not decode the output of the command '{!s}' with "\
+                "the following encodings: {!s}"\
                 .format(command, ','.join(self.encodings))
-            )
+
+        def decode_output(data_in, encoding):
+            """ Decode stdout/stderr, consider platform dependent line
+            endings.
+            """
+            return _process_output_post(data_in.decode(encoding))
+
+        processed_stdout, processed_stderr = [
+            self._encode(output, decode_output, get_decode_error)
+            for output in (got_stdout, got_stderr)
+        ]
 
         if _debug_mode:
             print(
@@ -643,6 +673,36 @@ class Case(unittest.TestCase):
 
         return env_copy
 
+    def _encode(self, data_in, encode_action, get_err):
+        """
+        Try to convert data_in via encode_action using the encodings in
+        self.encodings.
+
+        This function tries all encodings in self.encodings to run
+        encode_action with the parameters (data_in, encoding). If encode_action
+        raises a UnicodeError, the next encoding is used, otherwise the result
+        of encode_action is returned. If an encoding is equal to the type
+        bytes, then data_in is returned unmodified.
+
+        If all encodings result in a UnicodeError, then the conversion is
+        considered unsuccessful and get_err() is called to obtain an error
+        string which is raised as a ValueError.
+        """
+        result = None
+        for encoding in self.encodings:
+            if encoding == bytes:
+                return data_in
+            try:
+                result = encode_action(data_in, encoding)
+            except UnicodeError:
+                pass
+            else:
+                break
+        if result is None:
+            raise ValueError(get_err())
+
+        return result
+
     def _compare_output(self, i, command, got, expected, msg=None):
         """ Compares the expected and actual output of a test case. """
         if isinstance(got, bytes):
@@ -692,7 +752,7 @@ class Case(unittest.TestCase):
         If unexpanded_string is of the type bytes, then no expansion is
         performed.
         """
-        if isinstance(unexpanded_string, bytes):
+        if isinstance(unexpanded_string, bytes) or unexpanded_string is None:
             return unexpanded_string
 
         return string.Template(str(unexpanded_string))\
@@ -792,7 +852,24 @@ class CaseMeta(type):
         if Case not in bases:
             bases += (Case,)
 
+        CaseMeta.add_default_values(clsname, dct)
+
         return super(CaseMeta, mcs).__new__(mcs, clsname, bases, dct)
+
+    @staticmethod
+    def add_default_values(clsname, dct):
+        if 'commands' not in dct:
+            raise ValueError(
+                "No member 'commands' in class {!s}.".format(clsname)
+            )
+
+        cmd_length = len(dct['commands'])
+
+        for member, default in zip(
+                ('stderr', 'stdout', 'stdin', 'retval'),
+                ('', '', None, 0)):
+            if member not in dct:
+                dct[member] = [default] * cmd_length
 
 
 def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):

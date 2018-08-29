@@ -312,6 +312,48 @@ This section describes more advanced features that are probably not necessary
 the "standard" usage of the test suite.
 
 
+### Providing standard input to commands
+
+The test suite supports providing a standard input to commands in a similar
+fashion as the standard output and error are specified: it expects a list (with
+the length equal to the number of commands) of standard inputs (either strings
+or `bytes`). For commands that expect no standard input, simply set the
+respective entry to `None`:
+``` python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    commands = [
+	    "$binary -c $import_file --",
+        "$binary -c $import_file --"
+	]
+    retval = [1, 1]
+    stdin = [
+        "read file a",
+        None
+    ]
+    stdout = [
+        "Reading...",
+        ""
+    ]
+    stderr = [
+        "Error",
+        "No input provided"
+    ]
+```
+
+In this example, the command `$binary -c $import_file --` would be run twice,
+first with the standard input `read file a` and second without any input
+(resulting in the error `No input provided`).
+
+If all commands don't expect any standard input, omit the attribute `stdin`, the
+test suite will implicitly assume `None` for every command.
+
+
 ### Using a different output encoding
 
 The test suite will try to interpret the program's output as utf-8 encoded
