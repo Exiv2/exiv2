@@ -550,6 +550,43 @@ class AnInformativeName(metaclass=system_tests.CaseMeta):
 ```
 
 
+### Running all commands under valgrind
+
+The test suite can run all commands under a memory checker like
+[valgrind](http://valgrind.org/) or [dr. memory](http://drmemory.org/). This
+option can be enabled by adding the entry `memcheck` in the `General` section of
+the configuration file, which specifies the command to invoke the memory
+checking tool. The test suite will then prefix **all** commands with the
+specified command.
+
+For example this configuration file:
+``` ini
+[General]
+timeout: 0.1
+memcheck: valgrind --quiet
+```
+will result in every command specified in the test cases being run as `valgrind
+--quiet $command`.
+
+When running your test cases under a memory checker, please take the following
+into account:
+
+- valgrind and dr. memory slow the program execution down by a factor of
+  10-20. Therefore the test suite will increase the timeout value by a factor of
+  20 or by the value specified in the option `memcheck_timeout_penalty` in the
+  `General` section.
+
+- valgrind reports by default on success to stderr, be sure to run it with
+  `--quiet`. Otherwise successful tests will fail under valgrind, as unexpected
+  output is present on stderr
+
+- valgrind and ASAN cannot be used together
+
+- Although the option is called `memcheck`, it can be used to execute all
+  commands via a wrapper that has a completely different purpose (e.g. to
+  collect test coverage).
+
+
 ### Manually expanding variables in strings
 
 In case completely custom checks have to be run but one still wants to access

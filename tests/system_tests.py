@@ -86,6 +86,8 @@ class CasePreservingConfigParser(configparser.ConfigParser):
 #: global parameters extracted from the test suite's configuration file
 _parameters = {}
 
+#: variables extracted from the test suite's configuration file
+_config_variables = {}
 
 #: setting whether debug mode is enabled or not
 _debug_mode = False
@@ -135,8 +137,6 @@ def configure_suite(config_file):
     config.read(config_file)
 
     _parameters["suite_root"] = os.path.split(os.path.abspath(config_file))[0]
-    _parameters["timeout"] = config.getfloat(
-        "General", "timeout", fallback=1.0)
 
     if 'variables' in config and 'paths' in config:
         intersecting_keys = set(config["paths"].keys()) \
@@ -161,7 +161,7 @@ def configure_suite(config_file):
 
     if 'variables' in config:
         for key in config['variables']:
-            _parameters[key] = config['variables'][key]
+            _config_variables[key] = config['variables'][key]
 
     if 'paths' in config:
         for key in config['paths']:
@@ -177,13 +177,24 @@ def configure_suite(config_file):
                         abspath=abs_path,
                         rel=rel_path)
                 )
-            _parameters[key] = abs_path
+            _config_variables[key] = abs_path
 
-    for key in _parameters:
+    for key in _config_variables:
         if key in globals():
             raise ValueError("Variable name {!s} already used.")
 
-        globals()[key] = _parameters[key]
+        globals()[key] = _config_variables[key]
+
+    _parameters["timeout"] = config.getfloat(
+        "General", "timeout", fallback=1.0
+    )
+
+    if 'memcheck' in config['General']:
+        if config['General']['memcheck'] != '':
+            _parameters['memcheck'] = config['General']['memcheck']
+            _parameters["timeout"] *= config.getfloat(
+                "General", "memcheck_timeout_penalty", fallback=20.0
+            )
 
 
 class FileDecoratorBase(object):
@@ -528,6 +539,9 @@ def test_run(self):
 
         retval = int(retval)
 
+        if "memcheck" in _parameters:
+            command = _parameters["memcheck"] + " " + command
+
         if _debug_mode:
             print(
                 '', "="*80, "will run: " + command, "expected stdout:", stdout,
@@ -828,13 +842,13 @@ class CaseMeta(type):
                 # only try expanding strings and lists
                 if isinstance(old_value, str):
                     new_value = string.Template(old_value).safe_substitute(
-                        **_disjoint_dict_merge(dct, _parameters)
+                        **_disjoint_dict_merge(dct, _config_variables)
                     )
                 elif isinstance(old_value, list):
                     # do not try to expand anything but strings in the list
                     new_value = [
                         string.Template(elem).safe_substitute(
-                            **_disjoint_dict_merge(dct, _parameters)
+                            **_disjoint_dict_merge(dct, _config_variables)
                         )
                         if isinstance(elem, str) else elem
                         for elem in old_value
@@ -846,7 +860,7 @@ class CaseMeta(type):
                     changed = True
                     dct[key] = new_value
 
-        dct['variable_dict'] = _disjoint_dict_merge(dct, _parameters)
+        dct['variable_dict'] = _disjoint_dict_merge(dct, _config_variables)
         dct['test_run'] = test_run
 
         if Case not in bases:
