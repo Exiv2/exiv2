@@ -23,8 +23,9 @@
 
 #include <exiv2/exiv2.hpp>
 #include "getopt.hpp"
-
+#ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -82,6 +83,7 @@ int main(int argc, char** const argv)
 {
 	int n;
 
+#if EXV_HAVE_UNISTD_H
 	std::cout << "standard getopt()" << std::endl;
 	do {
 	    n = ::getopt(argc,argv,::optstring);
@@ -98,6 +100,7 @@ int main(int argc, char** const argv)
 				  << std::endl;
 	} while ( n >= 0 );
 	std::cout << std::endl;
+#endif
 
 	std::cout << "homemade getopt()" << std::endl;
 	do {
@@ -111,7 +114,7 @@ int main(int argc, char** const argv)
 		std::cout << " optind = " << Util::optind
 				  << " opterr = " << Util::opterr
 				  << " optopt = " << Util::optopt
-				  << " optarg = " << Safe(::optarg)
+				  << " optarg = " << Safe(Util::optarg)
 				  << std::endl;
 
 	} while ( n >= 0 );
