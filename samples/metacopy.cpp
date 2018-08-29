@@ -33,7 +33,7 @@
 #include <fstream>
 #include <cassert>
 
-#include "utils.hpp"
+#include "getopt.hpp"
 #include "metacopy.hpp"
 
 // *****************************************************************************

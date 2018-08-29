@@ -302,6 +302,8 @@ set( EXIV2_SRC
      exiv2app.hpp
      actions.cpp
      actions.hpp
+     getopt.cpp
+     getopt.hpp
      utils.cpp
      utils.hpp
 )
@@ -327,8 +329,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
 
     # TODO This should not be needed here! we need to fix the previous TODO
     target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
-
-    target_sources(exiv2    PRIVATE getopt_win32.c)
 
     # Copy DLLs from conan packages to the bin folder
     if (USING_CONAN AND WIN32)
