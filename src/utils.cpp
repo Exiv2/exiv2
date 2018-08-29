@@ -28,7 +28,6 @@
 #include "config.h"
 
 #include "utils.hpp"
-#include "getopt_win32.h"
 
 #if defined(_MSC_VER)
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
@@ -50,37 +49,6 @@
 #include <sstream>
 
 namespace Util {
-
-// *****************************************************************************
-// class Getopt
-    Getopt::Getopt()
-        : errcnt_(0)
-    {
-    }
-
-    Getopt::~Getopt()
-    {
-    }
-
-    int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
-    {
-        progname_ = Util::basename(argv[0]);
-
-        for (;;) {
-            int c = ::getopt(argc, argv, optstring.c_str());
-            if (c == -1) break;
-            errcnt_ += option(c, ::optarg == 0 ? "" : ::optarg, ::optopt);
-        }
-        for (int i = ::optind; i < argc; i++) {
-            errcnt_ += nonoption(argv[i]);
-        }
-        return errcnt_;
-    }
-
-    int Getopt::nonoption(const std::string& /*argv*/)
-    {
-        return 0;
-    }
 
 // *****************************************************************************
 // free functions

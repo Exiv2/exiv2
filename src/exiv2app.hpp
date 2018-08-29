@@ -34,6 +34,7 @@
 
 #include "utils.hpp"
 #include "types.hpp"
+#include "getopt.hpp"
 
 // + standard includes
 #include <string>
