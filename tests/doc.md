@@ -312,6 +312,48 @@ This section describes more advanced features that are probably not necessary
 the "standard" usage of the test suite.
 
 
+### Providing standard input to commands
+
+The test suite supports providing a standard input to commands in a similar
+fashion as the standard output and error are specified: it expects a list (with
+the length equal to the number of commands) of standard inputs (either strings
+or `bytes`). For commands that expect no standard input, simply set the
+respective entry to `None`:
+``` python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    commands = [
+	    "$binary -c $import_file --",
+        "$binary -c $import_file --"
+	]
+    retval = [1, 1]
+    stdin = [
+        "read file a",
+        None
+    ]
+    stdout = [
+        "Reading...",
+        ""
+    ]
+    stderr = [
+        "Error",
+        "No input provided"
+    ]
+```
+
+In this example, the command `$binary -c $import_file --` would be run twice,
+first with the standard input `read file a` and second without any input
+(resulting in the error `No input provided`).
+
+If all commands don't expect any standard input, omit the attribute `stdin`, the
+test suite will implicitly assume `None` for every command.
+
+
 ### Using a different output encoding
 
 The test suite will try to interpret the program's output as utf-8 encoded
@@ -349,6 +391,70 @@ encoding that can decode the output successfully. If no encoding is able to
 decode the program's output, then an error is raised. The list of all supported
 encodings can be found
 [here](https://docs.python.org/3/library/codecs.html#standard-encodings).
+
+
+### Working with binary output
+
+Some programs output binary data directly to stdout or stderr. Such programs can
+be also tested by specifying the type `bytes` as the only member in the
+`encodings` list and supplying `stdout` and/or `stderr` as `bytes` and not as a
+string.
+
+An example test case would look like this:
+``` python
+# -*- coding: utf-8 -*-
+
+import system_tests
+
+
+class AnInformativeName(metaclass=system_tests.CaseMeta):
+
+    encodings = [bytes]
+
+    commands = ["$prog --dump-binary"]
+    retval = [1]
+    stdout = [bytes([1, 2, 3, 4, 16, 42])]
+    stderr = [bytes()]
+```
+
+Using the bytes encoding has the following limitations:
+- variables of the form `$some_var` cannot be expanded in `stdout` and `stderr`
+- if the `bytes` encoding is specified, then both `stderr` and `stdout` must be
+  valid `bytes`
+
+
+### Setting and modifying environment variables
+
+The test suite supports setting or modifying environment variables for
+individual test cases. This can be accomplished by adding a member dictionary
+named `env` with the appropriate variable names and keys:
+``` python
+# -*- coding: utf-8 -*-
+
+from system_tests import CaseMeta, path
+
+
+class AnInformativeName(metaclass=CaseMeta):
+
+    env = {
+        "MYVAR": 26,
+        "USER": "foobar"
+    }
+
+    # if you want a pristine environment, consisting only of MYVAR & USER,
+    # uncomment the following line:
+    # inherit_env = False
+
+    # the rest of the test case follows
+```
+
+All commands belonging to this test case will be run with a modified environment
+where the variables `MYVAR` and `USER` will be set to the specified
+values. By default the environment is inherited from the user's environment and
+the specified variables in `env` take precedence over the variables in the
+user's environment (in the above example the variable `$USER` would be
+overridden). If no variables should be inherited set `inherit_env` to `False`
+and your test case will get only the specified environment variables.
 
 
 ### Creating file copies
@@ -442,6 +548,43 @@ class AnInformativeName(metaclass=system_tests.CaseMeta):
 
     compare_stderr = system_tests.check_no_ASAN_UBSAN_errors
 ```
+
+
+### Running all commands under valgrind
+
+The test suite can run all commands under a memory checker like
+[valgrind](http://valgrind.org/) or [dr. memory](http://drmemory.org/). This
+option can be enabled by adding the entry `memcheck` in the `General` section of
+the configuration file, which specifies the command to invoke the memory
+checking tool. The test suite will then prefix **all** commands with the
+specified command.
+
+For example this configuration file:
+``` ini
+[General]
+timeout: 0.1
+memcheck: valgrind --quiet
+```
+will result in every command specified in the test cases being run as `valgrind
+--quiet $command`.
+
+When running your test cases under a memory checker, please take the following
+into account:
+
+- valgrind and dr. memory slow the program execution down by a factor of
+  10-20. Therefore the test suite will increase the timeout value by a factor of
+  20 or by the value specified in the option `memcheck_timeout_penalty` in the
+  `General` section.
+
+- valgrind reports by default on success to stderr, be sure to run it with
+  `--quiet`. Otherwise successful tests will fail under valgrind, as unexpected
+  output is present on stderr
+
+- valgrind and ASAN cannot be used together
+
+- Although the option is called `memcheck`, it can be used to execute all
+  commands via a wrapper that has a completely different purpose (e.g. to
+  collect test coverage).
 
 
 ### Manually expanding variables in strings
@@ -562,7 +705,9 @@ python3 runner.py
 
 One can supply the script with a directory where the suite should look for the
 tests (it will search the directory recursively). If omitted, the runner will
-look in the directory where the configuration file is located.
+look in the directory where the configuration file is located. It is also
+possible to instead pass a file as the parameter, the test suite will then only
+run the tests from this file.
 
 The runner script also supports the optional arguments `--config_file` which
 allows to provide a different test suite configuration file than the default

@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
-import unittest
-import os
 
 import system_tests
 
-@unittest.skipUnless(os.getenv('TZ') == 'UTC', "Testcase only works with the timezone set to UTC")
+
 class Exiv2jsonRecursiveJsonTreeWithXMP(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1054"
+
+    env = {
+        'TZ': 'UTC'
+    }
 
     filename1 = system_tests.path("$data_path/BlueSquare.xmp")
     filename2 = system_tests.path("$data_path/exiv2-bug784.jpg")
