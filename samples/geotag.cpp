@@ -420,7 +420,7 @@ int timeZoneAdjust()
     struct tm local = *localtime(&now) ;
     offset          = local.tm_gmtoff ;
 
-#if DEBUG
+#if DEBUG && !defined(_MSC_VER) && !defined(__MINGW__)
     struct tm utc = *gmtime(&now);
     printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
     printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
