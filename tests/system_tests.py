@@ -927,6 +927,21 @@ def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
     It will not complain in all other cases, especially when expected_stderr
     and got_stderr do not match:
     >>> T.compare_stderr(0, "", "some output", "other output")
+
+    This function also supports binary output:
+    >>> ASAN_ERROR = bytes("SUMMARY: AddressSanitizer: heap-buffer-overflow", encoding='ascii')
+    >>> T.compare_stderr(0, "", ASAN_ERROR, "other output")
+    Traceback (most recent call last):
+     ..
+    AssertionError: b'AddressSanitizer' unexpectedly found in b'SUMMARY: AddressSanitizer: heap-buffer-overflow'
     """
-    self.assertNotIn("runtime error", got_stderr)
-    self.assertNotIn("AddressSanitizer", got_stderr)
+    UBSAN_MSG = "runtime error"
+    ASAN_MSG = "AddressSanitizer"
+
+    if isinstance(got_stderr, bytes):
+        self.assertNotIn(UBSAN_MSG.encode('ascii'), got_stderr)
+        self.assertNotIn(ASAN_MSG.encode('ascii'), got_stderr)
+        return
+
+    self.assertNotIn(UBSAN_MSG, got_stderr)
+    self.assertNotIn(ASAN_MSG, got_stderr)
