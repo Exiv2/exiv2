@@ -6,12 +6,15 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
     sudo apt-get install cmake zlib1g-dev libssh-dev gettext
     sudo apt-get install python-pip libxml2-utils
+    if [ -n "$WITH_VALGRIND" ]; then
+        sudo apt-get install valgrind
+    fi
     sudo pip install virtualenv
     virtualenv conan
     source conan/bin/activate
 else
     brew update
-    brew install gettext libssh md5sha1sum openssl pyenv-virtualenv
+    brew install gettext md5sha1sum pyenv-virtualenv
     export CFLAGS="-I/usr/local/opt/openssl/include $CFLAGS"
     export LDFLAGS="-L/usr/local/opt/openssl/lib $LDFLAGS"
     pyenv install $PYTHON
@@ -28,7 +31,8 @@ fi
 
 python --version
 pip install urllib3[secure] -U #Should solve SSL issues
-pip install conan==1.1.1
+pip install conan==1.6.1
+pip install codecov
 conan --version
 conan config set storage.path=~/conanData
 conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -36,11 +40,8 @@ conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/pub
 mkdir -p ~/.conan/profiles
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    if [ ${CC} == "clang" ]; then
-        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=clang\ncompiler.version=5.0\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
-    else
-        printf "[settings]\nos=Linux\narch=x86_64\ncompiler=gcc\ncompiler.version=4.8\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
-    fi
+    CC_VER=$(${CC} --version | head -1 | awk '{print $3}'| awk -F'.' '{ print $1"."$2 }')
+    printf "[settings]\nos=Linux\narch=x86_64\ncompiler=$CC\ncompiler.version=$CC_VER\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
 else
     printf "[settings]\nos=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=9.0\ncompiler.libcxx=libc++\nbuild_type=Release\n" > ~/.conan/profiles/release
 fi

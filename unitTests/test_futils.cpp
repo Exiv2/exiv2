@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstdio>
 #include <cerrno>
+#include <stdexcept>
 
 #include "gtestwrapper.h"
 
@@ -81,4 +82,73 @@ TEST(urlencode, encodesGivenUrl)
 {
     const std::string url = urlencode("http://www.geekhideout.com/urlcode.shtml");
     ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml", url.c_str());
+}
+
+TEST(urlencode, encodesGivenUrlWithSpace)
+{
+    const std::string url = urlencode("http://www.geekhideout.com/url code.shtml");
+    ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furl+code.shtml", url.c_str());
+}
+
+TEST(urldecode, decodesGivenUrl)
+{
+    const std::string expectedDecodedUrl ("http://www.geekhideout.com/urlcode.shtml");
+    const std::string url ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml");
+    char * url3 = urldecode(url.c_str());
+    ASSERT_STREQ(expectedDecodedUrl.c_str(), url3);
+    delete [] url3;
+}
+
+TEST(urldecode, decodesGivenUrlInPlace)
+{
+    const std::string expectedDecodedUrl ("http://www.geekhideout.com/urlcode.shtml");
+    std::string url ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml");
+    urldecode(url);
+    ASSERT_STREQ(expectedDecodedUrl.c_str(), url.c_str());
+}
+
+TEST(base64encode, encodesValidString)
+{
+    const std::string original ("This is a unit test");
+    const std::string expected ("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
+    size_t encodeLength = ((original.size() + 2) / 3) * 4 + 1;
+    char * result = new char [encodeLength];
+    ASSERT_EQ(1, base64encode(original.c_str(), original.size(), result, encodeLength));
+    ASSERT_STREQ(expected.c_str(), result);
+    delete [] result;
+}
+
+TEST(base64encode, doesNotEncodeWithNotBigEnoughResultSize)
+{
+    const std::string original ("This is a unit test");
+    size_t encodeLength = (original.size());
+    char * result = new char [encodeLength];
+    ASSERT_EQ(0, base64encode(original.c_str(), original.size(), result, encodeLength));
+    delete [] result;
+}
+
+TEST(base64decode, decodesValidString)
+{
+    const std::string original ("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
+    const std::string expected ("This is a unit test");
+    char * result = new char [original.size()];
+    ASSERT_EQ(expected.size()+1, base64decode(original.c_str(), result, original.size()));
+    ASSERT_STREQ(expected.c_str(), result);
+    delete [] result;
+}
+
+TEST(AUri, parsesAndDecoreUrl)
+{
+    const std::string url("http://www.geekhideout.com/urlcode.shtml");
+    Uri uri = Uri::Parse(url);
+
+    ASSERT_EQ("", uri.QueryString);
+    ASSERT_EQ("http", uri.Protocol);
+    ASSERT_EQ("www.geekhideout.com", uri.Host);
+    ASSERT_EQ("80", uri.Port);
+    ASSERT_EQ("/urlcode.shtml", uri.Path);
+    ASSERT_EQ("", uri.Username);
+    ASSERT_EQ("", uri.Password);
+
+    Uri::Decode(uri);
 }

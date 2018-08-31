@@ -38,6 +38,7 @@
 #include <string>
 #include <vector>
 #include <iosfwd>
+#include <limits>
 #include <utility>
 #include <algorithm>
 #include <sstream>
@@ -84,6 +85,14 @@
 #define EXV_MIN(a,b) ((a) < (b) ? (a) : (b))
 //! Simple common max macro
 #define EXV_MAX(a,b) ((a) > (b) ? (a) : (b))
+
+#if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
+#define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
+#elif defined(_MSC_VER) && (_MSC_VER >= 1700)
+#define EXV_WARN_UNUSED_RESULT _Check_return_
+#else
+#define EXV_WARN_UNUSED_RESULT
+#endif
 
 // *****************************************************************************
 // forward declarations
@@ -235,7 +244,13 @@ namespace Exiv2 {
                  buffer as a data pointer and size pair, resets the internal
                  buffer.
          */
-        std::pair<byte*, long> release();
+        EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
+
+         /*!
+           @brief Free the internal buffer and reset the size to 0.
+          */
+        void free();
+
         //! Reset value
         void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
         //@}
@@ -541,8 +556,13 @@ namespace Exiv2 {
 #ifdef _MSC_VER
 #pragma warning( disable : 4146 )
 #endif
-        if (n < zero)
-            n = -n;
+        if (n < zero) {
+            if (n == std::numeric_limits<IntType>::min()) {
+                n = std::numeric_limits<IntType>::max();
+            } else {
+                n = -n;
+            }
+        }
         if (m < zero)
             m = -m;
 #ifdef _MSC_VER

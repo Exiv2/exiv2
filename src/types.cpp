@@ -28,6 +28,8 @@
 // included header files
 #include "types.hpp"
 #include "i18n.h"                               // for _exvGettext
+#include "unused.h"
+#include "safe_op.hpp"
 
 // + standard includes
 #ifdef EXV_UNICODE_PATH
@@ -45,6 +47,7 @@
 #include <cassert>
 #include <cstring>
 #include <cmath>
+#include <math.h>
 
 // *****************************************************************************
 namespace {
@@ -124,7 +127,8 @@ namespace Exiv2 {
     DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        rhs.release();
+        std::pair<byte*, long> ret = rhs.release();
+        UNUSED(ret);
     }
 
     DataBuf::DataBuf(const byte* pData, long size)
@@ -155,12 +159,19 @@ namespace Exiv2 {
         }
     }
 
-    std::pair<byte*, long> DataBuf::release()
+    EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
     {
         std::pair<byte*, long> p = std::make_pair(pData_, size_);
         pData_ = 0;
         size_ = 0;
         return p;
+    }
+
+    void DataBuf::free()
+    {
+        delete[] pData_;
+        pData_ = 0;
+        size_ = 0;
     }
 
     void DataBuf::reset(std::pair<byte*, long> p)
@@ -648,11 +659,15 @@ namespace Exiv2 {
 
     Rational floatToRationalCast(float f)
     {
+        if (isinf(f)) {
+            return Rational(f > 0 ? 1 : -1, 0);
+        }
         // Beware: primitive conversion algorithm
         int32_t den = 1000000;
-        if (std::labs(static_cast<long>(f)) > 2147) den = 10000;
-        if (std::labs(static_cast<long>(f)) > 214748) den = 100;
-        if (std::labs(static_cast<long>(f)) > 21474836) den = 1;
+        const long f_as_long = static_cast<long>(f);
+        if (Safe::abs(f_as_long) > 2147) den = 10000;
+        if (Safe::abs(f_as_long) > 214748) den = 100;
+        if (Safe::abs(f_as_long) > 21474836) den = 1;
         const float rnd = f >= 0 ? 0.5f : -0.5f;
         const int32_t nom = static_cast<int32_t>(f * den + rnd);
         const int32_t g = gcd(nom, den);

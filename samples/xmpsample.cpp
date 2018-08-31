@@ -11,8 +11,6 @@
 #include <cassert>
 #include <cmath>
 
-#define UNUSED(expr) do { (void)(expr); } while (0)
-
 bool isEqual(float a, float b)
 {
     double d = std::fabs(a - b);

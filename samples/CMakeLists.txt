@@ -17,6 +17,7 @@ set( SAMPLES
      key-test.cpp
      largeiptc-test.cpp
      mmap-test.cpp
+     mrwthumb.cpp
      prevtest.cpp
      stringto-test.cpp
      taglist.cpp
@@ -28,6 +29,9 @@ set( SAMPLES
      xmpparser-test.cpp
      xmpprint.cpp
      xmpsample.cpp
+     xmpdump.cpp
+     crwedit.cpp
+     crwparse.cpp
 )
 
 ##
@@ -39,7 +43,6 @@ foreach(entry ${SAMPLES})
       COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
     add_test( ${target}_test ${target} )
-    target_link_libraries( ${target} PRIVATE exiv2lib)
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endforeach()
@@ -52,22 +55,15 @@ endif()
 
 add_executable( metacopy metacopy.cpp ../src/utils.cpp)
 list(APPEND APPLICATIONS metacopy)
-target_link_libraries( metacopy PRIVATE exiv2lib)
 target_include_directories(metacopy PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
 add_executable(          pathtest  path-test.cpp ../src/utils.cpp)
 list(APPEND APPLICATIONS pathtest)
 set_target_properties(   pathtest  PROPERTIES OUTPUT_NAME path-test )
-target_link_libraries(   pathtest  PRIVATE exiv2lib)
 target_include_directories(pathtest PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
-if(NOT EXV_HAVE_TIMEGM )
-    target_sources(pathtest PRIVATE ../src/localtime.c)
-endif()
-
-add_executable(          exiv2json exiv2json.cpp Jzon.cpp)
+add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
 list(APPEND APPLICATIONS exiv2json)
-target_link_libraries(   exiv2json PRIVATE exiv2lib)
 
 install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
@@ -79,7 +75,7 @@ endif()
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
     list(APPEND APPLICATIONS geotag)
-    target_link_libraries( geotag    PRIVATE exiv2lib ${EXPAT_LIBRARIES})
+    target_link_libraries( geotag    PRIVATE ${EXPAT_LIBRARIES})
     target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
     target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
 
@@ -93,19 +89,18 @@ endif()
 # ******************************************************************************
 # connection test application
 add_executable(conntest conntest.cpp)
-target_link_libraries(conntest PRIVATE  exiv2lib)
 list(APPEND APPLICATIONS conntest)
 
 # ******************************************************************************
 # remotetest application
 add_executable(remotetest remotetest.cpp)
-target_link_libraries(remotetest PRIVATE exiv2lib)
 list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
 # set compiler -DEXV_HAVE_DLL when linking exiv2 dll
 foreach(application ${APPLICATIONS})
     message(STATUS "sample: ${application}")
+    target_link_libraries(${application} PRIVATE exiv2lib)
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(${application} PRIVATE EXV_HAVE_DLL )
     endif()

@@ -35,14 +35,15 @@ else:
 
 def _disjoint_dict_merge(d1, d2):
     """
-    Merges two dictionaries with no common keys together and returns the result.
+    Merges two dictionaries whose keys are disjoint sets and returns the
+    resulting dictionary:
 
     >>> d1 = {"a": 1}
     >>> d2 = {"b": 2, "c": 3}
     >>> _disjoint_dict_merge(d1, d2) == {"a": 1, "b": 2, "c": 3}
     True
 
-    Calling this function with dictionaries that share keys raises a ValueError:
+    Passing dictionaries that share keys raises a ValueError:
     >>> _disjoint_dict_merge({"a": 1, "b": 6}, {"b": 2, "a": 3})
     Traceback (most recent call last):
      ..
@@ -85,6 +86,8 @@ class CasePreservingConfigParser(configparser.ConfigParser):
 #: global parameters extracted from the test suite's configuration file
 _parameters = {}
 
+#: variables extracted from the test suite's configuration file
+_config_variables = {}
 
 #: setting whether debug mode is enabled or not
 _debug_mode = False
@@ -112,12 +115,12 @@ def configure_suite(config_file):
     3. extract the environment variables given in the ``ENV`` section
     4. save all entries from the ``variables`` section in the global
        datastructure
-    5. interpret all entries in the ``paths`` section as relative paths from the
-       configuration file, expand them to absolute paths and save them in the
-       global datastructure
+    5. interpret all entries in the ``paths`` section as relative paths from
+       the configuration file, expand them to absolute paths and save them in
+       the global datastructure
 
-    For further information concerning the rationale behind this, please consult
-    the documentation in ``doc.md``.
+    For further information concerning the rationale behind this, please
+    consult the documentation in ``doc.md``.
     """
 
     if not os.path.exists(config_file):
@@ -134,11 +137,10 @@ def configure_suite(config_file):
     config.read(config_file)
 
     _parameters["suite_root"] = os.path.split(os.path.abspath(config_file))[0]
-    _parameters["timeout"] = config.getfloat("General", "timeout", fallback=1.0)
 
     if 'variables' in config and 'paths' in config:
-        intersecting_keys = set(config["paths"].keys())\
-                            .intersection(set(config["variables"].keys()))
+        intersecting_keys = set(config["paths"].keys()) \
+            .intersection(set(config["variables"].keys()))
         if len(intersecting_keys) > 0:
             raise ValueError(
                 "The sections 'paths' and 'variables' must not share keys, "
@@ -159,7 +161,7 @@ def configure_suite(config_file):
 
     if 'variables' in config:
         for key in config['variables']:
-            _parameters[key] = config['variables'][key]
+            _config_variables[key] = config['variables'][key]
 
     if 'paths' in config:
         for key in config['paths']:
@@ -175,13 +177,24 @@ def configure_suite(config_file):
                         abspath=abs_path,
                         rel=rel_path)
                 )
-            _parameters[key] = abs_path
+            _config_variables[key] = abs_path
 
-    for key in _parameters:
+    for key in _config_variables:
         if key in globals():
             raise ValueError("Variable name {!s} already used.")
 
-        globals()[key] = _parameters[key]
+        globals()[key] = _config_variables[key]
+
+    _parameters["timeout"] = config.getfloat(
+        "General", "timeout", fallback=1.0
+    )
+
+    if 'memcheck' in config['General']:
+        if config['General']['memcheck'] != '':
+            _parameters['memcheck'] = config['General']['memcheck']
+            _parameters["timeout"] *= config.getfloat(
+                "General", "memcheck_timeout_penalty", fallback=20.0
+            )
 
 
 class FileDecoratorBase(object):
@@ -494,32 +507,40 @@ def path(path_string):
 
 def test_run(self):
     """
-    This function reads in the members commands, retval, stdout, stderr and runs
-    the `expand_variables` function on each. The resulting commands are then run
-    using the subprocess module and compared against the expected values that
-    were provided in the static members via `compare_stdout` and
-    `compare_stderr`. Furthermore a threading.Timer is used to abort the
+    This function reads in the attributes commands, retval, stdout, stderr,
+    stdin and runs the `expand_variables` function on each. The resulting
+    commands are then run using the subprocess module and compared against the
+    expected values that were provided in the attributes via `compare_stdout`
+    and `compare_stderr`. Furthermore a threading.Timer is used to abort the
     execution if a configured timeout is reached.
 
-    It is automatically added as a member function to each system test by the
-    CaseMeta metaclass. This ensures that it is run by each system test
-    **after** setUp() and setUpClass() were run.
+    This function is automatically added as a member function to each system
+    test by the CaseMeta metaclass. This ensures that it is run by each system
+    test **after** setUp() and setUpClass() were run.
     """
     if not (len(self.commands) == len(self.retval)
-            == len(self.stdout) == len(self.stderr)):
+            == len(self.stdout) == len(self.stderr) == len(self.stdin)):
         raise ValueError(
-            "commands, retval, stdout and stderr don't have the same length"
+            "commands, retval, stdout, stderr and stdin don't have the same "
+            "length"
         )
-    for i, command, retval, stdout, stderr in zip(range(len(self.commands)),
-                                                  self.commands,
-                                                  self.retval,
-                                                  self.stdout,
-                                                  self.stderr):
-        command, retval, stdout, stderr = map(
-            self.expand_variables, [command, retval, stdout, stderr]
-        )
+
+    for i, command, retval, stdout, stderr, stdin in \
+        zip(range(len(self.commands)),
+            self.commands,
+            self.retval,
+            self.stdout,
+            self.stderr,
+            self.stdin):
+        command, retval, stdout, stderr, stdin = [
+            self.expand_variables(var) for var in
+            (command, retval, stdout, stderr, stdin)
+        ]
+
         retval = int(retval)
-        timeout = {"flag": False}
+
+        if "memcheck" in _parameters:
+            command = _parameters["memcheck"] + " " + command
 
         if _debug_mode:
             print(
@@ -533,41 +554,71 @@ def test_run(self):
             _cmd_splitter(command),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            stdin=subprocess.PIPE if stdin is not None else None,
+            env=self._get_env(),
             cwd=self.work_dir,
             shell=_SUBPROCESS_SHELL
         )
 
-        def timeout_reached(timeout):
-            timeout["flag"] = True
+        # Setup a threading.Timer which will terminate the command if it takes
+        # too long. Don't use the timeout parameter in subprocess.Popen, since
+        # that is not available for all Python 3 versions.
+        # Use a dictionary to indicate a timeout, as booleans get passed by
+        # value and the changes made timeout_reached function will not be
+        # visible once it exits (the command will still be terminated once the
+        # timeout expires).
+        timeout = {"flag": False}
+
+        def timeout_reached(tmout):
+            tmout["flag"] = True
             proc.kill()
 
         t = threading.Timer(
             _parameters["timeout"], timeout_reached, args=[timeout]
         )
+
+        def get_encode_err():
+            """ Return an error message indicating that the encoding of stdin
+            failed.
+            """
+            return "Could not encode stdin {!s} for the command {!s} with the"\
+                " following encodings: {!s}"\
+                .format(stdin, command, ','.join(self.encodings))
+
+        # Prepare stdin: try to encode it or keep it at None if it was not
+        # provided
+        encoded_stdin = None
+        if stdin is not None:
+            encoded_stdin = self._encode(
+                stdin, lambda data_in, encoding: data_in.encode(encoding),
+                get_encode_err
+            )
+
+        if _debug_mode:
+            print('', "stdin:", stdin or "", sep='\n')
+
         t.start()
-        got_stdout, got_stderr = proc.communicate()
+        got_stdout, got_stderr = proc.communicate(input=encoded_stdin)
         t.cancel()
 
-        processed_stdout = None
-        processed_stderr = None
-        for encoding in self.encodings:
-            try:
-                processed_stdout = _process_output_post(
-                    got_stdout.decode(encoding)
-                )
-                processed_stderr = _process_output_post(
-                    got_stderr.decode(encoding)
-                )
-            except UnicodeError:
-                pass
-            else:
-                break
-        if processed_stdout is None or processed_stderr is None:
-            raise ValueError(
-                "Could not decode the output of the command '{!s}' with the "
-                "following encodings: {!s}"
+        def get_decode_error():
+            """ Return an error indicating the the decoding of stdout/stderr
+            failed.
+            """
+            return "Could not decode the output of the command '{!s}' with "\
+                "the following encodings: {!s}"\
                 .format(command, ','.join(self.encodings))
-            )
+
+        def decode_output(data_in, encoding):
+            """ Decode stdout/stderr, consider platform dependent line
+            endings.
+            """
+            return _process_output_post(data_in.decode(encoding))
+
+        processed_stdout, processed_stderr = [
+            self._encode(output, decode_output, get_decode_error)
+            for output in (got_stdout, got_stderr)
+        ]
 
         if _debug_mode:
             print(
@@ -605,13 +656,75 @@ class Case(unittest.TestCase):
     #: the first encoding that does not raise a UnicodeError is used
     encodings = ['utf-8', 'iso-8859-1']
 
+    inherit_env = True
+
     @classmethod
     def setUpClass(cls):
         """
-        This function adds the variable work_dir to the class, which is the path
-        to the directory where the python source file is located.
+        This function adds the variable work_dir to the class, which is the
+        path to the directory where the python source file is located.
         """
         cls.work_dir = os.path.dirname(inspect.getfile(cls))
+
+    def _get_env(self):
+        """ Return an appropriate env value for subprocess.Popen.
+
+        This function returns either an appropriately populated dictionary or
+        None (the latter if this class has no attribute env). If a dictionary
+        is returned, then it will be either exactly self.env (when inherit_env
+        is False) or a copy of the current environment merged with self.env
+        (the values from self.env take precedence).
+        """
+        if not hasattr(self, "env"):
+            return None
+
+        if not self.inherit_env:
+            return self.env
+
+        env_copy = os.environ.copy()
+        for key in self.env:
+            env_copy[key] = self.env[key]
+
+        return env_copy
+
+    def _encode(self, data_in, encode_action, get_err):
+        """
+        Try to convert data_in via encode_action using the encodings in
+        self.encodings.
+
+        This function tries all encodings in self.encodings to run
+        encode_action with the parameters (data_in, encoding). If encode_action
+        raises a UnicodeError, the next encoding is used, otherwise the result
+        of encode_action is returned. If an encoding is equal to the type
+        bytes, then data_in is returned unmodified.
+
+        If all encodings result in a UnicodeError, then the conversion is
+        considered unsuccessful and get_err() is called to obtain an error
+        string which is raised as a ValueError.
+        """
+        result = None
+        for encoding in self.encodings:
+            if encoding == bytes:
+                return data_in
+            try:
+                result = encode_action(data_in, encoding)
+            except UnicodeError:
+                pass
+            else:
+                break
+        if result is None:
+            raise ValueError(get_err())
+
+        return result
+
+    def _compare_output(self, i, command, got, expected, msg=None):
+        """ Compares the expected and actual output of a test case. """
+        if isinstance(got, bytes):
+            self.assertEqual(got, expected, msg=msg)
+        else:
+            self.assertMultiLineEqual(
+                expected, got, msg=msg
+            )
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         """
@@ -625,28 +738,37 @@ class Case(unittest.TestCase):
                      platform so that lines always end with \n
         expected_stdout - the expected stdout extracted from self.stdout
 
-        The default implementation simply uses assertMultiLineEqual from
-        unittest.TestCase. This function can be overridden in a child class to
-        implement a custom check.
+        The default implementation uses assertMultiLineEqual from
+        unittest.TestCase for ordinary strings and assertEqual for binary
+        output. This function can be overridden in a child class to implement a
+        custom check.
         """
-        self.assertMultiLineEqual(
-            expected_stdout, got_stdout, msg="Standard output does not match"
+        self._compare_output(
+            i, command, expected_stdout, got_stdout,
+            msg="Standard output does not match"
         )
 
     def compare_stderr(self, i, command, got_stderr, expected_stderr):
         """ Same as compare_stdout only for standard-error. """
-        self.assertMultiLineEqual(
-            expected_stderr, got_stderr, msg="Standard error does not match"
+        self._compare_output(
+            i, command, expected_stderr, got_stderr,
+            msg="Standard error does not match"
         )
 
     def expand_variables(self, unexpanded_string):
         """
-        Expands all variables of the form ``$var`` in the given string using the
-        dictionary `variable_dict`.
+        Expands all variables of the form ``$var`` in the given string using
+        the dictionary `variable_dict`.
 
         The expansion itself is performed by the string's template module using
-        via `safe_substitute`.
+        the function `safe_substitute`.
+
+        If unexpanded_string is of the type bytes, then no expansion is
+        performed.
         """
+        if isinstance(unexpanded_string, bytes) or unexpanded_string is None:
+            return unexpanded_string
+
         return string.Template(str(unexpanded_string))\
             .safe_substitute(**self.variable_dict)
 
@@ -686,20 +808,23 @@ class CaseMeta(type):
 
     1. Add the `test_run` function as a member of the test class
     2. Add the `Case` class as the parent class
-    3. Expand all variables already defined in the class, so that any additional
-       code does not have to perform this task
+    3. Expand all variables already defined in the class, so that any
+       additional code does not have to perform this task
 
-    Using a metaclass instead of inheriting from case has the advantage, that we
-    can expand all variables in the strings before any test case or even the
+    Using a metaclass instead of inheriting from Case has the advantage, that
+    we can expand all variables in the strings before any test case or even the
     class constructor is run! Thus users will immediately see the expanded
     result. Also adding the `test_run` function as a direct member and not via
     inheritance enforces that it is being run **after** the test cases setUp &
     setUpClass (which oddly enough seems not to be the case in the unittest
-    module where test functions of the parent class run before setUpClass of the
-    child class).
+    module where test functions of the parent class run before setUpClass of
+    the child class).
     """
 
     def __new__(mcs, clsname, bases, dct):
+
+        assert len(_parameters) != 0, \
+            "Internal error: substitution dictionary not populated"
 
         changed = True
 
@@ -717,13 +842,13 @@ class CaseMeta(type):
                 # only try expanding strings and lists
                 if isinstance(old_value, str):
                     new_value = string.Template(old_value).safe_substitute(
-                        **_disjoint_dict_merge(dct, _parameters)
+                        **_disjoint_dict_merge(dct, _config_variables)
                     )
                 elif isinstance(old_value, list):
                     # do not try to expand anything but strings in the list
                     new_value = [
                         string.Template(elem).safe_substitute(
-                            **_disjoint_dict_merge(dct, _parameters)
+                            **_disjoint_dict_merge(dct, _config_variables)
                         )
                         if isinstance(elem, str) else elem
                         for elem in old_value
@@ -735,13 +860,30 @@ class CaseMeta(type):
                     changed = True
                     dct[key] = new_value
 
-        dct['variable_dict'] = _disjoint_dict_merge(dct, _parameters)
+        dct['variable_dict'] = _disjoint_dict_merge(dct, _config_variables)
         dct['test_run'] = test_run
 
         if Case not in bases:
             bases += (Case,)
 
+        CaseMeta.add_default_values(clsname, dct)
+
         return super(CaseMeta, mcs).__new__(mcs, clsname, bases, dct)
+
+    @staticmethod
+    def add_default_values(clsname, dct):
+        if 'commands' not in dct:
+            raise ValueError(
+                "No member 'commands' in class {!s}.".format(clsname)
+            )
+
+        cmd_length = len(dct['commands'])
+
+        for member, default in zip(
+                ('stderr', 'stdout', 'stdin', 'retval'),
+                ('', '', None, 0)):
+            if member not in dct:
+                dct[member] = [default] * cmd_length
 
 
 def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):

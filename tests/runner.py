@@ -31,9 +31,10 @@ if __name__ == '__main__':
     )
 
     parser.add_argument(
-        "dir",
-        help="directory where the test are searched for (defaults to the config"
-        "file's location)",
+        "dir_or_file",
+        help="root directory under which the testsuite searches for tests or a"
+        "single file which tests are run (defaults to the config file's"
+        "location)",
         default=None,
         type=str,
         nargs='?'
@@ -41,12 +42,30 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     conf_file = args.config_file[0]
-    discovery_root = os.path.dirname(conf_file if args.dir is None else args.dir)
-    system_tests.set_debug_mode(args.debug)
+    DEFAULT_ROOT = os.path.abspath(os.path.dirname(conf_file))
 
+    system_tests.set_debug_mode(args.debug)
     system_tests.configure_suite(conf_file)
 
-    discovered_tests = unittest.TestLoader().discover(discovery_root)
+    if args.dir_or_file is None or os.path.isdir(args.dir_or_file):
+        discovered_tests = unittest.defaultTestLoader.discover(
+            args.dir_or_file or DEFAULT_ROOT
+        )
+    elif os.path.isfile(args.dir_or_file):
+        discovered_tests = unittest.defaultTestLoader.discover(
+            os.path.dirname(args.dir_or_file),
+            pattern=os.path.split(args.dir_or_file)[1],
+        )
+    else:
+        print(
+            "WARNING: Invalid search location, falling back to {!s}"
+            .format(DEFAULT_ROOT),
+            file=sys.stderr
+        )
+        discovered_tests = unittest.defaultTestLoader.discover(
+            DEFAULT_ROOT
+        )
+
     test_res = unittest.runner.TextTestRunner(verbosity=args.verbose)\
                               .run(discovered_tests)
 

@@ -1,23 +1,7 @@
-# CMakeLists.txt for exiv2 library
-
 cmake_minimum_required( VERSION 3.3.2 )
 project( exiv2 )
 
-include(GNUInstallDirs)
-include(CheckFunctionExists)
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin)
-
-set(CMAKE_MACOSX_RPATH ON)
-
-if (APPLE)
-    set(CMAKE_INSTALL_RPATH "@loader_path")
-endif()
+include(cmake/mainSetup.cmake  REQUIRED)
 
 set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
@@ -54,16 +38,19 @@ option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentatio
 # Only intended to be used by Exiv2 developers/contributors
 option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
 option( EXIV2_TEAM_WARNINGS_AS_ERRORS "Treat warnings as errors"                              OFF )
+option( EXIV2_TEAM_USE_SANITIZERS     "Enable ASAN and UBSAN when available"                  OFF )
 set(EXTRA_COMPILE_FLAGS " ")
 
 mark_as_advanced(
-    EXIV2_TEAM_EXTRA_WARNINGS 
+    EXIV2_TEAM_EXTRA_WARNINGS
     EXIV2_TEAM_WARNINGS_AS_ERRORS
     EXIV2_ENABLE_EXTERNAL_XMP
     EXTRA_COMPILE_FLAGS
+    EXIV2_TEAM_USE_SANITIZERS
 )
 
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
+option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
 
 if ( EXIV2_ENABLE_WEBREADY )
     set ( EXIV2_ENABLE_CURL ON )
@@ -111,22 +98,20 @@ if( EXIV2_BUILD_UNIT_TESTS )
 endif()
 
 if( EXIV2_BUILD_SAMPLES )
+    ##
+    # tests
+    add_custom_target(tests
+        COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make test
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+    )
     add_subdirectory( samples )
+    get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
+    add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 endif()
 
 if( EXIV2_BUILD_PO )
     add_subdirectory( po )
 endif()
-
-##
-# tests
-add_custom_target(tests
-    COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make test
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
-)
-
-get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
-add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 
 include(cmake/printSummary.cmake)
 

@@ -60,22 +60,25 @@ namespace Exiv2 {
     const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
 // *****************************************************************************
 // free functions
-    std::string getEnv(EnVar var)
+    std::string getEnv(int env_var)
     {
-        if (var < envHTTPPOST || var > envTIMEOUT) {
+        // this check is relying on undefined behavior and might not be effective
+        if (env_var < envHTTPPOST || env_var > envTIMEOUT) {
             throw std::out_of_range("Unexpected env variable");
         }
-        return getenv(ENVARKEY[var]) ? getenv(ENVARKEY[var]) : ENVARDEF[var];
+        return getenv(ENVARKEY[env_var]) ? getenv(ENVARKEY[env_var]) : ENVARDEF[env_var];
     }
 
+    /// @brief Convert an integer value to its hex character.
     char to_hex(char code) {
         static char hex[] = "0123456789abcdef";
         return hex[code & 15];
-    } // to_hex
+    }
 
+    /// @brief Convert a hex character to its integer value.
     char from_hex(char ch) {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
-    } // from_hex
+    }
 
     std::string urlencode(const char* str) {
         const char* pstr = str;
@@ -100,7 +103,7 @@ namespace Exiv2 {
 
     char* urldecode(const char* str) {
         const char* pstr = str;
-        char* buf  = (char*)malloc(strlen(str) + 1);
+        char* buf  = new char [(strlen(str) + 1)];
         char* pbuf = buf;
         while (*pstr) {
             if (*pstr == '%') {
@@ -117,13 +120,13 @@ namespace Exiv2 {
         }
         *pbuf = '\0';
         return buf;
-    } // urldecode
+    }
 
     void urldecode(std::string& str) {
         char* decodeStr = Exiv2::urldecode(str.c_str());
         str = std::string(decodeStr);
-        free(decodeStr);
-    } // urldecode(const std::string& str)
+        delete [] decodeStr;
+    }
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

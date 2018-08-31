@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
+ * Copyright (C) 2004-2018 Exiv2 authors
  *
  * This program is part of the Exiv2 distribution.
  *
@@ -57,6 +57,16 @@ const unsigned char pngBlank[] = { 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,
                                    0x45,0x4e,0x44,0xae,0x42,0x60,0x82
                                  };
 
+namespace
+{
+    inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
+    {
+        // str & length should compile time constants => only running this in DEBUG mode is ok
+        assert(strlen(str) <= length);
+        return memcmp(str, buf.pData_, std::min(static_cast<long>(length), buf.size_)) == 0;
+    }
+}  // namespace
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -99,13 +109,14 @@ namespace Exiv2 {
             zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             // if result buffer is large than necessary, redo to fit perfectly.
             if (zlibResult == Z_OK && (long) uncompressedLen < result.size_ ) {
-                result.release();
+                result.free();
+
                 result.alloc(uncompressedLen);
                 zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             }
             if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressed buffer needs to be larger
-                result.release();
+                result.free();
 
                 // Sanity - never bigger than 16mb
                 if  (uncompressedLen > 16*1024*1024) zlibResult = Z_DATA_ERROR;
@@ -126,10 +137,10 @@ namespace Exiv2 {
             zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
             if (zlibResult == Z_BUF_ERROR) {
                 // the compressedArray needs to be larger
-                result.release();
+                result.free();
                 compressedLen *= 2;
             } else {
-                result.release();
+                result.free();
                 result.alloc(compressedLen);
                 zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
             }
@@ -154,12 +165,21 @@ namespace Exiv2 {
         }
 
         // calculate length and allocate result;
+        // count: number of \n in the header
         long        count=0;
+        // p points to the current position in the array bytes
         const byte* p = bytes ;
-        // header is \nsomething\n number\n hex
-        while ( count < 3 )
-            if ( *p++ == '\n' )
+
+        // header is '\nsomething\n number\n hex'
+        // => increment p until it points to the byte after the last \n
+        //    p must stay within bounds of the bytes array!
+        while ((count < 3) && (p - bytes < length)) {
+            // length is later used for range checks of p => decrement it for each increment of p
+            --length;
+            if ( *p++ == '\n' ) {
                 count++;
+            }
+        }
         for ( long i = 0 ; i < length ; i++ )
             if ( value[p[i]] )
                 ++count;
@@ -678,14 +698,14 @@ namespace Exiv2 {
                      !memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
             {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
-                if (memcmp("Raw profile type exif", key.pData_, 21) == 0 ||
-                    memcmp("Raw profile type APP1", key.pData_, 21) == 0 ||
-                    memcmp("Raw profile type iptc", key.pData_, 21) == 0 ||
-                    memcmp("Raw profile type xmp",  key.pData_, 20) == 0 ||
-                    memcmp("XML:com.adobe.xmp",     key.pData_, 17) == 0 ||
-                    memcmp("icc",                   key.pData_,  3) == 0 || // see test/data/imagemagick.png
-                    memcmp("ICC",                   key.pData_,  3) == 0 ||
-                    memcmp("Description",           key.pData_, 11) == 0)
+                if (compare("Raw profile type exif", key, 21) ||
+                    compare("Raw profile type APP1", key, 21) ||
+                    compare("Raw profile type iptc", key, 21) ||
+                    compare("Raw profile type xmp",  key, 20) ||
+                    compare("XML:com.adobe.xmp",     key, 17) ||
+                    compare("icc",                   key,  3) || // see test/data/imagemagick.png
+                    compare("ICC",                   key,  3) ||
+                    compare("Description",           key, 11))
                 {
 #ifdef DEBUG
                     std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk

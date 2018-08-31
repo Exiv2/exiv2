@@ -404,6 +404,7 @@ namespace Exiv2 {
                     throw Error(kerInvalidMalloc);
                 }
                 DataBuf  buf((long)allocate);  // allocate a buffer
+                std::memset(buf.pData_, 0, buf.size_);
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
                 const bool bOffsetIsPointer = count*size > 4;
 
@@ -662,7 +663,7 @@ namespace Exiv2 {
 
     void Image::clearIccProfile()
     {
-        iccProfile_.release();
+        iccProfile_.free();
     }
 
     void Image::setByteOrder(ByteOrder byteOrder)

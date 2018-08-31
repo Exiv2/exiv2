@@ -2,6 +2,8 @@
 
 #include "gtestwrapper.h"
 
+#include <stdexcept>
+
 TEST(enforce, errMessage)
 {
     try {

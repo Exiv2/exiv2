@@ -19,6 +19,15 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
     endif()
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+
+        if(BUILD_WITH_COVERAGE)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+        endif()
+
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
 
         if ( CYGWIN OR (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0))
@@ -30,6 +39,36 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
         if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
         endif ()
+
+        if ( EXIV2_TEAM_USE_SANITIZERS )
+            # ASAN is available in gcc from 4.8 and UBSAN from 4.9
+            # ASAN is available in clang from 3.1 and UBSAN from 3.3
+            # UBSAN is not fatal by default, instead it only prints runtime errors to stderr
+            # => make it fatal with -fno-sanitize-recover (gcc) or -fno-sanitize-recover=all (clang)
+            # add -fno-omit-frame-pointer for better stack traces
+            if ( COMPILER_IS_GCC )
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover")
+                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8 )
+                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
+                endif()
+            elseif( COMPILER_IS_CLANG )
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.3 )
+                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
+                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.1 )
+                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
+                endif()
+            endif()
+
+            # sorry, ASAN does not work on Windows
+            if ( NOT CYGWIN AND NOT MINGW )
+                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SANITIZER_FLAGS}")
+                set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SANITIZER_FLAGS}")
+                set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
+                set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
+            endif()
+
+        endif()
 
         if ( EXIV2_TEAM_EXTRA_WARNINGS )
             # Note that this is intended to be used only by Exiv2 developers/contributors.
@@ -108,6 +147,19 @@ endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
 if(MSVC)
+    find_program(CLCACHE name clcache.exe
+        PATHS ENV CLCACHE_PATH
+        PATH_SUFFIXES Scripts clcache-4.1.0
+    )
+    if (CLCACHE)
+        message(STATUS "clcache found in ${CLCACHE}")
+        if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+            message(WARNING "clcache only works for Release builds")
+        else()
+            set(CMAKE_CXX_COMPILER ${CLCACHE})
+        endif()
+    endif()
+    
     set(variables
       CMAKE_CXX_FLAGS_DEBUG
       CMAKE_CXX_FLAGS_MINSIZEREL
