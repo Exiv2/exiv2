@@ -30,6 +30,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+#ifndef _GETOPT_H
+#define _GETOPT_H
+#endif
 
 #ifndef __GETOPT_H__
 #define __GETOPT_H__

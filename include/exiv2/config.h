@@ -205,9 +205,6 @@ typedef int pid_t;
 //////////////////////////////////////
 
 # include <stdio.h>
-#ifdef   EXV_HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #ifdef __cplusplus
 #include <string>
 #include <iostream>
