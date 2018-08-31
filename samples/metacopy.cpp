@@ -33,6 +33,7 @@
 #include <fstream>
 #include <cassert>
 
+// include local header files which are not part of libexiv2
 #include "getopt.hpp"
 #include "metacopy.hpp"
 

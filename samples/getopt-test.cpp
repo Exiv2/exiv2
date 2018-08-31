@@ -22,7 +22,10 @@
 // Params::getopt() rc = 0
 
 #include <exiv2/exiv2.hpp>
+
+// getopt.{cpp|hpp} is not part of libexiv2
 #include "getopt.hpp"
+
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -32,7 +35,6 @@
 
 #define Safe(x) (x?x:"unknown")
 const char* optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";
-
 
 // *****************************************************************************
 // class Params
@@ -83,7 +85,7 @@ int main(int argc, char** const argv)
 {
 	int n;
 
-#if EXV_HAVE_UNISTD_H
+#ifdef EXV_HAVE_UNISTD_H
 	std::cout << "standard getopt()" << std::endl;
 	do {
 	    n = ::getopt(argc,argv,::optstring);

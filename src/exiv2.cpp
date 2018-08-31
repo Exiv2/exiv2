@@ -27,9 +27,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include <exiv2/exiv2.hpp>
 
+// include local header files which are not part of libexiv2
 #include "exiv2app.hpp"
+#include "getopt.hpp"
 #include "actions.hpp"
 #include "utils.hpp"
 #include "convert.hpp"
