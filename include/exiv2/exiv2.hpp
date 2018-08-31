@@ -30,6 +30,7 @@
 
 // *****************************************************************************
 // included header files
+#include "exiv2/config.h"
 #include "exiv2/datasets.hpp"
 #include "exiv2/basicio.hpp"
 #include "exiv2/bmpimage.hpp"
