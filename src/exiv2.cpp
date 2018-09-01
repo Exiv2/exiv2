@@ -1019,7 +1019,10 @@ int Params::getopt(int argc, char* const Argv[])
 
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
-    if (help_ || version_) return 0;
+    if (help_ || version_) {
+        rc = 0;
+        goto cleanup;
+    }
     if (action_ == Action::none) {
         // This shouldn't happen since print is taken as default action
         std::cerr << progname() << ": " << _("An action must be specified\n");
@@ -1084,6 +1087,7 @@ int Params::getopt(int argc, char* const Argv[])
         rc = 1;
     }
 
+ cleanup:
     // cleanup the argument vector
     for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
     delete [] argv;
