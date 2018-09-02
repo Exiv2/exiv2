@@ -30,8 +30,6 @@ set( SAMPLES
      xmpprint.cpp
      xmpsample.cpp
      xmpdump.cpp
-     crwedit.cpp
-     crwparse.cpp
 )
 
 ##
