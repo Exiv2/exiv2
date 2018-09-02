@@ -629,11 +629,19 @@ namespace Exiv2 {
 
 
         sp = (char*)text.pData_+1;
+        int pointerPos = 1;
 
         // Look for newline
-
-        while (*sp != '\n')
+        while (*sp != '\n' && pointerPos < (text.size_ - 1))
+        {
             sp++;
+            pointerPos++;
+        }
+
+        if (pointerPos == (text.size_ - 1))
+        {
+            return DataBuf();
+        }
 
         // Look for length
 
