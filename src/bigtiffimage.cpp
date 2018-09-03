@@ -416,13 +416,13 @@ namespace Exiv2
 
                     uint64_t result = 0;
 
-                    if (size == 1)
-                    {}
-                    else if (size == 2)
+                    if (data.size_ == 1)
+                        {}
+                    else if (data.size_ == 2)
                         result = byteSwap2(data, 0, doSwap_);
-                    else if (size == 4)
+                    else if (data.size_ == 4)
                         result = byteSwap4(data, 0, doSwap_);
-                    else if (size == 8)
+                    else if (data.size_ == 8)
                         result = byteSwap8(data, 0, doSwap_);
                     else
                         throw Exiv2::Error(kerCorruptedMetadata);
