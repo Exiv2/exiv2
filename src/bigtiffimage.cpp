@@ -7,6 +7,7 @@
 #include "exif.hpp"
 #include "error.hpp"
 #include "image_int.hpp"
+#include "enforce.hpp"
 
 
 namespace Exiv2
@@ -411,7 +412,7 @@ namespace Exiv2
                 uint64_t readData(int size) const
                 {
                     const DataBuf data = Image::io().read(size);
-                    assert(data.size_ != 0);
+                    enforce(data.size_ != 0, kerCorruptedMetadata);
 
                     uint64_t result = 0;
 
@@ -424,7 +425,7 @@ namespace Exiv2
                     else if (size == 8)
                         result = byteSwap8(data, 0, doSwap_);
                     else
-                        assert(!"unexpected size");
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     return result;
                 }
