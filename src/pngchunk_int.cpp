@@ -606,11 +606,6 @@ namespace Exiv2 {
     DataBuf PngChunk::readRawProfile(const DataBuf& text,bool iTXt)
     {
         DataBuf                 info;
-        register long           i;
-        register unsigned char *dp;
-        const char             *sp;
-        unsigned int            nibbles;
-        long                    length;
         unsigned char           unhex[103]={0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
                                             0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
                                             0,0,0,0,0,0,0,0,0,1, 2,3,4,5,6,7,8,9,0,0,
@@ -627,12 +622,18 @@ namespace Exiv2 {
             return  info;
         }
 
-
-        sp = (char*)text.pData_+1;
+        const char *sp = (char*)text.pData_+1;
         int pointerPos = 1;
 
         // Look for newline
         while (*sp != '\n' && pointerPos < (text.size_ - 1))
+        {
+            sp++;
+            pointerPos++;
+        }
+
+        // Look for length
+        while ((*sp == '\0' || *sp == ' ' || *sp == '\n') && pointerPos < (text.size_ - 1))
         {
             sp++;
             pointerPos++;
@@ -643,15 +644,18 @@ namespace Exiv2 {
             return DataBuf();
         }
 
-        // Look for length
+        long length = (long) atol(sp);
 
-        while (*sp == '\0' || *sp == ' ' || *sp == '\n')
+        while (*sp != ' ' && *sp != '\n' && pointerPos < (text.size_ - 1))
+        {
             sp++;
+            pointerPos++;
+        }
 
-        length = (long) atol(sp);
-
-        while (*sp != ' ' && *sp != '\n')
-            sp++;
+        if (pointerPos == (text.size_ - 1))
+        {
+            return DataBuf();
+        }
 
         // Allocate space
 
@@ -674,10 +678,10 @@ namespace Exiv2 {
 
         // Copy profile, skipping white space and column 1 "=" signs
 
-        dp      = (unsigned char*)info.pData_;
-        nibbles = length * 2;
+        unsigned char *dp = (unsigned char*)info.pData_;
+        unsigned int nibbles = length * 2;
 
-        for (i = 0; i < (long) nibbles; i++)
+        for (long i = 0; i < (long) nibbles; i++)
         {
             while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f')
             {
