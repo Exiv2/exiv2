@@ -251,8 +251,12 @@ namespace Exiv2
                             // size * count > std::numeric_limits<uint64_t>::max()
                             // =>
                             // size > std::numeric_limits<uint64_t>::max() / count
-                            if (size > std::numeric_limits<uint64_t>::max() / count)
-                                throw Error(kerInvalidMalloc);             // we got number bigger than 2^64
+                            // (don't perform that check when count == 0 => will cause a division by zero exception)
+                            if (count != 0) {
+                                if (size > std::numeric_limits<uint64_t>::max() / count) {
+                                    throw Error(kerInvalidMalloc);             // we got number bigger than 2^64
+                                }
+                            }
                                                              // more than we can handle
 
                             if (size * count > std::numeric_limits<uint64_t>::max() - pad)
