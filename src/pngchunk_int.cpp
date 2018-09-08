@@ -152,7 +152,7 @@ namespace Exiv2 {
 
             // compressed string after the compression technique spec
             const byte* compressedText      = data.pData_ + keysize + 2;
-            unsigned int compressedTextSize = data.size_  - keysize - 2;
+            long compressedTextSize = data.size_  - keysize - 2;
             enforce(compressedTextSize < data.size_, kerCorruptedMetadata);
 
             zlibUncompress(compressedText, compressedTextSize, arr);
@@ -171,7 +171,7 @@ namespace Exiv2 {
         else if(type == iTXt_Chunk)
         {
             enforce(data.size_ >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
-            const int nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_], '\0');
+            const size_t nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_], '\0');
             enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
 
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
@@ -188,9 +188,9 @@ namespace Exiv2 {
             const size_t languageTextMaxSize = data.size_ - keysize - 3;
             std::string languageText =
                 string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3)), languageTextMaxSize);
-            const unsigned int languageTextSize = static_cast<unsigned int>(languageText.size());
+            const size_t languageTextSize = languageText.size();
 
-            enforce(data.size_ >= Safe::add(static_cast<unsigned int>(Safe::add(keysize, 4)), languageTextSize),
+            enforce(data.size_ >= Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
                     Exiv2::kerCorruptedMetadata);
             // translated keyword string after the language description
             std::string translatedKeyText =
@@ -200,11 +200,11 @@ namespace Exiv2 {
 
             if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                 enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
-                                  Safe::add(translatedKeyTextSize, 1u)) <= data.size_,
+                                  Safe::add(translatedKeyTextSize, 1u)) <= static_cast<unsigned int>(data.size_),
                         Exiv2::kerCorruptedMetadata);
 
                 const byte* text = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
-                const long textsize = data.size_ - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
+                const long textsize = static_cast<long>(data.size_ - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
 
                 if (compressionFlag == 0x00) {
                     // then it's an uncompressed iTXt chunk

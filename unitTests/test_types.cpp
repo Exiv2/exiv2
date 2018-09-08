@@ -42,7 +42,7 @@ TEST(DataBuf, allocatesDataWithNonEmptyConstructor)
 
 TEST(Rational, floatToRationalCast)
 {
-    static const float floats[] = {0.5, 0.015, 0.0000625};
+    static const float floats[] = {0.5f, 0.015f, 0.0000625f};
 
     for (size_t i = 0; i < sizeof(floats) / sizeof(*floats); ++i) {
         const Rational r = floatToRationalCast(floats[i]);
