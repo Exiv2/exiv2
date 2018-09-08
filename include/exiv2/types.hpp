@@ -555,6 +555,8 @@ namespace Exiv2 {
         // IntType may be a user-defined type).
 #ifdef _MSC_VER
 #pragma warning( disable : 4146 )
+#undef max
+#undef min
 #endif
         if (n < zero) {
             if (n == std::numeric_limits<IntType>::min()) {

@@ -1551,7 +1551,7 @@ namespace {
                               &inbytesleft,
                               &outptr,
                               &outbytesleft);
-            int outbytesProduced = sizeof(outbuf) - outbytesleft;
+            const size_t outbytesProduced = sizeof(outbuf) - outbytesleft;
             if (rc == size_t(-1) && errno != E2BIG) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "iconv: " << strError()

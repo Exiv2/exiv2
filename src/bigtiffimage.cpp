@@ -370,13 +370,14 @@ namespace Exiv2
                                     bytes[jump]=0               ;
                                     if ( ::strcmp("Nikon",chars) == 0 )
                                     {
-                                        // tag is an embedded tiff
-					std::vector<byte> nikon_bytes(count-jump);
+                                      // tag is an embedded tiff
+                                      std::vector<byte> nikon_bytes(count - jump);
 
-                                        io.read(&nikon_bytes.at(0),nikon_bytes.size());
-					MemIo memIo(&nikon_bytes.at(0),(long)count-jump);  // create a file
-                                        std::cerr << "Nikon makernote" << std::endl;
-                                        // printTiffStructure(memIo,out,option,depth);  TODO: fix it
+                                      io.read(&nikon_bytes.at(0), (long)nikon_bytes.size());
+                                      MemIo memIo(&nikon_bytes.at(0), (long)count - jump); // create a file
+                                      std::cerr << "Nikon makernote" << std::endl;
+                                      // printTiffStructure(memIo,out,option,depth);
+                                      // TODO: fix it
                                     }
                                     else
                                     {

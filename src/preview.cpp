@@ -930,7 +930,7 @@ namespace {
 
     DataBuf decodeBase64(const std::string& src)
     {
-        const unsigned long srcSize = src.size();
+        const size_t srcSize = src.size();
 
         // create decoding table
         unsigned long invalid = 64;
