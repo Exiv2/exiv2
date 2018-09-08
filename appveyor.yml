@@ -1,11 +1,25 @@
 environment:
   matrix:
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-      #CMAKE_GENERATOR: Visual Studio 12 2013 Win64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+      CMAKE_GENERATOR: Visual Studio 11 2012 Win64
+      INTEGRATION_TESTS: 0
+      VS_COMPILER_VERSION: 11
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
+      CMAKE_GENERATOR: Visual Studio 12 2013 Win64
+      INTEGRATION_TESTS: 0
+      VS_COMPILER_VERSION: 12
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: Visual Studio 14 2015 Win64
+      INTEGRATION_TESTS: 1
+      VS_COMPILER_VERSION: 14
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017 Win64
+      INTEGRATION_TESTS: 1
+      VS_COMPILER_VERSION: 15
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
 
 shallow_clone: true
 
@@ -31,21 +45,25 @@ before_build:
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
+    - cmd: conan profile update settings.compiler.version=%VS_COMPILER_VERSION% default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
 
 build_script:
     - cmd: md build
     - cmd: cd build
+    - cmd: call "%VCVARS%" x86_amd64
     - cmd: conan install .. --build missing
     - cmd: echo %CMAKE_GENERATOR%
     - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: cmake --build . --config Release
     - cmd: cmake --build . --config Release --target install
+
+after_build:
     - cmd: cd bin
     - cmd: unit_tests.exe
     - cmd: cd ../../tests/
     - cmd: set EXIV2_EXT=.exe
-    - cmd: c:\Python36\python.exe runner.py -v
+    - cmd: if %INTEGRATION_TESTS% == "1" c:\Python36\python.exe runner.py -v
 
 cache:
     - envs                          # Conan installation

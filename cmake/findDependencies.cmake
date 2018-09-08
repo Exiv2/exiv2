@@ -5,7 +5,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     set(USING_CONAN ON)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_set_find_paths()
+    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
 endif()
 
 find_package(Threads REQUIRED)

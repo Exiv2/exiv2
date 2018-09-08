@@ -6,9 +6,11 @@ class Exiv2Conan(ConanFile):
     generators = 'cmake'
     options = {'unitTests': [True, False],
                'xmp': [True, False],
+               'iconv': [True, False],
               }
     default_options = ('unitTests=True',
                        'xmp=False',
+                       'iconv=False',
                       )
 
     def configure(self):
@@ -20,8 +22,9 @@ class Exiv2Conan(ConanFile):
         self.requires('zlib/1.2.11@conan/stable')
         self.requires('libcurl/7.60.0@bincrafters/stable')
 
-        if os_info.is_windows:
-            self.requires('libiconv/1.15@bincrafters/stable')
+        if os_info.is_windows and self.options.xmp:
+            if os_info.detect_windows_subsystem() in ("cygwin", "msys2"):
+                self.requires('libiconv/1.15@bincrafters/stable')
 
         if self.options.unitTests:
             self.requires('gtest/1.8.0@bincrafters/stable')
