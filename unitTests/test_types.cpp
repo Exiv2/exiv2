@@ -1,6 +1,7 @@
 #include <exiv2/types.hpp>
 
-#include <math.h>
+#include <cmath>
+#include <limits>
 
 #include "gtestwrapper.h"
 
@@ -50,11 +51,11 @@ TEST(Rational, floatToRationalCast)
         ASSERT_TRUE(fabs((floats[i] - fraction) / floats[i]) < 0.01f);
     }
 
-    const Rational plus_inf = floatToRationalCast(INFINITY);
+    const Rational plus_inf = floatToRationalCast(std::numeric_limits<float>::infinity());
     ASSERT_EQ(plus_inf.first, 1);
     ASSERT_EQ(plus_inf.second, 0);
 
-    const Rational minus_inf = floatToRationalCast(-1 * INFINITY);
+    const Rational minus_inf = floatToRationalCast(-1 * std::numeric_limits<float>::infinity());
     ASSERT_EQ(minus_inf.first, -1);
     ASSERT_EQ(minus_inf.second, 0);
 }
