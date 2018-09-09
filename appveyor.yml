@@ -5,31 +5,37 @@ environment:
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 9
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 10 2010 Win64
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 10
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 11 2012 Win64
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 11
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86_amd64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 12 2013 Win64
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 12
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86_amd64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: Visual Studio 14 2015 Win64
       INTEGRATION_TESTS: 1
       VS_COMPILER_VERSION: 14
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86_amd64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017 Win64
       INTEGRATION_TESTS: 1
       VS_COMPILER_VERSION: 15
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+      ARCHITECTURE: x86_amd64
 
 shallow_clone: true
 
@@ -56,6 +62,8 @@ before_build:
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
     - cmd: conan profile update settings.compiler.version=%VS_COMPILER_VERSION% default
+    - cmd: conan profile update settings.arch=%ARCHITECTURE% default
+    - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
 
 build_script:
