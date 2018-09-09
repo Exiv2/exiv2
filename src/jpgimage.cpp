@@ -660,7 +660,7 @@ namespace Exiv2 {
                         if (size > 0) {
                             io_->seek(-bufRead, BasicIo::cur);
                             std::vector<byte> xmp(size + 1);
-                            io_->read(xmp.data(), size);
+                            io_->read(&xmp[0], size);
                             int start = 0;
 
                             // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf
