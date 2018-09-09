@@ -19,28 +19,28 @@ environment:
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 11
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
-      ARCHITECTURE: x86_amd64
+      ARCHITECTURE: x86_64
       UNIT_TESTS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 12 2013 Win64
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 12
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat
-      ARCHITECTURE: x86_amd64
+      ARCHITECTURE: x86_64
       UNIT_TESTS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: Visual Studio 14 2015 Win64
       INTEGRATION_TESTS: 1
       VS_COMPILER_VERSION: 14
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
-      ARCHITECTURE: x86_amd64
+      ARCHITECTURE: x86_64
       UNIT_TESTS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017 Win64
       INTEGRATION_TESTS: 1
       VS_COMPILER_VERSION: 15
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-      ARCHITECTURE: x86_amd64
+      ARCHITECTURE: x86_64
       UNIT_TESTS: ON
 
 shallow_clone: true
