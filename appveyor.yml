@@ -4,12 +4,12 @@ environment:
       CMAKE_GENERATOR: Visual Studio 9 2008 Win64
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 9
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 10 2010 Win64
       INTEGRATION_TESTS: 0
       VS_COMPILER_VERSION: 10
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 11 2012 Win64
       INTEGRATION_TESTS: 0
