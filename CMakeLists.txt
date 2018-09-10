@@ -101,7 +101,7 @@ if( EXIV2_BUILD_SAMPLES )
     ##
     # tests
     add_custom_target(tests
-        COMMAND env EXIV2_BUILDDIR="${CMAKE_BINARY_DIR}" make test
+        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make test
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
     )
     add_subdirectory( samples )
