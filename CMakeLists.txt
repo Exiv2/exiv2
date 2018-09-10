@@ -113,6 +113,7 @@ if( EXIV2_BUILD_PO )
     add_subdirectory( po )
 endif()
 
+include(cmake/packaging.cmake)
 include(cmake/printSummary.cmake)
 
 # That's all Folks!
