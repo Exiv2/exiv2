@@ -1,5 +1,8 @@
 cmake_minimum_required( VERSION 3.3.2 )
-project( exiv2 )
+project( exiv2
+    VERSION 0.27.0
+    LANGUAGES CXX C
+)
 
 include(cmake/mainSetup.cmake  REQUIRED)
 
@@ -7,9 +10,8 @@ set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
 set( PACKAGE                "exiv2" )
 set( PACKAGE_NAME           "exiv2" )
-set( PACKAGE_VERSION        "0.26" )
 set( PACKAGE_URL            "http://www.exiv2.org" )
-set( PACKAGE_STRING         "${PACKAGE_NAME} ${PACKAGE_VERSION}" )
+set( PACKAGE_STRING         "${PACKAGE_NAME} ${PROJECT_VERSION}" )
 set( GENERIC_LIB_VERSION    "26.0.0" )
 set( GENERIC_LIB_SOVERSION  "26" )
 
