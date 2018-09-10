@@ -607,11 +607,11 @@ namespace Exiv2 {
     {
         DataBuf                 info;
         unsigned char           unhex[103]={0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
-                                            0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
-                                            0,0,0,0,0,0,0,0,0,1, 2,3,4,5,6,7,8,9,0,0,
-                                            0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
-                                            0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,10,11,12,
-                                            13,14,15};
+            0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,1, 2,3,4,5,6,7,8,9,0,0,
+            0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,10,11,12,
+            13,14,15};
         if (text.size_ == 0) {
             return DataBuf();
         }
@@ -622,52 +622,51 @@ namespace Exiv2 {
             return  info;
         }
 
-        const char *sp = (char*)text.pData_+1;
-        int pointerPos = 1;
+        const char *sp  = (char*) text.pData_+1;          // current byte (space pointer)
+        const char *eot = (char*) text.pData_+text.size_; // end of text
 
         // Look for newline
-        while (*sp != '\n' && pointerPos < (text.size_ - 1))
+        while (*sp != '\n' && sp < eot )
         {
             sp++;
-            pointerPos++;
+            if ( sp == eot )
+            {
+                return DataBuf();
+            }
         }
+        sp++ ; // step over '\n'
 
         // Look for length
-        while ((*sp == '\0' || *sp == ' ' || *sp == '\n') && pointerPos < (text.size_ - 1))
+        while ( (*sp == '\0' || *sp == ' ' || *sp == '\n') && sp < eot )
         {
             sp++;
-            pointerPos++;
+            if (sp == eot )
+            {
+                return DataBuf();
+            }
         }
 
-        if (pointerPos == (text.size_ - 1))
-        {
-            return DataBuf();
-        }
-
-        long length = (long) atol(sp);
-
-        while (*sp != ' ' && *sp != '\n' && pointerPos < (text.size_ - 1))
+        const char* startOfLength = sp;
+        while ( ('0' <= *sp && *sp <= '9') && sp < eot)
         {
             sp++;
-            pointerPos++;
+            if (sp == eot )
+            {
+                return DataBuf();
+            }
         }
+        sp++ ; // step over '\n'
 
-        if (pointerPos == (text.size_ - 1))
-        {
-            return DataBuf();
-        }
+        long length = (long) atol(startOfLength);
 
         // Allocate space
-
         if (length == 0)
         {
 #ifdef DEBUG
             std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: invalid profile length\n";
 #endif
         }
-
         info.alloc(length);
-
         if (info.size_ != length)
         {
 #ifdef DEBUG
@@ -678,7 +677,7 @@ namespace Exiv2 {
 
         // Copy profile, skipping white space and column 1 "=" signs
 
-        unsigned char *dp = (unsigned char*)info.pData_;
+        unsigned char *dp = (unsigned char*)info.pData_; // decode pointer
         unsigned int nibbles = length * 2;
 
         for (long i = 0; i < (long) nibbles; i++)
