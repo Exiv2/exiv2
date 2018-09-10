@@ -107,7 +107,7 @@
 #cmakedefine EXV_PACKAGE_STRING "@EXV_PACKAGE_STRING@"
 
 /* Define to the version of this package. */
-#cmakedefine EXV_PACKAGE_VERSION "@PACKAGE_VERSION@"
+#cmakedefine EXV_PACKAGE_VERSION "@PROJECT_VERSION@"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #cmakedefine const

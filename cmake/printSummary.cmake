@@ -35,7 +35,6 @@ message( STATUS "" )
 message( STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
 
 message( STATUS "------------------------------------------------------------------" )
-message( STATUS "${PACKAGE_STRING} configure results        <${PACKAGE_URL}>"        )
 OptionOutput( "Building shared library:            " BUILD_SHARED_LIBS               )
 OptionOutput( "Building PNG support:               " EXIV2_ENABLE_PNG AND ZLIB_FOUND )
 if    ( EXIV2_ENABLE_EXTERNAL_XMP )
