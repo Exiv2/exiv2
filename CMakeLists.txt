@@ -6,9 +6,6 @@ project( exiv2
 
 include(cmake/mainSetup.cmake  REQUIRED)
 
-set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
-set( PACKAGE_URL            "http://www.exiv2.org" )
-
 # options and their default values
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
