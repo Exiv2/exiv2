@@ -1,3 +1,5 @@
+# These flags applies to exiv2lib, the applications, and to the xmp code
+
 if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         set(COMPILER_IS_GCC ON)
@@ -35,10 +37,6 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
         else()
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98")
         endif()
-
-        if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
-        endif ()
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
             # ASAN is available in gcc from 4.8 and UBSAN from 4.9
@@ -200,13 +198,6 @@ if(MSVC)
         set(CMAKE_EXE_LINKER_FLAGS_MINSIZEREL     "/NODEFAULTLIB:MSVCRT")
         set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "/NODEFAULTLIB:MSVCRT")
     endif()
-
-    if ( EXIV2_WARNINGS_AS_ERRORS )
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX")
-        set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WX")
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WX")
-    endif ()
 
     if ( EXIV2_EXTRA_WARNINGS )
         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
