@@ -362,7 +362,7 @@ namespace Exiv2
                                 {
                                     size_t   restore = io.tell();  // save
 
-                                    uint32_t jump= 10           ;
+                                    long jump= 10           ;
                                     byte     bytes[20]          ;
                                     const char* chars = (const char*) &bytes[0] ;
                                     io.seek(dir_offset, BasicIo::beg);  // position
