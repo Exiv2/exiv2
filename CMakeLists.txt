@@ -88,6 +88,8 @@ if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
 
+include(cmake/compilerFlagsExiv2.cmake REQUIRED)
+
 add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )

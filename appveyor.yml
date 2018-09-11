@@ -7,6 +7,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat
       ARCHITECTURE: x86
       UNIT_TESTS: OFF
+      WARNINGS_AS_ERRORS: OFF
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 10 2010
       INTEGRATION_TESTS: 0
@@ -14,6 +15,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat
       ARCHITECTURE: x86
       UNIT_TESTS: OFF
+      WARNINGS_AS_ERRORS: OFF
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 11 2012 Win64
       INTEGRATION_TESTS: 0
@@ -21,6 +23,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: ON
+      WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 12 2013 Win64
       INTEGRATION_TESTS: 0
@@ -28,6 +31,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: ON
+      WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: Visual Studio 14 2015 Win64
       INTEGRATION_TESTS: 1
@@ -35,6 +39,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: ON
+      WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Visual Studio 15 2017 Win64
       INTEGRATION_TESTS: 1
@@ -42,6 +47,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: ON
+      WARNINGS_AS_ERRORS: ON
 
 shallow_clone: true
 
@@ -78,7 +84,7 @@ build_script:
     - cmd: call "%VCVARS%" x86_amd64
     - cmd: conan install .. --build missing
     - cmd: echo %CMAKE_GENERATOR%
-    - cmd: cmake -G "%CMAKE_GENERATOR%" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: cmake --build . --config Release
     - cmd: cmake --build . --config Release --target install
 
