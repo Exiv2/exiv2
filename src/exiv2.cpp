@@ -129,8 +129,8 @@ int main(int argc, char* const argv[])
 {
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
-    bindtextdomain(EXV_PACKAGE, EXV_LOCALEDIR);
-    textdomain(EXV_PACKAGE);
+    bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
+    textdomain(EXV_PACKAGE_NAME);
 #endif
 
     // Handle command line arguments
