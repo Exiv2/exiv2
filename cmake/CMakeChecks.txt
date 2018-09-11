@@ -31,10 +31,6 @@
 #
 # ConfigureChecks for exiv2
 
-if( EXIV2_ENABLE_COMMERCIAL )
-    add_definitions( -DEXV_COMMERCIAL_VERSION )
-endif()
-
 configure_file(cmake/exiv2_uninstall.cmake ${CMAKE_BINARY_DIR}/cmake_uninstall.cmake COPYONLY)
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
 

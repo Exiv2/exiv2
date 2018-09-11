@@ -235,7 +235,6 @@ How to use this
       option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      ON  )
       option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
       option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
-      option( EXIV2_ENABLE_COMMERCIAL       "Build with the EXV_COMMERCIAL_VERSION symbol set"      OFF )
       option( EXIV2_ENABLE_VIDEO            "Build video support into library"                      OFF )
       option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
       option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            OFF )
