@@ -73,11 +73,6 @@
 typedef int pid_t;
 #endif
 
-/* Help out our buddy curl */
-#if !defined(EXV_HAVE_DLL)
-# define CURL_STATICLIB
-#endif
-
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
