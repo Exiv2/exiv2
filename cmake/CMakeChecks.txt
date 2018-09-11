@@ -41,7 +41,5 @@ add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uni
 if( NOT MSVC )
     configure_file( cmake/exiv2.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc @ONLY )
     install( FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
-    configure_file( cmake/exiv2.lsm.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.lsm DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
 endif()
 
