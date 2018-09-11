@@ -661,6 +661,8 @@ namespace Exiv2 {
     {
 #if defined(_MSC_VER) && _MSC_VER < 1800
         #define isinf(x) (!_finite(x))
+#elif __APPLE__
+        #define isinf(x) (isinf(x) || isnan(x))
 #endif
         if (isinf(f)) {
             return Rational(f > 0 ? 1 : -1, 0);
