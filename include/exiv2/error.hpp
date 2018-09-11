@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -320,7 +319,7 @@ namespace Exiv2 {
         std::basic_string<charT> arg3_;         //!< Third argument
         std::string              msg_;          //!< Complete error message
 #ifdef EXV_UNICODE_PATH
-	std::wstring             wmsg_;         //!< Complete error message as a wide string
+    std::wstring             wmsg_;         //!< Complete error message as a wide string
 #endif
     }; // class BasicError
 

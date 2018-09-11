@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -875,31 +874,31 @@ namespace Exiv2 {
       @brief %LangAltValueComparator
 
       #1058
-	  https://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart1.pdf
-	  XMP spec chapter B.4 (page 42) the xml:lang qualifier is to be compared case insensitive.
+      https://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart1.pdf
+      XMP spec chapter B.4 (page 42) the xml:lang qualifier is to be compared case insensitive.
       */
-	struct LangAltValueComparator {
-		//! LangAltValueComparator comparison case insensitive function
-		bool operator() (const std::string& str1, const std::string& str2) const
-		{
-    		int result = str1.size() < str2.size() ?  1
-    		           : str1.size() > str2.size() ? -1
-    		           : 0
-    		           ;
-    		std::string::const_iterator c1 = str1.begin();
-    		std::string::const_iterator c2 = str2.begin();
-    		if (  result==0 ) for (
-    		    ; result==0 && c1 != str1.end()
-    		    ; ++c1, ++c2
-    		    ) {
-        		result = tolower(*c1) < tolower(*c2) ?  1
-        		       : tolower(*c1) > tolower(*c2) ? -1
-        		       : 0
-        		       ;
-    		}
-    		return result < 0 ;
-    	}
-	};
+    struct LangAltValueComparator {
+        //! LangAltValueComparator comparison case insensitive function
+        bool operator() (const std::string& str1, const std::string& str2) const
+        {
+            int result = str1.size() < str2.size() ?  1
+                       : str1.size() > str2.size() ? -1
+                       : 0
+                       ;
+            std::string::const_iterator c1 = str1.begin();
+            std::string::const_iterator c2 = str2.begin();
+            if (  result==0 ) for (
+                ; result==0 && c1 != str1.end()
+                ; ++c1, ++c2
+                ) {
+                result = tolower(*c1) < tolower(*c2) ?  1
+                       : tolower(*c1) > tolower(*c2) ? -1
+                       : 0
+                       ;
+            }
+            return result < 0 ;
+        }
+    };
 
     /*!
       @brief %Value type for XMP language alternative properties.

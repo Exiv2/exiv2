@@ -6,7 +6,6 @@ project( exiv2
 
 include(cmake/mainSetup.cmake  REQUIRED)
 
-set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
 set( PACKAGE_URL            "http://www.exiv2.org" )
 

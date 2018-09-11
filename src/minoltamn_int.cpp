@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -2153,9 +2152,9 @@ namespace Exiv2 {
             Exiv2::StringSet maxApertures;
                              maxApertures.insert( "926/256") ; // F3.5
                              maxApertures.insert("1024/256") ; // F4
-                        	 maxApertures.insert("1110/256") ; // F4.5
-                        	 maxApertures.insert("1188/256") ; // F5
-                        	 maxApertures.insert("1272/256") ; // F5.6
+                             maxApertures.insert("1110/256") ; // F4.5
+                             maxApertures.insert("1188/256") ; // F5
+                             maxApertures.insert("1272/256") ; // F5.6
 
             if ( model == "ILCE-6000" && maxAperture == F1_8 ) try {
                 long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
@@ -2199,16 +2198,16 @@ namespace Exiv2 {
 
     std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata)
     {
-		// #1034
-		const std::string undefined("undefined") ;
-		const std::string minolta  ("minolta");
-		const std::string sony     ("sony");
-		if ( Internal::readExiv2Config(minolta,value.toString(),undefined) != undefined ) {
-			return os << Internal::readExiv2Config(minolta,value.toString(),undefined);
-		}
-		if ( Internal::readExiv2Config(sony,value.toString(),undefined) != undefined ) {
-			return os << Internal::readExiv2Config(sony,value.toString(),undefined);
-		}
+        // #1034
+        const std::string undefined("undefined") ;
+        const std::string minolta  ("minolta");
+        const std::string sony     ("sony");
+        if ( Internal::readExiv2Config(minolta,value.toString(),undefined) != undefined ) {
+            return os << Internal::readExiv2Config(minolta,value.toString(),undefined);
+        }
+        if ( Internal::readExiv2Config(sony,value.toString(),undefined) != undefined ) {
+            return os << Internal::readExiv2Config(sony,value.toString(),undefined);
+        }
 
         // #1145 - respect lenses with shared LensID
         unsigned long    index = value.toLong();
