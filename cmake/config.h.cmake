@@ -97,9 +97,6 @@
    slash. */
 #cmakedefine EXV_LSTAT_FOLLOWS_SLASHED_SYMLINK
 
-/* Define to the name of this package. */
-#cmakedefine EXV_PACKAGE "@EXV_PACKAGE@"
-
 /* Define to the full name of this package. */
 #cmakedefine EXV_PACKAGE_NAME "@EXV_PACKAGE_NAME@"
 

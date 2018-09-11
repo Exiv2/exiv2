@@ -8,12 +8,7 @@ include(cmake/mainSetup.cmake  REQUIRED)
 
 set( PACKAGE_COPYRIGHT      "Andreas Huggel" )
 set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
-set( PACKAGE                "exiv2" )
-set( PACKAGE_NAME           "exiv2" )
 set( PACKAGE_URL            "http://www.exiv2.org" )
-set( PACKAGE_STRING         "${PACKAGE_NAME} ${PROJECT_VERSION}" )
-set( GENERIC_LIB_VERSION    "26.0.0" )
-set( GENERIC_LIB_SOVERSION  "26" )
 
 # options and their default values
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )

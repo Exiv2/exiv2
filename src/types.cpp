@@ -689,13 +689,13 @@ const char* _exvGettext(const char* str)
     static bool exvGettextInitialized = false;
 
     if (!exvGettextInitialized) {
-        bindtextdomain(EXV_PACKAGE, EXV_LOCALEDIR);
+        bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
 # ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
-        bind_textdomain_codeset (EXV_PACKAGE, "UTF-8");
+        bind_textdomain_codeset (EXV_PACKAGE_NAME, "UTF-8");
 # endif
         exvGettextInitialized = true;
     }
 
-    return dgettext(EXV_PACKAGE, str);
+    return dgettext(EXV_PACKAGE_NAME, str);
 }
 #endif // EXV_ENABLE_NLS
