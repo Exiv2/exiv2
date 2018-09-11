@@ -26,7 +26,7 @@ endif( )
 if( EXIV2_ENABLE_WEBREADY )
     set( ENABLE_WEBREADY 1 )
     if( EXIV2_ENABLE_CURL )
-        find_package( CURL REQUIRED)
+        find_package(CURL REQUIRED)
     endif()
 
     if( EXIV2_ENABLE_SSH )

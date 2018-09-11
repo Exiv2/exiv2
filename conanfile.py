@@ -14,8 +14,8 @@ class Exiv2Conan(ConanFile):
                       )
 
     def configure(self):
-        if not os_info.is_macos:
-            self.options['libcurl'].shared = True
+        self.options['libcurl'].shared = False
+        self.options['libcurl'].with_openssl = True
         self.options['gtest'].shared = True
 
     def requirements(self):
