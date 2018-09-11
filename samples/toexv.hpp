@@ -1,7 +1,5 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -70,7 +68,7 @@ public:
     int help(std::ostream& os =std::cout) const;
 
     //! copy metadata from one image to another.
-	void copyMetadata(Exiv2::Image::AutoPtr& readImage,Exiv2::Image::AutoPtr& writeImage);
+    void copyMetadata(Exiv2::Image::AutoPtr& readImage,Exiv2::Image::AutoPtr& writeImage);
 
 }; // class Params
 

@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -122,7 +121,7 @@ namespace Exiv2 {
         { 17, N_("+1")     },
         { 18, N_("-1")     }
     };
-        
+
     //! Contrast, tag 0x000c
     extern const TagDetails casioContrast[] = {
         {  0, N_("Normal") },
@@ -220,7 +219,7 @@ namespace Exiv2 {
         os.copyfmt(oss);
         os.flags(f);
         return os;
-    } 
+    }
 
     std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, const ExifData*)
     {
@@ -260,7 +259,7 @@ namespace Exiv2 {
             os << value;
         };
         return os;
-    } 
+    }
 
     //Casio Makernotes, Type 2
     //! Quality Mode, tag 0x0004
@@ -437,7 +436,7 @@ namespace Exiv2 {
         { 5, N_("Shadow Enhance Low")  },
         { 6, N_("Shadow Enhance High") }
     };
-        
+
     //! Portrait Refiner, tag 0x302b
     extern const TagDetails casio2PortraitRefiner[] = {
         { 0, N_("Off") },
@@ -574,7 +573,7 @@ namespace Exiv2 {
             os << value;
         };
         return os;
-    } 
+    }
 
     std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value, const ExifData*)
     {
@@ -591,6 +590,6 @@ namespace Exiv2 {
         os.copyfmt(oss);
         os.flags(f);
         return os;
-    } 
+    }
 
 }}                                      // namespace Internal, Exiv2

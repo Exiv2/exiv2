@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -92,35 +91,35 @@ namespace {
 namespace Exiv2 {
     namespace Internal {
 
-		std::string getExiv2ConfigPath()
-		{
-    		std::string homedir;
-    		std::string inifile;
+        std::string getExiv2ConfigPath()
+        {
+            std::string homedir;
+            std::string inifile;
 #if defined(_MSC_VER) || defined(__MINGW__)
-			char path[MAX_PATH];
-			if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
-  				homedir = std::string(path);
-  				inifile = "exiv2.ini"      ;
-			}
+            char path[MAX_PATH];
+            if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
+                homedir = std::string(path);
+                inifile = "exiv2.ini"      ;
+            }
 #else
-	    	struct passwd* pw = getpwuid(getuid());
-			homedir = std::string(pw?pw->pw_dir:"");
-    		inifile = std::string(".exiv2");
+            struct passwd* pw = getpwuid(getuid());
+            homedir = std::string(pw?pw->pw_dir:"");
+            inifile = std::string(".exiv2");
 #endif
-	    	return homedir + EXV_SEPARATOR_CHR + inifile;
-		}
+            return homedir + EXV_SEPARATOR_CHR + inifile;
+        }
 
 
-    	std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def)
-    	{
-   			std::string result = def;
-	    	Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
+        std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def)
+        {
+            std::string result = def;
+            Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
 
-			if (reader.ParseError() == 0) {
-				result = reader.Get(section,value,def);
-			}
-			return result;
-		}
+            if (reader.ParseError() == 0) {
+                result = reader.Get(section,value,def);
+            }
+            return result;
+        }
 
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {

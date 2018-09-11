@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -90,19 +89,19 @@ namespace Exiv2 {
         class RWLock
         {
         public:
-        	//! constructor (acquires the lock)
+            //! constructor (acquires the lock)
             RWLock(const pthread_rwlockattr_t *attr = 0)
             {
                 pthread_rwlock_init(&rwlock_, attr);
             }
 
-        	//! constructor (releases lock)
+            //! constructor (releases lock)
             ~RWLock()
             {
                 pthread_rwlock_destroy(&rwlock_);
             }
 
-        	//! acquire rw lock
+            //! acquire rw lock
             void wrlock()
             {
                 pthread_rwlock_wrlock(&rwlock_);
@@ -139,7 +138,7 @@ namespace Exiv2 {
             void wrunlock() { unlock(); }
 
         private:
-        	//! the lock itself
+            //! the lock itself
             pthread_rwlock_t rwlock_;
         };
 #endif
@@ -162,7 +161,7 @@ namespace Exiv2 {
             ~ScopedReadLock() { rwlock_.rdunlock(); }
 
         private:
-        	//! object locked by the constructor (and released by destructor)
+            //! object locked by the constructor (and released by destructor)
             RWLock &rwlock_;
         };
 
@@ -184,7 +183,7 @@ namespace Exiv2 {
             ~ScopedWriteLock() { rwlock_.wrunlock(); }
 
         private:
-        	//! object locked by the constructor (and released by destructor)
+            //! object locked by the constructor (and released by destructor)
             RWLock &rwlock_;
         };
 }

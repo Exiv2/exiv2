@@ -1,10 +1,9 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
  * Lens database for the conversion of Nikon lens data to readable lens names
  * Copyright (C) 2005-2014 Robert Rottmerhusen <lens_id@rottmerhusen.com>
  *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -2487,21 +2486,21 @@ fmountlens[] = {
 #endif
 // 8< - - - 8< do not remove this line >8 - - - >8
 
-	/* if no meta obj is provided, try to use the value param that *may*
-	 * be the pre-parsed lensid
-	 */
+    /* if no meta obj is provided, try to use the value param that *may*
+     * be the pre-parsed lensid
+     */
         if (metadata == 0)
         {
             const unsigned char  vid = (unsigned)value.toLong(0);
 
-	    /* the 'FMntLens' name is added to the annonymous struct for
-	     * fmountlens[]
-	     *
-	     * remember to name the struct when importing/updating the lens info
-	     * from:
-	     *
-	     * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
-	     */
+        /* the 'FMntLens' name is added to the annonymous struct for
+         * fmountlens[]
+         *
+         * remember to name the struct when importing/updating the lens info
+         * from:
+         *
+         * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+         */
             const struct FMntLens*  pf = fmountlens;
             while (pf->lid && pf->lensname) {
                 if (pf->lid == vid) {

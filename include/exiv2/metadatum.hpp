@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -213,7 +212,7 @@ namespace Exiv2 {
         virtual std::string groupName() const =0;
         //! Return the name of the tag (which is also the third part of the key)
         virtual std::string tagName() const =0;
-        //! Return a label for the tag 	
+        //! Return a label for the tag
         virtual std::string tagLabel() const =0;
         //! Return the tag
         virtual uint16_t tag() const =0;

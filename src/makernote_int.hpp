@@ -1,7 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
+ * Copyright (C) 2004-2018 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -50,12 +49,12 @@ namespace Exiv2 {
         /*!
           @brief Determine the path to the Exiv2 configuration file
          */
-		std::string getExiv2ConfigPath();
+        std::string getExiv2ConfigPath();
 
         /*!
           @brief Read value from Exiv2 configuration file
          */
-    	std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def);
+        std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def);
 
 
 // *****************************************************************************

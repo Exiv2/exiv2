@@ -1,7 +1,5 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2017 Andreas Huggel <ahuggel@gmx.net>
- *
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
