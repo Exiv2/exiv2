@@ -1550,7 +1550,7 @@ namespace Exiv2 {
             }
         }
         Value::AutoPtr v = Value::create(typeId);
-    enforce(v.get(), kerCorruptedMetadata);
+        enforce(v.get() != NULL, kerCorruptedMetadata);
         if ( !isize ) {
             v->read(pData, size, byteOrder());
         } else {
@@ -1659,7 +1659,7 @@ namespace Exiv2 {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::AutoPtr v = Value::create(typeId);
-        enforce(v.get(), kerCorruptedMetadata);
+        enforce(v.get() != NULL, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(v);
