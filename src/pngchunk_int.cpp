@@ -190,7 +190,8 @@ namespace Exiv2 {
                 string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3)), languageTextMaxSize);
             const size_t languageTextSize = languageText.size();
 
-            enforce(data.size_ >= Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
+            enforce(static_cast<unsigned long>(data.size_) >=
+                    Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
                     Exiv2::kerCorruptedMetadata);
             // translated keyword string after the language description
             std::string translatedKeyText =
