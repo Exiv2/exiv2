@@ -917,7 +917,7 @@ namespace Jzon
 
 	void Parser::tokenize()
 	{
-		Token token;
+		Token token = T_UNKNOWN;
 		std::string valueBuffer;
 		bool saveBuffer;
 
