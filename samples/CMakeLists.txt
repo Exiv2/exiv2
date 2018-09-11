@@ -96,7 +96,6 @@ list(APPEND APPLICATIONS remotetest)
 # ******************************************************************************
 # set compiler -DEXV_HAVE_DLL when linking exiv2 dll
 foreach(application ${APPLICATIONS})
-    message(STATUS "sample: ${application}")
     target_link_libraries(${application} PRIVATE exiv2lib)
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(${application} PRIVATE EXV_HAVE_DLL )
