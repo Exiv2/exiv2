@@ -239,10 +239,12 @@ if (EXIV2_ENABLE_WEBREADY)
 
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
-        target_link_libraries(exiv2lib PUBLIC ${CURL_LIBRARIES})
         if (USING_CONAN)
+            target_link_libraries(exiv2lib PUBLIC ${CONAN_LIBS_LIBCURL} ${CONAN_LIBS_OPENSSL})
             target_compile_definitions(exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
             target_link_libraries(exiv2lib PUBLIC ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
+        else()
+            target_link_libraries(exiv2lib PUBLIC ${CURL_LIBRARIES})
         endif()
     endif()
 
