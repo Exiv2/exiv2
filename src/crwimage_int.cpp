@@ -2,6 +2,7 @@
 #include "canonmn_int.hpp"
 #include "i18n.h"                // NLS support.
 #include "timegm.h"
+#include "unused.h"
 
 #include <cassert>
 
@@ -615,6 +616,7 @@ namespace Exiv2 {
         CrwDirs crwDirs;
         CrwMap::loadStack(crwDirs, crwDir);
         uint16_t rootDirectory = crwDirs.top().crwDir_;
+        UNUSED(rootDirectory);
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
         if (!pRootDir_) pRootDir_ = new CiffDirectory;
@@ -694,6 +696,7 @@ namespace Exiv2 {
             CrwDirs crwDirs;
             CrwMap::loadStack(crwDirs, crwDir);
             uint16_t rootDirectory = crwDirs.top().crwDir_;
+            UNUSED(rootDirectory);
             assert(rootDirectory == 0x0000);
             crwDirs.pop();
             pRootDir_->remove(crwDirs, crwTagId);
