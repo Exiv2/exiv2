@@ -18,8 +18,7 @@
    /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26\
 </code></pre>
 
-Exiv2
-======================
+# Exiv2
 
 Welcome to Exiv2, a C++ library and a command line utility to read and
 write Exif, IPTC and XMP image metadata. The homepage of Exiv2 is:
@@ -34,8 +33,7 @@ or you can build it and point your browser to `doc/index.html`.
 
 For more information on XMP support in Exiv2, see [doc/README-XMP](https://github.com/Exiv2/exiv2/blob/master/doc/README-XMP).
 
-Building and Installing
-=======================
+## Building and Installing
 
 You can build the libraries in the following ways:
 
@@ -84,8 +82,7 @@ To uninstall Exiv2 from a UNIX-like system, run:
 
     $ sudo make uninstall
 
-Dependencies
-============
+## Dependencies
 
 The following libexiv2 features are enabled by default and may
 require external libraries. They can be controlled through configure
@@ -114,8 +111,7 @@ package management system of the distribution together with the
 corresponding development packages (for the header files and static
 libraries).
 
-To build the sample programs in the
-[samples/](https://github.com/Exiv2/exiv2/tree/master/samples)
+To build the sample programs in the [samples](https://github.com/Exiv2/exiv2/tree/master/samples)
 directory (`make samples`), you also need to have the `pkg-config`
 program.
 
@@ -129,24 +125,21 @@ To generate the documentation (`make doc`), you will further need
 	xsltproc     http://xmlsoft.org/XSLT/
 	md5sum       http://www.microbrew.org/tools/md5sha1sum/
 
-Troubleshooting
-===============
+## Troubleshooting
 
 If you have problems building Exiv2 on UNIX-like systems, check the
 generated `config/config.mk` and `config/config.h` files. You should *not*
 need to modify any Makefile directly, in particular not `src/Makefile`!
 
-Support
-=======
+## Support
 
 All project resources are accessible from the project website at
 http://dev.exiv2.org/projects/exiv2/wiki
 
 Please send feedback or queries to the Exiv2 forum. For new bug reports
-and feature requests, please open an issue.
+and feature requests, please open an issue in Github.
 
-Linking your own code with Exiv2
-================================
+## Linking your own code with Exiv2
 
 A pkg-config .pc file is installed together with the library.
 Application developers can use `pkg-config(1)` to obtain correct
@@ -169,8 +162,7 @@ be a pain when trying to debug a program. For that reason, compilation
 of shared libraries can be turned off by specifying the
 `--disable-shared` option to the configure script.
 
-License
-=======
+## License
 
 Copyright (C) 2004-2018 Exiv2 authors
 
