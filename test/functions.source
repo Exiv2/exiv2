@@ -450,9 +450,8 @@ prepareTest()
 	os=$(uname)
 	if [ "${os:0:4}" == "CYGW" ]; then
 		export PLATFORM=cygwin
-	elif [ "${os:0:4}" == "MING" ]; then
+	elif [ "${os:0:4}" == "MING" -o "${os:0:4}" == "MSYS" ]; then
 		export PLATFORM=mingw
-		# bin=$(dirname $(which exiv2))
 	else
 		export PLATFORM=$os
 	fi
@@ -504,32 +503,16 @@ prepareTest()
 	#fi
 	diffargs="$da1 $da2"
 
-    if [ $PLATFORM == mingw ]; then
-    	# export "PATH=${bin}/:$PATH"
-    	export "PATH=$PATH:${bin}"
-    	bin=''
-    	# echo ---- PATH $PATH ---- ; (IFS=:;for i in $PATH; do echo $i; done) ; echo --------------------
-    fi
-
     ##
     # test that exiv2 and some sample apps are in the bin!
     for e in exiv2 exifprint easyaccess-test metacopy ; do
-    	if [ $PLATFORM == mingw ]; then
-			if [ -z $(which $e) ]; then
-				echo '******************************************'
-				echo '***' $e is not on path
-				echo '******************************************'
-				exit 37
-			fi
-    	else
-			e="${bin}${e}${exe}"
-			if [ ! -e "$e" ]; then
-				echo '******************************************'
-				echo '***' $(real_path "$e") does not exist
-				echo '******************************************'
-				exit 42
-			fi
-        fi
+		e="${bin}${e}${exe}"
+		if [ ! -e "$e" ]; then
+			echo '******************************************'
+			echo '***' $(real_path "$e") does not exist
+			echo '******************************************'
+			exit 42
+		fi
     done
 }
 
