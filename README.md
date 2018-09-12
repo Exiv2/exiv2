@@ -188,19 +188,3 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, 5th Floor, Boston,
 MA 02110-1301 USA.
-
-Commercial version
-==================
-
-If you have a commercial license, you must disable NLS support and
-the conversion of Nikon lens data to readable lens names to build a
-commercial version of the Exiv2 library.
-
-To do this on Windows, compile the library with the preprocessor
-symbol `EXV_COMMERCIAL_VERSION` defined in `msvc\include\exv_msvc.h`
-
-On UNIX-like systems, run the configure script with the options
-`--enable-commercial --disable-nls --disable-lensdata`.
-
-# That's all Folks
-##
