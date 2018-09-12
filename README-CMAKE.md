@@ -1,17 +1,5 @@
-    @@@Luis@@@@@@b                   ;mm                       /##Michal####\
-    j@@@#Robin",                     Brad                     /@@@Thomas@@@@Q
-     @@@#       \                     ##                     @@@b     |@@@b
-     @@@#          .;;;;,     ,;;;, ,;;;;  ,;;;p      .;;;   7@@      ]Alan
-     @@@#           j@@@@,   ]@@#/  '@@@#  j@@@#      ]@@^           ;@@@"
-     @@@Andreas@C     "@@@p @@@"     @@@b   j@@@p     @@b           @@@#/
-     @@@#^7"7%#\       ^@@@@@#~      Benb    1@@@    {@#          s@@@#
-     @@@#                Niels       @@@b     @@@Q  ]@#         ;@@@#/
-     @@@#              ,@@##@@m      @@@b      @@@p @@C        #@@#C
-     @@@#       ,/    s@@#  @@@@     @@@b       Volker       @Tuan@
-    ]@@@Abhinav@@\   /@@@\    \@@@Q  @@@Q       %@@@#      /@@@@Mahesh@@#
-   /@@Raphael@@@@@\ /@@@@@\     C++  Metadata  Library    /@Sridhar@@@v0.26.1\
+# CMake in Exiv2
 
--------------------------------------------------------------------------------
 CMake is a cross-platform build system, to control the
 compilation process using platform/compiler independent configuration files.
 
@@ -24,47 +12,21 @@ STATUS:
   Exiv2 is very difficult to build on MinGW with CMake.
   This is discussed in TODO-CMAKE
 
-Luis Diaz Mas
-piponazo@gmail.com
-2018-08-17
+Latest update: 2018-09-12
 
--------------------------------------------------------------------------------
+## 1 CMake resources
 
-TABLE OF CONTENTS
------------------
-
-1 CMake resources
-2 Building and Installing on UNIX-like systems
-3 Building and installing for Visual Studio Users
-4 Building and installing for MinGW Users
-5 Using conan to build exiv2 and project dependencies
-6 Consuming Exiv2 with CMake
-
-1 CMake resources
-=================
-
-You have to install cmake on your target system. The minimum version required is 3.1.0
-
-Home: http://www.cmake.org/
+You have to install [cmake](http://www.cmake.org/) on your target system. The minimum version required is 3.3.2.
 
 There are some global CMake options that you can use in Exiv2 :
 
--DCMAKE_INSTALL_PREFIX : decide where the program will be install on your computer.
--DCMAKE_BUILD_TYPE     : decide which type of build you want. You can chose between:
-                         "debugfull".     : for hacking. Include all debug information.
-                         "Debug".
-                         "profile".
-                         "relwithdebinfo" : default. use gcc -O2 -g options.
-                         "Release"        : generate stripped and optimized bin files. For packaging.
--DBUILD_SHARED_LIBS=ON : Build DLL (OFF for static library)
--DCMAKE_CXX_FLAGS="X"  : In this way you can pass specific compiler flags or definitions to the
-                         compiler. For example: -DCMAKE_CXX_FLAGS="-DDEBUG" for enabling specific
-                         blocks of code that are only interesting for debugging.
+- `CMAKE_INSTALL_PREFIX` : decide where the program will be install on your computer.
+- `CMAKE_BUILD_TYPE` : decide which type of build you want.
+- `BUILD_SHARED_LIBS` : To control whether you want to build exiv2lib as shared or static.
 
 More information about Exiv2 CMake options in CMakeLists.txt
 
-2 Building and Installing on UNIX-like systems
-==============================================
+## 2 Building and Installing on UNIX-like systems
 
 This process covers MacOS-X, Linux and Cygwin.
 
@@ -82,8 +44,7 @@ To uninstall Exiv2, run:
 
     $ (sudo) make uninstall
 
-3 Building and installing for Visual Studio Users
-=================================================
+## 3 Building and installing for Visual Studio Users
 
 exiv2 provides two build environment for users of Visual Studio:
 
@@ -103,14 +64,14 @@ The current architecture of CMake requires you to decide before running cmake:
 
 We have three contributed CMake Build Environments:
 
-1 contrib/cmake/msvc
+### a) contrib/cmake/msvc
   The following command will build Exiv2 and dependencies:
 
   c:\exiv2dir\contrib\cmake\msvc> cmd /c "vcvars 2017 64 && cmakeBuild --build --samples"
 
   Please read contrib/cmake/msvc/ReadMe.txt for more information.
 
-2 contrib/build/msvc
+### b) contrib/build/msvc
 
   The scripts require:
   - Cygwin (in order to download all dependencies (zlib, expat, ssl, curl, ssh), including exiv2 trunk from svn)
@@ -125,7 +86,7 @@ We have three contributed CMake Build Environments:
 
   Exiv2 should be packaged in the dist directory with all the .lib, include and binary files you need.
 
-3 Running CMake commands manually from command line (new)
+### c) Running CMake commands manually from command line
 
   From Exiv2 0.26.0 to 0.26.1 the CMake code of the project was rewritten and now it is possible to configure
   project from the command line as we do in the Unix sytems. As in the UNIX case, we can run the following
@@ -143,12 +104,13 @@ We have three contributed CMake Build Environments:
   points at the compiler and other resources relevant to that version of the compiler. However in Visual Studio
   2017, they do not do that anymore.
 
-  We recommend you to call the vcvarsall.bat Visual Studio configuration script before running CMake.
-  For example, with Visual Studio 2017 installed on your system, you will need to run
+  We recommend to call the `vcvarsall.bat` Visual Studio configuration script before running CMake.
+  This script will setup some environment variables that will enable CMake to find the compiler,
+  include directories, libraries, etc. For example, with Visual Studio 2017 installed on your system, you will need to run:
 
+```bash
   c:\exiv2dir> call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-
-  Afterwards, CMake will identify correctly your Build Tools.
+```
 
   It is also important to note that the default CMake configuration assumes the existence of some libraries
   in your system. If they are not available, the configuration will fail. It is possible to disable some
@@ -156,11 +118,11 @@ We have three contributed CMake Build Environments:
   first time.
 
   In this example, we disable the NLS and PNG support, and we specify the path where we have the EXPAT library:
-
+  ```bash
   c:\exiv2dir> cmake -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
+  ```
 
-  CMake Generators
-  ----------------
+#### CMake Generators
 
   It is also important to note that the default CMake generator is 'Visual Studio' (The version will depend
   on the vcvarsall.bat script called before running CMake).
@@ -168,20 +130,20 @@ We have three contributed CMake Build Environments:
   If you are not a big fan of Visual Studio you can use other generators like: 'Ninja'. In order to use them
   you just need to pass the option -GNinja at the moment of calling CMake for the first time:
 
+```bash
   $ cmake -GNinja -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=OFF -DCMAKE_PREFIX_PATH="C:\pathToExpat\ ../
+```
 
   Note: For using the Ninja generator you will need to have the ninja build system executable in your
   $PATH. More info at https://ninja-build.org/.
 
-4 Building and installing for MinGW Users
-=========================================
+## 4 Building and installing for MinGW Users
 
-  CMake/MinGW has a number of serious issues.  This will be reported to Kitware.
+CMake/MinGW has a number of serious issues.  This will be reported to Kitware.
 
-  It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
+It is possible to use CMake/MinGW if you put in some effort.  This is documented in TODO-CMAKE.
 
-5 Using conan to get the exiv2 project dependencies
-=====================================================
+## 5 Using conan to get the exiv2 project dependencies
 
 In README-CONAN.md we give explanations about how to use conan to get all the Exiv2 dependencies.
 Basically, all you need to do is to have conan installed on your system and run the command
@@ -191,15 +153,10 @@ Basically, all you need to do is to have conan installed on your system and run 
     $ conan install ..
     $ cmake .. or cmake-gui ..
 
-6 Consuming Exiv2 with CMake
-=====================================================
+## 6 Consuming Exiv2 with CMake
 
-When installing exiv2 by running the `install` target we get some files under the folder
-${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/.
+When installing exiv2 by running the **install** target we get some files under the folder
+`${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/`.
 
 In the example project https://github.com/piponazo/exiv2Consumer you could see how to consume
 exiv2 via CMake by using these files.
-
-
-# That's all Folks
-##
