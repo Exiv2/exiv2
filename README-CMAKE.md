@@ -160,3 +160,48 @@ When installing exiv2 by running the **install** target we get some files under 
 
 In the example project https://github.com/piponazo/exiv2Consumer you could see how to consume
 exiv2 via CMake by using these files.
+
+## 7 Using CPack in Exiv2
+
+CPack is a tool that comes with CMake that is used to generate package installers or tarballs.
+
+### Packaging the binaries
+
+Once you have created a build folder, and configured and compiled the project, you just need to run a
+command to generate a package:
+
+```bash
+# Previous steps: create build directory, configure and compile the project
+$ cd exiv2
+$ mkdir build && cd build
+$ cmake ..
+$ cmake --build . --config Release
+
+# How to generate a package with cpack (With tarbz2)
+$ cpack -G TBZ2 .
+CPack: Create package using TBZ2
+CPack: Install projects
+CPack: - Run preinstall target for: exiv2
+CPack: - Install project: exiv2
+CPack: Create package
+CPack: - package: /path/to/exiv2/build/exiv2-0.27.0-Linux.tar.bz2 generated.
+```
+You can obtain a complete list of the different generators by running `cpack -h`.
+
+### Packaging the sources
+
+CPack is also convenient for generating a tarball with the sources of the project. Since we included CPack in
+our CMake code, a new target `package_source` is provided which creates such tarball automatically:
+
+```bash
+$ make package_source
+Run CPack packaging tool for source...
+CPack: Create package using TBZ2
+CPack: Install projects
+CPack: - Install directory: /media/linuxDev/programming/exiv2
+CPack: Create package
+CPack: - package: /media/linuxDev/programming/exiv2/build/exiv2-0.27.0-Source.tar.bz2 generated.
+```
+
+Note that you can also run `cmake --build . --config Release --target package_source` in case you are not using
+the "UNIX Makefiles" Generator.
