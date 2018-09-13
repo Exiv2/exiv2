@@ -31,7 +31,6 @@
 
 // included header files
 #include "config.h"
-#include "version.hpp"
 
 // + standard includes
 #include <string>
