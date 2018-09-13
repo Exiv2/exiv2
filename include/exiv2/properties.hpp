@@ -306,7 +306,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual XmpKey* clone_() const;
+        virtual XmpKey* clone_() const;
 
     private:
         // Pimpl idiom

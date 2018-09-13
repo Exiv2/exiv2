@@ -8,6 +8,8 @@
 #ifndef __INIREADER_H__
 #define __INIREADER_H__
 
+#include "exiv2lib_export.h"
+
 #include <map>
 #include <string>
 #include <stdio.h>

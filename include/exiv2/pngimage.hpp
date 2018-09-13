@@ -113,7 +113,7 @@ namespace Exiv2
           @param oIo BasicIo instance to write to (a temporary location).
 
          */
-        EXV_DLLLOCAL void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& oIo);
         //@}
 
     }; // class PngImage

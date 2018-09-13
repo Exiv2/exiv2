@@ -216,7 +216,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual ExifKey* clone_() const;
+        virtual ExifKey* clone_() const;
 
     private:
         // Pimpl idiom

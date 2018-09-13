@@ -723,7 +723,7 @@ namespace Exiv2 {
 // template, inline and free functions
 
     //! Append \em len bytes pointed to by \em buf to \em blob.
-    void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);
+    EXIV2API void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);
 
 }                                       // namespace Exiv2
 

@@ -85,7 +85,7 @@ namespace Exiv2 {
         //@}
 
     private:
-        EXV_DLLLOCAL void doWriteMetadata(BasicIo& outIo);
+        void doWriteMetadata(BasicIo& outIo);
         //! @name NOT Implemented
         //@{
         long getHeaderOffset(byte *data, long data_size,

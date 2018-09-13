@@ -350,7 +350,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual IptcKey* clone_() const;
+        virtual IptcKey* clone_() const;
 
         // DATA
         static const char* familyName_;

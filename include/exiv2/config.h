@@ -59,57 +59,6 @@ typedef int pid_t;
 #include "exv_conf.h"
 ////////////////////////////////////////
 
-///// End symbol visibility /////////
-#if defined(__CYGWIN32__) && !defined(__CYGWIN__)
-   /* For backwards compatibility with Cygwin b19 and
-      earlier, we define __CYGWIN__ here, so that
-      we can rely on checking just for that macro. */
-# define __CYGWIN__  __CYGWIN32__
-#endif
-#ifdef WIN32
-# define EXV_IMPORT __declspec(dllimport)
-# define EXV_EXPORT __declspec(dllexport)
-# define EXV_DLLLOCAL
-# define EXV_DLLPUBLIC
-#else
-# ifdef EXV_WANT_VISIBILITY_SUPPORT
-#  if defined(__GNUC__) && (__GNUC__ >= 4)
-#   define EXV_IMPORT __attribute__ ((visibility("default")))
-#   define EXV_EXPORT __attribute__ ((visibility("default")))
-#   define EXV_DLLLOCAL __attribute__ ((visibility("hidden")))
-#   define EXV_DLLPUBLIC __attribute__ ((visibility("default")))
-#  elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x550)
-#   define EXV_IMPORT __global
-#   define EXV_EXPORT __global
-#   define EXV_DLLLOCAL __hidden
-#   define EXV_DLLPUBLIC __global
-#  else
-#   define EXV_IMPORT
-#   define EXV_EXPORT
-#   define EXV_DLLLOCAL
-#   define EXV_DLLPUBLIC
-#  endif
-# else /* ! EXV_WANT_VISIBILITY_SUPPORT */
-#  define EXV_IMPORT
-#  define EXV_EXPORT
-#  define EXV_DLLLOCAL
-#  define EXV_DLLPUBLIC
-# endif /* ! EXV_WANT_VISIBILITY_SUPPORT */
-#endif /* ! WIN32 */
-
-/* Define EXIV2API for DLL builds */
-#ifdef EXV_HAVE_DLL
-# ifdef EXV_BUILDING_LIB
-#  define EXIV2API EXV_EXPORT
-# else
-#  define EXIV2API EXV_IMPORT
-# endif /* ! EXV_BUILDING_LIB */
-#else
-# define EXIV2API
-#endif /* ! EXV_HAVE_DLL */
-
-///// End symbol visibility /////////
-
 ///// Start of platform marcos /////////
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MING__
