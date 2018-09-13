@@ -446,7 +446,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"dll"            , dll        );
     output(os,keys,"debug"          , debug      );
     output(os,keys,"cplusplus"      , __cplusplus);
-    output(os,keys,"cplusplus11"    , __cplusplus >= CPLUSPLUS11 );
     output(os,keys,"version"        , __VERSION__);
     output(os,keys,"date"           , __DATE__   );
     output(os,keys,"time"           , __TIME__   );
