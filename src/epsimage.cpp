@@ -32,6 +32,7 @@
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "version.hpp"
 
 // + standard includes
 #include <algorithm>
