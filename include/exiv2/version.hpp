@@ -30,6 +30,8 @@
 #ifndef VERSION_HPP_
 #define VERSION_HPP_
 
+#include "exv_conf.h"
+
 // *****************************************************************************
 // included header files
 // + standard includes
@@ -64,18 +66,6 @@
    typedef std::vector<Exiv2_grep_key_t> exv_grep_keys_t ;
 #endif
 
-/*!
-  @brief %Exiv2 MAJOR version number of the library used at compile-time.
- */
-#define EXIV2_MAJOR_VERSION  (0)
-/*!
-  @brief %Exiv2 MINOR version number of the library used at compile-time.
- */
-#define EXIV2_MINOR_VERSION (26)
-/*!
-  @brief %Exiv2 PATCH version number of the library used at compile-time.
- */
-#define EXIV2_PATCH_VERSION  (0)
 /*!
   @brief Make an integer version number for comparison from a major, minor and
          a patch version number.

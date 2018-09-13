@@ -106,6 +106,11 @@
 /* Define to the version of this package. */
 #cmakedefine EXV_PACKAGE_VERSION "@PROJECT_VERSION@"
 
+#define EXIV2_MAJOR_VERSION (@PROJECT_VERSION_MAJOR@)
+#define EXIV2_MINOR_VERSION (@PROJECT_VERSION_MINOR@)
+#define EXIV2_PATCH_VERSION (@PROJECT_VERSION_PATCH@)
+#define EXIV2_TWEAK_VERSION (@PROJECT_VERSION_TWEAK@)
+
 /* Define to empty if `const' does not conform to ANSI C. */
 #cmakedefine const
 
