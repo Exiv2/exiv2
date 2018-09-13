@@ -7,6 +7,7 @@
 #include "exif.hpp"
 #include "error.hpp"
 #include "image_int.hpp"
+#include "enforce.hpp"
 
 
 namespace Exiv2
@@ -251,8 +252,12 @@ namespace Exiv2
                             // size * count > std::numeric_limits<uint64_t>::max()
                             // =>
                             // size > std::numeric_limits<uint64_t>::max() / count
-                            if (size > std::numeric_limits<uint64_t>::max() / count)
-                                throw Error(kerInvalidMalloc);             // we got number bigger than 2^64
+                            // (don't perform that check when count == 0 => will cause a division by zero exception)
+                            if (count != 0) {
+                                if (size > std::numeric_limits<uint64_t>::max() / count) {
+                                    throw Error(kerInvalidMalloc);             // we got number bigger than 2^64
+                                }
+                            }
                                                              // more than we can handle
 
                             if (size * count > std::numeric_limits<uint64_t>::max() - pad)
@@ -407,20 +412,20 @@ namespace Exiv2
                 uint64_t readData(int size) const
                 {
                     const DataBuf data = Image::io().read(size);
-                    assert(data.size_ != 0);
+                    enforce(data.size_ != 0, kerCorruptedMetadata);
 
                     uint64_t result = 0;
 
-                    if (size == 1)
-                    {}
-                    else if (size == 2)
+                    if (data.size_ == 1)
+                        {}
+                    else if (data.size_ == 2)
                         result = byteSwap2(data, 0, doSwap_);
-                    else if (size == 4)
+                    else if (data.size_ == 4)
                         result = byteSwap4(data, 0, doSwap_);
-                    else if (size == 8)
+                    else if (data.size_ == 8)
                         result = byteSwap8(data, 0, doSwap_);
                     else
-                        assert(!"unexpected size");
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     return result;
                 }

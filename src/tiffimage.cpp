@@ -180,10 +180,6 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        // recursively print the structure to /dev/null to ensure all metadata is in memory
-        // must be recursive to handle NEFs which stores the raw image in a subIFDs
-        std::ofstream devnull;
-        printStructure(devnull,kpsRecursive);
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
@@ -195,7 +191,7 @@ namespace Exiv2 {
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
         Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
         if ( pos != exifData_.end()  ) {
-            iccProfile_.alloc(pos->count());
+            iccProfile_.alloc(pos->count()*pos->typeSize());
             pos->copy(iccProfile_.pData_,bo);
         }
 
