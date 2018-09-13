@@ -1,6 +1,5 @@
 // config.h
 
-#pragma once
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
@@ -74,7 +73,6 @@ typedef int pid_t;
       earlier, we define __CYGWIN__ here, so that
       we can rely on checking just for that macro. */
 # define __CYGWIN__  __CYGWIN32__
-# define EXV_HAVE_GXXCLASSVISIBILITY
 #endif
 #ifdef WIN32
 # define EXV_IMPORT __declspec(dllimport)
@@ -186,23 +184,4 @@ typedef int pid_t;
 #include <unistd.h>
 #endif
 
-// Define build-env for Adobe XMPsdk
-#ifdef  EXV_ADOBE_XMPSDK
-# if     defined(__APPLE__)
-#  ifndef MAC_ENV
-#   define MAC_ENV 1
-#  endif
-# elif   defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
-#  ifndef WIN_ENV
-#   define WIN_ENV 1
-#  endif
-# else
-#  ifndef UNIX_ENV
-#   define UNIX_ENV 1
-#  endif
-# endif
-#endif
-
-//
-// That's all Folks!
 #endif // _CONFIG_H_
