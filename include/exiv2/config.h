@@ -6,6 +6,10 @@
 ///// Start of Visual Studio Support /////
 #ifdef  _MSC_VER
 
+#define _MSC_VER_2010 1600
+#define _MSC_VER_2008 1500
+#define _MSC_VER_2005 1400
+
 #if  _MSC_VER >= _MSC_VER_2005
 #define MSDEV_2005    1
 #else
