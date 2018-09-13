@@ -16,7 +16,6 @@ set( LIBEXIV2_SRC
     exif.cpp
     futils.cpp
     gifimage.cpp
-    helper_functions.cpp
     http.cpp
     image.cpp
     ini.cpp
@@ -35,7 +34,6 @@ set( LIBEXIV2_SRC
     rafimage.cpp
     riffvideo.cpp
     rw2image.cpp
-    tags.cpp
     tgaimage.cpp
     tiffimage.cpp
     types.cpp
@@ -94,6 +92,7 @@ set( LIBEXIV2_HDR
     ../include/exiv2/xmp_exiv2.hpp
     ../include/exiv2/xmpsidecar.hpp
     ${CMAKE_BINARY_DIR}/exv_conf.h
+    ${CMAKE_BINARY_DIR}/exiv2lib_export.h
 )
 
 set( LIBEXIV2_PRIVATE_SRC
@@ -116,6 +115,7 @@ set( LIBEXIV2_PRIVATE_SRC
     tiffcomposite_int.cpp
     tiffimage_int.cpp
     tiffvisitor_int.cpp
+    helper_functions.cpp
 )
 
 # Private headers only needed to build the library
@@ -137,6 +137,7 @@ set( LIBEXIV2_PRIVATE_HDR
     samsungmn_int.hpp
     sigmamn_int.hpp
     sonymn_int.hpp
+    tags.cpp
     tags_int.hpp
     tiffcomposite_int.hpp
     tifffwd_int.hpp
@@ -144,6 +145,7 @@ set( LIBEXIV2_PRIVATE_HDR
     tiffvisitor_int.hpp
     timegm.h
     unused.h
+    helper_functions.hpp
 )
 
 
@@ -179,6 +181,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library( exiv2lib_int OBJECT ${LIBEXIV2_PRIVATE_SRC} ${LIBEXIV2_PRIVATE_HDR})
 add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} $<TARGET_OBJECTS:exiv2lib_int>)
+
+generate_export_header(exiv2lib
+    EXPORT_MACRO_NAME EXIV2API
+    EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exiv2lib_export.h
+)
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
     # Do not check format overflows on this file, to skip a false positive warning

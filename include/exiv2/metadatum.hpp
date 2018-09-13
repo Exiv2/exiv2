@@ -112,7 +112,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual Key* clone_() const =0;
+        virtual Key* clone_() const =0;
 
     }; // class Key
 

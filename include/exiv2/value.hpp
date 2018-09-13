@@ -332,7 +332,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual DataValue* clone_() const;
+        virtual DataValue* clone_() const;
 
     public:
         //! Type used to store the data.
@@ -452,7 +452,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual StringValue* clone_() const;
+        virtual StringValue* clone_() const;
 
     }; // class StringValue
 
@@ -501,7 +501,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual AsciiValue* clone_() const;
+        virtual AsciiValue* clone_() const;
 
     }; // class AsciiValue
 
@@ -625,7 +625,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual CommentValue* clone_() const;
+        virtual CommentValue* clone_() const;
 
     public:
         // DATA
@@ -792,7 +792,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual XmpTextValue* clone_() const;
+        virtual XmpTextValue* clone_() const;
 
     public:
         // DATA
@@ -860,7 +860,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual XmpArrayValue* clone_() const;
+        virtual XmpArrayValue* clone_() const;
 
     public:
         //! Type used to store XMP array elements.
@@ -974,7 +974,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual LangAltValue* clone_() const;
+        virtual LangAltValue* clone_() const;
 
     public:
         //! Type used to store language alternative arrays.
@@ -1080,7 +1080,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual DateValue* clone_() const;
+        virtual DateValue* clone_() const;
 
         // DATA
         Date date_;
@@ -1198,7 +1198,7 @@ namespace Exiv2 {
           @param format Format string for sscanf().
           @return 0 if successful, else 1.
          */
-        EXV_DLLLOCAL int scanTime3(const char* buf, const char* format);
+        int scanTime3(const char* buf, const char* format);
         /*!
           @brief Set time from \em buf if it conforms to \em format
                  (6 input items).
@@ -1209,13 +1209,13 @@ namespace Exiv2 {
           @param format Format string for sscanf().
           @return 0 if successful, else 1.
          */
-        EXV_DLLLOCAL int scanTime6(const char* buf, const char* format);
+        int scanTime6(const char* buf, const char* format);
         //@}
 
         //! @name Accessors
         //@{
         //! Internal virtual copy constructor.
-        EXV_DLLLOCAL virtual TimeValue* clone_() const;
+        virtual TimeValue* clone_() const;
         //@}
 
         // DATA

@@ -264,43 +264,43 @@ namespace Exiv2 {
              provided to print errors to a stream.
      */
     template<typename charT>
-    class EXV_DLLPUBLIC BasicError : public AnyError {
+    class EXIV2API BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        EXV_DLLLOCAL explicit BasicError(ErrorCode code);
+        explicit BasicError(ErrorCode code);
 
         //! Constructor taking an error code and one argument
         template<typename A>
-        EXV_DLLLOCAL BasicError(ErrorCode code, const A& arg1);
+        BasicError(ErrorCode code, const A& arg1);
 
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        EXV_DLLLOCAL BasicError(ErrorCode code, const A& arg1, const B& arg2);
+        BasicError(ErrorCode code, const A& arg1, const B& arg2);
 
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        EXV_DLLLOCAL BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
+        BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of throw())
-        EXV_DLLLOCAL virtual ~BasicError() throw();
+        virtual ~BasicError() throw();
         //@}
 
         //! @name Accessors
         //@{
-        EXV_DLLLOCAL virtual int code() const throw();
+        virtual int code() const throw();
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        EXV_DLLLOCAL virtual const char* what() const throw();
+        virtual const char* what() const throw();
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        EXV_DLLLOCAL virtual const wchar_t* wwhat() const throw();
+        virtual const wchar_t* wwhat() const throw();
 #endif
         //@}
 

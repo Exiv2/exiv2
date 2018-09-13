@@ -158,7 +158,7 @@ namespace Exiv2 {
 
     private:
         //! Private constructor
-        EXV_DLLLOCAL PreviewImage(const PreviewProperties& properties, DataBuf data);
+        PreviewImage(const PreviewProperties& properties, DataBuf data);
 
         PreviewProperties properties_;          //!< Preview image properties
         byte* pData_;                           //!< Pointer to the preview image data
