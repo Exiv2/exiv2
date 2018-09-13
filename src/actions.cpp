@@ -38,7 +38,6 @@
 #include "preview.hpp"
 #include "futils.hpp"
 #include "i18n.h"                // NLS support.
-#include "version.hpp"
 
 // + standard includes
 #include <string>
