@@ -2,6 +2,7 @@
 # Test driver for exiv2 utility tests
 
 source ./functions.source
+diffargs="-w --text $diffargs"
 
 (   cd "$testdir"
 
@@ -88,7 +89,7 @@ source ./functions.source
     runTest exiv2 -u -v -b -pt print $image3 > jjj
     echo
     echo "Compare image data and extracted data ------------------------------------"
-    diff iii jjj
+    diff $diffargs iii jjj
     echo
     echo "Delete Thumbnail ---------------------------------------------------------"
     runTest exiv2 -u -v -dt delete $image2
@@ -103,11 +104,10 @@ source ./functions.source
     runTest exiv2 -u -v -b -pt print $image3 > kkk
     echo
     echo "Compare original and inserted image data ---------------------------------"
-    diff iii kkk
+    diff $diffargs iii kkk
 
 ) > $results 2>&1
 
-diffargs="-w $diffargs"
 reportTest
 
 # That's all Folks!
