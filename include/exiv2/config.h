@@ -3,18 +3,6 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-
-#ifdef  __cplusplus
-# ifndef CPLUSPLUS11
-#  define CPLUSPLUS11 201103L
-# endif
-# if     __cplusplus >= CPLUSPLUS11
-#  ifndef  EXV_USING_CPP_ELEVEN
-#   define EXV_USING_CPP_ELEVEN
-#  endif
-# endif
-#endif
-
 ///// Start of Visual Studio Support /////
 #ifdef  _MSC_VER
 
