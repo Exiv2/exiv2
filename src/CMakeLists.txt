@@ -34,6 +34,7 @@ set( LIBEXIV2_SRC
     rafimage.cpp
     riffvideo.cpp
     rw2image.cpp
+    tags.cpp
     tgaimage.cpp
     tiffimage.cpp
     types.cpp
@@ -137,7 +138,6 @@ set( LIBEXIV2_PRIVATE_HDR
     samsungmn_int.hpp
     sigmamn_int.hpp
     sonymn_int.hpp
-    tags.cpp
     tags_int.hpp
     tiffcomposite_int.hpp
     tifffwd_int.hpp
@@ -185,6 +185,7 @@ add_library( exiv2lib ${LIBEXIV2_SRC} ${LIBEXIV2_HDR} $<TARGET_OBJECTS:exiv2lib_
 generate_export_header(exiv2lib
     EXPORT_MACRO_NAME EXIV2API
     EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exiv2lib_export.h
+    STATIC_DEFINE exiv2lib_STATIC
 )
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
@@ -201,6 +202,7 @@ set_target_properties( exiv2lib PROPERTIES
 
 set_target_properties( exiv2lib_int PROPERTIES
     POSITION_INDEPENDENT_CODE ON
+    COMPILE_DEFINITIONS exiv2lib_STATIC
 )
 
 target_compile_definitions(exiv2lib PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" EXV_BUILDING_LIB )
