@@ -31,6 +31,7 @@
 
 // included header files
 #include "config.h"
+#include "exiv2lib_export.h"
 
 // + standard includes
 #include <string>

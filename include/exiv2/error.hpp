@@ -264,7 +264,7 @@ namespace Exiv2 {
              provided to print errors to a stream.
      */
     template<typename charT>
-    class EXIV2API BasicError : public AnyError {
+    class BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
@@ -308,7 +308,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Assemble the error message from the arguments
-        EXIV2API void setMsg();
+        void setMsg();
         //@}
 
         // DATA
