@@ -72,7 +72,7 @@ namespace Exiv2 {
     };
 
     //! Search key to find a GroupInfo by its group name.
-    struct EXIV2API GroupInfo::GroupName {
+    struct GroupInfo::GroupName {
         GroupName(const std::string& groupName); //!< Constructor
         std::string g_;                          //!< Group name
     };

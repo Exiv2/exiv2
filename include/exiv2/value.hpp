@@ -334,7 +334,6 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         virtual DataValue* clone_() const;
 
-    public:
         //! Type used to store the data.
         typedef std::vector<byte> ValueType;
         // DATA
@@ -528,6 +527,7 @@ namespace Exiv2 {
             const char* name_;                      //!< Name of the charset
             const char* code_;                      //!< Code of the charset
         }; // struct CharsetTable
+
         //! Charset information lookup functions. Implemented as a static class.
         class EXIV2API CharsetInfo {
             //! Prevent construction: not implemented.
@@ -862,10 +862,6 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         virtual XmpArrayValue* clone_() const;
 
-    public:
-        //! Type used to store XMP array elements.
-        typedef std::vector<std::string> ValueType;
-        // DATA
         std::vector<std::string> value_;        //!< Stores the string values.
 
     }; // class XmpArrayValue
