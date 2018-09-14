@@ -179,6 +179,25 @@ namespace Exiv2 {
     LogMsg::Level LogMsg::level_ = LogMsg::warn; // Default output level
     LogMsg::Handler LogMsg::handler_ = LogMsg::defaultHandler;
 
+    LogMsg::LogMsg(LogMsg::Level msgType) : msgType_(msgType)
+    {}
+
+    LogMsg::~LogMsg()
+    {
+        if (msgType_ >= level_ && handler_)
+            handler_(msgType_, os_.str().c_str());
+    }
+
+    std::ostringstream &LogMsg::os() { return os_; }
+
+    void LogMsg::setLevel(LogMsg::Level level) { level_ = level; }
+
+    void LogMsg::setHandler(LogMsg::Handler handler) { handler_ = handler; }
+
+    LogMsg::Level LogMsg::level() { return level_; }
+
+    LogMsg::Handler LogMsg::handler() { return handler_; }
+
     void LogMsg::defaultHandler(int level, const char* s)
     {
         switch (static_cast<LogMsg::Level>(level)) {

@@ -130,6 +130,15 @@ namespace Exiv2 {
         UNUSED(ret);
     }
 
+    DataBuf::~DataBuf()
+    { delete[] pData_; }
+
+    DataBuf::DataBuf() : pData_(0), size_(0)
+    {}
+
+    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
+    {}
+
     DataBuf::DataBuf(const byte* pData, long size)
         : pData_(0), size_(0)
     {
@@ -181,6 +190,12 @@ namespace Exiv2 {
         }
         size_ = p.second;
     }
+
+    DataBuf::DataBuf(DataBufRef rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
+
+    DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
+
+    Exiv2::DataBuf::operator DataBufRef() { return DataBufRef(release()); }
 
     // *************************************************************************
     // free functions

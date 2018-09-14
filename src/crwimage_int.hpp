@@ -29,10 +29,8 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags_int.hpp"
 #include "image.hpp"
-#include "basicio.hpp"
 
 // + standard includes
 #include <iosfwd>

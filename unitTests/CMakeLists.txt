@@ -10,6 +10,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_TimeValue.cpp
     test_cr2header_int.cpp
     test_helper_functions.cpp
+    $<TARGET_OBJECTS:exiv2lib_int>
 )
 
 #TODO Use GTest::GTest once we upgrade the minimum CMake version required
@@ -18,6 +19,11 @@ target_link_libraries(unit_tests
         exiv2lib
         ${GTEST_BOTH_LIBRARIES}
 )
+
+# ZLIB is used in exiv2lib_int.
+if( EXIV2_ENABLE_PNG )
+    target_link_libraries(unit_tests PRIVATE ${ZLIB_LIBRARIES} )
+endif()
 
 target_include_directories(unit_tests
     PRIVATE

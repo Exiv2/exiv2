@@ -209,9 +209,9 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        DataBuf() : pData_(0), size_(0) {}
+        DataBuf();
         //! Constructor with an initial buffer size
-        explicit DataBuf(long size) : pData_(new byte[size]()), size_(size) {}
+        explicit DataBuf(long size);
         //! Constructor, copies an existing buffer
         DataBuf(const byte* pData, long size);
         /*!
@@ -221,7 +221,7 @@ namespace Exiv2 {
          */
         DataBuf(DataBuf& rhs);
         //! Destructor, deletes the allocated buffer
-        ~DataBuf() { delete[] pData_; }
+        ~DataBuf();
         //@}
 
         //! @name Manipulators
@@ -262,9 +262,9 @@ namespace Exiv2 {
           See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
          */
         //@{
-        DataBuf(DataBufRef rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
-        DataBuf& operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
-        operator DataBufRef() { return DataBufRef(release()); }
+        DataBuf(DataBufRef rhs);
+        DataBuf& operator=(DataBufRef rhs);
+        operator DataBufRef();
         //@}
 
         // DATA
