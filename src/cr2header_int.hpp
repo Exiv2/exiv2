@@ -30,10 +30,6 @@
 // *****************************************************************************
 // included header files
 #include "tiffimage_int.hpp"
-#include "types.hpp"
-
-// + standard includes
-#include <string>
 
 // *****************************************************************************
 // namespace extensions
@@ -43,9 +39,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    /*!
-      @brief Canon CR2 header structure.
-     */
+    /// @brief Canon CR2 header structure.
     class Cr2Header : public TiffHeaderBase {
     public:
         //! @name Creators

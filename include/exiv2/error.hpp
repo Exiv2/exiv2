@@ -94,15 +94,16 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, takes the log message type as an argument
-        explicit LogMsg(Level msgType) : msgType_(msgType) {}
+        explicit LogMsg(Level msgType);
+
         //! Destructor, passes the log message to the message handler depending on the log level
-        ~LogMsg() { if (msgType_ >= level_ && handler_) handler_(msgType_, os_.str().c_str()); }
+        ~LogMsg();
         //@}
 
         //! @name Manipulators
         //@{
         //! Return a reference to the ostringstream which holds the log message
-        std::ostringstream& os() { return os_; }
+        std::ostringstream& os();
         //@}
 
         /*!
@@ -111,17 +112,17 @@ namespace Exiv2 {
                  log level is \c warn. To suppress all log messages, set the log
                  level to \c mute (or set the log message handler to 0).
         */
-        static void setLevel(Level level) { level_ = level; }
+        static void setLevel(Level level);
         /*!
           @brief Set the log message handler. The default handler writes log
                  messages to standard error. To suppress all log messages, set
                  the log message handler to 0 (or set the log level to \c mute).
          */
-        static void setHandler(Handler handler) { handler_ = handler; }
+        static void setHandler(Handler handler);
         //! Return the current log level
-        static Level level() { return level_; }
+        static Level level();
         //! Return the current log message handler
-        static Handler handler() { return handler_; }
+        static Handler handler();
         //! The default log handler. Sends the log message to standard error.
         static void defaultHandler(int level, const char* s);
 
@@ -170,7 +171,7 @@ namespace Exiv2 {
              easier for library users (they have the option of catching most
              things via std::exception).
      */
-    class EXIV2API AnyError : public std::exception {
+    class AnyError : public std::exception {
     public:
         //! @name Creators
         //@{
@@ -334,10 +335,9 @@ namespace Exiv2 {
 // free functions, template and inline definitions
 
     //! Return the error message for the error with code \em code.
-    EXIV2API const char* errMsg(int code);
+    const char* errMsg(int code);
 
     template<typename charT>
-    //! BasicError constructor
     BasicError<charT>::BasicError(ErrorCode code)
         : code_(code), count_(0)
     {
@@ -345,7 +345,6 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A>
-    //! BasicError constructor
     BasicError<charT>::BasicError(ErrorCode code, const A& arg1)
         : code_(code), count_(1), arg1_(toBasicString<charT>(arg1))
     {
@@ -353,7 +352,6 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A, typename B>
-    //! BasicError constructor
     BasicError<charT>::BasicError(ErrorCode code, const A& arg1, const B& arg2)
         : code_(code), count_(2),
           arg1_(toBasicString<charT>(arg1)),
@@ -363,7 +361,6 @@ namespace Exiv2 {
     }
 
     template<typename charT> template<typename A, typename B, typename C>
-    //! BasicError constructor
     BasicError<charT>::BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3)
         : code_(code), count_(3),
           arg1_(toBasicString<charT>(arg1)),

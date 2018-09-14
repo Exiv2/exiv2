@@ -266,17 +266,13 @@ namespace Exiv2 {
         //! Shortcut for a %DataValue auto pointer.
         typedef std::auto_ptr<DataValue> AutoPtr;
 
-        //! @name Creators
-        //@{
-        //! Default constructor.
         explicit DataValue(TypeId typeId =undefined);
-        //! Constructor
+
         DataValue(const byte* buf,
                   long len, ByteOrder byteOrder =invalidByteOrder,
                   TypeId typeId =undefined);
-        //! Virtual destructor.
+
         virtual ~DataValue();
-        //@}
 
         //! @name Manipulators
         //@{

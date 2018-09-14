@@ -41,10 +41,6 @@
 #include <sys/stat.h>
 #include <string.h>
 
-#ifdef  _MSC_VER
-#pragma message("Using exiv2 http support")
-#endif
-
 #define SLEEP       1000
 #define SNOOZE         0
 
