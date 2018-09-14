@@ -210,6 +210,16 @@ namespace Exiv2 {
         std::cerr << s;
     }
 
+    AnyError::AnyError(): std::exception()
+    {
+
+    }
+
+    AnyError::AnyError(const AnyError &o): std::exception(o)
+    {
+
+    }
+
     AnyError::~AnyError() throw()
     {
     }
