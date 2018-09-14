@@ -171,20 +171,15 @@ namespace Exiv2 {
              easier for library users (they have the option of catching most
              things via std::exception).
      */
-    class AnyError : public std::exception {
+    class EXIV2API AnyError : public std::exception {
     public:
-        //! @name Creators
-        //@{
-        //! Virtual destructor.
-        virtual ~AnyError() throw();
-        //@}
+        AnyError();
+        AnyError(const AnyError& o);
 
-        //! @name Accessors
-        //@{
-        //! Return the error code.
+        virtual ~AnyError() throw();
+        ///@brief  Return the error code.
         virtual int code() const throw() =0;
-        //@}
-    }; // AnyError
+    };
 
     //! %AnyError output operator
     inline std::ostream& operator<<(std::ostream& os, const AnyError& error)
@@ -309,7 +304,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Assemble the error message from the arguments
-        void setMsg();
+        EXIV2API void setMsg();
         //@}
 
         // DATA

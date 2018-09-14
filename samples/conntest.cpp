@@ -144,7 +144,7 @@ int main(int argc,const char** argv)
             httpcon(url, useHttp1_0);
             isOk = true;
         }
-    } catch (Exiv2::AnyError& e) {
+    } catch (const Exiv2::AnyError& e) {
         std::cout << "Error: '" << e << "'" << std::endl;
         return -1;
     }
