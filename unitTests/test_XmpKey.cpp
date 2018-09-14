@@ -77,15 +77,15 @@ TEST_F(AXmpKey, canBeCloned)
 
 TEST_F(AXmpKey, throwsWithNotRegisteredWellFormedKey)
 {
-    ASSERT_THROW(XmpKey key(notRegisteredValidKey), Error);
+    ASSERT_THROW(XmpKey key(notRegisteredValidKey), std::exception);
 }
 
 TEST_F(AXmpKey, throwsWithNotRegisteredPrefix)
 {
-    ASSERT_THROW(XmpKey key("badPrefix", expectedProperty), Error);
+    ASSERT_THROW(XmpKey key("badPrefix", expectedProperty), std::exception);
 }
 
 TEST_F(AXmpKey, throwsWithBadFormedKey)
 {
-    ASSERT_THROW(XmpKey key(expectedProperty), Error);  // It should have the format ns.prefix.key
+    ASSERT_THROW(XmpKey key(expectedProperty), std::exception);  // It should have the format ns.prefix.key
 }
