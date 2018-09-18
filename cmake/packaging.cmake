@@ -2,7 +2,7 @@ set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_CONTACT "Luis Díaz Más <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
-set(CPACK_SOURCE_GENERATOR TBZ2)
+set(CPACK_SOURCE_GENERATOR TGZ)
 set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;test;third-party;")
 
 ## -----------------------------------------------
@@ -32,9 +32,8 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/" DESTINATION "contrib")
 # Copy top level documents (eg README.md)
 # https://stackoverflow.com/questions/21541707/cpack-embed-text-files
 set( DOCS
-     README-CMAKE.md
-     README-CONAN.md
      README.md
+     README-CONAN.md
      license.txt
 )
 foreach(doc ${DOCS})
