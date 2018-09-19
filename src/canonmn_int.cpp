@@ -1022,7 +1022,8 @@ namespace Exiv2 {
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L Fisheye USM"                           },
-        { 491, "Canon EF 300mm f/2.8L IS II USM"                            },
+        { 491, "Canon EF 300mm f/2.8L IS II USM"                            }, // 0
+        { 491, "Tamron SP 24-70mm f/2.8 Di VC USD G2"                       }, // 1
         { 492, "Canon EF 400mm f/2.8L IS II USM"                            },
         { 493, "Canon EF 500mm f/4L IS II USM"                              }, // 0
         { 493, "Canon EF 24-105mm f/4L IS USM"                              }, // 1
@@ -1117,6 +1118,7 @@ namespace Exiv2 {
         { 250, printCsLensByFocalLength }, // not tested
         { 254, printCsLensByFocalLength },
         { 255, printCsLensByFocalLength }, // not tested
+        { 491, printCsLensByFocalLength },
         { 493, printCsLensByFocalLength }, // not tested
         { 747, printCsLensByFocalLength }, // not tested
         { 4143,printCsLensByFocalLength }, // not tested
