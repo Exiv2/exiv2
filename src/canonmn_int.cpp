@@ -1019,6 +1019,7 @@ namespace Exiv2 {
       //{ 254, "Tamron SP 90mm f/2.8 Di VC USD Macro 1:1 F017"              }, // 2 model released in 2016
         { 255, "Sigma 24-105mm f/4 DG OS HSM | A"                           }, // 0
         { 255, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
+        { 368, "Sigma 18-35mm f/1.8 DC HSM | A"                             },
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L Fisheye USM"                           },
@@ -1037,6 +1038,9 @@ namespace Exiv2 {
         { 506, "Canon EF 400mm f/4 DO IS II USM"                            },
         { 507, "Canon EF 16-35mm f/4L IS USM"                               },
         { 508, "Canon EF 11-24mm f/4L USM"                                  },
+        { 624, "Sigma 14mm f/1.8 DG HSM | A"                                }, // 0
+        { 624, "Sigma 150-600mm f/5-6.3 DG OS HSM | C"                      }, // 1
+        { 624, "Sigma 150-600mm f/5-6.3 DG OS HSM | C + 1.4x"               }, // 2
         { 747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"                    }, // 0
         { 747, "Tamron SP 150-600mm F5-6.3 Di VC USD G2"                    }, // 1
         { 748, "Canon EF 100-400mm f/4.5-5.6L IS II USM + 1.4x"             },
@@ -1118,6 +1122,7 @@ namespace Exiv2 {
         { 254, printCsLensByFocalLength },
         { 255, printCsLensByFocalLength }, // not tested
         { 493, printCsLensByFocalLength }, // not tested
+        { 624, printCsLensByFocalLengthTC },
         { 747, printCsLensByFocalLength }, // not tested
         { 4143,printCsLensByFocalLength }, // not tested
         { 4154,printCsLensByFocalLength }, // not tested
