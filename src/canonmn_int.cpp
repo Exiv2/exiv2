@@ -2103,17 +2103,26 @@ namespace Exiv2 {
 
         extractLensFocalLength(ltfl, metadata);
         if (ltfl.focalLengthMax_ == 0.0) return os << value;
-        convertFocalLength(ltfl, 1.0); // just lens
-        const TagDetails* td = find(canonCsLensType, ltfl);
-        if (!td) {
-            convertFocalLength(ltfl, 1.4); // lens + 1.4x TC
-            td = find(canonCsLensType, ltfl);
-            if (!td) {
-                convertFocalLength(ltfl, 2.0); // lens + 2x TC
+
+        const TagDetails* td;
+        const double factors[] = {1.0, 1.4, 2.0};
+        for (const double &factor : factors)
+        {
+                convertFocalLength(ltfl, factor);
+
+                std::ostringstream oss;
+                oss << std::setprecision(2);
+                oss << factor << "x";
+
+                ltfl.maxAperture_ = oss.str();
                 td = find(canonCsLensType, ltfl);
-                if (!td) return os << value;
-            }
+                if (td) break;
+
+                ltfl.maxAperture_ = "";
+                td = find(canonCsLensType, ltfl);
+                if (td) break;
         }
+        if (!td) return os << value;
         return os << td->label_;
     }
 
