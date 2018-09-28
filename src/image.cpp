@@ -28,6 +28,8 @@
 #include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "safe_op.hpp"
+#include "slice.hpp"
 
 #include "cr2image.hpp"
 #include "crwimage.hpp"
@@ -454,19 +456,20 @@ namespace Exiv2 {
                             io.seek(restore,BasicIo::beg);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
-                        if (offset > std::numeric_limits<uint32_t>::max() - count) {
-                            throw Error(kerArithmeticOverflow);
-                        }
-                        if (static_cast<size_t>(offset + count) > io.size()) {
+
+                        if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
                             throw Error(kerCorruptedMetadata);
                         }
-                        size_t   restore = io.tell();  // save
-                        io.seek(offset,BasicIo::beg);  // position
-                        byte* bytes=new byte[count] ;  // allocate memory
-                        io.read(bytes,count)        ;  // read
-                        io.seek(restore,BasicIo::beg); // restore
-                        IptcData::printStructure(out,bytes,count,depth);
-                        delete[] bytes;                // free
+
+                        const size_t restore = io.tell();
+                        io.seek(offset, BasicIo::beg);  // position
+                        std::vector<byte> bytes(count) ;  // allocate memory
+                        // TODO: once we have C++11 use bytes.data()
+                        const long read_bytes = io.read(&bytes[0], count);
+                        io.seek(restore, BasicIo::beg);
+                        // TODO: once we have C++11 use bytes.data()
+                        IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
+
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
                         size_t   restore = io.tell();  // save
 

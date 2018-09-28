@@ -576,7 +576,7 @@ namespace Exiv2
 
                             if(bIsIPTC && bRecursive)
                             {
-                                IptcData::printStructure(out,rawData.pData_,rawData.size_,depth);
+                                IptcData::printStructure(out, makeSlice(rawData.pData_, 0, rawData.size_), depth);
                             }
 
                             if( bIsXMP && bXMP )

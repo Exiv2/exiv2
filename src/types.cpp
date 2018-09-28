@@ -276,12 +276,7 @@ namespace Exiv2 {
 
     uint16_t getUShort(const byte* buf, ByteOrder byteOrder)
     {
-        if (byteOrder == littleEndian) {
-            return (byte)buf[1] << 8 | (byte)buf[0];
-        }
-        else {
-            return (byte)buf[0] << 8 | (byte)buf[1];
-        }
+        return getUShort(makeSliceUntil(buf, 2), byteOrder);
     }
 
     uint32_t getULong(const byte* buf, ByteOrder byteOrder)

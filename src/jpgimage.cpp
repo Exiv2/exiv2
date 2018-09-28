@@ -637,7 +637,7 @@ namespace Exiv2 {
                     throw Error(kerFailedToReadImageData);
                 if (bufRead < 2)
                     throw Error(kerNotAJpeg);
-                uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0;
+                const uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0;
                 if (bPrint && mHasLength[marker])
                     out << Internal::stringFormat(" | %7d ", size);
 
@@ -780,7 +780,7 @@ namespace Exiv2 {
                             }
 
                             if (bPS) {
-                                IptcData::printStructure(out, exif, size, depth);
+                                IptcData::printStructure(out, makeSlice(exif, 0, size), depth);
                             } else {
                                 // create a copy on write memio object with the data, then print the structure
                                 BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif + start, size - start));

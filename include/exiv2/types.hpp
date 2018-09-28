@@ -33,6 +33,7 @@
 #include "config.h"
 #include "slice.hpp"
 #include "exiv2lib_export.h"
+#include "slice.hpp"
 
 // + standard includes
 #include <string>
@@ -296,6 +297,17 @@ namespace Exiv2 {
 
     //! Read a 2 byte unsigned short value from the data buffer
     EXIV2API uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
+    //! Read a 2 byte unsigned short value from a Slice
+    template <typename T>
+    uint16_t getUShort(const Slice<T>& buf, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
+        } else {
+            return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
+        }
+    }
+
     //! Read a 4 byte unsigned long value from the data buffer
     EXIV2API uint32_t getULong(const byte* buf, ByteOrder byteOrder);
     //! Read a 8 byte unsigned long value from the data buffer

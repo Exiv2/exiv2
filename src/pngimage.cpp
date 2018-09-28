@@ -356,7 +356,7 @@ namespace Exiv2 {
                                     printTiffStructure(*p,out,option,depth);
                                 }
                                 if ( bIptc ) {
-                                    IptcData::printStructure(out,parsedBuf.pData_,parsedBuf.size_,depth);
+                                    IptcData::printStructure(out, makeSlice(parsedBuf.pData_, 0, parsedBuf.size_), depth);
                                 }
                             }
                         }

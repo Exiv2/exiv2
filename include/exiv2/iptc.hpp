@@ -274,7 +274,7 @@ namespace Exiv2 {
         /*!
           @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
         */
-        static void printStructure(std::ostream& out, const byte* bytes,const size_t size,uint32_t depth);
+        static void printStructure(std::ostream& out, const Slice<byte*>& bytes,uint32_t depth);
         //@}
 
     private:
