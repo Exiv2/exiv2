@@ -11,6 +11,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_cr2header_int.cpp
     test_helper_functions.cpp
     test_slice.cpp
+    test_image_int.cpp
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
