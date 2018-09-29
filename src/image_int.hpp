@@ -56,7 +56,7 @@ namespace Exiv2 {
     /*!
       @brief format binary for display in \em printStructure() \em .
      */
-    std::string binaryToString(DataBuf& buf, size_t size, size_t start =0);
+    std::string binaryToString(const DataBuf& buf, size_t size, size_t start =0);
 
     /*!
       @brief format binary for display in \em printStructure() \em .
