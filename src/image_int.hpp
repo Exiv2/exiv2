@@ -54,12 +54,33 @@ namespace Exiv2 {
     std::string stringFormat(const char* format, ...) ATTRIBUTE_FORMAT_PRINTF;
 
     /*!
-      @brief format binary for display in \em printStructure() \em .
+     * @brief format data binary for display in @ref Image::printStructure()
+     *
+     * Overload for DataBuf.
      */
     std::string binaryToString(const DataBuf& buf, size_t size, size_t start =0);
 
     /*!
-      @brief format binary for display in \em printStructure() \em .
+     * @brief format data binary for display in @ref Image::printStructure()
+     *
+     * This function creates printable version of the binary data in `buff`
+     * according to the following rules:
+     * - characters with numeric values larger than 0x20 (= space) and smaller
+     *   or equal to 0x7F (Delete) are printed as ordinary characters
+     * - characters outside of that range are printed as '.'
+     * - if the last element of the buffer is 0, then it is omitted
+     *
+     * @param[in] buff  Binary data buffer that should be printed. Must have
+     * length `size + start`.
+     * @param[in] size  Number of bytes from buffer that will be converted to
+     * the printable version. This is **not** the length of the buffer!
+     * @param[in] start  Begin of the region of buff that will be printed. The
+     * region ends at `start + size`.
+     *
+     * **CAUTION** In contrast to the expected behavior, the second parameter is
+     * **not** the length of `buff` but the length of the printed region.
+     *
+     * @return Appropriately formatted string
      */
     std::string binaryToString(const byte* buff, size_t size, size_t start /*=0*/);
 
