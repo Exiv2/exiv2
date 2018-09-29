@@ -80,8 +80,9 @@ namespace Exiv2
 
         std::string binaryToString(const DataBuf& buf, size_t size, size_t start /*=0*/)
         {
-            if (size > (size_t)buf.size_)
-                size = (size_t)buf.size_;
+            if (size + start > static_cast<size_t>(buf.size_)) {
+                size = static_cast<size_t>(buf.size_) - start;
+            }
             return binaryToString(buf.pData_, size, start);
         }
 
