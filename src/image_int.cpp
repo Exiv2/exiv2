@@ -37,7 +37,7 @@ namespace Exiv2
         {
             std::string result;
             std::vector<char> buffer;
-            size_t need = std::strlen(format);  // initial guess
+            size_t need = std::strlen(format)*8;  // initial guess
             int rc = -1;
 
             // vsnprintf writes at most size (2nd parameter) bytes (including \0)
