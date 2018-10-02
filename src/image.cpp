@@ -440,7 +440,7 @@ namespace Exiv2 {
                             sp = " ";
                         }
                     } else if ( isStringType(type) ) {
-                        out << sp << Internal::binaryToString(buf, kount);
+                        out << sp << Internal::binaryToString(makeSlice(buf, 0, kount));
                     }
 
                     sp = kount == count ? "" : " ...";

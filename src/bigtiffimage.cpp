@@ -334,7 +334,7 @@ namespace Exiv2
                                     }
                                 }
                                 else if ( isStringType(type) )
-                                    out << sp << Internal::binaryToString(buf, (size_t) kount);
+                                    out << sp << Internal::binaryToString(makeSlice(buf, 0, static_cast<size_t>(kount)));
 
                                 sp = kount == count ? "" : " ...";
                                 out << sp << std::endl;

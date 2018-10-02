@@ -365,7 +365,8 @@ namespace Exiv2 {
             sprintf(buff, "  %6d | %7d | %-24s | %6d | ", record, dataset,
                     Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
-            out << buff << Internal::binaryToString(bytes, (len > 40 ? 40 : len), i + 5) << (len > 40 ? "..." : "")
+            out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
+                << (len > 40 ? "..." : "")
                 << std::endl;
             i += 5 + len;
         }
