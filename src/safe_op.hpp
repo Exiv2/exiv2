@@ -99,7 +99,7 @@ template <class T> struct enable_if<true, T> { typedef T type; };
  */
 template <typename T>
 typename enable_if<is_signed<T>::VALUE && sizeof(T) >= sizeof(int), bool>::type
-fallback_add_overflow(T summand_1, T summand_2, T &result) {
+fallback_add_overflow(T summand_1, T summand_2, T &result) throw() {
   // inspired by:
   // https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
   // check for overflows **before** the addition, as the addition
@@ -121,7 +121,7 @@ fallback_add_overflow(T summand_1, T summand_2, T &result) {
  */
 template <typename T>
 typename enable_if<is_signed<T>::VALUE && sizeof(T) < sizeof(int), bool>::type
-fallback_add_overflow(T summand_1, T summand_2, T &result) {
+fallback_add_overflow(T summand_1, T summand_2, T &result) throw() {
   // see:
   // https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
   //
@@ -144,7 +144,7 @@ fallback_add_overflow(T summand_1, T summand_2, T &result) {
  */
 template <typename T>
 typename enable_if<!is_signed<T>::VALUE, bool>::type
-fallback_add_overflow(T summand_1, T summand_2, T &result) {
+fallback_add_overflow(T summand_1, T summand_2, T &result) throw() {
   // see:
   // https://wiki.sei.cmu.edu/confluence/display/c/INT30-C.+Ensure+that+unsigned+integer+operations+do+not+wrap
   //
@@ -168,7 +168,7 @@ fallback_add_overflow(T summand_1, T summand_2, T &result) {
  * This function is fully specialized for each compiler.
  */
 template <typename T>
-bool builtin_add_overflow(T summand_1, T summand_2, T &result) {
+bool builtin_add_overflow(T summand_1, T summand_2, T &result) throw() {
   return fallback_add_overflow(summand_1, summand_2, result);
 }
 
@@ -190,9 +190,9 @@ bool builtin_add_overflow(T summand_1, T summand_2, T &result) {
   /* builtin_name intrinsic */                                                 \
   template <>                                                                  \
   inline bool builtin_add_overflow<type>(type summand_1, type summand_2,       \
-                                         type & result) {                      \
-    return builtin_name(summand_1, summand_2, &result);                        \
-  }
+                                         type & result) throw() {
+return builtin_name(summand_1, summand_2, &result);
+}
 
 SPECIALIZE_builtin_add_overflow(int, __builtin_sadd_overflow);
 SPECIALIZE_builtin_add_overflow(long, __builtin_saddl_overflow);
@@ -225,7 +225,7 @@ SPECIALIZE_builtin_add_overflow(unsigned long long, __builtin_uaddll_overflow);
 #define SPECIALIZE_builtin_add_overflow_WIN(type, builtin_name)                \
   template <>                                                                  \
   inline bool builtin_add_overflow(type summand_1, type summand_2,             \
-                                   type &result) {                             \
+                                   type &result) throw() {                     \
     return builtin_name(summand_1, summand_2, &result) != S_OK;                \
   }
 
@@ -238,7 +238,7 @@ SPECIALIZE_builtin_add_overflow_WIN(unsigned long long, ULongLongAdd);
 #endif // _MSC_VER >= 1400
 #endif // defined(_MSC_VER)
 
-} // namespace Internal
+} // namespace Safe
 
 /*!
  * @brief Safe addition, throws an exception on overflow.
