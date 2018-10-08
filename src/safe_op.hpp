@@ -155,6 +155,69 @@ fallback_add_overflow(T summand_1, T summand_2, T &result) throw() {
 }
 
 /*!
+ * @brief Check whether `minuend - subtrahend` overflows for signed
+ *     integer types larger than int or with the same size as int.
+ *
+ * @return true on overflow, false on no overflow
+ *
+ * @param[in] minuend, subtrahend  The values which are subtracted
+ * @param[out] result  Result of the subtraction, only populated when no
+ *     overflow occurs.
+ */
+template <typename T>
+typename enable_if<is_signed<T>::VALUE && sizeof(T) >= sizeof(int), bool>::type
+fallback_subtract_overflow(T minuend, T subtrahend, T &result) throw() {
+  // see:
+  // https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
+  //
+  // overflow when:
+  // subtrahend < 0: minuend - subtrahend < MIN  <=>  minuend < MIN + subtrahend
+  // subtrahend > 0: minuend - subtrahend > MAX  <=>  minuend > MAX + subtrahend
+  if (((subtrahend >= 0) &&
+       (minuend < std::numeric_limits<T>::min() + subtrahend)) ||
+      ((subtrahend < 0) &&
+       (minuend > std::numeric_limits<T>::max() + subtrahend))) {
+    return true;
+  } else {
+    result = minuend - subtrahend;
+    return false;
+  }
+}
+
+/*!
+ * @brief Check the subtraction of two numbers for overflows for signed
+ *     integer types smaller than int.
+ */
+template <typename T>
+typename enable_if<is_signed<T>::VALUE && sizeof(T) < sizeof(int), bool>::type
+fallback_subtract_overflow(T minuend, T subtrahend, T &result) throw() {
+  // https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
+  // minuend - subtrahend get's promoted to int
+  // => check there for overflow without invoking UB
+  const int res = minuend - subtrahend;
+  if ((res > std::numeric_limits<T>::max()) ||
+      (res < std::numeric_limits<T>::min())) {
+    return true;
+  } else {
+    result = static_cast<T>(res);
+    return false;
+  }
+}
+
+/*!
+ * @brief Check the subtraction of two numbers for overflows for unsigned
+ *     integer types.
+ */
+template <typename T>
+typename enable_if<!is_signed<T>::VALUE, bool>::type
+fallback_subtract_overflow(T minuend, T subtrahend, T &result) throw() {
+  // unsigned types do not invoke UB when overflowing
+  // => post condition check is ok
+  result = minuend - subtrahend;
+  return result > minuend;
+}
+
+/*!
  * @brief Overflow addition check using compiler intrinsics.
  *
  * This function behaves exactly like @ref fallback_add_overflow but it
