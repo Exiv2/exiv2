@@ -67,10 +67,6 @@ typedef int pid_t;
 # ifndef  __MINGW__
 #  define __MINGW__ 1
 # endif
-
-#ifdef EXV_UNICODE_PATH
-#error EXV_UNICODE_PATH is not supported for MinGW builds
-#endif
 #endif
 
 #ifndef __CYGWIN__
