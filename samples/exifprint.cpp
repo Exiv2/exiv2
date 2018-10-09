@@ -8,6 +8,11 @@
 #include <iomanip>
 #include <cassert>
 
+// https://github.com/Exiv2/exiv2/issues/468
+#if defined(EXV_UNICODE_PATH) && defined(__MINGW__)
+#undef  EXV_UNICODE_PATH
+#endif
+
 #ifdef  EXV_UNICODE_PATH
 #define _tchar      wchar_t
 #define _tstrcmp    wcscmp
