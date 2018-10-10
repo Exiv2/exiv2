@@ -2870,4 +2870,19 @@ namespace Exiv2 {
 
         return os << stringValue;
     }
+
+    const GroupInfo *groupList()
+    {
+        return groupInfo + 1;
+    }
+
+    const TagInfo* tagList(const std::string& groupName)
+    {
+        const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
+        if (ii == 0 || ii->tagList_ == 0) {
+            return 0;
+        }
+        return ii->tagList_();
+    }
+
 } }
