@@ -178,6 +178,16 @@ namespace Exiv2 {
         return Internal::isExifIfd(ifdId);
     }
 
+    const GroupInfo *ExifTags::groupList()
+    {
+        return Internal::groupList();
+    }
+
+    const TagInfo *ExifTags::tagList(const std::string &groupName)
+    {
+        return Internal::tagList(groupName);
+    }
+
     void ExifTags::taglist(std::ostream& os)
     {
         const TagInfo* ifd = ifdTagList();

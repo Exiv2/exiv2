@@ -112,6 +112,10 @@ namespace Exiv2 {
         ExifTags& operator=(const ExifTags& rhs);
 
     public:
+        //! Return read-only list of built-in groups
+        static const GroupInfo* groupList();
+        //! Return read-only list of built-in \em groupName tags.
+        static const TagInfo* tagList(const std::string& groupName);
         //! Print a list of all standard Exif tags to output stream
         static void taglist(std::ostream& os);
         //! Print the list of tags for \em groupName

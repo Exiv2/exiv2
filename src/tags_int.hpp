@@ -307,6 +307,9 @@ namespace Exiv2 {
     //! Return read-only list of built-in mfp Tags http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
     const TagInfo* mpfTagList();
 
+    const GroupInfo* groupList();
+    const TagInfo* tagList(const std::string& groupName);
+
     //! Return the group id for a group name
     IfdId groupId(const std::string& groupName);
     //! Return the name of the IFD
