@@ -327,11 +327,8 @@ namespace Action {
 
         // Exposure time
         // From ExposureTime, failing that, try ShutterSpeedValue
-        bool done = false;
         printLabel(_("Exposure time"));
-        if (!done) {
-            done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
-        }
+        bool done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
         if (!done) {
             done = 0 != printTag(exifData, "Exif.Photo.ShutterSpeedValue");
         }
@@ -341,10 +338,7 @@ namespace Action {
         // Get if from FNumber and, failing that, try ApertureValue
         {
             printLabel(_("Aperture"));
-            bool done = false;
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Photo.FNumber");
-            }
+            bool done = 0 != printTag(exifData, "Exif.Photo.FNumber");
             if (!done) {
                 done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
             }
@@ -380,10 +374,7 @@ namespace Action {
         // Subject distance
         {
             printLabel(_("Subject distance"));
-            bool done = false;
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
-            }
+            bool done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
             if (!done) {
                 printTag(exifData, "Exif.CanonSi.SubjectDistance");
                 printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
@@ -1050,7 +1041,7 @@ namespace Action {
         bool bStdout = Params::instance().target_ & Params::ctStdInOut?true:false;
         if  (bStdout) { _setmode(_fileno(stdout), _O_BINARY) ; }
 
-        if (!rc && Params::instance().target_ & Params::ctThumb) {
+        if (Params::instance().target_ & Params::ctThumb) {
             rc = writeThumbnail();
         }
         if (!rc && Params::instance().target_ & Params::ctPreview) {
@@ -1356,9 +1347,8 @@ namespace Action {
     {
         int rc = 0;
         // test path exists
-        if (rc==0 && !Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " << _("Failed to open the file\n");
+        if (!Exiv2::fileExists(path, true)) {
+            std::cerr << path << ": " << _("Failed to open the file\n");
             rc=-1;
         }
 
