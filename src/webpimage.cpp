@@ -603,9 +603,8 @@ namespace Exiv2 {
                 bool  s_header = false;
                 bool  le_header = false;
                 bool  be_header = false;
-                long  pos = -1;
+                long  pos = getHeaderOffset (payload.pData_, payload.size_, (byte*)&exifLongHeader, 4);
 
-                pos = getHeaderOffset (payload.pData_, payload.size_, (byte*)&exifLongHeader, 4);
                 if (pos == -1) {
                     pos = getHeaderOffset (payload.pData_, payload.size_, (byte*)&exifLongHeader, 6);
                     if (pos != -1) {

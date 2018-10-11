@@ -385,9 +385,9 @@ namespace Action {
                 done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
             }
             if (!done) {
-                done = 0 != printTag(exifData, "Exif.CanonSi.SubjectDistance");
-                done = 0 != printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
-                done = 0 != printTag(exifData, "Exif.CanonFi.FocusDistanceUpper");
+                printTag(exifData, "Exif.CanonSi.SubjectDistance");
+                printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
+                printTag(exifData, "Exif.CanonFi.FocusDistanceUpper");
             }
             std::cout << std::endl;
         }
