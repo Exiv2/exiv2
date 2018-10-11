@@ -933,9 +933,11 @@ namespace {
 
         // create decoding table
         unsigned long invalid = 64;
-        unsigned long decodeBase64Table[256];
-        for (unsigned long i = 0; i < 256; i++) decodeBase64Table[i] = invalid;
-        for (unsigned long i = 0; i < 64; i++) decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
+        unsigned long decodeBase64Table[256] = {};
+        for (unsigned long i = 0; i < 256; i++)
+            decodeBase64Table[i] = invalid;
+        for (unsigned long i = 0; i < 64; i++)
+            decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
 
         // calculate dest size
         unsigned long validSrcSize = 0;

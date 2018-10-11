@@ -150,11 +150,31 @@ strings_t    gFiles;
 class Position
 {
 public:
-             Position(time_t time,double lat,double lon,double ele) : time_(time),lon_(lon),lat_(lat),ele_(ele) {};
-             Position() { time_=0 ; lon_=0.0 ; lat_=0.0 ; ele_=0.0 ; };
-    virtual ~Position() {} ;
+    Position(time_t time, double lat, double lon, double ele) :
+        time_(time)
+      , lon_(lon)
+      , lat_(lat)
+      , ele_(ele)
+      , delta_(0)
+    {}
+
+    Position():
+        time_(0)
+      , lon_(0.0)
+      , lat_(0.0)
+      , ele_(0.0)
+      , delta_(0)
+    { }
+
+    virtual ~Position() {}
 //  copy constructor
-    Position(const Position& o) : time_(o.time_),lon_(o.lon_),lat_(o.lat_),ele_(o.ele_) {};
+    Position(const Position& o) :
+        time_(o.time_)
+      , lon_(o.lon_)
+      , lat_(o.lat_)
+      , ele_(o.ele_)
+      , delta_(o.delta_)
+    {}
 
 //  instance methods
     bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
@@ -262,8 +282,18 @@ time_t Position::deltaMax_ = 60 ;
 class UserData
 {
 public:
-    UserData(Options& options) : indent(0),count(0),nTrkpt(0),bTime(false),bEle(false),options_(options) {};
-    virtual ~UserData() {} ;
+    UserData(Options& options):
+        indent(0)
+      , count(0)
+      , nTrkpt(0)
+      , bTime(false)
+      , bEle(false)
+      , ele(0.0)
+      , lat(0.0)
+      , lon(0.0)
+      , options_(options)
+    {}
+    virtual ~UserData() {}
 
 //  public data members
     int         indent;
