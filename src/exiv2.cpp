@@ -247,7 +247,7 @@ void Params::usage(std::ostream& os) const
        << _("Manipulate the Exif metadata of images.\n");
 }
 
-std::string Params::printTarget(std::string before,int target,bool bPrint,std::ostream& out)
+std::string Params::printTarget(const std::string &before, int target, bool bPrint, std::ostream& out)
 {
     std::string t;
     if ( target & Params::ctExif       ) t+= 'e';
