@@ -2049,7 +2049,7 @@ namespace {
         pthread_mutex_lock( &cs );
         std::string tmp = "/tmp/";
 #endif
-        char        sCount[12];
+        char        sCount[13];
         sprintf(sCount,"_%d",++count);
 
         std::string result = tmp + Exiv2::toString(pid) + sCount ;
