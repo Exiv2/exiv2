@@ -375,7 +375,6 @@ namespace Exiv2 {
                     std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
                     start = 0; // break from do loop
                     throw Error(kerInvalidTypeValue);
-                    break; // break from for loop
                 }
 
                 std::string sp  = "" ; // output spacer
