@@ -637,7 +637,7 @@ namespace Exiv2 {
                     throw Error(kerFailedToReadImageData);
                 if (bufRead < 2)
                     throw Error(kerNotAJpeg);
-                uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0;
+                const uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0;
                 if (bPrint && mHasLength[marker])
                     out << Internal::stringFormat(" | %7d ", size);
 
@@ -709,7 +709,9 @@ namespace Exiv2 {
                             iptcDataSegs.push_back(size);
                         }
                     } else if (bPrint) {
-                        out << "| " << Internal::binaryToString(buf, size > 32 ? 32 : size, size > 0 ? 2 : 0);
+                        const size_t start = size > 0 ? 2 : 0;
+                        const size_t end = start + (size > 32 ? 32 : size);
+                        out << "| " << Internal::binaryToString(makeSlice(buf, start, end));
                         if (signature.compare(iccId_) == 0) {
                             // extract the chunk information from the buffer
                             //
@@ -778,7 +780,7 @@ namespace Exiv2 {
                             }
 
                             if (bPS) {
-                                IptcData::printStructure(out, exif, size, depth);
+                                IptcData::printStructure(out, makeSlice(exif, 0, size), depth);
                             } else {
                                 // create a copy on write memio object with the data, then print the structure
                                 BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(exif + start, size - start));
@@ -796,8 +798,12 @@ namespace Exiv2 {
 
                 // print COM marker
                 if (bPrint && marker == com_) {
-                    int n = (size - 2) > 32 ? 32 : size - 2;             // size includes 2 for the two bytes for size!
-                    out << "| " << Internal::binaryToString(buf, n, 2);  // start after the two bytes
+                    // size includes 2 for the two bytes for size!
+                    const int n = (size - 2) > 32 ? 32 : size - 2;
+                    // start after the two bytes
+                    out << "| "
+                        << Internal::binaryToString(
+                               makeSlice(buf, 2, n + 2 /* cannot overflow as n is at most size - 2 */));
                 }
 
                 // Skip the segment if the size is known

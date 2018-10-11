@@ -28,6 +28,8 @@
 #include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "safe_op.hpp"
+#include "slice.hpp"
 
 #include "cr2image.hpp"
 #include "crwimage.hpp"
@@ -72,7 +74,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <stdarg.h>
 #ifdef _MSC_VER
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
@@ -441,7 +442,7 @@ namespace Exiv2 {
                             sp = " ";
                         }
                     } else if ( isStringType(type) ) {
-                        out << sp << Internal::binaryToString(buf, kount);
+                        out << sp << Internal::binaryToString(makeSlice(buf, 0, kount));
                     }
 
                     sp = kount == count ? "" : " ...";
@@ -455,19 +456,20 @@ namespace Exiv2 {
                             io.seek(restore,BasicIo::beg);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
-                        if (offset > std::numeric_limits<uint32_t>::max() - count) {
-                            throw Error(kerArithmeticOverflow);
-                        }
-                        if (static_cast<size_t>(offset + count) > io.size()) {
+
+                        if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
                             throw Error(kerCorruptedMetadata);
                         }
-                        size_t   restore = io.tell();  // save
-                        io.seek(offset,BasicIo::beg);  // position
-                        byte* bytes=new byte[count] ;  // allocate memory
-                        io.read(bytes,count)        ;  // read
-                        io.seek(restore,BasicIo::beg); // restore
-                        IptcData::printStructure(out,bytes,count,depth);
-                        delete[] bytes;                // free
+
+                        const size_t restore = io.tell();
+                        io.seek(offset, BasicIo::beg);  // position
+                        std::vector<byte> bytes(count) ;  // allocate memory
+                        // TODO: once we have C++11 use bytes.data()
+                        const long read_bytes = io.read(&bytes[0], count);
+                        io.seek(restore, BasicIo::beg);
+                        // TODO: once we have C++11 use bytes.data()
+                        IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
+
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
                         size_t   restore = io.tell();  // save
 
@@ -984,118 +986,3 @@ namespace Exiv2 {
     } // append
 
 }                                       // namespace Exiv2
-
-namespace Exiv2 {
-    namespace Internal {
-
-#ifdef  MSDEV_2003
-#undef  vsnprintf
-#define vsnprintf _vsnprintf
-#endif
-
-    std::string stringFormat(const char* format, ...)
-    {
-        std::string result;
-        std::vector<char> buffer;
-        size_t need = std::strlen(format);                 // initial guess
-        int    rc   = -1;
-
-        // vsnprintf writes at most size (2nd parameter) bytes (including \0)
-        //           returns the number of bytes required for the formatted string excluding \0
-        // the following loop goes through:
-        // one iteration (if 'need' was large enough for the for formatted string)
-        // or two iterations (after the first call to vsnprintf we know the required length)
-        do {
-            buffer.resize(need + 1);
-            va_list  args;                                 // variable arg list
-            va_start(args, format);                        // args start after format
-            rc = vsnprintf(&buffer[0], buffer.size(), format, args);
-            va_end(args);                                  // free the args
-            assert(rc >= 0);                               // rc < 0 => we have made an error in the format string
-            if ( rc > 0 )
-                need = static_cast<size_t>(rc);
-        } while ( buffer.size() <= need );
-
-        if ( rc > 0 )
-            result = std::string(&buffer[0], need);
-        return result;
-    }
-
-    std::string binaryToString(const byte* buff, size_t size, size_t start /*=0*/)
-    {
-        std::string result = "";
-        size += start;
-
-        while (start < size) {
-            int   c             = (int) buff[start++] ;
-            bool  bTrailingNull = c == 0 && start == size;
-            if ( !bTrailingNull ) {
-                if (c < ' ' || c >= 127) c = '.' ;
-                result +=  (char) c ;
-            }
-        }
-        return result;
-    }
-
-    std::string binaryToString(DataBuf& buf, size_t size, size_t start /*=0*/)
-    {
-        if ( size > (size_t) buf.size_ ) size = (size_t) buf.size_;
-        return binaryToString(buf.pData_,size,start);
-    }
-
-    std::string binaryToHex(const byte *data, size_t size)
-    {
-        std::stringstream hexOutput;
-
-        unsigned long tl = (unsigned long)((size / 16) * 16);
-        unsigned long tl_offset = (unsigned long)(size - tl);
-
-        for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
-            if (data[loop] < 16) {
-                hexOutput << "0";
-            }
-            hexOutput << std::hex << (int)data[loop];
-            if ((loop % 8) == 7) {
-                hexOutput << "  ";
-            }
-            if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
-                int max = 15;
-                if (loop >= tl) {
-                    max = tl_offset - 1;
-                    for (int offset = 0; offset < (int)(16 - tl_offset); offset++) {
-                        if ((offset % 8) == 7) {
-                            hexOutput << "  ";
-                        }
-                        hexOutput << "   ";
-                    }
-                }
-                hexOutput << " ";
-                for (int  offset = max; offset >= 0; offset--) {
-                    if (offset == (max - 8)) {
-                        hexOutput << "  ";
-                    }
-                    byte c = '.';
-                    if (data[loop - offset] >= 0x20 && data[loop - offset] <= 0x7E) {
-                        c = data[loop - offset] ;
-                    }
-                    hexOutput << (char) c ;
-                }
-                hexOutput << std::endl;
-            }
-        }
-
-        hexOutput << std::endl << std::endl << std::endl;
-
-        return hexOutput.str();
-    }
-
-    std::string indent(int32_t d)
-    {
-        std::string result ;
-        if ( d > 0 )
-            while ( d--)
-                result += "  ";
-        return result;
-    }
-
-}}                                      // namespace Internal, Exiv2

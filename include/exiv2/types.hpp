@@ -31,7 +31,9 @@
 
 // included header files
 #include "config.h"
+#include "slice.hpp"
 #include "exiv2lib_export.h"
+#include "slice.hpp"
 
 // + standard includes
 #include <string>
@@ -274,12 +276,38 @@ namespace Exiv2 {
         long size_;
     }; // class DataBuf
 
+    /*!
+     * @brief Create a new Slice from a DataBuf given the bounds.
+     *
+     * @param[in] begin, end  Bounds of the new Slice. `begin` must be smaller
+     *     than `end` and both must not be larger than LONG_MAX.
+     * @param[in] buf  The DataBuf from which' data the Slice will be
+     *     constructed
+     *
+     * @throw std::invalid_argument when `end` is larger than `LONG_MAX` or
+     * anything that the constructor of @ref Slice throws
+     */
+    EXIV2API Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end);
+
+    //! Overload of makeSlice for `const DataBuf`, returning an immutable Slice
+    EXIV2API Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end);
 
 // *****************************************************************************
 // free functions
 
     //! Read a 2 byte unsigned short value from the data buffer
     EXIV2API uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
+    //! Read a 2 byte unsigned short value from a Slice
+    template <typename T>
+    uint16_t getUShort(const Slice<T>& buf, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
+        } else {
+            return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
+        }
+    }
+
     //! Read a 4 byte unsigned long value from the data buffer
     EXIV2API uint32_t getULong(const byte* buf, ByteOrder byteOrder);
     //! Read a 8 byte unsigned long value from the data buffer

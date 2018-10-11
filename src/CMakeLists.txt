@@ -82,6 +82,7 @@ set( LIBEXIV2_HDR
     ../include/exiv2/riffvideo.hpp
     ../include/exiv2/rw2image.hpp
     ../include/exiv2/rwlock.hpp
+    ../include/exiv2/slice.hpp
     ../include/exiv2/tags.hpp
     ../include/exiv2/tgaimage.hpp
     ../include/exiv2/tiffimage.hpp
@@ -102,6 +103,7 @@ set( LIBEXIV2_PRIVATE_SRC
     cr2header_int.cpp
     crwimage_int.cpp
     fujimn_int.cpp
+    image_int.cpp
     makernote_int.cpp
     minoltamn_int.cpp
     nikonmn_int.cpp
@@ -127,6 +129,7 @@ set( LIBEXIV2_PRIVATE_HDR
     cr2header_int.hpp
     crwimage_int.hpp
     fujimn_int.hpp
+    image_int.hpp
     makernote_int.hpp
     minoltamn_int.hpp
     nikonmn_int.hpp

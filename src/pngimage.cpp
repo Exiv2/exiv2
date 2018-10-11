@@ -274,8 +274,14 @@ namespace Exiv2 {
 
                 // format output
                 const int    iMax = 30 ;
-                uint32_t     blen = dataOffset > iMax ? iMax : dataOffset ;
-                std::string  dataString = Internal::binaryToString(buff, blen);
+                const uint32_t blen = dataOffset > iMax ? iMax : dataOffset ;
+                std::string dataString = "";
+                // if blen == 0 => slice construction fails
+                if (blen > 0) {
+                    std::stringstream ss;
+                    ss << Internal::binaryToString(makeSlice(buff, 0, blen));
+                    dataString = ss.str();
+                }
                 while (      dataString.size() < iMax ) dataString += ' ';
                 dataString = dataString.substr(0,iMax);
 
@@ -350,7 +356,7 @@ namespace Exiv2 {
                                     printTiffStructure(*p,out,option,depth);
                                 }
                                 if ( bIptc ) {
-                                    IptcData::printStructure(out,parsedBuf.pData_,parsedBuf.size_,depth);
+                                    IptcData::printStructure(out, makeSlice(parsedBuf.pData_, 0, parsedBuf.size_), depth);
                                 }
                             }
                         }

@@ -4,6 +4,7 @@
 #include <cassert>
 #include <limits>
 
+#include "safe_op.hpp"
 #include "exif.hpp"
 #include "error.hpp"
 #include "image_int.hpp"
@@ -334,7 +335,7 @@ namespace Exiv2
                                     }
                                 }
                                 else if ( isStringType(type) )
-                                    out << sp << Internal::binaryToString(buf, (size_t) kount);
+                                    out << sp << Internal::binaryToString(makeSlice(buf, 0, static_cast<size_t>(kount)));
 
                                 sp = kount == count ? "" : " ...";
                                 out << sp << std::endl;
@@ -355,13 +356,19 @@ namespace Exiv2
                                 }
                                 else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ )
                                 {
-                                    const size_t restore = io.tell();      // save
-                                    io.seek(offset, BasicIo::beg);         // position
-                                    byte* bytes=new byte[(size_t)count] ;  // allocate memory
-                                    io.read(bytes,(long)count)        ;    // read
-                                    io.seek(restore, BasicIo::beg);        // restore
-                                    IptcData::printStructure(out,bytes,(size_t)count,depth);
-                                    delete[] bytes;                        // free
+                                    if (Safe::add(count, offset) > io.size()) {
+                                        throw Error(kerCorruptedMetadata);
+                                    }
+
+                                    const size_t restore = io.tell();
+                                    io.seek(offset, BasicIo::beg);  // position
+                                    std::vector<byte> bytes(count) ;  // allocate memory
+                                    // TODO: once we have C++11 use bytes.data()
+                                    const long read_bytes = io.read(&bytes[0], static_cast<long>(count));
+                                    io.seek(restore, BasicIo::beg);
+                                    // TODO: once we have C++11 use bytes.data()
+                                    IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
+
                                 }
                                 else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10)
                                 {

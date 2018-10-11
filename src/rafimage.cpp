@@ -248,7 +248,7 @@ namespace Exiv2 {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", jpg_img_len, jpg_img_off)
                     << "jpg image / exif : "
-                    << Internal::binaryToString(payload, payload.size_)
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
 
@@ -258,7 +258,7 @@ namespace Exiv2 {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", cfa_hdr_len, cfa_hdr_off)
                     << "CFA Header: "
-                    << Internal::binaryToString(payload, payload.size_)
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
 
@@ -268,7 +268,7 @@ namespace Exiv2 {
                 out << Internal::indent(depth)
                     << Internal::stringFormat("  %8u | %8u | ", cfa_len, cfa_off)
                     << "CFA : "
-                    << Internal::binaryToString(payload, payload.size_)
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
         }

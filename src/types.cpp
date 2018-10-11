@@ -29,6 +29,7 @@
 #include "i18n.h"                               // for _exvGettext
 #include "unused.h"
 #include "safe_op.hpp"
+#include "enforce.hpp"
 
 // + standard includes
 #ifdef EXV_UNICODE_PATH
@@ -200,6 +201,24 @@ namespace Exiv2 {
     // *************************************************************************
     // free functions
 
+    static void checkDataBufBounds(const DataBuf& buf, size_t end) {
+        enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                                       "end of slice too large to be compared with DataBuf bounds.");
+        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size_, "Invalid slice bounds specified");
+    }
+
+    Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)
+    {
+        checkDataBufBounds(buf, end);
+        return Slice<byte*>(buf.pData_, begin, end);
+    }
+
+    Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end)
+    {
+        checkDataBufBounds(buf, end);
+        return Slice<const byte*>(buf.pData_, begin, end);
+    }
+
     std::ostream& operator<<(std::ostream& os, const Rational& r)
     {
         return os << r.first << "/" << r.second;
@@ -257,12 +276,7 @@ namespace Exiv2 {
 
     uint16_t getUShort(const byte* buf, ByteOrder byteOrder)
     {
-        if (byteOrder == littleEndian) {
-            return (byte)buf[1] << 8 | (byte)buf[0];
-        }
-        else {
-            return (byte)buf[0] << 8 | (byte)buf[1];
-        }
+        return getUShort(makeSliceUntil(buf, 2), byteOrder);
     }
 
     uint32_t getULong(const byte* buf, ByteOrder byteOrder)

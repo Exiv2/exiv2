@@ -511,7 +511,7 @@ namespace Exiv2
                             io_->read(data.pData_,data.size_);
                             if ( bPrint ) {
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:",address,subBox.length) << toAscii(subBox.type)
-                                <<" | " << Internal::binaryToString(data,30,0);
+                                    <<" | " << Internal::binaryToString(makeSlice(data, 0, 30));
                                 bLF = true;
                             }
 
@@ -559,7 +559,7 @@ namespace Exiv2
                             if (bufRead != rawData.size_) throw Error(kerInputDataReadFailed);
 
                             if ( bPrint ){
-                                out << Internal::binaryToString(rawData,40,0);
+                                out << Internal::binaryToString(makeSlice(rawData,0,40));
                                 out.flush();
                             }
                             lf(out,bLF);
@@ -576,7 +576,7 @@ namespace Exiv2
 
                             if(bIsIPTC && bRecursive)
                             {
-                                IptcData::printStructure(out,rawData.pData_,rawData.size_,depth);
+                                IptcData::printStructure(out, makeSlice(rawData.pData_, 0, rawData.size_), depth);
                             }
 
                             if( bIsXMP && bXMP )
