@@ -467,7 +467,7 @@ string getExifTime(const time_t t)
     return result ;
 }
 
-std::string makePath(std::string dir,std::string file)
+std::string makePath(const std::string& dir, const std::string& file)
 {
     return dir + std::string(EXV_SEPARATOR_STR) + file ;
 }
@@ -607,7 +607,7 @@ bool readImage(const char* path,Options& /* options */)
     return bResult ;
 }
 
-time_t readImageTime(std::string path,std::string* pS=NULL)
+time_t readImageTime(const std::string& path,std::string* pS=NULL)
 {
     using namespace Exiv2;
 
@@ -753,7 +753,7 @@ int parseTZ(const char* adjust)
     return (3600*h)+(60*m);
 }
 
-bool mySort(std::string a,std::string b)
+bool mySort(const std::string& a, const std::string& b)
 {
     time_t A = readImageTime(a);
     time_t B = readImageTime(b);

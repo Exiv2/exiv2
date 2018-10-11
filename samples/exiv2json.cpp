@@ -101,7 +101,7 @@ Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 }
 
 // build the json tree for this key.  return location and discover the name
-Jzon::Node& objectForKey(const std::string Key,Jzon::Object& root,std::string& name,Exiv2::StringSet* pNS=NULL)
+Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& name,Exiv2::StringSet* pNS=NULL)
 {
     // Parse the key
     Tokens      tokens ;
