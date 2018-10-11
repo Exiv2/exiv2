@@ -57,10 +57,11 @@ TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist)
     ASSERT_STREQ("40", getEnv(envTIMEOUT).c_str());
 }
 
+#ifndef __MINGW32__
 TEST(getEnv, getsProperValuesWhenExpectedEnvVariableExists)
 {
     const char * expectedValue = "test";
-#ifdef _WIN32
+#ifdef _MSC_VER
     ASSERT_EQ(0, _putenv_s("EXIV2_HTTP_POST", expectedValue));
 #else
     ASSERT_EQ(0, setenv("EXIV2_HTTP_POST", expectedValue, 1));
@@ -72,6 +73,7 @@ TEST(getEnv, getsProperValuesWhenExpectedEnvVariableExists)
     ASSERT_EQ(0, unsetenv("EXIV2_HTTP_POST"));
 #endif
 }
+#endif
 
 TEST(getEnv, throwsWhenKeyDoesNotExist)
 {
