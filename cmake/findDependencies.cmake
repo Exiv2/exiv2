@@ -9,7 +9,10 @@ if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 endif()
 
 find_package(Threads REQUIRED)
-find_package(Regex REQUIRED)
+
+if (UNIX)
+    find_package(Regex REQUIRED)
+endif()
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
