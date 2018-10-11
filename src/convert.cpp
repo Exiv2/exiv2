@@ -1356,9 +1356,9 @@ namespace Exiv2 {
 # ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
 # endif
+        UNUSED(str);
 #endif
         return ret;
-        UNUSED(str);
     }
 }                                       // namespace Exiv2
 
