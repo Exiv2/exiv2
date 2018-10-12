@@ -5,47 +5,23 @@ import system_tests
 
 class TestFirstPoC(metaclass=system_tests.CaseMeta):
     """
-    Regression test for the first bug described in:
+    Regression test for the two bugs described in:
     https://github.com/Exiv2/exiv2/issues/159
+
+    We do not actually check the output of these files, we only check that we
+    don't get a crash (the metadata are bogus anyway, so no point in checking).
     """
     url = "https://github.com/Exiv2/exiv2/issues/159"
 
-    filename = "$data_path/printStructure"
-    commands = ["$exiv2 " + filename]
-    stdout = [
-        """File name       : $filename
-File size       : 12357 Bytes
-MIME type       : image/tiff
-Image size      : 0 x 0
-Camera make     : 
-Camera model    : 
-Image timestamp : 
-Image number    : 
-Exposure time   : 
-Aperture        : 
-Exposure bias   : 
-Flash           : 
-Flash bias      : 
-Focal length    : 
-Subject distance: 
-ISO speed       : 
-Exposure mode   : 
-Metering mode   : 
-Macro mode      : 
-Image quality   : 
-Exif Resolution : 
-White balance   : 
-Thumbnail       : None
-Copyright       : 
-Exif comment    : 
-
-"""
+    filename = [
+        system_tests.path("$data_path/printStructure"),
+        system_tests.path("$data_path/printStructure2")
     ]
-    stderr = [""]
-    retval = [0]
+    commands = [
+        "$exiv2 " + filename[0],
+        "$exiv2 -pS " + filename[1],
+    ]
+    retval = [0, 1]
 
     compare_stderr = system_tests.check_no_ASAN_UBSAN_errors
-
-
-# todo:
-# class TestSecondPoC(system_tests.Case):
+    compare_stdout = system_tests.check_no_ASAN_UBSAN_errors
