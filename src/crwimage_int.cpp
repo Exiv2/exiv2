@@ -276,16 +276,21 @@ namespace Exiv2 {
                                       uint32_t    size,
                                       ByteOrder   byteOrder)
     {
+        if (size < 4)
+            throw Error(kerCorruptedMetadata);
         uint32_t o = getULong(pData + size - 4, byteOrder);
-        if (size < 2 || o > size-2) throw Error(kerNotACrwImage);
+        if ( o+2 > size )
+            throw Error(kerCorruptedMetadata);
         uint16_t count = getUShort(pData + o, byteOrder);
 #ifdef DEBUG
         std::cout << "Directory at offset " << std::dec << o
                   <<", " << count << " entries \n";
 #endif
         o += 2;
+        if ( (o + (count * 10)) > size )
+            throw Error(kerCorruptedMetadata);
+
         for (uint16_t i = 0; i < count; ++i) {
-            if (o + 10 > size) throw Error(kerNotACrwImage);
             uint16_t tag = getUShort(pData + o, byteOrder);
             CiffComponent::AutoPtr m;
             switch (CiffComponent::typeId(tag)) {
