@@ -122,6 +122,11 @@ set( LIBEXIV2_PRIVATE_SRC
     helper_functions.cpp
 )
 
+if(MINGW)	
+    set(LIBEXIV2_PRIVATE_SRC ${LIBEXIV2_PRIVATE_SRC} localtime.c)	
+endif()
+
+
 # Private headers only needed to build the library
 set( LIBEXIV2_PRIVATE_HDR
     canonmn_int.hpp
