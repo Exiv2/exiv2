@@ -280,10 +280,6 @@ else()
         target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
     endif()
 
-    if (MINGW)
-        target_link_libraries( exiv2lib PRIVATE ${REGEX_LIBRARIES} )
-    endif()
-
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
 endif()
 
@@ -336,10 +332,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     target_link_libraries( exiv2 PRIVATE exiv2lib )
     if ( BUILD_SHARED_LIBS )
         target_compile_definitions(exiv2 PRIVATE EXV_HAVE_DLL )
-    endif()
-
-    if (MINGW)
-        target_link_libraries( exiv2 PRIVATE ${REGEX_LIBRARIES} )
     endif()
 
     # modify source lists to suit environment
