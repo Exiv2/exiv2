@@ -25,39 +25,36 @@ int main(int argc, char* argv[])
                 std::string item(argv[1]);
 
                 if (item == "Groups") {
-                    /*
+                   /*
                     https://cgit.kde.org/digikam.git/tree/core/libs/dmetadata/metaengine_exif.cpp#n1077
-                           const Exiv2::GroupInfo* gi = Exiv2::ExifTags::groupList();
+                    const Exiv2::GroupInfo* gi = Exiv2::ExifTags::groupList();
 
-                           while (gi->tagList_ != 0)
+                    while (gi->tagList_ != 0)
+                    {
+                       // NOTE: See BUG #375809 : MPF tags = exception Exiv2 0.26
+
+                       if (QLatin1String(gi->ifdName_) != QLatin1String("Makernote"))
+                       {
+                           Exiv2::TagListFct tl     = gi->tagList_;
+                           const Exiv2::TagInfo* ti = tl();
+
+                           while (ti->tag_ != 0xFFFF)
                            {
-                               // NOTE: See BUG #375809 : MPF tags = exception Exiv2 0.26
-
-                               if (QLatin1String(gi->ifdName_) != QLatin1String("Makernote"))
-                               {
-                                   Exiv2::TagListFct tl     = gi->tagList_;
-                                   const Exiv2::TagInfo* ti = tl();
-
-                                   while (ti->tag_ != 0xFFFF)
-                                   {
-                                       tags << ti;
-                                       ++ti;
-                                   }
-                               }
-
-                               ++gi;
+                               tags << ti;
+                               ++ti;
                            }
+                       }
+
+                       ++gi;
+                    }
                    */
                     const GroupInfo* groupList = ExifTags::groupList();
-                    int count = 0;
                     if (groupList) {
-                        while (groupList->tagList_ && count < 10000) {
-                            count++;
+                        while (groupList->tagList_) {
                             std::cout << groupList->groupName_ << std::endl;
                             groupList++;
                         }
                     }
-                    std::cout << "Groups = " << count << std::endl;
                     break;
                 }
 
@@ -89,26 +86,33 @@ int main(int argc, char* argv[])
                 break;
 
             case 3: {
-                rc = 1;  // assume unhappy ending!
                 std::string item(argv[1]);
                 std::string name(argv[2]);
+                rc = 1;  // assume unhappy ending!
 
                 if (item == "--group") {
-                    const GroupInfo* groupList = ExifTags::groupList();
-                    if (groupList) {
-                        while (groupList->tagList_) {
-                            int count = 0;
-                            if (name == groupList->groupName_) {
-                                const Exiv2::TagInfo* tagInfo = groupList->tagList_();
-                                while (tagInfo->tag_ != 0xFFFF) {
-                                    std::cout << tagInfo->name_ << std::endl;
-                                    tagInfo++;
-                                    count++;
+                    if ( ExifTags::isExifGroup(name) ) {
+                        ExifTags::taglist(std::cout,name);
+                        rc = 0;  // result is good
+                    } else {
+                        std::cerr << "warning:"
+                                  << name
+                                  << " is not a valid Exif group name "
+                                  << std::endl
+                                  ;
+                        const GroupInfo* groupList = ExifTags::groupList();
+                        if (groupList) {
+                            while (rc && groupList->tagList_) {
+                                if (name == groupList->groupName_) {
+                                    const Exiv2::TagInfo* tagInfo = groupList->tagList_();
+                                    while (tagInfo->tag_ != 0xFFFF) {
+                                        std::cout << tagInfo->name_ << std::endl;
+                                        tagInfo++;
+                                    }
+                                    rc = 0;  // result is good
                                 }
-                                rc = 0;  // result is good
-                                std::cout << "Tags = " << count << std::endl;
+                                groupList++;
                             }
-                            groupList++;
                         }
                     }
                 }
