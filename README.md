@@ -21,13 +21,12 @@
 4. [Platform Notes](#4)
     1. [Linux](#4-1)
     2. [MacOS-X](#4-2)
-    3. [Cygwin](#4-3)
-    4. [MinGW msys/2](#4-4)
+    3. [MinGW/msys2](#4-3)
+    4. [Cygwin](#4-3)
     5. [Microsoft Visual C++](#4-5)
 5. [Test Suit](#5)
     1. [Running tests on a UNIX-like system](#5-1)
     2. [Running tests on Visual Studio builds](#5-2)
-
 
 <name id="1"></a>
 # Welcome to Exiv2
@@ -293,12 +292,13 @@ You should build and install CMake from source.
 [TOC](#TOC)
 
 <name id="4-3"></a>
-### 4.3 MinGW msys/2 64
+### 4.3 MinGW/msys2
 
+Support for MinGW/msys1.0 32 bit build was provided for Exiv2 v0.26.
+
+#### MSYS 64 bit
 https://www.msys2.org
 Download:  http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20180531.exe
-
-#### msys64.bat
 
 I use this batch file to start the MinGW bash shell from the Dos Command Prompt (cmd.exe)
 
@@ -306,20 +306,32 @@ I use this batch file to start the MinGW bash shell from the Dos Command Prompt 
 $ cat msys64.bat
 setlocal
 set "PATH=c:\msys64\usr\bin;c:\msys64\usr\local\bin;c:\msys64\mingw64\bin;"
-set "PS1=\! \u@\h:\w \$ "
+set "PS1=\! \u@\h-64:\w \$ "
+bash.exe -norc
+$
+```
+
+#### MSYS 32 bit
+http://repo.msys2.org/distrib/i686/msys2-i686-20180531.exe
+
+I use this batch file to start the MinGW bash shell from the Dos Command Prompt (cmd.exe)
+
+```
+$ cat msys32.bat
+setlocal
+set "PATH=c:\msys32\usr\bin;c:\msys32\usr\local\bin;c:\msys32\mingw64\bin;"
+set "PS1=\! \u@\h-32:\w \$ "
 bash.exe -norc
 $
 ```
 
 #### Install MinGW Dependencies
 
-$ pacman -S base-devel
-
 ```
-$ for i in libtre git coreutils mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-make mingw-w64-x86_64-pkg-config mingw-w64-x86_64-cmake; do (echo y|pacman -S $i); done
+for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel; do (echo y|pacman -S $i); done
 ```
 
-#### Download exiv2 from github and build.
+#### Download exiv2 from github and build
 
 ```
 $ mkdir -p ~/gnu/github/exiv2
@@ -329,6 +341,11 @@ $ mkdir build ; cd build ;
 $ cmake .. -G "Unix Makefiles"
 $ make
 ```
+
+#### MinGW and Regex
+
+The exiv2 command line program provides a `--grep` option which filters output.  The implementation requires the header file `<regex.h>` and supporting library to be available during the build.  When not available, the option degenerates to a substring match.  Because there are multiple versions of `<regex.h>` available on the MinGW platform, detection of Regex is always disabled on this platform.
+
 [TOC](#TOC)
 
 <name id="4-4"></a>
@@ -344,7 +361,6 @@ https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 
 Download and build cmake from source because I can't get the cygwin installed cmake 3.6.2 to work
 To build cmake from source (for 3.11+), you need libncurses.
-
 
 [TOC](#TOC)
 
@@ -391,7 +407,7 @@ rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../b
 <name id="5-2"></a>
 ### 5.2 Running tests on Visual Studio builds
 
-Use the bash interpreter for MinGW/msys/2 to run the test suite.
+Use the bash interpreter for MinGW/msys2 to run the test suite.
 
 $ cd ...../build/../test
 $ export EXIV2_EXT=.exe

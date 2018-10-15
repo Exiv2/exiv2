@@ -50,12 +50,6 @@
 // Define if you have the <stdint.h> header file.
 #cmakedefine EXV_HAVE_STDINT_H
 
-#ifndef      EXV_HAVE_STDINT_H
-#if defined(__MINGW32__) || defined(__MINGW64__)
-#define      EXV_HAVE_STDINT_H
-#endif
-#endif
-
 // Define if you have the <strings.h> header file.
 #cmakedefine EXV_HAVE_STRINGS_H
 

@@ -231,7 +231,7 @@ elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_compile_definitions(exiv2lib PUBLIC EXV_ADOBE_XMPSDK=2016)
 endif()
 
-# TODO : We should not include include/exiv2 but only include !!!
+# Use include/exiv2 to build libary code
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -262,28 +262,25 @@ if (EXIV2_ENABLE_WEBREADY)
 
 endif()
 
-if ( MSVC )
+if ( MSVC OR CYGWIN OR MINGW OR MSYS)
     target_compile_definitions(exiv2lib
         PRIVATE
             PSAPI_VERSION=1 # to be compatible with <= WinVista (#905)
     )
+endif()
 
+if ( MSVC )
     source_group("Header Files" FILES ${LIBEXIV2_HDR} )
     source_group("Header Files" FILES ${LIBCURL_HDR} )
     source_group("Header Files" FILES ${SSH_HDR} )
     target_link_libraries( exiv2lib PRIVATE ${CURL_LIBRARIES} ${SSH_LIBRARIES})
 else()
-    # TODO: Check if this is really needed.
     if ( UNIX AND NOT FREEBSD )
         target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS}) # -ldl = dynamic loader used by src/version.cpp
     endif()
 
-    if (CYGWIN OR MINGW)
+    if (CYGWIN OR MINGW OR MSYS)
         target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
-    endif()
-
-    if (MINGW)
-        target_link_libraries( exiv2lib PRIVATE ${REGEX_LIBRARIES} )
     endif()
 
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
@@ -340,13 +337,7 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         target_compile_definitions(exiv2 PRIVATE EXV_HAVE_DLL )
     endif()
 
-    if (MINGW)
-        target_link_libraries( exiv2 PRIVATE ${REGEX_LIBRARIES} )
-    endif()
-
     # modify source lists to suit environment
-
-    # TODO This should not be needed here! we need to fix the previous TODO
     target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
 
     # Copy DLLs from conan packages to the bin folder

@@ -1,6 +1,6 @@
 # These flags applies to exiv2lib, the applications, and to the xmp code
 
-if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
+if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         set(COMPILER_IS_GCC ON)
     elseif (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
@@ -59,7 +59,7 @@ if ( MINGW OR UNIX ) # MINGW, Linux, APPLE, CYGWIN
             endif()
 
             # sorry, ASAN does not work on Windows
-            if ( NOT CYGWIN AND NOT MINGW )
+            if ( NOT CYGWIN AND NOT MINGW AND NOT MSYS )
                 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SANITIZER_FLAGS}")
                 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SANITIZER_FLAGS}")
                 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
@@ -157,7 +157,7 @@ if(MSVC)
             set(CMAKE_CXX_COMPILER ${CLCACHE})
         endif()
     endif()
-    
+
     set(variables
       CMAKE_CXX_FLAGS_DEBUG
       CMAKE_CXX_FLAGS_MINSIZEREL
