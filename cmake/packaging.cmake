@@ -7,7 +7,7 @@ set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;test;third-party;")
 
 ## -----------------------------------------------
 ## TODO:  Luis will rewrite this -----------------
-if ( MINGW )
+if ( MINGW OR MSYS )
     set (PACKNAME MinGW)
 elseif ( MSVC )
     set (PACKNAME msvc)
@@ -15,7 +15,7 @@ else()
     set (PACKNAME ${CMAKE_SYSTEM_NAME}) # Darwin or Linux or CYGWIN
 endif()
 
-if ( CYGWIN OR MINGW )
+if ( CYGWIN OR MINGW OR MSYS )
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin use .tar.gz
 elseif ( MSVC )
     set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2.dll permissions

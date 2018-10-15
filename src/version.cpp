@@ -222,7 +222,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 #endif
 
     const char* platform =
-#if defined(__CYGWIN__)
+#if defined(__MSYS__)
+    "msys";
+#elif defined(__CYGWIN__)
     "cygwin";
 #elif defined(_MSC_VER)
     "windows";

@@ -10,13 +10,6 @@ endif()
 
 find_package(Threads REQUIRED)
 
-if(MINGW)
-    find_package(Regex REQUIRED)
-    if(REGEX_FOUND)
-        include_directories(${REGEX_INCLUDE_DIRS})
-    endif()
-endif()
-
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
     include_directories( ${ZLIB_INCLUDE_DIR} )
@@ -84,7 +77,7 @@ if (EXIV2_BUILD_UNIT_TESTS)
 endif()
 
 # On Windows we are interested in placing the DLLs together to the binaries in the install/bin
-# folder, at the installation step. On other platforms we do not care about that, since the 
+# folder, at the installation step. On other platforms we do not care about that, since the
 # RPATHs will point the locations where the libraries where found.
 if (USING_CONAN AND WIN32)
     install(DIRECTORY ${PROJECT_BINARY_DIR}/conanDlls/ DESTINATION bin)
