@@ -44,6 +44,7 @@ set( LIBEXIV2_SRC
     webpimage.cpp
     xmp.cpp
     xmpsidecar.cpp
+    localtime.c
 )
 
 # Public C++ header files
