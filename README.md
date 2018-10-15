@@ -48,6 +48,7 @@ Downloads: [[Source](http://exiv2.dyndns.org/0.27.0.1/bundles/exiv2-0.27.0.1-Sou
 The file "ReadMe.txt" in a bundle describes how to install/link code with libraries for their respective platform.
 The file [license.txt](license.txt) in a bundle describes is a copy of GPLv2 License
 
+[TOC](#TOC)
 <name id="2"></a>
 ## 2 Building and Installing
 
@@ -68,19 +69,20 @@ You need CMake to build Exiv2:  https://cmake.org/download/
 | /usr/local/bin | for the `exiv2` utility |
 | /usr/local/include/exiv2 | for header files |
 
+[TOC](#TOC)
 <name id="2-2"></a>
 ### 2.2 Build/Install Exiv2 with Visual Studio
 
 We recommend that you use cocan with CMake to build  Exiv2 with Visual Studio.
 See [README-CONAN](README-CONAN.md) for more information
 
+[TOC](#TOC)
 <name id="2-3"></a>
 ### 2.3 Uninstall Exiv2 on a UNIX-like system:
 
     $ sudo make uninstall
 
 [TOC](#TOC)
-
 <name id="2-4"></a>
 ### 2.4 Build options
 
@@ -128,7 +130,6 @@ $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=OFF
 ```
 
 [TOC](#TOC)
-
 <name id="2-5"></a>
 ### 2.5 Dependencies
 
@@ -152,7 +153,6 @@ corresponding development packages (for the header files and static
 libraries).
 
 [TOC](#TOC)
-
 <name id="2-6"></a>
 ### 2.6 Consuming Exiv2 with CMake
 
@@ -182,7 +182,6 @@ To build the documentation, you will need the following products:
 | pkg-config   | http://pkg-config.freedesktop.org/wiki/ |
 
 [TOC](#TOC)
-
 <name id="2-8"></a>
 ### 2.8 Building Exiv2 Packages
 
@@ -219,7 +218,6 @@ CPack: - package: /media/linuxDev/programming/exiv2/build/exiv2-0.27.0.1-Source.
 You may prefer to run `$ cmake --build . --config Release --target package_source`
 
 [TOC](#TOC)
-
 <name id="3"></a>
 ## 3 License and Support
 
@@ -248,13 +246,11 @@ Foundation, Inc., 51 Franklin Street, 5th Floor, Boston,
 MA 02110-1301 USA.
 
 [TOC](#TOC)
-
 <name id="3-2"></a>
 ### 3.2 Support
 For new bug reports and feature requests, please open an issue in Github.
 
 [TOC](#TOC)
-
 <name id="4"></a>
 ## 4 Platform Notes
 
@@ -278,8 +274,8 @@ $ mkdir build ; cd build ;
 $ cmake .. -G "Unix Makefiles"
 $ make
 ```
-[TOC](#TOC)
 
+[TOC](#TOC)
 <name id="4-2"></a>
 ### 4.2 MacOS-X
 
@@ -290,7 +286,6 @@ You should build and install libexpat and zlib from source.
 You should build and install CMake from source.
 
 [TOC](#TOC)
-
 <name id="4-3"></a>
 ### 4.3 MinGW/msys2
 
@@ -347,7 +342,6 @@ $ make
 The exiv2 command line program provides a `--grep` option which filters output.  The implementation requires the header file `<regex.h>` and supporting library to be available during the build.  When not available, the option degenerates to a substring match.  Because there are multiple versions of `<regex.h>` available on the MinGW platform, detection of Regex is always disabled on this platform.
 
 [TOC](#TOC)
-
 <name id="4-4"></a>
 ### 4.4 Cygwin
 
@@ -363,7 +357,6 @@ Download and build cmake from source because I can't get the cygwin installed cm
 To build cmake from source (for 3.11+), you need libncurses.
 
 [TOC](#TOC)
-
 <name id="4-5"></a>
 ### 4.5 Microsoft Visual C++
 
@@ -375,7 +368,6 @@ As well as Microsoft Visual Studio, you will need to install CMake, Python3, and
 3) Conan can be installed using python/pip.  Details in README-CONAN.md
 
 [TOC](#TOC)
-
 <name id="5"></a>
 ## 5 Running the test suite
 
@@ -386,41 +378,43 @@ The test suite is a mix of bash and python scripts.  The python scripts are new 
 
 You can run the suite directly from the build:
 
+```
 $ make build
 ...
 $ make tests
 ... lots of output ...
 Summary report
+```
 
-You can run individual tests in the test directory using the environment string EXIV2_BINDIR to specify the location of the build artifacts:
+You can run individual tests in the test directory using EXIV2\_BINDIR to specify the location of the build artifacts.  For Cygwin and MinGW/msys builds, set EXIV2_EXT=.exe
 
+```
 rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/build $ cd ../test
-
 rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
 ICC jpg md5 webp md5 png md5 jpg md5
 all testcases passed.
 
 rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin make newtests
+```
 
 [TOC](#TOC)
-
 <name id="5-2"></a>
 ### 5.2 Running tests on Visual Studio builds
 
-Use the bash interpreter for MinGW/msys2 to run the test suite.
-
-$ cd ...../build/../test
-$ export EXIV2_EXT=.exe
-$ export EXIV2_BINDIR=${PWD}/../build/bin
-
-It's essential to have a DOS Python3 interpreter on your path.
-
-$ PATH="/c/Python36:$PATH"
-
-These variables enables the test suite to locate the MSVC build artifacts and you can follow the guidelines for UNIX-like systems above.
+Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path.  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
 
 ```
-$ make tests
+$ cd <exiv2dir>/build
+$ cd ../test
+$ PATH="/c/Python36:$PATH"
+$ export EXIV2_EXT=.exe
+$ export EXIV2_BINDIR=${PWD}/../build/bin
+```
+
+You can proceed to execute the components of the test suite as described for Unix type systems:
+
+```
+$ make test
 $ make newtests
 $ ./icc-test.sh
 ```
