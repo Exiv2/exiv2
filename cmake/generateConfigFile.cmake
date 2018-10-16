@@ -40,7 +40,7 @@ check_include_file( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 check_include_file( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
 check_include_file( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
 check_include_file( "inttypes.h"    EXV_HAVE_INTTYPES_H )
-if (NOT MINGW)
+if (UNIX)
     check_include_file( "regex.h"       EXV_HAVE_REGEX_H )
 endif()
 
