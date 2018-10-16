@@ -200,7 +200,6 @@ endif()
 set_target_properties( exiv2lib PROPERTIES
     VERSION       ${PROJECT_VERSION}
     SOVERSION     ${PROJECT_VERSION_MAJOR}
-    OUTPUT_NAME   exiv2
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
 
