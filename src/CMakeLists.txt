@@ -122,7 +122,7 @@ set( LIBEXIV2_PRIVATE_SRC
     helper_functions.cpp
 )
 
-if(MINGW)	
+if(MINGW OR MSYS)	
     set(LIBEXIV2_PRIVATE_SRC ${LIBEXIV2_PRIVATE_SRC} localtime.c)	
 endif()
 
