@@ -7,10 +7,12 @@ class Exiv2Conan(ConanFile):
     options = {'unitTests': [True, False],
                'xmp': [True, False],
                'iconv': [True, False],
+               'webready': [True, False],
               }
     default_options = ('unitTests=True',
                        'xmp=False',
                        'iconv=False',
+                       'webready=False',
                       )
 
     def configure(self):
@@ -20,7 +22,6 @@ class Exiv2Conan(ConanFile):
 
     def requirements(self):
         self.requires('zlib/1.2.11@conan/stable')
-        self.requires('libcurl/7.60.0@bincrafters/stable')
 
         if os_info.is_windows and self.options.xmp:
             if os_info.detect_windows_subsystem() in ("cygwin", "msys2"):
@@ -28,6 +29,9 @@ class Exiv2Conan(ConanFile):
 
         if self.options.unitTests:
             self.requires('gtest/1.8.0@bincrafters/stable')
+
+        if self.options.webready:
+            self.requires('libcurl/7.60.0@bincrafters/stable')
 
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
