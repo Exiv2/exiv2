@@ -15,11 +15,11 @@ option( EXIV2_ENABLE_NLS              "Build native language support (requires g
 option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
 option( EXIV2_ENABLE_VIDEO            "Build video support into library"                      OFF )
-option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            OFF )
 option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
-option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo"                                OFF )
-option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo"                                  OFF )
+option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
+option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
+option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo (WEBREADY)"                       OFF )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
 option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
@@ -43,14 +43,6 @@ mark_as_advanced(
 
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
 option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
-
-if ( EXIV2_ENABLE_WEBREADY )
-    set ( EXIV2_ENABLE_CURL ON )
-    set ( EXIV2_ENABLE_CURL ON )
-    if ( UNIX )
-        set ( EXIV2_ENABLE_SSH  ON )
-    endif ()
-endif()
 
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
     set(EXIV2_ENABLE_XMP OFF)
