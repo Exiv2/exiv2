@@ -2,7 +2,7 @@
 
 syntax() {
     echo "usage: $0 { --help | -? | -h | platform | option | switch }+ "
-    echo "platform: all | cygwin | linux | macosx | mingw | msvc "
+    echo "platform: all | cygwin | linux | macosx | mingw | mingw32 | msvc "
     echo "switch: --32 | --64 | --2015 | --2017  --publish | --verbose | --static | --status"
     echo "option: --branch x | --server x | --user x"
 }
@@ -21,6 +21,7 @@ bomb() {
     exit 1
 }
 
+
 unixBuild()
 {
     announce  $1 $2
@@ -28,6 +29,7 @@ if [ "$status" == "1" ]; then
     ! ssh $1 ${command} <<EOF
 cd ${cd}/buildserver/build
 ls -alt *.tar.gz | sed -E -e 's/\+ / /g' # remove extended attribute marker
+# echo +++ scp *.tar.gz rmills@rmillsmm:/mmHD/Users/Shared/Jenkins/Home/userContent/builds/$tag
 EOF
 else
     ! ssh $1 ${command} <<EOF
@@ -49,7 +51,7 @@ fi
 
 msvcBuild()
 {
-    cd=c:\\Users\\rmills\\gnu\\github\\exiv2\\
+    cd=c:\\\\Users\\\\rmills\\\\gnu\\\\github\\\\exiv2\\\\
     config=Release
     profile=msvc2017Release64
     generator='"Visual Studio 15 2017 Win64"'
@@ -60,8 +62,9 @@ msvcBuild()
     announce  $1 ${profile}
 if [ "$status" == "1" ]; then
     ! ssh $1 msys64 <<EOF
-cd ${cd}buildserver\\build
+cd ${cd}buildserver\\\\build
 ls -alt *.zip
+# echo scp exiv2-0.27.0.1-msvc.zip rmills@rmillsmm:/mmHD/Users/Shared/Jenkins/Home/userContent/builds/$tag-exiv2-0.27.0.1-msvc.zip
 EOF
 else
     ! ssh $1 <<EOF
@@ -77,15 +80,6 @@ cmake --build .  --config ${config}   --target package
 ls -alt *.zip
 EOF
 fi
-}
-
-publishBuild()
-{
-    date=$(date '+%Y-%m-%d+%H-%M-%S')
-    builds="/mmHD/Users/Shared/Jenkins/Home/userContent/builds"
-    input=something.tar.gz
-    output="$daily/date-${date}-$input"
-    scp     input rmills@rmillsmm:/mmHD/Users/Shared/Jenkins/Home/userContent/builds/$output
 }
 
 ##
@@ -109,6 +103,8 @@ server=rmillsmm
 user=rmills
 status=0
 all=0
+date=$(date '+%Y-%m-%d+%H-%M-%S')
+tag=${date}
 
 if [ "$#" == "0" ]; then help=1; fi
 
@@ -124,6 +120,7 @@ while [ "$#" != "0" ]; do
       linux)     linux=1       ;;
       macosx)    macosx=1      ;;
       mingw)     mingw=1       ;;
+      mingw32)   mingw=1;b32=1 ;;
       msvc)      msvc=1        ;;
       --64)      b64=1         ;;
       --32)      b32=1         ;;
@@ -148,9 +145,7 @@ fi
 
 if [ "$all" == "1" ]; then
     cygwin=1; linux=1; macosx=1; mingw=1; msvc=1;
-    if [ "$b64" == "0" -a "$b32" == "0" ]; then
-          b64=1;b32=1
-    fi
+    b64=1;    b32=1;
 fi
 if [ "$b64" == "0" -a "$b32" == "0" ]; then b64=1; fi
 
@@ -172,7 +167,7 @@ if [ $mingw == 1 ]; then
     if [ $b64 == 1 ]; then
        command='msys64'
        cd=/home/rmills/gnu/github/exiv2/
-       unixBuild ${user}@${server}-w7 MinGW/32
+       unixBuild ${user}@${server}-w7 MinGW/64
     fi
     if [ $b32 == 1 ]; then
        command='msys32'
@@ -194,4 +189,3 @@ fi
 
 # That's all Folks
 ##
-
