@@ -8,7 +8,11 @@ set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;test;third-party;")
 ## -----------------------------------------------
 ## TODO:  Luis will rewrite this -----------------
 if ( MINGW OR MSYS )
-    set (PACKNAME MinGW)
+    if ( CMAKE_SIZEOF_VOID_P EQ 8)
+        set (PACKNAME MinGW-64)
+    else()
+        set (PACKNAME MinGW-32)
+    endif()
 elseif ( MSVC )
     set (PACKNAME msvc)
 else()
