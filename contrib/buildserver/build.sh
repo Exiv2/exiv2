@@ -71,8 +71,10 @@ else
 cd ${cd}
 IF EXIST buildserver rmdir/s/q buildserver
 git clone --branch ${branch} https://github.com/exiv2/exiv2 buildserver
-mkdir    buildserver\build
-cd       buildserver\build
+cd buildserver
+git pull --rebase
+mkdir    build
+cd       build
 conan install .. --profile ${profile} --build missing
 cmake         .. -G ${generator} -DCMAKE_BUILD_TYPE=${config}  -DCMAKE_INSTALL_PREFIX=..\\dist\\${profile}
 cmake --build .  --config ${config}   --target install
