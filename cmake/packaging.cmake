@@ -8,15 +8,18 @@ set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;test;third-party;")
 ## -----------------------------------------------
 ## TODO:  Luis will rewrite this -----------------
 if ( MINGW OR MSYS )
-    if ( CMAKE_SIZEOF_VOID_P EQ 8)
+    if ( CMAKE_SIZEOF_VOID_P EQUAL 8)
         set (PACKNAME MinGW-64)
     else()
         set (PACKNAME MinGW-32)
     endif()
+    set (PACKDIR MinGW)
 elseif ( MSVC )
     set (PACKNAME msvc)
+    set (PACKDIR  msvc)
 else()
     set (PACKNAME ${CMAKE_SYSTEM_NAME}) # Darwin or Linux or CYGWIN
+    set (PACKDIR  ${PACKNAME})
 endif()
 
 if ( CYGWIN OR MINGW OR MSYS )
@@ -44,9 +47,9 @@ foreach(doc ${DOCS})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${doc} DESTINATION .)
 endforeach()
 
-# Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKNAME}/ReadMe.txt)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKNAME}/ReadMe.txt DESTINATION .)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt       DESTINATION .)
+# Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKDIR}/ReadMe.txt)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt DESTINATION .)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      DESTINATION .)
 
 ## TODO: End                     -----------------
 ## -----------------------------------------------
