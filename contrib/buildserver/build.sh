@@ -3,7 +3,7 @@
 syntax() {
     echo "usage: $0 { --help | -? | -h | platform | option | switch }+ "
     echo "platform: all | cygwin | linux | macosx | mingw | mingw32 | msvc "
-    echo "switch: --32 | --64 | --2015 | --2017  --publish | --verbose | --static | --status"
+    echo "switch:   --2015 | --2017 | --publish | --verbose | --static | --status"
     echo "option: --branch x | --server x | --user x"
 }
 
@@ -88,17 +88,15 @@ fi
 
 ##
 # assign defaults
-msvc=0
 cygwin=0
-mingw=0
-cygwin=0
-macosx=0
 linux=0
+macosx=0
+mingw=0
+mingw32=0
+msvc=0
 help=0
 publish=0
 verbose=0
-b64=0
-b32=0
 static=0
 edition=2017
 branch=RC1
@@ -124,10 +122,8 @@ while [ "$#" != "0" ]; do
       linux)     linux=1       ;;
       macosx)    macosx=1      ;;
       mingw)     mingw=1       ;;
-      mingw32)   mingw=1;b32=1 ;;
+      mingw32)   mingw32=1     ;;
       msvc)      msvc=1        ;;
-      --64)      b64=1         ;;
-      --32)      b32=1         ;;
       --verbose) verbose=1     ;;
       --dryrun)  dryrun=1      ;;
       --publish) publish=1     ;;
@@ -138,7 +134,7 @@ while [ "$#" != "0" ]; do
       --server)  if [ $# -gt 0 ]; then server=$1; shift; else bomb $arg ; fi ;;
       --branch)  if [ $# -gt 0 ]; then branch=$1; shift; else bomb $arg ; fi ;;
       --user)    if [ $# -gt 0 ]; then user=$1  ; shift; else bomb $arg ; fi ;;
-      *)         echo "invalid option: $arg" 1>&2; help=1; ;;
+      *)         echo "*** invalid option: $arg ***" 1>&2; help=1; ;;
     esac
 done
 
@@ -148,16 +144,20 @@ if [ $help == 1 ]; then
 fi
 
 if [ "$all" == "1" ]; then
-    cygwin=1; linux=1; macosx=1; mingw=1; msvc=1;
-    b64=1;    b32=1;
+    cygwin=1; linux=1; macosx=1; mingw=1; mingw32=1;msvc=1;
 fi
-if [ "$b64" == "0" -a "$b32" == "0" ]; then b64=1; fi
 
 ##
-# begin builds
-if [ $linux == 1 ]; then
-    command=''
+# perform builds
+if [ $cygwin == 1 ]; then
     cd=/home/rmills/gnu/github/exiv2/
+    command='c:\\cygwin64\\bin\\bash.exe'
+    unixBuild ${user}@${server}-w7 Cygwin
+fi
+
+if [ $linux == 1 ]; then
+    cd=/home/rmills/gnu/github/exiv2/
+    command=''
     unixBuild ${user}@${server}-ubuntu Linux
 fi
 
@@ -168,22 +168,15 @@ if [ $macosx == 1 ]; then
 fi
 
 if [ $mingw == 1 ]; then
-    if [ $b64 == 1 ]; then
-       command='msys64'
-       cd=/home/rmills/gnu/github/exiv2/
-       unixBuild ${user}@${server}-w7 MinGW/64
-    fi
-    if [ $b32 == 1 ]; then
-       command='msys32'
-       cd=/home/rmills/gnu/github/exiv2/
-       unixBuild ${user}@${server}-w7 MinGW/32
-    fi
+    cd=/home/rmills/gnu/github/exiv2/
+    command='msys64'
+    unixBuild ${user}@${server}-w7 MinGW/64
 fi
 
-if [ $cygwin == 1 ]; then
+if [ $mingw32 == 1 ]; then
     cd=/home/rmills/gnu/github/exiv2/
-    command='c:\\cygwin64\\bin\\bash.exe'
-    unixBuild ${user}@${server}-w7 Cygwin
+    command='msys32'
+    unixBuild ${user}@${server}-w7 MinGW/32
 fi
 
 if [ $msvc == 1 ]; then
