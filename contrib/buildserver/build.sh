@@ -38,8 +38,10 @@ cd ${cd}
 mkdir -p buildserver
 rm   -rf buildserver
 git clone --branch $branch https://github.com/exiv2/exiv2 buildserver
-mkdir -p buildserver/build
-cd       buildserver/build
+cd       buildserver
+git pull --rebase
+mkdir -p build
+cd       build
 cmake .. -G "Unix Makefiles"
 make
 make tests
