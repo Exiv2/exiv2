@@ -4,7 +4,7 @@ syntax() {
     echo "usage: $0 { --help | -? | -h | platform | option value | switch }+ "
     echo "platform:  all | cygwin | linux | macosx | mingw | mingw32 | msvc"
     echo "switch: --2015 | --2017 | --publish | --status | --clone"
-    echo "option: --branch x | --server x | --user x"
+    echo "option: --branch x | --server x | --user x | --builds x"
 }
 
 announce()
@@ -21,23 +21,45 @@ bomb() {
     exit 1
 }
 
+# write tag into the build directory (in Unix format without \r)
+writeTag()
+{
+    # $1 = server name (eg rmillsmm-w7)
+    # $2 = command for ssh (eg msys64 or bash)
+    # $3 = destination of tag
+    echo "echo tag=$tag > $3" | ssh ${user}@$1 $2
+}
+
+# if we're asked to clone, we remove the old build directory
+prepareToClone()
+{
+    # $1 = server name (eg rmillsmm-w7)
+    # $2 = command to remove directory 'buildserver' ("rmdir/s/q ${cd}buildserver")
+    if [ $clone == 1 ]; then
+        echo "$2" | ssh ${user}@$1 2>/dev/null
+    fi
+}
+
+# list the current build
+reportStatus()
+{
+    # $1 = server (eg rmillsmm-w7)
+    # $2 = program to run (eg msys64 or bash)
+    # $3 = string to execute (eg cd .../buildserver/build ; ls -alt *.tar *.zip)
+    echo "$3" | ssh ${user}@$1 $2
+}
 
 unixBuild()
 {
+    # $1 = server                   (eg rmillsmm-w7)
+    # $2 = string for announcement  (eg 'MinGW 64' )
     announce  $1 $2
-if [ "$status" == "1" ]; then
-    ! ssh $1 ${command} <<EOF
-cd ${cd}/buildserver/build
-ls -alt *.tar.gz | sed -E -e 's/\+ / /g' # remove extended attribute marker
-EOF
-else
-    # remove the buildserver directory if we are to clone
-    if [ "$clone" == "1" ];then
-        ssh $1 ${command} <<EOF
-          rm -rf ${cd}/buildserver
-EOF
-    fi
-    ! ssh $1 ${command} <<EOF
+    if [ "$status" == "1" ]; then
+        reportStatus $1 $command "cd ${cd}/buildserver/build; ls -alt *.tar.gz | sed -E -e 's/\+ / /g'"
+    else
+        # remove the buildserver directory if we are to clone
+        prepareToClone $1 "rm -rf ${cd}/buildserver"
+        ! ssh ${user}@$1 ${command} <<EOF
 PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:$PATH"
 cd ${cd}
 if [ ! -e buildserver ]; then
@@ -47,37 +69,35 @@ cd       buildserver
 git pull --rebase
 mkdir -p build
 cd       build
-echo 'tag='$tag > tag # leave our finger prints for 'publish'
 cmake .. -G "Unix Makefiles"
 make
-make tests
+# make tests
 make package
 ls -alt *.tar.gz | sed -E -e 's/\+ / /g'
 EOF
-fi
+        writeTag $1 $command ${cd}buildserver/build/tag
+    fi
 }
 
 msvcBuild()
 {
+    # $1 = server                   (eg rmillsmm-w7)
     cd=c:\\\\Users\\\\rmills\\\\gnu\\\\github\\\\exiv2\\\\
     config=Release
     profile=msvc2017Release64
     generator='"Visual Studio 15 2017 Win64"'
+
     if [ "$edition" == "2015" ]; then
         profile=msvc2015Release64
         generator='"Visual Studio 14 2015 Win64"'
     fi
     announce  $1 ${profile}
-if [ "$status" == "1" ]; then
-    ! ssh $1 msys64 <<EOF
-cd ${cd}buildserver\\\\build
-ls -alt *.zip
-EOF
-else
-    if [ $clone == 1 ]; then
-    ! ssh $1 "rmdir/s/q ${cd}buildserver" 2>/dev/null
-    fi
-    ! ssh $1 <<EOF
+
+    if [ "$status" == "1" ]; then
+        reportStatus $1 msys64 "cd ${cd}\\\\buildserver\\\\build ; ls -alt *.zip | sed -E -e 's/\+ / /g'"
+    else
+        prepareToClone $1 "rmdir/s/q ${cd}buildserver"
+        ! ssh ${user}@$1 <<EOF
 cd ${cd}
 IF NOT EXIST buildserver git clone --branch ${branch} https://github.com/exiv2/exiv2 buildserver
 cd buildserver
@@ -90,11 +110,8 @@ cmake --build .  --config ${config}   --target install
 cmake --build .  --config ${config}   --target package
 ls -alt *.zip
 EOF
-    # write tag into the build directory (in Unix format without \r)
-    ! ssh $1 msys64 <<EOF
-echo tag=$tag > ${cd}buildserver\\\\build\\\\tag
-EOF
-fi
+        writeTag $1 msys64 ${cd}buildserver\\\\build\\\\tag
+    fi
 }
 
 ##
@@ -117,6 +134,8 @@ server=rmillsmm
 user=rmills
 status=0
 all=0
+builds=/Users/rmills/Jenkins/builds
+
 tag=$(date '+%Y:%m:%d_%H:%M:%S')
 if [ "$#" == "0" ]; then help=1; fi
 
@@ -140,9 +159,10 @@ while [ "$#" != "0" ]; do
       --2017)    edition=2017  ;;
       --2015)    edition=2015  ;;
       --status)  status=1      ;;
-      --server)  if [ $# -gt 0 ]; then server=$1; shift; else bomb $arg ; fi ;;
-      --branch)  if [ $# -gt 0 ]; then branch=$1; shift; else bomb $arg ; fi ;;
-      --user)    if [ $# -gt 0 ]; then user=$1  ; shift; else bomb $arg ; fi ;;
+      --server)  if [ $# -gt 0 ]; then server="$1"  ; shift; else bomb $arg ; fi ;;
+      --branch)  if [ $# -gt 0 ]; then branch="$1"  ; shift; else bomb $arg ; fi ;;
+      --user)    if [ $# -gt 0 ]; then user="$1"    ; shift; else bomb $arg ; fi ;;
+      --builds)  if [ $# -gt 0 ]; then builds="$1"  ; shift; else bomb $arg ; fi ;;
       *)         echo "*** invalid option: $arg ***" 1>&2; help=1; ;;
     esac
 done
@@ -158,73 +178,70 @@ fi
 
 publishBundle()
 {
-	# $1 = server    (eg rmillsmm-w7)
-	# $2 = path      (eg /c/msys32/home/rmills/gnu/github/exiv2/buildserver/build)
-	# $3 = extension (eg tar.gz or zip)
-	# find the build tag left during the build
-	tag_saved=$tag
-	if [ -e tag ]; then rm -rf tag ; fi
-	scp -q "$user@$1:$2/tag" . 2>/dev/null  # silently collect build tag file
-	if [ -e tag ]; then
-		source tag
-	fi
+    # $1 = server    (eg rmillsmm-w7)
+    # $2 = path      (eg /c/msys32/home/rmills/gnu/github/exiv2/buildserver/build)
+    # $3 = extension (eg tar.gz or zip)
+    # find the build tag left during the build
+    tag_saved=$tag
+    if [ -e tag ]; then rm -rf tag ; fi
+    scp -q "$user@$1:$2/tag" . 2>/dev/null          # silently collect build tag file
+    if [ -e tag ]; then source tag; fi              # and read it!
 
-	file=$(ssh $user@$1 "ls -1 $2/*$3" 2>/dev/null)
-	if [ ! -z $file ]; then
-	    scp -p "$user@$1:$file" $dest/$(basename $file $3)-$tag$3
-	fi
-	tag=$tag_saved
+    file=$(ssh $user@$1 "ls -1 $2/*$3" 2>/dev/null) # find the name of the bundle
+    if [ ! -z $file ]; then                         # copy to builds/all and merge the tag into the filename
+        scp -pq "$user@$1:$file" $builds/all/$(basename $file $3)-$tag$3
+        echo $(basename $file $3)-$tag$3
+    fi
+    tag=$tag_saved
 }
 
 if [ $publish == 1 ]; then
-    dest=/Users/rmills/Jenkins/builds/new
+    publishBundle $server        /Users/$user/gnu/github/exiv2/buildserver/build           '.tar.gz'
+    publishBundle $server-ubuntu /home/$user/gnu/github/exiv2/buildserver/build            '.tar.gz'
     publishBundle $server-w7     /c/msys32/home/$user/gnu/github/exiv2/buildserver/build   '.tar.gz'
     publishBundle $server-w7     /c/msys64/home/$user/gnu/github/exiv2/buildserver/build   '.tar.gz'
     publishBundle $server-w7     /c/cygwin64/home/$user/gnu/github/exiv2/buildserver/build '.tar.gz'
     publishBundle $server-w7     /c/users/$user/gnu/github/exiv2/buildserver/build         '.zip'
-    publishBundle $server-ubuntu /home/$user/gnu/github/exiv2/buildserver/build            '.tar.gz'
-    publishBundle $server        /Users/$user/gnu/github/exiv2/buildserver/build           '.tar.gz'
-    exit 0
+    cygwin=0; linux=0; macosx=0; mingw=0; mingw32=0;msvc=0; # don't build anything
+    $(dirname $0)/categorize.py  $builds
 fi
-
 
 ##
 # perform builds
 if [ $cygwin == 1 ]; then
     cd=/home/rmills/gnu/github/exiv2/
     command='c:\\cygwin64\\bin\\bash.exe'
-    unixBuild ${user}@${server}-w7 Cygwin
+    unixBuild ${server}-w7 Cygwin
 fi
 
 if [ $linux == 1 ]; then
     cd=/home/rmills/gnu/github/exiv2/
-    command=''
-    unixBuild ${user}@${server}-ubuntu Linux
+    command='bash'
+    unixBuild ${server}-ubuntu Linux
 fi
 
 if [ $macosx == 1 ]; then
     cd=/Users/rmills/gnu/github/exiv2/
-    command=''
-    unixBuild ${user}@${server} MacOSX
+    command='bash'
+    unixBuild ${server} MacOSX
 fi
 
 if [ $mingw == 1 ]; then
     cd=/home/rmills/gnu/github/exiv2/
     command='msys64'
-    unixBuild ${user}@${server}-w7 MinGW/64
+    unixBuild ${server}-w7 MinGW/64
 fi
 
 if [ $mingw32 == 1 ]; then
     cd=/home/rmills/gnu/github/exiv2/
     command='msys32'
-    unixBuild ${user}@${server}-w7 MinGW/32
+    unixBuild ${server}-w7 MinGW/32
 fi
 
 if [ $msvc == 1 ]; then
-    command=''
-    msvcBuild ${user}@${server}-w7
+    command='bash'
+    msvcBuild ${server}-w7
 fi
-
 
 # That's all Folks
 ##
