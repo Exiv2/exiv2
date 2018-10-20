@@ -5,9 +5,9 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-bin/libexiv2.dll and libcurl.dll          dlls
+bin/libexiv2lib.dll and libcurl.dll       dlls
 include/exiv2/                            include files
-lib/exiv2.lib (and xmp.lib)               link libraries
+lib/exiv2lib.lib (and xmp.lib)            link libraries
 share/                                    man pages
 samples/                                  sample code
 contrib/Qt                                Qt code and notes
@@ -42,7 +42,7 @@ To compile and link your own code:
 +----------------------------------------------------------------------------+
 
 c:\temp> cd exiv2-0.27.0.1-msvc
-c:\temp\exiv2-0.27.0.1-msvc> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
+c:\temp\exiv2-0.27.0.1-msvc> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2lib.lib
 c:\temp\exiv2-0.27.0.1-msvc> exifprint --version
 exiv2=0.27.0
 ...
