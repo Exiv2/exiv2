@@ -33,8 +33,8 @@ endif()
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKNAME})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/"              DESTINATION "contrib")
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/samples/" DESTINATION "samples")
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/" DESTINATION "contrib")
 
 # Copy top level documents (eg README.md)
 # https://stackoverflow.com/questions/21541707/cpack-embed-text-files
