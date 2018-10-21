@@ -3,7 +3,7 @@
 syntax() {
     echo "usage: $0 { --help | -? | -h | platform | option value | switch }+ "
     echo "platform:  all | cygwin | linux | macosx | mingw | mingw32 | msvc"
-    echo "switch: --2015 | --2017 | --publish | --status | --clone"
+    echo "switch: --2015 | --2017 | --publish | --status | --clone | --test"
     echo "option: --branch x | --server x | --user x | --builds x"
 }
 
@@ -71,8 +71,9 @@ mkdir -p build
 cd       build
 cmake .. -G "Unix Makefiles"
 make
-# make tests
+if [ "$test" == "1" ]; then make tests ; fi
 make package
+if [ $(uname) == 'Darwin' ]; then make package_source ; fi
 ls -alt *.tar.gz | sed -E -e 's/\+ / /g'
 EOF
         writeTag $1 $command ${cd}buildserver/build/tag
@@ -124,11 +125,9 @@ mingw32=0
 msvc=0
 help=0
 publish=0
-verbose=0
-static=0
+test=0
 edition=2017
 branch=RC1
-dryrun=0
 clone=0
 server=rmillsmm
 user=rmills
@@ -153,6 +152,7 @@ while [ "$#" != "0" ]; do
       mingw)     mingw=1       ;;
       mingw32)   mingw32=1     ;;
       msvc)      msvc=1        ;;
+      --test)    test=1        ;;
       --publish) publish=1     ;;
       --clone)   clone=1       ;;
       --static)  static=1      ;;
@@ -187,11 +187,13 @@ publishBundle()
     scp -q "$user@$1:$2/tag" . 2>/dev/null          # silently collect build tag file
     if [ -e tag ]; then source tag; fi              # and read it!
 
-    file=$(ssh $user@$1 "ls -1 $2/*$3" 2>/dev/null) # find the name of the bundle
-    if [ ! -z $file ]; then                         # copy to builds/all and merge the tag into the filename
-        scp -pq "$user@$1:$file" $builds/all/$(basename $file $3)-$tag$3
-        echo $(basename $file $3)-$tag$3
-    fi
+    files=$(ssh $user@$1 "ls -1 $2/*$3" 2>/dev/null)    # find the names of the bundles
+    for file in $files; do
+        if [ ! -z $file ]; then                         # copy to builds/all and merge the tag into the filename
+            scp -pq "$user@$1:$file" $builds/all/$(basename $file $3)-$tag$3
+            echo $(basename $file $3)-$tag$3
+        fi
+    done
     tag=$tag_saved
 }
 
