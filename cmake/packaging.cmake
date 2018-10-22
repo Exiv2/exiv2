@@ -3,7 +3,7 @@ set(CPACK_PACKAGE_CONTACT "Luis Díaz Más <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 set(CPACK_SOURCE_GENERATOR TGZ)
-set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;test;third-party;")
+set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;")
 
 ## -----------------------------------------------
 ## TODO:  Luis will rewrite this -----------------
@@ -33,8 +33,8 @@ endif()
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKNAME})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/samples/" DESTINATION "samples")
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/" DESTINATION "contrib")
+install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/"              DESTINATION "contrib")
 
 # Copy top level documents (eg README.md)
 # https://stackoverflow.com/questions/21541707/cpack-embed-text-files

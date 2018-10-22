@@ -72,8 +72,18 @@ cd       build
 cmake .. -G "Unix Makefiles"
 make
 if [ "$test" == "1" ]; then make tests ; fi
-make package
-if [ $(uname) == 'Darwin' ]; then make package_source ; fi
+make  package
+if [ $(uname) == 'Darwin' ]; then
+  # make package_source
+  source=$(ls -1 *.tar.gz|sed -E -e 's#Darwin#Source#g')
+  git clone --branch $branch https://github.com/exiv2/exiv2 package
+  cd package
+  rm -rf .git test/data
+  tar czf $source *
+  cd ..
+  mv package/$source .
+  rm -rf package
+fi
 ls -alt *.tar.gz | sed -E -e 's/\+ / /g'
 EOF
         writeTag $1 $command ${cd}buildserver/build/tag
