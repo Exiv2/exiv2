@@ -5,7 +5,7 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-bin/libexiv2lib.dll and libcurl.dll       dlls
+bin/exiv2lib.dll and libcurl.dll          dlls
 include/exiv2/                            include files
 lib/exiv2lib.lib (and xmp.lib)            link libraries
 share/                                    man pages

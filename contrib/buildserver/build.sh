@@ -63,7 +63,8 @@ unixBuild()
 PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:$PATH"
 cd ${cd}
 if [ ! -e buildserver ]; then
-    git clone --branch $branch https://github.com/exiv2/exiv2 buildserver
+    git clone --branch $branch https://github.com/exiv2/exiv2 buildserver --depth 1
+    git fetch --unshallow
 fi
 cd       buildserver
 git pull --rebase
@@ -71,19 +72,8 @@ mkdir -p build
 cd       build
 cmake .. -G "Unix Makefiles"
 make
-if [ "$test" == "1" ]; then make tests ; fi
-make  package
-if [ $(uname) == 'Darwin' ]; then
-  # make package_source
-  source=$(ls -1 *.tar.gz|sed -E -e 's#Darwin#Source#g')
-  git clone --branch $branch https://github.com/exiv2/exiv2 package
-  cd package
-  rm -rf .git test/data
-  tar czf $source *
-  cd ..
-  mv package/$source .
-  rm -rf package
-fi
+make package
+make tests
 ls -alt *.tar.gz | sed -E -e 's/\+ / /g'
 EOF
         writeTag $1 $command ${cd}buildserver/build/tag
@@ -110,9 +100,10 @@ msvcBuild()
         prepareToClone $1 "rmdir/s/q ${cd}buildserver"
         ! ssh ${user}@$1 <<EOF
 cd ${cd}
-IF NOT EXIST buildserver git clone --branch ${branch} https://github.com/exiv2/exiv2 buildserver
+IF NOT EXIST buildserver git clone --branch ${branch} https://github.com/exiv2/exiv2 buildserver --depth 1
 cd buildserver
-git pull --rebase
+git fetch --unshallow
+git pull  --rebase
 if NOT EXIST build mkdir build
 cd           build
 conan install .. --profile ${profile} --build missing
@@ -208,12 +199,21 @@ publishBundle()
 }
 
 if [ $publish == 1 ]; then
-    publishBundle $server        /Users/$user/gnu/github/exiv2/buildserver/build           '.tar.gz'
+    ## create the source package
     publishBundle $server-ubuntu /home/$user/gnu/github/exiv2/buildserver/build            '.tar.gz'
     publishBundle $server-w7     /c/msys32/home/$user/gnu/github/exiv2/buildserver/build   '.tar.gz'
     publishBundle $server-w7     /c/msys64/home/$user/gnu/github/exiv2/buildserver/build   '.tar.gz'
     publishBundle $server-w7     /c/cygwin64/home/$user/gnu/github/exiv2/buildserver/build '.tar.gz'
     publishBundle $server-w7     /c/users/$user/gnu/github/exiv2/buildserver/build         '.zip'
+    echo "+++++++++++++++++++++++++++++++++++++++++"
+    echo "+++    build Source in exiv2/exiv2    +++"
+    pushd ~/gnu/github/exiv2/exiv2/build >/dev/null
+    make package_source
+    ls   -alt *Source.tar.gz|sed -E -e 's/\+ / /g'
+    cp   *Source.tar.gz ~/gnu/github/exiv2/buildserver/build
+    popd >/dev/null
+    echo "+++++++++++++++++++++++++++++++++++++++++"
+    publishBundle $server        /Users/$user/gnu/github/exiv2/buildserver/build           '.tar.gz'
     cygwin=0; linux=0; macosx=0; mingw=0; mingw32=0;msvc=0; # don't build anything
     $(dirname $0)/categorize.py  $builds
 fi

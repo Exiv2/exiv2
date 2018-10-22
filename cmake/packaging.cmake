@@ -3,20 +3,20 @@ set(CPACK_PACKAGE_CONTACT "Luis Díaz Más <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 set(CPACK_SOURCE_GENERATOR TGZ)
-set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store/;")
+set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store;")
 
 ## -----------------------------------------------
 ## TODO:  Luis will rewrite this -----------------
 if ( MINGW OR MSYS )
-    if ( CMAKE_SIZEOF_VOID_P EQUAL 8)
+    if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
         set (PACKNAME MinGW-64)
     else()
         set (PACKNAME MinGW-32)
     endif()
     set (PACKDIR MinGW)
 elseif ( MSVC )
-    set (PACKNAME msvc)
-    set (PACKDIR  msvc)
+    set (PACKNAME MSVC)
+    set (PACKDIR  MSVC)
 else()
     set (PACKNAME ${CMAKE_SYSTEM_NAME}) # Darwin or Linux or CYGWIN
     set (PACKDIR  ${PACKNAME})
@@ -25,9 +25,9 @@ endif()
 if ( CYGWIN OR MINGW OR MSYS )
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin use .tar.gz
 elseif ( MSVC )
-    set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2.dll permissions
+    set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2lib.dll permissions
 else()
-    set(CPACK_GENERATOR TGZ)  # Linux or MacOS-X: use .tar.gz (works with tar xzf bundle.tar.gz)
+    set(CPACK_GENERATOR TGZ)  # Linux or MacOS-X: use .tar.gz
 endif()
 
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKNAME})
