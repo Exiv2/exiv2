@@ -13,7 +13,7 @@ To build Exiv2 with conan, you will also need to install CMake.  https://cmake.o
 
 <name id="TOC"></a>
 ----
-### T A B L E &nbsp;&nbsp;&nbsp; O&nbsp;&nbsp;F &nbsp;&nbsp;&nbsp; C O N T E N T S
+### T A B L E _ OF _ C O N T E N T S
 
 1. [Step by Step Guide](#1)
     1. [Install conan](#1-1)
