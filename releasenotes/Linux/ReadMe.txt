@@ -1,22 +1,21 @@
-This is to be written for Linux from contrib/buildserver/dailyReadMe.txt
+Linux Exiv2 v0.27 Release Bundle
+--------------------------------
 
 Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-lib/libexiv2lib.so.0.27.0.1               shared library
+lib/libexiv2lib.so.0.27.0.1 & libxmp.a    libraries
 include/exiv2/                            include files
 share/                                    man pages
-samples/                                  sample code
 contrib/Qt                                Qt code and notes
 samples/exifprint.cpp                     sample code
 
 ReadMe.txt                                This file
 license.txt                               GPLv2.0 Software License
-releasenotes.txt
-README-CMAKE.md
-README.md
-README-CONAN.md
+releasenotes.txt                          Late breaking news
+README.md                                 User Manual
+README-CONAN.md                           User Manual Appendix
 
 To run exiv2 from the bundle
 ----------------------------
@@ -30,7 +29,7 @@ $ env LD_LIBRARY_PATH="$PWD/lib:$LD_LIBRARY_PATH" ./exifprint
 
 To install for use by all users
 -------------------------------
-$ for i in bin include lib ; do sudo cp -R $i/* /usr/local/$i ; done
+$ for i in bin include lib ; do sudo mkdir -p /usr/local/$i ; sudo cp -R $i/* /usr/local/$i ; done
 
 To compile and link your own code using installed library and include files
 ---------------------------------------------------------------------------
