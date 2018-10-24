@@ -6,19 +6,17 @@ Structure of the bundle:
 
 bin/exiv2                                 exiv2 and sample applications
 bin/exiv2lib.dll and libcurl.dll          dlls
+lib/exiv2lib.lib & xmp.lib                link libraries
 include/exiv2/                            include files
-lib/exiv2lib.lib (and xmp.lib)            link libraries
 share/                                    man pages
-samples/                                  sample code
 contrib/Qt                                Qt code and notes
 samples/exifprint.cpp                     sample code
 
 ReadMe.txt                                This file
 license.txt                               GPLv2.0 Software License
-releasenotes.txt
-README-CMAKE.md
-README.md
-README-CONAN.md
+releasenotes.txt                          Late breaking news
+README.md                                 User Manual
+README-CONAN.md                           User Manual Appendix
 
 +----------------------------------------------------------------------------+
 | Caution: Use a Windows unzip utility such as 7z or winzip                  |
@@ -31,7 +29,6 @@ c:\temp\exiv2-0.27.0.1-msvc\bin> exiv2
 
 Add the bin to your PATH:
 c:\temp\exiv2-0.27.0.1-msvc\bin>set PATH=%CD%;%PATH%
-
 
 To compile and link your own code:
 

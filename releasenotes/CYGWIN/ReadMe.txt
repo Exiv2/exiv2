@@ -1,21 +1,22 @@
+CYGWIN Exiv2 v0.27 Release Bundle
+---------------------------------
+
 Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
 bin/cygexiv2lib-0.dll                     DLL
-lib/libexiv2lib.dll.a and libxmp.a        link libraries
+lib/libexiv2lib.dll.a & libxmp.a          link libraries
 include/exiv2/                            include files
 share/                                    man pages
-samples/                                  sample code
 contrib/Qt                                Qt code and notes
 samples/exifprint.cpp                     sample code
 
 ReadMe.txt                                This file
 license.txt                               GPLv2.0 Software License
-releasenotes.txt
-README-CMAKE.md
-README.md
-README-CONAN.md
+releasenotes.txt                          Late breaking news
+README.md                                 User Manual
+README-CONAN.md                           User Manual Appendix
 
 To run exiv2 from the bundle
 ----------------------------
