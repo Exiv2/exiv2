@@ -1,4 +1,4 @@
-![Exiv2](http://www.exiv2.org/include/exiv2-logo-big.png)
+![Exiv2](http://exiv2.dyndns.org/include/exiv2-logo-big.png)
 
 # Building Exiv2 dependencies with conan
 
