@@ -35,7 +35,7 @@ $ for i in bin include lib ; do cp -R $i/* /usr/local/$i ; done
 To compile and link your own code using installed library and include files
 ---------------------------------------------------------------------------
 $ g++ -std=gnu++98 samples/exifprint.cpp -I/usr/include -I/usr/local/include -L/usr/local/lib -lexiv2lib -o exifprint
-$ export PATH="$PATH:/usr/local/bin"
+$ export PATH="/usr/local/bin:$PATH"
 $ ./exifprint --version
 exiv2=0.27.0
 ...
