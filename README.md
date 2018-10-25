@@ -30,24 +30,20 @@
 <name id="1"></a>
 # Welcome to Exiv2
 
-![Exiv2](http://www.exiv2.org/include/exiv2-logo-big.png)
+![Exiv2](http://exiv2.dyndns.org/include/exiv2-logo-big.png)
 
 Exiv2 is a C++ library and a command line utility to read,
-write, delete and modify Exif, IPTC, XMP and ICC image metadata.<br/>
-The homepage of Exiv2 is: [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2)
+write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 
-Downloads: [[Source](exiv2-0.27.0.1-Source.tar.gz)]
-[[Linux](exiv2-0.27.0.1-Linux.tar.gz)]
-[[MacOSX](exiv2-0.27.0.1-Darwin.tar.gz)]
-[[Cygwin](exiv2-0.27.0.1-CYGWIN.tar.gz)]
-[[MinGW](exiv2-0.27.0.1-MinGW.tar.gz)]
-[[MSVC](exiv2-0.27.0.1-msvc.zip)]
-[[Documentation](doc/index.html)]
-[[CMake](https://cmake.org/download/)]
+| Exiv2 Resource | Location |
+|:------         |:----     |
+| Project Homepage            | [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2) |
+| Downloads and Documentation | [http://exiv2.dyndns.org](http://exiv2.dyndns.org:8080) |
+| BuildServer:                | [http://exiv2.dyndns.org:8080](http://exiv2.dyndns.org:8080) |
+| License (GPLv2)             | [license.txt](license.txt) |
+| CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
 
-The file [license.txt](license.txt) in a bundle describes is a copy of GPLv2 License
-
-The file ReadMe.txt in a bundle describes how to install/link code with libraries for their respective platform.
+The file ReadMe.txt in a Build bundle describes how to install/link code with libraries for their respective platform.
 
 [TOC](#TOC)
 <name id="2"></a>
