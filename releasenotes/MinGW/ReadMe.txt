@@ -31,13 +31,14 @@ $ ./exifprint
 
 To install for use by all users
 -------------------------------
+$ cd <bundle>
 $ for i in bin include lib ; do mkdir -p /usr/local/$i ; cp -R $i/* /usr/local/$i ; done
 
 To compile and link your own code using installed library and include files
 ---------------------------------------------------------------------------
 $ cd <bundle>
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2lib -o exifprint
-$ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+$ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ ./exifprint --version
 exiv2=0.27.0
 ...
