@@ -1,11 +1,11 @@
-MSVC 2017 Release DLL Bundle
-----------------------------
+Visual Studio 2017 Release DLL Bundle
+-------------------------------------
 
 Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-bin/exiv2lib.dll and libcurl.dll          dlls
+bin/exiv2lib.dll                          dll
 lib/exiv2lib.lib & xmp.lib                link libraries
 include/exiv2/                            include files
 share/                                    man pages
@@ -24,11 +24,12 @@ README-CONAN.md                           User Manual Appendix
 +----------------------------------------------------------------------------+
 
 To run exiv2.exe from the bundle:
-c:\temp> cd <exiv2-0.27.0.1-msvc>\bin
-c:\temp\exiv2-0.27.0.1-msvc\bin> exiv2
+c:\> cd <bundle>\bin
+<bundle>\bin> exiv2
 
 Add the bin to your PATH:
-c:\temp\exiv2-0.27.0.1-msvc\bin>set PATH=%CD%;%PATH%
+c:\> cd <bundle>\bin
+<bundle>\bin>set PATH=%CD%;%PATH%
 
 To compile and link your own code:
 
@@ -38,10 +39,10 @@ To compile and link your own code:
 |          or initialise the DOS environment by calling vcvarsall.bat        |
 +----------------------------------------------------------------------------+
 
-c:\temp> cd exiv2-0.27.0.1-msvc
-c:\temp\exiv2-0.27.0.1-msvc> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2lib.lib
-c:\temp\exiv2-0.27.0.1-msvc> exifprint --version
+c:\> cd <bundle>
+<bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2lib.lib
+<bundle>> exifprint --version
 exiv2=0.27.0
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
-c:\temp\exiv2-0.27.0.1-msvc>
+<bundle>>

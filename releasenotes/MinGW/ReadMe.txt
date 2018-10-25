@@ -21,12 +21,13 @@ README-CONAN.md                           User Manual Appendix
 To run exiv2 from the bundle
 ----------------------------
 $ cd <bundle>
-$ bin/exiv2
+$ env PATH="$PWD/bin:$PATH" bin/exiv2
 
 To build samples/exiftool.cpp from the bundle
 ---------------------------------------------
-$ g++ -std=c++98 samples/exifprint.cpp -L$PWD/lib -I$PWD/include -lexiv2lib -o exifprint
-$ env PATH="$PWD/bin:$PATH" ./exifprint
+$ cd <bundle>
+$ g++ -std=c++98 samples/exifprint.cpp -Llib -Iinclude -lexiv2lib -o exifprint
+$ ./exifprint
 
 To install for use by all users
 -------------------------------
@@ -34,6 +35,7 @@ $ for i in bin include lib ; do mkdir -p /usr/local/$i ; cp -R $i/* /usr/local/$
 
 To compile and link your own code using installed library and include files
 ---------------------------------------------------------------------------
+$ cd <bundle>
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2lib -o exifprint
 $ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
 $ ./exifprint --version
