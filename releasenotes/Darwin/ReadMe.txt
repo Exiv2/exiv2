@@ -8,7 +8,6 @@ bin/exiv2                                 exiv2 and sample applications
 lib/libexiv2lib.27.0.1.dylib & libxmp.a   libraries
 include/exiv2/                            include files
 share/                                    man pages
-contrib/Qt                                Qt code and notes
 samples/exifprint.cpp                     sample code
 
 ReadMe.txt                                This file

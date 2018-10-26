@@ -9,7 +9,6 @@ bin/exiv2lib.dll                          dll
 lib/exiv2lib.lib & xmp.lib                link libraries
 include/exiv2/                            include files
 share/                                    man pages
-contrib/Qt                                Qt code and notes
 samples/exifprint.cpp                     sample code
 
 ReadMe.txt                                This file
