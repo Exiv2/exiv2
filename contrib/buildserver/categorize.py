@@ -60,7 +60,7 @@ def visitfile(file,path,myData):
 
     home = myData['home' ]
 
-    if os.path.isfile(path):
+    if os.path.isfile(path) and file.find('-') != -1:
         # parse exiv2-0.27.0.1-CYGWIN-2018:10:19_01:13:00.tar.gz
         # print('file = ' + file)
         splits = file.split('-')
