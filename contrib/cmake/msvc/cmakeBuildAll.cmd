@@ -1,1 +1,0 @@
-for %%a in (64 32) do for %%v in (2017 2015 2013 2012 2010 2008 2005) do for %%s in (--static --dll) do for %%r in (--release --debug) do for %%u in (--ascii --unicode) do cmd /c "vcvars %%v %%a && cmakeBuild --test %%s %%r %%u %* 2>&1" 
