@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Oct 19, 2016"
+.TH EXIV2 1 "Oct 26, 2018"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -599,6 +599,36 @@ Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
 .br
 .ne 40
+.SH CONFIGURATION FILE
+Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can fine the location of the configuration file with the command:
+.br
+.sp 1
+.nf
+$ exiv2 --verbose --version --grep config_path
+exiv2 0.27.0.1
+config_path=/Users/rmills/.exiv2
+.fi
+.sp 1
+The purpose of the configuration file is to define your own lenses for recognition by Exiv2.  The configuration file is in Windows .ini format and has sections for each of the major camera manufactures canon,nikon,pentax,minolta,olympus and sony.  The lens metadata is stored as a integer called the lensID.  You can change the lens name associated with any lensID.
+.br
+.sp 1
+.nf
+$ cat ~/.exiv2
+[nikon]
+146=Robin's Sigma Lens  <--- The name of your lens
+.fi
+.sp 1
+You obtain the lensID for your camera with the command:
+.nf
+.sp 1
+$ exiv2 -pv --grep lens/i http://clanmills.com/Stonehenge.jpg
+0x0083 Nikon3       LensType                    Byte        1  14
+0x0084 Nikon3       Lens                        Rational    4  180/10 2500/10 35/10 63/10
+0x008b Nikon3       LensFStops                  Undefined   4  55 1 12 0
+0x000c NikonLd3     LensIDNumber                Byte        1  146 <--- This number
+0x000d NikonLd3     LensFStops                  Byte        1  55
+.br
+.ne 40
 .SH EXAMPLES
 .TP
 exiv2 *.jpg
@@ -654,13 +684,13 @@ requirements of the target format. Some tags copied like this may not
 make sense in the target image.
 .SH SEE ALSO
 .TP
-.I http://www.exiv2.org/sample.html#modify
+.I http://exiv2.dyndns.org/sample.html#modify
 Sample command files.
 .TP
-.I http://www.exiv2.org/metadata.html
+.I http://exiv2.dyndns.org/metadata.html
 Taglists with \fIkey\fP and default \fItype\fP values.
 .SH AUTHORS
 .B exiv2
-was written by Andreas Huggel and others.  The Exiv2 project web site is http://exiv2.org
+was written by Andreas Huggel and others.  The Exiv2 project web site is http://exiv2.dyndns.org.  The code is hosted on GitHub at https://github.com/exiv2/exiv2
 .PP
 This manual page was originally created for the Debian project by KELEMEN Peter <fuji@debian.org>.
