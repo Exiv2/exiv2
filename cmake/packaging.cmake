@@ -5,8 +5,6 @@ set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_SOURCE_GENERATOR TGZ)
 set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store;")
 
-## -----------------------------------------------
-## TODO:  Luis will rewrite this -----------------
 if ( MINGW OR MSYS )
     if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
         set (PACKNAME MinGW-64)
@@ -17,17 +15,18 @@ if ( MINGW OR MSYS )
 elseif ( MSVC )
     set (PACKNAME MSVC)
     set (PACKDIR  MSVC)
-else()
+elseif ( APPLE OR LINUX OR CYGWIN )
     set (PACKNAME ${CMAKE_SYSTEM_NAME}) # Darwin or Linux or CYGWIN
+    set (PACKDIR  ${PACKNAME})
+else()
+    set (PACKNAME Linux      ) # unsupported systems such as FreeBSD
     set (PACKDIR  ${PACKNAME})
 endif()
 
-if ( CYGWIN OR MINGW OR MSYS )
-    set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin use .tar.gz
-elseif ( MSVC )
-    set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2lib.dll permissions
+if ( MSVC )
+    set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2.dll permissions
 else()
-    set(CPACK_GENERATOR TGZ)  # Linux or MacOS-X: use .tar.gz
+    set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/MacOS-X etc use .tar.gz
 endif()
 
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKNAME})
@@ -50,8 +49,5 @@ endforeach()
 # Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKDIR}/ReadMe.txt)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt DESTINATION .)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      DESTINATION .)
-
-## TODO: End                     -----------------
-## -----------------------------------------------
 
 include (CPack)
