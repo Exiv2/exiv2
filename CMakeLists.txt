@@ -66,8 +66,6 @@ endif()
 
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
-include(cmake/CMakeChecks.txt)
-
 if( EXIV2_ENABLE_XMP )
     add_subdirectory( xmpsdk )
 endif()
