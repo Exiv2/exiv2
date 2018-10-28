@@ -5,8 +5,8 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-bin/exiv2lib.dll                          dll
-lib/exiv2lib.lib & xmp.lib                link libraries
+bin/exiv2.dll                             dll
+lib/exiv2.lib & xmp.lib                   link libraries
 include/exiv2/                            include files
 share/                                    man pages
 samples/exifprint.cpp                     sample code
@@ -39,7 +39,7 @@ To compile and link your own code:
 +----------------------------------------------------------------------------+
 
 c:\> cd <bundle>
-<bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2lib.lib
+<bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
 <bundle>> exifprint --version
 exiv2=0.27.0
 ...

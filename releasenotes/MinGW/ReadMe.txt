@@ -5,8 +5,9 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-bin/msys-exiv2lib-0.dll                   exiv2 dll
-lib/libexiv2lib.dll.a & libxmp.a          link libraries
+bin/msys-exiv2-0.dll                      exiv2 dll
+lib/libexiv2.dll.a & libxmp.a             link libraries
+lib/pkgconfig/exiv2.pc                    pkg-config file
 include/exiv2/                            include files
 share/                                    man pages
 samples/exifprint.cpp                     sample code
@@ -25,7 +26,7 @@ $ env PATH="$PWD/bin:$PATH" bin/exiv2
 To build samples/exiftool.cpp from the bundle
 ---------------------------------------------
 $ cd <bundle>
-$ g++ -std=c++98 samples/exifprint.cpp -Llib -Iinclude -lexiv2lib -o exifprint
+$ g++ -std=c++98 samples/exifprint.cpp -Llib -Iinclude -lexiv2 -o exifprint
 $ ./exifprint
 
 To install for use by all users
@@ -36,7 +37,7 @@ $ for i in bin include lib ; do mkdir -p /usr/local/$i ; cp -R $i/* /usr/local/$
 To compile and link your own code using installed library and include files
 ---------------------------------------------------------------------------
 $ cd <bundle>
-$ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2lib -o exifprint
+$ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ ./exifprint --version
 exiv2=0.27.0
