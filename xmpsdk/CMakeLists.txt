@@ -50,13 +50,6 @@ if (EXV_HAVE_STDINT_H)
     target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
 endif()
 
-# http://stackoverflow.com/questions/10046114/in-cmake-how-can-i-test-if-the-compiler-is-clang
-if ( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # 1123 - hide xmpsdk symbols
-    set_property(SOURCE ${XMPSRC} PROPERTY
-        COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
-endif()
-
 if (BUILD_SHARED_LIBS)
     set_property(TARGET xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
