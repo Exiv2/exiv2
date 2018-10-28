@@ -35,8 +35,8 @@ prepareToClone()
 {
     # $1 = server name (eg rmillsmm-w7)
     # $2 = command to remove directory 'buildserver' ("rmdir/s/q ${cd}buildserver")
-    if [ $clone == 1 ]; then
-        echo "$2" | ssh ${user}@$1 2>/dev/null
+    if [ "$clone" == "1" ]; then
+        echo "$2" | ssh ${user}@$1 ${command} 2>/dev/null
     fi
 }
 
@@ -64,12 +64,13 @@ PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:$PATH"
 cd ${cd}
 if [ ! -e buildserver ]; then
     git clone --branch $branch https://github.com/exiv2/exiv2 buildserver --depth 1
-    git fetch --unshallow
 fi
-cd       buildserver
-git pull --rebase
-mkdir -p build
-cd       build
+cd  buildserver
+git fetch --unshallow
+git pull  --rebase
+git       status
+mkdir -p  build
+cd        build
 cmake .. -G "Unix Makefiles"
 make
 make package
@@ -104,6 +105,7 @@ IF NOT EXIST buildserver git clone --branch ${branch} https://github.com/exiv2/e
 cd buildserver
 git fetch --unshallow
 git pull  --rebase
+git status
 if NOT EXIST build mkdir build
 cd           build
 conan install .. --profile ${profile} --build missing
