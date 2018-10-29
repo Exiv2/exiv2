@@ -71,7 +71,7 @@ git pull  --rebase
 git       status
 mkdir -p  build
 cd        build
-cmake .. -G "Unix Makefiles"
+cmake .. -G "Unix Makefiles" -DEXIV2_TEAM_PACKAGING=On
 make
 make package
 make tests
@@ -109,10 +109,11 @@ git status
 if NOT EXIST build mkdir build
 cd           build
 conan install .. --profile ${profile} --build missing
-cmake         .. -G ${generator} -DCMAKE_BUILD_TYPE=${config}  -DCMAKE_INSTALL_PREFIX=..\\dist\\${profile}
+cmake         .. -G ${generator} -DCMAKE_BUILD_TYPE=${config} -DEXIV2_TEAM_PACKAGING=On -DCMAKE_INSTALL_PREFIX=..\\dist\\${profile}
 cmake --build .  --config ${config}   --target install
 cmake --build .  --config ${config}   --target package
 ls -alt *.zip
+rmdir/s/q ..\\dist
 EOF
         writeTag $1 msys64 ${cd}buildserver\\\\build\\\\tag
     fi
@@ -208,11 +209,10 @@ if [ $publish == 1 ]; then
     publishBundle $server-w7     /c/cygwin64/home/$user/gnu/github/exiv2/buildserver/build '.tar.gz'
     publishBundle $server-w7     /c/users/$user/gnu/github/exiv2/buildserver/build         '.zip'
     echo "+++++++++++++++++++++++++++++++++++++++++"
-    echo "+++    build Source in exiv2/exiv2    +++"
-    pushd ~/gnu/github/exiv2/exiv2/build >/dev/null
-    make package_source
-    ls   -alt *Source.tar.gz|sed -E -e 's/\+ / /g'
-    cp   *Source.tar.gz ~/gnu/github/exiv2/buildserver/build
+    echo "+++ build Source in exiv2/buildserver +++"
+    pushd ~/gnu/github/exiv2/buildserver/build >/dev/null
+    make  package_source
+    ls    -alt *Source.tar.gz|sed -E -e 's/\+ / /g'
     popd >/dev/null
     echo "+++++++++++++++++++++++++++++++++++++++++"
     publishBundle $server        /Users/$user/gnu/github/exiv2/buildserver/build           '.tar.gz'
@@ -253,7 +253,7 @@ if [ $mingw32 == 1 ]; then
 fi
 
 if [ $msvc == 1 ]; then
-    command='bash'
+    command='cmd'
     msvcBuild ${server}-w7
 fi
 
