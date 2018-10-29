@@ -3,7 +3,7 @@ set(CPACK_PACKAGE_CONTACT "Luis Díaz Más <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 set(CPACK_SOURCE_GENERATOR TGZ)
-set(CPACK_SOURCE_IGNORE_FILES "build.*;\.git/;\.DS_Store;")
+set(CPACK_SOURCE_IGNORE_FILES "\.git/;\.DS_Store;")
 
 if ( MINGW OR MSYS )
     if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
