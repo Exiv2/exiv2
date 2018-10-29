@@ -8,9 +8,9 @@ set(CPACK_SOURCE_IGNORE_FILES $(CPACK_SOURCE_IGNORE_FILES) "/.git/" "/build/" "\
 
 if ( MINGW OR MSYS )
     if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-        set (PACKNAME MinGW-64)
+        set (PACKNAME MinGW64)
     else()
-        set (PACKNAME MinGW-32)
+        set (PACKNAME MinGW32)
     endif()
     set (PACKDIR MinGW)
 elseif ( MSVC )
