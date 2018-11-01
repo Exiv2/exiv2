@@ -14,7 +14,18 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 
+# This tag specifies the encoding used for all characters in the config file
+# that follow. The default is UTF-8 which is also the encoding used for all
+# text before the first occurrence of this tag. Doxygen uses libiconv (or the
+# iconv built into libc) for the transcoding. See
+# http://www.gnu.org/software/libiconv for the list of possible encodings.
+
 DOXYFILE_ENCODING      = UTF-8
+
+# The PROJECT_NAME tag is a single word (or sequence of words) that should
+# identify the project. Note that if you do not use Doxywizard you need
+# to put quotes around the project name if it contains spaces.
+
 PROJECT_NAME           = Exiv2
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number.
@@ -275,7 +286,7 @@ SIP_SUPPORT            = NO
 # setting a simple type. If this is not the case, or you want to show the
 # methods anyway, you should set this option to NO.
 
-IDL_PROPERTY_SUPPORT   = YES
+IDL_PROPERTY_SUPPORT   = NO
 
 # If member grouping is used in the documentation and the DISTRIBUTE_GROUP_DOC
 # tag is set to YES, then doxygen will reuse the documentation of the first
@@ -692,17 +703,17 @@ RECURSIVE              = NO
 
 EXCLUDE                = @ROOTDIR@/samples/Jzon.h \
                          @ROOTDIR@/samples/Jzon.cpp \
-                         @SRCDIR@/actions.hpp \
-                         @SRCDIR@/actions.cpp \
-                         @SRCDIR@/getopt_win32.c \
-                         @SRCDIR@/localtime.c \
-                         @SRCDIR@/getopt_win32.h \
-                         @SRCDIR@/private.h \
-                         @SRCDIR@/timegm.h \
-                         @SRCDIR@/tzfile.h \
-                         @SRCDIR@/fff.h \
-                         @INCDIR@/exv_msvc.h \
-                         @INCDIR@/exv_msvc-webready.h
+                         @ROOTDIR@/src/actions.hpp \
+                         @ROOTDIR@/src/actions.cpp \
+                         @ROOTDIR@/src/getopt.cpp \
+                         @ROOTDIR@/src/getopt.hpp \
+                         @ROOTDIR@/src/localtime.c \
+                         @ROOTDIR@/src/fff.h \
+                         @ROOTDIR@/src/private.h \
+                         @ROOTDIR@/src/timegm.h \
+                         @ROOTDIR@/src/tzfile.h \
+                         @ROOTDIR@/src/unused.h \
+
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -716,7 +727,7 @@ EXCLUDE_SYMLINKS       = NO
 # against the file with absolute path, so to exclude all test directories
 # for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       =
+EXCLUDE_PATTERNS       = */../src/*_int.h*
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the
@@ -865,7 +876,7 @@ ALPHABETICAL_INDEX     = YES
 # the COLS_IN_ALPHA_INDEX tag can be used to specify the number of columns
 # in which this list will be split (can be a number in the range [1..20])
 
-COLS_IN_ALPHA_INDEX    = 4
+COLS_IN_ALPHA_INDEX    = 3
 
 # In case all classes in a project start with a common prefix, all
 # classes will be put under the same header in the alphabetical index.
@@ -977,7 +988,7 @@ HTML_TIMESTAMP         = YES
 # documentation will contain sections that can be hidden and shown after the
 # page has loaded.
 
-HTML_DYNAMIC_SECTIONS  = YES
+HTML_DYNAMIC_SECTIONS  = NO
 
 # With HTML_INDEX_NUM_ENTRIES one can control the preferred number of
 # entries shown in the various tree structured indices initially; the user
@@ -1033,11 +1044,42 @@ DOCSET_PUBLISHER_NAME  = Publisher
 # of the generated HTML documentation.
 
 GENERATE_HTMLHELP      = NO
+
+# If the GENERATE_HTMLHELP tag is set to YES, the CHM_FILE tag can
+# be used to specify the file name of the resulting .chm file. You
+# can add a path in front of the file if the result should not be
+# written to the html output directory.
+
 CHM_FILE               =
+
+# If the GENERATE_HTMLHELP tag is set to YES, the HHC_LOCATION tag can
+# be used to specify the location (absolute path including file name) of
+# the HTML help compiler (hhc.exe). If non-empty doxygen will try to run
+# the HTML help compiler on the generated index.hhp.
+
 HHC_LOCATION           =
+
+# If the GENERATE_HTMLHELP tag is set to YES, the GENERATE_CHI flag
+# controls if a separate .chi index file is generated (YES) or that
+# it should be included in the master .chm file (NO).
+
 GENERATE_CHI           = NO
+
+# If the GENERATE_HTMLHELP tag is set to YES, the CHM_INDEX_ENCODING
+# is used to encode HtmlHelp index (hhk), content (hhc) and project file
+# content.
+
 CHM_INDEX_ENCODING     =
+
+# If the GENERATE_HTMLHELP tag is set to YES, the BINARY_TOC flag
+# controls whether a binary table of contents is generated (YES) or a
+# normal table of contents (NO) in the .chm file.
+
 BINARY_TOC             = NO
+
+# The TOC_EXPAND flag can be set to YES to add extra items for group members
+# to the contents of the HTML help documentation and to the tree view.
+
 TOC_EXPAND             = NO
 
 # If the GENERATE_QHP tag is set to YES and both QHP_NAMESPACE and
@@ -1116,7 +1158,7 @@ ECLIPSE_DOC_ID         = org.doxygen.Project
 # navigation tree you can set this option to NO if you already set
 # GENERATE_TREEVIEW to YES.
 
-DISABLE_INDEX          = NO
+DISABLE_INDEX          = YES
 
 # The GENERATE_TREEVIEW tag is used to specify whether a tree-like index
 # structure should be generated to display hierarchical information.
@@ -1205,7 +1247,7 @@ MATHJAX_EXTENSIONS     =
 # typically be disabled. For large projects the javascript based search engine
 # can be slow, then enabling SERVER_BASED_SEARCH may provide a better solution.
 
-SEARCHENGINE           = YES
+SEARCHENGINE           = NO
 
 # When the SERVER_BASED_SEARCH tag is enabled the search engine will be
 # implemented using a web server instead of a web client using Javascript.
@@ -1664,7 +1706,7 @@ DOT_NUM_THREADS        = 0
 # the DOTFONTPATH environment variable or by setting DOT_FONTPATH to the
 # directory containing the font.
 
-DOT_FONTNAME           = Arial
+DOT_FONTNAME           = Helvetica
 
 # The DOT_FONTSIZE tag can be used to set the size of the font of dot graphs.
 # The default size is 10pt.
@@ -1689,7 +1731,7 @@ CLASS_GRAPH            = YES
 # indirect implementation dependencies (inheritance, containment, and
 # class references variables) of the class with other documented classes.
 
-COLLABORATION_GRAPH    = YES
+COLLABORATION_GRAPH    = NO
 
 # If the GROUP_GRAPHS and HAVE_DOT tags are set to YES then doxygen
 # will generate a graph for groups, showing the direct groups dependencies
@@ -1721,14 +1763,14 @@ TEMPLATE_RELATIONS     = YES
 # file showing the direct and indirect include dependencies of the file with
 # other documented files.
 
-INCLUDE_GRAPH          = YES
+INCLUDE_GRAPH          = NO
 
 # If the ENABLE_PREPROCESSING, SEARCH_INCLUDES, INCLUDED_BY_GRAPH, and
 # HAVE_DOT tags are set to YES then doxygen will generate a graph for each
 # documented header file showing the documented files that directly or
 # indirectly include this file.
 
-INCLUDED_BY_GRAPH      = YES
+INCLUDED_BY_GRAPH      = NO
 
 # If the CALL_GRAPH and HAVE_DOT options are set to YES then
 # doxygen will generate a call dependency graph for every global function
@@ -1800,7 +1842,7 @@ MSCFILE_DIRS           =
 # DOT_GRAPH_MAX_NODES then the graph will not be shown at all. Also note
 # that the size of a graph can be further restricted by MAX_DOT_GRAPH_DEPTH.
 
-DOT_GRAPH_MAX_NODES    = 100
+DOT_GRAPH_MAX_NODES    = 50
 
 # The MAX_DOT_GRAPH_DEPTH tag can be used to set the maximum depth of the
 # graphs generated by dot. A depth value of 3 means that only nodes reachable
