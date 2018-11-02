@@ -4,7 +4,7 @@ libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: exiv2
-Description: Exif and IPTC metadata library and tools
+Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 URL: @PACKAGE_URL@
 Libs: -L${libdir} -lexiv2
