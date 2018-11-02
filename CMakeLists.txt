@@ -46,6 +46,9 @@ mark_as_advanced(
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
 option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
 
+set( PACKAGE_BUGREPORT                "http://github.com/exiv2/exiv2" )
+set( PACKAGE_URL                      "http://exiv2.dyndns.org")
+
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
     set(EXIV2_ENABLE_XMP OFF)
 endif()
