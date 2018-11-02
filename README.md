@@ -417,16 +417,16 @@ $
 
 #### Install MinGW Dependencies
 
-Upgrade all installed packages on your system:
-
-```
-$ pacman -Syu
-```
-
 Install tools and dependencies:
 
 ```
 $ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel; do (echo y|pacman -S $i); done
+```
+
+You can upgrade all installed packages on your system with the following command.  For me, this broke msys32 and I had to reinstall msys32 and all the dependencies.  Your experience may be different.
+
+```
+$ pacman -Syu
 ```
 
 #### Download exiv2 from github and build
