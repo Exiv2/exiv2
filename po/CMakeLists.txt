@@ -21,9 +21,6 @@ set(PO_FILES bs.po
 update_translations(exiv2 ${PO_FILES})
 add_translations(exiv2 ${PO_FILES})
 
-set( PACKAGE_BUGREPORT      "http://github.com/exiv2/exiv2" )
-set( PACKAGE_URL            "http://www.exiv2.org" )
-
 ##
 # execute xgettext on every file
 add_custom_target( pot-update
