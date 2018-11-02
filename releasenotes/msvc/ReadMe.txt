@@ -4,11 +4,11 @@ Visual Studio 2017 Release DLL Bundle
 Structure of the bundle:
 ------------------------
 
-bin/exiv2                                 exiv2 and sample applications
+bin/exiv2.exe                             exiv2 and sample applications
 bin/exiv2.dll                             dll
 lib/exiv2.lib & xmp.lib                   link libraries
 include/exiv2/                            include files
-share/                                    man pages
+share/exiv2/cmake                         consume CMake files
 samples/exifprint.cpp                     sample code
 
 ReadMe.txt                                This file
@@ -32,11 +32,12 @@ c:\> cd <bundle>\bin
 
 To compile and link your own code:
 
-+----------------------------------------------------------------------------+
-| Caution: You must use the same version of Visual Studio as the build       |
-|          You will need to use the "Visual Studio Command Prompt"           |
-|          or initialise the DOS environment by calling vcvarsall.bat        |
-+----------------------------------------------------------------------------+
++-------------------------------------------------------------------------------+
+| Caution: You must use the same version of Visual Studio as the build          |
+|          You will need to use the "Visual Studio Command Prompt"              |
+|          or initialise the DOS environment by calling vcvarsall.bat           |
+| C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64>vcvars64.bat |
++-------------------------------------------------------------------------------+
 
 c:\> cd <bundle>
 <bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib

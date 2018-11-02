@@ -29,7 +29,7 @@ $ env LD_LIBRARY_PATH="$PWD/lib:$LD_LIBRARY_PATH" ./exifprint
 
 To install for use by all users
 -------------------------------
-$ for i in bin include lib ; do sudo mkdir -p /usr/local/$i ; sudo cp -R $i/* /usr/local/$i ; done
+$ for i in bin include lib share ; do sudo mkdir -p /usr/local/$i ; sudo cp -R $i/* /usr/local/$i ; done
 
 To compile and link your own code using installed library and include files
 ---------------------------------------------------------------------------
