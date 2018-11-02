@@ -3,6 +3,7 @@ cmake_minimum_required( VERSION 3.3.2 )
 project(exiv2
     VERSION 0.27.0.1
     LANGUAGES CXX C
+    DESCRIPTION "Exif and IPTC metadata library and tools"
 )
 
 include(cmake/mainSetup.cmake  REQUIRED)
