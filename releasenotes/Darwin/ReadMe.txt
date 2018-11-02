@@ -44,7 +44,7 @@ $
 
 Method 2: Use pkg-config to set include and linking options
 $ cd <bundle>
-$ export PKG_CONFIG_PATH="/usr/local/share:$PKG_CONFIG_PATH"
+$ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ g++ -std=c++98 samples/exifprint.cpp -o exifprint $(pkg-config exiv2 --libs --cflags)
 $ ./exifprint
