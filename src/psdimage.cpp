@@ -33,6 +33,7 @@
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "safe_op.hpp"
 
 // + standard includes
 #include <string>
@@ -228,7 +229,8 @@ namespace Exiv2 {
             readResourceBlock(resourceId, resourceSize);
             resourceSize = (resourceSize + 1) & ~1;        // pad to even
             io_->seek(curOffset + resourceSize, BasicIo::beg);
-            resourcesLength -= (12 + resourceNameLength + resourceSize);
+            resourcesLength -= Safe::add(Safe::add(static_cast<uint32_t>(12), resourceNameLength),
+                                         resourceSize);
         }
 
     } // PsdImage::readMetadata
