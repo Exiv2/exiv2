@@ -105,8 +105,13 @@ namespace Util {
 
         for (;;) {
             int c = Util::getopt(argc, argv, optstring.c_str());
-            if (c == -1) break;
+            if (c == -1) {
+                break;
+            }
             errcnt_ += option(c, Util::optarg == 0 ? "" : Util::optarg, Util::optopt);
+            if (c == '?' ) {
+                break;
+            }
         }
         for (int i = Util::optind; i < argc; i++) {
             errcnt_ += nonoption(argv[i]);
