@@ -344,8 +344,11 @@ namespace Exiv2 {
 
         do {
             // Read top of directory
-            io.seek(start,BasicIo::beg);
-            io.read(dir.pData_, 2);
+            const int seekSuccess = !io.seek(start,BasicIo::beg);
+            const long bytesRead = io.read(dir.pData_, 2);
+            if (!seekSuccess || bytesRead == 0) {
+                throw Error(kerCorruptedMetadata);
+            }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
             bool tooBig = dirLength > 500;
