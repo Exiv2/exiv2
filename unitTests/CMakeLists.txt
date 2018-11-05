@@ -41,3 +41,7 @@ target_compile_definitions(unit_tests
 set_target_properties( unit_tests PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
+
+if (USING_CONAN)
+    target_compile_definitions(unit_tests PRIVATE ${CONAN_COMPILE_DEFINITIONS_GTEST})
+endif()
