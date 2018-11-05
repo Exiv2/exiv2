@@ -3,7 +3,6 @@ cmake_minimum_required( VERSION 3.3.2 )
 project(exiv2
     VERSION 0.27.0.1
     LANGUAGES CXX C
-    DESCRIPTION "Exif and IPTC metadata library and tools"
 )
 
 include(cmake/mainSetup.cmake  REQUIRED)
@@ -49,6 +48,7 @@ option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage s
 
 set( PACKAGE_BUGREPORT                "http://github.com/exiv2/exiv2" )
 set( PACKAGE_URL                      "http://exiv2.dyndns.org")
+set( PROJECT_DESCRIPTION              "Exif and IPTC metadata library and tools")
 
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
     set(EXIV2_ENABLE_XMP OFF)
