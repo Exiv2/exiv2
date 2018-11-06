@@ -340,7 +340,7 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    FujiMnHeader::FujiMnHeader()
+    FujiMnHeader::FujiMnHeader() : start_(0)
     {
         read(signature_, sizeOfSignature(), byteOrder_);
     }
@@ -402,7 +402,7 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    Nikon2MnHeader::Nikon2MnHeader()
+    Nikon2MnHeader::Nikon2MnHeader() : start_(0)
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
@@ -525,7 +525,7 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    PanasonicMnHeader::PanasonicMnHeader()
+    PanasonicMnHeader::PanasonicMnHeader(): start_(0)
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
@@ -707,7 +707,7 @@ namespace Exiv2 {
         return sizeof(signature1_);
     }
 
-    SigmaMnHeader::SigmaMnHeader()
+    SigmaMnHeader::SigmaMnHeader(): start_(0)
     {
         read(signature1_, sizeOfSignature(), invalidByteOrder);
     }
@@ -755,7 +755,7 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    SonyMnHeader::SonyMnHeader()
+    SonyMnHeader::SonyMnHeader(): start_(0)
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
@@ -803,7 +803,7 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    Casio2MnHeader::Casio2MnHeader()
+    Casio2MnHeader::Casio2MnHeader(): start_(0)
     {
         read(signature_, sizeOfSignature(), invalidByteOrder );
     }
