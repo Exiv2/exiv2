@@ -90,7 +90,7 @@ namespace Exiv2 {
         {
         public:
             //! constructor (acquires the lock)
-            RWLock(const pthread_rwlockattr_t *attr = 0)
+            explicit RWLock(const pthread_rwlockattr_t *attr = 0)
             {
                 pthread_rwlock_init(&rwlock_, attr);
             }
@@ -151,7 +151,7 @@ namespace Exiv2 {
         {
         public:
             //! constructor - locks the object
-            ScopedReadLock(RWLock &rwlock):
+            explicit ScopedReadLock(RWLock &rwlock):
                 rwlock_(rwlock)
             {
                 rwlock_.rdlock();
@@ -173,7 +173,7 @@ namespace Exiv2 {
         {
         public:
             //! constructor - locks the object
-            ScopedWriteLock(RWLock &rwlock):
+            explicit ScopedWriteLock(RWLock &rwlock):
                 rwlock_(rwlock)
             {
                 rwlock_.wrlock();

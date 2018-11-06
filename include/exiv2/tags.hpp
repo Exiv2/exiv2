@@ -73,7 +73,7 @@ namespace Exiv2 {
 
     //! Search key to find a GroupInfo by its group name.
     struct GroupInfo::GroupName {
-        GroupName(const std::string& groupName); //!< Constructor
+        explicit GroupName(const std::string& groupName);
         std::string g_;                          //!< Group name
     };
 
@@ -176,7 +176,8 @@ namespace Exiv2 {
           @throw Error if the key cannot be constructed from the tag number
                  and group name.
          */
-        ExifKey(const TagInfo& ti);
+        explicit ExifKey(const TagInfo& ti);
+
         //! Copy constructor
         ExifKey(const ExifKey& rhs);
         //! Destructor

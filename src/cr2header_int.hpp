@@ -45,7 +45,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        Cr2Header(ByteOrder byteOrder =littleEndian);
+        explicit Cr2Header(ByteOrder byteOrder =littleEndian);
         //! Destructor.
         ~Cr2Header();
         //@}

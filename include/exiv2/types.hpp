@@ -195,7 +195,7 @@ namespace Exiv2 {
      */
     struct EXIV2API DataBufRef {
         //! Constructor
-        DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
+        explicit DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
         //! Pointer to a byte array and its size
         std::pair<byte*, long> p;
     };

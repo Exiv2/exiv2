@@ -49,7 +49,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        OrfHeader(ByteOrder byteOrder =littleEndian);
+        explicit OrfHeader(ByteOrder byteOrder =littleEndian);
         //! Destructor.
         ~OrfHeader();
         //@}
