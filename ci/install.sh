@@ -31,7 +31,7 @@ fi
 
 python --version
 pip install urllib3[secure] -U #Should solve SSL issues
-pip install conan==1.6.1
+pip install conan==1.9.0
 pip install codecov
 conan --version
 conan config set storage.path=~/conanData
