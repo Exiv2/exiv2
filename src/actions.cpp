@@ -1670,6 +1670,7 @@ namespace Action {
         }
         int rc = adjustDateTime(exifData, "Exif.Image.DateTime", path);
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeOriginal", path);
+        rc += adjustDateTime(exifData, "Exif.Image.DateTimeOriginal", path);
         rc += adjustDateTime(exifData, "Exif.Photo.DateTimeDigitized", path);
 
         if (rc == 0 ) {
