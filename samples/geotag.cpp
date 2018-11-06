@@ -282,7 +282,7 @@ time_t Position::deltaMax_ = 60 ;
 class UserData
 {
 public:
-    UserData(Options& options):
+    explicit UserData(Options& options):
         indent(0)
       , count(0)
       , nTrkpt(0)

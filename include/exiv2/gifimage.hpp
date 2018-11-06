@@ -78,7 +78,7 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        GifImage(BasicIo::AutoPtr io);
+        explicit GifImage(BasicIo::AutoPtr io);
         //@}
 
         //! @name Manipulators

@@ -79,7 +79,7 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        TgaImage(BasicIo::AutoPtr io);
+        explicit TgaImage(BasicIo::AutoPtr io);
         //@}
 
         //! @name Manipulators

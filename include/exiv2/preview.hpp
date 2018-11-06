@@ -174,7 +174,7 @@ namespace Exiv2 {
         //! @name Constructors
         //@{
         //! Constructor.
-        PreviewManager(const Image& image);
+        explicit PreviewManager(const Image& image);
         //@}
 
         //! @name Accessors

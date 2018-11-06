@@ -236,7 +236,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor.
-        ExifThumbC(const ExifData& exifData);
+        explicit ExifThumbC(const ExifData& exifData);
         //@}
 
         //! @name Accessors
@@ -305,7 +305,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor.
-        ExifThumb(ExifData& exifData);
+        explicit ExifThumb(ExifData& exifData);
         //@}
 
         //! @name Manipulators

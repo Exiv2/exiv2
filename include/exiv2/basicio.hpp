@@ -270,7 +270,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, takes a BasicIo reference
-        IoCloser(BasicIo& bio) : bio_(bio) {}
+        explicit IoCloser(BasicIo& bio) : bio_(bio) {}
         //! Destructor, closes the BasicIo reference
         virtual ~IoCloser() { close(); }
         //@}
@@ -307,7 +307,7 @@ namespace Exiv2 {
               therefore never failes.
           @param path The full path of a file
          */
-        FileIo(const std::string& path);
+        explicit FileIo(const std::string& path);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like FileIo(const std::string& path) but accepts a
@@ -778,7 +778,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor that reads data from stdin/data uri path and writes them to the temp file.
-        XPathIo(const std::string& orgPath);
+        explicit XPathIo(const std::string& orgPath);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like XPathIo(const std::string& orgPath) but accepts a

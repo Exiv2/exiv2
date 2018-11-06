@@ -69,7 +69,7 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        Rw2Image(BasicIo::AutoPtr io);
+        explicit Rw2Image(BasicIo::AutoPtr io);
         //@}
 
         //! @name Manipulators
