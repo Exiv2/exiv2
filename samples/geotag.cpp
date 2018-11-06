@@ -656,12 +656,14 @@ int readFile(const char* path,Options /* options */)
     FILE* f     = fopen(path,"r");
     int nResult = f ? typeFile : typeUnknown;
     if (  f ) {
-        const char* docs[] = { ".doc",".txt", NULL };
-        const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", NULL };
         const char*  ext   = strstr(path,".");
         if  ( ext ) {
-            if ( sina(ext,docs) ) nResult = typeDoc;
-            if ( sina(ext,code) ) nResult = typeCode;
+            const char* docs[] = { ".doc",".txt", NULL };
+            const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", NULL };
+            if ( sina(ext,docs) )
+                nResult = typeDoc;
+            if ( sina(ext,code) )
+                nResult = typeCode;
         }
     }
     if ( f ) fclose(f) ;

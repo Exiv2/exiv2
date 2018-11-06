@@ -1124,14 +1124,12 @@ namespace Exiv2 {
 
         if (value.count() == 2) {
             long l1 = value.toLong(1);
-            long type;
-            long range;
             os << " (";
             if (l1 == 0) {
                 os << _("No extended bracketing");
             } else {
-                type = l1 >> 8;
-                range = l1 & 0xff;
+                long type = l1 >> 8;
+                long range = l1 & 0xff;
                 switch (type) {
                     case 1:
                         os << _("WB-BA");
@@ -1221,16 +1219,18 @@ namespace Exiv2 {
                                                  const ExifData* metadata)
     {
         try {
-            unsigned long lensID    = 0x32c;
             unsigned long index     = 0;
 
             long        focalLength = getKeyLong  ("Exif.Photo.FocalLength",metadata);
             bool        bFL10_20    = 10 <= focalLength && focalLength <= 20;
 
             // std::cout << "model,focalLength = " << model << "," << focalLength << std::endl;
-            if ( bFL10_20 ) index = 1;
+            if ( bFL10_20 ) {
+                index = 1;
+            }
 
             if ( index > 0 )  {
+                const unsigned long lensID    = 0x32c;
                 const TagDetails* td = find(pentaxLensType, lensID);
                 os << exvGettext(td[index].label_);
                 return os;
@@ -1247,7 +1247,6 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------
     {
         try {
-            unsigned long lensID = 0x3ff;
             unsigned long index  = 0;
 
             // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
@@ -1291,6 +1290,7 @@ namespace Exiv2 {
             }
 
             if ( index > 0 )  {
+                const unsigned long lensID = 0x3ff;
                 const TagDetails* td = find(pentaxLensType, lensID);
                 os << exvGettext(td[index].label_);
                 return os;
@@ -1306,7 +1306,6 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------
     {
         try {
-            unsigned long lensID = 0x8ff;
             unsigned long index  = 0;
 
             const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
@@ -1319,6 +1318,7 @@ namespace Exiv2 {
             }
 
             if ( index > 0 )  {
+                const unsigned long lensID = 0x8ff;
                 const TagDetails* td = find(pentaxLensType, lensID);
                 os << exvGettext(td[index].label_);
                 return os;
@@ -1334,7 +1334,6 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------
     {
         try {
-            unsigned long lensID = 0x319;
             unsigned long index  = 0;
 
             const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
@@ -1355,6 +1354,7 @@ namespace Exiv2 {
             }
 
             if ( index > 0 )  {
+                const unsigned long lensID = 0x319;
                 const TagDetails* td = find(pentaxLensType, lensID);
                 os << exvGettext(td[index].label_);
                 return os;
