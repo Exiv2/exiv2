@@ -1092,6 +1092,80 @@ namespace Exiv2 {
     {
     }
 
+    /*!
+      @brief Utility class provides the block mapping to the part of data. This avoids allocating
+            a single contiguous block of memory to the big data.
+     */
+    class EXIV2API BlockMap {
+    public:
+        //! the status of the block.
+        enum    blockType_e {bNone, bKnown, bMemory};
+        //! @name Creators
+        //@{
+        //! Default constructor. the init status of the block is bNone.
+        BlockMap() : type_(bNone), data_(NULL), size_(0)
+        {
+        }
+
+        //! Destructor. Releases all managed memory.
+        ~BlockMap()
+        {
+            if (data_) {
+                std::free(data_);
+                data_ = NULL;
+            }
+        }
+
+        //! @brief Populate the block.
+        //! @param source The data populate to the block
+        //! @param num The size of data
+        void    populate (byte* source, size_t num)
+        {
+            size_ = num;
+            data_ = (byte*)std::malloc(size_);
+            type_ = bMemory;
+            std::memcpy(data_, source, size_);
+        }
+
+        /*!
+          @brief Change the status to bKnow. bKnow blocks do not contain the data,
+                but they keep the size of data. This avoids allocating memory for parts
+                of the file that contain image-date (non-metadata/pixel data) which never change in exiv2.
+          @param num The size of the data
+         */
+        void    markKnown(size_t num)
+        {
+            type_ = bKnown;
+            size_ = num;
+        }
+
+        bool    isNone() const
+        {
+            return type_ == bNone;
+        }
+        bool    isInMem () const
+        {
+            return type_ == bMemory;
+        }
+        bool    isKnown () const
+        {
+            return type_ == bKnown;
+        }
+        byte*   getData () const
+        {
+            return data_;
+        }
+        size_t  getSize () const
+        {
+            return size_;
+        }
+
+    private:
+        blockType_e type_;
+        byte*       data_;
+        size_t      size_;
+    }; // class BlockMap
+
     void MemIo::Impl::reserve(long wcount)
     {
         const long need = wcount + idx_;
@@ -2630,9 +2704,11 @@ namespace Exiv2 {
         }
         return subject;
     }
+
+
 #ifdef EXV_UNICODE_PATH
     std::wstring ReplaceStringInPlace(std::wstring subject, const std::wstring& search,
-                          const std::wstring& replace) {
+                                      const std::wstring& replace) {
         std::wstring::size_type pos = 0;
         while((pos = subject.find(search, pos)) != std::wstring::npos) {
              subject.replace(pos, search.length(), replace);

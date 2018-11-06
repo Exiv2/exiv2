@@ -827,60 +827,6 @@ namespace Exiv2 {
     }; // class XPathIo
 #endif
 
-    /*!
-      @brief Utility class provides the block mapping to the part of data. This avoids allocating
-            a single contiguous block of memory to the big data.
-     */
-    class EXIV2API BlockMap {
-    public:
-        //! the status of the block.
-        enum    blockType_e {bNone, bKnown, bMemory};
-        //! @name Creators
-        //@{
-        //! Default constructor. the init status of the block is bNone.
-        BlockMap():type_(bNone), data_(NULL),size_(0) {}
-        //! Destructor. Releases all managed memory.
-        virtual ~BlockMap() {
-            if (data_) {std::free(data_); data_ = NULL;}
-        }
-        //@}
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Populate the block.
-          @param source The data populate to the block
-          @param num The size of data
-         */
-        void    populate (byte* source, size_t num) {
-            size_ = num;
-            data_ = (byte*) std::malloc(size_);
-            type_ = bMemory;
-            std::memcpy(data_, source, size_);
-        }
-        /*!
-          @brief Change the status to bKnow. bKnow blocks do not contain the data,
-                but they keep the size of data. This avoids allocating memory for parts
-                of the file that contain image-date (non-metadata/pixel data) which never change in exiv2.
-          @param num The size of the data
-         */
-        void    markKnown(size_t num) {
-            type_ = bKnown;
-            size_ = num;
-        }
-        //@}
-        //! @name Accessors
-        //@{
-        bool    isNone()  {return type_ == bNone;}
-        bool    isInMem ()  {return type_ == bMemory;}
-        bool    isKnown ()  {return type_ == bKnown;}
-        byte*   getData ()  {return data_;}
-        size_t  getSize ()  {return size_;}
-        //@}
-    private:
-        blockType_e type_;
-        byte*       data_;
-        size_t      size_;
-    }; // class BlockMap
 
     /*!
         @brief Provides remote binary file IO by implementing the BasicIo interface. This is an
