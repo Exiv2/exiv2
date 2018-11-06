@@ -70,7 +70,7 @@ namespace Exiv2 {
      * @throws nothing
      */
     template <typename T>
-    std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) throw()
+    std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr)
     {
         for (size_t i = 0; i < binToStr.buf_.size(); ++i) {
             int c = static_cast<int>(binToStr.buf_.at(i));
