@@ -264,7 +264,7 @@ namespace Exiv2 {
           See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
          */
         //@{
-        DataBuf(DataBufRef rhs);
+        DataBuf(const DataBufRef& rhs);
         DataBuf& operator=(DataBufRef rhs);
         operator DataBufRef();
         //@}

@@ -192,7 +192,7 @@ namespace Exiv2 {
         size_ = p.second;
     }
 
-    DataBuf::DataBuf(DataBufRef rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
+    DataBuf::DataBuf(const DataBufRef &rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
 
     DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
 
