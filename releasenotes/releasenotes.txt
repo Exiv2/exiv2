@@ -35,7 +35,9 @@ High Priory Issues
 ------------------
 
 1 Do not build with GCC 8.2  (7.3 is OK) https://github.com/Exiv2/exiv2/issues/421
-2 Do not build with Xcode 10 (9.4 is OK) https://bugreport.apple.com/web/?problemID=45223696
+2 Do not build with Xcode 10.0 https://bugreport.apple.com/web/?problemID=45223696
+Xcode 9.4 and earlier OK       https://github.com/Exiv2/exiv2/issues/465
+Xcode 10.1 is OK               https://github.com/Exiv2/exiv2/issues/528
 
 Known Issues on Redmine for v0.27
 ---------------------------------
