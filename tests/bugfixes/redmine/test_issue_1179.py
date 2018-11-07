@@ -133,7 +133,7 @@ Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 Exif.Fujifilm.Sharpness                      Short       1  Normal
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  None (black & white)
+Exif.Fujifilm.Color                          Short       1  Monochrome
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
@@ -153,7 +153,7 @@ Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 Exif.Fujifilm.Sharpness                      Short       1  Normal
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  (770)
+Exif.Fujifilm.Color                          Short       1  Monochrome + Ye Filter
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
@@ -173,7 +173,7 @@ Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 Exif.Fujifilm.Sharpness                      Short       1  Normal
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  (769)
+Exif.Fujifilm.Color                          Short       1  Monochrome + R Filter
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
@@ -193,7 +193,7 @@ Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 Exif.Fujifilm.Sharpness                      Short       1  Normal
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  (771)
+Exif.Fujifilm.Color                          Short       1  Monochrome + G Filter
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
@@ -213,7 +213,7 @@ Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 Exif.Fujifilm.Sharpness                      Short       1  Normal
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  (784)
+Exif.Fujifilm.Color                          Short       1  Sepia
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
