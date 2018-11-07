@@ -92,7 +92,7 @@ namespace Exiv2 {
         {
         }
 
-        friend std::ostream& operator<<<T>(std::ostream& stream, const binaryToStringHelper<T>& binToStr) throw();
+        friend std::ostream& operator<<<T>(std::ostream& stream, const binaryToStringHelper<T>& binToStr);
 
         // the Slice is stored by value to avoid dangling references, in case we
         // invoke:
