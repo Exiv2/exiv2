@@ -75,11 +75,15 @@ namespace Exiv2 {
 
     //! Color, tag 0x1003
     extern const TagDetails fujiColor[] = {
-        {   0, N_("Normal")               },
-        { 256, N_("High")                 },
-        { 512, N_("Low")                  },
-        { 768, N_("None (black & white)") },
-        { 768, N_("None (black & white)") }     // To silence compiler warning
+        {   0, N_("Normal")                 },
+        { 256, N_("High")                   },
+        { 512, N_("Low")                    },
+        { 768, N_("Monochrome")             },
+        { 769, N_("Monochrome + R Filter")  },
+        { 770, N_("Monochrome + Ye Filter") },
+        { 771, N_("Monochrome + G Filter")  },
+        { 784, N_("Sepia")                  },
+        { 768, N_("Monochrome")             } // To silence compiler warning
     };
 
     //! Tone, tag 0x1004
