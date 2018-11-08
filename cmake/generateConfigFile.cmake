@@ -44,8 +44,6 @@ if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
 check_include_file( "regex.h"       EXV_HAVE_REGEX_H )
 endif()
 
-if (NOT EXV_HAVE_LIBINTL_H)
-    set(EXV_ENABLE_NLS 0)
-endif()
+set(EXV_ENABLE_NLS ${EXV_HAVE_LIBINTL_H})
 
 configure_file(cmake/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)
