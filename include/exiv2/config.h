@@ -31,14 +31,9 @@
 #define HAVE_NTOHLL 1
 #endif
 
-/* Disable warning 4251 from std templates about exporting interfaces */
-#ifdef  EXV_HAVE_DLL
-#pragma warning( disable : 4251 )
-#endif
-
-/* Disable warnings about 'deprecated' standard functions */
 #if _MSC_VER >= _MSC_VER_2005
-# pragma warning(disable : 4996)
+#pragma warning(disable : 4996) // Disable warnings about 'deprecated' standard functions
+#pragma warning(disable : 4251) // Disable warnings from std templates about exporting interfaces
 #endif
 
 /* On Microsoft compilers pid_t has to be set to int. */
