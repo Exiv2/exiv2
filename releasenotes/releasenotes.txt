@@ -1,12 +1,15 @@
-Exiv2 v0.27 RC1 (exiv2 v0.27.0.1)
----------------------------------
+Exiv2 v0.27.0.2   (Exiv2 v0.27 RC2)
+-----------------------------------
 
-GM  will be v0.27.0.0 Scheduled: December 2018
-RC2 will be v0.27.0.2 Scheduled: November 2018
+We are  (issues) 97% complete.     90/95 on GitHub and 70/70 on Redmine
+We have consumed 92% of schedule.  Project 2017-05-10 .. 2018-12-31 (87 weeks)
+
+Exiv2 v0.27 RC3 expected 15 December 2018
+Exiv2 v0.27 GM  expected 31 December 2018
 
 I have to thank Dan and Luis for their huge contribution to make this release.
 
-I'd also like to thank Ben, Freddy, Henri, Michal, Phil, Shridar and Thomas for their contributions.
+I'd also like to thank Ben, Freddy, Gilles, Henri, Michal, Phil, Shridar and Thomas for their contributions.
 If I've forgotten you, please let me know so I can add your name to this acknowledgement.
 
 The headline features are:
@@ -17,7 +20,7 @@ The headline features are:
  4) Conan Support to build dependencies
  5) Adobe XMPsdk 2016 support
  6) New python based test suite
- 7) AppVeyor, Travis, CodeCov and GitLibs monitor submissions
+ 7) AppVeyor, Travis, CodeCov and GitLabs monitor submissions
  8) Support for MinGW/msys2
  9) Jenkins buildserver operates from GitHub
 10) Use of exiv2.org (and Redmine) will be discontinued.
@@ -28,36 +31,42 @@ Focus of Exiv2 v0.28
 --------------------
 
 Exiv2 moves into the future with Exiv2 v0.28.
-The code will be "modernised to C++11 and later".
-Users of Elderly compilers such as GCC4 and Visual Studio (<2015) will be supported with 'dot' releases.
+The code will be modernised to C++11.
+
+Users C++98 compilers such as Visual Studio (<2015) will be supported
+with quarterly Exiv2 v0.27 'dot' (security) releases during 2019 and 2020.
 
 High Priory Issues
 ------------------
 
-1 Do not build with GCC 8.2  (7.3 is OK) https://github.com/Exiv2/exiv2/issues/421
+1 Do not build with GCC 8.2 (7.3 is OK) https://github.com/Exiv2/exiv2/issues/421
 2 Do not build with Xcode 10.0 https://bugreport.apple.com/web/?problemID=45223696
-Xcode 9.4 and earlier OK       https://github.com/Exiv2/exiv2/issues/465
-Xcode 10.1 is OK               https://github.com/Exiv2/exiv2/issues/528
+  Xcode 9.4 and earlier OK     https://github.com/Exiv2/exiv2/issues/465
+  Xcode 10.1 is OK             https://github.com/Exiv2/exiv2/issues/528
+
+Fixes since RC1
+---------------
+#528 Xcode 10.1 builds samples/taglist.cpp
+#527 Localization Support
+#521 Delete XMP XmpBag and XmpSeq
+#512 Restore exiv2.pc pkg-config file
+#510 getopt() looping on bad input
+#507 DLL name restored to cygexiv2-27.dll
+#505 Incorrect packaging
+#499 Support for FreeBSD
 
 Known Issues on Redmine for v0.27
 ---------------------------------
 
-The following issues on Redmine are unresolved and require additional work.
-With the exception of #1270, work-arounds have been provided for most of those issues.
+GitHub
+https://github.com/Exiv2/exiv2/milestone/1
 
-59 issues have been closed
+Redmine:
+70 issues have been closed
 http://dev.exiv2.org/projects/exiv2/issues
 
-Open: (9)
-	0001347	Segfault in Digikam when saving/loading certain TIFF images
-	0001346	Assertion failure in Exiv2::Internal::CiffComponent::doRead() in libexiv2
-	0001345	Assertion Failure (SIGABRT) in Exiv2:RafImage::readMetadata() in Libexiv2
-	0001341	Date/Time Original not modified for NEFs
-	0001340	Infinite loop bugs in Libexiv2 Exiv2::Image::printIFDStructure()
-	0001324	Pentax Makernote written twice
-	0001306	the lens TAMRON SP 15-30mm F/2.8 Di VC USD A012 is not properly recognised
-	0001304	Lens missing Tamron SP 90mm f/2.8 Di Macro 1:1 VC USD F017
-	0001270	Using libexiv2.a/.lib  in multhreaded app segfaults.
+Basicio: (1)
+	0001374	excessively often calls stat()
 
 Build: (7)
 	0001362	Fix Clang build
@@ -92,7 +101,8 @@ Image format: (5)
 Insufficient information: (1)
 	0001347	Segfault in Digikam when saving/loading certain TIFF images
 
-Lens: (19)
+Lens: (20)
+	0001373	Tamron SP 24-70mm F/2.8 Di VC USD not recognized properly
 	0001372	The lens "Tamron AF 18-200mm F3.5-6.3 XR Di II"  is wrongly identified.
 	0001370	Add entry for new(ish) lens - Tamron 10-24mm F/3.5-4.5 Di II VC HLD (B023)
 	0001366	Feature Request Sigma 85mm f/1.4 DG Art Series
@@ -113,6 +123,10 @@ Lens: (19)
 	0001306	the lens TAMRON SP 15-30mm F/2.8 Di VC USD A012 is not properly recognised
 	0001304	Lens missing Tamron SP 90mm f/2.8 Di Macro 1:1 VC USD F017
 
+Makernote: (2)
+	0001343	Irix 15mm f/2.4 on Nikon
+	0001324	Pentax Makernote written twice
+
 Metadata: (7)
 	0001341	Date/Time Original not modified for NEFs
 	0001340	Infinite loop bugs in Libexiv2 Exiv2::Image::printIFDStructure()
@@ -126,10 +140,6 @@ Miscellaneous: (2)
 	0001314	it is a stack-overflow vulnerability in Exiv2::Internal::stringFormat[abi:cxx11] ( in image.cpp:975 )
 	0001305	Segmentation fault on certain image
 
-Makernote: (2)
-	0001343	Irix 15mm f/2.4 on Nikon
-	0001324	Pentax Makernote written twice
-
 Not-a-bug: (8)
 	0001369	New lens Yongnuo 50mm f/1.8 II for Canon
 	0001368	Canon EF-M 15-45 broken LensType
@@ -140,13 +150,13 @@ Not-a-bug: (8)
 	0001344	Unknown metadata
 	0001331	exiv2 fails to delete bulk of metadata in jpeg
 
-Tools: (1)
-	0001303	#1 Use 'releases' feature on GitHub
-
 Tiff parser: (3)
 	0001360	exiv2 can't read metadata from tiff file (tiff directory length is too large)
 	0001359	This does not look like a TIFF image
 	0001330	Crash in Exiv2::TiffImage::readMetadata
+
+Tools: (1)
+	0001303	#1 Use 'releases' feature on GitHub
 
 Website: (2)
 	0001308	Move directory <exiv2dir>/website to svn://dev.exiv2.org/svn/team/website
@@ -157,17 +167,6 @@ Xmp: (3)
 	0001278	XMP SDK Split
 	0000941	Upgrade xmpsdk source to Adobe's current version
 
-
-Known Issues on GitHub for v0.27
----------------------------------
-
-To be written.
-
-Closed Issues on GitHub for v0.27
----------------------------------
-
-To be written.
-
 Robin Mills
 robin@clanmills.com
-2018-10-20
+2018-11-08
