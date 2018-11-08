@@ -1,3 +1,113 @@
+Changes from version 0.26 to 0.27
+---------------------------------
+
+GitHub Changes: https://github.com/Exiv2/exiv2/milestone/1
+
+Remine Changes
+
+Build: (7)
+	0001362	Fix Clang build
+	0001358	Unsuccessful build (Win7, MSVC2015, amd64_x86)
+	0001356	Small patch to configure.py
+	0001329	Error during cmake with gcc version parsing
+	0001299	exiv2-0.26-trunk.tar.gz changed on download server
+	0001270	Using libexiv2.a/.lib  in multhreaded app segfaults.
+	0001237	Report CMake/MinGW issues to Kitware
+
+Basicio: (1)
+	0001374	excessively often calls stat()
+
+Camera: (1)
+	0001352	Support camera Canon M100
+
+Duplicate: (1)
+	0001307	exiv2: tiffvisitor.cpp:1299: virtual void Exiv2::Internal::TiffReader::visitDirectory(Exiv2::Internal::TiffDirectory*): Assertion `tc.get()' failed.
+
+Exif: (6)
+	0001320	It is a heap-buffer-overflow in Exiv2::Jp2Image::readMetadata (jp2image.cpp:277)
+	0001319	It is a heap-buffer-overflow in Exiv2::us2Data (types.cpp:346)
+	0001318	Invalid memory address dereference in Exiv2::StringValueBase::read ( in value.cpp:302)
+	0001317	It is a heap-buffer-overflow in Exiv2::s2Data (types.cpp:383)
+	0001316	It is a heap-buffer-overflow in Exiv2::l2Data (types.cpp:398)
+	0001315	Invalid memory address dereference in Exiv2::DataValue::read (value.cpp:193)
+
+Image format: (5)
+	0001353	Segmentation fault in the software exiv2 when the function Exiv2::tEXtToDataBuf() is finished
+	0001346	Assertion failure in Exiv2::Internal::CiffComponent::doRead() in libexiv2
+	0001345	Assertion Failure (SIGABRT) in Exiv2:RafImage::readMetadata() in Libexiv2
+	0001338	Exiv2 aborted (crashed) with "Error in `exiv2': free(): invalid next size (fast)"
+	0001334	Version 0.26 is returns unwanted data when the key value is received from RW2 files (Panasonic DMC-GF6 camera)
+
+Insufficient information: (1)
+	0001347	Segfault in Digikam when saving/loading certain TIFF images
+
+Lens: (20)
+	0001373	Tamron SP 24-70mm F/2.8 Di VC USD not recognized properly
+	0001372	The lens "Tamron AF 18-200mm F3.5-6.3 XR Di II"  is wrongly identified.
+	0001370	Add entry for new(ish) lens - Tamron 10-24mm F/3.5-4.5 Di II VC HLD (B023)
+	0001366	Feature Request Sigma 85mm f/1.4 DG Art Series
+	0001365	Feature Request fr Sigma 135mm f/1.8 DG Art Series
+	0001361	Wrongly identified Canon 2x extender as 1.4x extender with Tamron lens
+	0001355	New lens Tamron 100-400mm F/4.5-6.3 Di VC USD
+	0001351	Add lens: Sigma 120-300mm f/2.8 G VR
+	0001348	patch: add Tamron SP AF 150-600mm F/5-6.3 VC USD G2 (A022) for Nikon
+	0001339	Panasonic DMC-TZ70 lens not detected
+	0001336	Support for AF-P DX NIKKOR 10-20mm f/4.5-5.6G VR
+	0001335	Missing Nikon lense
+	0001333	New Lens: Tamron SP 24-70mm F/2.8 Di VC USD G2 (A032)
+	0001332	Recognise Tamron 18-200mm F/3.5-6.3 DiII VC B018 on Canon bodies
+	0001328	Sigma 18-300mm is wrongly reported as a Canon 75-300mm
+	0001327	Two Sigma 24-70mm f/2.8 IF EX DG HSM lens definitions ??
+	0001326	Tamron 100-300mm f/5-6.3 MACRO 1:4
+	0001323	Add lens "Sigma 18-300mm f/3.5-6.3 DC Macro OS HS" for Canon ID 197
+	0001306	the lens TAMRON SP 15-30mm F/2.8 Di VC USD A012 is not properly recognised
+	0001304	Lens missing Tamron SP 90mm f/2.8 Di Macro 1:1 VC USD F017
+
+Miscellaneous: (2)
+	0001314	it is a stack-overflow vulnerability in Exiv2::Internal::stringFormat[abi:cxx11] ( in image.cpp:975 )
+	0001305	Segmentation fault on certain image
+
+Makernote: (2)
+	0001343	Irix 15mm f/2.4 on Nikon
+	0001324	Pentax Makernote written twice
+
+Metadata: (7)
+	0001341	Date/Time Original not modified for NEFs
+	0001340	Infinite loop bugs in Libexiv2 Exiv2::Image::printIFDStructure()
+	0001325	Crash in exiv2  - Nikon1MakerNote::printBarValue (nikonnm.cpp)
+	0001322	Exception in PentaxMakerNote::printShutterCount, source: pentaxmn.cpp
+	0001321	Invalid memory address dereference in Exiv2::getULong(types.cpp:246)
+	0001301	New lens: Sigma 18-35mm f/1.8 DC HSM Art for Canon
+	0001300	New lens: Canon EF-S 35mm f/2.8 Macro IS STM
+
+Not-a-bug: (8)
+	0001369	New lens Yongnuo 50mm f/1.8 II for Canon
+	0001368	Canon EF-M 15-45 broken LensType
+	0001367	New Lens Sigma 100-400 mm, F5-6.3 DG for Nikon
+	0001364	New lens Tamron SP 24-70mm F/2.8 Di VC USD G2
+	0001350	Add lens: AF-S DX Nikkor 18-140mm
+	0001349	Add lens: Sigma 50-100mm F1.8 DC HSM | A
+	0001344	Unknown metadata
+	0001331	exiv2 fails to delete bulk of metadata in jpeg
+
+Tools: (1)
+	0001303	#1 Use 'releases' feature on GitHub
+
+Tiff parser: (3)
+	0001360	exiv2 can't read metadata from tiff file (tiff directory length is too large)
+	0001359	This does not look like a TIFF image
+	0001330	Crash in Exiv2::TiffImage::readMetadata
+
+Website: (2)
+	0001308	Move directory <exiv2dir>/website to svn://dev.exiv2.org/svn/team/website
+	0001302	Use sha256 Checksums on Downloads and Archive pages of the web site.
+
+Xmp: (3)
+	0001354	Inconsistency with long XMP namespaces (e.g. 'Iptc4xmpExt')
+	0001278	XMP SDK Split
+	0000941	Upgrade xmpsdk source to Adobe's current version
+
+
 Changes from version 0.25 to 0.26
 ---------------------------------
 
