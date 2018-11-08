@@ -94,12 +94,8 @@ add_executable(remotetest remotetest.cpp)
 list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
-# set compiler -DEXV_HAVE_DLL when linking exiv2 dll
 foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
-    if ( BUILD_SHARED_LIBS )
-        target_compile_definitions(${application} PRIVATE EXV_HAVE_DLL )
-    endif()
     if( EXIV2_ENABLE_PNG )
         target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
     endif()

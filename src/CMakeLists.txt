@@ -215,15 +215,10 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_STATIC
 )
 
-target_compile_definitions(exiv2lib PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" EXV_BUILDING_LIB )
-
-if ( BUILD_SHARED_LIBS )
-    target_compile_definitions(exiv2lib PRIVATE EXV_HAVE_DLL )
-endif()
-
-if ( ${BUILD_SHARED_LIBS} )
-    target_compile_definitions(exiv2lib PUBLIC EXV_HAVE_DLL)
-endif()
+target_compile_definitions(exiv2lib
+    PUBLIC
+    EXV_LOCALEDIR="${CMAKE_INSTALL_FULL_LOCALEDIR}"
+)
 
 if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
     set (FREEBSD 1)
@@ -338,11 +333,7 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
     )
 
-    target_compile_definitions(exiv2 PRIVATE EXV_LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}" )
     target_link_libraries( exiv2 PRIVATE exiv2lib )
-    if ( BUILD_SHARED_LIBS )
-        target_compile_definitions(exiv2 PRIVATE EXV_HAVE_DLL )
-    endif()
 
     # modify source lists to suit environment
     target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
