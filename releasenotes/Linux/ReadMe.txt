@@ -5,7 +5,7 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2                                 exiv2 and sample applications
-lib/libexiv2.so.0.27.0.1 & libxmp.a       libraries
+lib/libexiv2.so.0.27.0.0 & libxmp.a       libraries
 lib/pkgconfig/exiv2.pc                    pkg-config file
 include/exiv2/                            include files
 share/                                    man pages
