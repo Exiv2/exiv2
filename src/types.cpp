@@ -26,10 +26,11 @@
 // *****************************************************************************
 // included header files
 #include "types.hpp"
-#include "i18n.h"                               // for _exvGettext
-#include "unused.h"
-#include "safe_op.hpp"
 #include "enforce.hpp"
+#include "futils.hpp"
+#include "i18n.h"  // for _exvGettext
+#include "safe_op.hpp"
+#include "unused.h"
 
 // + standard includes
 #ifdef EXV_UNICODE_PATH
@@ -727,7 +728,9 @@ const char* _exvGettext(const char* str)
     static bool exvGettextInitialized = false;
 
     if (!exvGettextInitialized) {
-        bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
+        //bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
+        const std::string localeDir = Exiv2::getProcessPath() + EXV_LOCALEDIR;
+        bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
 # ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
         bind_textdomain_codeset (EXV_PACKAGE_NAME, "UTF-8");
 # endif

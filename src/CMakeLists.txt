@@ -217,8 +217,7 @@ set_target_properties( exiv2lib_int PROPERTIES
 
 target_compile_definitions(exiv2lib
     PUBLIC
-    EXV_LOCALEDIR="../${CMAKE_INSTALL_LOCALEDIR}"
-    #EXV_LOCALEDIR="${CMAKE_INSTALL_FULL_LOCALEDIR}"
+    EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}"
 )
 
 if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
