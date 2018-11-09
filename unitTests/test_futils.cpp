@@ -153,3 +153,17 @@ TEST(AUri, parsesAndDecoreUrl)
 
     Uri::Decode(uri);
 }
+
+TEST(getProcessPath, obtainPathOfUnitTestsExecutable)
+{
+#ifdef _WIN32
+    const std::string expectedName("bin");
+#else
+    const std::string expectedName("bin");
+#endif
+    const std::string path = getProcessPath();
+
+    ASSERT_FALSE(path.empty());
+    const size_t idxStart = path.size() - expectedName.size();
+    ASSERT_EQ(expectedName, path.substr(idxStart, expectedName.size()));
+}

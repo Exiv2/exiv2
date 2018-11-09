@@ -33,12 +33,19 @@
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
+
 #ifdef _MSC_VER
-# define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+    # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+    #include <psapi.h>  // For access to GetModuleFileNameEx
+#elif defined(__APPLE__)
+    #include <libproc.h>
 #endif
+
 #ifdef EXV_HAVE_UNISTD_H
-# include <unistd.h>                     // for stat()
+  # include <unistd.h>                     // for stat()
 #endif
+
+
 
 #include <cerrno>
 #include <sstream>
@@ -451,5 +458,43 @@ namespace Exiv2 {
             result.QueryString = std::string(queryStart, uri.end());
 
         return result;
-    }   // Uri::Parse
+    }
+
+    std::string getProcessPath()
+    {
+        std::string ret("unknown");
+    #if defined(WIN32)
+        HANDLE processHandle = NULL;
+        processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+        if (processHandle != NULL) {
+            TCHAR filename[MAX_PATH];
+            if (GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH) != 0) {
+                ret = filename;
+            }
+            CloseHandle(processHandle);
+        }
+    #elif defined(__APPLE__)
+        const int pid = getpid();
+        char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
+        if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
+            ret = pathbuf;
+        }
+    #elif defined(__linux__)
+        // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
+        char proc[100];
+        char path[500];
+        sprintf(proc,"/proc/%d/exe", getpid());
+        ssize_t l = readlink (proc, path,sizeof(path)-1);
+        if (l>0) {
+            path[l]=0;
+            ret = path;
+        }
+    #endif
+    #if defined(WIN32)
+        const size_t idxLastSeparator = ret.find_last_of('\\');
+    #else
+        const size_t idxLastSeparator = ret.find_last_of('/');
+    #endif
+        return ret.substr(0, idxLastSeparator);
+    }
 }                                       // namespace Exiv2

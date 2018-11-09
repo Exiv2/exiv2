@@ -175,6 +175,9 @@ namespace Exiv2
      */
     EXIV2API std::string strError();
 
+    //! @brief Return the path of the current process.
+    EXIV2API std::string getProcessPath();
+
     /*!
       @brief A container for URL components. It also provides the method to parse a
             URL to get the protocol, host, path, port, querystring, username, password.
