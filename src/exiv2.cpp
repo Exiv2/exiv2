@@ -29,12 +29,13 @@
 #include <exiv2/exiv2.hpp>
 
 // include local header files which are not part of libexiv2
-#include "exiv2app.hpp"
-#include "getopt.hpp"
 #include "actions.hpp"
-#include "utils.hpp"
 #include "convert.hpp"
-#include "i18n.h"      // NLS support.
+#include "exiv2app.hpp"
+#include "futils.hpp"
+#include "getopt.hpp"
+#include "i18n.h"  // NLS support.
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <iostream>
@@ -128,7 +129,8 @@ int main(int argc, char* const argv[])
 {
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
-    bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
+    const std::string localeDir = Exiv2::getProcessPath() + EXV_LOCALEDIR;
+    bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
     textdomain(EXV_PACKAGE_NAME);
 #endif
 
