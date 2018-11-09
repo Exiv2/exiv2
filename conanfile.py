@@ -23,9 +23,8 @@ class Exiv2Conan(ConanFile):
     def requirements(self):
         self.requires('zlib/1.2.11@conan/stable')
 
-        if os_info.is_windows and self.options.xmp:
-            if os_info.detect_windows_subsystem() in ("cygwin", "msys2"):
-                self.requires('libiconv/1.15@bincrafters/stable')
+        if os_info.is_windows and self.options.iconv:
+            self.requires('libiconv/1.15@bincrafters/stable')
 
         if self.options.unitTests:
             self.requires('gtest/1.8.0@bincrafters/stable')
