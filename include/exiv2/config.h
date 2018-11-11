@@ -93,8 +93,5 @@ typedef int pid_t;
 #endif
 //////////////////////////////////////
 
-#ifdef   EXV_HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 
 #endif // _CONFIG_H_
