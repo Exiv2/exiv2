@@ -45,10 +45,6 @@
 #include <sstream>
 
 #ifdef _MSC_VER
-// Don't assume the value of EXV_HAVE_STDINT_H in exv_msvc.h has been set correctly
-# ifdef  EXV_HAVE_STDINT_H
-#  undef EXV_HAVE_STDINT_H
-# endif
 // Visual Studio 2010 and later has stdint.h
 # if   _MSC_VER >= _MSC_VER_2010
 #  include <stdint.h>
@@ -63,11 +59,12 @@
    typedef          __int32 int32_t;
    typedef          __int64 int64_t;
 # endif
+#else
+  #ifdef EXV_HAVE_STDINT_H
+  # include <stdint.h>
+  #endif
 #endif
 
-#ifdef EXV_HAVE_STDINT_H
-# include <stdint.h>
-#endif
 
 // MSVC macro to convert a string to a wide string
 #ifdef EXV_UNICODE_PATH

@@ -41,7 +41,7 @@
 #include <set>
 #include <iostream>
 
-#ifdef EXV_HAVE_STDINT_H
+#ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
