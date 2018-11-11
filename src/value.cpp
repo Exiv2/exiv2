@@ -40,6 +40,7 @@
 #include <cassert>
 #include <cstring>
 #include <ctime>
+#include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <ctype.h>

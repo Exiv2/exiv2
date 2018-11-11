@@ -23,6 +23,7 @@
 #include <cstddef>
 #include <cstring>
 #include <vector>
+#include <cstdio>
 
 namespace Exiv2
 {

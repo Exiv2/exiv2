@@ -46,8 +46,7 @@
   # include <unistd.h>                     // for stat()
 #endif
 
-
-
+#include <cstdio>
 #include <cerrno>
 #include <sstream>
 #include <cstring>
