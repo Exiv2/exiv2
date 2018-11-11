@@ -35,6 +35,7 @@
 #include <sys/stat.h>
 
 #ifdef _MSC_VER
+    #include <Windows.h>
     # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
     #include <psapi.h>  // For access to GetModuleFileNameEx
 #elif defined(__APPLE__)
