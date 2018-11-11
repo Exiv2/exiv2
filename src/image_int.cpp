@@ -28,11 +28,6 @@ namespace Exiv2
 {
     namespace Internal
     {
-#ifdef MSDEV_2003
-#undef vsnprintf
-#define vsnprintf _vsnprintf
-#endif
-
         std::string stringFormat(const char* format, ...)
         {
             std::string result;

@@ -8,13 +8,6 @@
 
 #define _MSC_VER_2010 1600
 #define _MSC_VER_2008 1500
-#define _MSC_VER_2005 1400
-
-#if  _MSC_VER >= _MSC_VER_2005
-#define MSDEV_2005    1
-#else
-#define MSDEV_2003    1
-#endif
 
 // Constants required by Microsoft SDKs to define SHGetFolderPathA and others
 
@@ -31,7 +24,7 @@
 #define HAVE_NTOHLL 1
 #endif
 
-#if _MSC_VER >= _MSC_VER_2005
+#if _MSC_VER >= _MSC_VER_2008
 #pragma warning(disable : 4996) // Disable warnings about 'deprecated' standard functions
 #pragma warning(disable : 4251) // Disable warnings from std templates about exporting interfaces
 #endif
