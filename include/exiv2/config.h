@@ -20,10 +20,6 @@
 # endif
 #endif
 
-#if _MSC_VER_ == _MSC_VER_2012
-#define HAVE_NTOHLL 1
-#endif
-
 #if _MSC_VER >= _MSC_VER_2008
 #pragma warning(disable : 4996) // Disable warnings about 'deprecated' standard functions
 #pragma warning(disable : 4251) // Disable warnings from std templates about exporting interfaces
@@ -33,13 +29,6 @@
 #ifndef HAVE_PID_T
 typedef int pid_t;
 #endif
-
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-
-#define NOMINMAX
-#include <windows.h>
 
 #endif // _MSC_VER
 ///// End of Visual Studio Support /////
@@ -104,7 +93,6 @@ typedef int pid_t;
 #endif
 //////////////////////////////////////
 
-# include <stdio.h>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
