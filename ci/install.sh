@@ -4,8 +4,7 @@ set -x # Prints every command
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
-    sudo apt-get install cmake zlib1g-dev libssh-dev gettext
-    sudo apt-get install python-pip libxml2-utils
+    sudo apt-get install cmake zlib1g-dev libssh-dev python-pip libxml2-utils
     if [ -n "$WITH_VALGRIND" ]; then
         sudo apt-get install valgrind
     fi
@@ -14,7 +13,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     source conan/bin/activate
 else
     brew update
-    brew install gettext md5sha1sum pyenv-virtualenv
+    brew install md5sha1sum pyenv-virtualenv
     export CFLAGS="-I/usr/local/opt/openssl/include $CFLAGS"
     export LDFLAGS="-L/usr/local/opt/openssl/lib $LDFLAGS"
     pyenv install $PYTHON
