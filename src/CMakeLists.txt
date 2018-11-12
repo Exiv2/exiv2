@@ -335,8 +335,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
 
     target_link_libraries( exiv2 PRIVATE exiv2lib )
 
-    # modify source lists to suit environment
-    target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
     if( EXIV2_ENABLE_NLS )
         target_link_libraries(exiv2 PRIVATE  ${LIBINTL_LIBRARIES})
     endif()
