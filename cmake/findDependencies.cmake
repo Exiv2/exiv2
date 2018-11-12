@@ -36,17 +36,8 @@ else()
 endif()
 
 
-if( EXIV2_ENABLE_NLS )
-    find_package(Intl)
-    if(Intl_FOUND)
-        include_directories(${Intl_INCLUDE_DIRS})
-        set(LIBINTL_LIBRARIES ${Intl_LIBRARIES})
-    else()
-        set(LIBINTL_LIBRARIES)
-    endif()
-    set( ENABLE_NLS 1 )
-    # TODO : This is assuming that Intl is always found. This check should be improved and remove
-    # the manual check in cmake/generateConfigFile.cmake
+if (EXIV2_ENABLE_NLS)
+    find_package(Intl REQUIRED)
 endif( )
 
 find_package(Iconv)

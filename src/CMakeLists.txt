@@ -293,7 +293,8 @@ if( EXIV2_ENABLE_PNG )
 endif()
 
 if( EXIV2_ENABLE_NLS )
-    target_link_libraries( exiv2lib PRIVATE  ${LIBINTL_LIBRARIES} )
+    target_link_libraries(exiv2lib PRIVATE ${Intl_LIBRARIES})
+    target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
 endif()
 
 if( ICONV_FOUND )
@@ -336,7 +337,8 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     target_link_libraries( exiv2 PRIVATE exiv2lib )
 
     if( EXIV2_ENABLE_NLS )
-        target_link_libraries(exiv2 PRIVATE  ${LIBINTL_LIBRARIES})
+        target_link_libraries(exiv2 PRIVATE ${Intl_LIBRARIES})
+        target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
     endif()
 
     # Copy DLLs from conan packages to the bin folder
