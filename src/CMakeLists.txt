@@ -337,6 +337,9 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
 
     # modify source lists to suit environment
     target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/include/)
+    if( EXIV2_ENABLE_NLS )
+        target_link_libraries(exiv2 PRIVATE  ${LIBINTL_LIBRARIES})
+    endif()
 
     # Copy DLLs from conan packages to the bin folder
     if (USING_CONAN AND WIN32)
