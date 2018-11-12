@@ -28,8 +28,6 @@ check_function_exists( mmap     EXV_HAVE_MMAP )
 check_function_exists( munmap   EXV_HAVE_MUNMAP )
 check_function_exists( strerror_r   EXV_HAVE_STRERROR_R )
 
-# TODO: This check should be removed and rely on the check done in findDependencies.cmake
-check_include_file( "libintl.h" EXV_HAVE_LIBINTL_H )
 check_include_file( "unistd.h"  EXV_HAVE_UNISTD_H )
 check_include_file( "memory.h"  EXV_HAVE_MEMORY_H )
 check_include_file( "process.h" EXV_HAVE_PROCESS_H )
@@ -44,6 +42,6 @@ if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
 check_include_file( "regex.h"       EXV_HAVE_REGEX_H )
 endif()
 
-set(EXV_ENABLE_NLS ${EXV_HAVE_LIBINTL_H})
+set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
 
 configure_file(cmake/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)
