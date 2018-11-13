@@ -982,23 +982,18 @@ namespace Exiv2 {
         return new TiffIfdMakernote(tag, group, mnGroup, new PanasonicMnHeader, false);
     }
 
-    TiffComponent* newPentaxMn(uint16_t    tag,
-                               IfdId       group,
-                               IfdId       /*mnGroup*/,
-                               const byte* pData,
-                               uint32_t    size,
-                               ByteOrder   /*byteOrder*/)
+    TiffComponent* newPentaxMn(uint16_t tag, IfdId group, IfdId /*mnGroup*/, const byte* pData, uint32_t size,
+                               ByteOrder /*byteOrder*/)
     {
-        if (   size > 8
-            && std::string(reinterpret_cast<const char*>(pData), 8) == std::string("PENTAX \0", 8)) {
+        if (size > 8 && std::string(reinterpret_cast<const char*>(pData), 8) == std::string("PENTAX \0", 8)) {
             // Require at least the header and an IFD with 1 entry
-            if (size < PentaxDngMnHeader::sizeOfSignature() + 18) return 0;
+            if (size < PentaxDngMnHeader::sizeOfSignature() + 18)
+                return 0;
             return newPentaxDngMn2(tag, group, pentaxDngId);
-        }
-        else if (   size > 4
-                 && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
+        } else if (size > 4 && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
             // Require at least the header and an IFD with 1 entry
-            if (size < PentaxMnHeader::sizeOfSignature() + 18) return 0;
+            if (size < PentaxMnHeader::sizeOfSignature() + 18)
+                return 0;
             return newPentaxMn2(tag, group, pentaxId);
         } else
             return 0;
