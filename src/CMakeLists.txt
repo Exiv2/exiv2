@@ -139,20 +139,11 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_STATIC
 )
 
-target_compile_definitions(exiv2lib
-    PUBLIC
-    EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}"
-)
-
-if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-    set (FREEBSD 1)
-endif()
 
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})
 
 if (EXIV2_ENABLE_XMP)
-    #target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
     target_link_libraries(exiv2lib PUBLIC xmp)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
@@ -196,7 +187,7 @@ if (WIN32)
 endif()
 
 if (NOT MSVC)
-    if ( UNIX AND NOT FREEBSD )
+    if ( UNIX AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
         target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS}) # -ldl = dynamic loader used by src/version.cpp
     endif()
 
@@ -214,6 +205,8 @@ endif()
 if( EXIV2_ENABLE_NLS )
     target_link_libraries(exiv2lib PRIVATE ${Intl_LIBRARIES})
     target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
+    # Definition needed for translations
+    target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}")
 endif()
 
 if( ICONV_FOUND )
