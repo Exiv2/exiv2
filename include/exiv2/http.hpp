@@ -19,8 +19,4 @@ namespace Exiv2 {
     EXIV2API int http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::string& errors);
 }
 
-#ifdef EXV_USE_CURL
-#include <curl/curl.h>
-#endif
-
 #endif
