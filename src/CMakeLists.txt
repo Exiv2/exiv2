@@ -191,18 +191,11 @@ if (EXIV2_ENABLE_WEBREADY)
 
 endif()
 
-if ( MSVC OR CYGWIN OR MINGW OR MSYS)
-    target_compile_definitions(exiv2lib
-        PRIVATE
-            PSAPI_VERSION=1 # to be compatible with <= WinVista (#905)
-    )
+if (WIN32)
+    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
 endif()
 
-if ( MSVC )
-    source_group("Header Files" FILES ${LIBEXIV2_HDR} )
-    source_group("Header Files" FILES ${LIBCURL_HDR} )
-    source_group("Header Files" FILES ${SSH_HDR} )
-else()
+if (NOT MSVC)
     if ( UNIX AND NOT FREEBSD )
         target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS}) # -ldl = dynamic loader used by src/version.cpp
     endif()
