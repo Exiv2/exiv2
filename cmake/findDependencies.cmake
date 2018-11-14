@@ -12,7 +12,6 @@ find_package(Threads REQUIRED)
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
-    include_directories( ${ZLIB_INCLUDE_DIR} )
 endif( )
 
 if( EXIV2_ENABLE_WEBREADY )

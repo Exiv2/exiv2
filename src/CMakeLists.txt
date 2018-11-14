@@ -224,6 +224,9 @@ if ( UNIX AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
     set (FREEBSD 1)
 endif()
 
+target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
+target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})
+
 if (EXIV2_ENABLE_XMP)
     #target_include_directories(exiv2lib PRIVATE ${CMAKE_SOURCE_DIR}/xmpsdk/include)
     target_link_libraries(exiv2lib PUBLIC xmp)
