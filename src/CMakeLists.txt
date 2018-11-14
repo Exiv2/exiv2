@@ -11,82 +11,81 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 
 add_library( exiv2lib_int OBJECT
-    canonmn_int.cpp canonmn_int.hpp
-    casiomn_int.cpp casiomn_int.hpp
-    cr2header_int.cpp cr2header_int.hpp
-    crwimage_int.cpp crwimage_int.hpp
-    fujimn_int.cpp fujimn_int.hpp
-    helper_functions.cpp helper_functions.hpp
-    image_int.cpp image_int.hpp
-    makernote_int.cpp makernote_int.hpp
-    minoltamn_int.cpp minoltamn_int.hpp
-    nikonmn_int.cpp nikonmn_int.hpp
-    olympusmn_int.cpp olympusmn_int.hpp
-    orfimage_int.cpp orfimage_int.hpp
-    panasonicmn_int.cpp panasonicmn_int.hpp
-    pentaxmn_int.cpp pentaxmn_int.hpp
-    rw2image_int.cpp rw2image_int.hpp
+    canonmn_int.cpp         canonmn_int.hpp
+    casiomn_int.cpp         casiomn_int.hpp
+    cr2header_int.cpp       cr2header_int.hpp
+    crwimage_int.cpp        crwimage_int.hpp
+    fujimn_int.cpp          fujimn_int.hpp
+    helper_functions.cpp    helper_functions.hpp
+    image_int.cpp           image_int.hpp
+    makernote_int.cpp       makernote_int.hpp
+    minoltamn_int.cpp       minoltamn_int.hpp
+    nikonmn_int.cpp         nikonmn_int.hpp
+    olympusmn_int.cpp       olympusmn_int.hpp
+    orfimage_int.cpp        orfimage_int.hpp
+    panasonicmn_int.cpp     panasonicmn_int.hpp
+    pentaxmn_int.cpp        pentaxmn_int.hpp
+    rw2image_int.cpp        rw2image_int.hpp
     safe_op.hpp
-    samsungmn_int.cpp samsungmn_int.hpp
-    sigmamn_int.cpp sigmamn_int.hpp
-    sonymn_int.cpp sonymn_int.hpp
-    tags_int.cpp tags_int.hpp
-    tiffcomposite_int.cpp tiffcomposite_int.hpp
-    tiffimage_int.cpp tiffimage_int.hpp
-    tiffvisitor_int.cpp tiffvisitor_int.hpp
+    samsungmn_int.cpp       samsungmn_int.hpp
+    sigmamn_int.cpp         sigmamn_int.hpp
+    sonymn_int.cpp          sonymn_int.hpp
+    tags_int.cpp            tags_int.hpp
+    tiffcomposite_int.cpp   tiffcomposite_int.hpp
+    tiffimage_int.cpp       tiffimage_int.hpp
+    tiffvisitor_int.cpp     tiffvisitor_int.hpp
     tifffwd_int.hpp
     timegm.h
     unused.h
 )
 
 add_library( exiv2lib 
-    asfvideo.cpp ../include/exiv2/asfvideo.hpp
-    basicio.cpp ../include/exiv2/basicio.hpp
-    bigtiffimage.cpp
-    bmpimage.cpp ../include/exiv2/bmpimage.hpp
     ../include/exiv2/config.h
-    convert.cpp ../include/exiv2/convert.hpp
-    cr2image.cpp ../include/exiv2/cr2image.hpp
-    crwimage.cpp ../include/exiv2/crwimage.hpp
-    datasets.cpp ../include/exiv2/datasets.hpp
-    easyaccess.cpp ../include/exiv2/easyaccess.hpp
-    epsimage.cpp ../include/exiv2/epsimage.hpp
-    error.cpp ../include/exiv2/error.hpp
-    exif.cpp ../include/exiv2/exif.hpp
     ../include/exiv2/exiv2.hpp
-    futils.cpp ../include/exiv2/futils.hpp
-    gifimage.cpp ../include/exiv2/gifimage.hpp
-    http.cpp ../include/exiv2/http.hpp
-    image.cpp ../include/exiv2/image.hpp
-    ini.cpp ../include/exiv2/ini.hpp
-    iptc.cpp ../include/exiv2/iptc.hpp
-    jp2image.cpp ../include/exiv2/jp2image.hpp
-    jpgimage.cpp ../include/exiv2/jpgimage.hpp
-    matroskavideo.cpp ../include/exiv2/matroskavideo.hpp
-    metadatum.cpp ../include/exiv2/metadatum.hpp
-    mrwimage.cpp ../include/exiv2/mrwimage.hpp
-    orfimage.cpp ../include/exiv2/orfimage.hpp
-    pgfimage.cpp ../include/exiv2/pgfimage.hpp
-    preview.cpp ../include/exiv2/preview.hpp
-    properties.cpp ../include/exiv2/properties.hpp
-    psdimage.cpp ../include/exiv2/psdimage.hpp
-    quicktimevideo.cpp ../include/exiv2/quicktimevideo.hpp
-    rafimage.cpp ../include/exiv2/rafimage.hpp
-    riffvideo.cpp ../include/exiv2/riffvideo.hpp
-    rw2image.cpp ../include/exiv2/rw2image.hpp
     ../include/exiv2/rwlock.hpp
     ../include/exiv2/slice.hpp
-    tags.cpp ../include/exiv2/tags.hpp
-    tgaimage.cpp ../include/exiv2/tgaimage.hpp
-    tiffimage.cpp ../include/exiv2/tiffimage.hpp
-    types.cpp ../include/exiv2/types.hpp
-    utilsvideo.cpp ../include/exiv2/utilsvideo.hpp
-    value.cpp ../include/exiv2/value.hpp
-    version.cpp ../include/exiv2/version.hpp
-    webpimage.cpp ../include/exiv2/webpimage.hpp
-    xmp.cpp ../include/exiv2/xmp_exiv2.hpp
-    xmpsidecar.cpp ../include/exiv2/xmpsidecar.hpp
-
+    asfvideo.cpp            ../include/exiv2/asfvideo.hpp
+    basicio.cpp             ../include/exiv2/basicio.hpp
+    bigtiffimage.cpp
+    bmpimage.cpp            ../include/exiv2/bmpimage.hpp
+    convert.cpp             ../include/exiv2/convert.hpp
+    cr2image.cpp            ../include/exiv2/cr2image.hpp
+    crwimage.cpp            ../include/exiv2/crwimage.hpp
+    datasets.cpp            ../include/exiv2/datasets.hpp
+    easyaccess.cpp          ../include/exiv2/easyaccess.hpp
+    epsimage.cpp            ../include/exiv2/epsimage.hpp
+    error.cpp               ../include/exiv2/error.hpp
+    exif.cpp                ../include/exiv2/exif.hpp
+    futils.cpp              ../include/exiv2/futils.hpp
+    gifimage.cpp            ../include/exiv2/gifimage.hpp
+    http.cpp                ../include/exiv2/http.hpp
+    image.cpp               ../include/exiv2/image.hpp
+    ini.cpp                 ../include/exiv2/ini.hpp
+    iptc.cpp                ../include/exiv2/iptc.hpp
+    jp2image.cpp            ../include/exiv2/jp2image.hpp
+    jpgimage.cpp            ../include/exiv2/jpgimage.hpp
+    matroskavideo.cpp       ../include/exiv2/matroskavideo.hpp
+    metadatum.cpp           ../include/exiv2/metadatum.hpp
+    mrwimage.cpp            ../include/exiv2/mrwimage.hpp
+    orfimage.cpp            ../include/exiv2/orfimage.hpp
+    pgfimage.cpp            ../include/exiv2/pgfimage.hpp
+    preview.cpp             ../include/exiv2/preview.hpp
+    properties.cpp          ../include/exiv2/properties.hpp
+    psdimage.cpp            ../include/exiv2/psdimage.hpp
+    quicktimevideo.cpp      ../include/exiv2/quicktimevideo.hpp
+    rafimage.cpp            ../include/exiv2/rafimage.hpp
+    riffvideo.cpp           ../include/exiv2/riffvideo.hpp
+    rw2image.cpp            ../include/exiv2/rw2image.hpp
+    tags.cpp                ../include/exiv2/tags.hpp
+    tgaimage.cpp            ../include/exiv2/tgaimage.hpp
+    tiffimage.cpp           ../include/exiv2/tiffimage.hpp
+    types.cpp               ../include/exiv2/types.hpp
+    utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
+    value.cpp               ../include/exiv2/value.hpp
+    version.cpp             ../include/exiv2/version.hpp
+    webpimage.cpp           ../include/exiv2/webpimage.hpp
+    xmp.cpp                 ../include/exiv2/xmp_exiv2.hpp
+    xmpsidecar.cpp          ../include/exiv2/xmpsidecar.hpp
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
