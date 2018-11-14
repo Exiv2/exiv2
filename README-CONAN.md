@@ -1,4 +1,4 @@
-![Exiv2](http://exiv2.dyndns.org/include/exiv2-logo-big.png)
+![Exiv2](exiv2.png)
 
 # Building Exiv2 dependencies with conan
 
@@ -397,8 +397,8 @@ Conan stores its configuration and local builds in the directory ~/.conan (%HOME
 Conan installs several files and two directories:
 
 ```bash
-$HOME/.conan/profiles	Configuration files for compilers/platforms
-$HOME/.conan/data	    Dependencies are built/stored in this directory
+$HOME/.conan/profiles   Configuration files for compilers/platforms
+$HOME/.conan/data       Dependencies are built/stored in this directory
 ```
 
 [TOC](#TOC)

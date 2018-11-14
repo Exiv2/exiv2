@@ -15,8 +15,9 @@ samples/exifprint.cpp                     sample code
 ReadMe.txt                                This file
 license.txt                               GPLv2.0 Software License
 releasenotes.txt                          Late breaking news
-README.md                                 User Manual
-README-CONAN.md                           User Manual Appendix
+README.md                                 Developer Manual
+README-CONAN.md                           Developer Manual Appendix
+exiv2.png                                 Exiv2 Logo
 
 To run exiv2 from the bundle
 ----------------------------

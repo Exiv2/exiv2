@@ -42,6 +42,7 @@ set( DOCS
      README.md
      README-CONAN.md
      license.txt
+     exiv2.png
 )
 foreach(doc ${DOCS})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${doc} DESTINATION .)
