@@ -210,7 +210,7 @@ To build localisation support, use the CMake options `-DEXIV2_BUILD_PO=On` `-DEX
 1) Running exiv2 in a foreign language
 
 ```
-$ env LC_ALL=fr_FR exiv2
+$ env LANG=fr_FR exiv2
 exiv2: Une action doit être spécifié
 exiv2: Au moins un fichier est nécessaire
 Utilisation : exiv2  [ options ] [ action ] fichier ...
@@ -260,7 +260,7 @@ You have to install your messages to test them.  It's not possible to test a mes
 
 ```
 $ sudo cp -R  po/xy /usr/local/share/locale/xy
-$ env LC_ALL=xy exiv2
+$ env LANG=xy exiv2
 exiv2: An action must be specified
 exiv2: At least one file is required
 Usage: exiv2 [ options ] [ action ] file ...
@@ -505,7 +505,7 @@ bash.exe -norc
 Install tools and dependencies:
 
 ```
-$ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel; do (echo y|pacman -S $i); done
+$ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel gettext-devel; do (echo y|pacman -S $i); done
 ```
 
 You can upgrade all installed packages on your system with the following command.  For me, this broke msys32 and I had to reinstall msys32 and all the dependencies.  Your experience may be different.
