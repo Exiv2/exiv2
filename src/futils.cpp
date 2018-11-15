@@ -463,7 +463,7 @@ namespace Exiv2 {
     std::string getProcessPath()
     {
         std::string ret("unknown");
-    #if defined(WIN32)
+    #if defined(WIN32) || defined (__CYGWIN__) || defined(__MINGW__)
         HANDLE processHandle = NULL;
         processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
         if (processHandle != NULL) {
