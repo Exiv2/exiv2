@@ -23,6 +23,7 @@
 4. [Test Suit](#4)
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
+    3. [Unit tests](#4-3)
 <name id="platforms">
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
@@ -210,7 +211,7 @@ To build localisation support, use the CMake options `-DEXIV2_BUILD_PO=On` `-DEX
 1) Running exiv2 in a foreign language
 
 ```
-$ env LANG=fr_FR exiv2
+$ env LANG=fr_FR exiv2    # env LANGUAGE=fr_FR exiv2 on Linux!
 exiv2: Une action doit être spécifié
 exiv2: Au moins un fichier est nécessaire
 Utilisation : exiv2  [ options ] [ action ] fichier ...
@@ -260,7 +261,7 @@ You have to install your messages to test them.  It's not possible to test a mes
 
 ```
 $ sudo cp -R  po/xy /usr/local/share/locale/xy
-$ env LANG=xy exiv2
+$ env LANG=xy exiv2   env LANGUAGE=fr_FR xy on Linux!
 exiv2: An action must be specified
 exiv2: At least one file is required
 Usage: exiv2 [ options ] [ action ] file ...
@@ -422,6 +423,21 @@ $ cd <exiv2dir>/test
 $ make test
 $ make newtests
 $ ./icc-test.sh
+```
+
+[TOC](#TOC)
+<name id="4-3">
+### 4.3 Unit tests
+
+The code for the unit tests is in `<exiv2dir>/unitTests`
+
+To build the unit tests, use the CMake option `-DEXIV2_BUILD_UNIT_TESTS=On`.
+
+To execute the unit tests:
+
+```
+$ cd <exiv2dir>/build
+$ bin/unit_tests
 ```
 
 [TOC](#TOC)
