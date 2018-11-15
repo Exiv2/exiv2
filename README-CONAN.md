@@ -206,7 +206,7 @@ the default CMake generator.  Always use the generator for your version of Visua
 
 ```bash
 c:\....\exiv2\build> conan install .. --profile msvc2017Release64 --build missing
-c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
+c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=0
 c:\....\exiv2\build> cmake --build .  --config Release
 ```
 
@@ -261,10 +261,10 @@ The default (and recommended) builds of Exiv2 and sample applications build and 
 |:---------|:-------------------|
 | compiler.runtime=MT | compiler.runtime=MTd |
 
-Additionally, you will have to use the cmake option -DBUILD\_SHARED\_LIBS=Off to
+Additionally, you will have to use the cmake option -DBUILD\_SHARED\_LIBS=Off
 
 ```
-$ cmake -DBUILD_SHARED_LIBS=Off ..
+$ cmake -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_NLS=0 ..
 
 ```
 
