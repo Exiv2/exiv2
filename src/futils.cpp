@@ -463,7 +463,7 @@ namespace Exiv2 {
     std::string getProcessPath()
     {
         std::string ret("unknown");
-    #if defined(WIN32) || defined (__CYGWIN__) || defined(__MINGW__)
+    #if defined(WIN32)
         HANDLE processHandle = NULL;
         processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
         if (processHandle != NULL) {
@@ -479,7 +479,7 @@ namespace Exiv2 {
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
-    #elif defined(__linux__)
+    #elif defined(__linux__) || defined(__CYGWIN__) || defined(__MINGW__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
         char proc[100];
         char path[500];
