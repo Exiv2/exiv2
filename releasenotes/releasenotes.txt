@@ -46,6 +46,7 @@ High Priory Issues
 
 Fixes since RC1
 ---------------
+#541 exiv2 -vVg loops
 #528 Xcode 10.1 builds samples/taglist.cpp
 #527 Localization Support
 #521 Delete XMP XmpBag and XmpSeq
