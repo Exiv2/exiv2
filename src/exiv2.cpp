@@ -1018,7 +1018,6 @@ int Params::getopt(int argc, char* const Argv[])
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
     if (help_ || version_) {
-        rc = 0;
         goto cleanup;
     }
     if (action_ == Action::none) {

@@ -103,7 +103,7 @@ namespace Util {
         progname_ = Util::basename(argv[0]);
         Util::optind = 0; // reset the Util::Getopt scanner
 
-        for (;;) {
+        for (;!errcnt_;) {
             int c = Util::getopt(argc, argv, optstring.c_str());
             if (c == -1) {
                 break;
