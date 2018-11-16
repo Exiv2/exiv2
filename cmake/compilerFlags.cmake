@@ -185,6 +185,6 @@ if(MSVC)
     # Object Level Parallelism
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 
-    add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN)
+    add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
 
 endif()
