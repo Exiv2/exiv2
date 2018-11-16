@@ -32,6 +32,15 @@ make -j2
 
 make tests
 make install
+
+# Check for detecting issues with the installation of headers
+if [ `ls install/include/exiv2/ | wc -l` > 10 ]; then
+    echo Headers installed correctly
+else
+    echo There was some problem with the installation of the public headers
+    exit 1
+fi
+
 pushd .
 cd bin
 $EXIV2_VALGRIND ./unit_tests
@@ -40,3 +49,4 @@ popd
 if [ -n "$COVERAGE" ]; then
     bash <(curl -s https://codecov.io/bash)
 fi
+
