@@ -178,6 +178,16 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 <name id="2-2"></a>
 ### 2.2) Visual Studio Notes
 
+I use the following batch file to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
+
+```
+@echo off
+setlocal
+cd  %HOMEPATH%
+set "PATH=C:\Python34\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
+cmd
+```
+
 ### Profiles for Visual Studio
 
 You can build Exiv2 with either Visual Studio 2015 (version 14) or 2017 (version 15).  You create profiles in %HOMEPATH%\.conan\profiles with a text editor.
