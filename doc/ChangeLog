@@ -3,19 +3,36 @@ Changes from version 0.26 to 0.27
 
 GitHub Changes: https://github.com/Exiv2/exiv2/milestone/1
 
-Remine Changes
+Remine Changes (88)
 
-Build: (7)
+Basicio: (1)
+	0001374	excessively often calls stat()
+
+Build: (11)
 	0001362	Fix Clang build
 	0001358	Unsuccessful build (Win7, MSVC2015, amd64_x86)
 	0001356	Small patch to configure.py
 	0001329	Error during cmake with gcc version parsing
+	0001310	Provide support for msys/2.0
 	0001299	exiv2-0.26-trunk.tar.gz changed on download server
 	0001270	Using libexiv2.a/.lib  in multhreaded app segfaults.
 	0001237	Report CMake/MinGW issues to Kitware
+	0001188	Provide build support for C++11
+	0001174	Visual Studio Support Enhancements
+	0001121	Visual Studio support for v0.27
 
-Basicio: (1)
-	0001374	excessively often calls stat()
+Coverity: (11)
+	0001265	[ Coverity : /src/basicio.cpp ] Unchecked return value from library , Time of check time of use , Incorrect deallocator used , Dereference before null check , String not null terminated
+	0001264	[ Coverity : /src/actions.cpp ] Unchecked return value from library , Logically dead code , Not restoring ostream format
+	0001263	[ Coverity : 1396730 Uninitialized scalar field ] /include/exiv2/xmp.hpp
+	0001262	[ Coverity : XMPSDK Errors ] Unused value , Explicit null dereferenced
+	0001261	[ Coverity : 1296083 Resource leak ] /src/exiv2.cpp
+	0001260	[ Coverity : 1296084 Resource leak ] /src/http.cpp
+	0001259	[ Coverity : 1396717 Out-of-bounds read ] /src/easyaccess.cpp
+	0001258	[ Coverity 1396718 Out-of-bounds access ] /src/webpimage.cpp
+	0001257	[ Coverity 1396719 Resource leak ] /src/tiffcomposite.cpp
+	0001256	[ Coverity 1396721 : /src/basicio.cpp ]  String not null terminated
+	0000883	Use Coverity SCAN on exiv2 code-base
 
 Camera: (1)
 	0001352	Support camera Canon M100
@@ -90,23 +107,27 @@ Not-a-bug: (8)
 	0001344	Unknown metadata
 	0001331	exiv2 fails to delete bulk of metadata in jpeg
 
-Tools: (1)
-	0001303	#1 Use 'releases' feature on GitHub
-
 Tiff parser: (3)
 	0001360	exiv2 can't read metadata from tiff file (tiff directory length is too large)
 	0001359	This does not look like a TIFF image
 	0001330	Crash in Exiv2::TiffImage::readMetadata
 
-Website: (2)
+Tools: (1)
+	0001303	#1 Use 'releases' feature on GitHub
+
+Video: (2)
+	0001068	Video Code Umbrella
+	0001028	Add GSoC13 video-write code
+
+Website: (3)
 	0001308	Move directory <exiv2dir>/website to svn://dev.exiv2.org/svn/team/website
 	0001302	Use sha256 Checksums on Downloads and Archive pages of the web site.
+	0001288	site defaults to http://, and https:// certificate is bogus
 
 Xmp: (3)
 	0001354	Inconsistency with long XMP namespaces (e.g. 'Iptc4xmpExt')
 	0001278	XMP SDK Split
 	0000941	Upgrade xmpsdk source to Adobe's current version
-
 
 Changes from version 0.25 to 0.26
 ---------------------------------
