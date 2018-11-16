@@ -165,10 +165,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     Exiv2::StringVector libs; // libs[0] == executable
 
     int      bits = 8*sizeof(void*);
-#if defined(_DEBUG) || defined(DEBUG)
-    int debug=1;
-#else
+#ifdef NDEBUG
     int debug=0;
+#else
+    int debug=1;
 #endif
 
 #if defined(DLL_EXPORT)
