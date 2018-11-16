@@ -113,7 +113,6 @@ option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"      
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
-option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      ON  )
 ...
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
@@ -206,7 +205,7 @@ g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 
 Localisation is supported on "*ix" platforms:  Linux, MacOS-X, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
-To build localisation support, use the CMake options `-DEXIV2_BUILD_PO=On` `-DEXIV2_ENABLE_NLS=On`.  There are no additional build steps as the normal build command will compile the library, samples and localisation support.
+To build localisation support, use the CMake options `-DEXIV2_BUILD_PO=On` There are no additional build steps as the normal build command will compile the library, samples and localisation support.
 
 1) Running exiv2 in a foreign language
 
@@ -261,7 +260,7 @@ You have to install your messages to test them.  It's not possible to test a mes
 
 ```
 $ sudo cp -R  po/xy /usr/local/share/locale/xy
-$ env LANG=xy exiv2   env LANGUAGE=fr_FR xy on Linux!
+$ env LANG=xy exiv2                            # env LANGUAGE=fr_FR xy on Linux!
 exiv2: An action must be specified
 exiv2: At least one file is required
 Usage: exiv2 [ options ] [ action ] file ...
@@ -497,7 +496,7 @@ setlocal
 set "PATH=c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
 set "HOME=c:\msys64\home\rmills"
 cd  %HOME%
-set "PS1=\! \u@\h-64:\w \$ "
+set "PS1=\! MSYS64:\u@\h:\w \$ "
 bash.exe -norc
 ```
 
@@ -512,7 +511,7 @@ setlocal
 set "PATH=c:\msys32\usr\bin;c:\msys32\usr\local\bin;"
 set "HOME=c:\msys32\home\rmills"
 cd  %HOME%
-set "PS1=\! \u@\h-32:\w \$ "
+set "PS1=\! MSYS32:\u@\h:\w \$ "
 bash.exe -norc
 ```
 
@@ -560,6 +559,19 @@ Download and build libiconv-1.15: [https://ftp.gnu.org/pub/gnu/libiconv/libiconv
 Download and build cmake from source because I can't get the cygwin installed cmake 3.6.2 to work.
 To build cmake from source, you need libncurses. [https://cmake.org/download/](https://cmake.org/download/)
 
+I use the following batch file to start the Cygwin/64 bit bash shell from the Dos Command Prompt (cmd.exe)
+
+```
+@echo off
+setlocal
+set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
+set "HOME=c:\cygwin64\home\rmills"
+cd  %HOME%
+set "PS1=\! CYGWIN64:\u@\h:\w \$ "
+bash.exe -norc
+```
+
+
 [TOC](#TOC)
 <name id="5-5">
 ### 5.5 Microsoft Visual C++
@@ -571,6 +583,16 @@ As well as Microsoft Visual Studio, you will need to install CMake, Python3, and
 1) Binary installers for CMake on Windows are availably from [https://cmake.org/download/](https://cmake.org/download/).<br/>
 2) Binary installers for Python3 are available from [python.org](https://python.org)<br/>
 3) Conan can be installed using python/pip.  Details in [README-CONAN.md](README-CONAN.md)
+
+I use the following batch file to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
+
+```
+@echo off
+setlocal
+cd  %HOMEPATH%
+set "PATH=C:\Python34\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
+cmd
+```
 
 [TOC](#TOC)
 
