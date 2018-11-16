@@ -453,7 +453,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"date"           , __DATE__   );
     output(os,keys,"time"           , __TIME__   );
     output(os,keys,"processpath"    , Exiv2::getProcessPath());
+#ifdef EXV_ENABLE_NLS
     output(os,keys,"localedir"      , EXV_LOCALEDIR);
+#endif
     output(os,keys,"package_name"   , EXV_PACKAGE_NAME);
 
 #ifdef EXV_USE_CURL
