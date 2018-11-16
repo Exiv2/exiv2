@@ -1,15 +1,15 @@
 Exiv2 v0.27.0.2   (Exiv2 v0.27 RC2)
 -----------------------------------
 
-We are 96% complete (by issues) 93/100 on GitHub and 70/70 on Redmine
-We are 92% complete (by time).  Project 2017-05-10 .. 2018-12-31 (87 weeks)
+We are 95% complete (by issues) 99/109 on GitHub and 88/88 on Redmine
+We are 93% complete (by time).  Project 2017-05-10 .. 2018-12-28 (86 weeks)
 
 Exiv2 v0.27 RC3 scheduled 07 December 2018
 Exiv2 v0.27 GM  scheduled 28 December 2018
 
 I have to thank Dan and Luis for their huge contribution to make this release.
 
-I'd also like to thank Ben, Freddy, Gilles, Henri, Michal, Phil, Shridar and Thomas for their contributions.
+Contributors: Ben, Freddy, Gilles, Henri, Michal, Phil, Shridar, Toni and Thomas.
 If I've forgotten you, please let me know so I can add your name to this acknowledgement.
 
 The headline features are:
@@ -42,11 +42,13 @@ High Priory Issues
 1 Do not build with GCC 8.2 (7.3 is OK) https://github.com/Exiv2/exiv2/issues/421
 2 Do not build with Xcode 10.0 https://bugreport.apple.com/web/?problemID=45223696
   Xcode 9.4 and earlier OK     https://github.com/Exiv2/exiv2/issues/465
-  Xcode 10.1 is OK             https://github.com/Exiv2/exiv2/issues/528
+  Xcode 10.1            OK     https://github.com/Exiv2/exiv2/issues/528
 
 Fixes since RC1
 ---------------
+#544 Catalonian Language Support
 #541 exiv2 -vVg loops
+#540 CMake Cleanup
 #528 Xcode 10.1 builds samples/taglist.cpp
 #527 Localization Support
 #521 Delete XMP XmpBag and XmpSeq
@@ -60,23 +62,40 @@ GitHub
 https://github.com/Exiv2/exiv2/milestone/1
 
 Redmine:
-70 issues have been closed
+88 issues have been closed
 http://dev.exiv2.org/projects/exiv2/issues
 
-Basicio: (1)
-	0001374	excessively often calls stat()
-
-Build: (7)
+Build: (11)
 	0001362	Fix Clang build
 	0001358	Unsuccessful build (Win7, MSVC2015, amd64_x86)
 	0001356	Small patch to configure.py
 	0001329	Error during cmake with gcc version parsing
+	0001310	Provide support for msys/2.0
 	0001299	exiv2-0.26-trunk.tar.gz changed on download server
 	0001270	Using libexiv2.a/.lib  in multhreaded app segfaults.
 	0001237	Report CMake/MinGW issues to Kitware
+	0001188	Provide build support for C++11
+	0001174	Visual Studio Support Enhancements
+	0001121	Visual Studio support for v0.27
+
+Basicio: (1)
+	0001374	excessively often calls stat()
 
 Camera: (1)
 	0001352	Support camera Canon M100
+
+Coverity: (11)
+	0001265	[ Coverity : /src/basicio.cpp ] Unchecked return value from library , Time of check time of use , Incorrect deallocator used , Dereference before null check , String not null terminated
+	0001264	[ Coverity : /src/actions.cpp ] Unchecked return value from library , Logically dead code , Not restoring ostream format
+	0001263	[ Coverity : 1396730 Uninitialized scalar field ] /include/exiv2/xmp.hpp
+	0001262	[ Coverity : XMPSDK Errors ] Unused value , Explicit null dereferenced
+	0001261	[ Coverity : 1296083 Resource leak ] /src/exiv2.cpp
+	0001260	[ Coverity : 1296084 Resource leak ] /src/http.cpp
+	0001259	[ Coverity : 1396717 Out-of-bounds read ] /src/easyaccess.cpp
+	0001258	[ Coverity 1396718 Out-of-bounds access ] /src/webpimage.cpp
+	0001257	[ Coverity 1396719 Resource leak ] /src/tiffcomposite.cpp
+	0001256	[ Coverity 1396721 : /src/basicio.cpp ]  String not null terminated
+	0000883	Use Coverity SCAN on exiv2 code-base
 
 Duplicate: (1)
 	0001307	exiv2: tiffvisitor.cpp:1299: virtual void Exiv2::Internal::TiffReader::visitDirectory(Exiv2::Internal::TiffDirectory*): Assertion `tc.get()' failed.
@@ -89,15 +108,15 @@ Exif: (6)
 	0001316	It is a heap-buffer-overflow in Exiv2::l2Data (types.cpp:398)
 	0001315	Invalid memory address dereference in Exiv2::DataValue::read (value.cpp:193)
 
+Insufficient information: (1)
+	0001347	Segfault in Digikam when saving/loading certain TIFF images
+
 Image format: (5)
 	0001353	Segmentation fault in the software exiv2 when the function Exiv2::tEXtToDataBuf() is finished
 	0001346	Assertion failure in Exiv2::Internal::CiffComponent::doRead() in libexiv2
 	0001345	Assertion Failure (SIGABRT) in Exiv2:RafImage::readMetadata() in Libexiv2
 	0001338	Exiv2 aborted (crashed) with "Error in `exiv2': free(): invalid next size (fast)"
 	0001334	Version 0.26 is returns unwanted data when the key value is received from RW2 files (Panasonic DMC-GF6 camera)
-
-Insufficient information: (1)
-	0001347	Segfault in Digikam when saving/loading certain TIFF images
 
 Lens: (20)
 	0001373	Tamron SP 24-70mm F/2.8 Di VC USD not recognized properly
@@ -121,10 +140,6 @@ Lens: (20)
 	0001306	the lens TAMRON SP 15-30mm F/2.8 Di VC USD A012 is not properly recognised
 	0001304	Lens missing Tamron SP 90mm f/2.8 Di Macro 1:1 VC USD F017
 
-Makernote: (2)
-	0001343	Irix 15mm f/2.4 on Nikon
-	0001324	Pentax Makernote written twice
-
 Metadata: (7)
 	0001341	Date/Time Original not modified for NEFs
 	0001340	Infinite loop bugs in Libexiv2 Exiv2::Image::printIFDStructure()
@@ -133,6 +148,10 @@ Metadata: (7)
 	0001321	Invalid memory address dereference in Exiv2::getULong(types.cpp:246)
 	0001301	New lens: Sigma 18-35mm f/1.8 DC HSM Art for Canon
 	0001300	New lens: Canon EF-S 35mm f/2.8 Macro IS STM
+
+Makernote: (2)
+	0001343	Irix 15mm f/2.4 on Nikon
+	0001324	Pentax Makernote written twice
 
 Miscellaneous: (2)
 	0001314	it is a stack-overflow vulnerability in Exiv2::Internal::stringFormat[abi:cxx11] ( in image.cpp:975 )
@@ -148,23 +167,29 @@ Not-a-bug: (8)
 	0001344	Unknown metadata
 	0001331	exiv2 fails to delete bulk of metadata in jpeg
 
+Tools: (1)
+	0001303	#1 Use 'releases' feature on GitHub
+
 Tiff parser: (3)
 	0001360	exiv2 can't read metadata from tiff file (tiff directory length is too large)
 	0001359	This does not look like a TIFF image
 	0001330	Crash in Exiv2::TiffImage::readMetadata
 
-Tools: (1)
-	0001303	#1 Use 'releases' feature on GitHub
+Video: (2)
+	0001068	Video Code Umbrella
+	0001028	Add GSoC13 video-write code
 
-Website: (2)
+Website: (3)
 	0001308	Move directory <exiv2dir>/website to svn://dev.exiv2.org/svn/team/website
 	0001302	Use sha256 Checksums on Downloads and Archive pages of the web site.
+	0001288	site defaults to http://, and https:// certificate is bogus
 
 Xmp: (3)
 	0001354	Inconsistency with long XMP namespaces (e.g. 'Iptc4xmpExt')
 	0001278	XMP SDK Split
 	0000941	Upgrade xmpsdk source to Adobe's current version
 
+
 Robin Mills
 robin@clanmills.com
-2018-11-14
+2018-11-16
