@@ -595,41 +595,79 @@ int Params::evalPrint(const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-        switch (optarg[0]) {
-        case 's': action_ = Action::print; printMode_ = pmSummary; break;
-        case 'a': rc = evalPrintFlags("kyct"); break;
-        case 'e': rc = evalPrintFlags("Ekycv"); break;
-        case 't': rc = evalPrintFlags("Ekyct"); break;
-        case 'v': rc = evalPrintFlags("Exgnycv"); break;
-        case 'h': rc = evalPrintFlags("Exgnycsh"); break;
-        case 'i': rc = evalPrintFlags("Ikyct"); break;
-        case 'x': rc = evalPrintFlags("Xkyct"); break;
-        case 'c': action_ = Action::print; printMode_ = pmComment    ; break;
-        case 'p': action_ = Action::print; printMode_ = pmPreview    ; break;
-        case 'C': action_ = Action::print; printMode_ = pmIccProfile ; break;
-        case 'R': action_ = Action::print; printMode_ = pmRecursive  ; break;
-        case 'S': action_ = Action::print; printMode_ = pmStructure  ; break;
-        case 'X': action_ = Action::print; printMode_ = pmXMP        ; break;
+        case Action::none:
+            switch (optarg[0]) {
+                case 's':
+                    action_ = Action::print;
+                    printMode_ = pmSummary;
+                    break;
+                case 'a':
+                    rc = evalPrintFlags("kyct");
+                    break;
+                case 'e':
+                    rc = evalPrintFlags("Ekycv");
+                    break;
+                case 't':
+                    rc = evalPrintFlags("Ekyct");
+                    break;
+                case 'v':
+                    rc = evalPrintFlags("Exgnycv");
+                    break;
+                case 'h':
+                    rc = evalPrintFlags("Exgnycsh");
+                    break;
+                case 'i':
+                    rc = evalPrintFlags("Ikyct");
+                    break;
+                case 'x':
+                    rc = evalPrintFlags("Xkyct");
+                    break;
+                case 'c':
+                    action_ = Action::print;
+                    printMode_ = pmComment;
+                    break;
+                case 'p':
+                    action_ = Action::print;
+                    printMode_ = pmPreview;
+                    break;
+                case 'C':
+                    action_ = Action::print;
+                    printMode_ = pmIccProfile;
+                    break;
+                case 'R':
+                #ifdef NDEBUG
+                    std::cerr << progname() << ": " << _("Action not available in Release mode")
+                              << ": '" << optarg << "'\n";
+                    rc = 1;
+                #else
+                    action_ = Action::print;
+                    printMode_ = pmRecursive;
+                #endif
+                    break;
+                case 'S':
+                    action_ = Action::print;
+                    printMode_ = pmStructure;
+                    break;
+                case 'X':
+                    action_ = Action::print;
+                    printMode_ = pmXMP;
+                    break;
+                default:
+                    std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" << optarg << "'\n";
+                    rc = 1;
+                    break;
+            }
+            break;
+        case Action::print:
+            std::cerr << progname() << ": " << _("Ignoring surplus option -p") << optarg << "\n";
+            break;
         default:
-            std::cerr << progname() << ": " << _("Unrecognized print mode") << " `"
-                      << optarg << "'\n";
+            std::cerr << progname() << ": " << _("Option -p is not compatible with a previous option\n");
             rc = 1;
             break;
-        }
-        break;
-    case Action::print:
-        std::cerr << progname() << ": "
-                  << _("Ignoring surplus option -p") << optarg << "\n";
-        break;
-    default:
-        std::cerr << progname() << ": "
-                  << _("Option -p is not compatible with a previous option\n");
-        rc = 1;
-        break;
     }
     return rc;
-} // Params::evalPrint
+}  // Params::evalPrint
 
 int Params::evalPrintFlags(const std::string& optarg)
 {
