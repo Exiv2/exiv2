@@ -82,6 +82,17 @@ namespace Exiv2 {
         os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
         return os.str();
     }
+
+    const char* version()
+    {
+        return EXV_PACKAGE_VERSION;
+    }
+
+    bool testVersion(int major, int minor, int patch)
+    {
+        return versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch);
+    }
+
 }                                       // namespace Exiv2
 
 #ifndef lengthof

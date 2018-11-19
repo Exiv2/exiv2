@@ -80,6 +80,52 @@
 #define EXIV2_VERSION \
     EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION,EXIV2_MINOR_VERSION,EXIV2_PATCH_VERSION)
 
+/*!
+  @brief Macro to test the version the %Exiv2 library at compile-time.
+         Return true if it is the same as or newer than the passed-in version.
+
+  Versions prior to v0.27 are denoted using a triplet of integers: \em MAJOR.MINOR.PATCH .
+  From v0.27 forward, the fourth digit is a "tweak" and designates the pre-release number of the version.
+
+  @code
+  // Application code is expected to include <exiv2/exiv2.hpp>
+  // Don't include the <exiv2/version.hpp> file directly
+  // Early Exiv2 versions didn't have version.hpp and the macros.
+
+  #include <exiv2/exiv2.hpp>
+
+  // Make sure an EXIV2_TEST_VERSION macro exists:
+  #ifdef EXIV2_VERSION
+  # ifndef EXIV2_TEST_VERSION
+  # define EXIV2_TEST_VERSION(major,minor,patch) \
+      ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+  # endif
+  #else
+  # define EXIV2_TEST_VERSION(major,minor,patch) (false)
+  #endif
+
+  std::cout << "Compiled with Exiv2 version " << EXV_PACKAGE_VERSION << "\n"
+            << "Runtime Exiv2 version is    " << Exiv2::version()    << "\n";
+
+  // Test the Exiv2 version available at runtime but compile the if-clause only if
+  // the compile-time version is at least 0.15. Earlier versions didn't have a
+  // testVersion() function:
+
+  #if EXIV2_TEST_VERSION(0,15,0)
+  if (Exiv2::testVersion(0,13,0)) {
+      std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
+  }
+  else {
+      std::cout << "Installed Exiv2 version is less than 0.13\n";
+  }
+  #else
+  std::cout << "Compile-time Exiv2 version doesn't have Exiv2::testVersion()\n";
+  #endif
+  @endcode
+ */
+#define EXIV2_TEST_VERSION(major,minor,patch) \
+    ( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -96,6 +142,19 @@ namespace Exiv2 {
     */
     EXIV2API std::string versionNumberHexString();
 
+    /*!
+      @brief Return the version of %Exiv2 as "C" string eg "0.27.0.2".
+    */
+    EXIV2API const char* version();
+
+    /*!
+      @brief Test the version of the available %Exiv2 library at runtime. Return
+             true if it is the same as or newer than the passed-in version.
+
+      Versions are denoted using a triplet of integers: \em major.minor.patch .
+      The fourth version number is designated a "tweak" an used by Release Candidates
+    */
+    EXIV2API bool testVersion(int major, int minor, int patch);
     /*!
       @brief dumpLibraryInfo implements the exiv2 option --version --verbose
              used by exiv2 test suite to inspect libraries loaded at run-time
