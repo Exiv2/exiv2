@@ -254,10 +254,16 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
     endif()
 
-    # Copy DLLs from conan packages to the bin folder
-    if (USING_CONAN AND WIN32)
+    if (USING_CONAN AND WIN32 AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls)
+        # In case of using conan recipes with their 'shared' option turned on, we will have dlls of
+        # the 3rd party dependencies in the conanDlls folder.
+
+        # Copy 3rd party DLLs the bin folder. [build step]
         add_custom_command(TARGET exiv2 POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/conanDlls ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+        # Copy 3rd party DLLs the bin folder. [install step]
+        install(DIRECTORY ${PROJECT_BINARY_DIR}/conanDlls/ DESTINATION bin)
     endif()
 
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
