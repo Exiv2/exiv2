@@ -149,18 +149,18 @@ Iptc.Envelope.CharacterSet                   String      3  %G
 
 Testcase 15
 ===========
-Xmp.xmp.ModifyDate                           XmpText    20  2015-04-17T18:10:22Z
 Xmp.exif.ExifVersion                         XmpText     4  2.21
 Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.1
 Xmp.exif.GPSLatitude                         XmpText    12  3,8.4955752N
 Xmp.exif.GPSTimeStamp                        XmpText    29  2003-12-14T01:02:00.999999999
-Xmp.exif.ComponentsConfiguration             XmpSeq      4  YCbCr
 Xmp.exif.Flash                               XmpText     0  type="Struct"
 Xmp.exif.Flash/exif:Fired                    XmpText     4  True
 Xmp.exif.Flash/exif:Return                   XmpText     1  0
 Xmp.exif.Flash/exif:Mode                     XmpText     1  1
 Xmp.exif.Flash/exif:Function                 XmpText     5  False
 Xmp.exif.Flash/exif:RedEyeMode               XmpText     4  True
+Xmp.exif.ComponentsConfiguration             XmpSeq      4  YCbCr
+Xmp.xmp.ModifyDate                           XmpText    20  2015-04-17T18:10:22Z
 Xmp.photoshop.DateCreated                    XmpText    29  2003-12-14T12:01:44.999999999
 Exif.Image.DateTime                          Ascii      20  2015:04:18 02:10:22
 Exif.Image.ExifTag                           Long        1  70
@@ -177,3 +177,27 @@ Exif.GPSInfo.GPSTimeStamp                    Rational    3  1/1 2/1 999999999/10
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2003:12:14
 Iptc.Envelope.CharacterSet                   String      3  %G
 Iptc.Application2.DateCreated                Date        8  2003-12-14
+
+Testcase 16
+===========
+Xmp.MY.DateConfidence                        XmpText     4  Full
+Xmp.exifEX.PhotographicSensitivity           XmpText     2  64
+Xmp.mwg-rs.Regions                           XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:w XmpText     3  540
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:h XmpText     3  960
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:unit XmpText     5  pixel
+Xmp.mwg-rs.Regions/mwg-rs:RegionList         XmpText     0  type="Seq"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]      XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Type XmpText     4  Face
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Name XmpText     7  America
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:x XmpText     8  0.825794
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:y XmpText     8  0.379665
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:w XmpText     8  0.110064
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:h XmpText     8  0.077389
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:unit XmpText    10  normalized
+Xmp.dc.subject                               XmpBag      1  America
+Xmp.MY.DateConfidence                        XmpText     4  Full
+Xmp.exifEX.PhotographicSensitivity           XmpText     2  64
+Xmp.dc.subject                               XmpBag      1  America

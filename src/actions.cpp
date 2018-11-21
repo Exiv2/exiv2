@@ -1616,7 +1616,7 @@ namespace Action {
             Exiv2::XmpData::iterator pos;
             Exiv2::XmpKey xmpKey = Exiv2::XmpKey(modifyCmd.key_);
             while((pos = xmpData.findKey(xmpKey)) != xmpData.end()) {
-                xmpData.erase(pos);
+                xmpData.eraseFamily(pos);
             }
         }
     }

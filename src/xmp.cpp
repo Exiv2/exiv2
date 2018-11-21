@@ -382,14 +382,18 @@ namespace Exiv2 {
         return xmpMetadata_.end();
     }
 
-    void XmpData::erase(XmpData::iterator& pos)
+    XmpData::iterator XmpData::erase(XmpData::iterator pos) {
+        return xmpMetadata_.erase(pos);
+    }
+
+    void XmpData::eraseFamily(XmpData::iterator &pos)
     {
         // https://github.com/Exiv2/exiv2/issues/521
         // delete 'children' of XMP composites (XmpSeq and XmpBag)
         std::string key = pos->key();
         while ( pos != end() ) {
             if ( pos->key().find(key)==0 ) {
-                xmpMetadata_.erase(pos);
+                erase(pos);
             } else {
                 break ;
             }
