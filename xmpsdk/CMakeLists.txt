@@ -38,9 +38,6 @@ target_include_directories(xmp
         ${EXPAT_INCLUDE_DIR}
 )
 
-# TODO : We should only add this definition for Windows
-target_compile_definitions(xmp PRIVATE XML_STATIC)
-
 check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
 if (EXV_HAVE_STDINT_H)
     target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
