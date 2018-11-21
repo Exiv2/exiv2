@@ -149,18 +149,18 @@ Iptc.Envelope.CharacterSet                   String      3  %G
 
 Testcase 15
 ===========
+Xmp.xmp.ModifyDate                           XmpText    20  2015-04-17T18:10:22Z
 Xmp.exif.ExifVersion                         XmpText     4  2.21
 Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.1
 Xmp.exif.GPSLatitude                         XmpText    12  3,8.4955752N
 Xmp.exif.GPSTimeStamp                        XmpText    29  2003-12-14T01:02:00.999999999
+Xmp.exif.ComponentsConfiguration             XmpSeq      4  YCbCr
 Xmp.exif.Flash                               XmpText     0  type="Struct"
 Xmp.exif.Flash/exif:Fired                    XmpText     4  True
 Xmp.exif.Flash/exif:Return                   XmpText     1  0
 Xmp.exif.Flash/exif:Mode                     XmpText     1  1
 Xmp.exif.Flash/exif:Function                 XmpText     5  False
 Xmp.exif.Flash/exif:RedEyeMode               XmpText     4  True
-Xmp.exif.ComponentsConfiguration             XmpSeq      4  YCbCr
-Xmp.xmp.ModifyDate                           XmpText    20  2015-04-17T18:10:22Z
 Xmp.photoshop.DateCreated                    XmpText    29  2003-12-14T12:01:44.999999999
 Exif.Image.DateTime                          Ascii      20  2015:04:18 02:10:22
 Exif.Image.ExifTag                           Long        1  70
