@@ -206,6 +206,15 @@ fi
     runTest exiv2 -PEkycv v.jpg
     runTest exiv2 -pi v.jpg
 
+    # 16) https://github.com/Exiv2/exiv2/issues/521
+    echo
+    echo Testcase 16
+    echo ===========
+    copyTestFile                             DSC_3079.jpg
+    runTest exiv2 -px                        DSC_3079.jpg
+    runTest exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg
+    runTest exiv2 -px                        DSC_3079.jpg
+
 ) > $results 2>&1
 
 # ----------------------------------------------------------------------

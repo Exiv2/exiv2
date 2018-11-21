@@ -208,10 +208,21 @@ namespace Exiv2 {
           @return 0 if successful.
          */
         int add(const Xmpdatum& xmpdatum);
+        /*
+        @brief Delete the Xmpdatum at iterator position pos, return the
+                position of the next Xmpdatum.
+
+        @note  Iterators into the metadata, including pos, are potentially
+                invalidated by this call.
+        @brief Delete the Xmpdatum at iterator position pos and update pos
+        */
+        iterator erase(XmpData::iterator pos);
         /*!
           @brief Delete the Xmpdatum at iterator position pos and update pos
+                 eraseFamily erases data from the same family
+                 See: https://github.com/Exiv2/exiv2/issues/521
          */
-        void erase(iterator& pos);
+        void eraseFamily(iterator &pos);
         //! Delete all Xmpdatum instances resulting in an empty container.
         void clear();
         //! Sort metadata by key
