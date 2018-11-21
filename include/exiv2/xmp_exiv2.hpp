@@ -209,13 +209,9 @@ namespace Exiv2 {
          */
         int add(const Xmpdatum& xmpdatum);
         /*!
-          @brief Delete the Xmpdatum at iterator position pos, return the
-                 position of the next Xmpdatum.
-
-          @note  Iterators into the metadata, including pos, are potentially
-                 invalidated by this call.
+          @brief Delete the Xmpdatum at iterator position pos and update pos
          */
-        iterator erase(iterator pos);
+        void erase(iterator& pos);
         //! Delete all Xmpdatum instances resulting in an empty container.
         void clear();
         //! Sort metadata by key
