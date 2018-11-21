@@ -35,7 +35,7 @@ class Exiv2Conan(ConanFile):
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            self.requires('Expat/2.2.5@pix4d/stable')
+            self.requires('Expat/2.2.6@pix4d/stable')
 
     def imports(self):
         self.copy('*.dll', dst='conanDlls', src='bin')
