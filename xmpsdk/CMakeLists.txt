@@ -1,34 +1,30 @@
-# CMakeLists.txt exiv2/xmpsdk
-
-# list files to be use to build XMPsdk
-set(XMPSRC src/ExpatAdapter.cpp
-           src/MD5.cpp
-           src/ParseRDF.cpp
-           src/UnicodeConversions.cpp
-           src/WXMPIterator.cpp
-           src/WXMPMeta.cpp
-           src/WXMPUtils.cpp
-           src/XML_Node.cpp
-           src/XMPCore_Impl.cpp
-           src/XMPIterator.cpp
-           src/XMPMeta-GetSet.cpp
-           src/XMPMeta-Parse.cpp
-           src/XMPMeta-Serialize.cpp
-           src/XMPMeta.cpp
-           src/XMPUtils-FileInfo.cpp
-           src/XMPUtils.cpp
-           include/MD5.h
-           include/TXMPIterator.hpp
-           include/TXMPMeta.hpp
-           include/TXMPUtils.hpp
-           include/XMP_Const.h
-           include/XMP_Environment.h
-           include/XMP.incl_cpp
-           include/XMPSDK.hpp
-           include/XMP_Version.h
+add_library(xmp STATIC
+    src/ExpatAdapter.cpp
+    src/MD5.cpp
+    src/ParseRDF.cpp
+    src/UnicodeConversions.cpp
+    src/WXMPIterator.cpp
+    src/WXMPMeta.cpp
+    src/WXMPUtils.cpp
+    src/XML_Node.cpp
+    src/XMPCore_Impl.cpp
+    src/XMPIterator.cpp
+    src/XMPMeta-GetSet.cpp
+    src/XMPMeta-Parse.cpp
+    src/XMPMeta-Serialize.cpp
+    src/XMPMeta.cpp
+    src/XMPUtils-FileInfo.cpp
+    src/XMPUtils.cpp
+    include/MD5.h
+    include/TXMPIterator.hpp
+    include/TXMPMeta.hpp
+    include/TXMPUtils.hpp
+    include/XMP_Const.h
+    include/XMP_Environment.h
+    include/XMP.incl_cpp
+    include/XMPSDK.hpp
+    include/XMP_Version.h
 )
-
-add_library(xmp STATIC ${XMPSRC})
 
 target_link_libraries(xmp 
     PRIVATE 
@@ -59,6 +55,3 @@ install(TARGETS xmp EXPORT exiv2Config
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-
-# That's all Folks!
-##

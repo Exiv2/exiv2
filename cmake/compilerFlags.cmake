@@ -166,7 +166,7 @@ if(MSVC)
                  string(REGEX REPLACE "/MD" "/MT" ${variable} "${${variable}}")
              endif()
          endforeach()
-     endif()
+    endif()
 
     # remove /Ob2 and /Ob1 - they cause linker issues
     set(obs /Ob2 /Ob1)
