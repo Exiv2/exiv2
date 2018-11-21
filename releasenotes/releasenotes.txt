@@ -1,11 +1,11 @@
-Exiv2 v0.27.0.2   (Exiv2 v0.27 RC2)
+Exiv2 v0.27.0.3   (Exiv2 v0.27 RC3)
 -----------------------------------
 
-We are 95% complete (by issues) 99/109 on GitHub and 88/88 on Redmine
-We are 93% complete (by time).  Project 2017-05-10 .. 2018-12-28 (86 weeks)
+We are 100% complete (by issues) 129/129 on GitHub and 88/88 on Redmine
+We are  95% complete (by time).  Project 2017-05-10 .. 2018-12-28 (86 weeks)
 
 Exiv2 v0.27 RC3 scheduled 07 December 2018
-Exiv2 v0.27 GM  scheduled 28 December 2018
+Exiv2 v0.27  GM scheduled 28 December 2018
 
 I have to thank Dan and Luis for their huge contribution to make this release.
 
@@ -19,7 +19,7 @@ The headline features are:
  3) Rewritten CMake Support
  4) Conan Support to build dependencies
  5) Adobe XMPsdk 2016 support
- 6) New python based test suite
+ 6) New python test suite
  7) AppVeyor, Travis, CodeCov and GitLabs monitor submissions
  8) Support for MinGW/msys2
  9) Jenkins buildserver operates from GitHub
@@ -33,19 +33,35 @@ Focus of Exiv2 v0.28
 Exiv2 moves into the future with Exiv2 v0.28.
 The code will be modernised to C++11.
 
-Users C++98 compilers such as Visual Studio (<2015) will be supported
+Using C++98 compilers such as Visual Studio (<2015) will be supported
 with quarterly Exiv2 v0.27 'dot' (security) releases during 2019 and 2020.
 
-High Priory Issues
-------------------
+Known Issues
+------------
 
 1 Do not build with GCC 8.2 (7.3 is OK) https://github.com/Exiv2/exiv2/issues/421
 2 Do not build with Xcode 10.0 https://bugreport.apple.com/web/?problemID=45223696
   Xcode 9.4 and earlier OK     https://github.com/Exiv2/exiv2/issues/465
   Xcode 10.1            OK     https://github.com/Exiv2/exiv2/issues/528
 
-Fixes since RC1
----------------
+Fixes between RC2 and RC3
+-------------------------
+#557 Updates to documentation concerning Debugging, Clang, ccache and Unit Tests.
+#557 Build and test logs are stored in build bundles.
+#572 Build Server publishes/tests
+     on Cygwin, MinGW, Linux, Darwin and msvc
+     in Release/Debug, 64/32, gcc/clang, static/shared.
+#369 Revised man page exiv2.1.
+#521 Fix del XMP/Region
+#570 All compiler warnings have been eliminated.
+     Web-site refined and polished.
+     Preparation to rehost exiv2.org
+#425 Security fixes (#425, #547, #558, #564)
+     Something I've forgotten!
+     Something we'll discover today or tomorrow!
+
+Fixes between RC1 and RC2
+-------------------------
 #544 Catalonian Language Support
 #541 exiv2 -vVg loops
 #540 CMake Cleanup
@@ -192,4 +208,4 @@ Xmp: (3)
 
 Robin Mills
 robin@clanmills.com
-2018-11-16
+2018-11-29
