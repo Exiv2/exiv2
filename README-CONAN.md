@@ -110,7 +110,7 @@ The output from this command is quite long as conan downloads or builds zlib, ex
 ##### 1.5) Execute cmake to generate build files for your environment.
 
 ```bash
-$ cmake ..  # -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
+$ cmake ..  # -G "Visual Studio 15 2017 Win64"
 ```
 
 <name id="1-6"></a>
@@ -131,7 +131,7 @@ $ cmake --build . --config Release
 
 When you run conan install for the first time, it will detect and write the default profile ~/.conan/profile/default.  On my Ubuntu system with GCC 4.9, this is:
 
-```bash
+```ini
 [settings]
 os=Linux
 os_build=Linux
@@ -162,7 +162,6 @@ settings works with conan and different compilers:
 compiler.libcxx=libstdc++11  # will use -stdlib=libstdc++ and define _GLIBCXX_USE_CXX11_ABI=1
 compiler.libcxx=libstdc++    # will use -stdlib=libstdc++ and define _GLIBCXX_USE_CXX11_ABI=0
 compiler.libcxx=libc++       # will use -stdlib=libc++
-
 ```
 
 As a rule of thumb, set `compiler.libcxx=libstdc++11` when using a version of gcc >= 5.1.
@@ -180,7 +179,7 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 
 I use the following batch file to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
 
-```
+```bat
 @echo off
 setlocal
 cd  %HOMEPATH%
@@ -190,9 +189,18 @@ cmd
 
 ### Profiles for Visual Studio
 
-You can build Exiv2 with either Visual Studio 2015 (version 14) or 2017 (version 15).  You create profiles in %HOMEPATH%\.conan\profiles with a text editor.
+You can build Exiv2 with Visual Studio 2017 (version 15), 2015 (version 14), 2013 (version 12), 2012 (version 11), 2010 (version 10) or 2008 (version 9).
+You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in **<exiv2dir>/cmake/msvc\_conan\_profiles**.  There are 24 in total:
 
-If you have an installation of Visual Studio 2017, the profile msvc2017Release64 is as follows:
+```
+Profile :=    msvc{Edition}{Type}{Bits}
+Edition :=  { 2017    | 2015  |  2013  |  2012  |  2010  |  2008  }
+Type    :=  { Release | Debug }
+Bits    :=  { 64      | 32    }
+Examples:     msvc2017Release64  msvc2015Debug32
+```
+
+The profile msvc2017Release64 is as follows:
 
 ```ini
 [build_requires]
@@ -214,73 +222,63 @@ os_build=Windows
 In the step-by-step guide, the command `$ cmake ..` uses
 the default CMake generator.  Always use the generator for your version of Visual Studio.  For example:
 
-```bash
+```bat
 c:\....\exiv2\build> conan install .. --profile msvc2017Release64 --build missing
-c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=0
+c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64"
 c:\....\exiv2\build> cmake --build .  --config Release
 ```
 
-CMake provides 4 Generators.  The 64 and 32 bit Generators have different names:
+CMake provides Generators for different editions of Visual Studio.  The 64 and 32 bit Generators have different names:
 
-| Architecture | Visual Studio 2015 | Visual Studio 2017|
-|:---------|--------------------|--------------------|
-| 64 bit | "Visual Studio 14 2015 Win64"    | "Visual Studio 15 2017 Win64" |
-| 32 bit | "Visual Studio 14 2015"    | "Visual Studio 15 2017" |
+| Architecture | Visual Studio 2017 | Visual Studio 2015 | Visual Studio 2013 |
+|:---------    |--------------------|--------------------|--------------------|
+| 64 bit       | "Visual Studio 15 2017 Win64" |  "Visual Studio 14 2015 Win64"     | "Visual Studio 12 2013 Win64"  |
+| 32 bit       | "Visual Studio 15 2017"       | "Visual Studio 14 2015"            | "Visual Studio 12 2013 "       |
 
 ### Recommended settings for Visual Studio
 
 ##### 64 bit Release Build
 
-| | Visual Studio 2015 | Visual Studio 2017|
+| | Visual Studio 2017 | Visual Studio 2015|
 |:---------|--------------------|--------------------|
-| _**conan install .. --profile**_ | msvc2015Release64 | msvc2017Release64 |
-| _**cmake -G**_                   |  "Visual Studio 14 2015 Win64"    | "Visual Studio 15 2017 Win64" |
-| _**cmake**_                      | -DCMAKE\_BUILD\_TYPE=Release | -DCMAKE\_BUILD\_TYPE=Release |
-| _**profile**_ | arch=x86\_64  | arch=x86\_64 |
-| | arch\_build=x86\_64 | arch\_build=x86\_64 |
-| | build\_type=Release | build\_type=Release |
-| | compiler.runtime=MD | compiler.runtime=MD |
-| | compiler.version=14 | compiler.version=15 |
-| | compiler=Visual Studio | compiler=Visual Studio |
-| | os=Windows | os=Windows |
-| | os\_build=Windows | os\_build=Windows |
+| _**conan install .. --profile**_ | msvc2017Release64 | msvc2015Release64 |
+| _**cmake -G**_                   |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
+| _**profile**_<br><br><br><br><br><br><br>_ | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=15<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=14 <br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows |
 
 ##### Debug Builds
 
-|| Visual Studio 2015 | Visual Studio 2017|
+|| Visual Studio 2017 | Visual Studio 2015 |
 |:-------|-------|------|
-| _**conan install .. --profile**_ | msvc2015Debug64 | msvc2017Debug64 |
-| _**cmake**_ | -DCMAKE\_BUILD\_TYPE=Debug | -DCMAKE\_BUILD\_TYPE=Debug |
-| _**profile**_ | build_type=Debug | build_type=Debug |
-| | compiler.runtime=MDd | compiler.runtime=MDd |
+| _**conan install .. --profile**_ | msvc2017Debug64 | msvc2015Debug64 |
+| _**profile**_<br>_ | build\_type=Debug<br>compiler.runtime=MDd | build_type=Debug<br>compiler.runtime=MDd |
 
 ##### 32bit Builds
 
-|| Visual Studio 2015 | Visual Studio 2017|
+|| Visual Studio 2017 | Visual Studio 2015 |
 |:-----------|--------------------|--------------------|
-| _**conan install .. --profile**_ | msvc2015Release32 | msvc2017Release32 |
-| _**cmake -G**_ | "Visual Studio 14 2015" | "Visual Studio 15 2017" |
-| _**profile**_ | arch=x86 | arch=x86 |
-| | arch_build=x86 | arch_build=x86 |
+| _**conan install .. --profile**_ | msvc2017Release32 | msvc2015Release32 |
+| _**cmake -G**_ | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
+| _**profile**_<br>_ | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
 
 ##### Static Builds
 
-The default (and recommended) builds of Exiv2 and sample applications build and use DLLs.  If you wish to build static applications and libraries, you will need to set the correct "C" run-time library to be linked both to your code and dependencies being built/downloaded by conan.
+The default builds of Exiv2 and sample applications build use DLLs.
 
-| Static Release | Static Debug |
-|:---------|:-------------------|
-| compiler.runtime=MT | compiler.runtime=MTd |
+To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.
 
-Additionally, you will have to use the cmake option -DBUILD\_SHARED\_LIBS=Off
-
+```bash
+$ cmake -DBUILD_SHARED_LIBS=Off ..
 ```
-$ cmake -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_NLS=0 ..
 
-```
+If you wish to use the static C run-time library, use the following option in the conan profile.
+
+|                      | Static Release      | Static Debug |
+|:---                  |:---------           |:-------------------|
+| **profile setting**  | compiler.runtime=MT | compiler.runtime=MTd |
 
 ### Changing profile settings with the conan command
 
-It is recommended that you create 8 profiles for msvc{2017|2015}{Release|Debug}{64|32}.
+It is recommended that you use profiles provided in **<exiv2dir>/cmake/msvc\_conan\_profiles**.
 
 You can modify profile settings on the command line.
 The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration to some conan flexibility which be useful when your build environment is automated.
@@ -291,32 +289,19 @@ $ cmake         .. -G "Visual Studio 2015"
 $ cmake --build .  --config Release
 ```
 
-### CMake/Cygwin Collisions on the build machine
-
-If you have Cygwin installed on your build machine, you may encounter the situation
-that CMake erroneously finds library files in Cygwin directories and adds `c:\\cygwin64\\usr\\include` to the
-compiler header search path.  FindIntl is a prime suspect and I believe this issue is caused by %PATH%.
-
-I recommend that you disable Natural Language Support when building with Visual Studio:
-
-```
-$ cmake .. -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=Off
-```
-
-If necessary, temporarily rename c:\\cygwin64\\usr\\include as c:\\cygwin64\\usr\\uncle to hide those files when working with CMake.
-
 [TOC](#TOC)
 <name id="2-3"></a>
 ### 2.3) Cygwin Notes
 
-Do not use conan on the Cygwin Platform.  To build Exiv2 for Cygwin use CMake without conan.  We recommend installing or building dependences (expat, zlib) with platform tools.
+Do not use conan on the Cygwin Platform.  To build Exiv2 for Cygwin use CMake without conan.  We recommend installing dependences (expat, zlib) with platform tools or build/install from source.
 
+[TOC](#TOC)
 <name id="2-4"></a>
 ### 2.4) MinGW Notes
 
 Team Exiv2 supports MinGW msys/2.  Team Exiv2 does not support MinGW msys/1.0.
 
-As with Cygwin, we recommend installing or building dependencies with platform tools dependencies and using CMake to build Exiv2.
+As with Cygwin, we do not recommend using conan to build on the MinGW/msys2 platform.  We recommend installing dependences (expat, zlib) with platform tools or build/install from source.
 
 [TOC](#TOC)
 <name id="3">
@@ -592,9 +577,11 @@ Exiv2 can perform I/O using internet protocols such as https, https, ftp and ssh
 
 The feature is disabled by default.  You will need to instruct conan to build/download necessary libraries (curl, openssl and libssh) and tell CMake to link to the libraries.
 
-```
+```bash
 $ conan install .. --options webready=True
 $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON ..
 ```
 
 [TOC](#TOC)
+
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-11-22
