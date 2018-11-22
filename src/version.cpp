@@ -278,6 +278,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_sys_types   =0;
     int have_unistd      =0;
     int have_unicode_path=0;
+    int have_regex       =0;
 
     int enable_video     =0;
     int enable_webready  =0;
@@ -408,6 +409,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      use_ssh=1;
 #endif
 
+#ifdef EXV_HAVE_REGEX_H
+      have_regex=1;
+#endif
+
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
     HMODULE handles[200];
@@ -517,6 +522,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"use_curl"          ,use_curl         );
     output(os,keys,"use_ssh"           ,use_ssh          );
+    output(os,keys,"have_regex"        ,have_regex       );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
