@@ -237,7 +237,7 @@ namespace Exiv2 {
 
             /* Chunk with with lossless image data. */
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_alpha) {
-                if ((payload.pData_[5] & WEBP_VP8X_ALPHA_BIT) == WEBP_VP8X_ALPHA_BIT) {
+                if ((payload.pData_[4] & WEBP_VP8X_ALPHA_BIT) == WEBP_VP8X_ALPHA_BIT) {
                     has_alpha = true;
                 }
             }
