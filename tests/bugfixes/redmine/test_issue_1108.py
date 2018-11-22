@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
+import unittest
 
+@unittest.skip("Skipping test using option -pR (only for Debug mode)")
 class CheckDumpSubFiles(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1108"
