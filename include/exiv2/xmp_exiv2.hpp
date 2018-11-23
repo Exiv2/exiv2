@@ -219,10 +219,10 @@ namespace Exiv2 {
         iterator erase(XmpData::iterator pos);
         /*!
           @brief Delete the Xmpdatum at iterator position pos and update pos
-                 eraseFamily erases data from the same family
+                 erases all following keys from the same family
                  See: https://github.com/Exiv2/exiv2/issues/521
          */
-        void eraseFamily(iterator &pos);
+        void eraseFamily(XmpData::iterator& pos);
         //! Delete all Xmpdatum instances resulting in an empty container.
         void clear();
         //! Sort metadata by key
