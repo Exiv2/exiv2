@@ -10,6 +10,7 @@ lib/pkgconfig/exiv2.pc                    pkg-config file
 include/exiv2/                            include files
 share/                                    man pages
 samples/exifprint.cpp                     sample code
+logs                                      build and test logs
 
 ReadMe.txt                                This file
 license.txt                               GPLv2.0 Software License
