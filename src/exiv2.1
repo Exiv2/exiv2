@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Oct 26, 2018"
+.TH EXIV2 1 "Nov 26, 2018"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -293,88 +293,60 @@ the 'adjust' action.
 .TP
 .B \-p \fImode\fP
 Print mode for the 'print' action. Possible modes are:
-.br
+.TS
+l l.
 s : print a summary of the Exif metadata (the default)
-.br
 a : print Exif, IPTC and XMP metadata (shortcut for \-Pkyct)
-.br
 e : print Exif metadata (shortcut for \-PEkycv)
-.br
 t : interpreted (translated) Exif tags (\-PEkyct)
-.br
 v : plain Exif tag values (\-PExgnycv)
-.br
 h : hexdump of the Exif data (\-PExgnycsh)
-.br
 i : IPTC datasets (\-PIkyct)
-.br
 x : XMP properties (\-PXkyct)
-.br
 c : JPEG comment
-.br
 p : list available image previews, sorted by preview image size in pixels
-.br
 C : print image ICC Profile (jpg, png, tiff, webp, cr2, jp2 only)
-.br
 R : print image structure recursively (jpg, png, tiff, webp, cr2, jp2 only)
-.br
 S : print image structure information (jpg, png, tiff, webp, cr2, jp2 only)
-.br
 X : print "raw" XMP (jpg, png, tiff, webp, cr2, jp2 only)
+.TE
 .TP
 .B \-P \fIflgs\fP
 Print flags for fine control of the tag list ('print' action). Allows
 control of the type of metadata as well as data columns included in
 the print output.  Valid flags are:
-.br
+.TS
+l l.
 E : include Exif tags in the list
-.br
 I : IPTC datasets
-.br
 X : XMP properties
-.br
 x : print a column with the tag number
-.br
 g : group name
-.br
 k : key
-.br
 l : tag label
-.br
 n : tag name
-.br
 y : type
-.br
 c : number of components (count)
-.br
 s : size in bytes
-.br
 v : plain data value (vanilla values)
-.br
 V : plain data value AND the word 'set ' (for use with exiv2 -m-)
-.br
 t : interpreted (translated) human readable data
-.br
 h : hexdump of the data
+.TE
 .TP
 .B \-d \fItgt\fP
 Delete target(s) for the 'delete' action. Possible targets are:
-.br
+.TS
+l l.
 a : all supported metadata (the default)
-.br
 e : Exif section
-.br
 t : Exif thumbnail only
-.br
 i : IPTC data
-.br
 x : XMP packet
-.br
 c : JPEG comment
-.br
 C : ICC Profile
-.br
 I : All IPTC data
+.TE
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
