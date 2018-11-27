@@ -40,10 +40,14 @@ target_compile_definitions(unit_tests
         GTEST_LINKED_AS_SHARED_LIBRARY=1
 )
 
-set_target_properties( unit_tests PROPERTIES
+set_target_properties(unit_tests PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
 
 if (USING_CONAN)
     target_compile_definitions(unit_tests PRIVATE ${CONAN_COMPILE_DEFINITIONS_GTEST})
+endif()
+
+if (MSVC)
+    set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")
 endif()
