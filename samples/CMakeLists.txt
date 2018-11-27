@@ -80,6 +80,10 @@ if( EXPAT_FOUND )
         target_compile_definitions(geotag PRIVATE XML_STATIC)
     endif()
 
+    if (MSVC)
+        set_target_properties(geotag PROPERTIES LINK_FLAGS "/ignore:4099")
+    endif()
+
     install( TARGETS       geotag    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
