@@ -5,6 +5,9 @@
 
 #include "config.h"
 #include "timegm.h"
+#ifdef   EXV_HAVE_UNISTD_H
+#include "unistd.h"
+#endif
 
 /*
 ** This file is in the public domain, so clarified as of
