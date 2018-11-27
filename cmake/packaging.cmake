@@ -1,41 +1,43 @@
 set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-set(CPACK_PACKAGE_CONTACT "Luis Díaz Más <piponazo@gmail.com>")
+set(CPACK_PACKAGE_CONTACT "Luis DÃ­az MÃ¡s <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 set(CPACK_SOURCE_GENERATOR TGZ)
 # https://libwebsockets.org/git/libwebsockets/commit/minimal-examples?id=3e25edf1ee7ea8127e941fd7b664e0e962cfeb85
 set(CPACK_SOURCE_IGNORE_FILES $(CPACK_SOURCE_IGNORE_FILES) "/.git/" "/build/" "\\\\.tgz$" "\\\\.tar\\\\.gz$" "\\\\.zip$" "/test/tmp/" )
 
+set (LT "") # Library Type
+set (BT "") # Build Type
+set (BS "") # Bit Size
+
+if ( NOT APPLE )
+  if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    set (BS 64)
+  else()
+    set (BS 32)
+  endif()
+endif()
+
+if ( NOT BUILD_SHARED_LIBS )
+	set (LT Static)
+endif()
+
+if ( NOT ${CMAKE_BUILD_TYPE} STREQUAL Release )
+	set (BT ${CMAKE_BUILD_TYPE})
+endif()
+
 if ( MINGW OR MSYS )
-    if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-        set (PACKNAME MinGW64)
-    else()
-        set (PACKNAME MinGW32)
-    endif()
     set (PACKDIR MinGW)
 elseif ( MSVC )
-    set (PACKNAME MSVC)
-    set (PACKDIR  msvc)
+    set (PACKDIR msvc)
 elseif ( CYGWIN )
-    if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-        set (PACKNAME CYGWIN64)
-    else()
-        set (PACKNAME CYGWIN32)
-    endif()
     set (PACKDIR CYGWIN)
 elseif ( LINUX )
-    if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-        set (PACKNAME Linux)
-    else()
-        set (PACKNAME Linux32)
-    endif()
     set (PACKDIR Linux)
 elseif ( APPLE )
-    set (PACKNAME ${CMAKE_SYSTEM_NAME})
-    set (PACKDIR  ${PACKNAME})
+    set (PACKDIR Darwin)
 else()
-    set (PACKNAME Linux      ) # unsupported systems such as FreeBSD
-    set (PACKDIR  ${PACKNAME})
+    set (PACKDIR  Linux) # unsupported systems such as FreeBSD
 endif()
 
 if ( MSVC )
@@ -44,7 +46,7 @@ else()
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/MacOS-X etc use .tar.gz
 endif()
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKNAME})
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${LT}${BT})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
