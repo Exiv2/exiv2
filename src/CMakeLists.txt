@@ -39,7 +39,7 @@ add_library( exiv2lib_int OBJECT
     unused.h
 )
 
-add_library( exiv2lib 
+add_library( exiv2lib
     ../include/exiv2/config.h
     ../include/exiv2/exiv2.hpp
     ../include/exiv2/rwlock.hpp
@@ -195,10 +195,12 @@ if (NOT MSVC)
     endif()
 
     if (CYGWIN OR MINGW OR MSYS)
-        target_link_libraries( exiv2lib PRIVATE  psapi ws2_32 )
+        target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
     endif()
 
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
+else()
+    target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
 endif()
 
 if( EXIV2_ENABLE_PNG )
@@ -223,7 +225,7 @@ install(TARGETS exiv2lib EXPORT exiv2Config
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-install(DIRECTORY ../include/exiv2 
+install(DIRECTORY ../include/exiv2
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     FILES_MATCHING PATTERN "*.h*")
 
@@ -238,7 +240,7 @@ install(EXPORT exiv2Config DESTINATION "share/exiv2/cmake")
 # exiv2 application
 
 if(EXIV2_BUILD_EXIV2_COMMAND)
-    add_executable( exiv2 
+    add_executable( exiv2
          exiv2.cpp
          exiv2app.hpp
          actions.cpp actions.hpp
