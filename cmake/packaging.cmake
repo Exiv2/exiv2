@@ -2,14 +2,16 @@ set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_CONTACT "Luis DÃ­az MÃ¡s <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
-set(CPACK_SOURCE_GENERATOR TGZ)
 # https://libwebsockets.org/git/libwebsockets/commit/minimal-examples?id=3e25edf1ee7ea8127e941fd7b664e0e962cfeb85
 set(CPACK_SOURCE_IGNORE_FILES $(CPACK_SOURCE_IGNORE_FILES) "/.git/" "/build/" "\\\\.tgz$" "\\\\.tar\\\\.gz$" "\\\\.zip$" "/test/tmp/" )
 
-set (LT "") # Library Type
-set (BT "") # Build Type
-set (BS "") # Bit Size
+if ( MSVC )
+    set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2.dll permissions
+else()
+    set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/MacOS-X etc use .tar.gz
+endif()
 
+set (BS "") # Bit Size
 if ( NOT APPLE )
   if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
     set (BS 64)
@@ -18,10 +20,12 @@ if ( NOT APPLE )
   endif()
 endif()
 
+set (LT "") # Library Type
 if ( NOT BUILD_SHARED_LIBS )
 	set (LT Static)
 endif()
 
+set (BT "") # Build Type
 if ( NOT ${CMAKE_BUILD_TYPE} STREQUAL Release )
 	set (BT ${CMAKE_BUILD_TYPE})
 endif()
@@ -38,12 +42,6 @@ elseif ( APPLE )
     set (PACKDIR Darwin)
 else()
     set (PACKDIR  Linux) # unsupported systems such as FreeBSD
-endif()
-
-if ( MSVC )
-    set(CPACK_GENERATOR ZIP)  # use .zip - less likely to damage bin/exiv2.dll permissions
-else()
-    set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/MacOS-X etc use .tar.gz
 endif()
 
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${LT}${BT})
