@@ -464,14 +464,8 @@ namespace Exiv2 {
     {
         std::string ret("unknown");
     #if defined(WIN32)
-        HANDLE processHandle = NULL;
-        processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-        if (processHandle != NULL) {
-            TCHAR filename[MAX_PATH];
-            if (GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH) != 0) {
-                ret = filename;
-            }
-            CloseHandle(processHandle);
+        if ( GetModuleFileName( "", filename, MAX_PATH ) != 0 ) {
+            ret = filename;
         }
     #elif defined(__APPLE__)
         const int pid = getpid();
