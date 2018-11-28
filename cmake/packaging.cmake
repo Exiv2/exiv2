@@ -44,7 +44,15 @@ else()
     set (PACKDIR  Linux) # unsupported systems such as FreeBSD
 endif()
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${LT}${BT})
+set (CC "") # Compiler
+if ( NOT APPLE AND NOT MSVC )
+  string(find ${CMAKE_CXX_COMPILER} clang ISCLANG)
+  if ( NOT ISCLANG STREQUAL -1 )
+	set (CC Clang)
+  endif()
+endif()
+
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${CC}${LT}${BT})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
