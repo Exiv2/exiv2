@@ -46,7 +46,7 @@ endif()
 
 set (CC "") # Compiler
 if ( NOT APPLE AND NOT MSVC )
-  string(find ${CMAKE_CXX_COMPILER} clang ISCLANG)
+  string(FIND ${CMAKE_CXX_COMPILER} clang ISCLANG)
   if ( NOT ISCLANG STREQUAL -1 )
 	set (CC Clang)
   endif()
