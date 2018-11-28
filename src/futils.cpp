@@ -464,6 +464,7 @@ namespace Exiv2 {
     {
         std::string ret("unknown");
     #if defined(WIN32)
+        TCHAR filename[MAX_PATH];
         if ( GetModuleFileName( "", filename, MAX_PATH ) != 0 ) {
             ret = filename;
         }
