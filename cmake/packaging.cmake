@@ -2,6 +2,7 @@ set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 set(CPACK_PACKAGE_CONTACT "Luis DÃ­az MÃ¡s <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
+set(CPACK_SOURCE_GENERATOR TGZ)
 # https://libwebsockets.org/git/libwebsockets/commit/minimal-examples?id=3e25edf1ee7ea8127e941fd7b664e0e962cfeb85
 set(CPACK_SOURCE_IGNORE_FILES $(CPACK_SOURCE_IGNORE_FILES) "/.git/" "/build/" "\\\\.tgz$" "\\\\.tar\\\\.gz$" "\\\\.zip$" "/test/tmp/" )
 
