@@ -36,20 +36,17 @@ elseif ( MSVC )
     set (PACKDIR msvc)
 elseif ( CYGWIN )
     set (PACKDIR CYGWIN)
-elseif ( LINUX )
-    set (PACKDIR Linux)
 elseif ( APPLE )
     set (PACKDIR Darwin)
+elseif ( LINUX )
+    set (PACKDIR Linux)
 else()
-    set (PACKDIR  Linux) # unsupported systems such as FreeBSD
+    set (PACKDIR Linux) # unsupported systems such as FreeBSD
 endif()
 
 set (CC "") # Compiler
-if ( NOT APPLE AND NOT MSVC )
-  string(FIND ${CMAKE_CXX_COMPILER} clang ISCLANG)
-  if ( NOT ISCLANG STREQUAL -1 )
-	set (CC Clang)
-  endif()
+if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+    set (CC Clang)
 endif()
 
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${CC}${LT}${BT})
