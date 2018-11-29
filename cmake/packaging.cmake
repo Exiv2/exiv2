@@ -46,8 +46,10 @@ else()
 endif()
 
 set (CC "") # Compiler
-if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+if ( NOT APPLE )
+  if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
     set (CC Clang)
+  endif()
 endif()
 
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${CC}${LT}${BT})
