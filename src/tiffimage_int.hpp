@@ -256,7 +256,7 @@ namespace Exiv2 {
                  component creation function. If the pointer that is returned
                  is 0, then the TIFF entry should be ignored.
         */
-        static std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
+        static std::unique_ptr<TiffComponent> create(uint32_t extendedTag,
                                                    IfdId    group);
         /*!
           @brief Get the path, i.e., a list of extended tag and group pairs, from
@@ -349,7 +349,7 @@ namespace Exiv2 {
                            composite structure. If \em pData is 0 or \em size
                            is 0, the return value is a 0 pointer.
          */
-        static std::auto_ptr<TiffComponent> parse(
+        static std::unique_ptr<TiffComponent> parse(
             const byte*              pData,
                   uint32_t           size,
                   uint32_t           root,

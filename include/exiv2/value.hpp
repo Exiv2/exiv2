@@ -62,7 +62,7 @@ namespace Exiv2 {
     class EXIV2API Value {
     public:
         //! Shortcut for a %Value auto pointer.
-        typedef std::auto_ptr<Value> AutoPtr;
+        typedef std::unique_ptr<Value> UniquePtr;
 
         //! @name Creators
         //@{
@@ -118,7 +118,7 @@ namespace Exiv2 {
                  The caller owns this copy and the auto-pointer ensures that
                  it will be deleted.
          */
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
           @brief Write value to a data buffer.
 
@@ -235,7 +235,7 @@ namespace Exiv2 {
           @return Auto-pointer to the newly created Value. The caller owns this
                   copy and the auto-pointer ensures that it will be deleted.
          */
-        static AutoPtr create(TypeId typeId);
+        static UniquePtr create(TypeId typeId);
 
     protected:
         /*!
@@ -264,7 +264,7 @@ namespace Exiv2 {
     class EXIV2API DataValue : public Value {
     public:
         //! Shortcut for a %DataValue auto pointer.
-        typedef std::auto_ptr<DataValue> AutoPtr;
+        typedef std::unique_ptr<DataValue> UniquePtr;
 
         explicit DataValue(TypeId typeId =undefined);
 
@@ -297,7 +297,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -346,7 +346,7 @@ namespace Exiv2 {
     class EXIV2API StringValueBase : public Value {
     public:
         //! Shortcut for a %StringValueBase auto pointer.
-        typedef std::auto_ptr<StringValueBase> AutoPtr;
+        typedef std::unique_ptr<StringValueBase> UniquePtr;
 
         //! @name Creators
         //@{
@@ -383,7 +383,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -428,7 +428,7 @@ namespace Exiv2 {
     class EXIV2API StringValue : public StringValueBase {
     public:
         //! Shortcut for a %StringValue auto pointer.
-        typedef std::auto_ptr<StringValue> AutoPtr;
+        typedef std::unique_ptr<StringValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -442,7 +442,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         //@}
 
     private:
@@ -460,7 +460,7 @@ namespace Exiv2 {
     class EXIV2API AsciiValue : public StringValueBase {
     public:
         //! Shortcut for a %AsciiValue auto pointer.
-        typedef std::auto_ptr<AsciiValue> AutoPtr;
+        typedef std::unique_ptr<AsciiValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -485,7 +485,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
           @brief Write the ASCII value up to the the first '\\0' character to an
                  output stream.  Any further characters are ignored and not
@@ -548,7 +548,7 @@ namespace Exiv2 {
         }; // class CharsetInfo
 
         //! Shortcut for a %CommentValue auto pointer.
-        typedef std::auto_ptr<CommentValue> AutoPtr;
+        typedef std::unique_ptr<CommentValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -583,7 +583,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         long copy(byte* buf, ByteOrder byteOrder) const;
         /*!
           @brief Write the comment in a format which can be read by
@@ -635,7 +635,7 @@ namespace Exiv2 {
     class EXIV2API XmpValue : public Value {
     public:
         //! Shortcut for a %XmpValue auto pointer.
-        typedef std::auto_ptr<XmpValue> AutoPtr;
+        typedef std::unique_ptr<XmpValue> UniquePtr;
 
         //! XMP array types.
         enum XmpArrayType { xaNone, xaAlt, xaBag, xaSeq };
@@ -726,7 +726,7 @@ namespace Exiv2 {
     class EXIV2API XmpTextValue : public XmpValue {
     public:
         //! Shortcut for a %XmpTextValue auto pointer.
-        typedef std::auto_ptr<XmpTextValue> AutoPtr;
+        typedef std::unique_ptr<XmpTextValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -759,7 +759,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         long size() const;
         virtual long count() const;
         /*!
@@ -808,7 +808,7 @@ namespace Exiv2 {
     class EXIV2API XmpArrayValue : public XmpValue {
     public:
         //! Shortcut for a %XmpArrayValue auto pointer.
-        typedef std::auto_ptr<XmpArrayValue> AutoPtr;
+        typedef std::unique_ptr<XmpArrayValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -834,7 +834,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         virtual long count() const;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
@@ -901,7 +901,7 @@ namespace Exiv2 {
     class EXIV2API LangAltValue : public XmpValue {
     public:
         //! Shortcut for a %LangAltValue auto pointer.
-        typedef std::auto_ptr<LangAltValue> AutoPtr;
+        typedef std::unique_ptr<LangAltValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -936,7 +936,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         virtual long count() const;
         /*!
           @brief Return the text value associated with the default language
@@ -989,7 +989,7 @@ namespace Exiv2 {
     class EXIV2API DateValue : public Value {
     public:
         //! Shortcut for a %DateValue auto pointer.
-        typedef std::auto_ptr<DateValue> AutoPtr;
+        typedef std::unique_ptr<DateValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -1042,7 +1042,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -1090,7 +1090,7 @@ namespace Exiv2 {
     class EXIV2API TimeValue : public Value {
     public:
         //! Shortcut for a %TimeValue auto pointer.
-        typedef std::auto_ptr<TimeValue> AutoPtr;
+        typedef std::unique_ptr<TimeValue> UniquePtr;
 
         //! @name Creators
         //@{
@@ -1149,7 +1149,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
           @brief Write value to a character data buffer.
 
@@ -1246,7 +1246,7 @@ namespace Exiv2 {
     class ValueType : public Value {
     public:
         //! Shortcut for a %ValueType\<T\> auto pointer.
-        typedef std::auto_ptr<ValueType<T> > AutoPtr;
+        typedef std::unique_ptr<ValueType<T> > UniquePtr;
 
         //! @name Creators
         //@{
@@ -1286,7 +1286,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        AutoPtr clone() const { return AutoPtr(clone_()); }
+        UniquePtr clone() const { return UniquePtr(clone_()); }
         virtual long copy(byte* buf, ByteOrder byteOrder) const;
         virtual long count() const;
         virtual long size() const;

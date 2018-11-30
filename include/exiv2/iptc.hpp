@@ -150,14 +150,14 @@ namespace Exiv2 {
         long toLong(long n =0) const;
         float toFloat(long n =0) const;
         Rational toRational(long n =0) const;
-        Value::AutoPtr getValue() const;
+        Value::UniquePtr getValue() const;
         const Value& value() const;
         //@}
 
     private:
         // DATA
-        IptcKey::AutoPtr key_;                  //!< Key
-        Value::AutoPtr   value_;                //!< Value
+        IptcKey::UniquePtr key_;                  //!< Key
+        Value::UniquePtr   value_;                //!< Value
 
     }; // class Iptcdatum
 

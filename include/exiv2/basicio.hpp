@@ -30,7 +30,7 @@
 
 // + standard includes
 #include <string>
-#include <memory>       // for std::auto_ptr
+#include <memory>       // for std::unique_ptr
 #include <fstream>      // write the temporary file
 #include <fcntl.h>      // _O_BINARY in FileIo::FileIo
 #include <ctime>        // timestamp for the name of temporary file
@@ -59,7 +59,7 @@ namespace Exiv2 {
     class EXIV2API BasicIo {
     public:
         //! BasicIo auto_ptr type
-        typedef std::auto_ptr<BasicIo> AutoPtr;
+        typedef std::unique_ptr<BasicIo> UniquePtr;
 
         //! Seek starting positions
         enum Position { beg, cur, end };
@@ -525,7 +525,7 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     }; // class FileIo
 
@@ -725,7 +725,7 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     }; // class MemIo
 

@@ -415,9 +415,9 @@ namespace Exiv2 {
         return p_->tag_;
     }
 
-    ExifKey::AutoPtr ExifKey::clone() const
+    ExifKey::UniquePtr ExifKey::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     ExifKey* ExifKey::clone_() const

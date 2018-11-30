@@ -161,7 +161,7 @@ void testCase(const std::string& file1,
     ExifKey ek(key);
 
     //Open first image
-    Image::AutoPtr image1 = ImageFactory::open(file1);
+    Image::UniquePtr image1 = ImageFactory::open(file1);
     assert(image1.get() != 0);
 
     // Load existing metadata
@@ -177,7 +177,7 @@ void testCase(const std::string& file1,
     pos->setValue(value);
 
     // Open second image
-    Image::AutoPtr image2 = ImageFactory::open(file2);
+    Image::UniquePtr image2 = ImageFactory::open(file2);
     assert(image2.get() != 0);
 
     image2->setExifData(image1->exifData());
