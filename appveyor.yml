@@ -64,4 +64,5 @@ build_script:
 
 cache:
     - envs                          # Conan installation
+    - deps                          # Ninja installation
     - c:\Users\appveyor\conanCache  # Conan cache
