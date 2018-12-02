@@ -2,6 +2,7 @@
 #include "bigtiffimage.hpp"
 
 #include <cassert>
+#include <cstdint>
 #include <limits>
 
 #include "safe_op.hpp"
@@ -361,7 +362,7 @@ namespace Exiv2
 
                                     const size_t restore = io.tell();
                                     io.seek(offset, BasicIo::beg);  // position
-                                    std::vector<byte> bytes((size_t)count) ;  // allocate memory
+                                    std::vector<byte> bytes(static_cast<size_t>(count)) ;  // allocate memory
                                     // TODO: once we have C++11 use bytes.data()
                                     const long read_bytes = io.read(&bytes[0], static_cast<long>(count));
                                     io.seek(restore, BasicIo::beg);
@@ -382,7 +383,7 @@ namespace Exiv2
                                     if ( ::strcmp("Nikon",chars) == 0 )
                                     {
                                       // tag is an embedded tiff
-                                      std::vector<byte> nikon_bytes((size_t)(count - jump));
+                                      std::vector<byte> nikon_bytes(static_cast<size_t>(count - jump));
 
                                       io.read(&nikon_bytes.at(0), (long)nikon_bytes.size());
                                       MemIo memIo(&nikon_bytes.at(0), (long)count - jump); // create a file
