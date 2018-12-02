@@ -8,14 +8,14 @@ environment:
 
 shallow_clone: true
 
-#install:
-#    - echo %APPVEYOR_BUILD_FOLDER%
-#    - mkdir C:\projects\deps
-#    - cd C:\projects\deps
-#    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
-#    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
-#    - set PATH=C:\projects\deps\ninja;%PATH%
-#    - ninja --version
+install:
+    - echo %APPVEYOR_BUILD_FOLDER%
+    - mkdir C:\projects\deps
+    - cd C:\projects\deps
+    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
+    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+    - set PATH=C:\projects\deps\ninja;%PATH%
+    - ninja --version
 
 before_build:
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
@@ -41,9 +41,11 @@ build_script:
     - cmd: call "%VCVARS%" x86_amd64
     - cmd: conan install .. --build missing
     - cmd: echo %CMAKE_GENERATOR%
-    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
-    - cmd: cmake --build . --config Release
-    - cmd: cmake --build . --config Release --target install
+    - cmd: cmake -GNinja -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: ninja
+    - cmd: ninja install
+      #- cmd: cmake --build . --config Release
+      #- cmd: cmake --build . --config Release --target install
     - cmd: cd bin
     - cmd: unit_tests.exe
     - cmd: cd ../../tests/
