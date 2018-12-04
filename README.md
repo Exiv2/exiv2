@@ -622,6 +622,8 @@ $ cd <exiv2dir>/build
 $ bin/unit_tests
 ```
 
+There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
+
 [TOC](#TOC)
 <name id="5">
 ## 5 Platform Notes
@@ -631,11 +633,11 @@ There are many ways to set up and configure your platform.  The following notes 
 <name id="5-1">
 ### 5.1 Linux
 
-Update your system and install the build tools.
+Update your system and install the build tools and dependencies (zlib, expat, gtest and others)
 
 ```bash
-sudo apt --yes update
-sudo apt install --yes build-essential git libxml2-utils cmake python3 libexpat1-dev libz-dev
+$ sudo apt --yes update
+$ sudo apt install --yes build-essential git clang ccache python3 libxml2-utils cmake python3 libexpat1-dev libz-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock
 ```
 
 Get the code from GitHub and build
@@ -667,6 +669,8 @@ I recommend that you build and install CMake from source.
 We provide support for both 64bit and 32bit builds using MinGW/msys2. [https://www.msys2.org](https://www.msys2.org)
 
 Support for MinGW/msys1.0 32 bit build was provided for Exiv2 v0.26.  MinGW/msys1.0 is not supported by Team Exiv2 for Exiv2 v0.27 and later.
+
+There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
 #### MinGW/msys2 64 bit
 Install: [http://repo.msys2.org/distrib/x86\_64/msys2-x86\_64-20180531.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20180531.exe)
@@ -748,6 +752,8 @@ make, cmake, gcc, gettext-devel pkg-config, dos2unix, zlib-devel, libexpat1-deve
 
 Download and build libiconv-1.15: [https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz](https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz)
 
+There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
+
 Download and build cmake from source because I can't get the cygwin installed cmake 3.6.2 to work.
 To build cmake from source, you need libncurses. [https://cmake.org/download/](https://cmake.org/download/)
 
@@ -789,4 +795,4 @@ cmd
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-11-28
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-12-01
