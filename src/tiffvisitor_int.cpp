@@ -1523,7 +1523,7 @@ namespace Exiv2 {
             if ((static_cast<uintptr_t>(baseOffset()) > std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset))
              || (static_cast<uintptr_t>(baseOffset() + offset) > std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_)))
             {
-                throw Error(kerArithmeticOverflow);
+                throw Error(kerCorruptedMetadata); // #562 don't throw kerArithmeticOverflow
             }
             if (pData_ + static_cast<uintptr_t>(baseOffset()) + static_cast<uintptr_t>(offset) > pLast_) {
                 throw Error(kerCorruptedMetadata);
