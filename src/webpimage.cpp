@@ -449,7 +449,7 @@ namespace Exiv2 {
 
                 if ( bPrint ) {
                     out << Internal::indent(depth)
-                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,size,(uint32_t)offset)
+                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,(uint32_t)size,(uint32_t)offset)
                     << Internal::binaryToString(makeSlice(payload, 0, payload.size_ > 32 ? 32 : payload.size_))
                     << std::endl;
                 }

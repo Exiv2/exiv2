@@ -484,7 +484,7 @@ namespace Exiv2
                 box.type   = getLong((byte*)&box.type, bigEndian);
 
                 if ( bPrint ) {
-                    out << Internal::stringFormat("%8ld | %8ld | ",position-sizeof(box),box.length) << toAscii(box.type) << "      | " ;
+                    out << Internal::stringFormat("%8ld | %8ld | ",(size_t)(position-sizeof(box)),(size_t) box.length) << toAscii(box.type) << "      | " ;
                     bLF = true ;
                     if ( box.type == kJp2BoxTypeClose ) lf(out,bLF);
                 }
@@ -510,7 +510,8 @@ namespace Exiv2
                             DataBuf data(subBox.length-sizeof(box));
                             io_->read(data.pData_,data.size_);
                             if ( bPrint ) {
-                                out << Internal::stringFormat("%8ld | %8ld |  sub:",address,subBox.length) << toAscii(subBox.type)
+                                out << Internal::stringFormat("%8ld | %8ld |  sub:",(size_t)address,(size_t)subBox.length)
+                                    << toAscii(subBox.type)
                                     <<" | " << Internal::binaryToString(makeSlice(data, 0, 30));
                                 bLF = true;
                             }
