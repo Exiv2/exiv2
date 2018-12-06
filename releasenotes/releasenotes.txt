@@ -1,16 +1,14 @@
 Exiv2 v0.27.0.3   (Exiv2 v0.27 RC3)
 -----------------------------------
 
-We are 100% complete (by issues) 129/129 on GitHub and 88/88 on Redmine
-We are  95% complete (by time).  Project 2017-05-10 .. 2018-12-28 (86 weeks)
+We are 100% complete (by issues) 137/137 on GitHub and 88/88 on Redmine
+We are  96% complete (by time).  Project 2017-05-10 .. 2018-12-28 (86 weeks)
 
-Exiv2 v0.27 RC3 scheduled 07 December 2018
 Exiv2 v0.27  GM scheduled 28 December 2018
 
 I have to thank Dan and Luis for their huge contribution to make this release.
 
 Contributors: Ben, Freddy, Gilles, Henri, Michal, Phil, Shridar, Toni and Thomas.
-If I've forgotten you, please let me know so I can add your name to this acknowledgement.
 
 The headline features are:
 
@@ -46,19 +44,23 @@ Known Issues
 
 Fixes between RC2 and RC3
 -------------------------
-#557 Updates to documentation concerning Debugging, Clang, ccache and Unit Tests.
-#557 Build and test logs are stored in build bundles.
+#584 Quicktime Video isn't correctly built.
+#575 Unit tests build and execute on all platforms.  Documented in README.md
 #572 Build Server publishes/tests
      on Cygwin, MinGW, Linux, Darwin and msvc
      in Release/Debug, 64/32, gcc/clang, static/shared.
-#369 Revised man page exiv2.1.
-#521 Fix del XMP/Region
+     User can request from Jenkins: exiv2.dyndns.org:8080/job/exiv2/build
 #570 All compiler warnings have been eliminated.
      Web-site refined and polished.
      Preparation to rehost exiv2.org
+#557 Updates to documentation concerning Debugging, Clang, ccache and Unit Tests.
+     Build and test logs are stored in build bundles.
+#551 Fix heading install (broken in RC2)
+#532 TAMRON SP 15-30mm F/2.8 Di VC USD A012 len recognition
+#521 Delete XMP XmpBag and XmpSeq
 #425 Security fixes (#425, #547, #558, #564)
-     Something I've forgotten!
-     Something we'll discover today or tomorrow!
+#369 Revised man page exiv2.1.
+#226 Exiv2::Image::xmpPacket() doesn't work on tiff files
 
 Fixes between RC1 and RC2
 -------------------------
@@ -67,7 +69,6 @@ Fixes between RC1 and RC2
 #540 CMake Cleanup
 #528 Xcode 10.1 builds samples/taglist.cpp
 #527 Localization Support
-#521 Delete XMP XmpBag and XmpSeq
 #512 Restore exiv2.pc pkg-config file
 #510 getopt() looping on bad input
 #507 DLL name restored to cygexiv2-27.dll
@@ -208,4 +209,4 @@ Xmp: (3)
 
 Robin Mills
 robin@clanmills.com
-2018-11-29
+2018-12-06
