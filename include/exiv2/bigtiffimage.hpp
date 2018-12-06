@@ -7,7 +7,7 @@ namespace Exiv2
 
 namespace ImageType
 {
-    const int bigtiff = 22;
+    const int bigtiff = 25;
 }
 
 Image::AutoPtr newBigTiffInstance(BasicIo::AutoPtr, bool);
