@@ -210,7 +210,7 @@ namespace Exiv2
 
                         if ( bFirst && bPrint )
                         {
-                            out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF BIGTIFF FILE ") << io.path() << std::endl;
+                            out << Internal::indent(depth) << "STRUCTURE OF BIGTIFF FILE " << io.path() << std::endl;
                             if (tooBig)
                                 out << Internal::indent(depth) << "entries = " << entries << std::endl;
                         }
@@ -292,14 +292,13 @@ namespace Exiv2
                             {
                                 const uint64_t entrySize = header_.format() == Header::StandardTiff? 12: 20;
                                 const uint64_t address = dir_offset + 2 + i * entrySize;
-                                const std::string offsetString = usePointer?
-                                    Internal::stringFormat("%10u", offset):
-                                    "";
 
                                 out << Internal::indent(depth)
-                                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |%10s | ",
-                                        address, tag, tagName(tag).c_str(), typeName(type), count, offsetString.c_str());
-
+                                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |",
+                                        static_cast<size_t>(address), tag, tagName(tag).c_str(), typeName(type), count)
+                                    <<(usePointer ? Internal::stringFormat("%10u | ",(size_t)offset)
+                                                  : Internal::stringFormat("%10s | ",""))
+                                    ;
                                 if ( isShortType(type) )
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
