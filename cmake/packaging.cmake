@@ -77,7 +77,7 @@ if ( MSVC )
     endif()
 endif()
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-$(VS}${PACKDIR}${BS}${CC}${LT}${BT}${VI}${WR})
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}${PACKDIR}${BS}${CC}${LT}${BT}${VI}${WR})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
