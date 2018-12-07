@@ -1537,14 +1537,14 @@ namespace Exiv2 {
                 if(currentStream_ == Video) {
                     temp = returnBufValue(buf, 2) + static_cast<int64_t>((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01);
                     xmpData_["Xmp.video.Width"] = temp;
-                    width_ = temp;
+                    pixelWidth_ = width_ = temp;
                 }
                 break;
             case ImageHeight:
                 if(currentStream_ == Video) {
                     temp = returnBufValue(buf, 2) + static_cast<int64_t>((buf.pData_[2] * 256 + buf.pData_[3]) * 0.01);
                     xmpData_["Xmp.video.Height"] = temp;
-                    height_ = temp;
+                    pixelHeight_ = height_ = temp;
                 }
                 break;
             default:

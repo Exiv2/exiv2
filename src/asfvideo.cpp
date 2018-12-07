@@ -516,7 +516,7 @@ namespace Exiv2 {
 
         if(stream == 2) {
             xmpData_["Xmp.video.Width"] = temp;
-            width_ = temp;
+            pixelWidth_ = width_ = temp;
         }
         else if(stream == 1) {
             xmpData_["Xmp.audio.Codec"] = test->printAudioEncoding(temp);
@@ -532,7 +532,7 @@ namespace Exiv2 {
 
         if(stream == 2) {
             xmpData_["Xmp.video.Height"] = temp;
-            height_ = temp;
+            pixelHeight_ = height_ = temp;
         }
         else if(stream == 1) {
             xmpData_["Xmp.audio.SampleRate"] = temp;
