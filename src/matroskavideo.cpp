@@ -592,10 +592,10 @@ namespace Exiv2 {
             xmpData_[mt->label_] = returnValue(buf, size);
 
             if (mt->val_ == 0x0030 || mt->val_ == 0x14b0) {
-                width_ = returnValue(buf, size);
+                pixelWidth_ = width_ = returnValue(buf, size);
             }
             else if (mt->val_ == 0x003a || mt->val_ == 0x14ba) {
-                height_ = returnValue(buf, size);
+                pixelHeight_ = height_ = returnValue(buf, size);
             }
             break;
 

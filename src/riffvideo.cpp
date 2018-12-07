@@ -1082,10 +1082,12 @@ namespace Exiv2 {
                 break;
             case imageWidth_h:
                 width = Exiv2::getULong(buf.pData_, littleEndian);
+                pixelWidth_ = width;
                 xmpData_["Xmp.video.Width"] = width;
                 break;
             case imageHeight_h:
                 height = Exiv2::getULong(buf.pData_, littleEndian);
+                pixelHeight_ = height;
                 xmpData_["Xmp.video.Height"] = height;
                 break;
             }
