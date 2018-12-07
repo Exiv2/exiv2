@@ -53,12 +53,12 @@ if ( NOT APPLE )
 endif()
 
 set (VI "") # Video
-if ( ${EXIV2_ENABLE_VIDEO} )
+if ( EXIV2_ENABLE_VIDEO )
     set (VI Video)
 endif()
 
 set (WR "") # WebReady
-if ( ${EXIV2_ENABLE_WEBREADY} )
+if ( EXIV2_ENABLE_WEBREADY )
     set (WR Webready)
 endif()
 
@@ -72,7 +72,7 @@ if ( MSVC )
        set(VS 2012)
     elseif ( MSVC_VERSION STREQUAL 1600 )
        set(VS 2010)
-    elseif ( MSVC_VERSION STREQUAL 1300 )
+    elseif ( MSVC_VERSION STREQUAL 1500 )
        set(VS 2008)
     endif()
 endif()
