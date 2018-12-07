@@ -52,7 +52,32 @@ if ( NOT APPLE )
   endif()
 endif()
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${PACKDIR}${BS}${CC}${LT}${BT})
+set (VI "") # Video
+if ( ${EXIV2_ENABLE_VIDEO} )
+    set (VI Video)
+endif()
+
+set (WR "") # WebReady
+if ( ${EXIV2_ENABLE_WEBREADY} )
+    set (WR Webready)
+endif()
+
+set (VS "") # VisualStudio
+if ( MSVC )
+    if   ( MSVC_VERSION STREQUAL 1900 )
+       set(VS 2015)
+    elif ( MSVC_VERSION STREQUAL 1800 )
+       set(VS 2013)
+    elif ( MSVC_VERSION STREQUAL 1700 )
+       set(VS 2012)
+    elif ( MSVC_VERSION STREQUAL 1600 )
+       set(VS 2010)
+    elif ( MSVC_VERSION STREQUAL 1300 )
+       set(VS 2008)
+    endif()
+endif()
+
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-$(VS}${PACKDIR}${BS}${CC}${LT}${BT}${VI}${WR})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
