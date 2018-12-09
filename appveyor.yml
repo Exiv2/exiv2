@@ -17,19 +17,19 @@ shallow_clone: true
 
 install:
     - echo %APPVEYOR_BUILD_FOLDER%
-    - mkdir deps
+    - if not exist deps mkdir deps
     - cd deps
-    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
-    - 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
+    - if not exist ninja appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
+    - if not exist ninja 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
     - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
 
 before_build:
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
     - cmd: if not exist envs mkdir envs
     - cmd: cd envs
-    - cmd: python -m virtualenv conan
+    - cmd: if not exist conan python -m virtualenv conan
     - cmd: conan/Scripts/activate
-    - cmd: python -m pip install conan==1.9.0
+    - cmd: if not exist conan/Scripts/conan.exe python -m pip install conan==1.9.0
     - cmd: cd ..
     - cmd: conan --version
     - cmd: conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
