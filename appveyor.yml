@@ -1,20 +1,19 @@
 image: Visual Studio 2017
+
 environment:
+  VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+
   matrix:
-    - VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-      VC_ARCH: x86_amd64
+    - VC_ARCH: x86_amd64
       ARCHITECTURE: x86_64
       BUILD_TYPE: Release
-    - VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-      VC_ARCH: x86
+    - VC_ARCH: x86
       ARCHITECTURE: x86
       BUILD_TYPE: Release
-    - VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-      VC_ARCH: x86_amd64
+    - VC_ARCH: x86_amd64
       ARCHITECTURE: x86_64
       BUILD_TYPE: Debug
-    - VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-      VC_ARCH: x86
+    - VC_ARCH: x86
       ARCHITECTURE: x86
       BUILD_TYPE: Debug
 
@@ -22,12 +21,11 @@ shallow_clone: true
 
 install:
     - echo %APPVEYOR_BUILD_FOLDER%
-    - mkdir C:\projects\deps
-    - cd C:\projects\deps
+    - mkdir deps
+    - cd deps
     - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
-    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
-    - set PATH=C:\projects\deps\ninja;%PATH%
-    - ninja --version
+    - 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
+    - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
 
 before_build:
     - cmd: cd %APPVEYOR_BUILD_FOLDER%
