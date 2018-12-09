@@ -1,21 +1,17 @@
 image: Visual Studio 2017
 
+configuration:
+  - Debug
+  - Release
+
 environment:
   VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
 
   matrix:
     - VC_ARCH: x86_amd64
       ARCHITECTURE: x86_64
-      BUILD_TYPE: Release
     - VC_ARCH: x86
       ARCHITECTURE: x86
-      BUILD_TYPE: Release
-    - VC_ARCH: x86_amd64
-      ARCHITECTURE: x86_64
-      BUILD_TYPE: Debug
-    - VC_ARCH: x86
-      ARCHITECTURE: x86
-      BUILD_TYPE: Debug
 
 shallow_clone: true
 
@@ -43,7 +39,7 @@ before_build:
     - cmd: conan profile update settings.compiler.version=15 default
     - cmd: conan profile update settings.arch=%ARCHITECTURE% default
     - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
-    - cmd: conan profile update settings.build_type=%BUILD_TYPE% default
+    - cmd: conan profile update settings.build_type=%CONFIGURATION% default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
 
 build_script:
@@ -51,7 +47,7 @@ build_script:
     - cmd: cd build
     - cmd: call "%VCVARS%" %VC_ARCH%
     - cmd: conan install .. --build missing
-    - cmd: cmake -GNinja -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -GNinja -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: ninja
     - cmd: ninja install
     - cmd: cd bin
