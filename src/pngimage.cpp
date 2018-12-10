@@ -337,9 +337,6 @@ namespace Exiv2 {
                         }
                     }
 
-                    if ( zTXt || iCCP ) {
-                        bGood = zlibToDataBuf(data+name_l+1,dataOffset-name_l-1,dataBuf); // +1 = 'compressed' flag
-                    }
                     if ( iTXt ) {
                         bGood = (start+3) < dataOffset ;    // good if not a nul chunk
                     }
