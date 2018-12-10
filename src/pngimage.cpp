@@ -327,9 +327,16 @@ namespace Exiv2 {
 
                     // decode the chunk
                     bool bGood = false;
-                    if ( tEXt ) {
-                        bGood = tEXtToDataBuf(data+name_l,dataOffset-name_l,dataBuf);
+                    if ( dataOffset > name_l + 2 ) {
+                        if ( tEXt ) {
+                            bGood = tEXtToDataBuf(data + name_l, dataOffset - name_l, dataBuf);
+                        }
+                        if (zTXt || iCCP) {
+                            bGood = zlibToDataBuf(data + name_l + 1, dataOffset - name_l - 1,
+                                                  dataBuf); // +1 = 'compressed' flag
+                        }
                     }
+
                     if ( zTXt || iCCP ) {
                         bGood = zlibToDataBuf(data+name_l+1,dataOffset-name_l-1,dataBuf); // +1 = 'compressed' flag
                     }
