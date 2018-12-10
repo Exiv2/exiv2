@@ -332,10 +332,21 @@ namespace Exiv2 {
         return type >= 1 && type <= 13 ;
     }
 
+
+    typedef std::pair<uint32_t,uint32_t> dict_t ;
+    typedef std::vector<dict_t>          dicts_t;
+    static  dicts_t                      dicts  ;
+    static bool within(uint32_t s,const dict_t& d)
+    {
+        return d.first <= s && s <= d.second;
+    }
+
     void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
         bool bFirst  = true  ;
+
+        if ( depth > 50 ) throw Error(kerCorruptedMetadata);
 
         // buffer
         const size_t dirSize = 32;
@@ -344,12 +355,14 @@ namespace Exiv2 {
 
         do {
             // Read top of directory
-            const int seekSuccess = !io.seek(start,BasicIo::beg);
-            const long bytesRead = io.read(dir.pData_, 2);
-            if (!seekSuccess || bytesRead == 0) {
+            const int  seekSuccess = !io.seek(start,BasicIo::beg);
+            const long bytesRead   = io.read(dir.pData_, 2);
+            if (!seekSuccess || bytesRead != 2) {
                 throw Error(kerCorruptedMetadata);
             }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
+
+            dicts.push_back(dict_t(start,start+dirLength*12));
 
             bool tooBig = dirLength > 500;
             if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
@@ -368,7 +381,9 @@ namespace Exiv2 {
                 }
                 bFirst = false;
 
-                io.read(dir.pData_, 12);
+                if ( io.read(dir.pData_, 12) != 12 ) {
+                    throw Error(kerCorruptedMetadata);
+                }
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
                 uint32_t count  = byteSwap4(dir,4,bSwap);
@@ -508,8 +523,16 @@ namespace Exiv2 {
                 }
             }
             if ( start ) {
-                io.read(dir.pData_, 4);
+                if ( io.read(dir.pData_, 4) != 4 ) throw Error(kerCorruptedMetadata) ;
                 start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
+
+                // never start in a dictionary that we've already searched!
+                for ( dicts_t::iterator it = dicts.begin() ; it != dicts.end() ; it++ ) {
+                    // std::cout << "dict = " << it->first << "," << it->second << " start " << start << std::endl;
+                    if ( within(start,*it) ) {
+                        throw Error(kerCorruptedMetadata);
+                    }
+                }
             }
         } while (start) ;
 
