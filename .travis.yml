@@ -1,31 +1,89 @@
 language: cpp
 
+git:
+  quiet: true
+  depth: 1
+
+env:
+  global:
+    - COMMON_CMAKE_OPTIONS="-DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install"
+
 matrix:
   include:
-    - os: linux
-      dist: trusty
+    - name: "Ubuntu 16.04 - gcc-5.4 (Release)"
+      os: linux
+      dist: xenial
       sudo: required
       compiler: gcc
-      env: COVERAGE=1 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DBUILD_WITH_COVERAGE=ON"
+      env:
+        - BUILD_TYPE="Release"
 
-    - os: linux
-      dist: trusty
+    - name: "Ubuntu 16.04 - gcc-5.4 (Debug)"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 16.04 - gcc-5.4 with coverage"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - WITH_COVERAGE=1
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 16.04 - gcc-5.4 with Valgrind"
+      os: linux
+      dist: xenial
       sudo: required
       compiler: gcc
       env:
         - WITH_VALGRIND=1
-        - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON"
+        - BUILD_TYPE="Release"
 
-    - os: linux
-      dist: trusty
+    - name: "Ubuntu 16.04 - gcc-5.4 with sanitizers"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - WITH_SANITIZERS=1
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 16.04 - CLANG 7.0 (Release)"
+      os: linux
+      dist: xenial
       sudo: required
       compiler: clang
-      env: CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON"
+      env:
+        - BUILD_TYPE="Release"
 
-    - os: osx
+    - name: "Ubuntu 16.04 - CLANG 7.0 (Debug)"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "OS X 10.12 - XCode 9.0"
+      os: osx
       osx_image: xcode9
       compiler: clang
-      env: PYTHON=3.6.2 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_NLS=OFF"
+      env:
+        - PYTHON=3.6.2
+        - BUILD_TYPE="Release"
+
+    - name: "OS X 10.13 - XCode 10.1"
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      env:
+        - PYTHON=3.6.2
+        - BUILD_TYPE="Release"
 
 install: ./ci/install.sh
 script:  ./ci/run.sh
