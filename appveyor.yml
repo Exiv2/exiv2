@@ -4,14 +4,12 @@ configuration:
   - Debug
   - Release
 
+platform:
+  - x86
+  - x64
+
 environment:
   VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-
-  matrix:
-    - VC_ARCH: x86_amd64
-      ARCHITECTURE: x86_64
-    - VC_ARCH: x86
-      ARCHITECTURE: x86
 
 shallow_clone: true
 
@@ -37,6 +35,7 @@ before_build:
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
     - cmd: conan profile update settings.compiler.version=15 default
+    - cmd: if "%platform%"=="x64" (set ARCHITECTURE=x86_64) else (set ARCHITECTURE=x86)
     - cmd: conan profile update settings.arch=%ARCHITECTURE% default
     - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
     - cmd: conan profile update settings.build_type=%CONFIGURATION% default
@@ -45,6 +44,7 @@ before_build:
 build_script:
     - cmd: md build
     - cmd: cd build
+    - cmd: if "%platform%"=="x64" (set VC_ARCH=x86_amd64) else (set VC_ARCH=x86)
     - cmd: call "%VCVARS%" %VC_ARCH%
     - cmd: conan install .. --build missing
     - cmd: cmake -GNinja -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
