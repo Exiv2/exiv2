@@ -1694,11 +1694,14 @@ namespace Exiv2 {
             TiffFinder finder(0x00fe, imageGroups[i]);
             pSourceDir->accept(finder);
             TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
-            if (   te
-                && te->pValue()->typeId() == unsignedLong
-                && te->pValue()->count() == 1
-                && (te->pValue()->toLong() & 1) == 0) {
-                primaryGroups.push_back(te->group());
+            if (   te ) {
+                if (te->pValue()) {
+                    if (te->pValue()->typeId() == unsignedLong
+                        && te->pValue()->count() == 1
+                        && (te->pValue()->toLong() & 1) == 0) {
+                        primaryGroups.push_back(te->group());
+                    }
+                }
             }
         }
 
