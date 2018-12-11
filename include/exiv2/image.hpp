@@ -358,6 +358,59 @@ namespace Exiv2 {
         uint32_t byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const;
         uint64_t byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const;
 
+        // Reservation structure required to detect circular references in the image
+        typedef std::pair<uint32_t,uint32_t> Reservation   ; // position, length
+        typedef std::vector<Reservation>     Reservations  ; // the reservation table
+        Reservations                         reservations_ ;
+
+        typedef enum {
+            middle = 0,
+            left   = 1,
+            right  = 2
+        } pos_e;
+
+        pos_e pos(uint32_t p1,uint32_t p2,uint32_t l2)
+        {
+            return ( p1 < p2     ) ? left
+                 : ( p1 > (p2+l2)) ? right
+                 : middle
+            ;
+        }
+
+        bool inside(uint32_t p1,uint32_t l1,uint32_t p2,uint32_t l2)
+        {
+            pos_e s1   = pos( p1    ,p2,l2);
+            pos_e e1   = pos((p1+l1),p2,l2);
+            if ( s1 != e1                    ) return true;
+            if ( s1 == middle | e1 == middle ) return true;
+
+            // do it in reverse
+            pos_e s2   = pos( p2    ,p1,l1);
+            pos_e e2   = pos((p2+l2),p1,l1);
+            if ( s2 != e2                    ) return true;
+            if ( s2 == middle | e2 == middle ) return true;
+            return false;
+        }
+
+
+        bool reserved(uint32_t at,uint32_t l,const Reservation& r)
+        {
+            return inside(at,l,r.first,r.second);
+        }
+
+        void throwOrReserve(uint32_t at,uint32_t length)
+        {
+            // never start in a dictionary that we've already searched!
+            for ( Reservations::iterator it = reservations_.begin() ; it != reservations_.end() ; it++ ) {
+                if ( reserved(at,length,*it) ) {
+                    throw Error(kerCorruptedMetadata);
+                }
+            }
+            if ( length ) {
+                reservations_.push_back(Reservation(at,length-1));
+            }
+        }
+
         //@}
 
         //! @name Accessors

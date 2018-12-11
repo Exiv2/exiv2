@@ -333,14 +333,6 @@ namespace Exiv2 {
     }
 
 
-    typedef std::pair<uint32_t,uint32_t> dict_t ;
-    typedef std::vector<dict_t>          dicts_t;
-    static  dicts_t                      dicts  ;
-    static bool within(uint32_t s,const dict_t& d)
-    {
-        return d.first <= s && s <= d.second;
-    }
-
     void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
@@ -361,8 +353,7 @@ namespace Exiv2 {
                 throw Error(kerCorruptedMetadata);
             }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
-
-            dicts.push_back(dict_t(start,start+dirLength*12));
+            throwOrReserve(start,dirLength*12);
 
             bool tooBig = dirLength > 500;
             if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
@@ -426,6 +417,7 @@ namespace Exiv2 {
                 const bool bOffsetIsPointer = count*size > 4;
 
                 if ( bOffsetIsPointer ) {         // read into buffer
+                    throwOrReserve(offset,count*size);
                     size_t   restore = io.tell();  // save
                     io.seek(offset,BasicIo::beg);  // position
                     io.read(buf.pData_,count*size);// read
@@ -525,14 +517,6 @@ namespace Exiv2 {
             if ( start ) {
                 if ( io.read(dir.pData_, 4) != 4 ) throw Error(kerCorruptedMetadata) ;
                 start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
-
-                // never start in a dictionary that we've already searched!
-                for ( dicts_t::iterator it = dicts.begin() ; it != dicts.end() ; it++ ) {
-                    // std::cout << "dict = " << it->first << "," << it->second << " start " << start << std::endl;
-                    if ( within(start,*it) ) {
-                        throw Error(kerCorruptedMetadata);
-                    }
-                }
             }
         } while (start) ;
 
@@ -551,6 +535,7 @@ namespace Exiv2 {
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
+            throwOrReserve(0,8);
             io.read(dir.pData_,  8);
             char c = (char) dir.pData_[0] ;
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
