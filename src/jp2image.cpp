@@ -227,6 +227,9 @@ namespace Exiv2
             position   = io_->tell();
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
+            if ( box.length > io_->size() ) {
+                throw Error(kerCorruptedMetadata);
+            }
 #ifdef DEBUG
             std::cout << "Exiv2::Jp2Image::readMetadata: "
                       << "Position: " << position
@@ -255,6 +258,9 @@ namespace Exiv2
                     {
                         subBox.length = getLong((byte*)&subBox.length, bigEndian);
                         subBox.type   = getLong((byte*)&subBox.type, bigEndian);
+                        if ( subBox.length > io().size() ) {
+                            throw Error(kerCorruptedMetadata);
+                        }
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::readMetadata: "
                         << "subBox = " << toAscii(subBox.type) << " length = " << subBox.length << std::endl;
@@ -630,8 +636,12 @@ namespace Exiv2
         int32_t       count  = sizeof (Jp2BoxHeader);
         char*         p      = (char*) boxBuf.pData_;
         bool          bWroteColor = false ;
+        int           loops  = 0;
 
         while ( count < length || !bWroteColor ) {
+            if (++loops > 100 ) {
+                throw Error(kerCorruptedMetadata);
+            }
             Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
 
             // copy data.  pointer could be into a memory mapped file which we will decode!
