@@ -381,14 +381,14 @@ namespace Exiv2 {
         {
             pos_e s1   = pos( p1    ,p2,l2);
             pos_e e1   = pos((p1+l1),p2,l2);
-            if ( s1 != e1                    ) return true;
-            if ( s1 == middle | e1 == middle ) return true;
+            if (  s1 != e1                       ) return true;
+            if ( (s1 == middle) | (e1 == middle) ) return true;
 
             // do it in reverse
             pos_e s2   = pos( p2    ,p1,l1);
             pos_e e2   = pos((p2+l2),p1,l1);
-            if ( s2 != e2                    ) return true;
-            if ( s2 == middle | e2 == middle ) return true;
+            if (  s2 != e2                       ) return true;
+            if ( (s2 == middle) | (e2 == middle) ) return true;
             return false;
         }
 
