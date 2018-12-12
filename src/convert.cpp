@@ -295,7 +295,6 @@ namespace Exiv2 {
         bool prepareIptcTarget(const char* to, bool force =false);
         bool prepareXmpTarget(const char* to, bool force =false);
         std::string computeExifDigest(bool tiff);
-        std::string computeIptcDigest();
 
         // DATA
         static const Conversion conversion_[];  //<! Conversion rules
@@ -1255,29 +1254,6 @@ namespace Exiv2 {
             return;
         }
     }
-
-    std::string Converter::computeIptcDigest()
-    {
-#ifdef EXV_HAVE_XMP_TOOLKIT
-        std::ostringstream res;
-        MD5_CTX context;
-        unsigned char digest[16];
-
-        MD5Init(&context);
-
-        DataBuf data = IptcParser::encode(*iptcData_);
-        MD5Update(&context, data.pData_, data.size_);
-        MD5Final(digest, &context);
-        res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-        for (int i = 0; i < 16; ++i) {
-            res << static_cast<int>(digest[i]);
-        }
-        return res.str();
-#else
-        return std::string("");
-#endif
-    }
-
 
     // *************************************************************************
     // free functions
