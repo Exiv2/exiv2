@@ -247,25 +247,6 @@ void Params::usage(std::ostream& os) const
        << _("Manipulate the Exif metadata of images.\n");
 }
 
-std::string Params::printTarget(const std::string &before, int target, bool bPrint, std::ostream& out)
-{
-    std::string t;
-    if ( target & Params::ctExif       ) t+= 'e';
-    if ( target & Params::ctXmpSidecar ) t+= 'X';
-    if ( target & Params::ctXmpRaw     ) t+= target & Params::ctXmpSidecar ? 'X' : 'R' ;
-    if ( target & Params::ctIptc       ) t+= 'i';
-    if ( target & Params::ctIccProfile ) t+= 'C';
-    if ( target & Params::ctIptcRaw    ) t+= 'I';
-    if ( target & Params::ctXmp        ) t+= 'x';
-    if ( target & Params::ctComment    ) t+= 'c';
-    if ( target & Params::ctThumb      ) t+= 't';
-    if ( target & Params::ctPreview    ) t+= 'p';
-    if ( target & Params::ctStdInOut   ) t+= '-';
-
-    if ( bPrint ) out << before << " :" << t << std::endl;
-    return t;
-}
-
 void Params::help(std::ostream& os) const
 {
     usage(os);
