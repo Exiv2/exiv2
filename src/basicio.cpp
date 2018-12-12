@@ -176,7 +176,8 @@ namespace Exiv2 {
     int FileIo::Impl::switchMode(OpMode opMode)
     {
         assert(fp_ != 0);
-        if (opMode_ == opMode) return 0;
+        if (opMode_ == opMode)
+            return 0;
         OpMode oldOpMode = opMode_;
         opMode_ = opMode;
 
@@ -208,7 +209,8 @@ namespace Exiv2 {
 
         // Reopen the file
         long offset = std::ftell(fp_);
-        if (offset == -1) return -1;
+        if (offset == -1)
+            return -1;
         // 'Manual' open("r+b") to avoid munmap()
         if (fp_ != 0) {
             std::fclose(fp_);
@@ -1927,8 +1929,8 @@ namespace Exiv2 {
 
     byte* RemoteIo::mmap(bool /*isWriteable*/)
     {
-        size_t nRealData = 0 ;
         if ( !bigBlock_ ) {
+            size_t nRealData = 0 ;
             size_t blockSize = p_->blockSize_;
             size_t blocks = (p_->size_ + blockSize -1)/blockSize ;
             bigBlock_   = new byte[blocks*blockSize] ;

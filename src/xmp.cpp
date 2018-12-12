@@ -54,8 +54,9 @@ namespace {
     class FindXmpdatum {
     public:
         //! Constructor, initializes the object with key
-        FindXmpdatum(const Exiv2::XmpKey& key)
-            : key_(key.key()) {}
+        explicit FindXmpdatum(const Exiv2::XmpKey& key) : key_(key.key())
+        {
+        }
         /*!
           @brief Returns true if prefix and property of the argument
                  Xmpdatum are equal to that of the object.
