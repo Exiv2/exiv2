@@ -2429,12 +2429,12 @@ namespace Exiv2 {
     std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        Rational fnumber = value.toRational();
-        if (fnumber.second != 0) {
+        Rational rational = value.toRational();
+        if (rational.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
             os << "F" << std::setprecision(2)
-               << static_cast<float>(fnumber.first) / fnumber.second;
+               << static_cast<float>(rational.first) / rational.second;
             os.copyfmt(oss);
         }
         else {

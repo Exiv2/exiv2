@@ -84,10 +84,10 @@ namespace Exiv2 {
     class FileIo::Impl {
     public:
         //! Constructor
-        Impl(const std::string& path);
+        explicit Impl(const std::string& path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
-        Impl(const std::wstring& wpath);
+        explicit Impl(const std::wstring& wpath);
 #endif
         // Enumerations
         //! Mode of operation
