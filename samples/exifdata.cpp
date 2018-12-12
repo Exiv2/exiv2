@@ -15,159 +15,159 @@ typedef enum  { wolf ,  csv , json , xml } format_e;
 
 void syntax(const char* argv[],format_t& formats)
 {
-	std::cout << "Usage: " << argv[0] << " file format" << std::endl;
-	int count = 0;
-	std::cout << "formats: ";
-	for ( format_i i = formats.begin() ; i != formats.end() ; i++ ) {
-		std::cout << ( count++ ? " | " : "") << i->first ;
-	}
-	std::cout << std::endl;
+    std::cout << "Usage: " << argv[0] << " file format" << std::endl;
+    int count = 0;
+    std::cout << "formats: ";
+    for ( format_i i = formats.begin() ; i != formats.end() ; ++i ) {
+        std::cout << ( count++ ? " | " : "") << i->first ;
+    }
+    std::cout << std::endl;
 }
 
 size_t formatInit(Exiv2::ExifData& exifData)
 {
-	size_t result = 0;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i) {
-		result ++ ;
-	}
-	return result ;
+    size_t result = 0;
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i) {
+        result ++ ;
+    }
+    return result ;
 }
 
 ///////////////////////////////////////////////////////////////////////
 std::string escapeCSV(Exiv2::ExifData::const_iterator it,bool bValue)
 {
-	std::string   result ;
+    std::string   result ;
 
-	std::ostringstream os;
-	if ( bValue ) os << it->value() ; else os << it->key() ;
+    std::ostringstream os;
+    if ( bValue ) os << it->value() ; else os << it->key() ;
 
-	std::string s = os.str();
-	for ( size_t i = 0 ;i < s.length() ; i ++ ) {
-		if ( s[i] == ',' ) result += '\\';
-		result += s[i];
-	}
+    std::string s = os.str();
+    for ( size_t i = 0 ;i < s.length() ; i ++ ) {
+        if ( s[i] == ',' ) result += '\\';
+        result += s[i];
+    }
 
-	return result ;
+    return result ;
 }
 
 std::string formatCSV(Exiv2::ExifData& exifData)
 {
-	size_t count  = 0;
-	size_t length = formatInit(exifData);
-	std::ostringstream result;
+    size_t count  = 0;
+    size_t length = formatInit(exifData);
+    std::ostringstream result;
 
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length; ++i) {
-		result << escapeCSV(i,false) << (count != length ? ", " : "" ) ;
-	}
-	result << std::endl;
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length; ++i) {
+        result << escapeCSV(i,false) << (count != length ? ", " : "" ) ;
+    }
+    result << std::endl;
 
-	count = 0;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
-		result << escapeCSV(i,true) << (count != length ? ", " : "" ) ;
-	}
-	return result.str();
+    count = 0;
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+        result << escapeCSV(i,true) << (count != length ? ", " : "" ) ;
+    }
+    return result.str();
 }
 
 ///////////////////////////////////////////////////////////////////////
 std::string formatWolf(Exiv2::ExifData& exifData)
 {
-	size_t count  = 0;
-	size_t length = formatInit(exifData);
-	std::ostringstream result;
+    size_t count  = 0;
+    size_t length = formatInit(exifData);
+    std::ostringstream result;
 
-	result << "{ " << std::endl;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
-		result << "  " << i->key()  << " -> " << i->value()  << (count != length ? "," : "" ) << std::endl ;
-	}
-	result << "}";
-	return result.str();
+    result << "{ " << std::endl;
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+        result << "  " << i->key()  << " -> " << i->value()  << (count != length ? "," : "" ) << std::endl ;
+    }
+    result << "}";
+    return result.str();
 }
 
 ///////////////////////////////////////////////////////////////////////
 std::string escapeJSON(Exiv2::ExifData::const_iterator it,bool bValue=true)
 {
-	std::string   result ;
+    std::string   result ;
 
-	std::ostringstream os;
-	if ( bValue ) os << it->value() ; else os << it->key() ;
+    std::ostringstream os;
+    if ( bValue ) os << it->value() ; else os << it->key() ;
 
-	std::string s = os.str();
-	for ( size_t i = 0 ;i < s.length() ; i ++ ) {
-		if ( s[i] == '"' ) result += "\\\"";
-		result += s[i];
-	}
+    std::string s = os.str();
+    for ( size_t i = 0 ;i < s.length() ; i ++ ) {
+        if ( s[i] == '"' ) result += "\\\"";
+        result += s[i];
+    }
 
-	std::string q = "\"";
-	return q + result + q ;
+    std::string q = "\"";
+    return q + result + q ;
 }
 
 std::string formatJSON(Exiv2::ExifData& exifData)
 {
-	size_t count  = 0;
-	size_t length = formatInit(exifData);
-	std::ostringstream result;
+    size_t count  = 0;
+    size_t length = formatInit(exifData);
+    std::ostringstream result;
 
-	result << "{" << std::endl ;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
-		result << "  " << escapeJSON(i,false)  << ":" << escapeJSON(i,true) << ( count != length ? "," : "" ) << std::endl ;
-	}
-	result << "}";
-	return result.str();
+    result << "{" << std::endl ;
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+        result << "  " << escapeJSON(i,false)  << ":" << escapeJSON(i,true) << ( count != length ? "," : "" ) << std::endl ;
+    }
+    result << "}";
+    return result.str();
 }
 
 ///////////////////////////////////////////////////////////////////////
 std::string escapeXML(Exiv2::ExifData::const_iterator it,bool bValue=true)
 {
-	std::string   result ;
+    std::string   result ;
 
-	std::ostringstream os;
-	if ( bValue ) os << it->value() ; else os << it->key() ;
+    std::ostringstream os;
+    if ( bValue ) os << it->value() ; else os << it->key() ;
 
-	std::string s = os.str();
-	for ( size_t i = 0 ;i < s.length() ; i ++ ) {
-		if ( s[i] == '<' ) result += "&lg;";
-		if ( s[i] == '>' ) result += "&gt;";
-		result += s[i];
-	}
+    std::string s = os.str();
+    for ( size_t i = 0 ;i < s.length() ; i ++ ) {
+        if ( s[i] == '<' ) result += "&lg;";
+        if ( s[i] == '>' ) result += "&gt;";
+        result += s[i];
+    }
 
-	return result ;
+    return result ;
 }
 
 std::string formatXML(Exiv2::ExifData& exifData)
 {
-	size_t count  = 0;
-	size_t length = formatInit(exifData);
-	std::ostringstream result;
+    size_t count  = 0;
+    size_t length = formatInit(exifData);
+    std::ostringstream result;
 
-	result << "<exif>" << std::endl;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
-		std::string key   = escapeXML(i,false);
-		std::string value = escapeXML(i,true);
-		result << "  <" << key << ">" << value << "<" << key << "/>" << std::endl ;
-	}
-	result << "</exif>" << std::endl;
-	return result.str();
+    result << "<exif>" << std::endl;
+    for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+        std::string key   = escapeXML(i,false);
+        std::string value = escapeXML(i,true);
+        result << "  <" << key << ">" << value << "<" << key << "/>" << std::endl ;
+    }
+    result << "</exif>" << std::endl;
+    return result.str();
 }
 
 ///////////////////////////////////////////////////////////////////////
 int main(int argc,const char* argv[])
 {
-	format_t formats;
-	formats["wolf"] = wolf;
-	formats["csv" ] = csv ;
-	formats["json"] = json;
-	formats["xml" ] = xml ;
+    format_t formats;
+    formats["wolf"] = wolf;
+    formats["csv" ] = csv ;
+    formats["json"] = json;
+    formats["xml" ] = xml ;
 
-	int result = 0 ;
+    int result = 0 ;
     if (argc != 3) {
-    	syntax(argv,formats) ;
+        syntax(argv,formats) ;
         result = 1;
     }
 
     const char* file   = argv[1];
     const char* format = argv[2];
 
-	if ( !result && formats.find(format) == formats.end() ) {
+    if ( !result && formats.find(format) == formats.end() ) {
         std::cout << "Unrecognised format " << format << std::endl;
         syntax(argv,formats);
         result = 2;
