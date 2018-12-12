@@ -739,7 +739,8 @@ namespace Exiv2 {
                 object->setByteOrder(bo);
                 setDirty();
             }
-            if (del_) exifData_.erase(pos);
+            if (del_)
+                exifData_.erase(pos);
         }
         if (del_) {
             // Remove remaining synthesized tags
@@ -747,8 +748,9 @@ namespace Exiv2 {
                 "Exif.MakerNote.Offset",
             };
             for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
-                ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
-                if (pos != exifData_.end()) exifData_.erase(pos);
+                pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+                if (pos != exifData_.end())
+                    exifData_.erase(pos);
             }
         }
         // Modify encoder for Makernote peculiarities, byte order

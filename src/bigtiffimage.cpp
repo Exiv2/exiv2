@@ -147,13 +147,12 @@ namespace Exiv2
         class BigTiffImage: public Image
         {
             public:
-                BigTiffImage(BasicIo::AutoPtr io):
+                explicit BigTiffImage(BasicIo::AutoPtr io):
                     Image(ImageType::bigtiff, mdExif, io),
-                    header_(),
+                    header_(readHeader(Image::io())),
                     dataSize_(0),
                     doSwap_(false)
                 {
-                    header_ = readHeader(Image::io());
                     assert(header_.isValid());
 
                     doSwap_ =  (isLittleEndianPlatform() && header_.byteOrder() == bigEndian)
@@ -411,8 +410,6 @@ namespace Exiv2
 
                     if ( bPrint )
                         out << Internal::indent(depth) << "END " << io.path() << std::endl;
-
-                    depth--;
                 }
 
                 uint64_t readData(int size) const
