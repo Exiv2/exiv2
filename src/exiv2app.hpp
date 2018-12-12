@@ -343,9 +343,6 @@ public:
     //! Print version information to an output stream.
     void version(bool verbose =false, std::ostream& os =std::cout) const;
 
-    //! Print target_
-    static std::string printTarget(const std::string& before,int target,bool bPrint=false,std::ostream& os=std::cout);
-
     //! getStdin binary data read from stdin to DataBuf
     /*
         stdin can be used by multiple images in the exiv2 command line:
