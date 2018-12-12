@@ -352,11 +352,13 @@ namespace Exiv2 {
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
             bool tooBig = dirLength > 500;
-            if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
+            if ( tooBig ) {
+                out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
+                throw Error(kerTiffDirectoryTooLarge);
+            }
 
             if ( bFirst && bPrint ) {
                 out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
-                if ( tooBig ) out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
             }
 
             // Read the dictionary
@@ -454,8 +456,8 @@ namespace Exiv2 {
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
                             size_t   restore = io.tell();
-                            uint32_t offset = byteSwap4(buf,k*size,bSwap);
-                            printIFDStructure(io,out,option,offset,bSwap,c,depth);
+                            uint32_t offset2 = byteSwap4(buf,k*size,bSwap);
+                            printIFDStructure(io,out,option,offset2,bSwap,c,depth);
                             io.seek(restore,BasicIo::beg);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
@@ -484,11 +486,11 @@ namespace Exiv2 {
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            byte* bytes2=new byte[count-jump] ;  // allocate memory
+                            io.read(bytes2,count-jump)        ;  // read
+                            MemIo memIo(bytes2,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
+                            delete[] bytes2                   ;  // free
                         } else {
                             // tag is an IFD
                             io.seek(0,BasicIo::beg);  // position

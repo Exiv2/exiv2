@@ -172,13 +172,10 @@ namespace {
         size_t pos = startPos;
         if (pos > size) return pos;
         // skip line ending of previous line, if present
-        if (pos <= 0) return pos;
         if (data[pos - 1] == '\r' || data[pos - 1] == '\n') {
             pos--;
-            if (pos <= 0) return pos;
             if (data[pos - 1] == '\r' && data[pos] == '\n') {
                 pos--;
-                if (pos <= 0) return pos;
             }
         }
         // step through previous line
@@ -735,8 +732,8 @@ namespace {
                 lineStreamAi7Thumbnail >> dummy;
                 lineStreamAi7Thumbnail >> nativePreview.width_;
                 lineStreamAi7Thumbnail >> nativePreview.height_;
-                std::string depth;
-                lineStreamAi7Thumbnail >> depth;
+                std::string depthStr;
+                lineStreamAi7Thumbnail >> depthStr;
                 std::string lineBeginData;
                 const size_t posAfterBeginData = readLine(lineBeginData, data, posBeginData, posEndEps);
                 std::istringstream lineStreamBeginData(lineBeginData);
@@ -749,9 +746,9 @@ namespace {
                 nativePreview.size_ = static_cast<uint32_t>(posAi7ThumbnailEndData - posAfterBeginData);
                 nativePreview.filter_ = "hex-ai7thumbnail-pnm";
                 nativePreview.mimeType_ = "image/x-portable-anymap";
-                if (depth != "8") {
+                if (depthStr != "8") {
                     #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depth << "\n";
+                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depthStr << "\n";
                     #endif
                 } else if (beginData != "%%BeginData:") {
                     #ifndef SUPPRESS_WARNINGS

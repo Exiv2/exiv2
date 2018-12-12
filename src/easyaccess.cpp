@@ -161,7 +161,6 @@ namespace Exiv2 {
             // pick up list of ISO tags, and check for at least one of
             // them available.
             const SensKeyNameList *sensKeys = &sensitivityKey[st_val - 1];
-            md_st = ed.end();
             for (int idx = 0; idx < sensKeys->count; md_st = ed.end()) {
                 md_st = findMetadatum(ed, const_cast<const char**>(sensKeys->keys), sensKeys->count);
                 if (md_st == ed.end())

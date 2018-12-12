@@ -139,15 +139,13 @@ namespace Exiv2 {
         const uint8_t* data = (const uint8_t*)data_buf;
         size_t resultIndex = 0;
         size_t x;
-        uint32_t n = 0;
         size_t padCount = dataLength % 3;
-        uint8_t n0, n1, n2, n3;
 
         /* increment over the length of the string, three characters at a time */
         for (x = 0; x < dataLength; x += 3)
         {
             /* these three 8-bit (ASCII) characters become one 24-bit number */
-            n = data[x] << 16;
+            uint32_t n = data[x] << 16;
 
             if((x+1) < dataLength)
                 n += data[x+1] << 8;
@@ -156,10 +154,10 @@ namespace Exiv2 {
                 n += data[x+2];
 
             /* this 24-bit number gets separated into four 6-bit numbers */
-            n0 = (uint8_t)(n >> 18) & 63;
-            n1 = (uint8_t)(n >> 12) & 63;
-            n2 = (uint8_t)(n >> 6) & 63;
-            n3 = (uint8_t)n & 63;
+            uint8_t n0 = (uint8_t)(n >> 18) & 63;
+            uint8_t n1 = (uint8_t)(n >> 12) & 63;
+            uint8_t n2 = (uint8_t)(n >> 6) & 63;
+            uint8_t n3 = (uint8_t)n & 63;
 
             /*
             * if we have one byte available, then its encoding is spread
@@ -211,14 +209,13 @@ namespace Exiv2 {
     long base64decode(const char *in, char *out, size_t out_size) {
         static const char decode[] = "|$$$}rstuvwxyz{$$$$$$$>?@ABCDEFGHIJKLMNOPQRSTUVW"
                          "$$$$$$XYZ[\\]^_`abcdefghijklmnopq";
-        long len;
         long i;
         long done = 0;
         unsigned char v;
         unsigned char quad[4];
 
         while (*in) {
-            len = 0;
+            long len = 0;
             for (i = 0; i < 4 && *in; i++) {
                 v = 0;
                 while (*in && !v) {

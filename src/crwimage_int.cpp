@@ -847,11 +847,11 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
 
-        std::string groupName(Internal::groupName(ifdId));
+        std::string gName(Internal::groupName(ifdId));
         uint16_t c = 1;
         while (uint32_t(c)*2 < ciffComponent.size()) {
             uint16_t n = 1;
-            ExifKey key(c, groupName);
+            ExifKey key(c, gName);
             UShortValue value;
             if (ifdId == canonCsId && c == 23 && ciffComponent.size() > 50) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
