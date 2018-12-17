@@ -21,7 +21,8 @@ add_executable(unit_tests mainTestRunner.cpp
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
-        ${GTEST_BOTH_LIBRARIES}
+        GTest::GTest
+        GTest::Main
 )
 
 # ZLIB is used in exiv2lib_int.
@@ -31,13 +32,7 @@ endif()
 
 target_include_directories(unit_tests
     PRIVATE
-        ${GTEST_INCLUDE_DIRS}
         ${CMAKE_SOURCE_DIR}/src
-)
-
-target_compile_definitions(unit_tests
-    PRIVATE
-        GTEST_LINKED_AS_SHARED_LIBRARY=1
 )
 
 set_target_properties(unit_tests PROPERTIES
