@@ -56,9 +56,6 @@
 // Define if you have the munmap function.
 #cmakedefine EXV_HAVE_MUNMAP
 
-// Define if you have <sys/stat.h> header file.
-#cmakedefine EXV_HAVE_SYS_STAT_H
-
 // Define if you have  the <sys/types.h> header file.
 #cmakedefine EXV_HAVE_SYS_TYPES_H
 
