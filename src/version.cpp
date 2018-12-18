@@ -269,7 +269,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_xmptoolkit  =0;
     int adobe_xmpsdk     =0;
     int have_bool        =0;
-    int have_strings     =0;
     int have_unistd      =0;
     int have_unicode_path=0;
     int have_regex       =0;
@@ -312,10 +311,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     have_strerror_r=1;
 #endif
 
-#ifdef EXV_HAVE_STRINGS_H
-    have_strings=1;
-#endif
-
 #ifdef EXV_HAVE_MMAP
     have_mmap=1;
 #endif
@@ -346,10 +341,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_BOOL
     have_bool=1;
-#endif
-
-#ifdef EXV_HAVE_STRINGS
-     have_strings=1;
 #endif
 
 #ifdef EXV_HAVE_UNISTD
@@ -480,7 +471,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_xmptoolkit"   ,have_xmptoolkit  );
     output(os,keys,"adobe_xmpsdk"      ,adobe_xmpsdk     );
     output(os,keys,"have_bool"         ,have_bool        );
-    output(os,keys,"have_strings"      ,have_strings     );
     output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_video"      ,enable_video     );
