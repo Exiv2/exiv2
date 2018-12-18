@@ -43,6 +43,9 @@ foreach(entry ${SAMPLES})
     add_test( ${target}_test ${target} )
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    if (MSVC)
+        set_target_properties(${target} PROPERTIES LINK_FLAGS "/ignore:4099")
+    endif()
 endforeach()
 
 ###################################
@@ -68,6 +71,11 @@ add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
 list(APPEND APPLICATIONS exiv2json)
 
 install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+if (MSVC)
+    set_target_properties(exiv2json PROPERTIES LINK_FLAGS "/ignore:4099")
+    set_target_properties(metacopy PROPERTIES LINK_FLAGS "/ignore:4099")
+endif()
 
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
@@ -102,6 +110,9 @@ foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
     if( EXIV2_ENABLE_PNG )
         target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
+    endif()
+    if (MSVC)
+        set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099")
     endif()
 endforeach()
 
