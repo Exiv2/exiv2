@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 3.5.0 )
 
 project(exiv2
-    VERSION 0.27.0.3
+    VERSION 0.27.99.0   # Fake version number to indicate that the next version will be 28.0
     LANGUAGES CXX C
 )
 
