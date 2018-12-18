@@ -273,7 +273,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int adobe_xmpsdk     =0;
     int have_bool        =0;
     int have_strings     =0;
-    int have_sys_types   =0;
     int have_unistd      =0;
     int have_unicode_path=0;
     int have_regex       =0;
@@ -340,10 +339,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     have_munmap=1;
 #endif
 
-#ifdef EXV_HAVE_SYS_TYPES_H
-    have_sys_types=1;
-#endif
-
 #ifdef EXV_HAVE_UNISTD_H
     have_unistd=1;
 #endif
@@ -370,10 +365,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_STRINGS
      have_strings=1;
-#endif
-
-#ifdef EXV_SYS_TYPES
-     have_sys_types=1;
 #endif
 
 #ifdef EXV_HAVE_UNISTD
@@ -508,7 +499,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"adobe_xmpsdk"      ,adobe_xmpsdk     );
     output(os,keys,"have_bool"         ,have_bool        );
     output(os,keys,"have_strings"      ,have_strings     );
-    output(os,keys,"have_sys_types"    ,have_sys_types   );
     output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_video"      ,enable_video     );
