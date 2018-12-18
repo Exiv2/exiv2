@@ -46,6 +46,7 @@ before_build:
     - cmd: conan profile update settings.build_type=%CONFIGURATION% default
     - cmd: conan profile update settings.compiler.runtime=%RUNTIME% default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
+    - cmd: cat c:\Users\appveyor\.conan\profiles\default
 
 build_script:
     - cmd: md build
@@ -53,7 +54,7 @@ build_script:
     - cmd: if "%platform%"=="x64" (set VC_ARCH=x86_amd64) else (set VC_ARCH=x86)
     - cmd: call "%VCVARS%" %VC_ARCH%
     - cmd: conan install .. --build missing
-    - cmd: cmake -GNinja -DBUILD_SHARED_LIBS=%SHARED% -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -GNinja -DBUILD_SHARED_LIBS=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: ninja
     - cmd: ninja install
     - cmd: cd bin
