@@ -29,8 +29,6 @@ check_function_exists( munmap   EXV_HAVE_MUNMAP )
 check_function_exists( strerror_r   EXV_HAVE_STRERROR_R )
 
 check_include_file( "unistd.h"  EXV_HAVE_UNISTD_H )
-check_include_file( "stdbool.h" EXV_HAVE_STDBOOL_H )
-check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
 check_include_file( "strings.h" EXV_HAVE_STRINGS_H )
 check_include_file( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
