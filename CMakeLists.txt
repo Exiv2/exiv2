@@ -106,6 +106,3 @@ configure_file(cmake/exiv2.pc.in exiv2.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 include(cmake/printSummary.cmake)
-
-# That's all Folks!
-##
