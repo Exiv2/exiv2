@@ -41,9 +41,6 @@
 // Define if you have the <regex.h> header file.
 #cmakedefine EXV_HAVE_REGEX_H
 
-// Define if have the <memory.h> header file.
-#cmakedefine EXV_HAVE_MEMORY_H
-
 // Define if stdbool.h conforms to C99.
 #cmakedefine EXV_HAVE_STDBOOL_H
 
