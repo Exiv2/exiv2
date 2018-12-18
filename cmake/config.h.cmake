@@ -74,9 +74,6 @@
 // Define if you have are using the zlib library.
 #cmakedefine EXV_HAVE_LIBZ
 
-// Define if you have the <process.h> header file.
-#cmakedefine EXV_HAVE_PROCESS_H
-
 /* Define if you have (Exiv2/xmpsdk) Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT
 

@@ -45,9 +45,7 @@
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap
 #endif
-#ifdef EXV_HAVE_PROCESS_H
-# include <process.h>
-#endif
+
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for getpid, stat
 #endif
