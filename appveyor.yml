@@ -11,9 +11,9 @@ platform:
 environment:
   VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
 
-  matrix:
-      - SHARED=ON
-      - SHARED=OFF
+#  matrix:
+#      - SHARED=ON
+#      - SHARED=OFF
 
 shallow_clone: true
 
