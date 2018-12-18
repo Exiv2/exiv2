@@ -3,7 +3,7 @@
 | [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/master?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/master) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/master/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/master) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) |
 
 <name id="TOC">
-### T A B L E _ OF _ C O N T E N T S
+### TABLE OF CONTENTS
 
 1. [Welcome to Exiv2](#1)
 2. [Building, Installing, Using and Uninstalling Exiv2](#2)
@@ -56,7 +56,7 @@ The file ReadMe.txt in a Build bundle describes how to install the library on th
 <name id="2">
 ## 2 Building, Installing, Using and Uninstalling Exiv2
 
-You need CMake to build Exiv2:  https://cmake.org/download/
+You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and a C++11 compiler.
 
 <name id="2-1">
 ### 2.1 Build, Install, Use, Uninstall Exiv2 on a UNIX-like system
@@ -136,7 +136,7 @@ The following Exiv2 features are enabled by default and require external librari
 | Native language support     | gettext   | -DEXIV2\_ENABLE\_NLS=Off     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 | XMP support                 | expat     | -DEXIV2\_ENABLE\_XMP=Off     | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
 
-On Linux, you may install the dependencies using the distribution's package management system.  Install the development package of a dependency to install the header files and static libraries required to build Exiv2.
+On Linux, you may install the dependencies using the distribution's package management system.Install the development package of a dependency to install the header files and static libraries required to build Exiv2.
 
 Notes about different platforms are included in this document: [Platform Notes](#5)
 
@@ -144,6 +144,7 @@ You may choose to install dependences with conan.  This is supported on all plat
 See [README-CONAN](README-CONAN.md) for more information.
 
 [TOC](#TOC)
+
 <name id="2-5">
 ### 2.5 Building and linking your code with Exiv2
 
@@ -153,7 +154,7 @@ platform: { CYGWIN| Darwin | Linux | MinGW | msvc }
 
 In general you need to do the following:
 
-1) Application code should be written in C++ 98 and include exiv2 headers:
+1) Application code should be written in C++11 and include exiv2 headers:
 
 ```C++
 #include <exiv2/exiv2.hpp>
@@ -166,7 +167,7 @@ In general you need to do the following:
 The following is a typical command to build and link with libexiv2:
 
 ```bash
-$ g++ -std=c++98 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
+$ g++ -std=c++11 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
 ```
 
 [TOC](#TOC)
@@ -775,7 +776,7 @@ bash.exe -norc
 <name id="5-5">
 ### 5.5 Microsoft Visual C++
 
-We recommend that you use Conan to build Exiv2 using Microsoft Visual C++.  For v0.27, we support Visual Studio 2008, 2010, 2012, 2013, 2015 and 2017.
+We recommend that you use Conan to build Exiv2 using Microsoft Visual C++. Since we require a C++11 compiler, we only support the Visual Studio versions 2015 and 2017.
 
 As well as Microsoft Visual Studio, you will need to install CMake, Python3, and Conan.
 
@@ -795,4 +796,4 @@ cmd
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-12-01
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-12-18
