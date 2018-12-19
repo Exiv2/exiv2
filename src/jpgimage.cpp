@@ -352,7 +352,6 @@ namespace Exiv2 {
         clearMetadata();
         int search = 6 ; // Exif, ICC, XMP, Comment, IPTC, SOF
         const long bufMinSize = 36;
-        long bufRead = 0;
         DataBuf buf(bufMinSize);
         Blob psBlob;
         bool foundCompletePsData = false;
@@ -367,7 +366,7 @@ namespace Exiv2 {
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             std::memset(buf.pData_, 0x0, buf.size_);
-            bufRead = io_->read(buf.pData_, bufMinSize);
+            long bufRead = io_->read(buf.pData_, bufMinSize);
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead < 2) throw Error(kerNotAJpeg);
             uint16_t size = getUShort(buf.pData_, bigEndian);
@@ -609,7 +608,6 @@ namespace Exiv2 {
 
             // Container for the signature
             bool bExtXMP = false;
-            long bufRead = 0;
             const long bufMinSize = 36;
             DataBuf buf(bufMinSize);
 
@@ -632,7 +630,7 @@ namespace Exiv2 {
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
-                bufRead = io_->read(buf.pData_, bufMinSize);
+                long bufRead = io_->read(buf.pData_, bufMinSize);
                 if (io_->error())
                     throw Error(kerFailedToReadImageData);
                 if (bufRead < 2)

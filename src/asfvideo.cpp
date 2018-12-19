@@ -183,10 +183,10 @@ namespace Exiv2 {
      */
     std::string toString16(Exiv2::DataBuf& buf)
     {
-        std::ostringstream os; char t;
+        std::ostringstream os;;
 
         for(int i = 0; i <= buf.size_; i += 2 ) {
-            t = buf.pData_[i] + 16 * buf.pData_[i + 1];
+            byte t = buf.pData_[i] + 16 * buf.pData_[i + 1];
             if(t == 0) {
                 if(i)
                     os << '\0';
@@ -292,6 +292,11 @@ namespace Exiv2 {
 
     AsfVideo::AsfVideo(BasicIo::AutoPtr io)
         : Image(ImageType::asf, mdNone, io)
+        , continueTraversing_(false)
+        , localPosition_(0)
+        , streamNumber_(0)
+        , height_(0)
+        , width_(0)
     {
     } // AsfVideo::AsfVideo
 
@@ -545,15 +550,15 @@ namespace Exiv2 {
         io_->read(buf.pData_, 16);
         std::memset(buf.pData_, 0x0, buf.size_);
         io_->read(buf.pData_, 4);
-        int codecCount = Exiv2::getULong(buf.pData_, littleEndian), descLength = 0, codecType = 0;
+        int codecCount = Exiv2::getULong(buf.pData_, littleEndian);
 
         while(codecCount--) {
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, 2);
-            codecType = Exiv2::getUShort(buf.pData_, littleEndian);
+            const int codecType = Exiv2::getUShort(buf.pData_, littleEndian);
 
             io_->read(buf.pData_, 2);
-            descLength = Exiv2::getUShort(buf.pData_, littleEndian) * 2;
+            int descLength = Exiv2::getUShort(buf.pData_, littleEndian) * 2;
 
             if (descLength < 0) {
             #ifndef SUPPRESS_WARNINGS
@@ -741,10 +746,8 @@ namespace Exiv2 {
         getGUID(guidBuf, fileID);
         xmpData_["Xmp.video.FileID"] = fileID;
 
-        const TagDetails* td;
-
         while(count--) {
-            td = find(filePropertiesTags , (count + 1));
+            const TagDetails* td = find(filePropertiesTags , (count + 1));
             io_->read(buf.pData_, 8);
 
             if(count == 0) {

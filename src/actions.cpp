@@ -328,9 +328,11 @@ namespace Action {
         // Exposure time
         // From ExposureTime, failing that, try ShutterSpeedValue
         printLabel(_("Exposure time"));
-        bool done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
-        if (!done) {
-            done = 0 != printTag(exifData, "Exif.Photo.ShutterSpeedValue");
+        {
+            bool done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
+            if (!done) {
+                printTag(exifData, "Exif.Photo.ShutterSpeedValue");
+            }
         }
         std::cout << std::endl;
 
@@ -338,9 +340,11 @@ namespace Action {
         // Get if from FNumber and, failing that, try ApertureValue
         {
             printLabel(_("Aperture"));
-            bool done = 0 != printTag(exifData, "Exif.Photo.FNumber");
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
+            {
+                bool done = 0 != printTag(exifData, "Exif.Photo.FNumber");
+                if (!done) {
+                    printTag(exifData, "Exif.Photo.ApertureValue");
+                }
             }
             std::cout << std::endl;
 
@@ -440,13 +444,13 @@ namespace Action {
             std::cout << _("None");
         }
         else {
-            Exiv2::DataBuf buf = exifThumb.copy();
-            if (buf.size_ == 0) {
+            Exiv2::DataBuf dataBuf = exifThumb.copy();
+            if (dataBuf.size_ == 0) {
                 std::cout << _("None");
             }
             else {
                 std::cout << exifThumb.mimeType() << ", "
-                          << buf.size_ << " " << _("Bytes");
+                          << dataBuf.size_ << " " << _("Bytes");
             }
         }
         std::cout << std::endl;
@@ -1951,7 +1955,8 @@ namespace {
 
     int Timestamp::touch(const std::string& path)
     {
-        if (0 == actime_) return 1;
+        if (0 == actime_)
+            return 1;
         struct utimbuf buf;
         buf.actime = actime_;
         buf.modtime = modtime_;

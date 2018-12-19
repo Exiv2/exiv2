@@ -323,7 +323,6 @@ namespace Exiv2 {
                     io_->seek(restore, BasicIo::beg);
                     uint32_t  name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
                     uint32_t  start  = name_l;
-                    bool      bLF    = false;
 
                     // decode the chunk
                     bool bGood = false;
@@ -339,6 +338,7 @@ namespace Exiv2 {
 
                     // format is content dependent
                     if ( bGood ) {
+                        bool bLF = false;
                         if ( bXMP ) {
                             while ( !data[start] && start < dataOffset) start++; // skip leading nul bytes
                             out <<  data+start;             // output the xmp

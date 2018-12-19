@@ -97,7 +97,6 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
     char section[MAX_SECTION] = "";
     char prev_name[MAX_NAME] = "";
 
-    char* start;
     char* end;
     char* name;
     char* value;
@@ -115,7 +114,7 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
     while (reader(line, INI_MAX_LINE, stream) != NULL) {
         lineno++;
 
-        start = line;
+        char* start = line;
 #if INI_ALLOW_BOM
         if (lineno == 1 && (unsigned char)start[0] == 0xEF &&
                            (unsigned char)start[1] == 0xBB &&
