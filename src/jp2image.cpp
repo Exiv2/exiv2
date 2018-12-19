@@ -216,7 +216,6 @@ namespace Exiv2
             throw Error(kerNotAnImage, "JPEG-2000");
         }
 
-        long              position  = 0;
         Jp2BoxHeader      box       = {0,0};
         Jp2BoxHeader      subBox    = {0,0};
         Jp2ImageHeaderBox ihdr      = {0,0,0,0,0,0,0,0};
@@ -224,7 +223,7 @@ namespace Exiv2
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
-            position   = io_->tell();
+            long position = io_->tell();
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef DEBUG
@@ -471,7 +470,6 @@ namespace Exiv2
 
         if ( bPrint || bXMP || bICC || bIPTCErase ) {
 
-            long              position  = 0;
             Jp2BoxHeader      box       = {1,1};
             Jp2BoxHeader      subBox    = {1,1};
             Jp2UuidBox        uuid      = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
@@ -479,7 +477,7 @@ namespace Exiv2
 
             while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box))
             {
-                position   = io_->tell();
+                long position = io_->tell();
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type   = getLong((byte*)&box.type, bigEndian);
 
