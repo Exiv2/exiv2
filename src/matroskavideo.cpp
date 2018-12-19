@@ -478,6 +478,9 @@ namespace Exiv2 {
 
     MatroskaVideo::MatroskaVideo(BasicIo::AutoPtr io)
         : Image(ImageType::mkv, mdNone, io)
+        , continueTraversing_(false)
+        , height_(0)
+        , width_(0)
     {
     } // MatroskaVideo::MatroskaVideo
 

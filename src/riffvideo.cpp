@@ -502,7 +502,9 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     RiffVideo::RiffVideo(BasicIo::AutoPtr io)
-            : Image(ImageType::riff, mdNone, io)
+        : Image(ImageType::riff, mdNone, io)
+        , continueTraversing_(false)
+        , streamType_(0)
     {
     } // RiffVideo::RiffVideo
 

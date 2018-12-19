@@ -2051,9 +2051,10 @@ namespace Exiv2 {
         HttpImpl& operator=(const HttpImpl& rhs); //!< Assignment
     }; // class HttpIo::HttpImpl
 
-    HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
+    HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize)
+        : Impl(url, blockSize)
+        , hostInfo_(Exiv2::Uri::Parse(url))
     {
-        hostInfo_ = Exiv2::Uri::Parse(url);
         Exiv2::Uri::Decode(hostInfo_);
     }
 #ifdef EXV_UNICODE_PATH

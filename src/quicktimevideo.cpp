@@ -609,6 +609,10 @@ namespace Exiv2 {
     QuickTimeVideo::QuickTimeVideo(BasicIo::AutoPtr io)
             : Image(ImageType::qtime, mdNone, io)
             , timeScale_(1)
+            , currentStream_(0)
+            , continueTraversing_(false)
+            , height_(0)
+            , width_(0)
     {
     } // QuickTimeVideo::QuickTimeVideo
 
