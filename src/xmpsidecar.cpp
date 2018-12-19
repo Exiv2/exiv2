@@ -51,8 +51,8 @@ namespace {
 namespace Exiv2 {
 
 
-    XmpSidecar::XmpSidecar(BasicIo::AutoPtr io, bool create)
-        : Image(ImageType::xmp, mdXmp, io)
+    XmpSidecar::XmpSidecar(BasicIo::UniquePtr io, bool create)
+        : Image(ImageType::xmp, mdXmp, std::move(io))
     {
         if (create) {
             if (io_->open() == 0) {
@@ -154,7 +154,7 @@ namespace Exiv2 {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
                 xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }
-            BasicIo::AutoPtr tempIo(new MemIo);
+            BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
             // Write XMP packet
             if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),
@@ -168,9 +168,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new XmpSidecar(io, create));
+        Image::UniquePtr image(new XmpSidecar(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

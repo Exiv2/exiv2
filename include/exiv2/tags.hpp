@@ -147,7 +147,7 @@ namespace Exiv2 {
     class EXIV2API ExifKey : public Key {
     public:
         //! Shortcut for an %ExifKey auto pointer.
-        typedef std::auto_ptr<ExifKey> AutoPtr;
+        typedef std::unique_ptr<ExifKey> UniquePtr;
 
         //! @name Creators
         //@{
@@ -209,7 +209,7 @@ namespace Exiv2 {
         //! Return the default type id for this tag.
         TypeId defaultTypeId() const;       // Todo: should be in the base class
 
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         //! Return the index (unique id of this key within the original Exif data, 0 if not set)
         int idx() const;
         //@}
@@ -221,7 +221,7 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     }; // class ExifKey
 

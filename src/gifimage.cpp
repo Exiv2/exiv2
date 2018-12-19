@@ -41,8 +41,8 @@
 // class member definitions
 namespace Exiv2 {
 
-    GifImage::GifImage(BasicIo::AutoPtr io)
-        : Image(ImageType::gif, mdNone, io)
+    GifImage::GifImage(BasicIo::UniquePtr io)
+        : Image(ImageType::gif, mdNone, std::move(io))
     {
     } // GifImage::GifImage
 
@@ -103,9 +103,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newGifInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new GifImage(io));
+        Image::UniquePtr image(new GifImage(std::move(io)));
         if (!image->good())
         {
             image.reset();

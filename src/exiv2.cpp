@@ -154,7 +154,7 @@ int main(int argc, char* const argv[])
     try {
         // Create the required action class
         Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-        Action::Task::AutoPtr task = taskFactory.create(Action::TaskType(params.action_));
+        Action::Task::UniquePtr task = taskFactory.create(Action::TaskType(params.action_));
         assert(task.get());
 
         // Process all files

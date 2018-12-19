@@ -35,19 +35,19 @@ try {
     exifData["Exif.Image.Make"]         = "Canon";                 // AsciiValue
     exifData["Exif.Canon.OwnerName"]    = "Tuan";                  // UShortValue
     exifData["Exif.CanonCs.LensType"]   = uint16_t(65535);         // LongValue
-    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
+    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::asciiString);
     v->read("2013:06:09 14:30:30");
     Exiv2::ExifKey key("Exif.Image.DateTime");
     exifData.add(key, v.get());
 
-    Exiv2::Image::AutoPtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    Exiv2::Image::UniquePtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     assert(writeTest.get() != 0);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
-    Exiv2::Image::AutoPtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    Exiv2::Image::UniquePtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     assert(readTest.get() != 0);
     readTest->readMetadata();
     Exiv2::ExifData &exifReadData = readTest->exifData();

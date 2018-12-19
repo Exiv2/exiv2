@@ -152,14 +152,14 @@ namespace Exiv2 {
         long toLong(long n =0) const;
         float toFloat(long n =0) const;
         Rational toRational(long n =0) const;
-        Value::AutoPtr getValue() const;
+        Value::UniquePtr getValue() const;
         const Value& value() const;
         //@}
 
     private:
         // Pimpl idiom
         struct Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     }; // class Xmpdatum
 

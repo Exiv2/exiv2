@@ -72,7 +72,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        OrfImage(BasicIo::AutoPtr io, bool create);
+        OrfImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -149,7 +149,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is an ORF image.
     EXIV2API bool isOrfType(BasicIo& iIo, bool advance);

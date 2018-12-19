@@ -4,7 +4,7 @@ set -x # Prints every command
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
-    sudo apt-get install cmake zlib1g-dev libssh-dev python-pip libxml2-utils
+    sudo apt-get install libssh-dev python-pip libxml2-utils
     if [ -n "$WITH_VALGRIND" ]; then
         sudo apt-get install valgrind
     fi
@@ -34,14 +34,8 @@ pip install conan==1.9.0
 pip install codecov
 conan --version
 conan config set storage.path=~/conanData
-conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
-mkdir -p ~/.conan/profiles
+conan profile new default --detect
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    CC_VER=$(${CC} --version | head -1 | awk '{print $3}'| awk -F'.' '{ print $1"."$2 }')
-    printf "[settings]\nos=Linux\narch=x86_64\ncompiler=$CC\ncompiler.version=$CC_VER\ncompiler.libcxx=libstdc++\nbuild_type=Release\n" > ~/.conan/profiles/release
-else
-    printf "[settings]\nos=Macos\narch=x86_64\ncompiler=apple-clang\ncompiler.version=9.0\ncompiler.libcxx=libc++\nbuild_type=Release\n" > ~/.conan/profiles/release
+    conan profile update settings.compiler.libcxx=libstdc++11 default
 fi
-

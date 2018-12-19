@@ -1,7 +1,7 @@
-cmake_minimum_required( VERSION 3.3.2 )
+cmake_minimum_required( VERSION 3.5.0 )
 
 project(exiv2
-    VERSION 0.27.0.3
+    VERSION 0.27.99.0   # Fake version number to indicate that the next version will be 28.0
     LANGUAGES CXX C
 )
 
@@ -106,6 +106,3 @@ configure_file(cmake/exiv2.pc.in exiv2.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 include(cmake/printSummary.cmake)
-
-# That's all Folks!
-##

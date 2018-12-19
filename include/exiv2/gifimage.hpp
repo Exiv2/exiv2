@@ -78,7 +78,7 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        explicit GifImage(BasicIo::AutoPtr io);
+        explicit GifImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
@@ -123,7 +123,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newGifInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a GIF image.
     EXIV2API bool isGifType(BasicIo& iIo, bool advance);

@@ -43,27 +43,7 @@
 #include <utility>
 #include <algorithm>
 #include <sstream>
-
-#ifdef _MSC_VER
-// Visual Studio 2010 and later has stdint.h
-# if   _MSC_VER >= _MSC_VER_2010
-#  include <stdint.h>
-# else
-// Earlier compilers have MS C99 equivalents such as __int8
-   typedef unsigned __int8  uint8_t;
-   typedef unsigned __int16 uint16_t;
-   typedef unsigned __int32 uint32_t;
-   typedef unsigned __int64 uint64_t;
-   typedef          __int8  int8_t;
-   typedef          __int16 int16_t;
-   typedef          __int32 int32_t;
-   typedef          __int64 int64_t;
-# endif
-#else
-  #ifdef EXV_HAVE_STDINT_H
-  # include <stdint.h>
-  #endif
-#endif
+#include <stdint.h> /// \todo change to cstdint
 
 
 // MSVC macro to convert a string to a wide string
@@ -215,7 +195,7 @@ namespace Exiv2 {
         DataBuf(const byte* pData, long size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
-                 object similar to std::auto_ptr, i.e., the original object is
+                 object similar to std::unique_ptr, i.e., the original object is
                  modified.
          */
         DataBuf(DataBuf& rhs);
@@ -227,7 +207,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Assignment operator. Transfers the buffer and releases the
-                 buffer at the original object similar to std::auto_ptr, i.e.,
+                 buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
         DataBuf& operator=(DataBuf& rhs);
@@ -257,7 +237,7 @@ namespace Exiv2 {
           @name Conversions
 
           Special conversions with auxiliary type to enable copies
-          and assignments, similar to those used for std::auto_ptr.
+          and assignments, similar to those used for std::unique_ptr.
           See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
          */
         //@{

@@ -16,7 +16,7 @@ try {
     }
     std::string filename(argv[1]);
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(filename);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(filename);
     assert(image.get() != 0);
     image->readMetadata();
 
