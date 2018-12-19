@@ -503,6 +503,8 @@ namespace Exiv2 {
 
     RiffVideo::RiffVideo(BasicIo::UniquePtr io)
             : Image(ImageType::riff, mdNone, std::move(io))
+        , continueTraversing_(false)
+        , streamType_(0)
     {
     } // RiffVideo::RiffVideo
 
