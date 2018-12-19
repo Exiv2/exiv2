@@ -565,7 +565,6 @@ namespace Exiv2 {
     uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
     {
         uint32_t resLength = 0;
-        byte buf[8];
 
         if (iptcData.count() > 0) {
             DataBuf rawIptc = IptcParser::encode(iptcData);
@@ -574,6 +573,7 @@ namespace Exiv2 {
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_IPTC_NAA << "\n";
                 std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size_ << "\n";
 #endif
+                byte buf[8];
                 if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_IPTC_NAA, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
@@ -598,7 +598,6 @@ namespace Exiv2 {
     uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out)
     {
         uint32_t resLength = 0;
-        byte buf[8];
 
         if (exifData.count() > 0) {
             Blob blob;
@@ -614,6 +613,7 @@ namespace Exiv2 {
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_ExifInfo << "\n";
                 std::cerr << std::dec << "Writing ExifInfo: size: " << blob.size() << "\n";
 #endif
+                byte buf[8];
                 if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_ExifInfo, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
@@ -639,7 +639,6 @@ namespace Exiv2 {
     {
         std::string xmpPacket;
         uint32_t resLength = 0;
-        byte buf[8];
 
 #ifdef DEBUG
         std::cerr << "writeXmpFromPacket(): " << writeXmpFromPacket() << "\n";
@@ -658,6 +657,7 @@ namespace Exiv2 {
             std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_XMPPacket << "\n";
             std::cerr << std::dec << "Writing XMPPacket: size: " << xmpPacket.size() << "\n";
 #endif
+            byte buf[8];
             if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
             us2Data(buf, kPhotoshopResourceID_XMPPacket, bigEndian);
             if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
