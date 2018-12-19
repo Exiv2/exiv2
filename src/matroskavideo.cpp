@@ -450,24 +450,12 @@ namespace Exiv2 {
      */
     int64_t returnValue(const byte* buf, long size)
     {
-
-        int64_t temp = 0;
-
-        for(int i = size-1; i >= 0; i--) {
-            temp = temp + static_cast<int64_t>(buf[i]*(pow(256.0, (double)size-i-1)));
-        }
-// Todo: remove debug output
-//        std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";
-
         uint64_t ret = 0;
         for (long i = 0; i < size; ++i) {
             ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
         }
 
-// Todo: remove debug output
-//        std::cerr << ", ret = " << ret << std::hex << " (0x" << ret << std::dec << ")\n";
-
-        return ret;
+        return static_cast<int64_t>(ret);
     }
 
 }}                                      // namespace Internal, Exiv2
