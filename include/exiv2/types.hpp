@@ -241,6 +241,7 @@ namespace Exiv2 {
           See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
          */
         //@{
+        // cppcheck-suppress noExplicitConstructor
         DataBuf(const DataBufRef& rhs);
         DataBuf& operator=(DataBufRef rhs);
         operator DataBufRef();
@@ -522,11 +523,14 @@ namespace Exiv2 {
     T stringTo(const std::string& s, bool& ok)
     {
         std::istringstream is(s);
+        // cppcheck-suppress unassignedVariable
         T tmp;
+        // cppcheck-suppress uninitvar
         ok = (is >> tmp) ? true : false;
         std::string rest;
         is >> std::skipws >> rest;
         if (!rest.empty()) ok = false;
+        // cppcheck-suppress uninitvar
         return tmp;
     }
 
