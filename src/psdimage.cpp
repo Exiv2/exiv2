@@ -535,19 +535,16 @@ namespace Exiv2 {
         // Append IPTC_NAA resource block, if not yet written
         if (iptcDone == false) {
             newResLength += writeIptcData(iptcData_, outIo);
-            iptcDone = true;
         }
 
         // Append ExifInfo resource block, if not yet written
         if (exifDone == false) {
             newResLength += writeExifData(exifData_, outIo);
-            exifDone = true;
         }
 
         // Append XmpPacket resource block, if not yet written
         if (xmpDone == false) {
             newResLength += writeXmpData(xmpData_, outIo);
-            xmpDone = true;
         }
 
         // Populate the fake data, only make sense for remoteio, httpio and sshio.
