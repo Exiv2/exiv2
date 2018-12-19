@@ -943,9 +943,8 @@ namespace Exiv2 {
         buf.pData_[4] = '\0';
         io_->seek(-12, BasicIo::cur);
         io_->read(buf.pData_, 4);
-        long infoSize, size = Exiv2::getULong(buf.pData_, littleEndian);
+        long size = Exiv2::getULong(buf.pData_, littleEndian);
         long size_external = size;
-        const TagVocabulary* tv;
 
         uint64_t cur_pos = io_->tell();
         io_->read(buf.pData_, 4); size -= 4;
@@ -954,9 +953,10 @@ namespace Exiv2 {
             io_->read(buf.pData_, 4); size -= 4;
             if(!Exiv2::getULong(buf.pData_, littleEndian))
                 break;
-            tv = find(infoTags , Exiv2::toString( buf.pData_));
+
+            const TagVocabulary* tv = find(infoTags , Exiv2::toString( buf.pData_));
             io_->read(buf.pData_, 4); size -= 4;
-            infoSize = Exiv2::getULong(buf.pData_, littleEndian);
+            long infoSize = Exiv2::getULong(buf.pData_, littleEndian);
 
             if(infoSize >= 0) {
                 size -= infoSize;

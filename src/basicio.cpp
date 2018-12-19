@@ -589,10 +589,10 @@ namespace Exiv2 {
 
         byte buf[4096];
         long readCount = 0;
-        long writeCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            writeTotal += writeCount = (long)std::fwrite(buf, 1, readCount, p_->fp_);
+            const long writeCount = static_cast<long>(std::fwrite(buf, 1, static_cast<size_t>(readCount), p_->fp_));
+            writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 src.seek(writeCount-readCount, BasicIo::cur);
