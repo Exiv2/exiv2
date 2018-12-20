@@ -4,6 +4,10 @@
 
 #include <exiv2/exiv2.hpp>
 
+#ifdef EXV_USE_CURL
+    #include <curl/curl.h>
+#endif
+
 #include <iostream>
 #include <cstdlib>
 

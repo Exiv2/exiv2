@@ -16,7 +16,7 @@ class Exiv2Conan(ConanFile):
                       )
 
     def configure(self):
-        self.options['libcurl'].shared = False
+        self.options['libcurl'].shared = True
         self.options['libcurl'].with_openssl = True
         self.options['gtest'].shared = True
 
