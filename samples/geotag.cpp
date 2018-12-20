@@ -72,7 +72,7 @@ int    timeZoneAdjust();
 char* realpath(const char* file,char* path)
 {
     char* result = (char*) malloc(_MAX_PATH);
-    if   (result) GetFullPathName(file,_MAX_PATH,result,NULL);
+    if   (result) GetFullPathName(file,_MAX_PATH,result,nullptr);
     return result ;
     UNUSED(path);
 }
@@ -142,7 +142,7 @@ class Position;
 typedef std::map<time_t,Position>           TimeDict_t;
 typedef std::map<time_t,Position>::iterator TimeDict_i;
 typedef std::vector<std::string>            strings_t;
-const char*  gDeg = NULL ; // string "°" or "deg"
+const char*  gDeg = nullptr ; // string "°" or "deg"
 TimeDict_t   gTimeDict   ;
 strings_t    gFiles;
 
@@ -429,7 +429,7 @@ time_t parseTime(const char* arg,bool bAdjust)
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust()
 {
-    time_t    now   = time(NULL);
+    time_t    now   = time(nullptr);
     int       offset;
 
 #if   defined(_MSC_VER) || defined(__MINGW__)
@@ -521,13 +521,13 @@ bool readDir(const char* path,Options& options)
     }
 #else
     DIR*    dir = opendir (path);
-    if (dir != NULL)
+    if (dir != nullptr)
     {
         bResult = true;
         struct dirent*  ent;
 
         // print all the files and directories within directory
-        while ((ent = readdir (dir)) != NULL)
+        while ((ent = readdir (dir)) != nullptr)
         {
             std::string pathName = makePath(path,ent->d_name);
             struct stat  buf     ;
@@ -556,7 +556,7 @@ inline size_t sip(FILE* f,char* buffer,size_t max_len,size_t len)
 bool readXML(const char* path,Options& options)
 {
     FILE*       f       = fopen(path,"r");
-    XML_Parser  parser  = XML_ParserCreate(NULL);
+    XML_Parser  parser  = XML_ParserCreate(nullptr);
     bool bResult        = f && parser ;
     if ( bResult ) {
         char   buffer[8*1024];
@@ -607,7 +607,7 @@ bool readImage(const char* path,Options& /* options */)
     return bResult ;
 }
 
-time_t readImageTime(const std::string& path,std::string* pS=NULL)
+time_t readImageTime(const std::string& path,std::string* pS=nullptr)
 {
     using namespace Exiv2;
 
@@ -617,7 +617,7 @@ time_t readImageTime(const std::string& path,std::string* pS=NULL)
     { "Exif.Photo.DateTimeOriginal"
     , "Exif.Photo.DateTimeDigitized"
     , "Exif.Image.DateTime"
-    , NULL
+    , nullptr
     };
     const char* dateString = dateStrings[0] ;
 
@@ -658,8 +658,8 @@ int readFile(const char* path,Options /* options */)
     if (  f ) {
         const char*  ext   = strstr(path,".");
         if  ( ext ) {
-            const char* docs[] = { ".doc",".txt", NULL };
-            const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", NULL };
+            const char* docs[] = { ".doc",".txt", nullptr };
+            const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", nullptr };
             if ( sina(ext,docs) )
                 nResult = typeDoc;
             if ( sina(ext,code) )
@@ -673,7 +673,7 @@ int readFile(const char* path,Options /* options */)
 
 Position* searchTimeDict(TimeDict_t& td, const time_t& time,long long delta)
 {
-    Position* result = NULL;
+    Position* result = nullptr;
     for ( int t = 0 ; !result && t < delta ; t++ ) {
         for ( int x = 0 ; !result && x < 2 ; x++ ) {
             int T = t * ((x==0)?-1:1);
@@ -841,7 +841,7 @@ int main(int argc,const char* argv[])
 #ifdef __APPLE__
                     char   buffer[1024];
 #else
-                    char*  buffer = NULL;
+                    char*  buffer = nullptr;
 #endif
                     char*  path = realpath(arg,buffer);
                     if  ( t && path ) {

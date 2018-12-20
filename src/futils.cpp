@@ -464,11 +464,11 @@ namespace Exiv2 {
     {
         std::string ret("unknown");
     #if defined(WIN32)
-        HANDLE processHandle = NULL;
+        HANDLE processHandle = nullptr;
         processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-        if (processHandle != NULL) {
+        if (processHandle != nullptr) {
             TCHAR filename[MAX_PATH];
-            if (GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH) != 0) {
+            if (GetModuleFileNameEx(processHandle, nullptr, filename, MAX_PATH) != 0) {
                 ret = filename;
             }
             CloseHandle(processHandle);

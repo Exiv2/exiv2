@@ -431,15 +431,14 @@ namespace Exiv2
             typedef const value_type* const_iterator;
 
             /*!
-             * Stores ptr and checks that it is not `NULL`. The slice's bounds
+             * Stores ptr and checks that it is not `nullptr`. The slice's bounds
              * are ignored, as we do not know the array's length.
              *
-             * @throw std::invalid_argument when ptr is `NULL`
+             * @throw std::invalid_argument when ptr is `nullptr`
              */
             PtrSliceStorage(storage_type ptr, size_t /*begin*/, size_t /*end*/) : data_(ptr)
             {
-                // TODO: change this to nullptr once we use C++11
-                if (ptr == NULL) {
+                if (ptr == nullptr) {
                     throw std::invalid_argument("Null pointer passed to slice constructor");
                 }
             }

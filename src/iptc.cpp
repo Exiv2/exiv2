@@ -423,7 +423,7 @@ namespace Exiv2 {
 
         if (ascii) return "ASCII";
         if (utf8) return "UTF-8";
-        return NULL;
+        return nullptr;
     }
 
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker

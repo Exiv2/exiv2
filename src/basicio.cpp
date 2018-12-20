@@ -706,7 +706,7 @@ namespace Exiv2 {
                 if (hKernel) {
                     ReplaceFileW_t pfcn_ReplaceFileW = (ReplaceFileW_t)GetProcAddress(hKernel, "ReplaceFileW");
                     if (pfcn_ReplaceFileW) {
-                        BOOL ret = pfcn_ReplaceFileW(wpf, fileIo->wpath().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
+                        BOOL ret = pfcn_ReplaceFileW(wpf, fileIo->wpath().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::_wrename(fileIo->wpath().c_str(), wpf) == -1) {
@@ -769,7 +769,7 @@ namespace Exiv2 {
                 if (hKernel) {
                     ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");
                     if (pfcn_ReplaceFileA) {
-                        BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
+                        BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 if (::rename(fileIo->path().c_str(), pf) == -1) {
@@ -1101,7 +1101,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor. the init status of the block is bNone.
-        BlockMap() : type_(bNone), data_(NULL), size_(0)
+        BlockMap() : type_(bNone), data_(nullptr), size_(0)
         {
         }
 
@@ -1110,7 +1110,7 @@ namespace Exiv2 {
         {
             if (data_) {
                 std::free(data_);
-                data_ = NULL;
+                data_ = nullptr;
             }
         }
 
@@ -1174,10 +1174,10 @@ namespace Exiv2 {
             // Minimum size for 1st block
             long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
             byte* data = (byte*)std::malloc(size);
-            if (  data == NULL ) {
+            if (  data == nullptr ) {
                 throw Error(kerMallocFailed);
             }
-            if (data_ != NULL) {
+            if (data_ != nullptr) {
                 std::memcpy(data, data_, size_);
             }
             data_ = data;
@@ -1192,7 +1192,7 @@ namespace Exiv2 {
                 // Allocate in blocks
                 long want      = blockSize * (1 + need / blockSize );
                 data_ = (byte*)std::realloc(data_, want);
-                if ( data_ == NULL ) {
+                if ( data_ == nullptr ) {
                     throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
@@ -1223,7 +1223,7 @@ namespace Exiv2 {
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
-        if (data != NULL) {
+        if (data != nullptr) {
             std::memcpy(&p_->data_[p_->idx_], data, wcount);
         }
         p_->idx_ += wcount;
@@ -1502,7 +1502,7 @@ namespace Exiv2 {
         Protocol prot = fileProtocol(orgPath);
 
         // generating the name for temp file.
-        std::time_t timestamp = std::time(NULL);
+        std::time_t timestamp = std::time(nullptr);
         std::stringstream ss;
         ss << timestamp << XPathIo::TEMP_FILE_EXT;
         std::string path = ss.str();
@@ -1682,7 +1682,7 @@ namespace Exiv2 {
     int RemoteIo::open()
     {
         close(); // reset the IO position
-        bigBlock_ = NULL;
+        bigBlock_ = nullptr;
         if (p_->isMalloced_ == false) {
             long length = p_->getFileLength();
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
@@ -1724,7 +1724,7 @@ namespace Exiv2 {
 #endif
         if ( bigBlock_ ) {
             delete [] bigBlock_;
-            bigBlock_=NULL;
+            bigBlock_=nullptr;
         }
         return 0;
     }
@@ -1846,7 +1846,7 @@ namespace Exiv2 {
         size_t totalRead = 0;
         do {
             byte* data = p_->blocksMap_[iBlock++].getData();
-            if (data == NULL) data = fakeData;
+            if (data == nullptr) data = fakeData;
             size_t blockR = EXV_MIN(allow, p_->blockSize_ - startPos);
             std::memcpy(&buf[totalRead], &data[startPos], blockR);
             totalRead += blockR;
@@ -2478,9 +2478,9 @@ namespace Exiv2 {
 
         if (protocol_ == pSftp) {
             ssh_->getFileSftp(hostInfo_.Path, fileHandler_);
-            if (fileHandler_ == NULL) throw Error(kerErrorMessage, "Unable to open the file");
+            if (fileHandler_ == nullptr) throw Error(kerErrorMessage, "Unable to open the file");
         } else {
-            fileHandler_ = NULL;
+            fileHandler_ = nullptr;
         }
     }
 #ifdef EXV_UNICODE_PATH
@@ -2501,9 +2501,9 @@ namespace Exiv2 {
 
         if (protocol_ == pSftp) {
             ssh_->getFileSftp(hostInfo_.Path, fileHandler_);
-            if (fileHandler_ == NULL) throw Error(kerErrorMessage, "Unable to open the file");
+            if (fileHandler_ == nullptr) throw Error(kerErrorMessage, "Unable to open the file");
         } else {
-            fileHandler_ = NULL;
+            fileHandler_ = nullptr;
         }
     }
 #endif
@@ -2719,7 +2719,7 @@ namespace Exiv2 {
     size_t curlWriter(char* data, size_t size, size_t nmemb,
                       std::string* writerData)
     {
-        if (writerData == NULL) return 0;
+        if (writerData == nullptr) return 0;
         writerData->append(data, size*nmemb);
         return size * nmemb;
     }

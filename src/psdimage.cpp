@@ -577,7 +577,7 @@ namespace Exiv2 {
                 if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_IPTC_NAA, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
-                us2Data(buf, 0, bigEndian);                      // NULL resource name
+                us2Data(buf, 0, bigEndian);                      // nullptr resource name
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
                 ul2Data(buf, rawIptc.size_, bigEndian);
                 if (out.write(buf, 4) != 4) throw Error(kerImageWriteFailed);
@@ -617,7 +617,7 @@ namespace Exiv2 {
                 if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_ExifInfo, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
-                us2Data(buf, 0, bigEndian);                      // NULL resource name
+                us2Data(buf, 0, bigEndian);                      // nullptr resource name
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
                 ul2Data(buf, static_cast<uint32_t>(blob.size()), bigEndian);
                 if (out.write(buf, 4) != 4) throw Error(kerImageWriteFailed);
@@ -661,7 +661,7 @@ namespace Exiv2 {
             if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
             us2Data(buf, kPhotoshopResourceID_XMPPacket, bigEndian);
             if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
-            us2Data(buf, 0, bigEndian);                      // NULL resource name
+            us2Data(buf, 0, bigEndian);                      // nullptr resource name
             if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
             ul2Data(buf, static_cast<uint32_t>(xmpPacket.size()), bigEndian);
             if (out.write(buf, 4) != 4) throw Error(kerImageWriteFailed);

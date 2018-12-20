@@ -30,14 +30,14 @@ TEST(ExivTime, doesNotGetTimeWithBadFormedString)
 TEST(DataBuf, pointsToNullByDefault)
 {
     DataBuf instance;
-    ASSERT_EQ(NULL, instance.pData_);
+    ASSERT_EQ(nullptr, instance.pData_);
     ASSERT_EQ(0,    instance.size_);
 }
 
 TEST(DataBuf, allocatesDataWithNonEmptyConstructor)
 {
     DataBuf instance (5);
-    ASSERT_NE(static_cast<byte *>(NULL), instance.pData_); /// \todo use nullptr once we move to c++11
+    ASSERT_NE(static_cast<byte *>(nullptr), instance.pData_); /// \todo use nullptr once we move to c++11
     ASSERT_EQ(5,    instance.size_);
 }
 

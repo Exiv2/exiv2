@@ -307,7 +307,7 @@ namespace Exiv2 {
     const char* Image::typeName(uint16_t tag) const
     {
         //! List of TIFF image tags
-        const char* result = NULL;
+        const char* result = nullptr;
         switch (tag ) {
             case Exiv2::unsignedByte     : result = "BYTE"      ; break;
             case Exiv2::asciiString      : result = "ASCII"     ; break;

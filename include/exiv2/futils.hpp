@@ -95,7 +95,7 @@ namespace Exiv2
       @brief Encode in base64 the data in data_buf and put the resulting string in result.
       @param data_buf The data need to encode
       @param dataLength Size in bytes of the in buffer
-      @param result The container for the result, NULL if it fails
+      @param result The container for the result, nullptr if it fails
       @param resultSize Size in bytes of the out string, it should be at least
              ((dataLength + 2) / 3) * 4 + 1
       @return 1 indicate success

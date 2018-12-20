@@ -264,7 +264,7 @@ namespace {
         //! Structure that lists preview groups
         struct Param {
             const char* group_; //!< Group name
-            const char* checkTag_; //!< Tag to check or NULL
+            const char* checkTag_; //!< Tag to check or nullptr
             const char* checkValue_; //!< The preview image is valid only if the checkTag_ has this value
         };
 

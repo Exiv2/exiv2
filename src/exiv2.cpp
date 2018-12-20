@@ -470,7 +470,7 @@ int Params::evalGrep( const std::string& optarg)
 
     // there was an error compiling the regexp
     if( errcode ) {
-        size_t length = regerror (errcode, pRegex, NULL, 0);
+        size_t length = regerror (errcode, pRegex, nullptr, 0);
         char *buffer = new char[ length];
         regerror (errcode, pRegex, buffer, length);
         std::cerr << progname()
@@ -929,7 +929,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
     const int buff_size = 4*1028;
     Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
     int       nBytes    = 0 ;
-    bool      more      = bytes != NULL;
+    bool      more      = bytes != nullptr;
     while   ( more ) {
         char buff[buff_size];
         int  n     = (int) fread(buff,1,buff_size,f);
@@ -945,7 +945,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
         buf.alloc(nBytes);
         memcpy(buf.pData_,(const void*)bytes,nBytes);
     }
-    if ( bytes != NULL ) ::free(bytes) ;
+    if ( bytes != nullptr ) ::free(bytes) ;
     return nBytes;
 }
 
@@ -967,7 +967,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         struct timeval timeout =  {1,0}; // yes: set timeout seconds,microseconds
 
         // if we have something in the pipe, read it
-        if (select(1, &readfds, NULL, NULL, &timeout)) {
+        if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
 #ifdef DEBUG
             std::cerr << "stdin has data" << std::endl;
@@ -1009,7 +1009,7 @@ typedef std::map<std::string,std::string> long_t;
 int Params::getopt(int argc, char* const Argv[])
 {
     char** argv = new char* [argc+1];
-    argv[argc] = NULL;
+    argv[argc] = nullptr;
     long_t longs;
 
     longs["--adjust"   ] = "-a";

@@ -580,7 +580,7 @@ namespace Action {
                 !result && g != Params::instance().greps_.end(); ++g)
         {
 #if defined(EXV_HAVE_REGEX_H)
-            result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
+            result = regexec( &(*g), key.c_str(), 0, nullptr, 0) == 0 ;
 #else
             std::string Pattern(g->pattern_);
             std::string Key(key);
@@ -2342,7 +2342,7 @@ namespace {
     {
       const std::string& str( strAndWidth.first);
       size_t minChCount( strAndWidth.second);
-      size_t count = mbstowcs( NULL, str.c_str(), 0); // returns 0xFFFFFFFF on error
+      size_t count = mbstowcs( nullptr, str.c_str(), 0); // returns 0xFFFFFFFF on error
       if( count < minChCount)
       {
         minChCount += str.size() - count;

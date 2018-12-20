@@ -599,7 +599,7 @@ namespace Exiv2 {
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
-                byte* rawExifData = NULL;
+                byte* rawExifData = nullptr;
                 long  offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
