@@ -1,12 +1,7 @@
-Exiv2 v0.27.0.3   (Exiv2 v0.27 RC3)
------------------------------------
+Exiv2 v0.27.0
+-------------
 
-We are 100% complete (by issues) 137/137 on GitHub and 88/88 on Redmine
-We are  96% complete (by time).  Project 2017-05-10 .. 2018-12-28 (86 weeks)
-
-Exiv2 v0.27  GM scheduled 28 December 2018
-
-I have to thank Dan and Luis for their huge contribution to make this release.
+Thank You to Dan and Luis for their huge contribution this release.
 
 Contributors: Ben, Freddy, Gilles, Henri, Michal, Phil, Shridar, Toni and Thomas.
 
@@ -25,15 +20,6 @@ The headline features are:
 
 With Exiv2 v0.27, Team Exiv2 will offer "Long Term Support" and plan "dot" releases with security and critical fixes in 2019 and 2020.
 
-Focus of Exiv2 v0.28
---------------------
-
-Exiv2 moves into the future with Exiv2 v0.28.
-The code will be modernised to C++11.
-
-Using C++98 compilers such as Visual Studio (<2015) will be supported
-with quarterly Exiv2 v0.27 'dot' (security) releases during 2019 and 2020.
-
 Known Issues
 ------------
 
@@ -41,6 +27,21 @@ Known Issues
 2 Do not build with Xcode 10.0 https://bugreport.apple.com/web/?problemID=45223696
   Xcode 9.4 and earlier OK     https://github.com/Exiv2/exiv2/issues/465
   Xcode 10.1            OK     https://github.com/Exiv2/exiv2/issues/528
+3 There are minor known issues concerning v0.27 and they will be fixed in 0.27.1
+  https://github.com/Exiv2/exiv2/milestone/3
+
+Focus of Exiv2 v0.28
+--------------------
+
+Exiv2 moves into the future with Exiv2 v0.28.
+The code will be modernised to C++11.
+
+C++98 compilers such as Visual Studio (<2015) will be supported
+with quarterly Exiv2 v0.27 'dot' (security) releases during 2019 and 2020.
+
+Code changes since RC3
+----------------------
+     None.
 
 Fixes between RC2 and RC3
 -------------------------
@@ -75,12 +76,11 @@ Fixes between RC1 and RC2
 #505 Incorrect packaging
 #499 Support for FreeBSD
 
-GitHub
-https://github.com/Exiv2/exiv2/milestone/1
 
-Redmine:
-88 issues have been closed
-http://dev.exiv2.org/projects/exiv2/issues
+Fixes since v0.26
+-----------------
+GitHub: (142) https://github.com/Exiv2/exiv2/milestone/1?closed=1
+Redmine: (88) http://dev.exiv2.org/projects/exiv2/issues
 
 Build: (11)
 	0001362	Fix Clang build
@@ -209,4 +209,4 @@ Xmp: (3)
 
 Robin Mills
 robin@clanmills.com
-2018-12-06
+2018-12-20
