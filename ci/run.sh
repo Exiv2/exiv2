@@ -31,7 +31,7 @@ fi
 
 
 mkdir build && cd build
-conan install .. --build missing
+conan install .. -o webready=True --build missing
 
 cmake ${CMAKE_OPTIONS} ..
 make -j2
