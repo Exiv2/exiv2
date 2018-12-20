@@ -103,7 +103,7 @@ namespace Exiv2
             /*!
              * Return the number of elements in the slice.
              */
-            inline size_t size() const throw()
+            inline size_t size() const noexcept
             {
                 // cannot underflow, as we know that begin < end
                 return end_ - begin_;
@@ -192,7 +192,7 @@ namespace Exiv2
             /*!
              * Obtain a constant iterator to the first element in the slice.
              */
-            const_iterator cbegin() const throw()
+            const_iterator cbegin() const noexcept
             {
                 return storage_.unsafeGetIteratorAt(begin_);
             }
@@ -200,7 +200,7 @@ namespace Exiv2
             /*!
              * Obtain a constant iterator to the first beyond the slice.
              */
-            const_iterator cend() const throw()
+            const_iterator cend() const noexcept
             {
                 return storage_.unsafeGetIteratorAt(end_);
             }
@@ -281,7 +281,7 @@ namespace Exiv2
             /*!
              * Obtain an iterator to the first element in the slice.
              */
-            iterator begin() throw()
+            iterator begin() noexcept
             {
                 return this->storage_.unsafeGetIteratorAt(this->begin_);
             }
@@ -289,7 +289,7 @@ namespace Exiv2
             /*!
              * Obtain an iterator to the first element beyond the slice.
              */
-            iterator end() throw()
+            iterator end() noexcept
             {
                 return this->storage_.unsafeGetIteratorAt(this->end_);
             }
@@ -312,7 +312,7 @@ namespace Exiv2
              * the appropriate `slice<const T>` and call its `subSlice() const`,
              * which returns the correct type.
              */
-            ConstSliceBase<storage_type, const data_type> to_const_base() const throw()
+            ConstSliceBase<storage_type, const data_type> to_const_base() const noexcept
             {
                 return ConstSliceBase<storage_type, const data_type>(this->storage_.data_, this->begin_, this->end_);
             }
@@ -449,12 +449,12 @@ namespace Exiv2
              *
              * @throw nothing
              */
-            value_type& unsafeAt(size_t index) throw()
+            value_type& unsafeAt(size_t index) noexcept
             {
                 return data_[index];
             }
 
-            const value_type& unsafeAt(size_t index) const throw()
+            const value_type& unsafeAt(size_t index) const noexcept
             {
                 return data_[index];
             }
@@ -465,12 +465,12 @@ namespace Exiv2
              *
              * @throw nothing
              */
-            iterator unsafeGetIteratorAt(size_t index) throw()
+            iterator unsafeGetIteratorAt(size_t index) noexcept
             {
                 return data_ + index;
             }
 
-            const_iterator unsafeGetIteratorAt(size_t index) const throw()
+            const_iterator unsafeGetIteratorAt(size_t index) const noexcept
             {
                 return data_ + index;
             }

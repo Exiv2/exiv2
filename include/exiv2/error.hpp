@@ -176,9 +176,9 @@ namespace Exiv2 {
         AnyError();
         AnyError(const AnyError& o);
 
-        virtual ~AnyError() throw();
+        virtual ~AnyError() noexcept;
         ///@brief  Return the error code.
-        virtual int code() const throw() =0;
+        virtual int code() const noexcept =0;
     };
 
     //! %AnyError output operator
@@ -279,24 +279,24 @@ namespace Exiv2 {
         template<typename A, typename B, typename C>
         BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
-        //! Virtual destructor. (Needed because of throw())
-        virtual ~BasicError() throw();
+        //! Virtual destructor. (Needed because of noexcept)
+        virtual ~BasicError() noexcept;
         //@}
 
         //! @name Accessors
         //@{
-        virtual int code() const throw();
+        virtual int code() const noexcept;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        virtual const char* what() const throw();
+        virtual const char* what() const noexcept;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        virtual const wchar_t* wwhat() const throw();
+        virtual const wchar_t* wwhat() const noexcept;
 #endif
         //@}
 
@@ -366,25 +366,25 @@ namespace Exiv2 {
     }
 
     template<typename charT>
-    BasicError<charT>::~BasicError() throw()
+    BasicError<charT>::~BasicError() noexcept
     {
     }
 
     template<typename charT>
-    int BasicError<charT>::code() const throw()
+    int BasicError<charT>::code() const noexcept
     {
         return code_;
     }
 
     template<typename charT>
-    const char* BasicError<charT>::what() const throw()
+    const char* BasicError<charT>::what() const noexcept
     {
         return msg_.c_str();
     }
 
 #ifdef EXV_UNICODE_PATH
     template<typename charT>
-    const wchar_t* BasicError<charT>::wwhat() const throw()
+    const wchar_t* BasicError<charT>::wwhat() const noexcept
     {
         return wmsg_.c_str();
     }

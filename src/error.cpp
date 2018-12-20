@@ -220,7 +220,7 @@ namespace Exiv2 {
 
     }
 
-    AnyError::~AnyError() throw()
+    AnyError::~AnyError() noexcept
     {
     }
 

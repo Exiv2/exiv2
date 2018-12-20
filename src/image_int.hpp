@@ -88,7 +88,7 @@ namespace Exiv2 {
     template <typename T>
     struct binaryToStringHelper
     {
-        explicit binaryToStringHelper(const Slice<T> buf) throw() : buf_(buf)
+        explicit binaryToStringHelper(const Slice<T> buf) noexcept : buf_(buf)
         {
         }
 
@@ -122,7 +122,7 @@ namespace Exiv2 {
      *     the stream throws neither.
      */
     template <typename T>
-    inline binaryToStringHelper<T> binaryToString(const Slice<T> sl) throw()
+    inline binaryToStringHelper<T> binaryToString(const Slice<T> sl) noexcept
     {
         return binaryToStringHelper<T>(sl);
     }
