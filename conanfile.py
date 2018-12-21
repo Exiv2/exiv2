@@ -30,7 +30,7 @@ class Exiv2Conan(ConanFile):
             self.requires('gtest/1.8.0@bincrafters/stable')
 
         if self.options.webready:
-            self.requires('libcurl/7.60.0@bincrafters/stable')
+            self.requires('libcurl/7.61.1@bincrafters/stable')
 
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
