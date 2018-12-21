@@ -31,7 +31,7 @@ before_build:
     - cmd: cd envs
     - cmd: if not exist conan python -m virtualenv conan
     - cmd: conan/Scripts/activate
-    - cmd: if not exist conan/Scripts/conan.exe python -m pip install conan==1.9.0
+    - cmd: if not exist conan/Scripts/conan.exe python -m pip install conan==1.11.1
     - cmd: cd ..
     - cmd: conan --version
     - cmd: conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
