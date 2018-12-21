@@ -103,7 +103,7 @@ void sftpcon(const std::string& url) {
     Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
     sftp_file handle;
     ssh.getFileSftp(page, handle);
-    if (handle == NULL) throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to open the file");
+    if (handle == nullptr) throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to open the file");
     else sftp_close(handle);
 }
 #endif

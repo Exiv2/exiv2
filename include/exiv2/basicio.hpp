@@ -255,7 +255,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default Constructor
-        BasicIo() : bigBlock_(NULL) {};
+        BasicIo() : bigBlock_(nullptr) {};
         //@}
     }; // class BasicIo
 
@@ -951,7 +951,7 @@ namespace Exiv2 {
 #endif
        /*!
          @brief Not support
-         @return NULL
+         @return nullptr
         */
        virtual byte* mmap(bool /*isWriteable*/ =false);
         /*!
@@ -1004,7 +1004,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default Constructor
-        RemoteIo() {p_=NULL;}
+        RemoteIo() {p_=nullptr;}
         //@}
 
         // Pimpl idiom

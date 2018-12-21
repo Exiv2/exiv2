@@ -353,9 +353,9 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffDirectory() : cc_(NULL) {}
+        CiffDirectory() : cc_(nullptr) {}
         //! Constructor taking a tag and directory
-        CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir), cc_(NULL) {}
+        CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir), cc_(nullptr) {}
 
         //! Virtual destructor
         virtual ~CiffDirectory();

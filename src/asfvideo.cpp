@@ -486,7 +486,7 @@ namespace Exiv2 {
         byte guidBuf[16]; int stream = 0;
         io_->read(guidBuf, 16);
         char streamType[37] = "";
-        Exiv2::RiffVideo *test = NULL;
+        Exiv2::RiffVideo *test = nullptr;
 
         getGUID(guidBuf, streamType);
         const TagVocabulary* tv;

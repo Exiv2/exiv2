@@ -141,8 +141,8 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
     ) {
         std::string Key(key);
 #if defined(EXV_HAVE_REGEX_H)
-        bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
-                 || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
+        bPrint = (  0 == regexec( &(*g), key          , 0, nullptr, 0)
+                 || 0 == regexec( &(*g), value.c_str(), 0, nullptr, 0)
                  );
 #else
             std::string Pattern(g->pattern_);
@@ -408,7 +408,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
     struct lmap*      pl;
-    void*             ph = dlopen(NULL, RTLD_NOW);
+    void*             ph = dlopen(nullptr, RTLD_NOW);
     struct something* p  = (struct something*) ph;
 
     p  = p->ptr;
@@ -503,7 +503,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #if defined(__linux__)
     dlclose(ph);
-    ph=NULL;
+    ph=nullptr;
 #endif
 
 }

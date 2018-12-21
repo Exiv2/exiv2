@@ -2480,7 +2480,7 @@ fmountlens[] = {
 {0x00,0x40,0x11,0x11,0x2C,0x2C,0x00,0x00,0x00,0x00,0x00, "Samyang", "", "8mm f/3.5 Fish-Eye"},
 {0x00,0x58,0x64,0x64,0x20,0x20,0x00,0x00,0x00,0x00,0x00, "Soligor", "", "C/D Macro MC 90mm f/2.5"},
 //
-{0,0,0,0,0,0,0,0,0,0,0, NULL, NULL, NULL}
+{0,0,0,0,0,0,0,0,0,0,0, nullptr, nullptr, nullptr}
 };
 //------------------------------------------------------------------------------
 #endif
@@ -2509,7 +2509,7 @@ fmountlens[] = {
                 ++pf;
             }
 
-            if (pf->lensname == NULL) {
+            if (pf->lensname == nullptr) {
                 return os << value;
             }
             else {
@@ -2546,7 +2546,7 @@ fmountlens[] = {
         }
         raw[7] = static_cast<byte>(md->toLong());
 
-        for (int i = 0; fmountlens[i].lensname != NULL; ++i) {
+        for (int i = 0; fmountlens[i].lensname != nullptr; ++i) {
             if (   raw[0] == fmountlens[i].lid ) {
                 // #1034
                 const std::string  undefined("undefined") ;

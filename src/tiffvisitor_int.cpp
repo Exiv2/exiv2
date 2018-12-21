@@ -1550,7 +1550,7 @@ namespace Exiv2 {
             }
         }
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != NULL, kerCorruptedMetadata);
+        enforce(v.get() != nullptr, kerCorruptedMetadata);
         if ( !isize ) {
             v->read(pData, size, byteOrder());
         } else {
@@ -1659,7 +1659,7 @@ namespace Exiv2 {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != NULL, kerCorruptedMetadata);
+        enforce(v.get() != nullptr, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(std::move(v));

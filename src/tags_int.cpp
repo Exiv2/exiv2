@@ -760,11 +760,11 @@ namespace Exiv2 {
                 "separate part of the statement. When there is a clear distinction "
                 "between the photographer and editor copyrights, these are to be "
                 "written in the order of photographer followed by editor copyright, "
-                "separated by NULL (in this case since the statement also ends with "
-                "a NULL, there are two NULL codes). When only the photographer "
-                "copyright is given, it is terminated by one NULL code. When only "
+                "separated by nullptr (in this case since the statement also ends with "
+                "a nullptr, there are two nullptr codes). When only the photographer "
+                "copyright is given, it is terminated by one nullptr code. When only "
                 "the editor copyright is given, the photographer copyright part "
-                "consists of one space followed by a terminating NULL code, then "
+                "consists of one space followed by a terminating nullptr code, then "
                 "the editor copyright is given. When the field is left blank, it is "
                 "treated as unknown."),
                 ifd0Id, otherTags, asciiString, 0, print0x8298),
@@ -1824,7 +1824,7 @@ namespace Exiv2 {
                 "to describe the number of satellites, their ID number, angle of elevation, "
                 "azimuth, SNR and other information in ASCII notation. The format is not "
                 "specified. If the GPS receiver is incapable of taking measurements, value "
-                "of the tag is set to NULL."),
+                "of the tag is set to nullptr."),
                 gpsId, gpsTags, asciiString, 0, printValue),
         TagInfo(0x0009, "GPSStatus", N_("GPS Status"),
                 N_("Indicates the status of the GPS receiver when the image is recorded. "
@@ -2006,7 +2006,7 @@ namespace Exiv2 {
         TagInfo(0x0001, "InteroperabilityIndex", N_("Interoperability Index"),
                 N_("Indicates the identification of the Interoperability rule. "
                 "Use \"R98\" for stating ExifR98 Rules. Four bytes used "
-                "including the termination code (NULL). see the separate "
+                "including the termination code (nullptr). see the separate "
                 "volume of Recommended Exif Interoperability Rules (ExifR98) "
                 "for other tags used for ExifR98."),
                 iopId, iopTags, asciiString, 0, printValue),

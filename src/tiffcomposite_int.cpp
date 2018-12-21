@@ -381,7 +381,7 @@ namespace Exiv2 {
         if (newSize > size_) {
             setData(DataBuf(newSize));
         }
-        if (pData_ != NULL) {
+        if (pData_ != nullptr) {
             memset(pData_, 0x0, size_);
         }
         size_ = value->copy(pData_, byteOrder);

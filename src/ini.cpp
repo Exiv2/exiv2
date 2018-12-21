@@ -112,7 +112,7 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
 #endif
 
     /* Scan through stream line by line */
-    while (reader(line, INI_MAX_LINE, stream) != NULL) {
+    while (reader(line, INI_MAX_LINE, stream) != nullptr) {
         lineno++;
 
         start = line;
@@ -158,7 +158,7 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
                 name = rstrip(start);
                 value = lskip(end + 1);
 #if INI_ALLOW_INLINE_COMMENTS
-                end = find_chars_or_comment(value, NULL);
+                end = find_chars_or_comment(value, nullptr);
                 if (*end)
                     *end = '\0';
 #endif

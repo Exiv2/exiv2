@@ -103,7 +103,7 @@ namespace Exiv2
             /*!
              * Return the number of elements in the slice.
              */
-            inline size_t size() const throw()
+            inline size_t size() const noexcept
             {
                 // cannot underflow, as we know that begin < end
                 return end_ - begin_;
@@ -192,7 +192,7 @@ namespace Exiv2
             /*!
              * Obtain a constant iterator to the first element in the slice.
              */
-            const_iterator cbegin() const throw()
+            const_iterator cbegin() const noexcept
             {
                 return storage_.unsafeGetIteratorAt(begin_);
             }
@@ -200,7 +200,7 @@ namespace Exiv2
             /*!
              * Obtain a constant iterator to the first beyond the slice.
              */
-            const_iterator cend() const throw()
+            const_iterator cend() const noexcept
             {
                 return storage_.unsafeGetIteratorAt(end_);
             }
@@ -281,7 +281,7 @@ namespace Exiv2
             /*!
              * Obtain an iterator to the first element in the slice.
              */
-            iterator begin() throw()
+            iterator begin() noexcept
             {
                 return this->storage_.unsafeGetIteratorAt(this->begin_);
             }
@@ -289,7 +289,7 @@ namespace Exiv2
             /*!
              * Obtain an iterator to the first element beyond the slice.
              */
-            iterator end() throw()
+            iterator end() noexcept
             {
                 return this->storage_.unsafeGetIteratorAt(this->end_);
             }
@@ -312,7 +312,7 @@ namespace Exiv2
              * the appropriate `slice<const T>` and call its `subSlice() const`,
              * which returns the correct type.
              */
-            ConstSliceBase<storage_type, const data_type> to_const_base() const throw()
+            ConstSliceBase<storage_type, const data_type> to_const_base() const noexcept
             {
                 return ConstSliceBase<storage_type, const data_type>(this->storage_.data_, this->begin_, this->end_);
             }
@@ -431,15 +431,14 @@ namespace Exiv2
             typedef const value_type* const_iterator;
 
             /*!
-             * Stores ptr and checks that it is not `NULL`. The slice's bounds
+             * Stores ptr and checks that it is not `nullptr`. The slice's bounds
              * are ignored, as we do not know the array's length.
              *
-             * @throw std::invalid_argument when ptr is `NULL`
+             * @throw std::invalid_argument when ptr is `nullptr`
              */
             PtrSliceStorage(storage_type ptr, size_t /*begin*/, size_t /*end*/) : data_(ptr)
             {
-                // TODO: change this to nullptr once we use C++11
-                if (ptr == NULL) {
+                if (ptr == nullptr) {
                     throw std::invalid_argument("Null pointer passed to slice constructor");
                 }
             }
@@ -450,12 +449,12 @@ namespace Exiv2
              *
              * @throw nothing
              */
-            value_type& unsafeAt(size_t index) throw()
+            value_type& unsafeAt(size_t index) noexcept
             {
                 return data_[index];
             }
 
-            const value_type& unsafeAt(size_t index) const throw()
+            const value_type& unsafeAt(size_t index) const noexcept
             {
                 return data_[index];
             }
@@ -466,12 +465,12 @@ namespace Exiv2
              *
              * @throw nothing
              */
-            iterator unsafeGetIteratorAt(size_t index) throw()
+            iterator unsafeGetIteratorAt(size_t index) noexcept
             {
                 return data_ + index;
             }
 
-            const_iterator unsafeGetIteratorAt(size_t index) const throw()
+            const_iterator unsafeGetIteratorAt(size_t index) const noexcept
             {
                 return data_ + index;
             }

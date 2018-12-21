@@ -324,7 +324,7 @@ namespace Safe
      *          when `num == std::numeric_limits<T>::min()`.
      */
     template <typename T>
-    typename Internal::enable_if<Internal::is_signed<T>::VALUE, T>::type abs(T num) throw()
+    typename Internal::enable_if<Internal::is_signed<T>::VALUE, T>::type abs(T num) noexcept
     {
         if (num == std::numeric_limits<T>::min()) {
             return std::numeric_limits<T>::max();

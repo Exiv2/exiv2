@@ -425,28 +425,28 @@ namespace Exiv2 {
             pLockData_ = pLockData;
             initialized_ = SXMPMeta::Initialize();
 #ifdef EXV_ADOBE_XMPSDK
-            SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr",NULL);
-            SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc",NULL);
-            SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms",NULL);
-            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam",NULL);
-            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.acdsee.com/iptc/1.0/", "acdsee",NULL);
-            SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/", "MP",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/Region#", "MPReg",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.google.com/photos/1.0/panorama/", "GPano",NULL);
-            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs",NULL);
-            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea",NULL);
-            SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX",NULL);
-            SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss",NULL);
-            SXMPMeta::RegisterNamespace("http://www.audio/", "audio",NULL);
-            SXMPMeta::RegisterNamespace("http://www.video/", "video",NULL);
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr",nullptr);
+            SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc",nullptr);
+            SXMPMeta::RegisterNamespace("http://purl.org/dc/terms/", "dcterms",nullptr);
+            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/1.0/", "digiKam",nullptr);
+            SXMPMeta::RegisterNamespace("http://www.digikam.org/ns/kipi/1.0/", "kipi",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.0/", "MicrosoftPhoto",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.acdsee.com/iptc/1.0/", "acdsee",nullptr);
+            SXMPMeta::RegisterNamespace("http://iptc.org/std/Iptc4xmpExt/2008-02-29/", "iptcExt",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.useplus.org/ldf/xmp/1.0/", "plus",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.iview-multimedia.com/mediapro/1.0/", "mediapro",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/expressionmedia/1.0/", "expressionmedia",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/", "MP",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/RegionInfo#", "MPRI",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.microsoft.com/photo/1.2/t/Region#", "MPReg",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.google.com/photos/1.0/panorama/", "GPano",nullptr);
+            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/regions/", "mwg-rs",nullptr);
+            SXMPMeta::RegisterNamespace("http://www.metadataworkinggroup.com/schemas/keywords/", "mwg-kw",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/xmp/sType/Area#", "stArea",nullptr);
+            SXMPMeta::RegisterNamespace("http://cipa.jp/exif/1.0/", "exifEX",nullptr);
+            SXMPMeta::RegisterNamespace("http://ns.adobe.com/camera-raw-saved-settings/1.0/", "crss",nullptr);
+            SXMPMeta::RegisterNamespace("http://www.audio/", "audio",nullptr);
+            SXMPMeta::RegisterNamespace("http://www.video/", "video",nullptr);
 #else
             SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr");
             SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc");
@@ -557,7 +557,7 @@ namespace Exiv2 {
             AutoLock autoLock(xmpLockFct_, pLockData_);
             SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK
-            SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(),NULL);
+            SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(),nullptr);
 #else
             SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
 #endif

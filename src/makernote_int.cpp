@@ -97,7 +97,7 @@ namespace Exiv2 {
             std::string inifile;
 #if defined(_MSC_VER) || defined(__MINGW__)
             char path[MAX_PATH];
-            if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
+            if (SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PROFILE, nullptr, 0, path))) {
                 homedir = std::string(path);
                 inifile = "exiv2.ini"      ;
             }
