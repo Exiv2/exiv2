@@ -124,7 +124,8 @@ namespace Exiv2 {
         { 354, "ILCA-99M2"              },
         { 355, "DSC-RX10M3"             },
         { 356, "DSC-RX100M5"            },
-        { 357, "ILCE-6300"              }
+        { 357, "ILCE-6300"              },
+        { 369, "DSC-RX100M5A"           }
     };
 
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
