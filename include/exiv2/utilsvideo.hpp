@@ -18,6 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef UTILSVIDEO_HPP_
+#define UTILSVIDEO_HPP_
+
+#include "exiv2lib_compiler_detection.h"
 
 namespace Exiv2
 {
@@ -25,7 +29,7 @@ namespace Exiv2
     /*!
       @brief Class of utility functions used by the video code.
      */
-    class UtilsVideo
+    class EXIV2_DEPRECATED UtilsVideo
     {
     public:
         /*!
@@ -56,3 +60,5 @@ namespace Exiv2
     }; // class UtilsVideo
 
 } // namespace Exiv2
+
+#endif                                  // #ifndef UTILSVIDEO_HPP_

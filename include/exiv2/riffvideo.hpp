@@ -32,6 +32,7 @@
 
 // included header files
 #include "exif.hpp"
+#include "exiv2lib_compiler_detection.h"
 #include "image.hpp"
 
 // *****************************************************************************
@@ -49,7 +50,7 @@ namespace Exiv2 {
     /*!
       @brief Class to access RIFF video files.
      */
-    class EXIV2API RiffVideo:public Image
+    class EXIV2_DEPRECATED EXIV2API RiffVideo:public Image
     {
     public:
         //! @name Creators
@@ -210,10 +211,10 @@ namespace Exiv2 {
           Caller owns the returned object and the auto-pointer ensures that
           it will be deleted.
      */
-    EXIV2API Image::AutoPtr newRiffInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2_DEPRECATED EXIV2API Image::AutoPtr newRiffInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a Riff Video.
-    EXIV2API bool isRiffType(BasicIo& iIo, bool advance);
+    EXIV2_DEPRECATED EXIV2API bool isRiffType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 
