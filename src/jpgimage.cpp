@@ -1150,13 +1150,13 @@ namespace Exiv2 {
                     tmpBuf[1] = app2_;
 
                     int chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    int size = (int)iccProfile_.size_;
-                    int chunks = 1 + (size - 1) / chunk_size;
+                    int profileSize = (int)iccProfile_.size_;
+                    int chunks = 1 + (profileSize - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
                     for (int chunk = 0; chunk < chunks; chunk++) {
-                        int bytes = size > chunk_size ? chunk_size : size;  // bytes to write
-                        size -= bytes;
+                        int bytes = profileSize > chunk_size ? chunk_size : profileSize;  // bytes to write
+                        profileSize -= bytes;
 
                         // write JPEG marker (2 bytes)
                         if (outIo.write(tmpBuf, 2) != 2)
