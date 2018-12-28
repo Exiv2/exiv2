@@ -334,15 +334,13 @@ namespace Exiv2 {
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
          */
-        virtual uint32_t doWrite(Blob&     blob,
-                                 ByteOrder byteOrder,
-                                 uint32_t  offset);
+        uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
         //@}
 
         //! @name Accessors
         //@{
         // See base class comment
-        virtual void doDecode(Image& image, ByteOrder byteOrder) const;
+        void doDecode(Image& image, ByteOrder byteOrder) const override;
         //@}
 
     }; // class CiffEntry
@@ -381,42 +379,33 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // See base class comment
-        virtual void doAdd(UniquePtr component);
+        void doAdd(UniquePtr component) override;
         // See base class comment
-        virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
+        CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
         // See base class comment
-        virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
+        void doRemove(CrwDirs& crwDirs, uint16_t crwTagId) override;
         /*!
           @brief Implements write(). Writes the complete Ciff directory to
                  the blob.
          */
-        virtual uint32_t doWrite(Blob&     blob,
-                                 ByteOrder byteOrder,
-                                 uint32_t  offset);
+        uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
         // See base class comment
-        virtual void doRead(const byte* pData,
-                            uint32_t    size,
-                            uint32_t    start,
-                            ByteOrder   byteOrder);
+        void doRead(const byte* pData, uint32_t size, uint32_t start, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors
         //@{
         // See base class comment
-        virtual void doDecode(Image&    image,
-                              ByteOrder byteOrder) const;
+        void doDecode(Image& image, ByteOrder byteOrder) const override;
 
         // See base class comment
-        virtual void doPrint(std::ostream&      os,
-                             ByteOrder          byteOrder,
-                             const std::string& prefix) const;
+        void doPrint(std::ostream& os, ByteOrder byteOrder, const std::string& prefix) const override;
 
         //! See base class comment. A directory is empty if it has no components.
-        virtual bool doEmpty() const;
+        bool doEmpty() const override;
 
         // See base class comment
-        virtual CiffComponent* doFindComponent(uint16_t crwTagId,
-                                               uint16_t crwDir) const;
+        CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
         //@}
 
     private:

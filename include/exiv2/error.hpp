@@ -285,7 +285,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual int code() const noexcept;
+        int code() const noexcept override;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.

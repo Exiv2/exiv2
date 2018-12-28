@@ -82,8 +82,8 @@ namespace Exiv2
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
 
         /*!
           @brief Print out the structure of image file.
@@ -91,12 +91,12 @@ namespace Exiv2
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     private:

@@ -271,8 +271,10 @@ namespace Exiv2 {
           @throw Error if the schema prefix is not known.
         */
         XmpKey(const std::string& prefix, const std::string& property);
+
         //! Copy constructor.
         XmpKey(const XmpKey& rhs);
+
         //! Virtual destructor.
         virtual ~XmpKey();
         //@}
@@ -285,17 +287,17 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const;
-        virtual const char* familyName() const;
+        std::string key() const override;
+        const char* familyName() const override;
         /*!
           @brief Return the name of the group (the second part of the key).
                  For XMP keys, the group name is the schema prefix name.
         */
-        virtual std::string groupName() const;
-        virtual std::string tagName() const;
-        virtual std::string tagLabel() const;
+        std::string groupName() const override;
+        std::string tagName() const override;
+        std::string tagLabel() const override;
         //! Properties don't have a tag number. Return 0.
-        virtual uint16_t tag() const;
+        uint16_t tag() const override;
 
         UniquePtr clone() const;
 
@@ -306,7 +308,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpKey* clone_() const;
+        XmpKey* clone_() const override;
 
     private:
         // Pimpl idiom

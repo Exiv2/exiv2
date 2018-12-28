@@ -53,13 +53,13 @@ namespace Exiv2 {
         //! Default constructor
         Rw2Header();
         //! Destructor.
-        ~Rw2Header();
+        ~Rw2Header() override;
         //@}
 
         //! @name Accessors
         //@{
         //! Not yet implemented. Does nothing and returns an empty buffer.
-        DataBuf write() const;
+        DataBuf write() const override;
         //@}
 
     }; // class Rw2Header
