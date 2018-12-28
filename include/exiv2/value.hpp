@@ -629,7 +629,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual CommentValue* clone_() const;
+        CommentValue* clone_() const override;
 
     public:
         // DATA

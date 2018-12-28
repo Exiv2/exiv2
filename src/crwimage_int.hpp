@@ -327,9 +327,8 @@ namespace Exiv2 {
     private:
         //! @name Manipulators
         //@{
-        using CiffComponent::doAdd;
         // See base class comment
-        virtual void doAdd(UniquePtr component);
+        void doAdd(UniquePtr component) override;
         /*!
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
