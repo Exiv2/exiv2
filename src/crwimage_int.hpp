@@ -258,7 +258,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Implements add()
-        virtual void doAdd(UniquePtr component) =0;
+        virtual void doAddComponent(UniquePtr component) =0;
         //! Implements add(). The default implementation does nothing.
         virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements remove(). The default implementation does nothing.
@@ -319,7 +319,7 @@ namespace Exiv2 {
         CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
 
         //! Virtual destructor.
-        virtual ~CiffEntry();
+        ~CiffEntry() override;
         //@}
 
         // Default assignment operator is fine
@@ -328,7 +328,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // See base class comment
-        void doAdd(UniquePtr component) override;
+        void doAddComponent(UniquePtr component) override;
         /*!
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
@@ -355,7 +355,7 @@ namespace Exiv2 {
         CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir), cc_(nullptr) {}
 
         //! Virtual destructor
-        virtual ~CiffDirectory();
+        ~CiffDirectory() override;
         //@}
 
         //! @name Manipulators
@@ -378,7 +378,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // See base class comment
-        void doAdd(UniquePtr component) override;
+        void doAddComponent(UniquePtr component) override;
         // See base class comment
         CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
         // See base class comment
