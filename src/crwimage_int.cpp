@@ -178,18 +178,18 @@ namespace Exiv2 {
 
     void CiffComponent::add(UniquePtr component)
     {
-        doAdd(std::move(component));
+        doAddComponent(std::move(component));
     }
 
-    void CiffEntry::doAdd(UniquePtr /*component*/)
+    void CiffEntry::doAddComponent(UniquePtr /*component*/)
     {
         throw Error(kerFunctionNotSupported, "CiffEntry::add");
-    } // CiffEntry::doAdd
+    }
 
-    void CiffDirectory::doAdd(UniquePtr component)
+    void CiffDirectory::doAddComponent(UniquePtr component)
     {
         components_.push_back(component.release());
-    } // CiffDirectory::doAdd
+    }
 
     void CiffHeader::read(const byte* pData, uint32_t size)
     {
@@ -634,12 +634,12 @@ namespace Exiv2 {
     CiffComponent* CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId)
     {
         return doAdd(crwDirs, crwTagId);
-    } // CiffComponent::add
+    }
 
     CiffComponent* CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/)
     {
         return 0;
-    } // CiffComponent::doAdd
+    }
 
     CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId)
     {
@@ -693,7 +693,7 @@ namespace Exiv2 {
             }
         }
         return cc_;
-    } // CiffDirectory::doAdd
+    }
 
     void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir)
     {
@@ -847,11 +847,11 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
 
-        std::string groupName(Internal::groupName(ifdId));
+        std::string gName(Internal::groupName(ifdId));
         uint16_t c = 1;
         while (uint32_t(c)*2 < ciffComponent.size()) {
             uint16_t n = 1;
-            ExifKey key(c, groupName);
+            ExifKey key(c, gName);
             UShortValue value;
             if (ifdId == canonCsId && c == 23 && ciffComponent.size() > 50) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);

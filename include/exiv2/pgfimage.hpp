@@ -81,13 +81,13 @@ namespace Exiv2
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/pgf"; }
+        std::string mimeType() const override { return "image/pgf"; }
         //@}
 
     private:

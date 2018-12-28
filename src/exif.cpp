@@ -55,7 +55,9 @@ namespace {
     class FindExifdatumByKey {
     public:
         //! Constructor, initializes the object with the key to look for
-        FindExifdatumByKey(const std::string& key) : key_(key) {}
+        explicit FindExifdatumByKey(const std::string& key) : key_(key)
+        {
+        }
         /*!
           @brief Returns true if the key of \em exifdatum is equal
                  to that of the object.
@@ -133,11 +135,11 @@ namespace {
 
         //! @name Accessors
         //@{
-        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const;
-        const char* mimeType() const;
-        const char* extension() const;
+        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+        const char* mimeType() const override;
+        const char* extension() const override;
 #ifdef EXV_UNICODE_PATH
-        const wchar_t* wextension() const;
+        const wchar_t* wextension() const override;
 #endif
         //@}
 
@@ -157,11 +159,11 @@ namespace {
 
         //! @name Accessors
         //@{
-        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const;
-        const char* mimeType() const;
-        const char* extension() const;
+        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+        const char* mimeType() const override;
+        const char* extension() const override;
 #ifdef EXV_UNICODE_PATH
-        const wchar_t* wextension() const;
+        const wchar_t* wextension() const override;
 #endif
         //@}
 

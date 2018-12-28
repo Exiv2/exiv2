@@ -76,35 +76,35 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
-        void readMetadata();
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth) override;
+        void readMetadata() override;
         /*!
           @brief Todo: Write metadata back to the image. This method is not
               yet implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
          */
-        void writeMetadata();
+        void writeMetadata() override;
         /*!
           @brief Todo: Not supported yet, requires writeMetadata(). Calling
               this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setExifData(const ExifData& exifData);
+        void setExifData(const ExifData& exifData) override;
         /*!
           @brief Todo: Not supported yet, requires writeMetadata(). Calling
               this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setIptcData(const IptcData& iptcData);
+        void setIptcData(const IptcData& iptcData) override;
         /*!
           @brief Not supported. RAF format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
     private:

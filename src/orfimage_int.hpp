@@ -56,12 +56,12 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size);
+        bool read(const byte* pData, uint32_t size) override;
         //@}
 
         //! @name Accessors
         //@{
-        DataBuf write() const;
+        DataBuf write() const override;
         //@}
     private:
         // DATA

@@ -79,8 +79,8 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
 
         /*!
           @brief Print out the structure of image file.
@@ -88,20 +88,20 @@ namespace Exiv2 {
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
          */
-        virtual void printStructure(std::ostream& out, PrintStructureOption option,int depth=0);
+        virtual void printStructure(std::ostream& out, PrintStructureOption option,int depth=0) override;
 
         /*!
           @brief Not supported. TIFF format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
     private:
@@ -123,7 +123,9 @@ namespace Exiv2 {
         // DATA
         mutable std::string primaryGroup_;     //!< The primary group
         mutable std::string mimeType_;         //!< The MIME type
+        // cppcheck-suppress duplInheritedMember
         mutable int pixelWidth_;               //!< Width of the primary image in pixels
+        // cppcheck-suppress duplInheritedMember
         mutable int pixelHeight_;              //!< Height of the primary image in pixels
 
     }; // class TiffImage

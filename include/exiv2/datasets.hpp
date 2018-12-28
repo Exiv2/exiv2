@@ -291,6 +291,7 @@ namespace Exiv2 {
                  converted to a record name and a dataset name.
         */
         explicit IptcKey(const std::string& key);
+
         /*!
           @brief Constructor to create an IPTC key from dataset and record ids.
           @param tag Dataset id
@@ -313,16 +314,17 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const;
-        virtual const char* familyName() const;
+        std::string key() const override;
+        const char* familyName() const override;
         /*!
           @brief Return the name of the group (the second part of the key).
                  For IPTC keys, the group name is the record name.
         */
-        virtual std::string groupName() const;
-        virtual std::string tagName() const;
-        virtual std::string tagLabel() const;
-        virtual uint16_t tag() const;
+        std::string groupName() const override;
+        std::string tagName() const override;
+        std::string tagLabel() const override;
+        uint16_t tag() const override;
+
         UniquePtr clone() const;
         //! Return the name of the record
         std::string recordName() const;
@@ -350,7 +352,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual IptcKey* clone_() const;
+        IptcKey* clone_() const override;
 
         // DATA
         static const char* familyName_;
@@ -361,56 +363,32 @@ namespace Exiv2 {
 
     }; // class IptcKey
 
-    /*!
-      @brief typedef for string:string map
-     */
+    /// @brief typedef for string:string map
     typedef std::map<std::string,std::string>                 Dictionary;
-    /*!
-      @brief typedef for Dictionary*
-     */
+    /// @brief typedef for Dictionary*
     typedef Dictionary*                                       Dictionary_p;
-    /*!
-      @brief typedef for Dictionary iterator
-     */
+    /// @brief typedef for Dictionary iterator
     typedef Dictionary::const_iterator                        Dictionary_i;
 
-    /*!
-      @brief typedef for string set (unique strings)
-     */
+    /// @brief typedef for string set (unique strings)
     typedef std::set<std::string>                             StringSet;
-    /*!
-      @brief typedef for StringSet*
-     */
+    /// @brief typedef for StringSet*
     typedef StringSet*                                        StringSet_p;
-    /*!
-      @brief Class to provide a StringSet iterator
-     */
+    /// @brief Class to provide a StringSet iterator
     typedef std::set<std::string>::const_iterator             StringSet_i;
 
-    /*!
-      @brief typedef for string vector
-     */
+    /// @brief typedef for string vector
     typedef std::vector<std::string>                          StringVector;
-    /*!
-      @brief typedef for StringVector pointer
-     */
+    /// @brief typedef for StringVector pointer
     typedef StringVector*                                     StringVector_p;
-    /*!
-      @brief Class to provide a StringVector iterator
-     */
+    /// @brief Class to provide a StringVector iterator
     typedef StringVector::const_iterator                      StringVector_i;
 
-    /*!
-      @brief typedef for uint32_t vector
-     */
+    /// @brief typedef for uint32_t vector
     typedef std::vector<uint32_t>                             Uint32Vector  ;
-    /*!
-      @brief typedef for Uint32Vector pointer
-     */
+    /// @brief typedef for Uint32Vector pointer
     typedef Uint32Vector*                                     Uint32Vector_p;
-    /*!
-      @brief typedef for Uint32Vector iterator
-     */
+    /// @brief typedef for Uint32Vector iterator
     typedef Uint32Vector::const_iterator                      Uint32Vector_i;
 
 

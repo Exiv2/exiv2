@@ -450,24 +450,12 @@ namespace Exiv2 {
      */
     int64_t returnValue(const byte* buf, long size)
     {
-
-        int64_t temp = 0;
-
-        for(int i = size-1; i >= 0; i--) {
-            temp = temp + static_cast<int64_t>(buf[i]*(pow(256.0, (double)size-i-1)));
-        }
-// Todo: remove debug output
-//        std::cerr << "size = " << size << ", val = " << temp << std::hex << " (0x" << temp << std::dec << ")";
-
         uint64_t ret = 0;
         for (long i = 0; i < size; ++i) {
             ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
         }
 
-// Todo: remove debug output
-//        std::cerr << ", ret = " << ret << std::hex << " (0x" << ret << std::dec << ")\n";
-
-        return ret;
+        return static_cast<int64_t>(ret);
     }
 
 }}                                      // namespace Internal, Exiv2
@@ -478,6 +466,9 @@ namespace Exiv2 {
 
     MatroskaVideo::MatroskaVideo(BasicIo::UniquePtr io)
         : Image(ImageType::mkv, mdNone, std::move(io))
+        , continueTraversing_(false)
+        , height_(0)
+        , width_(0)
     {
     } // MatroskaVideo::MatroskaVideo
 
@@ -573,7 +564,7 @@ namespace Exiv2 {
     void MatroskaVideo::contentManagement(const MatroskaTags* mt, const byte* buf, long size)
     {
         int64_t duration_in_ms = 0;
-        static double time_code_scale = 1.0, temp = 0;
+        static double time_code_scale = 1.0;
         static long stream = 0, track_count = 0;
         char str[4] = "No";
         const MatroskaTags* internalMt = 0;
@@ -685,9 +676,10 @@ namespace Exiv2 {
         case 0x3e383: case 0x383e3:
             internalMt = find(streamRate, stream);
             if (returnValue(buf, size)) {
+                double temp = 0.;
                 switch (stream) {
-                case 1: temp = (double)1000000000/(double)returnValue(buf, size); break;
-                case 2: temp = static_cast<double>(returnValue(buf, size) / 1000); break;
+                case 1: temp = 1000000000./static_cast<double>(returnValue(buf, size)); break;
+                case 2: temp = static_cast<double>(returnValue(buf, size) / 1000.); break;
                 }
                 if (internalMt) xmpData_[internalMt->label_] = temp;
             }

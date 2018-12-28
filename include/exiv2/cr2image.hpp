@@ -76,27 +76,27 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Print out the structure of image file.
           @throw Error if reading of the file fails or the image data is
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth) override;
         /*!
           @brief Not supported. CR2 format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
     private:

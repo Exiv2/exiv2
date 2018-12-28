@@ -84,12 +84,12 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
@@ -105,7 +105,7 @@ namespace Exiv2 {
               but Apple, as of Tiger (10.4.8), maps this official MIME type to a
               dynamic UTI, rather than "com.adobe.photoshop-image" as it should.
          */
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     private:

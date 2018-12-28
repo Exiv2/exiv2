@@ -609,6 +609,10 @@ namespace Exiv2 {
     QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io)
             : Image(ImageType::qtime, mdNone, std::move(io))
             , timeScale_(1)
+            , currentStream_(0)
+            , continueTraversing_(false)
+            , height_(0)
+            , width_(0)
     {
     } // QuickTimeVideo::QuickTimeVideo
 
@@ -841,7 +845,6 @@ namespace Exiv2 {
     {
         uint64_t cur_pos = io_->tell();
         DataBuf buf(50), buf2(4);
-        const TagDetails* td;
 
         io_->read(buf.pData_, 4);
         if(equalsQTimeTag(buf, "NIKO")) {
@@ -858,7 +861,7 @@ namespace Exiv2 {
             io_->read(buf.pData_, 4); io_->read(buf2.pData_, 4);
             xmpData_["Xmp.video.ExposureCompensation"] =  getULong(buf.pData_, littleEndian) / (double)getULong(buf2.pData_, littleEndian) ;
             io_->read(buf.pData_, 10); io_->read(buf.pData_, 4);
-            td = find(whiteBalance, getULong(buf.pData_, littleEndian));
+            const TagDetails* td = find(whiteBalance, getULong(buf.pData_, littleEndian));
             if (td)
                 xmpData_["Xmp.video.WhiteBalance"] = exvGettext(td->label_);
             io_->read(buf.pData_, 4); io_->read(buf2.pData_, 4);
@@ -876,19 +879,17 @@ namespace Exiv2 {
     void QuickTimeVideo::userDataDecoder(unsigned long size_external)
     {
         uint64_t cur_pos = io_->tell();
-        const TagVocabulary* td;
-        const TagVocabulary* tv, *tv_internal;
 
         const long bufMinSize = 100;
         DataBuf buf(bufMinSize);
-        unsigned long size = 0, size_internal = size_external;
+        unsigned long size_internal = size_external;
         std::memset(buf.pData_, 0x0, buf.size_);
 
         while((size_internal/4 != 0) && (size_internal > 0)) {
 
             buf.pData_[4] = '\0' ;
             io_->read(buf.pData_, 4);
-            size = Exiv2::getULong(buf.pData_, bigEndian);
+            unsigned long size = Exiv2::getULong(buf.pData_, bigEndian);
             if(size > size_internal)
                 break;
             size_internal -= size;
@@ -896,9 +897,9 @@ namespace Exiv2 {
 
             if(buf.pData_[0] == 169)
                 buf.pData_[0] = ' ';
-            td = find(userDatatags, Exiv2::toString( buf.pData_));
 
-            tv = find(userDataReferencetags, Exiv2::toString( buf.pData_));
+            const TagVocabulary* td = find(userDatatags, Exiv2::toString( buf.pData_));
+            const TagVocabulary* tv = find(userDataReferencetags, Exiv2::toString( buf.pData_));
 
             if(size == 0 || (size - 12) <= 0)
                 break;
@@ -922,7 +923,7 @@ namespace Exiv2 {
             else if(equalsQTimeTag(buf, "CMbo") || equalsQTimeTag(buf, "Cmbo")) {
                 io_->read(buf.pData_, 2);
                 buf.pData_[2] = '\0' ;
-                tv_internal = find(cameraByteOrderTags, Exiv2::toString( buf.pData_));
+                const TagVocabulary *tv_internal = find(cameraByteOrderTags, Exiv2::toString( buf.pData_));
 
                 if (tv_internal)
                     xmpData_[exvGettext(tv->label_)] = exvGettext(tv_internal->label_);
@@ -947,17 +948,16 @@ namespace Exiv2 {
     {
         uint64_t cur_pos = io_->tell();
         DataBuf buf(200), buf2(4+1);
-        unsigned long TagID = 0;
-        unsigned short dataLength = 0, dataType = 2;
-        const TagDetails* td, *td2;
+        unsigned short dataLength = 0;
+        const TagDetails *td2 = 0;
 
         for(int i = 0 ; i < 100 ; i++) {
             io_->read(buf.pData_, 4);
-            TagID = Exiv2::getULong(buf.pData_, bigEndian);
-            td = find(NikonNCTGTags, TagID);
+            unsigned long TagID = Exiv2::getULong(buf.pData_, bigEndian);
+            const TagDetails* td = find(NikonNCTGTags, TagID);
 
             io_->read(buf.pData_, 2);
-            dataType = Exiv2::getUShort(buf.pData_, bigEndian);
+            unsigned short dataType = Exiv2::getUShort(buf.pData_, bigEndian);
 
             std::memset(buf.pData_, 0x0, buf.size_);
             io_->read(buf.pData_, 2);
@@ -1185,11 +1185,10 @@ namespace Exiv2 {
         io_->read(buf.pData_, 4);
         uint64_t noOfEntries, totalframes = 0, timeOfFrames = 0;
         noOfEntries = returnUnsignedBufValue(buf);
-        uint64_t temp;
 
         for(unsigned long i = 1; i <= noOfEntries; i++) {
             io_->read(buf.pData_, 4);
-            temp = returnBufValue(buf);
+            uint64_t temp = returnBufValue(buf);
             totalframes += temp;
             io_->read(buf.pData_, 4);
             timeOfFrames += temp * returnBufValue(buf);
@@ -1394,11 +1393,10 @@ namespace Exiv2 {
         std::memset(buf.pData_, 0x0, buf.size_);
         buf.pData_[4] = '\0';
         Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpSeq);
-        const TagVocabulary* td;
 
         for (int i = 0; size/4 != 0; size -=4, i++) {
             io_->read(buf.pData_, 4);
-            td = find(qTimeFileType, Exiv2::toString( buf.pData_));
+            const TagVocabulary* td = find(qTimeFileType, Exiv2::toString( buf.pData_));
 
             switch(i) {
             case 0:

@@ -285,18 +285,18 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual int code() const noexcept;
+        int code() const noexcept override;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        virtual const char* what() const noexcept;
+        const char* what() const noexcept override;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        virtual const wchar_t* wwhat() const noexcept;
+        const wchar_t* wwhat() const noexcept override;
 #endif
         //@}
 

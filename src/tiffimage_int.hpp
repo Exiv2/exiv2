@@ -159,9 +159,7 @@ namespace Exiv2 {
         //@}
         //@{
         //! @name Accessors
-        bool isImageTag(      uint16_t       tag,
-                              IfdId          group,
-                        const PrimaryGroups* pPrimaryGroups) const;
+        bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
         //@}
 
     private:

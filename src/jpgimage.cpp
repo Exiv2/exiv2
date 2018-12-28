@@ -352,7 +352,6 @@ namespace Exiv2 {
         clearMetadata();
         int search = 6 ; // Exif, ICC, XMP, Comment, IPTC, SOF
         const long bufMinSize = 36;
-        long bufRead = 0;
         DataBuf buf(bufMinSize);
         Blob psBlob;
         bool foundCompletePsData = false;
@@ -367,7 +366,7 @@ namespace Exiv2 {
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             std::memset(buf.pData_, 0x0, buf.size_);
-            bufRead = io_->read(buf.pData_, bufMinSize);
+            long bufRead = io_->read(buf.pData_, bufMinSize);
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead < 2) throw Error(kerNotAJpeg);
             uint16_t size = getUShort(buf.pData_, bigEndian);
@@ -609,7 +608,6 @@ namespace Exiv2 {
 
             // Container for the signature
             bool bExtXMP = false;
-            long bufRead = 0;
             const long bufMinSize = 36;
             DataBuf buf(bufMinSize);
 
@@ -632,7 +630,7 @@ namespace Exiv2 {
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
-                bufRead = io_->read(buf.pData_, bufMinSize);
+                long bufRead = io_->read(buf.pData_, bufMinSize);
                 if (io_->error())
                     throw Error(kerFailedToReadImageData);
                 if (bufRead < 2)
@@ -1152,13 +1150,13 @@ namespace Exiv2 {
                     tmpBuf[1] = app2_;
 
                     int chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    int size = (int)iccProfile_.size_;
-                    int chunks = 1 + (size - 1) / chunk_size;
+                    int profileSize = (int)iccProfile_.size_;
+                    int chunks = 1 + (profileSize - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
                     for (int chunk = 0; chunk < chunks; chunk++) {
-                        int bytes = size > chunk_size ? chunk_size : size;  // bytes to write
-                        size -= bytes;
+                        int bytes = profileSize > chunk_size ? chunk_size : profileSize;  // bytes to write
+                        profileSize -= bytes;
 
                         // write JPEG marker (2 bytes)
                         if (outIo.write(tmpBuf, 2) != 2)

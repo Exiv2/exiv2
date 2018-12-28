@@ -84,10 +84,10 @@ namespace Exiv2 {
     class FileIo::Impl {
     public:
         //! Constructor
-        Impl(const std::string& path);
+        explicit Impl(const std::string& path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
-        Impl(const std::wstring& wpath);
+        explicit Impl(const std::wstring& wpath);
 #endif
         // Enumerations
         //! Mode of operation
@@ -176,7 +176,8 @@ namespace Exiv2 {
     int FileIo::Impl::switchMode(OpMode opMode)
     {
         assert(fp_ != 0);
-        if (opMode_ == opMode) return 0;
+        if (opMode_ == opMode)
+            return 0;
         OpMode oldOpMode = opMode_;
         opMode_ = opMode;
 
@@ -208,7 +209,8 @@ namespace Exiv2 {
 
         // Reopen the file
         long offset = std::ftell(fp_);
-        if (offset == -1) return -1;
+        if (offset == -1)
+            return -1;
         // 'Manual' open("r+b") to avoid munmap()
         if (fp_ != 0) {
             std::fclose(fp_);
@@ -587,10 +589,10 @@ namespace Exiv2 {
 
         byte buf[4096];
         long readCount = 0;
-        long writeCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            writeTotal += writeCount = (long)std::fwrite(buf, 1, readCount, p_->fp_);
+            const long writeCount = static_cast<long>(std::fwrite(buf, 1, static_cast<size_t>(readCount), p_->fp_));
+            writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 src.seek(writeCount-readCount, BasicIo::cur);
@@ -1927,8 +1929,8 @@ namespace Exiv2 {
 
     byte* RemoteIo::mmap(bool /*isWriteable*/)
     {
-        size_t nRealData = 0 ;
         if ( !bigBlock_ ) {
+            size_t nRealData = 0 ;
             size_t blockSize = p_->blockSize_;
             size_t blocks = (p_->size_ + blockSize -1)/blockSize ;
             bigBlock_   = new byte[blocks*blockSize] ;
@@ -2047,9 +2049,10 @@ namespace Exiv2 {
         HttpImpl& operator=(const HttpImpl& rhs); //!< Assignment
     }; // class HttpIo::HttpImpl
 
-    HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
+    HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize)
+        : Impl(url, blockSize)
+        , hostInfo_(Exiv2::Uri::Parse(url))
     {
-        hostInfo_ = Exiv2::Uri::Parse(url);
         Exiv2::Uri::Decode(hostInfo_);
     }
 #ifdef EXV_UNICODE_PATH

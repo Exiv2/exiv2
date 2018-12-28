@@ -329,10 +329,10 @@ public:
     int getopt(int argc, char* const argv[]);
 
     //! Handle options and their arguments.
-    virtual int option(int opt, const std::string& optarg, int optopt);
+    int option(int opt, const std::string& optarg, int optopt) override;
 
     //! Handle non-option parameters.
-    virtual int nonoption(const std::string& argv);
+    int nonoption(const std::string& argv) override;
 
     //! Print a minimal usage note to an output stream.
     void usage(std::ostream& os =std::cout) const;
@@ -342,9 +342,6 @@ public:
 
     //! Print version information to an output stream.
     void version(bool verbose =false, std::ostream& os =std::cout) const;
-
-    //! Print target_
-    static std::string printTarget(const std::string& before,int target,bool bPrint=false,std::ostream& os=std::cout);
 
     //! getStdin binary data read from stdin to DataBuf
     /*
