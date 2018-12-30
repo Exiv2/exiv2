@@ -201,7 +201,7 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf() : pData_(0), size_(0) {}
         //! Constructor with an initial buffer size
-        explicit DataBuf(long size) : pData_(new byte[size]), size_(size) {}
+        explicit DataBuf(long size) : pData_(new byte[size]()), size_(size) {}
         //! Constructor, copies an existing buffer
         DataBuf(const byte* pData, long size);
         /*!

@@ -8,6 +8,6 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo pip install virtualenv
 else
     brew update
-    brew install gettext libssh expat zlib curl md5sha1sum
+    brew install gettext expat zlib curl md5sha1sum
     brew upgrade python
 fi
