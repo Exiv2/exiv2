@@ -1,4 +1,4 @@
-add_library(xmp STATIC
+add_library(exiv2-xmp STATIC
     src/ExpatAdapter.cpp
     src/MD5.cpp
     src/ParseRDF.cpp
@@ -26,12 +26,12 @@ add_library(xmp STATIC
     include/XMP_Version.h
 )
 
-target_link_libraries(xmp 
+target_link_libraries(exiv2-xmp
     PRIVATE 
         ${EXPAT_LIBRARY}
 )
 
-target_include_directories(xmp
+target_include_directories(exiv2-xmp
     PUBLIC 
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
     PRIVATE 
@@ -39,20 +39,20 @@ target_include_directories(xmp
 )
 
 if (MSVC)
-    target_compile_definitions(xmp PRIVATE XML_STATIC)
+    target_compile_definitions(exiv2-xmp PRIVATE XML_STATIC)
 endif()
 
 check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
 if (EXV_HAVE_STDINT_H)
-    target_compile_definitions(xmp PRIVATE EXV_HAVE_STDINT_H)
+    target_compile_definitions(exiv2-xmp PRIVATE EXV_HAVE_STDINT_H)
 endif()
 
 if (BUILD_SHARED_LIBS)
-    set_property(TARGET xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
+    set_property(TARGET exiv2-xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
-install(TARGETS xmp EXPORT exiv2Config
+install(TARGETS exiv2-xmp EXPORT exiv2Config
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
