@@ -21,7 +21,7 @@ macro(generate_documentation DOX_CONFIG_FILE)
     set(DOXY_CONFIG "${CMAKE_CURRENT_BINARY_DIR}/doxy.config")
     add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${DOXY_CONFIG})
 
-    install(DIRECTORY "${PROJECT_BINARY_DIR}/doc/html/" DESTINATION "share/doc/lib${PROJECT_NAME}")
+    install(DIRECTORY "${PROJECT_BINARY_DIR}/doc/html/" DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
     set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES doc)
 endmacro()
