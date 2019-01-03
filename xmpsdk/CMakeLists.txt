@@ -38,6 +38,10 @@ target_include_directories(exiv2-xmp
         ${EXPAT_INCLUDE_DIR}
 )
 
+# Prevent a denial-service-attack related to XML entity expansion
+# ("billion laughs attack").
+# See https://bugzilla.redhat.com/show_bug.cgi?id=888769
+target_compile_definitions(exiv2-xmp PRIVATE BanAllEntityUsage=1)
 if (MSVC)
     target_compile_definitions(exiv2-xmp PRIVATE XML_STATIC)
 endif()
