@@ -225,10 +225,6 @@ install(TARGETS exiv2lib EXPORT exiv2Config
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-install(DIRECTORY ../include/exiv2
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    FILES_MATCHING PATTERN "*.h*")
-
 install(FILES
     ${CMAKE_BINARY_DIR}/exv_conf.h
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
