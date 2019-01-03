@@ -6,10 +6,10 @@ Structure of the bundle
 
 bin/exiv2                                 exiv2 and sample applications
 lib/libexiv2.0.27.0.0.dylib & libxmp.a    libraries
+lib/cmake/exiv2                           consume CMake files
 lib/pkgconfig/exiv2.pc                    pkg-config file
 include/exiv2/                            include files
 share/man                                 man pages
-share/exiv2/cmake                         consume CMake files
 samples/exifprint.cpp                     sample code
 logs                                      build and test logs
 

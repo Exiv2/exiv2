@@ -1,3 +1,8 @@
+Exiv2 v0.27.1
+-------------
+
+#623 Use correct installation path for generated docs and cmake config files
+
 Exiv2 v0.27.0
 -------------
 
