@@ -31,7 +31,19 @@
 #include "config.h"
 #include "exiv2lib_export.h"
 
+// https://stackoverflow.com/questions/3052041/how-to-get-posix-strerror-r-instead-of-gnu-version
+#ifdef  _GNU_SOURCE
+#define _GNU_SOURCE_RESTORE _GNU_SOURCE
+#undef  _GNU_SOURCE
+#endif
 #include <string>
+#ifdef  _GNU_SOURCE
+#define STRERROR_RETURNS_CHAR_PTR
+#endif
+#ifdef  _GNU_SOURCE_RESTORE
+#define _GNU_SOURCE _GNU_SOURCE_RESTORE
+#undef  _GNU_SOURCE_RESTORE
+#endif
 
 // namespace extensions
 namespace Exiv2
