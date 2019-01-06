@@ -2,9 +2,7 @@
 
 set -e
 
-source /vagrant/utils.source
-
-distro_id=$(get_distro_id)
+distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
