@@ -1,5 +1,7 @@
 Vagrant.configure("2") do |config|
 
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
   config.vm.define "Fedora" do |fedora|
     fedora.vm.box = "fedora/29-cloud-base"
     fedora.vm.hostname = "fedora-exiv2"
@@ -30,8 +32,11 @@ Vagrant.configure("2") do |config|
     opensuse.vm.hostname = "opensuse-exiv2"
   end
 
-  config.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant",
-                          disabled: false, type: "rsync"
+  config.vm.define "Alpine" do |alpine|
+    alpine.vm.box = "roboxes/alpine38"
+    # don't set a custom hostname, this is broken on Alpine
+    # alpine.vm.hostname = "alpine-exiv2"
+  end
 
   # use the CI script from gitlab to setup all dependencies
   config.vm.provision "install_dependencies", type: "shell" do |shell|

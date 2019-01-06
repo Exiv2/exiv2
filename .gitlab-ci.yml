@@ -61,6 +61,11 @@ OpenSUSE:
   <<: *default_config
   <<: *distro_build
 
+Alpine:
+  image: alpine:3.8
+  <<: *default_config
+  <<: *distro_build
+
 Install:
   image: fedora:29
   stage: deploy

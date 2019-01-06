@@ -56,6 +56,11 @@ case "$distro_id" in
         zypper --non-interactive refresh
         zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel gtest which dos2unix libxml2-tools
         ;;
+
+    'alpine')
+        apk update
+        apk add gcc g++ clang cmake make ccache expat-dev zlib-dev libssh-dev curl-dev gtest gtest-dev libintl gettext-dev which dos2unix bash libxml2-utils diffutils
+        ;;
     *)
         echo "Sorry, no predefined dependencies for your distribution $distro_id exist yet"
         exit 1

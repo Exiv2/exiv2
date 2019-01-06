@@ -13,7 +13,7 @@ function clone_exiv2() {
 distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
-    'debian' | 'ubuntu' | 'fedora' | 'opensuse' | 'opensuse-tumbleweed')
+    'debian' | 'ubuntu' | 'fedora' | 'opensuse' | 'opensuse-tumbleweed' | 'alpine')
         PIP=pip3
         ;;
 
