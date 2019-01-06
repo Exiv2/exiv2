@@ -53,14 +53,6 @@
 #include <algorithm>
 #include <stdexcept>
 
-#ifdef EXV_HAVE_STRERROR_R
-#if defined(__GLIBC__) && defined(_GNU_SOURCE)
-extern char *strerror_r(int errnum, char *buf, size_t n);
-#else
-extern int strerror_r(int errnum, char *buf, size_t n);
-#endif
-#endif
-
 namespace Exiv2 {
     const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
     const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
@@ -345,7 +337,7 @@ namespace Exiv2 {
         std::ostringstream os;
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
-#if defined(__GLIBC__) && defined(_GNU_SOURCE)
+#ifdef EXV_STRERROR_R_CHAR_P
         char *buf = 0;
         char buf2[n];
         std::memset(buf2, 0x0, n);
