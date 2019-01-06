@@ -147,7 +147,7 @@ target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})
 
 if (EXIV2_ENABLE_XMP)
-    target_link_libraries(exiv2lib PUBLIC xmp)
+    target_link_libraries(exiv2lib PUBLIC exiv2-xmp)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
     target_include_directories(exiv2lib PUBLIC ${XMPSDK_INCLUDE_DIR})
@@ -224,10 +224,6 @@ install(TARGETS exiv2lib EXPORT exiv2Config
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-
-install(DIRECTORY ../include/exiv2
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    FILES_MATCHING PATTERN "*.h*")
 
 install(FILES
     ${CMAKE_BINARY_DIR}/exv_conf.h
