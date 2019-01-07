@@ -17,12 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      futils.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   08-Dec-03, ahu: created
-             02-Apr-05, ahu: moved to Exiv2 namespace
- */
 // *****************************************************************************
 // included header files
 #include "config.h"
@@ -33,25 +27,26 @@
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
-
-#ifdef _MSC_VER
-    #include <Windows.h>
-    # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
-    #include <psapi.h>  // For access to GetModuleFileNameEx
-#elif defined(__APPLE__)
-    #include <libproc.h>
-#endif
-
-#ifdef EXV_HAVE_UNISTD_H
-  # include <unistd.h>                     // for stat()
-#endif
-
 #include <cstdio>
 #include <cerrno>
 #include <sstream>
 #include <cstring>
 #include <algorithm>
 #include <stdexcept>
+#ifdef   EXV_HAVE_UNISTD_H
+#include <unistd.h>                     // for stat()
+#endif
+
+#if defined(WIN32)
+#include <windows.h>
+#include <psapi.h>  // For access to GetModuleFileNameEx
+#endif
+
+#if defined(_MSC_VER)
+#define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+#elif defined(__APPLE__)
+#include <libproc.h>
+#endif
 
 namespace Exiv2 {
     const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
@@ -468,7 +463,7 @@ namespace Exiv2 {
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
-    #elif defined(__linux__) || defined(__CYGWIN__) || defined(__MINGW__)
+    #elif defined(__linux__) || defined(__CYGWIN__) || defined(__MSYS__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
         char proc[100];
         char path[500];
@@ -479,11 +474,8 @@ namespace Exiv2 {
             ret = path;
         }
     #endif
-    #if defined(WIN32)
-        const size_t idxLastSeparator = ret.find_last_of('\\');
-    #else
-        const size_t idxLastSeparator = ret.find_last_of('/');
-    #endif
+
+        const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_STR);
         return ret.substr(0, idxLastSeparator);
     }
 }                                       // namespace Exiv2
