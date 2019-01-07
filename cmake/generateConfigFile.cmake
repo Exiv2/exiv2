@@ -1,4 +1,5 @@
 include(CheckIncludeFile)
+include(CheckCXXSourceCompiles)
 
 # Note that the scope of the EXV_ variables in local
 if (${EXIV2_ENABLE_WEBREADY})
@@ -27,6 +28,14 @@ check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )
 check_function_exists( mmap     EXV_HAVE_MMAP )
 check_function_exists( munmap   EXV_HAVE_MUNMAP )
 check_function_exists( strerror_r   EXV_HAVE_STRERROR_R )
+
+check_cxx_source_compiles( "
+#include <string.h>
+int main() {
+    char buff[100];
+    const char* c = strerror_r(0,buff,100);
+    return 0;
+}" EXV_STRERROR_R_CHAR_P )
 
 check_include_file( "unistd.h"  EXV_HAVE_UNISTD_H )
 check_include_file( "memory.h"  EXV_HAVE_MEMORY_H )
