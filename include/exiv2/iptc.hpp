@@ -28,6 +28,8 @@
 #define IPTC_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
 #include "metadatum.hpp"
 #include "types.hpp"

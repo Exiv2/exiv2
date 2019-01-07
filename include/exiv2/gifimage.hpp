@@ -29,6 +29,8 @@
 #define GIFIMAGE_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
 #include "exif.hpp"
 #include "iptc.hpp"

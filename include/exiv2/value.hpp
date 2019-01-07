@@ -30,6 +30,8 @@
 #define VALUE_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
 #include "types.hpp"
 

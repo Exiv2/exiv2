@@ -31,6 +31,8 @@
 #define PGFIMAGE_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
 #include "image.hpp"
 #include "basicio.hpp"
