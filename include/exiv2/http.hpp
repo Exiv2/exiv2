@@ -3,12 +3,9 @@
 
 #include "exiv2lib_export.h"
 
-#include "config.h"
 #include "datasets.hpp"
 
 #include <string>
-#include <map>
-#include <algorithm>
 
 
 namespace Exiv2 {

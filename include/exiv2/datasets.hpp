@@ -30,14 +30,9 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "types.hpp"
 #include "metadatum.hpp"
 
 // + standard includes
-#include <string>
-#include <utility>                              // for std::pair
-#include <iosfwd>
-#include <memory>
 #include <set>
 #include <vector>
 #include <map>

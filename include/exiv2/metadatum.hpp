@@ -35,12 +35,7 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "types.hpp"
 #include "value.hpp"
-
-// + standard includes
-#include <string>
-#include <memory>
 
 // *****************************************************************************
 // namespace extensions

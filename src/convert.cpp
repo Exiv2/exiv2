@@ -28,6 +28,7 @@
 // included header files
 #include "config.h"
 #include "types.hpp"
+#include "error.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
 #include "xmp_exiv2.hpp"

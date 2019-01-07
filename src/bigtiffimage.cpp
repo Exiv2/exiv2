@@ -1,9 +1,4 @@
-
 #include "bigtiffimage.hpp"
-
-#include <cassert>
-#include <cstdint>
-#include <limits>
 
 #include "safe_op.hpp"
 #include "exif.hpp"
@@ -11,6 +6,9 @@
 #include "image_int.hpp"
 #include "enforce.hpp"
 
+#include <cassert>
+#include <limits>
+#include <iostream>
 
 namespace Exiv2
 {

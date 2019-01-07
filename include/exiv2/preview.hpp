@@ -30,13 +30,7 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
-// included header files
-#include "types.hpp"
 #include "image.hpp"
-#include "basicio.hpp"
-
-#include <string>
-#include <vector>
 
 // *****************************************************************************
 // namespace extensions

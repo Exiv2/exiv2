@@ -33,7 +33,6 @@
 
 // included header files
 #include "metadatum.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <string>

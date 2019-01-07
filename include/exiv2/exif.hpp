@@ -33,13 +33,9 @@
 // included header files
 #include "metadatum.hpp"
 #include "tags.hpp"
-#include "value.hpp"
-#include "types.hpp"
 
 // + standard includes
-#include <string>
 #include <list>
-#include <memory>
 
 // *****************************************************************************
 // namespace extensions

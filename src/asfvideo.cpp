@@ -28,6 +28,7 @@
 #include "config.h"
 
 #ifdef EXV_ENABLE_VIDEO
+#include "error.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
 #include "asfvideo.hpp"

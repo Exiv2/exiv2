@@ -36,6 +36,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iterator>
+#include <fstream>      // write the temporary file
 
 // *****************************************************************************
 namespace {
