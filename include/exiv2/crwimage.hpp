@@ -30,6 +30,8 @@
 #define CRWIMAGE_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
 #include "types.hpp"
 #include "image.hpp"
