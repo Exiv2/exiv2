@@ -29,18 +29,16 @@
 #ifndef TYPES_HPP_
 #define TYPES_HPP_
 
+#include "exiv2lib_export.h"
+
 // included header files
 #include "config.h"
-#include "slice.hpp"
-#include "exiv2lib_export.h"
 #include "slice.hpp"
 
 // + standard includes
 #include <string>
 #include <vector>
-#include <iosfwd>
 #include <limits>
-#include <utility>
 #include <algorithm>
 #include <sstream>
 

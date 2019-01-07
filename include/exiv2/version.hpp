@@ -30,8 +30,8 @@
 #ifndef VERSION_HPP_
 #define VERSION_HPP_
 
-#include "exv_conf.h"
 #include "exiv2lib_export.h"
+#include "exv_conf.h"
 
 // *****************************************************************************
 // included header files

@@ -33,14 +33,6 @@
 // included header files
 #include "metadatum.hpp"
 #include "properties.hpp"
-#include "value.hpp"
-#include "types.hpp"
-#include "datasets.hpp"
-#include "properties.hpp"
-
-// + standard includes
-#include <string>
-#include <vector>
 
 // *****************************************************************************
 // namespace extensions

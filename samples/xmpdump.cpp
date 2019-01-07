@@ -5,6 +5,8 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+
+#include "error.hpp"
 #include "image.hpp"
 
 int main(int argc, char* const argv[])

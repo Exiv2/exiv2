@@ -28,15 +28,9 @@
 
 // included header files
 #include "types.hpp"
-#include "futils.hpp"
 
 // + standard includes
-#include <string>
 #include <memory>       // for std::auto_ptr
-#include <fstream>      // write the temporary file
-#include <fcntl.h>      // _O_BINARY in FileIo::FileIo
-#include <ctime>        // timestamp for the name of temporary file
-#include <cstring>      // std::memcpy
 
 // The way to handle data from stdin or data uri path. If EXV_XPATH_MEMIO = 1,
 // it uses MemIo. Otherwises, it uses FileIo.

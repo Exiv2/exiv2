@@ -28,6 +28,7 @@
 #include "config.h"
 
 #ifdef EXV_ENABLE_VIDEO
+#include "error.hpp"
 #include "riffvideo.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"

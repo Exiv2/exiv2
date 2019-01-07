@@ -37,8 +37,6 @@
 // + standard includes
 #include <exception>
 #include <string>
-#include <iosfwd>
-#include <sstream>
 
 // *****************************************************************************
 // namespace extensions

@@ -35,10 +35,13 @@
 #include <string>
 #include <memory>
 #include <iostream>
-#include <cstring>
+#include <cstring>                      // std::memcpy
 #include <cassert>
+#include <fstream>                      // write the temporary file
+#include <fcntl.h>                      // _O_BINARY in FileIo::FileIo
 #include <cstdio>                       // for remove, rename
 #include <cstdlib>                      // for alloc, realloc, free
+#include <ctime>                        // timestamp for the name of temporary file
 #include <sys/types.h>                  // for stat, chmod
 #include <sys/stat.h>                   // for stat, chmod
 

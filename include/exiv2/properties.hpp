@@ -35,16 +35,8 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "types.hpp"
-#include "metadatum.hpp"
-#include "tags.hpp"
 #include "datasets.hpp"
 #include "rwlock.hpp"
-
-// + standard includes
-#include <string>
-#include <iosfwd>
-#include <memory>
 
 // *****************************************************************************
 // namespace extensions

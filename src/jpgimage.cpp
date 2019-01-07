@@ -47,6 +47,7 @@
 #include <cstring>
 #include <cassert>
 #include <stdexcept>
+#include <iostream>
 
 // *****************************************************************************
 // class member definitions

@@ -3,8 +3,10 @@
 #include "i18n.h"                // NLS support.
 #include "timegm.h"
 #include "unused.h"
+#include "error.hpp"
 
 #include <cassert>
+#include <ctime>
 
 // *****************************************************************************
 // local declarations

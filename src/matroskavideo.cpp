@@ -29,6 +29,7 @@
 
 #ifdef EXV_ENABLE_VIDEO
 #include "matroskavideo.hpp"
+#include "error.hpp"
 #include "futils.hpp"
 #include "basicio.hpp"
 #include "tags.hpp"
