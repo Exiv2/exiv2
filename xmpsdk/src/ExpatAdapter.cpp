@@ -484,7 +484,10 @@ static void CommentHandler ( void * userData, XMP_StringPtr comment )
 static void StartDoctypeDeclHandler ( void * userData, XMP_StringPtr doctypeName,
 									  XMP_StringPtr sysid, XMP_StringPtr pubid, int has_internal_subset )
 {
-	IgnoreParam(userData);
+	IgnoreParam(doctypeName);
+	IgnoreParam(sysid);
+	IgnoreParam(pubid);
+	IgnoreParam(has_internal_subset);
 
 	ExpatAdapter * thiz = (ExpatAdapter*)userData;
 
