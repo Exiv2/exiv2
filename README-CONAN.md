@@ -26,7 +26,8 @@ To build Exiv2 with conan, you will also need to install CMake.  https://cmake.o
     1. [Linux Notes](#2-1)
     2. [Visual Studio Notes](#2-2)
     3. [Cygwin Notes](#2-3)
-    4. [MinGW Notes](#2-4)
+    4. [MinGW/msys2 Notes](#2-4)
+    5. [Cross compiling on Linux for MinGW](#2-5)
 3. [Conan Architecture](#3)
     1. [conanfile.py](#3-1)
     2. [Conan Recipes](#3-2)
@@ -66,7 +67,7 @@ $ pip install conan --upgrade
 
 ```bash
 $ conan --version
-Conan version 1.4.1
+Conan version 1.11.2
 ```
 
 <div id="1-3">
@@ -311,11 +312,18 @@ Do not use conan on the Cygwin Platform.  To build Exiv2 for Cygwin use CMake wi
 [TOC](#TOC)
 <div id="2-4">
 
-### 2.4) MinGW Notes
+### 2.4) MinGW/msys2 Notes
 
-Team Exiv2 supports MinGW msys/2.  Team Exiv2 does not support MinGW msys/1.0.
+Team Exiv2 supports MinGW msys/2.  Team Exiv2 does not support MinGW msys/1.0 on Windows.
 
 As with Cygwin, we do not recommend using conan to build on the MinGW/msys2 platform.  We recommend installing dependences (expat, zlib) with platform tools or build/install from source.
+
+[TOC](#TOC)
+<div id="2-5">
+
+### 2.5) Cross compiling on Linux for MinGW
+
+See [README](README.md) for more information about cross-compiling on Linux for MinGW.
 
 [TOC](#TOC)
 <div id="3">
@@ -610,4 +618,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-11-22
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-01-09

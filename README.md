@@ -21,6 +21,7 @@
    11. [Debugging Exiv2](#2-11)
    12. [Building  Exiv2 with Clang and other build chains](#2-12)
    13. [Building  Exiv2 with ccache](#2-13)
+   14. [Cross-compiling Exiv2 on Linux for MinGW](#2-14)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -460,10 +461,8 @@ I personally use CLion which has excellent integration with CMake.  It will auto
 
 Visual Studio and Xcode can build debug or release builds without using the option **`-DCMAKE_BUILD_TYPE`** because the generated project files can build multiple types.  The option **`--config Debug`** can be specified on the command-line to specify the build type.  Alternatively, if you prefer to build in the IDE, the UI provides options to select the configuration and target.
 
-With the Unix Makefile generator, the targets can be listed:
-
 ```bash
-$ make help
+$ cmake --build . --target help
 The following are some of the valid targets for this Makefile:
 ... all (the default if no target is provided)
 ... clean
@@ -536,6 +535,75 @@ $ make
 ```
 
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
+
+[TOC](#TOC)
+<div id="2-14">
+### 2.14 Cross-compiling Exiv2 on Linux for MinGW
+
+From Exiv2 v0.27.1, we are providing _**"Experimental"**_ support for cross-compiling Exiv2.  You may build 64bit MinGW on Linux.  User feedback will be appreciated.
+
+Please be aware that MinGW is not identical to MinGW/msys2.  MinGW/msys2 is similar to Cygwin by using a compatibility library which enables Linux code to be built for Windows.  Applications built for MinGW/msys2 should be executed from the MinGW/msys2 bash shell as they expect file paths to be expressed in the MinGW/msys2 virtual file-system.  For example: _**`/home/rmills/Foo.jpg`**_
+
+MinGW is similar to MinGW/msys1.0 which creates native windows applications which expect file paths to be expressed in the Windows file-system. For example: _**`c:\Users\rmills\Foo.jpg`**_
+
+### Installing platform tools cross-compiled builds
+
+You will need to install the GCC/G++ cross-compiler and associated tools.
+You also need realpath on Linux because it is used by the build scripts.
+You will need the wine development tools to provide _**`<windows.h>`**_ and to provide the wine runtime environment to perform a "sanity test" on your build.
+
+```bash
+sudo apt install --yes realpath binutils-mingw-w64-x86-64 \
+     g++-mingw-w64-x86-64 gcc-mingw-w64-x86-64 mingw-w64-x86-64-dev libwine-dev
+```
+
+### Scripts to cross-compile Exiv2.
+
+Two build scripts are provided.
+
+The preferred script is _**`conan-build.sh`**_ which requires you to install Conan.  See [README-CONAN](README-CONAN.md) for more information about Conan.  Conan manages the building of dependencies, so you don't need to be concerned about expat, zlib or any other library dependencies.
+
+```bash
+$ cd <exiv2dir>/contrib/mingw-cross
+$ ./conan-build.sh
+.....
+$
+```
+The build output (exiv2.exe etc) is in `conan-build/bin`
+
+```
+rmills@rmillsmm-ubuntu:/Home/gnu/github/exiv2/test/exiv2/contrib/mingw-cross$ find . -name "exiv2.exe"
+./conan-build/bin/exiv2.exe
+rmills@rmillsmm-ubuntu:/Home/gnu/github/exiv2/test/exiv2/contrib/mingw-cross$
+```
+
+The other script is _**`build.sh`**_ and builds expat and zlib from source before building Exiv2.  You are expected to arrange your build tree as follows:
+
+```
+# drwxrwxr-x 30 rmills rmills 4096 Jan  2 12:02 exiv2           <-- exiv2 directory
+# drwxr-xr-x 14 rmills rmills 4096 Jan  1 19:26 expat-2.2.6     <-- expat source
+# drwxr-xr-x 16 rmills rmills 4096 Jan  1 18:48 zlib-1.2.11     <-- zlib source
+```
+
+```bash
+$ cd <exiv2dir>/contrib/mingw-cross
+$ ./build.sh
+.....
+$
+```
+
+The build output (exiv2.exe etc) is in `build/exiv2/bin`
+
+```
+rmills@rmillsmm-ubuntu:/Home/gnu/github/exiv2/test/exiv2/contrib/mingw-cross$ find . -name exiv2.exe -exec ls -l {} \;
+-rwxr-xr-x 1 rmills rmills 4694809 Jan  9 13:59 ./build/exiv2/bin/exiv2.exe
+rmills@rmillsmm-ubuntu:/Home/gnu/github/exiv2/test/exiv2/contrib/mingw-cross$
+```
+
+### Testing cross-compiled builds
+
+A basic "sanity" test is performed on the build using wine.  To run the test suite, please follow the notes for testing Visual Studio builds.  [Running tests on Visual Studio builds](#4-2)
+
 
 [TOC](#TOC)
 <div id="3">
@@ -825,4 +893,4 @@ cmd
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-12-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2019-01-09
