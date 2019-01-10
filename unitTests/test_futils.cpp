@@ -24,6 +24,8 @@ TEST(strError, returnSuccessAfterClosingFile)
     const char * expectedString = "No error (errno = 0)";
 #elif __APPLE__
     const char * expectedString = "Undefined error: 0 (errno = 0)";
+#elif ! defined(__GLIBC__)
+    const char * expectedString = "No error information (errno = 0)";
 #else
     const char * expectedString = "Success (errno = 0)";
 #endif
@@ -45,6 +47,8 @@ TEST(strError, doNotRecognizeUnknownError)
     const char * expectedString = "Unknown error (errno = 9999)";
 #elif __APPLE__
     const char * expectedString = "Unknown error: 9999 (errno = 9999)";
+#elif ! defined(__GLIBC__)
+    const char * expectedString = "No error information (errno = 9999)";
 #else
     const char * expectedString = "Unknown error 9999 (errno = 9999)";
 #endif
