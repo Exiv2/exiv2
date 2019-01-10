@@ -22,7 +22,6 @@ target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
         GTest::GTest
-        GTest::Main
 )
 
 # ZLIB is used in exiv2lib_int.
