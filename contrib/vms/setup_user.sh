@@ -2,8 +2,6 @@
 
 set -e
 
-source /vagrant/utils.source
-
 function clone_exiv2() {
     git clone https://github.com/Exiv2/exiv2.git
 
@@ -12,10 +10,10 @@ function clone_exiv2() {
     cd ..
 }
 
-distro_id=$(get_distro_id)
+distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
-    'debian' | 'ubuntu' | 'fedora' | 'opensuse' | 'opensuse-tumbleweed')
+    'debian' | 'ubuntu' | 'fedora' | 'opensuse' | 'opensuse-tumbleweed' | 'alpine')
         PIP=pip3
         ;;
 

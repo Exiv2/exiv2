@@ -32,7 +32,7 @@ stages:
   - deploy
 
 Fedora:
-  image: fedora:28
+  image: fedora:29
   <<: *default_config
   <<: *distro_build
 
@@ -61,8 +61,13 @@ OpenSUSE:
   <<: *default_config
   <<: *distro_build
 
+Alpine:
+  image: alpine:3.8
+  <<: *default_config
+  <<: *distro_build
+
 Install:
-  image: fedora:28
+  image: fedora:29
   stage: deploy
   <<: *default_config
   script:
@@ -74,7 +79,7 @@ Install:
     - EXIV2_BINDIR=/usr/bin/ make tests
 
 pages:
-  image: fedora:28
+  image: fedora:29
   stage: deploy
   <<: *default_config
   script:

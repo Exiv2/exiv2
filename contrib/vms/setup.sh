@@ -2,9 +2,7 @@
 
 set -e
 
-source /vagrant/utils.source
-
-distro_id=$(get_distro_id)
+distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
@@ -27,6 +25,12 @@ case "$distro_id" in
 
     'opensuse' | 'opensuse-tumbleweed')
         zypper --non-interactive install python3-pip git
+        ;;
+
+    'alpine')
+        apk add python3 git python3-dev
+        python3 -m ensurepip
+        pip3 install --upgrade pip setuptools
         ;;
 
     *)
