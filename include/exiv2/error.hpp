@@ -260,7 +260,7 @@ namespace Exiv2 {
              provided to print errors to a stream.
      */
     template<typename charT>
-    class BasicError : public AnyError {
+    class EXIV2API BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
