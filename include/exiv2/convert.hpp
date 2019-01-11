@@ -30,6 +30,8 @@
 #ifndef CONVERT_HPP_
 #define CONVERT_HPP_
 
+#include "exiv2lib_export.h"
+
 // included header files
 #include "config.h"
 

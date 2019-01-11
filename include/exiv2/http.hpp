@@ -1,12 +1,12 @@
 #ifndef HTTP_HPP_
 #define HTTP_HPP_
 
-#include "config.h"
-#include <string>
-#include <map>
-#include <algorithm>
+#include "exiv2lib_export.h"
 
 #include "datasets.hpp"
+
+#include <string>
+
 
 namespace Exiv2 {
     /*!

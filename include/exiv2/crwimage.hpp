@@ -30,14 +30,10 @@
 #define CRWIMAGE_HPP_
 
 // *****************************************************************************
-// included header files
-#include "types.hpp"
-#include "image.hpp"
-#include "basicio.hpp"
+#include "exiv2lib_export.h"
 
-// + standard includes
-#include <iosfwd>
-#include <string>
+// included header files
+#include "image.hpp"
 
 // *****************************************************************************
 // namespace extensions

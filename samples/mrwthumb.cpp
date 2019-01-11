@@ -2,10 +2,12 @@
 // mrwthumb.cpp
 // Sample program to extract a Minolta thumbnail from the makernote
 
-#include <cassert>
 #include "error.hpp"
 #include "exif.hpp"
 #include "image.hpp"
+
+#include <cassert>
+#include <iostream>
 
 int main(int argc, char* const argv[])
 {

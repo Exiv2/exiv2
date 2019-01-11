@@ -24,8 +24,9 @@
 #define IMAGE_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
-#include "types.hpp"
 #include "basicio.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
