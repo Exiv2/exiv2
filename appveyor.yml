@@ -82,9 +82,9 @@ build_script:
     - cmd: md build
     - cmd: cd build
     - cmd: call "%VCVARS%" x86_amd64
-    - cmd: conan install .. --build missing
+    - cmd: conan install .. -o webready=True --build missing
     - cmd: echo %CMAKE_GENERATOR%
-    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: cmake --build . --config Release
     - cmd: cmake --build . --config Release --target install
     - cmd: cd bin
