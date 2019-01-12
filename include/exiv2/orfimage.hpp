@@ -28,14 +28,10 @@
 #define ORFIMAGE_HPP_
 
 // *****************************************************************************
-// included header files
-#include "image.hpp"
-#include "tiffimage.hpp"
-#include "basicio.hpp"
-#include "types.hpp"
+#include "exiv2lib_export.h"
 
-// + standard includes
-#include <string>
+// included header files
+#include "tiffimage.hpp"
 
 // *****************************************************************************
 // namespace extensions

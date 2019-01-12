@@ -28,13 +28,9 @@
 #define PREVIEW_HPP_
 
 // *****************************************************************************
-// included header files
-#include "types.hpp"
-#include "image.hpp"
-#include "basicio.hpp"
+#include "exiv2lib_export.h"
 
-#include <string>
-#include <vector>
+#include "image.hpp"
 
 // *****************************************************************************
 // namespace extensions

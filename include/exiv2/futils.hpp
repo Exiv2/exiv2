@@ -28,8 +28,8 @@
 #ifndef FUTILS_HPP_
 #define FUTILS_HPP_
 
-#include "config.h"
 #include "exiv2lib_export.h"
+#include "config.h"
 
 #include <string>
 

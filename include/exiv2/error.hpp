@@ -29,14 +29,14 @@
 #define ERROR_HPP_
 
 // *****************************************************************************
+#include "exiv2lib_export.h"
+
 // included header files
 #include "types.hpp"
 
 // + standard includes
 #include <exception>
 #include <string>
-#include <iosfwd>
-#include <sstream>
 
 // *****************************************************************************
 // namespace extensions

@@ -1,5 +1,6 @@
 #include "tiffimage_int.hpp"
 
+#include "error.hpp"
 #include "makernote_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.

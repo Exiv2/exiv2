@@ -29,14 +29,10 @@
 #define GIFIMAGE_HPP_
 
 // *****************************************************************************
-// included header files
-#include "exif.hpp"
-#include "iptc.hpp"
-#include "image.hpp"
-#include "types.hpp"
+#include "exiv2lib_export.h"
 
-// + standard includes
-#include <string>
+// included header files
+#include "image.hpp"
 
 // *****************************************************************************
 // namespace extensions

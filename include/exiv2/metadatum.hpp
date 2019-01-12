@@ -32,13 +32,10 @@
 #define METADATUM_HPP_
 
 // *****************************************************************************
-// included header files
-#include "types.hpp"
-#include "value.hpp"
+#include "exiv2lib_export.h"
 
-// + standard includes
-#include <string>
-#include <memory>
+// included header files
+#include "value.hpp"
 
 // *****************************************************************************
 // namespace extensions
