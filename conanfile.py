@@ -29,7 +29,7 @@ class Exiv2Conan(ConanFile):
         if self.options.unitTests:
             self.requires('gtest/1.8.1@bincrafters/stable')
 
-        if self.options.webready:
+        if self.options.webready and not os_info.is_macos:
             self.requires('libcurl/7.61.1@bincrafters/stable')
 
         if self.options.xmp:
