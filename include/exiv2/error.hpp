@@ -315,7 +315,7 @@ namespace Exiv2 {
         std::basic_string<charT> arg3_;         //!< Third argument
         std::string              msg_;          //!< Complete error message
 #ifdef EXV_UNICODE_PATH
-    std::wstring             wmsg_;         //!< Complete error message as a wide string
+        std::wstring             wmsg_;         //!< Complete error message as a wide string
 #endif
     }; // class BasicError
 
@@ -389,6 +389,7 @@ namespace Exiv2 {
         return wmsg_.c_str();
     }
 #endif
+
 #ifdef _MSC_VER
 # pragma warning( default : 4275 )
 #endif
