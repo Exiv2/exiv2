@@ -16,7 +16,7 @@ class Exiv2Conan(ConanFile):
                       )
 
     def configure(self):
-        self.options['libcurl'].shared = False
+        self.options['libcurl'].shared = True
         self.options['libcurl'].with_openssl = True
         self.options['gtest'].shared = False
 
@@ -29,8 +29,8 @@ class Exiv2Conan(ConanFile):
         if self.options.unitTests:
             self.requires('gtest/1.8.1@bincrafters/stable')
 
-        if self.options.webready:
-            self.requires('libcurl/7.60.0@bincrafters/stable')
+        if self.options.webready and not os_info.is_macos:
+            self.requires('libcurl/7.61.1@bincrafters/stable')
 
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
