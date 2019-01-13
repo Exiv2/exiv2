@@ -1,5 +1,6 @@
 from conans import ConanFile
 from conans.tools import os_info
+from conans.model.version import Version
 
 class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
@@ -27,7 +28,10 @@ class Exiv2Conan(ConanFile):
             self.requires('libiconv/1.15@bincrafters/stable')
 
         if self.options.unitTests:
-            self.requires('gtest/1.8.0@bincrafters/stable')
+            if self.settings.compiler == "Visual Studio" and Version(self.settings.compiler.version.value) <= "12":
+                self.requires('gtest/1.8.0@bincrafters/stable')
+            else:
+                self.requires('gtest/1.8.1@bincrafters/stable')
 
         if self.options.webready and not os_info.is_macos:
             self.requires('libcurl/7.61.1@bincrafters/stable')
