@@ -1,15 +1,19 @@
 language: cpp
 
+git:
+  quiet: true
+  depth: 1
+
 matrix:
   include:
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: required
       compiler: gcc
       env: COVERAGE=1 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DBUILD_WITH_COVERAGE=ON -DEXIV2_ENABLE_CURL=ON"
 
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: required
       compiler: gcc
       env:
@@ -17,7 +21,7 @@ matrix:
         - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_CURL=ON"
 
     - os: linux
-      dist: trusty
+      dist: xenial
       sudo: required
       compiler: clang
       env: CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_CURL=ON"
