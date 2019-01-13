@@ -25,7 +25,7 @@ fi
 
 
 mkdir build && cd build
-conan install .. --build missing --profile release
+conan install .. -o webready=True --build missing
 
 cmake ${CMAKE_OPTIONS} -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install ..
 make -j2
