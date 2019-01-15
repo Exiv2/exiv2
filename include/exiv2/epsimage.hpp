@@ -38,6 +38,7 @@
 #include "exiv2lib_export.h"
 
 // included header files
+#include "exiv2lib_compiler_detection.h"
 #include "image.hpp"
 
 // *****************************************************************************
@@ -56,7 +57,7 @@ namespace Exiv2
     /*!
       @brief Class to access EPS images.
      */
-    class EXIV2API EpsImage : public Image {
+    class EXIV2_DEPRECATED EXIV2API EpsImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -114,10 +115,10 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2_DEPRECATED EXIV2API Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a EPS image.
-    EXIV2API bool isEpsType(BasicIo& iIo, bool advance);
+    EXIV2_DEPRECATED EXIV2API bool isEpsType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

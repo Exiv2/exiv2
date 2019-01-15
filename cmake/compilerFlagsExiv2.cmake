@@ -3,6 +3,7 @@
 if (MINGW OR UNIX) # MINGW, Linux, APPLE, CYGWIN
     if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=deprecated-declarations")
     endif ()
 endif()
 
