@@ -234,6 +234,7 @@ install(TARGETS exiv2lib EXPORT exiv2Config
 install(FILES
     ${CMAKE_BINARY_DIR}/exv_conf.h
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
+    ${CMAKE_BINARY_DIR}/exiv2lib_compiler_detection.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 install(EXPORT exiv2Config DESTINATION "share/exiv2/cmake")
