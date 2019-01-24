@@ -113,6 +113,8 @@ namespace Exiv2
         void doWriteMetadata(BasicIo& oIo);
         //@}
 
+        std::string profileName_;
+
     }; // class PngImage
 
 // *****************************************************************************
