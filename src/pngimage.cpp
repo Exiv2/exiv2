@@ -215,9 +215,7 @@ namespace Exiv2 {
         if (io_->open() != 0) {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
-        // Ensure that this is the correct image type
         if (!isPngType(*io_, true)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "PNG");
         }
 
@@ -401,10 +399,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        // Ensure that this is the correct image type
-        if (!isPngType(*io_, true))
-        {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+        if (!isPngType(*io_, true)) {
             throw Error(kerNotAnImage, "PNG");
         }
         clearMetadata();
@@ -563,10 +558,7 @@ namespace Exiv2 {
         std::cout << "Exiv2::PngImage::doWriteMetadata: tmp file created " << outIo.path() << "\n";
 #endif
 
-        // Ensure that this is the correct image type
-        if (!isPngType(*io_, true))
-        {
-            if (io_->error() || io_->eof()) throw Error(kerInputDataReadFailed);
+        if (!isPngType(*io_, true)) {
             throw Error(kerNoImageInInputData);
         }
 
@@ -768,6 +760,9 @@ namespace Exiv2 {
 
     bool isPngType(BasicIo& iIo, bool advance)
     {
+        if (iIo.error() || iIo.eof()) {
+            throw Error(kerInputDataReadFailed);
+        }
         const int32_t len = 8;
         byte buf[len];
         iIo.read(buf, len);
