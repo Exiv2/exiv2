@@ -391,6 +391,9 @@ namespace Exiv2 {
 
     void readChunk(DataBuf& buffer, BasicIo& io)
     {
+#ifdef DEBUG
+        std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
+#endif
         long bufRead = io.read(buffer.pData_, buffer.size_);
         if (io.error()) {
             throw Error(kerFailedToReadImageData);
@@ -420,111 +423,75 @@ namespace Exiv2 {
 
         while(!io_->eof())
         {
-#ifdef DEBUG
-            std::cout << "Exiv2::PngImage::readMetadata: Position: " << io_->tell() << std::endl;
-#endif
             std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
             readChunk(cheaderBuf, *io_); // Read chunk header.
 
             // Decode chunk data length.
-            uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
+            uint32_t chunkLength = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
             long pos = io_->tell();
             if (pos == -1 ||
-                dataOffset > uint32_t(0x7FFFFFFF) ||
-                static_cast<long>(dataOffset) > imgSize - pos) {
+                chunkLength > uint32_t(0x7FFFFFFF) ||
+                static_cast<long>(chunkLength) > imgSize - pos) {
                 throw Exiv2::Error(kerFailedToReadImageData);
             }
 
+            std::string chunkType(reinterpret_cast<char *>(cheaderBuf.pData_) + 4, 4);
 #ifdef DEBUG
-            std::string chunkName(reinterpret_cast<char *>(cheaderBuf.pData_) + 4, 4);
-            std::cout << "Exiv2::PngImage::readMetadata: chunk name: " << chunkName << std::endl;
+            std::cout << "Exiv2::PngImage::readMetadata: chunk type: " << chunkType
+                      << " length: " << chunkLength << std::endl;
 #endif
 
+            /// \todo analyse remaining chunks of the standard
             // Perform a chunk triage for item that we need.
-            if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4) ||
-                !memcmp(cheaderBuf.pData_ + 4, "IHDR", 4) ||
-                !memcmp(cheaderBuf.pData_ + 4, "tEXt", 4) ||
-                !memcmp(cheaderBuf.pData_ + 4, "zTXt", 4) ||
-                !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4) ||
-                !memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
-            {
-                DataBuf cdataBuf(dataOffset);
-                readChunk(cdataBuf, *io_); // Extract chunk data.
+            if (chunkType == "IEND" || chunkType == "IHDR" || chunkType == "tEXt" || chunkType == "zTXt" ||
+                chunkType == "iTXt" || chunkType == "iCCP") {
+                DataBuf chunkData(chunkLength);
+                readChunk(chunkData, *io_);  // Extract chunk data.
 
-                if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4))
-                {
-                    // Last chunk found: we stop parsing.
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: Found IEND chunk with length: " << dataOffset << std::endl;
-#endif
-                    return;
-                }
-                else if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4))
-                {
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: Found IHDR chunk with length: " << dataOffset << std::endl;
-#endif
-                    if (cdataBuf.size_ >= 8) {
-                        PngChunk::decodeIHDRChunk(cdataBuf, &pixelWidth_, &pixelHeight_);
-                    }
-                }
-                else if (!memcmp(cheaderBuf.pData_ + 4, "tEXt", 4))
-                {
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: Found tEXt chunk with length: " << dataOffset << std::endl;
-#endif
-                    PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::tEXt_Chunk);
-                }
-                else if (!memcmp(cheaderBuf.pData_ + 4, "zTXt", 4))
-                {
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: Found zTXt chunk with length: " << dataOffset << std::endl;
-#endif
-                    PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::zTXt_Chunk);
-                }
-                else if (!memcmp(cheaderBuf.pData_ + 4, "iTXt", 4))
-                {
-#ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: Found iTXt chunk with length: " << dataOffset << std::endl;
-#endif
-                    PngChunk::decodeTXTChunk(this, cdataBuf, PngChunk::iTXt_Chunk);
-                }
-                else if (!memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
-                {
+                if (chunkType == "IEND") {
+                    return;  // Last chunk found: we stop parsing.
+                } else if (chunkType == "IHDR" && chunkData.size_ >= 8) {
+                    PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
+                } else if (chunkType == "tEXt") {
+                    PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk);
+                } else if (chunkType == "zTXt") {
+                    PngChunk::decodeTXTChunk(this, chunkData, PngChunk::zTXt_Chunk);
+                } else if (chunkType == "iTXt") {
+                    PngChunk::decodeTXTChunk(this, chunkData, PngChunk::iTXt_Chunk);
+                } else if (chunkType == "iCCP") {
                     // The ICC profile name can vary from 1-79 characters.
                     uint32_t iccOffset = 0;
-                    while (iccOffset < 80 && iccOffset < dataOffset) {
-
-                        const byte* profileName = cdataBuf.pData_ + iccOffset;
-                        ++iccOffset;
-
-                        if (*profileName == 0x00)
+                    while (iccOffset < 80 && iccOffset < chunkLength) {
+                         const byte* profileName = chunkData.pData_ + iccOffset;
+                         ++iccOffset;
+                         if (*profileName == 0x00)
                             break;
                     }
-
                     ++iccOffset; // +1 = 'compressed' flag
 
-                    zlibToDataBuf(cdataBuf.pData_ +iccOffset,dataOffset-iccOffset,iccProfile_);
+                    zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: Found iCCP chunk length: " << dataOffset  << std::endl;
-                    std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ : " << iccProfile_.size_ << std::endl;
+                    std::cout << "Exiv2::PngImage::readMetadata: profile name size: " << iccOffset - 2 << std::endl;
+                    std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ (uncompressed) : "
+                              << iccProfile_.size_ << std::endl;
 #endif
                 }
 
-                // Set dataOffset to null like chunk data have been extracted previously.
-                dataOffset = 0;
+                // Set chunkLength to 0 in case we have read a supported chunk type. Otherwise, we need to seek the
+                // file to the next chunk position.
+                chunkLength = 0;
             }
+
 
             // Move to the next chunk: chunk data size + 4 CRC bytes.
 #ifdef DEBUG
-            std::cout << "Exiv2::PngImage::readMetadata: Seek to offset: " << dataOffset + 4 << std::endl;
+            std::cout << "Exiv2::PngImage::readMetadata: Seek to offset: " << chunkLength + 4 << std::endl;
 #endif
-            io_->seek(dataOffset + 4 , BasicIo::cur);
+            io_->seek(chunkLength + 4 , BasicIo::cur);
             if (io_->error() || io_->eof()) {
                 throw Error(kerFailedToReadImageData);
             }
         }
-
     } // PngImage::readMetadata
 
     void PngImage::writeMetadata()
