@@ -462,16 +462,16 @@ namespace Exiv2 {
                     // The ICC profile name can vary from 1-79 characters.
                     uint32_t iccOffset = 0;
                     while (iccOffset < 80 && iccOffset < chunkLength) {
-                         const byte* profileName = chunkData.pData_ + iccOffset;
-                         ++iccOffset;
-                         if (*profileName == 0x00)
+                         if (chunkData.pData_[iccOffset++] ==  0x00) {
                             break;
+                         }
                     }
+                    profileName_ = std::string(reinterpret_cast<char *>(chunkData.pData_), iccOffset-1);
                     ++iccOffset; // +1 = 'compressed' flag
 
                     zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
 #ifdef DEBUG
-                    std::cout << "Exiv2::PngImage::readMetadata: profile name size: " << iccOffset - 2 << std::endl;
+                    std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName_ << std::endl;
                     std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ (uncompressed) : "
                               << iccProfile_.size_ << std::endl;
 #endif
@@ -619,25 +619,26 @@ namespace Exiv2 {
                     DataBuf compressed;
                     if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
 
-                        const byte* header   = (const byte*) "ICC PROFILE\0\0" ; // \0 = default compression
+                        const byte* nullComp = (const byte*) "\0\0";
                         const byte*  type    = (const byte*) "iCCP";
-                        uint32_t headerLen   = 13 ;
-                        uint32_t typeLen     = 4;
-                        uint32_t chunkLength = headerLen + compressed.size_ ;
+                        const long   nameLength  = profileName_.size();
+                        const uint32_t chunkLength = profileName_.size() + 2 + compressed.size_ ;
                         byte     length[4];
                         ul2Data (length,chunkLength,bigEndian);
 
                         // calculate CRC
                         uLong   tmp = crc32(0L, Z_NULL, 0);
-                        tmp         = crc32(tmp, (const Bytef*)type             ,typeLen);
-                        tmp         = crc32(tmp, (const Bytef*)header           ,headerLen);
+                        tmp         = crc32(tmp, (const Bytef*)type, 4);
+                        tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
+                        tmp         = crc32(tmp, (const Bytef*)nullComp, 2);
                         tmp         = crc32(tmp, (const Bytef*)compressed.pData_,compressed.size_);
                         byte    crc[4];
                         ul2Data(crc, tmp, bigEndian);
 
-                        if( outIo.write(length,4)         != 4
-                        ||  outIo.write(type  ,typeLen)   != (long) typeLen
-                        ||  outIo.write(header,headerLen) != (long) headerLen
+                        if( outIo.write(length, 4) != 4
+                        ||  outIo.write(type, 4) != 4
+                        ||  outIo.write(reinterpret_cast<const byte*>(profileName_.data()), nameLength) != nameLength
+                        ||  outIo.write(nullComp,2) != 2
                         ||  outIo.write (compressed.pData_,compressed.size_) != compressed.size_
                         ||  outIo.write(crc,4)            != 4
                         ){
@@ -645,7 +646,7 @@ namespace Exiv2 {
                         }
 #ifdef DEBUG
                         std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
-                        << " chunk (length: " << compressed.size_ + headerLen << ")" << std::endl;
+                        << " chunk (length: " << compressed.size_ + chunkLength << ")" << std::endl;
 #endif
                     }
                 }
