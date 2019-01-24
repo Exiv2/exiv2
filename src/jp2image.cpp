@@ -23,7 +23,6 @@
 */
 
 // *****************************************************************************
-// #define DEBUG
 
 // included header files
 #include "config.h"
@@ -43,8 +42,7 @@
 #include <cstring>
 #include <iostream>
 #include <cassert>
-
-// #define DEBUG
+#include <cstdio>
 
 // JPEG-2000 box types
 const uint32_t kJp2BoxTypeJp2Header   = 0x6a703268; // 'jp2h'
