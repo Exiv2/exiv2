@@ -389,6 +389,17 @@ namespace Exiv2 {
         }
     }
 
+    void readChunk(DataBuf& buffer, BasicIo& io)
+    {
+        long bufRead = io.read(buffer.pData_, buffer.size_);
+        if (io.error()) {
+            throw Error(kerFailedToReadImageData);
+        }
+        if (bufRead != buffer.size_) {
+            throw Error(kerInputDataReadFailed);
+        }
+    }
+
     void PngImage::readMetadata()
     {
 #ifdef DEBUG
@@ -405,23 +416,15 @@ namespace Exiv2 {
         clearMetadata();
 
         const long imgSize = (long) io_->size();
-        DataBuf cheaderBuf(8);       // Chunk header size : 4 bytes (data size) + 4 bytes (chunk type).
+        DataBuf cheaderBuf(8);       // Chunk header: 4 bytes (data size) + 4 bytes (chunk type).
 
         while(!io_->eof())
         {
-            // Read chunk header.
-
 #ifdef DEBUG
             std::cout << "Exiv2::PngImage::readMetadata: Position: " << io_->tell() << std::endl;
 #endif
             std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
-            long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
-            if (io_->error()) {
-                throw Error(kerFailedToReadImageData);
-            }
-            if (bufRead != cheaderBuf.size_) {
-                throw Error(kerInputDataReadFailed);
-            }
+            readChunk(cheaderBuf, *io_); // Read chunk header.
 
             // Decode chunk data length.
             uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
@@ -445,16 +448,8 @@ namespace Exiv2 {
                 !memcmp(cheaderBuf.pData_ + 4, "iTXt", 4) ||
                 !memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
             {
-                // Extract chunk data.
-
                 DataBuf cdataBuf(dataOffset);
-                bufRead = io_->read(cdataBuf.pData_, dataOffset);
-                if (io_->error()) {
-                    throw Error(kerFailedToReadImageData);
-                }
-                if (bufRead != (long)dataOffset) {
-                    throw Error(kerInputDataReadFailed);
-                }
+                readChunk(cdataBuf, *io_); // Extract chunk data.
 
                 if (!memcmp(cheaderBuf.pData_ + 4, "IEND", 4))
                 {
