@@ -310,7 +310,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
       76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9197 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+    9197 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
  1168394 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
  1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
  1175578 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -329,7 +329,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+    9154 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
  1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
  1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
  1175535 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -347,7 +347,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+    9154 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
  1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
  1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
  1175535 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -366,7 +366,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
       76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9197 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+    9197 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
  1168394 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
  1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
  1175578 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -385,7 +385,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  | 1159185 | ICC PROFILE..x...uP.[..9@.HB.D | 0x4a90a7d7
+    9154 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
  1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
  1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
  1175535 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -403,7 +403,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  |     293 | ICC PROFILE..x.c``2ptqre.``..+ | 0x5116d227
+    9154 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
     9459 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
    16627 | gAMA  |       4 | ....                           | 0x0bfc6105
    16643 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -422,7 +422,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
       76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9197 | iCCP  |     293 | ICC PROFILE..x.c``2ptqre.``..+ | 0x5116d227
+    9197 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
     9502 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
    16670 | gAMA  |       4 | ....                           | 0x0bfc6105
    16686 | bKGD  |       6 | ......                         | 0xa0bda793
@@ -441,7 +441,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
     8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  |     293 | ICC PROFILE..x.c``2ptqre.``..+ | 0x5116d227
+    9154 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
     9459 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
    16627 | gAMA  |       4 | ....                           | 0x0bfc6105
    16643 | bKGD  |       6 | ......                         | 0xa0bda793
