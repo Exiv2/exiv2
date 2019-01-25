@@ -621,8 +621,8 @@ namespace Exiv2 {
 
                         const byte* nullComp = (const byte*) "\0\0";
                         const byte*  type    = (const byte*) "iCCP";
-                        const long   nameLength  = profileName_.size();
-                        const uint32_t chunkLength = profileName_.size() + 2 + compressed.size_ ;
+                        const uint32_t nameLength  = static_cast<uint32_t>(profileName_.size());
+                        const uint32_t chunkLength = nameLength + 2 + compressed.size_ ;
                         byte     length[4];
                         ul2Data (length,chunkLength,bigEndian);
 
