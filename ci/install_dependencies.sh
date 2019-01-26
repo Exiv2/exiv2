@@ -53,7 +53,12 @@ case "$distro_id" in
         yum clean all
         yum -y install gcc-c++ clang cmake3 make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36 dos2unix
         # symlink up to date versions of python & cmake to 'default' names
-        ln -s /usr/bin/python36 /usr/bin/python3
+        if [ ! -e /usr/bin/python3 ]; then
+            ln -s /usr/bin/python36 /usr/bin/python3
+        elif [ -L /usr/bin/python3 ]; then
+            rm /usr/bin/python3
+            ln -s /usr/bin/python36 /usr/bin/python3
+        fi
         mv /bin/cmake /bin/.cmake.old
         ln -s /bin/cmake3 /bin/cmake
         ;;
