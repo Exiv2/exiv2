@@ -296,7 +296,7 @@ namespace Exiv2 {
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        const wchar_t* wwhat() const noexcept override;
+        const wchar_t* wwhat() const noexcept;
 #endif
         //@}
 
