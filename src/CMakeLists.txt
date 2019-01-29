@@ -239,9 +239,9 @@ install(FILES
     ${CMAKE_BINARY_DIR}/exiv2lib_compiler_detection.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
-install(EXPORT exiv2Config DESTINATION "share/exiv2/cmake")
+install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/exiv2/cmake")
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "share/exiv2/cmake")
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/exiv2/cmake")
 
 # ******************************************************************************
 # exiv2 application
