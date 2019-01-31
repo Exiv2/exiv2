@@ -2,7 +2,8 @@
 |:-------------:|:-------------:|:-----:|:------:|
 | [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/master?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/master) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/master/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/master) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) |
 
-<name id="TOC">
+<div id="TOC">
+
 ### TABLE OF CONTENTS
 
 1. [Welcome to Exiv2](#1)
@@ -34,7 +35,8 @@
     4. [Cygwin](#5-4)
     5. [Microsoft Visual C++](#5-5)
 
-<name id="1">
+<div id="1">
+
 # Welcome to Exiv2
 
 ![Exiv2](exiv2.png)
@@ -45,7 +47,7 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 | Exiv2 Resource              | Location |
 |:------                      |:----     |
 | Project Homepage            | [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2) |
-| Downloads and Documentation | [http://exiv2.dyndns.org](http://exiv2.dyndns.org:8080) |
+| Downloads and Documentation | [http://exiv2.dyndns.org](http://exiv2.dyndns.org) |
 | BuildServer:                | [http://exiv2.dyndns.org:8080](http://exiv2.dyndns.org:8080) |
 | License (GPLv2)             | [license.txt](license.txt) |
 | CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
@@ -53,12 +55,14 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 The file ReadMe.txt in a Build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
 
 [TOC](#TOC)
-<name id="2">
+<div id="2">
+
 ## 2 Building, Installing, Using and Uninstalling Exiv2
 
 You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and a C++11 compiler.
 
-<name id="2-1">
+<div id="2-1">
+
 ### 2.1 Build, Install, Use, Uninstall Exiv2 on a UNIX-like system
 
 ```bash
@@ -91,14 +95,16 @@ $ sudo make uninstall
 ```
 
 [TOC](#TOC)
-<name id="2-2">
+<div id="2-2">
+
 ### 2.2 Build and Install Exiv2 with Visual Studio
 
 We recommend that you use conan with CMake to build Exiv2 with Visual Studio.
 See [README-CONAN](README-CONAN.md) for more information
 
 [TOC](#TOC)
-<name id="2-3">
+<div id="2-3">
+
 ### 2.3 Build options
 
 There are two groups of CMake options.  There are many options defined by CMake.  Here are some particularly useful options:
@@ -125,7 +131,8 @@ $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=OFF
 ```
 
 [TOC](#TOC)
-<name id="2-4">
+<div id="2-4">
+
 ### 2.4 Dependencies
 
 The following Exiv2 features are enabled by default and require external libraries. You can disable the dependency with CMake options:
@@ -145,7 +152,8 @@ See [README-CONAN](README-CONAN.md) for more information.
 
 [TOC](#TOC)
 
-<name id="2-5">
+<div id="2-5">
+
 ### 2.5 Building and linking your code with Exiv2
 
 There are detailed platform notes about linking code in releasenotes/platform/ReadMe.txt
@@ -171,7 +179,8 @@ $ g++ -std=c++11 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lex
 ```
 
 [TOC](#TOC)
-<name id="2-6">
+<div id="2-6">
+
 ### 2.6 Consuming Exiv2 with CMake
 
 When exiv2 is installed, the files required to consume Exiv2 are installed in `${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/`
@@ -205,7 +214,8 @@ The default cmake Generator is usually appropriate for your platform.  Additiona
 
 
 [TOC](#TOC)
-<name id="2-7">
+<div id="2-7">
+
 ### 2.7 Using pkg-config to compile and link your code with Exiv2
 
 When exiv2 is installed, the file exiv2.pc used by pkg-config is installed in `${CMAKE_INSTALL_PREFIX}/lib/pkgconfig`  You will need to set the following in your environment:
@@ -229,7 +239,8 @@ g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 ```
 
 [TOC](#TOC)
-<name id="2-8">
+<div id="2-8">
+
 ### 2.8 Localisation
 
 Localisation is supported on a UNIX-like platform:  Linux, MacOS-X, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
@@ -304,7 +315,8 @@ Open a new issue on https://github.com/exiv2/exiv2 and attach the file po/xy/exi
 
 
 [TOC](#TOC)
-<name id="2-9">
+<div id="2-9">
+
 ### 2.9 Building Exiv2 Documentation
 
 Building documentation requires installing special tools.  You will probably prefer to
@@ -328,7 +340,8 @@ To build the documentation, you must install the following products:
 | doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [http://www.doxygen.org/](http://www.doxygen.org/)<br/>[http://www.graphviz.org/](http://www.graphviz.org/)<br/>[http://www.python.org/](http://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
 
 [TOC](#TOC)
-<name id="2-10">
+<div id="2-10">
+
 ### 2.10 Building Exiv2 Packages
 
 To enable building of packages, use the CMake option **`-DEXIV2\_TEAM\_PACKAGING=On`**.
@@ -369,7 +382,8 @@ You may prefer to run `$ cmake --build . --config Release --target package_sourc
 
 
 [TOC](#TOC)
-<name id="2-11">
+<div id="2-11">
+
 ### 2.11 Debugging Exiv2
 
 1) Generating and installing a debug library
@@ -459,7 +473,8 @@ The following are some of the valid targets for this Makefile:
 ```
 
 [TOC](#TOC)
-<name id="2-12">
+<div id="2-12">
+
 ### 2.12 Building Exiv2 with **clang** and other build chains
 
 1) On Linux
@@ -496,7 +511,8 @@ I have been unable to get clang to work on any of those platforms.
 I've never succeeded in getting this to work.  I use different VMs for Linux 32 and 64 bit.  I've documented how to set up Cygwin and MinGW/msys2 for 64 and 32 bit builds in [README-CONAN](README-CONAN.md)
 
 [TOC](#TOC)
-<name id="2-13">
+<div id="2-13">
+
 ### 2.13 Building Exiv2 with ccache
 
 To speed up compilation, the utility ccache can be installed to cache the output of the compiler.  This greatly speeds up the build when you frequently built code that has not been modified.
@@ -522,13 +538,15 @@ $ make
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
 
 [TOC](#TOC)
-<name id="3">
+<div id="3">
+
 ## 3 License and Support
 
 All project resources are accessible from the project website.
     https://github.com/Exiv2/exiv2
 
-<name id="3-1">
+<div id="3-1">
+
 ### 3.1 License
 
 Copyright (C) 2004-2018 Exiv2 authors.
@@ -550,17 +568,20 @@ Foundation, Inc., 51 Franklin Street, 5th Floor, Boston,
 MA 02110-1301 USA.
 
 [TOC](#TOC)
-<name id="3-2">
+<div id="3-2">
+
 ### 3.2 Support
 For new bug reports and feature requests, please open an issue in Github.
 
 [TOC](#TOC)
-<name id="4">
+<div id="4">
+
 ## 4 Running the test suite
 
 The test suite is a mix of bash and python scripts.  The python scripts are new to v0.27 and the bash scripts are being replaced as time permits.
 
-<name id="4-1">
+<div id="4-1">
+
 ### 4.1 Running tests on a UNIX-like system
 
 You can run the suite directly from the build:
@@ -586,7 +607,8 @@ rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../b
 ```
 
 [TOC](#TOC)
-<name id="4-2">
+<div id="4-2">
+
 ### 4.2 Running tests on Visual Studio builds
 
 Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path.  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
@@ -609,7 +631,8 @@ $ ./icc-test.sh
 ```
 
 [TOC](#TOC)
-<name id="4-3">
+<div id="4-3">
+
 ### 4.3 Unit tests
 
 The code for the unit tests is in `<exiv2dir>/unitTests`
@@ -626,12 +649,14 @@ $ bin/unit_tests
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
 [TOC](#TOC)
-<name id="5">
+<div id="5">
+
 ## 5 Platform Notes
 
 There are many ways to set up and configure your platform.  The following notes are provided as a guide.
 
-<name id="5-1">
+<div id="5-1">
+
 ### 5.1 Linux
 
 Update your system and install the build tools and dependencies (zlib, expat, gtest and others)
@@ -654,7 +679,8 @@ $ make
 ```
 
 [TOC](#TOC)
-<name id="5-2">
+<div id="5-2">
+
 ### 5.2 MacOS-X
 
 You will need to install Xcode and the Xcode command-line tools to build on the Mac.
@@ -664,7 +690,8 @@ You should build and install libexpat and zlib.  You may use brew, macports, bui
 I recommend that you build and install CMake from source.
 
 [TOC](#TOC)
-<name id="5-3">
+<div id="5-3">
+
 ### 5.3 MinGW
 
 We provide support for both 64bit and 32bit builds using MinGW/msys2. [https://www.msys2.org](https://www.msys2.org)
@@ -743,7 +770,8 @@ $
 ```
 
 [TOC](#TOC)
-<name id="5-4">
+<div id="5-4">
+
 ### 5.4 Cygwin
 
 Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and run setup-x86_64.exe for 64 Bit Cygwin, or setup-x86.exe for 32 bit Cygwin.  I install into c:\\cygwin64 and c:\\cygwin32
@@ -773,7 +801,8 @@ bash.exe -norc
 
 
 [TOC](#TOC)
-<name id="5-5">
+<div id="5-5">
+
 ### 5.5 Microsoft Visual C++
 
 We recommend that you use Conan to build Exiv2 using Microsoft Visual C++. Since we require a C++11 compiler, we only support the Visual Studio versions 2015 and 2017.
