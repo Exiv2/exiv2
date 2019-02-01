@@ -54,19 +54,19 @@ namespace Exiv2 {
     void GifImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "Exif metadata", "GIF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Exif metadata", "GIF"));
     }
 
     void GifImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "GIF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "GIF"));
     }
 
     void GifImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "GIF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "GIF"));
     }
 
     void GifImage::readMetadata()
@@ -76,14 +76,14 @@ namespace Exiv2 {
 #endif
         if (io_->open() != 0)
         {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isGifType(*io_, true))
         {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "GIF");
+            if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "GIF");
         }
         clearMetadata();
 
@@ -98,7 +98,7 @@ namespace Exiv2 {
     void GifImage::writeMetadata()
     {
         // Todo: implement me!
-        throw(Error(kerWritingImageFormatUnsupported, "GIF"));
+        throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "GIF"));
     } // GifImage::writeMetadata
 
     // *************************************************************************

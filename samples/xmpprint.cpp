@@ -32,13 +32,13 @@ try
     if (xmpData.empty()) {
         std::string error(argv[1]);
         error += ": No XMP data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     if (xmpData.empty()) 
       {
         std::string error(argv[1]);
         error += ": No XMP properties found in the XMP packet";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
       }
 
     for (Exiv2::XmpData::const_iterator md = xmpData.begin();

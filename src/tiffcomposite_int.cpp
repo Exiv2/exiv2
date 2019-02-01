@@ -1089,7 +1089,7 @@ namespace Exiv2 {
 
         // Number of components to write
         const uint32_t compCount = count();
-        if (compCount > 0xffff) throw Error(kerTooManyTiffDirectoryEntries, groupName(group()));
+        if (compCount > 0xffff) throw Error(ErrorCode::kerTooManyTiffDirectoryEntries, groupName(group()));
 
         // Size of next IFD, if any
         uint32_t sizeNext = 0;
@@ -1175,7 +1175,7 @@ namespace Exiv2 {
             uint32_t sv = (*i)->size();
             if (sv > 4) {
                 uint32_t d = (*i)->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
-                enforce(sv == d, kerImageWriteFailed);
+                enforce(sv == d, ErrorCode::kerImageWriteFailed);
                 if ((sv & 1) == 1) {
                     ioWrapper.putb(0x0);    // Align value to word boundary
                     sv += 1;
@@ -1267,7 +1267,7 @@ namespace Exiv2 {
         switch(tiffType) {
         case ttUnsignedShort:
         case ttSignedShort:
-            if (static_cast<uint32_t>(offset) > 0xffff) throw Error(kerOffsetOutOfRange);
+            if (static_cast<uint32_t>(offset) > 0xffff) throw Error(ErrorCode::kerOffsetOutOfRange);
             rc = s2Data(buf, static_cast<int16_t>(offset), byteOrder);
             break;
         case ttUnsignedLong:
@@ -1275,7 +1275,7 @@ namespace Exiv2 {
             rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
             break;
         default:
-            throw Error(kerUnsupportedDataAreaOffsetType);
+            throw Error(ErrorCode::kerUnsupportedDataAreaOffsetType);
             break;
         }
         return rc;
@@ -1610,7 +1610,7 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doWriteImage(IoWrapper& ioWrapper,
                                           ByteOrder  /*byteOrder*/) const
     {
-        if ( !pValue() ) throw Error(kerImageWriteFailed); // #1296
+        if ( !pValue() ) throw Error(ErrorCode::kerImageWriteFailed); // #1296
 
         size_t len = pValue()->sizeDataArea();
         if (len > 0) {

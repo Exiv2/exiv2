@@ -1499,7 +1499,7 @@ namespace Exiv2 {
         size_t isize= 0; // size of Exif.Sony1.PreviewImage
 
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
-            throw Error(kerArithmeticOverflow);
+            throw Error(ErrorCode::kerArithmeticOverflow);
         }
         size_t size = typeSize * count;
         uint32_t offset = getLong(p, byteOrder());
@@ -1529,10 +1529,10 @@ namespace Exiv2 {
             if ((static_cast<uintptr_t>(baseOffset()) > std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset))
              || (static_cast<uintptr_t>(baseOffset() + offset) > std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_)))
             {
-                throw Error(kerCorruptedMetadata); // #562 don't throw kerArithmeticOverflow
+                throw Error(ErrorCode::kerCorruptedMetadata); // #562 don't throw kerArithmeticOverflow
             }
             if (pData_ + static_cast<uintptr_t>(baseOffset()) + static_cast<uintptr_t>(offset) > pLast_) {
-                throw Error(kerCorruptedMetadata);
+                throw Error(ErrorCode::kerCorruptedMetadata);
             }
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
 
@@ -1556,7 +1556,7 @@ namespace Exiv2 {
             }
         }
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerCorruptedMetadata);
+        enforce(v.get() != nullptr, ErrorCode::kerCorruptedMetadata);
         if ( !isize ) {
             v->read(pData, size, byteOrder());
         } else {
@@ -1664,7 +1664,7 @@ namespace Exiv2 {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerCorruptedMetadata);
+        enforce(v.get() != nullptr, ErrorCode::kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(std::move(v));

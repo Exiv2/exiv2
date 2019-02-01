@@ -187,7 +187,7 @@ namespace Exiv2 {
 
     void CiffEntry::doAddComponent(UniquePtr /*component*/)
     {
-        throw Error(kerFunctionNotSupported, "CiffEntry::add");
+        throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::add");
     }
 
     void CiffDirectory::doAddComponent(UniquePtr component)
@@ -197,7 +197,7 @@ namespace Exiv2 {
 
     void CiffHeader::read(const byte* pData, uint32_t size)
     {
-        if (size < 14) throw Error(kerNotACrwImage);
+        if (size < 14) throw Error(ErrorCode::kerNotACrwImage);
 
         if (pData[0] == 'I' && pData[0] == pData[1]) {
             byteOrder_ = littleEndian;
@@ -206,12 +206,12 @@ namespace Exiv2 {
             byteOrder_ = bigEndian;
         }
         else {
-            throw Error(kerNotACrwImage);
+            throw Error(ErrorCode::kerNotACrwImage);
         }
         offset_ = getULong(pData + 2, byteOrder_);
-        if (offset_ < 14 || offset_ > size) throw Error(kerNotACrwImage);
+        if (offset_ < 14 || offset_ > size) throw Error(ErrorCode::kerNotACrwImage);
         if (std::memcmp(pData + 6, signature(), 8) != 0) {
-            throw Error(kerNotACrwImage);
+            throw Error(ErrorCode::kerNotACrwImage);
         }
 
         delete pPadding_;
@@ -236,7 +236,7 @@ namespace Exiv2 {
                                uint32_t    start,
                                ByteOrder   byteOrder)
     {
-        if (size < 10) throw Error(kerNotACrwImage);
+        if (size < 10) throw Error(ErrorCode::kerNotACrwImage);
         tag_ = getUShort(pData + start, byteOrder);
 
         DataLocId dl = dataLocation();
@@ -246,7 +246,7 @@ namespace Exiv2 {
             size_   = getULong(pData + start + 2, byteOrder);
             offset_ = getULong(pData + start + 6, byteOrder);
         }
-        if ( size_ > size || offset_ > size ) throw Error(kerOffsetOutOfRange); // #889
+        if ( size_ > size || offset_ > size ) throw Error(ErrorCode::kerOffsetOutOfRange); // #889
         if (dl == directoryData) {
             size_ = 8;
             offset_ = start + 2;
@@ -281,10 +281,10 @@ namespace Exiv2 {
                                       ByteOrder   byteOrder)
     {
         if (size < 4)
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
         uint32_t o = getULong(pData + size - 4, byteOrder);
         if ( o > size-2 )
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
         uint16_t count = getUShort(pData + o, byteOrder);
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Directory at offset " << std::dec << o
@@ -292,7 +292,7 @@ namespace Exiv2 {
 #endif
         o += 2;
         if ( static_cast<uint32_t>(count) * 10 > size-o )
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
 
         for (uint16_t i = 0; i < count; ++i) {
             uint16_t tag = getUShort(pData + o, byteOrder);
@@ -575,7 +575,7 @@ namespace Exiv2 {
         switch (tag & 0xc000) {
         case 0x0000: return valueData;
         case 0x4000: return directoryData;
-        default: throw Error(kerCorruptedMetadata);
+        default: throw Error(ErrorCode::kerCorruptedMetadata);
         }
     } // CiffComponent::dataLocation
 

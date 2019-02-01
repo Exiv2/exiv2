@@ -24,12 +24,14 @@
 // included header files
 #include "config.h"
 
-#include "image.hpp"
-#include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "helper_functions.hpp"
+#include "image.hpp"
+#include "image_int.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
+#include "unused.h"
 
 #include "cr2image.hpp"
 #include "crwimage.hpp"
@@ -159,7 +161,7 @@ namespace Exiv2 {
 
     void Image::printStructure(std::ostream&, PrintStructureOption,int /*depth*/)
     {
-        throw Error(kerUnsupportedImageType, io_->path());
+        throw Error(ErrorCode::kerUnsupportedImageType, io_->path());
     }
 
     bool Image::isStringType(uint16_t type)
@@ -333,14 +335,14 @@ namespace Exiv2 {
             const int seekSuccess = !io.seek(start,BasicIo::beg);
             const size_t bytesRead = io.read(dir.pData_, 2);
             if (!seekSuccess || bytesRead == 0) {
-                throw Error(kerCorruptedMetadata);
+                throw Error(ErrorCode::kerCorruptedMetadata);
             }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
             bool tooBig = dirLength > 500;
             if ( tooBig ) {
                 out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
-                throw Error(kerTiffDirectoryTooLarge);
+                throw Error(ErrorCode::kerTiffDirectoryTooLarge);
             }
 
             if ( bFirst && bPrint ) {
@@ -366,7 +368,7 @@ namespace Exiv2 {
                 if ( !typeValid(type) ) {
                     std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
                     start = 0; // break from do loop
-                    throw Error(kerInvalidTypeValue);
+                    throw Error(ErrorCode::kerInvalidTypeValue);
                 }
 
                 std::string sp  = "" ; // output spacer
@@ -391,7 +393,7 @@ namespace Exiv2 {
                 // #55 and #56 memory allocation crash test/data/POC8
                 long long allocate = (long long) size*count + pad+20;
                 if ( allocate > (long long) io.size() ) {
-                    throw Error(kerInvalidMalloc);
+                    throw Error(ErrorCode::kerInvalidMalloc);
                 }
                 DataBuf  buf((long)allocate);  // allocate a buffer
                 std::memset(buf.pData_, 0, buf.size_);
@@ -449,7 +451,7 @@ namespace Exiv2 {
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
 
                         if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
-                            throw Error(kerCorruptedMetadata);
+                            throw Error(ErrorCode::kerCorruptedMetadata);
                         }
 
                         const size_t restore = io.tell();
@@ -586,7 +588,7 @@ namespace Exiv2 {
     {
         xmpPacket_ = xmpPacket;
         if ( XmpParser::decode(xmpData_, xmpPacket) ) {
-            throw Error(kerInvalidXMP);
+            throw Error(ErrorCode::kerInvalidXMP);
         }
         xmpPacket_ = xmpPacket;
     }
@@ -625,9 +627,9 @@ namespace Exiv2 {
     void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
-            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
+            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(ErrorCode::kerInvalidIccProfile);
             const size_t size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
-            if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
+            if ( size!= iccProfile.size_ ) throw Error(ErrorCode::kerInvalidIccProfile);
         }
         iccProfile_ = iccProfile;
     }
@@ -763,7 +765,7 @@ namespace Exiv2 {
     {
         const Registry* r = find(registry, type);
         if (!r)
-            throw Error(kerUnsupportedImageType, static_cast<int>(type));
+            throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         AccessMode am = amNone;
         switch (metadataId) {
         case mdNone:
@@ -884,7 +886,7 @@ namespace Exiv2 {
     {
         Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
         if (image.get() == 0)
-            throw Error(kerFileContainsUnknownImageType, path);
+            throw Error(ErrorCode::kerFileContainsUnknownImageType, path);
         return image;
     }
 
@@ -892,7 +894,7 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
     {
         Image::UniquePtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
-        if (image.get() == 0) throw WError(kerFileContainsUnknownImageType, wpath);
+        if (image.get() == 0) throw Error(ErrorCode::kerFileContainsUnknownImageType, ws2s(wpath));
         return image;
     }
 
@@ -901,14 +903,14 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
         Image::UniquePtr image = open(std::move(io)); // may throw
-        if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
+        if (image.get() == 0) throw Error(ErrorCode::kerMemoryContainsUnknownImageType);
         return image;
     }
 
     Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io)
     {
         if (io->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io->path(), strError());
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
@@ -923,13 +925,13 @@ namespace Exiv2 {
         std::unique_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw Error(kerFileOpenFailed, path, "w+b", strError());
+            throw Error(ErrorCode::kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
         BasicIo::UniquePtr io(std::move(fileIo));
         Image::UniquePtr image = create(type, std::move(io));
         if (!image)
-            throw Error(kerUnsupportedImageType, static_cast<int>(type));
+            throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
@@ -940,12 +942,12 @@ namespace Exiv2 {
         std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
+            throw Error(ErrorCode::kerFileOpenFailed, ws2s(wpath), "w+b", strError().c_str());
         }
         fileIo->close();
         BasicIo::UniquePtr io(std::move(fileIo));
         Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, static_cast<int>(type));
+        if (image.get() == 0) throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
@@ -955,7 +957,7 @@ namespace Exiv2 {
         BasicIo::UniquePtr io(new MemIo);
         Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) {
-            throw Error(kerUnsupportedImageType, static_cast<int>(type));
+            throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         }
         return image;
     }

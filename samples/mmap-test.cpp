@@ -20,7 +20,7 @@ try {
     FileIo file(path);
     // Open the file in read mode
     if (file.open("rb") != 0) {
-        throw Error(kerFileOpenFailed, path, "rb", strError());
+        throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();

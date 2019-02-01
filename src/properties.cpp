@@ -2653,7 +2653,7 @@ namespace Exiv2 {
         const XmpNsInfo::Prefix pf(prefix);
         const XmpNsInfo* xn = lookupNsRegistryUnsafe(pf);
         if (!xn) xn = find(xmpNsInfo, pf);
-        if (!xn) throw Error(kerNoNamespaceInfoForXmpPrefix, prefix);
+        if (!xn) throw Error(ErrorCode::kerNoNamespaceInfoForXmpPrefix, prefix);
         return xn;
     }
 
@@ -2717,7 +2717,7 @@ namespace Exiv2 {
     {
         // Validate prefix
         if (XmpProperties::ns(prefix).empty())
-            throw Error(kerNoNamespaceForPrefix, prefix);
+            throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
 
         property_ = property;
         prefix_ = prefix;
@@ -2805,29 +2805,29 @@ namespace Exiv2 {
         // Get the family name, prefix and property name parts of the key
         std::string::size_type pos1 = key.find('.');
         if (pos1 == std::string::npos) {
-            throw Error(kerInvalidKey, key);
+            throw Error(ErrorCode::kerInvalidKey, key);
         }
         std::string familyName = key.substr(0, pos1);
         if (0 != strcmp(familyName.c_str(), familyName_)) {
-            throw Error(kerInvalidKey, key);
+            throw Error(ErrorCode::kerInvalidKey, key);
         }
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key.find('.', pos0);
         if (pos1 == std::string::npos) {
-            throw Error(kerInvalidKey, key);
+            throw Error(ErrorCode::kerInvalidKey, key);
         }
         std::string prefix = key.substr(pos0, pos1 - pos0);
         if (prefix == "") {
-            throw Error(kerInvalidKey, key);
+            throw Error(ErrorCode::kerInvalidKey, key);
         }
         std::string property = key.substr(pos1 + 1);
         if (property == "") {
-            throw Error(kerInvalidKey, key);
+            throw Error(ErrorCode::kerInvalidKey, key);
         }
 
         // Validate prefix
         if (XmpProperties::ns(prefix).empty())
-            throw Error(kerNoNamespaceForPrefix, prefix);
+            throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
 
         property_ = property;
         prefix_ = prefix;

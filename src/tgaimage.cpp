@@ -54,19 +54,19 @@ namespace Exiv2 {
     void TgaImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "Exif metadata", "TGA"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Exif metadata", "TGA"));
     }
 
     void TgaImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "TGA"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "TGA"));
     }
 
     void TgaImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "TGA"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TGA"));
     }
 
     void TgaImage::readMetadata()
@@ -76,14 +76,14 @@ namespace Exiv2 {
 #endif
         if (io_->open() != 0)
         {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isTgaType(*io_, false))
         {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "TGA");
+            if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "TGA");
         }
         clearMetadata();
 
@@ -120,7 +120,7 @@ namespace Exiv2 {
     void TgaImage::writeMetadata()
     {
         // Todo: implement me!
-        throw(Error(kerWritingImageFormatUnsupported, "TGA"));
+        throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "TGA"));
     } // TgaImage::writeMetadata
 
     // *************************************************************************

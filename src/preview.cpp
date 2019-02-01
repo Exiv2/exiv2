@@ -465,7 +465,7 @@ namespace {
 
         BasicIo &io = image_.io();
         if (io.open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io.path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
@@ -494,7 +494,7 @@ namespace {
             }
             return DataBuf(record + sizeHdr + 28, sizeData - 28);
         } else {
-            throw Error(kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
+            throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
         }
     }
 
@@ -574,7 +574,7 @@ namespace {
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io.path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
 
@@ -591,7 +591,7 @@ namespace {
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io.path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
         const Exiv2::byte* base = io.mmap();
@@ -788,7 +788,7 @@ namespace {
             BasicIo &io = image_.io();
 
             if (io.open() != 0) {
-                throw Error(kerDataSourceOpenFailed, io.path(), strError());
+                throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
             }
             IoCloser closer(io);
 
@@ -806,13 +806,13 @@ namespace {
                 }
                 else {
                     // FIXME: the buffer is probably copied twice, it should be optimized
-                    enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
+                    enforce(size_ <= static_cast<uint32_t>(io.size()), ErrorCode::kerCorruptedMetadata);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);
+                        enforce(Safe::add(idxBuf, size) < size_, ErrorCode::kerCorruptedMetadata);
                         if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
                         idxBuf += size;

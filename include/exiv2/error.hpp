@@ -188,9 +188,9 @@ namespace Exiv2 {
     }
 
     //! Complete list of all Exiv2 error codes
-    enum ErrorCode {
-        kerGeneralError = -1,
+    enum class ErrorCode {
         kerSuccess = 0,
+        kerGeneralError,
         kerErrorMessage,
         kerCallFailed,
         kerNotAnImage,
@@ -253,6 +253,8 @@ namespace Exiv2 {
         kerCorruptedMetadata,
         kerArithmeticOverflow,
         kerMallocFailed,
+        //! Number of error codes
+        kerErrorCount
     };
 
     /*!
@@ -330,7 +332,7 @@ namespace Exiv2 {
 // free functions, template and inline definitions
 
     //! Return the error message for the error with code \em code.
-    const char* errMsg(int code);
+    const char* errMsg(ErrorCode code);
 
     template<typename charT>
     BasicError<charT>::BasicError(ErrorCode code)

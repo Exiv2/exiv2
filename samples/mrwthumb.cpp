@@ -25,7 +25,7 @@ int main(int argc, char* const argv[])
         if (exifData.empty()) {
             std::string error(argv[1]);
             error += ": No Exif data found in the file";
-            throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+            throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
         }
 
         Exiv2::ExifKey key("Exif.Minolta.ThumbnailOffset");

@@ -76,19 +76,19 @@ namespace Exiv2 {
     void MrwImage::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "Exif metadata", "MRW"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Exif metadata", "MRW"));
     }
 
     void MrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "MRW"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "MRW"));
     }
 
     void MrwImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "MRW"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "MRW"));
     }
 
     void MrwImage::readMetadata()
@@ -97,13 +97,13 @@ namespace Exiv2 {
         std::cerr << "Reading MRW file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isMrwType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "MRW");
+            if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "MRW");
         }
         clearMetadata();
 
@@ -115,21 +115,21 @@ namespace Exiv2 {
         uint32_t const end = getULong(tmp + 4, bigEndian);
 
         pos += len;
-        enforce(pos <= end, kerFailedToReadImageData);
+        enforce(pos <= end, ErrorCode::kerFailedToReadImageData);
         io_->read(tmp, len);
-        if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+        if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
 
         while (memcmp(tmp + 1, "TTW", 3) != 0) {
             uint32_t const siz = getULong(tmp + 4, bigEndian);
-            enforce(siz <= end - pos, kerFailedToReadImageData);
+            enforce(siz <= end - pos, ErrorCode::kerFailedToReadImageData);
             pos += siz;
             io_->seek(siz, BasicIo::cur);
-            enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
+            enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
-            enforce(len <= end - pos, kerFailedToReadImageData);
+            enforce(len <= end - pos, ErrorCode::kerFailedToReadImageData);
             pos += len;
             io_->read(tmp, len);
-            enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
+            enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
         }
 
         const uint32_t siz = getULong(tmp + 4, bigEndian);
@@ -138,10 +138,10 @@ namespace Exiv2 {
         // greater than io_->size() then it is definitely invalid. But the
         // exact bounds checking is done by the call to io_->read, which
         // will fail if there are fewer than siz bytes left to read.
-        enforce(siz <= io_->size(), kerFailedToReadImageData);
+        enforce(siz <= io_->size(), ErrorCode::kerFailedToReadImageData);
         DataBuf buf(siz);
         io_->read(buf.pData_, buf.size_);
-        enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
+        enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
@@ -154,7 +154,7 @@ namespace Exiv2 {
     void MrwImage::writeMetadata()
     {
         // Todo: implement me!
-        throw(Error(kerWritingImageFormatUnsupported, "MRW"));
+        throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "MRW"));
     } // MrwImage::writeMetadata
 
     // *************************************************************************

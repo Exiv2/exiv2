@@ -24,7 +24,7 @@ try {
     if (iptcData.empty()) {
         std::string error(argv[1]);
         error += ": No IPTC data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
 
     Exiv2::IptcData::iterator end = iptcData.end();

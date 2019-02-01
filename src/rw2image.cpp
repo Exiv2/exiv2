@@ -80,29 +80,29 @@ namespace Exiv2 {
     void Rw2Image::setExifData(const ExifData& /*exifData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "Exif metadata", "RW2"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Exif metadata", "RW2"));
     }
 
     void Rw2Image::setIptcData(const IptcData& /*iptcData*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "RW2"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "RW2"));
     }
 
     void Rw2Image::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "RW2"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RW2"));
     }
 
     void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
         out << "RW2 IMAGE" << std::endl;
-        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+        if (io_->open() != 0) throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
             if (!isRw2Type(*io_, false)) {
-                if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-                throw Error(kerNotAJpeg);
+                if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
+                throw Error(ErrorCode::kerNotAJpeg);
             }
 
         io_->seek(0,BasicIo::beg);
@@ -116,13 +116,13 @@ namespace Exiv2 {
         std::cerr << "Reading RW2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isRw2Type(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "RW2");
+            if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "RW2");
         }
         clearMetadata();
         ByteOrder bo = Rw2Parser::decode(exifData_,
@@ -220,7 +220,7 @@ namespace Exiv2 {
     void Rw2Image::writeMetadata()
     {
         // Todo: implement me!
-        throw(Error(kerWritingImageFormatUnsupported, "RW2"));
+        throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "RW2"));
     } // Rw2Image::writeMetadata
 
     ByteOrder Rw2Parser::decode(

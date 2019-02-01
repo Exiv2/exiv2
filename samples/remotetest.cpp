@@ -54,7 +54,7 @@ try {
     if (exifReadData.empty()) {
         std::string error(argv[1]);
         error += ": No Exif data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     Exiv2::ExifData::const_iterator end = exifReadData.end();
     for (Exiv2::ExifData::const_iterator i = exifReadData.begin(); i != end; ++i) {
@@ -80,19 +80,19 @@ try {
     exifReadData["Exif.Image.Copyright"]    = "Exiv2.org";                 // AsciiValue
     key = Exiv2::ExifKey("Exif.Image.Make");
     Exiv2::ExifData::iterator pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.Make not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.Image.Make not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Image.DateTime");
     pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.DateTime not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.Image.DateTime not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Canon.OwnerName");
     pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Canon.OwnerName not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.Canon.OwnerName not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.CanonCs.LensType");
     pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.CanonCs.LensType not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.CanonCs.LensType not found");
     exifReadData.erase(pos);
     readTest->setExifData(exifReadData);
     readTest->writeMetadata();

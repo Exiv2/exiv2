@@ -163,7 +163,7 @@ namespace Exiv2 {
     void TiffImage::setComment(const std::string& /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "TIFF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TIFF"));
     }
 
     void TiffImage::readMetadata()
@@ -172,15 +172,15 @@ namespace Exiv2 {
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
 
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isTiffType(*io_, false)) {
             if (io_->error() || io_->eof())
-                throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "TIFF");
+                throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "TIFF");
         }
         clearMetadata();
 
@@ -197,7 +197,7 @@ namespace Exiv2 {
         if ( pos != exifData_.end() ) {
             const size_t size = pos->count() * pos->typeSize();
             if (size == 0) {
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             }
             iccProfile_.alloc(size);
             pos->copy(iccProfile_.pData_,bo);
@@ -334,12 +334,12 @@ namespace Exiv2 {
 
     void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+        if (io_->open() != 0) throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
         if (!isTiffType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAJpeg);
+            if (io_->error() || io_->eof()) throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAJpeg);
         }
 
         io_->seek(0,BasicIo::beg);

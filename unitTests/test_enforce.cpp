@@ -4,23 +4,25 @@
 
 #include <stdexcept>
 
+using namespace Exiv2;
+
 TEST(enforce, errMessage)
 {
     try {
-        enforce(false, Exiv2::kerErrorMessage, "an error occurred");
-    } catch (const Exiv2::Error& e) {
+        enforce(false, ErrorCode::kerErrorMessage, "an error occurred");
+    } catch (const Error& e) {
         ASSERT_STREQ(e.what(), "an error occurred");
     }
 }
 
 TEST(enforce, exceptionThrown)
 {
-    ASSERT_NO_THROW(enforce(true, Exiv2::kerErrorMessage));
+    ASSERT_NO_THROW(enforce(true, ErrorCode::kerErrorMessage));
 
-    ASSERT_THROW(enforce(false, Exiv2::kerErrorMessage), Exiv2::Error);
+    ASSERT_THROW(enforce(false, ErrorCode::kerErrorMessage), Error);
     ASSERT_THROW(enforce<std::overflow_error>(false, "error message"), std::overflow_error);
-    ASSERT_THROW(enforce(false, Exiv2::kerMallocFailed), Exiv2::Error);
-    ASSERT_THROW(enforce(false, Exiv2::kerErrorMessage, "error message"), Exiv2::Error);
-    ASSERT_THROW(enforce(false, Exiv2::kerDataSourceOpenFailed, "path", "strerror"), Exiv2::Error);
-    ASSERT_THROW(enforce(false, Exiv2::kerCallFailed, "path", "strerror", "function"), Exiv2::Error);
+    ASSERT_THROW(enforce(false, ErrorCode::kerMallocFailed), Error);
+    ASSERT_THROW(enforce(false, ErrorCode::kerErrorMessage, "error message"), Error);
+    ASSERT_THROW(enforce(false, ErrorCode::kerDataSourceOpenFailed, "path", "strerror"), Error);
+    ASSERT_THROW(enforce(false, ErrorCode::kerCallFailed, "path", "strerror", "function"), Error);
 }
