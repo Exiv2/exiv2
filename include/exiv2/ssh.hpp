@@ -30,7 +30,6 @@
 #include <string>
 
 #include "error.hpp"
-#include "exiv2lib_compiler_detection.h"
 #include "types.hpp"
 #include "futils.hpp"
 
@@ -40,7 +39,7 @@ namespace Exiv2 {
             It makes the libssh transparent. The functions in this class can
             be used without the requirement of understanding libssh.
      */
-    class EXIV2_DEPRECATED EXIV2API SSH {
+    class EXIV2LIB_DEPRECATED_EXPORT SSH {
     public:
         //! @name Creators
         //@{

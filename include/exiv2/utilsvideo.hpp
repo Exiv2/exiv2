@@ -21,7 +21,9 @@
 #ifndef UTILSVIDEO_HPP_
 #define UTILSVIDEO_HPP_
 
-#include "exiv2lib_compiler_detection.h"
+#include "exiv2lib_export.h"
+
+#include "exif.hpp"
 
 namespace Exiv2
 {
@@ -29,7 +31,7 @@ namespace Exiv2
     /*!
       @brief Class of utility functions used by the video code.
      */
-    class EXIV2_DEPRECATED UtilsVideo
+    class EXIV2LIB_DEPRECATED_EXPORT UtilsVideo
     {
     public:
         /*!

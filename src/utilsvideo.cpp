@@ -25,6 +25,9 @@
   @date    16-Aug-14, AB: created
  */
 // *****************************************************************************
+
+#include "config.h"
+
 #ifdef EXV_ENABLE_VIDEO
 #include "utilsvideo.hpp"
 

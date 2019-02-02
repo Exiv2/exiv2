@@ -27,7 +27,6 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "exiv2lib_compiler_detection.h"
 #include "types.hpp"
 
 // + standard includes
@@ -1113,7 +1112,7 @@ namespace Exiv2 {
         @brief Provides the ssh read/write access and sftp read access for the RemoteIo.
             This class is based on libssh.
     */
-    class EXIV2_DEPRECATED EXIV2API SshIo : public RemoteIo {
+    class EXIV2LIB_DEPRECATED_EXPORT SshIo : public RemoteIo {
     public:
         //! @name Creators
         //@{
