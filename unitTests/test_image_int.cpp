@@ -34,7 +34,7 @@ TEST(binaryToString, zeroStart)
     // should result in the same as previously, as trailing zero is ignored
     checkBinaryToString(makeSlice(buf, 0, 9), "abc...e.");
 
-    // ensure that the function does not overread when last element != 0
+    // ensure that the function does not overflow when last element != 0
     checkBinaryToString(makeSlice(buf, 0, sizeof(buf)), "abc...e..a");
 }
 
@@ -45,4 +45,11 @@ TEST(binaryToString, nonZeroStart)
 
     // start @ index 3, read until end
     checkBinaryToString(makeSlice(buf, 3, sizeof(buf)), "...e..a");
+}
+
+TEST(stringFormat, badInitialGuessOfBufferSize)
+{
+    const char fmt[] = "%s";
+    const char str[] = "Long string with more than 16 characters.";
+    ASSERT_EQ(stringFormat(fmt, str), std::string(str));
 }
