@@ -31,7 +31,6 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "exiv2lib_compiler_detection.h"
 #include "image.hpp"
 
 namespace Exiv2 {
@@ -47,7 +46,7 @@ namespace Exiv2 {
     /*!
       @brief Class to access ASF video files.
      */
-    class EXIV2_DEPRECATED EXIV2API AsfVideo:public Image
+    class EXIV2LIB_DEPRECATED_EXPORT AsfVideo:public Image
     {
     public:
         //! @name Creators
@@ -170,10 +169,10 @@ namespace Exiv2 {
           Caller owns the returned object and the auto-pointer ensures that
           it will be deleted.
      */
-    EXIV2_DEPRECATED EXIV2API Image::AutoPtr newAsfInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2LIB_DEPRECATED_EXPORT Image::AutoPtr newAsfInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a Windows Asf Video.
-    EXIV2_DEPRECATED EXIV2API bool isAsfType(BasicIo& iIo, bool advance);
+    EXIV2LIB_DEPRECATED_EXPORT bool isAsfType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

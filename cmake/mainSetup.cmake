@@ -5,14 +5,6 @@ include(GNUInstallDirs)
 include(CheckFunctionExists)
 include(GenerateExportHeader)
 include(CMakeDependentOption)
-include(WriteCompilerDetectionHeader)
-
-write_compiler_detection_header(
-    FILE exiv2lib_compiler_detection.h
-    PREFIX EXIV2
-    COMPILERS GNU Clang AppleClang MSVC
-    FEATURES cxx_attribute_deprecated
-)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

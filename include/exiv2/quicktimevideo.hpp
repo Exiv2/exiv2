@@ -49,7 +49,7 @@ namespace Exiv2 {
     /*!
       @brief Class to access QuickTime video files.
      */
-    class EXIV2_DEPRECATED EXIV2API QuickTimeVideo:public Image
+    class EXIV2LIB_DEPRECATED_EXPORT QuickTimeVideo:public Image
     {
     public:
         //! @name Creators
@@ -242,10 +242,10 @@ namespace Exiv2 {
           Caller owns the returned object and the auto-pointer ensures that
           it will be deleted.
      */
-    EXIV2_DEPRECATED EXIV2API Image::AutoPtr newQTimeInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2LIB_DEPRECATED_EXPORT Image::AutoPtr newQTimeInstance(BasicIo::AutoPtr io, bool create);
 
     //! Check if the file iIo is a Quick Time Video.
-    EXIV2_DEPRECATED EXIV2API bool isQTimeType(BasicIo& iIo, bool advance);
+    EXIV2LIB_DEPRECATED_EXPORT bool isQTimeType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 
