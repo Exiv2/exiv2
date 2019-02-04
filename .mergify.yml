@@ -1,0 +1,40 @@
+pull_request_rules:
+  - name: backport patches to 0.27 branch
+    conditions:
+      - base=master
+      - label=backport-to-0.27
+    actions:
+      backport:
+        branches:
+          - "0.27"
+
+  - name: backport patches to 0.26 branch
+    conditions:
+      - base=master
+      - label=backport-to-0.26
+    actions:
+      backport:
+        branches:
+          - "0.26"
+
+  - name: forward-port patches to master
+    conditions:
+      - base=0.27
+      - label=to-master
+    actions:
+      backport:
+        branches:
+          - master
+
+  - name: delete head branch after merge
+    conditions:
+      - merged
+    actions:
+      delete_head_branch: {}
+
+  - name: remove outdated reviews
+    conditions: []
+    actions:
+      dismiss_reviews:
+        approved: True
+        changes_requested: False
