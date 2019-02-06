@@ -7,6 +7,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_tiffheader.cpp
     test_futils.cpp
     test_enforce.cpp
+    test_error.cpp
     test_safe_op.cpp
     test_XmpKey.cpp
     test_DateValue.cpp
