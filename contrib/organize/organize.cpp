@@ -255,7 +255,7 @@ std::string build_dest(const fs::path &source_file)
         image = Exiv2::ImageFactory::open(source_file.string());
         image->readMetadata();
     } 
-    catch(const Exiv2::AnyError&) {
+    catch(const Exiv2::Error&) {
         // No metadata, let things continue to try file info
     }
 
@@ -547,7 +547,7 @@ int main(int argc, char* argv[])
     
         return 0;
     }
-    catch (Exiv2::AnyError& e) {
+    catch (Exiv2::Error& e) {
         error(e, std::string("Aborting"));
         return -1;
     }

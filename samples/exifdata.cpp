@@ -189,7 +189,7 @@ int main(int argc,const char* argv[])
 			            result = 3;
 			break;
 		}
-	} catch (Exiv2::AnyError& e) {
+	} catch (Exiv2::Error& e) {
     	std::cerr << "*** error exiv2 exception '" << e << "' ***" << std::endl;
     	result = 4;
 	} catch ( ... ) {

@@ -241,7 +241,7 @@ namespace Action
                     break;
             }
             return rc;
-        } catch (const Exiv2::AnyError& e) {
+        } catch (const Exiv2::Error& e) {
             std::cerr << "Exiv2 exception in print action for file " << path << ":\n" << e << "\n";
             return 1;
         } catch (const std::overflow_error& e) {
@@ -827,7 +827,7 @@ namespace Action
                 ts.touch(newPath);
             }
             return rc;
-        } catch (const Exiv2::AnyError& e) {
+        } catch (const Exiv2::Error& e) {
             std::cerr << "Exiv2 exception in rename action for file " << path << ":\n" << e << "\n";
             return 1;
         }
@@ -887,7 +887,7 @@ namespace Action
         }
 
         return rc;
-    } catch (const Exiv2::AnyError& e) {
+    } catch (const Exiv2::Error& e) {
         std::cerr << "Exiv2 exception in erase action for file " << path << ":\n" << e << "\n";
         return 1;
     }
@@ -997,7 +997,7 @@ namespace Action
                 rc = metacopy(path_, exvPath, Exiv2::ImageType::exv, false);
             }
             return rc;
-        } catch (const Exiv2::AnyError& e) {
+        } catch (const Exiv2::Error& e) {
             std::cerr << "Exiv2 exception in extract action for file " << path << ":\n" << e << "\n";
             return 1;
         }
@@ -1176,7 +1176,7 @@ namespace Action
         if (Params::instance().preserve_)
             ts.touch(path);
         return rc;
-    } catch (const Exiv2::AnyError& e) {
+    } catch (const Exiv2::Error& e) {
         std::cerr << "Exiv2 exception in insert action for file " << path << ":\n" << e << "\n";
         return 1;
     }
@@ -1321,7 +1321,7 @@ namespace Action
                 ts.touch(path);
 
             return rc;
-        } catch (const Exiv2::AnyError& e) {
+        } catch (const Exiv2::Error& e) {
             std::cerr << "Exiv2 exception in modify action for file " << path << ":\n" << e << "\n";
             return 1;
         }
@@ -1540,7 +1540,7 @@ namespace Action
                 ts.touch(path);
         }
         return rc ? 1 : 0;
-    } catch (const Exiv2::AnyError& e) {
+    } catch (const Exiv2::Error& e) {
         std::cerr << "Exiv2 exception in adjust action for file " << path << ":\n" << e << "\n";
         return 1;
     }
@@ -1675,7 +1675,7 @@ namespace Action
                 ts.touch(path);
 
             return 0;
-        } catch (const Exiv2::AnyError& e) {
+        } catch (const Exiv2::Error& e) {
             std::cerr << "Exiv2 exception in fixiso action for file " << path << ":\n" << e << "\n";
             return 1;
         }
@@ -1743,7 +1743,7 @@ namespace Action
                 ts.touch(path);
 
             return 0;
-        } catch (const Exiv2::AnyError& e) {
+        } catch (const Exiv2::Error& e) {
             std::cerr << "Exiv2 exception in fixcom action for file " << path << ":\n" << e << "\n";
             return 1;
         }
@@ -2020,7 +2020,7 @@ namespace
             try {
                 targetImage->writeMetadata();
                 rc = 0;
-            } catch (const Exiv2::AnyError& e) {
+            } catch (const Exiv2::Error& e) {
                 std::cerr << tgt << ": " << _("Could not write metadata to file") << ": " << e << "\n";
                 rc = 1;
             }

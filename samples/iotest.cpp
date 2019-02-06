@@ -118,7 +118,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::AnyError& e) {
+catch (Exiv2::Error& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
     return 20;
 }

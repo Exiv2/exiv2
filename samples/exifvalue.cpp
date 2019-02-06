@@ -31,7 +31,7 @@ int main(int argc, char* const argv[])
 
 	try {
      	std::cout << exifData[key] << std::endl;
-	} catch (Exiv2::AnyError& e) {
+	} catch (Exiv2::Error& e) {
     	std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
     	exit(3);
 	} catch ( ... ) {

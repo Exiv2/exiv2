@@ -512,7 +512,7 @@ namespace {
 
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
-        } catch (const AnyError& /* error */) {
+        } catch (const Error& /* error */) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview image.\n";
 #endif
@@ -604,7 +604,7 @@ namespace {
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const AnyError& /* error */ ) {
+        catch (const Error& /* error */ ) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid JPEG preview image.\n";
 #endif
@@ -681,7 +681,7 @@ namespace {
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const AnyError& /* error */ ) {
+        catch (const Error& /* error */ ) {
             return false;
         }
 

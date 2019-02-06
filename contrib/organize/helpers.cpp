@@ -71,7 +71,7 @@ bool exif_data(const Exiv2::Image *image, const char *key, Exiv2::ExifData::cons
         if(md != exifData.end() && md->typeId() != Exiv2::undefined)
             ok = true;
     } 
-    catch(const Exiv2::AnyError&) {
+    catch(const Exiv2::Error&) {
     }
     return ok;
 }
@@ -86,7 +86,7 @@ bool exif_data_easy(const Exiv2::Image *image, EasyAccessFct easy, Exiv2::ExifDa
         if(md != exifData.end() && md->typeId() != Exiv2::undefined)
             ok = true;
     } 
-    catch(const Exiv2::AnyError&) {
+    catch(const Exiv2::Error&) {
     }
     return ok;
 }
@@ -103,7 +103,7 @@ bool iptc_data(const Exiv2::Image *image, const char *key, Exiv2::IptcData::cons
         if(md != iptcData.end() && md->typeId() != Exiv2::undefined)
             ok = true;
     } 
-    catch(const Exiv2::AnyError&) {
+    catch(const Exiv2::Error&) {
     }
     return ok;
 }

@@ -145,7 +145,7 @@ try {
 
     return rc;
 }
-catch (AnyError& e) {
+catch (Error& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
     return 1;
 }

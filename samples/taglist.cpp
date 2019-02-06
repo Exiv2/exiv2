@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 
                 try {
                     XmpProperties::printProperties(std::cout, item);
-                } catch (const AnyError&) {
+                } catch (const Error&) {
                     rc = 2;
                 }
 
@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
                       << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
         }
         return rc;
-    } catch (AnyError& e) {
+    } catch (Error& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
         return 1;
     }

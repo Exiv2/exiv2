@@ -45,7 +45,7 @@ int main(int argc, char* const argv[])
         }
 
         return 0;
-    } catch (Exiv2::AnyError& e) {
+    } catch (Exiv2::Error& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
         return -1;
     }

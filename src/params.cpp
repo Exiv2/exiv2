@@ -1191,14 +1191,14 @@ namespace
                 Exiv2::IptcKey iptcKey(key);
                 metadataId = iptc;
                 defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
-            } catch (const Exiv2::AnyError&) {
+            } catch (const Exiv2::Error&) {
             }
             if (metadataId == invalidMetadataId) {
                 try {
                     Exiv2::ExifKey exifKey(key);
                     metadataId = exif;
                     defaultType = exifKey.defaultTypeId();
-                } catch (const Exiv2::AnyError&) {
+                } catch (const Exiv2::Error&) {
                 }
             }
             if (metadataId == invalidMetadataId) {
@@ -1206,7 +1206,7 @@ namespace
                     Exiv2::XmpKey xmpKey(key);
                     metadataId = xmp;
                     defaultType = Exiv2::XmpProperties::propertyType(xmpKey);
-                } catch (const Exiv2::AnyError&) {
+                } catch (const Exiv2::Error&) {
                 }
             }
             if (metadataId == invalidMetadataId) {
@@ -1292,7 +1292,7 @@ namespace
                         modifyCmds.push_back(modifyCmd);
                     }
                 }
-            } catch (const Exiv2::AnyError& error) {
+            } catch (const Exiv2::Error& error) {
                 std::cerr << filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
@@ -1311,7 +1311,7 @@ namespace
                 }
             }
             return true;
-        } catch (const Exiv2::AnyError& error) {
+        } catch (const Exiv2::Error& error) {
             std::cerr << _("-M option") << " " << error << "\n";
             return false;
         }

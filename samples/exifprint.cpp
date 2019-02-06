@@ -96,7 +96,7 @@ try {
     return 0;
 }
 //catch (std::exception& e) {
-//catch (Exiv2::AnyError& e) {
+//catch (Exiv2::Error& e) {
 catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
     return -1;

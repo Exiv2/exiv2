@@ -36,6 +36,6 @@ try {
 
     return 0;
 }
-catch (const AnyError& e) {
+catch (const Error& e) {
     std::cout << e << "\n";
 }
