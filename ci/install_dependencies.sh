@@ -1,6 +1,4 @@
-#!/bin/sh
-
-set -e
+#!/bin/sh -e
 
 # Debian & derivatives don't provide binary packages of googletest
 # => have to build them ourselves
@@ -15,6 +13,12 @@ debian_build_gtest() {
     cp libgtest* /usr/lib/
     cd ..
 }
+
+# workaround for really bare-bones Archlinux containers:
+if [ -x "$(command -v pacman)" ]; then
+    pacman --noconfirm -Sy
+    pacman --noconfirm -S grep gawk sed
+fi
 
 distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
@@ -31,7 +35,7 @@ case "$distro_id" in
 
     'arch')
         pacman --noconfirm -Sy
-        pacman --noconfirm -S gcc clang cmake make ccache expat zlib libssh curl gtest python dos2unix
+        pacman --noconfirm -S gcc clang cmake make ccache expat zlib libssh curl gtest python dos2unix which diffutils
         ;;
 
     'ubuntu')
