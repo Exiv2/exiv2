@@ -164,29 +164,6 @@ namespace Exiv2 {
         return os.str();
     }
 
-    /*!
-      @brief Error class interface. Allows the definition and use of a hierarchy
-             of error classes which can all be handled in one catch block.
-             Inherits from the standard exception base-class, to make life
-             easier for library users (they have the option of catching most
-             things via std::exception).
-     */
-    class EXIV2API AnyError : public std::exception {
-    public:
-        AnyError();
-        AnyError(const AnyError& o);
-
-        virtual ~AnyError() noexcept;
-        ///@brief  Return the error code.
-        virtual int code() const noexcept =0;
-    };
-
-    //! %AnyError output operator
-    inline std::ostream& operator<<(std::ostream& os, const AnyError& error)
-    {
-        return os << error.what();
-    }
-
     //! Complete list of all Exiv2 error codes
     enum class ErrorCode {
         kerSuccess = 0,
@@ -340,8 +317,19 @@ namespace Exiv2 {
     //! Return the error message for the error with code \em code.
     const char* errMsg(ErrorCode code);
 
+    /*!
+      @brief Error class interface. Allows the definition and use of a hierarchy
+             of error classes which can all be handled in one catch block.
+             Inherits from the standard exception base-class, to make life
+             easier for library users (they have the option of catching most
+             things via std::exception).
+     */
+    EXIV2LIB_DEPRECATED typedef Error AnyError;
 
+    //! %Error output operator
+    inline std::ostream& operator<<(std::ostream& os, const Error& error)
     {
+        return os << error.what();
     }
 
 #ifdef _MSC_VER
