@@ -204,7 +204,7 @@ namespace Exiv2 {
         }
 
         if (!reopen) {
-            // Don't do anything when switching _from_ opSeek mode; we
+            // Do not do anything when switching _from_ opSeek mode; we
             // flush when switching _to_ opSeek.
             if (oldOpMode == opSeek)
                 return 0;
