@@ -56,7 +56,7 @@ if (BUILD_SHARED_LIBS)
 endif()
 
 # 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
-install(TARGETS exiv2-xmp EXPORT exiv2Config
+install(TARGETS exiv2-xmp EXPORT exiv2Targets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )

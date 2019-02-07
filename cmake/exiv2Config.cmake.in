@@ -1,0 +1,46 @@
+@PACKAGE_INIT@
+
+# Setup for dependency management
+include(CMakeFindDependencyMacro)
+### Setup search path for custom FindXXX.cmake modules ###
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/Modules/")
+
+###
+# Dependencies: This section should mirror findDependencies.cmake
+# Reasoning about this described here:
+# https://cmake.org/pipermail/cmake-developers/2015-April/025034.html
+
+find_dependency(Threads)
+
+if( @EXIV2_ENABLE_PNG@ )
+    find_dependency( ZLIB )
+endif( )
+
+if( @EXIV2_ENABLE_WEBREADY@ )
+    if( @EXIV2_ENABLE_CURL@ )
+        find_dependency(CURL)
+    endif()
+
+    if( @EXIV2_ENABLE_SSH@ )
+        find_dependency( SSH )
+    endif( )
+endif( )
+
+if (@EXIV2_ENABLE_XMP@)
+    find_dependency(EXPAT)
+elseif (@EXIV2_ENABLE_EXTERNAL_XMP@)
+    find_dependency(XmpSdk)
+endif ()
+
+
+if (@EXIV2_ENABLE_NLS@)
+    find_dependency(Intl)
+endif( )
+
+find_dependency(Iconv)
+
+#####################################################################
+
+### Include exiv2 targets ###
+include("${CMAKE_CURRENT_LIST_DIR}/exiv2Targets.cmake")
+check_required_components("@PROJECT_NAME@")
