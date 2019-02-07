@@ -42,5 +42,7 @@ find_dependency(Iconv)
 #####################################################################
 
 ### Include exiv2 targets ###
-include("${CMAKE_CURRENT_LIST_DIR}/exiv2Targets.cmake")
+if(NOT TARGET exiv2lib)
+    include("${CMAKE_CURRENT_LIST_DIR}/exiv2Targets.cmake")
+endif()
 check_required_components("@PROJECT_NAME@")
