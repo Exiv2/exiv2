@@ -211,6 +211,7 @@ endif()
 if( EXIV2_ENABLE_NLS )
     target_link_libraries(exiv2lib PRIVATE ${Intl_LIBRARIES})
     target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
+    target_include_directories(exiv2lib_int PRIVATE ${Intl_INCLUDE_DIRS})
     # Definition needed for translations
     target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}")
 endif()
@@ -254,7 +255,7 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
 
     if( EXIV2_ENABLE_NLS )
         target_link_libraries(exiv2 PRIVATE ${Intl_LIBRARIES})
-        target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
+        target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})
     endif()
 
     if (USING_CONAN AND WIN32 AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls)
