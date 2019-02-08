@@ -70,7 +70,6 @@ add_library( exiv2lib
     properties.cpp          ../include/exiv2/properties.hpp
     psdimage.cpp            ../include/exiv2/psdimage.hpp
     rafimage.cpp            ../include/exiv2/rafimage.hpp
-    riffvideo.cpp           ../include/exiv2/riffvideo.hpp
     rw2image.cpp            ../include/exiv2/rw2image.hpp
     tags.cpp                ../include/exiv2/tags.hpp
     tgaimage.cpp            ../include/exiv2/tgaimage.hpp
