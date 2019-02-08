@@ -75,7 +75,6 @@ add_library( exiv2lib
     tgaimage.cpp            ../include/exiv2/tgaimage.hpp
     tiffimage.cpp           ../include/exiv2/tiffimage.hpp
     types.cpp               ../include/exiv2/types.hpp
-    utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
     value.cpp               ../include/exiv2/value.hpp
     version.cpp             ../include/exiv2/version.hpp
     webpimage.cpp           ../include/exiv2/webpimage.hpp
