@@ -44,7 +44,6 @@ add_library( exiv2lib
     ../include/exiv2/exiv2.hpp
     ../include/exiv2/rwlock.hpp
     ../include/exiv2/slice.hpp
-    asfvideo.cpp            ../include/exiv2/asfvideo.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
     bigtiffimage.cpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
