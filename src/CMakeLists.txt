@@ -106,9 +106,6 @@ if( EXIV2_ENABLE_WEBREADY )
         target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
     endif()
 
-    if( EXIV2_ENABLE_SSH )
-        target_sources(exiv2lib PRIVATE ssh.cpp ../include/exiv2/ssh.hpp)
-    endif()
 endif()
 
 if( EXIV2_ENABLE_PNG )
