@@ -273,11 +273,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_unicode_path=0;
     int have_regex       =0;
 
-    int enable_video     =0;
     int enable_webready  =0;
     int enable_nls       =0;
     int use_curl         =0;
-    int use_ssh          =0;
 
 #ifdef EXV_HAVE_GMTIME_R
     have_gmtime_r=1;
@@ -351,10 +349,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      have_unicode_path=1;
 #endif
 
-#ifdef EXV_ENABLE_VIDEO
-     enable_video=1;
-#endif
-
 #ifdef EXV_ENABLE_WEBREADY
      enable_webready=1;
 #endif
@@ -365,10 +359,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_USE_CURL
     use_curl=1;
-#endif
-
-#ifdef EXV_USE_SSH
-     use_ssh=1;
 #endif
 
 #ifdef EXV_HAVE_REGEX_H
@@ -473,11 +463,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_bool"         ,have_bool        );
     output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
-    output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
-    output(os,keys,"use_ssh"           ,use_ssh          );
     output(os,keys,"have_regex"        ,have_regex       );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());

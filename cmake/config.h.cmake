@@ -3,9 +3,6 @@
 #ifndef _EXV_CONF_H_
 #define _EXV_CONF_H_
 
-// Defined if you want to use libssh for SshIO.
-#cmakedefine EXV_USE_SSH
-
 // Define to 1 if you want to use libcurl in httpIO.
 #cmakedefine EXV_USE_CURL
 
@@ -20,9 +17,6 @@
 
 // Define if you want translation of program messages to the user's native language
 #cmakedefine EXV_ENABLE_NLS
-
-// Define if you want video support.
-#cmakedefine EXV_ENABLE_VIDEO
 
 // Define if you have the strerror_r function.
 #cmakedefine EXV_HAVE_STRERROR_R
