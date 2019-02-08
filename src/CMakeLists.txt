@@ -62,7 +62,6 @@ add_library( exiv2lib
     iptc.cpp                ../include/exiv2/iptc.hpp
     jp2image.cpp            ../include/exiv2/jp2image.hpp
     jpgimage.cpp            ../include/exiv2/jpgimage.hpp
-    matroskavideo.cpp       ../include/exiv2/matroskavideo.hpp
     metadatum.cpp           ../include/exiv2/metadatum.hpp
     mrwimage.cpp            ../include/exiv2/mrwimage.hpp
     orfimage.cpp            ../include/exiv2/orfimage.hpp
