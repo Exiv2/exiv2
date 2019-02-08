@@ -42,7 +42,7 @@ Debian:
   <<: *distro_build
 
 Archlinux:
-  image: base/archlinux
+  image: archlinux/base
   <<: *default_config
   <<: *distro_build
 
