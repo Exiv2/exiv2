@@ -37,7 +37,6 @@
 #include "exiv2/cr2image.hpp"
 #include "exiv2/crwimage.hpp"
 #include "exiv2/easyaccess.hpp"
-#include "exiv2/epsimage.hpp"
 #include "exiv2/error.hpp"
 #include "exiv2/exif.hpp"
 #include "exiv2/futils.hpp"
@@ -62,10 +61,6 @@
 #include "exiv2/psdimage.hpp"
 #include "exiv2/rafimage.hpp"
 #include "exiv2/rw2image.hpp"
-
-#ifdef EXV_USE_SSH
-#include "exiv2/ssh.hpp"
-#endif
 
 #include "exiv2/tags.hpp"
 #include "exiv2/tgaimage.hpp"
