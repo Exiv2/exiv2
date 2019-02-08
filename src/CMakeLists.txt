@@ -242,15 +242,15 @@ write_basic_package_version_file(
 configure_package_config_file(
     "${CMAKE_SOURCE_DIR}/cmake/exiv2Config.cmake.in"
     "${export_dir}/exiv2Config.cmake"
-    INSTALL_DESTINATION "share/exiv2/cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
 
 install(
     FILES "${export_dir}/exiv2Config.cmake" "${export_dir}/exiv2ConfigVersion.cmake"
-    DESTINATION "share/exiv2/cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
 
-install(EXPORT exiv2Targets DESTINATION "share/exiv2/cmake")
+install(EXPORT exiv2Targets DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
 # ******************************************************************************
 # exiv2 application
@@ -295,4 +295,3 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099")
     endif()
 endif()
-
