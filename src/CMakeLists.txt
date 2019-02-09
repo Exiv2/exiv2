@@ -6,6 +6,7 @@ if( EXIV2_BUILD_UNIT_TESTS )
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
 endif()
 
+include(CMakePackageConfigHelpers)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -220,6 +221,7 @@ if( ICONV_FOUND )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
 endif()
 
+write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
 install(TARGETS exiv2lib EXPORT exiv2Config
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -233,6 +235,8 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "share/exiv2/cmake")
 
 # ******************************************************************************
 # exiv2 application
