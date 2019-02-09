@@ -233,20 +233,18 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 # CMake configs
-set(export_dir "${CMAKE_BINARY_DIR}/export")
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    "${export_dir}/exiv2ConfigVersion.cmake" COMPATIBILITY AnyNewerVersion
-)
+write_basic_package_version_file("exiv2ConfigVersion.cmake" COMPATIBILITY AnyNewerVersion)
 
 configure_package_config_file(
     "${CMAKE_SOURCE_DIR}/cmake/exiv2Config.cmake.in"
-    "${export_dir}/exiv2Config.cmake"
+    "exiv2Config.cmake"
     INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
 
-install(
-    FILES "${export_dir}/exiv2Config.cmake" "${export_dir}/exiv2ConfigVersion.cmake"
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/exiv2Config.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake"
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
 
