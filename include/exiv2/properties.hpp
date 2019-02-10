@@ -195,8 +195,15 @@ namespace Exiv2 {
          */
         static void unregisterNs(const std::string& ns);
 
-        //! lock to be used while modifying properties
-        static std::mutex rwLock_;
+        /*!
+          @brief Lock to be used while modifying properties.
+
+          @todo For a proper read-write lock, this shall be improved by a
+          \em std::shared_timed_mutex (once C++14 is allowed) or
+          \em std::shared_mutex (once C++17 is allowed). The
+          read-access locks shall be updated to \em std::shared_lock then.
+         */
+        static std::mutex mutex_;
 
         /*!
           @brief Unregister all custom namespaces.
