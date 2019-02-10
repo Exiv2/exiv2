@@ -25,7 +25,7 @@
 
 // included header files
 #include "datasets.hpp"
-#include "rwlock.hpp"
+#include <mutex>
 
 // *****************************************************************************
 // namespace extensions
@@ -196,7 +196,7 @@ namespace Exiv2 {
         static void unregisterNs(const std::string& ns);
 
         //! lock to be used while modifying properties
-        static Exiv2::RWLock rwLock_;
+        static std::mutex rwLock_;
 
         /*!
           @brief Unregister all custom namespaces.

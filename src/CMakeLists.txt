@@ -43,7 +43,6 @@ add_library( exiv2lib_int OBJECT
 add_library( exiv2lib
     ../include/exiv2/config.h
     ../include/exiv2/exiv2.hpp
-    ../include/exiv2/rwlock.hpp
     ../include/exiv2/slice.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp

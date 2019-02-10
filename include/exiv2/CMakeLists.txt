@@ -30,7 +30,6 @@ install(FILES
             psdimage.hpp
             rafimage.hpp
             rw2image.hpp
-            rwlock.hpp
             slice.hpp
             tags.hpp
             tgaimage.hpp
