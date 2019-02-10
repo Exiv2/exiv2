@@ -49,6 +49,9 @@
 #include <regex.h>
 #endif
 
+#if defined(_MSC_VER)
+#include <Windows.h>
+#endif
 
 // *****************************************************************************
 // local declarations
