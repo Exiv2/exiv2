@@ -49,7 +49,7 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 | Project Homepage            | [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2) |
 | Downloads and Documentation | [http://exiv2.dyndns.org](http://exiv2.dyndns.org) |
 | BuildServer:                | [http://exiv2.dyndns.org:8080](http://exiv2.dyndns.org:8080) |
-| License (GPLv2)             | [license.txt](license.txt) |
+| License (GPLv2)             | [COPYING](COPYING) |
 | CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
 
 The file ReadMe.txt in a Build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
@@ -550,22 +550,21 @@ All project resources are accessible from the project website.
 ### 3.1 License
 
 Copyright (C) 2004-2018 Exiv2 authors.
-You should have received a copy of the file [license.txt](license.txt) which details the GPLv2 license.
+You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
 
-Exiv2 is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free
-Software Foundation; either version 2 of the License, or (at your
-option) any later version.
+Exiv2 is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-Exiv2 is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-for more details.
+Exiv2 program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, 5th Floor, Boston,
-MA 02110-1301 USA.
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 [TOC](#TOC)
 <div id="3-2">

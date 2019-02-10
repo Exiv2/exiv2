@@ -88,7 +88,7 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/"              DESTINATION "con
 set( DOCS
      README.md
      README-CONAN.md
-     license.txt
+     COPYING
      exiv2.png
 )
 foreach(doc ${DOCS})
