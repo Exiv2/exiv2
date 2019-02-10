@@ -36,6 +36,7 @@ EXIV2_RCSID("@(#) $Id$")
 
 #include "preview.hpp"
 #include "futils.hpp"
+#include "safe_op.hpp"
 
 #include "image.hpp"
 #include "cr2image.hpp"
@@ -470,7 +471,7 @@ namespace {
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
-        if (io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
+        if ((long)io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
@@ -546,7 +547,8 @@ namespace {
             }
         }
 
-        if (offset_ + size_ > static_cast<uint32_t>(image_.io().size())) return;
+        if (Safe::add(offset_, size_) > static_cast<uint32_t>(image_.io().size()))
+            return;
 
         valid_ = true;
     }
@@ -800,7 +802,7 @@ namespace {
                     // this saves one copying of the buffer
                     uint32_t offset = dataValue.toLong(0);
                     uint32_t size = sizes.toLong(0);
-                    if (offset + size <= static_cast<uint32_t>(io.size()))
+                    if (Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                         dataValue.setDataArea(base + offset, size);
                 }
                 else {
@@ -810,7 +812,7 @@ namespace {
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        if (offset + size <= static_cast<uint32_t>(io.size()))
+                        if (Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                             memcpy(pos, base + offset, size);
                         pos += size;
                     }
