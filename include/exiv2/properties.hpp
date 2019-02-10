@@ -94,19 +94,17 @@ namespace Exiv2 {
 
     //! XMP property reference, implemented as a static class.
     class EXIV2API XmpProperties {
-        //! Prevent construction: not implemented.
-        XmpProperties();
-        //! Prevent copy-construction: not implemented.
-        XmpProperties(const XmpProperties& rhs);
-        //! Prevent assignment: not implemented.
-        XmpProperties& operator=(const XmpProperties& rhs);
-
-      private:
         static const XmpNsInfo* nsInfoUnsafe(const std::string& prefix);
         static void unregisterNsUnsafe(const std::string& ns);
         static const XmpNsInfo* lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix);
 
     public:
+        XmpProperties() = delete;
+        XmpProperties& operator=(const XmpProperties& rhs) = delete;
+        XmpProperties& operator=(const XmpProperties&& rhs) = delete;
+        XmpProperties(const XmpProperties& rhs) = delete;
+        XmpProperties(const XmpProperties&& rhs) = delete;
+
         /*!
           @brief Return the title (label) of the property.
           @param key The property key

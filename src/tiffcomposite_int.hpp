@@ -530,13 +530,10 @@ namespace Exiv2 {
                                     TiffType  tiffType,
                                     ByteOrder byteOrder);
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Assignment operator.
-        TiffEntryBase& operator=(const TiffEntryBase& rhs);
-        //@}
+    public:
+        TiffEntryBase& operator=(const TiffEntryBase& rhs) = delete;
 
+    private:
         // DATA
         TiffType tiffType_;   //!< Field TIFF type
         uint32_t count_;      //!< The number of values of the indicated type
@@ -931,13 +928,10 @@ namespace Exiv2 {
         uint32_t doSizeImage() const override;
         //@}
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Assignment operator.
-        TiffDirectory& operator=(const TiffDirectory& rhs);
-        //@}
+    public:
+        TiffDirectory& operator=(const TiffDirectory& rhs) = delete;
 
+    private:
         //! @name Private Accessors
         //@{
         //! Write a binary directory entry for a TIFF component.
@@ -1030,13 +1024,10 @@ namespace Exiv2 {
         uint32_t doSizeImage() const override;
         //@}
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Assignment operator.
-        TiffSubIfd& operator=(const TiffSubIfd& rhs);
-        //@}
+    public:
+        TiffSubIfd& operator=(const TiffSubIfd& rhs) = delete;
 
+    private:
         //! A collection of TIFF directories (IFDs)
         typedef std::vector<TiffDirectory*> Ifds;
 
@@ -1103,15 +1094,13 @@ namespace Exiv2 {
         // Using doSizeImage from base class
         //@}
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor.
-        TiffMnEntry(const TiffMnEntry& rhs);
-        //! Assignment operator.
-        TiffMnEntry& operator=(const TiffMnEntry& rhs);
-        //@}
+    public:
+        TiffMnEntry& operator=(const TiffMnEntry& rhs) = delete;
+        TiffMnEntry& operator=(const TiffMnEntry&& rhs) = delete;
+        TiffMnEntry(const TiffMnEntry& rhs) = delete;
+        TiffMnEntry(const TiffMnEntry&& rhs) = delete;
 
+    private:
         // DATA
         IfdId          mnGroup_;             //!< New group for concrete mn
         TiffComponent* mn_;                  //!< The Makernote
@@ -1257,21 +1246,14 @@ namespace Exiv2 {
         uint32_t doSizeImage() const override;
         //@}
 
+    public:
+        TiffIfdMakernote& operator=(const TiffIfdMakernote& rhs) = delete;
+
+        TiffIfdMakernote& operator=(const TiffIfdMakernote&& rhs) = delete;
+        TiffIfdMakernote(const TiffIfdMakernote& rhs) = delete;
+        TiffIfdMakernote(const TiffIfdMakernote&& rhs) = delete;
+
     private:
-        /*!
-          @name NOT implemented
-
-          Implementing the copy constructor and assignment operator will require
-          cloning the header, i.e., clone() functionality on the MnHeader
-          hierarchy.
-         */
-        //@{
-        //! Copy constructor.
-        TiffIfdMakernote(const TiffIfdMakernote& rhs);
-        //! Assignment operator.
-        TiffIfdMakernote& operator=(const TiffIfdMakernote& rhs);
-        //@}
-
         // DATA
         MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
@@ -1446,13 +1428,12 @@ namespace Exiv2 {
         // Using doSizeImage from base class
         //@}
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Assignment operator.
-        TiffBinaryArray& operator=(const TiffBinaryArray& rhs);
-        //@}
+    public:
+        TiffBinaryArray& operator=(const TiffBinaryArray& rhs) = delete;
+        TiffBinaryArray& operator=(const TiffBinaryArray&& rhs) = delete;
+        TiffBinaryArray(const TiffBinaryArray&& rhs) = delete;
 
+    private:
         // DATA
         const CfgSelFct cfgSelFct_; //!< Pointer to a function to determine which cfg to use (may be 0)
         const ArraySet* arraySet_;  //!< Pointer to the array set, if any (may be 0)

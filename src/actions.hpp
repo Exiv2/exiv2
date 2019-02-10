@@ -132,9 +132,14 @@ namespace Action {
     private:
         //! Prevent construction other than through instance().
         TaskFactory();
-        //! Prevent copy construction: not implemented.
-        TaskFactory(const TaskFactory& rhs);
 
+    public:
+        TaskFactory& operator=(const TaskFactory& rhs) = delete;
+        TaskFactory& operator=(const TaskFactory&& rhs) = delete;
+        TaskFactory(const TaskFactory& rhs) = delete;
+        TaskFactory(const TaskFactory&& rhs) = delete;
+
+    private:
         //! Pointer to the one and only instance of this class.
         static TaskFactory* instance_;
         //! Type used to store Task prototype classes

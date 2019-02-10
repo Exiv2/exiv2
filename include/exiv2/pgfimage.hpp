@@ -87,14 +87,13 @@ namespace Exiv2
         std::string mimeType() const override { return "image/pgf"; }
         //@}
 
+        PgfImage& operator=(const PgfImage& rhs) = delete;
+        PgfImage& operator=(const PgfImage&& rhs) = delete;
+        PgfImage(const PgfImage& rhs) = delete;
+        PgfImage(const PgfImage&& rhs) = delete;
+
     private:
         bool bSwap_; // true for bigEndian hardware, else false
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor
-        PgfImage(const PgfImage& rhs);
-        //! Assignment operator
-        PgfImage& operator=(const PgfImage& rhs);
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.

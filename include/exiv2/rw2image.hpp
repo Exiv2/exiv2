@@ -102,16 +102,11 @@ namespace Exiv2 {
         int pixelHeight() const override;
         //@}
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor
-        Rw2Image(const Rw2Image& rhs);
-        //! Assignment operator
-        Rw2Image& operator=(const Rw2Image& rhs);
-        //@}
-
-    }; // class Rw2Image
+        Rw2Image& operator=(const Rw2Image& rhs) = delete;
+        Rw2Image& operator=(const Rw2Image&& rhs) = delete;
+        Rw2Image(const Rw2Image& rhs) = delete;
+        Rw2Image(const Rw2Image&& rhs) = delete;
+    };  // class Rw2Image
 
     /*!
       @brief Stateless parser class for data in RW2 format. Images use this

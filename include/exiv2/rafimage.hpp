@@ -109,16 +109,11 @@ namespace Exiv2 {
         int pixelHeight() const override;
         //@}
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor
-        RafImage(const RafImage& rhs);
-        //! Assignment operator
-        RafImage& operator=(const RafImage& rhs);
-        //@}
-
-    }; // class RafImage
+        RafImage& operator=(const RafImage& rhs) = delete;
+        RafImage& operator=(const RafImage&& rhs) = delete;
+        RafImage(const RafImage& rhs) = delete;
+        RafImage(const RafImage&& rhs) = delete;
+    };  // class RafImage
 
 // *****************************************************************************
 // template, inline and free functions

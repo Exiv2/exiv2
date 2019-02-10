@@ -293,9 +293,13 @@ private:
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
     }
 
-    //! Prevent copy-construction: not implemented.
-    Params(const Params& rhs);
+public:
+    Params& operator=(const Params& rhs) = delete;
+    Params& operator=(const Params&& rhs) = delete;
+    Params(const Params& rhs) = delete;
+    Params(const Params&& rhs) = delete;
 
+private:
     //! Destructor, frees any allocated regexes in greps_
     ~Params();
 

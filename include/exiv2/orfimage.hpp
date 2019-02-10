@@ -90,16 +90,11 @@ namespace Exiv2 {
         int pixelHeight() const override;
         //@}
 
-    private:
-        //! @name NOT Implemented
-        //@{
-        //! Copy constructor
-        OrfImage(const OrfImage& rhs);
-        //! Assignment operator
-        OrfImage& operator=(const OrfImage& rhs);
-        //@}
-
-    }; // class OrfImage
+        OrfImage& operator=(const OrfImage& rhs) = delete;
+        OrfImage& operator=(const OrfImage&& rhs) = delete;
+        OrfImage(const OrfImage& rhs) = delete;
+        OrfImage(const OrfImage&& rhs) = delete;
+    };  // class OrfImage
 
     /*!
       @brief Stateless parser class for data in ORF format. Images use this

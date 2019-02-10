@@ -172,15 +172,12 @@ namespace Exiv2 {
         static const uint16_t Preview                = 202;
         //@}
 
-    private:
-        //! Prevent construction: not implemented.
-        IptcDataSets() {}
-        //! Prevent copy-construction: not implemented.
-        IptcDataSets(const IptcDataSets& rhs);
-        //! Prevent assignment: not implemented.
-        IptcDataSets& operator=(const IptcDataSets& rhs);
+        IptcDataSets() = delete;
+        IptcDataSets& operator=(const IptcDataSets& rhs) = delete;
+        IptcDataSets& operator=(const IptcDataSets&& rhs) = delete;
+        IptcDataSets(const IptcDataSets& rhs) = delete;
+        IptcDataSets(const IptcDataSets&& rhs) = delete;
 
-    public:
         /*!
           @brief Return the name of the dataset.
           @param number The dataset number

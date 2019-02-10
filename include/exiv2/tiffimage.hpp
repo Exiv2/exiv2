@@ -101,15 +101,12 @@ namespace Exiv2 {
         int pixelHeight() const override;
         //@}
 
-    private:
-        //! @name NOT Implemented
-        //@{
-        //! Copy constructor
-        TiffImage(const TiffImage& rhs);
-        //! Assignment operator
-        TiffImage& operator=(const TiffImage& rhs);
-        //@}
+        TiffImage& operator=(const TiffImage& rhs) = delete;
+        TiffImage& operator=(const TiffImage&& rhs) = delete;
+        TiffImage(const TiffImage& rhs) = delete;
+        TiffImage(const TiffImage&& rhs) = delete;
 
+    private:
         //! @name Accessors
         //@{
         //! Return the group name of the group with the primary image.
