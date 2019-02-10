@@ -178,32 +178,36 @@ namespace Exiv2 {
 #endif
     int FileIo::Impl::switchMode(OpMode opMode)
     {
-        assert(fp_ != 0);
+        if (fp_ == nullptr)
+            return 1;
         if (opMode_ == opMode)
             return 0;
         OpMode oldOpMode = opMode_;
         opMode_ = opMode;
 
         bool reopen = true;
-        switch(opMode) {
-        case opRead:
-            // Flush if current mode allows reading, else reopen (in mode "r+b"
-            // as in this case we know that we can write to the file)
-            if (openMode_[0] == 'r' || openMode_[1] == '+') reopen = false;
-            break;
-        case opWrite:
-            // Flush if current mode allows writing, else reopen
-            if (openMode_[0] != 'r' || openMode_[1] == '+') reopen = false;
-            break;
-        case opSeek:
-            reopen = false;
-            break;
+        switch (opMode) {
+            case opRead:
+                // Flush if current mode allows reading, else reopen (in mode "r+b"
+                // as in this case we know that we can write to the file)
+                if (openMode_[0] == 'r' || openMode_[1] == '+')
+                    reopen = false;
+                break;
+            case opWrite:
+                // Flush if current mode allows writing, else reopen
+                if (openMode_[0] != 'r' || openMode_[1] == '+')
+                    reopen = false;
+                break;
+            case opSeek:
+                reopen = false;
+                break;
         }
 
         if (!reopen) {
-            // Don't do anything when switching _from_ opSeek mode; we
+            // Do not do anything when switching _from_ opSeek mode; we
             // flush when switching _to_ opSeek.
-            if (oldOpMode == opSeek) return 0;
+            if (oldOpMode == opSeek)
+                return 0;
 
             // Flush. On msvcrt fflush does not do the job
             std::fseek(fp_, 0, SEEK_CUR);
@@ -215,24 +219,21 @@ namespace Exiv2 {
         if (offset == -1)
             return -1;
         // 'Manual' open("r+b") to avoid munmap()
-        if (fp_ != 0) {
-            std::fclose(fp_);
-            fp_= 0;
-        }
+        std::fclose(fp_);
         openMode_ = "r+b";
         opMode_ = opSeek;
 #ifdef EXV_UNICODE_PATH
         if (wpMode_ == wpUnicode) {
             fp_ = ::_wfopen(wpath_.c_str(), s2ws(openMode_).c_str());
-        }
-        else
+        } else
 #endif
         {
             fp_ = std::fopen(path_.c_str(), openMode_.c_str());
         }
-        if (!fp_) return 1;
+        if (fp_ == nullptr)
+            return 1;
         return std::fseek(fp_, offset, SEEK_SET);
-    } // FileIo::Impl::switchMode
+    }  // FileIo::Impl::switchMode
 
     int FileIo::Impl::stat(StructStat& buf) const
     {
