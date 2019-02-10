@@ -14,7 +14,7 @@ samples/exifprint.cpp                     sample code
 logs                                      build and test logs
 
 ReadMe.txt                                This file
-license.txt                               GPLv2.0 Software License
+COPYING                                   GPLv2.0 Software License
 releasenotes.txt                          Late breaking news
 README.md                                 Developer Manual
 README-CONAN.md                           Developer Manual Appendix
