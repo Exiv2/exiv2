@@ -605,7 +605,7 @@ The feature is disabled by default.  You will need to instruct conan to build/do
 
 ```bash
 $ conan install .. --options webready=True
-$ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON ..
+$ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON ..
 ```
 
 [TOC](#TOC)
