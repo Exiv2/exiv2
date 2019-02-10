@@ -1,28 +1,26 @@
-#!/bin/bash
+#!/bin/sh -e
 
-set -e
+# Debian & derivatives don't provide binary packages of googletest
+# => have to build them ourselves
+#
+# This script builds a shared library of googletest (not googlemock!) inside
+# gtest_build and copies it to /usr/lib/
+debian_build_gtest() {
+    [ -d gtest_build ] || mkdir gtest_build
+    cd gtest_build
+    cmake -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
+    make
+    cp libgtest* /usr/lib/
+    cd ..
+}
 
-# this script expects one parameter, which is the path to utils.source
-# if the parameter is omitted, it defaults to the relative path in the
-# repository, but it can be provided manually (e.g. for vagrant VMs)
-
-if [ $# -eq 0 ]; then
-    source $(dirname "${BASH_SOURCE[0]}")/../contrib/vms/utils.source
-elif [ $# -gt 1 ]; then
-    cat << EOF
-usage: install_dependencies.sh [path/to/utils.source]
-
-Installs the dependencies required to build & test exiv2 on some Linux
-distributions.
-The optional parameter is the path to the utils.source file, which can be set to
-an alternative location (currently used for vagrant builds)
-EOF
-    exit 1
-else
-    source "$1"
+# workaround for really bare-bones Archlinux containers:
+if [ -x "$(command -v pacman)" ]; then
+    pacman --noconfirm -Sy
+    pacman --noconfirm -S grep gawk sed
 fi
 
-distro_id=$(get_distro_id)
+distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
@@ -37,7 +35,7 @@ case "$distro_id" in
 
     'arch')
         pacman --noconfirm -Sy
-        pacman --noconfirm -S gcc clang cmake make ccache expat zlib libssh curl gtest python dos2unix
+        pacman --noconfirm -S gcc clang cmake make ccache expat zlib libssh curl gtest python dos2unix which diffutils
         ;;
 
     'ubuntu')

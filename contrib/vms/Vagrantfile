@@ -36,7 +36,6 @@ Vagrant.configure("2") do |config|
   # use the CI script from gitlab to setup all dependencies
   config.vm.provision "install_dependencies", type: "shell" do |shell|
     shell.path = "../../ci/install_dependencies.sh"
-    shell.args = "/vagrant/utils.source"
   end
 
   # install additional dependencies for development
