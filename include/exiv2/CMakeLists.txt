@@ -1,5 +1,4 @@
 install(FILES
-            asfvideo.hpp
             basicio.hpp
             bigtiffimage.hpp
             bmpimage.hpp
@@ -9,7 +8,6 @@ install(FILES
             crwimage.hpp
             datasets.hpp
             easyaccess.hpp
-            epsimage.hpp
             error.hpp
             exif.hpp
             exiv2.hpp
@@ -21,7 +19,6 @@ install(FILES
             iptc.hpp
             jp2image.hpp
             jpgimage.hpp
-            matroskavideo.hpp
             metadatum.hpp
             mrwimage.hpp
             orfimage.hpp
@@ -30,17 +27,13 @@ install(FILES
             preview.hpp
             properties.hpp
             psdimage.hpp
-            quicktimevideo.hpp
             rafimage.hpp
-            riffvideo.hpp
             rw2image.hpp
             slice.hpp
-            ssh.hpp
             tags.hpp
             tgaimage.hpp
             tiffimage.hpp
             types.hpp
-            utilsvideo.hpp
             value.hpp
             version.hpp
             webpimage.hpp

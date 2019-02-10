@@ -44,7 +44,6 @@ add_library( exiv2lib
     ../include/exiv2/config.h
     ../include/exiv2/exiv2.hpp
     ../include/exiv2/slice.hpp
-    asfvideo.cpp            ../include/exiv2/asfvideo.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
     bigtiffimage.cpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
@@ -53,7 +52,6 @@ add_library( exiv2lib
     crwimage.cpp            ../include/exiv2/crwimage.hpp
     datasets.cpp            ../include/exiv2/datasets.hpp
     easyaccess.cpp          ../include/exiv2/easyaccess.hpp
-    epsimage.cpp            ../include/exiv2/epsimage.hpp
     error.cpp               ../include/exiv2/error.hpp
     exif.cpp                ../include/exiv2/exif.hpp
     futils.cpp              ../include/exiv2/futils.hpp
@@ -64,7 +62,6 @@ add_library( exiv2lib
     iptc.cpp                ../include/exiv2/iptc.hpp
     jp2image.cpp            ../include/exiv2/jp2image.hpp
     jpgimage.cpp            ../include/exiv2/jpgimage.hpp
-    matroskavideo.cpp       ../include/exiv2/matroskavideo.hpp
     metadatum.cpp           ../include/exiv2/metadatum.hpp
     mrwimage.cpp            ../include/exiv2/mrwimage.hpp
     orfimage.cpp            ../include/exiv2/orfimage.hpp
@@ -72,15 +69,12 @@ add_library( exiv2lib
     preview.cpp             ../include/exiv2/preview.hpp
     properties.cpp          ../include/exiv2/properties.hpp
     psdimage.cpp            ../include/exiv2/psdimage.hpp
-    quicktimevideo.cpp      ../include/exiv2/quicktimevideo.hpp
     rafimage.cpp            ../include/exiv2/rafimage.hpp
-    riffvideo.cpp           ../include/exiv2/riffvideo.hpp
     rw2image.cpp            ../include/exiv2/rw2image.hpp
     tags.cpp                ../include/exiv2/tags.hpp
     tgaimage.cpp            ../include/exiv2/tgaimage.hpp
     tiffimage.cpp           ../include/exiv2/tiffimage.hpp
     types.cpp               ../include/exiv2/types.hpp
-    utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
     value.cpp               ../include/exiv2/value.hpp
     version.cpp             ../include/exiv2/version.hpp
     webpimage.cpp           ../include/exiv2/webpimage.hpp
@@ -107,9 +101,6 @@ if( EXIV2_ENABLE_WEBREADY )
         target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
     endif()
 
-    if( EXIV2_ENABLE_SSH )
-        target_sources(exiv2lib PRIVATE ssh.cpp ../include/exiv2/ssh.hpp)
-    endif()
 endif()
 
 if( EXIV2_ENABLE_PNG )
@@ -166,11 +157,6 @@ target_include_directories(exiv2lib_int PUBLIC
 )
 
 if (EXIV2_ENABLE_WEBREADY)
-
-    if( EXIV2_ENABLE_SSH )
-        target_include_directories(exiv2lib SYSTEM PUBLIC ${SSH_INCLUDE_DIR} )
-        target_link_libraries( exiv2lib PUBLIC ${SSH_LIBRARIES})
-    endif()
 
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )

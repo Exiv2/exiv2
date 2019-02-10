@@ -18,10 +18,6 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
         find_package(CURL REQUIRED)
     endif()
-
-    if( EXIV2_ENABLE_SSH )
-        find_package( SSH REQUIRED)
-    endif( )
 endif( )
 
 if (EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP)
