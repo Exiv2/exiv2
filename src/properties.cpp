@@ -2476,11 +2476,11 @@ namespace Exiv2 {
     }
 
     XmpProperties::NsRegistry XmpProperties::nsRegistry_;
-    std::mutex XmpProperties::rwLock_;
+    std::mutex XmpProperties::mutex_;
 
     const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix)
     {
-        std::lock_guard<std::mutex> scoped_read_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         return lookupNsRegistryUnsafe(prefix);
     }
 
@@ -2496,7 +2496,7 @@ namespace Exiv2 {
     void XmpProperties::registerNs(const std::string& ns,
                                    const std::string& prefix)
     {
-        std::lock_guard<std::mutex> scoped_write_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_write_lock(mutex_);
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
@@ -2528,7 +2528,7 @@ namespace Exiv2 {
 
     void XmpProperties::unregisterNs(const std::string& ns)
     {
-        std::lock_guard<std::mutex> scoped_write_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_write_lock(mutex_);
         unregisterNsUnsafe(ns);
     }
 
@@ -2544,7 +2544,7 @@ namespace Exiv2 {
 
     void XmpProperties::unregisterNs()
     {
-        std::lock_guard<std::mutex> scoped_write_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_write_lock(mutex_);
         NsRegistry::iterator i = nsRegistry_.begin();
         while (i != nsRegistry_.end()) {
             NsRegistry::iterator kill = i++;
@@ -2554,7 +2554,7 @@ namespace Exiv2 {
 
     std::string XmpProperties::prefix(const std::string& ns)
     {
-        std::lock_guard<std::mutex> scoped_read_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
@@ -2572,7 +2572,7 @@ namespace Exiv2 {
 
     std::string XmpProperties::ns(const std::string& prefix)
     {
-        std::lock_guard<std::mutex> scoped_read_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
         if (xn != 0) return xn->ns_;
         return nsInfoUnsafe(prefix)->ns_;
@@ -2639,7 +2639,7 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::nsInfo(const std::string& prefix)
     {
-        std::lock_guard<std::mutex> scoped_read_lock(rwLock_);
+        std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         return nsInfoUnsafe(prefix);
     }
 
