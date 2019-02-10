@@ -1026,6 +1026,8 @@ namespace Exiv2 {
 
     public:
         TiffSubIfd& operator=(const TiffSubIfd& rhs) = delete;
+        TiffSubIfd& operator=(const TiffSubIfd&& rhs) = delete;
+        TiffSubIfd(const TiffSubIfd&& rhs) = delete;
 
     private:
         //! A collection of TIFF directories (IFDs)
