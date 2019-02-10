@@ -153,7 +153,7 @@ target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})
 
 if (EXIV2_ENABLE_XMP)
-    target_link_libraries(exiv2lib PUBLIC exiv2-xmp)
+    target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
     target_include_directories(exiv2lib PUBLIC ${XMPSDK_INCLUDE_DIR})
