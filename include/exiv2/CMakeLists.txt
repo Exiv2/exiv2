@@ -34,7 +34,6 @@ install(FILES
             rafimage.hpp
             riffvideo.hpp
             rw2image.hpp
-            rwlock.hpp
             slice.hpp
             ssh.hpp
             tags.hpp

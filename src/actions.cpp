@@ -57,6 +57,7 @@
 # include <unistd.h>                    // for stat()
 #endif
 #ifdef _MSC_VER
+# include <Windows.h>
 # include <sys/utime.h>
 #else
 # include <utime.h>
