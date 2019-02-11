@@ -33,58 +33,12 @@
 #include <cstddef>
 #include <iterator>
 #include <stdexcept>
+#include <type_traits>
 
 namespace Exiv2
 {
     namespace Internal
     {
-        // TODO: remove these custom implementations once we have C++11
-        template <class T>
-        struct remove_const
-        {
-            typedef T type;
-        };
-
-        template <class T>
-        struct remove_const<const T>
-        {
-            typedef T type;
-        };
-
-        template <class T>
-        struct remove_volatile
-        {
-            typedef T type;
-        };
-        template <class T>
-        struct remove_volatile<volatile T>
-        {
-            typedef T type;
-        };
-        template <class T>
-        struct remove_cv
-        {
-            typedef typename remove_const<typename remove_volatile<T>::type>::type type;
-        };
-
-        template <class T>
-        struct remove_pointer
-        {
-            typedef T type;
-        };
-
-        template <class T>
-        struct remove_pointer<T*>
-        {
-            typedef T type;
-        };
-
-        template <class T>
-        struct remove_pointer<T* const>
-        {
-            typedef T type;
-        };
-
         /*!
          * Common base class of all slice implementations.
          *
@@ -153,22 +107,22 @@ namespace Exiv2
          *
          * - Must save data as a public member named `data_`.
          *
-         * - Must provide appropriate typedefs for iterator, const_iterator and
+         * - Must provide appropriate type aliases for iterator, const_iterator and
          *   value_type
          */
         template <template <typename data_type> class storage_type, typename data_type>
         struct ConstSliceBase : SliceBase
         {
-            typedef typename storage_type<data_type>::iterator iterator;
-            typedef typename storage_type<data_type>::const_iterator const_iterator;
-            typedef typename storage_type<data_type>::value_type value_type;
+            using iterator = typename storage_type<data_type>::iterator;
+            using const_iterator = typename storage_type<data_type>::const_iterator;
+            using value_type = typename storage_type<data_type>::value_type;
 
             /*!
              * Default contructor, requires begin to be smaller than end,
              * otherwise an exception is thrown. Also forwards all parameters to
              * the constructor of storage_
              */
-            ConstSliceBase(data_type& data, size_t begin, size_t end)
+            ConstSliceBase(const data_type & data, size_t begin, size_t end)
                 : SliceBase(begin, end), storage_(data, begin, end)
             {
             }
@@ -246,19 +200,14 @@ namespace Exiv2
         template <template <typename> class storage_type, typename data_type>
         struct MutableSliceBase : public ConstSliceBase<storage_type, data_type>
         {
-            typedef typename ConstSliceBase<storage_type, data_type>::iterator iterator;
-            typedef typename ConstSliceBase<storage_type, data_type>::const_iterator const_iterator;
-            typedef typename ConstSliceBase<storage_type, data_type>::value_type value_type;
+            using iterator = typename ConstSliceBase<storage_type, data_type>::iterator;
+            using const_iterator = typename ConstSliceBase<storage_type, data_type>::const_iterator;
+            using value_type = typename ConstSliceBase<storage_type, data_type>::value_type;
 
             /*!
-             * Forwards everything to the constructor of const_slice_base
-             *
-             * @todo use using once we have C++11
+             * Delegates everything to the constructor of ConstSliceBase
              */
-            MutableSliceBase(data_type& data, size_t begin, size_t end)
-                : ConstSliceBase<storage_type, data_type>(data, begin, end)
-            {
-            }
+            using ConstSliceBase<storage_type, data_type>::ConstSliceBase;
 
             /*!
              * Obtain a reference to the element with the specified index in the
@@ -274,7 +223,6 @@ namespace Exiv2
 
             const value_type& at(size_t index) const
             {
-                // TODO: use using base_type::at once we have C++11
                 return base_type::at(index);
             }
 
@@ -317,7 +265,7 @@ namespace Exiv2
                 return ConstSliceBase<storage_type, const data_type>(this->storage_.data_, this->begin_, this->end_);
             }
 
-            typedef ConstSliceBase<storage_type, data_type> base_type;
+            using base_type = ConstSliceBase<storage_type, data_type>;
 
             /*!
              * Create a mutable sub-slice with the given bounds (with respect to
@@ -355,11 +303,9 @@ namespace Exiv2
         template <typename container>
         struct ContainerStorage
         {
-            typedef typename container::iterator iterator;
-
-            typedef typename container::const_iterator const_iterator;
-
-            typedef typename Internal::remove_cv<typename container::value_type>::type value_type;
+            using iterator = typename container::iterator;
+            using const_iterator = typename container::const_iterator;
+            using value_type = typename std::remove_cv<typename container::value_type>::type;
 
             /*!
              * @throw std::out_of_range when end is larger than the container's
@@ -426,9 +372,9 @@ namespace Exiv2
         template <typename storage_type>
         struct PtrSliceStorage
         {
-            typedef typename remove_cv<typename remove_pointer<storage_type>::type>::type value_type;
-            typedef value_type* iterator;
-            typedef const value_type* const_iterator;
+            using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
+            using iterator = value_type*;
+            using const_iterator = const iterator;
 
             /*!
              * Stores ptr and checks that it is not `nullptr`. The slice's bounds
@@ -527,15 +473,15 @@ namespace Exiv2
     template <typename container>
     struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, container>
     {
-        typedef typename container::iterator iterator;
-
-        typedef typename container::const_iterator const_iterator;
-
-        typedef typename Internal::remove_cv<typename container::value_type>::type value_type;
+        using iterator = typename container::iterator;
+        using const_iterator = typename container::const_iterator;
+        using value_type = typename std::remove_cv<typename container::value_type>::type;
 
         /*!
          * @brief Construct a slice of the container `cont` starting at `begin`
          * (including) and ending before `end`.
+         *
+         * Delegates everything to the constructor of MutableSliceBase
          *
          * @param[in] cont Reference to the container
          * @param[in] begin First element of the slice.
@@ -549,10 +495,7 @@ namespace Exiv2
          * than `begin` (they cannot be equal) it is impossible to construct a
          * slice with zero length.
          */
-        Slice(container& cont, size_t begin, size_t end)
-            : Internal::MutableSliceBase<Internal::ContainerStorage, container>(cont, begin, end)
-        {
-        }
+        using Internal::MutableSliceBase<Internal::ContainerStorage, container>::MutableSliceBase;
 
         /*!
          * Construct a sub-slice of this slice with the given bounds. The bounds
@@ -585,11 +528,9 @@ namespace Exiv2
     template <typename container>
     struct Slice<const container> : public Internal::ConstSliceBase<Internal::ContainerStorage, const container>
     {
-        typedef typename container::iterator iterator;
-
-        typedef typename container::const_iterator const_iterator;
-
-        typedef typename Internal::remove_cv<typename container::value_type>::type value_type;
+        using iterator = typename container::iterator;
+        using const_iterator = typename container::const_iterator;
+        using value_type = typename std::remove_cv<typename container::value_type>::type;
 
         Slice(const container& cont, size_t begin, size_t end)
             : Internal::ConstSliceBase<Internal::ContainerStorage, const container>(cont, begin, end)
@@ -615,7 +556,7 @@ namespace Exiv2
     struct Slice<const T*> : public Internal::ConstSliceBase<Internal::PtrSliceStorage, const T*>
     {
         /*!
-         * Constructor.
+         * Delegates everything to the constructor of ConstSliceBase
          *
          * @param[in] ptr  C-array of which a slice should be constructed. Must
          *     not be a null pointer.
@@ -626,11 +567,7 @@ namespace Exiv2
          * Please note that the constructor has no way how to verify that
          * `begin` and `end` are not out of bounds of the provided array!
          */
-        Slice(const T* ptr, size_t begin, size_t end)
-            : Internal::ConstSliceBase<Internal::PtrSliceStorage, const T*>(ptr, begin, end)
-        {
-            // TODO: use using in C++11
-        }
+        using Internal::ConstSliceBase<Internal::PtrSliceStorage, const T*>::ConstSliceBase;
 
         Slice<const T*> subSlice(size_t begin, size_t end) const
         {
@@ -645,11 +582,10 @@ namespace Exiv2
     template <typename T>
     struct Slice<T*> : public Internal::MutableSliceBase<Internal::PtrSliceStorage, T*>
     {
-        Slice(T* ptr, size_t begin, size_t end)
-            : Internal::MutableSliceBase<Internal::PtrSliceStorage, T*>(ptr, begin, end)
-        {
-            // TODO: use using in C++11
-        }
+        /*!
+         * Delegates everything to the constructor of MutableSliceBase
+         */
+        using Internal::MutableSliceBase<Internal::PtrSliceStorage, T*>::MutableSliceBase;
 
         Slice<T*> subSlice(size_t begin, size_t end)
         {
