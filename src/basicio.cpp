@@ -143,11 +143,10 @@ namespace Exiv2 {
         DWORD winNumberOfLinks() const;
 #endif
 
-    private:
-        // NOT IMPLEMENTED
-        Impl(const Impl& rhs);                         //!< Copy constructor
-        Impl& operator=(const Impl& rhs);              //!< Assignment
-
+        Impl& operator=(const Impl& rhs) = delete;
+        Impl& operator=(const Impl&& rhs) = delete;
+        Impl(const Impl& rhs) = delete;
+        Impl(const Impl&& rhs) = delete;
     }; // class FileIo::Impl
 
     FileIo::Impl::Impl(const std::string& path)
@@ -1069,12 +1068,11 @@ namespace Exiv2 {
         // METHODS
         void reserve(long wcount);         //!< Reserve memory
 
-    private:
-        // NOT IMPLEMENTED
-        Impl(const Impl& rhs);             //!< Copy constructor
-        Impl& operator=(const Impl& rhs);  //!< Assignment
-
-    }; // class MemIo::Impl
+        Impl& operator=(const Impl& rhs) = delete;
+        Impl& operator=(const Impl&& rhs) = delete;
+        Impl(const Impl& rhs) = delete;
+        Impl(const Impl&& rhs) = delete;
+    };  // class MemIo::Impl
 
     MemIo::Impl::Impl()
         : data_(0),
@@ -2047,11 +2045,12 @@ namespace Exiv2 {
           @throw Error if it fails.
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
-    protected:
-        // NOT IMPLEMENTED
-        HttpImpl(const HttpImpl& rhs); //!< Copy constructor
-        HttpImpl& operator=(const HttpImpl& rhs); //!< Assignment
-    }; // class HttpIo::HttpImpl
+
+        HttpImpl& operator=(const HttpImpl& rhs) = delete;
+        HttpImpl& operator=(const HttpImpl&& rhs) = delete;
+        HttpImpl(const HttpImpl& rhs) = delete;
+        HttpImpl(const HttpImpl&& rhs) = delete;
+    };  // class HttpIo::HttpImpl
 
     HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize)
         : Impl(url, blockSize)
@@ -2218,10 +2217,12 @@ namespace Exiv2 {
                 http://dev.exiv2.org/wiki/exiv2
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
-    protected:
-        // NOT IMPLEMENTED
-        CurlImpl(const CurlImpl& rhs); //!< Copy constructor
-        CurlImpl& operator=(const CurlImpl& rhs); //!< Assignment
+
+        CurlImpl& operator=(const CurlImpl& rhs) = delete;
+        CurlImpl& operator=(const CurlImpl&& rhs) = delete;
+        CurlImpl(const CurlImpl& rhs) = delete;
+        CurlImpl(const CurlImpl&& rhs) = delete;
+
     private:
         long timeout_; //!< The number of seconds to wait while trying to connect.
     }; // class RemoteIo::Impl
@@ -2466,11 +2467,11 @@ namespace Exiv2 {
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
 
-    protected:
-        // NOT IMPLEMENTED
-        SshImpl(const SshImpl& rhs); //!< Copy constructor
-        SshImpl& operator=(const SshImpl& rhs); //!< Assignment
-    }; // class RemoteIo::Impl
+        SshImpl& operator=(const SshImpl& rhs) = delete;
+        SshImpl& operator=(const SshImpl&& rhs) = delete;
+        SshImpl(const SshImpl& rhs) = delete;
+        SshImpl(const SshImpl&& rhs) = delete;
+    };  // class RemoteIo::Impl
 
     SshIo::SshImpl::SshImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
     {

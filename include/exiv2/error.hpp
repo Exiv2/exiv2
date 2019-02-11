@@ -73,11 +73,12 @@ namespace Exiv2 {
              make that call any logic that always needs to be executed.
      */
     class EXIV2API LogMsg {
-        //! Prevent copy-construction: not implemented.
-        LogMsg(const LogMsg&);
-        //! Prevent assignment: not implemented.
-        LogMsg& operator=(const LogMsg&);
     public:
+        LogMsg& operator=(const LogMsg& rhs) = delete;
+        LogMsg& operator=(const LogMsg&& rhs) = delete;
+        LogMsg(const LogMsg& rhs) = delete;
+        LogMsg(const LogMsg&& rhs) = delete;
+
         /*!
           @brief Defined log levels. To suppress all log messages, either set the
                  log level to \c mute or set the log message handler to 0.

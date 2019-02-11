@@ -249,17 +249,13 @@ namespace Exiv2 {
         static const char xmpId_[];             //!< XMP packet identifier
         static const char iccId_[];             //!< ICC profile identifier
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Default constructor.
-        JpegBase();
-        //! Copy constructor
-        JpegBase(const JpegBase& rhs);
-        //! Assignment operator
-        JpegBase& operator=(const JpegBase& rhs);
-        //@}
+        JpegBase() = delete;
+        JpegBase& operator=(const JpegBase& rhs) = delete;
+        JpegBase& operator=(const JpegBase&& rhs) = delete;
+        JpegBase(const JpegBase& rhs) = delete;
+        JpegBase(const JpegBase&& rhs) = delete;
 
+    private:
         //! @name Manipulators
         //@{
         /*!
@@ -348,14 +344,12 @@ namespace Exiv2 {
         static const byte soi_;          // SOI marker
         static const byte blank_[];      // Minimal Jpeg image
 
-        // NOT Implemented
-        //! Default constructor
-        JpegImage();
-        //! Copy constructor
-        JpegImage(const JpegImage& rhs);
-        //! Assignment operator
-        JpegImage& operator=(const JpegImage& rhs);
-
+    public:
+        JpegImage() = delete;
+        JpegImage& operator=(const JpegImage& rhs) = delete;
+        JpegImage& operator=(const JpegImage&& rhs) = delete;
+        JpegImage(const JpegImage& rhs) = delete;
+        JpegImage(const JpegImage&& rhs) = delete;
     }; // class JpegImage
 
     //! Helper class to access %Exiv2 files
@@ -401,15 +395,13 @@ namespace Exiv2 {
         static const char exiv2Id_[];    // EXV identifier
         static const byte blank_[];      // Minimal exiv2 file
 
-        // NOT Implemented
-        //! Default constructor
-        ExvImage();
-        //! Copy constructor
-        ExvImage(const ExvImage& rhs);
-        //! Assignment operator
-        ExvImage& operator=(const ExvImage& rhs);
-
-    }; // class ExvImage
+    public:
+        ExvImage() = delete;
+        ExvImage& operator=(const ExvImage& rhs) = delete;
+        ExvImage& operator=(const ExvImage&& rhs) = delete;
+        ExvImage(const ExvImage& rhs) = delete;
+        ExvImage(const ExvImage&& rhs) = delete;
+    };  // class ExvImage
 
 // *****************************************************************************
 // template, inline and free functions

@@ -501,15 +501,13 @@ namespace Exiv2 {
         //! Return tag type for given tag id.
         const char* typeName(uint16_t tag) const;
 
-    private:
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor
-        Image(const Image& rhs);
-        //! Assignment operator
-        Image& operator=(const Image& rhs);
-        //@}
+    public:
+        Image& operator=(const Image& rhs) = delete;
+        Image& operator=(const Image&& rhs) = delete;
+        Image(const Image& rhs) = delete;
+        Image(const Image&& rhs) = delete;
 
+    private:
         // DATA
         int               imageType_;         //!< Image type
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
@@ -709,16 +707,11 @@ namespace Exiv2 {
         */
         static bool checkType(int type, BasicIo& io, bool advance);
 
-    private:
-        //! @name Creators
-        //@{
-        //! Prevent construction: not implemented.
-        ImageFactory();
-        //! Prevent copy construction: not implemented.
-        ImageFactory(const ImageFactory& rhs);
-        //@}
-
-    }; // class ImageFactory
+        ImageFactory& operator=(const ImageFactory& rhs) = delete;
+        ImageFactory& operator=(const ImageFactory&& rhs) = delete;
+        ImageFactory(const ImageFactory& rhs) = delete;
+        ImageFactory(const ImageFactory&& rhs) = delete;
+    };  // class ImageFactory
 
 // *****************************************************************************
 // template, inline and free functions

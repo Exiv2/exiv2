@@ -572,13 +572,9 @@ namespace Exiv2 {
              to image metadata and vice versa
      */
     class CrwMap {
-        //! @name Not implemented
-        //@{
-        //! Default constructor
-        CrwMap();
-        //@}
-
     public:
+        CrwMap() = delete;
+
         /*!
           @brief Decode image metadata from a CRW entry, convert and add it
                  to the image metadata. This function converts only one CRW
