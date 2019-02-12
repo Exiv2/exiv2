@@ -794,7 +794,7 @@ int main(int argc,const char* argv[])
     shorts["-v"] = "-verbose";
     shorts["-V"] = "-version";
     shorts["-d"] = "-dst";
-    shorts["-a"] = "-adjust";
+    shorts["-j"] = "-adjust";
     shorts["-t"] = "-tz";
     shorts["-D"] = "-delta";
     shorts["-s"] = "-delta";
@@ -811,7 +811,8 @@ int main(int argc,const char* argv[])
 
     for ( int i = 1 ; !result && i < argc ; i++ ) {
         const char* arg   = argv[i++];
-        if ( shorts.count(arg) ) arg = shorts[arg].c_str();
+        if ( shorts.count(arg) )
+            arg = shorts[arg].c_str();
 
         const char* value = argv[i  ];
         int        ivalue = ::atoi(value?value:"0");
