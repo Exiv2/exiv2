@@ -118,7 +118,7 @@ namespace Exiv2
             using value_type = typename storage_type<data_type>::value_type;
 
             /*!
-             * Default contructor, requires begin to be smaller than end,
+             * Default constructor, requires begin to be smaller than end,
              * otherwise an exception is thrown. Also forwards all parameters to
              * the constructor of storage_
              */
