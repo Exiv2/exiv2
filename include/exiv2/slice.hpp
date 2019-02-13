@@ -374,7 +374,7 @@ namespace Exiv2
         {
             using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
             using iterator = value_type*;
-            using const_iterator = const iterator;
+            using const_iterator = const value_type*;
 
             /*!
              * Stores ptr and checks that it is not `nullptr`. The slice's bounds
