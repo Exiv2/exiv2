@@ -5,6 +5,9 @@ project(exiv2
     LANGUAGES CXX C
 )
 
+# Use C++11 features, requires CMake > 3.1
+set( CMAKE_CXX_STANDARD 11 )
+
 include(cmake/mainSetup.cmake  REQUIRED)
 
 # options and their default values
@@ -64,7 +67,6 @@ if (EXIV2_BUILD_DOC)
     include(cmake/generateDoc.cmake        REQUIRED)
     generate_documentation("${PROJECT_SOURCE_DIR}/cmake/Doxyfile.in")
 endif()
-
 
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
