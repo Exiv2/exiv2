@@ -349,7 +349,7 @@ namespace Exiv2 {
         // This algorithm assumes that the internal representation of the float
         // type is the 4-byte IEEE 754 binary32 format, which is common but not
         // required by the C++ standard.
-        assert(sizeof(float) == 4);
+        static_assert(sizeof(float) == 4, "float type requires 4-byte IEEE 754 binary32 format");
         union {
             uint32_t ul_;
             float    f_;
@@ -363,7 +363,7 @@ namespace Exiv2 {
         // This algorithm assumes that the internal representation of the double
         // type is the 8-byte IEEE 754 binary64 format, which is common but not
         // required by the C++ standard.
-        assert(sizeof(double) == 8);
+        static_assert(sizeof(double) == 8, "double type requires 8-byte IEEE 754 binary64 format");
         union {
             uint64_t ull_;
             double   d_;
@@ -471,7 +471,7 @@ namespace Exiv2 {
         // This algorithm assumes that the internal representation of the float
         // type is the 4-byte IEEE 754 binary32 format, which is common but not
         // required by the C++ standard.
-        assert(sizeof(float) == 4);
+        static_assert(sizeof(float) == 4, "float type requires 4-byte IEEE 754 binary32 format");
         union {
             uint32_t ul_;
             float    f_;
@@ -485,7 +485,7 @@ namespace Exiv2 {
         // This algorithm assumes that the internal representation of the double
         // type is the 8-byte IEEE 754 binary64 format, which is common but not
         // required by the C++ standard.
-        assert(sizeof(double) == 8);
+        static_assert(sizeof(double) == 8, "double type requires 8-byte IEEE 754 binary64 format");
         union {
             uint64_t ull_;
             double   d_;
