@@ -169,11 +169,17 @@ TYPED_TEST_P(slice, subSliceFunctions)
 TYPED_TEST_P(slice, subSliceFailedConstruction)
 {
     // 0 1 2 3 4 5 6 7 8 9
-    //         | |         middle
-    Slice<TypeParam> middle = this->getTestSlice(4, 6);
+    //       |     |       middle
+    Slice<TypeParam> middle = this->getTestSlice(3, 7);
 
+    ASSERT_EQ(middle.size(), 4);
+
+    // these are all invalid
+    ASSERT_THROW(middle.subSlice(1, 6), std::out_of_range);
     ASSERT_THROW(middle.subSlice(1, 5), std::out_of_range);
-    ASSERT_THROW(middle.subSlice(2, 1), std::out_of_range);
+    ASSERT_THROW(middle.subSlice(5, 1), std::out_of_range);
+
+    // rejected by Slice constructor
     ASSERT_THROW(middle.subSlice(2, 2), std::out_of_range);
 }
 
