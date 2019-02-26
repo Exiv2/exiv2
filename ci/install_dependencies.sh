@@ -34,7 +34,7 @@ case "$distro_id" in
         ;;
 
     'arch')
-        pacman --noconfirm -Sy
+        pacman --noconfirm -Syu
         pacman --noconfirm -S gcc clang cmake make ccache expat zlib libssh curl gtest python dos2unix which diffutils
         ;;
 
