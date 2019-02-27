@@ -120,6 +120,14 @@ TYPED_TEST_P(slice, atAccess)
     }
 }
 
+TYPED_TEST_P(slice, atOutOfBoundsAccess)
+{
+    Slice<TypeParam> sl = this->getTestSlice();
+
+    ASSERT_THROW(sl.at(sl.size()), std::out_of_range);
+    ASSERT_THROW(sl.at(sl.size() + 1), std::out_of_range);
+}
+
 TYPED_TEST_P(slice, iteratorAccess)
 {
     Slice<TypeParam> sl = this->getTestSlice();
@@ -128,14 +136,16 @@ TYPED_TEST_P(slice, iteratorAccess)
     for (typename Slice<TypeParam>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
         ASSERT_EQ(*it, *vec_it);
     }
+}
 
-    auto vec_it_second = this->vec_.begin() + 1;
+TYPED_TEST_P(slice, rangeBasedForLoop)
+{
+    auto sl = this->getTestSlice();
+    auto vec_iter = this->vec_.begin() + 1;
     for (const auto& val : sl) {
-        ASSERT_EQ(val, *vec_it_second);
-        ++vec_it_second;
+        ASSERT_EQ(val, *vec_iter);
+        ++vec_iter;
     }
-
-    ASSERT_THROW(sl.at(sl.size()), std::out_of_range);
 }
 
 TYPED_TEST_P(slice, constructionFailsFromInvalidRange)
@@ -429,10 +439,10 @@ TYPED_TEST_P(dataBufSlice, failedConstruction)
 //
 // GTest boilerplate to get the tests running for all the different types
 //
-REGISTER_TYPED_TEST_CASE_P(slice, atAccess, iteratorAccess, constructionFailsFromInvalidRange,
-                           constructionFailsWithZeroLength, subSliceSuccessfulConstruction, subSliceFunctions,
-                           subSliceFailedConstruction, subSliceConstructionOverflowResistance,
-                           constMethodsPreserveConst);
+REGISTER_TYPED_TEST_CASE_P(slice, atAccess, atOutOfBoundsAccess, iteratorAccess, rangeBasedForLoop,
+                           constructionFailsFromInvalidRange, constructionFailsWithZeroLength,
+                           subSliceSuccessfulConstruction, subSliceFunctions, subSliceFailedConstruction,
+                           subSliceConstructionOverflowResistance, constMethodsPreserveConst);
 
 typedef ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*> test_types_t;
 INSTANTIATE_TYPED_TEST_CASE_P(, slice, test_types_t);
