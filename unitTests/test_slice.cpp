@@ -8,7 +8,7 @@
 using namespace Exiv2;
 
 template <typename T>
-class slice;
+class ASlice;
 
 /*!
  * This namespace contains the helper-function getTestData. It is intented
@@ -21,13 +21,13 @@ class slice;
  */
 namespace cpp_pre_17_boilerplate
 {
-    int* getTestData(slice<int*>& st);
+    int* getTestData(ASlice<int*>& st);
 
-    const int* getTestData(slice<const int*>& st);
+    const int* getTestData(ASlice<const int*>& st);
 
-    std::vector<int>& getTestData(slice<std::vector<int> >& st);
+    std::vector<int>& getTestData(ASlice<std::vector<int> >& st);
 
-    const std::vector<int>& getTestData(slice<const std::vector<int> >& st);
+    const std::vector<int>& getTestData(ASlice<const std::vector<int> >& st);
 }  // namespace cpp_pre_17_boilerplate
 
 /*!
@@ -42,7 +42,7 @@ namespace cpp_pre_17_boilerplate
  * @tparam T  Type that is used to construct a slice for testing.
  */
 template <typename T>
-class slice : public ::testing::Test
+class ASlice : public ::testing::Test
 {
 public:
     static const size_t vec_size = 10;
@@ -59,22 +59,22 @@ public:
 // they must have the full definition of slice available
 namespace cpp_pre_17_boilerplate
 {
-    int* getTestData(slice<int*>& st)
+    int* getTestData(ASlice<int*>& st)
     {
         return st.vec_.data();
     }
 
-    const int* getTestData(slice<const int*>& st)
+    const int* getTestData(ASlice<const int*>& st)
     {
         return st.vec_.data();
     }
 
-    std::vector<int>& getTestData(slice<std::vector<int> >& st)
+    std::vector<int>& getTestData(ASlice<std::vector<int> >& st)
     {
         return st.vec_;
     }
 
-    const std::vector<int>& getTestData(slice<const std::vector<int> >& st)
+    const std::vector<int>& getTestData(ASlice<const std::vector<int> >& st)
     {
         return st.vec_;
     }
@@ -87,7 +87,7 @@ namespace cpp_pre_17_boilerplate
  * different tests on it.
  */
 template <typename T>
-class mutableSlice : public slice<T>
+class mutableSlice : public ASlice<T>
 {
 };
 
@@ -106,55 +106,55 @@ static_assert(std::is_same<Slice<const int*>::iterator, int const*>::value,
 static_assert(std::is_same<Slice<const int*>::const_iterator, int const*>::value,
               "Slice<const int*>::iterator is not int const*");
 
-TYPED_TEST_CASE_P(slice);
+TYPED_TEST_CASE_P(ASlice);
 TYPED_TEST_CASE_P(mutableSlice);
 
-TYPED_TEST_P(slice, atAccess)
+TYPED_TEST_P(ASlice, atAccess)
 {
-    Slice<TypeParam> sl = this->getTestSlice();
+    Slice<TypeParam> slice = this->getTestSlice();
 
-    ASSERT_EQ(this->vec_.size() - 2, sl.size());
+    ASSERT_EQ(this->vec_.size() - 2, slice.size());
 
-    for (unsigned int i = 0; i < sl.size(); ++i) {
-        ASSERT_EQ(this->vec_.at(i + 1), sl.at(i));
+    for (unsigned int i = 0; i < slice.size(); ++i) {
+        ASSERT_EQ(this->vec_.at(i + 1), slice.at(i));
     }
 }
 
-TYPED_TEST_P(slice, atOutOfBoundsAccess)
+TYPED_TEST_P(ASlice, atOutOfBoundsAccess)
 {
-    Slice<TypeParam> sl = this->getTestSlice();
+    Slice<TypeParam> slice = this->getTestSlice();
 
-    ASSERT_THROW(sl.at(sl.size()), std::out_of_range);
-    ASSERT_THROW(sl.at(sl.size() + 1), std::out_of_range);
+    ASSERT_THROW(slice.at(slice.size()), std::out_of_range);
+    ASSERT_THROW(slice.at(slice.size() + 1), std::out_of_range);
 }
 
-TYPED_TEST_P(slice, iteratorAccess)
+TYPED_TEST_P(ASlice, iteratorAccess)
 {
-    Slice<TypeParam> sl = this->getTestSlice();
+    Slice<TypeParam> slice = this->getTestSlice();
 
     auto vec_it = this->vec_.begin() + 1;
-    for (typename Slice<TypeParam>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
+    for (typename Slice<TypeParam>::const_iterator it = slice.cbegin(); it < slice.cend(); ++it, ++vec_it) {
         ASSERT_EQ(*it, *vec_it);
     }
 }
 
-TYPED_TEST_P(slice, rangeBasedForLoop)
+TYPED_TEST_P(ASlice, rangeBasedForLoop)
 {
-    auto sl = this->getTestSlice();
+    auto slice = this->getTestSlice();
     auto vec_iter = this->vec_.begin() + 1;
-    for (const auto& val : sl) {
+    for (const auto& val : slice) {
         ASSERT_EQ(val, *vec_iter);
         ++vec_iter;
     }
 }
 
-TYPED_TEST_P(slice, constructionFailsFromInvalidRange)
+TYPED_TEST_P(ASlice, constructionFailsFromInvalidRange)
 {
     // start > end
     ASSERT_THROW(this->getTestSlice(2, 1), std::out_of_range);
 }
 
-TYPED_TEST_P(slice, constructionFailsWithZeroLength)
+TYPED_TEST_P(ASlice, constructionFailsWithZeroLength)
 {
     ASSERT_THROW(this->getTestSlice(1, 1), std::out_of_range);
 }
@@ -162,7 +162,7 @@ TYPED_TEST_P(slice, constructionFailsWithZeroLength)
 /*!
  * Test the construction of subSlices and their behavior.
  */
-TYPED_TEST_P(slice, subSliceSuccessfulConstruction)
+TYPED_TEST_P(ASlice, subSliceSuccessfulConstruction)
 {
     typedef Slice<TypeParam> slice_t;
 
@@ -176,7 +176,7 @@ TYPED_TEST_P(slice, subSliceSuccessfulConstruction)
     ASSERT_NO_THROW(center_vals.subSlice(1, center_vals.size()));
 }
 
-TYPED_TEST_P(slice, subSliceFunctions)
+TYPED_TEST_P(ASlice, subSliceFunctions)
 {
     Slice<TypeParam> middle = this->getTestSlice(3, 7).subSlice(1, 3);
 
@@ -184,7 +184,7 @@ TYPED_TEST_P(slice, subSliceFunctions)
     ASSERT_EQ(middle.at(1), static_cast<typename Slice<TypeParam>::value_type>(5));
 }
 
-TYPED_TEST_P(slice, subSliceFailedConstruction)
+TYPED_TEST_P(ASlice, subSliceFailedConstruction)
 {
     // 0 1 2 3 4 5 6 7 8 9
     //       |     |       middle
@@ -202,7 +202,7 @@ TYPED_TEST_P(slice, subSliceFailedConstruction)
 }
 
 /*! try to cause integer overflows in a sub-optimal implementation */
-TYPED_TEST_P(slice, subSliceConstructionOverflowResistance)
+TYPED_TEST_P(ASlice, subSliceConstructionOverflowResistance)
 {
     Slice<TypeParam> center_vals = this->getTestSlice(3, 7);
 
@@ -215,9 +215,9 @@ TYPED_TEST_P(slice, subSliceConstructionOverflowResistance)
  * constant reference.
  */
 template <typename T>
-void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type value, size_t index)
+void checkConstSliceValueAt(const Slice<T>& slice, typename Slice<T>::value_type value, size_t index)
 {
-    ASSERT_EQ(sl.at(index), value);
+    ASSERT_EQ(slice.at(index), value);
 }
 
 /*!
@@ -225,29 +225,29 @@ void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type va
  * loop.
  */
 template <typename T>
-void checkConstSliceIterator(const Slice<T>& sl, typename Slice<T>::value_type first_value)
+void checkConstSliceIterator(const Slice<T>& slice, typename Slice<T>::value_type first_value)
 {
     auto first_value_copy = first_value;
 
-    for (typename Slice<T>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it) {
+    for (typename Slice<T>::const_iterator it = slice.cbegin(); it < slice.cend(); ++it) {
         ASSERT_EQ(*it, first_value++);
     }
 
-    for (const auto& it : sl) {
+    for (const auto& it : slice) {
         ASSERT_EQ(it, first_value_copy++);
     }
 }
 
 template <typename T>
-void checkSubSlice(const Slice<T>& sl)
+void checkSubSlice(const Slice<T>& slice)
 {
-    ASSERT_EQ(sl.at(1), sl.subSlice(1, sl.size()).at(0));
+    ASSERT_EQ(slice.at(1), slice.subSlice(1, slice.size()).at(0));
 }
 
 /*!
  * Test that all slices can be also passed as const references and still work
  */
-TYPED_TEST_P(slice, constMethodsPreserveConst)
+TYPED_TEST_P(ASlice, constMethodsPreserveConst)
 {
     typedef Slice<TypeParam> slice_t;
 
@@ -269,19 +269,19 @@ TYPED_TEST_P(slice, constMethodsPreserveConst)
 TYPED_TEST_P(mutableSlice, iterators)
 {
     typedef Slice<TypeParam> slice_t;
-    slice_t sl = this->getTestSlice();
+    slice_t slice = this->getTestSlice();
 
-    ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
-    ASSERT_EQ(*sl.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
+    ASSERT_EQ(*slice.begin(), static_cast<typename slice_t::value_type>(1));
+    ASSERT_EQ(*slice.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
 
-    for (typename slice_t::iterator it = sl.begin(); it < sl.end(); ++it) {
+    for (typename slice_t::iterator it = slice.begin(); it < slice.end(); ++it) {
         *it = 2 * (*it);
     }
 
     ASSERT_EQ(this->vec_.at(0), 0);
     for (size_t j = 1; j < this->vec_size - 1; ++j) {
         ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(2 * j));
-        ASSERT_EQ(this->vec_.at(j), sl.at(j - 1));
+        ASSERT_EQ(this->vec_.at(j), slice.at(j - 1));
     }
     ASSERT_EQ(this->vec_.at(this->vec_size - 1), static_cast<typename slice_t::value_type>(this->vec_size - 1));
 }
@@ -291,14 +291,14 @@ TYPED_TEST_P(mutableSlice, iterators)
  */
 TYPED_TEST_P(mutableSlice, rangeBasedForLoop)
 {
-    Slice<TypeParam> sl = this->getTestSlice();
+    Slice<TypeParam> slice = this->getTestSlice();
 
     // revert the changes again
-    for (auto& val : sl) {
+    for (auto& val : slice) {
         val *= 2;
     }
     size_t i = 1;
-    for (const auto& val : sl) {
+    for (const auto& val : slice) {
         ASSERT_EQ(val, 2 * i);
         ++i;
     }
@@ -310,10 +310,10 @@ TYPED_TEST_P(mutableSlice, rangeBasedForLoop)
 TYPED_TEST_P(mutableSlice, at)
 {
     typedef Slice<TypeParam> slice_t;
-    slice_t sl = this->getTestSlice(2, 4);
+    slice_t slice = this->getTestSlice(2, 4);
 
-    sl.at(0) = 6;
-    sl.at(1) = 12;
+    slice.at(0) = 6;
+    slice.at(1) = 12;
 
     ASSERT_EQ(this->vec_.at(2), 6);
     ASSERT_EQ(this->vec_.at(3), 12);
@@ -439,13 +439,13 @@ TYPED_TEST_P(dataBufSlice, failedConstruction)
 //
 // GTest boilerplate to get the tests running for all the different types
 //
-REGISTER_TYPED_TEST_CASE_P(slice, atAccess, atOutOfBoundsAccess, iteratorAccess, rangeBasedForLoop,
+REGISTER_TYPED_TEST_CASE_P(ASlice, atAccess, atOutOfBoundsAccess, iteratorAccess, rangeBasedForLoop,
                            constructionFailsFromInvalidRange, constructionFailsWithZeroLength,
                            subSliceSuccessfulConstruction, subSliceFunctions, subSliceFailedConstruction,
                            subSliceConstructionOverflowResistance, constMethodsPreserveConst);
 
 typedef ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*> test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, slice, test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(, ASlice, test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(mutableSlice, iterators, rangeBasedForLoop, at);
 typedef ::testing::Types<std::vector<int>, int*> mut_test_types_t;
