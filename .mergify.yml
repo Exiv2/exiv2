@@ -6,20 +6,11 @@ pull_request_rules:
     actions:
       backport:
         branches:
-          - "0.27"
-
-  - name: backport patches to 0.26 branch
-    conditions:
-      - base=master
-      - label=backport-to-0.26
-    actions:
-      backport:
-        branches:
-          - "0.26"
+          - "0.27-maintenance"
 
   - name: forward-port patches to master
     conditions:
-      - base=0.27
+      - base=0.27-maintenance
       - label=to-master
     actions:
       backport:
