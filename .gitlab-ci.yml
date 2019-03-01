@@ -57,7 +57,7 @@ CentOS:
   <<: *distro_build
 
 OpenSUSE:
-  image: opensuse:tumbleweed
+  image: opensuse/tumbleweed
   <<: *default_config
   <<: *distro_build
 
