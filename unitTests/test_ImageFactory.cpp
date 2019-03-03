@@ -24,7 +24,7 @@
 
 using namespace Exiv2;
 
-TEST(TheImageFactory, createsInstancesForSupportedTypes)
+TEST(TheImageFactory, createsInstancesForSupportedTypesInMemory)
 {
     // Note that the constructor of these Image classes take an 'create' argument
     EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2));
@@ -34,7 +34,7 @@ TEST(TheImageFactory, createsInstancesForSupportedTypes)
     EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
 }
 
-TEST(TheImageFactory, cannotCreateInstancesForSomeTypes)
+TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInMemory)
 {
     // Note that the constructor of these Image classes does not take an 'create' argument
 
@@ -58,4 +58,46 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypes)
     EXPECT_THROW(ImageFactory::create(ImageType::arw), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::sr2), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::srw), Error);
+}
+
+
+TEST(TheImageFactory, createsInstancesForSupportedTypesInFiles)
+{
+    const std::string filePath("./here");
+
+    // Note that the constructor of these Image classes take an 'create' argument
+    EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2, filePath));
+    EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, filePath));
+    EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, filePath));
+    EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath));
+    EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath));
+
+    EXPECT_EQ(0, std::remove(filePath.c_str()));
+}
+
+TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles)
+{
+    const std::string filePath("./here");
+
+    // Note that the constructor of these Image classes does not take an 'create' argument
+    EXPECT_THROW(ImageFactory::create(ImageType::bmp, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::cr2, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::crw, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::gif, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::mrw, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::orf, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::psd, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::raf, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::rw2, filePath), Error);
+//    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error); // This one crashes badly
+    EXPECT_THROW(ImageFactory::create(ImageType::webp, filePath), Error);
+
+    // TIFF
+    EXPECT_THROW(ImageFactory::create(ImageType::tiff, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::dng, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::nef, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::pef, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::arw, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::sr2, filePath), Error);
+    EXPECT_THROW(ImageFactory::create(ImageType::srw, filePath), Error);
 }
