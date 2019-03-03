@@ -42,6 +42,11 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInMemory)
     EXPECT_THROW(ImageFactory::create(ImageType::srw), Error);
 }
 
+TEST(TheImageFactory, throwsWithNonExistingImageTypes)
+{
+    EXPECT_THROW(ImageFactory::create(static_cast<ImageType>(666)), Error);
+}
+
 
 TEST(TheImageFactory, createsInstancesForSupportedTypesInFiles)
 {
