@@ -152,7 +152,7 @@ namespace Exiv2 {
         { 0xffff, 0xffff }
     };
 
-    const char CiffHeader::signature_[] = "HEAPCCDR";
+    constexpr char CiffHeader::signature_[]; /// \todo Required in C++11, but deprecated in C++17. Remove this line when we move to C++17.
 
     CiffHeader::~CiffHeader()
     {

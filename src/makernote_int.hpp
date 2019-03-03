@@ -200,11 +200,12 @@ namespace Exiv2 {
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
-        static const byte signature_[]; //!< Olympus makernote header signature
+        static constexpr byte signature_[]{
+            'O', 'L', 'Y', 'M', 'P', 0x00, 0x01, 0x00 }; //!< Olympus makernote header signature
 
     }; // class OlympusMnHeader
 
@@ -230,11 +231,12 @@ namespace Exiv2 {
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
-        static const byte signature_[]; //!< Olympus makernote header signature
+        static constexpr byte signature_[]{
+            'O', 'L', 'Y', 'M', 'P', 'U', 'S', 0x00, 'I', 'I', 0x03, 0x00 }; //!< Olympus makernote header signature
 
     }; // class Olympus2MnHeader
 
@@ -262,12 +264,13 @@ namespace Exiv2 {
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
-        static const byte signature_[]; //!< Fujifilm makernote header signature
-        static const ByteOrder byteOrder_; //!< Byteorder for makernote (always II)
+        static constexpr byte signature_[]{
+            'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00 }; //!< Fujifilm makernote header signature
+        static constexpr ByteOrder byteOrder_{ littleEndian }; //!< Byteorder for makernote (always II)
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
 
     }; // class FujiMnHeader
@@ -293,12 +296,13 @@ namespace Exiv2 {
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
-        static const byte signature_[]; //!< Nikon 2 makernote header signature
+        static constexpr byte signature_[]{
+            'N', 'i', 'k', 'o', 'n', '\0', 0x01, 0x00 }; //!< Nikon 2 makernote header signature
 
     }; // class Nikon2MnHeader
 
@@ -326,13 +330,15 @@ namespace Exiv2 {
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
         ByteOrder byteOrder_;           //!< Byteorder for makernote
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
-        static const byte signature_[]; //!< Nikon 3 makernote header signature
+        static constexpr byte signature_[]{
+           'N', 'i', 'k', 'o', 'n', '\0', 0x02, 0x10, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }; //!< Nikon 3 makernote header signature
 
     }; // class Nikon3MnHeader
 
@@ -357,12 +363,13 @@ namespace Exiv2 {
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
-        static const byte signature_[]; //!< Panasonic makernote header signature
+        static constexpr byte signature_[]{
+            'P', 'a', 'n', 'a', 's', 'o', 'n', 'i', 'c', 0x00, 0x00, 0x00 }; //!< Panasonic makernote header signature
 
     }; // class PanasonicMnHeader
 
@@ -388,11 +395,12 @@ namespace Exiv2 {
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
-        static const byte signature_[]; //!< Pentax DNG makernote header signature
+        static constexpr byte signature_[]{
+            'P', 'E', 'N', 'T', 'A', 'X', ' ', 0x00, 'M', 'M' }; //!< Pentax DNG makernote header signature
 
     }; // class PentaxDngMnHeader
 
@@ -417,11 +425,12 @@ namespace Exiv2 {
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
-        static const byte signature_[]; //!< Pentax makernote header signature
+        static constexpr byte signature_[]{
+            'A', 'O', 'C', 0x00, 'M', 'M' }; //!< Pentax makernote header signature
 
     }; // class PentaxMnHeader
 
@@ -467,13 +476,15 @@ namespace Exiv2 {
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf buf_;                    //!< Raw header data
         uint32_t start_;                 //!< Start of the mn IFD rel. to mn start
-        static const byte signature1_[]; //!< Sigma makernote header signature 1
-        static const byte signature2_[]; //!< Sigma makernote header signature 2
+        static constexpr byte signature1_[]{
+            'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00 };  //!< Sigma makernote header signature 1
+        static constexpr byte signature2_[]{
+            'F', 'O', 'V', 'E', 'O', 'N', '\0', '\0', 0x01, 0x00 }; //!< Sigma makernote header signature 2
 
     }; // class SigmaMnHeader
 
@@ -498,12 +509,13 @@ namespace Exiv2 {
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
-        static const byte signature_[]; //!< Sony makernote header signature
+        static constexpr byte signature_[]{
+            'S', 'O', 'N', 'Y', ' ', 'D', 'S', 'C', ' ', '\0', '\0', '\0' }; //!< Sony makernote header signature
 
     }; // class SonyMnHeader
 
@@ -529,13 +541,14 @@ namespace Exiv2 {
         ByteOrder byteOrder() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static constexpr uint32_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
         uint32_t start_;                //!< Start of the mn IFD rel. to mn start
-        static const byte signature_[]; //!< Casio makernote header signature
-        static const ByteOrder byteOrder_; //!< Byteorder for makernote (always big endian)
+        static constexpr byte signature_[]{
+            'Q', 'V', 'C', '\0', '\0', '\0' }; //!< Casio makernote header signature
+        static constexpr ByteOrder byteOrder_{ bigEndian }; //!< Byteorder for makernote (always big endian)
 
     }; // class Casio2MnHeader
 

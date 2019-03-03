@@ -514,7 +514,8 @@ namespace Exiv2 {
 
     private:
         // DATA
-        static const char signature_[];   //!< Canon CRW signature "HEAPCCDR"
+        static constexpr char signature_[]{
+            'H', 'E', 'A', 'P', 'C', 'C', 'D', 'R', '\0' };   //!< Canon CRW signature "HEAPCCDR"
 
         CiffDirectory*    pRootDir_;      //!< Pointer to the root directory
         ByteOrder         byteOrder_;     //!< Applicable byte order
