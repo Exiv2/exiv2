@@ -916,8 +916,7 @@ namespace Exiv2 {
         return Image::UniquePtr();
     } // ImageFactory::open
 
-    Image::UniquePtr ImageFactory::create(ImageType type,
-                                        const std::string& path)
+    Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path)
     {
         std::unique_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
@@ -963,10 +962,12 @@ namespace Exiv2 {
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
-        if (0 != r) {
-            return r->newInstance_(std::move(io), true);
+
+        if (r == nullptr || type == ImageType::none) {
+            return Image::UniquePtr();
         }
-        return Image::UniquePtr();
+
+        return r->newInstance_(std::move(io), true);
     } // ImageFactory::create
 
 // *****************************************************************************

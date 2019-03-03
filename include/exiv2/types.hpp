@@ -488,7 +488,7 @@ namespace Exiv2 {
     const T* find(T (&src)[N], const K& key)
     {
         const T* rc = std::find(src, src + N, key);
-        return rc == src + N ? 0 : rc;
+        return rc == src + N ? nullptr : rc;
     }
 
     //! Template used in the COUNTOF macro to determine the size of an array
