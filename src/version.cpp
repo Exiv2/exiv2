@@ -249,7 +249,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "unknown";
 #endif
 
-    constexpr int have_strlib = 0;
     constexpr int have_strings_h = 0;
 
 #ifdef EXV_HAVE_GMTIME_R
@@ -280,12 +279,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int have_lstat = 1;
 #else
     constexpr int have_lstat = 0;
-#endif
-
-#ifdef EXV_HAVE_STDLIB_H
-    constexpr int have_stdlib = 1;
-#else
-    constexpr int have_stdlib = 0;
 #endif
 
 #ifdef EXV_HAVE_STRERROR_R
@@ -334,18 +327,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int adobe_xmpsdk = EXV_ADOBE_XMPSDK;
 #else
     constexpr int adobe_xmpsdk = 0;
-#endif
-
-#ifdef EXV_HAVE_BOOL
-    constexpr int have_bool = 1;
-#else
-    constexpr int have_bool = 0;
-#endif
-
-#ifdef EXV_HAVE_UNISTD
-    constexpr int have_unistd = 1;
-#else
-    constexpr int have_unistd = 0;
 #endif
 
 #ifdef EXV_UNICODE_PATH
@@ -462,8 +443,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_lstat"        ,have_lstat       );
-    output(os,keys,"have_stdlib"       ,have_stdlib      );
-    output(os,keys,"have_strlib"       ,have_strlib      );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_strings_h"    ,have_strings_h   );
     output(os,keys,"have_mmap"         ,have_mmap        );
@@ -473,8 +452,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_libz"         ,have_libz        );
     output(os,keys,"have_xmptoolkit"   ,have_xmptoolkit  );
     output(os,keys,"adobe_xmpsdk"      ,adobe_xmpsdk     );
-    output(os,keys,"have_bool"         ,have_bool        );
-    output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
