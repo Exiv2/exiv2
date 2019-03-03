@@ -47,15 +47,13 @@ namespace Exiv2 {
 // class definitions
 
     // Supported JPEG image formats
+    /// \todo Probably we should have this values in a enum class ?
     namespace ImageType {
         const int jpeg = 1;         //!< JPEG image type (see class JpegImage)
         const int exv  = 2;         //!< EXV image type (see class ExvImage)
     }
 
-    /*!
-      @brief Helper class, has methods to deal with %Photoshop "Information
-             Resource Blocks" (IRBs).
-     */
+    /// @brief Helper class, has methods to deal with %Photoshop "Information Resource Blocks" (IRBs).
     struct EXIV2API Photoshop {
         // Todo: Public for now
         static const char     ps3Id_[]; //!< %Photoshop marker
@@ -64,26 +62,18 @@ namespace Exiv2 {
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
         static const uint16_t preview_; //!< %Photoshop preview marker
 
-        /*!
-          @brief Checks an IRB
+        /// @brief Checks an IRB
+        /// @param pPsData        Existing IRB buffer
+        /// @param sizePsData     Size of the IRB buffer
+        /// @return true  if the IRB marker is known and the buffer is big enough to check this. False otherwise
+        static bool isIrb(const byte* pPsData, long sizePsData);
 
-          @param pPsData        Existing IRB buffer
-          @param sizePsData     Size of the IRB buffer
-          @return true  if the IRB marker is known and the buffer is big enough to check this;<BR>
-                  false otherwise
-        */
-        static bool isIrb(const byte* pPsData,
-                          long        sizePsData);
-        /*!
-          @brief Validates all IRBs
+        /// @brief Validates all IRBs
+        /// @param pPsData        Existing IRB buffer
+        /// @param sizePsData     Size of the IRB buffer, may be 0
+        /// @return true  if all IRBs are valid. False otherwise
+        static bool valid(const byte* pPsData, long        sizePsData);
 
-          @param pPsData        Existing IRB buffer
-          @param sizePsData     Size of the IRB buffer, may be 0
-          @return true  if all IRBs are valid;<BR>
-                  false otherwise
-        */
-        static bool valid(const byte* pPsData,
-                          long        sizePsData);
         /*!
           @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory
               buffer. Operates on raw data to simplify reuse.
