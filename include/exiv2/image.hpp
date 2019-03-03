@@ -30,6 +30,7 @@
 #include "basicio.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
+#include "image_types.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
@@ -90,9 +91,7 @@ namespace Exiv2 {
               metadata types and an auto-pointer that owns an IO instance.
               See subclass constructor doc.
          */
-        Image(int              imageType,
-              uint16_t         supportedMetadata,
-              BasicIo::UniquePtr io);
+        Image(ImageTypee type, uint16_t supportedMetadata, BasicIo::UniquePtr io);
         //! Virtual Destructor
         virtual ~Image();
         //@}
@@ -471,16 +470,14 @@ namespace Exiv2 {
         //@}
 
         //! set type support for this image format
-        void setTypeSupported(
-            int              imageType,
-            uint16_t         supportedMetadata
-        ) {
+        void setTypeSupported(ImageTypee imageType, uint16_t supportedMetadata)
+        {
             imageType_         = imageType;
             supportedMetadata_ = supportedMetadata;
         }
 
         //! set type support for this image format
-        int imageType() const { return imageType_; }
+        ImageTypee imageType() const { return imageType_; }
 
     protected:
         // DATA
@@ -509,7 +506,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        int               imageType_;         //!< Image type
+        ImageTypee        imageType_;         //!< Image type
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
         bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
         ByteOrder         byteOrder_;         //!< Byte order
@@ -667,7 +664,7 @@ namespace Exiv2 {
           @param size Number of bytes pointed to by \em data.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static int getType(const byte* data, long size);
+        static ImageTypee getType(const byte* data, long size);
         /*!
           @brief Returns the image type of data provided by a BasicIo instance.
               The passed in \em io instance is (re)opened by this method.
@@ -675,7 +672,7 @@ namespace Exiv2 {
               of the image data are tested to determine the type.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static int getType(BasicIo& io);
+        static ImageTypee getType(BasicIo& io);
         /*!
           @brief Returns the access mode or supported metadata functions for an
               image type and a metadata type.
@@ -684,7 +681,7 @@ namespace Exiv2 {
           @return Access mode for the requested image type and metadata identifier.
           @throw Error(kerUnsupportedImageType) if the image type is not supported.
          */
-        static AccessMode checkMode(int type, MetadataId metadataId);
+        static AccessMode checkMode(ImageTypee type, MetadataId metadataId);
         /*!
           @brief Determine if the content of \em io is an image of \em type.
 
@@ -705,7 +702,7 @@ namespace Exiv2 {
           @return  true  if the data matches the type of this class;<BR>
                    false if the data does not match
         */
-        static bool checkType(int type, BasicIo& io, bool advance);
+        static bool checkType(ImageTypee type, BasicIo& io, bool advance);
 
         ImageFactory& operator=(const ImageFactory& rhs) = delete;
         ImageFactory& operator=(const ImageFactory&& rhs) = delete;

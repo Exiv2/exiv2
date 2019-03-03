@@ -42,7 +42,7 @@
 namespace Exiv2 {
 
     GifImage::GifImage(BasicIo::UniquePtr io)
-        : Image(ImageType::gif, mdNone, std::move(io))
+        : Image(ImageTypee::gif, mdNone, std::move(io))
     {
     } // GifImage::GifImage
 

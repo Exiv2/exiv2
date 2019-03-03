@@ -47,7 +47,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     Cr2Image::Cr2Image(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, std::move(io))
+        : Image(ImageTypee::cr2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Cr2Image::Cr2Image
 

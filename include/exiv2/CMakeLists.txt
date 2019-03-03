@@ -15,6 +15,7 @@ install(FILES
             gifimage.hpp
             http.hpp
             image.hpp
+            image_types.hpp
             ini.hpp
             iptc.hpp
             jp2image.hpp

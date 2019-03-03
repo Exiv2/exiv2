@@ -46,7 +46,7 @@
 namespace Exiv2 {
 
     RafImage::RafImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::raf, mdExif | mdIptc | mdXmp, std::move(io))
+        : Image(ImageTypee::raf, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // RafImage::RafImage
 

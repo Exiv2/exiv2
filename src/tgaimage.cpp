@@ -42,7 +42,7 @@
 namespace Exiv2 {
 
     TgaImage::TgaImage(BasicIo::UniquePtr io)
-        : Image(ImageType::tga, mdNone, std::move(io))
+        : Image(ImageTypee::tga, mdNone, std::move(io))
     {
     } // TgaImage::TgaImage
 

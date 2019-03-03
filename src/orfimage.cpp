@@ -52,7 +52,7 @@ namespace Exiv2 {
     OrfImage::OrfImage(BasicIo::UniquePtr io, bool create)
         : TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ std::move(io),create)
     {
-        setTypeSupported(ImageType::orf, mdExif | mdIptc | mdXmp);
+        setTypeSupported(ImageTypee::orf, mdExif | mdIptc | mdXmp);
     } // OrfImage::OrfImage
 
     std::string OrfImage::mimeType() const
@@ -88,7 +88,7 @@ namespace Exiv2 {
         out << "ORF IMAGE" << std::endl;
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
-        if ( imageType() == ImageType::none )
+        if ( imageType() == ImageTypee::none )
             if (!isOrfType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
                 throw Error(kerNotAJpeg);
