@@ -6,7 +6,7 @@
 
 using namespace Exiv2;
 
-TEST(TheImageFactory, createsInstancesForSupportedTypesInMemory)
+TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory)
 {
     // Note that the constructor of these Image classes take an 'create' argument
     EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2));
@@ -16,7 +16,7 @@ TEST(TheImageFactory, createsInstancesForSupportedTypesInMemory)
     EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
 }
 
-TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInMemory)
+TEST(TheImageFactory, cannotCreateInstancesForMostTypesInMemory)
 {
     // Note that the constructor of these Image classes does not take an 'create' argument
 
@@ -29,7 +29,7 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInMemory)
     EXPECT_THROW(ImageFactory::create(ImageType::psd), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::raf), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::rw2), Error);
-//    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error); // This one crashes badly
+    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::webp), Error);
 
     // TIFF
@@ -53,7 +53,7 @@ TEST(TheImageFactory, throwsWithNonExistingImageTypes)
 }
 
 
-TEST(TheImageFactory, createsInstancesForSupportedTypesInFiles)
+TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles)
 {
     const std::string filePath("./here");
 
@@ -81,7 +81,7 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles)
     EXPECT_THROW(ImageFactory::create(ImageType::psd, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::raf, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::rw2, filePath), Error);
-//    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error); // This one crashes badly
+    EXPECT_THROW(ImageFactory::create(ImageType::tga, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::webp, filePath), Error);
 
     // TIFF
@@ -92,4 +92,40 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles)
     EXPECT_THROW(ImageFactory::create(ImageType::arw, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::sr2, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::srw, filePath), Error);
+}
+
+TEST(TheImageFactory, loadInstancesDifferentImageTypes)
+{
+    /// \todo use filesystem library with C++17
+    std::string testData(TESTDATA_PATH);
+
+    EXPECT_EQ(ImageType::jpeg, ImageFactory::getType(testData + "/DSC_3079.jpg"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/DSC_3079.jpg", false));
+
+    EXPECT_EQ(ImageType::exv, ImageFactory::getType(testData + "/exiv2-bug1108.exv"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/exiv2-bug1108.exv", false));
+
+    EXPECT_EQ(ImageType::crw, ImageFactory::getType(testData + "/exiv2-canon-powershot-s40.crw"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/exiv2-canon-powershot-s40.crw", false));
+
+    EXPECT_EQ(ImageType::tiff, ImageFactory::getType(testData + "/exiv2-bug1044.tif"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/exiv2-bug1044.tif", false));
+
+    EXPECT_EQ(ImageType::png, ImageFactory::getType(testData + "/exiv2-bug1074.png"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/exiv2-bug1074.png", false));
+
+    EXPECT_EQ(ImageType::xmp, ImageFactory::getType(testData + "/BlueSquare.xmp"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/BlueSquare.xmp", false));
+
+    EXPECT_EQ(ImageType::psd, ImageFactory::getType(testData + "/exiv2-photoshop.psd"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/exiv2-photoshop.psd", false));
+
+    EXPECT_EQ(ImageType::webp, ImageFactory::getType(testData + "/cve_2017_1000126_stack-oob-read.webp"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/cve_2017_1000126_stack-oob-read.webp", false));
+
+    EXPECT_EQ(ImageType::pgf, ImageFactory::getType(testData + "/imagemagick.pgf"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/imagemagick.pgf", false));
+
+    EXPECT_EQ(ImageType::jp2, ImageFactory::getType(testData + "/Reagan.jp2"));
+    EXPECT_NO_THROW(ImageFactory::open(testData + "/Reagan.jp2", false));
 }

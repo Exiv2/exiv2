@@ -18,7 +18,11 @@ add_executable(unit_tests mainTestRunner.cpp
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
-#TODO Use GTest::GTest once we upgrade the minimum CMake version required
+target_compile_definitions(unit_tests
+    PRIVATE
+        TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data"
+)
+
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
