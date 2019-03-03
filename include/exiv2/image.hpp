@@ -609,17 +609,17 @@ namespace Exiv2 {
         /// @param path %Image file to create. File extension is ignored.
         /// @return An auto-pointer that owns an Image instance of the requested type.
         /// @throws Error If the image type is not supported.
-        static Image::UniquePtr create(int type, const std::string& path);
+        static Image::UniquePtr create(ImageTypee type, const std::string& path);
 
 #ifdef EXV_UNICODE_PATH
         /// @brief Like create() but accepts a unicode path in an std::wstring. Only available on Windows.
-        static Image::UniquePtr create(int type, const std::wstring& wpath);
+        static Image::UniquePtr create(ImageTypee type, const std::wstring& wpath);
 #endif
         /// @brief Create an Image subclass of the requested type by creating a new image in memory.
         /// @param type Type of the image to be created.
         /// @return An auto-pointer that owns an Image instance of the requested type.
         /// @throws Error If the image type is not supported
-        static Image::UniquePtr create(int type);
+        static Image::UniquePtr create(ImageTypee type);
 
         /*!
           @brief Create an Image subclass of the requested type by writing a
@@ -635,7 +635,7 @@ namespace Exiv2 {
           @return An auto-pointer that owns an Image instance of the requested
               type. If the image type is not supported, the pointer is 0.
          */
-        static Image::UniquePtr create(int type, BasicIo::UniquePtr io);
+        static Image::UniquePtr create(ImageTypee type, BasicIo::UniquePtr io);
 
         /// @brief Returns the image type of the provided file.
         /// @param path The contents of the file are tested to determine the image type. File extension is ignored.

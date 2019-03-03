@@ -45,7 +45,7 @@
 namespace Exiv2 {
 
     MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io))
+        : Image(ImageTypee::mrw, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // MrwImage::MrwImage
 

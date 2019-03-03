@@ -1313,7 +1313,7 @@ namespace Exiv2 {
         0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
 
     JpegImage::JpegImage(BasicIo::UniquePtr io, bool create)
-        : JpegBase(ImageType::jpeg, std::move(io), create, blank_, sizeof(blank_))
+        : JpegBase(ImageTypee::jpeg, std::move(io), create, blank_, sizeof(blank_))
     {
     }
 
@@ -1365,7 +1365,7 @@ namespace Exiv2 {
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
     ExvImage::ExvImage(BasicIo::UniquePtr io, bool create)
-        : JpegBase(ImageType::exv, std::move(io), create, blank_, sizeof(blank_))
+        : JpegBase(ImageTypee::exv, std::move(io), create, blank_, sizeof(blank_))
     {
     }
 

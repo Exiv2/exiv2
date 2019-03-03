@@ -48,7 +48,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     Rw2Image::Rw2Image(BasicIo::UniquePtr io)
-        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io))
+        : Image(ImageTypee::rw2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Rw2Image::Rw2Image
 

@@ -73,7 +73,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     PngImage::PngImage(BasicIo::UniquePtr io, bool create)
-            : Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io))
+            : Image(ImageTypee::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io))
     {
         if (create)
         {

@@ -761,7 +761,8 @@ namespace Exiv2 {
     AccessMode ImageFactory::checkMode(ImageTypee type, MetadataId metadataId)
     {
         const Registry* r = find(registry, type);
-        if (!r) throw Error(kerUnsupportedImageType, type);
+        if (!r)
+            throw Error(kerUnsupportedImageType, static_cast<int>(type));
         AccessMode am = amNone;
         switch (metadataId) {
         case mdNone:
@@ -915,7 +916,7 @@ namespace Exiv2 {
         return Image::UniquePtr();
     } // ImageFactory::open
 
-    Image::UniquePtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(ImageTypee type,
                                         const std::string& path)
     {
         std::unique_ptr<FileIo> fileIo(new FileIo(path));
@@ -927,12 +928,12 @@ namespace Exiv2 {
         BasicIo::UniquePtr io(std::move(fileIo));
         Image::UniquePtr image = create(type, std::move(io));
         if (!image)
-            throw Error(kerUnsupportedImageType, type);
+            throw Error(kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::UniquePtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(ImageTypee type,
                                         const std::wstring& wpath)
     {
         std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
@@ -948,17 +949,17 @@ namespace Exiv2 {
     }
 
 #endif
-    Image::UniquePtr ImageFactory::create(int type)
+    Image::UniquePtr ImageFactory::create(ImageTypee type)
     {
         BasicIo::UniquePtr io(new MemIo);
         Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) {
-            throw Error(kerUnsupportedImageType, type);
+            throw Error(kerUnsupportedImageType, static_cast<int>(type));
         }
         return image;
     }
 
-    Image::UniquePtr ImageFactory::create(int type, BasicIo::UniquePtr io)
+    Image::UniquePtr ImageFactory::create(ImageTypee type, BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
