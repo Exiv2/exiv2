@@ -8,24 +8,6 @@ import shlex
 import subprocess
 import sys
 
-#: -DEXIV2_BUILD_SHARED_LIBS options
-SHARED_LIBS = ["ON", "OFF"]
-
-#: C & C++ compiler as tuples
-CCS = ["gcc", "clang"]
-
-#: -DCMAKE_BUILD_TYPE options
-BUILD_TYPES = ["Debug", "Release"]
-
-#: Additional parameters for cmake
-CMAKE_OPTIONS = os.getenv("CMAKE_OPTIONS") or \
-    "-DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_VIDEO=ON "\
-    "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON "\
-    "-DBUILD_WITH_CCACHE=ON "
-
-#: cpu count
-NCPUS = multiprocessing.cpu_count()
-
 
 def call_wrapper(*args, **kwargs):
     """
@@ -37,41 +19,115 @@ def call_wrapper(*args, **kwargs):
         sys.exit(return_code)
 
 
-# create build directory
-os.mkdir("build")
+def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
+                 tests=True):
 
-root_dir = os.path.abspath(os.getcwd())
+    NCPUS = multiprocessing.cpu_count()
 
-for params in itertools.product(SHARED_LIBS, CCS, BUILD_TYPES):
+    os.mkdir("build")
 
-    lib_type, cc, build_type = params
+    for params in itertools.product(shared_libs, ccs, build_types):
 
-    cxx = {"gcc": "g++", "clang": "clang++"}[cc]
+        lib_type, cc, build_type = params
 
-    cwd = os.path.abspath(os.path.join("build", "_".join(params)))
-    os.mkdir(cwd)
+        cwd = os.path.abspath(
+            os.path.join(
+                "build",
+                "_".join(
+                    map(lambda p: str(p) if p is not None else "", params)
+                )
+            )
+        )
+        os.mkdir(cwd)
 
-    cmake = "cmake {!s} -DCMAKE_BUILD_TYPE={build_type} "\
-        "-DBUILD_SHARED_LIBS={lib_type} ../.."\
-        .format(CMAKE_OPTIONS, build_type=build_type, lib_type=lib_type)
-    make = "make -j " + str(NCPUS)
-    make_tests = "make tests"
-    unit_tests = os.path.join(cwd, "bin", "unit_tests")
+        cmake = "{cmake_bin} {!s} -DCMAKE_BUILD_TYPE={build_type} " \
+            "-DBUILD_SHARED_LIBS={lib_type} -DEXIV2_BUILD_UNIT_TESTS={tests} "\
+            "../..".format(
+                cmake_options, cmake_bin=cmake_bin, build_type=build_type,
+                lib_type=lib_type, tests="ON" if tests else "OFF"
+            )
+        make = "make -j " + str(NCPUS)
+        make_tests = "make tests"
+        unit_test_binary = os.path.join(cwd, "bin", "unit_tests")
 
-    # set up environment
-    env_copy = os.environ.copy()
-    env_copy["CC"] = cc
-    env_copy["CXX"] = cxx
+        # set compiler via environment only when requested
+        env_copy = os.environ.copy()
+        if cc is not None:
+            cxx = {"gcc": "g++", "clang": "clang++"}[cc]
+            env_copy["CC"] = cc
+            env_copy["CXX"] = cxx
 
-    # location of the binaries for the new test suite:
-    env_copy["EXIV2_BINDIR"] = os.path.join(cwd, "bin")
+        # location of the binaries for the new test suite:
+        env_copy["EXIV2_BINDIR"] = os.path.join(cwd, "bin")
 
-    kwargs = {"env": env_copy, "cwd": cwd}
+        kwargs = {"env": env_copy, "cwd": cwd}
 
-    def run(cmd):
-        call_wrapper(shlex.split(cmd), **kwargs)
+        def run(cmd):
+            call_wrapper(shlex.split(cmd), **kwargs)
 
-    run(cmake)
-    run(make)
-    run(make_tests)
-    run(unit_tests)
+        run(cmake)
+        run(make)
+        if tests:
+            run(make_tests)
+            run(unit_test_binary)
+
+
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Build and test exiv2 using a matrix of build switches")
+    parser.add_argument(
+        "--compilers",
+        help="Compilers to be used to build exiv2 (when none ore specified, "
+        "then the default compiler will be used)",
+        nargs='*',
+        default=["gcc", "clang"],
+        type=str
+    )
+    parser.add_argument(
+        "--shared-libs",
+        help="Values for the -DBUILD_SHARED_LIBS option",
+        nargs='+',
+        default=["ON", "OFF"],
+        type=str
+    )
+    parser.add_argument(
+        "--build-types",
+        help="Values for the -DCMAKE_BUILD_TYPE option",
+        nargs='+',
+        default=["Debug", "Release"],
+        type=str
+    )
+    parser.add_argument(
+        "--cmake-executable",
+        help="alternative name or path for the cmake executable",
+        nargs=1,
+        default=['cmake'],
+        type=str
+    )
+    parser.add_argument(
+        "--without-tests",
+        help="Skip building and running tests",
+        action='store_true'
+    )
+    parser.add_argument(
+        "--cmake-options",
+        help="Additional flags for cmake",
+        type=str,
+        nargs='?',
+        default="-DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_VIDEO=ON "
+        "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON "
+        "-DBUILD_WITH_CCACHE=ON -DEXIV2_ENABLE_CURL=ON"
+    )
+
+    args = parser.parse_args()
+
+    if len(args.compilers) == 0:
+        args.compilers = [None]
+
+    matrix_build(
+        args.shared_libs, args.compilers, args.build_types,
+        args.cmake_executable[0], args.cmake_options,
+        not args.without_tests
+    )
