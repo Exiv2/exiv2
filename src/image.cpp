@@ -920,10 +920,12 @@ namespace Exiv2 {
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
-        if (nullptr != r) {
-            return r->newInstance_(std::move(io), true);
+
+        if (r == nullptr || type == ImageType::none) {
+            return Image::UniquePtr();
         }
-        return nullptr;
+
+        return r->newInstance_(std::move(io), true);
     }
 
 // *****************************************************************************
