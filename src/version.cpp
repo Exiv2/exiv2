@@ -63,11 +63,6 @@
 #endif
 
 namespace Exiv2 {
-    int versionNumber()
-    {
-        return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
-    }
-
     std::string versionString()
     {
         std::ostringstream os;
@@ -81,16 +76,6 @@ namespace Exiv2 {
         std::ostringstream os;
         os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
         return os.str();
-    }
-
-    const char* version()
-    {
-        return EXV_PACKAGE_VERSION;
-    }
-
-    bool testVersion(int major, int minor, int patch)
-    {
-        return versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch);
     }
 
 }                                       // namespace Exiv2
@@ -175,35 +160,32 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
     Exiv2::StringVector libs; // libs[0] == executable
 
-    int      bits = 8*sizeof(void*);
+    constexpr int bits = 8 * sizeof(void*);
 #ifdef NDEBUG
-    int debug=0;
+    constexpr int debug = 0;
 #else
-    int debug=1;
+    constexpr int debug = 1;
 #endif
 
 #if defined(DLL_EXPORT)
-    int dll=1;
+    constexpr int dll = 1;
 #else
-    int dll=0;
+    constexpr int dll = 0;
 #endif
 
-    const char* compiler =
+    constexpr const char* compiler =
 #if defined(_MSC_VER)
     "MSVC"    ;
 
 #ifndef __VERSION__
     char  version[40];
-    sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
-
-    // add edition in brackets
-    // 7.10 = 2003 8.00 = 2005 etc 12.00 = 2013 13.00 = 2015 (yet the installer labels it as 14.0!)
-    size_t      edition       = (_MSC_VER-600)/100;
-    const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015","2017"};
-    if (  edition == 13 && _MSC_VER >= 1910 ) edition++ ; // 2017 _MSC_VAR  == 1910!
-
-    if  ( edition > lengthof(editions) ) edition = 0 ;
-    if  ( edition ) sprintf(version+::strlen(version)," (%s/%s)",editions[edition],bits==64?"x64":"x86");
+#if _MSC_VER == 1900
+    sprintf(version, "14.00 (2015/%s)", bits == 64 ? "x64" : "x86");
+#elif _MSC_VER >= 1910 && _MSC_VER < 1920
+    sprintf(version, "14.%02d (2017/%s)", _MSC_VER % 100, bits == 64 ? "x64" : "x86");
+#else
+    version[0] = '\0';
+#endif
 #define __VERSION__ version
 #endif
 
@@ -233,7 +215,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 #endif
 #endif
 
-    const char* platform =
+    constexpr const char* platform =
 #if defined(__MSYS__)
     "msys";
 #elif defined(__CYGWIN__)
@@ -252,117 +234,114 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "unknown";
 #endif
 
-    int have_gmtime_r    =0;
-    int have_libintl     =0;
-    int have_lensdata    =0;
-    int have_iconv       =0;
-    int have_lstat       =0;
-    int have_stdlib      =0;
-    int have_strlib      =0;
-    int have_strerror_r  =0;
-    int have_strings_h   =0;
-    int have_mmap        =0;
-    int have_munmap      =0;
-    int have_unistd_h    =0;
-    int have_sys_mman    =0;
-    int have_libz        =0;
-    int have_xmptoolkit  =0;
-    int adobe_xmpsdk     =0;
-    int have_bool        =0;
-    int have_unistd      =0;
-    int have_unicode_path=0;
-    int have_regex       =0;
-
-    int enable_webready  =0;
-    int enable_nls       =0;
-    int use_curl         =0;
+    constexpr int have_strings_h = 0;
 
 #ifdef EXV_HAVE_GMTIME_R
-    have_gmtime_r=1;
+    constexpr int have_gmtime_r = 1;
+#else
+    constexpr int have_gmtime_r = 0;
 #endif
 
 #ifdef EXV_HAVE_LIBINTL_H
-    have_libintl=1;
+    constexpr int have_libintl = 1;
+#else
+    constexpr int have_libintl = 0;
 #endif
 
 #ifdef EXV_HAVE_LENSDATA
-    have_lensdata=1;
+    constexpr int have_lensdata = 1;
+#else
+    constexpr int have_lensdata = 0;
 #endif
 
 #ifdef EXV_HAVE_ICONV
-    have_iconv=1;
-#endif
-
-#ifdef EXV_HAVE_LIBINTL_H
-    have_libintl=1;
+    constexpr int have_iconv = 1;
+#else
+    constexpr int have_iconv = 0;
 #endif
 
 #ifdef EXV_HAVE_LSTAT
-    have_lstat=1;
-#endif
-
-#ifdef EXV_HAVE_STDLIB_H
-    have_stdlib=1;
+    constexpr int have_lstat = 1;
+#else
+    constexpr int have_lstat = 0;
 #endif
 
 #ifdef EXV_HAVE_STRERROR_R
-    have_strerror_r=1;
+    constexpr int have_strerror_r = 1;
+#else
+    constexpr int have_strerror_r = 0;
 #endif
 
 #ifdef EXV_HAVE_MMAP
-    have_mmap=1;
+    constexpr int have_mmap = 1;
+#else
+    constexpr int have_mmap = 0;
 #endif
 
 #ifdef EXV_HAVE_MUNMAP
-    have_munmap=1;
+    constexpr int have_munmap = 1;
+#else
+    constexpr int have_munmap = 0;
 #endif
 
 #ifdef EXV_HAVE_UNISTD_H
-    have_unistd=1;
+    constexpr int have_unistd_h = 1;
+#else
+    constexpr int have_unistd_h = 0;
 #endif
 
 #ifdef EXV_HAVE_SYS_MMAN_H
-    have_sys_mman=1;
+    constexpr int have_sys_mman = 1;
+#else
+    constexpr int have_sys_mman = 0;
 #endif
 
 #ifdef EXV_HAVE_LIBZ
-    have_libz=1;
+    constexpr int have_libz = 1;
+#else
+    constexpr int have_libz = 0;
 #endif
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-    have_xmptoolkit=1;
+    constexpr int have_xmptoolkit = 1;
+#else
+    constexpr int have_xmptoolkit = 0;
 #endif
 
 #ifdef EXV_ADOBE_XMPSDK
-    adobe_xmpsdk=EXV_ADOBE_XMPSDK;
-#endif
-
-#ifdef EXV_HAVE_BOOL
-    have_bool=1;
-#endif
-
-#ifdef EXV_HAVE_UNISTD
-     have_unistd=1;
+    constexpr int adobe_xmpsdk = EXV_ADOBE_XMPSDK;
+#else
+    constexpr int adobe_xmpsdk = 0;
 #endif
 
 #ifdef EXV_UNICODE_PATH
-     have_unicode_path=1;
+    constexpr int have_unicode_path = 1;
+#else
+    constexpr int have_unicode_path = 0;
 #endif
 
 #ifdef EXV_ENABLE_WEBREADY
-     enable_webready=1;
+    constexpr int enable_webready = 1;
+#else
+    constexpr int enable_webready = 0;
 #endif
 
 #ifdef EXV_ENABLE_NLS
-     enable_nls=1;
+    constexpr int enable_nls = 1;
+#else
+    constexpr int enable_nls = 0;
 #endif
 
 #ifdef EXV_USE_CURL
-    use_curl=1;
+    constexpr int use_curl = 1;
+#else
+    constexpr int use_curl = 0;
 #endif
 
 #ifdef EXV_HAVE_REGEX_H
-      have_regex=1;
+    constexpr int have_regex = 1;
+#else
+    constexpr int have_regex = 0;
 #endif
 
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
@@ -449,8 +428,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_lstat"        ,have_lstat       );
-    output(os,keys,"have_stdlib"       ,have_stdlib      );
-    output(os,keys,"have_strlib"       ,have_strlib      );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_strings_h"    ,have_strings_h   );
     output(os,keys,"have_mmap"         ,have_mmap        );
@@ -460,8 +437,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_libz"         ,have_libz        );
     output(os,keys,"have_xmptoolkit"   ,have_xmptoolkit  );
     output(os,keys,"adobe_xmpsdk"      ,adobe_xmpsdk     );
-    output(os,keys,"have_bool"         ,have_bool        );
-    output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
@@ -478,7 +453,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 #endif
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-    const char* name = "xmlns";
+    constexpr const char* name = "xmlns";
 
     Exiv2::Dictionary ns;
     Exiv2::XmpProperties::registeredNamespaces(ns);
