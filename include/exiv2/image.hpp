@@ -705,9 +705,7 @@ namespace Exiv2 {
         static bool checkType(ImageTypee type, BasicIo& io, bool advance);
 
         ImageFactory& operator=(const ImageFactory& rhs) = delete;
-        ImageFactory& operator=(const ImageFactory&& rhs) = delete;
         ImageFactory(const ImageFactory& rhs) = delete;
-        ImageFactory(const ImageFactory&& rhs) = delete;
     };  // class ImageFactory
 
 // *****************************************************************************
