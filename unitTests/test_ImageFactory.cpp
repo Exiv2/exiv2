@@ -1,12 +1,14 @@
-#include <image.hpp> // Unit under test
+#include <image.hpp>  // Unit under test
 
-#include <error.hpp> // Need to include this header for the Exiv2::Error exception
+#include <error.hpp>  // Need to include this header for the Exiv2::Error exception
 
 #include <gtest/gtest.h>
+#include <filesystem>
 
 using namespace Exiv2;
+namespace fs = std::filesystem;
 
-TEST(TheImageFactory, createsInstancesForSupportedTypesInMemory)
+TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory)
 {
     // Note that the constructor of these Image classes take an 'create' argument
     EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2));
@@ -16,7 +18,7 @@ TEST(TheImageFactory, createsInstancesForSupportedTypesInMemory)
     EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
 }
 
-TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInMemory)
+TEST(TheImageFactory, cannotCreateInstancesForMostTypesInMemory)
 {
     // Note that the constructor of these Image classes does not take an 'create' argument
 
@@ -29,7 +31,7 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInMemory)
     EXPECT_THROW(ImageFactory::create(ImageType::psd), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::raf), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::rw2), Error);
-//    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error); // This one crashes badly
+    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::webp), Error);
 
     // TIFF
@@ -52,8 +54,7 @@ TEST(TheImageFactory, throwsWithNonExistingImageTypes)
     EXPECT_THROW(ImageFactory::create(static_cast<ImageType>(666)), Error);
 }
 
-
-TEST(TheImageFactory, createsInstancesForSupportedTypesInFiles)
+TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles)
 {
     const std::string filePath("./here");
 
@@ -81,7 +82,7 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles)
     EXPECT_THROW(ImageFactory::create(ImageType::psd, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::raf, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::rw2, filePath), Error);
-//    EXPECT_THROW(ImageFactory::create(ImageType::tga), Error); // This one crashes badly
+    EXPECT_THROW(ImageFactory::create(ImageType::tga, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::webp, filePath), Error);
 
     // TIFF
@@ -92,4 +93,49 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles)
     EXPECT_THROW(ImageFactory::create(ImageType::arw, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::sr2, filePath), Error);
     EXPECT_THROW(ImageFactory::create(ImageType::srw, filePath), Error);
+}
+
+TEST(TheImageFactory, loadInstancesDifferentImageTypes)
+{
+    fs::path testData(TESTDATA_PATH);
+
+    std::string imagePath = (testData / "DSC_3079.jpg").string();
+    EXPECT_EQ(ImageType::jpeg, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "exiv2-bug1108.exv").string();
+    EXPECT_EQ(ImageType::exv, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "exiv2-canon-powershot-s40.crw").string();
+    EXPECT_EQ(ImageType::crw, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "exiv2-bug1044.tif").string();
+    EXPECT_EQ(ImageType::tiff, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "exiv2-bug1074.png").string();
+    EXPECT_EQ(ImageType::png, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "BlueSquare.xmp").string();
+    EXPECT_EQ(ImageType::xmp, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "exiv2-photoshop.psd").string();
+    EXPECT_EQ(ImageType::psd, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "cve_2017_1000126_stack-oob-read.webp").string();
+    EXPECT_EQ(ImageType::webp, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "imagemagick.pgf").string();
+    EXPECT_EQ(ImageType::pgf, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+    imagePath = (testData / "Reagan.jp2").string();
+    EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
+    EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 }

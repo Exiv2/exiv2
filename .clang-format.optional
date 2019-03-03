@@ -25,4 +25,6 @@ AllowShortBlocksOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 
+IncludeBlocks: Preserve
+
 ...
