@@ -519,9 +519,8 @@ namespace Exiv2 {
         //! Assignment operator
         FileIo& operator=(const FileIo& rhs);
 
-        // Pimpl idiom
-        class Impl;
-        std::unique_ptr<Impl> p_;
+        struct Pimpl;
+        std::unique_ptr<Pimpl> p_;
 
     }; // class FileIo
 
@@ -719,9 +718,8 @@ namespace Exiv2 {
         //! Assignment operator
         MemIo& operator=(const MemIo& rhs);
 
-        // Pimpl idiom
-        class Impl;
-        std::unique_ptr<Impl> p_;
+        struct Pimpl;
+        std::unique_ptr<Pimpl> p_;
 
     }; // class MemIo
 
@@ -1004,9 +1002,9 @@ namespace Exiv2 {
         //@}
 
         // Pimpl idiom
-        class Impl;
+        struct Pimpl;
         //! Pointer to implementation
-        Impl* p_;
+        Pimpl* p_;
     }; // class RemoteIo
 
     /*!

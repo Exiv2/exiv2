@@ -84,13 +84,12 @@ namespace Exiv2 {
     }
 
     //! Internal Pimpl structure of class FileIo.
-    class FileIo::Impl {
-    public:
+    struct FileIo::Pimpl {
         //! Constructor
-        explicit Impl(const std::string& path);
+        explicit Pimpl(const std::string& path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
-        explicit Impl(const std::wstring& wpath);
+        explicit Pimpl(const std::wstring& wpath);
 #endif
         // Enumerations
         //! Mode of operation
@@ -143,13 +142,11 @@ namespace Exiv2 {
         DWORD winNumberOfLinks() const;
 #endif
 
-        Impl& operator=(const Impl& rhs) = delete;
-        Impl& operator=(const Impl&& rhs) = delete;
-        Impl(const Impl& rhs) = delete;
-        Impl(const Impl&& rhs) = delete;
-    }; // class FileIo::Impl
+        Pimpl& operator=(const Pimpl& rhs) = delete;
+        Pimpl(const Pimpl& rhs) = delete;
+    };
 
-    FileIo::Impl::Impl(const std::string& path)
+    FileIo::Pimpl::Pimpl(const std::string& path)
         : path_(path),
 #ifdef EXV_UNICODE_PATH
         wpMode_(wpStandard),
@@ -163,7 +160,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    FileIo::Impl::Impl(const std::wstring& wpath)
+    FileIo::Pimpl::Pimpl(const std::wstring& wpath)
         : wpath_(wpath),
           wpMode_(wpUnicode),
           fp_(0), opMode_(opSeek),
@@ -175,7 +172,7 @@ namespace Exiv2 {
     }
 
 #endif
-    int FileIo::Impl::switchMode(OpMode opMode)
+    int FileIo::Pimpl::switchMode(OpMode opMode)
     {
         if (fp_ == nullptr)
             return 1;
@@ -232,9 +229,9 @@ namespace Exiv2 {
         if (fp_ == nullptr)
             return 1;
         return std::fseek(fp_, offset, SEEK_SET);
-    }  // FileIo::Impl::switchMode
+    }  // FileIo::Pimpl::switchMode
 
-    int FileIo::Impl::stat(StructStat& buf) const
+    int FileIo::Pimpl::stat(StructStat& buf) const
     {
         int ret = 0;
 #ifdef EXV_UNICODE_PATH
@@ -269,12 +266,12 @@ namespace Exiv2 {
             }
         }
         return ret;
-    } // FileIo::Impl::stat
+    }
 
 #if defined(__APPLE__)
-    void FileIo::Impl::copyXattrFrom(const FileIo& src)
+    void FileIo::Pimpl::copyXattrFrom(const FileIo& src)
 #else
-    void FileIo::Impl::copyXattrFrom(const FileIo&)
+    void FileIo::Pimpl::copyXattrFrom(const FileIo&)
 #endif
     {
 #if defined(__APPLE__)
@@ -319,10 +316,10 @@ namespace Exiv2 {
 #else
         // No xattr support for this platform.
 #endif
-    } // FileIo::Impl::copyXattrFrom
+    } // FileIo::Pimpl::copyXattrFrom
 
 #if defined WIN32 && !defined __CYGWIN__
-    DWORD FileIo::Impl::winNumberOfLinks() const
+    DWORD FileIo::Pimpl::winNumberOfLinks() const
     {
         DWORD nlink = 1;
 
@@ -354,18 +351,18 @@ namespace Exiv2 {
 #endif
 
         return nlink;
-    } // FileIo::Impl::winNumberOfLinks
+    } // FileIo::Pimpl::winNumberOfLinks
 
 #endif // defined WIN32 && !defined __CYGWIN__
 
     FileIo::FileIo(const std::string& path)
-        : p_(new Impl(path))
+        : p_(new Pimpl(path))
     {
     }
 
 #ifdef EXV_UNICODE_PATH
     FileIo::FileIo(const std::wstring& wpath)
-        : p_(new Impl(wpath))
+        : p_(new Pimpl(wpath))
     {
     }
 
@@ -401,7 +398,7 @@ namespace Exiv2 {
 #endif
         }
         if (p_->isWriteable_) {
-            if (p_->fp_ != 0) p_->switchMode(Impl::opRead);
+            if (p_->fp_ != 0) p_->switchMode(Pimpl::opRead);
             p_->isWriteable_ = false;
         }
         p_->pMappedArea_ = 0;
@@ -414,7 +411,7 @@ namespace Exiv2 {
         assert(p_->fp_ != 0);
         if (munmap() != 0) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), strError().c_str(), "munmap");
             }
             else
@@ -425,9 +422,9 @@ namespace Exiv2 {
         }
         p_->mappedLength_ = size();
         p_->isWriteable_ = isWriteable;
-        if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
+        if (p_->isWriteable_ && p_->switchMode(Pimpl::opWrite) != 0) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerFailedToMapFileForReadWrite, wpath(), strError().c_str());
             }
             else
@@ -444,7 +441,7 @@ namespace Exiv2 {
         void* rc = ::mmap(0, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), strError().c_str(), "mmap");
             }
             else
@@ -473,7 +470,7 @@ namespace Exiv2 {
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(p_->fp_));
         if (hFd == INVALID_HANDLE_VALUE) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), "MSG1", "_get_osfhandle");
             }
             else
@@ -484,7 +481,7 @@ namespace Exiv2 {
         }
         if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), "MSG2", "DuplicateHandle");
             }
             else
@@ -496,7 +493,7 @@ namespace Exiv2 {
         p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, (DWORD) p_->mappedLength_, 0);
         if (p_->hMap_ == 0 ) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), "MSG3", "CreateFileMapping");
             }
             else
@@ -508,7 +505,7 @@ namespace Exiv2 {
         void* rc = MapViewOfFile(p_->hMap_, dwAccess, 0, 0, 0);
         if (rc == 0) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), "MSG4", "CreateFileMapping");
             }
             else
@@ -523,7 +520,7 @@ namespace Exiv2 {
         DataBuf buf(static_cast<long>(p_->mappedLength_));
         if (read(buf.pData_, buf.size_) != buf.size_) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), strError().c_str(), "FileIo::read");
             }
             else
@@ -534,7 +531,7 @@ namespace Exiv2 {
         }
         if (error()) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), strError().c_str(), "FileIo::mmap");
             }
             else
@@ -552,7 +549,7 @@ namespace Exiv2 {
     void FileIo::setPath(const std::string& path) {
         close();
 #ifdef EXV_UNICODE_PATH
-        if (p_->wpMode_ == Impl::wpUnicode) {
+        if (p_->wpMode_ == Pimpl::wpUnicode) {
             std::wstring wpath;
             wpath.assign(path.begin(), path.end());
             p_->wpath_ = wpath;
@@ -566,7 +563,7 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
     void FileIo::setPath(const std::wstring& wpath) {
         close();
-        if (p_->wpMode_ == Impl::wpStandard) {
+        if (p_->wpMode_ == Pimpl::wpStandard) {
             std::string path;
             path.assign(wpath.begin(), wpath.end());
             p_->path_ = path;
@@ -579,7 +576,7 @@ namespace Exiv2 {
     long FileIo::write(const byte* data, long wcount)
     {
         assert(p_->fp_ != 0);
-        if (p_->switchMode(Impl::opWrite) != 0) return 0;
+        if (p_->switchMode(Pimpl::opWrite) != 0) return 0;
         return (long)std::fwrite(data, 1, wcount, p_->fp_);
     }
 
@@ -588,7 +585,7 @@ namespace Exiv2 {
         assert(p_->fp_ != 0);
         if (static_cast<BasicIo*>(this) == &src) return 0;
         if (!src.isopen()) return 0;
-        if (p_->switchMode(Impl::opWrite) != 0) return 0;
+        if (p_->switchMode(Pimpl::opWrite) != 0) return 0;
 
         byte buf[4096];
         long readCount = 0;
@@ -619,7 +616,7 @@ namespace Exiv2 {
             if (open("a+b") != 0) {
                 // Remove the (temporary) file
 #ifdef EXV_UNICODE_PATH
-                if (fileIo->p_->wpMode_ == Impl::wpUnicode) {
+                if (fileIo->p_->wpMode_ == Pimpl::wpUnicode) {
                     ::_wremove(fileIo->wpath().c_str());
                 }
                 else
@@ -628,7 +625,7 @@ namespace Exiv2 {
                     ::remove(fileIo->path().c_str());
                 }
 #ifdef EXV_UNICODE_PATH
-                if (p_->wpMode_ == Impl::wpUnicode) {
+                if (p_->wpMode_ == Pimpl::wpUnicode) {
                     throw WError(kerFileOpenFailed, wpath(), "a+b", strError().c_str());
                 }
                 else
@@ -646,7 +643,7 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
             wchar_t* wpf = 0;
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 wspf = wpath();
                 wpf = const_cast<wchar_t*>(wspf.c_str());
             }
@@ -690,7 +687,7 @@ namespace Exiv2 {
                 origStMode = buf1.st_mode;
             }
 #else // EXV_HAVE_LSTAT
-            Impl::StructStat buf1;
+            Pimpl::StructStat buf1;
             if (p_->stat(buf1) == -1) {
                 statOk = false;
             }
@@ -699,7 +696,7 @@ namespace Exiv2 {
 
             // MSVCRT rename that does not overwrite existing files
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
 #if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
                 // Windows implementation that deals with the fact that ::rename fails
                 // if the target filename still exists, which regularly happens when
@@ -759,7 +756,7 @@ namespace Exiv2 {
 #endif
                     }
                 }
-            } // if (p_->wpMode_ == Impl::wpUnicode)
+            } // if (p_->wpMode_ == Pimpl::wpUnicode)
             else
 #endif // EXV_UNICODE_PATH
             {
@@ -828,7 +825,7 @@ namespace Exiv2 {
             // Generic handling, reopen both to reset to start
             if (open("w+b") != 0) {
 #ifdef EXV_UNICODE_PATH
-                if (p_->wpMode_ == Impl::wpUnicode) {
+                if (p_->wpMode_ == Pimpl::wpUnicode) {
                     throw WError(kerFileOpenFailed, wpath(), "w+b", strError().c_str());
                 }
                 else
@@ -839,7 +836,7 @@ namespace Exiv2 {
             }
             if (src.open() != 0) {
 #ifdef EXV_UNICODE_PATH
-                if (p_->wpMode_ == Impl::wpUnicode) {
+                if (p_->wpMode_ == Pimpl::wpUnicode) {
                     throw WError(kerDataSourceOpenFailed, src.wpath(), strError().c_str());
                 }
                 else
@@ -855,7 +852,7 @@ namespace Exiv2 {
         if (wasOpen) {
             if (open(lastMode) != 0) {
 #ifdef EXV_UNICODE_PATH
-                if (p_->wpMode_ == Impl::wpUnicode) {
+                if (p_->wpMode_ == Pimpl::wpUnicode) {
                     throw WError(kerFileOpenFailed, wpath(), lastMode.c_str(), strError().c_str());
                 }
                 else
@@ -869,7 +866,7 @@ namespace Exiv2 {
 
         if (error() || src.error()) {
 #ifdef EXV_UNICODE_PATH
-            if (p_->wpMode_ == Impl::wpUnicode) {
+            if (p_->wpMode_ == Pimpl::wpUnicode) {
                 throw WError(kerTransferFailed, wpath(), strError().c_str());
             }
             else
@@ -883,7 +880,7 @@ namespace Exiv2 {
     int FileIo::putb(byte data)
     {
         assert(p_->fp_ != 0);
-        if (p_->switchMode(Impl::opWrite) != 0) return EOF;
+        if (p_->switchMode(Pimpl::opWrite) != 0) return EOF;
         return putc(data, p_->fp_);
     }
 
@@ -899,7 +896,7 @@ namespace Exiv2 {
         case BasicIo::end: fileSeek = SEEK_END; break;
         }
 
-        if (p_->switchMode(Impl::opSeek) != 0) return 1;
+        if (p_->switchMode(Pimpl::opSeek) != 0) return 1;
 #ifdef _WIN64
         return _fseeki64(p_->fp_, offset, fileSeek);
 #else
@@ -918,7 +915,7 @@ namespace Exiv2 {
         case BasicIo::end: fileSeek = SEEK_END; break;
         }
 
-        if (p_->switchMode(Impl::opSeek) != 0) {
+        if (p_->switchMode(Pimpl::opSeek) != 0) {
             return 1;
         }
         return std::fseek(p_->fp_, offset, fileSeek);
@@ -942,7 +939,7 @@ namespace Exiv2 {
 #endif
         }
 
-        Impl::StructStat buf;
+        Pimpl::StructStat buf;
         int ret = p_->stat(buf);
 
         if (ret != 0) return -1;
@@ -959,9 +956,9 @@ namespace Exiv2 {
     {
         close();
         p_->openMode_ = mode;
-        p_->opMode_ = Impl::opSeek;
+        p_->opMode_ = Pimpl::opSeek;
 #ifdef EXV_UNICODE_PATH
-        if (p_->wpMode_ == Impl::wpUnicode) {
+        if (p_->wpMode_ == Pimpl::wpUnicode) {
             p_->fp_ = ::_wfopen(wpath().c_str(), s2ws(mode).c_str());
         }
         else
@@ -1002,7 +999,7 @@ namespace Exiv2 {
     long FileIo::read(byte* buf, long rcount)
     {
         assert(p_->fp_ != 0);
-        if (p_->switchMode(Impl::opRead) != 0) {
+        if (p_->switchMode(Pimpl::opRead) != 0) {
             return 0;
         }
         return (long)std::fread(buf, 1, rcount, p_->fp_);
@@ -1011,7 +1008,7 @@ namespace Exiv2 {
     int FileIo::getb()
     {
         assert(p_->fp_ != 0);
-        if (p_->switchMode(Impl::opRead) != 0) return EOF;
+        if (p_->switchMode(Pimpl::opRead) != 0) return EOF;
         return getc(p_->fp_);
     }
 
@@ -1029,7 +1026,7 @@ namespace Exiv2 {
     std::string FileIo::path() const
     {
 #ifdef EXV_UNICODE_PATH
-        if (p_->wpMode_ == Impl::wpUnicode) {
+        if (p_->wpMode_ == Pimpl::wpUnicode) {
             return ws2s(p_->wpath_);
         }
 #endif
@@ -1039,7 +1036,7 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
     std::wstring FileIo::wpath() const
     {
-        if (p_->wpMode_ == Impl::wpStandard) {
+        if (p_->wpMode_ == Pimpl::wpStandard) {
             return s2ws(p_->path_);
         }
         return p_->wpath_;
@@ -1052,10 +1049,9 @@ namespace Exiv2 {
     }
 
     //! Internal Pimpl structure of class MemIo.
-    class MemIo::Impl {
-    public:
-        Impl();                            //!< Default constructor
-        Impl(const byte* data, long size); //!< Constructor 2
+    struct MemIo::Pimpl {
+        Pimpl();                            //!< Default constructor
+        Pimpl(const byte* data, long size); //!< Constructor 2
 
         // DATA
         byte* data_;                       //!< Pointer to the start of the memory area
@@ -1068,14 +1064,12 @@ namespace Exiv2 {
         // METHODS
         void reserve(long wcount);         //!< Reserve memory
 
-        Impl& operator=(const Impl& rhs) = delete;
-        Impl& operator=(const Impl&& rhs) = delete;
-        Impl(const Impl& rhs) = delete;
-        Impl(const Impl&& rhs) = delete;
-    };  // class MemIo::Impl
+        Pimpl& operator=(const Pimpl& rhs) = delete;
+        Pimpl(const Pimpl& rhs) = delete;
+    };
 
-    MemIo::Impl::Impl()
-        : data_(0),
+    MemIo::Pimpl::Pimpl()
+        : data_(nullptr),
           idx_(0),
           size_(0),
           sizeAlloced_(0),
@@ -1084,7 +1078,7 @@ namespace Exiv2 {
     {
     }
 
-    MemIo::Impl::Impl(const byte* data, long size)
+    MemIo::Pimpl::Pimpl(const byte* data, long size)
         : data_(const_cast<byte*>(data)),
           idx_(0),
           size_(size),
@@ -1168,7 +1162,7 @@ namespace Exiv2 {
         size_t      size_;
     }; // class BlockMap
 
-    void MemIo::Impl::reserve(long wcount)
+    void MemIo::Pimpl::reserve(long wcount)
     {
         const long need = wcount + idx_;
         long    blockSize =     32*1024;   // 32768           `
@@ -1207,12 +1201,12 @@ namespace Exiv2 {
     }
 
     MemIo::MemIo()
-        : p_(new Impl())
+        : p_(new Pimpl())
     {
     }
 
     MemIo::MemIo(const byte* data, long size)
-        : p_(new Impl(data, size))
+        : p_(new Pimpl(data, size))
     {
     }
 
@@ -1565,16 +1559,15 @@ namespace Exiv2 {
 #endif
 
     //! Internal Pimpl abstract structure of class RemoteIo.
-    class RemoteIo::Impl {
-    public:
+    struct RemoteIo::Pimpl {
         //! Constructor
-        Impl(const std::string& path, size_t blockSize);
+        Pimpl(const std::string& path, size_t blockSize);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
-        Impl(const std::wstring& wpath, size_t blockSize);
+        Pimpl(const std::wstring& wpath, size_t blockSize);
 #endif
         //! Destructor. Releases all managed memory.
-        virtual ~Impl();
+        virtual ~Pimpl();
 
         // DATA
         std::string     path_;          //!< (Standard) path
@@ -1627,22 +1620,22 @@ namespace Exiv2 {
          */
         virtual size_t populateBlocks(size_t lowBlock, size_t highBlock);
 
-    }; // class RemoteIo::Impl
+    }; // class RemoteIo::Pimpl
 
-    RemoteIo::Impl::Impl(const std::string& url, size_t blockSize)
+    RemoteIo::Pimpl::Pimpl(const std::string& url, size_t blockSize)
         : path_(url), blockSize_(blockSize), blocksMap_(0), size_(0),
           idx_(0), isMalloced_(false), eof_(false), protocol_(fileProtocol(url)),totalRead_(0)
     {
     }
 #ifdef EXV_UNICODE_PATH
-    RemoteIo::Impl::Impl(const std::wstring& wurl, size_t blockSize)
+    RemoteIo::Pimpl::Pimpl(const std::wstring& wurl, size_t blockSize)
         : wpath_(wurl), blockSize_(blockSize), blocksMap_(0), size_(0),
           idx_(0), isMalloced_(false), eof_(false), protocol_(fileProtocol(wurl))
     {
     }
 #endif
 
-    size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock)
+    size_t RemoteIo::Pimpl::populateBlocks(size_t lowBlock, size_t highBlock)
     {
         assert(isMalloced_);
 
@@ -1675,15 +1668,15 @@ namespace Exiv2 {
         return rcount;
     }
 
-    RemoteIo::Impl::~Impl() {
-        if (blocksMap_) delete[] blocksMap_;
+    RemoteIo::Pimpl::~Pimpl() {
+        if (blocksMap_)
+            delete[] blocksMap_;
     }
 
     RemoteIo::~RemoteIo()
     {
         if (p_) {
             close();
-            delete p_;
         }
     }
 
@@ -2009,7 +2002,7 @@ namespace Exiv2 {
 
 
     //! Internal Pimpl structure of class HttpIo.
-    class HttpIo::HttpImpl : public Impl  {
+    class HttpIo::HttpImpl : public Pimpl  {
     public:
         //! Constructor
         HttpImpl(const std::string&  path,  size_t blockSize);
@@ -2057,13 +2050,13 @@ namespace Exiv2 {
     };  // class HttpIo::HttpImpl
 
     HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize)
-        : Impl(url, blockSize)
+        : Pimpl(url, blockSize)
         , hostInfo_(Exiv2::Uri::Parse(url))
     {
         Exiv2::Uri::Decode(hostInfo_);
     }
 #ifdef EXV_UNICODE_PATH
-    HttpIo::HttpImpl::HttpImpl(const std::wstring& wurl, size_t blockSize):Impl(wurl, blockSize)
+    HttpIo::HttpImpl::HttpImpl(const std::wstring& wurl, size_t blockSize):Pimpl(wurl, blockSize)
     {
         std::string url;
         url.assign(wurl.begin(), wurl.end());
@@ -2177,7 +2170,7 @@ namespace Exiv2 {
 
 #ifdef EXV_USE_CURL
     //! Internal Pimpl structure of class RemoteIo.
-    class CurlIo::CurlImpl : public Impl  {
+    class CurlIo::CurlImpl : public Pimpl  {
     public:
         //! Constructor
         CurlImpl(const std::string&  path, size_t blockSize);
@@ -2229,9 +2222,9 @@ namespace Exiv2 {
 
     private:
         long timeout_; //!< The number of seconds to wait while trying to connect.
-    }; // class RemoteIo::Impl
+    }; // class RemoteIo::Pimpl
 
-    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
+    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize):Pimpl(url, blockSize)
     {
         // init curl pointer
         curl_ = curl_easy_init();
@@ -2253,7 +2246,7 @@ namespace Exiv2 {
         }
     }
 #ifdef EXV_UNICODE_PATH
-    CurlIo::CurlImpl::CurlImpl(const std::wstring& wurl, size_t blockSize):Impl(wurl, blockSize)
+    CurlIo::CurlImpl::CurlImpl(const std::wstring& wurl, size_t blockSize):Pimpl(wurl, blockSize)
     {
         std::string url;
         url.assign(wurl.begin(), wurl.end());
@@ -2427,7 +2420,7 @@ namespace Exiv2 {
 
 #ifdef EXV_USE_SSH
     //! Internal Pimpl structure of class RemoteIo.
-    class SshIo::SshImpl : public Impl  {
+    class SshIo::SshImpl : public Pimpl  {
     public:
         //! Constructor
         SshImpl(const std::string&  path,  size_t blockSize);
@@ -2475,9 +2468,9 @@ namespace Exiv2 {
         SshImpl& operator=(const SshImpl&& rhs) = delete;
         SshImpl(const SshImpl& rhs) = delete;
         SshImpl(const SshImpl&& rhs) = delete;
-    };  // class RemoteIo::Impl
+    };  // class RemoteIo::Pimpl
 
-    SshIo::SshImpl::SshImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
+    SshIo::SshImpl::SshImpl(const std::string& url, size_t blockSize):Pimpl(url, blockSize)
     {
         hostInfo_ = Exiv2::Uri::Parse(url);
         Exiv2::Uri::Decode(hostInfo_);
@@ -2496,7 +2489,7 @@ namespace Exiv2 {
         }
     }
 #ifdef EXV_UNICODE_PATH
-    SshIo::SshImpl::SshImpl(const std::wstring& wurl, size_t blockSize):Impl(wurl, blockSize)
+    SshIo::SshImpl::SshImpl(const std::wstring& wurl, size_t blockSize):Pimpl(wurl, blockSize)
     {
         std::string url;
         url.assign(wurl.begin(), wurl.end());
