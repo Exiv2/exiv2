@@ -43,11 +43,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add PSD to the supported image formats
-    namespace ImageType {
-        const int psd = 12; //!< Photoshop (PSD) image type (see class PsdImage)
-    }
-
     /*!
       @brief Class to access raw Photoshop images.
      */

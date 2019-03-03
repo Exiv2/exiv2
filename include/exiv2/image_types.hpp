@@ -23,11 +23,11 @@
 
 namespace Exiv2 {
     /// Supported Image Formats
-    enum class ImageTypee{
-        none,       // 1
-        jpeg,       // 1
-        exv,        // 2
-        crw,        // 3
+    enum class ImageType{
+        none,       // 0
+        jpeg,       // 1 JPEG
+        exv,        // 2 EXV
+        crw,        // 3 CRW
 
         tiff,       // 4
         dng,
@@ -37,21 +37,21 @@ namespace Exiv2 {
         sr2,
         srw,
 
-        mrw,        // 5
+        mrw,        // 5 MRW
         png,        // 6
-        cr2,        // 7
+        cr2,        // 7 CR2
         raf,        // 8
-        orf,        // 9
-        xmp,        // 10
-        gif,        // 11
-        psd,        // 12
+        orf,        // 9 ORF
+        xmp,        // 10 XMP sidecar files
+        gif,        // 11 GIF
+        psd,        // 12 Photoshop (PSD)
         tga,        // 13
-        bmp,        // 14
-        jp2,        // 15
+        bmp,        // 14 Windows bitmap
+        jp2,        // 15 JPEG-2000
         rw2,        // 16
         pgf,        // 17
         webp,       // 23
-        bigtiff,       // 25
+        bigtiff,    // 25
     };
 }
 

@@ -71,7 +71,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageTypee::tiff, mdExif | mdIptc | mdXmp, std::move(io)),
+        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)),
           pixelWidth_(0), pixelHeight_(0)
     {
     } // TiffImage::TiffImage
@@ -336,7 +336,7 @@ namespace Exiv2 {
     {
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
-        if ( imageType() == ImageTypee::none )
+        if ( imageType() == ImageType::none )
         if (!isTiffType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             throw Error(kerNotAJpeg);

@@ -40,11 +40,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add ORF to the supported image formats
-    namespace ImageType {
-        const int orf = 9;          //!< ORF image type (see class OrfImage)
-    }
-
     /*!
       @brief Class to access raw Olympus ORF images. Exif metadata is supported
              directly, IPTC is read from the Exif data, if present.

@@ -124,7 +124,7 @@ enum {
 namespace Exiv2 {
 
     PsdImage::PsdImage(BasicIo::UniquePtr io)
-        : Image(ImageTypee::psd, mdExif | mdIptc | mdXmp, std::move(io))
+        : Image(ImageType::psd, mdExif | mdIptc | mdXmp, std::move(io))
     {
     }  // PsdImage::PsdImage
 

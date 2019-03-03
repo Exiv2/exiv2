@@ -48,7 +48,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     Rw2Image::Rw2Image(BasicIo::UniquePtr io)
-        : Image(ImageTypee::rw2, mdExif | mdIptc | mdXmp, std::move(io))
+        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Rw2Image::Rw2Image
 
@@ -99,7 +99,7 @@ namespace Exiv2 {
         out << "RW2 IMAGE" << std::endl;
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
-        if ( imageType() == ImageTypee::none )
+        if ( imageType() == ImageType::none )
             if (!isRw2Type(*io_, false)) {
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
                 throw Error(kerNotAJpeg);

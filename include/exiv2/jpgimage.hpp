@@ -46,13 +46,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Supported JPEG image formats
-    /// \todo Probably we should have this values in a enum class ?
-    namespace ImageType {
-        const int jpeg = 1;         //!< JPEG image type (see class JpegImage)
-        const int exv  = 2;         //!< EXV image type (see class ExvImage)
-    }
-
     /// @brief Helper class, has methods to deal with %Photoshop "Information Resource Blocks" (IRBs).
     struct EXIV2API Photoshop {
         // Todo: Public for now
@@ -168,7 +161,7 @@ namespace Exiv2 {
               valid image of the calling subclass.
           @param dataSize Size of initData in bytes.
          */
-        JpegBase(ImageTypee       type,
+        JpegBase(ImageType       type,
                  BasicIo::UniquePtr io,
                  bool             create,
                  const byte       initData[],

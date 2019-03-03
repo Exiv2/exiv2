@@ -41,11 +41,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add GIF to the supported image formats
-    namespace ImageType {
-        const int gif = 11;          //!< GIF image type (see class GifImage)
-    }
-
     /*!
       @brief Class to access raw GIF images. Exif/IPTC metadata are supported
              directly.

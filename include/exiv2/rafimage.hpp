@@ -45,11 +45,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add RAF to the supported image formats
-    namespace ImageType {
-        const int raf = 8;          //!< RAF image type (see class RafImage)
-    }
-
     /*!
       @brief Class to access raw Fujifilm RAF images. Exif metadata is
           supported directly, IPTC is read from the Exif data, if present.

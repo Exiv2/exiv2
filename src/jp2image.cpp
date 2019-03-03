@@ -136,7 +136,7 @@ namespace Exiv2
 {
 
     Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create)
-            : Image(ImageTypee::jp2, mdExif | mdIptc | mdXmp, std::move(io))
+            : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, std::move(io))
     {
         if (create)
         {

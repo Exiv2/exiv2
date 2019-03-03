@@ -44,11 +44,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    //! Supported image formats
-    namespace ImageType {
-        const int none = 0;         //!< Not an image
-    }
-
     //! Native preview information. This is meant to be used only by the PreviewManager.
     struct NativePreview {
         long position_;                         //!< Position
@@ -91,7 +86,7 @@ namespace Exiv2 {
               metadata types and an auto-pointer that owns an IO instance.
               See subclass constructor doc.
          */
-        Image(ImageTypee type, uint16_t supportedMetadata, BasicIo::UniquePtr io);
+        Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io);
         //! Virtual Destructor
         virtual ~Image();
         //@}
@@ -470,14 +465,14 @@ namespace Exiv2 {
         //@}
 
         //! set type support for this image format
-        void setTypeSupported(ImageTypee imageType, uint16_t supportedMetadata)
+        void setTypeSupported(ImageType imageType, uint16_t supportedMetadata)
         {
             imageType_         = imageType;
             supportedMetadata_ = supportedMetadata;
         }
 
         //! set type support for this image format
-        ImageTypee imageType() const { return imageType_; }
+        ImageType imageType() const { return imageType_; }
 
     protected:
         // DATA
@@ -506,7 +501,7 @@ namespace Exiv2 {
 
     private:
         // DATA
-        ImageTypee        imageType_;         //!< Image type
+        ImageType        imageType_;         //!< Image type
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
         bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
         ByteOrder         byteOrder_;         //!< Byte order
@@ -609,17 +604,17 @@ namespace Exiv2 {
         /// @param path %Image file to create. File extension is ignored.
         /// @return An auto-pointer that owns an Image instance of the requested type.
         /// @throws Error If the image type is not supported.
-        static Image::UniquePtr create(ImageTypee type, const std::string& path);
+        static Image::UniquePtr create(ImageType type, const std::string& path);
 
 #ifdef EXV_UNICODE_PATH
         /// @brief Like create() but accepts a unicode path in an std::wstring. Only available on Windows.
-        static Image::UniquePtr create(ImageTypee type, const std::wstring& wpath);
+        static Image::UniquePtr create(ImageType type, const std::wstring& wpath);
 #endif
         /// @brief Create an Image subclass of the requested type by creating a new image in memory.
         /// @param type Type of the image to be created.
         /// @return An auto-pointer that owns an Image instance of the requested type.
         /// @throws Error If the image type is not supported
-        static Image::UniquePtr create(ImageTypee type);
+        static Image::UniquePtr create(ImageType type);
 
         /*!
           @brief Create an Image subclass of the requested type by writing a
@@ -635,12 +630,12 @@ namespace Exiv2 {
           @return An auto-pointer that owns an Image instance of the requested
               type. If the image type is not supported, the pointer is 0.
          */
-        static Image::UniquePtr create(ImageTypee type, BasicIo::UniquePtr io);
+        static Image::UniquePtr create(ImageType type, BasicIo::UniquePtr io);
 
         /// @brief Returns the image type of the provided file.
         /// @param path The contents of the file are tested to determine the image type. File extension is ignored.
         /// @return Image type or none if the type is not recognized.
-        static ImageTypee getType(const std::string& path);
+        static ImageType getType(const std::string& path);
 
 #ifdef EXV_UNICODE_PATH
         /*!
@@ -656,7 +651,7 @@ namespace Exiv2 {
           @param size Number of bytes pointed to by \em data.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static ImageTypee getType(const byte* data, long size);
+        static ImageType getType(const byte* data, long size);
         /*!
           @brief Returns the image type of data provided by a BasicIo instance.
               The passed in \em io instance is (re)opened by this method.
@@ -664,7 +659,7 @@ namespace Exiv2 {
               of the image data are tested to determine the type.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static ImageTypee getType(BasicIo& io);
+        static ImageType getType(BasicIo& io);
         /*!
           @brief Returns the access mode or supported metadata functions for an
               image type and a metadata type.
@@ -673,7 +668,7 @@ namespace Exiv2 {
           @return Access mode for the requested image type and metadata identifier.
           @throw Error(kerUnsupportedImageType) if the image type is not supported.
          */
-        static AccessMode checkMode(ImageTypee type, MetadataId metadataId);
+        static AccessMode checkMode(ImageType type, MetadataId metadataId);
         /*!
           @brief Determine if the content of \em io is an image of \em type.
 
@@ -694,7 +689,7 @@ namespace Exiv2 {
           @return  true  if the data matches the type of this class;<BR>
                    false if the data does not match
         */
-        static bool checkType(ImageTypee type, BasicIo& io, bool advance);
+        static bool checkType(ImageType type, BasicIo& io, bool advance);
 
         ImageFactory& operator=(const ImageFactory& rhs) = delete;
         ImageFactory(const ImageFactory& rhs) = delete;

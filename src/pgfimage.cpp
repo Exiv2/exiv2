@@ -82,7 +82,7 @@ namespace Exiv2 {
     }
 
     PgfImage::PgfImage(BasicIo::UniquePtr io, bool create)
-            : Image(ImageTypee::pgf, mdExif | mdIptc| mdXmp | mdComment, std::move(io))
+            : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, std::move(io))
             , bSwap_(isBigEndianPlatform())
     {
         if (create)
@@ -192,7 +192,7 @@ namespace Exiv2 {
         int w, h;
         DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
-        Image::UniquePtr img  = ImageFactory::create(ImageTypee::png);
+        Image::UniquePtr img  = ImageFactory::create(ImageType::png);
 
         img->setExifData(exifData_);
         img->setIptcData(iptcData_);

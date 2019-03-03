@@ -53,7 +53,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     CrwImage::CrwImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageTypee::crw, mdExif | mdComment, std::move(io))
+        : Image(ImageType::crw, mdExif | mdComment, std::move(io))
     {
     } // CrwImage::CrwImage
 

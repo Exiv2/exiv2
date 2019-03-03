@@ -82,11 +82,11 @@ namespace {
     //! Struct for storing image types and function pointers.
     struct Registry {
         //! Comparison operator to compare a Registry structure with an image type
-        bool operator==(const ImageTypee& imageType) const
+        bool operator==(const ImageType& imageType) const
         { return imageType == imageType_; }
 
         // DATA
-        ImageTypee      imageType_;
+        ImageType      imageType_;
         NewInstanceFct newInstance_;
         IsThisTypeFct  isThisType_;
         AccessMode     exifSupport_;
@@ -98,35 +98,35 @@ namespace {
     const Registry registry[] = {
         //image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
         //---------------  ---------------  ----------  -----------  -----------  -----------  ------------
-        { ImageTypee::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-        { ImageTypee::exv,  newExvInstance,  isExvType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-        { ImageTypee::cr2,  newCr2Instance,  isCr2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
-        { ImageTypee::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
-        { ImageTypee::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::bigtiff, newBigTiffInstance, isBigTiffType, amRead, amRead,  amRead,      amNone      },
-        { ImageTypee::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
-        { ImageTypee::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::pef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::arw,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
-        { ImageTypee::rw2,  newRw2Instance,  isRw2Type,  amRead,      amRead,      amRead,      amNone      },
-        { ImageTypee::sr2,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
-        { ImageTypee::srw,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::orf,  newOrfInstance,  isOrfType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite },
+        { ImageType::exv,  newExvInstance,  isExvType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
+        { ImageType::cr2,  newCr2Instance,  isCr2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
+        { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::bigtiff, newBigTiffInstance, isBigTiffType, amRead, amRead,  amRead,      amNone      },
+        { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
+        { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::pef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::arw,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
+        { ImageType::rw2,  newRw2Instance,  isRw2Type,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::sr2,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
+        { ImageType::srw,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::orf,  newOrfInstance,  isOrfType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
 #ifdef EXV_HAVE_LIBZ
-        { ImageTypee::png,  newPngInstance,  isPngType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
+        { ImageType::png,  newPngInstance,  isPngType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
 #endif // EXV_HAVE_LIBZ
-        { ImageTypee::pgf,  newPgfInstance,  isPgfType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-        { ImageTypee::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
-        { ImageTypee::xmp,  newXmpInstance,  isXmpType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageTypee::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageTypee::psd,  newPsdInstance,  isPsdType,  amRead,      amRead,      amRead,      amNone      },
-        { ImageTypee::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageTypee::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageTypee::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::pgf,  newPgfInstance,  isPgfType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
+        { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::xmp,  newXmpInstance,  isXmpType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        { ImageType::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
+        { ImageType::psd,  newPsdInstance,  isPsdType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
+        { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
+        { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         // End of list marker
-        { ImageTypee::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
+        { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
 
 }
@@ -135,7 +135,7 @@ namespace {
 // class member definitions
 namespace Exiv2 {
 
-    Image::Image(ImageTypee type, uint16_t supportedMetadata, BasicIo::UniquePtr io)
+    Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io)
         : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
@@ -758,7 +758,7 @@ namespace Exiv2 {
         return tags_[tag] ;
     }
 
-    AccessMode ImageFactory::checkMode(ImageTypee type, MetadataId metadataId)
+    AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId)
     {
         const Registry* r = find(registry, type);
         if (!r)
@@ -786,7 +786,7 @@ namespace Exiv2 {
         return am;
     }
 
-    bool ImageFactory::checkType(ImageTypee type, BasicIo& io, bool advance)
+    bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
         if (0 != r) {
@@ -795,7 +795,7 @@ namespace Exiv2 {
         return false;
     } // ImageFactory::checkType
 
-    ImageTypee ImageFactory::getType(const std::string& path)
+    ImageType ImageFactory::getType(const std::string& path)
     {
         FileIo fileIo(path);
         return getType(fileIo);
@@ -809,23 +809,23 @@ namespace Exiv2 {
     }
 
 #endif
-    ImageTypee ImageFactory::getType(const byte* data, long size)
+    ImageType ImageFactory::getType(const byte* data, long size)
     {
         MemIo memIo(data, size);
         return getType(memIo);
     }
 
-    ImageTypee ImageFactory::getType(BasicIo& io)
+    ImageType ImageFactory::getType(BasicIo& io)
     {
         if (io.open() != 0)
-            return ImageTypee::none;
+            return ImageType::none;
         IoCloser closer(io);
-        for (unsigned int i = 0; registry[i].imageType_ != ImageTypee::none; ++i) {
+        for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(io, false)) {
                 return registry[i].imageType_;
             }
         }
-        return ImageTypee::none;
+        return ImageType::none;
     }
 
     BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl)
@@ -908,7 +908,7 @@ namespace Exiv2 {
         if (io->open() != 0) {
             throw Error(kerDataSourceOpenFailed, io->path(), strError());
         }
-        for (unsigned int i = 0; registry[i].imageType_ != ImageTypee::none; ++i) {
+        for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
                 return registry[i].newInstance_(std::move(io), false);
             }
@@ -916,7 +916,7 @@ namespace Exiv2 {
         return Image::UniquePtr();
     } // ImageFactory::open
 
-    Image::UniquePtr ImageFactory::create(ImageTypee type,
+    Image::UniquePtr ImageFactory::create(ImageType type,
                                         const std::string& path)
     {
         std::unique_ptr<FileIo> fileIo(new FileIo(path));
@@ -933,7 +933,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::UniquePtr ImageFactory::create(ImageTypee type,
+    Image::UniquePtr ImageFactory::create(ImageType type,
                                         const std::wstring& wpath)
     {
         std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
@@ -949,7 +949,7 @@ namespace Exiv2 {
     }
 
 #endif
-    Image::UniquePtr ImageFactory::create(ImageTypee type)
+    Image::UniquePtr ImageFactory::create(ImageType type)
     {
         BasicIo::UniquePtr io(new MemIo);
         Image::UniquePtr image = create(type, std::move(io));
@@ -959,7 +959,7 @@ namespace Exiv2 {
         return image;
     }
 
-    Image::UniquePtr ImageFactory::create(ImageTypee type, BasicIo::UniquePtr io)
+    Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);

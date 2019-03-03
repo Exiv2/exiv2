@@ -41,7 +41,7 @@
 // class member definitions
 namespace Exiv2
 {
-    BmpImage::BmpImage(BasicIo::UniquePtr io) : Image(ImageTypee::bmp, mdNone, std::move(io))
+    BmpImage::BmpImage(BasicIo::UniquePtr io) : Image(ImageType::bmp, mdNone, std::move(io))
     {
     }
 

@@ -115,7 +115,7 @@ namespace {
     */
     int metacopy(const std::string& source,
                  const std::string& target,
-                 Exiv2::ImageTypee targetType,
+                 Exiv2::ImageType targetType,
                  bool preserve);
 
     /*!
@@ -1059,7 +1059,7 @@ namespace Action {
                 std::string xmpPath = bStdout ? "-" : newFilePath(path_, ".xmp");
                 if (dontOverwrite(xmpPath))
                     return 0;
-                rc = metacopy(path_, xmpPath, Exiv2::ImageTypee::xmp, false);
+                rc = metacopy(path_, xmpPath, Exiv2::ImageType::xmp, false);
             }
             if (!rc && Params::instance().target_ & Params::ctIccProfile) {
                 std::string iccPath = bStdout ? "-" : newFilePath(path_, ".icc");
@@ -1073,7 +1073,7 @@ namespace Action {
                 std::string exvPath = bStdout ? "-" : newFilePath(path_, ".exv");
                 if (dontOverwrite(exvPath))
                     return 0;
-                rc = metacopy(path_, exvPath, Exiv2::ImageTypee::exv, false);
+                rc = metacopy(path_, exvPath, Exiv2::ImageType::exv, false);
             }
             return rc;
         } catch (const Exiv2::AnyError& e) {
@@ -1260,7 +1260,7 @@ namespace Action {
             if (suffix.empty()) suffix = ".exv";
             if (Params::instance().target_ & Params::ctXmpSidecar) suffix = ".xmp";
             std::string exvPath = bStdin ? "-" : newFilePath(path, suffix);
-            rc = metacopy(exvPath, path, Exiv2::ImageTypee::none, true);
+            rc = metacopy(exvPath, path, Exiv2::ImageType::none, true);
         }
 
         if (0 == rc && (Params::instance().target_ & (Params::ctXmpSidecar|Params::ctXmpRaw)) ) {
@@ -2073,7 +2073,7 @@ namespace {
 
     int metacopy(const std::string& source,
                  const std::string& tgt,
-                 Exiv2::ImageTypee targetType,
+                 Exiv2::ImageType targetType,
                  bool preserve)
     {
 #ifdef DEBUG
