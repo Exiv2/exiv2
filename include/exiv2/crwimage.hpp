@@ -47,11 +47,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add CRW to the supported image formats
-    namespace ImageType {
-        const int crw = 3;          //!< CRW image type (see class CrwImage)
-    }
-
     /*!
       @brief Class to access raw Canon CRW images. Only Exif metadata and a
              comment are supported. CRW format does not contain IPTC metadata.

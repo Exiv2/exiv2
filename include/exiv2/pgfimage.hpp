@@ -44,12 +44,6 @@ namespace Exiv2
 // *****************************************************************************
 // class definitions
 
-    // Add PGF to the supported image formats
-    namespace ImageType
-    {
-        const int pgf = 17;          //!< PGF image type (see class PgfImage)
-    }
-
     /*!
       @brief Class to access PGF images. Exif and IPTC metadata are supported
           directly.

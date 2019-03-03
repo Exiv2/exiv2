@@ -41,11 +41,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add MRW to the supported image formats
-    namespace ImageType {
-        const int mrw = 5;          //!< MRW image type (see class MrwImage)
-    }
-
     /*!
       @brief Class to access raw Minolta MRW images. Exif metadata is supported
              directly, IPTC is read from the Exif data, if present.

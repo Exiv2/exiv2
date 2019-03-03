@@ -115,7 +115,7 @@ namespace {
     */
     int metacopy(const std::string& source,
                  const std::string& target,
-                 int targetType,
+                 Exiv2::ImageType targetType,
                  bool preserve);
 
     /*!
@@ -2073,7 +2073,7 @@ namespace {
 
     int metacopy(const std::string& source,
                  const std::string& tgt,
-                 int targetType,
+                 Exiv2::ImageType targetType,
                  bool preserve)
     {
 #ifdef DEBUG
