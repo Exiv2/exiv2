@@ -84,10 +84,11 @@ namespace {
     //! Struct for storing image types and function pointers.
     struct Registry {
         //! Comparison operator to compare a Registry structure with an image type
-        bool operator==(const int& imageType) const { return imageType == imageType_; }
+        bool operator==(const ImageType& imageType) const
+        { return imageType == imageType_; }
 
         // DATA
-        int            imageType_;
+        ImageType      imageType_;
         NewInstanceFct newInstance_;
         IsThisTypeFct  isThisType_;
         AccessMode     exifSupport_;
@@ -138,11 +139,11 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-    Image::Image(int imageType, uint16_t supportedMetadata, BasicIo::UniquePtr io)
+    Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io)
         : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
-          imageType_(imageType),
+          imageType_(type),
           supportedMetadata_(supportedMetadata),
 #ifdef EXV_HAVE_XMP_TOOLKIT
           writeXmpFromPacket_(false),
@@ -776,10 +777,11 @@ namespace Exiv2 {
         return tags_[tag] ;
     }
 
-    AccessMode ImageFactory::checkMode(int type, MetadataId metadataId)
+    AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId)
     {
         const Registry* r = find(registry, type);
-        if (!r) throw Error(kerUnsupportedImageType, type);
+        if (!r)
+            throw Error(kerUnsupportedImageType, static_cast<int>(type));
         AccessMode am = amNone;
         switch (metadataId) {
         case mdNone:
@@ -803,7 +805,7 @@ namespace Exiv2 {
         return am;
     }
 
-    bool ImageFactory::checkType(int type, BasicIo& io, bool advance)
+    bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
         if (nullptr != r) {
@@ -812,21 +814,22 @@ namespace Exiv2 {
         return false;
     }
 
-    int ImageFactory::getType(const std::string& path)
+    ImageType ImageFactory::getType(const std::string& path)
     {
         FileIo fileIo(path);
         return getType(fileIo);
     }
 
-    int ImageFactory::getType(const byte* data, long size)
+    ImageType ImageFactory::getType(const byte* data, long size)
     {
         MemIo memIo(data, size);
         return getType(memIo);
     }
 
-    int ImageFactory::getType(BasicIo& io)
+    ImageType ImageFactory::getType(BasicIo& io)
     {
-        if (io.open() != 0) return ImageType::none;
+        if (io.open() != 0)
+            return ImageType::none;
         IoCloser closer(io);
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(io, false)) {
@@ -834,7 +837,7 @@ namespace Exiv2 {
             }
         }
         return ImageType::none;
-    } // ImageFactory::getType
+    }
 
     BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl)
     {
@@ -888,7 +891,7 @@ namespace Exiv2 {
         return nullptr;
     }
 
-    Image::UniquePtr ImageFactory::create(int type, const std::string& path)
+    Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path)
     {
         auto fileIo = std::make_unique<FileIo>(path);
         // Create or overwrite the file, then close it
@@ -900,20 +903,20 @@ namespace Exiv2 {
         BasicIo::UniquePtr io(std::move(fileIo));
         auto image = create(type, std::move(io));
         if (!image)
-            throw Error(kerUnsupportedImageType, type);
+            throw Error(kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
-    Image::UniquePtr ImageFactory::create(int type)
+    Image::UniquePtr ImageFactory::create(ImageType type)
     {
         auto io = std::make_unique<MemIo>();
         auto image = create(type, std::move(io));
         if (!image)
-            throw Error(kerUnsupportedImageType, type);
+            throw Error(kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
-    Image::UniquePtr ImageFactory::create(int type, BasicIo::UniquePtr io)
+    Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);

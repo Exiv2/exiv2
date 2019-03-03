@@ -48,11 +48,6 @@ namespace Exiv2
 // *****************************************************************************
 // class definitions
 
-    // Add EPS to the supported image formats
-    namespace ImageType {
-        const int eps = 18;                     //!< EPS image type
-    }
-
     /*!
       @brief Class to access EPS images.
      */
