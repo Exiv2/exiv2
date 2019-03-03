@@ -1,23 +1,5 @@
 #include <image.hpp> // Unit under test
 
-/// \todo we should not need to include all these headers to be able to use the Factory
-#include <jpgimage.hpp>
-#include <bmpimage.hpp>
-#include <cr2image.hpp>
-#include <crwimage.hpp>
-#include <gifimage.hpp>
-#include <jp2image.hpp>
-#include <mrwimage.hpp>
-#include <orfimage.hpp>
-#include <pgfimage.hpp>
-#include <pngimage.hpp>
-#include <psdimage.hpp>
-#include <rafimage.hpp>
-#include <rw2image.hpp>
-#include <tgaimage.hpp>
-#include <tiffimage.hpp>
-#include <webpimage.hpp>
-
 #include <error.hpp> // Need to include this header for the Exiv2::Error exception
 
 #include <gtest/gtest.h>
