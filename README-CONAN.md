@@ -20,8 +20,10 @@ To build Exiv2 with conan, you will also need to install CMake.  https://cmake.o
     1. [Install conan](#1-1)
     2. [Test conan installation](#1-2)
     3. [Create a build directory](#1-3)
-    4. [Build dependencies and install conan artefacts in your build directory](#1-4)
-    5. [Execute cmake to generate build files for your environment:](#1-5)
+    4. [Prepare your conan profile](#1-4)
+    5. [Build dependencies and install conan artefacts in your build directory](#1-5)
+    6. [Execute cmake to generate build files for your environment](#1-6)
+    7. [Build Exiv2](#1-7)
 2. [Platform Notes](#2)
     1. [Linux Notes](#2-1)
     2. [Visual Studio Notes](#2-2)
@@ -51,8 +53,7 @@ To build Exiv2 with conan, you will also need to install CMake.  https://cmake.o
 ```bash
 $ pip install conan
 ```
-For other installation methods (brew, installers, from sources), visit this [link]([install
-conan](http://docs.conan.io/en/latest/installation.html)).
+For other installation methods (brew, installers, from sources), visit this [link](http://docs.conan.io/en/latest/installation.html).
 
 To upgrade the version of conan:
 
@@ -66,23 +67,30 @@ $ pip install conan --upgrade
 
 ```bash
 $ conan --version
-Conan version 1.4.1
+Conan version 1.12.3
 ```
 
 <div id="1-3">
 
-### 1.3) Create a build directory<div id="1-3">
+### 1.3) Create a build directory
 
 
-Create a build directory and will run the conan commands:
+Create a build directory where you will configure and build Exiv2:
 
 ```bash
+$ cd $EXIV2_ROOT
 $ mkdir build
 $ cd build
 $ conan profile list
 ```
 
-**IMPORTANT** _**Visual Studio Users**_ require the profile msvc2017Release64 in %HOMEPATH%\.conan\profiles\msvc2017Release64
+<div id="1-4">
+
+### 1.4) Prepare your conan profile
+
+The first time you run a conan command, a default conan profile will be created. You can create more [profiles](https://docs.conan.io/en/latest/reference/commands/misc/profile.html) to handle different compilers, build modes, etc.
+
+**NOTE**: This tutorial assumes that _**Visual Studio Users**_ have a profile msvc2017Release64 like the following one in `%HOMEPATH%\.conan\profiles\msvc2017Release64`:
 
 ```ini
 [build_requires]
@@ -99,11 +107,11 @@ os_build=Windows
 [env]
 ```
 
-<div id="1-4">
+<div id="1-5">
 
-### 1.4) Build dependencies and install conan artefacts in your build directory
+### 1.5) Build dependencies and install conan artefacts in your build directory
 
-Execute `$ conan install` pointing to the directory containing `conanfile.py`.
+Execute `conan install` pointing to the directory containing `conanfile.py` and indicating a conan profile if needed:
 
 ```bash
 $ conan install .. --build missing  # --profile msvc2017Release64
@@ -113,17 +121,17 @@ _**Visual Studio Users**_ should use `--profile msvc2017Release64`
 
 The output from this command is quite long as conan downloads or builds zlib, expat, curl and other dependencies.
 
-<div id="1-5">
+<div id="1-6">
 
-### 1.5) Execute cmake to generate build files for your environment.
+### 1.6) Execute cmake to generate build files for your environment.
 
 ```bash
 $ cmake ..  # -G "Visual Studio 15 2017 Win64"
 ```
 
-<div id="1-6">
+<div id="1-7">
 
-### 1.6) Build Exiv2:
+### 1.7) Build Exiv2:
 
 ```bash
 $ cmake --build . --config Release
@@ -140,20 +148,19 @@ $ cmake --build . --config Release
 
 #### Default Profile
 
-When you run conan install for the first time, it will detect and write the default profile ~/.conan/profile/default.  On my Ubuntu system with GCC 4.9, this is:
+When you run conan install for the first time, it will detect and write the default profile `~/.conan/profile/default`.  On a Ubuntu 18.04 system with GCC 7.3, this is:
 
 ```ini
+[build_requires]
 [settings]
 os=Linux
-os_build=Linux
 arch=x86_64
-arch_build=x86_64
 compiler=gcc
-compiler.version=4.9
-compiler.libcxx=libstdc++
+compiler.version=7
+compiler.libcxx=libstdc++11
 build_type=Release
 [options]
-[build_requires]
+[scopes]
 [env]
 ```
 
@@ -201,12 +208,12 @@ cmd
 
 ### Profiles for Visual Studio
 
-You can build Exiv2 with Visual Studio 2017 (version 15), 2015 (version 14), 2013 (version 12), 2012 (version 11), 2010 (version 10) or 2008 (version 9).
-You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in **<exiv2dir>/cmake/msvc\_conan\_profiles**.  There are 24 in total:
+Exiv2 can be build with any Visual Studio version with c++11 support: 2017 (version 15) or 2015 (version 14).
+You can create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, we provide some conan profiles in `<exiv2dir>/cmake/msvc_conan_profiles`:
 
 ```
 Profile :=    msvc{Edition}{Type}{Bits}
-Edition :=  { 2017    | 2015  |  2013  |  2012  |  2010  |  2008  }
+Edition :=  { 2017    | 2015  }
 Type    :=  { Release | Debug }
 Bits    :=  { 64      | 32    }
 Examples:     msvc2017Release64  msvc2015Debug32
@@ -231,8 +238,8 @@ os_build=Windows
 
 ### CMake Generators for Visual Studio
 
-In the step-by-step guide, the command `$ cmake ..` uses
-the default CMake generator.  Always use the generator for your version of Visual Studio.  For example:
+In the step-by-step guide, the command `$ cmake ..` uses the default CMake generator.
+Always use the generator for your version of Visual Studio.  For example:
 
 ```bat
 c:\....\exiv2\build> conan install .. --profile msvc2017Release64 --build missing

@@ -63,12 +63,15 @@ You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and
 
 <div id="2-1">
 
-### 2.1 Build, Install, Use, Uninstall Exiv2 on a UNIX-like system
+### 2.1 Build, Install, Use Exiv2 on a UNIX-like system
 
 ```bash
-$ cd <exiv2dir> ; mkdir build ; cd build
-$ cmake .. -G "Unix Makefiles" ; cmake --build . ; make test
-$ sudo make install
+cd $EXIV_ROOT
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+make test
+sudo make install
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
@@ -88,18 +91,14 @@ $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"      # Linux, Cygwin,
 $ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # MacOS-X
 ```
 
-#### Uninstall Exiv2 on a UNIX-like system
-
-```bash
-$ sudo make uninstall
-```
 
 [TOC](#TOC)
 <div id="2-2">
 
 ### 2.2 Build and Install Exiv2 with Visual Studio
 
-We recommend that you use conan with CMake to build Exiv2 with Visual Studio.
+We recommend that you use conan to download the Exiv2 external dependencies on Windows (On Linux/OSX you can use or install system packages).
+Apart from handling the dependencies, to configure and compile the project is pretty similar to the UNIX like systems.
 See [README-CONAN](README-CONAN.md) for more information
 
 [TOC](#TOC)
@@ -143,7 +142,10 @@ The following Exiv2 features are enabled by default and require external librari
 | Native language support     | gettext   | -DEXIV2\_ENABLE\_NLS=Off     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 | XMP support                 | expat     | -DEXIV2\_ENABLE\_XMP=Off     | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
 
-On Linux, you may install the dependencies using the distribution's package management system. Install the development package of a dependency to install the header files and static libraries required to build Exiv2.
+On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
+development package of a dependency to install the header files and libraries required to build Exiv2. In the file
+`ci/install_dependencies.sh` you can check to the list of packages we install on different Linux distributions. This
+file is used to setup some CI images in which we try out the Exiv2 compilation.
 
 Notes about different platforms are included in this document: [Platform Notes](#5)
 
@@ -210,7 +212,7 @@ Usage: ./exifprint [ file | --version || --version-test ]
 $
 ```
 
-The default cmake Generator is usually appropriate for your platform.  Additional information concerning Generators for Visual Studio in [README-CONAN](README-CONAN.md)
+This [repository](https://github.com/piponazo/exiv2Consumer) shows an example of how to consume Exiv2 with CMake.
 
 
 [TOC](#TOC)
@@ -329,7 +331,7 @@ To build documentation, use the CMake option **`-DEXIV2_BUILD_DOC=On`**.
 Additionally, you will require an additional build step to actually build the documentation.
 
 ```bash
-$ cmake ..options.. -DEXIV2_BUILD_DOC=On
+$ cmake ..options.. -DEXIV2_BUILD_DOC=ON
 $ make doc
 ```
 
@@ -396,7 +398,6 @@ $ mkdir build
 $ cd build
 $ cmake .. -G "Unix Makefiles" "-DCMAKE_BUILD_TYPE=Debug"
 $ make
-$ sudo make install
 ```
 
 You must install the library to ensure that your code is linked to the debug library.
@@ -549,7 +550,7 @@ All project resources are accessible from the project website.
 
 ### 3.1 License
 
-Copyright (C) 2004-2018 Exiv2 authors.
+Copyright (C) 2004-2019 Exiv2 authors.
 You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
 
 Exiv2 is free software; you can redistribute it and/or modify
