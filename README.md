@@ -142,7 +142,10 @@ The following Exiv2 features are enabled by default and require external librari
 | Native language support     | gettext   | -DEXIV2\_ENABLE\_NLS=Off     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 | XMP support                 | expat     | -DEXIV2\_ENABLE\_XMP=Off     | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
 
-On UNIX systems, you may install the dependencies using the distribution's package management system. Install the development package of a dependency to install the header files and libraries required to build Exiv2.
+On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
+development package of a dependency to install the header files and libraries required to build Exiv2. In the file
+`ci/install_dependencies.sh` you can check to the list of packages we install on different Linux distributions. This
+file is used to setup some CI images in which we try out the Exiv2 compilation.
 
 Notes about different platforms are included in this document: [Platform Notes](#5)
 
