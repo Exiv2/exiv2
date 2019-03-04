@@ -1,5 +1,6 @@
-include(CheckIncludeFile)
+include(CheckIncludeFileCXX)
 include(CheckCXXSourceCompiles)
+include(CheckCXXSymbolExists)
 
 # Note that the scope of the EXV_ variables in local
 if (${EXIV2_ENABLE_WEBREADY})
@@ -23,11 +24,10 @@ set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 set(EXV_UNICODE_PATH     ${EXIV2_ENABLE_WIN_UNICODE})
 
-# TODO: Try to use the cmake function check_symbol_exists which is more robust
-check_function_exists( gmtime_r EXV_HAVE_GMTIME_R )
-check_function_exists( mmap     EXV_HAVE_MMAP )
-check_function_exists( munmap   EXV_HAVE_MUNMAP )
-check_function_exists( strerror_r   EXV_HAVE_STRERROR_R )
+check_cxx_symbol_exists(gmtime_r    time.h         EXV_HAVE_GMTIME_R)
+check_cxx_symbol_exists(mmap        sys/mman.h     EXV_HAVE_MMAP )
+check_cxx_symbol_exists(munmap      sys/mman.h     EXV_HAVE_MUNMAP )
+check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
 
 check_cxx_source_compiles( "
 #include <string.h>
@@ -37,18 +37,18 @@ int main() {
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
 
-check_include_file( "unistd.h"  EXV_HAVE_UNISTD_H )
-check_include_file( "memory.h"  EXV_HAVE_MEMORY_H )
-check_include_file( "process.h" EXV_HAVE_PROCESS_H )
-check_include_file( "stdbool.h" EXV_HAVE_STDBOOL_H )
-check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
-check_include_file( "strings.h" EXV_HAVE_STRINGS_H )
-check_include_file( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
-check_include_file( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
-check_include_file( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
-check_include_file( "inttypes.h"    EXV_HAVE_INTTYPES_H )
+check_include_file_cxx( "memory.h"      EXV_HAVE_MEMORY_H )
+check_include_file_cxx( "process.h"     EXV_HAVE_PROCESS_H )
+check_include_file_cxx( "stdbool.h"     EXV_HAVE_STDBOOL_H )
+check_include_file_cxx( "stdint.h"      EXV_HAVE_STDINT_H )
+check_include_file_cxx( "strings.h"     EXV_HAVE_STRINGS_H )
+check_include_file_cxx( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
+check_include_file_cxx( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
+check_include_file_cxx( "inttypes.h"    EXV_HAVE_INTTYPES_H )
+check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
+check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
-check_include_file( "regex.h"       EXV_HAVE_REGEX_H )
+check_include_file_cxx( "regex.h"       EXV_HAVE_REGEX_H )
 endif()
 
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
