@@ -612,12 +612,6 @@ namespace Exiv2
 
     } // Jp2Image::writeMetadata
 
-#ifdef __clang__
-// ignore cast align errors.  dataBuf.pData_ is allocated by malloc() and 4 (or 8 byte aligned).
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wcast-align"
-#endif
-
     void Jp2Image::encodeJp2Header(const DataBuf& boxBuf,DataBuf& outBuf)
     {
         DataBuf output(boxBuf.size_ + iccProfile_.size_ + 100); // allocate sufficient space
@@ -686,10 +680,6 @@ namespace Exiv2
         ul2Data((byte*)&pBox->type,kJp2BoxTypeJp2Header,bigEndian);
         ul2Data((byte*)&pBox->length,outlen,bigEndian);
     } // Jp2Image::encodeJp2Header
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
 
     void Jp2Image::doWriteMetadata(BasicIo& outIo)
     {
