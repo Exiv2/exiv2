@@ -300,7 +300,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor that accepts the file path on which IO will be
               performed. The constructor does not open the file, and
-              therefore never failes.
+              therefore never fails.
           @param path The full path of a file
          */
         explicit FileIo(const std::string& path);
