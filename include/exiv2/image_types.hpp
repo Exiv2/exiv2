@@ -49,7 +49,6 @@ namespace Exiv2 {
         rw2,        ///<
         pgf,        ///<
         webp,       ///<
-        bigtiff,    ///<
         eps,
         bmff,
     };
