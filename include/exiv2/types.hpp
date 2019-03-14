@@ -90,16 +90,39 @@ namespace Exiv2 {
     typedef std::pair<int32_t, int32_t> Rational;
 
     //! Type to express the byte order (little or big endian)
-    enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
+    enum ByteOrder
+    {
+        invalidByteOrder,
+        littleEndian,
+        bigEndian,
+    };
 
     //! Type to indicate write method used by TIFF parsers
-    enum WriteMethod { wmIntrusive, wmNonIntrusive };
+    enum WriteMethod
+    {
+        wmIntrusive,
+        wmNonIntrusive,
+    };
 
     //! An identifier for each type of metadata
-    enum MetadataId { mdNone=0, mdExif=1, mdIptc=2, mdComment=4, mdXmp=8, mdIccProfile=16 };
+    enum MetadataId
+    {
+        mdNone = 0,
+        mdExif = 1,
+        mdIptc = 2,
+        mdComment = 4,
+        mdXmp = 8,
+        mdIccProfile = 16,
+    };
 
     //! An identifier for each mode of metadata support
-    enum AccessMode { amNone=0, amRead=1, amWrite=2, amReadWrite=3 };
+    enum AccessMode
+    {
+        amNone = 0,
+        amRead = 1,
+        amWrite = 2,
+        amReadWrite = 3,
+    };
 
     /*!
       @brief %Exiv2 value type identifiers.
