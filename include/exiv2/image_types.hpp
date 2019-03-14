@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef IMAGE_TYPES_H
-#define IMAGE_TYPES_H
+#ifndef INCLUDE_EXIV2_IMAGE_TYPES_H
+#define INCLUDE_EXIV2_IMAGE_TYPES_H
 
 namespace Exiv2
 {
@@ -55,4 +55,4 @@ namespace Exiv2
     };
 }  // namespace Exiv2
 
-#endif  // IMAGE_TYPES_H
+#endif  // INCLUDE_EXIV2_IMAGE_TYPES_H
