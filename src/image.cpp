@@ -95,6 +95,7 @@ namespace {
         AccessMode     commentSupport_;
     };
 
+    /// \todo Use std::unordered_map for implementing the registry. Avoid to use ImageType::none
     const Registry registry[] = {
         //image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
         //---------------  ---------------  ----------  -----------  -----------  -----------  ------------

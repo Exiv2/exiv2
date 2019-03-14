@@ -21,36 +21,38 @@
 #ifndef IMAGE_TYPES_H
 #define IMAGE_TYPES_H
 
-namespace Exiv2 {
+namespace Exiv2
+{
     /// Supported Image Formats
-    enum class ImageType{
-        none,       ///<
-        jpeg,       ///<
-        exv,        ///<
-        crw,        ///<
-        tiff,       ///<
-        dng,
-        nef,
-        pef,
+    enum class ImageType
+    {
+        none,
         arw,
+        bigtiff,
+        bmp,        ///< Windows bitmap
+        cr2,
+        crw,
+        dng,
+        exv,
+        gif,        ///< GIF
+        jp2,        ///< JPEG-2000
+        jpeg,
+        mrw,
+        nef,
+        orf,
+        pef,
+        png,
+        pgf,
+        psd,        ///< Photoshop (PSD)
+        raf,
+        rw2,
         sr2,
         srw,
-        mrw,        ///<
-        png,        ///<
-        cr2,        ///<
-        raf,        ///<
-        orf,        ///<
+        tga,
+        tiff,
+        webp,
         xmp,        ///< XMP sidecar files
-        gif,        ///< GIF
-        psd,        ///< Photoshop (PSD)
-        tga,        ///<
-        bmp,        ///< Windows bitmap
-        jp2,        ///< JPEG-2000
-        rw2,        ///<
-        pgf,        ///<
-        webp,       ///<
-        bigtiff,    ///<
     };
-}
+}  // namespace Exiv2
 
-#endif // IMAGE_TYPES_H
+#endif  // IMAGE_TYPES_H
