@@ -793,7 +793,7 @@ namespace Exiv2 {
             return r->isThisType_(io, advance);
         }
         return false;
-    } // ImageFactory::checkType
+    }
 
     ImageType ImageFactory::getType(const std::string& path)
     {
@@ -854,7 +854,7 @@ namespace Exiv2 {
         return BasicIo::UniquePtr(new FileIo(path));
 
         (void)(useCurl);
-    } // ImageFactory::createIo
+    }
 
 #ifdef EXV_UNICODE_PATH
     BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
@@ -877,7 +877,7 @@ namespace Exiv2 {
         if (fProt == pStdin || fProt == pDataUri)
             return BasicIo::UniquePtr(new XPathIo(wpath)); // may throw
         return BasicIo::UniquePtr(new FileIo(wpath));
-    } // ImageFactory::createIo
+    }
 #endif
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
@@ -914,7 +914,7 @@ namespace Exiv2 {
             }
         }
         return Image::UniquePtr();
-    } // ImageFactory::open
+    }
 
     Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path)
     {
@@ -968,7 +968,7 @@ namespace Exiv2 {
         }
 
         return r->newInstance_(std::move(io), true);
-    } // ImageFactory::create
+    }
 
 // *****************************************************************************
 // template, inline and free functions
@@ -984,6 +984,6 @@ namespace Exiv2 {
             blob.resize(size + len);
             std::memcpy(&blob[size], buf, len);
         }
-    } // append
+    }
 
 }                                       // namespace Exiv2
