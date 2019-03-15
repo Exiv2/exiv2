@@ -803,7 +803,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    int ImageFactory::getType(const std::wstring& wpath)
+    ImageType ImageFactory::getType(const std::wstring& wpath)
     {
         FileIo fileIo(wpath);
         return getType(fileIo);
@@ -944,7 +944,7 @@ namespace Exiv2 {
         fileIo->close();
         BasicIo::UniquePtr io(std::move(fileIo));
         Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
+        if (image.get() == 0) throw Error(kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
