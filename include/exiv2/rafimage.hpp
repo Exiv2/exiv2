@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    05-Feb-07, ahu: created
  */
-#ifndef RAFIMAGE_HPP_
-#define RAFIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -131,5 +130,3 @@ namespace Exiv2 {
     EXIV2API bool isRafType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef RAFIMAGE_HPP_

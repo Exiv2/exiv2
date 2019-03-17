@@ -30,8 +30,7 @@
            <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>
   @date    15-Jan-05, brad: split out from image.cpp
  */
-#ifndef JPGIMAGE_HPP_
-#define JPGIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -426,5 +425,3 @@ namespace Exiv2 {
     EXIV2API bool isExvType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef JPGIMAGE_HPP_

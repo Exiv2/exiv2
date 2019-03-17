@@ -27,8 +27,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    31-May-06, ahu: created
  */
-#ifndef VERSION_HPP_
-#define VERSION_HPP_
+#pragma once
 
 #include "exiv2lib_export.h"
 #include "exv_conf.h"
@@ -171,7 +170,3 @@ namespace Exiv2 {
      */
     EXIV2API void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys);
 }                                       // namespace Exiv2
-
-
-
-#endif                                  // VERSION_HPP_

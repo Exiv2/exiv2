@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    06-Jan-09, ahu: created
  */
-#ifndef RW2IMAGE_INT_HPP_
-#define RW2IMAGE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -65,5 +64,3 @@ namespace Exiv2 {
     }; // class Rw2Header
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef RW2IMAGE_INT_HPP_

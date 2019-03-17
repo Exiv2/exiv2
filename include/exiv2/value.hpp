@@ -26,8 +26,7 @@
            11-Feb-04, ahu: isolated as a component
            31-Jul-04, brad: added Time, Data and String values
  */
-#ifndef VALUE_HPP_
-#define VALUE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -1755,5 +1754,3 @@ namespace Exiv2 {
         return 0;
     }
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef VALUE_HPP_

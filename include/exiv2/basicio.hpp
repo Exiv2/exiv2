@@ -17,11 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      basicio.hpp
- */
-#ifndef BASICIO_HPP_
-#define BASICIO_HPP_
+
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -1158,4 +1155,3 @@ namespace Exiv2 {
     EXIV2API size_t curlWriter(char* data, size_t size, size_t nmemb, std::string* writerData);
 #endif
 }                                       // namespace Exiv2
-#endif                                  // #ifndef BASICIO_HPP_

@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    13-Jul-07, ahu: created
  */
-#ifndef XMP_HPP_
-#define XMP_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -443,5 +442,3 @@ namespace Exiv2 {
     }
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef XMP_HPP_

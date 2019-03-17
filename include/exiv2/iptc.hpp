@@ -24,8 +24,7 @@
            <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
   @date    31-Jul-04, brad: created
  */
-#ifndef IPTC_HPP_
-#define IPTC_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -319,5 +318,3 @@ namespace Exiv2 {
     }; // class IptcParser
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef IPTC_HPP_

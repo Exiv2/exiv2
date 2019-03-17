@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    12-Dec-03, ahu: created
  */
-#ifndef UTILS_HPP_
-#define UTILS_HPP_
+#pragma once
 
 // *********************************************************************
 // included header files
@@ -85,5 +84,3 @@ namespace Util {
     void replace(std::string& text, const std::string& searchText, const std::string& replaceText);
 
 }                                       // namespace Util
-
-#endif                                  // #ifndef UTILS_HPP_

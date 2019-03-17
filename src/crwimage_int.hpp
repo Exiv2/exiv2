@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    28-Aug-05, ahu: created
  */
-#ifndef CRWIMAGE_INT_HPP_
-#define CRWIMAGE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -729,5 +728,3 @@ namespace Exiv2 {
                             ByteOrder byteOrder);
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef CRWIMAGE_INT_HPP_

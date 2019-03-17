@@ -27,8 +27,7 @@
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    16-Jun-09, gc: submitted
  */
-#ifndef PGFIMAGE_HPP_
-#define PGFIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -128,5 +127,3 @@ namespace Exiv2
     EXIV2API bool isPgfType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef PGFIMAGE_HPP_

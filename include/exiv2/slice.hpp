@@ -26,8 +26,7 @@
   @date    30-March-18, D4N: created
  */
 
-#ifndef EXIV2_INCLUDE_SLICE_HPP
-#define EXIV2_INCLUDE_SLICE_HPP
+#pragma once
 
 #include <cassert>
 #include <cstddef>
@@ -581,5 +580,3 @@ namespace Exiv2
     }
 
 }  // namespace Exiv2
-
-#endif /* EXIV2_INCLUDE_SLICE_HPP */

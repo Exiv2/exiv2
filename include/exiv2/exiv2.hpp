@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    21-Jun-10, ahu: created
  */
-#ifndef EXIV2_HPP_
-#define EXIV2_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -70,5 +69,3 @@
 #include "exiv2/version.hpp"
 #include "exiv2/xmp_exiv2.hpp"
 #include "exiv2/xmpsidecar.hpp"
-
-#endif                                  // #ifndef EXIV2_HPP_

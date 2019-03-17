@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created
  */
-#ifndef TIFFCOMPOSITE_INT_HPP_
-#define TIFFCOMPOSITE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -1625,5 +1624,3 @@ namespace Exiv2 {
     }
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef TIFFCOMPOSITE_INT_HPP_

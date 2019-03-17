@@ -27,8 +27,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created
  */
-#ifndef MAKERNOTE_INT_HPP_
-#define MAKERNOTE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -749,5 +748,3 @@ namespace Exiv2 {
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef MAKERNOTE_INT_HPP_

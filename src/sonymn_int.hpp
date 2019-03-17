@@ -29,8 +29,7 @@ Email communication with <a href="mailto:caulier dot gilles at gmail dot com">ca
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    18-Apr-05, ahu: created
  */
-#ifndef SONYMN_INT_HPP_
-#define SONYMN_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -75,5 +74,3 @@ namespace Exiv2 {
     }; // class SonyMakerNote
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef SONYMN_INT_HPP_

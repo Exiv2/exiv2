@@ -25,8 +25,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    13-May-06, ahu: created
  */
-#ifndef MRWIMAGE_HPP_
-#define MRWIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -126,5 +125,3 @@ namespace Exiv2 {
     EXIV2API bool isMrwType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef MRWIMAGE_HPP_

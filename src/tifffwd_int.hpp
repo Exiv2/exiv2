@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    24-Jun-06, ahu: created
  */
-#ifndef TIFFFWD_INT_HPP_
-#define TIFFFWD_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -114,5 +113,3 @@ namespace Exiv2 {
     typedef std::vector<IfdId> PrimaryGroups;
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef TIFFFWD_INT_HPP_

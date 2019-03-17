@@ -28,8 +28,7 @@
            <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
   @date    13-Jul-07, ahu: created
  */
-#ifndef PROPERTIES_HPP_
-#define PROPERTIES_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -323,5 +322,3 @@ namespace Exiv2 {
     EXIV2API std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& propertyInfo);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef PROPERTIES_HPP_

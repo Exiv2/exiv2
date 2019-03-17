@@ -25,8 +25,7 @@
   @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
-#ifndef TAGS_INT_HPP_
-#define TAGS_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -448,5 +447,3 @@ namespace Exiv2 {
     URational exposureTime(float shutterSpeedValue);
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef TAGS_INT_HPP_

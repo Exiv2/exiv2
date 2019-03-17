@@ -26,8 +26,7 @@
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    05-Mar-2007, marco: created
  */
-#ifndef TGAIMAGE_HPP_
-#define TGAIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -123,5 +122,3 @@ namespace Exiv2 {
     EXIV2API bool isTgaType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef TGAIMAGE_HPP_

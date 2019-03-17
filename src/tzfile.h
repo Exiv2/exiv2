@@ -2,9 +2,7 @@
   @file    tzfile.h
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
 */
-#ifndef TZFILE_H
-
-#define TZFILE_H
+#pragma once
 
 /*
 ** This file is in the public domain, so clarified as of
@@ -188,5 +186,3 @@ struct tzhead {
 #define MONS_PER_YEAR	MONSPERYEAR
 
 #endif /* !defined USG */
-
-#endif /* !defined TZFILE_H */

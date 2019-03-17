@@ -17,12 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      tiffimage.hpp
- */
 
-#ifndef TIFFIMAGE_HPP_
-#define TIFFIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -212,5 +208,3 @@ namespace Exiv2 {
     EXIV2API bool isTiffType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef TIFFIMAGE_HPP_

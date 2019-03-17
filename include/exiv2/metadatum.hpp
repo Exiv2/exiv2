@@ -28,8 +28,7 @@
            31-Jul-04, brad: isolated as a component<BR>
            23-Aug-04, ahu: added Key
  */
-#ifndef METADATUM_HPP_
-#define METADATUM_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -312,5 +311,3 @@ namespace Exiv2 {
     EXIV2API bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef METADATUM_HPP_

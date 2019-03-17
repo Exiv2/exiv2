@@ -25,8 +25,7 @@
   @date    14-Dec-17, D4N: created
  */
 
-#ifndef SAFE_OP_HPP_
-#define SAFE_OP_HPP_
+#pragma once
 
 #include <limits>
 #include <stdexcept>
@@ -333,5 +332,3 @@ namespace Safe
     }
 
 }  // namespace Safe
-
-#endif  // SAFE_OP_HPP_

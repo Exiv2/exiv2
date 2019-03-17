@@ -24,8 +24,7 @@
            <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
   @date    31-Jul-07, costlow: created
  */
-#ifndef ORFIMAGE_HPP_
-#define ORFIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -146,5 +145,3 @@ namespace Exiv2 {
     EXIV2API bool isOrfType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef ORFIMAGE_HPP_

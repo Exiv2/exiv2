@@ -25,8 +25,7 @@
            <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/casio_mn.html#Casio_Type_1_Tags">Casio Makernote Format Specification</a> by Evan Hunter.
   @date    30-Oct-13, ahu: created
  */
-#ifndef CASIOMN_INT_HPP_
-#define CASIOMN_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -78,5 +77,3 @@ namespace Exiv2 {
     }; // class Casio2MakerNote
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef CasioMN_INT_HPP_
