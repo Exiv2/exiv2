@@ -36,6 +36,7 @@
 // included header files
 // + standard includes
 #include <vector>
+#include <string>
 
 #if defined(EXV_HAVE_REGEX_H)
 # include <regex.h>
@@ -131,7 +132,7 @@ namespace Exiv2 {
     /*!
       @brief Return the version of %Exiv2 available at runtime as an integer.
     */
-    EXIV2API constexpr int versionNumber()
+    constexpr int versionNumber()
     {
         return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
     }
@@ -148,7 +149,7 @@ namespace Exiv2 {
     /*!
       @brief Return the version of %Exiv2 as "C" string eg "0.27.0.2".
     */
-    EXIV2API constexpr const char* version()
+    constexpr const char* version()
     {
         return EXV_PACKAGE_VERSION;
     }
@@ -160,7 +161,7 @@ namespace Exiv2 {
       Versions are denoted using a triplet of integers: \em major.minor.patch .
       The fourth version number is designated a "tweak" an used by Release Candidates
     */
-    EXIV2API constexpr bool testVersion(int major, int minor, int patch)
+    constexpr bool testVersion(int major, int minor, int patch)
     {
         return versionNumber() >= EXIV2_MAKE_VERSION(major, minor, patch);
     }
