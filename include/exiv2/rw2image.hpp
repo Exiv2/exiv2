@@ -40,11 +40,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add RW2 to the supported image formats
-    namespace ImageType {
-        const int rw2 = 16;             //!< RW2 image type (see class Rw2Image)
-    }
-
     /*!
       @brief Class to access raw Panasonic RW2 images.  Exif metadata is
           supported directly, IPTC and XMP are read from the Exif data, if

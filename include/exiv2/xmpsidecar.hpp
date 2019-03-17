@@ -40,11 +40,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add XMP to the supported image formats
-    namespace ImageType {
-        const int xmp = 10;          //!< XMP sidecar files (see class XmpSidecar)
-    }
-
     /*!
       @brief Class to access XMP sidecar files. They contain only XMP metadata.
      */

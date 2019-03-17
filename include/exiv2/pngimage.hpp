@@ -45,12 +45,6 @@ namespace Exiv2
 // *****************************************************************************
 // class definitions
 
-    // Add PNG to the supported image formats
-    namespace ImageType
-    {
-        const int png = 6;          //!< PNG image type (see class PngImage)
-    }
-
     /*!
       @brief Class to access PNG images. Exif and IPTC metadata are supported
           directly.

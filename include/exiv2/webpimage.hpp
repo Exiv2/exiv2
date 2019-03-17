@@ -40,11 +40,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add WEBP to the supported image formats
-    namespace ImageType {
-        const int webp = 23; //!< Treating webp as an image type>
-    }
-
     /*!
       @brief Class to access WEBP video files.
      */
