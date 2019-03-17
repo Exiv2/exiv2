@@ -208,7 +208,7 @@ cmd
 
 ### Profiles for Visual Studio
 
-Exiv2 can be build with any Visual Studio version with c++11 support: 2017 (version 15) or 2015 (version 14).
+Exiv2 can be build with any Visual Studio version with complete c++11 support: 2017 (version 15) or 2015 (version 14).
 You can create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, we provide some conan profiles in `<exiv2dir>/cmake/msvc_conan_profiles`:
 
 ```
@@ -320,9 +320,52 @@ Do not use conan on the Cygwin Platform.  To build Exiv2 for Cygwin use CMake wi
 
 ### 2.4) MinGW Notes
 
-Team Exiv2 supports MinGW msys/2.  Team Exiv2 does not support MinGW msys/1.0.
+We support:
+  - on Windows: MinGW msys/2.
+  - on Linux: MinGW toolchains.
+ 
+We do not support:
+  - on Windows: MinGW msys/1.0.
 
-As with Cygwin, we do not recommend using conan to build on the MinGW/msys2 platform.  We recommend installing dependences (expat, zlib) with platform tools or build/install from source.
+Dependencies can be installed with the platform's default tools or conan.
+
+#### Profiles for MinGW
+
+Profiles for cross-compilation are a bit special and you can find more information about them [here](https://docs.conan.io/en/latest/systems_cross_building/cross_building.html?highlight=cross%20compiling).
+The profile `linux-to-win64` we use for compiling from Ubuntu to Win64 is as follows:
+
+```ini
+$toolchain=/usr/x86_64-w64-mingw32
+target_host=x86_64-w64-mingw32
+cc_compiler=gcc
+cxx_compiler=g++
+
+[env]
+CONAN_CMAKE_FIND_ROOT_PATH=$toolchain
+CHOST=$target_host
+AR=$target_host-ar
+AS=$target_host-as
+RANLIB=$target_host-ranlib
+CC=$target_host-$cc_compiler
+CXX=$target_host-$cxx_compiler
+STRIP=$target_host-strip
+RC=$target_host-windres
+
+[settings]
+# We are building in Ubuntu Linux
+os_build=Linux
+arch_build=x86_64
+
+# We are cross building to Windows
+os=Windows
+arch=x86_64
+compiler=gcc
+
+# Adjust to the gcc version of your MinGW package
+compiler.version=7.3
+compiler.libcxx=libstdc++11
+build_type=Release
+```
 
 [TOC](#TOC)
 <div id="3">

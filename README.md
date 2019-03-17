@@ -346,7 +346,7 @@ To build the documentation, you must install the following products:
 
 ### 2.10 Building Exiv2 Packages
 
-To enable building of packages, use the CMake option **`-DEXIV2\_TEAM\_PACKAGING=On`**.
+To enable the building of Exiv2 packages, use the CMake option `-DEXIV2_TEAM_PACKAGING=ON`.
 
 You should not build Exiv2 Packages.  This feature is intended for use by Team Exiv2 to create Platform and Source Packages on the buildserver.
 
@@ -390,7 +390,7 @@ You may prefer to run `$ cmake --build . --config Release --target package_sourc
 
 1) Generating and installing a debug library
 
-In general to generate a debug library, you should use the option *cmake* option **`-DCMAKE_RELEASE_TYPE=Debug`** and build in the usual way.
+In general to generate a debug library, you should use the option *cmake* option `-DCMAKE_RELEASE_TYPE=Debug` and build in the usual way.
 
 ```bash
 $ cd <exiv2dir>
@@ -637,7 +637,7 @@ $ ./icc-test.sh
 
 The code for the unit tests is in `<exiv2dir>/unitTests`
 
-To build the unit tests, use the *cmake* option **`-DEXIV2_BUILD_UNIT_TESTS=On`**.
+To build the unit tests, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.
 
 To execute the unit tests:
 
