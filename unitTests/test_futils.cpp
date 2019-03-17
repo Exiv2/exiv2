@@ -7,7 +7,7 @@
 #include <cerrno>
 #include <stdexcept>
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 using namespace Exiv2;
 

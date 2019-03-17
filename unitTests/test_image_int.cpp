@@ -1,6 +1,6 @@
-#include "gtestwrapper.h"
-
 #include <image_int.hpp>
+
+#include <gtest/gtest.h>
 
 using namespace Exiv2::Internal;
 using Exiv2::makeSlice;

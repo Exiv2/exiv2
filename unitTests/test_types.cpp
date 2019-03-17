@@ -3,7 +3,7 @@
 #include <cmath>
 #include <limits>
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 using namespace Exiv2;
 

@@ -1,6 +1,6 @@
 #include <enforce.hpp>
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 #include <stdexcept>
 
