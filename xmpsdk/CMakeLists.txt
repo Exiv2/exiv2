@@ -26,6 +26,7 @@ add_library(exiv2-xmp STATIC
     include/XMP_Version.h
 )
 
+# TODO: Use imported target EXPAT::EXPAT when we upgrade CMake version
 target_link_libraries(exiv2-xmp
     PRIVATE 
         ${EXPAT_LIBRARY}

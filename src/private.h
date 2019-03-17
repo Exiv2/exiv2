@@ -45,7 +45,7 @@ static char	privatehid[] = "@(#)private.h	7.53";
 #include "string.h"
 #include "limits.h"	/* for CHAR_BIT */
 #include "time.h"
-#include "stdlib.h"
+#include <stdlib.h>
 
 /* ahu: added io.h for MSVC */
 #ifdef _MSC_VER

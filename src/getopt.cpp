@@ -6,7 +6,7 @@
 // included header files
 #include <assert.h>
 #include <errno.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>

@@ -137,10 +137,6 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_STATIC
 )
 
-
-target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})
-
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
@@ -195,7 +191,11 @@ else()
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+    # TODO: target_link_libraries does not work with OBJECT libraries (exiv2lib_int) with old cmake
+    # versions. Use it once we require a more recent version in the root CMakeLists.txt
+    # target_link_libraries( exiv2lib_int PRIVATE ZLIB::ZLIB)
+    target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
+    target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
 endif()
 
 if( EXIV2_ENABLE_NLS )
