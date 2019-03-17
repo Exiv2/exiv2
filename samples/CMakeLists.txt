@@ -40,12 +40,9 @@ foreach(entry ${SAMPLES})
     set_target_properties(${target} PROPERTIES
       COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
-    add_test( ${target}_test ${target} )
+
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-    if (MSVC)
-        set_target_properties(${target} PROPERTIES LINK_FLAGS "/ignore:4099")
-    endif()
 endforeach()
 
 ###################################
@@ -113,7 +110,7 @@ list(APPEND APPLICATIONS remotetest)
 foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
     if( EXIV2_ENABLE_PNG )
-        target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
+        target_link_libraries(${application} PRIVATE ZLIB::ZLIB)
     endif()
     if (MSVC)
         set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099")

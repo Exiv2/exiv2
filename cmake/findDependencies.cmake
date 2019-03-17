@@ -5,7 +5,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     set(USING_CONAN ON)
     include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS TARGETS)
+    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS SKIP_STD TARGETS)
+
+    # This is needed to find the 3rd party libraries cross-compiled by conan with cmake
+    if (CMAKE_CROSSCOMPILING)
+        set(CMAKE_FIND_ROOT_PATH "${CMAKE_FIND_ROOT_PATH};${CMAKE_PREFIX_PATH}")
+    endif()
 endif()
 
 find_package(Threads REQUIRED)
