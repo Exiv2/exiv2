@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    07-Mar-08, ahu: created
  */
-#ifndef XMPSIDECAR_HPP_
-#define XMPSIDECAR_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -105,5 +104,3 @@ namespace Exiv2 {
     EXIV2API bool isXmpType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef XMPSIDECAR_HPP_

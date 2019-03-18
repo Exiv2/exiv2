@@ -38,8 +38,7 @@
   @date    17-May-04, ahu: created<BR>
            25-May-04, ahu: combined all Nikon formats in one component
  */
-#ifndef NIKONMN_INT_HPP_
-#define NIKONMN_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -280,5 +279,3 @@ namespace Exiv2 {
     }; // class Nikon3MakerNote
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef NIKONMN_INT_HPP_

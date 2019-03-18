@@ -25,8 +25,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Apr-06, ahu: created
  */
-#ifndef TIFFVISITOR_INT_HPP_
-#define TIFFVISITOR_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -730,5 +729,3 @@ namespace Exiv2 {
     }; // class TiffReader
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef TIFFVISITOR_INT_HPP_

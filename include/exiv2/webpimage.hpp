@@ -24,8 +24,7 @@
            <a href="mailto:draekko.software+exiv2@gmail.com">draekko.software+exiv2@gmail.com</a>
   @date    29-Jul-16
  */
-#ifndef WEBPIMAGE_HPP
-#define WEBPIMAGE_HPP
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -134,5 +133,3 @@ namespace Exiv2 {
     EXIV2API bool isWebPType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // WEBPIMAGE_HPP

@@ -1,7 +1,4 @@
-// config.h
-
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#pragma once
 
 ///// Start of Visual Studio Support /////
 #ifdef  _MSC_VER
@@ -92,6 +89,3 @@ typedef int pid_t;
 # endif
 #endif
 //////////////////////////////////////
-
-
-#endif // _CONFIG_H_

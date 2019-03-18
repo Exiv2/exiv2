@@ -2,9 +2,7 @@
   @file    private.h
   @brief   This file is from the tz distribution at ftp://elsie.nci.nih.gov/pub/
 */
-#ifndef PRIVATE_H
-
-#define PRIVATE_H
+#pragma once
 
 /*
 ** This file is in the public domain, so clarified as of
@@ -205,5 +203,3 @@ char *ctime_r P((time_t const *, char *));
 /*
 ** UNIX was a registered trademark of The Open Group in 2003.
 */
-
-#endif /* !defined PRIVATE_H */

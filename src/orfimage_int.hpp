@@ -25,8 +25,7 @@
   @date    31-Jul-07, costlow: created
            23-Apr-08, ahu: Moved to _int file
  */
-#ifndef ORFIMAGE_INT_HPP_
-#define ORFIMAGE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -69,5 +68,3 @@ namespace Exiv2 {
     }; // class OrfHeader
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef ORFIMAGE_INT_HPP_

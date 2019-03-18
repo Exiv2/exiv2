@@ -29,8 +29,7 @@
            07-Mar-04, ahu: isolated as a separate component<BR>
            12-Aug-06,  dc: started updating all tags
  */
-#ifndef CANONMN_INT_HPP_
-#define CANONMN_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -147,5 +146,3 @@ namespace Exiv2 {
     float canonEv(long val);
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef CANONMN_INT_HPP_

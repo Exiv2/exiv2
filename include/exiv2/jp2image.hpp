@@ -18,12 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-/*
-  File:      jp2image.cpp
-*/
-
-#ifndef JP2IMAGE_HPP_
-#define JP2IMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -129,5 +124,3 @@ namespace Exiv2
     EXIV2API bool isJp2Type(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef JP2IMAGE_HPP_

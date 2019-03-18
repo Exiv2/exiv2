@@ -24,8 +24,7 @@
            <a href="mailto:nadvornik@suse.cz">nadvornik@suse.cz</a>
   @date    18-Sep-08, vn: created
  */
-#ifndef PREVIEW_HPP_
-#define PREVIEW_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -192,5 +191,3 @@ namespace Exiv2 {
 
     }; // class PreviewManager
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef PREVIEW_HPP_

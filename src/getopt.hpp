@@ -1,5 +1,4 @@
-#ifndef GETOPT_H
-#define GETOPT_H
+#pragma once
 
 #include <ctype.h>
 #include <stdio.h>
@@ -96,6 +95,4 @@ namespace Util {
         int errcnt_;
     };
 
-}; // namespace Util
-
-#endif
+} // namespace Util

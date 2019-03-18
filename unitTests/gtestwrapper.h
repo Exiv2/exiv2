@@ -1,5 +1,4 @@
-#ifndef GTESTWRAPPER_H_
-#define GTESTWRAPPER_H_
+#pragma once
 
 #ifdef _MSC_VER
         #pragma warning(push)
@@ -11,5 +10,3 @@
 #ifdef _MSC_VER
         #pragma warning(pop)
 #endif
-
-#endif // #ifndef GTESTWRAPPER_H_

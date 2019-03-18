@@ -17,11 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    image.hpp
- */
-#ifndef IMAGE_HPP_
-#define IMAGE_HPP_
+
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -713,5 +710,3 @@ namespace Exiv2 {
     EXIV2API void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef IMAGE_HPP_

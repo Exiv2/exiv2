@@ -16,8 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef _TOEXC_HPP_
-#define _TOEXC_HPP_
+#pragma once
 
 class Params : public Util::Getopt {
 private:
@@ -71,5 +70,3 @@ public:
     void copyMetadata(Exiv2::Image::UniquePtr& readImage,Exiv2::Image::UniquePtr& writeImage);
 
 }; // class Params
-
-#endif // _TOEXV_HPP_

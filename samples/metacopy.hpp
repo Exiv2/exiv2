@@ -22,8 +22,7 @@
   @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    13-Jul-04, brad: created
  */
-#ifndef METACOPY_HPP_
-#define METACOPY_HPP_
+#pragma once
 
 class Params : public Util::Getopt {
 private:
@@ -79,5 +78,3 @@ public:
     void help(std::ostream& os =std::cout) const;
 
 }; // class Params
-
-#endif // METACOPY_HPP_

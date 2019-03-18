@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    10-May-15, ahu: created
  */
-#ifndef IMAGE_INT_HPP_
-#define IMAGE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -138,5 +137,3 @@ namespace Exiv2 {
     std::string indent(int32_t depth);
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef IMAGE_INT_HPP_

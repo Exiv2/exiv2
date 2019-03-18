@@ -25,8 +25,7 @@
   @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
-#ifndef TAGS_HPP_
-#define TAGS_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -232,5 +231,3 @@ namespace Exiv2 {
     EXIV2API std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef TAGS_HPP_

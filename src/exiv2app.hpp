@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    08-Dec-03, ahu: created
  */
-#ifndef EXIV2APP_HPP_
-#define EXIV2APP_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -355,5 +354,3 @@ public:
     void getStdin(Exiv2::DataBuf& buf);
 
 }; // class Params
-
-#endif                                  // #ifndef EXIV2APP_HPP_

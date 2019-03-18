@@ -19,8 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-#ifndef Jzon_h__
-#define Jzon_h__
+#pragma once
 
 #ifndef   JzonAPI
 # ifdef   _WINDLL
@@ -470,5 +469,3 @@ namespace Jzon
         Parser &operator=(const Parser&);
     };
 }
-
-#endif // Jzon_h__

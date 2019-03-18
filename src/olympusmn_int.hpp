@@ -34,8 +34,7 @@
            <a href="mailto:G.Mansfield at computer dot org">G.Mansfield at computer dot org</a>
   @date    10-Mar-05, wuz: created
  */
-#ifndef OLYMPUSMN_INT_HPP_
-#define OLYMPUSMN_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -124,5 +123,3 @@ namespace Exiv2 {
     }; // class OlympusMakerNote
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef OLYMPUSMN_INT_HPP_

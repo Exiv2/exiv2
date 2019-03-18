@@ -27,8 +27,7 @@
            <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>
   @date    05-Mar-2007, marco: created
  */
-#ifndef PSDIMAGE_HPP_
-#define PSDIMAGE_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -135,5 +134,3 @@ namespace Exiv2 {
     EXIV2API bool isPsdType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
-
-#endif                                  // #ifndef PSDIMAGE_HPP_

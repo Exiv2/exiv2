@@ -30,8 +30,7 @@
   File:    pngchunk.cpp
  */
 
-#ifndef PNGCHUNK_INT_HPP_
-#define PNGCHUNK_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -204,5 +203,3 @@ namespace Exiv2 {
     }; // class PngChunk
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef PNGCHUNK_INT_HPP_

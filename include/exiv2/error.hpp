@@ -25,8 +25,7 @@
   @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
-#ifndef ERROR_HPP_
-#define ERROR_HPP_
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -396,4 +395,3 @@ namespace Exiv2 {
 #endif
 
 }                                       // namespace Exiv2
-#endif                                  // #ifndef ERROR_HPP_

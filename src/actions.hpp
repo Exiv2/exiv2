@@ -25,8 +25,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    11-Dec-03, ahu: created
  */
-#ifndef ACTIONS_HPP_
-#define ACTIONS_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -427,5 +426,3 @@ namespace Action {
     }; // class FixCom
 
 }                                       // namespace Action
-
-#endif                                  // #ifndef ACTIONS_HPP_

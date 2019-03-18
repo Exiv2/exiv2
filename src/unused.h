@@ -17,9 +17,6 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef UNUSED_H
-#define UNUSED_H
+#pragma once
 
 #define UNUSED(x) (void)(x)
-
-#endif // UNUSED_H

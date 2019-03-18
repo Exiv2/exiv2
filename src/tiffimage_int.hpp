@@ -24,8 +24,7 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    23-Apr-08, ahu: created
  */
-#ifndef TIFFIMAGE_INT_HPP_
-#define TIFFIMAGE_INT_HPP_
+#pragma once
 
 // *****************************************************************************
 // included header files
@@ -484,5 +483,3 @@ namespace Exiv2 {
     }; // class FindExifdatum
 
 }}                                      // namespace Internal, Exiv2
-
-#endif                                  // #ifndef TIFFIMAGE_INT_HPP_
