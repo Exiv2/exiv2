@@ -1,9 +1,73 @@
-Exiv2 v0.27.0
--------------
+Exiv2 v0.27.1.1
+---------------
 
-Thank You to Dan and Luis for their huge contribution this release.
+This is RC1 of the first quarterly "dot" release of Exiv2 v0.27
 
-Contributors: Ben, Freddy, Gilles, Henri, Michal, Phil, Shridar, Toni and Thomas.
+Thank You to Dan, Luis and Thomas for their huge contribution to this release.
+Contributors: Andreas S, Freddie, Gilles, Michal, Phil.
+
+exiv2.org in being transfered to a new host
+The web-site exiv2.org.uk is being HostPresto.com in England.
+Thank You Elliot at HostPresto.com
+Thank You Nehal for server support and skills.
+Thank You Andreas H for assisting with this transition.
+
+Headline Features of Exiv2 v0.27.1
+----------------------------------
+
+1) Bug and security fixes.
+2) Deprecation warnings for Video, EPS and SSH support.
+3) Relocating exiv2.org to a new host.
+4) Branch 0.27-maintenance for "dots" to avoid confusion with tag 0.27 (== 0.27.0 code).
+5) Support for cross-compiling for MinGW from Linux.
+
+Known Issues with v0.27.1 RC1
+-----------------------------
+
+#745 Review/fix documentation concerning CMake support files.
+
+Changes since 0.27.0
+--------------------
+https://github.com/Exiv2/exiv2/milestone/3?closed=1
+
+#744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
+#740 Tests for jp2image.
+#726 Doxygen improvements.
+#706 Fix access to null pointer in TiffParser.
+#700 exiv2-xmp linked privately.
+#684 gettext include issue on macOS.
+#661 Development of v0.27 dots moved to branch 0.27-maintenance.
+#660 Install new file exiv2lib_compiler_detection.h
+#644 Xcode fails with Exiv2::BasicError<char>
+#644 Old issue tracker (Redmine) is being spammed.
+#637 Reliable detection of strerror_r variants.
+#634 Fixes for installing exiv2.
+#629 xmpsdk: Build with -DBanAllEntityUsage=1.
+#628 cmake: Install header files without globbing.
+#625 cmake: Use correct installation dirs for doc and cmake configs.
+#620 0.27 tarball contains cruft.
+#617 Deprecate relics.
+#608 Update Nikon lens database.
+#603 MSVC cmake+conan with -DEXIV2_ENABLE_LIBSSH=On is broken
+#602 MSVC compiler warning with -DEXIV2_ENABLE_VIDEO=On.
+#597 Patch for broken ICC profile in PNG files
+#590 Several bugs in 0.27-rc3
+
+Outstanding issues assigned to 0.27.1 (defer to 0.27.2)
+-------------------------------------------------------
+
+#662 How does the rename (mv) work in case of name clash?
+#646 Exiv2 does not find certain AF tags for the Nikon D850
+#582 Add support for FocusPosition (Tag9402) in Sony RAW files (ARW)
+#547 Insufficient verification(cycle) in function Image::printIFDStructure in image.cpp:335
+
+Robin Mills
+robin@clanmills.com
+2019-03-15
+
+-------------------------
+Release Notes for v0.27.0
+-------------------------
 
 The headline features are:
 
@@ -38,44 +102,6 @@ The code will be modernised to C++11.
 
 C++98 compilers such as Visual Studio (<2015) will be supported
 with quarterly Exiv2 v0.27 'dot' (security) releases during 2019 and 2020.
-
-Code changes since RC3
-----------------------
-     None.
-
-Fixes between RC2 and RC3
--------------------------
-#584 Quicktime Video isn't correctly built.
-#575 Unit tests build and execute on all platforms.  Documented in README.md
-#572 Build Server publishes/tests
-     on Cygwin, MinGW, Linux, Darwin and msvc
-     in Release/Debug, 64/32, gcc/clang, static/shared.
-     User can request from Jenkins: exiv2.dyndns.org:8080/job/exiv2/build
-#570 All compiler warnings have been eliminated.
-     Web-site refined and polished.
-     Preparation to rehost exiv2.org
-#557 Updates to documentation concerning Debugging, Clang, ccache and Unit Tests.
-     Build and test logs are stored in build bundles.
-#551 Fix heading install (broken in RC2)
-#532 TAMRON SP 15-30mm F/2.8 Di VC USD A012 len recognition
-#521 Delete XMP XmpBag and XmpSeq
-#425 Security fixes (#425, #547, #558, #564)
-#369 Revised man page exiv2.1.
-#226 Exiv2::Image::xmpPacket() doesn't work on tiff files
-
-Fixes between RC1 and RC2
--------------------------
-#544 Catalonian Language Support
-#541 exiv2 -vVg loops
-#540 CMake Cleanup
-#528 Xcode 10.1 builds samples/taglist.cpp
-#527 Localization Support
-#512 Restore exiv2.pc pkg-config file
-#510 getopt() looping on bad input
-#507 DLL name restored to cygexiv2-27.dll
-#505 Incorrect packaging
-#499 Support for FreeBSD
-
 
 Fixes since v0.26
 -----------------
