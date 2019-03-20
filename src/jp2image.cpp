@@ -501,8 +501,8 @@ namespace Exiv2
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type   = getLong((byte*)&subBox.type, bigEndian);
 
-                            // subBox.length makes no sense if it is larger than the rest of the file
-                            if (subBox.length > io_->size() - io_->tell()) {
+                            // subBox.length makes no sense if it is larger than the rest of the file || 0
+                            if (subBox.length == 0 || subBox.length > io_->size() - io_->tell()) {
                                 throw Error(kerCorruptedMetadata);
                             }
                             DataBuf data(subBox.length-sizeof(box));
