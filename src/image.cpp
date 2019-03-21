@@ -872,6 +872,8 @@ namespace Exiv2 {
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(wpath));
         }
+#else
+        UNUSED(useCurl);
 #endif
         if (fProt == pHttp)
             return BasicIo::UniquePtr(new HttpIo(wpath));
