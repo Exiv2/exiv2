@@ -370,8 +370,12 @@ namespace Exiv2 {
                                                const ExifData*)
     {
         if (value.count() >= 1) {
-            unsigned long focusArea = value.toLong(0);
-            os << nikonFocusarea[focusArea] ;
+            const unsigned long focusArea = value.toLong(0);
+            if (focusArea >= EXV_COUNTOF(nikonFocusarea)) {
+                os << "Invalid value";
+            } else {
+                os << nikonFocusarea[focusArea];
+            }
         }
         if (value.count() >= 2) {
             os << "; ";
