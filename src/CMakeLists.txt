@@ -45,19 +45,23 @@ add_library( exiv2lib
     ../include/exiv2/exiv2.hpp
     ../include/exiv2/slice.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
-    bigtiffimage.cpp
+    bigtiffimage.cpp        ../include/exiv2/bigtiffimage.hpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
     convert.cpp             ../include/exiv2/convert.hpp
     cr2image.cpp            ../include/exiv2/cr2image.hpp
     crwimage.cpp            ../include/exiv2/crwimage.hpp
     datasets.cpp            ../include/exiv2/datasets.hpp
     easyaccess.cpp          ../include/exiv2/easyaccess.hpp
+    enforce.hpp
     error.cpp               ../include/exiv2/error.hpp
     exif.cpp                ../include/exiv2/exif.hpp
+    fff.h
     futils.cpp              ../include/exiv2/futils.hpp
     gifimage.cpp            ../include/exiv2/gifimage.hpp
     http.cpp                ../include/exiv2/http.hpp
     image.cpp               ../include/exiv2/image.hpp
+                            ../include/exiv2/image_types.hpp
+    i18n.h
     ini.cpp                 ../include/exiv2/ini.hpp
     iptc.cpp                ../include/exiv2/iptc.hpp
     jp2image.cpp            ../include/exiv2/jp2image.hpp
@@ -93,7 +97,7 @@ generate_export_header(exiv2lib
 # ---------------------------------------------------------
 
 if(MINGW OR MSYS)
-    target_sources(exiv2lib_int PRIVATE localtime.c)
+    target_sources(exiv2lib_int PRIVATE localtime.c private.h tzfile.h)
 endif()
 
 if( EXIV2_ENABLE_WEBREADY )
@@ -104,7 +108,7 @@ if( EXIV2_ENABLE_WEBREADY )
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_sources(exiv2lib_int PRIVATE pngchunk_int.cpp)
+    target_sources(exiv2lib_int PRIVATE pngchunk_int.cpp pngchunk_int.hpp)
     target_sources(exiv2lib PRIVATE pngimage.cpp ../include/exiv2/pngimage.hpp)
 endif()
 

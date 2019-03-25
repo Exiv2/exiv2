@@ -3,7 +3,7 @@
 #include "slice.hpp"
 #include "types.hpp"
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 using namespace Exiv2;
 

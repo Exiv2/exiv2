@@ -1,6 +1,6 @@
 #include "cr2header_int.hpp"
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 using namespace Exiv2;
 
