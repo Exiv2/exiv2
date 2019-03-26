@@ -3,7 +3,7 @@
 # Typical usage:
 #    *) install cross compiler: `sudo apt install mingw-w64`
 #    *) mkdir buildMingw64 && cd buildMingw64
-#    *) cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchains/Toolchain-Ubuntu-mingw64.cmake ..
+#    *) cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchains/ubuntu1804-mingw64.cmake ..
 #
 
 set(CMAKE_SYSTEM_NAME Windows)
