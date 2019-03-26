@@ -35,7 +35,7 @@ mkdir buildMinGW && cd buildMinGW
 # Get 3rd party dependencies with conan
 conan install ../ --profile linux-to-win64 --build missing
 # Configure project to cross compile from linux to windows
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolschains/ubuntu-mingw64.cmake ../
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolschains/ubuntu1804-mingw64.cmake ../
 # Compile project
 cmake --build . --config Release
 ```
