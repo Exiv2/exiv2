@@ -1,23 +1,24 @@
-Visual Studio 2017 Release DLL Bundle
--------------------------------------
+MinGW/msys2 Exiv2 v0.27.1 Release Bundle
+Visual Studio 2017 Release DLL Exiv2 v0.27.1 Release Bundle
+-----------------------------------------------------------
 
 Structure of the bundle:
 ------------------------
 
-bin/exiv2.exe                             exiv2 and sample applications
-bin/exiv2.dll                             dll
-lib/exiv2.lib & xmp.lib                   link libraries
-include/exiv2/                            include files
-share/exiv2/cmake                         consume CMake files
-samples/exifprint.cpp                     sample code
-logs                                      build and test logs
+bin/exiv2.exe                                 exiv2 and sample applications
+bin/exiv2.dll                                 dll
+lib/exiv2.lib & exiv2-xmp.lib                 link libraries
+lib/exiv2/cmake/                              CMake support/consume files
+include/exiv2/                                include files
+samples/exifprint.cpp                         sample code
+logs/                                         build and test logs
 
-ReadMe.txt                                This file
-license.txt                               GPLv2.0 Software License
-releasenotes.txt                          Late breaking news
-README.md                                 Developer Manual
-README-CONAN.md                           Developer Manual Appendix
-exiv2.png                                 Exiv2 Logo
+ReadMe.txt                                    This file
+license.txt                                   GPLv2.0 Software License
+releasenotes.txt                              Late breaking news
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+exiv2.png                                     Exiv2 Logo
 
 +----------------------------------------------------------------------------+
 | Caution: Use a Windows unzip utility such as 7z or winzip                  |
