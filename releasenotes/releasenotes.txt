@@ -6,31 +6,38 @@ This is RC1 of the first quarterly "dot" release of Exiv2 v0.27
 Thank You to Dan, Luis and Thomas for their huge contribution to this release.
 Contributors: Andreas S, Freddie, Gilles, Michal, Phil.
 
-exiv2.org in being transfered to a new host
-The web-site exiv2.org.uk is being HostPresto.com in England.
-Thank You Elliot at HostPresto.com
+Website relocated to https://exiv2.org
 Thank You Nehal for server support and skills.
 Thank You Andreas H for assisting with this transition.
+
+The web-site exiv2.org.uk is being HostPresto.com in England.
+Thank You Elliot at HostPresto.com
 
 Headline Features of Exiv2 v0.27.1
 ----------------------------------
 
 1) Bug and security fixes.
 2) Deprecation warnings for Video, EPS and SSH support.
-3) Relocating exiv2.org to a new host.
+3) Relocated https://exiv2.org
 4) Branch 0.27-maintenance for "dots" to avoid confusion with tag 0.27 (== 0.27.0 code).
-5) Support for cross-compiling for MinGW from Linux.
 
-Known Issues with v0.27.1 RC1
------------------------------
-
-#745 Review/fix documentation concerning CMake support files.
+Remaining Issues with v0.27.1 RC1
+---------------------------------
+The following are not resolved and will either be fixed in v0.27.1 or deferred.
+#744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
+#743 Sigma 24-70mm F2,8 DG OS HSM Art not detected
+#740 Tests for jp2image.cpp
+#662 Documentation to explain how mv works with filename clash
+#646 Exiv2 does not find certain AF tags for the Nikon D850
+#582 Add support for FocusPosition (Tag9402) in Sony RAW files (ARW)
+#547 Insufficient verification(cycle) in function Image::printIFDStructure in image.cpp
 
 Changes since 0.27.0
 --------------------
 https://github.com/Exiv2/exiv2/milestone/3?closed=1
 
-#744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
+#761 Corrections in README.md concerning "Consuming Exiv2 with CMake"
+#745 Review/fix documentation concerning CMake support files.
 #740 Tests for jp2image.
 #726 Doxygen improvements.
 #706 Fix access to null pointer in TiffParser.
@@ -53,17 +60,9 @@ https://github.com/Exiv2/exiv2/milestone/3?closed=1
 #597 Patch for broken ICC profile in PNG files
 #590 Several bugs in 0.27-rc3
 
-Outstanding issues assigned to 0.27.1 (defer to 0.27.2)
--------------------------------------------------------
-
-#662 How does the rename (mv) work in case of name clash?
-#646 Exiv2 does not find certain AF tags for the Nikon D850
-#582 Add support for FocusPosition (Tag9402) in Sony RAW files (ARW)
-#547 Insufficient verification(cycle) in function Image::printIFDStructure in image.cpp:335
-
 Robin Mills
 robin@clanmills.com
-2019-03-15
+2019-03-27
 
 -------------------------
 Release Notes for v0.27.0

@@ -1,24 +1,25 @@
-CYGWIN Exiv2 v0.27 Release Bundle
----------------------------------
+CYGWIN Exiv2 v0.27.1 Release Bundle
+-----------------------------------
 
 Structure of the bundle:
 ------------------------
 
-bin/exiv2.exe                             exiv2 and sample applications
-bin/cygexiv2-27.dll                       DLL
-lib/libexiv2.dll.a & libxmp.a             link libraries
-lib/pkgconfig/exiv2.pc                    pkg-config file
-share/man                                 man pages
-share/exiv2/cmake                         consume CMake files
-samples/exifprint.cpp                     sample code
-logs                                      build and test logs
+bin/exiv2.exe                                 exiv2 and sample applications
+bin/cygexiv2-27.dll                           DLL
+lib/libexiv2.dll.a & libexiv2-xmp.a           link libraries
+lib/exiv2/cmake/                              CMake support/consume files
+lib/pkgconfig/exiv2.pc                        pkg-config file
+share/man/                                    man pages
+share/locale/                                 localisation files
+samples/exifprint.cpp                         sample code
+logs                                          build and test logs
 
-ReadMe.txt                                This file
-license.txt                               GPLv2.0 Software License
-releasenotes.txt                          Late breaking news
-README.md                                 Developer Manual
-README-CONAN.md                           Developer Manual Appendix
-exiv2.png                                 Exiv2 Logo
+ReadMe.txt                                    This file
+exiv2.png                                     Exiv2 Logo
+license.txt                                   GPLv2.0 Software License
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+releasenotes.txt                              Late breaking news
 
 To run exiv2 from the bundle
 ----------------------------
@@ -41,7 +42,7 @@ $ cd <bundle>
 $ g++ -std=gnu++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ ./exifprint --version
-exiv2=0.27.0
+exiv2=0.27.1
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
@@ -60,7 +61,7 @@ To compile and link your own code using installed library and include files
 $ g++ -std=gnu++98 samples/exifprint.cpp -I/usr/include -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ export PATH="/usr/local/bin:$PATH"
 $ ./exifprint --version
-exiv2=0.27.0
+exiv2=0.27.1
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $

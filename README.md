@@ -173,7 +173,7 @@ $ g++ -std=c++98 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lex
 <name id="2-6">
 ### 2.6 Consuming Exiv2 with CMake
 
-When exiv2 is installed, the files required to consume Exiv2 are installed in `${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/`
+When exiv2 is installed, the files required to consume Exiv2 are installed in `${CMAKE_INSTALL_PREFIX}/lib/exiv2/cmake/`
 
 You can build samples/exifprint.cpp as follows:
 
@@ -189,9 +189,9 @@ project(exifprint VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/
+find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/exiv2/cmake/
 add_executable(exifprint ../samples/exifprint.cpp) # compile this
-target_link_libraries(exifprint exiv2)             # link exiv2
+target_link_libraries(exifprint exiv2lib)          # link exiv2lib
 
 $ cmake .                                          # generate the makefile
 $ make                                             # build the code

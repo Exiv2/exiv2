@@ -1,23 +1,25 @@
-Linux Exiv2 v0.27 Release Bundle
---------------------------------
+Linux Exiv2 v0.27.1 Release Bundle
+----------------------------------
 
 Structure of the bundle:
 ------------------------
 
-bin/exiv2                                 exiv2 and sample applications
-lib/libexiv2.so.0.27.0.0 & libxmp.a       libraries
-lib/pkgconfig/exiv2.pc                    pkg-config file
-include/exiv2/                            include files
-share/                                    man pages
-samples/exifprint.cpp                     sample code
-logs                                      build and test logs
+bin/exiv2                                     exiv2 and sample applications
+lib/libexiv2.so.0.27.1.0 & libexiv2-xmp.a     libraries
+lib/pkgconfig/exiv2.pc                        pkg-config file
+lib/exiv2/cmake/                              CMake support/consume files
+include/exiv2/                                include files
+share/man/                                    man pages
+share/locale/                                 localisation files
+samples/exifprint.cpp                         sample code
+logs/                                         build and test logs
 
-ReadMe.txt                                This file
-license.txt                               GPLv2.0 Software License
-releasenotes.txt                          Late breaking news
-README.md                                 Developer Manual
-README-CONAN.md                           Developer Manual Appendix
-exiv2.png                                 Exiv2 Logo
+ReadMe.txt                                    This file
+license.txt                                   GPLv2.0 Software License
+releasenotes.txt                              Late breaking news
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+exiv2.png                                     Exiv2 Logo
 
 To run exiv2 from the bundle
 ----------------------------
@@ -40,7 +42,7 @@ $ cd <bundle>
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ ./exifprint --version
-exiv2=0.27.0
+exiv2=0.27.1
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 $
@@ -51,4 +53,7 @@ $ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ g++ -std=c++98 samples/exifprint.cpp -o exifprint $(pkg-config exiv2 --libs --cflags)
 $ ./exifprint
+
+Method 3: Use the CMake support/consume files
+See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
 
