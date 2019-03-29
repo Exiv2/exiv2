@@ -45,9 +45,9 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 | Exiv2 Resource              | Location |
 |:------                      |:----     |
 | Project Homepage            | [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2) |
-| Downloads and Documentation | [http://exiv2.dyndns.org](http://exiv2.dyndns.org:8080) |
-| BuildServer:                | [http://exiv2.dyndns.org:8080](http://exiv2.dyndns.org:8080) |
-| License (GPLv2)             | [license.txt](license.txt) |
+| Downloads and Documentation | [https://exiv2.org](https://exiv2.org) |
+| Prereleases:                | [https://prerelease.exiv2.org](https://prerelease.exiv2.org) |
+| License (GPLv2)             | [COPYING](COPYING) |
 | CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
 
 The file ReadMe.txt in a Build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
@@ -77,7 +77,7 @@ To execute the exiv2 command line program, you should update your path to search
 $ export PATH="/usr/local/bin:$PATH"
 ```
 
- you'll also need to locate libexiv2 at run time:
+You will also need to locate libexiv2 at run time:
 
 ```bash
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"      # Linux, Cygwin, MinGW/msys2
@@ -202,7 +202,6 @@ $
 
 The default cmake Generator is usually appropriate for your platform.  Additional information concerning Generators for Visual Studio in [README-CONAN](README-CONAN.md)
 
-
 [TOC](#TOC)
 <name id="2-7">
 ### 2.7 Using pkg-config to compile and link your code with Exiv2
@@ -301,16 +300,12 @@ $
 
 Open a new issue on https://github.com/exiv2/exiv2 and attach the file po/xy/exiv2.po
 
-
 [TOC](#TOC)
 <name id="2-9">
 ### 2.9 Building Exiv2 Documentation
 
 Building documentation requires installing special tools.  You will probably prefer to
-read the documentation on-line from the project website: http://exiv2.dyndns.org
-
-Additionally, complete copies of the project website are archived on the buildserver
-and can be downloaded for off-line use.  http://exiv2.dyndns.org:8080/userContent/builds/Website/
+read the documentation on-line from the project website: https://exiv2.org
 
 To build documentation, use the CMake option **`-DEXIV2_BUILD_DOC=On`**.
 Additionally, you will require an additional build step to actually build the documentation.
@@ -352,7 +347,7 @@ $ cmake --build . --config Release
 [100%] Built target addmoddel
 $ make package
 ...
-CPack: - package: /path/to/exiv2/build/exiv2-0.27.0.1-Linux.tar.gz generated.
+CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 ```
 
 2) Source Package
@@ -361,11 +356,10 @@ CPack: - package: /path/to/exiv2/build/exiv2-0.27.0.1-Linux.tar.gz generated.
 $ make package_source
 Run CPack packaging tool for source...
 ...
-CPack: - package: /path/to/exiv2/build/exiv2-0.27.0.1-Source.tar.gz generated.
+CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Source.tar.gz generated.
 ```
 
 You may prefer to run `$ cmake --build . --config Release --target package_source`
-
 
 [TOC](#TOC)
 <name id="2-11">
@@ -390,7 +384,7 @@ You can check that you have generated a debug build with the command:
 
 ```bash
 $ exiv2 -vVg debug
-exiv2 0.27.0.3
+exiv2 0.27.1
 debug=1
 $
 ```
@@ -736,7 +730,7 @@ The exiv2 command line program provides an option **`--grep`** to filter output.
 
 ```bash
 $ exiv2 -vVg regex
-exiv2 0.27.0.3
+exiv2 0.27.1
 have_regex=1
 $
 ```
@@ -770,7 +764,6 @@ set "PS1=\! CYGWIN64:\u@\h:\w \$ "
 bash.exe -norc
 ```
 
-
 [TOC](#TOC)
 <name id="5-5">
 ### 5.5 Microsoft Visual C++
@@ -795,4 +788,4 @@ cmd
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-12-01
+Written by Robin Mills<br>robin@clanmills.com<br>Revised: 2019-03-29
