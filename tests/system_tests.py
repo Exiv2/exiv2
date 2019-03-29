@@ -887,7 +887,7 @@ class CaseMeta(type):
 
 
 def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
-    """
+    r"""
     Drop-in replacement for the default Case.compare_stderr() function that
     **only** checks for any signs of ASAN (address sanitizer) and UBSAN
     (undefined behavior sanitizer).
@@ -914,12 +914,15 @@ def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
 
     The new compare_stderr will only complain if there are strings inside the
     obtained stderr which could be an error reported by ASAN/UBSAN:
-    >>> T.compare_stderr(0, "", "runtime error: load of value 190", "some output")
+    >>> T.compare_stderr(0, "",
+    ...     "Some debuging output\nruntime error: load of value 190",
+    ...     "some output")
     Traceback (most recent call last):
      ..
     AssertionError: 'runtime error' unexpectedly found in 'runtime error: load of value 190'
 
-    >>> T.compare_stderr(0, "", "SUMMARY: AddressSanitizer: heap-buffer-overflow", "")
+    >>> T.compare_stderr(
+    ...     0, "", "SUMMARY: AddressSanitizer: heap-buffer-overflow", "")
     Traceback (most recent call last):
      ..
     AssertionError: 'AddressSanitizer' unexpectedly found in 'SUMMARY: AddressSanitizer: heap-buffer-overflow'
@@ -943,5 +946,6 @@ def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
         self.assertNotIn(ASAN_MSG.encode('ascii'), got_stderr)
         return
 
-    self.assertNotIn(UBSAN_MSG, got_stderr)
-    self.assertNotIn(ASAN_MSG, got_stderr)
+    for stderr_line in got_stderr.splitlines():
+        self.assertNotIn(UBSAN_MSG, stderr_line)
+        self.assertNotIn(ASAN_MSG, stderr_line)
