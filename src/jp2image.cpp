@@ -785,7 +785,7 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write JP2Header box (length: " << box.length << ")" << std::endl;
 #endif
-                    if (outIo.write(newBuf.pData_, newBuf.size_) != newBuf.size_) throw Error(kerImageWriteFailed);
+                    if ((long)outIo.write(newBuf.pData_, newBuf.size_) != newBuf.size_) throw Error(kerImageWriteFailed);
 
                     // Write all updated metadata here, just after JP2Header.
 
@@ -812,7 +812,7 @@ namespace Exiv2
                             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Exif metadata (length: "
                                       << boxData.size_ << std::endl;
 #endif
-                            if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
+                            if ((long)outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
                         }
                     }
 
@@ -835,7 +835,7 @@ namespace Exiv2
                             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Iptc metadata (length: "
                                       << boxData.size_ << std::endl;
 #endif
-                            if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
+                            if ((long)outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
                         }
                     }
 
@@ -865,7 +865,7 @@ namespace Exiv2
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with XMP metadata (length: "
                                   << boxData.size_ << ")" << std::endl;
 #endif
-                        if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
+                        if ((long)outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
                     }
 
                     break;
@@ -896,7 +896,7 @@ namespace Exiv2
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (length: " << box.length << ")" << std::endl;
 #endif
-                        if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(kerImageWriteFailed);
+                        if ((long)outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(kerImageWriteFailed);
                     }
                     break;
                 }
@@ -906,7 +906,8 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::doWriteMetadata: write box (length: " << box.length << ")" << std::endl;
 #endif
-                    if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(kerImageWriteFailed);
+                    if ((long)outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_)
+                        throw Error(kerImageWriteFailed);
 
                     break;
                 }
