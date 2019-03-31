@@ -3,7 +3,7 @@
 In this document we provide some guidelines to cross-compile Exiv2. Since there could be several ways to achieve
 cross-compilation, we will have different sections for each of them.
 
-Something important to keep in mind is that since Exiv2 have some 3rd party dependencies, we would need to have
+Something important to keep in mind is that since Exiv2 has some 3rd party dependencies, we need to have
 such dependencies compiled for the target system. This can be normally achieved by installing system packages, 
 by using **conan**, or compiling them by yourselves.
 
@@ -62,6 +62,6 @@ In file included from /media/linuxDev/programming/exiv2/include/exiv2/xmp_exiv2.
          static std::mutex mutex_;
 ```
 
-It can be probably caused because you are not using the right variant of the MinGW compiler in the toolchain file.
+It is probably caused by using the wrong variant of the MinGW compiler in the toolchain file.
 MinGW in Ubuntu comes with two flavours: `posix` and `win32`. When choosing the `posix` flavour, these errors should
 dissapear.
