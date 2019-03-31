@@ -8,7 +8,7 @@ class ThrowsWhenSubBoxLengthIsNotGood(metaclass=system_tests.CaseMeta):
     filename = system_tests.path("$data_path/issue_742_poc")
     commands = ["$exiv2 -pX $filename"]
     stdout = [""]
-    stderr = ["""$exiv2_exception_message """ + filename + """:
+    stderr = ["""$exiv2_exception_message $filename:
 $kerCorruptedMetadata
 """]
     retval = [1]
