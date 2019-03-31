@@ -394,10 +394,10 @@ namespace Exiv2 {
 #endif
         // Copy colorData
         uint32_t readTotal = 0;
-        long toRead = 0;
+        size_t toRead = 0;
         while (readTotal < colorDataLength) {
-            toRead = static_cast<long>(colorDataLength - readTotal) < lbuf.size_
-                         ? static_cast<long>(colorDataLength - readTotal)
+            toRead = (colorDataLength - readTotal) < (uint32_t)lbuf.size_
+                         ? (colorDataLength - readTotal)
                          : lbuf.size_;
             if (io_->read(lbuf.pData_, toRead) != toRead)
                 throw Error(kerNotAnImage, "Photoshop");
@@ -450,7 +450,7 @@ namespace Exiv2 {
 
             // read rest of resource name, plus any padding
             DataBuf resName(256);
-            if (io_->read(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
+            if ((long)io_->read(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
                 throw Error(kerNotAnImage, "Photoshop");
 
             // read resource size (actual length w/o padding!)
@@ -504,7 +504,7 @@ namespace Exiv2 {
                 buf[0] = resourceNameFirstChar;
                 if (outIo.write(buf, 1) != 1)
                     throw Error(kerImageWriteFailed);
-                if (outIo.write(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
+                if ((long)outIo.write(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
                     throw Error(kerImageWriteFailed);
                 ul2Data(buf, resourceSize, bigEndian);
                 if (outIo.write(buf, 4) != 4)
@@ -513,8 +513,8 @@ namespace Exiv2 {
                 readTotal = 0;
                 toRead = 0;
                 while (readTotal < pResourceSize) {
-                    toRead = static_cast<long>(pResourceSize - readTotal) < lbuf.size_
-                                 ? static_cast<long>(pResourceSize - readTotal)
+                    toRead = (pResourceSize - readTotal) < (uint32_t)lbuf.size_
+                                 ? (pResourceSize - readTotal)
                                  : lbuf.size_;
                     if (io_->read(lbuf.pData_, toRead) != toRead) {
                         throw Error(kerNotAnImage, "Photoshop");
@@ -552,7 +552,7 @@ namespace Exiv2 {
         io_->populateFakeData();
 
         // Copy remaining data
-        long readSize = 0;
+        size_t readSize = 0;
         while ((readSize = io_->read(lbuf.pData_, lbuf.size_))) {
             if (outIo.write(lbuf.pData_, readSize) != readSize)
                 throw Error(kerImageWriteFailed);
@@ -595,7 +595,7 @@ namespace Exiv2 {
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Iptc data
-                if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
+                if ((long)out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
                     throw Error(kerImageWriteFailed);
                 resLength += rawIptc.size_ + 12;
                 if (rawIptc.size_ & 1)  // even padding
@@ -641,7 +641,7 @@ namespace Exiv2 {
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Exif data
-                if (out.write(&blob[0], static_cast<long>(blob.size())) != static_cast<long>(blob.size()))
+                if (out.write(blob.data(), blob.size()) != blob.size())
                     throw Error(kerImageWriteFailed);
                 resLength += static_cast<long>(blob.size()) + 12;
                 if (blob.size() & 1)  // even padding
@@ -691,8 +691,8 @@ namespace Exiv2 {
             if (out.write(buf, 4) != 4)
                 throw Error(kerImageWriteFailed);
             // Write XMPPacket
-            if (out.write(reinterpret_cast<const byte*>(xmpPacket.data()), static_cast<long>(xmpPacket.size())) !=
-                static_cast<long>(xmpPacket.size()))
+            if (out.write(reinterpret_cast<const byte*>(xmpPacket.data()), xmpPacket.size()) !=
+                xmpPacket.size())
                 throw Error(kerImageWriteFailed);
             if (out.error())
                 throw Error(kerImageWriteFailed);

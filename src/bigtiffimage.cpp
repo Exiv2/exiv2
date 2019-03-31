@@ -201,8 +201,11 @@ namespace Exiv2
                     do
                     {
                         // Read top of directory
-                        io.seek(dir_offset, BasicIo::beg);
-
+#if defined(_MSC_VER) && _WIN64
+                        io.seek((int64_t)dir_offset, BasicIo::beg);
+#else
+                        io.seek((long)dir_offset, BasicIo::beg);
+#endif
                         const uint64_t entries = readData(header_.format() == Header::StandardTiff? 2: 8);
                         const bool tooBig = entries > 500;
 
@@ -278,9 +281,13 @@ namespace Exiv2
 
                             if ( usePointer )                          // read into buffer
                             {
-                                size_t   restore = io.tell();          // save
-                                io.seek(offset, BasicIo::beg);         // position
-                                io.read(buf.pData_, (long) count * size);     // read
+                                const auto restore = io.tell();          // save
+#if defined(_MSC_VER) && _WIN64
+                                io.seek((int64_t)offset, BasicIo::beg);            // position
+#else
+                                io.seek((long)offset, BasicIo::beg);  // position
+#endif
+                                io.read(buf.pData_, (long)count* size);                         // read
                                 io.seek(restore, BasicIo::beg);        // restore
                             }
                             else  // use 'data' as data :)
@@ -342,7 +349,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < count ; k++ )
                                     {
-                                        const size_t restore = io.tell();
+                                        const auto restore = io.tell();
                                         const uint64_t ifdOffset = type == tiffIfd8?
                                             byteSwap8(buf, k*size, doSwap_):
                                             byteSwap4(buf, k*size, doSwap_);
@@ -357,33 +364,39 @@ namespace Exiv2
                                         throw Error(kerCorruptedMetadata);
                                     }
 
-                                    const size_t restore = io.tell();
-                                    io.seek(offset, BasicIo::beg);  // position
-                                    std::vector<byte> bytes(static_cast<size_t>(count)) ;  // allocate memory
-                                    // TODO: once we have C++11 use bytes.data()
-                                    const long read_bytes = io.read(&bytes[0], static_cast<long>(count));
+                                    const auto restore = io.tell();
+#if defined(_MSC_VER) && _WIN64
+                                    io.seek((int64_t)offset, BasicIo::beg);                        // position
+#else
+                                    io.seek((long)offset, BasicIo::beg);                        // position
+#endif
+                                    std::vector<byte> bytes(static_cast<size_t>(count));  // allocate memory
+                                    const long read_bytes = io.read(bytes.data(), static_cast<long>(count));
                                     io.seek(restore, BasicIo::beg);
-                                    // TODO: once we have C++11 use bytes.data()
-                                    IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
+                                    IptcData::printStructure(out, makeSliceUntil(bytes.data(), read_bytes), depth);
 
                                 }
                                 else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10)
                                 {
-                                    size_t   restore = io.tell();  // save
+                                    const auto restore = io.tell();  // save
 
-                                    long jump= 10           ;
-                                    byte     bytes[20]          ;
-                                    const char* chars = (const char*) &bytes[0] ;
-                                    io.seek(dir_offset, BasicIo::beg);  // position
-                                    io.read(bytes,jump    )     ;  // read
-                                    bytes[jump]=0               ;
+                                    size_t jump= 10;
+                                    byte bytes[20];
+                                    const char* chars = (const char*) bytes;
+#if defined(_MSC_VER) && _WIN64
+                                    io.seek((int64_t)dir_offset, BasicIo::beg);  // position
+#else
+                                    io.seek((long)dir_offset, BasicIo::beg);  // position
+#endif
+                                    io.read(bytes, jump);  // read
+                                    bytes[jump] = 0;
                                     if ( ::strcmp("Nikon",chars) == 0 )
                                     {
                                       // tag is an embedded tiff
-                                      std::vector<byte> nikon_bytes(static_cast<size_t>(count - jump));
+                                      std::vector<byte> nikon_bytes(static_cast<size_t>(count) - jump);
 
-                                      io.read(&nikon_bytes.at(0), (long)nikon_bytes.size());
-                                      MemIo memIo(&nikon_bytes.at(0), (long)count - jump); // create a file
+                                      io.read(nikon_bytes.data(), nikon_bytes.size());
+                                      MemIo memIo(nikon_bytes.data(), static_cast<size_t>(count) - jump); // create a file
                                       std::cerr << "Nikon makernote" << std::endl;
                                       // printTiffStructure(memIo,out,option,depth);
                                       // TODO: fix it
@@ -413,7 +426,7 @@ namespace Exiv2
 
                 uint64_t readData(int size) const
                 {
-                    const DataBuf data = Image::io().read(size);
+                    const auto& data = Image::io().read(size);
                     enforce(data.size_ != 0, kerCorruptedMetadata);
 
                     uint64_t result = 0;

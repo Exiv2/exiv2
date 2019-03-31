@@ -158,8 +158,8 @@ namespace Exiv2 {
             assert(tempIo.get() != 0);
             // Write XMP packet
             if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),
-                                 static_cast<long>(xmpPacket_.size()))
-                != static_cast<long>(xmpPacket_.size())) throw Error(kerImageWriteFailed);
+                                 xmpPacket_.size())
+                != xmpPacket_.size()) throw Error(kerImageWriteFailed);
             if (tempIo->error()) throw Error(kerImageWriteFailed);
             io_->close();
             io_->transfer(*tempIo); // may throw

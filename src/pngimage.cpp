@@ -561,7 +561,7 @@ namespace Exiv2 {
 #ifdef DEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IEND chunk (length: " << dataOffset << ")\n";
 #endif
-                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
                 return;
             }
             else if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4))
@@ -569,14 +569,14 @@ namespace Exiv2 {
 #ifdef DEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
-                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
 
                 // Write all updated metadata here, just after IHDR.
                 if (!comment_.empty())
                 {
                     // Update Comment data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
-                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size())
                     {
                         throw Error(kerImageWriteFailed);
                     }
@@ -593,7 +593,7 @@ namespace Exiv2 {
                         std::string rawExif = exifHeader
                                               + std::string((const char*)blob.data(), blob.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
-                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size())
                         {
                             throw Error(kerImageWriteFailed);
                         }
@@ -608,7 +608,7 @@ namespace Exiv2 {
                     {
                         std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
-                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size())
                         {
                             throw Error(kerImageWriteFailed);
                         }
@@ -639,7 +639,7 @@ namespace Exiv2 {
                         ||  outIo.write(type, 4) != 4
                         ||  outIo.write(reinterpret_cast<const byte*>(profileName_.data()), nameLength) != nameLength
                         ||  outIo.write(nullComp,2) != 2
-                        ||  outIo.write (compressed.pData_,compressed.size_) != compressed.size_
+                        ||  (long)outIo.write (compressed.pData_, compressed.size_) != compressed.size_
                         ||  outIo.write(crc,4)            != 4
                         ){
                             throw Error(kerImageWriteFailed);
@@ -661,7 +661,7 @@ namespace Exiv2 {
                 if (xmpPacket_.size() > 0) {
                     // Update XMP data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(xmpPacket_, mdXmp);
-                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()) {
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {
                         throw Error(kerImageWriteFailed);
                     }
                 }
@@ -692,7 +692,7 @@ namespace Exiv2 {
                     std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                    if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                    if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
                 }
             }
             else
@@ -702,7 +702,7 @@ namespace Exiv2 {
                 std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk
                           << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
 
             }
         }
