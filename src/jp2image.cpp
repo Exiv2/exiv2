@@ -469,7 +469,6 @@ namespace Exiv2
             out << " address |   length | box       | data" << std::endl;
         }
 
-<<<<<<< HEAD
         if ( bPrint || bXMP || bICC || bIPTCErase ) {
 
             long              position  = 0;
@@ -481,16 +480,6 @@ namespace Exiv2
             while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box))
             {
                 position   = io_->tell();
-=======
-        if (bPrint || bXMP || bICC || bIPTCErase) {
-            Jp2BoxHeader box = {1, 1};
-            Jp2BoxHeader subBox = {1, 1};
-            Jp2UuidBox uuid = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-            bool bLF = false;
-
-            while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box)) {
-                long position = io_->tell();
->>>>>>> b6e4ca0a8... clang-format Jp2Image::printStructure()
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type = getLong((byte*)&box.type, bigEndian);
 
@@ -582,21 +571,11 @@ namespace Exiv2
                             }
                             lf(out, bLF);
 
-<<<<<<< HEAD
-                            if(bIsExif && bRecursive && rawData.size_ > 0)
-                            {
-                                if ( (rawData.pData_[0]      == rawData.pData_[1])
-                                    &&   (rawData.pData_[0]=='I' || rawData.pData_[0]=='M' )
-                                    ) {
-                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(rawData.pData_,rawData.size_));
-                                    printTiffStructure(*p,out,option,depth);
-=======
                             if (bIsExif && bRecursive && rawData.size_ > 0) {
                                 if ((rawData.pData_[0] == rawData.pData_[1]) &&
                                     (rawData.pData_[0] == 'I' || rawData.pData_[0] == 'M')) {
-                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(rawData.pData_, rawData.size_));
+                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(rawData.pData_, rawData.size_));
                                     printTiffStructure(*p, out, option, depth);
->>>>>>> b6e4ca0a8... clang-format Jp2Image::printStructure()
                                 }
                             }
 
