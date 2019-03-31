@@ -332,7 +332,7 @@ Dependencies can be installed with the platform's default tools or conan.
 #### Profiles for MinGW
 
 Profiles for cross-compilation are a bit special and you can find more information about them [here](https://docs.conan.io/en/latest/systems_cross_building/cross_building.html?highlight=cross%20compiling).
-The profile `linux-to-win64` we use for compiling from Ubuntu to Win64 is as follows:
+The profile `linux-to-win64` which we use for compiling from Ubuntu to Win64 is as follows:
 
 ```ini
 $toolchain=/usr/x86_64-w64-mingw32

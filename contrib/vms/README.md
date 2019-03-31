@@ -30,6 +30,7 @@ For further details, consult the shell scripts `setup.sh` and
 
 
 All boxes come with `conan` installed via pip in the `vagrant` user's home	
+directory and the `exiv2` git repository cloned.
 
 Please note that these VMs are not continuously tested and the provisioning can
 break. Please open an issue on GitHub if you happen to encounter a problem.
