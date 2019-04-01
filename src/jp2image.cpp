@@ -367,7 +367,7 @@ namespace Exiv2
                                                                       iptcData(),
                                                                       xmpData(),
                                                                       rawData.pData_ + pos,
-                                                                      rawData.size_ - pos);
+                                                                      rawData.size_ - static_cast<uint32_t>(pos));
                                     setByteOrder(bo);
                                 }
                             }

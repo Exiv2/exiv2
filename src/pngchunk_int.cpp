@@ -278,7 +278,7 @@ namespace Exiv2 {
                                                       pImage->iptcData(),
                                                       pImage->xmpData(),
                                                       exifData.pData_ + pos,
-                                                      length - pos);
+                                                      length - static_cast<uint32_t>(pos));
                     pImage->setByteOrder(bo);
                 }
                 else
