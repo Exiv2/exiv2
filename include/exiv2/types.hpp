@@ -266,6 +266,30 @@ namespace Exiv2 {
         operator DataBufRef();
         //@}
 
+        //! @name Iterators
+        //@{
+        //! Return iterator pointing to first element of buffer
+        byte* begin() noexcept
+        {
+            return pData_;
+        }
+        //! Return const iterator pointing to first element of buffer
+        const byte* cbegin() const noexcept
+        {
+            return pData_;
+        }
+        //! Return iterator pointing behind last element of buffer
+        byte* end() noexcept
+        {
+            return pData_ + size_;
+        }
+        //! Return const iterator pointing behind last element of buffer
+        const byte* cend() const noexcept
+        {
+            return pData_ + size_;
+        }
+        //@}
+
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pData_;

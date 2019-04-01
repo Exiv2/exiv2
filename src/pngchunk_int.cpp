@@ -256,32 +256,24 @@ namespace Exiv2 {
             && pImage->exifData().empty())
         {
             DataBuf exifData = readRawProfile(arr,false);
-            long length      = exifData.size_;
+            const long length = exifData.size_;
 
-            if (length > 0)
-            {
+            if (length > 0) {
                 // Find the position of Exif header in bytes array.
-
-                const byte exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-                long pos = -1;
-
-                for (long i=0 ; i < length-(long)sizeof(exifHeader) ; i++)
-                {
-                    if (memcmp(exifHeader, &exifData.pData_[i], sizeof(exifHeader)) == 0)
-                    {
-                        pos = i;
-                        break;
-                    }
+                bool foundPos{ false };
+                size_t pos{};
+                const std::string exifHeader{"Exif\0\0", 6};
+                const auto& it = std::search(exifData.cbegin(), exifData.cend(), exifHeader.cbegin(), exifHeader.cend());
+                if (it != exifData.cend()) {
+                    pos = it - exifData.cbegin() + exifHeader.size();
+                    foundPos = true;
                 }
 
                 // If found it, store only these data at from this place.
-
-                if (pos !=-1)
-                {
+                if (foundPos) {
 #ifdef DEBUG
                     std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos << "\n";
 #endif
-                    pos = pos + sizeof(exifHeader);
                     ByteOrder bo = TiffParser::decode(pImage->exifData(),
                                                       pImage->iptcData(),
                                                       pImage->xmpData(),
