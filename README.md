@@ -46,7 +46,7 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 |:------                      |:----     |
 | Project Homepage            | [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2) |
 | Downloads and Documentation | [https://exiv2.org](https://exiv2.org) |
-| Prereleases:                | [https://prerelease.exiv2.org](https://prerelease.exiv2.org) |
+| Prereleases:                | [https://pre-release.exiv2.org](https://pre-release.exiv2.org) |
 | License (GPLv2)             | [COPYING](COPYING) |
 | CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
 
