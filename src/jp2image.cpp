@@ -512,10 +512,14 @@ namespace Exiv2
                             DataBuf data(subBox.length - sizeof(box));
                             io_->read(data.pData_, data.size_);
                             if (bPrint) {
+                                size_t ssize = data.size_;
+                                if   ( ssize > 30 ) {
+                                    ssize = 30; // limit the binary data presentation to 30 bytes
+                                }
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:", (size_t)address,
                                                               (size_t)subBox.length)
                                     << toAscii(subBox.type) << " | "
-                                    << Internal::binaryToString(makeSlice(data, 0, 30));
+                                    << Internal::binaryToString(makeSlice(data, 0, ssize));
                                 bLF = true;
                             }
 
