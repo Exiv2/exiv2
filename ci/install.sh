@@ -13,14 +13,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     source conan/bin/activate
 else
     brew update
-    brew install md5sha1sum pyenv-virtualenv
-    export CFLAGS="-I/usr/local/opt/openssl/include $CFLAGS"
-    export LDFLAGS="-L/usr/local/opt/openssl/lib $LDFLAGS"
-    pyenv install $PYTHON
-    # I would expect something like ``pyenv init; pyenv local $PYTHON`` or
-    # ``pyenv shell $PYTHON`` would work, but ``pyenv init`` doesn't seem to
-    # modify the Bash environment. ??? So, I hand-set the variables instead.
-    export PYENV_VERSION=$PYTHON
+    brew install pyenv-virtualenv
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
@@ -29,7 +22,6 @@ else
 fi
 
 python --version
-pip install urllib3[secure] -U #Should solve SSL issues
 pip install conan==1.11.2
 pip install codecov
 conan --version
