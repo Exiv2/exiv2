@@ -38,6 +38,7 @@
 #include "safe_op.hpp"
 
 // + standard includes
+#include <array>
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -345,7 +346,7 @@ namespace Exiv2
                                     (rawData.pData_[0] == 'I' || rawData.pData_[0] == 'M')) {
                                     foundPos = true;
                                 } else {
-                                    const std::string exifHeader{"Exif\0\0", 6};
+                                    const std::array<byte, 6> exifHeader{ 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                                     const auto& it = std::search(rawData.cbegin(), rawData.cend(), exifHeader.cbegin(), exifHeader.cend());
                                     if (it != rawData.cend()) {
                                         pos = it - rawData.cbegin() + exifHeader.size();

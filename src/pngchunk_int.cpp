@@ -37,6 +37,7 @@
 #include "safe_op.hpp"
 
 // + standard includes
+#include <array>
 #include <sstream>
 #include <iomanip>
 #include <string>
@@ -262,7 +263,7 @@ namespace Exiv2 {
                 // Find the position of Exif header in bytes array.
                 bool foundPos{ false };
                 size_t pos{};
-                const std::string exifHeader{"Exif\0\0", 6};
+                const std::array<byte, 6> exifHeader{ 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 const auto& it = std::search(exifData.cbegin(), exifData.cend(), exifHeader.cbegin(), exifHeader.cend());
                 if (it != exifData.cend()) {
                     pos = it - exifData.cbegin() + exifHeader.size();
