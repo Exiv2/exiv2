@@ -262,7 +262,7 @@ namespace Exiv2 {
             if (length > 0) {
                 // Find the position of Exif header in bytes array.
                 bool foundPos{ false };
-                size_t pos{};
+                size_t pos{ 0 };
                 const std::array<byte, 6> exifHeader{ 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 const auto& it = std::search(exifData.cbegin(), exifData.cend(), exifHeader.cbegin(), exifHeader.cend());
                 if (it != exifData.cend()) {

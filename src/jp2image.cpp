@@ -341,7 +341,7 @@ namespace Exiv2
                             if (rawData.size_ > 1)
                             {
                                 bool foundPos{ false };
-                                size_t pos{0};
+                                size_t pos{ 0 };
                                 if ((rawData.pData_[0] == rawData.pData_[1]) &&
                                     (rawData.pData_[0] == 'I' || rawData.pData_[0] == 'M')) {
                                     foundPos = true;
