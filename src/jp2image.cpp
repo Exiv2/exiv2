@@ -337,7 +337,7 @@ namespace Exiv2
                             if (io_->error()) throw Error(kerFailedToReadImageData);
                             if (bufRead != rawData.size_) throw Error(kerInputDataReadFailed);
 
-                            if (rawData.size_ > 0)
+                            if (rawData.size_ > 1)
                             {
                                 bool foundPos{ false };
                                 size_t pos{};
