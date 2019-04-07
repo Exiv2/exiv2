@@ -69,20 +69,11 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
-    - name: "OS X 10.12 - XCode 9.0"
+    - name: "OS X 10.13 - XCode 10.2"
       os: osx
-      osx_image: xcode9
+      osx_image: xcode10.2
       compiler: clang
       env:
-        - PYTHON=3.6.2
-        - BUILD_TYPE="Release"
-
-    - name: "OS X 10.13 - XCode 10.1"
-      os: osx
-      osx_image: xcode10.1
-      compiler: clang
-      env:
-        - PYTHON=3.6.2
         - BUILD_TYPE="Release"
 
 install: ./ci/install.sh
