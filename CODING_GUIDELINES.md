@@ -28,14 +28,16 @@ If in doubt, then use the fixed size integer types like `int32_t`, `uint64_t`, `
 
 # 3. Code Formatting #
 
-The project contains a `.clang-format` file defining the code formatting of the project (more details about of this file was defined can be found in this [PR](https://github.com/Exiv2/exiv2/pull/152)). We suggest you to respect the code formatting by applying `clang-format` to new or existing code. You can do it by using the `clang-format` command-line tool, or by using some integration plugins provided by some editors or IDEs. Currently we know about these integrations:
+The project contains a `.clang-format.optional` file defining the code formatting of the project (more details about of this file was defined can be found in this [PR](https://github.com/Exiv2/exiv2/pull/152)). We do not provide it via the standard name (`.clang-format`), since we do not enforce code formatting and do not want editors to automatically format everything.
+
+Nevertheless, we suggest you to respect the code formatting by symlinking `.clang-format.optional` to `.clang-format` and applying `clang-format` to new or existing code. You can do it by using the `clang-format` command-line tool or by using one of the integration plugins provided by various editors or IDEs. Currently we know about these integrations:
 
 - [QtCreator](http://doc.qt.io/qtcreator/creator-beautifier.html) -> beautifier -> clang-format
 - [vim-clang-format](https://github.com/rhysd/vim-clang-format)
 - [Emacs](https://clang.llvm.org/docs/ClangFormat.html#emacs-integration)
 - Visual Studio: [1](http://clang.llvm.org/docs/ClangFormat.html#visual-studio-integration), [2](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
 
-Note that some times, the formatting applied to some complex code might result in some unexpected output. If you know how to improve the current `.clang-format` file to deal with such cases, then please contribute!. Otherwise, you have two options:
+Note that some times the formatting applied to complex code might result in some unexpected output. If you know how to improve the current `.clang-format` file to deal with such cases, then please contribute!. Otherwise, you have two options:
 1. Apply `clang-format` to individual blocks of code (avoid to apply it over the complex piece of code).
 2. Indicate which parts of the code that should not be `clang-format` formatted:
 
