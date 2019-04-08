@@ -38,6 +38,7 @@
 #include "safe_op.hpp"
 
 // + standard includes
+#include <array>
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -337,20 +338,19 @@ namespace Exiv2
                             if (io_->error()) throw Error(kerFailedToReadImageData);
                             if (bufRead != rawData.size_) throw Error(kerInputDataReadFailed);
 
-                            if (rawData.size_ > 0)
+                            if (rawData.size_ > 1)
                             {
-                                // Find the position of Exif header in bytes array.
-                                long pos = (     (rawData.pData_[0]      == rawData.pData_[1])
-                                           &&    (rawData.pData_[0]=='I' || rawData.pData_[0]=='M')
-                                           )  ? 0 : -1;
-
-                                // #1242  Forgive having Exif\0\0 in rawData.pData_
-                                const byte exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-                                for (long i=0 ; pos < 0 && i < rawData.size_-(long)sizeof(exifHeader) ; i++)
-                                {
-                                    if (memcmp(exifHeader, &rawData.pData_[i], sizeof(exifHeader)) == 0)
-                                    {
-                                        pos = i+sizeof(exifHeader);
+                                bool foundPos{ false };
+                                size_t pos{ 0 };
+                                if ((rawData.pData_[0] == rawData.pData_[1]) &&
+                                    (rawData.pData_[0] == 'I' || rawData.pData_[0] == 'M')) {
+                                    foundPos = true;
+                                } else {
+                                    const std::array<byte, 6> exifHeader{ 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+                                    const auto& it = std::search(rawData.cbegin(), rawData.cend(), exifHeader.cbegin(), exifHeader.cend());
+                                    if (it != rawData.cend()) {
+                                        pos = it - rawData.cbegin() + exifHeader.size();
+                                        foundPos = true;
 #ifndef SUPPRESS_WARNINGS
                                         EXV_WARNING << "Reading non-standard UUID-EXIF_bad box in " << io_->path() << std::endl;
 #endif
@@ -359,7 +359,7 @@ namespace Exiv2
                                 }
 
                                 // If found it, store only these data at from this place.
-                                if (pos >= 0 )
+                                if (foundPos)
                                 {
 #ifdef DEBUG
                                     std::cout << "Exiv2::Jp2Image::readMetadata: Exif header found at position " << pos << std::endl;
@@ -368,7 +368,7 @@ namespace Exiv2
                                                                       iptcData(),
                                                                       xmpData(),
                                                                       rawData.pData_ + pos,
-                                                                      rawData.size_ - pos);
+                                                                      rawData.size_ - static_cast<uint32_t>(pos));
                                     setByteOrder(bo);
                                 }
                             }
