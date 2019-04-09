@@ -102,7 +102,7 @@ namespace Exiv2
             if (magic == 0x2A)
             {
                 byte buffer[4];
-                int read = io.read(buffer, 4);
+                size_t read = io.read(buffer, 4);
 
                 if (read < 4)
                     throw Exiv2::Error(kerCorruptedMetadata);
@@ -113,7 +113,7 @@ namespace Exiv2
             else
             {
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-                int read = io.read(buffer, 2);
+                size_t read = io.read(buffer, 2);
                 if (read < 2)
                     throw Exiv2::Error(kerCorruptedMetadata);
 
@@ -371,7 +371,7 @@ namespace Exiv2
                                     io.seek((long)offset, BasicIo::beg);                        // position
 #endif
                                     std::vector<byte> bytes(static_cast<size_t>(count));  // allocate memory
-                                    const long read_bytes = io.read(bytes.data(), static_cast<long>(count));
+                                    const size_t read_bytes = io.read(bytes.data(), static_cast<long>(count));
                                     io.seek(restore, BasicIo::beg);
                                     IptcData::printStructure(out, makeSliceUntil(bytes.data(), read_bytes), depth);
 
@@ -456,7 +456,7 @@ namespace Exiv2
 
     bool isBigTiffType(BasicIo& io, bool advance)
     {
-        const long pos = io.tell();
+        const auto pos = io.tell();
         const Header header = readHeader(io);
         const bool valid = header.isValid();
 

@@ -216,7 +216,7 @@ namespace Exiv2 {
                 throw Error(kerNotAnImage, "Photoshop");
             }
             uint32_t resourceSize = getULong(buf, bigEndian);
-            uint32_t curOffset = io_->tell();
+            auto curOffset = io_->tell();
 
 #ifdef DEBUG
             std::cerr << std::hex << "resourceId: " << resourceId << std::dec << " length: " << resourceSize << std::hex
@@ -303,7 +303,7 @@ namespace Exiv2 {
                     throw Error(kerNotAnImage, "Photoshop");
                 }
                 NativePreview nativePreview;
-                nativePreview.position_ = io_->tell();
+                nativePreview.position_ = static_cast<int64_t>(io_->tell());
                 nativePreview.size_ = getLong(buf + 20, bigEndian);  // compressedsize
                 nativePreview.width_ = getLong(buf + 4, bigEndian);
                 nativePreview.height_ = getLong(buf + 8, bigEndian);
@@ -393,7 +393,7 @@ namespace Exiv2 {
         std::cerr << std::dec << "colorDataLength: " << colorDataLength << "\n";
 #endif
         // Copy colorData
-        uint32_t readTotal = 0;
+        size_t readTotal = 0;
         size_t toRead = 0;
         while (readTotal < colorDataLength) {
             toRead = (colorDataLength - readTotal) < (uint32_t)lbuf.size_
@@ -408,14 +408,14 @@ namespace Exiv2 {
         if (outIo.error())
             throw Error(kerImageWriteFailed);
 
-        uint32_t resLenOffset = io_->tell();  // remember for later update
+        auto resLenOffset = io_->tell();  // remember for later update
 
         // Read length of all resource blocks from original PSD
         if (io_->read(buf, 4) != 4)
             throw Error(kerNotAnImage, "Photoshop");
 
         uint32_t oldResLength = getULong(buf, bigEndian);
-        uint32_t newResLength = 0;
+        size_t newResLength = 0;
 
         // Write oldResLength (will be updated later)
         ul2Data(buf, oldResLength, bigEndian);
@@ -459,7 +459,7 @@ namespace Exiv2 {
 
             uint32_t resourceSize = getULong(buf, bigEndian);
             uint32_t pResourceSize = (resourceSize + 1) & ~1;  // padded resource size
-            uint32_t curOffset = io_->tell();
+            const size_t curOffset = io_->tell();
 
             // Write IPTC_NAA resource block
             if ((resourceId == kPhotoshopResourceID_IPTC_NAA || resourceId > kPhotoshopResourceID_IPTC_NAA) &&
@@ -571,9 +571,9 @@ namespace Exiv2 {
 
     }  // PsdImage::doWriteMetadata
 
-    uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
+    size_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
     {
-        uint32_t resLength = 0;
+        size_t resLength = 0;
 
         if (iptcData.count() > 0) {
             DataBuf rawIptc = IptcParser::encode(iptcData);

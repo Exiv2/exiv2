@@ -129,12 +129,11 @@ namespace Exiv2 {
 
           @return Byte order in which the data is encoded.
         */
-        static ByteOrder decode(
-                  ExifData& exifData,
+        static ByteOrder decode(ExifData& exifData,
                   IptcData& iptcData,
                   XmpData&  xmpData,
             const byte*     pData,
-                  uint32_t  size
+                  size_t size
         );
         /*!
           @brief Encode metadata from the provided metadata to TIFF format.

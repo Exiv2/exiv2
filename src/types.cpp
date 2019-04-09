@@ -129,7 +129,7 @@ namespace Exiv2 {
     DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        std::pair<byte*, long> ret = rhs.release();
+        auto ret = rhs.release();
         UNUSED(ret);
     }
 
@@ -139,10 +139,15 @@ namespace Exiv2 {
     DataBuf::DataBuf() : pData_(0), size_(0)
     {}
 
-    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
-    {}
+#if defined(_MSC_VER) && _WIN64
+    DataBuf::DataBuf(size_t size) : pData_(new byte[size]()), size_(size)
+#else
+    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(static_cast<size_t>(size))
+#endif
+    {
+    }
 
-    DataBuf::DataBuf(const byte* pData, long size)
+    DataBuf::DataBuf(const byte* pData, size_t size)
         : pData_(0), size_(0)
     {
         if (size > 0) {
@@ -159,7 +164,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    void DataBuf::alloc(long size)
+    void DataBuf::alloc(size_t size)
     {
         if (size > size_) {
             delete[] pData_;
@@ -170,9 +175,9 @@ namespace Exiv2 {
         }
     }
 
-    EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
+    EXV_WARN_UNUSED_RESULT std::pair<byte*, size_t> DataBuf::release()
     {
-        std::pair<byte*, long> p = std::make_pair(pData_, size_);
+        auto p = std::make_pair(pData_, size_);
         pData_ = 0;
         size_ = 0;
         return p;
@@ -185,7 +190,7 @@ namespace Exiv2 {
         size_ = 0;
     }
 
-    void DataBuf::reset(std::pair<byte*, long> p)
+    void DataBuf::reset(std::pair<byte*, size_t> p)
     {
         if (pData_ != p.first) {
             delete[] pData_;
@@ -406,7 +411,7 @@ namespace Exiv2 {
         return 2;
     }
 
-    long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder)
+    long ul2Data(byte* buf, size_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
             buf[0] = (byte) (l & 0x000000ff);

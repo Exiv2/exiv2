@@ -195,7 +195,7 @@ namespace Exiv2 {
         components_.push_back(component.release());
     }
 
-    void CiffHeader::read(const byte* pData, uint32_t size)
+    void CiffHeader::read(const byte* pData, size_t size)
     {
         if (size < 14) throw Error(kerNotACrwImage);
 
@@ -223,18 +223,12 @@ namespace Exiv2 {
         pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
     } // CiffHeader::read
 
-    void CiffComponent::read(const byte* pData,
-                             uint32_t    size,
-                             uint32_t    start,
-                             ByteOrder   byteOrder)
+    void CiffComponent::read(const byte* pData, size_t size, uint32_t start, ByteOrder byteOrder)
     {
         doRead(pData, size, start, byteOrder);
     }
 
-    void CiffComponent::doRead(const byte* pData,
-                               uint32_t    size,
-                               uint32_t    start,
-                               ByteOrder   byteOrder)
+    void CiffComponent::doRead(const byte* pData, size_t size, uint32_t start, ByteOrder byteOrder)
     {
         if (size < 10) throw Error(kerNotACrwImage);
         tag_ = getUShort(pData + start, byteOrder);
@@ -259,12 +253,9 @@ namespace Exiv2 {
                   << " Bytes, Offset is " << offset_ << "\n";
 #endif
 
-    } // CiffComponent::doRead
+    }
 
-    void CiffDirectory::doRead(const byte* pData,
-                               uint32_t    size,
-                               uint32_t    start,
-                               ByteOrder   byteOrder)
+    void CiffDirectory::doRead(const byte* pData, size_t size, uint32_t start, ByteOrder byteOrder)
     {
         CiffComponent::doRead(pData, size, start, byteOrder);
 #ifdef DEBUG
@@ -274,11 +265,9 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cout << "<---- 0x" << std::hex << tag() << "\n";
 #endif
-    } // CiffDirectory::doRead
+    }
 
-    void CiffDirectory::readDirectory(const byte* pData,
-                                      uint32_t    size,
-                                      ByteOrder   byteOrder)
+    void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byteOrder)
     {
         if (size < 4)
             throw Error(kerCorruptedMetadata);
@@ -547,9 +536,9 @@ namespace Exiv2 {
             size_ = 0;
         }
         isAllocated_ = true;
-        std::pair<byte *, long> p = buf.release();
+        std::pair<byte *, size_t> p = buf.release();
         pData_ = p.first;
-        size_  = p.second;
+        size_  = static_cast<uint32_t>(p.second);
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }

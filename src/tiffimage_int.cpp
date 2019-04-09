@@ -1540,7 +1540,7 @@ namespace Exiv2 {
               IptcData&          iptcData,
               XmpData&           xmpData,
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               FindDecoderFct     findDecoderFct,
               TiffHeaderBase*    pHeader
@@ -1629,7 +1629,7 @@ namespace Exiv2 {
             uint32_t imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
-                               header.size_,
+                               static_cast<int32_t>(header.size_),
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);
@@ -1649,7 +1649,7 @@ namespace Exiv2 {
 
     TiffComponent::UniquePtr TiffParserWorker::parse(
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               TiffHeaderBase*    pHeader
     )
@@ -1719,7 +1719,7 @@ namespace Exiv2 {
     {
     }
 
-    bool TiffHeaderBase::read(const byte* pData, uint32_t size)
+    bool TiffHeaderBase::read(const byte* pData, size_t size)
     {
         if (!pData || size < 8) return false;
 
@@ -1951,10 +1951,11 @@ namespace Exiv2 {
         offsetList_[id] = OffsetData(origin, byteOrder);
     }
 
-    void OffsetWriter::setTarget(OffsetId id, uint32_t target)
+    void OffsetWriter::setTarget(OffsetId id, size_t target)
     {
         OffsetList::iterator it = offsetList_.find(id);
-        if (it != offsetList_.end()) it->second.target_ = target;
+        if (it != offsetList_.end())
+            it->second.target_ = static_cast<uint32_t>(target);
     }
 
     void OffsetWriter::writeOffsets(BasicIo& io) const

@@ -429,11 +429,7 @@ namespace Exiv2 {
 
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker
 
-    int IptcParser::decode(
-              IptcData& iptcData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size)
     {
 #ifdef DEBUG
         std::cerr << "IptcParser::decode, size = " << size << "\n";

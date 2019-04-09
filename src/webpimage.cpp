@@ -631,7 +631,7 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const long sizePayload = payload.size_ + offset;
+                const size_t sizePayload = payload.size_ + offset;
                 rawExifData = (byte*)malloc(sizePayload);
 
                 byte  sizeBuff[2];
@@ -801,8 +801,8 @@ namespace Exiv2 {
         }
     }
 
-    long WebPImage::getHeaderOffset(byte *data, long data_size,
-                                    byte *header, long header_size) {
+    long WebPImage::getHeaderOffset(byte* data, size_t data_size, byte* header, long header_size)
+    {
         long pos = -1;
         for (long i=0; i < data_size - header_size; i++) {
             if (memcmp(header, &data[i], header_size) == 0) {

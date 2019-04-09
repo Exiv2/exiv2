@@ -144,7 +144,7 @@ namespace Exiv2 {
           @return Return -1 if the %Exifdatum does not have a value yet or the
                   value has no data area, else 0.
          */
-        int setDataArea(const byte* buf, long len);
+        int setDataArea(const byte* buf, size_t len);
         //@}
 
         //! @name Accessors
@@ -194,7 +194,7 @@ namespace Exiv2 {
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //! Return the size of the data area.
-        long sizeDataArea() const;
+        size_t sizeDataArea() const;
         /*!
           @brief Return a copy of the data area of the value. The caller owns
                  this copy and %DataBuf ensures that it will be deleted.
@@ -253,13 +253,13 @@ namespace Exiv2 {
           @param path File name of the thumbnail without extension.
           @return The number of bytes written.
         */
-        long writeFile(const std::string& path) const;
+        size_t writeFile(const std::string& path) const;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like writeFile() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
-        long writeFile(const std::wstring& wpath) const;
+        size_t writeFile(const std::wstring& wpath) const;
 #endif
         /*!
           @brief Return the MIME type of the thumbnail, either \c "image/tiff"
@@ -362,7 +362,7 @@ namespace Exiv2 {
          */
         void setJpegThumbnail(
             const byte*     buf,
-                  long      size,
+                  size_t    size,
                   URational xres,
                   URational yres,
                   uint16_t  unit
@@ -401,7 +401,8 @@ namespace Exiv2 {
           @note  No checks on the image format or size are performed.
           @note  Additional existing Exif thumbnail tags are not modified.
          */
-        void setJpegThumbnail(const byte* buf, long size);
+        void setJpegThumbnail(const byte* buf, size_t size);
+        
         /*!
           @brief Delete the thumbnail from the Exif data. Removes all
                  Exif.%Thumbnail.*, i.e., Exif IFD1 tags.
@@ -540,10 +541,9 @@ namespace Exiv2 {
           @param size 	  Length of the data buffer
           @return Byte order in which the data is encoded.
         */
-        static ByteOrder decode(
-                  ExifData& exifData,
+        static ByteOrder decode(ExifData& exifData,
             const byte*     pData,
-                  uint32_t  size
+                  size_t size
         );
         /*!
           @brief Encode Exif metadata from the provided metadata to binary Exif

@@ -143,7 +143,7 @@ namespace {
         uint32_t height_;
 
         //! Preview image size in bytes
-        uint32_t size_;
+        size_t size_;
 
         //! True if the source image contains a preview image of given type
         bool valid_;
@@ -200,7 +200,7 @@ namespace {
         static const Param param_[];
 
         //! Offset value
-        uint32_t offset_;
+        size_t offset_;
     };
 
     //! Function to create new LoaderExifJpeg
@@ -970,7 +970,7 @@ namespace {
     DataBuf decodeAi7Thumbnail(const DataBuf &src)
     {
         const byte *colorTable = src.pData_;
-        const long colorTableSize = 256 * 3;
+        const size_t colorTableSize = 256 * 3;
         if (src.size_ < colorTableSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of AI7 thumbnail: " << src.size_ << "\n";
@@ -978,7 +978,7 @@ namespace {
             return DataBuf();
         }
         const byte *imageData = src.pData_ + colorTableSize;
-        const long imageDataSize = src.size_ - colorTableSize;
+        const size_t imageDataSize = src.size_ - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
         for (long i = rle ? 3 : 0; i < imageDataSize;) {
@@ -1039,8 +1039,8 @@ namespace Exiv2 {
         : properties_(properties)
     {
         pData_ = data.pData_;
-        size_ = data.size_;
-        std::pair<byte*, long> ret = data.release();
+        size_ = static_cast<uint32_t>(data.size_);
+        auto ret = data.release();
         UNUSED(ret);
     }
 
@@ -1070,7 +1070,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    long PreviewImage::writeFile(const std::string& path) const
+    size_t PreviewImage::writeFile(const std::string& path) const
     {
         std::string name = path + extension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory
@@ -1079,7 +1079,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    long PreviewImage::writeFile(const std::wstring& wpath) const
+    size_t PreviewImage::writeFile(const std::wstring& wpath) const
     {
         std::wstring name = wpath + wextension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory

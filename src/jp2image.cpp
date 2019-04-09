@@ -222,7 +222,7 @@ namespace Exiv2
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
-            long position = io_->tell();
+            auto position = io_->tell();
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef DEBUG
@@ -247,7 +247,7 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found" << std::endl;
 #endif
-                    long restore = io_->tell();
+                    auto restore = io_->tell();
 
                     while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) && subBox.length )
                     {
@@ -323,7 +323,7 @@ namespace Exiv2
                     if (io_->read((byte*)&uuid, sizeof(uuid)) == sizeof(uuid))
                     {
                         DataBuf rawData;
-                        long    bufRead;
+                        size_t    bufRead;
                         bool    bIsExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
                         bool    bIsIPTC = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
                         bool    bIsXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
@@ -335,8 +335,10 @@ namespace Exiv2
 #endif
                             rawData.alloc(box.length - (sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
-                            if (io_->error()) throw Error(kerFailedToReadImageData);
-                            if (bufRead != rawData.size_) throw Error(kerInputDataReadFailed);
+                            if (io_->error())
+                                throw Error(kerFailedToReadImageData);
+                            if (bufRead != rawData.size_)
+                                throw Error(kerInputDataReadFailed);
 
                             if (rawData.size_ > 1)
                             {
@@ -439,7 +441,7 @@ namespace Exiv2
             }
 
             // Move to the next box.
-            io_->seek(static_cast<long>(position - sizeof(box) + box.length), BasicIo::beg);
+            io_->seek(position - sizeof(box) + box.length, BasicIo::beg);
             if (io_->error()) throw Error(kerFailedToReadImageData);
         }
 
@@ -475,7 +477,7 @@ namespace Exiv2
             bool bLF = false;
 
             while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box)) {
-                long position = io_->tell();
+                auto position = io_->tell();
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type = getLong((byte*)&box.type, bigEndian);
 
@@ -497,7 +499,7 @@ namespace Exiv2
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) &&
                                io_->tell() < position + (long)box.length)  // don't read beyond the box!
                         {
-                            int address = io_->tell() - sizeof(subBox);
+                            auto address = io_->tell() - sizeof(subBox);
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type = getLong((byte*)&subBox.type, bigEndian);
 
@@ -555,7 +557,7 @@ namespace Exiv2
 
                             DataBuf rawData;
                             rawData.alloc(box.length - sizeof(uuid) - sizeof(box));
-                            long bufRead = io_->read(rawData.pData_, rawData.size_);
+                            size_t bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error())
                                 throw Error(kerFailedToReadImageData);
                             if (bufRead != rawData.size_)
@@ -672,7 +674,7 @@ namespace Exiv2
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox)  );
                     ::memcpy(output.pData_+outlen+sizeof(newBox)      , pad               ,psize           );
                     ::memcpy(output.pData_+outlen+sizeof(newBox)+psize,iccProfile_.pData_,iccProfile_.size_);
-                    newlen = psize + iccProfile_.size_;
+                    newlen = psize + static_cast<int>(iccProfile_.size_);
                 }
             } else {
                 ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
@@ -732,9 +734,11 @@ namespace Exiv2
             // Read chunk header.
 
             std::memset(bheaderBuf.pData_, 0x00, bheaderBuf.size_);
-            long bufRead = io_->read(bheaderBuf.pData_, bheaderBuf.size_);
-            if (io_->error()) throw Error(kerFailedToReadImageData);
-            if (bufRead != bheaderBuf.size_) throw Error(kerInputDataReadFailed);
+            size_t bufRead = io_->read(bheaderBuf.pData_, bheaderBuf.size_);
+            if (io_->error())
+                throw Error(kerFailedToReadImageData);
+            if (bufRead != bheaderBuf.size_)
+                throw Error(kerInputDataReadFailed);
 
             // Decode box header.
 

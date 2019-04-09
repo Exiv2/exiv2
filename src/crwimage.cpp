@@ -161,12 +161,7 @@ namespace Exiv2 {
         }
     } // CrwParser::decode
 
-    void CrwParser::encode(
-              Blob&     blob,
-        const byte*     pData,
-              uint32_t  size,
-        const CrwImage* pCrwImage
-    )
+    void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImage* pCrwImage)
     {
         // Parse image, starting with a CIFF header component
         CiffHeader::UniquePtr head(new CiffHeader);

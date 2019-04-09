@@ -1673,11 +1673,11 @@ namespace Exiv2
         size_t blockSize_;     //!< Size of the block memory.
         BlockMap* blocksMap_;  //!< An array contains all blocksMap
         size_t size_;          //!< The file size
-        long idx_;             //!< Index into the memory area
+        size_t idx_;           //!< Index into the memory area
         bool isMalloced_;      //!< Was the blocksMap_ allocated?
         bool eof_;             //!< EOF indicator
         Protocol protocol_;    //!< the protocol of url
-        uint32_t totalRead_;   //!< bytes requested from host
+        size_t totalRead_;     //!< bytes requested from host
 
         // METHODS
         /*!
@@ -2028,8 +2028,8 @@ namespace Exiv2
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
         p_->eof_ = newIdx > (int64_t)p_->size_;
-        if (p_->idx_ > (int64_t)p_->size_)
-            p_->idx_ = (int64_t)p_->size_;
+        if (p_->idx_ > p_->size_)
+            p_->idx_ = p_->size_;
         return 0;
     }
 #else
@@ -2801,7 +2801,7 @@ namespace Exiv2
             throw Error(kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
+        size_t len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
             throw Error(kerCallFailed, path, strError(), "FileIo::read");
         }

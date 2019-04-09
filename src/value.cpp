@@ -167,7 +167,7 @@ namespace Exiv2 {
         return value;
     } // Value::create
 
-    int Value::setDataArea(const byte* /*buf*/, long /*len*/)
+    int Value::setDataArea(const byte* /*buf*/, size_t /*len*/)
     {
         return -1;
     }
@@ -185,7 +185,7 @@ namespace Exiv2 {
         return toString();
     }
 
-    long Value::sizeDataArea() const
+    size_t Value::sizeDataArea() const
     {
         return 0;
     }
@@ -199,9 +199,7 @@ namespace Exiv2 {
     {
     }
 
-    DataValue::DataValue(const byte* buf,
-              long len, ByteOrder byteOrder,TypeId typeId)
-        : Value(typeId)
+    DataValue::DataValue(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId) : Value(typeId)
     {
         read(buf, len, byteOrder);
     }
@@ -215,7 +213,7 @@ namespace Exiv2 {
         return size();
     }
 
-    int DataValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int DataValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed
         value_.assign(buf, buf + len);
@@ -324,7 +322,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    int StringValueBase::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int StringValueBase::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed
         if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
@@ -517,7 +515,7 @@ namespace Exiv2 {
         return StringValueBase::read(code + c);
     }
 
-    int CommentValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    int CommentValue::read(const byte* buf, size_t len, ByteOrder byteOrder)
     {
         byteOrder_ = byteOrder;
         return StringValueBase::read(buf, len, byteOrder);
@@ -663,7 +661,7 @@ namespace Exiv2 {
     }
 
     int XmpValue::read(const byte* buf,
-                       long len,
+                       size_t len,
                        ByteOrder /*byteOrder*/)
     {
         std::string s(reinterpret_cast<const char*>(buf), len);
@@ -957,7 +955,7 @@ namespace Exiv2 {
     {
     }
 
-    int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         // Hard coded to read Iptc style dates
         if (len != 8) {
@@ -1093,7 +1091,7 @@ namespace Exiv2 {
     {
     }
 
-    int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int TimeValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         // Make the buffer a 0 terminated C-string for scanTime[36]
         char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

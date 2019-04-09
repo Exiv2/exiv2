@@ -253,7 +253,7 @@ namespace Exiv2 {
               IptcData& iptcData,
               XmpData&  xmpData,
         const byte*     pData,
-              uint32_t  size
+              size_t  size
     )
     {
         return TiffParserWorker::decode(exifData,

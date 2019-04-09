@@ -191,9 +191,9 @@ namespace Exiv2 {
      */
     struct EXIV2API DataBufRef {
         //! Constructor
-        explicit DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
+        explicit DataBufRef(std::pair<byte*, size_t> rhs) : p(rhs) {}
         //! Pointer to a byte array and its size
-        std::pair<byte*, long> p;
+        std::pair<byte*, size_t> p;
     };
 
     /*!
@@ -209,9 +209,13 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf();
         //! Constructor with an initial buffer size
+#if defined(_MSC_VER) && _WIN64
+        explicit DataBuf(size_t size);
+#else
         explicit DataBuf(long size);
+#endif
         //! Constructor, copies an existing buffer
-        DataBuf(const byte* pData, long size);
+        DataBuf(const byte* pData, size_t size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
                  object similar to std::unique_ptr, i.e., the original object is
@@ -235,13 +239,14 @@ namespace Exiv2 {
                  the requested \em size is less than the current buffer size, no
                  new memory is allocated and the buffer size doesn't change.
          */
-        void alloc(long size);
+        void alloc(size_t size);
+        
         /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal
                  buffer.
          */
-        EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
+        EXV_WARN_UNUSED_RESULT std::pair<byte *, size_t> release();
 
          /*!
            @brief Free the internal buffer and reset the size to 0.
@@ -249,7 +254,7 @@ namespace Exiv2 {
         void free();
 
         //! Reset value
-        void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
+        void reset(std::pair<byte *, size_t> =std::make_pair((byte*)(0),long(0)));
         //@}
 
         /*!
@@ -291,10 +296,8 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        //! Pointer to the buffer, 0 if none has been allocated
-        byte* pData_;
-        //! The current size of the buffer
-        long size_;
+        byte* pData_; ///< Pointer to the buffer, 0 if none has been allocated
+        size_t size_; ///< The current size of the buffer
     }; // class DataBuf
 
     /*!
@@ -364,7 +367,7 @@ namespace Exiv2 {
       @brief Convert an unsigned long to data, write the data to the buffer,
              return number of bytes written.
      */
-    EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+    EXIV2API long ul2Data(byte* buf, size_t l, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.

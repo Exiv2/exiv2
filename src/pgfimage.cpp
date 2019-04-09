@@ -128,7 +128,7 @@ namespace Exiv2 {
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
 
-        long size = 8 + headerSize - io_->tell();
+        auto size = 8 + headerSize - io_->tell();
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
@@ -139,7 +139,7 @@ namespace Exiv2 {
 
         DataBuf imgData(size);
         std::memset(imgData.pData_, 0x0, imgData.size_);
-        long bufRead = io_->read(imgData.pData_, imgData.size_);
+        size_t bufRead = io_->read(imgData.pData_, imgData.size_);
         if (io_->error()) throw Error(kerFailedToReadImageData);
         if (bufRead != imgData.size_) throw Error(kerInputDataReadFailed);
 
@@ -198,7 +198,7 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        long    imgSize  = (long) img->io().size();
+        size_t  imgSize  = img->io().size();
         DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef DEBUG
@@ -214,7 +214,7 @@ namespace Exiv2 {
         if (outIo.putb(mnb) == EOF) throw Error(kerImageWriteFailed);
 
         // Write new Header size.
-        uint32_t newHeaderSize = header.size_ + imgSize;
+        const size_t newHeaderSize = header.size_ + imgSize;
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
         byteSwap_(buffer,0,bSwap_);
@@ -266,12 +266,15 @@ namespace Exiv2 {
     uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo)
     {
         DataBuf buffer(4);
-        long bufRead = iIo.read(buffer.pData_, buffer.size_);
-        if (iIo.error()) throw Error(kerFailedToReadImageData);
-        if (bufRead != buffer.size_) throw Error(kerInputDataReadFailed);
+        size_t bufRead = iIo.read(buffer.pData_, buffer.size_);
+        if (iIo.error())
+            throw Error(kerFailedToReadImageData);
+        if (bufRead != buffer.size_)
+            throw Error(kerInputDataReadFailed);
 
         int headerSize = (int) byteSwap_(buffer,0,bSwap_);
-        if (headerSize <= 0 ) throw Error(kerNoImageInInputData);
+        if (headerSize <= 0)
+            throw Error(kerNoImageInInputData);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage: PGF header size : " << headerSize << " bytes\n";
@@ -283,9 +286,11 @@ namespace Exiv2 {
     DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height)
     {
         DataBuf header(16);
-        long bufRead = iIo.read(header.pData_, header.size_);
-        if (iIo.error()) throw Error(kerFailedToReadImageData);
-        if (bufRead != header.size_) throw Error(kerInputDataReadFailed);
+        size_t bufRead = iIo.read(header.pData_, header.size_);
+        if (iIo.error())
+            throw Error(kerFailedToReadImageData);
+        if (bufRead != header.size_)
+            throw Error(kerInputDataReadFailed);
 
         DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
         memcpy (work.pData_,header.pData_,8);
@@ -305,8 +310,10 @@ namespace Exiv2 {
             header.alloc(16 + 256*3);
 
             bufRead = iIo.read(&header.pData_[16], 256*3);
-            if (iIo.error()) throw Error(kerFailedToReadImageData);
-            if (bufRead != 256*3) throw Error(kerInputDataReadFailed);
+            if (iIo.error())
+                throw Error(kerFailedToReadImageData);
+            if (bufRead != 256 * 3)
+                throw Error(kerInputDataReadFailed);
         }
 
         return header;

@@ -80,7 +80,7 @@ namespace Exiv2 {
           @return True if the TIFF header was read successfully. False if the
                  data buffer does not contain a valid TIFF header.
          */
-        virtual bool read(const byte* pData, uint32_t size);
+        virtual bool read(const byte* pData, size_t size);
         //! Set the byte order.
         virtual void setByteOrder(ByteOrder byteOrder);
         //! Set the offset to the start of the root directory.
@@ -299,12 +299,11 @@ namespace Exiv2 {
           @return Byte order in which the data is encoded, invalidByteOrder if
                   decoding failed.
         */
-        static ByteOrder decode(
-                  ExifData&          exifData,
+        static ByteOrder decode(ExifData&          exifData,
                   IptcData&          iptcData,
                   XmpData&           xmpData,
             const byte*              pData,
-                  uint32_t           size,
+                  size_t size,
                   uint32_t           root,
                   FindDecoderFct     findDecoderFct,
                   TiffHeaderBase*    pHeader =0
@@ -348,7 +347,7 @@ namespace Exiv2 {
          */
         static std::unique_ptr<TiffComponent> parse(
             const byte*              pData,
-                  uint32_t           size,
+                  size_t             size,
                   uint32_t           root,
                   TiffHeaderBase*    pHeader
         );
@@ -440,7 +439,7 @@ namespace Exiv2 {
 
           If the list doesn't contain an entry with \em id yet, this function won't do anything.
         */
-        void setTarget(OffsetId id, uint32_t target);
+        void setTarget(OffsetId id, size_t target);
         //@}
 
         //! @name Accessors

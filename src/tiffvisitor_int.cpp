@@ -778,8 +778,10 @@ namespace Exiv2 {
 
         if (object->cfg() == 0 || !object->decoded()) return;
         int32_t size = object->TiffEntryBase::doSize();
-        if (size == 0) return;
-        if (!object->initialize(pRoot_)) return;
+        if (size == 0)
+            return;
+        if (!object->initialize(pRoot_))
+            return;
 
         // Re-encrypt buffer if necessary
         const CryptFct cryptFct = object->cfg()->cryptFct_;
@@ -788,7 +790,7 @@ namespace Exiv2 {
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size_ > 0) {
                 pData = buf.pData_;
-                size = buf.size_;
+                size = static_cast<int32_t>(buf.size_);
             }
             if (!object->updOrigDataBuf(pData, size)) {
                 setDirty();
@@ -924,7 +926,7 @@ namespace Exiv2 {
     {
         encodeOffsetEntry(object, datum);
 
-        uint32_t sizeDataArea = object->pValue()->sizeDataArea();
+        size_t sizeDataArea = object->pValue()->sizeDataArea();
 
         if (sizeDataArea > 0 && writeMethod() == wmNonIntrusive) {
 #ifdef DEBUG
@@ -947,7 +949,7 @@ namespace Exiv2 {
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
-                object->strips_.push_back(std::make_pair(zero, sizeDataArea));
+                object->strips_.push_back(std::make_pair(zero, static_cast<uint32_t>(sizeDataArea)));
             }
             else {
                 uint32_t sizeTotal = 0;
@@ -1133,11 +1135,11 @@ namespace Exiv2 {
     } // TiffEncoder::add
 
     TiffReader::TiffReader(const byte*    pData,
-                           uint32_t       size,
+                           size_t size,
                            TiffComponent* pRoot,
                            TiffRwState    state)
         : pData_(pData),
-          size_(size),
+          size_(static_cast<uint32_t>(size)),
           pLast_(pData + size),
           pRoot_(pRoot),
           origState_(state),
@@ -1146,9 +1148,7 @@ namespace Exiv2 {
     {
         pState_ = &origState_;
         assert(pData_);
-        assert(size_ > 0);
-
-    } // TiffReader::TiffReader
+    }
 
     TiffReader::~TiffReader()
     {

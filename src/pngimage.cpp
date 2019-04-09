@@ -62,7 +62,7 @@ namespace
     {
         // str & length should compile time constants => only running this in DEBUG mode is ok
         assert(strlen(str) <= length);
-        return memcmp(str, buf.pData_, std::min(static_cast<long>(length), buf.size_)) == 0;
+        return memcmp(str, buf.pData_, std::min(length, buf.size_)) == 0;
     }
 }  // namespace
 
@@ -247,9 +247,11 @@ namespace Exiv2 {
                 size_t address = io_->tell();
 
                 std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
-                long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
-                if (io_->error()) throw Error(kerFailedToReadImageData);
-                if (bufRead != cheaderBuf.size_) throw Error(kerInputDataReadFailed);
+                size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+                if (io_->error())
+                    throw Error(kerFailedToReadImageData);
+                if (bufRead != cheaderBuf.size_)
+                    throw Error(kerInputDataReadFailed);
 
                 // Decode chunk data length.
                 uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
@@ -258,7 +260,7 @@ namespace Exiv2 {
                 }
 
                 // test that we haven't hit EOF, or wanting to read excessive data
-                long restore = io_->tell();
+                auto restore = io_->tell();
                 if(  restore == -1
                 ||  dataOffset > uint32_t(0x7FFFFFFF)
                 ||  static_cast<long>(dataOffset) > imgSize - restore
@@ -394,7 +396,7 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
 #endif
-        long bufRead = io.read(buffer.pData_, buffer.size_);
+        size_t bufRead = io.read(buffer.pData_, buffer.size_);
         if (io.error()) {
             throw Error(kerFailedToReadImageData);
         }
@@ -428,7 +430,7 @@ namespace Exiv2 {
 
             // Decode chunk data length.
             uint32_t chunkLength = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
-            long pos = io_->tell();
+            auto pos = io_->tell();
             if (pos == -1 ||
                 chunkLength > uint32_t(0x7FFFFFFF) ||
                 static_cast<long>(chunkLength) > imgSize - pos) {
@@ -534,9 +536,11 @@ namespace Exiv2 {
             // Read chunk header.
 
             std::memset(cheaderBuf.pData_, 0x00, cheaderBuf.size_);
-            long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
-            if (io_->error()) throw Error(kerFailedToReadImageData);
-            if (bufRead != cheaderBuf.size_) throw Error(kerInputDataReadFailed);
+            size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+            if (io_->error())
+                throw Error(kerFailedToReadImageData);
+            if (bufRead != cheaderBuf.size_)
+                throw Error(kerInputDataReadFailed);
 
             // Decode chunk data length.
 
@@ -617,12 +621,11 @@ namespace Exiv2 {
 
                 if ( iccProfileDefined() ) {
                     DataBuf compressed;
-                    if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
-
+                    if (zlibToCompressed(iccProfile_.pData_, static_cast<long>(iccProfile_.size_), compressed)) {
                         const byte* nullComp = (const byte*) "\0\0";
                         const byte*  type    = (const byte*) "iCCP";
                         const uint32_t nameLength  = static_cast<uint32_t>(profileName_.size());
-                        const uint32_t chunkLength = nameLength + 2 + compressed.size_ ;
+                        const uint32_t chunkLength = nameLength + 2 + static_cast<uint32_t>(compressed.size_);
                         byte     length[4];
                         ul2Data (length,chunkLength,bigEndian);
 
@@ -631,7 +634,7 @@ namespace Exiv2 {
                         tmp         = crc32(tmp, (const Bytef*)type, 4);
                         tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
                         tmp         = crc32(tmp, (const Bytef*)nullComp, 2);
-                        tmp         = crc32(tmp, (const Bytef*)compressed.pData_,compressed.size_);
+                        tmp         = crc32(tmp, (const Bytef*)compressed.pData_,static_cast<uint32_t>(compressed.size_));
                         byte    crc[4];
                         ul2Data(crc, tmp, bigEndian);
 

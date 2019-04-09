@@ -150,7 +150,7 @@ namespace Exiv2 {
           @throw Error If the component cannot be parsed.
          */
         void read(const byte* pData,
-                  uint32_t    size,
+                  size_t size,
                   uint32_t    start,
                   ByteOrder   byteOrder);
         /*!
@@ -264,7 +264,7 @@ namespace Exiv2 {
         virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements read(). The default implementation reads a directory entry.
         virtual void doRead(const byte* pData,
-                            uint32_t    size,
+                            size_t size,
                             uint32_t    start,
                             ByteOrder   byteOrder);
         //! Implements write()
@@ -369,7 +369,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian)
          */
         void readDirectory(const byte* pData,
-                           uint32_t    size,
+                           size_t size,
                            ByteOrder   byteOrder);
         //@}
 
@@ -388,7 +388,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
         // See base class comment
-        void doRead(const byte* pData, uint32_t size, uint32_t start, ByteOrder byteOrder) override;
+        void doRead(const byte* pData, size_t size, uint32_t start, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors
@@ -450,7 +450,7 @@ namespace Exiv2 {
 
           @throw Error If the image cannot be parsed.
          */
-        void read(const byte* pData, uint32_t size);
+        void read(const byte* pData, size_t size);
         /*!
           @brief Set the value of entry \em crwTagId in directory \em crwDir to
                  \em buf. If this tag doesn't exist, it is added along with all

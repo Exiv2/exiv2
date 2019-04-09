@@ -638,7 +638,7 @@ namespace Exiv2 {
                            base offset.
          */
         TiffReader(const byte*          pData,
-                   uint32_t             size,
+                   size_t               size,
                    TiffComponent*       pRoot,
                    TiffRwState          state);
 
