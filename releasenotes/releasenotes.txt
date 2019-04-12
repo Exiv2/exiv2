@@ -1,7 +1,7 @@
-Exiv2 v0.27.1.1
----------------
+Exiv2 v0.27.1
+-------------
 
-This is RC1 of the first quarterly "dot" release of Exiv2 v0.27
+This is the first quarterly "dot" release of Exiv2 v0.27
 
 Thank You to Dan, Luis and Thomas for their huge contribution to this release.
 Contributors: Andreas S, Freddie, Gilles, Michal, Phil.
@@ -21,16 +21,10 @@ Headline Features of Exiv2 v0.27.1
 3) Relocated https://exiv2.org
 4) Branch 0.27-maintenance for "dots" to avoid confusion with tag 0.27 (== 0.27.0 code).
 
-Remaining Issues with v0.27.1 RC1
----------------------------------
-The following are not resolved and will either be fixed in v0.27.1 or deferred.
+Issues fixed since v0.27.1 RC1
+------------------------------
 #744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
-#743 Sigma 24-70mm F2,8 DG OS HSM Art not detected
-#740 Tests for jp2image.cpp
-#662 Documentation to explain how mv works with filename clash
-#646 Exiv2 does not find certain AF tags for the Nikon D850
-#582 Add support for FocusPosition (Tag9402) in Sony RAW files (ARW)
-#547 Insufficient verification(cycle) in function Image::printIFDStructure in image.cpp
+#745 Review/fix documentation concerning CMake support files
 
 Changes since 0.27.0
 --------------------
@@ -62,7 +56,7 @@ https://github.com/Exiv2/exiv2/milestone/3?closed=1
 
 Robin Mills
 robin@clanmills.com
-2019-03-27
+2019-04-12
 
 -------------------------
 Release Notes for v0.27.0
