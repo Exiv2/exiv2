@@ -335,7 +335,7 @@ namespace Exiv2 {
                     throw Error(kerImageWriteFailed);
                 if (outIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                     throw Error(kerImageWriteFailed);
-                if ((long)outIo.write(payload.pData_, payload.size_) != payload.size_)
+                if (outIo.write(payload.pData_, payload.size_) != payload.size_)
                     throw Error(kerImageWriteFailed);
                 if (outIo.tell() % 2) {
                     if (outIo.write(&WEBP_PAD_ODD, 1) != 1) throw Error(kerImageWriteFailed);
@@ -345,7 +345,7 @@ namespace Exiv2 {
                     if (outIo.write((const byte*)WEBP_CHUNK_HEADER_ICCP, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
                     ul2Data(data, (uint32_t) iccProfile_.size_, littleEndian);
                     if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-                    if ((long)outIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_) {
+                    if (outIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_) {
                         throw Error(kerImageWriteFailed);
                     }
                     has_icc = false;
@@ -361,7 +361,7 @@ namespace Exiv2 {
                     throw Error(kerImageWriteFailed);
                 if (outIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                     throw Error(kerImageWriteFailed);
-                if ((long)outIo.write(payload.pData_, payload.size_) != payload.size_)
+                if (outIo.write(payload.pData_, payload.size_) != payload.size_)
                     throw Error(kerImageWriteFailed);
             }
 
@@ -791,7 +791,7 @@ namespace Exiv2 {
                 throw Error(kerImageWriteFailed);
             if (iIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                 throw Error(kerImageWriteFailed);
-            if ((long)iIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_)
+            if (iIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_)
                 throw Error(kerImageWriteFailed);
             if (iIo.tell() % 2) {
                 if (iIo.write(&WEBP_PAD_ODD, 1) != 1) throw Error(kerImageWriteFailed);
@@ -804,9 +804,9 @@ namespace Exiv2 {
     long WebPImage::getHeaderOffset(byte* data, size_t data_size, byte* header, long header_size)
     {
         long pos = -1;
-        for (long i=0; i < data_size - header_size; i++) {
+        for (size_t i=0; i < data_size - header_size; i++) {
             if (memcmp(header, &data[i], header_size) == 0) {
-                pos = i;
+                pos = static_cast<long>(i);
                 break;
             }
         }

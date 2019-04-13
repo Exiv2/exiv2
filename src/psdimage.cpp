@@ -595,7 +595,7 @@ namespace Exiv2 {
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Iptc data
-                if ((long)out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
+                if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
                     throw Error(kerImageWriteFailed);
                 resLength += rawIptc.size_ + 12;
                 if (rawIptc.size_ & 1)  // even padding

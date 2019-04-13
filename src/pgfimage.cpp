@@ -230,10 +230,12 @@ namespace Exiv2 {
 #endif
 
         // Write Header data.
-        if ((long)outIo.write(header.pData_, header.size_) != header.size_) throw Error(kerImageWriteFailed);
+        if (outIo.write(header.pData_, header.size_) != header.size_)
+            throw Error(kerImageWriteFailed);
 
         // Write new metadata byte array.
-        if ((long)outIo.write(imgBuf.pData_, imgBuf.size_) != imgBuf.size_) throw Error(kerImageWriteFailed);
+        if (outIo.write(imgBuf.pData_, imgBuf.size_) != imgBuf.size_)
+            throw Error(kerImageWriteFailed);
 
         // Copy the rest of PGF image data.
 

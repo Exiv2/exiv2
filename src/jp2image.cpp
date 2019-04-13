@@ -272,7 +272,7 @@ namespace Exiv2
                             }
                             DataBuf data(static_cast<long>(data_length));
                             io_->read(data.pData_,data.size_);
-                            const long    iccLength = getULong(data.pData_+pad, bigEndian);
+                            const size_t iccLength = getULong(data.pData_+pad, bigEndian);
                             // subtracting pad from data.size_ is safe:
                             // size_ is at least 8 and pad = 3
                             if (iccLength > data.size_ - pad) {
@@ -513,7 +513,7 @@ namespace Exiv2
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:", (size_t)address,
                                                               (size_t)subBox.length)
                                     << toAscii(subBox.type) << " | "
-                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30l, data.size_)));
+                                    << Internal::binaryToString(makeSlice(data, 0, std::min(size_t(30), data.size_)));
                                 bLF = true;
                             }
 
@@ -794,7 +794,8 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write JP2Header box (length: " << box.length << ")" << std::endl;
 #endif
-                    if ((long)outIo.write(newBuf.pData_, newBuf.size_) != newBuf.size_) throw Error(kerImageWriteFailed);
+                    if (outIo.write(newBuf.pData_, newBuf.size_) != newBuf.size_)
+                        throw Error(kerImageWriteFailed);
 
                     // Write all updated metadata here, just after JP2Header.
 
@@ -821,7 +822,8 @@ namespace Exiv2
                             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Exif metadata (length: "
                                       << boxData.size_ << std::endl;
 #endif
-                            if ((long)outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
+                            if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_)
+                                throw Error(kerImageWriteFailed);
                         }
                     }
 
@@ -844,7 +846,8 @@ namespace Exiv2
                             std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with Iptc metadata (length: "
                                       << boxData.size_ << std::endl;
 #endif
-                            if ((long)outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
+                            if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_)
+                                throw Error(kerImageWriteFailed);
                         }
                     }
 
@@ -874,7 +877,8 @@ namespace Exiv2
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: Write box with XMP metadata (length: "
                                   << boxData.size_ << ")" << std::endl;
 #endif
-                        if ((long)outIo.write(boxData.pData_, boxData.size_) != boxData.size_) throw Error(kerImageWriteFailed);
+                        if (outIo.write(boxData.pData_, boxData.size_) != boxData.size_)
+                            throw Error(kerImageWriteFailed);
                     }
 
                     break;
@@ -905,7 +909,8 @@ namespace Exiv2
 #ifdef DEBUG
                         std::cout << "Exiv2::Jp2Image::doWriteMetadata: write Uuid box (length: " << box.length << ")" << std::endl;
 #endif
-                        if ((long)outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_) throw Error(kerImageWriteFailed);
+                        if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_)
+                            throw Error(kerImageWriteFailed);
                     }
                     break;
                 }
@@ -915,7 +920,7 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::doWriteMetadata: write box (length: " << box.length << ")" << std::endl;
 #endif
-                    if ((long)outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_)
+                    if (outIo.write(boxBuf.pData_, boxBuf.size_) != boxBuf.size_)
                         throw Error(kerImageWriteFailed);
 
                     break;

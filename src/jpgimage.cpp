@@ -262,18 +262,18 @@ namespace Exiv2
         }
         // Write existing stuff after record,
         // skip the current and all remaining IPTC blocks
-        long pos = sizeFront;
-        while (0 == Photoshop::locateIptcIrb(pPsData + pos, static_cast<long>(sizePsData) - pos, &record, &sizeHdr, &sizeIptc)) {
-            const long newPos = static_cast<long>(record - pPsData);
+        size_t pos = sizeFront;
+        while (0 == Photoshop::locateIptcIrb(pPsData + pos, static_cast<long>(sizePsData - pos), &record, &sizeHdr, &sizeIptc)) {
+            const size_t newPos = static_cast<size_t>(record - pPsData);
             // Copy data up to the IPTC IRB
             if (newPos > pos) {
-                append(psBlob, pPsData + pos, newPos - pos);
+                append(psBlob, pPsData + pos, static_cast<uint32_t>(newPos - pos));
             }
             // Skip the IPTC IRB
             pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
         if (pos < sizePsData) {
-            append(psBlob, pPsData + pos, static_cast<uint32_t>(sizePsData) - pos);
+            append(psBlob, pPsData + pos, static_cast<uint32_t>(sizePsData - pos));
         }
         // Data is rounded to be even
         if (psBlob.size() > 0)
@@ -470,7 +470,7 @@ namespace Exiv2
                 // read in profile
                 // #1286 profile can be padded
                 DataBuf icc((chunk == 1 && chunks == 1) ? s : size - 2 - 14);
-                if (icc.size_ > size - 2 - 14)
+                if (icc.size_ > static_cast<size_t>(size) - 2 - 14)
                     throw Error(kerInvalidIccProfile);
                 io_->read(icc.pData_, icc.size_);
 
@@ -1150,27 +1150,27 @@ namespace Exiv2
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app2_;
 
-                    int chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    int profileSize = (int)iccProfile_.size_;
-                    int chunks = 1 + (profileSize - 1) / chunk_size;
+                    size_t chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
+                    size_t profileSize = (int)iccProfile_.size_;
+                    size_t chunks = 1 + (profileSize - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
-                    for (int chunk = 0; chunk < chunks; chunk++) {
-                        int bytes = profileSize > chunk_size ? chunk_size : profileSize;  // bytes to write
+                    for (size_t chunk = 0; chunk < chunks; chunk++) {
+                        size_t bytes = profileSize > chunk_size ? chunk_size : profileSize;  // bytes to write
                         profileSize -= bytes;
 
                         // write JPEG marker (2 bytes)
                         if (outIo.write(tmpBuf, 2) != 2)
                             throw Error(kerImageWriteFailed);  // JPEG Marker
                         // write length (2 bytes).  length includes the 2 bytes for the length
-                        us2Data(tmpBuf + 2, 2 + 14 + bytes, bigEndian);
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(2 + 14 + bytes), bigEndian);
                         if (outIo.write(tmpBuf + 2, 2) != 2)
                             throw Error(kerImageWriteFailed);  // JPEG Length
 
                         // write the ICC_PROFILE header (14 bytes)
                         char pad[2];
-                        pad[0] = chunk + 1;
-                        pad[1] = chunks;
+                        pad[0] = static_cast<char>(chunk + 1);
+                        pad[1] = static_cast<char>(chunks);
                         outIo.write((const byte*)iccId_, 12);
                         outIo.write((const byte*)pad, 2);
                         if ((int)outIo.write(iccProfile_.pData_ + (chunk * chunk_size), bytes) != bytes)

@@ -981,7 +981,7 @@ namespace {
         const size_t imageDataSize = src.size_ - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
-        for (long i = rle ? 3 : 0; i < imageDataSize;) {
+        for (size_t i = rle ? 3 : 0; i < imageDataSize;) {
             byte num = 1;
             byte value = imageData[i++];
             if (rle && value == 0xFD) {
@@ -1012,7 +1012,7 @@ namespace {
 
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
     {
-        const long expectedSize = static_cast<long>(width * height * 3);
+        const size_t expectedSize = static_cast<size_t>(width * height * 3);
         if (rgb.size_ != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size_ << " bytes.\n";

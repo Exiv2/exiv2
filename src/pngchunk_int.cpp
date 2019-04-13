@@ -109,8 +109,9 @@ namespace Exiv2 {
     {
         // From a tEXt, zTXt, or iTXt chunk,
         // we get the key, it's a null terminated string at the chunk start
-        const int offset = stripHeader ? 8 : 0;
-        if (data.size_ <= offset) throw Error(kerFailedToReadImageData);
+        const size_t offset = stripHeader ? 8 : 0;
+        if (data.size_ <= offset)
+            throw Error(kerFailedToReadImageData);
         const byte *key = data.pData_ + offset;
 
         // Find null string at end of key.
@@ -252,7 +253,7 @@ namespace Exiv2 {
             && pImage->exifData().empty())
         {
             DataBuf exifData = readRawProfile(arr,false);
-            const long length = exifData.size_;
+            const size_t length = exifData.size_;
 
             if (length > 0) {
                 // Find the position of Exif header in bytes array.
@@ -642,7 +643,7 @@ namespace Exiv2 {
         }
         sp++ ; // step over '\n'
 
-        long length = (long) atol(startOfLength);
+        size_t length = static_cast<size_t>(atol(startOfLength));
 
         // Allocate space
         if (length == 0)
@@ -663,9 +664,9 @@ namespace Exiv2 {
         // Copy profile, skipping white space and column 1 "=" signs
 
         unsigned char *dp = (unsigned char*)info.pData_; // decode pointer
-        unsigned int nibbles = length * 2;
+        size_t nibbles = length * 2;
 
-        for (long i = 0; i < (long) nibbles; i++)
+        for (size_t i = 0; i < nibbles; i++)
         {
             while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f')
             {

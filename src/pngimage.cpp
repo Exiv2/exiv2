@@ -107,7 +107,7 @@ namespace Exiv2 {
             result.alloc(uncompressedLen);
             zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             // if result buffer is large than necessary, redo to fit perfectly.
-            if (zlibResult == Z_OK && (long) uncompressedLen < result.size_ ) {
+            if (zlibResult == Z_OK && uncompressedLen < result.size_ ) {
                 result.free();
 
                 result.alloc(uncompressedLen);
@@ -565,7 +565,8 @@ namespace Exiv2 {
 #ifdef DEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IEND chunk (length: " << dataOffset << ")\n";
 #endif
-                if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_)
+                    throw Error(kerImageWriteFailed);
                 return;
             }
             else if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4))
@@ -573,7 +574,8 @@ namespace Exiv2 {
 #ifdef DEBUG
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
-                if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_)
+                    throw Error(kerImageWriteFailed);
 
                 // Write all updated metadata here, just after IHDR.
                 if (!comment_.empty())
@@ -642,7 +644,7 @@ namespace Exiv2 {
                         ||  outIo.write(type, 4) != 4
                         ||  outIo.write(reinterpret_cast<const byte*>(profileName_.data()), nameLength) != nameLength
                         ||  outIo.write(nullComp,2) != 2
-                        ||  (long)outIo.write (compressed.pData_, compressed.size_) != compressed.size_
+                        ||  outIo.write (compressed.pData_, compressed.size_) != compressed.size_
                         ||  outIo.write(crc,4)            != 4
                         ){
                             throw Error(kerImageWriteFailed);
@@ -695,7 +697,8 @@ namespace Exiv2 {
                     std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                    if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                    if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_)
+                        throw Error(kerImageWriteFailed);
                 }
             }
             else
@@ -705,7 +708,8 @@ namespace Exiv2 {
                 std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk
                           << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                if ((long)outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_)
+                    throw Error(kerImageWriteFailed);
 
             }
         }

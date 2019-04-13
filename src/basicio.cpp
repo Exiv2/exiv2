@@ -1976,7 +1976,7 @@ namespace Exiv2
             std::free(fakeData);
 
         p_->idx_ += totalRead;
-        p_->eof_ = (p_->idx_ == (long)p_->size_);
+        p_->eof_ = (p_->idx_ == p_->size_);
 
         return totalRead;
     }
@@ -1984,7 +1984,7 @@ namespace Exiv2
     int RemoteIo::getb()
     {
         assert(p_->isMalloced_);
-        if (p_->idx_ == (long)p_->size_) {
+        if (p_->idx_ == p_->size_) {
             p_->eof_ = true;
             return EOF;
         }
@@ -2054,8 +2054,8 @@ namespace Exiv2
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
         p_->eof_ = newIdx > (long)p_->size_;
-        if (p_->idx_ > (long)p_->size_)
-            p_->idx_ = (long)p_->size_;
+        if (p_->idx_ > p_->size_)
+            p_->idx_ = p_->size_;
         return 0;
     }
 #endif

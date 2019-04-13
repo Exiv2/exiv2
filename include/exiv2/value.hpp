@@ -1571,7 +1571,7 @@ namespace Exiv2 {
         long ts = TypeInfo::typeSize(typeId());
         if (ts != 0)
             if (len % ts != 0) len = (len / ts) * ts;
-        for (long i = 0; i < len; i += ts) {
+        for (size_t i = 0; i < len; i += ts) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
         }
         return 0;
