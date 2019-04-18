@@ -582,15 +582,17 @@ rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../b
 <name id="4-2">
 ### 4.2 Running tests on Visual Studio builds
 
-Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path.  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
+Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path called `python3.exe`  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
 
 ```bash
 $ cd <exiv2dir>/build
 $ cd ../test
-$ PATH="/c/Python36:$PATH"
+$ PATH="/c/Python37:$PATH"
 $ export EXIV2_EXT=.exe
 $ export EXIV2_BINDIR=${PWD}/../build/bin
 ```
+
+**Caution: ** The python3 interpreter must be for DOS and called python3.exe.  I copied `c:\Python37\python.exe c:\Python37\python3.exe`
 
 Once you have modified the PATH and and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
 
@@ -788,4 +790,4 @@ cmd
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Revised: 2019-03-29
+Written by Robin Mills<br>robin@clanmills.com<br>Revised: 2019-04-18
