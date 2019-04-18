@@ -674,12 +674,12 @@ I use the following batch file to start the MinGW/msys2 64 bit bash shell from t
 ```bat
 @echo off
 setlocal
-set "PATH=c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
-set "HOME=c:\msys64\home\rmills"
+set "PS1=\! MSYS64:\u@\h:\w \$ "
+set  PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:/bin:/usr/sbin:/sbin"
+set "HOME=c:\msys64\home\%USERNAME%"
 if NOT EXIST %HOME% mkdir %HOME%
 cd  %HOME%
-set "PS1=\! MSYS64:\u@\h:\w \$ "
-bash.exe -norc
+c:\msys64\usr\bin\bash.exe -norc
 ```
 
 #### MinGW/msys2 32 bit
@@ -690,12 +690,12 @@ I use the following batch file to start the MinGW/msys2 32 bit bash shell from t
 ```bat
 @echo off
 setlocal
-set "PATH=c:\msys32\usr\bin;c:\msys32\usr\local\bin;"
-set "HOME=c:\msys32\home\rmills"
+set "PS1=\! MSYS32:\u@\h:\w \$ "
+set  PATH="/usr/local/bin/:/usr/bin:/mingw32/bin:/bin:/usr/sbin:/sbin"
+set "HOME=c:\msys32\home\%USERNAME%"
 if NOT EXIST %HOME% mkdir %HOME%
 cd  %HOME%
-set "PS1=\! MSYS32:\u@\h:\w \$ "
-bash.exe -norc
+c:\msys32\usr\bin\bash.exe -norc
 ```
 
 #### Install MinGW Dependencies
