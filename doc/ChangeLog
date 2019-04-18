@@ -1,8 +1,10 @@
 Changes from version 0.27 to 0.27.1
 -----------------------------------
 
-https://github.com/Exiv2/exiv2/milestone/3?closed=1 (38)
+https://github.com/Exiv2/exiv2/milestone/3?closed=1 (40)
 
+#781 MinGW exiv2-0.27-Source fails with stdlib.h: No such file or directory.
+#780 Support for Visual Studio 2019 using Conan and CMake.
 #744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
 #745 Review/fix documentation concerning CMake support files
 #761 Corrections in README.md concerning "Consuming Exiv2 with CMake"

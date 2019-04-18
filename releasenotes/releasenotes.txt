@@ -20,9 +20,12 @@ Headline Features of Exiv2 v0.27.1
 2) Deprecation warnings for Video, EPS and SSH support.
 3) Relocated https://exiv2.org
 4) Branch 0.27-maintenance for "dots" to avoid confusion with tag 0.27 (== 0.27.0 code).
+5) Support for Visual Studio 2019 using Conan and CMake.
 
 Issues fixed since v0.27.1 RC1
 ------------------------------
+#781 MinGW exiv2-0.27-Source fails with stdlib.h: No such file or directory.
+#780 Support for Visual Studio 2019 using Conan and CMake.
 #744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
 #745 Review/fix documentation concerning CMake support files
 
@@ -56,7 +59,7 @@ https://github.com/Exiv2/exiv2/milestone/3?closed=1
 
 Robin Mills
 robin@clanmills.com
-2019-04-12
+2019-04-18
 
 -------------------------
 Release Notes for v0.27.0
