@@ -189,9 +189,11 @@ cmd
 
 ### Profiles for Visual Studio
 
-You can build Exiv2 with Visual Studio 2019 (version 16), 2017 (version 15) and 2015 (version 14).
+Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 and 2017.
 
-The following versions are believed to build, however Team Exiv2 will not provide support for 2013 (version 12), 2012 (version 11), 2010 (version 10) or 2008 (version 9).
+Exiv2 v0.27.1 (and later) can be built with VS 2015, 2017 and 2019.  I believe it will build with 2013 and earlier, however we don't actively support those version of Visual Studio.
+
+v0.28 is being "modernised" to C++11 and will not support C++98. We don't expect Exiv2 v0.28 to build with VS 2008, 2010, 2012 or 2013.
 
 You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake/msvc\_conan\_profiles`.  There are 26 in total:
 
