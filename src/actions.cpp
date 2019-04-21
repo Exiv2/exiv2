@@ -342,10 +342,9 @@ namespace Action
 
             // Actual focal length and 35 mm equivalent
             // Todo: Calculate 35 mm equivalent a la jhead
-            Exiv2::ExifData::const_iterator md;
             printLabel(_("Focal length"));
             if (1 == printTag(exifData, "Exif.Photo.FocalLength")) {
-                md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
+                auto md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
                 if (md != exifData.end()) {
                     std::cout << " (" << _("35 mm equivalent") << ": " << md->print(&exifData) << ")";
                 }
@@ -391,7 +390,7 @@ namespace Action
                 xdim = image->pixelWidth();
                 ydim = image->pixelHeight();
             } else {
-                Exiv2::ExifData::const_iterator md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+                auto md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
                 if (md == exifData.end()) {
                     md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
                 }
@@ -457,7 +456,7 @@ namespace Action
             printLabel(label);
         }
         Exiv2::ExifKey ek(key);
-        Exiv2::ExifData::const_iterator md = exifData.findKey(ek);
+        auto md = exifData.findKey(ek);
         if (md != exifData.end()) {
             md->write(std::cout, &exifData);
             rc = 1;
@@ -473,7 +472,7 @@ namespace Action
         if (!label.empty()) {
             printLabel(label);
         }
-        Exiv2::ExifData::const_iterator md = easyAccessFct(exifData);
+        auto md = easyAccessFct(exifData);
         if (md != exifData.end()) {
             md->write(std::cout, &exifData);
             rc = 1;
@@ -508,7 +507,7 @@ namespace Action
         bool noExif = false;
         if (Params::instance().printTags_ & Exiv2::mdExif) {
             const Exiv2::ExifData& exifData = image->exifData();
-            for (Exiv2::ExifData::const_iterator md = exifData.begin(); md != exifData.end(); ++md) {
+            for (auto md = exifData.begin(); md != exifData.end(); ++md) {
                 ret |= printMetadatum(*md, image);
             }
             if (exifData.empty())
@@ -518,7 +517,7 @@ namespace Action
         bool noIptc = false;
         if (Params::instance().printTags_ & Exiv2::mdIptc) {
             const Exiv2::IptcData& iptcData = image->iptcData();
-            for (Exiv2::IptcData::const_iterator md = iptcData.begin(); md != iptcData.end(); ++md) {
+            for (auto md = iptcData.begin(); md != iptcData.end(); ++md) {
                 ret |= printMetadatum(*md, image);
             }
             if (iptcData.empty())
@@ -528,7 +527,7 @@ namespace Action
         bool noXmp = false;
         if (Params::instance().printTags_ & Exiv2::mdXmp) {
             const Exiv2::XmpData& xmpData = image->xmpData();
-            for (Exiv2::XmpData::const_iterator md = xmpData.begin(); md != xmpData.end(); ++md) {
+            for (auto md = xmpData.begin(); md != xmpData.end(); ++md) {
                 ret |= printMetadatum(*md, image);
             }
             if (xmpData.empty())
@@ -556,7 +555,7 @@ namespace Action
     bool Print::grepTag(const std::string& key)
     {
         bool result = Params::instance().greps_.empty();
-        for (Params::Greps::const_iterator g = Params::instance().greps_.begin();
+        for (auto g = Params::instance().greps_.begin();
              !result && g != Params::instance().greps_.end(); ++g) {
 #if defined(EXV_HAVE_REGEX_H)
             result = regexec(&(*g), key.c_str(), 0, nullptr, 0) == 0;
@@ -577,8 +576,7 @@ namespace Action
     bool Print::keyTag(const std::string& key)
     {
         bool result = Params::instance().keys_.empty();
-        for (Params::Keys::const_iterator k = Params::instance().keys_.begin();
-             !result && k != Params::instance().keys_.end(); ++k) {
+        for (auto k = Params::instance().keys_.begin(); !result && k != Params::instance().keys_.end(); ++k) {
             result = key.compare(*k) == 0;
         }
         return result;
@@ -765,7 +763,7 @@ namespace Action
         int cnt = 0;
         Exiv2::PreviewManager pm(*image);
         Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
-        for (Exiv2::PreviewPropertiesList::const_iterator pos = list.begin(); pos != list.end(); ++pos) {
+        for (auto pos = list.begin(); pos != list.end(); ++pos) {
             if (manyFiles) {
                 std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
             }
@@ -812,7 +810,7 @@ namespace Action
                 return -3;
             }
             Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
-            Exiv2::ExifData::iterator md = exifData.findKey(key);
+            auto md = exifData.findKey(key);
             if (md == exifData.end()) {
                 key = Exiv2::ExifKey("Exif.Image.DateTime");
                 md = exifData.findKey(key);
@@ -1087,7 +1085,7 @@ namespace Action
         Exiv2::PreviewPropertiesList pvList = pvMgr.getPreviewProperties();
 
         const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
-        for (Params::PreviewNumbers::const_iterator n = numbers.begin(); n != numbers.end(); ++n) {
+        for (auto n = numbers.cbegin(); n != numbers.cend(); ++n) {
             if (*n == 0) {
                 // Write all previews
                 for (int num = 0; num < static_cast<int>(pvList.size()); ++num) {
@@ -1379,11 +1377,9 @@ namespace Action
 
         // loop through command table and apply each command
         ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
-        ModifyCmds::const_iterator i = modifyCmds.begin();
-        ModifyCmds::const_iterator end = modifyCmds.end();
         int rc = 0;
         int ret = 0;
-        for (; i != end; ++i) {
+        for (auto i = modifyCmds.cbegin(); i != modifyCmds.cend(); ++i) {
             switch (i->cmdId_) {
                 case add:
                     ret = addMetadatum(pImage, *i);
@@ -1451,19 +1447,19 @@ namespace Action
         Exiv2::XmpData& xmpData = pImage->xmpData();
         Exiv2::Metadatum* metadatum = 0;
         if (modifyCmd.metadataId_ == exif) {
-            Exiv2::ExifData::iterator pos = exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
+            auto pos = exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
             if (pos != exifData.end()) {
                 metadatum = &(*pos);
             }
         }
         if (modifyCmd.metadataId_ == iptc) {
-            Exiv2::IptcData::iterator pos = iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
+            auto pos = iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
             if (pos != iptcData.end()) {
                 metadatum = &(*pos);
             }
         }
         if (modifyCmd.metadataId_ == xmp) {
-            Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey(modifyCmd.key_));
+            auto pos = xmpData.findKey(Exiv2::XmpKey(modifyCmd.key_));
             if (pos != xmpData.end()) {
                 metadatum = &(*pos);
             }
@@ -1605,7 +1601,7 @@ namespace Action
     int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const
     {
         Exiv2::ExifKey ek(key);
-        Exiv2::ExifData::iterator md = exifData.findKey(ek);
+        auto md = exifData.findKey(ek);
         if (md == exifData.end()) {
             // Key not found. That's ok, we do nothing.
             return 0;
@@ -1705,7 +1701,7 @@ namespace Action
                 std::cerr << path << ": " << _("No Exif data found in the file\n");
                 return -3;
             }
-            Exiv2::ExifData::const_iterator md = Exiv2::isoSpeed(exifData);
+            auto md = Exiv2::isoSpeed(exifData);
             if (md != exifData.end()) {
                 if (strcmp(md->key().c_str(), "Exif.Photo.ISOSpeedRatings") == 0) {
                     if (Params::instance().verbose_) {
@@ -1764,7 +1760,7 @@ namespace Action
                 std::cerr << path << ": " << _("No Exif data found in the file\n");
                 return -3;
             }
-            Exiv2::ExifData::iterator pos = exifData.findKey(Exiv2::ExifKey("Exif.Photo.UserComment"));
+            auto pos = exifData.findKey(Exiv2::ExifKey("Exif.Photo.UserComment"));
             if (pos == exifData.end()) {
                 if (Params::instance().verbose_) {
                     std::cout << _("No Exif user comment found") << "\n";
@@ -2017,8 +2013,7 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                Exiv2::ExifData::const_iterator end = sourceImage->exifData().end();
-                for (Exiv2::ExifData::const_iterator i = sourceImage->exifData().begin(); i != end; ++i) {
+                for (auto i = sourceImage->exifData().begin(); i != sourceImage->exifData().end(); ++i) {
                     targetImage->exifData()[i->key()] = i->value();
                 }
             } else {
@@ -2031,8 +2026,7 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                Exiv2::IptcData::const_iterator end = sourceImage->iptcData().end();
-                for (Exiv2::IptcData::const_iterator i = sourceImage->iptcData().begin(); i != end; ++i) {
+                for (auto i = sourceImage->iptcData().begin(); i != sourceImage->iptcData().end(); ++i) {
                     targetImage->iptcData()[i->key()] = i->value();
                 }
             } else {
@@ -2058,8 +2052,7 @@ namespace
                 os.close();
                 rc = 0;
             } else if (preserve) {
-                Exiv2::XmpData::const_iterator end = sourceImage->xmpData().end();
-                for (Exiv2::XmpData::const_iterator i = sourceImage->xmpData().begin(); i != end; ++i) {
+                for (auto i = sourceImage->xmpData().begin(); i != sourceImage->xmpData().end(); ++i) {
                     targetImage->xmpData()[i->key()] = i->value();
                 }
             } else {
