@@ -99,6 +99,7 @@ namespace Action {
           this method.
         */
         static TaskFactory& instance();
+
         //! Destructor
         void cleanup();
 
@@ -139,8 +140,6 @@ namespace Action {
         TaskFactory(const TaskFactory&& rhs) = delete;
 
     private:
-        //! Pointer to the one and only instance of this class.
-        static TaskFactory* instance_;
         //! Type used to store Task prototype classes
         typedef std::map<TaskType, Task*> Registry;
         //! List of task types and corresponding prototypes.
