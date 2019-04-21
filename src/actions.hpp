@@ -32,16 +32,6 @@
 #include "params.hpp"
 
 // *****************************************************************************
-// class declarations
-
-namespace Exiv2 {
-    class ExifData;
-    class Image;
-    class Metadatum;
-    class PreviewImage;
-}
-
-// *****************************************************************************
 // namespace extensions
 /*!
   @brief Contains all action classes (task subclasses).
