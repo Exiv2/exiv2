@@ -2068,16 +2068,6 @@ namespace
         return rc;
     }
 
-    // Defined outside of the function so that Exiv2::find() can see it
-    struct String
-    {
-        const char* s_;
-        bool operator==(const char* s) const
-        {
-            return 0 == strcmp(s_, s);
-        }
-    };
-
     int renameFile(std::string& newPath, const struct tm* tm)
     {
         std::string path = newPath;
