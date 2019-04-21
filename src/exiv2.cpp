@@ -44,18 +44,18 @@ int main(int argc, char* const argv[])
     Params& params = Params::instance();
     if (params.getopt(argc, argv)) {
         params.usage();
-        return 1;
+        return EXIT_FAILURE;
     }
     if (params.help_) {
         params.help();
-        return 0;
+        return EXIT_SUCCESS;
     }
     if (params.version_) {
         params.version(params.verbose_);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
-    int rc = 0;
+    int rc = EXIT_SUCCESS;
 
     try {
         // Create the required action class
@@ -73,7 +73,7 @@ int main(int argc, char* const argv[])
                           << std::endl;
             }
             int ret = task->run(*i);
-            if (rc == 0)
+            if (rc == EXIT_SUCCESS)
                 rc = ret;
         }
 
@@ -82,7 +82,7 @@ int main(int argc, char* const argv[])
 
     } catch (const std::exception& exc) {
         std::cerr << "Uncaught exception: " << exc.what() << std::endl;
-        rc = 1;
+        rc = EXIT_FAILURE;
     }
 
     // Return a positive one byte code for better consistency across platforms
