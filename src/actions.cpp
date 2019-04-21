@@ -267,7 +267,6 @@ namespace Action
             return -1;
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         align_ = 16;
@@ -875,7 +874,6 @@ namespace Action
             ts.read(path);
 
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
         image->readMetadata();
         // Thumbnail must be before Exif
         int rc = 0;
@@ -1035,7 +1033,6 @@ namespace Action
             return -1;
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
@@ -1074,7 +1071,6 @@ namespace Action
             return -1;
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
         image->readMetadata();
 
         Exiv2::PreviewManager pvMgr(*image);
@@ -1110,7 +1106,6 @@ namespace Action
 
         if (rc == 0) {
             Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-            assert(image.get() != 0);
             image->readMetadata();
             if (!image->iccProfileDefined()) {
                 std::cerr << _("No embedded iccProfile: ") << path_ << std::endl;
@@ -1246,7 +1241,6 @@ namespace Action
             xmpPacket += (char)xmpBlob.pData_[i];
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
         image->readMetadata();
         image->clearXmpData();
         image->setXmpPacket(xmpPacket);
@@ -1289,7 +1283,6 @@ namespace Action
         // read in the metadata
         if (rc == 0) {
             Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-            assert(image.get() != 0);
             image->readMetadata();
             // clear existing profile, assign the blob and rewrite image
             image->clearIccProfile();
@@ -1314,7 +1307,6 @@ namespace Action
             return -1;
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifThumb exifThumb(image->exifData());
         exifThumb.setJpegThumbnail(thumbPath);
@@ -1349,7 +1341,6 @@ namespace Action
                 ts.read(path);
 
             Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-            assert(image.get() != 0);
             image->readMetadata();
 
             int rc = applyCommands(image.get());
@@ -1569,7 +1560,6 @@ namespace Action
             ts.read(path);
 
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
@@ -1699,7 +1689,6 @@ namespace Action
                 ts.read(path);
 
             Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-            assert(image.get() != 0);
             image->readMetadata();
             Exiv2::ExifData& exifData = image->exifData();
             if (exifData.empty()) {
@@ -1759,7 +1748,6 @@ namespace Action
                 ts.read(path);
 
             Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-            assert(image.get() != 0);
             image->readMetadata();
             Exiv2::ExifData& exifData = image->exifData();
             if (exifData.empty()) {
@@ -1995,7 +1983,6 @@ namespace
 
         Exiv2::Image::UniquePtr sourceImage =
             bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
-        assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
 
         // Apply any modification commands to the source image on-the-fly
@@ -2007,7 +1994,6 @@ namespace
         Exiv2::Image::UniquePtr targetImage;
         if (Exiv2::fileExists(target)) {
             targetImage = Exiv2::ImageFactory::open(target);
-            assert(targetImage.get() != 0);
             targetImage->readMetadata();
         } else {
             targetImage = Exiv2::ImageFactory::create(targetType, target);
@@ -2245,7 +2231,6 @@ namespace
             return -1;
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
         image->printStructure(out, option);
         return 0;
     }
