@@ -45,20 +45,13 @@ namespace Action {
 // *****************************************************************************
 // class definitions
 
-    /*!
-      @brief Abstract base class for all concrete actions.
-
-      Task provides a simple interface that actions must implement and a few
-      commonly used helpers.
-     */
+    //! @brief Interface for all concrete actions.
     class Task {
     public:
         //! Shortcut for an auto pointer.
-        typedef std::unique_ptr<Task> UniquePtr;
-        //! Virtual destructor.
         virtual ~Task();
         //! Virtual copy construction.
-        UniquePtr clone() const;
+        std::unique_ptr<Task> clone() const;
         /*!
           @brief Application interface to perform a task.
 
@@ -103,7 +96,7 @@ namespace Action {
                   returned auto pointer and take appropriate action (e.g., throw
                   an exception) if it is 0.
          */
-        Task::UniquePtr create(TaskType type);
+        std::unique_ptr<Task> create(TaskType type);
 
         /*!
           @brief Register a task prototype together with its type.
@@ -117,7 +110,7 @@ namespace Action {
           @param task Pointer to the prototype. Ownership is transferred to the
                  task factory. That's what the auto pointer indicates.
         */
-        void registerTask(TaskType type, Task::UniquePtr task);
+        void registerTask(TaskType type, std::unique_ptr<Task> task);
 
     private:
         //! Prevent construction other than through instance().
@@ -142,8 +135,7 @@ namespace Action {
     public:
         ~Print() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Print> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Print> clone() const;
 
         //! Print the Jpeg comment
         int printComment();
@@ -197,8 +189,7 @@ namespace Action {
     public:
         ~Rename() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Rename> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Rename> clone() const;
 
     private:
         Rename* clone_() const override;
@@ -209,8 +200,7 @@ namespace Action {
     public:
         ~Adjust() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Adjust> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Adjust> clone() const;
 
     private:
         Adjust* clone_() const override;
@@ -232,8 +222,7 @@ namespace Action {
     public:
         ~Erase() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Erase> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Erase> clone() const;
 
         /*!
           @brief Delete the thumbnail image, incl IFD1 metadata from the file.
@@ -274,8 +263,7 @@ namespace Action {
     public:
         ~Extract() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Extract> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Extract> clone() const;
 
         /*!
           @brief Write the thumbnail image to a file. The filename is composed by
@@ -313,8 +301,7 @@ namespace Action {
     public:
         ~Insert() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Insert> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Insert> clone() const;
 
         /*!
           @brief Insert a Jpeg thumbnail image from a file into file \em path.
@@ -354,8 +341,7 @@ namespace Action {
     public:
         ~Modify() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<Modify> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<Modify> clone() const;
         Modify() {}
         //! Apply modification commands to the \em pImage, return 0 if successful.
         static int applyCommands(Exiv2::Image* pImage);
@@ -387,8 +373,7 @@ namespace Action {
     public:
         ~FixIso() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<FixIso> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<FixIso> clone() const;
 
     private:
         FixIso* clone_() const override;
@@ -405,8 +390,7 @@ namespace Action {
     public:
         ~FixCom() override;
         int run(const std::string& path) override;
-        typedef std::unique_ptr<FixCom> UniquePtr;
-        UniquePtr clone() const;
+        std::unique_ptr<FixCom> clone() const;
 
     private:
         FixCom* clone_() const override;
