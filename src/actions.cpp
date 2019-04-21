@@ -171,27 +171,19 @@ namespace Action {
         return UniquePtr(clone_());
     }
 
-    TaskFactory* TaskFactory::instance_ = 0;
-
     TaskFactory& TaskFactory::instance()
     {
-        if (0 == instance_) {
-            instance_ = new TaskFactory;
-        }
-        return *instance_;
-    } // TaskFactory::instance
+        static TaskFactory ins;
+        return ins;
+    }
 
     void TaskFactory::cleanup()
     {
-        if (instance_ != 0) {
-            Registry::iterator e = registry_.end();
-            for (Registry::iterator i = registry_.begin(); i != e; ++i) {
-                delete i->second;
-            }
-            delete instance_;
-            instance_ = 0;
+        Registry::iterator e = registry_.end();
+        for (Registry::iterator i = registry_.begin(); i != e; ++i) {
+            delete i->second;
         }
-    } //TaskFactory::cleanup
+    }
 
     void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
     {
