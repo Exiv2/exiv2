@@ -93,6 +93,7 @@ namespace
 }
 
 Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
+    first_(true),
     help_(false),
     version_(false),
     verbose_(false),
@@ -111,8 +112,7 @@ Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q
     target_(ctExif|ctIptc|ctComment|ctXmp),
     adjustment_(0),
     format_("%Y%m%d_%H%M%S"),
-    formatSet_(false),
-    first_(true)
+    formatSet_(false)
 {
     yodAdjust_[yodYear]  = { false, "-Y", 0 };
     yodAdjust_[yodMonth] = { false, "-O", 0 };

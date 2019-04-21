@@ -135,10 +135,13 @@ struct CmdIdAndString {
  */
 
 class Params : public Util::Getopt {
-private:
-    std::string optstring_;
 
 public:
+    Params& operator=(const Params& rhs) = delete;
+    Params& operator=(const Params&& rhs) = delete;
+    Params(const Params& rhs) = delete;
+    Params(const Params&& rhs) = delete;
+
     //! Container for command files
     typedef std::vector<std::string> CmdFiles;
     //! Container for commands from the command line
@@ -224,6 +227,70 @@ public:
         long        adjustment_;        //!< Adjustment value.
     };
 
+    /*!
+      @brief Call Getopt::getopt() with optstring, to inititate command line
+             argument parsing, perform consistency checks after all command line
+             arguments are parsed.
+
+      @param argc Argument count as passed to main() on program invocation.
+      @param argv Argument array as passed to main() on program invocation.
+
+      @return 0 if successful, >0 in case of errors.
+     */
+    int getopt(int argc, char* const argv[]);
+
+    //! Handle options and their arguments.
+    int option(int opt, const std::string& optarg, int optopt) override;
+
+    //! Handle non-option parameters.
+    int nonoption(const std::string& argv) override;
+
+    //! Print a minimal usage note to an output stream.
+    void usage(std::ostream& os =std::cout) const;
+
+    //! Print further usage explanations to an output stream.
+    void help(std::ostream& os =std::cout) const;
+
+    //! Print version information to an output stream.
+    void version(bool verbose =false, std::ostream& os =std::cout) const;
+
+    //! getStdin binary data read from stdin to DataBuf
+    /*
+        stdin can be used by multiple images in the exiv2 command line:
+        For example: $ cat foo.icc | exiv2 -iC- a.jpg b.jpg c.jpg will modify the ICC profile in several images.
+    */
+    void getStdin(Exiv2::DataBuf& buf);
+
+private:
+
+    /*!
+      @brief Default constructor. Note that optstring_ is initialized here.
+             The c'tor is private to force instantiation through instance().
+     */
+    Params();
+
+    //! Destructor, frees any allocated regexes in greps_
+    ~Params();
+
+    //! @name Helpers
+    //@{
+    int setLogLevel(const std::string& optarg);
+    int evalGrep( const std::string& optarg);
+    int evalKey( const std::string& optarg);
+    int evalRename(int opt, const std::string& optarg);
+    int evalAdjust(const std::string& optarg);
+    int evalYodAdjust(const Yod& yod, const std::string& optarg);
+    int evalPrint(const std::string& optarg);
+    int evalPrintFlags(const std::string& optarg);
+    int evalDelete(const std::string& optarg);
+    int evalExtract(const std::string& optarg);
+    int evalInsert(const std::string& optarg);
+    int evalModify(int opt, const std::string& optarg);
+    //@}
+
+    std::string optstring_;
+    bool first_;
+public:
     bool help_;                         //!< Help option flag.
     bool version_;                      //!< Version option flag.
     bool verbose_;                      //!< Verbose (talkative) option flag.
@@ -259,76 +326,4 @@ public:
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
-
-private:
-    bool first_;
-
-private:
-    /*!
-      @brief Default constructor. Note that optstring_ is initialized here.
-             The c'tor is private to force instantiation through instance().
-     */
-    Params();
-
-public:
-    Params& operator=(const Params& rhs) = delete;
-    Params& operator=(const Params&& rhs) = delete;
-    Params(const Params& rhs) = delete;
-    Params(const Params&& rhs) = delete;
-
-private:
-    //! Destructor, frees any allocated regexes in greps_
-    ~Params();
-
-    //! @name Helpers
-    //@{
-    int setLogLevel(const std::string& optarg);
-    int evalGrep( const std::string& optarg);
-    int evalKey( const std::string& optarg);
-    int evalRename(int opt, const std::string& optarg);
-    int evalAdjust(const std::string& optarg);
-    int evalYodAdjust(const Yod& yod, const std::string& optarg);
-    int evalPrint(const std::string& optarg);
-    int evalPrintFlags(const std::string& optarg);
-    int evalDelete(const std::string& optarg);
-    int evalExtract(const std::string& optarg);
-    int evalInsert(const std::string& optarg);
-    int evalModify(int opt, const std::string& optarg);
-    //@}
-
-public:
-    /*!
-      @brief Call Getopt::getopt() with optstring, to inititate command line
-             argument parsing, perform consistency checks after all command line
-             arguments are parsed.
-
-      @param argc Argument count as passed to main() on program invocation.
-      @param argv Argument array as passed to main() on program invocation.
-
-      @return 0 if successful, >0 in case of errors.
-     */
-    int getopt(int argc, char* const argv[]);
-
-    //! Handle options and their arguments.
-    int option(int opt, const std::string& optarg, int optopt) override;
-
-    //! Handle non-option parameters.
-    int nonoption(const std::string& argv) override;
-
-    //! Print a minimal usage note to an output stream.
-    void usage(std::ostream& os =std::cout) const;
-
-    //! Print further usage explanations to an output stream.
-    void help(std::ostream& os =std::cout) const;
-
-    //! Print version information to an output stream.
-    void version(bool verbose =false, std::ostream& os =std::cout) const;
-
-    //! getStdin binary data read from stdin to DataBuf
-    /*
-        stdin can be used by multiple images in the exiv2 command line:
-        For example: $ cat foo.icc | exiv2 -iC- a.jpg b.jpg c.jpg will modify the ICC profile in several images.
-    */
-    void getStdin(Exiv2::DataBuf& buf);
-
 }; // class Params
