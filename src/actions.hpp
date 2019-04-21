@@ -98,20 +98,6 @@ namespace Action {
          */
         std::unique_ptr<Task> create(TaskType type);
 
-        /*!
-          @brief Register a task prototype together with its type.
-
-          The task factory creates new tasks of a given type by cloning its
-          associated prototype. Additional tasks can be registered.  If called
-          for a type which already exists in the list, the corresponding
-          prototype is replaced.
-
-          @param type Task type.
-          @param task Pointer to the prototype. Ownership is transferred to the
-                 task factory. That's what the auto pointer indicates.
-        */
-        void registerTask(TaskType type, std::unique_ptr<Task> task);
-
     private:
         //! Prevent construction other than through instance().
         TaskFactory();
@@ -123,11 +109,8 @@ namespace Action {
         TaskFactory(const TaskFactory&& rhs) = delete;
 
     private:
-        //! Type used to store Task prototype classes
-        typedef std::map<TaskType, Task*> Registry;
         //! List of task types and corresponding prototypes.
-        Registry registry_;
-
+        std::map<TaskType, Task*> registry_;
     }; // class TaskFactory
 
     //! %Print the Exif (or other metadata) of a file to stdout
