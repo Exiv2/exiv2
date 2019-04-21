@@ -159,7 +159,6 @@ namespace Action
     class Rename : public Task
     {
     public:
-        ~Rename() override;
         int run(const std::string& path) override;
         std::unique_ptr<Rename> clone() const;
 
@@ -171,7 +170,6 @@ namespace Action
     class Adjust : public Task
     {
     public:
-        ~Adjust() override;
         int run(const std::string& path) override;
         std::unique_ptr<Adjust> clone() const;
 
@@ -190,7 +188,6 @@ namespace Action
     class Erase : public Task
     {
     public:
-        ~Erase() override;
         int run(const std::string& path) override;
         std::unique_ptr<Erase> clone() const;
 
@@ -217,7 +214,6 @@ namespace Action
     class Extract : public Task
     {
     public:
-        ~Extract() override;
         int run(const std::string& path) override;
         std::unique_ptr<Extract> clone() const;
 
@@ -244,7 +240,6 @@ namespace Action
     class Insert : public Task
     {
     public:
-        ~Insert() override;
         int run(const std::string& path) override;
         std::unique_ptr<Insert> clone() const;
 
@@ -272,7 +267,6 @@ namespace Action
     class Modify : public Task
     {
     public:
-        ~Modify() override;
         int run(const std::string& path) override;
         std::unique_ptr<Modify> clone() const;
         Modify()
@@ -303,7 +297,6 @@ namespace Action
     class FixIso : public Task
     {
     public:
-        ~FixIso() override;
         int run(const std::string& path) override;
         std::unique_ptr<FixIso> clone() const;
 
@@ -318,7 +311,6 @@ namespace Action
     class FixCom : public Task
     {
     public:
-        ~FixCom() override;
         int run(const std::string& path) override;
         std::unique_ptr<FixCom> clone() const;
 

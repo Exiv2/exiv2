@@ -776,10 +776,6 @@ namespace Action
         return new Print(*this);
     }
 
-    Rename::~Rename()
-    {
-    }
-
     int Rename::run(const std::string& path)
     {
         try {
@@ -855,10 +851,6 @@ namespace Action
     Rename* Rename::clone_() const
     {
         return new Rename(*this);
-    }
-
-    Erase::~Erase()
-    {
     }
 
     int Erase::run(const std::string& path) try {
@@ -977,10 +969,6 @@ namespace Action
     Erase* Erase::clone_() const
     {
         return new Erase(*this);
-    }
-
-    Extract::~Extract()
-    {
     }
 
     int Extract::run(const std::string& path)
@@ -1155,10 +1143,6 @@ namespace Action
         return new Extract(*this);
     }
 
-    Insert::~Insert()
-    {
-    }
-
     int Insert::run(const std::string& path) try {
         // -i{tgt}-  reading from stdin?
         bool bStdin = (Params::instance().target_ & Params::ctStdInOut) ? true : false;
@@ -1322,10 +1306,6 @@ namespace Action
     Insert* Insert::clone_() const
     {
         return new Insert(*this);
-    }
-
-    Modify::~Modify()
-    {
     }
 
     int Modify::run(const std::string& path)
@@ -1538,10 +1518,6 @@ namespace Action
         return new Modify(*this);
     }
 
-    Adjust::~Adjust()
-    {
-    }
-
     int Adjust::run(const std::string& path) try {
         adjustment_ = Params::instance().adjustment_;
         yearAdjustment_ = Params::instance().yodAdjust_[Params::yodYear].adjustment_;
@@ -1670,10 +1646,6 @@ namespace Action
         return 0;
     }  // Adjust::adjustDateTime
 
-    FixIso::~FixIso()
-    {
-    }
-
     int FixIso::run(const std::string& path)
     {
         try {
@@ -1727,10 +1699,6 @@ namespace Action
     FixIso* FixIso::clone_() const
     {
         return new FixIso(*this);
-    }
-
-    FixCom::~FixCom()
-    {
     }
 
     int FixCom::run(const std::string& path)
