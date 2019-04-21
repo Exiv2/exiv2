@@ -23,6 +23,10 @@
 #include "actions.hpp"
 #include "i18n.h"  // NLS support.
 
+#if defined(_MSC_VER)
+#include <Windows.h>
+#endif
+
 #include <fstream>
 #include <string>
 

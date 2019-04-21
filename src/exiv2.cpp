@@ -25,33 +25,11 @@
   History:   10-Dec-03, ahu: created
  */
 // *****************************************************************************
-// included header files
-#include <exiv2/exiv2.hpp>
 
 // include local header files which are not part of libexiv2
 #include "actions.hpp"
-#include "convert.hpp"
 #include "exiv2app.hpp"
-#include "futils.hpp"
-#include "getopt.hpp"
 #include "i18n.h"  // NLS support.
-#include "utils.hpp"
-#include "xmp_exiv2.hpp"
-
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <cstring>
-#include <cassert>
-#include <cctype>
-
-#if defined(EXV_HAVE_REGEX_H)
-#include <regex.h>
-#endif
-
-#if defined(_MSC_VER)
-#include <Windows.h>
-#endif
 
 int main(int argc, char* const argv[])
 {
