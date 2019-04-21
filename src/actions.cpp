@@ -179,38 +179,23 @@ namespace Action {
 
     void TaskFactory::cleanup()
     {
-        Registry::iterator e = registry_.end();
-        for (Registry::iterator i = registry_.begin(); i != e; ++i) {
-            delete i->second;
+        for (auto it = registry_.begin(); it != registry_.end(); ++it) {
+            delete it->second;
         }
     }
 
-    void TaskFactory::registerTask(TaskType type, std::unique_ptr<Task> task)
-    {
-        Registry::iterator i = registry_.find(type);
-        if (i != registry_.end()) {
-            delete i->second;
-        }
-        registry_[type] = task.release();
-    } // TaskFactory::registerTask
-
     TaskFactory::TaskFactory()
+        : registry_{
+              {adjust, new Adjust}, {print, new Print},     {rename, new Rename},
+              {erase, new Erase},   {extract, new Extract}, {insert, new Insert},
+              {modify, new Modify}, {fixiso, new FixIso},   {fixcom, new FixCom},
+          }
     {
-        // Register a prototype of each known task
-        registerTask(adjust,  std::unique_ptr<Task>(new Adjust));
-        registerTask(print,   std::unique_ptr<Task>(new Print));
-        registerTask(rename,  std::unique_ptr<Task>(new Rename));
-        registerTask(erase,   std::unique_ptr<Task>(new Erase));
-        registerTask(extract, std::unique_ptr<Task>(new Extract));
-        registerTask(insert,  std::unique_ptr<Task>(new Insert));
-        registerTask(modify,  std::unique_ptr<Task>(new Modify));
-        registerTask(fixiso,  std::unique_ptr<Task>(new FixIso));
-        registerTask(fixcom,  std::unique_ptr<Task>(new FixCom));
-    } // TaskFactory c'tor
+    }
 
     std::unique_ptr<Task> TaskFactory::create(TaskType type)
     {
-        Registry::const_iterator i = registry_.find(type);
+        auto i = registry_.find(type);
         if (i != registry_.end() && i->second != 0) {
             Task* t = i->second;
             return t->clone();
