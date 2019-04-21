@@ -876,14 +876,11 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 
 } // Params::getStdin()
 
-/// \todo remove this useless typedef
-typedef std::map<std::string,std::string> long_t;
-
 int Params::getopt(int argc, char* const Argv[])
 {
     char** argv = new char* [argc+1];
     argv[argc] = nullptr;
-    long_t longs;
+    std::map<std::string,std::string> longs;
 
     longs["--adjust"   ] = "-a";
     longs["--binary"   ] = "-b";
