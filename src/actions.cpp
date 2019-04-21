@@ -438,7 +438,7 @@ namespace Action
         std::cout << std::endl;
 
         return 0;
-    }  // Print::printSummary
+    }
 
     void Print::printLabel(const std::string& label) const
     {
@@ -464,7 +464,7 @@ namespace Action
         if (!label.empty())
             std::cout << std::endl;
         return rc;
-    }  // Print::printTag
+    }
 
     int Print::printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label) const
     {
@@ -480,7 +480,7 @@ namespace Action
         if (!label.empty())
             std::cout << std::endl;
         return rc;
-    }  // Print::printTag
+    }
 
     int Print::printList()
     {
@@ -499,7 +499,7 @@ namespace Action
             Params::instance().printItems_ = Params::prKey | Params::prType | Params::prCount | Params::prTrans;
         }
         return printMetadata(image.get());
-    }  // Print::printList
+    }
 
     int Print::printMetadata(const Exiv2::Image* image)
     {
@@ -550,7 +550,7 @@ namespace Action
             rc = 1;
 
         return rc;
-    }  // Print::printMetadata
+    }
 
     bool Print::grepTag(const std::string& key)
     {
@@ -722,7 +722,7 @@ namespace Action
         }
         std::cout << std::endl;
         return true;
-    }  // Print::printMetadatum
+    }
 
     int Print::printComment()
     {
@@ -738,7 +738,7 @@ namespace Action
         }
         std::cout << image->comment() << std::endl;
         return 0;
-    }  // Print::printComment
+    }
 
     int Print::printPreviewList()
     {
@@ -764,7 +764,7 @@ namespace Action
             std::cout << pos->size_ << " " << _("bytes") << "\n";
         }
         return 0;
-    }  // Print::printPreviewList
+    }
 
     std::unique_ptr<Print> Print::clone() const
     {
@@ -841,7 +841,7 @@ namespace Action
             std::cerr << "Exiv2 exception in rename action for file " << path << ":\n" << e << "\n";
             return 1;
         }
-    }  // Rename::run
+    }
 
     std::unique_ptr<Rename> Rename::clone() const
     {
@@ -900,7 +900,7 @@ namespace Action
     } catch (const Exiv2::AnyError& e) {
         std::cerr << "Exiv2 exception in erase action for file " << path << ":\n" << e << "\n";
         return 1;
-    }  // Erase::run
+    }
 
     int Erase::eraseThumbnail(Exiv2::Image* image) const
     {
@@ -1049,7 +1049,7 @@ namespace Action
             }
         }
         return rc;
-    }  // Extract::writeThumbnail
+    }
 
     int Extract::writePreviews() const
     {
@@ -1079,7 +1079,7 @@ namespace Action
             writePreviewFile(pvMgr.getPreviewImage(pvList[*n - 1]), *n);
         }
         return 0;
-    }  // Extract::writePreviews
+    }
 
     int Extract::writeIccProfile(const std::string& target) const
     {
@@ -1112,7 +1112,7 @@ namespace Action
             }
         }
         return rc;
-    }  // Extract::writeIccProfile
+    }
 
     void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const
     {
@@ -1131,7 +1131,7 @@ namespace Action
         if (rc == 0) {
             std::cerr << path_ << ": " << _("Image does not have preview") << " " << num << "\n";
         }
-    }  // Extract::writePreviewFile
+    }
 
     std::unique_ptr<Extract> Extract::clone() const
     {
@@ -1189,7 +1189,7 @@ namespace Action
     } catch (const Exiv2::AnyError& e) {
         std::cerr << "Exiv2 exception in insert action for file " << path << ":\n" << e << "\n";
         return 1;
-    }  // Insert::run
+    }
 
     int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath) const
     {
@@ -1215,7 +1215,7 @@ namespace Action
         }
         return rc;
 
-    }  // Insert::insertXmpPacket
+    }
 
     int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket) const
     {
@@ -1252,7 +1252,7 @@ namespace Action
             }
         }
         return rc;
-    }  // Insert::insertIccProfile
+    }
 
     int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob) const
     {
@@ -1276,7 +1276,7 @@ namespace Action
         }
 
         return rc;
-    }  // Insert::insertIccProfile
+    }
 
     int Insert::insertThumbnail(const std::string& path) const
     {
@@ -1296,7 +1296,7 @@ namespace Action
         image->writeMetadata();
 
         return 0;
-    }  // Insert::insertThumbnail
+    }
 
     std::unique_ptr<Insert> Insert::clone() const
     {
@@ -1335,7 +1335,7 @@ namespace Action
             std::cerr << "Exiv2 exception in modify action for file " << path << ":\n" << e << "\n";
             return 1;
         }
-    }  // Modify::run
+    }
 
     int Modify::applyCommands(Exiv2::Image* pImage)
     {
@@ -1374,7 +1374,7 @@ namespace Action
             }
         }
         return rc;
-    }  // Modify::applyCommands
+    }
 
     int Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
@@ -1553,7 +1553,7 @@ namespace Action
     } catch (const Exiv2::AnyError& e) {
         std::cerr << "Exiv2 exception in adjust action for file " << path << ":\n" << e << "\n";
         return 1;
-    }  // Adjust::run
+    }
 
     std::unique_ptr<Adjust> Adjust::clone() const
     {
@@ -1644,7 +1644,7 @@ namespace Action
         }
         md->setValue(timeStr);
         return 0;
-    }  // Adjust::adjustDateTime
+    }
 
     int FixIso::run(const std::string& path)
     {
@@ -1689,7 +1689,7 @@ namespace Action
             std::cerr << "Exiv2 exception in fixiso action for file " << path << ":\n" << e << "\n";
             return 1;
         }
-    }  // FixIso::run
+    }
 
     std::unique_ptr<FixIso> FixIso::clone() const
     {
@@ -1757,7 +1757,7 @@ namespace Action
             std::cerr << "Exiv2 exception in fixcom action for file " << path << ":\n" << e << "\n";
             return 1;
         }
-    }  // FixCom::run
+    }
 
     std::unique_ptr<FixCom> FixCom::clone() const
     {
@@ -1848,13 +1848,13 @@ namespace
             return 11;
 
         return 0;
-    }  // str2Tm
+    }
 
     std::string time2Str(time_t time)
     {
         struct tm* tm = localtime(&time);
         return tm2Str(tm);
-    }  // time2Str
+    }
 
     std::string tm2Str(const struct tm* tm)
     {
@@ -1867,7 +1867,7 @@ namespace
            << std::setw(2) << tm->tm_sec;
 
         return os.str();
-    }  // tm2Str
+    }
 
 // use static CS/MUTEX to make temporaryPath() thread safe
 #if defined(_MSC_VER) || defined(__MINGW__)
@@ -2056,7 +2056,7 @@ namespace
             std::remove(target.c_str());
 
         return rc;
-    }  // metacopy
+    }
 
     // Defined outside of the function so that Exiv2::find() can see it
     struct String
@@ -2147,7 +2147,7 @@ namespace
         }
 
         return 0;
-    }  // renameFile
+    }
 
     std::string newFilePath(const std::string& path, const std::string& ext)
     {
