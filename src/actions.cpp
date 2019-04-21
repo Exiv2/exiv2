@@ -688,7 +688,7 @@ namespace Action
                 if (md.typeId() != Exiv2::signedByte) {
                     std::cout << std::dec << md.value();
                 } else {
-                    int value = md.value().toLong();
+                    long value = md.value().toLong();
                     std::cout << std::dec << (value < 128 ? value : value - 256);
                 }
             }
