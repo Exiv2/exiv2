@@ -1278,9 +1278,7 @@ namespace
 
     bool parseCmdFiles(ModifyCmds& modifyCmds, const Params::CmdFiles& cmdFiles)
     {
-        Params::CmdFiles::const_iterator end = cmdFiles.end();
-        Params::CmdFiles::const_iterator filename = cmdFiles.begin();
-        for (; filename != end; ++filename) {
+        for (auto filename = cmdFiles.cbegin(); filename != cmdFiles.cend(); ++filename) {
             try {
                 std::ifstream file(filename->c_str());
                 bool bStdin = filename->compare("-") == 0;
@@ -1308,9 +1306,7 @@ namespace
     {
         try {
             int num = 0;
-            Params::CmdLines::const_iterator end = cmdLines.end();
-            Params::CmdLines::const_iterator line = cmdLines.begin();
-            for (; line != end; ++line) {
+            for (auto line = cmdLines.cbegin(); line != cmdLines.cend(); ++line) {
                 ModifyCmd modifyCmd;
                 if (parseLine(modifyCmd, *line, ++num)) {
                     modifyCmds.push_back(modifyCmd);
@@ -1413,7 +1409,7 @@ namespace
         }
 #ifdef DEBUG
         std::cout << "\nThe set now contains: ";
-        for (Params::PreviewNumbers::const_iterator i = previewNumbers.begin(); i != previewNumbers.end(); ++i) {
+        for (auto i = previewNumbers.cbegin(); i != previewNumbers.cend(); ++i) {
             std::cout << *i << ", ";
         }
         std::cout << std::endl;
