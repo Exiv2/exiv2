@@ -2122,7 +2122,6 @@ namespace
                                 break;
                             default:  // skip
                                 return -1;
-                                break;
                         }
                 }
             } else {
