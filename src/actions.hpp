@@ -119,6 +119,9 @@ namespace Action
         int run(const std::string& path) override;
         std::unique_ptr<Print> clone() const;
 
+    private:
+        Print* clone_() const override;
+
         //! Print the Jpeg comment
         int printComment();
         //! Print list of available preview images
@@ -147,9 +150,6 @@ namespace Action
         //! A line break is printed only if a label is provided.
         //! @return 1 if a line was written, 0 if the information was not found.
         int printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label) const;
-
-    private:
-        Print* clone_() const override;
 
         std::string path_;
         int align_;  // for the alignment of the summary output
