@@ -202,10 +202,20 @@ public:
     };
 
     //! Enumerates the policies to handle existing files in rename action
-    enum FileExistsPolicy { overwritePolicy, renamePolicy, askPolicy };
+    enum FileExistsPolicy
+    {
+        overwritePolicy,
+        renamePolicy,
+        askPolicy,
+    };
 
     //! Enumerates year, month and day adjustments.
-    enum Yod { yodYear, yodMonth, yodDay };
+    enum Yod
+    {
+        yodYear,
+        yodMonth,
+        yodDay,
+    };
 
     //! Structure for year, month and day adjustment command line arguments.
     struct YodAdjust {
@@ -261,32 +271,7 @@ private:
       @brief Default constructor. Note that optstring_ is initialized here.
              The c'tor is private to force instantiation through instance().
      */
-    Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-               help_(false),
-               version_(false),
-               verbose_(false),
-               force_(false),
-               binary_(true),
-               unknown_(true),
-               preserve_(false),
-               timestamp_(false),
-               timestampOnly_(false),
-               fileExistsPolicy_(askPolicy),
-               adjust_(false),
-               printMode_(pmSummary),
-               printItems_(0),
-               printTags_(Exiv2::mdNone),
-               action_(0),
-               target_(ctExif|ctIptc|ctComment|ctXmp),
-               adjustment_(0),
-               format_("%Y%m%d_%H%M%S"),
-               formatSet_(false),
-               first_(true)
-    {
-        yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
-        yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
-        yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
-    }
+    Params();
 
 public:
     Params& operator=(const Params& rhs) = delete;
