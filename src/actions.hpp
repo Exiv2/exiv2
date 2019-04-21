@@ -36,17 +36,29 @@
 /*!
   @brief Contains all action classes (task subclasses).
  */
-namespace Action {
-
+namespace Action
+{
     //! Enumerates all tasks
-    enum TaskType { none, adjust, print, rename, erase, extract, insert,
-                    modify, fixiso, fixcom };
+    enum TaskType
+    {
+        none,
+        adjust,
+        print,
+        rename,
+        erase,
+        extract,
+        insert,
+        modify,
+        fixiso,
+        fixcom
+    };
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! @brief Interface for all concrete actions.
-    class Task {
+    class Task
+    {
     public:
         //! Shortcut for an auto pointer.
         virtual ~Task();
@@ -58,13 +70,13 @@ namespace Action {
           @param path Path of the file to process.
           @return 0 if successful.
          */
-        virtual int run(const std::string& path) =0;
+        virtual int run(const std::string& path) = 0;
 
     private:
         //! Internal virtual copy constructor.
-        virtual Task* clone_() const =0;
+        virtual Task* clone_() const = 0;
 
-    }; // class Task
+    };  // class Task
 
     /*!
       @brief Task factory.
@@ -73,7 +85,8 @@ namespace Action {
       implemented as a singleton, which can be accessed only through the static
       member function instance().
     */
-    class TaskFactory {
+    class TaskFactory
+    {
     public:
         /*!
           @brief Get access to the task factory.
@@ -111,10 +124,11 @@ namespace Action {
     private:
         //! List of task types and corresponding prototypes.
         std::map<TaskType, Task*> registry_;
-    }; // class TaskFactory
+    };  // class TaskFactory
 
     //! %Print the Exif (or other metadata) of a file to stdout
-    class Print : public Task {
+    class Print : public Task
+    {
     public:
         ~Print() override;
         int run(const std::string& path) override;
@@ -143,9 +157,7 @@ namespace Action {
                  data. A line break is printed only if a label is provided.
           @return 1 if a line was written, 0 if the key was not found.
          */
-        int printTag(const Exiv2::ExifData& exifData,
-                     const std::string& key,
-                     const std::string& label ="") const;
+        int printTag(const Exiv2::ExifData& exifData, const std::string& key, const std::string& label = "") const;
         //! Type for an Exiv2 Easy access function
         typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
         /*!
@@ -153,22 +165,21 @@ namespace Action {
                  data. A line break is printed only if a label is provided.
           @return 1 if a line was written, 0 if the information was not found.
          */
-        int printTag(const Exiv2::ExifData& exifData,
-                     EasyAccessFct easyAccessFct,
-                     const std::string& label) const;
+        int printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label) const;
 
     private:
         Print* clone_() const override;
 
         std::string path_;
-        int align_;                // for the alignment of the summary output
-    }; // class Print
+        int align_;  // for the alignment of the summary output
+    };               // class Print
 
     /*!
       @brief %Rename a file to its metadate creation timestamp,
              in the specified format.
      */
-    class Rename : public Task {
+    class Rename : public Task
+    {
     public:
         ~Rename() override;
         int run(const std::string& path) override;
@@ -176,10 +187,11 @@ namespace Action {
 
     private:
         Rename* clone_() const override;
-    }; // class Rename
+    };  // class Rename
 
     //! %Adjust the Exif (or other metadata) timestamps
-    class Adjust : public Task {
+    class Adjust : public Task
+    {
     public:
         ~Adjust() override;
         int run(const std::string& path) override;
@@ -187,21 +199,20 @@ namespace Action {
 
     private:
         Adjust* clone_() const override;
-        int adjustDateTime(Exiv2::ExifData& exifData,
-                           const std::string& key,
-                           const std::string& path) const;
+        int adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const;
 
         long adjustment_;
         long yearAdjustment_;
         long monthAdjustment_;
         long dayAdjustment_;
 
-    }; // class Adjust
+    };  // class Adjust
 
     /*!
       @brief %Erase the entire exif data or only the thumbnail section.
      */
-    class Erase : public Task {
+    class Erase : public Task
+    {
     public:
         ~Erase() override;
         int run(const std::string& path) override;
@@ -232,17 +243,17 @@ namespace Action {
          */
         int eraseIccProfile(Exiv2::Image* image) const;
 
-
     private:
         Erase* clone_() const override;
         std::string path_;
 
-    }; // class Erase
+    };  // class Erase
 
     /*!
       @brief %Extract the entire exif data or only the thumbnail section.
      */
-    class Extract : public Task {
+    class Extract : public Task
+    {
     public:
         ~Extract() override;
         int run(const std::string& path) override;
@@ -275,12 +286,13 @@ namespace Action {
         Extract* clone_() const override;
         std::string path_;
 
-    }; // class Extract
+    };  // class Extract
 
     /*!
       @brief %Insert the Exif data from corresponding *.exv files.
      */
-    class Insert : public Task {
+    class Insert : public Task
+    {
     public:
         ~Insert() override;
         int run(const std::string& path) override;
@@ -296,63 +308,66 @@ namespace Action {
         /*!
           @brief Insert an XMP packet from a xmpPath into file \em path.
          */
-        int insertXmpPacket(const std::string& path,const std::string& xmpPath) const;
+        int insertXmpPacket(const std::string& path, const std::string& xmpPath) const;
         /*!
           @brief Insert xmp from a DataBuf into file \em path.
          */
-        int insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob,bool usePacket=false) const;
+        int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false) const;
 
         /*!
           @brief Insert an ICC profile from iccPath into file \em path.
          */
-        int insertIccProfile(const std::string& path,const std::string& iccPath) const;
+        int insertIccProfile(const std::string& path, const std::string& iccPath) const;
         /*!
           @brief Insert an ICC profile from binary DataBuf into file \em path.
          */
-        int insertIccProfile(const std::string& path,Exiv2::DataBuf& iccProfileBlob) const;
+        int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob) const;
 
     private:
         Insert* clone_() const override;
 
-    }; // class Insert
+    };  // class Insert
 
     /*!
       @brief %Modify the Exif data according to the commands in the
              modification table.
      */
-    class Modify : public Task {
+    class Modify : public Task
+    {
     public:
         ~Modify() override;
         int run(const std::string& path) override;
         std::unique_ptr<Modify> clone() const;
-        Modify() {}
+        Modify()
+        {
+        }
         //! Apply modification commands to the \em pImage, return 0 if successful.
         static int applyCommands(Exiv2::Image* pImage);
 
     private:
         Modify* clone_() const override;
         //! Copy constructor needed because of UniquePtr member
-        Modify(const Modify& /*src*/) : Task() {}
+        Modify(const Modify& /*src*/) : Task()
+        {
+        }
 
         //! Add a metadatum to \em pImage according to \em modifyCmd
-        static int addMetadatum(Exiv2::Image* pImage,
-                                const ModifyCmd& modifyCmd);
+        static int addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Set a metadatum in \em pImage according to \em modifyCmd
-        static int setMetadatum(Exiv2::Image* pImage,
-                                const ModifyCmd& modifyCmd);
+        static int setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Delete a metadatum from \em pImage according to \em modifyCmd
-        static void delMetadatum(Exiv2::Image* pImage,
-                                 const ModifyCmd& modifyCmd);
+        static void delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Register an XMP namespace according to \em modifyCmd
         static void regNamespace(const ModifyCmd& modifyCmd);
 
-    }; // class Modify
+    };  // class Modify
 
     /*!
       @brief %Copy ISO settings from any of the Nikon makernotes to the
              regular Exif tag, Exif.Photo.ISOSpeedRatings.
      */
-    class FixIso : public Task {
+    class FixIso : public Task
+    {
     public:
         ~FixIso() override;
         int run(const std::string& path) override;
@@ -362,14 +377,15 @@ namespace Action {
         FixIso* clone_() const override;
         std::string path_;
 
-    }; // class FixIso
+    };  // class FixIso
 
     /*!
       @brief Fix the character encoding of Exif UNICODE user comments.
              Decodes the comment using the auto-detected or specified
              character encoding and writes it back in UCS-2.
      */
-    class FixCom : public Task {
+    class FixCom : public Task
+    {
     public:
         ~FixCom() override;
         int run(const std::string& path) override;
@@ -379,6 +395,6 @@ namespace Action {
         FixCom* clone_() const override;
         std::string path_;
 
-    }; // class FixCom
+    };  // class FixCom
 
-}                                       // namespace Action
+}  // namespace Action
