@@ -166,9 +166,9 @@ namespace Action {
     {
     }
 
-    Task::UniquePtr Task::clone() const
+    std::unique_ptr<Task> Task::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Task>(clone_());
     }
 
     TaskFactory& TaskFactory::instance()
@@ -185,7 +185,7 @@ namespace Action {
         }
     }
 
-    void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
+    void TaskFactory::registerTask(TaskType type, std::unique_ptr<Task> task)
     {
         Registry::iterator i = registry_.find(type);
         if (i != registry_.end()) {
@@ -197,18 +197,18 @@ namespace Action {
     TaskFactory::TaskFactory()
     {
         // Register a prototype of each known task
-        registerTask(adjust,  Task::UniquePtr(new Adjust));
-        registerTask(print,   Task::UniquePtr(new Print));
-        registerTask(rename,  Task::UniquePtr(new Rename));
-        registerTask(erase,   Task::UniquePtr(new Erase));
-        registerTask(extract, Task::UniquePtr(new Extract));
-        registerTask(insert,  Task::UniquePtr(new Insert));
-        registerTask(modify,  Task::UniquePtr(new Modify));
-        registerTask(fixiso,  Task::UniquePtr(new FixIso));
-        registerTask(fixcom,  Task::UniquePtr(new FixCom));
+        registerTask(adjust,  std::unique_ptr<Task>(new Adjust));
+        registerTask(print,   std::unique_ptr<Task>(new Print));
+        registerTask(rename,  std::unique_ptr<Task>(new Rename));
+        registerTask(erase,   std::unique_ptr<Task>(new Erase));
+        registerTask(extract, std::unique_ptr<Task>(new Extract));
+        registerTask(insert,  std::unique_ptr<Task>(new Insert));
+        registerTask(modify,  std::unique_ptr<Task>(new Modify));
+        registerTask(fixiso,  std::unique_ptr<Task>(new FixIso));
+        registerTask(fixcom,  std::unique_ptr<Task>(new FixCom));
     } // TaskFactory c'tor
 
-    Task::UniquePtr TaskFactory::create(TaskType type)
+    std::unique_ptr<Task> TaskFactory::create(TaskType type)
     {
         Registry::const_iterator i = registry_.find(type);
         if (i != registry_.end() && i->second != 0) {
@@ -801,9 +801,9 @@ namespace Action {
         return 0;
     } // Print::printPreviewList
 
-    Print::UniquePtr Print::clone() const
+    std::unique_ptr<Print> Print::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Print>(clone_());
     }
 
     Print* Print::clone_() const
@@ -889,9 +889,9 @@ namespace Action {
         return 1;
     }} // Rename::run
 
-    Rename::UniquePtr Rename::clone() const
+    std::unique_ptr<Rename> Rename::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Rename>(clone_());
     }
 
     Rename* Rename::clone_() const
@@ -1015,9 +1015,9 @@ namespace Action {
         return 0;
     }
 
-    Erase::UniquePtr Erase::clone() const
+    std::unique_ptr<Erase> Erase::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Erase>(clone_());
     }
 
     Erase* Erase::clone_() const
@@ -1207,9 +1207,9 @@ namespace Action {
         }
     } // Extract::writePreviewFile
 
-    Extract::UniquePtr Extract::clone() const
+    std::unique_ptr<Extract> Extract::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Extract>(clone_());
     }
 
     Extract* Extract::clone_() const
@@ -1389,9 +1389,9 @@ namespace Action {
         return 0;
     } // Insert::insertThumbnail
 
-    Insert::UniquePtr Insert::clone() const
+    std::unique_ptr<Insert> Insert::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Insert>(clone_());
     }
 
     Insert* Insert::clone_() const
@@ -1626,9 +1626,9 @@ namespace Action {
         Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
     }
 
-    Modify::UniquePtr Modify::clone() const
+    std::unique_ptr<Modify> Modify::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Modify>(clone_());
     }
 
     Modify* Modify::clone_() const
@@ -1682,9 +1682,9 @@ namespace Action {
         return 1;
     } // Adjust::run
 
-    Adjust::UniquePtr Adjust::clone() const
+    std::unique_ptr<Adjust> Adjust::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<Adjust>(clone_());
     }
 
     Adjust* Adjust::clone_() const
@@ -1829,9 +1829,9 @@ namespace Action {
     }
     } // FixIso::run
 
-    FixIso::UniquePtr FixIso::clone() const
+    std::unique_ptr<FixIso> FixIso::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<FixIso>(clone_());
     }
 
     FixIso* FixIso::clone_() const
@@ -1905,9 +1905,9 @@ namespace Action {
     }
     } // FixCom::run
 
-    FixCom::UniquePtr FixCom::clone() const
+    std::unique_ptr<FixCom> FixCom::clone() const
     {
-        return UniquePtr(clone_());
+        return std::unique_ptr<FixCom>(clone_());
     }
 
     FixCom* FixCom::clone_() const
