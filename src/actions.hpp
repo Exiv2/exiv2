@@ -72,8 +72,7 @@ namespace Action
     private:
         //! Internal virtual copy constructor.
         virtual Task* clone_() const = 0;
-
-    };  // class Task
+    };
 
     //! @brief Task factory.
     //! Creates an instance of the task of the requested type.  The factory is implemented as a singleton, which can
@@ -109,7 +108,7 @@ namespace Action
     private:
         //! List of task types and corresponding prototypes.
         std::map<TaskType, Task*> registry_;
-    };  // class TaskFactory
+    };
 
     //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task
@@ -153,7 +152,7 @@ namespace Action
 
         std::string path_;
         int align_;  // for the alignment of the summary output
-    };               // class Print
+    };
 
     //! @brief Rename a file to its metadate creation timestamp, in the specified format.
     class Rename : public Task
@@ -164,7 +163,7 @@ namespace Action
 
     private:
         Rename* clone_() const override;
-    };  // class Rename
+    };
 
     //! %Adjust the Exif (or other metadata) timestamps
     class Adjust : public Task
@@ -181,8 +180,7 @@ namespace Action
         long yearAdjustment_;
         long monthAdjustment_;
         long dayAdjustment_;
-
-    };  // class Adjust
+    };
 
     //! @brief Erase the entire exif data or only the thumbnail section.
     class Erase : public Task
@@ -207,8 +205,7 @@ namespace Action
     private:
         Erase* clone_() const override;
         std::string path_;
-
-    };  // class Erase
+    };
 
     //! @brief %Extract the entire exif data or only the thumbnail section.
     class Extract : public Task
@@ -233,8 +230,7 @@ namespace Action
     private:
         Extract* clone_() const override;
         std::string path_;
-
-    };  // class Extract
+    };
 
     //! @brief %Insert the Exif data from corresponding *.exv files.
     class Insert : public Task
@@ -260,8 +256,7 @@ namespace Action
 
     private:
         Insert* clone_() const override;
-
-    };  // class Insert
+    };
 
     //! @brief Modify the Exif data according to the commands in the modification table.
     class Modify : public Task
@@ -290,8 +285,7 @@ namespace Action
         static void delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Register an XMP namespace according to \em modifyCmd
         static void regNamespace(const ModifyCmd& modifyCmd);
-
-    };  // class Modify
+    };
 
     //! @brief Copy ISO settings from any of the Nikon makernotes to the regular Exif tag, Exif.Photo.ISOSpeedRatings.
     class FixIso : public Task
@@ -303,8 +297,7 @@ namespace Action
     private:
         FixIso* clone_() const override;
         std::string path_;
-
-    };  // class FixIso
+    };
 
     //! @brief Fix the character encoding of Exif UNICODE user comments.
     //! Decodes the comment using the auto-detected or specified character encoding and writes it back in UCS-2.
@@ -317,7 +310,6 @@ namespace Action
     private:
         FixCom* clone_() const override;
         std::string path_;
-
-    };  // class FixCom
+    };
 
 }  // namespace Action
