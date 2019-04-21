@@ -157,8 +157,6 @@ public:
       @return Reference to the global Params instance.
     */
     static Params& instance();
-    //! Destructor
-    void cleanup();
 
     //! Enumerates print modes
     enum PrintMode {
@@ -253,8 +251,6 @@ public:
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
 
 private:
-    //! Pointer to the global Params object.
-    static Params* instance_;
     //! Initializer for year, month and day adjustment info.
     static const YodAdjust emptyYodAdjust_[];
 

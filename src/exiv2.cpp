@@ -175,7 +175,6 @@ int main(int argc, char* const argv[])
         }
 
         taskFactory.cleanup();
-        params.cleanup();
         Exiv2::XmpParser::terminate();
 
     } catch (const std::exception& exc) {
@@ -189,8 +188,6 @@ int main(int argc, char* const argv[])
 
 // *****************************************************************************
 // class Params
-Params* Params::instance_ = 0;
-
 const Params::YodAdjust Params::emptyYodAdjust_[] = {
     { false, "-Y", 0 },
     { false, "-O", 0 },
@@ -199,10 +196,8 @@ const Params::YodAdjust Params::emptyYodAdjust_[] = {
 
 Params& Params::instance()
 {
-    if (0 == instance_) {
-        instance_ = new Params;
-    }
-    return *instance_;
+    static Params ins;
+    return ins;
 }
 
 Params::~Params() {
@@ -211,12 +206,6 @@ Params::~Params() {
         regfree(&instance().greps_.at(i));
     }
 #endif
-}
-
-void Params::cleanup()
-{
-    delete instance_;
-    instance_ = 0;
 }
 
 void Params::version(bool verbose,std::ostream& os) const
