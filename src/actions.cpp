@@ -1043,7 +1043,7 @@ namespace Action
                               << _("Bytes") << ") " << _("to file") << " " << thumbPath << std::endl;
                 }
             }
-            rc = exifThumb.writeFile(thumb);
+            rc = static_cast<int>(exifThumb.writeFile(thumb));
             if (rc == 0) {
                 std::cerr << path_ << ": " << _("Exif data doesn't contain a thumbnail\n");
             }
@@ -1221,7 +1221,7 @@ namespace Action
     {
         std::string xmpPacket;
         for (long i = 0; i < xmpBlob.size_; i++) {
-            xmpPacket += (char)xmpBlob.pData_[i];
+            xmpPacket += static_cast<char>(xmpBlob.pData_[i]);
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         image->readMetadata();
@@ -2178,12 +2178,12 @@ namespace
     std::ostream& operator<<(std::ostream& os, std::pair<std::string, int> strAndWidth)
     {
         const std::string& str(strAndWidth.first);
-        size_t minChCount(strAndWidth.second);
+        size_t minChCount = static_cast<size_t>(strAndWidth.second);
         size_t count = mbstowcs(nullptr, str.c_str(), 0);  // returns 0xFFFFFFFF on error
         if (count < minChCount) {
             minChCount += str.size() - count;
         }
-        return os << std::setw(minChCount) << str;
+        return os << std::setw(static_cast<int>(minChCount)) << str;
     }
 
     int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path)
