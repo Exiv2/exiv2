@@ -110,11 +110,3 @@ int main(int argc, char* const argv[])
     // Return a positive one byte code for better consistency across platforms
     return static_cast<unsigned int>(rc) % 256;
 } // main
-
-// *****************************************************************************
-// class Params
-const Params::YodAdjust Params::emptyYodAdjust_[] = {
-    { false, "-Y", 0 },
-    { false, "-O", 0 },
-    { false, "-D", 0 },
-};

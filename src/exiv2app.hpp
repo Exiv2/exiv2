@@ -261,9 +261,6 @@ public:
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
 
 private:
-    //! Initializer for year, month and day adjustment info.
-    static const YodAdjust emptyYodAdjust_[];
-
     bool first_;
 
 private:

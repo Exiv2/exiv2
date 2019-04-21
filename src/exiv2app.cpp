@@ -114,9 +114,9 @@ Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q
     formatSet_(false),
     first_(true)
 {
-    yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
-    yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
-    yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
+    yodAdjust_[yodYear]  = { false, "-Y", 0 };
+    yodAdjust_[yodMonth] = { false, "-O", 0 };
+    yodAdjust_[yodDay]   = { false, "-D", 0 };
 }
 
 Params& Params::instance()
