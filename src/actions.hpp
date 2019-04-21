@@ -64,12 +64,9 @@ namespace Action
         virtual ~Task();
         //! Virtual copy construction.
         std::unique_ptr<Task> clone() const;
-        /*!
-          @brief Application interface to perform a task.
-
-          @param path Path of the file to process.
-          @return 0 if successful.
-         */
+        //! @brief Application interface to perform a task.
+        //! @param path Path of the file to process.
+        //! @return 0 if successful.
         virtual int run(const std::string& path) = 0;
 
     private:
@@ -78,37 +75,25 @@ namespace Action
 
     };  // class Task
 
-    /*!
-      @brief Task factory.
-
-      Creates an instance of the task of the requested type.  The factory is
-      implemented as a singleton, which can be accessed only through the static
-      member function instance().
-    */
+    //! @brief Task factory.
+    //! Creates an instance of the task of the requested type.  The factory is implemented as a singleton, which can
+    //! be accessed only through the static member function instance().
     class TaskFactory
     {
     public:
-        /*!
-          @brief Get access to the task factory.
-
-          Clients access the task factory exclusively through
-          this method.
-        */
+        //! @brief Get access to the task factory.
+        //! Clients access the task factory exclusively through this method.
         static TaskFactory& instance();
 
         //! Destructor
         void cleanup();
 
-        /*!
-          @brief  Create a task.
-
-          @param  type Identifies the type of task to create.
-          @return An auto pointer that owns a task of the requested type.  If
-                  the task type is not supported, the pointer is 0.
-          @remark The caller of the function should check the content of the
-                  returned auto pointer and take appropriate action (e.g., throw
-                  an exception) if it is 0.
-         */
+        //! @brief Create a task.
+        //! @param  type Identifies the type of task to create.
+        //! @return An auto pointer that owns a task of the requested type. If the task type is not supported,
+        //! the pointer is 0.
+        //! @remark The caller of the function should check the content of the returned auto pointer and take
+        //! appropriate action (e.g., throw an exception) if it is 0.
         std::unique_ptr<Task> create(TaskType type);
 
     private:
@@ -152,19 +137,15 @@ namespace Action
         bool printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* image);
         //! Print the label for a summary line
         void printLabel(const std::string& label) const;
-        /*!
-          @brief Print one summary line with a label (if provided) and requested
-                 data. A line break is printed only if a label is provided.
-          @return 1 if a line was written, 0 if the key was not found.
-         */
+        //! @brief Print one summary line with a label (if provided) and requested data.
+        //! A line break is printed only if a label is provided.
+        //! @return 1 if a line was written, 0 if the key was not found.
         int printTag(const Exiv2::ExifData& exifData, const std::string& key, const std::string& label = "") const;
         //! Type for an Exiv2 Easy access function
         typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
-        /*!
-          @brief Print one summary line with a label (if provided) and requested
-                 data. A line break is printed only if a label is provided.
-          @return 1 if a line was written, 0 if the information was not found.
-         */
+        //! @brief Print one summary line with a label (if provided) and requested data.
+        //! A line break is printed only if a label is provided.
+        //! @return 1 if a line was written, 0 if the information was not found.
         int printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label) const;
 
     private:
@@ -174,10 +155,7 @@ namespace Action
         int align_;  // for the alignment of the summary output
     };               // class Print
 
-    /*!
-      @brief %Rename a file to its metadate creation timestamp,
-             in the specified format.
-     */
+    //! @brief Rename a file to its metadate creation timestamp, in the specified format.
     class Rename : public Task
     {
     public:
@@ -208,9 +186,7 @@ namespace Action
 
     };  // class Adjust
 
-    /*!
-      @brief %Erase the entire exif data or only the thumbnail section.
-     */
+    //! @brief Erase the entire exif data or only the thumbnail section.
     class Erase : public Task
     {
     public:
@@ -218,29 +194,17 @@ namespace Action
         int run(const std::string& path) override;
         std::unique_ptr<Erase> clone() const;
 
-        /*!
-          @brief Delete the thumbnail image, incl IFD1 metadata from the file.
-         */
+        //! @brief Delete the thumbnail image, incl IFD1 metadata from the file.
         int eraseThumbnail(Exiv2::Image* image) const;
-        /*!
-          @brief Erase the complete Exif data block from the file.
-         */
+        //! @brief Erase the complete Exif data block from the file.
         int eraseExifData(Exiv2::Image* image) const;
-        /*!
-          @brief Erase all Iptc data from the file.
-         */
+        //! @brief Erase all Iptc data from the file.
         int eraseIptcData(Exiv2::Image* image) const;
-        /*!
-          @brief Erase Jpeg comment from the file.
-         */
+        //! @brief Erase Jpeg comment from the file.
         int eraseComment(Exiv2::Image* image) const;
-        /*!
-          @brief Erase XMP packet from the file.
-         */
+        //! @brief Erase XMP packet from the file.
         int eraseXmpData(Exiv2::Image* image) const;
-        /*!
-          @brief Erase ICCProfile from the file.
-         */
+        //! @brief Erase ICCProfile from the file.
         int eraseIccProfile(Exiv2::Image* image) const;
 
     private:
@@ -249,9 +213,7 @@ namespace Action
 
     };  // class Erase
 
-    /*!
-      @brief %Extract the entire exif data or only the thumbnail section.
-     */
+    //! @brief %Extract the entire exif data or only the thumbnail section.
     class Extract : public Task
     {
     public:
@@ -259,27 +221,17 @@ namespace Action
         int run(const std::string& path) override;
         std::unique_ptr<Extract> clone() const;
 
-        /*!
-          @brief Write the thumbnail image to a file. The filename is composed by
-                 removing the suffix from the image filename and appending
-                 "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
-                 on the format of the Exif thumbnail image.
-         */
+        //! @brief Write the thumbnail image to a file. The filename is composed by removing the suffix from the
+        //! image filename and appending "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending on the
+        //! format of the Exif thumbnail image.
         int writeThumbnail() const;
-        /*!
-          @brief Write preview images to files.
-         */
+        //! @brief Write preview images to files.
         int writePreviews() const;
-        /*!
-          @brief Write one preview image to a file. The filename is composed by
-                 removing the suffix from the image filename and appending
-                 "-preview<num>" and the appropriate suffix (".jpg" or ".tif"),
-                 depending on the format of the Exif thumbnail image.
-         */
+        //! @brief Write one preview image to a file. The filename is composed by removing the suffix from the image
+        //! filename and appending "-preview<num>" and the appropriate suffix (".jpg" or ".tif"), depending on the
+        //! format of the Exif thumbnail image.
         void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
-        /*!
-          @brief Write embedded iccProfile files.
-         */
+        //! @brief Write embedded iccProfile files.
         int writeIccProfile(const std::string& path) const;
 
     private:
@@ -288,9 +240,7 @@ namespace Action
 
     };  // class Extract
 
-    /*!
-      @brief %Insert the Exif data from corresponding *.exv files.
-     */
+    //! @brief %Insert the Exif data from corresponding *.exv files.
     class Insert : public Task
     {
     public:
@@ -298,29 +248,19 @@ namespace Action
         int run(const std::string& path) override;
         std::unique_ptr<Insert> clone() const;
 
-        /*!
-          @brief Insert a Jpeg thumbnail image from a file into file \em path.
-                 The filename of the thumbnail is expected to be the image
-                 filename (\em path) minus its suffix plus "-thumb.jpg".
-         */
+        //! @brief Insert a Jpeg thumbnail image from a file into file \em path.
+        //! The filename of the thumbnail is expected to be the image filename (\em path) minus its suffix plus
+        //! "-thumb.jpg".
         int insertThumbnail(const std::string& path) const;
 
-        /*!
-          @brief Insert an XMP packet from a xmpPath into file \em path.
-         */
+        //! @brief Insert an XMP packet from a xmpPath into file \em path.
         int insertXmpPacket(const std::string& path, const std::string& xmpPath) const;
-        /*!
-          @brief Insert xmp from a DataBuf into file \em path.
-         */
+        //! @brief Insert xmp from a DataBuf into file \em path.
         int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false) const;
 
-        /*!
-          @brief Insert an ICC profile from iccPath into file \em path.
-         */
+        //! @brief Insert an ICC profile from iccPath into file \em path.
         int insertIccProfile(const std::string& path, const std::string& iccPath) const;
-        /*!
-          @brief Insert an ICC profile from binary DataBuf into file \em path.
-         */
+        //! @brief Insert an ICC profile from binary DataBuf into file \em path.
         int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob) const;
 
     private:
@@ -328,10 +268,7 @@ namespace Action
 
     };  // class Insert
 
-    /*!
-      @brief %Modify the Exif data according to the commands in the
-             modification table.
-     */
+    //! @brief Modify the Exif data according to the commands in the modification table.
     class Modify : public Task
     {
     public:
@@ -362,10 +299,7 @@ namespace Action
 
     };  // class Modify
 
-    /*!
-      @brief %Copy ISO settings from any of the Nikon makernotes to the
-             regular Exif tag, Exif.Photo.ISOSpeedRatings.
-     */
+    //! @brief Copy ISO settings from any of the Nikon makernotes to the regular Exif tag, Exif.Photo.ISOSpeedRatings.
     class FixIso : public Task
     {
     public:
@@ -379,11 +313,8 @@ namespace Action
 
     };  // class FixIso
 
-    /*!
-      @brief Fix the character encoding of Exif UNICODE user comments.
-             Decodes the comment using the auto-detected or specified
-             character encoding and writes it back in UCS-2.
-     */
+    //! @brief Fix the character encoding of Exif UNICODE user comments.
+    //! Decodes the comment using the auto-detected or specified character encoding and writes it back in UCS-2.
     class FixCom : public Task
     {
     public:
