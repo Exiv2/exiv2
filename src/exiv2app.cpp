@@ -23,8 +23,8 @@
 #include "actions.hpp"
 #include "i18n.h"  // NLS support.
 
-#include <string>
 #include <fstream>
+#include <string>
 
 namespace
 {
@@ -77,46 +77,43 @@ namespace
      */
     std::string parseEscapes(const std::string& input);
 
-    int readFileToBuf(FILE* f,Exiv2::DataBuf& buf);
+    int readFileToBuf(FILE* f, Exiv2::DataBuf& buf);
 
     /// Return a command Id for a command string
     CmdId commandId(const std::string& cmdString);
 
     //! List of all command identifiers and corresponding strings
     const CmdIdAndString cmdIdAndString[] = {
-        { add, "add" },
-        { set, "set" },
-        { del, "del" },
-        { reg, "reg" },
-        { invalidCmdId, "invalidCmd" }          // End of list marker
+        {add, "add"}, {set, "set"}, {del, "del"}, {reg, "reg"}, {invalidCmdId, "invalidCmd"}  // End of list marker
     };
-}
+}  // namespace
 
-Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-    first_(true),
-    help_(false),
-    version_(false),
-    verbose_(false),
-    force_(false),
-    binary_(true),
-    unknown_(true),
-    preserve_(false),
-    timestamp_(false),
-    timestampOnly_(false),
-    fileExistsPolicy_(askPolicy),
-    adjust_(false),
-    printMode_(pmSummary),
-    printItems_(0),
-    printTags_(Exiv2::mdNone),
-    action_(0),
-    target_(ctExif|ctIptc|ctComment|ctXmp),
-    adjustment_(0),
-    format_("%Y%m%d_%H%M%S"),
-    formatSet_(false)
+Params::Params()
+    : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
+      first_(true),
+      help_(false),
+      version_(false),
+      verbose_(false),
+      force_(false),
+      binary_(true),
+      unknown_(true),
+      preserve_(false),
+      timestamp_(false),
+      timestampOnly_(false),
+      fileExistsPolicy_(askPolicy),
+      adjust_(false),
+      printMode_(pmSummary),
+      printItems_(0),
+      printTags_(Exiv2::mdNone),
+      action_(0),
+      target_(ctExif | ctIptc | ctComment | ctXmp),
+      adjustment_(0),
+      format_("%Y%m%d_%H%M%S"),
+      formatSet_(false)
 {
-    yodAdjust_[yodYear]  = { false, "-Y", 0 };
-    yodAdjust_[yodMonth] = { false, "-O", 0 };
-    yodAdjust_[yodDay]   = { false, "-D", 0 };
+    yodAdjust_[yodYear] = {false, "-Y", 0};
+    yodAdjust_[yodMonth] = {false, "-O", 0};
+    yodAdjust_[yodDay] = {false, "-D", 0};
 }
 
 Params& Params::instance()
@@ -125,48 +122,50 @@ Params& Params::instance()
     return ins;
 }
 
-Params::~Params() {
+Params::~Params()
+{
 #if defined(EXV_HAVE_REGEX_H)
-    for (size_t i=0; i<instance().greps_.size(); ++i) {
+    for (size_t i = 0; i < instance().greps_.size(); ++i) {
         regfree(&instance().greps_.at(i));
     }
 #endif
 }
 
-void Params::version(bool verbose,std::ostream& os) const
+void Params::version(bool verbose, std::ostream& os) const
 {
     os << EXV_PACKAGE_STRING << std::endl;
-    if ( Params::instance().greps_.empty() ) {
-    os << "\n"
-       << _("This program is free software; you can redistribute it and/or\n"
-            "modify it under the terms of the GNU General Public License\n"
-            "as published by the Free Software Foundation; either version 2\n"
-            "of the License, or (at your option) any later version.\n")
-       << "\n"
-       << _("This program is distributed in the hope that it will be useful,\n"
-            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-            "GNU General Public License for more details.\n")
-       << "\n"
-       << _("You should have received a copy of the GNU General Public\n"
-            "License along with this program; if not, write to the Free\n"
-            "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
-            "Boston, MA 02110-1301 USA\n");
+    if (Params::instance().greps_.empty()) {
+        os << "\n"
+           << _("This program is free software; you can redistribute it and/or\n"
+                "modify it under the terms of the GNU General Public License\n"
+                "as published by the Free Software Foundation; either version 2\n"
+                "of the License, or (at your option) any later version.\n")
+           << "\n"
+           << _("This program is distributed in the hope that it will be useful,\n"
+                "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+                "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+                "GNU General Public License for more details.\n")
+           << "\n"
+           << _("You should have received a copy of the GNU General Public\n"
+                "License along with this program; if not, write to the Free\n"
+                "Software Foundation, Inc., 51 Franklin Street, Fifth Floor,\n"
+                "Boston, MA 02110-1301 USA\n");
     }
 
-    if ( verbose ) Exiv2::dumpLibraryInfo(os,Params::instance().greps_);
+    if (verbose)
+        Exiv2::dumpLibraryInfo(os, Params::instance().greps_);
 }
 
 void Params::usage(std::ostream& os) const
 {
-    os << _("Usage:") << " " << progname()
-       << " " << _("[ options ] [ action ] file ...\n\n")
+    os << _("Usage:") << " " << progname() << " " << _("[ options ] [ action ] file ...\n\n")
        << _("Manipulate the Exif metadata of images.\n");
 }
 
 void Params::help(std::ostream& os) const
 {
     usage(os);
+    // clang-format off
     os << _("\nActions:\n")
        << _("  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
             "                requires at least one of the -a, -Y, -O or -D options.\n")
@@ -268,226 +267,294 @@ void Params::help(std::ostream& os) const
             "           commands is the same as that of the lines of a command file.\n")
        << _("   -l dir  Location (directory) for files to be inserted from or extracted to.\n")
        << _("   -S .suf Use suffix .suf for source files for insert command.\n\n");
-} // Params::help
+    // clang-format on
+}  // Params::help
 
 int Params::option(int opt, const std::string& optarg, int optopt)
 {
     int rc = 0;
     switch (opt) {
-    case 'h': help_ = true; break;
-    case 'V': version_ = true; break;
-    case 'v': verbose_ = true; break;
-    case 'q': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
-    case 'Q': rc = setLogLevel(optarg); break;
-    case 'k': preserve_ = true; break;
-    case 'b': binary_ = false; break;
-    case 'u': unknown_ = false; break;
-    case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
-    case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'g': rc = evalGrep(optarg); break;
-    case 'K': rc = evalKey(optarg); printMode_ = pmList; break;
-    case 'n': charset_ = optarg; break;
-    case 'r': rc = evalRename(opt, optarg); break;
-    case 't': rc = evalRename(opt, optarg); break;
-    case 'T': rc = evalRename(opt, optarg); break;
-    case 'a': rc = evalAdjust(optarg); break;
-    case 'Y': rc = evalYodAdjust(yodYear, optarg); break;
-    case 'O': rc = evalYodAdjust(yodMonth, optarg); break;
-    case 'D': rc = evalYodAdjust(yodDay, optarg); break;
-    case 'p': rc = evalPrint(optarg); break;
-    case 'P': rc = evalPrintFlags(optarg); break;
-    case 'd': rc = evalDelete(optarg); break;
-    case 'e': rc = evalExtract(optarg); break;
-    case 'C': rc = evalExtract(optarg); break;
-    case 'i': rc = evalInsert(optarg); break;
-    case 'c': rc = evalModify(opt, optarg); break;
-    case 'm': rc = evalModify(opt, optarg); break;
-    case 'M': rc = evalModify(opt, optarg); break;
-    case 'l': directory_ = optarg; break;
-    case 'S': suffix_ = optarg; break;
-    case ':':
-        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optopt)
-                   << " " << _("requires an argument\n");
-        rc = 1;
-        break;
-    case '?':
-        std::cerr << progname() << ": " << _("Unrecognized option") << " -"
-                  << static_cast<char>(optopt) << "\n";
-        rc = 1;
-        break;
-    default:
-        std::cerr << progname()
-                  << ": " << _("getopt returned unexpected character code") << " "
-                  << std::hex << opt << "\n";
-        rc = 1;
-        break;
+        case 'h':
+            help_ = true;
+            break;
+        case 'V':
+            version_ = true;
+            break;
+        case 'v':
+            verbose_ = true;
+            break;
+        case 'q':
+            Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
+            break;
+        case 'Q':
+            rc = setLogLevel(optarg);
+            break;
+        case 'k':
+            preserve_ = true;
+            break;
+        case 'b':
+            binary_ = false;
+            break;
+        case 'u':
+            unknown_ = false;
+            break;
+        case 'f':
+            force_ = true;
+            fileExistsPolicy_ = overwritePolicy;
+            break;
+        case 'F':
+            force_ = true;
+            fileExistsPolicy_ = renamePolicy;
+            break;
+        case 'g':
+            rc = evalGrep(optarg);
+            break;
+        case 'K':
+            rc = evalKey(optarg);
+            printMode_ = pmList;
+            break;
+        case 'n':
+            charset_ = optarg;
+            break;
+        case 'r':
+            rc = evalRename(opt, optarg);
+            break;
+        case 't':
+            rc = evalRename(opt, optarg);
+            break;
+        case 'T':
+            rc = evalRename(opt, optarg);
+            break;
+        case 'a':
+            rc = evalAdjust(optarg);
+            break;
+        case 'Y':
+            rc = evalYodAdjust(yodYear, optarg);
+            break;
+        case 'O':
+            rc = evalYodAdjust(yodMonth, optarg);
+            break;
+        case 'D':
+            rc = evalYodAdjust(yodDay, optarg);
+            break;
+        case 'p':
+            rc = evalPrint(optarg);
+            break;
+        case 'P':
+            rc = evalPrintFlags(optarg);
+            break;
+        case 'd':
+            rc = evalDelete(optarg);
+            break;
+        case 'e':
+            rc = evalExtract(optarg);
+            break;
+        case 'C':
+            rc = evalExtract(optarg);
+            break;
+        case 'i':
+            rc = evalInsert(optarg);
+            break;
+        case 'c':
+            rc = evalModify(opt, optarg);
+            break;
+        case 'm':
+            rc = evalModify(opt, optarg);
+            break;
+        case 'M':
+            rc = evalModify(opt, optarg);
+            break;
+        case 'l':
+            directory_ = optarg;
+            break;
+        case 'S':
+            suffix_ = optarg;
+            break;
+        case ':':
+            std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optopt) << " "
+                      << _("requires an argument\n");
+            rc = 1;
+            break;
+        case '?':
+            std::cerr << progname() << ": " << _("Unrecognized option") << " -" << static_cast<char>(optopt) << "\n";
+            rc = 1;
+            break;
+        default:
+            std::cerr << progname() << ": " << _("getopt returned unexpected character code") << " " << std::hex << opt
+                      << "\n";
+            rc = 1;
+            break;
     }
     return rc;
-} // Params::option
+}  // Params::option
 
 int Params::setLogLevel(const std::string& optarg)
 {
     int rc = 0;
     const char logLevel = tolower(optarg[0]);
     switch (logLevel) {
-    case 'd': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug); break;
-    case 'i': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::info); break;
-    case 'w': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::warn); break;
-    case 'e': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error); break;
-    case 'm': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
-    default:
-        std::cerr << progname() << ": " << _("Option") << " -Q: "
-                  << _("Invalid argument") << " \"" << optarg << "\"\n";
-        rc = 1;
-        break;
+        case 'd':
+            Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug);
+            break;
+        case 'i':
+            Exiv2::LogMsg::setLevel(Exiv2::LogMsg::info);
+            break;
+        case 'w':
+            Exiv2::LogMsg::setLevel(Exiv2::LogMsg::warn);
+            break;
+        case 'e':
+            Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error);
+            break;
+        case 'm':
+            Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option") << " -Q: " << _("Invalid argument") << " \"" << optarg
+                      << "\"\n";
+            rc = 1;
+            break;
     }
     return rc;
-} // Params::setLogLevel
+}  // Params::setLogLevel
 
 // http://stackoverflow.com/questions/874134/find-if-string-ends-with-another-string-in-c
-static inline bool ends_with(std::string const & value, std::string const & ending,std::string& stub)
+static inline bool ends_with(std::string const& value, std::string const& ending, std::string& stub)
 {
-    if (ending.size() > value.size()) return false;
+    if (ending.size() > value.size())
+        return false;
     bool bResult = std::equal(ending.rbegin(), ending.rend(), value.rbegin());
-    stub         = bResult ? value.substr(0,value.length() - ending.length()) : value;
-    return bResult ;
+    stub = bResult ? value.substr(0, value.length() - ending.length()) : value;
+    return bResult;
 }
 
-int Params::evalGrep( const std::string& optarg)
+int Params::evalGrep(const std::string& optarg)
 {
-    int result=0;
+    int result = 0;
     std::string pattern;
     std::string ignoreCase("/i");
-    bool bIgnoreCase = ends_with(optarg,ignoreCase,pattern);
+    bool bIgnoreCase = ends_with(optarg, ignoreCase, pattern);
 #if defined(EXV_HAVE_REGEX_H)
     // try to compile a reg-exp from the input argument and store it in the vector
     const size_t i = greps_.size();
     greps_.resize(i + 1);
-    regex_t *pRegex = &greps_[i];
-    int errcode = regcomp( pRegex, pattern.c_str(), bIgnoreCase ? REG_NOSUB|REG_ICASE : REG_NOSUB);
+    regex_t* pRegex = &greps_[i];
+    int errcode = regcomp(pRegex, pattern.c_str(), bIgnoreCase ? REG_NOSUB | REG_ICASE : REG_NOSUB);
 
     // there was an error compiling the regexp
-    if( errcode ) {
-        size_t length = regerror (errcode, pRegex, nullptr, 0);
-        char *buffer = new char[ length];
-        regerror (errcode, pRegex, buffer, length);
-        std::cerr << progname()
-              << ": " << _("Option") << " -g: "
-              << _("Invalid regexp") << " \"" << optarg << "\": " << buffer << "\n";
+    if (errcode) {
+        size_t length = regerror(errcode, pRegex, nullptr, 0);
+        char* buffer = new char[length];
+        regerror(errcode, pRegex, buffer, length);
+        std::cerr << progname() << ": " << _("Option") << " -g: " << _("Invalid regexp") << " \"" << optarg
+                  << "\": " << buffer << "\n";
 
         // free the memory and drop the regexp
         delete[] buffer;
-        regfree( pRegex);
+        regfree(pRegex);
         greps_.resize(i);
-        result=1;
+        result = 1;
     }
 #else
-    greps_.push_back(Exiv2_grep_key_t(pattern,bIgnoreCase));
+    greps_.push_back(Exiv2_grep_key_t(pattern, bIgnoreCase));
 #endif
     return result;
-} // Params::evalGrep
+}  // Params::evalGrep
 
-int Params::evalKey( const std::string& optarg)
+int Params::evalKey(const std::string& optarg)
 {
-    int result=0;
+    int result = 0;
     keys_.push_back(optarg);
     return result;
-} // Params::evalKey
+}  // Params::evalKey
 
 int Params::evalRename(int opt, const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-        action_ = Action::rename;
-        switch (opt) {
-        case 'r':
-            format_ = optarg;
-            formatSet_ = true;
+        case Action::none:
+            action_ = Action::rename;
+            switch (opt) {
+                case 'r':
+                    format_ = optarg;
+                    formatSet_ = true;
+                    break;
+                case 't':
+                    timestamp_ = true;
+                    break;
+                case 'T':
+                    timestampOnly_ = true;
+                    break;
+            }
             break;
-        case 't': timestamp_ = true; break;
-        case 'T': timestampOnly_ = true; break;
-        }
-        break;
-    case Action::rename:
-        if (opt == 'r' && (formatSet_ || timestampOnly_)) {
-            std::cerr << progname()
-                      << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
-        }
-        else {
-            format_ = optarg;
-            formatSet_ = true;
-        }
-        break;
-    default:
-        std::cerr << progname()
-                  << ": " << _("Option") << " -" << (char)opt
-                  << " " << _("is not compatible with a previous option\n");
-        rc = 1;
-        break;
+        case Action::rename:
+            if (opt == 'r' && (formatSet_ || timestampOnly_)) {
+                std::cerr << progname() << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
+            } else {
+                format_ = optarg;
+                formatSet_ = true;
+            }
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option") << " -" << (char)opt << " "
+                      << _("is not compatible with a previous option\n");
+            rc = 1;
+            break;
     }
     return rc;
-} // Params::evalRename
+}  // Params::evalRename
 
 int Params::evalAdjust(const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-    case Action::adjust:
-        if (adjust_) {
-            std::cerr << progname()
-                      << ": " << _("Ignoring surplus option -a")  << " " << optarg << "\n";
+        case Action::none:
+        case Action::adjust:
+            if (adjust_) {
+                std::cerr << progname() << ": " << _("Ignoring surplus option -a") << " " << optarg << "\n";
+                break;
+            }
+            action_ = Action::adjust;
+            adjust_ = parseTime(optarg, adjustment_);
+            if (!adjust_) {
+                std::cerr << progname() << ": " << _("Error parsing -a option argument") << " `" << optarg << "'\n";
+                rc = 1;
+            }
             break;
-        }
-        action_ = Action::adjust;
-        adjust_ = parseTime(optarg, adjustment_);
-        if (!adjust_) {
-            std::cerr << progname() << ": " << _("Error parsing -a option argument") << " `"
-                      << optarg << "'\n";
+        default:
+            std::cerr << progname() << ": " << _("Option -a is not compatible with a previous option\n");
             rc = 1;
-        }
-        break;
-    default:
-        std::cerr << progname()
-                  << ": " << _("Option -a is not compatible with a previous option\n");
-        rc = 1;
-        break;
+            break;
     }
     return rc;
-} // Params::evalAdjust
+}  // Params::evalAdjust
 
 int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none: // fall-through
-    case Action::adjust:
-        if (yodAdjust_[yod].flag_) {
-            std::cerr << progname()
-                      << ": " << _("Ignoring surplus option") << " "
-                      << yodAdjust_[yod].option_ << " " << optarg << "\n";
+        case Action::none:  // fall-through
+        case Action::adjust:
+            if (yodAdjust_[yod].flag_) {
+                std::cerr << progname() << ": " << _("Ignoring surplus option") << " " << yodAdjust_[yod].option_ << " "
+                          << optarg << "\n";
+                break;
+            }
+            action_ = Action::adjust;
+            yodAdjust_[yod].flag_ = true;
+            if (!Util::strtol(optarg.c_str(), yodAdjust_[yod].adjustment_)) {
+                std::cerr << progname() << ": " << _("Error parsing") << " " << yodAdjust_[yod].option_ << " "
+                          << _("option argument") << " `" << optarg << "'\n";
+                rc = 1;
+            }
             break;
-        }
-        action_ = Action::adjust;
-        yodAdjust_[yod].flag_ = true;
-        if (!Util::strtol(optarg.c_str(), yodAdjust_[yod].adjustment_)) {
-            std::cerr << progname() << ": " << _("Error parsing") << " "
-                      << yodAdjust_[yod].option_ << " "
-                      << _("option argument") << " `" << optarg << "'\n";
+        default:
+            std::cerr << progname() << ": " << _("Option") << " " << yodAdjust_[yod].option_ << " "
+                      << _("is not compatible with a previous option\n");
             rc = 1;
-        }
-        break;
-    default:
-        std::cerr << progname()
-                  << ": " << _("Option") << " "
-                  << yodAdjust_[yod].option_ << " "
-                  << _("is not compatible with a previous option\n");
-        rc = 1;
-        break;
+            break;
     }
     return rc;
-} // Params::evalYodAdjust
+}  // Params::evalYodAdjust
 
 int Params::evalPrint(const std::string& optarg)
 {
@@ -533,14 +600,14 @@ int Params::evalPrint(const std::string& optarg)
                     printMode_ = pmIccProfile;
                     break;
                 case 'R':
-                #ifdef NDEBUG
-                    std::cerr << progname() << ": " << _("Action not available in Release mode")
-                              << ": '" << optarg << "'\n";
+#ifdef NDEBUG
+                    std::cerr << progname() << ": " << _("Action not available in Release mode") << ": '" << optarg
+                              << "'\n";
                     rc = 1;
-                #else
+#else
                     action_ = Action::print;
                     printMode_ = pmRecursive;
-                #endif
+#endif
                     break;
                 case 'S':
                     action_ = Action::print;
@@ -571,153 +638,176 @@ int Params::evalPrintFlags(const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-        action_ = Action::print;
-        printMode_ = pmList;
-        for (std::size_t i = 0; i < optarg.length(); ++i) {
-            switch (optarg[i]) {
-            case 'E': printTags_  |= Exiv2::mdExif; break;
-            case 'I': printTags_  |= Exiv2::mdIptc; break;
-            case 'X': printTags_  |= Exiv2::mdXmp;  break;
-            case 'x': printItems_ |= prTag;   break;
-            case 'g': printItems_ |= prGroup; break;
-            case 'k': printItems_ |= prKey;   break;
-            case 'l': printItems_ |= prLabel; break;
-            case 'n': printItems_ |= prName;  break;
-            case 'y': printItems_ |= prType;  break;
-            case 'c': printItems_ |= prCount; break;
-            case 's': printItems_ |= prSize;  break;
-            case 'v': printItems_ |= prValue; break;
-            case 't': printItems_ |= prTrans; break;
-            case 'h': printItems_ |= prHex;   break;
-            case 'V': printItems_ |= prSet|prValue;break;
-            default:
-                std::cerr << progname() << ": " << _("Unrecognized print item") << " `"
-                          << optarg[i] << "'\n";
-                rc = 1;
-                break;
+        case Action::none:
+            action_ = Action::print;
+            printMode_ = pmList;
+            for (std::size_t i = 0; i < optarg.length(); ++i) {
+                switch (optarg[i]) {
+                    case 'E':
+                        printTags_ |= Exiv2::mdExif;
+                        break;
+                    case 'I':
+                        printTags_ |= Exiv2::mdIptc;
+                        break;
+                    case 'X':
+                        printTags_ |= Exiv2::mdXmp;
+                        break;
+                    case 'x':
+                        printItems_ |= prTag;
+                        break;
+                    case 'g':
+                        printItems_ |= prGroup;
+                        break;
+                    case 'k':
+                        printItems_ |= prKey;
+                        break;
+                    case 'l':
+                        printItems_ |= prLabel;
+                        break;
+                    case 'n':
+                        printItems_ |= prName;
+                        break;
+                    case 'y':
+                        printItems_ |= prType;
+                        break;
+                    case 'c':
+                        printItems_ |= prCount;
+                        break;
+                    case 's':
+                        printItems_ |= prSize;
+                        break;
+                    case 'v':
+                        printItems_ |= prValue;
+                        break;
+                    case 't':
+                        printItems_ |= prTrans;
+                        break;
+                    case 'h':
+                        printItems_ |= prHex;
+                        break;
+                    case 'V':
+                        printItems_ |= prSet | prValue;
+                        break;
+                    default:
+                        std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << optarg[i] << "'\n";
+                        rc = 1;
+                        break;
+                }
             }
-        }
-        break;
-    case Action::print:
-        std::cerr << progname() << ": "
-                  << _("Ignoring surplus option -P") << optarg << "\n";
-        break;
-    default:
-        std::cerr << progname() << ": "
-                  << _("Option -P is not compatible with a previous option\n");
-        rc = 1;
-        break;
+            break;
+        case Action::print:
+            std::cerr << progname() << ": " << _("Ignoring surplus option -P") << optarg << "\n";
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option -P is not compatible with a previous option\n");
+            rc = 1;
+            break;
     }
     return rc;
-} // Params::evalPrintFlags
+}  // Params::evalPrintFlags
 
 int Params::evalDelete(const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-        action_ = Action::erase;
-        target_ = 0;
-        // fallthrough
-    case Action::erase:
-        rc = parseCommonTargets(optarg, "erase");
-        if (rc > 0) {
-            target_ |= rc;
-            rc = 0;
-        }
-        else {
+        case Action::none:
+            action_ = Action::erase;
+            target_ = 0;
+            // fallthrough
+        case Action::erase:
+            rc = parseCommonTargets(optarg, "erase");
+            if (rc > 0) {
+                target_ |= rc;
+                rc = 0;
+            } else {
+                rc = 1;
+            }
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option -d is not compatible with a previous option\n");
             rc = 1;
-        }
-        break;
-    default:
-        std::cerr << progname() << ": "
-                  << _("Option -d is not compatible with a previous option\n");
-        rc = 1;
-        break;
+            break;
     }
     return rc;
-} // Params::evalDelete
+}  // Params::evalDelete
 
 int Params::evalExtract(const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-    case Action::modify:
-        action_ = Action::extract;
-        target_ = 0;
-        // fallthrough
-    case Action::extract:
-        rc = parseCommonTargets(optarg, "extract");
-        if (rc > 0) {
-            target_ |= rc;
-            rc = 0;
-        }
-        else {
+        case Action::none:
+        case Action::modify:
+            action_ = Action::extract;
+            target_ = 0;
+            // fallthrough
+        case Action::extract:
+            rc = parseCommonTargets(optarg, "extract");
+            if (rc > 0) {
+                target_ |= rc;
+                rc = 0;
+            } else {
+                rc = 1;
+            }
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option -e is not compatible with a previous option\n");
             rc = 1;
-        }
-        break;
-    default:
-        std::cerr << progname() << ": "
-                  << _("Option -e is not compatible with a previous option\n");
-        rc = 1;
-        break;
+            break;
     }
     return rc;
-} // Params::evalExtract
+}  // Params::evalExtract
 
 int Params::evalInsert(const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-    case Action::modify:
-        action_ = Action::insert;
-        target_ = 0;
-        // fallthrough
-    case Action::insert:
-        rc = parseCommonTargets(optarg, "insert");
-        if (rc > 0) {
-            target_ |= rc;
-            rc = 0;
-        }
-        else {
+        case Action::none:
+        case Action::modify:
+            action_ = Action::insert;
+            target_ = 0;
+            // fallthrough
+        case Action::insert:
+            rc = parseCommonTargets(optarg, "insert");
+            if (rc > 0) {
+                target_ |= rc;
+                rc = 0;
+            } else {
+                rc = 1;
+            }
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option -i is not compatible with a previous option\n");
             rc = 1;
-        }
-        break;
-    default:
-        std::cerr << progname() << ": "
-                  << _("Option -i is not compatible with a previous option\n");
-        rc = 1;
-        break;
+            break;
     }
     return rc;
-} // Params::evalInsert
+}  // Params::evalInsert
 
 int Params::evalModify(int opt, const std::string& optarg)
 {
     int rc = 0;
     switch (action_) {
-    case Action::none:
-        action_ = Action::modify;
-        // fallthrough
-    case Action::modify:
-    case Action::extract:
-    case Action::insert:
-        if (opt == 'c') jpegComment_ = parseEscapes(optarg);
-        if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
-        if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
-        break;
-    default:
-        std::cerr << progname() << ": "
-                  << _("Option") << " -" << (char)opt << " "
-                  << _("is not compatible with a previous option\n");
-        rc = 1;
-        break;
+        case Action::none:
+            action_ = Action::modify;
+            // fallthrough
+        case Action::modify:
+        case Action::extract:
+        case Action::insert:
+            if (opt == 'c')
+                jpegComment_ = parseEscapes(optarg);
+            if (opt == 'm')
+                cmdFiles_.push_back(optarg);  // parse the files later
+            if (opt == 'M')
+                cmdLines_.push_back(optarg);  // parse the commands later
+            break;
+        default:
+            std::cerr << progname() << ": " << _("Option") << " -" << (char)opt << " "
+                      << _("is not compatible with a previous option\n");
+            rc = 1;
+            break;
     }
     return rc;
-} // Params::evalModify
+}  // Params::evalModify
 
 int Params::nonoption(const std::string& argv)
 {
@@ -728,8 +818,7 @@ int Params::nonoption(const std::string& argv)
         first_ = false;
         if (argv == "ad" || argv == "adjust") {
             if (action_ != Action::none && action_ != Action::adjust) {
-                std::cerr << progname() << ": "
-                          << _("Action adjust is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action adjust is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -737,8 +826,7 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "pr" || argv == "print") {
             if (action_ != Action::none && action_ != Action::print) {
-                std::cerr << progname() << ": "
-                          << _("Action print is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action print is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -746,30 +834,23 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "rm" || argv == "delete") {
             if (action_ != Action::none && action_ != Action::erase) {
-                std::cerr << progname() << ": "
-                          << _("Action delete is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action delete is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
             action_ = Action::erase;
         }
         if (argv == "ex" || argv == "extract") {
-            if (   action_ != Action::none
-                && action_ != Action::extract
-                && action_ != Action::modify) {
-                std::cerr << progname() << ": "
-                          << _("Action extract is not compatible with the given options\n");
+            if (action_ != Action::none && action_ != Action::extract && action_ != Action::modify) {
+                std::cerr << progname() << ": " << _("Action extract is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
             action_ = Action::extract;
         }
         if (argv == "in" || argv == "insert") {
-            if (   action_ != Action::none
-                && action_ != Action::insert
-                && action_ != Action::modify) {
-                std::cerr << progname() << ": "
-                          << _("Action insert is not compatible with the given options\n");
+            if (action_ != Action::none && action_ != Action::insert && action_ != Action::modify) {
+                std::cerr << progname() << ": " << _("Action insert is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -777,8 +858,7 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "mv" || argv == "rename") {
             if (action_ != Action::none && action_ != Action::rename) {
-                std::cerr << progname() << ": "
-                          << _("Action rename is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action rename is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -786,8 +866,7 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "mo" || argv == "modify") {
             if (action_ != Action::none && action_ != Action::modify) {
-                std::cerr << progname() << ": "
-                          << _("Action modify is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action modify is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -795,8 +874,7 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "fi" || argv == "fixiso") {
             if (action_ != Action::none && action_ != Action::fixiso) {
-                std::cerr << progname() << ": "
-                          << _("Action fixiso is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action fixiso is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -804,8 +882,7 @@ int Params::nonoption(const std::string& argv)
         }
         if (argv == "fc" || argv == "fixcom" || argv == "fixcomment") {
             if (action_ != Action::none && action_ != Action::fixcom) {
-                std::cerr << progname() << ": "
-                          << _("Action fixcom is not compatible with the given options\n");
+                std::cerr << progname() << ": " << _("Action fixcom is not compatible with the given options\n");
                 rc = 1;
             }
             action = true;
@@ -820,23 +897,23 @@ int Params::nonoption(const std::string& argv)
         files_.push_back(argv);
     }
     return rc;
-} // Params::nonoption
+}  // Params::nonoption
 
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf
-    if ( stdinBuf.size_ == 0 ) {
+    if (stdinBuf.size_ == 0) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
         _setmode(fileno(stdin), O_BINARY);
         Sleep(300);
-        if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
+        if (!GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode)) {  // failed: stdin has bytes!
 #else
         // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916
-        fd_set                readfds;
-        FD_ZERO             (&readfds);
+        fd_set readfds;
+        FD_ZERO(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
-        struct timeval timeout =  {1,0}; // yes: set timeout seconds,microseconds
+        struct timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
 
         // if we have something in the pipe, read it
         if (select(1, &readfds, nullptr, nullptr, &timeout)) {
@@ -844,78 +921,78 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 #ifdef DEBUG
             std::cerr << "stdin has data" << std::endl;
 #endif
-            readFileToBuf(stdin,stdinBuf);
+            readFileToBuf(stdin, stdinBuf);
         }
 #ifdef DEBUG
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
-        if ( stdinBuf.size_ == 0 ) {
+        if (stdinBuf.size_ == 0) {
             const char* path = "/Users/rmills/temp/stdin";
-            FILE* f = fopen(path,"rb");
-            if  ( f ) {
-                readFileToBuf(f,stdinBuf);
+            FILE* f = fopen(path, "rb");
+            if (f) {
+                readFileToBuf(f, stdinBuf);
                 fclose(f);
                 std::cerr << "read stdin from " << path << std::endl;
             }
         }
 #endif
 #ifdef DEBUG
-            std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+        std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
 #endif
     }
 
     // copy stdinBuf to buf
-    if ( stdinBuf.size_ ) {
+    if (stdinBuf.size_) {
         buf.alloc(stdinBuf.size_);
-        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+        memcpy(buf.pData_, stdinBuf.pData_, buf.size_);
     }
 #ifdef DEBUG
     std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
 #endif
 
-} // Params::getStdin()
+}  // Params::getStdin()
 
 int Params::getopt(int argc, char* const Argv[])
 {
-    char** argv = new char* [argc+1];
+    char** argv = new char*[argc + 1];
     argv[argc] = nullptr;
-    std::map<std::string,std::string> longs;
+    std::map<std::string, std::string> longs;
 
-    longs["--adjust"   ] = "-a";
-    longs["--binary"   ] = "-b";
-    longs["--comment"  ] = "-c";
-    longs["--delete"   ] = "-d";
-    longs["--days"     ] = "-D";
-    longs["--force"    ] = "-f";
-    longs["--Force"    ] = "-F";
-    longs["--grep"     ] = "-g";
-    longs["--help"     ] = "-h";
-    longs["--insert"   ] = "-i";
-    longs["--keep"     ] = "-k";
-    longs["--key"      ] = "-K";
-    longs["--location" ] = "-l";
-    longs["--modify"   ] = "-m";
-    longs["--Modify"   ] = "-M";
-    longs["--encode"   ] = "-n";
-    longs["--months"   ] = "-O";
-    longs["--print"    ] = "-p";
-    longs["--Print"    ] = "-P";
-    longs["--quiet"    ] = "-q";
-    longs["--log"      ] = "-Q";
-    longs["--rename"   ] = "-r";
-    longs["--suffix"   ] = "-S";
+    longs["--adjust"] = "-a";
+    longs["--binary"] = "-b";
+    longs["--comment"] = "-c";
+    longs["--delete"] = "-d";
+    longs["--days"] = "-D";
+    longs["--force"] = "-f";
+    longs["--Force"] = "-F";
+    longs["--grep"] = "-g";
+    longs["--help"] = "-h";
+    longs["--insert"] = "-i";
+    longs["--keep"] = "-k";
+    longs["--key"] = "-K";
+    longs["--location"] = "-l";
+    longs["--modify"] = "-m";
+    longs["--Modify"] = "-M";
+    longs["--encode"] = "-n";
+    longs["--months"] = "-O";
+    longs["--print"] = "-p";
+    longs["--Print"] = "-P";
+    longs["--quiet"] = "-q";
+    longs["--log"] = "-Q";
+    longs["--rename"] = "-r";
+    longs["--suffix"] = "-S";
     longs["--timestamp"] = "-t";
     longs["--Timestamp"] = "-T";
-    longs["--unknown"  ] = "-u";
-    longs["--verbose"  ] = "-v";
-    longs["--Version"  ] = "-V";
-    longs["--version"  ] = "-V";
-    longs["--years"    ] = "-Y";
+    longs["--unknown"] = "-u";
+    longs["--verbose"] = "-v";
+    longs["--Version"] = "-V";
+    longs["--version"] = "-V";
+    longs["--years"] = "-Y";
 
-    for ( int i = 0 ; i < argc ; i++ ) {
+    for (int i = 0; i < argc; i++) {
         std::string* arg = new std::string(Argv[i]);
-        if (longs.find(*arg) != longs.end() ) {
+        if (longs.find(*arg) != longs.end()) {
             argv[i] = ::strdup(longs[*arg].c_str());
         } else {
             argv[i] = ::strdup(Argv[i]);
@@ -933,19 +1010,13 @@ int Params::getopt(int argc, char* const Argv[])
         std::cerr << progname() << ": " << _("An action must be specified\n");
         rc = 1;
     }
-    if (   action_ == Action::adjust
-        && !adjust_
-        && !yodAdjust_[yodYear].flag_
-        && !yodAdjust_[yodMonth].flag_
-        && !yodAdjust_[yodDay].flag_) {
-        std::cerr << progname() << ": "
-                  << _("Adjust action requires at least one -a, -Y, -O or -D option\n");
+    if (action_ == Action::adjust && !adjust_ && !yodAdjust_[yodYear].flag_ && !yodAdjust_[yodMonth].flag_ &&
+        !yodAdjust_[yodDay].flag_) {
+        std::cerr << progname() << ": " << _("Adjust action requires at least one -a, -Y, -O or -D option\n");
         rc = 1;
     }
-    if (   action_ == Action::modify
-        && cmdFiles_.empty() && cmdLines_.empty() && jpegComment_.empty()) {
-        std::cerr << progname() << ": "
-                  << _("Modify action requires at least one -c, -m or -M option\n");
+    if (action_ == Action::modify && cmdFiles_.empty() && cmdLines_.empty() && jpegComment_.empty()) {
+        std::cerr << progname() << ": " << _("Modify action requires at least one -c, -m or -M option\n");
         rc = 1;
     }
     if (0 == files_.size()) {
@@ -970,101 +1041,114 @@ int Params::getopt(int argc, char* const Argv[])
         // We'll set them again, after reading the file
         Exiv2::XmpProperties::unregisterNs();
     }
-    if (   !directory_.empty()
-        && !(action_ == Action::insert || action_ == Action::extract)) {
-        std::cerr << progname() << ": "
-                  << _("-l option can only be used with extract or insert actions\n");
+    if (!directory_.empty() && !(action_ == Action::insert || action_ == Action::extract)) {
+        std::cerr << progname() << ": " << _("-l option can only be used with extract or insert actions\n");
         rc = 1;
     }
     if (!suffix_.empty() && !(action_ == Action::insert)) {
-        std::cerr << progname() << ": "
-                  << _("-S option can only be used with insert action\n");
+        std::cerr << progname() << ": " << _("-S option can only be used with insert action\n");
         rc = 1;
     }
     if (timestamp_ && !(action_ == Action::rename)) {
-        std::cerr << progname() << ": "
-                  << _("-t option can only be used with rename action\n");
+        std::cerr << progname() << ": " << _("-t option can only be used with rename action\n");
         rc = 1;
     }
     if (timestampOnly_ && !(action_ == Action::rename)) {
-        std::cerr << progname() << ": "
-                  << _("-T option can only be used with rename action\n");
+        std::cerr << progname() << ": " << _("-T option can only be used with rename action\n");
         rc = 1;
     }
 
- cleanup:
+cleanup:
     // cleanup the argument vector
-    for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
-    delete [] argv;
+    for (int i = 0; i < argc; i++)
+        ::free((void*)argv[i]);
+    delete[] argv;
 
     return rc;
-} // Params::getopt
+}  // Params::getopt
 
 namespace
 {
     void printUnrecognizedArgument(const char argc, const std::string& action)
     {
-        std::cerr << Params::instance().progname() << ": " << _("Unrecognized ")
-                  << action << " " << _("target") << " `"  << argc << "'\n";
+        std::cerr << Params::instance().progname() << ": " << _("Unrecognized ") << action << " " << _("target") << " `"
+                  << argc << "'\n";
     }
 
     bool parseTime(const std::string& ts, long& time)
     {
         std::string hstr, mstr, sstr;
-        char *cts = new char[ts.length() + 1];
+        char* cts = new char[ts.length() + 1];
         strcpy(cts, ts.c_str());
-        char *tmp = ::strtok(cts, ":");
-        if (tmp) hstr = tmp;
+        char* tmp = ::strtok(cts, ":");
+        if (tmp)
+            hstr = tmp;
         tmp = ::strtok(0, ":");
-        if (tmp) mstr = tmp;
+        if (tmp)
+            mstr = tmp;
         tmp = ::strtok(0, ":");
-        if (tmp) sstr = tmp;
+        if (tmp)
+            sstr = tmp;
         delete[] cts;
 
         int sign = 1;
         long hh(0), mm(0), ss(0);
         // [-]HH part
-        if (!Util::strtol(hstr.c_str(), hh)) return false;
+        if (!Util::strtol(hstr.c_str(), hh))
+            return false;
         if (hh < 0) {
             sign = -1;
             hh *= -1;
         }
         // check for the -0 special case
-        if (hh == 0 && hstr.find('-') != std::string::npos) sign = -1;
+        if (hh == 0 && hstr.find('-') != std::string::npos)
+            sign = -1;
         // MM part, if there is one
         if (mstr != "") {
-            if (!Util::strtol(mstr.c_str(), mm)) return false;
-            if (mm > 59) return false;
-            if (mm < 0) return false;
+            if (!Util::strtol(mstr.c_str(), mm))
+                return false;
+            if (mm > 59)
+                return false;
+            if (mm < 0)
+                return false;
         }
         // SS part, if there is one
         if (sstr != "") {
-            if (!Util::strtol(sstr.c_str(), ss)) return false;
-            if (ss > 59) return false;
-            if (ss < 0) return false;
+            if (!Util::strtol(sstr.c_str(), ss))
+                return false;
+            if (ss > 59)
+                return false;
+            if (ss < 0)
+                return false;
         }
 
         time = sign * (hh * 3600 + mm * 60 + ss);
         return true;
-    } // parseTime
+    }  // parseTime
 
 #if defined(_MSC_VER) || defined(__MINGW__)
     static std::string formatArg(const char* arg)
     {
         std::string result = "";
-        char        b  = ' ' ;
-        char        e  = '\\'; std::string E = std::string("\\");
-        char        q  = '\''; std::string Q = std::string("'" );
-        bool        qt = false;
-        char* a    = (char*) arg;
-        while  ( *a ) {
-            if ( *a == b || *a == e || *a == q ) qt = true;
-            if ( *a == q ) result += E;
-            if ( *a == e ) result += E;
-            result += std::string(a,1);
-            a++ ;
+        char b = ' ';
+        char e = '\\';
+        std::string E = std::string("\\");
+        char q = '\'';
+        std::string Q = std::string("'");
+        bool qt = false;
+        char* a = (char*)arg;
+        while (*a) {
+            if (*a == b || *a == e || *a == q)
+                qt = true;
+            if (*a == q)
+                result += E;
+            if (*a == e)
+                result += E;
+            result += std::string(a, 1);
+            a++;
         }
-        if (qt) result = Q + result + Q;
+        if (qt)
+            result = Q + result + Q;
 
         return result;
     }
@@ -1076,60 +1160,60 @@ namespace
 
         // Skip empty lines and comments
         std::string::size_type cmdStart = line.find_first_not_of(delim);
-        if (cmdStart == std::string::npos || line[cmdStart] == '#') return false;
+        if (cmdStart == std::string::npos || line[cmdStart] == '#')
+            return false;
 
         // Get command and key
-        std::string::size_type cmdEnd = line.find_first_of(delim, cmdStart+1);
-        std::string::size_type keyStart = line.find_first_not_of(delim, cmdEnd+1);
-        std::string::size_type keyEnd = line.find_first_of(delim, keyStart+1);
-        if (   cmdStart == std::string::npos
-            || cmdEnd == std::string::npos
-            || keyStart == std::string::npos) {
-            std::string cmdLine ;
+        std::string::size_type cmdEnd = line.find_first_of(delim, cmdStart + 1);
+        std::string::size_type keyStart = line.find_first_not_of(delim, cmdEnd + 1);
+        std::string::size_type keyEnd = line.find_first_of(delim, keyStart + 1);
+        if (cmdStart == std::string::npos || cmdEnd == std::string::npos || keyStart == std::string::npos) {
+            std::string cmdLine;
 #if defined(_MSC_VER) || defined(__MINGW__)
-            for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
+            for (int i = 1; i < __argc; i++) {
+                cmdLine += std::string(" ") + formatArg(__argv[i]);
+            }
 #endif
-            throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
-                               + ": " + _("Invalid command line:") + cmdLine);
+            throw Exiv2::Error(Exiv2::kerErrorMessage,
+                               Exiv2::toString(num) + ": " + _("Invalid command line:") + cmdLine);
         }
 
-        std::string cmd(line.substr(cmdStart, cmdEnd-cmdStart));
+        std::string cmd(line.substr(cmdStart, cmdEnd - cmdStart));
         CmdId cmdId = commandId(cmd);
         if (cmdId == invalidCmdId) {
-            throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
-                               + ": " + _("Invalid command") + " `" + cmd + "'");
+            throw Exiv2::Error(Exiv2::kerErrorMessage,
+                               Exiv2::toString(num) + ": " + _("Invalid command") + " `" + cmd + "'");
         }
 
         Exiv2::TypeId defaultType = Exiv2::invalidTypeId;
-        std::string key(line.substr(keyStart, keyEnd-keyStart));
+        std::string key(line.substr(keyStart, keyEnd - keyStart));
         MetadataId metadataId = invalidMetadataId;
         if (cmdId != reg) {
             try {
                 Exiv2::IptcKey iptcKey(key);
                 metadataId = iptc;
-                defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(),
-                                                               iptcKey.record());
+                defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
+            } catch (const Exiv2::AnyError&) {
             }
-            catch (const Exiv2::AnyError&) {}
             if (metadataId == invalidMetadataId) {
                 try {
                     Exiv2::ExifKey exifKey(key);
                     metadataId = exif;
                     defaultType = exifKey.defaultTypeId();
+                } catch (const Exiv2::AnyError&) {
                 }
-                catch (const Exiv2::AnyError&) {}
             }
             if (metadataId == invalidMetadataId) {
                 try {
                     Exiv2::XmpKey xmpKey(key);
                     metadataId = xmp;
                     defaultType = Exiv2::XmpProperties::propertyType(xmpKey);
+                } catch (const Exiv2::AnyError&) {
                 }
-                catch (const Exiv2::AnyError&) {}
             }
             if (metadataId == invalidMetadataId) {
-                throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
-                                   + ": " + _("Invalid key") + " `" + key + "'");
+                throw Exiv2::Error(Exiv2::kerErrorMessage,
+                                   Exiv2::toString(num) + ": " + _("Invalid key") + " `" + key + "'");
             }
         }
         std::string value;
@@ -1138,30 +1222,29 @@ namespace
         if (cmdId != del) {
             // Get type and value
             std::string::size_type typeStart = std::string::npos;
-            if (keyEnd != std::string::npos) typeStart = line.find_first_not_of(delim, keyEnd+1);
+            if (keyEnd != std::string::npos)
+                typeStart = line.find_first_not_of(delim, keyEnd + 1);
             std::string::size_type typeEnd = std::string::npos;
-            if (typeStart != std::string::npos) typeEnd = line.find_first_of(delim, typeStart+1);
+            if (typeStart != std::string::npos)
+                typeEnd = line.find_first_of(delim, typeStart + 1);
             std::string::size_type valStart = typeStart;
             std::string::size_type valEnd = std::string::npos;
-            if (valStart != std::string::npos) valEnd = line.find_last_not_of(delim);
+            if (valStart != std::string::npos)
+                valEnd = line.find_last_not_of(delim);
 
-            if (   cmdId == reg
-                && (   keyEnd == std::string::npos
-                    || valStart == std::string::npos)) {
-                throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
-                                   + ": " + _("Invalid command line") + " " );
+            if (cmdId == reg && (keyEnd == std::string::npos || valStart == std::string::npos)) {
+                throw Exiv2::Error(Exiv2::kerErrorMessage,
+                                   Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
             }
 
-            if (   cmdId != reg
-                && typeStart != std::string::npos
-                && typeEnd != std::string::npos) {
-                std::string typeStr(line.substr(typeStart, typeEnd-typeStart));
+            if (cmdId != reg && typeStart != std::string::npos && typeEnd != std::string::npos) {
+                std::string typeStr(line.substr(typeStart, typeEnd - typeStart));
                 Exiv2::TypeId tmpType = Exiv2::TypeInfo::typeId(typeStr);
                 if (tmpType != Exiv2::invalidTypeId) {
-                    valStart = line.find_first_not_of(delim, typeEnd+1);
+                    valStart = line.find_first_not_of(delim, typeEnd + 1);
                     if (valStart == std::string::npos) {
-                        throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
-                                           + ": " + _("Invalid command line") + " " );
+                        throw Exiv2::Error(Exiv2::kerErrorMessage,
+                                           Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
                     }
                     type = tmpType;
                     explicitType = true;
@@ -1169,11 +1252,10 @@ namespace
             }
 
             if (valStart != std::string::npos) {
-                value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
-                std::string::size_type last = value.length()-1;
-                if (   (value[0] == '"' && value[last] == '"')
-                       || (value[0] == '\'' && value[last] == '\'')) {
-                    value = value.substr(1, value.length()-2);
+                value = parseEscapes(line.substr(valStart, valEnd + 1 - valStart));
+                std::string::size_type last = value.length() - 1;
+                if ((value[0] == '"' && value[last] == '"') || (value[0] == '\'' && value[last] == '\'')) {
+                    value = value.substr(1, value.length() - 2);
                 }
             }
         }
@@ -1192,37 +1274,35 @@ namespace
         }
 
         return true;
-    } // parseLine
+    }  // parseLine
 
     bool parseCmdFiles(ModifyCmds& modifyCmds, const Params::CmdFiles& cmdFiles)
     {
         Params::CmdFiles::const_iterator end = cmdFiles.end();
         Params::CmdFiles::const_iterator filename = cmdFiles.begin();
-        for ( ; filename != end; ++filename) {
+        for (; filename != end; ++filename) {
             try {
                 std::ifstream file(filename->c_str());
-                bool bStdin = filename->compare("-")== 0;
+                bool bStdin = filename->compare("-") == 0;
                 if (!file && !bStdin) {
-                    std::cerr << *filename << ": "
-                              << _("Failed to open command file for reading\n");
+                    std::cerr << *filename << ": " << _("Failed to open command file for reading\n");
                     return false;
                 }
                 int num = 0;
                 std::string line;
-                while (bStdin?std::getline(std::cin, line):std::getline(file, line)) {
+                while (bStdin ? std::getline(std::cin, line) : std::getline(file, line)) {
                     ModifyCmd modifyCmd;
                     if (parseLine(modifyCmd, line, ++num)) {
                         modifyCmds.push_back(modifyCmd);
                     }
                 }
-            }
-            catch (const Exiv2::AnyError& error) {
+            } catch (const Exiv2::AnyError& error) {
                 std::cerr << *filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
         }
         return true;
-    } // parseCmdFile
+    }  // parseCmdFile
 
     bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines)
     {
@@ -1230,20 +1310,18 @@ namespace
             int num = 0;
             Params::CmdLines::const_iterator end = cmdLines.end();
             Params::CmdLines::const_iterator line = cmdLines.begin();
-            for ( ; line != end; ++line) {
+            for (; line != end; ++line) {
                 ModifyCmd modifyCmd;
                 if (parseLine(modifyCmd, *line, ++num)) {
                     modifyCmds.push_back(modifyCmd);
                 }
             }
             return true;
-        }
-        catch (const Exiv2::AnyError& error) {
+        } catch (const Exiv2::AnyError& error) {
             std::cerr << _("-M option") << " " << error << "\n";
             return false;
         }
-    } // parseCmdLines
-
+    }  // parseCmdLines
 
     int parseCommonTargets(const std::string& optarg, const std::string& action)
     {
@@ -1307,9 +1385,7 @@ namespace
         return rc ? rc : target;
     }
 
-    int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
-                            const std::string& optarg,
-                            int j)
+    int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::string& optarg, int j)
     {
         size_t k = j;
         for (size_t i = j; i < optarg.size(); ++i) {
@@ -1322,14 +1398,14 @@ namespace
                 int num = Exiv2::stringTo<int>(os.str(), ok);
                 if (ok && num >= 0) {
                     previewNumbers.insert(num);
-                }
-                else {
-                    std::cerr << Params::instance().progname() << ": "
-                              << _("Invalid preview number") << ": " << num << "\n";
+                } else {
+                    std::cerr << Params::instance().progname() << ": " << _("Invalid preview number") << ": " << num
+                              << "\n";
                 }
                 i = k;
             }
-            if (!(k < optarg.size() && optarg[i] == ',')) break;
+            if (!(k < optarg.size() && optarg[i] == ','))
+                break;
         }
         int ret = static_cast<int>(k - j);
         if (ret == 0) {
@@ -1337,15 +1413,13 @@ namespace
         }
 #ifdef DEBUG
         std::cout << "\nThe set now contains: ";
-        for (Params::PreviewNumbers::const_iterator i = previewNumbers.begin();
-             i != previewNumbers.end();
-             ++i) {
+        for (Params::PreviewNumbers::const_iterator i = previewNumbers.begin(); i != previewNumbers.end(); ++i) {
             std::cout << *i << ", ";
         }
         std::cout << std::endl;
 #endif
-        return (int) (k - j);
-    } // parsePreviewNumbers
+        return (int)(k - j);
+    }  // parsePreviewNumbers
 
     std::string parseEscapes(const std::string& input)
     {
@@ -1364,95 +1438,92 @@ namespace
             ++i;
             ch = input[i];
             switch (ch) {
-            case '\\':                          // Escaping of backslash
-                result.push_back('\\');
-                break;
-            case 'r':                           // Escaping of carriage return
-                result.push_back('\r');
-                break;
-            case 'n':                           // Escaping of newline
-                result.push_back('\n');
-                break;
-            case 't':                           // Escaping of tab
-                result.push_back('\t');
-                break;
-            case 'u':                           // Escaping of unicode
-                if (input.length() - 4 > i) {
-                    int acc = 0;
-                    for (int j = 0; j < 4; ++j) {
-                        ++i;
-                        acc <<= 4;
-                        if (input[i] >= '0' && input[i] <= '9') {
-                            acc |= input[i] - '0';
+                case '\\':  // Escaping of backslash
+                    result.push_back('\\');
+                    break;
+                case 'r':  // Escaping of carriage return
+                    result.push_back('\r');
+                    break;
+                case 'n':  // Escaping of newline
+                    result.push_back('\n');
+                    break;
+                case 't':  // Escaping of tab
+                    result.push_back('\t');
+                    break;
+                case 'u':  // Escaping of unicode
+                    if (input.length() - 4 > i) {
+                        int acc = 0;
+                        for (int j = 0; j < 4; ++j) {
+                            ++i;
+                            acc <<= 4;
+                            if (input[i] >= '0' && input[i] <= '9') {
+                                acc |= input[i] - '0';
+                            } else if (input[i] >= 'a' && input[i] <= 'f') {
+                                acc |= input[i] - 'a' + 10;
+                            } else if (input[i] >= 'A' && input[i] <= 'F') {
+                                acc |= input[i] - 'A' + 10;
+                            } else {
+                                acc = -1;
+                                break;
+                            }
                         }
-                        else if (input[i] >= 'a' && input[i] <= 'f') {
-                            acc |= input[i] - 'a' + 10;
-                        }
-                        else if (input[i] >= 'A' && input[i] <= 'F') {
-                            acc |= input[i] - 'A' + 10;
-                        }
-                        else {
-                            acc = -1;
+                        if (acc == -1) {
+                            result.push_back('\\');
+                            i = escapeStart;
                             break;
                         }
-                    }
-                    if (acc == -1) {
+
+                        std::string ucs2toUtf8 = "";
+                        ucs2toUtf8.push_back((char)((acc & 0xff00) >> 8));
+                        ucs2toUtf8.push_back((char)(acc & 0x00ff));
+
+                        if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
+                            result.append(ucs2toUtf8);
+                        }
+                    } else {
                         result.push_back('\\');
-                        i = escapeStart;
-                        break;
+                        result.push_back(ch);
                     }
-
-                    std::string ucs2toUtf8 = "";
-                    ucs2toUtf8.push_back((char) ((acc & 0xff00) >> 8));
-                    ucs2toUtf8.push_back((char) (acc & 0x00ff));
-
-                    if (Exiv2::convertStringCharset (ucs2toUtf8, "UCS-2BE", "UTF-8")) {
-                        result.append (ucs2toUtf8);
-                    }
-                }
-                else {
+                    break;
+                default:
                     result.push_back('\\');
                     result.push_back(ch);
-                }
-                break;
-            default:
-                result.push_back('\\');
-                result.push_back(ch);
             }
         }
         return result;
     }
 
-    int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
+    int readFileToBuf(FILE* f, Exiv2::DataBuf& buf)
     {
-        const int buff_size = 4*1028;
-        Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
-        int       nBytes    = 0 ;
-        bool      more      = bytes != nullptr;
-        while   ( more ) {
+        const int buff_size = 4 * 1028;
+        Exiv2::byte* bytes = (Exiv2::byte*)::malloc(buff_size);
+        int nBytes = 0;
+        bool more = bytes != nullptr;
+        while (more) {
             char buff[buff_size];
-            int  n     = (int) fread(buff,1,buff_size,f);
-            more       = n > 0 ;
-            if ( more ) {
-                bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
-                memcpy(bytes+nBytes,buff,n);
-                nBytes    += n ;
+            int n = (int)fread(buff, 1, buff_size, f);
+            more = n > 0;
+            if (more) {
+                bytes = (Exiv2::byte*)realloc(bytes, nBytes + n);
+                memcpy(bytes + nBytes, buff, n);
+                nBytes += n;
             }
         }
 
-        if ( nBytes ) {
+        if (nBytes) {
             buf.alloc(nBytes);
-            memcpy(buf.pData_,(const void*)bytes,nBytes);
+            memcpy(buf.pData_, (const void*)bytes, nBytes);
         }
-        if ( bytes != nullptr ) ::free(bytes) ;
+        if (bytes != nullptr)
+            ::free(bytes);
         return nBytes;
     }
 
     CmdId commandId(const std::string& cmdString)
     {
         int i = 0;
-        for (;   cmdIdAndString[i].cmdId_ != invalidCmdId
-                 && cmdIdAndString[i].cmdString_ != cmdString; ++i) {}
+        for (; cmdIdAndString[i].cmdId_ != invalidCmdId && cmdIdAndString[i].cmdString_ != cmdString; ++i) {
+        }
         return cmdIdAndString[i].cmdId_;
     }
-}
+}  // namespace
