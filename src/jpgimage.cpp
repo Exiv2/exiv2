@@ -1173,7 +1173,7 @@ namespace Exiv2
                         pad[1] = static_cast<char>(chunks);
                         outIo.write((const byte*)iccId_, 12);
                         outIo.write((const byte*)pad, 2);
-                        if ((int)outIo.write(iccProfile_.pData_ + (chunk * chunk_size), bytes) != bytes)
+                        if (outIo.write(iccProfile_.pData_ + (chunk * chunk_size), bytes) != bytes)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())
                             throw Error(kerImageWriteFailed);
