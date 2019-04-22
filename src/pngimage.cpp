@@ -553,7 +553,8 @@ namespace Exiv2 {
             memcpy(chunkBuf.pData_, cheaderBuf.pData_, 8);            // Copy header.
             bufRead = io_->read(chunkBuf.pData_ + 8, dataOffset + 4); // Extract chunk data + CRC
             if (io_->error()) throw Error(kerFailedToReadImageData);
-            if (bufRead != (long)(dataOffset + 4)) throw Error(kerInputDataReadFailed);
+            if (bufRead != (size_t)(dataOffset + 4))
+                throw Error(kerInputDataReadFailed);
 
             char szChunk[5];
             memcpy(szChunk,cheaderBuf.pData_ + 4,4);

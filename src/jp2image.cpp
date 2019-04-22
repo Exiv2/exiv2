@@ -777,7 +777,7 @@ namespace Exiv2
                 throw Error(kerFailedToReadImageData);
             }
 
-            if (bufRead != (long)(box.length - 8))
+            if (bufRead != (size_t)(box.length - 8))
             {
 #ifdef DEBUG
                 std::cout << "Exiv2::Jp2Image::doWriteMetadata: Cannot read source file data" << std::endl;
