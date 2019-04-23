@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "exiv2app.hpp"
+#include "params.hpp"
 
 #include "actions.hpp"
 #include "i18n.h"  // NLS support.

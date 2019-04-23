@@ -28,7 +28,7 @@
 
 // include local header files which are not part of libexiv2
 #include "actions.hpp"
-#include "exiv2app.hpp"
+#include "params.hpp"
 #include "i18n.h"  // NLS support.
 
 int main(int argc, char* const argv[])
