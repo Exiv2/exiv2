@@ -27,7 +27,7 @@
 #include "actions.hpp"
 #include "easyaccess.hpp"
 #include "exif.hpp"
-#include "exiv2app.hpp"
+#include "params.hpp"
 #include "futils.hpp"
 #include "i18n.h"  // NLS support.
 #include "image.hpp"
@@ -178,13 +178,6 @@ namespace Action
         return ins;
     }
 
-    void TaskFactory::cleanup()
-    {
-        for (auto it = registry_.begin(); it != registry_.end(); ++it) {
-            delete it->second;
-        }
-    }
-
     TaskFactory::TaskFactory()
         : registry_{
               {adjust, new Adjust}, {print, new Print},     {rename, new Rename},
@@ -192,6 +185,13 @@ namespace Action
               {modify, new Modify}, {fixiso, new FixIso},   {fixcom, new FixCom},
           }
     {
+    }
+
+    TaskFactory::~TaskFactory()
+    {
+        for (auto it = registry_.begin(); it != registry_.end(); ++it) {
+            delete it->second;
+        }
     }
 
     std::unique_ptr<Task> TaskFactory::create(TaskType type)
