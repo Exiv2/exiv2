@@ -1282,12 +1282,12 @@ namespace
 
     bool parseCmdFiles(ModifyCmds& modifyCmds, const Params::CmdFiles& cmdFiles)
     {
-        for (auto filename = cmdFiles.cbegin(); filename != cmdFiles.cend(); ++filename) {
+        for (const auto& filename: cmdFiles) {
             try {
-                std::ifstream file(filename->c_str());
-                bool bStdin = filename->compare("-") == 0;
+                std::ifstream file(filename.c_str());
+                bool bStdin = filename.compare("-") == 0;
                 if (!file && !bStdin) {
-                    std::cerr << *filename << ": " << _("Failed to open command file for reading\n");
+                    std::cerr << filename << ": " << _("Failed to open command file for reading\n");
                     return false;
                 }
                 int num = 0;
@@ -1299,7 +1299,7 @@ namespace
                     }
                 }
             } catch (const Exiv2::AnyError& error) {
-                std::cerr << *filename << ", " << _("line") << " " << error << "\n";
+                std::cerr << filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
         }
