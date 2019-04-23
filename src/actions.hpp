@@ -84,9 +84,6 @@ namespace Action
         //! Clients access the task factory exclusively through this method.
         static TaskFactory& instance();
 
-        //! Destructor
-        void cleanup();
-
         //! @brief Create a task.
         //! @param  type Identifies the type of task to create.
         //! @return An auto pointer that owns a task of the requested type. If the task type is not supported,
@@ -98,6 +95,7 @@ namespace Action
     private:
         //! Prevent construction other than through instance().
         TaskFactory();
+        ~TaskFactory();
 
     public:
         TaskFactory& operator=(const TaskFactory& rhs) = delete;
