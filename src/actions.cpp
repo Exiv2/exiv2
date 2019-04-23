@@ -25,7 +25,6 @@
 #include "config.h"
 
 #include "actions.hpp"
-#include "exiv2app.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "xmpsidecar.hpp"

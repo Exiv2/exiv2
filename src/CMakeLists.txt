@@ -233,7 +233,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "
 if(EXIV2_BUILD_EXIV2_COMMAND)
     add_executable( exiv2
          exiv2.cpp
-         exiv2app.hpp
+         params.cpp params.hpp
          actions.cpp actions.hpp
          getopt.cpp getopt.hpp
          utils.cpp utils.hpp
