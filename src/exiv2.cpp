@@ -77,7 +77,6 @@ int main(int argc, char* const argv[])
                 rc = ret;
         }
 
-        taskFactory.cleanup();
         Exiv2::XmpParser::terminate();
 
     } catch (const std::exception& exc) {
