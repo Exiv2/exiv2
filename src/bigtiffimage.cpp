@@ -201,11 +201,7 @@ namespace Exiv2
                     do
                     {
                         // Read top of directory
-#if defined(_MSC_VER) && _WIN64
-                        io.seek((int64_t)dir_offset, BasicIo::beg);
-#else
-                        io.seek((long)dir_offset, BasicIo::beg);
-#endif
+                        io.seek((int64)dir_offset, BasicIo::beg);
                         const uint64_t entries = readData(header_.format() == Header::StandardTiff? 2: 8);
                         const bool tooBig = entries > 500;
 
@@ -282,11 +278,7 @@ namespace Exiv2
                             if ( usePointer )                          // read into buffer
                             {
                                 const auto restore = io.tell();          // save
-#if defined(_MSC_VER) && _WIN64
-                                io.seek((int64_t)offset, BasicIo::beg);            // position
-#else
-                                io.seek((long)offset, BasicIo::beg);  // position
-#endif
+                                io.seek((int64)offset, BasicIo::beg);            // position
                                 io.read(buf.pData_, (long)count* size);                         // read
                                 io.seek(restore, BasicIo::beg);        // restore
                             }
@@ -365,11 +357,7 @@ namespace Exiv2
                                     }
 
                                     const auto restore = io.tell();
-#if defined(_MSC_VER) && _WIN64
-                                    io.seek((int64_t)offset, BasicIo::beg);                        // position
-#else
-                                    io.seek((long)offset, BasicIo::beg);                        // position
-#endif
+                                    io.seek((int64)offset, BasicIo::beg);                        // position
                                     std::vector<byte> bytes(static_cast<size_t>(count));  // allocate memory
                                     const size_t read_bytes = io.read(bytes.data(), static_cast<long>(count));
                                     io.seek(restore, BasicIo::beg);
@@ -383,11 +371,7 @@ namespace Exiv2
                                     size_t jump= 10;
                                     byte bytes[20];
                                     const char* chars = (const char*) bytes;
-#if defined(_MSC_VER) && _WIN64
-                                    io.seek((int64_t)dir_offset, BasicIo::beg);  // position
-#else
-                                    io.seek((long)dir_offset, BasicIo::beg);  // position
-#endif
+                                    io.seek((int64)dir_offset, BasicIo::beg);  // position
                                     io.read(bytes, jump);  // read
                                     bytes[jump] = 0;
                                     if ( ::strcmp("Nikon",chars) == 0 )

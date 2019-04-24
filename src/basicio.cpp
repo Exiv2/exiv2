@@ -623,11 +623,7 @@ namespace Exiv2
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 // silently accept overflows in unsigned difference
-#if defined(_MSC_VER) && _WIN64
-                int64_t offset = writeCount - readCount;
-#else
-                long offset = writeCount - readCount;
-#endif
+                int64 offset = writeCount - readCount;
                 src.seek(offset, BasicIo::cur);
                 break;
             }
@@ -909,8 +905,7 @@ namespace Exiv2
         return putc(data, p_->fp_);
     }
 
-#if defined(_MSC_VER) && _WIN64
-    int FileIo::seek(int64_t offset, Position pos)
+    int FileIo::seek(int64 offset, Position pos)
     {
         assert(p_->fp_ != 0);
 
@@ -930,46 +925,22 @@ namespace Exiv2
         if (p_->switchMode(Impl::opSeek) != 0) {
             return 1;
         }
+#if defined(_MSC_VER) && _WIN64
         return _fseeki64(p_->fp_, offset, fileSeek);
-    }
 #else
-    int FileIo::seek(long offset, Position pos)
-    {
-        assert(p_->fp_ != 0);
-
-        int fileSeek = 0;
-        switch (pos) {
-            case BasicIo::cur:
-                fileSeek = SEEK_CUR;
-                break;
-            case BasicIo::beg:
-                fileSeek = SEEK_SET;
-                break;
-            case BasicIo::end:
-                fileSeek = SEEK_END;
-                break;
-        }
-
-        if (p_->switchMode(Impl::opSeek) != 0) {
-            return 1;
-        }
         return std::fseek(p_->fp_, offset, fileSeek);
-    }
 #endif
+    }
 
+    int64 FileIo::tell() const
+    {
+        assert(p_->fp_ != 0);
 #if defined(_MSC_VER) && _WIN64
-    int64_t FileIo::tell() const
-    {
-        assert(p_->fp_ != 0);
         return _ftelli64(p_->fp_);
-    }
 #else
-    long FileIo::tell() const
-    {
-        assert(p_->fp_ != 0);
         return std::ftell(p_->fp_);
-    }
 #endif
+    }
 
     size_t FileIo::size() const
     {
@@ -1067,11 +1038,7 @@ namespace Exiv2
     bool FileIo::eof() const
     {
         assert(p_->fp_ != 0);
-#if defined(_MSC_VER) && _WIN64
-        return feof(p_->fp_) != 0 || tell() >= (int64_t)size();
-#else
-        return feof(p_->fp_) != 0 || tell() >= (long)size();
-#endif
+        return feof(p_->fp_) != 0 || tell() >= (int64)size();
     }
 
     std::string FileIo::path() const
@@ -1108,11 +1075,7 @@ namespace Exiv2
 
         // DATA
         byte* data_;  //!< Pointer to the start of the memory area
-#if defined(_MSC_VER) && _WIN64
-        int64_t idx_;  //!< Index into the memory area
-#else
-        long idx_;  //!< Index into the memory area
-#endif
+        int64 idx_;  //!< Index into the memory area
         size_t size_;         //!< Size of the memory area
         size_t sizeAlloced_;  //!< Size of the allocated buffer
         bool isMalloced_;     //!< Was the buffer allocated?
@@ -1336,10 +1299,9 @@ namespace Exiv2
         return data;
     }
 
-#if defined(_MSC_VER) && _WIN64
-    int MemIo::seek(int64_t offset, Position pos)
+    int MemIo::seek(int64 offset, Position pos)
     {
-        int64_t newIdx = 0;
+        int64 newIdx = 0;
 
         switch (pos) {
             case BasicIo::cur:
@@ -1359,30 +1321,6 @@ namespace Exiv2
         p_->eof_ = false;
         return 0;
     }
-#else
-    int MemIo::seek(long offset, Position pos)
-    {
-        long newIdx = 0;
-
-        switch (pos) {
-            case BasicIo::cur:
-                newIdx = p_->idx_ + offset;
-                break;
-            case BasicIo::beg:
-                newIdx = offset;
-                break;
-            case BasicIo::end:
-                newIdx = p_->size_ + offset;
-                break;
-        }
-
-        if (newIdx < 0)
-            return 1;
-        p_->idx_ = newIdx;
-        p_->eof_ = false;
-        return 0;
-    }
-#endif
 
     byte* MemIo::mmap(bool /*isWriteable*/)
     {
@@ -1394,17 +1332,10 @@ namespace Exiv2
         return 0;
     }
 
-#if defined(_MSC_VER) && _WIN64
-    int64_t MemIo::tell() const
+    int64 MemIo::tell() const
     {
         return p_->idx_;
     }
-#else
-    long MemIo::tell() const
-    {
-        return p_->idx_;
-    }
-#endif
 
     size_t MemIo::size() const
     {
@@ -1451,11 +1382,7 @@ namespace Exiv2
 
     int MemIo::getb()
     {
-#if defined(_MSC_VER) && _WIN64
-        if (p_->idx_ >= (int64_t)p_->size_) {
-#else
-        if (p_->idx_ >= (long)p_->size_) {
-#endif
+        if (p_->idx_ >= (int64)p_->size_) {
             p_->eof_ = true;
             return EOF;
         }
@@ -2006,11 +1933,10 @@ namespace Exiv2
         src.close();
     }
 
-#if defined(_MSC_VER) && _WIN64
-    int RemoteIo::seek(int64_t offset, Position pos)
+    int RemoteIo::seek(int64 offset, Position pos)
     {
         assert(p_->isMalloced_);
-        int64_t newIdx = 0;
+        int64 newIdx = 0;
 
         switch (pos) {
             case BasicIo::cur:
@@ -2027,38 +1953,11 @@ namespace Exiv2
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
-        p_->eof_ = newIdx > (int64_t)p_->size_;
+        p_->eof_ = newIdx > (int64)p_->size_;
         if (p_->idx_ > p_->size_)
             p_->idx_ = p_->size_;
         return 0;
     }
-#else
-    int RemoteIo::seek(long offset, Position pos)
-    {
-        assert(p_->isMalloced_);
-        long newIdx = 0;
-
-        switch (pos) {
-            case BasicIo::cur:
-                newIdx = p_->idx_ + offset;
-                break;
-            case BasicIo::beg:
-                newIdx = offset;
-                break;
-            case BasicIo::end:
-                newIdx = p_->size_ + offset;
-                break;
-        }
-
-        // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
-        // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
-        p_->idx_ = newIdx;
-        p_->eof_ = newIdx > (long)p_->size_;
-        if (p_->idx_ > p_->size_)
-            p_->idx_ = p_->size_;
-        return 0;
-    }
-#endif
 
     byte* RemoteIo::mmap(bool /*isWriteable*/)
     {
@@ -2087,17 +1986,10 @@ namespace Exiv2
         return 0;
     }
 
-#if defined(_MSC_VER) && _WIN64
-    int64_t RemoteIo::tell() const
+    int64 RemoteIo::tell() const
     {
         return p_->idx_;
     }
-#else
-    long RemoteIo::tell() const
-    {
-        return p_->idx_;
-    }
-#endif
 
     size_t RemoteIo::size() const
     {

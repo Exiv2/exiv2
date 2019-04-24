@@ -357,11 +357,8 @@ namespace Exiv2
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // Read size and signature (ok if this hits EOF)
             std::memset(buf.pData_, 0x0, buf.size_);
-#if defined(_MSC_VER) && _WIN64
-            int64_t bufRead = static_cast<int64_t>(io_->read(buf.pData_, bufMinSize));
-#else
-            long bufRead = static_cast<long>(io_->read(buf.pData_, bufMinSize));
-#endif
+            int64 bufRead = static_cast<int64>(io_->read(buf.pData_, bufMinSize));
+
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
             if (bufRead < 2)
@@ -618,11 +615,7 @@ namespace Exiv2
 
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
-#if defined(_MSC_VER) && _WIN64
-                int64_t bufRead = static_cast<int64_t>(io_->read(buf.pData_, bufMinSize));
-#else
-                long bufRead = static_cast<long>(io_->read(buf.pData_, bufMinSize));
-#endif
+                int64 bufRead = static_cast<int64>(io_->read(buf.pData_, bufMinSize));
                 if (io_->error())
                     throw Error(kerFailedToReadImageData);
                 if (bufRead < 2)
@@ -856,11 +849,7 @@ namespace Exiv2
 
             assert(tempIo.get() != 0);
             for (size_t i = 0; i < (count / 2) + 1; i++) {
-#if defined(_MSC_VER) && _WIN64
-                int64_t start = (int64_t)(pos[2 * i] + 2);  // step JPG 2 byte marker
-#else
-                long start = (long)(pos[2 * i] + 2);  // step JPG 2 byte marker
-#endif
+                int64 start = (int64)(pos[2 * i] + 2);  // step JPG 2 byte marker
                 if (start == 2)
                     start = 0;  // read the file 2 byte SOI
                 long length = (long)(pos[2 * i + 1] - start);
@@ -912,11 +901,7 @@ namespace Exiv2
         }
 
         const long bufMinSize = 36;
-#if defined(_MSC_VER) && _WIN64
-        int64_t bufRead;
-#else
-        long bufRead;
-#endif
+        int64 bufRead;
         DataBuf buf(bufMinSize);
         const auto seek = io_->tell();
         int count = 0;

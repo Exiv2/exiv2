@@ -39,6 +39,12 @@
 // namespace extensions
 namespace Exiv2 {
 
+#if defined(_MSC_VER) && _WIN64
+ using int64 = int64_t;
+#else
+ using int64 = long;
+#endif
+
 // *****************************************************************************
 // class definitions
 
@@ -168,11 +174,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
-#if defined(_MSC_VER) && _WIN64
-        virtual int seek(int64_t offset, Position pos) = 0;
-#else
-        virtual int seek(long offset, Position pos) = 0;
-#endif
+        virtual int seek(int64 offset, Position pos) = 0;
 
         /*!
           @brief Direct access to the IO data. For files, this is done by
@@ -201,11 +203,7 @@ namespace Exiv2 {
           @return Offset from the start of IO if successful;<BR>
                  -1 if failure;
          */
-#if defined(_MSC_VER) && _WIN64
-        virtual int64_t tell() const = 0;
-#else
-        virtual long tell() const = 0;
-#endif
+        virtual int64 tell() const = 0;
         /*!
           @brief Get the current size of the IO source in bytes.
           @return Size of the IO source in bytes;<BR>
@@ -432,11 +430,8 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER) && _WIN64
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
+
         /*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
@@ -477,11 +472,7 @@ namespace Exiv2 {
           @return Offset from the start of the file if successful;<BR>
                  -1 if failure;
          */
-#if defined(_MSC_VER) && _WIN64
-        int64_t tell() const override;
-#else
-        long tell() const override;
-#endif
+        int64 tell() const override;
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes.
@@ -657,11 +648,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER) && _WIN64
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
@@ -680,11 +667,7 @@ namespace Exiv2 {
           @brief Get the current IO position.
           @return Offset from the start of the memory block
          */
-#if defined(_MSC_VER) && _WIN64
-        int64_t tell() const override;
-#else
-        long tell() const override;
-#endif
+        int64 tell() const override;
         /*!
           @brief Get the current memory buffer size in bytes.
           @return Size of the in memory data in bytes;<BR>
@@ -945,11 +928,7 @@ namespace Exiv2 {
          @return 0 if successful;<BR>
                 Nonzero if failure;
         */
-#if defined(_MSC_VER) && _WIN64
-       int seek(int64_t offset, Position pos) override;
-#else
-       int seek(long offset, Position pos) override;
-#endif
+       int seek(int64 offset, Position pos) override;
        /*!
          @brief Not support
          @return nullptr
@@ -967,11 +946,7 @@ namespace Exiv2 {
          @brief Get the current IO position.
          @return Offset from the start of the memory block
         */
-#if defined(_MSC_VER) && _WIN64
-       int64_t tell() const override;
-#else
-       long tell() const override;
-#endif
+       int64 tell() const override;
        /*!
          @brief Get the current memory buffer size in bytes.
          @return Size of the in memory data in bytes;<BR>
