@@ -209,11 +209,7 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf();
         //! Constructor with an initial buffer size
-#if defined(_MSC_VER) && _WIN64
         explicit DataBuf(size_t size);
-#else
-        explicit DataBuf(long size);
-#endif
         //! Constructor, copies an existing buffer
         DataBuf(const byte* pData, size_t size);
         /*!
@@ -240,7 +236,7 @@ namespace Exiv2 {
                  new memory is allocated and the buffer size doesn't change.
          */
         void alloc(size_t size);
-        
+
         /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal

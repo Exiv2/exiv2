@@ -139,11 +139,7 @@ namespace Exiv2 {
     DataBuf::DataBuf() : pData_(0), size_(0)
     {}
 
-#if defined(_MSC_VER) && _WIN64
     DataBuf::DataBuf(size_t size) : pData_(new byte[size]()), size_(size)
-#else
-    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(static_cast<size_t>(size))
-#endif
     {
     }
 
