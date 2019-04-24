@@ -583,18 +583,10 @@ namespace Action {
         for (Params::Greps::const_iterator g = Params::instance().greps_.begin();
                 !result && g != Params::instance().greps_.end(); ++g)
         {
-#if defined(EXV_HAVE_REGEX_H)
-            result = regexec( &(*g), key.c_str(), 0, nullptr, 0) == 0 ;
-#else
-            std::string Pattern(g->pattern_);
-            std::string Key(key);
-            if ( g->bIgnoreCase_ ) {
-                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
-                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
-                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
-            }
-            result = Key.find(Pattern) != std::string::npos;
-#endif
+            std::smatch m;
+
+            result = std::regex_match(key, m, *g);
+
         }
         return result ;
     }

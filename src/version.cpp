@@ -124,22 +124,12 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
     for( exv_grep_keys_t::const_iterator g = greps.begin();
       !bPrint && g != greps.end() ; ++g
     ) {
-        std::string Key(key);
-#if defined(EXV_HAVE_REGEX_H)
-        bPrint = (  0 == regexec( &(*g), key          , 0, nullptr, 0)
-                 || 0 == regexec( &(*g), value.c_str(), 0, nullptr, 0)
+        std::smatch m;
+        const std::string Key(key);
+
+        bPrint = (  std::regex_match( Key, m, *g)
+                 || std::regex_match( value, m, *g)
                  );
-#else
-            std::string Pattern(g->pattern_);
-            std::string Value(value);
-            if ( g->bIgnoreCase_ ) {
-                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
-                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
-                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
-                std::transform(Value.begin()  , Value.end()  ,Value.begin()    , ::tolower);
-            }
-            bPrint = Key.find(Pattern) != std::string::npos || Value.find(Pattern) != std::string::npos;
-#endif
     }
     return bPrint;
 }
@@ -338,12 +328,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int use_curl = 0;
 #endif
 
-#ifdef EXV_HAVE_REGEX_H
-    constexpr int have_regex = 1;
-#else
-    constexpr int have_regex = 0;
-#endif
-
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
     HMODULE handles[200];
@@ -441,7 +425,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
-    output(os,keys,"have_regex"        ,have_regex       );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 

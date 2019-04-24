@@ -436,31 +436,13 @@ int Params::evalGrep(const std::string& optarg)
     int result = 0;
     std::string pattern;
     std::string ignoreCase("/i");
-    bool bIgnoreCase = ends_with(optarg, ignoreCase, pattern);
-#if defined(EXV_HAVE_REGEX_H)
-    // try to compile a reg-exp from the input argument and store it in the vector
-    const size_t i = greps_.size();
-    greps_.resize(i + 1);
-    regex_t* pRegex = &greps_[i];
-    int errcode = regcomp(pRegex, pattern.c_str(), bIgnoreCase ? REG_NOSUB | REG_ICASE : REG_NOSUB);
+    const bool bIgnoreCase = ends_with(optarg, ignoreCase, pattern);
+    const auto flags = bIgnoreCase?
+                        (std::regex_constants::ECMAScript | std::regex_constants::icase) :
+                         std::regex_constants::ECMAScript;
 
-    // there was an error compiling the regexp
-    if (errcode) {
-        size_t length = regerror(errcode, pRegex, nullptr, 0);
-        char* buffer = new char[length];
-        regerror(errcode, pRegex, buffer, length);
-        std::cerr << progname() << ": " << _("Option") << " -g: " << _("Invalid regexp") << " \"" << optarg
-                  << "\": " << buffer << "\n";
+    greps_.push_back(std::regex(pattern, flags));
 
-        // free the memory and drop the regexp
-        delete[] buffer;
-        regfree(pRegex);
-        greps_.resize(i);
-        result = 1;
-    }
-#else
-    greps_.push_back(Exiv2_grep_key_t(pattern, bIgnoreCase));
-#endif
     return result;
 }  // Params::evalGrep
 
