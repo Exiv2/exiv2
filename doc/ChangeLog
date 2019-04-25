@@ -1,3 +1,36 @@
+Changes from version 0.27 to 0.27.1
+-----------------------------------
+
+https://github.com/Exiv2/exiv2/milestone/3?closed=1 (40)
+
+#781 MinGW exiv2-0.27-Source fails with stdlib.h: No such file or directory.
+#780 Support for Visual Studio 2019 using Conan and CMake.
+#744 JP2000 -pS (print Structure) throws Invalid slice bounds specified on all jp2 files.
+#745 Review/fix documentation concerning CMake support files
+#761 Corrections in README.md concerning "Consuming Exiv2 with CMake"
+#745 Review/fix documentation concerning CMake support files.
+#740 Tests for jp2image.
+#726 Doxygen improvements.
+#706 Fix access to null pointer in TiffParser.
+#700 exiv2-xmp linked privately.
+#684 gettext include issue on macOS.
+#661 Development of v0.27 dots moved to branch 0.27-maintenance.
+#660 Install new file exiv2lib_compiler_detection.h
+#644 Xcode fails with Exiv2::BasicError<char>
+#644 Old issue tracker (Redmine) is being spammed.
+#637 Reliable detection of strerror_r variants.
+#634 Fixes for installing exiv2.
+#629 xmpsdk: Build with -DBanAllEntityUsage=1.
+#628 cmake: Install header files without globbing.
+#625 cmake: Use correct installation dirs for doc and cmake configs.
+#620 0.27 tarball contains cruft.
+#617 Deprecate relics.
+#608 Update Nikon lens database.
+#603 MSVC cmake+conan with -DEXIV2_ENABLE_LIBSSH=On is broken
+#602 MSVC compiler warning with -DEXIV2_ENABLE_VIDEO=On.
+#597 Patch for broken ICC profile in PNG files
+#590 Several bugs in 0.27-rc3
+
 Changes from version 0.26 to 0.27
 ---------------------------------
 

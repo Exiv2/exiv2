@@ -189,15 +189,20 @@ cmd
 
 ### Profiles for Visual Studio
 
-You can build Exiv2 with Visual Studio 2017 (version 15), 2015 (version 14), 2013 (version 12), 2012 (version 11), 2010 (version 10) or 2008 (version 9).
-You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in **<exiv2dir>/cmake/msvc\_conan\_profiles**.  There are 24 in total:
+Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 and 2017.
+
+Exiv2 v0.27.1 (and later) can be built with VS 2015, 2017 and 2019.  I believe it will build with 2013 and earlier, however we don't actively support those version of Visual Studio.
+
+v0.28 is being "modernised" to C++11 and will not support C++98. We don't expect Exiv2 v0.28 to build with VS 2008, 2010, 2012 or 2013.
+
+You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake/msvc\_conan\_profiles`.  There are 26 in total:
 
 ```
 Profile :=    msvc{Edition}{Type}{Bits}
-Edition :=  { 2017    | 2015  |  2013  |  2012  |  2010  |  2008  }
+Edition :=  { 2019    | 2017  |  2015  }
 Type    :=  { Release | Debug }
-Bits    :=  { 64      | 32    }
-Examples:     msvc2017Release64  msvc2015Debug32
+Bits    :=  { 64      | 32    }   # 32 bit build is not provided for 2019
+Examples:     msvc2019Release msvc2017Release64  msvc2015Debug32
 ```
 
 The profile msvc2017Release64 is as follows:
@@ -217,6 +222,14 @@ os_build=Windows
 [env]
 ```
 
+### Tools for Visual Studio 2019
+
+You will need cmake version 3.14 (and up) and conan 1.14 (and up).  Additionally, when I upgraded to conan 1.14.3, I had to manually update (For me: `%USERPROFILE% == C:\Users\rmills`):
+
+```bat
+copy/y %USERPROFILE%\.conan\settings.yml.new %USERPROFILE%\.conan\settings.yml
+```
+
 ### CMake Generators for Visual Studio
 
 In the step-by-step guide, the command `$ cmake ..` uses
@@ -230,35 +243,35 @@ c:\....\exiv2\build> cmake --build .  --config Release
 
 CMake provides Generators for different editions of Visual Studio.  The 64 and 32 bit Generators have different names:
 
-| Architecture | Visual Studio 2017 | Visual Studio 2015 | Visual Studio 2013 |
-|:---------    |--------------------|--------------------|--------------------|
-| 64 bit       | "Visual Studio 15 2017 Win64" |  "Visual Studio 14 2015 Win64"     | "Visual Studio 12 2013 Win64"  |
-| 32 bit       | "Visual Studio 15 2017"       | "Visual Studio 14 2015"            | "Visual Studio 12 2013 "       |
+| Architecture | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
+|:---------    |--------------------|--------------------|--------------------|--------------------|
+| 64 bit       | "Visual Studio 16 2019" | "Visual Studio 15 2017 Win64" |  "Visual Studio 14 2015 Win64"     |
+| 32 bit       | Not provided            | "Visual Studio 15 2017"       | "Visual Studio 14 2015"            |
 
 ### Recommended settings for Visual Studio
 
 ##### 64 bit Release Build
 
-| | Visual Studio 2017 | Visual Studio 2015|
-|:---------|--------------------|--------------------|
-| _**conan install .. --profile**_ | msvc2017Release64 | msvc2015Release64 |
-| _**cmake -G**_                   |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
-| _**profile**_<br><br><br><br><br><br><br>_ | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=15<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=14 <br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows |
+| | Visual Studio 2017 | Visual Studio 2017 | Visual Studio 2015|
+|:---------|--------------------|--------------------|--------------|
+| _**conan install .. --profile**_ | msvc2019Release | msvc2017Release64 | msvc2015Release64 |
+| _**cmake -G**_                   |  "Visual Studio 16 2019"    |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
+| _**profile**_<br><br><br><br><br><br><br>_ | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=16<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=15<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=14 <br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows |
 
 ##### Debug Builds
 
-|| Visual Studio 2017 | Visual Studio 2015 |
-|:-------|-------|------|
-| _**conan install .. --profile**_ | msvc2017Debug64 | msvc2015Debug64 |
-| _**profile**_<br>_ | build\_type=Debug<br>compiler.runtime=MDd | build_type=Debug<br>compiler.runtime=MDd |
+|| Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
+|:-------|-------|------|--------------|
+| _**conan install .. --profile**_ | msvc2019Debug | msvc2017Debug64 | msvc2015Debug64 |
+| _**profile**_<br>_ | build\_type=Debug<br>compiler.runtime=MDd | build\_type=Debug<br>compiler.runtime=MDd | build_type=Debug<br>compiler.runtime=MDd |
 
 ##### 32bit Builds
 
-|| Visual Studio 2017 | Visual Studio 2015 |
-|:-----------|--------------------|--------------------|
-| _**conan install .. --profile**_ | msvc2017Release32 | msvc2015Release32 |
-| _**cmake -G**_ | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
-| _**profile**_<br>_ | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
+|| Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
+|:-----------|--------------------|--------------------|--------------------|
+| _**conan install .. --profile**_ | Not provided | msvc2017Release32 | msvc2015Release32 |
+| _**cmake -G**_ | Not provided | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
+| _**profile**_<br>_ | Not provided | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
 
 ##### Static Builds
 
@@ -278,7 +291,7 @@ If you wish to use the static C run-time library, use the following option in th
 
 ### Changing profile settings with the conan command
 
-It is recommended that you use profiles provided in **<exiv2dir>/cmake/msvc\_conan\_profiles**.
+It is recommended that you use profiles provided in `<exiv2dir>/cmake/msvc\_conan\_profiles'.
 
 You can modify profile settings on the command line.
 The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration to some conan flexibility which be useful when your build environment is automated.
@@ -584,4 +597,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-11-22
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2019-04-18
