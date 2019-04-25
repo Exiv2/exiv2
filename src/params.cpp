@@ -437,9 +437,10 @@ int Params::evalGrep(const std::string& optarg)
     std::string pattern;
     std::string ignoreCase("/i");
     const bool bIgnoreCase = ends_with(optarg, ignoreCase, pattern);
-    const auto flags = bIgnoreCase?
-                        (std::regex_constants::ECMAScript | std::regex_constants::icase) :
-                         std::regex_constants::ECMAScript;
+    auto flags = std::regex_constants::ECMAScript;
+
+    if (bIgnoreCase)
+        flags |= std::regex_constants::icase;
 
     greps_.push_back(std::regex(pattern, flags));
 
