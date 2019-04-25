@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "image_int.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "types.hpp"
 
@@ -480,6 +481,7 @@ namespace Exiv2 {
                     }
 
                     ++iccOffset; // +1 = 'compressed' flag
+                    enforce(iccOffset <= dataOffset, Exiv2::kerCorruptedMetadata);
 
                     zlibToDataBuf(cdataBuf.pData_ +iccOffset,dataOffset-iccOffset,iccProfile_);
 #ifdef DEBUG
