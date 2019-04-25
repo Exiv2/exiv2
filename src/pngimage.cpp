@@ -469,13 +469,12 @@ namespace Exiv2
                 } else if (chunkType == "iCCP") {
                     // The ICC profile name can vary from 1-79 characters.
                     uint32_t iccOffset = 0;
-                    while (iccOffset < 80 && iccOffset < chunkLength) {
-                        if (chunkData.pData_[iccOffset++] == 0x00) {
-                            break;
-                        }
-                    }
-                    profileName_ = std::string(reinterpret_cast<char*>(chunkData.pData_), iccOffset - 1);
-                    ++iccOffset;  // +1 = 'compressed' flag
+                    do {
+                      enforce(iccOffset < 80 && iccOffset < chunkLength, Exiv2::kerCorruptedMetadata);
+                    } while(chunkData.pData_[iccOffset++] != 0x00);
+
+                    profileName_ = std::string(reinterpret_cast<char *>(chunkData.pData_), iccOffset-1);
+                    ++iccOffset; // +1 = 'compressed' flag
                     enforce(iccOffset <= chunkLength, Exiv2::kerCorruptedMetadata);
 
                     zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
