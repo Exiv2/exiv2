@@ -471,15 +471,10 @@ namespace Exiv2 {
                 {
                     // The ICC profile name can vary from 1-79 characters.
                     uint32_t iccOffset = 0;
-                    while (iccOffset < 80 && iccOffset < dataOffset) {
-
-                        const byte* profileName = cdataBuf.pData_ + iccOffset;
-                        ++iccOffset;
-
-                        if (*profileName == 0x00)
-                            break;
-                    }
-
+                    do {
+                      enforce(iccOffset < 80 && iccOffset < dataOffset,
+                              Exiv2::kerCorruptedMetadata);
+                    } while(cdataBuf.pData_[iccOffset++] != 0x00);
                     ++iccOffset; // +1 = 'compressed' flag
                     enforce(iccOffset <= dataOffset, Exiv2::kerCorruptedMetadata);
 
