@@ -26,6 +26,7 @@
 
 #include "basicio.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
@@ -475,6 +476,7 @@ namespace Exiv2
                     }
                     profileName_ = std::string(reinterpret_cast<char*>(chunkData.pData_), iccOffset - 1);
                     ++iccOffset;  // +1 = 'compressed' flag
+                    enforce(iccOffset <= chunkLength, Exiv2::kerCorruptedMetadata);
 
                     zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
 #ifdef DEBUG
