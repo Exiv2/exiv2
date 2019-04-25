@@ -127,8 +127,8 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
         std::smatch m;
         const std::string Key(key);
 
-        bPrint = (  std::regex_match( Key, m, *g)
-                 || std::regex_match( value, m, *g)
+        bPrint = (  std::regex_search( Key, m, *g)
+                 || std::regex_search( value, m, *g)
                  );
     }
     return bPrint;

@@ -585,7 +585,7 @@ namespace Action {
         {
             std::smatch m;
 
-            result = std::regex_match(key, m, *g);
+            result = std::regex_search(key, m, *g);
 
         }
         return result ;
