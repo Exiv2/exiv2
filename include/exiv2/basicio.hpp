@@ -25,6 +25,7 @@
 
 // included header files
 #include "types.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <memory>       // for std::auto_ptr
@@ -139,6 +140,26 @@ namespace Exiv2 {
               0 if failure;
          */
         virtual long read(byte* buf, long rcount) = 0;
+        /*!
+          @brief Read data from the IO source. Reading starts at the current
+              IO position and the position is advanced by the number of bytes
+              read. Throw an exception if not enough bytes are available.
+          @param rcount Number of bytes to read.
+          @param err ErrorCode to throw if not enough bytes are available.
+          @return DataBuf instance containing the bytes read.
+         */
+        DataBuf readOrThrow(long rcount, ErrorCode err);
+        /*!
+          @brief Read data from the IO source. Reading starts at the current
+              IO position and the position is advanced by the number of bytes
+              read. Throw an exception if not enough bytes are available.
+          @param buf Pointer to a block of memory into which the read data
+              is stored. The memory block must be at least \em rcount bytes
+              long.
+          @param err ErrorCode to throw if not enough bytes are available.
+          @param rcount Number of bytes to read.
+         */
+        void readOrThrow(byte* buf, long rcount, ErrorCode err);
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.

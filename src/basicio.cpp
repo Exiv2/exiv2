@@ -28,6 +28,7 @@
 #include "futils.hpp"
 #include "types.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "http.hpp"
 #include "properties.hpp"
 
@@ -81,6 +82,19 @@ namespace Exiv2 {
 
     BasicIo::~BasicIo()
     {
+    }
+
+    DataBuf BasicIo::readOrThrow(long rcount, ErrorCode err) {
+      DataBuf result = read(rcount);
+      enforce(result.size_ == rcount, err);
+      enforce(!error(), err);
+      return result;
+    }
+
+    void BasicIo::readOrThrow(byte* buf, long rcount, ErrorCode err) {
+      const long nread = read(buf, rcount);
+      enforce(nread == rcount, err);
+      enforce(!error(), err);
     }
 
     //! Internal Pimpl structure of class FileIo.
