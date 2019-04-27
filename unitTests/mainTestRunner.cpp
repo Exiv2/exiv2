@@ -1,14 +1,23 @@
 #include <gtest/gtest.h>
 
+#include <exiv2/properties.hpp>
+
 #include <iostream>
 
-int main(int argc, char** argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
+class Environment : public ::testing::Environment {
+public:
+  void SetUp() override {}
 
-    int ret = RUN_ALL_TESTS();
+  void TearDown() override { Exiv2::XmpProperties::unregisterNs(); }
+};
 
-    std::cout << "Tests finished with return value: " << ret << std::endl;
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  ::testing::AddGlobalTestEnvironment(new Environment);
 
-    return ret;
+  int ret = RUN_ALL_TESTS();
+
+  std::cout << "Tests finished with return value: " << ret << std::endl;
+
+  return ret;
 }
