@@ -40,12 +40,12 @@
 // namespace extensions
 namespace Exiv2
 {
-
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     /// @brief Class to access PNG images. Exif and IPTC metadata are supported directly.
-    class EXIV2API PngImage : public Image {
+    class EXIV2API PngImage : public Image
+    {
     public:
         //! @name Creators
         //@{
@@ -65,7 +65,7 @@ namespace Exiv2
         //@{
         void readMetadata() override;
         void writeMetadata() override;
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth) override;
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
         //@}
 
         //! @name Accessors
@@ -97,4 +97,4 @@ namespace Exiv2
     /// @brief Check if the file iIo is a PNG image.
     EXIV2API bool isPngType(BasicIo& iIo, bool advance);
 
-}                                       // namespace Exiv2
+}  // namespace Exiv2
