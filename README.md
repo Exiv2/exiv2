@@ -201,7 +201,11 @@ project(exifprint VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+<<<<<<< HEAD
 find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/share/exiv2/cmake/
+=======
+find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2
+>>>>>>> 78676b2a0... Fix #798
 add_executable(exifprint ../samples/exifprint.cpp) # compile this
 target_link_libraries(exifprint exiv2)             # link exiv2
 

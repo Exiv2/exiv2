@@ -4,6 +4,7 @@ Linux Exiv2 v0.27 Release Bundle
 Structure of the bundle:
 ------------------------
 
+<<<<<<< HEAD
 bin/exiv2                                 exiv2 and sample applications
 lib/libexiv2.so.0.27.0.0 & libxmp.a       libraries
 lib/pkgconfig/exiv2.pc                    pkg-config file
@@ -19,6 +20,24 @@ releasenotes.txt                          Late breaking news
 README.md                                 Developer Manual
 README-CONAN.md                           Developer Manual Appendix
 exiv2.png                                 Exiv2 Logo
+=======
+bin/exiv2                                     exiv2 and sample applications
+lib/libexiv2.so.0.27.1.0 & libexiv2-xmp.a     libraries
+lib/pkgconfig/exiv2.pc                        pkg-config file
+lib/cmake/exiv2                               CMake support/consume files
+include/exiv2/                                include files
+share/man/                                    man pages
+share/locale/                                 localisation files
+samples/exifprint.cpp                         sample code
+logs/                                         build and test logs
+
+ReadMe.txt                                    This file
+license.txt                                   GPLv2.0 Software License
+releasenotes.txt                              Late breaking news
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+exiv2.png                                     Exiv2 Logo
+>>>>>>> 78676b2a0... Fix #798
 
 To run exiv2 from the bundle
 ----------------------------
