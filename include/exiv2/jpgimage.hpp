@@ -45,10 +45,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    /*!
-      @brief Helper class, has methods to deal with %Photoshop "Information
-             Resource Blocks" (IRBs).
-     */
+    /// @brief Helper class, has methods to deal with %Photoshop "Information Resource Blocks" (IRBs).
     struct EXIV2API Photoshop {
         // Todo: Public for now
         static const char     ps3Id_[]; //!< %Photoshop marker
@@ -57,257 +54,193 @@ namespace Exiv2 {
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
         static const uint16_t preview_; //!< %Photoshop preview marker
 
-        /*!
-          @brief Checks an IRB
+        /// @brief Checks an IRB
+        /// @param pPsData        Existing IRB buffer
+        /// @param sizePsData     Size of the IRB buffer
+        /// @return true  if the IRB marker is known and the buffer is big enough to check this;<BR> false otherwise
+        static bool isIrb(const byte* pPsData, long sizePsData);
 
-          @param pPsData        Existing IRB buffer
-          @param sizePsData     Size of the IRB buffer
-          @return true  if the IRB marker is known and the buffer is big enough to check this;<BR>
-                  false otherwise
-        */
-        static bool isIrb(const byte* pPsData,
-                          long        sizePsData);
-        /*!
-          @brief Validates all IRBs
+        /// @brief Validates all IRBs
+        /// @param pPsData        Existing IRB buffer
+        /// @param sizePsData     Size of the IRB buffer, may be 0
+        /// @return true  if all IRBs are valid;<BR> false otherwise
+        static bool valid(const byte *pPsData, long sizePsData);
 
-          @param pPsData        Existing IRB buffer
-          @param sizePsData     Size of the IRB buffer, may be 0
-          @return true  if all IRBs are valid;<BR>
-                  false otherwise
-        */
-        static bool valid(const byte* pPsData,
-                          long        sizePsData);
-        /*!
-          @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory
-              buffer. Operates on raw data to simplify reuse.
-          @param pPsData Pointer to buffer containing entire payload of
-              %Photoshop formated data, e.g., from APP13 Jpeg segment.
-          @param sizePsData Size in bytes of pPsData.
-          @param psTag %Tag number of the block to look for.
-          @param record Output value that is set to the start of the
-              data block within pPsData (may not be null).
-          @param sizeHdr Output value that is set to the size of the header
-              within the data block pointed to by record (may not be null).
-          @param sizeData Output value that is set to the size of the actual
-              data within the data block pointed to by record (may not be null).
-          @return 0 if successful;<BR>
-                  3 if no data for psTag was found in pPsData;<BR>
-                 -2 if the pPsData buffer does not contain valid data.
-        */
+        /// @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory buffer. Operates on raw data
+        /// to simplify reuse.
+        /// @param pPsData Pointer to buffer containing entire payload of %Photoshop formated data, e.g., from APP13
+        /// Jpeg segment.
+        /// @param sizePsData Size in bytes of pPsData.
+        /// @param psTag %Tag number of the block to look for.
+        /// @param record Output value that is set to the start of the data block within pPsData (may not be null).
+        /// @param sizeHdr Output value that is set to the size of the header within the data block pointed to by
+        /// record (may not be null).
+        /// @param sizeData Output value that is set to the size of the actual data within the data block pointed to
+        /// by record (may not be null).
+        /// @return 0 if successful;<BR>
+        ///  3 if no data for psTag was found in pPsData;<BR>
+        ///  -2 if the pPsData buffer does not contain valid data.
         static int locateIrb(const byte *pPsData,
                              long sizePsData,
                              uint16_t psTag,
                              const byte **record,
                              uint32_t *const sizeHdr,
                              uint32_t *const sizeData);
-        /*!
-          @brief Forwards to locateIrb() with \em psTag = \em iptc_
-         */
+
+        /// @brief Forwards to locateIrb() with \em psTag = \em iptc_
         static int locateIptcIrb(const byte *pPsData,
                                  long sizePsData,
                                  const byte **record,
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData);
-        /*!
-          @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
-         */
+
+        /// @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
         static int locatePreviewIrb(const byte *pPsData,
                                     long sizePsData,
                                     const byte **record,
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData);
-        /*!
-          @brief Set the new IPTC IRB, keeps existing IRBs but removes the
-                 IPTC block if there is no new IPTC data to write.
 
-          @param pPsData    Existing IRB buffer
-          @param sizePsData Size of the IRB buffer, may be 0
-          @param iptcData   Iptc data to embed, may be empty
-          @return A data buffer containing the new IRB buffer, may have 0 size
-        */
-        static DataBuf setIptcIrb(const byte*     pPsData,
-                                  long            sizePsData,
-                                  const IptcData& iptcData);
+        /// @brief Set the new IPTC IRB, keeps existing IRBs but removes the IPTC block if there is no new IPTC data
+        /// to write.
+        ///
+        /// @param pPsData    Existing IRB buffer
+        /// @param sizePsData Size of the IRB buffer, may be 0
+        /// @param iptcData   Iptc data to embed, may be empty
+        /// @return A data buffer containing the new IRB buffer, may have 0 size
+        static DataBuf setIptcIrb(const byte *pPsData, long sizePsData, const IptcData &iptcData);
 
     }; // class Photoshop
 
-    /*!
-      @brief Abstract helper base class to access JPEG images.
-     */
+    /// @brief Abstract helper base class to access JPEG images.
     class EXIV2API JpegBase : public Image {
     public:
-        //! @name Manipulators
-        //@{
         void readMetadata() override;
         void writeMetadata() override;
-
-        /*!
-          @brief Print out the structure of image file.
-          @throw Error if reading of the file fails or the image data is
-                not valid (does not look like data of the specific image type).
-          @warning This function is not thread safe and intended for exiv2 -pS for debugging.
-         */
         void printStructure(std::ostream& out, PrintStructureOption option,int depth) override;
-        //@}
 
     protected:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor that can either open an existing image or create
-              a new image from scratch. If a new image is to be created, any
-              existing data is overwritten.
-          @param type Image type.
-          @param io An auto-pointer that owns a BasicIo instance used for
-              reading and writing image metadata. \b Important: The constructor
-              takes ownership of the passed in BasicIo instance through the
-              auto-pointer. Callers should not continue to use the BasicIo
-              instance after it is passed to this method.  Use the Image::io()
-              method to get a temporary reference.
-          @param create Specifies if an existing image should be read (false)
-              or if a new image should be created (true).
-          @param initData Data to initialize newly created images. Only used
-              when \em create is true. Should contain data for the smallest
-              valid image of the calling subclass.
-          @param dataSize Size of initData in bytes.
-         */
-        JpegBase(ImageType       type,
-                 BasicIo::UniquePtr io,
-                 bool             create,
-                 const byte       initData[],
-                 long             dataSize);
-        //@}
+       //! @name Creators
+       //@{
+       /// @brief Constructor that can either open an existing image or create a new image from scratch. If a new
+       /// image is to be created, any existing data is overwritten.
+       /// @param type Image type.
+       /// @param io An auto-pointer that owns a BasicIo instance used for reading and writing image metadata.
+       /// \b Important: The constructor takes ownership of the passed in BasicIo instance through the auto-pointer.
+       /// Callers should not continue to use the BasicIo instance after it is passed to this method.  Use the
+       /// Image::io() method to get a temporary reference.
+       /// @param create Specifies if an existing image should be read (false) or if a new image should be created
+       /// (true).
+       /// @param initData Data to initialize newly created images. Only used when \em create is true. Should contain
+       /// data for the smallest valid image of the calling subclass.
+       /// @param dataSize Size of initData in bytes.
+      JpegBase(ImageType type, BasicIo::UniquePtr io, bool create,
+               const byte initData[], long dataSize);
+      //@}
 
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Determine if the content of the BasicIo instance is of the
-              type supported by this class.
+      //! @name Accessors
+      //@{
+      /// @brief Determine if the content of the BasicIo instance is of the type supported by this class.
+      ///
+      /// The advance flag determines if the read position in the stream is moved (see below). This applies only if the
+      /// type matches and the function returns true. If the type does not match, the stream position is not changed.
+      /// However, if reading from the stream fails, the stream position is undefined. Consult the stream state to
+      /// obtain more information in this case.
+      ///
+      /// @param iIo BasicIo instance to read from.
+      /// @param advance Flag indicating whether the position of the io should be advanced by the number of characters
+      /// read to analyse the data (true) or left at its original position (false). This applies only if the type
+      /// matches.
+      /// @return true if the data matches the type of this class;<BR> false if the data does not match
+      virtual bool isThisType(BasicIo &iIo, bool advance) const = 0;
+      //@}
 
-          The advance flag determines if the read position in the stream is
-          moved (see below). This applies only if the type matches and the
-          function returns true. If the type does not match, the stream
-          position is not changed. However, if reading from the stream fails,
-          the stream position is undefined. Consult the stream state to obtain
-          more information in this case.
+      //! @name Manipulators
+      //@{
+      /// @brief Writes the image header (aka signature) to the BasicIo instance.
+      /// @param oIo BasicIo instance that the header is written to.
+      /// @return 0 if successful;<BR> 4 if the output file can not be written to
+      virtual int writeHeader(BasicIo &oIo) const = 0;
+      //@}
 
-          @param iIo BasicIo instance to read from.
-          @param advance Flag indicating whether the position of the io
-              should be advanced by the number of characters read to
-              analyse the data (true) or left at its original
-              position (false). This applies only if the type matches.
-          @return  true  if the data matches the type of this class;<BR>
-                   false if the data does not match
-         */
-        virtual bool isThisType(BasicIo& iIo, bool advance) const =0;
-        //@}
+      // Constant Data
+      static const byte dht_;      //!< JPEG DHT marker
+      static const byte dqt_;      //!< JPEG DQT marker
+      static const byte dri_;      //!< JPEG DRI marker
+      static const byte sos_;      //!< JPEG SOS marker
+      static const byte eoi_;      //!< JPEG EOI marker
+      static const byte app0_;     //!< JPEG APP0 marker
+      static const byte app1_;     //!< JPEG APP1 marker
+      static const byte app2_;     //!< JPEG APP2 marker
+      static const byte app13_;    //!< JPEG APP13 marker
+      static const byte com_;      //!< JPEG Comment marker
+      static const byte sof0_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof1_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof2_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof3_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof5_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof6_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof7_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof9_;     //!< JPEG Start-Of-Frame marker
+      static const byte sof10_;    //!< JPEG Start-Of-Frame marker
+      static const byte sof11_;    //!< JPEG Start-Of-Frame marker
+      static const byte sof13_;    //!< JPEG Start-Of-Frame marker
+      static const byte sof14_;    //!< JPEG Start-Of-Frame marker
+      static const byte sof15_;    //!< JPEG Start-Of-Frame marker
+      static const char exifId_[]; //!< Exif identifier
+      static const char jfifId_[]; //!< JFIF identifier
+      static const char xmpId_[];  //!< XMP packet identifier
+      static const char iccId_[];  //!< ICC profile identifier
 
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Writes the image header (aka signature) to the BasicIo instance.
-          @param oIo BasicIo instance that the header is written to.
-          @return 0 if successful;<BR>
-                  4 if the output file can not be written to
-         */
-        virtual int writeHeader(BasicIo& oIo) const =0;
-        //@}
-
-        // Constant Data
-        static const byte dht_;                 //!< JPEG DHT marker
-        static const byte dqt_;                 //!< JPEG DQT marker
-        static const byte dri_;                 //!< JPEG DRI marker
-        static const byte sos_;                 //!< JPEG SOS marker
-        static const byte eoi_;                 //!< JPEG EOI marker
-        static const byte app0_;                //!< JPEG APP0 marker
-        static const byte app1_;                //!< JPEG APP1 marker
-        static const byte app2_;                //!< JPEG APP2 marker
-        static const byte app13_;               //!< JPEG APP13 marker
-        static const byte com_;                 //!< JPEG Comment marker
-        static const byte sof0_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof1_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof2_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof3_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof5_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof6_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof7_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof9_;                //!< JPEG Start-Of-Frame marker
-        static const byte sof10_;               //!< JPEG Start-Of-Frame marker
-        static const byte sof11_;               //!< JPEG Start-Of-Frame marker
-        static const byte sof13_;               //!< JPEG Start-Of-Frame marker
-        static const byte sof14_;               //!< JPEG Start-Of-Frame marker
-        static const byte sof15_;               //!< JPEG Start-Of-Frame marker
-        static const char exifId_[];            //!< Exif identifier
-        static const char jfifId_[];            //!< JFIF identifier
-        static const char xmpId_[];             //!< XMP packet identifier
-        static const char iccId_[];             //!< ICC profile identifier
-
-        JpegBase() = delete;
-        JpegBase& operator=(const JpegBase& rhs) = delete;
-        JpegBase& operator=(const JpegBase&& rhs) = delete;
-        JpegBase(const JpegBase& rhs) = delete;
-        JpegBase(const JpegBase&& rhs) = delete;
+      JpegBase() = delete;
+      JpegBase &operator=(const JpegBase &rhs) = delete;
+      JpegBase &operator=(const JpegBase &&rhs) = delete;
+      JpegBase(const JpegBase &rhs) = delete;
+      JpegBase(const JpegBase &&rhs) = delete;
 
     private:
         //! @name Manipulators
         //@{
-        /*!
-          @brief Initialize the image with the provided data.
-          @param initData Data to be written to the associated BasicIo
-          @param dataSize Size in bytes of data to be written
-          @return 0 if successful;<BR>
-                  4 if the image can not be written to.
-         */
+        /// @brief Initialize the image with the provided data.
+        /// @param initData Data to be written to the associated BasicIo
+        /// @param dataSize Size in bytes of data to be written
+        /// @return 0 if successful;<BR> 4 if the image can not be written to.
         int initImage(const byte initData[], long dataSize);
-        /*!
-          @brief Provides the main implementation of writeMetadata() by
-                writing all buffered metadata to the provided BasicIo.
-          @param oIo BasicIo instance to write to (a temporary location).
 
-          @return 4 if opening or writing to the associated BasicIo fails
-         */
+        /// @brief Provides the main implementation of writeMetadata() by writing all buffered metadata to the provided
+        /// BasicIo.
+        /// @param oIo BasicIo instance to write to (a temporary location).
+        /// @return 4 if opening or writing to the associated BasicIo fails
         void doWriteMetadata(BasicIo& oIo);
         //@}
 
         //! @name Accessors
         //@{
-        /*!
-          @brief Advances associated io instance to one byte past the next
-              Jpeg marker and returns the marker. This method should be called
-              when the BasicIo instance is positioned one byte past the end of a
-              Jpeg segment.
-          @return the next Jpeg segment marker if successful;<BR>
-                 -1 if a maker was not found before EOF
-         */
+        /// @brief Advances associated io instance to one byte past the next Jpeg marker and returns the marker.
+        /// This method should be called when the BasicIo instance is positioned one byte past the end of a Jpeg segment.
+        /// @return the next Jpeg segment marker if successful;<BR> -1 if a maker was not found before EOF
         int advanceToMarker() const;
         //@}
 
     }; // class JpegBase
 
-    /*!
-      @brief Class to access JPEG images
-     */
+    /// @brief Class to access JPEG images
     class EXIV2API JpegImage : public JpegBase {
         friend EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
     public:
         //! @name Creators
         //@{
-        /*!
-          @brief Constructor that can either open an existing Jpeg image or create
-              a new image from scratch. If a new image is to be created, any
-              existing data is overwritten. Since the constructor can not return
-              a result, callers should check the good() method after object
-              construction to determine success or failure.
-          @param io An auto-pointer that owns a BasicIo instance used for
-              reading and writing image metadata. \b Important: The constructor
-              takes ownership of the passed in BasicIo instance through the
-              auto-pointer. Callers should not continue to use the BasicIo
-              instance after it is passed to this method.  Use the Image::io()
-              method to get a temporary reference.
-          @param create Specifies if an existing image should be read (false)
-              or if a new file should be created (true).
-         */
+        /// @brief Constructor that can either open an existing Jpeg image or create a new image from scratch.
+        ///
+        /// If a new image is to be created, any existing data is overwritten. Since the constructor can not return a
+        /// result, callers should check the good() method after object construction to determine success or failure.
+        /// @param io An auto-pointer that owns a BasicIo instance used for reading and writing image metadata.
+        /// \b Important: The constructor takes ownership of the passed in BasicIo instance through the auto-pointer.
+        /// Callers should not continue to use the BasicIo instance after it is passed to this method. Use the
+        /// Image::io() method to get a temporary reference.
+        /// @param create Specifies if an existing image should be read (false) or if a new file should be created (true).
         JpegImage(BasicIo::UniquePtr io, bool create);
+
         //@}
         //! @name Accessors
         //@{
@@ -321,14 +254,12 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        /*!
-          @brief Writes a Jpeg header (aka signature) to the BasicIo instance.
-          @param oIo BasicIo instance that the header is written to.
-          @return 0 if successful;<BR>
-                 2 if the input image is invalid or can not be read;<BR>
-                 4 if the temporary image can not be written to;<BR>
-                -3 other temporary errors
-         */
+        /// @brief Writes a Jpeg header (aka signature) to the BasicIo instance.
+        /// @param oIo BasicIo instance that the header is written to.
+        /// @return 0 if successful;<BR>
+        ///  2 if the input image is invalid or can not be read;<BR>
+        ///  4 if the temporary image can not be written to;<BR>
+        ///  -3 other temporary errors
         int writeHeader(BasicIo& oIo) const override;
         //@}
 
@@ -351,21 +282,15 @@ namespace Exiv2 {
     public:
         //! @name Creators
         //@{
-        /*!
-          @brief Constructor that can either open an existing EXV image or create
-              a new image from scratch. If a new image is to be created, any
-              existing data is overwritten. Since the constructor can not return
-              a result, callers should check the good() method after object
-              construction to determine success or failure.
-          @param io An auto-pointer that owns a BasicIo instance used for
-              reading and writing image metadata. \b Important: The constructor
-              takes ownership of the passed in BasicIo instance through the
-              auto-pointer. Callers should not continue to use the BasicIo
-              instance after it is passed to this method.  Use the Image::io()
-              method to get a temporary reference.
-          @param create Specifies if an existing image should be read (false)
-                 or if a new file should be created (true).
-         */
+        /// @brief Constructor that can either open an existing EXV image or create a new image from scratch.
+        ///
+        /// If a new image is to be created, any existing data is overwritten. Since the constructor can not return a
+        /// result, callers should check the good() method after object construction to determine success or failure.
+        /// @param io An auto-pointer that owns a BasicIo instance used for reading and writing image metadata.
+        /// \b Important: The constructor takes ownership of the passed in BasicIo instance through the auto-pointer.
+        /// Callers should not continue to use the BasicIo instance after it is passed to this method.  Use the
+        /// Image::io() method to get a temporary reference.
+        /// @param create Specifies if an existing image should be read (false) or a new file should be created (true).
         ExvImage(BasicIo::UniquePtr io, bool create);
         //@}
         //! @name Accessors
@@ -399,23 +324,15 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    // These could be static private functions on Image subclasses but then
-    // ImageFactory needs to be made a friend.
-    /*!
-      @brief Create a new JpegImage instance and return an auto-pointer to it.
-             Caller owns the returned object and the auto-pointer ensures that
-             it will be deleted.
-     */
+    // These could be static private functions on Image subclasses but then ImageFactory needs to be made a friend.
+
+    /// @brief Create a new JpegImage instance and return an auto-pointer to it.
     EXIV2API Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create);
-    //! Check if the file iIo is a JPEG image.
+    /// @brief Check if the file iIo is a JPEG image.
     EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
-    /*!
-      @brief Create a new ExvImage instance and return an auto-pointer to it.
-             Caller owns the returned object and the auto-pointer ensures that
-             it will be deleted.
-     */
+    /// @brief Create a new ExvImage instance and return an auto-pointer to it.
     EXIV2API Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create);
-    //! Check if the file iIo is an EXV file
+    /// @brief Check if the file iIo is an EXV file
     EXIV2API bool isExvType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
