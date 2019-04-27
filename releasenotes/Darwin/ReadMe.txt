@@ -7,7 +7,7 @@ Structure of the bundle
 bin/exiv2                                     exiv2 and sample applications
 lib/libexiv2.0.27.1.0.dylib & libexiv2-xmp.a  libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
-lib/exiv2/cmake/                              CMake support/consume files
+lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
 share/man/                                    man pages
 share/locale/                                 localisation files
@@ -53,5 +53,3 @@ $ ./exifprint
 
 Method 3: Use the CMake support/consume files
 See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
-
-
