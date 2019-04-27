@@ -114,13 +114,13 @@ namespace Exiv2 {
         virtual void setExifData(const ExifData& exifData);
 
         /// @brief Erase any buffered Exif data.
-        virtual void clearExifData();
+        void clearExifData();
 
         /// @brief Assign new IPTC data.
         virtual void setIptcData(const IptcData& iptcData);
 
         /// @brief Erase any buffered IPTC data.
-        virtual void clearIptcData();
+        void clearIptcData();
 
         /// @brief Assign a raw XMP packet.
         ///
@@ -136,7 +136,7 @@ namespace Exiv2 {
         /// Subsequent calls to writeMetadata() write the XMP packet from the buffered raw XMP packet rather than from
         /// buffered parsed XMP data. In order to write from parsed XMP data again, use either
         /// writeXmpFromPacket(false) or setXmpData().
-        virtual void clearXmpPacket();
+        void clearXmpPacket();
 
         /// @brief Assign new XMP data.
         ///
@@ -152,13 +152,13 @@ namespace Exiv2 {
         /// packet to the image.
         /// In the process, the buffered raw XMP packet is updated. In order to write directly from the raw XMP packet,
         /// use writeXmpFromPacket(true) or setXmpPacket().
-        virtual void clearXmpData();
+        void clearXmpData();
 
         /// @brief Set the image comment.
         virtual void setComment(const std::string& comment);
 
         /// @brief Erase any buffered comment.
-        virtual void clearComment();
+        void clearComment();
 
         /// @brief Set the image iccProfile.
         /// @param iccProfile DataBuf containing profile (binary)
@@ -166,42 +166,16 @@ namespace Exiv2 {
         virtual void setIccProfile(DataBuf& iccProfile,bool bTestValid=true);
 
         /// @brief Erase iccProfile.
-        virtual void clearIccProfile();
+        void clearIccProfile();
 
         /// @brief return iccProfile
-        virtual DataBuf* iccProfile() { return &iccProfile_; }
+        DataBuf* iccProfile() { return &iccProfile_; }
 
         /// @brief Copy all existing metadata from \b image into internal buffers.
         virtual void setMetadata(const Image& image);
 
         /// @brief Erase all buffered metadata.
-        virtual void clearMetadata();
-
-        /// @brief Returns an ExifData instance containing currently buffered Exif data.
-        ///
-        /// The contained Exif data may have been read from the image by a previous call to readMetadata() or added
-        /// directly. The Exif data in the returned instance will be written to the image when writeMetadata() is
-        /// called.
-        /// @return modifiable ExifData instance containing Exif values
-        virtual ExifData& exifData();
-
-        /// @brief Returns an IptcData instance containing currently buffered IPTC data.
-        ///
-        /// The contained IPTC data may have been read from the image by a previous call to readMetadata() or added
-        /// directly. The IPTC data in the returned instance will be written to the image when writeMetadata() is
-        /// called.
-        /// @return modifiable IptcData instance containing IPTC values
-        virtual IptcData& iptcData();
-
-        /// @brief Returns an XmpData instance containing currently buffered XMP data.
-        ///
-        /// The contained XMP data may have been read from the image by a previous call to readMetadata() or added
-        /// directly. The XMP data in the returned instance will be written to the image when writeMetadata() is called.
-        /// @return modifiable XmpData instance containing XMP values
-        virtual XmpData& xmpData();
-
-        /// @brief Return a modifiable reference to the raw XMP packet.
-        virtual std::string& xmpPacket();
+        void clearMetadata();
 
         /// @brief Determine the source when writing XMP.
         ///
@@ -258,14 +232,6 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
 
-        /// @brief Return the byte order in which the Exif metadata of the image is encoded. Initially, it is not set
-        /// (\em invalidByteOrder).
-        ByteOrder byteOrder() const;
-
-        /// @brief Check if the Image instance is valid. Use after object construction.
-        /// @return true if the Image is in a valid state.
-        bool good() const;
-
         /// @brief Return the MIME type of the image.
         ///
         /// @note For each supported image format, the library knows only one MIME type. This may not be the most
@@ -280,12 +246,24 @@ namespace Exiv2 {
         /// @brief Return the pixel height of the image.
         virtual int pixelHeight() const;
 
+        /// @brief Return the byte order in which the Exif metadata of the image is encoded. Initially, it is not set
+        /// (\em invalidByteOrder).
+        ByteOrder byteOrder() const;
+
+        /// @brief Check if the Image instance is valid. Use after object construction.
+        /// @return true if the Image is in a valid state.
+        bool good() const;
+
         /// @brief Returns an ExifData instance containing currently buffered Exif data.
         ///
-        /// The Exif data may have been read from the image by a previous call to readMetadata() or added directly. The
-        /// Exif data in the returned instance will be written to the image when writeMetadata() is called.
-        /// @return read only ExifData instance containing Exif values
-        virtual const ExifData& exifData() const;
+        /// The contained Exif data may have been read from the image by a previous call to readMetadata() or added
+        /// directly. The Exif data in the returned instance will be written to the image when writeMetadata() is
+        /// called.
+        /// @return modifiable ExifData instance containing Exif values
+        ExifData& exifData();
+
+        /// @brief const version from previous method.
+        const ExifData& exifData() const;
 
         /// @brief Returns an IptcData instance containing currently buffered IPTC data.
         ///
@@ -293,23 +271,31 @@ namespace Exiv2 {
         /// directly. The IPTC data in the returned instance will be written to the image when writeMetadata() is
         /// called.
         /// @return modifiable IptcData instance containing IPTC values
-        virtual const IptcData& iptcData() const;
+        IptcData& iptcData();
+
+        const IptcData& iptcData() const;
 
         /// @brief Returns an XmpData instance containing currently buffered XMP data.
         ///
         /// The contained XMP data may have been read from the image by a previous call to readMetadata() or added
         /// directly. The XMP data in the returned instance will be written to the image when writeMetadata() is called.
         /// @return modifiable XmpData instance containing XMP values
-        virtual const XmpData& xmpData() const;
+        XmpData& xmpData();
+
+        /// @brief const version from previous method.
+        const XmpData& xmpData() const;
 
         /// @brief Return a copy of the image comment. May be an empty string.
-        virtual std::string comment() const;
+        std::string comment() const;
+
+        /// @brief Return a modifiable reference to the raw XMP packet.
+        std::string& xmpPacket();
 
         /// @brief Return the raw XMP packet as a string.
-        virtual const std::string& xmpPacket() const;
+        const std::string& xmpPacket() const;
 
         /// @brief Indicates if the ICC Profile is defined.
-        virtual bool iccProfileDefined() const;
+        bool iccProfileDefined() const;
 
         /// @brief Return a reference to the BasicIo instance being used for Io.
         ///
@@ -319,7 +305,7 @@ namespace Exiv2 {
         /// @return BasicIo instance that can be used to read or write image data directly.
         /// @note If the returned BasicIo is used to write to the image, the Image class will not see those changes
         /// until the readMetadata() method is called.
-        virtual BasicIo& io() const;
+        BasicIo& io() const;
 
         /// @brief Returns the access mode, i.e., the metadata functions, which this image supports for the metadata
         /// type \em metadataId.
