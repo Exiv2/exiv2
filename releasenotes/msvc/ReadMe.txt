@@ -4,6 +4,7 @@ Visual Studio 2017 Release DLL Bundle
 Structure of the bundle:
 ------------------------
 
+<<<<<<< HEAD
 bin/exiv2.exe                             exiv2 and sample applications
 bin/exiv2.dll                             dll
 lib/exiv2.lib & xmp.lib                   link libraries
@@ -18,6 +19,22 @@ releasenotes.txt                          Late breaking news
 README.md                                 Developer Manual
 README-CONAN.md                           Developer Manual Appendix
 exiv2.png                                 Exiv2 Logo
+=======
+bin/exiv2.exe                                 exiv2 and sample applications
+bin/exiv2.dll                                 dll
+lib/exiv2.lib & exiv2-xmp.lib                 link libraries
+lib/cmake/exiv2                               CMake support/consume files
+include/exiv2/                                include files
+samples/exifprint.cpp                         sample code
+logs/                                         build and test logs
+
+ReadMe.txt                                    This file
+license.txt                                   GPLv2.0 Software License
+releasenotes.txt                              Late breaking news
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+exiv2.png                                     Exiv2 Logo
+>>>>>>> 78676b2a0... Fix #798
 
 +----------------------------------------------------------------------------+
 | Caution: Use a Windows unzip utility such as 7z or winzip                  |

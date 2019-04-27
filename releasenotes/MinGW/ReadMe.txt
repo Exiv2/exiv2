@@ -4,6 +4,7 @@ MinGW/msys2 Exiv2 v0.27 Release Bundle
 Structure of the bundle:
 ------------------------
 
+<<<<<<< HEAD
 bin/exiv2.exe                             exiv2 and sample applications
 bin/msys-exiv2-27.dll                     exiv2 dll
 lib/libexiv2.dll.a & libxmp.a             link libraries
@@ -20,6 +21,25 @@ releasenotes.txt                          Late breaking news
 README.md                                 Developer Manual
 README-CONAN.md                           Developer Manual Appendix
 exiv2.png                                 Exiv2 Logo
+=======
+bin/exiv2.exe                                 exiv2 and sample applications
+bin/msys-exiv2-27.dll                         exiv2 dll
+lib/libexiv2.dll.a & libexiv2-xmp.a           link libraries
+lib/pkgconfig/exiv2.pc                        pkg-config file
+lib/cmake/exiv2                               CMake support/consume files
+include/exiv2/                                include files
+share/man/                                    man pages
+share/locale/                                 localisation files
+samples/exifprint.cpp                         sample code
+logs                                          build and test logs
+
+ReadMe.txt                                    This file
+exiv2.png                                     Exiv2 Logo
+license.txt                                   GPLv2.0 Software License
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+releasenotes.txt                              Late breaking news
+>>>>>>> 78676b2a0... Fix #798
 
 To run exiv2 from the bundle
 ----------------------------
