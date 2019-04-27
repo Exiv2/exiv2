@@ -37,9 +37,6 @@ int main() {
 
 check_include_file_cxx( "unistd.h"  EXV_HAVE_UNISTD_H )
 check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
-if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
-check_include_file_cxx( "regex.h"       EXV_HAVE_REGEX_H )
-endif()
 
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
 
