@@ -111,14 +111,12 @@ namespace Exiv2 {
         virtual void writeMetadata() =0;
 
         /// @brief Assign new Exif data.
-        /// @param exifData An ExifData instance holding Exif data to be copied
         virtual void setExifData(const ExifData& exifData);
 
         /// @brief Erase any buffered Exif data.
         virtual void clearExifData();
 
         /// @brief Assign new IPTC data.
-        /// @param iptcData An IptcData instance holding IPTC data to be copied
         virtual void setIptcData(const IptcData& iptcData);
 
         /// @brief Erase any buffered IPTC data.
@@ -129,7 +127,6 @@ namespace Exiv2 {
         /// Subsequent calls to writeMetadata() write the XMP packet from the buffered raw XMP packet rather than from
         /// buffered parsed XMP data. In order to write from parsed XMP data again, use either
         /// writeXmpFromPacket(false) or setXmpData().
-        /// @param xmpPacket A string containing the raw XMP packet.
         virtual void setXmpPacket(const std::string& xmpPacket);
 
         /// @brief Erase the buffered XMP packet.
@@ -146,7 +143,6 @@ namespace Exiv2 {
         /// Subsequent calls to writeMetadata() encode the XMP data to a raw XMP packet and write the newly encoded
         /// packet to the image. In the process, the buffered raw XMP packet is updated. In order to write directly
         /// from the raw XMP packet, use writeXmpFromPacket(true) or setXmpPacket().
-        /// @param xmpData An XmpData instance holding XMP data to be copied
         virtual void setXmpData(const XmpData& xmpData);
 
         /// @brief Erase any buffered XMP data.
@@ -159,7 +155,6 @@ namespace Exiv2 {
         virtual void clearXmpData();
 
         /// @brief Set the image comment.
-        /// @param comment String containing comment.
         virtual void setComment(const std::string& comment);
 
         /// @brief Erase any buffered comment.
@@ -179,8 +174,7 @@ namespace Exiv2 {
         /// @brief return iccProfile
         virtual DataBuf* iccProfile() { return &iccProfile_; }
 
-        /// @brief Copy all existing metadata from source Image into internal buffers.
-        /// @param image Metadata source. All metadata types are copied.
+        /// @brief Copy all existing metadata from \b image into internal buffers.
         virtual void setMetadata(const Image& image);
 
         /// @brief Erase all buffered metadata.
@@ -408,7 +402,7 @@ namespace Exiv2 {
         /// @param useCurl Indicate whether the libcurl is used or not. If it's true, http is handled by CurlIo.
         /// Otherwise it is handled by HttpIo.
         /// @return An auto-pointer that owns an BasicIo instance.
-        ///  @throw Error If the file is not found or it is unable to connect to the server to read the remote file.
+        /// @throw Error If the file is not found or it is unable to connect to the server to read the remote file.
         static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
 
 #ifdef EXV_UNICODE_PATH
@@ -426,8 +420,8 @@ namespace Exiv2 {
         /// is ignored.
         /// @param useCurl Indicate whether the libcurl is used or not. If it's true, http is handled by CurlIo.
         /// Otherwise it is handled by HttpIo.
-        ///  @return An auto-pointer that owns an Image instance whose type matches that of the file.
-        ///  @throw Error If opening the file fails or it contains data of an unknown image type.
+        /// @return An auto-pointer that owns an Image instance whose type matches that of the file.
+        /// @throw Error If opening the file fails or it contains data of an unknown image type.
         static Image::UniquePtr open(const std::string& path, bool useCurl = true);
 
         /// @brief Create an Image subclass of the appropriate type by reading the provided memory. Image type is
