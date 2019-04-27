@@ -7,7 +7,7 @@ Structure of the bundle:
 bin/exiv2                                     exiv2 and sample applications
 lib/libexiv2.so.0.27.1.0 & libexiv2-xmp.a     libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
-lib/exiv2/cmake/                              CMake support/consume files
+lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
 share/man/                                    man pages
 share/locale/                                 localisation files

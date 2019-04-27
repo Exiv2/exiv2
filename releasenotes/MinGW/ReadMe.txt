@@ -8,7 +8,7 @@ bin/exiv2.exe                                 exiv2 and sample applications
 bin/msys-exiv2-27.dll                         exiv2 dll
 lib/libexiv2.dll.a & libexiv2-xmp.a           link libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
-lib/exiv2/cmake/                              CMake support/consume files
+lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
 share/man/                                    man pages
 share/locale/                                 localisation files
