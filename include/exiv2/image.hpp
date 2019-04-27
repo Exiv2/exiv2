@@ -65,6 +65,7 @@ namespace Exiv2 {
     /// specific image formats.<BR>
     /// Most clients will obtain an Image instance by calling a static ImageFactory method. The Image class can
     /// then be used to to read, write, and save metadata.
+    /// @note set/clear methods will not modify the image until writeMetadata() method is called.
     class EXIV2API Image {
     public:
         //! Image auto_ptr type
@@ -109,26 +110,21 @@ namespace Exiv2 {
         /// @throw Error if the operation fails
         virtual void writeMetadata() =0;
 
-        /// @brief Assign new Exif data. The new Exif data is not written to the image until the writeMetadata()
-        /// method is called.
+        /// @brief Assign new Exif data.
         /// @param exifData An ExifData instance holding Exif data to be copied
         virtual void setExifData(const ExifData& exifData);
 
-        /// @brief Erase any buffered Exif data. Exif data is not removed from the actual image until the
-        /// writeMetadata() method is called.
+        /// @brief Erase any buffered Exif data.
         virtual void clearExifData();
 
-        /// @brief Assign new IPTC data. The new IPTC data is not written to the image until the writeMetadata()
-        /// method is called.
+        /// @brief Assign new IPTC data.
         /// @param iptcData An IptcData instance holding IPTC data to be copied
         virtual void setIptcData(const IptcData& iptcData);
 
-        /// @brief Erase any buffered IPTC data. IPTC data is not removed from the actual image until the
-        /// writeMetadata() method is called.
+        /// @brief Erase any buffered IPTC data.
         virtual void clearIptcData();
 
-        /// @brief Assign a raw XMP packet. The new XMP packet is not written to the image until the writeMetadata()
-        /// method is called.
+        /// @brief Assign a raw XMP packet.
         ///
         /// Subsequent calls to writeMetadata() write the XMP packet from the buffered raw XMP packet rather than from
         /// buffered parsed XMP data. In order to write from parsed XMP data again, use either
@@ -136,8 +132,7 @@ namespace Exiv2 {
         /// @param xmpPacket A string containing the raw XMP packet.
         virtual void setXmpPacket(const std::string& xmpPacket);
 
-        /// @brief Erase the buffered XMP packet. XMP data is not removed from the actual image until the
-        /// writeMetadata() method is called.
+        /// @brief Erase the buffered XMP packet.
         ///
         /// This has the same effect as clearXmpData() but operates on the buffered raw XMP packet only, not the
         /// parsed XMP data.
@@ -146,8 +141,7 @@ namespace Exiv2 {
         /// writeXmpFromPacket(false) or setXmpData().
         virtual void clearXmpPacket();
 
-        /// @brief Assign new XMP data. The new XMP data is not written to the image until the writeMetadata() method
-        /// is called.
+        /// @brief Assign new XMP data.
         ///
         /// Subsequent calls to writeMetadata() encode the XMP data to a raw XMP packet and write the newly encoded
         /// packet to the image. In the process, the buffered raw XMP packet is updated. In order to write directly
@@ -155,8 +149,7 @@ namespace Exiv2 {
         /// @param xmpData An XmpData instance holding XMP data to be copied
         virtual void setXmpData(const XmpData& xmpData);
 
-        /// @brief Erase any buffered XMP data. XMP data is not removed from the actual image until the writeMetadata()
-        /// method is called.
+        /// @brief Erase any buffered XMP data.
         ///
         /// This has the same effect as clearXmpPacket() but operates on the buffered parsed XMP data.
         /// Subsequent calls to writeMetadata() encode the XMP data to a raw XMP packet and write the newly encoded
@@ -165,39 +158,32 @@ namespace Exiv2 {
         /// use writeXmpFromPacket(true) or setXmpPacket().
         virtual void clearXmpData();
 
-        /// @brief Set the image comment. The new comment is not written to the image until the writeMetadata() method
-        /// is called.
+        /// @brief Set the image comment.
         /// @param comment String containing comment.
         virtual void setComment(const std::string& comment);
 
-        /// @brief Erase any buffered comment. Comment is not removed from the actual image until the writeMetadata()
-        /// method is called.
+        /// @brief Erase any buffered comment.
         virtual void clearComment();
 
-        /// @brief Set the image iccProfile. The new profile is not written to the image until the writeMetadata()
-        /// method is called.
+        /// @brief Set the image iccProfile.
         /// @param iccProfile DataBuf containing profile (binary)
         /// @param bTestValid - tests that iccProfile contains credible data
         virtual void setIccProfile(DataBuf& iccProfile,bool bTestValid=true);
 
-        /// @brief Erase iccProfile. the profile is not removed from the actual image until the writeMetadata()
-        /// method is called.
+        /// @brief Erase iccProfile.
         virtual void clearIccProfile();
 
-        /// @brief Erase iccProfile. the profile is not removed from the actual image until the writeMetadata() method
-        /// is called.
+        /// @brief Erase iccProfile.
         virtual bool iccProfileDefined() { return iccProfile_.size_?true:false;}
 
         /// @brief return iccProfile
         virtual DataBuf* iccProfile() { return &iccProfile_; }
 
-        /// @brief Copy all existing metadata from source Image. The data is copied into internal buffers and is not
-        /// written to the image until the writeMetadata() method is called.
+        /// @brief Copy all existing metadata from source Image into internal buffers.
         /// @param image Metadata source. All metadata types are copied.
         virtual void setMetadata(const Image& image);
 
-        /// @brief Erase all buffered metadata. Metadata is not removed from the actual image until the writeMetadata()
-        /// method is called.
+        /// @brief Erase all buffered metadata.
         virtual void clearMetadata();
 
         /// @brief Returns an ExifData instance containing currently buffered Exif data.
