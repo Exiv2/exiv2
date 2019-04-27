@@ -168,9 +168,6 @@ namespace Exiv2 {
         /// @brief Erase iccProfile.
         virtual void clearIccProfile();
 
-        /// @brief Erase iccProfile.
-        virtual bool iccProfileDefined() { return iccProfile_.size_?true:false;}
-
         /// @brief return iccProfile
         virtual DataBuf* iccProfile() { return &iccProfile_; }
 
@@ -310,6 +307,9 @@ namespace Exiv2 {
 
         /// @brief Return the raw XMP packet as a string.
         virtual const std::string& xmpPacket() const;
+
+        /// @brief Indicates if the ICC Profile is defined.
+        virtual bool iccProfileDefined() const;
 
         /// @brief Return a reference to the BasicIo instance being used for Io.
         ///

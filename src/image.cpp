@@ -663,6 +663,8 @@ namespace Exiv2 {
         iccProfile_.free();
     }
 
+    bool Image::iccProfileDefined() const { return iccProfile_.size_?true:false;}
+
     void Image::setByteOrder(ByteOrder byteOrder)
     {
         byteOrder_ = byteOrder;
