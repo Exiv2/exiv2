@@ -418,18 +418,16 @@ namespace Exiv2 {
     //! Container type to hold all metadata
     typedef std::list<Exifdatum> ExifMetadata;
 
-    /*!
-      @brief A container for Exif data.  This is a top-level class of the %Exiv2
-             library. The container holds Exifdatum objects.
-
-      Provide high-level access to the Exif data of an image:
-      - read Exif information from JPEG files
-      - access metadata through keys and standard C++ iterators
-      - add, modify and delete metadata
-      - write Exif data to JPEG files
-      - extract Exif metadata to files, insert from these files
-      - extract and delete Exif thumbnail (JPEG and TIFF thumbnails)
-    */
+    /// @brief A container for EXIF data. This is a top-level class of the library. The container holds Exifdatum
+    /// objects.
+    ///
+    /// Provide high-level access to the Exif data of an image:
+    /// - read Exif information from JPEG files
+    /// - access metadata through keys and standard C++ iterators
+    /// - add, modify and delete metadata
+    /// - write Exif data to JPEG files
+    /// - extract Exif metadata to files, insert from these files
+    /// - extract and delete Exif thumbnail (JPEG and TIFF thumbnails)
     class EXIV2API ExifData {
     public:
         //! ExifMetadata iterator type
@@ -439,60 +437,45 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Returns a reference to the %Exifdatum that is associated with a
-                 particular \em key. If %ExifData does not already contain such
-                 an %Exifdatum, operator[] adds object \em Exifdatum(key).
-
-          @note  Since operator[] might insert a new element, it can't be a const
-                 member function.
-         */
+        /// @brief Returns a reference to the %Exifdatum that is associated with a particular \em key.
+        /// If %ExifData does not already contain such an %Exifdatum, operator[] adds object \em Exifdatum(key).
+        /// @note  Since operator[] might insert a new element, it can't be a const member function.
         Exifdatum& operator[](const std::string& key);
-        /*!
-          @brief Add an Exifdatum from the supplied key and value pair.  This
-                 method copies (clones) key and value. No duplicate checks are
-                 performed, i.e., it is possible to add multiple metadata with
-                 the same key.
-         */
-        void add(const ExifKey& key, const Value* pValue);
-        /*!
-          @brief Add a copy of the \em exifdatum to the Exif metadata.  No
-                 duplicate checks are performed, i.e., it is possible to add
-                 multiple metadata with the same key.
 
-          @throw Error if the makernote cannot be created
-         */
+        /// @brief Add an Exifdatum from the supplied key and value pair. This method copies (clones) key and value.
+        /// No duplicate checks are performed, i.e., it is possible to add multiple metadata with the same key.
+        void add(const ExifKey& key, const Value* pValue);
+
+        /// @brief Add a copy of the \em exifdatum to the Exif metadata. No duplicate checks are performed, i.e., it is
+        /// possible to add multiple metadata with the same key.
+        /// @throw Error if the makernote cannot be created
         void add(const Exifdatum& exifdatum);
-        /*!
-          @brief Delete the Exifdatum at iterator position \em pos, return the
-                 position of the next exifdatum. Note that iterators into
-                 the metadata, including \em pos, are potentially invalidated
-                 by this call.
-         */
+
+        /// @brief Delete the Exifdatum at iterator position \em pos, return the position of the next exifdatum.
+        /// Note that iterators into the metadata, including \em pos, are potentially invalidated by this call.
         iterator erase(iterator pos);
-        /*!
-          @brief Remove all elements of the range \em beg, \em end, return the
-                 position of the next element. Note that iterators into
-                 the metadata are potentially invalidated by this call.
-         */
+
+        /// @brief Remove all elements of the range \em beg, \em end, return the position of the next element.
+        /// Note that iterators into the metadata are potentially invalidated by this call.
         iterator erase(iterator beg, iterator end);
-        /*!
-          @brief Delete all Exifdatum instances resulting in an empty container.
-                 Note that this also removes thumbnails.
-         */
+
+        /// @brief Delete all Exifdatum instances resulting in an empty container. Note that this also removes
+        /// thumbnails.
         void clear();
+
         //! Sort metadata by key
         void sortByKey();
+
         //! Sort metadata by tag
         void sortByTag();
+
         //! Begin of the metadata
         iterator begin() { return exifMetadata_.begin(); }
+
         //! End of the metadata
         iterator end() { return exifMetadata_.end(); }
-        /*!
-          @brief Find the first Exifdatum with the given \em key, return an
-                 iterator to it.
-         */
+
+        /// @brief Find the first Exifdatum with the given \em key, return an iterator to it.
         iterator findKey(const ExifKey& key);
         //@}
 
@@ -502,10 +485,7 @@ namespace Exiv2 {
         const_iterator begin() const { return exifMetadata_.begin(); }
         //! End of the metadata
         const_iterator end() const { return exifMetadata_.end(); }
-        /*!
-          @brief Find the first Exifdatum with the given \em key, return a const
-                 iterator to it.
-         */
+        /// @brief Find the first Exifdatum with the given \em key, return a const iterator to it.
         const_iterator findKey(const ExifKey& key) const;
         //! Return true if there is no Exif metadata
         bool empty() const { return count() == 0; }
