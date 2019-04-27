@@ -15,6 +15,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_image_int.cpp
     test_ImageFactory.cpp
     test_PngChunks.cpp
+    test_ImageJpeg.cpp
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
