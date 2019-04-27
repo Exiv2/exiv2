@@ -17,6 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
+
 /*!
   @file    exif.hpp
   @brief   Encoding and decoding of Exif data
@@ -488,9 +489,9 @@ namespace Exiv2 {
         /// @brief Find the first Exifdatum with the given \em key, return a const iterator to it.
         const_iterator findKey(const ExifKey& key) const;
         //! Return true if there is no Exif metadata
-        bool empty() const { return count() == 0; }
+        bool empty() const;
         //! Get the number of metadata entries
-        long count() const { return static_cast<long>(exifMetadata_.size()); }
+        long count() const;
         //@}
 
     private:

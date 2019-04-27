@@ -580,6 +580,10 @@ namespace Exiv2 {
                             FindExifdatumByKey(key.key()));
     }
 
+    bool ExifData::empty() const { return count() == 0; }
+
+    long ExifData::count() const { return static_cast<long>(exifMetadata_.size()); }
+    
     ExifData::iterator ExifData::findKey(const ExifKey& key)
     {
         return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
