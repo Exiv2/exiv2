@@ -26,8 +26,8 @@
 // included header files
 #include "basicio.hpp"
 #include "exif.hpp"
-#include "iptc.hpp"
 #include "image_types.hpp"
+#include "iptc.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
@@ -36,28 +36,27 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-
-// *****************************************************************************
-// class definitions
+namespace Exiv2
+{
+    // *****************************************************************************
+    // class definitions
 
     //! Native preview information. This is meant to be used only by the PreviewManager.
-    struct NativePreview {
-        long position_;                         //!< Position
-        uint32_t size_;                         //!< Size
-        uint32_t width_;                        //!< Width
-        uint32_t height_;                       //!< Height
-        std::string filter_;                    //!< Filter
-        std::string mimeType_;                  //!< MIME type
+    struct NativePreview
+    {
+        long position_;         //!< Position
+        uint32_t size_;         //!< Size
+        uint32_t width_;        //!< Width
+        uint32_t height_;       //!< Height
+        std::string filter_;    //!< Filter
+        std::string mimeType_;  //!< MIME type
     };
 
     //! List of native previews. This is meant to be used only by the PreviewManager.
     typedef std::vector<NativePreview> NativePreviewList;
 
     /// @brief Options for printStructure
-    typedef enum { kpsNone, kpsBasic, kpsXMP, kpsRecursive
-                 , kpsIccProfile    , kpsIptcErase
-                 } PrintStructureOption;
+    typedef enum { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfile, kpsIptcErase } PrintStructureOption;
 
     /// @brief Interface for an image. This is the top-level interface to the Exiv2 library.
     ///
@@ -66,7 +65,8 @@ namespace Exiv2 {
     /// Most clients will obtain an Image instance by calling a static ImageFactory method. The Image class can
     /// then be used to to read, write, and save metadata.
     /// @note set/clear methods will not modify the image until writeMetadata() method is called.
-    class EXIV2API Image {
+    class EXIV2API Image
+    {
     public:
         //! Image auto_ptr type
         typedef std::unique_ptr<Image> UniquePtr;
@@ -88,7 +88,7 @@ namespace Exiv2 {
         /// specific image type).
         /// @warning This function is not thread safe and intended for exiv2 -pS for debugging.
         /// @warning You may need to put the stream into binary mode (see src/actions.cpp)
-        virtual void printStructure(std::ostream& out, PrintStructureOption option =kpsNone, int depth=0);
+        virtual void printStructure(std::ostream& out, PrintStructureOption option = kpsNone, int depth = 0);
 
         /// @brief Read all metadata supported by a specific image format from the image. Before this method is called,
         /// the image metadata will be cleared.
@@ -98,7 +98,7 @@ namespace Exiv2 {
         ///
         /// @throw Error if opening or reading of the file fails or the image data is not valid (does not look like
         /// data of the specific image type).
-        virtual void readMetadata() =0;
+        virtual void readMetadata() = 0;
 
         /// @brief Write metadata back to the image.
         ///
@@ -108,7 +108,7 @@ namespace Exiv2 {
         /// type will be removed from the image.
         ///
         /// @throw Error if the operation fails
-        virtual void writeMetadata() =0;
+        virtual void writeMetadata() = 0;
 
         /// @brief Assign new Exif data.
         virtual void setExifData(const ExifData& exifData);
@@ -163,13 +163,16 @@ namespace Exiv2 {
         /// @brief Set the image iccProfile.
         /// @param iccProfile DataBuf containing profile (binary)
         /// @param bTestValid - tests that iccProfile contains credible data
-        virtual void setIccProfile(DataBuf& iccProfile,bool bTestValid=true);
+        virtual void setIccProfile(DataBuf& iccProfile, bool bTestValid = true);
 
         /// @brief Erase iccProfile.
         void clearIccProfile();
 
         /// @brief return iccProfile
-        DataBuf* iccProfile() { return &iccProfile_; }
+        DataBuf* iccProfile()
+        {
+            return &iccProfile_;
+        }
 
         /// @brief Copy all existing metadata from \b image into internal buffers.
         virtual void setMetadata(const Image& image);
@@ -198,10 +201,12 @@ namespace Exiv2 {
         /// @brief Print out the structure of image file.
         /// @throw Error if reading of the file fails or the image data is not valid (does not look like data of the
         /// specific image type).
-        void printTiffStructure(BasicIo& io,std::ostream& out, PrintStructureOption option,int depth,size_t offset=0);
+        void printTiffStructure(BasicIo& io, std::ostream& out, PrintStructureOption option, int depth,
+                                size_t offset = 0);
 
         /// @brief Print out the structure of a TIFF IFD
-        void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth);
+        void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t start,
+                               bool bSwap, char c, int depth);
 
         /// @brief is the host platform bigEndian
         bool isBigEndianPlatform();
@@ -220,12 +225,12 @@ namespace Exiv2 {
         bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
         bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
-        uint64_t byteSwap(uint64_t value,bool bSwap) const;
-        uint32_t byteSwap(uint32_t value,bool bSwap) const;
-        uint16_t byteSwap(uint16_t value,bool bSwap) const;
-        uint16_t byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const;
-        uint32_t byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const;
-        uint64_t byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const;
+        uint64_t byteSwap(uint64_t value, bool bSwap) const;
+        uint32_t byteSwap(uint32_t value, bool bSwap) const;
+        uint16_t byteSwap(uint16_t value, bool bSwap) const;
+        uint16_t byteSwap2(const DataBuf& buf, size_t offset, bool bSwap) const;
+        uint32_t byteSwap4(const DataBuf& buf, size_t offset, bool bSwap) const;
+        uint64_t byteSwap8(const DataBuf& buf, size_t offset, bool bSwap) const;
 
         //@}
 
@@ -238,7 +243,7 @@ namespace Exiv2 {
         /// specific MIME type for that format. In particular, several RAW formats are variants of the TIFF format with
         /// the same magic as TIFF itself. Class TiffImage handles most of them and thus they all have MIME type
         /// "image/tiff", although a more specific MIME type may exist (e.g., "image/x-nikon-nef").
-        virtual std::string mimeType() const =0;
+        virtual std::string mimeType() const = 0;
 
         /// @brief Return the pixel width of the image.
         virtual int pixelWidth() const;
@@ -313,7 +318,8 @@ namespace Exiv2 {
         /// @return Access mode for the requested image type and metadata identifier.
         AccessMode checkMode(MetadataId metadataId) const;
 
-        /// @brief Check if image supports a particular type of metadata. This method is deprecated. Use checkMode() instead.
+        /// @brief Check if image supports a particular type of metadata. This method is deprecated. Use checkMode()
+        /// instead.
         bool supportsMetadata(MetadataId metadataId) const;
 
         /// Return the flag indicating the source when writing XMP metadata.
@@ -326,25 +332,28 @@ namespace Exiv2 {
         /// set type support for this image format
         void setTypeSupported(ImageType imageType, uint16_t supportedMetadata)
         {
-            imageType_         = imageType;
+            imageType_ = imageType;
             supportedMetadata_ = supportedMetadata;
         }
 
         /// set type support for this image format
-        ImageType imageType() const { return imageType_; }
+        ImageType imageType() const
+        {
+            return imageType_;
+        }
 
     protected:
         // DATA
-        BasicIo::UniquePtr  io_;              //!< Image data IO pointer
-        ExifData          exifData_;          //!< Exif data container
-        IptcData          iptcData_;          //!< IPTC data container
-        XmpData           xmpData_;           //!< XMP data container
-        DataBuf           iccProfile_;        //!< ICC buffer (binary data)
-        std::string       comment_;           //!< User comment
-        std::string       xmpPacket_;         //!< XMP packet
-        int               pixelWidth_;        //!< image pixel width
-        int               pixelHeight_;       //!< image pixel height
-        NativePreviewList nativePreviews_;    //!< list of native previews
+        BasicIo::UniquePtr io_;             //!< Image data IO pointer
+        ExifData exifData_;                 //!< Exif data container
+        IptcData iptcData_;                 //!< IPTC data container
+        XmpData xmpData_;                   //!< XMP data container
+        DataBuf iccProfile_;                //!< ICC buffer (binary data)
+        std::string comment_;               //!< User comment
+        std::string xmpPacket_;             //!< XMP packet
+        int pixelWidth_;                    //!< image pixel width
+        int pixelHeight_;                   //!< image pixel height
+        NativePreviewList nativePreviews_;  //!< list of native previews
 
         //! Return tag name for given tag id.
         const std::string& tagName(uint16_t tag);
@@ -360,15 +369,15 @@ namespace Exiv2 {
 
     private:
         // DATA
-        ImageType        imageType_;         //!< Image type
-        uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
-        bool              writeXmpFromPacket_;//!< Determines the source when writing XMP
-        ByteOrder         byteOrder_;         //!< Byte order
+        ImageType imageType_;         //!< Image type
+        uint16_t supportedMetadata_;  //!< Bitmap with all supported metadata types
+        bool writeXmpFromPacket_;     //!< Determines the source when writing XMP
+        ByteOrder byteOrder_;         //!< Byte order
 
-        std::map<int,std::string> tags_;      //!< Map of tags
-        bool                      init_;      //!< Flag marking if map of tags needs to be initialized
+        std::map<int, std::string> tags_;  //!< Map of tags
+        bool init_;                        //!< Flag marking if map of tags needs to be initialized
 
-    }; // class Image
+    };  // class Image
 
     //! Type for function pointer that creates new Image instances
     typedef Image::UniquePtr (*NewInstanceFct)(BasicIo::UniquePtr io, bool create);
@@ -376,8 +385,10 @@ namespace Exiv2 {
     typedef bool (*IsThisTypeFct)(BasicIo& iIo, bool advance);
 
     /// @brief Returns an Image instance of the specified type. The factory is implemented as a static class.
-    class EXIV2API ImageFactory {
+    class EXIV2API ImageFactory
+    {
         friend bool Image::good() const;
+
     public:
         /// @brief Create the appropriate class type implemented BasicIo based on the protocol of the input.
         ///
@@ -515,9 +526,9 @@ namespace Exiv2 {
         ImageFactory(const ImageFactory& rhs) = delete;
     };  // class ImageFactory
 
-// *****************************************************************************
-// template, inline and free functions
+    // *****************************************************************************
+    // template, inline and free functions
 
     //! Append \em len bytes pointed to by \em buf to \em blob.
     EXIV2API void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);
-}                                       // namespace Exiv2
+}  // namespace Exiv2
