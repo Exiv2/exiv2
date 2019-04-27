@@ -24,7 +24,6 @@
 // included header files
 #include "config.h"
 
-#ifdef EXV_HAVE_LIBZ
 #include "pngchunk_int.hpp"
 #include "tiffimage.hpp"
 #include "jpgimage.hpp"
@@ -717,5 +716,3 @@ namespace Exiv2 {
     } // PngChunk::writeRawProfile
 
 }}                                      // namespace Internal, Exiv2
-#endif // ifdef EXV_HAVE_LIBZ
-

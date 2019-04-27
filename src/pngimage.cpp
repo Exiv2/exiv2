@@ -24,7 +24,6 @@
 // included header files
 #include "config.h"
 
-#ifdef EXV_HAVE_LIBZ
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -725,4 +724,3 @@ namespace Exiv2
         return rc == 0;
     }
 }  // namespace Exiv2
-#endif
