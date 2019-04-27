@@ -832,8 +832,12 @@ namespace Exiv2 {
 #endif
         return wm;
 
-    } // ExifParser::encode
-
+    }
+    
+    void ExifParser::encode(Blob &blob, ByteOrder byteOrder, const ExifData &exifData) {
+        encode(blob, 0, 0, byteOrder, exifData);
+    }
+    
 }                                       // namespace Exiv2
 
 // *****************************************************************************
