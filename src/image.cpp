@@ -536,32 +536,6 @@ namespace Exiv2 {
         clearIccProfile();
     }
 
-    ExifData& Image::exifData()
-    {
-        return exifData_;
-    }
-
-    IptcData& Image::iptcData()
-    {
-        return iptcData_;
-    }
-
-    XmpData& Image::xmpData()
-    {
-        return xmpData_;
-    }
-
-    std::string& Image::xmpPacket()
-    {
-        // Serialize the current XMP
-        if (xmpData_.count() > 0 && !writeXmpFromPacket()) {
-            XmpParser::encode(xmpPacket_, xmpData_,
-                              XmpParser::useCompactFormat |
-                              XmpParser::omitAllFormatting);
-        }
-        return xmpPacket_;
-    }
-
     void Image::setMetadata(const Image& image)
     {
         if (checkMode(mdExif) & amWrite) {
@@ -685,14 +659,29 @@ namespace Exiv2 {
         return pixelHeight_;
     }
 
+    ExifData& Image::exifData()
+    {
+        return exifData_;
+    }
+
     const ExifData& Image::exifData() const
     {
         return exifData_;
     }
 
+    IptcData& Image::iptcData()
+    {
+        return iptcData_;
+    }
+
     const IptcData& Image::iptcData() const
     {
         return iptcData_;
+    }
+
+    XmpData& Image::xmpData()
+    {
+        return xmpData_;
     }
 
     const XmpData& Image::xmpData() const
@@ -703,6 +692,15 @@ namespace Exiv2 {
     std::string Image::comment() const
     {
         return comment_;
+    }
+
+    std::string& Image::xmpPacket()
+    {
+        // Serialize the current XMP
+        if (xmpData_.count() > 0 && !writeXmpFromPacket()) {
+            XmpParser::encode(xmpPacket_, xmpData_, XmpParser::useCompactFormat | XmpParser::omitAllFormatting);
+        }
+        return xmpPacket_;
     }
 
     const std::string& Image::xmpPacket() const
@@ -885,7 +883,8 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
         Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == 0) throw Error(kerFileContainsUnknownImageType, path);
+        if (image.get() == 0)
+            throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
 
