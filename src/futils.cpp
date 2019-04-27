@@ -272,6 +272,7 @@ namespace Exiv2 {
 
         return result;
     } // fileProtocol
+    /// \todo Remove code duplication
 #ifdef EXV_UNICODE_PATH
     Protocol fileProtocol(const std::wstring& wpath) {
         Protocol result = pFile ;
