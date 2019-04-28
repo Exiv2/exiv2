@@ -454,7 +454,11 @@ namespace Exiv2
                 if (chunkType == "IEND") {
                     return;  // Last chunk found: we stop parsing.
                 } else if (chunkType == "IHDR" && chunkData.size_ >= 8) {
-                    PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
+                    Internal::PngImageHeader header;
+                    PngChunk::decodeIHDRChunk(chunkData, header);
+                    pixelWidth_ = header.width;
+                    pixelHeight_ = header.height;
+                    /// \todo handle rest of data
                 } else if (chunkType == "tEXt") {
                     PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk);
                 } else if (chunkType == "zTXt") {
