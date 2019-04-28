@@ -21,6 +21,7 @@ variables:
 #   (for cmake logs)
 .build_template: &distro_build
   script:
+    - PROFILE=~/.bash_profile && test -f $PROFILE && source $PROFILE
     - python3 ci/test_build.py
   artifacts:
     when: on_failure

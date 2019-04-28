@@ -45,11 +45,24 @@ case "$distro_id" in
         ;;
 
     'centos'|'rhel')
-        yum -y install epel-release
+        yum -y install epel-release centos-release-scl
         # enable copr for gtest
         curl https://copr.fedorainfracloud.org/coprs/defolos/devel/repo/epel-7/defolos-devel-epel-7.repo > /etc/yum.repos.d/_copr_defolos-devel.repo
         yum clean all
-        yum -y install gcc-c++ clang cmake3 make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36 dos2unix
+        yum -y install devtoolset-3-gcc-c++ devtoolset-3-gcc-c++ devtoolset-3-binutils clang cmake3 make ccache \
+            expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36 dos2unix
+        echo source /opt/rh/devtoolset-3/enable >> ~/.bash_profile
+        echo export CCACHE_PATH=$HOME/bin:$PATH >> ~/.bash_profile
+        mkdir ~/bin
+        cat <<EOF > ~/bin/clang++
+#!/bin/bash
+/usr/bin/clang++ --gcc-toolchain=/opt/rh/devtoolset-3/root/ \$@
+EOF
+        cat <<EOF > ~/bin/clang
+#!/bin/bash
+/usr/bin/clang --gcc-toolchain=/opt/rh/devtoolset-3/root/ \$@
+EOF
+        chmod +x ~/bin/clang*
         # symlink up to date versions of python & cmake to 'default' names
         if [ ! -e /usr/bin/python3 ]; then
             ln -s /usr/bin/python36 /usr/bin/python3
