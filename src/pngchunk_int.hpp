@@ -51,6 +51,19 @@ namespace Exiv2
 
     namespace Internal
     {
+        /// @brief The IHDR chunk must appear FIRST
+        /// @note http://www.libpng.org/pub/png/spec/1.2/png-1.2-pdg.html#C.IHDR
+        struct PngImageHeader
+        {
+            std::int32_t width;
+            std::int32_t height;
+            std::uint8_t bitDepth;
+            std::uint8_t colorType;
+            std::uint8_t compressionMethod;
+            std::uint8_t filterMethod;
+            std::uint8_t interlaceMethod;
+        };
+
         /// @brief Stateless parser class for data in PNG chunk format. Decode and encode PNG-based data.
         class PngChunk
         {
@@ -67,9 +80,8 @@ namespace Exiv2
             /// @brief Decode PNG IHDR chunk data from a data buffer \em data and return image size to \em outWidth
             /// and \em outHeight.
             /// @param data      PNG Chunk data buffer.
-            /// @param outWidth  Integer pointer to be set to the width of the image.
-            /// @param outHeight Integer pointer to be set to the height of the image.
-            static void decodeIHDRChunk(const DataBuf& data, int* outWidth, int* outHeight);
+            /// @param out       Where we decode the header data.
+            static void decodeIHDRChunk(const DataBuf& data, PngImageHeader& header);
 
             /// @brief Decode PNG tEXt, zTXt, or iTXt chunk data from \em pImage passed by data buffer \em data and
             /// extract Comment, Exif, Iptc, Xmp metadata accordingly.
