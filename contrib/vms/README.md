@@ -7,11 +7,12 @@ of exiv2 (the provisioning is shared with the GitLab CI).
 
 The following Linux distributions are provided (the name in the brackets is the
 name of the Vagrant VM):
-- Fedora 28 ("Fedora")
+- Fedora 29 ("Fedora")
 - Debian 9 aka Stretch ("Debian")
 - Archlinux ("Archlinux")
-- Ubuntu 16.04 aka Bionic Beaver ("Ubuntu")
+- Ubuntu 18.04 aka Bionic Beaver ("Ubuntu")
 - OpenSUSE Tumbleweed ("OpenSUSE")
+- Alpine v3.8 ("Alpine")
 
 The Fedora, Archlinux and OpenSUSE boxes are the 'vanilla' distribution with
 some additional packages installed.
