@@ -11,7 +11,6 @@ name of the Vagrant VM):
 - Debian 9 aka Stretch ("Debian")
 - Archlinux ("Archlinux")
 - Ubuntu 16.04 aka Bionic Beaver ("Ubuntu")
-- CentOS 7 ("CentOS")
 - OpenSUSE Tumbleweed ("OpenSUSE")
 
 The Fedora, Archlinux and OpenSUSE boxes are the 'vanilla' distribution with
@@ -19,11 +18,6 @@ some additional packages installed.
 
 For Debian and Ubuntu, we build gtest manually from source and install the
 resulting library to /usr/lib/.
-
-On CentOS, we have to install a `cmake3` and `python36` (the default cmake is
-too old and a default python3 does not exist) which we symlink to
-`/usr/bin/cmake` & `/usr/bin/python3` to retain a similar workflow to the other
-distributions.
 
 For further details, consult the shell scripts `setup.sh` and
 `ci/install_dependencies.sh`.

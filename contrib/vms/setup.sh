@@ -17,12 +17,6 @@ case "$distro_id" in
         pacman --noconfirm -S python-pip git
         ;;
 
-    'centos' | 'rhel')
-        yum -y install centos-release-scl-rh
-        yum clean all
-        yum -y install rh-python36-python-pip git
-        ;;
-
     'opensuse' | 'opensuse-tumbleweed')
         zypper --non-interactive install python3-pip git
         ;;

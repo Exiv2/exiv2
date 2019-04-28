@@ -22,11 +22,6 @@ Vagrant.configure("2") do |config|
     ubuntu.vm.hostname = "ubuntu-exiv2"
   end
 
-  config.vm.define "CentOS" do |centos|
-    centos.vm.box = "centos/7"
-    centos.vm.hostname = "centos-exiv2"
-  end
-
   config.vm.define "OpenSUSE" do |opensuse|
     opensuse.vm.box = "opensuse/openSUSE-Tumbleweed-x86_64"
     opensuse.vm.hostname = "opensuse-exiv2"
