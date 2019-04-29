@@ -8,6 +8,7 @@
 #include <stdexcept>
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 using namespace Exiv2;
 
@@ -20,17 +21,8 @@ TEST(strError, returnSuccessAfterClosingFile)
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
-#ifdef _WIN32
-    const char * expectedString = "No error (errno = 0)";
-#elif __APPLE__
-    const char * expectedString = "Undefined error: 0 (errno = 0)";
-#elif ! defined(__GLIBC__)
-    const char * expectedString = "No error information (errno = 0)";
-#else
-    const char * expectedString = "Success (errno = 0)";
-#endif
 
-    ASSERT_STREQ(expectedString, strError().c_str());
+    ASSERT_THAT(strError(), ::testing::EndsWith("(errno = 0)"));
     std::remove(tmpFile.c_str());
 }
 
@@ -43,16 +35,7 @@ TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile)
 TEST(strError, doNotRecognizeUnknownError)
 {
     errno = 9999;
-#ifdef _WIN32
-    const char * expectedString = "Unknown error (errno = 9999)";
-#elif __APPLE__
-    const char * expectedString = "Unknown error: 9999 (errno = 9999)";
-#elif ! defined(__GLIBC__)
-    const char * expectedString = "No error information (errno = 9999)";
-#else
-    const char * expectedString = "Unknown error 9999 (errno = 9999)";
-#endif
-    ASSERT_STREQ(expectedString, strError().c_str());
+    ASSERT_THAT(strError(), ::testing::EndsWith("(errno = 9999)"));
 }
 
 TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist)

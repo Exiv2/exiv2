@@ -56,7 +56,7 @@ Archlinux:
   <<: *distro_build
 
 Ubuntu:
-  image: ubuntu:18.04
+  image: ubuntu:18.10
   <<: *default_config
   <<: *distro_build
 
@@ -71,7 +71,7 @@ OpenSUSE:
   <<: *distro_build
 
 Alpine:
-  image: alpine:3.8
+  image: alpine:3.9
   <<: *default_config
   <<: *distro_build
 

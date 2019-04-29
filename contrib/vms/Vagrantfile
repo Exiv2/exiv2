@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "Ubuntu" do |ubuntu|
-    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.box = "generic/ubuntu1810"
     ubuntu.vm.hostname = "ubuntu-exiv2"
   end
 
@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "Alpine" do |alpine|
-    alpine.vm.box = "roboxes/alpine38"
+    alpine.vm.box = "roboxes/alpine39"
     # don't set a custom hostname, this is broken on Alpine
     # alpine.vm.hostname = "alpine-exiv2"
   end
