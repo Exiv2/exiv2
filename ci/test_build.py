@@ -49,6 +49,7 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
         make = "make -j " + str(NCPUS)
         make_tests = "make tests"
         unit_test_binary = os.path.join(cwd, "bin", "unit_tests")
+        ccache_summary = "ccache -s"
 
         # set compiler via environment only when requested
         env_copy = os.environ.copy()
@@ -70,6 +71,8 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
         if tests:
             run(make_tests)
             run(unit_test_binary)
+        if '-DBUILD_WITH_CCACHE=ON' in cmake:
+            run(ccache_summary)
 
 
 if __name__ == '__main__':
