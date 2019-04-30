@@ -400,7 +400,7 @@ namespace Exiv2 {
              stream, prefixed with the position in the buffer adjusted by
              offset.
      */
-    EXIV2API void hexdump(std::ostream& os, const byte* buf, long len, long offset =0);
+    EXIV2API void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset =0);
 
     /*!
       @brief Return true if str is a hex number starting with prefix followed

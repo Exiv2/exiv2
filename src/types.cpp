@@ -517,13 +517,13 @@ namespace Exiv2 {
         return 8;
     }
 
-    void hexdump(std::ostream& os, const byte* buf, long len, long offset)
+    void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset)
     {
         const std::string::size_type pos = 8 + 16 * 3 + 2;
         const std::string align(pos, ' ');
         std::ios::fmtflags f( os.flags() );
 
-        long i = 0;
+        size_t i = 0;
         while (i < len) {
             os << "  "
                << std::setw(4) << std::setfill('0') << std::hex

@@ -1127,7 +1127,7 @@ namespace Action
             }
             std::cout << pvImg.size() << " " << _("bytes") << ") " << _("to file") << " " << pvPath << std::endl;
         }
-        long rc = pvImg.writeFile(pvFile);
+        size_t rc = pvImg.writeFile(pvFile);
         if (rc == 0) {
             std::cerr << path_ << ": " << _("Image does not have preview") << " " << num << "\n";
         }
