@@ -277,7 +277,7 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 
 The default builds of Exiv2 and sample applications build and use DLLs.
 
-To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.  You will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
+To build static libraries, use the cmake option `-DBUILD_SHARED_LIBS=Off`.  You will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
 
 ```bash
 $ cmake -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_DYNAMIC_RUNTIME=Off
@@ -289,8 +289,8 @@ If you wish to use the static C run-time library, use the following option in th
 |:---                  |:---------           |:-------------------|
 | **profile setting**  | compiler.runtime=MT | compiler.runtime=MTd |
 
-If you receive a linker warning concerning LIBCMT, it is because you are attempting to link libraries which have been built with different run-time libraries.
-You should do everything with dynamic or static run-time.  It is OK to build static libraries that use the dynamic run-time library.
+If you receive a linker warning concerning `LIBCMT`, it is because you are attempting to link libraries which have been built with different run-time libraries.
+You should link everything with the dynamic or static run-time. You can link a static library with the dynamic run-time if you wish.
 
 ### Changing profile settings with the conan command
 
