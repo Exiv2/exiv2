@@ -191,7 +191,7 @@ cmd
 
 Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 and 2017.
 
-Exiv2 v0.27.1 (and later) can be built with VS 2015, 2017 and 2019.  I believe it will build with 2013 and earlier, however we don't actively support those version of Visual Studio.
+Exiv2 v0.27.1 (and later) can be built with VS 2015, 2017 and 2019.  I believe Exiv2 will build with 2013 and earlier, however we don't actively support these version of Visual Studio.
 
 v0.28 is being "modernised" to C++11 and will not support C++98. We don't expect Exiv2 v0.28 to build with VS 2008, 2010, 2012 or 2013.
 
@@ -275,9 +275,9 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 
 ##### Static Builds
 
-The default builds of Exiv2 and sample applications build use DLLs.
+The default builds of Exiv2 and sample applications build and use DLLs.
 
-To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.  Visual Studio users will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
+To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.  You will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
 
 ```bash
 $ cmake -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_DYNAMIC_RUNTIME=Off
@@ -288,6 +288,9 @@ If you wish to use the static C run-time library, use the following option in th
 |                      | Static Release      | Static Debug |
 |:---                  |:---------           |:-------------------|
 | **profile setting**  | compiler.runtime=MT | compiler.runtime=MTd |
+
+If you receive a linker warning concerning LIBCMT, it is because you are attempting to link libraries which have been built with different run-time libraries.
+You should everything with dynamic or static run-time.  It is OK to build static libraries that use the dynamic run-time library.
 
 ### Changing profile settings with the conan command
 
