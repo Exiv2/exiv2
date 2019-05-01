@@ -290,7 +290,7 @@ If you wish to use the static C run-time library, use the following option in th
 | **profile setting**  | compiler.runtime=MT | compiler.runtime=MTd |
 
 If you receive a linker warning concerning LIBCMT, it is because you are attempting to link libraries which have been built with different run-time libraries.
-You should everything with dynamic or static run-time.  It is OK to build static libraries that use the dynamic run-time library.
+You should do everything with dynamic or static run-time.  It is OK to build static libraries that use the dynamic run-time library.
 
 ### Changing profile settings with the conan command
 
