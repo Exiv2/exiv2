@@ -277,10 +277,10 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 
 The default builds of Exiv2 and sample applications build use DLLs.
 
-To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.
+To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.  Visual Studio users will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
 
 ```bash
-$ cmake -DBUILD_SHARED_LIBS=Off ..
+$ cmake -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_DYNAMIC_RUNTIME=Off
 ```
 
 If you wish to use the static C run-time library, use the following option in the conan profile.
