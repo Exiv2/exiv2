@@ -801,10 +801,10 @@ namespace Exiv2 {
         }
     }
 
-    long WebPImage::getHeaderOffset(byte *data, long data_size,
-                                    byte *header, long header_size) {
+    long WebPImage::getHeaderOffset(byte* data, size_t data_size, byte* header, size_t header_size)
+    {
         long pos = -1;
-        for (long i=0; i < data_size - header_size; i++) {
+        for (size_t i=0; i < data_size - header_size; i++) {
             if (memcmp(header, &data[i], header_size) == 0) {
                 pos = i;
                 break;
