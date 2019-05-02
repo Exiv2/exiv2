@@ -491,13 +491,14 @@ namespace Exiv2 {
 
         io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
 
-        const uint32_t filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 8;
-        enforce(filesize <= io_->size(), Exiv2::kerCorruptedMetadata);
+        const long filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 8;
+        enforce(0 <= filesize, Exiv2::kerCorruptedMetadata);
+        enforce((size_t)filesize <= io_->size(), Exiv2::kerCorruptedMetadata);
         WebPImage::decodeChunks(filesize);
 
     } // WebPImage::readMetadata
 
-    void WebPImage::decodeChunks(uint32_t filesize)
+    void WebPImage::decodeChunks(long filesize)
     {
         DataBuf   chunkId(5);
         byte      size_buff[WEBP_TAG_SIZE];
@@ -508,10 +509,11 @@ namespace Exiv2 {
 #endif
 
         chunkId.pData_[4] = '\0' ;
-        while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
+        while (!io_->eof() && io_->tell() < filesize) {
             io_->readOrThrow(chunkId.pData_, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
             io_->readOrThrow(size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
-            const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
+            const long size = Exiv2::getULong(size_buff, littleEndian);
+            enforce(0 <= size, Exiv2::kerCorruptedMetadata);
             enforce(io_->tell() <= filesize, Exiv2::kerCorruptedMetadata);
             enforce(size <= (filesize - io_->tell()), Exiv2::kerCorruptedMetadata);
 
