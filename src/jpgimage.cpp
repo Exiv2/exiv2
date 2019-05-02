@@ -216,7 +216,7 @@ namespace Exiv2 {
     } // Photoshop::locateIrb
 
     int Photoshop::locateIptcIrb(const byte*     pPsData,
-                                 long            sizePsData,
+                                 size_t sizePsData,
                                  const byte**    record,
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData)
@@ -226,7 +226,7 @@ namespace Exiv2 {
     }
 
     int Photoshop::locatePreviewIrb(const byte*     pPsData,
-                                    long            sizePsData,
+                                    size_t sizePsData,
                                     const byte**    record,
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData)
@@ -235,9 +235,7 @@ namespace Exiv2 {
                          record, sizeHdr, sizeData);
     }
 
-    DataBuf Photoshop::setIptcIrb(const byte*     pPsData,
-                                  long            sizePsData,
-                                  const IptcData& iptcData)
+    DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData)
     {
         if (sizePsData > 0) assert(pPsData);
 #ifdef DEBUG
@@ -255,7 +253,7 @@ namespace Exiv2 {
             return rc;
         }
         Blob psBlob;
-        const uint32_t sizeFront = static_cast<uint32_t>(record - pPsData);
+        const size_t sizeFront = static_cast<size_t>(record - pPsData);
         // Write data before old record.
         if (sizePsData > 0 && sizeFront > 0) {
             append(psBlob, pPsData, sizeFront);
@@ -276,10 +274,10 @@ namespace Exiv2 {
         }
         // Write existing stuff after record,
         // skip the current and all remaining IPTC blocks
-        long pos = sizeFront;
+        size_t pos = sizeFront;
         while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
                                              &record, &sizeHdr, &sizeIptc)) {
-            const long newPos = static_cast<long>(record - pPsData);
+            const size_t newPos = static_cast<size_t>(record - pPsData);
             // Copy data up to the IPTC IRB
             if (newPos > pos) {
                 append(psBlob, pPsData + pos, newPos - pos);

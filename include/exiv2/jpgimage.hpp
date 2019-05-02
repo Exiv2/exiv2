@@ -104,7 +104,7 @@ namespace Exiv2 {
           @brief Forwards to locateIrb() with \em psTag = \em iptc_
          */
         static int locateIptcIrb(const byte *pPsData,
-                                 long sizePsData,
+                                 size_t sizePsData,
                                  const byte **record,
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData);
@@ -112,7 +112,7 @@ namespace Exiv2 {
           @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
          */
         static int locatePreviewIrb(const byte *pPsData,
-                                    long sizePsData,
+                                    size_t sizePsData,
                                     const byte **record,
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData);
@@ -125,9 +125,7 @@ namespace Exiv2 {
           @param iptcData   Iptc data to embed, may be empty
           @return A data buffer containing the new IRB buffer, may have 0 size
         */
-        static DataBuf setIptcIrb(const byte*     pPsData,
-                                  long            sizePsData,
-                                  const IptcData& iptcData);
+        static DataBuf setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData);
 
     }; // class Photoshop
 
