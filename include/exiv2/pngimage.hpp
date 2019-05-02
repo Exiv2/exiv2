@@ -54,9 +54,7 @@ namespace Exiv2
         /// If a new image is to be created, any existing data is overwritten. Since the constructor can not return a
         /// result, callers should check the good() method after object construction to determine success or failure.
         /// @param io An auto-pointer that owns a BasicIo instance used for reading and writing image metadata.
-        /// \b Important: The constructor takes ownership of the passed in BasicIo instance through the auto-pointer.
-        /// Callers should not continue to use the BasicIo instance after it is passed to this method.  Use the
-        /// Image::io() method to get a temporary reference.
+        /// Use the Image::io() method to get a temporary reference to the BasicIo instance.
         /// @param create Indicates if a new file will be created, or if we are reading an existing file.
         PngImage(BasicIo::UniquePtr io, bool create);
         //@}
