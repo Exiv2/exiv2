@@ -51,7 +51,7 @@
 #include "exiv2/orfimage.hpp"
 #include "exiv2/pgfimage.hpp"
 
-#ifdef   EXV_HAVE_PNG
+#ifdef   EXIV2_ENABLE_PNG
 #include "exiv2/pngimage.hpp"
 #endif
 

@@ -286,7 +286,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int have_sys_mman = 0;
 #endif
 
-#ifdef EXV_HAVE_PNG
+#ifdef EXIV2_ENABLE_PNG
     constexpr int have_libz = 1;
 #else
     constexpr int have_libz = 0;
