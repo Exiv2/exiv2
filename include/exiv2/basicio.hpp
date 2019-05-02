@@ -39,6 +39,12 @@
 // namespace extensions
 namespace Exiv2 {
 
+#if defined(_MSC_VER) && _WIN64
+ using int64 = int64_t;
+#else
+ using int64 = long;
+#endif
+
 // *****************************************************************************
 // class definitions
 
@@ -168,11 +174,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        virtual int seek(int64_t offset, Position pos) = 0;
-#else
-        virtual int seek(long offset, Position pos) = 0;
-#endif
+        virtual int seek(int64 offset, Position pos) = 0;
 
         /*!
           @brief Direct access to the IO data. For files, this is done by
@@ -430,11 +432,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
         /*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
@@ -652,11 +650,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
@@ -937,11 +931,7 @@ namespace Exiv2 {
          @return 0 if successful;<BR>
                 Nonzero if failure;
         */
-#if defined(_MSC_VER)
-       int seek(int64_t offset, Position pos) override;
-#else
-       int seek(long offset, Position pos) override;
-#endif
+       int seek(int64 offset, Position pos) override;
        /*!
          @brief Not support
          @return nullptr
