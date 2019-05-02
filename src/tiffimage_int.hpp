@@ -80,7 +80,7 @@ namespace Exiv2 {
           @return True if the TIFF header was read successfully. False if the
                  data buffer does not contain a valid TIFF header.
          */
-        virtual bool read(const byte* pData, uint32_t size);
+        virtual bool read(const byte* pData, size_t size);
         //! Set the byte order.
         virtual void setByteOrder(ByteOrder byteOrder);
         //! Set the offset to the start of the root directory.
@@ -304,7 +304,7 @@ namespace Exiv2 {
                   IptcData&          iptcData,
                   XmpData&           xmpData,
             const byte*              pData,
-                  uint32_t           size,
+                  size_t             size,
                   uint32_t           root,
                   FindDecoderFct     findDecoderFct,
                   TiffHeaderBase*    pHeader =0
@@ -322,7 +322,7 @@ namespace Exiv2 {
         static WriteMethod encode(
                   BasicIo&           io,
             const byte*              pData,
-                  uint32_t           size,
+                  size_t             size,
             const ExifData&          exifData,
             const IptcData&          iptcData,
             const XmpData&           xmpData,
@@ -348,7 +348,7 @@ namespace Exiv2 {
          */
         static std::unique_ptr<TiffComponent> parse(
             const byte*              pData,
-                  uint32_t           size,
+                  size_t             size,
                   uint32_t           root,
                   TiffHeaderBase*    pHeader
         );

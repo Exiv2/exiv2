@@ -130,7 +130,7 @@ namespace Exiv2 {
           The IO wrapper owns none of the objects passed in so the caller is
           responsible to keep them alive.
          */
-        IoWrapper(BasicIo& io, const byte* pHeader, long size, OffsetWriter* pow);
+        IoWrapper(BasicIo& io, const byte* pHeader, size_t size, OffsetWriter* pow);
         //@}
 
         //! @name Manipulators
@@ -141,7 +141,7 @@ namespace Exiv2 {
           Writes the TIFF header to the IO, if it hasn't been written yet, followed
           by the data passed in the arguments.
          */
-        long write(const byte* pData, long wcount);
+        size_t write(const byte* pData, size_t wcount);
         /*!
           @brief Wraps the corresponding BasicIo::putb() method.
 
@@ -150,14 +150,14 @@ namespace Exiv2 {
          */
         int putb(byte data);
         //! Wrapper for OffsetWriter::setTarget(), using an int instead of the enum to reduce include deps
-        void setTarget(int id, uint32_t target);
+        void setTarget(int id, size_t target);
         //@}
 
     private:
         // DATA
         BasicIo& io_;              //! Reference for the IO instance.
         const byte* pHeader_;      //! Pointer to the header data.
-        long size_;                //! Size of the header data.
+        size_t size_;              //! Size of the header data.
         bool wroteHeader_;         //! Indicates if the header has been written.
         OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
     }; // class IoWrapper
@@ -245,7 +245,7 @@ namespace Exiv2 {
          */
         uint32_t write(IoWrapper& ioWrapper,
                        ByteOrder byteOrder,
-                       int32_t   offset,
+                       size_t    offset,
                        uint32_t  valueIdx,
                        uint32_t  dataIdx,
                        uint32_t& imageIdx);
@@ -330,7 +330,7 @@ namespace Exiv2 {
         //! Implements write().
         virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) =0;
@@ -494,7 +494,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                          ByteOrder byteOrder,
-                         int32_t   offset,
+                         size_t    offset,
                          uint32_t  valueIdx,
                          uint32_t  dataIdx,
                          uint32_t& imageIdx) override;
@@ -675,7 +675,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                          ByteOrder byteOrder,
-                         int32_t   offset,
+                         size_t    offset,
                          uint32_t  valueIdx,
                          uint32_t  dataIdx,
                          uint32_t& imageIdx) override;
@@ -748,7 +748,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                          ByteOrder byteOrder,
-                         int32_t   offset,
+                         size_t    offset,
                          uint32_t  valueIdx,
                          uint32_t  dataIdx,
                          uint32_t& imageIdx) override;
@@ -880,7 +880,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -992,7 +992,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1073,7 +1073,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1201,7 +1201,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1408,7 +1408,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1496,7 +1496,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 size_t    offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
