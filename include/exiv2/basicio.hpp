@@ -1115,13 +1115,13 @@ namespace Exiv2 {
       @return Return the number of bytes written.
       @throw Error In case of failure.
      */
-    EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
+    EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
 #ifdef EXV_UNICODE_PATH
     /*!
       @brief Like writeFile() but accepts a unicode path in an std::wstring.
       @note This function is only available on Windows.
      */
-    EXIV2API long writeFile(const DataBuf& buf, const std::wstring& wpath);
+    EXIV2API size_t writeFile(const DataBuf& buf, const std::wstring& wpath);
 #endif
     /*!
       @brief replace each substring of the subject that matches the given search string with the given replacement.

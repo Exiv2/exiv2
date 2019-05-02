@@ -2631,7 +2631,7 @@ namespace Exiv2 {
     }
 
 #endif
-    long writeFile(const DataBuf& buf, const std::string& path)
+    size_t writeFile(const DataBuf& buf, const std::string& path)
     {
         FileIo file(path);
         if (file.open("wb") != 0) {
@@ -2641,7 +2641,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    long writeFile(const DataBuf& buf, const std::wstring& wpath)
+    size_t writeFile(const DataBuf& buf, const std::wstring& wpath)
     {
         FileIo file(wpath);
         if (file.open("wb") != 0) {
