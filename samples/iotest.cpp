@@ -101,7 +101,7 @@ try {
         throw Error(Exiv2::kerFileOpenFailed, argv[3], "w+b", strError());
     }
 
-    long readCount = 0;
+    size_t readCount = 0;
     byte buf[32];
     while ((readCount=fileOut1.read(buf, sizeof(buf)))) {
         if (memIo2.write(buf, readCount) != readCount) {

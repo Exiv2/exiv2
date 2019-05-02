@@ -316,7 +316,7 @@ namespace Exiv2 {
             return 4;
         }
         IoCloser closer(*io_);
-        if (io_->write(initData, dataSize) != dataSize) {
+        if (io_->write(initData, dataSize) != static_cast<size_t>(dataSize)) {
             return 4;
         }
         return 0;
@@ -481,7 +481,8 @@ namespace Exiv2 {
                 // read in profile
                 // #1286 profile can be padded
                 DataBuf    icc((chunk==1&&chunks==1)?s:size-2-14);
-                if ( icc.size_ > size-2-14) throw Error(kerInvalidIccProfile);
+                if ( icc.size_ > static_cast<size_t>(size-2-14))
+                    throw Error(kerInvalidIccProfile);
                 io_->read( icc.pData_,icc.size_);
 
                 if ( !iccProfileDefined() ) { // first block of profile
@@ -1137,7 +1138,7 @@ namespace Exiv2 {
 
                     // Write new XMP packet
                     if (outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()),
-                                    static_cast<long>(xmpPacket_.size())) != static_cast<long>(xmpPacket_.size()))
+                                    static_cast<long>(xmpPacket_.size())) != xmpPacket_.size())
                         throw Error(kerImageWriteFailed);
                     if (outIo.error())
                         throw Error(kerImageWriteFailed);
@@ -1150,13 +1151,13 @@ namespace Exiv2 {
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app2_;
 
-                    int chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    int profileSize = (int)iccProfile_.size_;
-                    int chunks = 1 + (profileSize - 1) / chunk_size;
+                    size_t chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
+                    size_t profileSize = iccProfile_.size_;
+                    size_t chunks = 1 + (profileSize - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
-                    for (int chunk = 0; chunk < chunks; chunk++) {
-                        int bytes = profileSize > chunk_size ? chunk_size : profileSize;  // bytes to write
+                    for (size_t chunk = 0; chunk < chunks; chunk++) {
+                        size_t bytes = profileSize > chunk_size ? chunk_size : profileSize;  // bytes to write
                         profileSize -= bytes;
 
                         // write JPEG marker (2 bytes)
@@ -1191,7 +1192,7 @@ namespace Exiv2 {
                     const byte* chunkEnd = chunkStart + newPsData.size_;
                     while (chunkStart < chunkEnd) {
                         // Determine size of next chunk
-                        long chunkSize = static_cast<long>(chunkEnd - chunkStart);
+                        size_t chunkSize = static_cast<size_t>(chunkEnd - chunkStart);
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
@@ -1237,7 +1238,7 @@ namespace Exiv2 {
 
                     if (outIo.write(tmpBuf, 4) != 4)
                         throw Error(kerImageWriteFailed);
-                    if (outIo.write((byte*)comment_.data(), (long)comment_.length()) != (long)comment_.length())
+                    if (outIo.write((byte*)comment_.data(), (long)comment_.length()) != comment_.length())
                         throw Error(kerImageWriteFailed);
                     if (outIo.putb(0) == EOF)
                         throw Error(kerImageWriteFailed);
@@ -1263,7 +1264,7 @@ namespace Exiv2 {
                 io_->read(buf.pData_, size + 2);
                 if (io_->error() || io_->eof())
                     throw Error(kerInputDataReadFailed);
-                if (outIo.write(buf.pData_, size + 2) != size + 2)
+                if (outIo.write(buf.pData_, size + 2) != static_cast<size_t>(size + 2))
                     throw Error(kerImageWriteFailed);
                 if (outIo.error())
                     throw Error(kerImageWriteFailed);
@@ -1283,7 +1284,7 @@ namespace Exiv2 {
         // Copy rest of the Io
         io_->seek(-2, BasicIo::cur);
         buf.alloc(4096);
-        long readSize = 0;
+        size_t readSize = 0;
         while ((readSize = io_->read(buf.pData_, buf.size_))) {
             if (outIo.write(buf.pData_, readSize) != readSize)
                 throw Error(kerImageWriteFailed);

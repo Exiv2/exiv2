@@ -652,7 +652,7 @@ namespace Exiv2 {
     {
         if ( bTestValid ) {
             if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
-            long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
+            const size_t size = iccProfile.pData_ ? static_cast<size_t>(getULong(iccProfile.pData_, bigEndian)): -1;
             if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
         }
         iccProfile_ = iccProfile;

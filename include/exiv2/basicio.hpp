@@ -96,7 +96,7 @@ namespace Exiv2 {
           @return Number of bytes written to IO source successfully;<BR>
               0 if failure;
          */
-        virtual long write(const byte* data, long wcount) = 0;
+        virtual size_t write(const byte* data, size_t wcount) = 0;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the IO source. Current IO position is advanced by the number
@@ -106,7 +106,7 @@ namespace Exiv2 {
           @return Number of bytes written to IO source successfully;<BR>
               0 if failure;
          */
-        virtual long write(BasicIo& src) = 0;
+        virtual size_t write(BasicIo& src) = 0;
         /*!
           @brief Write one byte to the IO source. Current IO position is
               advanced by one byte.
@@ -138,7 +138,7 @@ namespace Exiv2 {
           @return Number of bytes read from IO source successfully;<BR>
               0 if failure;
          */
-        virtual long read(byte* buf, long rcount) = 0;
+        virtual size_t read(byte* buf, long rcount) = 0;
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
@@ -353,7 +353,7 @@ namespace Exiv2 {
           @return Number of bytes written to the file successfully;<BR>
                  0 if failure;
          */
-        long write(const byte* data, long wcount) override;
+        size_t write(const byte* data, size_t wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the file. The file position is advanced by the number
@@ -363,7 +363,7 @@ namespace Exiv2 {
           @return Number of bytes written to the file successfully;<BR>
                  0 if failure;
          */
-        long write(BasicIo& src) override;
+        size_t write(BasicIo& src) override;
         /*!
           @brief Write one byte to the file. The file position is
               advanced by one byte.
@@ -395,7 +395,7 @@ namespace Exiv2 {
           @return Number of bytes read from the file successfully;<BR>
                  0 if failure;
          */
-        long read(byte* buf, long rcount) override;
+        size_t read(byte* buf, long rcount) override;
         /*!
           @brief Read one byte from the file. The file position is
               advanced by one byte.
@@ -577,7 +577,7 @@ namespace Exiv2 {
           @return Number of bytes written to the memory block successfully;<BR>
                  0 if failure;
          */
-        long write(const byte* data, long wcount) override;
+        size_t write(const byte* data, size_t wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the memory block. If needed, the size of the internal memory
@@ -588,7 +588,7 @@ namespace Exiv2 {
           @return Number of bytes written to the memory block successfully;<BR>
                  0 if failure;
          */
-        long write(BasicIo& src) override;
+        size_t write(BasicIo& src) override;
         /*!
           @brief Write one byte to the memory block. The IO position is
               advanced by one byte.
@@ -620,7 +620,7 @@ namespace Exiv2 {
           @return Number of bytes read from the memory block successfully;<BR>
                  0 if failure;
          */
-        long read(byte* buf, long rcount) override;
+        size_t read(byte* buf, long rcount) override;
         /*!
           @brief Read one byte from the memory block. The IO position is
               advanced by one byte.
@@ -855,7 +855,7 @@ namespace Exiv2 {
           @brief Not support this method.
           @return 0 means failure
          */
-        long write(const byte* data, long wcount) override;
+        size_t write(const byte* data, size_t wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to the remote file.
 
@@ -870,7 +870,7 @@ namespace Exiv2 {
 
           @note The write access is only supported by http, https, ssh.
          */
-        long write(BasicIo& src) override;
+        size_t write(BasicIo& src) override;
 
         /*!
          @brief Not support
@@ -904,7 +904,7 @@ namespace Exiv2 {
          @return Number of bytes read from the memory block successfully;<BR>
                 0 if failure;
         */
-       long read(byte* buf, long rcount) override;
+       size_t read(byte* buf, long rcount) override;
        /*!
          @brief Read one byte from the memory blocks. The IO position is
              advanced by one byte.

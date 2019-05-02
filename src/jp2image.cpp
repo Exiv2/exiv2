@@ -272,7 +272,7 @@ namespace Exiv2
                             }
                             DataBuf data(static_cast<long>(data_length));
                             io_->read(data.pData_,data.size_);
-                            const long    iccLength = getULong(data.pData_+pad, bigEndian);
+                            const size_t iccLength = getULong(data.pData_+pad, bigEndian);
                             // subtracting pad from data.size_ is safe:
                             // size_ is at least 8 and pad = 3
                             if (iccLength > data.size_ - pad) {
@@ -323,7 +323,7 @@ namespace Exiv2
                     if (io_->read((byte*)&uuid, sizeof(uuid)) == sizeof(uuid))
                     {
                         DataBuf rawData;
-                        long    bufRead;
+                        size_t  bufRead;
                         bool    bIsExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid))==0;
                         bool    bIsIPTC = memcmp(uuid.uuid, kJp2UuidIptc, sizeof(uuid))==0;
                         bool    bIsXMP  = memcmp(uuid.uuid, kJp2UuidXmp , sizeof(uuid))==0;
@@ -511,7 +511,7 @@ namespace Exiv2
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:", (size_t)address,
                                                               (size_t)subBox.length)
                                     << toAscii(subBox.type) << " | "
-                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30l, data.size_)));
+                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30ul, data.size_)));
                                 bLF = true;
                             }
 
@@ -555,7 +555,7 @@ namespace Exiv2
 
                             DataBuf rawData;
                             rawData.alloc(box.length - sizeof(uuid) - sizeof(box));
-                            long bufRead = io_->read(rawData.pData_, rawData.size_);
+                            const size_t bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error())
                                 throw Error(kerFailedToReadImageData);
                             if (bufRead != rawData.size_)
@@ -732,7 +732,7 @@ namespace Exiv2
             // Read chunk header.
 
             std::memset(bheaderBuf.pData_, 0x00, bheaderBuf.size_);
-            long bufRead = io_->read(bheaderBuf.pData_, bheaderBuf.size_);
+            size_t bufRead = io_->read(bheaderBuf.pData_, bheaderBuf.size_);
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead != bheaderBuf.size_) throw Error(kerInputDataReadFailed);
 

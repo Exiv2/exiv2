@@ -62,7 +62,7 @@ namespace
     {
         // str & length should compile time constants => only running this in DEBUG mode is ok
         assert(strlen(str) <= length);
-        return memcmp(str, buf.pData_, std::min(static_cast<long>(length), buf.size_)) == 0;
+        return memcmp(str, buf.pData_, std::min(length, buf.size_)) == 0;
     }
 }  // namespace
 
@@ -107,7 +107,7 @@ namespace Exiv2 {
             result.alloc(uncompressedLen);
             zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
             // if result buffer is large than necessary, redo to fit perfectly.
-            if (zlibResult == Z_OK && (long) uncompressedLen < result.size_ ) {
+            if (zlibResult == Z_OK && uncompressedLen < result.size_ ) {
                 result.free();
 
                 result.alloc(uncompressedLen);
@@ -247,7 +247,7 @@ namespace Exiv2 {
                 size_t address = io_->tell();
 
                 std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
-                long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+                size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
                 if (io_->error()) throw Error(kerFailedToReadImageData);
                 if (bufRead != cheaderBuf.size_) throw Error(kerInputDataReadFailed);
 
@@ -394,7 +394,7 @@ namespace Exiv2 {
 #ifdef DEBUG
         std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
 #endif
-        long bufRead = io.read(buffer.pData_, buffer.size_);
+        size_t bufRead = io.read(buffer.pData_, buffer.size_);
         if (io.error()) {
             throw Error(kerFailedToReadImageData);
         }
@@ -534,7 +534,7 @@ namespace Exiv2 {
             // Read chunk header.
 
             std::memset(cheaderBuf.pData_, 0x00, cheaderBuf.size_);
-            long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+            size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead != cheaderBuf.size_) throw Error(kerInputDataReadFailed);
 
@@ -576,7 +576,7 @@ namespace Exiv2 {
                 {
                     // Update Comment data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
-                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size())
                     {
                         throw Error(kerImageWriteFailed);
                     }
@@ -593,7 +593,7 @@ namespace Exiv2 {
                         std::string rawExif = exifHeader
                                               + std::string((const char*)blob.data(), blob.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
-                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size())
                         {
                             throw Error(kerImageWriteFailed);
                         }
@@ -608,7 +608,7 @@ namespace Exiv2 {
                     {
                         std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
-                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size())
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size())
                         {
                             throw Error(kerImageWriteFailed);
                         }
@@ -661,7 +661,7 @@ namespace Exiv2 {
                 if (xmpPacket_.size() > 0) {
                     // Update XMP data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(xmpPacket_, mdXmp);
-                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()) {
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {
                         throw Error(kerImageWriteFailed);
                     }
                 }

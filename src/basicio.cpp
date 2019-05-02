@@ -576,14 +576,14 @@ namespace Exiv2 {
     }
 #endif
 
-    long FileIo::write(const byte* data, long wcount)
+    size_t FileIo::write(const byte* data, size_t wcount)
     {
         assert(p_->fp_ != 0);
         if (p_->switchMode(Impl::opWrite) != 0) return 0;
         return (long)std::fwrite(data, 1, wcount, p_->fp_);
     }
 
-    long FileIo::write(BasicIo& src)
+    size_t FileIo::write(BasicIo& src)
     {
         assert(p_->fp_ != 0);
         if (static_cast<BasicIo*>(this) == &src) return 0;
@@ -999,13 +999,13 @@ namespace Exiv2 {
         return buf;
     }
 
-    long FileIo::read(byte* buf, long rcount)
+    size_t FileIo::read(byte* buf, long rcount)
     {
         assert(p_->fp_ != 0);
         if (p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
-        return (long)std::fread(buf, 1, rcount, p_->fp_);
+        return std::fread(buf, 1, rcount, p_->fp_);
     }
 
     int FileIo::getb()
@@ -1223,7 +1223,7 @@ namespace Exiv2 {
         }
     }
 
-    long MemIo::write(const byte* data, long wcount)
+    size_t MemIo::write(const byte* data, size_t wcount)
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
@@ -1263,7 +1263,7 @@ namespace Exiv2 {
         if (error() || src.error()) throw Error(kerMemoryTransferFailed, strError());
     }
 
-    long MemIo::write(BasicIo& src)
+    size_t MemIo::write(BasicIo& src)
     {
         if (static_cast<BasicIo*>(this) == &src) return 0;
         if (!src.isopen()) return 0;
@@ -1365,7 +1365,7 @@ namespace Exiv2 {
         return buf;
     }
 
-    long MemIo::read(byte* buf, long rcount)
+    size_t MemIo::read(byte* buf, long rcount)
     {
         long avail = EXV_MAX(p_->size_ - p_->idx_, 0);
         long allow = EXV_MIN(rcount, avail);
@@ -1737,12 +1737,12 @@ namespace Exiv2 {
         return 0;
     }
 
-    long RemoteIo::write(const byte* /* unused data*/, long /* unused wcount*/)
+    size_t RemoteIo::write(const byte* /* unused data*/, size_t /* unused wcount*/)
     {
         return 0; // means failure
     }
 
-    long RemoteIo::write(BasicIo& src)
+    size_t RemoteIo::write(BasicIo& src)
     {
         assert(p_->isMalloced_);
         if (!src.isopen()) return 0;
@@ -1832,7 +1832,7 @@ namespace Exiv2 {
         return buf;
     }
 
-    long RemoteIo::read(byte* buf, long rcount)
+    size_t RemoteIo::read(byte* buf, long rcount)
     {
         assert(p_->isMalloced_);
         if (p_->eof_) return 0;
@@ -2658,7 +2658,7 @@ namespace Exiv2 {
             throw Error(kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
+        const size_t len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
             throw Error(kerCallFailed, path, strError(), "FileIo::read");
         }

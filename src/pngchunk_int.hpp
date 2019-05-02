@@ -131,7 +131,7 @@ namespace Exiv2 {
                  Supported Chunk types are tTXt, zTXt, and iTXt.
          */
         static DataBuf parseTXTChunk(const DataBuf& data,
-                                     int            keysize,
+                                     size_t         keysize,
                                      TxtChunkType   type);
 
         /*!

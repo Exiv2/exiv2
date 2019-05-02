@@ -376,7 +376,7 @@ namespace Exiv2 {
             us2Data(data, (uint16_t) blob.size()+8, bigEndian);
             ul2Data(data, (uint32_t) blob.size(), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write((const byte*)&blob[0], static_cast<long>(blob.size())) != (long)blob.size())
+            if (outIo.write((const byte*)&blob[0], blob.size()) != blob.size())
             {
                 throw Error(kerImageWriteFailed);
             }
@@ -389,7 +389,7 @@ namespace Exiv2 {
             if (outIo.write((const byte*)WEBP_CHUNK_HEADER_XMP, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
             ul2Data(data, (uint32_t) xmpPacket().size(), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write((const byte*)xmp.data(), static_cast<long>(xmp.size())) != (long)xmp.size()) {
+            if (outIo.write((const byte*)xmp.data(), xmp.size()) != xmp.size()) {
                 throw Error(kerImageWriteFailed);
             }
             if (outIo.tell() % 2) {

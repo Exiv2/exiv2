@@ -394,10 +394,10 @@ namespace Exiv2 {
 #endif
         // Copy colorData
         uint32_t readTotal = 0;
-        long toRead = 0;
+        size_t toRead = 0;
         while (readTotal < colorDataLength) {
-            toRead = static_cast<long>(colorDataLength - readTotal) < lbuf.size_
-                         ? static_cast<long>(colorDataLength - readTotal)
+            toRead = static_cast<size_t>(colorDataLength - readTotal) < lbuf.size_
+                         ? static_cast<size_t>(colorDataLength - readTotal)
                          : lbuf.size_;
             if (io_->read(lbuf.pData_, toRead) != toRead)
                 throw Error(kerNotAnImage, "Photoshop");
@@ -552,7 +552,7 @@ namespace Exiv2 {
         io_->populateFakeData();
 
         // Copy remaining data
-        long readSize = 0;
+        size_t readSize = 0;
         while ((readSize = io_->read(lbuf.pData_, lbuf.size_))) {
             if (outIo.write(lbuf.pData_, readSize) != readSize)
                 throw Error(kerImageWriteFailed);
@@ -641,7 +641,7 @@ namespace Exiv2 {
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Exif data
-                if (out.write(&blob[0], static_cast<long>(blob.size())) != static_cast<long>(blob.size()))
+                if (out.write(&blob[0], static_cast<long>(blob.size())) != blob.size())
                     throw Error(kerImageWriteFailed);
                 resLength += static_cast<long>(blob.size()) + 12;
                 if (blob.size() & 1)  // even padding
@@ -692,7 +692,7 @@ namespace Exiv2 {
                 throw Error(kerImageWriteFailed);
             // Write XMPPacket
             if (out.write(reinterpret_cast<const byte*>(xmpPacket.data()), static_cast<long>(xmpPacket.size())) !=
-                static_cast<long>(xmpPacket.size()))
+                xmpPacket.size())
                 throw Error(kerImageWriteFailed);
             if (out.error())
                 throw Error(kerImageWriteFailed);
