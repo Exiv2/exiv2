@@ -119,7 +119,7 @@ namespace Exiv2 {
         return tit->typeId_;
     }
 
-    long TypeInfo::typeSize(TypeId typeId)
+    size_t TypeInfo::typeSize(TypeId typeId)
     {
         const TypeInfoTable* tit = find(typeInfoTable, typeId);
         if (!tit) return 0;

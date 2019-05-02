@@ -180,7 +180,7 @@ namespace Exiv2 {
         //! Return the type id for a type name
         static TypeId typeId(const std::string& typeName);
         //! Return the size in bytes of one element of this type
-        static long typeSize(TypeId typeId);
+        static size_t typeSize(TypeId typeId);
 
     };
 
