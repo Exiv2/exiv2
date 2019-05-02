@@ -93,7 +93,7 @@ namespace Exiv2 {
                              byte *header, long header_size);
         bool equalsWebPTag(Exiv2::DataBuf& buf ,const char* str);
         void debugPrintHex(byte *data, long size);
-        void decodeChunks(uint32_t filesize);
+        void decodeChunks(long filesize);
         void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
                          bool has_alpha, bool has_icc, int width,
                          int height);
