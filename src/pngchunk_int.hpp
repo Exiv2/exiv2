@@ -77,21 +77,21 @@ namespace Exiv2
             };
 
         public:
-            /// @brief Decode PNG IHDR chunk data from a data buffer \em data and return image size to \em outWidth
+            /// @brief Decode a PNG IHDR chunk from the data buffer \em data and return image size into \em outWidth
             /// and \em outHeight.
-            /// @param data      PNG Chunk data buffer.
-            /// @param out       Where we decode the header data.
+            /// @param[in] data      PNG Chunk data buffer.
+            /// @param[out] header       Where we decode the header data.
             static void decodeIHDRChunk(const DataBuf& data, PngImageHeader& header);
 
             /// @brief Decode PNG tEXt, zTXt, or iTXt chunk data from \em pImage passed by data buffer \em data and
-            /// extract Comment, Exif, Iptc, Xmp metadata accordingly.
+            ///     extract Comment, Exif, Iptc, Xmp metadata accordingly.
             /// @param pImage    Pointer to the image to hold the metadata
             /// @param data      PNG Chunk data buffer.
             /// @param type      PNG Chunk TXT type.
             static void decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType type);
 
             /// @brief Decode PNG tEXt, zTXt, or iTXt chunk data from \em pImage passed by data buffer \em data and
-            /// extract Comment, Exif, Iptc, Xmp to DataBuf.
+            ///     extract Comment, Exif, Iptc, Xmp into the returned DataBuf.
             /// @param data      PNG Chunk data buffer.
             /// @param type      PNG Chunk TXT type.
             static DataBuf decodeTXTChunk(const DataBuf& data, TxtChunkType type);
@@ -108,7 +108,7 @@ namespace Exiv2
             static std::string makeMetadataChunk(const std::string& metadata, MetadataId type);
 
         private:
-            /// @brief Parse PNG Text chunk to determine type and extract content.
+            /// @brief Parse a PNG Text chunk to determine its type and extract the content.
             /// Supported Chunk types are tTXt, zTXt, and iTXt.
             static DataBuf parseTXTChunk(const DataBuf& data, int keysize, TxtChunkType type);
 
@@ -123,7 +123,7 @@ namespace Exiv2
             static void parseChunkContent(Image* pImage, const byte* key, long keySize, const DataBuf arr);
 
             /// @brief Return a compressed (zTXt) or uncompressed (tEXt) PNG ASCII text chunk (length + chunk type +
-            /// chunk data + CRC) as a string.
+            ///     chunk data + CRC) as a string.
             /// @param keyword  Keyword for the PNG text chunk
             /// @param text     Text to be recorded in the PNG chunk.
             /// @param compress Flag indicating whether to compress the PNG chunk data.
@@ -131,7 +131,7 @@ namespace Exiv2
             static std::string makeAsciiTxtChunk(const std::string& keyword, const std::string& text, bool compress);
 
             /// @brief Return a compressed or uncompressed (iTXt) PNG international text chunk (length + chunk type +
-            /// chunk data + CRC) as a string.
+            ///     chunk data + CRC) as a string.
             /// @param keyword  Keyword for the PNG international text chunk
             /// @param text     Text to be recorded in the PNG chunk.
             /// @param compress Flag indicating whether to compress the PNG chunk data.
