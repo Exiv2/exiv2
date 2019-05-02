@@ -203,7 +203,7 @@ namespace Exiv2 {
           @return Offset from the start of IO if successful;<BR>
                  -1 if failure;
          */
-        virtual long tell() const = 0;
+        virtual int64 tell() const = 0;
         /*!
           @brief Get the current size of the IO source in bytes.
           @return Size of the IO source in bytes;<BR>
@@ -473,7 +473,7 @@ namespace Exiv2 {
           @return Offset from the start of the file if successful;<BR>
                  -1 if failure;
          */
-        long tell() const override;
+        int64 tell() const override;
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes.
@@ -669,7 +669,7 @@ namespace Exiv2 {
           @brief Get the current IO position.
           @return Offset from the start of the memory block
          */
-        long tell() const override;
+        int64 tell() const override;
         /*!
           @brief Get the current memory buffer size in bytes.
           @return Size of the in memory data in bytes;<BR>
@@ -949,7 +949,7 @@ namespace Exiv2 {
          @brief Get the current IO position.
          @return Offset from the start of the memory block
         */
-       long tell() const override;
+       int64 tell() const override;
        /*!
          @brief Get the current memory buffer size in bytes.
          @return Size of the in memory data in bytes;<BR>

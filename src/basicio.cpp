@@ -906,7 +906,7 @@ namespace Exiv2 {
 #endif
     }
 
-    long FileIo::tell() const
+    int64 FileIo::tell() const
     {
         assert(p_->fp_ != 0);
         return std::ftell(p_->fp_);
@@ -1295,7 +1295,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    long MemIo::tell() const
+    int64 MemIo::tell() const
     {
         return p_->idx_;
     }
@@ -1906,7 +1906,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    long RemoteIo::tell() const
+    int64 RemoteIo::tell() const
     {
         return p_->idx_;
     }
