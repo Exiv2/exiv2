@@ -48,7 +48,7 @@
 #cmakedefine EXV_HAVE_SYS_MMAN_H
 
 // Define if PNG support has been enabled
-#cmakedefine EXV_HAVE_PNG
+#cmakedefine EXIV2_ENABLE_PNG
 
 /* Define if you have (Exiv2/xmpsdk) Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT

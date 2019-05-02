@@ -35,9 +35,9 @@
 #include "crwimage.hpp"
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
-#ifdef EXV_HAVE_PNG
+#ifdef EXIV2_ENABLE_PNG
 # include "pngimage.hpp"
-#endif // EXV_HAVE_PNG
+#endif
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
@@ -115,9 +115,9 @@ namespace {
         { ImageType::sr2,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
         { ImageType::srw,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::orf,  newOrfInstance,  isOrfType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-#ifdef EXV_HAVE_PNG
+#ifdef EXIV2_ENABLE_PNG
         { ImageType::png,  newPngInstance,  isPngType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-#endif // EXV_HAVE_PNG
+#endif
         { ImageType::pgf,  newPgfInstance,  isPgfType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
         { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::xmp,  newXmpInstance,  isXmpType,  amReadWrite, amReadWrite, amReadWrite, amNone      },

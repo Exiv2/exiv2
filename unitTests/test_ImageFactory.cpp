@@ -170,7 +170,7 @@ TEST(TheImageFactory, getsExpectedModesForPgfImages)
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::pgf, mdIccProfile));
 }
 
-#ifdef EXV_HAVE_PNG
+#ifdef EXIV2_ENABLE_PNG
 TEST(TheImageFactory, getsExpectedModesForPngImages)
 {
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::png, mdNone));
