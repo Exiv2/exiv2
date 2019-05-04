@@ -96,6 +96,20 @@ endif()
 add_executable(conntest conntest.cpp)
 list(APPEND APPLICATIONS conntest)
 
+if (EXIV2_ENABLE_WEBREADY)
+    if( EXIV2_ENABLE_CURL )
+        target_include_directories(conntest SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
+        target_link_libraries(conntest PRIVATE ${CURL_LIBRARIES})
+        if (USING_CONAN)
+            target_compile_definitions(conntest PRIVATE ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
+            target_link_libraries(conntest PRIVATE ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
+            if (NOT APPLE)
+                target_link_libraries(conntest PRIVATE CONAN_PKG::OpenSSL)
+            endif()
+        endif()
+    endif()
+endif()
+
 # ******************************************************************************
 # remotetest application
 add_executable(remotetest remotetest.cpp)
