@@ -118,9 +118,7 @@ namespace Exiv2 {
         return false;
     }
 
-    /// \todo change to size_t
-    bool Photoshop::valid(const byte* pPsData,
-                          long        sizePsData)
+    bool Photoshop::valid(const byte* pPsData, size_t sizePsData)
     {
         const byte *record = 0;
         uint32_t sizeIptc = 0;

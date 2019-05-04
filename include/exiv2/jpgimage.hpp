@@ -75,8 +75,7 @@ namespace Exiv2 {
           @return true  if all IRBs are valid;<BR>
                   false otherwise
         */
-        static bool valid(const byte* pPsData,
-                          long        sizePsData);
+        static bool valid(const byte* pPsData, size_t sizePsData);
         /*!
           @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory
               buffer. Operates on raw data to simplify reuse.
