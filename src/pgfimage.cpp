@@ -198,7 +198,7 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        long    imgSize  = (long) img->io().size();
+        size_t  imgSize  = img->io().size();
         DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef DEBUG
@@ -214,7 +214,7 @@ namespace Exiv2 {
         if (outIo.putb(mnb) == EOF) throw Error(kerImageWriteFailed);
 
         // Write new Header size.
-        size_t newHeaderSize = header.size_ + static_cast<size_t>(imgSize); /// \todo change imgSize to size_t
+        size_t newHeaderSize = header.size_ + imgSize;
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
         byteSwap_(buffer,0,bSwap_);
