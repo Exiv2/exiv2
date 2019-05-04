@@ -195,7 +195,7 @@ namespace Exiv2 {
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
         Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
         if ( pos != exifData_.end() ) {
-            long size = pos->count() * pos->typeSize();
+            const size_t size = pos->count() * pos->typeSize();
             if (size == 0) {
                 throw Error(kerFailedToReadImageData);
             }

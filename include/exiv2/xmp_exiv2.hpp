@@ -137,7 +137,7 @@ namespace Exiv2 {
         const char* typeName() const override;
         // Todo: Remove this method from the baseclass
         //! The Exif typeSize doesn't make sense here. Return 0.
-        long typeSize() const override;
+        size_t typeSize() const override;
         long count() const override;
         long size() const override;
         std::string toString() const override;

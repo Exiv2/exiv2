@@ -369,9 +369,9 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Exifdatum::typeSize() const
+    size_t Exifdatum::typeSize() const
     {
-        return static_cast<long>(TypeInfo::typeSize(typeId()));
+        return TypeInfo::typeSize(typeId());
     }
 
     long Exifdatum::count() const

@@ -136,7 +136,7 @@ namespace Exiv2 {
         uint16_t tag() const override;
         TypeId typeId() const override;
         const char* typeName() const override;
-        long typeSize() const override;
+        size_t typeSize() const override;
         long count() const override;
         long size() const override;
         std::string toString() const override;
