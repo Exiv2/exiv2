@@ -534,6 +534,7 @@ namespace Exiv2 {
 
     private:
         // DATA
+        /// \todo change types to size_t
         TiffType tiffType_;   //!< Field TIFF type
         uint32_t count_;      //!< The number of values of the indicated type
         int32_t  offset_;     //!< Offset to the data area

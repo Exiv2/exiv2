@@ -210,7 +210,7 @@ namespace Exiv2 {
     {
     }
 
-    long DataValue::count() const
+    size_t DataValue::count() const
     {
         return size();
     }
@@ -244,7 +244,7 @@ namespace Exiv2 {
             );
     }
 
-    long DataValue::size() const
+    size_t DataValue::size() const
     {
         return static_cast<long>(value_.size());
     }
@@ -341,12 +341,12 @@ namespace Exiv2 {
             );
     }
 
-    long StringValueBase::count() const
+    size_t StringValueBase::count() const
     {
         return size();
     }
 
-    long StringValueBase::size() const
+    size_t StringValueBase::size() const
     {
         return static_cast<long>(value_.size());
     }
@@ -670,7 +670,7 @@ namespace Exiv2 {
         return read(s);
     }
 
-    long XmpValue::size() const
+    size_t XmpValue::size() const
     {
         std::ostringstream os;
         write(os);
@@ -728,12 +728,12 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    long XmpTextValue::size() const
+    size_t XmpTextValue::size() const
     {
         return static_cast<long>(value_.size());
     }
 
-    long XmpTextValue::count() const
+    size_t XmpTextValue::count() const
     {
         return size();
     }
@@ -798,7 +798,7 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    long XmpArrayValue::count() const
+    size_t XmpArrayValue::count() const
     {
         return static_cast<long>(value_.size());
     }
@@ -872,7 +872,7 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    long LangAltValue::count() const
+    size_t LangAltValue::count() const
     {
         return static_cast<long>(value_.size());
     }
@@ -1023,12 +1023,12 @@ namespace Exiv2 {
         return date_;
     }
 
-    long DateValue::count() const
+    size_t DateValue::count() const
     {
         return size();
     }
 
-    long DateValue::size() const
+    size_t DateValue::size() const
     {
         return 8;
     }
@@ -1201,12 +1201,12 @@ namespace Exiv2 {
         return time_;
     }
 
-    long TimeValue::count() const
+    size_t TimeValue::count() const
     {
         return size();
     }
 
-    long TimeValue::size() const
+    size_t TimeValue::size() const
     {
         return 11;
     }

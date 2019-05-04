@@ -1410,8 +1410,8 @@ namespace Exiv2 {
         }
 
         char ch;
-        int size = value.size();
-        for (int i = 0; i < size && ((ch = (char)value.toLong(i)) != '\0'); i++) {
+        size_t size = value.size();
+        for (size_t i = 0; i < size && ((ch = (char)value.toLong((long)i)) != '\0'); i++) {
             os << ch;
         }
         return os;

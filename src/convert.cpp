@@ -1150,9 +1150,9 @@ namespace Exiv2 {
             return;
         }
 
-        int count = pos->count();
+        size_t count = pos->count();
         bool added = false;
-        for (int i = 0; i < count; ++i) {
+        for (int i = 0; i < (int)count; ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS

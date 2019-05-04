@@ -694,7 +694,7 @@ namespace {
     {
         const ExifData &exifData = image_.exifData();
 
-        int offsetCount = 0;
+        size_t offsetCount = 0;
         ExifData::const_iterator pos;
 
         // check if the group_ contains a preview image
@@ -721,8 +721,8 @@ namespace {
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + '.' + sizeTag_));
         if (pos == exifData.end()) return;
         if (offsetCount != pos->value().count()) return;
-        for (int i = 0; i < offsetCount; i++) {
-            size_ += pos->toLong(i);
+        for (size_t i = 0; i < offsetCount; i++) {
+            size_ += pos->toLong((long)i);
         }
 
         if (size_ == 0) return;

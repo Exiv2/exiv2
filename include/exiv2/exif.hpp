@@ -182,9 +182,9 @@ namespace Exiv2 {
         /// @brief Return the size in bytes of one component of this type
         size_t typeSize() const override;
         //! Return the number of components in the value
-        long count() const override;
+        size_t count() const override;
         //! Return the size of the value in bytes
-        long size() const override;
+        size_t size() const override;
         //! Return the value as a string.
         std::string toString() const override;
         std::string toString(long n) const override;
@@ -510,7 +510,7 @@ namespace Exiv2 {
         //! Return true if there is no Exif metadata
         bool empty() const { return count() == 0; }
         //! Get the number of metadata entries
-        long count() const { return static_cast<long>(exifMetadata_.size()); }
+        size_t count() const { return exifMetadata_.size(); }
         //@}
 
     private:

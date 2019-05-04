@@ -374,12 +374,12 @@ namespace Exiv2 {
         return TypeInfo::typeSize(typeId());
     }
 
-    long Exifdatum::count() const
+    size_t Exifdatum::count() const
     {
         return value_.get() == 0 ? 0 : value_->count();
     }
 
-    long Exifdatum::size() const
+    size_t Exifdatum::size() const
     {
         return value_.get() == 0 ? 0 : value_->size();
     }

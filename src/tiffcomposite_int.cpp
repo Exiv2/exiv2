@@ -377,7 +377,7 @@ namespace Exiv2 {
     {
         if (value.get() == 0)
             return;
-        uint32_t newSize = value->size();
+        size_t newSize = value->size();
         if (newSize > size_) {
             setData(DataBuf(newSize));
         }
@@ -393,7 +393,7 @@ namespace Exiv2 {
     {
         if (value.get() == 0) return;
         tiffType_ = toTiffType(value->typeId());
-        count_ = value->count();
+        count_ = (uint32_t)value->count();
         delete pValue_;
         pValue_ = value.release();
     } // TiffEntryBase::setValue
@@ -431,16 +431,14 @@ namespace Exiv2 {
 #endif
             return;
         }
-        uint32_t size = 0;
-        for (int i = 0; i < pSize->count(); ++i) {
-            size += static_cast<uint32_t>(pSize->toLong(i));
+        size_t size = 0;
+        for (int i = 0; i < (int)pSize->count(); ++i) {
+            size += static_cast<size_t>(pSize->toLong(i));
         }
-        uint32_t offset = static_cast<uint32_t>(pValue()->toLong(0));
+        size_t offset = static_cast<size_t>(pValue()->toLong(0));
         // Todo: Remove limitation of JPEG writer: strips must be contiguous
         // Until then we check: last offset + last size - first offset == size?
-        if (  static_cast<uint32_t>(pValue()->toLong(pValue()->count()-1))
-            + static_cast<uint32_t>(pSize->toLong(pSize->count()-1))
-            - offset != size) {
+        if (pValue()->toLong((long)(pValue()->count()-1)) + pSize->toLong((long)(pSize->count()-1)) - offset != size) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(group())
                         << ", entry 0x" << std::setw(4)
@@ -461,7 +459,7 @@ namespace Exiv2 {
             return;
         }
         pDataArea_ = const_cast<byte*>(pData) + baseOffset + offset;
-        sizeDataArea_ = size;
+        sizeDataArea_ = (uint32_t)size;
         const_cast<Value*>(pValue())->setDataArea(pDataArea_, sizeDataArea_);
     } // TiffDataEntry::setStrips
 
@@ -1740,7 +1738,7 @@ namespace Exiv2 {
     uint32_t TiffBinaryElement::doSize() const
     {
         if (!pValue()) return 0;
-        return pValue()->size();
+        return (uint32_t)pValue()->size();
     } // TiffBinaryElement::doSize
 
     uint32_t TiffComponent::sizeData() const

@@ -1016,7 +1016,7 @@ namespace Exiv2 {
 #ifdef DEBUG
         bool tooLarge = false;
 #endif
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
 #ifdef DEBUG
@@ -1038,7 +1038,7 @@ namespace Exiv2 {
         assert(object != 0);
         assert(datum != 0);
 
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
             object->updateValue(datum->getValue(), byteOrder()); // clones the value

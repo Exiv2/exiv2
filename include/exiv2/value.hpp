@@ -128,9 +128,9 @@ namespace Exiv2 {
         */
         virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
         //! Return the number of components of the value
-        virtual long count() const =0;
+        virtual size_t count() const =0;
         //! Return the size of the value in bytes
-        virtual long size() const =0;
+        virtual size_t size() const =0;
         /*!
           @brief Write the value to an output stream. You do not usually have
                  to use this function; it is used for the implementation of
@@ -306,8 +306,8 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const override;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
@@ -392,8 +392,8 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const override;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         long toLong(long n =0) const override;
         float toFloat(long n =0) const override;
         Rational toRational(long n =0) const override;
@@ -655,7 +655,7 @@ namespace Exiv2 {
         XmpArrayType xmpArrayType() const;
         //! Return XMP struct, indicates if an XMP value is a structure.
         XmpStruct xmpStruct() const;
-        long size() const override;
+        size_t size() const override;
 
         /*!
           @brief Write value to a character data buffer.
@@ -763,8 +763,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long size() const override;
-        long count() const override;
+        size_t size() const override;
+        size_t count() const override;
 
         /// @brief Convert the value to a long. The optional parameter \em n is not used and is ignored.
         /// @return The converted value.
@@ -829,7 +829,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long count() const override;
+        size_t count() const override;
 
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
@@ -929,7 +929,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long count() const override;
+        size_t count() const override;
 
         /*!
           @brief Return the text value associated with the default language
@@ -1051,8 +1051,8 @@ namespace Exiv2 {
 
         //! Return date struct containing date information
         const Date& getDate() const;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
 
         //! Return the value as a UNIX calender time converted to long.
@@ -1161,8 +1161,8 @@ namespace Exiv2 {
         long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const override;
         //! Return time struct containing time information
         const Time& getTime() const;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
 
         //! Returns number of seconds in the day in UTC.
@@ -1286,8 +1286,8 @@ namespace Exiv2 {
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
         long copy(byte* buf, ByteOrder byteOrder) const override;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
@@ -1604,13 +1604,13 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    long ValueType<T>::count() const
+    size_t ValueType<T>::count() const
     {
         return static_cast<long>(value_.size());
     }
 
     template<typename T>
-    long ValueType<T>::size() const
+    size_t ValueType<T>::size() const
     {
         return static_cast<long>(TypeInfo::typeSize(typeId()) * value_.size());
     }

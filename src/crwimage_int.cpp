@@ -1061,7 +1061,7 @@ namespace Exiv2 {
         const ExifData::const_iterator ed2 = image.exifData().findKey(k2);
         const ExifData::const_iterator edEnd = image.exifData().end();
 
-        long size = 0;
+        size_t size = 0;
         if (ed1 != edEnd) size += ed1->size();
         if (ed2 != edEnd) size += ed2->size();
         if (size != 0) {
