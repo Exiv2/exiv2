@@ -248,12 +248,11 @@ namespace Exiv2 {
         TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // TiffImage::writeMetadata
 
-    ByteOrder TiffParser::decode(
-              ExifData& exifData,
+    ByteOrder TiffParser::decode(ExifData& exifData,
               IptcData& iptcData,
               XmpData&  xmpData,
         const byte*     pData,
-              uint32_t  size
+              size_t size
     )
     {
         return TiffParserWorker::decode(exifData,
@@ -265,10 +264,9 @@ namespace Exiv2 {
                                         TiffMapping::findDecoder);
     } // TiffParser::decode
 
-    WriteMethod TiffParser::encode(
-              BasicIo&  io,
+    WriteMethod TiffParser::encode(BasicIo&  io,
         const byte*     pData,
-              uint32_t  size,
+              size_t size,
               ByteOrder byteOrder,
         const ExifData& exifData,
         const IptcData& iptcData,
