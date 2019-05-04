@@ -663,7 +663,7 @@ namespace Exiv2 {
     {
         if(value.size()>0 && value.typeId() == undefined)
         {
-            for(long i=0; i< value.size(); i++)
+            for(long i=0; i< (long)value.size(); i++)
             {
                 if(value.toLong(i)==0)
                 {

@@ -118,6 +118,7 @@ namespace Exiv2 {
         return false;
     }
 
+    /// \todo change to size_t
     bool Photoshop::valid(const byte* pPsData,
                           long        sizePsData)
     {
@@ -869,7 +870,7 @@ namespace Exiv2 {
 #ifdef DEBUG
                     std::cout << start << ":" << length << std::endl;
 #endif
-                    io_->seek(start, BasicIo::beg);
+                    io_->seek((int64)start, BasicIo::beg);
                     DataBuf buf(length);
                     io_->read(buf.pData_, buf.size_);
                     tempIo->write(buf.pData_, buf.size_);
@@ -1211,7 +1212,7 @@ namespace Exiv2 {
                             throw Error(kerImageWriteFailed);
 
                         // Write next chunk of the Photoshop IRB data buffer
-                        if (outIo.write(chunkStart, chunkSize) != chunkSize)
+                        if (outIo.write(chunkStart, chunkSize) != (size_t)chunkSize)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())
                             throw Error(kerImageWriteFailed);

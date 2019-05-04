@@ -450,7 +450,7 @@ namespace Exiv2 {
 
             // read rest of resource name, plus any padding
             DataBuf resName(256);
-            if (io_->read(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
+            if (io_->read(resName.pData_, adjResourceNameLen) != static_cast<size_t>(adjResourceNameLen))
                 throw Error(kerNotAnImage, "Photoshop");
 
             // read resource size (actual length w/o padding!)
@@ -458,7 +458,7 @@ namespace Exiv2 {
                 throw Error(kerNotAnImage, "Photoshop");
 
             uint32_t resourceSize = getULong(buf, bigEndian);
-            uint32_t pResourceSize = (resourceSize + 1) & ~1;  // padded resource size
+            size_t pResourceSize = static_cast<size_t>((resourceSize + 1) & ~1);  // padded resource size
             int64 curOffset = io_->tell();
 
             // Write IPTC_NAA resource block
@@ -504,7 +504,7 @@ namespace Exiv2 {
                 buf[0] = resourceNameFirstChar;
                 if (outIo.write(buf, 1) != 1)
                     throw Error(kerImageWriteFailed);
-                if (outIo.write(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
+                if (outIo.write(resName.pData_, adjResourceNameLen) != static_cast<size_t>(adjResourceNameLen))
                     throw Error(kerImageWriteFailed);
                 ul2Data(buf, resourceSize, bigEndian);
                 if (outIo.write(buf, 4) != 4)
@@ -513,9 +513,7 @@ namespace Exiv2 {
                 readTotal = 0;
                 toRead = 0;
                 while (readTotal < pResourceSize) {
-                    toRead = static_cast<long>(pResourceSize - readTotal) < lbuf.size_
-                                 ? static_cast<long>(pResourceSize - readTotal)
-                                 : lbuf.size_;
+                    toRead = (pResourceSize - readTotal) < lbuf.size_ ? (pResourceSize - readTotal) : lbuf.size_;
                     if (io_->read(lbuf.pData_, toRead) != toRead) {
                         throw Error(kerNotAnImage, "Photoshop");
                     }
@@ -529,7 +527,7 @@ namespace Exiv2 {
             }
 
             io_->seek(curOffset + pResourceSize, BasicIo::beg);
-            oldResLength -= (12 + adjResourceNameLen + pResourceSize);
+            oldResLength -= (12 + adjResourceNameLen + (uint32_t)pResourceSize);
         }
 
         // Append IPTC_NAA resource block, if not yet written

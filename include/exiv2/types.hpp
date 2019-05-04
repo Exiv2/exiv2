@@ -537,6 +537,7 @@ namespace Exiv2 {
 #define EXV_COUNTOF(a) (sizeof(Exiv2::sizer(a)))
 
     //! Utility function to convert the argument of any type to a string
+    //! \todo try to replace with std::to_string
     template<typename T>
     std::string toString(const T& arg)
     {

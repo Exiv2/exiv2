@@ -46,9 +46,9 @@ namespace Exiv2 {
 #endif
  
 /// user-defined literal operator for size_t
-constexpr std::size_t operator"" _z(unsigned long long n)
+constexpr size_t operator"" _z(unsigned long long n)
 {
-     return n;
+    return static_cast<size_t>(n);
 }
  
 
@@ -1077,13 +1077,13 @@ constexpr std::size_t operator"" _z(unsigned long long n)
                 will call RemoteIo::write(const byte* data, long wcount) if the write
                 access is available for the protocol. Otherwise, it throws the Error.
          */
-        long write(const byte* data, long wcount);
+        size_t write(const byte* data, size_t wcount);
         /*!
           @brief Write access is only available for some protocols. This method
                 will call RemoteIo::write(BasicIo& src) if the write access is available
                 for the protocol. Otherwise, it throws the Error.
          */
-        long write(BasicIo& src);
+        size_t write(BasicIo& src);
     protected:
         // NOT IMPLEMENTED
         //! Copy constructor

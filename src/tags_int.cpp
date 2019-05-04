@@ -2469,7 +2469,7 @@ namespace Exiv2 {
 
     std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*)
     {
-        for (long i = 0; i < value.count(); ++i) {
+        for (long i = 0; i < (long)value.count(); ++i) {
             long l = value.toLong(i);
             switch (l) {
             case 0:  break;

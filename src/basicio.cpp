@@ -593,9 +593,9 @@ namespace Exiv2 {
 
         byte buf[4096];
         size_t readCount = 0;
-        long writeTotal = 0;
+        size_t writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            const long writeCount = static_cast<long>(std::fwrite(buf, 1, static_cast<size_t>(readCount), p_->fp_));
+            const size_t writeCount = std::fwrite(buf, 1, readCount, p_->fp_);
             writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
@@ -1830,16 +1830,16 @@ namespace Exiv2 {
 
         if (fakeData) std::free(fakeData);
 
-        p_->idx_ += (long) totalRead;
-        p_->eof_ = (p_->idx_ == (long) p_->size_);
+        p_->idx_ += totalRead;
+        p_->eof_ = (p_->idx_ == p_->size_);
 
-        return (long) totalRead;
+        return totalRead;
     }
 
     int RemoteIo::getb()
     {
         assert(p_->isMalloced_);
-        if (p_->idx_ == (long)p_->size_) {
+        if (p_->idx_ == p_->size_) {
             p_->eof_ = true;
             return EOF;
         }
@@ -1875,8 +1875,9 @@ namespace Exiv2 {
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
-        p_->eof_ = newIdx > (long) p_->size_;
-        if ( p_->idx_ > (long) p_->size_ ) p_->idx_= (long) p_->size_;
+        p_->eof_ = newIdx > p_->size_;
+        if (p_->idx_ > p_->size_)
+            p_->idx_ = p_->size_;
         return 0;
     }
 
@@ -2341,7 +2342,7 @@ namespace Exiv2 {
         curl_easy_cleanup(curl_);
     }
 
-    long CurlIo::write(const byte* data, long wcount)
+    size_t CurlIo::write(const byte* data, size_t wcount)
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(data, wcount);
@@ -2350,7 +2351,7 @@ namespace Exiv2 {
         }
     }
 
-    long CurlIo::write(BasicIo& src)
+    size_t CurlIo::write(BasicIo& src)
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(src);

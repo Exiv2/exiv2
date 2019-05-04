@@ -180,7 +180,7 @@ namespace Exiv2
 
                 void printStructure(std::ostream& os, PrintStructureOption option, int depth)
                 {
-                    printIFD(os, option, header_.dirOffset(), depth - 1);
+                    printIFD(os, option, (int64)header_.dirOffset(), depth - 1);
                 }
 
             private:
@@ -188,7 +188,7 @@ namespace Exiv2
                 int dataSize_;
                 bool doSwap_;
 
-                void printIFD(std::ostream& out, PrintStructureOption option, uint64_t dir_offset, int depth)
+                void printIFD(std::ostream& out, PrintStructureOption option, int64 dir_offset, int depth)
                 {
                     BasicIo& io = Image::io();
 
@@ -278,10 +278,10 @@ namespace Exiv2
 
                             if ( usePointer )                          // read into buffer
                             {
-                                int64 restore = io.tell();          // save
-                                io.seek(offset, BasicIo::beg);         // position
-                                io.read(buf.pData_, (long) count * size);     // read
-                                io.seek(restore, BasicIo::beg);        // restore
+                                int64 restore = io.tell();                // save
+                                io.seek((int64)offset, BasicIo::beg);     // position
+                                io.read(buf.pData_, (long)count * size);  // read
+                                io.seek(restore, BasicIo::beg);           // restore
                             }
                             else  // use 'data' as data :)
                                 std::memcpy(buf.pData_, data.pData_, (size_t) count * size);     // copy data
@@ -347,7 +347,7 @@ namespace Exiv2
                                             byteSwap8(buf, k*size, doSwap_):
                                             byteSwap4(buf, k*size, doSwap_);
 
-                                        printIFD(out, option, ifdOffset, depth);
+                                        printIFD(out, option, (int64)ifdOffset, depth);
                                         io.seek(restore, BasicIo::beg);
                                     }
                                 }
@@ -358,7 +358,7 @@ namespace Exiv2
                                     }
 
                                     const int64 restore = io.tell();
-                                    io.seek(offset, BasicIo::beg);  // position
+                                    io.seek((int64)offset, BasicIo::beg);  // position
                                     std::vector<byte> bytes(static_cast<size_t>(count)) ;  // allocate memory
                                     // TODO: once we have C++11 use bytes.data()
                                     const size_t read_bytes = io.read(&bytes[0], static_cast<long>(count));
@@ -393,7 +393,7 @@ namespace Exiv2
                                         // tag is an IFD
                                         io.seek(0, BasicIo::beg);  // position
                                         std::cerr << "makernote" << std::endl;
-                                        printIFD(out,option,offset,depth);
+                                        printIFD(out,option,(int64)offset,depth);
                                     }
 
                                     io.seek(restore,BasicIo::beg); // restore
@@ -401,7 +401,7 @@ namespace Exiv2
                             }
                         }
 
-                        const uint64_t nextDirOffset = readData(dataSize_);
+                        const int64 nextDirOffset = static_cast<int64>(readData(dataSize_));
 
                         dir_offset = tooBig ? 0 : nextDirOffset;
                         out.flush();

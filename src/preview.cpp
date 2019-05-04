@@ -808,7 +808,7 @@ namespace {
                     // FIXME: the buffer is probably copied twice, it should be optimized
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
-                    for (int i = 0; i < sizes.count(); i++) {
+                    for (int i = 0; i < (int)sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
                         enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);
@@ -981,7 +981,7 @@ namespace {
         const size_t imageDataSize = src.size_ - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
-        for (long i = rle ? 3 : 0; i < imageDataSize;) {
+        for (size_t i = rle ? 3 : 0; i < imageDataSize;) {
             byte num = 1;
             byte value = imageData[i++];
             if (rle && value == 0xFD) {

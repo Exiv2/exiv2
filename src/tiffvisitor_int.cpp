@@ -952,7 +952,7 @@ namespace Exiv2 {
             else {
                 uint32_t sizeTotal = 0;
                 object->strips_.clear();
-                for (long i = 0; i < pos->count(); ++i) {
+                for (long i = 0; i < (long)pos->count(); ++i) {
                     uint32_t len = pos->toLong(i);
                     object->strips_.push_back(std::make_pair(zero, len));
                     sizeTotal += len;

@@ -795,7 +795,7 @@ namespace Exiv2 {
                 || i->typeId() == xmpAlt) {
                 printNode(ns, i->tagName(), "", options);
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
-                for (int idx = 0; idx < i->count(); ++idx) {
+                for (int idx = 0; idx < (int)i->count(); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";
                     printNode(ns, item, i->toString(idx), 0);
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());
