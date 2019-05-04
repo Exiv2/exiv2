@@ -599,7 +599,7 @@ namespace Exiv2 {
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
                 byte* rawExifData = nullptr;
-                long  offset = 0;
+                size_t offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
                 bool  be_header = false;
@@ -631,7 +631,7 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const long sizePayload = payload.size_ + offset;
+                const size_t sizePayload = payload.size_ + offset;
                 rawExifData = (byte*)malloc(sizePayload);
 
                 byte  sizeBuff[2];
@@ -786,7 +786,7 @@ namespace Exiv2 {
         /* Handle inject an icc profile right after VP8X chunk */
         if (has_icc) {
             byte size_buff[WEBP_TAG_SIZE];
-            ul2Data(size_buff, iccProfile_.size_, littleEndian);
+            ul2Data(size_buff, static_cast<std::uint32_t>(iccProfile_.size_), littleEndian);
             if (iIo.write((const byte*)WEBP_CHUNK_HEADER_VP8X, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                 throw Error(kerImageWriteFailed);
             if (iIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
@@ -806,7 +806,7 @@ namespace Exiv2 {
         long pos = -1;
         for (size_t i=0; i < data_size - header_size; i++) {
             if (memcmp(header, &data[i], header_size) == 0) {
-                pos = i;
+                pos = static_cast<long>(i);
                 break;
             }
         }

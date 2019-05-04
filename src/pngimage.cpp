@@ -244,7 +244,7 @@ namespace Exiv2 {
             DataBuf    cheaderBuf(8);
 
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
-                size_t address = io_->tell();
+                int64 address = io_->tell();
 
                 std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
                 size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
@@ -258,7 +258,7 @@ namespace Exiv2 {
                 }
 
                 // test that we haven't hit EOF, or wanting to read excessive data
-                long restore = io_->tell();
+                int64 restore = io_->tell();
                 if(  restore == -1
                 ||  dataOffset > uint32_t(0x7FFFFFFF)
                 ||  static_cast<long>(dataOffset) > imgSize - restore
@@ -428,7 +428,7 @@ namespace Exiv2 {
 
             // Decode chunk data length.
             uint32_t chunkLength = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
-            long pos = io_->tell();
+            int64 pos = io_->tell();
             if (pos == -1 ||
                 chunkLength > uint32_t(0x7FFFFFFF) ||
                 static_cast<long>(chunkLength) > imgSize - pos) {
@@ -617,12 +617,12 @@ namespace Exiv2 {
 
                 if ( iccProfileDefined() ) {
                     DataBuf compressed;
-                    if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
+                    if ( zlibToCompressed(iccProfile_.pData_,(long)iccProfile_.size_,compressed) ) {
 
                         const byte* nullComp = (const byte*) "\0\0";
                         const byte*  type    = (const byte*) "iCCP";
                         const uint32_t nameLength  = static_cast<uint32_t>(profileName_.size());
-                        const uint32_t chunkLength = nameLength + 2 + compressed.size_ ;
+                        const uint32_t chunkLength = nameLength + 2 + (uint32_t)compressed.size_ ;
                         byte     length[4];
                         ul2Data (length,chunkLength,bigEndian);
 
@@ -631,7 +631,7 @@ namespace Exiv2 {
                         tmp         = crc32(tmp, (const Bytef*)type, 4);
                         tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
                         tmp         = crc32(tmp, (const Bytef*)nullComp, 2);
-                        tmp         = crc32(tmp, (const Bytef*)compressed.pData_,compressed.size_);
+                        tmp         = crc32(tmp, (const Bytef*)compressed.pData_,(uint32_t)compressed.size_);
                         byte    crc[4];
                         ul2Data(crc, tmp, bigEndian);
 

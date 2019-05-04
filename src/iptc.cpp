@@ -163,9 +163,10 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
+    /// \todo change to size_t
     long Iptcdatum::typeSize() const
     {
-        return TypeInfo::typeSize(typeId());
+        return (long)TypeInfo::typeSize(typeId());
     }
 
     long Iptcdatum::count() const

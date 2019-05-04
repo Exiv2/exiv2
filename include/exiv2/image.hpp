@@ -43,8 +43,8 @@ namespace Exiv2 {
 
     //! Native preview information. This is meant to be used only by the PreviewManager.
     struct NativePreview {
-        long position_;                         //!< Position
-        uint32_t size_;                         //!< Size
+        int64 position_;                        //!< Position
+        int64 size_;                            //!< Size
         uint32_t width_;                        //!< Width
         uint32_t height_;                       //!< Height
         std::string filter_;                    //!< Filter
@@ -575,7 +575,7 @@ namespace Exiv2 {
               matches that of the data buffer.
           @throw Error If the memory contains data of an unknown image type.
          */
-        static Image::UniquePtr open(const byte* data, long size);
+        static Image::UniquePtr open(const byte* data, size_t size);
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided BasicIo instance. %Image type is derived from the
@@ -707,6 +707,6 @@ namespace Exiv2 {
 // template, inline and free functions
 
     //! Append \em len bytes pointed to by \em buf to \em blob.
-    EXIV2API void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);
+    EXIV2API void append(Exiv2::Blob& blob, const byte* buf, size_t len);
 
 }                                       // namespace Exiv2

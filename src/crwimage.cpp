@@ -157,21 +157,17 @@ namespace Exiv2 {
         CiffComponent* preview = head->findComponent(0x2007, 0x0000);
         if (preview) {
             (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormat"] = uint32_t(preview->pData() - pData);
-            (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] = preview->size();
+            (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] =
+                static_cast<std::uint32_t>(preview->size());
         }
     } // CrwParser::decode
 
-    void CrwParser::encode(
-              Blob&     blob,
-        const byte*     pData,
-              uint32_t  size,
-        const CrwImage* pCrwImage
-    )
+    void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImage* pCrwImage)
     {
         // Parse image, starting with a CIFF header component
         CiffHeader::UniquePtr head(new CiffHeader);
         if (size != 0) {
-            head->read(pData, size);
+            head->read(pData, (uint32_t)size);
         }
 
         // Encode Exif tags from image into the CRW parse tree and write the

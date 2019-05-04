@@ -1627,7 +1627,7 @@ namespace Exiv2 {
             uint32_t imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
-                               header.size_,
+                               static_cast<int32_t>(header.size_),
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);
@@ -1945,10 +1945,11 @@ namespace Exiv2 {
         offsetList_[id] = OffsetData(origin, byteOrder);
     }
 
-    void OffsetWriter::setTarget(OffsetId id, uint32_t target)
+    void OffsetWriter::setTarget(OffsetId id, size_t target)
     {
         OffsetList::iterator it = offsetList_.find(id);
-        if (it != offsetList_.end()) it->second.target_ = target;
+        if (it != offsetList_.end())
+            it->second.target_ = static_cast<std::uint32_t>(target);
     }
 
     void OffsetWriter::writeOffsets(BasicIo& io) const

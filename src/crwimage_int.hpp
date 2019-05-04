@@ -150,8 +150,8 @@ namespace Exiv2 {
           @throw Error If the component cannot be parsed.
          */
         void read(const byte* pData,
-                  uint32_t    size,
-                  uint32_t    start,
+                  size_t size,
+                  size_t start,
                   ByteOrder   byteOrder);
         /*!
           @brief Write the metadata from the raw metadata component to the
@@ -163,7 +163,7 @@ namespace Exiv2 {
 
           @return New offset
          */
-        uint32_t write(Blob& blob, ByteOrder byteOrder, uint32_t offset);
+        size_t write(Blob& blob, ByteOrder byteOrder, size_t offset);
         /*!
           @brief Writes the entry's value if size is larger than eight bytes. If
                  needed, the value is padded with one 0 byte to make the number
@@ -174,7 +174,7 @@ namespace Exiv2 {
 
           @return New offset.
          */
-        uint32_t writeValueData(Blob& blob, uint32_t offset);
+        size_t writeValueData(Blob& blob, size_t offset);
         //! Set the directory tag for this component.
         void setDir(uint16_t dir)       { dir_ = dir; }
         //! Set the data value of the entry.
@@ -229,10 +229,10 @@ namespace Exiv2 {
                 of data bytes this component can have. The actual size,
                 i.e., used data bytes, may be less than 8.
          */
-        uint32_t size()          const { return size_; }
+        size_t size()          const { return size_; }
 
         //! Return the offset to the data from the start of the directory
-        uint32_t offset()        const { return offset_; }
+        size_t offset()        const { return offset_; }
 
         //! Return a pointer to the data area of this component
         const byte* pData()      const { return pData_; }
@@ -264,17 +264,15 @@ namespace Exiv2 {
         virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements read(). The default implementation reads a directory entry.
         virtual void doRead(const byte* pData,
-                            uint32_t    size,
-                            uint32_t    start,
+                            size_t    size,
+                            size_t    start,
                             ByteOrder   byteOrder);
         //! Implements write()
-        virtual uint32_t doWrite(Blob&     blob,
-                                 ByteOrder byteOrder,
-                                 uint32_t  offset) =0;
+        virtual size_t doWrite(Blob& blob, ByteOrder byteOrder, size_t offset) = 0;
         //! Set the size of the data area.
-        void setSize(uint32_t size)        { size_ = size; }
+        void setSize(size_t size)        { size_ = size; }
         //! Set the offset for this component.
-        void setOffset(uint32_t offset)    { offset_ = offset; }
+        void setOffset(size_t offset)    { offset_ = offset; }
         //@}
 
         //! @name Accessors
@@ -297,8 +295,8 @@ namespace Exiv2 {
         // DATA
         uint16_t    dir_;         //!< Tag of the directory containing this component
         uint16_t    tag_;         //!< Tag of the entry
-        uint32_t    size_;        //!< Size of the data area
-        uint32_t    offset_;      //!< Offset to the data area from start of dir
+        size_t      size_;        //!< Size of the data area
+        size_t      offset_;      //!< Offset to the data area from start of dir
         const byte* pData_;       //!< Pointer to the data area
         bool        isAllocated_; //!< True if this entry owns the value data
 
@@ -332,7 +330,7 @@ namespace Exiv2 {
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
          */
-        uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
+        size_t doWrite(Blob& blob, ByteOrder byteOrder, size_t offset) override;
         //@}
 
         //! @name Accessors
@@ -369,7 +367,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian)
          */
         void readDirectory(const byte* pData,
-                           uint32_t    size,
+                           size_t size,
                            ByteOrder   byteOrder);
         //@}
 
@@ -386,9 +384,9 @@ namespace Exiv2 {
           @brief Implements write(). Writes the complete Ciff directory to
                  the blob.
          */
-        uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
+        size_t doWrite(Blob& blob, ByteOrder byteOrder, size_t offset) override;
         // See base class comment
-        void doRead(const byte* pData, uint32_t size, uint32_t start, ByteOrder byteOrder) override;
+        void doRead(const byte* pData, size_t size, size_t start, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors

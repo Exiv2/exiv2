@@ -128,6 +128,7 @@ namespace Exiv2 {
           @param size     Length of the data buffer.
 
           @return Byte order in which the data is encoded.
+          @todo change size to size_t
         */
         static ByteOrder decode(
                   ExifData& exifData,

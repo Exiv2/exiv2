@@ -440,7 +440,7 @@ namespace Exiv2 {
 
           If the list doesn't contain an entry with \em id yet, this function won't do anything.
         */
-        void setTarget(OffsetId id, uint32_t target);
+        void setTarget(OffsetId id, size_t target);
         //@}
 
         //! @name Accessors
@@ -452,9 +452,13 @@ namespace Exiv2 {
         //! Data structure for the offset list.
         struct OffsetData {
             //! Default constructor
-            OffsetData() : origin_(0), target_(0), byteOrder_(littleEndian) {}
+            OffsetData() : origin_(0), target_(0), byteOrder_(littleEndian)
+            {
+            }
             //! Constructor
-            OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder) {}
+            OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder)
+            {
+            }
             // DATA
             uint32_t origin_;     //!< Origin address
             uint32_t target_;     //!< Target address

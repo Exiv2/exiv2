@@ -129,7 +129,7 @@ namespace Exiv2 {
     DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        std::pair<byte*, long> ret = rhs.release();
+        auto ret = rhs.release();
         UNUSED(ret);
     }
 
@@ -516,6 +516,7 @@ namespace Exiv2 {
         return 8;
     }
 
+    /// \todo change types to size_t
     void hexdump(std::ostream& os, const byte* buf, long len, long offset)
     {
         const std::string::size_type pos = 8 + 16 * 3 + 2;

@@ -591,7 +591,7 @@ namespace Exiv2 {
         if (p_->switchMode(Impl::opWrite) != 0) return 0;
 
         byte buf[4096];
-        long readCount = 0;
+        size_t readCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
             const long writeCount = static_cast<long>(std::fwrite(buf, 1, static_cast<size_t>(readCount), p_->fp_));
@@ -970,17 +970,17 @@ namespace Exiv2 {
         return rc;
     }
 
-    DataBuf FileIo::read(long rcount)
+    DataBuf FileIo::read(size_t rcount)
     {
         assert(p_->fp_ != 0);
         if ( (size_t) rcount > size() ) throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
+        size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
         return buf;
     }
 
-    size_t FileIo::read(byte* buf, long rcount)
+    size_t FileIo::read(byte* buf, size_t rcount)
     {
         assert(p_->fp_ != 0);
         if (p_->switchMode(Impl::opRead) != 0) {
@@ -1036,12 +1036,12 @@ namespace Exiv2 {
     class MemIo::Impl {
     public:
         Impl();                            //!< Default constructor
-        Impl(const byte* data, long size); //!< Constructor 2
+        Impl(const byte* data, size_t size); //!< Constructor 2
 
         // DATA
         byte* data_;                       //!< Pointer to the start of the memory area
-        long idx_;                         //!< Index into the memory area
-        long size_;                        //!< Size of the memory area
+        size_t idx_;                       //!< Index into the memory area
+        size_t size_;                      //!< Size of the memory area
         long sizeAlloced_;                 //!< Size of the allocated buffer
         bool isMalloced_;                  //!< Was the buffer allocated?
         bool eof_;                         //!< EOF indicator
@@ -1065,7 +1065,7 @@ namespace Exiv2 {
     {
     }
 
-    MemIo::Impl::Impl(const byte* data, long size)
+    MemIo::Impl::Impl(const byte* data, size_t size)
         : data_(const_cast<byte*>(data)),
           idx_(0),
           size_(size),
@@ -1149,15 +1149,16 @@ namespace Exiv2 {
         size_t      size_;
     }; // class BlockMap
 
+    /// \todo change wcount type to size_t
     void MemIo::Impl::reserve(long wcount)
     {
-        const long need = wcount + idx_;
+        const long need = wcount + (long)idx_;
         long    blockSize =     32*1024;   // 32768           `
         const long maxBlockSize = 4*1024*1024;
 
         if (!isMalloced_) {
             // Minimum size for 1st block
-            long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
+            long size  = std::max(blockSize * (1 + need / blockSize), static_cast<long>(size_));
             byte* data = (byte*)std::malloc(size);
             if (  data == nullptr ) {
                 throw Error(kerMallocFailed);
@@ -1192,7 +1193,7 @@ namespace Exiv2 {
     {
     }
 
-    MemIo::MemIo(const byte* data, long size)
+    MemIo::MemIo(const byte* data, size_t size)
         : p_(new Impl(data, size))
     {
     }
@@ -1206,7 +1207,7 @@ namespace Exiv2 {
 
     size_t MemIo::write(const byte* data, size_t wcount)
     {
-        p_->reserve(wcount);
+        p_->reserve(static_cast<long>(wcount));
         assert(p_->isMalloced_);
         if (data != nullptr) {
             std::memcpy(&p_->data_[p_->idx_], data, wcount);
@@ -1250,8 +1251,8 @@ namespace Exiv2 {
         if (!src.isopen()) return 0;
 
         byte buf[4096];
-        long readCount = 0;
-        long writeTotal = 0;
+        size_t readCount = 0;
+        size_t writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
             write(buf, readCount);
             writeTotal += readCount;
@@ -1322,18 +1323,18 @@ namespace Exiv2 {
         return 0;
     }
 
-    DataBuf MemIo::read(long rcount)
+    DataBuf MemIo::read(size_t rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
+        size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
         return buf;
     }
 
-    size_t MemIo::read(byte* buf, long rcount)
+    size_t MemIo::read(byte* buf, size_t rcount)
     {
-        long avail = EXV_MAX(p_->size_ - p_->idx_, 0);
-        long allow = EXV_MIN(rcount, avail);
+        size_t avail = std::max(p_->size_ - p_->idx_, 0_z);
+        size_t allow = std::min(rcount, avail);
         if (p_->data_ == nullptr) {
             throw Error(kerCallFailed, "std::memcpy with src == nullptr");
         }
@@ -1549,11 +1550,11 @@ namespace Exiv2 {
         size_t          blockSize_;     //!< Size of the block memory.
         BlockMap*       blocksMap_;     //!< An array contains all blocksMap
         size_t          size_;          //!< The file size
-        long            idx_;           //!< Index into the memory area
+        size_t          idx_;           //!< Index into the memory area
         bool            isMalloced_;    //!< Was the blocksMap_ allocated?
         bool            eof_;           //!< EOF indicator
         Protocol        protocol_;      //!< the protocol of url
-        uint32_t        totalRead_;     //!< bytes requested from host
+        size_t          totalRead_;     //!< bytes requested from host
 
         // METHODS
         /*!
@@ -1789,15 +1790,15 @@ namespace Exiv2 {
         return 0;
     }
 
-    DataBuf RemoteIo::read(long rcount)
+    DataBuf RemoteIo::read(size_t rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
+        size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
         return buf;
     }
 
-    size_t RemoteIo::read(byte* buf, long rcount)
+    size_t RemoteIo::read(byte* buf, size_t rcount)
     {
         assert(p_->isMalloced_);
         if (p_->eof_) return 0;
@@ -1863,7 +1864,7 @@ namespace Exiv2 {
     int RemoteIo::seek(int64 offset, Position pos)
     {
         assert(p_->isMalloced_);
-        long newIdx = 0;
+        size_t newIdx = 0;
 
         switch (pos) {
             case BasicIo::cur: newIdx = p_->idx_ + offset; break;

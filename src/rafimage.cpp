@@ -308,7 +308,7 @@ namespace Exiv2 {
                                           iptcData_,
                                           xmpData_,
                                           buf.pData_,
-                                          buf.size_);
+                                          static_cast<std::uint32_t>(buf.size_));
 
         exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
         exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);

@@ -44,6 +44,13 @@ namespace Exiv2 {
 #else
  using int64 = long;
 #endif
+ 
+/// user-defined literal operator for size_t
+constexpr std::size_t operator"" _z(unsigned long long n)
+{
+     return n;
+}
+ 
 
 // *****************************************************************************
 // class definitions
@@ -131,7 +138,7 @@ namespace Exiv2 {
               DataBuf::size_ member to find the number of bytes read.
               DataBuf::size_ will be 0 on failure.
          */
-        virtual DataBuf read(long rcount) = 0;
+        virtual DataBuf read(size_t rcount) = 0;
         /*!
           @brief Read data from the IO source. Reading starts at the current
               IO position and the position is advanced by the number of bytes
@@ -144,7 +151,7 @@ namespace Exiv2 {
           @return Number of bytes read from IO source successfully;<BR>
               0 if failure;
          */
-        virtual size_t read(byte* buf, long rcount) = 0;
+        virtual size_t read(byte* buf, size_t rcount) = 0;
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
@@ -384,7 +391,7 @@ namespace Exiv2 {
                 DataBuf::size_ member to find the number of bytes read.
                 DataBuf::size_ will be 0 on failure.
          */
-        DataBuf read(long rcount) override;
+        DataBuf read(size_t rcount) override;
         /*!
           @brief Read data from the file. Reading starts at the current
               file position and the position is advanced by the number of
@@ -397,7 +404,7 @@ namespace Exiv2 {
           @return Number of bytes read from the file successfully;<BR>
                  0 if failure;
          */
-        size_t read(byte* buf, long rcount) override;
+        size_t read(byte* buf, size_t rcount) override;
         /*!
           @brief Read one byte from the file. The file position is
               advanced by one byte.
@@ -546,7 +553,7 @@ namespace Exiv2 {
               bytes long
           @param size Number of bytes to copy.
          */
-        MemIo(const byte* data, long size);
+        MemIo(const byte* data, size_t size);
         //! Destructor. Releases all managed memory
         virtual ~MemIo();
         //@}
@@ -605,7 +612,7 @@ namespace Exiv2 {
                 DataBuf::size_ member to find the number of bytes read.
                 DataBuf::size_ will be 0 on failure.
          */
-        DataBuf read(long rcount) override;
+        DataBuf read(size_t rcount) override;
         /*!
           @brief Read data from the memory block. Reading starts at the current
               IO position and the position is advanced by the number of
@@ -618,7 +625,7 @@ namespace Exiv2 {
           @return Number of bytes read from the memory block successfully;<BR>
                  0 if failure;
          */
-        size_t read(byte* buf, long rcount) override;
+        size_t read(byte* buf, size_t rcount) override;
         /*!
           @brief Read one byte from the memory block. The IO position is
               advanced by one byte.
@@ -883,7 +890,7 @@ namespace Exiv2 {
                DataBuf::size_ member to find the number of bytes read.
                DataBuf::size_ will be 0 on failure.
         */
-       DataBuf read(long rcount) override;
+       DataBuf read(size_t rcount) override;
        /*!
          @brief Read data from the the memory blocks. Reading starts at the current
              IO position and the position is advanced by the number of
@@ -898,7 +905,7 @@ namespace Exiv2 {
          @return Number of bytes read from the memory block successfully;<BR>
                 0 if failure;
         */
-       size_t read(byte* buf, long rcount) override;
+       size_t read(byte* buf, size_t rcount) override;
        /*!
          @brief Read one byte from the memory blocks. The IO position is
              advanced by one byte.

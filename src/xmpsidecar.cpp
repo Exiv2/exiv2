@@ -91,7 +91,7 @@ namespace Exiv2 {
         std::string xmpPacket;
         const long len = 64 * 1024;
         byte buf[len];
-        long l;
+        size_t l;
         while ((l = io_->read(buf, len)) > 0) {
             xmpPacket.append(reinterpret_cast<char*>(buf), l);
         }

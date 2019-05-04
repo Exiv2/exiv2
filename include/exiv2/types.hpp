@@ -55,6 +55,7 @@
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
+/// \todo use std::min and std::max
 // Simple min and max macros
 //! Simple common min macro
 #define EXV_MIN(a,b) ((a) < (b) ? (a) : (b))

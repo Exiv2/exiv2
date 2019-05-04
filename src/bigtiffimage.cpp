@@ -102,7 +102,7 @@ namespace Exiv2
             if (magic == 0x2A)
             {
                 byte buffer[4];
-                int read = io.read(buffer, 4);
+                const size_t read = io.read(buffer, 4);
 
                 if (read < 4)
                     throw Exiv2::Error(kerCorruptedMetadata);
@@ -113,7 +113,7 @@ namespace Exiv2
             else
             {
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-                int read = io.read(buffer, 2);
+                size_t read = io.read(buffer, 2);
                 if (read < 2)
                     throw Exiv2::Error(kerCorruptedMetadata);
 
@@ -278,7 +278,7 @@ namespace Exiv2
 
                             if ( usePointer )                          // read into buffer
                             {
-                                size_t   restore = io.tell();          // save
+                                int64 restore = io.tell();          // save
                                 io.seek(offset, BasicIo::beg);         // position
                                 io.read(buf.pData_, (long) count * size);     // read
                                 io.seek(restore, BasicIo::beg);        // restore
@@ -342,7 +342,7 @@ namespace Exiv2
                                 {
                                     for ( size_t k = 0 ; k < count ; k++ )
                                     {
-                                        const size_t restore = io.tell();
+                                        const int64 restore = io.tell();
                                         const uint64_t ifdOffset = type == tiffIfd8?
                                             byteSwap8(buf, k*size, doSwap_):
                                             byteSwap4(buf, k*size, doSwap_);
@@ -357,11 +357,11 @@ namespace Exiv2
                                         throw Error(kerCorruptedMetadata);
                                     }
 
-                                    const size_t restore = io.tell();
+                                    const int64 restore = io.tell();
                                     io.seek(offset, BasicIo::beg);  // position
                                     std::vector<byte> bytes(static_cast<size_t>(count)) ;  // allocate memory
                                     // TODO: once we have C++11 use bytes.data()
-                                    const long read_bytes = io.read(&bytes[0], static_cast<long>(count));
+                                    const size_t read_bytes = io.read(&bytes[0], static_cast<long>(count));
                                     io.seek(restore, BasicIo::beg);
                                     // TODO: once we have C++11 use bytes.data()
                                     IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
@@ -369,7 +369,7 @@ namespace Exiv2
                                 }
                                 else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10)
                                 {
-                                    size_t   restore = io.tell();  // save
+                                    int64 restore = io.tell();  // save
 
                                     long jump= 10           ;
                                     byte     bytes[20]          ;
@@ -443,7 +443,7 @@ namespace Exiv2
 
     bool isBigTiffType(BasicIo& io, bool advance)
     {
-        const long pos = io.tell();
+        const int64 pos = io.tell();
         const Header header = readHeader(io);
         const bool valid = header.isValid();
 

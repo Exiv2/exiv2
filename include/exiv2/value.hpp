@@ -103,7 +103,7 @@ namespace Exiv2 {
           @param len Size of the data area
           @return Return -1 if the value has no data area, else 0.
          */
-        virtual int setDataArea(const byte* buf, long len);
+        virtual int setDataArea(const byte* buf, size_t len);
         //@}
 
         //! @name Accessors
@@ -1279,7 +1279,7 @@ namespace Exiv2 {
           @brief Set the data area. This method copies (clones) the buffer
                  pointed to by buf.
          */
-        int setDataArea(const byte* buf, long len) override;
+        int setDataArea(const byte* buf, size_t len) override;
         //@}
 
         //! @name Accessors
@@ -1739,7 +1739,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    int ValueType<T>::setDataArea(const byte* buf, long len)
+    int ValueType<T>::setDataArea(const byte* buf, size_t len)
     {
         byte* tmp = 0;
         if (len > 0) {

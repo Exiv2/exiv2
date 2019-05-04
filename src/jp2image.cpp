@@ -222,7 +222,7 @@ namespace Exiv2
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
-            long position = io_->tell();
+            int64 position = io_->tell();
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef DEBUG
@@ -247,7 +247,7 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found" << std::endl;
 #endif
-                    long restore = io_->tell();
+                    int64 restore = io_->tell();
 
                     while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) && subBox.length )
                     {
@@ -368,7 +368,7 @@ namespace Exiv2
                                                                       iptcData(),
                                                                       xmpData(),
                                                                       rawData.pData_ + pos,
-                                                                      rawData.size_ - static_cast<uint32_t>(pos));
+                                                                      static_cast<uint32_t>(rawData.size_ - pos));
                                     setByteOrder(bo);
                                 }
                             }
@@ -475,7 +475,7 @@ namespace Exiv2
             bool bLF = false;
 
             while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box)) {
-                long position = io_->tell();
+                int64 position = io_->tell();
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type = getLong((byte*)&box.type, bigEndian);
 
@@ -497,7 +497,7 @@ namespace Exiv2
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) &&
                                io_->tell() < position + (long)box.length)  // don't read beyond the box!
                         {
-                            int address = io_->tell() - sizeof(subBox);
+                            int64 address = io_->tell() - sizeof(subBox);
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type = getLong((byte*)&subBox.type, bigEndian);
 
@@ -511,7 +511,7 @@ namespace Exiv2
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:", (size_t)address,
                                                               (size_t)subBox.length)
                                     << toAscii(subBox.type) << " | "
-                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30ul, data.size_)));
+                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30_z, data.size_)));
                                 bLF = true;
                             }
 
@@ -667,12 +667,12 @@ namespace Exiv2
                 } else {
                     const char* pad   = "\0x02\x00\x00";
                     uint32_t    psize = 3;
-                    ul2Data((byte*)&newBox.length,psize+iccProfile_.size_,bigEndian);
+                    ul2Data((byte*)&newBox.length,psize+(uint32_t)iccProfile_.size_,bigEndian);
                     ul2Data((byte*)&newBox.type,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox)  );
                     ::memcpy(output.pData_+outlen+sizeof(newBox)      , pad               ,psize           );
                     ::memcpy(output.pData_+outlen+sizeof(newBox)+psize,iccProfile_.pData_,iccProfile_.size_);
-                    newlen = psize + iccProfile_.size_;
+                    newlen = psize + (uint32_t)iccProfile_.size_;
                 }
             } else {
                 ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
@@ -806,7 +806,7 @@ namespace Exiv2
                             memcpy(rawExif.pData_, &blob[0], blob.size());
 
                             DataBuf boxData(8 + 16 + rawExif.size_);
-                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            ul2Data(boxDataSize, (uint32_t)boxData.size_, Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                             memcpy(boxData.pData_,          boxDataSize,    4);
                             memcpy(boxData.pData_ + 4,      boxUUIDtype,    4);
@@ -829,7 +829,7 @@ namespace Exiv2
                         if (rawIptc.size_ > 0)
                         {
                             DataBuf boxData(8 + 16 + rawIptc.size_);
-                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            ul2Data(boxDataSize, (uint32_t)boxData.size_, Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                             memcpy(boxData.pData_,          boxDataSize,    4);
                             memcpy(boxData.pData_ + 4,      boxUUIDtype,    4);
@@ -859,7 +859,7 @@ namespace Exiv2
 
                         DataBuf xmp(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()));
                         DataBuf boxData(8 + 16 + xmp.size_);
-                        ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                        ul2Data(boxDataSize, (uint32_t)boxData.size_, Exiv2::bigEndian);
                         ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                         memcpy(boxData.pData_,          boxDataSize,  4);
                         memcpy(boxData.pData_ + 4,      boxUUIDtype,  4);

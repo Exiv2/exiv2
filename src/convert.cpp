@@ -1191,7 +1191,7 @@ namespace Exiv2 {
                 if (pos == exifData_->end()) continue;
                 DataBuf data(pos->size());
                 pos->copy(data.pData_, littleEndian /* FIXME ? */);
-                MD5Update ( &context, data.pData_, data.size_);
+                MD5Update ( &context, data.pData_, static_cast<std::uint32_t>(data.size_));
             }
         }
         MD5Final(digest, &context);

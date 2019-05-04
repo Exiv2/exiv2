@@ -216,7 +216,7 @@ namespace Exiv2 {
                 throw Error(kerNotAnImage, "Photoshop");
             }
             uint32_t resourceSize = getULong(buf, bigEndian);
-            uint32_t curOffset = io_->tell();
+            int64 curOffset = io_->tell();
 
 #ifdef DEBUG
             std::cerr << std::hex << "resourceId: " << resourceId << std::dec << " length: " << resourceSize << std::hex
@@ -393,7 +393,7 @@ namespace Exiv2 {
         std::cerr << std::dec << "colorDataLength: " << colorDataLength << "\n";
 #endif
         // Copy colorData
-        uint32_t readTotal = 0;
+        size_t readTotal = 0;
         size_t toRead = 0;
         while (readTotal < colorDataLength) {
             toRead = static_cast<size_t>(colorDataLength - readTotal) < lbuf.size_
@@ -408,7 +408,7 @@ namespace Exiv2 {
         if (outIo.error())
             throw Error(kerImageWriteFailed);
 
-        uint32_t resLenOffset = io_->tell();  // remember for later update
+        int64 resLenOffset = io_->tell();  // remember for later update
 
         // Read length of all resource blocks from original PSD
         if (io_->read(buf, 4) != 4)
@@ -459,7 +459,7 @@ namespace Exiv2 {
 
             uint32_t resourceSize = getULong(buf, bigEndian);
             uint32_t pResourceSize = (resourceSize + 1) & ~1;  // padded resource size
-            uint32_t curOffset = io_->tell();
+            int64 curOffset = io_->tell();
 
             // Write IPTC_NAA resource block
             if ((resourceId == kPhotoshopResourceID_IPTC_NAA || resourceId > kPhotoshopResourceID_IPTC_NAA) &&
@@ -571,6 +571,7 @@ namespace Exiv2 {
 
     }  // PsdImage::doWriteMetadata
 
+    /// \todo return size_t
     uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
     {
         uint32_t resLength = 0;
@@ -591,13 +592,13 @@ namespace Exiv2 {
                 us2Data(buf, 0, bigEndian);                      // nullptr resource name
                 if (out.write(buf, 2) != 2)
                     throw Error(kerImageWriteFailed);
-                ul2Data(buf, rawIptc.size_, bigEndian);
+                ul2Data(buf, static_cast<std::uint32_t>(rawIptc.size_), bigEndian);
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Iptc data
                 if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
                     throw Error(kerImageWriteFailed);
-                resLength += rawIptc.size_ + 12;
+                resLength += static_cast<std::uint32_t>(rawIptc.size_) + 12;
                 if (rawIptc.size_ & 1)  // even padding
                 {
                     buf[0] = 0;

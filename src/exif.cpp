@@ -371,7 +371,7 @@ namespace Exiv2 {
 
     long Exifdatum::typeSize() const
     {
-        return TypeInfo::typeSize(typeId());
+        return static_cast<long>(TypeInfo::typeSize(typeId()));
     }
 
     long Exifdatum::count() const
@@ -618,7 +618,7 @@ namespace Exiv2 {
                                           iptcData,
                                           xmpData,
                                           pData,
-                                          size);
+                                          static_cast<std::uint32_t>(size));
 #ifndef SUPPRESS_WARNINGS
         if (!iptcData.empty()) {
             EXV_WARNING << "Ignoring IPTC information encoded in the Exif data.\n";

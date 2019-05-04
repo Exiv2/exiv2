@@ -179,7 +179,8 @@ namespace Exiv2 {
         TypeId typeId() const override;
         //! Return the name of the type
         const char* typeName() const override;
-        //! Return the size in bytes of one component of this type
+        /// @brief Return the size in bytes of one component of this type
+        /// @todo change return type to size_t
         long typeSize() const override;
         //! Return the number of components in the value
         long count() const override;

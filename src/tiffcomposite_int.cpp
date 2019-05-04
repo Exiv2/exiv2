@@ -358,8 +358,8 @@ namespace Exiv2 {
 
     void TiffEntryBase::setData(DataBuf buf)
     {
-        std::pair<byte*, long> p = buf.release();
-        setData(p.first, p.second);
+        auto p = buf.release();
+        setData(p.first, (uint32_t)p.second);
         isMalloced_ = true;
     }
 
@@ -553,16 +553,16 @@ namespace Exiv2 {
     uint32_t TiffIfdMakernote::sizeHeader() const
     {
         if (!pHeader_) return 0;
-        return pHeader_->size();
+        return (uint32_t)pHeader_->size();
     }
 
     uint32_t TiffIfdMakernote::writeHeader(IoWrapper& ioWrapper, ByteOrder byteOrder) const
     {
         if (!pHeader_) return 0;
-        return pHeader_->write(ioWrapper, byteOrder);
+        return (uint32_t)pHeader_->write(ioWrapper, byteOrder);
     }
 
-    uint32_t ArrayDef::size(uint16_t tag, IfdId group) const
+    size_t ArrayDef::size(uint16_t tag, IfdId group) const
     {
         TypeId typeId = toTypeId(tiffType_, tag, group);
         return count_ * TypeInfo::typeSize(typeId);
@@ -615,7 +615,8 @@ namespace Exiv2 {
     uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef& def)
     {
         uint16_t tag = static_cast<uint16_t>(idx / cfg()->tagStep());
-        int32_t sz = EXV_MIN(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
+        std::uint32_t sz =
+            std::min(static_cast<std::uint32_t>(def.size(tag, cfg()->group_)), TiffEntryBase::doSize() - idx);
         TiffComponent::UniquePtr tc = TiffCreator::create(tag, cfg()->group_);
         TiffBinaryElement* tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
@@ -1048,7 +1049,7 @@ namespace Exiv2 {
         if (elements_.empty()) return 0;
 
         TypeId typeId = toTypeId(tiffType(), tag(), group());
-        long typeSize = TypeInfo::typeSize(typeId);
+        size_t typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(group())
@@ -1070,7 +1071,7 @@ namespace Exiv2 {
 
     uint32_t TiffComponent::write(IoWrapper& ioWrapper,
                                   ByteOrder byteOrder,
-                                  size_t offset,
+                                  int32_t offset,
                                   uint32_t  valueIdx,
                                   uint32_t  dataIdx,
                                   uint32_t& imageIdx)
@@ -1080,7 +1081,7 @@ namespace Exiv2 {
 
     uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper,
                                     ByteOrder byteOrder,
-                                    size_t offset,
+                                    int32_t offset,
                                     uint32_t  valueIdx,
                                     uint32_t  dataIdx,
                                     uint32_t& imageIdx)
@@ -1136,7 +1137,7 @@ namespace Exiv2 {
         valueIdx = sizeDir;                 // Offset to the current IFD value
         dataIdx  = sizeDir + sizeValue;     // Offset to the entry's data area
         if (isRootDir) {                    // Absolute offset to the image data
-            imageIdx = offset + dataIdx + sizeData + sizeNext;
+            imageIdx = (uint32_t)offset + dataIdx + sizeData + sizeNext;
             imageIdx += imageIdx & 1;       // Align image data to word boundary
         }
 
@@ -1147,7 +1148,7 @@ namespace Exiv2 {
         idx += 2;
         // b) Directory entries - may contain pointers to the value or data
         for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
-            idx += writeDirEntry(ioWrapper, byteOrder, offset, *i, valueIdx, dataIdx, imageIdx);
+            idx += writeDirEntry(ioWrapper, byteOrder, (uint32_t)offset, *i, valueIdx, dataIdx, imageIdx);
             uint32_t sv = (*i)->size();
             if (sv > 4) {
                 sv += sv & 1;               // Align value to word boundary
@@ -1161,7 +1162,7 @@ namespace Exiv2 {
         if (hasNext_) {
             memset(buf, 0x0, 4);
             if (pNext_ && sizeNext) {
-                l2Data(buf, offset + dataIdx, byteOrder);
+                l2Data(buf, (uint32_t)offset + dataIdx, byteOrder);
             }
             ioWrapper.write(buf, 4);
             idx += 4;
@@ -1191,7 +1192,7 @@ namespace Exiv2 {
 
         // 3rd: Write data - may contain offsets too (eg sub-IFD)
         dataIdx = sizeDir + sizeValue;
-        idx += writeData(ioWrapper, byteOrder, offset, dataIdx, imageIdx);
+        idx += writeData(ioWrapper, byteOrder, (uint32_t)offset, dataIdx, imageIdx);
 
         // 4th: Write next-IFD
         if (pNext_ && sizeNext) {
@@ -1245,7 +1246,7 @@ namespace Exiv2 {
 
     uint32_t TiffEntryBase::doWrite(IoWrapper& ioWrapper,
                                     ByteOrder byteOrder,
-                                    size_t   /*offset*/,
+                                    int32_t   /*offset*/,
                                     uint32_t  /*valueIdx*/,
                                     uint32_t  /*dataIdx*/,
                                     uint32_t& /*imageIdx*/)
@@ -1255,7 +1256,7 @@ namespace Exiv2 {
         DataBuf buf(pValue_->size());
         pValue_->copy(buf.pData_, byteOrder);
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return (uint32_t)buf.size_;
     } // TiffEntryBase::doWrite
 
     uint32_t TiffEntryBase::writeOffset(byte*     buf,
@@ -1283,7 +1284,7 @@ namespace Exiv2 {
 
     uint32_t TiffDataEntry::doWrite(IoWrapper& ioWrapper,
                                     ByteOrder byteOrder,
-                                    size_t offset,
+                                    int32_t offset,
                                     uint32_t  /*valueIdx*/,
                                     uint32_t  dataIdx,
                                     uint32_t& /*imageIdx*/)
@@ -1297,17 +1298,17 @@ namespace Exiv2 {
             const long newDataIdx =   pValue()->toLong(i) - prevOffset
                                     + static_cast<long>(dataIdx);
             idx += writeOffset(buf.pData_ + idx,
-                               offset + newDataIdx,
+                               (uint32_t)offset + newDataIdx,
                                tiffType(),
                                byteOrder);
         }
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return (uint32_t)buf.size_;
     } // TiffDataEntry::doWrite
 
     uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
-                                     size_t offset,
+                                     int32_t offset,
                                      uint32_t  /*valueIdx*/,
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx)
@@ -1334,12 +1335,12 @@ namespace Exiv2 {
             }
         }
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return (uint32_t)buf.size_;
     } // TiffImageEntry::doWrite
 
     uint32_t TiffSubIfd::doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t offset,
+                                 int32_t offset,
                                  uint32_t  /*valueIdx*/,
                                  uint32_t  dataIdx,
                                  uint32_t& /*imageIdx*/)
@@ -1353,12 +1354,12 @@ namespace Exiv2 {
             dataIdx += (*i)->size();
         }
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return (uint32_t)buf.size_;
     } // TiffSubIfd::doWrite
 
     uint32_t TiffMnEntry::doWrite(IoWrapper& ioWrapper,
                                   ByteOrder byteOrder,
-                                  size_t offset,
+                                  int32_t offset,
                                   uint32_t  valueIdx,
                                   uint32_t  dataIdx,
                                   uint32_t& imageIdx)
@@ -1371,7 +1372,7 @@ namespace Exiv2 {
 
     uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper,
                                        ByteOrder byteOrder,
-                                       size_t offset,
+                                       int32_t offset,
                                        uint32_t  /*valueIdx*/,
                                        uint32_t  /*dataIdx*/,
                                        uint32_t& imageIdx)
@@ -1388,7 +1389,7 @@ namespace Exiv2 {
 
     uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder,
-                                      size_t offset,
+                                      int32_t offset,
                                       uint32_t  valueIdx,
                                       uint32_t  dataIdx,
                                       uint32_t& imageIdx)
@@ -1408,7 +1409,7 @@ namespace Exiv2 {
         // Some array entries need to have the size in the first element
         if (cfg()->hasSize_) {
             byte buf[4];
-            long elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
+            size_t elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
             switch (elSize) {
             case 2:
                 idx += us2Data(buf, size(), byteOrder);
@@ -1425,14 +1426,14 @@ namespace Exiv2 {
         for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
             // Skip the manufactured tag, if it exists
             if (cfg()->hasSize_ && (*i)->tag() == 0) continue;
-            uint32_t newIdx = (*i)->tag() * cfg()->tagStep();
+            uint32_t newIdx = (*i)->tag() * (uint32_t)cfg()->tagStep();
             idx += fillGap(mioWrapper, idx, newIdx);
             idx += (*i)->write(mioWrapper, byteOrder, offset + newIdx, valueIdx, dataIdx, imageIdx);
         }
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
             uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-            idx += fillGap(mioWrapper, idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
+            idx += fillGap(mioWrapper, idx, lastDef->idx_ + (uint32_t)lastDef->size(lastTag, cfg()->group_));
         }
         DataBuf buf;
         if (cfg()->cryptFct_) {
@@ -1450,7 +1451,7 @@ namespace Exiv2 {
 
     uint32_t TiffBinaryElement::doWrite(IoWrapper& ioWrapper,
                                         ByteOrder byteOrder,
-                                        size_t   /*offset*/,
+                                        int32_t   /*offset*/,
                                         uint32_t  /*valueIdx*/,
                                         uint32_t  /*dataIdx*/,
                                         uint32_t& /*imageIdx*/)
@@ -1460,7 +1461,7 @@ namespace Exiv2 {
         DataBuf buf(pv->size());
         pv->copy(buf.pData_, byteOrder);
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return (uint32_t)buf.size_;
     } // TiffBinaryElement::doWrite
 
     uint32_t TiffComponent::writeData(IoWrapper& ioWrapper,
@@ -1522,7 +1523,7 @@ namespace Exiv2 {
         uint32_t align = (buf.size_ & 1);
         if (align) ioWrapper.putb(0x0);
 
-        return buf.size_ + align;
+        return (uint32_t)buf.size_ + align;
     } // TiffDataEntry::doWriteData
 
     uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper,
@@ -1612,7 +1613,7 @@ namespace Exiv2 {
     {
         if ( !pValue() ) throw Error(kerImageWriteFailed); // #1296
 
-        uint32_t len = pValue()->sizeDataArea();
+        uint32_t len = (uint32_t)pValue()->sizeDataArea();
         if (len > 0) {
 #ifdef DEBUG
             std::cerr << "TiffImageEntry, Directory " << groupName(group())
@@ -1718,19 +1719,19 @@ namespace Exiv2 {
         // - array elements don't "overlap"
         // - no duplicate tags in the array
         uint32_t idx = 0;
-        uint32_t sz = cfg()->tagStep();
+        uint32_t sz = (uint32_t)cfg()->tagStep();
         for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
             if ((*i)->tag() > idx) {
                 idx = (*i)->tag();
                 sz = (*i)->size();
             }
         }
-        idx = idx * cfg()->tagStep() + sz;
+        idx = idx * (uint32_t)cfg()->tagStep() + sz;
 
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
             uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-            idx = EXV_MAX(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
+            idx = EXV_MAX(idx, lastDef->idx_ + (uint32_t)lastDef->size(lastTag, cfg()->group_));
         }
         return idx;
 
@@ -1771,7 +1772,7 @@ namespace Exiv2 {
     uint32_t TiffDataEntry::doSizeData() const
     {
         if (!pValue()) return 0;
-        return pValue()->sizeDataArea();
+        return (uint32_t)pValue()->sizeDataArea();
     } // TiffDataEntry::doSizeData
 
     uint32_t TiffSubIfd::doSizeData() const
@@ -1828,7 +1829,7 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doSizeImage() const
     {
         if (!pValue()) return 0;
-        uint32_t len = pValue()->sizeDataArea();
+        uint32_t len = (uint32_t)pValue()->sizeDataArea();
         if (len == 0) {
             for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
                 len += i->second;

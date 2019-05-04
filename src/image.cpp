@@ -331,7 +331,7 @@ namespace Exiv2 {
         do {
             // Read top of directory
             const int seekSuccess = !io.seek(start,BasicIo::beg);
-            const long bytesRead = io.read(dir.pData_, 2);
+            const size_t bytesRead = io.read(dir.pData_, 2);
             if (!seekSuccess || bytesRead == 0) {
                 throw Error(kerCorruptedMetadata);
             }
@@ -399,7 +399,7 @@ namespace Exiv2 {
                 const bool bOffsetIsPointer = count*size > 4;
 
                 if ( bOffsetIsPointer ) {         // read into buffer
-                    size_t   restore = io.tell();  // save
+                    int64   restore = io.tell();  // save
                     io.seek(offset,BasicIo::beg);  // position
                     io.read(buf.pData_,count*size);// read
                     io.seek(restore,BasicIo::beg); // restore
@@ -441,7 +441,7 @@ namespace Exiv2 {
 
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
-                            size_t   restore = io.tell();
+                            int64   restore = io.tell();
                             uint32_t offset2 = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset2,bSwap,c,depth);
                             io.seek(restore,BasicIo::beg);
@@ -452,17 +452,17 @@ namespace Exiv2 {
                             throw Error(kerCorruptedMetadata);
                         }
 
-                        const size_t restore = io.tell();
+                        const int64 restore = io.tell();
                         io.seek(offset, BasicIo::beg);  // position
                         std::vector<byte> bytes(count) ;  // allocate memory
                         // TODO: once we have C++11 use bytes.data()
-                        const long read_bytes = io.read(&bytes[0], count);
+                        const size_t read_bytes = io.read(&bytes[0], count);
                         io.seek(restore, BasicIo::beg);
                         // TODO: once we have C++11 use bytes.data()
                         IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
 
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-                        size_t   restore = io.tell();  // save
+                        int64   restore = io.tell();  // save
 
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
@@ -896,7 +896,7 @@ namespace Exiv2 {
     }
 
 #endif
-    Image::UniquePtr ImageFactory::open(const byte* data, long size)
+    Image::UniquePtr ImageFactory::open(const byte* data, size_t size)
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
         Image::UniquePtr image = open(std::move(io)); // may throw
@@ -974,7 +974,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    void append(Blob& blob, const byte* buf, uint32_t len)
+    void append(Blob& blob, const byte* buf, size_t len)
     {
         if (len != 0) {
             assert(buf != 0);

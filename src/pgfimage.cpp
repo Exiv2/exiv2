@@ -128,7 +128,7 @@ namespace Exiv2 {
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
 
-        long size = 8 + headerSize - io_->tell();
+        int64 size = 8 + headerSize - io_->tell();
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
@@ -214,7 +214,7 @@ namespace Exiv2 {
         if (outIo.putb(mnb) == EOF) throw Error(kerImageWriteFailed);
 
         // Write new Header size.
-        uint32_t newHeaderSize = header.size_ + imgSize;
+        size_t newHeaderSize = header.size_ + static_cast<size_t>(imgSize); /// \todo change imgSize to size_t
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
         byteSwap_(buffer,0,bSwap_);

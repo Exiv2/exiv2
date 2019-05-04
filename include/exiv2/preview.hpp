@@ -140,11 +140,11 @@ namespace Exiv2 {
         /*!
           @brief Return the width of the preview image in pixels.
         */
-        uint32_t width() const;
+        size_t width() const;
         /*!
           @brief Return the height of the preview image in pixels.
         */
-        uint32_t height() const;
+        size_t height() const;
         /*!
           @brief Return the preview image type identifier.
         */
@@ -158,6 +158,7 @@ namespace Exiv2 {
         PreviewProperties properties_;          //!< Preview image properties
         byte* pData_;                           //!< Pointer to the preview image data
         uint32_t size_;                         //!< Size of the preview image data
+        /// \todo change this type to size_t
 
     }; // class PreviewImage
 

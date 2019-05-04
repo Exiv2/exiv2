@@ -153,10 +153,9 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the size of the header (in bytes).
-        virtual uint32_t size() const =0;
+        virtual size_t size() const =0;
         //! Write the header to a data buffer, return the number of bytes written.
-        virtual uint32_t write(IoWrapper& ioWrapper,
-                               ByteOrder  byteOrder) const =0;
+        virtual size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const = 0;
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote (= the start of the header).
@@ -194,8 +193,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
@@ -224,8 +223,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
@@ -256,8 +255,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         ByteOrder byteOrder() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
@@ -290,8 +289,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
@@ -322,8 +321,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         ByteOrder byteOrder() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
@@ -357,8 +356,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
@@ -388,8 +387,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
@@ -419,8 +418,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
@@ -447,8 +446,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
 
@@ -470,8 +469,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
@@ -503,8 +502,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
@@ -534,8 +533,8 @@ namespace Exiv2 {
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t ifdOffset() const override;
         ByteOrder byteOrder() const override;
         //@}

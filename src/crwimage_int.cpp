@@ -223,17 +223,14 @@ namespace Exiv2 {
         pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
     } // CiffHeader::read
 
-    void CiffComponent::read(const byte* pData,
-                             uint32_t    size,
-                             uint32_t    start,
-                             ByteOrder   byteOrder)
+    void CiffComponent::read(const byte* pData, size_t size, size_t start, ByteOrder byteOrder)
     {
         doRead(pData, size, start, byteOrder);
     }
 
     void CiffComponent::doRead(const byte* pData,
-                               uint32_t    size,
-                               uint32_t    start,
+                               size_t size,
+                               size_t start,
                                ByteOrder   byteOrder)
     {
         if (size < 10) throw Error(kerNotACrwImage);
@@ -262,8 +259,8 @@ namespace Exiv2 {
     } // CiffComponent::doRead
 
     void CiffDirectory::doRead(const byte* pData,
-                               uint32_t    size,
-                               uint32_t    start,
+                               size_t size,
+                               size_t start,
                                ByteOrder   byteOrder)
     {
         CiffComponent::doRead(pData, size, start, byteOrder);
@@ -276,9 +273,7 @@ namespace Exiv2 {
 #endif
     } // CiffDirectory::doRead
 
-    void CiffDirectory::readDirectory(const byte* pData,
-                                      uint32_t    size,
-                                      ByteOrder   byteOrder)
+    void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byteOrder)
     {
         if (size < 4)
             throw Error(kerCorruptedMetadata);
@@ -368,21 +363,21 @@ namespace Exiv2 {
         }
     }
 
-    uint32_t CiffComponent::write(Blob&     blob,
+    size_t CiffComponent::write(Blob&     blob,
                                   ByteOrder byteOrder,
-                                  uint32_t  offset)
+                                  size_t offset)
     {
         return doWrite(blob, byteOrder, offset);
     }
 
-    uint32_t CiffEntry::doWrite(Blob&     blob,
+    size_t CiffEntry::doWrite(Blob&     blob,
                                 ByteOrder /*byteOrder*/,
-                                uint32_t  offset)
+                                size_t  offset)
     {
         return writeValueData(blob, offset);
     } // CiffEntry::doWrite
 
-    uint32_t CiffComponent::writeValueData(Blob& blob, uint32_t offset)
+    size_t CiffComponent::writeValueData(Blob& blob, size_t offset)
     {
         if (dataLocation() == valueData) {
 #ifdef DEBUG
@@ -401,15 +396,15 @@ namespace Exiv2 {
         return offset;
     } // CiffComponent::writeValueData
 
-    uint32_t CiffDirectory::doWrite(Blob&     blob,
+    size_t CiffDirectory::doWrite(Blob&     blob,
                                     ByteOrder byteOrder,
-                                    uint32_t  offset)
+                                    size_t offset)
     {
 #ifdef DEBUG
         std::cout << "Writing directory 0x" << std::hex << tag() << "---->\n";
 #endif
         // Ciff offsets are relative to the start of the directory
-        uint32_t dirOffset = 0;
+        size_t dirOffset = 0;
 
         // Value data
         const Components::iterator b = components_.begin();
@@ -417,7 +412,7 @@ namespace Exiv2 {
         for (Components::iterator i = b; i != e; ++i) {
             dirOffset = (*i)->write(blob, byteOrder, dirOffset);
         }
-        const uint32_t dirStart = dirOffset;
+        const size_t dirStart = dirOffset;
 
         // Number of directory entries
         byte buf[4];
@@ -432,7 +427,7 @@ namespace Exiv2 {
         }
 
         // Offset of directory
-        ul2Data(buf, dirStart, byteOrder);
+        ul2Data(buf, static_cast<uint32_t>(dirStart), byteOrder);
         append(blob, buf, 4);
         dirOffset += 4;
 
@@ -465,10 +460,10 @@ namespace Exiv2 {
             us2Data(buf, tag_, byteOrder);
             append(blob, buf, 2);
 
-            ul2Data(buf, size_, byteOrder);
+            ul2Data(buf, static_cast<uint32_t>(size_), byteOrder);
             append(blob, buf, 4);
 
-            ul2Data(buf, offset_, byteOrder);
+            ul2Data(buf, static_cast<uint32_t>(offset_), byteOrder);
             append(blob, buf, 4);
         }
 
@@ -481,7 +476,7 @@ namespace Exiv2 {
             // Copy value instead of size and offset
             append(blob, pData_, size_);
             // Pad with 0s
-            for (uint32_t i = size_; i < 8; ++i) {
+            for (size_t i = size_; i < 8; ++i) {
                 blob.push_back(0);
             }
         }
@@ -547,7 +542,7 @@ namespace Exiv2 {
             size_ = 0;
         }
         isAllocated_ = true;
-        std::pair<byte *, long> p = buf.release();
+        std::pair<byte *, size_t> p = buf.release();
         pData_ = p.first;
         size_  = p.second;
         if (size_ > 8 && dataLocation() == directoryData) {
@@ -958,7 +953,7 @@ namespace Exiv2 {
         Value::UniquePtr value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
-            uint32_t size = 0;
+            size_t size = 0;
             if (pCrwMapping->size_ != 0) {
                 // size in the mapping table overrides all
                 size = pCrwMapping->size_;
@@ -1035,8 +1030,9 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (!comment.empty()) {
-            uint32_t size = static_cast<uint32_t>(comment.size());
-            if (cc && cc->size() > size) size = cc->size();
+            size_t size = comment.size();
+            if (cc && cc->size() > size)
+                size = cc->size();
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);
             std::memcpy(buf.pData_, comment.data(), comment.size());
@@ -1155,8 +1151,9 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
-            uint32_t size = 28;
-            if (cc && cc->size() > size) size = cc->size();
+            size_t size = 28;
+            if (cc && cc->size() > size)
+                size = cc->size();
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);
             if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);

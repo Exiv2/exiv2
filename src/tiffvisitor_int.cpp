@@ -777,7 +777,7 @@ namespace Exiv2 {
         assert(object != 0);
 
         if (object->cfg() == 0 || !object->decoded()) return;
-        int32_t size = object->TiffEntryBase::doSize();
+        std::uint32_t size = object->TiffEntryBase::doSize();
         if (size == 0) return;
         if (!object->initialize(pRoot_)) return;
 
@@ -788,7 +788,7 @@ namespace Exiv2 {
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size_ > 0) {
                 pData = buf.pData_;
-                size = buf.size_;
+                size = static_cast<std::uint32_t>(buf.size_);
             }
             if (!object->updOrigDataBuf(pData, size)) {
                 setDirty();
@@ -924,7 +924,7 @@ namespace Exiv2 {
     {
         encodeOffsetEntry(object, datum);
 
-        uint32_t sizeDataArea = object->pValue()->sizeDataArea();
+        size_t sizeDataArea = object->pValue()->sizeDataArea();
 
         if (sizeDataArea > 0 && writeMethod() == wmNonIntrusive) {
 #ifdef DEBUG
@@ -947,7 +947,7 @@ namespace Exiv2 {
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
-                object->strips_.push_back(std::make_pair(zero, sizeDataArea));
+                object->strips_.push_back(std::make_pair(zero, (uint32_t)sizeDataArea));
             }
             else {
                 uint32_t sizeTotal = 0;
@@ -1191,7 +1191,7 @@ namespace Exiv2 {
         pRoot_->accept(finder);
         TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (te && te->pValue()) {
-            object->setStrips(te->pValue(), pData_, size_, baseOffset());
+            object->setStrips(te->pValue(), pData_, (std::uint32_t)size_, baseOffset());
         }
     }
 
@@ -1219,7 +1219,7 @@ namespace Exiv2 {
         pRoot_->accept(finder);
         TiffDataEntryBase* te = dynamic_cast<TiffDataEntryBase*>(finder.result());
         if (te && te->pValue()) {
-            te->setStrips(object->pValue(), pData_, size_, baseOffset());
+            te->setStrips(object->pValue(), pData_, (std::uint32_t)size_, baseOffset());
         }
     }
 
@@ -1464,7 +1464,7 @@ namespace Exiv2 {
         p += 2;
         TiffType tiffType = getUShort(p, byteOrder());
         TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
-        long typeSize = TypeInfo::typeSize(typeId);
+        long typeSize = (long)TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(object->group())
@@ -1624,7 +1624,7 @@ namespace Exiv2 {
                         // Determine gap-size
                         const ArrayDef* xdef = defs;
                         for (; xdef != defsEnd && xdef->idx_ <= idx; ++xdef) {}
-                        uint32_t gapSize = 0;
+                        size_t gapSize = 0;
                         if (xdef != defsEnd && xdef->idx_ > idx) {
                             gapSize = xdef->idx_ - idx;
                         }
@@ -1633,10 +1633,10 @@ namespace Exiv2 {
                         }
                         gap.idx_ = idx;
                         gap.tiffType_ = cfg->elDefaultDef_.tiffType_;
-                        gap.count_ = gapSize / cfg->tagStep();
+                        gap.count_ = (uint32_t)gapSize / (uint32_t)cfg->tagStep();
                         if (gap.count_ * cfg->tagStep() != gapSize) {
                             gap.tiffType_ = ttUndefined;
-                            gap.count_ = gapSize;
+                            gap.count_ = (uint32_t)gapSize;
                         }
                         def = &gap;
                     }

@@ -245,7 +245,7 @@ namespace Exiv2 {
          */
         uint32_t write(IoWrapper& ioWrapper,
                        ByteOrder byteOrder,
-                       size_t    offset,
+                       int32_t   offset,
                        uint32_t  valueIdx,
                        uint32_t  dataIdx,
                        uint32_t& imageIdx);
@@ -330,7 +330,7 @@ namespace Exiv2 {
         //! Implements write().
         virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) =0;
@@ -494,7 +494,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                          ByteOrder byteOrder,
-                         size_t    offset,
+                         int32_t   offset,
                          uint32_t  valueIdx,
                          uint32_t  dataIdx,
                          uint32_t& imageIdx) override;
@@ -606,6 +606,7 @@ namespace Exiv2 {
           @param pData Pointer to the data area.
           @param sizeData Size of the data area.
           @param baseOffset Base offset into the data area.
+          @todo change sizeData and offset to size_t
          */
         virtual void setStrips(const Value* pSize,
                                const byte*  pData,
@@ -675,7 +676,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                          ByteOrder byteOrder,
-                         size_t    offset,
+                         int32_t   offset,
                          uint32_t  valueIdx,
                          uint32_t  dataIdx,
                          uint32_t& imageIdx) override;
@@ -748,7 +749,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                          ByteOrder byteOrder,
-                         size_t    offset,
+                         int32_t    offset,
                          uint32_t  valueIdx,
                          uint32_t  dataIdx,
                          uint32_t& imageIdx) override;
@@ -786,6 +787,7 @@ namespace Exiv2 {
 
     private:
         //! Pointers to the image data (strips) and their sizes.
+        //! \todo change type to size_t
         typedef std::vector<std::pair<const byte*, uint32_t> > Strips;
 
         // DATA
@@ -880,7 +882,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -992,7 +994,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1073,7 +1075,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1201,7 +1203,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1277,7 +1279,7 @@ namespace Exiv2 {
         //! Comparison with idx
         bool operator==(uint32_t idx) const { return idx_ == idx; }
         //! Get the size in bytes of a tag.
-        uint32_t size(uint16_t tag, IfdId group) const;
+        size_t size(uint16_t tag, IfdId group) const;
         // DATA
         uint32_t idx_;             //!< Index in bytes from the start
         TiffType tiffType_;        //!< TIFF type of the element
@@ -1290,7 +1292,7 @@ namespace Exiv2 {
           @brief Return the size of the default tag, which is used
                  to calculate tag numbers as idx/tagStep
          */
-        uint32_t tagStep() const { return elDefaultDef_.size(0, group_); }
+        size_t tagStep() const { return elDefaultDef_.size(0, group_); }
         //DATA
         IfdId       group_;        //!< Group for the elements
         ByteOrder   byteOrder_;    //!< Byte order, invalidByteOrder to inherit
@@ -1408,7 +1410,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
@@ -1496,7 +1498,7 @@ namespace Exiv2 {
          */
         uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 size_t    offset,
+                                 int32_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) override;
