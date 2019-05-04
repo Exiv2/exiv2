@@ -37,6 +37,7 @@
 #include <iostream>
 #include <cstring>                      // std::memcpy
 #include <cassert>
+#include <algorithm>
 #include <fstream>                      // write the temporary file
 #include <fcntl.h>                      // _O_BINARY in FileIo::FileIo
 #include <cstdio>                       // for remove, rename
@@ -1630,7 +1631,7 @@ namespace Exiv2 {
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
             while (remain) {
-                size_t allow = EXV_MIN(remain, blockSize_);
+                size_t allow = std::min(remain, blockSize_);
                 blocksMap_[iBlock].populate(&source[totalRead], allow);
                 remain -= allow;
                 totalRead += allow;
@@ -1669,7 +1670,7 @@ namespace Exiv2 {
                 byte* source = (byte*)data.c_str();
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
-                    size_t allow = EXV_MIN(remain, p_->blockSize_);
+                    size_t allow = std::min(remain, p_->blockSize_);
                     p_->blocksMap_[iBlock].populate(&source[totalRead], allow);
                     remain -= allow;
                     totalRead += allow;
@@ -1804,7 +1805,7 @@ namespace Exiv2 {
         if (p_->eof_) return 0;
         p_->totalRead_ += rcount;
 
-        size_t allow     = EXV_MIN(rcount, (long)( p_->size_ - p_->idx_));
+        size_t allow     = std::min(rcount, p_->size_ - p_->idx_);
         size_t lowBlock  =  p_->idx_         /p_->blockSize_;
         size_t highBlock = (p_->idx_ + allow)/p_->blockSize_;
 
@@ -1821,7 +1822,7 @@ namespace Exiv2 {
         do {
             byte* data = p_->blocksMap_[iBlock++].getData();
             if (data == nullptr) data = fakeData;
-            size_t blockR = EXV_MIN(allow, p_->blockSize_ - startPos);
+            size_t blockR = std::min(allow, p_->blockSize_ - startPos);
             std::memcpy(&buf[totalRead], &data[startPos], blockR);
             totalRead += blockR;
             startPos = 0;

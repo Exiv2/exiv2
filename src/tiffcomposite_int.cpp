@@ -1729,7 +1729,7 @@ namespace Exiv2 {
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
             uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-            idx = EXV_MAX(idx, lastDef->idx_ + (uint32_t)lastDef->size(lastTag, cfg()->group_));
+            idx = std::max(idx, lastDef->idx_ + (uint32_t)lastDef->size(lastTag, cfg()->group_));
         }
         return idx;
 
