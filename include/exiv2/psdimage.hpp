@@ -107,13 +107,13 @@ namespace Exiv2 {
           @return 4 if opening or writing to the associated BasicIo fails
          */
         void doWriteMetadata(BasicIo& oIo);
-        uint32_t writeExifData(const ExifData& exifData, BasicIo& out);
+        size_t writeExifData(const ExifData& exifData, BasicIo& out);
         //@}
 
         //! @name Accessors
         //@{
-        uint32_t writeIptcData(const IptcData& iptcData, BasicIo& out) const;
-        uint32_t writeXmpData(const XmpData& xmpData, BasicIo& out) const;
+        size_t writeIptcData(const IptcData& iptcData, BasicIo& out) const;
+        size_t writeXmpData(const XmpData& xmpData, BasicIo& out) const;
         //@}
 
     }; // class PsdImage

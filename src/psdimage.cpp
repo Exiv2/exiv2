@@ -415,7 +415,7 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "Photoshop");
 
         uint32_t oldResLength = getULong(buf, bigEndian);
-        uint32_t newResLength = 0;
+        size_t newResLength = 0;
 
         // Write oldResLength (will be updated later)
         ul2Data(buf, oldResLength, bigEndian);
@@ -565,16 +565,15 @@ namespace Exiv2 {
         std::cerr << "newResLength: " << newResLength << "\n";
 #endif
         outIo.seek(resLenOffset, BasicIo::beg);
-        ul2Data(buf, newResLength, bigEndian);
+        ul2Data(buf, (uint32_t)newResLength, bigEndian);
         if (outIo.write(buf, 4) != 4)
             throw Error(kerImageWriteFailed);
 
     }  // PsdImage::doWriteMetadata
 
-    /// \todo return size_t
-    uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
+    size_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
     {
-        uint32_t resLength = 0;
+        size_t resLength = 0;
 
         if (iptcData.count() > 0) {
             DataBuf rawIptc = IptcParser::encode(iptcData);
@@ -598,7 +597,7 @@ namespace Exiv2 {
                 // Write encoded Iptc data
                 if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
                     throw Error(kerImageWriteFailed);
-                resLength += static_cast<std::uint32_t>(rawIptc.size_) + 12;
+                resLength += rawIptc.size_ + 12;
                 if (rawIptc.size_ & 1)  // even padding
                 {
                     buf[0] = 0;
@@ -611,9 +610,9 @@ namespace Exiv2 {
         return resLength;
     }
 
-    uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out)
+    size_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out)
     {
-        uint32_t resLength = 0;
+        size_t resLength = 0;
 
         if (exifData.count() > 0) {
             Blob blob;
@@ -644,7 +643,7 @@ namespace Exiv2 {
                 // Write encoded Exif data
                 if (out.write(&blob[0], static_cast<long>(blob.size())) != blob.size())
                     throw Error(kerImageWriteFailed);
-                resLength += static_cast<long>(blob.size()) + 12;
+                resLength += blob.size() + 12;
                 if (blob.size() & 1)  // even padding
                 {
                     buf[0] = 0;
@@ -657,10 +656,10 @@ namespace Exiv2 {
         return resLength;
     }
 
-    uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const
+    size_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const
     {
         std::string xmpPacket;
-        uint32_t resLength = 0;
+        size_t resLength = 0;
 
 #ifdef DEBUG
         std::cerr << "writeXmpFromPacket(): " << writeXmpFromPacket() << "\n";
@@ -697,7 +696,7 @@ namespace Exiv2 {
                 throw Error(kerImageWriteFailed);
             if (out.error())
                 throw Error(kerImageWriteFailed);
-            resLength += static_cast<uint32_t>(xmpPacket.size()) + 12;
+            resLength += xmpPacket.size() + 12;
             if (xmpPacket.size() & 1)  // even padding
             {
                 buf[0] = 0;
