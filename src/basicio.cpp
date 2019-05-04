@@ -1043,12 +1043,12 @@ namespace Exiv2 {
         byte* data_;                       //!< Pointer to the start of the memory area
         size_t idx_;                       //!< Index into the memory area
         size_t size_;                      //!< Size of the memory area
-        long sizeAlloced_;                 //!< Size of the allocated buffer
+        size_t sizeAlloced_;               //!< Size of the allocated buffer
         bool isMalloced_;                  //!< Was the buffer allocated?
         bool eof_;                         //!< EOF indicator
 
         // METHODS
-        void reserve(long wcount);         //!< Reserve memory
+        void reserve(size_t wcount);         //!< Reserve memory
 
         Impl& operator=(const Impl& rhs) = delete;
         Impl& operator=(const Impl&& rhs) = delete;
@@ -1150,16 +1150,15 @@ namespace Exiv2 {
         size_t      size_;
     }; // class BlockMap
 
-    /// \todo change wcount type to size_t
-    void MemIo::Impl::reserve(long wcount)
+    void MemIo::Impl::reserve(size_t wcount)
     {
-        const long need = wcount + (long)idx_;
-        long    blockSize =     32*1024;   // 32768           `
-        const long maxBlockSize = 4*1024*1024;
+        const size_t need = wcount + idx_;
+        const size_t maxBlockSize = 4*1024*1024;
+        size_t blockSize =     32*1024;   // 32768
 
         if (!isMalloced_) {
             // Minimum size for 1st block
-            long size  = std::max(blockSize * (1 + need / blockSize), static_cast<long>(size_));
+            const size_t size  = std::max(blockSize * (1 + need / blockSize), size_);
             byte* data = (byte*)std::malloc(size);
             if (  data == nullptr ) {
                 throw Error(kerMallocFailed);
@@ -1177,7 +1176,7 @@ namespace Exiv2 {
                 blockSize = 2*sizeAlloced_ ;
                 if ( blockSize > maxBlockSize ) blockSize = maxBlockSize ;
                 // Allocate in blocks
-                long want      = blockSize * (1 + need / blockSize );
+                const size_t want = blockSize * (1 + need / blockSize);
                 data_ = (byte*)std::realloc(data_, want);
                 if ( data_ == nullptr ) {
                     throw Error(kerMallocFailed);
