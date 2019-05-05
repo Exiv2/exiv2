@@ -117,6 +117,21 @@ namespace Exiv2 {
         copyXmpToExif(xmpData_, exifData_);
     } // XmpSidecar::readMetadata
 
+    // lower case string
+    static std::string toLowerCase(std::string a)
+    {
+        for(size_t i=0 ; i < a.length() ; i++)
+        {
+            a[i]=tolower(a[i]);
+        }
+        return a;
+    }
+
+    static bool matchi(const std::string key,const char* substr)
+    {
+        return toLowerCase(key).find(substr) != std::string::npos;
+    }
+
     void XmpSidecar::writeMetadata()
     {
         if (io_->open() != 0) {
@@ -126,8 +141,22 @@ namespace Exiv2 {
 
 
         if (writeXmpFromPacket() == false) {
+            // #589 copy XMP tags
+            Exiv2::XmpData  copy   ;
+            for (Exiv2::XmpData::const_iterator it = xmpData_.begin(); it != xmpData_.end(); ++it) {
+                if ( !matchi(it->key(),"exif") && !matchi(it->key(),"iptc") ) {
+                    copy[it->key()] = it->value();
+                }
+            }
+
+            // run the convertors
             copyExifToXmp(exifData_, xmpData_);
             copyIptcToXmp(iptcData_, xmpData_);
+
+            // #589 - restore tags which were modified by the convertors
+            for (Exiv2::XmpData::const_iterator it = copy.begin(); it != copy.end(); ++it) {
+                xmpData_[it->key()] = it->value() ;
+            }
 
             // #1112 - restore dates if they lost their TZ info
             for ( Exiv2::Dictionary_i it = dates_.begin() ; it != dates_.end() ; ++it ) {
