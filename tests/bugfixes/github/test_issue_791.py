@@ -21,7 +21,7 @@ class IntegerOverflowInWebpImageReadMetadata(
     commands = ["$exiv2 $filename"]
     stdout = [""]
     stderr = ["""Exiv2 exception in print action for file $filename:
-corrupted image metadata
+$kerCorruptedMetadata
 """
 ]
     retval = [1]
