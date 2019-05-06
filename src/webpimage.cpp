@@ -493,7 +493,7 @@ namespace Exiv2 {
 
         const long filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 8;
         enforce(0 <= filesize, Exiv2::kerCorruptedMetadata);
-        enforce((size_t)filesize <= io_->size(), Exiv2::kerCorruptedMetadata);
+        enforce(static_cast<size_t>(filesize) <= io_->size(), Exiv2::kerCorruptedMetadata);
         WebPImage::decodeChunks(filesize);
 
     } // WebPImage::readMetadata
