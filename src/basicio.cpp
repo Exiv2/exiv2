@@ -84,13 +84,6 @@ namespace Exiv2 {
     {
     }
 
-    DataBuf BasicIo::readOrThrow(long rcount, ErrorCode err) {
-      DataBuf result = read(rcount);
-      enforce(result.size_ == rcount, err);
-      enforce(!error(), err);
-      return result;
-    }
-
     void BasicIo::readOrThrow(byte* buf, long rcount, ErrorCode err) {
       const long nread = read(buf, rcount);
       enforce(nread == rcount, err);

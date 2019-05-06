@@ -144,15 +144,6 @@ namespace Exiv2 {
           @brief Read data from the IO source. Reading starts at the current
               IO position and the position is advanced by the number of bytes
               read. Throw an exception if not enough bytes are available.
-          @param rcount Number of bytes to read.
-          @param err ErrorCode to throw if not enough bytes are available.
-          @return DataBuf instance containing the bytes read.
-         */
-        DataBuf readOrThrow(long rcount, ErrorCode err);
-        /*!
-          @brief Read data from the IO source. Reading starts at the current
-              IO position and the position is advanced by the number of bytes
-              read. Throw an exception if not enough bytes are available.
           @param buf Pointer to a block of memory into which the read data
               is stored. The memory block must be at least \em rcount bytes
               long.
