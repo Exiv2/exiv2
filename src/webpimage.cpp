@@ -483,7 +483,6 @@ namespace Exiv2 {
 
     /* =========================================== */
 
-
     void WebPImage::readMetadata()
     {
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
