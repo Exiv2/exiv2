@@ -25,7 +25,6 @@
 
 // included header files
 #include "types.hpp"
-#include "error.hpp"
 
 // + standard includes
 #include <memory>       // for std::auto_ptr
@@ -150,7 +149,7 @@ namespace Exiv2 {
           @param err ErrorCode to throw if not enough bytes are available.
           @param rcount Number of bytes to read.
          */
-        void readOrThrow(byte* buf, long rcount, ErrorCode err);
+        void readOrThrow(byte* buf, long rcount);
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
