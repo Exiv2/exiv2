@@ -496,7 +496,7 @@ namespace Exiv2 {
             Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
         enforce(filesize_u32 <= io_->size(), Exiv2::kerCorruptedMetadata);
 
-        // Check that `filesize_u32` is safe to cast to long.
+        // Check that `filesize_u32` is safe to cast to `long`.
         enforce(filesize_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
                 Exiv2::kerCorruptedMetadata);
 
