@@ -40,6 +40,7 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "convert.hpp"
+#include "safe_op.hpp"
 
 #include <cmath>
 #include <iomanip>
@@ -500,10 +501,15 @@ namespace Exiv2 {
 
         readOrThrow(*io_, data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
 
-        const long filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian) + 8;
-        enforce(0 <= filesize, Exiv2::kerCorruptedMetadata);
-        enforce((size_t)filesize <= io_->size(), Exiv2::kerCorruptedMetadata);
-        WebPImage::decodeChunks(filesize);
+        const uint32_t filesize_u32 =
+            Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
+        enforce(filesize_u32 <= io_->size(), Exiv2::kerCorruptedMetadata);
+
+        // Check that `filesize_u32` is safe to cast to long.
+        enforce(filesize_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                Exiv2::kerCorruptedMetadata);
+
+        WebPImage::decodeChunks(static_cast<long>(filesize_u32));
 
     } // WebPImage::readMetadata
 
@@ -521,8 +527,15 @@ namespace Exiv2 {
         while (!io_->eof() && io_->tell() < filesize) {
             readOrThrow(*io_, chunkId.pData_, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
             readOrThrow(*io_, size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
-            const long size = Exiv2::getULong(size_buff, littleEndian);
-            enforce(0 <= size, Exiv2::kerCorruptedMetadata);
+
+            const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
+
+            // Check that `size_u32` is safe to cast to `long`.
+            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                    Exiv2::kerCorruptedMetadata);
+            const long size = static_cast<long>(size_u32);
+
+            // Check that `size` is within bounds.
             enforce(io_->tell() <= filesize, Exiv2::kerCorruptedMetadata);
             enforce(size <= (filesize - io_->tell()), Exiv2::kerCorruptedMetadata);
 
