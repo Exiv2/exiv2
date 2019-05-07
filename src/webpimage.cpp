@@ -521,9 +521,14 @@ namespace Exiv2 {
 
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
-            // Check that `size_u32` is safe to cast to `long`.
+            // Check that `size_u32` is safe to cast to `long`. The `#if` is needed
+            // because this check is redundant on platforms where `long` is 64 bits.
+            // On those platforms, it causes the build to fail due to a compiler
+            // warning in clang.
+#if LONG_MAX < UINT_MAX
             enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
                     Exiv2::kerCorruptedMetadata);
+#endif
             const long size = static_cast<long>(size_u32);
 
             // Check that `size` is within bounds.
