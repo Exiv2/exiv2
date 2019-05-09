@@ -222,7 +222,7 @@ namespace Action
             Exiv2::PrintStructureOption option = Exiv2::kpsNone;
             switch (Params::instance().printMode_) {
                 case Params::pmSummary:
-                    rc = printSummary();
+                    rc = Params::instance().greps_.empty() ? printSummary() : printList();
                     break;
                 case Params::pmList:
                     rc = printList();
