@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include "futils.hpp"
+#include "datasets.hpp"
 #include "enforce.hpp"
 
 // + standard includes
@@ -47,6 +48,19 @@
 #elif defined(__APPLE__)
 #include <libproc.h>
 #endif
+
+#if defined(__FreeBSD__)
+#include <sys/mount.h>
+#include <sys/param.h>
+#include <sys/queue.h>
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <sys/types.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <libprocstat.h>
+#endif
+
 
 namespace Exiv2 {
     const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
@@ -463,12 +477,22 @@ namespace Exiv2 {
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
-    #elif defined(__linux__) || defined(__CYGWIN__) || defined(__MSYS__)
+    #elif defined(__FreeBSD__)
+        unsigned int       n;
+        char               buffer[PATH_MAX] = {};
+        struct procstat*   procstat = procstat_open_sysctl();
+        struct kinfo_proc* procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+        if ( procs ) {
+            procstat_getpathname(procstat, procs, buffer, PATH_MAX);
+            ret = std::string(buffer);
+        }
+        // release resources
+        if ( procs    ) procstat_freeprocs(procstat, procs);
+        if ( procstat ) procstat_close(procstat);
+    #elif defined(__unix__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-        char proc[100];
         char path[500];
-        sprintf(proc,"/proc/%d/exe", getpid());
-        ssize_t l = readlink (proc, path,sizeof(path)-1);
+        ssize_t l = readlink ("/proc/self/exe", path,sizeof(path)-1);
         if (l>0) {
             path[l]=0;
             ret = path;
