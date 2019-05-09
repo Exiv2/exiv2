@@ -55,6 +55,7 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 // #1147
 #ifndef WIN32
@@ -114,23 +115,18 @@ namespace Exiv2 {
 
 #elif defined(__APPLE__)
 # include <mach-o/dyld.h>
+#endif
 
-#elif defined(__linux__)
-# include <unistd.h>
-// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-# include <dlfcn.h>
-  struct something
-  {
-    void*  pointers[3];
-    struct something* ptr;
-  };
-  struct lmap
-  {
-    void*    base_address;   /* Base address of the shared object */
-    char*    path;           /* Absolute file name (path) of the shared object */
-    void*    not_needed1;    /* Pointer to the dynamic section of the shared object */
-    struct lmap *next, *prev;/* chain of loaded objects */
-  };
+#if defined(__FreeBSD__)
+#include <sys/mount.h>
+#include <sys/param.h>
+#include <sys/queue.h>
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <sys/types.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <libprocstat.h>
 #endif
 
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
@@ -247,6 +243,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "mingw64";
 #elif defined(__MINGW32__)
     "mingw32";
+#elif defined(__NetBSD__)
+    "netbsd";
+#elif defined(__FreeBSD__)
+    "freebsd";
 #elif defined(__linux__)
     "linux";
 #else
@@ -260,6 +260,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_iconv       =0;
     int have_memory      =0;
     int have_lstat       =0;
+    int have_regex       =0;
+    int have_regex_h     =0;
     int have_stdbool     =0;
     int have_stdint      =0;
     int have_stdlib      =0;
@@ -279,7 +281,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_sys_types   =0;
     int have_unistd      =0;
     int have_unicode_path=0;
-    int have_regex       =0;
 
     int enable_video     =0;
     int enable_webready  =0;
@@ -317,6 +318,14 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_LSTAT
     have_lstat=1;
+#endif
+
+#ifdef EXV_HAVE_REGEX
+    have_regex=1;
+#endif
+
+#ifdef EXV_HAVE_REGEX_H
+    have_regex_h=1;
 #endif
 
 #ifdef EXV_HAVE_STDBOOL_H
@@ -415,10 +424,13 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      use_ssh=1;
 #endif
 
-#ifdef EXV_HAVE_REGEX_H
-      have_regex=1;
-#endif
+#define PUSH_PATH(path,libs,paths)  \
+    if ( Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ) { \
+        paths.insert(path);        \
+        libs.push_back(path);      \
+    }
 
+    Exiv2::StringSet paths;
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
     HMODULE handles[200];
@@ -427,43 +439,49 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         char szFilename[_MAX_PATH];
         for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
             GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-            libs.push_back(szFilename);
+            std::string path(szFilename);
+            PUSH_PATH(path,libs,paths);
         }
     }
 #elif defined(__APPLE__)
     // man 3 dyld
     uint32_t count = _dyld_image_count();
     for (uint32_t image = 0 ; image < count ; image++ ) {
-        const char* image_path = _dyld_get_image_name(image);
-        libs.push_back(image_path);
+        std::string path(_dyld_get_image_name(image));
+        PUSH_PATH(path,libs,paths);
     }
-#elif defined(__linux__)
-    // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-    char proc[100];
-    char path[500];
-    sprintf(proc,"/proc/%d/exe", getpid());
-    int l = readlink (proc, path,sizeof(path)-1);
-    if (l>0) {
-        path[l]=0;
-        libs.push_back(path);
-    } else {
-        libs.push_back("unknown");
+#elif defined(__FreeBSD__)
+    unsigned int n;
+    struct procstat*      procstat = procstat_open_sysctl();
+    struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+    struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
+    if ( files ) {
+        filestat* entry;
+        STAILQ_FOREACH(entry, files, next) {
+            std::string path(entry->fs_path);
+            PUSH_PATH(path,libs,paths);
+        }
     }
+    // free resources
+    if ( files    ) procstat_freefiles(procstat, files);
+    if ( procs    ) procstat_freeprocs(procstat, procs);
+    if ( procstat ) procstat_close    (procstat);
 
-    // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-    struct lmap*      pl;
-    void*             ph = dlopen(NULL, RTLD_NOW);
-    struct something* p  = (struct something*) ph;
-
-    p  = p->ptr;
-    pl = (struct lmap*)p->ptr;
-
-    while ( pl )
-    {
-        libs.push_back(pl->path);
-        pl = pl->next;
+#elif defined(__unix__)
+    // read file /proc/self/maps which has a list of files in memory
+    std::ifstream maps("/proc/self/maps",std::ifstream::in);
+    std::string   string ;
+    while ( std::getline(maps,string) ) {
+        std::size_t pos = string.find_last_of(' ');
+        if ( pos != std::string::npos ) {
+            std::string path = string.substr(pos+1);
+            PUSH_PATH(path,libs,paths);
+        }
     }
+#else
+    UNUSED(paths);
 #endif
+
     output(os,keys,"exiv2",Exiv2::versionString());
     output(os,keys,"platform"       , platform   );
     output(os,keys,"compiler"       , compiler   );
@@ -505,6 +523,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
     output(os,keys,"have_lstat"        ,have_lstat       );
+    output(os,keys,"have_regex"        ,have_regex       );
+    output(os,keys,"have_regex_h"      ,have_regex_h     );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );
@@ -529,7 +549,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
     output(os,keys,"use_ssh"           ,use_ssh          );
-    output(os,keys,"have_regex"        ,have_regex       );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
@@ -551,10 +570,4 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         output(os,keys,name,xmlns+":"+uri);
     }
 #endif
-
-#if defined(__linux__)
-    dlclose(ph);
-    ph=NULL;
-#endif
-
 }

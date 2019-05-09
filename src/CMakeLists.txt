@@ -201,6 +201,10 @@ if (NOT MSVC)
         target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS}) # -ldl = dynamic loader used by src/version.cpp
     endif()
 
+    if ( CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+        target_link_libraries( exiv2lib PRIVATE -lprocstat)
+    endif()
+
     if (CYGWIN OR MINGW OR MSYS)
         target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
     endif()

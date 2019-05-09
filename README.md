@@ -33,6 +33,7 @@
     3. [MinGW](#5-3)
     4. [Cygwin](#5-4)
     5. [Microsoft Visual C++](#5-5)
+    6. [Unix](#5-6)
 
 <div id="1">
 
@@ -803,7 +804,6 @@ set "PS1=\! CYGWIN64:\u@\h:\w \$ "
 bash.exe -norc
 ```
 
-
 [TOC](#TOC)
 <div id="5-5">
 
@@ -828,7 +828,41 @@ cmd
 ```
 
 [TOC](#TOC)
+<div id="5-6">
+
+### Unix
+
+Exiv2 can be built on many Unix and Linux distros.  We actively support the Unix Distributions NetBSD and FreeBSD
+
+#### NetBSD
+
+NetBSD uses pkgsrc as the package manager.  You can build exiv2 with the commands:
+
+```bash
+$ cd /usr/pkgsrc/graphics/exiv2
+$ make install
+```
+
+You can build exiv2 from source using the methods described for linux.  I build and installed exiv2 using "Pure CMake" and didn't require conan.
+You will want to use `pkgsrc` to build/install
+
+1) gcc  (currently GCC 5.5.0)<br>
+2) python3<br>
+3) cmake<br>
+4) bash<br>
+5) sudo<br>
+6) chksum
+7) gettext<br>
+
+I entered links into the file system `# ln -s /usr/pkg/bin/python37 /usr/local/bin/python3` and `# ln -s /usr/pkg/bin/bash /bin/bash`
+It's important to ensure that `LD_LIBRARY_PATH` includes /usr/local/lib and /usr/pkg/lib.  It's important to ensure that PATH includes `/usr/local/bin`, `/usr/pkg/bin` and`/usr/pkg/sbin`.
+
+#### FreeBSD
+
+FreeBSD uses pkg as the package manager.  You should install the dependency expat.  libz is already installed.  As with NetBSD, you should use pkg to install python3, cmake, bash, sudo, gettext and gcc.  The default GCC compiler is currently 8.3.0.
+
+[TOC](#TOC)
 
 Written by Robin Mills<br>
 robin@clanmills.com<br>
-Revised: 2019-04-28
+Revised: 2019-05-09
