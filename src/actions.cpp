@@ -243,7 +243,7 @@ namespace Action {
             int rc = 0;
             Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
             switch (Params::instance().printMode_) {
-                case Params::pmSummary:   rc = printSummary();     break;
+                case Params::pmSummary:   rc = Params::instance().greps_.empty() ? printSummary() : printList(); break;
                 case Params::pmList:      rc = printList();        break;
                 case Params::pmComment:   rc = printComment();     break;
                 case Params::pmPreview:   rc = printPreviewList(); break;
