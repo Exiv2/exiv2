@@ -71,7 +71,7 @@ endif()
 
 set (VS "") # VisualStudio
 if ( MSVC )
-    # https://gitlab.kitware.com/cmake/cmake/blob/v3.10.0-rc5/Modules/Platform/Windows-MSVC.cmake#L51-68
+    # VS2015 >= 1900, VS2017 >= 1910, VS2019 >= 1920
     if     ( MSVC_VERSION GREATER  1919 )
        set(VS 2019)
     elseif ( MSVC_VERSION GREATER  1909 )
