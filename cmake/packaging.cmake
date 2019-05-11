@@ -66,11 +66,12 @@ endif()
 
 set (VS "") # VisualStudio
 if ( MSVC )
-    if     ( MSVC_VERSION STREQUAL 2100 )
+    # https://gitlab.kitware.com/cmake/cmake/blob/v3.10.0-rc5/Modules/Platform/Windows-MSVC.cmake#L51-68
+    if     ( MSVC_VERSION GREATER  1919 )
        set(VS 2019)
-    elseif ( MSVC_VERSION STREQUAL 2000 )
+    elseif ( MSVC_VERSION GREATER  1909 )
        set(VS 2017)
-    elseif ( MSVC_VERSION STREQUAL 1900 )
+    elseif ( MSVC_VERSION GREATER  1899 )
        set(VS 2015)
     elseif ( MSVC_VERSION STREQUAL 1800 )
        set(VS 2013)
