@@ -841,19 +841,13 @@ I am willing to support Exiv2 on commercial Unix distributions such as Solaris, 
 You can build exiv2 from source using the methods described for linux.  I built and installed exiv2 using "Pure CMake" and didn't require conan.
 You will want to use the package manager `pkgsrc` to build/install:
 
-1) gcc  (currently GCC 5.5.0)
-
-2) python3
-
-3) cmake
-
-4) bash
-
-5) sudo
-
-6) chksum
-
-7) gettext
+1. gcc  (currently GCC 5.5.0)
+2. python3
+3. cmake
+4. bash
+5. sudo
+6. chksum
+7. gettext
 
 I entered links into the file system `# ln -s /usr/pkg/bin/python37 /usr/local/bin/python3` and `# ln -s /usr/pkg/bin/bash /bin/bash`
 It's important to ensure that `LD_LIBRARY_PATH` includes `/usr/local/lib` and `/usr/pkg/lib`.  It's important to ensure that PATH includes `/usr/local/bin`, `/usr/pkg/bin` and `/usr/pkg/sbin`.
@@ -864,6 +858,6 @@ FreeBSD uses pkg as the package manager.  You should install the dependency expa
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>
-robin@clanmills.com<br>
-Revised: 2019-05-10
+Robin Mills
+
+Revised: 2019-05-11
