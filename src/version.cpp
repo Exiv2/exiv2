@@ -17,26 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      version.cpp
- */
-
 // *****************************************************************************
 
 #include "config.h"
 
 #ifdef EXV_USE_CURL
 #include <curl/curl.h>
-#endif
-
-#if defined(__CYGWIN__) || defined(__MINGW__)
-#include <windows.h>
-# if __LP64__
-#  ifdef  _WIN64
-#   undef _WIN64
-#  endif
-#  define _WIN64 1
-# endif
 #endif
 
 #include "http.hpp"
@@ -70,15 +56,16 @@
 #define _MAX_PATH 512
 #endif
 
-// tell MSVC to link psapi.
-#ifdef  _MSC_VER
-#pragma comment( lib, "psapi" )
-#endif
-
 // platform specific support for getLoadedLibraries
-#if defined(WIN32)
+#if defined(__CYGWIN__) || defined(__MINGW__) || defined(WIN32)
 # include <windows.h>
 # include <psapi.h>
+# if __LP64__
+#  ifdef  _WIN64
+#   undef _WIN64
+#  endif
+#  define _WIN64 1
+# endif
 #elif defined(__APPLE__)
 # include <mach-o/dyld.h>
 #elif defined(__FreeBSD__)
@@ -88,6 +75,8 @@
 # include <sys/sysctl.h>
 # include <libprocstat.h>
 #endif
+
+
 
 namespace Exiv2 {
     std::string versionString()
