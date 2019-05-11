@@ -70,26 +70,23 @@
 #define _MAX_PATH 512
 #endif
 
-// platform specific support for dumpLibraryInfo
-#if defined(WIN32)
-# include <windows.h>
-# include <psapi.h>
-
 // tell MSVC to link psapi.
 #ifdef  _MSC_VER
 #pragma comment( lib, "psapi" )
 #endif
 
+// platform specific support for getLoadedLibraries
+#if defined(WIN32)
+# include <windows.h>
+# include <psapi.h>
 #elif defined(__APPLE__)
 # include <mach-o/dyld.h>
-#endif
-
-#if defined(__FreeBSD__)
-#include <sys/param.h>
-#include <sys/queue.h>
-#include <sys/socket.h>
-#include <sys/sysctl.h>
-#include <libprocstat.h>
+#elif defined(__FreeBSD__)
+# include <sys/param.h>
+# include <sys/queue.h>
+# include <sys/socket.h>
+# include <sys/sysctl.h>
+# include <libprocstat.h>
 #endif
 
 namespace Exiv2 {
