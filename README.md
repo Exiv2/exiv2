@@ -854,20 +854,6 @@ FreeBSD uses pkg as the package manager.  You should install the dependency expa
 
 [TOC](#TOC)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2018-12-18
-=======
-Written by Robin Mills<br>
-robin@clanmills.com<br>
-<<<<<<< HEAD
-Revised: 2019-05-09
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
-=======
-Revised: 2019-05-10
->>>>>>> 955962eaa... Code revisions after review by @piponazo
-=======
-Robin Mills
+Written by Robin Mills
 
 Revised: 2019-05-11
->>>>>>> e4cfb6cdc... Better formating of section 5-6 and removed `<br>` from signature at end of document.
