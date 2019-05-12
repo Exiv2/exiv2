@@ -94,53 +94,7 @@ namespace Exiv2 {
         return os.str();
     }
 
-<<<<<<< HEAD
-}                                       // namespace Exiv2
-
-#ifndef lengthof
-#define lengthof(x) sizeof(x)/sizeof(x[0])
-#endif
-#ifndef _MAX_PATH
-#define _MAX_PATH 512
-#endif
-
-// platform specific support for dumpLibraryInfo
-#if defined(WIN32)
-# include <windows.h>
-# include <psapi.h>
-
-// tell MSVC to link psapi.
-#ifdef  _MSC_VER
-#pragma comment( lib, "psapi" )
-#endif
-
-#elif defined(__APPLE__)
-# include <mach-o/dyld.h>
-#endif
-
-#if defined(__FreeBSD__)
-#include <sys/mount.h>
-#include <sys/param.h>
-#include <sys/queue.h>
-#include <sys/socket.h>
-#include <sys/sysctl.h>
-#include <sys/types.h>
-#include <sys/un.h>
-#include <unistd.h>
-#include <libprocstat.h>
-#endif
-=======
-    const char* version()
-    {
-        return EXV_PACKAGE_VERSION;
-    }
-
-    bool testVersion(int major, int minor, int patch)
-    {
-        return versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch);
-    }
 }   // namespace Exiv2
->>>>>>> 955962eaa... Code revisions after review by @piponazo
 
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
@@ -186,9 +140,6 @@ static Exiv2::StringVector getLoadedLibraries()
     Exiv2::StringSet    paths;
     std::string         path ;
 
-<<<<<<< HEAD
-    constexpr int bits = 8 * sizeof(void*);
-=======
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
     // enumerate loaded libraries and determine path to executable
     HMODULE handles[200];
@@ -243,7 +194,6 @@ static Exiv2::StringVector getLoadedLibraries()
 void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
     int      bits = 8*sizeof(void*);
->>>>>>> 955962eaa... Code revisions after review by @piponazo
 #ifdef NDEBUG
     constexpr int debug = 0;
 #else
@@ -321,44 +271,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "unknown";
 #endif
 
-<<<<<<< HEAD
     constexpr int have_strings_h = 0;
-=======
-    int have_gmtime_r    =0;
-    int have_inttypes    =0;
-    int have_libintl     =0;
-    int have_lensdata    =0;
-    int have_iconv       =0;
-    int have_memory      =0;
-    int have_lstat       =0;
-    int have_regex       =0;
-    int have_regex_h     =0;
-    int have_stdbool     =0;
-    int have_stdint      =0;
-    int have_stdlib      =0;
-    int have_strlib      =0;
-    int have_strerror_r  =0;
-    int have_strings_h   =0;
-    int have_mmap        =0;
-    int have_munmap      =0;
-    int have_sys_stat    =0;
-    int have_unistd_h    =0;
-    int have_sys_mman    =0;
-    int have_libz        =0;
-    int have_xmptoolkit  =0;
-    int adobe_xmpsdk     =0;
-    int have_bool        =0;
-    int have_strings     =0;
-    int have_sys_types   =0;
-    int have_unistd      =0;
-    int have_unicode_path=0;
-
-    int enable_video     =0;
-    int enable_webready  =0;
-    int enable_nls       =0;
-    int use_curl         =0;
-    int use_ssh          =0;
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
 
 #ifdef EXV_HAVE_GMTIME_R
     constexpr int have_gmtime_r = 1;
@@ -385,33 +298,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 #endif
 
 #ifdef EXV_HAVE_LSTAT
-<<<<<<< HEAD
     constexpr int have_lstat = 1;
 #else
     constexpr int have_lstat = 0;
-=======
-    have_lstat=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX
-    have_regex=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX_H
-    have_regex_h=1;
-#endif
-
-#ifdef EXV_HAVE_STDBOOL_H
-    have_stdbool=1;
-#endif
-
-#ifdef EXV_HAVE_STDINT_H
-    have_stdint=1;
-#endif
-
-#ifdef EXV_HAVE_STDLIB_H
-    have_stdlib=1;
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
 #endif
 
 #ifdef EXV_HAVE_STRERROR_R
@@ -481,97 +370,30 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 #endif
 
 #ifdef EXV_USE_CURL
-<<<<<<< HEAD
     constexpr int use_curl = 1;
 #else
     constexpr int use_curl = 0;
 #endif
-=======
-    use_curl=1;
-#endif
 
 #ifdef EXV_USE_SSH
-     use_ssh=1;
-#endif
-
-<<<<<<< HEAD
-#define PUSH_PATH(path,libs,paths)  \
-    if ( Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ) { \
-        paths.insert(path);        \
-        libs.push_back(path);      \
-    }
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
-
-    Exiv2::StringSet paths;
-#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
-    // enumerate loaded libraries and determine path to executable
-    HMODULE handles[200];
-    DWORD   cbNeeded;
-    if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
-        char szFilename[_MAX_PATH];
-        for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
-            GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-            std::string path(szFilename);
-            PUSH_PATH(path,libs,paths);
-        }
-    }
-#elif defined(__APPLE__)
-    // man 3 dyld
-    uint32_t count = _dyld_image_count();
-    for (uint32_t image = 0 ; image < count ; image++ ) {
-        std::string path(_dyld_get_image_name(image));
-        PUSH_PATH(path,libs,paths);
-    }
-#elif defined(__FreeBSD__)
-    unsigned int n;
-    struct procstat*      procstat = procstat_open_sysctl();
-    struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
-    struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
-    if ( files ) {
-        filestat* entry;
-        STAILQ_FOREACH(entry, files, next) {
-            std::string path(entry->fs_path);
-            PUSH_PATH(path,libs,paths);
-        }
-    }
-<<<<<<< HEAD
-
-    // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-    struct lmap*      pl;
-    void*             ph = dlopen(nullptr, RTLD_NOW);
-    struct something* p  = (struct something*) ph;
-
-    p  = p->ptr;
-    pl = (struct lmap*)p->ptr;
-
-    while ( pl )
-    {
-        libs.push_back(pl->path);
-        pl = pl->next;
-=======
-    // free resources
-    if ( files    ) procstat_freefiles(procstat, files);
-    if ( procs    ) procstat_freeprocs(procstat, procs);
-    if ( procstat ) procstat_close    (procstat);
-
-#elif defined(__unix__)
-    // read file /proc/self/maps which has a list of files in memory
-    std::ifstream maps("/proc/self/maps",std::ifstream::in);
-    std::string   string ;
-    while ( std::getline(maps,string) ) {
-        std::size_t pos = string.find_last_of(' ');
-        if ( pos != std::string::npos ) {
-            std::string path = string.substr(pos+1);
-            PUSH_PATH(path,libs,paths);
-        }
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
-    }
+    constexpr int use_ssh = 1;
 #else
-    UNUSED(paths);
+    constexpr int use_ssh = 0;
 #endif
-=======
+
+#ifdef EXV_HAVE_REGEX
+    constexpr int have_regex = 1;
+#else
+    constexpr int have_regex = 0;
+#endif
+
+#ifdef EXV_HAVE_REGEX_H
+    constexpr int have_regex_h = 1;
+#else
+    constexpr int have_regex_h = 0;
+#endif
+
     Exiv2::StringVector libs =getLoadedLibraries();
->>>>>>> 955962eaa... Code revisions after review by @piponazo
 
     output(os,keys,"exiv2",Exiv2::versionString());
     output(os,keys,"platform"       , platform   );
@@ -612,16 +434,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_lstat"        ,have_lstat       );
-<<<<<<< HEAD
-=======
     output(os,keys,"have_regex"        ,have_regex       );
     output(os,keys,"have_regex_h"      ,have_regex_h     );
-    output(os,keys,"have_stdbool"      ,have_stdbool     );
-    output(os,keys,"have_stdint"       ,have_stdint      );
-    output(os,keys,"have_stdlib"       ,have_stdlib      );
-    output(os,keys,"have_strlib"       ,have_strlib      );
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
-    output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_strings_h"    ,have_strings_h   );
     output(os,keys,"have_mmap"         ,have_mmap        );
     output(os,keys,"have_munmap"       ,have_munmap      );
@@ -634,10 +448,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
-<<<<<<< HEAD
-=======
     output(os,keys,"use_ssh"           ,use_ssh          );
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
@@ -659,13 +470,4 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         output(os,keys,name,xmlns+":"+uri);
     }
 #endif
-<<<<<<< HEAD
-
-#if defined(__linux__)
-    dlclose(ph);
-    ph=nullptr;
-#endif
-
-=======
->>>>>>> b0a9cb562... NetBSD/FreeBSD Support
 }
