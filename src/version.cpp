@@ -381,18 +381,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int use_ssh = 0;
 #endif
 
-#ifdef EXV_HAVE_REGEX
-    constexpr int have_regex = 1;
-#else
-    constexpr int have_regex = 0;
-#endif
-
-#ifdef EXV_HAVE_REGEX_H
-    constexpr int have_regex_h = 1;
-#else
-    constexpr int have_regex_h = 0;
-#endif
-
     Exiv2::StringVector libs =getLoadedLibraries();
 
     output(os,keys,"exiv2",Exiv2::versionString());
@@ -434,8 +422,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_lstat"        ,have_lstat       );
-    output(os,keys,"have_regex"        ,have_regex       );
-    output(os,keys,"have_regex_h"      ,have_regex_h     );
     output(os,keys,"have_strings_h"    ,have_strings_h   );
     output(os,keys,"have_mmap"         ,have_mmap        );
     output(os,keys,"have_munmap"       ,have_munmap      );
