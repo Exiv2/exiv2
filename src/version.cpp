@@ -308,7 +308,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"curl"          , use_curl);
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
+        for ( std::vector<std::string>::iterator lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
             output(os,keys,"library",*lib);
     }
 
