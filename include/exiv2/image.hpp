@@ -61,10 +61,11 @@ namespace Exiv2
     /// @brief Interface for an image. This is the top-level interface to the Exiv2 library.
     ///
     /// Image has containers to store image metadata and subclasses implement read and save metadata from and to
-    /// specific image formats.<BR>
+    /// specific image formats.
+    ///
     /// Most clients will obtain an Image instance by calling a static ImageFactory method. The Image class can
     /// then be used to to read, write, and save metadata.
-    /// @note set/clear methods will not modify the image until writeMetadata() method is called.
+    /// @note set/clear methods will not modify the image until the writeMetadata() method is called.
     class EXIV2API Image
     {
     public:
@@ -74,8 +75,8 @@ namespace Exiv2
         //! @name Creators
         //@{
 
-        /// Constructor taking the image type, a bitmap of the supported metadata types and an auto-pointer that owns
-        /// an IO instance. See subclass constructor doc.
+        /// Constructor taking the image type, a bitmap of the supported metadata types and a smart pointer that owns
+        /// an IO instance. See the subclasses' constructor documentation.
         Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io);
         virtual ~Image();
         //@}
@@ -85,19 +86,19 @@ namespace Exiv2
 
         /// @brief Print out the structure of image file.
         /// @throw Error if reading of the file fails or the image data is not valid (does not look like data of the
-        /// specific image type).
+        ///     specific image type).
         /// @warning This function is not thread safe and intended for exiv2 -pS for debugging.
         /// @warning You may need to put the stream into binary mode (see src/actions.cpp)
         virtual void printStructure(std::ostream& out, PrintStructureOption option = kpsNone, int depth = 0);
 
         /// @brief Read all metadata supported by a specific image format from the image. Before this method is called,
-        /// the image metadata will be cleared.
+        ///     the image metadata will be cleared.
         ///
         /// This method returns success even if no metadata is found in the image. Callers must therefore check the
         /// size of individual metadata types before accessing the data.
         ///
-        /// @throw Error if opening or reading of the file fails or the image data is not valid (does not look like
-        /// data of the specific image type).
+        /// @throw Error if opening or reading the file fails or the image data is not valid (does not look like
+        ///     data of the specific image type).
         virtual void readMetadata() = 0;
 
         /// @brief Write metadata back to the image.
@@ -200,7 +201,7 @@ namespace Exiv2
 
         /// @brief Print out the structure of image file.
         /// @throw Error if reading of the file fails or the image data is not valid (does not look like data of the
-        /// specific image type).
+        ///     specific image type).
         void printTiffStructure(BasicIo& io, std::ostream& out, PrintStructureOption option, int depth,
                                 size_t offset = 0);
 
@@ -208,10 +209,10 @@ namespace Exiv2
         void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint32_t start,
                                bool bSwap, char c, int depth);
 
-        /// @brief is the host platform bigEndian
+        /// @brief Is the host platform big Endian?
         bool isBigEndianPlatform();
 
-        /// @brief is the host platform littleEndian
+        /// @brief Is the host platform little Endian?
         bool isLittleEndianPlatform();
 
         bool isStringType(uint16_t type);
@@ -252,7 +253,7 @@ namespace Exiv2
         virtual int pixelHeight() const;
 
         /// @brief Return the byte order in which the Exif metadata of the image is encoded. Initially, it is not set
-        /// (\em invalidByteOrder).
+        ///     (\em invalidByteOrder).
         ByteOrder byteOrder() const;
 
         /// @brief Check if the Image instance is valid. Use after object construction.
@@ -264,10 +265,10 @@ namespace Exiv2
         /// The contained Exif data may have been read from the image by a previous call to readMetadata() or added
         /// directly. The Exif data in the returned instance will be written to the image when writeMetadata() is
         /// called.
-        /// @return modifiable ExifData instance containing Exif values
+        /// @return mutable ExifData instance containing Exif values
         ExifData& exifData();
 
-        /// @brief const version from previous method.
+        /// @return immutable ExifData instance containing buffered Exif data
         const ExifData& exifData() const;
 
         /// @brief Returns an IptcData instance containing currently buffered IPTC data.
@@ -284,10 +285,10 @@ namespace Exiv2
         ///
         /// The contained XMP data may have been read from the image by a previous call to readMetadata() or added
         /// directly. The XMP data in the returned instance will be written to the image when writeMetadata() is called.
-        /// @return modifiable XmpData instance containing XMP values
+        /// @return mutable XmpData instance containing XMP values
         XmpData& xmpData();
 
-        /// @brief const version from previous method.
+        /// @return immutable XmpData instance containing buffered XMP data
         const XmpData& xmpData() const;
 
         /// @brief Return a copy of the image comment. May be an empty string.
@@ -313,19 +314,19 @@ namespace Exiv2
         BasicIo& io() const;
 
         /// @brief Returns the access mode, i.e., the metadata functions, which this image supports for the metadata
-        /// type \em metadataId.
+        ///     type \em metadataId.
         /// @param metadataId The metadata identifier.
         /// @return Access mode for the requested image type and metadata identifier.
         AccessMode checkMode(MetadataId metadataId) const;
 
         /// @brief Check if image supports a particular type of metadata. This method is deprecated. Use checkMode()
-        /// instead.
+        ///     instead.
         bool supportsMetadata(MetadataId metadataId) const;
 
-        /// Return the flag indicating the source when writing XMP metadata.
+        /// @return the flag indicating the source when writing XMP metadata.
         bool writeXmpFromPacket() const;
 
-        /// Return list of native previews. This is meant to be used only by the PreviewManager.
+        /// @return list of native previews. This is meant to be used only by the PreviewManager.
         const NativePreviewList& nativePreviews() const;
         //@}
 
@@ -336,7 +337,7 @@ namespace Exiv2
             supportedMetadata_ = supportedMetadata;
         }
 
-        /// set type support for this image format
+        /// get the type support for this image format
         ImageType imageType() const
         {
             return imageType_;
@@ -377,7 +378,7 @@ namespace Exiv2
         std::map<int, std::string> tags_;  //!< Map of tags
         bool init_;                        //!< Flag marking if map of tags needs to be initialized
 
-    };  // class Image
+    };
 
     //! Type for function pointer that creates new Image instances
     typedef Image::UniquePtr (*NewInstanceFct)(BasicIo::UniquePtr io, bool create);
@@ -390,21 +391,21 @@ namespace Exiv2
         friend bool Image::good() const;
 
     public:
-        /// @brief Create the appropriate class type implemented BasicIo based on the protocol of the input.
+        /// @brief Create an appropriate BasicIo instance based on the protocol of the input.
         ///
-        /// "-" path implies the data from stdin and it is handled by StdinIo. Http path can be handled by either
-        /// HttpIo or CurlIo. Https, ftp paths are handled by CurlIo. Ssh, sftp paths are handled by SshIo. Others
+        /// Http paths can be handled by either
+        /// HttpIo or CurlIo. Https, ftp paths are handled by CurlIo. All others
         /// are handled by FileIo.
         /// @param path %Image file.
         /// @param useCurl Indicate whether the libcurl is used or not. If it's true, http is handled by CurlIo.
-        /// Otherwise it is handled by HttpIo.
-        /// @return An auto-pointer that owns an BasicIo instance.
+        ///     Otherwise it is handled by HttpIo.
+        /// @return A smart-pointer that owns an BasicIo instance.
         /// @throw Error If the file is not found or it is unable to connect to the server to read the remote file.
         static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
 
 #ifdef EXV_UNICODE_PATH
         /// @brief Like createIo() but accepts a unicode path in an std::wstring.
-        ///  @note This function is only available on Windows.
+        /// @note This function is only available on Windows.
         static BasicIo::UniquePtr createIo(const std::wstring& wpath, bool useCurl = true);
 
         /// @brief Like open() but accepts a unicode path in an std::wstring.
@@ -412,35 +413,33 @@ namespace Exiv2
         static Image::UniquePtr open(const std::wstring& wpath, bool useCurl = true);
 #endif
         /// @brief Create an Image subclass of the appropriate type by reading the specified file. %Image type is
-        /// derived from the file contents.
-        /// @param  path Image file. The contents of the file are tested to determine the image type. File extension
-        /// is ignored.
+        ///     derived from the file contents.
+        /// @param  path Image file. The contents of the file are tested to determine the image type. The file extension
+        ///     is ignored.
         /// @param useCurl Indicate whether the libcurl is used or not. If it's true, http is handled by CurlIo.
-        /// Otherwise it is handled by HttpIo.
-        /// @return An auto-pointer that owns an Image instance whose type matches that of the file.
+        ///     Otherwise it is handled by HttpIo.
+        /// @return A smart-pointer that owns an Image instance whose type matches that of the file.
         /// @throw Error If opening the file fails or it contains data of an unknown image type.
         static Image::UniquePtr open(const std::string& path, bool useCurl = true);
 
-        /// @brief Create an Image subclass of the appropriate type by reading the provided memory. Image type is
-        /// derived from the memory contents.
+        /// @brief Create an Image subclass of the appropriate type by reading the provided memory. The image type is
+        ///     derived from the memory contents.
         /// @param data Pointer to a data buffer containing an image. The contents of the memory are tested to
         /// determine the image type.
         /// @param size Number of bytes pointed to by \em data.
-        /// @return An auto-pointer that owns an Image instance whose type matches that of the data buffer.
+        /// @return A smart-pointer that owns an Image instance whose type matches that of the data buffer.
         /// @throw Error If the memory contains data of an unknown image type.
         static Image::UniquePtr open(const byte* data, long size);
 
-        /// @brief Create an Image subclass of the appropriate type by reading the provided BasicIo instance.
+        /// @brief Create an Image subclass of the appropriate type by reading from the provided BasicIo instance.
         ///
-        /// Image type is derived from the data provided by \em io. The passed in \em io instance is (re)opened by this
+        /// The Image type is derived from the data provided by \em io. The passed in \em io instance is (re)opened by this
         /// method.
-        /// @param io An auto-pointer that owns a BasicIo instance that provides image data. The contents of the image
+        /// @param io A smart-pointer that owns a BasicIo instance that provides the image data. The contents of the image
         /// data are tested to determine the type.
-        /// @note This method takes ownership of the passed in BasicIo instance through the auto-pointer. Callers
-        /// should not continue to use the BasicIo instance after it is passed to this method. Use the Image::io()
-        /// method to get a temporary reference.
+        /// @note Use the Image::io() method to get a temporary reference to the BasicIo instance passed to this method.
         /// @return An auto-pointer that owns an Image instance whose type matches that of the \em io data. If no
-        /// image type could be determined, the pointer is 0.
+        ///     image type could be determined, the pointer is a nullptr.
         ///  @throw Error If opening the BasicIo fails
         static Image::UniquePtr open(BasicIo::UniquePtr io);
 
@@ -466,17 +465,15 @@ namespace Exiv2
         /// @brief Create an Image subclass of the requested type by writing a new image to a BasicIo instance.
         /// If the BasicIo instance already contains data, it will be overwritten.
         /// @param type Type of the image to be created.
-        /// @param io An auto-pointer that owns a BasicIo instance that will be written to when creating a new image.
-        /// @note This method takes ownership of the passed in BasicIo instance through the auto-pointer. Callers
-        /// should not continue to use the BasicIo instance after it is passed to this method.  Use the Image::io()
-        /// method to get a temporary reference.
-        /// @return An auto-pointer that owns an Image instance of the requested type. If the image type is not
-        /// supported, the pointer is 0.
+        /// @param io A smart-pointer that owns a BasicIo instance that will be written to when creating a new image.
+        /// @note Use the Image::io() method to get a temporary reference to the BasicIo instance passed to this method.
+        /// @return A smart-pointer that owns an Image instance of the requested type. If the image type is not
+        ///     supported, the pointer is null.
         static Image::UniquePtr create(ImageType type, BasicIo::UniquePtr io);
 
         /// @brief Returns the image type of the provided file.
         /// @param path %Image file. The contents of the file are tested to determine the image type.
-        /// File extension is ignored.
+        ///     The file extension is ignored.
         /// @return %Image type or Image::none if the type is not recognized.
         static ImageType getType(const std::string& path);
 
@@ -488,15 +485,15 @@ namespace Exiv2
 
         /// @brief Returns the image type of the provided data buffer.
         /// @param data Pointer to a data buffer containing an image. The contents of the memory are tested to
-        /// determine the image type.
+        ///     determine the image type.
         /// @param size Number of bytes pointed to by \em data.
         /// @return %Image type or Image::none if the type is not recognized.
         static ImageType getType(const byte* data, long size);
 
         /// @brief Returns the image type of data provided by a BasicIo instance. The passed in \em io instance is
-        /// (re)opened by this method.
-        /// @param io A BasicIo instance that provides image data. The contents of the image data are tested to
-        /// determine the type.
+        ///     (re)opened by this method.
+        /// @param io A BasicIo instance that provides the image data. The contents of the image data are tested to
+        ///     determine the type.
         /// @return %Image type or Image::none if the type is not recognized.
         static ImageType getType(BasicIo& io);
 
@@ -507,9 +504,9 @@ namespace Exiv2
         /// @throw Error(kerUnsupportedImageType) if the image type is not supported.
         static AccessMode checkMode(ImageType type, MetadataId metadataId);
 
-        /// @brief Determine if the content of \em io is an image of \em type.
+        /// @brief Check if the contents of \em io is an image of the given \em type.
         ///
-        ///  The \em advance flag determines if the read position in the stream is moved (see below). This applies
+        /// The \em advance flag determines if the read position in the stream is moved (see below). This applies
         /// only if the type matches and the function returns true. If the type does not match, the stream position is
         /// not changed. However, if reading from the stream fails, the stream position is undefined. Consult the
         /// stream state to obtain more information in this case.
@@ -517,8 +514,8 @@ namespace Exiv2
         /// @param type Type of the image.
         /// @param io BasicIo instance to read from.
         /// @param advance Flag indicating whether the position of the io should be advanced by the number of
-        /// characters read to analyse the data (true) or left at its original position (false). This applies only
-        /// if the type matches.
+        ///     characters read to analyze the data (true) or left at its original position (false). This applies only
+        ///     if the type matches.
         /// @return  true  if the data matches the type of this class;<BR> false if the data does not match
         static bool checkType(ImageType type, BasicIo& io, bool advance);
 
@@ -526,8 +523,6 @@ namespace Exiv2
         ImageFactory(const ImageFactory& rhs) = delete;
     };  // class ImageFactory
 
-    // *****************************************************************************
-    // template, inline and free functions
 
     //! Append \em len bytes pointed to by \em buf to \em blob.
     EXIV2API void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);

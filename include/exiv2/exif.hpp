@@ -56,7 +56,7 @@ namespace Exiv2
     public:
         //! @name Creators
         //@{
-        /// @brief Constructor for new tags created by an application. The %Exifdatum is created from a \em key / value
+        /// Constructor for new tags created by an application. The %Exifdatum is created from a \em key / value
         /// pair. %Exifdatum copies (clones) the \em key and value if one is provided. Alternatively, a program can
         /// create an 'empty' %Exifdatum with only a key and set the value using setValue().
         /// @param key %ExifKey.
