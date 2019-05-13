@@ -17,26 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      version.cpp
- */
-
 // *****************************************************************************
 
 #include "config.h"
 
 #ifdef EXV_USE_CURL
 #include <curl/curl.h>
-#endif
-
-#if defined(__CYGWIN__) || defined(__MINGW__)
-#include <windows.h>
-# if __LP64__
-#  ifdef  _WIN64
-#   undef _WIN64
-#  endif
-#  define _WIN64 1
-# endif
 #endif
 
 #include "http.hpp"
@@ -55,6 +41,7 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 // #1147
 #ifndef WIN32
@@ -62,61 +49,19 @@
 #include <sys/types.h>
 #endif
 
-namespace Exiv2 {
-    std::string versionString()
-    {
-        std::ostringstream os;
-        os << EXIV2_MAJOR_VERSION << '.' << EXIV2_MINOR_VERSION << '.' << EXIV2_PATCH_VERSION;
-        return os.str();
+std::string Exiv2::versionString()
+{
+    std::ostringstream os;
+    os << EXIV2_MAJOR_VERSION << '.' << EXIV2_MINOR_VERSION << '.' << EXIV2_PATCH_VERSION;
+    return os.str();
+}
 
-    }
-
-    std::string versionNumberHexString()
-    {
-        std::ostringstream os;
-        os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
-        return os.str();
-    }
-
-}                                       // namespace Exiv2
-
-#ifndef lengthof
-#define lengthof(x) sizeof(x)/sizeof(x[0])
-#endif
-#ifndef _MAX_PATH
-#define _MAX_PATH 512
-#endif
-
-// platform specific support for dumpLibraryInfo
-#if defined(WIN32)
-# include <windows.h>
-# include <psapi.h>
-
-// tell MSVC to link psapi.
-#ifdef  _MSC_VER
-#pragma comment( lib, "psapi" )
-#endif
-
-#elif defined(__APPLE__)
-# include <mach-o/dyld.h>
-
-#elif defined(__linux__)
-# include <unistd.h>
-// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-# include <dlfcn.h>
-  struct something
-  {
-    void*  pointers[3];
-    struct something* ptr;
-  };
-  struct lmap
-  {
-    void*    base_address;   /* Base address of the shared object */
-    char*    path;           /* Absolute file name (path) of the shared object */
-    void*    not_needed1;    /* Pointer to the dynamic section of the shared object */
-    struct lmap *next, *prev;/* chain of loaded objects */
-  };
-#endif
+std::string Exiv2::versionNumberHexString()
+{
+    std::ostringstream os;
+    os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
+    return os.str();
+}
 
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
@@ -148,8 +93,6 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
 
 void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
-    Exiv2::StringVector libs; // libs[0] == executable
-
     constexpr int bits = 8 * sizeof(void*);
 #ifdef NDEBUG
     constexpr int debug = 0;
@@ -173,6 +116,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     sprintf(version, "14.00 (2015/%s)", bits == 64 ? "x64" : "x86");
 #elif _MSC_VER >= 1910 && _MSC_VER < 1920
     sprintf(version, "14.%02d (2017/%s)", _MSC_VER % 100, bits == 64 ? "x64" : "x86");
+#elif _MSC_VER >= 1920
+    sprintf(version, "14.%02d (2019/%s)", _MSC_VER % 100, bits == 64 ? "x64" : "x86");
 #else
     version[0] = '\0';
 #endif
@@ -218,6 +163,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "mingw64";
 #elif defined(__MINGW32__)
     "mingw32";
+#elif defined(__FreeBSD__)
+    "freebsd";
+#elif defined(__NetBSD__)
+    "netbsd";
 #elif defined(__linux__)
     "linux";
 #else
@@ -328,51 +277,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int use_curl = 0;
 #endif
 
-#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
-    // enumerate loaded libraries and determine path to executable
-    HMODULE handles[200];
-    DWORD   cbNeeded;
-    if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
-        char szFilename[_MAX_PATH];
-        for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
-            GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-            libs.push_back(szFilename);
-        }
-    }
-#elif defined(__APPLE__)
-    // man 3 dyld
-    uint32_t count = _dyld_image_count();
-    for (uint32_t image = 0 ; image < count ; image++ ) {
-        const char* image_path = _dyld_get_image_name(image);
-        libs.push_back(image_path);
-    }
-#elif defined(__linux__)
-    // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-    char proc[100];
-    char path[500];
-    sprintf(proc,"/proc/%d/exe", getpid());
-    int l = readlink (proc, path,sizeof(path)-1);
-    if (l>0) {
-        path[l]=0;
-        libs.push_back(path);
-    } else {
-        libs.push_back("unknown");
-    }
+    std::vector<std::string> libs =Exiv2::getLoadedLibraries(); // libs[0] == executable
 
-    // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-    struct lmap*      pl;
-    void*             ph = dlopen(nullptr, RTLD_NOW);
-    struct something* p  = (struct something*) ph;
-
-    p  = p->ptr;
-    pl = (struct lmap*)p->ptr;
-
-    while ( pl )
-    {
-        libs.push_back(pl->path);
-        pl = pl->next;
-    }
-#endif
     output(os,keys,"exiv2",Exiv2::versionString());
     output(os,keys,"platform"       , platform   );
     output(os,keys,"compiler"       , compiler   );
