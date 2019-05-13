@@ -281,7 +281,7 @@ namespace Exiv2 {
         if (size < 4)
             throw Error(kerCorruptedMetadata);
         uint32_t o = getULong(pData + size - 4, byteOrder);
-        if ( o+2 > size )
+        if ( o > size-2 )
             throw Error(kerCorruptedMetadata);
         uint16_t count = getUShort(pData + o, byteOrder);
 #ifdef DEBUG
@@ -289,7 +289,7 @@ namespace Exiv2 {
                   <<", " << count << " entries \n";
 #endif
         o += 2;
-        if ( (o + (count * 10)) > size )
+        if ( static_cast<uint32_t>(count) * 10 > size-o )
             throw Error(kerCorruptedMetadata);
 
         for (uint16_t i = 0; i < count; ++i) {
