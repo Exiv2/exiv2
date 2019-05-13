@@ -33,7 +33,6 @@
 #include <cstring>
 #include <algorithm>
 #include <stdexcept>
-#include <vector>
 #include <set>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>                     // for stat()

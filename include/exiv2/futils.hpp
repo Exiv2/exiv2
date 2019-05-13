@@ -30,6 +30,7 @@
 #include "exiv2lib_export.h"
 #include "config.h"
 
+#include <vector>
 #include <string>
 
 // namespace extensions
