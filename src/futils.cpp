@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include "futils.hpp"
-#include "datasets.hpp"
 #include "enforce.hpp"
 
 // + standard includes
@@ -34,33 +33,35 @@
 #include <cstring>
 #include <algorithm>
 #include <stdexcept>
+#include <set>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>                     // for stat()
 #endif
 
-#if defined(WIN32)
-#include <windows.h>
-#include <psapi.h>  // For access to GetModuleFileNameEx
-#endif
-
 #if defined(_MSC_VER)
 #define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+#endif
+
+// platform specific support for getLoadedLibraries
+#if defined(__CYGWIN__) || defined(__MINGW__) || defined(WIN32)
+# include <windows.h>
+# include <psapi.h>   // For access to GetModuleFileNameEx
+# if __LP64__
+#  ifdef  _WIN64
+#   undef _WIN64
+#  endif
+#  define _WIN64 1
+# endif
 #elif defined(__APPLE__)
-#include <libproc.h>
+# include <mach-o/dyld.h>
+# include <libproc.h>
+#elif defined(__FreeBSD__)
+# include <sys/param.h>
+# include <sys/queue.h>
+# include <sys/socket.h>
+# include <sys/sysctl.h>
+# include <libprocstat.h>
 #endif
-
-#if defined(__FreeBSD__)
-#include <sys/mount.h>
-#include <sys/param.h>
-#include <sys/queue.h>
-#include <sys/socket.h>
-#include <sys/sysctl.h>
-#include <sys/types.h>
-#include <sys/un.h>
-#include <unistd.h>
-#include <libprocstat.h>
-#endif
-
 
 namespace Exiv2 {
     const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
@@ -478,22 +479,12 @@ namespace Exiv2 {
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
-    #elif defined(__FreeBSD__)
-        unsigned int       n;
-        char               buffer[PATH_MAX] = {};
-        struct procstat*   procstat = procstat_open_sysctl();
-        struct kinfo_proc* procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
-        if ( procs ) {
-            procstat_getpathname(procstat, procs, buffer, PATH_MAX);
-            ret = std::string(buffer);
-        }
-        // release resources
-        if ( procs    ) procstat_freeprocs(procstat, procs);
-        if ( procstat ) procstat_close(procstat);
-    #elif defined(__unix__)
+    #elif defined(__linux__) || defined(__CYGWIN__) || defined(__MSYS__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
+        char proc[100];
         char path[500];
-        ssize_t l = readlink ("/proc/self/exe", path,sizeof(path)-1);
+        sprintf(proc,"/proc/%d/exe", getpid());
+        ssize_t l = readlink (proc, path,sizeof(path)-1);
         if (l>0) {
             path[l]=0;
             ret = path;
@@ -502,5 +493,72 @@ namespace Exiv2 {
 
         const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_STR);
         return ret.substr(0, idxLastSeparator);
+    }
+
+    static bool pushPath(std::string& path,std::vector<std::string>& libs,std::set<std::string> & paths)
+    {
+        bool result = Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ;
+        if ( result ) {
+            paths.insert(path);
+            libs.push_back(path);
+        }
+        return result ;
+    }
+
+    std::vector<std::string> getLoadedLibraries()
+    {
+        std::vector<std::string>  libs ;
+        std::set<std::string>     paths;
+        std::string               path ;
+
+    #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+        // enumerate loaded libraries and determine path to executable
+        HMODULE handles[200];
+        DWORD   cbNeeded;
+        if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
+            char szFilename[_MAX_PATH];
+            for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
+                GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
+                std::string path(szFilename);
+                pushPath(path,libs,paths);
+            }
+        }
+    #elif defined(__APPLE__)
+        // man 3 dyld
+        uint32_t count = _dyld_image_count();
+        for (uint32_t image = 0 ; image < count ; image++ ) {
+            std::string path(_dyld_get_image_name(image));
+            pushPath(path,libs,paths);
+        }
+    #elif defined(__FreeBSD__)
+        unsigned int n;
+        struct procstat*      procstat = procstat_open_sysctl();
+        struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+        struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
+        if ( files ) {
+            filestat* entry;
+            STAILQ_FOREACH(entry, files, next) {
+                std::string path(entry->fs_path);
+                pushPath(path,libs,paths);
+            }
+        }
+        // free resources
+        if ( files    ) procstat_freefiles(procstat, files);
+        if ( procs    ) procstat_freeprocs(procstat, procs);
+        if ( procstat ) procstat_close    (procstat);
+
+    #elif defined(__unix__)
+        // read file /proc/self/maps which has a list of files in memory
+        std::ifstream maps("/proc/self/maps",std::ifstream::in);
+        std::string   string ;
+        while ( std::getline(maps,string) ) {
+            std::size_t pos = string.find_last_of(' ');
+            if ( pos != std::string::npos ) {
+                std::string path = string.substr(pos+1);
+                pushPath(path,libs,paths);
+            }
+        }
+    #endif
+        return libs;
     }
 }                                       // namespace Exiv2
