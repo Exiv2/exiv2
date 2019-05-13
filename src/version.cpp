@@ -41,7 +41,6 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
-#include <fstream>
 
 // #1147
 #ifndef WIN32
@@ -352,10 +351,4 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         output(os,keys,name,xmlns+":"+uri);
     }
 #endif
-
-#if defined(__linux__)
-    dlclose(ph);
-    ph=nullptr;
-#endif
-
 }

@@ -34,6 +34,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <set>
+#include <fstream>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>                     // for stat()
 #endif
