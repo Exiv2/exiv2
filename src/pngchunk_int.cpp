@@ -668,8 +668,7 @@ namespace Exiv2 {
         }
 
         long length = (long) atol(startOfLength);
-        enforce(length >= 0, Exiv2::kerCorruptedMetadata);
-        enforce(length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
+        enforce(0 <= length && length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
 
         // Allocate space
         if (length == 0)
