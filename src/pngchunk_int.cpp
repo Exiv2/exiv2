@@ -78,24 +78,25 @@ namespace Exiv2
 
             enforce(h.colorType == 0 || h.colorType == 2 || h.colorType == 3 || h.colorType == 4 || h.colorType == 6,
                     kerCorruptedMetadata);
-            switch(h.colorType)
-            {
-            case 0:
-                enforce(h.bitDepth == 1 || h.bitDepth == 2 || h.bitDepth == 4 || h.bitDepth == 8 || h.bitDepth == 16,
+            switch (h.colorType) {
+                case 0:
+                    enforce(
+                        h.bitDepth == 1 || h.bitDepth == 2 || h.bitDepth == 4 || h.bitDepth == 8 || h.bitDepth == 16,
                         kerCorruptedMetadata);
-                break;
-            case 2:
-                enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
-                break;
-            case 3:
-                enforce(h.bitDepth == 1 || h.bitDepth == 2 || h.bitDepth == 4 || h.bitDepth == 8, kerCorruptedMetadata);
-                break;
-            case 4:
-                enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
-                break;
-            case 6:
-                enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
-                break;
+                    break;
+                case 2:
+                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
+                    break;
+                case 3:
+                    enforce(h.bitDepth == 1 || h.bitDepth == 2 || h.bitDepth == 4 || h.bitDepth == 8,
+                            kerCorruptedMetadata);
+                    break;
+                case 4:
+                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
+                    break;
+                case 6:
+                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
+                    break;
             }
             enforce(h.compressionMethod == 0, kerCorruptedMetadata);
             enforce(h.filterMethod == 0, kerCorruptedMetadata);
@@ -581,49 +582,44 @@ namespace Exiv2
             const char* sp = (char*)text.pData_ + 1;            // current byte (space pointer)
             const char* eot = (char*)text.pData_ + text.size_;  // end of text
 
-        if (sp >= eot) {
-            return DataBuf();
-        }
-
-        // Look for newline
-        while (*sp != '\n')
-        {
-            sp++;
-            if ( sp == eot )
-            {
-                return DataBuf();
-            }
-        }
-        sp++ ; // step over '\n'
-        if (sp == eot) {
-            return DataBuf();
-        }
-
-        // Look for length
-        while (*sp == '\0' || *sp == ' ' || *sp == '\n')
-        {
-            sp++;
-            if (sp == eot )
-            {
+            if (sp >= eot) {
                 return DataBuf();
             }
 
-        const char* startOfLength = sp;
-        while ('0' <= *sp && *sp <= '9')
-        {
-            sp++;
-            if (sp == eot )
-            {
+            // Look for newline
+            while (*sp != '\n') {
+                sp++;
+                if (sp == eot) {
+                    return DataBuf();
+                }
+            }
+            sp++;  // step over '\n'
+            if (sp == eot) {
                 return DataBuf();
             }
-        }
-        sp++ ; // step over '\n'
-        if (sp == eot) {
-            return DataBuf();
-        }
 
-        long length = (long) atol(startOfLength);
-        enforce(0 <= length && length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
+            // Look for length
+            while (*sp == '\0' || *sp == ' ' || *sp == '\n') {
+                sp++;
+                if (sp == eot) {
+                    return DataBuf();
+                }
+            }
+
+            const char* startOfLength = sp;
+            while ('0' <= *sp && *sp <= '9') {
+                sp++;
+                if (sp == eot) {
+                    return DataBuf();
+                }
+            }
+            sp++;  // step over '\n'
+            if (sp == eot) {
+                return DataBuf();
+            }
+
+            long length = (long)atol(startOfLength);
+            enforce(0 <= length && length <= (eot - sp) / 2, Exiv2::kerCorruptedMetadata);
 
             // Allocate space
             if (length == 0) {
@@ -644,13 +640,10 @@ namespace Exiv2
             unsigned char* dp = (unsigned char*)info.pData_;  // decode pointer
             unsigned int nibbles = length * 2;
 
-        for (long i = 0; i < (long) nibbles; i++)
-        {
-            enforce(sp < eot, Exiv2::kerCorruptedMetadata);
-            while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f')
-            {
-                if (*sp == '\0')
-                {
+            for (long i = 0; i < (long)nibbles; i++) {
+                enforce(sp < eot, Exiv2::kerCorruptedMetadata);
+                while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
+                    if (*sp == '\0') {
 #ifdef DEBUG
                         std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
 #endif
