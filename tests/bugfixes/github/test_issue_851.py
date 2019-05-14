@@ -19,7 +19,7 @@ class DenialOfServiceInAdjustTimeOverflow(metaclass=CaseMeta):
     filename = path("$data_path/issue_851_poc.xmp")
     commands = ["$exiv2 $filename"]
     stdout = ["""File name       : $filename
-File size       : 324 Bytes
+File size       : 317 Bytes
 MIME type       : application/rdf+xml
 Image size      : 0 x 0
 """

@@ -14,6 +14,7 @@
 #include "MD5.h"
 
 #include <map>
+#include <limits>
 
 #include <time.h>
 #include <string.h>
@@ -368,8 +369,22 @@ GatherInt ( XMP_StringPtr strValue, size_t * _pos, const char * errMsg )
 	size_t	 pos   = *_pos;
 	XMP_Int32 value = 0;
 
+	// Limits for overflow checking. Assuming that the maximum value of XMP_Int32
+	// is 2147483647, then tens_upperbound == 214748364 and ones_upperbound == 7.
+	// Most of the time, we can just check that value < tens_upperbound to confirm
+	// that the calculation won't overflow, which makes the bounds checking more
+	// efficient for the common case.
+	const XMP_Int32 tens_upperbound = std::numeric_limits<XMP_Int32>::max() / 10;
+	const XMP_Int32 ones_upperbound = std::numeric_limits<XMP_Int32>::max() % 10;
+
 	for ( char ch = strValue[pos]; ('0' <= ch) && (ch <= '9'); ++pos, ch = strValue[pos] ) {
-		value = (value * 10) + (ch - '0');
+		const XMP_Int32 digit = ch - '0';
+		if (value >= tens_upperbound) {
+			if (value > tens_upperbound || digit > ones_upperbound) {
+				XMP_Throw ( errMsg, kXMPErr_BadParam );
+			}
+		}
+		value = (value * 10) + digit;
 	}
 
 	if ( pos == *_pos ) XMP_Throw ( errMsg, kXMPErr_BadParam );
