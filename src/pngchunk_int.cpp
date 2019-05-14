@@ -581,23 +581,6 @@ namespace Exiv2
             const char* sp = (char*)text.pData_ + 1;            // current byte (space pointer)
             const char* eot = (char*)text.pData_ + text.size_;  // end of text
 
-<<<<<<< HEAD
-            // Look for newline
-            while (*sp != '\n' && sp < eot) {
-                sp++;
-                if (sp == eot) {
-                    return DataBuf();
-                }
-            }
-            sp++;  // step over '\n'
-
-            // Look for length
-            while ((*sp == '\0' || *sp == ' ' || *sp == '\n') && sp < eot) {
-                sp++;
-                if (sp == eot) {
-                    return DataBuf();
-                }
-=======
         if (sp >= eot) {
             return DataBuf();
         }
@@ -623,21 +606,8 @@ namespace Exiv2
             if (sp == eot )
             {
                 return DataBuf();
->>>>>>> d3e69f6d2... Add bounds check on allocation size.
             }
 
-<<<<<<< HEAD
-            const char* startOfLength = sp;
-            while (('0' <= *sp && *sp <= '9') && sp < eot) {
-                sp++;
-                if (sp == eot) {
-                    return DataBuf();
-                }
-            }
-            sp++;  // step over '\n'
-
-            long length = (long)atol(startOfLength);
-=======
         const char* startOfLength = sp;
         while ('0' <= *sp && *sp <= '9')
         {
@@ -653,9 +623,7 @@ namespace Exiv2
         }
 
         long length = (long) atol(startOfLength);
-        enforce(length >= 0, Exiv2::kerCorruptedMetadata);
-        enforce(length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
->>>>>>> d3e69f6d2... Add bounds check on allocation size.
+        enforce(0 <= length && length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
 
             // Allocate space
             if (length == 0) {
@@ -676,11 +644,6 @@ namespace Exiv2
             unsigned char* dp = (unsigned char*)info.pData_;  // decode pointer
             unsigned int nibbles = length * 2;
 
-<<<<<<< HEAD
-            for (long i = 0; i < (long)nibbles; i++) {
-                while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
-                    if (*sp == '\0') {
-=======
         for (long i = 0; i < (long) nibbles; i++)
         {
             enforce(sp < eot, Exiv2::kerCorruptedMetadata);
@@ -688,7 +651,6 @@ namespace Exiv2
             {
                 if (*sp == '\0')
                 {
->>>>>>> d3e69f6d2... Add bounds check on allocation size.
 #ifdef DEBUG
                         std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
 #endif
@@ -696,17 +658,13 @@ namespace Exiv2
                     }
 
                     sp++;
+                    enforce(sp < eot, Exiv2::kerCorruptedMetadata);
                 }
 
-<<<<<<< HEAD
-                if (i % 2 == 0)
-                    *dp = (unsigned char)(16 * unhex[(int)*sp++]);
+                if (i%2 == 0)
+                    *dp = (unsigned char) (16*unhex[(int) *sp++]);
                 else
-                    (*dp++) += unhex[(int)*sp++];
-=======
-                sp++;
-                enforce(sp < eot, Exiv2::kerCorruptedMetadata);
->>>>>>> d3e69f6d2... Add bounds check on allocation size.
+                    (*dp++) += unhex[(int) *sp++];
             }
 
             return info;
