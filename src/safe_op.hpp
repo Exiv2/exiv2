@@ -253,9 +253,9 @@ bool builtin_add_overflow(T summand_1, T summand_2, T &result) throw() {
   /* builtin_name intrinsic */                                                 \
   template <>                                                                  \
   inline bool builtin_add_overflow<type>(type summand_1, type summand_2,       \
-                                         type & result) throw() {
-return builtin_name(summand_1, summand_2, &result);
-}
+                                         type & result) throw() {              \
+    return builtin_name(summand_1, summand_2, &result);                        \
+  }
 
 SPECIALIZE_builtin_add_overflow(int, __builtin_sadd_overflow);
 SPECIALIZE_builtin_add_overflow(long, __builtin_saddl_overflow);
@@ -301,7 +301,7 @@ SPECIALIZE_builtin_add_overflow_WIN(unsigned long long, ULongLongAdd);
 #endif // _MSC_VER >= 1400
 #endif // defined(_MSC_VER)
 
-} // namespace Safe
+} // namespace Internal
 
 /*!
  * @brief Safe addition, throws an exception on overflow.
