@@ -1300,12 +1300,14 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 
 		++pos;
 		temp = GatherInt ( strValue, &pos, "Invalid month in date string" );	// Extract the month.
+		if ( (temp < 1) || (temp > 12) ) XMP_Throw ( "Month is out of range", kXMPErr_BadParam );
 		if ( (strValue[pos] != 0) && (strValue[pos] != '-') ) XMP_Throw ( "Invalid date string, after month", kXMPErr_BadParam );
 		binValue->month = temp;
 		if ( strValue[pos] == 0 ) return;
 
 		++pos;
 		temp = GatherInt ( strValue, &pos, "Invalid day in date string" );	// Extract the day.
+		if ( (temp < 1) || (temp > 31) ) XMP_Throw ( "Day is out of range", kXMPErr_BadParam );
 		if ( (strValue[pos] != 0) && (strValue[pos] != 'T') ) XMP_Throw ( "Invalid date string, after day", kXMPErr_BadParam );
 		binValue->day = temp;
 		if ( strValue[pos] == 0 ) return;
