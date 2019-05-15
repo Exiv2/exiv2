@@ -806,6 +806,7 @@ namespace {
                 }
                 else {
                     // FIXME: the buffer is probably copied twice, it should be optimized
+                    enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
                     for (int i = 0; i < sizes.count(); i++) {
