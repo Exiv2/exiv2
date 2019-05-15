@@ -31,6 +31,7 @@
 #include "image.hpp"
 #include "pngimage.hpp"
 #include "basicio.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 
@@ -128,13 +129,18 @@ namespace Exiv2 {
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
 
-        long size = 8 + headerSize - io_->tell();
+        enforce(headerSize <= std::numeric_limits<uint32_t>::max() - 8, kerCorruptedMetadata);
+#if LONG_MAX < UINT_MAX
+        enforce(headerSize + 8 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
+                kerCorruptedMetadata);
+#endif
+        long size = static_cast<long>(headerSize) + 8 - io_->tell();
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-        if (size < 0) throw Error(kerInputDataReadFailed);
+        if (size < 0 || static_cast<size_t>(size) > io_->size()) throw Error(kerInputDataReadFailed);
         if (size == 0) return;
 
         DataBuf imgData(size);
