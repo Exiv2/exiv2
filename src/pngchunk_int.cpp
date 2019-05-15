@@ -625,8 +625,12 @@ namespace Exiv2 {
         const char *sp  = (char*) text.pData_+1;          // current byte (space pointer)
         const char *eot = (char*) text.pData_+text.size_; // end of text
 
+        if (sp >= eot) {
+            return DataBuf();
+        }
+
         // Look for newline
-        while (*sp != '\n' && sp < eot )
+        while (*sp != '\n')
         {
             sp++;
             if ( sp == eot )
@@ -635,9 +639,12 @@ namespace Exiv2 {
             }
         }
         sp++ ; // step over '\n'
+        if (sp == eot) {
+            return DataBuf();
+        }
 
         // Look for length
-        while ( (*sp == '\0' || *sp == ' ' || *sp == '\n') && sp < eot )
+        while (*sp == '\0' || *sp == ' ' || *sp == '\n')
         {
             sp++;
             if (sp == eot )
@@ -647,7 +654,7 @@ namespace Exiv2 {
         }
 
         const char* startOfLength = sp;
-        while ( ('0' <= *sp && *sp <= '9') && sp < eot)
+        while ('0' <= *sp && *sp <= '9')
         {
             sp++;
             if (sp == eot )
@@ -656,8 +663,12 @@ namespace Exiv2 {
             }
         }
         sp++ ; // step over '\n'
+        if (sp == eot) {
+            return DataBuf();
+        }
 
         long length = (long) atol(startOfLength);
+        enforce(0 <= length && length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
 
         // Allocate space
         if (length == 0)
@@ -682,6 +693,7 @@ namespace Exiv2 {
 
         for (long i = 0; i < (long) nibbles; i++)
         {
+            enforce(sp < eot, Exiv2::kerCorruptedMetadata);
             while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f')
             {
                 if (*sp == '\0')
@@ -693,6 +705,7 @@ namespace Exiv2 {
                 }
 
                 sp++;
+                enforce(sp < eot, Exiv2::kerCorruptedMetadata);
             }
 
             if (i%2 == 0)
