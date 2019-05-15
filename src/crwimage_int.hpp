@@ -73,7 +73,6 @@ namespace Exiv2 {
 
     //! Type to identify where the data is stored in a directory
     enum DataLocId {
-        invalidDataLocId,
         valueData,
         directoryData,
         lastDataLocId
