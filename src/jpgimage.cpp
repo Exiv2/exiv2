@@ -31,6 +31,7 @@
 #include "futils.hpp"
 #include "helper_functions.hpp"
 #include "enforce.hpp"
+#include "safe_op.hpp"
 
 #ifdef WIN32
 #include <windows.h>
@@ -458,6 +459,10 @@ namespace Exiv2 {
                 --search;
             }
             else if ( marker == app2_ && memcmp(buf.pData_ + 2, iccId_,11)==0) {
+                if (size < 2+14) {
+                    rc = 8;
+                    break;
+                }
                 // ICC profile
                 if ( ! foundIccData  ) {
                     foundIccData = true ;
@@ -480,14 +485,18 @@ namespace Exiv2 {
                 io_->seek(    14+2, BasicIo::cur); // step header
                 // read in profile
                 // #1286 profile can be padded
-                DataBuf    icc((chunk==1&&chunks==1)?s:size-2-14);
-                if ( icc.size_ > size-2-14) throw Error(kerInvalidIccProfile);
+                long icc_size = size-2-14;
+                if (chunk==1 && chunks==1) {
+                  enforce(s <= static_cast<uint32_t>(icc_size), kerInvalidIccProfile);
+                  icc_size = s;
+                }
+                DataBuf icc(icc_size);
                 io_->read( icc.pData_,icc.size_);
 
                 if ( !iccProfileDefined() ) { // first block of profile
                     setIccProfile(icc,chunk==chunks);
                 } else {                       // extend existing profile
-                    DataBuf profile(iccProfile_.size_+icc.size_);
+                    DataBuf profile(Safe::add(iccProfile_.size_, icc.size_));
                     if ( iccProfile_.size_ ) {
                         ::memcpy(profile.pData_,iccProfile_.pData_,iccProfile_.size_);
                     }
