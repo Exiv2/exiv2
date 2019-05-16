@@ -34,6 +34,8 @@
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "enforce.hpp"
+#include "safe_op.hpp"
 
 // + standard includes
 #include <string>
@@ -289,17 +291,31 @@ namespace Exiv2 {
 
         clearMetadata();
 
-        io_->seek(84,BasicIo::beg);
+        if (io_->seek(84,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
         byte jpg_img_offset [4];
-        io_->read(jpg_img_offset, 4);
+        if (io_->read(jpg_img_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte jpg_img_length [4];
-        io_->read(jpg_img_length, 4);
-        long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-        long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+        if (io_->read(jpg_img_length, 4) != 4) throw Error(kerFailedToReadImageData);
+        uint32_t jpg_img_off_u32 = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
+        uint32_t jpg_img_len_u32 = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+
+        enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerCorruptedMetadata);
+
+#if LONG_MAX < UINT_MAX
+        enforce(jpg_img_off_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
+                kerCorruptedMetadata);
+        enforce(jpg_img_len_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
+                kerCorruptedMetadata);
+#endif
+
+        long jpg_img_off = static_cast<long>(jpg_img_off_u32);
+        long jpg_img_len = static_cast<long>(jpg_img_len_u32);
+
+        enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 
         DataBuf buf(jpg_img_len - 12);
-        io_->seek(jpg_img_off + 12,BasicIo::beg);
-        io_->read(buf.pData_, buf.size_ - 12);
+        if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        io_->read(buf.pData_, buf.size_);
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         io_->seek(0,BasicIo::beg); // rewind
