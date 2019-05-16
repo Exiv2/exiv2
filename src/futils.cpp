@@ -39,6 +39,10 @@
 #include <unistd.h>                     // for stat()
 #endif
 
+#ifndef lengthof
+#define lengthof(x) (sizeof(x) / sizeof((x)[0]))
+#endif
+
 #if defined(_MSC_VER)
 #define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif
