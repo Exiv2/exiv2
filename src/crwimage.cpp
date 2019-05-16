@@ -447,16 +447,17 @@ namespace Exiv2 {
                                       uint32_t    size,
                                       ByteOrder   byteOrder)
     {
+        if (size < 4) throw Error(33);
         uint32_t o = getULong(pData + size - 4, byteOrder);
-        if (o + 2 > size) throw Error(33);
+        if (o > size-2) throw Error(33);
         uint16_t count = getUShort(pData + o, byteOrder);
 #ifdef DEBUG
         std::cout << "Directory at offset " << std::dec << o
                   <<", " << count << " entries \n";
 #endif
         o += 2;
+        if (static_cast<uint32_t>(count) * 10 > size-o) throw Error(33);
         for (uint16_t i = 0; i < count; ++i) {
-            if (o + 10 > size) throw Error(33);
             uint16_t tag = getUShort(pData + o, byteOrder);
             CiffComponent::AutoPtr m;
             switch (CiffComponent::typeId(tag)) {
