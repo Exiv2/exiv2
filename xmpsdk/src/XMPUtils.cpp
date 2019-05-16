@@ -14,6 +14,7 @@
 #include "MD5.h"
 
 #include <map>
+#include <limits>
 
 #include <time.h>
 #include <string.h>
@@ -368,8 +369,22 @@ GatherInt ( XMP_StringPtr strValue, size_t * _pos, const char * errMsg )
 	size_t	 pos   = *_pos;
 	XMP_Int32 value = 0;
 
+	// Limits for overflow checking. Assuming that the maximum value of XMP_Int32
+	// is 2147483647, then tens_upperbound == 214748364 and ones_upperbound == 7.
+	// Most of the time, we can just check that value < tens_upperbound to confirm
+	// that the calculation won't overflow, which makes the bounds checking more
+	// efficient for the common case.
+	const XMP_Int32 tens_upperbound = std::numeric_limits<XMP_Int32>::max() / 10;
+	const XMP_Int32 ones_upperbound = std::numeric_limits<XMP_Int32>::max() % 10;
+
 	for ( char ch = strValue[pos]; ('0' <= ch) && (ch <= '9'); ++pos, ch = strValue[pos] ) {
-		value = (value * 10) + (ch - '0');
+		const XMP_Int32 digit = ch - '0';
+		if (value >= tens_upperbound) {
+			if (value > tens_upperbound || digit > ones_upperbound) {
+				XMP_Throw ( errMsg, kXMPErr_BadParam );
+			}
+		}
+		value = (value * 10) + digit;
 	}
 
 	if ( pos == *_pos ) XMP_Throw ( errMsg, kXMPErr_BadParam );
@@ -1300,12 +1315,14 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 
 		++pos;
 		temp = GatherInt ( strValue, &pos, "Invalid month in date string" );	// Extract the month.
+		if ( (temp < 1) || (temp > 12) ) XMP_Throw ( "Month is out of range", kXMPErr_BadParam );
 		if ( (strValue[pos] != 0) && (strValue[pos] != '-') ) XMP_Throw ( "Invalid date string, after month", kXMPErr_BadParam );
 		binValue->month = temp;
 		if ( strValue[pos] == 0 ) return;
 
 		++pos;
 		temp = GatherInt ( strValue, &pos, "Invalid day in date string" );	// Extract the day.
+		if ( (temp < 1) || (temp > 31) ) XMP_Throw ( "Day is out of range", kXMPErr_BadParam );
 		if ( (strValue[pos] != 0) && (strValue[pos] != 'T') ) XMP_Throw ( "Invalid date string, after day", kXMPErr_BadParam );
 		binValue->day = temp;
 		if ( strValue[pos] == 0 ) return;
@@ -1331,7 +1348,7 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 
 	temp = GatherInt ( strValue, &pos, "Invalid hour in date string" ); // Extract the hour.
 	if ( strValue[pos] != ':' ) XMP_Throw ( "Invalid date string, after hour", kXMPErr_BadParam );
-	if ( temp > 23 ) temp = 23;	// *** 1269463: XMP_Throw ( "Hour is out of range", kXMPErr_BadParam );
+	if ( temp < 0 || temp > 23 ) temp = 23;	// *** 1269463: XMP_Throw ( "Hour is out of range", kXMPErr_BadParam );
 	binValue->hour = temp;
 	// Don't check for done, we have to work up to the time zone.
 
@@ -1339,7 +1356,7 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 	temp = GatherInt ( strValue, &pos, "Invalid minute in date string" );	// And the minute.
 	if ( (strValue[pos] != ':') && (strValue[pos] != 'Z') &&
 		 (strValue[pos] != '+') && (strValue[pos] != '-') && (strValue[pos] != 0) ) XMP_Throw ( "Invalid date string, after minute", kXMPErr_BadParam );
-	if ( temp > 59 ) temp = 59;	// *** 1269463: XMP_Throw ( "Minute is out of range", kXMPErr_BadParam );
+	if ( temp < 0 || temp > 59 ) temp = 59;	// *** 1269463: XMP_Throw ( "Minute is out of range", kXMPErr_BadParam );
 	binValue->minute = temp;
 	// Don't check for done, we have to work up to the time zone.
 
@@ -1351,7 +1368,7 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 			 (strValue[pos] != '+') && (strValue[pos] != '-') && (strValue[pos] != 0) ) {
 			XMP_Throw ( "Invalid date string, after whole seconds", kXMPErr_BadParam );
 		}
-		if ( temp > 59 ) temp = 59;	// *** 1269463: XMP_Throw ( "Whole second is out of range", kXMPErr_BadParam );
+		if ( temp < 0 || temp > 59 ) temp = 59;	// *** 1269463: XMP_Throw ( "Whole second is out of range", kXMPErr_BadParam );
 		binValue->second = temp;
 		// Don't check for done, we have to work up to the time zone.
 
@@ -1369,7 +1386,7 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 			for ( ; digits > 9; --digits ) temp = temp / 10;
 			for ( ; digits < 9; ++digits ) temp = temp * 10;
 
-			if ( temp >= 1000*1000*1000 ) XMP_Throw ( "Fractional second is out of range", kXMPErr_BadParam );
+			if ( temp < 0 || temp >= 1000*1000*1000 ) XMP_Throw ( "Fractional second is out of range", kXMPErr_BadParam );
 			binValue->nanoSecond = temp;
 			// Don't check for done, we have to work up to the time zone.
 
@@ -1394,12 +1411,12 @@ XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 		++pos;
 		temp = GatherInt ( strValue, &pos, "Invalid time zone hour in date string" );	// Extract the time zone hour.
 		if ( strValue[pos] != ':' ) XMP_Throw ( "Invalid date string, after time zone hour", kXMPErr_BadParam );
-		if ( temp > 23 ) XMP_Throw ( "Time zone hour is out of range", kXMPErr_BadParam );
+		if ( temp < 0 || temp > 23 ) XMP_Throw ( "Time zone hour is out of range", kXMPErr_BadParam );
 		binValue->tzHour = temp;
 
 		++pos;
 		temp = GatherInt ( strValue, &pos, "Invalid time zone minute in date string" ); // Extract the time zone minute.
-		if ( temp > 59 ) XMP_Throw ( "Time zone minute is out of range", kXMPErr_BadParam );
+		if ( temp < 0 || temp > 59 ) XMP_Throw ( "Time zone minute is out of range", kXMPErr_BadParam );
 		binValue->tzMinute = temp;
 
 	} else {
