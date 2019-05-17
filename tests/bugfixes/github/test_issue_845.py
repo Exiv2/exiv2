@@ -18,6 +18,6 @@ class LargeAllocationInPngChunk(metaclass=CaseMeta):
     stdout = [""]
     stderr = [
         """$exiv2_exception_message $filename:
-Failed to read image data
+$kerCorruptedMetadata
 """]
     retval = [1]
