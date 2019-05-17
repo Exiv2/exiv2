@@ -253,7 +253,7 @@ namespace Exiv2
                     throw Error(kerInputDataReadFailed);
 
                 // Decode chunk data length.
-                uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
+                const uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
                 for (int i = 4; i < 8; i++) {
                     chType[i - 4] = cheaderBuf.pData_[i];
                 }
@@ -265,8 +265,9 @@ namespace Exiv2
                     throw Exiv2::Error(kerFailedToReadImageData);
                 }
 
-                DataBuf buff(dataOffset);
-                io_->read(buff.pData_, dataOffset);
+                DataBuf   buff(dataOffset);
+                bufRead = io_->read(buff.pData_,dataOffset);
+                enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
                 io_->seek(restore, BasicIo::beg);
 
                 // format output
@@ -286,8 +287,9 @@ namespace Exiv2
                 if (bPrint) {
                     io_->seek(dataOffset, BasicIo::cur);  // jump to checksum
                     byte checksum[4];
-                    io_->read(checksum, 4);
-                    io_->seek(restore, BasicIo::beg);  // restore file pointer
+                    bufRead = io_->read(checksum,4);
+                    enforce(bufRead == 4, kerFailedToReadImageData);
+                    io_->seek(restore, BasicIo::beg)   ;// restore file pointer
 
                     out << Internal::stringFormat("%8d | %-5s |%8d | ", (uint32_t)address, chType, dataOffset)
                         << dataString
@@ -317,10 +319,13 @@ namespace Exiv2
                     DataBuf dataBuf;
                     byte* data = new byte[dataOffset + 1];
                     data[dataOffset] = 0;
-                    io_->read(data, dataOffset);
+                    bufRead = io_->read(data,dataOffset);
+                    enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
                     io_->seek(restore, BasicIo::beg);
-                    uint32_t name_l = (uint32_t)std::strlen((const char*)data) + 1;  // leading string length
-                    uint32_t start = name_l;
+                    uint32_t  name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
+                    enforce(name_l <= dataOffset, kerCorruptedMetadata);
+
+                    uint32_t  start  = name_l;
 
                     // decode the chunk
                     bool bGood = false;
