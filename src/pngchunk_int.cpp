@@ -606,10 +606,18 @@ namespace Exiv2
                 }
             }
 
-            const char* startOfLength = sp;
+            // Parse the length.
+            long length = 0;
             while ('0' <= *sp && *sp <= '9') {
+                // Compute the new length using unsigned long, so that we can
+                // check for overflow.
+                const unsigned long newlength = (10 * static_cast<unsigned long>(length)) + (*sp - '0');
+                if (newlength > static_cast<unsigned long>(std::numeric_limits<long>::max())) {
+                    return DataBuf(); // Integer overflow.
+                }
+                length = static_cast<long>(newlength);
                 sp++;
-                if (sp == eot) {
+                if (sp == eot ) {
                     return DataBuf();
                 }
             }
@@ -618,8 +626,7 @@ namespace Exiv2
                 return DataBuf();
             }
 
-            long length = (long)atol(startOfLength);
-            enforce(0 <= length && length <= (eot - sp) / 2, Exiv2::kerCorruptedMetadata);
+            enforce(length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
 
             // Allocate space
             if (length == 0) {
