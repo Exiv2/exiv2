@@ -625,6 +625,10 @@ namespace Exiv2 {
             sp++;
 
         length = (long) atol(sp);
+        const char* eot = (char*)text.pData_ + text.size_;
+        if (length < 0 || length > (eot - sp)/2) {
+            throw Error(14);
+        }
 
         while (*sp != ' ' && *sp != '\n')
             sp++;
