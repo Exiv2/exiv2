@@ -42,8 +42,7 @@
 #include <stdio.h>
 #include <iostream>
 
-// #1147
-#ifndef WIN32
+#if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
 #include <unistd.h>
 #include <sys/types.h>
 #endif
@@ -333,11 +332,14 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
-// #1147
-#ifndef WIN32
-    uid_t uid  = getuid()  ; output(os,keys,"uid" ,  uid  );
-    uid_t euid = geteuid() ; output(os,keys,"euid", euid  );
-    uid_t gid  = getgid()  ; output(os,keys,"gid" ,  gid  );
+#if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
+    uid_t uid  = getuid();
+    uid_t euid = geteuid();
+    uid_t gid  = getgid();
+
+    output(os,keys,"uid" ,  uid  );
+    output(os,keys,"euid", euid  );
+    output(os,keys,"gid" ,  gid  );
 #endif
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
