@@ -1064,7 +1064,7 @@ namespace Exiv2 {
         const ExifData::const_iterator ed2 = image.exifData().findKey(k2);
         const ExifData::const_iterator edEnd = image.exifData().end();
 
-        long size = 0;
+        size_t size = 0;
         if (ed1 != edEnd) size += ed1->size();
         if (ed2 != edEnd) size += ed2->size();
         if (size != 0) {
@@ -1154,8 +1154,9 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
-            uint32_t size = 28;
-            if (cc && cc->size() > size) size = cc->size();
+            size_t size = 28;
+            if (cc && cc->size() > size)
+                size = cc->size();
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);
             if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);

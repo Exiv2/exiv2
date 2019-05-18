@@ -1625,11 +1625,11 @@ namespace Exiv2 {
             DataBuf header = pHeader->write();
             BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
+            IoWrapper ioWrapper(*tempIo, header.pData_, (long)header.size_, pOffsetWriter);
             uint32_t imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
-                               header.size_,
+                               (int32_t)header.size_,
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);

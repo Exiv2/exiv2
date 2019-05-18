@@ -777,7 +777,7 @@ namespace Exiv2 {
         assert(object != 0);
 
         if (object->cfg() == 0 || !object->decoded()) return;
-        int32_t size = object->TiffEntryBase::doSize();
+        std::uint32_t size = object->TiffEntryBase::doSize();
         if (size == 0) return;
         if (!object->initialize(pRoot_)) return;
 
@@ -788,7 +788,7 @@ namespace Exiv2 {
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size_ > 0) {
                 pData = buf.pData_;
-                size = buf.size_;
+                size = static_cast<std::uint32_t>(buf.size_);
             }
             if (!object->updOrigDataBuf(pData, size)) {
                 setDirty();
@@ -1016,7 +1016,7 @@ namespace Exiv2 {
 #ifdef DEBUG
         bool tooLarge = false;
 #endif
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
 #ifdef DEBUG
@@ -1038,7 +1038,7 @@ namespace Exiv2 {
         assert(object != 0);
         assert(datum != 0);
 
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
             object->updateValue(datum->getValue(), byteOrder()); // clones the value

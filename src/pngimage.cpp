@@ -61,7 +61,7 @@ namespace
     {
         // str & length should compile time constants => only running this in DEBUG mode is ok
         assert(strlen(str) <= length);
-        return memcmp(str, buf.pData_, std::min(static_cast<long>(length), buf.size_)) == 0;
+        return memcmp(str, buf.pData_, std::min(length, buf.size_)) == 0;
     }
 }  // namespace
 
@@ -103,7 +103,7 @@ namespace Exiv2
             result.alloc(uncompressedLen);
             zlibResult = uncompress((Bytef*)result.pData_, &uncompressedLen, bytes, length);
             // if result buffer is large than necessary, redo to fit perfectly.
-            if (zlibResult == Z_OK && (long)uncompressedLen < result.size_) {
+            if (zlibResult == Z_OK && uncompressedLen < result.size_) {
                 result.free();
 
                 result.alloc(uncompressedLen);
@@ -246,7 +246,7 @@ namespace Exiv2
                 size_t address = io_->tell();
 
                 std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
-                long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+                size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
                 if (io_->error())
                     throw Error(kerFailedToReadImageData);
                 if (bufRead != cheaderBuf.size_)
@@ -407,7 +407,7 @@ namespace Exiv2
 #ifdef DEBUG
         std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
 #endif
-        long bufRead = io.read(buffer.pData_, buffer.size_);
+        size_t bufRead = io.read(buffer.pData_, buffer.size_);
         if (io.error()) {
             throw Error(kerFailedToReadImageData);
         }
@@ -547,7 +547,7 @@ namespace Exiv2
             // Read chunk header.
 
             std::memset(cheaderBuf.pData_, 0x00, cheaderBuf.size_);
-            long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+            size_t bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
             if (bufRead != cheaderBuf.size_)
@@ -592,7 +592,7 @@ namespace Exiv2
                 if (!comment_.empty()) {
                     // Update Comment data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(comment_, mdComment);
-                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()) {
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {
                         throw Error(kerImageWriteFailed);
                     }
                 }
@@ -605,8 +605,7 @@ namespace Exiv2
                         const std::string exifHeader{"Exif\0\0", 6};
                         std::string rawExif = exifHeader + std::string((const char*)blob.data(), blob.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
-                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) !=
-                            (long)chunk.size()) {
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {
                             throw Error(kerImageWriteFailed);
                         }
                     }
@@ -618,8 +617,7 @@ namespace Exiv2
                     if (newPsData.size_ > 0) {
                         std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
-                        if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) !=
-                            (long)chunk.size()) {
+                        if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {
                             throw Error(kerImageWriteFailed);
                         }
                     }
@@ -627,11 +625,11 @@ namespace Exiv2
 
                 if (iccProfileDefined()) {
                     DataBuf compressed;
-                    if (zlibToCompressed(iccProfile_.pData_, iccProfile_.size_, compressed)) {
+                    if (zlibToCompressed(iccProfile_.pData_, (long)iccProfile_.size_, compressed)) {
                         const byte* nullComp = (const byte*)"\0\0";
                         const byte* type = (const byte*)"iCCP";
                         const uint32_t nameLength = static_cast<uint32_t>(profileName_.size());
-                        const uint32_t chunkLength = nameLength + 2 + compressed.size_;
+                        const uint32_t chunkLength = nameLength + 2 + (uint32_t)compressed.size_;
                         byte length[4];
                         ul2Data(length, chunkLength, bigEndian);
 
@@ -640,7 +638,7 @@ namespace Exiv2
                         tmp = crc32(tmp, (const Bytef*)type, 4);
                         tmp = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
                         tmp = crc32(tmp, (const Bytef*)nullComp, 2);
-                        tmp = crc32(tmp, (const Bytef*)compressed.pData_, compressed.size_);
+                        tmp = crc32(tmp, (const Bytef*)compressed.pData_, (uInt)compressed.size_);
                         byte crc[4];
                         ul2Data(crc, tmp, bigEndian);
 
@@ -668,7 +666,7 @@ namespace Exiv2
                 if (xmpPacket_.size() > 0) {
                     // Update XMP data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(xmpPacket_, mdXmp);
-                    if (outIo.write((const byte*)chunk.data(), static_cast<long>(chunk.size())) != (long)chunk.size()) {
+                    if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {
                         throw Error(kerImageWriteFailed);
                     }
                 }

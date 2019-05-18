@@ -79,7 +79,7 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        virtual int read(const byte* buf, long len, ByteOrder byteOrder) =0;
+        virtual int read(const byte* buf, size_t len, ByteOrder byteOrder) =0;
         /*!
           @brief Set the value from a string buffer. The format of the string
                  corresponds to that of the write() method, i.e., a string
@@ -285,7 +285,7 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
 
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
         int read(const std::string& buf) override;
@@ -373,7 +373,7 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder =invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder =invalidByteOrder) override;
         //@}
 
         //! @name Accessors
@@ -535,7 +535,7 @@ namespace Exiv2 {
             CharsetInfo& operator=(const CharsetInfo&& rhs) = delete;
             CharsetInfo(const CharsetInfo& rhs) = delete;
             CharsetInfo(const CharsetInfo&& rhs) = delete;
- 
+
             //! Return the name for a charset id
             static const char* name(CharsetId charsetId);
             //! Return the code for a charset id
@@ -582,7 +582,7 @@ namespace Exiv2 {
         /*!
           @brief Read the comment from a byte buffer.
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors
@@ -696,7 +696,7 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder =invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder =invalidByteOrder) override;
 
         int read(const std::string& buf) override =0;
         //@}
@@ -1017,7 +1017,7 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 in case of an unsupported date format
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder =invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder =invalidByteOrder) override;
 
         /*!
           @brief Set the value to that of the string buf.
@@ -1128,7 +1128,7 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 in case of an unsupported time format
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder =invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder =invalidByteOrder) override;
 
         /*!
           @brief Set the value to that of the string buf.
@@ -1269,7 +1269,7 @@ namespace Exiv2 {
         //@{
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
-        int read(const byte* buf, long len, ByteOrder byteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder) override;
         /*!
           @brief Set the data from a string of values of type T (e.g.,
                  "0 1 2 3" or "1/2 1/3 1/4" depending on what T is).
@@ -1567,7 +1567,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    int ValueType<T>::read(const byte* buf, long len, ByteOrder byteOrder)
+    int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder)
     {
         value_.clear();
         long ts = TypeInfo::typeSize(typeId());

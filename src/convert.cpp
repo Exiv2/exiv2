@@ -1150,7 +1150,7 @@ namespace Exiv2 {
             return;
         }
 
-        int count = pos->count();
+        const size_t count = pos->count();
         bool added = false;
         for (int i = 0; i < count; ++i) {
             std::string value = pos->toString(i);
@@ -1191,7 +1191,7 @@ namespace Exiv2 {
                 if (pos == exifData_->end()) continue;
                 DataBuf data(pos->size());
                 pos->copy(data.pData_, littleEndian /* FIXME ? */);
-                MD5Update ( &context, data.pData_, data.size_);
+                MD5Update ( &context, data.pData_, (uint32_t)data.size_);
             }
         }
         MD5Final(digest, &context);

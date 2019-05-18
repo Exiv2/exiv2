@@ -102,7 +102,7 @@ namespace Exiv2
             if (magic == 0x2A)
             {
                 byte buffer[4];
-                int read = io.read(buffer, 4);
+                const size_t read = io.read(buffer, 4);
 
                 if (read < 4)
                     throw Exiv2::Error(kerCorruptedMetadata);
@@ -113,7 +113,7 @@ namespace Exiv2
             else
             {
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-                int read = io.read(buffer, 2);
+                size_t read = io.read(buffer, 2);
                 if (read < 2)
                     throw Exiv2::Error(kerCorruptedMetadata);
 
@@ -361,7 +361,7 @@ namespace Exiv2
                                     io.seek(offset, BasicIo::beg);  // position
                                     std::vector<byte> bytes(static_cast<size_t>(count)) ;  // allocate memory
                                     // TODO: once we have C++11 use bytes.data()
-                                    const long read_bytes = io.read(&bytes[0], static_cast<long>(count));
+                                    const size_t read_bytes = io.read(&bytes[0], static_cast<long>(count));
                                     io.seek(restore, BasicIo::beg);
                                     // TODO: once we have C++11 use bytes.data()
                                     IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);

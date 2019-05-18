@@ -331,7 +331,7 @@ namespace Exiv2 {
         do {
             // Read top of directory
             const int seekSuccess = !io.seek(start,BasicIo::beg);
-            const long bytesRead = io.read(dir.pData_, 2);
+            const size_t bytesRead = io.read(dir.pData_, 2);
             if (!seekSuccess || bytesRead == 0) {
                 throw Error(kerCorruptedMetadata);
             }
@@ -456,7 +456,7 @@ namespace Exiv2 {
                         io.seek(offset, BasicIo::beg);  // position
                         std::vector<byte> bytes(count) ;  // allocate memory
                         // TODO: once we have C++11 use bytes.data()
-                        const long read_bytes = io.read(&bytes[0], count);
+                        const size_t read_bytes = io.read(&bytes[0], count);
                         io.seek(restore, BasicIo::beg);
                         // TODO: once we have C++11 use bytes.data()
                         IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
@@ -626,7 +626,7 @@ namespace Exiv2 {
     {
         if ( bTestValid ) {
             if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
-            long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
+            const size_t size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
             if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
         }
         iccProfile_ = iccProfile;
@@ -897,7 +897,7 @@ namespace Exiv2 {
     }
 
 #endif
-    Image::UniquePtr ImageFactory::open(const byte* data, long size)
+    Image::UniquePtr ImageFactory::open(const byte* data, size_t size)
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
         Image::UniquePtr image = open(std::move(io)); // may throw

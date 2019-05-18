@@ -139,10 +139,10 @@ namespace Exiv2 {
     DataBuf::DataBuf() : pData_(0), size_(0)
     {}
 
-    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
+    DataBuf::DataBuf(size_t size) : pData_(new byte[size]()), size_(size)
     {}
 
-    DataBuf::DataBuf(const byte* pData, long size)
+    DataBuf::DataBuf(const byte* pData, size_t size)
         : pData_(0), size_(0)
     {
         if (size > 0) {
@@ -159,7 +159,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    void DataBuf::alloc(long size)
+    void DataBuf::alloc(size_t size)
     {
         if (size > size_) {
             delete[] pData_;
@@ -172,7 +172,7 @@ namespace Exiv2 {
 
     EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
     {
-        std::pair<byte*, long> p = std::make_pair(pData_, size_);
+        std::pair<byte*, long> p = std::make_pair(pData_, (long)size_);
         pData_ = 0;
         size_ = 0;
         return p;
@@ -206,7 +206,7 @@ namespace Exiv2 {
     static void checkDataBufBounds(const DataBuf& buf, size_t end) {
         enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
                                        "end of slice too large to be compared with DataBuf bounds.");
-        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size_, "Invalid slice bounds specified");
+        enforce<std::out_of_range>(end <= buf.size_, "Invalid slice bounds specified");
     }
 
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)

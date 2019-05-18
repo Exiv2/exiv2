@@ -143,7 +143,7 @@ namespace {
         uint32_t height_;
 
         //! Preview image size in bytes
-        uint32_t size_;
+        size_t size_;
 
         //! True if the source image contains a preview image of given type
         bool valid_;
@@ -200,7 +200,7 @@ namespace {
         static const Param param_[];
 
         //! Offset value
-        uint32_t offset_;
+        size_t offset_;
     };
 
     //! Function to create new LoaderExifJpeg
@@ -404,7 +404,7 @@ namespace {
     {
         PreviewProperties prop;
         prop.id_ = id_;
-        prop.size_ = size_;
+        prop.size_ = (uint32_t)size_;
         prop.width_ = width_;
         prop.height_ = height_;
         return prop;
@@ -817,7 +817,7 @@ namespace {
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
                         idxBuf += size;
                     }
-                    dataValue.setDataArea(buf.pData_, buf.size_);
+                    dataValue.setDataArea(buf.pData_, (uint32_t)buf.size_);
                 }
             }
         }
@@ -979,7 +979,7 @@ namespace {
             return DataBuf();
         }
         const byte *imageData = src.pData_ + colorTableSize;
-        const long imageDataSize = src.size_ - colorTableSize;
+        const long imageDataSize = (uint32_t)src.size_ - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
         for (long i = rle ? 3 : 0; i < imageDataSize;) {
@@ -1013,7 +1013,7 @@ namespace {
 
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
     {
-        const long expectedSize = static_cast<long>(width * height * 3);
+        const size_t expectedSize = static_cast<size_t>(width * height * 3);
         if (rgb.size_ != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size_ << " bytes.\n";
@@ -1040,7 +1040,7 @@ namespace Exiv2 {
         : properties_(properties)
     {
         pData_ = data.pData_;
-        size_ = data.size_;
+        size_ = (uint32_t)data.size_;
         std::pair<byte*, long> ret = data.release();
         UNUSED(ret);
     }
@@ -1150,7 +1150,7 @@ namespace Exiv2 {
             if (loader.get() && loader->readDimensions()) {
                 PreviewProperties props = loader->getProperties();
                 DataBuf buf             = loader->getData(); // #16 getPreviewImage()
-                props.size_             = buf.size_;         //     update the size
+                props.size_             = (uint32_t)buf.size_;         //     update the size
                 list.push_back(props) ;
             }
         }

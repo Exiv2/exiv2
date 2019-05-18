@@ -144,11 +144,11 @@ namespace Exiv2
         //! Return the name of the type
         const char* typeName() const override;
         //! Return the size in bytes of one component of this type
-        long typeSize() const override;
+        size_t typeSize() const override;
         //! Return the number of components in the value
-        long count() const override;
+        size_t count() const override;
         //! Return the size of the value in bytes
-        long size() const override;
+        size_t size() const override;
         //! Return the value as a string.
         std::string toString() const override;
         std::string toString(long n) const override;
@@ -269,7 +269,7 @@ namespace Exiv2
         /// @note  The JPEG image inserted as thumbnail image should not itself contain Exif data (or other metadata),
         /// as existing applications may have problems with that. (The preview application that comes with OS X for
         /// one.) - David Harvey.
-        void setJpegThumbnail(const byte* buf, long size, URational xres, URational yres, uint16_t unit);
+        void setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit);
 
         /// @brief Set the Exif thumbnail to the JPEG image \em path.
         ///

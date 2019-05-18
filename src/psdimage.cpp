@@ -262,7 +262,7 @@ namespace Exiv2 {
                 io_->read(rawExif.pData_, rawExif.size_);
                 if (io_->error() || io_->eof())
                     throw Error(kerFailedToReadImageData);
-                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, rawExif.size_);
+                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, (uint32_t)rawExif.size_);
                 setByteOrder(bo);
                 if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
@@ -402,11 +402,11 @@ namespace Exiv2 {
         std::cerr << std::dec << "colorDataLength: " << colorDataLength << "\n";
 #endif
         // Copy colorData
-        uint32_t readTotal = 0;
-        long toRead = 0;
+        size_t readTotal = 0;
+        size_t toRead = 0;
         while (readTotal < colorDataLength) {
-            toRead = static_cast<long>(colorDataLength - readTotal) < lbuf.size_
-                         ? static_cast<long>(colorDataLength - readTotal)
+            toRead = static_cast<size_t>(colorDataLength - readTotal) < lbuf.size_
+                         ? static_cast<size_t>(colorDataLength - readTotal)
                          : lbuf.size_;
             if (io_->read(lbuf.pData_, toRead) != toRead)
                 throw Error(kerNotAnImage, "Photoshop");
@@ -561,7 +561,7 @@ namespace Exiv2 {
         io_->populateFakeData();
 
         // Copy remaining data
-        long readSize = 0;
+        size_t readSize = 0;
         while ((readSize = io_->read(lbuf.pData_, lbuf.size_))) {
             if (outIo.write(lbuf.pData_, readSize) != readSize)
                 throw Error(kerImageWriteFailed);
@@ -600,13 +600,13 @@ namespace Exiv2 {
                 us2Data(buf, 0, bigEndian);                      // nullptr resource name
                 if (out.write(buf, 2) != 2)
                     throw Error(kerImageWriteFailed);
-                ul2Data(buf, rawIptc.size_, bigEndian);
+                ul2Data(buf, (uint32_t)rawIptc.size_, bigEndian);
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Iptc data
                 if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_)
                     throw Error(kerImageWriteFailed);
-                resLength += rawIptc.size_ + 12;
+                resLength += (uint32_t)rawIptc.size_ + 12;
                 if (rawIptc.size_ & 1)  // even padding
                 {
                     buf[0] = 0;

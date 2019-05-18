@@ -129,7 +129,7 @@ namespace Exiv2 {
         }
 
         Blob blob;
-        CrwParser::encode(blob, buf.pData_, buf.size_, this);
+        CrwParser::encode(blob, buf.pData_, (uint32_t)buf.size_, this);
 
         // Write new buffer to file
         MemIo::UniquePtr tempIo(new MemIo);

@@ -369,17 +369,17 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Exifdatum::typeSize() const
+    size_t Exifdatum::typeSize() const
     {
         return TypeInfo::typeSize(typeId());
     }
 
-    long Exifdatum::count() const
+    size_t Exifdatum::count() const
     {
         return value_.get() == 0 ? 0 : value_->count();
     }
 
-    long Exifdatum::size() const
+    size_t Exifdatum::size() const
     {
         return value_.get() == 0 ? 0 : value_->size();
     }
@@ -510,15 +510,9 @@ namespace Exiv2 {
     }
 
 #endif
-    void ExifThumb::setJpegThumbnail(
-        const byte*     buf,
-              long      size,
-              URational xres,
-              URational yres,
-              uint16_t  unit
-    )
+    void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit)
     {
-        setJpegThumbnail(buf, size);
+        setJpegThumbnail(buf, (long)size);
         exifData_["Exif.Thumbnail.XResolution"] = xres;
         exifData_["Exif.Thumbnail.YResolution"] = yres;
         exifData_["Exif.Thumbnail.ResolutionUnit"] = unit;
@@ -527,7 +521,7 @@ namespace Exiv2 {
     void ExifThumb::setJpegThumbnail(const std::string& path)
     {
         DataBuf thumb = readFile(path); // may throw
-        setJpegThumbnail(thumb.pData_, thumb.size_);
+        setJpegThumbnail(thumb.pData_, (long)thumb.size_);
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -583,7 +577,7 @@ namespace Exiv2 {
     bool ExifData::empty() const { return count() == 0; }
 
     long ExifData::count() const { return static_cast<long>(exifMetadata_.size()); }
-    
+
     ExifData::iterator ExifData::findKey(const ExifKey& key)
     {
         return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
@@ -833,11 +827,11 @@ namespace Exiv2 {
         return wm;
 
     }
-    
+
     void ExifParser::encode(Blob &blob, ByteOrder byteOrder, const ExifData &exifData) {
         encode(blob, 0, 0, byteOrder, exifData);
     }
-    
+
 }                                       // namespace Exiv2
 
 // *****************************************************************************

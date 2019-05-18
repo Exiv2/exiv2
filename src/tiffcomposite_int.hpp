@@ -141,7 +141,7 @@ namespace Exiv2 {
           Writes the TIFF header to the IO, if it hasn't been written yet, followed
           by the data passed in the arguments.
          */
-        long write(const byte* pData, long wcount);
+        size_t write(const byte* pData, size_t wcount);
         /*!
           @brief Wraps the corresponding BasicIo::putb() method.
 

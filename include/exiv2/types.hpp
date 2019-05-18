@@ -209,9 +209,9 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf();
         //! Constructor with an initial buffer size
-        explicit DataBuf(long size);
+        explicit DataBuf(size_t size);
         //! Constructor, copies an existing buffer
-        DataBuf(const byte* pData, long size);
+        DataBuf(const byte* pData, size_t size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
                  object similar to std::unique_ptr, i.e., the original object is
@@ -235,7 +235,7 @@ namespace Exiv2 {
                  the requested \em size is less than the current buffer size, no
                  new memory is allocated and the buffer size doesn't change.
          */
-        void alloc(long size);
+        void alloc(size_t size);
         /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal
@@ -294,7 +294,7 @@ namespace Exiv2 {
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pData_;
         //! The current size of the buffer
-        long size_;
+        size_t size_;
     }; // class DataBuf
 
     /*!

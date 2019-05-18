@@ -429,7 +429,7 @@ namespace Exiv2
         /// @param size Number of bytes pointed to by \em data.
         /// @return A smart-pointer that owns an Image instance whose type matches that of the data buffer.
         /// @throw Error If the memory contains data of an unknown image type.
-        static Image::UniquePtr open(const byte* data, long size);
+        static Image::UniquePtr open(const byte* data, size_t size);
 
         /// @brief Create an Image subclass of the appropriate type by reading from the provided BasicIo instance.
         ///

@@ -132,13 +132,13 @@ namespace Exiv2
         {
             // From a tEXt, zTXt, or iTXt chunk,
             // we get the key, it's a null terminated string at the chunk start
-            const int offset = stripHeader ? 8 : 0;
+            const size_t offset = stripHeader ? 8 : 0;
             if (data.size_ <= offset)
                 throw Error(kerFailedToReadImageData);
             const byte* key = data.pData_ + offset;
 
             // Find null string at end of key.
-            int keysize = 0;
+            size_t keysize = 0;
             while (key[keysize] != 0) {
                 keysize++;
                 // look if keysize is valid.
@@ -150,12 +150,12 @@ namespace Exiv2
 
         }  // PngChunk::keyTXTChunk
 
-        DataBuf PngChunk::parseTXTChunk(const DataBuf& data, int keysize, TxtChunkType type)
+        DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkType type)
         {
             DataBuf arr;
 
             if (type == zTXt_Chunk) {
-                enforce(data.size_ >= Safe::add(keysize, 2), Exiv2::kerCorruptedMetadata);
+                enforce(data.size_ >= Safe::add(keysize, 2_z), Exiv2::kerCorruptedMetadata);
 
                 // Extract a deflate compressed Latin-1 text chunk
 
@@ -171,21 +171,21 @@ namespace Exiv2
 
                 // compressed string after the compression technique spec
                 const byte* compressedText = data.pData_ + keysize + 2;
-                long compressedTextSize = data.size_ - keysize - 2;
+                size_t compressedTextSize = data.size_ - keysize - 2;
                 enforce(compressedTextSize < data.size_, kerCorruptedMetadata);
 
-                zlibUncompress(compressedText, compressedTextSize, arr);
+                zlibUncompress(compressedText, (uint32_t)compressedTextSize, arr);
             } else if (type == tEXt_Chunk) {
-                enforce(data.size_ >= Safe::add(keysize, 1), Exiv2::kerCorruptedMetadata);
+                enforce(data.size_ >= Safe::add(keysize, 1_z), Exiv2::kerCorruptedMetadata);
                 // Extract a non-compressed Latin-1 text chunk
 
                 // the text comes after the key, but isn't null terminated
                 const byte* text = data.pData_ + keysize + 1;
-                long textsize = data.size_ - keysize - 1;
+                const size_t textsize = data.size_ - keysize - 1;
 
                 arr = DataBuf(text, textsize);
             } else if (type == iTXt_Chunk) {
-                enforce(data.size_ >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
+                enforce(data.size_ >= Safe::add(keysize, 3_z), Exiv2::kerCorruptedMetadata);
                 const size_t nullSeparators = std::count(&data.pData_[keysize + 3], &data.pData_[data.size_], '\0');
                 enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
 
@@ -202,11 +202,10 @@ namespace Exiv2
                 // language description string after the compression technique spec
                 const size_t languageTextMaxSize = data.size_ - keysize - 3;
                 std::string languageText =
-                    string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3)), languageTextMaxSize);
+                    string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3_z)), languageTextMaxSize);
                 const size_t languageTextSize = languageText.size();
 
-                enforce(static_cast<unsigned long>(data.size_) >=
-                            Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
+                enforce(static_cast<unsigned long>(data.size_) >= Safe::add(Safe::add(keysize, 4_z), languageTextSize),
                         Exiv2::kerCorruptedMetadata);
                 // translated keyword string after the language description
                 std::string translatedKeyText =
@@ -258,7 +257,7 @@ namespace Exiv2
 
         }  // PngChunk::parsePngChunk
 
-        void PngChunk::parseChunkContent(Image* pImage, const byte* key, long keySize, const DataBuf arr)
+        void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf arr)
         {
             // We look if an ImageMagick EXIF raw profile exist.
 
@@ -266,7 +265,7 @@ namespace Exiv2
                 (memcmp("Raw profile type exif", key, 21) == 0 || memcmp("Raw profile type APP1", key, 21) == 0) &&
                 pImage->exifData().empty()) {
                 DataBuf exifData = readRawProfile(arr, false);
-                const long length = exifData.size_;
+                const size_t length = exifData.size_;
 
                 if (length > 0) {
                     // Find the position of Exif header in bytes array.
@@ -287,7 +286,7 @@ namespace Exiv2
                                   << "\n";
 #endif
                         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
-                                                          exifData.pData_ + pos, length - static_cast<uint32_t>(pos));
+                                                          exifData.pData_ + pos, (uint32_t)(length - pos));
                         pImage->setByteOrder(bo);
                     } else {
 #ifndef SUPPRESS_WARNINGS
@@ -342,7 +341,7 @@ namespace Exiv2
 
             if (keySize >= 20 && memcmp("Raw profile type xmp", key, 20) == 0 && pImage->xmpData().empty()) {
                 DataBuf xmpBuf = readRawProfile(arr, false);
-                long length = xmpBuf.size_;
+                const size_t length = xmpBuf.size_;
 
                 if (length > 0) {
                     std::string& xmpPacket = pImage->xmpPacket();

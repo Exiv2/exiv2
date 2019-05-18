@@ -65,7 +65,7 @@ namespace Exiv2
         /// @param pPsData        Existing IRB buffer
         /// @param sizePsData     Size of the IRB buffer, may be 0
         /// @return true  if all IRBs are valid;<BR> false otherwise
-        static bool valid(const byte* pPsData, long sizePsData);
+        static bool valid(const byte* pPsData, size_t sizePsData);
 
         /// @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory buffer. Operates on raw data
         /// to simplify reuse.
@@ -81,16 +81,16 @@ namespace Exiv2
         /// @return 0 if successful;<BR>
         ///  3 if no data for psTag was found in pPsData;<BR>
         ///  -2 if the pPsData buffer does not contain valid data.
-        static int locateIrb(const byte* pPsData, long sizePsData, uint16_t psTag, const byte** record,
+        static int locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record,
                              uint32_t* const sizeHdr, uint32_t* const sizeData);
 
         /// @brief Forwards to locateIrb() with \em psTag = \em iptc_
-        static int locateIptcIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t* const sizeHdr,
+        static int locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* const sizeHdr,
                                  uint32_t* const sizeData);
 
         /// @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
-        static int locatePreviewIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t* const sizeHdr,
-                                    uint32_t* const sizeData);
+        static int locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record,
+                                    uint32_t* const sizeHdr, uint32_t* const sizeData);
 
         /// @brief Set the new IPTC IRB, keeps existing IRBs but removes the IPTC block if there is no new IPTC data
         /// to write.
@@ -99,7 +99,7 @@ namespace Exiv2
         /// @param sizePsData Size of the IRB buffer, may be 0
         /// @param iptcData   Iptc data to embed, may be empty
         /// @return A data buffer containing the new IRB buffer, may have 0 size
-        static DataBuf setIptcIrb(const byte* pPsData, long sizePsData, const IptcData& iptcData);
+        static DataBuf setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData);
 
     };  // class Photoshop
 
