@@ -304,7 +304,7 @@ namespace Exiv2 {
         return value_->read(value);
     }
 
-    int Exifdatum::setDataArea(const byte* buf, long len)
+    int Exifdatum::setDataArea(const byte* buf, size_t len)
     {
         return value_.get() == 0 ? -1 : value_->setDataArea(buf, len);
     }
@@ -369,17 +369,17 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Exifdatum::typeSize() const
+    size_t Exifdatum::typeSize() const
     {
         return TypeInfo::typeSize(typeId());
     }
 
-    long Exifdatum::count() const
+    size_t Exifdatum::count() const
     {
         return value_.get() == 0 ? 0 : value_->count();
     }
 
-    long Exifdatum::size() const
+    size_t Exifdatum::size() const
     {
         return value_.get() == 0 ? 0 : value_->size();
     }
@@ -414,7 +414,7 @@ namespace Exiv2 {
         return value_.get() == 0 ? nullptr : value_->clone();
     }
 
-    long Exifdatum::sizeDataArea() const
+    size_t Exifdatum::sizeDataArea() const
     {
         return value_.get() == 0 ? 0 : value_->sizeDataArea();
     }
@@ -436,7 +436,7 @@ namespace Exiv2 {
         return thumbnail->copy(exifData_);
     }
 
-    long ExifThumbC::writeFile(const std::string& path) const
+    size_t ExifThumbC::writeFile(const std::string& path) const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
         if (thumbnail.get() == 0) return 0;
@@ -447,7 +447,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    long ExifThumbC::writeFile(const std::wstring& wpath) const
+    size_t ExifThumbC::writeFile(const std::wstring& wpath) const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
         if (thumbnail.get() == 0) return 0;
@@ -510,15 +510,9 @@ namespace Exiv2 {
     }
 
 #endif
-    void ExifThumb::setJpegThumbnail(
-        const byte*     buf,
-              long      size,
-              URational xres,
-              URational yres,
-              uint16_t  unit
-    )
+    void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit)
     {
-        setJpegThumbnail(buf, size);
+        setJpegThumbnail(buf, (long)size);
         exifData_["Exif.Thumbnail.XResolution"] = xres;
         exifData_["Exif.Thumbnail.YResolution"] = yres;
         exifData_["Exif.Thumbnail.ResolutionUnit"] = unit;
@@ -527,7 +521,7 @@ namespace Exiv2 {
     void ExifThumb::setJpegThumbnail(const std::string& path)
     {
         DataBuf thumb = readFile(path); // may throw
-        setJpegThumbnail(thumb.pData_, thumb.size_);
+        setJpegThumbnail(thumb.pData_, (long)thumb.size_);
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -538,7 +532,7 @@ namespace Exiv2 {
     }
 
 #endif
-    void ExifThumb::setJpegThumbnail(const byte* buf, long size)
+    void ExifThumb::setJpegThumbnail(const byte* buf, size_t size)
     {
         exifData_["Exif.Thumbnail.Compression"] = uint16_t(6);
         Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
@@ -583,7 +577,7 @@ namespace Exiv2 {
     bool ExifData::empty() const { return count() == 0; }
 
     long ExifData::count() const { return static_cast<long>(exifMetadata_.size()); }
-    
+
     ExifData::iterator ExifData::findKey(const ExifKey& key)
     {
         return std::find_if(exifMetadata_.begin(), exifMetadata_.end(),
@@ -615,10 +609,9 @@ namespace Exiv2 {
         return exifMetadata_.erase(pos);
     }
 
-    ByteOrder ExifParser::decode(
-              ExifData& exifData,
+    ByteOrder ExifParser::decode(ExifData& exifData,
         const byte*     pData,
-              uint32_t  size
+              size_t size
     )
     {
         IptcData iptcData;
@@ -647,10 +640,9 @@ namespace Exiv2 {
     };
     //! @endcond
 
-    WriteMethod ExifParser::encode(
-              Blob&     blob,
+    WriteMethod ExifParser::encode(Blob&     blob,
         const byte*     pData,
-              uint32_t  size,
+              size_t size,
               ByteOrder byteOrder,
         const ExifData& exifData
     )
@@ -833,11 +825,11 @@ namespace Exiv2 {
         return wm;
 
     }
-    
+
     void ExifParser::encode(Blob &blob, ByteOrder byteOrder, const ExifData &exifData) {
         encode(blob, 0, 0, byteOrder, exifData);
     }
-    
+
 }                                       // namespace Exiv2
 
 // *****************************************************************************
@@ -933,7 +925,7 @@ namespace {
     long sumToLong(const Exiv2::Exifdatum& md)
     {
         long sum = 0;
-        for (int i = 0; i < md.count(); ++i) {
+        for (long i = 0; i < static_cast<long>(md.count()); ++i) {
             sum += md.toLong(i);
         }
         return sum;

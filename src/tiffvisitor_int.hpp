@@ -637,10 +637,7 @@ namespace Exiv2 {
           @param state     State object for creation function, byte order and
                            base offset.
          */
-        TiffReader(const byte*          pData,
-                   uint32_t             size,
-                   TiffComponent*       pRoot,
-                   TiffRwState          state);
+        TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state);
 
         //! Virtual destructor
         ~TiffReader() override;
@@ -716,7 +713,7 @@ namespace Exiv2 {
 
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
-        const uint32_t       size_;       //!< Size of the buffer
+        const size_t         size_;       //!< Size of the buffer
         const byte*          pLast_;      //!< Pointer to the last byte
         TiffComponent* const pRoot_;      //!< Root element of the composite
         TiffRwState*         pState_;     //!< Pointer to the state in effect (origState_ or mnState_)

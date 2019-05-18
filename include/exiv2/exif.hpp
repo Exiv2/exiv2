@@ -111,7 +111,7 @@ namespace Exiv2
         /// @param buf Pointer to the source data area
         /// @param len Size of the data area
         /// @return Return -1 if the %Exifdatum does not have a value yet or the value has no data area, else 0.
-        int setDataArea(const byte* buf, long len);
+        int setDataArea(const byte* buf, size_t len);
         //@}
 
         //! @name Accessors
@@ -144,11 +144,11 @@ namespace Exiv2
         //! Return the name of the type
         const char* typeName() const override;
         //! Return the size in bytes of one component of this type
-        long typeSize() const override;
+        size_t typeSize() const override;
         //! Return the number of components in the value
-        long count() const override;
+        size_t count() const override;
         //! Return the size of the value in bytes
-        long size() const override;
+        size_t size() const override;
         //! Return the value as a string.
         std::string toString() const override;
         std::string toString(long n) const override;
@@ -158,7 +158,7 @@ namespace Exiv2
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //! Return the size of the data area.
-        long sizeDataArea() const;
+        size_t sizeDataArea() const;
 
         /// @brief Return a copy of the data area of the value. The caller owns this copy and %DataBuf ensures that it
         /// will be deleted.
@@ -200,12 +200,12 @@ namespace Exiv2
         /// should not include an extension. The function will overwrite an existing file of the same name.
         /// @param path File name of the thumbnail without extension.
         /// @return The number of bytes written.
-        long writeFile(const std::string& path) const;
+        size_t writeFile(const std::string& path) const;
 
 #ifdef EXV_UNICODE_PATH
         /// @brief Like writeFile() but accepts a unicode path in an std::wstring.
         /// @note This function is only available on Windows.
-        long writeFile(const std::wstring& wpath) const;
+        size_t writeFile(const std::wstring& wpath) const;
 #endif
         /// @brief Return the MIME type of the thumbnail, either \c "image/tiff" or \c "image/jpeg".
         const char* mimeType() const;
@@ -269,7 +269,7 @@ namespace Exiv2
         /// @note  The JPEG image inserted as thumbnail image should not itself contain Exif data (or other metadata),
         /// as existing applications may have problems with that. (The preview application that comes with OS X for
         /// one.) - David Harvey.
-        void setJpegThumbnail(const byte* buf, long size, URational xres, URational yres, uint16_t unit);
+        void setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit);
 
         /// @brief Set the Exif thumbnail to the JPEG image \em path.
         ///
@@ -294,7 +294,7 @@ namespace Exiv2
         /// the thumbnail.)
         /// @note  No checks on the image format or size are performed.
         /// @note  Additional existing Exif thumbnail tags are not modified.
-        void setJpegThumbnail(const byte* buf, long size);
+        void setJpegThumbnail(const byte* buf, size_t size);
 
         /// @brief Delete the thumbnail from the Exif data. Removes all Exif.%Thumbnail.*, i.e., Exif IFD1 tags.
         void erase();
@@ -412,7 +412,7 @@ namespace Exiv2
         /// @param pData Pointer to the data buffer. Must point to data in binary Exif format; no checks are performed.
         /// @param size  Length of the data buffer
         /// @return Byte order in which the data is encoded.
-        static ByteOrder decode(ExifData& exifData, const byte* pData, uint32_t size);
+        static ByteOrder decode(ExifData& exifData, const byte* pData, size_t size);
 
         /// @brief Encode Exif metadata from the provided metadata to binary Exif format.
         ///
@@ -439,7 +439,7 @@ namespace Exiv2
         /// @param byteOrder Byte order to use.
         /// @param exifData  Exif metadata container.
         /// @return Write method used.
-        static WriteMethod encode(Blob& blob, const byte* pData, uint32_t size, ByteOrder byteOrder,
+        static WriteMethod encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder,
                                   const ExifData& exifData);
 
         /// @brief Encode metadata from the provided metadata to Exif format.

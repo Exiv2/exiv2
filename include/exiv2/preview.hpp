@@ -53,14 +53,10 @@ namespace Exiv2 {
         //! Unicode preview image extension in an std::wstring
         std::wstring wextension_;
 #endif
-        //! Preview image size in bytes.
-        uint32_t size_;
-        //! Preview image width in pixels or 0 for unknown width.
-        uint32_t width_;
-        //! Preview image height in pixels or 0 for unknown height.
-        uint32_t height_;
-        //! Identifies type of preview image.
-        PreviewId id_;
+        size_t size_;   //! Preview image size in bytes.
+        size_t width_;  //! Preview image width in pixels or 0 for unknown width.
+        size_t height_; //! Preview image height in pixels or 0 for unknown height.
+        PreviewId id_;  //! Identifies type of preview image.
     };
 
     //! Container type to hold all preview images metadata.
@@ -100,7 +96,7 @@ namespace Exiv2 {
         /*!
           @brief Return the size of the preview image in bytes.
          */
-        uint32_t size() const;
+        size_t size() const;
         /*!
           @brief Write the thumbnail image to a file.
 
@@ -111,13 +107,13 @@ namespace Exiv2 {
           @param path File name of the preview image without extension.
           @return The number of bytes written.
         */
-        long writeFile(const std::string& path) const;
+        size_t writeFile(const std::string& path) const;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like writeFile() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
-        long writeFile(const std::wstring& wpath) const;
+        size_t writeFile(const std::wstring& wpath) const;
 #endif
         /*!
           @brief Return the MIME type of the preview image, usually either
@@ -140,11 +136,11 @@ namespace Exiv2 {
         /*!
           @brief Return the width of the preview image in pixels.
         */
-        uint32_t width() const;
+        size_t width() const;
         /*!
           @brief Return the height of the preview image in pixels.
         */
-        uint32_t height() const;
+        size_t height() const;
         /*!
           @brief Return the preview image type identifier.
         */
@@ -157,7 +153,7 @@ namespace Exiv2 {
 
         PreviewProperties properties_;          //!< Preview image properties
         byte* pData_;                           //!< Pointer to the preview image data
-        uint32_t size_;                         //!< Size of the preview image data
+        size_t size_;                           //!< Size of the preview image data
 
     }; // class PreviewImage
 

@@ -39,6 +39,19 @@
 // namespace extensions
 namespace Exiv2 {
 
+#if defined(_MSC_VER) && _WIN64
+ using int64 = int64_t;
+#else
+ using int64 = long;
+#endif
+
+/// user-defined literal operator for size_t
+constexpr size_t operator"" _z(unsigned long long n)
+{
+    return static_cast<size_t>(n);
+}
+
+
 // *****************************************************************************
 // class definitions
 
@@ -96,7 +109,7 @@ namespace Exiv2 {
           @return Number of bytes written to IO source successfully;<BR>
               0 if failure;
          */
-        virtual long write(const byte* data, long wcount) = 0;
+        virtual size_t write(const byte* data, size_t wcount) = 0;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the IO source. Current IO position is advanced by the number
@@ -106,7 +119,7 @@ namespace Exiv2 {
           @return Number of bytes written to IO source successfully;<BR>
               0 if failure;
          */
-        virtual long write(BasicIo& src) = 0;
+        virtual size_t write(BasicIo& src) = 0;
         /*!
           @brief Write one byte to the IO source. Current IO position is
               advanced by one byte.
@@ -138,7 +151,7 @@ namespace Exiv2 {
           @return Number of bytes read from IO source successfully;<BR>
               0 if failure;
          */
-        virtual long read(byte* buf, long rcount) = 0;
+        virtual size_t read(byte* buf, size_t rcount) = 0;
         /*!
           @brief Read data from the IO source. Reading starts at the current
               IO position and the position is advanced by the number of bytes
@@ -149,7 +162,7 @@ namespace Exiv2 {
           @param err ErrorCode to throw if not enough bytes are available.
           @param rcount Number of bytes to read.
          */
-        void readOrThrow(byte* buf, long rcount);
+        void readOrThrow(byte* buf, size_t rcount);
         /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
@@ -179,11 +192,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        virtual int seek(int64_t offset, Position pos) = 0;
-#else
-        virtual int seek(long offset, Position pos) = 0;
-#endif
+        virtual int seek(int64 offset, Position pos) = 0;
 
         /*!
           @brief Direct access to the IO data. For files, this is done by
@@ -212,7 +221,7 @@ namespace Exiv2 {
           @return Offset from the start of IO if successful;<BR>
                  -1 if failure;
          */
-        virtual long tell() const = 0;
+        virtual int64 tell() const = 0;
         /*!
           @brief Get the current size of the IO source in bytes.
           @return Size of the IO source in bytes;<BR>
@@ -364,7 +373,7 @@ namespace Exiv2 {
           @return Number of bytes written to the file successfully;<BR>
                  0 if failure;
          */
-        long write(const byte* data, long wcount) override;
+        size_t write(const byte* data, size_t wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the file. The file position is advanced by the number
@@ -374,7 +383,7 @@ namespace Exiv2 {
           @return Number of bytes written to the file successfully;<BR>
                  0 if failure;
          */
-        long write(BasicIo& src) override;
+        size_t write(BasicIo& src) override;
         /*!
           @brief Write one byte to the file. The file position is
               advanced by one byte.
@@ -406,7 +415,7 @@ namespace Exiv2 {
           @return Number of bytes read from the file successfully;<BR>
                  0 if failure;
          */
-        long read(byte* buf, long rcount) override;
+        size_t read(byte* buf, size_t rcount) override;
         /*!
           @brief Read one byte from the file. The file position is
               advanced by one byte.
@@ -441,11 +450,8 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
+
         /*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
@@ -486,7 +492,7 @@ namespace Exiv2 {
           @return Offset from the start of the file if successful;<BR>
                  -1 if failure;
          */
-        long tell() const override;
+        int64 tell() const override;
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes.
@@ -559,7 +565,7 @@ namespace Exiv2 {
               bytes long
           @param size Number of bytes to copy.
          */
-        MemIo(const byte* data, long size);
+        MemIo(const byte* data, size_t size);
         //! Destructor. Releases all managed memory
         virtual ~MemIo();
         //@}
@@ -588,7 +594,7 @@ namespace Exiv2 {
           @return Number of bytes written to the memory block successfully;<BR>
                  0 if failure;
          */
-        long write(const byte* data, long wcount) override;
+        size_t write(const byte* data, size_t wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the memory block. If needed, the size of the internal memory
@@ -599,7 +605,7 @@ namespace Exiv2 {
           @return Number of bytes written to the memory block successfully;<BR>
                  0 if failure;
          */
-        long write(BasicIo& src) override;
+        size_t write(BasicIo& src) override;
         /*!
           @brief Write one byte to the memory block. The IO position is
               advanced by one byte.
@@ -631,7 +637,7 @@ namespace Exiv2 {
           @return Number of bytes read from the memory block successfully;<BR>
                  0 if failure;
          */
-        long read(byte* buf, long rcount) override;
+        size_t read(byte* buf, size_t rcount) override;
         /*!
           @brief Read one byte from the memory block. The IO position is
               advanced by one byte.
@@ -663,11 +669,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
@@ -686,7 +688,7 @@ namespace Exiv2 {
           @brief Get the current IO position.
           @return Offset from the start of the memory block
          */
-        long tell() const override;
+        int64 tell() const override;
         /*!
           @brief Get the current memory buffer size in bytes.
           @return Size of the in memory data in bytes;<BR>
@@ -866,7 +868,7 @@ namespace Exiv2 {
           @brief Not support this method.
           @return 0 means failure
          */
-        long write(const byte* data, long wcount) override;
+        size_t write(const byte* data, size_t wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to the remote file.
 
@@ -881,7 +883,7 @@ namespace Exiv2 {
 
           @note The write access is only supported by http, https, ssh.
          */
-        long write(BasicIo& src) override;
+        size_t write(BasicIo& src) override;
 
         /*!
          @brief Not support
@@ -915,7 +917,7 @@ namespace Exiv2 {
          @return Number of bytes read from the memory block successfully;<BR>
                 0 if failure;
         */
-       long read(byte* buf, long rcount) override;
+       size_t read(byte* buf, size_t rcount) override;
        /*!
          @brief Read one byte from the memory blocks. The IO position is
              advanced by one byte.
@@ -948,11 +950,7 @@ namespace Exiv2 {
          @return 0 if successful;<BR>
                 Nonzero if failure;
         */
-#if defined(_MSC_VER)
-       int seek(int64_t offset, Position pos) override;
-#else
-       int seek(long offset, Position pos) override;
-#endif
+       int seek(int64 offset, Position pos) override;
        /*!
          @brief Not support
          @return nullptr
@@ -970,7 +968,7 @@ namespace Exiv2 {
          @brief Get the current IO position.
          @return Offset from the start of the memory block
         */
-       long tell() const override;
+       int64 tell() const override;
        /*!
          @brief Get the current memory buffer size in bytes.
          @return Size of the in memory data in bytes;<BR>
@@ -1091,13 +1089,13 @@ namespace Exiv2 {
                 will call RemoteIo::write(const byte* data, long wcount) if the write
                 access is available for the protocol. Otherwise, it throws the Error.
          */
-        long write(const byte* data, long wcount);
+        size_t write(const byte* data, size_t wcount);
         /*!
           @brief Write access is only available for some protocols. This method
                 will call RemoteIo::write(BasicIo& src) if the write access is available
                 for the protocol. Otherwise, it throws the Error.
          */
-        long write(BasicIo& src);
+        size_t write(BasicIo& src);
     protected:
         // NOT IMPLEMENTED
         //! Copy constructor
@@ -1136,13 +1134,13 @@ namespace Exiv2 {
       @return Return the number of bytes written.
       @throw Error In case of failure.
      */
-    EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
+    EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
 #ifdef EXV_UNICODE_PATH
     /*!
       @brief Like writeFile() but accepts a unicode path in an std::wstring.
       @note This function is only available on Windows.
      */
-    EXIV2API long writeFile(const DataBuf& buf, const std::wstring& wpath);
+    EXIV2API size_t writeFile(const DataBuf& buf, const std::wstring& wpath);
 #endif
     /*!
       @brief replace each substring of the subject that matches the given search string with the given replacement.

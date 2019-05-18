@@ -55,12 +55,6 @@
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
-// Simple min and max macros
-//! Simple common min macro
-#define EXV_MIN(a,b) ((a) < (b) ? (a) : (b))
-//! Simple common max macro
-#define EXV_MAX(a,b) ((a) > (b) ? (a) : (b))
-
 #if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
 #define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
 #elif defined(_MSC_VER) && (_MSC_VER >= 1700)
@@ -180,7 +174,7 @@ namespace Exiv2 {
         //! Return the type id for a type name
         static TypeId typeId(const std::string& typeName);
         //! Return the size in bytes of one element of this type
-        static long typeSize(TypeId typeId);
+        static size_t typeSize(TypeId typeId);
 
     };
 
@@ -191,9 +185,9 @@ namespace Exiv2 {
      */
     struct EXIV2API DataBufRef {
         //! Constructor
-        explicit DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
+        explicit DataBufRef(std::pair<byte*, size_t> rhs) : p(rhs) {}
         //! Pointer to a byte array and its size
-        std::pair<byte*, long> p;
+        std::pair<byte*, size_t> p;
     };
 
     /*!
@@ -209,9 +203,9 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf();
         //! Constructor with an initial buffer size
-        explicit DataBuf(long size);
+        explicit DataBuf(size_t size);
         //! Constructor, copies an existing buffer
-        DataBuf(const byte* pData, long size);
+        DataBuf(const byte* pData, size_t size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
                  object similar to std::unique_ptr, i.e., the original object is
@@ -235,13 +229,13 @@ namespace Exiv2 {
                  the requested \em size is less than the current buffer size, no
                  new memory is allocated and the buffer size doesn't change.
          */
-        void alloc(long size);
+        void alloc(size_t size);
         /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal
                  buffer.
          */
-        EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
+        EXV_WARN_UNUSED_RESULT std::pair<byte*, size_t> release();
 
          /*!
            @brief Free the internal buffer and reset the size to 0.
@@ -249,7 +243,7 @@ namespace Exiv2 {
         void free();
 
         //! Reset value
-        void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
+        void reset(std::pair<byte*, size_t> =std::make_pair((byte*)(0),size_t(0)));
         //@}
 
         /*!
@@ -294,7 +288,7 @@ namespace Exiv2 {
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pData_;
         //! The current size of the buffer
-        long size_;
+        size_t size_;
     }; // class DataBuf
 
     /*!

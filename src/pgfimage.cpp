@@ -134,7 +134,7 @@ namespace Exiv2 {
         enforce(headerSize + 8 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
                 kerCorruptedMetadata);
 #endif
-        long size = static_cast<long>(headerSize) + 8 - io_->tell();
+        int64 size = static_cast<int64>(headerSize) + 8 - io_->tell();
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
@@ -145,7 +145,7 @@ namespace Exiv2 {
 
         DataBuf imgData(size);
         std::memset(imgData.pData_, 0x0, imgData.size_);
-        long bufRead = io_->read(imgData.pData_, imgData.size_);
+        size_t bufRead = io_->read(imgData.pData_, imgData.size_);
         if (io_->error()) throw Error(kerFailedToReadImageData);
         if (bufRead != imgData.size_) throw Error(kerInputDataReadFailed);
 
@@ -204,8 +204,8 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        long    imgSize  = (long) img->io().size();
-        DataBuf imgBuf   = img->io().read(imgSize);
+        size_t imgSize = img->io().size();
+        DataBuf imgBuf = img->io().read((long)imgSize);
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Creating image to host metadata (" << imgSize << " bytes)\n";
@@ -220,7 +220,7 @@ namespace Exiv2 {
         if (outIo.putb(mnb) == EOF) throw Error(kerImageWriteFailed);
 
         // Write new Header size.
-        uint32_t newHeaderSize = header.size_ + imgSize;
+        size_t newHeaderSize = header.size_ + imgSize;
         DataBuf buffer(4);
         memcpy (buffer.pData_, &newHeaderSize, 4);
         byteSwap_(buffer,0,bSwap_);
@@ -244,7 +244,7 @@ namespace Exiv2 {
         // Copy the rest of PGF image data.
 
         DataBuf buf(4096);
-        long readSize = 0;
+        size_t readSize = 0;
         while ((readSize=io_->read(buf.pData_, buf.size_)))
         {
             if (outIo.write(buf.pData_, readSize) != readSize) throw Error(kerImageWriteFailed);
@@ -272,7 +272,7 @@ namespace Exiv2 {
     uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo)
     {
         DataBuf buffer(4);
-        long bufRead = iIo.read(buffer.pData_, buffer.size_);
+        size_t bufRead = iIo.read(buffer.pData_, buffer.size_);
         if (iIo.error()) throw Error(kerFailedToReadImageData);
         if (bufRead != buffer.size_) throw Error(kerInputDataReadFailed);
 
@@ -289,7 +289,7 @@ namespace Exiv2 {
     DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height)
     {
         DataBuf header(16);
-        long bufRead = iIo.read(header.pData_, header.size_);
+        size_t bufRead = iIo.read(header.pData_, header.size_);
         if (iIo.error()) throw Error(kerFailedToReadImageData);
         if (bufRead != header.size_) throw Error(kerInputDataReadFailed);
 

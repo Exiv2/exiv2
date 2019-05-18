@@ -217,17 +217,17 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Xmpdatum::typeSize() const
+    size_t Xmpdatum::typeSize() const
     {
         return 0;
     }
 
-    long Xmpdatum::count() const
+    size_t Xmpdatum::count() const
     {
         return p_->value_.get() == 0 ? 0 : p_->value_->count();
     }
 
-    long Xmpdatum::size() const
+    size_t Xmpdatum::size() const
     {
         return p_->value_.get() == 0 ? 0 : p_->value_->size();
     }
@@ -795,7 +795,7 @@ namespace Exiv2 {
                 || i->typeId() == xmpAlt) {
                 printNode(ns, i->tagName(), "", options);
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
-                for (int idx = 0; idx < i->count(); ++idx) {
+                for (long idx = 0; idx < static_cast<long>(i->count()); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";
                     printNode(ns, item, i->toString(idx), 0);
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());

@@ -777,7 +777,7 @@ namespace Exiv2 {
         assert(object != 0);
 
         if (object->cfg() == 0 || !object->decoded()) return;
-        int32_t size = object->TiffEntryBase::doSize();
+        std::uint32_t size = object->TiffEntryBase::doSize();
         if (size == 0) return;
         if (!object->initialize(pRoot_)) return;
 
@@ -788,7 +788,7 @@ namespace Exiv2 {
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size_ > 0) {
                 pData = buf.pData_;
-                size = buf.size_;
+                size = static_cast<std::uint32_t>(buf.size_);
             }
             if (!object->updOrigDataBuf(pData, size)) {
                 setDirty();
@@ -924,7 +924,7 @@ namespace Exiv2 {
     {
         encodeOffsetEntry(object, datum);
 
-        uint32_t sizeDataArea = object->pValue()->sizeDataArea();
+        size_t sizeDataArea = object->pValue()->sizeDataArea();
 
         if (sizeDataArea > 0 && writeMethod() == wmNonIntrusive) {
 #ifdef DEBUG
@@ -947,12 +947,12 @@ namespace Exiv2 {
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
-                object->strips_.push_back(std::make_pair(zero, sizeDataArea));
+                object->strips_.push_back(std::make_pair(zero, (uint32_t)sizeDataArea));
             }
             else {
                 uint32_t sizeTotal = 0;
                 object->strips_.clear();
-                for (long i = 0; i < pos->count(); ++i) {
+                for (long i = 0; i < static_cast<long>(pos->count()); ++i) {
                     uint32_t len = pos->toLong(i);
                     object->strips_.push_back(std::make_pair(zero, len));
                     sizeTotal += len;
@@ -1016,7 +1016,7 @@ namespace Exiv2 {
 #ifdef DEBUG
         bool tooLarge = false;
 #endif
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
 #ifdef DEBUG
@@ -1038,7 +1038,7 @@ namespace Exiv2 {
         assert(object != 0);
         assert(datum != 0);
 
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
             object->updateValue(datum->getValue(), byteOrder()); // clones the value
@@ -1133,7 +1133,7 @@ namespace Exiv2 {
     } // TiffEncoder::add
 
     TiffReader::TiffReader(const byte*    pData,
-                           uint32_t       size,
+                           size_t size,
                            TiffComponent* pRoot,
                            TiffRwState    state)
         : pData_(pData),
@@ -1467,7 +1467,7 @@ namespace Exiv2 {
         p += 2;
         TiffType tiffType = getUShort(p, byteOrder());
         TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
-        long typeSize = TypeInfo::typeSize(typeId);
+        size_t typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(object->group())
@@ -1492,12 +1492,12 @@ namespace Exiv2 {
             return;
         }
         p += 4;
-        uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
+        size_t isize= 0; // size of Exif.Sony1.PreviewImage
 
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
             throw Error(kerArithmeticOverflow);
         }
-        uint32_t size = typeSize * count;
+        size_t size = typeSize * count;
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4
@@ -1566,7 +1566,7 @@ namespace Exiv2 {
         }
 
         object->setValue(std::move(v));
-        object->setData(pData, size);
+        object->setData(pData, (int32_t)size);
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
 

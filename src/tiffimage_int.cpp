@@ -1540,7 +1540,7 @@ namespace Exiv2 {
               IptcData&          iptcData,
               XmpData&           xmpData,
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               FindDecoderFct     findDecoderFct,
               TiffHeaderBase*    pHeader
@@ -1568,7 +1568,7 @@ namespace Exiv2 {
     WriteMethod TiffParserWorker::encode(
               BasicIo&           io,
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
         const ExifData&          exifData,
         const IptcData&          iptcData,
         const XmpData&           xmpData,
@@ -1625,11 +1625,11 @@ namespace Exiv2 {
             DataBuf header = pHeader->write();
             BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
+            IoWrapper ioWrapper(*tempIo, header.pData_, (long)header.size_, pOffsetWriter);
             uint32_t imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
-                               header.size_,
+                               (int32_t)header.size_,
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);
@@ -1649,7 +1649,7 @@ namespace Exiv2 {
 
     TiffComponent::UniquePtr TiffParserWorker::parse(
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               TiffHeaderBase*    pHeader
     )
@@ -1719,7 +1719,7 @@ namespace Exiv2 {
     {
     }
 
-    bool TiffHeaderBase::read(const byte* pData, uint32_t size)
+    bool TiffHeaderBase::read(const byte* pData, size_t size)
     {
         if (!pData || size < 8) return false;
 
