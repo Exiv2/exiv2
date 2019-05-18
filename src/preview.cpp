@@ -1099,7 +1099,7 @@ namespace Exiv2 {
         return pData_;
     }
 
-    uint32_t PreviewImage::size() const
+    size_t PreviewImage::size() const
     {
         return size_;
     }

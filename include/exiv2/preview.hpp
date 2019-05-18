@@ -100,7 +100,7 @@ namespace Exiv2 {
         /*!
           @brief Return the size of the preview image in bytes.
          */
-        uint32_t size() const;
+        size_t size() const;
         /*!
           @brief Write the thumbnail image to a file.
 
@@ -157,7 +157,7 @@ namespace Exiv2 {
 
         PreviewProperties properties_;          //!< Preview image properties
         byte* pData_;                           //!< Pointer to the preview image data
-        uint32_t size_;                         //!< Size of the preview image data
+        size_t size_;                           //!< Size of the preview image data
 
     }; // class PreviewImage
 
