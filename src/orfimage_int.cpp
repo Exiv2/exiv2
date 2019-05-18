@@ -13,7 +13,7 @@ namespace Exiv2 {
     {
     }
 
-    bool OrfHeader::read(const byte* pData, uint32_t size)
+    bool OrfHeader::read(const byte* pData, size_t size)
     {
         if (size < 8) return false;
 

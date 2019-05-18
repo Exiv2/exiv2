@@ -609,7 +609,7 @@ namespace Exiv2 {
          */
         virtual void setStrips(const Value* pSize,
                                const byte*  pData,
-                               uint32_t     sizeData,
+                               size_t       sizeData,
                                uint32_t     baseOffset) =0;
         //@}
 
@@ -654,7 +654,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
+        void setStrips(const Value* pSize, const byte* pData, size_t sizeData, uint32_t baseOffset) override;
         //@}
 
     protected:
@@ -733,7 +733,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
+        void setStrips(const Value* pSize, const byte* pData, size_t sizeData, uint32_t baseOffset) override;
         //@}
 
     protected:

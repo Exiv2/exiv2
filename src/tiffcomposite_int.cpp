@@ -400,7 +400,7 @@ namespace Exiv2 {
 
     void TiffDataEntry::setStrips(const Value* pSize,
                                   const byte*  pData,
-                                  uint32_t     sizeData,
+                                  size_t sizeData,
                                   uint32_t     baseOffset)
     {
         if (!pValue() || !pSize) {
@@ -467,7 +467,7 @@ namespace Exiv2 {
 
     void TiffImageEntry::setStrips(const Value* pSize,
                                    const byte*  pData,
-                                   uint32_t     sizeData,
+                                   size_t sizeData,
                                    uint32_t     baseOffset)
     {
         if (!pValue() || !pSize) {

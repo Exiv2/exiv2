@@ -129,13 +129,8 @@ namespace Exiv2 {
 
           @return Byte order in which the data is encoded.
         */
-        static ByteOrder decode(
-                  ExifData& exifData,
-                  IptcData& iptcData,
-                  XmpData&  xmpData,
-            const byte*     pData,
-                  uint32_t  size
-        );
+        static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
+                                size_t size);
         /*!
           @brief Encode metadata from the provided metadata to TIFF format.
 
@@ -169,15 +164,8 @@ namespace Exiv2 {
 
           @return Write method used.
         */
-        static WriteMethod encode(
-                  BasicIo&  io,
-            const byte*     pData,
-                  uint32_t  size,
-                  ByteOrder byteOrder,
-            const ExifData& exifData,
-            const IptcData& iptcData,
-            const XmpData&  xmpData
-        );
+        static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
+                                  const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData);
 
     }; // class TiffParser
 

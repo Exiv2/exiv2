@@ -1133,7 +1133,7 @@ namespace Exiv2 {
     } // TiffEncoder::add
 
     TiffReader::TiffReader(const byte*    pData,
-                           uint32_t       size,
+                           size_t size,
                            TiffComponent* pRoot,
                            TiffRwState    state)
         : pData_(pData),
