@@ -265,9 +265,7 @@ namespace Exiv2 {
 
         explicit DataValue(TypeId typeId =undefined);
 
-        DataValue(const byte* buf,
-                  long len, ByteOrder byteOrder =invalidByteOrder,
-                  TypeId typeId =undefined);
+        DataValue(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder, TypeId typeId = undefined);
 
         virtual ~DataValue();
 
@@ -1570,10 +1568,10 @@ namespace Exiv2 {
     int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder)
     {
         value_.clear();
-        long ts = TypeInfo::typeSize(typeId());
+        size_t ts = TypeInfo::typeSize(typeId());
         if (ts != 0)
             if (len % ts != 0) len = (len / ts) * ts;
-        for (long i = 0; i < len; i += ts) {
+        for (size_t i = 0; i < len; i += ts) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
         }
         return 0;

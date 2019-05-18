@@ -200,7 +200,7 @@ namespace Exiv2 {
     }
 
     DataValue::DataValue(const byte* buf,
-              long len, ByteOrder byteOrder,TypeId typeId)
+              size_t len, ByteOrder byteOrder, TypeId typeId)
         : Value(typeId)
     {
         read(buf, len, byteOrder);

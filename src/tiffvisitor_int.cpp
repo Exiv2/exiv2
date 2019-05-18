@@ -1467,7 +1467,7 @@ namespace Exiv2 {
         p += 2;
         TiffType tiffType = getUShort(p, byteOrder());
         TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
-        long typeSize = TypeInfo::typeSize(typeId);
+        size_t typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(object->group())
@@ -1492,12 +1492,12 @@ namespace Exiv2 {
             return;
         }
         p += 4;
-        uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
+        size_t isize= 0; // size of Exif.Sony1.PreviewImage
 
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
             throw Error(kerArithmeticOverflow);
         }
-        uint32_t size = typeSize * count;
+        size_t size = typeSize * count;
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4
@@ -1566,7 +1566,7 @@ namespace Exiv2 {
         }
 
         object->setValue(std::move(v));
-        object->setData(pData, size);
+        object->setData(pData, (int32_t)size);
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
 

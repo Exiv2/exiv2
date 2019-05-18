@@ -565,7 +565,7 @@ namespace Exiv2 {
     uint32_t ArrayDef::size(uint16_t tag, IfdId group) const
     {
         TypeId typeId = toTypeId(tiffType_, tag, group);
-        return count_ * TypeInfo::typeSize(typeId);
+        return count_ * (uint32_t)TypeInfo::typeSize(typeId);
     }
 
     bool TiffBinaryArray::initialize(IfdId group)
@@ -1048,7 +1048,7 @@ namespace Exiv2 {
         if (elements_.empty()) return 0;
 
         TypeId typeId = toTypeId(tiffType(), tag(), group());
-        long typeSize = TypeInfo::typeSize(typeId);
+        size_t typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(group())
@@ -1408,7 +1408,7 @@ namespace Exiv2 {
         // Some array entries need to have the size in the first element
         if (cfg()->hasSize_) {
             byte buf[4];
-            long elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
+            size_t elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
             switch (elSize) {
             case 2:
                 idx += us2Data(buf, size(), byteOrder);
