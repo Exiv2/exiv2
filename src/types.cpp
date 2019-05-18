@@ -129,12 +129,14 @@ namespace Exiv2 {
     DataBuf::DataBuf(DataBuf& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        std::pair<byte*, long> ret = rhs.release();
+        auto ret = rhs.release();
         UNUSED(ret);
     }
 
     DataBuf::~DataBuf()
-    { delete[] pData_; }
+    {
+        delete[] pData_;
+    }
 
     DataBuf::DataBuf() : pData_(0), size_(0)
     {}
@@ -170,9 +172,9 @@ namespace Exiv2 {
         }
     }
 
-    EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
+    EXV_WARN_UNUSED_RESULT std::pair<byte *, size_t> DataBuf::release()
     {
-        std::pair<byte*, long> p = std::make_pair(pData_, (long)size_);
+        std::pair<byte*, size_t> p = std::make_pair(pData_, size_);
         pData_ = 0;
         size_ = 0;
         return p;
@@ -185,7 +187,7 @@ namespace Exiv2 {
         size_ = 0;
     }
 
-    void DataBuf::reset(std::pair<byte*, long> p)
+    void DataBuf::reset(std::pair<byte *, size_t> p)
     {
         if (pData_ != p.first) {
             delete[] pData_;

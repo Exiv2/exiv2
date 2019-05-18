@@ -358,8 +358,8 @@ namespace Exiv2 {
 
     void TiffEntryBase::setData(DataBuf buf)
     {
-        std::pair<byte*, long> p = buf.release();
-        setData(p.first, p.second);
+        auto p = buf.release();
+        setData(p.first, (int32_t)p.second);
         isMalloced_ = true;
     }
 

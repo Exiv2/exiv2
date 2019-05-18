@@ -1041,7 +1041,7 @@ namespace Exiv2 {
     {
         pData_ = data.pData_;
         size_ = (uint32_t)data.size_;
-        std::pair<byte*, long> ret = data.release();
+        auto ret = data.release();
         UNUSED(ret);
     }
 

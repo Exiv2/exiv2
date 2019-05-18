@@ -543,13 +543,13 @@ namespace Exiv2 {
     {
         if (isAllocated_) {
             delete pData_;
-            pData_ = 0;
+            pData_ = nullptr;
             size_ = 0;
         }
         isAllocated_ = true;
-        std::pair<byte *, long> p = buf.release();
+        auto p = buf.release();
         pData_ = p.first;
-        size_  = p.second;
+        size_  = (uint32_t)p.second;
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }
