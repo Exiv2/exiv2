@@ -53,14 +53,10 @@ namespace Exiv2 {
         //! Unicode preview image extension in an std::wstring
         std::wstring wextension_;
 #endif
-        //! Preview image size in bytes.
-        uint32_t size_;
-        //! Preview image width in pixels or 0 for unknown width.
-        uint32_t width_;
-        //! Preview image height in pixels or 0 for unknown height.
-        uint32_t height_;
-        //! Identifies type of preview image.
-        PreviewId id_;
+        size_t size_;   //! Preview image size in bytes.
+        size_t width_;  //! Preview image width in pixels or 0 for unknown width.
+        size_t height_; //! Preview image height in pixels or 0 for unknown height.
+        PreviewId id_;  //! Identifies type of preview image.
     };
 
     //! Container type to hold all preview images metadata.
@@ -140,11 +136,11 @@ namespace Exiv2 {
         /*!
           @brief Return the width of the preview image in pixels.
         */
-        uint32_t width() const;
+        size_t width() const;
         /*!
           @brief Return the height of the preview image in pixels.
         */
-        uint32_t height() const;
+        size_t height() const;
         /*!
           @brief Return the preview image type identifier.
         */

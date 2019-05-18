@@ -293,10 +293,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   5 if the binary IPTC data is invalid or corrupt
          */
-        static int decode(IptcData& iptcData,
-            const byte*     pData,
-                  size_t size
-        );
+        static int decode(IptcData& iptcData, const byte* pData, size_t size);
         /*!
           @brief Encode the IPTC datasets from \em iptcData to a binary
                  representation in IPTC IIM4 format.
@@ -306,9 +303,7 @@ namespace Exiv2 {
 
           @return Data buffer containing the binary IPTC data in IPTC IIM4 format.
          */
-        static DataBuf encode(
-            const IptcData& iptcData
-        );
+        static DataBuf encode(const IptcData& iptcData);
 
     private:
         // Constant data

@@ -57,8 +57,8 @@ namespace {
         const PreviewProperties& rhs
     )
     {
-        uint32_t l = lhs.width_ * lhs.height_;
-        uint32_t r = rhs.width_ * rhs.height_;
+        size_t l = lhs.width_ * lhs.height_;
+        size_t r = rhs.width_ * rhs.height_;
 
         return l < r;
     }
@@ -404,7 +404,7 @@ namespace {
     {
         PreviewProperties prop;
         prop.id_ = id_;
-        prop.size_ = (uint32_t)size_;
+        prop.size_ = size_;
         prop.width_ = width_;
         prop.height_ = height_;
         return prop;
@@ -1121,12 +1121,12 @@ namespace Exiv2 {
     }
 
 #endif
-    uint32_t PreviewImage::width() const
+    size_t PreviewImage::width() const
     {
         return properties_.width_;
     }
 
-    uint32_t PreviewImage::height() const
+    size_t PreviewImage::height() const
     {
         return properties_.height_;
     }
