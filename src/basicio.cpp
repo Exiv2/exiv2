@@ -1275,7 +1275,7 @@ namespace Exiv2 {
         return data;
     }
 
-    int MemIo::seek( int64_t offset, Position pos )
+    int MemIo::seek(int64 offset, Position pos )
     {
         int64 newIdx = 0;
 
@@ -1748,7 +1748,7 @@ namespace Exiv2 {
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
             blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-            readCount = (size_t) src.read(buf, (long) blockSize);
+            readCount = src.read(buf, blockSize);
             byte* blockData = p_->blocksMap_[blockIndex].getData();
             for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                 if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
@@ -1881,20 +1881,20 @@ namespace Exiv2 {
 
         switch (pos) {
             case BasicIo::cur:
-                newIdx = p_->idx_ + offset;
+                newIdx = static_cast<int64>(p_->idx_) + offset;
                 break;
             case BasicIo::beg:
                 newIdx = offset;
                 break;
             case BasicIo::end:
-                newIdx = p_->size_ + offset;
+                newIdx = static_cast<int64>(p_->size_) + offset;
                 break;
         }
 
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
-        p_->idx_ = newIdx;
-        p_->eof_ = newIdx > (int64) p_->size_;
+        p_->idx_ = static_cast<size_t>(newIdx);
+        p_->eof_ = newIdx > static_cast<int64>(p_->size_);
         if (p_->idx_ > p_->size_)
           p_->idx_ = p_->size_;
         return 0;
@@ -1929,12 +1929,12 @@ namespace Exiv2 {
 
     int64 RemoteIo::tell() const
     {
-        return p_->idx_;
+        return static_cast<int64>(p_->idx_);
     }
 
     size_t RemoteIo::size() const
     {
-        return (long) p_->size_;
+        return p_->size_;
     }
 
     bool RemoteIo::isopen() const
@@ -2644,7 +2644,7 @@ namespace Exiv2 {
             throw WError(kerCallFailed, wpath, strError().c_str(), "::_wstat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
+        size_t len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
             throw WError(kerCallFailed, wpath, strError().c_str(), "FileIo::read");
         }
@@ -2658,7 +2658,7 @@ namespace Exiv2 {
         if (file.open("wb") != 0) {
             throw Error(kerFileOpenFailed, path, "wb", strError());
         }
-        return (long)file.write(buf.pData_, buf.size_);
+        return file.write(buf.pData_, buf.size_);
     }
 
 #ifdef EXV_UNICODE_PATH
