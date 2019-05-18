@@ -831,7 +831,8 @@ namespace Exiv2 {
                 return;
             }
             array << value;
-            if (i != pos->count() - 1) array << " ";
+            if (i != static_cast<long>(pos->count()) - 1)
+              array << " ";
         }
         (*exifData_)[to] = array.str();
         if (erase_) xmpData_->erase(pos);
@@ -1150,9 +1151,8 @@ namespace Exiv2 {
             return;
         }
 
-        const size_t count = pos->count();
         bool added = false;
-        for (int i = 0; i < count; ++i) {
+        for (long i = 0; i < static_cast<long>(pos->count()); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS

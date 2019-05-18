@@ -81,7 +81,7 @@ namespace Exiv2
         /// @return 0 if successful;<BR>
         ///  3 if no data for psTag was found in pPsData;<BR>
         ///  -2 if the pPsData buffer does not contain valid data.
-        static int locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record,
+        static int locateIrb(const byte* pPsData, long sizePsData, uint16_t psTag, const byte** record,
                              uint32_t* const sizeHdr, uint32_t* const sizeData);
 
         /// @brief Forwards to locateIrb() with \em psTag = \em iptc_

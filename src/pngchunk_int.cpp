@@ -608,8 +608,7 @@ namespace Exiv2
             // Parse the length.
             long length = 0;
             while ('0' <= *sp && *sp <= '9') {
-                // Compute the new length using unsigned long, so that we can
-                // check for overflow.
+                // Compute the new length using unsigned long, so that we can check for overflow.
                 const unsigned long newlength = (10 * static_cast<unsigned long>(length)) + (*sp - '0');
                 if (newlength > static_cast<unsigned long>(std::numeric_limits<long>::max())) {
                     return DataBuf(); // Integer overflow.
@@ -634,7 +633,7 @@ namespace Exiv2
 #endif
             }
             info.alloc(length);
-            if (info.size_ != length) {
+            if (info.size_ != (size_t)length) {
 #ifdef DEBUG
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
 #endif

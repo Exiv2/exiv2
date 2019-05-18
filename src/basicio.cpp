@@ -1563,7 +1563,7 @@ namespace Exiv2 {
         size_t          blockSize_;     //!< Size of the block memory.
         BlockMap*       blocksMap_;     //!< An array contains all blocksMap
         size_t          size_;          //!< The file size
-        int64           idx_;           //!< Index into the memory area
+        size_t          idx_;           //!< Index into the memory area
         bool            isMalloced_;    //!< Was the blocksMap_ allocated?
         bool            eof_;           //!< EOF indicator
         Protocol        protocol_;      //!< the protocol of url
@@ -1894,8 +1894,9 @@ namespace Exiv2 {
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
-        p_->eof_ = newIdx > (long) p_->size_;
-        if ( p_->idx_ > (long) p_->size_ ) p_->idx_= (long) p_->size_;
+        p_->eof_ = newIdx > (int64) p_->size_;
+        if (p_->idx_ > p_->size_)
+          p_->idx_ = p_->size_;
         return 0;
     }
 

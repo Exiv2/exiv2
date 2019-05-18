@@ -522,9 +522,7 @@ namespace Exiv2 {
                 readTotal = 0;
                 toRead = 0;
                 while (readTotal < pResourceSize) {
-                    toRead = static_cast<long>(pResourceSize - readTotal) < lbuf.size_
-                                 ? static_cast<long>(pResourceSize - readTotal)
-                                 : lbuf.size_;
+                    toRead = (pResourceSize - readTotal) < lbuf.size_ ? (pResourceSize - readTotal) : lbuf.size_;
                     if (io_->read(lbuf.pData_, toRead) != toRead) {
                         throw Error(kerNotAnImage, "Photoshop");
                     }
@@ -650,7 +648,7 @@ namespace Exiv2 {
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Exif data
-                if (out.write(&blob[0], static_cast<long>(blob.size())) != static_cast<long>(blob.size()))
+                if (out.write(&blob[0], blob.size()) != blob.size())
                     throw Error(kerImageWriteFailed);
                 resLength += blob.size() + 12;
                 if (blob.size() & 1)  // even padding
@@ -700,8 +698,7 @@ namespace Exiv2 {
             if (out.write(buf, 4) != 4)
                 throw Error(kerImageWriteFailed);
             // Write XMPPacket
-            if (out.write(reinterpret_cast<const byte*>(xmpPacket.data()), static_cast<long>(xmpPacket.size())) !=
-                static_cast<long>(xmpPacket.size()))
+            if (out.write(reinterpret_cast<const byte*>(xmpPacket.data()), xmpPacket.size()) != xmpPacket.size())
                 throw Error(kerImageWriteFailed);
             if (out.error())
                 throw Error(kerImageWriteFailed);

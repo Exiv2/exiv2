@@ -140,7 +140,7 @@ namespace Exiv2 {
     //       the format (in particular the header). So it remains to be confirmed
     //       if this also makes sense for psTag != Photoshop::iptc
     int Photoshop::locateIrb(const byte*     pPsData,
-                             size_t          sizePsData,
+                             long            sizePsData,
                              uint16_t        psTag,
                              const byte**    record,
                              uint32_t *const sizeHdr,
@@ -222,7 +222,7 @@ namespace Exiv2 {
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData)
     {
-        return locateIrb(pPsData, sizePsData, iptc_, record, sizeHdr, sizeData);
+        return locateIrb(pPsData, (long)sizePsData, iptc_, record, sizeHdr, sizeData);
     }
 
     int Photoshop::locatePreviewIrb(const byte*     pPsData,
@@ -231,7 +231,7 @@ namespace Exiv2 {
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData)
     {
-        return locateIrb(pPsData, sizePsData, preview_, record, sizeHdr, sizeData);
+        return locateIrb(pPsData, (long)sizePsData, preview_, record, sizeHdr, sizeData);
     }
 
     DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData)
@@ -282,7 +282,7 @@ namespace Exiv2 {
             // Skip the IPTC IRB
             pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
-        if (pos < sizePsData) {
+        if (static_cast<size_t>(pos) < sizePsData) {
             append(psBlob, pPsData + pos, (uint32_t)(sizePsData - pos));
         }
         // Data is rounded to be even
@@ -1114,7 +1114,7 @@ namespace Exiv2 {
                             throw Error(kerImageWriteFailed);
 
                         // Write new Exif data buffer
-                        if (outIo.write(pExifData, exifSize) != static_cast<long>(exifSize))
+                        if (outIo.write(pExifData, exifSize) != exifSize)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())
                             throw Error(kerImageWriteFailed);
@@ -1269,7 +1269,7 @@ namespace Exiv2 {
                 io_->read(buf.pData_, size + 2);
                 if (io_->error() || io_->eof())
                     throw Error(kerInputDataReadFailed);
-                if (outIo.write(buf.pData_, size + 2) != size + 2)
+                if (outIo.write(buf.pData_, size + 2) != static_cast<size_t>(size) + 2)
                     throw Error(kerImageWriteFailed);
                 if (outIo.error())
                     throw Error(kerImageWriteFailed);
