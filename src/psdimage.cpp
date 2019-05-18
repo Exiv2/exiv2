@@ -459,7 +459,7 @@ namespace Exiv2 {
 
             // read rest of resource name, plus any padding
             DataBuf resName(256);
-            if (io_->read(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
+            if (io_->read(resName.pData_, adjResourceNameLen) != static_cast<size_t>(adjResourceNameLen))
                 throw Error(kerNotAnImage, "Photoshop");
 
             // read resource size (actual length w/o padding!)
@@ -513,7 +513,7 @@ namespace Exiv2 {
                 buf[0] = resourceNameFirstChar;
                 if (outIo.write(buf, 1) != 1)
                     throw Error(kerImageWriteFailed);
-                if (outIo.write(resName.pData_, adjResourceNameLen) != static_cast<long>(adjResourceNameLen))
+                if (outIo.write(resName.pData_, adjResourceNameLen) != static_cast<size_t>(adjResourceNameLen))
                     throw Error(kerImageWriteFailed);
                 ul2Data(buf, resourceSize, bigEndian);
                 if (outIo.write(buf, 4) != 4)

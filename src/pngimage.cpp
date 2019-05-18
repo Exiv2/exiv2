@@ -267,7 +267,7 @@ namespace Exiv2
 
                 DataBuf   buff(dataOffset);
                 bufRead = io_->read(buff.pData_,dataOffset);
-                enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
+                enforce(bufRead == static_cast<size_t>(dataOffset), kerFailedToReadImageData);
                 io_->seek(restore, BasicIo::beg);
 
                 // format output
@@ -320,7 +320,7 @@ namespace Exiv2
                     byte* data = new byte[dataOffset + 1];
                     data[dataOffset] = 0;
                     bufRead = io_->read(data,dataOffset);
-                    enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
+                    enforce(bufRead == static_cast<size_t>(dataOffset), kerFailedToReadImageData);
                     io_->seek(restore, BasicIo::beg);
                     uint32_t  name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
                     enforce(name_l <= dataOffset, kerCorruptedMetadata);
@@ -566,7 +566,7 @@ namespace Exiv2
             bufRead = io_->read(chunkBuf.pData_ + 8, dataOffset + 4);  // Extract chunk data + CRC
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
-            if (bufRead != (long)(dataOffset + 4))
+            if (bufRead != static_cast<size_t>(dataOffset) + 4)
                 throw Error(kerInputDataReadFailed);
 
             char szChunk[5];
