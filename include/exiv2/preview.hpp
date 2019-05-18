@@ -111,13 +111,13 @@ namespace Exiv2 {
           @param path File name of the preview image without extension.
           @return The number of bytes written.
         */
-        long writeFile(const std::string& path) const;
+        size_t writeFile(const std::string& path) const;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like writeFile() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
-        long writeFile(const std::wstring& wpath) const;
+        size_t writeFile(const std::wstring& wpath) const;
 #endif
         /*!
           @brief Return the MIME type of the preview image, usually either

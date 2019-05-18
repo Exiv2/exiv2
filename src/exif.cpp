@@ -436,7 +436,7 @@ namespace Exiv2 {
         return thumbnail->copy(exifData_);
     }
 
-    long ExifThumbC::writeFile(const std::string& path) const
+    size_t ExifThumbC::writeFile(const std::string& path) const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
         if (thumbnail.get() == 0) return 0;
@@ -447,7 +447,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    long ExifThumbC::writeFile(const std::wstring& wpath) const
+    size_t ExifThumbC::writeFile(const std::wstring& wpath) const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
         if (thumbnail.get() == 0) return 0;

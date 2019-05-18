@@ -1071,7 +1071,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    long PreviewImage::writeFile(const std::string& path) const
+    size_t PreviewImage::writeFile(const std::string& path) const
     {
         std::string name = path + extension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory
@@ -1080,7 +1080,7 @@ namespace Exiv2 {
     }
 
 #ifdef EXV_UNICODE_PATH
-    long PreviewImage::writeFile(const std::wstring& wpath) const
+    size_t PreviewImage::writeFile(const std::wstring& wpath) const
     {
         std::wstring name = wpath + wextension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory

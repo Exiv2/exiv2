@@ -200,12 +200,12 @@ namespace Exiv2
         /// should not include an extension. The function will overwrite an existing file of the same name.
         /// @param path File name of the thumbnail without extension.
         /// @return The number of bytes written.
-        long writeFile(const std::string& path) const;
+        size_t writeFile(const std::string& path) const;
 
 #ifdef EXV_UNICODE_PATH
         /// @brief Like writeFile() but accepts a unicode path in an std::wstring.
         /// @note This function is only available on Windows.
-        long writeFile(const std::wstring& wpath) const;
+        size_t writeFile(const std::wstring& wpath) const;
 #endif
         /// @brief Return the MIME type of the thumbnail, either \c "image/tiff" or \c "image/jpeg".
         const char* mimeType() const;
