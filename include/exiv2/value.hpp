@@ -103,7 +103,7 @@ namespace Exiv2 {
           @param len Size of the data area
           @return Return -1 if the value has no data area, else 0.
          */
-        virtual int setDataArea(const byte* buf, long len);
+        virtual int setDataArea(const byte* buf, size_t len);
         //@}
 
         //! @name Accessors
@@ -175,7 +175,7 @@ namespace Exiv2 {
          */
         virtual Rational toRational(long n =0) const =0;
         //! Return the size of the data area, 0 if there is none.
-        virtual long sizeDataArea() const;
+        virtual size_t sizeDataArea() const;
         /*!
           @brief Return a copy of the data area if the value has one. The
                  caller owns this copy and DataBuf ensures that it will be
@@ -1281,7 +1281,7 @@ namespace Exiv2 {
           @brief Set the data area. This method copies (clones) the buffer
                  pointed to by buf.
          */
-        int setDataArea(const byte* buf, long len) override;
+        int setDataArea(const byte* buf, size_t len) override;
         //@}
 
         //! @name Accessors
@@ -1302,7 +1302,7 @@ namespace Exiv2 {
         float toFloat(long n =0) const override;
         Rational toRational(long n =0) const override;
         //! Return the size of the data area.
-        long sizeDataArea() const override;
+        size_t sizeDataArea() const override;
         /*!
           @brief Return a copy of the data area in a DataBuf. The caller owns
                  this copy and DataBuf ensures that it will be deleted.
@@ -1334,7 +1334,7 @@ namespace Exiv2 {
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pDataArea_;
         //! The current size of the buffer
-        long sizeDataArea_;
+        size_t sizeDataArea_;
     }; // class ValueType
 
     //! Unsigned short value type
@@ -1729,7 +1729,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    long ValueType<T>::sizeDataArea() const
+    size_t ValueType<T>::sizeDataArea() const
     {
         return sizeDataArea_;
     }
@@ -1741,7 +1741,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    int ValueType<T>::setDataArea(const byte* buf, long len)
+    int ValueType<T>::setDataArea(const byte* buf, size_t len)
     {
         byte* tmp = 0;
         if (len > 0) {

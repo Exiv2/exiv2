@@ -111,7 +111,7 @@ namespace Exiv2
         /// @param buf Pointer to the source data area
         /// @param len Size of the data area
         /// @return Return -1 if the %Exifdatum does not have a value yet or the value has no data area, else 0.
-        int setDataArea(const byte* buf, long len);
+        int setDataArea(const byte* buf, size_t len);
         //@}
 
         //! @name Accessors
@@ -158,7 +158,7 @@ namespace Exiv2
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //! Return the size of the data area.
-        long sizeDataArea() const;
+        size_t sizeDataArea() const;
 
         /// @brief Return a copy of the data area of the value. The caller owns this copy and %DataBuf ensures that it
         /// will be deleted.
@@ -294,7 +294,7 @@ namespace Exiv2
         /// the thumbnail.)
         /// @note  No checks on the image format or size are performed.
         /// @note  Additional existing Exif thumbnail tags are not modified.
-        void setJpegThumbnail(const byte* buf, long size);
+        void setJpegThumbnail(const byte* buf, size_t size);
 
         /// @brief Delete the thumbnail from the Exif data. Removes all Exif.%Thumbnail.*, i.e., Exif IFD1 tags.
         void erase();
@@ -412,7 +412,7 @@ namespace Exiv2
         /// @param pData Pointer to the data buffer. Must point to data in binary Exif format; no checks are performed.
         /// @param size  Length of the data buffer
         /// @return Byte order in which the data is encoded.
-        static ByteOrder decode(ExifData& exifData, const byte* pData, uint32_t size);
+        static ByteOrder decode(ExifData& exifData, const byte* pData, size_t size);
 
         /// @brief Encode Exif metadata from the provided metadata to binary Exif format.
         ///
@@ -439,7 +439,7 @@ namespace Exiv2
         /// @param byteOrder Byte order to use.
         /// @param exifData  Exif metadata container.
         /// @return Write method used.
-        static WriteMethod encode(Blob& blob, const byte* pData, uint32_t size, ByteOrder byteOrder,
+        static WriteMethod encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder,
                                   const ExifData& exifData);
 
         /// @brief Encode metadata from the provided metadata to Exif format.

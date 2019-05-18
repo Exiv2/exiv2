@@ -304,7 +304,7 @@ namespace Exiv2 {
         return value_->read(value);
     }
 
-    int Exifdatum::setDataArea(const byte* buf, long len)
+    int Exifdatum::setDataArea(const byte* buf, size_t len)
     {
         return value_.get() == 0 ? -1 : value_->setDataArea(buf, len);
     }
@@ -414,7 +414,7 @@ namespace Exiv2 {
         return value_.get() == 0 ? nullptr : value_->clone();
     }
 
-    long Exifdatum::sizeDataArea() const
+    size_t Exifdatum::sizeDataArea() const
     {
         return value_.get() == 0 ? 0 : value_->sizeDataArea();
     }
@@ -532,7 +532,7 @@ namespace Exiv2 {
     }
 
 #endif
-    void ExifThumb::setJpegThumbnail(const byte* buf, long size)
+    void ExifThumb::setJpegThumbnail(const byte* buf, size_t size)
     {
         exifData_["Exif.Thumbnail.Compression"] = uint16_t(6);
         Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
@@ -609,10 +609,9 @@ namespace Exiv2 {
         return exifMetadata_.erase(pos);
     }
 
-    ByteOrder ExifParser::decode(
-              ExifData& exifData,
+    ByteOrder ExifParser::decode(ExifData& exifData,
         const byte*     pData,
-              uint32_t  size
+              size_t size
     )
     {
         IptcData iptcData;
@@ -641,10 +640,9 @@ namespace Exiv2 {
     };
     //! @endcond
 
-    WriteMethod ExifParser::encode(
-              Blob&     blob,
+    WriteMethod ExifParser::encode(Blob&     blob,
         const byte*     pData,
-              uint32_t  size,
+              size_t size,
               ByteOrder byteOrder,
         const ExifData& exifData
     )

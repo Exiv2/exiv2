@@ -167,7 +167,7 @@ namespace Exiv2 {
         return value;
     } // Value::create
 
-    int Value::setDataArea(const byte* /*buf*/, long /*len*/)
+    int Value::setDataArea(const byte* /*buf*/, size_t /*len*/)
     {
         return -1;
     }
@@ -185,7 +185,7 @@ namespace Exiv2 {
         return toString();
     }
 
-    long Value::sizeDataArea() const
+    size_t Value::sizeDataArea() const
     {
         return 0;
     }

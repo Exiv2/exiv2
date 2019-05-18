@@ -924,7 +924,7 @@ namespace Exiv2 {
     {
         encodeOffsetEntry(object, datum);
 
-        uint32_t sizeDataArea = object->pValue()->sizeDataArea();
+        size_t sizeDataArea = object->pValue()->sizeDataArea();
 
         if (sizeDataArea > 0 && writeMethod() == wmNonIntrusive) {
 #ifdef DEBUG
@@ -947,7 +947,7 @@ namespace Exiv2 {
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
-                object->strips_.push_back(std::make_pair(zero, sizeDataArea));
+                object->strips_.push_back(std::make_pair(zero, (uint32_t)sizeDataArea));
             }
             else {
                 uint32_t sizeTotal = 0;

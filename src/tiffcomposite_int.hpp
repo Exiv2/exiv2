@@ -297,7 +297,7 @@ namespace Exiv2 {
                  write(). Components derived from TiffEntryBase implement this
                  method corresponding to their implementation of writeData().
          */
-        uint32_t sizeData() const;
+        size_t sizeData() const;
         /*!
           @brief Return the size in bytes of the image data of this component
                  when written to a binary image.  This is a support function for
@@ -354,7 +354,7 @@ namespace Exiv2 {
         //! Implements count().
         virtual uint32_t doCount() const =0;
         //! Implements sizeData().
-        virtual uint32_t doSizeData() const =0;
+        virtual size_t doSizeData() const =0;
         //! Implements sizeImage().
         virtual uint32_t doSizeImage() const =0;
         //@}
@@ -518,7 +518,7 @@ namespace Exiv2 {
         //! Implements size(). Return the size of a standard TIFF entry
         uint32_t doSize() const override;
         //! Implements sizeData(). Return 0.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         //! Implements sizeImage(). Return 0.
         uint32_t doSizeImage() const override;
         //@}
@@ -696,7 +696,7 @@ namespace Exiv2 {
         // Using doWriteImage from base class
         // Using doSize() from base class
         //! Implements sizeData(). Return the size of the data area.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         // Using doSizeImage from base class
         //@}
 
@@ -779,7 +779,7 @@ namespace Exiv2 {
         //! Implements size(). Return the size of the strip pointers.
         uint32_t doSize() const override;
         //! Implements sizeData(). Return the size of the image data area.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         //! Implements sizeImage(). Return the size of the image data area.
         uint32_t doSizeImage() const override;
         //@}
@@ -919,7 +919,7 @@ namespace Exiv2 {
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
          */
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         /*!
           @brief Implements sizeImage(). Return the sum of the image sizes of
                  all components plus that of the next-IFD, if there is any.
@@ -1018,7 +1018,7 @@ namespace Exiv2 {
         //! Implements size(). Return the size of the sub-Ifd pointers.
         uint32_t doSize() const override;
         //! Implements sizeData(). Return the sum of the sizes of all sub-IFDs.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         //! Implements sizeImage(). Return the sum of the image sizes of all sub-IFDs.
         uint32_t doSizeImage() const override;
         //@}
@@ -1239,7 +1239,7 @@ namespace Exiv2 {
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
          */
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         /*!
           @brief Implements sizeImage(). Return the total image data size of the
                  makernote IFD.
