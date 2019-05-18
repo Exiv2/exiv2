@@ -601,7 +601,7 @@ namespace Exiv2 {
         size_t readCount = 0;
         size_t writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            const size_t writeCount = static_cast<long>(std::fwrite(buf, 1, static_cast<size_t>(readCount), p_->fp_));
+            const size_t writeCount = std::fwrite(buf, 1, readCount, p_->fp_);
             writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
@@ -1871,16 +1871,16 @@ namespace Exiv2 {
 
         if (fakeData) std::free(fakeData);
 
-        p_->idx_ += (long) totalRead;
-        p_->eof_ = (p_->idx_ == (long) p_->size_);
+        p_->idx_ += (long)totalRead;
+        p_->eof_ = (p_->idx_ == p_->size_);
 
-        return (long) totalRead;
+        return totalRead;
     }
 
     int RemoteIo::getb()
     {
         assert(p_->isMalloced_);
-        if (p_->idx_ == (long)p_->size_) {
+        if (p_->idx_ == p_->size_) {
             p_->eof_ = true;
             return EOF;
         }

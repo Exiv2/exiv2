@@ -40,9 +40,9 @@
 namespace Exiv2 {
 
 /// user-defined literal operator for size_t
-constexpr std::size_t operator"" _z(unsigned long long n)
+constexpr size_t operator"" _z(unsigned long long n)
 {
-     return n;
+    return static_cast<size_t>(n);
 }
 
 
