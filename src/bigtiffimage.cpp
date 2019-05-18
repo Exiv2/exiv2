@@ -201,7 +201,7 @@ namespace Exiv2
                     do
                     {
                         // Read top of directory
-                        io.seek(dir_offset, BasicIo::beg);
+                        io.seek(static_cast<int64>(dir_offset), BasicIo::beg);
 
                         const uint64_t entries = readData(header_.format() == Header::StandardTiff? 2: 8);
                         const bool tooBig = entries > 500;
@@ -279,7 +279,7 @@ namespace Exiv2
                             if ( usePointer )                          // read into buffer
                             {
                                 size_t   restore = io.tell();          // save
-                                io.seek(offset, BasicIo::beg);         // position
+                                io.seek(static_cast<int64>(offset), BasicIo::beg);         // position
                                 io.read(buf.pData_, (long) count * size);     // read
                                 io.seek(restore, BasicIo::beg);        // restore
                             }
@@ -358,7 +358,7 @@ namespace Exiv2
                                     }
 
                                     const size_t restore = io.tell();
-                                    io.seek(offset, BasicIo::beg);  // position
+                                    io.seek(static_cast<int64>(offset), BasicIo::beg);  // position
                                     std::vector<byte> bytes(static_cast<size_t>(count)) ;  // allocate memory
                                     // TODO: once we have C++11 use bytes.data()
                                     const size_t read_bytes = io.read(&bytes[0], static_cast<long>(count));
@@ -374,7 +374,7 @@ namespace Exiv2
                                     long jump= 10           ;
                                     byte     bytes[20]          ;
                                     const char* chars = (const char*) &bytes[0] ;
-                                    io.seek(dir_offset, BasicIo::beg);  // position
+                                    io.seek(static_cast<int64>(dir_offset), BasicIo::beg);  // position
                                     io.read(bytes,jump    )     ;  // read
                                     bytes[jump]=0               ;
                                     if ( ::strcmp("Nikon",chars) == 0 )

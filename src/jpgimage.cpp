@@ -878,7 +878,7 @@ namespace Exiv2 {
 #ifdef DEBUG
                     std::cout << start << ":" << length << std::endl;
 #endif
-                    io_->seek(start, BasicIo::beg);
+                    io_->seek(static_cast<int64>(start), BasicIo::beg);
                     DataBuf buf(length);
                     io_->read(buf.pData_, buf.size_);
                     tempIo->write(buf.pData_, buf.size_);
