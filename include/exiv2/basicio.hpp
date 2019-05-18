@@ -39,6 +39,12 @@
 // namespace extensions
 namespace Exiv2 {
 
+#if defined(_MSC_VER) && _WIN64
+ using int64 = int64_t;
+#else
+ using int64 = long;
+#endif
+
 /// user-defined literal operator for size_t
 constexpr size_t operator"" _z(unsigned long long n)
 {
@@ -186,11 +192,7 @@ constexpr size_t operator"" _z(unsigned long long n)
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        virtual int seek(int64_t offset, Position pos) = 0;
-#else
-        virtual int seek(long offset, Position pos) = 0;
-#endif
+        virtual int seek(int64 offset, Position pos) = 0;
 
         /*!
           @brief Direct access to the IO data. For files, this is done by
@@ -219,7 +221,7 @@ constexpr size_t operator"" _z(unsigned long long n)
           @return Offset from the start of IO if successful;<BR>
                  -1 if failure;
          */
-        virtual long tell() const = 0;
+        virtual int64 tell() const = 0;
         /*!
           @brief Get the current size of the IO source in bytes.
           @return Size of the IO source in bytes;<BR>
@@ -448,11 +450,8 @@ constexpr size_t operator"" _z(unsigned long long n)
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
+
         /*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
@@ -493,7 +492,7 @@ constexpr size_t operator"" _z(unsigned long long n)
           @return Offset from the start of the file if successful;<BR>
                  -1 if failure;
          */
-        long tell() const override;
+        int64 tell() const override;
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes.
@@ -670,11 +669,7 @@ constexpr size_t operator"" _z(unsigned long long n)
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
-        int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+        int seek(int64 offset, Position pos) override;
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
@@ -693,7 +688,7 @@ constexpr size_t operator"" _z(unsigned long long n)
           @brief Get the current IO position.
           @return Offset from the start of the memory block
          */
-        long tell() const override;
+        int64 tell() const override;
         /*!
           @brief Get the current memory buffer size in bytes.
           @return Size of the in memory data in bytes;<BR>
@@ -955,11 +950,7 @@ constexpr size_t operator"" _z(unsigned long long n)
          @return 0 if successful;<BR>
                 Nonzero if failure;
         */
-#if defined(_MSC_VER)
-       int seek(int64_t offset, Position pos) override;
-#else
-       int seek(long offset, Position pos) override;
-#endif
+       int seek(int64 offset, Position pos) override;
        /*!
          @brief Not support
          @return nullptr
@@ -977,7 +968,7 @@ constexpr size_t operator"" _z(unsigned long long n)
          @brief Get the current IO position.
          @return Offset from the start of the memory block
         */
-       long tell() const override;
+       int64 tell() const override;
        /*!
          @brief Get the current memory buffer size in bytes.
          @return Size of the in memory data in bytes;<BR>

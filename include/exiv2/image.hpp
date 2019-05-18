@@ -44,7 +44,7 @@ namespace Exiv2
     //! Native preview information. This is meant to be used only by the PreviewManager.
     struct NativePreview
     {
-        long position_;         //!< Position
+        int64 position_;        //!< Position
         uint32_t size_;         //!< Size
         uint32_t width_;        //!< Width
         uint32_t height_;       //!< Height

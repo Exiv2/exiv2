@@ -222,7 +222,7 @@ namespace Exiv2
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
-            long position = io_->tell();
+            int64 position = io_->tell();
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef DEBUG
@@ -247,7 +247,7 @@ namespace Exiv2
 #ifdef DEBUG
                     std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found" << std::endl;
 #endif
-                    long restore = io_->tell();
+                    int64 restore = io_->tell();
 
                     while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) && subBox.length )
                     {
@@ -475,7 +475,7 @@ namespace Exiv2
             bool bLF = false;
 
             while (box.length && box.type != kJp2BoxTypeClose && io_->read((byte*)&box, sizeof(box)) == sizeof(box)) {
-                long position = io_->tell();
+                int64 position = io_->tell();
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type = getLong((byte*)&box.type, bigEndian);
 
@@ -497,7 +497,7 @@ namespace Exiv2
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) &&
                                io_->tell() < position + (long)box.length)  // don't read beyond the box!
                         {
-                            int address = io_->tell() - sizeof(subBox);
+                            int64 address = io_->tell() - sizeof(subBox);
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type = getLong((byte*)&subBox.type, bigEndian);
 

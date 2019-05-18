@@ -223,7 +223,7 @@ namespace Exiv2 {
                 throw Error(kerNotAnImage, "Photoshop");
             }
             uint32_t resourceSize = getULong(buf, bigEndian);
-            uint32_t curOffset = io_->tell();
+            int64 curOffset = io_->tell();
 
 #ifdef DEBUG
             std::cerr << std::hex << "resourceId: " << resourceId << std::dec << " length: " << resourceSize << std::hex
@@ -417,7 +417,7 @@ namespace Exiv2 {
         if (outIo.error())
             throw Error(kerImageWriteFailed);
 
-        uint32_t resLenOffset = io_->tell();  // remember for later update
+        int64 resLenOffset = io_->tell();  // remember for later update
 
         // Read length of all resource blocks from original PSD
         if (io_->read(buf, 4) != 4)
@@ -468,7 +468,7 @@ namespace Exiv2 {
 
             uint32_t resourceSize = getULong(buf, bigEndian);
             uint32_t pResourceSize = (resourceSize + 1) & ~1;  // padded resource size
-            uint32_t curOffset = io_->tell();
+            int64 curOffset = io_->tell();
 
             // Write IPTC_NAA resource block
             if ((resourceId == kPhotoshopResourceID_IPTC_NAA || resourceId > kPhotoshopResourceID_IPTC_NAA) &&

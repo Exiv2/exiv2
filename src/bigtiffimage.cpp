@@ -443,7 +443,7 @@ namespace Exiv2
 
     bool isBigTiffType(BasicIo& io, bool advance)
     {
-        const long pos = io.tell();
+        const int64 pos = io.tell();
         const Header header = readHeader(io);
         const bool valid = header.isValid();
 

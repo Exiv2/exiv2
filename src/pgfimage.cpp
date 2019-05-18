@@ -134,7 +134,7 @@ namespace Exiv2 {
         enforce(headerSize + 8 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
                 kerCorruptedMetadata);
 #endif
-        long size = static_cast<long>(headerSize) + 8 - io_->tell();
+        int64 size = static_cast<int64>(headerSize) + 8 - io_->tell();
 
 #ifdef DEBUG
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";

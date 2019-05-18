@@ -710,7 +710,7 @@ namespace Exiv2 {
                         // delete IPTC data segment from JPEG
                         if (size > 0) {
                             io_->seek(-(int64_t)bufRead, BasicIo::cur);
-                            iptcDataSegs.push_back(io_->tell());
+                            iptcDataSegs.push_back((uint32_t)io_->tell());
                             iptcDataSegs.push_back(size);
                         }
                     } else if (bPrint) {
@@ -747,7 +747,7 @@ namespace Exiv2 {
 
                             // allocate storage and current file position
                             byte* exif = new byte[size];
-                            uint32_t restore = io_->tell();
+                            int64 restore = io_->tell();
 
                             // copy the data to memory
                             io_->seek(-(int64_t)bufRead, BasicIo::cur);
@@ -924,7 +924,7 @@ namespace Exiv2 {
         const long bufMinSize = 36;
         size_t bufRead = 0;
         DataBuf buf(bufMinSize);
-        const long seek = io_->tell();
+        const int64 seek = io_->tell();
         int count = 0;
         int search = 0;
         int insertPos = 0;

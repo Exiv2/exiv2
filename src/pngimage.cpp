@@ -259,7 +259,7 @@ namespace Exiv2
                 }
 
                 // test that we haven't hit EOF, or wanting to read excessive data
-                long restore = io_->tell();
+                int64 restore = io_->tell();
                 if (restore == -1 || dataOffset > uint32_t(0x7FFFFFFF) ||
                     static_cast<long>(dataOffset) > imgSize - restore) {
                     throw Exiv2::Error(kerFailedToReadImageData);
@@ -439,7 +439,7 @@ namespace Exiv2
 
             // Decode chunk data length.
             uint32_t chunkLength = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
-            long pos = io_->tell();
+            int64 pos = io_->tell();
             if (pos == -1 || chunkLength > uint32_t(0x7FFFFFFF) || static_cast<long>(chunkLength) > imgSize - pos) {
                 throw Exiv2::Error(kerFailedToReadImageData);
             }
