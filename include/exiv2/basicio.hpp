@@ -68,7 +68,12 @@ constexpr size_t operator"" _z(unsigned long long n)
         typedef std::unique_ptr<BasicIo> UniquePtr;
 
         //! Seek starting positions
-        enum Position { beg, cur, end };
+        enum Position
+        {
+            beg,
+            cur,
+            end
+        };
 
         //! @name Creators
         //@{
@@ -184,14 +189,11 @@ constexpr size_t operator"" _z(unsigned long long n)
           @throw Error In case of failure
          */
         virtual void transfer(BasicIo& src) = 0;
-        /*!
-          @brief Move the current IO position.
-          @param offset Number of bytes to move the position relative
-              to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-              Nonzero if failure;
-         */
+
+        /// @brief Move the current file position.
+        /// @param offset Number of bytes to move the file position relative to the starting position specified by pos
+        /// @param pos Position from which the seek should start
+        /// @return 0 if successful;<BR> Nonzero if failure;
         virtual int seek(int64 offset, Position pos) = 0;
 
         /*!
@@ -306,27 +308,18 @@ constexpr size_t operator"" _z(unsigned long long n)
         IoCloser& operator=(const IoCloser&);
     }; // class IoCloser
 
-    /*!
-      @brief Provides binary file IO by implementing the BasicIo
-          interface.
-     */
+    /// @brief Provides binary file IO by implementing the BasicIo interface.
     class EXIV2API FileIo : public BasicIo {
     public:
         //! @name Creators
         //@{
-        /*!
-          @brief Constructor that accepts the file path on which IO will be
-              performed. The constructor does not open the file, and
-              therefore never failes.
-          @param path The full path of a file
-         */
+        /// @brief Constructor that accepts the file path on which IO will be performed.
+        ///
+        /// The constructor does not open the file, and therefore never failes.
         explicit FileIo(const std::string& path);
 #ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like FileIo(const std::string& path) but accepts a
-              unicode path in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
+        /// @brief Like FileIo(const std::string& path) but accepts a unicode path in an std::wstring.
+        /// @note This constructor is only available on Windows.
         FileIo(const std::wstring& wpath);
 #endif
         //! Destructor. Flushes and closes an open file.
@@ -349,14 +342,14 @@ constexpr size_t operator"" _z(unsigned long long n)
               Nonzero if failure.
          */
         int open(const std::string& mode);
-        /*!
-          @brief Open the file using using the default access mode of "rb".
-              This method can also be used to "reopen" a file which will flush
-              any unwritten data and reset the IO position to the start.
-          @return 0 if successful;<BR>
-              Nonzero if failure.
-         */
+
+        /// @brief Open the file using using the default access mode of "rb".
+        ///
+        /// This method can also be used to "reopen" a file which will flush any unwritten data and reset the IO
+        /// position to the start.
+        /// @return 0 if successful; Nonzero if failure.
         int open() override;
+
         /*!
           @brief Flush and unwritten data and close the file . It is
               safe to call close on an already closed instance.
@@ -442,14 +435,7 @@ constexpr size_t operator"" _z(unsigned long long n)
           @throw Error In case of failure
          */
         void transfer(BasicIo& src) override;
-        /*!
-          @brief Move the current file position.
-          @param offset Number of bytes to move the file position
-              relative to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */
+
         int seek(int64 offset, Position pos) override;
 
         /*!
@@ -487,27 +473,26 @@ constexpr size_t operator"" _z(unsigned long long n)
         //@}
         //! @name Accessors
         //@{
-        /*!
-          @brief Get the current file position.
-          @return Offset from the start of the file if successful;<BR>
-                 -1 if failure;
-         */
+        /// @brief Get the current file position.
+        /// @return Offset from the start of the file if successful;<BR> -1 if failure;
         int64 tell() const override;
-        /*!
-          @brief Flush any buffered writes and get the current file size
-              in bytes.
-          @return Size of the file in bytes;<BR>
-                 -1 if failure;
-         */
+
+        /// @brief Flush any buffered writes and get the current file size in bytes.
+        /// @return Size of the file in bytes;<BR> -1 if failure;
         size_t size() const override;
+
         //! Returns true if the file is open, otherwise false.
         bool isopen() const override;
+
         //! Returns 0 if the file is in a valid state, otherwise nonzero.
         int error() const override;
+
         //! Returns true if the file position has reached the end, otherwise false.
         bool eof() const override;
+
         //! Returns the path of the file
         std::string path() const override;
+
 #ifdef EXV_UNICODE_PATH
         /*
           @brief Like path() but returns the unicode path of the file in an std::wstring.
