@@ -22,8 +22,9 @@ try {
     }
     Exiv2::DataBuf buf((long)io.size());
     std::cout << "Reading " << buf.size_ << " bytes from " << data << "\n";
-    io.read(buf.pData_, buf.size_);
-    if (io.error() || !io.eof()) throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+    size_t readBytes = io.read(buf.pData_, buf.size_);
+    if (readBytes != buf.size_ || io.error() || io.eof())
+        throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
 
     // Read metadata from file
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
