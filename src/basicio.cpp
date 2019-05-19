@@ -1010,8 +1010,7 @@ namespace Exiv2 {
 
     bool FileIo::eof() const
     {
-        assert(p_->fp_ != 0);
-        return feof(p_->fp_) != 0 || tell() >= (long) size() ;
+        return std::feof(p_->fp_) != 0;
     }
 
     std::string FileIo::path() const
