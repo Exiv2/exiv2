@@ -90,6 +90,10 @@ namespace Exiv2 {
       enforce(!error(), kerInputDataReadFailed);
     }
 
+    BasicIo::BasicIo() : bigBlock_(nullptr)
+    {
+    }
+
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
     public:

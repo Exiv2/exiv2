@@ -222,10 +222,9 @@ constexpr size_t operator"" _z(unsigned long long n)
     protected:
         //! @name Creators
         //@{
-        //! Default Constructor
-        BasicIo() : bigBlock_(nullptr) {};
+        BasicIo();
         //@}
-    }; // class BasicIo
+    };
 
     /*!
       @brief Utility class that closes a BasicIo instance upon destruction.
@@ -276,7 +275,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         FileIo(const std::wstring& wpath);
 #endif
         //! Destructor. Flushes and closes an open file.
-        virtual ~FileIo();
+        virtual ~FileIo() override;
         //@}
 
         //! @name Manipulators
@@ -409,7 +408,7 @@ constexpr size_t operator"" _z(unsigned long long n)
          */
         MemIo(const byte* data, size_t size);
         //! Destructor. Releases all managed memory
-        virtual ~MemIo();
+        virtual ~MemIo() override;
         //@}
 
         //! @name Manipulators
@@ -636,7 +635,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         explicit XPathIo(const std::wstring& wOrgPathpath);
 #endif
         //! Destructor. Releases all managed memory and removes the temp file.
-        virtual ~XPathIo();
+        virtual ~XPathIo() override;
         //@}
 
         //! @name Manipulators
@@ -684,7 +683,7 @@ constexpr size_t operator"" _z(unsigned long long n)
     class EXIV2API RemoteIo : public BasicIo {
     public:
         //! Destructor. Releases all managed memory.
-        virtual ~RemoteIo();
+        virtual ~RemoteIo() override;
         //@}
 
         //! @name Manipulators
