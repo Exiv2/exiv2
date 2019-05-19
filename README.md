@@ -579,7 +579,7 @@ For new bug reports and feature requests, please open an issue in Github.
 
 ## 4 Running the test suite
 
-The test suite is a mix of bash and python scripts.  The python scripts are new to v0.27 and the bash scripts are being replaced as time permits.
+The test suite is a mix of bash and python scripts (in addition to the unit tests written in C++).  The python scripts are new to v0.27 and the bash scripts are being replaced as time permits.
 
 <div id="4-1">
 
@@ -638,16 +638,19 @@ $ ./icc-test.sh
 
 The code for the unit tests is in `<exiv2dir>/unitTests`
 
-To build the unit tests, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.
+To build the unit tests, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`. Note that we depends on GTest and GMock for being able to compile and run those tests.
 
 To execute the unit tests:
 
 ```bash
 $ cd <exiv2dir>/build
 $ bin/unit_tests
-```
 
-There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
+# Alternatively you can run them with CTest
+$ cd <exiv2dir>/build
+$ ctest
+
+```
 
 [TOC](#TOC)
 <div id="5">
