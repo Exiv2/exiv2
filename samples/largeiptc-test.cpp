@@ -3,11 +3,10 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
-int main(int argc, char* const argv[])
-try {
+int main(int argc, char* const argv[]) try {
     if (argc != 3) {
         std::cout << "Usage: " << argv[0] << " image datafile\n";
         return 1;
@@ -18,9 +17,9 @@ try {
     // Read data file into data buffer
     Exiv2::FileIo io(data);
     if (io.open() != 0) {
-      throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
+        throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
     }
-    Exiv2::DataBuf buf((long)io.size());
+    Exiv2::DataBuf buf(io.size());
     std::cout << "Reading " << buf.size_ << " bytes from " << data << "\n";
     size_t readBytes = io.read(buf.pData_, buf.size_);
     if (readBytes != buf.size_ || io.error() || io.eof())
@@ -63,8 +62,7 @@ try {
     image->writeMetadata();
 
     return 0;
-}
-catch (Exiv2::AnyError& e) {
+} catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }
