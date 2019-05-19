@@ -10,6 +10,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_DateValue.cpp
     test_TimeValue.cpp
     test_cr2header_int.cpp
+    test_FileIO.cpp
     test_helper_functions.cpp
     test_slice.cpp
     test_image_int.cpp
