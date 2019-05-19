@@ -59,7 +59,12 @@ constexpr size_t operator"" _z(unsigned long long n)
         typedef std::unique_ptr<BasicIo> UniquePtr;
 
         //! Seek starting positions
-        enum Position { beg, cur, end };
+        enum Position
+        {
+            beg,
+            cur,
+            end
+        };
 
         //! @name Creators
         //@{
@@ -330,18 +335,26 @@ constexpr size_t operator"" _z(unsigned long long n)
         //@}
         //! @name Accessors
         //@{
+        /// @brief Get the current file position.
+        /// @return Offset from the start of the file if successful;<BR> -1 if failure;
         int64 tell() const override;
+
         /// @brief Flush any buffered writes and get the current file size in bytes.
         /// @return Size of the file in bytes;<BR> -1 if failure;
         size_t size() const override;
 
+        //! Returns true if the file is open, otherwise false.
         bool isopen() const override;
 
+        //! Returns 0 if the file is in a valid state, otherwise nonzero.
         int error() const override;
 
+        //! Returns true if the file position has reached the end, otherwise false.
         bool eof() const override;
 
+        //! Returns the path of the file
         std::string path() const override;
+
 #ifdef EXV_UNICODE_PATH
         std::wstring wpath() const override;
 #endif
