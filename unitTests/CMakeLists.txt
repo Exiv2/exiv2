@@ -44,10 +44,7 @@ set_target_properties(unit_tests PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
 
-if (USING_CONAN)
-    target_compile_definitions(unit_tests PRIVATE ${CONAN_COMPILE_DEFINITIONS_GTEST})
-endif()
-
-if (MSVC)
-    set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")
+if (MSVC)	
+    # Fix linking issue about missing 3rd party PDB
+    set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")	
 endif()
