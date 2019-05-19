@@ -587,7 +587,7 @@ namespace Exiv2 {
     {
         assert(p_->fp_ != 0);
         if (p_->switchMode(Impl::opWrite) != 0) return 0;
-        return (long)std::fwrite(data, 1, wcount, p_->fp_);
+        return std::fwrite(data, 1, wcount, p_->fp_);
     }
 
     size_t FileIo::write(BasicIo& src)
@@ -605,7 +605,7 @@ namespace Exiv2 {
             writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
-                src.seek(writeCount-readCount, BasicIo::cur);
+                src.seek(static_cast<int64>(writeCount-readCount), BasicIo::cur);
                 break;
             }
         }
@@ -935,8 +935,8 @@ namespace Exiv2 {
         int ret = p_->stat(buf);
 
         if (ret != 0)
-            return -1;
-        return buf.st_size;
+            return std::numeric_limits<size_t>::max();
+        return static_cast<size_t>(buf.st_size);
     }
 
     int FileIo::open()
@@ -1111,7 +1111,7 @@ namespace Exiv2 {
         //! @brief Populate the block.
         //! @param source The data populate to the block
         //! @param num The size of data
-        void    populate (byte* source, size_t num)
+        void populate (const byte* source, size_t num)
         {
             size_ = num;
             data_ = (byte*)std::malloc(size_);
@@ -1296,7 +1296,7 @@ namespace Exiv2 {
         if (newIdx < 0)
             return 1;
 
-        p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
+        p_->idx_ = static_cast<size_t>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
         p_->eof_ = false;
         return 0;
     }
@@ -1635,12 +1635,12 @@ namespace Exiv2 {
         if (blocksMap_[highBlock].isNone())
         {
             std::string data;
-            getDataByRange( (long) lowBlock, (long) highBlock, data);
+            getDataByRange(static_cast<long>(lowBlock), static_cast<long>(highBlock), data);
             rcount = data.length();
             if (rcount == 0) {
                 throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
-            byte* source = (byte*)data.c_str();
+            const byte* source = reinterpret_cast<const byte*>(data.c_str());
             size_t remain = rcount, totalRead = 0;
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
@@ -1681,7 +1681,7 @@ namespace Exiv2 {
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
-                byte* source = (byte*)data.c_str();
+                const byte* source = reinterpret_cast<const byte*>(data.c_str());
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
                     size_t allow = std::min(remain, p_->blockSize_);
@@ -1693,7 +1693,7 @@ namespace Exiv2 {
             } else if (length == 0) { // file is empty
                 throw Error(kerErrorMessage, "the file length is 0");
             } else {
-                p_->size_ = (size_t) length;
+                p_->size_ = static_cast<size_t>(length);
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
@@ -2052,7 +2052,7 @@ namespace Exiv2 {
         request["page"  ] = hostInfo_.Path;
         if (hostInfo_.Port != "") request["port"] = hostInfo_.Port;
         request["verb"]   = "HEAD";
-        long serverCode = (long)http(request, response, errors);
+        int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
             throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
@@ -2076,7 +2076,7 @@ namespace Exiv2 {
             request["header"] = ss.str();
         }
 
-        long serverCode = (long)http(request, responseDic, errors);
+        int serverCode = http(request, responseDic, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
             throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
@@ -2626,7 +2626,7 @@ namespace Exiv2 {
         if (0 != ::stat(path.c_str(), &st)) {
             throw Error(kerCallFailed, path, strError(), "::stat");
         }
-        DataBuf buf(st.st_size);
+        DataBuf buf(static_cast<size_t>(st.st_size));
         size_t len = file.read(buf.pData_, buf.size_);
         if (len != buf.size_) {
             throw Error(kerCallFailed, path, strError(), "FileIo::read");
