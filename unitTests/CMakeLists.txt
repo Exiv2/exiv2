@@ -1,4 +1,5 @@
 find_package(GTest REQUIRED)
+enable_testing()
 
 add_executable(unit_tests mainTestRunner.cpp
     test_types.cpp
@@ -48,3 +49,5 @@ if (MSVC)
     # Fix linking issue about missing 3rd party PDB
     set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")	
 endif()
+
+add_test(NAME unit_tests COMMAND unit_tests)
