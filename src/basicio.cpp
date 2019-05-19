@@ -896,6 +896,7 @@ namespace Exiv2 {
 
     int FileIo::seek(int64 offset, Position pos )
     {
+        /// \todo check if isopen() and throw if not?
         assert(p_->fp_ != 0);
 
         int fileSeek = 0;
@@ -933,7 +934,8 @@ namespace Exiv2 {
         Impl::StructStat buf;
         int ret = p_->stat(buf);
 
-        if (ret != 0) return -1;
+        if (ret != 0)
+            return -1;
         return buf.st_size;
     }
 
@@ -998,8 +1000,8 @@ namespace Exiv2 {
 
     int FileIo::getb()
     {
-        assert(p_->fp_ != 0);
-        if (p_->switchMode(Impl::opRead) != 0) return EOF;
+        if (p_->switchMode(Impl::opRead) != 0)
+            return EOF;
         return getc(p_->fp_);
     }
 
