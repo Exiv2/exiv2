@@ -979,10 +979,11 @@ namespace Exiv2 {
         return rc;
     }
 
-    DataBuf FileIo::read(long rcount)
+    DataBuf FileIo::read(size_t rcount)
     {
         assert(p_->fp_ != 0);
-        if ( (size_t) rcount > size() ) throw Error(kerInvalidMalloc);
+        if (rcount > size())
+            throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
         size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
@@ -995,7 +996,7 @@ namespace Exiv2 {
         if (p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
-        return (long)std::fread(buf, 1, rcount, p_->fp_);
+        return std::fread(buf, 1, rcount, p_->fp_);
     }
 
     int FileIo::getb()
@@ -1337,7 +1338,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    DataBuf MemIo::read(long rcount)
+    DataBuf MemIo::read(size_t rcount)
     {
         DataBuf buf(rcount);
         size_t readCount = read(buf.pData_, buf.size_);
@@ -1804,7 +1805,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    DataBuf RemoteIo::read(long rcount)
+    DataBuf RemoteIo::read(size_t rcount)
     {
         DataBuf buf(rcount);
         size_t readCount = read(buf.pData_, buf.size_);

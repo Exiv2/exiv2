@@ -143,7 +143,7 @@ constexpr size_t operator"" _z(unsigned long long n)
               DataBuf::size_ member to find the number of bytes read.
               DataBuf::size_ will be 0 on failure.
          */
-        virtual DataBuf read(long rcount) = 0;
+        virtual DataBuf read(size_t rcount) = 0;
         /*!
           @brief Read data from the IO source. Reading starts at the current
               IO position and the position is advanced by the number of bytes
@@ -395,7 +395,7 @@ constexpr size_t operator"" _z(unsigned long long n)
                 DataBuf::size_ member to find the number of bytes read.
                 DataBuf::size_ will be 0 on failure.
          */
-        DataBuf read(long rcount) override;
+        DataBuf read(size_t rcount) override;
         /*!
           @brief Read data from the file. Reading starts at the current
               file position and the position is advanced by the number of
@@ -609,7 +609,7 @@ constexpr size_t operator"" _z(unsigned long long n)
                 DataBuf::size_ member to find the number of bytes read.
                 DataBuf::size_ will be 0 on failure.
          */
-        DataBuf read(long rcount) override;
+        DataBuf read(size_t rcount) override;
         /*!
           @brief Read data from the memory block. Reading starts at the current
               IO position and the position is advanced by the number of
@@ -887,7 +887,7 @@ constexpr size_t operator"" _z(unsigned long long n)
                DataBuf::size_ member to find the number of bytes read.
                DataBuf::size_ will be 0 on failure.
         */
-       DataBuf read(long rcount) override;
+       DataBuf read(size_t rcount) override;
        /*!
          @brief Read data from the the memory blocks. Reading starts at the current
              IO position and the position is advanced by the number of
