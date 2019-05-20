@@ -6,6 +6,7 @@ project(exiv2
 )
 
 include(cmake/mainSetup.cmake  REQUIRED)
+include(CTest)
 
 # options and their default values
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
