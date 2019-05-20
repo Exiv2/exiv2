@@ -745,7 +745,7 @@ Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 
 Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0
 Exif.NikonAf.AFAreaMode                       0x0000 Makernote    Byte        1 0
 Exif.NikonAf.AFPoint                          0x0001 Makernote    Byte        1 0
-Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 256
+Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 1
 Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
 Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0
@@ -916,7 +916,7 @@ Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 
 Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0
 Exif.NikonAf.AFAreaMode                       0x0000 Makernote    Byte        1 0
 Exif.NikonAf.AFPoint                          0x0001 Makernote    Byte        1 0
-Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 256
+Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 1
 Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
 Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0
@@ -1088,7 +1088,7 @@ Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 
 Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0
 Exif.NikonAf.AFAreaMode                       0x0000 Makernote    Byte        1 0
 Exif.NikonAf.AFPoint                          0x0001 Makernote    Byte        1 0
-Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 256
+Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 1
 Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
 Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0
@@ -1260,7 +1260,7 @@ Exif.Nikon3.Lens                              0x0084 Makernote    Rational    4 
 Exif.Nikon3.FlashMode                         0x0087 Makernote    Byte        1 0
 Exif.NikonAf.AFAreaMode                       0x0000 Makernote    Byte        1 0
 Exif.NikonAf.AFPoint                          0x0001 Makernote    Byte        1 0
-Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 256
+Exif.NikonAf.AFPointsInFocus                  0x0002 Makernote    Short       1 1
 Exif.Nikon3.ShootingMode                      0x0089 Makernote    Short       1 0
 Exif.Nikon3.AutoBracketRelease                0x008a Makernote    Short       1 0
 Exif.Nikon3.LensFStops                        0x008b Makernote    Undefined   4 64 1 12 0
