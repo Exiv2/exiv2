@@ -860,7 +860,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 20040329_224245.jpg   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
 20040329_224245.jpg   Exif.NikonAf.AFPoint                         Byte        1  Center
-20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
+20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Lower-right
 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -2473,7 +2473,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 < 20040329_224245.jpg   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
 < 20040329_224245.jpg   Exif.NikonAf.AFPoint                         Byte        1  Center
-< 20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
+< 20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Lower-right
 < 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 < 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 < 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -4014,7 +4014,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 > 20040329_224245.exv   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
 > 20040329_224245.exv   Exif.NikonAf.AFPoint                         Byte        1  Center
-> 20040329_224245.exv   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
+> 20040329_224245.exv   Exif.NikonAf.AFPointsInFocus                 Short       1  Lower-right
 > 20040329_224245.exv   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 > 20040329_224245.exv   Exif.Nikon3.AutoBracketRelease               Short       1  None
 > 20040329_224245.exv   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -5775,7 +5775,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 < 20040329_224245.jpg   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
 < 20040329_224245.jpg   Exif.NikonAf.AFPoint                         Byte        1  Center
-< 20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
+< 20040329_224245.jpg   Exif.NikonAf.AFPointsInFocus                 Short       1  Lower-right
 < 20040329_224245.jpg   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 < 20040329_224245.jpg   Exif.Nikon3.AutoBracketRelease               Short       1  None
 < 20040329_224245.jpg   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
@@ -7316,7 +7316,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.FlashMode                        Byte        1  Did not fire
 > 20040329_224245.exv   Exif.NikonAf.AFAreaMode                      Byte        1  Single Area
 > 20040329_224245.exv   Exif.NikonAf.AFPoint                         Byte        1  Center
-> 20040329_224245.exv   Exif.NikonAf.AFPointsInFocus                 Short       1  Center
+> 20040329_224245.exv   Exif.NikonAf.AFPointsInFocus                 Short       1  Lower-right
 > 20040329_224245.exv   Exif.Nikon3.ShootingMode                     Short       1  Single-frame
 > 20040329_224245.exv   Exif.Nikon3.AutoBracketRelease               Short       1  None
 > 20040329_224245.exv   Exif.Nikon3.LensFStops                       Undefined   4  5.33333
