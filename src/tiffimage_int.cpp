@@ -206,7 +206,7 @@ namespace Exiv2 {
     //! Nikon Auto Focus binary array - configuration
     extern const ArrayCfg nikonAfCfg = {
         nikonAfId,        // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -224,7 +224,7 @@ namespace Exiv2 {
     //! Nikon Auto Focus 2 binary array - configuration
     extern const ArrayCfg nikonAf2Cfg = {
         nikonAf2Id,       // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -252,7 +252,7 @@ namespace Exiv2 {
     //! Nikon AF Fine Tune binary array - configuration
     extern const ArrayCfg nikonAFTCfg = {
         nikonAFTId,       // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -270,7 +270,7 @@ namespace Exiv2 {
     //! Nikon File Info binary array - configuration
     extern const ArrayCfg nikonFiCfg = {
         nikonFiId,        // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -288,7 +288,7 @@ namespace Exiv2 {
     //! Nikon Multi Exposure binary array - configuration
     extern const ArrayCfg nikonMeCfg = {
         nikonMeId,        // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -307,7 +307,7 @@ namespace Exiv2 {
     //! Nikon Flash Info binary array - configuration 1
     extern const ArrayCfg nikonFl1Cfg = {
         nikonFl1Id,       // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -331,7 +331,7 @@ namespace Exiv2 {
     //! Nikon Flash Info binary array - configuration 2
     extern const ArrayCfg nikonFl2Cfg = {
         nikonFl2Id,       // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -353,7 +353,7 @@ namespace Exiv2 {
     //! Nikon Flash Info binary array - configuration 3
     extern const ArrayCfg nikonFl3Cfg = {
         nikonFl3Id,       // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
