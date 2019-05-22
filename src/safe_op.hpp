@@ -30,6 +30,7 @@
 
 #include <limits>
 #include <stdexcept>
+#include <type_traits>
 
 #ifdef _MSC_VER
 #include <Intsafe.h>
@@ -348,4 +349,103 @@ namespace Safe
         return (num == std::numeric_limits<T>::min()) ? std::numeric_limits<T>::max() : (num < 0 ? -num : num);
     }
 
-} // namespace Safe
+    namespace Internal
+    {
+        template <typename from, typename to, typename = void>
+        struct is_safely_convertible : std::false_type
+        {
+            static_assert(std::is_integral<from>::value &&std::is_integral<to>::value,
+                          "from and to must both be integral types");
+        };
+
+        template <typename from, typename to>
+        struct is_safely_convertible<
+            from, to,
+            typename std::enable_if<(std::numeric_limits<from>::max() <= std::numeric_limits<to>::max()) &&
+                                    (std::numeric_limits<from>::min() >= std::numeric_limits<to>::min())>::type>
+            : std::true_type
+        {
+        };
+
+        template <typename T, typename U, typename = void>
+        struct have_same_signedness : std::false_type
+        {
+            static_assert(std::is_integral<T>::value &&std::is_integral<U>::value,
+                          "T and U must both be integral types");
+        };
+
+        // SFINAE overload for (T signed and U signed) or (T unsigned and U unsigned)
+        // note: !a != !b == a XOR b (for a, b bool)
+        template <typename T, typename U>
+        struct have_same_signedness<
+            T, U, typename std::enable_if<!((!std::is_signed<T>::value) != (!std::is_signed<U>::value))>::type>
+            : std::true_type
+        {
+        };
+
+    }  // namespace Internal
+
+#ifdef PARSED_BY_DOXYGEN
+    /// Convert a value of type U to type T without causing a over- or underflows.
+    ///
+    /// @throw std::overflow_error When `value` is outside the re-presentable range of T
+    template <typename T, typename U>
+    constexpr T cast(U value)
+    {
+    }
+#else
+    // trivial version: T can represent all values that U can
+    template <typename T, typename U>
+    constexpr typename std::enable_if<Internal::is_safely_convertible<U, T>::value, T>::type cast(U value) noexcept
+    {
+        return static_cast<T>(value);
+    }
+
+    // T cannot represent all values that U can,
+    // but T and U are either both signed or unsigned
+    // => can compare them without any issues
+    template <typename T, typename U>
+    constexpr typename std::enable_if<
+        (!Internal::is_safely_convertible<U, T>::value) && Internal::have_same_signedness<T, U>::value, T>::type
+    cast(U value)
+    {
+        return (value <= std::numeric_limits<T>::max()) && (value >= std::numeric_limits<T>::min())
+                   ? static_cast<T>(value)
+                   : throw std::overflow_error("Cannot convert number without over or underflow");
+    }
+
+    // - T cannot represent all values that U can,
+    // - T is signed, U is unsigned
+    // => must cast them compare them without any issues
+    template <typename T, typename U>
+    constexpr typename std::enable_if<(!Internal::is_safely_convertible<U, T>::value) && std::is_signed<T>::value &&
+                                          std::is_unsigned<U>::value,
+                                      T>::type
+    cast(U value)
+    {
+        static_assert(std::numeric_limits<T>::max() < std::numeric_limits<U>::max(),
+                      "maximum value of T must be smaller than the maximum value of U");
+        // U unsigned, T signed => T_MAX < U_MAX
+        return (value <= static_cast<U>(std::numeric_limits<T>::max())) && (value >= 0)
+                   ? static_cast<T>(value)
+                   : throw std::overflow_error("Cannot convert number without over or underflow");
+    }
+
+    // - T cannot represent all values that U can,
+    // - one of T or U is signed, the other is unsigned
+    // => must cast them compare them without any issues
+    template <typename T, typename U>
+    constexpr typename std::enable_if<(!Internal::is_safely_convertible<U, T>::value) && std::is_unsigned<T>::value &&
+                                          std::is_signed<U>::value,
+                                      T>::type
+    cast(U value)
+    {
+        // U signed, T unsigned => T_MAX < U_MAX
+        return (value <= std::numeric_limits<T>::max()) && (value >= std::numeric_limits<T>::min())
+                   ? static_cast<T>(value)
+                   : throw std::overflow_error("Cannot convert number without over or underflow");
+    }
+
+#endif  // PARSED_BY_DOXYGEN
+
+}  // namespace Safe

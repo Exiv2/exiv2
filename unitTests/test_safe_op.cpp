@@ -173,3 +173,95 @@ TEST(safeAbs, checkValues)
     }
     ASSERT_EQ(Safe::abs(std::numeric_limits<int>::min()), std::numeric_limits<int>::max());
 }
+
+//
+// sanity checks of is_safely_convertible
+//
+static_assert(si::is_safely_convertible<uint8_t, uint16_t>::value, "uint8_t must be always convertible to uint16_t");
+static_assert(!si::is_safely_convertible<uint16_t, uint8_t>::value, "uint16_t must not always convertible to uint8_t");
+
+static_assert(si::is_safely_convertible<uint8_t, int16_t>::value, "uint8_t must be always convertible to int16_t");
+static_assert(!si::is_safely_convertible<int16_t, uint8_t>::value, "int16_t must not always be convertible to uint8_t");
+
+//
+// sanity checks for Safe::cast<>
+//
+static_assert(si::have_same_signedness<uint16_t, uint8_t>::value, "uint8_t must have the same signedness as uint16_t");
+static_assert(!si::have_same_signedness<int16_t, uint8_t>::value,
+              "uint8_t must have a different signedness as int16_t");
+
+//
+// sanity checks for Safe::cast<>
+//
+static_assert(std::is_same<decltype(Safe::cast<int>(static_cast<short>(8))), int>::value,
+              "Return value of Safe::cast<int>(short) must be int");
+static_assert(std::is_same<decltype(Safe::cast<int>(8ull)), int>::value,
+              "Return value of Safe::cast<int>(unsigned long long) must be int");
+
+TEST(SafeCast, TriviallyConvertible)
+{
+    ASSERT_EQ(Safe::cast<int>(static_cast<short>(5)), 5);
+}
+
+//
+// Test Safe::cast to a signed integer
+//
+template <typename T>
+struct SafeCastToInt16 : public ::testing::Test
+{
+};
+
+using BiggerRangeThanInt16 = ::testing::Types<uint16_t, int32_t, uint32_t, int64_t, uint64_t>;
+
+TYPED_TEST_CASE(SafeCastToInt16, BiggerRangeThanInt16);
+
+TYPED_TEST(SafeCastToInt16, ThrowsForTooLargeValue)
+{
+    ASSERT_THROW(Safe::cast<int16_t>(static_cast<TypeParam>(std::numeric_limits<int16_t>::max()) + 1),
+                 std::overflow_error);
+}
+
+TYPED_TEST(SafeCastToInt16, ThrowsForTooSmallValue)
+{
+    if (std::is_signed<TypeParam>::value) {
+        ASSERT_THROW(Safe::cast<int16_t>(static_cast<TypeParam>(std::numeric_limits<int16_t>::min()) - 1),
+                     std::overflow_error);
+    }
+}
+
+TYPED_TEST(SafeCastToInt16, DoesNotThrowForRepresentableValue)
+{
+    constexpr TypeParam test_value = std::numeric_limits<int16_t>::max() - 1;
+    ASSERT_EQ(Safe::cast<int16_t>(test_value), test_value);
+}
+
+//
+// Test Safe::cast to an unsigned integer
+//
+template <typename T>
+struct SafeCastToUInt32 : public ::testing::Test
+{
+};
+
+using BiggerRangeThanUInt32 = ::testing::Types<int64_t, uint64_t>;
+
+TYPED_TEST_CASE(SafeCastToUInt32, BiggerRangeThanUInt32);
+
+TYPED_TEST(SafeCastToUInt32, ThrowsForTooLargeValue)
+{
+    ASSERT_THROW(Safe::cast<uint32_t>(static_cast<TypeParam>(std::numeric_limits<uint32_t>::max()) + 1),
+                 std::overflow_error);
+}
+
+TYPED_TEST(SafeCastToUInt32, DoesNotThrowForRepresentableValue)
+{
+    constexpr TypeParam test_value = std::numeric_limits<uint32_t>::max() - 1;
+    ASSERT_EQ(Safe::cast<uint32_t>(test_value), test_value);
+}
+
+TYPED_TEST(SafeCastToUInt32, ThrowsForTooSmallValue)
+{
+    if (std::is_signed<TypeParam>::value) {
+        ASSERT_THROW(Safe::cast<uint32_t>(static_cast<TypeParam>(-1)), std::overflow_error);
+    }
+}
