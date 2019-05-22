@@ -4,7 +4,7 @@
 
 namespace si = Safe::Internal;
 
-enum Operation
+enum class Operation
 {
     add,
     subtract,
@@ -12,7 +12,8 @@ enum Operation
     divide
 };
 
-// see: https://stackoverflow.com/questions/52256953/c-multiple-parameters-with-gtest-typed-test
+// see:
+// https://stackoverflow.com/questions/52256953/c-multiple-parameters-with-gtest-typed-test
 
 /*!
  * struct that contains test numbers for Safe::add. Since different test values
@@ -28,81 +29,24 @@ enum Operation
  * and cause some overflows. The actual test should simply check all possible
  * sums of summand against the value in overflow[][]
  */
-template <typename T, typename = void>
-struct OverflowCheckFixture;
 
-/*!
- * Overload for unsigned types.
- */
 template <typename T>
-struct OverflowCheckFixture<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type> : public ::testing::Test
+struct SignedOverflowFixture
 {
-    static const size_t case_count = 8;
-    static const T summand[case_count];
-};
+    static_assert(std::is_signed<T>::value, "Type T must be signed");
 
-template <typename T>
-const T OverflowCheckFixture<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>::summand[] = {
-    0,
-    1,
-    2,
-    static_cast<T>((std::numeric_limits<T>::max() / 2) - 1),
-    static_cast<T>(std::numeric_limits<T>::max() / 2),
-    static_cast<T>((std::numeric_limits<T>::max() / 2) + 1),
-    static_cast<T>(std::numeric_limits<T>::max() - 1),
-    std::numeric_limits<T>::max()};
+    static constexpr size_t case_count = 8;
 
-/*!
- * Overload for signed integers
- */
-template <typename T>
-struct OverflowCheckFixture<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>
-{
-    static const size_t case_count = 8;
-    static const T summand[case_count];
-    static const bool overflow[case_count][case_count];
-};
+    static constexpr T test_values[case_count] = {std::numeric_limits<T>::min(),
+                                                  static_cast<T>(std::numeric_limits<T>::min() + 1),
+                                                  -1,
+                                                  0,
+                                                  1,
+                                                  2,
+                                                  static_cast<T>(std::numeric_limits<T>::max() - 1),
+                                                  std::numeric_limits<T>::max()};
 
-template <typename T>
-const T OverflowCheckFixture<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>::summand[] = {
-    std::numeric_limits<T>::min(),
-    static_cast<T>(std::numeric_limits<T>::min() + 1),
-    -1,
-    0,
-    1,
-    2,
-    static_cast<T>(std::numeric_limits<T>::max() - 1),
-    std::numeric_limits<T>::max()};
-
-template <typename T, typename ignored>
-struct AdditionOverflow : public OverflowCheckFixture<T, ignored>
-{
-    static const bool overflow[case_count][case_count];
-};
-
-template <typename T>
-const bool
-    AdditionOverflow<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>::overflow[case_count][case_count] = {
-        // 0
-        {false, false, false, false, false, false, false, false},
-        // 1
-        {false, false, false, false, false, false, false, true},
-        // 2
-        {false, false, false, false, false, false, true, true},
-        // max/2 - 1
-        {false, false, false, false, false, false, true, true},
-        // max/2
-        {false, false, false, false, false, true, true, true},
-        // max/2 + 1
-        {false, false, false, false, true, true, true, true},
-        // max - 1
-        {false, false, true, true, true, true, true, true},
-        // max
-        {false, true, true, true, true, true, true, true}};
-
-template <typename T>
-const bool
-    OverflowCheckFixture<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>::overflow[case_count][case_count] = {
+    static constexpr bool is_addition_overflow[case_count][case_count] = {
         // min
         {true, true, true, false, false, false, false, false},
         // min + 1
@@ -119,97 +63,106 @@ const bool
         {false, false, false, false, false, true, true, true},
         // max
         {false, false, false, false, true, true, true, true}};
+};
 
-TYPED_TEST_CASE_P(AdditionOverflow);
-
-/*!
- * Test the addition of all combinations of AdditionTestValues<T>::summand[i],
- * AdditionTestValues<T>::summand[j] using fallback_add_overflow::add and
- * builtin_add_overflow::add. The return value is checked against
- * AdditionTestValues<T>::overflow[i][j]. If no overflow occurs, then the result
- * is checked too.
- */
 template <typename T>
-void test_add()
+struct UnsignedOverflowFixture
 {
-    typedef OverflowCheckFixture<T> TestValues;
+    static_assert(!std::is_signed<T>::value, "Type T must be unsigned");
 
-#define TEST_ADD(func)                                                                                        \
-    for (size_t i = 0; i < TestValues::case_count; ++i) {                                                     \
-        for (size_t j = 0; j < TestValues::case_count; ++j) {                                                 \
-            T res = 0;                                                                                        \
-            ASSERT_EQ(func(TestValues::summand[i], TestValues::summand[j], res), TestValues::overflow[i][j]); \
-            if (!TestValues::overflow[i][j]) {                                                                \
-                ASSERT_EQ(res, TestValues::summand[i] + TestValues::summand[j]);                              \
-            }                                                                                                 \
-        }                                                                                                     \
-    }
+    static constexpr size_t case_count = 8;
 
-    TEST_ADD(si::fallback_add_overflow)
-    TEST_ADD(si::builtin_add_overflow)
+    static constexpr T test_values[case_count] = {0,
+                                                  1,
+                                                  2,
+                                                  static_cast<T>((std::numeric_limits<T>::max() / 2) - 1),
+                                                  static_cast<T>(std::numeric_limits<T>::max() / 2),
+                                                  static_cast<T>((std::numeric_limits<T>::max() / 2) + 1),
+                                                  static_cast<T>(std::numeric_limits<T>::max() - 1),
+                                                  std::numeric_limits<T>::max()};
 
-#undef TEST_ADD
-}
+    static constexpr bool is_addition_overflow[case_count][case_count] = {
+        // 0
+        {false, false, false, false, false, false, false, false},
+        // 1
+        {false, false, false, false, false, false, false, true},
+        // 2
+        {false, false, false, false, false, false, true, true},
+        // max/2 - 1
+        {false, false, false, false, false, false, true, true},
+        // max/2
+        {false, false, false, false, false, false, true, true},
+        // max/2 + 1
+        {false, false, false, false, false, true, true, true},
+        // max - 1
+        {false, false, true, true, true, true, true, true},
+        // max
+        {false, true, true, true, true, true, true, true}};
+};
 
-/*!
- * Test the addition of all combinations of AdditionTestValues<T>::summand[i],
- * AdditionTestValues<T>::summand[j] using Safe::add.
- *
- * It is checked whether an exception is thrown when
- * AdditionTestValues<T>::overflow[i][j] is true, otherwise the result is
- * checked.
- */
 template <typename T>
-void test_safe_add()
-{
-    typedef OverflowCheckFixture<T> TestValues;
+constexpr T UnsignedOverflowFixture<T>::test_values[UnsignedOverflowFixture<T>::case_count];
 
-    for (size_t i = 0; i < TestValues::case_count; ++i) {
-        for (size_t j = 0; j < TestValues::case_count; ++j) {
-            if (TestValues::overflow[i][j]) {
-                ASSERT_THROW(Safe::add(TestValues::summand[i], TestValues::summand[j]), std::overflow_error);
+template <typename T>
+constexpr bool UnsignedOverflowFixture<T>::is_addition_overflow[UnsignedOverflowFixture<T>::case_count]
+                                                               [UnsignedOverflowFixture<T>::case_count];
+
+template <typename T>
+constexpr T SignedOverflowFixture<T>::test_values[SignedOverflowFixture<T>::case_count];
+
+template <typename T>
+constexpr bool SignedOverflowFixture<T>::is_addition_overflow[SignedOverflowFixture<T>::case_count]
+                                                             [SignedOverflowFixture<T>::case_count];
+
+template <typename T>
+struct AdditionOverflow
+    : public ::testing::Test,
+      std::conditional<std::is_signed<T>::value, SignedOverflowFixture<T>, UnsignedOverflowFixture<T> >::type
+{
+};
+
+using IntegerTypes = ::testing::Types<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t>;
+
+TYPED_TEST_CASE(AdditionOverflow, IntegerTypes);
+
+TYPED_TEST(AdditionOverflow, Add)
+{
+    for (size_t i = 0; i < this->case_count; ++i) {
+        for (size_t j = 0; j < this->case_count; ++j) {
+            if (this->is_addition_overflow[i][j]) {
+                ASSERT_THROW(Safe::add(this->test_values[i], this->test_values[j]), std::overflow_error);
             } else {
-                ASSERT_EQ(Safe::add(TestValues::summand[i], TestValues::summand[j]),
-                          TestValues::summand[i] + TestValues::summand[j]);
+                ASSERT_EQ(Safe::add(this->test_values[i], this->test_values[j]),
+                          this->test_values[i] + this->test_values[j]);
             }
         }
     }
 }
 
-TEST(lowLevelAddOverflow, checkUnsignedOverflow)
+template <typename T>
+struct LowLevelAdditionOverflow : public AdditionOverflow<T>
 {
-    test_add<unsigned char>();
-    test_add<unsigned short>();
-    test_add<unsigned int>();
-    test_add<unsigned long>();
-    test_add<unsigned long long>();
-}
+};
 
-TEST(lowLevelAddOverflow, checkSignedOverflow)
-{
-    test_add<char>();
-    test_add<short>();
-    test_add<int>();
-    test_add<long>();
-    test_add<long long>();
-}
+TYPED_TEST_CASE(LowLevelAdditionOverflow, IntegerTypes);
 
-TEST(safeAdd, checkUnsignedOverflow)
+TYPED_TEST(LowLevelAdditionOverflow, SanityCheck)
 {
-    test_safe_add<unsigned char>();
-    test_safe_add<unsigned short>();
-    test_safe_add<unsigned int>();
-    test_safe_add<unsigned long>();
-    test_safe_add<unsigned long long>();
-}
+    for (size_t i = 0; i < this->case_count; ++i) {
+        for (size_t j = 0; j < this->case_count; ++j) {
+            TypeParam res_builtin = 0;
+            TypeParam res_fallback = 0;
+            ASSERT_EQ(si::builtin_add_overflow(this->test_values[i], this->test_values[j], res_builtin),
+                      this->is_addition_overflow[i][j]);
+            ASSERT_EQ(si::fallback_add_overflow(this->test_values[i], this->test_values[j], res_fallback),
+                      this->is_addition_overflow[i][j]);
 
-TEST(safeAdd, checkSignedOverflow)
-{
-    test_safe_add<char>();
-    test_safe_add<short>();
-    test_safe_add<int>();
-    test_safe_add<long>();
-    test_safe_add<long long>();
+            if (!this->is_addition_overflow[i][j]) {
+                ASSERT_EQ(res_builtin, this->test_values[i] + this->test_values[j]);
+                ASSERT_EQ(res_fallback, this->test_values[i] + this->test_values[j]);
+            }
+        }
+    }
 }
 
 TEST(safeAbs, checkValues)
