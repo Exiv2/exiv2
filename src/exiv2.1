@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "May 8, 2019"
+.TH EXIV2 1 "May 22, 2019"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -277,12 +277,50 @@ not rename the file (overrides \fB\-k\fP). This option is only used
 with the 'rename' action. Note: On Windows you may have to set the TZ
 environment variable for this option to work correctly.
 .TP
-.B \-f
-Do not prompt before overwriting existing files (force overwrite).
+.B \-f,\-F
+These options are used by the commands 'rename' and 'extract' to
+determine the file overwrite policy.  These options are usually
+combined with -v/--verbose to provide additional status output.
+.br
+.sp 1
+The options --force and --Force apply to the 'rename' command.
+The 'extract' command treats --force and --Force as permission to
+overwrite.
+.br
+.sp 1
+The default behaviour is to prompt the user.
+.br
+-f = Do not prompt before overwriting existing files.
+.br
+-F = Do not prompt before renaming files. Appends '_1'
+('_2', ...) to the name of the new file.  For example:
+.sp 1
+.nf
+$ curl --silent -O http://clanmills.com/Stonehenge.jpg
+$ exiv2 --verbose --Force rename Stonehenge.jpg
+File 1/1: Stonehenge.jpg
+Renaming file to ./20150716_153854.jpg
+$ curl --silent -O http://clanmills.com/Stonehenge.jpg
+$ exiv2 --verbose --Force rename Stonehenge.jpg
+File 1/1: Stonehenge.jpg
+Renaming file to ./20150716_153854_1.jpg
+.sp 1
+.fi
+The 'rename' command will only overwrite files when the option --force is used.  The option --Force is provided to avoid unintentional loss of valuable image files.
+.sp 1
+The 'extract' command will overwrite files when either --force or --Force is used.  Overwriting extracted files will not cause the loss of image files.
+.br
 .TP
-.B \-F
-Do not prompt before renaming files (Force rename). Appends '_1'
-('_2', ...) to the name of the new file.
+.B \-r \fIfmt\fP
+Filename format for the 'rename' action. The format string follows
+\fBstrftime\fP(3) and supports the following keywords:
+.TS
+l l.
+:basename:	original filename without extension
+:dirname:	name of the directory holding the original file
+:parentname:	name of parent directory
+.TE
+Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-a \fItime\fP
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
@@ -398,17 +436,6 @@ XX: Extract "raw" XMP metadata to a sidecar (see -pX)
 .sp 1
 - : Output to stdout (see -i tgt for an example of this feature)
 .sp 1
-.TP
-.B \-r \fIfmt\fP
-Filename format for the 'rename' action. The format string follows
-\fBstrftime\fP(3) and supports the following keywords:
-.TS
-l l.
-:basename:	original filename without extension
-:dirname:	name of the directory holding the original file
-:parentname:	name of parent directory
-.TE
-Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-c \fItxt\fP
 JPEG comment string to set in the image ('modify' action). This option
