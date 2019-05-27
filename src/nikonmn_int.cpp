@@ -2509,6 +2509,9 @@ fmountlens[] = {
 // https://github.com/Exiv2/exiv2/issues/743
 {0xc9,0x48,0x37,0x5c,0x24,0x24,0x4b,0x4e,0x01,0x00,0x00, "Sigma", "", "24-70mm F2,8 DG OS HSM Art"},
 //
+//  https://github.com/Exiv2/exiv2/issues/598 , https://github.com/Exiv2/exiv2/pull/891
+{0xCF,0x47,0x5C,0x8E,0x31,0x3D,0xDF,0x0E,0x00,0x00,0x00, "Tamron", "A030", "SP 70-300mm F/4-5.6 Di VC USD"},
+//
 {0,0,0,0,0,0,0,0,0,0,0, NULL, NULL, NULL}
 };
 //------------------------------------------------------------------------------
