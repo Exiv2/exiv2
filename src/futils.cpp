@@ -259,19 +259,22 @@ namespace Exiv2 {
         struct {
             std::string name ;
             Protocol    prot ;
+            bool        url  ; // path.size() > name.size()
         } prots[] =
-        { { "http://"   ,pHttp     }
-        , { "https://"  ,pHttps    }
-        , { "ftp://"    ,pFtp      }
-        , { "sftp://"   ,pSftp     }
-        , { "ssh://"    ,pSsh      }
-        , { "file://"   ,pFileUri  }
-        , { "data://"   ,pDataUri  }
-        , { "-"         ,pStdin    }
+        { { "http://"   ,pHttp     , true  }
+        , { "https://"  ,pHttps    , true  }
+        , { "ftp://"    ,pFtp      , true  }
+        , { "sftp://"   ,pSftp     , true  }
+        , { "ssh://"    ,pSsh      , true  }
+        , { "file://"   ,pFileUri  , true  }
+        , { "data://"   ,pDataUri  , true  }
+        , { "-"         ,pStdin    , false }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
             if ( path.find(prots[i].name) == 0 )
-                result = prots[i].prot;
+                // URL's require data.  Stdin == "-" and no further data
+                if ( prots[i].url ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                    result = prots[i].prot;
 
         return result;
     } // fileProtocol
@@ -281,19 +284,22 @@ namespace Exiv2 {
         struct {
             std::wstring wname ;
             Protocol      prot ;
+            bool          url  ; // path.size() > name.size()
         } prots[] =
-        { { L"http://"   ,pHttp     }
-        , { L"https://"  ,pHttps    }
-        , { L"ftp://"    ,pFtp      }
-        , { L"sftp://"   ,pSftp     }
-        , { L"ssh://"    ,pSsh      }
-        , { L"file://"   ,pFileUri  }
-        , { L"data://"   ,pDataUri  }
-        , { L"-"         ,pStdin    }
+        { { L"http://"   ,pHttp     , true  }
+        , { L"https://"  ,pHttps    , true  }
+        , { L"ftp://"    ,pFtp      , true  }
+        , { L"sftp://"   ,pSftp     , true  }
+        , { L"ssh://"    ,pSsh      , true  }
+        , { L"file://"   ,pFileUri  , true  }
+        , { L"data://"   ,pDataUri  , true  }
+        , { L"-"         ,pStdin    , false }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( wpath.find(prots[i].wname) == 0 )
-                result = prots[i].prot;
+            if ( path.find(prots[i].name) == 0 )
+                // URL's require data.  Stdin == "-" and no further data
+                if ( prots[i].url ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                    result = prots[i].prot;
 
         return result;
     } // fileProtocol
