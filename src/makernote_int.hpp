@@ -729,6 +729,17 @@ namespace Exiv2 {
     int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
     /*!
+      @brief Function to select cfg + def of a Nikon complex binary array.
+
+      @param tag Tag number of the binary array
+      @param pData Pointer to the raw array data.
+      @param size Size of the array data.
+      @param pRoot Pointer to the root component of the TIFF tree.
+      @return An index into the array set, -1 if no match was found.
+     */
+     int nikonAf2Selector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
       @brief Encrypt and decrypt Nikon data.
 
       Checks the version of the Nikon data array and en/decrypts (portions of) it as

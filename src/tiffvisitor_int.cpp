@@ -473,7 +473,11 @@ namespace Exiv2 {
                                                       object->group());
         // skip decoding if decoderFct == 0
         if (decoderFct) {
-            EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
+            if ( object->group() == nikonAf22Id ) {
+                EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
+            } else {
+                EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
+            }
         }
     } // TiffDecoder::decodeTiffEntry
 
@@ -1584,7 +1588,6 @@ namespace Exiv2 {
             postList_.push_back(object);
             return;
         }
-
         // Check duplicates
         TiffFinder finder(object->tag(), object->group());
         pRoot_->accept(finder);
