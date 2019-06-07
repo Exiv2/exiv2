@@ -1185,6 +1185,15 @@ namespace Exiv2 {
         return aix == 0 ? -1 : aix->idx_;
     }
 
+    int nikonAf2Selector(uint16_t tag, const byte* /*pData*/, uint32_t size, TiffComponent* const /*pRoot*/)
+    {
+        int result = tag == 0x00b7 ? 0 : -1 ;
+        if (result > -1 && size == 84 ) {
+            result = 1;
+        }
+        return result;
+    }
+
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)
     {
         DataBuf buf;
