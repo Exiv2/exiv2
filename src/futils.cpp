@@ -279,10 +279,10 @@ namespace Exiv2 {
         return result;
     } // fileProtocol
 #ifdef EXV_UNICODE_PATH
-    Protocol fileProtocol(const std::wstring& wpath) {
+    Protocol fileProtocol(const std::wstring& path) {
         Protocol result = pFile ;
         struct {
-            std::wstring wname ;
+            std::wstring  name ;
             Protocol      prot ;
             bool          url  ; // path.size() > name.size()
         } prots[] =
