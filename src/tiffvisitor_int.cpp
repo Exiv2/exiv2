@@ -473,11 +473,7 @@ namespace Exiv2 {
                                                       object->group());
         // skip decoding if decoderFct == 0
         if (decoderFct) {
-            if ( object->group() == nikonAf22Id ) {
-                EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
-            } else {
-                EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
-            }
+            EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
         }
     } // TiffDecoder::decodeTiffEntry
 
