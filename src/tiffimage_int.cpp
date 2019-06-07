@@ -251,7 +251,7 @@ namespace Exiv2 {
     //! Nikon Auto Focus 22 binary array - configuration
     extern const ArrayCfg nikonAf22Cfg = {
         nikonAf22Id,      // Group for the elements
-        littleEndian,     // Byte order
+        invalidByteOrder, // Byte order
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
         false,            // No size element
