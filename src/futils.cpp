@@ -262,7 +262,7 @@ namespace Exiv2 {
         struct {
             std::string name ;
             Protocol    prot ;
-            bool        url  ; // path.size() > name.size()
+            bool        isUrl; // path.size() > name.size()
         } prots[] =
         { { "http://"   ,pHttp     , true  }
         , { "https://"  ,pHttps    , true  }
@@ -276,7 +276,7 @@ namespace Exiv2 {
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
             if ( path.find(prots[i].name) == 0 )
                 // URL's require data.  Stdin == "-" and no further data
-                if ( prots[i].url ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
                     result = prots[i].prot;
 
         return result;
@@ -288,7 +288,7 @@ namespace Exiv2 {
         struct {
             std::wstring  name ;
             Protocol      prot ;
-            bool          url  ; // path.size() > name.size()
+            bool          isUrl; // path.size() > name.size()
         } prots[] =
         { { L"http://"   ,pHttp     , true  }
         , { L"https://"  ,pHttps    , true  }
@@ -302,7 +302,7 @@ namespace Exiv2 {
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
             if ( path.find(prots[i].name) == 0 )
                 // URL's require data.  Stdin == "-" and no further data
-                if ( prots[i].url ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
                     result = prots[i].prot;
 
         return result;
