@@ -888,57 +888,56 @@ namespace Exiv2 {
         { 6, N_("On (105-point)")     }
     };
 
+    // Nikon3 Auto Focus Tag Info
+    const TagInfo Nikon3MakerNote::tagInfoAf21_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonAf21Id, makerTags, undefined, 4, printExifVersion),
+        TagInfo(  4, "ContrastDetectAF", N_("Contrast Detect AF"), N_("Contrast detect AF"), nikonAf21Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)),
+        TagInfo(  5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), nikonAf21Id, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  6, "PhaseDetectAF", N_("Phase Detect AF"), N_("Phase detect AF"), nikonAf21Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonPhaseDetectAF)),
+        TagInfo(  7, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point"), nikonAf21Id, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  8, "AFPointsUsed", N_("AF Points Used"), N_("AF points used"), nikonAf21Id, makerTags, unsignedByte, 7, printValue),
+        TagInfo( 16, "AFImageWidth", N_("AF Image Width"), N_("AF image width"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 18, "AFImageHeight", N_("AF Image Height"), N_("AF image height"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 20, "AFAreaXPosition", N_("AF Area X Position"), N_("AF area x position"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 22, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 24, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 26, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 28, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf21Id, makerTags, unsignedByte, 1, printValue)
+    };
 
-        // Nikon3 Auto Focus Tag Info
-        const TagInfo Nikon3MakerNote::tagInfoAf21_[] = {
-                TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonAf21Id, makerTags, undefined, 4, printExifVersion),
-                TagInfo(  4, "ContrastDetectAF", N_("Contrast Detect AF"), N_("Contrast detect AF"), nikonAf21Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)),
-                TagInfo(  5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), nikonAf21Id, makerTags, unsignedByte, 1, printValue),
-                TagInfo(  6, "PhaseDetectAF", N_("Phase Detect AF"), N_("Phase detect AF"), nikonAf21Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonPhaseDetectAF)),
-                TagInfo(  7, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point"), nikonAf21Id, makerTags, unsignedByte, 1, printValue),
-                TagInfo(  8, "AFPointsUsed", N_("AF Points Used"), N_("AF points used"), nikonAf21Id, makerTags, unsignedByte, 7, printValue),
-                TagInfo( 16, "AFImageWidth", N_("AF Image Width"), N_("AF image width"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 18, "AFImageHeight", N_("AF Image Height"), N_("AF image height"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 20, "AFAreaXPosition", N_("AF Area X Position"), N_("AF area x position"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 22, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 24, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 26, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 28, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf21Id, makerTags, unsignedShort, 1, printValue),
-                // End of list marker
-                TagInfo(0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf21Id, makerTags, unsignedByte, 1, printValue)
-        };
+    const TagInfo* Nikon3MakerNote::tagListAf21()
+    {
+        return tagInfoAf21_;
+    }
 
-        const TagInfo* Nikon3MakerNote::tagListAf21()
-        {
-            return tagInfoAf21_;
-        }
+    // Nikon3 Auto Focus Tag Info Version 1.01 https://github.com/Exiv2/exiv2/pull/900
+    const TagInfo Nikon3MakerNote::tagInfoAf22_[] = {
+        TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonAf22Id, makerTags, undefined, 4, printExifVersion),
+        TagInfo(  4, "ContrastDetectAF", N_("Contrast Detect AF"), N_("Contrast detect AF"), nikonAf22Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)),
+        TagInfo(  5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), nikonAf22Id, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  6, "PhaseDetectAF", N_("Phase Detect AF"), N_("Phase detect AF"), nikonAf22Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonPhaseDetectAF)),
+        TagInfo(  7, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point"), nikonAf22Id, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  8, "AFPointsUsed", N_("AF Points Used"), N_("AF points used"), nikonAf22Id, makerTags, unsignedByte, 7, printValue),
+        TagInfo( 70, "AFImageWidth", N_("AF Image Width"), N_("AF image width"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 72, "AFImageHeight", N_("AF Image Height"), N_("AF image height"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 74, "AFAreaXPosition", N_("AF Area X Position"), N_("AF area x position"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 76, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 78, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 80, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 82, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf22Id, makerTags, unsignedByte, 1, printValue)
+    };
 
-        // Nikon3 Auto Focus Tag Info
-        const TagInfo Nikon3MakerNote::tagInfoAf22_[] = {
-                TagInfo(  0, "Version", N_("Version"), N_("Version"), nikonAf22Id, makerTags, undefined, 4, printExifVersion),
-                TagInfo(  4, "ContrastDetectAF", N_("Contrast Detect AF"), N_("Contrast detect AF"), nikonAf22Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)),
-                TagInfo(  5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), nikonAf22Id, makerTags, unsignedByte, 1, printValue),
-                TagInfo(  6, "PhaseDetectAF", N_("Phase Detect AF"), N_("Phase detect AF"), nikonAf22Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonPhaseDetectAF)),
-                TagInfo(  7, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point"), nikonAf22Id, makerTags, unsignedByte, 1, printValue),
-                TagInfo(  8, "AFPointsUsed", N_("AF Points Used"), N_("AF points used"), nikonAf22Id, makerTags, unsignedByte, 7, printValue),
-                TagInfo( 70, "AFImageWidth", N_("AF Image Width"), N_("AF image width"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 72, "AFImageHeight", N_("AF Image Height"), N_("AF image height"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 74, "AFAreaXPosition", N_("AF Area X Position"), N_("AF area x position"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 76, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 78, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 80, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                TagInfo( 82, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf22Id, makerTags, unsignedShort, 1, printValue),
-                // End of list marker
-                TagInfo(0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf22Id, makerTags, unsignedByte, 1, printValue)
-        };
-
-        const TagInfo* Nikon3MakerNote::tagListAf22()
-        {
-            return tagInfoAf22_;
-        }
+    const TagInfo* Nikon3MakerNote::tagListAf22()
+    {
+        return tagInfoAf22_;
+    }
 
 
-        // Nikon3 File Info Tag Info
+    // Nikon3 File Info Tag Info
     const TagInfo Nikon3MakerNote::tagInfoFi_[] = {
         TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonFiId, makerTags, undefined, 4, printExifVersion),
         TagInfo( 6, "DirectoryNumber", N_("Directory Number"), N_("Directory number"), nikonFiId, makerTags, unsignedShort, 1, printValue),
