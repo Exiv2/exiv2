@@ -1,17 +1,31 @@
-Exiv2 v0.27.1
--------------
+Exiv2 v0.27.2.1 = Exiv2 v0.27.2 RC1
+-----------------------------------
 
-This is the first quarterly "dot" release of Exiv2 v0.27
+First Release Candidate for quarterly "dot" release of Exiv2 v0.27.2
 
-Thank You to Dan, Luis and Thomas for their huge contribution to this release.
-Contributors: Andreas S, Freddie, Gilles, Michal, Phil.
+A huge thank you to Kevin for outstanding contributions to this release.
+Thank You to Dan and Luis for their solid efforts on Exiv2.
+Thank You to Andreas S for representing Team Exiv2 at LGM 2019.
+Contributors: Jens, Nehal, Phil, Simon, Toni
 
-Website relocated to https://exiv2.org
-Thank You Nehal for server support and skills.
-Thank You Andreas H for assisting with this transition.
+Headline Features of Exiv2 v0.27.2
+----------------------------------
 
-The web-site exiv2.org.uk is being HostPresto.com in England.
-Thank You Elliot at HostPresto.com
+1) Bug and security fixes
+2) Support for Unix (FreeBSD and NetBSD)
+3) Support for cross compiling on Linux for MinGW
+4) Support for Nikon/AutoFocus and Sony/FocusPosition Metadata
+5) Documentation and man page revisions
+6) Updated Catalan Localisation
+7) Monitoring API changes for v0.27 dot releases
+8) Using mergify to sync select PRs between 0.27-maintenance and 0.28
+
+Issues Open   for v0.27.2: https://github.com/Exiv2/exiv2/milestone/4
+Issues Closed for v0.27.2: https://github.com/Exiv2/exiv2/milestone/4?closed=1
+
+Robin Mills
+robin@clanmills.com
+2019-06-15
 
 Headline Features of Exiv2 v0.27.1
 ----------------------------------
