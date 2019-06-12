@@ -29,7 +29,6 @@
 #include "sonymn_int.hpp"
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
-#include "image_int.hpp"  // Internal::stringFormat/binaryToHex
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -804,7 +803,7 @@ namespace Exiv2 {
         TagInfo(  0x17, "AFAreaMode"        , N_("AF Area Mode")       , N_("AF Area Mode")       , sony2FpId, makerTags, unsignedByte, 1, printValue),
         TagInfo(  0x2d, "FocusPosition2"    , N_("Focus Position 2")   , N_("Focus Position 2")   , sony2FpId, makerTags, unsignedByte, 1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(Unknownsony2FpTag)", "(Unknownsony2FpTag)", N_("Unknown Nikon Auto Focus 2 Tag"), sony2FpId, makerTags, unsignedByte, 1, printValue)
+        TagInfo(0xffff, "(Unknownsony2FpTag)", "(Unknownsony2FpTag)"   , "(Unknownsony2FpTag)"    , sony2FpId, makerTags, unsignedByte, 1, printValue)
     };
 
     const TagInfo* SonyMakerNote::tagListFp()
@@ -814,13 +813,12 @@ namespace Exiv2 {
 
     DataBuf sonyFpCrypt(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/)
     {
-    	// std::cout << std::endl << stringFormat("**** sonyFpCrypt called for tag %#x ******",tag) << std::endl ;
     	DataBuf b(bytes,size); // copy the data
 
         // initialize the code table
         byte  code[256];
         for ( uint32_t i = 0 ; i < 249 ; i++ ) {
-            code[i] = (i * i * i) % 249 ;
+            code[(i * i * i) % 249] = i ;
         }
         for ( uint32_t i = 249 ; i < 256 ; i++ ) {
             code[i] = i;
@@ -832,9 +830,6 @@ namespace Exiv2 {
             b.pData_[i] = code[bytes[i]];
             i++;
         }
-
-        // std::cout << "----start ------\n" << binaryToHex(bytes   ,size   ) <<"-----end--------" << std::endl;
-        // std::cout << "----start ------\n" << binaryToHex(b.pData_,b.size_) <<"-----end--------" << std::endl;
 
     	return b;
     }

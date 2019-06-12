@@ -771,7 +771,7 @@ namespace Exiv2 {
 
     extern const ArrayCfg sony2FpCfg = {
         sony2FpId,        // Group for the elements
-        invalidByteOrder, // Inherit from parent
+        bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         sonyFpCrypt,      // (uint16_t, const byte*, uint32_t, TiffComponent* const);
         false,            // No size element
@@ -780,10 +780,10 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
 	extern const ArrayDef sony2FpDef[] = {
-		{  0x4, ttSignedByte  , 1 }, // Exif.Sony1Fp.AmbientTemperature
-		{ 0x16, ttUnsignedByte, 1 }, // Exif.Sony1Fp.FocusMode
-		{ 0x17, ttUnsignedByte, 1 }, // Exif.Sony1Fp.AFAreaMode
-		{ 0x2d, ttUnsignedByte, 1 }  // Exif.Sony1Fp.FocusPosition2
+		{  0x4, ttSignedByte  , 1 }, // Exif.Sony2Fp.AmbientTemperature
+		{ 0x16, ttUnsignedByte, 1 }, // Exif.Sony2Fp.FocusMode
+		{ 0x17, ttUnsignedByte, 1 }, // Exif.Sony2Fp.AFAreaMode
+		{ 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
 	};
 
     //! Sony[12] Camera Settings binary array - definition
