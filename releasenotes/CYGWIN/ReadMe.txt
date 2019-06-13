@@ -1,5 +1,5 @@
-CYGWIN Exiv2 v0.27.1 Release Bundle
------------------------------------
+CYGWIN Exiv2 v0.27.2-RC1 Bundle
+-------------------------------
 
 Structure of the bundle:
 ------------------------

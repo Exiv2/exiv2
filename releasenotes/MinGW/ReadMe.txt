@@ -1,5 +1,5 @@
-MinGW/msys2 Exiv2 v0.27.1 Release Bundle
-----------------------------------------
+MinGW/msys2 Exiv2 v0.27.2-RC1 Bundle
+------------------------------------
 
 Structure of the bundle:
 ------------------------
@@ -45,7 +45,7 @@ $ cd <bundle>
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ ./exifprint --version
-exiv2=0.27.1
+exiv2=0.27.2
 platform=msys
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
