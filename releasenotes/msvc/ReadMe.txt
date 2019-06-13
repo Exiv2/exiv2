@@ -1,6 +1,5 @@
-MinGW/msys2 Exiv2 v0.27.1 Release Bundle
-Visual Studio 2017 Release DLL Exiv2 v0.27.1 Release Bundle
------------------------------------------------------------
+Visual Studio 2017 Release DLL v0.27.2-RC1 Bundle
+-------------------------------------------------
 
 Structure of the bundle:
 ------------------------
@@ -45,7 +44,7 @@ To compile and link your own code:
 c:\> cd <bundle>
 <bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
 <bundle>> exifprint --version
-exiv2=0.27.0
+exiv2=0.27.2
 ...
 xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 <bundle>>
