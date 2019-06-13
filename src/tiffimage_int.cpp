@@ -772,12 +772,12 @@ namespace Exiv2 {
     extern const ArrayCfg sony2FpCfg = {
         sony2FpId,        // Group for the elements
         bigEndian,        // Big endian
-        ttUndefined,      // Type for array entry and size element
+        ttUnsignedByte,   // Type for array entry and size element
         sonyFpCrypt,      // (uint16_t, const byte*, uint32_t, TiffComponent* const);
         false,            // No size element
         false,            // No fillers
         false,            // Don't concatenate gaps
-        { 0, ttUnsignedShort, 1 }
+        { 0, ttUnsignedByte, 1 }
     };
 	extern const ArrayDef sony2FpDef[] = {
 		{  0x4, ttSignedByte  , 1 }, // Exif.Sony2Fp.AmbientTemperature
