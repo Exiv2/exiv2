@@ -98,7 +98,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     constexpr int debug = 1;
 #endif
 
-#if defined(DLL_EXPORT)
+#ifdef exiv2lib_EXPORTS
     constexpr int dll = 1;
 #else
     constexpr int dll = 0;
