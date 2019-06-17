@@ -69,6 +69,35 @@ OpenSUSE:
   <<: *default_config
   <<: *distro_build
 
+ABI_compliance_check:
+  image: fedora:30
+  stage: deploy
+  variables:
+    # abi-dumper complains if we don't pass -Og
+    CXXFLAGS: "-Og -g3 -gstrict-dwarf"
+    CFLAGS: "-Og -g3 -gstrict-dwarf"
+    # enabling curl is broken on 0.27
+    CMAKE_FLAGS: "-DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DBUILD_WITH_CCACHE=ON -DEXIV2_ENABLE_CURL=OFF -DEXIV2_ENABLE_SSH=ON"
+  <<: *default_config
+  script:
+    - dnf -y install abi-compliance-checker abi-dumper git
+    - mkdir build-latest && pushd build-latest
+    - cmake ${CMAKE_FLAGS} ..
+    - make -j $(nproc)
+    - abi-dumper lib/libexiv2.so -o ../ABI-1.dump -lver latest
+    - popd
+    - git checkout -f 0.27
+    - mkdir build-0.27 && pushd build-0.27
+    - cmake ${CMAKE_FLAGS} ..
+    - make -j $(nproc)
+    - abi-dumper lib/libexiv2.so -o ../ABI-0.dump -lver 0.27.0
+    - popd
+    - abi-compliance-checker -l libexiv2 -old ABI-0.dump -new ABI-1.dump
+  artifacts:
+    when: always
+    paths:
+      - compat_reports/
+
 Install:
   image: fedora:latest
   stage: deploy
