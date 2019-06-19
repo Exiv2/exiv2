@@ -221,9 +221,9 @@ namespace Exiv2 {
         { 2, ttUnsignedShort, 1 } // The array contains 4 bytes
     };
 
-    //! Nikon Auto Focus 2 binary array - configuration
-    extern const ArrayCfg nikonAf2Cfg = {
-        nikonAf2Id,       // Group for the elements
+    //! Nikon Auto Focus 21 binary array - configuration
+    extern const ArrayCfg nikonAf21Cfg = {
+        nikonAf21Id,      // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
         notEncrypted,     // Not encrypted
@@ -232,8 +232,8 @@ namespace Exiv2 {
         true,             // Concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
-    //! Nikon Auto Focus 2 binary array - definition
-    extern const ArrayDef nikonAf2Def[] = {
+    //! Nikon Auto Focus 21 binary array - definition
+    extern const ArrayDef nikonAf21Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // ContrastDetectAF
         {  5, ttUnsignedByte,  1 }, // AFAreaMode
@@ -247,6 +247,39 @@ namespace Exiv2 {
         { 24, ttUnsignedShort, 1 }, // AFAreaWidth
         { 26, ttUnsignedShort, 1 }, // AFAreaHeight
         { 28, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
+    };
+    //! Nikon Auto Focus 22 binary array - configuration
+    extern const ArrayCfg nikonAf22Cfg = {
+        nikonAf22Id,      // Group for the elements
+        invalidByteOrder, // Byte order
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,            // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Auto Focus 22 binary array - definition
+    extern const ArrayDef nikonAf22Def[] = {
+        {  0, ttUndefined,     4 }, // Version
+        {  4, ttUnsignedByte,  1 }, // ContrastDetectAF
+        {  5, ttUnsignedByte,  1 }, // AFAreaMode
+        {  6, ttUnsignedByte,  1 }, // PhaseDetectAF
+        {  7, ttUnsignedByte,  1 }, // PrimaryAFPoint
+        {  8, ttUnsignedByte,  7 }, // AFPointsUsed
+        { 70, ttUnsignedShort, 1 }, // AFImageWidth
+        { 72, ttUnsignedShort, 1 }, // AFImageHeight
+        { 74, ttUnsignedShort, 1 }, // AFAreaXPosition
+        { 76, ttUnsignedShort, 1 }, // AFAreaYPosition
+        { 78, ttUnsignedShort, 1 }, // AFAreaWidth
+        { 80, ttUnsignedShort, 1 }, // AFAreaHeight
+    };
+
+    //! Nikon AF2 configuration and definitions
+    //  https://github.com/Exiv2/exiv2/issues/646
+    extern const ArraySet nikonAf2Set[] = {
+        { nikonAf21Cfg, nikonAf21Def, EXV_COUNTOF(nikonAf21Def) },
+        { nikonAf22Cfg, nikonAf22Def, EXV_COUNTOF(nikonAf22Def) },
     };
 
     //! Nikon AF Fine Tune binary array - configuration
@@ -932,7 +965,8 @@ namespace Exiv2 {
         { Tag::root, nikonLd2Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonLd3Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonMeId,        nikon3Id,         0x00b0    },
-        { Tag::root, nikonAf2Id,       nikon3Id,         0x00b7    },
+        { Tag::root, nikonAf21Id,      nikon3Id,         0x00b7    },
+        { Tag::root, nikonAf22Id,      nikon3Id,         0x00b7    },
         { Tag::root, nikonFiId,        nikon3Id,         0x00b8    },
         { Tag::root, nikonAFTId,       nikon3Id,         0x00b9    },
         { Tag::root, nikonFl1Id,       nikon3Id,         0x00a8    },
@@ -1274,7 +1308,7 @@ namespace Exiv2 {
         {    0x0098, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
         {    0x00a8, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonFlSet, nikonSelector) },
         {    0x00b0, nikon3Id,         EXV_BINARY_ARRAY(nikonMeCfg, nikonMeDef)  },
-        {    0x00b7, nikon3Id,         EXV_BINARY_ARRAY(nikonAf2Cfg, nikonAf2Def)},
+        {    0x00b7, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, nikonAf2Selector) },
         {    0x00b8, nikon3Id,         EXV_BINARY_ARRAY(nikonFiCfg, nikonFiDef)  },
         {    0x00b9, nikon3Id,         EXV_BINARY_ARRAY(nikonAFTCfg, nikonAFTDef)  },
         {  Tag::all, nikon3Id,         newTiffEntry                              },
@@ -1301,7 +1335,8 @@ namespace Exiv2 {
         {  Tag::all, nikonAfId,        newTiffBinaryElement                      },
 
         // Nikon3 auto focus 2
-        {  Tag::all, nikonAf2Id,       newTiffBinaryElement                      },
+        {  Tag::all, nikonAf21Id,      newTiffBinaryElement                      },
+        {  Tag::all, nikonAf22Id,      newTiffBinaryElement                      },
 
         // Nikon3 AF Fine Tune
         {  Tag::all, nikonAFTId,       newTiffBinaryElement                      },

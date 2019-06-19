@@ -1584,7 +1584,6 @@ namespace Exiv2 {
             postList_.push_back(object);
             return;
         }
-
         // Check duplicates
         TiffFinder finder(object->tag(), object->group());
         pRoot_->accept(finder);
