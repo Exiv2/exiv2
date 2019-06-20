@@ -98,7 +98,7 @@ TABLES = Exif \
          OlympusFi \
          OlympusFe1 \
          OlympusRi \
-	     Panasonic \
+         Panasonic \
          PanasonicRaw \
          Pentax \
          Samsung2 \

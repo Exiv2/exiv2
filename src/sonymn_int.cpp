@@ -813,7 +813,7 @@ namespace Exiv2 {
 
     DataBuf sonyFpCrypt(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/)
     {
-    	DataBuf b(bytes,size); // copy the data
+        DataBuf b(bytes,size); // copy the data
 
         // initialize the code table
         byte  code[256];
@@ -825,13 +825,11 @@ namespace Exiv2 {
         }
 
         // code byte-by-byte
-        uint32_t i = 0;
-        while  ( i < size ) {
+        for ( uint32_t i = 0 ; i < size ; i++ ) {
             b.pData_[i] = code[bytes[i]];
-            i++;
         }
 
-    	return b;
+        return b;
     }
 
 }}                                      // namespace Internal, Exiv2
