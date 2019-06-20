@@ -59,19 +59,15 @@ namespace Exiv2 {
 
     int RafImage::pixelWidth() const
     {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-        if (widthIter != exifData_.end() && widthIter->count() > 0) {
-            return widthIter->toLong();
-        }
+        if (pixelWidth_ != 0) return pixelWidth_;
+
         return 0;
     }
 
     int RafImage::pixelHeight() const
     {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        if (heightIter != exifData_.end() && heightIter->count() > 0) {
-            return heightIter->toLong();
-        }
+        if (pixelHeight_ != 0) return pixelHeight_;
+
         return 0;
     }
 
@@ -313,8 +309,58 @@ namespace Exiv2 {
 
         enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 
+        // look for the height and width of the raw image in the raf metadata header
+        byte cfa_header_offset [4];
+        if (io_->read(cfa_header_offset, 4) != 4) throw Error(kerFailedToReadImageData);
+        byte cfa_header_length [4];
+        if (io_->read(cfa_header_length, 4) != 4) throw Error(kerFailedToReadImageData);
+        uint32_t cfa_hdr_off_u32 = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
+        uint32_t cfa_hdr_len_u32 = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+
+        enforce(Safe::add(cfa_hdr_off_u32, cfa_hdr_len_u32) <= io_->size(), kerCorruptedMetadata);
+
+        long cfa_hdr_off = static_cast<long>(cfa_hdr_off_u32);
+
+        if (io_->seek(cfa_hdr_off, BasicIo::beg) != 0)  throw Error(kerFailedToReadImageData);
+
+        byte tag_count[4];
+        if (io_->read(tag_count, 4) != 4) throw Error(kerFailedToReadImageData);
+        uint32_t count = getULong(tag_count, bigEndian);
+        // check that the count value is in a sane range
+        // assume a size of 4 bytes, but raf tags may also be larger
+        enforce(count < cfa_hdr_len_u32 / 4, kerCorruptedMetadata);
+
+        byte byte_tag[2];
+        byte byte_size[2];
+        uint16_t tag;
+        uint16_t tag_size;
+
+        for (uint32_t i = 0; i < count; ++i ) {
+            if (io_->read(byte_tag, 2) != 2 || io_->read(byte_size, 2) != 2) {
+                break;
+            } else {
+                tag = getUShort(byte_tag, bigEndian);
+                tag_size = getUShort(byte_size, bigEndian);
+            }
+            if (tag == 0x0100) {
+                byte image_height [2];
+                byte image_width [2];
+                if (io_->read(image_height, 2) == 2) {
+                    pixelHeight_ = getUShort(image_height, bigEndian);
+                }
+                if (io_->read(image_width, 2) == 2) {
+                    pixelWidth_ = getUShort(image_width, bigEndian);
+                }
+                break;
+            } else {
+                if (io_->seek(tag_size, BasicIo::cur) != 0 || io_->eof()) {
+                    break;
+                };
+            }
+        } // raf metadata header
+
         DataBuf buf(jpg_img_len - 12);
-        if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        if (io_->seek(jpg_img_off + 12, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
         io_->read(buf.pData_, buf.size_);
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
