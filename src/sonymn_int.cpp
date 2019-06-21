@@ -811,7 +811,7 @@ namespace Exiv2 {
         return tagInfoFp_;
     }
 
-    DataBuf sonyFpCrypt(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/)
+    DataBuf sonyTagDecipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/)
     {
         DataBuf b(bytes,size); // copy the data
 
