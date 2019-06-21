@@ -2,15 +2,15 @@
 
 # Exiv2 Sample Applications
 
-Exiv2 is a C++ library and a command line utility to read, write, delete and modify Exif, IPTC, XMP and ICC image metadata.
-Exiv2 also features a collection of sample and test command-line programs.  Please be aware that while the program _**exiv2**_ enjoys full support from Team Exiv2, the other programs have been written for test, documentation or development purposes.  You are expected to read the code to discover the specification of programs other than _**exiv2**_.
+Exiv2 is a C++ library and a command line utility to read, write, delete and modify Exif, IPTC, XMP and ICC image metadata.  Exiv2 also features a collection of sample and test command-line programs.  Please be aware that while the program _**exiv2**_ enjoys full support from Team Exiv2, the other programs have been written for test, documentation or development purposes.  You are expected to read the code to discover the specification of programs other than _**exiv2**_.
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="TOC1">
+
 ### Sample Programs
 
-| Name | Kind | More information |
+| Name | Purpose | More information |
 |:---  |:---  |:---              |
 | _**addmoddel**_   | Demonstrates Exiv2 library APIs to add/ modify/ delete metadata | [addmoddel](#addmoddel)<br>[https://exiv2.org/examples.html#example2](https://exiv2.org/examples.html#example2) |
 | _**exifcomment**_ | Set Exif.Photo.UserComment in an image  | [exifcomment](#exifcomment) |
@@ -31,6 +31,7 @@ Exiv2 also features a collection of sample and test command-line programs.  Plea
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="TOC2">
+
 ### Test Programs
 
 As Exiv2 is open source, we publish all our materials.  Some of the following programs are actively used in our test harness.  Some of the following programs were written during the development of features and their on-going use may be limited, or even obsolete.  In general these programs are published as source and Team Exiv2 will not provide support to users.
@@ -43,7 +44,7 @@ As Exiv2 is open source, we publish all our materials.  Some of the following pr
 | _**getopt-test**_ | Sample program to test getopt() | [getopt-test](#getopt-test) |
 | _**ini-test**_ | Shows simple usage of the INIReader class | [ini-test](#ini-test) |
 | _**iotest**_ | Test programs for BasicIo functions. | [iotest](#iotest) |
-| _**iptctest**_ | Sample program test the Iptc reading and writing. | [iptctest](#iptctest) |
+| _**iptctest**_ | Sample program test Iptc reading and writing. | [iptctest](#iptctest) |
 | _**key-test**_ | Key unit tests | [key-test](#key-test) |
 | _**largeiptc-test**_ | Test for large (>65535 bytes) IPTC buffer | [largeiptc-test](#largeiptc-test) |
 | _**mmap-test**_ | Simple mmap tests | [mmap-test](#mmap-test) |
@@ -64,7 +65,9 @@ As Exiv2 is open source, we publish all our materials.  Some of the following pr
 ## 2 Sample Program Descriptions
 
 <div id="addmoddel">
+
 #### addmoddel
+
 ```
 Usage: addmoddel file
 ```
@@ -74,7 +77,9 @@ Demonstrates Exiv2 library APIs to add/ modify/ delete metadata
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="exifcomment">
+
 #### exifcomment
+
 ```
 Usage: exifcomment file
 ```
@@ -83,7 +88,9 @@ This is a simple program that demonstrates how to set _**Exif.Photo.UserComment*
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="exifdata">
-#### exifdata
+
+### exifdata
+
 ```
 Usage: exifdata file format
 formats: csv | json | wolf | xml
@@ -94,7 +101,9 @@ This is a simple program to demonstrate dumping _**Exif**_ metadata in common fo
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="exifprint">
+
 #### exifprint
+
 ```
 Usage: exifprint [ file | --version | --version-test ]
 ```
@@ -112,7 +121,9 @@ There is one other unique feature of this program.  It is the only test/sample p
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="exifvalue">
+
 #### exifvalue
+
 ```
 Usage: exifvalue file tag
 ```
@@ -122,7 +133,9 @@ Prints the value of a single _**Exif**_ tag in a file
 
 
 <div id="exiv2json">
+
 #### exiv2json
+
 ```
 Usage: exiv2json [-option] file
 Option: all | exif | iptc | xmp | filesystem
@@ -174,7 +187,9 @@ $
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="geotag">
+
 #### geotag
+
 ```
 Usage: geotag {-help|-version|-dst|-dryrun|-ascii|-verbose|-adjust value|-tz value|-delta value}+ path+
 ```
@@ -196,7 +211,9 @@ I use this program frequently.  My Nikon 530 Camera has a GPS and writes GPS Tag
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="metacopy">
+
 #### metacopy
+
 ```
 Usage: metacopy [-iecaph] readfile writefile
 Reads and writes raw metadata. Use -h option for help.
@@ -207,7 +224,9 @@ Metacopy is used to copy a complete block metadata from one file to another.  Pl
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="mrwthumb">
+
 #### mrwthumb
+
 ```
 Usage: mrwthumb file
 ```
@@ -217,7 +236,9 @@ Sample program to extract a Minolta thumbnail from the makernote.
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="xmpparse">
+
 #### xmpparse
+
 ```
 Usage: xmpparse file
 ```
@@ -228,7 +249,9 @@ Read an XMP packet from a file, parse it and print all (known) properties.
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="xmpprint">
+
 #### xmpprint
+
 ```
 Usage: xmpprint file
 ```
@@ -238,7 +261,9 @@ Read an XMP from a file, parse it and print all (known) properties
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="xmpsample">
+
 #### xmpsample
+
 ```
 Usage: xmpsample file
 ```
@@ -250,7 +275,9 @@ Demonstrates Exiv2 library high level XMP classes.
 ## 3 Test Program Descriptions
 
 <div id="conntest">
+
 #### conntest
+
 ```
 Usage: conntest url {-http1_0}
 ```
@@ -260,7 +287,9 @@ Test http/https/ftp/ssh/sftp connection
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="convert-test">
+
 #### convert-test
+
 ```
 Usage: convert-test file
 ```
@@ -270,7 +299,9 @@ Conversion test driver
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="easyaccess-test">
+
 #### easyaccess-test
+
 ```
 Usage: easyaccess-test file
 ```
@@ -280,7 +311,9 @@ Sample program using high-level metadata access functions
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="getopt-test">
+
 #### getopt-test
+
 ```
 Usage: getopt-test
 ```
@@ -289,16 +322,21 @@ This program is used to test the function **getopt()**.  Prior to Exiv2 v0.27, t
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="ini-test">
+
 #### ini-test
+
 ```
 Usage: ini-test
 ```
-This program is used to test reading the file ini-test.  This program was added in Exiv2 v0.26 when the ~/.exiv2 file was added to the Exiv2 architecture.  Please read the code for further information.
+
+This program is used to test reading the file ini-test.  This program was added in Exiv2 v0.26 when the ~/.exiv2 file was added to the Exiv2 architecture.
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="iotest">
+
 #### iotest
+
 ```
 Usage: iotest filein fileout1 fileout2
 fileouts are overwritten and should match filein exactly
@@ -309,18 +347,22 @@ Test programs for BasicIo functions.
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="iptctest">
+
 #### iptctest
+
 ```
 Usage: iptctest image
 Commands read from stdin.
 ```
 
-Sample program test the Iptc reading and writing.
+Sample program test Iptc reading and writing.
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="key-test">
+
 #### key-test
+
 ```
 Usage: key-test
 ```
@@ -330,7 +372,9 @@ Key unit tests
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="largeiptc-test">
+
 #### largeiptc-test
+
 ```
 Usage: Usage: largeiptc-test image datafile
 ```
@@ -340,7 +384,9 @@ Test for large (>65535 bytes) IPTC buffer
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="mmap-test">
+
 #### mmap-test
+
 ```
 Usage: Usage: mmap-test file
 ```
@@ -350,7 +396,9 @@ Simple mmap tests
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="path-test">
+
 #### path-test
+
 ```
 Usage: path-test file
 ```
@@ -360,7 +408,9 @@ Test path IO
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="prevtest">
+
 #### prevtest
+
 ```
 Usage: prevtest file
 ```
@@ -370,7 +420,9 @@ Test access to preview images
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="remotetest">
+
 #### remotetest
+
 ```
 Usage: remotetest remotetest file {--nocurl | --curl}
 ```
@@ -380,7 +432,9 @@ Tester application for testing remote i/o.
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="stringto-test">
+
 #### stringto-test
+
 ```
 Usage: stringto-test
 ```
@@ -390,7 +444,9 @@ Test conversions from string to long, float and Rational types.
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="taglist">
+
 #### taglist
+
 ```
 taglist --help
 Usage: taglist [--group name|Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|Panasonic|Pentax|Sigma|Sony|Iptc|dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc]
@@ -434,7 +490,9 @@ This information is formatted (search Nikon (format 3) MakerNote Tags): [https:/
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="tiff-test">
+
 #### tiff-test
+
 ```
 Usage: tiff-test file
 ```
@@ -445,7 +503,9 @@ Simple TIFF write test
 
 
 <div id="werror-test">
+
 #### werror-test
+
 ```
 Usage: werror-test
 ```
@@ -455,7 +515,9 @@ Simple tests for the wide-string error class WError
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="write-test">
+
 #### write-test
+
 ```
 Usage: write-test file case
 where case is an integer between 1 and 11
@@ -466,7 +528,9 @@ ExifData write unit tests
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="write2-test">
+
 #### write2-test
+
 ```
 Usage: write2-test file
 ```
@@ -476,7 +540,9 @@ ExifData write unit tests for Exif data created from scratch
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="xmpdump">
+
 #### xmpdump
+
 ```
 Usage: xmpdump file
 ```
@@ -486,7 +552,9 @@ Sample program to dump the XMP packet of an image
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="xmpparser-test">
+
 #### xmpparser-test
+
 ```
 Usage: xmpparser-test file
 ```
