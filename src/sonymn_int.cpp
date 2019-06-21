@@ -811,6 +811,7 @@ namespace Exiv2 {
         return tagInfoFp_;
     }
 
+    // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
     DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/, bool bDecipher)
     {
         DataBuf b(bytes,size); // copy the data
