@@ -78,7 +78,9 @@ namespace Exiv2 {
 
     }; // class SonyMakerNote
 
+    DataBuf sonyTagCipher  (uint16_t, const byte*, uint32_t, TiffComponent* const, bool bCipher);
     DataBuf sonyTagDecipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    DataBuf sonyTagEncipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
 }}                                      // namespace Internal, Exiv2
 

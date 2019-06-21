@@ -811,14 +811,18 @@ namespace Exiv2 {
         return tagInfoFp_;
     }
 
-    DataBuf sonyTagDecipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/)
+    DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/, bool bDecipher)
     {
         DataBuf b(bytes,size); // copy the data
 
         // initialize the code table
         byte  code[256];
         for ( uint32_t i = 0 ; i < 249 ; i++ ) {
-            code[(i * i * i) % 249] = i ;
+            if ( bDecipher ) {
+                code[(i * i * i) % 249] = i ;
+            } else {
+                code[i] = (i * i * i) % 249 ;
+            }
         }
         for ( uint32_t i = 249 ; i < 256 ; i++ ) {
             code[i] = i;
@@ -830,6 +834,15 @@ namespace Exiv2 {
         }
 
         return b;
+    }
+
+    DataBuf sonyTagDecipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    {
+        return sonyTagCipher(tag,bytes,size,object,true);
+    }
+    DataBuf sonyTagEncipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    {
+        return sonyTagCipher(tag,bytes,size,object,false);
     }
 
 }}                                      // namespace Internal, Exiv2
