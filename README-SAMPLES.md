@@ -376,7 +376,7 @@ Key unit tests
 #### largeiptc-test
 
 ```
-Usage: Usage: largeiptc-test image datafile
+Usage: largeiptc-test image datafile
 ```
 
 Test for large (>65535 bytes) IPTC buffer
@@ -388,7 +388,7 @@ Test for large (>65535 bytes) IPTC buffer
 #### mmap-test
 
 ```
-Usage: Usage: mmap-test file
+Usage: mmap-test file
 ```
 
 Simple mmap tests
