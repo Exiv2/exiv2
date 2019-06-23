@@ -23,6 +23,13 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
         find_package(CURL REQUIRED)
     endif()
+<<<<<<< HEAD
+=======
+
+    if( EXIV2_ENABLE_SSH )
+        find_package(libssh CONFIG REQUIRED)
+    endif( )
+>>>>>>> e85ce17fc... Switch to libssh's own libssh-config.cmake
 endif( )
 
 if (EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP)
