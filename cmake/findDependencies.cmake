@@ -20,7 +20,7 @@ if( EXIV2_ENABLE_WEBREADY )
     endif()
 
     if( EXIV2_ENABLE_SSH )
-        find_package( SSH REQUIRED)
+        find_package(libssh CONFIG REQUIRED)
     endif( )
 endif( )
 
