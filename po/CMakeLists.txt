@@ -9,6 +9,7 @@ GETTEXT_CREATE_TRANSLATIONS(exiv2.pot ALL
     fr.po
     gl.po
     ms.po
+    nl.po
     pl.po
     pt.po
     ru.po
