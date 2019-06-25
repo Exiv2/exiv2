@@ -248,9 +248,9 @@ g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 
 Localisation is supported on a UNIX-like platform:  Linux, MacOS-X, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
-To build localisation support, use the CMake option **`-DEXIV2_BUILD_PO=On`**. There are no additional build steps as the normal build commands will compile the library, samples and localisation support.  You must install the build to ensure the localisation message files can be found at run-time.
+To build localisation support, use the CMake option `-DEXIV2_BUILD_PO=ON`. There are no additional build steps as the normal build commands will compile the library, samples and localisation support.  You must install the build to ensure the localisation messages files can be found at run-time.
 
-1) Running exiv2 in a foreign language
+1) Running exiv2 in another language
 
 ```bash
 $ env LANG=fr_FR exiv2    # env LANGUAGE=fr_FR exiv2 on Linux!
@@ -299,11 +299,12 @@ $ msgfmt --output-file=po/xy/LC_MESSAGES/exiv2.mo po/xy.po
 
 2.4) Install and test your messages:
 
-You have to install your messages to test them.  It's not possible to test a message file from the build/bin directory.
+You have to install your messages to test them.  It's not possible to test a messages file by executing build/bin/exiv2.
 
 ```bash
-$ sudo cp -R  po/xy /usr/local/share/locale/xy
-$ env LANG=xy exiv2                            # env LANGUAGE=xy on Linux!
+$ sudo mkdir -p                          /usr/local/share/locale/xy/LC_MESSAGES
+$ sudo cp -R  po/xy/LC_MESSAGES/exiv2.mo /usr/local/share/locale/xy/LC_MESSAGES
+$ env LANG=xy exiv2                      # env LANGUAGE=xy on Linux!
 exiv2: An action must be specified
 exiv2: At least one file is required
 Usage: exiv2 [ options ] [ action ] file ...
@@ -314,7 +315,17 @@ $
 
 2.5) Submitting your new language file for inclusion in future versions of Exiv2:
 
-Open a new issue on https://github.com/exiv2/exiv2 and attach the file po/xy/exiv2.po
+You may submit a PR which contains po/xy.po AND a modification to po/CMakeLists.txt
+
+Or, open a new issue on https://github.com/exiv2/exiv2 and attach the file xy.po.zip which can be created as follows:
+
+```
+$ zip xy.po.zip po/xy.po
+  adding: po/xy.po (deflated 78%)
+ls -l xy.po.zip
+-rw-r--r--+ 1 rmills  staff  130417 25 Jun 10:15 xy.po.zip
+$
+```
 
 
 [TOC](#TOC)
