@@ -2,6 +2,7 @@
 
 #include "error.hpp"
 #include "makernote_int.hpp"
+#include "sonymn_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -767,6 +768,24 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
+
+    extern const ArrayCfg sony2FpCfg = {
+        sony2FpId,        // Group for the elements
+        bigEndian,        // Big endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+    extern const ArrayDef sony2FpDef[] = {
+        {  0x4, ttSignedByte  , 1 }, // Exif.Sony2Fp.AmbientTemperature
+        { 0x16, ttUnsignedByte, 1 }, // Exif.Sony2Fp.FocusMode
+        { 0x17, ttUnsignedByte, 1 }, // Exif.Sony2Fp.AFAreaMode
+        { 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
+    };
+
     //! Sony[12] Camera Settings binary array - definition
     extern const ArrayDef sonyCsDef[] = {
         {  12, ttSignedShort,   1 }  // Exif.Sony[12]Cs.WhiteBalanceFineTune
@@ -988,6 +1007,7 @@ namespace Exiv2 {
         { Tag::root, sony1MltCs7DId,   sonyMltId,        0x0004    },
         { Tag::root, sony1MltCsA100Id, sonyMltId,        0x0114    },
         { Tag::root, sony2Id,          exifId,           0x927c    },
+        { Tag::root, sony2FpId,        sony2Id,          0x9402    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
         { Tag::root, minoltaId,        exifId,           0x927c    },
@@ -1417,6 +1437,10 @@ namespace Exiv2 {
         // Sony1 camera settings
         {  Tag::all, sony1CsId,        newTiffBinaryElement                      },
         {  Tag::all, sony1Cs2Id,       newTiffBinaryElement                      },
+
+        // Tag 0x9402 Sony2Fp Focus Position
+        {  Tag::all, sony2FpId,        newTiffBinaryElement                      },
+        {    0x9402, sony2Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef)  },
 
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },

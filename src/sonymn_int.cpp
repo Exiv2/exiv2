@@ -28,6 +28,7 @@
 #include "minoltamn_int.hpp"
 #include "sonymn_int.hpp"
 #include "tags_int.hpp"
+#include "tiffcomposite_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -793,6 +794,56 @@ namespace Exiv2 {
     const TagInfo* SonyMakerNote::tagListCs2()
     {
         return tagInfoCs2_;
+    }
+
+    //! Sony Tag 9402 Sony2Fp (FocusPosition)
+    const TagInfo SonyMakerNote::tagInfoFp_[] = {
+        TagInfo(  0x04, "AmbientTemperature", N_("Ambient Temperature"), N_("Ambient Temperature"), sony2FpId, makerTags,   signedByte, 1, printValue),
+        TagInfo(  0x16, "FocusMode"         , N_("Focus Mode")         , N_("Focus Mode")         , sony2FpId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  0x17, "AFAreaMode"        , N_("AF Area Mode")       , N_("AF Area Mode")       , sony2FpId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  0x2d, "FocusPosition2"    , N_("Focus Position 2")   , N_("Focus Position 2")   , sony2FpId, makerTags, unsignedByte, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(Unknownsony2FpTag)", "(Unknownsony2FpTag)"   , "(Unknownsony2FpTag)"    , sony2FpId, makerTags, unsignedByte, 1, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListFp()
+    {
+        return tagInfoFp_;
+    }
+
+    // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
+    static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/, bool bDecipher)
+    {
+        DataBuf b(bytes,size); // copy the data
+
+        // initialize the code table
+        byte  code[256];
+        for ( uint32_t i = 0 ; i < 249 ; i++ ) {
+            if ( bDecipher ) {
+                code[(i * i * i) % 249] = i ;
+            } else {
+                code[i] = (i * i * i) % 249 ;
+            }
+        }
+        for ( uint32_t i = 249 ; i < 256 ; i++ ) {
+            code[i] = i;
+        }
+
+        // code byte-by-byte
+        for ( uint32_t i = 0 ; i < size ; i++ ) {
+            b.pData_[i] = code[bytes[i]];
+        }
+
+        return b;
+    }
+
+    DataBuf sonyTagDecipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    {
+        return sonyTagCipher(tag,bytes,size,object,true);
+    }
+    DataBuf sonyTagEncipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    {
+        return sonyTagCipher(tag,bytes,size,object,false);
     }
 
 }}                                      // namespace Internal, Exiv2
