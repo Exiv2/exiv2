@@ -162,9 +162,10 @@ namespace Exiv2 {
         { sony1MltCs7DId,  "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D  },
         { sony1MltCsOldId, "Makernote", "Sony1MltCsOld",MinoltaMakerNote::tagListCsStd },
         { sony1MltCsNewId, "Makernote", "Sony1MltCsNew",MinoltaMakerNote::tagListCsStd },
-        { sony1MltCsA100Id,"Makernote","Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
+        { sony1MltCsA100Id,"Makernote", "Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
         { sony2CsId,       "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { sony2Cs2Id,      "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
+        { sony2FpId,       "Makernote", "Sony2Fp",      SonyMakerNote::tagListFp       },
         { lastId,          "(Last IFD info)", "(Last IFD item)", 0 }
     };
 

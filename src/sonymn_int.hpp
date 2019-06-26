@@ -35,6 +35,7 @@ Email communication with <a href="mailto:caulier dot gilles at gmail dot com">ca
 // included header files
 #include "tags.hpp"
 #include "types.hpp"
+#include "tiffcomposite_int.hpp"
 
 // + standard includes
 #include <string>
@@ -57,6 +58,8 @@ namespace Exiv2 {
         static const TagInfo* tagListCs();
         //! Return read-only list of built-in Sony Standard Camera Settings version 2 tags
         static const TagInfo* tagListCs2();
+        //! Return read-only list of built-in Sony FocusPosition tags
+        static const TagInfo* tagListFp();
 
         //! @name Print functions for Sony %MakerNote tags
         //@{
@@ -70,7 +73,11 @@ namespace Exiv2 {
         static const TagInfo tagInfo_[];
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoCs2_[];
+        static const TagInfo tagInfoFp_[];
 
     }; // class SonyMakerNote
+
+    DataBuf sonyTagDecipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    DataBuf sonyTagEncipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
 }}                                      // namespace Internal, Exiv2

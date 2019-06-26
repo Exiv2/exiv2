@@ -36,6 +36,7 @@
 #include "value.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
+#include "sonymn_int.hpp"
 #include "i18n.h"             // NLS support.
 
 // + standard includes
@@ -782,7 +783,10 @@ namespace Exiv2 {
         if (!object->initialize(pRoot_)) return;
 
         // Re-encrypt buffer if necessary
-        const CryptFct cryptFct = object->cfg()->cryptFct_;
+        CryptFct cryptFct = object->cfg()->cryptFct_;
+        if ( cryptFct == sonyTagDecipher ) {
+             cryptFct  = sonyTagEncipher;
+        }
         if (cryptFct != 0) {
             const byte* pData = object->pData();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
