@@ -12,7 +12,7 @@
 - If the commit requires additional explanation, a blank line SHOULD be put
   below the summary followed by a more thorough explanation.
 
-- If a issue on GitHub is fixed, then this issue SHOULD be mentioned in the
+- If an issue on GitHub is fixed, then this issue SHOULD be mentioned in the
   commit message.
 
   A message of the form "fixes #aNumber" result in GitHub automatically closing
