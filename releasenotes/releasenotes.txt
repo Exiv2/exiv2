@@ -22,41 +22,7 @@ Headline Features of Exiv2 v0.27.2
 Issues fixed since v0.27.1
 --------------------------
 
-#928 Corrections to README.md 2.8.Localisation
-#921 Adding README-SAMPLES.md and removing exiv2samples.1
-#919 Selecting XMP SDK version (question)
-#903 $ exiv2 -vVg debug and $ exiv2 -vVg dll are not working correctly.
-#899 ICCProfile FalseWarning
-#895 'exiv2 mv -r' not accepting format
-#880 Nikon D90 - wrong FileNumber and DirectoryNumber
-#870 Remove call to atol, which might read off the end of the buffer.
-#868 Prevent out-of-bounds read in IptcParser::decode()
-#858 Check bounds of jpg_img_off and jpg_img_len
-#856 Add bounds check of resourceSize.
-#854 Add bounds check on allocation size.
-#852 Check bounds of month and day
-#851 Denial of service in XMPUtils AdjustTimeOverflow()
-#848 Check bounds of allocation size
-#846 Add bounds check on allocation size
-#841 Issue 841: replace assert with enforce.
-#833 NetBSD/FreeBSD Support
-#831 Restore 0.25 behaviour of $ exiv2 -g image ...
-#829 Update Catalan translation
-#828 Segmentation fault in pngimage.cpp:329.
-#823 Support build/test of Exiv2 on NetBSD
-#816 Avoid null pointer exception due to NULL return value from strchr
-#808 Changes to README.md
-#798 Install CMake/consume files in DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/exiv2/
-#797 Avoid negative integer overflow when filesize < io_->tell()
-#795 Avoid negative integer overflow when iccOffset > chunkLength
-#794 Avoid negative integer overflow when chunkLength == 0
-#763 False Negatives in Unit Tests
-#754 Regression in detected lens
-#743 Sigma 24-70mm F2,8 DG OS HSM Art not detected
-#662 How does the rename (mv) work in case of name clash? question
-#646 Exiv2 does not find certain AF tags for the Nikon D850
-#589 Fix in sidecar files #589
-#582 Add support for FocusPosition (Tag9402) in Sony RAW files
+https://github.com/Exiv2/exiv2/milestone/4?closed=1
 
 Robin Mills
 robin@clanmills.com
