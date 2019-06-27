@@ -1,11 +1,11 @@
-Linux Exiv2 v0.27.2-RC1 Bundle
+Linux Exiv2 v0.27.2-RC2 Bundle
 ------------------------------
 
 Structure of the bundle:
 ------------------------
 
 bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.so.0.27.2.1 & libexiv2-xmp.a     libraries
+lib/libexiv2.so.0.27.2.2 & libexiv2-xmp.a     libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
@@ -42,17 +42,13 @@ $ cd <bundle>
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ ./exifprint --version
-exiv2=0.27.2
-...
-xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
-$
 
 Method 2: Use pkg-config to set include and linking options
 $ cd <bundle>
 $ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 $ g++ -std=c++98 samples/exifprint.cpp -o exifprint $(pkg-config exiv2 --libs --cflags)
-$ ./exifprint
+$ ./exifprint --version
 
 Method 3: Use the CMake support/consume files
 See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"

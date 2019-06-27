@@ -1,11 +1,11 @@
-MacOS-X (Darwin) Exiv2 v0.27.2-RC1 Bundle
+MacOS-X (Darwin) Exiv2 v0.27.2-RC2 Bundle
 -----------------------------------------
 
 Structure of the bundle
 -----------------------
 
 bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.0.27.2.1.dylib & libexiv2-xmp.a  libraries
+lib/libexiv2.0.27.2.2.dylib & libexiv2-xmp.a  libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
@@ -40,10 +40,6 @@ To compile and link your own code using installed library and include files
 Method 1: Explicitly set include and linking options
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
-exiv2=0.27.2
-...
-xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
-$
 
 Method 2: Use pkg-config to set include and linking options
 $ cd <bundle>

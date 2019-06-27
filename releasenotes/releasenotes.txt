@@ -1,31 +1,66 @@
-Exiv2 v0.27.2.1 = Exiv2 v0.27.2 RC1
+Exiv2 v0.27.2.2 = Exiv2 v0.27.2 RC2
 -----------------------------------
 
-First Release Candidate for quarterly "dot" release of Exiv2 v0.27.2
+Second Release Candidate for quarterly "dot" release of Exiv2 v0.27.2
 
 A huge thank you to Kevin for outstanding contributions to this release.
 Thank You to Dan and Luis for their solid efforts on Exiv2.
 Thank You to Andreas S for representing Team Exiv2 at LGM 2019.
-Contributors: Jens, Nehal, Phil, Simon, Toni
+Contributors: Jens, Nehal, Phil, Toni
 
 Headline Features of Exiv2 v0.27.2
 ----------------------------------
 
 1) Bug and security fixes
 2) Support for Unix (FreeBSD and NetBSD)
-3) Support for cross compiling on Linux for MinGW
-4) Support for Nikon/AutoFocus and Sony/FocusPosition Metadata
-5) Documentation and man page revisions
-6) Updated Catalan Localisation
-7) Monitoring API changes for v0.27 dot releases
-8) Using mergify to sync select PRs between 0.27-maintenance and 0.28
+3) Support for Nikon/AutoFocus and Sony/FocusPosition Metadata
+4) Documentation and man page revisions
+5) Updated Catalan Localisation
+6) Monitoring API changes for v0.27 dot releases
+7) Using mergify to sync select PRs between 0.27-maintenance and 0.28
 
-Issues Open   for v0.27.2: https://github.com/Exiv2/exiv2/milestone/4
-Issues Closed for v0.27.2: https://github.com/Exiv2/exiv2/milestone/4?closed=1
+Issues fixed since v0.27.1
+--------------------------
+
+#928 Corrections to README.md 2.8.Localisation
+#921 Adding README-SAMPLES.md and removing exiv2samples.1
+#919 Selecting XMP SDK version (question)
+#903 $ exiv2 -vVg debug and $ exiv2 -vVg dll are not working correctly.
+#899 ICCProfile FalseWarning
+#895 'exiv2 mv -r' not accepting format
+#880 Nikon D90 - wrong FileNumber and DirectoryNumber
+#870 Remove call to atol, which might read off the end of the buffer.
+#868 Prevent out-of-bounds read in IptcParser::decode()
+#858 Check bounds of jpg_img_off and jpg_img_len
+#856 Add bounds check of resourceSize.
+#854 Add bounds check on allocation size.
+#852 Check bounds of month and day
+#851 Denial of service in XMPUtils AdjustTimeOverflow()
+#848 Check bounds of allocation size
+#846 Add bounds check on allocation size
+#841 Issue 841: replace assert with enforce.
+#833 NetBSD/FreeBSD Support
+#831 Restore 0.25 behaviour of $ exiv2 -g image ...
+#829 Update Catalan translation
+#828 Segmentation fault in pngimage.cpp:329.
+#823 Support build/test of Exiv2 on NetBSD
+#816 Avoid null pointer exception due to NULL return value from strchr
+#808 Changes to README.md
+#798 Install CMake/consume files in DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/exiv2/
+#797 Avoid negative integer overflow when filesize < io_->tell()
+#795 Avoid negative integer overflow when iccOffset > chunkLength
+#794 Avoid negative integer overflow when chunkLength == 0
+#763 False Negatives in Unit Tests
+#754 Regression in detected lens
+#743 Sigma 24-70mm F2,8 DG OS HSM Art not detected
+#662 How does the rename (mv) work in case of name clash? question
+#646 Exiv2 does not find certain AF tags for the Nikon D850
+#589 Fix in sidecar files #589
+#582 Add support for FocusPosition (Tag9402) in Sony RAW files
 
 Robin Mills
 robin@clanmills.com
-2019-06-15
+2019-06-29
 
 Headline Features of Exiv2 v0.27.1
 ----------------------------------

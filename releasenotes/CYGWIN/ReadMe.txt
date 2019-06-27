@@ -1,4 +1,4 @@
-CYGWIN Exiv2 v0.27.2-RC1 Bundle
+CYGWIN Exiv2 v0.27.2-RC2 Bundle
 -------------------------------
 
 Structure of the bundle:
@@ -40,7 +40,7 @@ To compile and link your own code using installed library and include files
 Method 1: Explicitly set include and linking options
 $ cd <bundle>
 $ g++ -std=gnu++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
-$ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+$ export PATH="/usr/local/bin:$PATH"
 $ ./exifprint --version
 
 Method 2: Use pkg-config to set include and linking options
