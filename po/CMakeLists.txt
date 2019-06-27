@@ -1,6 +1,6 @@
 find_package(Gettext REQUIRED)
 
-GETTEXT_CREATE_TRANSLATIONS(exiv2.pot ALL 
+GETTEXT_CREATE_TRANSLATIONS(exiv2.pot ALL
     bs.po
     de.po
     ca.po
