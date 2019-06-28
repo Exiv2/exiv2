@@ -2070,7 +2070,7 @@ namespace {
                  int targetType,
                  bool preserve)
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "actions.cpp::metacopy" << " source = " << source << " target = " << tgt << std::endl;
 #endif
 

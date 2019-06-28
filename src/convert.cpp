@@ -1374,7 +1374,7 @@ namespace {
     {
         // Naive byte-swapping, I'm sure this can be done more efficiently
         if (str.size() & 1) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "swapBytes: Size " << str.size() << " of input string is not even.\n";
 #endif
             return false;
@@ -1392,7 +1392,7 @@ namespace {
         if (str.empty()) return true;
         int len = MultiByteToWideChar(cp, 0, str.c_str(), (int)str.size(), 0, 0);
         if (len == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "mb2wc: Failed to determine required size of output buffer.\n";
 #endif
             return false;
@@ -1401,7 +1401,7 @@ namespace {
         out.resize(len * 2);
         int ret = MultiByteToWideChar(cp, 0, str.c_str(), (int)str.size(), (LPWSTR)&out[0], len * 2);
         if (ret == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "mb2wc: Failed to convert the input string to a wide character string.\n";
 #endif
             return false;
@@ -1414,14 +1414,14 @@ namespace {
     {
         if (str.empty()) return true;
         if (str.size() & 1) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "wc2mb: Size " << str.size() << " of input string is not even.\n";
 #endif
             return false;
         }
         int len = WideCharToMultiByte(cp, 0, (LPCWSTR)str.data(), (int)str.size() / 2, 0, 0, 0, 0);
         if (len == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "wc2mb: Failed to determine required size of output buffer.\n";
 #endif
             return false;
@@ -1430,7 +1430,7 @@ namespace {
         out.resize(len);
         int ret = WideCharToMultiByte(cp, 0, (LPCWSTR)str.data(), (int)str.size() / 2, (LPSTR)&out[0], len, 0, 0);
         if (ret == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "wc2mb: Failed to convert the input string to a multi byte string.\n";
 #endif
             return false;

@@ -665,7 +665,7 @@ namespace Exiv2 {
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
             ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
             if (pos != ed.end()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
 #endif
                 ed.erase(pos);
@@ -689,7 +689,7 @@ namespace Exiv2 {
             ifd3Id
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             eraseIfd(ed, filteredIfds[i]);
@@ -816,7 +816,7 @@ namespace Exiv2 {
                                       header.get(),
                                       0);
         append(blob, mio2.mmap(), (uint32_t) mio2.size());
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
         }
