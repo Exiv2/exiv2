@@ -753,7 +753,7 @@ namespace Exiv2 {
         // Register custom namespaces with XMP-SDK
         for (XmpProperties::NsRegistry::iterator i = XmpProperties::nsRegistry_.begin();
              i != XmpProperties::nsRegistry_.end(); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Registering " << i->second.prefix_ << " : " << i->first << "\n";
 #endif
             registerNs(i->first, i->second.prefix_);
@@ -930,7 +930,7 @@ namespace {
         return var;
     }
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
     void printNode(const std::string& schemaNs,
                    const std::string& propPath,
                    const std::string& propValue,
@@ -973,7 +973,7 @@ namespace {
                    const std::string& ,
                    const XMP_OptionBits& )
     {}
-#endif // DEBUG
+#endif // EXIV2_DEBUG_MESSAGES
 
     Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,
                                       const std::string& propPath)

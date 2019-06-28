@@ -151,7 +151,7 @@ namespace Exiv2 {
         assert(sizeData);
         // Used for error checking
         long position = 0;
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Photoshop::locateIrb: ";
 #endif
         // Data should follow Photoshop format, if not exit
@@ -160,7 +160,7 @@ namespace Exiv2 {
             position += 4;
             uint16_t type = getUShort(pPsData + position, bigEndian);
             position += 2;
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "0x" << std::hex << type << std::dec << " ";
 #endif
             // Pascal string is padded to have an even size (including size byte)
@@ -168,7 +168,7 @@ namespace Exiv2 {
             psSize += (psSize & 1);
             position += psSize;
             if (position + 4 > sizePsData) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: "
                           << "Invalid or extended Photoshop IRB\n";
 #endif
@@ -177,14 +177,14 @@ namespace Exiv2 {
             uint32_t dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
             if (dataSize > static_cast<uint32_t>(sizePsData - position)) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: "
                           << "Invalid Photoshop IRB data size "
                           << dataSize << " or extended Photoshop IRB\n";
 #endif
                 return -2;
             }
-#ifndef DEBUG
+#ifndef EXIV2_DEBUG_MESSAGES
             if (   (dataSize & 1)
                 && position + dataSize == static_cast<uint32_t>(sizePsData)) {
                 std::cerr << "Warning: "
@@ -192,7 +192,7 @@ namespace Exiv2 {
             }
 #endif
             if (type == psTag) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "ok\n";
 #endif
                 *sizeData = dataSize;
@@ -203,11 +203,11 @@ namespace Exiv2 {
             // Data size is also padded to be even
             position += dataSize + (dataSize & 1);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "pPsData doesn't start with '8BIM'\n";
 #endif
         if (position < sizePsData) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: "
                       << "Invalid or extended Photoshop IRB\n";
 #endif
@@ -241,7 +241,7 @@ namespace Exiv2 {
                                   const IptcData& iptcData)
     {
         if (sizePsData > 0) assert(pPsData);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the beginning of Photoshop::setIptcIrb\n";
         if (sizePsData == 0) std::cerr << "  None.\n";
         else hexdump(std::cerr, pPsData, sizePsData);
@@ -293,7 +293,7 @@ namespace Exiv2 {
         }
         // Data is rounded to be even
         if (psBlob.size() > 0) rc = DataBuf(&psBlob[0], static_cast<long>(psBlob.size()));
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
         if (rc.size_ == 0) std::cerr << "  None.\n";
         else hexdump(std::cerr, rc.pData_, rc.size_);
@@ -427,7 +427,7 @@ namespace Exiv2 {
                 DataBuf psData(size - 16);
                 io_->read(psData.pData_, psData.size_);
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found app13 segment, size = " << size << "\n";
                 //hexdump(std::cerr, psData.pData_, psData.size_);
 #endif
@@ -476,7 +476,7 @@ namespace Exiv2 {
                 // chunk/chunks are a single byte
                 // Spec 7.2 Profile bytes 0-3 size
                 uint32_t s = getULong(buf.pData_ + (2+14) , bigEndian);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found ICC Profile chunk " << chunk
                           << " of "    << chunks
                           << (chunk==1 ? " size: " : "" ) << (chunk==1 ? s : 0)
@@ -544,7 +544,7 @@ namespace Exiv2 {
             while (   pCur < pEnd
                    && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
                                                     &record, &sizeHdr, &sizeIptc)) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif
                 if (sizeIptc) {
@@ -706,7 +706,7 @@ namespace Exiv2 {
                             DataBuf icc(size - (14 + 2));
                             io_->read(icc.pData_, icc.size_);
                             out.write(reinterpret_cast<const char*>(icc.pData_), icc.size_);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                             std::cout << "iccProfile size = " << icc.size_ << std::endl;
 #endif
                             bufRead = size;
@@ -835,7 +835,7 @@ namespace Exiv2 {
             }
         }
         if (option == kpsIptcErase && iptcDataSegs.size()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
             uint32_t toggle = 0;
             for (Uint32Vector_i i = iptcDataSegs.begin(); i != iptcDataSegs.end(); i++) {
@@ -860,7 +860,7 @@ namespace Exiv2 {
                 ++it;
             }
             pos[count + 1] = io_->size() - pos[count];
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             for (uint64_t i = 0; i < count + 2; i++)
                 std::cout << pos[i] << " ";
             std::cout << std::endl;
@@ -880,7 +880,7 @@ namespace Exiv2 {
                     start = 0;  // read the file 2 byte SOI
                 long length = (long)(pos[2 * i + 1] - start);
                 if (length) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << start << ":" << length << std::endl;
 #endif
                     io_->seek(start, BasicIo::beg);
@@ -999,7 +999,7 @@ namespace Exiv2 {
                 if (io_->seek(size - bufRead, BasicIo::cur))
                     throw Error(kerNoImageInInputData);
             } else if (!foundCompletePsData && marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found APP13 Photoshop PS3 segment\n";
 #endif
                 if (size < 16)

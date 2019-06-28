@@ -424,22 +424,22 @@ $
 
 [TOC](#TOC)
 
-2) About preprocessor symbols **NDEBUG** and **DEBUG**
+2) About preprocessor symbols `NDEBUG` and `EXIV2_DEBUG_MESSAGES`
 
-In accordance with current practice, exiv2 respects the symbol *NDEBUG* which is set for Release builds.  There are sequences of code which are defined within:
+Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There are sequences of code which are defined within:
 
 ```C++
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
 ....
 #endif
 ```
 
-Those blocks of code are not compiled for debug builds.  They are provided for additional debugging information.  For example, if you are interested in additonal output from webpimage.cpp, you can update your build as follows:
+Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES` by yourself. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
 
 ```bash
 $ cd <exiv2dir>
 $ touch src/webpimage.cpp
-$ make CXXFLAGS=-DDEBUG
+$ make CXXFLAGS=-DEXIV2_DEBUG_MESSAGESDEBUG
 $ bin/exiv2 ...
 -- or --
 $ sudo make install
