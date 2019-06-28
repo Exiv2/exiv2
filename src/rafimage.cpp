@@ -278,7 +278,7 @@ namespace Exiv2 {
 
     void RafImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading RAF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());

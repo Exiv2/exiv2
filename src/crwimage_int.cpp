@@ -252,7 +252,7 @@ namespace Exiv2 {
             offset_ = start + 2;
         }
         pData_ = pData + offset_;
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "  Entry for tag 0x"
                   << std::hex << tagId() << " (0x" << tag()
                   << "), " << std::dec << size_
@@ -267,11 +267,11 @@ namespace Exiv2 {
                                ByteOrder   byteOrder)
     {
         CiffComponent::doRead(pData, size, start, byteOrder);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Reading directory 0x" << std::hex << tag() << "\n";
 #endif
         readDirectory(pData + offset(), this->size(), byteOrder);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "<---- 0x" << std::hex << tag() << "\n";
 #endif
     } // CiffDirectory::doRead
@@ -286,7 +286,7 @@ namespace Exiv2 {
         if ( o > size-2 )
             throw Error(kerCorruptedMetadata);
         uint16_t count = getUShort(pData + o, byteOrder);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Directory at offset " << std::dec << o
                   <<", " << count << " entries \n";
 #endif
@@ -385,7 +385,7 @@ namespace Exiv2 {
     uint32_t CiffComponent::writeValueData(Blob& blob, uint32_t offset)
     {
         if (dataLocation() == valueData) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "  Data for tag 0x" << std::hex << tagId()
                       << ", " << std::dec << size_ << " Bytes\n";
 #endif
@@ -405,7 +405,7 @@ namespace Exiv2 {
                                     ByteOrder byteOrder,
                                     uint32_t  offset)
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Writing directory 0x" << std::hex << tag() << "---->\n";
 #endif
         // Ciff offsets are relative to the start of the directory
@@ -440,7 +440,7 @@ namespace Exiv2 {
         setOffset(offset);
         setSize(dirOffset);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Directory is at offset " << std::dec << dirStart
                   << ", " << components_.size() << " entries\n"
                   << "<---- 0x" << std::hex << tag() << "\n";
@@ -450,7 +450,7 @@ namespace Exiv2 {
 
     void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "  Directory entry for tag 0x"
                   << std::hex << tagId() << " (0x" << tag()
                   << "), " << std::dec << size_

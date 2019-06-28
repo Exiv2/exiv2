@@ -916,12 +916,12 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         // if we have something in the pipe, read it
         if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "stdin has data" << std::endl;
 #endif
             readFileToBuf(stdin, stdinBuf);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
@@ -935,7 +935,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
             }
         }
 #endif
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
 #endif
     }
@@ -945,7 +945,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         buf.alloc(stdinBuf.size_);
         memcpy(buf.pData_, stdinBuf.pData_, buf.size_);
     }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
 #endif
 
@@ -1405,7 +1405,7 @@ namespace
         if (ret == 0) {
             previewNumbers.insert(0);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "\nThe set now contains: ";
         for (auto i = previewNumbers.cbegin(); i != previewNumbers.cend(); ++i) {
             std::cout << *i << ", ";

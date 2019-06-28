@@ -108,7 +108,7 @@ namespace Exiv2
             DataBuf key = keyTXTChunk(data);
             DataBuf arr = parseTXTChunk(data, key.size_, type);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
                       << std::string((const char*)arr.pData_, arr.size_) << std::endl;
 #endif
@@ -120,7 +120,7 @@ namespace Exiv2
         {
             DataBuf key = keyTXTChunk(data);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
                       << std::string((const char*)key.pData_, key.size_) << std::endl;
 #endif
@@ -163,7 +163,7 @@ namespace Exiv2
                 const byte* compressionMethod = data.pData_ + keysize + 1;
                 if (*compressionMethod != 0x00) {
                     // then it isn't zlib compressed and we are sunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard zTXt compression method.\n";
 #endif
                     throw Error(kerFailedToReadImageData);
@@ -224,7 +224,7 @@ namespace Exiv2
 
                     if (compressionFlag == 0x00) {
                         // then it's an uncompressed iTXt chunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found an uncompressed iTXt field\n";
 #endif
 
@@ -232,7 +232,7 @@ namespace Exiv2
                         arr = DataBuf(text, textsize);
                     } else if (compressionFlag == 0x01 && compressionMethod == 0x00) {
                         // then it's a zlib compressed iTXt chunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found a zlib compressed iTXt field\n";
 #endif
 
@@ -241,13 +241,13 @@ namespace Exiv2
                     }
                 } else {
                     // then it isn't zlib compressed and we are sunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard iTXt compression method.\n";
 #endif
                     throw Error(kerFailedToReadImageData);
                 }
             } else {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::parseTXTChunk: We found a field, not expected though\n";
 #endif
                 throw Error(kerFailedToReadImageData);
@@ -281,7 +281,7 @@ namespace Exiv2
 
                     // If found it, store only these data at from this place.
                     if (foundPos) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos
                                   << "\n";
 #endif
@@ -312,7 +312,7 @@ namespace Exiv2
                     while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record,
                                                                         &sizeHdr, &sizeIptc)) {
                         if (sizeIptc) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                             std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif
                             append(iptcBlob, record + sizeHdr, sizeIptc);
@@ -472,7 +472,7 @@ namespace Exiv2
                         break;
                     case Z_BUF_ERROR:
                         // The compressed array needs to be larger
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parsePngChunk: doubling size for compression.\n";
 #endif
                         compressedLen *= 2;
@@ -628,13 +628,13 @@ namespace Exiv2
 
             // Allocate space
             if (length == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: invalid profile length\n";
 #endif
             }
             info.alloc(length);
             if (info.size_ != (size_t)length) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
 #endif
                 return DataBuf();
@@ -649,7 +649,7 @@ namespace Exiv2
                 enforce(sp < eot, Exiv2::kerCorruptedMetadata);
                 while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
                     if (*sp == '\0') {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
 #endif
                         return DataBuf();

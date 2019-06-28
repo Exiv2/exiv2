@@ -218,7 +218,7 @@ namespace Exiv2 {
             TiffPath tiffPath;
             TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
             pRoot_->addPath(object->tag(), tiffPath, pRoot_, std::move(clone));
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "Copied " << key << "\n";
 #endif
@@ -698,7 +698,7 @@ namespace Exiv2 {
         ul2Data(buf + 4, pTiffEntry->count(),    byteOrder);
         // Move data to offset field, if it fits and is not yet there.
         if (pTiffEntry->size() <= 4 && buf + 8 != pTiffEntry->pData()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Copying data for tag " << pTiffEntry->tag()
                       << " to offset area.\n";
 #endif
@@ -845,7 +845,7 @@ namespace Exiv2 {
             }
             else {
                 setDirty();
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "DELETING          " << key << ", idx = " << object->idx() << "\n";
 #endif
             }
@@ -872,7 +872,7 @@ namespace Exiv2 {
         if (del_ && pos != exifData_.end()) {
             exifData_.erase(pos);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "\n";
 #endif
     } // TiffEncoder::encodeTiffComponent
@@ -896,7 +896,7 @@ namespace Exiv2 {
             assert(object->pValue());
             if (  object->sizeDataArea_
                 < static_cast<uint32_t>(object->pValue()->sizeDataArea())) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 ExifKey key(object->tag(), groupName(object->group()));
                 std::cerr << "DATAAREA GREW     " << key << "\n";
 #endif
@@ -904,7 +904,7 @@ namespace Exiv2 {
             }
             else {
                 // Write the new dataarea, fill with 0x0
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 ExifKey key(object->tag(), groupName(object->group()));
                 std::cerr << "Writing data area for " << key << "\n";
 #endif
@@ -931,14 +931,14 @@ namespace Exiv2 {
         size_t sizeDataArea = object->pValue()->sizeDataArea();
 
         if (sizeDataArea > 0 && writeMethod() == wmNonIntrusive) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "\t DATAAREA IS SET (NON-INTRUSIVE WRITING)";
 #endif
             setDirty();
         }
 
         if (sizeDataArea > 0 && writeMethod() == wmIntrusive) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "\t DATAAREA IS SET (INTRUSIVE WRITING)";
 #endif
             // Set pseudo strips (without a data pointer) from the size tag
@@ -974,7 +974,7 @@ namespace Exiv2 {
         }
 
         if (sizeDataArea == 0 && writeMethod() == wmIntrusive) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "\t USE STRIPS FROM SOURCE TREE IMAGE ENTRY";
 #endif
             // Set strips from source tree
@@ -1017,18 +1017,18 @@ namespace Exiv2 {
         assert(object != 0);
         assert(datum != 0);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         bool tooLarge = false;
 #endif
         size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             tooLarge = true;
 #endif
         }
         object->updateValue(datum->getValue(), byteOrder()); // clones the value
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         ExifKey key(object->tag(), groupName(object->group()));
         std::cerr << "UPDATING DATA     " << key;
         if (tooLarge) {
@@ -1046,7 +1046,7 @@ namespace Exiv2 {
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
             object->updateValue(datum->getValue(), byteOrder()); // clones the value
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "UPDATING DATA     " << key;
             std::cerr << "\t\t\t ALLOCATED " << object->size() << " BYTES";
@@ -1054,7 +1054,7 @@ namespace Exiv2 {
         }
         else {
             object->setValue(datum->getValue()); // clones the value
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "NOT UPDATING      " << key;
             std::cerr << "\t\t\t PRESERVE VALUE DATA";
@@ -1100,7 +1100,7 @@ namespace Exiv2 {
             TiffCreator::getPath(tiffPath, i->tag(), group, root);
             TiffComponent* tc = pRootDir->addPath(i->tag(), tiffPath, pRootDir);
             TiffEntryBase* object = dynamic_cast<TiffEntryBase*>(tc);
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             if (object == 0) {
                 std::cerr << "Warning: addPath() didn't add an entry for "
                           << i->groupName()
@@ -1427,11 +1427,11 @@ namespace Exiv2 {
             EXV_ERROR << "Failed to read "
                       << groupName(object->ifd_.group())
                       << " IFD Makernote header.\n";
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             if (static_cast<uint32_t>(pLast_ - object->start()) >= 16) {
                 hexdump(std::cerr, object->start(), 16);
             }
-#endif // DEBUG
+#endif // EXIV2_DEBUG_MESSAGES
 #endif // SUPPRESS_WARNINGS
             setGo(geKnownMakernote, false);
             return;
