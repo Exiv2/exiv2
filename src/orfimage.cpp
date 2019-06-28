@@ -101,7 +101,7 @@ namespace Exiv2 {
 
     void OrfImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading ORF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -124,7 +124,7 @@ namespace Exiv2 {
 
     void OrfImage::writeMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Writing ORF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
@@ -186,7 +186,7 @@ namespace Exiv2 {
             panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(),

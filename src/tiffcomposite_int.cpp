@@ -1100,7 +1100,7 @@ namespace Exiv2 {
 
         // Remember the offset of the CR2 RAW IFD
         if (group() == ifd3Id) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Directory " << groupName(group()) << " offset is 0x"
                       << std::setw(8) << std::setfill('0') << std::hex << offset << std::dec
                       << "\n";
@@ -1315,7 +1315,7 @@ namespace Exiv2 {
         uint32_t o2 = imageIdx;
         // For makernotes, write TIFF image data to the data area
         if (group() > mnId) o2 = offset + dataIdx;
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "TiffImageEntry, Directory " << groupName(group())
                   << ", entry 0x" << std::setw(4)
                   << std::setfill('0') << std::hex << tag() << std::dec
@@ -1614,7 +1614,7 @@ namespace Exiv2 {
 
         size_t len = pValue()->sizeDataArea();
         if (len > 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "TiffImageEntry, Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
@@ -1627,7 +1627,7 @@ namespace Exiv2 {
             len += align;
         }
         else {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "TiffImageEntry, Directory " << groupName(group())
                       << ", entry 0x" << std::setw(4)
                       << std::setfill('0') << std::hex << tag() << std::dec
@@ -1642,7 +1642,7 @@ namespace Exiv2 {
                 len += align;
             }
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << ", len = " << len << " bytes\n";
 #endif
         return (uint32_t)len;

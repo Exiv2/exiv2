@@ -1926,7 +1926,7 @@ namespace
 
     int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve)
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "actions.cpp::metacopy"
                   << " source = " << source << " target = " << tgt << std::endl;
 #endif

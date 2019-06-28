@@ -2615,7 +2615,7 @@ namespace Exiv2 {
                 prefix = property.substr(0, i);
                 property = property.substr(i+1);
             }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Nested key: " << key.key() << ", prefix: " << prefix
                       << ", property: " << property << "\n";
 #endif
