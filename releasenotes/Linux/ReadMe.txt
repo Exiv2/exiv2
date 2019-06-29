@@ -19,6 +19,7 @@ license.txt                                   GPLv2.0 Software License
 releasenotes.txt                              Late breaking news
 README.md                                     Developer Manual
 README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual
 exiv2.png                                     Exiv2 Logo
 
 To run exiv2 from the bundle

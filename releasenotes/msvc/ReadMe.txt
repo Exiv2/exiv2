@@ -1,4 +1,4 @@
-Visual Studio 2017 Release DLL v0.27.3-RC2 Bundle
+Visual Studio 2017 Release DLL v0.27.2 Bundle
 -------------------------------------------------
 
 Structure of the bundle:
@@ -17,6 +17,7 @@ license.txt                                   GPLv2.0 Software License
 releasenotes.txt                              Late breaking news
 README.md                                     Developer Manual
 README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual
 exiv2.png                                     Exiv2 Logo
 
 +----------------------------------------------------------------------------+

@@ -1,7 +1,5 @@
-Exiv2 v0.27.2.3 = Exiv2 v0.27.2 RC3
+Exiv2 v0.27.2
 -----------------------------------
-
-Third Release Candidate for quarterly "dot" release of Exiv2 v0.27.2
 
 Thank You to Kevin for security contributions to this release.
 Thank You to Ting-Wei for Unix contributions to this release.

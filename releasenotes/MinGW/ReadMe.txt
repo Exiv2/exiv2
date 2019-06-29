@@ -1,4 +1,4 @@
-MinGW/msys2 Exiv2 v0.27.2-RC3 Bundle
+MinGW/msys2 Exiv2 v0.27.2 Bundle
 ------------------------------------
 
 Structure of the bundle:
@@ -20,6 +20,7 @@ exiv2.png                                     Exiv2 Logo
 license.txt                                   GPLv2.0 Software License
 README.md                                     Developer Manual
 README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual
 releasenotes.txt                              Late breaking news
 
 To run exiv2 from the bundle
