@@ -31,6 +31,8 @@
 #include "params.hpp"
 #include "i18n.h"  // NLS support.
 
+#include <exiv2/futils.hpp>
+
 int main(int argc, char* const argv[])
 {
 #ifdef EXV_ENABLE_NLS

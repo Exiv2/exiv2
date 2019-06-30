@@ -39,14 +39,7 @@
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp" // for Tag::root
 
-// + standard includes
 #include <iostream>
-#include <sstream>
-#include <utility>
-#include <algorithm>
-#include <cstring>
-#include <cassert>
-#include <cstdio>
 
 // *****************************************************************************
 namespace {

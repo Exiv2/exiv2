@@ -31,6 +31,11 @@
 // included header files
 #include "params.hpp"
 
+#include <exiv2/image.hpp>
+#include <exiv2/preview.hpp>
+
+#include <map>
+
 // *****************************************************************************
 // namespace extensions
 /*!
