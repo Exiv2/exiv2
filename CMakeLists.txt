@@ -1,5 +1,13 @@
 cmake_minimum_required( VERSION 3.5.0 )
 
+# Specify search path for CMake modules to be loaded by include()
+# and find_package()
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# Add defaults for cmake
+# Those need to be set before the project() call.
+include(DefineCompilerFlags REQUIRED)
+
 project(exiv2
     VERSION 0.27.99.0   # Fake version number to indicate that the next version will be 28.0
     LANGUAGES CXX C
@@ -25,12 +33,12 @@ option( EXIV2_BUILD_SAMPLES           "Build sample applications"               
 option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
+option( EXIV2_BUILD_FUZZ_TESTS        "Build fuzz tests (libFuzzer)"                          OFF )
 option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentation"            OFF )
 
 # Only intended to be used by Exiv2 developers/contributors
 option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
 option( EXIV2_TEAM_WARNINGS_AS_ERRORS "Treat warnings as errors"                              OFF )
-option( EXIV2_TEAM_USE_SANITIZERS     "Enable ASAN and UBSAN when available"                  OFF )
 option( EXIV2_TEAM_PACKAGING          "Additional stuff for generating packages"              OFF )
 set(EXTRA_COMPILE_FLAGS " ")
 
@@ -80,6 +88,14 @@ add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
+endif()
+
+if( EXIV2_BUILD_FUZZ_TESTS)
+    if ((NOT COMPILER_IS_CLANG) OR (NOT CMAKE_BUILD_TYPE STREQUAL "AddressSanitizer"))
+        message(FATAL_ERROR "You need to build with Clang and sanitizers for the fuzzers to work. "
+                "Use Clang and -DCMAKE_BUILD_TYPE=AddressSanitizer")
+    endif()
+    add_subdirectory ( fuzz )
 endif()
 
 if( EXIV2_BUILD_SAMPLES )

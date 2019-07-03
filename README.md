@@ -663,6 +663,27 @@ $ ctest
 
 ```
 
+### 4.3 Fuzz tests
+
+The code for the fuzzers is in `exiv2dir/fuzz`
+
+To build the fuzzers, use the *cmake* option `-DEXIV2_BUILD_FUZZ_TESTS=ON` and `-DCMAKE_BUILD_TYPE=AddressSanitizer`.
+Note that it only works with clang compiler as libFuzzer is integrate with clang > 6.0
+
+To build the fuzzers:
+
+```bash
+cmake .. -G "Unix Makefiles" "-DEXIV2_BUILD_FUZZ_TESTS=ON"  "-DCMAKE_BUILD_TYPE=AddressSanitizer"
+make -j4
+```
+
+To execute the fuzzers:
+
+```bash
+cd <exiv2dir>/build
+bin/<fuzzer_name> # for example ./bin/read-metadata.cpp
+```
+
 [TOC](#TOC)
 <div id="5">
 

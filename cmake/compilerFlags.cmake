@@ -32,38 +32,6 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
 
-        if ( EXIV2_TEAM_USE_SANITIZERS )
-            # ASAN is available in gcc from 4.8 and UBSAN from 4.9
-            # ASAN is available in clang from 3.1 and UBSAN from 3.3
-            # UBSAN is not fatal by default, instead it only prints runtime errors to stderr
-            # => make it fatal with -fno-sanitize-recover (gcc) or -fno-sanitize-recover=all (clang)
-            # add -fno-omit-frame-pointer for better stack traces
-            if ( COMPILER_IS_GCC )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
-                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover")
-                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8 )
-                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
-                endif()
-            elseif( COMPILER_IS_CLANG )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
-                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
-                elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4 )
-                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined")
-                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.1 )
-                    set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
-                endif()
-            endif()
-
-            # sorry, ASAN does not work on Windows
-            if ( NOT CYGWIN AND NOT MINGW AND NOT MSYS )
-                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SANITIZER_FLAGS}")
-                set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SANITIZER_FLAGS}")
-                set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
-                set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
-            endif()
-
-        endif()
-
         if ( EXIV2_TEAM_EXTRA_WARNINGS )
             # Note that this is intended to be used only by Exiv2 developers/contributors.
 
