@@ -28,6 +28,7 @@
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
     3. [Unit tests](#4-3)
+    4. [Fuzzing](#4-4)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
     2. [MacOS-X](#5-2)
@@ -661,6 +662,29 @@ $ bin/unit_tests
 $ cd <exiv2dir>/build
 $ ctest
 
+```
+
+### 4.4 Fuzzing
+
+The code for the fuzzers is in `exiv2dir/fuzz`
+
+To build the fuzzers, use the *cmake* option `-DEXIV2_BUILD_FUZZ_TESTS=ON` and `-DEXIV2_TEAM_USE_SANITIZERS=ON`.
+Note that it only works with clang compiler as libFuzzer is integrate with clang > 6.0
+
+To build the fuzzers:
+
+```bash
+export CXX=clang++
+export CC=clang
+cmake .. -G "Unix Makefiles" "-DEXIV2_BUILD_FUZZ_TESTS=ON"  "-DEXIV2_TEAM_USE_SANITIZERS=ON"
+make -j4
+```
+
+To execute the fuzzers:
+
+```bash
+cd <exiv2dir>/build
+bin/<fuzzer_name> # for example ./bin/read-metadata.cpp
 ```
 
 [TOC](#TOC)
