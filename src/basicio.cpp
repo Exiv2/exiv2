@@ -1294,7 +1294,12 @@ namespace Exiv2 {
         if (newIdx < 0)
             return 1;
 
-        p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
+        if (static_cast<size_t>(newIdx) > p_->size_) {
+            p_->eof_ = true;
+            return 1;
+        }
+
+        p_->idx_ = static_cast<size_t>(newIdx);
         p_->eof_ = false;
         return 0;
     }
