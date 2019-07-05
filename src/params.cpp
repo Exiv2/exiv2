@@ -22,9 +22,20 @@
 
 #include "actions.hpp"
 #include "i18n.h"  // NLS support.
+#include <exiv2/convert.hpp>
+#include <exiv2/error.hpp>
 
 #if defined(_MSC_VER)
 #include <Windows.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
+#else
+// select & fd_set for musl libc
+#include <sys/select.h>
 #endif
 
 #include <fstream>

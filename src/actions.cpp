@@ -22,37 +22,21 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "actions.hpp"
-#include "easyaccess.hpp"
-#include "exif.hpp"
-#include "params.hpp"
-#include "futils.hpp"
+
+#include "config.h"
 #include "i18n.h"  // NLS support.
-#include "image.hpp"
-#include "iptc.hpp"
-#include "jpgimage.hpp"
-#include "preview.hpp"
-#include "types.hpp"
-#include "utils.hpp"
-#include "xmp_exiv2.hpp"
-#include "xmpsidecar.hpp"
+
+#include <exiv2/easyaccess.hpp>
+#include <exiv2/exif.hpp>
+#include <exiv2/futils.hpp>
+#include <exiv2/types.hpp>
+#include <exiv2/error.hpp>
 
 // + standard includes
 #include <sys/stat.h>   // for stat()
 #include <sys/types.h>  // for stat()
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstring>
-#include <ctime>
 #include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-#include <string>
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>  // for stat()
 #endif
@@ -61,6 +45,12 @@
 #include <sys/utime.h>
 #else
 #include <utime.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
 #endif
 
 #if !defined(__MINGW__) && !defined(_MSC_VER)

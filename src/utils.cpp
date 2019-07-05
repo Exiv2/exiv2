@@ -24,28 +24,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "utils.hpp"
 
-#if defined(_MSC_VER)
-# define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
-#endif
+#include "config.h"
 
-// + standard includes
-#ifdef EXV_HAVE_UNISTD_H
-# include <unistd.h>                     // for stat()
-#endif
-
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <climits>
-#include <cerrno>
-#include <cstdlib>
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <sstream>
 
 namespace Util {
 
