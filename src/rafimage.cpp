@@ -309,7 +309,13 @@ namespace Exiv2 {
 
         enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 
-        // look for the height and width of the raw image in the raf metadata header
+        /* Look for the height and width of the raw image in the raf metadata header.
+         * Raf metadata starts with 4 bytes giving the number of available tags,
+         * followed by the tags. Each tag starts with two bytes with the tag id and
+         * two bytes with the tag size, followed by the actual tag data.
+         * The image width and height have the tag id of 0x0100.
+         * For more tag ids have a look at e.g. exiftool.
+         */
         byte cfa_header_offset [4];
         if (io_->read(cfa_header_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte cfa_header_length [4];
