@@ -1,8 +1,4 @@
 #include <exiv2/basicio.hpp>
-
-#include <cmath>
-#include <limits>
-
 #include <gtest/gtest.h>
 
 using namespace Exiv2;
