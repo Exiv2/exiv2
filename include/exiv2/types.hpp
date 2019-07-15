@@ -35,13 +35,12 @@
 #include "slice.hpp"
 
 // + standard includes
+#include <algorithm>
+#include <cstdint>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <limits>
-#include <algorithm>
-#include <sstream>
-#include <stdint.h> /// \todo change to cstdint
-
 
 // MSVC macro to convert a string to a wide string
 #ifdef EXV_UNICODE_PATH
@@ -419,12 +418,15 @@ namespace Exiv2 {
      */
     EXIV2API const char* exvGettext(const char* str);
 
-#ifdef EXV_UNICODE_PATH
-    //! Convert an std::string s to a unicode string returned as a std::wstring.
+    //! Convert a std::string s to a wide string returned as a std::wstring.
     EXIV2API std::wstring s2ws(const std::string& s);
-    //! Convert a unicode std::wstring s to an std::string.
+
+    //! Convert a wide std::wstring s to its multibyte representation as a std::string.
+    //!
+    //! @return A narrow byte version of `s` or an empty string if `s`
+    //!     contains invalid characters.
     EXIV2API std::string ws2s(const std::wstring& s);
-#endif
+
     /*!
       @brief Return a \em long set to the value represented by \em s.
 
