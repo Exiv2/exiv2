@@ -19,6 +19,7 @@ endforeach()
 
 add_executable(unit_tests mainTestRunner.cpp
     gtestwrapper.h
+    test_basicio.cpp
     test_types.cpp
     test_tiffheader.cpp
     test_futils.cpp

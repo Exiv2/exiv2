@@ -1291,7 +1291,7 @@ namespace Exiv2 {
 #if defined(_MSC_VER)
     int MemIo::seek( int64_t offset, Position pos )
     {
-        uint64_t newIdx = 0;
+        int64_t newIdx = 0;
 
         switch (pos) {
         case BasicIo::cur: newIdx = p_->idx_ + offset; break;
@@ -1299,7 +1299,15 @@ namespace Exiv2 {
         case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
+        if (newIdx < 0)
+            return 1;
+
+        if (static_cast<size_t>(newIdx) > p_->size_) {
+            p_->eof_ = true;
+            return 1;
+        }
+
+        p_->idx_ = static_cast<long>(newIdx);
         p_->eof_ = false;
         return 0;
     }
@@ -1314,7 +1322,14 @@ namespace Exiv2 {
         case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        if (newIdx < 0) return 1;
+        if (newIdx < 0)
+            return 1;
+
+        if (newIdx > p_->size_) {
+            p_->eof_ = true;
+            return 1;
+        }
+
         p_->idx_ = newIdx;
         p_->eof_ = false;
         return 0;
