@@ -27,15 +27,16 @@
 // included header files
 #include "config.h"
 
-#include "jp2image.hpp"
-#include "tiffimage.hpp"
-#include "image.hpp"
-#include "image_int.hpp"
 #include "basicio.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-#include "types.hpp"
+#include "image.hpp"
+#include "image_int.hpp"
+#include "jp2image.hpp"
 #include "safe_op.hpp"
+#include "tiffimage.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <array>
@@ -645,6 +646,7 @@ namespace Exiv2
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Jp2Image::encodeJp2Header subbox: "<< toAscii(subBox.type) << " length = " << subBox.length << std::endl;
 #endif
+                enforce(subBox.length > 0, kerCorruptedMetadata);
                 count        += subBox.length;
                 newBox.type   = subBox.type;
             } else {
