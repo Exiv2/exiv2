@@ -2,6 +2,7 @@ find_package(GTest REQUIRED)
 enable_testing()
 
 add_executable(unit_tests mainTestRunner.cpp
+    test_basicio.cpp
     test_types.cpp
     test_tiffheader.cpp
     test_futils.cpp
