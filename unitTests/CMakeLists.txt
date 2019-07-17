@@ -34,11 +34,11 @@ add_executable(unit_tests mainTestRunner.cpp
     ${unit_tests_exiv2lib_SOURCES}
 )
 
-target_compile_definitions(unit_tests
-    PRIVATE
-        exiv2lib_STATIC
-        ${exiv2lib_COMPILE_DEFINITIONS}
-)
+target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC)
+
+if (exiv2lib_COMPILE_DEFINITIONS)
+    target_compile_definitions(unit_tests PRIVATE ${exiv2lib_COMPILE_DEFINITIONS})
+endif ()
 
 target_include_directories(unit_tests
     PRIVATE
