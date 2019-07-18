@@ -225,7 +225,7 @@ namespace Exiv2 {
     }
 
     template<>
-    void BasicError<char>::setMsg()
+    void EXIV2API BasicError<char>::setMsg()
     {
         std::string msg = _(errMsg(code_));
         std::string::size_type pos;
@@ -262,7 +262,7 @@ namespace Exiv2 {
 
 #ifdef EXV_UNICODE_PATH
     template<>
-    void BasicError<wchar_t>::setMsg()
+    void EXIV2API BasicError<wchar_t>::setMsg()
     {
         std::string s = _(errMsg(code_));
         std::wstring wmsg(s.begin(), s.end());

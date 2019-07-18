@@ -145,9 +145,8 @@ endif()
 
 set_target_properties( exiv2lib_int PROPERTIES
     POSITION_INDEPENDENT_CODE ON
-    COMPILE_DEFINITIONS exiv2lib_STATIC
+    COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
-
 
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})

@@ -1,5 +1,22 @@
 find_package(GTest REQUIRED)
 
+get_target_property(exiv2lib_SOURCES exiv2lib SOURCES)
+get_target_property(exiv2lib_int_SOURCES exiv2lib_int SOURCES)
+get_target_property(exiv2lib_COMPILE_DEFINITIONS exiv2lib COMPILE_DEFINITIONS)
+get_target_property(exiv2lib_INCLUDE_DIRECTORIES exiv2lib INCLUDE_DIRECTORIES)
+get_target_property(exiv2lib_LINK_LIBRARIES exiv2lib LINK_LIBRARIES)
+
+set(unit_tests_exiv2lib_SOURCES)
+foreach(source IN LISTS exiv2lib_SOURCES exiv2lib_int_SOURCES)
+    if(source MATCHES "\.(c|cpp|h|hpp)$")
+        if(source MATCHES ".*/.*")
+            list(APPEND unit_tests_exiv2lib_SOURCES "${source}")
+        else()
+            list(APPEND unit_tests_exiv2lib_SOURCES "../src/${source}")
+        endif()
+    endif()
+endforeach()
+
 add_executable(unit_tests mainTestRunner.cpp
     gtestwrapper.h
     test_types.cpp
@@ -14,13 +31,24 @@ add_executable(unit_tests mainTestRunner.cpp
     test_helper_functions.cpp
     test_slice.cpp
     test_image_int.cpp
-    $<TARGET_OBJECTS:exiv2lib_int>
+    ${unit_tests_exiv2lib_SOURCES}
+)
+
+target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC)
+
+if (exiv2lib_COMPILE_DEFINITIONS)
+    target_compile_definitions(unit_tests PRIVATE ${exiv2lib_COMPILE_DEFINITIONS})
+endif ()
+
+target_include_directories(unit_tests
+    PRIVATE
+        ${exiv2lib_INCLUDE_DIRECTORIES}
 )
 
 #TODO Use GTest::GTest once we upgrade the minimum CMake version required
 target_link_libraries(unit_tests
     PRIVATE
-        exiv2lib
+        ${exiv2lib_LINK_LIBRARIES}
         ${GTEST_BOTH_LIBRARIES}
 )
 
