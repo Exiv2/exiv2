@@ -841,11 +841,13 @@ cmd
 [TOC](#TOC)
 <div id="5-6">
 
-### Unix
+### 5.6 Unix
 
-Exiv2 can be built on many Unix and Linux distros.  We actively support the Unix Distributions NetBSD and FreeBSD.
+Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are starting to actively support the Unix Distributions NetBSD and FreeBSD.  We hope to add CI support for these platforms in v0.27.3.
 
-I am willing to support Exiv2 on commercial Unix distributions such as Solaris, AIX, HP-UX and OSF/1 provided you provide with an ssh account on your platform.  I will require super-user privileges to install software.
+I have provided notes here based on my experience with these platforms.   Feedback is welcome.
+
+I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 provided you provide with an ssh account for your platform.  I will require super-user privileges to install software.
 
 #### NetBSD
 
@@ -865,10 +867,29 @@ It's important to ensure that `LD_LIBRARY_PATH` includes `/usr/local/lib` and `/
 
 #### FreeBSD
 
-FreeBSD uses pkg as the package manager.  You should install the dependency expat.  libz is already installed.  As with NetBSD, you should use pkg to install python3, cmake, bash, sudo, gettext and gcc.  The default GCC compiler is currently 8.3.0.
+Clang is pre-installed as ``/usr/bin/{cc|c++}` as well has libz and expat.  FreeBSD uses pkg as the package manager which I used to install cmake and git.
+
+```bash
+$ su root
+Password:
+# pkg install cmake
+# pkg install git
+```
+
+To run the Exiv2 test suite, I installed bash and python.  The test suite requires additional work as the platform `diff` command does not understand the option `--binary` and returns an error.  In consequence, the test harness returns lots of errors.  I hope to address this in v0.27.3.
+
+
+```bash
+# pkg install bash
+# pkg install python
+```
+
+#### Solaris
+
+Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.com/Exiv2/exiv2/issues/902)
 
 [TOC](#TOC)
 
 Robin Mills
 
-Revised: 2019-05-11
+Revised: 2019-07-19

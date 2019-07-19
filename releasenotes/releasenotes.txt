@@ -13,14 +13,13 @@ Headline Features of Exiv2 v0.27.2
 ----------------------------------
 
 1) Bug and security fixes
-2) Support for Unix (FreeBSD and NetBSD)
-3) Support for Nikon/AutoFocus and Sony/FocusPosition Metadata
-4) Documentation and man page revisions
-5) Updated Catalan Localisation
-6) Dutch Localisation
-7) Support for Cross Compiling (MinGW from Linux)
-8) Monitoring API changes for v0.27 dot releases
-9) Using mergify to sync select PRs between 0.27-maintenance and 0.28
+2) Support for Nikon/AutoFocus and Sony/FocusPosition Metadata
+3) Documentation and man page revisions
+4) Updated Catalan Localisation
+5) Monitoring API changes for v0.27 dot releases
+6) Using mergify to sync select PRs between 0.27-maintenance and 0.28
+7) Prelinary Dutch Localisation
+8) Prelinary Support for Unix (FreeBSD and NetBSD)
 
 Issues fixed since v0.27.1
 --------------------------

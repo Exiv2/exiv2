@@ -9,7 +9,6 @@ Closed: https://github.com/Exiv2/exiv2/milestone/4?closed=1 (61)
 #944 Add bounds check to MemIo::seek()
 #938 Replace DEBUG with EXIV2_DEBUG_MESSAGES
 #928 Corrections to README.md 2.8.Localisation
-#922 Update README.md to explain cross-compiling (MinGW from Linux)
 #921 Adding README-SAMPLES.md and removing exiv2samples.1
 #919 Selecting XMP SDK version (question)
 #903 $ exiv2 -vVg debug and $ exiv2 -vVg dll are not working correctly.
