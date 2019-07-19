@@ -1,4 +1,4 @@
-MinGW/msys2 Exiv2 v0.27.2-RC2 Bundle
+MinGW/msys2 Exiv2 v0.27.2-RC3 Bundle
 ------------------------------------
 
 Structure of the bundle:

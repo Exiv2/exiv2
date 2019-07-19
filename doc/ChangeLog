@@ -1,8 +1,13 @@
 Changes from version 0.27.1 to 0.27.2
 -------------------------------------
 
-Closed: https://github.com/Exiv2/exiv2/milestone/4?closed=1 (55)
+Closed: https://github.com/Exiv2/exiv2/milestone/4?closed=1 (61)
 
+#962 Fix integer overflow in WebPImage::getHeaderOffset()
+#959 Fix linking BasicError typeinfo on FreeBSD
+#949 Add Dutch Localisation
+#944 Add bounds check to MemIo::seek()
+#938 Replace DEBUG with EXIV2_DEBUG_MESSAGES
 #928 Corrections to README.md 2.8.Localisation
 #921 Adding README-SAMPLES.md and removing exiv2samples.1
 #919 Selecting XMP SDK version (question)

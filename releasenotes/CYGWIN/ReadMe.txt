@@ -1,4 +1,4 @@
-CYGWIN Exiv2 v0.27.2-RC2 Bundle
+CYGWIN Exiv2 v0.27.2-RC3 Bundle
 -------------------------------
 
 Structure of the bundle:

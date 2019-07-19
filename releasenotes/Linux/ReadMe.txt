@@ -1,11 +1,11 @@
-Linux Exiv2 v0.27.2-RC2 Bundle
+Linux Exiv2 v0.27.2-RC3 Bundle
 ------------------------------
 
 Structure of the bundle:
 ------------------------
 
 bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.so.0.27.2.2 & libexiv2-xmp.a     libraries
+lib/libexiv2.so.0.27.2.3 & libexiv2-xmp.a     libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
