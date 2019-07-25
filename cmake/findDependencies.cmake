@@ -1,6 +1,11 @@
 # set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+# don't use Frameworks on the Mac (#966)
+if (APPLE)
+     set(CMAKE_FIND_FRAMEWORK NEVER)
+endif()
+
 # Check if the conan file exist to find the dependencies
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     set(USING_CONAN ON)
@@ -36,7 +41,11 @@ endif()
 
 
 if (EXIV2_ENABLE_NLS)
-    find_package(Intl REQUIRED)
+    find_package(Intl)
+    if ( NOT ${Intl_FOUND} )
+       message(WARNING "*** EXIV2_ENABLE_NLS has been disabled because libintl is not available ***")
+       set(EXIV2_ENABLE_NLS Off)
+    endif()
 endif( )
 
 find_package(Iconv)
