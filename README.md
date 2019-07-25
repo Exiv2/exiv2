@@ -136,20 +136,22 @@ $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=OFF
 
 ### 2.4 Dependencies
 
-The following Exiv2 features are enabled by default and require external libraries. You can disable the dependency with CMake options:
+The following Exiv2 features require external libraries:
 
-| Feature                     | Package   |  cmake option to disable     | Availability |
-|:--------------------------  |:--------  |:---------------------------- |:----------- |
-| PNG image support           | zlib      | -DEXIV2\_ENABLE\_PNG=Off     | [http://zlib.net/](http://zlib.net/) |
-| Native language support     | gettext   | -DEXIV2\_ENABLE\_NLS=Off     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
-| XMP support                 | expat     | -DEXIV2\_ENABLE\_XMP=Off     | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| Feature                     | Package   |  Default | To change default             | Availability |
+|:--------------------------  |:--------  |:--------:| :---------------------------- |:-----------  |
+| PNG image support           | zlib      | ON       | -DEXIV2\_ENABLE\_PNG=Off      | [http://zlib.net/](http://zlib.net/) |
+| XMP support                 | expat     | ON       | -DEXIV2\_ENABLE\_XMP=Off      | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| Natural language system     | gettext   | OFF      | -DEXIV2\_ENABLE\_NLS=On       | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
 development package of a dependency to install the header files and libraries required to build Exiv2. In the file
 `ci/install_dependencies.sh` you can check to the list of packages we install on different Linux distributions. This
 file is used to setup some CI images in which we try out the Exiv2 compilation.
 
-Notes about different platforms are included in this document: [Platform Notes](#5)
+Natural language system is discussed in more detail here: [Localisation](#2-8)
+
+Notes about different platforms are included here: [Platform Notes](#5)
 
 You may choose to install dependences with conan.  This is supported on all platforms and is especially useful for users of Visual Studio.
 See [README-CONAN](README-CONAN.md) for more information.
@@ -216,7 +218,6 @@ $
 
 This [repository](https://github.com/piponazo/exiv2Consumer) shows an example of how to consume Exiv2 with CMake.
 
-
 [TOC](#TOC)
 <div id="2-7">
 
@@ -249,7 +250,9 @@ g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 
 Localisation is supported on a UNIX-like platform:  Linux, MacOS-X, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
-To build localisation support, use the CMake option `-DEXIV2_BUILD_PO=ON`. There are no additional build steps as the normal build commands will compile the library, samples and localisation support.  You must install the build to ensure the localisation messages files can be found at run-time.
+To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=ON`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
+
+You must install the build to test localisation.  This ensures that the localisation message files can be found at run-time.  You cannot test localisation in the directory `build\bin`.
 
 1) Running exiv2 in another language
 
@@ -894,4 +897,4 @@ FreeBSD uses pkg as the package manager.  You should install the dependency expa
 
 Written by Robin Mills
 
-Revised: 2019-05-11
+Revised: 2019-07-29
