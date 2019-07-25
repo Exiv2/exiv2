@@ -39,13 +39,8 @@ else()
     endif ()
 endif()
 
-
 if (EXIV2_ENABLE_NLS)
-    find_package(Intl)
-    if ( NOT ${Intl_FOUND} )
-       message(WARNING "*** EXIV2_ENABLE_NLS has been disabled because libintl is not available ***")
-       set(EXIV2_ENABLE_NLS Off)
-    endif()
+    find_package(Intl REQUIRED)
 endif( )
 
 find_package(Iconv)
