@@ -1,5 +1,6 @@
 #include <exiv2/basicio.hpp>
-#include <gtest/gtest.h>
+
+#include "gtestwrapper.h"
 
 using namespace Exiv2;
 
@@ -19,7 +20,8 @@ TEST(MemIo, seek_out_of_bounds_00)
     ASSERT_TRUE(io.eof());
 
     // The seek was invalid, so the offset didn't change and this read still works.
-    ASSERT_EQ(io.read(tmp, sizeof(tmp)), sizeof(tmp));
+    const long sizeTmp = static_cast<long>(sizeof(sizeTmp));
+    ASSERT_EQ(io.read(tmp, sizeTmp), sizeTmp);
 }
 
 TEST(MemIo, seek_out_of_bounds_01)
@@ -56,7 +58,8 @@ TEST(MemIo, seek_out_of_bounds_02)
     ASSERT_EQ(io.seek(0x10000000, BasicIo::cur), 1);
     ASSERT_TRUE(io.eof());
     // The seek was invalid, so the offset didn't change and this read still works.
-    ASSERT_EQ(io.read(tmp, sizeof(tmp)), sizeof(tmp));
+    const long sizeTmp = static_cast<long>(sizeof(sizeTmp));
+    ASSERT_EQ(io.read(tmp, sizeTmp), sizeTmp);
 }
 
 TEST(MemIo, seek_out_of_bounds_03)
@@ -73,5 +76,6 @@ TEST(MemIo, seek_out_of_bounds_03)
     ASSERT_EQ(io.seek(-0x10000000, BasicIo::cur), 1);
     ASSERT_FALSE(io.eof());
     // The seek was invalid, so the offset didn't change and this read still works.
-    ASSERT_EQ(io.read(tmp, sizeof(tmp)), sizeof(tmp));
+    const long sizeTmp = static_cast<long>(sizeof(sizeTmp));
+    ASSERT_EQ(io.read(tmp, sizeTmp), sizeTmp);
 }
