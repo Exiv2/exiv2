@@ -34,7 +34,14 @@ class Exiv2Conan(ConanFile):
                 self.requires('gtest/1.8.1@bincrafters/stable')
 
         if self.options.webready and not os_info.is_macos:
-            self.requires('libcurl/7.64.1@bincrafters/stable')
+            # Note: This difference in versions is just due to a combination of corner cases in the
+            # recipes and the OS & compiler versions used in Travis and AppVeyor. In normal cases we
+            # could use any of the versions.Also note that the issue was not with libcurl but with
+            # libopenssl (a transitive dependency)
+            if os_info.is_windows:
+                self.requires('libcurl/7.61.1@bincrafters/stable')
+            else:
+                self.requires('libcurl/7.64.1@bincrafters/stable')
 
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
