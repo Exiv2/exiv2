@@ -11,6 +11,8 @@ platform:
 environment:
   VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
 
+  PYTHON: "C:\\Python37"
+    
   matrix:
       - SHARED: ON
       - SHARED: OFF
@@ -18,23 +20,18 @@ environment:
 shallow_clone: true
 
 install:
+    - set PATH=%PATH%;%PYTHON%/Scripts/
     - echo %APPVEYOR_BUILD_FOLDER%
     - if not exist deps mkdir deps
     - cd deps
-    - if not exist ninja appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
+    - if not exist ninja appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip -FileName ninja.zip
     - if not exist ninja 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
     - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
+    - ninja --version
+    - pip.exe install conan==1.17.2
+    - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
-    - cmd: cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if not exist envs mkdir envs
-    - cmd: cd envs
-    - cmd: if not exist conan python -m virtualenv conan
-    - cmd: conan/Scripts/activate
-    - cmd: if not exist conan/Scripts/conan.exe python -m pip install conan==1.11.2 # TODO: Update to latest version (needs python 3)
-    - cmd: cd ..
-    - cmd: conan --version
-    - cmd: conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
@@ -63,7 +60,11 @@ build_script:
     - cmd: set EXIV2_EXT=.exe
     - cmd: c:\Python36\python.exe runner.py -v
 
-cache:
-    - envs                          # Conan installation
-    - deps                          # Ninja installation
-    - c:\Users\appveyor\conanCache  # Conan cache
+# We have disabled the cache system in master because for VS2017 we can find pre-compiled binaries
+# for all the 3rd party dependencies in the conan-center bintray repository. The average time for
+# each build in Appveyor is around 3 minutes which is not bad. If those times get worse over time
+# we could think about re-enabling it.
+
+#cache:
+#- deps                          # Ninja installation
+#- c:\Users\appveyor\conanCache  # Conan cache
