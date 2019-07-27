@@ -60,6 +60,11 @@ build_script:
     - cmd: set EXIV2_EXT=.exe
     - cmd: c:\Python36\python.exe runner.py -v
 
-cache:
-    - deps                          # Ninja installation
-    - c:\Users\appveyor\conanCache  # Conan cache
+# We have disabled the cache system in master because for VS2017 we can find pre-compiled binaries
+# for all the 3rd party dependencies in the conan-center bintray repository. The average time for
+# each build in Appveyor is around 3 minutes which is not bad. If those times get worse over time
+# we could think about re-enabling it.
+
+#cache:
+#- deps                          # Ninja installation
+#- c:\Users\appveyor\conanCache  # Conan cache
