@@ -1,4 +1,6 @@
 environment:
+  PYTHON: "C:\\Python37"
+    
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Visual Studio 10 2010
@@ -44,24 +46,18 @@ environment:
 shallow_clone: true
 
 install:
+    - set PATH=%PATH%;%PYTHON%/Scripts/
     - echo %APPVEYOR_BUILD_FOLDER%
     - mkdir C:\projects\deps
     - cd C:\projects\deps
-    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip -FileName ninja.zip
+    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip -FileName ninja.zip
     - 7z x ninja.zip -oC:\projects\deps\ninja > nul
     - set PATH=C:\projects\deps\ninja;%PATH%
     - ninja --version
+    - pip.exe install conan==1.17.2
+    - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
-    - cmd: cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if not exist envs mkdir envs
-    - cmd: cd envs
-    - cmd: python -m virtualenv conan
-    - cmd: conan/Scripts/activate
-    - cmd: python -m pip install conan==1.11.2 # TODO: Update to latest version (needs python 3)
-    - cmd: cd ..
-    - cmd: conan --version
-    - cmd: conan remote add conan-bincrafters https://api.bintray.com/conan/bincrafters/public-conan
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
@@ -74,6 +70,8 @@ build_script:
     - cmd: md build
     - cmd: cd build
     - cmd: call "%VCVARS%" x86_amd64
+    - cmd: conan --version
+    - cmd: conan remote list
     - cmd: conan install .. -o webready=True --build missing
     - cmd: echo %CMAKE_GENERATOR%
     - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
@@ -86,5 +84,4 @@ build_script:
     - cmd: if %INTEGRATION_TESTS% == 1 c:\Python36\python.exe runner.py -v
 
 cache:
-    - envs                          # Conan installation
     - c:\Users\appveyor\conanCache  # Conan cache
