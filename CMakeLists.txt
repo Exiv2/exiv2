@@ -13,7 +13,7 @@ option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"      
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
-cmake_dependent_option(EXIV2_ENABLE_NLS "Build native language support (requires gettext)" ON "UNIX" OFF)
+option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      OFF )
 option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
 option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON )
@@ -22,7 +22,6 @@ option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"     
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
-option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
 option( EXIV2_BUILD_FUZZ_TESTS        "Build fuzz tests (libFuzzer)"                          OFF )
@@ -103,7 +102,7 @@ if( EXIV2_BUILD_SAMPLES )
     add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 endif()
 
-if( EXIV2_BUILD_PO )
+if( EXIV2_ENABLE_NLS )
     add_subdirectory( po )
 endif()
 
