@@ -82,6 +82,3 @@ build_script:
     - cmd: cd ../../tests/
     - cmd: set EXIV2_EXT=.exe
     - cmd: if %INTEGRATION_TESTS% == 1 c:\Python36\python.exe runner.py -v
-
-cache:
-    - c:\Users\appveyor\conanCache  # Conan cache
