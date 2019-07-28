@@ -100,6 +100,7 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/"              DESTINATION "con
 set( DOCS
      README.md
      README-CONAN.md
+     README-SAMPLES.md
      license.txt
      exiv2.png
 )

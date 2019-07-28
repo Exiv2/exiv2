@@ -1,11 +1,15 @@
-Unix Exiv2 v0.27.2-RC3 Bundle (FreeBSD and NetBSD)
+Unix Exiv2 v0.27.2 Bundle (FreeBSD and NetBSD)
 --------------------------------------------------
 
 Structure of the bundle:
 ------------------------
 
 bin/exiv2                                     exiv2 and sample applications
+<<<<<<< HEAD
 lib/libexiv2.so.0.27.2.3 & libexiv2-xmp.a     libraries
+=======
+lib/libexiv2.so.0.27.2 & libexiv2-xmp.a       libraries
+>>>>>>> Documentation Changes
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
@@ -19,6 +23,7 @@ license.txt                                   GPLv2.0 Software License
 releasenotes.txt                              Late breaking news
 README.md                                     Developer Manual
 README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual
 exiv2.png                                     Exiv2 Logo
 
 To run exiv2 from the bundle

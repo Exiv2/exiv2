@@ -1,7 +1,7 @@
-Exiv2 v0.27.2.3 = Exiv2 v0.27.2 RC3
+Exiv2 v0.27.2
 -----------------------------------
 
-Third Release Candidate for quarterly "dot" release of Exiv2 v0.27.2
+Exiv2 v0.27 Second Dot Release
 
 Thank You to Kevin for security contributions to this release.
 Thank You to Ting-Wei for Unix contributions to this release.
@@ -18,8 +18,8 @@ Headline Features of Exiv2 v0.27.2
 4) Updated Catalan Localisation
 5) Monitoring API changes for v0.27 dot releases
 6) Using mergify to sync select PRs between 0.27-maintenance and 0.28
-7) Prelinary Dutch Localisation
-8) Prelinary Support for Unix (FreeBSD and NetBSD)
+7) Preliminary Dutch Localisation
+8) Preliminary Support for Unix (FreeBSD and NetBSD)
 
 Issues fixed since v0.27.1
 --------------------------
@@ -28,7 +28,7 @@ https://github.com/Exiv2/exiv2/milestone/4?closed=1
 
 Robin Mills
 robin@clanmills.com
-2019-07-19
+2019-07-22
 
 Headline Features of Exiv2 v0.27.1
 ----------------------------------
