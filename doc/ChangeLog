@@ -1,8 +1,9 @@
 Changes from version 0.27.1 to 0.27.2
 -------------------------------------
 
-Closed: https://github.com/Exiv2/exiv2/milestone/4?closed=1 (61)
+Closed: https://github.com/Exiv2/exiv2/milestone/4?closed=1 (64)
 
+#966 MacOS-X Build issue if Framework/Mono installed (by Visual Studio for Mac)
 #962 Fix integer overflow in WebPImage::getHeaderOffset()
 #959 Fix linking BasicError typeinfo on FreeBSD
 #949 Add Dutch Localisation

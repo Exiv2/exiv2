@@ -1,5 +1,5 @@
 Exiv2 v0.27.2
------------------------------------
+-------------
 
 Exiv2 v0.27 Second Dot Release
 
@@ -20,15 +20,16 @@ Headline Features of Exiv2 v0.27.2
 6) Using mergify to sync select PRs between 0.27-maintenance and 0.28
 7) Preliminary Dutch Localisation
 8) Preliminary Support for Unix (FreeBSD and NetBSD)
+9) Better Build Bundle Dependency handling
 
-Issues fixed since v0.27.1
---------------------------
+Changes since 0.27.1
+--------------------
 
 https://github.com/Exiv2/exiv2/milestone/4?closed=1
 
 Robin Mills
 robin@clanmills.com
-2019-07-22
+2019-07-29
 
 Headline Features of Exiv2 v0.27.1
 ----------------------------------
