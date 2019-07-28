@@ -598,7 +598,8 @@ namespace Exiv2 {
             // 0xc0 .. 0xcf are SOFn (except 4)
             nm[0xc4] = "DHT";
             for (int i = 0; i <= 15; i++) {
-                char MN[10];
+                char MN[16];
+                /// \todo to be replaced by std::snprintf on master (only available in c++11)
                 sprintf(MN, "APP%d", i);
                 nm[0xe0 + i] = MN;
                 if (i != 4) {
