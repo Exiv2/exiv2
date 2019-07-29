@@ -7,7 +7,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         set(COMPILER_IS_CLANG ON)
     endif()
 
-    set (CMAKE_CXX_FLAGS_DEBUG      "-g3 -gstrict-dwarf -O0")
+    set (CMAKE_CXX_FLAGS_DEBUG "-g3 -gstrict-dwarf -O0")
 
     if (CMAKE_GENERATOR MATCHES "Xcode")
         set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
@@ -20,14 +20,17 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         endif()
     endif()
 
-    if (COMPILER_IS_GCC)
-        add_compile_options(-Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS)
-        if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0 )
-            add_compile_options(-fstack-clash-protection -fcf-protection)
-        endif()
+    if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
+        add_compile_options(-fstack-clash-protection -fcf-protection)
     endif()
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+        add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
+
+        if (CMAKE_BUILD_TYPE STREQUAL Release)
+            add_compile_options(-Wp,-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
+        endif()
+
         if(BUILD_WITH_COVERAGE)
             # Note: We tried to use here add_compile_options but we got linker errors on Travis-CI
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
