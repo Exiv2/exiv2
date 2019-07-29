@@ -32,9 +32,10 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         endif()
 
         if(BUILD_WITH_COVERAGE)
-            # Note: We tried to use here add_compile_options but we got linker errors on Travis-CI
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+            add_compile_options(--coverage)
+            # TODO: From CMake 3.13 we could use add_link_options instead these 2 lines
             set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
         endif()
 
         add_compile_options(-Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
