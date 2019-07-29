@@ -833,12 +833,6 @@ namespace Exiv2 {
     {
         Protocol fProt = fileProtocol(path);
 
-#ifdef EXV_USE_SSH
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::UniquePtr(new SshIo(path)); // may throw
-        }
-#endif
-
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(path)); // may throw
@@ -861,11 +855,6 @@ namespace Exiv2 {
     BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
     {
         Protocol fProt = fileProtocol(wpath);
-#if EXV_USE_SSH == 1
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::UniquePtr(new SshIo(wpath));
-        }
-#endif
 
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {

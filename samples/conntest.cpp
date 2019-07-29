@@ -72,46 +72,6 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
 }
 #endif
 
-#ifdef EXV_USE_SSH
-void sshcon(const std::string& url) {
-    Exiv2::Uri uri = Exiv2::Uri::Parse(url);
-    Exiv2::Uri::Decode(uri);
-
-    std::string page = uri.Path;
-    // remove / at the beginning of the path
-    if (page[0] == '/') {
-        page = page.substr(1);
-    }
-    Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
-    std::string response = "";
-    std::string cmd = "declare -a x=($(ls -alt " + page + ")); echo ${x[4]}";
-    if (ssh.runCommand(cmd, &response) != 0) {
-        throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to get file length.");
-    } else {
-        long length = atol(response.c_str());
-        if (length == 0) {
-            throw Exiv2::Error(Exiv2::kerErrorMessage, "File is empty or not found.");
-        }
-    }
-}
-
-void sftpcon(const std::string& url) {
-    Exiv2::Uri uri = Exiv2::Uri::Parse(url);
-    Exiv2::Uri::Decode(uri);
-
-    std::string page = uri.Path;
-    // remove / at the beginning of the path
-    if (page[0] == '/') {
-        page = page.substr(1);
-    }
-    Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
-    sftp_file handle;
-    ssh.getFileSftp(page, handle);
-    if (handle == nullptr) throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to open the file");
-    else sftp_close(handle);
-}
-#endif
-
 int main(int argc,const char** argv)
 {
     if (argc < 2) {
@@ -129,15 +89,6 @@ int main(int argc,const char** argv)
 
     bool isOk = false;
     try {
-        #ifdef EXV_USE_SSH
-            if (prot == Exiv2::pSsh) {
-                sshcon(url);
-                isOk = true;
-            } else if (prot == Exiv2::pSftp){
-                sftpcon(url);
-                isOk = true;
-            }
-        #endif
         #ifdef EXV_USE_CURL
             if (prot == Exiv2::pHttp || prot == Exiv2::pHttps || prot == Exiv2::pFtp) {
                 curlcon(url, useHttp1_0);
