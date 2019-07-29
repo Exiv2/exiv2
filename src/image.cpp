@@ -866,7 +866,8 @@ namespace Exiv2 {
             return BasicIo::UniquePtr(new SshIo(wpath));
         }
 #endif
-#if EXV_USE_CURL == 1
+
+#ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(wpath));
         }
