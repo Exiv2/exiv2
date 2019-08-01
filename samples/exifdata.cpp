@@ -152,11 +152,14 @@ std::string formatXML(Exiv2::ExifData& exifData)
 ///////////////////////////////////////////////////////////////////////
 int main(int argc,const char* argv[])
 {
-    format_t formats;
-    formats["wolf"] = wolf;
-    formats["csv" ] = csv ;
-    formats["json"] = json;
-    formats["xml" ] = xml ;
+	Exiv2::XmpParser::initialize();
+	::atexit(Exiv2::XmpParser::terminate);
+
+	format_t formats;
+	formats["wolf"] = wolf;
+	formats["csv" ] = csv ;
+	formats["json"] = json;
+	formats["xml" ] = xml ;
 
     int result = 0 ;
     if (argc != 3) {
