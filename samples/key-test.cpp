@@ -19,6 +19,9 @@ using namespace Exiv2;
 
 int main()
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     int tc = 0;
     int rc = 0;
 

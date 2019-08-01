@@ -114,6 +114,9 @@ void sftpcon(const std::string& url) {
 
 int main(int argc,const char** argv)
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if (argc < 2) {
         std::cout << "Usage: " << argv[0] << " url {-http1_0}" << std::endl;
         return 1;

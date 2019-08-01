@@ -9,14 +9,15 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 
 // Example that shows simple usage of the INIReader class
 
-#include <iostream>
+#include <exiv2/exiv2.hpp>
 
-// #include <exiv2/exiv2.h>
-#include "config.h"
-#include "ini.hpp"
+#include <iostream>
 
 int main()
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     int              result = 0 ;
     const char*      ini    = "ini-test.ini";
     Exiv2::INIReader reader(ini);

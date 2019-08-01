@@ -16,7 +16,10 @@
 
 int main(int argc, char** argv)
 {
-try 
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
+
+  try
   {
     if (argc != 2) 
       {

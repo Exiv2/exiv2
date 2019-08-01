@@ -8,6 +8,9 @@
 
 int main()
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     try {
         throw Exiv2::Error(Exiv2::kerGeneralError, "ARG1", "ARG2", "ARG3");
     }
