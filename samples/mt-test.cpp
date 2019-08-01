@@ -62,6 +62,9 @@ void reportExifMetadataCount(int n,const char* argv[])
 
 int main(int argc,const char* argv[])
 {
+	Exiv2::XmpParser::initialize();
+	::atexit(Exiv2::XmpParser::terminate);
+
 	int result = 0;
 
 	if ( argc < 2 ) {

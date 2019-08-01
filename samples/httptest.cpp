@@ -20,6 +20,9 @@ static int testSyntax(const char* arg)
 
 int main(int argc,const char** argv)
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if ( argc < 2 ) {
         std::cout << "usage  : " << argv[0] << " [key value]+" << std::endl;
         std::cout << "example: " << argv[0] << " [[-url] url | -server clanmills.com -page /LargsPanorama.jpg] -header \"Range: bytes=0-200\"" << std::endl;

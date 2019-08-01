@@ -46,7 +46,10 @@ int WriteReadSeek(BasicIo &io);
 // Main
 int main(int argc, char* const argv[])
 {
-try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
+    try {
     if (argc != 4) {
         std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2\n";
         std::cout << "fileouts are overwritten and should match filein exactly\n";

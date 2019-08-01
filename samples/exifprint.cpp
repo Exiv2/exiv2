@@ -29,6 +29,9 @@
 
 int _tmain(int argc, _tchar* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     const _tchar* prog = argv[0];
     const _tchar* file = argv[1];
 

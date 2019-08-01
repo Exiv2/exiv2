@@ -17,6 +17,9 @@ using namespace Exiv2;
 
 int main(int argc, char* argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     try {
         int rc = 0;
 
