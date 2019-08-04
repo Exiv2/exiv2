@@ -18,6 +18,7 @@ add_library( exiv2lib_int OBJECT
     crwimage_int.cpp        crwimage_int.hpp
     fujimn_int.cpp          fujimn_int.hpp
     helper_functions.cpp    helper_functions.hpp
+    heifimage.cpp           heifimage_int.hpp
     image_int.cpp           image_int.hpp
     makernote_int.cpp       makernote_int.hpp
     minoltamn_int.cpp       minoltamn_int.hpp
@@ -204,6 +205,11 @@ if( EXIV2_ENABLE_NLS )
     target_include_directories(exiv2lib_int PRIVATE ${Intl_INCLUDE_DIRS})
     # Definition needed for translations
     target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}")
+endif()
+
+if( EXIV2_ENABLE_HEIF )
+    target_include_directories(exiv2lib_int PRIVATE ${HEIF_INCLUDE_DIR})
+    target_link_libraries( exiv2lib PRIVATE ${HEIF_LIBRARY})
 endif()
 
 if( ICONV_FOUND )
