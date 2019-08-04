@@ -35,6 +35,7 @@ namespace Exiv2
         dng,
         exv,
         gif,        ///< GIF
+        heif,       ///< HEIF
         jp2,        ///< JPEG-2000
         jpeg,
         mrw,
