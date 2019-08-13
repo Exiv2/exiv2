@@ -511,6 +511,14 @@ namespace Exiv2 {
         { 519, N_("Movie Servo AF")   }    // To silence compiler warning
     };
 
+    //! AutoFocus, tag 0x0026
+    extern const TagDetails canonAfMode[] = {
+        {   0, N_("Off (Manual Focus)")      },
+        {   2, N_("Single-point AF")      },
+        {   4, N_("Multi-point AF")      },
+        {   3, N_("Face Detect AF") },
+    };
+
     //! ImageSize, tag 0x000a
     extern const TagDetails canonCsImageSize[] = {
         {   0, N_("Large")             },
@@ -1219,6 +1227,20 @@ namespace Exiv2 {
         { 2, N_("sRAW2 (sRAW)") }
     };
 
+    // Canon AutoFocus Tag Info
+    const TagInfo CanonMakerNote::tagInfoAf_[] = {
+        TagInfo(0x0000, "AFInfoSize", N_("AFInfoSize"), N_("AutoFocus Info Size"), canonAfId, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0001, "AFMode", N_("AFMode"), N_("AutoFocus Mode"), canonAfId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonAfMode)),
+        TagInfo(0x0002, "AFNumPoints", N_("AFNumPoints"), N_("AutoFocus Number of Points"), canonAfId, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0003, "AFNumValid", N_("AFNumValid"), N_("AutoFocus Number of Valid Points"), canonAfId, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0004, "AFImageWidth", N_("AFImageWidth"), N_("AutoFocus Image Width"), canonAfId, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0005, "AFImageHeight", N_("AFImageHeight"), N_("AutoFocus Image Height"), canonAfId, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0006, "AFWidth", N_("AFWidth"), N_("AutoFocus Width in AF Units"), canonAfId, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0007, "AFHeight", N_("AFHeight"), N_("AutoFocus Height in AF Units"), canonAfId, makerTags, signedShort, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonAfTag)", "(UnknownCanonAfTag)", N_("Unknown Canon AutoFocus tag"), canonAfId, makerTags, signedShort, 1, printValue)
+    };
+
     // Canon Camera Settings Tag Info
     const TagInfo CanonMakerNote::tagInfoCs_[] = {
         TagInfo(0x0001, "Macro", N_("Macro"), N_("Macro mode"), canonCsId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonCsMacro)),
@@ -1267,6 +1289,11 @@ namespace Exiv2 {
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, signedShort, 1, printValue)
     };
+
+    const TagInfo* CanonMakerNote::tagListAf()
+    {
+        return tagInfoAf_;
+    }
 
     const TagInfo* CanonMakerNote::tagListCs()
     {

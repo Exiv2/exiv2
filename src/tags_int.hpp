@@ -74,6 +74,7 @@ namespace Exiv2 {
         panaRawId,
         mnId,
         canonId,
+        canonAfId,
         canonCsId,
         canonSiId,
         canonCfId,

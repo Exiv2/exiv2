@@ -17,6 +17,22 @@ namespace Exiv2 {
     //! Constant for non-encrypted binary arrays
     const CryptFct notEncrypted = 0;
 
+    //! Canon AutoFocus binary array - configuration
+    extern const ArrayCfg canonAfCfg = {
+        canonAfId,        // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUnsignedShort,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // With size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedShort, 1 }
+    };
+    //! Canon Camera Settings binary array - definition
+    extern const ArrayDef canonAfDef[] = {
+        { 0, ttUnsignedShort, 2 } // Exif.CanonAf.AfInfoSize
+    };
+
     //! Canon Camera Settings binary array - configuration
     extern const ArrayCfg canonCsCfg = {
         canonCsId,        // Group for the elements
@@ -1291,6 +1307,7 @@ namespace Exiv2 {
         {    0x0005, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPaCfg)       },
         {    0x000f, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
+        {    0x0026, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCfg)       },
         {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)  },
@@ -1298,6 +1315,7 @@ namespace Exiv2 {
         {  Tag::all, canonId,          newTiffEntry                              },
 
         // Canon makernote composite tags
+        {  Tag::all, canonAfId,        newTiffBinaryElement                      },
         {  Tag::all, canonCsId,        newTiffBinaryElement                      },
         {  Tag::all, canonSiId,        newTiffBinaryElement                      },
         {  Tag::all, canonPaId,        newTiffBinaryElement                      },

@@ -57,6 +57,8 @@ namespace Exiv2 {
     public:
         //! Return read-only list of built-in Canon tags
         static const TagInfo* tagList();
+        //! Return read-only list of built-in Canon AutoFocus tags
+        static const TagInfo* tagListAf();
         //! Return read-only list of built-in Canon Camera Settings tags
         static const TagInfo* tagListCs();
         //! Return read-only list of built-in Canon Shot Info tags
@@ -115,6 +117,7 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoAf_[];
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoSi_[];
         static const TagInfo tagInfoCf_[];
