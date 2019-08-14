@@ -1517,7 +1517,11 @@ namespace {
             return false;
         }
         std::string outstr;
+#if defined(OS_SOLARIS)
+        const char* inptr = const_cast<char*>(str.c_str());
+#else
         EXV_ICONV_CONST char* inptr = const_cast<char*>(str.c_str());
+#endif
         size_t inbytesleft = str.length();
         while (inbytesleft) {
             char outbuf[256];

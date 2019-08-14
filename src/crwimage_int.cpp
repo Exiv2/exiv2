@@ -1108,6 +1108,40 @@ namespace Exiv2 {
         }
     } // CrwMap::encodeArray
 
+#if defined(OS_SOLARIS)
+	const int SecondsPerMinute = 60;
+	const int SecondsPerHour = 3600;
+	const int SecondsPerDay = 86400;
+	const int DaysOfMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+	bool IsLeapYear(short year)
+	{
+		if (year % 4 != 0) return false;
+		if (year % 100 != 0) return true;
+		return (year % 400) == 0;
+	}
+
+	static time_t mkgmtime(const struct tm *ptm)
+	{
+		time_t secs = 0;
+		// tm_year is years since 1900
+		int year = ptm->tm_year + 1900;
+		for (int y = 1970; y < year; ++y) {
+			secs += (IsLeapYear(y)? 366: 365) * SecondsPerDay;
+		}
+		// tm_mon is month from 0..11
+		for (int m = 0; m < ptm->tm_mon; ++m) {
+			secs += DaysOfMonth[m] * SecondsPerDay;
+			if (m == 1 && IsLeapYear(year)) secs += SecondsPerDay;
+		}
+			secs += (ptm->tm_mday - 1) * SecondsPerDay;
+			secs += ptm->tm_hour       * SecondsPerHour;
+			secs += ptm->tm_min        * SecondsPerMinute;
+			secs += ptm->tm_sec;
+			return secs;
+	}
+#endif
+
     void CrwMap::encode0x180e(const Image&      image,
                               const CrwMapping* pCrwMapping,
                                     CiffHeader* pHead)
@@ -1122,7 +1156,11 @@ namespace Exiv2 {
             struct tm tm;
             std::memset(&tm, 0x0, sizeof(tm));
             int rc = exifTime(ed->toString().c_str(), &tm);
+#if defined(OS_SOLARIS)
+            if (rc == 0) t = mkgmtime(&tm);
+#else
             if (rc == 0) t = timegm(&tm);
+#endif
         }
         if (t != 0) {
             DataBuf buf(12);

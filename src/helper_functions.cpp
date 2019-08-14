@@ -32,7 +32,11 @@
 
 std::string string_from_unterminated(const char* data, size_t data_length)
 {
+#if defined(OS_SOLARIS)
+    const size_t StringLength = strlen(data);
+#else
     const size_t StringLength = strnlen(data, data_length);
+#endif
 
     return std::string(data, StringLength);
 }

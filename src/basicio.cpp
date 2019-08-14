@@ -387,7 +387,11 @@ namespace Exiv2 {
         int rc = 0;
         if (p_->pMappedArea_ != 0) {
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
+#if defined(OS_SOLARIS)
+            if (::munmap(reinterpret_cast<char*>(p_->pMappedArea_), p_->mappedLength_) != 0) { // reinterpret_cast here on Solaris
+#else
             if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
+#endif
                 rc = 1;
             }
 #elif defined WIN32 && !defined __CYGWIN__
