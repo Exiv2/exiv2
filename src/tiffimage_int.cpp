@@ -28,7 +28,7 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
-    //! Canon Camera Settings binary array - definition
+    //! Canon AutoFocus binary array - definition
     extern const ArrayDef canonAfDef[] = {
         { 0, ttUnsignedShort, 2 } // Exif.CanonAf.AfInfoSize
     };

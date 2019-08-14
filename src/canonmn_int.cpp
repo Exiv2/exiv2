@@ -513,10 +513,10 @@ namespace Exiv2 {
 
     //! AutoFocus, tag 0x0026
     extern const TagDetails canonAfMode[] = {
-        {   0, N_("Off (Manual Focus)")      },
-        {   2, N_("Single-point AF")      },
-        {   4, N_("Multi-point AF")      },
-        {   3, N_("Face Detect AF") },
+        {   0, N_("Off (Manual Focus)") },
+        {   2, N_("Single-point AF")    },
+        {   4, N_("Multi-point AF")     },
+        {   5, N_("Face Detect AF")     },
     };
 
     //! ImageSize, tag 0x000a
