@@ -81,7 +81,7 @@ namespace Exiv2 {
         { panaRawId,       "PanaRaw",   "PanasonicRaw", PanasonicMakerNote::tagListRaw },
         { mnId,            "Makernote", "MakerNote",    mnTagList                      },
         { canonId,         "Makernote", "Canon",        CanonMakerNote::tagList        },
-        { canonAfId,       "Makernote", "CanonAf",      CanonMakerNote::tagListAf      },
+        { canonAf2Id,      "Makernote", "CanonAf2",     CanonMakerNote::tagListAf2     },
         { canonCsId,       "Makernote", "CanonCs",      CanonMakerNote::tagListCs      },
         { canonSiId,       "Makernote", "CanonSi",      CanonMakerNote::tagListSi      },
         { canonCfId,       "Makernote", "CanonCf",      CanonMakerNote::tagListCf      },

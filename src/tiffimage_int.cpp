@@ -11,15 +11,23 @@
 #define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<&arrayCfg>)
 #define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, EXV_COUNTOF(arraySet), cfgSelFct>)
 
+#if __cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1900)
+#define static11 static
+#else
+#define static11 extern
+#endif
+
 namespace Exiv2 {
     namespace Internal {
 
     //! Constant for non-encrypted binary arrays
     const CryptFct notEncrypted = 0;
 
-    //! Canon AutoFocus binary array - configuration
-    extern const ArrayCfg canonAfCfg = {
-        canonAfId,        // Group for the elements
+    //! CanonAf configuration and definitions
+    //  https://github.com/Exiv2/exiv2/issues/981
+    //! Canon AutoFocus2 binary array - configuration
+    extern const ArrayCfg canonAf2Cfg = {
+        canonAf2Id,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
         notEncrypted,     // Not encrypted
@@ -28,10 +36,33 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
-    //! Canon AutoFocus binary array - definition
-    extern const ArrayDef canonAfDef[] = {
-        { 0, ttUnsignedShort, 2 } // Exif.CanonAf.AfInfoSize
+    //! Canon AutoFocus2 binary array - definition
+    extern const ArrayDef canonAf2Def[] = {
+        { 0, ttUnsignedShort, 1 } // Exif.CanonAf.AfInfoSize
     };
+    //! Canon AutoFocus2 binary array selector
+    static11 const ArraySet canonAf2Set[] = {
+        { canonAf2Cfg, canonAf2Def, EXV_COUNTOF(canonAf2Def) },
+    };
+    static11 int canonAf2Selector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/);
+    static11 int canonAf2Selector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)
+    {
+        int result = (tag == 0x0026 && pData && size > 1) ? 0 : -1 ;
+        if (result !=  -1 ) {
+            uint16_t  s;
+            ::memcpy(&s,pData,2);
+            // AFInfo2 structure has record length in pData[0..1]
+            // Other AFInfo report Exif.Canon.AFInfo
+            if ( s != size ) {
+                // byte-swap in case of endian mismatch
+                s = (s>>8) | (s<<8);
+                if ( s != size ) {
+                    result = -1;
+                }
+            }
+        }
+        return result;
+    }
 
     //! Canon Camera Settings binary array - configuration
     extern const ArrayCfg canonCsCfg = {
@@ -1307,7 +1338,8 @@ namespace Exiv2 {
         {    0x0005, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPaCfg)       },
         {    0x000f, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
-        {    0x0026, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCfg)       },
+        // {    0x0026, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCfg)       },
+        {    0x0026, canonId,          EXV_COMPLEX_BINARY_ARRAY(canonAf2Set, canonAf2Selector) },
         {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)  },
@@ -1315,7 +1347,7 @@ namespace Exiv2 {
         {  Tag::all, canonId,          newTiffEntry                              },
 
         // Canon makernote composite tags
-        {  Tag::all, canonAfId,        newTiffBinaryElement                      },
+        {  Tag::all, canonAf2Id,       newTiffBinaryElement                      },
         {  Tag::all, canonCsId,        newTiffBinaryElement                      },
         {  Tag::all, canonSiId,        newTiffBinaryElement                      },
         {  Tag::all, canonPaId,        newTiffBinaryElement                      },

@@ -7,14 +7,14 @@ class CanonAfTest(metaclass=CaseMeta):
     filename = path("$data_path/exiv2-pr982.exv")
     commands = ["$exiv2 -pa --grep CanonAf $filename"]
 
-    stdout = ["""Exif.CanonAf.AFInfoSize                      Short       1  96
-Exif.CanonAf.AFMode                          Short       1  Single-point AF
-Exif.CanonAf.AFNumPoints                     Short       1  9
-Exif.CanonAf.AFNumValid                      Short       1  9
-Exif.CanonAf.AFImageWidth                    Short       1  4752
-Exif.CanonAf.AFImageHeight                   Short       1  3168
-Exif.CanonAf.AFWidth                         Short       1  4272
-Exif.CanonAf.AFHeight                        Short       1  2848
+    stdout = ["""Exif.CanonAf2.AFInfoSize                     Short       1  96
+Exif.CanonAf2.AFMode                         Short       1  Single-point AF
+Exif.CanonAf2.AFNumPoints                    Short       1  9
+Exif.CanonAf2.AFNumValid                     Short       1  9
+Exif.CanonAf2.AFImageWidth                   Short       1  4752
+Exif.CanonAf2.AFImageHeight                  Short       1  3168
+Exif.CanonAf2.AFWidth                        Short       1  4272
+Exif.CanonAf2.AFHeight                       Short       1  2848
 """
     ]
     stderr = [""]

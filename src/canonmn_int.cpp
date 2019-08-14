@@ -1228,17 +1228,17 @@ namespace Exiv2 {
     };
 
     // Canon AutoFocus Tag Info
-    const TagInfo CanonMakerNote::tagInfoAf_[] = {
-        TagInfo(0x0000, "AFInfoSize", N_("AFInfoSize"), N_("AutoFocus Info Size"), canonAfId, makerTags, signedShort, 1, printValue),
-        TagInfo(0x0001, "AFMode", N_("AFMode"), N_("AutoFocus Mode"), canonAfId, makerTags, signedShort, 1, EXV_PRINT_TAG(canonAfMode)),
-        TagInfo(0x0002, "AFNumPoints", N_("AFNumPoints"), N_("AutoFocus Number of Points"), canonAfId, makerTags, signedShort, 1, printValue),
-        TagInfo(0x0003, "AFNumValid", N_("AFNumValid"), N_("AutoFocus Number of Valid Points"), canonAfId, makerTags, signedShort, 1, printValue),
-        TagInfo(0x0004, "AFImageWidth", N_("AFImageWidth"), N_("AutoFocus Image Width"), canonAfId, makerTags, signedShort, 1, printValue),
-        TagInfo(0x0005, "AFImageHeight", N_("AFImageHeight"), N_("AutoFocus Image Height"), canonAfId, makerTags, signedShort, 1, printValue),
-        TagInfo(0x0006, "AFWidth", N_("AFWidth"), N_("AutoFocus Width in AF Units"), canonAfId, makerTags, signedShort, 1, printValue),
-        TagInfo(0x0007, "AFHeight", N_("AFHeight"), N_("AutoFocus Height in AF Units"), canonAfId, makerTags, signedShort, 1, printValue),
+    const TagInfo CanonMakerNote::tagInfoAf2_[] = {
+        TagInfo(0x0000, "AFInfoSize", N_("AFInfoSize"), N_("AutoFocus Info Size"), canonAf2Id, signedShort, signedShort, 1, printValue),
+        TagInfo(0x0001, "AFMode", N_("AFMode"), N_("AutoFocus Mode"), canonAf2Id, signedShort, signedShort, 1, EXV_PRINT_TAG(canonAfMode)),
+        TagInfo(0x0002, "AFNumPoints", N_("AFNumPoints"), N_("AutoFocus Number of Points"), canonAf2Id, signedShort, signedShort, 1, printValue),
+        TagInfo(0x0003, "AFNumValid", N_("AFNumValid"), N_("AutoFocus Number of Valid Points"), canonAf2Id, signedShort, signedShort, 1, printValue),
+        TagInfo(0x0004, "AFImageWidth", N_("AFImageWidth"), N_("AutoFocus Image Width"), canonAf2Id, signedShort, signedShort, 1, printValue),
+        TagInfo(0x0005, "AFImageHeight", N_("AFImageHeight"), N_("AutoFocus Image Height"), canonAf2Id, signedShort, signedShort, 1, printValue),
+        TagInfo(0x0006, "AFWidth", N_("AFWidth"), N_("AutoFocus Width in AF Units"), canonAf2Id, signedShort, signedShort, 1, printValue),
+        TagInfo(0x0007, "AFHeight", N_("AFHeight"), N_("AutoFocus Height in AF Units"), canonAf2Id, signedShort, signedShort, 1, printValue),
         // End of list marker
-        TagInfo(0xffff, "(UnknownCanonAfTag)", "(UnknownCanonAfTag)", N_("Unknown Canon AutoFocus tag"), canonAfId, makerTags, signedShort, 1, printValue)
+        TagInfo(0xffff, "(UnknownCanonAf2Tag)", "(UnknownCanonAf2Tag)", N_("Unknown Canon AutoFocus tag"), canonAf2Id, signedShort, signedShort, 1, printValue)
     };
 
     // Canon Camera Settings Tag Info
@@ -1290,9 +1290,9 @@ namespace Exiv2 {
         TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, signedShort, 1, printValue)
     };
 
-    const TagInfo* CanonMakerNote::tagListAf()
+    const TagInfo* CanonMakerNote::tagListAf2()
     {
-        return tagInfoAf_;
+        return tagInfoAf2_;
     }
 
     const TagInfo* CanonMakerNote::tagListCs()

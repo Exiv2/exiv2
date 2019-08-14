@@ -46,7 +46,7 @@
 
 TABLES = Exif \
          Canon \
-         CanonAf \
+         CanonAf2 \
          CanonCs \
          CanonSi \
          CanonCf \
