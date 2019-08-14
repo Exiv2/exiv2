@@ -1620,6 +1620,8 @@ namespace Exiv2 {
         const ArrayDef* def = &cfg->elDefaultDef_;
         ArrayDef gap = *def;
 
+        // if ( cfg->group_ == canonAf2Id )
+
         for (uint32_t idx = 0; idx < object->TiffEntryBase::doSize(); ) {
             if (defs) {
                 def = std::find(defs, defsEnd, idx);
