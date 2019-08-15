@@ -1945,7 +1945,7 @@ namespace Exiv2 {
         TagInfo(0xb002, "MPFImageList", N_("MPFImageList"),
                 N_("MPF Image List"),
                 mpfId, mpfTags, asciiString, 0, printValue),
-        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList	"),
+        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList  "),
                 N_("MPF Image UID List"),
                 mpfId, mpfTags, unsignedLong, 1, printValue),
         TagInfo(0xb004, "MPFTotalFrames", N_("MPFTotalFrames"),

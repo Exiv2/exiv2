@@ -31,14 +31,28 @@ namespace Exiv2 {
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
         notEncrypted,     // Not encrypted
-        true,             // With size element
-        false,            // No fillers
-        false,            // Don't concatenate gaps
+        false,            // With size element
+        true,             // No fillers
+        true,             // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
     //! Canon AutoFocus2 binary array - definition
     extern const ArrayDef canonAf2Def[] = {
-        { 0, ttUnsignedShort, 1 } // Exif.CanonAf.AfInfoSize
+        { 0, ttUnsignedShort, 1 }, // Exif.CanonAf2.InfoSize
+        { 2, ttUnsignedShort, 1 }, // Exif.CanonAf2.Mode
+        { 4, ttUnsignedShort, 1 }, // Exif.CanonAf2.NumPoints
+        { 6, ttUnsignedShort, 1 }, // Exif.CanonAf2.NumValid
+        { 8, ttUnsignedShort, 1 }, // Exif.CanonAf2.ImageWidth
+        {10, ttUnsignedShort, 1 }, // Exif.CanonAf2.ImageHeight
+        {12, ttUnsignedShort, 1 }, // Exif.CanonAf2.Width
+        {14, ttUnsignedShort, 1 }, // Exif.CanonAf2.Height
+        {16, ttSignedShort  , 9 }, // Exif.CanonAf2.AreaWidths
+        {34, ttSignedShort  , 9 }, // Exif.CanonAf2.AreaHeights
+        {52, ttSignedShort  , 9 }, // Exif.CanonAf2.AreaXPositions
+        {70, ttSignedShort  , 9 }, // Exif.CanonAf2.AreaYPositions
+        {88, ttSignedShort  , 1 }, // Exif.CanonAf2.PointsInFocus
+        {90, ttUnsignedShort, 1 }, // Exif.CanonAf2.PointsSelected
+        {92, ttUnsignedShort, 1 }, // Exif.CanonAf2.PrimaryPoint
     };
     //! Canon AutoFocus2 binary array selector
     static11 const ArraySet canonAf2Set[] = {

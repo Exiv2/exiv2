@@ -1229,23 +1229,22 @@ namespace Exiv2 {
 
     // Canon AutoFocus Tag Info
     const TagInfo CanonMakerNote::tagInfoAf2_[] = {
-        TagInfo( 0, "AFInfoSize", N_("AFInfoSize"), N_("AutoFocus Info Size"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 1, "AFMode", N_("AFMode"), N_("AutoFocus Mode"), canonAf2Id, signedShort, signedShort, 1, EXV_PRINT_TAG(canonAfMode)),
-        TagInfo( 2, "AFNumPoints", N_("AFNumPoints"), N_("AutoFocus Number of Points"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 3, "AFNumValid", N_("AFNumValid"), N_("AutoFocus Number of Valid Points"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 4, "AFImageWidth", N_("AFImageWidth"), N_("AutoFocus Image Width"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 5, "AFImageHeight", N_("AFImageHeight"), N_("AutoFocus Image Height"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 6, "AFWidth", N_("AFWidth"), N_("AutoFocus Width in AF Units"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 7, "AFHeight", N_("AFHeight"), N_("AutoFocus Height in AF Units"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        /*
-        TagInfo( 8, "AFAreaWidths", N_("AFAreaWidths"), N_("AutoFocus Area Widths"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo( 9, "AFAreaHeights", N_("AFAreaHeights"), N_("AutoFocus Area Heights"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo(10, "AFAreaXPositions", N_("AFAreaXPositions"), N_("AutoFocus Area X Positions"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo(11, "AFAreaYPositions", N_("AFAreaYPositions"), N_("AutoFocus Area Y Positions"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo(12, "AFPointsInFocus", N_("AFPointsInFocus"), N_("AutoFocus Points in Focus"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo(13, "AFPointsSelected", N_("AFPointsSelected"), N_("AutoFocus Points Selected"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        TagInfo(14, "AFPrimaryPoint", N_("AFPrimaryPoint"), N_("AutoFocus Primary Point"), canonAf2Id, signedShort, signedShort, 1, printValue),
-        */
+        TagInfo( 0, "InfoSize", N_("AFInfoSize"), N_("AutoFocus Info Size"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 1, "Mode", N_("AFMode"), N_("AutoFocus Mode"), canonAf2Id, makerTags, unsignedShort, 1, EXV_PRINT_TAG(canonAfMode)),
+        TagInfo( 2, "NumPoints", N_("AFNumPoints"), N_("AutoFocus Number of Points"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 3, "NumValid", N_("AFNumValid"), N_("AutoFocus Number of Valid Points"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 4, "ImageWidth", N_("AFImageWidth"), N_("AutoFocus Image Width"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 5, "ImageHeight", N_("AFImageHeight"), N_("AutoFocus Image Height"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 6, "Width", N_("AFWidth"), N_("AutoFocus Width in AF Units"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 7, "Height", N_("AFHeight"), N_("AutoFocus Height in AF Units"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo( 8, "AreaWidths", N_("AFAreaWidths"), N_("AutoFocus Area Widths"), canonAf2Id, makerTags, signedShort, 9, printValue),
+        TagInfo(17, "AreaHeights", N_("AFAreaHeights"), N_("AutoFocus Area Heights"), canonAf2Id, makerTags, signedShort, 9, printValue),
+        TagInfo(26, "AreaXPositions", N_("AFAreaXPositions"), N_("AutoFocus Area X Positions"), canonAf2Id, makerTags, signedShort, 9, printValue),
+        TagInfo(35, "AreaYPositions", N_("AFAreaYPositions"), N_("AutoFocus Area Y Positions"), canonAf2Id, makerTags, signedShort, 9, printValue),
+        TagInfo(44, "PointsInFocus", N_("AFPointsInFocus"), N_("AutoFocus Points in Focus"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo(45, "PointsSelected", N_("AFPointsSelected"), N_("AutoFocus Points Selected"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo(46, "PrimaryPoint", N_("AFPrimaryPoint"), N_("AutoFocus Primary Point"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonAf2Tag)", "(UnknownCanonAf2Tag)", N_("Unknown Canon AutoFocus tag"), canonAf2Id, signedShort, signedShort, 1, printValue)
     };

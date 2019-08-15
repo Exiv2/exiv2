@@ -1616,11 +1616,14 @@ namespace Exiv2 {
         }
 
         const ArrayDef* defs = object->def();
+        // See  https://github.com/Exiv2/exiv2/issues/981
+        // We need to set the defs to a structure that matches NumPoints in Exiv2.CanonAF2.NumPoints
+        // if ( cfg->group_ == canonAf2Id ) {
+        //    defs = something.  // non trivial.  Must be global and const
+        // }
         const ArrayDef* defsEnd = defs + object->defSize();
         const ArrayDef* def = &cfg->elDefaultDef_;
         ArrayDef gap = *def;
-
-        // if ( cfg->group_ == canonAf2Id )
 
         for (uint32_t idx = 0; idx < object->TiffEntryBase::doSize(); ) {
             if (defs) {
