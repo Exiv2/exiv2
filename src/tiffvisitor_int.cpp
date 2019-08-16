@@ -487,7 +487,7 @@ namespace Exiv2 {
                                 , "AFImageWidth"   , "AFImageHeight"   , "AFWidth"         , "AFHeight"
                                 };
         std::string points[] =  { "AFAreaWidths"   , "AFAreaHeights"   , "AFXPositions"    , "AFYPositions"  };
-        std::string trails[] =  { "AFPointsInFocus", "AFPointsSelected", "AFPointsInFocus"                   };
+        std::string trails[] =  { "AFPointsInFocus", "AFPointsSelected", "AFPrimaryPoint"                    };
 
         int16_t nPoints = ints[2];
         int     nStart = 0;
