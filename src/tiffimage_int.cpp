@@ -1514,7 +1514,8 @@ namespace Exiv2 {
         { "*",       Tag::all, ignoreId,  0, 0 }, // Do not decode tags with group == ignoreId
         { "*",         0x02bc, ifd0Id,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
         { "*",         0x83bb, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ }
+        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
+        { "*",         0x0026, canonId,   &TiffDecoder::decodeCanonAFInfo,  0 /* Exiv2.Canon.AFInfo is read-only */ },
     };
 
     DecoderFct TiffMapping::findDecoder(const std::string& make,

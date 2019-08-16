@@ -406,6 +406,13 @@ namespace Exiv2 {
         {  2, N_("Adobe RGB") }
     };
 
+    extern const TagDetails canonAfMode[] = {
+         {   0, N_("Off (Manual Focus)") },
+         {   2, N_("Single-point AF")    },
+         {   4, N_("Multi-point AF")     },
+         {   5, N_("Face Detect AF")     },
+     };
+
     // Canon MakerNote Tag Info
     const TagInfo CanonMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "0x0000", "0x0000", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue),
@@ -442,11 +449,46 @@ namespace Exiv2 {
         TagInfo(0x00c1, "0x00c1", "0x00c1", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x00d0, "VRDOffset", N_("VRD Offset"), N_("VRD offset"), canonId, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x00e0, "SensorInfo", N_("Sensor Info"), N_("Sensor info"), canonId, makerTags, unsignedShort, -1, printValue),
+        TagInfo(0x2600, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2601, "AFMode", N_("AF Mode"), N_("AF Mode"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAfMode)),
+        TagInfo(0x2602, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2603, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2604, "AFImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2605, "AFImageHeight", N_("AF ImageHeight"), N_("AF ImageHeight"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2606, "AFWidth", N_("AF Width"), N_("AF Width"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2607, "AFHeight", N_("AF Height"), N_("AF Height"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2608, "AFAreaWidths", N_("AF Area Widths"), N_("AF Area Widths"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x2609, "AFAreaHeights", N_("AF Area Heights"), N_("AF Area Heights"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x260a, "AFXPositions", N_("AF X Positions"), N_("AF X Positions"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x260b, "AFYPositions", N_("AF Y Positions"), N_("AF Y Positions"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x260c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x260d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonId, makerTags, signedShort, -1, printValue),
+        TagInfo(0x260e, "AFPrimaryPoint", N_("AF Primary Point"), N_("AF Primary Point"), canonId, makerTags, signedShort, -1, printValue),
         TagInfo(0x4001, "ColorData", N_("Color Data"), N_("Color data"), canonId, makerTags, unsignedShort, -1, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", N_("Unknown CanonMakerNote tag"), canonId, makerTags, asciiString, -1, printValue)
     };
 
+/*
+0       AFInfoSize
+1       AFMode	    	    0 = Off (Manual Focus)
+                            2 = Single-point AF
+                            4 = Multi-point AF
+                            5 = Face Detect AF
+2	    AFNumPoints	        9
+3	    AFValidPoints	    9	AF points in arrays
+4	    AFImageWidth	    4752	Image Width
+5	    AFImageHeight	    3168	Image Height
+6	    AFWidth	            4272	AF coordinates
+7	    AFHeight	        2848
+8..16	AFAreaWidths[]	    115 115 115 162 200 162 115 115 115 SSHORT
+17..25	AFAreaHeights[]	    153 153 153 105 199 105 153 153 153 SSHORT
+26..34	AFXPositions[]	-1127 -674 -674 0 0 0 674 674 1127 	SSHORT
+35..43	AFYPositions[]	0 321 -321 603 0 -603 321 -321 0	SSHORT
+44	    AFPointsInFocus	    16
+45	    AFPointsSelected 	256
+46	    AFPrimaryPoint
+ */
     const TagInfo* CanonMakerNote::tagList()
     {
         return tagInfo_;
