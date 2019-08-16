@@ -483,14 +483,17 @@ namespace Exiv2 {
         // When we discover other instances of data of this style, further automation is likely
         std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
-        std::string header[] =  { "AFInfoSize"     , "AFMode"          , "AFNumPoints"     , "AFValidPoints"
+        static const
+        std::string header[] =  { "AFInfoSize"     , "AFAreaMode"      , "AFNumPoints"     , "AFValidPoints"
                                 , "AFImageWidth"   , "AFImageHeight"   , "AFWidth"         , "AFHeight"
                                 };
+        static const
         std::string points[] =  { "AFAreaWidths"   , "AFAreaHeights"   , "AFXPositions"    , "AFYPositions"  };
+        static const
         std::string trails[] =  { "AFPointsInFocus", "AFPointsSelected", "AFPrimaryPoint"                    };
 
         int16_t nPoints = ints[2];
-        int     nStart = 0;
+        int     nStart  = 0;
 
         for ( size_t i = 0; i < EXV_COUNTOF(header) ; i++) {
             exifData_[familyGroup + header[i]] = ints[nStart++];

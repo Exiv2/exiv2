@@ -406,11 +406,21 @@ namespace Exiv2 {
         {  2, N_("Adobe RGB") }
     };
 
-    extern const TagDetails canonAfMode[] = {
-         {   0, N_("Off (Manual Focus)") },
-         {   2, N_("Single-point AF")    },
-         {   4, N_("Multi-point AF")     },
-         {   5, N_("Face Detect AF")     },
+    extern const TagDetails canonAFAreaMode[] = {
+         {   0, N_("Off (Manual Focus)")           },
+         {   1, N_("AF Point Expansion (surround)")},
+         {   2, N_("Single-point AF")              },
+         {   4, N_("Multi-point AF")               },
+         {   5, N_("Face Detect AF")               },
+         {   6, N_("Face + Tracking")              },
+         {   7, N_("Zone AF")                      },
+         {   8, N_("AF Point Expansion (4 point)") },
+         {   9, N_("Spot AF")                      },
+         {  10, N_("AF Point Expansion (8 point)") },
+         {  11, N_("Flexizone Multi (49 point)")   },
+         {  12, N_("Flexizone Multi (9 point)")    },
+         {  13, N_("Flexizone Single")             },
+         {  14, N_("Large Zone AF")                },
      };
 
     // Canon MakerNote Tag Info
@@ -450,7 +460,7 @@ namespace Exiv2 {
         TagInfo(0x00d0, "VRDOffset", N_("VRD Offset"), N_("VRD offset"), canonId, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x00e0, "SensorInfo", N_("Sensor Info"), N_("Sensor info"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x2600, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2601, "AFMode", N_("AF Mode"), N_("AF Mode"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAfMode)),
+        TagInfo(0x2601, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)),
         TagInfo(0x2602, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonId, makerTags, signedShort, -1, printValue),
         TagInfo(0x2603, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonId, makerTags, signedShort, -1, printValue),
         TagInfo(0x2604, "AFImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonId, makerTags, signedShort, -1, printValue),
