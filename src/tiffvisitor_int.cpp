@@ -463,53 +463,74 @@ namespace Exiv2 {
         }
     } // TiffMetadataDecoder::decodeIptc
 
+    static const TagInfo* find(const TagInfo* pList,uint16_t tag)
+    {
+        while ( pList->tag_ != 0xffff && pList->tag_ != tag ) pList++;
+        return  pList->tag_ != 0xffff  ? pList : NULL;
+    }
+
     void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
         // report Exif.Canon.AFInfo as usual
-        // == ExifKey key(object->tag(), groupName(object->group()));
-        //    key.setIdx(object->idx());
-        //    exifData_.add(key, object->pValue());
         TiffDecoder::decodeStdTiffEntry(object);
         if ( !object->pValue()->count() || object->pValue()->typeId() != unsignedShort ) return; // no data!
 
         // create vector of signedShorts from unsignedShorts in Exif.Canon.AFInfo
-        std::vector<int16_t> ints;
+        std::vector<int16_t>  ints;
+        std::vector<uint16_t> uint;
         for (int i = 0; i < object->pValue()->count(); i++) {
             ints.push_back((int16_t) object->pValue()->toLong(i));
+            uint.push_back((uint16_t) object->pValue()->toLong(i));
         }
         // Check this is AFInfo2 (ints[0] = bytes in object)
         if ( ints[0] != object->pValue()->count()*2 ) return ;
 
-        // Most of the data (keys names and sequence) is in CanonMakerNote::tagInfo_[]
-        // When we discover other instances of data of this style, further automation is likely
         std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
-        static const
-        std::string header[] =  { "AFInfoSize"     , "AFAreaMode"      , "AFNumPoints"     , "AFValidPoints"
-                                , "AFImageWidth"   , "AFImageHeight"   , "AFWidth"         , "AFHeight"
-                                };
-        static const
-        std::string points[] =  { "AFAreaWidths"   , "AFAreaHeights"   , "AFXPositions"    , "AFYPositions"  };
-        static const
-        std::string trails[] =  { "AFPointsInFocus", "AFPointsSelected", "AFPrimaryPoint"                    };
-
-        int16_t nPoints = ints[2];
+        const int16_t nPoints = ints[2];
+        const int16_t nMasks  = (nPoints+15)/(sizeof(uint16_t) * 8);
         int     nStart  = 0;
 
-        for ( size_t i = 0; i < EXV_COUNTOF(header) ; i++) {
-            exifData_[familyGroup + header[i]] = ints[nStart++];
-        }
+        struct {
+        	uint16_t tag  ;
+        	uint16_t size ;
+        	bool     bSigned ;
+        } records[] = {
+        	{ 0x2600 , 1       , true  }, // AFInfoSize
+        	{ 0x2601 , 1       , true  }, // AFAreaMode
+        	{ 0x2602 , 1       , true  }, // AFNumPoints
+        	{ 0x2603 , 1       , true  }, // AFValidPoints
+        	{ 0x2604 , 1       , true  }, // AFCanonImageWidth
+        	{ 0x2605 , 1       , true  }, // AFCanonImageHeight
+        	{ 0x2606 , 1       , true  }, // AFImageWidth"
+        	{ 0x2607 , 1       , true  }, // AFImageHeight
+        	{ 0x2608 , nPoints , true  }, // AFAreaWidths
+        	{ 0x2609 , nPoints , true  }, // AFAreaHeights
+        	{ 0x260a , nPoints , true  }, // AFXPositions
+        	{ 0x260b , nPoints , true  }, // AFYPositions
+        	{ 0x260c , nMasks  , false }, // AFPointsInFocus
+        	{ 0x260d , nMasks  , false }, // AFPointsSelected
+        	{ 0x260e , 1       , true  }, // AFPrimaryPoint
+            { 0xffff , 0       , true  }, // end marker
+        };
+        // check we have enough data!
+        uint16_t count = 0;
+        for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) count += records[i].size ;
+        if  ( count > ints.size() ) return ;
 
-        // create the nPoints arrays
-        for ( size_t i = 0 ; i < EXV_COUNTOF(points) ; i++ ) {
-            std::ostringstream   s;
-            for ( int16_t k = 0 ; k < nPoints ; k++ ) s << " " << ints[nStart++];
-            Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::signedShort);
-            v->read(s.str());
-            exifData_[familyGroup + points[i]] = *v;
-        }
+        for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) {
+        	const TagInfo* pTag = find(ExifTags::tagList("Canon"),records[i].tag);
+        	if ( pTag ) {
+                Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
+                std::ostringstream    s;
+                if ( records[i].bSigned ) {
+                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints[nStart++];
+                } else {
+                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint[nStart++];
+                }
 
-        for ( size_t i = 0; i < EXV_COUNTOF(trails); i++) {
-            exifData_[familyGroup + trails[i]] = ints[nStart++];
+                v->read(s.str());
+                exifData_[familyGroup + pTag->name_] = *v;
+            }
         }
     }
 
