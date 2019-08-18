@@ -486,32 +486,32 @@ namespace Exiv2 {
 
         std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
-        const int16_t nPoints = ints[2];
-        const int16_t nMasks  = (nPoints+15)/(sizeof(uint16_t) * 8);
-        int           nStart  = 0;
+        const uint16_t nPoints = uint[2];
+        const uint16_t nMasks  = (nPoints+15)/(sizeof(uint16_t) * 8);
+        int            nStart  = 0;
 
-        typedef struct {
-        	uint16_t tag    ;
-        	uint16_t size   ;
-        	bool     bSigned;
-        } DecodeCanonAFInfo ;
-        DecodeCanonAFInfo records[] = {
-        	{ 0x2600 , 1       , true  }, // AFInfoSize
-        	{ 0x2601 , 1       , true  }, // AFAreaMode
-        	{ 0x2602 , 1       , true  }, // AFNumPoints
-        	{ 0x2603 , 1       , true  }, // AFValidPoints
-        	{ 0x2604 , 1       , true  }, // AFCanonImageWidth
-        	{ 0x2605 , 1       , true  }, // AFCanonImageHeight
-        	{ 0x2606 , 1       , true  }, // AFImageWidth"
-        	{ 0x2607 , 1       , true  }, // AFImageHeight
-        	{ 0x2608 , nPoints , true  }, // AFAreaWidths
-        	{ 0x2609 , nPoints , true  }, // AFAreaHeights
-        	{ 0x260a , nPoints , true  }, // AFXPositions
-        	{ 0x260b , nPoints , true  }, // AFYPositions
-        	{ 0x260c , nMasks  , false }, // AFPointsInFocus
-        	{ 0x260d , nMasks  , false }, // AFPointsSelected
-        	{ 0x260e , nMasks  , false }, // AFPrimaryPoint
-            { 0xffff , 0       , true  }};// end marker
+        struct {
+            uint16_t tag    ;
+            uint16_t size   ;
+            bool     bSigned;
+        } records[] = {
+            { 0x2600 , 1       , true  }, // AFInfoSize
+            { 0x2601 , 1       , true  }, // AFAreaMode
+            { 0x2602 , 1       , true  }, // AFNumPoints
+            { 0x2603 , 1       , true  }, // AFValidPoints
+            { 0x2604 , 1       , true  }, // AFCanonImageWidth
+            { 0x2605 , 1       , true  }, // AFCanonImageHeight
+            { 0x2606 , 1       , true  }, // AFImageWidth"
+            { 0x2607 , 1       , true  }, // AFImageHeight
+            { 0x2608 , nPoints , true  }, // AFAreaWidths
+            { 0x2609 , nPoints , true  }, // AFAreaHeights
+            { 0x260a , nPoints , true  }, // AFXPositions
+            { 0x260b , nPoints , true  }, // AFYPositions
+            { 0x260c , nMasks  , false }, // AFPointsInFocus
+            { 0x260d , nMasks  , false }, // AFPointsSelected
+            { 0x260e , nMasks  , false }, // AFPrimaryPoint
+            { 0xffff , 0       , true  }  // end marker
+        };
         // check we have enough data!
         uint16_t count = 0;
         for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) count += records[i].size ;
@@ -519,8 +519,8 @@ namespace Exiv2 {
 
         for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) {
             const TagInfo* pTags = ExifTags::tagList("Canon") ;
-        	const TagInfo* pTag  = findTag(pTags,records[i].tag);
-        	if ( pTag ) {
+            const TagInfo* pTag  = findTag(pTags,records[i].tag);
+            if ( pTag ) {
                 Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
                 std::ostringstream    s;
                 if ( records[i].bSigned ) {
