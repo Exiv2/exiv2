@@ -463,7 +463,7 @@ namespace Exiv2 {
         }
     } // TiffMetadataDecoder::decodeIptc
 
-    static const TagInfo* find(const TagInfo* pList,uint16_t tag)
+    static const TagInfo* findTag(const TagInfo* pList,uint16_t tag)
     {
         while ( pList->tag_ != 0xffff && pList->tag_ != tag ) pList++;
         return  pList->tag_ != 0xffff  ? pList : NULL;
@@ -488,13 +488,14 @@ namespace Exiv2 {
 
         const int16_t nPoints = ints[2];
         const int16_t nMasks  = (nPoints+15)/(sizeof(uint16_t) * 8);
-        int     nStart  = 0;
+        int           nStart  = 0;
 
-        struct {
-        	uint16_t tag  ;
-        	uint16_t size ;
-        	bool     bSigned ;
-        } records[] = {
+        typedef struct {
+        	uint16_t tag    ;
+        	uint16_t size   ;
+        	bool     bSigned;
+        } DecodeCanonAFInfo ;
+        DecodeCanonAFInfo records[] = {
         	{ 0x2600 , 1       , true  }, // AFInfoSize
         	{ 0x2601 , 1       , true  }, // AFAreaMode
         	{ 0x2602 , 1       , true  }, // AFNumPoints
@@ -509,7 +510,7 @@ namespace Exiv2 {
         	{ 0x260b , nPoints , true  }, // AFYPositions
         	{ 0x260c , nMasks  , false }, // AFPointsInFocus
         	{ 0x260d , nMasks  , false }, // AFPointsSelected
-        	{ 0x260e , 1       , true  }, // AFPrimaryPoint
+        	{ 0x260e , nMasks  , false }, // AFPrimaryPoint
             { 0xffff , 0       , true  }, // end marker
         };
         // check we have enough data!
@@ -518,7 +519,8 @@ namespace Exiv2 {
         if  ( count > ints.size() ) return ;
 
         for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) {
-        	const TagInfo* pTag = find(ExifTags::tagList("Canon"),records[i].tag);
+            const TagInfo* pTags = ExifTags::tagList("Canon") ;
+        	const TagInfo* pTag  = findTag(pTags,records[i].tag);
         	if ( pTag ) {
                 Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
                 std::ostringstream    s;

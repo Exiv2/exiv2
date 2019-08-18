@@ -1944,7 +1944,7 @@ namespace Exiv2 {
         TagInfo(0xb002, "MPFImageList", N_("MPFImageList"),
                 N_("MPF Image List"),
                 mpfId, mpfTags, asciiString, 0, printValue),
-        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList	"),
+        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList  "),
                 N_("MPF Image UID List"),
                 mpfId, mpfTags, unsignedLong, 1, printValue),
         TagInfo(0xb004, "MPFTotalFrames", N_("MPFTotalFrames"),
@@ -2168,18 +2168,22 @@ namespace Exiv2 {
     {
         if (value.typeId() == Exiv2::unsignedShort || value.typeId() == Exiv2::signedShort)
         {
-            os << "bitmask:";
-            uint16_t bit = 0;
+            uint16_t bit   = 0;
+            uint16_t comma = 0;
             for (uint16_t i = 0; i < value.count(); i++ ) { // for each element in value array
                 uint16_t bits = (uint16_t) value.toLong(i);
-                os << " (" << bits << ")";
-                for (size_t b = 0; b < 16; ++b) { // for every bit
+                for (uint16_t b = 0; b < 16; ++b) { // for every bit
+                    if (bits & (1 << b)) {
+                        if ( comma++ ) {
+                            os << ",";
+                        }
+                        os << bit;
+                    }
                     bit++ ;
-                    if (bits & (1 << b)) { // is it set ?
-                        os << " " << bit;
-                     }
                 }
             }
+            // if no bits are set, print the values (array of zeros)
+            if ( !comma ) printValue(os,value,metadata);
         } else {
             printValue(os,value,metadata);
         }
