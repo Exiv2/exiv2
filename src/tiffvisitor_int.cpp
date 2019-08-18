@@ -511,8 +511,7 @@ namespace Exiv2 {
         	{ 0x260c , nMasks  , false }, // AFPointsInFocus
         	{ 0x260d , nMasks  , false }, // AFPointsSelected
         	{ 0x260e , nMasks  , false }, // AFPrimaryPoint
-            { 0xffff , 0       , true  }, // end marker
-        };
+            { 0xffff , 0       , true  }};// end marker
         // check we have enough data!
         uint16_t count = 0;
         for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) count += records[i].size ;
