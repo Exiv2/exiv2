@@ -441,6 +441,8 @@ namespace Exiv2 {
     std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifData*);
     //! Print a date following the format YYYY-MM-DDTHH:MM:SSZ
     std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*);
+    //! Print a mask
+    std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData*);
     //@}
 
     //! Calculate F number from an APEX aperture value

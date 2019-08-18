@@ -2164,6 +2164,28 @@ namespace Exiv2 {
         return os << value;
     }
 
+    std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.typeId() == Exiv2::unsignedShort || value.typeId() == Exiv2::signedShort)
+        {
+            os << "bitmask:";
+            uint16_t bit = 0;
+            for (uint16_t i = 0; i < value.count(); i++ ) { // for each element in value array
+                uint16_t bits = (uint16_t) value.toLong(i);
+                os << " (" << bits << ")";
+                for (size_t b = 0; b < 16; ++b) { // for every bit
+                    bit++ ;
+                    if (bits & (1 << b)) { // is it set ?
+                        os << " " << bit;
+                     }
+                }
+            }
+        } else {
+            printValue(os,value,metadata);
+        }
+        return os;
+    }
+
     float fnumber(float apertureValue)
     {
         return std::exp(std::log(2.0f) * apertureValue / 2.f);
