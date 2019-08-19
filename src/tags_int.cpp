@@ -2182,8 +2182,8 @@ namespace Exiv2 {
                     bit++ ;
                 }
             }
-            // if no bits are set, print the values (array of zeros)
-            if ( !comma ) printValue(os,value,metadata);
+            // if no bits are set, print "Zero"
+            if ( !comma ) os << N_("Zero");
         } else {
             printValue(os,value,metadata);
         }
