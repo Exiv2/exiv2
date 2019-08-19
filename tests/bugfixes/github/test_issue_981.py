@@ -29,7 +29,7 @@ Exif.Canon.AFXPositions                      SShort      9  -1127 -674 -674 0 0 
 Exif.Canon.AFYPositions                      SShort      9  0 321 -321 603 0 -603 321 -321 0
 Exif.Canon.AFPointsInFocus                   Short       1  4
 Exif.Canon.AFPointsSelected                  Short       1  8
-Exif.Canon.AFPrimaryPoint                    Short       1  0
+Exif.Canon.AFPrimaryPoint                    Short       1  Zero
 """ , """Exif.Canon.AFInfo                            Short     273  546 2 63 61 6720 4480 6720 4480 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 0 0 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 218 0 0 65200 64790 64435 64099 63764 336 0 65200 64099 63764 1772 1437 1101 746 336 0 1437 1101 746 336 0 65200 64790 64435 336 0 65200 64790 64435 64099 63764 1772 64790 64435 64099 63764 1772 1437 1101 746 63764 1772 1437 1101 746 336 0 65200 1101 746 336 0 65200 64790 64435 64099 336 0 65200 1772 1437 0 0 547 625 625 625 625 821 821 821 308 308 625 625 625 625 547 547 308 308 308 274 274 274 308 308 0 0 0 0 0 0 0 308 65228 65228 65228 65228 0 0 0 0 64911 65228 65228 65228 65228 65262 65262 65262 64911 64911 64989 64989 64989 64911 64911 64911 64715 64715 64715 64911 64911 0 0 0 512 0 0 0 512 0 0 0 0 0 0 65535
 Exif.Canon.AFInfoSize                        SShort      1  546
 Exif.Canon.AFAreaMode                        SShort      1  Single-point AF
@@ -45,7 +45,7 @@ Exif.Canon.AFXPositions                      SShort     63  -336 -746 -1101 -143
 Exif.Canon.AFYPositions                      SShort     63  547 625 625 625 625 821 821 821 308 308 625 625 625 625 547 547 308 308 308 274 274 274 308 308 0 0 0 0 0 0 0 308 -308 -308 -308 -308 0 0 0 0 -625 -308 -308 -308 -308 -274 -274 -274 -625 -625 -547 -547 -547 -625 -625 -625 -821 -821 -821 -625 -625 0 0
 Exif.Canon.AFPointsInFocus                   Short       4  25
 Exif.Canon.AFPointsSelected                  Short       4  25
-Exif.Canon.AFPrimaryPoint                    Short       4  0 0 0 0
+Exif.Canon.AFPrimaryPoint                    Short       4  Zero
 ""","""0x2602 Canon        AFNumPoints                 SShort      1  63
 0x2603 Canon        AFValidPoints               SShort      1  61
 0x260c Canon        AFPointsInFocus             Short       4  0 560 57344 0
@@ -60,7 +60,7 @@ Exif.Canon.AFPointsInFocus                   Short       4  20,21,25,45,46,47
 Exif.Canon.AFPointsSelected                  Short       4  19,20,21,24,25,26,45,46,47
 Exif.Canon.AFNumPoints                       SShort      1  63
 Exif.Canon.AFValidPoints                     SShort      1  61
-Exif.Canon.AFPointsInFocus                   SShort      1  0
+Exif.Canon.AFPointsInFocus                   SShort      1  Zero
 Exif.Canon.AFPointsSelected                  SShort      1  4,5,9
 """
     ]
