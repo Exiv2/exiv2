@@ -8,10 +8,12 @@ class CanonAfInfoTest(metaclass=CaseMeta):
     filenameB = path("$data_path/test_issue_981b.exv")
     filenameC = path("$data_path/test_issue_981c.exv")
     filenameC = path("$data_path/test_issue_981c.exv")
+    filenameD = path("$data_path/test_issue_981d.exv")
     commands  = ["$exiv2 -pa --grep Canon.AF $filenameA"
                 ,"$exiv2 -pa --grep Canon.AF $filenameB"
-                ,"$exiv2 -pv --grep Points $filenameC"
-                ,"$exiv2 -pt --grep Points $filenameC"
+                ,"$exiv2 -pv --grep Points   $filenameC"
+                ,"$exiv2 -pt --grep Points   $filenameC"
+                ,"$exiv2 -pt --grep Primary  $filenameD"
                 ]
 
     stdout = ["""Exif.Canon.AFInfo                            Short      48  96 2 9 9 4752 3168 4272 2848 115 115 115 162 200 162 115 115 115 153 153 153 105 199 105 153 153 153 64409 64862 64862 0 0 0 674 674 1127 0 321 65215 603 0 64933 321 65215 0 16 256 0 65535
@@ -62,7 +64,15 @@ Exif.Canon.AFNumPoints                       SShort      1  63
 Exif.Canon.AFValidPoints                     SShort      1  61
 Exif.Canon.AFPointsInFocus                   SShort      1  Zero
 Exif.Canon.AFPointsSelected                  SShort      1  4,5,9
+""","""Exif.Canon.AFNumPoints                       SShort      1  63
+Exif.Canon.AFValidPoints                     SShort      1  61
+Exif.Canon.AFPointsInFocus                   Short       4  20,21,25,45,46,47
+Exif.Canon.AFPointsSelected                  Short       4  19,20,21,24,25,26,45,46,47
+Exif.Canon.AFNumPoints                       SShort      1  63
+Exif.Canon.AFValidPoints                     SShort      1  61
+Exif.Canon.AFPointsInFocus                   SShort      1  Zero
+Exif.Canon.AFPointsSelected                  SShort      1  4,5,9
 """
     ]
-    stderr = ["","","",""]
-    retval = [0 , 0, 0,0 ]
+    stderr = ["","","","",""]
+    retval = [0 , 0, 0, 0, 0]
