@@ -2183,7 +2183,7 @@ namespace Exiv2 {
                 }
             }
             // if no bits are set, print "Zero"
-            if ( !comma ) os << N_("Zero");
+            if ( !comma ) os << N_("(none)");
         } else {
             printValue(os,value,metadata);
         }
