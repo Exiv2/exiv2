@@ -651,7 +651,23 @@ namespace Exiv2 {
             "Exif.Image.StripByteCounts",
             "Exif.Image.JPEGInterchangeFormat",
             "Exif.Image.JPEGInterchangeFormatLength",
-            "Exif.Image.SubIFDs"
+            "Exif.Image.SubIFDs",
+            // Issue 981.  Never allow manufactured data to be written
+            "Exif.Canon.AFInfoSize",
+            "Exif.Canon.AFAreaMode",
+            "Exif.Canon.AFNumPoints",
+            "Exif.Canon.AFValidPoints",
+            "Exif.Canon.AFCanonImageWidth",
+            "Exif.Canon.AFCanonImageHeight",
+            "Exif.Canon.AFImageWidth",
+            "Exif.Canon.AFImageHeight",
+            "Exif.Canon.AFAreaWidths",
+            "Exif.Canon.AFAreaHeights",
+            "Exif.Canon.AFXPositions",
+            "Exif.Canon.AFYPositions",
+            "Exif.Canon.AFPointsInFocus",
+            "Exif.Canon.AFPointsSelected",
+            "Exif.Canon.AFPrimaryPoint",
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
             ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
