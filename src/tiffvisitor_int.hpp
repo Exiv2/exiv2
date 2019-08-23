@@ -332,6 +332,8 @@ namespace Exiv2 {
         void decodeIptc(const TiffEntryBase* object);
         //! Decode XMP packet from an XMLPacket tag
         void decodeXmp(const TiffEntryBase* object);
+        //! Decode Exif.Canon.AFInfo
+        void decodeCanonAFInfo(const TiffEntryBase* object);
         //@}
 
     private:
