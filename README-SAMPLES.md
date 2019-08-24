@@ -482,7 +482,13 @@ Test conversions from string to long, float and Rational types.
 #### taglist
 
 ```
-Usage: taglist [--group name|Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|Panasonic|Pentax|Sigma|Sony|Iptc|dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc]
+$ taglist --help
+Usage: taglist [--help]
+           [--group name|
+            Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|
+            Panasonic|Pentax|Sigma|Sony|Iptc|
+            dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc|all|ALL
+           ]
 Print Exif tags, MakerNote tags, or Iptc datasets
 ```
 
@@ -494,7 +500,7 @@ The data from this program is formatted as HTML on the web-site.  https://exiv2.
 For example, to show the binary definition of Group `Nikon3`:
 
 ```
-1516 rmills@rmillsmbp:~/gnu/github/exiv2/0.27-maintenance $ taglist Nikon3
+$ taglist Nikon3
 Version,    1,  0x0001, Nikon3, Exif.Nikon3.Version,    Undefined,  Nikon Makernote version
 ISOSpeed,   2,  0x0002, Nikon3, Exif.Nikon3.ISOSpeed,   Short,  ISO speed setting
 ColorMode,  3,  0x0003, Nikon3, Exif.Nikon3.ColorMode,  Ascii,  Color mode
@@ -511,14 +517,51 @@ We can see those tags being used:
 
 ```
 $ exiv2 -pa --grep Nikon3 http://clanmills.com/Stonehenge.jpg
-1519 rmills@rmillsmbp:~/gnu/github/exiv2/0.27-maintenance $ exiv2 -pa --grep Nikon3 http://clanmills.com/Stonehenge.jpg
 Exif.Nikon3.Version                          Undefined   4  2.11
 Exif.Nikon3.ISOSpeed                         Short       2  200
-1520 rmills@rmillsmbp:~/gnu/github/exiv2/0.27-maintenance $
 ...
 ```
 
 This information is formatted (search Nikon (format 3) MakerNote Tags): [https://exiv2.org/tags-nikon.html](https://exiv2.org/tags-nikon.html)
+
+#### taglist all
+
+These options are provided to list every Exif tag known to Exiv2.  The option `all` prints Group.Name for every tag.  The option `ALL` print Group.Name followed by the TagInfo for that tag.  For example:
+
+```bash
+$ taglist all | grep ISOSpeed$
+Photo.ISOSpeed
+PanasonicRaw.ISOSpeed
+CanonCs.ISOSpeed
+CanonSi.ISOSpeed
+Casio2.ISOSpeed
+MinoltaCs5D.ISOSpeed
+MinoltaCs7D.ISOSpeed
+Nikon1.ISOSpeed
+Nikon2.ISOSpeed
+Nikon3.ISOSpeed
+Olympus.ISOSpeed
+Olympus2.ISOSpeed
+```
+
+```bash
+$ taglist ALL | grep ISOSpeed,
+Photo.ISOSpeed,	34867,	0x8833,	Photo,	Exif.Photo.ISOSpeed,	Long,	This tag indicates the ISO speed value of a camera or input device that is defined in ISO 12232. When recording this tag, the PhotographicSensitivity and SensitivityType tags shall also be recorded.
+PanasonicRaw.ISOSpeed,	23,	0x0017,	PanasonicRaw,	Exif.PanasonicRaw.ISOSpeed,	Short,	ISO speed setting
+CanonCs.ISOSpeed,	16,	0x0010,	CanonCs,	Exif.CanonCs.ISOSpeed,	SShort,	ISO speed setting
+CanonSi.ISOSpeed,	2,	0x0002,	CanonSi,	Exif.CanonSi.ISOSpeed,	Short,	ISO speed used
+Casio2.ISOSpeed,	20,	0x0014,	Casio2,	Exif.Casio2.ISOSpeed,	Short,	ISO Speed
+MinoltaCs5D.ISOSpeed,	38,	0x0026,	MinoltaCs5D,	Exif.MinoltaCs5D.ISOSpeed,	Short,	ISO speed setting
+MinoltaCs7D.ISOSpeed,	28,	0x001c,	MinoltaCs7D,	Exif.MinoltaCs7D.ISOSpeed,	Short,	ISO speed setting
+Nikon1.ISOSpeed,	2,	0x0002,	Nikon1,	Exif.Nikon1.ISOSpeed,	Short,	ISO speed setting
+Nikon2.ISOSpeed,	6,	0x0006,	Nikon2,	Exif.Nikon2.ISOSpeed,	Short,	ISO speed setting
+Nikon3.ISOSpeed,	2,	0x0002,	Nikon3,	Exif.Nikon3.ISOSpeed,	Short,	ISO speed setting
+Olympus.ISOSpeed,	4097,	0x1001,	Olympus,	Exif.Olympus.ISOSpeed,	SRational,	ISO speed value
+Olympus2.ISOSpeed,	4097,	0x1001,	Olympus,	Exif.Olympus.ISOSpeed,	SRational,	ISO speed value
+Sony1MltCs7D.ISOSpeed,	28,	0x001c,	MinoltaCs7D,	Exif.MinoltaCs7D.ISOSpeed,	Short,	ISO speed setting
+```
+
+
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
