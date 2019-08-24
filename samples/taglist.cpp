@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace Exiv2;
 
@@ -25,29 +26,6 @@ int main(int argc, char* argv[])
                 std::string item(argv[1]);
 
                 if (item == "Groups") {
-                   /*
-                    https://cgit.kde.org/digikam.git/tree/core/libs/dmetadata/metaengine_exif.cpp#n1077
-                    const Exiv2::GroupInfo* gi = Exiv2::ExifTags::groupList();
-
-                    while (gi->tagList_ != 0)
-                    {
-                       // NOTE: See BUG #375809 : MPF tags = exception Exiv2 0.26
-
-                       if (QLatin1String(gi->ifdName_) != QLatin1String("Makernote"))
-                       {
-                           Exiv2::TagListFct tl     = gi->tagList_;
-                           const Exiv2::TagInfo* ti = tl();
-
-                           while (ti->tag_ != 0xFFFF)
-                           {
-                               tags << ti;
-                               ++ti;
-                           }
-                       }
-
-                       ++gi;
-                    }
-                   */
                     const GroupInfo* groupList = ExifTags::groupList();
                     if (groupList) {
                         while (groupList->tagList_) {
@@ -57,6 +35,26 @@ int main(int argc, char* argv[])
                     }
                     break;
                 }
+
+                if (item == "all" || item == "ALL" ) {
+                    const GroupInfo* groupList = ExifTags::groupList();
+                    if (groupList) {
+                        while (groupList->tagList_) {
+                            std::ostringstream tags;
+                            ExifTags::taglist(tags,groupList->groupName_);
+                            // https://en.cppreference.com/w/cpp/string/basic_string/getline
+                            std::istringstream input(tags.str()) ;
+                            for (std::string line,comma(","); std::getline(input, line); ) {
+                                std::cout << groupList->groupName_ << "."
+                                          << (item == "all" ? line.substr(0,line.find(comma)) : line)
+                                          << std::endl;
+                            }
+                            groupList++;
+                        }
+                    }
+                    break;
+                }
+
 
                 if (item == "Exif") {
                     ExifTags::taglist(std::cout);
@@ -128,7 +126,7 @@ int main(int argc, char* argv[])
                       << " [--group "
                          "name|Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|"
                          "Panasonic|Pentax|Sigma|Sony|Iptc"
-                      << "|dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc]\n"
+                      << "|dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc|all|ALL]\n"
                       << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
         }
         return rc;
