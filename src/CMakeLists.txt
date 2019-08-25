@@ -276,8 +276,13 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
     install( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 
+<<<<<<< HEAD
     if (MSVC)
         set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099")
     endif()
 endif()
 
+=======
+# That's all Folks!
+##
+>>>>>>> 4cf040ac4... Install man page from man/man1/exiv2.1
