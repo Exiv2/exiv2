@@ -281,9 +281,5 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
-# ******************************************************************************
-# Man page
-install( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
 # That's all Folks!
 ##
