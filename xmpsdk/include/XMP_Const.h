@@ -11,11 +11,8 @@
 
 #include "XMP_Environment.h"
 
-   #include <stddef.h>
-
-#if XMP_MacBuild	// ! No stdint.h on Windows and some UNIXes.
-    #include <stdint.h>
-#endif
+#include <stddef.h>
+#include <stdint.h>
 
 #if __cplusplus
 extern "C" {
@@ -34,31 +31,15 @@ extern "C" {
 // case only the declarations of the XMP_... types needs to change, not all of the uses. These
 // types are used where fixed sizes are required in order to have a known ABI for a DLL build.
 
-#if XMP_MacBuild
+typedef int8_t XMP_Int8;
+typedef int16_t XMP_Int16;
+typedef int32_t XMP_Int32;
+typedef int64_t XMP_Int64;
 
-    typedef int8_t   XMP_Int8;
-    typedef int16_t  XMP_Int16;
-    typedef int32_t  XMP_Int32;
-    typedef int64_t  XMP_Int64;
-
-    typedef uint8_t  XMP_Uns8;
-    typedef uint16_t XMP_Uns16;
-    typedef uint32_t XMP_Uns32;
-    typedef uint64_t XMP_Uns64;
-
-#else
-
-    typedef signed char XMP_Int8;
-    typedef signed short XMP_Int16;
-    typedef signed long XMP_Int32;
-    typedef signed long long XMP_Int64;
-
-    typedef unsigned char XMP_Uns8;
-    typedef unsigned short XMP_Uns16;
-    typedef unsigned long XMP_Uns32;
-    typedef unsigned long long XMP_Uns64;
-
-#endif
+typedef uint8_t XMP_Uns8;
+typedef uint16_t XMP_Uns16;
+typedef uint32_t XMP_Uns32;
+typedef uint64_t XMP_Uns64;
 
 typedef XMP_Uns8 XMP_Bool;
 
