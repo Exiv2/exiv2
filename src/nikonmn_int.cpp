@@ -2537,6 +2537,8 @@ fmountlens[] = {
 //  https://github.com/Exiv2/exiv2/issues/598 , https://github.com/Exiv2/exiv2/pull/891
 {0xCF,0x47,0x5C,0x8E,0x31,0x3D,0xDF,0x0E,0x00,0x00,0x00, "Tamron", "A030", "SP 70-300mm F/4-5.6 Di VC USD"},
 //
+{0xf4,0x4c,0x7c,0x7c,0x2c,0x2c,0x4b,0x02,0x00,0x00,0x00, "Sigma", "", "APO MACRO 180mm F3.5 EX DG"},
+//
 {0,0,0,0,0,0,0,0,0,0,0, NULL, NULL, NULL}
 };
 //------------------------------------------------------------------------------
