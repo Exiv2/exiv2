@@ -46,14 +46,14 @@ int main(int argc, char* argv[])
                 if (item == "all" || item == "ALL" ) {
                     const GroupInfo* groupList = ExifTags::groupList();
                     if (groupList) {
+                        std::string line;
                         while (groupList->tagList_) {
                             std::ostringstream tags;
                             ExifTags::taglist(tags,groupList->groupName_);
-                            // https://en.cppreference.com/w/cpp/string/basic_string/getline
                             std::istringstream input(tags.str()) ;
-                            for (std::string line,comma(","); std::getline(input, line); ) {
+                            while (std::getline(input, line)) {
                                 std::cout << groupList->groupName_ << "."
-                                          << (item == "all" ? line.substr(0,line.find(comma)) : line)
+                                          << (item == "all" ? line.substr(0,line.find(",")) : line)
                                           << std::endl;
                             }
                             groupList++;
