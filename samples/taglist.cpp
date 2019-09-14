@@ -18,7 +18,7 @@ using namespace Exiv2;
 
 int main(int argc, char* argv[])
 {
-    int rc = 0;
+    int rc = EXIT_SUCCESS;
     std::ostringstream out;
     try {
         bool bHelp     = false;
@@ -94,12 +94,12 @@ int main(int argc, char* argv[])
             case 3: {
                 std::string item(argv[1]);
                 std::string name(argv[2]);
-                rc = 1;  // assume unhappy ending!
+                rc = EXIT_FAILURE;  // assume unhappy ending!
 
                 if (item == "--group") {
                     if ( ExifTags::isExifGroup(name) ) {
                         ExifTags::taglist(std::cout,name);
-                        rc = 0;  // result is good
+                        rc = EXIT_SUCCESS;  // result is good
                     } else {
                         std::cerr << "warning:"
                                   << name
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
                                         std::cout << tagInfo->name_ << std::endl;
                                         tagInfo++;
                                     }
-                                    rc = 0;  // result is good
+                                    rc = EXIT_SUCCESS;  // result is good
                                 }
                                 groupList++;
                             }
@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
             } break;
 
             default:
-                rc = 1;
+                rc = EXIT_FAILURE;
             break;
         }
 
@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
         }
     } catch (AnyError& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
-        rc = 1 ;
+        rc = EXIT_FAILURE ;
     }
     return rc;
 }
