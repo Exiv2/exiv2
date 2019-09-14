@@ -58,6 +58,8 @@
 # include <curl/curl.h>
 #endif
 
+#define mode_t unsigned short
+
 // Platform specific headers for handling extended attributes (xattr)
 #if defined(__APPLE__)
 # include <sys/xattr.h>
