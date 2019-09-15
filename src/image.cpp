@@ -30,6 +30,7 @@
 #include "futils.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
+#include "unused.h"
 
 #include "cr2image.hpp"
 #include "crwimage.hpp"
@@ -833,12 +834,6 @@ namespace Exiv2 {
     {
         Protocol fProt = fileProtocol(path);
 
-#ifdef EXV_USE_SSH
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::UniquePtr(new SshIo(path)); // may throw
-        }
-#endif
-
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(path)); // may throw
@@ -861,15 +856,13 @@ namespace Exiv2 {
     BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
     {
         Protocol fProt = fileProtocol(wpath);
-#if EXV_USE_SSH == 1
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::UniquePtr(new SshIo(wpath));
-        }
-#endif
-#if EXV_USE_CURL == 1
+
+#ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(wpath));
         }
+#else
+        UNUSED(useCurl);
 #endif
         if (fProt == pHttp)
             return BasicIo::UniquePtr(new HttpIo(wpath));
