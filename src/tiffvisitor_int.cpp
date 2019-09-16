@@ -521,7 +521,7 @@ namespace Exiv2 {
             const TagInfo* pTags = ExifTags::tagList("Canon") ;
             const TagInfo* pTag  = findTag(pTags,records[i].tag);
             if ( pTag ) {
-                Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
+                auto v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
                 std::ostringstream    s;
                 if ( records[i].bSigned ) {
                     for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
