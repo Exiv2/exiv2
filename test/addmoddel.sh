@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver to run the addmoddel sample program
 source ./functions.source
 

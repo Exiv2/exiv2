@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Mini test-driver for path utility functions
 source ./functions.source
 
