@@ -1896,7 +1896,7 @@ namespace Exiv2 {
             return EOF;
         }
 
-        size_t expectedBlock = (p_->idx_ + 1)/p_->blockSize_;
+        size_t expectedBlock = p_->idx_/p_->blockSize_;
         // connect to the remote machine & populate the blocks just in time.
         p_->populateBlocks(expectedBlock, expectedBlock);
 
