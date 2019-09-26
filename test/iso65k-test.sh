@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # test for ISOs which follow Annex G of EXIF 2.3 spec, i.e. ISOs,
 # which cannot be represented by Exif.Photo.ISOSpeedRatings due to
 # being larger than 65k
