@@ -38,6 +38,7 @@
 #include <iomanip>
 #include <cassert>
 #include <cstring>
+#include <math.h>
 
 // *****************************************************************************
 // class member definitions
@@ -281,7 +282,347 @@ namespace Exiv2 {
         { 65535, N_("n/a")                      }
     };
 
-    //! Lookup table to translate Sony sequence number values to readable labels
+	//! Lookup table to translate Sony releasemode2 values to readable labels
+	extern const TagDetails sonyReleaseMode2[] = {
+		{0, N_("Normal") },
+		{1, N_("Continuous") },
+		{2, N_("Continuous - Exposure Bracketing") },
+		{3, N_("DRO or White Balance Bracketing") },
+		{5, N_("Continuous - Burst") },
+		{6, N_("Single Frame - Capture During Movie") },
+		{7, N_("Continuous - Sweep Panorama") },
+		{8, N_("Continuous - Anti-Motion Blur, Hand-held Twilight") },
+		{9, N_("Continuous - HDR") },
+		{10, N_("Continuous - Background defocus") },
+		{13, N_("Continuous - 3D Sweep Panorama") },
+		{15, N_("Continuous - High Resolution Sweep Panorama") },
+		{16, N_("Continuous - 3D Image") },
+		{17, N_("Continuous - Burst 2") },
+		{19, N_("Continuous - Speed/Advance Priority") },
+		{20, N_("Continuous - Multi Frame NR") },
+		{23, N_("Single-frame - Exposure Bracketing") },
+		{26, N_("Continuous Low") },
+		{27, N_("Continuous - High Sensitivity") },
+		{28, N_("Smile Shutter") },
+		{29, N_("Continuous - Tele-zoom Advance Priority") },
+		{146, N_("Single Frame - Movie Capture") }
+	};
+
+	//! Lookup table to translate Sony DynamicRangeOptimizer values to readable labels
+	extern const TagDetails sonyDynamicRangeOptimizer[] = {
+		{0, N_("Off") },
+		{1, N_("Auto") },
+		{3, N_("Lv1") },
+		{4, N_("Lv2") },
+		{5, N_("Lv3") },
+		{6, N_("Lv4") },
+		{7, N_("Lv5") },
+		{8, N_("n/a") }
+	};
+
+	//! Lookup table to translate Sony release mode3 values to readable labels
+	extern const TagDetails sonyReleaseMode3[] = {
+		{0, N_("Normal") },
+		{1, N_("Continuous") },
+		{2, N_("Bracketing") },
+		{4, N_("Continuous - Burst") },
+		{5, N_("Continuous - Speed/Advance Priority") },
+		{6, N_("Normal - Self-timer") },
+		{9, N_("Single Burst Shooting") }
+	};
+
+	//! Lookup table to translate Sony SelfTimer values to readable labels
+	extern const TagDetails sonySelfTimer[] = {
+		{0, N_("Off") },
+		{1, N_("Self-timer 10 s") },
+		{2, N_("Self-timer 2 s") }
+	};
+
+	//! Lookup table to translate Sony FlashMode values to readable labels
+	extern const TagDetails sonyFlashMode2010[] = {
+		{0, N_("Autoflash") },
+		{1, N_("Fill-flash") },
+		{2, N_("Flash Off") },
+		{3, N_("Slow Sync") },
+		{4, N_("Rear Sync") },
+		{6, N_("Wireless") }
+	};
+
+	//! Lookup table to translate Sony HDRSetting values to readable labels
+	extern const TagDetails sonyHDRSetting[] = {
+		{0, N_("Off") },
+		{1, N_("HDR Auto") },
+		{3, N_("HDR 1 EV") },
+		{5, N_("HDR 2 EV") },
+		{7, N_("HDR 3 EV") },
+		{9, N_("HDR 4 EV") },
+		{11, N_("HDR 5 EV") },
+		{13, N_("HDR 6 EV") }
+	};
+
+	//! Lookup table to translate Sony PictureProfile values to readable labels
+	extern const TagDetails sonyPictureProfile[] = {
+		{0, N_("Gamma Still - Standard/Neutral (PP2)") },
+		{1, N_("Gamma Still - Portrait") },
+		{4, N_("Gamma Still - B&W/Sepia") },
+		{5, N_("Gamma Still - Clear") },
+		{6, N_("Gamma Still - Deep") },
+		{7, N_("Gamma Still - Light") },
+		{8, N_("Gamma Still - Vivid") },
+		{9, N_("Gamma Still - Real") },
+		{10, N_("Gamma Movie (PP1)") },
+		{22, N_("Gamma ITU709 (PP3 or PP4)") },
+		{24, N_("Gamma Cine1 (PP5)") },
+		{25, N_("Gamma Cine2 (PP6)") },
+		{26, N_("Gamma Cine3") },
+		{27, N_("Gamma Cine4") },
+		{28, N_("Gamma S-Log2 (PP7)") },
+		{29, N_("Gamma ITU709 (800%)") },
+		{31, N_("Gamma S-Log3 (PP8 or PP9)") },
+		{33, N_("Gamma HLG2 (PP10)") }
+	};
+
+	//! Lookup table to translate Sony PictureEffect2 values to readable labels
+	extern const TagDetails sonyPictureEffect2[] = {
+		{0, N_("Off") },
+		{1, N_("Toy Camera") },
+		{2, N_("Pop Color") },
+		{3, N_("Posterization") },
+		{4, N_("Retro Photo") },
+		{5, N_("Soft High Key") },
+		{6, N_("Partial Color") },
+		{7, N_("High Contrast Monochrome") },
+		{8, N_("Soft Focus") },
+		{9, N_("HDR Painting") },
+		{10, N_("Rich-tone Monochrome") },
+		{11, N_("Miniature") },
+		{12, N_("Water Color") },
+		{13, N_("Illustration") }
+	};
+
+	//! Lookup table to translate Sony Quality2 values to readable labels
+	extern const TagDetails sonyQuality2[] = {
+		{0, N_("JPEG") },
+		{1, N_("RAW") },
+		{2, N_("RAW + JPEG") }
+	};
+
+	//! Lookup table to translate Sony MeteringMode values to readable labels
+	extern const TagDetails sonyMeteringMode2010[] = {
+		{0, N_("Multi-segment") },
+		{2, N_("Center-weighted average") },
+		{3, N_("Spot") },
+		{4, N_("Average") },
+		{5, N_("Highlight") }
+	};
+
+	//! Lookup table to translate Sony ExposureProgram values to readable labels
+	extern const TagDetails sonyExposureProgram2010[] = {
+		{0, N_("Program AE") },
+		{1, N_("Aperture-priority AE") },
+		{2, N_("Shutter speed priority AE") },
+		{3, N_("Manual") },
+		{4, N_("Auto") },
+		{5, N_("iAuto") },
+		{6, N_("Superior Auto") },
+		{7, N_("iAuto+") },
+		{8, N_("Portrait") },
+		{9, N_("Landscape") },
+		{10, N_("Twilight") },
+		{11, N_("Twilight Portrait") },
+		{12, N_("Sunset") },
+		{14, N_("Action (High speed)") },
+		{16, N_("Sports") },
+		{17, N_("Handheld Night Shot") },
+		{18, N_("Anti Motion Blur") },
+		{19, N_("High Sensitivity") },
+		{21, N_("Beach") },
+		{22, N_("Snow") },
+		{23, N_("Fireworks") },
+		{26, N_("Underwater") },
+		{27, N_("Gourmet") },
+		{28, N_("Pet") },
+		{29, N_("Macro") },
+		{30, N_("Backlight Correction HDR") },
+		{33, N_("Sweep Panorama") },
+		{36, N_("Background Defocus") },
+		{37, N_("Soft Skin") },
+		{42, N_("3D Image") },
+		{43, N_("Cont. Priority AE") },
+		{45, N_("Document") },
+		{46, N_("Party") }
+	};
+
+	//! Lookup table to translate Sony LensFormat values to readable labels
+	extern const TagDetails sonyLensFormat[] = {
+		{0, N_("Unknown") },
+		{1, N_("APS-C") },
+		{2, N_("Full-frame") }
+	};
+
+	//! Lookup table to translate Sony LensMount values to readable labels
+	extern const TagDetails sonyLensMount[] = {
+		{0, N_("Unknown") },
+		{1, N_("A-mount") },
+		{2, N_("E-mount") }
+	};
+
+	extern const TagDetails sonyLensType2[] = {
+			{    0, "Unknown E-mount lens or other lens"                        },
+			{    0, "Sigma 19mm F2.8 [EX] DN"                                   }, // 1
+			{    0, "Sigma 30mm F2.8 [EX] DN"                                   }, // 2
+			{    0, "Sigma 60mm F2.8 DN"                                        }, // 3
+			{    0, "Sony E 18-200mm F3.5-6.3 OSS LE"                           }, // 4
+			{    0, "Tamron 18-200mm F3.5-6.3 Di III VC"                        }, // 5
+			{    0, "Tokina FiRIN 20mm F2 FE AF"                                }, // 6
+			{    0, "Tokina FiRIN 20mm F2 FE MF"                                }, // 7
+			{    0, "Zeiss Touit 12mm F2.8"                                     }, // 8
+			{    0, "Zeiss Touit 32mm F1.8"                                     }, // 9
+			{    0, "Zeiss Touit 50mm F2.8 Macro"                               }, // 10
+			{    0, "Zeiss Loxia 50mm F2"                                       }, // 11
+			{    0, "Zeiss Loxia 35mm F2"                                       }, // 12
+			{    1, "Sony LA-EA1 or Sigma MC-11 Adapter"                        },
+			{    2, "Sony LA-EA2 Adapter"                                       },
+			{    3, "Sony LA-EA3 Adapter"                                       },
+			{    6, "Sony LA-EA4 Adapter"                                       },
+			{   44, "Metabones Canon EF Smart Adapter"                          },
+			{   78, "Metabones Canon EF Smart Adapter Mark III or Other Adapter"},
+			{  184, "Metabones Canon EF Speed Booster Ultra"                    },
+			{  234, "Metabones Canon EF Smart Adapter Mark IV"                  },
+			{  239, "Metabones Canon EF Speed Booster"                          },
+			{32784, "Sony E 16mm F2.8"                                          },
+			{32785, "Sony E 18-55mm F3.5-5.6 OSS"                               },
+			{32786, "Sony E 55-210mm F4.5-6.3 OSS"                              },
+			{32787, "Sony E 18-200mm F3.5-6.3 OSS"                              },
+			{32788, "Sony E 30mm F3.5 Macro"                                    },
+			{32789, "Sony E 24mm F1.8 ZA or Samyang AF 50mm F1.4"               },
+			{32789, "Samyang AF 50mm F1.4"                                      }, // 1
+			{32790, "Sony E 50mm F1.8 OSS or Samyang AF 14mm F2.8"              },
+			{32790, "Samyang AF 14mm F2.8"                                      }, // 1
+			{32791, "Sony E 16-70mm F4 ZA OSS"                                  },
+			{32792, "Sony E 10-18mm F4 OSS"                                     },
+			{32793, "Sony E PZ 16-50mm F3.5-5.6 OSS"                            },
+			{32794, "Sony FE 35mm F2.8 ZA or Samyang Lens"                      },
+			{32794, "Samyang AF 24mm F2.8"                                      }, // 1
+			{32794, "Samyang AF 35mm F2.8"                                      }, // 2
+			{32795, "Sony FE 24-70mm F4 ZA OSS"                                 },
+			{32796, "Sony FE 85mm F1.8 or Viltrox PFU RBMH 85mm F1.8"           },
+			{32796, "Viltrox PFU RBMH 85mm F1.8"                                }, // 1
+			{32797, "Sony E 18-200mm F3.5-6.3 OSS LE"                           },
+			{32798, "Sony E 20mm F2.8"                                          },
+			{32799, "Sony E 35mm F1.8 OSS"                                      },
+			{32800, "Sony E PZ 18-105mm F4 G OSS"                               },
+			{32801, "Sony FE 12-24mm F4 G"                                      },
+			{32802, "Sony FE 90mm F2.8 Macro G OSS"                             },
+			{32803, "Sony E 18-50mm F4-5.6"                                     },
+			{32804, "Sony FE 24mm F1.4 GM"                                      },
+			{32805, "Sony FE 24-105mm F4 G OSS"                                 },
+			{32807, "Sony E PZ 18-200mm F3.5-6.3 OSS"                           },
+			{32808, "Sony FE 55mm F1.8 ZA"                                      },
+			{32810, "Sony FE 70-200mm F4 G OSS"                                 },
+			{32811, "Sony FE 16-35mm F4 ZA OSS"                                 },
+			{32812, "Sony FE 50mm F2.8 Macro"                                   },
+			{32813, "Sony FE 28-70mm F3.5-5.6 OSS"                              },
+			{32814, "Sony FE 35mm F1.4 ZA"                                      },
+			{32815, "Sony FE 24-240mm F3.5-6.3 OSS"                             },
+			{32816, "Sony FE 28mm F2"                                           },
+			{32817, "Sony FE PZ 28-135mm F4 G OSS"                              },
+			{32819, "Sony FE 100mm F2.8 STF GM OSS"                             },
+			{32820, "Sony E PZ 18-110mm F4 G OSS"                               },
+			{32821, "Sony FE 24-70mm F2.8 GM"                                   },
+			{32822, "Sony FE 50mm F1.4 ZA"                                      },
+			{32823, "Sony FE 85mm F1.4 GM or Samyang AF 85mm F1.4"              },
+			{32823, "Samyang AF 85mm F1.4"                                      }, // 1
+			{32824, "Sony FE 50mm F1.8"                                         },
+			{32826, "Sony FE 21mm F2.8 (SEL28F20 + SEL075UWC)"                  },
+			{32827, "Sony FE 16mm F3.5 Fisheye (SEL28F20 + SEL057FEC)"          },
+			{32828, "Sony FE 70-300mm F4.5-5.6 G OSS"                           },
+			{32829, "Sony FE 100-400mm F4.5-5.6 GM OSS"                         },
+			{32830, "Sony FE 70-200mm F2.8 GM OSS"                              },
+			{32831, "Sony FE 16-35mm F2.8 GM"                                   },
+			{32848, "Sony FE 400mm F2.8 GM OSS"                                 },
+			{32849, "Sony E 18-135mm F3.5-5.6 OSS"                              },
+			{32850, "Sony FE 135mm F1.8 GM"                                     },
+			{32851, "Sony FE 200-600mm F5.6-6.3 G OSS"                          },
+			{32852, "Sony FE 600mm F4 GM OSS"                                   },
+			{32853, "Sony E 16-55mm F2.8 G"                                     },
+			{32854, "Sony E 70-350mm F4.5-6.3 G OSS"                            },
+			{32858, "Sony FE 35mm F1.8"                                         },
+			{33072, "Sony FE 70-200mm F2.8 GM OSS + 1.4X Teleconverter"         },
+			{33073, "Sony FE 70-200mm F2.8 GM OSS + 2X Teleconverter"           },
+			{33076, "Sony FE 100mm F2.8 STF GM OSS (macro mode)"                },
+			{33077, "Sony FE 100-400mm F4.5-5.6 GM OSS + 1.4X Teleconverter"    },
+			{33078, "Sony FE 100-400mm F4.5-5.6 GM OSS + 2X Teleconverter"      },
+			{33079, "Sony FE 400mm F2.8 GM OSS + 1.4X Teleconverter"            },
+			{33080, "Sony FE 400mm F2.8 GM OSS + 2X Teleconverter"              },
+			{33081, "Sony FE 200-600mm F5.6-6.3 G OSS + 1.4X Teleconverter"     },
+			{33082, "Sony FE 200-600mm F5.6-6.3 G OSS + 2X Teleconverter"       },
+			{33083, "Sony FE 600mm F4 GM OSS + 1.4X Teleconverter"              },
+			{33084, "Sony FE 600mm F4 GM OSS + 2X Teleconverter"                },
+			{49201, "Zeiss Touit 12mm F2.8"                                     },
+			{49202, "Zeiss Touit 32mm F1.8"                                     },
+			{49203, "Zeiss Touit 50mm F2.8 Macro"                               },
+			{49216, "Zeiss Batis 25mm F2"                                       },
+			{49217, "Zeiss Batis 85mm F1.8"                                     },
+			{49218, "Zeiss Batis 18mm F2.8"                                     },
+			{49219, "Zeiss Batis 135mm F2.8"                                    },
+			{49220, "Zeiss Batis 40mm F2 CF"                                    },
+			{49232, "Zeiss Loxia 50mm F2"                                       },
+			{49233, "Zeiss Loxia 35mm F2"                                       },
+			{49234, "Zeiss Loxia 21mm F2.8"                                     },
+			{49235, "Zeiss Loxia 85mm F2.4"                                     },
+			{49236, "Zeiss Loxia 25mm F2.4"                                     },
+			{49457, "Tamron 28-75mm F2.8 Di III RXD"                            },
+			{49458, "Tamron 17-28mm F2.8 Di III RXD"                            },
+			{49712, "Tokina FiRIN 20mm F2 FE AF"                                },
+			{49713, "Tokina FiRIN 100mm F2.8 FE MACRO"                          },
+			{50480, "Sigma 30mm F1.4 DC DN | C"                                 },
+			{50481, "Sigma 50mm F1.4 DG HSM | A"                                },
+			{50482, "Sigma 18-300mm F3.5-6.3 DC MACRO OS HSM | C + MC-11"       },
+			{50483, "Sigma 18-35mm F1.8 DC HSM | A + MC-11"                     },
+			{50484, "Sigma 24-35mm F2 DG HSM | A + MC-11"                       },
+			{50485, "Sigma 24mm F1.4 DG HSM | A + MC-11"                        },
+			{50486, "Sigma 150-600mm F5-6.3 DG OS HSM | C + MC-11"              },
+			{50487, "Sigma 20mm F1.4 DG HSM | A + MC-11"                        },
+			{50488, "Sigma 35mm F1.4 DG HSM | A"                                },
+			{50489, "Sigma 150-600mm F5-6.3 DG OS HSM | S + MC-11"              },
+			{50490, "Sigma 120-300mm F2.8 DG OS HSM | S + MC-11"                },
+			{50492, "Sigma 24-105mm F4 DG OS HSM | A + MC-11"                   },
+			{50493, "Sigma 17-70mm F2.8-4 DC MACRO OS HSM | C + MC-11"          },
+			{50495, "Sigma 50-100mm F1.8 DC HSM | A + MC-11"                    },
+			{50499, "Sigma 85mm F1.4 DG HSM | A"                                },
+			{50501, "Sigma 100-400mm F5-6.3 DG OS HSM | C + MC-11"              },
+			{50503, "Sigma 16mm F1.4 DC DN | C"                                 },
+			{50507, "Sigma 105mm F1.4 DG HSM | A"                               },
+			{50508, "Sigma 56mm F1.4 DC DN | C"                                 },
+			{50512, "Sigma 70-200mm F2.8 DG OS HSM | S + MC-11"                 },
+			{50513, "Sigma 70mm F2.8 DG MACRO | A"                              },
+			{50514, "Sigma 45mm F2.8 DG DN | C"                                 },
+			{50515, "Sigma 35mm F1.2 DG DN | A"                                 },
+			{50516, "Sigma 14-24mm F2.8 DG DN | A"                              },
+			{50992, "Voigtlander SUPER WIDE-HELIAR 15mm F4.5 III"               },
+			{50993, "Voigtlander HELIAR-HYPER WIDE 10mm F5.6"                   },
+			{50994, "Voigtlander ULTRA WIDE-HELIAR 12mm F5.6 III"               },
+			{50995, "Voigtlander MACRO APO-LANTHAR 65mm F2 Aspherical"          },
+			{50996, "Voigtlander NOKTON 40mm F1.2 Aspherical"                   },
+			{50997, "Voigtlander NOKTON classic 35mm F1.4"                      },
+			{50998, "Voigtlander MACRO APO-LANTHAR 110mm F2.5"                  },
+			{50999, "Voigtlander COLOR-SKOPAR 21mm F3.5 Aspherical"             },
+			{51000, "Voigtlander NOKTON 50mm F1.2 Aspherical"                   },
+			{51001, "Voigtlander NOKTON 21mm F1.4 Aspherical"                   },
+			{51504, "Samyang AF 50mm F1.4"                                      },
+			{51505, "Samyang AF 14mm F2.8 or Samyang AF 35mm F2.8"              },
+			{51505, "Samyang AF 35mm F2.8"                                      }, // 1
+			{51507, "Samyang AF 35mm F1.4"                                      }
+	};
+
+	//! Lookup table to translate Sony DistortionCorrParamsPresent values to readable labels
+	extern const TagDetails sonyDistortionCorrParamsPresent[] = {
+		{0, N_("No") },
+		{ 1, N_("Yes") }
+	};
+
+	//! Lookup table to translate Sony sequence number values to readable labels
     extern const TagDetails sonySequenceNumber[] = {
         { 0,     N_("Single")                    },
         { 65535, N_("n/a")                       }
@@ -811,43 +1152,78 @@ namespace Exiv2 {
         return tagInfoFp_;
     }
 
-	//! Sony Tag 2010 Sony2010 (Miscellaneous)
+	std::ostream& printValuePlusOne(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << (value.toLong() + 1);
+	}
+
+	std::ostream& printValueBy16(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << (value.toFloat()/16);
+	}
+
+	std::ostream& printStopsAboveBaseISO(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << static_cast<long>(16 - ((value.toFloat()/256)));
+	}
+
+	std::ostream& printBrightness(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << static_cast<long>((value.toFloat() / 256) - 56.6);
+	}
+
+	std::ostream& printExposureCompensation(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << static_cast<long>(-(value.toFloat() / 256));
+	}
+
+	std::ostream& printSonyISO(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << static_cast<long>(100 * pow((16 - (value.toFloat() / 256)), 2));
+	}
+
+	std::ostream& printValueBy10(std::ostream& os, const Value& value, const ExifData*)
+	{
+		return os << static_cast<long>(value.toFloat() / 10);
+	}
+
+	//! Sony Tag 2010e Sony2010e (Miscellaneous)
 	const TagInfo SonyMakerNote::tagInfo2010e_[] = {
-		TagInfo(0, "SequenceImageNumber", N_("Sequence Image Number"), N_("Sequence Image Number"), sony2010eId, makerTags, unsignedLong, 1, printValue),
-		TagInfo(4, "SequenceFileNumber", N_("SequenceFileNumber"), N_("SequenceFileNumber"), sony2010eId, makerTags, unsignedLong, 1, printValue),
-		TagInfo(8, "ReleaseMode2", N_("ReleaseMode2"), N_("ReleaseMode2"), sony2010eId, makerTags, unsignedLong, 1, printValue),
-		TagInfo(540, "DigitalZoomRatio", N_("DigitalZoomRatio"), N_("DigitalZoomRatio"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+		TagInfo(0, "SequenceImageNumber", N_("Sequence Image Number"), N_("Sequence Image Number"), sony2010eId, makerTags, unsignedLong, 1, printValuePlusOne),
+		TagInfo(4, "SequenceFileNumber", N_("SequenceFileNumber"), N_("SequenceFileNumber"), sony2010eId, makerTags, unsignedLong, 1, printValuePlusOne),
+		TagInfo(8, "ReleaseMode2", N_("ReleaseMode2"), N_("ReleaseMode2"), sony2010eId, makerTags, unsignedLong, 1, EXV_PRINT_TAG(sonyReleaseMode2)),
+		TagInfo(540, "DigitalZoomRatio", N_("DigitalZoomRatio"), N_("DigitalZoomRatio"), sony2010eId, makerTags, unsignedByte, 1, printValueBy16),
 		TagInfo(556, "SonyDateTime", N_("SonyDateTime"), N_("SonyDateTime"), sony2010eId, makerTags, undefined, 1, printValue),
-		TagInfo(808, "DynamicRangeOptimizer", N_("DynamicRangeOptimizer"), N_("DynamicRangeOptimizer"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+		TagInfo(808, "DynamicRangeOptimizer", N_("DynamicRangeOptimizer"), N_("DynamicRangeOptimizer"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyDynamicRangeOptimizer)),
 		TagInfo(1208, "MeterInfo", N_("MeterInfo"), N_("MeterInfo"), sony2010eId, makerTags, undefined, 1, printValue),
-		TagInfo(4444, "ReleaseMode3", N_("ReleaseMode3"), N_("ReleaseMode3"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4448, "ReleaseMode2", N_("ReleaseMode2"), N_("ReleaseMode2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4456, "SelfTimer", N_("SelfTimer"), N_("SelfTimer"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4460, "FlashMode", N_("FlashMode"), N_("FlashMode"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4466, "StopsAboveBaseISO", N_("StopsAboveBaseISO"), N_("StopsAboveBaseISO"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4468, "BrightnessValue", N_("BrightnessValue"), N_("BrightnessValue"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4472, "DynamicRangeOptimizer", N_("DynamicRangeOptimizer"), N_("DynamicRangeOptimizer"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4476, "HDRSetting", N_("HDRSetting"), N_("HDRSetting"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4480, "ExposureCompensation", N_("ExposureCompensation"), N_("ExposureCompensation"), sony2010eId, makerTags, signedShort, 1, printValue),
-		TagInfo(4502, "PictureProfile", N_("PictureProfile"), N_("PictureProfile"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4503, "PictureProfile2", N_("PictureProfile2"), N_("PictureProfile2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4507, "PictureEffect2", N_("PictureEffect2"), N_("PictureEffect2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4520, "Quality2", N_("Quality2"), N_("Quality2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4524, "MeteringMode", N_("MeteringMode"), N_("MeteringMode"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(4525, "ExposureProgram", N_("ExposureProgram"), N_("ExposureProgram"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+		TagInfo(4444, "ReleaseMode3", N_("ReleaseMode3"), N_("ReleaseMode3"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyReleaseMode3)),
+		TagInfo(4448, "ReleaseMode2", N_("ReleaseMode2"), N_("ReleaseMode2"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyReleaseMode2)),
+		TagInfo(4456, "SelfTimer", N_("SelfTimer"), N_("SelfTimer"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonySelfTimer)),
+		TagInfo(4460, "FlashMode", N_("FlashMode"), N_("FlashMode"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyFlashMode2010)),
+		TagInfo(4466, "StopsAboveBaseISO", N_("StopsAboveBaseISO"), N_("StopsAboveBaseISO"), sony2010eId, makerTags, unsignedShort, 1, printStopsAboveBaseISO),
+		TagInfo(4468, "BrightnessValue", N_("BrightnessValue"), N_("BrightnessValue"), sony2010eId, makerTags, unsignedShort, 1, printBrightness),
+		TagInfo(4472, "DynamicRangeOptimizer", N_("DynamicRangeOptimizer"), N_("DynamicRangeOptimizer"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyDynamicRangeOptimizer)),
+		TagInfo(4476, "HDRSetting", N_("HDRSetting"), N_("HDRSetting"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyHDRSetting)),
+		TagInfo(4480, "ExposureCompensation", N_("ExposureCompensation"), N_("ExposureCompensation"), sony2010eId, makerTags, signedShort, 1, printExposureCompensation),
+		TagInfo(4502, "PictureProfile", N_("PictureProfile"), N_("PictureProfile"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyPictureProfile)),
+		TagInfo(4503, "PictureProfile2", N_("PictureProfile2"), N_("PictureProfile2"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyPictureProfile)),
+		TagInfo(4507, "PictureEffect2", N_("PictureEffect2"), N_("PictureEffect2"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyPictureEffect2)),
+		TagInfo(4520, "Quality2", N_("Quality2"), N_("Quality2"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyQuality2)),
+		TagInfo(4524, "MeteringMode", N_("MeteringMode"), N_("MeteringMode"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyMeteringMode2010)),
+		TagInfo(4525, "ExposureProgram", N_("ExposureProgram"), N_("ExposureProgram"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyExposureProgram2010)),
 		TagInfo(4532, "WB_RGBLevels", N_("WB_RGBLevels"), N_("WB_RGBLevels"), sony2010eId, makerTags, unsignedShort, 3, printValue),
-		TagInfo(4692, "SonyISO", N_("SonyISO"), N_("SonyISO"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4696, "SonyISO2", N_("SonyISO2"), N_("SonyISO2"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4728, "FocalLength", N_("FocalLength"), N_("FocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4730, "MinFocalLength", N_("MinFocalLength"), N_("MinFocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4732, "MaxFocalLength", N_("MaxFocalLength"), N_("MaxFocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(4736, "SonyISO3", N_("SonyISO3"), N_("SonyISO3"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+		TagInfo(4692, "SonyISO", N_("SonyISO"), N_("SonyISO"), sony2010eId, makerTags, unsignedShort, 1, printSonyISO),
+		TagInfo(4696, "SonyISO2", N_("SonyISO2"), N_("SonyISO2"), sony2010eId, makerTags, unsignedShort, 1, printSonyISO),
+		TagInfo(4728, "FocalLength", N_("FocalLength"), N_("FocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValueBy10),
+		TagInfo(4730, "MinFocalLength", N_("MinFocalLength"), N_("MinFocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValueBy10),
+		TagInfo(4732, "MaxFocalLength", N_("MaxFocalLength"), N_("MaxFocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValueBy10),
+		TagInfo(4736, "SonyISO3", N_("SonyISO3"), N_("SonyISO3"), sony2010eId, makerTags, unsignedShort, 1, printSonyISO),
 		TagInfo(6256, "DistortionCorrParams", N_("DistortionCorrParams"), N_("DistortionCorrParams"), sony2010eId, makerTags, signedShort, 16, printValue),
-		TagInfo(6289, "LensFormat", N_("LensFormat"), N_("LensFormat"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(6290, "LensMount", N_("LensMount"), N_("LensMount"), sony2010eId, makerTags, unsignedByte, 1, printValue),
-		TagInfo(6291, "LensType2", N_("LensType2"), N_("LensType2"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(6294, "LensType", N_("LensType"), N_("LensType"), sony2010eId, makerTags, unsignedShort, 1, printValue),
-		TagInfo(6296, "DistortionCorrParamsPresent", N_("DistortionCorrParamsPresent"), N_("DistortionCorrParamsPresent"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+		TagInfo(6289, "LensFormat", N_("LensFormat"), N_("LensFormat"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyLensFormat)),
+		TagInfo(6290, "LensMount", N_("LensMount"), N_("LensMount"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyLensMount)),
+		TagInfo(6291, "LensType2", N_("LensType2"), N_("LensType2"), sony2010eId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(sonyLensType2)),
+		TagInfo(6294, "LensType", N_("LensType"), N_("LensType"), sony2010eId, makerTags, unsignedShort, 1, printMinoltaSonyLensID),
+		TagInfo(6296, "DistortionCorrParamsPresent", N_("DistortionCorrParamsPresent"), N_("DistortionCorrParamsPresent"), sony2010eId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyDistortionCorrParamsPresent)),
 		TagInfo(6297, "DistortionCorrParamsNumber", N_("DistortionCorrParamsNumber"), N_("DistortionCorrParamsNumber"), sony2010eId, makerTags, unsignedByte, 1, printValue),
 		// End of list marker
 		TagInfo(0xffff, "(UnknownSony2010eTag)", "(UnknownSony2010eTag)"   , "(UnknownSony2010eTag)"    , sony2010eId, makerTags, unsignedByte, 1, printValue)

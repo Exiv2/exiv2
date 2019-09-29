@@ -43,41 +43,41 @@ Exif.Sony2Fp.AmbientTemperature              SByte       1  244
 Exif.Sony2Fp.FocusMode                       Byte        1  26
 Exif.Sony2Fp.AFAreaMode                      Byte        1  222
 Exif.Sony2Fp.FocusPosition2                  Byte        1  168
-Exif.Sony2010e.SequenceImageNumber           Long        1  0
-Exif.Sony2010e.SequenceFileNumber            Long        1  0
-Exif.Sony2010e.ReleaseMode2                  Long        1  0
-Exif.Sony2010e.DigitalZoomRatio              Byte        1  217
-Exif.Sony2010e.SonyDateTime                  Undefined   1  231
-Exif.Sony2010e.DynamicRangeOptimizer         Byte        1  1
+Exif.Sony2010e.SequenceImageNumber           Long        1  1
+Exif.Sony2010e.SequenceFileNumber            Long        1  1
+Exif.Sony2010e.ReleaseMode2                  Long        1  Normal
+Exif.Sony2010e.DigitalZoomRatio              Byte        1  13.5625
+Exif.Sony2010e.SonyDateTime                  Undefined   7  231 28 90 8 73 0 108
+Exif.Sony2010e.DynamicRangeOptimizer         Byte        1  Auto
 Exif.Sony2010e.MeterInfo                     Undefined   1  3
-Exif.Sony2010e.ReleaseMode3                  Byte        1  0
-Exif.Sony2010e.ReleaseMode2                  Byte        1  0
-Exif.Sony2010e.SelfTimer                     Byte        1  1
-Exif.Sony2010e.FlashMode                     Byte        1  1
-Exif.Sony2010e.StopsAboveBaseISO             Short       1  206
-Exif.Sony2010e.BrightnessValue               Short       1  39323
-Exif.Sony2010e.DynamicRangeOptimizer         Byte        1  1
-Exif.Sony2010e.HDRSetting                    Byte        1  0
+Exif.Sony2010e.ReleaseMode3                  Byte        1  Normal
+Exif.Sony2010e.ReleaseMode2                  Byte        1  Normal
+Exif.Sony2010e.SelfTimer                     Byte        1  Self-timer 10 s
+Exif.Sony2010e.FlashMode                     Byte        1  Fill-flash
+Exif.Sony2010e.StopsAboveBaseISO             Short       1  15
+Exif.Sony2010e.BrightnessValue               Short       1  97
+Exif.Sony2010e.DynamicRangeOptimizer         Byte        1  Auto
+Exif.Sony2010e.HDRSetting                    Byte        1  Off
 Exif.Sony2010e.ExposureCompensation          SShort      1  0
-Exif.Sony2010e.PictureProfile                Byte        1  0
-Exif.Sony2010e.PictureProfile2               Byte        1  0
-Exif.Sony2010e.PictureEffect2                Byte        1  0
-Exif.Sony2010e.Quality2                      Byte        1  0
-Exif.Sony2010e.MeteringMode                  Byte        1  0
-Exif.Sony2010e.ExposureProgram               Byte        1  28
+Exif.Sony2010e.PictureProfile                Byte        1  Gamma Still - Standard/Neutral (PP2)
+Exif.Sony2010e.PictureProfile2               Byte        1  Gamma Still - Standard/Neutral (PP2)
+Exif.Sony2010e.PictureEffect2                Byte        1  Off
+Exif.Sony2010e.Quality2                      Byte        1  JPEG
+Exif.Sony2010e.MeteringMode                  Byte        1  Multi-segment
+Exif.Sony2010e.ExposureProgram               Byte        1  Pet
 Exif.Sony2010e.WB_RGBLevels                  Short       3  49497 1 49921
-Exif.Sony2010e.SonyISO                       Short       1  206
-Exif.Sony2010e.SonyISO2                      Short       1  671
-Exif.Sony2010e.FocalLength                   Short       1  236
-Exif.Sony2010e.MinFocalLength                Short       1  226
-Exif.Sony2010e.MaxFocalLength                Short       1  48896
-Exif.Sony2010e.SonyISO3                      Short       1  41420
+Exif.Sony2010e.SonyISO                       Short       1  23089
+Exif.Sony2010e.SonyISO2                      Short       1  17899
+Exif.Sony2010e.FocalLength                   Short       1  23
+Exif.Sony2010e.MinFocalLength                Short       1  22
+Exif.Sony2010e.MaxFocalLength                Short       1  4889
+Exif.Sony2010e.SonyISO3                      Short       1  2125672
 Exif.Sony2010e.DistortionCorrParams          SShort     16  -3584 -1793 25855 -30722 -9730 -25603 27900 -26629 250 -17928 -11360 -11360 -11360 -11360 -11360 -11360
-Exif.Sony2010e.LensFormat                    Byte        1  1
-Exif.Sony2010e.LensMount                     Byte        1  89
-Exif.Sony2010e.LensType2                     Short       1  16527
-Exif.Sony2010e.LensType                      Short       1  0
-Exif.Sony2010e.DistortionCorrParamsPresent   Byte        1  1
+Exif.Sony2010e.LensFormat                    Byte        1  APS-C
+Exif.Sony2010e.LensMount                     Byte        1  (89)
+Exif.Sony2010e.LensType2                     Short       1  (16527)
+Exif.Sony2010e.LensType                      Short       1  Minolta AF 28-85mm F3.5-4.5 New
+Exif.Sony2010e.DistortionCorrParamsPresent   Byte        1  Yes
 Exif.Sony2010e.DistortionCorrParamsNumber    Byte        1  206
 """
     ]

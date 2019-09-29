@@ -797,42 +797,42 @@ namespace Exiv2 {
 		{ 0, ttUnsignedByte, 1 }
 	};
 	extern const ArrayDef sony2010eDef[] = {
-		{0,  ttUnsignedLong, 1}, // Exif.Sony2010. SequenceImageNumber
-		{4,  ttUnsignedLong, 1}, // Exif.Sony2010. SequenceFileNumber
-		{8,  ttUnsignedLong, 1}, // Exif.Sony2010. ReleaseMode2
-		{540,  ttUnsignedByte, 1}, // Exif.Sony2010. DigitalZoomRatio
-		{556,  ttUndefined, 1}, // Exif.Sony2010. SonyDateTime
-		{808,  ttUnsignedByte, 1}, // Exif.Sony2010. DynamicRangeOptimizer
-		{1208,  ttUndefined, 1}, // Exif.Sony2010. MeterInfo
-		{4444,  ttUnsignedByte, 1}, // Exif.Sony2010. ReleaseMode3
-		{4448,  ttUnsignedByte, 1}, // Exif.Sony2010. ReleaseMode2
-		{4456,  ttUnsignedByte, 1}, // Exif.Sony2010. SelfTimer
-		{4460,  ttUnsignedByte, 1}, // Exif.Sony2010. FlashMode
-		{4466,  ttUnsignedShort, 1}, // Exif.Sony2010. StopsAboveBaseISO
-		{4468,  ttUnsignedShort, 1}, // Exif.Sony2010. BrightnessValue
-		{4472,  ttUnsignedByte, 1}, // Exif.Sony2010. DynamicRangeOptimizer
-		{4476,  ttUnsignedByte, 1}, // Exif.Sony2010. HDRSetting
-		{4480,  ttSignedShort, 1}, // Exif.Sony2010. ExposureCompensation
-		{4502,  ttUnsignedByte, 1}, // Exif.Sony2010. PictureProfile
-		{4503,  ttUnsignedByte, 1}, // Exif.Sony2010. PictureProfile2
-		{4507,  ttUnsignedByte, 1}, // Exif.Sony2010. PictureEffect2
-		{4520,  ttUnsignedByte, 1}, // Exif.Sony2010. Quality2
-		{4524,  ttUnsignedByte, 1}, // Exif.Sony2010. MeteringMode
-		{4525,  ttUnsignedByte, 1}, // Exif.Sony2010. ExposureProgram
-		{4532,  ttUnsignedShort, 3}, // Exif.Sony2010. WB_RGBLevels
-		{4692,  ttUnsignedShort, 1}, // Exif.Sony2010. SonyISO
-		{4696,  ttUnsignedShort, 1}, // Exif.Sony2010. SonyISO2
-		{4728,  ttUnsignedShort, 1}, // Exif.Sony2010. FocalLength
-		{4730,  ttUnsignedShort, 1}, // Exif.Sony2010. MinFocalLength
-		{4732,  ttUnsignedShort, 1}, // Exif.Sony2010. MaxFocalLength
-		{4736,  ttUnsignedShort, 1}, // Exif.Sony2010. SonyISO3
-		{6256,  ttSignedShort, 16}, // Exif.Sony2010. DistortionCorrParams
-		{6289,  ttUnsignedByte, 1}, // Exif.Sony2010. LensFormat
-		{6290,  ttUnsignedByte, 1}, // Exif.Sony2010. LensMount
-		{6291,  ttUnsignedShort, 1}, // Exif.Sony2010. LensType2
-		{6294,  ttUnsignedShort, 1}, // Exif.Sony2010. LensType
-		{6296,  ttUnsignedByte, 1}, // Exif.Sony2010. DistortionCorrParamsPresent
-		{6297,  ttUnsignedByte, 1} // Exif.Sony2010. DistortionCorrParamsNumber
+		{0,  ttUnsignedLong, 1}, // Exif.Sony2010e.SequenceImageNumber
+		{4,  ttUnsignedLong, 1}, // Exif.Sony2010e.SequenceFileNumber
+		{8,  ttUnsignedLong, 1}, // Exif.Sony2010e.ReleaseMode2
+		{540,  ttUnsignedByte, 1}, // Exif.Sony2010e.DigitalZoomRatio
+		{556,  ttUndefined, 7}, // Exif.Sony2010e.SonyDateTime
+		{808,  ttUnsignedByte, 1}, // Exif.Sony2010e.DynamicRangeOptimizer
+		{1208,  ttUndefined, 1}, // Exif.Sony2010e.MeterInfo
+		{4444,  ttUnsignedByte, 1}, // Exif.Sony2010e.ReleaseMode3
+		{4448,  ttUnsignedByte, 1}, // Exif.Sony2010e.ReleaseMode2
+		{4456,  ttUnsignedByte, 1}, // Exif.Sony2010e.SelfTimer
+		{4460,  ttUnsignedByte, 1}, // Exif.Sony2010e.FlashMode
+		{4466,  ttUnsignedShort, 1}, // Exif.Sony2010e.StopsAboveBaseISO
+		{4468,  ttUnsignedShort, 1}, // Exif.Sony2010e.BrightnessValue
+		{4472,  ttUnsignedByte, 1}, // Exif.Sony2010e.DynamicRangeOptimizer
+		{4476,  ttUnsignedByte, 1}, // Exif.Sony2010e.HDRSetting
+		{4480,  ttSignedShort, 1}, // Exif.Sony2010e.ExposureCompensation
+		{4502,  ttUnsignedByte, 1}, // Exif.Sony2010e.PictureProfile
+		{4503,  ttUnsignedByte, 1}, // Exif.Sony2010e.PictureProfile2
+		{4507,  ttUnsignedByte, 1}, // Exif.Sony2010e.PictureEffect2
+		{4520,  ttUnsignedByte, 1}, // Exif.Sony2010e.Quality2
+		{4524,  ttUnsignedByte, 1}, // Exif.Sony2010e.MeteringMode
+		{4525,  ttUnsignedByte, 1}, // Exif.Sony2010e.ExposureProgram
+		{4532,  ttUnsignedShort, 3}, // Exif.Sony2010e.WB_RGBLevels
+		{4692,  ttUnsignedShort, 1}, // Exif.Sony2010e.SonyISO
+		{4696,  ttUnsignedShort, 1}, // Exif.Sony2010e.SonyISO2
+		{4728,  ttUnsignedShort, 1}, // Exif.Sony2010e.FocalLength
+		{4730,  ttUnsignedShort, 1}, // Exif.Sony2010e.MinFocalLength
+		{4732,  ttUnsignedShort, 1}, // Exif.Sony2010e.MaxFocalLength
+		{4736,  ttUnsignedShort, 1}, // Exif.Sony2010e.SonyISO3
+		{6256,  ttSignedShort, 16}, // Exif.Sony2010e.DistortionCorrParams
+		{6289,  ttUnsignedByte, 1}, // Exif.Sony2010e.LensFormat
+		{6290,  ttUnsignedByte, 1}, // Exif.Sony2010e.LensMount
+		{6291,  ttUnsignedShort, 1}, // Exif.Sony2010e.LensType2
+		{6294,  ttUnsignedShort, 1}, // Exif.Sony2010e.LensType
+		{6296,  ttUnsignedByte, 1}, // Exif.Sony2010e.DistortionCorrParamsPresent
+		{6297,  ttUnsignedByte, 1} // Exif.Sony2010e.DistortionCorrParamsNumber
 	};
 
 	//! Sony1 Camera Settings configurations and definitions
@@ -1582,8 +1582,7 @@ namespace Exiv2 {
         { "*",       Tag::all, ignoreId,  0, 0 }, // Do not decode tags with group == ignoreId
         { "*",         0x02bc, ifd0Id,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
         { "*",         0x83bb, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x0026, canonId,   &TiffDecoder::decodeCanonAFInfo,  0 /* Exiv2.Canon.AFInfo is read-only */ },
+        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ }
     };
 
     DecoderFct TiffMapping::findDecoder(const std::string& make,
