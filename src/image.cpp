@@ -402,8 +402,10 @@ namespace Exiv2 {
 
                 // #55 and #56 memory allocation crash test/data/POC8
                 long long allocate = (long long) size*count + pad+20;
-                if ( allocate > (long long) io.size() ) {
-                    throw Error(kerInvalidMalloc);
+                if ( tag != 0x2001 ) { // forgive Sony Preview as it "points" outside
+                    if (allocate > (long long) io.size()) {
+                        throw Error(kerInvalidMalloc);
+                    }
                 }
                 DataBuf  buf((long)allocate);  // allocate a buffer
                 std::memset(buf.pData_, 0, buf.size_);
@@ -489,6 +491,9 @@ namespace Exiv2 {
                             MemIo memIo(bytes,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
                             delete[] bytes                   ;  // free
+                        } else if ( ::strcmp("SONY DSC ",chars) == 0 ) {
+                            // tag is an embedded tiff
+                            printIFDStructure(io,out,option,12+offset,bSwap,c,depth+1);
                         } else {
                             // tag is an IFD
                             io.seek(0,BasicIo::beg);  // position
