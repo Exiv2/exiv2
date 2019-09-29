@@ -749,7 +749,7 @@ namespace Exiv2 {
     //! Sony1 Camera Settings binary array - configuration
     extern const ArrayCfg sony1CsCfg = {
         sony1CsId,        // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -760,7 +760,7 @@ namespace Exiv2 {
     //! Sony1 Camera Settings 2 binary array - configuration
     extern const ArrayCfg sony1Cs2Cfg = {
         sony1Cs2Id,       // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -771,7 +771,7 @@ namespace Exiv2 {
 
     extern const ArrayCfg sony2FpCfg = {
         sony2FpId,        // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUnsignedByte,   // Type for array entry and size element
         sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
         false,            // No size element
@@ -786,14 +786,68 @@ namespace Exiv2 {
         { 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
     };
 
-    //! Sony[12] Camera Settings binary array - definition
+	extern const ArrayCfg sony2010eCfg = {
+		sony2010eId,       // Group for the elements
+		bigEndian,        // Big endian
+		ttUnsignedByte,   // Type for array entry and size element
+		sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+		false,            // No size element
+		false,            // No fillers
+		false,            // Don't concatenate gaps
+		{ 0, ttUnsignedByte, 1 }
+	};
+	extern const ArrayDef sony2010eDef[] = {
+		{0,  ttUnsignedLong, 1}, // Exif.Sony2010. SequenceImageNumber
+		{4,  ttUnsignedLong, 1}, // Exif.Sony2010. SequenceFileNumber
+		{8,  ttUnsignedLong, 1}, // Exif.Sony2010. ReleaseMode2
+		{540,  ttUnsignedByte, 1}, // Exif.Sony2010. DigitalZoomRatio
+		{556,  ttUndefined, 1}, // Exif.Sony2010. SonyDateTime
+		{808,  ttUnsignedByte, 1}, // Exif.Sony2010. DynamicRangeOptimizer
+		{1208,  ttUndefined, 1}, // Exif.Sony2010. MeterInfo
+		{4444,  ttUnsignedByte, 1}, // Exif.Sony2010. ReleaseMode3
+		{4448,  ttUnsignedByte, 1}, // Exif.Sony2010. ReleaseMode2
+		{4456,  ttUnsignedByte, 1}, // Exif.Sony2010. SelfTimer
+		{4460,  ttUnsignedByte, 1}, // Exif.Sony2010. FlashMode
+		{4466,  ttUnsignedShort, 1}, // Exif.Sony2010. StopsAboveBaseISO
+		{4468,  ttUnsignedShort, 1}, // Exif.Sony2010. BrightnessValue
+		{4472,  ttUnsignedByte, 1}, // Exif.Sony2010. DynamicRangeOptimizer
+		{4476,  ttUnsignedByte, 1}, // Exif.Sony2010. HDRSetting
+		{4480,  ttSignedShort, 1}, // Exif.Sony2010. ExposureCompensation
+		{4502,  ttUnsignedByte, 1}, // Exif.Sony2010. PictureProfile
+		{4503,  ttUnsignedByte, 1}, // Exif.Sony2010. PictureProfile2
+		{4507,  ttUnsignedByte, 1}, // Exif.Sony2010. PictureEffect2
+		{4520,  ttUnsignedByte, 1}, // Exif.Sony2010. Quality2
+		{4524,  ttUnsignedByte, 1}, // Exif.Sony2010. MeteringMode
+		{4525,  ttUnsignedByte, 1}, // Exif.Sony2010. ExposureProgram
+		{4532,  ttUnsignedShort, 3}, // Exif.Sony2010. WB_RGBLevels
+		{4692,  ttUnsignedShort, 1}, // Exif.Sony2010. SonyISO
+		{4696,  ttUnsignedShort, 1}, // Exif.Sony2010. SonyISO2
+		{4728,  ttUnsignedShort, 1}, // Exif.Sony2010. FocalLength
+		{4730,  ttUnsignedShort, 1}, // Exif.Sony2010. MinFocalLength
+		{4732,  ttUnsignedShort, 1}, // Exif.Sony2010. MaxFocalLength
+		{4736,  ttUnsignedShort, 1}, // Exif.Sony2010. SonyISO3
+		{6256,  ttSignedShort, 16}, // Exif.Sony2010. DistortionCorrParams
+		{6289,  ttUnsignedByte, 1}, // Exif.Sony2010. LensFormat
+		{6290,  ttUnsignedByte, 1}, // Exif.Sony2010. LensMount
+		{6291,  ttUnsignedShort, 1}, // Exif.Sony2010. LensType2
+		{6294,  ttUnsignedShort, 1}, // Exif.Sony2010. LensType
+		{6296,  ttUnsignedByte, 1}, // Exif.Sony2010. DistortionCorrParamsPresent
+		{6297,  ttUnsignedByte, 1} // Exif.Sony2010. DistortionCorrParamsNumber
+	};
+
+	//! Sony1 Camera Settings configurations and definitions
+	extern const ArraySet sony2010eSet[] = {
+		{ sony2010eCfg,  sony2010eDef,  EXV_COUNTOF(sony2010eDef)  }
+	};
+
+	//! Sony[12] Camera Settings binary array - definition
     extern const ArrayDef sonyCsDef[] = {
         {  12, ttSignedShort,   1 }  // Exif.Sony[12]Cs.WhiteBalanceFineTune
     };
     //! Sony2 Camera Settings binary array - configuration
     extern const ArrayCfg sony2CsCfg = {
         sony2CsId,        // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -804,7 +858,7 @@ namespace Exiv2 {
     //! Sony2 Camera Settings 2 binary array - configuration
     extern const ArrayCfg sony2Cs2Cfg = {
         sony2Cs2Id,       // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -830,7 +884,7 @@ namespace Exiv2 {
     //! Sony Minolta Camera Settings (old) binary array - configuration
     extern const ArrayCfg sony1MCsoCfg = {
         sony1MltCsOldId,  // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -842,7 +896,7 @@ namespace Exiv2 {
     //! Sony Minolta Camera Settings (new) binary array - configuration
     extern const ArrayCfg sony1MCsnCfg = {
         sony1MltCsNewId,  // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -854,7 +908,7 @@ namespace Exiv2 {
     //! Sony Minolta 7D Camera Settings binary array - configuration
     extern const ArrayCfg sony1MCs7Cfg = {
         sony1MltCs7DId,   // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -866,7 +920,7 @@ namespace Exiv2 {
     //! Sony Minolta A100 Camera Settings binary array - configuration
     extern const ArrayCfg sony1MCsA100Cfg = {
         sony1MltCsA100Id, // Group for the elements
-        bigEndian,        // Big endian
+		bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
         notEncrypted,     // Not encrypted
         false,            // No size element
@@ -999,18 +1053,21 @@ namespace Exiv2 {
         { Tag::root, samsungPvId,      samsung2Id,       0x0035    },
         { Tag::root, sigmaId,          exifId,           0x927c    },
         { Tag::root, sony1Id,          exifId,           0x927c    },
-        { Tag::root, sony1CsId,        sony1Id,          0x0114    },
+		{ Tag::root, sony2010eId,      sony1Id,          0x2010    },
+		{ Tag::root, sony2FpId,        sony1Id,          0x9402    },
+		{ Tag::root, sony1CsId,        sony1Id,          0x0114    },
         { Tag::root, sony1Cs2Id,       sony1Id,          0x0114    },
-        { Tag::root, sonyMltId,        sony1Id,          0xb028    },
+		{ Tag::root, sonyMltId,        sony1Id,          0xb028    },
         { Tag::root, sony1MltCsOldId,  sonyMltId,        0x0001    },
         { Tag::root, sony1MltCsNewId,  sonyMltId,        0x0003    },
         { Tag::root, sony1MltCs7DId,   sonyMltId,        0x0004    },
         { Tag::root, sony1MltCsA100Id, sonyMltId,        0x0114    },
         { Tag::root, sony2Id,          exifId,           0x927c    },
-        { Tag::root, sony2FpId,        sony2Id,          0x9402    },
+		{ Tag::root, sony2010eId,      sony2Id,          0x2010	   },
+		{ Tag::root, sony2FpId,        sony2Id,          0x9402    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
-        { Tag::root, minoltaId,        exifId,           0x927c    },
+		{ Tag::root, minoltaId,        exifId,           0x927c    },
         { Tag::root, minoltaCsOldId,   minoltaId,        0x0001    },
         { Tag::root, minoltaCsNewId,   minoltaId,        0x0003    },
         { Tag::root, minoltaCs7DId,    minoltaId,        0x0004    },
@@ -1428,23 +1485,34 @@ namespace Exiv2 {
         { Tag::next, sigmaId,          ignoreTiffComponent                       },
         {  Tag::all, sigmaId,          newTiffEntry                              },
 
-        // Sony1 makernote
+
+		{ Tag::all, sony2010eId,        newTiffBinaryElement },
+		{ 0x2010, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sony2010eSet, sony2010eSelector) },
+
+		// Tag 0x9402 Sony2Fp Focus Position
+		{ Tag::all, sony2FpId,        newTiffBinaryElement },
+		{ 0x9402, sony1Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef) },
+
+		// Sony1 makernote
         {    0x0114, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
-        {    0xb028, sony1Id,          newTiffSubIfd<sonyMltId>                  },
+		{    0xb028, sony1Id,          newTiffSubIfd<sonyMltId>                  },
         { Tag::next, sony1Id,          ignoreTiffComponent                       },
         {  Tag::all, sony1Id,          newTiffEntry                              },
 
-        // Sony1 camera settings
+		// Sony1 camera settings
         {  Tag::all, sony1CsId,        newTiffBinaryElement                      },
         {  Tag::all, sony1Cs2Id,       newTiffBinaryElement                      },
 
-        // Tag 0x9402 Sony2Fp Focus Position
+		{ Tag::all, sony2010eId,        newTiffBinaryElement },
+		{ 0x2010, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2010eSet, sony2010eSelector) },
+
+		// Tag 0x9402 Sony2Fp Focus Position
         {  Tag::all, sony2FpId,        newTiffBinaryElement                      },
         {    0x9402, sony2Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef)  },
 
-        // Sony2 makernote
+		// Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
-        { Tag::next, sony2Id,          ignoreTiffComponent                       },
+		{ Tag::next, sony2Id,          ignoreTiffComponent                       },
         {  Tag::all, sony2Id,          newTiffEntry                              },
 
         // Sony2 camera settings
