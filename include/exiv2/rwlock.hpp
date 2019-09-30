@@ -22,6 +22,7 @@
 #define RW_LOCK_HPP
 
 #ifdef _MSC_VER
+#include <WinSock2.h>
 #include <windows.h>
 #else
 #include <pthread.h>
