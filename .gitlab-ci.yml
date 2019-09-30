@@ -33,12 +33,12 @@ stages:
   - deploy
 
 Fedora:
-  image: fedora:29
+  image: fedora:latest
   <<: *default_config
   <<: *distro_build
 
 Fedora_MinGW:
-  image: fedora:29
+  image: fedora:latest
   before_script:
     - dnf -y upgrade
     - dnf -y install mingw64-gcc-c++ mingw64-filesystem mingw64-expat mingw64-zlib cmake make
@@ -71,12 +71,12 @@ OpenSUSE:
   <<: *distro_build
 
 Alpine:
-  image: alpine:3.9
+  image: alpine:latest
   <<: *default_config
   <<: *distro_build
 
 Install:
-  image: fedora:29
+  image: fedora:latest
   stage: deploy
   <<: *default_config
   script:
@@ -88,7 +88,7 @@ Install:
     - EXIV2_BINDIR=/usr/bin/ make tests
 
 pages:
-  image: fedora:29
+  image: fedora:latest
   stage: deploy
   <<: *default_config
   script:

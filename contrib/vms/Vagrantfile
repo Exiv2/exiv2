@@ -3,12 +3,12 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.define "Fedora" do |fedora|
-    fedora.vm.box = "fedora/29-cloud-base"
+    fedora.vm.box = "fedora/30-cloud-base"
     fedora.vm.hostname = "fedora-exiv2"
   end
 
   config.vm.define "Debian" do |debian|
-    debian.vm.box = "generic/debian9"
+    debian.vm.box = "generic/debian10"
     debian.vm.hostname = "debian-exiv2"
   end
 
@@ -27,8 +27,8 @@ Vagrant.configure("2") do |config|
     centos.vm.hostname = "centos-exiv2"
   end
 
-  config.vm.define "OpenSUSE" do |opensuse|
-    opensuse.vm.box = "opensuse/openSUSE-Tumbleweed-x86_64"
+  config.vm.define "openSUSE" do |opensuse|
+    opensuse.vm.box = "opensuse/openSUSE-Tumbleweed-Vagrant.x86_64"
     opensuse.vm.hostname = "opensuse-exiv2"
   end
 
