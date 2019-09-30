@@ -31,6 +31,7 @@
 #include "tiffcomposite_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
+#include <math.h>
 
 // + standard includes
 #include <string>
@@ -38,7 +39,6 @@
 #include <iomanip>
 #include <cassert>
 #include <cstring>
-#include <math.h>
 
 // *****************************************************************************
 // class member definitions
