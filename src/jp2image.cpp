@@ -18,10 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-/*
-  File:      jp2image.cpp
-*/
-
 // *****************************************************************************
 
 // included header files
@@ -198,6 +194,16 @@ namespace Exiv2
         return result;
     }
 
+static void boxes_check(size_t b,size_t m)
+{
+    if ( b > m ) {
+#ifdef EXIV2_DEBUG_MESSAGES
+        std::cout << "Exiv2::Jp2Image::readMetadata box maximum exceeded" << std::endl;
+#endif
+        throw Error(kerCorruptedMetadata);
+    }
+}
+
     void Jp2Image::readMetadata()
     {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -219,9 +225,12 @@ namespace Exiv2
         Jp2BoxHeader      subBox    = {0,0};
         Jp2ImageHeaderBox ihdr      = {0,0,0,0,0,0,0,0};
         Jp2UuidBox        uuid      = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+        size_t            boxes     = 0 ;
+        size_t            boxem     = 1000 ; // boxes max
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
+            boxes_check(boxes++,boxem );
             int64 position = io_->tell();
             box.length = getLong((byte*)&box.length, bigEndian);
             box.type   = getLong((byte*)&box.type, bigEndian);
@@ -251,8 +260,12 @@ namespace Exiv2
 
                     while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) && subBox.length )
                     {
+                        boxes_check(boxes++, boxem) ;
                         subBox.length = getLong((byte*)&subBox.length, bigEndian);
                         subBox.type   = getLong((byte*)&subBox.type, bigEndian);
+                        if (subBox.length > io_->size() ) {
+                            throw Error(kerCorruptedMetadata);
+                        }
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::Jp2Image::readMetadata: "
                         << "subBox = " << toAscii(subBox.type) << " length = " << subBox.length << std::endl;
@@ -308,7 +321,9 @@ namespace Exiv2
                         }
 
                         io_->seek(restore,BasicIo::beg);
-                        io_->seek(subBox.length, Exiv2::BasicIo::cur);
+                        if ( io_->seek(subBox.length, Exiv2::BasicIo::cur) != 0 ) {
+                            throw Error(kerCorruptedMetadata);
+                        }
                         restore = io_->tell();
                     }
                     break;
