@@ -83,6 +83,9 @@ public:
 
 int main(int argc, char** const argv)
 {
+	Exiv2::XmpParser::initialize();
+	::atexit(Exiv2::XmpParser::terminate);
+
 	int n;
 
 #ifdef EXV_HAVE_UNISTD_H

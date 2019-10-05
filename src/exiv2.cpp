@@ -127,6 +127,9 @@ namespace {
 // Main
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
     const std::string localeDir = Exiv2::getProcessPath() + EXV_LOCALEDIR;

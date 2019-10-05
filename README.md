@@ -20,6 +20,8 @@
    11. [Debugging Exiv2](#2-11)
    12. [Building  Exiv2 with Clang and other build chains](#2-12)
    13. [Building  Exiv2 with ccache](#2-13)
+   14. [Thread Safety](#2-14)
+   15. [Library Initialisation and Cleanup](#2-15)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -553,6 +555,39 @@ $ make
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
 
 [TOC](#TOC)
+
+<div id="2-14">
+
+### 2.14 Thread Safety
+
+Exiv2 heavily relies on standard C++ containers. Static or global variables are used read-only, with the exception of the XMP namespace registration function (see below). Thus Exiv2 is thread safe in the same sense as C++ containers:
+Different instances of the same class can safely be used concurrently in multiple threads.
+
+In order to use the same instance of a class concurrently in multiple threads the application must serialize all write access to the object.
+
+The level of thread safety within Exiv2 varies depending on the type of metadata: The Exif and IPTC code is reentrant. The XMP code uses the Adobe XMP toolkit (XMP SDK), which according to its documentation is thread-safe. It actually uses mutexes to serialize critical sections. However, the XMP SDK initialisation function is not mutex protected, thus Exiv2::XmpParser::initialize is not thread-safe. In addition, Exiv2::XmpProperties::registerNs writes to a static class variable, and is also not thread-safe.
+
+Therefore, multi-threaded applications need to ensure that these two XMP functions are serialized, e.g., by calling them from an initialization section which is run before any threads are started.
+
+[TOC](#TOC)
+
+<div id="2-15">
+
+### 2.15 Library Initialisation and Cleanup
+
+As discussed in the section on Thread Safety, Exiv2 classes for Exif and IPTC metadata are fully reentrant and require no initialisation or cleanup.
+
+Adobe's XMPsdk is generally thread-safe, however it has to be initialized and terminated before and after starting any threads to access XMP metadata. The Exiv2 library will initialize this if necessary, however it does not terminate the XMPsdk.
+
+The Exiv2 command-line and the sample applications call the following at the outset:
+
+```
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+```
+
+[TOC](#TOC)
+
 <div id="3">
 
 ## 3 License and Support
@@ -895,4 +930,4 @@ Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.co
 
 Robin Mills
 
-Revised: 2019-07-29
+Revised: 2019-08-03

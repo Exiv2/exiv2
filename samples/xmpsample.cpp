@@ -19,6 +19,9 @@ bool isEqual(float a, float b)
 
 int main()
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     // The XMP property container
     Exiv2::XmpData xmpData;
 
