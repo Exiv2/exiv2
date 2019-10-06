@@ -1,12 +1,13 @@
-| Travis        | AppVeyor      | GitLab| Codecov| Repology|
-|:-------------:|:-------------:|:-----:|:------:|:-------:|
-| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/master?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/master) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/master/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/master) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) |
+| Travis        | AppVeyor      | GitLab| Codecov| Repology| Matrix Chat |
+|:-------------:|:-------------:|:-----:|:------:|:-------:|:-----------:|
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=master)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/master?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/master) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/master/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/master) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#exiv2-chat:matrix.org)
 
 <div id="TOC">
 
 ### TABLE OF CONTENTS
 
 1. [Welcome to Exiv2](#1)
+    1. [Contact](#1-1)
 2. [Building, Installing, Using and Uninstalling Exiv2](#2)
     1. [Build, Install, Use and Uninstall Exiv2 on a UNIX-like system](#2-1)
     2. [Build and Install Exiv2 with Visual Studio](#2-2)
@@ -55,6 +56,18 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 | CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
 
 The file ReadMe.txt in a Build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
+
+<div id="1-1">
+
+## 1.1 Contact
+
+Contact | Where?
+--------|-------
+Bug tracker | [Exiv2/exiv2](https://github.com/Exiv2/exiv2/issues)
+Matrix chat | [`#exiv2-chat:matrix.org`](https://matrix.to/#/#exiv2-chat:matrix.org)
+Announcement mailing list | [exiv2-announce](https://lists.sr.ht/~d4n/exiv2-announce)
+Discussion mailing list | [exiv2-discussion](https://lists.sr.ht/~d4n/exiv2-discussion)
+
 
 [TOC](#TOC)
 <div id="2">
