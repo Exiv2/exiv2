@@ -1,0 +1,32 @@
+name: CI for different Linux distributions
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # FIXME
+      fail-fast: false
+      matrix:
+        container_image: ["fedora:latest", "debian:9", "archlinux/base", "ubuntu:18.10", "centos:7", "opensuse/tumbleweed", "alpine:latest"]
+        compiler: [g++, clang++]
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+    container:
+      image: ${{ matrix.container_image }}
+      env:
+        CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install dependencies
+      run: ./ci/install_dependencies.sh
+    - name: build and compile
+      run: |
+        mkdir build && cd build
+        cmake $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=${{ matrix.shared_libraries }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} ..
+        make -j $(nproc)
+        make tests
+        ./bin/unit_tests
