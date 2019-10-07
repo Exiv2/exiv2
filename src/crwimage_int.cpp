@@ -270,6 +270,9 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Reading directory 0x" << std::hex << tag() << "\n";
 #endif
+        if (this->offset() + this->size() > size)
+            throw Error(kerOffsetOutOfRange);
+
         readDirectory(pData + offset(), this->size(), byteOrder);
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "<---- 0x" << std::hex << tag() << "\n";
