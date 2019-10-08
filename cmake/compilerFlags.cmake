@@ -20,11 +20,21 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         endif()
     endif()
 
-    if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
-        add_compile_options(-fstack-clash-protection -fcf-protection)
-    endif()
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+
+        # This fails under Fedora - MinGW - Gcc 8.3
+        if (NOT MINGW)
+            if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
+                add_compile_options(-fstack-clash-protection -fcf-protection)
+            endif()
+
+            if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7 ))
+                # is not available for clang 3.4.2. it appears to be present in clang 3.7.
+                add_compile_options(-fstack-protector-strong)
+            endif()
+        endif()
+
         add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
 
         if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT APPLE)
@@ -39,12 +49,10 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         endif()
 
         add_compile_options(-Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
-        add_compile_options(-fasynchronous-unwind-tables)
 
-        if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7 ))
-            # is not available for clang 3.4.2. it appears to be present in clang 3.7.
-            add_compile_options(-fstack-protector-strong)
-        endif()
+        # This seems to be causing issues in the Fedora_MinGW GitLab job
+        #add_compile_options(-fasynchronous-unwind-tables)
+
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
             # ASAN is available in gcc from 4.8 and UBSAN from 4.9
