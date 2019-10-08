@@ -39,9 +39,12 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         endif()
 
         add_compile_options(-Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
-        add_compile_options(-fstack-protector-strong)
         add_compile_options(-fasynchronous-unwind-tables)
 
+        if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7 ))
+            # is not available for clang 3.4.2. it appears to be present in clang 3.7.
+            add_compile_options(-fstack-protector-strong)
+        endif()
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
             # ASAN is available in gcc from 4.8 and UBSAN from 4.9
