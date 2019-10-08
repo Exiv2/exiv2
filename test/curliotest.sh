@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for CurlIO
 
 source ./functions.source
@@ -76,7 +76,7 @@ RemoteIOTest()
         if [[ "$USE_CURL" == *http* ]]; then
             # test connection
             printf 'http test connection '
-            TEST_CON=$("$bin"/conntest http://$EXIV2_AWSUBUNTU_HOST/$testfile) 
+            TEST_CON=$("$bin"/conntest http://$EXIV2_AWSUBUNTU_HOST/$testfile)
             if [[ "$TEST_CON" == OK* ]]; then
                 errors=0
                 printf 'OK\nHTTP  IO '
