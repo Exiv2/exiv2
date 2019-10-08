@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/usr/bin/env bash
 # Test driver for CRW file operations
 
 source ./functions.source

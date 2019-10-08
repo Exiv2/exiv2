@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for SshIo
 
 source ./functions.source
@@ -73,7 +73,7 @@ SshIOTest()
         # test connection
         printf 'sftp test connection '
         TEST_CON=$("$bin"/conntest sftp://"$EXIV2_AWSUBUNTU_USERNAME"_sftp:$EXIV2_AWSUBUNTU_PASSWORD@$EXIV2_AWSUBUNTU_HOST/var/www/$testfile)
-        if [[ "$TEST_CON" == OK* ]]; then 
+        if [[ "$TEST_CON" == OK* ]]; then
             # SFTP protocol
             errors=0
             printf 'OK\nSFTP READ '
@@ -93,7 +93,7 @@ SshIOTest()
         # test connection
         printf 'ssh test connection '
         TEST_CON=$("$bin"/conntest ssh://$EXIV2_AWSUBUNTU_USERNAME:$EXIV2_AWSUBUNTU_PASSWORD@$EXIV2_AWSUBUNTU_HOST/sshtest/$testfile)
-        if [[ "$TEST_CON" == OK* ]]; then 
+        if [[ "$TEST_CON" == OK* ]]; then
             # SSH protocol
             errors=0
             printf 'OK\nSSH IO '
