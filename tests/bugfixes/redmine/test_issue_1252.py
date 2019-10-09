@@ -16,7 +16,7 @@ class CanonLenses(metaclass=system_tests.CaseMeta):
         "$exiv2 -pa --grep lens/i " + filenames[1],
     ]
 
-    stdout = ["""Exif.CanonCs.LensType                        Short       1  Sigma 120-300mm f/2.8 EX APO DG OS HSM
+    stdout = ["""Exif.CanonCs.LensType                        Short       1  Sigma APO 120-300mm f/2.8 EX DG OS HSM
 Exif.CanonCs.Lens                            Short       3  120.0 - 300.0 mm
 Exif.Canon.LensModel                         Ascii      74  120-300mm
 Exif.Photo.LensSpecification                 Rational    4  120/1 300/1 0/1 0/1
