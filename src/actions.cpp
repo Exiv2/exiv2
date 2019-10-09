@@ -2050,8 +2050,8 @@ namespace {
         pthread_mutex_lock( &cs );
         std::string tmp = "/tmp/";
 #endif
-        char        sCount[12];
-        sprintf(sCount,"_%d",++count);
+        char sCount[13];
+        sprintf(sCount,"_%d",++count); /// \todo replace by std::snprintf on master
 
         std::string result = tmp + Exiv2::toString(pid) + sCount ;
         if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
