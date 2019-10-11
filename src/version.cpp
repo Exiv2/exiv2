@@ -67,11 +67,11 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
     for( exv_grep_keys_t::const_iterator g = greps.begin();
       !bPrint && g != greps.end() ; ++g
     ) {
-        std::smatch m;
+        re::smatch m;
         const std::string Key(key);
 
-        bPrint = (  std::regex_search( Key, m, *g)
-                 || std::regex_search( value, m, *g)
+        bPrint = (  re::regex_search( Key, m, *g)
+                 || re::regex_search( value, m, *g)
                  );
     }
     return bPrint;

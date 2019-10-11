@@ -76,4 +76,7 @@
 // Definition to enable conversion of UCS2 encoded Windows tags to UTF-8.
 #cmakedefine EXV_HAVE_PRINTUCS2
 
+// Defined if we are compiling with gcc < 4.9 and need boost::regex
+#cmakedefine EXV_NEED_BOOST_REGEX
+
 #endif /* !_EXV_CONF_H_ */

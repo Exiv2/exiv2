@@ -210,6 +210,11 @@ if( ICONV_FOUND )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
 endif()
 
+if( EXV_NEED_BOOST_REGEX )
+    target_link_libraries( exiv2lib PUBLIC ${Boost_LIBRARIES})
+    target_include_directories(exiv2lib PUBLIC ${Boost_INCLUDE_DIRS})
+endif()
+
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
 install(TARGETS exiv2lib EXPORT exiv2Config
@@ -249,6 +254,11 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
     if( EXIV2_ENABLE_NLS )
         target_link_libraries(exiv2 PRIVATE ${Intl_LIBRARIES})
         target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})
+    endif()
+
+    if( EXV_NEED_BOOST_REGEX )
+        target_link_libraries(exiv2 PRIVATE ${Boost_LIBRARIES})
+        target_include_directories(exiv2 PRIVATE ${Boost_INCLUDE_DIRS})
     endif()
 
     if (USING_CONAN AND WIN32 AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls)
