@@ -153,16 +153,17 @@ $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=OFF
 
 The following Exiv2 features require external libraries:
 
-| Feature                     | Package   |  Default | To change default             | Availability |
-|:--------------------------  |:--------  |:--------:| :---------------------------- |:-----------  |
-| PNG image support           | zlib      | ON       | -DEXIV2\_ENABLE\_PNG=Off      | [http://zlib.net/](http://zlib.net/) |
-| XMP support                 | expat     | ON       | -DEXIV2\_ENABLE\_XMP=Off      | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
-| Natural language system     | gettext   | OFF      | -DEXIV2\_ENABLE\_NLS=On       | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
+| Feature                 | Package      | Default | To change default        | Availability                                                                                      |
+|:------------------------|:-------------|:-------:|:-------------------------|:--------------------------------------------------------------------------------------------------|
+| PNG image support       | zlib         | ON      | -DEXIV2\_ENABLE\_PNG=Off | [http://zlib.net/](http://zlib.net/)                                                              |
+| XMP support             | expat        | ON      | -DEXIV2\_ENABLE\_XMP=Off | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| Natural language system | gettext      | OFF     | -DEXIV2\_ENABLE\_NLS=On  | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/)                      |
+| Regex for gcc <= 4.8    | Boost::regex | OFF     | autodetected             | https://www.boost.org/users/download/                                                             |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
-development package of a dependency to install the header files and libraries required to build Exiv2. In the file
-`ci/install_dependencies.sh` you can check to the list of packages we install on different Linux distributions. This
-file is used to setup some CI images in which we try out the Exiv2 compilation.
+development package of a dependency to install the header files and libraries required to build Exiv2. You can check the file
+`ci/install_dependencies.sh` for a list of packages that we install on different Linux distributions. This
+file is used to setup some CI images in which we use to test the Exiv2 compilation.
 
 Natural language system is discussed in more detail here: [Localisation](#2-8)
 
@@ -768,6 +769,17 @@ $ cmake .. -G "Unix Makefiles"
 $ make
 ```
 
+#### 5.1.1 CentOS/RHEL 7
+
+CentOS/RHEL 7 comes with gcc 4.8, which is compatible with C++11, but unfortanely ships a broken implementation of `<regex>`.
+We work around this issue by falling back to using `boost::regex` in this case.
+
+To build exiv2 on CentOS, please install the following additional packages:
+- `cmake3`
+- `boost-devel`
+- `boost-regex`
+
+
 [TOC](#TOC)
 <div id="5-2">
 
@@ -846,17 +858,6 @@ $ cd exiv2
 $ mkdir build ; cd build ;
 $ cmake .. -G "Unix Makefiles"
 $ make
-```
-
-#### MinGW and Regex
-
-The exiv2 command line program provides an option **`--grep`** to filter output.  The implementation requires the header file **`<regex.h>`** and supporting library to be available during the build.  When not available, the option **`--grep`** degrades to a substring match.  Because there are several versions of **`<regex.h>`** available on the MinGW platform, detection of regex is always disabled on this platform and uses substring match.  The following command reveals if regex is included in your build:
-
-```bash
-$ exiv2 -vVg regex
-exiv2 0.27.0.3
-have_regex=1
-$
 ```
 
 [TOC](#TOC)
