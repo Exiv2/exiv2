@@ -82,7 +82,7 @@ You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and
 
 ### 2.1 Build, Install, Use Exiv2 on a UNIX-like system
 
-```bash
+```ShellSession
 cd $EXIV_ROOT
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
@@ -97,13 +97,13 @@ This will install the library into the "standard locations".  The library will b
 
 To execute the exiv2 command line program, you should update your path to search /usr/local/bin/
 
-```bash
+```ShellSession
 $ export PATH="/usr/local/bin:$PATH"
 ```
 
  you'll also need to locate libexiv2 at run time:
 
-```bash
+```ShellSession
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"      # Linux, Cygwin, MinGW/msys2
 $ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # MacOS-X
 ```
@@ -131,18 +131,18 @@ There are two groups of CMake options.  There are many options defined by CMake.
 
 Options defined by <exiv2>/CMakeLists.txt include:
 
-```bash
-576 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $ grep ^option CMakeLists.txt
+```ShellSession
+$ ~/gnu/github/exiv2/exiv2 $ grep ^option CMakeLists.txt
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
 ...
-577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
+$ ~/gnu/github/exiv2/exiv2 $
 ```
 
 Options are defined on the CMake command line:
-```bash
+```ShellSession
 $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=OFF
 ```
 
@@ -195,7 +195,7 @@ In general you need to do the following:
 
 The following is a typical command to build and link with libexiv2:
 
-```bash
+```ShellSession
 $ g++ -std=c++11 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
 ```
 
@@ -208,7 +208,7 @@ When exiv2 is installed, the files required to consume Exiv2 are installed in `$
 
 You can build samples/exifprint.cpp as follows:
 
-```bash
+```ShellSession
 $ cd <exiv2dir>
 $ mkdir exifprint
 $ cd    exifprint
@@ -240,13 +240,13 @@ This [repository](https://github.com/piponazo/exiv2Consumer) shows an example of
 
 When exiv2 is installed, the file exiv2.pc used by pkg-config is installed in `${CMAKE_INSTALL_PREFIX}/lib/pkgconfig`  You will need to set the following in your environment:
 
-```bash
+```ShellSession
 $ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 ```
 
 To compile and link using exiv2.pc, you usually add the following to your Makefile.
 
-```bash
+```ShellSession
 PKGCONFIG=pkg-config
 CPPFLAGS := `pkg-config exiv2 --cflags`
 LDFLAGS := `pkg-config exiv2 --libs`
@@ -254,8 +254,8 @@ LDFLAGS := `pkg-config exiv2 --libs`
 
 If you are not using make, you can use pkg-config as follows:
 
-```bash
-g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
+```ShellSession
+g++ -std=c++11 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 ```
 
 [TOC](#TOC)
@@ -271,7 +271,7 @@ You must install the build to test localisation.  This ensures that the localisa
 
 1) Running exiv2 in another language
 
-```bash
+```ShellSession
 $ env LANG=fr_FR exiv2    # env LANGUAGE=fr_FR exiv2 on Linux!
 exiv2: Une action doit être spécifié
 exiv2: Au moins un fichier est nécessaire
@@ -287,7 +287,7 @@ To support a new language which we'll designate 'xy' for this discussion:
 
 2.1) Generate a po file from the po template:
 
-```bash
+```ShellSession
 $ cd <exiv2dir>
 $ mkdir -p po/xy
 $ msginit --input=po/exiv2.pot --locale=xy --output=po/xy.po
@@ -296,14 +296,14 @@ $ msginit --input=po/exiv2.pot --locale=xy --output=po/xy.po
 
 I edited the following:
 
-```bash
+```ShellSession
 #: src/exiv2.cpp:237
 msgid "Manipulate the Exif metadata of images.\n"
 msgstr ""
 ```
 to:
 
-```bash
+```ShellSession
 #: src/exiv2.cpp:237
 msgid "Manipulate the Exif metadata of images.\n"
 msgstr "Manipulate image metadata.\n"
@@ -311,7 +311,7 @@ msgstr "Manipulate image metadata.\n"
 
 2.3) Generate the messages file:
 
-```bash
+```ShellSession
 $ mkdir -p             po/xy/LC_MESSAGES
 $ msgfmt --output-file=po/xy/LC_MESSAGES/exiv2.mo po/xy.po
 ```
@@ -320,7 +320,7 @@ $ msgfmt --output-file=po/xy/LC_MESSAGES/exiv2.mo po/xy.po
 
 You have to install your messages to test them.  It's not possible to test a messages file by executing build/bin/exiv2.
 
-```bash
+```ShellSession
 $ sudo mkdir -p                          /usr/local/share/locale/xy/LC_MESSAGES
 $ sudo cp -R  po/xy/LC_MESSAGES/exiv2.mo /usr/local/share/locale/xy/LC_MESSAGES
 $ env LANG=xy exiv2                      # env LANGUAGE=xy on Linux!
@@ -361,7 +361,7 @@ and can be downloaded for off-line use.  http://exiv2.dyndns.org:8080/userConten
 To build documentation, use the CMake option **`-DEXIV2_BUILD_DOC=On`**.
 Additionally, you will require an additional build step to actually build the documentation.
 
-```bash
+```ShellSession
 $ cmake ..options.. -DEXIV2_BUILD_DOC=ON
 $ make doc
 ```
@@ -387,7 +387,7 @@ There are two types of Exiv2 packages which are generated by cpack from the cmak
 
 Create and build exiv2 for your platform.
 
-```bash
+```ShellSession
 $ git clone https://github.com/exiv2/exiv2
 $ mkdir -p exiv2/build
 $ cd       exiv2/build
@@ -404,7 +404,7 @@ CPack: - package: /path/to/exiv2/build/exiv2-0.27.0.1-Linux.tar.gz generated.
 
 2) Source Package
 
-```bash
+```ShellSession
 $ make package_source
 Run CPack packaging tool for source...
 ...
@@ -423,7 +423,7 @@ You may prefer to run `$ cmake --build . --config Release --target package_sourc
 
 In general to generate a debug library, you should use the option *cmake* option `-DCMAKE_RELEASE_TYPE=Debug` and build in the usual way.
 
-```bash
+```ShellSession
 $ cd <exiv2dir>
 $ mkdir build
 $ cd build
@@ -435,7 +435,7 @@ You must install the library to ensure that your code is linked to the debug lib
 
 You can check that you have generated a debug build with the command:
 
-```bash
+```ShellSession
 $ exiv2 -vVg debug
 exiv2 0.27.0.3
 debug=1
@@ -456,7 +456,7 @@ Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There a
 
 Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES` by yourself. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
 
-```bash
+```ShellSession
 $ cd <exiv2dir>
 $ touch src/webpimage.cpp
 $ make CXXFLAGS=-DEXIV2_DEBUG_MESSAGESDEBUG
@@ -474,7 +474,7 @@ If you are debugging library code, it is recommended that you use the exiv2 comm
 
 This is platform specific.  On Linux:
 
-```bash
+```ShellSession
 $ gdb exiv2
 ```
 
@@ -494,7 +494,7 @@ Visual Studio and Xcode can build debug or release builds without using the opti
 
 With the Unix Makefile generator, the targets can be listed:
 
-```bash
+```ShellSession
 $ make help
 The following are some of the valid targets for this Makefile:
 ... all (the default if no target is provided)
@@ -512,7 +512,7 @@ The following are some of the valid targets for this Makefile:
 1) On Linux
 
 
-```bash
+```ShellSession
 $ cd <exiv2dir>
 $ rm -rf build ; mkdir build ; cd build
 $ cmake .. -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
@@ -521,7 +521,7 @@ $ cmake --build .
 
 **_OR_**
 
-```bash
+```ShellSession
 $ export CC=$(which clang)
 $ export CXX=$(which clang++)
 $ cd <exiv2dir>
@@ -551,13 +551,13 @@ To speed up compilation, the utility ccache can be installed to cache the output
 
 Installing and using ccache (and other similar utilities), is platform dependent.  On Ubuntu:
 
-```bash
+```ShellSession
 $ sudo apt install --yes ccache
 ```
 
 To build with ccache, use the cmake option **-DBUILD\_WITH\_CCACHE=On**
 
-```bash
+```ShellSession
 $ cd <exiv2dir>
 $ mkdir build ; cd build ; cd build
 $ cmake .. -G "Unix Makefiles" -DBUILD_WITH_CCACHE=On
@@ -650,7 +650,7 @@ The test suite is a mix of bash and python scripts (in addition to the unit test
 
 You can run the suite directly from the build:
 
-```bash
+```ShellSession
 $ cmake .. -G "Unix Makefiles"
 $ make
 ...
@@ -661,13 +661,13 @@ Summary report
 
 You can run individual tests in the test directory using the environment variable EXIV2\_BINDIR to specify the location of the build artifacts.  For Cygwin and MinGW/msys builds, also set EXIV2_EXT=.exe
 
-```bash
-rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/build $ cd ../test
-rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
+```ShellSession
+$ ~/gnu/github/exiv2/exiv2/build $ cd ../test
+$ ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
 ICC jpg md5 webp md5 png md5 jpg md5
 all testcases passed.
 
-rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin make newtests
+$ ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin make newtests
 ```
 
 [TOC](#TOC)
@@ -677,7 +677,7 @@ rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../b
 
 Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path.  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
 
-```bash
+```ShellSession
 $ cd <exiv2dir>/build
 $ cd ../test
 $ PATH="/c/Python36:$PATH"
@@ -687,7 +687,7 @@ $ export EXIV2_BINDIR=${PWD}/../build/bin
 
 Once you have modified the PATH and and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
 
-```bash
+```ShellSession
 $ cd <exiv2dir>/test
 $ make test
 $ make newtests
@@ -705,7 +705,7 @@ To build the unit tests, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`. N
 
 To execute the unit tests:
 
-```bash
+```ShellSession
 $ cd <exiv2dir>/build
 $ bin/unit_tests
 
@@ -724,7 +724,7 @@ Note that it only works with clang compiler as libFuzzer is integrate with clang
 
 To build the fuzzers:
 
-```bash
+```ShellSession
 export CXX=clang++
 export CC=clang
 cmake .. -G "Unix Makefiles" "-DEXIV2_BUILD_FUZZ_TESTS=ON"  "-DEXIV2_TEAM_USE_SANITIZERS=ON"
@@ -733,7 +733,7 @@ make -j4
 
 To execute the fuzzers:
 
-```bash
+```ShellSession
 cd <exiv2dir>/build
 bin/<fuzzer_name> # for example ./bin/read-metadata.cpp
 ```
@@ -751,14 +751,14 @@ There are many ways to set up and configure your platform.  The following notes 
 
 Update your system and install the build tools and dependencies (zlib, expat, gtest and others)
 
-```bash
+```ShellSession
 $ sudo apt --yes update
 $ sudo apt install --yes build-essential git clang ccache python3 libxml2-utils cmake python3 libexpat1-dev libz-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock
 ```
 
 Get the code from GitHub and build
 
-```bash
+```ShellSession
 $ mkdir -p ~/gnu/github/exiv2
 $ cd ~/gnu/github/exiv2
 $ git clone https://github.com/exiv2/exiv2
@@ -826,19 +826,19 @@ bash.exe -norc
 
 Install tools and dependencies:
 
-```bash
+```ShellSession
 $ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel gettext-devel; do (echo y|pacman -S $i); done
 ```
 
 You can upgrade all installed packages on your system with the following command.  For me, this broke msys32 and I had to reinstall msys32 and all the dependencies.  Your experience may be different.
 
-```bash
+```ShellSession
 $ pacman -Syu
 ```
 
 #### Download exiv2 from github and build
 
-```bash
+```ShellSession
 $ mkdir -p ~/gnu/github/exiv2
 $ cd       ~/gnu/github/exiv2
 $ git clone https://github.com/exiv2/exiv2
