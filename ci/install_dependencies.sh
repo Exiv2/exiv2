@@ -45,25 +45,13 @@ case "$distro_id" in
         ;;
 
     'centos'|'rhel')
-        yum -y install epel-release centos-release-scl
+        yum -y install epel-release
         # enable copr for gtest
         curl https://copr.fedorainfracloud.org/coprs/defolos/devel/repo/epel-7/defolos-devel-epel-7.repo > /etc/yum.repos.d/_copr_defolos-devel.repo
         yum clean all
-        yum -y install devtoolset-3-gcc-c++ devtoolset-3-gcc-c++ devtoolset-3-binutils clang cmake3 make ccache \
-            expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel gmock-devel which python3 dos2unix
-        echo source /opt/rh/devtoolset-3/enable >> ~/.bash_profile
-        echo export CCACHE_PATH=$HOME/bin:$PATH >> ~/.bash_profile
-        mkdir ~/bin
-        cat <<EOF > ~/bin/clang++
-#!/bin/bash
-/usr/bin/clang++ --gcc-toolchain=/opt/rh/devtoolset-3/root/ \$@
-EOF
-        cat <<EOF > ~/bin/clang
-#!/bin/bash
-/usr/bin/clang --gcc-toolchain=/opt/rh/devtoolset-3/root/ \$@
-EOF
-        chmod +x ~/bin/clang*
-        # symlink up to date version of cmake to the 'default' name
+
+        yum -y install gcc-c++ clang cmake3 make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel gmock-devel which python3 dos2unix boost-regex boost-devel
+        # symlink up to date version cmake to the 'default' name
         mv /bin/cmake /bin/.cmake.old
         ln -s /bin/cmake3 /bin/cmake
         ;;
