@@ -72,7 +72,7 @@ cd $EXIV_ROOT
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
-make test
+make tests
 sudo make install
 ```
 
