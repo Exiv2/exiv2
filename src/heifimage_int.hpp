@@ -26,8 +26,6 @@
  */
 #pragma once
 
-#include <libheif/heif.h>
-
 // *****************************************************************************
 
 // included header files
