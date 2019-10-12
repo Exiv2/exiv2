@@ -23,7 +23,7 @@ else
 fi
 
 python --version
-pip install conan==1.17.2
+pip install conan==1.19.1
 pip install codecov
 conan --version
 conan config set storage.path=~/conanData

@@ -28,7 +28,7 @@ install:
     - if not exist ninja 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
     - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
     - ninja --version
-    - pip.exe install conan==1.17.2
+    - pip.exe install conan==1.19.1
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
