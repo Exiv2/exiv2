@@ -253,6 +253,7 @@ namespace Exiv2 {
         kerCorruptedMetadata,
         kerArithmeticOverflow,
         kerMallocFailed,
+        kerNotExpectedFormat,
     };
 
     /*!
