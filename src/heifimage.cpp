@@ -50,7 +50,7 @@
 #define EXIV2_DEBUG_MESSAGES
 
 const unsigned char HeifSignature[] = { 0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63 };
-const unsigned char HeifBlank[] = { 0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63 };
+const unsigned char HeifBlank[]     = { 0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63 };
 
 // *****************************************************************************
 // class member definitions
@@ -58,7 +58,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     HeifImage::HeifImage(BasicIo::UniquePtr io, bool create)
-            : Image(ImageType::heif, mdExif | mdXmp, std::move(io))
+            : Image(ImageType::heif, mdExif | mdIptc | mdXmp, std::move(io))
     {
         if (create)
         {
@@ -68,6 +68,7 @@ namespace Exiv2 {
                 std::cerr << "Exiv2::HeifImage:: Creating HEIF image to memory" << std::endl;
 #endif
                 IoCloser closer(*io_);
+
                 if (io_->write(HeifBlank, sizeof(HeifBlank)) != sizeof(HeifBlank))
                 {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -101,7 +102,9 @@ namespace Exiv2 {
         {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
+
         IoCloser closer(*io_);
+
         // Ensure that this is the correct image type
         if (!isHeifType(*io_, true))
         {
@@ -147,22 +150,24 @@ namespace Exiv2 {
                                                                             dataIds,
                                                                             10);
 
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Exiv2::HeifImage::readMetadata: " << "Found " << num_metadata << " HEIF metadata chunck" << std::endl;
+#endif
 
         if (num_metadata > 0)
         {
             for (int i = 0 ; i < num_metadata ; ++i)
             {
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Parsing HEIF metadata chunck:" << heif_image_handle_get_metadata_type(handle, dataIds[i]) << std::endl;
-
+#endif
                 if (std::string(heif_image_handle_get_metadata_type(handle, dataIds[i])) == std::string("Exif"))
                 {
                     // Read Exif chunk.
 
-                    size_t data_size = heif_image_handle_get_metadata_size(handle, dataIds[i]);
-
-                    uint8_t* data = (uint8_t*) alloca(data_size);
-                    err = heif_image_handle_get_metadata(handle, dataIds[i], data);
+                    size_t data_size    = heif_image_handle_get_metadata_size(handle, dataIds[i]);
+                    uint8_t* const data = (uint8_t*) alloca(data_size);
+                    err                 = heif_image_handle_get_metadata(handle, dataIds[i], data);
 
                     if (err.code)
                     {
@@ -182,7 +187,7 @@ namespace Exiv2 {
                                     (data[2] << 8)  |
                                      data[3]) + 4;
 
-                        if (data_size > skip)
+                        if (data_size > (size_t)skip)
                         {
                             // Copy the real exif data into the byte array
 
@@ -213,12 +218,9 @@ namespace Exiv2 {
                 {
                     // Read Xmp chunk.
 
-                    size_t data_size = heif_image_handle_get_metadata_size(handle, dataIds[i]);
-                    uint8_t* data    = (uint8_t*) alloca(data_size);
-
-                    err = heif_image_handle_get_metadata(handle,
-                                                         dataIds[i],
-                                                         data);
+                    size_t data_size    = heif_image_handle_get_metadata_size(handle, dataIds[i]);
+                    uint8_t* const data = (uint8_t*) alloca(data_size);
+                    err                 = heif_image_handle_get_metadata(handle, dataIds[i], data);
 
                     if (err.code)
                     {
@@ -256,12 +258,9 @@ namespace Exiv2 {
                 {
                     // Read Iptc chunk.
 
-                    size_t data_size = heif_image_handle_get_metadata_size(handle, dataIds[i]);
-                    uint8_t* data    = (uint8_t*) alloca(data_size);
-
-                    err = heif_image_handle_get_metadata(handle,
-                                                         dataIds[i],
-                                                         data);
+                    size_t data_size    = heif_image_handle_get_metadata_size(handle, dataIds[i]);
+                    uint8_t* const data = (uint8_t*) alloca(data_size);
+                    err                 = heif_image_handle_get_metadata(handle, dataIds[i], data);
 
                     if (err.code)
                     {
@@ -290,15 +289,17 @@ namespace Exiv2 {
 
     } // HeifImage::readMetadata
 
-    void HeifImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
+    void HeifImage::printStructure(std::ostream& /*out*/, PrintStructureOption /*option*/, int /*depth*/)
     {
         if (io_->open() != 0)
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
 
         // Ensure that this is the correct image type
-        if (!isHeifType(*io_, false)) {
+        if (!isHeifType(*io_, false))
+        {
             if (io_->error() || io_->eof())
                 throw Error(kerFailedToReadImageData);
+
             throw Error(kerNotExpectedFormat);
         }
     }  // HeifImage::printStructure
@@ -373,8 +374,9 @@ namespace Exiv2 {
                          (memcmp(&buf[8], "mif1", 4) == 0)
                        );
 
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::HeifImage::isHeifType() = " << matched << std::endl;
-
+#endif
         if (!advance || !matched)
         {
             iIo.seek(-len, BasicIo::cur);
