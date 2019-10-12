@@ -53,6 +53,9 @@
 /* Define if you have (Exiv2/xmpsdk) Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT
 
+// Define if you require HEIF support.
+#cmakedefine EXIV2_ENABLE_HEIF
+
 /* Define to the full name of this package. */
 #cmakedefine EXV_PACKAGE_NAME "@EXV_PACKAGE_NAME@"
 

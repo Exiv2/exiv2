@@ -35,7 +35,9 @@
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "jpgimage.hpp"
-#include "heifimage_int.hpp"
+#ifdef EXIV2_ENABLE_HEIF
+# include "heifimage_int.hpp"
+#endif
 #include "mrwimage.hpp"
 #ifdef EXIV2_ENABLE_PNG
 # include "pngimage.hpp"
@@ -128,7 +130,9 @@ namespace {
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+#ifdef EXIV2_ENABLE_HEIF
         { ImageType::heif, newHeifInstance, isHeifType, amRead,      amRead,      amRead,      amNone      },
+#endif
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
