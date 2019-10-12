@@ -165,7 +165,9 @@ namespace {
         { Exiv2::kerArithmeticOverflow,
           N_("Arithmetic operation overflow") },
         { Exiv2::kerMallocFailed,
-          N_("Memory allocation failed")}
+          N_("Memory allocation failed")},
+        { Exiv2::kerNotExpectedFormat,
+          N_("Not expected format")}
     };
 
 }
