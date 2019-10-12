@@ -10,7 +10,16 @@ include(CMakePackageConfigHelpers)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-include(libheif/LibHeifRules.cmake)
+if(EXIV2_ENABLE_HEIF)
+
+    include(libheif/LibHeifRules.cmake)
+
+    set(exiv2lib_heif_SRC
+        heifimage.cpp           heifimage_int.hpp
+        ${libheif_SRCS}
+    )
+
+endif()
 
 add_library( exiv2lib_int OBJECT
     canonmn_int.cpp         canonmn_int.hpp
@@ -19,7 +28,6 @@ add_library( exiv2lib_int OBJECT
     crwimage_int.cpp        crwimage_int.hpp
     fujimn_int.cpp          fujimn_int.hpp
     helper_functions.cpp    helper_functions.hpp
-    heifimage.cpp           heifimage_int.hpp
     image_int.cpp           image_int.hpp
     makernote_int.cpp       makernote_int.hpp
     minoltamn_int.cpp       minoltamn_int.hpp
@@ -40,7 +48,7 @@ add_library( exiv2lib_int OBJECT
     tifffwd_int.hpp
     timegm.h
     unused.h
-    ${libheif_SRCS}
+    ${exiv2lib_heif_SRC}
 )
 
 add_library( exiv2lib
