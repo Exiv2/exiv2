@@ -54,3 +54,5 @@ foreach(_currentfile ${libheif_SRCS})
     endif()
 endforeach()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
