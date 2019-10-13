@@ -1,3 +1,4 @@
 https://github.com/strukturag/libheif
 branch "iptc"
 de265 and x265 plugins removed
+*fuzzer* files removed
