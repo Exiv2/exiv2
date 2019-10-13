@@ -37,12 +37,19 @@
 // + standard includes
 #include <vector>
 #include <string>
+
+#if defined (EXV_NEED_BOOST_REGEX)
+#include <boost/regex.hpp>
+namespace re = boost;
+#else
 #include <regex>
+namespace re = std;
+#endif
 
 /*!
  @brief exv_grep_keys_t is a vector of keys to match to strings
 */
- typedef std::vector<std::regex> exv_grep_keys_t ;
+ typedef std::vector<re::regex> exv_grep_keys_t ;
 
 /*!
   @brief Make an integer version number for comparison from a major, minor and

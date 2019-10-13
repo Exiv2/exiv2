@@ -139,11 +139,6 @@ Params& Params::instance()
 
 Params::~Params()
 {
-#if defined(EXV_HAVE_REGEX_H)
-    for (size_t i = 0; i < instance().greps_.size(); ++i) {
-        regfree(&instance().greps_.at(i));
-    }
-#endif
 }
 
 void Params::version(bool verbose, std::ostream& os) const
@@ -448,15 +443,13 @@ int Params::evalGrep(const std::string& optarg)
     std::string pattern;
     std::string ignoreCase("/i");
     const bool bIgnoreCase = ends_with(optarg, ignoreCase, pattern);
-    auto flags = std::regex_constants::ECMAScript;
+    const auto flags =
+        bIgnoreCase ? (re::regex_constants::ECMAScript | re::regex_constants::icase) : re::regex_constants::ECMAScript;
 
-    if (bIgnoreCase)
-        flags |= std::regex_constants::icase;
-
-    greps_.push_back(std::regex(pattern, flags));
+    greps_.push_back(re::regex(pattern, flags));
 
     return result;
-}  // Params::evalGrep
+}
 
 int Params::evalKey(const std::string& optarg)
 {
