@@ -159,7 +159,7 @@ namespace {
         { Exiv2::kerTiffDirectoryTooLarge,
           N_("tiff directory length is too large") },
         { Exiv2::kerInvalidTypeValue,
-          N_("invalid type value detected in Image::printIFDStructure") },
+          N_("invalid type in tiff structure") },
         { Exiv2::kerInvalidMalloc,
           N_("invalid memory allocation request") },
         { Exiv2::kerCorruptedMetadata,
