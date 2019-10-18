@@ -160,7 +160,7 @@ namespace {
           N_("invalid type in tiff structure") },
         { Exiv2::kerInvalidMalloc,
           N_("invalid memory allocation request") },
-        { Exiv2::kerCorruptedMetadata,
+        { Exiv2::kerTiffParsingError,
           N_("corrupted image metadata") },
         { Exiv2::kerArithmeticOverflow,
           N_("Arithmetic operation overflow") },

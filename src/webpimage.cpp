@@ -494,7 +494,7 @@ namespace Exiv2 {
 
         const uint32_t filesize_u32 =
             Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
-        enforce(filesize_u32 <= io_->size(), Exiv2::kerCorruptedMetadata);
+        enforce(filesize_u32 <= io_->size(), Exiv2::kerTiffParsingError);
 
         // Check that `filesize_u32` is safe to cast to `long`. The `#if`
         // is needed because this check is redundant on platforms where
@@ -502,7 +502,7 @@ namespace Exiv2 {
         // fail due to a compiler warning in clang.
 #if LONG_MAX < UINT_MAX
         enforce(filesize_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
-                Exiv2::kerCorruptedMetadata);
+                Exiv2::kerTiffParsingError);
 #endif
 
         WebPImage::decodeChunks(static_cast<long>(filesize_u32));
@@ -532,18 +532,18 @@ namespace Exiv2 {
             // to fail due to a compiler warning in clang.
 #if LONG_MAX < UINT_MAX
             enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
-                    Exiv2::kerCorruptedMetadata);
+                    Exiv2::kerTiffParsingError);
 #endif
             const long size = static_cast<long>(size_u32);
 
             // Check that `size` is within bounds.
-            enforce(io_->tell() <= filesize, Exiv2::kerCorruptedMetadata);
-            enforce(size <= (filesize - io_->tell()), Exiv2::kerCorruptedMetadata);
+            enforce(io_->tell() <= filesize, Exiv2::kerTiffParsingError);
+            enforce(size <= (filesize - io_->tell()), Exiv2::kerTiffParsingError);
 
             DataBuf payload(size);
 
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_canvas_data) {
-                enforce(size >= 10, Exiv2::kerCorruptedMetadata);
+                enforce(size >= 10, Exiv2::kerTiffParsingError);
 
                 has_canvas_data = true;
                 byte size_buf[WEBP_TAG_SIZE];
@@ -560,7 +560,7 @@ namespace Exiv2 {
                 size_buf[3] = 0;
                 pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_canvas_data) {
-                enforce(size >= 10, Exiv2::kerCorruptedMetadata);
+                enforce(size >= 10, Exiv2::kerTiffParsingError);
 
                 has_canvas_data = true;
                 io_->readOrThrow(payload.pData_, payload.size_);
@@ -578,7 +578,7 @@ namespace Exiv2 {
                 size_buf[3] = 0;
                 pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_canvas_data) {
-                enforce(size >= 5, Exiv2::kerCorruptedMetadata);
+                enforce(size >= 5, Exiv2::kerTiffParsingError);
 
                 has_canvas_data = true;
                 byte size_buf_w[2];
@@ -597,7 +597,7 @@ namespace Exiv2 {
                 size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xF) << 0x2);
                 pixelHeight_ = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_canvas_data) {
-                enforce(size >= 12, Exiv2::kerCorruptedMetadata);
+                enforce(size >= 12, Exiv2::kerTiffParsingError);
 
                 has_canvas_data = true;
                 byte size_buf[WEBP_TAG_SIZE];

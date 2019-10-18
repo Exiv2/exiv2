@@ -250,7 +250,7 @@ namespace Exiv2 {
         kerTiffDirectoryTooLarge,
         kerInvalidTypeValue,
         kerInvalidMalloc,
-        kerCorruptedMetadata,
+        kerTiffParsingError,
         kerArithmeticOverflow,
         kerMallocFailed,
     };

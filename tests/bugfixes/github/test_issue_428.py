@@ -27,7 +27,7 @@ class PngReadRawProfile(metaclass=system_tests.CaseMeta):
     stdout = [""] * len(filenames)
     stderr = [ stderr_exception(fname) for fname in filenames[0:5] ]
     stderr.append("""$exiv2_exception_message """ + filenames[5] + """:
-$kerCorruptedMetadata
+$kerTiffParsingError
 """)
     stderr.append("""Error: XMP Toolkit error 201: XML parsing failure
 Warning: Failed to decode XMP metadata.

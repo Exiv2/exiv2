@@ -9,6 +9,6 @@ class ThrowsWhenSubBoxLengthIsNotGood(metaclass=system_tests.CaseMeta):
     commands = ["$exiv2 -pX $filename"]
     stdout = [""]
     stderr = ["""$exiv2_exception_message $filename:
-$kerCorruptedMetadata
+$kerTiffParsingError
 """]
     retval = [1]

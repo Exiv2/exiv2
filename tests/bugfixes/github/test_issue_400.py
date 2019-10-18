@@ -15,7 +15,7 @@ class parseTXTChunkOutOfBoundsRead(metaclass=system_tests.CaseMeta):
     stdout = [""] * 2
     stderr = [
         """$exiv2_exception_message """ + fname + """:
-$kerCorruptedMetadata
+$kerTiffParsingError
 """
         for fname in filenames
     ]

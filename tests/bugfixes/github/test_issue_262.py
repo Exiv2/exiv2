@@ -19,7 +19,7 @@ class DivByZeroInPrintIFD(metaclass=system_tests.CaseMeta):
     ]
     stderr = [
         """$exiv2_exception_message $filename:
-$kerCorruptedMetadata
+$kerTiffParsingError
 """
     ]
     retval = [1]

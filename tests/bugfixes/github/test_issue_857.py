@@ -19,10 +19,10 @@ class OutOfMemoryInRafImageReadMetadata(metaclass=CaseMeta):
     stdout = ["", ""]
     stderr = [
 """Exiv2 exception in print action for file $filename1:
-$kerCorruptedMetadata
+$kerTiffParsingError
 """,
 """Exiv2 exception in print action for file $filename2:
-$kerCorruptedMetadata
+$kerTiffParsingError
 """
 ]
     retval = [1,1]

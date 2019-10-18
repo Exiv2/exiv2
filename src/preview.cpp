@@ -806,13 +806,13 @@ namespace {
                 }
                 else {
                     // FIXME: the buffer is probably copied twice, it should be optimized
-                    enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
+                    enforce(size_ <= static_cast<uint32_t>(io.size()), kerTiffParsingError);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
                     for (int i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);
+                        enforce(Safe::add(idxBuf, size) < size_, kerTiffParsingError);
                         if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
                         idxBuf += size;

@@ -268,7 +268,7 @@ namespace Exiv2
                             const size_t data_length = Safe::add(subBox.length, static_cast<uint32_t>(8));
                             // data_length makes no sense if it is larger than the rest of the file
                             if (data_length > io_->size() - io_->tell()) {
-                                throw Error(kerCorruptedMetadata);
+                                throw Error(kerTiffParsingError);
                             }
                             DataBuf data(static_cast<long>(data_length));
                             io_->read(data.pData_,data.size_);
@@ -276,7 +276,7 @@ namespace Exiv2
                             // subtracting pad from data.size_ is safe:
                             // size_ is at least 8 and pad = 3
                             if (iccLength > data.size_ - pad) {
-                                throw Error(kerCorruptedMetadata);
+                                throw Error(kerTiffParsingError);
                             }
                             DataBuf icc(iccLength);
                             ::memcpy(icc.pData_,data.pData_+pad,icc.size_);
@@ -502,7 +502,7 @@ namespace Exiv2
                             subBox.type = getLong((byte*)&subBox.type, bigEndian);
 
                             if (subBox.length < sizeof(box) || subBox.length > io_->size() - io_->tell()) {
-                                throw Error(kerCorruptedMetadata);
+                                throw Error(kerTiffParsingError);
                             }
 
                             DataBuf data(subBox.length - sizeof(box));

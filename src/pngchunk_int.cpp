@@ -66,7 +66,7 @@ namespace Exiv2
     {
         void PngChunk::decodeIHDRChunk(const DataBuf& data, PngImageHeader& h)
         {
-            enforce(data.size_ == 13, kerCorruptedMetadata);
+            enforce(data.size_ == 13, kerTiffParsingError);
 
             h.width = getLong((const byte*)data.pData_, bigEndian);
             h.height = getLong((const byte*)data.pData_ + 4, bigEndian);
@@ -77,30 +77,30 @@ namespace Exiv2
             h.interlaceMethod = data.pData_[12];
 
             enforce(h.colorType == 0 || h.colorType == 2 || h.colorType == 3 || h.colorType == 4 || h.colorType == 6,
-                    kerCorruptedMetadata);
+                    kerTiffParsingError);
             switch (h.colorType) {
                 case 0:
                     enforce(
                         h.bitDepth == 1 || h.bitDepth == 2 || h.bitDepth == 4 || h.bitDepth == 8 || h.bitDepth == 16,
-                        kerCorruptedMetadata);
+                        kerTiffParsingError);
                     break;
                 case 2:
-                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
+                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerTiffParsingError);
                     break;
                 case 3:
                     enforce(h.bitDepth == 1 || h.bitDepth == 2 || h.bitDepth == 4 || h.bitDepth == 8,
-                            kerCorruptedMetadata);
+                            kerTiffParsingError);
                     break;
                 case 4:
-                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
+                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerTiffParsingError);
                     break;
                 case 6:
-                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerCorruptedMetadata);
+                    enforce(h.bitDepth == 8 || h.bitDepth == 16, kerTiffParsingError);
                     break;
             }
-            enforce(h.compressionMethod == 0, kerCorruptedMetadata);
-            enforce(h.filterMethod == 0, kerCorruptedMetadata);
-            enforce(h.interlaceMethod == 0 || h.interlaceMethod == 1, kerCorruptedMetadata);
+            enforce(h.compressionMethod == 0, kerTiffParsingError);
+            enforce(h.filterMethod == 0, kerTiffParsingError);
+            enforce(h.interlaceMethod == 0 || h.interlaceMethod == 1, kerTiffParsingError);
         }
 
         void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType type)
@@ -155,7 +155,7 @@ namespace Exiv2
             DataBuf arr;
 
             if (type == zTXt_Chunk) {
-                enforce(data.size_ >= Safe::add(keysize, 2_z), Exiv2::kerCorruptedMetadata);
+                enforce(data.size_ >= Safe::add(keysize, 2_z), Exiv2::kerTiffParsingError);
 
                 // Extract a deflate compressed Latin-1 text chunk
 
@@ -172,11 +172,11 @@ namespace Exiv2
                 // compressed string after the compression technique spec
                 const byte* compressedText = data.pData_ + keysize + 2;
                 size_t compressedTextSize = data.size_ - keysize - 2;
-                enforce(compressedTextSize < data.size_, kerCorruptedMetadata);
+                enforce(compressedTextSize < data.size_, kerTiffParsingError);
 
                 zlibUncompress(compressedText, (uint32_t)compressedTextSize, arr);
             } else if (type == tEXt_Chunk) {
-                enforce(data.size_ >= Safe::add(keysize, 1_z), Exiv2::kerCorruptedMetadata);
+                enforce(data.size_ >= Safe::add(keysize, 1_z), Exiv2::kerTiffParsingError);
                 // Extract a non-compressed Latin-1 text chunk
 
                 // the text comes after the key, but isn't null terminated
@@ -185,9 +185,9 @@ namespace Exiv2
 
                 arr = DataBuf(text, textsize);
             } else if (type == iTXt_Chunk) {
-                enforce(data.size_ >= Safe::add(keysize, 3_z), Exiv2::kerCorruptedMetadata);
+                enforce(data.size_ >= Safe::add(keysize, 3_z), Exiv2::kerTiffParsingError);
                 const size_t nullSeparators = std::count(&data.pData_[keysize + 3], &data.pData_[data.size_], '\0');
-                enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
+                enforce(nullSeparators >= 2, Exiv2::kerTiffParsingError);
 
                 // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
@@ -196,8 +196,8 @@ namespace Exiv2
                 // we get the compression method after the compression flag
                 const byte compressionMethod = data.pData_[keysize + 2];
 
-                enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerCorruptedMetadata);
-                enforce(compressionMethod == 0x00, Exiv2::kerCorruptedMetadata);
+                enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerTiffParsingError);
+                enforce(compressionMethod == 0x00, Exiv2::kerTiffParsingError);
 
                 // language description string after the compression technique spec
                 const size_t languageTextMaxSize = data.size_ - keysize - 3;
@@ -206,7 +206,7 @@ namespace Exiv2
                 const size_t languageTextSize = languageText.size();
 
                 enforce(static_cast<unsigned long>(data.size_) >= Safe::add(Safe::add(keysize, 4_z), languageTextSize),
-                        Exiv2::kerCorruptedMetadata);
+                        Exiv2::kerTiffParsingError);
                 // translated keyword string after the language description
                 std::string translatedKeyText =
                     string_from_unterminated((const char*)(data.pData_ + keysize + 3 + languageTextSize + 1),
@@ -216,7 +216,7 @@ namespace Exiv2
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                     enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
                                       Safe::add(translatedKeyTextSize, 1u)) <= static_cast<unsigned int>(data.size_),
-                            Exiv2::kerCorruptedMetadata);
+                            Exiv2::kerTiffParsingError);
 
                     const byte* text = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
                     const long textsize = static_cast<long>(
@@ -624,7 +624,7 @@ namespace Exiv2
                 return DataBuf();
             }
 
-            enforce(length <= (eot - sp)/2, Exiv2::kerCorruptedMetadata);
+            enforce(length <= (eot - sp)/2, Exiv2::kerTiffParsingError);
 
             // Allocate space
             if (length == 0) {
@@ -646,7 +646,7 @@ namespace Exiv2
             unsigned int nibbles = length * 2;
 
             for (long i = 0; i < (long)nibbles; i++) {
-                enforce(sp < eot, Exiv2::kerCorruptedMetadata);
+                enforce(sp < eot, Exiv2::kerTiffParsingError);
                 while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
                     if (*sp == '\0') {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -656,7 +656,7 @@ namespace Exiv2
                     }
 
                     sp++;
-                    enforce(sp < eot, Exiv2::kerCorruptedMetadata);
+                    enforce(sp < eot, Exiv2::kerTiffParsingError);
                 }
 
                 if (i%2 == 0)
