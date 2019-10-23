@@ -27,6 +27,6 @@ class SegmentationFaultPngImage(metaclass=CaseMeta):
 ]
     stderr = [
         """$exiv2_exception_message $filename:
-$kerTiffParsingError
+$kerCorruptedMetadata
 """]
     retval = [1]

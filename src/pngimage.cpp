@@ -323,7 +323,7 @@ namespace Exiv2
                     enforce(bufRead == static_cast<size_t>(dataOffset), kerFailedToReadImageData);
                     io_->seek(restore, BasicIo::beg);
                     uint32_t  name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
-                    enforce(name_l <= dataOffset, kerTiffParsingError);
+                    enforce(name_l <= dataOffset, kerCorruptedMetadata);
 
                     uint32_t  start  = name_l;
 
@@ -475,12 +475,12 @@ namespace Exiv2
                     // The ICC profile name can vary from 1-79 characters.
                     uint32_t iccOffset = 0;
                     do {
-                      enforce(iccOffset < 80 && iccOffset < chunkLength, Exiv2::kerTiffParsingError);
+                      enforce(iccOffset < 80 && iccOffset < chunkLength, Exiv2::kerCorruptedMetadata);
                     } while(chunkData.pData_[iccOffset++] != 0x00);
 
                     profileName_ = std::string(reinterpret_cast<char *>(chunkData.pData_), iccOffset-1);
                     ++iccOffset; // +1 = 'compressed' flag
-                    enforce(iccOffset <= chunkLength, Exiv2::kerTiffParsingError);
+                    enforce(iccOffset <= chunkLength, Exiv2::kerCorruptedMetadata);
 
                     zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
 #ifdef EXIV2_DEBUG_MESSAGES

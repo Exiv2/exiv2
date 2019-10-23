@@ -20,7 +20,7 @@ class OutOfMemoryInLoaderTiffGetData(metaclass=CaseMeta):
     stdout = [""]
     stderr = [
         """$exiv2_exception_message $filename:
-$kerTiffParsingError
+$kerCorruptedMetadata
 """]
     compare_stderr = check_no_ASAN_UBSAN_errors
     retval = [1]

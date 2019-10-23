@@ -10,5 +10,5 @@ class DetectsWrongLengthOfImageResourceInPSDFile(metaclass=system_tests.CaseMeta
     commands = ["$exiv2 " + filename]
     retval = [1]
     stderr = ["""$exiv2_exception_message """ + filename + """:
-$kerTiffParsingError
+$kerCorruptedMetadata
 """]

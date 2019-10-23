@@ -295,19 +295,19 @@ namespace Exiv2 {
         uint32_t jpg_img_off_u32 = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
         uint32_t jpg_img_len_u32 = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
 
-        enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerTiffParsingError);
+        enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerCorruptedMetadata);
 
 #if LONG_MAX < UINT_MAX
         enforce(jpg_img_off_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-                kerTiffParsingError);
+                kerCorruptedMetadata);
         enforce(jpg_img_len_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-                kerTiffParsingError);
+                kerCorruptedMetadata);
 #endif
 
         long jpg_img_off = static_cast<long>(jpg_img_off_u32);
         long jpg_img_len = static_cast<long>(jpg_img_len_u32);
 
-        enforce(jpg_img_len >= 12, kerTiffParsingError);
+        enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 
         /* Look for the height and width of the raw image in the raf metadata header.
          * Raf metadata starts with 4 bytes giving the number of available tags,
@@ -323,7 +323,7 @@ namespace Exiv2 {
         uint32_t cfa_hdr_off_u32 = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
         uint32_t cfa_hdr_len_u32 = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
 
-        enforce(Safe::add(cfa_hdr_off_u32, cfa_hdr_len_u32) <= io_->size(), kerTiffParsingError);
+        enforce(Safe::add(cfa_hdr_off_u32, cfa_hdr_len_u32) <= io_->size(), kerCorruptedMetadata);
 
         long cfa_hdr_off = static_cast<long>(cfa_hdr_off_u32);
 
@@ -334,7 +334,7 @@ namespace Exiv2 {
         uint32_t count = getULong(tag_count, bigEndian);
         // check that the count value is in a sane range
         // assume a size of 4 bytes, but raf tags may also be larger
-        enforce(count < cfa_hdr_len_u32 / 4, kerTiffParsingError);
+        enforce(count < cfa_hdr_len_u32 / 4, kerCorruptedMetadata);
 
         byte byte_tag[2];
         byte byte_size[2];

@@ -334,7 +334,7 @@ namespace Exiv2 {
             const int seekSuccess = !io.seek(start,BasicIo::beg);
             const size_t bytesRead = io.read(dir.pData_, 2);
             if (!seekSuccess || bytesRead == 0) {
-                throw Error(kerTiffParsingError);
+                throw Error(kerCorruptedMetadata);
             }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
@@ -450,7 +450,7 @@ namespace Exiv2 {
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
 
                         if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
-                            throw Error(kerTiffParsingError);
+                            throw Error(kerCorruptedMetadata);
                         }
 
                         const size_t restore = io.tell();

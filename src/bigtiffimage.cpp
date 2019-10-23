@@ -105,7 +105,7 @@ namespace Exiv2
                 const size_t read = io.read(buffer, 4);
 
                 if (read < 4)
-                    throw Exiv2::Error(kerTiffParsingError);
+                    throw Exiv2::Error(kerCorruptedMetadata);
 
                 const uint32_t offset = getULong(buffer, byteOrder);
                 result = Header(byteOrder, magic, 4, offset);
@@ -115,7 +115,7 @@ namespace Exiv2
                 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
                 size_t read = io.read(buffer, 2);
                 if (read < 2)
-                    throw Exiv2::Error(kerTiffParsingError);
+                    throw Exiv2::Error(kerCorruptedMetadata);
 
                 const int size = getUShort(buffer, byteOrder);
 
@@ -123,21 +123,21 @@ namespace Exiv2
                 {
                     read = io.read(buffer, 2); // null
                     if (read < 2)
-                        throw Exiv2::Error(kerTiffParsingError);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     read = io.read(buffer, 8);
                     if (read < 8)
-                        throw Exiv2::Error(kerTiffParsingError);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     const uint64_t offset = getULongLong(buffer, byteOrder);
 
                     if (offset >= io.size())
-                        throw Exiv2::Error(kerTiffParsingError);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     result = Header(byteOrder, magic, size, offset);
                 }
                 else
-                    throw Exiv2::Error(kerTiffParsingError);
+                    throw Exiv2::Error(kerCorruptedMetadata);
             }
 
             return result;
@@ -354,7 +354,7 @@ namespace Exiv2
                                 else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ )
                                 {
                                     if (Safe::add(count, offset) > io.size()) {
-                                        throw Error(kerTiffParsingError);
+                                        throw Error(kerCorruptedMetadata);
                                     }
 
                                     const size_t restore = io.tell();
@@ -414,7 +414,7 @@ namespace Exiv2
                 uint64_t readData(int size) const
                 {
                     const DataBuf data = Image::io().read(size);
-                    enforce(data.size_ != 0, kerTiffParsingError);
+                    enforce(data.size_ != 0, kerCorruptedMetadata);
 
                     uint64_t result = 0;
 
@@ -427,7 +427,7 @@ namespace Exiv2
                     else if (data.size_ == 8)
                         result = byteSwap8(data, 0, doSwap_);
                     else
-                        throw Exiv2::Error(kerTiffParsingError);
+                        throw Exiv2::Error(kerCorruptedMetadata);
 
                     return result;
                 }

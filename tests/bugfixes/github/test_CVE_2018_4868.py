@@ -13,6 +13,6 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     commands = ["$exiv2 " + filename]
     stdout = [""]
     stderr = ["""$exiv2_exception_message """ + filename + """:
-$kerTiffParsingError
+$kerCorruptedMetadata
 """]
     retval = [1]

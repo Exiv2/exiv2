@@ -17,6 +17,6 @@ class InvalidDataLocationInCiffComponentDoRead(metaclass=CaseMeta):
     stdout = [""]
     stderr = [
         """$exiv2_exception_message $filename:
-$kerTiffParsingError
+$kerCorruptedMetadata
 """]
     retval = [1]

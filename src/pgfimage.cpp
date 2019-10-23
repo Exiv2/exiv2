@@ -129,10 +129,10 @@ namespace Exiv2 {
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
 
-        enforce(headerSize <= std::numeric_limits<uint32_t>::max() - 8, kerTiffParsingError);
+        enforce(headerSize <= std::numeric_limits<uint32_t>::max() - 8, kerCorruptedMetadata);
 #if LONG_MAX < UINT_MAX
         enforce(headerSize + 8 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-                kerTiffParsingError);
+                kerCorruptedMetadata);
 #endif
         int64 size = static_cast<int64>(headerSize) + 8 - io_->tell();
 

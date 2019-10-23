@@ -195,11 +195,11 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "Photoshop");
         }
         uint32_t resourcesLength = getULong(buf, bigEndian);
-        enforce(resourcesLength < io_->size(), Exiv2::kerTiffParsingError);
+        enforce(resourcesLength < io_->size(), Exiv2::kerCorruptedMetadata);
 
         while (resourcesLength > 0)
         {
-            enforce(resourcesLength >= 8, Exiv2::kerTiffParsingError);
+            enforce(resourcesLength >= 8, Exiv2::kerCorruptedMetadata);
             resourcesLength -= 8;
             if (io_->read(buf, 8) != 8) {
                 throw Error(kerNotAnImage, "Photoshop");
@@ -212,12 +212,12 @@ namespace Exiv2 {
             uint32_t resourceNameLength = buf[6] & ~1;
 
             // skip the resource name, plus any padding
-            enforce(resourceNameLength <= resourcesLength, Exiv2::kerTiffParsingError);
+            enforce(resourceNameLength <= resourcesLength, Exiv2::kerCorruptedMetadata);
             resourcesLength -= resourceNameLength;
             io_->seek(resourceNameLength, BasicIo::cur);
 
             // read resource size
-            enforce(resourcesLength >= 4, Exiv2::kerTiffParsingError);
+            enforce(resourcesLength >= 4, Exiv2::kerCorruptedMetadata);
             resourcesLength -= 4;
             if (io_->read(buf, 4) != 4) {
                 throw Error(kerNotAnImage, "Photoshop");
@@ -230,10 +230,10 @@ namespace Exiv2 {
                       << "\n";
 #endif
 
-            enforce(resourceSize <= resourcesLength, Exiv2::kerTiffParsingError);
+            enforce(resourceSize <= resourcesLength, Exiv2::kerCorruptedMetadata);
             readResourceBlock(resourceId, resourceSize);
             resourceSize = (resourceSize + 1) & ~1;        // pad to even
-            enforce(resourceSize <= resourcesLength, Exiv2::kerTiffParsingError);
+            enforce(resourceSize <= resourcesLength, Exiv2::kerCorruptedMetadata);
             resourcesLength -= resourceSize;
             io_->seek(curOffset + resourceSize, BasicIo::beg);
         }

@@ -1602,10 +1602,10 @@ namespace Exiv2 {
             if ((static_cast<uintptr_t>(baseOffset()) > std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset))
              || (static_cast<uintptr_t>(baseOffset() + offset) > std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_)))
             {
-                throw Error(kerTiffParsingError); // #562 don't throw kerArithmeticOverflow
+                throw Error(kerCorruptedMetadata); // #562 don't throw kerArithmeticOverflow
             }
             if (pData_ + static_cast<uintptr_t>(baseOffset()) + static_cast<uintptr_t>(offset) > pLast_) {
-                throw Error(kerTiffParsingError);
+                throw Error(kerCorruptedMetadata);
             }
             pData = const_cast<byte*>(pData_) + baseOffset() + offset;
 
@@ -1629,7 +1629,7 @@ namespace Exiv2 {
             }
         }
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerTiffParsingError);
+        enforce(v.get() != nullptr, kerCorruptedMetadata);
         if ( !isize ) {
             v->read(pData, size, byteOrder());
         } else {
@@ -1737,7 +1737,7 @@ namespace Exiv2 {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerTiffParsingError);
+        enforce(v.get() != nullptr, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(std::move(v));

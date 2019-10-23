@@ -13,5 +13,5 @@ class ThrowsWhenIFDsAreMalformed(metaclass=system_tests.CaseMeta):
     stdout = ["""STRUCTURE OF TIFF FILE (II): """ + filename + """
 """]
     stderr = ["""$exiv2_exception_message """ + filename + """:
-$kerTiffParsingError
+$kerCorruptedMetadata
 """]
