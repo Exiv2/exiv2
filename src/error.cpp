@@ -154,12 +154,10 @@ namespace {
           N_("%1 has invalid XMP value type `%2'") }, // %1=key, %2=value type
         { Exiv2::kerInvalidIccProfile,
           N_("Not a valid ICC Profile") },
-        { Exiv2::kerInvalidXMP,
-          N_("Not valid XMP") },
         { Exiv2::kerTiffDirectoryTooLarge,
           N_("tiff directory length is too large") },
         { Exiv2::kerInvalidTypeValue,
-          N_("invalid type value detected in Image::printIFDStructure") },
+          N_("invalid type in tiff structure") },
         { Exiv2::kerInvalidMalloc,
           N_("invalid memory allocation request") },
         { Exiv2::kerCorruptedMetadata,
