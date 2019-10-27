@@ -35,6 +35,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -56,6 +58,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -77,6 +81,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -98,6 +104,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -119,6 +127,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -140,6 +150,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  On
@@ -160,6 +172,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  On
@@ -180,6 +194,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Shutter speed priority AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -200,6 +216,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Shutter speed priority AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
@@ -220,6 +238,8 @@ Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Shutter speed priority AE
+Exif.Fujifilm.ShadowTone                     SLong       1  0
+Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
