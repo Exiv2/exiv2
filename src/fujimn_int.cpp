@@ -180,6 +180,24 @@ namespace Exiv2 {
         { 32768, N_("Film simulation mode") }
     };
 
+    //! DRangePriority, tag 0x1443
+    extern const TagDetails fujiDRangePriority[] = {
+        {     0, N_("Auto")  },
+        {     1, N_("Fixed") }
+    };
+
+    //! DRangePriorityAuto, tag 0x1444
+    extern const TagDetails fujiDRangePriorityAuto[] = {
+        {     1, N_("Weak")  },
+        {     2, N_("Strong") }
+    };
+
+    //! DRangePriorityFixed, tag 0x1445
+    extern const TagDetails fujiDRangePriorityFixed[] = {
+        {     1, N_("Weak")  },
+        {     2, N_("Strong") }
+    };
+
     // Fujifilm MakerNote Tag Info
     const TagInfo FujiMakerNote::tagInfo_[] = {
         TagInfo(0x0000, "Version", N_("Version"),
@@ -228,6 +246,12 @@ namespace Exiv2 {
         TagInfo(0x1032, "0x1032", "0x1032",
                 N_("Unknown"),
                 fujiId, makerTags, unsignedShort, -1, printValue),
+        TagInfo(0x1040, "ShadowTone", N_("Shadow Tone"),
+                N_("Shadow tone"),
+                fujiId, makerTags, signedLong, -1, printValue),
+        TagInfo(0x1041, "HighlightTone", N_("Highlight Tone"),
+                N_("Highlight tone"),
+                fujiId, makerTags, signedLong, -1, printValue),
         TagInfo(0x1100, "Continuous", N_("Continuous"),
                 N_("Continuous shooting or auto bracketing setting"),
                 fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContinuous)),
@@ -273,6 +297,15 @@ namespace Exiv2 {
         TagInfo(0x1407, "MaxApertureAtMaxFocal", N_("Maximum Aperture at Maximum Focal"),
                 N_("Maximum aperture at maximum focal"),
                 fujiId, makerTags, unsignedRational, -1, printValue),
+        TagInfo(0x1443, "DRangePriority", N_("D Range Priority"),
+                N_("Dynamic range priority"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriority)),
+        TagInfo(0x1444, "DRangePriorityAuto", N_("D Range Priority Auto"),
+                N_("Dynamic range priority auto"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityAuto)),
+        TagInfo(0x1445, "DRangePriorityFixed", N_("D Range Priority Fixed"),
+                N_("Dynamic range priority fixed"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityFixed)),
         TagInfo(0x8000, "FileSource", N_("File Source"),
                 N_("File source"),
                 fujiId, makerTags, asciiString, -1, printValue),
