@@ -214,7 +214,7 @@ namespace Exiv2 {
             throw Error(kerNotACrwImage);
         }
 
-        delete pPadding_;
+        delete[] pPadding_;
         pPadding_ = new byte[offset_ - 14];
         padded_ = offset_ - 14;
         std::memcpy(pPadding_, pData + 14, padded_);
