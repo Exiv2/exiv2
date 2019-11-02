@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
 
 source ./functions.source

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver with regression tests for bugfixes
 
 source ./functions.source
