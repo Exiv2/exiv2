@@ -993,7 +993,8 @@ namespace Exiv2 {
         { 194, "Canon EF 80-200mm f/4.5-5.6 USM"                            },
         { 195, "Canon EF 35-105mm f/4.5-5.6 USM"                            },
         { 196, "Canon EF 75-300mm f/4-5.6 USM"                              },
-        { 197, "Canon EF 75-300mm f/4-5.6 IS USM"                           },
+        { 197, "Canon EF 75-300mm f/4-5.6 IS USM"                           }, // 0
+        { 197, "Sigma 18-300mm f/3.5-6.3 DC Macro HSM"                      }, // 1
         { 198, "Canon EF 50mm f/1.4 USM"                                    }, // 0
         { 198, "Zeiss Otus 55mm f/1.4 ZE"                                   }, // 1
         { 198, "Zeiss Otus 85mm f/1.4 ZE"                                   }, // 2
@@ -1147,6 +1148,7 @@ namespace Exiv2 {
         { 172, printCsLensByFocalLengthTC }, // not tested
         { 173, printCsLensByFocalLengthTC }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
+        { 197, printCsLensByFocalLength },
         { 180, printCsLensByFocalLength },
         { 181, printCsLensByFocalLengthTC }, // not tested
         { 182, printCsLensByFocalLengthTC }, // not tested
