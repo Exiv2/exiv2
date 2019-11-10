@@ -135,6 +135,18 @@ namespace Exiv2 {
         { 768, N_("Manual")                    }
     };
 
+    //! ShadowTone, tag 0x1040
+    //! HighlightTone, tag 0x041
+    extern const TagDetails fujiSHTone[] = {
+        { -64, N_("+4") },
+        { -48, N_("+3") },
+        { -32, N_("+2") },
+        { -16, N_("+1") },
+        {   0 , N_("0") },
+        {  16, N_("-1") },
+        {  32, N_("-2") },
+    };
+
     //! Continuous, tag 0x1100
     extern const TagDetails fujiContinuous[] = {
         { 0, N_("Off")              },
@@ -248,10 +260,10 @@ namespace Exiv2 {
                 fujiId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x1040, "ShadowTone", N_("Shadow Tone"),
                 N_("Shadow tone"),
-                fujiId, makerTags, signedLong, -1, printValue),
+                fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)),
         TagInfo(0x1041, "HighlightTone", N_("Highlight Tone"),
                 N_("Highlight tone"),
-                fujiId, makerTags, signedLong, -1, printValue),
+                fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)),
         TagInfo(0x1100, "Continuous", N_("Continuous"),
                 N_("Continuous shooting or auto bracketing setting"),
                 fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContinuous)),
