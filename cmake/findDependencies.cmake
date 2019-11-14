@@ -26,8 +26,17 @@ if( EXIV2_ENABLE_WEBREADY )
 
     if( EXIV2_ENABLE_SSH )
         find_package(libssh CONFIG REQUIRED)
-    endif( )
-endif( )
+        # Define an imported target to have compatibility with <=libssh-0.9.0
+        # libssh-0.9.1 is broken regardless.
+        if(NOT TARGET ssh)
+            add_library(ssh SHARED IMPORTED)
+            set_target_properties(ssh PROPERTIES
+                IMPORTED_LOCATION "${LIBSSH_LIBRARIES}"
+                INTERFACE_INCLUDE_DIRECTORIES "${LIBSSH_INCLUDE_DIR}"
+            )
+        endif()
+    endif()
+endif()
 
 if (EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP)
     message(FATAL_ERROR "EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP are mutually exclusive.  You can only choose one of them")
