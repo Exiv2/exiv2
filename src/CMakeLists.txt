@@ -182,12 +182,12 @@ if (NOT MSVC)
     endif()
 
     if (CYGWIN OR MINGW OR MSYS)
-        target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
+        target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
     endif()
 
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
 else()
-    target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
+    target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
 endif()
 
 if( EXIV2_ENABLE_PNG )
