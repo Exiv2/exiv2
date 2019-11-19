@@ -171,13 +171,13 @@ namespace Exiv2
 #ifdef EXV_UNICODE_PATH
           wpMode_(wpStandard),
 #endif
-          fp_(0),
+          fp_(nullptr),
           opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
-          hFile_(0),
-          hMap_(0),
+          hFile_(nullptr),
+          hMap_(nullptr),
 #endif
-          pMappedArea_(0),
+          pMappedArea_(nullptr),
           mappedLength_(0),
           isMalloced_(false),
           isWriteable_(false)
@@ -935,7 +935,9 @@ namespace Exiv2
 
     int64 FileIo::tell() const
     {
-        assert(p_->fp_ != 0);
+        if (p_->fp_ == nullptr) {
+            return -1;
+        }
         return std::ftell(p_->fp_);
     }
 
