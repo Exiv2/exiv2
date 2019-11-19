@@ -8,6 +8,14 @@ macro( OptionOutput _outputstring )
     message( STATUS "${_outputstring}${_var}" )
 endmacro( OptionOutput _outputstring )
 
+function(printList items)
+    foreach (item ${items})
+        message("\t ${item}")
+    endforeach()
+endfunction()
+
+get_property(COMPILER_OPTIONS     DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY COMPILE_OPTIONS)
+
 message( STATUS "Install prefix:    ${CMAKE_INSTALL_PREFIX}")
 message( STATUS "------------------------------------------------------------------" )
 message( STATUS "CMake Generator:   ${CMAKE_GENERATOR}" )
@@ -15,6 +23,7 @@ message( STATUS "CMAKE_BUILD_TYPE:  ${CMAKE_BUILD_TYPE}" )
 message( STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
 message( STATUS " --- Compiler flags --- ")
 message( STATUS "General:           ${CMAKE_CXX_FLAGS}" )
+printList("${COMPILER_OPTIONS}")
 message( STATUS "Extra:             ${EXTRA_COMPILE_FLAGS}" )
 message( STATUS "Debug:             ${CMAKE_CXX_FLAGS_DEBUG}" )
 message( STATUS "Release:           ${CMAKE_CXX_FLAGS_RELEASE}" )
@@ -31,9 +40,6 @@ message( STATUS "Compiler Options")
 OptionOutput( "Warnings as errors:                 " EXIV2_WARNINGS_AS_ERRORS        )
 OptionOutput( "Use extra compiler warning flags:   " EXIV2_EXTRA_WARNINGS            )
 message( STATUS "" )
-
-
-message( STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
 
 message( STATUS "------------------------------------------------------------------" )
 OptionOutput( "Building shared library:            " BUILD_SHARED_LIBS               )

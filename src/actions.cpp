@@ -1891,7 +1891,7 @@ namespace
         GetTempPath(MAX_PATH, lpTempPathBuffer);
         std::string tmp(lpTempPathBuffer);
         tmp += "\\";
-        HANDLE process = 0;
+        HANDLE process = nullptr;
         DWORD pid = ::GetProcessId(process);
 #else
         pid_t pid = ::getpid();
@@ -1899,7 +1899,7 @@ namespace
         std::string tmp = "/tmp/";
 #endif
         char sCount[12];
-        sprintf(sCount, "_%d", ++count);
+        std::snprintf(sCount, 12, "_%d", ++count);
 
         std::string result = tmp + Exiv2::toString(pid) + sCount;
         if (Exiv2::fileExists(result))
