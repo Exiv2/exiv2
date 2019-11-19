@@ -188,11 +188,11 @@ namespace Exiv2
     FileIo::Impl::Impl(const std::wstring& wpath)
         : wpath_(wpath),
           wpMode_(wpUnicode),
-          fp_(0),
+          fp_(nullptr),
           opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
-          hFile_(0),
-          hMap_(0),
+          hFile_(nullptr),
+          hMap_(nullptr),
 #endif
           pMappedArea_(0),
           mappedLength_(0),
@@ -431,7 +431,7 @@ namespace Exiv2
 #endif
         }
         if (p_->isWriteable_) {
-            if (p_->fp_ != 0)
+            if (p_->fp_ != nullptr)
                 p_->switchMode(Impl::opRead);
             p_->isWriteable_ = false;
         }
@@ -442,7 +442,7 @@ namespace Exiv2
 
     byte* FileIo::mmap(bool isWriteable)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if (munmap() != 0) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
@@ -602,7 +602,7 @@ namespace Exiv2
 
     size_t FileIo::write(const byte* data, size_t wcount)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if (p_->switchMode(Impl::opWrite) != 0)
             return 0;
         return (long)std::fwrite(data, 1, wcount, p_->fp_);
@@ -610,7 +610,7 @@ namespace Exiv2
 
     size_t FileIo::write(BasicIo& src)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if (static_cast<BasicIo*>(this) == &src)
             return 0;
         if (!src.isopen())
@@ -636,7 +636,7 @@ namespace Exiv2
 
     void FileIo::transfer(BasicIo& src)
     {
-        const bool wasOpen = (p_->fp_ != 0);
+        const bool wasOpen = (p_->fp_ != nullptr);
         const std::string lastMode(p_->openMode_);
 
         FileIo* fileIo = dynamic_cast<FileIo*>(&src);
@@ -901,7 +901,7 @@ namespace Exiv2
 
     int FileIo::putb(byte data)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if (p_->switchMode(Impl::opWrite) != 0)
             return EOF;
         return putc(data, p_->fp_);
@@ -909,7 +909,7 @@ namespace Exiv2
 
     int FileIo::seek(int64 offset, Position pos)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
 
         int fileSeek = 0;
         switch (pos) {
@@ -944,7 +944,7 @@ namespace Exiv2
     size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
-        if (p_->fp_ != 0 && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
+        if (p_->fp_ != nullptr && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
             std::fflush(p_->fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
@@ -986,7 +986,7 @@ namespace Exiv2
 
     bool FileIo::isopen() const
     {
-        return p_->fp_ != 0;
+        return p_->fp_ != nullptr;
     }
 
     int FileIo::close()
@@ -994,17 +994,17 @@ namespace Exiv2
         int rc = 0;
         if (munmap() != 0)
             rc = 2;
-        if (p_->fp_ != 0) {
+        if (p_->fp_ != nullptr) {
             if (std::fclose(p_->fp_) != 0)
                 rc |= 1;
-            p_->fp_ = 0;
+            p_->fp_ = nullptr;
         }
         return rc;
     }
 
     DataBuf FileIo::read(long rcount)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if ((size_t)rcount > size())
             throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
@@ -1015,7 +1015,7 @@ namespace Exiv2
 
     size_t FileIo::read(byte* buf, size_t rcount)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if (p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
@@ -1024,7 +1024,7 @@ namespace Exiv2
 
     int FileIo::getb()
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         if (p_->switchMode(Impl::opRead) != 0)
             return EOF;
         return getc(p_->fp_);
@@ -1032,12 +1032,12 @@ namespace Exiv2
 
     int FileIo::error() const
     {
-        return p_->fp_ != 0 ? ferror(p_->fp_) : 0;
+        return p_->fp_ != nullptr ? ferror(p_->fp_) : 0;
     }
 
     bool FileIo::eof() const
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_ != nullptr);
         return feof(p_->fp_) != 0 || tell() >= (long)size();
     }
 
