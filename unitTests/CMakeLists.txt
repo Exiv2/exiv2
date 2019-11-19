@@ -3,6 +3,7 @@ enable_testing()
 
 add_executable(unit_tests mainTestRunner.cpp
     test_DateValue.cpp
+    test_FileIo.cpp
     test_ImageFactory.cpp
     test_ImageJpeg.cpp
     test_MemIo.cpp
@@ -37,6 +38,7 @@ if( EXIV2_ENABLE_PNG )
     target_link_libraries(unit_tests PRIVATE ${ZLIB_LIBRARIES} )
 endif()
 
+# To test exiv2lib_int
 target_include_directories(unit_tests
     PRIVATE
         ${CMAKE_SOURCE_DIR}/src
