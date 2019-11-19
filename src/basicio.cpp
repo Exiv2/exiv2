@@ -605,7 +605,7 @@ namespace Exiv2
         assert(p_->fp_ != nullptr);
         if (p_->switchMode(Impl::opWrite) != 0)
             return 0;
-        return (long)std::fwrite(data, 1, wcount, p_->fp_);
+        return std::fwrite(data, 1, wcount, p_->fp_);
     }
 
     size_t FileIo::write(BasicIo& src)
