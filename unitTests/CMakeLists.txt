@@ -5,10 +5,10 @@ add_executable(unit_tests mainTestRunner.cpp
     test_DateValue.cpp
     test_ImageFactory.cpp
     test_ImageJpeg.cpp
+    test_MemIo.cpp
     test_PngChunks.cpp
     test_TimeValue.cpp
     test_XmpKey.cpp
-    test_basicio.cpp
     test_cr2header_int.cpp
     test_enforce.cpp
     test_futils.cpp
