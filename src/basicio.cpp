@@ -953,11 +953,12 @@ namespace Exiv2
         }
 
         Impl::StructStat buf;
-        int ret = p_->stat(buf);
+        const int ret = p_->stat(buf);
 
         if (ret != 0)
-            return -1;
-        return buf.st_size;
+            return std::numeric_limits<size_t>::max();
+
+        return static_cast<size_t>(buf.st_size);
     }
 
     int FileIo::open()
@@ -1037,8 +1038,9 @@ namespace Exiv2
 
     bool FileIo::eof() const
     {
-        assert(p_->fp_ != nullptr);
-        return feof(p_->fp_) != 0 || tell() >= (long)size();
+        if (p_->fp_ == nullptr)
+            return false;
+        return feof(p_->fp_) != 0 || tell() >= static_cast<int64>(size());
     }
 
     std::string FileIo::path() const
