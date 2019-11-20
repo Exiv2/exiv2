@@ -472,20 +472,14 @@ constexpr size_t operator"" _z(unsigned long long n)
 
     }; // class MemIo
 
-    /*!
-      @brief Provides binary IO for the data from stdin and data uri path.
-     */
+    /// @brief Provides binary IO for the data from stdin and data uri path.
     class EXIV2API XPathIo : public FileIo {
     public:
-        /*!
-            @brief The extension of the temporary file which is created when getting input data
-                    to read metadata. This file will be deleted in destructor.
-        */
+        /// @brief The extension of the temporary file which is created when getting input data to read metadata. This
+        /// file will be deleted in destructor.
         static const std::string TEMP_FILE_EXT;
-        /*!
-            @brief The extension of the generated file which is created when getting input data
-                    to add or modify the metadata.
-        */
+
+        /// @brief The extension of the generated file which is created when getting input data to add or modify the metadata.
         static const std::string GEN_FILE_EXT;
 
         //! @name Creators
@@ -493,42 +487,32 @@ constexpr size_t operator"" _z(unsigned long long n)
         //! Default constructor that reads data from stdin/data uri path and writes them to the temp file.
         explicit XPathIo(const std::string& orgPath);
 #ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like XPathIo(const std::string& orgPath) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
+        /// @brief Like XPathIo(const std::string& orgPath) but accepts a unicode url in an std::wstring.
+        /// @note This constructor is only available on Windows.
         explicit XPathIo(const std::wstring& wOrgPathpath);
 #endif
         //! Destructor. Releases all managed memory and removes the temp file.
-        virtual ~XPathIo();
+        ~XPathIo() override;
         //@}
 
         //! @name Manipulators
         //@{
-        /*!
-            @brief Change the name of the temp file and make it untemporary before
-                    calling the method of superclass FileIo::transfer.
-         */
+        /// @brief Change the name of the temp file and make it untemporary before calling the method of superclass
+        /// FileIo::transfer.
         void transfer(BasicIo& src) override;
 
         //@}
 
         //! @name Static methods
         //@{
-        /*!
-            @brief Read the data from stdin/data uri path and write them to the file.
-            @param orgPath It equals "-" if the input data's from stdin. Otherwise, it's data uri path.
-            @return the name of the new file.
-            @throw Error if it fails.
-         */
+        /// @brief Read the data from stdin/data uri path and write them to the file.
+        /// @param orgPath It equals "-" if the input data's from stdin. Otherwise, it's data uri path.
+        /// @return the name of the new file.
+        /// @throw Error if it fails.
         static std::string writeDataToFile(const std::string& orgPath);
 #ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like writeDataToFile(const std::string& orgPath) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
+        /// @brief Like writeDataToFile(const std::string& orgPath) but accepts a unicode url in an std::wstring.
+        /// @note This constructor is only available on Windows.
         static std::string writeDataToFile(const std::wstring& wOrgPath);
 #endif
         //@}
@@ -539,12 +523,8 @@ constexpr size_t operator"" _z(unsigned long long n)
         std::string tempFilePath_;
     }; // class XPathIo
 
-
-    /*!
-        @brief Provides remote binary file IO by implementing the BasicIo interface. This is an
-            abstract class. The logics for remote access are implemented in HttpIo, CurlIo, SshIo which
-            are the derived classes of RemoteIo.
-    */
+    /// @brief Provides remote binary file IO by implementing the BasicIo interface. This is an abstract class.
+    /// The logics for remote access are implemented in HttpIo, CurlIo, SshIo which are the derived classes of RemoteIo.
     class EXIV2API RemoteIo : public BasicIo {
     public:
         //! Destructor. Releases all managed memory.
@@ -553,159 +533,102 @@ constexpr size_t operator"" _z(unsigned long long n)
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Connect to the remote server, get the size of the remote file and
-            allocate the array of blocksMap.
-
-            If the blocksMap is already allocated (this method has been called before),
-            it just reset IO position to the start and does not flush the old data.
-          @return 0 if successful;<BR>
-              Nonzero if failure.
-         */
+        /// @brief Connect to the remote server, get the size of the remote file and allocate the array of blocksMap.
+        ///
+        /// If the blocksMap is already allocated (this method has been called before), it just reset IO position to
+        /// the start and does not flush the old data.
+        /// @return 0 if successful;<BR> Nonzero if failure.
         int open() override;
 
-        /*!
-          @brief Reset the IO position to the start. It does not release the data.
-          @return 0 if successful;<BR>
-              Nonzero if failure.
-         */
+        /// @brief Reset the IO position to the start. It does not release the data.
+        /// @return 0 if successful;<BR> Nonzero if failure.
         int close() override;
-        /*!
-          @brief Not support this method.
-          @return 0 means failure
-         */
+
+        /// @brief No support for this method. @returns 0 as failure
         size_t write(const byte* data, size_t wcount) override;
-        /*!
-          @brief Write data that is read from another BasicIo instance to the remote file.
 
-          The write access is done in an efficient way. It only sends the range of different
-          bytes between the current data and BasicIo instance to the remote machine.
-
-          @param src Reference to another BasicIo instance. Reading start
-              at the source's current IO position
-          @return The size of BasicIo instance;<BR>
-                 0 if failure;
-          @throw Error In case of failure
-
-          @note The write access is only supported by http, https, ssh.
-         */
+        /// @brief Write data that is read from another BasicIo instance to the remote file.
+        ///
+        /// The write access is done in an efficient way. It only sends the range of different bytes between the
+        /// current data and BasicIo instance to the remote machine.
+        /// @param src Reference to another BasicIo instance. Reading start at the source's current IO position
+        /// @return The size of BasicIo instance;<BR> 0 if failure;
+        /// @throw Error In case of failure
+        /// @note The write access is only supported by http, https, ssh.
         size_t write(BasicIo& src) override;
 
-        /*!
-         @brief Not support
-         @return 0 means failure
-        */
+        /// @brief No support for this method. @returns 0 as failure
         int putb(byte data) override;
-       /*!
-         @brief Read data from the memory blocks. Reading starts at the current
-             IO position and the position is advanced by the number of
-             bytes read.
-             If the memory blocks are not populated (False), it will connect to server
-             and populate the data to memory blocks.
-         @param rcount Maximum number of bytes to read. Fewer bytes may be
-             read if \em rcount bytes are not available.
-         @return DataBuf instance containing the bytes read. Use the
-               DataBuf::size_ member to find the number of bytes read.
-               DataBuf::size_ will be 0 on failure.
-        */
+
+       /// @brief Read data from the memory blocks.
+       ///
+       /// Reading starts at the current IO position and the position is advanced by the number of bytes read. If the
+       /// memory blocks are not populated (False), it will connect to server and populate the data to memory blocks.
+       /// @param rcount Maximum number of bytes to read. Fewer bytes may be read if \em rcount bytes are not available.
+       /// @return DataBuf instance containing the bytes read. Use the DataBuf::size_ member to find the number of
+       /// bytes read. DataBuf::size_ will be 0 on failure.
        DataBuf read(long rcount) override;
-       /*!
-         @brief Read data from the the memory blocks. Reading starts at the current
-             IO position and the position is advanced by the number of
-             bytes read.
-             If the memory blocks are not populated (!= bMemory), it will connect to server
-             and populate the data to memory blocks.
-         @param buf Pointer to a block of memory into which the read data
-             is stored. The memory block must be at least \em rcount bytes
-             long.
-         @param rcount Maximum number of bytes to read. Fewer bytes may be
-             read if \em rcount bytes are not available.
-         @return Number of bytes read from the memory block successfully;<BR>
-                0 if failure;
-        */
+
+       /// @brief Read data from the the memory blocks. Reading starts at the current IO position and the position is
+       /// advanced by the number of bytes read.
+       ///
+       /// If the memory blocks are not populated (!= bMemory), it will connect to server and populate the data to
+       /// memory blocks.
+       /// @param buf Pointer to a block of memory into which the read data is stored. The memory block must be at
+       /// least \em rcount bytes long.
+       /// @param rcount Maximum number of bytes to read. Fewer bytes may be read if \em rcount bytes are not available.
+       /// @return Number of bytes read from the memory block successfully;<BR> 0 if failure;
        size_t read(byte* buf, size_t rcount) override;
-       /*!
-         @brief Read one byte from the memory blocks. The IO position is
-             advanced by one byte.
-             If the memory block is not populated (!= bMemory), it will connect to server
-             and populate the data to the memory block.
-         @return The byte read from the memory block if successful;<BR>
-                EOF if failure;
-        */
+
+       /// @brief Read one byte from the memory blocks. The IO position is advanced by one byte.
+       /// If the memory block is not populated (!= bMemory), it will connect to server and populate the data to the
+       /// memory block.
+       /// @return The byte read from the memory block if successful;<BR> EOF if failure;
        int getb() override;
-        /*!
-          @brief Remove the contents of the file and then transfer data from
-              the \em src BasicIo object into the empty file.
 
-          The write access is done in an efficient way. It only sends the range of different
-          bytes between the current data and BasicIo instance to the remote machine.
-
-          @param src Reference to another BasicIo instance. The entire contents
-              of src are transferred to this object. The \em src object is
-              invalidated by the method.
-          @throw Error In case of failure
-
-          @note The write access is only supported by http, https, ssh.
-         */
+        /// @brief Remove the contents of the file and then transfer data from the \em src BasicIo object into the
+        /// empty file.
+        ///
+        /// The write access is done in an efficient way. It only sends the range of different bytes between the
+        /// current data and BasicIo instance to the remote machine.
+        /// @param src Reference to another BasicIo instance. The entire contents of src are transferred to this object.
+        /// The \em src object is invalidated by the method.
+        /// @throw Error In case of failure
+        /// @note The write access is only supported by http, https, ssh.
        void transfer(BasicIo& src) override;
-       /*!
-         @brief Move the current IO position.
-         @param offset Number of bytes to move the IO position
-             relative to the starting position specified by \em pos
-         @param pos Position from which the seek should start
-         @return 0 if successful;<BR>
-                Nonzero if failure;
-        */
+
        int seek(int64 offset, Position pos) override;
-       /*!
-         @brief Not support
-         @return nullptr
-        */
+
+       /// @brief No support for this method. @returns nullptr as failure
        byte* mmap(bool /*isWriteable*/ =false) override;
-        /*!
-          @brief Not support
-          @return 0
-         */
+
+       /// @brief No support for this method. @returns 0 as failure
        int munmap() override;
+
        //@}
        //! @name Accessors
        //@{
-       /*!
-         @brief Get the current IO position.
-         @return Offset from the start of the memory block
-        */
        int64 tell() const override;
-       /*!
-         @brief Get the current memory buffer size in bytes.
-         @return Size of the in memory data in bytes;<BR>
-                -1 if failure;
-        */
+
        size_t size() const override;
+
        //!Returns true if the memory area is allocated.
        bool isopen() const override;
+
        //!Always returns 0
        int error() const override;
-       //!Returns true if the IO position has reached the end, otherwise false.
+
        bool eof() const override;
+
        //!Returns the URL of the file.
        std::string path() const override;
 #ifdef EXV_UNICODE_PATH
-       /*
-         @brief Like path() but returns a unicode URL path in an std::wstring.
-         @note This function is only available on Windows.
-        */
+       /// @brief Like path() but returns a unicode URL path in an std::wstring.
+       /// @note This function is only available on Windows.
        std::wstring wpath() const override;
 #endif
 
-        /*!
-          @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
-            for parts of the file that contain image-date (non-metadata/pixel data)
-
-          @note This method should be only called after the concerned data (metadata)
-                are all downloaded from the remote file to memory.
-         */
        void populateFakeData() override;
-
        //@}
 
     protected:
@@ -721,38 +644,28 @@ constexpr size_t operator"" _z(unsigned long long n)
         Impl* p_;
     }; // class RemoteIo
 
-    /*!
-        @brief Provides the http read/write access for the RemoteIo.
-    */
+    /// @brief Provides the http read/write access for the RemoteIo.
     class EXIV2API HttpIo : public RemoteIo {
     public:
         //! @name Creators
         //@{
-        /*!
-          @brief Constructor that accepts the http URL on which IO will be
-              performed. The constructor does not open the file, and
-              therefore never failes.
-          @param url The full path of url
-          @param blockSize the size of the memory block. The file content is
-                divided into the memory blocks. These blocks are populated
-                on demand from the server, so it avoids copying the complete file.
-         */
+        /// @brief Constructor that accepts the http URL on which IO will be performed.
+        ///
+        /// The constructor does not open the file, and therefore never failes.
+        /// @param url The full path of url
+        /// @param blockSize the size of the memory block. The file content is divided into the memory blocks.
+        /// These blocks are populated on demand from the server, so it avoids copying the complete file.
         HttpIo(const std::string&  url,  size_t blockSize = 1024);
 #ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like HttpIo(const std::string& url, size_t blockSize = 1024) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
+        /// @brief Like previous constructor but accepting a unicode url in an std::wstring.
+        /// @note This constructor is only available on Windows.
         HttpIo(const std::wstring& wurl, size_t blockSize = 1024);
 #endif
+        // NOT IMPLEMENTED
+        HttpIo(HttpIo& rhs) = delete;
+        HttpIo& operator=(const HttpIo& rhs) = delete;
         //@}
     protected:
-        // NOT IMPLEMENTED
-        //! Copy constructor
-        HttpIo(HttpIo& rhs);
-        //! Assignment operator
-        HttpIo& operator=(const HttpIo& rhs);
         // Pimpl idiom
         class HttpImpl;
 
@@ -764,50 +677,39 @@ constexpr size_t operator"" _z(unsigned long long n)
     };
 
 #ifdef EXV_USE_CURL
-    /*!
-        @brief Provides the http, https read/write access and ftp read access for the RemoteIo.
-            This class is based on libcurl.
-    */
+    /// @brief Provides the http, https read/write access and ftp read access for the RemoteIo.
+    ///
+    /// This class is based on libcurl.
     class EXIV2API CurlIo : public RemoteIo {
     public:
         //! @name Creators
         //@{
-        /*!
-          @brief Constructor that accepts the URL on which IO will be
-              performed.
-          @param url The full path of url
-          @param blockSize the size of the memory block. The file content is
-                divided into the memory blocks. These blocks are populated
-                on demand from the server, so it avoids copying the complete file.
-          @throw Error if it is unable to init curl pointer.
-         */
+        /// @brief Constructor that accepts the URL on which IO will be performed.
+        /// @param url The full path of url
+        /// @param blockSize the size of the memory block. The file content is divided into the memory blocks.
+        /// These blocks are populated on demand from the server, so it avoids copying the complete file.
+        /// @throw Error if it is unable to init curl pointer.
         CurlIo(const std::string&  url,  size_t blockSize = 0);
 #ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like CurlIo(const std::string&  url,  size_t blockSize = 0) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
+        /// @brief Like CurlIo(const std::string&  url,  size_t blockSize = 0) but accepts a unicode url in an std::wstring.
+        /// @note This constructor is only available on Windows.
         CurlIo(const std::wstring& wurl, size_t blockSize = 0);
 #endif
-        /*!
-          @brief Write access is only available for some protocols. This method
-                will call RemoteIo::write(const byte* data, long wcount) if the write
-                access is available for the protocol. Otherwise, it throws the Error.
-         */
+        CurlIo(CurlIo& rhs) = delete;
+        CurlIo& operator=(const CurlIo& rhs) = delete;
+
+        /// @brief Write access is only available for some protocols.
+        ///
+        /// This method will call RemoteIo::write(const byte* data, long wcount) if the write access is available for
+        /// the protocol. Otherwise, it throws the Error.
         size_t write(const byte* data, size_t wcount);
-        /*!
-          @brief Write access is only available for some protocols. This method
-                will call RemoteIo::write(BasicIo& src) if the write access is available
-                for the protocol. Otherwise, it throws the Error.
-         */
+
+        /// @brief Write access is only available for some protocols.
+        ///
+        /// This method will call RemoteIo::write(BasicIo& src) if the write access is available for the protocol.
+        /// Otherwise, it throws the Error.
         size_t write(BasicIo& src);
     protected:
-        // NOT IMPLEMENTED
-        //! Copy constructor
-        CurlIo(CurlIo& rhs);
-        //! Assignment operator
-        CurlIo& operator=(const CurlIo& rhs);
         // Pimpl idiom
         class CurlImpl;
 
@@ -822,51 +724,42 @@ constexpr size_t operator"" _z(unsigned long long n)
 // *****************************************************************************
 // template, inline and free functions
 
-    /*!
-      @brief Read file \em path into a DataBuf, which is returned.
-      @return Buffer containing the file.
-      @throw Error In case of failure.
-     */
+    /// @brief Read file \em path into a DataBuf, which is returned.
+    /// @return Buffer containing the file.
+    /// @throw Error In case of failure.
     EXIV2API DataBuf readFile(const std::string& path);
+
 #ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like readFile() but accepts a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
+    /// @brief Like readFile() but accepts a unicode path in an std::wstring.
+    /// @note This function is only available on Windows.
     EXIV2API DataBuf readFile(const std::wstring& wpath);
 #endif
-    /*!
-      @brief Write DataBuf \em buf to file \em path.
-      @return Return the number of bytes written.
-      @throw Error In case of failure.
-     */
+
+    /// @brief Write DataBuf \em buf to file \em path.
+    /// @return Return the number of bytes written.
+    /// @throw Error In case of failure.
     EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
 #ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like writeFile() but accepts a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
+    /// @brief Like writeFile() but accepts a unicode path in an std::wstring.
+    /// @note This function is only available on Windows.
     EXIV2API size_t writeFile(const DataBuf& buf, const std::wstring& wpath);
 #endif
-    /*!
-      @brief replace each substring of the subject that matches the given search string with the given replacement.
-      @return the subject after replacing.
-     */
+
+    /// @brief replace each substring of the subject that matches the given search string with the given replacement.
+    /// @return the subject after replacing.
     EXIV2API std::string ReplaceStringInPlace(std::string subject, const std::string& search,
-                          const std::string& replace);
+                                              const std::string& replace);
+
 #ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like ReplaceStringInPlace() but accepts a unicode path in an std::wstring.
-      @return the subject after replacing.
-      @note This function is only available on Windows.
-     */
+    /// @brief Like ReplaceStringInPlace() but accepts a unicode path in an std::wstring.
+    /// @return the subject after replacing.
+    /// @note This function is only available on Windows.
     EXIV2API std::wstring ReplaceStringInPlace(std::wstring subject, const std::wstring& search,
                           const std::wstring& replace);
 #endif
+
 #ifdef EXV_USE_CURL
-    /*!
-      @brief The callback function is called by libcurl to write the data
-    */
+    /// @brief The callback function is called by libcurl to write the data
     EXIV2API size_t curlWriter(char* data, size_t size, size_t nmemb, std::string* writerData);
 #endif
 }                                       // namespace Exiv2
