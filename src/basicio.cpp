@@ -1443,68 +1443,6 @@ namespace Exiv2
     {
     }
 
-#if EXV_XPATH_MEMIO
-    XPathIo::XPathIo(const std::string& path)
-    {
-        Protocol prot = fileProtocol(path);
-
-        if (prot == pStdin)
-            ReadStdin();
-        else if (prot == pDataUri)
-            ReadDataUri(path);
-    }
-#ifdef EXV_UNICODE_PATH
-    XPathIo::XPathIo(const std::wstring& wpath)
-    {
-        std::string path;
-        path.assign(wpath.begin(), wpath.end());
-        Protocol prot = fileProtocol(path);
-        if (prot == pStdin)
-            ReadStdin();
-        else if (prot == pDataUri)
-            ReadDataUri(path);
-    }
-#endif
-
-    void XPathIo::ReadStdin()
-    {
-        if (isatty(fileno(stdin)))
-            throw Error(kerInputDataReadFailed);
-
-#ifdef _O_BINARY
-        // convert stdin to binary
-        if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-            throw Error(kerInputDataReadFailed);
-#endif
-
-        char readBuf[100 * 1024];
-        std::streamsize readBufSize = 0;
-        do {
-            std::cin.read(readBuf, sizeof(readBuf));
-            readBufSize = std::cin.gcount();
-            if (readBufSize > 0) {
-                write((byte*)readBuf, (long)readBufSize);
-            }
-        } while (readBufSize);
-    }
-
-    void XPathIo::ReadDataUri(const std::string& path)
-    {
-        size_t base64Pos = path.find("base64,");
-        if (base64Pos == std::string::npos)
-            throw Error(kerErrorMessage, "No base64 data");
-
-        std::string data = path.substr(base64Pos + 7);
-        char* decodeData = new char[data.length()];
-        long size = base64decode(data.c_str(), decodeData, data.length());
-        if (size > 0)
-            write((byte*)decodeData, size);
-        else
-            throw Error(kerErrorMessage, "Unable to decode base 64.");
-        delete[] decodeData;
-    }
-
-#else
     const std::string XPathIo::TEMP_FILE_EXT = ".exiv2_temp";
     const std::string XPathIo::GEN_FILE_EXT = ".exiv2";
 
@@ -1609,8 +1547,6 @@ namespace Exiv2
         orgPath.assign(wOrgPath.begin(), wOrgPath.end());
         return XPathIo::writeDataToFile(orgPath);
     }
-#endif
-
 #endif
 
     //! Internal Pimpl abstract structure of class RemoteIo.

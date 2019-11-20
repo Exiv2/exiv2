@@ -29,12 +29,6 @@
 // + standard includes
 #include <memory>       // for std::auto_ptr
 
-// The way to handle data from stdin or data uri path. If EXV_XPATH_MEMIO = 1,
-// it uses MemIo. Otherwises, it uses FileIo.
-#ifndef EXV_XPATH_MEMIO
-#define EXV_XPATH_MEMIO 0
-#endif
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -481,36 +475,6 @@ constexpr size_t operator"" _z(unsigned long long n)
     /*!
       @brief Provides binary IO for the data from stdin and data uri path.
      */
-#if EXV_XPATH_MEMIO
-    class EXIV2API XPathIo : public MemIo {
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        XPathIo(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like XPathIo(const std::string& path) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        XPathIo(const std::wstring& wpath);
-#endif
-        //@}
-    private:
-        /*!
-            @brief Read data from stdin and write the data to memory.
-            @throw Error if it can't convert stdin to binary.
-         */
-        void ReadStdin();
-        /*!
-            @brief Read the data from data uri path and write the data to memory.
-            @param path The data uri.
-            @throw Error if no base64 data in path.
-         */
-        void ReadDataUri(const std::string& path);
-    }; // class XPathIo
-#else
     class EXIV2API XPathIo : public FileIo {
     public:
         /*!
@@ -574,7 +538,6 @@ constexpr size_t operator"" _z(unsigned long long n)
         bool isTemp_;
         std::string tempFilePath_;
     }; // class XPathIo
-#endif
 
 
     /*!
