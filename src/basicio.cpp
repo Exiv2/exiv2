@@ -621,21 +621,17 @@ namespace Exiv2
 
     size_t FileIo::write(const byte* data, size_t wcount)
     {
-        assert(p_->fp_ != nullptr);
-        if (p_->switchMode(Impl::opWrite) != 0)
+        if (p_->fp_ == nullptr || p_->switchMode(Impl::opWrite) != 0)
             return 0;
         return std::fwrite(data, 1, wcount, p_->fp_);
     }
 
     size_t FileIo::write(BasicIo& src)
     {
-        assert(p_->fp_ != nullptr);
-        if (static_cast<BasicIo*>(this) == &src)
+        if (p_->fp_ == nullptr || static_cast<BasicIo*>(this) == &src || !src.isopen() ||
+            p_->switchMode(Impl::opWrite) != 0) {
             return 0;
-        if (!src.isopen())
-            return 0;
-        if (p_->switchMode(Impl::opWrite) != 0)
-            return 0;
+        }
 
         byte buf[4096];
         size_t readCount = 0;
@@ -920,8 +916,7 @@ namespace Exiv2
 
     int FileIo::putb(byte data)
     {
-        assert(p_->fp_ != nullptr);
-        if (p_->switchMode(Impl::opWrite) != 0)
+        if (p_->fp_ == nullptr || p_->switchMode(Impl::opWrite) != 0)
             return EOF;
         return putc(data, p_->fp_);
     }
@@ -1024,10 +1019,12 @@ namespace Exiv2
 
     DataBuf FileIo::read(long rcount)
     {
-        assert(p_->fp_ != nullptr);
-        if ((size_t)rcount > size())
-            throw Error(kerInvalidMalloc);
-        DataBuf buf(rcount);
+        if (p_->fp_ == nullptr) {
+            return {};
+        }
+        if (static_cast<size_t>(rcount) > size())
+            throw Error(kerInvalidMalloc); /// \todo this is not what the doc promises. Do something about it
+        DataBuf buf(static_cast<size_t>(rcount));
         size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
         return buf;
@@ -1035,17 +1032,15 @@ namespace Exiv2
 
     size_t FileIo::read(byte* buf, size_t rcount)
     {
-        assert(p_->fp_ != nullptr);
-        if (p_->switchMode(Impl::opRead) != 0) {
+        if (p_->fp_ == nullptr || p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
-        return (long)std::fread(buf, 1, rcount, p_->fp_);
+        return std::fread(buf, 1, rcount, p_->fp_);
     }
 
     int FileIo::getb()
     {
-        assert(p_->fp_ != nullptr);
-        if (p_->switchMode(Impl::opRead) != 0)
+        if (p_->fp_ == nullptr || p_->switchMode(Impl::opRead) != 0)
             return EOF;
         return getc(p_->fp_);
     }
