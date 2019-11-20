@@ -76,6 +76,10 @@ typedef short nlink_t;
 // class member definitions
 namespace Exiv2
 {
+    BasicIo::BasicIo() : bigBlock_(nullptr)
+    {
+    }
+
     BasicIo::~BasicIo()
     {
     }
@@ -85,6 +89,21 @@ namespace Exiv2
         const size_t nread = read(buf, rcount);
         enforce(nread == rcount, kerInputDataReadFailed);
         enforce(!error(), kerInputDataReadFailed);
+    }
+
+    IoCloser::IoCloser(BasicIo& bio) : bio_(bio)
+    {
+    }
+
+    IoCloser::~IoCloser()
+    {
+        close();
+    }
+
+    void IoCloser::close()
+    {
+        if (bio_.isopen())
+            bio_.close();
     }
 
     //! Internal Pimpl structure of class FileIo.
@@ -390,7 +409,7 @@ namespace Exiv2
 
 #endif  // defined WIN32 && !defined __CYGWIN__
 
-    FileIo::FileIo(const std::string& path) : p_(new Impl(path))
+    FileIo::FileIo(const std::string& path) noexcept : p_(new Impl(path))
     {
     }
 
@@ -2546,6 +2565,7 @@ namespace Exiv2
         }
         return subject;
     }
+
 
 #ifdef EXV_UNICODE_PATH
     std::wstring ReplaceStringInPlace(std::wstring subject, const std::wstring& search, const std::wstring& replace)
