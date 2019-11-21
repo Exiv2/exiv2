@@ -430,10 +430,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         /// @return 0 if successful;<BR> Nonzero if failure;
         int seek(int64 offset, Position pos) override;
 
-        /// @brief Allow direct access to the underlying data buffer. The buffer is not protected against write access
-        /// in any way, the argument is ignored.
-        /// @note  The application must ensure that the memory pointed to by the returned pointer remains valid and
-        /// allocated as long as the MemIo object exists.
+        /// @brief In this case, it just returns a pointer to the memory array start.
         byte* mmap(bool /*isWriteable*/ =false) override;
 
         int munmap() override;
