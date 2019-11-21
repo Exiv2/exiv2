@@ -64,7 +64,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~BasicIo();
+        virtual ~BasicIo() = default;
         //@}
 
         //! @name Manipulators

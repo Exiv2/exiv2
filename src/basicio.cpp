@@ -80,10 +80,6 @@ namespace Exiv2
     {
     }
 
-    BasicIo::~BasicIo()
-    {
-    }
-
     void BasicIo::readOrThrow(byte* buf, size_t rcount)
     {
         const size_t nread = read(buf, rcount);
@@ -154,12 +150,9 @@ namespace Exiv2
         //! Simple struct stat wrapper for internal use
         struct StructStat
         {
-            StructStat() : st_mode(0), st_size(0), st_nlink(0)
-            {
-            }
-            mode_t st_mode;    //!< Permissions
-            off_t st_size;     //!< Size
-            nlink_t st_nlink;  //!< Number of hard links (broken on Windows, see winNumberOfLinks())
+            mode_t st_mode{0};    //!< Permissions
+            off_t st_size{0};     //!< Size
+            nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
         // #endif
         // METHODS
@@ -683,7 +676,7 @@ namespace Exiv2
             bool statOk = true;
             mode_t origStMode = 0;
             std::string spf;
-            char* pf = 0;
+            char* pf {nullptr};
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
             wchar_t* wpf = 0;
@@ -845,7 +838,7 @@ namespace Exiv2
                 ::remove(fileIo->path().c_str());
 #endif
                 // Check permissions of new file
-                struct stat buf2;
+                struct stat buf2{};
                 if (statOk && ::stat(pf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
@@ -1086,34 +1079,27 @@ namespace Exiv2
     class MemIo::Impl
     {
     public:
-        Impl();                               //!< Default constructor
-        Impl(const byte* data, size_t size);  //!< Constructor 2
-
-        // DATA
-        byte* data_;          //!< Pointer to the start of the memory area
-        size_t idx_;          //!< Index into the memory area
-        size_t size_;         //!< Size of the memory area
-        size_t sizeAlloced_;  //!< Size of the allocated buffer
-        bool isMalloced_;     //!< Was the buffer allocated?
-        bool eof_;            //!< EOF indicator
-
-        // METHODS
-        void reserve(size_t wcount);  //!< Reserve memory
+        Impl() = default;
+        Impl(const byte* data, size_t size) : data_(const_cast<byte*>(data)), size_(size)
+        {
+        }
 
         Impl& operator=(const Impl& rhs) = delete;
         Impl& operator=(const Impl&& rhs) = delete;
         Impl(const Impl& rhs) = delete;
         Impl(const Impl&& rhs) = delete;
-    };  // class MemIo::Impl
 
-    MemIo::Impl::Impl() : data_(0), idx_(0), size_(0), sizeAlloced_(0), isMalloced_(false), eof_(false)
-    {
-    }
+        // DATA
+        byte* data_{nullptr};     //!< Pointer to the start of the memory area
+        size_t idx_{0};           //!< Index into the memory area
+        size_t size_{0};          //!< Size of the memory area
+        size_t sizeAlloced_{0};   //!< Size of the allocated buffer
+        bool isMalloced_{false};  //!< Was the buffer allocated?
+        bool eof_{false};         //!< EOF indicator
 
-    MemIo::Impl::Impl(const byte* data, size_t size)
-        : data_(const_cast<byte*>(data)), idx_(0), size_(size), sizeAlloced_(0), isMalloced_(false), eof_(false)
-    {
-    }
+        // METHODS
+        void reserve(size_t wcount);  //!< Reserve memory
+    };
 
     /*!
       @brief Utility class provides the block mapping to the part of data. This avoids allocating
