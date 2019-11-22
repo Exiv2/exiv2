@@ -11,6 +11,7 @@ AccessModifierOffset: -4
 ContinuationIndentWidth: 4
 IndentWidth: 4
 
+BreakConstructorInitializers: BeforeColon
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterStruct: true
