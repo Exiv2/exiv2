@@ -1,4 +1,5 @@
 #include <exiv2/basicio.hpp>  // SUT
+#include <exiv2/error.hpp>
 
 #include <gtest/gtest.h>
 #include <array>
@@ -10,6 +11,12 @@ namespace
     struct DefaultMemIo : public testing::Test
     {
         MemIo io{};
+    };
+
+    struct BlockMemIo : public testing::Test
+    {
+        const std::array<byte, 8> buf{1, 2, 3, 4, 5, 6, 7, 8};
+        MemIo io{buf.data(), buf.size()};
     };
 
     // Regression tests for bug reported in https://github.com/Exiv2/exiv2/pull/944
@@ -98,6 +105,76 @@ TEST_F(DefaultMemIo, mmapReturnsPointerToDataWhichIsNull)
 TEST_F(DefaultMemIo, populateFakeDataDoesNothing)
 {
     ASSERT_NO_THROW(io.populateFakeData());
+}
+
+// ----------------------------------------------------------------------------
+
+TEST_F(BlockMemIo, isAlwaysOpen)
+{
+    ASSERT_TRUE(io.isopen());
+    ASSERT_EQ(0, io.open());   // cannot be opened
+    ASSERT_EQ(0, io.close());  // cannot be closed
+    ASSERT_EQ(0, io.error());  // no erros
+    ASSERT_TRUE(io.isopen());
+}
+
+TEST_F(BlockMemIo, expectedValuesForAccessors)
+{
+    ASSERT_EQ(0, io.tell());
+    ASSERT_EQ(buf.size(), io.size());
+    ASSERT_FALSE(io.eof());
+    ASSERT_EQ("MemIo", io.path());
+}
+
+TEST_F(BlockMemIo, writeIsNotAffectingInputBlock)
+{
+    const std::array<byte, 4> buf2{9, 9, 9, 9};
+    ASSERT_EQ(buf2.size(), io.write(buf2.data(), buf2.size()));  // 1st version of write()
+    ASSERT_EQ(buf.size(), io.size());
+
+    const std::array<byte, 8> expected {9, 9, 9, 9, 5, 6, 7, 8};
+    std::array<byte, 8> read{};
+
+    io.seek(0, BasicIo::beg);
+    ASSERT_EQ(read.size(), io.read(read.data(), read.size()));
+    ASSERT_EQ(expected, read); // Mofifies the internal data
+    ASSERT_NE(expected, buf);  // But not the input memory block
+}
+
+TEST_F(BlockMemIo, isResizedByPutb)
+{
+    io.seek(0, BasicIo::end);
+    ASSERT_EQ(6, io.putb(6));
+    ASSERT_EQ(buf.size() + 1, io.size());
+
+    ASSERT_EQ(7, io.putb(7));
+    ASSERT_EQ(buf.size() + 2, io.size());
+}
+
+TEST_F(BlockMemIo, readWorksWhenCountIsSmallerThanSize)
+{
+    auto databuf = io.read(4);
+    ASSERT_EQ(4, databuf.size_);
+    ASSERT_TRUE(std::equal(databuf.begin(), databuf.end(), buf.begin()));
+}
+
+TEST_F(BlockMemIo, readFailsWhenCountIsBiggerThanSize_versionDataBuf)
+{
+    auto databuf = io.read(20);
+    ASSERT_EQ(0, databuf.size_);
+}
+
+TEST_F(BlockMemIo, readFailsWhenCountIsBiggerThanSize_versionBuffer)
+{
+    std::array<byte, 20> buf;
+    ASSERT_EQ(io.size(), io.read(buf.data(), buf.size()));
+    ASSERT_TRUE(io.eof());
+}
+
+TEST_F(BlockMemIo, readOrThrowThrowsWhenCountIsBiggerThanSize)
+{
+    std::array<byte, 20> buf;
+    ASSERT_THROW(io.readOrThrow(buf.data(), buf.size()), Error);
 }
 
 // ----------------------------------------------------------------------------

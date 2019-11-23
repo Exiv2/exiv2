@@ -1366,8 +1366,12 @@ namespace Exiv2
         return 0;
     }
 
+    /// \todo change type of rcount to size_t
     DataBuf MemIo::read(long rcount)
     {
+        if (rcount > size()) {
+            return {};
+        }
         DataBuf buf(rcount);
         size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;
