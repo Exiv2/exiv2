@@ -101,7 +101,7 @@ constexpr size_t operator"" _z(unsigned long long n)
 
         /// @brief Read data from the IO source. Reading starts at the current IO position and the position is
         /// advanced by the number of bytes read.
-        /// @param rcount Maximum number of bytes to read. Fewer bytes may be read if \em rcount bytes are not available.
+        /// @param rcount Maximum number of bytes to read.
         /// @return DataBuf instance containing the bytes read. Use the DataBuf::size_ member to find the number of
         /// bytes read. DataBuf::size_ will be 0 on failure.
         virtual DataBuf read(long rcount) = 0;
@@ -115,11 +115,12 @@ constexpr size_t operator"" _z(unsigned long long n)
         virtual size_t read(byte* buf, size_t rcount) = 0;
 
         /// @brief Read data from the IO source. Reading starts at the current IO position and the position is
-        /// advanced by the number of bytes read. Throw an exception if not enough bytes are available.
+        /// advanced by the number of bytes read.
         /// @param buf Pointer to a block of memory into which the read data is stored. The memory block must be at
         /// least \em rcount bytes long.
         /// @param err ErrorCode to throw if not enough bytes are available.
         /// @param rcount Number of bytes to read.
+        /// @throws Error if not enough bytes are available.
         void readOrThrow(byte* buf, size_t rcount);
 
         /// @brief Read one byte from the IO source. Current IO position is advanced by one byte.

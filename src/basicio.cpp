@@ -1010,13 +1010,12 @@ namespace Exiv2
         return rc;
     }
 
+    /// \todo make function noexcept ?
     DataBuf FileIo::read(long rcount)
     {
-        if (p_->fp_ == nullptr) {
+        if (p_->fp_ == nullptr || static_cast<size_t>(rcount) > size()) {
             return {};
         }
-        if (static_cast<size_t>(rcount) > size())
-            throw Error(kerInvalidMalloc); /// \todo this is not what the doc promises. Do something about it
         DataBuf buf(static_cast<size_t>(rcount));
         size_t readCount = read(buf.pData_, buf.size_);
         buf.size_ = readCount;

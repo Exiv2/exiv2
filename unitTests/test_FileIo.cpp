@@ -1,4 +1,5 @@
-#include <exiv2/basicio.hpp>
+#include <exiv2/basicio.hpp> // SUT
+#include <exiv2/error.hpp>
 
 #include <gtest/gtest.h>
 
@@ -10,18 +11,32 @@ namespace
 {
     const std::string testData{TESTDATA_PATH};
     const std::string jpegPath{testData + "/DSC_3079.jpg"};
-}  // namespace
+    /// \todo better to play with temporary data
 
-struct AClosedFileIo : public testing::Test
-{
-    void SetUp() override
+    struct AClosedFileIo : public testing::Test
     {
-        ASSERT_FALSE(file.isopen());
-        ASSERT_EQ(0, file.error());
-    }
+        void SetUp() override
+        {
+            ASSERT_FALSE(file.isopen());
+            ASSERT_EQ(0, file.error());
+        }
 
-    FileIo file{jpegPath};
-};
+        FileIo file{jpegPath};
+    };
+
+    struct AOpenedFileIo : public testing::Test
+    {
+        void SetUp() override
+        {
+            ASSERT_EQ(0, file.open());
+            ASSERT_TRUE(file.isopen());
+            ASSERT_EQ(0, file.error());
+        }
+
+        FileIo file{jpegPath};
+    };
+
+}  // namespace
 
 TEST_F(AClosedFileIo, tellReturnsFailureValue)
 {
@@ -80,4 +95,41 @@ TEST_F(AClosedFileIo, readIntoArrayFails)
 TEST_F(AClosedFileIo, getbFails)
 {
     ASSERT_EQ(EOF, file.getb());
+}
+
+// -------------------------------------------------------------------------
+
+TEST_F(AOpenedFileIo, tellReturns0)
+{
+    ASSERT_EQ(0, file.tell());
+}
+
+TEST_F(AOpenedFileIo, sizeReturnsImageSize)
+{
+    ASSERT_EQ(118685, file.size());
+}
+
+TEST_F(AOpenedFileIo, readWorksWhenCountIsSmallerThanSize)
+{
+    auto databuf = file.read(1000);
+    ASSERT_EQ(1000, databuf.size_);
+}
+
+TEST_F(AOpenedFileIo, readFailsWhenCountIsBiggerThanSize_versionDataBuf)
+{
+    auto databuf = file.read(200000);
+    ASSERT_EQ(0, databuf.size_);
+}
+
+TEST_F(AOpenedFileIo, readFailsWhenCountIsBiggerThanSize_versionBuffer)
+{
+    std::array<byte, 200000> buf;
+    ASSERT_EQ(file.size(), file.read(buf.data(), buf.size()));
+    ASSERT_TRUE(file.eof());
+}
+
+TEST_F(AOpenedFileIo, readOrThrowThrowsWhenCountIsBiggerThanSize)
+{
+    std::array<byte, 200000> buf;
+    ASSERT_THROW(file.readOrThrow(buf.data(), buf.size()), Error);
 }
