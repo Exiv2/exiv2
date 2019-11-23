@@ -1010,10 +1010,9 @@ namespace Exiv2
         return rc;
     }
 
-    /// \todo make function noexcept ?
-    DataBuf FileIo::read(long rcount)
+    DataBuf FileIo::read(size_t rcount) noexcept
     {
-        if (p_->fp_ == nullptr || static_cast<size_t>(rcount) > size()) {
+        if (p_->fp_ == nullptr || rcount > size()) {
             return {};
         }
         DataBuf buf(static_cast<size_t>(rcount));
@@ -1367,7 +1366,7 @@ namespace Exiv2
     }
 
     /// \todo change type of rcount to size_t
-    DataBuf MemIo::read(long rcount)
+    DataBuf MemIo::read(size_t rcount) noexcept
     {
         if (rcount > size()) {
             return {};
@@ -1814,7 +1813,7 @@ namespace Exiv2
         return 0;
     }
 
-    DataBuf RemoteIo::read(long rcount)
+    DataBuf RemoteIo::read(size_t rcount) noexcept
     {
         DataBuf buf(rcount);
         size_t readCount = read(buf.pData_, buf.size_);

@@ -104,7 +104,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         /// @param rcount Maximum number of bytes to read.
         /// @return DataBuf instance containing the bytes read. Use the DataBuf::size_ member to find the number of
         /// bytes read. DataBuf::size_ will be 0 on failure.
-        virtual DataBuf read(long rcount) = 0;
+        virtual DataBuf read(size_t rcount) noexcept = 0;
 
         /// @brief Read data from the IO source. Reading starts at the current IO position and the position is
         /// advanced by the number of bytes read.
@@ -287,7 +287,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         /// @return The value of the byte written if successful;<BR> EOF if failure;
         int putb(byte data) override;
 
-        DataBuf read(long rcount) override;
+        DataBuf read(size_t rcount) noexcept override;
 
         size_t read(byte* buf, size_t rcount) override;
 
@@ -409,7 +409,7 @@ constexpr size_t operator"" _z(unsigned long long n)
 
         int putb(byte data) override;
 
-        DataBuf read(long rcount) override;
+        DataBuf read(size_t rcount) noexcept override;
 
         size_t read(byte* buf, size_t rcount) override;
 
@@ -565,7 +565,7 @@ constexpr size_t operator"" _z(unsigned long long n)
        /// @param rcount Maximum number of bytes to read. Fewer bytes may be read if \em rcount bytes are not available.
        /// @return DataBuf instance containing the bytes read. Use the DataBuf::size_ member to find the number of
        /// bytes read. DataBuf::size_ will be 0 on failure.
-       DataBuf read(long rcount) override;
+       DataBuf read(size_t rcount) noexcept override;
 
        /// @brief Read data from the the memory blocks. Reading starts at the current IO position and the position is
        /// advanced by the number of bytes read.
