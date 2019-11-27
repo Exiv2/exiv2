@@ -142,10 +142,10 @@ namespace Exiv2
         HANDLE hFile_;  //!< Duplicated fd
         HANDLE hMap_;   //!< Handle from CreateFileMapping
 #endif
-        byte* pMappedArea_;    //!< Pointer to the memory-mapped area
-        size_t mappedLength_;  //!< Size of the memory-mapped area
-        bool isMalloced_;      //!< Is the mapped area allocated?
-        bool isWriteable_;     //!< Can the mapped area be written to?
+        byte* pMappedArea_{nullptr};    //!< Pointer to the memory-mapped area
+        size_t mappedLength_{0};  //!< Size of the memory-mapped area
+        bool isMalloced_{false};      //!< Is the mapped area allocated?
+        bool isWriteable_{false};     //!< Can the mapped area be written to?
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat
@@ -187,12 +187,8 @@ namespace Exiv2
           opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
           hFile_(nullptr),
-          hMap_(nullptr),
+          hMap_(nullptr)
 #endif
-          pMappedArea_(nullptr),
-          mappedLength_(0),
-          isMalloced_(false),
-          isWriteable_(false)
     {
     }
 
@@ -204,12 +200,8 @@ namespace Exiv2
           opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
           hFile_(nullptr),
-          hMap_(nullptr),
+          hMap_(nullptr)
 #endif
-          pMappedArea_(0),
-          mappedLength_(0),
-          isMalloced_(false),
-          isWriteable_(false)
     {
     }
 
@@ -420,7 +412,7 @@ namespace Exiv2
     int FileIo::munmap()
     {
         int rc = 0;
-        if (p_->pMappedArea_ != 0) {
+        if (p_->pMappedArea_ != nullptr) {
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
             if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
                 rc = 1;
@@ -447,7 +439,7 @@ namespace Exiv2
                 p_->switchMode(Impl::opRead);
             p_->isWriteable_ = false;
         }
-        p_->pMappedArea_ = 0;
+        p_->pMappedArea_ = nullptr;
         p_->mappedLength_ = 0;
         return rc;
     }
