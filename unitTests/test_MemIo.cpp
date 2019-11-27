@@ -15,7 +15,7 @@ namespace
 
     struct BlockMemIo : public testing::Test
     {
-        const std::array<byte, 8> buf{1, 2, 3, 4, 5, 6, 7, 8};
+        const std::array<byte, 8> buf {{1, 2, 3, 4, 5, 6, 7, 8}};
         MemIo io{buf.data(), buf.size()};
     };
 
