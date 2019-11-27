@@ -138,12 +138,12 @@ namespace Exiv2
         WpMode wpMode_;       //!< Indicates which path is in use
 #endif
         std::string openMode_;  //!< File open mode
-        FILE* fp_;              //!< File stream pointer
-        OpMode opMode_;         //!< File open mode
+        FILE* fp_{nullptr};              //!< File stream pointer
+        OpMode opMode_{opSeek};         //!< File open mode
 
 #if defined WIN32 && !defined __CYGWIN__
-        HANDLE hFile_;  //!< Duplicated fd
-        HANDLE hMap_;   //!< Handle from CreateFileMapping
+        HANDLE hFile_{nullptr};  //!< Duplicated fd
+        HANDLE hMap_{nullptr};   //!< Handle from CreateFileMapping
 #endif
         byte* pMappedArea_{nullptr};  //!< Pointer to the memory-mapped area
         size_t mappedLength_{0};      //!< Size of the memory-mapped area
@@ -187,12 +187,6 @@ namespace Exiv2
 #ifdef EXV_UNICODE_PATH
         , wpMode_(wpStandard)
 #endif
-        , fp_(nullptr)
-        , opMode_(opSeek)
-#if defined WIN32 && !defined __CYGWIN__
-        , hFile_(nullptr)
-        , hMap_(nullptr)
-#endif
     {
     }
 
@@ -200,16 +194,10 @@ namespace Exiv2
     FileIo::Impl::Impl(const std::wstring& wpath)
         : wpath_(wpath)
         , wpMode_(wpUnicode)
-        , fp_(nullptr)
-        , opMode_(opSeek)
-#if defined WIN32 && !defined __CYGWIN__
-        , hFile_(nullptr)
-        , hMap_(nullptr)
-#endif
     {
     }
-
 #endif
+
     int FileIo::Impl::switchMode(OpMode opMode)
     {
         if (fp_ == nullptr)
@@ -429,7 +417,7 @@ namespace Exiv2
             CloseHandle(p_->hMap_);
             p_->hMap_ = 0;
             CloseHandle(p_->hFile_);
-            p_->hFile_ = 0;
+            p_->hFile_ = nullptr;
 #else
             if (p_->isWriteable_) {
                 seek(0, BasicIo::beg);
