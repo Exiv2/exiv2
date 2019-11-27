@@ -153,14 +153,14 @@ TEST_F(BlockMemIo, isResizedByPutb)
 
 TEST_F(BlockMemIo, readWorksWhenCountIsSmallerThanSize)
 {
-    auto databuf = io.read(4);
+    const auto databuf = io.read(4);
     ASSERT_EQ(4, databuf.size_);
-    ASSERT_TRUE(std::equal(databuf.begin(), databuf.end(), buf.begin()));
+    ASSERT_TRUE(std::equal(databuf.cbegin(), databuf.cend(), buf.begin()));
 }
 
 TEST_F(BlockMemIo, readFailsWhenCountIsBiggerThanSize_versionDataBuf)
 {
-    auto databuf = io.read(20);
+    const auto databuf = io.read(20);
     ASSERT_EQ(0, databuf.size_);
 }
 
@@ -175,6 +175,21 @@ TEST_F(BlockMemIo, readOrThrowThrowsWhenCountIsBiggerThanSize)
 {
     std::array<byte, 20> buf;
     ASSERT_THROW(io.readOrThrow(buf.data(), buf.size()), Error);
+}
+
+TEST_F(BlockMemIo, mmapReturnsPointerToInputBuffer)
+{
+    ASSERT_EQ(buf.data(), io.mmap());
+    ASSERT_EQ(0, io.munmap());
+}
+
+TEST_F(BlockMemIo, canBeTransferred)
+{
+    MemIo io2;
+    io2.transfer(io);
+
+    ASSERT_EQ(buf.size(), io2.size());
+    ASSERT_EQ(0, io.size());
 }
 
 // ----------------------------------------------------------------------------
