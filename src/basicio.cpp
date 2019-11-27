@@ -76,7 +76,8 @@ typedef short nlink_t;
 // class member definitions
 namespace Exiv2
 {
-    BasicIo::BasicIo() : bigBlock_(nullptr)
+    BasicIo::BasicIo()
+        : bigBlock_(nullptr)
     {
     }
 
@@ -87,7 +88,8 @@ namespace Exiv2
         enforce(!error(), kerInputDataReadFailed);
     }
 
-    IoCloser::IoCloser(BasicIo& bio) : bio_(bio)
+    IoCloser::IoCloser(BasicIo& bio)
+        : bio_(bio)
     {
     }
 
@@ -121,7 +123,8 @@ namespace Exiv2
             opSeek
         };
 #ifdef EXV_UNICODE_PATH
-        //! Used to indicate if the path is stored as a standard or unicode string
+        //! Used to indicate if the path is stored as a standard or unicode
+        //! string
         enum WpMode
         {
             wpStandard,
@@ -142,8 +145,8 @@ namespace Exiv2
         HANDLE hFile_;  //!< Duplicated fd
         HANDLE hMap_;   //!< Handle from CreateFileMapping
 #endif
-        byte* pMappedArea_{nullptr};    //!< Pointer to the memory-mapped area
-        size_t mappedLength_{0};  //!< Size of the memory-mapped area
+        byte* pMappedArea_{nullptr};  //!< Pointer to the memory-mapped area
+        size_t mappedLength_{0};      //!< Size of the memory-mapped area
         bool isMalloced_{false};      //!< Is the mapped area allocated?
         bool isWriteable_{false};     //!< Can the mapped area be written to?
         // TYPES
@@ -152,7 +155,8 @@ namespace Exiv2
         {
             mode_t st_mode{0};    //!< Permissions
             off_t st_size{0};     //!< Size
-            nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows, see winNumberOfLinks())
+            nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows,
+                                  //!< see winNumberOfLinks())
         };
         // #endif
         // METHODS
@@ -179,28 +183,28 @@ namespace Exiv2
     };  // class FileIo::Impl
 
     FileIo::Impl::Impl(const std::string& path)
-        : path_(path),
+        : path_(path)
 #ifdef EXV_UNICODE_PATH
-          wpMode_(wpStandard),
+        , wpMode_(wpStandard)
 #endif
-          fp_(nullptr),
-          opMode_(opSeek),
+        , fp_(nullptr)
+        , opMode_(opSeek)
 #if defined WIN32 && !defined __CYGWIN__
-          hFile_(nullptr),
-          hMap_(nullptr)
+        , hFile_(nullptr)
+        , hMap_(nullptr)
 #endif
     {
     }
 
 #ifdef EXV_UNICODE_PATH
     FileIo::Impl::Impl(const std::wstring& wpath)
-        : wpath_(wpath),
-          wpMode_(wpUnicode),
-          fp_(nullptr),
-          opMode_(opSeek),
+        : wpath_(wpath)
+        , wpMode_(wpUnicode)
+        , fp_(nullptr)
+        , opMode_(opSeek)
 #if defined WIN32 && !defined __CYGWIN__
-          hFile_(nullptr),
-          hMap_(nullptr)
+        , hFile_(nullptr)
+        , hMap_(nullptr)
 #endif
     {
     }
@@ -218,8 +222,8 @@ namespace Exiv2
         bool reopen = true;
         switch (opMode) {
             case opRead:
-                // Flush if current mode allows reading, else reopen (in mode "r+b"
-                // as in this case we know that we can write to the file)
+                // Flush if current mode allows reading, else reopen (in mode
+                // "r+b" as in this case we know that we can write to the file)
                 if (openMode_[0] == 'r' || openMode_[1] == '+')
                     reopen = false;
                 break;
@@ -376,7 +380,8 @@ namespace Exiv2
                 }
 #ifdef EXIV2_DEBUG_MESSAGES
                 else
-                    EXV_DEBUG << "GetProcAddress(hKernel, \"GetFileInformationByHandle\") failed\n";
+                    EXV_DEBUG << "GetProcAddress(hKernel, "
+                                 "\"GetFileInformationByHandle\") failed\n";
 #endif
             }
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -394,12 +399,14 @@ namespace Exiv2
 
 #endif  // defined WIN32 && !defined __CYGWIN__
 
-    FileIo::FileIo(const std::string& path) noexcept : p_(new Impl(path))
+    FileIo::FileIo(const std::string& path) noexcept
+        : p_(new Impl(path))
     {
     }
 
 #ifdef EXV_UNICODE_PATH
-    FileIo::FileIo(const std::wstring& wpath) : p_(new Impl(wpath))
+    FileIo::FileIo(const std::wstring& wpath)
+        : p_(new Impl(wpath))
     {
     }
 
@@ -668,7 +675,7 @@ namespace Exiv2
             bool statOk = true;
             mode_t origStMode = 0;
             std::string spf;
-            char* pf {nullptr};
+            char* pf{nullptr};
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
             wchar_t* wpf = 0;
@@ -682,7 +689,8 @@ namespace Exiv2
                 pf = const_cast<char*>(spf.c_str());
             }
 
-            // Get the permissions of the file, or linked-to file, on platforms which have lstat
+            // Get the permissions of the file, or linked-to file, on platforms
+            // which have lstat
 #ifdef EXV_HAVE_LSTAT
 
 #ifdef EXV_UNICODE_PATH
@@ -696,7 +704,8 @@ namespace Exiv2
 #endif
             }
             origStMode = buf1.st_mode;
-            DataBuf lbuf;  // So that the allocated memory is freed. Must have same scope as pf
+            DataBuf lbuf;  // So that the allocated memory is freed. Must have
+                           // same scope as pf
             // In case path() is a symlink, get the path of the linked-to file
             if (statOk && S_ISLNK(buf1.st_mode)) {
                 lbuf.alloc(buf1.st_size + 1);
@@ -726,11 +735,11 @@ namespace Exiv2
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
 #if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
-                // Windows implementation that deals with the fact that ::rename fails
-                // if the target filename still exists, which regularly happens when
-                // that file has been opened with FILE_SHARE_DELETE by another process,
-                // like a virus scanner or disk indexer
-                // (see also http://stackoverflow.com/a/11023068)
+                // Windows implementation that deals with the fact that ::rename
+                // fails if the target filename still exists, which regularly
+                // happens when that file has been opened with FILE_SHARE_DELETE
+                // by another process, like a virus scanner or disk indexer (see
+                // also http://stackoverflow.com/a/11023068)
                 typedef BOOL(WINAPI * ReplaceFileW_t)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
                 HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
@@ -788,11 +797,11 @@ namespace Exiv2
 #endif  // EXV_UNICODE_PATH
             {
 #if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
-                // Windows implementation that deals with the fact that ::rename fails
-                // if the target filename still exists, which regularly happens when
-                // that file has been opened with FILE_SHARE_DELETE by another process,
-                // like a virus scanner or disk indexer
-                // (see also http://stackoverflow.com/a/11023068)
+                // Windows implementation that deals with the fact that ::rename
+                // fails if the target filename still exists, which regularly
+                // happens when that file has been opened with FILE_SHARE_DELETE
+                // by another process, like a virus scanner or disk indexer (see
+                // also http://stackoverflow.com/a/11023068)
                 typedef BOOL(WINAPI * ReplaceFileA_t)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
                 HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
@@ -830,7 +839,9 @@ namespace Exiv2
                 ::remove(fileIo->path().c_str());
 #endif
                 // Check permissions of new file
-                struct stat buf2{};
+                struct stat buf2
+                {
+                };
                 if (statOk && ::stat(pf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
@@ -1070,7 +1081,9 @@ namespace Exiv2
     {
     public:
         Impl() = default;
-        Impl(const byte* data, size_t size) : data_(const_cast<byte*>(data)), size_(size)
+        Impl(const byte* data, size_t size)
+            : data_(const_cast<byte*>(data))
+            , size_(size)
         {
         }
 
@@ -1092,8 +1105,8 @@ namespace Exiv2
     };
 
     /*!
-      @brief Utility class provides the block mapping to the part of data. This avoids allocating
-            a single contiguous block of memory to the big data.
+      @brief Utility class provides the block mapping to the part of data. This
+      avoids allocating a single contiguous block of memory to the big data.
      */
     class EXIV2API BlockMap
     {
@@ -1108,7 +1121,10 @@ namespace Exiv2
         //! @name Creators
         //@{
         //! Default constructor. the init status of the block is bNone.
-        BlockMap() : type_(bNone), data_(nullptr), size_(0)
+        BlockMap()
+            : type_(bNone)
+            , data_(nullptr)
+            , size_(0)
         {
         }
 
@@ -1133,9 +1149,10 @@ namespace Exiv2
         }
 
         /*!
-          @brief Change the status to bKnow. bKnow blocks do not contain the data,
-                but they keep the size of data. This avoids allocating memory for parts
-                of the file that contain image-date (non-metadata/pixel data) which never change in exiv2.
+          @brief Change the status to bKnow. bKnow blocks do not contain the
+          data, but they keep the size of data. This avoids allocating memory
+          for parts of the file that contain image-date (non-metadata/pixel
+          data) which never change in exiv2.
           @param num The size of the data
          */
         void markKnown(size_t num)
@@ -1210,11 +1227,13 @@ namespace Exiv2
         }
     }
 
-    MemIo::MemIo() : p_(new Impl())
+    MemIo::MemIo()
+        : p_(new Impl())
     {
     }
 
-    MemIo::MemIo(const byte* data, size_t size) : p_(new Impl(data, size))
+    MemIo::MemIo(const byte* data, size_t size)
+        : p_(new Impl(data, size))
     {
     }
 
@@ -1421,14 +1440,16 @@ namespace Exiv2
     const std::string XPathIo::TEMP_FILE_EXT = ".exiv2_temp";
     const std::string XPathIo::GEN_FILE_EXT = ".exiv2";
 
-    XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath))
+    XPathIo::XPathIo(const std::string& orgPath)
+        : FileIo(XPathIo::writeDataToFile(orgPath))
     {
         isTemp_ = true;
         tempFilePath_ = path();
     }
 
 #ifdef EXV_UNICODE_PATH
-    XPathIo::XPathIo(const std::wstring& wOrgPathpath) : FileIo(XPathIo::writeDataToFile(wOrgPathpath))
+    XPathIo::XPathIo(const std::wstring& wOrgPathpath)
+        : FileIo(XPathIo::writeDataToFile(wOrgPathpath))
     {
         isTemp_ = true;
         tempFilePath_ = path();
@@ -1439,7 +1460,8 @@ namespace Exiv2
     {
         if (isTemp_ && remove(tempFilePath_.c_str()) != 0) {
             // error when removing file
-            // printf ("Warning: Unable to remove the temp file %s.\n", tempFilePath_.c_str());
+            // printf ("Warning: Unable to remove the temp file %s.\n",
+            // tempFilePath_.c_str());
         }
     }
 
@@ -1554,7 +1576,8 @@ namespace Exiv2
         // METHODS
         /*!
           @brief Get the length (in bytes) of the remote file.
-          @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
+          @return Return -1 if the size is unknown. Otherwise it returns the
+          length of remote file (in bytes).
           @throw Error if the server returns the error code.
          */
         virtual long getFileLength() = 0;
@@ -1564,23 +1587,28 @@ namespace Exiv2
           @param highBlock The end block index.
           @param response The data from the server.
           @throw Error if the server returns the error code.
-          @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
+          @note Set lowBlock = -1 and highBlock = -1 to get the whole file
+          content.
          */
         virtual void getDataByRange(long lowBlock, long highBlock, std::string& response) = 0;
         /*!
-          @brief Submit the data to the remote machine. The data replace a part of the remote file.
-                The replaced part of remote file is indicated by from and to parameters.
+          @brief Submit the data to the remote machine. The data replace a part
+          of the remote file. The replaced part of remote file is indicated by
+          from and to parameters.
           @param data The data are submitted to the remote machine.
           @param size The size of data.
-          @param from The start position in the remote file where the data replace.
+          @param from The start position in the remote file where the data
+          replace.
           @param to The end position in the remote file where the data replace.
-          @note The write access is available on some protocols. HTTP and HTTPS require the script file
-                on the remote machine to handle the data. SSH requires the permission to edit the file.
+          @note The write access is available on some protocols. HTTP and HTTPS
+          require the script file on the remote machine to handle the data. SSH
+          requires the permission to edit the file.
           @throw Error if it fails.
          */
         virtual void writeRemote(const byte* data, size_t size, long from, long to) = 0;
         /*!
-          @brief Get the data from the remote machine and write them to the memory blocks.
+          @brief Get the data from the remote machine and write them to the
+          memory blocks.
           @param lowBlock The start block index.
           @param highBlock The end block index.
           @return Number of bytes written to the memory block successfully
@@ -1591,27 +1619,27 @@ namespace Exiv2
     };  // class RemoteIo::Impl
 
     RemoteIo::Impl::Impl(const std::string& url, size_t blockSize)
-        : path_(url),
-          blockSize_(blockSize),
-          blocksMap_(0),
-          size_(0),
-          idx_(0),
-          isMalloced_(false),
-          eof_(false),
-          protocol_(fileProtocol(url)),
-          totalRead_(0)
+        : path_(url)
+        , blockSize_(blockSize)
+        , blocksMap_(0)
+        , size_(0)
+        , idx_(0)
+        , isMalloced_(false)
+        , eof_(false)
+        , protocol_(fileProtocol(url))
+        , totalRead_(0)
     {
     }
 #ifdef EXV_UNICODE_PATH
     RemoteIo::Impl::Impl(const std::wstring& wurl, size_t blockSize)
-        : wpath_(wurl),
-          blockSize_(blockSize),
-          blocksMap_(0),
-          size_(0),
-          idx_(0),
-          isMalloced_(false),
-          eof_(false),
-          protocol_(fileProtocol(wurl))
+        : wpath_(wurl)
+        , blockSize_(blockSize)
+        , blocksMap_(0)
+        , size_(0)
+        , idx_(0)
+        , isMalloced_(false)
+        , eof_(false)
+        , protocol_(fileProtocol(wurl))
     {
     }
 #endif
@@ -1670,7 +1698,8 @@ namespace Exiv2
         bigBlock_ = nullptr;
         if (p_->isMalloced_ == false) {
             long length = p_->getFileLength();
-            if (length < 0) {  // unable to get the length of remote file, get the whole file content.
+            if (length < 0) {  // unable to get the length of remote file, get
+                               // the whole file content.
                 std::string data;
                 p_->getDataByRange(-1, -1, data);
                 p_->size_ = data.length();
@@ -1726,11 +1755,11 @@ namespace Exiv2
             return 0;
 
         /*
-         * The idea is to compare the file content, find the different bytes and submit them to the remote machine.
-         * To simplify it, it:
+         * The idea is to compare the file content, find the different bytes and
+         * submit them to the remote machine. To simplify it, it:
          *      + goes from the left, find the first different position -> $left
-         *      + goes from the right, find the first different position -> $right
-         * The different bytes are [$left-$right] part.
+         *      + goes from the right, find the first different position ->
+         * $right The different bytes are [$left-$right] part.
          */
         size_t left = 0;
         size_t right = 0;
@@ -1896,8 +1925,8 @@ namespace Exiv2
                 break;
         }
 
-        // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
-        // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
+        // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and
+        // set eof_ if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = static_cast<size_t>(newIdx);
         p_->eof_ = newIdx > static_cast<int64>(p_->size_);
         if (p_->idx_ > p_->size_)
@@ -1994,7 +2023,8 @@ namespace Exiv2
         // METHODS
         /*!
           @brief Get the length (in bytes) of the remote file.
-          @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
+          @return Return -1 if the size is unknown. Otherwise it returns the
+          length of remote file (in bytes).
           @throw Error if the server returns the error code.
          */
         long getFileLength();
@@ -2004,20 +2034,25 @@ namespace Exiv2
           @param highBlock The end block index.
           @param response The data from the server.
           @throw Error if the server returns the error code.
-          @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
+          @note Set lowBlock = -1 and highBlock = -1 to get the whole file
+          content.
          */
         void getDataByRange(long lowBlock, long highBlock, std::string& response);
         /*!
-          @brief Submit the data to the remote machine. The data replace a part of the remote file.
-                The replaced part of remote file is indicated by from and to parameters.
+          @brief Submit the data to the remote machine. The data replace a part
+          of the remote file. The replaced part of remote file is indicated by
+          from and to parameters.
           @param data The data are submitted to the remote machine.
           @param size The size of data.
-          @param from The start position in the remote file where the data replace.
+          @param from The start position in the remote file where the data
+          replace.
           @param to The end position in the remote file where the data replace.
-          @note The data are submitted to the remote machine via POST. This requires the script file
-                on the remote machine to receive the data and edit the remote file. The server-side
-                script may be specified with the environment string EXIV2_HTTP_POST. The default value is
-                "/exiv2.php". More info is available at http://dev.exiv2.org/wiki/exiv2
+          @note The data are submitted to the remote machine via POST. This
+          requires the script file on the remote machine to receive the data and
+          edit the remote file. The server-side script may be specified with the
+          environment string EXIV2_HTTP_POST. The default value is
+                "/exiv2.php". More info is available at
+          http://dev.exiv2.org/wiki/exiv2
           @throw Error if it fails.
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
@@ -2029,12 +2064,14 @@ namespace Exiv2
     };  // class HttpIo::HttpImpl
 
     HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize)
-        : Impl(url, blockSize), hostInfo_(Exiv2::Uri::Parse(url))
+        : Impl(url, blockSize)
+        , hostInfo_(Exiv2::Uri::Parse(url))
     {
         Exiv2::Uri::Decode(hostInfo_);
     }
 #ifdef EXV_UNICODE_PATH
-    HttpIo::HttpImpl::HttpImpl(const std::wstring& wurl, size_t blockSize) : Impl(wurl, blockSize)
+    HttpIo::HttpImpl::HttpImpl(const std::wstring& wurl, size_t blockSize)
+        : Impl(wurl, blockSize)
     {
         std::string url;
         url.assign(wurl.begin(), wurl.end());
@@ -2092,7 +2129,8 @@ namespace Exiv2
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath == "") {
             throw Error(kerErrorMessage,
-                        "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST "
+                        "Please set the path of the server script to handle "
+                        "http post data to EXIV2_HTTP_POST "
                         "environmental variable.");
         }
 
@@ -2163,7 +2201,8 @@ namespace Exiv2
         //! Constructor accepting a unicode path in an std::wstring
         CurlImpl(const std::wstring& wpath, size_t blockSize);
 #endif
-        //! Destructor. Cleans up the curl pointer and releases all managed memory.
+        //! Destructor. Cleans up the curl pointer and releases all managed
+        //! memory.
         ~CurlImpl();
 
         CURL* curl_;  //!< libcurl pointer
@@ -2171,7 +2210,8 @@ namespace Exiv2
         // METHODS
         /*!
           @brief Get the length (in bytes) of the remote file.
-          @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
+          @return Return -1 if the size is unknown. Otherwise it returns the
+          length of remote file (in bytes).
           @throw Error if the server returns the error code.
          */
         long getFileLength();
@@ -2181,22 +2221,26 @@ namespace Exiv2
           @param highBlock The end block index.
           @param response The data from the server.
           @throw Error if the server returns the error code.
-          @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
+          @note Set lowBlock = -1 and highBlock = -1 to get the whole file
+          content.
          */
         void getDataByRange(long lowBlock, long highBlock, std::string& response);
         /*!
-          @brief Submit the data to the remote machine. The data replace a part of the remote file.
-                The replaced part of remote file is indicated by from and to parameters.
+          @brief Submit the data to the remote machine. The data replace a part
+          of the remote file. The replaced part of remote file is indicated by
+          from and to parameters.
           @param data The data are submitted to the remote machine.
           @param size The size of data.
-          @param from The start position in the remote file where the data replace.
+          @param from The start position in the remote file where the data
+          replace.
           @param to The end position in the remote file where the data replace.
           @throw Error if it fails.
-          @note The write access is only available on HTTP & HTTPS protocols. The data are submitted to server
-                via POST method. It requires the script file on the remote machine to receive the data
-                and edit the remote file. The server-side script may be specified with the environment
-                string EXIV2_HTTP_POST. The default value is "/exiv2.php". More info is available at
-                http://dev.exiv2.org/wiki/exiv2
+          @note The write access is only available on HTTP & HTTPS protocols.
+          The data are submitted to server via POST method. It requires the
+          script file on the remote machine to receive the data and edit the
+          remote file. The server-side script may be specified with the
+          environment string EXIV2_HTTP_POST. The default value is "/exiv2.php".
+          More info is available at http://dev.exiv2.org/wiki/exiv2
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
 
@@ -2206,10 +2250,12 @@ namespace Exiv2
         CurlImpl(const CurlImpl&& rhs) = delete;
 
     private:
-        long timeout_;  //!< The number of seconds to wait while trying to connect.
+        long timeout_;  //!< The number of seconds to wait while trying to
+                        //!< connect.
     };                  // class RemoteIo::Impl
 
-    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize)
+    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize)
+        : Impl(url, blockSize)
     {
         // init curl pointer
         curl_ = curl_easy_init();
@@ -2218,8 +2264,9 @@ namespace Exiv2
         }
 
         // The default block size for FTP is much larger than other protocols
-        // the reason is that getDataByRange() in FTP always creates the new connection,
-        // so we need the large block size to reduce the overhead of creating the connection.
+        // the reason is that getDataByRange() in FTP always creates the new
+        // connection, so we need the large block size to reduce the overhead of
+        // creating the connection.
         if (blockSize_ == 0) {
             blockSize_ = protocol_ == pFtp ? 102400 : 1024;
         }
@@ -2231,7 +2278,8 @@ namespace Exiv2
         }
     }
 #ifdef EXV_UNICODE_PATH
-    CurlIo::CurlImpl::CurlImpl(const std::wstring& wurl, size_t blockSize) : Impl(wurl, blockSize)
+    CurlIo::CurlImpl::CurlImpl(const std::wstring& wurl, size_t blockSize)
+        : Impl(wurl, blockSize)
     {
         std::string url;
         url.assign(wurl.begin(), wurl.end());
@@ -2244,8 +2292,9 @@ namespace Exiv2
         }
 
         // The default block size for FTP is much larger than other protocols
-        // the reason is that getDataByRange() in FTP always creates the new connection,
-        // so we need the large block size to reduce the overhead of creating the connection.
+        // the reason is that getDataByRange() in FTP always creates the new
+        // connection, so we need the large block size to reduce the overhead of
+        // creating the connection.
         if (blockSize_ == 0) {
             blockSize_ = protocol_ == pFtp ? 102400 : 1024;
         }
@@ -2272,13 +2321,15 @@ namespace Exiv2
         }
         // get return code
         long returnCode;
-        curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &returnCode);  // get code
+        curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE,
+                          &returnCode);  // get code
         if (returnCode >= 400 || returnCode < 0) {
             throw Error(kerTiffDirectoryTooLarge, "Server", returnCode);
         }
         // get length
         double temp;
-        curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &temp);  // return -1 if unknown
+        curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD,
+                          &temp);  // return -1 if unknown
         return (long)temp;
     }
 
@@ -2286,7 +2337,8 @@ namespace Exiv2
     {
         curl_easy_reset(curl_);  // reset all options
         curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
-        curl_easy_setopt(curl_, CURLOPT_NOPROGRESS, 1L);  // no progress meter please
+        curl_easy_setopt(curl_, CURLOPT_NOPROGRESS,
+                         1L);  // no progress meter please
         curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriter);
         curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
         curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -2309,7 +2361,8 @@ namespace Exiv2
             throw Error(kerErrorMessage, curl_easy_strerror(res));
         } else {
             long serverCode;
-            curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
+            curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE,
+                              &serverCode);  // get code
             if (serverCode >= 400 || serverCode < 0) {
                 throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
             }
@@ -2321,7 +2374,8 @@ namespace Exiv2
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath == "") {
             throw Error(kerErrorMessage,
-                        "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST "
+                        "Please set the path of the server script to handle "
+                        "http post data to EXIV2_HTTP_POST "
                         "environmental variable.");
         }
 
@@ -2335,8 +2389,9 @@ namespace Exiv2
             scriptPath = hostInfo.Protocol + "://" + hostInfo.Host + scriptPath;
         }
 
-        curl_easy_reset(curl_);                           // reset all options
-        curl_easy_setopt(curl_, CURLOPT_NOPROGRESS, 1L);  // no progress meter please
+        curl_easy_reset(curl_);  // reset all options
+        curl_easy_setopt(curl_, CURLOPT_NOPROGRESS,
+                         1L);  // no progress meter please
         // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
         curl_easy_setopt(curl_, CURLOPT_URL, scriptPath.c_str());
         curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -2476,7 +2531,6 @@ namespace Exiv2
         }
         return subject;
     }
-
 
 #ifdef EXV_UNICODE_PATH
     std::wstring ReplaceStringInPlace(std::wstring subject, const std::wstring& search, const std::wstring& replace)

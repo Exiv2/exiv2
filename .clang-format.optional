@@ -1,7 +1,7 @@
 ---
 BasedOnStyle: Google
 Language: Cpp
-Standard: Cpp03
+Standard: Cpp11
 TabWidth: 4
 UseTab: Never
 ColumnLimit: 120
@@ -11,7 +11,8 @@ AccessModifierOffset: -4
 ContinuationIndentWidth: 4
 IndentWidth: 4
 
-BreakConstructorInitializers: BeforeColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+BreakConstructorInitializers: BeforeComma
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterStruct: true
