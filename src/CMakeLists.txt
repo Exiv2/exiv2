@@ -45,6 +45,10 @@ add_library( exiv2lib
     ../include/exiv2/exiv2.hpp
     ../include/exiv2/slice.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
+    FileIo.cpp
+    MemIo.cpp
+    RemoteIo.cpp
+
     bigtiffimage.cpp        ../include/exiv2/bigtiffimage.hpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
     convert.cpp             ../include/exiv2/convert.hpp
