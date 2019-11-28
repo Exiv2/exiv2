@@ -200,6 +200,26 @@ namespace Exiv2 {
 
     DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
 
+    byte *DataBuf::begin() noexcept
+    {
+        return pData_;
+    }
+
+    const byte *DataBuf::cbegin() const noexcept
+    {
+        return pData_;
+    }
+
+    byte *DataBuf::end() noexcept
+    {
+        return pData_ + size_;
+    }
+
+    const byte *DataBuf::cend() const noexcept
+    {
+        return pData_ + size_;
+    }
+
     Exiv2::DataBuf::operator DataBufRef() { return DataBufRef(release()); }
 
     // *************************************************************************
