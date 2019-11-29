@@ -2542,6 +2542,9 @@ fmountlens[] = {
 //
 {0xf4,0x4c,0x7c,0x7c,0x2c,0x2c,0x4b,0x02,0x00,0x00,0x00, "Sigma", "", "APO Macro 180mm F3.5 EX DG HSM"},
 //
+// https://github.com/Exiv2/exiv2/issues/1069
+{0xc8,0x54,0x44,0x44,0x0d,0x0d,0xdf,0x46,0x00,0x00,0x00, "Tamron", "F045", "SP 35mm f/1.4 Di USD"},
+//
 {0,0,0,0,0,0,0,0,0,0,0, nullptr, nullptr, nullptr}
 };
 //------------------------------------------------------------------------------
