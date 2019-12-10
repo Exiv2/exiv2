@@ -8,8 +8,7 @@ project(exiv2
 include(cmake/mainSetup.cmake  REQUIRED)
 include(CTest)
 
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-include (gcovr)
+include(cmake/gcovr.cmake REQUIRED)
 
 # options and their default values
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
