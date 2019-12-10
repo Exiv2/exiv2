@@ -1,6 +1,9 @@
 if(BUILD_WITH_COVERAGE)
 
     find_program (GCOVR gcovr)
+    if(NOT GCOVR)
+        message(FATAL_ERROR "gcovr not found")
+    endif()
              
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/coverage_output )
     add_custom_command(OUTPUT _run_gcovr_parser
