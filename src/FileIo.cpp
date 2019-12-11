@@ -107,10 +107,8 @@ namespace Exiv2
             mode_t st_mode{0};    //!< Permissions
             off_t st_size{0};     //!< Size
             nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows,
-                                  //!< see winNumberOfLinks())
         };
-        // #endif
-        // METHODS
+
         /*!
           @brief Switch to a new access mode, reopening the file if needed.
               Optimized to only reopen the file when it is really necessary.
@@ -121,11 +119,6 @@ namespace Exiv2
 
         //! stat wrapper for internal use
         int stat(StructStat& buf) const;
-
-#if defined WIN32 && !defined __CYGWIN__
-        // Windows function to determine the number of hardlinks (on NTFS)
-        DWORD winNumberOfLinks() const;
-#endif
 
         Impl& operator=(const Impl& rhs) = delete;
         Impl& operator=(const Impl&& rhs) = delete;
@@ -243,50 +236,7 @@ namespace Exiv2
             }
         }
         return ret;
-    }  // FileIo::Impl::stat
-
-#if defined WIN32 && !defined __CYGWIN__
-    DWORD FileIo::Impl::winNumberOfLinks() const
-    {
-        DWORD nlink = 1;
-
-        HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
-        if (hFd != INVALID_HANDLE_VALUE) {
-            typedef BOOL(WINAPI * GetFileInformationByHandle_t)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
-            HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
-            if (hKernel) {
-                GetFileInformationByHandle_t pfcn_GetFileInformationByHandle =
-                    (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
-                if (pfcn_GetFileInformationByHandle) {
-                    BY_HANDLE_FILE_INFORMATION fi = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-                    if (pfcn_GetFileInformationByHandle(hFd, &fi)) {
-                        nlink = fi.nNumberOfLinks;
-                    }
-#ifdef EXIV2_DEBUG_MESSAGES
-                    else
-                        EXV_DEBUG << "GetFileInformationByHandle failed\n";
-#endif
-                }
-#ifdef EXIV2_DEBUG_MESSAGES
-                else
-                    EXV_DEBUG << "GetProcAddress(hKernel, "
-                                 "\"GetFileInformationByHandle\") failed\n";
-#endif
-            }
-#ifdef EXIV2_DEBUG_MESSAGES
-            else
-                EXV_DEBUG << "GetModuleHandleA(\"kernel32.dll\") failed\n";
-#endif
-        }
-#ifdef EXIV2_DEBUG_MESSAGES
-        else
-            EXV_DEBUG << "_get_osfhandle failed: INVALID_HANDLE_VALUE\n";
-#endif
-
-        return nlink;
-    }  // FileIo::Impl::winNumberOfLinks
-
-#endif  // defined WIN32 && !defined __CYGWIN__
+    }
 
     FileIo::FileIo(const std::string& path) noexcept
         : p_(new Impl(path))
