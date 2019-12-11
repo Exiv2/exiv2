@@ -262,25 +262,13 @@ namespace Exiv2 {
         //! @name Iterators
         //@{
         //! Return iterator pointing to first element of buffer
-        byte* begin() noexcept
-        {
-            return pData_;
-        }
+        byte* begin() noexcept;
         //! Return const iterator pointing to first element of buffer
-        const byte* cbegin() const noexcept
-        {
-            return pData_;
-        }
+        const byte* cbegin() const noexcept;
         //! Return iterator pointing behind last element of buffer
-        byte* end() noexcept
-        {
-            return pData_ + size_;
-        }
+        byte* end() noexcept;
         //! Return const iterator pointing behind last element of buffer
-        const byte* cend() const noexcept
-        {
-            return pData_ + size_;
-        }
+        const byte* cend() const noexcept;
         //@}
 
         // DATA
