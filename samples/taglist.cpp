@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace Exiv2;
 
@@ -20,37 +21,20 @@ int main(int argc, char* argv[])
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 
+    int rc = 0;
     try {
-        int rc = 0;
+        bool bHelp     = false;
 
         switch (argc) {
             case 2: {
                 std::string item(argv[1]);
 
+                if ( item == "--help" ) {
+                    bHelp = true;
+                    break;
+                }
+
                 if (item == "Groups") {
-                   /*
-                    https://cgit.kde.org/digikam.git/tree/core/libs/dmetadata/metaengine_exif.cpp#n1077
-                    const Exiv2::GroupInfo* gi = Exiv2::ExifTags::groupList();
-
-                    while (gi->tagList_ != 0)
-                    {
-                       // NOTE: See BUG #375809 : MPF tags = exception Exiv2 0.26
-
-                       if (QLatin1String(gi->ifdName_) != QLatin1String("Makernote"))
-                       {
-                           Exiv2::TagListFct tl     = gi->tagList_;
-                           const Exiv2::TagInfo* ti = tl();
-
-                           while (ti->tag_ != 0xFFFF)
-                           {
-                               tags << ti;
-                               ++ti;
-                           }
-                       }
-
-                       ++gi;
-                    }
-                   */
                     const GroupInfo* groupList = ExifTags::groupList();
                     if (groupList) {
                         while (groupList->tagList_) {
@@ -60,6 +44,26 @@ int main(int argc, char* argv[])
                     }
                     break;
                 }
+
+                if (item == "all" || item == "ALL" ) {
+                    const GroupInfo* groupList = ExifTags::groupList();
+                    if (groupList) {
+                        std::string line;
+                        while (groupList->tagList_) {
+                            std::ostringstream tags;
+                            ExifTags::taglist(tags,groupList->groupName_);
+                            std::istringstream input(tags.str()) ;
+                            while (std::getline(input, line)) {
+                                std::cout << groupList->groupName_ << "."
+                                          << (item == "all" ? line.substr(0,line.find(",")) : line)
+                                          << std::endl;
+                            }
+                            groupList++;
+                        }
+                    }
+                    break;
+                }
+
 
                 if (item == "Exif") {
                     ExifTags::taglist(std::cout);
@@ -81,6 +85,7 @@ int main(int argc, char* argv[])
                 } catch (const AnyError&) {
                     rc = 2;
                 }
+                std::cerr << "Unexpected argument "  << argv[1] << std::endl;
 
                 break;
             }
@@ -91,12 +96,12 @@ int main(int argc, char* argv[])
             case 3: {
                 std::string item(argv[1]);
                 std::string name(argv[2]);
-                rc = 1;  // assume unhappy ending!
+                rc = EXIT_FAILURE;  // assume unhappy ending!
 
                 if (item == "--group") {
                     if ( ExifTags::isExifGroup(name) ) {
                         ExifTags::taglist(std::cout,name);
-                        rc = 0;  // result is good
+                        rc = EXIT_SUCCESS;  // result is good
                     } else {
                         std::cerr << "warning:"
                                   << name
@@ -112,7 +117,7 @@ int main(int argc, char* argv[])
                                         std::cout << tagInfo->name_ << std::endl;
                                         tagInfo++;
                                     }
-                                    rc = 0;  // result is good
+                                    rc = EXIT_SUCCESS;  // result is good
                                 }
                                 groupList++;
                             }
@@ -122,21 +127,23 @@ int main(int argc, char* argv[])
             } break;
 
             default:
-                rc = 1;
-                break;
+                rc = EXIT_FAILURE;
+            break;
         }
 
-        if (rc) {
-            std::cout << "Usage: " << argv[0]
-                      << " [--group "
-                         "name|Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|"
-                         "Panasonic|Pentax|Sigma|Sony|Iptc"
-                      << "|dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc]\n"
-                      << "Print Exif tags, MakerNote tags, or Iptc datasets\n";
+        if (rc || bHelp) {
+            std::cout << "Usage: taglist [--help]"                     << std::endl
+                << "           [--group name|"                         << std::endl
+                << "            Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|" << std::endl
+                << "            Panasonic|Pentax|Sigma|Sony|Iptc|"                                                        << std::endl
+                << "            dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc|all|ALL"  << std::endl
+                << "           ]"                                      << std::endl
+                << "Print Exif tags, MakerNote tags, or Iptc datasets" << std::endl
+                ;
         }
-        return rc;
     } catch (AnyError& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
-        return 1;
+        rc = EXIT_FAILURE ;
     }
+    return rc;
 }

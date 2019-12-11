@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "May 22, 2019"
+.TH EXIV2 1 "Aug 25, 2019"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -607,6 +607,57 @@ To register additional XMP namespaces, combine the command with:
 Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
 .br
+
+
+.ne 40
+.SH EXIF TAGNAMES AND VALUES
+Exiv2 displays metadata tags and values.
+.sp 1
+The tag is a triplet of Family.Group.Tagname.  The following groups are defined for the family Exif:
+.sp 1
+.nf
+GPSInfo           Canon           Fujifilm      NikonLd1      OlympusFe1     Pentax
+Image             CanonCf                       NikonLd2      OlympusFe2     PentaxDng
+Image2            CanonCs         Nikon1        NikonLd3      OlympusFe3
+Image3            CanonF1         Nikon2        NikonMe       OlympusFe4     Samsung2
+Iop               CanonPa         Nikon3        NikonPc       OlympusFe5     SamsungPictureWizard
+MakerNote         CanonPi         NikonAFT      NikonPreview  OlympusFe6     SamsungPreview
+MpfInfo           CanonPr         NikonAf       NikonSi01xx   OlympusFe7
+Photo             CanonSi         NikonAf2      NikonSi02xx   OlympusFe8     Sony1
+SubImage1         CanonTi         NikonAf22     NikonSiD300a  OlympusFe9     Sony1Cs
+SubImage2                         NikonCb1      NikonSiD300b  OlympusFi      Sony1Cs2
+SubImage3         Casio           NikonCb2      NikonSiD40    OlympusIp      Sony1MltCs7D
+SubImage4         Casio2          NikonCb2a     NikonSiD80    OlympusRd      Sony1MltCsA100
+SubImage5                         NikonCb3      NikonVr       OlympusRd2     Sony1MltCsNew
+SubImage6         Minolta         NikonCb4      NikonWt       OlympusRi      Sony1MltCsOld
+SubImage7         MinoltaCs5D     NikonFi                                    Sony2
+SubImage8         MinoltaCs7D     NikonFl1      Olympus       Panasonic      Sony2Cs
+SubImage9         MinoltaCsNew    NikonFl2      Olympus2      PanasonicRaw   Sony2Cs2
+SubThumb1         MinoltaCsOld    NikonFl3      OlympusCs                    Sony2Fp
+Thumbnail                         NikonIi       OlympusEq     Sigma          SonyMinolta
+.fi
+.sp 1
+Exiv2 supports Exif 2.2 Standard Tags.  Exiv2 also supports reading and writing manufacturer's MakerNote.  The information in Exif.Photo.MakerNote is encoded as manufacturer's sub-records.  For example, CanonCs are Camera Settings, NikonAf are Nikon Auto Focus records, NikonCb are Nikon Color Balance Records.  Every tag is defined by a unique tagId (16 bit integer) which is unique within a Group.
+.sp
+You can query Exiv2 groups and tags with the sample program taglist which is documented in README-SAMPLES.md
+.sp
+.ne 20
+Exif Metadata values are defined in the Exif Standard.  All data is an array of data elements.  The Count defines the number elements in the array.  All elements in an array have the same type.
+.sp 1
+.nf
+Type               Explanation
+ 1 BYTE            An 8-bit unsigned integer.
+ 2 ASCII           7-bit ASCII. NUL terminated.
+ 3 SHORT           A 16-bit (2-byte) unsigned integer.
+ 4 LONG            A 32-bit (4-byte) unsigned integer
+ 5 RATIONAL        Two LONGs. Numerator, denominator.
+ 7 UNDEFINED       An 8-bit byte.
+ 8 SSHORT          A 16-bit (2-byte) signed integer.
+ 9 SLONG           A 32-bit (4-byte) signed integer.
+10 SRATIONAL       Two SLONGs. Numerator, denominator.
+.fi
+.sp
+The printing flag t = translated and is intended for human use.  Scripts should never use translated values as they are localised and the format may change as Exiv2 evolves.  The printing flag v reports the values recorded in the metadata and should be used by scripts.
 .ne 40
 .SH CONFIGURATION FILE
 Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can fine the location of the configuration file with the command:
