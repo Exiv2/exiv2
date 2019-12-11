@@ -61,9 +61,9 @@ TEST_F(AClosedFileIo, sizeReturnsImageSize)
     ASSERT_EQ(fileSize, file.size());
 }
 
-TEST_F(AClosedFileIo, eofReturnsFalse)
+TEST_F(AClosedFileIo, eofReturnsTrue)
 {
-    ASSERT_FALSE(file.eof());
+    ASSERT_TRUE(file.eof());
 }
 
 TEST_F(AClosedFileIo, pathReturnsInputPath)

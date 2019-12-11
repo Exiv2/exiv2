@@ -986,7 +986,7 @@ namespace Exiv2
     bool FileIo::eof() const
     {
         if (p_->fp_ == nullptr)
-            return false;
+            return true;
         return feof(p_->fp_) != 0 || tell() >= static_cast<int64>(size());
     }
 
