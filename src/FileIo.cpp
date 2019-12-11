@@ -148,6 +148,7 @@ namespace Exiv2
             return 1;
         if (opMode_ == opMode)
             return 0;
+
         OpMode oldOpMode = opMode_;
         opMode_ = opMode;
 
@@ -199,7 +200,7 @@ namespace Exiv2
         if (fp_ == nullptr)
             return 1;
         return std::fseek(fp_, offset, SEEK_SET);
-    }  // FileIo::Impl::switchMode
+    }
 
     int FileIo::Impl::stat(StructStat& buf) const
     {
@@ -758,7 +759,8 @@ namespace Exiv2
 
     int FileIo::seek(int64 offset, Position pos)
     {
-        assert(p_->fp_ != nullptr);
+        if (p_->switchMode(Impl::opSeek) != 0)
+            return 1;
 
         int fileSeek = 0;
         switch (pos) {
@@ -773,8 +775,6 @@ namespace Exiv2
                 break;
         }
 
-        if (p_->switchMode(Impl::opSeek) != 0)
-            return 1;
 #ifdef _WIN64
         return _fseeki64(p_->fp_, offset, fileSeek);
 #else

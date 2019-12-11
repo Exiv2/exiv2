@@ -71,6 +71,14 @@ TEST_F(AClosedFileIo, pathReturnsInputPath)
     ASSERT_EQ(jpegPath, file.path());
 }
 
+TEST_F(AClosedFileIo, remainsClosedIfWeSetNewPath)
+{
+    const std::string newPath{"NonExistingPic.jpeg"};
+    file.setPath(newPath);
+    ASSERT_EQ(newPath, file.path());
+    ASSERT_FALSE(file.isopen());
+}
+
 TEST_F(AClosedFileIo, canBeClosed)
 {
     ASSERT_EQ(0, file.close());
@@ -108,6 +116,11 @@ TEST_F(AClosedFileIo, readIntoArrayFails)
 TEST_F(AClosedFileIo, getbFails)
 {
     ASSERT_EQ(EOF, file.getb());
+}
+
+TEST_F(AClosedFileIo, cannotBeSought)
+{
+    ASSERT_NE(0, file.seek(5, BasicIo::beg));
 }
 
 
@@ -180,3 +193,39 @@ TEST_F(AOpenedFileIo, canBeTransferedToAMemIo)
     ASSERT_FALSE(file.isopen());
     ASSERT_EQ(fileSize, mem.size());
 }
+
+// -------------------------------------------------------------------------
+
+TEST(readFile, throwsWithNonExistingFile)
+{
+    const std::string nonExistingPic{testData + "/NonExisting.jpg"};
+    ASSERT_THROW(readFile(nonExistingPic), Error);
+}
+
+TEST(readFile, returnsDataBufWithExistingFile)
+{
+    const auto databuf = readFile(jpegPath);
+    ASSERT_EQ(fileSize, databuf.size_);
+}
+
+TEST(writeFile, createsFileUnderNormalCircumstances)
+{
+    const size_t bytes{10};
+    const DataBuf buf(bytes);
+
+    const auto bytesWritten = writeFile(buf, tmpPath);
+
+    ASSERT_EQ(bytesWritten, bytes);
+    ASSERT_EQ(0, std::remove(tmpPath.c_str()));
+}
+
+// It seems that in Appveyor all the paths have write permissions :S
+#ifndef _WIN32
+TEST(writeFile, throwsWithNonAccessiblePath)
+{
+    const size_t bytes{10};
+    const DataBuf buf(bytes);
+
+    ASSERT_THROW(writeFile(buf, "C:/Windows/nonAccessible.jpg"), Error);
+}
+#endif
