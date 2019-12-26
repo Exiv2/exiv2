@@ -28,7 +28,7 @@ As a rule-of-thumb:
   describe the commit briefly. If the 80 characters are too short for a summary, then consider splitting the commit. Optionally, add one blank line
   below the short summary and write a more detailed explanation if necessary.
 
-See the [GIT_GUIDELINES.md](GIT_GUIDELINES.md) file for a more detailed description of the git workflow.
+See the [GIT_GUIDELINES.md](git_guidelines.md) file for a more detailed description of the git workflow.
 
 Below we outline the recommended steps in the code contribution workflow. We use `your-username` to refer to your username on GitHub, `exiv2_upstream` is used when we
 set the upstream remote repository for Exiv2 (we could have picked any name by try to avoid already used names like, in particular, `origin` and `master`), and
@@ -123,7 +123,7 @@ Also, follow the coding guidelines outlined in [CODING_GUIDELINES.md](CODING_GUI
 If you cannot or do not want to use GitHub, you can still submit patches via email by using our [sourcehut mirror](https://git.sr.ht/~d4n/exiv2).
 
 Prepare your changes in your local clone of the [GitHub](https://github.com/Exiv2/exiv2.git) or [sourcehut](https://git.sr.ht/~d4n/exiv2) repository following our
-[CODING_GUIDELINES.md](CODING_GUIDELINES.md) and [GIT_GUIDELINES.md](GIT_GUIDELINES.md). Send your patches to the
+[CODING_GUIDELINES.md](CODING_GUIDELINES.md) and [GIT_GUIDELINES.md](git_guidelines.md). Send your patches to the
 [~d4n/exiv2-patches@lists.sr.ht](mailto:~d4n/exiv2-patches@lists.sr.ht) mailing list. Please use `git send-email` as outlined in https://git-send-email.io/ to
 simplify the integration of your patches.
 
