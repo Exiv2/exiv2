@@ -6,7 +6,7 @@ Contributing to the Exiv2 Project
 * [1. Introduction](#1-introduction)
 * [2. Contributing code via GitHub](#2-contributing-code-via-github)
 * [3. Contributing code via email](#3-contributing-code-via-email)
-* [4. Contributing Lens Data](#3-contributing-lens-data)
+* [4. Contributing Lens Data](#4-contributing-lens-data)
 * [5. Reporting Bugs](#5-reporting-bugs)
 
 # 1. Introduction #
@@ -15,7 +15,7 @@ We welcome any help, for example contributing lens data (images), code contribut
 
 # 2. Contributing code via GitHub #
 
-Code contributions can be performed via *pull requests* (PR) on GitHub (if you cannot or do not want to use GitHub, see #3-contributing-code-via-email).
+Code contributions can be performed via *pull requests* (PR) on GitHub (if you cannot or do not want to use GitHub, see [3. Contributing code via email](#3-contributing-code-via-email)).
 For this to work you first need to [create a user account on GitHub](https://help.github.com/articles/signing-up-for-a-new-github-account/) if don't already have one.
 A pull request should preferable contain only one new feature or bug fix etc. Since it is not uncommon to work on several PRs at the same time
 it is recommended to create a new _branch_ for each PR. In this way PRs can easily be separated and the review and merge process becomes cleaner.
