@@ -16,12 +16,12 @@ We welcome any help, for example contributing lens data (images), code contribut
 # 2. Contributing code via GitHub #
 
 Code contributions can be performed via *pull requests* (PR) on GitHub (if you cannot or do not want to use GitHub, see [3. Contributing code via email](#3-contributing-code-via-email)).
-For this to work you first need to [create a user account on GitHub](https://help.github.com/articles/signing-up-for-a-new-github-account/) if don't already have one.
+For this to work you first need to [create a user account on GitHub](https://help.github.com/articles/signing-up-for-a-new-github-account/) if you don't already have one.
 A pull request should preferable contain only one new feature or bug fix etc. Since it is not uncommon to work on several PRs at the same time
 it is recommended to create a new _branch_ for each PR. In this way PRs can easily be separated and the review and merge process becomes cleaner.
 As a rule-of-thumb:
 
-- PRs should be kept at a manageable size. Try to focus in just one goal per PR. If you find yourself doing several things in a PR that were not expected,
+- PRs should be kept at a manageable size. Try to focus on just one goal per PR. If you find yourself doing several things in a PR that were not expected,
   then try to split the different tasks into different PRs.
 - Commits should always change a *single* logical unit so that cherry-picking & reverting is simple.
 - Commit messages should be as informative and concise as possible. The first line of the commit message should be < 80 characters and
