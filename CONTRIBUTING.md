@@ -98,7 +98,7 @@ Once you have a GitHub login:
 9. Create the PR by pressing the _New pull request_ button on: `https://github.com/your-username/exiv2`. Please select the option "Allow edits from maintainers" as outlined
    [here](https://help.github.com/en/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork).
 
-10. Now wait for an Exiv2 project member(s) to respond to your PR. Follow the discussion on your PR at [https://github.com/Exiv2/exiv2/pulls](GitHub).
+10. Now wait for an Exiv2 project member(s) to respond to your PR. Follow the discussion on your PR at [GitHub](https://github.com/Exiv2/exiv2/pulls).
     You may have to do some updates to your PR until it gets accepted.
 
 11. After the PR has been reviewed you must _rebase_ your repo copy since there may have been several changes to the upstream repository.
