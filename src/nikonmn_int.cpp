@@ -2545,6 +2545,9 @@ fmountlens[] = {
 // https://github.com/Exiv2/exiv2/issues/1069
 {0xc8,0x54,0x44,0x44,0x0d,0x0d,0xdf,0x46,0x00,0x00,0x00, "Tamron", "F045", "SP 35mm f/1.4 Di USD"},
 //
+// https://github.com/Exiv2/exiv2/issues/1078
+{0x80,0x48,0x1C,0x29,0x24,0x24,0x7A,0x06,0x00,0x00,0x00, "Tokina", "", "atx-i 11-16mm F2.8 CF"},
+//
 {0,0,0,0,0,0,0,0,0,0,0, nullptr, nullptr, nullptr}
 };
 //------------------------------------------------------------------------------
