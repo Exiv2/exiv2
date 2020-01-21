@@ -26,7 +26,7 @@
 
 A good commit message would look like this:
 ```
-[travis] Fix mac osx jobs
+[travis] Fix macOS jobs
 
 - Specify concrete ubuntu and mac versions
 - Use latest conan version
