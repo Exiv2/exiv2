@@ -34,7 +34,7 @@
     4. [Fuzzing](#4-4)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
-    2. [MacOS-X](#5-2)
+    2. [macOS](#5-2)
     3. [MinGW](#5-3)
     4. [Cygwin](#5-4)
     5. [Microsoft Visual C++](#5-5)
@@ -105,7 +105,7 @@ $ export PATH="/usr/local/bin:$PATH"
 
 ```ShellSession
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"      # Linux, Cygwin, MinGW/msys2
-$ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # MacOS-X
+$ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # macOS
 ```
 
 
@@ -114,7 +114,7 @@ $ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # MacOS-X
 
 ### 2.2 Build and Install Exiv2 with Visual Studio
 
-We recommend that you use conan to download the Exiv2 external dependencies on Windows (On Linux/OSX you can use or install system packages).
+We recommend that you use conan to download the Exiv2 external dependencies on Windows (On Linux/macOS you can use or install system packages).
 Apart from handling the dependencies, to configure and compile the project is pretty similar to the UNIX like systems.
 See [README-CONAN](README-CONAN.md) for more information
 
@@ -264,7 +264,7 @@ g++ -std=c++11 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 
 ### 2.8 Localisation
 
-Localisation is supported on a UNIX-like platform:  Linux, MacOS-X, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
+Localisation is supported on a UNIX-like platform:  Linux, macOS, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
 To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=ON`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
 
@@ -531,7 +531,7 @@ $ cmake ..
 $ cmake --build .
 ```
 
-2) On MacOS-X
+2) On macOS
 
 Apple provide clang with Xcode.  GCC has not been supported by Apple since 2013.  The _"normal unix build"_ uses Clang.
 
@@ -783,7 +783,7 @@ To build exiv2 on CentOS, please install the following additional packages:
 [TOC](#TOC)
 <div id="5-2">
 
-### 5.2 MacOS-X
+### 5.2 macOS
 
 You will need to install Xcode and the Xcode command-line tools to build on the Mac.
 
