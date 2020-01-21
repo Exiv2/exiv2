@@ -352,9 +352,8 @@ namespace Exiv2
                         if (bExif || bIptc) {
                             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf, tEXt);
 #ifdef EXIV2_DEBUG_MESSAGES
-                            std::cerr << Exiv2::Internal::binaryToString(parsedBuf.pData_,
-                                                                         parsedBuf.size_ > 50 ? 50 : parsedBuf.size_, 0)
-                                      << std::endl;
+                            auto slice = makeSlice(parsedBuf.pData_, 0, parsedBuf.size_ > 50 ? 50 : parsedBuf.size_);
+                            std::cerr << Exiv2::Internal::binaryToString(slice) << std::endl;
 #endif
                             if (parsedBuf.size_) {
                                 if (bExif) {
