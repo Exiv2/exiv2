@@ -29,6 +29,7 @@
 
 #include <cstring>  // std::memcpy
 #include <cassert>      /// \todo check usages of assert and try to cover the negative case with unit tests.
+#include <iostream>
 
 namespace Exiv2
 {
