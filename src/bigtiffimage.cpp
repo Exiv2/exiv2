@@ -192,6 +192,14 @@ namespace Exiv2
                 {
                     BasicIo& io = Image::io();
 
+                    // Fix for https://github.com/Exiv2/exiv2/issues/712
+                    // A malicious file can cause a very deep recursion, leading to
+                    // stack exhaustion.
+                    if (depth > 200) {
+                      out << Internal::indent(depth) << "Maximum indentation depth exceeded." << std::endl;
+                      return;
+                    }
+
                     depth++;
                     bool bFirst  = true;
 
