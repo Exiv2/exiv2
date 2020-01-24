@@ -17,4 +17,4 @@ class XMPMetaDeleteNamespace(
 """]
     stderr = ["""Warning: Removing 54 characters from the beginning of the XMP packet
 """]
-    retval = [255]
+    retval = [1]
