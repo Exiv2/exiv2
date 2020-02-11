@@ -1259,6 +1259,11 @@ namespace
         modifyCmd.value_ = value;
 
         if (cmdId == reg) {
+            if (value.empty()) {
+                throw Exiv2::Error(Exiv2::kerErrorMessage,
+                                   Exiv2::toString(num) + ": " + _("Empty value for key") +  + " `" + key + "'");
+            }
+
             // Registration needs to be done immediately as the new namespaces are
             // looked up during parsing of subsequent lines (to validate XMP keys).
             Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
