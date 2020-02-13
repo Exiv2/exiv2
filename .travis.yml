@@ -69,9 +69,9 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
-    - name: "OS X 10.13 - XCode 10.2"
+    - name: "macOS 10.14 - XCode 11.3"
       os: osx
-      osx_image: xcode10.2
+      osx_image: xcode11.3
       compiler: clang
       env:
         - BUILD_TYPE="Release"

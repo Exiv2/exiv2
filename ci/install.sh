@@ -20,10 +20,11 @@ else
     eval "$(pyenv virtualenv-init -)"
     pyenv virtualenv conan
     pyenv activate conan
+    python -m pip install --upgrade pip
 fi
 
 python --version
-pip install conan==1.19.1
+pip install conan==1.22.0
 pip install codecov
 conan --version
 conan config set storage.path=~/conanData
