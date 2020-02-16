@@ -1,0 +1,37 @@
+name: CI for Windows
+
+on: [push, pull_request]
+
+jobs:
+  windows:
+    name: Windows build and test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install Conan
+        run: pip.exe install conan
+      - name: Conan
+        run: |
+          md build
+          cd build
+          conan profile list
+          conan install .. --build missing
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake --build . --config Release
+      - name: Test
+        env:
+          EXIV2_EXT: .exe
+        run: |
+          cd build
+          cd bin
+          dir
+          ./unit_tests.exe
+          cd ../../tests/
+          python.exe runner.py -v
