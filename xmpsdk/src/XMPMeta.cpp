@@ -1128,7 +1128,7 @@ XMPMeta::DeleteNamespace ( XMP_StringPtr namespaceURI )
 	if ( uriPos == sNamespaceURIToPrefixMap->end() ) return;
 
 	XMP_StringMapPos prefixPos = sNamespacePrefixToURIMap->find ( uriPos->second );
-	XMP_Assert ( prefixPos != sNamespacePrefixToURIMap->end() );
+	if ( prefixPos == sNamespacePrefixToURIMap->end() ) return;
 	
 	sNamespaceURIToPrefixMap->erase ( uriPos );
 	sNamespacePrefixToURIMap->erase ( prefixPos );
