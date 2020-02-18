@@ -15,12 +15,13 @@ class EmptyValueInCommandFile(metaclass=CaseMeta):
     filename1 = path("$data_path/issue_1099_poc.txt")
     filename2 = path("$data_path/issue_1099_poc.bin")
     commands = ["$exiv2 -m $filename1 mo $filename2"]
-    stdout = ["""Usage: $exiv2exe [ options ] [ action ] file ...
 
-Manipulate the Exif metadata of images.
-"""]
     stderr = [
         """$filename1, line 1: Empty value for key `Exiff.LfkInfo.GPSDa'
 $exiv2exe: Error parsing -m option arguments
 """]
     retval = [1]
+
+    def compare_stdout(self, i, command, got_stdout, expected_stdout):
+        """ We don't care about the stdout, just don't crash """
+        pass
