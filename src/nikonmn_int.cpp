@@ -885,7 +885,8 @@ namespace Exiv2 {
         { 3, N_("On (39-point)")      },
         { 4, N_("On (73-point)")      },
         { 5, N_("On (73-point, new)") },
-        { 6, N_("On (105-point)")     }
+        { 6, N_("On (105-point)")     },
+        { 7, N_("On (153-point)")     },
     };
 
     // Nikon3 Auto Focus Tag Info
