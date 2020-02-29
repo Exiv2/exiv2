@@ -384,7 +384,15 @@ namespace Exiv2 {
         { (long int)0x80000401, "EOS 5DS R" },
         { (long int)0x80000404, "EOS Rebel T6 / 1300D / Kiss X80" },
         { (long int)0x80000405, "EOS Rebel T7i / 800D / Kiss X9i" },
-        { (long int)0x80000408, "EOS 77D / 9000D" }
+        { (long int)0x80000406, "EOS 6D Mark II" },
+        { (long int)0x80000408, "EOS 77D / 9000D" },
+        { (long int)0x80000417, "EOS Rebel SL2 / 200D / Kiss X9" },
+        { (long int)0x80000422, "EOS Rebel T100 / 4000D / 3000D" },
+        { (long int)0x80000424, "EOS R" },
+        { (long int)0x80000432, "EOS Rebel T7 / 2000D / 1500D / Kiss X90" },
+        { (long int)0x80000433, "EOS RP" },
+        { (long int)0x80000436, "EOS SL3 / 250D / Kiss X10" },
+        { (long int)0x80000437, "EOS 90D" },
     };
 
     //! SerialNumberFormat, tag 0x0015
@@ -1104,6 +1112,18 @@ namespace Exiv2 {
         { 4160,"Canon EF-S 35mm f/2.8 Macro IS STM"                         },
         {36910,"Canon EF 70-300mm f/4-5.6 IS II USM"                        },
         {36912,"Canon EF-S 18-135mm f/3.5-5.6 IS USM"                       },
+        {61491,"Canon CN-E 14mm T3.1 L F"                                   },
+        {61492,"Canon CN-E 24mm T1.5 L F"                                   },
+        {61494,"Canon CN-E 85mm T1.3 L F"                                   },
+        {61495,"Canon CN-E 135mm T2.2 L F"                                  },
+        {61496,"Canon CN-E 35mm T1.5 L FR"                                  },
+        {61182,"Canon RF 35mm F1.8 Macro IS STM or other Canon RF Lens"     },
+        {61182,"Canon RF 50mm F1.2 L USM"                                   },
+        {61182,"Canon RF 24-105mm F4 L IS USM"                              },
+        {61182,"Canon RF 28-70mm F2 L USM"                                  },
+        {61182,"Canon RF 85mm F1.2L USM"                                    },
+        {61182,"Canon RF 24-240mm F4-6.3 IS USM"                            },
+        {61182,"Canon RF 24-70mm F2.8 L IS USM"                             },
         {65535,"n/a"                                                        }
     };
 
@@ -1166,6 +1186,7 @@ namespace Exiv2 {
         { 747, printCsLensByFocalLength }, // not tested
         { 4143,printCsLensByFocalLength }, // not tested
         { 4154,printCsLensByFocalLength }, // not tested
+        {61182,printCsLensByFocalLength },
        {0xffff,printCsLensFFFF          }
     };
 
@@ -1361,24 +1382,49 @@ namespace Exiv2 {
         { 0x0040, "2 EV"     }
     };
 
+    extern const TagDetails cameraType[] = {
+        {   0, "n/a"           },
+        { 248, "EOS High-end"  },
+        { 250, "Compact"       },
+        { 252, "EOS Mid-range" },
+        { 255, "DV Camera"     },
+    };
+
+    extern const TagDetails autoExposureBracketing[] = {
+        { 65535, "On"          },
+        { 0,     "Off"         },
+        { 1,     "On (shot 1)" },
+        { 2,     "On (shot 2)" },
+        { 3,     "On (shot 3)" },
+    };
+
+	extern const TagDetails slowShutter[] = {
+        { 65535, "n/a"         },
+        { 0,     "Off"         },
+        { 1,     "Night Scene" },
+        { 2,     "On"          },
+        { 3,     "None"        },
+    };
+
+
     // Canon Shot Info Tag
     const TagInfo CanonMakerNote::tagInfoSi_[] = {
-        TagInfo(0x0001, "0x0001", "0x0001", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0001, "AutoISO", N_("AutoISO"), N_("AutoISO"), canonSiId, makerTags, unsignedShort, 1, printSi0x0001),
         TagInfo(0x0002, "ISOSpeed", N_("ISO Speed Used"), N_("ISO speed used"), canonSiId, makerTags, unsignedShort, 1, printSi0x0002),
         TagInfo(0x0003, "MeasuredEV", N_("Measured EV"), N_("Measured EV"), canonSiId, makerTags, unsignedShort, 1, printSi0x0003),
         TagInfo(0x0004, "TargetAperture", N_("Target Aperture"), N_("Target Aperture"), canonSiId, makerTags, unsignedShort, 1, printSi0x0015),
         TagInfo(0x0005, "TargetShutterSpeed", N_("Target Shutter Speed"), N_("Target shutter speed"), canonSiId, makerTags, unsignedShort, 1, printSi0x0016),
         TagInfo(0x0006, "0x0006", "0x0006", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
         TagInfo(0x0007, "WhiteBalance", N_("White Balance"), N_("White balance setting"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(canonSiWhiteBalance)),
-        TagInfo(0x0008, "0x0008", "0x0008", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0008, "SlowShutter", N_("Slow Shutter"), N_("Slow shutter"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(slowShutter)),
         TagInfo(0x0009, "Sequence", N_("Sequence"), N_("Sequence number (if in a continuous burst)"), canonSiId, makerTags, unsignedShort, 1, printSi0x0009),
         TagInfo(0x000a, "0x000a", "0x000a", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
         TagInfo(0x000b, "0x000b", "0x000b", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
-        TagInfo(0x000c, "0x000c", "0x000c", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
-        TagInfo(0x000d, "0x000d", "0x000d", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x000c, "CameraTemperature", N_("Camera Temperature"), N_("Camera temperature"), canonSiId, makerTags, signedShort, 1, printSi0x000c),
+        TagInfo(0x000d, "FlashGuideNumber", N_("Flash Guide Number"), N_("Flash guide number"), canonSiId, makerTags, unsignedShort, 1, printSi0x000d),
         TagInfo(0x000e, "AFPointUsed", N_("AF Point Used"), N_("AF point used"), canonSiId, makerTags, unsignedShort, 1, printSi0x000e),
         TagInfo(0x000f, "FlashBias", N_("Flash Bias"), N_("Flash bias"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(canonSiFlashBias)),
-        TagInfo(0x0010, "0x0010", "0x0010", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0010, "AutoExposureBracketing", N_("Auto Exposure Bracketing"), N_("Auto exposure bracketing"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(autoExposureBracketing)),
         TagInfo(0x0011, "0x0011", "0x0011", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
         TagInfo(0x0012, "0x0012", "0x0012", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
         TagInfo(0x0013, "SubjectDistance", N_("Subject Distance"), N_("Subject distance"), canonSiId, makerTags, unsignedShort, 1, printSi0x0013),
@@ -1386,9 +1432,10 @@ namespace Exiv2 {
         TagInfo(0x0015, "ApertureValue", N_("Aperture Value"), N_("Aperture"), canonSiId, makerTags, unsignedShort, 1, printSi0x0015),
         TagInfo(0x0016, "ShutterSpeedValue", N_("Shutter Speed Value"), N_("Shutter speed"), canonSiId, makerTags, unsignedShort, 1, printSi0x0016),
         TagInfo(0x0017, "MeasuredEV2", N_("Measured EV 2"), N_("Measured EV 2"), canonSiId, makerTags, unsignedShort, 1, printSi0x0017),
-        TagInfo(0x0018, "0x0018", "0x0018", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0018, "BulbDuration", N_("Bulb Duration"), N_("Bulb duration"), canonSiId, makerTags, unsignedShort, 1, printSi0x0018),
         TagInfo(0x0019, "0x0019", "0x0019", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
-        TagInfo(0x001a, "0x001a", "0x001a", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x001a, "CameraType", N_("Camera Type"), N_("Camera type"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(cameraType)),
+        TagInfo(0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, unsignedShort, 1, printValue)
     };
@@ -2022,6 +2069,19 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& CanonMakerNote::printSi0x0001(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData*)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (   value.typeId() == unsignedShort
+            && value.count() > 0) {
+            os << exp(canonEv(value.toLong()) / 32 * log(2.0)) * 100.0;
+        }
+        os.flags(f);
+        return os;
+    }
+
     std::ostream& CanonMakerNote::printSi0x0002(std::ostream& os,
                                                 const Value& value,
                                                 const ExifData*)
@@ -2066,6 +2126,24 @@ namespace Exiv2 {
         os << l << "";
         // Todo: determine unit
         return os;
+    }
+
+    std::ostream& CanonMakerNote::printSi0x000c(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData*)
+    {
+        if (value.toLong() == 0) return os << "--";
+
+        return os << value.toLong() - 128 << " °C";
+    }
+
+    std::ostream& CanonMakerNote::printSi0x000d(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData*)
+    {
+        if (value.toLong() == 65535) return os << "--";
+
+        return os << value.toLong() / 32;
     }
 
     std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os,
@@ -2157,6 +2235,13 @@ namespace Exiv2 {
         return os;
     }
 
+    std::ostream& CanonMakerNote::printSi0x0018(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData*)
+    {
+        return os << value.toLong() / 10;
+    }
+
     std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os,
                                                        const Value& value,
                                                        const ExifData*)
@@ -2170,7 +2255,7 @@ namespace Exiv2 {
       os << std::fixed << std::setprecision(2);
 
       long l = value.toLong();
-      if (l == 0xffff) {
+      if (l == -1) {
         os << "Infinite";
       }
       else {

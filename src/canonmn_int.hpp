@@ -89,12 +89,18 @@ namespace Exiv2 {
         static std::ostream& printCsLensType(std::ostream& os, const Value& value, const ExifData* metadata);
         //! Camera lens information
         static std::ostream& printCsLens(std::ostream& os, const Value& value, const ExifData*);
+        //! AutoISO speed used
+        static std::ostream& printSi0x0001(std::ostream& os, const Value& value, const ExifData*);
         //! ISO speed used
         static std::ostream& printSi0x0002(std::ostream& os, const Value& value, const ExifData*);
         //! MeasuredEV
         static std::ostream& printSi0x0003(std::ostream& os, const Value& value, const ExifData*);
         //! Sequence number
         static std::ostream& printSi0x0009(std::ostream& os, const Value& value, const ExifData*);
+        //! Ambient Temperature
+        static std::ostream& printSi0x000c(std::ostream& os, const Value& value, const ExifData*);
+        //! Flash Guide Number
+        static std::ostream& printSi0x000d(std::ostream& os, const Value& value, const ExifData*);
         //! AF point used
         static std::ostream& printSi0x000e(std::ostream& os, const Value& value, const ExifData* pExifData);
         //! Subject distance
@@ -105,6 +111,8 @@ namespace Exiv2 {
         static std::ostream& printSi0x0016(std::ostream& os, const Value& value, const ExifData*);
         //! MeasuredEV2
         static std::ostream& printSi0x0017(std::ostream& os, const Value& value, const ExifData*);
+        //! Bulb Duration
+        static std::ostream& printSi0x0018(std::ostream& os, const Value& value, const ExifData*);
         //! Focus Distance
         static std::ostream& printFiFocusDistance(std::ostream& os, const Value& value, const ExifData*);
         //@}
