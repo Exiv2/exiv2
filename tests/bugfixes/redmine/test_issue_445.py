@@ -90,22 +90,22 @@ Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 Exif.Canon.FocalLength                       Short       4  21.3 mm
 Exif.Canon.0x0003                            Short       4  0 0 0 0
 Exif.CanonSi.0x0000                          Short       1  54
-Exif.CanonSi.0x0001                          Short       1  0
+Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  13.63
 Exif.CanonSi.TargetAperture                  Short       1  F5
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 Exif.CanonSi.0x0006                          Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
-Exif.CanonSi.0x0008                          Short       1  0
+Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
 Exif.CanonSi.0x000a                          Short       1  6
 Exif.CanonSi.0x000b                          Short       1  0
-Exif.CanonSi.0x000c                          Short       1  0
-Exif.CanonSi.0x000d                          Short       1  0
+Exif.CanonSi.CameraTemperature               Short       1  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
-Exif.CanonSi.0x0010                          Short       1  0
+Exif.CanonSi.AutoExposureBracketing          Short       1  Off
 Exif.CanonSi.0x0011                          Short       1  0
 Exif.CanonSi.0x0012                          Short       1  1
 Exif.CanonSi.SubjectDistance                 Short       1  7.82 m
@@ -113,9 +113,9 @@ Exif.CanonSi.0x0014                          Short       1  0
 Exif.CanonSi.ApertureValue                   Short       1  F5
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
 Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
-Exif.CanonSi.0x0018                          Short       1  0
+Exif.CanonSi.BulbDuration                    Short       1  0
 Exif.CanonSi.0x0019                          Short       1  0
-Exif.CanonSi.0x001a                          Short       1  250
+Exif.CanonSi.CameraType                      Short       1  Compact
 Exif.Canon.0x0000                            Short       6  0 0 0 0 0 0
 Exif.Canon.0x0000                            Short       4  0 0 0 0
 Exif.Canon.ImageType                         Ascii      32  IMG:PowerShot S40 JPEG
