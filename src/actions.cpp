@@ -696,7 +696,15 @@ namespace Action {
                 return true;
             }
             bool done = false;
-            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
+            // handle `comment` typeIDs
+            // $ bin/taglist | grep '\tComment,' | cut -d, -f 5
+            // Exif.Photo.UserComment
+            // Exif.GPSInfo.GPSProcessingMethod
+            // Exif.GPSInfo.GPSAreaInformation
+            if( md.key() == "Exif.Photo.UserComment"
+            ||  md.key() == "Exif.GPSInfo.GPSProcessingMethod"
+            ||  md.key() == "Exif.GPSInfo.GPSAreaInformation"
+            ) {
                 const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
                 if (pcv) {
                     Exiv2::CommentValue::CharsetId csId = pcv->charsetId();

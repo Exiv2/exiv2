@@ -10,9 +10,9 @@ class CheckRegularExpressionSupport(metaclass=system_tests.CaseMeta):
     commands = [ "$exiv2 -pa --grep gpsl/i $filename" ]
 
     stdout = [ """Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
-Exif.GPSInfo.GPSLatitude                     Rational    3  52deg 3.81700' 
+Exif.GPSInfo.GPSLatitude                     Rational    3  52deg 4' 0"
 Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  East
-Exif.GPSInfo.GPSLongitude                    Rational    3  1deg 13.81940' 
+Exif.GPSInfo.GPSLongitude                    Rational    3  1deg 14' 0"
 """
     ]
     stderr = [""]

@@ -1836,14 +1836,33 @@ namespace Exiv2 {
         return len;
     } // TiffImageEntry::doSizeImage
 
+    static const TagInfo* findTagInfo(uint16_t tag,IfdId group)
+    {
+        const TagInfo* result = NULL ;
+        const TagInfo* tags   = group == exifId ? Internal::exifTagList()
+                              : group == gpsId  ? Internal::gpsTagList()
+                              : NULL
+                              ;
+        if ( tags ) {
+            for ( size_t idx = 0; result==NULL && tags[idx].tag_ != 0xffff; ++idx) {
+                if ( tags[idx].tag_ == tag ) {
+                      result = tags+idx;
+                }
+            }
+        }
+        return result;
+    }
+
     // *************************************************************************
     // free functions
     TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group)
     {
         TypeId ti = TypeId(tiffType);
-        // On the fly type conversion for Exif.Photo.UserComment
-        if (tag == 0x9286 && group == exifId && ti == undefined) {
-            ti = comment;
+        // On the fly type conversion for Exif.Photo.UserComment, Exif.GPSProcessingMethod, GPSAreaInformation
+        if ( const TagInfo* pTag = ti == undefined ? findTagInfo(tag,group) : NULL ) {
+            if ( pTag->typeId_ == comment ) {
+                ti = comment;
+            }
         }
         // http://dev.exiv2.org/boards/3/topics/1337 change unsignedByte to signedByte
         // Exif.NikonAFT.AFFineTuneAdj || Exif.Pentax.Temperature

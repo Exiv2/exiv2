@@ -1908,13 +1908,12 @@ namespace Exiv2 {
                 gpsId, gpsTags, unsignedRational, 1, printValue),
         TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
-                "The first byte indicates the character code used, and this is followed by the name "
-                "of the method."),
-                gpsId, gpsTags, undefined, 0, printValue),
+                "The string encoding is defined using the same scheme as UserComment."),
+                gpsId, gpsTags, comment, 0, print0x9286),
         TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"),
-                N_("A character string recording the name of the GPS area. The first byte indicates "
-                "the character code used, and this is followed by the name of the GPS area."),
-                gpsId, gpsTags, undefined, 0, printValue),
+                N_("A character string recording the name of the GPS area."
+                "The string encoding is defined using the same scheme as UserComment."),
+                gpsId, gpsTags, comment, 0, print0x9286),
         TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"),
                 N_("A character string recording date and time information relative to UTC "
                 "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."),
@@ -2229,38 +2228,23 @@ namespace Exiv2 {
     std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
-        if (r.second != 0) return os << static_cast<float>(r.first) / r.second;
-        return os << "(" << value << ")";
+        if (r.second != 0) {
+            os << value.toFloat() ;
+        } else {
+            os << "(" << value << ")";
+        }
+        return os;
     } // printFloat
 
     std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         if (value.count() == 3) {
-            std::ostringstream oss;
-            oss.copyfmt(os);
             static const char* unit[] = { "deg", "'", "\"" };
-            static const int prec[] = { 7, 5, 3 };
-            int n;
-            for (n = 2; n > 0; --n) {
-                if (value.toRational(n).first != 0) break;
+            for (int i = 0; i < value.count() ; ++i) {
+                const int v = (int) (value.toFloat(i)+0.5f); // nearest integer
+                os << (i != 0? " " : "") << v << unit[i];
             }
-            for (int i = 0; i < n + 1; ++i) {
-                const uint32_t z = (uint32_t) value.toRational(i).first;
-                const uint32_t d = (uint32_t) value.toRational(i).second;
-                if (d == 0)
-                {
-                    os << "(" << value << ")";
-                    os.flags(f);
-                    return os;
-                }
-                // Hack: Need Value::toDouble
-                double b = static_cast<double>(z)/d;
-                const int p = z % d == 0 ? 0 : prec[i];
-                os << std::fixed << std::setprecision(p) << b
-                   << unit[i] << " ";
-            }
-            os.copyfmt(oss);
         }
         else {
             os << value;
