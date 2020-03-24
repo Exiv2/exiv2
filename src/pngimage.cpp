@@ -40,6 +40,7 @@ EXIV2_RCSID("@(#) $Id$")
 #include "image_int.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "types.hpp"
 
@@ -468,7 +469,16 @@ namespace Exiv2 {
                 }
                 else if (!memcmp(cheaderBuf.pData_ + 4, "iCCP", 4))
                 {
-                    zlibToDataBuf(cdataBuf.pData_ +12+1,dataOffset-13,iccProfile_); // +1 = 'compressed' flag
+                    // The ICC profile name can vary from 1-79 characters.
+                    uint32_t iccOffset = 0;
+                    do {
+                      enforce(iccOffset < 80 && iccOffset < dataOffset,
+                              Exiv2::kerCorruptedMetadata);
+                    } while(cdataBuf.pData_[iccOffset++] != 0x00);
+                    ++iccOffset; // +1 = 'compressed' flag
+                    enforce(iccOffset <= dataOffset, Exiv2::kerCorruptedMetadata);
+
+                    zlibToDataBuf(cdataBuf.pData_ +iccOffset,dataOffset-iccOffset,iccProfile_);
 #ifdef DEBUG
                     std::cout << "Exiv2::PngImage::readMetadata: Found iCCP chunk length: " << dataOffset  << std::endl;
                     std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ : " << iccProfile_.size_ << std::endl;
@@ -627,6 +637,7 @@ namespace Exiv2 {
 
                         // calculate CRC
                         uLong   tmp = crc32(0L, Z_NULL, 0);
+                        tmp         = crc32(tmp, (const Bytef*)type             ,typeLen);
                         tmp         = crc32(tmp, (const Bytef*)header           ,headerLen);
                         tmp         = crc32(tmp, (const Bytef*)compressed.pData_,compressed.size_);
                         byte    crc[4];
