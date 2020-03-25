@@ -173,8 +173,7 @@ target_include_directories(exiv2lib_int PUBLIC
 if (EXIV2_ENABLE_WEBREADY)
 
     if( EXIV2_ENABLE_SSH )
-        target_include_directories(exiv2lib SYSTEM PUBLIC ${LIBSSH_INCLUDE_DIR})
-        target_link_libraries(exiv2lib PUBLIC ${LIBSSH_LIBRARIES})
+        target_link_libraries(exiv2lib PUBLIC ssh)
     endif()
 
     if( EXIV2_ENABLE_CURL )
