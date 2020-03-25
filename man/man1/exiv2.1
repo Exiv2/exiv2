@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Aug 25, 2019"
+.TH EXIV2 1 "March 22, 2020"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -533,14 +533,34 @@ The value is optional. Not providing any value is equivalent to an
 empty value ("") and is mainly useful to create an XMP array property,
 e.g., a bag.
 .sp 1
-The format of Exif \fBComment\fP values includes an optional charset
-specification at the beginning:
-.br
-.B   [charset=Ascii|Jis|Unicode|Undefined ]\fIcomment\fP
+The format of Exif \fBComment\fP values include an optional charset
+specification at the beginning.  Comments are used by the tags Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod
+and Exif.GPSInfo.GPSAreaInformation.  Comments are stored as Undefined tags with an 8 byte encoding
+definition follow by the encoded data. The charset is specified as follows:
 .sp 1
-.B Undefined
-is used by default if the value doesn't start with a charset
-definition.
+.B   [charset=Ascii|Jis|Unicode|Undefined] \fIcomment\fP
+.br
+charset=Undefined is the default
+.sp 1
+.nf
+$ exiv2 -M'set Exif.Photo.UserComment charset=Ascii My photo' x.jpg
+$ exiv2 -pa --grep UserComment x.jpg
+Exif.Photo.UserComment         Undefined  16  My photo
+$ exiv2 -pv --grep UserComment x.jpg
+0x9286 Photo       UserComment Undefined  16  charset="Ascii" My photo
+
+$ exiv2 -M'set Exif.Photo.UserComment charset=Unicode \\u0052\\u006f\\u0062\\u0069\\u006e' x.jpg
+$ exiv2 -pa --grep UserComment x.jpg
+Exif.Photo.UserComment                       Undefined  18  Robin
+$ exiv2 -pv --grep UserComment x.jpg
+0x9286 Photo        UserComment                 Undefined  18  charset="Unicode" Robin
+
+$ exiv2 -M'set Exif.GPSInfo.GPSProcessingMethod HYBRID-FIX' x.jpg
+$ exiv2 -pa --grep ProcessingMethod        x.jpg
+Exif.GPSInfo.GPSProcessingMethod             Undefined  18  HYBRID-FIX
+$ exiv2 -pv --grep ProcessingMethod        x.jpg
+0x001b GPSInfo     GPSProcessingMethod       Undefined  18  HYBRID-FIX
+.fi
 .sp 1
 The format for an IPTC \fBDate\fP value is:
 .sp 1
@@ -661,7 +681,7 @@ Type               Explanation
 The printing flag t = translated and is intended for human use.  Scripts should never use translated values as they are localised and the format may change as Exiv2 evolves.  The printing flag v reports the values recorded in the metadata and should be used by scripts.
 .ne 40
 .SH CONFIGURATION FILE
-Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can fine the location of the configuration file with the command:
+Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can determine the location of the configuration file with the command:
 .br
 .sp 1
 .nf
