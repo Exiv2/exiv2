@@ -56,7 +56,6 @@
 #include <cmath>
 #include <cstring>
 
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
