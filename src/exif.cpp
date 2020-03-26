@@ -676,7 +676,7 @@ namespace Exiv2 {
             "Exif.Canon.AFYPositions",
             "Exif.Canon.AFPointsInFocus",
             "Exif.Canon.AFPointsSelected",
-            "Exif.Canon.AFPrimaryPoint",
+            "Exif.Canon.AFPointsUnusable",
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
             ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
