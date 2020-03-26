@@ -29,8 +29,9 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                 add_compile_options(-fstack-clash-protection -fcf-protection)
             endif()
 
-            if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7 ))
-                # is not available for clang 3.4.2. it appears to be present in clang 3.7.
+            if( (COMPILER_IS_GCC   AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0) # Not in GCC 4.8
+            OR  (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7) # Not in Clang 3.4.2
+            )
                 add_compile_options(-fstack-protector-strong)
             endif()
         endif()
