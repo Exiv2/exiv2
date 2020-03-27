@@ -2,6 +2,9 @@
 set -e # Enables cheking of return values from each command
 set -x # Prints every command
 
+python --version
+python3 --version
+
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
     sudo apt-get install cmake zlib1g-dev libssh-dev python-pip libxml2-utils
@@ -11,19 +14,16 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo pip install virtualenv
     virtualenv conan
     source conan/bin/activate
+    pip install conan==1.22.0
+    pip install codecov
 else
-    brew update
-    brew install pyenv-virtualenv
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-    pyenv virtualenv conan
-    pyenv activate conan
+    sudo pip3 install virtualenv
+    virtualenv conan
+    source conan/bin/activate
+    pip3 install conan==1.22.0
+    pip3 install codecov
 fi
 
-python --version
-pip install conan==1.17.2
-pip install codecov
 conan --version
 conan config set storage.path=~/conanData
 conan profile new default --detect

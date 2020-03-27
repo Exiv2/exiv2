@@ -3,8 +3,9 @@
 set -e
 set -x
 
+source conan/bin/activate
+
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    source conan/bin/activate
 
     if [ "$CC" == "clang" ]; then
         # clang + Ubuntu don't like to run with UBSAN, but ASAN works
@@ -16,10 +17,6 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     fi
 else
     export CMAKE_OPTIONS="$CMAKE_OPTIONS -DEXIV2_TEAM_USE_SANITIZERS=ON"
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-    pyenv activate conan
 fi
 
 
