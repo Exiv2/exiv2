@@ -4,6 +4,7 @@
 #include "timegm.h"
 #include "unused.h"
 #include "error.hpp"
+#include "enforce.hpp"
 
 #include <cassert>
 #include <ctime>
@@ -234,7 +235,8 @@ namespace Exiv2 {
                                uint32_t    start,
                                ByteOrder   byteOrder)
     {
-        if (size < 10) throw Error(kerNotACrwImage);
+        // We're going read 10 bytes. Make sure they won't be out-of-bounds.
+        enforce(size >= 10 && start <= size - 10, kerNotACrwImage);
         tag_ = getUShort(pData + start, byteOrder);
 
         DataLocId dl = dataLocation();
@@ -243,8 +245,22 @@ namespace Exiv2 {
         if (dl == valueData) {
             size_   = getULong(pData + start + 2, byteOrder);
             offset_ = getULong(pData + start + 6, byteOrder);
+
+            // Make sure that the sub-region does not overlap with the 10 bytes
+            // that we just read. (Otherwise a malicious file could cause an
+            // infinite recursion.) There are two cases two consider because
+            // the sub-region is allowed to be either before or after the 10
+            // bytes in memory.
+            if (offset_ < start) {
+              // Sub-region is before in memory.
+              enforce(size_ <= start - offset_, kerOffsetOutOfRange);
+            } else {
+              // Sub-region is after in memory.
+              enforce(offset_ >= start + 10, kerOffsetOutOfRange);
+              enforce(offset_ <= size, kerOffsetOutOfRange);
+              enforce(size_ <= size - offset_, kerOffsetOutOfRange);
+            }
         }
-        if ( size_ > size || offset_ > size ) throw Error(kerOffsetOutOfRange); // #889
         if (dl == directoryData) {
             size_ = 8;
             offset_ = start + 2;
