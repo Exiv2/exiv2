@@ -81,7 +81,7 @@ def apple(dict):
              # , 'libstdc++.6.dylib' # I suspect this is only with GCC (Xcode4 and earlier)
              ] ;
 
-    # which version of MacOS-X ?
+    # which version of macOS ?
     os_major=int(os.uname()[2].split('.')[0])
     os_minor=int(os.uname()[2].split('.')[1])
     NC=13;ML=12;LION=11;SL=10;LEO=9;
