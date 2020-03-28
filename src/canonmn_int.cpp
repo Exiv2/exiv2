@@ -1089,6 +1089,7 @@ namespace Exiv2 {
         {  230, "Canon EF 24-70mm f/2.8L USM"                               },
         {  231, "Canon EF 17-40mm f/4L USM or Sigma Lens"                   },
         {  231, "Sigma 12-24mm f/4 DG HSM A016"                             }, // 1
+        {  231, "Sigma 12-24mm f/4 DG HSM | A"                              }, // 2
         {  232, "Canon EF 70-300mm f/4.5-5.6 DO IS USM"                     },
         {  233, "Canon EF 28-300mm f/3.5-5.6L IS USM"                       },
         {  234, "Canon EF-S 17-85mm f/4-5.6 IS USM or Tokina Lens"          },
@@ -1156,6 +1157,7 @@ namespace Exiv2 {
         {  494, "Canon EF 600mm f/4L IS II USM"                             },
         {  495, "Canon EF 24-70mm f/2.8L II USM or Sigma Lens"              },
         {  495, "Sigma 24-70mm F2.8 DG OS HSM | A"                          }, // 1
+        {  495, "Sigma 24-70mm f/2.8 DG OS HSM | A"                         }, // 2
         {  496, "Canon EF 200-400mm f/4L IS USM"                            },
         {  499, "Canon EF 200-400mm f/4L IS USM + 1.4x"                     },
         {  502, "Canon EF 28mm f/2.8 IS USM or Tamron Lens"                 },
@@ -1487,7 +1489,7 @@ namespace Exiv2 {
         { 3,     "On (shot 3)" },
     };
 
-	extern const TagDetails slowShutter[] = {
+    extern const TagDetails slowShutter[] = {
         { 65535, "n/a"         },
         { 0,     "Off"         },
         { 1,     "Night Scene" },
