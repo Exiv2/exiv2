@@ -2023,7 +2023,7 @@ namespace {
 #if defined(_MSC_VER) || defined(__MINGW__)
  static CRITICAL_SECTION cs;
 #else
- /* Unix/Linux/Cygwin/MacOSX */
+ /* Unix/Linux/Cygwin/macOS */
  #include <pthread.h>
  /* This is the critical section object (statically allocated). */
  #if defined(__APPLE__)

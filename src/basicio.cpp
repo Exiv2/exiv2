@@ -279,7 +279,7 @@ namespace Exiv2 {
     {
 #if defined(__APPLE__)
 # if defined(EXV_UNICODE_PATH)
-#  error No xattr API for MacOS X with unicode support
+#  error No xattr API for macOS with unicode support
 # endif
         ssize_t namebufSize = ::listxattr(src.p_->path_.c_str(), 0, 0, 0);
         if (namebufSize < 0) {
