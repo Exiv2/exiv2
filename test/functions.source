@@ -420,7 +420,7 @@ copyVideoFiles ()
 checkSum()
 {
     # cygwin checksum: http://esrg.sourceforge.net/utils_win_up/md5sum/
-    # macosx - built/installed coreutils 8.25 http://ftp.gnu.org/gnu/coreutils/
+    # macos - built/installed coreutils 8.25 http://ftp.gnu.org/gnu/coreutils/
     platform=$(uname)
     if [ "$platform" == 'NetBSD' -o "$platform" == 'FreeBSD' ]; then
       md5 -q $1

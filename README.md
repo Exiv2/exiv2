@@ -3,7 +3,7 @@
 | [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) |
 <div id="TOC">
 
-### TABLE OF CONTENTS
+### TABLE  OF  CONTENTS
 
 1. [Welcome to Exiv2](#1)
 2. [Building, Installing, Using and Uninstalling Exiv2](#2)
@@ -20,6 +20,8 @@
    11. [Debugging Exiv2](#2-11)
    12. [Building  Exiv2 with Clang and other build chains](#2-12)
    13. [Building  Exiv2 with ccache](#2-13)
+   14. [Thread Safety](#2-14)
+   15. [Library Initialisation and Cleanup](#2-15)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -29,7 +31,7 @@
     3. [Unit tests](#4-3)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
-    2. [MacOS-X](#5-2)
+    2. [macOS](#5-2)
     3. [MinGW](#5-3)
     4. [Cygwin](#5-4)
     5. [Microsoft Visual C++](#5-5)
@@ -59,18 +61,18 @@ The file ReadMe.txt in a Build bundle describes how to install the library on th
 
 ## 2 Building, Installing, Using and Uninstalling Exiv2
 
-You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and a C++11 compiler.
+You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and the GCC or Clang compiler and associated tool chain.
 
 <div id="2-1">
 
 ### 2.1 Build, Install, Use Exiv2 on a UNIX-like system
 
 ```bash
-cd $EXIV_ROOT
+cd ~/gnu/github/exiv2  # location of the project code
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
-make test
+make tests
 sudo make install
 ```
 
@@ -88,7 +90,7 @@ You will also need to locate libexiv2 at run time:
 
 ```bash
 $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"      # Linux, Cygwin, MinGW/msys2
-$ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # MacOS-X
+$ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # macOS
 ```
 
 
@@ -163,7 +165,7 @@ See [README-CONAN](README-CONAN.md) for more information.
 
 There are detailed platform notes about compiling and linking in `releasenotes/{platform}/ReadMe.txt`
 
-where `platform: { CYGWIN | Darwin | Linux | MinGW | msvc }`
+where `platform: { CYGWIN | macOS | Linux | MinGW | msvc }`
 
 In general you need to do the following:
 
@@ -247,7 +249,7 @@ g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 
 ### 2.8 Localisation
 
-Localisation is supported on a UNIX-like platform:  Linux, MacOS-X, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
+Localisation is supported on a UNIX-like platform:  Linux, macOS, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
 To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=ON`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
 
@@ -513,7 +515,7 @@ $ cmake ..
 $ cmake --build .
 ```
 
-2) On MacOS-X
+2) On macOS
 
 Apple provide clang with Xcode.  GCC has not been supported by Apple since 2013.  The _"normal unix build"_ uses Clang.
 
@@ -523,7 +525,7 @@ I have been unable to get clang to work on any of those platforms.
 
 4) Cross Compiling
 
-I've never succeeded in getting this to work.  I use different VMs for Linux 32 and 64 bit.  I've documented how to set up Cygwin and MinGW/msys2 for 64 and 32 bit builds in [README-CONAN](README-CONAN.md)
+I've never succeeded in getting this to work.  I use different VMs for Linux 32 and 64 bit.  I've documented how to set up Cygwin and MinGW/msys2 in [README-CONAN](README-CONAN.md)
 
 [TOC](#TOC)
 <div id="2-13">
@@ -553,6 +555,39 @@ $ make
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
 
 [TOC](#TOC)
+
+<div id="2-14">
+
+### 2.14 Thread Safety
+
+Exiv2 heavily relies on standard C++ containers. Static or global variables are used read-only, with the exception of the XMP namespace registration function (see below). Thus Exiv2 is thread safe in the same sense as C++ containers:
+Different instances of the same class can safely be used concurrently in multiple threads.
+
+In order to use the same instance of a class concurrently in multiple threads the application must serialize all write access to the object.
+
+The level of thread safety within Exiv2 varies depending on the type of metadata: The Exif and IPTC code is reentrant. The XMP code uses the Adobe XMP toolkit (XMP SDK), which according to its documentation is thread-safe. It actually uses mutexes to serialize critical sections. However, the XMP SDK initialisation function is not mutex protected, thus Exiv2::XmpParser::initialize is not thread-safe. In addition, Exiv2::XmpProperties::registerNs writes to a static class variable, and is also not thread-safe.
+
+Therefore, multi-threaded applications need to ensure that these two XMP functions are serialized, e.g., by calling them from an initialization section which is run before any threads are started.
+
+[TOC](#TOC)
+
+<div id="2-15">
+
+### 2.15 Library Initialisation and Cleanup
+
+As discussed in the section on Thread Safety, Exiv2 classes for Exif and IPTC metadata are fully reentrant and require no initialisation or cleanup.
+
+Adobe's XMPsdk is generally thread-safe, however it has to be initialized and terminated before and after starting any threads to access XMP metadata. The Exiv2 library will initialize this if necessary, however it does not terminate the XMPsdk.
+
+The Exiv2 command-line and the sample applications call the following at the outset:
+
+```
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+```
+
+[TOC](#TOC)
+
 <div id="3">
 
 ## 3 License and Support
@@ -698,9 +733,9 @@ $ make
 [TOC](#TOC)
 <div id="5-2">
 
-### 5.2 MacOS-X
+### 5.2 macOS
 
-You will need to install Xcode and the Xcode command-line tools to build on the Mac.
+You will need to install Xcode and the Xcode command-line tools to build on macOS.
 
 You should build and install libexpat and zlib.  You may use brew, macports, build from source, or use conan.
 
@@ -711,14 +746,12 @@ I recommend that you build and install CMake from source.
 
 ### 5.3 MinGW
 
-We provide support for both 64bit and 32bit builds using MinGW/msys2. [https://www.msys2.org](https://www.msys2.org)
-
-Support for MinGW/msys1.0 32 bit build was provided for Exiv2 v0.26.  MinGW/msys1.0 is not supported by Team Exiv2 for Exiv2 v0.27 and later.
+Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64.
 
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
 #### MinGW/msys2 64 bit
-Install: [http://repo.msys2.org/distrib/x86\_64/msys2-x86\_64-20180531.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20180531.exe)
+Install: [http://repo.msys2.org/distrib/x86_64/msys2-x86\_64-20190524.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20190524.exe)
 
 I use the following batch file to start the MinGW/msys2 64 bit bash shell from the Dos Command Prompt (cmd.exe)
 
@@ -734,35 +767,12 @@ c:\msys64\usr\bin\bash.exe -norc
 
 ```
 
-#### MinGW/msys2 32 bit
-Install: [http://repo.msys2.org/distrib/i686/msys2-i686-20180531.exe](http://repo.msys2.org/distrib/i686/msys2-i686-20180531.exe)
-
-I use the following batch file to start the MinGW/msys2 32 bit bash shell from the Dos Command Prompt (cmd.exe)
-
-```bat
-@echo off
-setlocal
-set "PS1=\! MSYS32:\u@\h:\w \$ "
-set  PATH="/usr/local/bin/:/usr/bin:/mingw32/bin:/bin:/usr/sbin:/sbin"
-set "HOME=c:\msys32\home\%USERNAME%"
-if NOT EXIST %HOME% mkdir %HOME%
-cd  %HOME%
-c:\msys32\usr\bin\bash.exe -norc
-
-```
-
 #### Install MinGW Dependencies
 
 Install tools and dependencies:
 
 ```bash
 $ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel gettext-devel; do (echo y|pacman -S $i); done
-```
-
-You can upgrade all installed packages on your system with the following command.  For me, this broke msys32 and I had to reinstall msys32 and all the dependencies.  Your experience may be different.
-
-```bash
-$ pacman -Syu
 ```
 
 #### Download exiv2 from github and build
@@ -791,9 +801,11 @@ $
 [TOC](#TOC)
 <div id="5-4">
 
-### 5.4 Cygwin
+### 5.4 Cygwin/64
 
-Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and run setup-x86_64.exe for 64 Bit Cygwin, or setup-x86.exe for 32 bit Cygwin.  I install into c:\\cygwin64 and c:\\cygwin32
+Please note that the platform Cygwin/32 is obsolete and superceded by Cygwin/64.
+
+Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and run setup-x86_64.exe.  I install into c:\\cygwin64
 
 You need:
 make, cmake, gcc, gettext-devel pkg-config, dos2unix, zlib-devel, libexpat1-devel, git, python3-interpreter, libiconv, libxml2-utils, libncurses.
@@ -805,7 +817,7 @@ There is a discussion on the web about installing GTest: [https://github.com/Exi
 Download and build cmake from source because I can't get the cygwin installed cmake 3.6.2 to work.
 To build cmake from source, you need libncurses. [https://cmake.org/download/](https://cmake.org/download/)
 
-I use the following batch file "cygwin64.bat" to start the Cygwin/64 bit bash shell from the Dos Command Prompt (cmd.exe).
+I use the following batch file "cygwin64.bat" to start the Cygwin/64 bash shell from the Dos Command Prompt (cmd.exe).
 
 ```bat
 @echo off
@@ -895,4 +907,4 @@ Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.co
 
 Robin Mills
 
-Revised: 2019-07-29
+Revised: 2020-03-23

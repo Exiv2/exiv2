@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 3.3.2 )
 
 project(exiv2
-    VERSION 0.27.2
+    VERSION 0.27.3.9
     LANGUAGES CXX C
 )
 
@@ -104,6 +104,11 @@ endif()
 
 configure_file(cmake/exiv2.pc.in exiv2.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
+# ******************************************************************************
+# Man page
+install( FILES ${PROJECT_SOURCE_DIR}/man/man1/exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+
 
 include(cmake/printSummary.cmake)
 

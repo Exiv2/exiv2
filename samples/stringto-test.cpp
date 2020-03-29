@@ -40,6 +40,9 @@ const char* testcases[] = {
 
 int main()
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     std::cout << std::setfill(' ');
 
     std::cout << std::setw(12) << std::left << "string";

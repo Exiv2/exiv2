@@ -45,7 +45,10 @@ static size_t exifMetadataCount(Exiv2::Image::AutoPtr& image)
 // Main
 int main(int argc, char* const argv[])
 {
-	try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
+    try {
 		// Handle command line arguments
 		Params params(":iecCahsx");
 		if (params.getopt(argc, argv)) return params.usage();

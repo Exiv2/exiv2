@@ -10,6 +10,7 @@
 .idea/*
 cmake-*
 build*
+asan_build*
 po/POTFILES
 po/remove-potcdate.sed
 po/stamp-po

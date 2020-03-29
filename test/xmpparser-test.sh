@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # XMP parser test driver
 
 source ./functions.source

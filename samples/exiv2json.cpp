@@ -268,6 +268,9 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     try {
         if (argc < 2 || argc > 3) {
             std::cout << "Usage: " << argv[0] << " [-option] file"       << std::endl;

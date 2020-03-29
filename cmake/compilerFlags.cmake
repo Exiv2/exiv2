@@ -7,7 +7,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         set(COMPILER_IS_CLANG ON)
     endif()
 
-    set (CMAKE_CXX_FLAGS_DEBUG      "-g3 -gstrict-dwarf -O0")
+    set (CMAKE_CXX_FLAGS_DEBUG "-g3 -gstrict-dwarf -O0")
 
     if (CMAKE_GENERATOR MATCHES "Xcode")
         set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
@@ -20,17 +20,40 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         endif()
     endif()
 
+
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
 
-        if(BUILD_WITH_COVERAGE)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftest-coverage")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+        # This fails under Fedora - MinGW - Gcc 8.3
+        if (NOT MINGW)
+            if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
+                add_compile_options(-fstack-clash-protection -fcf-protection)
+            endif()
+
+            if( (COMPILER_IS_GCC   AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0) # Not in GCC 4.8
+            OR  (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7) # Not in Clang 3.4.2
+            )
+                add_compile_options(-fstack-protector-strong)
+            endif()
         endif()
 
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W")
+        add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
+
+        if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT APPLE)
+            add_compile_options(-Wp,-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
+        endif()
+
+        if(BUILD_WITH_COVERAGE)
+            add_compile_options(--coverage)
+            # TODO: From CMake 3.13 we could use add_link_options instead these 2 lines
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+            set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
+        endif()
+
+        add_compile_options(-Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
+
+        # This seems to be causing issues in the Fedora_MinGW GitLab job
+        #add_compile_options(-fasynchronous-unwind-tables)
+
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
             # ASAN is available in gcc from 4.8 and UBSAN from 4.9
@@ -61,82 +84,8 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
                 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
             endif()
-
         endif()
-
-        if ( EXIV2_TEAM_EXTRA_WARNINGS )
-            # Note that this is intended to be used only by Exiv2 developers/contributors.
-
-            if ( COMPILER_IS_GCC )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.0 )
-                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-                        " -Wextra"
-                        " -Wlogical-op"
-                        " -Wdouble-promotion"
-                        " -Wshadow"
-                        " -Wuseless-cast"
-                        " -Wpointer-arith" # This warning is also enabled by -Wpedantic
-                        " -Wformat=2"
-                        #" -Wold-style-cast"
-                    )
-                endif ()
-
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0 )
-                  string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-                    " -Warray-bounds=2"
-                    )
-                endif ()
-
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 6.0 )
-                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-                        " -Wduplicated-cond"
-                    )
-                endif ()
-
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.0 )
-                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-                        " -Wduplicated-branches"
-                        " -Wrestrict"
-                    )
-                endif ()
-            endif ()
-
-            if ( COMPILER_IS_CLANG )
-                # https://clang.llvm.org/docs/DiagnosticsReference.html
-                # These variables are at least available since clang 3.9.1
-                string(CONCAT EXTRA_COMPILE_FLAGS "-Wextra"
-                    " -Wshadow"
-                    " -Wassign-enum"
-                    " -Wmicrosoft"
-                    " -Wcomments"
-                    " -Wconditional-uninitialized"
-                    " -Wdirect-ivar-access"
-                    " -Weffc++"
-                    " -Wpointer-arith"
-                    " -Wformat=2"
-                    #" -Warray-bounds" # Enabled by default
-                    # These two raises lot of warnings. Use them wisely
-                    #" -Wconversion"
-                    #" -Wold-style-cast"
-                )
-                # -Wdouble-promotion flag is not available in clang 3.4.2
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4.2 )
-                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-                        " -Wdouble-promotion"
-                    )
-                endif ()
-                # -Wcomma flag is not available in clang 3.8.1
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.8.1 )
-                    string(CONCAT EXTRA_COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-                        " -Wcomma"
-                    )
-                endif ()
-            endif ()
-
-
-        endif ()
     endif()
-
 endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
@@ -185,8 +134,6 @@ if(MSVC)
     endif ()
 
     # Object Level Parallelism
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-
+    add_compile_options(/MP)
     add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
-
 endif()

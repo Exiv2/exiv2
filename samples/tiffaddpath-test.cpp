@@ -64,6 +64,9 @@ std::string tiffTagName(uint32_t tag)
 // Main program
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if (argc != 3) {
         std::cout << "Usage: " << argv[0] << " tag group\n"
                   << "Print the TIFF path for a tag and group (decimal numbers)\n";

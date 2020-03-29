@@ -696,7 +696,15 @@ namespace Action {
                 return true;
             }
             bool done = false;
-            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
+            // handle `comment` typeIDs
+            // $ bin/taglist | grep '\tComment,' | cut -d, -f 5
+            // Exif.Photo.UserComment
+            // Exif.GPSInfo.GPSProcessingMethod
+            // Exif.GPSInfo.GPSAreaInformation
+            if( md.key() == "Exif.Photo.UserComment"
+            ||  md.key() == "Exif.GPSInfo.GPSProcessingMethod"
+            ||  md.key() == "Exif.GPSInfo.GPSAreaInformation"
+            ) {
                 const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
                 if (pcv) {
                     Exiv2::CommentValue::CharsetId csId = pcv->charsetId();
@@ -2015,7 +2023,7 @@ namespace {
 #if defined(_MSC_VER) || defined(__MINGW__)
  static CRITICAL_SECTION cs;
 #else
- /* Unix/Linux/Cygwin/MacOSX */
+ /* Unix/Linux/Cygwin/macOS */
  #include <pthread.h>
  /* This is the critical section object (statically allocated). */
  #if defined(__APPLE__)
@@ -2050,8 +2058,8 @@ namespace {
         pthread_mutex_lock( &cs );
         std::string tmp = "/tmp/";
 #endif
-        char        sCount[12];
-        sprintf(sCount,"_%d",++count);
+        char sCount[13];
+        sprintf(sCount,"_%d",++count); /// \todo replace by std::snprintf on master
 
         std::string result = tmp + Exiv2::toString(pid) + sCount ;
         if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
