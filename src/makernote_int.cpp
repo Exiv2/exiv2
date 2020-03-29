@@ -1243,6 +1243,17 @@ namespace Exiv2 {
         }
         return idx;
     }
+    int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+            static const std::set<std::string> s2010eModels = { "SLT-A58", "SLT-A99", "ILCE-3000", "ILCE-3500", "NEX-3N", "NEX-5R", "NEX-5T", "NEX-6", "VG30E", "VG900",
+                    "DSC-RX100", "DSC-RX1", "DSC-RX1R", "DSC-HX300", "DSC-HX50V", "DSC-TX30", "DSC-WX60", "DSC-WX200", "DSC-WX300" };
+            std::string model = getExifModel(pRoot);
+            int idx = -1;
+            if (s2010eModels.find(model) != s2010eModels.end()) {
+                    idx = 0;
+            }
+            return idx;
+    }
 }}                                      // namespace Internal, Exiv2
 
 // *****************************************************************************
