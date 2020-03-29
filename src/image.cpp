@@ -871,12 +871,12 @@ namespace Exiv2 {
     BasicIo::AutoPtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
     {
         Protocol fProt = fileProtocol(wpath);
-#if EXV_USE_SSH == 1
+#ifdef EXV_USE_SSH
         if (fProt == pSsh || fProt == pSftp) {
             return BasicIo::AutoPtr(new SshIo(wpath));
         }
 #endif
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::AutoPtr(new CurlIo(wpath));
         }
