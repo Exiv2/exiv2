@@ -166,6 +166,7 @@ namespace Exiv2 {
         { sony2CsId,       "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { sony2Cs2Id,      "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
         { sony2FpId,       "Makernote", "Sony2Fp",      SonyMakerNote::tagListFp       },
+        { sony2010eId,     "Makernote", "Sony2010e",    SonyMakerNote::tagList2010e    },
         { lastId,          "(Last IFD info)", "(Last IFD item)", 0 }
     };
 
@@ -1571,6 +1572,9 @@ namespace Exiv2 {
         TagInfo(0x9292, "SubSecTimeDigitized", N_("Sub-seconds Time Digitized"),
                 N_("A tag used to record fractions of seconds for the <DateTimeDigitized> tag."),
                 exifId, dateTime, asciiString, 0, printValue),
+        TagInfo(0x9400, "AmbientTemperature", N_("AmbientTemperature"),
+                N_("AmbientTemperature"),
+                exifId, captureCond, signedRational, 0, printValue),
         TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
                 N_("The FlashPix format version supported by a FPXR file."),
                 exifId, exifVersion, undefined, 4, printExifVersion),

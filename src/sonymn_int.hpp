@@ -62,6 +62,8 @@ namespace Exiv2 {
         //! Return read-only list of built-in Sony FocusPosition tags
         static const TagInfo* tagListFp();
 
+        static const TagInfo* tagList2010e();
+
         //! @name Print functions for Sony %MakerNote tags
         //@{
         //! Print Sony Camera Model
@@ -75,7 +77,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoCs2_[];
         static const TagInfo tagInfoFp_[];
-
+        static const TagInfo tagInfo2010e_[];
     }; // class SonyMakerNote
 
     DataBuf sonyTagDecipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
