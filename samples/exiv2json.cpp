@@ -347,11 +347,11 @@ int main(int argc, char* const argv[])
         Jzon::Writer writer(root, Jzon::StandardFormat);
         writer.Write();
         std::cout << writer.GetResult() << std::endl;
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     catch (Exiv2::Error& e) {
         std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
-        return -1;
+        return EXIT_FAILURE;
     }
 }
