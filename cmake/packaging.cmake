@@ -89,6 +89,18 @@ if ( MSVC )
     endif()
 endif()
 
+# Set RC = Release Candidate
+if ( PROJECT_VERSION_TWEAK STREQUAL "9" )
+    set (RC "Not for release")
+elseif ( (PROJECT_VERSION_TWEAK STREQUAL "0") OR (PROJECT_VERSION_TWEAK STREQUAL "")  )
+    set(RC "GM Release")
+else()
+     set ( RC "Release Candidate ${PROJECT_VERSION_TWEAK}" )
+endif()
+
+# Set RV = Release Version
+set(RV "Exiv2 v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}${BUNDLE_NAME}${BS}${CC}${LT}${BT}${VI}${WR})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
@@ -117,7 +129,9 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/build/logs/test.txt)
 endif()
 
 # Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKDIR}/ReadMe.txt)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt DESTINATION .)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      DESTINATION .)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt ReadMe.txt       @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      releasenotes.txt @ONLY)
+install       (FILES  ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt ${CMAKE_CURRENT_BINARY_DIR}/releasenotes.txt DESTINATION .)
+# file        (REMOVE ${CMAKE_CURRENT_BINARY_DIR}/releasenotes.txt ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt)
 
 include (CPack)

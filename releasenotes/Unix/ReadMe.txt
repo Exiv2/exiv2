@@ -1,5 +1,4 @@
-Unix Exiv2 v0.27.2 Bundle (FreeBSD and NetBSD)
---------------------------------------------------
+@RV@ @CMAKE_SYSTEM_NAME@ Bundle @RC@
 
 Structure of the bundle:
 ------------------------
