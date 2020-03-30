@@ -1,5 +1,4 @@
-MinGW/msys2 Exiv2 v0.27.2 Bundle
-------------------------------------
+@RV@ MinGW/Windows Bundle @RC@
 
 Structure of the bundle:
 ------------------------
