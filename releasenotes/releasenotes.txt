@@ -1,13 +1,9 @@
-Exiv2 v0.27.2
--------------
+@RV@ @RC@
 
-Exiv2 v0.27 Second Dot Release
+Headline Features of Exiv2 v0.27.3
+----------------------------------
+To be written
 
-Thank You to Kevin for security contributions to this release.
-Thank You to Ting-Wei for Unix contributions to this release.
-Thank You to Dan and Luis for their solid efforts on Exiv2.
-Thank You to Andreas S for representing Team Exiv2 at LGM 2019.
-Contributors: Jens, Nehal, Phil, Toni, Paul
 
 Headline Features of Exiv2 v0.27.2
 ----------------------------------

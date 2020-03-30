@@ -1,5 +1,4 @@
-Visual Studio 2017 Release DLL v0.27.2 Bundle
--------------------------------------------------
+@RV@ Visual Studio Bundle @RC@
 
 Structure of the bundle:
 ------------------------

@@ -1,5 +1,4 @@
-CYGWIN Exiv2 v0.27.2 Bundle
--------------------------------
+@RV@ Cygwin/Windows Bundle @RC@
 
 Structure of the bundle:
 ------------------------

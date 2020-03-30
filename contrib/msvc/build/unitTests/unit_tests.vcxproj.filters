@@ -1,473 +1,163 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\mainTestRunner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_basicio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_types.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_tiffheader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_futils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_enforce.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_safe_op.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_XmpKey.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_DateValue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_TimeValue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_cr2header_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_helper_functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_slice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\unitTests\test_image_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\basicio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\bigtiffimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\bmpimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\convert.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\cr2image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\crwimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\datasets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\easyaccess.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\epsimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\exif.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\futils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\gifimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\http.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\ini.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\iptc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\jp2image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\jpgimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\metadatum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\mrwimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\orfimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\pgfimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\preview.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\properties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\psdimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\rafimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\rw2image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tags.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tgaimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tiffimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\types.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\value.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\version.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\webpimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\xmp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\xmpsidecar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\ssh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\pngimage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\asfvideo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\matroskavideo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\quicktimevideo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\riffvideo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\utilsvideo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\canonmn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\casiomn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\cr2header_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\crwimage_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\fujimn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\helper_functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\image_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\makernote_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\minoltamn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\nikonmn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\olympusmn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\orfimage_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\panasonicmn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\pentaxmn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\rw2image_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\samsungmn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\sigmamn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\sonymn_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tags_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tiffcomposite_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tiffimage_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\tiffvisitor_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Projects\exiv2\src\pngchunk_int.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\mainTestRunner.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_basicio.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_types.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_tiffheader.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_futils.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_enforce.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_safe_op.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_XmpKey.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_DateValue.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_TimeValue.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_cr2header_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_helper_functions.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_slice.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\unitTests\test_image_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\basicio.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\bigtiffimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\bmpimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\convert.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\cr2image.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\crwimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\datasets.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\easyaccess.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\epsimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\error.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\exif.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\futils.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\gifimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\http.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\image.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\ini.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\iptc.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\jp2image.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\jpgimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\metadatum.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\mrwimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\orfimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\pgfimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\preview.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\properties.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\psdimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\rafimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\rw2image.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tags.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tgaimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tiffimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\types.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\value.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\version.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\webpimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\xmp.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\xmpsidecar.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\ssh.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\pngimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\asfvideo.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\matroskavideo.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\quicktimevideo.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\riffvideo.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\utilsvideo.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\canonmn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\casiomn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\cr2header_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\crwimage_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\fujimn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\helper_functions.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\image_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\makernote_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\minoltamn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\nikonmn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\olympusmn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\orfimage_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\panasonicmn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\pentaxmn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\rw2image_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\samsungmn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\sigmamn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\sonymn_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tags_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tiffcomposite_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tiffimage_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\tiffvisitor_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\src\pngchunk_int.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="E:\Projects\exiv2\unitTests\gtestwrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\exiv2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\rwlock.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\slice.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\basicio.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\bmpimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\convert.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\cr2image.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\crwimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\datasets.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\easyaccess.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\epsimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\error.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\exif.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\futils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\gifimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\http.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\image.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\ini.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\iptc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\jp2image.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\jpgimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\metadatum.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\mrwimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\orfimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\pgfimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\preview.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\properties.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\psdimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\rafimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\rw2image.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\tags.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\tgaimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\tiffimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\value.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\version.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\webpimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\xmp_exiv2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\xmpsidecar.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\ssh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\pngimage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\asfvideo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\matroskavideo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\quicktimevideo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\riffvideo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\include\exiv2\utilsvideo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\canonmn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\casiomn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\cr2header_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\crwimage_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\fujimn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\helper_functions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\image_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\makernote_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\minoltamn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\nikonmn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\olympusmn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\orfimage_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\panasonicmn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\pentaxmn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\rw2image_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\safe_op.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\samsungmn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\sigmamn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\sonymn_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\tags_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\tiffcomposite_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\tiffimage_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\tiffvisitor_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\tifffwd_int.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\timegm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="E:\Projects\exiv2\src\unused.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="$(ProjectDir)..\..\unitTests\gtestwrapper.h" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\config.h" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\exiv2.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\rwlock.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\slice.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\basicio.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\bmpimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\convert.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\cr2image.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\crwimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\datasets.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\easyaccess.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\epsimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\error.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\exif.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\futils.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\gifimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\http.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\image.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\ini.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\iptc.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\jp2image.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\jpgimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\metadatum.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\mrwimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\orfimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\pgfimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\preview.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\properties.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\psdimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\rafimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\rw2image.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\tags.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\tgaimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\tiffimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\types.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\value.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\version.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\webpimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\xmp_exiv2.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\xmpsidecar.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\ssh.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\pngimage.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\asfvideo.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\matroskavideo.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\quicktimevideo.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\riffvideo.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\exiv2\include\exiv2\utilsvideo.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\canonmn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\casiomn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\cr2header_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\crwimage_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\fujimn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\helper_functions.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\image_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\makernote_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\minoltamn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\nikonmn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\olympusmn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\orfimage_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\panasonicmn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\pentaxmn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\rw2image_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\safe_op.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\samsungmn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\sigmamn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\sonymn_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\tags_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\tiffcomposite_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\tiffimage_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\tiffvisitor_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\tifffwd_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\src\timegm.h" />
+    <ClInclude Include="$(ProjectDir)..\..\src\unused.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
