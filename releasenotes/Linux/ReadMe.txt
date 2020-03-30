@@ -1,5 +1,4 @@
-Linux Exiv2 v0.27.2-RC3 Bundle
-------------------------------
+@RV@ Linux Bundle @RC@
 
 Structure of the bundle:
 ------------------------
