@@ -398,9 +398,6 @@ namespace Exiv2 {
 
         iterator_t uriEnd = uri.end();
 
-        // get query start
-        iterator_t queryStart = std::find(uri.begin(), uriEnd, '?');
-
         // protocol
         iterator_t protocolStart = uri.begin();
         iterator_t protocolEnd   = std::find(protocolStart, uriEnd, ':');            //"://");
@@ -440,6 +437,9 @@ namespace Exiv2 {
         // host
         iterator_t hostStart = authEnd;
         iterator_t pathStart = std::find(hostStart, uriEnd, '/');  // get pathStart
+
+        // get query start
+        iterator_t queryStart = std::find(pathStart, uriEnd, '?');
 
         iterator_t hostEnd = std::find(authEnd,
             (pathStart != uriEnd) ? pathStart : queryStart,

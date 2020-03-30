@@ -154,6 +154,23 @@ TEST(AUri, parsesAndDecoreUrl)
     Uri::Decode(uri);
 }
 
+// Regression test for https://github.com/Exiv2/exiv2/issues/1065
+TEST(AUri, parsesAndDecoreUrlWithQuestionMark)
+{
+    const std::string url("http://example.com?xx/yyy");
+    Uri uri = Uri::Parse(url);
+
+    ASSERT_EQ("", uri.QueryString);
+    ASSERT_EQ("http", uri.Protocol);
+    ASSERT_EQ("example.com?xx", uri.Host);
+    ASSERT_EQ("80", uri.Port);
+    ASSERT_EQ("/yyy", uri.Path);
+    ASSERT_EQ("", uri.Username);
+    ASSERT_EQ("", uri.Password);
+
+    Uri::Decode(uri);
+}
+
 TEST(getProcessPath, obtainPathOfUnitTestsExecutable)
 {
 #ifdef _WIN32
