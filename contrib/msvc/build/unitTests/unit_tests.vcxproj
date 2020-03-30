@@ -96,7 +96,8 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>GTEST_LINKED_AS_SHARED_LIBRARY</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -135,7 +136,8 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>GTEST_LINKED_AS_SHARED_LIBRARY</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -171,9 +173,10 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;NDEBUG;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;NDEBUG;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>
       </DebugInformationFormat>
+      <UndefinePreprocessorDefinitions>GTEST_LINKED_AS_SHARED_LIBRARY</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -209,9 +212,10 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;NDEBUG;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;NDEBUG;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>
       </DebugInformationFormat>
+      <UndefinePreprocessorDefinitions>GTEST_LINKED_AS_SHARED_LIBRARY</UndefinePreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;exiv2lib_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";GTEST_LINKED_AS_SHARED_LIBRARY=1;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
