@@ -758,13 +758,12 @@ I use the following batch file to start the MinGW/msys2 64 bit bash shell from t
 ```bat
 @echo off
 setlocal
-set "PS1=\! MSYS64:\u@\h:\w \$ "
-set  PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:/bin:/usr/sbin:/sbin"
-set "HOME=c:\msys64\home\%USERNAME%"
+set "PATH=c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
+set "PS1=\! MSYS \u@\h:\w \$ "
+set "HOME=c:\msys64\home\rmills"
 if NOT EXIST %HOME% mkdir %HOME%
 cd  %HOME%
 c:\msys64\usr\bin\bash.exe -norc
-
 ```
 
 #### Install MinGW Dependencies
@@ -822,12 +821,11 @@ I use the following batch file "cygwin64.bat" to start the Cygwin/64 bash shell 
 ```bat
 @echo off
 setlocal
+set "PS1=\! CYGWIN \u@\h:\w \$ "
 set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-if NOT EXIST %HOME% mkdir %HOME%
 set "HOME=c:\cygwin64\home\rmills"
 cd  %HOME%
-set "PS1=\! CYGWIN64:\u@\h:\w \$ "
-bash.exe -norc
+c:\cygwin64\bin\bash.exe -norc
 ```
 
 [TOC](#TOC)
@@ -848,9 +846,8 @@ I use the following batch file to start cmd.exe.  I do this to reduce the comple
 ```bat
 @echo off
 setlocal
-cd  %HOMEPATH%
-set "PATH=C:\Python37\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
-cmd
+set "PATH=C:\Python37\;C:\Python37\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
+cmd /S /K cd %HOMEDRIVE%%HOMEPATH%
 ```
 
 [TOC](#TOC)

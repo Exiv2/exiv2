@@ -182,9 +182,8 @@ I use the following batch file to start cmd.exe.  I do this to reduce the comple
 ```bat
 @echo off
 setlocal
-cd  %HOMEPATH%
-set "PATH=C:\Python34\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
-cmd
+set "PATH=C:\Python37\;C:\Python37\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
+cmd /S /K cd %HOMEDRIVE%%HOMEPATH%
 ```
 
 ### Profiles for Visual Studio
