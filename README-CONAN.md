@@ -62,35 +62,18 @@ $ pip install conan --upgrade
 
 ```bash
 $ conan --version
-Conan version 1.4.1
+Conan version 1.23.0
 ```
 
 <name id="1-3"></a>
 ##### 1.3) Create a build directory<name id="1-3"></a>
 
-Create a build directory and will run the conan commands:
+Create a build directory and run the conan commands:
 
 ```bash
 $ mkdir build
 $ cd build
 $ conan profile list
-```
-
-**IMPORTANT** _**Visual Studio Users**_ require the profile msvc2017Release64 in %HOMEPATH%\.conan\profiles\msvc2017Release64
-
-```ini
-[build_requires]
-[settings]
-arch=x86_64
-build_type=Release
-compiler=Visual Studio
-compiler.runtime=MD
-compiler.version=15
-os=Windows
-arch_build=x86_64
-os_build=Windows
-[options]
-[env]
 ```
 
 <name id="1-4"></a>
@@ -99,10 +82,33 @@ os_build=Windows
 Execute `$ conan install` pointing to the directory containing `conanfile.py`.
 
 ```bash
-$ conan install .. --build missing  # --profile msvc2017Release64
+$ conan install .. --build missing  # --profile msvc2019Release
 ```
 
-_**Visual Studio Users**_ should use `--profile msvc2017Release64`
+_**Visual Studio Users**_ should use:
+
+```bash
+> $ conan install .. --build missing  --profile msvc2019Release`
+```
+
+The profile msvc2019Release `%USERPROFILE%\.conan\profiles\msvc2019Release` is:
+
+```ini
+[build_requires]
+[settings]
+arch=x86_64
+build_type=Release
+compiler=Visual Studio
+compiler.runtime=MD
+compiler.version=16
+os=Windows
+arch_build=x86_64
+os_build=Windows
+[options]
+[env]
+```
+
+Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](#2-2)
 
 The output from this command is quite long as conan downloads or builds zlib, expat, curl and other dependencies.
 
@@ -110,7 +116,7 @@ The output from this command is quite long as conan downloads or builds zlib, ex
 ##### 1.5) Execute cmake to generate build files for your environment.
 
 ```bash
-$ cmake ..  # -G "Visual Studio 15 2017 Win64"
+$ cmake ..  # -G "Visual Studio 16 2019"
 ```
 
 <name id="1-6"></a>
@@ -187,9 +193,10 @@ set "PATH=C:\Python34\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Pe
 cmd
 ```
 
+
 ### Profiles for Visual Studio
 
-Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 and 2017.
+Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 , 2017 and 2019.
 
 Exiv2 v0.27.1 (and later) can be built with VS 2015, 2017 and 2019.  I believe Exiv2 will build with 2013 and earlier, however we don't actively support these version of Visual Studio.
 
@@ -205,7 +212,7 @@ Bits    :=  { 64      | 32    }   # 32 bit build is not provided for 2019
 Examples:     msvc2019Release msvc2017Release64  msvc2015Debug32
 ```
 
-The profile msvc2017Release64 is as follows:
+The profile msvc2019Release is as follows:
 
 ```ini
 [build_requires]
@@ -214,7 +221,7 @@ arch=x86_64
 build_type=Release
 compiler=Visual Studio
 compiler.runtime=MD
-compiler.version=15
+compiler.version=16
 os=Windows
 arch_build=x86_64
 os_build=Windows
@@ -237,7 +244,7 @@ the default CMake generator.  Always use the generator for your version of Visua
 
 ```bat
 c:\....\exiv2\build> conan install .. --profile msvc2017Release64 --build missing
-c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64"
+c:\....\exiv2\build> cmake         .. -G "Visual Studio 16 2019"
 c:\....\exiv2\build> cmake --build .  --config Release
 ```
 
@@ -252,7 +259,7 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 
 ##### 64 bit Release Build
 
-| | Visual Studio 2017 | Visual Studio 2017 | Visual Studio 2015|
+| | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015|
 |:---------|--------------------|--------------------|--------------|
 | _**conan install .. --profile**_ | msvc2019Release | msvc2017Release64 | msvc2015Release64 |
 | _**cmake -G**_                   |  "Visual Studio 16 2019"    |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
@@ -545,7 +552,7 @@ Other platforms such as Cygwin are not supported by Adobe.  Adobe/XMPsdk is buil
 Applications which wish use the Adobe XMPsdk directly should build Exiv2 in this configuration and the
 library can be used by the application and Exiv2.  The Adobe XMPsdk can be built as a static or shared library (.DLL)
 
-To build Exiv2 with Adobe XMPsdk 2016, should perform steps 1.1, 1.2 and 1.3 described above, then perform the following:
+To build Exiv2 with Adobe XMPsdk 2016, perform steps 1.1, 1.2 and 1.3 described above, then perform the following:
 
 <name id="4-1">
 ##### 4.1) Add a remote directory to conan's recipe search path
@@ -600,4 +607,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2019-04-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-01
