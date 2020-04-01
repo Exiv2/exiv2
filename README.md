@@ -758,12 +758,13 @@ I use the following batch file to start the MinGW/msys2 64 bit bash shell from t
 ```bat
 @echo off
 setlocal
-set "PATH=c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
-set "PS1=\! MSYS \u@\h:\w \$ "
-set "HOME=c:\msys64\home\rmills"
+set "PS1=\! MSYS64:\u@\h:\w \$ "
+set  PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:/bin:/usr/sbin:/sbin"
+set "HOME=c:\msys64\home\%USERNAME%"
 if NOT EXIST %HOME% mkdir %HOME%
 cd  %HOME%
 c:\msys64\usr\bin\bash.exe -norc
+
 ```
 
 #### Install MinGW Dependencies
@@ -821,11 +822,12 @@ I use the following batch file "cygwin64.bat" to start the Cygwin/64 bash shell 
 ```bat
 @echo off
 setlocal
-set "PS1=\! CYGWIN \u@\h:\w \$ "
 set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
+if NOT EXIST %HOME% mkdir %HOME%
 set "HOME=c:\cygwin64\home\rmills"
 cd  %HOME%
-c:\cygwin64\bin\bash.exe -norc
+set "PS1=\! CYGWIN64:\u@\h:\w \$ "
+bash.exe -norc
 ```
 
 [TOC](#TOC)
@@ -846,8 +848,9 @@ I use the following batch file to start cmd.exe.  I do this to reduce the comple
 ```bat
 @echo off
 setlocal
-set "PATH=C:\Python37\;C:\Python37\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
-cmd /S /K cd %HOMEDRIVE%%HOMEPATH%
+cd  %HOMEPATH%
+set "PATH=C:\Python37\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
+cmd
 ```
 
 [TOC](#TOC)
@@ -859,7 +862,7 @@ Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are startin
 
 I have provided notes here based on my experience with these platforms.   Feedback is welcome.
 
-I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 provided you provide with an ssh account for your platform.  I will require super-user privileges to install software.
+I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 if you provide with an ssh account for your platform.  I will require super-user privileges to install software.
 
 #### NetBSD
 
@@ -902,6 +905,4 @@ Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.co
 
 [TOC](#TOC)
 
-Robin Mills
-
-Revised: 2020-03-23
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-01
