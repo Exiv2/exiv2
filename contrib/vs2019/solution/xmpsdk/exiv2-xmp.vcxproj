@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -95,11 +95,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BanAllEntityUsage=1;XML_STATIC;EXV_HAVE_STDINT_H;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -126,11 +126,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BanAllEntityUsage=1;XML_STATIC;EXV_HAVE_STDINT_H;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -156,11 +156,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BanAllEntityUsage=1;XML_STATIC;EXV_HAVE_STDINT_H;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -170,7 +170,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -186,11 +186,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;BanAllEntityUsage=1;XML_STATIC;EXV_HAVE_STDINT_H;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\xmpsdk\include;$(ProjectDir)..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\libexpat\expat\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -199,31 +199,31 @@
     <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\ExpatAdapter.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\MD5.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\ParseRDF.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\UnicodeConversions.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\WXMPIterator.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\WXMPMeta.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\WXMPUtils.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XML_Node.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPCore_Impl.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPIterator.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPMeta-GetSet.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPMeta-Parse.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPMeta-Serialize.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPMeta.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPUtils-FileInfo.cpp" />
-    <ClCompile Include="$(ProjectDir)..\..\xmpsdk\src\XMPUtils.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\MD5.h" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\TXMPIterator.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\TXMPMeta.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\TXMPUtils.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\XMP_Const.h" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\XMP_Environment.h" />
-    <None Include="$(ProjectDir)..\..\xmpsdk\include\XMP.incl_cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\XMPSDK.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\xmpsdk\include\XMP_Version.h" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\ExpatAdapter.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\MD5.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\ParseRDF.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\UnicodeConversions.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\WXMPIterator.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\WXMPMeta.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\WXMPUtils.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XML_Node.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPCore_Impl.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPIterator.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPMeta-GetSet.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPMeta-Parse.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPMeta-Serialize.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPMeta.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPUtils-FileInfo.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\xmpsdk\src\XMPUtils.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\MD5.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\TXMPIterator.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\TXMPMeta.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\TXMPUtils.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\XMP_Const.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\XMP_Environment.h" />
+    <None Include="$(ProjectDir)..\..\..\..\xmpsdk\include\XMP.incl_cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\XMPSDK.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\xmpsdk\include\XMP_Version.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

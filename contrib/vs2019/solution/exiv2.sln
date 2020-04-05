@@ -246,46 +246,46 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Dependencies", "Ex
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zlib", "zlib", "{C1530683-7B22-4711-A28D-EB85D6EB4341}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibstat", "..\..\zlib\contrib\vstudio\vc14\zlibstat.vcxproj", "{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibstat", "..\..\..\..\zlib\contrib\vstudio\vc14\zlibstat.vcxproj", "{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libexpat", "libexpat", "{ED774129-9AF5-4BD4-9EE5-45DA2A3E0D22}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "expat_static", "..\..\libexpat\expat\lib\expat_static.vcxproj", "{58A821BC-E4AF-4DF4-9A54-2BAA22B92615}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "expat_static", "..\..\..\..\libexpat\expat\lib\expat_static.vcxproj", "{58A821BC-E4AF-4DF4-9A54-2BAA22B92615}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "googletest", "googletest", "{F663E319-59FD-4078-9523-C12E27C3D861}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "..\..\googletest\build\googletest\gtest.vcxproj", "{95E9B845-09D7-3453-AEEB-2E1005096E32}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest", "..\..\..\..\googletest\build\googletest\gtest.vcxproj", "{95E9B845-09D7-3453-AEEB-2E1005096E32}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest_main", "..\..\googletest\build\googletest\gtest_main.vcxproj", "{DB773438-551F-38FA-8D50-D0261199236B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtest_main", "..\..\..\..\googletest\build\googletest\gtest_main.vcxproj", "{DB773438-551F-38FA-8D50-D0261199236B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "openssl", "openssl", "{CB91FB25-735F-47E6-B03F-07E399A71DF0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_prebuild", "..\..\openssl\build\_prebuild\_prebuild.vcxproj", "{625D49F1-BC00-4C36-AE25-2F408B208B08}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_prebuild", "..\..\..\..\openssl\build\_prebuild\_prebuild.vcxproj", "{625D49F1-BC00-4C36-AE25-2F408B208B08}"
 	ProjectSection(ProjectDependencies) = postProject
 		{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8} = {745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcrypto-1_1", "..\..\openssl\build\libcrypto-1_1\libcrypto-1_1.vcxproj", "{C92E1E46-3C94-4DD6-8E7D-E23ECED32A8C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcrypto-1_1", "..\..\..\..\openssl\build\libcrypto-1_1\libcrypto-1_1.vcxproj", "{C92E1E46-3C94-4DD6-8E7D-E23ECED32A8C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{625D49F1-BC00-4C36-AE25-2F408B208B08} = {625D49F1-BC00-4C36-AE25-2F408B208B08}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssl-1_1", "..\..\openssl\build\libssl-1_1\libssl-1_1.vcxproj", "{1E068827-5CD6-4648-98DD-B0417F0B9DDC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssl-1_1", "..\..\..\..\openssl\build\libssl-1_1\libssl-1_1.vcxproj", "{1E068827-5CD6-4648-98DD-B0417F0B9DDC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{625D49F1-BC00-4C36-AE25-2F408B208B08} = {625D49F1-BC00-4C36-AE25-2F408B208B08}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libiconv", "libiconv", "{2B87527C-BFD7-4052-AACA-56D6FAE909F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libiconv", "..\..\libiconv\libiconv.vcxproj", "{1704EA01-6B21-4362-9F1F-44D25CF2E0D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libiconv", "..\..\..\..\libiconv\libiconv.vcxproj", "{1704EA01-6B21-4362-9F1F-44D25CF2E0D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libssh", "libssh", "{A7FEA0DE-61D3-4581-BA4F-C8AC0696B253}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssh", "..\..\libssh\build\src\ssh.vcxproj", "{0AA428D8-E6A8-3A36-9045-621F4DDE3043}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssh", "..\..\..\..\libssh\build\src\ssh.vcxproj", "{0AA428D8-E6A8-3A36-9045-621F4DDE3043}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libssh2", "libssh2", "{7B332138-E8B9-4ED5-AB7C-F1F882756BD5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssh2", "..\..\libssh2\build\src\libssh2.vcxproj", "{127DC9DE-814F-312C-8F30-4FE281393B38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssh2", "..\..\..\..\libssh2\build\src\libssh2.vcxproj", "{127DC9DE-814F-312C-8F30-4FE281393B38}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1E068827-5CD6-4648-98DD-B0417F0B9DDC} = {1E068827-5CD6-4648-98DD-B0417F0B9DDC}
 		{C92E1E46-3C94-4DD6-8E7D-E23ECED32A8C} = {C92E1E46-3C94-4DD6-8E7D-E23ECED32A8C}
@@ -294,7 +294,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssh2", "..\..\libssh2\bu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "curl", "curl", "{968769AE-15C0-4515-8DF2-8AD839A91A7F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\..\curl\projects\Windows\VC15\lib\libcurl.vcxproj", "{DA6F56B4-06A4-441D-AD70-AC5A7D51FADB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\..\..\..\curl\projects\Windows\VC15\lib\libcurl.vcxproj", "{DA6F56B4-06A4-441D-AD70-AC5A7D51FADB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1E068827-5CD6-4648-98DD-B0417F0B9DDC} = {1E068827-5CD6-4648-98DD-B0417F0B9DDC}
 		{C92E1E46-3C94-4DD6-8E7D-E23ECED32A8C} = {C92E1E46-3C94-4DD6-8E7D-E23ECED32A8C}
@@ -304,7 +304,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\..\curl\proje
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libintl", "libintl", "{26B736E5-4188-428A-B802-0F6089EC3F86}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libintl_static", "..\..\gettext\build\gettext\libintl_static.vcxproj", "{B8B3B620-FC06-47D0-9D92-BD5CBA448D84}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libintl_static", "..\..\..\..\gettext\build\gettext\libintl_static.vcxproj", "{B8B3B620-FC06-47D0-9D92-BD5CBA448D84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

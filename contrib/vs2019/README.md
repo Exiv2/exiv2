@@ -84,9 +84,9 @@ heirarchy and compile correctly.
 
 # Sources #
   * [Exiv2, tested w/ v0.27.2](https://github.com/Exiv2/exiv2)
-  * Use my [exiv2-x86_x64](https://github.com/sridharb1/exiv2-x86_x64) to
-compile on Windows
-  * Place the contents of exiv2-x86_x64 in a folder called build in the exiv2 repository and build using the provided solution. Please note that the dependencies listed below are needed.
+  * In v0.27.3, my solution/project files can be found in contrib/vs2019/solution
+  * For other versions, use my [exiv2-x86_x64](https://github.com/sridharb1/exiv2-x86_x64) to compile on Windows
+  * Place the contents of exiv2-x86_x64 in a folder called contrib/vs2019/solution in the exiv2 repository and build using the provided solution. Please note that the dependencies listed below are needed.
   * `exiv2 -vV`
 
   ``` shell

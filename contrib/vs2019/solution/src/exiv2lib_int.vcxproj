@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;$(ProjectDir)..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -95,11 +95,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;$(ProjectDir)..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -126,11 +126,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;$(ProjectDir)..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -156,11 +156,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -170,7 +170,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;$(ProjectDir)..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -186,11 +186,11 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -199,55 +199,55 @@
     <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(ProjectDir)..\..\src\canonmn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\canonmn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\casiomn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\casiomn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\cr2header_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\cr2header_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\crwimage_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\crwimage_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\fujimn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\fujimn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\helper_functions.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\helper_functions.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\image_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\image_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\makernote_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\makernote_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\minoltamn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\minoltamn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\nikonmn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\nikonmn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\olympusmn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\olympusmn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\orfimage_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\orfimage_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\panasonicmn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\panasonicmn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\pentaxmn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\pentaxmn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\rw2image_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\rw2image_int.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\safe_op.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\samsungmn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\samsungmn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\sigmamn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\sigmamn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\sonymn_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\sonymn_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\tags_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\tags_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\tiffcomposite_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\tiffcomposite_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\tiffimage_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\tiffimage_int.hpp" />
-    <ClCompile Include="$(ProjectDir)..\..\src\tiffvisitor_int.cpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\tiffvisitor_int.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\tifffwd_int.hpp" />
-    <ClInclude Include="$(ProjectDir)..\..\src\timegm.h" />
-    <ClInclude Include="$(ProjectDir)..\..\src\unused.h" />
-    <ClCompile Include="$(ProjectDir)..\..\src\pngchunk_int.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\canonmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\canonmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\casiomn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\casiomn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\cr2header_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\cr2header_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\crwimage_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\crwimage_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\fujimn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\fujimn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\helper_functions.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\helper_functions.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\image_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\image_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\makernote_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\makernote_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\minoltamn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\minoltamn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\nikonmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\nikonmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\olympusmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\olympusmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\orfimage_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\orfimage_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\panasonicmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\panasonicmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\pentaxmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\pentaxmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\rw2image_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\rw2image_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\safe_op.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\samsungmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\samsungmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\sigmamn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\sigmamn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\sonymn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\sonymn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tags_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tags_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffcomposite_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tiffcomposite_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffimage_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tiffimage_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffvisitor_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tiffvisitor_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tifffwd_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\timegm.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\unused.h" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\pngchunk_int.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
