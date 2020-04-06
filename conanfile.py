@@ -39,7 +39,7 @@ class Exiv2Conan(ConanFile):
             # could use any of the versions.Also note that the issue was not with libcurl but with
             # libopenssl (a transitive dependency)
             if os_info.is_windows:
-                self.requires('libcurl/7.61.1@bincrafters/stable')
+                self.requires('libcurl/7.69.1')
             else:
                 self.requires('libcurl/7.64.1@bincrafters/stable')
 

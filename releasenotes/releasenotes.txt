@@ -4,6 +4,10 @@ Headline Features of Exiv2 v0.27.3
 ----------------------------------
 To be written
 
+Changes since 0.27.2
+--------------------
+
+https://github.com/Exiv2/exiv2/milestone/5?closed=1
 
 Headline Features of Exiv2 v0.27.2
 ----------------------------------
