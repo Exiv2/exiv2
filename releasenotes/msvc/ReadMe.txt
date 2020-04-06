@@ -1,4 +1,4 @@
-@RV@ Visual Studio Bundle @RC@
+@RV@ Visual Studio @VS@ Bundle @RC@
 
 Structure of the bundle:
 ------------------------

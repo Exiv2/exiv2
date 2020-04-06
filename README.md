@@ -862,7 +862,7 @@ Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are startin
 
 I have provided notes here based on my experience with these platforms.   Feedback is welcome.
 
-I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 provided you provide with an ssh account for your platform.  I will require super-user privileges to install software.
+I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 if you provide with an ssh account for your platform.  I will require super-user privileges to install software.
 
 #### NetBSD
 
@@ -905,6 +905,4 @@ Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.co
 
 [TOC](#TOC)
 
-Robin Mills
-
-Revised: 2020-03-23
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-01
