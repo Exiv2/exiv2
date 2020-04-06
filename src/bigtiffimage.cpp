@@ -193,6 +193,19 @@ namespace Exiv2
                 {
                     BasicIo& io = Image::io();
 
+                    // Fix for https://github.com/Exiv2/exiv2/issues/712
+                    // A malicious file can cause a very deep recursion, leading to
+                    // stack exhaustion.
+                    // Note: 200 is an arbitrarily chosen cut-off value. The value
+                    // of depth determines the amount of indentation inserted by the
+                    // pretty-printer. The output starts to become unreadable as
+                    // soon as the indentation exceeds 80 characters or so. That's
+                    // why 200 ought to be a reasonable cut-off.
+                    if (depth > 200) {
+                      out << Internal::indent(depth) << "Maximum indentation depth exceeded." << std::endl;
+                      return;
+                    }
+
                     depth++;
                     bool bFirst  = true;
 
