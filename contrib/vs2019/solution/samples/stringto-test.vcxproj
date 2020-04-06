@@ -238,13 +238,22 @@
     <ClCompile Include="$(ProjectDir)..\..\..\..\samples\stringto-test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\brotli\build_folder\brotlicommon-static.vcxproj">
+      <Project>{39abfc9d-42b2-3e32-866b-ec2b980bf85c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\brotli\build_folder\brotlidec-static.vcxproj">
+      <Project>{e279dd40-3cac-3030-875b-28b50015788d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\brotli\build_folder\brotlienc-static.vcxproj">
+      <Project>{2fffa03d-a47c-3aeb-a9e9-611fe2dbba41}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\curl\projects\Windows\VC15\lib\libcurl.vcxproj">
       <Project>{da6f56b4-06a4-441d-ad70-ac5a7d51fadb}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\gettext\build\gettext\libintl_static.vcxproj">
       <Project>{b8b3b620-fc06-47d0-9d92-bd5cba448d84}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\libexpat\expat\lib\expat_static.vcxproj">
+    <ProjectReference Include="..\..\..\..\..\libexpat\build\lib\expat_static.vcxproj">
       <Project>{58a821bc-e4af-4df4-9a54-2baa22b92615}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\libssh2\build\src\libssh2.vcxproj">

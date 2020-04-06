@@ -91,7 +91,7 @@ heirarchy and compile correctly.
 
   ``` shell
   exiv2 0.27.2
-
+  
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
@@ -114,14 +114,14 @@ heirarchy and compile correctly.
   debug=0
   cplusplus=199711
   version=13.25 (2017/x64)
-  date=Mar 21 2020
-  time=16:28:02
-  processpath=E:\Projects\exiv2\build\src\x64\Release
+  date=Apr  6 2020
+  time=11:28:24
+  processpath=E:\My Projects\exiv2\contrib\vs2019\solution\src\x64\Release
   localedir=/../share/locale
   package_name=exiv2
   curlprotocols=dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp scp sftp smb smbs smtp smtps telnet tftp
   curl=1
-  executable=E:\Projects\exiv2\build\src\x64\Release\exiv2.exe
+  executable=E:\Projects\exiv2\contrib\vs2019\solution\src\x64\Release\exiv2.exe
   library=C:\WINDOWS\SYSTEM32\ntdll.dll
   library=C:\Program Files\AVAST Software\Avast\aswhook.dll
   library=C:\WINDOWS\System32\KERNEL32.DLL
@@ -256,13 +256,14 @@ heirarchy and compile correctly.
   * [Strawberry Perl, used v5.30.1.1 x64](strawberryperl.com)[^2]
   * [NASM, used 2.14.02 x64](https://www.nasm.us/)[^3]
   * [libexpat, tested w/ v2.2.9](https://github.com/libexpat/libexpat)[^4]
-  * [OpenSSL, tested w/ v1.1.1e-DEV](https://github.com/openssl/openssl)[^5]
+  * [OpenSSL, tested w/ v1.1.1g-DEV](https://github.com/openssl/openssl)[^5]
   * [libssh2, tested w/ v1.9.0](https://github.com/libssh2/libssh2.git)[^6]
   * [curl, tested w/ v7.69.1](https://github.com/curl/curl.git)[^7]
   * [googletest, tested w/ v1.10.x](https://github.com/google/googletest.git)[^8]
   * [libintl (aka gettext), tested with v0.20.1](https://git.savannah.gnu.org/git/gettext.git)[^9]
   * [libiconv, tested w/ v1.16](https://github.com/sridharb1/libiconv-x86_x64)
   * [libssh, tested w/ v0.9.3](https://git.libssh.org/projects/libssh.git/)[^10]
+  * [brotli, tested w/ v1.0.7+](https://github.com/google/brotli)[^11]
   * [Visual Studio, used Community 2019 edition](https://visualstudio.microsoft.com/)
 
 [^1]: It has since been killed by google. (You can find the last released version here: [Picasa 3.9.141, build 259](https://1drv.ms/u/s!AuE8ZYzPkfMfiEzdlKtVVjN-MReT))
@@ -288,3 +289,5 @@ compile on Windows using Visual Studio
 [^9]: Use my [gettext-x86_x64](https://github.com/sridharb1/gettext-x86_x64) to compile on Windows using Visual Studio
 
 [^10]: Use my [libssh-x86_x64](https://github.com/sridharb1/libssh-x86_x64.git) to compile on Windows using Visual Studio
+
+[^11]: Use my [brotli-x86_x64](https://github.com/sridharb1/brotli-x86_x64)to compile on Windows using Visual Studio
