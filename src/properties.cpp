@@ -197,6 +197,7 @@ namespace Exiv2 {
         { "LensCorrectionSettings", N_("Lens Correction Settings"),  "Text",     xmpText, xmpExternal, N_("The list of Lens Correction tools settings used to fix lens distortion. This include Batch Queue Manager and Image editor tools based on LensFun library.") },
         { "ColorLabel",             N_("Color Label"),               "Text",     xmpText, xmpExternal, N_("The color label assigned to this item. Possible values are \"0\": no label; \"1\": Red; \"2\": Orange; \"3\": Yellow; \"4\": Green; \"5\": Blue; \"6\": Magenta; \"7\": Gray; \"8\": Black; \"9\": White.") },
         { "PickLabel",              N_("Pick Label"),                "Text",     xmpText, xmpExternal, N_("The pick label assigned to this item. Possible values are \"0\": no label; \"1\": item rejected; \"2\": item in pending validation; \"3\": item accepted.") },
+        { "Preview",                N_("JPEG preview"),              "Text",     xmpText, xmpExternal, N_("Reduced size JPEG preview image encoded as base64 for a fast screen rendering.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
