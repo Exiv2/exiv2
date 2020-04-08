@@ -34,12 +34,12 @@ c:\> cd <bundle>\bin
 
 To compile and link your own code:
 
-+-------------------------------------------------------------------------------+
-| Caution: You must use the same version of Visual Studio as the build          |
-|          You will need to use the "Visual Studio Command Prompt"              |
-|          or initialise the DOS environment by calling vcvarsall.bat           |
-| C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64>vcvars64.bat |
-+-------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------+
+| Caution: You must use the same version of Visual Studio as the build                          |
+|          You will need to use the "Visual Studio Command Prompt"                              |
+|          or initialise the DOS environment by calling vcvars64.bat                            |
+| c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat |
++-----------------------------------------------------------------------------------------------+
 
 c:\> cd <bundle>
 <bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
