@@ -17,6 +17,7 @@ fi
 
     for f in ${files[@]} ; do
         runTest xmpparser-test $f
+        # unix2dos -q ${f}-new
         diff $f ${f}-new
     done
 

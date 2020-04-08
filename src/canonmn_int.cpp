@@ -928,6 +928,7 @@ namespace Exiv2 {
         {  142, "Canon EF 300mm f/2.8L IS USM"                              },
         {  143, "Canon EF 500mm f/4L IS USM"                                },
         {  143, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                     }, // 1
+        {  143, "Sigma 24-105mm F4 DG OS HSM | A"                           }, // 2
         {  144, "Canon EF 35-135mm f/4-5.6 USM"                             },
         {  145, "Canon EF 100-300mm f/4.5-5.6 USM"                          },
         {  146, "Canon EF 70-210mm f/3.5-4.5 USM"                           },
@@ -1007,6 +1008,7 @@ namespace Exiv2 {
         {  173, "Sigma 10mm f/2.8 EX DC Fisheye"                            }, // 3
         {  173, "Sigma 15mm f/2.8 EX DG Diagonal Fisheye"                   }, // 4
         {  173, "Venus Laowa 100mm F2.8 2X Ultra Macro APO"                 }, // 5
+        {  173, "Sigma 150-500mm f/5-6.3 APO DG OS HSM + 2x"                }, // 6
         {  174, "Canon EF 135mm f/2L USM"                                   },
         {  174, "Sigma 70-200mm f/2.8 EX DG APO OS HSM"                     }, // 1
         {  174, "Sigma 50-500mm f/4.5-6.3 APO DG OS HSM"                    }, // 2
@@ -1130,7 +1132,8 @@ namespace Exiv2 {
         {  252, "Canon EF 70-200mm f/2.8L IS III USM + 1.4x"                }, // 1
         {  253, "Canon EF 70-200mm f/2.8L IS II USM + 2x"                   },
         {  253, "Canon EF 70-200mm f/2.8L IS III USM + 2x"                  }, // 1
-        {  254, "Canon EF 100mm f/2.8L Macro IS USM"                        },
+        {  254, "Canon EF 100mm f/2.8L Macro IS USM"                        }, // 1
+        {  254, "Tamron SP 90mm f/2.8 Di VC USD Macro 1:1"                  }, // 2
         {  255, "Sigma 24-105mm f/4 DG OS HSM | A"                          },
         {  255, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                  }, // 1
         {  368, "Sigma 14-24mm f/2.8 DG HSM | A"                            },
