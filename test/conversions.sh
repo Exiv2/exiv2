@@ -205,7 +205,7 @@ fi
     runTest exiv2 -px v.jpg
     # evade this test on MSVC builds (Issue #485)
     platform=$(runTest exiv2 -vV 2>/dev/null | grep platform=)
-    if [ "$platform" == "platform=windows" ]; then
+    if [ "$platform" == "platform=windows" -o "$platform" == "platform=mingw64" -o "$platform" == "platform=msys" ]; then
         runTest exiv2 -PEkycv v.jpg | sed -E -e 's#17 19:10:22#18 02:10:22#g'
     else
         runTest exiv2 -PEkycv v.jpg
