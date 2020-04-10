@@ -22,6 +22,7 @@
    13. [Building  Exiv2 with ccache](#2-13)
    14. [Thread Safety](#2-14)
    15. [Library Initialisation and Cleanup](#2-15)
+   16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -523,10 +524,6 @@ Apple provide clang with Xcode.  GCC has not been supported by Apple since 2013.
 
 I have been unable to get clang to work on any of those platforms.
 
-4) Cross Compiling
-
-I've never succeeded in getting this to work.  I use different VMs for Linux 32 and 64 bit.  I've documented how to set up Cygwin and MinGW/msys2 in [README-CONAN](README-CONAN.md)
-
 [TOC](#TOC)
 <div id="2-13">
 
@@ -585,6 +582,117 @@ The Exiv2 command-line and the sample applications call the following at the out
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 ```
+
+[TOC](#TOC)
+
+<div id="2-16">
+
+### 2.16 Cross Platform Build and Test on Linux for MinGW
+
+You can cross compile Exiv2 on Linux to build for MinGW.  We have used the following method on **Fedora** and believe this is also possible on Ubuntu and other distros.  Detailed instructions are provided here for **Fedora**.
+
+### Cross Build and Test On Fedora
+
+####1 Install the cross platform build tools
+
+```bash
+$ sudo dnf install mingw64-gcc-c++ mingw64-filesystem mingw64-expat mingw64-zlib cmake make
+```
+
+####2 Install Dependancies
+
+You will need to install x86_64 libraries to support the options you wish to use.  By default, you will need libz and expat.  Your `dnf` command above has installed them for you.  If you wish to use features such as `webready` you should install openssl and libcurl as follows:  
+
+```bash
+[rmills@rmillsmm-fedora 0.27-maintenance]$ sudo yum install libcurl.x86_64 openssl.x86_64
+Last metadata expiration check: 0:00:18 ago on Fri 10 Apr 2020 10:50:30 AM BST.
+Dependencies resolved.
+=========================
+Package                          Architecture                                        Version                                                      Repository                       Size
+=========================
+Installing:
+...
+```
+
+####3 Get the code and build
+
+```bash
+$ git clone://github.com/exiv2/exiv2 --branch 0.27-maintenance exiv2
+$ cd exiv2
+$ mkdir build_mingw_fedora
+$ mingw64-cmake ..
+$ make 
+```
+
+Note, you may wish to choose to build with optional features and/or build static libraries.  To do this, request appropriately on the mingw64-cmake command:
+
+```bash
+$ mingw64-cmake .. -DEXIV2_TEAM_EXTRA_WARNINGS=ON \
+                   -DEXIV2_ENABLE_VIDEO=ON        \
+                   -DEXIV2_ENABLE_WEBREADY=ON     \
+                   -DEXIV2_ENABLE_WIN_UNICODE=ON  \
+                   -DBUILD_SHARED_LIBS=OFF
+```
+The options available for cross-compiling are the same as provided for all builds.  See: [Build Options](#2-3)
+
+
+####4 Copy "system dlls" in the bin directory
+
+These DLLs are required to execute the cross-platform build in the bin from Windows
+
+```bash
+for i in libexpat-1.dll libgcc_s_seh-1.dll libstdc++-6.dll libwinpthread-1.dll zlib1.dll ; do
+    cp -v /usr/x86_64-w64-mingw32/sys-root/mingw/bin/$i bin
+done
+```
+
+####5 Executing exiv2 in wine
+
+You may wish to use wine to execute exiv2 from the command prompt.  To do this:
+
+```bash
+[rmills@rmillsmm-fedora build_mingw_fedora]$ wine cmd
+Microsoft Windows 6.1.7601
+
+Z:\Home\gnu\github\exiv2\0.27-maintenance\build_mingw_fedora>bin\exiv2
+exiv2: An action must be specified
+exiv2: At least one file is required
+Usage: exiv2 [ options ] [ action ] file ...
+
+Manipulate the Exif metadata of images.
+
+Z:\Home\gnu\github\exiv2\0.27-maintenance\build_mingw_fedora>
+```
+
+If you have not installed wine, Fedora will offer to install it for you.
+
+####6 Running the test suite
+
+On a default wine installation, you are in the MSDOS/cmd prompt.  You cannot execute the exiv2 test suite in this environment as you require python3 and MSYS/bash to run the suite.
+
+You should mount the your Fedora exiv2/ directory on a Windows machine on which you have installed MSYS2.  You will need python3 and make.
+
+My build machines is a MacMini with VMs for Windows, Fedora and other platforms.  On Fedora, I build in a Mac directory which is shared to all VMs.
+
+```bash
+[rmills@rmillsmm-fedora 0.27-maintenance]$ pwd
+/media/psf/Home/gnu/github/exiv2/0.27-maintenance
+[rmills@rmillsmm-fedora 0.27-maintenance]$ ls -l build_mingw_fedora/bin/exiv2.exe
+-rwxrwxr-x. 1 rmills rmills 754944 Apr 10 07:44 build_mingw_fedora/bin/exiv2.exe
+[rmills@rmillsmm-fedora 0.27-maintenance]$
+```
+
+On MSYS2, I can directly access the share:
+
+```bash
+$ cd //Mac/Home/gnu/github/exiv2/0.27/maintenance/build_mingw_fedora
+$ export EXIV2_BINDIR=$pwd/bin
+$ export EXIV2_EXT=.exe
+$ cd ../test
+$ make test
+```
+
+You will find that 3 tests fail at the end of the test suite.  It is safe to ignore those minor exceptions.
 
 [TOC](#TOC)
 
@@ -905,4 +1013,4 @@ Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.co
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-01
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-10
