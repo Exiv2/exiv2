@@ -465,7 +465,7 @@ prepareTest()
 		exe=.exe
 	fi
 	
-	if [ !-z $EXIV2_EXT ]; then
+	if [ ! -z $EXIV2_EXT ]; then
 		exe=$EXIV2_EXT
 	fi
 
