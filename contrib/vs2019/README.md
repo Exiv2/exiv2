@@ -252,18 +252,18 @@ heirarchy and compile correctly.
   ```
 
 # Dependencies #
-  * [zlib, tested w/ v1.2.11](https://github.com/madler/zlib.git)
+  * [zlib, tested w/ v1.2.11](https://github.com/madler/zlib.git)[^12]
   * [Strawberry Perl, used v5.30.1.1 x64](strawberryperl.com)[^2]
   * [NASM, used 2.14.02 x64](https://www.nasm.us/)[^3]
   * [libexpat, tested w/ v2.2.9](https://github.com/libexpat/libexpat)[^4]
   * [OpenSSL, tested w/ v1.1.1g-DEV](https://github.com/openssl/openssl)[^5]
+  * [libssh, tested w/ v0.9.3](https://git.libssh.org/projects/libssh.git/)[^10]
   * [libssh2, tested w/ v1.9.0](https://github.com/libssh2/libssh2.git)[^6]
+  * [brotli, tested w/ v1.0.7+](https://github.com/google/brotli)[^11]
   * [curl, tested w/ v7.69.1](https://github.com/curl/curl.git)[^7]
   * [googletest, tested w/ v1.10.x](https://github.com/google/googletest.git)[^8]
   * [libintl (aka gettext), tested with v0.20.1](https://git.savannah.gnu.org/git/gettext.git)[^9]
   * [libiconv, tested w/ v1.16](https://github.com/sridharb1/libiconv-x86_x64)
-  * [libssh, tested w/ v0.9.3](https://git.libssh.org/projects/libssh.git/)[^10]
-  * [brotli, tested w/ v1.0.7+](https://github.com/google/brotli)[^11]
   * [Visual Studio, used Community 2019 edition](https://visualstudio.microsoft.com/)
 
 [^1]: It has since been killed by google. (You can find the last released version here: [Picasa 3.9.141, build 259](https://1drv.ms/u/s!AuE8ZYzPkfMfiEzdlKtVVjN-MReT))
@@ -272,17 +272,15 @@ heirarchy and compile correctly.
 openssl makefile to generate the initial configuration. Even this is
 not necessary if the configuration that I chose applies to you.
 
-[^3]: Binary distribution. See [^3].
+[^3]: Binary distribution. See [^2].
 
-[^4]: Use my [libexpat-x86_x64](https://github.com/sridharb1/libexpat-x86_x64) to
-compile on Windows using Visual Studio
+[^4]: Use my [libexpat-x86_x64](https://github.com/sridharb1/libexpat-x86_x64) to compile on Windows using Visual Studio
 
 [^5]: Use my [openssl-x86_x64](https://github.com/sridharb1/openssl-x86_x64) to compile on Windows using Visual Studio
 
 [^6]: Use my [libssh2-x86_x64](https://github.com/sridharb1/libssh2-x86_x64.git) to compile on Windows using Visual Studio
 
-[^7]: Use my [curl-x86_x64](https://github.com/sridharb1/curl-x86_x64.git) to
-compile on Windows using Visual Studio
+[^7]: Use my [curl-x86_x64](https://github.com/sridharb1/curl-x86_x64.git) to compile on Windows using Visual Studio
 
 [^8]: Use my [googletest-x86_x64](https://github.com/sridharb1/googletest-x86_x64.git) to compile on Windows using Visual Studio
 
@@ -291,3 +289,5 @@ compile on Windows using Visual Studio
 [^10]: Use my [libssh-x86_x64](https://github.com/sridharb1/libssh-x86_x64.git) to compile on Windows using Visual Studio
 
 [^11]: Use my [brotli-x86_x64](https://github.com/sridharb1/brotli-x86_x64)to compile on Windows using Visual Studio
+
+[^12]: Use my [zlib-x86_x64](https://github.com/sridharb1/zlib-x86_x64)to compile on Windows using Visual Studio
