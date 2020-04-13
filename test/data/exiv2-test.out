@@ -1890,7 +1890,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonCs.AFPoint                         Short       1  Auto-selected
 20001004_015404.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Aperture priority (Av)
 20001004_015404.jpg   Exif.CanonCs.0x0015                          Short       1  0
-20001004_015404.jpg   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM or Other Lens
+20001004_015404.jpg   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM
 20001004_015404.jpg   Exif.CanonCs.Lens                            Short       3  28.0 - 70.0 mm
 20001004_015404.jpg   Exif.CanonCs.MaxAperture                     Short       1  F2.8
 20001004_015404.jpg   Exif.CanonCs.MinAperture                     Short       1  F22
@@ -3502,7 +3502,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonCs.AFPoint                         Short       1  Auto-selected
 < 20001004_015404.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Aperture priority (Av)
 < 20001004_015404.jpg   Exif.CanonCs.0x0015                          Short       1  0
-< 20001004_015404.jpg   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM or Other Lens
+< 20001004_015404.jpg   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM
 < 20001004_015404.jpg   Exif.CanonCs.Lens                            Short       3  28.0 - 70.0 mm
 < 20001004_015404.jpg   Exif.CanonCs.MaxAperture                     Short       1  F2.8
 < 20001004_015404.jpg   Exif.CanonCs.MinAperture                     Short       1  F22
@@ -5043,7 +5043,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonCs.AFPoint                         Short       1  Auto-selected
 > 20001004_015404.exv   Exif.CanonCs.ExposureProgram                 Short       1  Aperture priority (Av)
 > 20001004_015404.exv   Exif.CanonCs.0x0015                          Short       1  0
-> 20001004_015404.exv   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM or Other Lens
+> 20001004_015404.exv   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM
 > 20001004_015404.exv   Exif.CanonCs.Lens                            Short       3  28.0 - 70.0 mm
 > 20001004_015404.exv   Exif.CanonCs.MaxAperture                     Short       1  F2.8
 > 20001004_015404.exv   Exif.CanonCs.MinAperture                     Short       1  F22
@@ -6804,7 +6804,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonCs.AFPoint                         Short       1  Auto-selected
 < 20001004_015404.jpg   Exif.CanonCs.ExposureProgram                 Short       1  Aperture priority (Av)
 < 20001004_015404.jpg   Exif.CanonCs.0x0015                          Short       1  0
-< 20001004_015404.jpg   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM or Other Lens
+< 20001004_015404.jpg   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM
 < 20001004_015404.jpg   Exif.CanonCs.Lens                            Short       3  28.0 - 70.0 mm
 < 20001004_015404.jpg   Exif.CanonCs.MaxAperture                     Short       1  F2.8
 < 20001004_015404.jpg   Exif.CanonCs.MinAperture                     Short       1  F22
@@ -8345,7 +8345,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonCs.AFPoint                         Short       1  Auto-selected
 > 20001004_015404.exv   Exif.CanonCs.ExposureProgram                 Short       1  Aperture priority (Av)
 > 20001004_015404.exv   Exif.CanonCs.0x0015                          Short       1  0
-> 20001004_015404.exv   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM or Other Lens
+> 20001004_015404.exv   Exif.CanonCs.LensType                        Short       1  Canon EF 28-70mm f/2.8L USM
 > 20001004_015404.exv   Exif.CanonCs.Lens                            Short       3  28.0 - 70.0 mm
 > 20001004_015404.exv   Exif.CanonCs.MaxAperture                     Short       1  F2.8
 > 20001004_015404.exv   Exif.CanonCs.MinAperture                     Short       1  F22
