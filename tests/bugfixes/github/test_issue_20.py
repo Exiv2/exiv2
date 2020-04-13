@@ -5,7 +5,7 @@ import system_tests
 
 class TamronSupport(metaclass=system_tests.CaseMeta):
 
-    description = "Added support for 'Tamron SP 15-30mm f/2.8 Di VC USD' and 'Tamron SP 90mm f/2.8 Di VC USD MACRO1:1'"
+    description = "Added support for 'Tamron SP 15-30mm f/2.8 Di VC USD A012' and 'Tamron SP 90mm f/2.8 Di VC USD MACRO1:1'"
 
     files = [
         "exiv2-g20.exv",
@@ -36,7 +36,7 @@ Exif.Photo.LensSerialNumber                  Ascii      12  0000000000
 """,
 
         # TamronSP15-30mmF2.8DiVCUSDA012.exv"
-        """Exif.CanonCs.LensType                        Short       1  Tamron SP 15-30mm f/2.8 Di VC USD
+        """Exif.CanonCs.LensType                        Short       1  Tamron SP 15-30mm f/2.8 Di VC USD A012
 """,
 
         # TamronSP90mmF2.8DiVCUSDMacroF004.exv
