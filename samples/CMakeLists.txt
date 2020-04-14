@@ -42,7 +42,9 @@ foreach(entry ${SAMPLES})
     list(APPEND APPLICATIONS ${target})
     add_test( ${target}_test ${target} )
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
-    install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    if ( NOT ${target} MATCHES ".*test.*")                                # don't install tests
+        install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    endif()
 endforeach()
 
 ###################################
@@ -59,15 +61,15 @@ add_executable( metacopy metacopy.cpp ../src/utils.cpp ../src/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_include_directories(metacopy PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
-add_executable(          pathtest  path-test.cpp ../src/utils.cpp ../src/getopt.cpp)
-list(APPEND APPLICATIONS pathtest)
-set_target_properties(   pathtest  PROPERTIES OUTPUT_NAME path-test )
-target_include_directories(pathtest PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
+add_executable(          path-test  path-test.cpp ../src/utils.cpp ../src/getopt.cpp)
+list(APPEND APPLICATIONS path-test)
+set_target_properties(   path-test  PROPERTIES OUTPUT_NAME path-test )
+target_include_directories(path-test PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
 add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
 list(APPEND APPLICATIONS exiv2json)
 
-install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install( TARGETS metacopy exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
