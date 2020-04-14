@@ -11,7 +11,7 @@ runTest()
     	if [ ! -z $EXIV2_ECHO ]; then
 			echoTest $VALGRIND $bin$prog "$@"
 	fi
-	$VALGRIND $bin$prog "$@"
+	$VALGRIND $bin$prog$exe "$@"
     )
 }
 
@@ -37,7 +37,7 @@ existsTest()
 			result=1
 		fi
 	else
-		if [ -e $bin$prog -o -e $bin$prog.exe ]; then
+		if [ -e $bin$prog -o -e $bin$prog$exe ]; then
 			result=1
 		fi
 	fi
@@ -463,6 +463,10 @@ prepareTest()
 
 	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
 		exe=.exe
+	fi
+	
+	if [ ! -z $EXIV2_EXT ]; then
+		exe=$EXIV2_EXT
 	fi
 
 	if [ "$PLATFORM" == cygwin ]; then
