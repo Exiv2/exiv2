@@ -132,6 +132,5 @@ endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt ReadMe.txt       @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      releasenotes.txt @ONLY)
 install       (FILES  ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt ${CMAKE_CURRENT_BINARY_DIR}/releasenotes.txt DESTINATION .)
-# file        (REMOVE ${CMAKE_CURRENT_BINARY_DIR}/releasenotes.txt ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt)
 
 include (CPack)
