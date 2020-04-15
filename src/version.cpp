@@ -74,9 +74,10 @@
 # include <sys/socket.h>
 # include <sys/sysctl.h>
 # include <libprocstat.h>
+#elif defined(__sun__)
+# include <dlfcn.h>
+# include <link.h>
 #endif
-
-
 
 namespace Exiv2 {
     int versionNumber()
@@ -199,9 +200,22 @@ static Exiv2::StringVector getLoadedLibraries()
     if ( files    ) procstat_freefiles(procstat, files);
     if ( procs    ) procstat_freeprocs(procstat, procs);
     if ( procstat ) procstat_close    (procstat);
+#elif defined (__sun__) || defined(__unix__)
+    // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
+    char procsz[100];
+    char pathsz[500];
+    sprintf(procsz,"/proc/%d/path/a.out", getpid());
+    int l = readlink (procsz, pathsz,sizeof(pathsz));
+    if (l>0) {
+        pathsz[l]='\0';
+        path.assign(pathsz);
+        libs.push_back(path);
+    } else {
+		libs.push_back("unknown");
+    }
 
-#elif defined(__unix__)
     // read file /proc/self/maps which has a list of files in memory
+    // (this doesn't yield anything on __sun__)
     std::ifstream maps("/proc/self/maps",std::ifstream::in);
     std::string   string ;
     while ( std::getline(maps,string) ) {
@@ -212,6 +226,8 @@ static Exiv2::StringVector getLoadedLibraries()
         }
     }
 #endif
+    if ( !libs.size() ) libs.push_back("unknown");
+
     return libs;
 }
 
@@ -260,12 +276,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "CC (oracle)";
 #elif defined (__SUNPRO_C)
     "cc (oracle)";
+#elif defined (__sun__)
+    "cc (solaris)";
 #else
     "unknown" ;
-#endif
-
-#if defined(__SUNPRO_CC) || defined (__SUNPRO_C)
-#define __oracle__
 #endif
 
 #ifndef __VERSION__
@@ -289,6 +303,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "mingw64";
 #elif defined(__MINGW32__)
     "mingw32";
+#elif defined(__sun__)
+    "solaris";
 #elif defined(__NetBSD__)
     "netbsd";
 #elif defined(__FreeBSD__)

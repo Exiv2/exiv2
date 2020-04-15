@@ -223,13 +223,13 @@ std::string Position::toExifTimeStamp(std::string& t)
     const char* arg = t.c_str();
     int HH = 0 ;
     int mm = 0 ;
-    int SS = 0 ;
+    int SS1 = 0 ;
     if ( strstr(arg,":") || strstr(arg,"-") ) {
         int  YY,MM,DD    ;
         char a,b,c,d,e   ;
-        sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS);
+        sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
     }
-    sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS);
+    sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS1);
     return std::string(result);
 }
 
@@ -406,15 +406,15 @@ time_t parseTime(const char* arg,bool bAdjust)
         // <time>2012-07-14T17:33:16Z</time>
 
         if ( strstr(arg,":") || strstr(arg,"-") ) {
-            int  YY,MM,DD,HH,mm,SS ;
+            int  YY,MM,DD,HH,mm,SS1 ;
             char a,b,c,d,e   ;
-            sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS);
+            sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
 
             struct tm T;
             memset(&T,0,sizeof(T));
             T.tm_min  = mm  ;
             T.tm_hour = HH  ;
-            T.tm_sec  = SS  ;
+            T.tm_sec  = SS1 ;
             if ( bAdjust ) T.tm_sec -= Position::Adjust();
             T.tm_year = YY -1900 ;
             T.tm_mon  = MM -1    ;
@@ -441,7 +441,7 @@ int timeZoneAdjust()
     struct tm lcopy = *localtime(&now);
     time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy
     offset          = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
-#elif defined(OS_SOLARIS)
+#elif defined(OS_SOLARIS) || defined(__sun__)
     struct tm local = *localtime(&now) ;
     time_t local_tt = (int) mktime(&local);
     time_t time_gmt = (int) mktime(gmtime(&now));

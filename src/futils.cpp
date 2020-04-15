@@ -24,6 +24,7 @@
 #include "futils.hpp"
 #include "datasets.hpp"
 #include "enforce.hpp"
+#include "image_int.hpp"
 
 // + standard includes
 #include <sys/types.h>
@@ -498,6 +499,15 @@ namespace Exiv2 {
         // release resources
         if ( procs    ) procstat_freeprocs(procstat, procs);
         if ( procstat ) procstat_close(procstat);
+    #elif defined(__sun__)
+        // https://stackoverflow.com/questions/47472762/on-solaris-how-to-get-the-full-path-of-executable-of-running-process-programatic        
+        const char* proc = Internal::stringFormat("/proc/%d/path/a.out",getpid()).c_str();
+        char        path[500];
+        ssize_t     l = readlink (proc,path,sizeof(path)-1);
+        if (l>0) {
+            path[l]=0;
+            ret = path;
+        }
     #elif defined(__unix__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
         char path[500];
