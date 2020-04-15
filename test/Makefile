@@ -59,16 +59,16 @@ SHELL = /bin/sh
 # to save download time for simple build/test, we download video and eps data on demand
 SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 
-##
-# determine the test platform
-UNAME := $(shell uname)
-UNIX=FALSE
-ifeq ($(UNAME),SunOS)
-UNIX=TRUE
-endif
-ifeq ($(UNAME),FreeBSD)
-UNIX=TRUE
-endif
+#  ##
+#  # determine the test platform
+#  UNAME := $(shell uname)
+#  UNIX=FALSE
+#  ifeq ($(UNAME),SunOS)
+#  UNIX=TRUE
+#  endif
+#  ifeq ($(UNAME),FreeBSD)
+#  UNIX=TRUE
+#  endif
 
 ##
 # Add test drivers to this list
@@ -83,18 +83,18 @@ TESTS  = addmoddel.sh         \
          webp-test.sh         \
          write2-test.sh       \
 
-# the following tests are broken on UNIX
-ifeq ($(UNIX),FALSE)
-TESTS += exifdata-test.sh     \
-         exiv2-test.sh        \
-         imagetest.sh         \
-         iotest.sh            \
-         iptctest.sh          \
-         preview-test.sh      \
-         tiff-test.sh         \
-         write-test.sh        \
-         xmpparser-test.sh 
-endif        
+#  # the following tests are broken on UNIX
+#  ifeq ($(UNIX),FALSE)
+#  TESTS += exifdata-test.sh     \
+#           exiv2-test.sh        \
+#           imagetest.sh         \
+#           iotest.sh            \
+#           iptctest.sh          \
+#           preview-test.sh      \
+#           tiff-test.sh         \
+#           write-test.sh        \
+#           xmpparser-test.sh 
+#  endif        
 
 # always run version-test.sh last!
 TESTS += version-test.sh
