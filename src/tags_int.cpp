@@ -1497,7 +1497,7 @@ namespace Exiv2 {
                    "is +0.3, and the BaselineExposureOffset value for a given camera profile used to render an "
                    "image for that camera model is -0.7, then the actual default exposure value used during "
                    "rendering will be +0.3 - 0.7 = -0.4."),
-                ifd0Id, dngTags, signedRational, 4, printValue), // DNG tag
+                ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
 
         TagInfo(0xc7b5, "DefaultUserCrop", N_("Default User Crop"),
                 N_("Specifies a default user crop rectangle in relative coordinates. "
