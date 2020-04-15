@@ -1490,6 +1490,21 @@ namespace Exiv2 {
                 "for how the camera is used or assigned in this clip. "
                 "This tag is similar to CameraLabel in XMP."),
                 ifd0Id, dngTags, asciiString, -1, printValue), // DNG tag
+        TagInfo(0xc7a5, "BaselineExposureOffset", N_("Baseline Exposure Offset"),
+                N_("Provides a way for color profiles to increase or decrease exposure during raw conversion. "
+                   "BaselineExposureOffset specifies the amount (in EV units) to add to the BaselineExposure tag "
+                   "during image rendering. For example, if the BaselineExposure value for a given camera model "
+                   "is +0.3, and the BaselineExposureOffset value for a given camera profile used to render an "
+                   "image for that camera model is -0.7, then the actual default exposure value used during "
+                   "rendering will be +0.3 - 0.7 = -0.4."),
+                ifd0Id, dngTags, signedRational, 4, printValue), // DNG tag
+
+        TagInfo(0xc7b5, "DefaultUserCrop", N_("Default User Crop"),
+                N_("Specifies a default user crop rectangle in relative coordinates. "
+                   "The values must satisfy: 0.0 <= top < bottom <= 1.0, 0.0 <= left < right <= 1.0."
+                   "The default values of (top = 0, left = 0, bottom = 1, right = 1) correspond exactly to the default "
+                   "crop rectangle (as specified by the DefaultCropOrigin and DefaultCropSize tags)."),
+                ifd0Id, dngTags, signedRational, 4, printValue), // DNG tag
 
         ////////////////////////////////////////
         // End of list marker
