@@ -59,28 +59,43 @@ SHELL = /bin/sh
 # to save download time for simple build/test, we download video and eps data on demand
 SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 
+#  ## Sadly on SunOS make terminates saying "unexpected end of line"
+#  # determine the test platform
+#  UNAME := $(shell uname)
+#  UNIX=FALSE
+#  ifeq ($(UNAME),SunOS)
+#  UNIX=TRUE
+#  endif
+#  ifeq ($(UNAME),FreeBSD)
+#  UNIX=TRUE
+#  endif
+
 ##
 # Add test drivers to this list
-TESTS  = addmoddel.sh         \
+TESTS1 = addmoddel.sh         \
          conversions.sh       \
-         exifdata-test.sh     \
-         exiv2-test.sh        \
          geotag-test.sh       \
-         imagetest.sh         \
          icc-test.sh          \
-         iotest.sh            \
-         iptctest.sh          \
          iso65k-test.sh       \
          modify-test.sh       \
          path-test.sh         \
-         preview-test.sh      \
          stringto-test.sh     \
-         tiff-test.sh         \
          webp-test.sh         \
-         write-test.sh        \
          write2-test.sh       \
-         xmpparser-test.sh    \
-         version-test.sh
+
+# the following tests are broken on UNIX
+# You can manually run all the tests: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin make test`
+# You can manually run a single test: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin ./iotest.sh`
+# Or: make iotest 
+TESTS2 = exifdata-test.sh     \
+         exiv2-test.sh        \
+         imagetest.sh         \
+         iotest.sh            \
+         iptctest.sh          \
+         preview-test.sh      \
+         tiff-test.sh         \
+         write-test.sh        \
+         xmpparser-test.sh 
 
 # video tests
 TESTV  = video-test.sh
@@ -95,13 +110,59 @@ TESTX  = httpiotest.sh        \
          curliotest.sh        \
          sshiotest.sh
 
+addmoddel     \
+conversions   \
+geotag-test   \
+icc-test      \
+iso65k-test   \
+modify-test   \
+path-test     \
+stringto-test \
+webp-test     \
+write2-test   \
+exifdata-test \
+exiv2-test    \
+imagetest     \
+iotest        \
+iptctest      \
+preview-test  \
+tiff-test     \
+write-test    \
+xmpparser-test:
+	@echo
+	@echo ---- Running test: $@.sh ----
+	@echo
+	./$@.sh
+	
 tests:
 	cd .. ; make tests
 
+unixtests:
+	cd .. ; make unixtests
+
 test:
+	@echo
+	@echo ---- Running tests: ALL ----
+	@echo
 	mkdir -p tmp
-	rm -rf tmp/test-failed
-	@list='$(TESTS)'; for p in $$list; do \
+	@rm -rf tmp/test-failed
+	@list='$(TESTS1) $(TESTS2) version-test.sh'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p;  \
+	    rc=$$?; \
+	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
+	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
+	done
+	make newtests
+	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
+
+unixtest:
+	@echo
+	@echo ---- Running test: UNIX subset ----
+	@echo
+	mkdir -p tmp
+	@rm -rf tmp/test-failed
+	@list='$(TESTS1) version-test.sh'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \

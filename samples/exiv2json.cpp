@@ -289,10 +289,10 @@ int main(int argc, char* const argv[])
         Jzon::Object   root;
 
         if ( option == 'f' ) { // only report filesystem when requested
-            const char*    FS="FS";
-            Jzon::Object      fs  ;
-            root.Add(FS,fs) ;
-            fileSystemPush(path,root.Get(FS));
+            const char*    Fs="FS";
+            Jzon::Object   fs     ;
+            root.Add(Fs,fs) ;
+            fileSystemPush(path,root.Get(Fs));
         }
 
         if ( option == 'a' || option == 'e' ) {
