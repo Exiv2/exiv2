@@ -9,7 +9,7 @@ lib/exiv2.lib & exiv2-xmp.lib                 link libraries
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
 samples/exifprint.cpp                         sample code
-logs/                                         build and test logs
+logs                                          build/test log
 
 ReadMe.txt                                    This file
 license.txt                                   GPLv2.0 Software License

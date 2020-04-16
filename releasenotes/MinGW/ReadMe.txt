@@ -12,7 +12,7 @@ include/exiv2/                                include files
 share/man/                                    man pages
 share/locale/                                 localisation files
 samples/exifprint.cpp                         sample code
-logs                                          build and test logs
+logs                                          build/test log
 
 ReadMe.txt                                    This file
 exiv2.png                                     Exiv2 Logo
