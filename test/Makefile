@@ -116,6 +116,9 @@ unixtests:
 	cd .. ; make unixtests
 
 test:
+	@echo
+	@echo ---- Running tests: ALL ----
+	@echo
 	mkdir -p tmp
 	@rm -rf tmp/test-failed
 	@list='$(TESTS1) $(TESTS2) version-test.sh'; for p in $$list; do \
@@ -129,6 +132,9 @@ test:
 	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
 
 unixtest:
+	@echo
+	@echo ---- Running test: UNIX subset ----
+	@echo
 	mkdir -p tmp
 	@rm -rf tmp/test-failed
 	@list='$(TESTS1) version-test.sh'; for p in $$list; do \
