@@ -981,7 +981,7 @@ For all platforms you will need the following components to build:
 4. sudo
 5. gettext
 
-To run the test suite, you neeed:
+To run the test suite, you need:
 
 1. python3
 2. chksum
