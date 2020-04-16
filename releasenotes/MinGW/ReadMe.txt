@@ -52,3 +52,18 @@ $ export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 $ export PATH="/usr/local/bin:$PATH"
 $ g++ -std=c++98 samples/exifprint.cpp -o exifprint $(pkg-config exiv2 --libs --cflags)
 $ ./exifprint --version
+
+Method 3: Use the CMake support/consume files
+See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
+
+More Documentation
+------------------
+
+$ export "MANPATH=/usr/local/share/man:$MANPATH"
+$ man exiv2
+
+The following documents are included in your bundle:
+
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual

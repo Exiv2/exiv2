@@ -45,3 +45,17 @@ c:\> cd <bundle>
 <bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
 <bundle>> exifprint --version
 <bundle>>
+
+Method 3: Use the CMake support/consume files
+See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
+
+More Documentation
+------------------
+
+https://www.exiv2.org/manpage.html
+
+The following documents are included in your bundle:
+
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual
