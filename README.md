@@ -120,10 +120,10 @@ Options defined by <exiv2>/CMakeLists.txt include:
 
 ```bash
 576 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $ grep ^option CMakeLists.txt
-option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
-option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
-option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
-option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
+option( BUILD_SHARED_LIBS          "Build exiv2lib as a shared library"      ON )
+option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"         ON )
+option( EXIV2_ENABLE_EXTERNAL_XMP  "Use external version of XMP"            OFF )
+option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"  ON )
 ...
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
