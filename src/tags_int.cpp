@@ -1498,7 +1498,6 @@ namespace Exiv2 {
                    "image for that camera model is -0.7, then the actual default exposure value used during "
                    "rendering will be +0.3 - 0.7 = -0.4."),
                 ifd0Id, dngTags, signedRational, 1, printValue), // DNG tag
-
         TagInfo(0xc7b5, "DefaultUserCrop", N_("Default User Crop"),
                 N_("Specifies a default user crop rectangle in relative coordinates. "
                    "The values must satisfy: 0.0 <= top < bottom <= 1.0, 0.0 <= left < right <= 1.0."
