@@ -492,7 +492,7 @@ prepareTest()
 	tmpfile=$here/tmp/$this
 	touch $tmpfile
 
-	if [ "$PLATFORM" == SunOS ] ; then
+	if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
 	    da1=""
     	da2=""
 	else
