@@ -6,9 +6,9 @@ source ./functions.source
 
     copyTestFiles exiv2-gc.jpg exiv2-canon-powershot-s40.jpg exiv2-nikon-d70.jpg
 
-    runTest exifdata-test exiv2-gc.jpg                  | grep -v -e UserComment
-    runTest exifdata-test exiv2-canon-powershot-s40.jpg | grep -v -e UserComment
-    runTest exifdata-test exiv2-nikon-d70.jpg           | grep -v -e UserComment
+    runTest exifdata-test exiv2-gc.jpg
+    runTest exifdata-test exiv2-canon-powershot-s40.jpg
+    runTest exifdata-test exiv2-nikon-d70.jpg
 
 )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
 
