@@ -41,14 +41,14 @@ elseif ( APPLE )
     set (PACKDIR Darwin)
 elseif ( LINUX )
     set (PACKDIR Linux)
-elseif ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+elseif ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_HOST_SOLARIS)
     set (PACKDIR Unix)
 else()
     set (PACKDIR Linux) # Linux and unsupported systems
 endif()
 
 set (BUNDLE_NAME ${PACKDIR})
-if ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+if ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_HOST_SOLARIS )
     set (BUNDLE_NAME ${CMAKE_SYSTEM_NAME})
 endif()
 
@@ -120,12 +120,9 @@ foreach(doc ${DOCS})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${doc} DESTINATION .)
 endforeach()
 
-# copy build/test logs which are only present on Jenkins builds
+# copy build/log which which is present if built by build.sh
 if(EXISTS ${PROJECT_SOURCE_DIR}/build/logs/build.txt)
     install(FILES ${PROJECT_SOURCE_DIR}/build/logs/build.txt DESTINATION "logs")
-endif()
-if(EXISTS ${PROJECT_SOURCE_DIR}/build/logs/test.txt)
-    install(FILES ${PROJECT_SOURCE_DIR}/build/logs/test.txt  DESTINATION "logs")
 endif()
 
 # Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKDIR}/ReadMe.txt)

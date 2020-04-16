@@ -100,9 +100,9 @@ reportTest()
     fi
 
     if [ "$PLATFORM" == "cygwin" ]; then
-        diff -q $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
+        diff $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
     else
-        diff -q $diffargs $lhs $rhs
+        diff $diffargs $lhs $rhs
     fi
     rc=$?
     if [ $rc -eq 0 ] ; then
@@ -226,7 +226,11 @@ diffCheck()
     if [ -z "$errors" ]; then let -a errors=0; fi
 
     #run diff and check results
-    diff -q --binary $diffargs "$test" "$good"
+    if [ $(uname) == FreeBSD -o $(uname) == NetBSD -o $(uname) == SunOS ]; then
+    	bdiff $diffargs "$test" "$good"
+    else
+    	diff --binary $diffargs "$test" "$good"
+    fi
     if [ $? -ne 0 ]; then
        errors=$(expr $errors + 1)
     else
@@ -487,29 +491,31 @@ prepareTest()
 
     ##
     # figure out arguments for diff
-    diffargs="--strip-trailing-cr"
-    good="$here/data/${this}.out"
-    results="$here/tmp/${this}.out"
-
-    tmpfile=$here/tmp/$this
-    touch $tmpfile
-    diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-    if [ $? -ne 0 ]; then
-        diffargs=""
-    fi
-
-	tmpfile=tmp/ttt
+	good="$here/data/${this}.out"
+	results="$here/tmp/${this}.out"
+	tmpfile=$here/tmp/$this
 	touch $tmpfile
-	da1="--strip-trailing-cr"
-	diff -q $da1 $tmpfile $tmpfile 2>/dev/null
-	if [ $? -ne 0 ] ; then
-    	da1=""
+
+	if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
+	    da1=""
+    	da2=""
+	else
+		diffargs="--strip-trailing-cr"
+		diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+		if [ $? -ne 0 ]; then
+			diffargs=""
+		fi
+
+		tmpfile=tmp/ttt
+		touch $tmpfile
+		da1="--strip-trailing-cr"
+		diff -q $da1 $tmpfile $tmpfile 2>/dev/null
+		if [ $? -ne 0 ] ; then
+			da1=""
+		fi
+		da2="--ignore-matching-lines=^Usage:.*exiv2"
+		diff -q $da2 $tmpfile $tmpfile 2>/dev/null
 	fi
-	da2="--ignore-matching-lines=^Usage:.*exiv2"
-	diff -q $da2 $tmpfile $tmpfile 2>/dev/null
-	#if [ $? -ne 0  -o "$PLATFORM" == mingw ] ; then
-    #	da2=""
-	#fi
 	diffargs="$da1 $da2"
 
     ##

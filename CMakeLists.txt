@@ -82,11 +82,17 @@ if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
 endif()
 
+# Run a reduced test suite on UNIX #902
+set (TEST test)
+if ( CMAKE_HOST_SOLARIS OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+   set (TEST unixtest)
+endif()
+
 if( EXIV2_BUILD_SAMPLES )
     ##
     # tests
     add_custom_target(tests
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make test
+        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
     )
     add_subdirectory( samples )

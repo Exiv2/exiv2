@@ -9,7 +9,7 @@ lib/exiv2.lib & exiv2-xmp.lib                 link libraries
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
 samples/exifprint.cpp                         sample code
-logs/                                         build and test logs
+logs                                          build/test log
 
 ReadMe.txt                                    This file
 license.txt                                   GPLv2.0 Software License
@@ -45,3 +45,17 @@ c:\> cd <bundle>
 <bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
 <bundle>> exifprint --version
 <bundle>>
+
+Method 3: Use the CMake support/consume files
+See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
+
+More Documentation
+------------------
+
+https://www.exiv2.org/manpage.html
+
+The following documents are included in your bundle:
+
+README.md                                     Developer Manual
+README-CONAN.md                               Developer Manual Appendix
+README-SAMPLES.md                             Developer Sample Code Manual
