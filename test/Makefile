@@ -59,7 +59,7 @@ SHELL = /bin/sh
 # to save download time for simple build/test, we download video and eps data on demand
 SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 
-#  ##
+#  ## Sadly on SunOS make terminates saying "unexpected end of line"
 #  # determine the test platform
 #  UNAME := $(shell uname)
 #  UNIX=FALSE
@@ -72,7 +72,7 @@ SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 
 ##
 # Add test drivers to this list
-TESTS  = addmoddel.sh         \
+TESTS1 = addmoddel.sh         \
          conversions.sh       \
          geotag-test.sh       \
          icc-test.sh          \
@@ -83,21 +83,18 @@ TESTS  = addmoddel.sh         \
          webp-test.sh         \
          write2-test.sh       \
 
-#  # the following tests are broken on UNIX
-#  ifeq ($(UNIX),FALSE)
-#  TESTS += exifdata-test.sh     \
-#           exiv2-test.sh        \
-#           imagetest.sh         \
-#           iotest.sh            \
-#           iptctest.sh          \
-#           preview-test.sh      \
-#           tiff-test.sh         \
-#           write-test.sh        \
-#           xmpparser-test.sh 
-#  endif        
-
-# always run version-test.sh last!
-TESTS += version-test.sh
+# the following tests are broken on UNIX
+# You can manually run all the tests: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin make test`
+# You can manually run a single test: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin ./iotest.sh` 
+TESTS2 = exifdata-test.sh     \
+         exiv2-test.sh        \
+         imagetest.sh         \
+         iotest.sh            \
+         iptctest.sh          \
+         preview-test.sh      \
+         tiff-test.sh         \
+         write-test.sh        \
+         xmpparser-test.sh 
 
 # video tests
 TESTV  = video-test.sh
@@ -115,10 +112,26 @@ TESTX  = httpiotest.sh        \
 tests:
 	cd .. ; make tests
 
+unixtests:
+	cd .. ; make unixtests
+
 test:
 	mkdir -p tmp
-	rm -rf tmp/test-failed
-	@list='$(TESTS)'; for p in $$list; do \
+	@rm -rf tmp/test-failed
+	@list='$(TESTS1) $(TESTS2) version-test.sh'; for p in $$list; do \
+	    echo Running $$p ...; \
+	    ./$$p;  \
+	    rc=$$?; \
+	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
+	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
+	done
+	make newtests
+	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
+
+unixtest:
+	mkdir -p tmp
+	@rm -rf tmp/test-failed
+	@list='$(TESTS1) version-test.sh'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
