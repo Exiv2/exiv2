@@ -779,7 +779,7 @@ $ export EXIV2_EXT=.exe
 $ export EXIV2_BINDIR=${PWD}/../build/bin
 ```
 
-**Caution: ** The python3 interpreter must be for DOS and called python3.exe.  I copied `c:\Python37\python.exe c:\Python37\python3.exe`
+**Caution: ** _The python3 interpreter must be for DOS and called python3.exe.  I copied `c:\Python37\python.exe c:\Python37\python3.exe`__
 
 Once you have modified the PATH and and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
 
@@ -956,9 +956,8 @@ I use the following batch file to start cmd.exe.  I do this to reduce the comple
 ```bat
 @echo off
 setlocal
-cd  %HOMEPATH%
-set "PATH=C:\Python37\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
-cmd
+set "PATH=C:\Python37\;C:\Python37\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+cmd /S /K cd %HOMEDRIVE%%HOMEPATH%
 ```
 
 [TOC](#TOC)
@@ -966,51 +965,93 @@ cmd
 
 ### 5.6 Unix
 
-Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are starting to actively support the Unix Distributions NetBSD and FreeBSD.  We hope to add CI support for these platforms in v0.27.3.
+Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are starting to actively support the Unix Distributions NetBSD and FreeBSD.  For v0.27.3, I have added support for Solaris 11.4
 
-I have provided notes here based on my experience with these platforms.   Feedback is welcome.
+We do not have CI support for these platforms on GitHub.  However, I regularly build and test them on my MacMini Buildserver.  The device is private and not on the internet.
 
-I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 if you provide with an ssh account for your platform.  I will require super-user privileges to install software.
+I have provided notes here based on my experience with these platforms.   Feedback is welcome.  I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 if you provide with an ssh account for your platform.  I will require super-user privileges to install software.
+
+**Caution:** _There are issues with the bash test suite on UNIX as the utility `diff` has different command syntax.  While most of the test suite operates successfully, several tests require more investigation.  I am confident that this issues are in the test suite and not in exiv2.__
+
+For all platforms you will need the following components to build:
+
+1. gcc or clang
+2. cmake
+3. bash
+4. sudo
+5. gettext
+
+To run the test suite, you neeed:
+
+1. python3
+2. chksum
+3. dos2unix
+4. xmllint
 
 #### NetBSD
 
 You can build exiv2 from source using the methods described for linux.  I built and installed exiv2 using "Pure CMake" and didn't require conan.
-You will want to use the package manager `pkgsrc` to build/install:
 
-1. gcc  (currently GCC 5.5.0)
-2. python3
-3. cmake
-4. bash
-5. sudo
-6. chksum
-7. gettext
+You will want to use the package manager `pkgsrc` to build/install the build and test components listed above.
 
-I entered links into the file system `# ln -s /usr/pkg/bin/python37 /usr/local/bin/python3` and `# ln -s /usr/pkg/bin/bash /bin/bash`
-It's important to ensure that `LD_LIBRARY_PATH` includes `/usr/local/lib` and `/usr/pkg/lib`.  It's important to ensure that PATH includes `/usr/local/bin`, `/usr/pkg/bin` and `/usr/pkg/sbin`.
+I entered links into the file system
+
+```
+# ln -s /usr/pkg/bin/python37 /usr/local/bin/python3
+# ln -s /usr/pkg/bin/bash /bin/bash`
+```
+
+It's important to ensure that `LD_LIBRARY_PATH` includes `/usr/local/lib` and `/usr/pkg/lib`. 
+
+It's important to ensure that `PATH` includes `/usr/local/bin`, `/usr/pkg/bin` and `/usr/pkg/sbin`.
 
 #### FreeBSD
 
-Clang is pre-installed as ``/usr/bin/{cc|c++}` as well has libz and expat.  FreeBSD uses pkg as the package manager which I used to install cmake and git.
+Clang is pre-installed as ``/usr/bin/{cc|c++}` as well as libz and expat.  FreeBSD uses pkg as the package manager which I used to install cmake and git.
 
 ```bash
 $ su root
 Password:
 # pkg install cmake
 # pkg install git
-```
-
-To run the Exiv2 test suite, I installed bash and python.  The test suite requires additional work as the platform `diff` command does not understand the option `--binary` and returns an error.  In consequence, the test harness returns lots of errors.  I hope to address this in v0.27.3.
-
-
-```bash
 # pkg install bash
 # pkg install python
 ```
 
+**Caution**: _The package manager *pkg* is no longer working on FreeBSD 12.0.  I will move to 12.1 for future work.  Others have reported this issue on 12.1.  Broken package manager is very bad news.  There are other package managers (such as ports), however installing and getting it to work is formidable._
+
+```
+634 rmills@rmillsmm-freebsd:~/gnu/github/exiv2/0.27-maintenance/build $ sudo pkg install libxml2
+Updating FreeBSD repository catalogue...
+pkg: repository meta /var/db/pkg/FreeBSD.meta has wrong version 2
+pkg: Repository FreeBSD load error: meta cannot be loaded No error: 0
+Fetching meta.txz: 100%    916 B   0.9kB/s    00:01    
+pkg: repository meta /var/db/pkg/FreeBSD.meta has wrong version 2
+repository FreeBSD has no meta file, using default settings
+Fetching packagesite.txz: 100%    6 MiB 340.2kB/s    00:19    
+pkg: repository meta /var/db/pkg/FreeBSD.meta has wrong version 2
+pkg: Repository FreeBSD load error: meta cannot be loaded No error: 0
+Unable to open created repository FreeBSD
+Unable to update repository FreeBSD
+Error updating repositories!
+635 rmills@rmillsmm-freebsd:~/gnu/github/exiv2/0.27-maintenance/build $ 
+```
+
 #### Solaris
 
-Work in progress:  [https://github.com/Exiv2/exiv2/issues/902](https://github.com/Exiv2/exiv2/issues/902)
+Solaris uses the package manager pkg.  To get a list of packages:
+
+```bash
+$ pkg list
+```
+
+To install a package:
+
+```bash
+$ sudo pkg install developer/gcc-7
+```
+
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-10
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-16
