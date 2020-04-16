@@ -85,7 +85,8 @@ TESTS1 = addmoddel.sh         \
 
 # the following tests are broken on UNIX
 # You can manually run all the tests: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin make test`
-# You can manually run a single test: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin ./iotest.sh` 
+# You can manually run a single test: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin ./iotest.sh`
+# Or: make iotest 
 TESTS2 = exifdata-test.sh     \
          exiv2-test.sh        \
          imagetest.sh         \
@@ -109,6 +110,30 @@ TESTX  = httpiotest.sh        \
          curliotest.sh        \
          sshiotest.sh
 
+addmoddel     \
+conversions   \
+geotag-test   \
+icc-test      \
+iso65k-test   \
+modify-test   \
+path-test     \
+stringto-test \
+webp-test     \
+write2-test   \
+exifdata-test \
+exiv2-test    \
+imagetest     \
+iotest        \
+iptctest      \
+preview-test  \
+tiff-test     \
+write-test    \
+xmpparser-test:
+	@echo
+	@echo ---- Running test: $@.sh ----
+	@echo
+	./$@.sh
+	
 tests:
 	cd .. ; make tests
 
