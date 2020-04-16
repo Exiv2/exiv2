@@ -41,16 +41,13 @@ elseif ( APPLE )
     set (PACKDIR Darwin)
 elseif ( LINUX )
     set (PACKDIR Linux)
-elseif ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-    set (PACKDIR Unix)
+elseif ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_HOST_SOLARIS)
+    set (PACKDIR ${CMAKE_SYSTEM_NAME})
 else()
     set (PACKDIR Linux) # Linux and unsupported systems
 endif()
 
 set (BUNDLE_NAME ${PACKDIR})
-if ( CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-    set (BUNDLE_NAME ${CMAKE_SYSTEM_NAME})
-endif()
 
 set (CC "") # Compiler
 if ( NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
