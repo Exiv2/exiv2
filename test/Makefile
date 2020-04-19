@@ -153,7 +153,6 @@ alltest:
 	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
 	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
 	done
-	@if [ -e tmp/test-failed ]; then echo ; echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; fi
 
 unixtest:
 	@echo
@@ -168,9 +167,8 @@ unixtest:
 	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
 	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
 	done
-	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; fi
 
-python_tests:
+new_tests:
 	-( cd ../tests ; python3 runner.py --verbose )
 
 
