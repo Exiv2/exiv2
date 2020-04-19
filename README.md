@@ -742,8 +742,8 @@ There are different kinds of tests:
 |:--                 |:--        |:--      |:--                                        |:--   |
 | Run all tests      |           |                      | $ make tests     | |
 | Bash scripts       | bash   | \<exiv2dir\>/test    | $ make bash_tests   | -DEXIV2\_BUILD\_SAMPLES=On |
-| Python scripts     | python | \<exiv2dir\>/tests   | $ make new_tests  | -DEXIV2\_BUILD\_SAMPLES=On |
-| Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS_=On | 
+| Python scripts     | python | \<exiv2dir\>/tests   | $ make python_tests  | -DEXIV2\_BUILD\_SAMPLES=On |
+| Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS=On | 
 | Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
 
 Environment Variables used by test suite
@@ -780,7 +780,7 @@ $ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
 ICC jpg md5 webp md5 png md5 jpg md5
 all testcases passed.
 
-$ env EXIV2_BINDIR=${PWD}/../build/bin make new_tests
+$ env EXIV2_BINDIR=${PWD}/../build/bin make python_tests
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -814,7 +814,7 @@ Once you have modified the PATH and exported EXIV2\_BINDIR and EXIV2\_EXT, you c
 ```bash
 $ cd <exiv2dir>/test
 $ make tests
-$ make new_tests
+$ make python_tests
 $ ./icc-test.sh
 ```
 
