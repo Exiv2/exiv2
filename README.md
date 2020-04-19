@@ -689,7 +689,7 @@ $ cd //Mac/Home/gnu/github/exiv2/0.27/maintenance/build_mingw_fedora
 $ export EXIV2_BINDIR=$pwd/bin
 $ export EXIV2_EXT=.exe
 $ cd ../test
-$ make test
+$ make tests
 ```
 
 You will find that 3 tests fail at the end of the test suite.  It is safe to ignore those minor exceptions.
@@ -741,8 +741,8 @@ There are different kinds of tests:
 | Description        | Language | Location | Command<br>_(in build or test directory)_ | CMake Option to Build |
 |:--                 |:--        |:--      |:--                                        |:--   |
 | Run all tests      |           |                      | $ make tests     | |
-| Bash scripts       | bash   | \<exiv2dir\>/test    | $ make test      | -DEXIV2\_BUILD\_SAMPLES=On |
-| Python scripts     | python | \<exiv2dir\>/tests   | $ make newtests  | -DEXIV2\_BUILD\_SAMPLES=On |
+| Bash scripts       | bash   | \<exiv2dir\>/test    | $ make bash_tests   | -DEXIV2\_BUILD\_SAMPLES=On |
+| Python scripts     | python | \<exiv2dir\>/tests   | $ make new_tests  | -DEXIV2\_BUILD\_SAMPLES=On |
 | Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS_=On | 
 | Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
 
@@ -780,7 +780,7 @@ $ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
 ICC jpg md5 webp md5 png md5 jpg md5
 all testcases passed.
 
-$ env EXIV2_BINDIR=${PWD}/../build/bin make newtests
+$ env EXIV2_BINDIR=${PWD}/../build/bin make new_tests
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -813,8 +813,8 @@ Once you have modified the PATH and exported EXIV2\_BINDIR and EXIV2\_EXT, you c
 
 ```bash
 $ cd <exiv2dir>/test
-$ make test
-$ make newtests
+$ make tests
+$ make new_tests
 $ ./icc-test.sh
 ```
 
@@ -1073,4 +1073,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-19

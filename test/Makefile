@@ -136,7 +136,7 @@ xmpparser-test:
 
 version_test \
 unit_test    \
-test         \
+bash_tests   \
 tests:
 	@./$@.sh
 
@@ -168,7 +168,7 @@ unixtest:
 	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
 	done
 
-newtests:
+new_tests:
 	( cd ../tests ; python3 runner.py --verbose )
 
 
