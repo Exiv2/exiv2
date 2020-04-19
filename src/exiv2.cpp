@@ -222,7 +222,7 @@ void Params::cleanup()
 void Params::version(bool verbose,std::ostream& os) const
 {
     os << EXV_PACKAGE_STRING << std::endl;
-    if ( Params::instance().greps_.empty() ) {
+    if ( Params::instance().greps_.empty() && !verbose) {
     os << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
             "modify it under the terms of the GNU General Public License\n"

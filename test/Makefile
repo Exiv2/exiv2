@@ -133,47 +133,44 @@ xmpparser-test:
 	@echo ---- Running test: $@.sh ----
 	@echo
 	./$@.sh
-	
+
+version_test \
+unit_test    \
+test         \
 tests:
-	cd .. ; make tests
+	@./$@.sh
 
-unixtests:
-	cd .. ; make unixtests
-
-test:
+alltest:
 	@echo
-	@echo ---- Running tests: ALL ----
+	@echo ---- Running bash tests: ALL ----
 	@echo
 	mkdir -p tmp
 	@rm -rf tmp/test-failed
-	@list='$(TESTS1) $(TESTS2) version-test.sh'; for p in $$list; do \
+	@list='$(TESTS1) $(TESTS2)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
 	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
 	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
 	done
-	make newtests
-	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
 
 unixtest:
 	@echo
-	@echo ---- Running test: UNIX subset ----
+	@echo ---- Running bash tests: UNIX subset ----
 	@echo
 	mkdir -p tmp
 	@rm -rf tmp/test-failed
-	@list='$(TESTS1) version-test.sh'; for p in $$list; do \
+	@list='$(TESTS1)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
 	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
 	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
 	done
-	make newtests
-	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; exit 255; fi
 
 newtests:
 	( cd ../tests ; python3 runner.py --verbose )
+
 
 testv:
 	@for t in /video ; do \

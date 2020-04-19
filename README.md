@@ -589,7 +589,7 @@ The Exiv2 command-line and the sample applications call the following at the out
 
 ### 2.16 Cross Platform Build and Test on Linux for MinGW
 
-You can cross compile Exiv2 on Linux to build for MinGW.  We have used the following method on **Fedora** and believe this is also possible on Ubuntu and other distros.  Detailed instructions are provided here for **Fedora**.
+You can cross compile Exiv2 on Linux for MinGW.  We have used the following method on **Fedora** and believe this is also possible on Ubuntu and other distros.  Detailed instructions are provided here for **Fedora**.
 
 ### Cross Build and Test On Fedora
 
@@ -736,7 +736,25 @@ For new bug reports and feature requests, please open an issue in Github.
 
 ## 4 Running the test suite
 
-The test suite is a mix of bash and python scripts.  The python scripts are new to v0.27 and the bash scripts are being replaced as time permits.
+There are different kinds of tests:
+
+| Description        | Language | Location | Command<br>_(in build or test directory)_ | CMake Option to Build |
+|:--                 |:--        |:--      |:--                                        |:--   |
+| Run all tests      |           |                      | $ make tests     | |
+| Bash scripts       | bash   | \<exiv2dir\>/test    | $ make test      | -DEXIV2\_BUILD\_SAMPLES=On |
+| Python scripts     | python | \<exiv2dir\>/tests   | $ make newtests  | -DEXIV2\_BUILD\_SAMPLES=On |
+| Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS_=On | 
+| Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
+
+Environment Variables used by test suite
+
+| Variable        | Default | Platforms | Purpose |
+|:--                 |:--        |:--     |:-- |
+| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Locatation of built binary object (exiv2.exe) |
+| EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>Msys<br>MinGW | Extension used by executable binaries |
+| EXIV2_EXT          | _**not set**_  | Linux<br>macOS<br>Unix|  |
+| EXIV2_ECHO          | _**not set**_ | All Platforms | For debugging Bash scripts |
+| VALGRIND            | _**not set**_ | All Platforms | For debugging Bash scripts |
 
 <div id="4-1">
 
@@ -753,15 +771,21 @@ $ make tests
 Summary report
 ```
 
-You can run individual tests in the test directory using the environment variable EXIV2\_BINDIR to specify the location of the build artifacts.  For Cygwin and MinGW/msys builds, also set EXIV2_EXT=.exe
+You can run individual tests in the `test` directory using the environment variable EXIV2\_BINDIR to specify the location of the build artifacts.  For Windows builds (msvc, Cygwin, Msys, MinGW), set EXIV2_EXT=.exe
 
 ```bash
-rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/build $ cd ../test
-rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
+$ cd <exiv2dir>/build
+$ cd ../test
+$ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
 ICC jpg md5 webp md5 png md5 jpg md5
 all testcases passed.
 
-rmills@rmillsmbp-w7 ~/gnu/github/exiv2/exiv2/test $ env EXIV2_BINDIR=${PWD}/../build/bin make newtests
+$ env EXIV2_BINDIR=${PWD}/../build/bin make newtests
+... lots of output ...
+test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
+----------------------------------------------------------------------
+Ran 176 tests in 9.526s
+OK (skipped=6)
 ```
 
 [TOC](#TOC)
@@ -779,9 +803,13 @@ $ export EXIV2_EXT=.exe
 $ export EXIV2_BINDIR=${PWD}/../build/bin
 ```
 
-**Caution: ** _The python3 interpreter must be for DOS and called python3.exe.  I copied `c:\Python37\python.exe c:\Python37\python3.exe`__
+**Caution:** _The python3 interpreter must be for DOS and called python3.exe.  I copied the python.exe program:_
 
-Once you have modified the PATH and and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
+```
+..> copy c:\Python37\python.exe c:\Python37\python3.exe
+```
+
+Once you have modified the PATH and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
 
 ```bash
 $ cd <exiv2dir>/test
@@ -795,16 +823,7 @@ $ ./icc-test.sh
 
 ### 4.3 Unit tests
 
-The code for the unit tests is in `<exiv2dir>/unitTests`
-
-To build the unit tests, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.
-
-To execute the unit tests:
-
-```bash
-$ cd <exiv2dir>/build
-$ bin/unit_tests
-```
+The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.  
 
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
@@ -1054,4 +1073,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-16
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-18

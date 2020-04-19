@@ -10,8 +10,8 @@ runTest()
     	cd $here/tmp
     	if [ ! -z $EXIV2_ECHO ]; then
 			echoTest $VALGRIND $bin$prog "$@"
-	fi
-	$VALGRIND $bin$prog$exe "$@"
+		fi
+		$VALGRIND $bin$prog$exe "$@"
     )
 }
 
