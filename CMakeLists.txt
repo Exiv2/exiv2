@@ -80,21 +80,49 @@ add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
+    add_custom_target(unit_test
+        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make unit_test
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+    )
 endif()
 
 # Run a reduced test suite on UNIX #902
-set (TEST test)
+set (TEST alltest)
 if ( CMAKE_HOST_SOLARIS OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
    set (TEST unixtest)
 endif()
+add_custom_target(version_test
+	COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" ./version_test.sh
+	WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+)
 
 if( EXIV2_BUILD_SAMPLES )
     ##
     # tests
-    add_custom_target(tests
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
-    )
+    if( EXIV2_BUILD_UNIT_TESTS )
+		add_custom_target(tests
+			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make unit_test
+			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
+		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make newtests
+		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make version_test
+			WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+		)
+    else()
+		add_custom_target(tests
+			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
+		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make newtests
+		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make version_test
+			WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+		)
+    endif()
+	add_custom_target(newtests
+		COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make newtests
+		WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+	)
+	add_custom_target(test
+		COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
+		WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+	)
     add_subdirectory( samples )
     get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
     add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
