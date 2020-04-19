@@ -138,7 +138,7 @@ version_test \
 unit_test    \
 bash_tests   \
 tests:
-	@./$@.sh
+	-@./$@.sh
 
 alltest:
 	@echo
@@ -169,7 +169,7 @@ unixtest:
 	done
 
 new_tests:
-	( cd ../tests ; python3 runner.py --verbose )
+	-( cd ../tests ; python3 runner.py --verbose )
 
 
 testv:
