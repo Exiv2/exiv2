@@ -7,9 +7,10 @@ runTest()
     local prog=$1
     shift
     (
-    	cd $here/tmp
+	    mkdir -p $here/tmp
+    	cd       $here/tmp
     	if [ ! -z $EXIV2_ECHO ]; then
-			echoTest $VALGRIND $bin$prog "$@"
+			echoTest $VALGRIND $bin$prog$exe "$@"
 		fi
 		$VALGRIND $bin$prog$exe "$@"
     )
