@@ -4,7 +4,7 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2.exe                                 exiv2 and sample applications
-bin/msys-exiv2-@VM@.dll                         exiv2 dll
+bin/msys-exiv2-@VN@.dll                         exiv2 dll
 lib/libexiv2.dll.a & libexiv2-xmp.a           link libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
