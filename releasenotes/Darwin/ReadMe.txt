@@ -4,7 +4,7 @@ Structure of the bundle
 -----------------------
 
 bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.0.27.2.dylib & libexiv2-xmp.a    libraries
+lib/libexiv2.@VM@.@VN@.@VD@.dylib & libexiv2-xmp.a    libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
@@ -15,7 +15,7 @@ logs                                          build/test log
 
 ReadMe.txt                                    This file
 exiv2.png                                     Exiv2 Logo
-license.txt                                   GPLv2.0 Software License
+COPYING                                       GPLv2.0 Software License
 README.md                                     Developer Manual
 README-CONAN.md                               Developer Manual Appendix
 README-SAMPLES.md                             Developer Sample Code Manual

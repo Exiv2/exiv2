@@ -105,7 +105,6 @@ set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
-install(DIRECTORY "${PROJECT_SOURCE_DIR}/contrib/"              DESTINATION "contrib")
 
 # Copy top level documents (eg README.md)
 # https://stackoverflow.com/questions/21541707/cpack-embed-text-files
@@ -113,7 +112,7 @@ set( DOCS
      README.md
      README-CONAN.md
      README-SAMPLES.md
-     license.txt
+     COPYING
      exiv2.png
 )
 foreach(doc ${DOCS})
@@ -126,6 +125,13 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/build/logs/build.txt)
 endif()
 
 # Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKDIR}/ReadMe.txt)
+set(VM PROJECT_VERSION_MAJOR)        # Version Major 0
+set(VN PROJECT_VERSION_MINOR)        # Version Minor 27
+set(VD PROJECT_VERSION_PATCH)        # Version Dot    3
+set (VR ".${PROJECT_VERSION_TWEAK}") # Version RC    .1
+if ( (PROJECT_VERSION_TWEAK STREQUAL "0") OR (PROJECT_VERSION_TWEAK STREQUAL "")  )
+    set(VR "")
+endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt ReadMe.txt       @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      releasenotes.txt @ONLY)
 install       (FILES  ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt ${CMAKE_CURRENT_BINARY_DIR}/releasenotes.txt DESTINATION .)

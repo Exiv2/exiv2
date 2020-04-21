@@ -4,7 +4,7 @@ Structure of the bundle:
 ------------------------
 
 bin/exiv2.exe                                 exiv2 and sample applications
-bin/cygexiv2-27.dll                           DLL
+bin/cygexiv2-@VM@.dll                           DLL
 lib/libexiv2.dll.a & libexiv2-xmp.a           link libraries
 lib/cmake/exiv2                               CMake support/consume files
 lib/pkgconfig/exiv2.pc                        pkg-config file
@@ -15,7 +15,7 @@ logs                                          build/test log
 
 ReadMe.txt                                    This file
 exiv2.png                                     Exiv2 Logo
-license.txt                                   GPLv2.0 Software License
+COPYING                                       GPLv2.0 Software License
 README.md                                     Developer Manual
 README-CONAN.md                               Developer Manual Appendix
 README-SAMPLES.md                             Developer Sample Code Manual
