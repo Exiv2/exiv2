@@ -86,7 +86,7 @@ TESTS1 = addmoddel.sh         \
 # the following tests are broken on UNIX
 # You can manually run all the tests: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin make test`
 # You can manually run a single test: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin ./iotest.sh`
-# Or: make iotest 
+# Or: make iotest
 TESTS2 = exifdata-test.sh     \
          exiv2-test.sh        \
          imagetest.sh         \
@@ -95,7 +95,7 @@ TESTS2 = exifdata-test.sh     \
          preview-test.sh      \
          tiff-test.sh         \
          write-test.sh        \
-         xmpparser-test.sh 
+         xmpparser-test.sh
 
 # video tests
 TESTV  = video-test.sh
@@ -135,10 +135,23 @@ xmpparser-test:
 	./$@.sh
 
 version_test \
-unit_test    \
-bash_tests   \
-tests:
+unit_test    :
 	-@./$@.sh
+
+bash_tests:
+	-if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
+	    -@./$@.sh ; \
+	else \
+	    make alltest ; \
+	fi
+
+tests:
+	-if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
+	    -@./$@.sh ; \
+	else \
+	    make unit_test ; make alltest ; make python_tests ; make version_test ; \
+	fi
+
 
 alltest:
 	@echo

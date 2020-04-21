@@ -55,7 +55,7 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 | License (GPLv2)             | [COPYING](COPYING) |
 | CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
 
-The file ReadMe.txt in a Build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
+The file ReadMe.txt in a build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
 
 [TOC](#TOC)
 <div id="2">
@@ -601,7 +601,7 @@ $ sudo dnf install mingw64-gcc-c++ mingw64-filesystem mingw64-expat mingw64-zlib
 
 ####2 Install Dependancies
 
-You will need to install x86_64 libraries to support the options you wish to use.  By default, you will need libz and expat.  Your `dnf` command above has installed them for you.  If you wish to use features such as `webready` you should install openssl and libcurl as follows:  
+You will need to install x86_64 libraries to support the options you wish to use.  By default, you will need libz and expat.  Your `dnf` command above has installed them for you.  If you wish to use features such as `webready` you should install openssl and libcurl as follows:
 
 ```bash
 [rmills@rmillsmm-fedora 0.27-maintenance]$ sudo yum install libcurl.x86_64 openssl.x86_64
@@ -621,7 +621,7 @@ $ git clone://github.com/exiv2/exiv2 --branch 0.27-maintenance exiv2
 $ cd exiv2
 $ mkdir build_mingw_fedora
 $ mingw64-cmake ..
-$ make 
+$ make
 ```
 
 Note, you may wish to choose to build with optional features and/or build static libraries.  To do this, request appropriately on the mingw64-cmake command:
@@ -743,8 +743,10 @@ There are different kinds of tests:
 | Run all tests      |           |                      | $ make tests     | |
 | Bash scripts       | bash   | \<exiv2dir\>/test    | $ make bash_tests   | -DEXIV2\_BUILD\_SAMPLES=On |
 | Python scripts     | python | \<exiv2dir\>/tests   | $ make python_tests  | -DEXIV2\_BUILD\_SAMPLES=On |
-| Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS=On | 
+| Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
 | Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
+
+**Caution Visual Studio Users using cmd.exe**<br>_You may use `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`._  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)
 
 Environment Variables used by test suite
 
@@ -793,6 +795,10 @@ OK (skipped=6)
 
 ### 4.2 Running tests on Visual Studio builds
 
+To run the bash scripts you will need to install MinGW/msys2 which provides you with the bash interpreter.  You can run the test suite from bash, or from cmd.exe.
+
+##### Running tests from MinGW/msys2 bash
+
 Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path called `python3.exe`  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
 
 ```bash
@@ -806,7 +812,7 @@ $ export EXIV2_BINDIR=${PWD}/../build/bin
 **Caution:** _The python3 interpreter must be for DOS and called python3.exe.  I copied the python.exe program:_
 
 ```
-..> copy c:\Python37\python.exe c:\Python37\python3.exe
+..>copy c:\Python37\python.exe c:\Python37\python3.exe
 ```
 
 Once you have modified the PATH and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
@@ -817,13 +823,82 @@ $ make tests
 $ make python_tests
 $ ./icc-test.sh
 ```
+##### Running tests suite from cmd.exe
+
+You can build with Visual Studio using Conan.  The is described in detail in [README-CONAN.md](README-CONAN.md)
+
+As a summary, the procedure is:
+
+```
+c:\...\exiv2> mkdir build
+c:\...\exiv2\build>conan install .. --build missing --profile msvc2019Release
+c:\...\exiv2\build>cmake .. -DEXIV2_BUILD_UNIT_TESTS=On -G "Visual Studio 16 2019"
+c:\...\exiv2\build>cmake --build . --config release
+... lots of output from compiler and linker ...
+c:\...\exiv2\build>
+```
+
+**Caution:** _You will need a DOS python3 interpreter which must be called python3.exe.  I copied the python.exe program:_
+
+```
+c:\...\exiv2\build>copy c:\Python37\python.exe c:\Python37\python3.exe
+```
+
+You must set the environment strings EXIV2\_BINDIR, EXIV2\_EXT and modify PATH.  You will need a DOS Python3 interpreter on your path, and you'll need the bash interpreter.  By careful to ensure the DOS python3.exe is found before the MingW/msys2 python3.
+
+```
+c:\...\exiv2\build> set EXIV2_BINDIR=%CD%
+c:\...\exiv2\build> set EXIV2_EXT=.exe
+c:\...\exiv2\build\bin> set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
+```
+Move to the test directory and use make (which is in c:\msys64\usr\bin) to drive the test procedures.  You cannot run the tests in the build directory because there is no Makefile in the build directory.
+
+```
+c:\...\exiv2\build>cd ..\test
+c:\...\exiv2\test>make bash_tests
+...
+c:\...\exiv2\test>make python_tests   # or unit_test or version_test
+...
+c:\...\exiv2\test>make tests          # run all the tests
+...
+```
+
+I use the following batch file _cmd64.bat_ to set up a special path for cmd.exe.  This ensures that I can jump instantly to the test directory with all the correct tools (DOS python, DOS cmake, msys/bash etc) on the PATH.
+
+```
+@echo off
+setlocal
+set "P="
+set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
+set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
+set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
+set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
+set "P=%P%c:\Windows\System32;"              # windows
+set "P=%P%%USERPROFILE%\com;"                # my home-made magic
+echo %P%
+set "PATH=%P%"
+set "EXIV2_EXT=.exe"
+set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
+color 0d
+cmd /S /K cd "%EXIV2_BINDIR%\..\.."
+color
+endlocal
+```
+
+When you have the PATH constructed is this way, you can use the cmake command to run tests directly from the build directory as follows:
+
+```
+c:\...\exiv2\test>cd ..\build
+c:\...\exiv2\build>cmake --build . --config Release --target tests
+```
+
 
 [TOC](#TOC)
 <div id="4-3">
 
 ### 4.3 Unit tests
 
-The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.  
+The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.
 
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
@@ -891,7 +966,7 @@ set "HOME=c:\msys64\home\%USERNAME%"
 if NOT EXIST %HOME% mkdir %HOME%
 cd  %HOME%
 c:\msys64\usr\bin\bash.exe -norc
-
+endlocal
 ```
 
 #### Install MinGW Dependencies
@@ -955,6 +1030,7 @@ set "HOME=c:\cygwin64\home\rmills"
 cd  %HOME%
 set "PS1=\! CYGWIN64:\u@\h:\w \$ "
 bash.exe -norc
+endlocal
 ```
 
 [TOC](#TOC)
@@ -970,14 +1046,34 @@ As well as Microsoft Visual Studio, you will need to install CMake, Python3, and
 2) Binary installers for Python3 are available from [python.org](https://python.org)<br/>
 3) Conan can be installed using python/pip.  Details in [README-CONAN.md](README-CONAN.md)
 
-I use the following batch file to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
+I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  As well as providing a "stripped down path", it also ensures the DOS python3 and DOS bash are on the path.
 
 ```bat
 @echo off
 setlocal
-set "PATH=C:\Python37\;C:\Python37\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
-cmd /S /K cd %HOMEDRIVE%%HOMEPATH%
+set "P="
+set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
+set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
+set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
+set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
+set "P=%P%c:\Windows\System32;"              # windows
+set "P=%P%%USERPROFILE%\com;"                # my home-made magic
+echo %P%
+set "PATH=%P%"
+set "EXIV2_EXT=.exe"
+set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
+color 0d
+cmd /S /K cd "%EXIV2_BINDIR%\..\.."
+color
+endlocal
 ```
+
+**Caution:** _The python3 interpreter must be for DOS and called python3.exe.  I copied the python.exe program:_
+
+```
+..>copy c:\Python37\python.exe c:\Python37\python3.exe
+```
+
 
 [TOC](#TOC)
 <div id="5-6">
@@ -989,8 +1085,6 @@ Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are startin
 We do not have CI support for these platforms on GitHub.  However, I regularly build and test them on my MacMini Buildserver.  The device is private and not on the internet.
 
 I have provided notes here based on my experience with these platforms.   Feedback is welcome.  I am willing to support Exiv2 on other commercial Unix distributions such as AIX, HP-UX and OSF/1 if you provide with an ssh account for your platform.  I will require super-user privileges to install software.
-
-**Caution:** _There are issues with the bash test suite on UNIX as the utility `diff` has different command syntax.  While most of the test suite operates successfully, several tests require more investigation.  I am confident that this issues are in the test suite and not in exiv2.__
 
 For all platforms you will need the following components to build:
 
@@ -1020,7 +1114,7 @@ I entered links into the file system
 # ln -s /usr/pkg/bin/bash /bin/bash`
 ```
 
-It's important to ensure that `LD_LIBRARY_PATH` includes `/usr/local/lib` and `/usr/pkg/lib`. 
+It's important to ensure that `LD_LIBRARY_PATH` includes `/usr/local/lib` and `/usr/pkg/lib`.
 
 It's important to ensure that `PATH` includes `/usr/local/bin`, `/usr/pkg/bin` and `/usr/pkg/sbin`.
 
@@ -1044,16 +1138,16 @@ Password:
 Updating FreeBSD repository catalogue...
 pkg: repository meta /var/db/pkg/FreeBSD.meta has wrong version 2
 pkg: Repository FreeBSD load error: meta cannot be loaded No error: 0
-Fetching meta.txz: 100%    916 B   0.9kB/s    00:01    
+Fetching meta.txz: 100%    916 B   0.9kB/s    00:01
 pkg: repository meta /var/db/pkg/FreeBSD.meta has wrong version 2
 repository FreeBSD has no meta file, using default settings
-Fetching packagesite.txz: 100%    6 MiB 340.2kB/s    00:19    
+Fetching packagesite.txz: 100%    6 MiB 340.2kB/s    00:19
 pkg: repository meta /var/db/pkg/FreeBSD.meta has wrong version 2
 pkg: Repository FreeBSD load error: meta cannot be loaded No error: 0
 Unable to open created repository FreeBSD
 Unable to update repository FreeBSD
 Error updating repositories!
-635 rmills@rmillsmm-freebsd:~/gnu/github/exiv2/0.27-maintenance/build $ 
+635 rmills@rmillsmm-freebsd:~/gnu/github/exiv2/0.27-maintenance/build $
 ```
 
 #### Solaris
@@ -1073,4 +1167,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-19
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-21
