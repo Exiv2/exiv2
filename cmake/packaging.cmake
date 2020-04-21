@@ -125,10 +125,10 @@ if(EXISTS ${PROJECT_SOURCE_DIR}/build/logs/build.txt)
 endif()
 
 # Copy releasenotes.txt and appropriate ReadMe.txt (eg releasenotes/${PACKDIR}/ReadMe.txt)
-set(VM PROJECT_VERSION_MAJOR)        # Version Major 0
-set(VN PROJECT_VERSION_MINOR)        # Version Minor 27
-set(VD PROJECT_VERSION_PATCH)        # Version Dot    3
-set (VR ".${PROJECT_VERSION_TWEAK}") # Version RC    .1
+set(VM   ${PROJECT_VERSION_MAJOR})           # Version Major  0
+set(VN   ${PROJECT_VERSION_MINOR})           # Version Minor 27
+set(VD   ${PROJECT_VERSION_PATCH})           # Version Dot    3
+set(VR  .${PROJECT_VERSION_TWEAK})           # Version RC    .1
 if ( (PROJECT_VERSION_TWEAK STREQUAL "0") OR (PROJECT_VERSION_TWEAK STREQUAL "")  )
     set(VR "")
 endif()
