@@ -167,13 +167,26 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 <name id="2-2"></a>
 ### 2.2) Visual Studio Notes
 
-I use the following batch file to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
+I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
 
 ```bat
 @echo off
 setlocal
-set "PATH=C:\Python37\;C:\Python37\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
-cmd /S /K cd %HOMEDRIVE%%HOMEPATH%
+set "P="
+set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
+set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
+set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
+set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
+set "P=%P%c:\Windows\System32;"              # windows
+set "P=%P%%USERPROFILE%\com;"                # my home-made magic
+echo %P%
+set "PATH=%P%"
+set "EXIV2_EXT=.exe"
+set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
+color 0d
+cmd /S /K cd "%EXIV2_BINDIR%\..\.."
+color
+endlocal
 ```
 
 
@@ -226,7 +239,7 @@ In the step-by-step guide, the command `$ cmake ..` uses
 the default CMake generator.  Always use the generator for your version of Visual Studio.  For example:
 
 ```bat
-c:\..\build> conan install .. --build missing --profile msvc2017Release64
+c:\..\build> conan install .. --build missing --profile msvc2019Release
 c:\..\build> cmake         .. -G "Visual Studio 16 2019"
 c:\..\build> cmake --build .  --config Release
 ```
@@ -566,7 +579,7 @@ $ cmake --build . --config Release
 <name id="5">
 ## 5 Webready Support
 
-Exiv2 can perform I/O using internet protocols such as https, https, ftp and ssh.
+Exiv2 can perform I/O using internet protocols such as http, https and ftp.
 
 The feature is disabled by default.  You will need to instruct conan to build/download necessary libraries (curl, openssl and libssh) and tell CMake to link to the libraries.
 
@@ -577,4 +590,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-08
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-21
