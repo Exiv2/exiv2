@@ -1,27 +1,12 @@
 # exiv2-x86_x64
 Visual Studio project files to compile exiv2 on Windows (x86/x64/Release/Debug)
 
-# Motivation #
-I use Visual Studio on Windows for my personal product development. I
-needed to use exiv2 for a project to sync my photographs in
-[Picasa](https://picasa.google.com/)[^1] to
-[Piwigo](https://github.com/Piwigo/). I use Piwigo, running on my own
-server, because I do not want to share my family photographs in
-platforms like facebook, google photos, instagram, whatsapp etc. For
-the same privacy concerns, this piwigo gallery on my server is not
-public and is accessed through credentials shared only with family.
-
 ## Background ##
-I started this project quite a while ago (mid-2016). I got it to a
-working state by the end of 2019, mostly because it has been hard to
-find solid time to devote to this. Needless to say, there was nothing
-that did exactly what I wanted and few other projects that did some of
-what I needed. I borrowed liberally to cobble up this solution.
-
-One of the main building blocks was exiv2. When I started this
-project, support for building on Windows using Visual Studio was quite
-good and in particular, [Robin Mills](https://github.com/clanmills),
-the then maintainer, was excellent in helping resolve questions.
+One of the main building blocks for a personal product that I was
+developing was exiv2. When I started this project, support for
+building on Windows using Visual Studio was quite good and in
+particular, [Robin Mills](https://github.com/clanmills), the then
+maintainer, was excellent in helping resolve questions.
 
 However, as time progressed, the maintainers changed and their primary
 focus turned to Linux and Windows compilation was an afterthought
@@ -44,10 +29,6 @@ possibilities and instead, claims that my way is the highway, the
 utility of the product is diminished. This project is to help people
 who would like to build exiv2 using Visual Studio on Windows, to do
 so.
-
-**Note** As the code in the master exiv2 repository changes, these
-project files may not work out of the box. However, with small
-changes, they could be made to work with the latest.
 
 ## Building Philosophy ##
 Unlike the linux-style philosophy of installing everything in and then,
@@ -82,12 +63,149 @@ expat-static project is added as a reference to the exiv2
 project. This make Visual Studio generate the correct dependency
 heirarchy and compile correctly.
 
+# Folder Structure #
+
+Because these are project files that are pre-generated, they expect
+exiv2 and its dependencies to be placed in a certain hierarchy.
+
+Each of the dependencies will have to be placed at the same level as
+the exiv2 source tree.
+
+For e.g.
+
+C:\Sources\exiv2
+C:\Sources\zlib
+C:\Sources\openssl
+C:\Sources\libssh2
+
+and so on. The requirement that it be at the same level as the exiv2
+source tree is only mandated in a relative sense. That is, you could
+have your exiv2 sources in C:\Sources or E:\Projects or
+C:\Users\Sridhar\Documents\VS\exiv2. There are problems with spaces in
+directory names, because there are some commands executed through
+utilities like perl which may not handle them well. Please don't use
+spaces.
+
+## VS solution/projects for dependencies ##
+
+Just like the solution/project file to compile exiv2 in VS (the one
+that you are reading about now), most dependencies also have similar
+VS solution/project files, because their VS-build infrastructure is
+deficient. Specific instructions on fetching these project files
+separately and copying them to the source tree is given below for each
+dependency. I fetch these *-x86_x64 repositories into a separate
+folder from these other source folders. For e.g., I keep these in
+E:\Projects\github. Whereas the sources are in E:\Projects.
+
+Theoretically, just fetching these dependency sources, placing them in
+the correct folder hierarchies, fetching their associated VS project
+files and placing them in the source tree in specific folders
+(detailed below) should be enough to compile exiv2 directly. exiv2
+links against static libraries of these dependencies. However, these
+dependencies are full-fledged distributions that contain, apart from
+those libraries that exiv2 needs, other executables and tests. These
+can be compiled, optionally, if one needs to test the integrity of
+those projects.
+
+## Dependency Order ##
+
+Some of these dependencies depend on other dependencies. Thus, it is
+best if they are executed in the order shown below.
+
+# Dependencies #
+  * [Strawberry Perl, used v5.30.1.1 x64](strawberryperl.com)
+  * [NASM, used 2.14.02 x64](https://www.nasm.us/)
+  * [Visual Studio, used Community 2019 edition](https://visualstudio.microsoft.com/)
+  * [zlib, tested w/ v1.2.11](https://github.com/madler/zlib.git)
+    * Optionally, switch the git tree to the 1.2.11 branch.
+    * Use my [zlib-x86_x64](https://github.com/sridharb1/zlib-x86_x64)
+      to compile on Windows using Visual Studio
+    * Copy the contents of this folder into the contrib folder
+      of the zlib repository. Thus, the contrib/vc14 folder of
+      zlib-x86_x64 should overwrite the same in zlib.
+    * Optionally, use zlibvc.sln to compile.
+  * [libexpat, tested w/ v2.2.9](https://github.com/libexpat/libexpat)
+    * Optionally, switch the git tree to the R_2_2_9 branch.
+    * Use my
+      [libexpat-x86_x64](https://github.com/sridharb1/libexpat-x86_x64)
+      to compile on Windows using Visual Studio 
+    * Copy the build folder of libexpat-x86_x64 into the libexpat
+      source tree.
+    * Optionally, use expat.sln to compile.
+  * [OpenSSL, tested w/ v1.1.1g-DEV](https://github.com/openssl/openssl)
+    * Optionally, switch the git tree to the OpenSSL_1_1_1-stable branch.
+    * Use my
+      [openssl-x86_x64](https://github.com/sridharb1/openssl-x86_x64)
+      to compile on Windows using Visual Studio
+    * Copy the build folder of openssl-x86_x64 into the openssl tree.
+    * Optionally, use openssl1_1.sln to compile.
+  * [libssh, tested w/ v0.9.3](https://git.libssh.org/projects/libssh.git/)
+    * Optionally, switch the git tree to the stable-0.9 branch.
+    * Use my
+      [libssh-x86_x64](https://github.com/sridharb1/libssh-x86_x64.git)
+      to compile on Windows using Visual Studio
+    * Copy the build folder of libssh-x86_x64 into the libssh source tree.
+    * Optionally, use libssh.sln to compile.
+  * [libssh2, tested w/ v1.9.0](https://github.com/libssh2/libssh2.git)
+    * Optionally, switch the git tree to the libssh2-1.9.0 branch.
+    * Use my
+      [libssh2-x86_x64](https://github.com/sridharb1/libssh2-x86_x64.git)
+      to compile on Windows using Visual Studio
+    * Copy the build folder of libssh2-x86_x64 into the libssh2 source tree.
+    * Optionally, use libssh2.sln to compile.
+  * [brotli, tested w/ v1.0.7+](https://github.com/google/brotli)
+    * Use my
+      [brotli-x86_x64](https://github.com/sridharb1/brotli-x86_x64.git)
+      to compile on Windows using Visual Studio
+    * Copy the build_folder folder of brotli-x86_x64 into the brotli source tree.
+    * Optionally, use brotli.sln to compile.
+  * [curl, tested w/ v7.69.1](https://github.com/curl/curl.git)
+    * Optionally, switch the git tree to the 7_69_1 branch.
+    * Use my
+      [curl-x86_x64](https://github.com/sridharb1/curl-x86_x64.git)
+      to compile on Windows using Visual Studio
+    * Copy the contents of this folder into the **projects/Windows/VC15**
+      folder of the curl source tree. *Note: instructions different
+      from other projects*
+    * Optionally, use curl_all.sln to compile.
+  * [googletest, tested w/ v1.10.x](https://github.com/google/googletest.git)[^8]
+    * Optionally, switch the git tree to the v1.10.x branch.
+    * Use my
+      [googletest-x86_x64](https://github.com/sridharb1/googletest-x86_x64.git)
+      to compile on Windows using Visual Studio
+    * Copy the build folder of googletest-x86_x64 into the googletest source tree.
+    * Optionally, use googletest-distribution.sln to compile.
+  * [libintl (aka gettext), tested with v0.20.1](https://git.savannah.gnu.org/git/gettext.git)
+    * When you clone gettext, you might also clone a submodule called
+      gnulib. This is not necessary. You can turn off the recursive
+      flag while cloning.
+    * Optionally, switch the git tree to the 0.20.1 branch.
+    * Use my
+      [gettext-x86_x64](https://github.com/sridharb1/gettext-x86_x64)
+      to compile on Windows using Visual Studio
+    * Copy the build folder into the root folder of gettext source tree.
+    * Optionally, use gettext.sln to compile.
+  * [libiconv, tested w/ v1.16](https://github.com/sridharb1/libiconv-x86_x64)
+    * This dependency is a little different from the others in the
+      sense that in the others, you fetch the source and the VS
+      project files separately. In this case, this repository provides
+      both the source and the VS project files.
+    * Optionally, use libiconv.sln to compile.
+
 # Sources #
   * [Exiv2, tested w/ v0.27.2](https://github.com/Exiv2/exiv2)
   * In v0.27.3, my solution/project files can be found in contrib/vs2019/solution
-  * For other versions, use my [exiv2-x86_x64](https://github.com/sridharb1/exiv2-x86_x64) to compile on Windows
-  * Place the contents of exiv2-x86_x64 in a folder called contrib/vs2019/solution in the exiv2 repository and build using the provided solution. Please note that the dependencies listed below are needed.
-  * `exiv2 -vV`
+  * For other versions, use my
+    [exiv2-x86_x64](https://github.com/sridharb1/exiv2-x86_x64) to
+    compile on Windows 
+  * It may, in particular, not work for the HEAD or 0.28+ branches as
+    there have been incompatible changes made, that have not been
+    incorporated in these project files.
+  * Place the contents of exiv2-x86_x64 in a folder called
+    contrib/vs2019/solution in the exiv2 repository and build using
+    the provided solution. Please note that the dependencies listed
+    above are needed. 
+  * `exiv2 -vV` (output of generated exiv2.exe on my machine for reference)
 
   ``` shell
   exiv2 0.27.2
@@ -250,44 +368,3 @@ heirarchy and compile correctly.
   xmlns=xmpTPg:http://ns.adobe.com/xap/1.0/t/pg/
   xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
   ```
-
-# Dependencies #
-  * [zlib, tested w/ v1.2.11](https://github.com/madler/zlib.git)[^12]
-  * [Strawberry Perl, used v5.30.1.1 x64](strawberryperl.com)[^2]
-  * [NASM, used 2.14.02 x64](https://www.nasm.us/)[^3]
-  * [libexpat, tested w/ v2.2.9](https://github.com/libexpat/libexpat)[^4]
-  * [OpenSSL, tested w/ v1.1.1g-DEV](https://github.com/openssl/openssl)[^5]
-  * [libssh, tested w/ v0.9.3](https://git.libssh.org/projects/libssh.git/)[^10]
-  * [libssh2, tested w/ v1.9.0](https://github.com/libssh2/libssh2.git)[^6]
-  * [brotli, tested w/ v1.0.7+](https://github.com/google/brotli)[^11]
-  * [curl, tested w/ v7.69.1](https://github.com/curl/curl.git)[^7]
-  * [googletest, tested w/ v1.10.x](https://github.com/google/googletest.git)[^8]
-  * [libintl (aka gettext), tested with v0.20.1](https://git.savannah.gnu.org/git/gettext.git)[^9]
-  * [libiconv, tested w/ v1.16](https://github.com/sridharb1/libiconv-x86_x64)
-  * [Visual Studio, used Community 2019 edition](https://visualstudio.microsoft.com/)
-
-[^1]: It has since been killed by google. (You can find the last released version here: [Picasa 3.9.141, build 259](https://1drv.ms/u/s!AuE8ZYzPkfMfiEzdlKtVVjN-MReT))
-
-[^2]: I installed the binary distribution. perl is only used by the
-openssl makefile to generate the initial configuration. Even this is
-not necessary if the configuration that I chose applies to you.
-
-[^3]: Binary distribution. See [^2].
-
-[^4]: Use my [libexpat-x86_x64](https://github.com/sridharb1/libexpat-x86_x64) to compile on Windows using Visual Studio
-
-[^5]: Use my [openssl-x86_x64](https://github.com/sridharb1/openssl-x86_x64) to compile on Windows using Visual Studio
-
-[^6]: Use my [libssh2-x86_x64](https://github.com/sridharb1/libssh2-x86_x64.git) to compile on Windows using Visual Studio
-
-[^7]: Use my [curl-x86_x64](https://github.com/sridharb1/curl-x86_x64.git) to compile on Windows using Visual Studio
-
-[^8]: Use my [googletest-x86_x64](https://github.com/sridharb1/googletest-x86_x64.git) to compile on Windows using Visual Studio
-
-[^9]: Use my [gettext-x86_x64](https://github.com/sridharb1/gettext-x86_x64) to compile on Windows using Visual Studio
-
-[^10]: Use my [libssh-x86_x64](https://github.com/sridharb1/libssh-x86_x64.git) to compile on Windows using Visual Studio
-
-[^11]: Use my [brotli-x86_x64](https://github.com/sridharb1/brotli-x86_x64)to compile on Windows using Visual Studio
-
-[^12]: Use my [zlib-x86_x64](https://github.com/sridharb1/zlib-x86_x64)to compile on Windows using Visual Studio
