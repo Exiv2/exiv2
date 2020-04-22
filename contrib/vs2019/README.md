@@ -73,10 +73,10 @@ the exiv2 source tree.
 
 For e.g.
 
-C:\Sources\exiv2
-C:\Sources\zlib
-C:\Sources\openssl
-C:\Sources\libssh2
+    C:\Sources\exiv2
+    C:\Sources\zlib
+    C:\Sources\openssl
+    C:\Sources\libssh2
 
 and so on. The requirement that it be at the same level as the exiv2
 source tree is only mandated in a relative sense. That is, you could
@@ -115,7 +115,7 @@ best if they are executed in the order shown below.
 # Dependencies #
   * [Strawberry Perl, used v5.30.1.1 x64](strawberryperl.com)
   * [NASM, used 2.14.02 x64](https://www.nasm.us/)
-  * [Visual Studio, used Community 2019 edition](https://visualstudio.microsoft.com/)
+  * [Visual Studio, used Community 2019 edition, v16.5.4](https://visualstudio.microsoft.com/)
   * [zlib, tested w/ v1.2.11](https://github.com/madler/zlib.git)
     * Optionally, switch the git tree to the 1.2.11 branch.
     * Use my [zlib-x86_x64](https://github.com/sridharb1/zlib-x86_x64)
@@ -168,7 +168,7 @@ best if they are executed in the order shown below.
       folder of the curl source tree. *Note: instructions different
       from other projects*
     * Optionally, use curl_all.sln to compile.
-  * [googletest, tested w/ v1.10.x](https://github.com/google/googletest.git)[^8]
+  * [googletest, tested w/ v1.10.x](https://github.com/google/googletest.git)
     * Optionally, switch the git tree to the v1.10.x branch.
     * Use my
       [googletest-x86_x64](https://github.com/sridharb1/googletest-x86_x64.git)
