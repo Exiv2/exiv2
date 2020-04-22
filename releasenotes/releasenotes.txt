@@ -3,8 +3,8 @@
 Headline Features of Exiv2 v0.27.3
 ----------------------------------
 
-Thank you to Phil, Sridhar, Luis, Kevin, Andreas S and for working with me on the release.
-As always, thanks to my wife Alison and our cat Lizze for their support
+Thank you to Phil, Sridhar, Luis, Kevin, and Andreas S for working with me on the release.
+As always, thanks to my wife Alison and our cat Lizzie for their support
 
 1) Bug and security fixes
    - Security fixes
@@ -41,15 +41,15 @@ https://github.com/Exiv2/exiv2/milestone/5?closed=1
 Schedule
 --------
 
-2020-04-30 RC1
-2020-05-31 RC2
-2020-06-30 GM
+Exiv2 v0.27.3 RC1     2020-04-30
+Exiv2 v0.27.3 RC2     2020-05-31
+Exiv2 v0.27.3 RC3     2020-06-30
 
 Future Releases
 ---------------
 
-I returned from retirement to undertake the 0.27.3 project
-It's likely that I will work on 0.27.4 in 2021
+I returned from retirement to undertake the 0.27.3 project.
+It's likely that I will work on 0.27.4 in Spring 2021.
 
 Team Exiv2 are looking for contributors to work on Exiv2 v0.28
 

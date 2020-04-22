@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 3.3.2 )
 
 project(exiv2
-    VERSION 0.27.3.19
+    VERSION 0.27.3.19  #  0.27.3 = GM; 0.27.3.1 = RC1; ends in 9 "Not for release" (0.27.3.9, 0.27.3.19 etc)
     LANGUAGES CXX C
 )
 

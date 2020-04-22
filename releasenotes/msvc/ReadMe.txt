@@ -1,23 +1,24 @@
 @RV@ Visual Studio @VS@ Bundle @RC@
 
-Structure of the bundle:
-------------------------
+Document                                        Purpose
+--------                                        -------
+ReadMe.txt                                      This file
+README.md                                       Developer Manual
+README-CONAN.md                                 Developer Manual Appendix
+README-SAMPLES.md                               Developer Sample Code Manual
+releasenotes.txt                                Late breaking news
+exiv2.png                                       Exiv2 Logo
+COPYING                                         GPLv2.0 Software License
 
-bin/exiv2.exe                                 exiv2 and sample applications
-bin/exiv2.dll                                 dll
-lib/exiv2.lib & exiv2-xmp.lib                 link libraries
-lib/cmake/exiv2                               CMake support/consume files
-include/exiv2/                                include files
-samples/exifprint.cpp                         sample code
-logs                                          build/test log
-
-ReadMe.txt                                    This file
-COPYING                                       GPLv2.0 Software License
-releasenotes.txt                              Late breaking news
-README.md                                     Developer Manual
-README-CONAN.md                               Developer Manual Appendix
-README-SAMPLES.md                             Developer Sample Code Manual
-exiv2.png                                     Exiv2 Logo
+Deliverable                                     Location
+-----------                                     --------
+exiv2 and sample applications                   bin/exiv2.exe
+exiv2 dll                                       bin/exiv2.dll
+link libraries                                  lib/exiv2.lib & exiv2-xmp.lib
+CMake support/consume files                     lib/cmake/exiv2
+include files                                   include/exiv2/
+sample code                                     samples/exifprint.cpp
+build/test log                                  logs/build.txt
 
 +----------------------------------------------------------------------------+
 | Caution: Use a Windows unzip utility such as 7z or winzip                  |
@@ -52,10 +53,11 @@ See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
 More Documentation
 ------------------
 
-https://www.exiv2.org/manpage.html
+Project Website: https://exiv2.org
 
-The following documents are included in your bundle:
+$ export "MANPATH=/usr/local/share/man:$MANPATH"
+$ man exiv2
 
-README.md                                     Developer Manual
-README-CONAN.md                               Developer Manual Appendix
-README-SAMPLES.md                             Developer Sample Code Manual
+Robin Mills
+robin@clanmills.com
+Updated: 2020-04-22

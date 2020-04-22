@@ -1,25 +1,26 @@
 @RV@ macOS (Darwin) Bundle @RC@
 
-Structure of the bundle
------------------------
+Document                                        Purpose
+--------                                        -------
+ReadMe.txt                                      This file
+README.md                                       Developer Manual
+README-CONAN.md                                 Developer Manual Appendix
+README-SAMPLES.md                               Developer Sample Code Manual
+releasenotes.txt                                Late breaking news
+exiv2.png                                       Exiv2 Logo
+COPYING                                         GPLv2.0 Software License
 
-bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.@VM@.@VN@.@VD@@VR@.dylib & libexiv2-xmp.a  libraries
-lib/pkgconfig/exiv2.pc                        pkg-config file
-lib/cmake/exiv2                               CMake support/consume files
-include/exiv2/                                include files
-share/man/                                    man pages
-share/locale/                                 localisation files
-samples/exifprint.cpp                         sample code
-logs                                          build/test log
-
-ReadMe.txt                                    This file
-exiv2.png                                     Exiv2 Logo
-COPYING                                       GPLv2.0 Software License
-README.md                                     Developer Manual
-README-CONAN.md                               Developer Manual Appendix
-README-SAMPLES.md                             Developer Sample Code Manual
-releasenotes.txt                              Late breaking news
+Deliverable                                     Location
+-----------                                     --------
+exiv2 and sample applications                   bin/exiv2
+libraries                                       lib/libexiv2.@VM@.@VN@.@VD@@VR@.dylib & libexiv2-xmp.a
+pkg-config file                                 lib/pkgconfig/exiv2.pc
+CMake support/consume files                     lib/cmake/exiv2
+include files                                   include/exiv2/
+man pages                                       share/man/
+localisation files                              share/locale/
+sample code                                     samples/exifprint.cpp
+build/test log                                  logs/build.txt
 
 To run exiv2 from the bundle
 ----------------------------
@@ -58,8 +59,6 @@ Project Website: https://exiv2.org
 $ export "MANPATH=/usr/local/share/man:$MANPATH"
 $ man exiv2
 
-The following documents are included in your bundle:
-
-README.md                                     Developer Manual
-README-CONAN.md                               Developer Manual Appendix
-README-SAMPLES.md                             Developer Sample Code Manual
+Robin Mills
+robin@clanmills.com
+Updated: 2020-04-22
