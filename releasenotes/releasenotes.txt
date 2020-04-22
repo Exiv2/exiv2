@@ -2,12 +2,64 @@
 
 Headline Features of Exiv2 v0.27.3
 ----------------------------------
-To be written
 
-Changes since 0.27.2
---------------------
+Thank you to Phil, Sridhar, Luis, Kevin, Andreas S and for working with me on the release.
+As always, thanks to my wife Alison and our cat Lizze for their support
+
+1) Bug and security fixes
+   - Security fixes
+   - Improved lens recognition
+
+2) Build, test and documentation
+   - Improved documentation and man page
+   - Improved test harness and documentation
+   - Visual Studio test support
+   - Cross compiling support
+   - UNIX support (Solaris, FreeBSD and NetBSD)
+   - http test support
+
+3) Localisation
+   - Updated Catalan
+   - Updated Dutch
+
+4) Build Bundles
+   - Replace license.txt with COPYING
+   - Removed contrib/ directory
+   - share/locale has localisation files
+
+5) New Additions
+   - contrib/vs2019 Visual Studio support
+   - Defined security process
+   - Exif 2.32 support
+   - CONTRIBUTORS file
+
+Detailed Changes since 0.27.2
+-----------------------------
 
 https://github.com/Exiv2/exiv2/milestone/5?closed=1
+
+Schedule
+--------
+
+2020-04-30 RC1
+2020-05-31 RC2
+2020-06-30 GM
+
+Future Releases
+---------------
+
+I returned from retirement to undertake the 0.27.3 project
+It's likely that I will work on 0.27.4 in 2021
+
+Team Exiv2 are looking for contributors to work on Exiv2 v0.28
+
+Robin Mills
+robin@clanmills.com
+2020-04-22
+
+-------------------------
+Release Notes for v0.27.2
+-------------------------
 
 Headline Features of Exiv2 v0.27.2
 ----------------------------------

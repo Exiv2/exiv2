@@ -4,7 +4,7 @@ Structure of the bundle
 -----------------------
 
 bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.@VM@.@VN@.@VD@.dylib & libexiv2-xmp.a    libraries
+lib/libexiv2.@VM@.@VN@.@VD@@VR@.dylib & libexiv2-xmp.a  libraries
 lib/pkgconfig/exiv2.pc                        pkg-config file
 lib/cmake/exiv2                               CMake support/consume files
 include/exiv2/                                include files
@@ -52,6 +52,8 @@ See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
 
 More Documentation
 ------------------
+
+Project Website: https://exiv2.org
 
 $ export "MANPATH=/usr/local/share/man:$MANPATH"
 $ man exiv2

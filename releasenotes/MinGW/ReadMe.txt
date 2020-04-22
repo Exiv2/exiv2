@@ -59,6 +59,8 @@ See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
 More Documentation
 ------------------
 
+Project Website: https://exiv2.org
+
 $ export "MANPATH=/usr/local/share/man:$MANPATH"
 $ man exiv2
 

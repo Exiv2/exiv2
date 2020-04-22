@@ -90,8 +90,15 @@ if ( MSVC )
 endif()
 
 # Set RC = Release Candidate
-if ( PROJECT_VERSION_TWEAK STREQUAL "9" )
-    set (RC "Not for release")
+string(REGEX MATCH "9$" NOT_FOR_RELEASE ${PROJECT_VERSION_TWEAK})
+if ( NOT_FOR_RELEASE )
+    if ( PROJECT_VERSION_TWEAK STREQUAL "9" ) # 0.27.3.9 => Not for Release
+        set(RC "")
+        set (RC "Not for release")
+    else()
+        string(SUBSTRING ${PROJECT_VERSION_TWEAK} 0 1 RC) # 0.27.19 => RC1 Not for release
+        set (RC "RC${RC} Not for release")
+    endif()
 elseif ( (PROJECT_VERSION_TWEAK STREQUAL "0") OR (PROJECT_VERSION_TWEAK STREQUAL "")  )
     set(RC "GM Release")
 else()
