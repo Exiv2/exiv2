@@ -41,21 +41,25 @@ closeHttpServer() {
 }
 
 # Test http I/O
-startHttpServer
-if [ ! -z $exiv2_httpServer ]; then
-    (   cd "${testdir}" 
-        >&2 printf "*** HTTP tests begin\n"
+if [ $PLATFORM != mingw ]; then
+    startHttpServer
+    if [ ! -z $exiv2_httpServer ]; then
+        (   cd "${testdir}" 
+            >&2 printf "*** HTTP tests begin\n"
 
-        cd "$testdir"
-        test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
-        for i in $test_files; do
-            runTest exiv2 -pa -g City -g DateTime $url/data/$i
-        done
-        >&2 printf "*** HTTP tests end\n"
-    )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
-    reportTest
+            cd "$testdir"
+            test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
+            for i in $test_files; do
+                runTest exiv2 -pa -g City -g DateTime $url/data/$i
+            done
+            >&2 printf "*** HTTP tests end\n"
+        )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
+        reportTest
+    fi
+    closeHttpServer
+else
+    echo "*** Http test skipped on PLATFORM $PLATFORM ***"
 fi
-closeHttpServer
 
 # That's all Folks!
 ##
