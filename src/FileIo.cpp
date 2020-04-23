@@ -473,7 +473,7 @@ namespace Exiv2
             writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
-                src.seek(writeCount - readCount, BasicIo::cur);
+                src.seek(static_cast<int64>(writeCount - readCount), BasicIo::cur);
                 break;
             }
         }

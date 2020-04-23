@@ -69,7 +69,7 @@ namespace Exiv2
         //! @brief Populate the block.
         //! @param source The data populate to the block
         //! @param num The size of data
-        void populate(byte* source, size_t num)
+        void populate(const byte* source, size_t num)
         {
             size_ = num;
             data_ = (byte*)std::malloc(size_);
@@ -228,12 +228,12 @@ namespace Exiv2
         size_t rcount = 0;
         if (blocksMap_[highBlock].isNone()) {
             std::string data;
-            getDataByRange((long)lowBlock, (long)highBlock, data);
+            getDataByRange(static_cast<long>(lowBlock), static_cast<long>(highBlock), data);
             rcount = data.length();
             if (rcount == 0) {
                 throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
-            byte* source = (byte*)data.c_str();
+            const byte* source = reinterpret_cast<const byte*>(data.c_str());
             size_t remain = rcount, totalRead = 0;
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
@@ -277,7 +277,7 @@ namespace Exiv2
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_ = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
-                byte* source = (byte*)data.c_str();
+                const byte* source = reinterpret_cast<const byte*>(data.c_str());
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
                     size_t allow = std::min(remain, p_->blockSize_);
@@ -289,7 +289,7 @@ namespace Exiv2
             } else if (length == 0) {  // file is empty
                 throw Error(kerErrorMessage, "the file length is 0");
             } else {
-                p_->size_ = (size_t)length;
+                p_->size_ = static_cast<size_t>(length);
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_ = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
@@ -663,7 +663,7 @@ namespace Exiv2
         if (hostInfo_.Port != "")
             request["port"] = hostInfo_.Port;
         request["verb"] = "HEAD";
-        long serverCode = (long)http(request, response, errors);
+        int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
             throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
@@ -688,7 +688,7 @@ namespace Exiv2
             request["header"] = ss.str();
         }
 
-        long serverCode = (long)http(request, responseDic, errors);
+        int serverCode = http(request, responseDic, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
             throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
