@@ -91,6 +91,10 @@ generate_export_header(exiv2lib
     STATIC_DEFINE exiv2lib_STATIC
 )
 
+target_compile_features(exiv2lib_int PRIVATE cxx_std_98)
+target_compile_features(exiv2lib PRIVATE cxx_std_98)
+
+
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
 
