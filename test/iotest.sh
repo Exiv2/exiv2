@@ -41,7 +41,7 @@ closeHttpServer() {
 }
 
 # Test http I/O
-if [ $PLATFORM != mingw ]; then
+if [ $PLATFORM != mingw -a $PLATFORM != NetBSD -a $PLATFORM != SunOS -a $PLATFORM != cygwin ]; then
     startHttpServer
     if [ ! -z $exiv2_httpServer ]; then
         (   cd "${testdir}" 
