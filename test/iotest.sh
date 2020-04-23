@@ -19,26 +19,43 @@ source ./functions.source
     fi
 )
 
+# these function will be added to functions_source
+startHttpServer() {
+    cd "${testdir}/.."                   # testdir is the tmp output directory
+    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=1276; fi
+    url=http://0.0.0.0:$port
+    jobs=$(jobs | wc -l)
+    python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
+    sleep 2                              # wait for it to init or die!
+    
+    if [ $(jobs | wc -l) != $jobs ]; then
+        exiv2_httpServer=$!
+    else
+        >&2 printf "*** startHttpServer failed to start on port $port ***\n"
+    fi
+}
+closeHttpServer() {
+    if [ ! -z $exiv2_httpServer ]; then
+        kill  $exiv2_httpServer                       # kill the server
+    fi 
+}
+
 # Test http I/O
-(   cd "${testdir}/.."                                # testdir is the tmp output directory
+startHttpServer
+if [ ! -z $exiv2_httpServer ]; then
+    (   cd "${testdir}" 
+        >&2 printf "*** HTTP tests begin\n"
 
-    >&2 printf "*** HTTP tests begin\n"
-    if [ ! -z $EXIV2_PORT ]; then port=EXIV2_PORT ; else port=1276; fi
-	url=http://0.0.0.0:$port
-	python3 -m http.server $port 2>&1 > /dev/null &   # start a background local HTTP server in the "real" test directory
-    sleep 2                                           # wait for it to init
-
-	cd "$testdir"
-    test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
-    for i in $test_files; do
-    	runTest exiv2 -pa -g City -g DateTime $url/data/$i
-    done
-    kill $!                                           # kill the server
-    >&2 printf "*** HTTP tests end\n"
-
-)  | tr -d '\r' | sed 's/[ \t]+$//' > $results
-reportTest
-
+        cd "$testdir"
+        test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
+        for i in $test_files; do
+            runTest exiv2 -pa -g City -g DateTime $url/data/$i
+        done
+        >&2 printf "*** HTTP tests end\n"
+    )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
+    reportTest
+fi
+closeHttpServer
 
 # That's all Folks!
 ##
