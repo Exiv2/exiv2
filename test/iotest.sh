@@ -21,18 +21,20 @@ source ./functions.source
 
 # Test http I/O
 (   cd "${testdir}/.."                                # testdir is the tmp output directory
+
     >&2 printf "*** HTTP tests begin\n"
-	port=9999
+    if [ ! -z $EXIV2_PORT ]; then port=EXIV2_PORT ; else port=1276; fi
 	url=http://0.0.0.0:$port
 	python3 -m http.server $port 2>&1 > /dev/null &   # start a background local HTTP server in the "real" test directory
     sleep 2                                           # wait for it to init
+
 	cd "$testdir"
     test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
     for i in $test_files; do
     	runTest exiv2 -pa -g City -g DateTime $url/data/$i
     done
-    >&2 printf "*** HTTP tests end\n"
     kill $!                                           # kill the server
+    >&2 printf "*** HTTP tests end\n"
 
 )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
 reportTest

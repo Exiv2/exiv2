@@ -752,8 +752,9 @@ Environment Variables used by test suite
 
 | Variable        | Default | Platforms | Purpose |
 |:--                 |:--        |:--     |:-- |
-| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Locatation of built binary object (exiv2.exe) |
-| EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>Msys<br>MinGW | Extension used by executable binaries |
+| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Location of built binary objects (exiv2.exe) |
+| EXIV2_PORT         | **1276**  | All Platforms | Test TCP/IP Port   |
+| EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>MinGW/msys2 | Extension used by executable binaries |
 | EXIV2_EXT          | _**not set**_  | Linux<br>macOS<br>Unix|  |
 | EXIV2_ECHO          | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VALGRIND            | _**not set**_ | All Platforms | For debugging Bash scripts |
@@ -1167,4 +1168,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-21
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-23
