@@ -19,23 +19,28 @@ endforeach()
 
 add_executable(unit_tests mainTestRunner.cpp
     gtestwrapper.h
-    test_basicio.cpp
-    test_types.cpp
-    test_tiffheader.cpp
-    test_futils.cpp
-    test_enforce.cpp
-    test_safe_op.cpp
-    test_XmpKey.cpp
     test_DateValue.cpp
     test_TimeValue.cpp
+    test_XmpKey.cpp
+    test_basicio.cpp
     test_cr2header_int.cpp
+    test_enforce.cpp
+    test_FileIo.cpp
+    test_futils.cpp
     test_helper_functions.cpp
-    test_slice.cpp
     test_image_int.cpp
+    test_safe_op.cpp
+    test_slice.cpp
+    test_tiffheader.cpp
+    test_types.cpp
     ${unit_tests_exiv2lib_SOURCES}
 )
 
-target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC)
+target_compile_definitions(unit_tests
+  PRIVATE
+    exiv2lib_STATIC
+    TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data"
+)
 
 if (exiv2lib_COMPILE_DEFINITIONS)
     target_compile_definitions(unit_tests PRIVATE ${exiv2lib_COMPILE_DEFINITIONS})
