@@ -14,7 +14,11 @@ class LargeIptcTest(metaclass=system_tests.CaseMeta):
     commands = ["$largeiptc_test $bug_file $imagemagick_file"]
 
     stdout = ["""Reading 144766 bytes from $imagemagick_file
-Caught Exiv2 exception '$kerFailedToReadImageData'
+IPTC fields: 0
+IPTC fields: 144775
+IRB buffer : 144788
+Comparing IPTC and IRB size... ok
+Comparing IPTC and IRB data... ok
 """]
     stderr = [""]
-    retval = [1]
+    retval = [0]
