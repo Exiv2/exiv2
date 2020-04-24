@@ -887,7 +887,7 @@ namespace Exiv2
     {
         if (p_->fp_ == nullptr)
             return true;
-        return feof(p_->fp_) != 0 || tell() >= static_cast<int64>(size());
+        return std::feof(p_->fp_) != 0;
     }
 
     std::string FileIo::path() const
