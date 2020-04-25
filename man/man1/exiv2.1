@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "March 28, 2020"
+.TH EXIV2 1 "April 25, 2020"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -271,12 +271,14 @@ options.
 Set the file timestamp according to the Exif create timestamp in
 addition to renaming the file (overrides \fB\-k\fP). This option is
 only used with the 'rename' action.
+See Exif DateTime below for additional information.
 .TP
 .B \-T
 Only set the file timestamp according to the Exif create timestamp, do
 not rename the file (overrides \fB\-k\fP). This option is only used
 with the 'rename' action. Note: On Windows you may have to set the TZ
 environment variable for this option to work correctly.
+See Exif DateTime below for additional information.
 .TP
 .B \-f,\-F
 These options are used by the commands 'rename' and 'extract' to
@@ -327,6 +329,7 @@ Default filename format is %Y%m%d_%H%M%S.
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
 used with the 'adjust' action. Examples: 1 adds one hour, 1:01
 adds one hour and one minute, \-0:00:30 subtracts 30 seconds.
+See Exif DateTime below for additional information.
 .TP
 .B \-Y \fIyrs\fP
 Time adjustment by a positive or negative number of years, for
@@ -622,6 +625,16 @@ To register additional XMP namespaces, combine the command with:
 .nf
 \fBreg\fP \fIprefix\fP \fInamespace\fP
 .br
+.SS Exif DateTime
+.fi
+An Exif DateTime string is stored as 20 ascii bytes (including trailing nul) in the format:
+.sp 1
+YYYY:MM:DD HH:MM:SS
+.sp 1
+The exiv2 command-line program options -t and -T will accept files
+in which the Date has been incorrectly stored as YYYY-MM-DD.
+The option -a enables the user to adjust the DateTime in the file and applies
+the YYYY:MM:DD HH:MM:SS standard.
 .ne 4
 .fi
 .SS Command file format

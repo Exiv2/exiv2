@@ -460,7 +460,27 @@ class CopyFiles(FileDecoratorBase):
         fname, ext = os.path.splitext(expanded_file_name)
         new_name = fname + '_copy' + ext
         return shutil.copyfile(expanded_file_name, new_name)
+   
+class CopyTmpFiles(FileDecoratorBase):
+    """
+    This class copies files from test/data to test/tmp
+    Copied files are NOT removed in tearDown
+    Example: @CopyTmpFiles("$data_path/test_issue_1180.exv")
+    """
 
+    #: override the name of the file list
+    FILE_LIST_NAME = '_tmp_files'
+
+    def setUp_file_action(self, expanded_file_name):
+        fname, ext = os.path.splitext(expanded_file_name)
+        tmp_dir    = os.path.join(os.path.dirname(os.path.dirname(expanded_file_name)),'tmp')
+        tmp_name   = os.path.join(tmp_dir,os.path.basename(expanded_file_name))
+        return shutil.copyfile(expanded_file_name, tmp_name)
+
+    def tearDown_file_action(self, f):
+        """
+        Do nothing.   We don't clean up TmpFiles
+        """
 
 class DeleteFiles(FileDecoratorBase):
     """
