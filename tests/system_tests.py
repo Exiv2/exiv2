@@ -474,9 +474,8 @@ class CopyTmpFiles(FileDecoratorBase):
     FILE_LIST_NAME = '_tmp_files'
 
     def setUp_file_action(self, expanded_file_name):
-        fname, ext = os.path.splitext(expanded_file_name)
-        tmp_dir    = os.path.join(os.path.dirname(os.path.dirname(expanded_file_name)),'tmp')
-        tmp_name   = os.path.join(tmp_dir,os.path.basename(expanded_file_name))
+        tmp_path   = _config_variables['tmp_path']
+        tmp_name   = os.path.join(tmp_path,os.path.basename(expanded_file_name))
         return shutil.copyfile(expanded_file_name, tmp_name)
 
     def tearDown_file_action(self, f):
