@@ -169,6 +169,8 @@ def configure_suite(config_file):
             abs_path = os.path.abspath(
                 os.path.join(_parameters["suite_root"], rel_path)
             )
+            if key == "tmp_path" and not os.path.isdir(abs_path):
+                os.mkdir(abs_path)
             if not os.path.exists(abs_path):
                 raise ValueError(
                     "Path replacement for {short}: {abspath} does not exist"
