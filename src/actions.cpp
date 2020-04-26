@@ -1971,7 +1971,7 @@ namespace {
     {
         if (timeStr.length() == 0 || timeStr[0] == ' ') return 1;
         if (timeStr.length() < 19) return 2;
-        if (   timeStr[4]  != ':' || timeStr[7]  != ':' || timeStr[10] != ' '
+        if (  (timeStr[4]  != ':' && timeStr[4] != '-') || (timeStr[7]  != ':' && timeStr[7] != '-') || timeStr[10] != ' '
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
         if (0 == tm) return 4;
         std::memset(tm, 0x0, sizeof(struct tm));
