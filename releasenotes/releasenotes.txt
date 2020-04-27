@@ -4,16 +4,15 @@ Headline Features of Exiv2 v0.27.3
 ----------------------------------
 
 Thank you to Phil, Sridhar, Luis, Kevin, and Andreas S for working with me on the release.
-As always, thanks to my wife Alison and our cat Lizzie for their support
+As always, thanks to my wife Alison and our cat Lizzie for their support.
 
 1) Bug and security fixes
-   - Security fixes
    - Improved lens recognition
-   - Updated Catalan and Dutch
+   - Updated Catalan and Dutch localisation
    - Replace license.txt with COPYING
-   - Removed contrib/ directory
+   - Removed contrib/ directory from bundle
    - share/locale has localisation files
-   - security fixes
+   - Security fixes
 
 2) Build, test and documentation
    - Improved documentation and man page
@@ -21,13 +20,13 @@ As always, thanks to my wife Alison and our cat Lizzie for their support
    - Visual Studio test support
    - Cross compiling support
    - UNIX support (Solaris, FreeBSD and NetBSD)
-   - http test support
+   - http test support (WIP)
 
 3) New Additions
    - contrib/vs2019 Visual Studio support
-   - Defined security process
-   - Exif 2.32 support
-   - CONTRIBUTORS file
+   - .github/CONTRIBUTORS file
+   - Defined security process (TBD)
+   - Exif 2.32 support (TBD)
 
 Detailed Change List since 0.27.2
 ---------------------------------

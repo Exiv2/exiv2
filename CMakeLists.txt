@@ -1,7 +1,12 @@
 cmake_minimum_required( VERSION 3.3.2 )
 
-project(exiv2
-    VERSION 0.27.3.19  #  0.27.3 = GM; 0.27.3.1 = RC1; ends in 9 "Not for release" (0.27.3.9, 0.27.3.19 etc)
+project(exiv2          # use TWEAK to categorize the build
+    VERSION 0.27.3.10  # 0.27.3    = GM
+                       # 0.27.3.00 = GM Preview
+                       # 0.27.3.09 = Not For Release
+                       # 0.27.3.1  = RC1
+                       # 0.27.3.10 = RC1 Preview
+                       # 0.27.3.19 = RC1 Not for release
     LANGUAGES CXX C
 )
 
@@ -16,7 +21,7 @@ option( EXIV2_ENABLE_NLS              "Build native language support (requires g
 option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
 option( EXIV2_ENABLE_VIDEO            "Build video support into library"                      OFF )
-option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON )
+option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON  )
 option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )

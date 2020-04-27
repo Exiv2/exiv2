@@ -89,20 +89,30 @@ if ( MSVC )
     endif()
 endif()
 
-# Set RC = Release Candidate
-string(REGEX MATCH "9$" NOT_FOR_RELEASE ${PROJECT_VERSION_TWEAK})
-if ( NOT_FOR_RELEASE )
-    if ( PROJECT_VERSION_TWEAK STREQUAL "9" ) # 0.27.3.9 => Not for Release
-        set(RC "")
-        set (RC "Not for release")
-    else()
-        string(SUBSTRING ${PROJECT_VERSION_TWEAK} 0 1 RC) # 0.27.19 => RC1 Not for release
-        set (RC "RC${RC} Not for release")
-    endif()
-elseif ( (PROJECT_VERSION_TWEAK STREQUAL "0") OR (PROJECT_VERSION_TWEAK STREQUAL "")  )
-    set(RC "GM Release")
+# Set RC = Release Candidate from TWEAK
+if ( PROJECT_VERSION_TWEAK STREQUAL "" )
+	set(RC "GM For Release")
 else()
-     set ( RC "Release Candidate ${PROJECT_VERSION_TWEAK}" )
+	string(FIND "${PROJECT_VERSION_TWEAK}" 0 PREVIEW_RELEASE ) # 0.27.3.10 => RC1 Preview
+	string(FIND "${PROJECT_VERSION_TWEAK}" 9 NOT_FOR_RELEASE ) # 0.27.3.19 => RC1 Not for release
+	string(SUBSTRING ${PROJECT_VERSION_TWEAK} 0 1 RC)
+	if ( RC STREQUAL "0" )
+	    set(RC,"")
+	else()
+	   set (RC "RC${RC}")
+	endif()
+	if ( PREVIEW_RELEASE STREQUAL "1" )
+		set (RC "${RC} Preview")
+		set (PREVIEW_RELEASE 1)
+	else()
+		set (PREVIEW_RELEASE 0)
+	endif()
+	if ( NOT_FOR_RELEASE STREQUAL "1" )
+		set (RC "${RC} Not for release")
+		set (NOT_FOR_RELEASE 1)
+	else()
+		set (NOT_FOR_RELEASE 0)
+	endif()
 endif()
 
 # Set RV = Release Version
@@ -136,9 +146,12 @@ set(VM   ${PROJECT_VERSION_MAJOR})           # Version Major  0
 set(VN   ${PROJECT_VERSION_MINOR})           # Version Minor 27
 set(VD   ${PROJECT_VERSION_PATCH})           # Version Dot    3
 set(VR  .${PROJECT_VERSION_TWEAK})           # Version RC    .1
-if ( (PROJECT_VERSION_TWEAK STREQUAL "0") OR (PROJECT_VERSION_TWEAK STREQUAL "")  )
-    set(VR "")
+if (     PREVIEW_RELEASE )
+    set(VR " Preview")
+elseif ( NOT_FOR_RELEASE )
+    set(VR " Not for release")
 endif()
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/${PACKDIR}/ReadMe.txt ReadMe.txt       @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/releasenotes/releasenotes.txt      releasenotes.txt @ONLY)
 install       (FILES  ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt ${CMAKE_CURRENT_BINARY_DIR}/releasenotes.txt DESTINATION .)
