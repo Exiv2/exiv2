@@ -9,6 +9,11 @@ As always, thanks to my wife Alison and our cat Lizzie for their support
 1) Bug and security fixes
    - Security fixes
    - Improved lens recognition
+   - Updated Catalan and Dutch
+   - Replace license.txt with COPYING
+   - Removed contrib/ directory
+   - share/locale has localisation files
+   - security fixes
 
 2) Build, test and documentation
    - Improved documentation and man page
@@ -18,32 +23,16 @@ As always, thanks to my wife Alison and our cat Lizzie for their support
    - UNIX support (Solaris, FreeBSD and NetBSD)
    - http test support
 
-3) Localisation
-   - Updated Catalan
-   - Updated Dutch
-
-4) Build Bundles
-   - Replace license.txt with COPYING
-   - Removed contrib/ directory
-   - share/locale has localisation files
-
-5) New Additions
+3) New Additions
    - contrib/vs2019 Visual Studio support
    - Defined security process
    - Exif 2.32 support
    - CONTRIBUTORS file
 
-Detailed Changes since 0.27.2
------------------------------
+Detailed Change List since 0.27.2
+---------------------------------
 
-https://github.com/Exiv2/exiv2/milestone/5?closed=1
-
-Schedule
---------
-
-Exiv2 v0.27.3 RC1     2020-04-30
-Exiv2 v0.27.3 RC2     2020-05-31
-Exiv2 v0.27.3 RC3     2020-06-30
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-604539346
 
 Future Releases
 ---------------
@@ -55,7 +44,7 @@ Team Exiv2 are looking for contributors to work on Exiv2 v0.28
 
 Robin Mills
 robin@clanmills.com
-2020-04-22
+2020-04-27
 
 -------------------------
 Release Notes for v0.27.2
