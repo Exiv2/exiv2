@@ -1,3 +1,98 @@
+Changes from version 0.27.2 to 0.27.3
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/5?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/5?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-604539346
+
+Bugs/Fixes
+#1185 | Update release notes v0.27.3 RC1
+#1183 | fix_1180_date_separator
+#1178 | Reduce system calls in FileIo::eof()
+#1157 | fix 1004 Canon Lens Fixes
+#1145 | fix 1033 Digikam xmp namespace
+#1144 | fix 1045 Add new error kerTiffParsingError
+#1143 | fix 1047 New Fujifilm Tags
+#1142 | fix 1049 Nikon Sigma 180 Macro Lens Name
+#1140 | fix_1069_0.27 Add lens Tamron SP 35mm f/1.4 Di USD (Nikon)
+#1138 | fix_1087_0.27 Catalan translation updates
+#1129 | Fix 1105 0.27 Add Nikon F version of Tamron 17-35 mm F/2.8-4 Di OSD
+#1127 | fix_Sony2010e_0.27 Thanks to @sridharb1
+#1124 | Bugfix 984 xmp meta delete namespace
+#1119 | fix_1076_0.272 sigmas lenses on Canon body
+#1118 | fix_1084_0.27 Irix lens names in Pentax
+#1107 | Fix 1046 pt gps processing method
+#1105 | Add Nikon F version of Tamron 17-35 mm F/2.8-4 Di OSD
+#1066 | Add support for ISOBMFF Files (AVIF, HEIF, CR3)
+#1010 | fix1001_rename_AFPrimaryPoint
+#1009 | Fix1008 sony2010e
+#1007 | fix_910_remote_io_block+1
+#1005 | fix_1004_lens_exiftool_compatibility
+ #993 | Fix 992 Sigma APO MACRO 180mm F3.5 EX DG (Nikon Mount)
+ #991 | Fix 990 Remove AF designator from Tamron 70-200 G1
+ #990 | Remove AF designator from Tamron 70-200 G1
+ #989 | Fix 987 (taglist.cpp changes)
+ #988 | New PR to replace fix981_canonAutoFocus2 which will be closed.
+ #985 | fix981_canonAutoFocus2
+ #982 | Fix 981 Canon Auto Focus
+ #978 | Reloaded: HEIF Support
+ #977 | Add XMP Initialisation/Cleanup code to every main()
+ #927 | Translation Exiv2 in Dutch (nl)  Translation
+
+Security
+#1141 | fix 1091 Fix unbounded recursion in bigtiffimage.cpp
+#1116 | fix_1099_0.27 exiv2 aborts with registerNs
+#1115 | fix_1097_0.27 Segfault of exiv2 with pr flag
+#1110 | Fix #1011 fix_1011_jp2_readmetadata_loop
+#1048 | Fix a memory leak in CiffHeader::read()
+#1013 | Fix #1011 fix_1011_jp2_readmetadata_loop
+#1131 | fix_1092_0.27 Fix uri parsing bug
+#1125 | fix_984_0.27 NULL-pointer read in XMPMeta.cpp
+
+Build Infrastructure
+#1184 | fix_1121_CODEOWNERS_0.27
+#1181 | GCC 9.3.0 broken on MinGW/msys2 and CYGWIN
+#1175 | fix_1102_msysGCC93_0.27
+#1159 | fix 1158 pathtest.exe
+#1137 | fix_1059_0.27 Add missing library link on Windows
+#1135 | Update conan version in appveyor & use python-x64 version
+#1130 | fix_packaging_0.27
+#1123 | Bump Version 0.27.3.9
+#1121 | Add CODEOWNERS
+
+Test Infrastructure
+#1174 | add http test to iotest.sh
+#1172 | Fix 1164 unit tests 0.27
+#1173 | enhanced_test6_0.27
+#1171 | Enhanced test5 0.27
+#1170 | Enhanced test4 0.27
+#1169 | enhanced_test3_0.27
+#1168 | Enhanced test2 v0.27
+#1167 | Enhanced test v0.27
+#1150 | fix 1146 Python tests to tolerate DOS line endings
+#1006 | fix_958 /usr/bin/env bash in test scripts
+
+UNIX
+#1162 | Fix 902 UNIX Support
+
+Documentation
+#1153 | fix_922 Cross compiling documentation
+#1149 | README-CONAN Update for v0.27.3
+#1139 | fix_1077_0.27 Improve documentation in CONTRIBUTING.md
+#1133 | Fix_1121_documentation_0.27
+#1117 | fix_macOS_0.27
+
+contrib/vs2019
+#1136 | Sridharb1 contrib msvc4 0.27
+#1134 | sridharb1_contrib_msvc3_0.27
+#1128 | Sridharb1 contrib msvc2 0.27
+#1120 | sridharb1_contrib_msvc_0.27
+
 Changes from version 0.27.1 to 0.27.2
 -------------------------------------
 
