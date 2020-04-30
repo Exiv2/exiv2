@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "April 29, 2020"
+.TH EXIV2 1 "April 30, 2020"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -181,8 +181,6 @@ mod		s | a | e | t | v | h | i | x | c | p | i | C | R | S | X
 
 tgt		a | c | e | i | p | t | x | C | X | XX | -
 		all, comment, exif, iptc, preview, thumb, xmp, ICC Profile, SideCar, RawXMP, stdin/out
-
-.br
 .fi
 .ne 40
 .SH OPTIONS
@@ -305,8 +303,8 @@ $ curl --silent -O http://clanmills.com/Stonehenge.jpg
 $ exiv2 --verbose --Force rename Stonehenge.jpg
 File 1/1: Stonehenge.jpg
 Renaming file to ./20150716_153854_1.jpg
-.sp 1
 .fi
+.sp 1
 The 'rename' command will only overwrite files when the option --force is used.  The option --Force is provided to avoid unintentional loss of valuable image files.
 .sp 1
 The 'extract' command will overwrite files when either --force or --Force is used.  Overwriting extracted files will not cause the loss of image files.
@@ -434,9 +432,9 @@ file. Possible are Exif, IPTC and XMP and the default is all of these.
 .sp
 XX: Extract "raw" XMP metadata to a sidecar (see -pX)
 .br
-    You may not use modify commands with the -eXX option and only XMP is written to the sidecar.
+You may not use modify commands with the -eXX option and only XMP is written to the sidecar.
 .sp 1
-- : Output to stdout (see -i tgt for an example of this feature)
+.B \- \fIOutput to stdout\fP (see -i tgt for an example of this feature)
 .sp 1
 .TP
 .B \-c \fItxt\fP
@@ -560,30 +558,20 @@ $ exiv2 -pv --grep ProcessingMethod        x.jpg
 0x001b GPSInfo     GPSProcessingMethod       Undefined  18  HYBRID-FIX
 .fi
 .sp 1
-The format for an IPTC \fBDate\fP value is:
-.br
-    YYYY\-MM\-DD (year, month, day)
+The format for an IPTC \fBDate\fP value is: YYYY\-MM\-DD (year, month, day)
 .sp 1
-The format for an IPTC \fBTime\fP value is:
-.br
-    HH:MM:SS (hours, minutes, seconds)
-.br
-and may optionally be followed by:
-.br
-   \-HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
+The format for an IPTC \fBTime\fP value is: HH:MM:SS (hours, minutes, seconds) and may optionally be followed by: -HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
 .sp 1
-The format of \fBRational\fP (and \fBSRational\fP) is one of:
+The format of \fBRational\fP (and \fBSRational\fP) is one of: \fBinteger | integer/integer | Fnumber | number\fP
 .br
-   integer | integer/integer | Fnumber | number
-.sp 1
-Rational Examples:
+\fBRational\fP Examples:
 .sp 1
 .nf
 $ exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
 $ exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
 .fi
 .sp 1
-The Rational format Fnumber is for the convenience of setting aperture values.  Aperture values
+The \fBRational\fP format Fnumber is for the convenience of setting aperture values.  Aperture values
 are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
 .sp 1
 .nf
@@ -591,7 +579,7 @@ apex-value  =    log(Fnumber) * 2.0 / log(2.0)
 number      = exp(apex-value * log(2.0) / 2.0)
 .fi
 .sp 1
-The Rational format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
+The \fBRational\fP format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
 More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
 The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
@@ -723,7 +711,7 @@ $ exiv2 *.jpg
 Prints a summary of the Exif information for all JPEG files in the directory.  The summary report is rather brief and presentation does not use the Family.Group.Tag convention.
 .sp 1
 If you use --grep pattern, the default becomes -pa.  See -g/grep above.
-.sp 1
+.sp 2
 .nf
 $ exiv2 -g Date http://clanmills.com/Stonehenge.jpg
 .fi
@@ -731,36 +719,41 @@ $ exiv2 -g Date http://clanmills.com/Stonehenge.jpg
 $ exiv2 \-pi image.jpg
 .fi
 Prints the IPTC metadata of the image.
+.sp 1
 .nf
 $ exiv2 rename img_1234.jpg
-.sp 1
 .fi
 Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
+.sp 1
 .nf
 $ exiv2 \-r'\:basename\:_%Y%m' rename img_1234.jpg
-.sp 1
 .fi
 Renames img_1234.jpg to img_1234_200511.jpg
+.sp 1
 .nf
 $ exiv2 \-et img1.jpg img2.jpg
 .fi
 Extracts the Exif thumbnails from the two files into img1\-thumb.jpg
 and img2\-thumb.jpg.
+.sp 1
 .nf
 $ exiv2 \-it img1.jpg img2.jpg
 .fi
 Inserts (copies) metadata from img1.exv to img1.jpg and from img2.exv
 to img2.jpg.
+.sp 1
 .nf
 $ exiv2 \-ep1,2 image.jpg
 .fi
 Extracts previews 1 and 2 from the image to the files image\-preview1.jpg
 and image\-preview2.jpg.
+.sp 1
 .nf
 $ exiv2 \-eiX image.jpg
 .fi
 Extracts IPTC datasets into an XMP sidecar file image.xmp and in the
 process converts them to "IPTC Core" XMP schema.
+.sp 1
 .nf
 $ exiv2 \-iixX image.jpg
 .fi
@@ -769,10 +762,12 @@ image.jpg.  The resulting IPTC datasets are converted from the "IPTC
 Core" XMP schema properties in the sidecar file to the older IPTC IIM4
 format. The inserted XMP properties include those in the "IPTC Core"
 XMP schema.
+.sp 1
 .nf
 $ exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg
 .fi
 Sets the Exif comment to an ASCII string.
+.sp 1
 .nf
 $ exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\ \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
 .fi
@@ -781,11 +776,12 @@ Exif standard stipulates that the GPSLatitude tag consists of three
 Rational numbers for the degrees, minutes and seconds of the latitude
 and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
+.sp 1
 .nf
 $ exiv2 insert \-l/tmp -S.CRW /data/*.JPG
 .fi
 Copy all metadata from CRW files in the /tmp directory to JPG files
-   dwith corresponding basenames in the /data directory. Note that this
+with corresponding basenames in the /data directory. Note that this
 copies metadata as is, without any modifications to adapt it to the
 requirements of the target format. Some tags copied like this may not
 make sense in the target image.
@@ -802,7 +798,7 @@ Taglists with \fIkey\fP and default \fItype\fP values.
 .SH AUTHORS
 .B exiv2
 was written by Andreas Huggel and others.
-.SH PROJECT
+.br
 The Exiv2 project web site is https://exiv2.org.
-.sp 1
+.br
 The code is hosted on GitHub at https://github.com/exiv2/exiv2
