@@ -120,6 +120,7 @@ list(APPEND APPLICATIONS remotetest)
 # ******************************************************************************
 foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
+    target_compile_features(${application} PRIVATE cxx_std_98)
     if( EXIV2_ENABLE_PNG )
         target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
     endif()

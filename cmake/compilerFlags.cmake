@@ -22,6 +22,10 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+        # On Solaris target_compile_features(${application} PRIVATE cxx_std_98) fails to set this flag
+        if ( CMAKE_HOST_SOLARIS ) 
+            add_compile_options(-std=gnu++98)
+        endif()
 
         # This fails under Fedora, MinGW GCC 8.3.0 and CYGWIN/MSYS 9.3.0
         if (NOT (MINGW OR CMAKE_HOST_SOLARIS OR CYGWIN OR MSYS) )
