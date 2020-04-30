@@ -17,8 +17,8 @@ foreach(source IN LISTS exiv2lib_SOURCES exiv2lib_int_SOURCES)
     endif()
 endforeach()
 
-add_executable(unit_tests mainTestRunner.cpp
-    gtestwrapper.h
+add_executable(unit_tests
+    mainTestRunner.cpp
     test_DateValue.cpp
     test_TimeValue.cpp
     test_XmpKey.cpp
@@ -33,6 +33,7 @@ add_executable(unit_tests mainTestRunner.cpp
     test_slice.cpp
     test_tiffheader.cpp
     test_types.cpp
+    gtestwrapper.h
     ${unit_tests_exiv2lib_SOURCES}
 )
 
@@ -41,6 +42,7 @@ target_compile_definitions(unit_tests
     exiv2lib_STATIC
     TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data"
 )
+target_compile_features(unit_tests PRIVATE cxx_std_98)
 
 if (exiv2lib_COMPILE_DEFINITIONS)
     target_compile_definitions(unit_tests PRIVATE ${exiv2lib_COMPILE_DEFINITIONS})
