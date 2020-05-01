@@ -906,7 +906,7 @@ int main(int argc,const char* argv[])
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
                     if ( pPos ) {
-                        exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
+                        exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "charset=Ascii HYBRID-FIX";
                         exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
                         exifData["Exif.GPSInfo.GPSMapDatum"         ] = "WGS-84";
 
