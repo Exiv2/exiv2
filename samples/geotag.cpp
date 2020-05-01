@@ -87,6 +87,7 @@ public:
     bool        dst;
     bool        dryrun;
     bool        ascii;
+    bool        remove;
 
     Options()
     {
@@ -96,6 +97,7 @@ public:
         dst         = false;
         dryrun      = false;
         ascii       = false;
+        remove      = false;
     }
 
     virtual ~Options() {} ;
@@ -113,6 +115,7 @@ enum                        // keyword indices
 ,   kwDST
 ,   kwDRYRUN
 ,   kwASCII
+,   kwREMOVE
 ,   kwVERBOSE
 ,   kwADJUST
 ,   kwTZ
@@ -790,6 +793,7 @@ int main(int argc,const char* argv[])
     keywords[kwADJUST  ] = "adjust";
     keywords[kwTZ      ] = "tz";
     keywords[kwDELTA   ] = "delta";
+    keywords[kwREMOVE  ] = "remove";
 
     map<std::string,string> shorts;
     shorts["-?"] = "-help";
@@ -803,6 +807,7 @@ int main(int argc,const char* argv[])
     shorts["-s"] = "-delta";
     shorts["-X"] = "-dryrun";
     shorts["-a"] = "-ascii";
+    shorts["-r"] = "-remove";
 
     Options options ;
     options.help    = sina(keywords[kwHELP   ],argv) || argc < 2;
@@ -811,6 +816,7 @@ int main(int argc,const char* argv[])
     options.version = sina(keywords[kwVERSION],argv);
     options.dst     = sina(keywords[kwDST    ],argv);
     options.ascii   = sina(keywords[kwASCII  ],argv);
+    options.remove  = sina(keywords[kwASCII  ],argv);
 
     for ( int i = 1 ; !result && i < argc ; i++ ) {
         const char* arg   = argv[i++];
@@ -831,6 +837,7 @@ int main(int argc,const char* argv[])
             case kwDRYRUN   : options.dryrun      = true ; break;
             case kwVERBOSE  : options.verbose     = true ; break;
             case kwASCII    : options.ascii       = true ; break;
+            case kwREMOVE   : options.remove      = true ; break;
             case kwTZ       : Position::tz_       = parseTZ(value);break;
             case kwADJUST   : Position::adjust_   = ivalue;break;
             case kwDELTA    : Position::deltaMax_ = ivalue;break;
@@ -881,8 +888,8 @@ int main(int argc,const char* argv[])
                 s-= m*60  ;
             printf("tz,dst,adjust = %d,%d,%d total = %dsecs (= %d:%d:%d)\n",t,d,a,A,h,m,s);
         }
-/*
-        if ( options.verbose ) {
+
+        if ( options.verbose && gTimeDict.size() ) {
             printf("Time Dictionary\n");
             for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
                 std::string sTime = getExifTime(it->first);
@@ -894,7 +901,10 @@ int main(int argc,const char* argv[])
                 printf("%s %s\n",sTime.c_str(), sPos.c_str());
             }
         }
-*/
+
+        if ( !gTimeDict.size() && gFiles.size() && !options.remove  ) {
+            printf("nothing in time dictionary!\n");
+        }
         for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
             std::string path  = gFiles[p] ;
             std::string stamp ;
@@ -905,6 +915,20 @@ int main(int argc,const char* argv[])
                 if ( image.get() ) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
+                    
+                    // if asked to remove, cycle the metadata and remove GPSInfo
+                    // you can remove and geotag in the same run
+                    // this is very useful when the TZ is incorrectly set to "clean" GPS before writing new data
+                    if ( options.remove ) {
+                        for (Exiv2::ExifData::iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
+                            if ( pos->groupName() == "GPSInfo" ) {
+                                if ( options.verbose ) {
+                                    std::cout << "remove: " << pos->key() << std::endl;
+                                }
+                                if ( !options.dryrun ) exifData.erase(pos);
+                            }
+                        }
+                    } 
                     if ( pPos ) {
                         exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "charset=Ascii HYBRID-FIX";
                         exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
@@ -924,7 +948,9 @@ int main(int argc,const char* argv[])
 
                         printf("%s %s % 2d\n",path.c_str(),pPos->toString().c_str(),pPos->delta());
                     } else {
-                        printf("%s *** not in time dict ***\n",path.c_str());
+                        if ( gTimeDict.size() ) {
+                            printf("%s *** not in time dict ***\n",path.c_str());
+                        }
                     }
                     if ( !options.dryrun ) image->writeMetadata();
                 }
