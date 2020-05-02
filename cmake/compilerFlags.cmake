@@ -1,9 +1,5 @@
 # These flags applies to exiv2lib, the applications, and to the xmp code
 
-if ( EXIV2_BUILD_USE_C++11 ) 
-    set(CMAKE_CXX_STANDARD 11) 
-endif()
-
 if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         set(COMPILER_IS_GCC ON)
@@ -26,6 +22,10 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+        # On Solaris target_compile_features(${application} PRIVATE cxx_std_98) fails to set this flag
+        if ( CMAKE_HOST_SOLARIS ) 
+            add_compile_options(-std=gnu++98)
+        endif()
 
         # This fails under Fedora, MinGW GCC 8.3.0 and CYGWIN/MSYS 9.3.0
         if (NOT (MINGW OR CMAKE_HOST_SOLARIS OR CYGWIN OR MSYS) )
@@ -58,6 +58,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         # This seems to be causing issues in the Fedora_MinGW GitLab job
         #add_compile_options(-fasynchronous-unwind-tables)
 
+
         if ( EXIV2_TEAM_USE_SANITIZERS )
             # ASAN is available in gcc from 4.8 and UBSAN from 4.9
             # ASAN is available in clang from 3.1 and UBSAN from 3.3
@@ -88,10 +89,6 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${SANITIZER_FLAGS}")
             endif()
         endif()
-    endif()
-    if ( EXIV2_BUILD_USE_C++11 ) 
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}     -Wno-deprecated")
     endif()
 endif ()
 
