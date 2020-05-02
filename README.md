@@ -701,7 +701,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 build with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all compilers.
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all compilers.
 
 To generate a build with C++11:
 
