@@ -91,10 +91,6 @@ generate_export_header(exiv2lib
     STATIC_DEFINE exiv2lib_STATIC
 )
 
-target_compile_features(exiv2lib_int PRIVATE cxx_std_98)
-target_compile_features(exiv2lib PRIVATE cxx_std_98)
-
-
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
 
@@ -256,7 +252,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
          getopt.cpp getopt.hpp
          utils.cpp utils.hpp
     )
-    target_compile_features(exiv2 PRIVATE cxx_std_98)
 
     set_target_properties( exiv2 PROPERTIES
         COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}

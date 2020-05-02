@@ -23,6 +23,7 @@
    14. [Thread Safety](#2-14)
    15. [Library Initialisation and Cleanup](#2-15)
    16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
+   17. [Building with C++11 and other compilers](#2-17)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -696,6 +697,25 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 [TOC](#TOC)
 
+<div id="2-17">
+
+### 2.17 Building with C++11 and other compilers
+
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all compilers.
+
+To generate a build with C++11:
+
+```bash
+$ cd <exiv2dir>
+$ mkdir build ; cd build
+$ cmake .. -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+$ make
+```
+
+The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr and other deprecated features.
+
+[TOC](#TOC)
+
 <div id="3">
 
 ## 3 License and Support
@@ -1167,4 +1187,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-21
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-02
