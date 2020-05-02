@@ -252,7 +252,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
          getopt.cpp getopt.hpp
          utils.cpp utils.hpp
     )
-    target_compile_features(exiv2 PRIVATE cxx_std_98)
 
     set_target_properties( exiv2 PROPERTIES
         COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
