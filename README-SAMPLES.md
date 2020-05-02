@@ -195,7 +195,7 @@ $
 #### geotag
 
 ```
-Usage: geotag {-help|-version|-dst|-dryrun|-ascii|-verbose|-adjust value|-tz value|-delta value}+ path+
+Usage: geotag {-help|-version|-dst|-dryrun|-ascii|-remove|-verbose|-adjust value|-tz value|-delta value}+ path+
 ```
 
 Geotag reads one or more GPX files and adds GPS Tages to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
@@ -208,6 +208,7 @@ If the path is a directory, geotag will read all the files in the directory.  It
 | -dst      | Apply 1 hour adjustment for daylight saving time. |
 | -dryrun   | Read arguments and print report.  Does not modify images. |
 | -verbose  | Report progress. |
+| -remove   | Removes GPS tags from images. |
 | -adjust  value | Add/subtract time from image data. |
 | -tz      value | Specify time zone. For example PST = -8:00 |
 | -delta   value | Correction between Image DataTime and GPS time. |
@@ -643,4 +644,4 @@ Read an XMP packet from a file, parse and re-serialize it.
 
 Robin Mills<br>
 robin@clanmills.com<br>
-Revised: 2019-06-20
+Revised: 2020-05-01
