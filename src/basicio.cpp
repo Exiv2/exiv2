@@ -80,7 +80,6 @@ typedef short nlink_t;
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
     BasicIo::~BasicIo()
     {
     }

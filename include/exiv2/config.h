@@ -93,5 +93,15 @@ typedef int pid_t;
 #endif
 //////////////////////////////////////
 
+// https://softwareengineering.stackexchange.com/questions/291141/how-to-handle-design-changes-for-auto-ptr-deprecation-in-c11
+#if __cplusplus >= 201103L
+  #include <memory>
+  #include <sys/types.h>
+  #include <unistd.h>
+  template <typename T>
+  using auto_ptr = std::unique_ptr<T>;
+#else
+  using std::auto_ptr;
+#endif
 
 #endif // _CONFIG_H_
