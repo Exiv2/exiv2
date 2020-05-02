@@ -21,6 +21,8 @@ message( STATUS "---------------------------------------------------------------
 message( STATUS "CMake Generator:   ${CMAKE_GENERATOR}" )
 message( STATUS "CMAKE_BUILD_TYPE:  ${CMAKE_BUILD_TYPE}" )
 message( STATUS "Compiler info: ${CMAKE_CXX_COMPILER_ID} (${CMAKE_CXX_COMPILER}) ; version: ${CMAKE_CXX_COMPILER_VERSION}")
+message( STATUS "CMAKE_CXX_COMPILER:${CMAKE_CXX_COMPILER}" )
+message( STATUS "CMAKE_CXX_STANDARD:${CMAKE_CXX_STANDARD}" )
 message( STATUS " --- Compiler flags --- ")
 message( STATUS "General:           ${CMAKE_CXX_FLAGS}" )
 printList("${COMPILER_OPTIONS}")
