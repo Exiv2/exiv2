@@ -612,7 +612,7 @@ namespace Exiv2 {
         const int len = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), slength, 0, 0, 0, 0);
 
         // conversion failed => return an empty string
-        if (len == static_cast<std::size_t>(-1)) {
+        if (len == -1) {
             return std::string("");
         }
         char* buf = new char[len];
