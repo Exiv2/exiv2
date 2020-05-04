@@ -90,6 +90,7 @@ endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
 if(MSVC)
+
     find_program(CLCACHE name clcache.exe
         PATHS ENV CLCACHE_PATH
         PATH_SUFFIXES Scripts clcache-4.1.0
@@ -136,4 +137,36 @@ if(MSVC)
     # Object Level Parallelism
     add_compile_options(/MP)
     add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
+    
+    # https://stackoverflow.com/questions/44960715/how-to-enable-stdc17-in-vs2017-with-cmake
+    if (MSVC_VERSION GREATER_EQUAL "1700") # VS2015 and up
+        include(CheckCXXCompilerFlag)
+        # MSVC doesn't have a setting for C++11 as it's a subset of C++14
+        if ( ${CMAKE_CXX_STANDARD} STREQUAL "11" OR ${CMAKE_CXX_STANDARD} STREQUAL "14" )
+            CHECK_CXX_COMPILER_FLAG("/std:c++14" _cpp_14)
+            if (_cpp_14)
+                add_compile_options("/std:c++14")
+            else()
+                message(WARNING "Cannot set compiler option /std:c++14")
+            endif()
+        endif()
+        if ( ${CMAKE_CXX_STANDARD} STREQUAL "17" )
+            CHECK_CXX_COMPILER_FLAG("/std:c++17" _cpp_17)
+            if (_cpp_17)
+                add_compile_options("/std:c++17")
+            else()
+                message(WARNING "Cannot set compiler option /std:c++17")
+            endif()
+        endif()
+        if ( ${CMAKE_CXX_STANDARD} STREQUAL "20" )
+            CHECK_CXX_COMPILER_FLAG("/std:c++11" _cpp_20)
+            if (_cpp_20)
+                add_compile_options("/std:c++20")
+            else()
+                message(WARNING "Cannot set compiler option /std:c++20")
+            endif()
+        endif()
+        # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
+        add_compile_options("/Zc:__cplusplus")
+    endif()
 endif()
