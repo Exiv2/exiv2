@@ -3,6 +3,10 @@ contrib/Qt/ReadMe.txt
 
 Exiv2 works well with Qt.
 
+Qt requires C++11 libraries which are the default for Exiv2 v0.28 and later.
+Exiv2 v0.27 default build (and pre-built binaries) are for C++98
+You will have to build Exiv2 v0.27 from source with C++11 for Qt.
+
 To build and run commandLineTool
 --------------------------------
 
@@ -25,7 +29,9 @@ To build and run commandLineTool
 UNICODE_PATH on Windows
 -----------------------
 
-Qt users may prefer to build Exiv2 to support UNICODE_PATH.  The sample application samples/exifprint.cpp works with UNICODE_PATH.
+Windows users may prefer to build Exiv2 to support UNICODE_PATH.
+The sample application samples/exifprint.cpp works with UNICODE_PATH.
+The cmake option -DEXIV2_ENABLE_WIN_UNICODE=ON is documented in README.md
 
 Searching for more information about Qt, MinGW and UNICODE_PATH
 ---------------------------------------------------------------
