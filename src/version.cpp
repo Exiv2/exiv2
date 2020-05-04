@@ -74,6 +74,7 @@
 # include <sys/socket.h>
 # include <sys/sysctl.h>
 # include <libprocstat.h>
+# include <unistd.h>
 #elif defined(__sun__)
 # include <dlfcn.h>
 # include <link.h>
@@ -185,21 +186,24 @@ static Exiv2::StringVector getLoadedLibraries()
         pushPath(path,libs,paths);
     }
 #elif defined(__FreeBSD__)
-    unsigned int n;
-    struct procstat*      procstat = procstat_open_sysctl();
-    struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
-    struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
-    if ( files ) {
-        filestat* entry;
-        STAILQ_FOREACH(entry, files, next) {
-            std::string path(entry->fs_path);
-            pushPath(path,libs,paths);
+    // this code seg-faults when called from an SSH script! (security?)
+    if ( isatty(STDIN_FILENO) ) {
+        unsigned int n;
+        struct procstat*      procstat = procstat_open_sysctl();
+        struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+        struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
+        if ( files ) {
+            filestat* entry;
+            STAILQ_FOREACH(entry, files, next) {
+                std::string path(entry->fs_path);
+                pushPath(path,libs,paths);
+            }
         }
+        // free resources
+        if ( files    ) procstat_freefiles(procstat, files);
+        if ( procs    ) procstat_freeprocs(procstat, procs);
+        if ( procstat ) procstat_close    (procstat);
     }
-    // free resources
-    if ( files    ) procstat_freefiles(procstat, files);
-    if ( procs    ) procstat_freeprocs(procstat, procs);
-    if ( procstat ) procstat_close    (procstat);
 #elif defined (__sun__) || defined(__unix__)
     // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
     char procsz[100];
@@ -210,8 +214,6 @@ static Exiv2::StringVector getLoadedLibraries()
         pathsz[l]='\0';
         path.assign(pathsz);
         libs.push_back(path);
-    } else {
-		libs.push_back("unknown");
     }
 
     // read file /proc/self/maps which has a list of files in memory
