@@ -714,6 +714,8 @@ $ make
 
 The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr and other deprecated features.
 
+**Caution:** Visual Studio users should not use -DCMAKE\_CXX\_STANDARD=11 or -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
+
 [TOC](#TOC)
 
 <div id="3">
@@ -1187,4 +1189,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-02
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-04
