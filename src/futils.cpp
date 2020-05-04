@@ -68,6 +68,10 @@
 # include <libprocstat.h>
 #endif
 
+#ifndef _MAX_PATH
+#define _MAX_PATH 1024
+#endif
+
 namespace Exiv2 {
     const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
     const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
