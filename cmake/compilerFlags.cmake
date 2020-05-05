@@ -139,7 +139,7 @@ if(MSVC)
     add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
     
     # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
-    if (MSVC_VERSION GREATER_EQUAL "1900") # VS2019 and up
+    if (MSVC_VERSION GREATER_EQUAL "1910") # VS2017 and up
         add_compile_options("/Zc:__cplusplus")
     endif()
 
