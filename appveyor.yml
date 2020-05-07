@@ -41,15 +41,6 @@ environment:
       UNIT_TESTS: 0
       WEBREADY: False
       WARNINGS_AS_ERRORS: OFF
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-      CMAKE_GENERATOR: Ninja
-      INTEGRATION_TESTS: 0
-      VS_COMPILER_VERSION: 11
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 0
-      WEBREADY: False
-      WARNINGS_AS_ERRORS: OFF
 
 shallow_clone: true
 
