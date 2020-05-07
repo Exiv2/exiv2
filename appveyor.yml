@@ -5,13 +5,14 @@ environment:
   PYTHON: "C:/Python37-x64"
     
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: Ninja
       INTEGRATION_TESTS: 1
-      VS_COMPILER_VERSION: 14
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
+      VS_COMPILER_VERSION: 16
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
+      WEBREADY: True
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Ninja
@@ -20,6 +21,16 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
+      WEBREADY: True
+      WARNINGS_AS_ERRORS: ON
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: Ninja
+      INTEGRATION_TESTS: 1
+      VS_COMPILER_VERSION: 14
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86_64
+      UNIT_TESTS: 1
+      WEBREADY: True
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Ninja
@@ -27,16 +38,9 @@ environment:
       VS_COMPILER_VERSION: 11
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat
       ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WARNINGS_AS_ERRORS: ON
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-      CMAKE_GENERATOR: Ninja
-      INTEGRATION_TESTS: 0
-      VS_COMPILER_VERSION: 12
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WARNINGS_AS_ERRORS: ON
+      UNIT_TESTS: 0
+      WEBREADY: False
+      WARNINGS_AS_ERRORS: OFF
 
 shallow_clone: true
 
@@ -66,9 +70,9 @@ build_script:
     - cmd: cd build
     - cmd: call "%VCVARS%" x86_amd64
     - cmd: conan --version
-    - cmd: conan install .. -o webready=True --build missing
+    - cmd: conan install .. -o webready=%WEBREADY% --build missing
     - cmd: echo %CMAKE_GENERATOR%
-    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=%WEBREADY% -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: cmake --build . --config Release
     - cmd: cmake --build . --config Release --target install
     - cmd: cd bin
