@@ -701,7 +701,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all compilers.
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with modern Standard C++ Compilers.
 
 To generate a build with C++11:
 
@@ -712,7 +712,9 @@ $ cmake .. -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated
 $ make
 ```
 
-The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr and other deprecated features.
+The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11 or 14.
+
+The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr and other deprecated features.  **Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
 
 [TOC](#TOC)
 
@@ -768,15 +770,16 @@ There are different kinds of tests:
 
 **Caution Visual Studio Users using cmd.exe**<br>_You may use `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`._  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)
 
-Environment Variables used by test suite
+Environment Variables used by the test suite:
 
 | Variable        | Default | Platforms | Purpose |
 |:--                 |:--        |:--     |:-- |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Locatation of built binary object (exiv2.exe) |
 | EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>Msys<br>MinGW | Extension used by executable binaries |
 | EXIV2_EXT          | _**not set**_  | Linux<br>macOS<br>Unix|  |
-| EXIV2_ECHO          | _**not set**_ | All Platforms | For debugging Bash scripts |
-| VALGRIND            | _**not set**_ | All Platforms | For debugging Bash scripts |
+| EXIV2_ECHO         | _**not set**_ | All Platforms | For debugging Bash scripts |
+| VALGRIND           | _**not set**_ | All Platforms | For debugging Bash scripts |
+| VERBOSE            | _**not set**_ | All Platforms | Causes make to report its actions |
 
 <div id="4-1">
 
@@ -850,10 +853,11 @@ You can build with Visual Studio using Conan.  The is described in detail in [RE
 As a summary, the procedure is:
 
 ```
-c:\...\exiv2> mkdir build
+c:\...\exiv2>mkdir build
+c:\...\exiv2>cd build
 c:\...\exiv2\build>conan install .. --build missing --profile msvc2019Release
 c:\...\exiv2\build>cmake .. -DEXIV2_BUILD_UNIT_TESTS=On -G "Visual Studio 16 2019"
-c:\...\exiv2\build>cmake --build . --config release
+c:\...\exiv2\build>cmake --build . --config Release
 ... lots of output from compiler and linker ...
 c:\...\exiv2\build>
 ```
@@ -867,10 +871,11 @@ c:\...\exiv2\build>copy c:\Python37\python.exe c:\Python37\python3.exe
 You must set the environment strings EXIV2\_BINDIR, EXIV2\_EXT and modify PATH.  You will need a DOS Python3 interpreter on your path, and you'll need the bash interpreter.  By careful to ensure the DOS python3.exe is found before the MingW/msys2 python3.
 
 ```
-c:\...\exiv2\build> set EXIV2_BINDIR=%CD%
-c:\...\exiv2\build> set EXIV2_EXT=.exe
-c:\...\exiv2\build\bin> set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
+c:\...\exiv2\build>set EXIV2_BINDIR=%CD%
+c:\...\exiv2\build>set EXIV2_EXT=.exe
+c:\...\exiv2\build\bin>set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
 ```
+
 Move to the test directory and use make (which is in c:\msys64\usr\bin) to drive the test procedures.  You cannot run the tests in the build directory because there is no Makefile in the build directory.
 
 ```
@@ -895,12 +900,10 @@ set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
 set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
 set "P=%P%c:\Windows\System32;"              # windows
 set "P=%P%%USERPROFILE%\com;"                # my home-made magic
-echo %P%
 set "PATH=%P%"
 set "EXIV2_EXT=.exe"
-set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
-color 0d
-cmd /S /K cd "%EXIV2_BINDIR%\..\.."
+color 1e
+cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
 color
 endlocal
 ```
@@ -911,6 +914,19 @@ When you have the PATH constructed is this way, you can use the cmake command to
 c:\...\exiv2\test>cd ..\build
 c:\...\exiv2\build>cmake --build . --config Release --target tests
 ```
+
+If you wish to use an environment variables, use env:
+
+```
+c:\...\exiv2\build>env VERBOSE=1 cmake --build . --config Release --target tests
+```
+
+When you are in the test directory, msys/make provides the following _(more convenient)_ syntax:
+
+```
+c:\...\exiv2\test>make tests VERBOSE=1
+```
+
 
 
 [TOC](#TOC)
@@ -1078,12 +1094,10 @@ set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
 set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
 set "P=%P%c:\Windows\System32;"              # windows
 set "P=%P%%USERPROFILE%\com;"                # my home-made magic
-echo %P%
 set "PATH=%P%"
 set "EXIV2_EXT=.exe"
-set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
-color 0d
-cmd /S /K cd "%EXIV2_BINDIR%\..\.."
+color 1e
+cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
 color
 endlocal
 ```
@@ -1187,4 +1201,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-02
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-06

@@ -28,9 +28,8 @@ option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo (WEBREADY)"         
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
-option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      ON  )
+option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
 option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentation"            OFF )
-option( EXIV2_BUILD_USE_C++11         "Use the C++11 compiler"                                OFF )
 
 # Only intended to be used by Exiv2 developers/contributors
 option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )

@@ -90,6 +90,7 @@ endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
 if(MSVC)
+
     find_program(CLCACHE name clcache.exe
         PATHS ENV CLCACHE_PATH
         PATH_SUFFIXES Scripts clcache-4.1.0
@@ -136,4 +137,10 @@ if(MSVC)
     # Object Level Parallelism
     add_compile_options(/MP)
     add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
+    
+    # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
+    if (MSVC_VERSION GREATER_EQUAL "1910") # VS2017 and up
+        add_compile_options("/Zc:__cplusplus")
+    endif()
+
 endif()

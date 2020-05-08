@@ -526,7 +526,6 @@ def path(path_string):
     return os.path.join(*path_string.split('/'))
 
 
-def test_run(self):
     """
     This function reads in the attributes commands, retval, stdout, stderr,
     stdin and runs the `expand_variables` function on each. The resulting
@@ -539,6 +538,7 @@ def test_run(self):
     test by the CaseMeta metaclass. This ensures that it is run by each system
     test **after** setUp() and setUpClass() were run.
     """
+def test_run(self):
     if not (len(self.commands) == len(self.retval)
             == len(self.stdout) == len(self.stderr) == len(self.stdin)):
         raise ValueError(

@@ -97,7 +97,9 @@ typedef int pid_t;
 #if __cplusplus >= 201103L
   #include <memory>
   #include <sys/types.h>
-  #include <unistd.h>
+  #ifndef  _MSC_VER
+    #include <unistd.h>
+  #endif
   template <typename T>
   using auto_ptr = std::unique_ptr<T>;
 #endif
