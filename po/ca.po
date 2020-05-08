@@ -45,7 +45,7 @@ msgstr ""
 "Project-Id-Version: Exiv2 0.28\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2017-03-21 21:42+0100\n"
-"PO-Revision-Date: 2020-01-21 14:14+0100\n"
+"PO-Revision-Date: 2020-05-08 13:29+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -53,7 +53,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.03.70\n"
+"X-Generator: Lokalize 20.07.70\n"
 
 #: src/exiv2.cpp:262
 msgid ""
@@ -1714,8 +1714,8 @@ msgid ""
 "Occurrence was recorded. Recommended best practice is to use a controlled "
 "vocabulary."
 msgstr ""
-"Una descripció del comportament mostrat per l'assumpte en el moment en què es "
-"va registrar l'Aparició. La millor pràctica recomanada és emprar un "
+"Una descripció del comportament mostrat pel motiu de la imatge en el moment "
+"en què es va registrar l'Aparició. La millor pràctica recomanada és emprar un "
 "vocabulari controlat."
 
 #: src/properties.cpp:360
@@ -1933,7 +1933,7 @@ msgid ""
 "organizations who assigned the Taxon to the subject."
 msgstr ""
 "Una llista (concatenada i separada) de noms de persones, grups o "
-"organitzacions que han assignat el Taxó al subjecte."
+"organitzacions que han assignat el Taxó al motiu de la imatge."
 
 #: src/properties.cpp:2107
 msgid ""
@@ -1959,7 +1959,7 @@ msgid ""
 "typified scientific name, publication) applied to the subject."
 msgstr ""
 "Una llista (concatenada i separada) de tipus de nomenclatura (estat del "
-"tipus, nom científic tipificat, publicació) aplicats al tema."
+"tipus, nom científic tipificat, publicació) aplicats al motiu de la imatge."
 
 #: src/properties.cpp:1843
 msgid ""
@@ -3251,8 +3251,8 @@ msgid ""
 "An identifier for a related resource (the object, rather than the subject of "
 "the relationship)."
 msgstr ""
-"Un identificador per a un recurs relacionat (l'objecte, en lloc del subjecte "
-"de la relació)."
+"Un identificador per a un recurs relacionat (l'objecte, en lloc del motiu de "
+"la relació)."
 
 #: src/properties.cpp:278
 msgid ""
@@ -3269,8 +3269,8 @@ msgid ""
 "An identifier for an instance of relationship between one resource (the "
 "subject) and another (relatedResource, the object)."
 msgstr ""
-"Un identificador per a una instància de relació entre un recurs (el subjecte) "
-"i un altre («relatedResource», l'objecte)."
+"Un identificador per a una instància de relació entre un recurs (el motiu de "
+"la imatge) i un altre («relatedResource», l'objecte)."
 
 #: src/properties.cpp:2191
 msgid ""
@@ -3420,7 +3420,7 @@ msgstr ""
 
 #: src/properties.cpp:2329
 msgid "An identifier for the resource that is the subject of the relationship."
-msgstr "Un identificador per al recurs que és el subjecte de la relació."
+msgstr "Un identificador per al recurs que és el motiu de la relació."
 
 #: src/properties.cpp:1765
 msgid ""
@@ -5777,7 +5777,7 @@ msgstr "Vista propera"
 
 #: src/nikonmn.cpp:1620
 msgid "Closest subject"
-msgstr "Subjecte proper"
+msgstr "Motiu proper"
 
 #: src/canonmn.cpp:1264 src/fujimn.cpp:73 src/minoltamn.cpp:226
 #: src/minoltamn.cpp:691 src/minoltamn.cpp:876 src/minoltamn.cpp:1204
@@ -8243,7 +8243,7 @@ msgstr "Àrea dinàmica (amplada)"
 
 #: src/nikonmn.cpp:830
 msgid "Dynamic Area, Closest Subject"
-msgstr "Àrea dinàmica, subjecte proper"
+msgstr "Àrea dinàmica, motiu proper"
 
 #: src/properties.cpp:1785
 msgid "Dynamic Properties"
@@ -8288,7 +8288,7 @@ msgstr "Àrea dinàmica (amplada)"
 
 #: src/nikonmn.cpp:89
 msgid "Dynamic area, closest subject"
-msgstr "Àrea dinàmica, subjecte proper"
+msgstr "Àrea dinàmica, motiu proper"
 
 #: src/fujimn.cpp:255
 msgid "Dynamic range"
@@ -8520,7 +8520,7 @@ msgstr ""
 
 #: src/properties.cpp:837
 msgid "EXIF tag 37382, 0x9206. Distance to subject, in meters."
-msgstr "Etiqueta 37382, 0x9206 de l'Exif. Distància del subjecte, en metres."
+msgstr "Etiqueta 37382, 0x9206 de l'Exif. Distància del motiu, en metres."
 
 #: src/properties.cpp:838
 msgid "EXIF tag 37383, 0x9207. Metering mode."
@@ -8547,8 +8547,8 @@ msgid ""
 "EXIF tag 37396, 0x9214. The location and area of the main subject in the "
 "overall scene."
 msgstr ""
-"Etiqueta 37396, 0x9214 de l'Exif. La ubicació i l'àrea del subjecte principal "
-"en l'escena global."
+"Etiqueta 37396, 0x9214 de l'Exif. La ubicació i l'àrea del motiu principal en "
+"l'escena global."
 
 #: src/properties.cpp:816
 msgid "EXIF tag 37510, 0x9286. Comments from user."
@@ -8623,9 +8623,9 @@ msgid ""
 "value is the horizontal pixel and the second value is the vertical pixel at "
 "which the main subject appears."
 msgstr ""
-"Etiqueta 41492, 0xA214 de l'Exif. Ubicació del subjecte principal de "
-"l'escena. El primer valor és el píxel horitzontal i el segon és el píxel "
-"vertical en el qual apareix el subjecte principal."
+"Etiqueta 41492, 0xA214 de l'Exif. Ubicació del motiu principal de l'escena. "
+"El primer valor és el píxel horitzontal i el segon és el píxel vertical en el "
+"qual apareix el motiu principal de la imatge."
 
 #: src/properties.cpp:852
 msgid "EXIF tag 41493, 0xA215. Exposure index of input device."
@@ -8745,7 +8745,8 @@ msgstr ""
 
 #: src/properties.cpp:870
 msgid "EXIF tag 41996, 0xA40C. Indicates the distance to the subject."
-msgstr "Etiqueta 41996, 0xA40C de l'Exif. Indica la distància al subjecte."
+msgstr ""
+"Etiqueta 41996, 0xA40C de l'Exif. Indica la distància al motiu de la imatge."
 
 #: src/properties.cpp:871
 msgid ""
@@ -11804,7 +11805,7 @@ msgstr "Programa d'alta velocitat"
 
 #: src/properties.cpp:451
 msgid "Hierarchical Subject"
-msgstr "Subjecte jeràrquic"
+msgstr "Jerarquia del motiu"
 
 #: src/properties.cpp:1299
 msgid "Hierarchy"
@@ -12101,7 +12102,7 @@ msgstr "Escena IPTC"
 
 #: src/properties.cpp:963
 msgid "IPTC Subject Code"
-msgstr "Codi IPTC del subjecte"
+msgstr "Codi IPTC del motiu"
 
 #: src/tags.cpp:794
 msgid "IPTC/NAA"
@@ -12426,9 +12427,9 @@ msgid ""
 "list of categories will be maintained by a regional registry, where "
 "available, otherwise by the provider."
 msgstr ""
-"Identifica al subjecte de les dades de l'objecte en l'opinió del proveïdor. "
-"Una llista de categories serà mantinguda per un registre regional, el qual "
-"estarà disponible, en cas contrari pel proveïdor."
+"Identifica al motiu de les dades de l'objecte en l'opinió del proveïdor. Una "
+"llista de categories serà mantinguda per un registre regional, el qual estarà "
+"disponible, en cas contrari pel proveïdor."
 
 #: src/properties.cpp:1069
 msgid "Identifies the type of image delivered."
@@ -13183,7 +13184,7 @@ msgstr "Indica l'equilibri esquerra-dreta de l'àudio"
 #: src/tags.cpp:848
 msgid ""
 "Indicates the location and area of the main subject in the overall scene."
-msgstr "Indica la ubicació i l'àrea del subjecte principal en l'escena global."
+msgstr "Indica la ubicació i l'àrea del motiu principal en l'escena global."
 
 #: src/tags.cpp:1799
 msgid ""
@@ -19197,9 +19198,9 @@ msgid ""
 msgstr ""
 "Proporciona un consell al lector DNG sobre com és de fort el filtre "
 "antialiàsing de la càmera. Un valor de 0.0 indicarà que no n'hi ha cap (és a "
-"dir, la càmera és propensa a artefactes d'aliàsing amb alguns subjectes), "
-"mentre que un valor d'1,0 indicarà un filtre fort (és a dir, la càmera "
-"gairebé mai no tindrà artefactes d'aliàsing)."
+"dir, la càmera és propensa a defectes d'aliàsing amb alguns motius de la "
+"imatge), mentre que un valor d'1,0 indicarà un filtre fort (és a dir, la "
+"càmera gairebé mai no tindrà defectes d'aliàsing)."
 
 #: src/tags.cpp:901
 msgid ""
@@ -19508,7 +19509,7 @@ msgid ""
 msgstr ""
 "Les imatges RAW sovint emmagatzemen píxels addicionals al voltant de les "
 "vores de la imatge final. Aquests píxels addicionals ajuden a evitar "
-"artefactes d'interpolació a prop de les vores de la imatge final. el "
+"defectes d'interpolació a prop de les vores de la imatge final. el "
 "«DefaultCropOrigin» especifica l'origen de l'àrea de la imatge final, en "
 "coordenades de la imatge RAW (és a dir, abans que s'hagi aplicat "
 "«DefaultScale»), relativa a la cantonada superior esquerra del rectangle "
@@ -21546,8 +21547,8 @@ msgid ""
 "to categorize the content. Each Subject is represented as a string of 8 "
 "digits in an unordered list."
 msgstr ""
-"Especifica un o més subjectes des de la taxonomia «Subject-NewsCodes» de la "
-"IPTC per a classificar el contingut. Cada subjecte es representarà com una "
+"Especifica un o més Motius des de la taxonomia «Subject-NewsCodes» de la "
+"IPTC per a classificar el contingut. Cada Motiu es representarà com una "
 "cadena de 8 dígits en una llista desordenada."
 
 #: src/tags.cpp:916
@@ -22151,44 +22152,45 @@ msgstr ""
 
 #: src/datasets.cpp:213 src/properties.cpp:189 src/properties.cpp:1616
 msgid "Subject"
-msgstr "Subjecte"
+msgstr "Motiu"
 
 #: src/properties.cpp:842 src/tags.cpp:1712
 msgid "Subject Area"
-msgstr "Àrea del subjecte"
+msgstr "Àrea del motiu"
 
 #: src/canonmn.cpp:1334 src/properties.cpp:837 src/tags.cpp:834
 #: src/tags.cpp:1696
 msgid "Subject Distance"
-msgstr "Distància del subjecte"
+msgstr "Distància del motiu"
 
 #: src/properties.cpp:870 src/tags.cpp:1877
 msgid "Subject Distance Range"
-msgstr "Interval de la distància del subjecte"
+msgstr "Interval de la distància del motiu"
 
 #: src/properties.cpp:849 src/tags.cpp:848 src/tags.cpp:1798
 msgid "Subject Location"
-msgstr "Ubicació del subjecte"
+msgstr "Ubicació del motiu"
 
 #: src/minoltamn.cpp:586
 msgid "Subject Program"
-msgstr "Programa del subjecte"
+msgstr "Programa del motiu"
 
 #: src/actions.cpp:385 src/canonmn.cpp:1334
 msgid "Subject distance"
-msgstr "Distància del subjecte"
+msgstr "Distància del motiu"
 
 #: src/minoltamn.cpp:587
 msgid "Subject program"
-msgstr "Programa del subjecte"
+msgstr "Programa del motiu"
 
 #: src/tags.cpp:868
 msgid "Subject tag used by Windows, encoded in UCS2"
-msgstr "Etiqueta del subjecte emprada per Windows, codificada en UCS2"
+msgstr ""
+"Etiqueta del motiu de la imatge emprada per Windows, codificada en UCS2"
 
 #: src/properties.cpp:1616
 msgid "Subject."
-msgstr "Subjecte."
+msgstr "Motiu."
 
 #: src/properties.cpp:1611
 msgid "Subtitle"
@@ -22368,7 +22370,7 @@ msgid ""
 "in tag <Category>. Otherwise, selection of supplemental categories are left "
 "to the provider."
 msgstr ""
-"Les categories addicionals refinen encara més el subjecte d'algunes dades de "
+"Les categories addicionals refinen encara més el motiu d'algunes dades de "
 "l'objecte. Una categoria addicional pot incloure qualsevol de les categories "
 "reconegudes que s'usen a l'etiqueta <Category>. En cas contrari, la selecció "
 "de les categories addicionals es deixa al proveïdor."
@@ -22881,7 +22883,7 @@ msgid ""
 "<LanguageIdentifier>"
 msgstr ""
 "L'atribut de l'objecte defineix la naturalesa de l'objecte independentment "
-"del subjecte. La primera part és un número que representa una referència "
+"del Motiu. La primera part és un número que representa una referència "
 "internacional independent de l'idioma a un atribut de l'objecte, seguit d'un "
 "separador amb un caràcter de dos punts. La segona part, si s'usa, és una "
 "representació de text del número de l'atribut de l'objecte que consta de "
@@ -22920,8 +22922,8 @@ msgstr ""
 #: src/datasets.cpp:214
 msgid "The Subject Reference is a structured definition of the subject matter."
 msgstr ""
-"La referència del subjecte és una definició estructurada de l'assumpte del "
-"subjecte."
+"La referència del Motiu és una definició estructurada de l'assumpte del "
+"motiu de la imatge."
 
 #: src/properties.cpp:1586
 msgid "The Version of the software used."
@@ -23255,9 +23257,9 @@ msgid ""
 "Recommended best practice is to use an encoding scheme, such as ISO "
 "8601:2004(E)."
 msgstr ""
-"La data en la qual el subjecte es va identificar com a representant del Taxó. "
-"La millor pràctica recomanada és emprar un esquema amb codificació, com l'ISO "
-"8601:2004(E)."
+"La data en la qual el motiu de la imatge es va identificar com a representada "
+"pel Taxó. La millor pràctica recomanada és emprar un esquema amb codificació, "
+"com l'ISO 8601:2004(E)."
 
 #: src/properties.cpp:467
 msgid ""
@@ -23321,7 +23323,7 @@ msgstr "El director de l'escena."
 
 #: src/tags.cpp:834 src/tags.cpp:1697
 msgid "The distance to the subject, given in meters."
-msgstr "La distància al subjecte, indicada en metres."
+msgstr "La distància al motiu de la imatge, indicada en metres."
 
 #: src/properties.cpp:309
 msgid ""
@@ -24265,10 +24267,11 @@ msgid ""
 "Eye Level, High Angle, Overhead Shot, Birds Eye Shot, Dutch Angle, POV, Over "
 "the Shoulder, Reaction Shot."
 msgstr ""
-"L'orientació de la càmera al subjecte en una captura estàtica, a partir d'un "
-"conjunt fix de terminologia estàndard de la indústria. Els valors predefinits "
-"inclouen: Angle baix, Nivell dels ulls, Angle alt, Captura cap amunt, Captura "
-"a vista d'ocell, Angle holandès, POV, Sobre l'espatlla, Captura de reacció."
+"L'orientació de la càmera al motiu de la imatge en una captura estàtica, a "
+"partir d'un conjunt fix de terminologia estàndard de la indústria. Els valors "
+"predefinits inclouen: Angle baix, Nivell dels ulls, Angle alt, Captura cap "
+"amunt, Captura a vista d'ocell, Angle holandès, POV, Sobre l'espatlla, "
+"Captura de reacció."
 
 #: src/properties.cpp:2044
 msgid "The original description of the depth below the local surface."
@@ -24407,9 +24410,9 @@ msgid ""
 "subject (optionally identified by the resourceID). Recommended best practice "
 "is to use a controlled vocabulary."
 msgstr ""
-"La relació del recurs identificat per «relatedResourceID» per al subjecte "
-"(identificat de manera opcional per la «resourceID»). La millor pràctica "
-"recomanada és emprar un vocabulari controlat."
+"La relació del recurs identificat per «relatedResourceID» per al motiu de la "
+"imatge (identificat de manera opcional per la «resourceID»). La millor "
+"pràctica recomanada és emprar un vocabulari controlat."
 
 #: src/properties.cpp:388
 msgid ""
@@ -25199,7 +25202,7 @@ msgstr ""
 
 #: src/tags.cpp:1878
 msgid "This tag indicates the distance to the subject."
-msgstr "Aquesta etiqueta indica la distància al subjecte."
+msgstr "Aquesta etiqueta indica la distància al motiu de la imatge."
 
 #: src/tags.cpp:1847
 msgid ""
@@ -25227,8 +25230,8 @@ msgid ""
 "This tag indicates the location and area of the main subject in the overall "
 "scene."
 msgstr ""
-"Aquesta etiqueta indica la ubicació i l'àrea del subjecte principal en "
-"l'escena global."
+"Aquesta etiqueta indica la ubicació i l'àrea del motiu principal en l'escena "
+"global."
 
 #: src/tags.cpp:1632
 msgid ""
@@ -26672,8 +26675,8 @@ msgid ""
 msgstr ""
 "S'usen per indicar les paraules de recuperació d'informació específica. "
 "Espera que un proveïdor de diversos tipus de dades que estiguin relacionades "
-"amb la matèria del subjecte usi la mateixa paraula clau, cosa que permet que "
-"el sistema o subsistemes receptors facin cerques en tota mena de dades per a "
+"amb la matèria del motiu usi la mateixa paraula clau, cosa que permet que el "
+"sistema o subsistemes receptors facin cerques en tota mena de dades per a "
 "material relacionat."
 
 #: src/properties.cpp:816 src/tags.cpp:1720
