@@ -4,7 +4,7 @@ init:
 environment:
   PYTHON: "C:/Python37-x64"
     
-matrix:
+  matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: Ninja
       INTEGRATION_TESTS: 1
