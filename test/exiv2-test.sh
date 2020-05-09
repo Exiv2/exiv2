@@ -2,7 +2,11 @@
 # Test driver for exiv2 utility tests
 
 source ./functions.source
-diffargs="-w --text $diffargs"
+if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
+    diffargs="-w $diffargs"
+else 
+    diffargs="-w --text $diffargs"
+fi
 
 (   cd "$testdir"
 
