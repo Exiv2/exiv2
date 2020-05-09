@@ -22,9 +22,9 @@ exifprobe()
     vals=()
     while read line; do
         tag=$(echo $line|cut -d.   -f 3  | cut -d' ' -f 1)                                    ; tags+=($tag)
-        typ=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 1 ); typs+=($typ)
-        len=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 2 ); lens+=($len)
-        val=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 3-); vals+=("$val")
+        typ=$(echo $line|cut -d' ' -f 2- | sed -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 1 ); typs+=($typ)
+        len=$(echo $line|cut -d' ' -f 2- | sed -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 2 ); lens+=($len)
+        val=$(echo $line|cut -d' ' -f 2- | sed -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 3-); vals+=("$val")
     done < <( runTest exiv2 -pa $f  2>/dev/null ) # process pipe
     count=${#tags[@]}
 
@@ -52,9 +52,9 @@ exifprobe()
         k=$((k+1)) # skip the first couple of lines
         if [ $k -gt 2 ]; then
             TAG=$(echo $line| cut -d'|' -f 2  | cut -d' ' -f 3    ); TAGS+=($TAG);
-            TYP=$(echo $line| cut -d'|' -f 3  | sed -E -e's/ +//g'); TYPS+=($TYP)
-            LEN=$(echo $line| cut -d'|' -f 4  | sed -E -e's/ +//g'); LENS+=($LEN)
-            OFF=$(echo $line| cut -d'|' -f 5  | sed -E -e's/ +//g'); OFFS+=($OFF)
+            TYP=$(echo $line| cut -d'|' -f 3  | sed -e's/ +//g'); TYPS+=($TYP)
+            LEN=$(echo $line| cut -d'|' -f 4  | sed -e's/ +//g'); LENS+=($LEN)
+            OFF=$(echo $line| cut -d'|' -f 5  | sed -e's/ +//g'); OFFS+=($OFF)
             VAL=$(echo $line| cut -d'|' -f 6- | sed -e's/^ //'    ); VALS+=($"$VAL")
         fi
     done < <( runTest exiv2 -pS $f | grep -v -e '^END' 2>/dev/null )
