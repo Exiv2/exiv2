@@ -139,7 +139,7 @@ runTestCase()
     runTest exifprint $rtc_infile > iii;
     cp $rtc_infile $rtc_outfile;
     runTest write-test $rtc_infile $rtc_number > ttt;
-    diff -a iii ttt
+    diff $diffargs iii ttt
 }
 
 ##
@@ -430,7 +430,7 @@ checkSum()
     if [ "$platform" == 'NetBSD' -o "$platform" == 'FreeBSD' ]; then
       md5 -q $1
     else
-      md5sum $1 | cut -d' ' -f 1
+      md5sum $1 | cut -f 1 -d' ' 
     fi
 }
 
