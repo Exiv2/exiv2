@@ -131,6 +131,9 @@ xmpparser-test:
 
 version_test \
 unit_test    :
+	@echo
+	@echo ---- Running $@ ----
+	@echo
 	-@./$@.sh
 
 tests:
@@ -146,7 +149,7 @@ tests:
 
 bash_tests:
 	@echo
-	@echo ---- Running bash tests: ALL ----
+	@echo ---- Running bash tests ----
 	@echo
 	@mkdir -p tmp
 	@rm -rf tmp/test-failed
@@ -161,6 +164,9 @@ bash_tests:
 
 
 python_tests:
+	@echo
+	@echo ---- Running python_tests ----
+	@echo
 	-( cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
 
 testv:

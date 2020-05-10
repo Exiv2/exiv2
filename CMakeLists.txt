@@ -91,7 +91,7 @@ if( EXIV2_BUILD_UNIT_TESTS )
 endif()
 
 add_custom_target(version_test
-	COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" ./version_test.sh
+	COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make version_test
 	WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
 )
 
