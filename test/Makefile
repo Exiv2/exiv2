@@ -149,7 +149,7 @@ tests:
 
 bash_tests:
 	@echo
-	@echo ---- Running bash tests ----
+	@echo ---- Running bash_tests ----
 	@echo
 	@mkdir -p tmp
 	@rm -rf tmp/test-failed
