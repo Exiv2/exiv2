@@ -133,26 +133,22 @@ version_test \
 unit_test    :
 	-@./$@.sh
 
-bash_tests:
-	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
-	    -@./$@.sh ; \
-	else \
-	    make bash_test ; \
-	fi
-
 tests:
 	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
 	    -@./$@.sh ; \
 	else \
-	    make unit_test ; make bash_test ; make python_tests ; make version_test ; \
+	    make unit_test    ; \
+	    make bash_tests   ; \
+	    make python_tests ; \
+	    make version_test ; \
 	fi
 
 
-bash_test:
+bash_tests:
 	@echo
 	@echo ---- Running bash tests: ALL ----
 	@echo
-	mkdir -p tmp
+	@mkdir -p tmp
 	@rm -rf tmp/test-failed
 	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
