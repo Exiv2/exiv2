@@ -42,60 +42,7 @@ class AddMinusPSOption(metaclass=CaseMeta):
         read_file(
             os.path.join(cls_location, "issue_922_exiv2_pX_bug922_jpg_output")
         ),
-        """<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.1.1-Exiv2">
- <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <rdf:Description rdf:about=""
-    xmlns:xap="http://ns.adobe.com/xap/1.0/"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
-    xmlns:xapMM="http://ns.adobe.com/xap/1.0/mm/"
-    xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
-    xmlns:exif="http://ns.adobe.com/exif/1.0/"
-   xap:CreateDate="2009-06-03T17:02:22+02:00"
-   xap:ModifyDate="2009-06-03T17:02:22+02:00"
-   xap:MetadataDate="2009-06-03T17:02:22+02:00"
-   xap:CreatorTool="Adobe Photoshop CS3 Macintosh"
-   dc:format="image/jpeg"
-   photoshop:ColorMode="3"
-   photoshop:History=""
-   xapMM:InstanceID="uuid:6E0DE597F251DE119368FCA8AE42D1CE"
-   xapMM:DocumentID="uuid:6D0DE597F251DE119368FCA8AE42D1CE"
-   tiff:Orientation="1"
-   tiff:XResolution="720000/10000"
-   tiff:YResolution="720000/10000"
-   tiff:ResolutionUnit="2"
-   tiff:NativeDigest="256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;A50D672D77BFA6B1794A470713D72F1B"
-   exif:PixelXDimension="420"
-   exif:PixelYDimension="300"
-   exif:ColorSpace="-1"
-   exif:NativeDigest="36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;994BCC01E43CFBC321A79B1A803AAF9B">
-   <xapMM:DerivedFrom rdf:parseType="Resource"/>
-  </rdf:Description>
- </rdf:RDF>
-</x:xmpmeta>
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                           
-<?xpacket end="w"?>""",
+        """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2"> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xap="http://ns.adobe.com/xap/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/" xmlns:xapMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:exif="http://ns.adobe.com/exif/1.0/" xap:CreateDate="2009-06-03T17:02:22+02:00" xap:ModifyDate="2009-06-03T17:02:22+02:00" xap:MetadataDate="2009-06-03T17:02:22+02:00" xap:CreatorTool="Adobe Photoshop CS3 Macintosh" dc:format="image/jpeg" photoshop:ColorMode="3" photoshop:History="" xapMM:InstanceID="uuid:6E0DE597F251DE119368FCA8AE42D1CE" xapMM:DocumentID="uuid:6D0DE597F251DE119368FCA8AE42D1CE" tiff:Orientation="1" tiff:XResolution="720000/10000" tiff:YResolution="720000/10000" tiff:ResolutionUnit="2" tiff:NativeDigest="256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;A50D672D77BFA6B1794A470713D72F1B" exif:PixelXDimension="420" exif:PixelYDimension="300" exif:ColorSpace="-1" exif:NativeDigest="36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;994BCC01E43CFBC321A79B1A803AAF9B"> <xapMM:DerivedFrom rdf:parseType="Resource"/> </rdf:Description> </rdf:RDF> </x:xmpmeta>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?xpacket end="w"?>""",
         """<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">

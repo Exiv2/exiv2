@@ -17,7 +17,5 @@ class BufferOverflowInSscanf(metaclass=system_tests.CaseMeta):
 Iptc.Application2.DateCreated                Date        8  2005-08-09
 Iptc.Application2.TimeCreated                Time       11  01:28:31-07:00
 """]
-    stderr = ["""Error: Directory NikonPreview with 8224 entries considered invalid; not read.
-Warning: Directory Photo, entry 0x9286 has unknown Exif (TIFF) type 14; setting type size 1.
-"""]
+    stderr = [""]
     retval = [0]
