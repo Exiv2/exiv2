@@ -18,7 +18,7 @@ exiv2-empty.jpg       Exif.Image.DateTime                          Ascii      19
 exiv2-empty.jpg       Exif.Image.Artist                            Ascii      17  Vincent van Gogh
 exiv2-empty.jpg       Exif.Image.WhitePoint                        Short       5  32 12 4 5 6
 exiv2-empty.jpg       Exif.Image.ExifTag                           Long        1  110
-exiv2-empty.jpg       Exif.Photo.UserComment                       Undefined  37  charset="Ascii" This is an ASCII Exif comment
+exiv2-empty.jpg       Exif.Photo.UserComment                       Undefined  37  charset=Ascii This is an ASCII Exif comment
 File 2/2: exiv2-gc.jpg
 exiv2-gc.jpg          Exif.Image.ImageDescription                  Ascii      18  Exif JPEG        
 exiv2-gc.jpg          Exif.Image.Make                              Ascii       8  Camera 

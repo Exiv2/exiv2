@@ -306,7 +306,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg  White balance   : AUTO        
 20040329_224245.jpg  Thumbnail       : image/jpeg, 8930 Bytes
 20040329_224245.jpg  Copyright       : 
-20040329_224245.jpg  Exif comment    : charset="Ascii"                                     
+20040329_224245.jpg  Exif comment    : charset=Ascii                                     
 
 File  5/15: 20010405_235039.jpg
 20010405_235039.jpg  File name       : 20010405_235039.jpg
@@ -934,7 +934,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
-20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset="Ascii"                                     
+20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
 20040329_224245.jpg   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 20040329_224245.jpg   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
@@ -2547,7 +2547,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
-< 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset="Ascii"                                     
+< 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
@@ -4088,7 +4088,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
-> 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset="Ascii"                                     
+> 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
@@ -5849,7 +5849,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
-< 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset="Ascii"                                     
+< 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 < 20040329_224245.jpg   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
@@ -7390,7 +7390,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
-> 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset="Ascii"                                     
+> 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeOriginal                Ascii       3  00
 > 20040329_224245.exv   Exif.Photo.SubSecTimeDigitized               Ascii       3  00
