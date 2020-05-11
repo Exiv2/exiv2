@@ -34,7 +34,7 @@ Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 Exif.Photo.MeteringMode                      Short       1  Center weighted average
 Exif.Photo.Flash                             Short       1  No, auto
 Exif.Photo.FocalLength                       Rational    1  21.3 mm
-Exif.Photo.MakerNote                         Undefined 450  (Binary value suppressed)
+Exif.Photo.MakerNote                         Undefined 450  12 0 1 0 3 0 40 0 0 0 68 4 0 0 2 0 3 0 4 0 0 0 148 4 0 0 3 0 3 0 4 0 0 0 156 4 0 0 4 0 3 0 27 0 0 0 164 4 0 0 0 0 3 0 6 0 0 0 218 4 0 0 0 0 3 0 4 0 0 0 230 4 0 0 6 0 2 0 32 0 0 0 238 4 0 0 7 0 2 0 24 0 0 0 14 5 0 0 8 0 4 0 1 0 0 0 59 225 17 0 9 0 2 0 32 0 0 0 38 5 0 0 16 0 4 0 1 0 0 0 0 0 17 1 13 0 3 0 21 0 0 0 70 5 0 0 0 0 0 0 80 0 2 0 0 0 5 0 1 0 0 0 0 0 4 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 17 0 5 0 1 0 3 48 1 0 255 255 255 255 170 2 227 0 32 0 149 0 192 0 0 0 0 0 0 0 0 0 0 0 0 0 255 255 49 0 224 8 224 8 0 0 1 0 2 0 170 2 30 1 215 0 0 0 0 0 0 0 0 0 54 0 0 0 160 0 20 1 149 0 31 1 0 0 0 0 0 0 0 0 6 0 0 0 0 0 0 0 2 48 0 0 0 0 0 0 1 0 14 3 0 0 149 0 33 1 0 0 0 0 0 0 250 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 73 77 71 58 80 111 119 101 114 83 104 111 116 32 83 52 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 49 46 49 48 0 0 0 65 110 100 114 101 97 115 32 72 117 103 103 101 108 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42 0 3 0 1 128 122 1 1 128 0 0 0 0 0 0 3 1 2 0 0 0 10 0 0 0 0 0 0 0 57 0 198 0 5 0 0 0 0 0 0 0
 Exif.MakerNote.Offset                        Long        1  942
 Exif.MakerNote.ByteOrder                     Ascii       3  II
 Exif.CanonCs.Macro                           Short       1  Off
@@ -93,7 +93,7 @@ Exif.Canon.FileNumber                        Long        1  117-1771
 Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 Exif.Canon.ModelID                           Long        1  PowerShot S40
 Exif.Canon.CameraInfo                        Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                       Undefined 264  (Binary value suppressed)
+Exif.Photo.UserComment                       Undefined 264  binary comment
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
 Exif.Photo.PixelXDimension                   Short       1  2272

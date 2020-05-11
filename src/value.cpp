@@ -555,6 +555,16 @@ namespace Exiv2 {
         return os << comment();
     }
 
+    static bool isBinary(const std::string& s)
+    {
+        bool result = false ;
+        size_t i = 0;
+        while ( !result && i < s.length() ) {
+            result = s[i++] < 32 || s[i] > 127 ;
+        }
+        return result;
+    }
+
     std::string CommentValue::comment(const char* encoding) const
     {
         std::string c;
@@ -565,6 +575,10 @@ namespace Exiv2 {
         if (charsetId() == unicode) {
             const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
+        } else {
+            if ( isBinary(c) ) {
+                c = "binary comment" ;
+            }
         }
         return c;
     }
@@ -1191,7 +1205,7 @@ namespace Exiv2 {
                    time_.hour, time_.minute, time_.second,
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
-        enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
+        // enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
         std::memcpy(buf, temp, wrote);
         return wrote;
     }

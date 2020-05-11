@@ -139,7 +139,7 @@ runTestCase()
     runTest exifprint $rtc_infile > iii;
     cp $rtc_infile $rtc_outfile;
     runTest write-test $rtc_infile $rtc_number > ttt;
-    diff -a iii ttt
+    diff $diffargs iii ttt
 }
 
 ##
@@ -227,8 +227,10 @@ diffCheck()
     if [ -z "$errors" ]; then let -a errors=0; fi
 
     #run diff and check results
-    if [ $(uname) == FreeBSD -o $(uname) == NetBSD -o $(uname) == SunOS ]; then
+    if [ "$PLATFORM" == SunOS ]; then
     	bdiff $diffargs "$test" "$good"
+    elif [ "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ]; then
+    	diff $diffargs "$test" "$good"
     else
     	diff --binary $diffargs "$test" "$good"
     fi
@@ -430,7 +432,7 @@ checkSum()
     if [ "$platform" == 'NetBSD' -o "$platform" == 'FreeBSD' ]; then
       md5 -q $1
     else
-      md5sum $1 | cut -d' ' -f 1
+      md5sum $1 | cut -f 1 -d' ' 
     fi
 }
 

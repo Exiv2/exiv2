@@ -23,7 +23,7 @@ class test_issue_1046Test(metaclass=CaseMeta):
                 ,  "$exiv2 -pt -g GPSPro -g GPSArea      $filename"
                 ,  "$exiv2 -pv -g GPSPro -g GPSArea      $filename"
                 ]
-    stdout = ["""Exif.Photo.UserComment                       Undefined  12  AB
+    stdout = ["""Exif.Photo.UserComment                       Undefined  12  charset="Unicode" AB
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
 Exif.GPSInfo.GPSLatitude                     Rational    3  51deg 23' 13"
@@ -33,7 +33,7 @@ Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Above sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  104.2 m
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  10:34:11
 Exif.GPSInfo.GPSMapDatum                     Ascii       7  WGS-84
-Exif.GPSInfo.GPSProcessingMethod             Undefined  18  HYBRID-FIX
+Exif.GPSInfo.GPSProcessingMethod             Undefined  18  charset="Ascii" HYBRID-FIX
 Exif.GPSInfo.GPSAreaInformation              Undefined  23  Surrey, England
 Exif.GPSInfo.GPSDateStamp                    Ascii      20  2020:02:02 10:34:11
 ""","""0x9286 Photo        UserComment                 Undefined  12  charset="Unicode" AB
@@ -49,14 +49,14 @@ Exif.GPSInfo.GPSDateStamp                    Ascii      20  2020:02:02 10:34:11
 0x001b GPSInfo      GPSProcessingMethod         Undefined  18  charset="Ascii" HYBRID-FIX
 0x001c GPSInfo      GPSAreaInformation          Undefined  23  Surrey, England
 0x001d GPSInfo      GPSDateStamp                Ascii      20  2020:02:02 10:34:11
-""","","""Exif.Photo.UserComment                       Undefined  25  how now brown cow
+""","","""Exif.Photo.UserComment                       Undefined  25  charset="Ascii" how now brown cow
 ""","""0x9286 Photo        UserComment                 Undefined  25  charset="Ascii" how now brown cow
-""","","""Exif.Photo.UserComment                       Undefined  12  AB
+""","","""Exif.Photo.UserComment                       Undefined  12  charset="Unicode" AB
 ""","""0x9286 Photo        UserComment                 Undefined  12  charset="Unicode" AB
 ""","","""Exif.Photo.UserComment                       Undefined  19  hello world
 ""","""0x9286 Photo        UserComment                 Undefined  19  hello world
-""","","","""Exif.GPSInfo.GPSProcessingMethod             Undefined  18  Robin
-Exif.GPSInfo.GPSAreaInformation              Undefined  24  area information
+""","","","""Exif.GPSInfo.GPSProcessingMethod             Undefined  18  charset="Unicode" Robin
+Exif.GPSInfo.GPSAreaInformation              Undefined  24  charset="Ascii" area information
 ""","""0x001b GPSInfo      GPSProcessingMethod         Undefined  18  charset="Unicode" Robin
 0x001c GPSInfo      GPSAreaInformation          Undefined  24  charset="Ascii" area information
 """

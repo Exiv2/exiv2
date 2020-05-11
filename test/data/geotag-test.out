@@ -8,7 +8,7 @@ Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Below sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  14.3 m
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  09:54:28
 Exif.GPSInfo.GPSMapDatum                     Ascii       7  WGS-84
-Exif.GPSInfo.GPSProcessingMethod             Undefined  18  HYBRID-FIX
+Exif.GPSInfo.GPSProcessingMethod             Undefined  18  charset="Ascii" HYBRID-FIX
 Exif.GPSInfo.GPSDateStamp                    Ascii      20  2008:05:08 09:54:28
 --- deleting the GPSInfo tags
 --- run geotag ---

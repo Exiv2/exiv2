@@ -689,39 +689,13 @@ namespace Action {
             if (!first)
                 std::cout << "  ";
             first = false;
-            if (md.size() > 128 && Params::instance().binary_ &&
-                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
-                 md.typeId() == Exiv2::signedByte)) {
-                std::cout << _("(Binary value suppressed)") << std::endl;
-                return true;
-            }
-            bool done = false;
-            // handle `comment` typeIDs
-            // $ bin/taglist | grep '\tComment,' | cut -d, -f 5
-            // Exif.Photo.UserComment
-            // Exif.GPSInfo.GPSProcessingMethod
-            // Exif.GPSInfo.GPSAreaInformation
-            if( md.key() == "Exif.Photo.UserComment"
-            ||  md.key() == "Exif.GPSInfo.GPSProcessingMethod"
-            ||  md.key() == "Exif.GPSInfo.GPSAreaInformation"
-            ) {
-                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
-                if (pcv) {
-                    Exiv2::CommentValue::CharsetId csId = pcv->charsetId();
-                    if (csId != Exiv2::CommentValue::undefined) {
-                        std::cout << "charset=\"" << Exiv2::CommentValue::CharsetInfo::name(csId) << "\" ";
-                    }
-                    std::cout << pcv->comment(Params::instance().charset_.c_str());
-                    done = true;
-                }
-            }
-            if (!done) {
-                // #1114 - show negative values for SByte
-                if (md.typeId() != Exiv2::signedByte) {
-                    std::cout << std::dec << md.value();
-                } else {
-                    int value = md.value().toLong();
-                    std::cout << std::dec << (value < 128 ? value : value - 256);
+            // #1114 - show negative values for SByte
+            if (md.typeId() != Exiv2::signedByte) {
+                std::cout << std::dec << md.value();
+            } else {
+                for ( int c = 0 ; c < md.value().count() ; c++ ) {
+                    int value = md.value().toLong(c);
+                    std::cout << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
             }
         }
@@ -729,35 +703,12 @@ namespace Action {
             if (!first)
                 std::cout << "  ";
             first = false;
-            if (Params::instance().binary_ &&
-                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
-                 md.typeId() == Exiv2::signedByte) &&
-                md.size() > 128) {
-                std::cout << _("(Binary value suppressed)") << std::endl;
-                return true;
-            }
-            bool done = false;
-            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
-                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
-                if (pcv) {
-                    std::cout << pcv->comment(Params::instance().charset_.c_str());
-                    done = true;
-                }
-            }
-            if (!done)
-                std::cout << std::dec << md.print(&pImage->exifData());
+            std::cout << std::dec << md.print(&pImage->exifData());
         }
         if (Params::instance().printItems_ & Params::prHex) {
             if (!first)
                 std::cout << std::endl;
             first = false;
-            if (Params::instance().binary_ &&
-                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
-                 md.typeId() == Exiv2::signedByte) &&
-                md.size() > 128) {
-                std::cout << _("(Binary value suppressed)") << std::endl;
-                return true;
-            }
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.pData_, pImage->byteOrder());
             Exiv2::hexdump(std::cout, buf.pData_, buf.size_);

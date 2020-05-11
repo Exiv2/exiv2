@@ -49,8 +49,7 @@ Exif.Photo.MakerNote                         Undefined  18  0 1 2 0 3 0 0 0 0 0 
 Exif.MakerNote.Offset                        Long        1  796
 Exif.MakerNote.ByteOrder                     Ascii       3  MM
 Exif.Canon.0x0200                            0x0300      0  
-Exif.Photo.UserComment                       Undefined  37  Chateaux de la Loire
-Chambord
+Exif.Photo.UserComment                       Undefined  37  charset="Ascii" binary comment
 Exif.Photo.SubSecTime                        Ascii       3  81
 Exif.Photo.SubSecTimeOriginal                Ascii       3  81
 Exif.Photo.SubSecTimeDigitized               Ascii       3  81

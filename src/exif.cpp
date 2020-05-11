@@ -219,10 +219,19 @@ namespace Exiv2 {
     std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const
     {
         if (value().count() == 0) return os;
-        PrintFct fct = printValue;
-        const TagInfo* ti = Internal::tagInfo(tag(), static_cast<IfdId>(ifdId()));
-        if (ti != 0) fct = ti->printFct_;
-        return fct(os, value(), pMetadata);
+
+        PrintFct       fct = printValue;
+        const TagInfo* ti  = Internal::tagInfo(tag(), static_cast<IfdId>(ifdId()));
+        // be careful with comments (User.Photo.UserComment, GPSAreaInfo etc).
+        if ( ti ) {
+            fct = ti->printFct_;
+            if ( ti->typeId_ == comment ) {
+              os << value().toString();
+              fct=NULL;
+            }
+        }
+        if ( fct ) fct(os, value(), pMetadata);
+        return os;
     }
 
     const Value& Exifdatum::value() const

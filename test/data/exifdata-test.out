@@ -267,7 +267,7 @@ Exif.Canon.FileNumber                         0x0008 Makernote    Long        1 
 Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
 Exif.Canon.ModelID                            0x0010 Makernote    Long        1 17891328
 Exif.Canon.CameraInfo                         0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 binary comment
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -396,7 +396,7 @@ Exif.Canon.FileNumber                         0x0008 Makernote    Long        1 
 Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
 Exif.Canon.ModelID                            0x0010 Makernote    Long        1 17891328
 Exif.Canon.CameraInfo                         0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 binary comment
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -526,7 +526,7 @@ Exif.Canon.FileNumber                         0x0008 Makernote    Long        1 
 Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
 Exif.Canon.ModelID                            0x0010 Makernote    Long        1 17891328
 Exif.Canon.CameraInfo                         0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 binary comment
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272
@@ -656,7 +656,7 @@ Exif.Canon.FileNumber                         0x0008 Makernote    Long        1 
 Exif.Canon.OwnerName                          0x0009 Makernote    Ascii      32 Andreas Huggel
 Exif.Canon.ModelID                            0x0010 Makernote    Long        1 17891328
 Exif.Canon.CameraInfo                         0x000d Makernote    Short      21 42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                        0x9286 Exif         Undefined 264                                                                                                                                                                                                                                                                 
+Exif.Photo.UserComment                        0x9286 Exif         Undefined 264 binary comment
 Exif.Photo.FlashpixVersion                    0xa000 Exif         Undefined   4 48 49 48 48
 Exif.Photo.ColorSpace                         0xa001 Exif         Short       1 1
 Exif.Photo.PixelXDimension                    0xa002 Exif         Short       1 2272

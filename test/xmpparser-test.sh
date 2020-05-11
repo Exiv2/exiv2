@@ -2,6 +2,10 @@
 # XMP parser test driver
 
 source ./functions.source
+if [ "$PLATFORM" == "NetBSD" -o "$PLATFORM" == "SunOS" -o "$PLATFORM" == "FreeBSD" ]; then
+	echo "UNIX platform $PLATFORM Skip $0"
+	exit 0 # UNIX diff complains about newline stuff
+fi
 
 ##
 # Check if xmpparser-test exists

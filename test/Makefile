@@ -72,29 +72,24 @@ SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 
 ##
 # Add test drivers to this list
-TESTS1 = addmoddel.sh         \
+TESTS =  addmoddel.sh         \
          conversions.sh       \
+         exifdata-test.sh     \
+         exiv2-test.sh        \
          geotag-test.sh       \
          icc-test.sh          \
-         iso65k-test.sh       \
-         modify-test.sh       \
-         path-test.sh         \
-         stringto-test.sh     \
-         webp-test.sh         \
-         write2-test.sh       \
-
-# the following tests are broken on UNIX
-# You can manually run all the tests: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin make test`
-# You can manually run a single test: `cd <exiv2dir>/test ; env EXIV2_BINDIR=$PWD/../build/bin ./iotest.sh`
-# Or: make iotest
-TESTS2 = exifdata-test.sh     \
-         exiv2-test.sh        \
          imagetest.sh         \
          iotest.sh            \
          iptctest.sh          \
+         iso65k-test.sh       \
+         modify-test.sh       \
+         path-test.sh         \
          preview-test.sh      \
+         stringto-test.sh     \
          tiff-test.sh         \
+         webp-test.sh         \
          write-test.sh        \
+         write2-test.sh       \
          xmpparser-test.sh
 
 # video tests
@@ -136,30 +131,29 @@ xmpparser-test:
 
 version_test \
 unit_test    :
+	@echo
+	@echo ---- Running $@ ----
+	@echo
 	-@./$@.sh
-
-bash_tests:
-	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
-	    -@./$@.sh ; \
-	else \
-	    make alltest ; \
-	fi
 
 tests:
 	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
 	    -@./$@.sh ; \
 	else \
-	    make unit_test ; make alltest ; make python_tests ; make version_test ; \
+	    make unit_test    ; \
+	    make bash_tests   ; \
+	    make python_tests ; \
+	    make version_test ; \
 	fi
 
 
-alltest:
+bash_tests:
 	@echo
-	@echo ---- Running bash tests: ALL ----
+	@echo ---- Running bash_tests ----
 	@echo
-	mkdir -p tmp
+	@mkdir -p tmp
 	@rm -rf tmp/test-failed
-	@list='$(TESTS1) $(TESTS2)'; for p in $$list; do \
+	@list='$(TESTS)'; for p in $$list; do \
 	    echo Running $$p ...; \
 	    ./$$p;  \
 	    rc=$$?; \
@@ -168,24 +162,12 @@ alltest:
 	done
 	@if [ -e tmp/test-failed ]; then echo ; echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; fi
 
-unixtest:
-	@echo
-	@echo ---- Running bash tests: UNIX subset ----
-	@echo
-	mkdir -p tmp
-	@rm -rf tmp/test-failed
-	@list='$(TESTS1)'; for p in $$list; do \
-	    echo Running $$p ...; \
-	    ./$$p;  \
-	    rc=$$?; \
-	    if [ $$rc -ne 0 ]; then echo '***' ; echo '***' $$p result = $$rc ; echo '***'       ; fi ; \
-	    if [ $$rc -ne 0 ]; then              echo '***' $$p result = $$rc >> tmp/test-failed ; fi ; \
-	done
-	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; fi
 
 python_tests:
+	@echo
+	@echo ---- Running python_tests ----
+	@echo
 	-( cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
-
 
 testv:
 	@for t in /video ; do \
