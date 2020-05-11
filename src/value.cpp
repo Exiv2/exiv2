@@ -560,7 +560,8 @@ namespace Exiv2 {
         bool result = false ;
         size_t i = 0;
         while ( !result && i < s.length() ) {
-            result = s[i++] < 32 || s[i] > 127 ;
+            unsigned char c = (unsigned char) s[i++];
+            result = c < 32 || c > 127 ;
         }
         return result;
     }
