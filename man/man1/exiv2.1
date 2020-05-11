@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "April 30, 2020"
+.TH EXIV2 1 "May 11, 2020"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -543,13 +543,13 @@ $ exiv2 -M'set Exif.Photo.UserComment charset=Ascii My photo' x.jpg
 $ exiv2 -pa --grep UserComment x.jpg
 Exif.Photo.UserComment         Undefined  16  My photo
 $ exiv2 -pv --grep UserComment x.jpg
-0x9286 Photo       UserComment Undefined  16  charset="Ascii" My photo
+0x9286 Photo       UserComment Undefined  16  charset=Ascii My photo
 
 $ exiv2 -M'set Exif.Photo.UserComment charset=Unicode \\u0052\\u006f\\u0062\\u0069\\u006e' x.jpg
 $ exiv2 -pa --grep UserComment x.jpg
 Exif.Photo.UserComment                       Undefined  18  Robin
 $ exiv2 -pv --grep UserComment x.jpg
-0x9286 Photo        UserComment                 Undefined  18  charset="Unicode" Robin
+0x9286 Photo        UserComment                 Undefined  18  charset=Unicode Robin
 
 $ exiv2 -M'set Exif.GPSInfo.GPSProcessingMethod HYBRID-FIX' x.jpg
 $ exiv2 -pa --grep ProcessingMethod        x.jpg
