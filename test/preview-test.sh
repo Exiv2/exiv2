@@ -67,7 +67,7 @@ source ./functions.source
         echo "Exit code: $?"
 
         runTest exiv2 -pp "$filename" 2>/dev/null | sed -n 's,^Preview \([0-9]\+\):.*,\1,p' | while read preview; do
-        	if [ $(uname) == FreeBSD -o $(uname) == NetBSD -o $(uname) == SunOS ]; then
+        	if [ $(uname) == SunOS ]; then
     			bdiff "../data/preview/$image-preview$preview."* "$image-preview$preview."*
     		else
     			diff $diffargs -q "../data/preview/$image-preview$preview."* "$image-preview$preview."*
