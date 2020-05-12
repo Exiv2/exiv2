@@ -14,7 +14,7 @@ class OutOfMemoryInPsdImageReadMetadata(metaclass=CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/855"
 
     filename = path("$data_path/issue_855_poc.psd")
-    commands = ["$exiv2 $filename"]
+    commands = ["$exiv2 -b $filename"]
     stdout = [""]
     stderr = ["""Warning: Failed to decode IPTC metadata.
 Exiv2 exception in print action for file $filename:

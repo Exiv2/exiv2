@@ -9,7 +9,7 @@ class CrashAfterLightzoneEdit(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/exiv2-bug479.jpg"
 
-    commands = ["$exiv2 -u -pt $filename"]
+    commands = ["$exiv2 -u -b -pt $filename"]
 
     stdout = ["""Exif.Image.ImageWidth                        Short       1  3173
 Exif.Image.ImageLength                       Short       1  2011

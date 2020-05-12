@@ -9,7 +9,7 @@ class DontSegfaultWhenAccessingFocalLength(metaclass=CaseMeta):
 
     filename = path("$data_path/exiv2-bug855.jpg")
 
-    commands = ["$exiv2 -pa $filename"]
+    commands = ["$exiv2 -pa -b $filename"]
 
     stdout = ["""Exif.Image.NewSubfileType                    Long        1  Thumbnail/Preview image
 Exif.Image.Make                              Ascii      20  PENTAX             

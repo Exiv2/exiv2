@@ -11,7 +11,7 @@ class TypeSizeForExifOnly(metaclass=system_tests.CaseMeta):
     filename = "$data_path/exiv2-bug528_copy.jpg"
 
     commands = [
-        "$exiv2 -u -pt $filename",
+        "$exiv2 -u -b -pt $filename",
         """$exiv2 -u -v -M"set Exif.Image.Software GI" $filename"""
     ]
 

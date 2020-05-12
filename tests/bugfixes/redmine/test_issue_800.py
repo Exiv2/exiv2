@@ -12,7 +12,7 @@ FORMATS = ["jpg", "psd"]
 def make_commands(filename):
     return [
         """$exiv2 -u -v -M"set Exif.Photo.UserComment Test" """ + filename,
-        "$exiv2 -u -pt " + filename
+        "$exiv2 -u -pt -b " + filename
     ]
 
 

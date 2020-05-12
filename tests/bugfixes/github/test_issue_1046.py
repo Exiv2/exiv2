@@ -7,21 +7,21 @@ class test_issue_1046Test(metaclass=CaseMeta):
 
     filename = path("$data_path/IMG_0246_copy.exv")
     # Use the """ string syntax for -M"set Bla.Dee.Bla" commands to ensure they run on Windows!
-    commands  = [  "$exiv2 -pt -g GPSInfo -g UserCom    $filename"
-                ,  "$exiv2 -pv -g GPSInfo -g UserCom    $filename"
+    commands  = [  "$exiv2 -pt -b -g GPSInfo -g UserCom    $filename"
+                ,  "$exiv2 -pv -b -g GPSInfo -g UserCom    $filename"
                 ,"""$exiv2 -M"set Exif.Photo.UserComment charset=Ascii how now brown cow" $filename"""
-                ,  "$exiv2 -pt            -g UserComment $filename"
-                ,  "$exiv2 -pv            -g UserComment $filename"
+                ,  "$exiv2 -pt -b           -g UserComment $filename"
+                ,  "$exiv2 -pv -b           -g UserComment $filename"
                 ,"""$exiv2 -M"set Exif.Photo.UserComment charset=Unicode \u0041\u0042" $filename"""
-                ,  "$exiv2 -pt            -g UserComment $filename"
-                ,  "$exiv2 -pv            -g UserComment $filename"
+                ,  "$exiv2 -pt -b           -g UserComment $filename"
+                ,  "$exiv2 -pv -b           -g UserComment $filename"
                 ,"""$exiv2 -M"set Exif.Photo.UserComment hello world" $filename"""
-                ,  "$exiv2 -pt            -g UserComment $filename"
-                ,  "$exiv2 -pv            -g UserComment $filename"
+                ,  "$exiv2 -pt -b           -g UserComment $filename"
+                ,  "$exiv2 -pv -b           -g UserComment $filename"
                 ,"""$exiv2 -M"set Exif.GPSInfo.GPSProcessingMethod charset=Unicode \u0052\u006f\u0062\u0069\u006e" $filename"""
                 ,"""$exiv2 -M"set Exif.GPSInfo.GPSAreaInformation  charset=Ascii area information"                 $filename"""
-                ,  "$exiv2 -pt -g GPSPro -g GPSArea      $filename"
-                ,  "$exiv2 -pv -g GPSPro -g GPSArea      $filename"
+                ,  "$exiv2 -pt -b -g GPSPro -g GPSArea      $filename"
+                ,  "$exiv2 -pv -b -g GPSPro -g GPSArea      $filename"
                 ]
     stdout = ["""Exif.Photo.UserComment                       Undefined  12  charset=Unicode AB
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0

@@ -69,7 +69,7 @@ fi
     grep x-default l.xmp
     copyTestFile $IMG l.jpg
     runTest exiv2 -iX l.jpg
-    runTest exiv2 -px l.jpg
+    runTest exiv2 -px -b l.jpg
     runTest exiv2 -PEkycv l.jpg
     runTest exiv2 -pi l.jpg
 
