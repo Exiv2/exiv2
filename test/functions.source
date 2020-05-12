@@ -496,6 +496,7 @@ prepareTest()
     # figure out arguments for diff
 	good="$here/data/${this}.out"
 	results="$here/tmp/${this}.out"
+	mkdir -p $here/tmp
 	tmpfile=$here/tmp/$this
 	echo '' >> $tmpfile
 
