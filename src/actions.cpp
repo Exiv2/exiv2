@@ -606,6 +606,16 @@ namespace Action {
         return result ;
     }
 
+    static void binaryOutput(bool suppressLong,const std::ostringstream& os)
+    {
+        const int dots = 100;
+        if ( suppressLong && os.str().length() > dots ) {
+           std::cout << os.str().substr(0,dots) << " ..." ;
+        } else {
+            std::cout << os.str();
+        }
+    }
+
     bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
     {
         if (!grepTag(md.key()))
@@ -689,21 +699,25 @@ namespace Action {
             if (!first)
                 std::cout << "  ";
             first = false;
+            std::ostringstream os;
             // #1114 - show negative values for SByte
-            if (md.typeId() != Exiv2::signedByte) {
-                std::cout << std::dec << md.value();
-            } else {
+            if (md.typeId() == Exiv2::signedByte) {
                 for ( int c = 0 ; c < md.value().count() ; c++ ) {
                     int value = md.value().toLong(c);
-                    std::cout << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
+                    os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
+            } else {
+                os << std::dec << md.value();
             }
+            binaryOutput(Params::instance().binary_,os);
         }
         if (Params::instance().printItems_ & Params::prTrans) {
             if (!first)
                 std::cout << "  ";
             first = false;
-            std::cout << std::dec << md.print(&pImage->exifData());
+            std::ostringstream os;
+            os << std::dec << md.print(&pImage->exifData());
+            binaryOutput(Params::instance().binary_,os) ;
         }
         if (Params::instance().printItems_ & Params::prHex) {
             if (!first)

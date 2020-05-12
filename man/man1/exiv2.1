@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "May 11, 2020"
+.TH EXIV2 1 "May 12, 2020"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -132,7 +132,7 @@ exiv2 [ opt [arg] ]+ [ act ] file ...
 .sp 1
 option [arg]	long option	description
 -a	tim	--adjust	Modify time stamps.  [+|-]HH[:MM[:SS[.mmm]]]
--b		--binary	Show large binary values (default is to suppress them).
+-b		--binary	Show large binary values (default is to restrict them).
 -c	txt	--comment	JPEG comment string to set in the image ('modify' action).  ...
 -d	tgt	--delete	Delete target(s) for the 'delete' action. ...
 -D	+-n	--days	Time  adjustment by a positive or negative number of days ...
@@ -211,7 +211,7 @@ or 'm'(ute). The default log-level is 'w'. \fB\-Qm\fP is equivalent
 to \fB\-q\fP. All log messages are written to standard error.
 .TP
 .B \-b
-Show large binary values (default is to suppress them).
+The output from large binary values is to restricted by default.  When outputting the value of a large value such as MakerNote, the default behaviour is to restrict the data and end with "...".  The option --binary enables you to see all the data.
 .TP
 .B \-u
 Show unknown tags (default is to suppress tags which don't have a name).
