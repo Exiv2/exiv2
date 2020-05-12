@@ -1562,7 +1562,7 @@ namespace Exiv2 {
                 N_("A tag for Exif users to write keywords or comments on the image "
                 "besides those in <ImageDescription>, and without the "
                 "character code limitations of the <ImageDescription> tag."),
-                exifId, userInfo, comment, 0, print0x9286),
+                exifId, userInfo, comment, 0, printValue),
         TagInfo(0x9290, "SubSecTime", N_("Sub-seconds Time"),
                 N_("A tag used to record fractions of seconds for the <DateTime> tag."),
                 exifId, dateTime, asciiString, 0, printValue),
@@ -1913,11 +1913,11 @@ namespace Exiv2 {
         TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
                 "The string encoding is defined using the same scheme as UserComment."),
-                gpsId, gpsTags, comment, 0, print0x9286),
+                gpsId, gpsTags, comment, 0, printValue),
         TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"),
                 N_("A character string recording the name of the GPS area."
                 "The string encoding is defined using the same scheme as UserComment."),
-                gpsId, gpsTags, comment, 0, print0x9286),
+                gpsId, gpsTags, comment, 0, printValue),
         TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"),
                 N_("A character string recording date and time information relative to UTC "
                 "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."),
@@ -2639,18 +2639,6 @@ namespace Exiv2 {
             os << "(" << value << ")";
         }
         os.flags(f);
-        return os;
-    }
-
-    std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*)
-    {
-        const CommentValue* pcv = dynamic_cast<const CommentValue*>(&value);
-        if (pcv) {
-            os << pcv->comment();
-        }
-        else {
-            os << value;
-        }
         return os;
     }
 

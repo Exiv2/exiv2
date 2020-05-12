@@ -404,8 +404,6 @@ namespace Exiv2 {
     std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData*);
     //! Print the actual focal length of the lens
     std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the user comment
-    std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*);
     //! Print color space
     std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData*);
     //! Print sensing method
