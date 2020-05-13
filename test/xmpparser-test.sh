@@ -2,9 +2,9 @@
 # XMP parser test driver
 
 source ./functions.source
-if [ "$PLATFORM" == "NetBSD" -o "$PLATFORM" == "SunOS" -o "$PLATFORM" == "FreeBSD" ]; then
-	echo "UNIX platform $PLATFORM Skip $0"
-	exit 0 # UNIX diff complains about newline stuff
+if [ "$PLATFORM" == "SunOS" ]; then
+    echo "platform $PLATFORM Skip $0"
+    exit 0 # SunOS diff complains about newline stuff
 fi
 
 ##
