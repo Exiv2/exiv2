@@ -555,6 +555,7 @@ namespace Exiv2 {
         return os << comment();
     }
 
+    // test string for printable ascii-7 (' ' .. '~')
     static bool isBinary(const std::string& s)
     {
         bool result = false ;
@@ -577,6 +578,8 @@ namespace Exiv2 {
             const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
         } else {
+            // charset=undefined reports "binary comment" if it contains non-printable bytes
+            // this is to ensure no binary bytes in the output stream.
             if ( isBinary(c) ) {
                 c = "binary comment" ;
             }
@@ -1206,7 +1209,7 @@ namespace Exiv2 {
                    time_.hour, time_.minute, time_.second,
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
-        // enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
+        enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
         std::memcpy(buf, temp, wrote);
         return wrote;
     }
