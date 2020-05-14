@@ -775,7 +775,7 @@ Environment Variables used by the test suite:
 | Variable        | Default | Platforms | Purpose |
 |:--                 |:--        |:--     |:-- |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Location of built binary objects (exiv2.exe) |
-| EXIV2_PORT         | **1277**<br>**1278**<br>**1276**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
+| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://0.0.0.0**  | All Platforms | Test http server   |
 | EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>MinGW/msys2 | Extension used by executable binaries |
 | EXIV2_EXT          | _**not set**_  | Linux<br>macOS<br>Unix|  |

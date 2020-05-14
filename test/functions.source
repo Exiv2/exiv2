@@ -438,9 +438,9 @@ checkSum()
 startHttpServer() {
     cd "${testdir}/.."                   # testdir is the tmp output directory
 
-    if    [ "$PLATFORM" == "cygwin" ]; then dport=1277
-    elif  [ "$PLATFORM" == "mingw"  ]; then dport=1278
-    else                                    dport=1276
+    if    [ "$PLATFORM" == "cygwin" ]; then dport=12762
+    elif  [ "$PLATFORM" == "mingw"  ]; then dport=12761
+    else                                    dport=12760
     fi
 
     if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport        ; fi
