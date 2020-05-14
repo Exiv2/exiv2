@@ -227,10 +227,12 @@ diffCheck()
     if [ -z "$errors" ]; then let -a errors=0; fi
 
     #run diff and check results
-    if [ $(uname) == FreeBSD -o $(uname) == NetBSD -o $(uname) == SunOS ]; then
-    	bdiff $diffargs "$test" "$good"
+    if [ $PLATFORM == SunOS ]; then
+        bdiff $diffargs "$test" "$good"
+    elif [ $PLATFORM == freebsd -o $PLATFORM == netbsd ]; then
+        diff $diffargs "$test" "$good"
     else
-    	diff --binary $diffargs "$test" "$good"
+        diff --binary $diffargs "$test" "$good"
     fi
     if [ $? -ne 0 ]; then
        errors=$(expr $errors + 1)
