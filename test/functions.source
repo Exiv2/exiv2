@@ -462,7 +462,7 @@ startHttpServer() {
 }
 
 ##
-# cloaseHttpServer - power down the python web server
+# closeHttpServer - power down the python web server
 closeHttpServer() {
     if [ ! -z $exiv2_httpServer ]; then
         echo kill  exiv2_httpServer $exiv2_httpServer

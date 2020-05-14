@@ -52,9 +52,13 @@ int main(int argc, char* const argv[])
 
     try {
         if (argc < 4 || argc > 6 ) {
-            std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2 [remote [blocksize]]\n";
-            std::cout << "fileouts are overwritten and should match filein exactly\n";
-            return 1;
+            std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2 [remote [blocksize]]\n"
+                         "fileouts are overwritten and should match filein exactly\n"
+                         "\n"
+                         "You may optionally provide the URL of a remote file to be copied to filein\n"
+                         "If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)\n"
+            ;     
+           return 1;
         }
         const char* f0 = argv[1]; // fileIn
         const char* f1 = argv[2]; // fileOut1
