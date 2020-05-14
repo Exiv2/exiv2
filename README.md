@@ -31,6 +31,8 @@
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
     3. [Unit tests](#4-3)
+    4. [Python tests](#4-4)
+    5. [Test Summary](#4-5)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
     2. [macOS](#5-2)
@@ -701,7 +703,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with modern Standard C++ Compilers.
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
 
 To generate a build with C++11:
 
@@ -789,7 +791,7 @@ The Variables EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests. 
 
 ### 4.1 Running tests on a UNIX-like system
 
-You can run the suite directly from the build:
+You can run tests directly from the build:
 
 ```bash
 $ cmake .. -G "Unix Makefiles"
@@ -805,11 +807,11 @@ You can run individual tests in the `test` directory using the environment varia
 ```bash
 $ cd <exiv2dir>/build
 $ cd ../test
-$ env EXIV2_BINDIR=${PWD}/../build/bin ./icc-test.sh
+$ ./icc-test.sh
 ICC jpg md5 webp md5 png md5 jpg md5
 all testcases passed.
 
-$ env EXIV2_BINDIR=${PWD}/../build/bin make python_tests
+$ make python_tests
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -850,7 +852,7 @@ $ make tests
 $ make python_tests
 $ ./icc-test.sh
 ```
-##### Running tests suite from cmd.exe
+##### Running tests from cmd.exe
 
 You can build with Visual Studio using Conan.  The is described in detail in [README-CONAN.md](README-CONAN.md)
 
@@ -875,15 +877,16 @@ c:\...\exiv2\build>copy c:\Python37\python.exe c:\Python37\python3.exe
 You must set the environment strings EXIV2\_BINDIR, EXIV2\_EXT and modify PATH.  You will need a DOS Python3 interpreter on your path, and you'll need the bash interpreter.  By careful to ensure the DOS python3.exe is found before the MingW/msys2 python3.
 
 ```
-c:\...\exiv2\build>set EXIV2_BINDIR=%CD%
-c:\...\exiv2\build>set EXIV2_EXT=.exe
+c:\...\exiv2\build>cd bin
+c:\...\exiv2\build\bin>set EXIV2_BINDIR=%CD%
+c:\...\exiv2\build\bin>set EXIV2_EXT=.exe
 c:\...\exiv2\build\bin>set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
 ```
 
 Move to the test directory and use make (which is in c:\msys64\usr\bin) to drive the test procedures.  You cannot run the tests in the build directory because there is no Makefile in the build directory.
 
 ```
-c:\...\exiv2\build>cd ..\test
+c:\...\exiv2\build\bin>cd ..\..\test
 c:\...\exiv2\test>make bash_tests
 ...
 c:\...\exiv2\test>make python_tests   # or unit_test or version_test
@@ -941,6 +944,61 @@ c:\...\exiv2\test>make tests VERBOSE=1
 The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.
 
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
+
+[TOC](#TOC)
+<div id="4-4">
+
+### 4.4 Python tests
+
+You can run the python tests from the build or test directory:
+
+```bash
+$ cd <exiv2dir>/build (or cd <exiv2dir>/test)
+$ make python_tests  
+```
+
+If you wish to run in verbose mode:
+
+```bash
+$ cd <exiv2dir>/build   (or cd <exiv2dir>/test)
+$ make python_tests VERBOSE=1
+```
+
+The python tests are stored in the directory `tests` and you can run them all with the command:
+
+```bash
+$ cd <exiv2dir>/tests
+$ python3 runner.py
+```
+
+You can run them individually with the commands such as:
+
+```bash
+$ cd <exiv2dir>/tests
+$ python3 runner.py --verbose bugfixes/redmine/test_issue_841.py  # or $(find . -name "*841*.py")
+```
+
+You may wish to get a brief summary of failures with commands such as:
+
+```bash
+$ cd <exiv2dir>/build   ( or cd <exiv2dir>/test)
+$ make python_tests 2>&1 | grep FAIL
+```
+
+[TOC](#TOC)
+<div id="4-5">
+
+### 4.5 Test Summary
+
+| *Tests* | Unix Style Platforms _(bash)_ | Visual Studio _(cmd.exe)_ |
+|:-- |:---                                |:--                                   |
+| | $ cd \<exiv2dir\>/build  or $ cd \<exiv2dir\>/test          |  \> cd \<exiv2dir\>/build             |
+| all | $ make tests                       | \> cmake --build . --config Release --target tests |
+| bash | $ make bash_tests                       | \> cmake --build . --config Release --target bash_tests |
+| python | $ make python_tests                       | \> cmake --build . --config Release --target python_tests |
+| unit | $ make unit_test                       | \> cmake --build . --config Release --target unit_test |
+| version | $ make version_test                       | \> cmake --build . --config Release --target version_test |
+
 
 [TOC](#TOC)
 <div id="5">
@@ -1205,4 +1263,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-14
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-12
+

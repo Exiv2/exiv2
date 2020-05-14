@@ -8,7 +8,7 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/54"
 
     filename = "$data_path/POC7"
-    commands = ["$exiv2 $filename"]
+    commands = ["$exiv2 -b $filename"]
     stdout = [
         """File name       : $filename
 File size       : 632 Bytes

@@ -132,7 +132,7 @@ void print(const std::string& file)
                   << std::dec << std::setw(3)
                   << std::setfill(' ') << std::right
                   << i->count() << " "
-                  << std::dec << i->value()
+                  << std::dec << i->toString()
                   << "\n";
     }
 }

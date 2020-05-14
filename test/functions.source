@@ -139,7 +139,7 @@ runTestCase()
     runTest exifprint $rtc_infile > iii;
     cp $rtc_infile $rtc_outfile;
     runTest write-test $rtc_infile $rtc_number > ttt;
-    diff -a iii ttt
+    diff $diffargs iii ttt
 }
 
 ##
@@ -527,6 +527,7 @@ prepareTest()
     # figure out arguments for diff
 	good="$here/data/${this}.out"
 	results="$here/tmp/${this}.out"
+	mkdir -p $here/tmp
 	tmpfile=$here/tmp/$this
 	echo '' >> $tmpfile
 

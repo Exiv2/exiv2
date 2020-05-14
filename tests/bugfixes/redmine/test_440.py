@@ -8,7 +8,7 @@ class IPTCtimeWithoutTimeZone(metaclass=system_tests.CaseMeta):
     url = "http://dev.exiv2.org/issues/440"
 
     filename = "$data_path/exiv2-bug440.jpg"
-    commands = ["$exiv2 -u -pi $filename"]
+    commands = ["$exiv2 -u -b -pi $filename"]
     stdout = ["""Iptc.Application2.RecordVersion              Short       1  1
 Iptc.Application2.ObjectName                 String     16  WHITE SOX TIGERS
 Iptc.Application2.Category                   String      1  S

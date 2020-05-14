@@ -5,7 +5,7 @@ import system_tests
 
 class ShadowingError(metaclass=system_tests.CaseMeta):
 
-    commands = ["$exiv2 -PE $data_path/IMGP0020.exv"]
+    commands = ["$exiv2 -PE -b $data_path/IMGP0020.exv"]
     stdout = [""]
     stderr = [""]
     retval = [0]

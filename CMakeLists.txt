@@ -90,13 +90,8 @@ if( EXIV2_BUILD_UNIT_TESTS )
     )
 endif()
 
-# Run a reduced test suite on UNIX #902
-set (TEST alltest)
-if ( CMAKE_HOST_SOLARIS OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-   set (TEST unixtest)
-endif()
 add_custom_target(version_test
-	COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" ./version_test.sh
+	COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make version_test
 	WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
 )
 
@@ -106,14 +101,14 @@ if( EXIV2_BUILD_SAMPLES )
     if( EXIV2_BUILD_UNIT_TESTS )
 		add_custom_target(tests
 			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make unit_test
-			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
+			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make bash_tests
 		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make python_tests
 		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make version_test
 			WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
 		)
     else()
 		add_custom_target(tests
-			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
+			COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make bash_tests
 		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make python_tests
 		    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make version_test
 			WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
@@ -124,7 +119,7 @@ if( EXIV2_BUILD_SAMPLES )
 		WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
 	)
 	add_custom_target(bash_tests
-		COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make ${TEST}
+		COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make bash_tests
 		WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
 	)
     add_subdirectory( samples )
