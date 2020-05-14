@@ -505,7 +505,7 @@ namespace Exiv2 {
         enforce(filesize_u32 <= io_->size(), Exiv2::kerCorruptedMetadata);
 
         // Check that `filesize_u32` is safe to cast to `long`.
-        enforce(filesize_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
+        enforce(filesize_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
                 Exiv2::kerCorruptedMetadata);
 
         WebPImage::decodeChunks(static_cast<long>(filesize_u32));
@@ -530,7 +530,7 @@ namespace Exiv2 {
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
             // Check that `size_u32` is safe to cast to `long`.
-            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<long>::max()),
+            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
                     Exiv2::kerCorruptedMetadata);
             const long size = static_cast<long>(size_u32);
 
