@@ -34,12 +34,18 @@ if [ "$EXIV2_PORT" != "None" -a "$EXIV2_HTTP" != "None" ]; then
                     runTest exiv2 -g City -g DateTime $t
                 done
             done
+            # Format spec for stat
+            F='-c%s'
+            if [ $PLATFORM  == 'Darwin' -o $PLATFORM == 'NetBSD' -o $PLATFORM == 'FreeBSD' ]; then
+            F='-f%z'
+            fi
+            
             runTest iotest s0 s1 s2 $url/data/table.jpg 1
-            echo $(stat -c%s s0 s1 s2 ../data/table.jpg)
+            echo $(stat $F s0 s1 s2 ../data/table.jpg)
             runTest iotest s0 s1 s2 $url/data/table.jpg 10
-            echo $(stat -c%s s0 s1 s2 ../data/table.jpg)
+            echo $(stat $F s0 s1 s2 ../data/table.jpg)
             runTest iotest s0 s1 s2 $url/data/table.jpg 1000
-            echo $(stat -c%s s0 s1 s2 ../data/table.jpg)
+            echo $(stat $F s0 s1 s2 ../data/table.jpg)
             >&2 printf "*** HTTP tests end\n"
         )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
         reportTest
