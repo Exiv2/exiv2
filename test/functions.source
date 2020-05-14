@@ -435,6 +435,40 @@ checkSum()
 }
 
 ##
+# startHttpServer - power up the python web server
+startHttpServer() {
+    cd "${testdir}/.."                   # testdir is the tmp output directory
+
+    if    [ "$PLATFORM" == "cygwin" ]; then dport=1277
+    elif  [ "$PLATFORM" == "mingw"  ]; then dport=1278
+    else                                    dport=1276
+    fi
+
+    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport        ; fi
+    if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://0.0.0.0; fi
+    url=$http:$port
+    jobs=$(jobs | wc -l)
+    python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
+    exiv2_httpServer=$!
+    sleep 2                              # wait for it to init or die!
+    # ask the server to reply
+    echo $http:$port status = $(python3 -c "import requests;print(requests.get('$http:$port/').status_code)")
+    
+    if [ $(jobs | wc -l) == $jobs ]; then
+        >&2 printf "*** startHttpServer $http failed to start on port $port ***\n"
+    fi
+}
+
+##
+# cloaseHttpServer - power down the python web server
+closeHttpServer() {
+    if [ ! -z $exiv2_httpServer ]; then
+        echo kill  exiv2_httpServer $exiv2_httpServer
+             kill $exiv2_httpServer      # kill the server
+    fi 
+}
+
+##
 # prepare temp files and other variables
 prepareTest()
 {

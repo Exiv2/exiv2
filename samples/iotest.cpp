@@ -80,7 +80,6 @@ int main(int argc, char* const argv[])
             if ( !l ) {
                 Error(Exiv2::kerFileOpenFailed, fr, "w+b", strError());
             }
-            std::cout << argv[4] << " length = " << l << std::endl;
         }
         
         FileIo fileIn(f0);

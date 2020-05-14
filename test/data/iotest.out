@@ -1,43 +1,40 @@
-http://0.0.0.0:1276/data/table.jpg length = 568
-s0                    Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
-s0                    Iptc.Application2.City                       String      7  Seattle
-s1                    Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
-s1                    Iptc.Application2.City                       String      7  Seattle
-s2                    Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
-s2                    Iptc.Application2.City                       String      7  Seattle
-http://0.0.0.0:1276/data/table.jpg  Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
-http://0.0.0.0:1276/data/table.jpg  Iptc.Application2.City                       String      7  Seattle
-http://0.0.0.0:1276/data/Reagan.tiff length = 114466
-s0                    Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
-s0                    Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
-s0                    Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
-s0                    Iptc.Application2.City                       String     19  Straits of Magellan
-s0                    Xmp.photoshop.City                           XmpText    19  Straits of Magellan
-s1                    Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
-s1                    Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
-s1                    Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
-s1                    Iptc.Application2.City                       String     19  Straits of Magellan
-s1                    Xmp.photoshop.City                           XmpText    19  Straits of Magellan
-s2                    Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
-s2                    Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
-s2                    Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
-s2                    Iptc.Application2.City                       String     19  Straits of Magellan
-s2                    Xmp.photoshop.City                           XmpText    19  Straits of Magellan
-http://0.0.0.0:1276/data/Reagan.tiff  Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
-http://0.0.0.0:1276/data/Reagan.tiff  Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
-http://0.0.0.0:1276/data/Reagan.tiff  Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
-http://0.0.0.0:1276/data/Reagan.tiff  Iptc.Application2.City                       String     19  Straits of Magellan
-http://0.0.0.0:1276/data/Reagan.tiff  Xmp.photoshop.City                           XmpText    19  Straits of Magellan
-http://0.0.0.0:1276/data/exiv2-bug922a.jpg length = 7169623
-s0                    Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
-s0                    Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
-s0                    Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
-s1                    Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
-s1                    Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
-s1                    Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
-s2                    Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
-s2                    Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
-s2                    Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
-http://0.0.0.0:1276/data/exiv2-bug922a.jpg  Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
-http://0.0.0.0:1276/data/exiv2-bug922a.jpg  Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
-http://0.0.0.0:1276/data/exiv2-bug922a.jpg  Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
+Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
+Iptc.Application2.City                       String      7  Seattle
+Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
+Iptc.Application2.City                       String      7  Seattle
+Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
+Iptc.Application2.City                       String      7  Seattle
+Exif.Image.DateTime                          Ascii      21  2004-07-13T21:23:44Z
+Iptc.Application2.City                       String      7  Seattle
+Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
+Iptc.Application2.City                       String     19  Straits of Magellan
+Xmp.photoshop.City                           XmpText    19  Straits of Magellan
+Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
+Iptc.Application2.City                       String     19  Straits of Magellan
+Xmp.photoshop.City                           XmpText    19  Straits of Magellan
+Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
+Iptc.Application2.City                       String     19  Straits of Magellan
+Xmp.photoshop.City                           XmpText    19  Straits of Magellan
+Exif.Image.DateTime                          Ascii      20  2012:04:07 16:11:27
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
+Iptc.Application2.City                       String     19  Straits of Magellan
+Xmp.photoshop.City                           XmpText    19  Straits of Magellan
+Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
+Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
+Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
+Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
+Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
+Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
+Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
+Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
+Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35
+Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51
+Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35
+Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35

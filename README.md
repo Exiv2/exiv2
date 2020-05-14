@@ -753,11 +753,14 @@ Environment Variables used by test suite
 | Variable        | Default | Platforms | Purpose |
 |:--                 |:--        |:--     |:-- |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Location of built binary objects (exiv2.exe) |
-| EXIV2_PORT         | **1276**  | All Platforms | Test TCP/IP Port   |
+| EXIV2_PORT         | **1277**<br>**1278**<br>**1276**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
+| EXIV2_HTTP         | **http://0.0.0.0**  | All Platforms | Test http server   |
 | EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>MinGW/msys2 | Extension used by executable binaries |
 | EXIV2_EXT          | _**not set**_  | Linux<br>macOS<br>Unix|  |
 | EXIV2_ECHO          | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VALGRIND            | _**not set**_ | All Platforms | For debugging Bash scripts |
+
+The Variables EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**One**_ to authorise the firewall to permit python to use the port.
 
 <div id="4-1">
 
@@ -1168,4 +1171,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-23
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-14
