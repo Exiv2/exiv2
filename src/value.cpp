@@ -550,9 +550,21 @@ namespace Exiv2 {
     {
         CharsetId csId = charsetId();
         if (csId != undefined) {
-            os << "charset=\"" << CharsetInfo::name(csId) << "\" ";
+            os << "charset=" << CharsetInfo::name(csId) << " ";
         }
         return os << comment();
+    }
+
+    // test string for printable ascii-7 (' ' .. '~')
+    static bool isBinary(const std::string& s)
+    {
+        bool result = false ;
+        size_t i = 0;
+        while ( !result && i < s.length() ) {
+            unsigned char c = (unsigned char) s[i++];
+            result = c < 32 || c > 127 ;
+        }
+        return result;
     }
 
     std::string CommentValue::comment(const char* encoding) const
@@ -565,6 +577,12 @@ namespace Exiv2 {
         if (charsetId() == unicode) {
             const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
+        } else {
+            // charset=undefined reports "binary comment" if it contains non-printable bytes
+            // this is to ensure no binary bytes in the output stream.
+            if ( isBinary(c) ) {
+                c = "binary comment" ;
+            }
         }
         return c;
     }

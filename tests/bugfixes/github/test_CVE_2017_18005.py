@@ -15,7 +15,7 @@ Error: Offset of directory Image, entry 0x0117 is out of bounds: Offset = 0x3030
     filename = "$data_path/cve_2017_18005_reproducer.tiff"
 
     commands = [
-        "$exiv2 -vPEIXxgklnycsvth " + filename,
+        "$exiv2 -vPEIXxgklnycsvth -b " + filename,
         "$exiv2json " + filename
     ]
 

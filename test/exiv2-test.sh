@@ -2,7 +2,11 @@
 # Test driver for exiv2 utility tests
 
 source ./functions.source
-diffargs="-w --text $diffargs"
+if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
+    diffargs="-w $diffargs"
+else 
+    diffargs="-w --text $diffargs"
+fi
 
 (   cd "$testdir"
 
@@ -66,7 +70,7 @@ diffargs="-w --text $diffargs"
     echo
     echo "Exiv2 version ------------------------------------------------------------"
     # Tweak this to avoid a maintenance headache with test/data/exiv2-test.out
-    runTest exiv2 -u -V | sed -E -e 's#^exiv2.*$#exiv2 0.27.0.0 (__ bit build)#'
+    runTest exiv2 -u -V | sed -e 's#^exiv2.*$#exiv2 0.27.0.0 (__ bit build)#'
     echo
     echo "Exiv2 help ---------------------------------------------------------------"
     runTest exiv2 -u -h

@@ -11,8 +11,8 @@ class DarwinCoreXmpMetadataPrint(metaclass=CaseMeta):
     filename = path("$data_path/exiv2-bug937.jpg")
 
     commands = [
-         "$exiv2 -q -pa      -g dwc  $filename",
-         "$exiv2 -q -PXkyctl -g Date $filename",
+         "$exiv2 -q -pa      -b -g dwc  $filename",
+         "$exiv2 -q -PXkyctl -b -g Date $filename",
     ]
 
     stdout = [

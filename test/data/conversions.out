@@ -42,9 +42,9 @@ Iptc.Application2.Caption                    String     20  How to fix this mess
 Testcase 6
 ==========
 Exif.Image.ExifTag                           Long        1  26
-Exif.Photo.UserComment                       Undefined  59  charset="Jis" This is a JIS encoded Exif user comment. Or was it?
+Exif.Photo.UserComment                       Undefined  59  charset=Jis This is a JIS encoded Exif user comment. Or was it?
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
-Exif.Photo.UserComment                       Undefined 110  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
+Exif.Photo.UserComment                       Undefined 110  charset=Unicode This is a JIS encoded Exif user comment. Or was it?
 File 1/1: m.xmp
 m.xmp: No IPTC data found in the file
 
@@ -52,7 +52,7 @@ Testcase 7
 ==========
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" This is a JIS encoded Exif user comment. Or was it?
 Exif.Image.ExifTag                           Long        1  26
-Exif.Photo.UserComment                       Undefined 110  charset="Unicode" This is a JIS encoded Exif user comment. Or was it?
+Exif.Photo.UserComment                       Undefined 110  charset=Unicode This is a JIS encoded Exif user comment. Or was it?
 File 1/1: n.jpg
 n.jpg: No IPTC data found in the file
 
