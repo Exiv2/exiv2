@@ -51,17 +51,24 @@ int main(int argc, char* const argv[])
     ::atexit(Exiv2::XmpParser::terminate);
 
     try {
-        if (argc < 4 || argc > 5 ) {
-            std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2 [remote]\n";
+        if (argc < 4 || argc > 6 ) {
+            std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2 [remote [blocksize]]\n";
             std::cout << "fileouts are overwritten and should match filein exactly\n";
             return 1;
         }
-        const char* f0 = argv[1];
-        const char* f1 = argv[2];
-        const char* f2 = argv[3];
-        const char* fr = argv[4];
+        const char* f0 = argv[1]; // fileIn
+        const char* f1 = argv[2]; // fileOut1
+        const char* f2 = argv[3]; // fileOut2
+        const char* fr = argv[4]; // remote file
+        const char* ba = argv[5]; // block argument
 
-        if ( argc == 5 ) {
+        if ( argc >= 5 ) {
+            int bs = argc==6 ? atoi(ba) : 10000;
+            // ensure bs is sane
+            if (bs<1) bs=1 ;
+            if (bs>1024*1024) bs=10000;
+            Exiv2::byte b[bs];
+            
             // copy fileIn from a remote location.
             FILE* f = fopen(f0,"wb");
             if ( !f ) {
@@ -69,16 +76,23 @@ int main(int argc, char* const argv[])
             }
             BasicIo::AutoPtr io = Exiv2::ImageFactory::createIo(fr);
             io->open();
-            int         l = 0 ;
-            Exiv2::byte b[10000];
-            int r ;
-            while ( (r=io->read(b,sizeof(b))) > 0  ) {
-                l += r;
-                fwrite(b,r,1,f) ;
+            size_t    l = 0;
+            if ( bs > 1 ) {
+                int r ;
+                while ( (r=io->read(b,sizeof(bs))) > 0  ) {
+                    l += r;
+                    fwrite(b,r,1,f) ;
+                }
+            } else {
+                // bs ==1, read/write byte-wise (#1029)
+                while ( l++ < io->size() ) {
+                    b[0] = io->getb();
+                    fwrite(b,1,1,f)  ;
+                }
             }
             fclose(f);
             if ( !l ) {
-                Error(Exiv2::kerFileOpenFailed, fr, "w+b", strError());
+                Error(Exiv2::kerFileOpenFailed, fr, "rb", strError());
             }
         }
         
