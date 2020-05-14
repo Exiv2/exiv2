@@ -4,66 +4,66 @@
 # run a test
 runTest()
 {
-	local prog=$1
-	shift
-	(
-		mkdir -p $here/tmp
-		cd		 $here/tmp
-		if [ ! -z $EXIV2_ECHO ]; then
-			echoTest $VALGRIND $bin$prog$exe "$@"
-		fi
-		$VALGRIND $bin$prog$exe "$@"
-	)
+    local prog=$1
+    shift
+    (
+        mkdir -p $here/tmp
+        cd       $here/tmp
+        if [ ! -z $EXIV2_ECHO ]; then
+            echoTest $VALGRIND $bin$prog$exe "$@"
+        fi
+        $VALGRIND $bin$prog$exe "$@"
+    )
 }
 
 ##
 # echo commands and arguments
 echoTest()
 {
-	local count=1
-	for i in $@ ; do
-		echo $((count++)):  $i
-	done
-	echo -----------------------
+    local count=1
+    for i in $@ ; do
+        echo $((count++)):  $i
+    done
+    echo -----------------------
 }
 
 ##
 # predictate
 existsTest()
 {
-	local prog=$1
-	result=0
-	if [ -z "$bin" ]; then
-		if [ ! -z $(which $prog) ]; then
-			result=1
-		fi
-	else
-		if [ -e $bin$prog -o -e $bin$prog$exe ]; then
-			result=1
-		fi
-	fi
-	echo $result
+    local prog=$1
+    result=0
+    if [ -z "$bin" ]; then
+        if [ ! -z $(which $prog) ]; then
+            result=1
+        fi
+    else
+        if [ -e $bin$prog -o -e $bin$prog$exe ]; then
+            result=1
+        fi
+    fi
+    echo $result
 }
 
 ##
 # copy file
 copy()
 {
-	\cp "$1" "$2"
+    \cp "$1" "$2"
 }
 
 ##
 # copy file from data to tmp (copyTestFile from to)
 copyTestFile()
 {
-	if [ $# == 2 ]; then
-		cp -f "$here/data/$1" "$here/tmp/$2"
-	elif [ $# == 1 ]; then
-		stub=$(basename $1)
-		cp -f "$here/data/$1" "$here/tmp/$stub"
-	else
-		echo "*** error copyTestFile: illegal number of inputs = $# ***"
-	fi
+    if [ $# == 2 ]; then
+        cp -f "$here/data/$1" "$here/tmp/$2"
+    elif [ $# == 1 ]; then
+        stub=$(basename $1)
+        cp -f "$here/data/$1" "$here/tmp/$stub"
+    else
+        echo "*** error copyTestFile: illegal number of inputs = $# ***"
+    fi
 
 }
 
@@ -71,9 +71,9 @@ copyTestFile()
 # copy 1 or more files from data to tmp
 copyTestFiles()
 {
-	for i in "$@" ; do
-		copyTestFile "$i" "$i"
-	done
+    for i in "$@" ; do
+        copyTestFile "$i" "$i"
+    done
 }
 
 ##
@@ -81,7 +81,7 @@ copyTestFiles()
 reportTest()
 {
     cat $results | tr '\\' '/' > ${results}-new
-    	mv -f ${results}-new $results
+        mv -f ${results}-new $results
     if [ ! -z `which dos2unix` ]; then
         dos2unix $results >/dev/null 2>&1
     fi
@@ -110,7 +110,7 @@ reportTest()
         echo "all testcases passed."
     else
         diff $diffargs $lhs $rhs
-	exit 3
+    exit 3
     fi
 }
 
@@ -292,12 +292,12 @@ removeTest()
 
     #run tests
     runTest iptctest $tmp <<-eoc
-		r Iptc.Application2.Byline
-		r Iptc.Application2.Caption
-		r Iptc.Application2.Keywords
-		r Iptc.Application2.Keywords
-		r Iptc.Application2.Keywords
-		r Iptc.Application2.CountryName
+        r Iptc.Application2.Byline
+        r Iptc.Application2.Caption
+        r Iptc.Application2.Keywords
+        r Iptc.Application2.Keywords
+        r Iptc.Application2.Keywords
+        r Iptc.Application2.CountryName
 eoc
     runTest iptcprint $tmp > $test
 
@@ -319,14 +319,14 @@ addModTest()
 
     #run tests
     runTest iptctest $tmp <<-eoc
-		a Iptc.Application2.Headline          The headline I am
-		a Iptc.Application2.Keywords          Yet another keyword
-		m Iptc.Application2.DateCreated       2004-8-3
-		a Iptc.Application2.Urgency           3
-		m Iptc.Application2.SuppCategory      "bla bla ba"
-		a Iptc.Envelope.ModelVersion          2
-		a Iptc.Envelope.TimeSent              14:41:0-05:00
-		a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
+        a Iptc.Application2.Headline          The headline I am
+        a Iptc.Application2.Keywords          Yet another keyword
+        m Iptc.Application2.DateCreated       2004-8-3
+        a Iptc.Application2.Urgency           3
+        m Iptc.Application2.SuppCategory      "bla bla ba"
+        a Iptc.Envelope.ModelVersion          2
+        a Iptc.Envelope.TimeSent              14:41:0-05:00
+        a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 eoc
     runTest iptcprint $tmp > $test
 
@@ -360,76 +360,74 @@ extendedTest()
 #
 hardLinkFiles()
 {
-	target="$1"
-	shift
-	for var; do
-		if [ -e $var ]; then rm -rf $var ; fi
-		ln $target $var
-	done
+    target="$1"
+    shift
+    for var; do
+        if [ -e $var ]; then rm -rf $var ; fi
+        ln $target $var
+    done
 }
 
 ##
 # real_path - report the absolute path to a file
 real_path ()
 {
-	if [ "$PLATFORM" == "Darwin" -o "$PLATFORM" == "mingw" ]; then
-		if [ -d "$1" ]; then
-			cd "$1"
-			echo $PWD
-		else
-			cd $(dirname $1)
-			echo "$PWD"/$(basename "$1")
-		fi
-	else
-		which realpath 2>/dev/null >/dev/null
-		if [ $? == 0 ]; then
-			realpath "$1"
-		else
-			readlink -f "$1"
-		fi
+    if [ "$PLATFORM" == "Darwin" -o "$PLATFORM" == "mingw" ]; then
+        if [ -d "$1" ]; then
+            cd "$1"
+            echo $PWD
+        else
+            cd $(dirname $1)
+            echo "$PWD"/$(basename "$1")
+        fi
+    else
+        which realpath 2>/dev/null >/dev/null
+        if [ $? == 0 ]; then
+            realpath "$1"
+        else
+            readlink -f "$1"
+        fi
     fi
 }
 
 copyVideoFiles ()
 {
-	pushd "$testdir" 2>/dev/null >/dev/null
+    pushd "$testdir" 2>/dev/null >/dev/null
 
-	##
-	# find video files data/video and copy them for testing
-	declare -a videos
-	for video in $datadir/video/* ; do
-		# http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
-		ext="${video##*.}"
-		if [ $ext != out ]; then
-			copyTestFile "$video"
-			videos+=($(basename "$video"))
-		fi
-	done
+    ##
+    # find video files data/video and copy them for testing
+    declare -a videos
+    for video in $datadir/video/* ; do
+        # http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
+        ext="${video##*.}"
+        if [ $ext != out ]; then
+            copyTestFile "$video"
+            videos+=($(basename "$video"))
+        fi
+    done
 
-	##
-	# TODO: remove debugging code
-	if [ "$FACTORY" == "rmills-mbp.localXX" ]; then
-    	for v in write-video-test.out video-test.out; do
-	    	cp ~/gnu/exiv2/testdata/trunk/video/$v ~/gnu/exiv2/video13/test/data/video/
-		done
-	fi
+    ##
+    # TODO: remove debugging code
+    if [ "$FACTORY" == "rmills-mbp.localXX" ]; then
+        for v in write-video-test.out video-test.out; do
+            cp ~/gnu/exiv2/testdata/trunk/video/$v ~/gnu/exiv2/video13/test/data/video/
+        done
+    fi
 
-	# http://stackoverflow.com/questions/7442417/how-to-sort-an-array-in-bash
-	# readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1)
-	# echo ${videos[*]}
-	# unset  videos
+    # http://stackoverflow.com/questions/7442417/how-to-sort-an-array-in-bash
+    # readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1)
+    # echo ${videos[*]}
+    # unset  videos
 
-	popd 2>/dev/null >/dev/null
+    popd 2>/dev/null >/dev/null
 }
 
 ##
 # print checksum for one file
 checkSum()
 {
-    # cygwin checksum: http://esrg.sourceforge.net/utils_win_up/md5sum/
-    # macos - built/installed coreutils 8.25 http://ftp.gnu.org/gnu/coreutils/
     platform=$(uname)
-    if [ "$platform" == 'NetBSD' -o "$platform" == 'FreeBSD' ]; then
+    if [ "$platform" == 'NetBSD' -o "$platform" == 'FreeBSD' -o "$platform" == 'Darwin' ]; then
       md5 -q $1
     else
       md5sum $1 | cut -d' ' -f 1
@@ -474,97 +472,97 @@ closeHttpServer() {
 # prepare temp files and other variables
 prepareTest()
 {
-	##
-	# locale and timezone setting
-	export LC_ALL=C
-	export TZ=BST-1
+    ##
+    # locale and timezone setting
+    export LC_ALL=C
+    export TZ=BST-1
 
-	##
-	# initialize globals
-	this=$(basename $0 .sh)
-	here=$PWD
-	datapath="../data"
-	testdir="$here/tmp"
-	datadir="../data"
+    ##
+    # initialize globals
+    this=$(basename $0 .sh)
+    here=$PWD
+    datapath="../data"
+    testdir="$here/tmp"
+    datadir="../data"
 
-	if [ -z "$EXIV2_BINDIR" ] ; then
+    if [ -z "$EXIV2_BINDIR" ] ; then
         bin="$here/../build/bin/"
-	else
-		bin="$EXIV2_BINDIR/"
-	fi
+    else
+        bin="$EXIV2_BINDIR/"
+    fi
 
-	os=$(uname)
-	if [ "${os:0:4}" == "CYGW" ]; then
-		export PLATFORM=cygwin
-	elif [ "${os:0:4}" == "MING" -o "${os:0:4}" == "MSYS" ]; then
-		export PLATFORM=mingw
-	else
-		export PLATFORM=$os
-	fi
+    os=$(uname)
+    if [ "${os:0:4}" == "CYGW" ]; then
+        export PLATFORM=cygwin
+    elif [ "${os:0:4}" == "MING" -o "${os:0:4}" == "MSYS" ]; then
+        export PLATFORM=mingw
+    else
+        export PLATFORM=$os
+    fi
 
-	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
-		exe=.exe
-	fi
-	
-	if [ ! -z $EXIV2_EXT ]; then
-		exe=$EXIV2_EXT
-	fi
+    if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
+        exe=.exe
+    fi
+    
+    if [ ! -z $EXIV2_EXT ]; then
+        exe=$EXIV2_EXT
+    fi
 
-	if [ "$PLATFORM" == cygwin ]; then
-		# We need a private version of diff for linux compatibility
-		diff()
-		{
-			args=()
-			for i in "$@"; do
-				if [ ${i:0:1} != '-' ]; then
-					i="$(cygpath -aw $i)"
-				fi
-				args+=($i)
-			done
-			DIFF=$(which diff)
-			"$DIFF" ${args[@]}
-		}
-	fi
+    if [ "$PLATFORM" == cygwin ]; then
+        # We need a private version of diff for linux compatibility
+        diff()
+        {
+            args=()
+            for i in "$@"; do
+                if [ ${i:0:1} != '-' ]; then
+                    i="$(cygpath -aw $i)"
+                fi
+                args+=($i)
+            done
+            DIFF=$(which diff)
+            "$DIFF" ${args[@]}
+        }
+    fi
 
     ##
     # figure out arguments for diff
-	good="$here/data/${this}.out"
-	results="$here/tmp/${this}.out"
-	tmpfile=$here/tmp/$this
-	echo '' >> $tmpfile
+    good="$here/data/${this}.out"
+    results="$here/tmp/${this}.out"
+    tmpfile=$here/tmp/$this
+    echo '' >> $tmpfile
 
-	if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
-	    da1=""
-    	da2=""
-	else
-		diffargs="--strip-trailing-cr"
-		diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
-		if [ $? -ne 0 ]; then
-			diffargs=""
-		fi
+    if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
+        da1=""
+        da2=""
+    else
+        diffargs="--strip-trailing-cr"
+        diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
+        if [ $? -ne 0 ]; then
+            diffargs=""
+        fi
 
-		tmpfile=tmp/ttt
-		echo '' >> $tmpfile
-		da1="--strip-trailing-cr"
-		diff -q $da1 $tmpfile $tmpfile 2>/dev/null
-		if [ $? -ne 0 ] ; then
-			da1=""
-		fi
-		da2="--ignore-matching-lines=^Usage:.*exiv2"
-		diff -q $da2 $tmpfile $tmpfile 2>/dev/null
-	fi
-	diffargs="$da1 $da2"
+        tmpfile=tmp/ttt
+        echo '' >> $tmpfile
+        da1="--strip-trailing-cr"
+        diff -q $da1 $tmpfile $tmpfile 2>/dev/null
+        if [ $? -ne 0 ] ; then
+            da1=""
+        fi
+        da2="--ignore-matching-lines=^Usage:.*exiv2"
+        diff -q $da2 $tmpfile $tmpfile 2>/dev/null
+    fi
+    diffargs="$da1 $da2"
 
     ##
     # test that exiv2 and some sample apps are in the bin!
     for e in exiv2 exifprint easyaccess-test metacopy ; do
-		e="${bin}${e}${exe}"
-		if [ ! -e "$e" ]; then
-			echo '******************************************'
-			echo '***' $(real_path "$e") does not exist
-			echo '******************************************'
-			exit 42
-		fi
+        e="${bin}${e}${exe}"
+        if [ ! -e "$e" ]; then
+            echo '******************************************'
+            echo '***' $(real_path "$e") does not exist
+            echo '******************************************'
+            exit 42
+        fi
     done
 }
 
