@@ -83,6 +83,7 @@ int main(int argc, char* argv[])
 
                 try {
                     XmpProperties::printProperties(std::cout, item);
+                    break;
                 } catch (const AnyError&) {
                     rc = 2;
                 }

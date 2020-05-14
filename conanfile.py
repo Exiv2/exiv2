@@ -40,6 +40,8 @@ class Exiv2Conan(ConanFile):
             # libopenssl (a transitive dependency)
             if os_info.is_windows:
                 self.requires('libcurl/7.69.1')
+                self.options['libcurl'].with_openssl = False
+                self.options['libcurl'].with_winssl = True
             else:
                 self.requires('libcurl/7.64.1@bincrafters/stable')
 

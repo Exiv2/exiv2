@@ -169,6 +169,8 @@ def configure_suite(config_file):
             abs_path = os.path.abspath(
                 os.path.join(_parameters["suite_root"], rel_path)
             )
+            if key == "tmp_path" and not os.path.isdir(abs_path):
+                os.mkdir(abs_path)
             if not os.path.exists(abs_path):
                 raise ValueError(
                     "Path replacement for {short}: {abspath} does not exist"
@@ -460,7 +462,26 @@ class CopyFiles(FileDecoratorBase):
         fname, ext = os.path.splitext(expanded_file_name)
         new_name = fname + '_copy' + ext
         return shutil.copyfile(expanded_file_name, new_name)
+   
+class CopyTmpFiles(FileDecoratorBase):
+    """
+    This class copies files from test/data to test/tmp
+    Copied files are NOT removed in tearDown
+    Example: @CopyTmpFiles("$data_path/test_issue_1180.exv")
+    """
 
+    #: override the name of the file list
+    FILE_LIST_NAME = '_tmp_files'
+
+    def setUp_file_action(self, expanded_file_name):
+        tmp_path   = _config_variables['tmp_path']
+        tmp_name   = os.path.join(tmp_path,os.path.basename(expanded_file_name))
+        return shutil.copyfile(expanded_file_name, tmp_name)
+
+    def tearDown_file_action(self, f):
+        """
+        Do nothing.   We don't clean up TmpFiles
+        """
 
 class DeleteFiles(FileDecoratorBase):
     """
@@ -505,7 +526,6 @@ def path(path_string):
     return os.path.join(*path_string.split('/'))
 
 
-def test_run(self):
     """
     This function reads in the attributes commands, retval, stdout, stderr,
     stdin and runs the `expand_variables` function on each. The resulting
@@ -518,6 +538,7 @@ def test_run(self):
     test by the CaseMeta metaclass. This ensures that it is run by each system
     test **after** setUp() and setUpClass() were run.
     """
+def test_run(self):
     if not (len(self.commands) == len(self.retval)
             == len(self.stdout) == len(self.stderr) == len(self.stdin)):
         raise ValueError(

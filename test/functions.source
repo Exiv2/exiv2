@@ -529,7 +529,7 @@ prepareTest()
 	good="$here/data/${this}.out"
 	results="$here/tmp/${this}.out"
 	tmpfile=$here/tmp/$this
-	touch $tmpfile
+	echo '' >> $tmpfile
 
 	if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
 	    da1=""
@@ -542,7 +542,7 @@ prepareTest()
 		fi
 
 		tmpfile=tmp/ttt
-		touch $tmpfile
+		echo '' >> $tmpfile
 		da1="--strip-trailing-cr"
 		diff -q $da1 $tmpfile $tmpfile 2>/dev/null
 		if [ $? -ne 0 ] ; then

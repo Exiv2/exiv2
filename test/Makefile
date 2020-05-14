@@ -139,14 +139,14 @@ unit_test    :
 	-@./$@.sh
 
 bash_tests:
-	-if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
+	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
 	    -@./$@.sh ; \
 	else \
 	    make alltest ; \
 	fi
 
 tests:
-	-if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
+	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
 	    -@./$@.sh ; \
 	else \
 	    make unit_test ; make alltest ; make python_tests ; make version_test ; \
@@ -184,7 +184,7 @@ unixtest:
 	@if [ -e tmp/test-failed ]; then echo '***' FAILED ; cat tmp/test-failed ; echo '***' ; fi
 
 python_tests:
-	-( cd ../tests ; python3 runner.py --verbose )
+	-( cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
 
 
 testv:

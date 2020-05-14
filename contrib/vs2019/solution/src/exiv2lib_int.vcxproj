@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{15D4CBE5-4F35-3280-9747-7C4C0FABE386}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>exiv2lib_int</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;NDEBUG;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;NDEBUG;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;exiv2lib_EXPORTS;NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\canonmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\canonmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\casiomn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\casiomn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\cr2header_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\cr2header_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\crwimage_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\crwimage_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\fujimn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\fujimn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\helper_functions.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\helper_functions.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\image_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\image_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\makernote_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\makernote_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\minoltamn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\minoltamn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\nikonmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\nikonmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\olympusmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\olympusmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\orfimage_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\orfimage_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\panasonicmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\panasonicmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\pentaxmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\pentaxmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\rw2image_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\rw2image_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\safe_op.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\samsungmn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\samsungmn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\sigmamn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\sigmamn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\sonymn_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\sonymn_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tags_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tags_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffcomposite_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tiffcomposite_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffimage_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tiffimage_int.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffvisitor_int.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tiffvisitor_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\tifffwd_int.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\timegm.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\src\unused.h" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\pngchunk_int.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

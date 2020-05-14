@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8F05B0E7-6D03-3F78-A470-0E20BF6C6191}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>exiv2lib</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;$(ProjectDir)..\..\..\..\..\libiconv\include;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;LIBINTL_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;$(ProjectDir)..\..\..\..\..\libiconv\include;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;LIBINTL_STATIC;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;$(ProjectDir)..\..\..\..\..\libiconv\include;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;LIBINTL_STATIC;NDEBUG;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;$(ProjectDir)..\..\..\..\..\libiconv\include;$(ProjectDir)..\..\..\..\..\gettext\build\gettext;$(ProjectDir)..\..\..\..\..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>XML_STATIC;CURL_STATICLIB;LIBSSH_STATIC;ZLIB_WINAPI;WIN32;_WINDOWS;LIBINTL_STATIC;NDEBUG;PSAPI_VERSION=1;EXV_LOCALEDIR="/../share/locale";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;PSAPI_VERSION=1;EXV_LOCALEDIR=\"/../share/locale\";NOMINMAX;WIN32_LEAN_AND_MEAN;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\;$(ProjectDir)..\..\..\..\src;$(ProjectDir)..\..\..\..\include\exiv2;$(ProjectDir)..\..\..\..\include;$(ProjectDir)..\..\..\..\xmpsdk\include;$(ProjectDir)..\..\..\..\..\curl\include;$(ProjectDir)..\..\..\..\..\libssh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\config.h" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\exiv2.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\rwlock.hpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\slice.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\basicio.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\basicio.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\bigtiffimage.cpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\bmpimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\bmpimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\convert.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\convert.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\cr2image.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\cr2image.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\crwimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\crwimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\datasets.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\datasets.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\easyaccess.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\easyaccess.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\epsimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\epsimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\error.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\error.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\exif.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\exif.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\futils.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\futils.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\gifimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\gifimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\http.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\http.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\image.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\image.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\ini.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\ini.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\iptc.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\iptc.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\jp2image.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\jp2image.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\jpgimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\jpgimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\metadatum.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\metadatum.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\mrwimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\mrwimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\orfimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\orfimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\pgfimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\pgfimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\preview.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\preview.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\properties.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\properties.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\psdimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\psdimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\rafimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\rafimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\rw2image.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\rw2image.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tags.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\tags.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tgaimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\tgaimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\tiffimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\tiffimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\types.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\types.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\value.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\value.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\version.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\version.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\webpimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\webpimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\xmp.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\xmp_exiv2.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\xmpsidecar.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\xmpsidecar.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\ssh.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\ssh.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\pngimage.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\pngimage.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\asfvideo.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\asfvideo.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\matroskavideo.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\matroskavideo.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\quicktimevideo.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\quicktimevideo.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\riffvideo.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\riffvideo.hpp" />
+    <ClCompile Include="$(ProjectDir)..\..\..\..\src\utilsvideo.cpp" />
+    <ClInclude Include="$(ProjectDir)..\..\..\..\exiv2\include\exiv2\utilsvideo.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

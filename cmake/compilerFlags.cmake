@@ -23,8 +23,8 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
 
-        # This fails under Fedora - MinGW - Gcc 8.3
-        if (NOT MINGW AND NOT CMAKE_HOST_SOLARIS)
+        # This fails under Fedora, MinGW GCC 8.3.0 and CYGWIN/MSYS 9.3.0
+        if (NOT (MINGW OR CMAKE_HOST_SOLARIS OR CYGWIN OR MSYS) )
             if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
                 add_compile_options(-fstack-clash-protection -fcf-protection)
             endif()
@@ -38,7 +38,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
         add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
 
-        if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT APPLE)
+        if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT APPLE AND NOT MSYS)
             add_compile_options(-Wp,-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
         endif()
 
@@ -90,6 +90,7 @@ endif ()
 
 # http://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
 if(MSVC)
+
     find_program(CLCACHE name clcache.exe
         PATHS ENV CLCACHE_PATH
         PATH_SUFFIXES Scripts clcache-4.1.0
@@ -136,4 +137,10 @@ if(MSVC)
     # Object Level Parallelism
     add_compile_options(/MP)
     add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
+    
+    # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
+    if (MSVC_VERSION GREATER_EQUAL "1910") # VS2017 and up
+        add_compile_options("/Zc:__cplusplus")
+    endif()
+
 endif()
