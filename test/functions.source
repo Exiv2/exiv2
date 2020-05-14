@@ -229,7 +229,7 @@ diffCheck()
     #run diff and check results
     if [ $PLATFORM == SunOS ]; then
         bdiff $diffargs "$test" "$good"
-    elif [ $PLATFORM == freebsd -o $PLATFORM == netbsd ]; then
+    elif [ $PLATFORM == FreeBSD -o $PLATFORM == NetBSD ]; then
         diff $diffargs "$test" "$good"
     else
         diff --binary $diffargs "$test" "$good"
