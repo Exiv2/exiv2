@@ -452,7 +452,7 @@ startHttpServer() {
     exiv2_httpServer=$!
     sleep 2                              # wait for it to init or die!
     # ask the server to reply
-    echo $http:$port status = $(python3 -c "import requests;print(requests.get('$http:$port/').status_code)")
+    echo $http:$port status = $(python3 -c "import urllib.request;print(urllib.request.urlopen('$http:$port/').status)")
     
     if [ $(jobs | wc -l) == $jobs ]; then
         >&2 printf "*** startHttpServer $http failed to start on port $port ***\n"
