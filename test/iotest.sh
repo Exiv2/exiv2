@@ -26,17 +26,20 @@ startHttpServer() {
     url=http://0.0.0.0:$port
     jobs=$(jobs | wc -l)
     python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
+    exiv2_httpServer=$!
     sleep 2                              # wait for it to init or die!
     
-    if [ $(jobs | wc -l) != $jobs ]; then
-        exiv2_httpServer=$!
-    else
+    if [ $(jobs | wc -l) == $jobs ]; then
         >&2 printf "*** startHttpServer failed to start on port $port ***\n"
     fi
 }
 closeHttpServer() {
     if [ ! -z $exiv2_httpServer ]; then
-        kill  $exiv2_httpServer                       # kill the server
+        echo kill  exiv2_httpServer $exiv2_httpServer
+             kill $exiv2_httpServer                       # kill the server
+    else
+    	echo kill $!
+    	     kill $!
     fi 
 }
 
@@ -50,7 +53,8 @@ if [ $PLATFORM != mingw -a $PLATFORM != NetBSD -a $PLATFORM != SunOS -a $PLATFOR
             cd "$testdir"
             test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
             for i in $test_files; do
-                runTest exiv2 -pa -g City -g DateTime $url/data/$i
+                runTest iotest s0 s1 s2                    $url/data/$i
+                runTest exiv2 -g City -g DateTime s0 s1 s2 $url/data/$i
             done
             >&2 printf "*** HTTP tests end\n"
         )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
