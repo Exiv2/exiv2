@@ -68,11 +68,11 @@ int main(int argc, char* const argv[])
         const char* ba = argv[5]; // block argument
 
         if ( argc >= 5 ) {
-            int bs = argc==6 ? atoi(ba) : 10000;
+            int blocksize = argc==6 ? atoi(ba) : 10000;
             // ensure bs is sane
-            if (bs<1) bs=1 ;
-            if (bs>1024*1024) bs=10000;
-            Exiv2::byte* b = new Exiv2::byte[bs];
+            if (blocksize<1) blocksize=1 ;
+            if (blocksize>1024*1024) blocksize=10000;
+            Exiv2::byte* bytes = new Exiv2::byte[blocksize];
 
             // copy fileIn from a remote location.
             FILE* f = fopen(f0,"wb");
@@ -82,20 +82,20 @@ int main(int argc, char* const argv[])
             BasicIo::AutoPtr io = Exiv2::ImageFactory::createIo(fr);
             io->open();
             size_t    l = 0;
-            if ( bs > 1 ) {
+            if ( blocksize > 1 ) {
                 int r ;
-                while ( (r=io->read(b,sizeof(bs))) > 0  ) {
+                while ( (r=io->read(bytes,blocksize)) > 0  ) {
                     l += r;
-                    fwrite(b,r,1,f) ;
+                    fwrite(bytes,r,1,f) ;
                 }
             } else {
-                // bs ==1, read/write byte-wise (#1029)
+                // blocksize == 1, read/write byte-wise (#1029)
                 while ( l++ < io->size() ) {
-                    b[0] = io->getb();
-                    fwrite(b,1,1,f)  ;
+                    bytes[0] = io->getb();
+                    fwrite(bytes,1,1,f)  ;
                 }
             }
-            delete [] b;
+            delete [] bytes;
             fclose(f);
             if ( !l ) {
                 Error(Exiv2::kerFileOpenFailed, fr, "rb", strError());
