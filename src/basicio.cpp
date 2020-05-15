@@ -2098,9 +2098,9 @@ namespace Exiv2 {
         request["page"  ] = hostInfo_.Path;
         if (hostInfo_.Port != "") request["port"] = hostInfo_.Port;
         request["verb"]   = "HEAD";
-        long serverCode = (long)http(request, response, errors);
+        int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode), hostInfo_.Path);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
 
         Exiv2::Dictionary_i lengthIter = response.find("Content-Length");
@@ -2122,9 +2122,9 @@ namespace Exiv2 {
             request["header"] = ss.str();
         }
 
-        long serverCode = (long)http(request, responseDic, errors);
+        int serverCode = http(request, responseDic, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode), hostInfo_.Path);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
         response = responseDic["body"];
     }
@@ -2176,7 +2176,7 @@ namespace Exiv2 {
 
         int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode), hostInfo_.Path);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
     }
     HttpIo::HttpIo(const std::string& url, size_t blockSize)
@@ -2305,11 +2305,11 @@ namespace Exiv2 {
         if(res != CURLE_OK) { // error happends
             throw Error(kerErrorMessage, curl_easy_strerror(res));
         }
-        // get return code
-        long returnCode;
-        curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &returnCode); // get code
-        if (returnCode >= 400 || returnCode < 0) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",returnCode),path_);
+        // get status
+        int serverCode;
+        curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
+        if (serverCode >= 400 || serverCode < 0) {
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
         }
         // get length
         double temp;
@@ -2343,10 +2343,10 @@ namespace Exiv2 {
         if(res != CURLE_OK) {
             throw Error(kerErrorMessage, curl_easy_strerror(res));
         } else {
-            long serverCode;
+            int serverCode;
             curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
             if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode),path_);
+                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
             }
         }
     }
@@ -2395,10 +2395,10 @@ namespace Exiv2 {
         if(res != CURLE_OK) {
             throw Error(kerErrorMessage, curl_easy_strerror(res));
         } else {
-            long serverCode;
+            int serverCode;
             curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode);
             if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode),path_);
+                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
             }
         }
     }
