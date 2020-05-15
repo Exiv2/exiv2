@@ -443,8 +443,8 @@ startHttpServer() {
     else                                    dport=12760
     fi
 
-    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport        ; fi
-    if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://0.0.0.0; fi
+    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
+    if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
     url=$http:$port
     jobs=$(jobs | wc -l)
     python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory

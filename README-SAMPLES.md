@@ -373,9 +373,10 @@ This program is used to test reading the file ini-test.  This program was added 
 
 ```
 Usage: iotest filein fileout1 fileout2 [remote [blocksize]]
-fileouts are overwritten and should match filein exactly
+copy filein to fileout1 and copy filein to fileout2
+fileout1 and fileout2 are overwritten and should match filein exactly
 
-You may optionally provide the URL of a remote file to be copied to filein.
+You may optionally provide the URL of a remote file to be copied to filein
 If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)
 ```
 

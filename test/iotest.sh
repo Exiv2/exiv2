@@ -41,11 +41,11 @@ if [ "$EXIV2_PORT" != "None" -a "$EXIV2_HTTP" != "None" ]; then
             fi
             
             runTest iotest s0 s1 s2 $url/data/table.jpg 1
-            echo $(stat $F s0 s1 s2 ../data/table.jpg)
+            echo $(stat $F s0 s1 s2 ../data/table.jpg) $(checkSum s0) $(checkSum s1) $(checkSum s2) $(checkSum ../data/table.jpg)
             runTest iotest s0 s1 s2 $url/data/table.jpg 10
-            echo $(stat $F s0 s1 s2 ../data/table.jpg)
+            echo $(stat $F s0 s1 s2 ../data/table.jpg) $(checkSum s0) $(checkSum s1) $(checkSum s2) $(checkSum ../data/table.jpg)
             runTest iotest s0 s1 s2 $url/data/table.jpg 1000
-            echo $(stat $F s0 s1 s2 ../data/table.jpg)
+            echo $(stat $F s0 s1 s2 ../data/table.jpg) $(checkSum s0) $(checkSum s1) $(checkSum s2) $(checkSum ../data/table.jpg)
             >&2 printf "*** HTTP tests end\n"
         )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
         reportTest

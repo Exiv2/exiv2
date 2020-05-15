@@ -53,12 +53,13 @@ int main(int argc, char* const argv[])
     try {
         if (argc < 4 || argc > 6 ) {
             std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2 [remote [blocksize]]\n"
-                         "fileouts are overwritten and should match filein exactly\n"
+                         "copy filein to fileout1 and copy filein to fileout2\n"
+                         "fileout1 and fileout2 are overwritten and should match filein exactly\n"
                          "\n"
                          "You may optionally provide the URL of a remote file to be copied to filein\n"
                          "If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)\n"
-            ;     
-           return 1;
+            ;
+            return 1;
         }
         const char* f0 = argv[1]; // fileIn
         const char* f1 = argv[2]; // fileOut1
@@ -71,8 +72,8 @@ int main(int argc, char* const argv[])
             // ensure bs is sane
             if (bs<1) bs=1 ;
             if (bs>1024*1024) bs=10000;
-            Exiv2::byte b[bs];
-            
+            Exiv2::byte* b = new Exiv2::byte[bs];
+
             // copy fileIn from a remote location.
             FILE* f = fopen(f0,"wb");
             if ( !f ) {
@@ -94,12 +95,13 @@ int main(int argc, char* const argv[])
                     fwrite(b,1,1,f)  ;
                 }
             }
+            delete [] b;
             fclose(f);
             if ( !l ) {
                 Error(Exiv2::kerFileOpenFailed, fr, "rb", strError());
             }
         }
-        
+
         FileIo fileIn(f0);
         if (fileIn.open() != 0) {
             throw Error(Exiv2::kerDataSourceOpenFailed, fileIn.path(), strError());
