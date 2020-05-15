@@ -2309,7 +2309,7 @@ namespace Exiv2 {
         long returnCode;
         curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &returnCode); // get code
         if (returnCode >= 400 || returnCode < 0) {
-            throw Error(kerTiffDirectoryTooLarge, "Server", returnCode);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",returnCode),path_);
         }
         // get length
         double temp;
@@ -2346,7 +2346,7 @@ namespace Exiv2 {
             long serverCode;
             curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
             if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
+                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode),path_);
             }
         }
     }
@@ -2398,7 +2398,7 @@ namespace Exiv2 {
             long serverCode;
             curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode);
             if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
+                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode),path_);
             }
         }
     }
