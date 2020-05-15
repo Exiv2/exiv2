@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 3.3.2 )
 
 project(exiv2          # use TWEAK to categorize the build
-    VERSION 0.27.3.1   # 0.27.3    = GM
+    VERSION 0.27.3.20  # 0.27.3    = GM
                        # 0.27.3.00 = GM Preview
                        # 0.27.3.09 = Not For Release
                        # 0.27.3.1  = RC1
