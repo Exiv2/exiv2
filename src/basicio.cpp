@@ -30,6 +30,7 @@
 #include "error.hpp"
 #include "http.hpp"
 #include "properties.hpp"
+#include "image_int.hpp"
 
 // + standard includes
 #include <string>
@@ -2099,7 +2100,7 @@ namespace Exiv2 {
         request["verb"]   = "HEAD";
         long serverCode = (long)http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode), hostInfo_.Path);
         }
 
         Exiv2::Dictionary_i lengthIter = response.find("Content-Length");
@@ -2123,7 +2124,7 @@ namespace Exiv2 {
 
         long serverCode = (long)http(request, responseDic, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode), hostInfo_.Path);
         }
         response = responseDic["body"];
     }
@@ -2175,7 +2176,7 @@ namespace Exiv2 {
 
         int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
-            throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
+            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%ld",serverCode), hostInfo_.Path);
         }
     }
     HttpIo::HttpIo(const std::string& url, size_t blockSize)
