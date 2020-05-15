@@ -437,10 +437,15 @@ checkSum()
 # startHttpServer - power up the python web server
 startHttpServer() {
     cd "${testdir}/.."                   # testdir is the tmp output directory
+    
+    # PLATFORM = the scripting host (eg mingw)
+    # host     = the build host (eg windows for msvc)
+    host=$(runTest exiv2 -vVg platform | tail -1 | cut -d= -f 2) # windows
+    if [ "$host" != windows ]; then host="$PLATFORM" ; fi
 
-    if    [ "$PLATFORM" == "cygwin" ]; then dport=12762
-    elif  [ "$PLATFORM" == "mingw"  ]; then dport=12761
-    else                                    dport=12760
+    if    [ "$host" == "cygwin" ]; then dport=12762
+    elif  [ "$host" == "mingw"  ]; then dport=12761
+    else                                dport=12760
     fi
 
     if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
@@ -459,7 +464,7 @@ startHttpServer() {
 }
 
 ##
-# cloaseHttpServer - power down the python web server
+# closeHttpServer - power down the python web server
 closeHttpServer() {
     if [ ! -z $exiv2_httpServer ]; then
         echo kill  exiv2_httpServer $exiv2_httpServer
@@ -564,6 +569,7 @@ prepareTest()
 			exit 42
 		fi
     done
+    
 }
 
 prepareTest
