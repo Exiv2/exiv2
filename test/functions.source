@@ -440,7 +440,6 @@ startHttpServer() {
     
     # PLATFORM = the scripting host (eg mingw)
     # host     = the build host (eg windows for msvc)
-    host=$PLATFORM
     if [ $PLATFORM == 'cygwin' -o $PLATFORM == 'mingw' ]; then
         host=$(runTest exiv2 -vVg platform | tail -1 | cut -d= -f 2) # windows
     fi
