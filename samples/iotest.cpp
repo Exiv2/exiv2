@@ -69,7 +69,7 @@ int main(int argc, char* const argv[])
 
         if ( argc >= 5 ) {
             int blocksize = argc==6 ? atoi(ba) : 10000;
-            // ensure bs is sane
+            // ensure blocksize is sane
             if (blocksize<1) blocksize=1 ;
             if (blocksize>1024*1024) blocksize=10000;
             Exiv2::byte* bytes = new Exiv2::byte[blocksize];
