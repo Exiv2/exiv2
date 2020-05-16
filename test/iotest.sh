@@ -10,7 +10,7 @@ source ./functions.source
     echo
     printf "file io tests"
     copyTestFiles $test_files
-    for i in $test_files; do runTest ioTest $i s1 s2; done
+    for i in $test_files; do runTest iotest $i s1 s2; done
 
     printf "\n---------------------------------------------------------\n"
     if [ $errors -eq 0 ]; then
