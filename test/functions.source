@@ -450,17 +450,12 @@ startHttpServer() {
 
     if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
     if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
-    url=$http:$port
-    jobs=$(jobs | wc -l)
+    exiv2_url=$http:$port
     python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
-    exiv2_httpServer=$!
     sleep 2                              # wait for it to init or die!
+    exiv2_httpServer=$!
     # ask the server to reply
-    echo $http:$port status = $(python3 -c "import urllib.request;print(urllib.request.urlopen('$http:$port/').status)")
-    
-    if [ $(jobs | wc -l) == $jobs ]; then
-        >&2 printf "*** startHttpServer $http failed to start on port $port ***\n"
-    fi
+    echo $exiv2_url status = $(python3 -c "import urllib.request;print(urllib.request.urlopen('$exiv2_url/').status)")
 }
 
 ##
