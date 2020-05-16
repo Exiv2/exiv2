@@ -35,7 +35,7 @@ if [ "$EXIV2_PORT" != "None" -a "$EXIV2_HTTP" != "None" ]; then
     if [ ! -z $exiv2_httpServer ]; then
         (   cd "${testdir}" 
             >&2 printf "*** HTTP tests begin\n"
-            
+
             cd "$testdir"
             test_files="table.jpg Reagan.tiff exiv2-bug922a.jpg"
             for i in $test_files; do
@@ -44,11 +44,11 @@ if [ "$EXIV2_PORT" != "None" -a "$EXIV2_HTTP" != "None" ]; then
                     runTest exiv2 -g City -g DateTime $t
                 done
             done
-            
-            runTest iotest s0 s1 s2 $exiv2_url/data/table.jpg 1    ; sniff
+
+            runTest iotest s0 s1 s2 $exiv2_url/data/table.jpg 0    ; sniff
             runTest iotest s0 s1 s2 $exiv2_url/data/table.jpg 10   ; sniff
             runTest iotest s0 s1 s2 $exiv2_url/data/table.jpg 1000 ; sniff
-            
+
             >&2 printf "*** HTTP tests end\n"
         )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
         reportTest

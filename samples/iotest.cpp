@@ -70,36 +70,33 @@ int main(int argc, char* const argv[])
         if ( argc >= 5 ) {
             int blocksize = argc==6 ? atoi(ba) : 10000;
             // ensure blocksize is sane
-            if (blocksize<1) blocksize=1 ;
             if (blocksize>1024*1024) blocksize=10000;
-            Exiv2::byte* bytes = new Exiv2::byte[blocksize];
+            Exiv2::byte* bytes = blocksize>0 ? new Exiv2::byte[blocksize]: NULL;
 
             // copy fileIn from a remote location.
-            FILE* f = fopen(f0,"wb");
-            if ( !f ) {
-                Error(Exiv2::kerFileOpenFailed, f0, "w+b", strError());
-            }
             BasicIo::AutoPtr io = Exiv2::ImageFactory::createIo(fr);
-            io->open();
+            if ( io->open() != 0 ) {
+                Error(Exiv2::kerFileOpenFailed, io->path(), "rb", strError());
+            }
+            FileIo output(f0);
+            if ( !output.open("wb") ) {
+                Error(Exiv2::kerFileOpenFailed, output.path() , "w+b", strError());
+            }
             size_t    l = 0;
-            if ( blocksize > 1 ) {
+            if ( bytes ) {
                 int r ;
                 while ( (r=io->read(bytes,blocksize)) > 0  ) {
                     l += r;
-                    fwrite(bytes,r,1,f) ;
+                    output.write(bytes,r) ;
                 }
             } else {
-                // blocksize == 1, read/write byte-wise (#1029)
+                // read/write byte-wise (#1029)
                 while ( l++ < io->size() ) {
-                    bytes[0] = io->getb();
-                    fwrite(bytes,1,1,f)  ;
+                    output.putb(io->getb()) ;
                 }
             }
-            delete [] bytes;
-            fclose(f);
-            if ( !l ) {
-                Error(Exiv2::kerFileOpenFailed, fr, "rb", strError());
-            }
+            if ( bytes ) delete [] bytes;
+            output.close();
         }
 
         FileIo fileIn(f0);
