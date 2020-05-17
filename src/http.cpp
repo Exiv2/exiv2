@@ -18,14 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-/*
- * http.cpp
- */
-
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
-#include <winsock2.h>
-#endif
-
 // included header files
 #include "config.h"
 
@@ -39,6 +31,10 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <string.h>
+
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#include <winsock2.h>
+#endif
 
 #define SLEEP       1000
 #define SNOOZE         0
