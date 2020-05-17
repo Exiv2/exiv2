@@ -1,9 +1,24 @@
 | Travis        | AppVeyor      | GitLab| Codecov| Repology|
 |:-------------:|:-------------:|:-----:|:------:|:-------:|
 | [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) |
+
+<div id="1">
+
+# Welcome to Exiv2
+
+Exiv2 is a C++ library and a command-line utility to read,
+write, delete and modify Exif, IPTC, XMP and ICC image metadata.
+
+| Exiv2 Resource | Location |
+|:----------     |:------    |
+| Releases and Documentation<br>Prereleases:<br>Project Resources<br>License (GPLv2)<br>CMake Downloads  | [https://exiv2.org](https://exiv2.org)<br>[https://pre-release.exiv2.org](https://pre-release.exiv2.org)<br>[https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2)<br>[COPYING](COPYING)<br>[https://cmake.org/download/](https://cmake.org/download/) |
+
+The file ReadMe.txt in a build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
+
 <div id="TOC">
 
 ### TABLE  OF  CONTENTS
+![Exiv2](exiv2.png)
 
 1. [Welcome to Exiv2](#1)
 2. [Building, Installing, Using and Uninstalling Exiv2](#2)
@@ -41,25 +56,6 @@
     5. [Microsoft Visual C++](#5-5)
     6. [Unix](#5-6)
 
-<div id="1">
-
-# Welcome to Exiv2
-
-![Exiv2](exiv2.png)
-
-Exiv2 is a C++ library and a command line utility to read,
-write, delete and modify Exif, IPTC, XMP and ICC image metadata.
-
-| Exiv2 Resource              | Location |
-|:------                      |:----     |
-| Releases and Documentation  | [https://exiv2.org](https://exiv2.org) |
-| Prereleases:                | [https://pre-release.exiv2.org](https://pre-release.exiv2.org) |
-| Project Resources           | [https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2) |
-| License (GPLv2)             | [COPYING](COPYING) |
-| CMake Downloads             | [https://cmake.org/download/](https://cmake.org/download/) |
-
-The file ReadMe.txt in a build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
-
 [TOC](#TOC)
 <div id="2">
 
@@ -72,12 +68,12 @@ You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and
 ### 2.1 Build, Install, Use Exiv2 on a UNIX-like system
 
 ```bash
-cd ~/gnu/github/exiv2  # location of the project code
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build .
-make tests
-sudo make install
+$ cd ~/gnu/github/exiv2  # location of the project code
+$ mkdir build && cd build
+$ cmake .. -DCMAKE_BUILD_TYPE=Release
+$ cmake --build .
+$ make tests
+$ sudo make install
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
@@ -104,9 +100,8 @@ $ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # macOS
 
 ### 2.2 Build and Install Exiv2 with Visual Studio
 
-We recommend that you use conan to download the Exiv2 external dependencies on Windows (On Linux/OSX you can use or install system packages).
-Apart from handling the dependencies, to configure and compile the project is pretty similar to the UNIX like systems.
-See [README-CONAN](README-CONAN.md) for more information
+We recommend that you use conan to download the Exiv2 external dependencies on Windows.  On other platforms (maxOS, Ubuntu and others), you should use the platform package manger.  These are discussed: [Platform Notes](#5) The options to configure and compile the project using Visual Studio are similar to UNIX like systems.
+See [README-CONAN](README-CONAN.md) for more information about Conan.
 
 [TOC](#TOC)
 <div id="2-3">
@@ -131,9 +126,10 @@ option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"  ON 
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
 
-Options are defined on the CMake command line:
+Options are defined on the CMake command-line:
+
 ```bash
-$ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=OFF
+$ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=Off
 ```
 
 [TOC](#TOC)
@@ -150,9 +146,8 @@ The following Exiv2 features require external libraries:
 | Natural language system     | gettext   | OFF      | -DEXIV2\_ENABLE\_NLS=On       | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
-development package of a dependency to install the header files and libraries required to build Exiv2. In the file
-`ci/install_dependencies.sh` you can check to the list of packages we install on different Linux distributions. This
-file is used to setup some CI images in which we try out the Exiv2 compilation.
+development package of a dependency to install the header files and libraries required to build Exiv2. The script
+`ci/install_dependencies.sh` is used to setup CI images on which we build and test Exiv2 on many platforms when we modify code.  You may find that helpful in setting up your platform dependencies.
 
 Natural language system is discussed in more detail here: [Localisation](#2-8)
 
@@ -169,7 +164,7 @@ See [README-CONAN](README-CONAN.md) for more information.
 
 There are detailed platform notes about compiling and linking in `releasenotes/{platform}/ReadMe.txt`
 
-where `platform: { CYGWIN | macOS | Linux | MinGW | msvc }`
+where `platform: { CYGWIN | Darwin | Linux | MinGW | msvc | Unix }`
 
 In general you need to do the following:
 
@@ -202,26 +197,23 @@ You can build samples/exifprint.cpp as follows:
 $ cd <exiv2dir>
 $ mkdir exifprint
 $ cd    exifprint
-$ *** EDIT CMakeLists.txt ***
-$ cat CMakeLists.txt
+$ cat - > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 3.8)
 project(exifprint VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2/
 add_executable(exifprint ../samples/exifprint.cpp) # compile this
 target_link_libraries(exifprint exiv2lib)          # link exiv2lib
-
+EOF
 $ cmake .                                          # generate the makefile
 $ make                                             # build the code
 $ ./exifprint                                      # test your executable
-Usage: ./exifprint [ file | --version || --version-test ]
+Usage: bin/exifprint [ path | --version | --version-test ]
 $
 ```
-
-This [repository](https://github.com/piponazo/exiv2Consumer) shows an example of how to consume Exiv2 with CMake.
 
 [TOC](#TOC)
 <div id="2-7">
@@ -255,7 +247,7 @@ g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 
 Localisation is supported on a UNIX-like platform:  Linux, macOS, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
-To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=ON`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
+To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=On`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
 
 You must install the build to test localisation.  This ensures that the localisation message files can be found at run-time.  You cannot test localisation in the directory `build\bin`.
 
@@ -350,7 +342,7 @@ To build documentation, use the CMake option **`-DEXIV2_BUILD_DOC=On`**.
 Additionally, you will require an additional build step to actually build the documentation.
 
 ```bash
-$ cmake ..options.. -DEXIV2_BUILD_DOC=ON
+$ cmake ..options.. -DEXIV2_BUILD_DOC=On
 $ make doc
 ```
 
@@ -365,7 +357,7 @@ To build the documentation, you must install the following products:
 
 ### 2.10 Building Exiv2 Packages
 
-To enable the building of Exiv2 packages, use the CMake option `-DEXIV2_TEAM_PACKAGING=ON`.
+To enable the building of Exiv2 packages, use the CMake option `-DEXIV2_TEAM_PACKAGING=On`.
 
 You should not build Exiv2 Packages.  This feature is intended for use by Team Exiv2 to create Platform and Source Packages on the buildserver.
 
@@ -443,19 +435,19 @@ Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There a
 #endif
 ```
 
-Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES` by yourself. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
+Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES`. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
 
 ```bash
 $ cd <exiv2dir>
 $ touch src/webpimage.cpp
-$ make CXXFLAGS=-DEXIV2_DEBUG_MESSAGESDEBUG
+$ make CXXFLAGS=-DEXIV2_DEBUG_MESSAGES
 $ bin/exiv2 ...
 -- or --
 $ sudo make install
 $ exiv2     ...
 ```
 
-If you are debugging library code, it is recommended that you use the exiv2 command-line as your test harness as Team Exiv2 is very familiar with this tool and able to give support.
+If you are debugging library code, it is recommended that you use the exiv2 command-line program as your test harness as Team Exiv2 is very familiar with this tool and able to give support.
 
 [TOC](#TOC)
 
@@ -479,7 +471,7 @@ I personally use CLion which has excellent integration with CMake.  It will auto
 
 5) cmake --build . options **`--config Release|Debug`** and **`--target install`**
 
-Visual Studio and Xcode can build debug or release builds without using the option **`-DCMAKE_BUILD_TYPE`** because the generated project files can build multiple types.  The option **`--config Debug`** can be specified on the command-line to specify the build type.  Alternatively, if you prefer to build in the IDE, the UI provides options to select the configuration and target.
+Visual Studio and Xcode can build debug or release builds without using the option **`-DCMAKE_BUILD_TYPE`** because the generated project files can build multiple types.  The option **`--config Debug`** can be specified on the cmake command-line to specify the build type.  Alternatively, if you prefer to build in the IDE, the UI provides options to select the configuration and target.
 
 With the Unix Makefile generator, the targets can be listed:
 
@@ -579,7 +571,7 @@ As discussed in the section on Thread Safety, Exiv2 classes for Exif and IPTC me
 
 Adobe's XMPsdk is generally thread-safe, however it has to be initialized and terminated before and after starting any threads to access XMP metadata. The Exiv2 library will initialize this if necessary, however it does not terminate the XMPsdk.
 
-The Exiv2 command-line and the sample applications call the following at the outset:
+The exiv2 command-line program and sample applications call the following at the outset:
 
 ```
     Exiv2::XmpParser::initialize();
@@ -630,11 +622,11 @@ $ make
 Note, you may wish to choose to build with optional features and/or build static libraries.  To do this, request appropriately on the mingw64-cmake command:
 
 ```bash
-$ mingw64-cmake .. -DEXIV2_TEAM_EXTRA_WARNINGS=ON \
-                   -DEXIV2_ENABLE_VIDEO=ON        \
-                   -DEXIV2_ENABLE_WEBREADY=ON     \
-                   -DEXIV2_ENABLE_WIN_UNICODE=ON  \
-                   -DBUILD_SHARED_LIBS=OFF
+$ mingw64-cmake .. -DEXIV2_TEAM_EXTRA_WARNINGS=On \
+                   -DEXIV2_ENABLE_VIDEO=On        \
+                   -DEXIV2_ENABLE_WEBREADY=On     \
+                   -DEXIV2_ENABLE_WIN_UNICODE=On  \
+                   -DBUILD_SHARED_LIBS=Off
 ```
 The options available for cross-compiling are the same as provided for all builds.  See: [Build Options](#2-3)
 
@@ -671,9 +663,9 @@ If you have not installed wine, Fedora will offer to install it for you.
 
 ####6 Running the test suite
 
-On a default wine installation, you are in the MSDOS/cmd prompt.  You cannot execute the exiv2 test suite in this environment as you require python3 and MSYS/bash to run the suite.
+On a default wine installation, you are in the MSDOS/cmd.exe prompt.  You cannot execute the exiv2 test suite in this environment as you require python3 and MSYS/bash to run the suite.
 
-You should mount the your Fedora exiv2/ directory on a Windows machine on which you have installed MSYS2.  You will need python3 and make.
+You should mount the your Fedora exiv2/ directory on a Windows machine on which you have installed MinGW/msys2.  You will need python3 and make.
 
 My build machines is a MacMini with VMs for Windows, Fedora and other platforms.  On Fedora, I build in a Mac directory which is shared to all VMs.
 
@@ -685,7 +677,7 @@ My build machines is a MacMini with VMs for Windows, Fedora and other platforms.
 [rmills@rmillsmm-fedora 0.27-maintenance]$
 ```
 
-On MSYS2, I can directly access the share:
+On MinGW/msys2, I can directly access the share:
 
 ```bash
 $ cd //Mac/Home/gnu/github/exiv2/0.27/maintenance/build_mingw_fedora
@@ -760,7 +752,7 @@ For new bug reports and feature requests, please open an issue in Github.
 
 ## 4 Running the test suite
 
-There are different kinds of tests:
+#### Different kinds of tests:
 
 | Description        | Language | Location | Command<br>_(in build or test directory)_ | CMake Option to Build |
 |:--                 |:--        |:--      |:--                                        |:--   |
@@ -770,9 +762,11 @@ There are different kinds of tests:
 | Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
 | Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
 
-**Caution Visual Studio Users using cmd.exe**<br>_You may use `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`._  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)
+_**Caution Visual Studio Users using cmd.exe**_<br>_You may use MinGW/msys2 `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`.  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)_
 
-Environment Variables used by the test suite:
+#### Environment Variables used by the test suite:
+
+If you build the code in the directory \<exiv2dir\>build, tests will run using the default values of Environment Variables.
 
 | Variable        | Default | Platforms | Purpose |
 |:--                 |:--        |:--     |:-- |
@@ -785,8 +779,9 @@ Environment Variables used by the test suite:
 | VALGRIND           | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VERBOSE            | _**not set**_ | All Platforms | Causes make to report its actions |
 
-The Variables EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**One**_ to authorise the firewall to permit python to use the port.
+The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
 
+[TOC](#TOC)
 <div id="4-1">
 
 ### 4.1 Running tests on a UNIX-like system
@@ -794,15 +789,16 @@ The Variables EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests. 
 You can run tests directly from the build:
 
 ```bash
-$ cmake .. -G "Unix Makefiles"
+$ cmake .. -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=On 
 $ make
-...
+... lots of output ...
 $ make tests
 ... lots of output ...
-Summary report
+$
 ```
 
-You can run individual tests in the `test` directory using the environment variable EXIV2\_BINDIR to specify the location of the build artifacts.  For Windows builds (msvc, Cygwin, Msys, MinGW), set EXIV2_EXT=.exe
+You can run individual tests in the `test` directory.  **Caution:** If you build in a directory other than \<exiv2dir\>/build, you must set EXIV2\_BINDIR to run tests from the `test` directory.
+
 
 ```bash
 $ cd <exiv2dir>/build
@@ -817,6 +813,7 @@ test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
 Ran 176 tests in 9.526s
 OK (skipped=6)
+$
 ```
 
 [TOC](#TOC)
@@ -828,23 +825,21 @@ To run the bash scripts you will need to install MinGW/msys2 which provides you 
 
 ##### Running tests from MinGW/msys2 bash
 
-Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path called `python3.exe`  The variables EXIV2\_BINDIR and EXIV2\_EXT enable the test suite to locate the MSVC build artifacts.
+Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path called `python3.exe`
 
 ```bash
 $ cd <exiv2dir>/build
 $ cd ../test
 $ PATH="/c/Python37:$PATH"
-$ export EXIV2_EXT=.exe
-$ export EXIV2_BINDIR=${PWD}/../build/bin
 ```
 
 **Caution:** _The python3 interpreter must be for DOS and called python3.exe.  I copied the python.exe program:_
 
 ```
-..>copy c:\Python37\python.exe c:\Python37\python3.exe
+$ cp /cygpath/c/Python37/python.exe /cygpath/c/Python37/python3.exe
 ```
 
-Once you have modified the PATH and exported EXIV2\_BINDIR and EXIV2\_EXT, you can execute the test suite as described for UNIX-like systems:
+You can execute the test suite as described for UNIX-like systems:
 
 ```bash
 $ cd <exiv2dir>/test
@@ -852,6 +847,9 @@ $ make tests
 $ make python_tests
 $ ./icc-test.sh
 ```
+**Caution:** If you build in a directory other than \<exiv2dir\>/build, you must set EXIV2\_BINDIR to run tests from the `test` directory.
+
+
 ##### Running tests from cmd.exe
 
 You can build with Visual Studio using Conan.  The is described in detail in [README-CONAN.md](README-CONAN.md)
@@ -868,25 +866,23 @@ c:\...\exiv2\build>cmake --build . --config Release
 c:\...\exiv2\build>
 ```
 
-**Caution:** _You will need a DOS python3 interpreter which must be called python3.exe.  I copied the python.exe program:_
+**Caution:** To run the python tests, _You will need a DOS python3 interpreter which must be called python3.exe.  I copied the python.exe program:_  You may have to modify the PATH to ensure that the DOS python3 is used.  You may have to modify the PATH to access MinGW/msys2 tools such as bash and make.  Be careful to ensure the DOS python3.exe is found before the MinGW/msys2 python3.
 
 ```
 c:\...\exiv2\build>copy c:\Python37\python.exe c:\Python37\python3.exe
+c:\...\exiv2\build>set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
 ```
 
-You must set the environment strings EXIV2\_BINDIR, EXIV2\_EXT and modify PATH.  You will need a DOS Python3 interpreter on your path, and you'll need the bash interpreter.  By careful to ensure the DOS python3.exe is found before the MingW/msys2 python3.
+You can now run the tests from cmd.exe:  
 
 ```
-c:\...\exiv2\build>cd bin
-c:\...\exiv2\build\bin>set EXIV2_BINDIR=%CD%
-c:\...\exiv2\build\bin>set EXIV2_EXT=.exe
-c:\...\exiv2\build\bin>set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
+c:\...\exiv2\build>cmake --build . --config Release --target tests
 ```
 
-Move to the test directory and use make (which is in c:\msys64\usr\bin) to drive the test procedures.  You cannot run the tests in the build directory because there is no Makefile in the build directory.
+You may prefer to run tests in the directory using MinGW/msys2 make.
 
 ```
-c:\...\exiv2\build\bin>cd ..\..\test
+c:\...\exiv2\build\>cd ..\test
 c:\...\exiv2\test>make bash_tests
 ...
 c:\...\exiv2\test>make python_tests   # or unit_test or version_test
@@ -895,53 +891,24 @@ c:\...\exiv2\test>make tests          # run all the tests
 ...
 ```
 
-I use the following batch file _cmd64.bat_ to set up a special path for cmd.exe.  This ensures that I can jump instantly to the test directory with all the correct tools (DOS python, DOS cmake, msys/bash etc) on the PATH.
-
-```
-@echo off
-setlocal
-set "P="
-set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
-set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
-set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
-set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
-set "P=%P%c:\Windows\System32;"              # windows
-set "P=%P%%USERPROFILE%\com;"                # my home-made magic
-set "PATH=%P%"
-set "EXIV2_EXT=.exe"
-color 1e
-cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
-color
-endlocal
-```
-
-When you have the PATH constructed is this way, you can use the cmake command to run tests directly from the build directory as follows:
-
-```
-c:\...\exiv2\test>cd ..\build
-c:\...\exiv2\build>cmake --build . --config Release --target tests
-```
-
 If you wish to use an environment variables, use env:
 
 ```
 c:\...\exiv2\build>env VERBOSE=1 cmake --build . --config Release --target tests
 ```
 
-When you are in the test directory, msys/make provides the following _(more convenient)_ syntax:
+When you are in the test directory, MinGW/msys2 make supports the following _(more convenient)_ syntax:
 
 ```
 c:\...\exiv2\test>make tests VERBOSE=1
 ```
-
-
 
 [TOC](#TOC)
 <div id="4-3">
 
 ### 4.3 Unit tests
 
-The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=ON`.
+The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=On`.
 
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
@@ -1089,7 +1056,7 @@ $ make
 
 #### MinGW and Regex
 
-The exiv2 command line program provides an option **`--grep`** to filter output.  The implementation requires the header file **`<regex.h>`** and supporting library to be available during the build.  When not available, the option **`--grep`** degrades to a substring match.  Because there are several versions of **`<regex.h>`** available on the MinGW platform, detection of regex is always disabled on this platform and uses substring match.  The following command reveals if regex is included in your build:
+The exiv2 command-line program provides an option **`--grep`** to filter output.  The implementation requires the header file **`<regex.h>`** and supporting library to be available during the build.  When not available, the option **`--grep`** degrades to a substring match.  Because there are several versions of **`<regex.h>`** available on the MinGW platform, detection of regex is always disabled on this platform and uses substring match.  The following command reveals if regex is included in your build:
 
 ```bash
 $ exiv2 -vVg regex
@@ -1152,15 +1119,13 @@ setlocal
 set "P="
 set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
 set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
-set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
+set "P=%P%c:\msys64\usr\bin;"                # MinGW/msys2 make, bash etc
 set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
 set "P=%P%c:\Windows\System32;"              # windows
 set "P=%P%%USERPROFILE%\com;"                # my home-made magic
 set "PATH=%P%"
 set "EXIV2_EXT=.exe"
-color 1e
 cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
-color
 endlocal
 ```
 
@@ -1263,5 +1228,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-12
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-17
 
