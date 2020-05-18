@@ -12,6 +12,7 @@ write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 | Exiv2 Resource | Location |
 |:----------     |:------    |
 | Releases and Documentation<br>Prereleases:<br>Project Resources<br>License (GPLv2)<br>CMake Downloads  | [https://exiv2.org](https://exiv2.org)<br>[https://pre-release.exiv2.org](https://pre-release.exiv2.org)<br>[https://github.com/Exiv2/exiv2](https://github.com/Exiv2/exiv2)<br>[COPYING](COPYING)<br>[https://cmake.org/download/](https://cmake.org/download/) |
+| README.md<br>README-CONAN.md<br>README-SAMPLES.md | User Manual. _This document_<br>Conan User Manual _[click here](README-CONAN.md)_<br>Sample Code Manual. _[click here](README-SAMPLES.md)_ |
 
 The file ReadMe.txt in a build bundle describes how to install the library on the platform.  ReadMe.txt also documents how to compile and link code on the platform.
 

@@ -4,14 +4,10 @@
              Exif.Photo.UserComment
 
   File:      exifcomment.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History  : 10-May-04, ahu: created
-             16-Jan-05, ahu: updated using CommentValue and operator trickery
  */
 // *****************************************************************************
 // included header files
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <cassert>
 
@@ -36,7 +32,7 @@ try {
       Exiv2 uses a CommentValue for Exif user comments. The format of the
       comment string includes an optional charset specification at the beginning:
 
-      [charset=["]Ascii|Jis|Unicode|Undefined["] ]comment
+      [charset=[Ascii|Jis|Unicode|Undefined]] comment
 
       Undefined is used as a default if the comment doesn't start with a charset
       definition.
@@ -45,9 +41,9 @@ try {
       the file.
      */
     exifData["Exif.Photo.UserComment"]
-        = "charset=\"Unicode\" An Unicode Exif comment added with Exiv2";
+        = "charset=Unicode A Unicode Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"]
-        = "charset=\"Undefined\" An undefined Exif comment added with Exiv2";
+        = "charset=Undefined An undefined Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"]
         = "Another undefined Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"]
