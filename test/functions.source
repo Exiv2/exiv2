@@ -227,12 +227,12 @@ diffCheck()
     if [ -z "$errors" ]; then let -a errors=0; fi
 
     #run diff and check results
-    if [ "$PLATFORM" == SunOS ]; then
-    	bdiff $diffargs "$test" "$good"
-    elif [ "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ]; then
-    	diff $diffargs "$test" "$good"
+    if [ $PLATFORM == SunOS ]; then
+        bdiff $diffargs "$test" "$good"
+    elif [ $PLATFORM == FreeBSD -o $PLATFORM == NetBSD ]; then
+        diff $diffargs "$test" "$good"
     else
-    	diff --binary $diffargs "$test" "$good"
+        diff --binary $diffargs "$test" "$good"
     fi
     if [ $? -ne 0 ]; then
        errors=$(expr $errors + 1)
@@ -426,14 +426,47 @@ copyVideoFiles ()
 # print checksum for one file
 checkSum()
 {
-    # cygwin checksum: http://esrg.sourceforge.net/utils_win_up/md5sum/
-    # macos - built/installed coreutils 8.25 http://ftp.gnu.org/gnu/coreutils/
-    platform=$(uname)
-    if [ "$platform" == 'NetBSD' -o "$platform" == 'FreeBSD' ]; then
-      md5 -q $1
+    if [ "$PLATFORM" == 'NetBSD' -o "$PLATFORM" == 'FreeBSD' -o "$PLATFORM" == 'Darwin' ]; then
+        md5 -q $1
     else
-      md5sum $1 | cut -f 1 -d' ' 
+        md5sum $1 | cut -d' ' -f 1
     fi
+}
+
+##
+# startHttpServer - power up the python web server
+startHttpServer() {
+    cd "${testdir}/.."                   # testdir is the tmp output directory
+    
+    # PLATFORM = the scripting host (eg mingw)
+    # host     = the build host (eg windows for msvc)
+    if [ $PLATFORM == 'cygwin' -o $PLATFORM == 'mingw' ]; then
+        host=$(runTest exiv2 -vVg platform | tail -1 | cut -d= -f 2) # windows
+    fi
+    if [ "$host" != windows ]; then host="$PLATFORM" ; fi
+
+    if    [ "$host" == "cygwin" ]; then dport=12762
+    elif  [ "$host" == "mingw"  ]; then dport=12761
+    else                                dport=12760
+    fi
+
+    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
+    if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
+    exiv2_url=$http:$port
+    python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
+    sleep 2                              # wait for it to init or die!
+    exiv2_httpServer=$!
+    # ask the server to reply
+    echo $exiv2_url status = $(python3 -c "import urllib.request;print(urllib.request.urlopen('$exiv2_url/').status)")
+}
+
+##
+# closeHttpServer - power down the python web server
+closeHttpServer() {
+    if [ ! -z $exiv2_httpServer ]; then
+        echo kill  exiv2_httpServer $exiv2_httpServer
+             kill $exiv2_httpServer      # kill the server
+    fi 
 }
 
 ##
@@ -533,6 +566,7 @@ prepareTest()
 			exit 42
 		fi
     done
+    
 }
 
 prepareTest

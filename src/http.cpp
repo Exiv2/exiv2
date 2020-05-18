@@ -18,15 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-/*
- * http.cpp
- */
-
-#ifdef _MSC_VER
-#include <winsock2.h>
-#pragma comment(lib, "ws2_32.lib")
-#endif
-
 // included header files
 #include "config.h"
 
@@ -41,6 +32,10 @@
 #include <sys/stat.h>
 #include <string.h>
 
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#include <winsock2.h>
+#endif
+
 #define SLEEP       1000
 #define SNOOZE         0
 
@@ -52,9 +47,8 @@
 // platform specific code
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
 #include <string.h>
-#include <windows.h>
 #include <io.h>
-#ifndef  __MINGW__
+#if !defined(__MINGW__) && !defined(__CYGWIN__)
 #define  snprintf sprintf_s
 #define  write    _write
 #define  read     _read
@@ -210,7 +204,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // Windows specific code
-#ifdef WIN32
+#if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__) || defined(__CYGWIN__)
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData);
 #endif

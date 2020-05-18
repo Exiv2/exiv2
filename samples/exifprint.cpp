@@ -36,7 +36,7 @@ try {
     const _tchar* file = argv[1];
 
     if (argc != 2) {
-        std::_tcout << _t("Usage: ") << prog << _t(" [ file | --version || --version-test ]") << std::endl;
+        std::_tcout << _t("Usage: ") << prog << _t(" [ path | --version | --version-test ]") << std::endl;
         return 1;
     }
 
