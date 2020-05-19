@@ -41,7 +41,7 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
         os.mkdir(cwd)
 
         cmake = "{cmake_bin} {!s} -DCMAKE_BUILD_TYPE={build_type} -DCMAKE_CXX_FLAGS=-Wno-deprecated " \
-            "-DBUILD_SHARED_LIBS={lib_type} -DEXIV2_BUILD_UNIT_TESTS={tests} -DCMAKE_CXX_STANDARD=98"\
+            "-DBUILD_SHARED_LIBS={lib_type} -DEXIV2_BUILD_UNIT_TESTS={tests} -DCMAKE_CXX_STANDARD=98 "\
             "../..".format(
                 cmake_options, cmake_bin=cmake_bin, build_type=build_type,
                 lib_type=lib_type, tests="ON" if tests else "OFF"
