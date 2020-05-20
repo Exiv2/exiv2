@@ -57,7 +57,7 @@ case "$distro_id" in
 
     'opensuse'|'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel git which dos2unix libxml2-tools
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl libcurl-devel git which dos2unix libxml2-tools
         curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
         pushd /tmp
           tar xzf   release-1.8.0.tar.gz
