@@ -17,6 +17,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
 else
     export CMAKE_OPTIONS="$CMAKE_OPTIONS -DEXIV2_TEAM_USE_SANITIZERS=ON"
 fi
+CMAKE_OPTIONS="$CMAKE_OPTIONS -DCMAKE_CXX_FLAGS=-Wno-deprecated"
 
 mkdir build
 cd    build
