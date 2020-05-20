@@ -47,7 +47,7 @@ all: test
 top_srcdir = ..
 
 # Initialisations
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 .SUFFIXES:
 
@@ -137,15 +137,7 @@ unit_test    :
 	-@./$@.sh
 
 tests:
-	-@if [ -e $$EXIV2_BINDIR/../Makefile ]; then \
-	    -@./$@.sh ; \
-	else \
-	    make unit_test    ; \
-	    make bash_tests   ; \
-	    make python_tests ; \
-	    make version_test ; \
-	fi
-
+	make unit_test  bash_tests  python_tests version_test
 
 bash_tests:
 	@echo
@@ -167,7 +159,7 @@ python_tests:
 	@echo
 	@echo ---- Running python_tests ----
 	@echo
-	-( cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
+	-( source functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
 
 testv:
 	@for t in /video ; do \
