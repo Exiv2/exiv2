@@ -71,6 +71,7 @@
 #include <cassert>
 #include <iostream>
 #include <limits>
+#include <set>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -332,9 +333,11 @@ namespace Exiv2 {
         return type >= 1 && type <= 13 ;
     }
 
+    static std::set<long> visits; // #547
     void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
+        if ( depth == 1 ) visits.clear();
         bool bFirst  = true  ;
 
         // buffer
@@ -361,6 +364,11 @@ namespace Exiv2 {
 
             // Read the dictionary
             for ( int i = 0 ; i < dirLength ; i ++ ) {
+                if ( visits.find(io.tell()) != visits.end()  ) { // #547
+                    throw Error(kerCorruptedMetadata);
+                }
+                visits.insert(io.tell());
+                
                 if ( bFirst && bPrint ) {
                     out << Internal::indent(depth)
                         << " address |    tag                              |     "
