@@ -478,20 +478,6 @@ prepareTest()
 	export LC_ALL=C
 	export TZ=BST-1
 
-	##
-	# initialize globals
-	this=$(basename $0 .sh)
-	here=$PWD
-	datapath="../data"
-	testdir="$here/tmp"
-	datadir="../data"
-
-	if [ -z "$EXIV2_BINDIR" ] ; then
-        bin="$here/../build/bin/"
-	else
-		bin="$EXIV2_BINDIR/"
-	fi
-
 	os=$(uname)
 	if [ "${os:0:4}" == "CYGW" ]; then
 		export PLATFORM=cygwin
@@ -508,6 +494,29 @@ prepareTest()
 	if [ ! -z $EXIV2_EXT ]; then
 		exe=$EXIV2_EXT
 	fi
+
+	##
+	# initialize globals
+	this=$(basename $0 .sh)
+	here=$PWD
+	datapath="../data"
+	testdir="$here/tmp"
+	datadir="../data"
+
+	if [ -z "$EXIV2_BINDIR" ] ; then
+        bin="$here/../build/bin/"
+	else
+		bin="$EXIV2_BINDIR/"
+	fi
+	
+    # update PATHs to ensure we load the the correct dynamlic library
+    if [ $PLATFORM == 'mingw' -a $PLATFORM == 'cygwin' ]; then
+        export PATH="$bin:$PATH"
+    elif [ 'PLATFORM' == 'Darwin' ]; then
+        export DYLD_LIBRARY_PATH="$bin/../lib:$DYLD_LIBRARY_PATH"
+    else
+        export LD_LIBRARY_PATH="$bin/../lib:$LD_LIBRARY_PATH"
+    fi
 
 	if [ "$PLATFORM" == cygwin ]; then
 		# We need a private version of diff for linux compatibility
