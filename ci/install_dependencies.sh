@@ -57,7 +57,7 @@ case "$distro_id" in
 
     'opensuse'|'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel https://github.com/google/googletest/archive/release-1.8.0.tar.gz which dos2unix libxml2-tools
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel https://ftp.lysator.liu.se/pub/opensuse/source/distribution/leap/15.1/repo/oss/src/googletest-1.8.0-lp151.2.3.src.rpm which dos2unix libxml2-tools
         ;;
     *)
         echo "Sorry, no predefined dependencies for your distribution $distro_id exist yet"
