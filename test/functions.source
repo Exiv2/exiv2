@@ -518,22 +518,6 @@ prepareTest()
         export LD_LIBRARY_PATH="$bin/../lib:$LD_LIBRARY_PATH"
     fi
 
-	if [ "$PLATFORM" == cygwin ]; then
-		# We need a private version of diff for linux compatibility
-		diff()
-		{
-			args=()
-			for i in "$@"; do
-				if [ ${i:0:1} != '-' ]; then
-					i="$(cygpath -aw $i)"
-				fi
-				args+=($i)
-			done
-			DIFF=$(which diff)
-			"$DIFF" ${args[@]}
-		}
-	fi
-
     ##
     # figure out arguments for diff
 	good="$here/data/${this}.out"
@@ -575,7 +559,6 @@ prepareTest()
 			exit 42
 		fi
     done
-    
 }
 
 prepareTest

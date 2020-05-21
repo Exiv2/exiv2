@@ -2,11 +2,9 @@
 # Test driver for CRW file operations
 
 source ./functions.source
-
 (   cd "$testdir"
 
     crwfile=exiv2-canon-powershot-s40.crw
-
     # ----------------------------------------------------------------------
     # Testcases: Add and modify tags
     cmdfile=cmdfile1
@@ -21,23 +19,17 @@ source ./functions.source
 
     copyTestFile                   $crwfile
     runTest exiv2 -v -pt           $crwfile
-    runTest exiv2 -v -m $cmdfile   $crwfile
-    # runTest crwparse             $crwfile
+    runTest exiv2 -v -m$cmdfile    $crwfile
     runTest exiv2 -v -pt           $crwfile
 
     # ----------------------------------------------------------------------
     # Testcases: Delete tags
-    cmdfile=cmdfile2
-    (   echo del Exif.Canon.OwnerName
-    )                            > $cmdfile2
-
     copyTestFile                   $crwfile
     runTest exiv2 -v -pt           $crwfile
-    runTest exiv2 -v -m $cmdfile   $crwfile
-    # runTest crwparse             $crwfile
+    runTest exiv2 -v -M'del Exif.Canon.OwnerName'    $crwfile
     runTest exiv2 -v -pt           $crwfile
 
-) 3>&1 > $results 2>&1
+) 3>&1 > $results
 
 printf "\n"
 
