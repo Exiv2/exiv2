@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Library of bash functions use by test/*.sh
+# The scripts begin "source functions.source"
+
 ##
 # run a test
 runTest()
@@ -46,7 +49,7 @@ existsTest()
 }
 
 ##
-# copy file
+# copy file (used by conversions.sh)
 copy()
 {
 	\cp "$1" "$2"
@@ -143,26 +146,6 @@ runTestCase()
 }
 
 ##
-# moved here from bugfixes-test.sh
-prep_file()
-{
-    echo `prep_any_file $1 exiv2-bug$1.jpg`
-}
-
-prep_empty_file()
-{
-    echo `prep_any_file $1 exiv2-empty.jpg`
-}
-
-prep_any_file()
-{
-    printf "$1 " >&3
-    echo '------>' Bug $1 '<-------' >&2
-    copyTestFile $2 exiv2-bug$1.jpg
-    echo exiv2-bug$1.jpg
-}
-
-##
 # moved here from imagetest.sh
 eraseTest()
 {
@@ -183,9 +166,9 @@ eraseTest()
 
 copyTest()
 {
-    num=$1
-    src=$2
-    dst=$3
+    num=$1    # case number
+    src=$2    # input file
+    dst=$3    # copy to hear
     test=${dst}.c${num}tst
     good=$datapath/${dst}.c${num}gd
 
@@ -202,9 +185,9 @@ copyTest()
 
 iptcTest()
 {
-    num=$1
-    src=$2
-    dst=$3
+    num=$1    # case number
+    src=$2    # input file
+    dst=$3    # copy to hear
     test=${dst}.i${num}tst
     good=$datapath/${dst}.i${num}gd
 
@@ -219,6 +202,7 @@ iptcTest()
     printf "."
 }
 
+##
 # Make sure to pass the test file first and the known good file second
 diffCheck()
 {
@@ -241,7 +225,6 @@ diffCheck()
     fi
 }
 
-
 ##
 # moved here from iotest.sh
 ioTest()
@@ -262,7 +245,6 @@ ioTest()
     diffCheck $out2 $src
     printf "."
 }
-
 
 ##
 # moved here from iptctest.sh
@@ -390,38 +372,6 @@ real_path ()
     fi
 }
 
-copyVideoFiles ()
-{
-	pushd "$testdir" 2>/dev/null >/dev/null
-
-	##
-	# find video files data/video and copy them for testing
-	declare -a videos
-	for video in $datadir/video/* ; do
-		# http://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
-		ext="${video##*.}"
-		if [ $ext != out ]; then
-			copyTestFile "$video"
-			videos+=($(basename "$video"))
-		fi
-	done
-
-	##
-	# TODO: remove debugging code
-	if [ "$FACTORY" == "rmills-mbp.localXX" ]; then
-    	for v in write-video-test.out video-test.out; do
-	    	cp ~/gnu/exiv2/testdata/trunk/video/$v ~/gnu/exiv2/video13/test/data/video/
-		done
-	fi
-
-	# http://stackoverflow.com/questions/7442417/how-to-sort-an-array-in-bash
-	# readarray -t sorted < <(printf '%s\0' "${videos[@]}" | sort -z | xargs -0n1)
-	# echo ${videos[*]}
-	# unset  videos
-
-	popd 2>/dev/null >/dev/null
-}
-
 ##
 # print checksum for one file
 checkSum()
@@ -470,7 +420,7 @@ closeHttpServer() {
 }
 
 ##
-# prepare temp files and other variables
+# prepare tmp directory and variables
 prepareTest()
 {
 	##
