@@ -14,7 +14,7 @@ source ./functions.source
         echo  set Exif.Canon.SerialNumber    1
         echo  add Exif.Canon.SerialNumber    2
         echo  set Exif.Photo.ISOSpeedRatings 155
-        echo  set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
+        # echo  set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11 # See #1219
     )                            > $cmdfile
 
     copyTestFile                   $crwfile
@@ -31,13 +31,7 @@ source ./functions.source
 
 ) 3>&1 > $results
 
-printf "\n"
-
-# ----------------------------------------------------------------------
-# Evaluate results
-cat $results | tr -d $'\r' > $results-stripped
-mv                           $results-stripped $results
-reportTest                                     $results $good
+reportTest
 
 # That's all Folks!
 ##

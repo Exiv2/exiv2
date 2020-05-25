@@ -72,7 +72,6 @@ Set Exif.Canon.FirmwareVersion "Whatever version" (Ascii)
 Set Exif.Canon.SerialNumber "1" (Long)
 Add Exif.Canon.SerialNumber "2" (Long)
 Set Exif.Photo.ISOSpeedRatings "155" (Short)
-Set Exif.Photo.DateTimeOriginal "2007:11:11 09:10:11" (Ascii)
 File 1/1: exiv2-canon-powershot-s40.crw
 Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
@@ -81,7 +80,7 @@ Exif.Photo.PixelXDimension                   Long        1  2272
 Exif.Photo.PixelYDimension                   Long        1  1704
 Exif.Image.Orientation                       Short       1  top, left
 Exif.Canon.FileNumber                        Long        1  130-3050
-Exif.Photo.DateTimeOriginal                  Ascii      20  2007:11:11 09:10:11
+Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 17:54:36
 Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
 Exif.Canon.OwnerName                         Ascii      16  Different owner
 Exif.Image.Make                              Ascii       6  Canon

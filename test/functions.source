@@ -85,10 +85,7 @@ copyTestFiles()
 reportTest()
 {
 	cat $results | tr '\\' '/' > ${results}-new
-		mv -f ${results}-new $results
-	if [ ! -z `which dos2unix` ]; then
-		dos2unix $results >/dev/null 2>&1
-	fi
+	mv -f ${results}-new $results
 
 	if [ $# -eq 0 ]; then
 		lhs=$results
@@ -104,17 +101,10 @@ reportTest()
 		fi
 	fi
 
-	if [ "$PLATFORM" == "cygwin" ]; then
-		diff $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
-	else
-		diff $diffargs $lhs $rhs
-	fi
+	diff $diffargs $lhs $rhs
 	rc=$?
 	if [ $rc -eq 0 ] ; then
 		echo "all testcases passed."
-	else
-		diff $diffargs $lhs $rhs
-	exit 3
 	fi
 }
 
