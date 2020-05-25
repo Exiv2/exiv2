@@ -171,7 +171,7 @@ In general you need to do the following:
 
 1) Application code should be written in C++98 and include exiv2 headers:
 
-```C++
+```cpp
 #include <exiv2/exiv2.hpp>
 ```
 
@@ -430,7 +430,7 @@ $
 
 Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There are sequences of code which are defined within:
 
-```C++
+```cpp
 #ifdef EXIV2_DEBUG_MESSAGES
 ....
 #endif
@@ -562,7 +562,7 @@ The level of thread safety within Exiv2 varies depending on the type of metadata
 
 Therefore, multi-threaded applications need to ensure that these two XMP functions are serialized, e.g., by calling them from an initialization section which is run before any threads are started.  All exiv2 sample applications begin with:
 
-```c++
+```cpp
 int main(int argc, const char* argv[])
 {
     Exiv2::XmpParser::initialize();
@@ -583,7 +583,7 @@ Adobe's XMPsdk is generally thread-safe, however it has to be initialized and te
 
 The exiv2 command-line program and sample applications call the following at the outset:
 
-```c++
+```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 ```
@@ -1245,5 +1245,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-21
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-25
 
