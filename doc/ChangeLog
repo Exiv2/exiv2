@@ -11,6 +11,15 @@ Release Notes:
 https://github.com/Exiv2/exiv2/issues/1018#issuecomment-604539346
 
 Bugs/Fixes
+
+#1213 | Cleanup
+#1209 | fix_1208_NikonLens_0.27	#1208
+#1197 | Add c++11 support 0.27
+#1193 | geotag changes	
+#1190 | Bump Revision Number to 0.27.3.1	
+#1189 | Manpage Makeover	
+#1188 | Update ChangeLog for v0.27.3 RC1	
+#1187 | Taglist command parsing correction	
 #1185 | Update release notes v0.27.3 RC1
 #1183 | fix_1180_date_separator
 #1178 | Reduce system calls in FileIo::eof()
@@ -45,6 +54,7 @@ Bugs/Fixes
  #927 | Translation Exiv2 in Dutch (nl)  Translation
 
 Security
+#1210 | Insufficient verification (cycle) in Image::printIFDStructure()
 #1141 | fix 1091 Fix unbounded recursion in bigtiffimage.cpp
 #1116 | fix_1099_0.27 exiv2 aborts with registerNs
 #1115 | fix_1097_0.27 Segfault of exiv2 with pr flag
@@ -55,6 +65,11 @@ Security
 #1125 | fix_984_0.27 NULL-pointer read in XMPMeta.cpp
 
 Build Infrastructure
+#1218 | CMake issues concerning install and uninstall 
+#1213 | Setting LD_LIBRARY_PATH during tests
+#1211 | http.cpp fails to compile on mingw/cygwin
+#1201 | Cannon link prebuilt MinGW binaries in Qt project
+#1200 | Numerous improvements to Appveyor and GitLib CI builds
 #1184 | fix_1121_CODEOWNERS_0.27
 #1181 | GCC 9.3.0 broken on MinGW/msys2 and CYGWIN
 #1175 | fix_1102_msysGCC93_0.27
@@ -66,6 +81,7 @@ Build Infrastructure
 #1121 | Add CODEOWNERS
 
 Test Infrastructure
+#1207 | Extensive changes and clarifications in README.md
 #1174 | add http test to iotest.sh
 #1172 | Fix 1164 unit tests 0.27
 #1173 | enhanced_test6_0.27

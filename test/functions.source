@@ -2,6 +2,7 @@
 
 # Library of bash functions use by test/*.sh
 # The scripts begin "source functions.source"
+# Don't detab this file! removeTest() addModTest() need them!
 
 ##
 # run a test
@@ -25,7 +26,7 @@ echoTest()
 {
 	local count=1
 	for i in $@ ; do
-		echo $((count++)):  $i
+		echo $((count++)):	$i
 	done
 	echo -----------------------
 }
@@ -83,197 +84,197 @@ copyTestFiles()
 # result analysis
 reportTest()
 {
-    cat $results | tr '\\' '/' > ${results}-new
-    	mv -f ${results}-new $results
-    if [ ! -z `which dos2unix` ]; then
-        dos2unix $results >/dev/null 2>&1
-    fi
+	cat $results | tr '\\' '/' > ${results}-new
+		mv -f ${results}-new $results
+	if [ ! -z `which dos2unix` ]; then
+		dos2unix $results >/dev/null 2>&1
+	fi
 
-    if [ $# -eq 0 ]; then
-        lhs=$results
-        rhs=$good
-    else
-        if [ $# -eq 3 ] ; then
-            diffargs=$1
-            lhs=$2
-            rhs=$3
-        else
-            lhs=$1
-            rhs=$2
-        fi
-    fi
+	if [ $# -eq 0 ]; then
+		lhs=$results
+		rhs=$good
+	else
+		if [ $# -eq 3 ] ; then
+			diffargs=$1
+			lhs=$2
+			rhs=$3
+		else
+			lhs=$1
+			rhs=$2
+		fi
+	fi
 
-    if [ "$PLATFORM" == "cygwin" ]; then
-        diff $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
-    else
-        diff $diffargs $lhs $rhs
-    fi
-    rc=$?
-    if [ $rc -eq 0 ] ; then
-        echo "all testcases passed."
-    else
-        diff $diffargs $lhs $rhs
+	if [ "$PLATFORM" == "cygwin" ]; then
+		diff $diffargs $(cygpath -aw $lhs) $(cygpath -aw $rhs)
+	else
+		diff $diffargs $lhs $rhs
+	fi
+	rc=$?
+	if [ $rc -eq 0 ] ; then
+		echo "all testcases passed."
+	else
+		diff $diffargs $lhs $rhs
 	exit 3
-    fi
+	fi
 }
 
 ##
 # moved here from write-test.sh
 # Function:
-#     runTestCase number file
+#	  runTestCase number file
 # Params:
-#     number: Test case number
-#     file  : Input file
+#	  number: Test case number
+#	  file	: Input file
 # Abstract:
 # Run the requested test case number with the given file
 runTestCase()
 {
-    rtc_number=$1
-    rtc_infile=$2
+	rtc_number=$1
+	rtc_infile=$2
 
-    rtc_outfile=test${rtc_number}.jpg
-    rtc_jpgthumb=thumb${rtc_number}.jpg
-    rtc_tifthumb=thumb${rtc_number}.tif
+	rtc_outfile=test${rtc_number}.jpg
+	rtc_jpgthumb=thumb${rtc_number}.jpg
+	rtc_tifthumb=thumb${rtc_number}.tif
 
-    rm -f $rtc_outfile $rtc_jpgthumb $rtc_tifthumb
-    rm -f iii ttt;
+	rm -f $rtc_outfile $rtc_jpgthumb $rtc_tifthumb
+	rm -f iii ttt;
 
-    echo "------------------------------------------------------------"
-    runTest exifprint $rtc_infile > iii;
-    cp $rtc_infile $rtc_outfile;
-    runTest write-test $rtc_infile $rtc_number > ttt;
-    diff $diffargs iii ttt
+	echo "------------------------------------------------------------"
+	runTest exifprint $rtc_infile > iii;
+	cp $rtc_infile $rtc_outfile;
+	runTest write-test $rtc_infile $rtc_number > ttt;
+	diff $diffargs iii ttt
 }
 
 ##
 # moved here from imagetest.sh
 eraseTest()
 {
-    src=$1
-    test=${src}.etst
-    good=$datapath/${src}.egd
+	src=$1
+	test=${src}.etst
+	good=$datapath/${src}.egd
 
-    #setup
-    cp $datapath/$src $test
+	#setup
+	cp $datapath/$src $test
 
-    #run tests
-    ${bin}metacopy $test $test
+	#run tests
+	${bin}metacopy $test $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
+	#check results
+	diffCheck $test $good
+	printf "."
 }
 
 copyTest()
 {
-    num=$1    # case number
-    src=$2    # input file
-    dst=$3    # copy to hear
-    test=${dst}.c${num}tst
-    good=$datapath/${dst}.c${num}gd
+	num=$1	  # case number
+	src=$2	  # input file
+	dst=$3	  # copy to hear
+	test=${dst}.c${num}tst
+	good=$datapath/${dst}.c${num}gd
 
-    #setup
-    cp $datapath/$dst $test
+	#setup
+	cp $datapath/$dst $test
 
-    #run tests
-    ${bin}metacopy -a $datapath/$src $test
+	#run tests
+	${bin}metacopy -a $datapath/$src $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
+	#check results
+	diffCheck $test $good
+	printf "."
 }
 
 iptcTest()
 {
-    num=$1    # case number
-    src=$2    # input file
-    dst=$3    # copy to hear
-    test=${dst}.i${num}tst
-    good=$datapath/${dst}.i${num}gd
+	num=$1	  # case number
+	src=$2	  # input file
+	dst=$3	  # copy to hear
+	test=${dst}.i${num}tst
+	good=$datapath/${dst}.i${num}gd
 
-    #setup
-    cp $datapath/$dst $test
+	#setup
+	cp $datapath/$dst $test
 
-    #run tests
-    runTest metacopy -ip $datapath/$src $test
+	#run tests
+	runTest metacopy -ip $datapath/$src $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
+	#check results
+	diffCheck $test $good
+	printf "."
 }
 
 ##
 # Make sure to pass the test file first and the known good file second
 diffCheck()
 {
-    test=$(real_path $1)
-    good=$(real_path $2)
-    if [ -z "$errors" ]; then let -a errors=0; fi
+	test=$(real_path $1)
+	good=$(real_path $2)
+	if [ -z "$errors" ]; then let -a errors=0; fi
 
-    #run diff and check results
-    if [ $PLATFORM == SunOS ]; then
-        bdiff $diffargs "$test" "$good"
-    elif [ $PLATFORM == FreeBSD -o $PLATFORM == NetBSD ]; then
-        diff $diffargs "$test" "$good"
-    else
-        diff --binary $diffargs "$test" "$good"
-    fi
-    if [ $? -ne 0 ]; then
-       errors=$(expr $errors + 1)
-    else
-       rm $test
-    fi
+	#run diff and check results
+	if [ $PLATFORM == SunOS ]; then
+		bdiff $diffargs "$test" "$good"
+	elif [ $PLATFORM == FreeBSD -o $PLATFORM == NetBSD ]; then
+		diff $diffargs "$test" "$good"
+	else
+		diff --binary $diffargs "$test" "$good"
+	fi
+	if [ $? -ne 0 ]; then
+	   errors=$(expr $errors + 1)
+	else
+	   rm $test
+	fi
 }
 
 ##
 # moved here from iotest.sh
 ioTest()
 {
-    src=$datapath/$1
-    out1=${1}.1
-    out2=${1}.2
+	src=$datapath/$1
+	out1=${1}.1
+	out2=${1}.2
 
-    #run tests
-    runTest iotest $src $out1 $out2
-    if [ $? -ne 0 ]; then
-       errors=`expr $errors + 1`
-       return
-    fi
+	#run tests
+	runTest iotest $src $out1 $out2
+	if [ $? -ne 0 ]; then
+	   errors=`expr $errors + 1`
+	   return
+	fi
 
-    #check results
-    diffCheck $out1 $src
-    diffCheck $out2 $src
-    printf "."
+	#check results
+	diffCheck $out1 $src
+	diffCheck $out2 $src
+	printf "."
 }
 
 ##
 # moved here from iptctest.sh
 printTest()
 {
-    src=$1
-    test=${src}.iptst
-    good=$datapath/${src}.ipgd
+	src=$1
+	test=${src}.iptst
+	good=$datapath/${src}.ipgd
 
-    #run tests
-    runTest iptcprint $datapath/$src > $test
+	#run tests
+	runTest iptcprint $datapath/$src > $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
+	#check results
+	diffCheck $test $good
+	printf "."
 }
 
 removeTest()
 {
-    src=$1
-    tmp="temp"
-    test=${src}.irtst
-    good=$datapath/${src}.irgd
+	src=$1
+	tmp="temp"
+	test=${src}.irtst
+	good=$datapath/${src}.irgd
 
-    #setup
-    cp $datapath/$src $tmp
+	#setup
+	cp $datapath/$src $tmp
 
-    #run tests
-    runTest iptctest $tmp <<-eoc
+	#run tests
+	runTest iptctest $tmp <<-eoc
 		r Iptc.Application2.Byline
 		r Iptc.Application2.Caption
 		r Iptc.Application2.Keywords
@@ -281,61 +282,61 @@ removeTest()
 		r Iptc.Application2.Keywords
 		r Iptc.Application2.CountryName
 eoc
-    runTest iptcprint $tmp > $test
+	runTest iptcprint $tmp > $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
-    rm $tmp
+	#check results
+	diffCheck $test $good
+	printf "."
+	rm $tmp
 }
 
 addModTest()
 {
-    src=$1
-    tmp="temp"
-    test=${src}.iatst
-    good=$datapath/${src}.iagd
+	src=$1
+	tmp="temp"
+	test=${src}.iatst
+	good=$datapath/${src}.iagd
 
-    #setup
-    cp $datapath/$src $tmp
+	#setup
+	cp $datapath/$src $tmp
 
-    #run tests
-    runTest iptctest $tmp <<-eoc
-		a Iptc.Application2.Headline          The headline I am
-		a Iptc.Application2.Keywords          Yet another keyword
-		m Iptc.Application2.DateCreated       2004-8-3
-		a Iptc.Application2.Urgency           3
-		m Iptc.Application2.SuppCategory      "bla bla ba"
-		a Iptc.Envelope.ModelVersion          2
-		a Iptc.Envelope.TimeSent              14:41:0-05:00
+	#run tests
+	runTest iptctest $tmp <<-eoc
+		a Iptc.Application2.Headline		  The headline I am
+		a Iptc.Application2.Keywords		  Yet another keyword
+		m Iptc.Application2.DateCreated		  2004-8-3
+		a Iptc.Application2.Urgency			  3
+		m Iptc.Application2.SuppCategory	  "bla bla ba"
+		a Iptc.Envelope.ModelVersion		  2
+		a Iptc.Envelope.TimeSent			  14:41:0-05:00
 		a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 eoc
-    runTest iptcprint $tmp > $test
+	runTest iptcprint $tmp > $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
-    rm $tmp
+	#check results
+	diffCheck $test $good
+	printf "."
+	rm $tmp
 }
 
 extendedTest()
 {
-    src=$1
-    tmp="temp"
-    test=${src}.ixtst
-    good=$datapath/${src}.ixgd
+	src=$1
+	tmp="temp"
+	test=${src}.ixtst
+	good=$datapath/${src}.ixgd
 
-    #setup
-    cp $datapath/$src $tmp
+	#setup
+	cp $datapath/$src $tmp
 
-    #run tests
-    runTest iptctest $tmp < $datapath/ext.dat
-    runTest iptcprint $tmp > $test
+	#run tests
+	runTest iptctest $tmp < $datapath/ext.dat
+	runTest iptcprint $tmp > $test
 
-    #check results
-    diffCheck $test $good
-    printf "."
-    rm $tmp
+	#check results
+	diffCheck $test $good
+	printf "."
+	rm $tmp
 }
 
 ##
@@ -369,54 +370,54 @@ real_path ()
 		else
 			readlink -f "$1"
 		fi
-    fi
+	fi
 }
 
 ##
 # print checksum for one file
 checkSum()
 {
-    if [ "$PLATFORM" == 'NetBSD' -o "$PLATFORM" == 'FreeBSD' -o "$PLATFORM" == 'Darwin' ]; then
-        md5 -q $1
-    else
-        md5sum $1 | cut -d' ' -f 1
-    fi
+	if [ "$PLATFORM" == 'NetBSD' -o "$PLATFORM" == 'FreeBSD' -o "$PLATFORM" == 'Darwin' ]; then
+		md5 -q $1
+	else
+		md5sum $1 | cut -d' ' -f 1
+	fi
 }
 
 ##
 # startHttpServer - power up the python web server
 startHttpServer() {
-    cd "${testdir}/.."                   # testdir is the tmp output directory
-    
-    # PLATFORM = the scripting host (eg mingw)
-    # host     = the build host (eg windows for msvc)
-    if [ $PLATFORM == 'cygwin' -o $PLATFORM == 'mingw' ]; then
-        host=$(runTest exiv2 -vVg platform | tail -1 | cut -d= -f 2) # windows
-    fi
-    if [ "$host" != windows ]; then host="$PLATFORM" ; fi
+	cd "${testdir}/.."					 # testdir is the tmp output directory
+	
+	# PLATFORM = the scripting host (eg mingw)
+	# host	   = the build host (eg windows for msvc)
+	if [ $PLATFORM == 'cygwin' -o $PLATFORM == 'mingw' ]; then
+		host=$(runTest exiv2 -vVg platform | tail -1 | cut -d= -f 2) # windows
+	fi
+	if [ "$host" != windows ]; then host="$PLATFORM" ; fi
 
-    if    [ "$host" == "cygwin" ]; then dport=12762
-    elif  [ "$host" == "mingw"  ]; then dport=12761
-    else                                dport=12760
-    fi
+	if	  [ "$host" == "cygwin" ]; then dport=12762
+	elif  [ "$host" == "mingw"	]; then dport=12761
+	else								dport=12760
+	fi
 
-    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
-    if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
-    exiv2_url=$http:$port
-    python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
-    sleep 2                              # wait for it to init or die!
-    exiv2_httpServer=$!
-    # ask the server to reply
-    echo $exiv2_url status = $(python3 -c "import urllib.request;print(urllib.request.urlopen('$exiv2_url/').status)")
+	if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport		   ; fi
+	if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
+	exiv2_url=$http:$port
+	python3 -m http.server $port &		 # start a background local HTTP server in the "real" test directory
+	sleep 2								 # wait for it to init or die!
+	exiv2_httpServer=$!
+	# ask the server to reply
+	echo $exiv2_url status = $(python3 -c "import urllib.request;print(urllib.request.urlopen('$exiv2_url/').status)")
 }
 
 ##
 # closeHttpServer - power down the python web server
 closeHttpServer() {
-    if [ ! -z $exiv2_httpServer ]; then
-        echo kill  exiv2_httpServer $exiv2_httpServer
-             kill $exiv2_httpServer      # kill the server
-    fi 
+	if [ ! -z $exiv2_httpServer ]; then
+		echo kill  exiv2_httpServer $exiv2_httpServer
+			 kill $exiv2_httpServer		 # kill the server
+	fi 
 }
 
 ##
@@ -454,22 +455,22 @@ prepareTest()
 	datadir="../data"
 
 	if [ -z "$EXIV2_BINDIR" ] ; then
-        bin="$here/../build/bin/"
+		bin="$here/../build/bin/"
 	else
 		bin="$EXIV2_BINDIR/"
 	fi
 	
-    # update PATHs to ensure we load the the correct dynamlic library
-    if [ $PLATFORM == 'mingw' -a $PLATFORM == 'cygwin' ]; then
-        export PATH="$bin:$PATH"
-    elif [ 'PLATFORM' == 'Darwin' ]; then
-        export DYLD_LIBRARY_PATH="$bin/../lib:$DYLD_LIBRARY_PATH"
-    else
-        export LD_LIBRARY_PATH="$bin/../lib:$LD_LIBRARY_PATH"
-    fi
+	# update PATHs to ensure we load the the correct dynamlic library
+	if [ $PLATFORM == 'mingw' -a $PLATFORM == 'cygwin' ]; then
+		export PATH="$bin:$PATH"
+	elif [ 'PLATFORM' == 'Darwin' ]; then
+		export DYLD_LIBRARY_PATH="$bin/../lib:$DYLD_LIBRARY_PATH"
+	else
+		export LD_LIBRARY_PATH="$bin/../lib:$LD_LIBRARY_PATH"
+	fi
 
-    ##
-    # figure out arguments for diff
+	##
+	# figure out arguments for diff
 	good="$here/data/${this}.out"
 	results="$here/tmp/${this}.out"
 	mkdir -p $here/tmp
@@ -477,8 +478,8 @@ prepareTest()
 	echo '' >> $tmpfile
 
 	if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
-	    da1=""
-    	da2=""
+		da1=""
+		da2=""
 	else
 		diffargs="--strip-trailing-cr"
 		diff -q $diffargs $tmpfile $tmpfile 2>/dev/null
@@ -498,9 +499,9 @@ prepareTest()
 	fi
 	diffargs="$da1 $da2"
 
-    ##
-    # test that exiv2 and some sample apps are in the bin!
-    for e in exiv2 exifprint easyaccess-test metacopy ; do
+	##
+	# test that exiv2 and some sample apps are in the bin!
+	for e in exiv2 exifprint easyaccess-test metacopy ; do
 		e="${bin}${e}${exe}"
 		if [ ! -e "$e" ]; then
 			echo '******************************************'
@@ -508,7 +509,7 @@ prepareTest()
 			echo '******************************************'
 			exit 42
 		fi
-    done
+	done
 }
 
 prepareTest
