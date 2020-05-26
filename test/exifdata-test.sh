@@ -10,7 +10,7 @@ source ./functions.source
     runTest exifdata-test exiv2-canon-powershot-s40.jpg
     runTest exifdata-test exiv2-nikon-d70.jpg
 
-)  | tr -d '\r' | sed 's/[ \t]+$//' > $results
+)  > $results 2>&1
 
 reportTest
 

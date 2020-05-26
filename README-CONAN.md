@@ -103,10 +103,10 @@ _Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](
 
 |   | Build Steps | Linux and macOS | Visual Studio |
 |:--|:--------------|--------------------------------|------------------------------|
-| **1** | Get conan to fetch dependencies<br><br>The output from this command<br>is quite long as conan<br>downloads or builds<br>zlib, expat, curl and other dependencies.| $ conan install .. --build missing       | c:\\..\\build> conan install .. --build missing --profile msvc2019Release |
-| **2** | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..  | c:\\..\\build> cmake ..  -G "Visual Studio 16 2019"
-| **3** | Build                                    | $ cmake --build . --config Release       | c:\\..\\build> cmake --build .<br>You may prefer to open exiv2.sln and build using the IDE |
-| **4**| Optionally Run Test Suite              | $ make tests       | You must install MinGW<br>bash and python to run tests<br>See [README.md](README.md) |
+| _**1**_ | Get conan to fetch dependencies<br><br>The output can be quite<br>long as conan downloads and/or builds<br>zlib, expat, curl and other dependencies.| $ conan install ..<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--build missing       | c:\\..\\build> conan install .. --build missing<br>&nbsp;&nbsp;&nbsp;&nbsp;--profile msvc2019Release |
+| _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..  | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
+| _**3**_ | Build                                    | $ cmake --build .       | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
+| _**4**_ | Optionally Run Test Suite              | $ make tests       | You must install MinGW<br>bash and python to run tests<br>See [README.md](README.md) |
 
 
 
@@ -196,7 +196,7 @@ Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 , 2017 and 2019.
 
 Exiv2 v0.28 is being "modernised" to C++11 and will not support C++98. We don't expect Exiv2 v0.28 to build with VS versions earlier than VS 2015.
 
-You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake/msvc\_conan\_profiles`.  There are 26 in total:
+You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake\msvc_conan_profiles`.  There are 26 in total:
 
 ```
 Profile :=    msvc{Edition}{Type}{Bits}
@@ -283,7 +283,7 @@ The default builds of Exiv2 and sample applications build and use DLLs.
 To build static libraries, use the cmake option `-DBUILD_SHARED_LIBS=Off`.  You will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
 
 ```bash
-$ cmake -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_DYNAMIC_RUNTIME=Off
+$ cmake .. -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_DYNAMIC_RUNTIME=Off
 ```
 
 If you wish to use the static C run-time library, use the following option in the conan profile.
@@ -297,7 +297,7 @@ You should link everything with the dynamic or static run-time. You can link a s
 
 ### Changing profile settings with the conan command
 
-It is recommended that you use profiles provided in `<exiv2dir>/cmake/msvc\_conan\_profiles'.
+It is recommended that you use profiles provided in `<exiv2dir>\cmake\msvc_conan_profiles`.
 
 You can modify profile settings on the command line.
 The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration to some conan flexibility which be useful when your build environment is automated.
@@ -590,4 +590,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-04-21
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-21

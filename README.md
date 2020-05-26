@@ -52,7 +52,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
     2. [macOS](#5-2)
-    3. [MinGW](#5-3)
+    3. [MinGW/msys2](#5-3)
     4. [Cygwin](#5-4)
     5. [Microsoft Visual C++](#5-5)
     6. [Unix](#5-6)
@@ -171,7 +171,7 @@ In general you need to do the following:
 
 1) Application code should be written in C++98 and include exiv2 headers:
 
-```C++
+```cpp
 #include <exiv2/exiv2.hpp>
 ```
 
@@ -430,7 +430,7 @@ $
 
 Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There are sequences of code which are defined within:
 
-```C++
+```cpp
 #ifdef EXIV2_DEBUG_MESSAGES
 ....
 #endif
@@ -560,7 +560,16 @@ In order to use the same instance of a class concurrently in multiple threads th
 
 The level of thread safety within Exiv2 varies depending on the type of metadata: The Exif and IPTC code is reentrant. The XMP code uses the Adobe XMP toolkit (XMP SDK), which according to its documentation is thread-safe. It actually uses mutexes to serialize critical sections. However, the XMP SDK initialisation function is not mutex protected, thus Exiv2::XmpParser::initialize is not thread-safe. In addition, Exiv2::XmpProperties::registerNs writes to a static class variable, and is also not thread-safe.
 
-Therefore, multi-threaded applications need to ensure that these two XMP functions are serialized, e.g., by calling them from an initialization section which is run before any threads are started.
+Therefore, multi-threaded applications need to ensure that these two XMP functions are serialized, e.g., by calling them from an initialization section which is run before any threads are started.  All exiv2 sample applications begin with:
+
+```cpp
+int main(int argc, const char* argv[])
+{
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+    ...
+}
+```
 
 [TOC](#TOC)
 
@@ -574,7 +583,7 @@ Adobe's XMPsdk is generally thread-safe, however it has to be initialized and te
 
 The exiv2 command-line program and sample applications call the following at the outset:
 
-```
+```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 ```
@@ -698,7 +707,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
 
-To generate a build with C++11:
+To build with C++11:
 
 ```bash
 $ cd <exiv2dir>
@@ -709,7 +718,9 @@ $ make
 
 The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11 or 14.
 
-The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr and other deprecated features.  **Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
+The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v0.28. 
+
+**Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
 
 [TOC](#TOC)
 
@@ -763,7 +774,7 @@ For new bug reports and feature requests, please open an issue in Github.
 | Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
 | Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
 
-_**Caution Visual Studio Users using cmd.exe**_<br>_You may use MinGW/msys2 `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`.  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)_
+_**Caution: Visual Studio Users using cmd.exe**_<br>_You may use MinGW/msys2 `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`.  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)_
 
 #### Environment Variables used by the test suite:
 
@@ -771,7 +782,7 @@ If you build the code in the directory \<exiv2dir\>build, tests will run using t
 
 | Variable        | Default | Platforms | Purpose |
 |:--                 |:--        |:--     |:-- |
-| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Location of built binary objects (exiv2.exe) |
+| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Path of built binaries (exiv2.exe) |
 | EXIV2_PORT         | **12762**<br>**12671**<br>**12760**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://localhost**  | All Platforms | Test http server   |
 | EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>MinGW/msys2 | Extension used by executable binaries |
@@ -779,6 +790,7 @@ If you build the code in the directory \<exiv2dir\>build, tests will run using t
 | EXIV2_ECHO         | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VALGRIND           | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VERBOSE            | _**not set**_ | All Platforms | Causes make to report its actions |
+| PATH<br>DYLD\_LIBRARY\_PATH<br>LD\_LIBRARY\_PATH    | $EXIV2\_BINDIR/../lib | Windows<br>macOS<br>Other platforms | Path of dynamic libraries |
 
 The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
 
@@ -913,6 +925,17 @@ The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests
 
 There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
+```bash
+$ pushd /tmp
+$ curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+$ tar xzf   release-1.8.0.tar.gz
+$ mkdir -p  googletest-release-1.8.0/build
+$ pushd     googletest-release-1.8.0/build
+$ cmake .. ; make ; make install
+$ popd
+$ popd
+```
+
 [TOC](#TOC)
 <div id="4-4">
 
@@ -936,6 +959,7 @@ The python tests are stored in the directory `tests` and you can run them all wi
 
 ```bash
 $ cd <exiv2dir>/tests
+$ export LD_LIBRARY_PATH="$PWD/../build/lib:$LD_LIBRARY_PATH"
 $ python3 runner.py
 ```
 
@@ -949,7 +973,7 @@ $ python3 runner.py --verbose bugfixes/redmine/test_issue_841.py  # or $(find . 
 You may wish to get a brief summary of failures with commands such as:
 
 ```bash
-$ cd <exiv2dir>/build   ( or cd <exiv2dir>/test)
+$ cd <exiv2dir>/build   (or cd <exiv2dir>/test)
 $ make python_tests 2>&1 | grep FAIL
 ```
 
@@ -960,12 +984,12 @@ $ make python_tests 2>&1 | grep FAIL
 
 | *Tests* | Unix Style Platforms _(bash)_ | Visual Studio _(cmd.exe)_ |
 |:-- |:---                                |:--                                   |
-| | $ cd \<exiv2dir\>/build  or $ cd \<exiv2dir\>/test          |  \> cd \<exiv2dir\>/build             |
-| all | $ make tests                       | \> cmake --build . --config Release --target tests |
-| bash | $ make bash_tests                       | \> cmake --build . --config Release --target bash_tests |
-| python | $ make python_tests                       | \> cmake --build . --config Release --target python_tests |
-| unit | $ make unit_test                       | \> cmake --build . --config Release --target unit_test |
-| version | $ make version_test                       | \> cmake --build . --config Release --target version_test |
+| | $ cd \<exiv2dir\>/build **or**<br> $ cd \<exiv2dir\>/test          |  \> cd \<exiv2dir\>/build             |
+| tests | $ make tests                       | \> cmake --build . --config Release --target tests |
+| bash_tests | $ make bash_tests                       | \> cmake --build . --config Release --target bash_tests |
+| python_tests | $ make python_tests                       | \> cmake --build . --config Release --target python_tests |
+| unit_test | $ make unit_test                       | \> cmake --build . --config Release --target unit_test |
+| version_test | $ make version_test                       | \> cmake --build . --config Release --target version_test |
 
 
 [TOC](#TOC)
@@ -985,6 +1009,8 @@ Update your system and install the build tools and dependencies (zlib, expat, gt
 $ sudo apt --yes update
 $ sudo apt install --yes build-essential git clang ccache python3 libxml2-utils cmake python3 libexpat1-dev libz-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock
 ```
+
+For users of other platforms, the script <exiv2dir>/ci/install_dependencies.sh has code used to configure many platforms.  The code in that file is a useful guide to configuring your platform.
 
 Get the code from GitHub and build
 
@@ -1012,11 +1038,9 @@ I recommend that you build and install CMake from source.
 [TOC](#TOC)
 <div id="5-3">
 
-### 5.3 MinGW
+### 5.3 MinGW/msys2
 
 Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64.
-
-There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
 
 #### MinGW/msys2 64 bit
 Install: [http://repo.msys2.org/distrib/x86_64/msys2-x86\_64-20190524.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20190524.exe)
@@ -1040,7 +1064,7 @@ endlocal
 Install tools and dependencies:
 
 ```bash
-$ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix diffutils zlib-devel libexpat-devel libiconv-devel gettext-devel; do (echo y|pacman -S $i); done
+$ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix tar diffutils zlib-devel libexpat-devel libiconv-devel gettext-devel; do (echo y|pacman -S $i); done
 ```
 
 #### Download exiv2 from github and build
@@ -1076,14 +1100,7 @@ Please note that the platform Cygwin/32 is obsolete and superceded by Cygwin/64.
 Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and run setup-x86_64.exe.  I install into c:\\cygwin64
 
 You need:
-make, cmake, gcc, gettext-devel pkg-config, dos2unix, zlib-devel, libexpat1-devel, git, python3-interpreter, libiconv, libxml2-utils, libncurses.
-
-Download and build libiconv-1.15: [https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz](https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz)
-
-There is a discussion on the web about installing GTest: [https://github.com/Exiv2/exiv2/issues/575](https://github.com/Exiv2/exiv2/issues/575)
-
-Download and build cmake from source because I can't get the cygwin installed cmake 3.6.2 to work.
-To build cmake from source, you need libncurses. [https://cmake.org/download/](https://cmake.org/download/)
+make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, libexpat1-devel, git, python3-interpreter, libiconv, libxml2-utils, libncurses.
 
 I use the following batch file "cygwin64.bat" to start the Cygwin/64 bash shell from the Dos Command Prompt (cmd.exe).
 
@@ -1139,7 +1156,6 @@ endlocal
 
 [TOC](#TOC)
 <div id="5-6">
-
 ### 5.6 Unix
 
 Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are starting to actively support the Unix Distributions NetBSD and FreeBSD.  For v0.27.3, I have added support for Solaris 11.4
@@ -1229,5 +1245,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-17
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-25
 

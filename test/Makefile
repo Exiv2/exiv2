@@ -74,6 +74,7 @@ SVN    = svn://dev.exiv2.org/svn/testdata/trunk
 # Add test drivers to this list
 TESTS =  addmoddel.sh         \
          conversions.sh       \
+         crw-test.sh          \
          exifdata-test.sh     \
          exiv2-test.sh        \
          geotag-test.sh       \
@@ -92,21 +93,9 @@ TESTS =  addmoddel.sh         \
          write2-test.sh       \
          xmpparser-test.sh
 
-# video tests
-TESTV  = video-test.sh
-TESTVW = write-video-test.sh
-
-# EPS tests
-TESTE  = eps-test.sh          \
-         eps-preview-test.sh
-
-# webready tests
-TESTX  = httpiotest.sh        \
-         curliotest.sh        \
-         sshiotest.sh
-
 addmoddel     \
 conversions   \
+crw-test      \
 geotag-test   \
 icc-test      \
 iso65k-test   \
@@ -159,62 +148,17 @@ python_tests:
 	@echo
 	@echo ---- Running python_tests ----
 	@echo
-	-( source functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
-
-testv:
-	@for t in /video ; do \
-		if [ ! -e data/$$t ]; then \
-	echo svn export '$(SVN)'$$t data$$t -r 3100 ; \
-	     svn export '$(SVN)'$$t data$$t -r 3100 ; \
-	fi ; done
-	@list='$(TESTV)'; for p in $$list; do \
-	    echo Running $$p ...; \
-	    ./$$p; \
-	done
-
-testvw:
-	@for t in /video ; do \
-		if [ ! -e data/$$t ]; then \
-	echo svn export '$(SVN)'$$t data$$t ; \
-	     svn export '$(SVN)'$$t data$$t ; \
-	fi ; done
-	@list='$(TESTVW)'; for p in $$list; do \
-	    echo Running $$p ...; \
-	    ./$$p; \
-	done
-
-teste:
-	@for t in /eps ; do \
-		if [ ! -e data/$$t ]; then \
-	echo svn export '$(SVN)'$$t data$$t ; \
-	     svn export '$(SVN)'$$t data$$t ; \
-	fi ; done
-	@list='$(TESTE)'; for p in $$list; do \
-	    echo Running $$p ...; \
-	    ./$$p; \
-	    rc=$$?; \
-	    if [ $$rc -ne 0 ]; then \
-		echo result = $$rc ; \
-		exit $$rc ; \
-		fi ; \
-	done
-
-testx:
-	@list='$(TESTX)'; for p in $$list; do \
-	    echo Running $$p ...; \
-	    ./$$p; \
-	done
+	-( . functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose )
 
 mostlyclean clean:
 	rm -rf $(top_srcdir)/test/tmp/*
 
 distclean: clean
-	$(RM) *~ *.bak *#
+	$(RM) *~ *.bak $(top_srcdir)/data/tmp
 
-# This command is intended for maintainers to use; it deletes files
-# that may need special tools to rebuild.
+# This command is intended for maintainers
 maintainer-clean: distclean
-	rm -rf $(top_srcdir)/data/video $(top_srcdir)/test/data/eps
+	rm -rf $(top_srcdir)/data/tmp
 
 # That's all Folks!
 ##
