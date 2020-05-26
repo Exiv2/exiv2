@@ -50,7 +50,7 @@ if [ "$EXIV2_PORT" != "None" -a "$EXIV2_HTTP" != "None" ]; then
             runTest iotest s0 s1 s2 $exiv2_url/data/table.jpg 1000 ; sniff
 
             >&2 printf "*** HTTP tests end\n"
-        )  | tr -d '\r' | sed 's/[ \t]+$//' > $results
+        ) > $results
         reportTest
     fi
     closeHttpServer
