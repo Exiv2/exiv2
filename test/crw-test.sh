@@ -22,7 +22,7 @@ source ./functions.source
     copyTestFile                   $crwfile
     runTest exiv2 -v -pt           $crwfile
     runTest exiv2 -v -m$cmdfile    $crwfile
-    runTest exiv2 -v -pt           $crwfile  
+    runTest exiv2 -v -pt           $crwfile
 
     # ----------------------------------------------------------------------
     # Testcases: Delete tags
