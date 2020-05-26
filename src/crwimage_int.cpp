@@ -897,13 +897,7 @@ namespace Exiv2 {
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
         time_t t = v.value_[0];
-#ifdef EXV_HAVE_GMTIME_R
-        struct tm tms;
-        struct tm* tm = &tms;
-        tm = gmtime_r(&t, tm);
-#else
-        struct tm* tm = std::gmtime(&t);
-#endif
+        struct tm* tm = std::localtime(&t);
         if (tm) {
             const size_t m = 20;
             char s[m];
@@ -1125,8 +1119,9 @@ namespace Exiv2 {
         if (ed != image.exifData().end()) {
             struct tm tm;
             std::memset(&tm, 0x0, sizeof(tm));
-            int rc = exifTime(ed->toString().c_str(), &tm);
-            if (rc == 0) t = timegm(&tm);
+            if ( exifTime(ed->toString().c_str(), &tm) == 0 ) {
+                t=::mktime(&tm);
+            }
         }
         if (t != 0) {
             DataBuf buf(12);
