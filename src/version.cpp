@@ -171,12 +171,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     constexpr int have_strings_h = 0;
 
-#ifdef EXV_HAVE_GMTIME_R
-    constexpr int have_gmtime_r = 1;
-#else
-    constexpr int have_gmtime_r = 0;
-#endif
-
 #ifdef EXV_HAVE_LIBINTL_H
     constexpr int have_libintl = 1;
 #else
@@ -309,7 +303,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     }
 
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
-    output(os,keys,"have_gmtime_r"     ,have_gmtime_r    );
     output(os,keys,"have_libintl"      ,have_libintl     );
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
