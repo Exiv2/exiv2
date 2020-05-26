@@ -2,8 +2,8 @@
 # Test driver for CRW file operations
 
 source ./functions.source
-(   cd "$testdir"
-
+(
+    cd "$testdir"
     crwfile=exiv2-canon-powershot-s40.crw
     # ----------------------------------------------------------------------
     # Testcases: Add and modify tags
@@ -31,7 +31,7 @@ source ./functions.source
     runTest exiv2 -v -M'del Exif.Canon.OwnerName'    $crwfile
     runTest exiv2 -v -pt           $crwfile
 
-) 3>&1 > $results
+) 2>&1 | sed -e 's#19:54#18:54#g' > $results   # sed evades TZ issue on MSVC builds #1221
 
 reportTest
 
