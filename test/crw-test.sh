@@ -14,7 +14,9 @@ source ./functions.source
         echo  set Exif.Canon.SerialNumber    1
         echo  add Exif.Canon.SerialNumber    2
         echo  set Exif.Photo.ISOSpeedRatings 155
-        # echo  set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11 # See #1219
+        echo  set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
+        echo  set Exif.Image.DateTime          2020:05:26 07:31:41
+        echo  set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     )                            > $cmdfile
 
     copyTestFile                   $crwfile
