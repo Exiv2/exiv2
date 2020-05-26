@@ -379,16 +379,9 @@ checkSum()
 startHttpServer() {
 	cd "${testdir}/.."					 # testdir is the tmp output directory
 	
-	# PLATFORM = the scripting host (eg mingw)
-	# host	   = the build host (eg windows for msvc)
-	if [ $PLATFORM == 'cygwin' -o $PLATFORM == 'mingw' ]; then
-		host=$(runTest exiv2 -vVg platform | tail -1 | cut -d= -f 2) # windows
-	fi
-	if [ "$host" != windows ]; then host="$PLATFORM" ; fi
-
-	if	  [ "$host" == "cygwin" ]; then dport=12762
-	elif  [ "$host" == "mingw"	]; then dport=12761
-	else								dport=12760
+	if	  [ "$platform" == "cygwin" ]; then dport=12762
+	elif  [ "$platform" == "mingw"	]; then dport=12761
+	else									dport=12760
 	fi
 
 	if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport		   ; fi
@@ -420,12 +413,14 @@ prepareTest()
 	export TZ=BST-1
 
 	os=$(uname)
-	if [ "${os:0:4}" == "CYGW" ]; then
-		export PLATFORM=cygwin
-	elif [ "${os:0:4}" == "MING" -o "${os:0:4}" == "MSYS" ]; then
-		export PLATFORM=mingw
-	else
-		export PLATFORM=$os
+	export PLATFORM=$os
+	if [ $os != FreeBSD -a $os != NetBSD -a $os != SunOS -a $os != Darwin -a $os != Linux ]; then
+		os=$(uname -o)
+		if [ $os == Cygwin ]; then
+			PLATFORM=cygwin
+		elif [ os == Msys ]; then
+			PLATFORM=mingw
+		fi
 	fi
 
 	if [ "$PLATFORM" == cygwin -o "$PLATFORM" == mingw ]; then
@@ -500,6 +495,15 @@ prepareTest()
 			exit 42
 		fi
 	done
+
+    # set platform for msvc builds
+    platform=$PLATFORM
+    if [ $PLATFORM == mingw -o $PLATFORM == cygwin ]; then
+    	platform=$(runTest exiv2 -vV 2>/dev/null | grep platform=)
+    	if [ "$platform" == "platform=windows" ]; then
+        	platform="windows"
+    	fi
+    fi
 }
 
 prepareTest
