@@ -1,3 +1,4 @@
+#include <exiv2/exiv2.hpp>
 #include <stdint.h>
 
 #include "slice.hpp"

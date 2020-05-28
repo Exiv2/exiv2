@@ -26,19 +26,19 @@
 // requires these to be defined without values, they are only used here to define XMP-specific
 // macros with 0 or 1 values.
 
-/* 20-Oct-07, ahu: Determine the platform, set the above defines accordingly.                     */
 
 #if !defined(_FILE_OFFSET_BITS)
 #define _FILE_OFFSET_BITS 64
 #endif
 
-#if defined __CYGWIN32__ && !defined __CYGWIN__
-   /* For backwards compatibility with Cygwin b19 and
-      earlier, we define __CYGWIN__ here, so that
-      we can rely on checking just for that macro. */
-# define __CYGWIN__  __CYGWIN32__
+#if __LP64__
+# ifdef  _WIN64
+#  undef _WIN64
+# endif
+# define _WIN64 1
 #endif
-#if defined WIN32 && !defined __CYGWIN__
+
+#if defined WIN32
 # define WIN_ENV 1
 /* Todo: How to correctly recognize a Mac platform? */
 #elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS || defined(__APPLE__)
