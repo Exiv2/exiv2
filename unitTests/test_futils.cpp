@@ -1,3 +1,4 @@
+#include <exiv2/exiv2.hpp>
 // File under test
 #include <exiv2/futils.hpp>
 
@@ -168,6 +169,8 @@ TEST(AUri, parsesAndDecoreUrl)
     Uri::Decode(uri);
 }
 
+// #include <stdio.h>
+
 TEST(getProcessPath, obtainPathOfUnitTestsExecutable)
 {
 #ifdef _WIN32
@@ -180,4 +183,10 @@ TEST(getProcessPath, obtainPathOfUnitTestsExecutable)
     ASSERT_FALSE(path.empty());
     const size_t idxStart = path.size() - expectedName.size();
     ASSERT_EQ(expectedName, path.substr(idxStart, expectedName.size()));
+
+    FILE* f = fopen("/c//temp/test_futils.log","w");
+    fprintf(f,"path     = %s\n",path.c_str()        );
+    fprintf(f,"expected = %s\n",expectedName.c_str());
+    fclose(f);
+
 }
