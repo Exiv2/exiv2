@@ -71,7 +71,7 @@
 # include <sys/xattr.h>
 #endif
 
-#if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN))
+#if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
 // Windows doesn't provide nlink_t
 typedef short nlink_t;
 # include <windows.h>

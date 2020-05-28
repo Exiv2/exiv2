@@ -1,13 +1,11 @@
 // ***************************************************************** -*- C++ -*-
 // xmpdump.cpp
 // Sample program to dump the XMP packet of an image
+#include <exiv2/exiv2.hpp>
 
 #include <cassert>
 #include <iostream>
 #include <string>
-
-#include "error.hpp"
-#include "image.hpp"
 
 int main(int argc, char* const argv[])
 {

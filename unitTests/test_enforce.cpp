@@ -1,3 +1,4 @@
+#include <exiv2/exiv2.hpp>
 #include <enforce.hpp>
 
 #include "gtestwrapper.h"
