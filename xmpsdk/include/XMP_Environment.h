@@ -1,6 +1,12 @@
 #ifndef __XMP_Environment_h__
 #define __XMP_Environment_h__ 1
 
+#if TraceXMPCalls
+#include <stdio.h>
+#define xmpOut     stderr
+#define xmpCoreOut stderr
+#endif
+
 // =================================================================================================
 // XMP_Environment.h - Build environment flags for the XMP toolkit.
 // ================================================================

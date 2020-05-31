@@ -1034,6 +1034,9 @@ XMPMeta::SetGlobalOptions ( XMP_OptionBits /*options*/ )
 // -------------------------------------------------------------------------------------------------
 // RegisterNamespace
 // -----------------
+#if EXIV2_DEBUG_MESSAGES
+#include <iostream>
+#endif
 
 /* class-static */ void
 XMPMeta::RegisterNamespace ( XMP_StringPtr	 namespaceURI,
@@ -1042,7 +1045,13 @@ XMPMeta::RegisterNamespace ( XMP_StringPtr	 namespaceURI,
 	if ( (*namespaceURI == 0) || (*prefix == 0) ) {
 		XMP_Throw ( "Empty namespace URI or prefix", kXMPErr_BadParam );
 	}
-	
+#if EXIV2_DEBUG_MESSAGES
+    std::cout << "in   RegisterNamespace"
+              << " prefix " << prefix      << " -> " << &prefix
+              << " uri "    << namespaceURI << " -> " << &namespaceURI
+              << std::endl;
+#endif
+
 	XMP_VarString	nsURI ( namespaceURI );
 	XMP_VarString	prfix ( prefix );
 	if ( prfix[prfix.size()-1] != ':' ) prfix += ':';

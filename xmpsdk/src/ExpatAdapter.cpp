@@ -237,6 +237,9 @@ static void SetQualName ( XMP_StringPtr fullName, XML_Node * node )
 }	// SetQualName
 
 // =================================================================================================
+#if EXIV2_DEBUG_MESSAGES
+#include <iostream>
+#endif
 
 static void StartNamespaceDeclHandler ( void * userData, XMP_StringPtr prefix, XMP_StringPtr uri )
 {
@@ -260,6 +263,12 @@ static void StartNamespaceDeclHandler ( void * userData, XMP_StringPtr prefix, X
 	#endif
 	
 	if ( XMP_LitMatch ( uri, "http://purl.org/dc/1.1/" ) ) uri = "http://purl.org/dc/elements/1.1/";
+#if EXIV2_DEBUG_MESSAGES
+    std::cout << "call RegisterNamespace" 
+              << " prefix " << prefix << " -> " << &prefix
+              << " uri    " << uri    << " -> " << &uri
+              << std::endl;
+#endif
 	XMPMeta::RegisterNamespace ( uri, prefix );
 
 }	// StartNamespaceDeclHandler

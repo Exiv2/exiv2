@@ -554,6 +554,14 @@ namespace Exiv2 {
     {
         try {
             initialize();
+#if EXIV2_DEBUG_MESSAGES            
+            const char* p   = prefix.c_str() ;
+            const char* uri = ns.c_str()     ;
+            std::cout << "CALL RegisterNamespace"
+                      << " prefix " << prefix << " -> " << &p
+                      << " uri    " << ns     << " -> " << &uri
+                      << std::endl;
+#endif
             AutoLock autoLock(xmpLockFct_, pLockData_);
             SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK

@@ -63,7 +63,7 @@ XMP_Mutex sXMPCoreLock;
 int sLockCount = 0;
 
 #if TraceXMPCalls
-	FILE * xmpOut = stderr;
+//	FILE * xmpOut = stderr;
 #endif
 
 void *              voidVoidPtr    = 0;	// Used to backfill null output parameters.
