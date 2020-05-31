@@ -94,10 +94,6 @@ generate_export_header(exiv2lib
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
 
-if(MINGW OR MSYS)
-    target_sources(exiv2lib_int PRIVATE localtime.c)
-endif()
-
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)
         target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
