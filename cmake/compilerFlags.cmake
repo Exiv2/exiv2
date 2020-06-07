@@ -26,7 +26,11 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         # This fails under Fedora - MinGW - Gcc 8.3
         if (NOT MINGW)
             if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
-                add_compile_options(-fstack-clash-protection -fcf-protection)
+                if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
+                    add_compile_options(-fstack-clash-protection -fcf-protection)
+                else()
+                    add_compile_options(-fstack-clash-protection)
+                endif()
             endif()
 
             if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7 ))
