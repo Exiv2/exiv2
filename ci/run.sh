@@ -30,6 +30,9 @@ else
   conan install .. -o webready=True  --build missing
 fi
 
+cmake --version
+gcc --version
+
 cmake ${CMAKE_OPTIONS} ..
 make -j2
 
