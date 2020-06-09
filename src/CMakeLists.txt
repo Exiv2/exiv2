@@ -12,11 +12,10 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if(EXIV2_ENABLE_HEIF)
 
-    include(libheif/LibHeifRules.cmake)
+    find_package(heif)
 
     set(exiv2lib_heif_SRC
         heifimage.cpp           heifimage_int.hpp
-        ${libheif_SRCS}
     )
 
 endif()
@@ -211,6 +210,11 @@ if( EXIV2_ENABLE_PNG )
     # target_link_libraries( exiv2lib_int PRIVATE ZLIB::ZLIB)
     target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
     target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
+endif()
+
+if( EXIV2_ENABLE_HEIF )
+    target_include_directories(exiv2lib_int PRIVATE ${HEIF_INCLUDE_DIR})
+    target_link_libraries( exiv2lib PRIVATE heif)
 endif()
 
 if( EXIV2_ENABLE_NLS )

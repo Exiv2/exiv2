@@ -137,6 +137,7 @@ option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"      
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
+option( EXIV2_ENABLE_HEIF             "Build with heif support (requires libheif)"            OFF )
 ...
 $ ~/gnu/github/exiv2/exiv2 $
 ```
@@ -159,6 +160,7 @@ The following Exiv2 features require external libraries:
 | XMP support             | expat        | ON      | -DEXIV2\_ENABLE\_XMP=Off | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
 | Natural language system | gettext      | OFF     | -DEXIV2\_ENABLE\_NLS=On  | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/)                      |
 | Regex for gcc <= 4.8    | Boost::regex | OFF     | autodetected             | https://www.boost.org/users/download/                                                             |
+| HEIF image support      | heif         | OFF     | -DEXIV2\_ENABLE\_HEIF=Off| [https://github.com/strukturag/libheif](https://github.com/strukturag/libheif)                    |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
 development package of a dependency to install the header files and libraries required to build Exiv2. You can check the file
