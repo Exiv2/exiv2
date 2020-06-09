@@ -24,7 +24,11 @@ fi
 source conan/bin/activate
 
 mkdir build && cd build
-conan install .. -o webready=True --build missing
+if [ -n "$CONAN_WEBREADY_DISABLED" ]; then
+  conan install .. -o webready=False --build missing
+else
+  conan install .. -o webready=True  --build missing
+fi
 
 cmake ${CMAKE_OPTIONS} ..
 make -j2
