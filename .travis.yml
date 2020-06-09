@@ -10,6 +10,15 @@ env:
 
 matrix:
   include:
+    - name: "Ubuntu 16.04 - gcc-5.4 (Release) - ARM"
+      os: linux
+      arch: arm64
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+
     - name: "Ubuntu 16.04 - gcc-5.4 (Release)"
       os: linux
       dist: xenial
