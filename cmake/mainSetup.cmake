@@ -1,6 +1,10 @@
 # In this file we configure some CMake settings we do not want to make visible directly in the main
 # CMakeLists.txt file.
 
+if(POLICY CMP0054)  # CMake 3.1: Only interpret if() arguments as variables or keywords when unquoted.
+  cmake_policy(SET CMP0054 NEW)
+endif()
+
 include(GNUInstallDirs)
 include(CheckFunctionExists)
 include(GenerateExportHeader)

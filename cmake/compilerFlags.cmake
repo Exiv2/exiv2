@@ -25,7 +25,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
         # This fails under Fedora - MinGW - Gcc 8.3
         if (NOT MINGW)
-            if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
+            if (${COMPILER_IS_GCC} AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER_EQUAL "8.0")
                 if (NOT ${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
                     add_compile_options(-fstack-clash-protection -fcf-protection)
                 else()
@@ -33,7 +33,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                 endif()
             endif()
 
-            if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7 ))
+            if (COMPILER_IS_GCC OR (COMPILER_IS_CLANG AND ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER_EQUAL "3.7" ))
                 # is not available for clang 3.4.2. it appears to be present in clang 3.7.
                 add_compile_options(-fstack-protector-strong)
             endif()
@@ -65,17 +65,17 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
             # => make it fatal with -fno-sanitize-recover (gcc) or -fno-sanitize-recover=all (clang)
             # add -fno-omit-frame-pointer for better stack traces
             if ( COMPILER_IS_GCC )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                if ( ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "4.9" )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover")
-                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8 )
+                elseif( ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "4.8" )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             elseif( COMPILER_IS_CLANG )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                if ( ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "4.9" )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
-                elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4 )
+                elseif ( ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "3.4" )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined")
-                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.1 )
+                elseif( ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER "3.1" )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             endif()
