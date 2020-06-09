@@ -18,6 +18,8 @@ matrix:
       compiler: gcc
       env:
         - BUILD_TYPE="Release"
+        - CONAN_WEBREADY_DISABLED=1
+        - COMMON_CMAKE_OPTIONS="-DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install"
 
     - name: "Ubuntu 16.04 - gcc-5.4 (Release)"
       os: linux
