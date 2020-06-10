@@ -40,6 +40,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
    15. [Library Initialisation and Cleanup](#2-15)
    16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
    17. [Building with C++11 and other compilers](#2-17)
+   18. [Static and Shared Libraries](#2-18)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -721,6 +722,38 @@ The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possi
 The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v0.28. 
 
 **Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
+
+[TOC](#TOC)
+
+<div id="2-18">
+
+### 2.18 Static and Shared Libraries
+
+You can build either static or shared libraries.  Both can be linked with either static or shared run-time libraries.  You specify the shared/static with the option `-BUILD_SHARED_LIBS=On|Off` You specify the run-time with the option `-DEXIV2_ENABLE_DYNAMIC_RUNTIME=On|Off`.  The default for both options default is On.  So you build shared and use the shared libraries which are `.dll` on Windows (msvc, Cygwin and MinGW/msys), `.dylib` on macOS and `.so` on Linux and UNIX.  
+
+CMake creates your build artefacts in the directories `bin` and `lib`.  The `bin` directory contains your executables and .dlls.  The `lib` directory contains your static libraries.  When you install exiv2, the build artefacts are copied to your system's prefix directory which by default is `/usr/local/`.  If you wish to test and use your build without installing, you will have to set you PATH appropriately.  Linux/Unix users should also set `LD_LIBRARY_PATH` and macOS users should set `DYLD_LIBRARY_PATH`.
+
+The default build is SHARED/DYNAMIC and this arrangement treats all executables and shared libraries in a uniform manner.
+
+**Caution:** _The following discussion only applies if you are linking to a static version of the exiv2 library._  You may get the following error from CMake:
+
+```bash
+CMake Error at src/CMakeLists.txt:30 (add_library):
+Target "my-app-or-library" links to target "Iconv::Iconv" but the target was
+not found. Perhaps a find_package() call is missing for an IMPORTED
+target, or an ALIAS target is missing?
+```
+
+Be aware that the warning concerning `src/CMakeLists.txt:30 (add_library)` refers to your file src/CMakeLists.txt.  Although exiv2 has statically linked `Iconv()`, your code also needs to link.  You achieve that in your src/CMakeLists.txt with the code:
+
+```cmake
+find_package(Iconv)
+if( ICONV_FOUND )
+    target_link_libraries( my-app-or-library PRIVATE Iconv::Iconv )
+endif()
+```
+
+This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.com/Exiv2/exiv2/issues/1230)
 
 [TOC](#TOC)
 
