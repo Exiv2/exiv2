@@ -12,6 +12,10 @@ https://github.com/Exiv2/exiv2/issues/1018#issuecomment-604539346
 
 Bugs/Fixes
 
+#1237 | Exiv2 v0.27.3 documentation update
+#1224 | Remove localtime.c from code-base
+#1222 | Fix http.cpp to compile with C++11
+#1221 | Changes to enable crw-test.sh to function on Windows
 #1213 | Cleanup
 #1209 | fix_1208_NikonLens_0.27	#1208
 #1197 | Add c++11 support 0.27
@@ -97,6 +101,7 @@ UNIX
 #1162 | Fix 902 UNIX Support
 
 Documentation
+#1232 | Fix 1230 Added 2.18 Static and Shared Libraries to README.md
 #1153 | fix_922 Cross compiling documentation
 #1149 | README-CONAN Update for v0.27.3
 #1139 | fix_1077_0.27 Improve documentation in CONTRIBUTING.md

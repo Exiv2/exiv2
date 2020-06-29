@@ -6,6 +6,10 @@ Headline Features of Exiv2 v0.27.3
 Thank you to Phil, Sridhar, Luis, Kevin, and Andreas S for working with me on the release.
 As always, thanks to my wife Alison and our cat Lizzie for their support.
 
+I am writing a book called Image Metadata and Exiv2 Architecture.
+Current Draft: https://clanmills.com/exiv2/book/
+               https://clanmills.com/exiv2/book/IMaEA.pdf
+
 1) Bug and security fixes:
    - Security fixes
    - Improved Unicode/charset handling in comments
@@ -48,7 +52,7 @@ Team Exiv2 is looking for contributors to work on Exiv2 v0.28
 
 Robin Mills
 robin@clanmills.com
-2020-05-23
+2020-06-30
 
 -------------------------
 Release Notes for v0.27.2
