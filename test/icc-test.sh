@@ -16,7 +16,7 @@ test1120() # --comment and -dc clobbered by writing ICC/JPG
 
     num=1074                    # ICC Profile Support
     printf "ICC " >&3
-    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeJpg.jpg Reagan2.jp2 # 1272 ReaganLargeTiff.tiff
+    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeJpg.jpg # 1272 ReaganLargeTiff.tiff
     do
         format=$(echo $filename|cut -d. -f 2)
         stub=$(  echo $filename|cut -d. -f 1)
