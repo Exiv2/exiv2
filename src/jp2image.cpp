@@ -693,6 +693,7 @@ static void boxes_check(size_t b,size_t m)
                     ::memcpy(output.pData_+outlen+sizeof(newBox)+psize,iccProfile_.pData_,iccProfile_.size_);
                     newlen = psize + iccProfile_.size_;
                 }
+                newlen += sizeof(newBox);
             } else {
                 ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
             }
