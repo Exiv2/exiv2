@@ -729,3 +729,33 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
 50b9125494306a6fc1b7c4f2a1a8d49d
 45ed3c125cc6041b37b44ee4cb881cd8
 45ed3c125cc6041b37b44ee4cb881cd8
+STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
+ address |   length | box       | data
+       0 |       12 | jP        | 
+      12 |       20 | ftyp      | 
+      32 |     3185 | jp2h      | 
+      40 |       22 |  sub:ihdr | .............
+      62 |     3155 |  sub:colr | ......HLino....mntrRGB XYZ .. | pad: 2 0 0 | iccLength:3144
+    3217 |        0 | jp2c      | 
+STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
+ address |   length | box       | data
+       0 |       12 | jP        | 
+      12 |       20 | ftyp      | 
+      32 |  1613641 | jp2h      | 
+      40 |       22 |  sub:ihdr | .............
+      62 |  1613611 |  sub:colr | .x0... APPL....prtrRGB Lab .. | pad: 0 120 48 | iccLength:1613600
+ 1613673 |        0 | jp2c      | 
+STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
+ address |   length | box       | data
+       0 |       12 | jP        | 
+      12 |       20 | ftyp      | 
+      32 |      601 | jp2h      | 
+      40 |       22 |  sub:ihdr | .............
+      62 |      571 |  sub:colr | .x0...0ADBE....mntrRGB XYZ .. | pad: 0 120 48 | iccLength:560
+     633 |        0 | jp2c      | 
+1d3fda2edb4a89ab60a23c5f7c7d81dd
+1d3fda2edb4a89ab60a23c5f7c7d81dd
+50b9125494306a6fc1b7c4f2a1a8d49d
+50b9125494306a6fc1b7c4f2a1a8d49d
+45ed3c125cc6041b37b44ee4cb881cd8
+45ed3c125cc6041b37b44ee4cb881cd8
