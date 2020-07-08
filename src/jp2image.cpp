@@ -684,7 +684,7 @@ static void boxes_check(size_t b,size_t m)
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox));
                     ::memcpy(output.pData_+outlen+sizeof(newBox)      ,pad                ,psize         );
                 } else {
-                    const char* pad   = "\0x02\x00\x00";
+                    const char* pad   = "\x02\x00\x00";
                     uint32_t    psize = 3;
                     newlen            = sizeof(newBox) + psize + iccProfile_.size_;
                     ul2Data((byte*)&newBox.length,newlen,bigEndian);
