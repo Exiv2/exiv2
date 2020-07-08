@@ -743,7 +743,7 @@ STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
       12 |       20 | ftyp      | 
       32 |  1613641 | jp2h      | 
       40 |       22 |  sub:ihdr | .............
-      62 |  1613611 |  sub:colr | .x0... APPL....prtrRGB Lab .. | pad: 0 120 48 | iccLength:1613600
+      62 |  1613611 |  sub:colr | ...... APPL....prtrRGB Lab .. | pad: 2 0 0 | iccLength:1613600
  1613673 |        0 | jp2c      | 
 STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
  address |   length | box       | data
@@ -751,7 +751,7 @@ STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
       12 |       20 | ftyp      | 
       32 |      601 | jp2h      | 
       40 |       22 |  sub:ihdr | .............
-      62 |      571 |  sub:colr | .x0...0ADBE....mntrRGB XYZ .. | pad: 0 120 48 | iccLength:560
+      62 |      571 |  sub:colr | ......0ADBE....mntrRGB XYZ .. | pad: 2 0 0 | iccLength:560
      633 |        0 | jp2c      | 
 1d3fda2edb4a89ab60a23c5f7c7d81dd
 1d3fda2edb4a89ab60a23c5f7c7d81dd
