@@ -89,11 +89,11 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
-			check_c_compiler_flag(-fno-omit-frame-pointer         COMPILER_NO_OMIT_FRAME_POINTER     )
-			check_c_compiler_flag(-fsanitize=address,undefined    COMPILER_SANITIZE_ADDRESS_UNDEFINED)
-			check_c_compiler_flag(-fno-sanitize-recover=all       COMPILER_SANITIZE_ADDRESS_ALL      )
-			check_c_compiler_flag(--fsanitize=address             COMPILER_SANITIZE_ADDRESS          )
-			check_c_compiler_flag(-fno-sanitize-recover=all       COMPILER_NO_SANITIZE_RECOVER       )
+            check_c_compiler_flag(-fno-omit-frame-pointer         COMPILER_NO_OMIT_FRAME_POINTER     )
+            check_c_compiler_flag(-fsanitize=address,undefined    COMPILER_SANITIZE_ADDRESS_UNDEFINED)
+            check_c_compiler_flag(--fsanitize=address             COMPILER_SANITIZE_ADDRESS          )
+            check_c_compiler_flag(-fno-sanitize-recover=all       COMPILER_NOSANITIZE_RECOVER_ALL    )
+            check_c_compiler_flag(-fno-sanitize-recover           COMPILER_NOSANITIZE_RECOVER        )
 
             # UBSAN is not fatal by default, instead it only prints runtime errors to stderr
             # => make it fatal with -fno-sanitize-recover (gcc) or -fno-sanitize-recover=all (clang)
@@ -105,7 +105,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             elseif( COMPILER_IS_CLANG )
-                if ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS_UNDEFINED AND COMPILER_SANITIZE_ADDRESS_ALL )
+                if ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS_UNDEFINED AND COMPILER_NOSANITIZE_RECOVER_ALL )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
                 elseif ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS_UNDEFINED  )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined")
