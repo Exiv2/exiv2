@@ -23,61 +23,98 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
 
-        # This fails under Fedora, MinGW GCC 8.3.0 and CYGWIN/MSYS 9.3.0
-        if (NOT (MINGW OR CMAKE_HOST_SOLARIS OR CYGWIN OR MSYS) )
-            if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
-                add_compile_options(-fstack-clash-protection -fcf-protection)
-            endif()
+        check_c_compiler_flag(-fstack-protector-strong   FSTACK_PROTECTOR_STRONG         )
+        check_c_compiler_flag(-fstack-clash-protection   FSTACK_CLASH_PROTECTION         )
+        check_c_compiler_flag(-fcf-protection            FCF-PROTECTION                  )
+        check_c_compiler_flag(-fcf-protection            FCF-PROTECTION                  )
+        check_c_compiler_flag(-D_GLIBCXX_ASSERTIONS      D_GLIBCXX_ASSERTIONS            )
+        check_c_compiler_flag(-D_FORTIFY_SOURCE=2        D_FORTIFY_SOURCE                )
+        check_c_compiler_flag(-Wp                        COMPILER_FLAG_WP                )
+        check_c_compiler_flag(-Wall                      COMPILER_FLAG_WALL              )
+        check_c_compiler_flag(-Wcast-align               COMPILER_FLAG_CAST_ALIGN        )
+        check_c_compiler_flag(-Wpointer-arith            COMPILER_FLAG_POINTER_ARITH     )
+        check_c_compiler_flag(-Wformat-security          COMPILER_FLAG_FORMAT_SECURITY   )
+        check_c_compiler_flag(-Wmissing-format-attribute COMPILER_FLAG_FORMAT_ATTTIBUTE  )
+        check_c_compiler_flag(-Woverloaded-virtual       COMPILER_FLAG_OVERLOADED_VIRTUAL)
+        check_c_compiler_flag(-W                         COMPILER_FLAG_W                 )
+        check_c_compiler_flag(--coverage                 COMPILER_FLAG_COVERAGE          )
 
-            if( (COMPILER_IS_GCC   AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0) # Not in GCC 4.8
-            OR  (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7) # Not in Clang 3.4.2
-            )
-                add_compile_options(-fstack-protector-strong)
-            endif()
+        if ( FSTACK_PROTECTOR_STRONG ) 
+            add_compile_options(-fstack-protector-strong)
+        endif()
+        if ( FSTACK_CLASH_PROTECTION )
+            add_compile_options(-fstack-clash-protection)
+        endif()
+        if ( FCF-PROTECTION )
+            add_compile_options(-fcf-protection)
+        endif()
+        if ( COMPILER_FLAG_WP )
+            add_compile_options(-Wp)
+        endif()
+        if ( D_GLIBCXX_ASSERTIONS )
+            add_compile_options(-D_GLIBCXX_ASSERTIONS)
+        endif()
+        if ( COMPILER_FLAG_WALL )
+            add_compile_options(-Wall)
+        endif()
+        if ( COMPILER_FLAG_CAST_ALIGN )
+            add_compile_options(-Wcast-align)
+        endif()
+        if ( COMPILER_FLAG_POINTER_ARITH )
+            add_compile_options(-Wpointer-arith)
+        endif()
+        if ( COMPILER_FLAG_FORMAT_SECURITY )
+            add_compile_options(-Wformat-security)
+        endif()
+        if ( COMPILER_FLAG_FORMAT_ATTTIBUTE )
+            add_compile_options(-Wmissing-format-attribute)
+        endif()
+        if ( COMPILER_FLAG_OVERLOADED_VIRTUAL )
+            add_compile_options(-Woverloaded-virtual)
+        endif()
+        if ( COMPILER_FLAG_W )
+            add_compile_options(-W)
         endif()
 
-        add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
-
-        if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT APPLE AND NOT MSYS)
-            add_compile_options(-Wp,-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
+        if (CMAKE_BUILD_TYPE STREQUAL Release AND D_FORTIFY_SOURCE)
+            add_compile_options(-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
         endif()
 
-        if(BUILD_WITH_COVERAGE)
+        if(BUILD_WITH_COVERAGE AND COMPILER_FLAG_COVERAGE)
             add_compile_options(--coverage)
             # TODO: From CMake 3.13 we could use add_link_options instead these 2 lines
             set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
             set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage")
         endif()
 
-        add_compile_options(-Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W)
-
-        # This seems to be causing issues in the Fedora_MinGW GitLab job
-        #add_compile_options(-fasynchronous-unwind-tables)
-
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
-            # ASAN is available in gcc from 4.8 and UBSAN from 4.9
-            # ASAN is available in clang from 3.1 and UBSAN from 3.3
+			check_c_compiler_flag(-fno-omit-frame-pointer         COMPILER_NO_OMIT_FRAME_POINTER     )
+			check_c_compiler_flag(-fsanitize=address,undefined    COMPILER_SANITIZE_ADDRESS_UNDEFINED)
+			check_c_compiler_flag(-fno-sanitize-recover=all       COMPILER_SANITIZE_ADDRESS_ALL      )
+			check_c_compiler_flag(--fsanitize=address             COMPILER_SANITIZE_ADDRESS          )
+			check_c_compiler_flag(-fno-sanitize-recover=all       COMPILER_NO_SANITIZE_RECOVER       )
+
             # UBSAN is not fatal by default, instead it only prints runtime errors to stderr
             # => make it fatal with -fno-sanitize-recover (gcc) or -fno-sanitize-recover=all (clang)
             # add -fno-omit-frame-pointer for better stack traces
             if ( COMPILER_IS_GCC )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                if ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS_UNDEFINED AND COMPILER_NO_SANITIZE_RECOVER )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover")
-                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.8 )
+                elseif ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             elseif( COMPILER_IS_CLANG )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                if ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS_UNDEFINED AND COMPILER_SANITIZE_ADDRESS_ALL )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
-                elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4 )
+                elseif ( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS_UNDEFINED  )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined")
-                elseif( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.1 )
+                elseif( COMPILER_NO_OMIT_FRAME_POINTER AND COMPILER_SANITIZE_ADDRESS )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             endif()
 
-            # sorry, ASAN does not work on Windows
+            # ASAN does not work on Windows
             if ( NOT CYGWIN AND NOT MINGW AND NOT MSYS )
                 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SANITIZER_FLAGS}")
                 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SANITIZER_FLAGS}")
@@ -137,7 +174,7 @@ if(MSVC)
     # Object Level Parallelism
     add_compile_options(/MP)
     add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
-    
+
     # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
     if (MSVC_VERSION GREATER_EQUAL "1910") # VS2017 and up
         add_compile_options("/Zc:__cplusplus")
