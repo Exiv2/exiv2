@@ -678,20 +678,20 @@ static void boxes_check(size_t b,size_t m)
                 if ( ! iccProfileDefined() ) {
                     const char* pad   = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
                     uint32_t    psize = 15;
+                    newlen            = sizeof(newBox) + psize ;
                     ul2Data((byte*)&newBox.length,psize      ,bigEndian);
                     ul2Data((byte*)&newBox.type  ,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox));
                     ::memcpy(output.pData_+outlen+sizeof(newBox)      ,pad                ,psize         );
-                    newlen = psize ;
                 } else {
-                    const char* pad   = "\0x02\x00\x00";
+                    const char* pad   = "\x02\x00\x00";
                     uint32_t    psize = 3;
-                    ul2Data((byte*)&newBox.length,psize+iccProfile_.size_,bigEndian);
+                    newlen            = sizeof(newBox) + psize + iccProfile_.size_;
+                    ul2Data((byte*)&newBox.length,newlen,bigEndian);
                     ul2Data((byte*)&newBox.type,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox)  );
                     ::memcpy(output.pData_+outlen+sizeof(newBox)      , pad               ,psize           );
                     ::memcpy(output.pData_+outlen+sizeof(newBox)+psize,iccProfile_.pData_,iccProfile_.size_);
-                    newlen = psize + iccProfile_.size_;
                 }
             } else {
                 ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
