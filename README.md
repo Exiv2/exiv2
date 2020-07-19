@@ -146,6 +146,7 @@ The following Exiv2 features require external libraries:
 | PNG image support           | zlib      | ON       | -DEXIV2\_ENABLE\_PNG=Off      | [http://zlib.net/](http://zlib.net/) |
 | XMP support                 | expat     | ON       | -DEXIV2\_ENABLE\_XMP=Off      | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
 | Natural language system     | gettext   | OFF      | -DEXIV2\_ENABLE\_NLS=On       | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
+| Character set conversion    | libiconv  |          | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms.                              | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
 development package of a dependency to install the header files and libraries required to build Exiv2. The script
@@ -157,6 +158,20 @@ Notes about different platforms are included here: [Platform Notes](#5)
 
 You may choose to install dependences with conan.  This is supported on all platforms and is especially useful for users of Visual Studio.
 See [README-CONAN](README-CONAN.md) for more information.
+
+### Libiconv
+
+The library libiconv is used to perform character set encoding in the tags Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod and Exif.GPSInfo.GPSAreaInformation.  This is documented in the exiv2 man page.
+
+CMake will detect libiconv of all UNIX like systems including Linux, macOS, UNIX, Cygwin64 and MinGW/msys2.  If you have installed libiconv on your machine, Exiv2 will link and use it.
+
+The library libiconv is a GNU library and we do not recommend using libiconv with Exiv2 when building with Visual Studio.
+
+Exiv2 includes the file cmake/FindIconv.cmake which contains a guard to prevent CMake from finding libiconv when you build with Visual Studio.  This was added because of issues reported when Visual Studio attempted to link libconv libraries installed by Cygwin, or MinGW or gnuwin32. [https://github.com/Exiv2/exiv2/issues/1250](https://github.com/Exiv2/exiv2/issues/1250)
+
+There are build instructions about Visual Studio in libiconv-1.16/INSTALL.window require you to install Cygwin.  There is an article here about building libiconv with Visual Studio. [https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio](https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio).  
+
+If you wish to use libiconv with Visual Studio you will have to build libiconv and remove the "guard" in cmake/FindIconv.cmake.  Team Exiv2 will not provide support concerning libiconv and Visual Studio.
 
 [TOC](#TOC)
 
