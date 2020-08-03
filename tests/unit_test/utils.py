@@ -101,8 +101,8 @@ def reportTest(testname, output, encoding='utf-8'):
 
 def ioTest(filename):
     src = os.path.join(DATA_DIR, filename)
-    out1 = os.path.join(DATA_DIR, '{}.1'.format(filename))
-    out2 = os.path.join(DATA_DIR, '{}.2'.format(filename))
+    out1 = os.path.join(TEST_DIR, '{}.1'.format(filename))
+    out2 = os.path.join(TEST_DIR, '{}.2'.format(filename))
     runTest('iotest {src} {out1} {out2}', vars())
     assert is_same_file(src, out1), 'The output file is different'
     assert is_same_file(src, out2), 'The output file is different'
