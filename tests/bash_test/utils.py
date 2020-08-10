@@ -13,7 +13,6 @@ EXIV2_DIR = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'
 BIN_DIR = os.path.join(EXIV2_DIR, 'build/bin')
 DATA_DIR = os.path.join(EXIV2_DIR, 'test/data')
 TEST_DIR = os.path.join(EXIV2_DIR, 'test/tmp')
-BIN_SUFFIX = ''  # TODO: Determine if the suffix is '.exe'
 
 
 def log_info(s):
