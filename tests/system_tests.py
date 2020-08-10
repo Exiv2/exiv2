@@ -200,6 +200,11 @@ def configure_suite(config_file):
             _parameters["timeout"] *= config.getfloat(
                 "General", "memcheck_timeout_penalty", fallback=20.0
             )
+    
+    # Configure the parameters for bash test
+    utils.BIN_DIR = os.path.abspath(config['ENV']['exiv2_path'])
+    utils.DATA_DIR = os.path.abspath(config['paths']['data_path'])
+    utils.TEST_DIR = os.path.abspath(config['paths']['tmp_path'])
 
 
 class FileDecoratorBase(object):
@@ -969,3 +974,4 @@ def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
 
     self.assertNotIn(UBSAN_MSG, got_stderr)
     self.assertNotIn(ASAN_MSG, got_stderr)
+

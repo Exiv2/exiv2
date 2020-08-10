@@ -8,7 +8,8 @@ import shutil
 import subprocess
 
 
-# TODO: Read the configuration from ../suite.conf
+# The configuration parameters for bash test
+# The function configure_suite() in system_tests.py will override these parameters
 EXIV2_DIR = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
 BIN_DIR = os.path.join(EXIV2_DIR, 'build/bin')
 DATA_DIR = os.path.join(EXIV2_DIR, 'test/data')
@@ -54,7 +55,7 @@ def runTest(cmd, vars_dict, expected_returncodes=[0], encoding='utf-8'):
     try:
         cmd     = cmd.format(**vars_dict)
         args    = shlex.split(cmd)
-        args[0] = os.path.join(BIN_DIR, args[0] + BIN_SUFFIX)
+        args[0] = os.path.join(BIN_DIR, args[0])
         p       = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=TEST_DIR)
         stdout  = p.communicate()[0]
         output  = stdout.decode(encoding).rstrip('\n')
