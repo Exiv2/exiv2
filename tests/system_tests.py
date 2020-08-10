@@ -12,6 +12,9 @@ import string
 import unittest
 
 
+from bash_test import utils
+
+
 if sys.platform in [ 'win32', 'msys', 'cygwin' ]:
     #: invoke subprocess.Popen with shell=True on Windows
     _SUBPROCESS_SHELL = True

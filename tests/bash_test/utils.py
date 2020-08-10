@@ -1,3 +1,6 @@
+"""
+This module is a rewrite from the old bash script "functions.source" .
+"""
 import hashlib
 import os
 import shlex
@@ -50,19 +53,16 @@ def is_same_file(file1, file2):
 def runTest(cmd, vars_dict, expected_returncodes=[0], encoding='utf-8'):
     """ Execute a file in the exiv2 bin directory and return its stdout. """
     try:
-        cmd = cmd.format(**vars_dict)
-        args = shlex.split(cmd)
+        cmd     = cmd.format(**vars_dict)
+        args    = shlex.split(cmd)
         args[0] = os.path.join(BIN_DIR, args[0] + BIN_SUFFIX)
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=TEST_DIR)
-        stdout, stderr = p.communicate()
-        output = stdout.decode(encoding).rstrip('\n')
+        p       = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=TEST_DIR)
+        stdout  = p.communicate()[0]
+        output  = stdout.decode(encoding).rstrip('\n')
         if p.returncode not in expected_returncodes:
             log_info('Excute: {}\n{}'.format(cmd, output))
             raise RuntimeError('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
-        if output:
-            return output.split('\n')
-        else:
-            return []
+        return output.split('\n') if output else []
     except:
         log_error('Failed to execute: {}'.format(cmd))
         raise
@@ -100,9 +100,9 @@ def reportTest(testname, output, encoding='utf-8'):
 
 
 def ioTest(filename):
-    src = os.path.join(DATA_DIR, filename)
-    out1 = os.path.join(TEST_DIR, '{}.1'.format(filename))
-    out2 = os.path.join(TEST_DIR, '{}.2'.format(filename))
+    src     = os.path.join(DATA_DIR, filename)
+    out1    = os.path.join(TEST_DIR, '{}.1'.format(filename))
+    out2    = os.path.join(TEST_DIR, '{}.2'.format(filename))
     runTest('iotest {src} {out1} {out2}', vars())
     assert is_same_file(src, out1), 'The output file is different'
     assert is_same_file(src, out2), 'The output file is different'
