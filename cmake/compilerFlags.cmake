@@ -1,4 +1,5 @@
 # These flags applies to exiv2lib, the applications, and to the xmp code
+include(CheckCCompilerFlag)
 
 if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
@@ -22,16 +23,18 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
-
-        # This fails under Fedora, MinGW GCC 8.3.0 and CYGWIN/MSYS 9.3.0
-        if (NOT (MINGW OR CMAKE_HOST_SOLARIS OR CYGWIN OR MSYS) )
-            if (COMPILER_IS_GCC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
-                add_compile_options(-fstack-clash-protection -fcf-protection)
+        # This fails under Fedora - MinGW - Gcc 8.3
+        if (NOT MINGW)
+            check_c_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
+            check_c_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
+            check_c_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
+            if(HAS_FSTACK_CLASH_PROTECTION)
+                add_compile_options(-fstack-clash-protection)
             endif()
-
-            if( (COMPILER_IS_GCC   AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 5.0) # Not in GCC 4.8
-            OR  (COMPILER_IS_CLANG AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.7) # Not in Clang 3.4.2
-            )
+            if(HAS_FCF_PROTECTION)
+                add_compile_options(-fcf-protection)
+            endif()
+            if(HAS_FSTACK_PROTECTOR_STRONG)
                 add_compile_options(-fstack-protector-strong)
             endif()
         endif()
