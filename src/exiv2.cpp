@@ -40,7 +40,7 @@ int main(int argc, char* const argv[])
 
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
-    const std::string localeDir = Exiv2::getProcessPath() + EXV_LOCALEDIR;
+    const std::string localeDir = EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
     bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
     textdomain(EXV_PACKAGE_NAME);
 #endif
