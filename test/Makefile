@@ -148,8 +148,8 @@ python_tests:
 	@echo
 	@echo ---- Running python_tests ----
 	@echo
-	@echo bash -c " . functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose "
-	@bash -c " . functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose "
+	@echo bash -c ' . functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose '
+	@bash -c ' . functions.source ; cd ../tests ; if [ ! -z $$VERBOSE ]; then verbose=--verbose ;fi ; python3 runner.py $$verbose '
 
 mostlyclean clean:
 	rm -rf $(top_srcdir)/test/tmp/*
