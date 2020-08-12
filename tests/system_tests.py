@@ -12,7 +12,7 @@ import string
 import unittest
 
 
-from bash_test import utils
+from bash_tests import utils
 
 
 if sys.platform in [ 'win32', 'msys', 'cygwin' ]:

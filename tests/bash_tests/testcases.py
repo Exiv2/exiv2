@@ -2,7 +2,7 @@ import unittest
 from system_tests import utils
 
 
-class TestSample(unittest.TestCase):
+class TestCases(unittest.TestCase):
     def test_geotag(self):
         testname      = 'geotag-test'
         jpg           = 'FurnaceCreekInn.jpg'

@@ -789,5 +789,5 @@ class AnInformativeName(metaclass=system_tests.CaseMeta):
 
 ## Bash test cases
 
-- Previously, Exiv2 had some bash test scripts, which were saved as the file `EXIV2_DIR/test/*.sh`. We're going to rewrite them as Python test scripts and save them to the directory `EXIV2_DIR/tests/bash_test`.
+- Previously, Exiv2 had some bash test scripts, which were saved as the file `EXIV2_DIR/test/*.sh`. We're going to rewrite them as Python test scripts and save them to the directory `EXIV2_DIR/tests/bash_tests`.
 - These Python test scripts are based on [unittest](https://docs.python.org/3/library/unittest.html) and written in a common format, which is different from the format described in [Writing new tests](#writing-new-tests), but can be executed compatibly by `python3 runner.py`.
