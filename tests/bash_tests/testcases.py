@@ -9,25 +9,25 @@ class TestCases(unittest.TestCase):
         gpx           = 'FurnaceCreekInn.gpx'
         utils.copyTestFiles(jpg, gpx)
 
-        output        = ['--- show GPSInfo tags ---']
-        output       += utils.runTest('exiv2 -pa --grep GPSInfo {jpg}', vars())
+        out           = ['--- show GPSInfo tags ---']
+        out          += utils.runTest('exiv2 -pa --grep GPSInfo {jpg}', vars())
 
-        output       += ['--- deleting the GPSInfo tags']
+        out          += ['--- deleting the GPSInfo tags']
         for tag in utils.runTest('exiv2 -Pk --grep GPSInfo {jpg}', vars()):
             tag       = tag.rstrip(' ')
-            output   += utils.runTest('exiv2 -M"del {tag}" {jpg}', vars())
-        output       += utils.runTest('exiv2 -pa --grep GPS {jpg}', vars(), [0, 1])
+            out      += utils.runTest('exiv2 -M"del {tag}" {jpg}', vars())
+        out          += utils.runTest('exiv2 -pa --grep GPS {jpg}', vars(), [0, 1])
 
-        output       += ['--- run geotag ---']
-        geotag_output = utils.runTest('geotag -ascii -tz -8:00 {jpg} {gpx}', vars())
-        geotag_output = geotag_output[0].split(' ')[1:]
-        output       += [' '.join(geotag_output)]
+        out          += ['--- run geotag ---']
+        geotag_out    = utils.runTest('geotag -ascii -tz -8:00 {jpg} {gpx}', vars())
+        geotag_out    = geotag_out[0].split(' ')[1:]
+        out          += [' '.join(geotag_out)]
 
-        output       += ['--- show GPSInfo tags ---']
-        output       += utils.runTest('exiv2 -pa --grep GPSInfo {jpg}', vars())
-        output       += ['']
+        out          += ['--- show GPSInfo tags ---']
+        out          += utils.runTest('exiv2 -pa --grep GPSInfo {jpg}', vars())
+        out          += ['']
 
-        utils.reportTest(testname, output)
+        utils.reportTest(testname, out)
 
     def test_io(self):
         test_files = ['table.jpg', 'smiley2.jpg', 'ext.dat']
