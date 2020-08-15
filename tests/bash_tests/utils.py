@@ -50,7 +50,7 @@ def is_same_file(file1, file2):
         return h1 == h2
 
 
-def runTest(cmd, vars_dict, expected_returncodes=[0], encoding='utf-8'):
+def runTest(cmd, vars_dict=dict(), expected_returncodes=[0], encoding='utf-8'):
     """ Execute a file in the exiv2 bin directory and return its stdout. """
     try:
         cmd     = cmd.format(**vars_dict)
@@ -95,7 +95,7 @@ def reportTest(testname, output, encoding='utf-8'):
             log_error('Reference: {}'.format(reference_output[i]))
             log_error('Testcase : {}'.format(output[i]))
             break
-    
+
     raise RuntimeError('Failed {}'.format(testname))
 
 
