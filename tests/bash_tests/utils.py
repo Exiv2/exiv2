@@ -16,16 +16,27 @@ DATA_DIR = os.path.join(EXIV2_DIR, 'test/data')
 TEST_DIR = os.path.join(EXIV2_DIR, 'test/tmp')
 
 
-def log_info(s):
-    print('[INFO] {}'.format(s))
+class Log:
+    _buffer = ['']
+
+    def _add_msg(self, msg):
+        self._buffer.append(msg)
+
+    @property
+    def buffer(self):
+        return '\n'.join(self._buffer)
+
+    def info(self, msg, index=None):
+        self._add_msg('[INFO] {}'.format(msg))
+
+    def warn(self, msg):
+        self._add_msg('[WARN] {}'.format(msg))
+
+    def error(self, msg):
+        self._add_msg('[ERROR] {}'.format(msg))
 
 
-def log_warn(s):
-    print('[WARN] {}'.format(s))
-
-
-def log_error(s):
-    print('[ERROR] {}'.format(s))
+log = Log()
 
 
 def copyTestFiles(*filenames):
@@ -52,20 +63,18 @@ def is_same_file(file1, file2):
 
 def runTest(cmd, vars_dict=dict(), expected_returncodes=[0], encoding='utf-8'):
     """ Execute a file in the exiv2 bin directory and return its stdout. """
-    try:
-        cmd     = cmd.format(**vars_dict)
-        args    = shlex.split(cmd)
-        args[0] = os.path.join(BIN_DIR, args[0])
-        p       = subprocess.Popen(args, stdout=subprocess.PIPE, cwd=TEST_DIR)
-        stdout  = p.communicate()[0]
-        output  = stdout.decode(encoding).rstrip('\n')
-        if p.returncode not in expected_returncodes:
-            log_info('Excute: {}\n{}'.format(cmd, output))
-            raise RuntimeError('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
-        return output.split('\n') if output else []
-    except:
-        log_error('Failed to execute: {}'.format(cmd))
-        raise
+    cmd             = cmd.format(**vars_dict)
+    args            = shlex.split(cmd)
+    args[0]         = os.path.join(BIN_DIR, args[0])
+    p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=TEST_DIR)
+    stdout, stderr  = p.communicate()
+    output          = (stdout + stderr).decode(encoding).rstrip('\n')
+    if p.returncode not in expected_returncodes:
+        log.error('Failed to excute: {}'.format(cmd))
+        log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
+        log.info('OUTPUT:\n{}'.format(output))
+        raise RuntimeError(log.buffer)
+    return output.split('\n') if output else []
 
 
 def reportTest(testname, output, encoding='utf-8'):
@@ -76,27 +85,29 @@ def reportTest(testname, output, encoding='utf-8'):
     if output == reference_output:
         return
 
-    tmp_output_file = os.path.join(TEST_DIR, '{}.out'.format(testname))
-    with open(tmp_output_file, 'w', encoding=encoding) as f:
-        f.write('\n'.join(output))
-        log_info('The tmp output has been saved to file {}'.format(tmp_output_file))
+    log.error('Failed test: {}'.format(testname))
 
     # Compare the differences in output
     max_lines = max(len(reference_output), len(output))
     if len(reference_output) != len(output):
-        log_error('Output length mismatch. reference: {} lines, Testcase: {} lines'.format(len(reference_output), len(output)))
+        log.error('Output length mismatch. reference: {} lines, Testcase: {} lines'.format(len(reference_output), len(output)))
         # Make them have the same number of lines
         for i in [reference_output, output]:
             i += [''] * (max_lines - len(i))
 
     for i in range(max_lines):
         if reference_output[i] != output[i]:
-            log_error('The first mismatch is in line {}'.format(i + 1))
-            log_error('Reference: {}'.format(reference_output[i]))
-            log_error('Testcase : {}'.format(output[i]))
+            log.error('The first mismatch is in line {}'.format(i + 1))
+            log.error('Reference: {}'.format(reference_output[i]))
+            log.error('Testcase : {}'.format(output[i]))
             break
 
-    raise RuntimeError('Failed {}'.format(testname))
+    tmp_output_file = os.path.join(TEST_DIR, '{}.out'.format(testname))
+    with open(tmp_output_file, 'w', encoding=encoding) as f:
+        f.write('\n'.join(output))
+        log.info('The tmp output has been saved to file {}'.format(tmp_output_file))
+
+    raise RuntimeError(log.buffer)
 
 
 def ioTest(filename):
