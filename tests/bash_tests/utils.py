@@ -46,6 +46,11 @@ def cp(src, dest):
     shutil.copy(src, dest)
 
 
+def mv(src, dest):
+    """ It is used to move one file, cannot handle directories """
+    shutil.move(src, dest)
+
+
 def rm(*files):
     """ It is used to remove files, cannot handle directories """
     for i in files:
@@ -72,7 +77,9 @@ def grep(pattern, *files, encoding=ENCODING):
     return result
 
 
-def save(text, filename, encoding=ENCODING):
+def save(text: (str, list), filename, encoding=ENCODING):
+    if not isinstance(text, str):
+        text = '\n'.join(text)
     with open(filename, 'w', encoding=encoding) as f:
         f.write(text)
 
@@ -111,12 +118,10 @@ def copyTestFiles(*files):
         copyTestFile(i)
 
 
-def is_same_file(file1, file2):
-    """ Check whether the two files are the same """
-    with open(file1, "rb") as f1, open(file2, "rb") as f2:
-        h1 = hashlib.md5(f1.read()).digest()
-        h2 = hashlib.md5(f2.read()).digest()
-        return h1 == h2
+def md5sum(filename):
+    """ Calculate the MD5 value of the file """
+    with open(filename, "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()
 
 
 def runTest(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=ENCODING) -> list:
@@ -135,7 +140,7 @@ def runTest(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=ENCOD
     return output.split('\n') if output else []
 
 
-def reportTest(testname, output, encoding=ENCODING):
+def reportTest(testname, output: (str, list), encoding=ENCODING):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     if not isinstance(output, str):
         output = '\n'.join(output)
@@ -156,5 +161,5 @@ def ioTest(filename):
     out1    = os.path.join(TEST_DIR, '{}.1'.format(filename))
     out2    = os.path.join(TEST_DIR, '{}.2'.format(filename))
     runTest('iotest {src} {out1} {out2}', vars())
-    assert is_same_file(src, out1), 'The output file is different'
-    assert is_same_file(src, out2), 'The output file is different'
+    assert md5sum(src) == md5sum(out1), 'The output file is different'
+    assert md5sum(src) == md5sum(out2), 'The output file is different'
