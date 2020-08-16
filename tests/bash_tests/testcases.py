@@ -15,6 +15,7 @@ class TestCases(unittest.TestCase):
 
 
     def test_addmoddel(self):
+        # Test driver to run the addmoddel sample program
         jpg         = 'exiv2-empty.jpg'
         utils.copyTestFiles(jpg)
         out         = utils.runTest('addmoddel {jpg}', vars())
@@ -24,6 +25,7 @@ class TestCases(unittest.TestCase):
 
 
     def test_conversions(self):
+        # XMP parser test driver
         jpg         = 'exiv2-empty.jpg'
         out         = []
 
@@ -232,7 +234,43 @@ class TestCases(unittest.TestCase):
         utils.reportTest('conversions', out)
 
 
+    def test_crw(self):
+        # Test driver for CRW file operations
+        crwfile     = 'exiv2-canon-powershot-s40.crw'
+
+        utils.log.info('#1 Add and modify tags')
+        cmds        = '''set Exif.Photo.ColorSpace 65535
+set Exif.Canon.OwnerName Different owner
+set Exif.Canon.FirmwareVersion Whatever version
+set Exif.Canon.SerialNumber 1
+add Exif.Canon.SerialNumber 2
+set Exif.Photo.ISOSpeedRatings 155
+set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
+set Exif.Image.DateTime 2020:05:26 07:31:41
+set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
+        cmdfile     = 'cmdfile1'
+        utils.save(cmds, cmdfile)
+        utils.copyTestFile(crwfile)
+        out         = utils.runTest('exiv2 -v -pt           {crwfile}', vars())
+        out        += utils.runTest('exiv2 -v -m{cmdfile}   {crwfile}', vars())
+        out        += utils.runTest('exiv2 -v -pt           {crwfile}', vars())
+
+        utils.log.info('#2 Delete tags')
+        utils.copyTestFile(crwfile)
+        out        += utils.runTest("exiv2 -v -pt           {crwfile}", vars())
+        out        += utils.runTest("exiv2 -v -M'del Exif.Canon.OwnerName'    {crwfile}", vars())
+        out        += utils.runTest("exiv2 -v -pt           {crwfile}", vars())
+
+        # sed evades TZ issue on MSVC builds #1221
+        out        = [line.replace('23 19:54', '23 18:54') for line in out]
+        out        = [line.replace('24 01:54', '23 18:54') for line in out]
+
+        out        += ['']
+        utils.reportTest('crw-test', out)
+
+
     def test_geotag(self):
+        # Test driver for geotag
         jpg         = 'FurnaceCreekInn.jpg'
         gpx         = 'FurnaceCreekInn.gpx'
         utils.copyTestFiles(jpg, gpx)
@@ -259,6 +297,7 @@ class TestCases(unittest.TestCase):
 
 
     def test_io(self):
+        # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
         utils.copyTestFiles(*test_files)
         for f in test_files:
