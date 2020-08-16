@@ -1,8 +1,15 @@
+import os
 import unittest
 from system_tests import utils
 
 
 class TestCases(unittest.TestCase):
+    def setUp(self):
+        os.chdir(utils.TEST_DIR)
+
+    def tearDown(self):
+        pass
+
     def test_addmoddel(self):
         jpg         = 'exiv2-empty.jpg'
         utils.copyTestFiles(jpg)
@@ -32,8 +39,8 @@ class TestCases(unittest.TestCase):
 
         out        += ['--- show GPSInfo tags ---']
         out        += utils.runTest('exiv2 -pa --grep GPSInfo {jpg}', vars())
-        out        += ['']
 
+        out        += ['']
         utils.reportTest('geotag-test', out)
 
     def test_io(self):
