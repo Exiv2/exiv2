@@ -269,6 +269,16 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         utils.reportTest('crw-test', out)
 
 
+    def test_exifdata(self):
+        # Test driver for exifdata copy construction and assignment unit tests
+        out         = []
+        for jpg in ['exiv2-gc.jpg', 'exiv2-canon-powershot-s40.jpg', 'exiv2-nikon-d70.jpg']:
+            utils.copyTestFile(jpg)
+            out    += utils.runTest('exifdata-test {jpg}', vars())
+        out        += ['']
+        utils.reportTest('exifdata-test', out)
+
+
     def test_geotag(self):
         # Test driver for geotag
         jpg         = 'FurnaceCreekInn.jpg'
