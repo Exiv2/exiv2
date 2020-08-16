@@ -1,8 +1,7 @@
-"""
-This module is a rewrite from the old bash script "functions.source" .
-"""
 import hashlib
 import os
+import platform
+import re
 import shlex
 import shutil
 import subprocess
@@ -14,6 +13,9 @@ EXIV2_DIR = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'
 BIN_DIR = os.path.join(EXIV2_DIR, 'build/bin')
 DATA_DIR = os.path.join(EXIV2_DIR, 'test/data')
 TEST_DIR = os.path.join(EXIV2_DIR, 'test/tmp')
+ENCODING = 'utf-8'
+PLATFORM = platform.system() or 'Unknown'
+os.makedirs(TEST_DIR, exist_ok=True)
 
 
 class Log:
@@ -39,18 +41,74 @@ class Log:
 log = Log()
 
 
-def copyTestFiles(*filenames):
-    """ Copy the test files from DATA_DIR to TEST_DIR """
-    os.makedirs(TEST_DIR, exist_ok=True)
-    for i in filenames:
-        shutil.copy(os.path.join(DATA_DIR, i),
-                    os.path.join(TEST_DIR, i))
+def cp(src, dest):
+    """ It is used to copy one file, cannot handle directories """
+    shutil.copy(src, dest)
 
 
-def removeTestFiles(*filenames):
-    """ TODO: Is it necessary to delete temporary files after testing? """
-    for i in filenames:
-        os.remove(os.path.join(TEST_DIR, i))
+def rm(*files):
+    """ It is used to remove files, cannot handle directories """
+    for i in files:
+        try:
+            os.remove(i)
+        except FileNotFoundError:
+            continue
+
+
+def cat(*files, encoding=ENCODING):
+    text = ''
+    for i in files:
+        with open(i, 'r', encoding=encoding) as f:
+            text += f.read()
+    return text
+
+
+def grep(pattern, *files, encoding=ENCODING):
+    result = ''
+    pattern = '.*{}.*'.format(pattern)
+    for i in files:
+        text    = cat(i, encoding=encoding)
+        result += '\n'.join(re.findall(pattern, text))
+    return result
+
+
+def save(text, filename, encoding=ENCODING):
+    with open(filename, 'w', encoding=encoding) as f:
+        f.write(text)
+
+
+def diff(file1, file2):
+    list1            = cat(file1).split('\n')
+    list2            = cat(file2).split('\n')
+    if list1        == list2:
+        return
+    report           = []
+    report          += ['{}: {} lines'.format(file1, len(list1))]
+    report          += ['{}: {} lines'.format(file2, len(list2))]
+    max_lines        = max(len(list1), len(list2))    
+    for i in [list1, list2]:
+        i           += [''] * (max_lines - len(i))    # Make them have the same number of lines
+    for i in range(max_lines):
+        if list1[i] != list2[i]:
+            report  += ['The first mismatch is in line {}:'.format(i + 1)]
+            report  += ['- {}'.format(list1[i])]
+            report  += ['+ {}'.format(list2[i])]
+            break
+    return '\n'.join(report)
+
+
+def copyTestFile(src, dest=''):
+    """ Copy one test file from DATA_DIR to TEST_DIR """
+    if not dest:
+        dest = src
+    shutil.copy(os.path.join(DATA_DIR, src),
+                os.path.join(TEST_DIR, dest))
+
+
+def copyTestFiles(*files):
+    """ Copy one or more test files from DATA_DIR to TEST_DIR """
+    for i in files:
+        copyTestFile(i)
 
 
 def is_same_file(file1, file2):
@@ -61,7 +119,7 @@ def is_same_file(file1, file2):
         return h1 == h2
 
 
-def runTest(cmd, vars_dict=dict(), expected_returncodes=[0], encoding='utf-8'):
+def runTest(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=ENCODING) -> list:
     """ Execute a file in the exiv2 bin directory and return its stdout. """
     cmd             = cmd.format(**vars_dict)
     args            = shlex.split(cmd)
@@ -77,36 +135,19 @@ def runTest(cmd, vars_dict=dict(), expected_returncodes=[0], encoding='utf-8'):
     return output.split('\n') if output else []
 
 
-def reportTest(testname, output, encoding='utf-8'):
+def reportTest(testname, output, encoding=ENCODING):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
-    with open(os.path.join(DATA_DIR, '{}.out'.format(testname)), 'r', encoding=encoding) as f:
-        reference_output = f.read().split('\n')
-
-    if output == reference_output:
+    if not isinstance(output, str):
+        output = '\n'.join(output)
+    reference_file       = os.path.join(DATA_DIR, '{}.out'.format(testname))
+    reference_output     = cat(reference_file, encoding=encoding)
+    if reference_output == output:
         return
-
-    log.error('Failed test: {}'.format(testname))
-
-    # Compare the differences in output
-    max_lines = max(len(reference_output), len(output))
-    if len(reference_output) != len(output):
-        log.error('Output length mismatch. reference: {} lines, Testcase: {} lines'.format(len(reference_output), len(output)))
-        # Make them have the same number of lines
-        for i in [reference_output, output]:
-            i += [''] * (max_lines - len(i))
-
-    for i in range(max_lines):
-        if reference_output[i] != output[i]:
-            log.error('The first mismatch is in line {}'.format(i + 1))
-            log.error('Reference: {}'.format(reference_output[i]))
-            log.error('Testcase : {}'.format(output[i]))
-            break
-
-    tmp_output_file = os.path.join(TEST_DIR, '{}.out'.format(testname))
-    with open(tmp_output_file, 'w', encoding=encoding) as f:
-        f.write('\n'.join(output))
-        log.info('The tmp output has been saved to file {}'.format(tmp_output_file))
-
+    log.error('The output of the testcase mismatch the reference')
+    output_file = os.path.join(TEST_DIR, '{}.out'.format(testname))
+    save(output, output_file, encoding=encoding)
+    log.info('The output has been saved to file {}'.format(output_file))
+    log.error('diff:\n' + diff(reference_file, output_file))
     raise RuntimeError(log.buffer)
 
 
