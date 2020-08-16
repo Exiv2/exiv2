@@ -11,7 +11,7 @@ class TestCases(unittest.TestCase):
 
 
     def tearDown(self):
-        pass
+        utils.log._buffer = ['']
 
 
     def test_addmoddel(self):
