@@ -262,8 +262,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         out        += utils.runTest("exiv2 -v -pt           {crwfile}", vars())
 
         # sed evades TZ issue on MSVC builds #1221
-        out        = [line.replace('23 19:54', '23 18:54') for line in out]
-        out        = [line.replace('24 01:54', '23 18:54') for line in out]
+        out         = [line.replace('23 19:54', '23 18:54') for line in out]
+        out         = [line.replace('24 01:54', '23 18:54') for line in out]
 
         out        += ['']
         utils.reportTest('crw-test', out)
@@ -277,6 +277,69 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
             out    += utils.runTest('exifdata-test {jpg}', vars())
         out        += ['']
         utils.reportTest('exifdata-test', out)
+
+
+    def test_icc(self):
+        # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
+
+        def test1120(filename):
+            # --comment and -dc clobbered by writing ICC/JPG
+            if filename == 'Reagan2.jp2':
+                return []
+            if filename == 'exiv2-bug1199.webp':
+                out  = utils.runTest('exiv2 --comment abcdefg   {filename}', vars(), [0,1])
+                out += utils.runTest('exiv2 -pS                 {filename}', vars())
+                out += ['']
+            else:
+                out  = utils.runTest('exiv2 --comment abcdefg   {filename}', vars())
+                out += utils.runTest('exiv2 -pS                 {filename}', vars())
+            out += utils.runTest('exiv2 -pc                 {filename}', vars())
+            out += utils.runTest('exiv2 -dc                 {filename}', vars())
+            out += utils.runTest('exiv2 -pS                 {filename}', vars())
+            return out or []
+
+        # num = 1074  # ICC Profile Support
+        out = []
+        for filename in ['Reagan.jpg',
+                         'exiv2-bug1199.webp',
+                         'ReaganLargePng.png',
+                         'ReaganLargeJpg.jpg',
+                         'Reagan2.jp2']:  # 1272 ReaganLargeTiff.tiff
+            stub         = filename.split('.')[0]
+            iccname      = stub + '.icc'
+
+            utils.copyTestFiles('large.icc', 'small.icc', filename)
+            out         += utils.runTest('exiv2 -pS          {filename}', vars())
+            icc_content  = utils.runTest('exiv2 -pC          {filename}', vars(), encoding='ISO-8859-1')
+            utils.save(icc_content, stub + '_1.icc', encoding='ISO-8859-1')
+            out         += utils.runTest('exiv2 -eC --force  {filename}', vars())
+            utils.mv(iccname, stub + '_2.icc')
+            out         += test1120(filename)
+
+            utils.copyTestFile('large.icc', iccname)
+            out         += utils.runTest('exiv2 -iC          {filename}', vars())
+            icc_content  = utils.runTest('exiv2 -pC          {filename}', vars(), encoding='ISO-8859-1')
+            utils.save(icc_content, stub + '_large_1.icc', encoding='ISO-8859-1')
+            out         += utils.runTest('exiv2 -pS          {filename}', vars())
+            out         += utils.runTest('exiv2 -eC --force  {filename}', vars())
+            utils.mv(iccname, stub + '_large_2.icc')
+            out         += test1120(filename)
+
+            utils.copyTestFile('small.icc', iccname)
+            out         += utils.runTest('exiv2 -iC          {filename}', vars())
+            icc_content  = utils.runTest('exiv2 -pC          {filename}', vars(), encoding='ISO-8859-1')
+            utils.save(icc_content, stub + '_small_1.icc', encoding='ISO-8859-1')
+            out         += utils.runTest('exiv2 -pS          {filename}', vars())
+            out         += utils.runTest('exiv2 -eC --force  {filename}', vars())
+            utils.mv(iccname, stub + '_small_2.icc')
+            out         += test1120(filename)
+
+            for f in [stub, stub + '_small', stub + '_large']:
+                for i in [1, 2]:
+                    out += [utils.md5sum('{}_{}.icc'.format(f, i))]
+
+        out += ['']
+        utils.reportTest('icc-test', out)
 
 
     def test_geotag(self):
