@@ -126,20 +126,28 @@ def md5sum(filename):
         return hashlib.md5(f.read()).hexdigest()
 
 
-def runTest(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None) -> list:
-    """ Execute a file in the exiv2 bin directory and return its stdout. """
-    cmd             = cmd.format(**vars_dict)
-    args            = shlex.split(cmd)
-    args[0]         = os.path.join(Conf.bin_dir, args[0])
+def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None) -> list:
+    """
+    Execute a command in the shell and return its stdout and stderr.
+    If the binary of Exiv2 is executed, the absolute path is automatically added.
+    Sample:
+      excute('echo Hello')
+      excute('exiv2 --help')
+    """
+    args            = shlex.split(cmd.format(**vars_dict))
+    if args[0] in Conf.bin_files:
+        args[0]     = os.path.join(Conf.bin_dir, args[0])
     p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=Conf.tmp_dir)
     stdout, stderr  = p.communicate()
     output          = (stdout + stderr).decode(encoding or Conf.encoding).rstrip('\n')
     if p.returncode not in expected_returncodes:
-        log.error('Failed to excute: {}'.format(cmd))
+        log.error('Failed to excute: {}'.format(' '.join(args)))
         log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
         log.info('OUTPUT:\n{}'.format(output))
-        raise RuntimeError(log.buffer)
-    return output.split('\n') if output else []
+        raise RuntimeError(log.to_str())
+    # output = output.replace('\r\n', '\n')   # fix dos line-endings
+    # output = output.replace('\\', r'/')     # fix dos path separators
+    return output.split('\n') if output else[]
 
 
 def reportTest(testname, output: (str, list), encoding=None):
@@ -162,7 +170,7 @@ def ioTest(filename):
     src     = os.path.join(Conf.data_dir, filename)
     out1    = os.path.join(Conf.tmp_dir, '{}.1'.format(filename))
     out2    = os.path.join(Conf.tmp_dir, '{}.2'.format(filename))
-    runTest('iotest {src} {out1} {out2}', vars())
+    excute('iotest {src} {out1} {out2}', vars())
     assert md5sum(src) == md5sum(out1), 'The output file is different'
     assert md5sum(src) == md5sum(out2), 'The output file is different'
 
