@@ -202,9 +202,10 @@ def configure_suite(config_file):
             )
     
     # Configure the parameters for bash test
-    utils.BIN_DIR = os.path.abspath(config['ENV']['exiv2_path'])
-    utils.DATA_DIR = os.path.abspath(config['paths']['data_path'])
-    utils.TEST_DIR = os.path.abspath(config['paths']['tmp_path'])
+    utils.Conf.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
+    utils.Conf.data_dir = os.path.abspath(config['paths']['data_path'])
+    utils.Conf.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
+    utils.Conf.init()
 
 
 class FileDecoratorBase(object):

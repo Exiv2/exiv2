@@ -7,11 +7,11 @@ class TestCases(unittest.TestCase):
 
 
     def setUp(self):
-        os.chdir(utils.TEST_DIR)
+        os.chdir(utils.Conf.tmp_dir)
 
 
     def tearDown(self):
-        utils.log._buffer = ['']
+        utils.log.buffer = ['']
 
 
     def test_addmoddel(self):
