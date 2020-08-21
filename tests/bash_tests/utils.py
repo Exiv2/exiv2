@@ -62,28 +62,41 @@ def rm(*files):
             continue
 
 
-def cat(*files, encoding=None):
-    text = ''
-    for i in files:
-        with open(i, 'r', encoding=encoding or Conf.encoding) as f:
-            text += f.read()
-    return text
-
-
-def grep(pattern, *files, encoding=None):
-    result = ''
-    pattern = '.*{}.*'.format(pattern)
-    for i in files:
-        text    = cat(i, encoding=encoding or Conf.encoding)
-        result += '\n'.join(re.findall(pattern, text))
+def cat(*files, encoding=None, return_bytes=False):
+    if return_bytes:
+        result = b''
+        for i in files:
+            with open(i, 'rb') as f:
+                result += f.read()
+    else:
+        result = ''
+        for i in files:
+            with open(i, 'r', encoding=encoding or Conf.encoding) as f:
+                result += f.read()
     return result
 
 
-def save(text: (str, list), filename, encoding=None):
-    if not isinstance(text, str):
-        text = '\n'.join(text)
-    with open(filename, 'w', encoding=encoding or Conf.encoding) as f:
-        f.write(text)
+def grep(pattern, *files, encoding=None):
+    result  = ''
+    pattern = '.*{}.*'.format(pattern)
+    for i in files:
+        content = cat(i, encoding=encoding or Conf.encoding)
+        result += '\n'.join(re.findall(pattern, content))
+    return result
+
+
+def save(content: (bytes, str, tuple, list), filename, encoding=None):
+    if isinstance(content, bytes):
+        with open(filename, 'wb') as f:
+            f.write(content)
+        return
+    if isinstance(content, (tuple, list)):
+        content = '\n'.join(content)
+    if isinstance(content, str):
+        with open(filename, 'w', encoding=encoding or Conf.encoding) as f:
+            f.write(content)
+    else:
+        raise ValueError('Expect content of type (bytes, str, tuple, list), but get {}'.format(type(content).__name__))
 
 
 def diff(file1, file2):
@@ -126,10 +139,13 @@ def md5sum(filename):
         return hashlib.md5(f.read()).hexdigest()
 
 
-def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None) -> list:
+def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None, return_bytes=False):
     """
     Execute a command in the shell and return its stdout and stderr.
-    If the binary of Exiv2 is executed, the absolute path is automatically added.
+    - If the binary of Exiv2 is executed, the absolute path is automatically added.
+    - Returns the output bytes when return_bytes is true. Otherwise, the output is converted to a 
+      list of strings and returned.
+
     Sample:
       excute('echo Hello')
       excute('exiv2 --help')
@@ -139,15 +155,21 @@ def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None) 
         args[0]     = os.path.join(Conf.bin_dir, args[0])
     p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=Conf.tmp_dir)
     stdout, stderr  = p.communicate()
-    output          = (stdout + stderr).decode(encoding or Conf.encoding).rstrip('\n')
+    if return_bytes:
+        output      = (stdout + stderr).rstrip(b'\n')
+    else:
+        output      = (stdout + stderr).decode(encoding or Conf.encoding).rstrip('\n')
     if p.returncode not in expected_returncodes:
         log.error('Failed to excute: {}'.format(' '.join(args)))
         log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
         log.info('OUTPUT:\n{}'.format(output))
         raise RuntimeError(log.to_str())
-    # output = output.replace('\r\n', '\n')   # fix dos line-endings
-    # output = output.replace('\\', r'/')     # fix dos path separators
-    return output.split('\n') if output else[]
+    if return_bytes:
+        return output
+    else:
+        output = output.replace('\r\n', '\n')   # fix dos line-endings
+        output = output.replace('\\', r'/')     # fix dos path separators
+        return output.split('\n') if output else[]
 
 
 def reportTest(testname, output: (str, list), encoding=None):
