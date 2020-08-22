@@ -287,7 +287,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
             if filename == 'Reagan2.jp2':
                 return []
             if filename == 'exiv2-bug1199.webp':
-                out  = BT.excute('exiv2 --comment abcdefg   {filename}', vars(), [0,1])
+                out  = BT.excute('exiv2 --comment abcdefg   {filename}', vars(), expected_returncodes=[0,1])
                 out += BT.excute('exiv2 -pS                 {filename}', vars())
                 out += ['']
             else:
@@ -355,7 +355,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         for tag in BT.excute('exiv2 -Pk --grep GPSInfo {jpg}', vars()):
             tag     = tag.rstrip(' ')
             out    += BT.excute('exiv2 -M"del {tag}" {jpg}', vars())
-        out        += BT.excute('exiv2 -pa --grep GPS {jpg}', vars(), [0, 1])
+        out        += BT.excute('exiv2 -pa --grep GPS {jpg}', vars(), expected_returncodes=[0, 1])
 
         out        += ['--- run geotag ---']
         geotag_out  = BT.excute('geotag -ascii -tz -8:00 {jpg} {gpx}', vars())
@@ -375,3 +375,33 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.copyTestFiles(*test_files)
         for f in test_files:
             BT.ioTest(f)
+
+        # Test http I/O
+        server_bind      = '127.0.0.1'
+        server_port      = 12760
+        server_url       = 'http://{}:{}'.format(server_bind, server_port)
+        server           = BT.HttpServer(bind=server_bind, port=server_port, work_dir=os.path.join(BT.Conf.data_dir))
+        server.start()
+        try:
+            out = []
+            for img in ['table.jpg', 'Reagan.tiff', 'exiv2-bug922a.jpg']:
+                files    = ['s0', 's1', 's2', '{}/{}'.format(server_url, img)]
+                out     += BT.excute('iotest ' + ' '.join(files))
+                for f in files:
+                    out += BT.excute('exiv2 -g City -g DateTime {f}', vars())
+
+            def sniff(*files):
+                result   = [os.path.getsize(i) for i in files]
+                result  += [BT.md5sum(i) for i in files]
+                result   = [str(i) for i in result]
+                return [' '.join(result)]
+
+            for num in ['0', '10', '1000']:
+                out     += BT.excute('iotest s0 s1 s2 {server_url}/table.jpg {num}', vars())
+                out     += sniff('s0', 's1', 's2', os.path.join(BT.Conf.data_dir, 'table.jpg'))
+        finally:
+            server.stop()
+            # print('keep the server running...')
+
+        out             += ['']
+        BT.reportTest('iotest', out)

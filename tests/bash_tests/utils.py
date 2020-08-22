@@ -1,10 +1,12 @@
 import hashlib
+import multiprocessing
 import os
 import platform
 import re
 import shlex
 import shutil
 import subprocess
+from http import server
 
 
 class Conf:
@@ -15,10 +17,10 @@ class Conf:
     data_dir = os.path.join(exiv2_dir, 'test/data')
     tmp_dir = os.path.join(exiv2_dir, 'test/tmp')
     system_name = platform.system() or 'Unknown'
-
+    
     @classmethod
     def init(cls):
-        """ Init the test environment """
+        """ Init the test environment and variables that may be modified """
         log.buffer = ['']
         os.chdir(cls.tmp_dir)
         os.makedirs(cls.tmp_dir, exist_ok=True)
@@ -197,6 +199,24 @@ def ioTest(filename):
     excute('iotest {src} {out1} {out2}', vars())
     assert md5sum(src) == md5sum(out1), 'The output file is different'
     assert md5sum(src) == md5sum(out2), 'The output file is different'
+
+
+class HttpServer:
+    def __init__(self, bind='127.0.0.1', port=12760, work_dir='.'):
+        self.bind = bind
+        self.port = port
+        self.work_dir = work_dir
+
+    def _start(self):
+        os.chdir(self.work_dir)
+        server.test(HandlerClass=server.SimpleHTTPRequestHandler, bind=self.bind, port=self.port)
+
+    def start(self):
+        self.process = multiprocessing.Process(target=self._start)
+        self.process.start()
+
+    def stop(self):
+        self.process.terminate()
 
 
 log = Log()
