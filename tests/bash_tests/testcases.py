@@ -7,11 +7,11 @@ class TestCases(unittest.TestCase):
 
 
     def setUp(self):
-        os.chdir(BT.Conf.tmp_dir)
+        BT.Conf.init()
 
 
     def tearDown(self):
-        BT.log.buffer = ['']
+        pass
 
 
     def test_addmoddel(self):

@@ -205,7 +205,6 @@ def configure_suite(config_file):
     BT.Conf.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
     BT.Conf.data_dir = os.path.abspath(config['paths']['data_path'])
     BT.Conf.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
-    BT.Conf.init()
 
 
 class FileDecoratorBase(object):

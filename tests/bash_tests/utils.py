@@ -14,14 +14,16 @@ class Conf:
     bin_dir = os.path.join(exiv2_dir, 'build/bin')
     data_dir = os.path.join(exiv2_dir, 'test/data')
     tmp_dir = os.path.join(exiv2_dir, 'test/tmp')
-    encoding = 'utf-8'
     system_name = platform.system() or 'Unknown'
 
     @classmethod
     def init(cls):
         """ Init the test environment """
+        log.buffer = ['']
+        os.chdir(cls.tmp_dir)
         os.makedirs(cls.tmp_dir, exist_ok=True)
         cls.bin_files = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
+        cls.encoding = 'utf-8'
 
 
 class Log:
@@ -30,17 +32,17 @@ class Log:
     def to_str(self):
         return '\n'.join(self.buffer)
 
-    def add_msg(self, msg):
+    def add(self, msg):
         self.buffer.append(msg)
 
     def info(self, msg, index=None):
-        self.add_msg('[INFO] {}'.format(msg))
+        self.add('[INFO] {}'.format(msg))
 
     def warn(self, msg):
-        self.add_msg('[WARN] {}'.format(msg))
+        self.add('[WARN] {}'.format(msg))
 
     def error(self, msg):
-        self.add_msg('[ERROR] {}'.format(msg))
+        self.add('[ERROR] {}'.format(msg))
 
 
 def cp(src, dest):
@@ -197,5 +199,4 @@ def ioTest(filename):
     assert md5sum(src) == md5sum(out2), 'The output file is different'
 
 
-Conf.init()
 log = Log()
