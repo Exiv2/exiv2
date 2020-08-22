@@ -1,27 +1,27 @@
 import os
 import unittest
-from system_tests import utils
+from system_tests import BT
 
 
 class TestCases(unittest.TestCase):
 
 
     def setUp(self):
-        os.chdir(utils.Conf.tmp_dir)
+        os.chdir(BT.Conf.tmp_dir)
 
 
     def tearDown(self):
-        utils.log.buffer = ['']
+        BT.log.buffer = ['']
 
 
     def test_addmoddel(self):
         # Test driver to run the addmoddel sample program
         jpg         = 'exiv2-empty.jpg'
-        utils.copyTestFiles(jpg)
-        out         = utils.excute('addmoddel {jpg}', vars())
-        out        += utils.excute('exiv2 -pv {jpg}', vars())
+        BT.copyTestFiles(jpg)
+        out         = BT.excute('addmoddel {jpg}', vars())
+        out        += BT.excute('exiv2 -pv {jpg}', vars())
         out        += ['']
-        utils.reportTest('addmoddel', out)
+        BT.reportTest('addmoddel', out)
 
 
     def test_conversions(self):
@@ -29,216 +29,216 @@ class TestCases(unittest.TestCase):
         jpg         = 'exiv2-empty.jpg'
         out         = []
 
-        utils.log.info('#1 Convert Exif ImageDescription to XMP x-default langAlt value')
+        BT.log.info('#1 Convert Exif ImageDescription to XMP x-default langAlt value')
         out        += ['Testcase 1']
         out        += ['==========']  # 9 equal signs
-        utils.copyTestFile(jpg, 'h.jpg')
-        out        += utils.excute("exiv2 -M'set Exif.Image.ImageDescription The Exif image description' h.jpg")
-        utils.rm('h.xmp')
-        out        += utils.excute('exiv2 -eX h.jpg')
-        out        += utils.excute('exiv2 -px h.xmp')
-        out        += utils.excute('exiv2 -PEkycv h.xmp')
-        out        += utils.excute('exiv2 -pi h.xmp')
+        BT.copyTestFile(jpg, 'h.jpg')
+        out        += BT.excute("exiv2 -M'set Exif.Image.ImageDescription The Exif image description' h.jpg")
+        BT.rm('h.xmp')
+        out        += BT.excute('exiv2 -eX h.jpg')
+        out        += BT.excute('exiv2 -px h.xmp')
+        out        += BT.excute('exiv2 -PEkycv h.xmp')
+        out        += BT.excute('exiv2 -pi h.xmp')
 
-        utils.log.info('#2 Convert XMP x-default langAlt value back to Exif ImageDescription')
+        BT.log.info('#2 Convert XMP x-default langAlt value back to Exif ImageDescription')
         out        += ['']
         out        += ['Testcase 2']
         out        += ['==========']
-        utils.copyTestFile(jpg, 'i.jpg')
-        utils.cp('h.xmp', 'i.xmp')
-        out        += utils.excute('exiv2 -iX  i.jpg')
-        out        += utils.excute('exiv2 -px  i.jpg')
-        out        += utils.excute('exiv2 -PEkycv i.jpg')
-        out        += utils.excute('exiv2 -pi  i.jpg')
+        BT.copyTestFile(jpg, 'i.jpg')
+        BT.cp('h.xmp', 'i.xmp')
+        out        += BT.excute('exiv2 -iX  i.jpg')
+        out        += BT.excute('exiv2 -px  i.jpg')
+        out        += BT.excute('exiv2 -PEkycv i.jpg')
+        out        += BT.excute('exiv2 -pi  i.jpg')
 
-        utils.log.info('#3 Convert XMP single non-x-default langAlt value to Exif ImageDescription')
+        BT.log.info('#3 Convert XMP single non-x-default langAlt value to Exif ImageDescription')
         out        += ['']
         out        += ['Testcase 3']
         out        += ['==========']
-        utils.save(utils.cat('i.xmp').replace('x-default', 'de-DE'), 'j.xmp')
-        utils.copyTestFile(jpg, 'j.jpg')
-        out        += utils.excute('exiv2 -iX j.jpg')
-        out        += utils.excute('exiv2 -px j.jpg')
-        out        += utils.excute('exiv2 -PEkycv j.jpg')
-        out        += utils.excute('exiv2 -pi j.jpg')
+        BT.save(BT.cat('i.xmp').replace('x-default', 'de-DE'), 'j.xmp')
+        BT.copyTestFile(jpg, 'j.jpg')
+        out        += BT.excute('exiv2 -iX j.jpg')
+        out        += BT.excute('exiv2 -px j.jpg')
+        out        += BT.excute('exiv2 -PEkycv j.jpg')
+        out        += BT.excute('exiv2 -pi j.jpg')
 
-        utils.log.info("#4 This shouldn't work: No x-default, more than one language")
+        BT.log.info("#4 This shouldn't work: No x-default, more than one language")
         out        += ['']
         out        += ['Testcase 4']
         out        += ['==========']
-        utils.save(utils.cat('j.xmp').replace('<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>',
+        BT.save(BT.cat('j.xmp').replace('<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>',
                                               '<rdf:li xml:lang="de-DE">The Exif image description</rdf:li><rdf:li xml:lang="it-IT">Ciao bella</rdf:li>'),
                    'k.xmp')
-        utils.copyTestFile(jpg, 'k.jpg')
-        out        += utils.excute('exiv2 -iX k.jpg')
-        out        += utils.excute('exiv2 -px k.jpg')
-        out        += utils.excute('exiv2 -v -PEkycv k.jpg')
-        out        += utils.excute('exiv2 -v -pi k.jpg')
+        BT.copyTestFile(jpg, 'k.jpg')
+        out        += BT.excute('exiv2 -iX k.jpg')
+        out        += BT.excute('exiv2 -px k.jpg')
+        out        += BT.excute('exiv2 -v -PEkycv k.jpg')
+        out        += BT.excute('exiv2 -v -pi k.jpg')
 
-        utils.log.info('#5 Add a default language to the XMP file and convert to Exif and IPTC')
+        BT.log.info('#5 Add a default language to the XMP file and convert to Exif and IPTC')
         out        += ['']
         out        += ['Testcase 5']
         out        += ['==========']
-        utils.cp('k.xmp', 'l.xmp')
-        out        += utils.excute('''exiv2 -M'set Xmp.dc.description lang="x-default" How to fix this mess' l.xmp''')
-        out        += [utils.grep('x-default', 'l.xmp')]
-        utils.copyTestFile(jpg, 'l.jpg')
-        out        += utils.excute('exiv2 -iX l.jpg')
-        out        += utils.excute('exiv2 -px -b l.jpg')
-        out        += utils.excute('exiv2 -PEkycv l.jpg')
-        out        += utils.excute('exiv2 -pi l.jpg')
+        BT.cp('k.xmp', 'l.xmp')
+        out        += BT.excute('''exiv2 -M'set Xmp.dc.description lang="x-default" How to fix this mess' l.xmp''')
+        out        += [BT.grep('x-default', 'l.xmp')]
+        BT.copyTestFile(jpg, 'l.jpg')
+        out        += BT.excute('exiv2 -iX l.jpg')
+        out        += BT.excute('exiv2 -px -b l.jpg')
+        out        += BT.excute('exiv2 -PEkycv l.jpg')
+        out        += BT.excute('exiv2 -pi l.jpg')
 
-        utils.log.info('#6 Convert an Exif user comment to XMP')
+        BT.log.info('#6 Convert an Exif user comment to XMP')
         out        += ['']
         out        += ['Testcase 6']
         out        += ['==========']
-        utils.copyTestFile(jpg, 'm.jpg')
-        out        += utils.excute("exiv2 -M'set Exif.Photo.UserComment charset=Jis This is a JIS encoded Exif user comment. Or was it?' m.jpg")
-        out        += utils.excute('exiv2 -PEkycv m.jpg')
-        utils.rm('m.xmp')
-        out        += utils.excute('exiv2 -eX m.jpg')
-        out        += utils.excute('exiv2 -px m.xmp')
-        out        += utils.excute('exiv2 -PEkycv m.xmp')
-        out        += utils.excute('exiv2 -v -pi m.xmp')
+        BT.copyTestFile(jpg, 'm.jpg')
+        out        += BT.excute("exiv2 -M'set Exif.Photo.UserComment charset=Jis This is a JIS encoded Exif user comment. Or was it?' m.jpg")
+        out        += BT.excute('exiv2 -PEkycv m.jpg')
+        BT.rm('m.xmp')
+        out        += BT.excute('exiv2 -eX m.jpg')
+        out        += BT.excute('exiv2 -px m.xmp')
+        out        += BT.excute('exiv2 -PEkycv m.xmp')
+        out        += BT.excute('exiv2 -v -pi m.xmp')
 
-        utils.log.info('#7 And back to Exif')
+        BT.log.info('#7 And back to Exif')
         out        += ['']
         out        += ['Testcase 7']
         out        += ['==========']
-        utils.copyTestFile(jpg, 'n.jpg')
-        utils.cp('m.xmp', 'n.xmp')
-        out        += utils.excute('exiv2 -iX n.jpg')
-        out        += utils.excute('exiv2 -px n.jpg')
-        out        += utils.excute('exiv2 -PEkycv n.jpg')
-        out        += utils.excute('exiv2 -v -pi n.jpg')
+        BT.copyTestFile(jpg, 'n.jpg')
+        BT.cp('m.xmp', 'n.xmp')
+        out        += BT.excute('exiv2 -iX n.jpg')
+        out        += BT.excute('exiv2 -px n.jpg')
+        out        += BT.excute('exiv2 -PEkycv n.jpg')
+        out        += BT.excute('exiv2 -v -pi n.jpg')
 
-        utils.log.info('#8 Convert IPTC keywords to XMP')
+        BT.log.info('#8 Convert IPTC keywords to XMP')
         out        += ['']
         out        += ['Testcase 8']
         out        += ['==========']
-        utils.copyTestFile(jpg, 'o.jpg')
-        out        += utils.excute('''exiv2 -M'add Iptc.Application2.Keywords Sex' o.jpg''')
-        out        += utils.excute('''exiv2 -M'add Iptc.Application2.Keywords Drugs' o.jpg''')
-        out        += utils.excute('''exiv2 -M"add Iptc.Application2.Keywords Rock'n'roll" o.jpg''')
-        out        += utils.excute('''exiv2 -pi o.jpg''')
-        utils.rm('o.xmp')
-        out        += utils.excute('exiv2 -eX o.jpg')
-        out        += utils.excute('exiv2 -px o.xmp')
-        out        += utils.excute('exiv2 -v -PEkycv o.xmp')
-        out        += utils.excute('exiv2 -pi o.xmp')
+        BT.copyTestFile(jpg, 'o.jpg')
+        out        += BT.excute('''exiv2 -M'add Iptc.Application2.Keywords Sex' o.jpg''')
+        out        += BT.excute('''exiv2 -M'add Iptc.Application2.Keywords Drugs' o.jpg''')
+        out        += BT.excute('''exiv2 -M"add Iptc.Application2.Keywords Rock'n'roll" o.jpg''')
+        out        += BT.excute('''exiv2 -pi o.jpg''')
+        BT.rm('o.xmp')
+        out        += BT.excute('exiv2 -eX o.jpg')
+        out        += BT.excute('exiv2 -px o.xmp')
+        out        += BT.excute('exiv2 -v -PEkycv o.xmp')
+        out        += BT.excute('exiv2 -pi o.xmp')
 
-        utils.log.info('#9 And back to IPTC')
+        BT.log.info('#9 And back to IPTC')
         out        += ['']
         out        += ['Testcase 9']
         out        += ['==========']
-        utils.copyTestFile(jpg, 'p.jpg')
-        utils.cp('o.xmp', 'p.xmp')
-        out        += utils.excute('exiv2 -iX p.jpg')
-        out        += utils.excute('exiv2 -px p.jpg')
-        out        += utils.excute('exiv2 -v -PEkycv p.jpg')
-        out        += utils.excute('exiv2 -pi p.jpg')
+        BT.copyTestFile(jpg, 'p.jpg')
+        BT.cp('o.xmp', 'p.xmp')
+        out        += BT.excute('exiv2 -iX p.jpg')
+        out        += BT.excute('exiv2 -px p.jpg')
+        out        += BT.excute('exiv2 -v -PEkycv p.jpg')
+        out        += BT.excute('exiv2 -pi p.jpg')
 
-        utils.log.info('#10 Convert an Exif tag to an XMP text value')
+        BT.log.info('#10 Convert an Exif tag to an XMP text value')
         out        += ['']
         out        += ['Testcase 10']
         out        += ['===========']  # 10 equal signs
-        utils.copyTestFile(jpg, 'q.jpg')
-        out        += utils.excute("exiv2 -M'set Exif.Image.Software Exiv2' q.jpg")
-        out        += utils.excute("exiv2 -PEkycv q.jpg")
-        utils.rm('q.xmp')
-        out        += utils.excute('exiv2 -eX q.jpg')
-        out        += utils.excute('exiv2 -px q.xmp')
-        out        += utils.excute('exiv2 -PEkycv q.xmp')
-        out        += utils.excute('exiv2 -v -pi q.xmp')
+        BT.copyTestFile(jpg, 'q.jpg')
+        out        += BT.excute("exiv2 -M'set Exif.Image.Software Exiv2' q.jpg")
+        out        += BT.excute("exiv2 -PEkycv q.jpg")
+        BT.rm('q.xmp')
+        out        += BT.excute('exiv2 -eX q.jpg')
+        out        += BT.excute('exiv2 -px q.xmp')
+        out        += BT.excute('exiv2 -PEkycv q.xmp')
+        out        += BT.excute('exiv2 -v -pi q.xmp')
 
-        utils.log.info('#11 And back to Exif')
+        BT.log.info('#11 And back to Exif')
         out        += ['']
         out        += ['Testcase 11']
         out        += ['===========']
-        utils.copyTestFile(jpg, 'r.jpg')
-        utils.cp('q.xmp', 'r.xmp')
-        out        += utils.excute('exiv2 -iX r.jpg')
-        out        += utils.excute('exiv2 -px r.jpg')
-        out        += utils.excute('exiv2 -PEkycv r.jpg')
-        out        += utils.excute('exiv2 -v -pi r.jpg')
+        BT.copyTestFile(jpg, 'r.jpg')
+        BT.cp('q.xmp', 'r.xmp')
+        out        += BT.excute('exiv2 -iX r.jpg')
+        out        += BT.excute('exiv2 -px r.jpg')
+        out        += BT.excute('exiv2 -PEkycv r.jpg')
+        out        += BT.excute('exiv2 -v -pi r.jpg')
 
-        utils.log.info('#12 Convert an IPTC dataset to an XMP text value')
+        BT.log.info('#12 Convert an IPTC dataset to an XMP text value')
         out        += ['']
         out        += ['Testcase 12']
         out        += ['===========']
-        utils.copyTestFile(jpg, 's.jpg')
-        out        += utils.excute("exiv2 -M'set Iptc.Application2.SubLocation Kuala Lumpur' s.jpg")
-        out        += utils.excute("exiv2 -pi s.jpg")
-        utils.rm('s.xmp')
-        out        += utils.excute('exiv2 -eX s.jpg')
-        out        += utils.excute('exiv2 -px s.xmp')
-        out        += utils.excute('exiv2 -v -PEkycv s.xmp')
-        out        += utils.excute('exiv2 -pi s.xmp')
+        BT.copyTestFile(jpg, 's.jpg')
+        out        += BT.excute("exiv2 -M'set Iptc.Application2.SubLocation Kuala Lumpur' s.jpg")
+        out        += BT.excute("exiv2 -pi s.jpg")
+        BT.rm('s.xmp')
+        out        += BT.excute('exiv2 -eX s.jpg')
+        out        += BT.excute('exiv2 -px s.xmp')
+        out        += BT.excute('exiv2 -v -PEkycv s.xmp')
+        out        += BT.excute('exiv2 -pi s.xmp')
 
-        utils.log.info('#13 And back to IPTC')
+        BT.log.info('#13 And back to IPTC')
         out        += ['']
         out        += ['Testcase 13']
         out        += ['===========']
-        utils.copyTestFile(jpg, 't.jpg')
-        utils.cp('s.xmp', 't.xmp')
-        out        += utils.excute('exiv2 -iX t.jpg')
-        out        += utils.excute('exiv2 -px t.jpg')
-        out        += utils.excute('exiv2 -v -PEkycv t.jpg')
-        out        += utils.excute('exiv2 -pi t.jpg')
+        BT.copyTestFile(jpg, 't.jpg')
+        BT.cp('s.xmp', 't.xmp')
+        out        += BT.excute('exiv2 -iX t.jpg')
+        out        += BT.excute('exiv2 -px t.jpg')
+        out        += BT.excute('exiv2 -v -PEkycv t.jpg')
+        out        += BT.excute('exiv2 -pi t.jpg')
 
-        utils.log.info('#14 Convert a few other tags of interest from Exif/IPTC to XMP')
+        BT.log.info('#14 Convert a few other tags of interest from Exif/IPTC to XMP')
         out        += ['']
         out        += ['Testcase 14']
         out        += ['===========']
-        utils.copyTestFile(jpg, 'u.jpg')
-        out        += utils.excute("exiv2 -M'set Exif.Photo.DateTimeOriginal 2003:12:14 12:01:44' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.Photo.SubSecTimeOriginal 999999999' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.Photo.ExifVersion 48 50 50 49' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.Photo.ComponentsConfiguration 1 2 3 0' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.Photo.Flash 73' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.GPSInfo.GPSLatitude 3/1 8/1 29734512/1000000' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.GPSInfo.GPSLatitudeRef N' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg")
-        out        += utils.excute("exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg")
-        out        += utils.excute('exiv2 -PEkycv u.jpg')
-        out        += utils.excute('exiv2 -pi u.jpg')
-        utils.rm('u.xmp')
-        out        += utils.excute('exiv2 -eX u.jpg')
-        out        += utils.excute('exiv2 -px u.xmp')
-        out        += utils.excute('exiv2 -PEkycv u.xmp')
-        out        += utils.excute('exiv2 -pi u.xmp')
+        BT.copyTestFile(jpg, 'u.jpg')
+        out        += BT.excute("exiv2 -M'set Exif.Photo.DateTimeOriginal 2003:12:14 12:01:44' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.Photo.SubSecTimeOriginal 999999999' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.Photo.ExifVersion 48 50 50 49' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.Photo.ComponentsConfiguration 1 2 3 0' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.Photo.Flash 73' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.GPSInfo.GPSLatitude 3/1 8/1 29734512/1000000' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.GPSInfo.GPSLatitudeRef N' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg")
+        out        += BT.excute("exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg")
+        out        += BT.excute('exiv2 -PEkycv u.jpg')
+        out        += BT.excute('exiv2 -pi u.jpg')
+        BT.rm('u.xmp')
+        out        += BT.excute('exiv2 -eX u.jpg')
+        out        += BT.excute('exiv2 -px u.xmp')
+        out        += BT.excute('exiv2 -PEkycv u.xmp')
+        out        += BT.excute('exiv2 -pi u.xmp')
 
-        utils.log.info('#15 And back to Exif/IPTC')
+        BT.log.info('#15 And back to Exif/IPTC')
         out        += ['']
         out        += ['Testcase 15']
         out        += ['===========']
-        utils.copyTestFile(jpg, 'v.jpg')
-        utils.cp('u.xmp', 'v.xmp')
-        out        += utils.excute("exiv2 -M'set Xmp.xmp.ModifyDate 2015-04-17T18:10:22Z' v.xmp")
-        out        += utils.excute('exiv2 -iX v.jpg')  # need TZ=GMT-8
-        out        += utils.excute('exiv2 -px v.jpg')
-        exif_out    = utils.excute('exiv2 -PEkycv v.jpg')
+        BT.copyTestFile(jpg, 'v.jpg')
+        BT.cp('u.xmp', 'v.xmp')
+        out        += BT.excute("exiv2 -M'set Xmp.xmp.ModifyDate 2015-04-17T18:10:22Z' v.xmp")
+        out        += BT.excute('exiv2 -iX v.jpg')  # need TZ=GMT-8
+        out        += BT.excute('exiv2 -px v.jpg')
+        exif_out    = BT.excute('exiv2 -PEkycv v.jpg')
         out        += [line.replace('17 19:10:22', '18 02:10:22') for line in exif_out] # evade this test on MSVC builds (Issue #485)
-        out        += utils.excute('exiv2 -pi v.jpg')
+        out        += BT.excute('exiv2 -pi v.jpg')
 
-        utils.log.info('#16 https://github.com/Exiv2/exiv2/issues/521')
+        BT.log.info('#16 https://github.com/Exiv2/exiv2/issues/521')
         out        += ['']
         out        += ['Testcase 16']
         out        += ['===========']
-        utils.copyTestFile('DSC_3079.jpg')
-        out        += utils.excute('exiv2 -px                        DSC_3079.jpg')
-        out        += utils.excute('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
-        out        += utils.excute('exiv2 -px                        DSC_3079.jpg')
+        BT.copyTestFile('DSC_3079.jpg')
+        out        += BT.excute('exiv2 -px                        DSC_3079.jpg')
+        out        += BT.excute('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
+        out        += BT.excute('exiv2 -px                        DSC_3079.jpg')
 
         out        += ['']
-        utils.reportTest('conversions', out)
+        BT.reportTest('conversions', out)
 
 
     def test_crw(self):
         # Test driver for CRW file operations
         crwfile     = 'exiv2-canon-powershot-s40.crw'
 
-        utils.log.info('#1 Add and modify tags')
+        BT.log.info('#1 Add and modify tags')
         cmds        = '''set Exif.Photo.ColorSpace 65535
 set Exif.Canon.OwnerName Different owner
 set Exif.Canon.FirmwareVersion Whatever version
@@ -249,34 +249,34 @@ set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
 set Exif.Image.DateTime 2020:05:26 07:31:41
 set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         cmdfile     = 'cmdfile1'
-        utils.save(cmds, cmdfile)
-        utils.copyTestFile(crwfile)
-        out         = utils.excute('exiv2 -v -pt           {crwfile}', vars())
-        out        += utils.excute('exiv2 -v -m{cmdfile}   {crwfile}', vars())
-        out        += utils.excute('exiv2 -v -pt           {crwfile}', vars())
+        BT.save(cmds, cmdfile)
+        BT.copyTestFile(crwfile)
+        out         = BT.excute('exiv2 -v -pt           {crwfile}', vars())
+        out        += BT.excute('exiv2 -v -m{cmdfile}   {crwfile}', vars())
+        out        += BT.excute('exiv2 -v -pt           {crwfile}', vars())
 
-        utils.log.info('#2 Delete tags')
-        utils.copyTestFile(crwfile)
-        out        += utils.excute("exiv2 -v -pt           {crwfile}", vars())
-        out        += utils.excute("exiv2 -v -M'del Exif.Canon.OwnerName'    {crwfile}", vars())
-        out        += utils.excute("exiv2 -v -pt           {crwfile}", vars())
+        BT.log.info('#2 Delete tags')
+        BT.copyTestFile(crwfile)
+        out        += BT.excute("exiv2 -v -pt           {crwfile}", vars())
+        out        += BT.excute("exiv2 -v -M'del Exif.Canon.OwnerName'    {crwfile}", vars())
+        out        += BT.excute("exiv2 -v -pt           {crwfile}", vars())
 
         # sed evades TZ issue on MSVC builds #1221
         out         = [line.replace('23 19:54', '23 18:54') for line in out]
         out         = [line.replace('24 01:54', '23 18:54') for line in out]
 
         out        += ['']
-        utils.reportTest('crw-test', out)
+        BT.reportTest('crw-test', out)
 
 
     def test_exifdata(self):
         # Test driver for exifdata copy construction and assignment unit tests
         out         = []
         for jpg in ['exiv2-gc.jpg', 'exiv2-canon-powershot-s40.jpg', 'exiv2-nikon-d70.jpg']:
-            utils.copyTestFile(jpg)
-            out    += utils.excute('exifdata-test {jpg}', vars())
+            BT.copyTestFile(jpg)
+            out    += BT.excute('exifdata-test {jpg}', vars())
         out        += ['']
-        utils.reportTest('exifdata-test', out)
+        BT.reportTest('exifdata-test', out)
 
 
     def test_icc(self):
@@ -287,15 +287,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
             if filename == 'Reagan2.jp2':
                 return []
             if filename == 'exiv2-bug1199.webp':
-                out  = utils.excute('exiv2 --comment abcdefg   {filename}', vars(), [0,1])
-                out += utils.excute('exiv2 -pS                 {filename}', vars())
+                out  = BT.excute('exiv2 --comment abcdefg   {filename}', vars(), [0,1])
+                out += BT.excute('exiv2 -pS                 {filename}', vars())
                 out += ['']
             else:
-                out  = utils.excute('exiv2 --comment abcdefg   {filename}', vars())
-                out += utils.excute('exiv2 -pS                 {filename}', vars())
-            out += utils.excute('exiv2 -pc                 {filename}', vars())
-            out += utils.excute('exiv2 -dc                 {filename}', vars())
-            out += utils.excute('exiv2 -pS                 {filename}', vars())
+                out  = BT.excute('exiv2 --comment abcdefg   {filename}', vars())
+                out += BT.excute('exiv2 -pS                 {filename}', vars())
+            out += BT.excute('exiv2 -pc                 {filename}', vars())
+            out += BT.excute('exiv2 -dc                 {filename}', vars())
+            out += BT.excute('exiv2 -pS                 {filename}', vars())
             return out or []
 
         # num = 1074  # ICC Profile Support
@@ -308,70 +308,70 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
             stub         = filename.split('.')[0]
             iccname      = stub + '.icc'
 
-            utils.copyTestFiles('large.icc', 'small.icc', filename)
-            out         += utils.excute('exiv2 -pS          {filename}', vars())
-            icc_bytes    = utils.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
-            utils.save(icc_bytes, stub + '_1.icc')
-            out         += utils.excute('exiv2 -eC --force  {filename}', vars())
-            utils.mv(iccname, stub + '_2.icc')
+            BT.copyTestFiles('large.icc', 'small.icc', filename)
+            out         += BT.excute('exiv2 -pS          {filename}', vars())
+            icc_bytes    = BT.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
+            BT.save(icc_bytes, stub + '_1.icc')
+            out         += BT.excute('exiv2 -eC --force  {filename}', vars())
+            BT.mv(iccname, stub + '_2.icc')
             out         += test1120(filename)
 
-            utils.copyTestFile('large.icc', iccname)
-            out         += utils.excute('exiv2 -iC          {filename}', vars())
-            icc_bytes    = utils.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
-            utils.save(icc_bytes, stub + '_large_1.icc')
-            out         += utils.excute('exiv2 -pS          {filename}', vars())
-            out         += utils.excute('exiv2 -eC --force  {filename}', vars())
-            utils.mv(iccname, stub + '_large_2.icc')
+            BT.copyTestFile('large.icc', iccname)
+            out         += BT.excute('exiv2 -iC          {filename}', vars())
+            icc_bytes    = BT.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
+            BT.save(icc_bytes, stub + '_large_1.icc')
+            out         += BT.excute('exiv2 -pS          {filename}', vars())
+            out         += BT.excute('exiv2 -eC --force  {filename}', vars())
+            BT.mv(iccname, stub + '_large_2.icc')
             out         += test1120(filename)
 
-            utils.copyTestFile('small.icc', iccname)
-            out         += utils.excute('exiv2 -iC          {filename}', vars())
-            icc_bytes    = utils.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
-            utils.save(icc_bytes, stub + '_small_1.icc')
-            out         += utils.excute('exiv2 -pS          {filename}', vars())
-            out         += utils.excute('exiv2 -eC --force  {filename}', vars())
-            utils.mv(iccname, stub + '_small_2.icc')
+            BT.copyTestFile('small.icc', iccname)
+            out         += BT.excute('exiv2 -iC          {filename}', vars())
+            icc_bytes    = BT.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
+            BT.save(icc_bytes, stub + '_small_1.icc')
+            out         += BT.excute('exiv2 -pS          {filename}', vars())
+            out         += BT.excute('exiv2 -eC --force  {filename}', vars())
+            BT.mv(iccname, stub + '_small_2.icc')
             out         += test1120(filename)
 
             for f in [stub, stub + '_small', stub + '_large']:
                 for i in [1, 2]:
-                    out += [utils.md5sum('{}_{}.icc'.format(f, i))]
+                    out += [BT.md5sum('{}_{}.icc'.format(f, i))]
 
         out += ['']
-        utils.reportTest('icc-test', out)
+        BT.reportTest('icc-test', out)
 
 
     def test_geotag(self):
         # Test driver for geotag
         jpg         = 'FurnaceCreekInn.jpg'
         gpx         = 'FurnaceCreekInn.gpx'
-        utils.copyTestFiles(jpg, gpx)
+        BT.copyTestFiles(jpg, gpx)
 
         out         = ['--- show GPSInfo tags ---']
-        out        += utils.excute('exiv2 -pa --grep GPSInfo {jpg}', vars())
+        out        += BT.excute('exiv2 -pa --grep GPSInfo {jpg}', vars())
 
         out        += ['--- deleting the GPSInfo tags']
-        for tag in utils.excute('exiv2 -Pk --grep GPSInfo {jpg}', vars()):
+        for tag in BT.excute('exiv2 -Pk --grep GPSInfo {jpg}', vars()):
             tag     = tag.rstrip(' ')
-            out    += utils.excute('exiv2 -M"del {tag}" {jpg}', vars())
-        out        += utils.excute('exiv2 -pa --grep GPS {jpg}', vars(), [0, 1])
+            out    += BT.excute('exiv2 -M"del {tag}" {jpg}', vars())
+        out        += BT.excute('exiv2 -pa --grep GPS {jpg}', vars(), [0, 1])
 
         out        += ['--- run geotag ---']
-        geotag_out  = utils.excute('geotag -ascii -tz -8:00 {jpg} {gpx}', vars())
+        geotag_out  = BT.excute('geotag -ascii -tz -8:00 {jpg} {gpx}', vars())
         geotag_out  = geotag_out[0].split(' ')[1:]
         out        += [' '.join(geotag_out)]
 
         out        += ['--- show GPSInfo tags ---']
-        out        += utils.excute('exiv2 -pa --grep GPSInfo {jpg}', vars())
+        out        += BT.excute('exiv2 -pa --grep GPSInfo {jpg}', vars())
 
         out        += ['']
-        utils.reportTest('geotag-test', out)
+        BT.reportTest('geotag-test', out)
 
 
     def test_io(self):
         # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
-        utils.copyTestFiles(*test_files)
+        BT.copyTestFiles(*test_files)
         for f in test_files:
-            utils.ioTest(f)
+            BT.ioTest(f)

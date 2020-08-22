@@ -12,7 +12,7 @@ import string
 import unittest
 
 
-from bash_tests import utils
+from bash_tests import utils as BT
 
 
 if sys.platform in [ 'win32', 'msys', 'cygwin' ]:
@@ -202,10 +202,10 @@ def configure_suite(config_file):
             )
     
     # Configure the parameters for bash test
-    utils.Conf.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
-    utils.Conf.data_dir = os.path.abspath(config['paths']['data_path'])
-    utils.Conf.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
-    utils.Conf.init()
+    BT.Conf.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
+    BT.Conf.data_dir = os.path.abspath(config['paths']['data_path'])
+    BT.Conf.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
+    BT.Conf.init()
 
 
 class FileDecoratorBase(object):
