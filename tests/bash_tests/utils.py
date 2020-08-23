@@ -17,7 +17,7 @@ class Conf:
     data_dir = os.path.join(exiv2_dir, 'test/data')
     tmp_dir = os.path.join(exiv2_dir, 'test/tmp')
     system_name = platform.system() or 'Unknown'
-    
+
     @classmethod
     def init(cls):
         """ Init the test environment and variables that may be modified """
@@ -104,8 +104,8 @@ def rm(*files):
             continue
 
 
-def cat(*files, encoding=None, return_bytes=False):
-    if return_bytes:
+def cat(*files, encoding=None, return_in_bytes=False):
+    if return_in_bytes:
         result = b''
         for i in files:
             with open(i, 'rb') as f:
@@ -175,11 +175,15 @@ def md5sum(filename):
         return hashlib.md5(f.read()).hexdigest()
 
 
-def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None, return_bytes=False):
+def excute(cmd: str, vars_dict=dict(),
+           expected_returncodes=[0],
+           mix_stdout_and_stderr=True,
+           encoding=None,
+           return_in_bytes=False):
     """
     Execute a command in the shell and return its stdout and stderr.
     - If the binary of Exiv2 is executed, the absolute path is automatically added.
-    - Returns the output bytes when return_bytes is true. Otherwise, the output is decoded to a str and returned.
+    - Returns the output bytes when return_in_bytes is true. Otherwise, the output is decoded to a str and returned.
 
     Sample:
     >>> excute('echo Hello')
@@ -188,24 +192,28 @@ def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None, 
     args            = shlex.split(cmd.format(**vars_dict))
     if args[0] in Conf.bin_files:
         args[0]     = os.path.join(Conf.bin_dir, args[0])
-    p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=Conf.tmp_dir)
-    stdout, stderr  = p.communicate()
-    output          = (stdout + stderr).rstrip(b'\n') or b''
-    if return_bytes:
-        output      = output
+    if mix_stdout_and_stderr:
+        stderr_to   = subprocess.STDOUT
     else:
-        output      = output.decode(encoding or Conf.encoding)
-    if p.returncode not in expected_returncodes:
+        stderr_to   = subprocess.PIPE
+    p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=stderr_to, cwd=Conf.tmp_dir)
+    output          = p.communicate()    # Assign (stdout, stderr) to output
+    output          = [i or b'' for i in output]
+    output          = [i.rstrip(b'\n') for i in output]
+
+    if not return_in_bytes:
+        output      = [i.decode(encoding or Conf.encoding) for i in output]
+        output      = [i.replace('\r\n', '\n') for i in output]   # fix dos line-endings
+        output      = [i.replace('\\', r'/') for i in output]     # fix dos path separators
+    if expected_returncodes and p.returncode not in expected_returncodes:
         log.error('Failed to excute: {}'.format(' '.join(args)))
         log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
-        log.info('OUTPUT:\n{}'.format(output))
+        log.info('OUTPUT:\n{}'.format(output[0] + output[1]))
         raise RuntimeError('\n' + log.to_str())
-    if return_bytes:
-        return output
+    if mix_stdout_and_stderr:
+        return output[0] + output[1] or None
     else:
-        output = output.replace('\r\n', '\n')   # fix dos line-endings
-        output = output.replace('\\', r'/')     # fix dos path separators
-        return output or None
+        return [i or None for i in output]
 
 
 def reportTest(testname, output: str, encoding=None):

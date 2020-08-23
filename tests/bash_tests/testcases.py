@@ -1,5 +1,7 @@
 import os
+import re
 import unittest
+
 from system_tests import BT
 
 
@@ -275,6 +277,143 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('exifdata-test', out)
 
 
+    def test_exiv2(self):
+        if BT.Conf.system_name in ['SunOS', 'FreeBSD', 'NetBSD']:
+            diffargs = '-w'
+        else:
+            diffargs = '-w --text'
+
+        # Add each image to the following three lists.
+        # The image basename in the second and third lists
+        # is the Exif timestamp adjusted by -12:01:01.
+        images_1 = [
+            'exiv2-empty.jpg',
+            'exiv2-canon-powershot-s40.jpg',
+            'exiv2-nikon-e990.jpg',
+            'exiv2-nikon-d70.jpg',
+            'exiv2-nikon-e950.jpg',
+            'exiv2-canon-eos-300d.jpg',
+            'exiv2-kodak-dc210.jpg',
+            'exiv2-fujifilm-finepix-s2pro.jpg',
+            'exiv2-sigma-d10.jpg',
+            'exiv2-olympus-c8080wz.jpg',
+            'exiv2-panasonic-dmc-fz5.jpg',
+            'exiv2-sony-dsc-w7.jpg',
+            'exiv2-canon-eos-20d.jpg',
+            'exiv2-canon-eos-d30.jpg',
+            'exiv2-canon-powershot-a520.jpg',]
+
+        images_2 = [
+            'exiv2-empty.jpg',
+            '20031214_000043.jpg',
+            '20000506_020544.jpg',
+            '20040329_224245.jpg',
+            '20010405_235039.jpg',
+            '20030925_201850.jpg',
+            '20001026_044550.jpg',
+            '20030926_111535.jpg',
+            '20040316_075137.jpg',
+            '20040208_093744.jpg',
+            '20050218_212016.jpg',
+            '20050527_051833.jpg',
+            '20060802_095200.jpg',
+            '20001004_015404.jpg',
+            '20060127_225027.jpg',]
+
+        images_3 = [
+            'exiv2-empty.exv',
+            '20031214_000043.exv',
+            '20000506_020544.exv',
+            '20040329_224245.exv',
+            '20010405_235039.exv',
+            '20030925_201850.exv',
+            '20001026_044550.exv',
+            '20030926_111535.exv',
+            '20040316_075137.exv',
+            '20040208_093744.exv',
+            '20050218_212016.exv',
+            '20050527_051833.exv',
+            '20060802_095200.exv',
+            '20001004_015404.exv',
+            '20060127_225027.exv',]
+
+        images_1_str = ' '.join(images_1)
+        images_2_str = ' '.join(images_2)
+        images_3_str = ' '.join(images_3)
+
+        for i in images_1:
+            BT.copyTestFile(i)
+
+        out  = BT.Output()
+        out += 'Exiv2 test directory -----------------------------------------------------'
+        out += 'tmp/'
+        out += ''
+
+        out += 'Exiv2 version ------------------------------------------------------------'
+        # Tweak this to avoid a maintenance headache with test/data/exiv2-test.out
+        out += re.sub(r'exiv2.*', 'exiv2 0.27.0.0 (__ bit build)', BT.excute('exiv2 -u -V'))
+        out += ''
+
+        out += 'Exiv2 help ---------------------------------------------------------------'
+        out += BT.excute('exiv2 -u -h')
+        out += ''
+        out += ''
+
+        out += 'Adjust -------------------------------------------------------------------'
+        out += BT.excute('exiv2 -u -v -a-12:01:01 adjust {images_1_str}', vars(), expected_returncodes=[253])
+        out += ''
+
+        out += 'Rename -------------------------------------------------------------------'
+        out += BT.excute('exiv2 -u -vf rename {images_1_str}', vars(), expected_returncodes=[253])
+        out += ''
+
+        out += 'Print --------------------------------------------------------------------'
+        out += BT.excute('exiv2 -u -v print {images_2_str}', vars(), expected_returncodes=[253])
+        out += ''
+        out += BT.excute('exiv2 -u -v -b -pt print {images_2_str}', vars())
+        stdout, stderr = BT.excute('exiv2 -u -v -b -pt print {images_2_str}', vars(), mix_stdout_and_stderr=False)
+        BT.save(stdout, 'iii')
+        out += stderr
+        out += ''
+
+        out += 'Extract Exif data --------------------------------------------------------'
+        out += BT.excute('exiv2 -u -vf extract {images_2_str}', vars())
+        out += ''
+
+        out += 'Extract Thumbnail --------------------------------------------------------'
+        out += BT.excute('exiv2 -u -vf -et extract {images_2_str}', vars(), expected_returncodes=[253])
+        stdout, stderr = BT.excute('exiv2 -u -v -b -pt print {images_3_str}', vars(), mix_stdout_and_stderr=False)
+        BT.save(stdout, 'jjj')
+        out += stderr
+        out += ''
+
+        out += 'Compare image data and extracted data ------------------------------------'
+        out += BT.excute('diff {diffargs} iii jjj', vars(), expected_returncodes=[1])
+        out += ''
+
+        out += 'Delete Thumbnail ---------------------------------------------------------'
+        out += BT.excute('exiv2 -u -v -dt delete {images_2_str}', vars())
+        out += BT.excute('exiv2 -u -vf -et extract {images_2_str}', vars(), expected_returncodes=[253])
+        out += ''
+
+        out += 'Delete Exif data ---------------------------------------------------------'
+        out += BT.excute('exiv2 -u -v delete {images_2_str}', vars())
+        out += BT.excute('exiv2 -u -v print {images_2_str}', vars(), expected_returncodes=[253])
+        out += ''
+
+        out += 'Insert Exif data ---------------------------------------------------------'
+        out += BT.excute('exiv2 -u -v insert {images_2_str}', vars())
+        stdout, stderr = BT.excute('exiv2 -u -v -b -pt print {images_3_str}', vars(), mix_stdout_and_stderr=False)
+        BT.save(stdout, 'kkk')
+        out += stderr
+        out += ''
+
+        out += 'Compare original and inserted image data ---------------------------------'
+        out += BT.excute('diff {diffargs} iii kkk', vars(), expected_returncodes=[1])
+
+        BT.reportTest('exiv2-test', out)
+
+
     def test_geotag(self):
         # Test driver for geotag
         jpg         = 'FurnaceCreekInn.jpg'
@@ -335,9 +474,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
             for i in ['large.icc', 'small.icc', img]:
                 BT.copyTestFile(i)
-            
+
             out         += BT.excute('exiv2 -pS          {img}', vars())
-            BT.save(BT.excute('exiv2 -pC                 {img}', vars(), return_bytes=True),
+            BT.save(BT.excute('exiv2 -pC                 {img}', vars(), return_in_bytes=True),
                     stub + '_1.icc')
             out         += BT.excute('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_2.icc')
@@ -345,7 +484,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
             BT.copyTestFile('large.icc', iccname)
             out         += BT.excute('exiv2 -iC          {img}', vars())
-            BT.save(BT.excute('exiv2 -pC                 {img}', vars(), return_bytes=True),
+            BT.save(BT.excute('exiv2 -pC                 {img}', vars(), return_in_bytes=True),
                     stub + '_large_1.icc')
             out         += BT.excute('exiv2 -pS          {img}', vars())
             out         += BT.excute('exiv2 -eC --force  {img}', vars())
@@ -354,7 +493,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
             BT.copyTestFile('small.icc', iccname)
             out         += BT.excute('exiv2 -iC          {img}', vars())
-            BT.save(BT.excute('exiv2 -pC                 {img}', vars(), return_bytes=True),
+            BT.save(BT.excute('exiv2 -pC                 {img}', vars(), return_in_bytes=True),
                     stub + '_small_1.icc')
             out         += BT.excute('exiv2 -pS          {img}', vars())
             out         += BT.excute('exiv2 -eC --force  {img}', vars())
