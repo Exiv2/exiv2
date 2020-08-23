@@ -21,7 +21,7 @@ class Conf:
     @classmethod
     def init(cls):
         """ Init the test environment and variables that may be modified """
-        log.buffer = ['']
+        log.buffer = []
         os.chdir(cls.tmp_dir)
         os.makedirs(cls.tmp_dir, exist_ok=True)
         cls.bin_files = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
@@ -29,7 +29,9 @@ class Conf:
 
 
 class Log:
-    buffer = ['']
+
+    def __init__(self):
+        self.buffer = []
 
     def to_str(self):
         return '\n'.join(self.buffer)
@@ -45,6 +47,42 @@ class Log:
 
     def error(self, msg):
         self.add('[ERROR] {}'.format(msg))
+
+
+class Output:
+    """
+    Simulate the stdout buffer.
+    You can use `out+=x` to simulate `print(x)`
+
+    Sample:
+    >>> out = Output()
+    >>> out
+    >>> str(out)
+    >>> out += 'Hello'
+    >>> out += 1
+    >>> out += ['Hi' , 2]
+    >>> out += None         # no effect
+    >>> str(out)
+    """
+    def __init__(self):
+        self.lines = []
+        self.newline = '\n'
+
+    def __str__(self):
+        return self.newline.join(self.lines)
+
+    # def __repr__(self):
+    #     return str(self)
+
+    def __add__(self, other):
+        if other or other == '':
+            self.lines.append(str(other))
+        return self
+
+    def __radd__(self, other):
+        if other or other == '':
+            self.lines.append(str(other))
+        return self
 
 
 def cp(src, dest):
@@ -141,39 +179,38 @@ def excute(cmd: str, vars_dict=dict(), expected_returncodes=[0], encoding=None, 
     """
     Execute a command in the shell and return its stdout and stderr.
     - If the binary of Exiv2 is executed, the absolute path is automatically added.
-    - Returns the output bytes when return_bytes is true. Otherwise, the output is converted to a 
-      list of strings and returned.
+    - Returns the output bytes when return_bytes is true. Otherwise, the output is decoded to a str and returned.
 
     Sample:
-      excute('echo Hello')
-      excute('exiv2 --help')
+    >>> excute('echo Hello')
+    >>> excute('exiv2 --help')
     """
     args            = shlex.split(cmd.format(**vars_dict))
     if args[0] in Conf.bin_files:
         args[0]     = os.path.join(Conf.bin_dir, args[0])
     p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=Conf.tmp_dir)
     stdout, stderr  = p.communicate()
+    output          = (stdout + stderr).rstrip(b'\n') or b''
     if return_bytes:
-        output      = (stdout + stderr).rstrip(b'\n')
+        output      = output
     else:
-        output      = (stdout + stderr).decode(encoding or Conf.encoding).rstrip('\n')
+        output      = output.decode(encoding or Conf.encoding)
     if p.returncode not in expected_returncodes:
         log.error('Failed to excute: {}'.format(' '.join(args)))
         log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), p.returncode))
         log.info('OUTPUT:\n{}'.format(output))
-        raise RuntimeError(log.to_str())
+        raise RuntimeError('\n' + log.to_str())
     if return_bytes:
         return output
     else:
         output = output.replace('\r\n', '\n')   # fix dos line-endings
         output = output.replace('\\', r'/')     # fix dos path separators
-        return output.split('\n') if output else[]
+        return output or None
 
 
-def reportTest(testname, output: (str, list), encoding=None):
+def reportTest(testname, output: str, encoding=None):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
-    if not isinstance(output, str):
-        output = '\n'.join(output)
+    output               = str(output) + '\n'
     reference_file       = os.path.join(Conf.data_dir, '{}.out'.format(testname))
     reference_output     = cat(reference_file, encoding=encoding or Conf.encoding)
     if reference_output == output:
@@ -182,8 +219,8 @@ def reportTest(testname, output: (str, list), encoding=None):
     output_file = os.path.join(Conf.tmp_dir, '{}.out'.format(testname))
     save(output, output_file, encoding=encoding or Conf.encoding)
     log.info('The output has been saved to file {}'.format(output_file))
-    log.info('diff:\n' + diff(reference_file, output_file))
-    raise RuntimeError(log.to_str())
+    log.info('diff:\n' + str(diff(reference_file, output_file)))
+    raise RuntimeError('\n' + log.to_str())
 
 
 def ioTest(filename):
