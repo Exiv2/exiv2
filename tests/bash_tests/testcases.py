@@ -17,7 +17,7 @@ class TestCases(unittest.TestCase):
     def test_addmoddel(self):
         # Test driver to run the addmoddel sample program
         jpg         = 'exiv2-empty.jpg'
-        BT.copyTestFiles(jpg)
+        BT.copyTestFile(jpg)
         out         = BT.excute('addmoddel {jpg}', vars())
         out        += BT.excute('exiv2 -pv {jpg}', vars())
         out        += ['']
@@ -279,74 +279,12 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('exifdata-test', out)
 
 
-    def test_icc(self):
-        # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
-
-        def test1120(filename):
-            # --comment and -dc clobbered by writing ICC/JPG
-            if filename == 'Reagan2.jp2':
-                return []
-            if filename == 'exiv2-bug1199.webp':
-                out  = BT.excute('exiv2 --comment abcdefg   {filename}', vars(), expected_returncodes=[0,1])
-                out += BT.excute('exiv2 -pS                 {filename}', vars())
-                out += ['']
-            else:
-                out  = BT.excute('exiv2 --comment abcdefg   {filename}', vars())
-                out += BT.excute('exiv2 -pS                 {filename}', vars())
-            out += BT.excute('exiv2 -pc                 {filename}', vars())
-            out += BT.excute('exiv2 -dc                 {filename}', vars())
-            out += BT.excute('exiv2 -pS                 {filename}', vars())
-            return out or []
-
-        # num = 1074  # ICC Profile Support
-        out = []
-        for filename in ['Reagan.jpg',
-                         'exiv2-bug1199.webp',
-                         'ReaganLargePng.png',
-                         'ReaganLargeJpg.jpg',
-                         'Reagan2.jp2']:  # 1272 ReaganLargeTiff.tiff
-            stub         = filename.split('.')[0]
-            iccname      = stub + '.icc'
-
-            BT.copyTestFiles('large.icc', 'small.icc', filename)
-            out         += BT.excute('exiv2 -pS          {filename}', vars())
-            icc_bytes    = BT.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
-            BT.save(icc_bytes, stub + '_1.icc')
-            out         += BT.excute('exiv2 -eC --force  {filename}', vars())
-            BT.mv(iccname, stub + '_2.icc')
-            out         += test1120(filename)
-
-            BT.copyTestFile('large.icc', iccname)
-            out         += BT.excute('exiv2 -iC          {filename}', vars())
-            icc_bytes    = BT.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
-            BT.save(icc_bytes, stub + '_large_1.icc')
-            out         += BT.excute('exiv2 -pS          {filename}', vars())
-            out         += BT.excute('exiv2 -eC --force  {filename}', vars())
-            BT.mv(iccname, stub + '_large_2.icc')
-            out         += test1120(filename)
-
-            BT.copyTestFile('small.icc', iccname)
-            out         += BT.excute('exiv2 -iC          {filename}', vars())
-            icc_bytes    = BT.excute('exiv2 -pC          {filename}', vars(), return_bytes=True)
-            BT.save(icc_bytes, stub + '_small_1.icc')
-            out         += BT.excute('exiv2 -pS          {filename}', vars())
-            out         += BT.excute('exiv2 -eC --force  {filename}', vars())
-            BT.mv(iccname, stub + '_small_2.icc')
-            out         += test1120(filename)
-
-            for f in [stub, stub + '_small', stub + '_large']:
-                for i in [1, 2]:
-                    out += [BT.md5sum('{}_{}.icc'.format(f, i))]
-
-        out += ['']
-        BT.reportTest('icc-test', out)
-
-
     def test_geotag(self):
         # Test driver for geotag
         jpg         = 'FurnaceCreekInn.jpg'
         gpx         = 'FurnaceCreekInn.gpx'
-        BT.copyTestFiles(jpg, gpx)
+        for i in [jpg, gpx]:
+            BT.copyTestFile(i)
 
         out         = ['--- show GPSInfo tags ---']
         out        += BT.excute('exiv2 -pa --grep GPSInfo {jpg}', vars())
@@ -369,11 +307,76 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('geotag-test', out)
 
 
+    def test_icc(self):
+        # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
+
+        def test1120(img):
+            # --comment and -dc clobbered by writing ICC/JPG
+            if img == 'Reagan2.jp2':
+                return []
+            if img == 'exiv2-bug1199.webp':
+                out  = BT.excute('exiv2 --comment abcdefg   {img}', vars(), expected_returncodes=[0,1])
+                out += BT.excute('exiv2 -pS                 {img}', vars())
+                out += ['']
+            else:
+                out  = BT.excute('exiv2 --comment abcdefg   {img}', vars())
+                out += BT.excute('exiv2 -pS                 {img}', vars())
+            out += BT.excute('exiv2 -pc                 {img}', vars())
+            out += BT.excute('exiv2 -dc                 {img}', vars())
+            out += BT.excute('exiv2 -pS                 {img}', vars())
+            return out or []
+
+        # num = 1074  # ICC Profile Support
+        out = []
+        for img in ['Reagan.jpg',
+                    'exiv2-bug1199.webp',
+                    'ReaganLargePng.png',
+                    'ReaganLargeJpg.jpg',
+                    'Reagan2.jp2']:  # 1272 ReaganLargeTiff.tiff
+            stub         = img.split('.')[0]
+            iccname      = stub + '.icc'
+
+            for i in ['large.icc', 'small.icc', img]:
+                BT.copyTestFile(i)
+            
+            out         += BT.excute('exiv2 -pS          {img}', vars())
+            icc_bytes    = BT.excute('exiv2 -pC          {img}', vars(), return_bytes=True)
+            BT.save(icc_bytes, stub + '_1.icc')
+            out         += BT.excute('exiv2 -eC --force  {img}', vars())
+            BT.mv(iccname, stub + '_2.icc')
+            out         += test1120(img)
+
+            BT.copyTestFile('large.icc', iccname)
+            out         += BT.excute('exiv2 -iC          {img}', vars())
+            icc_bytes    = BT.excute('exiv2 -pC          {img}', vars(), return_bytes=True)
+            BT.save(icc_bytes, stub + '_large_1.icc')
+            out         += BT.excute('exiv2 -pS          {img}', vars())
+            out         += BT.excute('exiv2 -eC --force  {img}', vars())
+            BT.mv(iccname, stub + '_large_2.icc')
+            out         += test1120(img)
+
+            BT.copyTestFile('small.icc', iccname)
+            out         += BT.excute('exiv2 -iC          {img}', vars())
+            icc_bytes    = BT.excute('exiv2 -pC          {img}', vars(), return_bytes=True)
+            BT.save(icc_bytes, stub + '_small_1.icc')
+            out         += BT.excute('exiv2 -pS          {img}', vars())
+            out         += BT.excute('exiv2 -eC --force  {img}', vars())
+            BT.mv(iccname, stub + '_small_2.icc')
+            out         += test1120(img)
+
+            for f in [stub, stub + '_small', stub + '_large']:
+                for i in [1, 2]:
+                    out += [BT.md5sum('{}_{}.icc'.format(f, i))]
+
+        out += ['']
+        BT.reportTest('icc-test', out)
+
+
     def test_io(self):
         # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
-        BT.copyTestFiles(*test_files)
         for f in test_files:
+            BT.copyTestFile(f)
             BT.ioTest(f)
 
         # Test http I/O

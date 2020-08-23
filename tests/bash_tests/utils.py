@@ -131,12 +131,6 @@ def copyTestFile(src, dest=''):
                 os.path.join(Conf.tmp_dir, dest))
 
 
-def copyTestFiles(*files):
-    """ Copy one or more test files from data_dir to tmp_dir """
-    for i in files:
-        copyTestFile(i)
-
-
 def md5sum(filename):
     """ Calculate the MD5 value of the file """
     with open(filename, "rb") as f:
