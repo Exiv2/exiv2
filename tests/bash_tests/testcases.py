@@ -278,11 +278,6 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
 
     def test_exiv2(self):
-        if BT.Conf.system_name in ['SunOS', 'FreeBSD', 'NetBSD']:
-            diffargs = '-w'
-        else:
-            diffargs = '-w --text'
-
         # Add each image to the following three lists.
         # The image basename in the second and third lists
         # is the Exif timestamp adjusted by -12:01:01.
@@ -388,7 +383,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         out += ''
 
         out += 'Compare image data and extracted data ------------------------------------'
-        out += BT.excute('diff {diffargs} iii jjj', vars(), expected_returncodes=[1])
+        out += BT.diff('iii', 'jjj')
         out += ''
 
         out += 'Delete Thumbnail ---------------------------------------------------------'
@@ -409,7 +404,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         out += ''
 
         out += 'Compare original and inserted image data ---------------------------------'
-        out += BT.excute('diff {diffargs} iii kkk', vars(), expected_returncodes=[1])
+        out += BT.diff('iii', 'kkk')
 
         BT.reportTest('exiv2-test', out)
 

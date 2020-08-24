@@ -1,3 +1,4 @@
+import difflib
 import hashlib
 import multiprocessing
 import os
@@ -141,9 +142,56 @@ def save(content: (bytes, str, tuple, list), filename, encoding=None):
         raise ValueError('Expect content of type (bytes, str, tuple, list), but get {}'.format(type(content).__name__))
 
 
-def diff(file1, file2):
-    list1            = cat(file1).split('\n')
-    list2            = cat(file2).split('\n')
+def diff(file1, file2, encoding=None):
+    """
+    Simulates the output of GNU diff.
+    You can use `diff(f1, f2)` to simulate `diff -w f1 f2`
+    """
+    encoding     = encoding or Conf.encoding
+    texts        = []
+    for f in [file1, file2]:
+        text     = cat(f, encoding=encoding)
+        # Ignore whitespace characters
+        for i in '\t\r\v\f':
+            text = text.replace(i, ' ')
+        texts   += [text.split('\n')]
+    text1, text2 = texts
+
+    output       = []
+    new_part     = True
+    i            = 0
+    for line in difflib.unified_diff(text1, text2, fromfile=file1, tofile=file2, lineterm=''):
+        i       += 1
+        if i     < 3:
+            continue
+
+        flag             = line[0]
+        if flag         == '-':   # line unique to sequence 1
+            new_flag     = '< '
+        elif flag       == '+':   # line unique to sequence 2
+            new_flag     = '> '
+            if new_part:
+                new_part = False
+                output  += ['---']
+        elif flag       == ' ':   # line common to both sequences
+            new_flag     = ' '
+        elif flag       == '?':   # line not present in either input sequence
+            new_flag     = '? '
+        elif flag       == '@':
+            output      += [re.sub(r'@@ -([^ ]+) \+([^ ]+) @@', r'\1c\2', line)]
+            new_part     = True
+            continue
+        else:
+            new_flag     = flag
+        output          += [new_flag + line[1:]]
+
+    return '\n'.join(output)
+
+
+def simply_diff(file1, file2, encoding=None):
+    encoding         = encoding or Conf.encoding
+    list1            = cat(file1, encoding=encoding).split('\n')
+    list2            = cat(file2, encoding=encoding).split('\n')
     if list1        == list2:
         return
     report           = []
@@ -201,8 +249,9 @@ def excute(cmd: str, vars_dict=dict(),
     output          = [i or b'' for i in output]
     output          = [i.rstrip(b'\n') for i in output]
 
+    encoding        = encoding or Conf.encoding
     if not return_in_bytes:
-        output      = [i.decode(encoding or Conf.encoding) for i in output]
+        output      = [i.decode(encoding) for i in output]
         output      = [i.replace('\r\n', '\n') for i in output]   # fix dos line-endings
         output      = [i.replace('\\', r'/') for i in output]     # fix dos path separators
     if expected_returncodes and p.returncode not in expected_returncodes:
@@ -219,15 +268,16 @@ def excute(cmd: str, vars_dict=dict(),
 def reportTest(testname, output: str, encoding=None):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     output               = str(output) + '\n'
+    encoding             = encoding or Conf.encoding
     reference_file       = os.path.join(Conf.data_dir, '{}.out'.format(testname))
-    reference_output     = cat(reference_file, encoding=encoding or Conf.encoding)
+    reference_output     = cat(reference_file, encoding=encoding)
     if reference_output == output:
         return
     log.error('The output of the testcase mismatch the reference')
     output_file = os.path.join(Conf.tmp_dir, '{}.out'.format(testname))
-    save(output, output_file, encoding=encoding or Conf.encoding)
+    save(output, output_file, encoding=encoding)
     log.info('The output has been saved to file {}'.format(output_file))
-    log.info('diff:\n' + str(diff(reference_file, output_file)))
+    log.info('diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
     raise RuntimeError('\n' + log.to_str())
 
 
