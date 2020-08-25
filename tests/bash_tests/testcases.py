@@ -502,6 +502,67 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('icc-test', out)
 
 
+    def test_image(self):
+        test_files = [
+            'table.jpg',
+            'smiley1.jpg',
+            'smiley2.jpg',]
+        erase_test_files = [
+            'glider.exv',
+            'iptc-noAPP13.jpg',
+            'iptc-psAPP13-noIPTC.jpg',
+            'iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg',
+            'iptc-psAPP13s-noIPTC-psAPP13s-wIPTC.jpg',
+            'iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg',
+            'iptc-psAPP13s-wIPTCs-psAPP13s-wIPTCs.jpg',
+            'iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg',
+            'iptc-psAPP13-wIPTCbeg.jpg',
+            'iptc-psAPP13-wIPTCempty.jpg',
+            'iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg',
+            'iptc-psAPP13-wIPTCend.jpg',
+            'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg',
+            'iptc-psAPP13-wIPTCmid.jpg',
+            'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg',]
+
+        pass_count  = 0
+        fail_count  = 0
+        out = BT.Output()
+        out += ''
+        out += 'Erase all tests'
+        for i in test_files + erase_test_files:
+            if BT.eraseTest(i):
+                pass_count += 1
+            else:
+                fail_count += 1
+                out        += 'Failed: ' + i
+
+        out += ''
+        out += 'Copy all tests'
+        for num, src in enumerate(test_files, 1):
+            for dst in test_files:
+                if BT.copyTest(num, src, dst):
+                    pass_count += 1
+                else:
+                    fail_count += 1
+                    out        += 'Failed: {}'.format((num, src, dst))
+
+        out += ''
+        out += 'Copy iptc tests'
+        for num, src in enumerate(test_files, 1):
+            for dst in test_files:
+                if BT.iptcTest(num, src, dst):
+                    pass_count += 1
+                else:
+                    fail_count += 1
+                    out        += 'Failed: {}'.format((num, src, dst))
+
+        out += ''
+        out += '{} passed, {} failed'.format(pass_count, fail_count)
+        if fail_count:
+            raise RuntimeError('\n' + str(out))
+        # BT.reportTest('imagetest', out)
+
+
     def test_io(self):
         # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']

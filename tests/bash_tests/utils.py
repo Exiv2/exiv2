@@ -50,6 +50,9 @@ class Log:
         self.add('[ERROR] {}'.format(msg))
 
 
+log = Log()
+
+
 class Output:
     """
     Simulate the stdout buffer.
@@ -217,12 +220,6 @@ def copyTestFile(src, dest=''):
                 os.path.join(Conf.tmp_dir, dest))
 
 
-def md5sum(filename):
-    """ Calculate the MD5 value of the file """
-    with open(filename, "rb") as f:
-        return hashlib.md5(f.read()).hexdigest()
-
-
 def excute(cmd: str, vars_dict=dict(),
            expected_returncodes=[0],
            mix_stdout_and_stderr=True,
@@ -281,6 +278,12 @@ def reportTest(testname, output: str, encoding=None):
     raise RuntimeError('\n' + log.to_str())
 
 
+def md5sum(filename):
+    """ Calculate the MD5 value of the file """
+    with open(filename, "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()
+
+
 def ioTest(filename):
     src     = os.path.join(Conf.data_dir, filename)
     out1    = os.path.join(Conf.tmp_dir, '{}.1'.format(filename))
@@ -308,4 +311,28 @@ class HttpServer:
         self.process.terminate()
 
 
-log = Log()
+def eraseTest(filename):
+    test_file   = filename + '.etst'
+    good_file   = os.path.join(Conf.data_dir, filename + '.egd')
+    copyTestFile(filename, test_file)
+    excute('metacopy {test_file} {test_file}', vars())
+    return md5sum(test_file) == md5sum(good_file)
+
+
+def copyTest(num, src, dst):
+    test_file   = '{}.c{}tst'.format(dst, num)
+    good_src    = os.path.join(Conf.data_dir, src)
+    good_dst    = os.path.join(Conf.data_dir, '{}.c{}gd'.format(dst, num))
+    copyTestFile(dst, test_file)
+    excute('metacopy -a {good_src} {test_file}', vars())
+    return md5sum(test_file) == md5sum(good_dst)
+
+
+def iptcTest(num, src, dst):
+    test_file   = '{}.i{}tst'.format(dst, num)
+    good_src    = os.path.join(Conf.data_dir, src)
+    good_dst    = os.path.join(Conf.data_dir, '{}.i{}gd'.format(dst, num))
+    copyTestFile(dst, test_file)
+    excute('metacopy -ip {good_src} {test_file}', vars())
+    return md5sum(test_file) == md5sum(good_dst)
+
