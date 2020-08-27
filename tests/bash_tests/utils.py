@@ -10,23 +10,23 @@ import subprocess
 from http import server
 
 
-class Conf:
+class Config:
     # The configuration parameters for bash test
-    # The function configure_suite() in system_tests.py will override these parameters
-    exiv2_dir = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
-    bin_dir = os.path.join(exiv2_dir, 'build/bin')
-    data_dir = os.path.join(exiv2_dir, 'test/data')
-    tmp_dir = os.path.join(exiv2_dir, 'test/tmp')
+    # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
+    exiv2_dir   = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
+    bin_dir     = os.path.join(exiv2_dir, 'build/bin')
+    data_dir    = os.path.join(exiv2_dir, 'test/data')
+    tmp_dir     = os.path.join(exiv2_dir, 'test/tmp')
     system_name = platform.system() or 'Unknown'
 
     @classmethod
     def init(cls):
-        """ Init the test environment and variables that may be modified """
-        log.buffer = []
-        os.chdir(cls.tmp_dir)
+        """ Init test environments and variables """
         os.makedirs(cls.tmp_dir, exist_ok=True)
-        cls.bin_files = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
-        cls.encoding = 'utf-8'
+        os.chdir(cls.tmp_dir)
+        log.buffer      = []
+        cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
+        cls.encoding    = 'utf-8'
 
 
 class Log:
@@ -117,7 +117,7 @@ def cat(*files, encoding=None, return_in_bytes=False):
     else:
         result = ''
         for i in files:
-            with open(i, 'r', encoding=encoding or Conf.encoding) as f:
+            with open(i, 'r', encoding=encoding or Config.encoding) as f:
                 result += f.read()
     return result
 
@@ -126,7 +126,7 @@ def grep(pattern, *files, encoding=None):
     result  = ''
     pattern = '.*{}.*'.format(pattern)
     for i in files:
-        content = cat(i, encoding=encoding or Conf.encoding)
+        content = cat(i, encoding=encoding or Config.encoding)
         result += '\n'.join(re.findall(pattern, content))
     return result
 
@@ -139,7 +139,7 @@ def save(content: (bytes, str, tuple, list), filename, encoding=None):
     if isinstance(content, (tuple, list)):
         content = '\n'.join(content)
     if isinstance(content, str):
-        with open(filename, 'w', encoding=encoding or Conf.encoding) as f:
+        with open(filename, 'w', encoding=encoding or Config.encoding) as f:
             f.write(content)
     else:
         raise ValueError('Expect content of type (bytes, str, tuple, list), but get {}'.format(type(content).__name__))
@@ -150,7 +150,7 @@ def diff(file1, file2, encoding=None):
     Simulates the output of GNU diff.
     You can use `diff(f1, f2)` to simulate `diff -w f1 f2`
     """
-    encoding     = encoding or Conf.encoding
+    encoding     = encoding or Config.encoding
     texts        = []
     for f in [file1, file2]:
         text     = cat(f, encoding=encoding)
@@ -192,7 +192,7 @@ def diff(file1, file2, encoding=None):
 
 
 def simply_diff(file1, file2, encoding=None):
-    encoding         = encoding or Conf.encoding
+    encoding         = encoding or Config.encoding
     list1            = cat(file1, encoding=encoding).split('\n')
     list2            = cat(file2, encoding=encoding).split('\n')
     if list1        == list2:
@@ -216,8 +216,8 @@ def copyTestFile(src, dest=''):
     """ Copy one test file from data_dir to tmp_dir """
     if not dest:
         dest = src
-    shutil.copy(os.path.join(Conf.data_dir, src),
-                os.path.join(Conf.tmp_dir, dest))
+    shutil.copy(os.path.join(Config.data_dir, src),
+                os.path.join(Config.tmp_dir, dest))
 
 
 def excute(cmd: str, vars_dict=dict(),
@@ -235,18 +235,18 @@ def excute(cmd: str, vars_dict=dict(),
     >>> excute('exiv2 --help')
     """
     args            = shlex.split(cmd.format(**vars_dict))
-    if args[0] in Conf.bin_files:
-        args[0]     = os.path.join(Conf.bin_dir, args[0])
+    if args[0] in Config.bin_files:
+        args[0]     = os.path.join(Config.bin_dir, args[0])
     if mix_stdout_and_stderr:
         stderr_to   = subprocess.STDOUT
     else:
         stderr_to   = subprocess.PIPE
-    p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=stderr_to, cwd=Conf.tmp_dir)
+    p               = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=stderr_to, cwd=Config.tmp_dir)
     output          = p.communicate()    # Assign (stdout, stderr) to output
     output          = [i or b'' for i in output]
     output          = [i.rstrip(b'\n') for i in output]
 
-    encoding        = encoding or Conf.encoding
+    encoding        = encoding or Config.encoding
     if not return_in_bytes:
         output      = [i.decode(encoding) for i in output]
         output      = [i.replace('\r\n', '\n') for i in output]   # fix dos line-endings
@@ -265,13 +265,13 @@ def excute(cmd: str, vars_dict=dict(),
 def reportTest(testname, output: str, encoding=None):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     output               = str(output) + '\n'
-    encoding             = encoding or Conf.encoding
-    reference_file       = os.path.join(Conf.data_dir, '{}.out'.format(testname))
+    encoding             = encoding or Config.encoding
+    reference_file       = os.path.join(Config.data_dir, '{}.out'.format(testname))
     reference_output     = cat(reference_file, encoding=encoding)
     if reference_output == output:
         return
     log.error('The output of the testcase mismatch the reference')
-    output_file = os.path.join(Conf.tmp_dir, '{}.out'.format(testname))
+    output_file = os.path.join(Config.tmp_dir, '{}.out'.format(testname))
     save(output, output_file, encoding=encoding)
     log.info('The output has been saved to file {}'.format(output_file))
     log.info('diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
@@ -285,9 +285,9 @@ def md5sum(filename):
 
 
 def ioTest(filename):
-    src     = os.path.join(Conf.data_dir, filename)
-    out1    = os.path.join(Conf.tmp_dir, '{}.1'.format(filename))
-    out2    = os.path.join(Conf.tmp_dir, '{}.2'.format(filename))
+    src     = os.path.join(Config.data_dir, filename)
+    out1    = os.path.join(Config.tmp_dir, '{}.1'.format(filename))
+    out2    = os.path.join(Config.tmp_dir, '{}.2'.format(filename))
     excute('iotest {src} {out1} {out2}', vars())
     assert md5sum(src) == md5sum(out1), 'The output file is different'
     assert md5sum(src) == md5sum(out2), 'The output file is different'
@@ -313,7 +313,7 @@ class HttpServer:
 
 def eraseTest(filename):
     test_file   = filename + '.etst'
-    good_file   = os.path.join(Conf.data_dir, filename + '.egd')
+    good_file   = os.path.join(Config.data_dir, filename + '.egd')
     copyTestFile(filename, test_file)
     excute('metacopy {test_file} {test_file}', vars())
     return md5sum(test_file) == md5sum(good_file)
@@ -321,8 +321,8 @@ def eraseTest(filename):
 
 def copyTest(num, src, dst):
     test_file   = '{}.c{}tst'.format(dst, num)
-    good_src    = os.path.join(Conf.data_dir, src)
-    good_dst    = os.path.join(Conf.data_dir, '{}.c{}gd'.format(dst, num))
+    good_src    = os.path.join(Config.data_dir, src)
+    good_dst    = os.path.join(Config.data_dir, '{}.c{}gd'.format(dst, num))
     copyTestFile(dst, test_file)
     excute('metacopy -a {good_src} {test_file}', vars())
     return md5sum(test_file) == md5sum(good_dst)
@@ -330,8 +330,8 @@ def copyTest(num, src, dst):
 
 def iptcTest(num, src, dst):
     test_file   = '{}.i{}tst'.format(dst, num)
-    good_src    = os.path.join(Conf.data_dir, src)
-    good_dst    = os.path.join(Conf.data_dir, '{}.i{}gd'.format(dst, num))
+    good_src    = os.path.join(Config.data_dir, src)
+    good_dst    = os.path.join(Config.data_dir, '{}.i{}gd'.format(dst, num))
     copyTestFile(dst, test_file)
     excute('metacopy -ip {good_src} {test_file}', vars())
     return md5sum(test_file) == md5sum(good_dst)

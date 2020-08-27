@@ -9,7 +9,7 @@ class TestCases(unittest.TestCase):
 
 
     def setUp(self):
-        BT.Conf.init()
+        BT.Config.init()
 
 
     def tearDown(self):
@@ -579,7 +579,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         server_bind      = '127.0.0.1'
         server_port      = 12760
         server_url       = 'http://{}:{}'.format(server_bind, server_port)
-        server           = BT.HttpServer(bind=server_bind, port=server_port, work_dir=os.path.join(BT.Conf.data_dir))
+        server           = BT.HttpServer(bind=server_bind, port=server_port, work_dir=os.path.join(BT.Config.data_dir))
         try:
             server.start()
             out          = BT.Output()
@@ -592,7 +592,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
             for num in ['0', '10', '1000']:
                 out     += BT.excute('iotest s0 s1 s2 {server_url}/table.jpg {num}', vars())
-                out     += sniff('s0', 's1', 's2', os.path.join(BT.Conf.data_dir, 'table.jpg'))
+                out     += sniff('s0', 's1', 's2', os.path.join(BT.Config.data_dir, 'table.jpg'))
         finally:
             server.stop()
             # print('keep the server running...')

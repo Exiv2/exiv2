@@ -71,7 +71,7 @@ class CasePreservingConfigParser(configparser.ConfigParser):
     The default behavior of ConfigParser:
     >>> conf_string = "[Section1]\nKey = Value"
     >>> default_conf = configparser.ConfigParser()
-    >>> default_conf.read_string(conf_string)
+    >>> default_Config.read_string(conf_string)
     >>> list(default_conf['Section1'].keys())
     ['key']
 
@@ -202,9 +202,9 @@ def configure_suite(config_file):
             )
     
     # Configure the parameters for bash test
-    BT.Conf.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
-    BT.Conf.data_dir = os.path.abspath(config['paths']['data_path'])
-    BT.Conf.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
+    BT.Config.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
+    BT.Config.data_dir = os.path.abspath(config['paths']['data_path'])
+    BT.Config.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
 
 
 class FileDecoratorBase(object):
