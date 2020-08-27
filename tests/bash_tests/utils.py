@@ -24,9 +24,11 @@ class Config:
         """ Init test environments and variables """
         os.makedirs(cls.tmp_dir, exist_ok=True)
         os.chdir(cls.tmp_dir)
-        log.buffer      = []
-        cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
-        cls.encoding    = 'utf-8'
+        log.buffer              = []
+        cls.bin_files           = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
+        cls.encoding            = 'utf-8'
+        cls.http_server_bind    = '127.0.0.1'
+        cls.http_server_port    = 12760
 
 
 class Log:

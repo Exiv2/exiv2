@@ -16,7 +16,7 @@ class TestCases(unittest.TestCase):
         pass
 
 
-    def test_addmoddel(self):
+    def addmoddel_test(self):
         # Test driver to run the addmoddel sample program
         jpg         = 'exiv2-empty.jpg'
         BT.copyTestFile(jpg)
@@ -26,7 +26,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 
 
-    def test_conversions(self):
+    def conversions_test(self):
         # XMP parser test driver
         jpg         = 'exiv2-empty.jpg'
         out         = BT.Output()
@@ -234,7 +234,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('conversions', out)
 
 
-    def test_crw(self):
+    def crw_test(self):
         # Test driver for CRW file operations
         crwfile     = 'exiv2-canon-powershot-s40.crw'
 
@@ -268,7 +268,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('crw-test', out)
 
 
-    def test_exifdata(self):
+    def exifdata_test(self):
         # Test driver for exifdata copy construction and assignment unit tests
         out         = BT.Output()
         for jpg in ['exiv2-gc.jpg', 'exiv2-canon-powershot-s40.jpg', 'exiv2-nikon-d70.jpg']:
@@ -277,7 +277,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('exifdata-test', out)
 
 
-    def test_exiv2(self):
+    def exiv2_test(self):
         # Add each image to the following three lists.
         # The image basename in the second and third lists
         # is the Exif timestamp adjusted by -12:01:01.
@@ -409,7 +409,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('exiv2-test', out)
 
 
-    def test_geotag(self):
+    def geotag_test(self):
         # Test driver for geotag
         jpg         = 'FurnaceCreekInn.jpg'
         gpx         = 'FurnaceCreekInn.gpx'
@@ -437,7 +437,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('geotag-test', out)
 
 
-    def test_icc(self):
+    def icc_test(self):
         # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
 
         def test1120(img):
@@ -502,7 +502,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         BT.reportTest('icc-test', out)
 
 
-    def test_image(self):
+    def image_test(self):
         test_files = [
             'table.jpg',
             'smiley1.jpg',
@@ -563,7 +563,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         # BT.reportTest('imagetest', out)
 
 
-    def test_io(self):
+    def io_test(self):
         # Test driver for file i/o
         test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
         for f in test_files:
@@ -576,10 +576,11 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
             result      += [BT.md5sum(i) for i in files]
             return ' '.join(result)
 
-        server_bind      = '127.0.0.1'
-        server_port      = 12760
-        server_url       = 'http://{}:{}'.format(server_bind, server_port)
-        server           = BT.HttpServer(bind=server_bind, port=server_port, work_dir=os.path.join(BT.Config.data_dir))
+        server_url = 'http://{}:{}'.format(BT.Config.http_server_bind,
+                                           BT.Config.http_server_port)
+        server = BT.HttpServer(bind=BT.Config.http_server_bind,
+                               port=BT.Config.http_server_port,
+                               work_dir=os.path.join(BT.Config.data_dir))
         try:
             server.start()
             out          = BT.Output()
