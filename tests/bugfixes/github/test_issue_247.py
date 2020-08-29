@@ -93,7 +93,7 @@ Exif.Canon.FileNumber                        Long        1  117-1771
 Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 Exif.Canon.ModelID                           Long        1  PowerShot S40
 Exif.Canon.CameraInfo                        Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                       Undefined 264  binary comment
+Exif.Photo.UserComment                       Undefined 264  
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
 Exif.Photo.PixelXDimension                   Short       1  2272
