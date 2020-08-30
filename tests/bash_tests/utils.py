@@ -148,6 +148,59 @@ def diff(file1, file2, encoding=None):
     return '\n'.join(output)
 
 
+def diff_bytes(file1, file2, return_str=False):
+    """
+    Compare the bytes of two files.
+    Simulates the output of GNU diff.
+    """
+    texts        = []
+    for f in [file1, file2]:
+        with open(f, 'rb') as f:
+            text = f.read()
+        text     = text.replace(b'\r\n', b'\n') # Ignore line breaks for Windows
+        texts   += [text.split(b'\n')]
+    text1, text2 = texts
+
+    output       = []
+    new_part     = True
+    num          = 0
+    for line in difflib.diff_bytes(difflib.unified_diff, text1, text2,
+                                   fromfile=file1.encode(), tofile=file2.encode(), lineterm=b''):
+        num     += 1
+        if num   < 3:
+            line         = line.decode()
+            line         = line.replace('--- ', '<<< ')
+            line         = line.replace('+++ ', '>>> ')
+            output      += [line.encode()]
+            continue
+
+        flag             = line[0:1]
+        if flag         == b'-':   # line unique to sequence 1
+            new_flag     = b'< '
+        elif flag       == b'+':   # line unique to sequence 2
+            new_flag     = b'> '
+            if new_part:
+                new_part = False
+                output  += [b'---']
+        elif flag       == b' ':   # line common to both sequences
+            # new_flag   = b'  '
+            continue
+        elif flag       == b'?':   # line not present in either input sequence
+            new_flag     = b'? '
+        elif flag       == b'@':
+            output      += [re.sub(rb'@@ -([^ ]+) \+([^ ]+) @@', rb'\1c\2', line)]
+            new_part     = True
+            continue
+        else:
+            new_flag     = flag
+        output          += [new_flag + line[1:]]
+
+    if return_str:
+        return '\n'.join([repr(line)[2:-1] for line in output])
+    else:
+        return b'\n'.join(output)
+
+
 def md5sum(filename):
     """ Calculate the MD5 value of the file """
     with open(filename, "rb") as f:
@@ -254,6 +307,19 @@ def copyTestFile(src, dest=''):
         dest = src
     shutil.copy(os.path.join(Config.data_dir, src),
                 os.path.join(Config.tmp_dir, dest))
+
+
+def diffCheck(file1, file2, in_bytes=False, encoding=None):
+    """ Compare two files to see if they are different """
+    if in_bytes:
+        d = diff_bytes(file1, file2, return_str=True)
+        if d:
+            log.info('diff_bytes:\n' + d)
+    else:
+        d = diff(file1, file2, encoding=encoding or Config.encoding)
+        if d:
+            log.info('diff:\n' + d)
+    return d == ''
 
 
 def simply_diff(file1, file2, encoding=None):
@@ -364,22 +430,23 @@ def eraseTest(filename):
     good_file   = os.path.join(Config.data_dir, filename + '.egd')
     copyTestFile(filename, test_file)
     execute('metacopy {test_file} {test_file}', vars())
-    return md5sum(test_file) == md5sum(good_file)
+    return diffCheck(good_file, test_file, in_bytes=True)
 
 
 def copyTest(num, src, dst):
     test_file   = '{}.c{}tst'.format(dst, num)
-    good_src    = os.path.join(Config.data_dir, src)
-    good_dst    = os.path.join(Config.data_dir, '{}.c{}gd'.format(dst, num))
+    src_file    = os.path.join(Config.data_dir, src)
+    good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(dst, num))
     copyTestFile(dst, test_file)
-    execute('metacopy -a {good_src} {test_file}', vars())
-    return md5sum(test_file) == md5sum(good_dst)
+    execute('metacopy -a {src_file} {test_file}', vars())
+    return diffCheck(good_file, test_file, in_bytes=True)
 
 
 def iptcTest(num, src, dst):
     test_file   = '{}.i{}tst'.format(dst, num)
-    good_src    = os.path.join(Config.data_dir, src)
-    good_dst    = os.path.join(Config.data_dir, '{}.i{}gd'.format(dst, num))
+    src_file    = os.path.join(Config.data_dir, src)
+    good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(dst, num))
     copyTestFile(dst, test_file)
-    execute('metacopy -ip {good_src} {test_file}', vars())
-    return md5sum(test_file) == md5sum(good_dst)
+    execute('metacopy -ip {src_file} {test_file}', vars())
+    return diffCheck(good_file, test_file, in_bytes=True)
+
