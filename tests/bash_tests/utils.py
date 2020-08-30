@@ -450,3 +450,67 @@ def iptcTest(num, src, dst):
     execute('metacopy -ip {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
+
+def printTest(filename):
+    test_file   = filename + '.iptst'
+    src_file    = os.path.join(Config.data_dir, filename)
+    good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
+    copyTestFile(filename, test_file)
+    save(execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_in_bytes=True) + b'\n',
+         test_file)
+    return diffCheck(good_file, test_file, in_bytes=True)
+
+
+def removeTest(filename):
+    tmp         = 'temp'
+    test_file   = filename + '.irtst'
+    src_file    = os.path.join(Config.data_dir, filename)
+    good_file   = os.path.join(Config.data_dir, filename + '.irgd')
+    copyTestFile(filename, tmp)
+    stdin       = """
+r Iptc.Application2.Byline
+r Iptc.Application2.Caption
+r Iptc.Application2.Keywords
+r Iptc.Application2.Keywords
+r Iptc.Application2.Keywords
+r Iptc.Application2.CountryName
+""".lstrip('\n').encode()
+    execute('iptctest {tmp}', vars(), stdin=stdin)
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_in_bytes=True) + b'\n',
+         test_file)
+    return diffCheck(good_file, test_file, in_bytes=True)
+
+
+def addModTest(filename):
+    tmp         = 'temp'
+    test_file   = filename + '.iatst'
+    src_file    = os.path.join(Config.data_dir, filename)
+    good_file   = os.path.join(Config.data_dir, filename + '.iagd')
+    copyTestFile(filename, tmp)
+    stdin       = """
+a Iptc.Application2.Headline		  The headline I am
+a Iptc.Application2.Keywords		  Yet another keyword
+m Iptc.Application2.DateCreated		  2004-8-3
+a Iptc.Application2.Urgency			  3
+m Iptc.Application2.SuppCategory	  "bla bla ba"
+a Iptc.Envelope.ModelVersion		  2
+a Iptc.Envelope.TimeSent			  14:41:0-05:00
+a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
+""".lstrip('\n').encode()
+    execute('iptctest {tmp}', vars(), stdin=stdin)
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_in_bytes=True) + b'\n',
+         test_file)
+    return diffCheck(good_file, test_file, in_bytes=True)
+
+
+def extendedTest(filename):
+    tmp         = 'temp'
+    test_file   = filename + '.ixtst'
+    src_file    = os.path.join(Config.data_dir, filename)
+    good_file   = os.path.join(Config.data_dir, filename + '.ixgd')
+    copyTestFile(filename, tmp)
+    stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'), return_in_bytes=False)
+    execute('iptctest {tmp}', vars(), stdin=stdin)
+    save(execute('iptcprint {tmp}', vars(), return_in_bytes=True) + b'\n',
+         test_file)
+    return diffCheck(good_file, test_file, in_bytes=True)
