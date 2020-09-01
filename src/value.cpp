@@ -577,12 +577,16 @@ namespace Exiv2 {
         if (charsetId() == unicode) {
             const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
-        } else {
-            // charset=undefined reports "binary comment" if it contains non-printable bytes
-            // this is to ensure no binary bytes in the output stream.
-            if ( isBinary(c) ) {
-                c = "binary comment" ;
-            }
+        }
+        bool bAscii = charsetId() == undefined || charsetId() == ascii ;
+        // # 1266 Remove trailing nulls
+        if ( bAscii && c.find('\0') != c.std::string::npos) {
+            c = c.substr(0,c.find('\0'));
+        }
+        // return "binary comment" if results contains non-printable bytes
+        // this ensures no binary bytes in the output stream.
+        if ( bAscii && isBinary(c) ) {
+            c = "binary comment" ;
         }
         return c;
     }
