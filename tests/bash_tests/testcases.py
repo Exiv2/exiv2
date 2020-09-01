@@ -239,7 +239,8 @@ class TestCases(unittest.TestCase):
         crwfile     = 'exiv2-canon-powershot-s40.crw'
 
         BT.log.info('#1 Add and modify tags')
-        cmds        = '''set Exif.Photo.ColorSpace 65535
+        cmds        = '''
+set Exif.Photo.ColorSpace 65535
 set Exif.Canon.OwnerName Different owner
 set Exif.Canon.FirmwareVersion Whatever version
 set Exif.Canon.SerialNumber 1
@@ -247,7 +248,8 @@ add Exif.Canon.SerialNumber 2
 set Exif.Photo.ISOSpeedRatings 155
 set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
 set Exif.Image.DateTime 2020:05:26 07:31:41
-set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
+set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
+'''.lstrip('\n')
         cmdfile     = 'cmdfile1'
         BT.save(cmds, cmdfile)
         BT.copyTestFile(crwfile)
@@ -282,55 +284,55 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
         # The image basename in the second and third lists
         # is the Exif timestamp adjusted by -12:01:01.
         images_1 = [
-            'exiv2-empty.jpg',
-            'exiv2-canon-powershot-s40.jpg',
-            'exiv2-nikon-e990.jpg',
-            'exiv2-nikon-d70.jpg',
-            'exiv2-nikon-e950.jpg',
-            'exiv2-canon-eos-300d.jpg',
-            'exiv2-kodak-dc210.jpg',
-            'exiv2-fujifilm-finepix-s2pro.jpg',
-            'exiv2-sigma-d10.jpg',
-            'exiv2-olympus-c8080wz.jpg',
-            'exiv2-panasonic-dmc-fz5.jpg',
-            'exiv2-sony-dsc-w7.jpg',
-            'exiv2-canon-eos-20d.jpg',
-            'exiv2-canon-eos-d30.jpg',
-            'exiv2-canon-powershot-a520.jpg',]
+            'exiv2-empty.jpg'
+            ,'exiv2-canon-powershot-s40.jpg'
+            ,'exiv2-nikon-e990.jpg'
+            ,'exiv2-nikon-d70.jpg'
+            ,'exiv2-nikon-e950.jpg'
+            ,'exiv2-canon-eos-300d.jpg'
+            ,'exiv2-kodak-dc210.jpg'
+            ,'exiv2-fujifilm-finepix-s2pro.jpg'
+            ,'exiv2-sigma-d10.jpg'
+            ,'exiv2-olympus-c8080wz.jpg'
+            ,'exiv2-panasonic-dmc-fz5.jpg'
+            ,'exiv2-sony-dsc-w7.jpg'
+            ,'exiv2-canon-eos-20d.jpg'
+            ,'exiv2-canon-eos-d30.jpg'
+            ,'exiv2-canon-powershot-a520.jpg']
 
         images_2 = [
-            'exiv2-empty.jpg',
-            '20031214_000043.jpg',
-            '20000506_020544.jpg',
-            '20040329_224245.jpg',
-            '20010405_235039.jpg',
-            '20030925_201850.jpg',
-            '20001026_044550.jpg',
-            '20030926_111535.jpg',
-            '20040316_075137.jpg',
-            '20040208_093744.jpg',
-            '20050218_212016.jpg',
-            '20050527_051833.jpg',
-            '20060802_095200.jpg',
-            '20001004_015404.jpg',
-            '20060127_225027.jpg',]
+            'exiv2-empty.jpg'
+            ,'20031214_000043.jpg'
+            ,'20000506_020544.jpg'
+            ,'20040329_224245.jpg'
+            ,'20010405_235039.jpg'
+            ,'20030925_201850.jpg'
+            ,'20001026_044550.jpg'
+            ,'20030926_111535.jpg'
+            ,'20040316_075137.jpg'
+            ,'20040208_093744.jpg'
+            ,'20050218_212016.jpg'
+            ,'20050527_051833.jpg'
+            ,'20060802_095200.jpg'
+            ,'20001004_015404.jpg'
+            ,'20060127_225027.jpg']
 
         images_3 = [
-            'exiv2-empty.exv',
-            '20031214_000043.exv',
-            '20000506_020544.exv',
-            '20040329_224245.exv',
-            '20010405_235039.exv',
-            '20030925_201850.exv',
-            '20001026_044550.exv',
-            '20030926_111535.exv',
-            '20040316_075137.exv',
-            '20040208_093744.exv',
-            '20050218_212016.exv',
-            '20050527_051833.exv',
-            '20060802_095200.exv',
-            '20001004_015404.exv',
-            '20060127_225027.exv',]
+            'exiv2-empty.exv'
+            ,'20031214_000043.exv'
+            ,'20000506_020544.exv'
+            ,'20040329_224245.exv'
+            ,'20010405_235039.exv'
+            ,'20030925_201850.exv'
+            ,'20001026_044550.exv'
+            ,'20030926_111535.exv'
+            ,'20040316_075137.exv'
+            ,'20040208_093744.exv'
+            ,'20050218_212016.exv'
+            ,'20050527_051833.exv'
+            ,'20060802_095200.exv'
+            ,'20001004_015404.exv'
+            ,'20060127_225027.exv']
 
         images_1_str = ' '.join(images_1)
         images_2_str = ' '.join(images_2)
@@ -458,7 +460,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
                 BT.copyTestFile(i)
 
             out         += BT.execute('exiv2 -pS          {img}', vars())
-            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_in_bytes=True),
+            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_bytes=True),
                     stub + '_1.icc')
             out         += BT.execute('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_2.icc')
@@ -466,7 +468,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
             BT.copyTestFile('large.icc', iccname)
             out         += BT.execute('exiv2 -iC          {img}', vars())
-            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_in_bytes=True),
+            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_bytes=True),
                     stub + '_large_1.icc')
             out         += BT.execute('exiv2 -pS          {img}', vars())
             out         += BT.execute('exiv2 -eC --force  {img}', vars())
@@ -475,7 +477,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
             BT.copyTestFile('small.icc', iccname)
             out         += BT.execute('exiv2 -iC          {img}', vars())
-            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_in_bytes=True),
+            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_bytes=True),
                     stub + '_small_1.icc')
             out         += BT.execute('exiv2 -pS          {img}', vars())
             out         += BT.execute('exiv2 -eC --force  {img}', vars())
@@ -491,25 +493,25 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
 
     def image_test(self):
         test_files = [
-            'table.jpg',
-            'smiley1.jpg',
-            'smiley2.jpg',]
+            'table.jpg'
+            ,'smiley1.jpg'
+            ,'smiley2.jpg']
         erase_test_files = [
-            'glider.exv',
-            'iptc-noAPP13.jpg',
-            'iptc-psAPP13-noIPTC.jpg',
-            'iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg',
-            'iptc-psAPP13s-noIPTC-psAPP13s-wIPTC.jpg',
-            'iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg',
-            'iptc-psAPP13s-wIPTCs-psAPP13s-wIPTCs.jpg',
-            'iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg',
-            'iptc-psAPP13-wIPTCbeg.jpg',
-            'iptc-psAPP13-wIPTCempty.jpg',
-            'iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg',
-            'iptc-psAPP13-wIPTCend.jpg',
-            'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg',
-            'iptc-psAPP13-wIPTCmid.jpg',
-            'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg',]
+            'glider.exv'
+            ,'iptc-noAPP13.jpg'
+            ,'iptc-psAPP13-noIPTC.jpg'
+            ,'iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg'
+            ,'iptc-psAPP13s-noIPTC-psAPP13s-wIPTC.jpg'
+            ,'iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg'
+            ,'iptc-psAPP13s-wIPTCs-psAPP13s-wIPTCs.jpg'
+            ,'iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg'
+            ,'iptc-psAPP13-wIPTCbeg.jpg'
+            ,'iptc-psAPP13-wIPTCempty.jpg'
+            ,'iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg'
+            ,'iptc-psAPP13-wIPTCend.jpg'
+            ,'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg'
+            ,'iptc-psAPP13-wIPTCmid.jpg'
+            ,'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg']
 
         pass_count  = 0
         fail_count  = 0
@@ -560,9 +562,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
             result      += [BT.md5sum(i) for i in files]
             return ' '.join(result)
 
-        server_url = 'http://{}:{}'.format(BT.Config.exiv2_http,
-                                           BT.Config.exiv2_port)
-        server = BT.HttpServer(bind=BT.Config.exiv2_http,
+        server_url = '{}:{}'.format(BT.Config.exiv2_http,
+                                    BT.Config.exiv2_port)
+        server = BT.HttpServer(bind=BT.Config.exiv2_http.lstrip('http://'),
                                port=BT.Config.exiv2_port,
                                work_dir=BT.Config.data_dir)
         try:
@@ -593,24 +595,24 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42'''
     def iptc_test(self):
         # Test driver for Iptc metadata
         test_files = [
-            'glider.exv',
-            'iptc-noAPP13.jpg',
-            'iptc-psAPP13-noIPTC.jpg',
-            'iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg',
-            'iptc-psAPP13s-noIPTC-psAPP13s-wIPTC.jpg',
-            'iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg',
-            'iptc-psAPP13s-wIPTCs-psAPP13s-wIPTCs.jpg',
-            'iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg',
-            'iptc-psAPP13-wIPTCbeg.jpg',
-            'iptc-psAPP13-wIPTCempty.jpg',
-            'iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg',
-            'iptc-psAPP13-wIPTCend.jpg',
-            'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg',
-            'iptc-psAPP13-wIPTCmid.jpg',
-            'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg',
-            'smiley1.jpg',
-            'smiley2.jpg',
-            'table.jpg',]
+            'glider.exv'
+            ,'iptc-noAPP13.jpg'
+            ,'iptc-psAPP13-noIPTC.jpg'
+            ,'iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg'
+            ,'iptc-psAPP13s-noIPTC-psAPP13s-wIPTC.jpg'
+            ,'iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg'
+            ,'iptc-psAPP13s-wIPTCs-psAPP13s-wIPTCs.jpg'
+            ,'iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg'
+            ,'iptc-psAPP13-wIPTCbeg.jpg'
+            ,'iptc-psAPP13-wIPTCempty.jpg'
+            ,'iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg'
+            ,'iptc-psAPP13-wIPTCend.jpg'
+            ,'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg'
+            ,'iptc-psAPP13-wIPTCmid.jpg'
+            ,'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg'
+            ,'smiley1.jpg'
+            ,'smiley2.jpg'
+            ,'table.jpg']
 
         pass_count  = 0
         fail_count  = 0

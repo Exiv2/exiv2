@@ -201,10 +201,12 @@ def configure_suite(config_file):
                 "General", "memcheck_timeout_penalty", fallback=20.0
             )
     
-    # Configure the parameters for bash test
-    BT.Config.bin_dir  = os.path.abspath(config['ENV']['exiv2_path'])
-    BT.Config.data_dir = os.path.abspath(config['paths']['data_path'])
-    BT.Config.tmp_dir  = os.path.abspath(config['paths']['tmp_path'])
+    # Configure the parameters for bash tests
+    BT.Config.bin_dir       = os.path.abspath(config['ENV']['exiv2_path'])
+    BT.Config.data_dir      = os.path.abspath(config['paths']['data_path'])
+    BT.Config.tmp_dir       = os.path.abspath(config['paths']['tmp_path'])
+    BT.Config.exiv2_http    = config['ENV']['exiv2_http']
+    BT.Config.exiv2_port    = int(config['ENV']['exiv2_port'])
 
 
 class FileDecoratorBase(object):

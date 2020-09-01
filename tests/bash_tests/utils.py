@@ -25,6 +25,8 @@ class Config:
     data_dir    = os.path.join(exiv2_dir, 'test/data')
     tmp_dir     = os.path.join(exiv2_dir, 'test/tmp')
     system_name = platform.system() or 'Unknown'
+    exiv2_http  = 'http://127.0.0.1'
+    exiv2_port  = 12760
 
     @classmethod
     def init(cls):
@@ -34,8 +36,6 @@ class Config:
         log.buffer      = []
         cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
         cls.encoding    = 'utf-8'
-        cls.exiv2_http  = '127.0.0.1'
-        cls.exiv2_port  = 12760
 
 
 """
@@ -62,8 +62,8 @@ def rm(*files):
             continue
 
 
-def cat(*files, encoding=None, return_in_bytes=False):
-    if return_in_bytes:
+def cat(*files, encoding=None, return_bytes=False):
+    if return_bytes:
         result = b''
         for i in files:
             with open(i, 'rb') as f:
@@ -270,10 +270,11 @@ class Output:
 class HttpServer:
     def __init__(self, bind='127.0.0.1', port=80, work_dir='.'):
         self.bind = bind
-        self.port = port
+        self.port = int(port)
         self.work_dir = work_dir
 
     def _start(self):
+        """ Equivalent to executing `python3 -m http.server` """
         os.chdir(self.work_dir)
         server.test(HandlerClass=server.SimpleHTTPRequestHandler, bind=self.bind, port=self.port)
         log.error('The HTTP server exits without calling stop()')
@@ -349,12 +350,12 @@ def execute(cmd: str,
             stdin: (str, bytes) = None,
             encoding=None,
             expected_returncodes=[0],
-            return_in_bytes=False,
+            return_bytes=False,
             mix_stdout_and_stderr=True):
     """
     Execute a command in the shell and return its stdout and stderr.
     - If the binary of Exiv2 is executed, the absolute path is automatically added.
-    - Returns the output bytes when return_in_bytes is true. Otherwise, the output is decoded to a str and returned.
+    - Returns the output bytes when return_bytes is true. Otherwise, the output is decoded to a str and returned.
 
     Sample:
     >>> execute('echo Hello')
@@ -383,7 +384,7 @@ def execute(cmd: str,
     output          = [i or b'' for i in output]
     output          = [i.rstrip(b'\n') for i in output]
 
-    if not return_in_bytes:
+    if not return_bytes:
         output      = [i.decode(encoding) for i in output]
         output      = [i.replace('\r\n', '\n') for i in output]   # fix dos line-endings
         output      = [i.replace('\\', r'/') for i in output]     # fix dos path separators
@@ -456,7 +457,7 @@ def printTest(filename):
     src_file    = os.path.join(Config.data_dir, filename)
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
-    output = execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_in_bytes=True)
+    output = execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_bytes=True)
     output = output.replace(os.path.normpath(Config.data_dir).encode(), b'../data') # Ignore the difference of data_dir
     save(output + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
@@ -477,7 +478,7 @@ r Iptc.Application2.Keywords
 r Iptc.Application2.CountryName
 """.lstrip('\n').encode()
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_in_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -499,7 +500,7 @@ a Iptc.Envelope.TimeSent			  14:41:0-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_in_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -510,8 +511,8 @@ def extendedTest(filename):
     src_file    = os.path.join(Config.data_dir, filename)
     good_file   = os.path.join(Config.data_dir, filename + '.ixgd')
     copyTestFile(filename, tmp)
-    stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'), return_in_bytes=False)
+    stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'), return_bytes=False)
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), return_in_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
