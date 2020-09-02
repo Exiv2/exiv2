@@ -10,6 +10,7 @@ import sys
 import shutil
 import string
 import unittest
+import platform
 
 
 from bash_tests import utils as BT
@@ -161,6 +162,8 @@ def configure_suite(config_file):
         else:
             fallback = ""
         config['ENV'][key] = os.getenv(config['ENV'][key]) or fallback
+    if platform.system() == 'Windows':
+        config['ENV']['binary_extension'] = config['ENV']['binary_extension'] or '.exe'
 
     if 'variables' in config:
         for key in config['variables']:
@@ -203,10 +206,12 @@ def configure_suite(config_file):
     
     # Configure the parameters for bash tests
     BT.Config.bin_dir       = os.path.abspath(config['ENV']['exiv2_path'])
-    BT.Config.data_dir      = os.path.abspath(config['paths']['data_path'])
-    BT.Config.tmp_dir       = os.path.abspath(config['paths']['tmp_path'])
+    BT.Config.exiv2_ext     = config['ENV']['binary_extension']
     BT.Config.exiv2_http    = config['ENV']['exiv2_http']
     BT.Config.exiv2_port    = int(config['ENV']['exiv2_port'])
+    BT.Config.data_dir      = os.path.abspath(config['paths']['data_path'])
+    BT.Config.tmp_dir       = os.path.abspath(config['paths']['tmp_path'])
+    # print(dict(config['ENV'])); exit(1)     # for debug
 
 
 class FileDecoratorBase(object):

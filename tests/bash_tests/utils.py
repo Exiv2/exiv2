@@ -21,6 +21,7 @@ class Config:
     # The configuration parameters for bash test
     # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
     exiv2_dir   = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
+    exiv2_ext   = ''    # or '.exe'
     bin_dir     = os.path.join(exiv2_dir, 'build/bin')
     data_dir    = os.path.join(exiv2_dir, 'test/data')
     tmp_dir     = os.path.join(exiv2_dir, 'test/tmp')
@@ -30,7 +31,7 @@ class Config:
 
     @classmethod
     def init(cls):
-        """ Init test environments and variables """
+        """ Init test environments and variables that may be modified """
         os.makedirs(cls.tmp_dir, exist_ok=True)
         os.chdir(cls.tmp_dir)
         log.buffer      = []
@@ -253,6 +254,7 @@ class Output:
     def __str__(self):
         return self.newline.join(self.lines)
 
+    # Comment it so that log does not automatically convert to str type
     # def __repr__(self):
     #     return str(self)
 
@@ -350,52 +352,58 @@ def execute(cmd: str,
             stdin: (str, bytes) = None,
             encoding=None,
             expected_returncodes=[0],
+            return_raw=False,
             return_bytes=False,
-            mix_stdout_and_stderr=True):
+            redirect_stderr_to_stdout=True):
     """
     Execute a command in the shell and return its stdout and stderr.
     - If the binary of Exiv2 is executed, the absolute path is automatically added.
-    - Returns the output bytes when return_bytes is true. Otherwise, the output is decoded to a str and returned.
+    - When return_raw is true, returns the raw output. Otherwise, the path separator, whitespace character in output will be filtered.
+    - When return_bytes is true, returns the output bytes. Otherwise, the output is decoded to a str and returned.
 
     Sample:
     >>> execute('echo Hello')
     >>> execute('exiv2 --help')
     """
-    args            = shlex.split(cmd.format(**vars_dict))
-    if args[0] in Config.bin_files:
-        args[0]     = os.path.join(Config.bin_dir, args[0])
-
+    # Check the input
+    args            = shlex.split(cmd.format(**vars_dict), posix=os.name=='posix')
     encoding        = encoding or Config.encoding
+    if args[0] in Config.bin_files:
+        args[0]     = os.path.join(Config.bin_dir, args[0]) + Config.exiv2_ext
     if stdin:
         if not isinstance(stdin, bytes):
             stdin   = str(stdin).encode(encoding)
-
-    if mix_stdout_and_stderr:
+    if redirect_stderr_to_stdout:
         stderr_to   = subprocess.STDOUT
     else:
         stderr_to   = subprocess.PIPE
 
-    with subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr_to, cwd=Config.tmp_dir) as proc:
-        try:
-            output  = proc.communicate(stdin, timeout=10)  # Assign (stdout, stderr) to output
-        except subprocess.TimeoutExpired:
-            proc.kill()
-            output  = proc.communicate()
+    # Execute the command
+    try:
+        with subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr_to, cwd=Config.tmp_dir) as proc:
+            try:
+                output  = proc.communicate(stdin, timeout=10)  # Assign (stdout, stderr) to output
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                output  = proc.communicate()
+    except:
+        raise RuntimeError('Failed to execute: {}'.format(args))
     output          = [i or b'' for i in output]
-    output          = [i.rstrip(b'\n') for i in output]
+    output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
 
+    # Check the output
+    if not return_raw:
+        output      = [i.replace(b'\r\n', b'\n') for i in output]   # Fix dos line-endings
+        output      = [i.replace(b'\\', rb'/') for i in output]     # Fix dos path separators
     if not return_bytes:
         output      = [i.decode(encoding) for i in output]
-        output      = [i.replace('\r\n', '\n') for i in output]   # fix dos line-endings
-        output      = [i.replace('\\', r'/') for i in output]     # fix dos path separators
-
     if expected_returncodes and proc.returncode not in expected_returncodes:
-        log.error('Failed to execute: {}'.format(' '.join(args)))
+        log.error('Failed to execute: {}'.format(args))
         log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), proc.returncode))
         log.info('OUTPUT:\n{}'.format(output[0] + output[1]))
         raise RuntimeError('\n' + log.to_str())
 
-    if mix_stdout_and_stderr:
+    if redirect_stderr_to_stdout:
         return output[0] + output[1] or None
     else:
         return [i or None for i in output]
@@ -434,20 +442,20 @@ def eraseTest(filename):
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
-def copyTest(num, src, dst):
-    test_file   = '{}.c{}tst'.format(dst, num)
+def copyTest(num, src, good):
+    test_file   = '{}.c{}tst'.format(good, num)
     src_file    = os.path.join(Config.data_dir, src)
-    good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(dst, num))
-    copyTestFile(dst, test_file)
+    good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(good, num))
+    copyTestFile(good, test_file)
     execute('metacopy -a {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
-def iptcTest(num, src, dst):
-    test_file   = '{}.i{}tst'.format(dst, num)
+def iptcTest(num, src, good):
+    test_file   = '{}.i{}tst'.format(good, num)
     src_file    = os.path.join(Config.data_dir, src)
-    good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(dst, num))
-    copyTestFile(dst, test_file)
+    good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(good, num))
+    copyTestFile(good, test_file)
     execute('metacopy -ip {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -457,7 +465,7 @@ def printTest(filename):
     src_file    = os.path.join(Config.data_dir, filename)
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
-    output = execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_bytes=True)
+    output = execute('iptcprint {src_file}', vars(), expected_returncodes=[0, 255], return_bytes=True)
     output = output.replace(os.path.normpath(Config.data_dir).encode(), b'../data') # Ignore the difference of data_dir
     save(output + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
@@ -478,7 +486,7 @@ r Iptc.Application2.Keywords
 r Iptc.Application2.CountryName
 """.lstrip('\n').encode()
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=[0, 255], return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -500,7 +508,7 @@ a Iptc.Envelope.TimeSent			  14:41:0-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=[0, 255], return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 

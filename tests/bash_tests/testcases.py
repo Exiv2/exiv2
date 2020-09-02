@@ -69,8 +69,8 @@ class TestCases(unittest.TestCase):
         out        += 'Testcase 4'
         out        += '=========='
         BT.save(BT.cat('j.xmp').replace('<rdf:li xml:lang="de-DE">The Exif image description</rdf:li>',
-                                              '<rdf:li xml:lang="de-DE">The Exif image description</rdf:li><rdf:li xml:lang="it-IT">Ciao bella</rdf:li>'),
-                   'k.xmp')
+                                        '<rdf:li xml:lang="de-DE">The Exif image description</rdf:li><rdf:li xml:lang="it-IT">Ciao bella</rdf:li>')
+                ,'k.xmp')
         BT.copyTestFile(jpg, 'k.jpg')
         out        += BT.execute('exiv2 -iX k.jpg')
         out        += BT.execute('exiv2 -px k.jpg')
@@ -298,7 +298,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'exiv2-sony-dsc-w7.jpg'
             ,'exiv2-canon-eos-20d.jpg'
             ,'exiv2-canon-eos-d30.jpg'
-            ,'exiv2-canon-powershot-a520.jpg']
+            ,'exiv2-canon-powershot-a520.jpg'
+        ]
 
         images_2 = [
             'exiv2-empty.jpg'
@@ -315,7 +316,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'20050527_051833.jpg'
             ,'20060802_095200.jpg'
             ,'20001004_015404.jpg'
-            ,'20060127_225027.jpg']
+            ,'20060127_225027.jpg'
+        ]
 
         images_3 = [
             'exiv2-empty.exv'
@@ -332,7 +334,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'20050527_051833.exv'
             ,'20060802_095200.exv'
             ,'20001004_015404.exv'
-            ,'20060127_225027.exv']
+            ,'20060127_225027.exv'
+        ]
 
         images_1_str = ' '.join(images_1)
         images_2_str = ' '.join(images_2)
@@ -362,7 +365,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += BT.execute('exiv2 -u -v print {images_2_str}', vars(), expected_returncodes=[253])
         out += ''
         out += BT.execute('exiv2 -u -v -b -pt print {images_2_str}', vars())
-        stdout, stderr = BT.execute('exiv2 -u -v -b -pt print {images_2_str}', vars(), mix_stdout_and_stderr=False)
+        stdout, stderr = BT.execute('exiv2 -u -v -b -pt print {images_2_str}', vars(), redirect_stderr_to_stdout=False)
         BT.save(stdout, 'iii')
         out += stderr
 
@@ -371,7 +374,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         out += '\nExtract Thumbnail --------------------------------------------------------'
         out += BT.execute('exiv2 -u -vf -et extract {images_2_str}', vars(), expected_returncodes=[253])
-        stdout, stderr = BT.execute('exiv2 -u -v -b -pt print {images_3_str}', vars(), mix_stdout_and_stderr=False)
+        stdout, stderr = BT.execute('exiv2 -u -v -b -pt print {images_3_str}', vars(), redirect_stderr_to_stdout=False)
         BT.save(stdout, 'jjj')
         out += stderr
 
@@ -388,7 +391,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         out += '\nInsert Exif data ---------------------------------------------------------'
         out += BT.execute('exiv2 -u -v insert {images_2_str}', vars())
-        stdout, stderr = BT.execute('exiv2 -u -v -b -pt print {images_3_str}', vars(), mix_stdout_and_stderr=False)
+        stdout, stderr = BT.execute('exiv2 -u -v -b -pt print {images_3_str}', vars(), redirect_stderr_to_stdout=False)
         BT.save(stdout, 'kkk')
         out += stderr
 
@@ -448,11 +451,12 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         # num = 1074  # ICC Profile Support
         out = BT.Output()
-        for img in ['Reagan.jpg',
-                    'exiv2-bug1199.webp',
-                    'ReaganLargePng.png',
-                    'ReaganLargeJpg.jpg',
-                    'Reagan2.jp2']:  # 1272 ReaganLargeTiff.tiff
+        for img in ['Reagan.jpg'
+                    ,'exiv2-bug1199.webp'
+                    ,'ReaganLargePng.png'
+                    ,'ReaganLargeJpg.jpg'
+                    ,'Reagan2.jp2'      # 1272 ReaganLargeTiff.tiff
+                    ]:
             stub         = img.split('.')[0]
             iccname      = stub + '.icc'
 
@@ -460,7 +464,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
                 BT.copyTestFile(i)
 
             out         += BT.execute('exiv2 -pS          {img}', vars())
-            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_bytes=True),
+            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_raw=True, return_bytes=True),
                     stub + '_1.icc')
             out         += BT.execute('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_2.icc')
@@ -468,7 +472,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             BT.copyTestFile('large.icc', iccname)
             out         += BT.execute('exiv2 -iC          {img}', vars())
-            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_bytes=True),
+            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_raw=True, return_bytes=True),
                     stub + '_large_1.icc')
             out         += BT.execute('exiv2 -pS          {img}', vars())
             out         += BT.execute('exiv2 -eC --force  {img}', vars())
@@ -477,7 +481,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             BT.copyTestFile('small.icc', iccname)
             out         += BT.execute('exiv2 -iC          {img}', vars())
-            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_bytes=True),
+            BT.save(BT.execute('exiv2 -pC                 {img}', vars(), return_raw=True, return_bytes=True),
                     stub + '_small_1.icc')
             out         += BT.execute('exiv2 -pS          {img}', vars())
             out         += BT.execute('exiv2 -eC --force  {img}', vars())
@@ -492,10 +496,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
 
     def image_test(self):
-        test_files = [
-            'table.jpg'
-            ,'smiley1.jpg'
-            ,'smiley2.jpg']
+        test_files = ['table.jpg', 'smiley1.jpg', 'smiley2.jpg']
         erase_test_files = [
             'glider.exv'
             ,'iptc-noAPP13.jpg'
@@ -511,7 +512,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'iptc-psAPP13-wIPTCend.jpg'
             ,'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg'
             ,'iptc-psAPP13-wIPTCmid.jpg'
-            ,'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg']
+            ,'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg'
+        ]
 
         pass_count  = 0
         fail_count  = 0
@@ -612,7 +614,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg'
             ,'smiley1.jpg'
             ,'smiley2.jpg'
-            ,'table.jpg']
+            ,'table.jpg'
+        ]
 
         pass_count  = 0
         fail_count  = 0
