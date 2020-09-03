@@ -475,8 +475,8 @@ def printTest(filename):
     src_file    = os.path.join(Config.data_dir, filename)
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
-    output = execute('iptcprint {src_file}', vars(), expected_returncodes=[0, 255], return_bytes=True)
-    output = output.replace(os.path.normpath(Config.data_dir).encode(), b'../data') # Ignore the difference of data_dir
+    output      = execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_bytes=True)
+    output      = output.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir
     save(output + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -496,7 +496,7 @@ r Iptc.Application2.Keywords
 r Iptc.Application2.CountryName
 """.lstrip('\n').encode()
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=[0, 255], return_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -518,7 +518,7 @@ a Iptc.Envelope.TimeSent			  14:41:0-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
     execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=[0, 255], return_bytes=True) + b'\n',
+    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
          test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
