@@ -476,7 +476,7 @@ def printTest(filename):
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
     output      = execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_bytes=True)
-    output      = output.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir
+    output      = output.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir on Windows
     save(output + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 

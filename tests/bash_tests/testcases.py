@@ -231,6 +231,15 @@ class TestCases(unittest.TestCase):
         out        += BT.execute('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
         out        += BT.execute('exiv2 -px                        DSC_3079.jpg')
 
+        # Ignore the output differences on Windows
+        for pair in [
+            ('charset="Jis"', 'charset=Jis'),
+            ('charset="Unicode"', 'charset=Unicode'),
+            (' 9  Rocknroll', "11  Rock'n'roll"),
+            ('Rocknroll', "Rock'n'roll")
+        ]:
+            out = str(out).replace(pair[0], pair[1])
+
         BT.reportTest('conversions', out)
 
 
