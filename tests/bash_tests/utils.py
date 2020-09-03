@@ -365,14 +365,24 @@ def execute(cmd: str,
     >>> execute('echo Hello')
     >>> execute('exiv2 --help')
     """
-    # Check the input
-    args            = shlex.split(cmd.format(**vars_dict), posix=os.name=='posix')
-    encoding        = encoding or Config.encoding
+    # Check args
+    cmd             = cmd.format(**vars_dict)
+    args            = cmd.split(' ', maxsplit=1)
     if args[0] in Config.bin_files:
         args[0]     = os.path.join(Config.bin_dir, args[0]) + Config.exiv2_ext
+    args            = ' '.join(args)
+    if Config.system_name == 'Windows':
+        args        = args.replace('\'', '\"')
+    else:
+        args        = shlex.split(args, posix=os.name == 'posix')
+
+    # Check stdin
+    encoding        = encoding or Config.encoding
     if stdin:
         if not isinstance(stdin, bytes):
             stdin   = str(stdin).encode(encoding)
+
+    # Check stdout
     if redirect_stderr_to_stdout:
         stderr_to   = subprocess.STDOUT
     else:
