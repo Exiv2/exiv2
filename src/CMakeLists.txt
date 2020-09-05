@@ -215,7 +215,8 @@ if( EXIV2_ENABLE_NLS )
     target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
     target_include_directories(exiv2lib_int PRIVATE ${Intl_INCLUDE_DIRS})
     # Definition needed for translations
-    target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}")
+    join_paths(EXV_LOCALEDIR ".." "${CMAKE_INSTALL_LOCALEDIR}")
+    target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="${EXV_LOCALEDIR}")
 endif()
 
 if( ICONV_FOUND )
