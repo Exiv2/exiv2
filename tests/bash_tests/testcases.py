@@ -667,3 +667,184 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         if fail_count:
             raise RuntimeError(str(out) + '\n' + BT.log.to_str())
 
+
+    def iso65k_test(self):
+        # test for ISOs which follow Annex G of EXIF 2.3 spec, i.e. ISOs,
+        # which cannot be represented by Exif.Photo.ISOSpeedRatings due to
+        # being larger than 65k
+        out  = BT.Output()
+
+        # Checks for old way of ISO readout based on the 16bit value
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to something <65k
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0001'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 60001' {filename}", vars())
+        out += BT.execute("exiv2 -ps                                      {filename}", vars())
+        out += ''
+
+        # Old ISO is read out first, so if it doesn't indicate that
+        # some higher ISO is used, the 16bit value should be returned,
+        # ignoring the other tags (for now)
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to something <65k
+        # - Exif.Photo.SensitivityType being set to "REI"
+        # - Exif.Photo.RecommendedExposureIndex being set to != ISOSpeedRatings
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0002'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 60002'           {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 444444' {filename}", vars())
+        out += BT.execute("exiv2 -ps                                                {filename}", vars())
+        out += ''
+
+        # Corner case check (highest ISO value not indicating possible
+        # 16bit overflow in ISO)
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65534
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0003'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65534' {filename}", vars())
+        out += BT.execute("exiv2 -ps                                      {filename}", vars())
+        out += ''
+
+        # Corner case check (ISO value indicating possible overflow,
+        # but no additional informations available)
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65535
+        # - Exif.Photo.SensitivityType NOT SET
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0004'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out += BT.execute("exiv2 -ps                                      {filename}", vars())
+        out += ''
+
+        # possible ISO value overflow, but additional information not valid
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65535
+        # - Exif.Photo.SensitivityType being set to 0
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0005'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 0'     {filename}", vars())
+        out += BT.execute("exiv2 -ps                                      {filename}", vars())
+        out += ''
+
+        # possible ISO value overflow, but additional information not valid
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65535
+        # - Exif.Photo.SensitivityType being set to 8
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0006'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 8'     {filename}", vars())
+        out += BT.execute("exiv2 -ps                                      {filename}", vars())
+        out += ''
+
+        # possible ISO value overflow, but additional information partially valid
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65535
+        # - Exif.Photo.SensitivityType being set to 2 ("REI")
+        # - Exif.Photo.RecommendedExposureIndex NOT SET
+        # output:
+        # - value of Exif.Photo.ISOSpeedRatings
+        num  = '0007'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 2'     {filename}", vars())
+        out += BT.execute("exiv2 -ps                                      {filename}", vars())
+        out += ''
+
+        # ISO value overflow, REI contains same value as 16bit ISO, though
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65535
+        # - Exif.Photo.SensitivityType being set to 2 ("REI")
+        # - Exif.Photo.RecommendedExposureIndex set to 65530
+        # output:
+        # - value of Exif.Photo.RecommendedExposureIndex
+        num  = '0008'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535'           {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 65530'  {filename}", vars())
+        out += BT.execute("exiv2 -ps                                                {filename}", vars())
+        out += ''
+
+        # ISO value overflow, REI contains 16bit ISO value +1
+        # input:
+        # - Exif.Photo.ISOSpeedRatings being set to 65535
+        # - Exif.Photo.SensitivityType being set to 2 ("REI")
+        # - Exif.Photo.RecommendedExposureIndex set to 65536
+        # output:
+        # - value of Exif.Photo.RecommendedExposureIndex
+        num  = '0009'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535'           {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 65536'  {filename}", vars())
+        out += BT.execute("exiv2 -ps                                                {filename}", vars())
+        out += ''
+
+        # old ISO not set
+        # input:
+        # - Exif.Photo.ISOSpeedRatings is NOT SET
+        # - Exif.Photo.SensitivityType being set to 2 ("REI")
+        # - Exif.Photo.RecommendedExposureIndex set to <65k
+        # output:
+        # - value of Exif.Photo.RecommendedExposureIndex
+        num  = '0010'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 60010'  {filename}", vars())
+        out += BT.execute("exiv2 -ps                                                {filename}", vars())
+        out += ''
+
+        # old ISO not set
+        # input:
+        # - Exif.Photo.ISOSpeedRatings is NOT SET
+        # - Exif.Photo.SensitivityType being set to 2 ("REI")
+        # - Exif.Photo.RecommendedExposureIndex set to >65k
+        # output:
+        # - value of Exif.Photo.RecommendedExposureIndex
+        num  = '0011'
+        filename = 'exiv2-iso65k-{}.jpg'.format(num)
+        BT.copyTestFile('exiv2-empty.jpg', filename)
+        out += '------> iso65k test {} <-------'.format(num)
+        out += BT.execute("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out += BT.execute("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 100011' {filename}", vars())
+        out += BT.execute("exiv2 -ps                                                {filename}", vars())
+        out += ''
+
+        BT.reportTest('iso65k-test', out)
