@@ -21,7 +21,6 @@ class Config:
     # The configuration parameters for bash test
     # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
     exiv2_dir   = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
-    exiv2_ext   = ''    # or '.exe'
     bin_dir     = os.path.join(exiv2_dir, 'build/bin')
     data_dir    = os.path.join(exiv2_dir, 'test/data')
     tmp_dir     = os.path.join(exiv2_dir, 'test/tmp')
@@ -369,7 +368,7 @@ def execute(cmd: str,
     cmd             = cmd.format(**vars_dict)
     args            = cmd.split(' ', maxsplit=1)
     if args[0] in Config.bin_files:
-        args[0]     = os.path.join(Config.bin_dir, args[0]) + Config.exiv2_ext
+        args[0]     = os.path.join(Config.bin_dir, args[0])
     args            = ' '.join(args)
     if Config.system_name == 'Windows':
         args        = args.replace('\'', '\"')
