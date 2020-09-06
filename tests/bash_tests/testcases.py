@@ -848,6 +848,18 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('iso65k-test', out)
 
 
+    def modify_test(self):
+        # Test driver for write unit tests to build Exif metadata from scratch
+        for i in ['exiv2-empty.jpg', 'exiv2-gc.jpg', 'modifycmd1.txt', 'modifycmd2.txt']:
+            BT.copyTestFile(i)
+        out  = BT.Output()
+        out += BT.Executer('exiv2 -v -m modifycmd1.txt exiv2-empty.jpg')
+        out += BT.Executer('exiv2 -v -m modifycmd2.txt exiv2-gc.jpg')
+        out += BT.Executer('exiv2 -v -pi exiv2-empty.jpg')
+        out += BT.Executer('exiv2 -v -pt exiv2-empty.jpg exiv2-gc.jpg')
+        BT.reportTest('modify-test', out)
+
+
     def path_test(self):
         # Mini test-driver for path utility functions
         BT.copyTestFile('path-test.txt')
