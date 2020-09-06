@@ -231,43 +231,6 @@ class Log:
 log = Log()
 
 
-class Output:
-    """
-    Simulate the stdout buffer.
-    You can use `out+=x` to simulate `print(x)`
-
-    Sample:
-    >>> out = Output()
-    >>> out
-    >>> str(out)
-    >>> out += 'Hello'
-    >>> out += 1
-    >>> out += ['Hi' , 2]
-    >>> out += None         # no effect
-    >>> str(out)
-    """
-    def __init__(self):
-        self.lines = []
-        self.newline = '\n'
-
-    def __str__(self):
-        return self.newline.join(self.lines)
-
-    # Comment it so that log does not automatically convert to str type
-    # def __repr__(self):
-    #     return str(self)
-
-    def __add__(self, other):
-        if other or other == '':
-            self.lines.append(str(other))
-        return self
-
-    def __radd__(self, other):
-        if other or other == '':
-            self.lines.append(str(other))
-        return self
-
-
 class HttpServer:
     def __init__(self, bind='127.0.0.1', port=80, work_dir='.'):
         self.bind = bind
@@ -340,82 +303,134 @@ def simply_diff(file1, file2, encoding=None):
     for i in range(max_lines):
         if list1[i] != list2[i]:
             report  += ['The first mismatch is in line {}:'.format(i + 1)]
-            report  += ['- {}'.format(list1[i])]
-            report  += ['+ {}'.format(list2[i])]
+            report  += ['< {}'.format(list1[i])]
+            report  += ['> {}'.format(list2[i])]
             break
     return '\n'.join(report)
 
 
-def execute(cmd: str,
-            vars_dict=dict(),
-            stdin: (str, bytes) = None,
-            encoding=None,
-            expected_returncodes=[0],
-            return_raw=False,
-            return_bytes=False,
-            redirect_stderr_to_stdout=True):
+class Executer:
     """
-    Execute a command in the shell and return its stdout and stderr.
-    - If the binary of Exiv2 is executed, the absolute path is automatically added.
-    - When return_raw is true, returns the raw output. Otherwise, the path separator, whitespace character in output will be filtered.
-    - When return_bytes is true, returns the output bytes. Otherwise, the output is decoded to a str and returned.
+    Execute a command in the shell, return a decorated `Subprocess.Popen` object.
+    - If a binary of Exiv2 is executed, the absolute path is automatically added.
+    - `adjust_output`: whether to filter path delimiters, whitespace characters in output
+    - `decode_output`: whether to decode output from bytes to str
 
     Sample:
-    >>> execute('echo Hello')
-    >>> execute('exiv2 --help')
+    >>> Executer('echo Hello').stdout
+    >>> Executer('exiv2 --help').stdout
     """
-    # Check args
-    cmd             = cmd.format(**vars_dict)
-    args            = cmd.split(' ', maxsplit=1)
-    if args[0] in Config.bin_files:
-        args[0]     = os.path.join(Config.bin_dir, args[0])
-    args            = ' '.join(args)
-    if Config.system_name == 'Windows':
-        args        = args.replace('\'', '\"')
-    else:
-        args        = shlex.split(args, posix=os.name == 'posix')
 
-    # Check stdin
-    encoding        = encoding or Config.encoding
-    if stdin:
-        if not isinstance(stdin, bytes):
-            stdin   = str(stdin).encode(encoding)
+    def __init__(self, cmd: str,
+                 vars_dict=dict(),
+                 cwd=None,
+                 encoding=None,
+                 stdin: (str, bytes) = None,
+                 redirect_stderr_to_stdout=True,
+                 assert_returncode=[0],
+                 adjust_output=True,
+                 decode_output=True):
+        self.cmd            = cmd.format(**vars_dict)
+        self.cwd            = cwd or Config.tmp_dir
+        self.encoding       = encoding or Config.encoding
+        self.stdin          = stdin
+        # self.stdout       = None
+        # self.stderr       = None
+        self.redirect_stderr_to_stdout  = redirect_stderr_to_stdout
+        self.assert_returncode          = assert_returncode
+        # self.returncode   = 0
+        self.adjust_output  = adjust_output
+        self.decode_output  = decode_output
 
-    # Check stdout
-    if redirect_stderr_to_stdout:
-        stderr_to   = subprocess.STDOUT
-    else:
-        stderr_to   = subprocess.PIPE
+        # Generate the args for subprocess.Popen
+        args = self.cmd.split(' ', maxsplit=1)
+        if args[0] in Config.bin_files:
+            args[0]     = os.path.join(Config.bin_dir, args[0])
+        args            = ' '.join(args)
+        if Config.system_name == 'Windows':
+            self.args   = args.replace('\'', '\"')
+        else:
+            self.args   = shlex.split(args, posix=os.name == 'posix')
 
-    # Execute the command
-    try:
-        with subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr_to, cwd=Config.tmp_dir) as proc:
-            try:
-                output  = proc.communicate(stdin, timeout=10)  # Assign (stdout, stderr) to output
-            except subprocess.TimeoutExpired:
-                proc.kill()
-                output  = proc.communicate()
-    except:
-        raise RuntimeError('Failed to execute: {}'.format(args))
-    output          = [i or b'' for i in output]
-    output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
+        # check stdin
+        if self.stdin:
+            if not isinstance(stdin, bytes):
+                self.stdin = str(stdin).encode(self.encoding)
 
-    # Check the output
-    if not return_raw:
-        output      = [i.replace(b'\r\n', b'\n') for i in output]   # Fix dos line-endings
-        output      = [i.replace(b'\\', rb'/') for i in output]     # Fix dos path separators
-    if not return_bytes:
-        output      = [i.decode(encoding) for i in output]
-    if expected_returncodes and proc.returncode not in expected_returncodes:
-        log.error('Failed to execute: {}'.format(args))
-        log.error('The expected return code is {}, but get {}'.format(str(expected_returncodes), proc.returncode))
-        log.info('OUTPUT:\n{}'.format(output[0] + output[1]))
-        raise RuntimeError('\n' + log.to_str())
+        self.run()
 
-    if redirect_stderr_to_stdout:
-        return output[0] + output[1] or None
-    else:
-        return [i or None for i in output]
+    def run(self):
+        # Check stdout
+        if self.redirect_stderr_to_stdout:
+            stderr   = subprocess.STDOUT
+        else:
+            stderr   = subprocess.PIPE
+
+        # Execute the command in subprocess
+        try:
+            with subprocess.Popen(self.args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr, cwd=self.cwd) as self.subprocess:
+                try:
+                    output  = self.subprocess.communicate(self.stdin, timeout=10)  # Assign (stdout, stderr) to output
+                except subprocess.TimeoutExpired:
+                    self.subprocess.kill()
+                    output  = self.subprocess.communicate()
+        except:
+            raise RuntimeError('Failed to execute: {}'.format(self.args))
+        output          = [i or b'' for i in output]
+        output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
+
+        # Extract stdout and stderr
+        if self.adjust_output:
+            output      = [i.replace(b'\r\n', b'\n')    for i in output]   # Fix dos line-endings
+            output      = [i.replace(b'\\', rb'/')      for i in output]   # Fix dos path separators
+        if self.decode_output:
+            output      = [i.decode(self.encoding)      for i in output]
+        self.stdout, self.stderr = [i or None           for i in output]
+
+        # check return code
+        self.returncode = self.subprocess.returncode
+        if self.assert_returncode and self.returncode not in self.assert_returncode:
+            log.error('Failed to execute: {}'.format(self.args))
+            log.error('The asserted return code is {}, but got {}'.format(str(self.assert_returncode), self.subprocess.returncode))
+            log.info('OUTPUT:\n{}'.format(output[0] + output[1]))
+            raise RuntimeError('\n' + log.to_str())
+
+
+class Output:
+    """
+    Simulate the stdout buffer.
+    You can use `out+=x` to simulate `print(x)`
+
+    Sample:
+    >>> out = Output()
+    >>> out
+    >>> str(out)
+    >>> out += 'Hello'
+    >>> out += 1
+    >>> out += ['Hi' , 2]
+    >>> out += None         # no effect
+    >>> str(out)
+    """
+    def __init__(self):
+        self.lines = []
+        self.newline = '\n'
+
+    def __str__(self):
+        return self.newline.join(self.lines)
+
+    # Comment it so that log does not automatically convert to str type
+    # def __repr__(self):
+    #     return str(self)
+
+    def __add__(self, other):
+        if isinstance(other, Executer):
+            other = other.stdout
+        if other != None:
+            self.lines.append(str(other))
+        return self
+
+    def __radd__(self, other):
+        return self.__add__(other)
 
 
 def reportTest(testname, output: str, encoding=None):
@@ -438,7 +453,7 @@ def ioTest(filename):
     src     = os.path.join(Config.data_dir, filename)
     out1    = os.path.join(Config.tmp_dir, '{}.1'.format(filename))
     out2    = os.path.join(Config.tmp_dir, '{}.2'.format(filename))
-    execute('iotest {src} {out1} {out2}', vars())
+    Executer('iotest {src} {out1} {out2}', vars())
     assert md5sum(src) == md5sum(out1), 'The output file is different'
     assert md5sum(src) == md5sum(out2), 'The output file is different'
 
@@ -447,7 +462,7 @@ def eraseTest(filename):
     test_file   = filename + '.etst'
     good_file   = os.path.join(Config.data_dir, filename + '.egd')
     copyTestFile(filename, test_file)
-    execute('metacopy {test_file} {test_file}', vars())
+    Executer('metacopy {test_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -456,7 +471,7 @@ def copyTest(num, src, good):
     src_file    = os.path.join(Config.data_dir, src)
     good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(good, num))
     copyTestFile(good, test_file)
-    execute('metacopy -a {src_file} {test_file}', vars())
+    Executer('metacopy -a {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -465,7 +480,7 @@ def iptcTest(num, src, good):
     src_file    = os.path.join(Config.data_dir, src)
     good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(good, num))
     copyTestFile(good, test_file)
-    execute('metacopy -ip {src_file} {test_file}', vars())
+    Executer('metacopy -ip {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -474,9 +489,11 @@ def printTest(filename):
     src_file    = os.path.join(Config.data_dir, filename)
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
-    output      = execute('iptcprint {src_file}', vars(), expected_returncodes=None, return_bytes=True)
-    output      = output.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir on Windows
-    save(output + b'\n', test_file)
+
+    e           = Executer('iptcprint {src_file}', vars(), assert_returncode=None, decode_output=False)
+    stdout      = e.stdout.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir on Windows
+    save(stdout + b'\n', test_file)
+
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -494,9 +511,9 @@ r Iptc.Application2.Keywords
 r Iptc.Application2.Keywords
 r Iptc.Application2.CountryName
 """.lstrip('\n').encode()
-    execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
-         test_file)
+    Executer('iptctest {tmp}', vars(), stdin=stdin)
+    e           = Executer('iptcprint {tmp}', vars(), assert_returncode=None, decode_output=False)
+    save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -516,9 +533,9 @@ a Iptc.Envelope.ModelVersion		  2
 a Iptc.Envelope.TimeSent			  14:41:0-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
-    execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), expected_returncodes=None, return_bytes=True) + b'\n',
-         test_file)
+    Executer('iptctest {tmp}', vars(), stdin=stdin)
+    e           = Executer('iptcprint {tmp}', vars(), assert_returncode=None, decode_output=False)
+    save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -528,8 +545,9 @@ def extendedTest(filename):
     src_file    = os.path.join(Config.data_dir, filename)
     good_file   = os.path.join(Config.data_dir, filename + '.ixgd')
     copyTestFile(filename, tmp)
-    stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'), return_bytes=False)
-    execute('iptctest {tmp}', vars(), stdin=stdin)
-    save(execute('iptcprint {tmp}', vars(), return_bytes=True) + b'\n',
-         test_file)
+    stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'))
+    Executer('iptctest {tmp}', vars(), stdin=stdin)
+    e           = Executer('iptcprint {tmp}', vars(), decode_output=False)
+    save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
+
