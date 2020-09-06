@@ -867,3 +867,83 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out     += BT.Executer('path-test path-test.txt')
         # print(out)
 
+
+    def preview_test(self):
+        # Test driver for previews
+        images = [
+            'exiv2-bug443.jpg'
+            ,'exiv2-bug444.jpg'
+            ,'exiv2-bug445.jpg'
+            ,'exiv2-bug447.jpg'
+            ,'exiv2-bug501.jpg'
+            ,'exiv2-bug528.jpg'
+            ,'exiv2-canon-eos-20d.jpg'
+            ,'exiv2-canon-eos-300d.jpg'
+            ,'exiv2-canon-eos-d30.jpg'
+            ,'exiv2-canon-powershot-a520.jpg'
+            ,'exiv2-canon-powershot-s40.crw'
+            ,'exiv2-fujifilm-finepix-s2pro.jpg'
+            ,'exiv2-gc.jpg'
+            ,'exiv2-kodak-dc210.jpg'
+            ,'exiv2-nikon-d70.jpg'
+            ,'exiv2-nikon-e950.jpg'
+            ,'exiv2-nikon-e990.jpg'
+            ,'exiv2-olympus-c8080wz.jpg'
+            ,'exiv2-panasonic-dmc-fz5.jpg'
+            ,'exiv2-photoshop.psd'
+            ,'exiv2-pre-in-xmp.xmp'
+            ,'exiv2-sigma-d10.jpg'
+            ,'exiv2-sony-dsc-w7.jpg'
+            ,'glider.exv'
+            ,'imagemagick.pgf'
+            ,'iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg'
+            ,'iptc-psAPP13-noIPTC.jpg'
+            ,'iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg'
+            ,'iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg'
+            ,'iptc-psAPP13-wIPTCbeg.jpg'
+            ,'iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg'
+            ,'iptc-psAPP13-wIPTCempty.jpg'
+            ,'iptc-psAPP13-wIPTCend.jpg'
+            ,'iptc-psAPP13-wIPTCmid.jpg'
+            ,'iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg'
+            ,'smiley2.jpg'
+        ]
+        out         = BT.Output()
+        report      = BT.Output()
+        pass_count  = 0
+        fail_count  = 0
+        preview_dir = os.path.join(BT.Config.data_dir, 'preview')
+
+        for filename in images:
+            image   = filename.split('.')[0]
+            BT.copyTestFile(filename)
+            out    += '\n-----> {} <-----\n'.format(filename)
+
+            out    += 'Command: exiv2 -pp ' + filename
+            e       = BT.Executer('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
+            out    += e.stdout
+            out    += 'Exit code: {}'.format(e.returncode)
+            BT.rm(*BT.find(image + '-preview*'))
+
+            out    += '\nCommand: exiv2 -f -ep ' + filename
+            e       = BT.Executer('exiv2 -f -ep {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
+            out    += e.stdout
+            out    += 'Exit code: {}'.format(e.returncode)
+
+            # Check the difference
+            e       = BT.Executer('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
+            preview_num         = e.stdout[:e.stdout.find(':')].lstrip('Preview ')
+            for test_file in BT.find('{image}-preview{preview_num}.*'.format(**vars())):
+                reference_file  = os.path.join(preview_dir, test_file)
+                if BT.diffCheck(reference_file, test_file, in_bytes=True):
+                    pass_count += 1
+                else:
+                    fail_count += 1
+                    report     += 'Failed: ' + filename
+
+        report  += '\n{} passed, {} failed\n'.format(pass_count, fail_count)
+        if fail_count:
+            raise RuntimeError('\n' + str(report) + '\n' + BT.log.to_str())
+
+        BT.reportTest('preview-test', out)
+
