@@ -848,3 +848,11 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += ''
 
         BT.reportTest('iso65k-test', out)
+
+
+    def path_test(self):
+        # Mini test-driver for path utility functions
+        BT.copyTestFile('path-test.txt')
+        out  = BT.Output()
+        out += BT.execute('path-test path-test.txt')
+        # print(out)
