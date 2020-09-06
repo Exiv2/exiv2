@@ -1,4 +1,5 @@
 import difflib
+import fnmatch
 import hashlib
 import multiprocessing
 import os
@@ -60,6 +61,47 @@ def rm(*files):
             os.remove(i)
         except FileNotFoundError:
             continue
+
+
+def find(pattern=None, re_pattern=None, directory='.', depth=-1, onerror=print) -> list:
+    """
+    Find files that match the pattern in the specified directory and return their paths.
+    - `pattern`     : Filter filename based on shell-style wildcards.
+    - `re_pattern`  : Filter filename based on regular expressions.
+    - `directory`   : Find files in this directory and its subdirectories
+    - `depth`       : Depth of subdirectories. If its value is negative, the depth is infinite.
+    - `onerror`     : A callable parameter. it will be called if an exception occurs.
+
+    Work in recursive mode. If there are thousands of files, the runtime may be several seconds.
+
+    Sample:
+    >>> find(pattern='*.py')
+    >>> find(re_pattern='.*.py')
+    """
+    if not os.path.isdir(directory):
+        raise ValueError("{} is not an existing directory.".format(directory))
+
+    try:
+        file_list = os.listdir(directory)
+    except PermissionError as e:    # Sometimes it does not have access to the directory
+        onerror("PermissionError: {}".format(e))
+        return -1
+
+    path_list = []
+    for filename in file_list:
+        path = os.path.join(directory, filename)
+        if depth != 0 and os.path.isdir(path):
+            sub_list = find(path, depth-1, pattern, re_pattern, onerror)
+            if sub_list != -1:
+                path_list.extend(sub_list)
+            continue
+        if pattern and not fnmatch.fnmatch(filename, pattern):
+            continue
+        if re_pattern and not re.findall(re_pattern, filename):
+            continue
+        path_list.append(path)
+
+    return path_list
 
 
 def cat(*files, encoding=None, return_bytes=False):
@@ -550,4 +592,3 @@ def extendedTest(filename):
     e           = Executer('iptcprint {tmp}', vars(), decode_output=False)
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
-
