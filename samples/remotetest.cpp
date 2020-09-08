@@ -44,14 +44,14 @@ try {
     exifData.add(key, v.get());
 
     Exiv2::Image::UniquePtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(writeTest.get() != 0);
+    assert(writeTest.get() != nullptr);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
     Exiv2::Image::UniquePtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(readTest.get() != 0);
+    assert(readTest.get() != nullptr);
     readTest->readMetadata();
     Exiv2::ExifData &exifReadData = readTest->exifData();
     if (exifReadData.empty()) {

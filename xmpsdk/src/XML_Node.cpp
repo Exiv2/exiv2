@@ -90,7 +90,7 @@ XMP_StringPtr XML_Node::GetAttrValue ( XMP_StringPtr attrName ) const
 		if ( attrPtr->name == attrName ) return attrPtr->value.c_str();
 	}
 	
-	return 0;	// Not found.
+	return nullptr;	// Not found.
 
 }	// XML_Node::GetAttrValue
 
@@ -177,7 +177,7 @@ XML_NodePtr XML_Node::GetNamedElement ( XMP_StringPtr nsURI, XMP_StringPtr local
 		--which;
 	}
 	
-	return 0;	/// Not found.
+	return nullptr;	/// Not found.
 
 }	// XML_Node::GetNamedElement
 

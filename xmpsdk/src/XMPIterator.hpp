@@ -70,7 +70,7 @@ struct IterInfo {
 		XMP_StringPtr	_schemaPtr;	// *** Not working, need operator=?
 	#endif
 
-	IterInfo() : options(0), xmpObj(0)
+	IterInfo() : options(0), xmpObj(nullptr)
 	{
 		#if 0	// *** XMP_DebugBuild
 			_schemaPtr = 0;

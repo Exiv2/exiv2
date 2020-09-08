@@ -148,14 +148,14 @@ namespace Exiv2 {
     const char* ExifTags::sectionName(const ExifKey& key)
     {
         const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
-        if (ti == 0) return sectionInfo[unknownTag.sectionId_].name_;
+        if (ti == nullptr) return sectionInfo[unknownTag.sectionId_].name_;
         return sectionInfo[ti->sectionId_].name_;
     }
 
     uint16_t ExifTags::defaultCount(const ExifKey& key)
     {
         const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
-        if (ti == 0) return unknownTag.count_;
+        if (ti == nullptr) return unknownTag.count_;
         return ti->count_;
     }
 
@@ -258,13 +258,13 @@ namespace Exiv2 {
     const char* ExifKey::Impl::familyName_ = "Exif";
 
     ExifKey::Impl::Impl()
-        : tagInfo_(0), tag_(0), ifdId_(ifdIdNotSet), idx_(0)
+        : tagInfo_(nullptr), tag_(0), ifdId_(ifdIdNotSet), idx_(0)
     {
     }
 
     std::string ExifKey::Impl::tagName() const
     {
-        if (tagInfo_ != 0 && tagInfo_->tag_ != 0xffff) {
+        if (tagInfo_ != nullptr && tagInfo_->tag_ != 0xffff) {
             return tagInfo_->name_;
         }
         std::ostringstream os;
@@ -300,7 +300,7 @@ namespace Exiv2 {
         uint16_t tag = tagNumber(tn, ifdId);
         // Get tag info
         tagInfo_ = tagInfo(tag, ifdId);
-        if (tagInfo_ == 0) throw Error(kerInvalidKey, key);
+        if (tagInfo_ == nullptr) throw Error(kerInvalidKey, key);
 
         tag_ = tag;
         ifdId_ = ifdId;
@@ -311,7 +311,7 @@ namespace Exiv2 {
 
     void ExifKey::Impl::makeKey(uint16_t tag, IfdId ifdId, const TagInfo* tagInfo)
     {
-        assert(tagInfo != 0);
+        assert(tagInfo != nullptr);
 
         tagInfo_ = tagInfo;
         tag_ = tag;
@@ -328,7 +328,7 @@ namespace Exiv2 {
             throw Error(kerInvalidIfdId, ifdId);
         }
         const TagInfo* ti = tagInfo(tag, ifdId);
-        if (ti == 0) {
+        if (ti == nullptr) {
             throw Error(kerInvalidIfdId, ifdId);
         }
         p_->groupName_ = groupName;
@@ -394,19 +394,19 @@ namespace Exiv2 {
 
     std::string ExifKey::tagLabel() const
     {
-        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return "";
+        if (p_->tagInfo_ == nullptr || p_->tagInfo_->tag_ == 0xffff) return "";
         return _(p_->tagInfo_->title_);
     }
 
     std::string ExifKey::tagDesc() const
     {
-        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return "";
+        if (p_->tagInfo_ == nullptr || p_->tagInfo_->tag_ == 0xffff) return "";
         return _(p_->tagInfo_->desc_);
     }
 
     TypeId ExifKey::defaultTypeId() const
     {
-        if (p_->tagInfo_ == 0) return unknownTag.typeId_;
+        if (p_->tagInfo_ == nullptr) return unknownTag.typeId_;
         return p_->tagInfo_->typeId_;
     }
 

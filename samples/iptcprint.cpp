@@ -20,7 +20,7 @@ try {
     }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert (image.get() != 0);
+    assert (image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::IptcData &iptcData = image->iptcData();

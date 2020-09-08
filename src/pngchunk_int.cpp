@@ -303,7 +303,7 @@ namespace Exiv2
                 DataBuf psData = readRawProfile(arr, false);
                 if (psData.size_ > 0) {
                     Blob iptcBlob;
-                    const byte* record = 0;
+                    const byte* record = nullptr;
                     uint32_t sizeIptc = 0;
                     uint32_t sizeHdr = 0;
 

@@ -71,7 +71,7 @@ extern "C" ExpatAdapter * XMP_NewExpatAdapter()
 
 // =================================================================================================
 
-ExpatAdapter::ExpatAdapter() : parser(0)
+ExpatAdapter::ExpatAdapter() : parser(nullptr)
 {
 
 	#if XMP_DebugBuild
@@ -81,8 +81,8 @@ ExpatAdapter::ExpatAdapter() : parser(0)
 		#endif
 	#endif
 
-	this->parser = XML_ParserCreateNS ( 0, FullNameSeparator );
-	if ( this->parser == 0 ) XMP_Throw ( "Failure creating Expat parser", kXMPErr_ExternalFailure );
+	this->parser = XML_ParserCreateNS ( nullptr, FullNameSeparator );
+	if ( this->parser == nullptr ) XMP_Throw ( "Failure creating Expat parser", kXMPErr_ExternalFailure );
 	
 	XML_SetUserData ( this->parser, this );
 	
@@ -109,8 +109,8 @@ ExpatAdapter::ExpatAdapter() : parser(0)
 ExpatAdapter::~ExpatAdapter()
 {
 
-	if ( this->parser != 0 ) XML_ParserFree ( this->parser );
-	this->parser = 0;
+	if ( this->parser != nullptr ) XML_ParserFree ( this->parser );
+	this->parser = nullptr;
 
 }	// ExpatAdapter::~ExpatAdapter
 
@@ -249,8 +249,8 @@ static void StartNamespaceDeclHandler ( void * userData, XMP_StringPtr prefix, X
 		ExpatAdapter * thiz = (ExpatAdapter*)userData;
 	#endif
 
-	if ( prefix == 0 ) prefix = "_dflt_";	// Have default namespace.
-	if ( uri == 0 ) return;	// Ignore, have xmlns:pre="", no URI to register.
+	if ( prefix == nullptr ) prefix = "_dflt_";	// Have default namespace.
+	if ( uri == nullptr ) return;	// Ignore, have xmlns:pre="", no URI to register.
 	
 	#if XMP_DebugBuild & DumpXMLParseEvents
 		if ( thiz->parseLog != 0 ) {
@@ -274,7 +274,7 @@ static void EndNamespaceDeclHandler ( void * userData, XMP_StringPtr prefix )
 		ExpatAdapter * thiz = (ExpatAdapter*)userData;
 	#endif
 
-	if ( prefix == 0 ) prefix = "_dflt_";	// Have default namespace.
+	if ( prefix == nullptr ) prefix = "_dflt_";	// Have default namespace.
 	
 	#if XMP_DebugBuild & DumpXMLParseEvents
 		if ( thiz->parseLog != 0 ) {
@@ -295,7 +295,7 @@ static void StartElementHandler ( void * userData, XMP_StringPtr name, XMP_Strin
 	ExpatAdapter * thiz = (ExpatAdapter*)userData;
 	
 	size_t attrCount = 0;
-	for ( XMP_StringPtr* a = attrs; *a != 0; ++a ) ++attrCount;
+	for ( XMP_StringPtr* a = attrs; *a != nullptr; ++a ) ++attrCount;
 	if ( (attrCount & 1) != 0 )	XMP_Throw ( "Expat attribute info has odd length", kXMPErr_ExternalFailure );
 	attrCount = attrCount/2;	// They are name/value pairs.
 	
@@ -317,7 +317,7 @@ static void StartElementHandler ( void * userData, XMP_StringPtr name, XMP_Strin
 	
 	SetQualName ( name, elemNode );
 	
-	for ( XMP_StringPtr* attr = attrs; *attr != 0; attr += 2 ) {
+	for ( XMP_StringPtr* attr = attrs; *attr != nullptr; attr += 2 ) {
 
 		XMP_StringPtr attrName = *attr;
 		XMP_StringPtr attrValue = *(attr+1);
@@ -371,7 +371,7 @@ static void CharacterDataHandler ( void * userData, XMP_StringPtr cData, int len
 {
 	ExpatAdapter * thiz = (ExpatAdapter*)userData;
 	
-	if ( (cData == 0) || (len == 0) ) { cData = ""; len = 0; }
+	if ( (cData == nullptr) || (len == 0) ) { cData = ""; len = 0; }
 	
 	#if XMP_DebugBuild & DumpXMLParseEvents
 		if ( thiz->parseLog != 0 ) {
@@ -438,7 +438,7 @@ static void ProcessingInstructionHandler ( void * userData, XMP_StringPtr target
 	ExpatAdapter * thiz = (ExpatAdapter*)userData;
 
 	if ( ! XMP_LitMatch ( target, "xpacket" ) ) return;	// Ignore all PIs except the XMP packet wrapper.
-	if ( data == 0 ) data = "";
+	if ( data == nullptr ) data = "";
 	
 	#if XMP_DebugBuild & DumpXMLParseEvents
 		if ( thiz->parseLog != 0 ) {
@@ -465,7 +465,7 @@ static void CommentHandler ( void * userData, XMP_StringPtr comment )
 		ExpatAdapter * thiz = (ExpatAdapter*)userData;
 	#endif
 
-	if ( comment == 0 ) comment = "";
+	if ( comment == nullptr ) comment = "";
 	
 	#if XMP_DebugBuild & DumpXMLParseEvents
 		if ( thiz->parseLog != 0 ) {

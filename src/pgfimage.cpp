@@ -165,7 +165,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
         BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        assert (tempIo.get() != nullptr);
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();

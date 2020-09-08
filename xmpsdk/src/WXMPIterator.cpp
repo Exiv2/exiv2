@@ -40,8 +40,8 @@ WXMPIterator_PropCTor_1 ( XMPMetaRef     xmpRef,
 {
     XMP_ENTER_WRAPPER ( "WXMPIterator_PropCTor_1" )
 
-		if ( schemaNS == 0 ) schemaNS = "";
-		if ( propName == 0 ) propName = "";
+		if ( schemaNS == nullptr ) schemaNS = "";
+		if ( propName == nullptr ) propName = "";
 
 		const XMPMeta & xmpObj = WtoXMPMeta_Ref ( xmpRef );
 		XMPIterator *   iter   = new XMPIterator ( xmpObj, schemaNS, propName, options );
@@ -62,8 +62,8 @@ WXMPIterator_TableCTor_1 ( XMP_StringPtr  schemaNS,
 {
     XMP_ENTER_WRAPPER ( "WXMPIterator_TableCTor_1" )
 
-		if ( schemaNS == 0 ) schemaNS = "";
-		if ( propName == 0 ) propName = "";
+		if ( schemaNS == nullptr ) schemaNS = "";
+		if ( propName == nullptr ) propName = "";
 
 		XMPIterator * iter = new XMPIterator ( schemaNS, propName, options );
 		++iter->clientRefs;
@@ -136,13 +136,13 @@ WXMPIterator_Next_1 ( XMPIteratorRef   iterRef,
 {
     XMP_ENTER_WRAPPER ( "WXMPIterator_Next_1" )
 
-		if ( schemaNS == 0 ) schemaNS = &voidStringPtr;
-		if ( nsSize == 0 ) nsSize = &voidStringLen;
-		if ( propPath == 0 ) propPath = &voidStringPtr;
-		if ( pathSize == 0 ) pathSize = &voidStringLen;
-		if ( propValue == 0 ) propValue = &voidStringPtr;
-		if ( valueSize == 0 ) valueSize = &voidStringLen;
-		if ( propOptions == 0 ) propOptions = &voidOptionBits;
+		if ( schemaNS == nullptr ) schemaNS = &voidStringPtr;
+		if ( nsSize == nullptr ) nsSize = &voidStringLen;
+		if ( propPath == nullptr ) propPath = &voidStringPtr;
+		if ( pathSize == nullptr ) pathSize = &voidStringLen;
+		if ( propValue == nullptr ) propValue = &voidStringPtr;
+		if ( valueSize == nullptr ) valueSize = &voidStringLen;
+		if ( propOptions == nullptr ) propOptions = &voidOptionBits;
 
 		XMPIterator * iter = WtoXMPIterator_Ptr ( iterRef );
 		XMP_Bool found = iter->Next ( schemaNS, nsSize, propPath, pathSize, propValue, valueSize, propOptions );

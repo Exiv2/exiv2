@@ -1706,7 +1706,7 @@ namespace Exiv2 {
 
         UShortValue v;
         v.value_.push_back(val);
-        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, 0);
+        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, nullptr);
     }
 
     std::ostream& Nikon3MakerNote::print0x0089(std::ostream& os,
@@ -1731,10 +1731,10 @@ namespace Exiv2 {
             }
         }
         if (d70) {
-            EXV_PRINT_TAG_BITMASK(nikonShootingModeD70)(os, value, 0);
+            EXV_PRINT_TAG_BITMASK(nikonShootingModeD70)(os, value, nullptr);
         }
         else {
-            EXV_PRINT_TAG_BITMASK(nikonShootingMode)(os, value, 0);
+            EXV_PRINT_TAG_BITMASK(nikonShootingMode)(os, value, nullptr);
         }
         return os;
     }
@@ -2557,7 +2557,7 @@ fmountlens[] = {
     /* if no meta obj is provided, try to use the value param that *may*
      * be the pre-parsed lensid
      */
-        if (metadata == 0)
+        if (metadata == nullptr)
         {
             const unsigned char  vid = (unsigned)value.toLong(0);
 

@@ -599,7 +599,7 @@ ItemValuesMatch ( const XMP_Node * leftNode, const XMP_Node * rightNode )
 		for ( size_t leftNum = 0, leftLim = leftNode->children.size(); leftNum != leftLim; ++leftNum ) {
 			const XMP_Node * leftField	= leftNode->children[leftNum];
 			const XMP_Node * rightField = FindConstChild ( rightNode, leftField->name.c_str() );
-			if ( (rightField == 0) || (! ItemValuesMatch ( leftField, rightField )) ) return false;
+			if ( (rightField == nullptr) || (! ItemValuesMatch ( leftField, rightField )) ) return false;
 		}
 		
 	} else {
@@ -652,12 +652,12 @@ AppendSubtree ( const XMP_Node * sourceNode, XMP_Node * destParent, const bool r
 	
 	if ( deleteEmpty & valueIsEmpty ) {
 	
-		if ( destNode != 0 ) {
+		if ( destNode != nullptr ) {
 			delete ( destNode );
 			destParent->children.erase ( destPos );
 		}
 	
-	} else if ( destNode == 0 ) {
+	} else if ( destNode == nullptr ) {
 	
 		// The one easy case, the destination does not exist.
 		CloneSubtree ( sourceNode, destParent );
@@ -789,9 +789,9 @@ XMPUtils::CatenateArrayItems ( const XMPMeta & xmpObj,
 	
 	const bool allowCommas = ((options & kXMPUtil_AllowCommas) != 0);
 	
-	const XMP_Node * arrayNode = 0; // ! Move up to avoid gcc complaints.
+	const XMP_Node * arrayNode = nullptr; // ! Move up to avoid gcc complaints.
 	XMP_OptionBits	 arrayForm = 0;
-	const XMP_Node * currItem  = 0;
+	const XMP_Node * currItem  = nullptr;
 
 	// Make sure the separator is OK. It must be one semicolon surrounded by zero or more spaces.
 	// Any of the recognized semicolons or spaces are allowed.
@@ -836,7 +836,7 @@ XMPUtils::CatenateArrayItems ( const XMPMeta & xmpObj,
 	ExpandXPath ( schemaNS, arrayName, &arrayPath );
 
 	arrayNode = FindConstNode ( &xmpObj.tree, arrayPath );
-	if ( arrayNode == 0 ) goto EXIT;	// ! Need to set the output pointer and length.
+	if ( arrayNode == nullptr ) goto EXIT;	// ! Need to set the output pointer and length.
 
 	arrayForm = arrayNode->options & kXMP_PropCompositeMask;
 	if ( (! (arrayForm & kXMP_PropValueIsArray)) || (arrayForm & kXMP_PropArrayIsAlternate) ) {
@@ -896,7 +896,7 @@ XMPUtils::SeparateArrayItems ( XMPMeta *	  xmpObj,
 		options ^= kXMPUtil_AllowCommas;
 	}
 
-	options = VerifySetOptions ( options, 0 );	// Keep a zero value, has special meaning below.
+	options = VerifySetOptions ( options, nullptr );	// Keep a zero value, has special meaning below.
 	if ( options & ~kXMP_PropArrayFormMask ) XMP_Throw ( "Options can only provide array form", kXMPErr_BadOptions );
 	
 	// Find the array node, make sure it is OK. Move the current children aside, to be readded later if kept.
@@ -905,7 +905,7 @@ XMPUtils::SeparateArrayItems ( XMPMeta *	  xmpObj,
 	ExpandXPath ( schemaNS, arrayName, &arrayPath );
 	XMP_Node * arrayNode = FindNode ( &xmpObj->tree, arrayPath, kXMP_ExistingOnly );
 	
-	if ( arrayNode != 0 ) {
+	if ( arrayNode != nullptr ) {
 		// The array exists, make sure the form is compatible. Zero arrayForm means take what exists.
 		XMP_OptionBits arrayForm = arrayNode->options & kXMP_PropArrayFormMask;
 		if ( (arrayForm == 0) || (arrayForm & kXMP_PropArrayIsAlternate) ) {
@@ -915,7 +915,7 @@ XMPUtils::SeparateArrayItems ( XMPMeta *	  xmpObj,
 	} else {
 		// The array does not exist, try to create it.
 		arrayNode = FindNode ( &xmpObj->tree, arrayPath, kXMP_CreateNodes, (options | kXMP_PropValueIsArray) );
-		if ( arrayNode == 0 ) XMP_Throw ( "Failed to create named array", kXMPErr_BadXPath );
+		if ( arrayNode == nullptr ) XMP_Throw ( "Failed to create named array", kXMPErr_BadXPath );
 	}
 
 	XMP_NodeOffspring oldChildren ( arrayNode->children );
@@ -1016,15 +1016,15 @@ XMPUtils::SeparateArrayItems ( XMPMeta *	  xmpObj,
 		
 		size_t oldChild;
 		for ( oldChild = 0; oldChild < oldChildCount; ++oldChild ) {
-			if ( (oldChildren[oldChild] != 0) && (itemValue == oldChildren[oldChild]->value) ) break;
+			if ( (oldChildren[oldChild] != nullptr) && (itemValue == oldChildren[oldChild]->value) ) break;
 		}
 		
-		XMP_Node * newItem = 0;
+		XMP_Node * newItem = nullptr;
 		if ( oldChild == oldChildCount ) {
 			newItem = new XMP_Node ( arrayNode, kXMP_ArrayItemName, itemValue.c_str(), 0 );
 		} else {
 			newItem = oldChildren[oldChild];
-			oldChildren[oldChild] = 0;	// ! Don't match again, let duplicates be seen.
+			oldChildren[oldChild] = nullptr;	// ! Don't match again, let duplicates be seen.
 		}
 		arrayNode->children.push_back ( newItem );
 		
@@ -1032,7 +1032,7 @@ XMPUtils::SeparateArrayItems ( XMPMeta *	  xmpObj,
 
 	// Delete any of the old children that were not kept.
 	for ( size_t i = 0; i < oldChildCount; ++i ) {
-		if ( oldChildren[i] != 0 ) delete oldChildren[i];
+		if ( oldChildren[i] != nullptr ) delete oldChildren[i];
 	}
 	
 }	// SeparateArrayItems
@@ -1065,7 +1065,7 @@ XMPUtils::RemoveProperties ( XMPMeta *		xmpObj,
 		
 		XMP_NodePtrPos propPos;
 		XMP_Node * propNode = FindNode ( &(xmpObj->tree), expPath, kXMP_ExistingOnly, kXMP_NoOptions, &propPos );
-		if ( propNode != 0 ) {
+		if ( propNode != nullptr ) {
 			if ( doAll || IsExternalProperty ( expPath[kSchemaStep].step, expPath[kRootPropStep].step ) ) {
 				XMP_Node * parent = propNode->parent;	// *** Should have XMP_Node::RemoveChild(pos).
 				delete propNode;	// ! Both delete the node and erase the pointer from the parent.
@@ -1081,7 +1081,7 @@ XMPUtils::RemoveProperties ( XMPMeta *		xmpObj,
 
 		XMP_NodePtrPos schemaPos;
 		XMP_Node * schemaNode = FindSchemaNode ( &xmpObj->tree, schemaNS, kXMP_ExistingOnly, &schemaPos );
-		if ( schemaNode != 0 ) RemoveSchemaChildren ( schemaPos, doAll );
+		if ( schemaNode != nullptr ) RemoveSchemaChildren ( schemaPos, doAll );
 		
 		if ( includeAliases ) {
 		
@@ -1101,7 +1101,7 @@ XMPUtils::RemoveProperties ( XMPMeta *		xmpObj,
 				if ( strncmp ( currAlias->first.c_str(), nsPrefix, nsLen ) == 0 ) {
 					XMP_NodePtrPos actualPos;
 					XMP_Node * actualProp = FindNode ( &xmpObj->tree, currAlias->second, kXMP_ExistingOnly, kXMP_NoOptions, &actualPos );
-					if ( actualProp != 0 ) {
+					if ( actualProp != nullptr ) {
 						XMP_Node * rootProp = actualProp;
 						while ( ! XMP_NodeIsSchema ( rootProp->parent->options ) ) rootProp = rootProp->parent;
 						if ( doAll || IsExternalProperty ( rootProp->parent->name, rootProp->name ) ) {
@@ -1159,7 +1159,7 @@ XMPUtils::AppendProperties ( const XMPMeta & source,
 		// Make sure we have a destination schema node. Remember if it is newly created.
 		
 		XMP_Node * destSchema = FindSchemaNode ( &dest->tree, sourceSchema->name.c_str(), kXMP_ExistingOnly );
-		const bool newDestSchema = (destSchema == 0);
+		const bool newDestSchema = (destSchema == nullptr);
 		if ( newDestSchema ) {
 			destSchema = new XMP_Node ( &dest->tree, sourceSchema->name, sourceSchema->value, kXMP_SchemaNode );
 			dest->tree.children.push_back ( destSchema );
@@ -1209,8 +1209,8 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 	
 	XMP_ExpandedXPath sourcePath, destPath; 
 
-	const XMP_Node * sourceNode = 0;
-	XMP_Node * destNode = 0;
+	const XMP_Node * sourceNode = nullptr;
+	XMP_Node * destNode = nullptr;
 	
 	XMP_Assert ( (sourceNS != 0) && (*sourceNS != 0) );
 	XMP_Assert ( (sourceRoot != 0) && (*sourceRoot != 0) );
@@ -1235,7 +1235,7 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 		ExpandXPath ( destNS, destRoot, &destPath );
 		destNode = FindNode ( &dest->tree, destPath, kXMP_ExistingOnly );
 
-		if ( (destNode == 0) || (! XMP_PropIsStruct ( destNode->options )) ) {
+		if ( (destNode == nullptr) || (! XMP_PropIsStruct ( destNode->options )) ) {
 			XMP_Throw ( "Destination must be an existing struct", kXMPErr_BadXPath );
 		}
 		
@@ -1268,7 +1268,7 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 		ExpandXPath ( sourceNS, sourceRoot, &sourcePath );
 		sourceNode = FindConstNode ( &source.tree, sourcePath );
 
-		if ( (sourceNode == 0) || (! XMP_PropIsStruct ( sourceNode->options )) ) {
+		if ( (sourceNode == nullptr) || (! XMP_PropIsStruct ( sourceNode->options )) ) {
 			XMP_Throw ( "Source must be an existing struct", kXMPErr_BadXPath );
 		}
 		
@@ -1296,7 +1296,7 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 			if ( ! nsOK ) XMP_Throw ( "Source field namespace is not global", kXMPErr_BadSchema );
 			
 			XMP_Node * destSchema = FindSchemaNode ( &dest->tree, nsURI, kXMP_CreateNodes );
-			if ( destSchema == 0 ) XMP_Throw ( "Failed to find destination schema", kXMPErr_BadSchema );
+			if ( destSchema == nullptr ) XMP_Throw ( "Failed to find destination schema", kXMPErr_BadSchema );
 
 			XMP_Node * copyNode = new XMP_Node ( destSchema, currField->name, currField->value, currField->options );
 			destSchema->children.push_back ( copyNode );
@@ -1312,19 +1312,19 @@ XMPUtils::DuplicateSubtree ( const XMPMeta & source,
 		ExpandXPath ( destNS, destRoot, &destPath );
 	
 		sourceNode = FindConstNode ( &source.tree, sourcePath );
-		if ( sourceNode == 0 ) XMP_Throw ( "Can't find source subtree", kXMPErr_BadXPath );
+		if ( sourceNode == nullptr ) XMP_Throw ( "Can't find source subtree", kXMPErr_BadXPath );
 		
 		destNode = FindNode ( &dest->tree, destPath, kXMP_ExistingOnly );	// Dest must not yet exist.
-		if ( destNode != 0 ) XMP_Throw ( "Destination subtree must not exist", kXMPErr_BadXPath );
+		if ( destNode != nullptr ) XMP_Throw ( "Destination subtree must not exist", kXMPErr_BadXPath );
 		
 		destNode = FindNode ( &dest->tree, destPath, kXMP_CreateNodes );	// Now create the dest.
-		if ( destNode == 0 ) XMP_Throw ( "Can't create destination root node", kXMPErr_BadXPath );
+		if ( destNode == nullptr ) XMP_Throw ( "Can't create destination root node", kXMPErr_BadXPath );
 		
 		// Make sure the destination is not within the source! The source can't be inside the destination
 		// because the source already existed and the destination was just created.
 		
 		if ( &source == dest ) {
-			for ( XMP_Node * testNode = destNode; testNode != 0; testNode = testNode->parent ) {
+			for ( XMP_Node * testNode = destNode; testNode != nullptr; testNode = testNode->parent ) {
 				if ( testNode == sourceNode ) {
 					// *** delete the just-created dest root node
 					XMP_Throw ( "Destination subtree is within the source subtree", kXMPErr_BadXPath );

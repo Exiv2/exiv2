@@ -1074,10 +1074,10 @@ namespace
         char* tmp = ::strtok(cts, ":");
         if (tmp)
             hstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp)
             mstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp)
             sstr = tmp;
         delete[] cts;

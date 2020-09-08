@@ -166,7 +166,7 @@ namespace Exiv2 {
         //@{
         //! Constructor, taking \em tag and \em group of the component to find.
         TiffFinder(uint16_t tag, IfdId group)
-            : tag_(tag), group_(group), tiffComponent_(0) {}
+            : tag_(tag), group_(group), tiffComponent_(nullptr) {}
         //! Virtual destructor
         ~TiffFinder() override;
         //@}
@@ -453,7 +453,7 @@ namespace Exiv2 {
          */
         void encodeTiffComponent(
                   TiffEntryBase* object,
-            const Exifdatum*     datum =0
+            const Exifdatum*     datum =nullptr
         );
 
         //! Callback encoder function for an element of a binary array.
@@ -680,7 +680,7 @@ namespace Exiv2 {
           Uses the \em state passed in, if any, and remembers it for use during
           subsequent calls without any argument.
          */
-        void setMnState(const TiffRwState* state =0);
+        void setMnState(const TiffRwState* state =nullptr);
         //! Set the state to the original state as set in the constructor.
         void setOrigState();
         //! Check IFD directory pointer \em start for circular reference

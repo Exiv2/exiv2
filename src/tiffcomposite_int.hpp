@@ -647,7 +647,7 @@ namespace Exiv2 {
         //! Constructor
         TiffDataEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup),
-              pDataArea_(0), sizeDataArea_(0) {}
+              pDataArea_(nullptr), sizeDataArea_(0) {}
         //! Virtual destructor.
         virtual ~TiffDataEntry();
         //@}
@@ -848,7 +848,7 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         TiffDirectory(uint16_t tag, IfdId group, bool hasNext =true)
-            : TiffComponent(tag, group), hasNext_(hasNext), pNext_(0) {}
+            : TiffComponent(tag, group), hasNext_(hasNext), pNext_(nullptr) {}
         //! Virtual destructor
         virtual ~TiffDirectory();
         //@}
@@ -1579,7 +1579,7 @@ namespace Exiv2 {
     TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group)
     {
         return TiffComponent::UniquePtr(
-            new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
+            new TiffBinaryArray(tag, group, arrayCfg, nullptr, 0));
     }
 
     //! Function to create and initialize a new complex binary array entry

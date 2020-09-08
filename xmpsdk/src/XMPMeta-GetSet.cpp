@@ -125,7 +125,7 @@ SetNode	( XMP_Node * node, XMP_StringPtr value, XMP_OptionBits options )
 	
 	node->options |= options;	// Keep options set by FindNode when creating a new node.
 
-	if ( value != 0 ) {
+	if ( value != nullptr ) {
 	
 		// This is setting the value of a leaf node.
 		if ( node->options & kXMP_PropCompositeMask ) XMP_Throw ( "Composite nodes can't have values", kXMPErr_BadXPath );
@@ -169,7 +169,7 @@ DoSetArrayItem ( XMP_Node *		arrayNode,
 	// The order of the normalization checks is important. If the array is empty we end up with an
 	// index and location to set item size+1.
 	
-	XMP_Node * itemNode = 0;
+	XMP_Node * itemNode = nullptr;
 	
 	if ( itemIndex == kXMP_ArrayLastItem ) itemIndex = arraySize;
 	if ( (itemIndex == 0) && (itemLoc == kXMP_InsertAfterItem) ) {
@@ -223,7 +223,7 @@ ChooseLocalizedText ( const XMP_Node *	 arrayNode,
 					  XMP_StringPtr		 specificLang,
 					  const XMP_Node * * itemNode )
 {
-	const XMP_Node * currItem = 0;
+	const XMP_Node * currItem = nullptr;
 	const size_t itemLim = arrayNode->children.size();
 	size_t itemNum;
 	
@@ -235,7 +235,7 @@ ChooseLocalizedText ( const XMP_Node *	 arrayNode,
 		XMP_Throw ( "Localized text array is not alt-text", kXMPErr_BadXPath );
 	}
 	if ( arrayNode->children.empty() ) {
-		*itemNode = 0;
+		*itemNode = nullptr;
 		return kXMP_CLT_NoValues;
 	}
 
@@ -355,7 +355,7 @@ XMPMeta::GetProperty ( XMP_StringPtr	schemaNS,
 	ExpandXPath ( schemaNS, propName, &expPath );
 	
 	XMP_Node * propNode = FindConstNode ( &tree, expPath );
-	if ( propNode == 0 ) return false;
+	if ( propNode == nullptr ) return false;
 	
 	*propValue = propNode->value.c_str();
 	*valueSize = propNode->value.size();
@@ -460,7 +460,7 @@ XMPMeta::SetProperty ( XMP_StringPtr  schemaNS,
 	ExpandXPath ( schemaNS, propName, &expPath );
 
 	XMP_Node * propNode = FindNode ( &tree, expPath, kXMP_CreateNodes, options );
-	if ( propNode == 0 ) XMP_Throw ( "Specified property does not exist", kXMPErr_BadXPath );
+	if ( propNode == nullptr ) XMP_Throw ( "Specified property does not exist", kXMPErr_BadXPath );
 	
 	SetNode ( propNode, propValue, options );
 	
@@ -483,7 +483,7 @@ XMPMeta::SetArrayItem ( XMP_StringPtr  schemaNS,
 	XMP_ExpandedXPath arrayPath;
 	ExpandXPath ( schemaNS, arrayName, &arrayPath );
 	XMP_Node * arrayNode = FindNode ( &tree, arrayPath, kXMP_ExistingOnly );	// Just lookup, don't try to create.
-	if ( arrayNode == 0 ) XMP_Throw ( "Specified array does not exist", kXMPErr_BadXPath );
+	if ( arrayNode == nullptr ) XMP_Throw ( "Specified array does not exist", kXMPErr_BadXPath );
 	
 	DoSetArrayItem ( arrayNode, itemIndex, itemValue, options );
 	
@@ -503,7 +503,7 @@ XMPMeta::AppendArrayItem ( XMP_StringPtr  schemaNS,
 {
 	XMP_Assert ( (schemaNS != 0) && (arrayName != 0) );	// Enforced by wrapper.
 
-	arrayOptions = VerifySetOptions ( arrayOptions, 0 );
+	arrayOptions = VerifySetOptions ( arrayOptions, nullptr );
 	if ( (arrayOptions & ~kXMP_PropArrayFormMask) != 0 ) {
 		XMP_Throw ( "Only array form flags allowed for arrayOptions", kXMPErr_BadOptions );
 	}
@@ -515,7 +515,7 @@ XMPMeta::AppendArrayItem ( XMP_StringPtr  schemaNS,
 	ExpandXPath ( schemaNS, arrayName, &arrayPath );
 	XMP_Node * arrayNode = FindNode ( &tree, arrayPath, kXMP_ExistingOnly );	// Just lookup, don't try to create.
 	
-	if ( arrayNode != 0 ) {
+	if ( arrayNode != nullptr ) {
 		// The array exists, make sure the form is compatible. Zero arrayForm means take what exists.
 		if ( ! (arrayNode->options & kXMP_PropValueIsArray) ) {
 			XMP_Throw ( "The named property is not an array", kXMPErr_BadXPath );
@@ -530,7 +530,7 @@ XMPMeta::AppendArrayItem ( XMP_StringPtr  schemaNS,
 		// The array does not exist, try to create it.
 		if ( arrayOptions == 0 ) XMP_Throw ( "Explicit arrayOptions required to create new array", kXMPErr_BadOptions );
 		arrayNode = FindNode ( &tree, arrayPath, kXMP_CreateNodes, arrayOptions );
-		if ( arrayNode == 0 ) XMP_Throw ( "Failure creating array node", kXMPErr_BadXPath );
+		if ( arrayNode == nullptr ) XMP_Throw ( "Failure creating array node", kXMPErr_BadXPath );
 	}
 	
 	DoSetArrayItem ( arrayNode, kXMP_ArrayLastItem, itemValue, (options | kXMP_InsertAfterItem) );
@@ -581,7 +581,7 @@ XMPMeta::SetQualifier ( XMP_StringPtr  schemaNS,
 	XMP_ExpandedXPath expPath;
 	ExpandXPath ( schemaNS, propName, &expPath );
 	XMP_Node * propNode = FindNode ( &tree, expPath, kXMP_ExistingOnly );
-	if ( propNode == 0 ) XMP_Throw ( "Specified property does not exist", kXMPErr_BadXPath );
+	if ( propNode == nullptr ) XMP_Throw ( "Specified property does not exist", kXMPErr_BadXPath );
 
 	XMPUtils::ComposeQualifierPath ( schemaNS, propName, qualNS, qualName, &qualPath, &pathLen );
 	SetProperty ( schemaNS, qualPath, qualValue, options );
@@ -604,7 +604,7 @@ XMPMeta::DeleteProperty	( XMP_StringPtr	schemaNS,
 	
 	XMP_NodePtrPos ptrPos;
 	XMP_Node * propNode = FindNode ( &tree, expPath, kXMP_ExistingOnly, kXMP_NoOptions, &ptrPos );
-	if ( propNode == 0 ) return;
+	if ( propNode == nullptr ) return;
 	XMP_Node * parentNode = propNode->parent;
 	
 	// Erase the pointer from the parent's vector, then delete the node and all below it.
@@ -711,7 +711,7 @@ XMPMeta::DoesPropertyExist ( XMP_StringPtr schemaNS,
 	ExpandXPath ( schemaNS, propName, &expPath );
 
 	XMP_Node * propNode = FindConstNode ( &tree, expPath );
-	return (propNode != 0);
+	return (propNode != nullptr);
 	
 }	// DoesPropertyExist
 
@@ -809,7 +809,7 @@ XMPMeta::GetLocalizedText ( XMP_StringPtr	 schemaNS,
 	ExpandXPath ( schemaNS, arrayName, &arrayPath );
 	
 	const XMP_Node * arrayNode = FindConstNode ( &tree, arrayPath );	// *** This expand/find idiom is used in 3 Getters.
-	if ( arrayNode == 0 ) return false;			// *** Should extract it into a local utility.
+	if ( arrayNode == nullptr ) return false;			// *** Should extract it into a local utility.
 	
 	XMP_CLTMatch match;
 	const XMP_Node * itemNode;
@@ -858,7 +858,7 @@ XMPMeta::SetLocalizedText ( XMP_StringPtr  schemaNS,
 	// Find the array node and set the options if it was just created.
 	XMP_Node * arrayNode = FindNode ( &tree, arrayPath, kXMP_CreateNodes,
 									  (kXMP_PropValueIsArray | kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate) );
-	if ( arrayNode == 0 ) XMP_Throw ( "Failed to find or create array node", kXMPErr_BadXPath );
+	if ( arrayNode == nullptr ) XMP_Throw ( "Failed to find or create array node", kXMPErr_BadXPath );
 	if ( ! XMP_ArrayIsAltText(arrayNode->options) ) {
 		if ( arrayNode->children.empty() && XMP_ArrayIsAlternate(arrayNode->options) ) {
 			arrayNode->options |= kXMP_PropArrayIsAltText;
@@ -870,7 +870,7 @@ XMPMeta::SetLocalizedText ( XMP_StringPtr  schemaNS,
 	// Make sure the x-default item, if any, is first.
 	
 	size_t itemNum, itemLim;
-	XMP_Node * xdItem = 0;
+	XMP_Node * xdItem = nullptr;
 	bool haveXDefault = false;
 	
 	for ( itemNum = 0, itemLim = arrayNode->children.size(); itemNum < itemLim; ++itemNum ) {

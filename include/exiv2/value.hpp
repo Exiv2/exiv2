@@ -606,7 +606,7 @@ namespace Exiv2 {
 
           @return A string containing the comment converted to UTF-8.
          */
-        std::string comment(const char* encoding =0) const;
+        std::string comment(const char* encoding =nullptr) const;
         /*!
           @brief Determine the character encoding that was used to encode the
               UNICODE comment value as an iconv(3) name.
@@ -1504,33 +1504,33 @@ namespace Exiv2 {
 
     template<typename T>
     ValueType<T>::ValueType()
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
+        : Value(getType<T>()), pDataArea_(nullptr), sizeDataArea_(0)
     {
     }
 
     template<typename T>
     ValueType<T>::ValueType(TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
     }
 
     template<typename T>
     ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
         read(buf, len, byteOrder);
     }
 
     template<typename T>
     ValueType<T>::ValueType(const T& val, TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
         value_.push_back(val);
     }
 
     template<typename T>
     ValueType<T>::ValueType(const ValueType<T>& rhs)
-        : Value(rhs), value_(rhs.value_), pDataArea_(0), sizeDataArea_(0)
+        : Value(rhs), value_(rhs.value_), pDataArea_(nullptr), sizeDataArea_(0)
     {
         if (rhs.sizeDataArea_ > 0) {
             pDataArea_ = new byte[rhs.sizeDataArea_];
@@ -1552,7 +1552,7 @@ namespace Exiv2 {
         Value::operator=(rhs);
         value_ = rhs.value_;
 
-        byte* tmp = 0;
+        byte* tmp = nullptr;
         if (rhs.sizeDataArea_ > 0) {
             tmp = new byte[rhs.sizeDataArea_];
             std::memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
@@ -1741,7 +1741,7 @@ namespace Exiv2 {
     template<typename T>
     int ValueType<T>::setDataArea(const byte* buf, size_t len)
     {
-        byte* tmp = 0;
+        byte* tmp = nullptr;
         if (len > 0) {
             tmp = new byte[len];
             std::memcpy(tmp, buf, len);

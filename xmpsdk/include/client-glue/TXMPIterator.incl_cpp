@@ -113,7 +113,7 @@ operator= ( const TXMPIterator<tStringObj> & rhs )
 // -------------------------------------------------------------------------------------------------
 
 XMP_CTorDTorIntro(TXMPIterator)::
-TXMPIterator() : iterRef(0)
+TXMPIterator() : iterRef(nullptr)
 {
 	throw XMP_Error ( kXMPErr_Unavailable, "No default construction for XMP iterators" );
 	#if XMP_TraceCTorDTor
@@ -128,7 +128,7 @@ XMP_CTorDTorIntro(TXMPIterator)::
 TXMPIterator ( const TXMPMeta<tStringObj> & xmpObj,
 			   XMP_StringPtr  schemaNS,
 			   XMP_StringPtr  propName,
-			   XMP_OptionBits options /* = 0 */ ) : iterRef(0)
+			   XMP_OptionBits options /* = 0 */ ) : iterRef(nullptr)
 {
 	PropIterCTor ( xmpObj.GetInternalRef(), schemaNS, propName, options );
 	#if XMP_TraceCTorDTor
@@ -142,7 +142,7 @@ TXMPIterator ( const TXMPMeta<tStringObj> & xmpObj,
 XMP_CTorDTorIntro(TXMPIterator)::
 TXMPIterator ( const TXMPMeta<tStringObj> & xmpObj,
 			   XMP_StringPtr  schemaNS,
-			   XMP_OptionBits options /* = 0 */ ) : iterRef(0)
+			   XMP_OptionBits options /* = 0 */ ) : iterRef(nullptr)
 {
 	PropIterCTor ( xmpObj.GetInternalRef(), schemaNS, "", options );
 	#if XMP_TraceCTorDTor
@@ -155,7 +155,7 @@ TXMPIterator ( const TXMPMeta<tStringObj> & xmpObj,
 
 XMP_CTorDTorIntro(TXMPIterator)::
 TXMPIterator ( const TXMPMeta<tStringObj> & xmpObj,
-			   XMP_OptionBits options /* = 0 */ ) : iterRef(0)
+			   XMP_OptionBits options /* = 0 */ ) : iterRef(nullptr)
 {
 	PropIterCTor ( xmpObj.GetInternalRef(), "", "", options );
 	#if XMP_TraceCTorDTor
@@ -169,7 +169,7 @@ TXMPIterator ( const TXMPMeta<tStringObj> & xmpObj,
 XMP_CTorDTorIntro(TXMPIterator)::
 TXMPIterator ( XMP_StringPtr  schemaNS,
 			   XMP_StringPtr  propName,
-			   XMP_OptionBits options ) : iterRef(0)
+			   XMP_OptionBits options ) : iterRef(nullptr)
 {
 	TableIterCTor ( schemaNS, propName, options );
 	#if XMP_TraceCTorDTor
@@ -188,7 +188,7 @@ XMP_CTorDTorIntro(TXMPIterator)::
 		printf ( "Destruct TXMPIterator @ %.8X, ref = %.8X, count = %d\n", this, xiPtr, xiPtr->clientRefs );
 	#endif
 	WXMPIterator_DecrementRefCount_1 ( this->iterRef );
-	this->iterRef = 0;
+	this->iterRef = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -199,17 +199,17 @@ Next ( tStringObj *		schemaNS /* = 0 */,
 	   tStringObj *		propValue /* = 0 */,
 	   XMP_OptionBits * options /* = 0 */ )
 {
-	XMP_StringPtr schemaPtr = 0;
+	XMP_StringPtr schemaPtr = nullptr;
 	XMP_StringLen schemaLen = 0;
-	XMP_StringPtr pathPtr = 0;
+	XMP_StringPtr pathPtr = nullptr;
 	XMP_StringLen pathLen = 0;
-	XMP_StringPtr valuePtr = 0;
+	XMP_StringPtr valuePtr = nullptr;
 	XMP_StringLen valueLen = 0;
 	WrapCheckBool ( found, zXMPIterator_Next_1 ( &schemaPtr, &schemaLen, &pathPtr, &pathLen, &valuePtr, &valueLen, options ) );
 	if ( found ) {
-		if ( schemaNS != 0 ) schemaNS->assign ( schemaPtr, schemaLen );
-		if ( propPath != 0 ) propPath->assign ( pathPtr, pathLen );
-		if ( propValue != 0 ) propValue->assign ( valuePtr, valueLen );
+		if ( schemaNS != nullptr ) schemaNS->assign ( schemaPtr, schemaLen );
+		if ( propPath != nullptr ) propPath->assign ( pathPtr, pathLen );
+		if ( propValue != nullptr ) propValue->assign ( valuePtr, valueLen );
 		WXMPUtils_UnlockIter_1 ( this->iterRef, 0 );
 	}
 	return found;

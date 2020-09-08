@@ -303,51 +303,51 @@ namespace {
 // class member definitions
 
     const Loader::LoaderList Loader::loaderList_[] = {
-        { 0,                       createLoaderNative,       0 },
-        { 0,                       createLoaderNative,       1 },
-        { 0,                       createLoaderNative,       2 },
-        { 0,                       createLoaderNative,       3 },
-        { 0,                       createLoaderExifDataJpeg, 0 },
-        { 0,                       createLoaderExifDataJpeg, 1 },
-        { 0,                       createLoaderExifDataJpeg, 2 },
-        { 0,                       createLoaderExifDataJpeg, 3 },
-        { 0,                       createLoaderExifDataJpeg, 4 },
-        { 0,                       createLoaderExifDataJpeg, 5 },
-        { 0,                       createLoaderExifDataJpeg, 6 },
-        { 0,                       createLoaderExifDataJpeg, 7 },
-        { 0,                       createLoaderExifDataJpeg, 8 },
+        { nullptr,                       createLoaderNative,       0 },
+        { nullptr,                       createLoaderNative,       1 },
+        { nullptr,                       createLoaderNative,       2 },
+        { nullptr,                       createLoaderNative,       3 },
+        { nullptr,                       createLoaderExifDataJpeg, 0 },
+        { nullptr,                       createLoaderExifDataJpeg, 1 },
+        { nullptr,                       createLoaderExifDataJpeg, 2 },
+        { nullptr,                       createLoaderExifDataJpeg, 3 },
+        { nullptr,                       createLoaderExifDataJpeg, 4 },
+        { nullptr,                       createLoaderExifDataJpeg, 5 },
+        { nullptr,                       createLoaderExifDataJpeg, 6 },
+        { nullptr,                       createLoaderExifDataJpeg, 7 },
+        { nullptr,                       createLoaderExifDataJpeg, 8 },
         { "image/x-panasonic-rw2", createLoaderExifDataJpeg, 9 },
-        { 0,                       createLoaderExifDataJpeg,10 },
-        { 0,                       createLoaderExifDataJpeg,11 },
-        { 0,                       createLoaderTiff,         0 },
-        { 0,                       createLoaderTiff,         1 },
-        { 0,                       createLoaderTiff,         2 },
-        { 0,                       createLoaderTiff,         3 },
-        { 0,                       createLoaderTiff,         4 },
-        { 0,                       createLoaderTiff,         5 },
-        { 0,                       createLoaderTiff,         6 },
+        { nullptr,                       createLoaderExifDataJpeg,10 },
+        { nullptr,                       createLoaderExifDataJpeg,11 },
+        { nullptr,                       createLoaderTiff,         0 },
+        { nullptr,                       createLoaderTiff,         1 },
+        { nullptr,                       createLoaderTiff,         2 },
+        { nullptr,                       createLoaderTiff,         3 },
+        { nullptr,                       createLoaderTiff,         4 },
+        { nullptr,                       createLoaderTiff,         5 },
+        { nullptr,                       createLoaderTiff,         6 },
         { "image/x-canon-cr2",     createLoaderTiff,         7 },
-        { 0,                       createLoaderExifJpeg,     0 },
-        { 0,                       createLoaderExifJpeg,     1 },
-        { 0,                       createLoaderExifJpeg,     2 },
-        { 0,                       createLoaderExifJpeg,     3 },
-        { 0,                       createLoaderExifJpeg,     4 },
-        { 0,                       createLoaderExifJpeg,     5 },
-        { 0,                       createLoaderExifJpeg,     6 },
+        { nullptr,                       createLoaderExifJpeg,     0 },
+        { nullptr,                       createLoaderExifJpeg,     1 },
+        { nullptr,                       createLoaderExifJpeg,     2 },
+        { nullptr,                       createLoaderExifJpeg,     3 },
+        { nullptr,                       createLoaderExifJpeg,     4 },
+        { nullptr,                       createLoaderExifJpeg,     5 },
+        { nullptr,                       createLoaderExifJpeg,     6 },
         { "image/x-canon-cr2",     createLoaderExifJpeg,     7 },
-        { 0,                       createLoaderExifJpeg,     8 },
-        { 0,                       createLoaderXmpJpeg,      0 }
+        { nullptr,                       createLoaderExifJpeg,     8 },
+        { nullptr,                       createLoaderXmpJpeg,      0 }
     };
 
     const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
-        { "Exif.Image.JPEGInterchangeFormat",     "Exif.Image.JPEGInterchangeFormatLength",     0 }, // 0
-        { "Exif.SubImage1.JPEGInterchangeFormat", "Exif.SubImage1.JPEGInterchangeFormatLength", 0 }, // 1
-        { "Exif.SubImage2.JPEGInterchangeFormat", "Exif.SubImage2.JPEGInterchangeFormatLength", 0 }, // 2
-        { "Exif.SubImage3.JPEGInterchangeFormat", "Exif.SubImage3.JPEGInterchangeFormatLength", 0 }, // 3
-        { "Exif.SubImage4.JPEGInterchangeFormat", "Exif.SubImage4.JPEGInterchangeFormatLength", 0 }, // 4
-        { "Exif.SubThumb1.JPEGInterchangeFormat", "Exif.SubThumb1.JPEGInterchangeFormatLength", 0 }, // 5
-        { "Exif.Image2.JPEGInterchangeFormat",    "Exif.Image2.JPEGInterchangeFormatLength",    0 }, // 6
-        { "Exif.Image.StripOffsets",              "Exif.Image.StripByteCounts",                 0 }, // 7
+        { "Exif.Image.JPEGInterchangeFormat",     "Exif.Image.JPEGInterchangeFormatLength",     nullptr }, // 0
+        { "Exif.SubImage1.JPEGInterchangeFormat", "Exif.SubImage1.JPEGInterchangeFormatLength", nullptr }, // 1
+        { "Exif.SubImage2.JPEGInterchangeFormat", "Exif.SubImage2.JPEGInterchangeFormatLength", nullptr }, // 2
+        { "Exif.SubImage3.JPEGInterchangeFormat", "Exif.SubImage3.JPEGInterchangeFormatLength", nullptr }, // 3
+        { "Exif.SubImage4.JPEGInterchangeFormat", "Exif.SubImage4.JPEGInterchangeFormatLength", nullptr }, // 4
+        { "Exif.SubThumb1.JPEGInterchangeFormat", "Exif.SubThumb1.JPEGInterchangeFormatLength", nullptr }, // 5
+        { "Exif.Image2.JPEGInterchangeFormat",    "Exif.Image2.JPEGInterchangeFormatLength",    nullptr }, // 6
+        { "Exif.Image.StripOffsets",              "Exif.Image.StripByteCounts",                 nullptr }, // 7
         { "Exif.OlympusCs.PreviewImageStart",     "Exif.OlympusCs.PreviewImageLength",          "Exif.MakerNote.Offset"}  // 8
     };
 
@@ -358,12 +358,12 @@ namespace {
         { "Exif.PentaxDng.PreviewOffset",              "Exif.PentaxDng.PreviewLength"                    }, //  3
         { "Exif.Minolta.ThumbnailOffset",              "Exif.Minolta.ThumbnailLength"                    }, //  4
         { "Exif.SonyMinolta.ThumbnailOffset",          "Exif.SonyMinolta.ThumbnailLength"                }, //  5
-        { "Exif.Olympus.ThumbnailImage",               0                                                 }, //  6
-        { "Exif.Olympus2.ThumbnailImage",              0                                                 }, //  7
-        { "Exif.Minolta.Thumbnail",                    0                                                 }, //  8
-        { "Exif.PanasonicRaw.PreviewImage",            0                                                 }, //  9
+        { "Exif.Olympus.ThumbnailImage",               nullptr                                                 }, //  6
+        { "Exif.Olympus2.ThumbnailImage",              nullptr                                                 }, //  7
+        { "Exif.Minolta.Thumbnail",                    nullptr                                                 }, //  8
+        { "Exif.PanasonicRaw.PreviewImage",            nullptr                                                 }, //  9
         { "Exif.SamsungPreview.JPEGInterchangeFormat", "Exif.SamsungPreview.JPEGInterchangeFormatLength" }, // 10
-        { "Exif.Casio2.PreviewImage",                  0                                                 }  // 11
+        { "Exif.Casio2.PreviewImage",                  nullptr                                                 }  // 11
     };
 
     const LoaderTiff::Param LoaderTiff::param_[] = {
@@ -373,8 +373,8 @@ namespace {
         { "SubImage3", "Exif.SubImage3.NewSubfileType", "1" },  // 3
         { "SubImage4", "Exif.SubImage4.NewSubfileType", "1" },  // 4
         { "SubThumb1", "Exif.SubThumb1.NewSubfileType", "1" },  // 5
-        { "Thumbnail", 0,                               0   },  // 6
-        { "Image2",    0,                               0   }   // 7
+        { "Thumbnail", nullptr,                               nullptr   },  // 6
+        { "Image2",    nullptr,                               nullptr   }   // 7
     };
 
     Loader::UniquePtr Loader::create(PreviewId id, const Image &image)
@@ -507,7 +507,7 @@ namespace {
         if (data.size_ == 0) return false;
         try {
             Image::UniquePtr image = ImageFactory::open(data.pData_, data.size_);
-            if (image.get() == 0) return false;
+            if (image.get() == nullptr) return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
@@ -598,7 +598,7 @@ namespace {
 
         try {
             Image::UniquePtr image = ImageFactory::open(base + offset_, size_);
-            if (image.get() == 0) return false;
+            if (image.get() == nullptr) return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
@@ -675,7 +675,7 @@ namespace {
 
         try {
             Image::UniquePtr image = ImageFactory::open(buf.pData_, buf.size_);
-            if (image.get() == 0) return false;
+            if (image.get() == nullptr) return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
@@ -831,7 +831,7 @@ namespace {
         MemIo mio;
         IptcData emptyIptc;
         XmpData  emptyXmp;
-        TiffParser::encode(mio, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
+        TiffParser::encode(mio, nullptr, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
         return DataBuf(mio.mmap(), (long) mio.size());
     }
 

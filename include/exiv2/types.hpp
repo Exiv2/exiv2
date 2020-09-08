@@ -242,7 +242,7 @@ namespace Exiv2 {
         void free();
 
         //! Reset value
-        void reset(std::pair<byte*, size_t> =std::make_pair((byte*)(0),size_t(0)));
+        void reset(std::pair<byte*, size_t> =std::make_pair((byte*)nullptr,size_t(0)));
         //@}
 
         /*!

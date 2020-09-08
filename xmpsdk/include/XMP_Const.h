@@ -1006,7 +1006,7 @@ struct XMP_ThumbnailInfo {
 	/// Default constructor.
 	XMP_ThumbnailInfo() : fileFormat(kXMP_UnknownFile), fullWidth(0), fullHeight(0),
 						  tnailWidth(0), tnailHeight(0), fullOrientation(0), tnailOrientation(0),
-						  tnailImage(0), tnailSize(0), tnailFormat(kXMP_UnknownTNail) {};
+						  tnailImage(nullptr), tnailSize(0), tnailFormat(kXMP_UnknownTNail) {};
 
 };
 

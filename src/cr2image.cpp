@@ -116,7 +116,7 @@ namespace Exiv2 {
         std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
-        byte* pData = 0;
+        byte* pData = nullptr;
         long size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {

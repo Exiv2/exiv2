@@ -44,7 +44,7 @@ void mini1(const char* path)
     WriteMethod wm;
 
     // Write nothing to a new structure, without a previous binary image
-    wm = ExifParser::encode(blob, 0, 0, bigEndian, exifData);
+    wm = ExifParser::encode(blob, nullptr, 0, bigEndian, exifData);
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
     assert(blob.size() == 0);
     std::cout << "Test 1: Writing empty Exif data without original binary data: ok.\n";
@@ -58,7 +58,7 @@ void mini1(const char* path)
 
     // Write something to a new structure, without a previous binary image
     exifData["Exif.Photo.DateTimeOriginal"] = "Yesterday at noon";
-    wm = ExifParser::encode(blob, 0, 0, bigEndian, exifData);
+    wm = ExifParser::encode(blob, nullptr, 0, bigEndian, exifData);
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
     std::cout << "Test 3: Wrote non-empty Exif data without original binary data:\n";
     exifData.clear();

@@ -306,7 +306,7 @@ namespace Exiv2 {
                   size_t size,
                   uint32_t           root,
                   FindDecoderFct     findDecoderFct,
-                  TiffHeaderBase*    pHeader =0
+                  TiffHeaderBase*    pHeader =nullptr
         );
         /*!
           @brief Encode TIFF metadata from the metadata containers into a

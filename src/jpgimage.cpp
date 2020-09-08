@@ -122,7 +122,7 @@ namespace Exiv2 {
     bool Photoshop::valid(const byte* pPsData,
                           size_t sizePsData)
     {
-        const byte *record = 0;
+        const byte *record = nullptr;
         uint32_t sizeIptc = 0;
         uint32_t sizeHdr = 0;
         const byte* pCur = pPsData;
@@ -532,7 +532,7 @@ namespace Exiv2 {
         if (psBlob.size() > 0) {
             // Find actual IPTC data within the psBlob
             Blob iptcBlob;
-            const byte *record = 0;
+            const byte *record = nullptr;
             uint32_t sizeIptc = 0;
             uint32_t sizeHdr = 0;
             const byte* pCur = &psBlob[0];
@@ -868,7 +868,7 @@ namespace Exiv2 {
             // binary copy io_ to a temporary file
             BasicIo::UniquePtr tempIo(new MemIo);
 
-            assert(tempIo.get() != 0);
+            assert(tempIo.get() != nullptr);
             for (uint64_t i = 0; i < (count / 2) + 1; i++) {
                 uint64_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
                 if (start == 2)
@@ -900,7 +900,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
         BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        assert (tempIo.get() != nullptr);
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -1098,7 +1098,7 @@ namespace Exiv2 {
                     const byte* pExifData = rawExif.pData_;
                     size_t exifSize = rawExif.size_;
                     if (wm == wmIntrusive) {
-                        pExifData = blob.size() > 0 ? &blob[0] : 0;
+                        pExifData = blob.size() > 0 ? &blob[0] : nullptr;
                         exifSize = blob.size();
                     }
                     if (exifSize > 0) {
@@ -1191,7 +1191,7 @@ namespace Exiv2 {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
                     DataBuf newPsData =
-                        Photoshop::setIptcIrb(psBlob.size() > 0 ? &psBlob[0] : 0, (long)psBlob.size(), iptcData_);
+                        Photoshop::setIptcIrb(psBlob.size() > 0 ? &psBlob[0] : nullptr, (long)psBlob.size(), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.pData_;
                     const byte* chunkEnd = chunkStart + newPsData.size_;

@@ -21,7 +21,7 @@ int main(int argc, char* const argv[])
         }
 
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-        assert(image.get() != 0);
+        assert(image.get() != nullptr);
         image->readMetadata();
 
         const std::string& xmpPacket = image->xmpPacket();
