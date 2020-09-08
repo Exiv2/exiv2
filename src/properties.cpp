@@ -2503,6 +2503,12 @@ namespace Exiv2 {
     void XmpProperties::registerNs(const std::string& ns,
                                    const std::string& prefix)
     {
+        Exiv2::Dictionary                          nsDict;
+        Exiv2::XmpProperties::registeredNamespaces(nsDict);
+        if ( nsDict.find(prefix) != nsDict.end() ) {
+            if ( nsDict[prefix] == ns ) return;
+        }
+        
         ScopedWriteLock swl(rwLock_);
 
         std::string ns2 = ns;
@@ -2663,6 +2669,7 @@ namespace Exiv2 {
 
     void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict)
     {
+        ScopedWriteLock swl(rwLock_);
         for (unsigned int i = 0; i < EXV_COUNTOF(xmpNsInfo); ++i) {
              Exiv2::XmpParser::registerNs(xmpNsInfo[i].ns_,xmpNsInfo[i].prefix_);
         }

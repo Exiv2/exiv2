@@ -8,98 +8,125 @@
 #include <iomanip>
 #include <cassert>
 
-// https://github.com/Exiv2/exiv2/issues/468
-#if defined(EXV_UNICODE_PATH) && defined(__MINGW__)
-#undef  EXV_UNICODE_PATH
-#endif
+/* ------------------------------------------------- */
+/* Robin's darktable emulator                        */
+/* ------------------------------------------------- */
+typedef void GList;
 
-#ifdef  EXV_UNICODE_PATH
-#define _tchar      wchar_t
-#define _tstrcmp    wcscmp
-#define _t(s)       L##s
-#define _tcout      wcout
-#define _tmain      wmain
-#else
-#define _tchar      char
-#define _tstrcmp    strcmp
-#define _t(s)       s
-#define _tcout      cout
-#define _tmain      main
-#endif
+static GList* exiv2_taglist = NULL;
 
-int _tmain(int argc, _tchar* const argv[])
+static void _get_xmp_tags(const char *prefix, GList** /*taglist*/)
+{
+  const Exiv2::XmpPropertyInfo *pl = Exiv2::XmpProperties::propertyList(prefix);
+  if(pl)
+  {
+    for (int i = 0; pl[i].name_ != 0; ++i)
+    {
+      // char *tag = dt_util_dstrcat(NULL, "Xmp.%s.%s,%s", prefix, pl[i].name_, _get_exiv2_type(pl[i].typeId_));
+      // *taglist = g_list_prepend(*taglist, tag);
+        std::cout << "Xmp." << prefix <<"."<< pl[i].name_ << " __ " << pl[i].typeId_ << std::endl;
+    }
+  }
+}
+
+static void set_exiv2_taglist()
+{
+    const Exiv2::GroupInfo *groupList = Exiv2::ExifTags::groupList();
+    if(groupList)
+    {
+      while(groupList->tagList_)
+      {
+          const Exiv2::TagInfo *tagInfo = groupList->tagList_();
+          while(tagInfo->tag_ != 0xFFFF)
+          {
+            //char *tag = dt_util_dstrcat(NULL, "Exif.%s.%s,%s", groupList->groupName_, tagInfo->name_, _get_exiv2_type(tagInfo->typeId_));
+            // exiv2_taglist = g_list_prepend(exiv2_taglist, tag);
+              std::cout << "Exif." << groupList->groupName_ << "."<<   tagInfo->name_ << " __ " << tagInfo->typeId_ << std::endl;
+              tagInfo++;
+          }
+          groupList++;
+      }
+    }
+    const Exiv2::DataSet *iptcEnvelopeList = Exiv2::IptcDataSets::envelopeRecordList();
+    while(iptcEnvelopeList->number_ != 0xFFFF)
+    {
+      //char *tag = dt_util_dstrcat(NULL, "Iptc.Envelope.%s,%s", iptcEnvelopeList->name_, _get_exiv2_type(iptcEnvelopeList->type_));
+      // exiv2_taglist = g_list_prepend(exiv2_taglist, tag);
+        
+        std::cout << "Iptc.Envelope." << iptcEnvelopeList->name_ << " __ " << iptcEnvelopeList->type_ << std::endl; iptcEnvelopeList++;
+        iptcEnvelopeList++;
+    }
+
+    const Exiv2::DataSet *iptcApplication2List = Exiv2::IptcDataSets::application2RecordList();
+    while(iptcApplication2List->number_ != 0xFFFF)
+    {
+      //char *tag = dt_util_dstrcat(NULL, "Iptc.Application2.%s,%s", iptcApplication2List->name_, _get_exiv2_type(iptcApplication2List->type_));
+      // exiv2_taglist = g_list_prepend(exiv2_taglist, tag);
+      std::cout << "Iptc.Application2." <<   iptcApplication2List->name_ << " __ " << iptcApplication2List->type_ << std::endl;
+
+      iptcApplication2List++;
+    }
+    
+    _get_xmp_tags("dc", &exiv2_taglist);
+    _get_xmp_tags("xmp", &exiv2_taglist);
+    _get_xmp_tags("xmpRights", &exiv2_taglist);
+    _get_xmp_tags("xmpMM", &exiv2_taglist);
+    _get_xmp_tags("xmpBJ", &exiv2_taglist);
+    _get_xmp_tags("xmpTPg", &exiv2_taglist);
+    _get_xmp_tags("xmpDM", &exiv2_taglist);
+    _get_xmp_tags("pdf", &exiv2_taglist);
+    _get_xmp_tags("photoshop", &exiv2_taglist);
+    _get_xmp_tags("crs", &exiv2_taglist);
+    _get_xmp_tags("tiff", &exiv2_taglist);
+    _get_xmp_tags("exif", &exiv2_taglist);
+    _get_xmp_tags("exifEX", &exiv2_taglist);
+    _get_xmp_tags("aux", &exiv2_taglist);
+    _get_xmp_tags("iptc", &exiv2_taglist);
+    _get_xmp_tags("iptcExt", &exiv2_taglist);
+    _get_xmp_tags("plus", &exiv2_taglist);
+    _get_xmp_tags("mwg-rs", &exiv2_taglist);
+    _get_xmp_tags("mwg-kw", &exiv2_taglist);
+    _get_xmp_tags("dwc", &exiv2_taglist);
+    _get_xmp_tags("dcterms", &exiv2_taglist);
+    _get_xmp_tags("digiKam", &exiv2_taglist);
+    _get_xmp_tags("kipi", &exiv2_taglist);
+    _get_xmp_tags("GPano", &exiv2_taglist);
+    _get_xmp_tags("lr", &exiv2_taglist);
+    _get_xmp_tags("MP", &exiv2_taglist);
+    _get_xmp_tags("MPRI", &exiv2_taglist);
+    _get_xmp_tags("MPReg", &exiv2_taglist);
+    _get_xmp_tags("acdsee", &exiv2_taglist);
+    _get_xmp_tags("mediapro", &exiv2_taglist);
+    _get_xmp_tags("expressionmedia", &exiv2_taglist);
+    _get_xmp_tags("MicrosoftPhoto", &exiv2_taglist);
+}
+
+int main(int argc, char** const argv )
 try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+    
+    int rc = 0 ;
 
-    const _tchar* prog = argv[0];
-    const _tchar* file = argv[1];
-
-    if (argc != 2) {
-        std::_tcout << _t("Usage: ") << prog << _t(" [ path | --version | --version-test ]") << std::endl;
-        return 1;
+    int count = 0 ;    
+    if ( argc % 2 ) {
+    	for ( int i = 1 ; i < argc ; i += 2 ) {
+    	    count++;
+    		const char* prefix = argv[i+0];
+    		const char* uri    = argv[i+1];
+    		std::cout << "registerNS " << prefix << ":" << uri << std::endl;
+    		Exiv2::XmpProperties::registerNs(uri,prefix);
+    	}
+	    set_exiv2_taglist();
+    }
+    
+    if ( !count  && argc > 1 ) {
+    	printf("usage: %s [prefix uri]+\n",argv[0]);
+    	rc = 1 ;
     }
 
-    if ( _tstrcmp(file,_t("--version")) == 0 ) {
-        exv_grep_keys_t keys;
-        Exiv2::dumpLibraryInfo(std::cout,keys);
-        return 0;
-    } else if ( _tstrcmp(file,_t("--version-test")) == 0 ) {
-        // verifies/test macro EXIV2_TEST_VERSION
-        // described in include/exiv2/version.hpp
-        std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION             << std::endl
-                  << "Exiv2::version()                " << Exiv2::version()                << std::endl
-                  << "strlen(Exiv2::version())        " << ::strlen(Exiv2::version())      << std::endl
-                  << "Exiv2::versionNumber()          " << Exiv2::versionNumber()          << std::endl
-                  << "Exiv2::versionString()          " << Exiv2::versionString()          << std::endl
-                  << "Exiv2::versionNumberHexString() " << Exiv2::versionNumberHexString() << std::endl
-                  ;
-
-        // Test the Exiv2 version available at runtime but compile the if-clause only if
-        // the compile-time version is at least 0.15. Earlier versions didn't have a
-        // testVersion() function:
-        #if EXIV2_TEST_VERSION(0,15,0)
-            if (Exiv2::testVersion(0,13,0)) {
-              std::cout << "Available Exiv2 version is equal to or greater than 0.13\n";
-            } else {
-              std::cout << "Installed Exiv2 version is less than 0.13\n";
-            }
-        #else
-              std::cout << "Compile-time Exiv2 version doesn't have Exiv2::testVersion()\n";
-        #endif
-        return 0;
-    }
-
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
-    image->readMetadata();
-
-    Exiv2::ExifData &exifData = image->exifData();
-    if (exifData.empty()) {
-        std::string error("No Exif data found in file");
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
-    }
-
-    Exiv2::ExifData::const_iterator end = exifData.end();
-    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
-        const char* tn = i->typeName();
-        std::cout << std::setw(44) << std::setfill(' ') << std::left
-                  << i->key() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << (tn ? tn : "Unknown") << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << i->count() << "  "
-                  << std::dec << i->toString()
-                  << "\n";
-    }
-
-    return 0;
+    return rc;
 }
-//catch (std::exception& e) {
-//catch (Exiv2::AnyError& e) {
 catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
     return -1;
