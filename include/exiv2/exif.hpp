@@ -66,7 +66,7 @@ namespace Exiv2
 
         Exifdatum(const Exifdatum& rhs);
 
-        virtual ~Exifdatum();
+        ~Exifdatum() override;
         //@}
 
         //! @name Manipulators

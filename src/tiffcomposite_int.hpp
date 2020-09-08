@@ -420,7 +420,7 @@ namespace Exiv2 {
         //! Default constructor.
         TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType =ttUndefined);
         //! Virtual destructor.
-        virtual ~TiffEntryBase();
+        ~TiffEntryBase() override;
         //@}
 
         //! @name Manipulators
@@ -559,7 +559,7 @@ namespace Exiv2 {
         //! Constructor
         TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {}
         //! Virtual destructor.
-        virtual ~TiffEntry();
+        ~TiffEntry() override;
         //@}
 
     protected:
@@ -593,7 +593,7 @@ namespace Exiv2 {
             : TiffEntryBase(tag, group),
               szTag_(szTag), szGroup_(szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntryBase();
+        ~TiffDataEntryBase() override;
         //@}
 
         //! @name Manipulators
@@ -649,7 +649,7 @@ namespace Exiv2 {
             : TiffDataEntryBase(tag, group, szTag, szGroup),
               pDataArea_(nullptr), sizeDataArea_(0) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntry();
+        ~TiffDataEntry() override;
         //@}
 
         //! @name Manipulators
@@ -728,7 +728,7 @@ namespace Exiv2 {
         TiffImageEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffImageEntry();
+        ~TiffImageEntry() override;
         //@}
 
         //! @name Manipulators
@@ -807,7 +807,7 @@ namespace Exiv2 {
         TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup)
             : TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {}
         //! Virtual destructor.
-        virtual ~TiffSizeEntry();
+        ~TiffSizeEntry() override;
         //@}
 
         //! @name Accessors
@@ -850,7 +850,7 @@ namespace Exiv2 {
         TiffDirectory(uint16_t tag, IfdId group, bool hasNext =true)
             : TiffComponent(tag, group), hasNext_(hasNext), pNext_(nullptr) {}
         //! Virtual destructor
-        virtual ~TiffDirectory();
+        ~TiffDirectory() override;
         //@}
 
         //! @name Accessors
@@ -966,7 +966,7 @@ namespace Exiv2 {
         //! Default constructor
         TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup);
         //! Virtual destructor
-        virtual ~TiffSubIfd();
+        ~TiffSubIfd() override;
         //@}
 
     protected:
@@ -1055,7 +1055,7 @@ namespace Exiv2 {
         //! Default constructor
         TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
         //! Virtual destructor
-        virtual ~TiffMnEntry();
+        ~TiffMnEntry() override;
         //@}
 
     protected:
@@ -1129,7 +1129,7 @@ namespace Exiv2 {
                          MnHeader* pHeader,
                          bool      hasNext =true);
         //! Virtual destructor
-        virtual ~TiffIfdMakernote();
+        ~TiffIfdMakernote() override;
         //@}
 
         //! @name Manipulators
@@ -1331,7 +1331,7 @@ namespace Exiv2 {
                         int setSize,
                         CfgSelFct cfgSelFct);
         //! Virtual destructor
-        virtual ~TiffBinaryArray();
+        ~TiffBinaryArray() override;
         //@}
 
         //! @name Manipulators
@@ -1459,7 +1459,7 @@ namespace Exiv2 {
         //! Constructor
         TiffBinaryElement(uint16_t tag, IfdId group);
         //! Virtual destructor.
-        virtual ~TiffBinaryElement();
+        ~TiffBinaryElement() override;
         //@}
 
         //! @name Manipulators

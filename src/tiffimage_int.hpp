@@ -154,7 +154,7 @@ namespace Exiv2 {
                    uint32_t  offset       =0x00000008,
                    bool      hasImageTags =true);
         //! Destructor
-        ~TiffHeader();
+        ~TiffHeader() override;
         //@}
         //@{
         //! @name Accessors

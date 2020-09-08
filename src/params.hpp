@@ -267,7 +267,7 @@ private:
     Params();
 
     //! Destructor, frees any allocated regexes in greps_
-    ~Params();
+    ~Params() override;
 
     //! @name Helpers
     //@{

@@ -274,7 +274,7 @@ namespace Exiv2 {
         XmpKey(const XmpKey& rhs);
 
         //! Virtual destructor.
-        virtual ~XmpKey();
+        ~XmpKey() override;
         //@}
 
         //! @name Manipulators

@@ -69,7 +69,7 @@ namespace Exiv2 {
         //! Copy constructor
         Iptcdatum(const Iptcdatum& rhs);
         //! Destructor
-        virtual ~Iptcdatum();
+        ~Iptcdatum() override;
         //@}
 
         //! @name Manipulators
