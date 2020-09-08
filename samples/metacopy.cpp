@@ -60,11 +60,11 @@ try {
     memIo->transfer(*fileIo);
 
     Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
-    assert(readImg.get() != 0);
+    assert(readImg.get() != nullptr);
     readImg->readMetadata();
 
     Exiv2::Image::UniquePtr writeImg = Exiv2::ImageFactory::open(params.write_);
-    assert(writeImg.get() != 0);
+    assert(writeImg.get() != nullptr);
     if (params.preserve_) writeImg->readMetadata();
     if (params.iptc_) {
         writeImg->setIptcData(readImg->iptcData());

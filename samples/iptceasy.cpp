@@ -38,7 +38,7 @@ try {
 
     // Open image file
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert (image.get() != 0);
+    assert (image.get() != nullptr);
 
     // Set IPTC data and write it to the file
     image->setIptcData(iptcData);

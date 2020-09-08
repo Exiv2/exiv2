@@ -108,7 +108,7 @@ namespace Exiv2 {
     const char* TypeInfo::typeName(TypeId typeId)
     {
         const TypeInfoTable* tit = find(typeInfoTable, typeId);
-        if (!tit) return 0;
+        if (!tit) return nullptr;
         return tit->name_;
     }
 
@@ -138,14 +138,14 @@ namespace Exiv2 {
         delete[] pData_;
     }
 
-    DataBuf::DataBuf() : pData_(0), size_(0)
+    DataBuf::DataBuf() : pData_(nullptr), size_(0)
     {}
 
     DataBuf::DataBuf(size_t size) : pData_(new byte[size]()), size_(size)
     {}
 
     DataBuf::DataBuf(const byte* pData, size_t size)
-        : pData_(0), size_(0)
+        : pData_(nullptr), size_(0)
     {
         if (size > 0) {
             pData_ = new byte[size];
@@ -165,7 +165,7 @@ namespace Exiv2 {
     {
         if (size > size_) {
             delete[] pData_;
-            pData_ = 0;
+            pData_ = nullptr;
             size_ = 0;
             pData_ = new byte[size];
             size_ = size;
@@ -175,7 +175,7 @@ namespace Exiv2 {
     EXV_WARN_UNUSED_RESULT std::pair<byte *, size_t> DataBuf::release()
     {
         std::pair<byte*, size_t> p = std::make_pair(pData_, size_);
-        pData_ = 0;
+        pData_ = nullptr;
         size_ = 0;
         return p;
     }
@@ -183,7 +183,7 @@ namespace Exiv2 {
     void DataBuf::free()
     {
         delete[] pData_;
-        pData_ = 0;
+        pData_ = nullptr;
         size_ = 0;
     }
 
@@ -578,8 +578,8 @@ namespace Exiv2 {
 
     int exifTime(const char* buf, struct tm* tm)
     {
-        assert(buf != 0);
-        assert(tm != 0);
+        assert(buf != nullptr);
+        assert(tm != nullptr);
         int rc = 1;
         int year, mon, mday, hour, min, sec;
         int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d",

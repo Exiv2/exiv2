@@ -53,7 +53,7 @@ using namespace std;
 // Static Variables
 // ================
 
-XMP_VarString * xdefaultName = 0;
+XMP_VarString * xdefaultName = nullptr;
 
 // These are embedded version strings.
 
@@ -585,7 +585,7 @@ SortWithinOffspring ( XMP_NodeOffspring & nodeVec )
 // ============
 
 
-XMPMeta::XMPMeta() : clientRefs(0), prevTkVer(0), tree(XMP_Node(0,"",0)), xmlParser(0)
+XMPMeta::XMPMeta() : clientRefs(0), prevTkVer(0), tree(XMP_Node(nullptr,"",0)), xmlParser(nullptr)
 {
 	// Nothing more to do, clientRefs is incremented in wrapper.
 	#if XMP_TraceCTorDTor
@@ -602,8 +602,8 @@ XMPMeta::~XMPMeta() RELEASE_NO_THROW
 	#endif
 
 	XMP_Assert ( this->clientRefs <= 0 );
-	if ( xmlParser != 0 ) delete ( xmlParser );
-	xmlParser = 0;
+	if ( xmlParser != nullptr ) delete ( xmlParser );
+	xmlParser = nullptr;
 
 }	// ~XMPMeta
 
@@ -1161,7 +1161,7 @@ XMPMeta::RegisterAlias ( XMP_StringPtr 	aliasNS,
 {
 	XMP_ExpandedXPath	expAlias, expActual;
 	XMP_AliasMapPos		mapPos;
-	XMP_ExpandedXPath *	regActual = 0;
+	XMP_ExpandedXPath *	regActual = nullptr;
 
 	XMP_Assert ( (aliasNS != 0) && (aliasProp != 0) && (actualNS != 0) && (actualProp != 0) );	// Enforced by wrapper.
 		
@@ -1175,7 +1175,7 @@ XMPMeta::RegisterAlias ( XMP_StringPtr 	aliasNS,
 		XMP_Throw ( "Alias and actual property names must be simple", kXMPErr_BadXPath );
 	}
 	
-	arrayForm = VerifySetOptions ( arrayForm, 0 );
+	arrayForm = VerifySetOptions ( arrayForm, nullptr );
 	if ( arrayForm != 0 ) {
 		if ( (arrayForm & ~kXMP_PropArrayFormMask) != 0 ) XMP_Throw ( "Only array form flags are allowed", kXMPErr_BadOptions );
 		expActual[1].options |= arrayForm;	// Set the array form for the top level step.
@@ -1515,7 +1515,7 @@ XMPMeta::CountArrayItems ( XMP_StringPtr schemaNS,
 	
 	const XMP_Node * arrayNode = FindConstNode ( &tree, expPath );
 
-	if ( arrayNode == 0 ) return 0;
+	if ( arrayNode == nullptr ) return 0;
 	if ( ! (arrayNode->options & kXMP_PropValueIsArray) ) XMP_Throw ( "The named property is not an array", kXMPErr_BadXPath );
 	return arrayNode->children.size();
 	
@@ -1615,9 +1615,9 @@ XMPMeta::Erase()
 {
 
 	this->prevTkVer = 0;
-	if ( this->xmlParser != 0 ) {
+	if ( this->xmlParser != nullptr ) {
 		delete ( this->xmlParser );
-		this->xmlParser = 0;
+		this->xmlParser = nullptr;
 	}
 	this->tree.ClearNode();
 
@@ -1631,7 +1631,7 @@ XMPMeta::Erase()
 void
 XMPMeta::Clone ( XMPMeta * clone, XMP_OptionBits options ) const
 {
-	if ( clone == 0 ) XMP_Throw ( "Null clone pointer", kXMPErr_BadParam );
+	if ( clone == nullptr ) XMP_Throw ( "Null clone pointer", kXMPErr_BadParam );
 	if ( options != 0 ) XMP_Throw ( "No options are defined yet", kXMPErr_BadOptions );
 	XMP_Assert ( this->tree.parent == 0 );
 

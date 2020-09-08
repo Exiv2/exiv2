@@ -65,7 +65,7 @@ namespace Exiv2 {
                  to a tag number and record id.
          */
         explicit Iptcdatum(const IptcKey& key,
-                           const Value* pValue =0);
+                           const Value* pValue =nullptr);
         //! Copy constructor
         Iptcdatum(const Iptcdatum& rhs);
         //! Destructor
@@ -106,7 +106,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         long copy(byte* buf, ByteOrder byteOrder) const override;
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata =nullptr) const override;
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
                  '<b>Iptc</b>.recordName.datasetName'. Note however that the key

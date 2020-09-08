@@ -35,7 +35,7 @@
 	static const char * sStageNames[] = { "before", "self", "qualifiers", "children" };
 #endif
 
-static XMP_Node * sDummySchema = 0;	// ! Used for some ugliness with aliases.
+static XMP_Node * sDummySchema = nullptr;	// ! Used for some ugliness with aliases.
 
 // -------------------------------------------------------------------------------------------------
 // AddSchemaProps
@@ -92,7 +92,7 @@ AddSchemaAliases ( IterInfo & info, IterNode & iterSchema, XMP_StringPtr schemaU
 	for ( ; currAlias != endAlias; ++currAlias ) {
 		if ( XMP_LitNMatch ( currAlias->first.c_str(), nsPrefix, nsLen ) ) {
 			const XMP_Node * actualProp = FindConstNode ( &info.xmpObj->tree, currAlias->second );
-			if ( actualProp != 0 ) {
+			if ( actualProp != nullptr ) {
 				iterSchema.children.push_back ( IterNode ( (actualProp->options | kXMP_PropIsAlias), currAlias->first, 0 ) );
 				#if TraceIterators
 					printf ( "        %s  =>  %s\n", currAlias->first.c_str(), actualProp->name.c_str() );
@@ -306,7 +306,7 @@ AdvanceIterPos ( IterInfo & info )
 static const XMP_Node *
 GetNextXMPNode ( IterInfo & info )
 {
-	const XMP_Node * xmpNode = 0;
+	const XMP_Node * xmpNode = nullptr;
 
 	// ----------------------------------------------------------------------------------------------
 	// On entry currPos points to an iteration node whose state is either before-visit or visit-self.
@@ -330,12 +330,12 @@ GetNextXMPNode ( IterInfo & info )
 		if ( isSchemaNode ) {
 			SetCurrSchema ( info, info.currPos->fullPath );
 			xmpNode = FindConstSchema ( &info.xmpObj->tree, info.currPos->fullPath.c_str() );
-			if ( xmpNode == 0 ) xmpNode = sDummySchema;
+			if ( xmpNode == nullptr ) xmpNode = sDummySchema;
 		} else {
 			ExpandXPath ( info.currSchema.c_str(), info.currPos->fullPath.c_str(), &expPath );
 			xmpNode = FindConstNode ( &info.xmpObj->tree, expPath );
 		}
-		if ( xmpNode != 0 ) break;	// Exit the loop, we found a live XMP node.
+		if ( xmpNode != nullptr ) break;	// Exit the loop, we found a live XMP node.
 
 		info.currPos->visitStage = kIter_VisitChildren;	// Make AdvanceIterPos move to the next sibling.
 		info.currPos->children.clear();
@@ -344,7 +344,7 @@ GetNextXMPNode ( IterInfo & info )
 
 	}
 
-	if ( info.currPos == info.endPos ) return 0;
+	if ( info.currPos == info.endPos ) return nullptr;
 	
 	// -------------------------------------------------------------------------------------------
 	// Now we've got the iteration node and corresponding XMP node. Add the iteration children for
@@ -374,7 +374,7 @@ GetNextXMPNode ( IterInfo & info )
 /* class static */ bool
 XMPIterator::Initialize()
 {
-	sDummySchema = new XMP_Node ( 0, "dummy:schema/", kXMP_SchemaNode);
+	sDummySchema = new XMP_Node ( nullptr, "dummy:schema/", kXMP_SchemaNode);
 	return true;
 	
 }	// Initialize
@@ -387,7 +387,7 @@ XMPIterator::Initialize()
 XMPIterator::Terminate() RELEASE_NO_THROW
 {
 	delete ( sDummySchema );
-	sDummySchema = 0;
+	sDummySchema = nullptr;
 	return;
 	
 }	// Terminate
@@ -445,7 +445,7 @@ XMPIterator::XMPIterator ( const XMPMeta & xmpObj,
 		ExpandXPath ( schemaNS, propName, &propPath );
 		XMP_Node * propNode = FindConstNode ( &xmpObj.tree, propPath );	// If not found get empty iteration.
 		
-		if ( propNode != 0 ) {
+		if ( propNode != nullptr ) {
 
 			XMP_VarString rootName ( propPath[1].step );	// The schema is [0].
 			for ( size_t i = 2; i < propPath.size(); ++i ) {
@@ -480,7 +480,7 @@ XMPIterator::XMPIterator ( const XMPMeta & xmpObj,
 		IterNode & iterSchema = info.tree.children.back();
 		
 		XMP_Node * xmpSchema = FindConstSchema ( &xmpObj.tree, schemaNS );
-		if ( xmpSchema != 0 ) AddSchemaProps ( info, iterSchema, xmpSchema );
+		if ( xmpSchema != nullptr ) AddSchemaProps ( info, iterSchema, xmpSchema );
 		
 		if ( info.options & kXMP_IterIncludeAliases ) AddSchemaAliases ( info, iterSchema, schemaNS );
 		
@@ -533,7 +533,7 @@ XMPIterator::XMPIterator ( const XMPMeta & xmpObj,
 			XMP_cStringMapPos endNS  = sNamespaceURIToPrefixMap->end();
 			for ( ; currNS != endNS; ++currNS ) {
 				XMP_StringPtr schemaName = currNS->first.c_str();
-				if ( FindConstSchema ( &xmpObj.tree, schemaName ) != 0 ) continue;
+				if ( FindConstSchema ( &xmpObj.tree, schemaName ) != nullptr ) continue;
 				info.tree.children.push_back ( IterNode ( kXMP_SchemaNode, schemaName, 0 ) );
 				IterNode & iterSchema = info.tree.children.back();
 				AddSchemaAliases ( info, iterSchema, schemaName );
@@ -576,7 +576,7 @@ XMPIterator::XMPIterator ( const XMPMeta & xmpObj,
 
 XMPIterator::XMPIterator ( XMP_StringPtr  /*schemaNS*/,
                            XMP_StringPtr  /*propName*/,
-                           XMP_OptionBits options ) : clientRefs(0), info(IterInfo(options,0))
+                           XMP_OptionBits options ) : clientRefs(0), info(IterInfo(options,nullptr))
 {
 
 	XMP_Throw ( "Unimplemented XMPIterator constructor for global tables", kXMPErr_Unimplemented );
@@ -628,14 +628,14 @@ XMPIterator::Next ( XMP_StringPtr *	 schemaNS,
 	#endif
 	
 	const XMP_Node * xmpNode = GetNextXMPNode ( info );
-	if ( xmpNode == 0 ) return false;
+	if ( xmpNode == nullptr ) return false;
 	bool isSchemaNode = XMP_NodeIsSchema ( info.currPos->options );
 	
 	if ( info.options & kXMP_IterJustLeafNodes ) {
 		while ( isSchemaNode || (! xmpNode->children.empty()) ) {
 			info.currPos->visitStage = kIter_VisitQualifiers;	// Skip to this node's children.
 			xmpNode = GetNextXMPNode ( info );
-			if ( xmpNode == 0 ) return false;
+			if ( xmpNode == nullptr ) return false;
 			isSchemaNode = XMP_NodeIsSchema ( info.currPos->options );
 		}
 	}

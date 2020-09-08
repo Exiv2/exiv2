@@ -50,14 +50,14 @@ using namespace std;
 
 XMP_Int32 sXMP_InitCount = 0;
 
-XMP_StringMap *	sNamespaceURIToPrefixMap = 0;
-XMP_StringMap *	sNamespacePrefixToURIMap = 0;
+XMP_StringMap *	sNamespaceURIToPrefixMap = nullptr;
+XMP_StringMap *	sNamespacePrefixToURIMap = nullptr;
 
-XMP_AliasMap *	sRegisteredAliasMap = 0;	// Needed by XMPIterator.
+XMP_AliasMap *	sRegisteredAliasMap = nullptr;	// Needed by XMPIterator.
 
-XMP_VarString *	sOutputNS  = 0;
-XMP_VarString *	sOutputStr = 0;
-XMP_VarString * sExceptionMessage = 0;
+XMP_VarString *	sOutputNS  = nullptr;
+XMP_VarString *	sOutputStr = nullptr;
+XMP_VarString * sExceptionMessage = nullptr;
 
 XMP_Mutex sXMPCoreLock;
 int sLockCount = 0;
@@ -66,8 +66,8 @@ int sLockCount = 0;
 	FILE * xmpOut = stderr;
 #endif
 
-void *              voidVoidPtr    = 0;	// Used to backfill null output parameters.
-XMP_StringPtr		voidStringPtr  = 0;
+void *              voidVoidPtr    = nullptr;	// Used to backfill null output parameters.
+XMP_StringPtr		voidStringPtr  = nullptr;
 XMP_StringLen		voidStringLen  = 0;
 XMP_OptionBits		voidOptionBits = 0;
 XMP_Uns8			voidByte       = 0;
@@ -112,7 +112,7 @@ WXMP_Result 		void_wResult;
 	// ! Would be OK but overkill to specify PTHREAD_MUTEX_RECURSIVE.
 
 	bool XMP_InitMutex ( XMP_Mutex * mutex ) {
-		int err = pthread_mutex_init ( mutex, 0 );
+		int err = pthread_mutex_init ( mutex, nullptr );
 		return (err == 0 );
 	}
 	
@@ -392,7 +392,7 @@ FollowXPathStep	( XMP_Node *	   parentNode,
 				  XMP_NodePtrPos * ptrPos,
 				  bool			   aliasedArrayItem = false )
 {
-	XMP_Node * nextNode = 0;
+	XMP_Node * nextNode = nullptr;
 	const XPathStepInfo & nextStep = fullPath[stepNum];
 	XMP_Index      index    = 0;
 	XMP_OptionBits stepKind = nextStep.options & kXMP_StepKindMask;
@@ -461,11 +461,11 @@ FollowXPathStep	( XMP_Node *	   parentNode,
 
 		}
 		
-		if ( (nextNode != 0) && (ptrPos != 0) ) *ptrPos = parentNode->children.begin() + index;
+		if ( (nextNode != nullptr) && (ptrPos != nullptr) ) *ptrPos = parentNode->children.begin() + index;
 	
 	}
 
-	if ( (nextNode != 0) && (nextNode->options & kXMP_NewImplicitNode) ) {
+	if ( (nextNode != nullptr) && (nextNode->options & kXMP_NewImplicitNode) ) {
 		nextNode->options |= (nextStep.options & kXMP_PropArrayFormMask);
 	}
 	
@@ -578,7 +578,7 @@ VerifySetOptions ( XMP_OptionBits options, XMP_StringPtr propValue )
 		XMP_Throw ( "Structs and arrays can't have \"value\" options", kXMPErr_BadOptions );
 	}
 	
-	if ( (propValue != 0) && (options & kXMP_PropCompositeMask) ) {
+	if ( (propValue != nullptr) && (options & kXMP_PropCompositeMask) ) {
 		XMP_Throw ( "Structs and arrays can't have string values", kXMPErr_BadOptions );
 	}
 
@@ -826,7 +826,7 @@ FindSchemaNode	( XMP_Node *		xmpTree,
 				  bool				createNodes,
 				  XMP_NodePtrPos *	ptrPos /* = 0 */ )
 {
-	XMP_Node * schemaNode = 0;
+	XMP_Node * schemaNode = nullptr;
 	
 	XMP_Assert ( xmpTree->parent == 0 );
 	
@@ -835,12 +835,12 @@ FindSchemaNode	( XMP_Node *		xmpTree,
 		XMP_Assert ( currSchema->parent == xmpTree );
 		if ( currSchema->name == nsURI ) {
 			schemaNode = currSchema;
-			if ( ptrPos != 0 ) *ptrPos = xmpTree->children.begin() + schemaNum;
+			if ( ptrPos != nullptr ) *ptrPos = xmpTree->children.begin() + schemaNum;
 			break;
 		}
 	}
 	
-	if ( (schemaNode == 0) && createNodes ) {
+	if ( (schemaNode == nullptr) && createNodes ) {
 
 		schemaNode = new XMP_Node ( xmpTree, nsURI, (kXMP_SchemaNode | kXMP_NewImplicitNode) );
 		XMP_StringPtr prefixPtr;
@@ -851,7 +851,7 @@ FindSchemaNode	( XMP_Node *		xmpTree,
 
 		schemaNode->value.assign ( prefixPtr, prefixLen );
 		xmpTree->children.push_back ( schemaNode );
-		if ( ptrPos != 0 ) *ptrPos = xmpTree->children.end() - 1;
+		if ( ptrPos != nullptr ) *ptrPos = xmpTree->children.end() - 1;
 
 		#if 0	// *** XMP_DebugBuild
 			schemaNode->_valuePtr = schemaNode->value.c_str();
@@ -879,7 +879,7 @@ FindChildNode	( XMP_Node *		parent,
 				  bool				createNodes,
 				  XMP_NodePtrPos *	ptrPos /* = 0 */ )
 {
-	XMP_Node * childNode = 0;
+	XMP_Node * childNode = nullptr;
 
 	if ( ! (parent->options & (kXMP_SchemaNode | kXMP_PropValueIsStruct)) ) {
 		if ( ! (parent->options & kXMP_NewImplicitNode) ) {
@@ -899,15 +899,15 @@ FindChildNode	( XMP_Node *		parent,
 		XMP_Assert ( currChild->parent == parent );
 		if ( currChild->name == childName ) {
 			childNode = currChild;
-			if ( ptrPos != 0 ) *ptrPos = parent->children.begin() + childNum;
+			if ( ptrPos != nullptr ) *ptrPos = parent->children.begin() + childNum;
 			break;
 		}
 	}
 	
-	if ( (childNode == 0) && createNodes ) {
+	if ( (childNode == nullptr) && createNodes ) {
 		childNode = new XMP_Node ( parent, childName, kXMP_NewImplicitNode );
 		parent->children.push_back ( childNode );
-		if ( ptrPos != 0 ) *ptrPos = parent->children.end() - 1;
+		if ( ptrPos != nullptr ) *ptrPos = parent->children.end() - 1;
 	}
 	
 	XMP_Assert ( (ptrPos == 0) || (childNode == 0) || (childNode == **ptrPos) );
@@ -932,7 +932,7 @@ FindQualifierNode	( XMP_Node *		parent,
 					  bool				createNodes,
 					  XMP_NodePtrPos *	ptrPos /* = 0 */ )	// *** Require ptrPos internally & remove checks?
 {
-	XMP_Node * qualNode = 0;
+	XMP_Node * qualNode = nullptr;
 	
 	XMP_Assert ( *qualName != '?' );
 	
@@ -941,12 +941,12 @@ FindQualifierNode	( XMP_Node *		parent,
 		XMP_Assert ( currQual->parent == parent );
 		if ( currQual->name == qualName ) {
 			qualNode = currQual;
-			if ( ptrPos != 0 ) *ptrPos = parent->qualifiers.begin() + qualNum;
+			if ( ptrPos != nullptr ) *ptrPos = parent->qualifiers.begin() + qualNum;
 			break;
 		}
 	}
 	
-	if ( (qualNode == 0) && createNodes ) {
+	if ( (qualNode == nullptr) && createNodes ) {
 
 		qualNode = new XMP_Node ( parent, qualName, (kXMP_PropIsQualifier | kXMP_NewImplicitNode) );
 		parent->options |= kXMP_PropHasQualifiers;
@@ -963,12 +963,12 @@ FindQualifierNode	( XMP_Node *		parent,
 		
 		if ( parent->qualifiers.empty() || (! isSpecial) ) {
 			parent->qualifiers.push_back ( qualNode );
-			if ( ptrPos != 0 ) *ptrPos = parent->qualifiers.end() - 1;
+			if ( ptrPos != nullptr ) *ptrPos = parent->qualifiers.end() - 1;
 		} else {
 			XMP_NodePtrPos insertPos = parent->qualifiers.begin();	// ! Lang goes first, type after.
 			if ( isType && (parent->options & kXMP_PropHasLang) ) ++insertPos;	// *** Does insert at end() work?
 			insertPos = parent->qualifiers.insert ( insertPos, qualNode );
-			if ( ptrPos != 0 ) *ptrPos = insertPos;
+			if ( ptrPos != nullptr ) *ptrPos = insertPos;
 		}
 
 	}
@@ -1060,7 +1060,7 @@ FindNode ( XMP_Node *		xmpTree,
 		   XMP_OptionBits	leafOptions /* = 0 */,
 	 	   XMP_NodePtrPos * ptrPos /* = 0 */ )
 {
-	XMP_Node *     currNode = 0;
+	XMP_Node *     currNode = nullptr;
 	XMP_NodePtrPos currPos;
 	XMP_NodePtrPos newSubPos;	// Root of implicitly created subtree. Valid only if leaf is new.
 	bool           leafIsNew = false;
@@ -1081,7 +1081,7 @@ FindNode ( XMP_Node *		xmpTree,
 	if ( ! (expandedXPath[kRootPropStep].options & kXMP_StepIsAlias) ) {
 		
 		currNode = FindSchemaNode ( xmpTree, expandedXPath[kSchemaStep].step.c_str(), createNodes, &currPos );
-		if ( currNode == 0 ) return 0;
+		if ( currNode == nullptr ) return nullptr;
 
 		if ( currNode->options & kXMP_NewImplicitNode ) {
 			currNode->options ^= kXMP_NewImplicitNode;	// Clear the implicit node bit.
@@ -1097,7 +1097,7 @@ FindNode ( XMP_Node *		xmpTree,
 		XMP_Assert ( aliasPos != sRegisteredAliasMap->end() );
 		
 		currNode = FindSchemaNode ( xmpTree, aliasPos->second[kSchemaStep].step.c_str(), createNodes, &currPos );
-		if ( currNode == 0 ) goto EXIT;
+		if ( currNode == nullptr ) goto EXIT;
 		if ( currNode->options & kXMP_NewImplicitNode ) {
 			currNode->options ^= kXMP_NewImplicitNode;	// Clear the implicit node bit.
 			if ( ! leafIsNew ) newSubPos = currPos;	// Save the top most implicit node.
@@ -1105,7 +1105,7 @@ FindNode ( XMP_Node *		xmpTree,
 		}
 
 		currNode = FollowXPathStep ( currNode, aliasPos->second, 1, createNodes, &currPos );
-		if ( currNode == 0 ) goto EXIT;
+		if ( currNode == nullptr ) goto EXIT;
 		if ( currNode->options & kXMP_NewImplicitNode ) {
 			currNode->options ^= kXMP_NewImplicitNode;	// Clear the implicit node bit.
 			CheckImplicitStruct ( currNode, expandedXPath, 2, stepLim );
@@ -1119,7 +1119,7 @@ FindNode ( XMP_Node *		xmpTree,
 		
 		if ( arrayForm != 0 ) { 
 			currNode = FollowXPathStep ( currNode, aliasPos->second, 2, createNodes, &currPos, true );
-			if ( currNode == 0 ) goto EXIT;
+			if ( currNode == nullptr ) goto EXIT;
 			if ( currNode->options & kXMP_NewImplicitNode ) {
 				currNode->options ^= kXMP_NewImplicitNode;	// Clear the implicit node bit.
 				CheckImplicitStruct ( currNode, expandedXPath, 2, stepLim );
@@ -1137,7 +1137,7 @@ FindNode ( XMP_Node *		xmpTree,
 	try {
 		for ( ; stepNum < stepLim; ++stepNum ) {
 			currNode = FollowXPathStep ( currNode, expandedXPath, stepNum, createNodes, &currPos );
-			if ( currNode == 0 ) goto EXIT;
+			if ( currNode == nullptr ) goto EXIT;
 			if ( currNode->options & kXMP_NewImplicitNode ) {
 				currNode->options ^= kXMP_NewImplicitNode;	// Clear the implicit node bit.
 				CheckImplicitStruct ( currNode, expandedXPath, stepNum+1, stepLim );
@@ -1158,14 +1158,14 @@ EXIT:
 	XMP_Assert ( (currNode != 0) || (! createNodes) );
 
 	if ( leafIsNew ) {
-		if ( currNode != 0 ) {
+		if ( currNode != nullptr ) {
 			currNode->options |= leafOptions;
 		} else {
 			DeleteSubtree ( newSubPos );
 		}
 	}
 
-	if ( (currNode != 0) && (ptrPos != 0) ) *ptrPos = currPos;
+	if ( (currNode != nullptr) && (ptrPos != nullptr) ) *ptrPos = currPos;
 	return currNode;
 	
 }	// FindNode
@@ -1260,16 +1260,16 @@ CompareSubtrees ( const XMP_Node & leftNode, const XMP_Node & rightNode )
 	for ( size_t qualNum = 0, qualLim = leftNode.qualifiers.size(); qualNum != qualLim; ++qualNum ) {
 		const XMP_Node * leftQual  = leftNode.qualifiers[qualNum];
 		const XMP_Node * rightQual = FindConstQualifier ( &rightNode, leftQual->name.c_str() );
-		if ( (rightQual == 0) || (! CompareSubtrees ( *leftQual, *rightQual )) ) return false;
+		if ( (rightQual == nullptr) || (! CompareSubtrees ( *leftQual, *rightQual )) ) return false;
 	}
 	
-	if ( (leftNode.parent == 0) || (leftNode.options & (kXMP_SchemaNode | kXMP_PropValueIsStruct)) ) {
+	if ( (leftNode.parent == nullptr) || (leftNode.options & (kXMP_SchemaNode | kXMP_PropValueIsStruct)) ) {
 
 		// The parent node is a tree root, a schema, or a struct.
 		for ( size_t childNum = 0, childLim = leftNode.children.size(); childNum != childLim; ++childNum ) {
 			const XMP_Node * leftChild  = leftNode.children[childNum];
 			const XMP_Node * rightChild = FindConstChild ( &rightNode, leftChild->name.c_str() );
-			if ( (rightChild == 0) || (! CompareSubtrees ( *leftChild, *rightChild )) ) return false;
+			if ( (rightChild == nullptr) || (! CompareSubtrees ( *leftChild, *rightChild )) ) return false;
 		}
 
 	} else if ( leftNode.options & kXMP_PropArrayIsAltText ) {

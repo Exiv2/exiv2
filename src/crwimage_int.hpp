@@ -98,11 +98,11 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         CiffComponent()
-            : dir_(0), tag_(0), size_(0), offset_(0), pData_(0),
+            : dir_(0), tag_(0), size_(0), offset_(0), pData_(nullptr),
               isAllocated_(false) {}
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
-            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0),
+            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(nullptr),
               isAllocated_(false) {}
         //! Virtual destructor.
         virtual ~CiffComponent();
@@ -428,10 +428,10 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         CiffHeader()
-            : pRootDir_  (0),
+            : pRootDir_  (nullptr),
               byteOrder_ (littleEndian),
               offset_    (0x0000001a),
-              pPadding_  (0),
+              pPadding_  (nullptr),
               padded_    (0)
             {}
         //! Virtual destructor

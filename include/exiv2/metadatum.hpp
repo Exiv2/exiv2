@@ -157,7 +157,7 @@ namespace Exiv2 {
 
           Implemented in terms of write(), see there.
          */
-        std::string print(const ExifData* pMetadata =0) const;
+        std::string print(const ExifData* pMetadata =nullptr) const;
         /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
@@ -193,7 +193,7 @@ namespace Exiv2 {
          */
         virtual std::ostream& write(
                   std::ostream& os,
-            const ExifData*     pMetadata =0
+            const ExifData*     pMetadata =nullptr
         ) const =0;
         /*!
           @brief Return the key of the metadatum. The key is of the form

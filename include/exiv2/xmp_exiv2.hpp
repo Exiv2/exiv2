@@ -65,7 +65,7 @@ namespace Exiv2 {
                  to a known schema namespace prefix and property name.
          */
         explicit Xmpdatum(const XmpKey& key,
-                          const Value* pValue =0);
+                          const Value* pValue =nullptr);
         //! Copy constructor
         Xmpdatum(const Xmpdatum& rhs);
         //! Destructor
@@ -117,7 +117,7 @@ namespace Exiv2 {
         //@{
         //! Not implemented. Calling this method will raise an exception.
         long copy(byte* buf, ByteOrder byteOrder) const override;
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata =nullptr) const override;
         /*!
           @brief Return the key of the Xmpdatum. The key is of the form
                  '<b>Xmp</b>.prefix.property'. Note however that the
@@ -385,7 +385,7 @@ namespace Exiv2 {
 
           @return True if the initialization was successful, else false.
          */
-        static bool initialize(XmpParser::XmpLockFct xmpLockFct =0, void* pLockData =0);
+        static bool initialize(XmpParser::XmpLockFct xmpLockFct =nullptr, void* pLockData =nullptr);
         /*!
           @brief Terminate the XMP Toolkit and unregister custom namespaces.
 

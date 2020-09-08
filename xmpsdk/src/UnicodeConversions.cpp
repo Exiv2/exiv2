@@ -26,36 +26,36 @@ using namespace std;
 
 // *** Look into using asm inlines, e.g. count-leading bits for multi-byte UTF-8.
 
-CodePoint_to_UTF16_Proc CodePoint_to_UTF16BE = 0;
-CodePoint_to_UTF16_Proc CodePoint_to_UTF16LE = 0;
+CodePoint_to_UTF16_Proc CodePoint_to_UTF16BE = nullptr;
+CodePoint_to_UTF16_Proc CodePoint_to_UTF16LE = nullptr;
 
-CodePoint_from_UTF16_Proc CodePoint_from_UTF16BE = 0;
-CodePoint_from_UTF16_Proc CodePoint_from_UTF16LE = 0;
+CodePoint_from_UTF16_Proc CodePoint_from_UTF16BE = nullptr;
+CodePoint_from_UTF16_Proc CodePoint_from_UTF16LE = nullptr;
 
-UTF8_to_UTF16_Proc  UTF8_to_UTF16BE = 0;
-UTF8_to_UTF16_Proc  UTF8_to_UTF16LE = 0;
-UTF8_to_UTF32_Proc  UTF8_to_UTF32BE = 0;
-UTF8_to_UTF32_Proc  UTF8_to_UTF32LE = 0;
+UTF8_to_UTF16_Proc  UTF8_to_UTF16BE = nullptr;
+UTF8_to_UTF16_Proc  UTF8_to_UTF16LE = nullptr;
+UTF8_to_UTF32_Proc  UTF8_to_UTF32BE = nullptr;
+UTF8_to_UTF32_Proc  UTF8_to_UTF32LE = nullptr;
 
-UTF16_to_UTF8_Proc  UTF16BE_to_UTF8 = 0;
-UTF16_to_UTF8_Proc  UTF16LE_to_UTF8 = 0;
-UTF32_to_UTF8_Proc  UTF32BE_to_UTF8 = 0;
-UTF32_to_UTF8_Proc  UTF32LE_to_UTF8 = 0;
+UTF16_to_UTF8_Proc  UTF16BE_to_UTF8 = nullptr;
+UTF16_to_UTF8_Proc  UTF16LE_to_UTF8 = nullptr;
+UTF32_to_UTF8_Proc  UTF32BE_to_UTF8 = nullptr;
+UTF32_to_UTF8_Proc  UTF32LE_to_UTF8 = nullptr;
 
-UTF8_to_UTF16_Proc  UTF8_to_UTF16Native = 0;
-UTF8_to_UTF32_Proc  UTF8_to_UTF32Native = 0;
-UTF16_to_UTF8_Proc  UTF16Native_to_UTF8 = 0;
-UTF32_to_UTF8_Proc  UTF32Native_to_UTF8 = 0;
+UTF8_to_UTF16_Proc  UTF8_to_UTF16Native = nullptr;
+UTF8_to_UTF32_Proc  UTF8_to_UTF32Native = nullptr;
+UTF16_to_UTF8_Proc  UTF16Native_to_UTF8 = nullptr;
+UTF32_to_UTF8_Proc  UTF32Native_to_UTF8 = nullptr;
 
-UTF16_to_UTF32_Proc UTF16BE_to_UTF32BE = 0;
-UTF16_to_UTF32_Proc UTF16BE_to_UTF32LE = 0;
-UTF16_to_UTF32_Proc UTF16LE_to_UTF32BE = 0;
-UTF16_to_UTF32_Proc UTF16LE_to_UTF32LE = 0;
+UTF16_to_UTF32_Proc UTF16BE_to_UTF32BE = nullptr;
+UTF16_to_UTF32_Proc UTF16BE_to_UTF32LE = nullptr;
+UTF16_to_UTF32_Proc UTF16LE_to_UTF32BE = nullptr;
+UTF16_to_UTF32_Proc UTF16LE_to_UTF32LE = nullptr;
 
-UTF32_to_UTF16_Proc UTF32BE_to_UTF16BE = 0;
-UTF32_to_UTF16_Proc UTF32BE_to_UTF16LE = 0;
-UTF32_to_UTF16_Proc UTF32LE_to_UTF16BE = 0;
-UTF32_to_UTF16_Proc UTF32LE_to_UTF16LE = 0;
+UTF32_to_UTF16_Proc UTF32BE_to_UTF16BE = nullptr;
+UTF32_to_UTF16_Proc UTF32BE_to_UTF16LE = nullptr;
+UTF32_to_UTF16_Proc UTF32LE_to_UTF16BE = nullptr;
+UTF32_to_UTF16_Proc UTF32LE_to_UTF16LE = nullptr;
 
 // -------------------------------------------------------------------------------------------------
 

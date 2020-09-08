@@ -38,7 +38,7 @@ int main(int argc, char* const argv[])
         }
 
         Image::UniquePtr image = ImageFactory::open(argv[1]);
-        assert (image.get() != 0);
+        assert (image.get() != nullptr);
         image->readMetadata();
 
         // Process commands

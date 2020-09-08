@@ -128,7 +128,7 @@ namespace {
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         // End of list marker
-        { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
+        { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
     };
 
 }
@@ -791,7 +791,7 @@ namespace Exiv2 {
     bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
-        if (0 != r) {
+        if (nullptr != r) {
             return r->isThisType_(io, advance);
         }
         return false;
@@ -876,7 +876,7 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
         Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == 0)
+        if (image.get() == nullptr)
             throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
@@ -894,7 +894,7 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
         Image::UniquePtr image = open(std::move(io)); // may throw
-        if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
+        if (image.get() == nullptr) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
@@ -947,7 +947,7 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo);
         Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) {
+        if (image.get() == nullptr) {
             throw Error(kerUnsupportedImageType, static_cast<int>(type));
         }
         return image;
@@ -971,7 +971,7 @@ namespace Exiv2 {
     void append(Blob& blob, const byte* buf, uint32_t len)
     {
         if (len != 0) {
-            assert(buf != 0);
+            assert(buf != nullptr);
             Blob::size_type size = blob.size();
             if (blob.capacity() - size < len) {
                 blob.reserve(size + 65536);

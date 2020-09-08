@@ -321,7 +321,7 @@ namespace Exiv2
         if (p_->isWriteable_) {
             prot |= PROT_WRITE;
         }
-        void* rc = ::mmap(0, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
+        void* rc = ::mmap(nullptr, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {

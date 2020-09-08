@@ -178,7 +178,7 @@ int main(int argc,const char* argv[])
 
 	if ( !result ) try {
 		Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-		assert(image.get() != 0);
+		assert(image.get() != nullptr);
 		image->readMetadata();
 		Exiv2::ExifData &exifData = image->exifData();
 

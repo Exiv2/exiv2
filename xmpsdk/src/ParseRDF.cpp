@@ -395,7 +395,7 @@ AddChildNode ( XMP_Node * xmpParent, const XML_Node & xmlNode, const XMP_StringP
 
 	// Make sure that this is not a duplicate of a named node.
 	if ( ! (isArrayItem | isValueNode) ) {
-		if ( FindChildNode ( xmpParent, childName, kXMP_ExistingOnly ) != 0 ) {
+		if ( FindChildNode ( xmpParent, childName, kXMP_ExistingOnly ) != nullptr ) {
 			XMP_Throw ( "Duplicate property or field node", kXMPErr_BadXMP );
 		}
 		
@@ -442,7 +442,7 @@ AddQualifierNode ( XMP_Node * xmpParent, const XMP_VarString & name, const XMP_V
 	const bool isLang = (name == "xml:lang");
 	const bool isType = (name == "rdf:type");
 
-	XMP_Node * newQual = 0;
+	XMP_Node * newQual = nullptr;
 
 		newQual = new XMP_Node ( xmpParent, name, value, kXMP_PropIsQualifier );
 
@@ -535,7 +535,7 @@ FixupQualifiedNode ( XMP_Node * xmpParent )
 		} else {
 			xmpParent->qualifiers.insert ( xmpParent->qualifiers.begin(), langQual );
 		}
-		valueNode->qualifiers[0] = 0;	// We just moved it to the parent.
+		valueNode->qualifiers[0] = nullptr;	// We just moved it to the parent.
 
 		qualNum = 1;	// Start the remaining copy after the xml:lang qualifier.
 
@@ -544,13 +544,13 @@ FixupQualifiedNode ( XMP_Node * xmpParent )
 	for ( ; qualNum != qualLim; ++qualNum ) {
 
 		XMP_Node * currQual = valueNode->qualifiers[qualNum];
-		if ( FindChildNode ( xmpParent, currQual->name.c_str(), kXMP_ExistingOnly ) != 0 ) {
+		if ( FindChildNode ( xmpParent, currQual->name.c_str(), kXMP_ExistingOnly ) != nullptr ) {
 			XMP_Throw ( "Duplicate qualifier node", kXMPErr_BadXMP );
 		}
 
 		currQual->parent = xmpParent;
 		xmpParent->qualifiers.push_back ( currQual );
-		valueNode->qualifiers[qualNum] = 0;	// We just moved it to the parent.
+		valueNode->qualifiers[qualNum] = nullptr;	// We just moved it to the parent.
 
 	}
 	
@@ -580,7 +580,7 @@ FixupQualifiedNode ( XMP_Node * xmpParent )
 			} else {
 				xmpParent->qualifiers.insert ( xmpParent->qualifiers.begin(), currQual );
 			}
-			xmpParent->children[childNum] = 0;	// We just moved it to the qualifers.
+			xmpParent->children[childNum] = nullptr;	// We just moved it to the qualifers.
 		
 	}
 	
@@ -598,7 +598,7 @@ FixupQualifiedNode ( XMP_Node * xmpParent )
 		xmpParent->_valuePtr = xmpParent->value.c_str();
 	#endif
 
-	xmpParent->children[0] = 0;	// ! Remove the value node itself before the swap.
+	xmpParent->children[0] = nullptr;	// ! Remove the value node itself before the swap.
 	xmpParent->children.swap ( valueNode->children );
 	
 	for ( size_t childNum = 0, childLim = xmpParent->children.size(); childNum != childLim; ++childNum ) {
@@ -866,7 +866,7 @@ RDF_PropertyElement ( XMP_Node * xmpParent, const XML_Node & xmlNode, bool isTop
 
 		XML_cNodePos currAttr = xmlNode.attrs.begin();
 		XML_cNodePos endAttr  = xmlNode.attrs.end();
-		XMP_VarString * attrName = 0;
+		XMP_VarString * attrName = nullptr;
 
 		for ( ; currAttr != endAttr; ++currAttr ) {
 			attrName = &((*currAttr)->name);
@@ -1192,7 +1192,7 @@ RDF_EmptyPropertyElement ( XMP_Node * xmpParent, const XML_Node & xmlNode, bool 
 	bool hasNodeIDAttr    = false;
 	bool hasValueAttr     = false;
 	
-	const XML_Node * valueNode = 0;	// ! Can come from rdf:value or rdf:resource.
+	const XML_Node * valueNode = nullptr;	// ! Can come from rdf:value or rdf:resource.
 	
 	if ( ! xmlNode.content.empty() ) XMP_Throw ( "Nested content not allowed with rdf:resource or property attributes", kXMPErr_BadRDF );
 	

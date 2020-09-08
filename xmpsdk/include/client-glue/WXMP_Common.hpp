@@ -26,7 +26,7 @@ struct WXMP_Result {
     double        floatResult;
     XMP_Uns64     int64Result;
     XMP_Uns32     int32Result;
-    WXMP_Result() : errMessage(0) {};
+    WXMP_Result() : errMessage(nullptr) {};
 };
 
 #if __cplusplus

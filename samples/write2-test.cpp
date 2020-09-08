@@ -77,7 +77,7 @@ int main(int argc, char* const argv[])
 
     std::cout <<"\n----- Non-intrusive writing of special Canon MakerNote tags\n";
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::ExifData& rEd = image->exifData();
@@ -209,7 +209,7 @@ catch (Exiv2::AnyError& e) {
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
 
     image->setExifData(ed);
     image->writeMetadata();
@@ -218,7 +218,7 @@ void write(const std::string& file, Exiv2::ExifData& ed)
 void print(const std::string& file)
 {
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();

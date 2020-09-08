@@ -128,7 +128,7 @@ namespace Exiv2 {
         std::cerr << "Writing ORF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
-        byte* pData = 0;
+        byte* pData = nullptr;
         long size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
@@ -205,7 +205,7 @@ namespace Exiv2 {
                                         Tag::root,
                                         TiffMapping::findEncoder,
                                         header.get(),
-                                        0);
+                                        nullptr);
     }
 
     // *************************************************************************

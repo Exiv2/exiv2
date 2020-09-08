@@ -62,7 +62,7 @@ namespace Exiv2
         /// @param key %ExifKey.
         /// @param pValue Pointer to an %Exifdatum value.
         /// @throw Error if the key cannot be parsed and converted.
-        explicit Exifdatum(const ExifKey& key, const Value* pValue = 0);
+        explicit Exifdatum(const ExifKey& key, const Value* pValue = nullptr);
 
         Exifdatum(const Exifdatum& rhs);
 
@@ -138,7 +138,7 @@ namespace Exiv2
         /// @return Number of characters written.
         long copy(byte* buf, ByteOrder byteOrder) const override;
 
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata = 0) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
         //! Return the type id of the value
         TypeId typeId() const override;
         //! Return the name of the type

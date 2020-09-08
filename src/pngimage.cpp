@@ -512,7 +512,7 @@ namespace Exiv2
         }
         IoCloser closer(*io_);
         BasicIo::UniquePtr tempIo(new MemIo);
-        assert(tempIo.get() != 0);
+        assert(tempIo.get() != nullptr);
 
         doWriteMetadata(*tempIo);  // may throw
         io_->close();
@@ -612,7 +612,7 @@ namespace Exiv2
 
                 if (iptcData_.count() > 0) {
                     // Update IPTC data to a new PNG chunk
-                    DataBuf newPsData = Photoshop::setIptcIrb(0, 0, iptcData_);
+                    DataBuf newPsData = Photoshop::setIptcIrb(nullptr, 0, iptcData_);
                     if (newPsData.size_ > 0) {
                         std::string rawIptc((const char*)newPsData.pData_, newPsData.size_);
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);

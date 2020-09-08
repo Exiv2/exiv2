@@ -283,7 +283,7 @@ int main(int argc, char* const argv[])
         char        option = opt[0];
 
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        assert(image.get() != nullptr);
         image->readMetadata();
 
         Jzon::Object   root;

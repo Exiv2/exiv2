@@ -184,7 +184,7 @@ namespace Exiv2 {
                 xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }
             BasicIo::UniquePtr tempIo(new MemIo);
-            assert(tempIo.get() != 0);
+            assert(tempIo.get() != nullptr);
             // Write XMP packet
             if (tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size()) != xmpPacket_.size())
                 throw Error(kerImageWriteFailed);

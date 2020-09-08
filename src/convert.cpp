@@ -119,7 +119,7 @@ namespace Exiv2 {
         //! Constructor for Exif tags and XMP properties.
         Converter(ExifData& exifData, XmpData& xmpData);
         //! Constructor for Iptc tags and XMP properties.
-        Converter(IptcData& iptcData, XmpData& xmpData, const char *iptcCharset = 0);
+        Converter(IptcData& iptcData, XmpData& xmpData, const char *iptcCharset = nullptr);
         //@}
 
         //! @name Manipulators
@@ -441,12 +441,12 @@ namespace Exiv2 {
     };
 
     Converter::Converter(ExifData& exifData, XmpData& xmpData)
-        : erase_(false), overwrite_(true), exifData_(&exifData), iptcData_(0), xmpData_(&xmpData), iptcCharset_(0)
+        : erase_(false), overwrite_(true), exifData_(&exifData), iptcData_(nullptr), xmpData_(&xmpData), iptcCharset_(nullptr)
     {
     }
 
     Converter::Converter(IptcData& iptcData, XmpData& xmpData, const char *iptcCharset)
-        : erase_(false), overwrite_(true), exifData_(0), iptcData_(&iptcData), xmpData_(&xmpData), iptcCharset_(iptcCharset)
+        : erase_(false), overwrite_(true), exifData_(nullptr), iptcData_(&iptcData), xmpData_(&xmpData), iptcCharset_(iptcCharset)
     {
     }
 
@@ -528,7 +528,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         const CommentValue* cv = dynamic_cast<const CommentValue*>(&pos->value());
-        if (cv == 0) {
+        if (cv == nullptr) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif
@@ -651,7 +651,7 @@ namespace Exiv2 {
             }
         }
 
-        const char* subsecTag = 0;
+        const char* subsecTag = nullptr;
         if (std::string(from) == "Exif.Image.DateTime") {
             subsecTag = "Exif.Photo.SubSecTime";
         }
@@ -881,7 +881,7 @@ namespace Exiv2 {
             (*exifData_)[to] = buf;
 
             if (datetime.nanoSecond) {
-                const char* subsecTag = 0;
+                const char* subsecTag = nullptr;
                 if (std::string(to) == "Exif.Image.DateTime") {
                     subsecTag = "Exif.Photo.SubSecTime";
                 }

@@ -622,7 +622,7 @@ static void boxes_check(size_t b,size_t m)
         }
         IoCloser closer(*io_);
         BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        assert (tempIo.get() != nullptr);
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();

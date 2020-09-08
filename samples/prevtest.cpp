@@ -20,7 +20,7 @@ try {
     std::string filename(argv[1]);
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(filename);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::PreviewManager loader(*image);

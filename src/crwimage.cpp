@@ -133,8 +133,8 @@ namespace Exiv2 {
 
         // Write new buffer to file
         MemIo::UniquePtr tempIo(new MemIo);
-        assert(tempIo.get() != 0);
-        tempIo->write((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
+        assert(tempIo.get() != nullptr);
+        tempIo->write((blob.size() > 0 ? &blob[0] : nullptr), static_cast<long>(blob.size()));
         io_->close();
         io_->transfer(*tempIo); // may throw
 
@@ -142,8 +142,8 @@ namespace Exiv2 {
 
     void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
     {
-        assert(pCrwImage != 0);
-        assert(pData != 0);
+        assert(pCrwImage != nullptr);
+        assert(pData != nullptr);
 
         // Parse the image, starting with a CIFF header component
         CiffHeader::UniquePtr head(new CiffHeader);

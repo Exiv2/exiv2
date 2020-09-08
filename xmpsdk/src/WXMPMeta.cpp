@@ -175,7 +175,7 @@ WXMPMeta_DumpNamespaces_1 ( XMP_TextOutputProc outProc,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DumpNamespaces_1" )
 
-		if ( outProc == 0 ) XMP_Throw ( "Null client output routine", kXMPErr_BadParam );
+		if ( outProc == nullptr ) XMP_Throw ( "Null client output routine", kXMPErr_BadParam );
 		
 		XMP_Status status = XMPMeta::DumpNamespaces ( outProc, refCon );
 		wResult->int32Result = status;
@@ -192,7 +192,7 @@ WXMPMeta_DumpAliases_1 ( XMP_TextOutputProc outProc,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DumpAliases_1" )
 
-		if ( outProc == 0 ) XMP_Throw ( "Null client output routine", kXMPErr_BadParam );
+		if ( outProc == nullptr ) XMP_Throw ( "Null client output routine", kXMPErr_BadParam );
 		
 		XMP_Status status = XMPMeta::DumpAliases ( outProc, refCon );
 		wResult->int32Result = status;
@@ -222,8 +222,8 @@ WXMPMeta_RegisterNamespace_1 ( XMP_StringPtr   namespaceURI,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_RegisterNamespace_1" )
 
-		if ( (namespaceURI == 0) || (*namespaceURI == 0) ) XMP_Throw ( "Empty namespace URI", kXMPErr_BadSchema );
-		if ( (prefix == 0) || (*prefix == 0) ) XMP_Throw ( "Empty prefix", kXMPErr_BadSchema );
+		if ( (namespaceURI == nullptr) || (*namespaceURI == 0) ) XMP_Throw ( "Empty namespace URI", kXMPErr_BadSchema );
+		if ( (prefix == nullptr) || (*prefix == 0) ) XMP_Throw ( "Empty prefix", kXMPErr_BadSchema );
 
 		XMPMeta::RegisterNamespace ( namespaceURI, prefix );
 
@@ -240,10 +240,10 @@ WXMPMeta_GetNamespacePrefix_1 ( XMP_StringPtr	namespaceURI,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetNamespacePrefix_1" )
 
-		if ( (namespaceURI == 0) || (*namespaceURI == 0) ) XMP_Throw ( "Empty namespace URI", kXMPErr_BadSchema );
+		if ( (namespaceURI == nullptr) || (*namespaceURI == 0) ) XMP_Throw ( "Empty namespace URI", kXMPErr_BadSchema );
 
-		if ( namespacePrefix == 0 ) namespacePrefix = &voidStringPtr;
-		if ( prefixSize == 0 ) prefixSize = &voidStringLen;
+		if ( namespacePrefix == nullptr ) namespacePrefix = &voidStringPtr;
+		if ( prefixSize == nullptr ) prefixSize = &voidStringLen;
 
 		bool found = XMPMeta::GetNamespacePrefix ( namespaceURI, namespacePrefix, prefixSize );
 		wResult->int32Result = found;
@@ -261,10 +261,10 @@ WXMPMeta_GetNamespaceURI_1 ( XMP_StringPtr	 namespacePrefix,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetNamespaceURI_1" )
 
-		if ( (namespacePrefix == 0) || (*namespacePrefix == 0) ) XMP_Throw ( "Empty namespace prefix", kXMPErr_BadSchema );
+		if ( (namespacePrefix == nullptr) || (*namespacePrefix == 0) ) XMP_Throw ( "Empty namespace prefix", kXMPErr_BadSchema );
 
-		if ( namespaceURI == 0 ) namespaceURI = &voidStringPtr;
-		if ( uriSize == 0 ) uriSize = &voidStringLen;
+		if ( namespaceURI == nullptr ) namespaceURI = &voidStringPtr;
+		if ( uriSize == nullptr ) uriSize = &voidStringLen;
 	   
 		bool found = XMPMeta::GetNamespaceURI ( namespacePrefix, namespaceURI, uriSize );
 		wResult->int32Result = found;
@@ -280,7 +280,7 @@ WXMPMeta_DeleteNamespace_1 ( XMP_StringPtr namespaceURI,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DeleteNamespace_1" )
 
-		if ( (namespaceURI == 0) || (*namespaceURI == 0) ) XMP_Throw ( "Empty namespace URI", kXMPErr_BadSchema );
+		if ( (namespaceURI == nullptr) || (*namespaceURI == 0) ) XMP_Throw ( "Empty namespace URI", kXMPErr_BadSchema );
 
 		XMPMeta::DeleteNamespace ( namespaceURI );
 
@@ -299,10 +299,10 @@ WXMPMeta_RegisterAlias_1 ( XMP_StringPtr  aliasNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_RegisterAlias_1" )
 
-		if ( (aliasNS == 0) || (*aliasNS == 0) ) XMP_Throw ( "Empty alias namespace URI", kXMPErr_BadSchema );
-		if ( (aliasProp == 0) || (*aliasProp == 0) ) XMP_Throw ( "Empty alias property name", kXMPErr_BadXPath );
-		if ( (actualNS == 0) || (*actualNS == 0) ) XMP_Throw ( "Empty actual namespace URI", kXMPErr_BadSchema );
-		if ( (actualProp == 0) || (*actualProp == 0) ) XMP_Throw ( "Empty actual property name", kXMPErr_BadXPath );
+		if ( (aliasNS == nullptr) || (*aliasNS == 0) ) XMP_Throw ( "Empty alias namespace URI", kXMPErr_BadSchema );
+		if ( (aliasProp == nullptr) || (*aliasProp == 0) ) XMP_Throw ( "Empty alias property name", kXMPErr_BadXPath );
+		if ( (actualNS == nullptr) || (*actualNS == 0) ) XMP_Throw ( "Empty actual namespace URI", kXMPErr_BadSchema );
+		if ( (actualProp == nullptr) || (*actualProp == 0) ) XMP_Throw ( "Empty actual property name", kXMPErr_BadXPath );
 
 		XMPMeta::RegisterAlias ( aliasNS, aliasProp, actualNS, actualProp, arrayForm );
 
@@ -323,14 +323,14 @@ WXMPMeta_ResolveAlias_1 ( XMP_StringPtr	   aliasNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_ResolveAlias_1" )
 	
-		if ( (aliasNS == 0) || (*aliasNS == 0) ) XMP_Throw ( "Empty alias namespace URI", kXMPErr_BadSchema );
-		if ( (aliasProp == 0) || (*aliasProp == 0) ) XMP_Throw ( "Empty alias property name", kXMPErr_BadXPath );
+		if ( (aliasNS == nullptr) || (*aliasNS == 0) ) XMP_Throw ( "Empty alias namespace URI", kXMPErr_BadSchema );
+		if ( (aliasProp == nullptr) || (*aliasProp == 0) ) XMP_Throw ( "Empty alias property name", kXMPErr_BadXPath );
 	   
-		if ( actualNS == 0 ) actualNS = &voidStringPtr;
-		if ( nsSize == 0 ) nsSize = &voidStringLen;
-		if ( actualProp == 0 ) actualProp = &voidStringPtr;
-		if ( propSize == 0 ) propSize = &voidStringLen;
-		if ( arrayForm == 0 ) arrayForm = &voidOptionBits;
+		if ( actualNS == nullptr ) actualNS = &voidStringPtr;
+		if ( nsSize == nullptr ) nsSize = &voidStringLen;
+		if ( actualProp == nullptr ) actualProp = &voidStringPtr;
+		if ( propSize == nullptr ) propSize = &voidStringLen;
+		if ( arrayForm == nullptr ) arrayForm = &voidOptionBits;
 		
 		bool found = XMPMeta::ResolveAlias ( aliasNS, aliasProp, actualNS, nsSize, actualProp, propSize, arrayForm );
 		wResult->int32Result = found;
@@ -347,8 +347,8 @@ WXMPMeta_DeleteAlias_1 ( XMP_StringPtr aliasNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DeleteAlias_1" )
 
-		if ( (aliasNS == 0) || (*aliasNS == 0) ) XMP_Throw ( "Empty alias namespace URI", kXMPErr_BadSchema );
-		if ( (aliasProp == 0) || (*aliasProp == 0) ) XMP_Throw ( "Empty alias property name", kXMPErr_BadXPath );
+		if ( (aliasNS == nullptr) || (*aliasNS == 0) ) XMP_Throw ( "Empty alias namespace URI", kXMPErr_BadSchema );
+		if ( (aliasProp == nullptr) || (*aliasProp == 0) ) XMP_Throw ( "Empty alias property name", kXMPErr_BadXPath );
 
 		XMPMeta::DeleteAlias ( aliasNS, aliasProp );
 
@@ -363,7 +363,7 @@ WXMPMeta_RegisterStandardAliases_1 ( XMP_StringPtr schemaNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_RegisterStandardAliases_1" )
 
-		if ( schemaNS == 0 ) schemaNS = "";
+		if ( schemaNS == nullptr ) schemaNS = "";
 
 		XMPMeta::RegisterStandardAliases ( schemaNS );
 
@@ -406,12 +406,12 @@ WXMPMeta_GetProperty_1 ( XMPMetaRef		  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetProperty_1" )
 	
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 		
-		if ( propValue == 0 ) propValue = &voidStringPtr;
-		if ( valueSize == 0 ) valueSize = &voidStringLen;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( propValue == nullptr ) propValue = &voidStringPtr;
+		if ( valueSize == nullptr ) valueSize = &voidStringLen;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetProperty ( schemaNS, propName, propValue, valueSize, options );
@@ -434,12 +434,12 @@ WXMPMeta_GetArrayItem_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetArrayItem_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 		
-		if ( itemValue == 0 ) itemValue = &voidStringPtr;
-		if ( valueSize == 0 ) valueSize = &voidStringLen;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( itemValue == nullptr ) itemValue = &voidStringPtr;
+		if ( valueSize == nullptr ) valueSize = &voidStringLen;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetArrayItem ( schemaNS, arrayName, itemIndex, itemValue, valueSize, options );
@@ -463,14 +463,14 @@ WXMPMeta_GetStructField_1 ( XMPMetaRef		 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetStructField_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (structName == 0) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
-		if ( (fieldNS == 0) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
-		if ( (fieldName == 0) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (structName == nullptr) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
+		if ( (fieldNS == nullptr) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
+		if ( (fieldName == nullptr) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
 		
-		if ( fieldValue == 0 ) fieldValue = &voidStringPtr;
-		if ( valueSize == 0 ) valueSize = &voidStringLen;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( fieldValue == nullptr ) fieldValue = &voidStringPtr;
+		if ( valueSize == nullptr ) valueSize = &voidStringLen;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetStructField ( schemaNS, structName, fieldNS, fieldName, fieldValue, valueSize, options );
@@ -494,14 +494,14 @@ WXMPMeta_GetQualifier_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetQualifier_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
-		if ( (qualNS == 0) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
-		if ( (qualName == 0) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (qualNS == nullptr) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
+		if ( (qualName == nullptr) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
 		
-		if ( qualValue == 0 ) qualValue = &voidStringPtr;
-		if ( valueSize == 0 ) valueSize = &voidStringLen;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( qualValue == nullptr ) qualValue = &voidStringPtr;
+		if ( valueSize == nullptr ) valueSize = &voidStringLen;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetQualifier ( schemaNS, propName, qualNS, qualName, qualValue, valueSize, options );
@@ -522,8 +522,8 @@ WXMPMeta_SetProperty_1 ( XMPMetaRef		xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetProperty_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetProperty ( schemaNS, propName, propValue, options );
@@ -544,8 +544,8 @@ WXMPMeta_SetArrayItem_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetArrayItem_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetArrayItem ( schemaNS, arrayName, itemIndex, itemValue, options );
@@ -566,8 +566,8 @@ WXMPMeta_AppendArrayItem_1 ( XMPMetaRef		xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_AppendArrayItem_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->AppendArrayItem ( schemaNS, arrayName, arrayOptions, itemValue, options );
@@ -589,10 +589,10 @@ WXMPMeta_SetStructField_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetStructField_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (structName == 0) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
-		if ( (fieldNS == 0) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
-		if ( (fieldName == 0) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (structName == nullptr) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
+		if ( (fieldNS == nullptr) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
+		if ( (fieldName == nullptr) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetStructField ( schemaNS, structName, fieldNS, fieldName, fieldValue, options );
@@ -614,10 +614,10 @@ WXMPMeta_SetQualifier_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetQualifier_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
-		if ( (qualNS == 0) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
-		if ( (qualName == 0) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (qualNS == nullptr) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
+		if ( (qualName == nullptr) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetQualifier ( schemaNS, propName, qualNS, qualName, qualValue, options );
@@ -635,8 +635,8 @@ WXMPMeta_DeleteProperty_1 ( XMPMetaRef	  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DeleteProperty_1" )
  
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->DeleteProperty ( schemaNS, propName );
@@ -655,8 +655,8 @@ WXMPMeta_DeleteArrayItem_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DeleteArrayItem_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->DeleteArrayItem ( schemaNS, arrayName, itemIndex );
@@ -676,10 +676,10 @@ WXMPMeta_DeleteStructField_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DeleteStructField_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (structName == 0) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
-		if ( (fieldNS == 0) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
-		if ( (fieldName == 0) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (structName == nullptr) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
+		if ( (fieldNS == nullptr) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
+		if ( (fieldName == nullptr) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->DeleteStructField ( schemaNS, structName, fieldNS, fieldName );
@@ -699,10 +699,10 @@ WXMPMeta_DeleteQualifier_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DeleteQualifier_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
-		if ( (qualNS == 0) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
-		if ( (qualName == 0) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (qualNS == nullptr) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
+		if ( (qualName == nullptr) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->DeleteQualifier ( schemaNS, propName, qualNS, qualName );
@@ -720,8 +720,8 @@ WXMPMeta_DoesPropertyExist_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DoesPropertyExist_1" )
 	
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.DoesPropertyExist ( schemaNS, propName );
@@ -741,8 +741,8 @@ WXMPMeta_DoesArrayItemExist_1 ( XMPMetaRef	  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DoesArrayItemExist_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.DoesArrayItemExist ( schemaNS, arrayName, itemIndex );
@@ -763,10 +763,10 @@ WXMPMeta_DoesStructFieldExist_1 ( XMPMetaRef	xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DoesStructFieldExist_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (structName == 0) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
-		if ( (fieldNS == 0) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
-		if ( (fieldName == 0) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (structName == nullptr) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
+		if ( (fieldNS == nullptr) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
+		if ( (fieldName == nullptr) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.DoesStructFieldExist ( schemaNS, structName, fieldNS, fieldName );
@@ -787,10 +787,10 @@ WXMPMeta_DoesQualifierExist_1 ( XMPMetaRef	  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DoesQualifierExist_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
-		if ( (qualNS == 0) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
-		if ( (qualName == 0) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (qualNS == nullptr) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
+		if ( (qualName == nullptr) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.DoesQualifierExist ( schemaNS, propName, qualNS, qualName );
@@ -816,16 +816,16 @@ WXMPMeta_GetLocalizedText_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetLocalizedText_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
-		if ( genericLang == 0 ) genericLang = "";
-		if ( (specificLang == 0) ||(*specificLang == 0) ) XMP_Throw ( "Empty specific language", kXMPErr_BadParam );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( genericLang == nullptr ) genericLang = "";
+		if ( (specificLang == nullptr) ||(*specificLang == 0) ) XMP_Throw ( "Empty specific language", kXMPErr_BadParam );
 		
-		if ( actualLang == 0 ) actualLang = &voidStringPtr;
-		if ( langSize == 0 ) langSize = &voidStringLen;
-		if ( itemValue == 0 ) itemValue = &voidStringPtr;
-		if ( valueSize == 0 ) valueSize = &voidStringLen;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( actualLang == nullptr ) actualLang = &voidStringPtr;
+		if ( langSize == nullptr ) langSize = &voidStringLen;
+		if ( itemValue == nullptr ) itemValue = &voidStringPtr;
+		if ( valueSize == nullptr ) valueSize = &voidStringLen;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetLocalizedText ( schemaNS, arrayName, genericLang, specificLang,
@@ -849,11 +849,11 @@ WXMPMeta_SetLocalizedText_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetLocalizedText_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
-		if ( genericLang == 0 ) genericLang = "";
-		if ( (specificLang == 0) ||(*specificLang == 0) ) XMP_Throw ( "Empty specific language", kXMPErr_BadParam );
-		if ( itemValue == 0 ) itemValue = "";
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( genericLang == nullptr ) genericLang = "";
+		if ( (specificLang == nullptr) ||(*specificLang == 0) ) XMP_Throw ( "Empty specific language", kXMPErr_BadParam );
+		if ( itemValue == nullptr ) itemValue = "";
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetLocalizedText ( schemaNS, arrayName, genericLang, specificLang, itemValue, options );
@@ -873,16 +873,16 @@ WXMPMeta_GetProperty_Bool_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetProperty_Bool_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
-		if ( propValue == 0 ) propValue = &voidByte;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( propValue == nullptr ) propValue = &voidByte;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool value;
 		bool found = meta.GetProperty_Bool ( schemaNS, propName, &value, options );
-		if ( propValue != 0 ) *propValue = value;
+		if ( propValue != nullptr ) *propValue = value;
 		wResult->int32Result = found;
 		
 	XMP_EXIT_WRAPPER
@@ -900,11 +900,11 @@ WXMPMeta_GetProperty_Int_1 ( XMPMetaRef		  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetProperty_Int_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
-		if ( propValue == 0 ) propValue = &voidInt32;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( propValue == nullptr ) propValue = &voidInt32;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetProperty_Int ( schemaNS, propName, propValue, options );
@@ -925,11 +925,11 @@ WXMPMeta_GetProperty_Int64_1 ( XMPMetaRef		  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetProperty_Int64_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
-		if ( propValue == 0 ) propValue = &voidInt64;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( propValue == nullptr ) propValue = &voidInt64;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetProperty_Int64 ( schemaNS, propName, propValue, options );
@@ -950,11 +950,11 @@ WXMPMeta_GetProperty_Float_1 ( XMPMetaRef		xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetProperty_Float_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
-		if ( propValue == 0 ) propValue = &voidDouble;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( propValue == nullptr ) propValue = &voidDouble;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetProperty_Float ( schemaNS, propName, propValue, options );
@@ -975,11 +975,11 @@ WXMPMeta_GetProperty_Date_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetProperty_Date_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
-		if ( propValue == 0 ) propValue = &voidDateTime;
-		if ( options == 0 ) options = &voidOptionBits;
+		if ( propValue == nullptr ) propValue = &voidDateTime;
+		if ( options == nullptr ) options = &voidOptionBits;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		bool found = meta.GetProperty_Date ( schemaNS, propName, propValue, options );
@@ -1000,8 +1000,8 @@ WXMPMeta_SetProperty_Bool_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetProperty_Bool_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetProperty_Bool ( schemaNS, propName, propValue, options );
@@ -1021,8 +1021,8 @@ WXMPMeta_SetProperty_Int_1 ( XMPMetaRef		xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetProperty_Int_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetProperty_Int ( schemaNS, propName, propValue, options );
@@ -1042,8 +1042,8 @@ WXMPMeta_SetProperty_Int64_1 ( XMPMetaRef	  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetProperty_Int64_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetProperty_Int64 ( schemaNS, propName, propValue, options );
@@ -1063,8 +1063,8 @@ WXMPMeta_SetProperty_Float_1 ( XMPMetaRef	  xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetProperty_Float_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetProperty_Float ( schemaNS, propName, propValue, options );
@@ -1084,8 +1084,8 @@ WXMPMeta_SetProperty_Date_1 ( XMPMetaRef		   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetProperty_Date_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetProperty_Date ( schemaNS, propName, propValue, options );
@@ -1103,7 +1103,7 @@ WXMPMeta_DumpObject_1 ( XMPMetaRef		   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_DumpObject_1" )
 
-		if ( outProc == 0 ) XMP_Throw ( "Null client output routine", kXMPErr_BadParam );
+		if ( outProc == nullptr ) XMP_Throw ( "Null client output routine", kXMPErr_BadParam );
 		
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		XMP_Status status = meta.DumpObject ( outProc, refCon );
@@ -1168,8 +1168,8 @@ WXMPMeta_CountArrayItems_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_CountArrayItems_1" )
 		
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		XMP_Index count = meta.CountArrayItems ( schemaNS, arrayName );
@@ -1203,8 +1203,8 @@ WXMPMeta_GetObjectName_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_GetObjectName_1" )
 
-		if ( namePtr == 0 ) namePtr = &voidStringPtr;
-		if ( nameLen == 0 ) nameLen = &voidStringLen;
+		if ( namePtr == nullptr ) namePtr = &voidStringPtr;
+		if ( nameLen == nullptr ) nameLen = &voidStringLen;
 
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		meta.GetObjectName ( namePtr, nameLen );
@@ -1221,7 +1221,7 @@ WXMPMeta_SetObjectName_1 ( XMPMetaRef	 xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SetObjectName_1" )
 
-		if ( name == 0 ) name = "";
+		if ( name == nullptr ) name = "";
 
 		XMPMeta * meta = WtoXMPMeta_Ptr ( xmpRef );
 		meta->SetObjectName ( name );
@@ -1291,11 +1291,11 @@ WXMPMeta_SerializeToBuffer_1 ( XMPMetaRef	   xmpRef,
 {
 	XMP_ENTER_WRAPPER ( "WXMPMeta_SerializeToBuffer_1" )
 
-		if ( rdfString == 0 ) rdfString = &voidStringPtr;
-		if ( rdfSize == 0 ) rdfSize = &voidStringLen;
+		if ( rdfString == nullptr ) rdfString = &voidStringPtr;
+		if ( rdfSize == nullptr ) rdfSize = &voidStringLen;
 		
-		if ( newline == 0 ) newline = "";
-		if ( indent == 0 ) indent = "";
+		if ( newline == nullptr ) newline = "";
+		if ( indent == nullptr ) indent = "";
 		
 		const XMPMeta & meta = WtoXMPMeta_Ref ( xmpRef );
 		meta.SerializeToBuffer ( rdfString, rdfSize, options, padding, newline, indent, baseIndent );

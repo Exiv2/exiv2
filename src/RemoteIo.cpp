@@ -192,7 +192,7 @@ namespace Exiv2
     RemoteIo::Impl::Impl(const std::string& url, size_t blockSize)
         : path_(url)
         , blockSize_(blockSize)
-        , blocksMap_(0)
+        , blocksMap_(nullptr)
         , size_(0)
         , idx_(0)
         , isMalloced_(false)

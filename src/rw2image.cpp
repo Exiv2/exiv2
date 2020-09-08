@@ -146,7 +146,7 @@ namespace Exiv2 {
         ExifData exifData;
         PreviewImage preview = loader.getPreviewImage(*list.begin());
         Image::UniquePtr image = ImageFactory::open(preview.pData(), preview.size());
-        if (image.get() == 0) {
+        if (image.get() == nullptr) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to open RW2 preview image.\n";
 #endif

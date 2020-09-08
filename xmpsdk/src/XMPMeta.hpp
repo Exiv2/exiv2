@@ -405,7 +405,7 @@ public:
 private:
   
 	// ! These are hidden on purpose:
-	XMPMeta ( const XMPMeta & /* original */ ) : clientRefs(0), prevTkVer(0), tree(XMP_Node(0,"",0)), xmlParser(0)
+	XMPMeta ( const XMPMeta & /* original */ ) : clientRefs(0), prevTkVer(0), tree(XMP_Node(nullptr,"",0)), xmlParser(nullptr)
 		{ XMP_Throw ( "Call to hidden constructor", kXMPErr_InternalFailure ); };
 	void operator= ( const XMPMeta & /* rhs */ )  
 		{ XMP_Throw ( "Call to hidden operator=", kXMPErr_InternalFailure ); };

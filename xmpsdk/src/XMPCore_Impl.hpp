@@ -220,8 +220,8 @@ extern void XMP_ExitCriticalRegion ( XMP_Mutex & mutex );
 class XMP_AutoMutex {
 public:
 	XMP_AutoMutex() : mutex(&sXMPCoreLock) { XMP_EnterCriticalRegion ( *mutex ); ReportLock(); };
-	~XMP_AutoMutex() { if ( mutex != 0 ) { ReportUnlock(); XMP_ExitCriticalRegion ( *mutex ); mutex = 0; } };
-	void KeepLock() { ReportKeepLock(); mutex = 0; };
+	~XMP_AutoMutex() { if ( mutex != nullptr ) { ReportUnlock(); XMP_ExitCriticalRegion ( *mutex ); mutex = nullptr; } };
+	void KeepLock() { ReportKeepLock(); mutex = nullptr; };
 private:
 	XMP_Mutex * mutex;
 };
@@ -316,26 +316,26 @@ extern XMP_Node *
 FindSchemaNode ( XMP_Node *		  xmpTree,
 				 XMP_StringPtr	  nsURI,
 				 bool			  createNodes,
-				 XMP_NodePtrPos * ptrPos = 0 );
+				 XMP_NodePtrPos * ptrPos = nullptr );
 
 extern XMP_Node *
 FindChildNode ( XMP_Node *		 parent,
 				XMP_StringPtr	 childName,
 				bool			 createNodes,
-				XMP_NodePtrPos * ptrPos = 0 );
+				XMP_NodePtrPos * ptrPos = nullptr );
 
 extern XMP_Node *
 FindQualifierNode ( XMP_Node *		 parent,
 					XMP_StringPtr	 qualName,
 					bool			 createNodes,
-					XMP_NodePtrPos * ptrPos = 0 );
+					XMP_NodePtrPos * ptrPos = nullptr );
 
 extern XMP_Node *
 FindNode ( XMP_Node *		xmpTree,
 		   const XMP_ExpandedXPath & expandedXPath,
 		   bool				createNodes,
 		   XMP_OptionBits	leafOptions = 0,
-		   XMP_NodePtrPos * ptrPos = 0 );
+		   XMP_NodePtrPos * ptrPos = nullptr );
 
 extern XMP_Index
 LookupLangItem ( const XMP_Node * arrayNode, XMP_VarString & lang );	// ! Lang must be normalized!
@@ -477,7 +477,7 @@ public:
 	void RemoveChildren()
 	{
 		for ( size_t i = 0, vLim = children.size(); i < vLim; ++i ) {
-			if ( children[i] != 0 ) delete children[i];
+			if ( children[i] != nullptr ) delete children[i];
 		}
 		children.clear();
 	}
@@ -485,7 +485,7 @@ public:
 	void RemoveQualifiers()
 	{
 		for ( size_t i = 0, vLim = qualifiers.size(); i < vLim; ++i ) {
-			if ( qualifiers[i] != 0 ) delete qualifiers[i];
+			if ( qualifiers[i] != nullptr ) delete qualifiers[i];
 		}
 		qualifiers.clear();
 	}
@@ -502,7 +502,7 @@ public:
 	virtual ~XMP_Node() { RemoveChildren(); RemoveQualifiers(); };
 
 private:
-	XMP_Node() : options(0), parent(0)	// ! Make sure parent pointer is always set.
+	XMP_Node() : options(0), parent(nullptr)	// ! Make sure parent pointer is always set.
 	{
 		#if XMP_DebugBuild
 			// *** _namePtr  = name.c_str();
@@ -515,8 +515,8 @@ private:
 class XMP_AutoNode {	// Used to hold a child during subtree construction.
 public:
 	XMP_Node * nodePtr;
-	XMP_AutoNode() : nodePtr(0) {};
-	~XMP_AutoNode() { if ( nodePtr != 0 ) delete ( nodePtr ); nodePtr = 0; };
+	XMP_AutoNode() : nodePtr(nullptr) {};
+	~XMP_AutoNode() { if ( nodePtr != nullptr ) delete ( nodePtr ); nodePtr = nullptr; };
 	XMP_AutoNode ( XMP_Node * _parent, XMP_StringPtr _name, XMP_OptionBits _options )
 		: nodePtr ( new XMP_Node ( _parent, _name, _options ) ) {};
 	XMP_AutoNode ( XMP_Node * _parent, const XMP_VarString & _name, XMP_OptionBits _options )

@@ -152,7 +152,7 @@ namespace Exiv2
             p_->size_ = memIo->p_->size_;
             p_->isMalloced_ = memIo->p_->isMalloced_;
             memIo->p_->idx_ = 0;
-            memIo->p_->data_ = 0;
+            memIo->p_->data_ = nullptr;
             memIo->p_->size_ = 0;
             memIo->p_->isMalloced_ = false;
         } else {

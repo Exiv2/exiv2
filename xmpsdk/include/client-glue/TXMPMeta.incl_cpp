@@ -169,7 +169,7 @@ TXMPMeta ( XMP_StringPtr buffer,
 		this->ParseFromBuffer ( buffer, xmpSize );
 	} catch ( ... ) {
 		WXMPMeta_DecrementRefCount_1 ( this->xmpRef );
-		this->xmpRef = 0;
+		this->xmpRef = nullptr;
 		throw;
 	}
 }
@@ -184,7 +184,7 @@ XMP_CTorDTorIntro(TXMPMeta)::
 		printf ( "Destruct TXMPMeta @ %.8X, ref = %.8X, count = %d\n", this, xmPtr, xmPtr->clientRefs );
 	#endif
 	WXMPMeta_DecrementRefCount_1 ( this->xmpRef );
-	this->xmpRef = 0;
+	this->xmpRef = nullptr;
 
 }	// ~TXMPMeta ()
 
@@ -246,11 +246,11 @@ XMP_MethodIntro(TXMPMeta,bool)::
 GetNamespacePrefix ( XMP_StringPtr namespaceURI,
                      tStringObj *  namespacePrefix )
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetNamespacePrefix_1 ( namespaceURI, &resultPtr, &resultLen ) );
 	if ( found ) {
-		if ( namespacePrefix != 0 ) namespacePrefix->assign ( resultPtr, resultLen );
+		if ( namespacePrefix != nullptr ) namespacePrefix->assign ( resultPtr, resultLen );
 		WXMPMeta_Unlock_1 ( 0 );
 	}
 	return found;
@@ -262,11 +262,11 @@ XMP_MethodIntro(TXMPMeta,bool)::
 GetNamespaceURI ( XMP_StringPtr namespacePrefix,
                   tStringObj *  namespaceURI )
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetNamespaceURI_1 ( namespacePrefix, &resultPtr, &resultLen ) );
 	if ( found ) {
-		if ( namespaceURI != 0 ) namespaceURI->assign ( resultPtr, resultLen );
+		if ( namespaceURI != nullptr ) namespaceURI->assign ( resultPtr, resultLen );
 		WXMPMeta_Unlock_1 ( 0 );
 	}
 	return found;
@@ -301,14 +301,14 @@ ResolveAlias ( XMP_StringPtr    aliasNS,
 			   tStringObj *     actualProp,
 			   XMP_OptionBits * arrayForm )
 {
-	XMP_StringPtr nsPtr = 0;
+	XMP_StringPtr nsPtr = nullptr;
 	XMP_StringLen nsLen = 0;
-	XMP_StringPtr propPtr = 0;
+	XMP_StringPtr propPtr = nullptr;
 	XMP_StringLen propLen = 0;
 	WrapCheckBool ( found, zXMPMeta_ResolveAlias_1 ( aliasNS, aliasProp, &nsPtr, &nsLen, &propPtr, &propLen, arrayForm ) );
 	if ( found ) {
-		if ( actualNS != 0 ) actualNS->assign ( nsPtr, nsLen );
-		if ( actualProp != 0 ) actualProp->assign ( propPtr, propLen );
+		if ( actualNS != nullptr ) actualNS->assign ( nsPtr, nsLen );
+		if ( actualProp != nullptr ) actualProp->assign ( propPtr, propLen );
 		WXMPMeta_Unlock_1 ( 0 );
 	}
 	return found;
@@ -341,11 +341,11 @@ GetProperty ( XMP_StringPtr    schemaNS,
 			  tStringObj *     propValue,
 			  XMP_OptionBits * options ) const
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetProperty_1 ( schemaNS, propName, &resultPtr, &resultLen, options ) );
 	if ( found ) {
-		if ( propValue != 0 ) propValue->assign ( resultPtr, resultLen );
+		if ( propValue != nullptr ) propValue->assign ( resultPtr, resultLen );
 		WXMPMeta_UnlockObject_1 ( this->xmpRef, 0 );
 	}
 	return found;
@@ -360,11 +360,11 @@ GetArrayItem ( XMP_StringPtr    schemaNS,
 			   tStringObj *     itemValue,
 			   XMP_OptionBits * options ) const
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetArrayItem_1 ( schemaNS, arrayName, itemIndex, &resultPtr, &resultLen, options ) );
 	if ( found ) {
-		if ( itemValue != 0 ) itemValue->assign ( resultPtr, resultLen );
+		if ( itemValue != nullptr ) itemValue->assign ( resultPtr, resultLen );
 		WXMPMeta_UnlockObject_1 ( this->xmpRef, 0 );
 	}
 	return found;
@@ -380,11 +380,11 @@ GetStructField ( XMP_StringPtr    schemaNS,
 				 tStringObj *     fieldValue,
 				 XMP_OptionBits * options ) const
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetStructField_1 ( schemaNS, structName, fieldNS, fieldName, &resultPtr, &resultLen, options ) );
 	if ( found ) {
-		if ( fieldValue != 0 ) fieldValue->assign ( resultPtr, resultLen );
+		if ( fieldValue != nullptr ) fieldValue->assign ( resultPtr, resultLen );
 		WXMPMeta_UnlockObject_1 ( this->xmpRef, 0 );
 	}
 	return found;
@@ -400,11 +400,11 @@ GetQualifier ( XMP_StringPtr    schemaNS,
 			   tStringObj *     qualValue,
 			   XMP_OptionBits * options ) const
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetQualifier_1 ( schemaNS, propName, qualNS, qualName, &resultPtr, &resultLen, options ) );
 	if ( found ) {
-		if ( qualValue != 0 ) qualValue->assign ( resultPtr, resultLen );
+		if ( qualValue != nullptr ) qualValue->assign ( resultPtr, resultLen );
 		WXMPMeta_UnlockObject_1 ( this->xmpRef, 0 );
 	}
 	return found;
@@ -631,15 +631,15 @@ GetLocalizedText ( XMP_StringPtr    schemaNS,
 				   tStringObj *     itemValue,
 				   XMP_OptionBits * options ) const
 {
-	XMP_StringPtr langPtr = 0;
+	XMP_StringPtr langPtr = nullptr;
 	XMP_StringLen langLen = 0;
-	XMP_StringPtr itemPtr = 0;
+	XMP_StringPtr itemPtr = nullptr;
 	XMP_StringLen itemLen = 0;
 	WrapCheckBool ( found, zXMPMeta_GetLocalizedText_1 ( schemaNS, altTextName, genericLang, specificLang,
 														 &langPtr, &langLen, &itemPtr, &itemLen, options ) );
 	if ( found ) {
-		if ( actualLang != 0 ) actualLang->assign ( langPtr, langLen );
-		if ( itemValue != 0 ) itemValue->assign ( itemPtr, itemLen );
+		if ( actualLang != nullptr ) actualLang->assign ( langPtr, langLen );
+		if ( itemValue != nullptr ) itemValue->assign ( itemPtr, itemLen );
 		WXMPMeta_UnlockObject_1 ( this->xmpRef, kXMP_NoOptions );
 	}
 	return found;
@@ -681,7 +681,7 @@ GetProperty_Bool ( XMP_StringPtr    schemaNS,
 {
 	XMP_Bool binValue;
 	WrapCheckBool ( found, zXMPMeta_GetProperty_Bool_1 ( schemaNS, propName, &binValue, options ) );
-	if ( found && (propValue != 0) ) *propValue = binValue;
+	if ( found && (propValue != nullptr) ) *propValue = binValue;
 	return found;
 }
 
@@ -695,7 +695,7 @@ GetProperty_Int ( XMP_StringPtr    schemaNS,
 {
 	XMP_Int32 abiValue;
 	WrapCheckBool ( found, zXMPMeta_GetProperty_Int_1 ( schemaNS, propName, &abiValue, options ) );
-	if ( found && (propValue != 0) ) *propValue = abiValue;
+	if ( found && (propValue != nullptr) ) *propValue = abiValue;
 	return found;
 }
 
@@ -709,7 +709,7 @@ GetProperty_Int64 ( XMP_StringPtr    schemaNS,
 {
 	XMP_Int64 abiValue;
 	WrapCheckBool ( found, zXMPMeta_GetProperty_Int64_1 ( schemaNS, propName, &abiValue, options ) );
-	if ( found && (propValue != 0) ) *propValue = abiValue;
+	if ( found && (propValue != nullptr) ) *propValue = abiValue;
 	return found;
 }
 
@@ -807,10 +807,10 @@ GetInternalRef() const
 XMP_MethodIntro(TXMPMeta,void)::
 GetObjectName ( tStringObj * name ) const
 {
-	XMP_StringPtr namePtr = 0;
+	XMP_StringPtr namePtr = nullptr;
 	XMP_StringLen nameLen = 0;
 	WrapCheckVoid ( zXMPMeta_GetObjectName_1 ( &namePtr, &nameLen ) );
-	if ( name != 0 ) name->assign ( namePtr, nameLen );
+	if ( name != nullptr ) name->assign ( namePtr, nameLen );
 	WXMPMeta_UnlockObject_1 ( this->xmpRef, 0 );
 }
 
@@ -913,10 +913,10 @@ SerializeToBuffer ( tStringObj *   pktString,
 					XMP_StringPtr  indent,
 					XMP_Index      baseIndent /* = 0 */ ) const
 {
-	XMP_StringPtr resultPtr = 0;
+	XMP_StringPtr resultPtr = nullptr;
 	XMP_StringLen resultLen = 0;
 	WrapCheckVoid ( zXMPMeta_SerializeToBuffer_1 ( &resultPtr, &resultLen, options, padding, newline, indent, baseIndent ) );
-	if ( pktString != 0 ) pktString->assign ( resultPtr, resultLen );
+	if ( pktString != nullptr ) pktString->assign ( resultPtr, resultLen );
 	WXMPMeta_UnlockObject_1 ( this->xmpRef, 0 );
 }
 
