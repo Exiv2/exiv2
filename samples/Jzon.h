@@ -170,21 +170,21 @@ namespace Jzon
         Value(const float value);
         Value(const double value);
         Value(const bool value);
-        virtual ~Value();
+        ~Value() override;
 
-        virtual Type GetType() const;
+        Type GetType() const override;
         ValueType GetValueType() const;
 
-        virtual inline bool IsNull() const { return (type == VT_NULL); }
-        virtual inline bool IsString() const { return (type == VT_STRING); }
-        virtual inline bool IsNumber() const { return (type == VT_NUMBER); }
-        virtual inline bool IsBool() const { return (type == VT_BOOL); }
+        inline bool IsNull() const override { return (type == VT_NULL); }
+        inline bool IsString() const override { return (type == VT_STRING); }
+        inline bool IsNumber() const override { return (type == VT_NUMBER); }
+        inline bool IsBool() const override { return (type == VT_BOOL); }
 
-        virtual std::string ToString() const;
-        virtual int ToInt() const;
-        virtual float ToFloat() const;
-        virtual double ToDouble() const;
-        virtual bool ToBool() const;
+        std::string ToString() const override;
+        int ToInt() const override;
+        float ToFloat() const override;
+        double ToDouble() const override;
+        bool ToBool() const override;
 
         void SetNull();
         void Set(const Value &value);
@@ -212,7 +212,7 @@ namespace Jzon
         static std::string UnescapeString(const std::string &value);
 
     protected:
-        virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
     private:
         std::string valueStr;
@@ -262,9 +262,9 @@ namespace Jzon
         Object();
         Object(const Object &other);
         Object(const Node &other);
-        virtual ~Object();
+        ~Object() override;
 
-        virtual Type GetType() const;
+        Type GetType() const override;
 
         void Add(const std::string &name, Node &node);
         void Add(const std::string &name, Value node);
@@ -276,13 +276,13 @@ namespace Jzon
         iterator end();
         const_iterator end() const;
 
-        virtual bool Has(const std::string &name) const;
-        virtual size_t GetCount() const;
-        virtual Node &Get(const std::string &name) const;
+        bool Has(const std::string &name) const override;
+        size_t GetCount() const override;
+        Node &Get(const std::string &name) const override;
         using Node::Get;
 
     protected:
-        virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
     private:
         typedef std::vector<NamedNodePtr> ChildList;
@@ -330,9 +330,9 @@ namespace Jzon
         Array();
         Array(const Array &other);
         Array(const Node &other);
-        virtual ~Array();
+        ~Array() override;
 
-        virtual Type GetType() const;
+        Type GetType() const override;
 
         void Add(Node &node);
         void Add(Value node);
@@ -344,12 +344,12 @@ namespace Jzon
         iterator end();
         const_iterator end() const;
 
-        virtual size_t GetCount() const;
-        virtual Node &Get(size_t index) const;
+        size_t GetCount() const override;
+        Node &Get(size_t index) const override;
         using Node::Get;
 
     protected:
-        virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
     private:
         typedef std::vector<Node*> ChildList;

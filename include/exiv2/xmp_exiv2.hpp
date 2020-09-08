@@ -69,7 +69,7 @@ namespace Exiv2 {
         //! Copy constructor
         Xmpdatum(const Xmpdatum& rhs);
         //! Destructor
-        virtual ~Xmpdatum();
+        ~Xmpdatum() override;
         //@}
 
         //! @name Manipulators

@@ -267,7 +267,7 @@ namespace Exiv2 {
 
         DataValue(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder, TypeId typeId = undefined);
 
-        virtual ~DataValue();
+        ~DataValue() override;
 
         //! @name Manipulators
         //@{
@@ -351,7 +351,7 @@ namespace Exiv2 {
         //! Copy constructor
         StringValueBase(const StringValueBase& rhs);
         //! Virtual destructor.
-        virtual ~StringValueBase();
+        ~StringValueBase() override;
         //@}
 
         //! @name Manipulators
@@ -431,7 +431,7 @@ namespace Exiv2 {
         //! Constructor
         explicit StringValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~StringValue();
+        ~StringValue() override;
         //@}
 
         //! @name Accessors
@@ -463,7 +463,7 @@ namespace Exiv2 {
         //! Constructor
         explicit AsciiValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~AsciiValue();
+        ~AsciiValue() override;
         //@}
 
         //! @name Manipulators
@@ -989,7 +989,7 @@ namespace Exiv2 {
         //! Constructor
         DateValue(int year, int month, int day);
         //! Virtual destructor.
-        virtual ~DateValue();
+        ~DateValue() override;
         //@}
 
         //! Simple Date helper structure
@@ -1096,7 +1096,7 @@ namespace Exiv2 {
                   int tzHour =0, int tzMinute =0);
 
         //! Virtual destructor.
-        virtual ~TimeValue();
+        ~TimeValue() override;
         //@}
 
         //! Simple Time helper structure
@@ -1260,7 +1260,7 @@ namespace Exiv2 {
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
-        virtual ~ValueType();
+        ~ValueType() override;
         //@}
 
         //! @name Manipulators

@@ -50,7 +50,7 @@ namespace Exiv2 {
         //! Default constructor
         explicit OrfHeader(ByteOrder byteOrder =littleEndian);
         //! Destructor.
-        ~OrfHeader();
+        ~OrfHeader() override;
         //@}
 
         //! @name Manipulators

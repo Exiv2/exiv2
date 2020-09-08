@@ -160,25 +160,25 @@ namespace Exiv2
                     dataSize_ = header_.format() == Header::StandardTiff? 4 : 8;
                 }
 
-                virtual ~BigTiffImage() {}
+                ~BigTiffImage() override {}
 
                 // overrides
-                void readMetadata()
+                void readMetadata() override
                 {
 
                 }
 
-                void writeMetadata()
+                void writeMetadata() override
                 {
 
                 }
 
-                std::string mimeType() const
+                std::string mimeType() const override
                 {
                     return std::string();
                 }
 
-                void printStructure(std::ostream& os, PrintStructureOption option, int depth)
+                void printStructure(std::ostream& os, PrintStructureOption option, int depth) override
                 {
                     printIFD(os, option, header_.dirOffset(), depth - 1);
                 }

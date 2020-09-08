@@ -598,7 +598,7 @@ namespace Exiv2
           length of remote file (in bytes).
           @throw Error if the server returns the error code.
          */
-        long getFileLength();
+        long getFileLength() override;
         /*!
           @brief Get the data by range.
           @param lowBlock The start block index.
@@ -608,7 +608,7 @@ namespace Exiv2
           @note Set lowBlock = -1 and highBlock = -1 to get the whole file
           content.
          */
-        void getDataByRange(long lowBlock, long highBlock, std::string& response);
+        void getDataByRange(long lowBlock, long highBlock, std::string& response) override;
         /*!
           @brief Submit the data to the remote machine. The data replace a part
           of the remote file. The replaced part of remote file is indicated by
@@ -626,7 +626,7 @@ namespace Exiv2
           http://dev.exiv2.org/wiki/exiv2
           @throw Error if it fails.
          */
-        void writeRemote(const byte* data, size_t size, long from, long to);
+        void writeRemote(const byte* data, size_t size, long from, long to) override;
 
         HttpImpl& operator=(const HttpImpl& rhs) = delete;
         HttpImpl& operator=(const HttpImpl&& rhs) = delete;

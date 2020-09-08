@@ -176,7 +176,7 @@ namespace Exiv2 {
         AnyError();
         AnyError(const AnyError& o);
 
-        virtual ~AnyError() noexcept;
+        ~AnyError() noexcept override;
         ///@brief  Return the error code.
         virtual int code() const noexcept =0;
     };
@@ -280,7 +280,7 @@ namespace Exiv2 {
         BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of noexcept)
-        virtual ~BasicError() noexcept;
+        ~BasicError() noexcept override;
         //@}
 
         //! @name Accessors
