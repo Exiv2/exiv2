@@ -87,7 +87,7 @@ namespace Exiv2
                 byteOrder = bigEndian;
 
             if (byteOrder == invalidByteOrder)
-                return Header();
+                return {};
 
             byte version[2] = {0, 0};
             io.read(version, 2);
@@ -95,7 +95,7 @@ namespace Exiv2
             const uint16_t magic = getUShort(version, byteOrder);
 
             if (magic != 0x2A && magic != 0x2B)
-                return Header();
+                return {};
 
             Header result;
 

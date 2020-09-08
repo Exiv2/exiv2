@@ -287,7 +287,7 @@ namespace Exiv2 {
     Rational DataValue::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_[n], 1};
     }
 
     StringValueBase::StringValueBase(TypeId typeId)
@@ -371,7 +371,7 @@ namespace Exiv2 {
     Rational StringValueBase::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_[n], 1};
     }
 
     StringValue::StringValue()
@@ -932,7 +932,7 @@ namespace Exiv2 {
     Rational LangAltValue::toRational(long /*n*/) const
     {
         ok_ = false;
-        return Rational(0, 0);
+        return {0, 0};
     }
 
     LangAltValue* LangAltValue::clone_() const
@@ -1069,7 +1069,7 @@ namespace Exiv2 {
 
     Rational DateValue::toRational(long n) const
     {
-        return Rational(toLong(n), 1);
+        return {toLong(n), 1};
     }
 
     TimeValue::TimeValue()
@@ -1253,7 +1253,7 @@ namespace Exiv2 {
 
     Rational TimeValue::toRational(long n) const
     {
-        return Rational(toLong(n), 1);
+        return {toLong(n), 1};
     }
 
 }                                       // namespace Exiv2

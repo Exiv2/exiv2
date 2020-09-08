@@ -1700,14 +1700,14 @@ namespace Exiv2 {
     inline Rational ValueType<Rational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n].first, value_[n].second);
+        return {value_[n].first, value_[n].second};
     }
     // Specialization for unsigned rational
     template<>
     inline Rational ValueType<URational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n].first, value_[n].second);
+        return {value_[n].first, value_[n].second};
     }
     // Specialization for float.
     template<>

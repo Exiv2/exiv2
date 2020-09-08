@@ -234,13 +234,13 @@ namespace Exiv2 {
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return Slice<byte*>(buf.pData_, begin, end);
+        return {buf.pData_, begin, end};
     }
 
     Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return Slice<const byte*>(buf.pData_, begin, end);
+        return {buf.pData_, begin, end};
     }
 
     std::ostream& operator<<(std::ostream& os, const Rational& r)
@@ -756,7 +756,8 @@ namespace Exiv2 {
         if (ok) return ret;
 
         long l = stringTo<long>(s, ok);
-        if (ok) return Rational(l, 1);
+        if (ok)
+            return {l, 1};
 
         float f = stringTo<float>(s, ok);
         if (ok) return floatToRationalCast(f);
@@ -793,7 +794,7 @@ namespace Exiv2 {
         const int32_t nom = static_cast<int32_t>(f * den + rnd);
         const int32_t g = gcd(nom, den);
 
-        return Rational(nom / g, den / g);
+        return {nom / g, den / g};
     }
 
 }                                       // namespace Exiv2
