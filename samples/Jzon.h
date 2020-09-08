@@ -415,7 +415,7 @@ namespace Jzon
         const Node &root;
 
         // Disable assignment operator
-        Writer &operator=(const Writer&);
+        Writer &operator=(const Writer &) = delete;
     };
 
     class JzonAPI Parser
@@ -466,6 +466,6 @@ namespace Jzon
         std::string error;
 
         // Disable assignment operator
-        Parser &operator=(const Parser&);
+        Parser &operator=(const Parser &) = delete;
     };
 }
