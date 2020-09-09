@@ -10,6 +10,10 @@ import sys
 import shutil
 import string
 import unittest
+import platform
+
+
+from bash_tests import utils as BT
 
 
 if sys.platform in [ 'win32', 'msys', 'cygwin' ]:
@@ -68,7 +72,7 @@ class CasePreservingConfigParser(configparser.ConfigParser):
     The default behavior of ConfigParser:
     >>> conf_string = "[Section1]\nKey = Value"
     >>> default_conf = configparser.ConfigParser()
-    >>> default_conf.read_string(conf_string)
+    >>> default_Config.read_string(conf_string)
     >>> list(default_conf['Section1'].keys())
     ['key']
 
@@ -158,6 +162,8 @@ def configure_suite(config_file):
         else:
             fallback = ""
         config['ENV'][key] = os.getenv(config['ENV'][key]) or fallback
+    if platform.system() == 'Windows':
+        config['ENV']['binary_extension'] = config['ENV']['binary_extension'] or '.exe'
 
     if 'variables' in config:
         for key in config['variables']:
@@ -197,6 +203,14 @@ def configure_suite(config_file):
             _parameters["timeout"] *= config.getfloat(
                 "General", "memcheck_timeout_penalty", fallback=20.0
             )
+    
+    # Configure the parameters for bash tests
+    BT.Config.bin_dir       = os.path.abspath(config['ENV']['exiv2_path'])
+    BT.Config.data_dir      = os.path.abspath(config['paths']['data_path'])
+    BT.Config.tmp_dir       = os.path.abspath(config['paths']['tmp_path'])
+    BT.Config.exiv2_http    = config['ENV']['exiv2_http']
+    BT.Config.exiv2_port    = int(config['ENV']['exiv2_port'])
+    # print(dict(config['ENV'])); exit(1)     # for debug
 
 
 class FileDecoratorBase(object):
@@ -966,3 +980,4 @@ def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
 
     self.assertNotIn(UBSAN_MSG, got_stderr)
     self.assertNotIn(ASAN_MSG, got_stderr)
+
