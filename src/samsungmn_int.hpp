@@ -61,4 +61,5 @@ namespace Exiv2 {
 
     }; // class Samsung2MakerNote
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

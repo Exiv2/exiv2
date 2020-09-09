@@ -67,4 +67,5 @@ namespace Exiv2 {
         uint16_t sig_;       //<! The actual magic number
     }; // class OrfHeader
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

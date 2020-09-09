@@ -1708,4 +1708,5 @@ value, const ExifData* metadata)
         return os << v;
     } // OlympusMakerNote::print0x0308
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

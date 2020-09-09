@@ -1623,4 +1623,5 @@ namespace Exiv2 {
             new TiffSizeEntry(tag, group, dtTag, dtGroup));
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

@@ -445,8 +445,7 @@ namespace Exiv2
                     return result;
                 }
         };
-    }
-
+    }  // namespace
 
     Image::UniquePtr newBigTiffInstance(BasicIo::UniquePtr io, bool)
     {
@@ -466,4 +465,4 @@ namespace Exiv2
         return valid;
     }
 
-}
+}  // namespace Exiv2

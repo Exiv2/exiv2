@@ -168,7 +168,7 @@ namespace {
     //! Helper function to delete all tags of a specific IFD from the metadata.
     void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -948,4 +948,4 @@ namespace {
                  ed.end());
     }
     //! @endcond
-}
+}  // namespace

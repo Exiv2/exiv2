@@ -55,4 +55,5 @@ namespace Exiv2 {
         return buf;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

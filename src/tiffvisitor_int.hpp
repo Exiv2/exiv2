@@ -727,4 +727,5 @@ namespace Exiv2 {
         bool                 postProc_;   //!< True in postProcessList()
     }; // class TiffReader
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

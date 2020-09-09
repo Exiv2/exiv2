@@ -2878,4 +2878,5 @@ fmountlens[] = {
         return os << s;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

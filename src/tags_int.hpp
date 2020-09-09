@@ -450,4 +450,5 @@ namespace Exiv2 {
     //! Calculate the exposure time from an APEX shutter speed value
     URational exposureTime(float shutterSpeedValue);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

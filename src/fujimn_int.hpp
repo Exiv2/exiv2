@@ -57,4 +57,5 @@ namespace Exiv2 {
 
     }; // class FujiMakerNote
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

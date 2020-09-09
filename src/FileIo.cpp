@@ -1081,4 +1081,4 @@ namespace Exiv2
         return XPathIo::writeDataToFile(orgPath);
     }
 #endif
-}
+}  // namespace Exiv2

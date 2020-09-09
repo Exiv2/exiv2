@@ -63,4 +63,5 @@ namespace Exiv2 {
 
     }; // class Rw2Header
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

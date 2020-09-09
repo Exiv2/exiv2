@@ -468,4 +468,4 @@ namespace Jzon
         // Disable assignment operator
         Parser &operator=(const Parser&);
     };
-}
+}  // namespace Jzon

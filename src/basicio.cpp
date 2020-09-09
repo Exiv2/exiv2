@@ -72,4 +72,4 @@ namespace Exiv2
         return subject;
     }
 #endif
-}
+}  // namespace Exiv2

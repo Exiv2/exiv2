@@ -56,7 +56,7 @@ namespace {
         Exiv2::PrintFct printFct_;             //!< Print function
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
