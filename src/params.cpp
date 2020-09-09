@@ -122,9 +122,7 @@ Params& Params::instance()
     return ins;
 }
 
-Params::~Params()
-{
-}
+Params::~Params() = default;
 
 void Params::version(bool verbose, std::ostream& os) const
 {

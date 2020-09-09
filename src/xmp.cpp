@@ -173,9 +173,7 @@ namespace Exiv2 {
         return *this;
     }
 
-    Xmpdatum::~Xmpdatum()
-    {
-    }
+    Xmpdatum::~Xmpdatum() = default;
 
     std::string Xmpdatum::key() const
     {

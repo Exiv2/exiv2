@@ -683,7 +683,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         //! @name Creators
         //@{
         //! Default Destructor
-        ~HttpIo() override{}
+        ~HttpIo() override = default;
         //@}
     };
 

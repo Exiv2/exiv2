@@ -90,28 +90,28 @@ namespace {
     class Loader {
     public:
         //! Virtual destructor.
-        virtual ~Loader() {}
+      virtual ~Loader() = default;
 
-        //! Loader auto pointer
-        typedef std::unique_ptr<Loader> UniquePtr;
+      //! Loader auto pointer
+      typedef std::unique_ptr<Loader> UniquePtr;
 
-        //! Create a Loader subclass for requested id
-        static UniquePtr create(PreviewId id, const Image &image);
+      //! Create a Loader subclass for requested id
+      static UniquePtr create(PreviewId id, const Image &image);
 
-        //! Check if a preview image with given params exists in the image
-        virtual bool valid() const { return valid_; }
+      //! Check if a preview image with given params exists in the image
+      virtual bool valid() const { return valid_; }
 
-        //! Get properties of a preview image with given params
-        virtual PreviewProperties getProperties() const;
+      //! Get properties of a preview image with given params
+      virtual PreviewProperties getProperties() const;
 
-        //! Get a buffer that contains the preview image
-        virtual DataBuf getData() const = 0;
+      //! Get a buffer that contains the preview image
+      virtual DataBuf getData() const = 0;
 
-        //! Read preview image dimensions when they are not available directly
-        virtual bool readDimensions() { return true; }
+      //! Read preview image dimensions when they are not available directly
+      virtual bool readDimensions() { return true; }
 
-        //! A number of image loaders configured in the loaderList_ table
-        static PreviewId getNumLoaders();
+      //! A number of image loaders configured in the loaderList_ table
+      static PreviewId getNumLoaders();
 
     protected:
         //! Constructor. Sets all image properies to unknown.

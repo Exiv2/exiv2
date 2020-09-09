@@ -67,7 +67,7 @@ namespace
     {
     public:
         //! C'tor
-      Timestamp() {}
+      Timestamp() = default;
       //! Read the timestamp of a file
       int read(const std::string &path);
       //! Read the timestamp from a broken-down time in buffer \em tm.
@@ -151,14 +151,11 @@ namespace
 // class member definitions
 namespace Action
 {
-    Task::~Task()
-    {
-    }
+Task::~Task() = default;
 
-    std::unique_ptr<Task> Task::clone() const
-    {
-        return std::unique_ptr<Task>(clone_());
-    }
+std::unique_ptr<Task> Task::clone() const {
+  return std::unique_ptr<Task>(clone_());
+}
 
     TaskFactory& TaskFactory::instance()
     {
@@ -192,9 +189,7 @@ namespace Action
         return nullptr;
     }
 
-    Print::~Print()
-    {
-    }
+    Print::~Print() = default;
 
     int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path)
     {

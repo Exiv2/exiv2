@@ -176,9 +176,7 @@ namespace Exiv2 {
         elDef_.count_ = 0;
     }
 
-    TiffComponent::~TiffComponent()
-    {
-    }
+    TiffComponent::~TiffComponent() = default;
 
     TiffDirectory::~TiffDirectory()
     {
@@ -203,25 +201,15 @@ namespace Exiv2 {
         delete pValue_;
     }
 
-    TiffEntry::~TiffEntry()
-    {
-    }
+    TiffEntry::~TiffEntry() = default;
 
-    TiffDataEntryBase::~TiffDataEntryBase()
-    {
-    }
+    TiffDataEntryBase::~TiffDataEntryBase() = default;
 
-    TiffDataEntry::~TiffDataEntry()
-    {
-    }
+    TiffDataEntry::~TiffDataEntry() = default;
 
-    TiffImageEntry::~TiffImageEntry()
-    {
-    }
+    TiffImageEntry::~TiffImageEntry() = default;
 
-    TiffSizeEntry::~TiffSizeEntry()
-    {
-    }
+    TiffSizeEntry::~TiffSizeEntry() = default;
 
     TiffMnEntry::~TiffMnEntry()
     {
@@ -240,9 +228,7 @@ namespace Exiv2 {
         }
     }
 
-    TiffBinaryElement::~TiffBinaryElement()
-    {
-    }
+    TiffBinaryElement::~TiffBinaryElement() = default;
 
     TiffEntryBase::TiffEntryBase(const TiffEntryBase& rhs)
         : TiffComponent(rhs),

@@ -150,14 +150,12 @@ Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io)
       init_(true) {
 }
 
-    Image::~Image()
-    {
-    }
+Image::~Image() = default;
 
-    void Image::printStructure(std::ostream&, PrintStructureOption,int /*depth*/)
-    {
-        throw Error(kerUnsupportedImageType, io_->path());
-    }
+void Image::printStructure(std::ostream &, PrintStructureOption,
+                           int /*depth*/) {
+  throw Error(kerUnsupportedImageType, io_->path());
+}
 
     bool Image::isStringType(uint16_t type)
     {

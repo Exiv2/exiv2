@@ -365,10 +365,8 @@ namespace Exiv2 {
         setMsg();
     }
 
-    template<typename charT>
-    BasicError<charT>::~BasicError() noexcept
-    {
-    }
+    template <typename charT>
+    BasicError<charT>::~BasicError() noexcept = default;
 
     template<typename charT>
     int BasicError<charT>::code() const noexcept

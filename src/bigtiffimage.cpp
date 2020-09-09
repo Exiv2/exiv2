@@ -23,7 +23,7 @@ namespace Exiv2
                 BigTiff,
             };
 
-            Header() {}
+            Header() = default;
             Header(const ByteOrder& order, int v, int size, uint64_t offset):
                 byteOrder_(order),
                 version_(v),
@@ -160,7 +160,7 @@ namespace Exiv2
                     dataSize_ = header_.format() == Header::StandardTiff? 4 : 8;
                 }
 
-                ~BigTiffImage() override {}
+                ~BigTiffImage() override = default;
 
                 // overrides
                 void readMetadata() override

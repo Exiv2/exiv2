@@ -72,9 +72,7 @@ enum MetadataId
 struct ModifyCmd
 {
     //! C'tor
-    ModifyCmd()
-
-    {}
+    ModifyCmd() = default;
     CmdId cmdId_{invalidCmdId}; //!< Command identifier
     std::string key_;        //!< Exiv2 key string
     MetadataId metadataId_{invalidMetadataId};   //!< Metadata identifier

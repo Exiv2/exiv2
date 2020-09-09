@@ -125,8 +125,9 @@ namespace Exiv2 {
                                      IfdId              mnGroup);
 
     protected:
-        //! Prevent destruction (needed if used as a policy class)
-        ~TiffMnCreator() {}
+      //! Prevent destruction (needed if used as a policy class)
+      ~TiffMnCreator() = default;
+
     private:
         static const TiffMnRegistry registry_[]; //<! List of makernotes
     }; // class TiffMnCreator

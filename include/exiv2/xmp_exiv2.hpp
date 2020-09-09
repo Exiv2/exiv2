@@ -172,7 +172,7 @@ namespace Exiv2 {
     class EXIV2API XmpData {
     public:
         //! Default constructor
-      XmpData() {}
+      XmpData() = default;
 
       //! XmpMetadata iterator type
       typedef XmpMetadata::iterator iterator;

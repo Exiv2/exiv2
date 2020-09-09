@@ -204,9 +204,7 @@ namespace Exiv2 {
         return tc;
     } // TiffMnCreator::create
 
-    MnHeader::~MnHeader()
-    {
-    }
+    MnHeader::~MnHeader() = default;
 
     void MnHeader::setByteOrder(ByteOrder /*byteOrder*/)
     {
@@ -255,9 +253,7 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    OlympusMnHeader::~OlympusMnHeader()
-    {
-    }
+    OlympusMnHeader::~OlympusMnHeader() = default;
 
     size_t OlympusMnHeader::size() const
     {
@@ -301,9 +297,7 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    Olympus2MnHeader::~Olympus2MnHeader()
-    {
-    }
+    Olympus2MnHeader::~Olympus2MnHeader() = default;
 
     size_t Olympus2MnHeader::size() const
     {
@@ -351,9 +345,7 @@ namespace Exiv2 {
       read(signature_, sizeOfSignature(), byteOrder_);
     }
 
-    FujiMnHeader::~FujiMnHeader()
-    {
-    }
+    FujiMnHeader::~FujiMnHeader() = default;
 
     size_t FujiMnHeader::size() const
     {
@@ -409,9 +401,7 @@ namespace Exiv2 {
       read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    Nikon2MnHeader::~Nikon2MnHeader()
-    {
-    }
+    Nikon2MnHeader::~Nikon2MnHeader() = default;
 
     size_t Nikon2MnHeader::size() const
     {
@@ -456,9 +446,7 @@ namespace Exiv2 {
         start_ = sizeOfSignature();
     }
 
-    Nikon3MnHeader::~Nikon3MnHeader()
-    {
-    }
+    Nikon3MnHeader::~Nikon3MnHeader() = default;
 
     size_t Nikon3MnHeader::size() const
     {
@@ -523,9 +511,7 @@ namespace Exiv2 {
       read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PanasonicMnHeader::~PanasonicMnHeader()
-    {
-    }
+    PanasonicMnHeader::~PanasonicMnHeader() = default;
 
     size_t PanasonicMnHeader::size() const
     {
@@ -566,9 +552,7 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PentaxDngMnHeader::~PentaxDngMnHeader()
-    {
-    }
+    PentaxDngMnHeader::~PentaxDngMnHeader() = default;
 
     size_t PentaxDngMnHeader::size() const
     {
@@ -617,9 +601,7 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PentaxMnHeader::~PentaxMnHeader()
-    {
-    }
+    PentaxMnHeader::~PentaxMnHeader() = default;
 
     size_t PentaxMnHeader::size() const
     {
@@ -691,9 +673,7 @@ namespace Exiv2 {
       read(signature1_, sizeOfSignature(), invalidByteOrder);
     }
 
-    SigmaMnHeader::~SigmaMnHeader()
-    {
-    }
+    SigmaMnHeader::~SigmaMnHeader() = default;
 
     size_t SigmaMnHeader::size() const
     {
@@ -735,9 +715,7 @@ namespace Exiv2 {
       read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    SonyMnHeader::~SonyMnHeader()
-    {
-    }
+    SonyMnHeader::~SonyMnHeader() = default;
 
     size_t SonyMnHeader::size() const
     {
@@ -778,9 +756,7 @@ namespace Exiv2 {
       read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    Casio2MnHeader::~Casio2MnHeader()
-    {
-    }
+    Casio2MnHeader::~Casio2MnHeader() = default;
 
     size_t Casio2MnHeader::size() const
     {
