@@ -708,7 +708,6 @@ On MinGW/msys2, I can directly access the share:
 ```bash
 $ cd //Mac/Home/gnu/github/exiv2/0.27/maintenance/build_mingw_fedora
 $ export EXIV2_BINDIR=$pwd/bin
-$ export EXIV2_EXT=.exe
 $ cd ../test
 $ make tests
 ```
@@ -833,8 +832,6 @@ If you build the code in the directory \<exiv2dir\>build, tests will run using t
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Path of built binaries (exiv2.exe) |
 | EXIV2_PORT         | **12762**<br>**12671**<br>**12760**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://localhost**  | All Platforms | Test http server   |
-| EXIV2_EXT          | **.exe**  | msvc<br>Cygwin<br>MinGW/msys2 | Extension used by executable binaries |
-| EXIV2_EXT          | _**not set**_  | Linux<br>macOS<br>Unix|  |
 | EXIV2_ECHO         | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VALGRIND           | _**not set**_ | All Platforms | For debugging Bash scripts |
 | VERBOSE            | _**not set**_ | All Platforms | Causes make to report its actions |
@@ -1190,7 +1187,6 @@ set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild
 set "P=%P%c:\Windows\System32;"              # windows
 set "P=%P%%USERPROFILE%\com;"                # my home-made magic
 set "PATH=%P%"
-set "EXIV2_EXT=.exe"
 cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
 endlocal
 ```
