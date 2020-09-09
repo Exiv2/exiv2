@@ -451,13 +451,14 @@ namespace Exiv2 {
         //! Data structure for the offset list.
         struct OffsetData {
             //! Default constructor
-            OffsetData() : origin_(0), target_(0), byteOrder_(littleEndian) {}
+            OffsetData() {}
             //! Constructor
             OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder) {}
             // DATA
-            uint32_t origin_;     //!< Origin address
-            uint32_t target_;     //!< Target address
-            ByteOrder byteOrder_; //!< Byte order to use to encode target address
+            uint32_t origin_{0}; //!< Origin address
+            uint32_t target_{0}; //!< Target address
+            ByteOrder byteOrder_{
+                littleEndian}; //!< Byte order to use to encode target address
         };
         //! Type of the list containing an identifier and an address pair.
         typedef std::map<OffsetId, OffsetData> OffsetList;

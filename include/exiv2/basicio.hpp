@@ -195,10 +195,10 @@ constexpr size_t operator"" _z(unsigned long long n)
         /// remote file to memory.
         virtual void populateFakeData() {}
 
-        byte* bigBlock_; ///< allocated and populated by mmap()
-        //@}
+        byte *bigBlock_{nullptr}; ///< allocated and populated by mmap()
+                                  //@}
 
-    protected:
+      protected:
         //! @name Creators
         //@{
         //! Default Constructor

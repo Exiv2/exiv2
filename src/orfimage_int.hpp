@@ -64,7 +64,7 @@ namespace Exiv2 {
         //@}
     private:
         // DATA
-        uint16_t sig_;       //<! The actual magic number
+      uint16_t sig_{0x4f52}; //<! The actual magic number
     }; // class OrfHeader
 
 }}                                      // namespace Internal, Exiv2

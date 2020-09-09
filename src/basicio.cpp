@@ -23,17 +23,15 @@
 
 namespace Exiv2
 {
-    BasicIo::BasicIo()
-        : bigBlock_(nullptr)
-    {
-    }
+BasicIo::BasicIo()
 
-    void BasicIo::readOrThrow(byte* buf, size_t rcount)
-    {
-        const size_t nread = read(buf, rcount);
-        enforce(nread == rcount, kerInputDataReadFailed);
-        enforce(!error(), kerInputDataReadFailed);
-    }
+{}
+
+void BasicIo::readOrThrow(byte *buf, size_t rcount) {
+  const size_t nread = read(buf, rcount);
+  enforce(nread == rcount, kerInputDataReadFailed);
+  enforce(!error(), kerInputDataReadFailed);
+}
 
     IoCloser::IoCloser(BasicIo& bio)
         : bio_(bio)

@@ -138,8 +138,7 @@ namespace Exiv2 {
         delete[] pData_;
     }
 
-    DataBuf::DataBuf() : pData_(nullptr), size_(0)
-    {}
+    DataBuf::DataBuf() {}
 
     DataBuf::DataBuf(size_t size) : pData_(new byte[size]()), size_(size)
     {}

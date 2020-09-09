@@ -105,30 +105,15 @@ namespace
 
 Params::Params()
     : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-      first_(true),
-      help_(false),
-      version_(false),
-      verbose_(false),
-      force_(false),
-      binary_(true),
-      unknown_(true),
-      preserve_(false),
-      timestamp_(false),
-      timestampOnly_(false),
-      fileExistsPolicy_(askPolicy),
-      adjust_(false),
-      printMode_(pmSummary),
-      printItems_(0),
-      printTags_(Exiv2::mdNone),
-      action_(0),
+
       target_(ctExif | ctIptc | ctComment | ctXmp),
-      adjustment_(0),
-      format_("%Y%m%d_%H%M%S"),
-      formatSet_(false)
+
+      format_("%Y%m%d_%H%M%S")
+
 {
-    yodAdjust_[yodYear] = {false, "-Y", 0};
-    yodAdjust_[yodMonth] = {false, "-O", 0};
-    yodAdjust_[yodDay] = {false, "-D", 0};
+  yodAdjust_[yodYear] = {false, "-Y", 0};
+  yodAdjust_[yodMonth] = {false, "-O", 0};
+  yodAdjust_[yodDay] = {false, "-D", 0};
 }
 
 Params& Params::instance()

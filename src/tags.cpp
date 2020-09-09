@@ -247,10 +247,10 @@ namespace Exiv2 {
         // DATA
         static const char* familyName_; //!< "Exif"
 
-        const TagInfo* tagInfo_;        //!< Tag info
-        uint16_t tag_;                  //!< Tag value
-        IfdId ifdId_;                   //!< The IFD associated with this tag
-        int idx_;                       //!< Unique id of the Exif key in the image
+        const TagInfo *tagInfo_{nullptr}; //!< Tag info
+        uint16_t tag_{0};                 //!< Tag value
+        IfdId ifdId_{ifdIdNotSet};        //!< The IFD associated with this tag
+        int idx_{0}; //!< Unique id of the Exif key in the image
         std::string groupName_;         //!< The group name
         std::string key_;               //!< %Key
     };
@@ -258,9 +258,8 @@ namespace Exiv2 {
     const char* ExifKey::Impl::familyName_ = "Exif";
 
     ExifKey::Impl::Impl()
-        : tagInfo_(nullptr), tag_(0), ifdId_(ifdIdNotSet), idx_(0)
-    {
-    }
+
+    {}
 
     std::string ExifKey::Impl::tagName() const
     {

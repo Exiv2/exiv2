@@ -347,9 +347,8 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    FujiMnHeader::FujiMnHeader() : start_(0)
-    {
-        read(signature_, sizeOfSignature(), byteOrder_);
+    FujiMnHeader::FujiMnHeader() {
+      read(signature_, sizeOfSignature(), byteOrder_);
     }
 
     FujiMnHeader::~FujiMnHeader()
@@ -406,9 +405,8 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    Nikon2MnHeader::Nikon2MnHeader() : start_(0)
-    {
-        read(signature_, sizeOfSignature(), invalidByteOrder);
+    Nikon2MnHeader::Nikon2MnHeader() {
+      read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
     Nikon2MnHeader::~Nikon2MnHeader()
@@ -521,9 +519,8 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    PanasonicMnHeader::PanasonicMnHeader(): start_(0)
-    {
-        read(signature_, sizeOfSignature(), invalidByteOrder);
+    PanasonicMnHeader::PanasonicMnHeader() {
+      read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
     PanasonicMnHeader::~PanasonicMnHeader()
@@ -690,9 +687,8 @@ namespace Exiv2 {
         return sizeof(signature1_);
     }
 
-    SigmaMnHeader::SigmaMnHeader(): start_(0)
-    {
-        read(signature1_, sizeOfSignature(), invalidByteOrder);
+    SigmaMnHeader::SigmaMnHeader() {
+      read(signature1_, sizeOfSignature(), invalidByteOrder);
     }
 
     SigmaMnHeader::~SigmaMnHeader()
@@ -735,9 +731,8 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    SonyMnHeader::SonyMnHeader(): start_(0)
-    {
-        read(signature_, sizeOfSignature(), invalidByteOrder);
+    SonyMnHeader::SonyMnHeader() {
+      read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
     SonyMnHeader::~SonyMnHeader()
@@ -779,9 +774,8 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    Casio2MnHeader::Casio2MnHeader(): start_(0)
-    {
-        read(signature_, sizeOfSignature(), invalidByteOrder );
+    Casio2MnHeader::Casio2MnHeader() {
+      read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
     Casio2MnHeader::~Casio2MnHeader()

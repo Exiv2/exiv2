@@ -474,10 +474,7 @@ namespace Exiv2 {
                invalidCharsetId : charsetTable_[i].charsetId_;
     }
 
-    CommentValue::CommentValue()
-        : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)
-    {
-    }
+    CommentValue::CommentValue() : StringValueBase(Exiv2::undefined) {}
 
     CommentValue::CommentValue(const std::string& comment)
         : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)

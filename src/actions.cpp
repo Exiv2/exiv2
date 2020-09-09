@@ -67,19 +67,17 @@ namespace
     {
     public:
         //! C'tor
-        Timestamp() : actime_(0), modtime_(0)
-        {
-        }
-        //! Read the timestamp of a file
-        int read(const std::string& path);
-        //! Read the timestamp from a broken-down time in buffer \em tm.
-        int read(struct tm* tm);
-        //! Set the timestamp of a file
-        int touch(const std::string& path);
+      Timestamp() {}
+      //! Read the timestamp of a file
+      int read(const std::string &path);
+      //! Read the timestamp from a broken-down time in buffer \em tm.
+      int read(struct tm *tm);
+      //! Set the timestamp of a file
+      int touch(const std::string &path);
 
     private:
-        time_t actime_;
-        time_t modtime_;
+      time_t actime_{0};
+      time_t modtime_{0};
     };
 
     /*!
