@@ -273,9 +273,9 @@ namespace Exiv2 {
 
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
-        byte* pData_;
+        byte *pData_{nullptr};
         //! The current size of the buffer
-        size_t size_;
+        size_t size_{0};
     }; // class DataBuf
 
     /*!

@@ -23,7 +23,7 @@ namespace Exiv2
                 BigTiff,
             };
 
-            Header(): byteOrder_(invalidByteOrder), version_(-1), data_size_(0), dir_offset_(0) {}
+            Header() {}
             Header(const ByteOrder& order, int v, int size, uint64_t offset):
                 byteOrder_(order),
                 version_(v),
@@ -69,10 +69,10 @@ namespace Exiv2
             }
 
             private:
-                ByteOrder byteOrder_;
-                int version_;         // 42 or 43     - regular tiff or big tiff
-                int data_size_;       // 4 or 8
-                uint64_t dir_offset_;
+              ByteOrder byteOrder_{invalidByteOrder};
+              int version_{-1};  // 42 or 43     - regular tiff or big tiff
+              int data_size_{0}; // 4 or 8
+              uint64_t dir_offset_{0};
         };
 
         Header readHeader(BasicIo& io)

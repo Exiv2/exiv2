@@ -269,7 +269,7 @@ namespace Exiv2 {
         static constexpr byte signature_[]{
             'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00 }; //!< Fujifilm makernote header signature
         static constexpr ByteOrder byteOrder_{ littleEndian }; //!< Byteorder for makernote (always II)
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
 
     }; // class FujiMnHeader
 
@@ -298,7 +298,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'N', 'i', 'k', 'o', 'n', '\0', 0x01, 0x00 }; //!< Nikon 2 makernote header signature
 
@@ -365,7 +365,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'P', 'a', 'n', 'a', 's', 'o', 'n', 'i', 'c', 0x00, 0x00, 0x00 }; //!< Panasonic makernote header signature
 
@@ -478,7 +478,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                    //!< Raw header data
-        uint32_t start_;                 //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature1_[]{
             'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00 };  //!< Sigma makernote header signature 1
         static constexpr byte signature2_[]{
@@ -511,7 +511,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'S', 'O', 'N', 'Y', ' ', 'D', 'S', 'C', ' ', '\0', '\0', '\0' }; //!< Sony makernote header signature
 
@@ -543,7 +543,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'Q', 'V', 'C', '\0', '\0', '\0' }; //!< Casio makernote header signature
         static constexpr ByteOrder byteOrder_{ bigEndian }; //!< Byteorder for makernote (always big endian)

@@ -51,11 +51,8 @@ namespace Exiv2
         //@{
         //! Default constructor. the init status of the block is bNone.
         BlockMap()
-            : type_(bNone)
-            , data_(nullptr)
-            , size_(0)
-        {
-        }
+
+        {}
 
         //! Destructor. Releases all managed memory.
         ~BlockMap()
@@ -112,9 +109,9 @@ namespace Exiv2
         }
 
     private:
-        blockType_e type_;
-        byte* data_;
-        size_t size_;
+      blockType_e type_{bNone};
+      byte *data_{nullptr};
+      size_t size_{0};
     };
 
     //! Internal Pimpl abstract structure of class RemoteIo.

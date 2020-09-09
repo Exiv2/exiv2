@@ -27,15 +27,15 @@
 class Params : public Util::Getopt {
 private:
     std::string optstring_;
-    bool first_;
+    bool first_{true};
 
-public:
-    bool help_;                    //!< Help option flag.
-    bool iptc_;                    //!< Iptc option flag.
-    bool exif_;                    //!< Exif option flag.
-    bool comment_;                 //!< JPEG comment option flag.
-    bool xmp_;                     //!< XMP option flag.
-    bool preserve_;                //!< Preserve existing metadata option flag.
+  public:
+    bool help_{false};             //!< Help option flag.
+    bool iptc_{false};             //!< Iptc option flag.
+    bool exif_{false};             //!< Exif option flag.
+    bool comment_{false};          //!< JPEG comment option flag.
+    bool xmp_{false};              //!< XMP option flag.
+    bool preserve_{false};         //!< Preserve existing metadata option flag.
     std::string read_;             //!< Source file
     std::string write_;            //!< Destination file
 
@@ -43,38 +43,33 @@ public:
     /*!
       @brief Default constructor. Note that optstring_ is initialized here.
      */
-    Params() : optstring_(":iecaph"),
-               first_(true),
-               help_(false),
-               iptc_(false),
-               exif_(false),
-               comment_(false),
-               xmp_(false),
-               preserve_(false)
-        {}
+  Params()
+      : optstring_(":iecaph")
 
-    /*!
-      @brief Call Getopt::getopt() with optstring, to initiate command line
-             argument parsing, perform consistency checks after all command line
-             arguments are parsed.
+  {}
 
-      @param argc Argument count as passed to main() on program invocation.
-      @param argv Argument array as passed to main() on program invocation.
+  /*!
+    @brief Call Getopt::getopt() with optstring, to initiate command line
+           argument parsing, perform consistency checks after all command line
+           arguments are parsed.
 
-      @return 0 if successful, >0 in case of errors.
-     */
-    int getopt(int argc, char* const argv[]);
+    @param argc Argument count as passed to main() on program invocation.
+    @param argv Argument array as passed to main() on program invocation.
 
-    //! Handle options and their arguments.
-    int option(int opt, const std::string& optarg, int optopt) override;
+    @return 0 if successful, >0 in case of errors.
+   */
+  int getopt(int argc, char *const argv[]);
 
-    //! Handle non-option parameters.
-    int nonoption(const std::string& argv) override;
+  //! Handle options and their arguments.
+  int option(int opt, const std::string &optarg, int optopt) override;
 
-    //! Print a minimal usage note to an output stream.
-    void usage(std::ostream& os =std::cout) const;
+  //! Handle non-option parameters.
+  int nonoption(const std::string &argv) override;
 
-    //! Print further usage explanations to an output stream.
-    void help(std::ostream& os =std::cout) const;
+  //! Print a minimal usage note to an output stream.
+  void usage(std::ostream &os = std::cout) const;
+
+  //! Print further usage explanations to an output stream.
+  void help(std::ostream &os = std::cout) const;
 
 }; // class Params

@@ -627,7 +627,8 @@ namespace Exiv2 {
 
     public:
         // DATA
-        ByteOrder byteOrder_;      //!< Byte order of the comment string that was read
+      ByteOrder byteOrder_{
+          littleEndian}; //!< Byte order of the comment string that was read
 
     }; // class CommentValue
 
@@ -994,10 +995,10 @@ namespace Exiv2 {
 
         //! Simple Date helper structure
         struct EXIV2API Date {
-            Date() : year(0), month(0), day(0) {}
-            int year;                           //!< Year
-            int month;                          //!< Month
-            int day;                            //!< Day
+          Date() {}
+          int year{0};  //!< Year
+          int month{0}; //!< Month
+          int day{0};   //!< Day
         };
 
         //! @name Manipulators
@@ -1102,13 +1103,13 @@ namespace Exiv2 {
         //! Simple Time helper structure
         struct Time
         {
-            Time() : hour(0), minute(0), second(0), tzHour(0), tzMinute(0) {}
+          Time() {}
 
-            int hour;                           //!< Hour
-            int minute;                         //!< Minute
-            int second;                         //!< Second
-            int tzHour;                         //!< Hours ahead or behind UTC
-            int tzMinute;                       //!< Minutes ahead or behind UTC
+          int hour{0};     //!< Hour
+          int minute{0};   //!< Minute
+          int second{0};   //!< Second
+          int tzHour{0};   //!< Hours ahead or behind UTC
+          int tzMinute{0}; //!< Minutes ahead or behind UTC
         };
 
         //! @name Manipulators
@@ -1330,9 +1331,9 @@ namespace Exiv2 {
 
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
-        byte* pDataArea_;
+        byte *pDataArea_{nullptr};
         //! The current size of the buffer
-        size_t sizeDataArea_;
+        size_t sizeDataArea_{0};
     }; // class ValueType
 
     //! Unsigned short value type
@@ -1502,11 +1503,7 @@ namespace Exiv2 {
         return d2Data(buf, t, byteOrder);
     }
 
-    template<typename T>
-    ValueType<T>::ValueType()
-        : Value(getType<T>()), pDataArea_(nullptr), sizeDataArea_(0)
-    {
-    }
+    template <typename T> ValueType<T>::ValueType() : Value(getType<T>()) {}
 
     template<typename T>
     ValueType<T>::ValueType(TypeId typeId)
