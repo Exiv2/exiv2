@@ -89,11 +89,8 @@ namespace Util {
 
 // *****************************************************************************
 // class Getopt
-        Getopt::Getopt()
-
-        {}
-
-        Getopt::~Getopt() {}
+        Getopt::Getopt() = default;
+        Getopt::~Getopt() = default;
 
         int Getopt::getopt(int argc, char *const argv[],
                            const std::string &optstring) {

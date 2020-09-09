@@ -98,8 +98,8 @@ public:
         ascii       = false;
     }
 
-    virtual ~Options() {} ;
-} ;
+    virtual ~Options() = default;
+};
 
 enum
 {   resultOK=0
@@ -158,10 +158,10 @@ public:
       , delta_(0)
     {}
 
-    Position() {}
+    Position() = default;
 
-    virtual ~Position() {}
-//  copy constructor
+    virtual ~Position() = default;
+    //  copy constructor
     Position(const Position& o) :
         time_(o.time_)
       , lon_(o.lon_)
@@ -287,9 +287,9 @@ public:
       , lon(0.0)
       , options_(options)
     {}
-    virtual ~UserData() {}
+    virtual ~UserData() = default;
 
-//  public data members
+    //  public data members
     int         indent;
     size_t      count ;
     Position    now ;

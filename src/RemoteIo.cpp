@@ -50,9 +50,7 @@ namespace Exiv2
         //! @name Creators
         //@{
         //! Default constructor. the init status of the block is bNone.
-        BlockMap()
-
-        {}
+        BlockMap() = default;
 
         //! Destructor. Releases all managed memory.
         ~BlockMap()

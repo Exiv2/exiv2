@@ -97,9 +97,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffComponent()
-
-        {}
+        CiffComponent() = default;
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
             : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(nullptr),
@@ -309,18 +307,18 @@ namespace Exiv2 {
      */
     class CiffEntry : public CiffComponent {
     public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        CiffEntry() {}
-        //! Constructor taking a tag and directory
-        CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
+      //! @name Creators
+      //@{
+      //! Default constructor
+      CiffEntry() = default;
+      //! Constructor taking a tag and directory
+      CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
 
-        //! Virtual destructor.
-        ~CiffEntry() override;
-        //@}
+      //! Virtual destructor.
+      ~CiffEntry() override;
+      //@}
 
-        // Default assignment operator is fine
+      // Default assignment operator is fine
 
     private:
         //! @name Manipulators
@@ -348,7 +346,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-      CiffDirectory() {}
+      CiffDirectory() = default;
       //! Constructor taking a tag and directory
       CiffDirectory(uint16_t tag, uint16_t dir)
           : CiffComponent(tag, dir), cc_(nullptr) {}
@@ -426,9 +424,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffHeader()
-
-        {}
+        CiffHeader() = default;
         //! Virtual destructor
         virtual ~CiffHeader();
         //@}

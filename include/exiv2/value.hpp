@@ -995,7 +995,7 @@ namespace Exiv2 {
 
         //! Simple Date helper structure
         struct EXIV2API Date {
-          Date() {}
+          Date() = default;
           int year{0};  //!< Year
           int month{0}; //!< Month
           int day{0};   //!< Day
@@ -1103,7 +1103,7 @@ namespace Exiv2 {
         //! Simple Time helper structure
         struct Time
         {
-          Time() {}
+          Time() = default;
 
           int hour{0};     //!< Hour
           int minute{0};   //!< Minute

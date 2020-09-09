@@ -451,7 +451,7 @@ namespace Exiv2 {
         //! Data structure for the offset list.
         struct OffsetData {
             //! Default constructor
-            OffsetData() {}
+            OffsetData() = default;
             //! Constructor
             OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder) {}
             // DATA

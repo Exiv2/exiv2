@@ -23,9 +23,7 @@
 
 namespace Exiv2
 {
-BasicIo::BasicIo()
-
-{}
+BasicIo::BasicIo() = default;
 
 void BasicIo::readOrThrow(byte *buf, size_t rcount) {
   const size_t nread = read(buf, rcount);

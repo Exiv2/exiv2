@@ -85,9 +85,7 @@ namespace Exiv2 {
     {
     }
 
-    Value::~Value()
-    {
-    }
+    Value::~Value() = default;
 
     Value& Value::operator=(const Value& rhs)
     {
@@ -206,9 +204,7 @@ namespace Exiv2 {
         read(buf, len, byteOrder);
     }
 
-    DataValue::~DataValue()
-    {
-    }
+    DataValue::~DataValue() = default;
 
     long DataValue::count() const
     {
@@ -301,14 +297,10 @@ namespace Exiv2 {
         read(buf);
     }
 
-    StringValueBase::StringValueBase(const StringValueBase& rhs)
-        : Value(rhs), value_(rhs.value_)
-    {
-    }
+    StringValueBase::StringValueBase(const StringValueBase &rhs)
+        : Value(rhs), value_(rhs.value_) {}
 
-    StringValueBase::~StringValueBase()
-    {
-    }
+    StringValueBase::~StringValueBase() = default;
 
     StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
     {
@@ -384,9 +376,7 @@ namespace Exiv2 {
     {
     }
 
-    StringValue::~StringValue()
-    {
-    }
+    StringValue::~StringValue() = default;
 
     StringValue* StringValue::clone_() const
     {
@@ -403,9 +393,7 @@ namespace Exiv2 {
     {
     }
 
-    AsciiValue::~AsciiValue()
-    {
-    }
+    AsciiValue::~AsciiValue() = default;
 
     int AsciiValue::read(const std::string& buf)
     {
@@ -482,9 +470,7 @@ namespace Exiv2 {
         read(comment);
     }
 
-    CommentValue::~CommentValue()
-    {
-    }
+    CommentValue::~CommentValue() = default;
 
     int CommentValue::read(const std::string& comment)
     {
@@ -950,9 +936,7 @@ namespace Exiv2 {
         date_.day = day;
     }
 
-    DateValue::~DateValue()
-    {
-    }
+    DateValue::~DateValue() = default;
 
     int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
@@ -1086,9 +1070,7 @@ namespace Exiv2 {
         time_.tzMinute = tzMinute;
     }
 
-    TimeValue::~TimeValue()
-    {
-    }
+    TimeValue::~TimeValue() = default;
 
     int TimeValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {

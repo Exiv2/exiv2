@@ -267,9 +267,7 @@ namespace Action
     public:
         int run(const std::string& path) override;
         std::unique_ptr<Modify> clone() const;
-        Modify()
-        {
-        }
+        Modify() = default;
         //! Apply modification commands to the \em pImage, return 0 if successful.
         static int applyCommands(Exiv2::Image* pImage);
 

@@ -2692,25 +2692,24 @@ namespace Exiv2 {
     //! @brief Internal Pimpl structure with private members and data of class XmpKey.
     struct XmpKey::Impl
     {
-        Impl()
-        {
-        }                                                              //!< Default constructor
-        Impl(const std::string& prefix, const std::string& property);  //!< Constructor
+      Impl() = default; //!< Default constructor
+      Impl(const std::string &prefix,
+           const std::string &property); //!< Constructor
 
-        /*!
-          @brief Parse and convert the \em key string into property and prefix.
-                 Updates data members if the string can be decomposed, or throws
-                 \em Error.
+      /*!
+        @brief Parse and convert the \em key string into property and prefix.
+               Updates data members if the string can be decomposed, or throws
+               \em Error.
 
-          @throw Error if the key cannot be decomposed.
-        */
-        void decomposeKey(const std::string& key);  //!< Misterious magic
+        @throw Error if the key cannot be decomposed.
+      */
+      void decomposeKey(const std::string &key); //!< Misterious magic
 
-        // DATA
-        static const char* familyName_;  //!< "Xmp"
+      // DATA
+      static const char *familyName_; //!< "Xmp"
 
-        std::string prefix_;    //!< Prefix
-        std::string property_;  //!< Property name
+      std::string prefix_;   //!< Prefix
+      std::string property_; //!< Property name
     };
 
     //! @brief Constructor for Internal Pimpl structure XmpKey::Impl::Impl
@@ -2735,9 +2734,7 @@ namespace Exiv2 {
     {
     }
 
-    XmpKey::~XmpKey()
-    {
-    }
+    XmpKey::~XmpKey() = default;
 
     XmpKey::XmpKey(const XmpKey& rhs) : Key(rhs), p_(new Impl(*rhs.p_))
     {

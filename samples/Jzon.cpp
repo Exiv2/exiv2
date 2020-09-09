@@ -90,14 +90,10 @@ namespace Jzon
 		return ((c >= '0' && c <= '9') || c == '.' || c == '-');
 	}
 
-	Node::Node()
-	{
-	}
-	Node::~Node()
-	{
-	}
+        Node::Node() = default;
+        Node::~Node() = default;
 
-	Object &Node::AsObject()
+        Object &Node::AsObject()
 	{
 		if (IsObject())
 			return static_cast<Object&>(*this);
@@ -200,11 +196,9 @@ namespace Jzon
 	{
 		Set(value);
 	}
-	Value::~Value()
-	{
-	}
+        Value::~Value() = default;
 
-	Node::Type Value::GetType() const
+        Node::Type Value::GetType() const
 	{
 		return T_VALUE;
 	}
@@ -718,11 +712,9 @@ namespace Jzon
 	FileWriter::FileWriter(const std::string &filename) : filename(filename)
 	{
 	}
-	FileWriter::~FileWriter()
-	{
-	}
+        FileWriter::~FileWriter() = default;
 
-	void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
+        void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
 	{
 		FileWriter writer(filename);
 		writer.Write(root, format);
@@ -746,11 +738,9 @@ namespace Jzon
 			error = "Failed to load file";
 		}
 	}
-	FileReader::~FileReader()
-	{
-	}
+        FileReader::~FileReader() = default;
 
-	bool FileReader::ReadFile(const std::string &filename, Node &node)
+        bool FileReader::ReadFile(const std::string &filename, Node &node)
 	{
 		FileReader reader(filename);
 		return reader.Read(node);
@@ -891,11 +881,9 @@ namespace Jzon
 	{
 		SetJson(json);
 	}
-	Parser::~Parser()
-	{
-	}
+        Parser::~Parser() = default;
 
-	void Parser::SetJson(const std::string &json)
+        void Parser::SetJson(const std::string &json)
 	{
 		this->json = json;
 		jsonSize   = json.size();

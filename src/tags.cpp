@@ -257,9 +257,7 @@ namespace Exiv2 {
 
     const char* ExifKey::Impl::familyName_ = "Exif";
 
-    ExifKey::Impl::Impl()
-
-    {}
+    ExifKey::Impl::Impl() = default;
 
     std::string ExifKey::Impl::tagName() const
     {
@@ -356,7 +354,7 @@ namespace Exiv2 {
     {
     }
 
-    ExifKey::~ExifKey() {}
+    ExifKey::~ExifKey() = default;
 
     ExifKey& ExifKey::operator=(const ExifKey& rhs)
     {

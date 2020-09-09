@@ -597,14 +597,10 @@ namespace Exiv2 {
         makeKey();
     }
 
-    IptcKey::IptcKey(const IptcKey& rhs)
-        : Key(rhs), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
-    {
-    }
+    IptcKey::IptcKey(const IptcKey &rhs)
+        : Key(rhs), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_) {}
 
-    IptcKey::~IptcKey()
-    {
-    }
+    IptcKey::~IptcKey() = default;
 
     IptcKey& IptcKey::operator=(const IptcKey& rhs)
     {
