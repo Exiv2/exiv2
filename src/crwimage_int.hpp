@@ -717,4 +717,5 @@ namespace Exiv2 {
                             IfdId     ifdId,
                             ByteOrder byteOrder);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

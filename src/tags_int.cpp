@@ -52,7 +52,7 @@ namespace {
         if (str[0] != '0') os << str[0];
         return os << str[1] << "." << str[2] << str[3];
     }
-}
+}  // namespace
 
 namespace Exiv2 {
     namespace Internal {
@@ -2913,4 +2913,5 @@ namespace Exiv2 {
         return ii->tagList_();
     }
 
-} }
+    }  // namespace Internal
+}  // namespace Exiv2

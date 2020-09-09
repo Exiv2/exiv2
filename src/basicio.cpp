@@ -68,4 +68,4 @@ void BasicIo::readOrThrow(byte *buf, size_t rcount) {
         return subject;
     }
 #endif
-}
+}  // namespace Exiv2

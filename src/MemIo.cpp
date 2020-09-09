@@ -302,4 +302,4 @@ namespace Exiv2
     void MemIo::populateFakeData()
     {
     }
-}
+}  // namespace Exiv2

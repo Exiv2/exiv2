@@ -1189,7 +1189,8 @@ namespace Exiv2 {
         }
         return idx;
     }
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
 
 // *****************************************************************************
 // local definitions
@@ -1251,4 +1252,4 @@ namespace {
             pData[i] ^= cj;
         }
     }
-}
+}  // namespace

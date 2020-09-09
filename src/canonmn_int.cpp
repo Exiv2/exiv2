@@ -2206,4 +2206,5 @@ namespace Exiv2 {
         return sign * (val + frac) / 32.0f;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

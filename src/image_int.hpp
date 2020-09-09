@@ -136,4 +136,5 @@ namespace Exiv2 {
      */
     std::string indent(int32_t depth);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

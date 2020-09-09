@@ -482,4 +482,5 @@ namespace Exiv2 {
 
     }; // class FindExifdatum
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

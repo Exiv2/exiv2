@@ -28,7 +28,7 @@ namespace {
         // DATA
         static const OmList omList_[];
     }; // class RotationMap
-}
+}  // namespace
 
 // *****************************************************************************
 // local definitions
@@ -70,7 +70,7 @@ namespace {
         return d;
     }
     //! @endcond
-}
+}  // namespace
 
 namespace Exiv2 {
     namespace Internal {
@@ -1237,4 +1237,5 @@ namespace Exiv2 {
         return buf;
     }
 
-}}                                       // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

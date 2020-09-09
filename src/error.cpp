@@ -168,7 +168,7 @@ namespace {
           N_("Memory allocation failed")}
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions

@@ -80,4 +80,5 @@ namespace Exiv2 {
     DataBuf sonyTagDecipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
     DataBuf sonyTagEncipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

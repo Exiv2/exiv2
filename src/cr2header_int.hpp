@@ -69,4 +69,5 @@ namespace Exiv2 {
       static const char *cr2sig_;    //!< Signature for CR2 type TIFF
     }; // class Cr2Header
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

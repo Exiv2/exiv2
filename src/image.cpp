@@ -131,7 +131,7 @@ namespace {
         { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions

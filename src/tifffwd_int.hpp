@@ -112,4 +112,5 @@ namespace Exiv2 {
     //! Type for a list of primary image groups
     typedef std::vector<IfdId> PrimaryGroups;
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
