@@ -452,22 +452,20 @@ namespace Exiv2 {
 
     void Converter::cnvToXmp()
     {
-        for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
-            const Conversion& c = conversion_[i];
-            if (   (c.metadataId_ == mdExif && exifData_)
-                || (c.metadataId_ == mdIptc && iptcData_)) {
-                EXV_CALL_MEMBER_FN(*this, c.key1ToKey2_)(c.key1_, c.key2_);
+        for (const auto& c : conversion_) {
+            if ((c.metadataId_ == mdExif && exifData_) || (c.metadataId_ == mdIptc && iptcData_)) {
+                EXV_CALL_MEMBER_FN(*this, c.key1ToKey2_)
+                (c.key1_, c.key2_);
             }
         }
     }
 
     void Converter::cnvFromXmp()
     {
-        for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
-            const Conversion& c = conversion_[i];
-            if (   (c.metadataId_ == mdExif && exifData_)
-                || (c.metadataId_ == mdIptc && iptcData_)) {
-                EXV_CALL_MEMBER_FN(*this, c.key2ToKey1_)(c.key2_, c.key1_);
+        for (const auto& c : conversion_) {
+            if ((c.metadataId_ == mdExif && exifData_) || (c.metadataId_ == mdIptc && iptcData_)) {
+                EXV_CALL_MEMBER_FN(*this, c.key2ToKey1_)
+                (c.key2_, c.key1_);
             }
         }
     }
@@ -972,12 +970,13 @@ namespace Exiv2 {
             return;
         }
 
-        for (unsigned i = 0; i < value.length(); ++i) {
-            if (value[i] == '.') value[i] = ' ';
+        for (char& i : value) {
+            if (i == '.')
+                i = ' ';
         }
         (*exifData_)[to] = value;
-        if (erase_) xmpData_->erase(pos);
-
+        if (erase_)
+            xmpData_->erase(pos);
     }
 
     void Converter::cnvXmpFlash(const char* from, const char* to)
@@ -1178,27 +1177,30 @@ namespace Exiv2 {
         unsigned char digest[16];
 
         MD5Init ( &context );
-        for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
-            const Conversion& c = conversion_[i];
+        for (const auto& c : conversion_) {
             if (c.metadataId_ == mdExif) {
                 Exiv2::ExifKey key(c.key1_);
-                if (tiff && key.groupName() != "Image") continue;
-                if (!tiff && key.groupName() == "Image") continue;
+                if (tiff && key.groupName() != "Image")
+                    continue;
+                if (!tiff && key.groupName() == "Image")
+                    continue;
 
-                if (!res.str().empty()) res << ',';
+                if (!res.str().empty())
+                    res << ',';
                 res << key.tag();
                 Exiv2::ExifData::iterator pos = exifData_->findKey(key);
-                if (pos == exifData_->end()) continue;
+                if (pos == exifData_->end())
+                    continue;
                 DataBuf data(pos->size());
                 pos->copy(data.pData_, littleEndian /* FIXME ? */);
-                MD5Update ( &context, data.pData_, (uint32_t)data.size_);
+                MD5Update(&context, data.pData_, (uint32_t)data.size_);
             }
         }
         MD5Final(digest, &context);
         res << ';';
         res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-        for (int i = 0; i < 16; ++i) {
-            res << static_cast<int>(digest[i]);
+        for (unsigned char i : digest) {
+            res << static_cast<int>(i);
         }
         return res.str();
     }

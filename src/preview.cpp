@@ -765,23 +765,23 @@ namespace {
         ExifData preview;
 
         // copy tags
-        for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
-            if (pos->groupName() == group_) {
+        for (const auto &pos : exifData) {
+            if (pos.groupName() == group_) {
                 /*
-                   Write only the necessary TIFF image tags
-                   tags that especially could cause problems are:
-                   "NewSubfileType" - the result is no longer a thumbnail, it is a standalone image
-                   "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures
-                                   consistent result for all previews, including JPEG
-                */
-                uint16_t tag = pos->tag();
+                       Write only the necessary TIFF image tags
+                       tags that especially could cause problems are:
+                       "NewSubfileType" - the result is no longer a thumbnail, it is a standalone image
+                       "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures
+                                       consistent result for all previews, including JPEG
+                    */
+                uint16_t tag = pos.tag();
                 if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, Internal::ifd0Id)) {
-                    preview.add(ExifKey(tag, "Image"), &pos->value());
+                    preview.add(ExifKey(tag, "Image"), &pos.value());
                 }
             }
         }
 
-        Value &dataValue = const_cast<Value&>(preview["Exif.Image." + offsetTag_].value());
+        Value &dataValue = const_cast<Value &>(preview["Exif.Image." + offsetTag_].value());
 
         if (dataValue.sizeDataArea() == 0) {
             // image data are not available via exifData, read them from image_.io()
@@ -897,9 +897,12 @@ namespace {
         // create decoding table
         byte invalid = 16;
         byte decodeHexTable[256];
-        for (long i = 0; i < 256; i++) decodeHexTable[i] = invalid;
-        for (byte i = 0; i < 10; i++) decodeHexTable[static_cast<byte>('0') + i] = i;
-        for (byte i = 0; i < 6; i++) decodeHexTable[static_cast<byte>('A') + i] = i + 10;
+        for (unsigned char &i : decodeHexTable)
+            i = invalid;
+        for (byte i = 0; i < 10; i++)
+            decodeHexTable[static_cast<byte>('0') + i] = i;
+        for (byte i = 0; i < 6; i++)
+            decodeHexTable[static_cast<byte>('A') + i] = i + 10;
         for (byte i = 0; i < 6; i++) decodeHexTable[static_cast<byte>('a') + i] = i + 10;
 
         // calculate dest size
@@ -935,8 +938,8 @@ namespace {
         // create decoding table
         unsigned long invalid = 64;
         unsigned long decodeBase64Table[256] = {};
-        for (unsigned long i = 0; i < 256; i++)
-            decodeBase64Table[i] = invalid;
+        for (unsigned long &i : decodeBase64Table)
+            i = invalid;
         for (unsigned long i = 0; i < 64; i++)
             decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
 

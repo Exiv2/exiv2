@@ -123,14 +123,15 @@ namespace Exiv2 {
         };
         // Find the group of the primary image, default to "Image"
         primaryGroup_ = std::string("Image");
-        for (unsigned int i = 0; i < EXV_COUNTOF(keys); ++i) {
-            ExifData::const_iterator md = exifData_.findKey(ExifKey(keys[i]));
+        for (auto& i : keys) {
+            ExifData::const_iterator md = exifData_.findKey(ExifKey(i));
             // Is it the primary image?
             if (md != exifData_.end() && md->count() > 0 && md->toLong() == 0) {
                 // Sometimes there is a JPEG primary image; that's not our first choice
                 primaryGroup_ = md->groupName();
                 std::string key = "Exif." + primaryGroup_ + ".JPEGInterchangeFormat";
-                if (exifData_.findKey(ExifKey(key)) == exifData_.end()) break;
+                if (exifData_.findKey(ExifKey(key)) == exifData_.end())
+                    break;
             }
         }
         return primaryGroup_;
@@ -282,27 +283,16 @@ namespace Exiv2 {
         static const IfdId filteredIfds[] = {
             panaRawId
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+        for (auto filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
-            ed.erase(std::remove_if(ed.begin(),
-                                    ed.end(),
-                                    FindExifdatum(filteredIfds[i])),
-                     ed.end());
+            ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
         }
 
         std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
-        return TiffParserWorker::encode(io,
-                                        pData,
-                                        size,
-                                        ed,
-                                        iptcData,
-                                        xmpData,
-                                        Tag::root,
-                                        TiffMapping::findEncoder,
-                                        header.get(),
-                                        nullptr);
+        return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
+                                        header.get(), nullptr);
     } // TiffParser::encode
 
     // *************************************************************************

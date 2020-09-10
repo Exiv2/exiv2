@@ -667,8 +667,8 @@ namespace Exiv2 {
             "Exif.Canon.AFPointsSelected",
             "Exif.Canon.AFPrimaryPoint",
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
-            ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
+        for (auto& filteredIfd0Tag : filteredIfd0Tags) {
+            ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tag));
             if (pos != ed.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
@@ -678,26 +678,14 @@ namespace Exiv2 {
         }
 
         // Delete IFDs which do not occur in JPEGs
-        static const IfdId filteredIfds[] = {
-            subImage1Id,
-            subImage2Id,
-            subImage3Id,
-            subImage4Id,
-            subImage5Id,
-            subImage6Id,
-            subImage7Id,
-            subImage8Id,
-            subImage9Id,
-            subThumb1Id,
-            panaRawId,
-            ifd2Id,
-            ifd3Id
-        };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+        static const IfdId filteredIfds[] = {subImage1Id, subImage2Id, subImage3Id, subImage4Id, subImage5Id,
+                                             subImage6Id, subImage7Id, subImage8Id, subImage9Id, subThumb1Id,
+                                             panaRawId,   ifd2Id,      ifd3Id};
+        for (auto filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
-            eraseIfd(ed, filteredIfds[i]);
+            eraseIfd(ed, filteredIfd);
         }
 
         // IPTC and XMP are stored elsewhere, not in the Exif APP1 segment.
@@ -759,22 +747,22 @@ namespace Exiv2 {
         };
         bool delTags = false;
         ExifData::iterator pos;
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredPvTags); ++i) {
-            switch (filteredPvTags[i].ptt_) {
-            case pttLen:
-                delTags = false;
-                pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
-                if (pos != ed.end() && sumToLong(*pos) > 32768) {
-                    delTags = true;
+        for (auto filteredPvTag : filteredPvTags) {
+            switch (filteredPvTag.ptt_) {
+                case pttLen:
+                    delTags = false;
+                    pos = ed.findKey(ExifKey(filteredPvTag.key_));
+                    if (pos != ed.end() && sumToLong(*pos) > 32768) {
+                        delTags = true;
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
                     ed.erase(pos);
-                }
-                break;
+                    }
+                    break;
             case pttTag:
                 if (delTags) {
-                    pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
+                    pos = ed.findKey(ExifKey(filteredPvTag.key_));
                     if (pos != ed.end()) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
@@ -786,16 +774,16 @@ namespace Exiv2 {
             case pttIfd:
                 if (delTags) {
 #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
+                    EXV_WARNING << "Exif IFD " << filteredPvTag.key_ << " not encoded\n";
 #endif
-                    eraseIfd(ed, Internal::groupId(filteredPvTags[i].key_));
+                    eraseIfd(ed, Internal::groupId(filteredPvTag.key_));
                 }
                 break;
             }
         }
 
         // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-        for (ExifData::iterator tag_iter = ed.begin(); tag_iter != ed.end(); ) {
+        for (ExifData::iterator tag_iter = ed.begin(); tag_iter != ed.end();) {
             if ( (tag_iter->size() > 4096 && tag_iter->tagName().substr(0, 2) == "0x") ||
                   tag_iter->size() > 20480) {
 #ifndef SUPPRESS_WARNINGS
@@ -890,10 +878,10 @@ namespace {
     {
         Exiv2::ExifData thumb;
         // Copy all Thumbnail (IFD1) tags from exifData to Image (IFD0) tags in thumb
-        for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end(); ++i) {
-            if (i->groupName() == "Thumbnail") {
-                std::string key = "Exif.Image." + i->tagName();
-                thumb.add(Exiv2::ExifKey(key), &i->value());
+        for (const auto& i : exifData) {
+            if (i.groupName() == "Thumbnail") {
+                std::string key = "Exif.Image." + i.tagName();
+                thumb.add(Exiv2::ExifKey(key), &i.value());
             }
         }
 

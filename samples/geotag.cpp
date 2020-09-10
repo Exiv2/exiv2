@@ -889,40 +889,42 @@ int main(int argc,const char* argv[])
             }
         }
 */
-        for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
-            std::string path  = gFiles[p] ;
-            std::string stamp ;
+        for (auto path : gFiles) {
+            std::string stamp;
             try {
-                time_t t       = readImageTime(path,&stamp) ;
-                Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
+                time_t t = readImageTime(path, &stamp);
+                Position* pPos = searchTimeDict(gTimeDict, t, Position::deltaMax_);
                 Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-                if ( image.get() ) {
+                if (image.get()) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
-                    if ( pPos ) {
-                        exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
-                        exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
-                        exifData["Exif.GPSInfo.GPSMapDatum"         ] = "WGS-84";
+                    if (pPos) {
+                        exifData["Exif.GPSInfo.GPSProcessingMethod"] =
+                            "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88";  // ASCII HYBRID-FIX
+                        exifData["Exif.GPSInfo.GPSVersionID"] = "2 2 0 0";
+                        exifData["Exif.GPSInfo.GPSMapDatum"] = "WGS-84";
 
-                        exifData["Exif.GPSInfo.GPSLatitude"         ] = Position::toExifString(pPos->lat(),true,true);
-                        exifData["Exif.GPSInfo.GPSLongitude"        ] = Position::toExifString(pPos->lon(),true,false);
-                        exifData["Exif.GPSInfo.GPSAltitude"         ] = Position::toExifString(pPos->ele());
+                        exifData["Exif.GPSInfo.GPSLatitude"] = Position::toExifString(pPos->lat(), true, true);
+                        exifData["Exif.GPSInfo.GPSLongitude"] = Position::toExifString(pPos->lon(), true, false);
+                        exifData["Exif.GPSInfo.GPSAltitude"] = Position::toExifString(pPos->ele());
 
-                        exifData["Exif.GPSInfo.GPSAltitudeRef"      ] = pPos->ele()<0.0?"1":"0";
-                        exifData["Exif.GPSInfo.GPSLatitudeRef"      ] = pPos->lat()>0?"N":"S";
-                        exifData["Exif.GPSInfo.GPSLongitudeRef"     ] = pPos->lon()>0?"E":"W";
+                        exifData["Exif.GPSInfo.GPSAltitudeRef"] = pPos->ele() < 0.0 ? "1" : "0";
+                        exifData["Exif.GPSInfo.GPSLatitudeRef"] = pPos->lat() > 0 ? "N" : "S";
+                        exifData["Exif.GPSInfo.GPSLongitudeRef"] = pPos->lon() > 0 ? "E" : "W";
 
-                        exifData["Exif.GPSInfo.GPSDateStamp"        ] = stamp;
-                        exifData["Exif.GPSInfo.GPSTimeStamp"        ] = Position::toExifTimeStamp(stamp);
-                        exifData["Exif.Image.GPSTag"                ] = 4908;
+                        exifData["Exif.GPSInfo.GPSDateStamp"] = stamp;
+                        exifData["Exif.GPSInfo.GPSTimeStamp"] = Position::toExifTimeStamp(stamp);
+                        exifData["Exif.Image.GPSTag"] = 4908;
 
-                        printf("%s %s % 2d\n",path.c_str(),pPos->toString().c_str(),pPos->delta());
+                        printf("%s %s % 2d\n", path.c_str(), pPos->toString().c_str(), pPos->delta());
                     } else {
-                        printf("%s *** not in time dict ***\n",path.c_str());
+                        printf("%s *** not in time dict ***\n", path.c_str());
                     }
-                    if ( !options.dryrun ) image->writeMetadata();
+                    if (!options.dryrun)
+                        image->writeMetadata();
                 }
-            } catch ( ... ) {};
+            } catch (...) {
+            };
         }
     }
 

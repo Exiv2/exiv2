@@ -196,14 +196,11 @@ void push(Jzon::Node& node,const std::string& key,T i)
              ABORT_IF_I_EMTPY
              Jzon::Object l ;
              const Exiv2::LangAltValue& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
-             for ( Exiv2::LangAltValue::ValueType::const_iterator lang = langs.value_.begin()
-                 ; lang != langs.value_.end()
-                 ; lang++
-             ) {
-                l.Add(lang->first,lang->second);
+             for (const auto& lang : langs.value_) {
+                 l.Add(lang.first, lang.second);
              }
-             Jzon::Object o ;
-             o.Add("lang",l);
+             Jzon::Object o;
+             o.Add("lang", l);
              STORE(node,key,o);
         }
         break;
@@ -332,14 +329,13 @@ int main(int argc, char* const argv[])
 
                 // create and populate a Jzon::Object for the namespaces
                 Jzon::Object    xmlns;
-                for ( Exiv2::StringSet_i it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
-                    std::string ns  = *it       ;
+                for (auto ns : namespaces) {
                     std::string uri = nsDict[ns];
-                    xmlns.Add(ns,uri);
+                    xmlns.Add(ns, uri);
                 }
 
                 // add xmlns as Xmp.xmlns
-                root.Get("Xmp").AsObject().Add("xmlns",xmlns);
+                root.Get("Xmp").AsObject().Add("xmlns", xmlns);
             }
         }
     #endif

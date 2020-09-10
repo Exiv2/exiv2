@@ -615,8 +615,8 @@ int Params::evalPrintFlags(const std::string& optarg)
         case Action::none:
             action_ = Action::print;
             printMode_ = pmList;
-            for (std::size_t i = 0; i < optarg.length(); ++i) {
-                switch (optarg[i]) {
+            for (char i : optarg) {
+                switch (i) {
                     case 'E':
                         printTags_ |= Exiv2::mdExif;
                         break;
@@ -663,7 +663,7 @@ int Params::evalPrintFlags(const std::string& optarg)
                         printItems_ |= prSet | prValue;
                         break;
                     default:
-                        std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << optarg[i] << "'\n";
+                        std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";
                         rc = 1;
                         break;
                 }
@@ -1285,9 +1285,9 @@ namespace
     {
         try {
             int num = 0;
-            for (auto line = cmdLines.cbegin(); line != cmdLines.cend(); ++line) {
+            for (const auto& cmdLine : cmdLines) {
                 ModifyCmd modifyCmd;
-                if (parseLine(modifyCmd, *line, ++num)) {
+                if (parseLine(modifyCmd, cmdLine, ++num)) {
                     modifyCmds.push_back(modifyCmd);
                 }
             }

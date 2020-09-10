@@ -56,15 +56,14 @@ try {
     image->readMetadata();
     Exiv2::ExifData& ed = image->exifData();
 
-    for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
-        Exiv2::ExifData::const_iterator pos = easyAccess[i].findFct_(ed);
-        std::cout << std::setw(20) << std::left << easyAccess[i].label_;
+    for (auto easyAcces : easyAccess) {
+        Exiv2::ExifData::const_iterator pos = easyAcces.findFct_(ed);
+        std::cout << std::setw(20) << std::left << easyAcces.label_;
         if (pos != ed.end()) {
-            std::cout << " (" << std::setw(35) << pos->key() << ") : "
-                      << pos->print(&ed) << "\n";
-        }
-        else {
-            std::cout << " (" << std::setw(35) << " " << ") : \n";
+            std::cout << " (" << std::setw(35) << pos->key() << ") : " << pos->print(&ed) << "\n";
+        } else {
+            std::cout << " (" << std::setw(35) << " "
+                      << ") : \n";
         }
     }
 

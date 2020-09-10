@@ -174,8 +174,8 @@ std::unique_ptr<Task> Task::clone() const {
 
     TaskFactory::~TaskFactory()
     {
-        for (auto it = registry_.begin(); it != registry_.end(); ++it) {
-            delete it->second;
+        for (auto& it : registry_) {
+            delete it.second;
         }
     }
 
@@ -490,8 +490,8 @@ std::unique_ptr<Task> Task::clone() const {
         bool noExif = false;
         if (Params::instance().printTags_ & Exiv2::mdExif) {
             const Exiv2::ExifData& exifData = image->exifData();
-            for (auto md = exifData.begin(); md != exifData.end(); ++md) {
-                ret |= printMetadatum(*md, image);
+            for (const auto& md : exifData) {
+                ret |= printMetadatum(md, image);
             }
             if (exifData.empty())
                 noExif = true;
@@ -500,8 +500,8 @@ std::unique_ptr<Task> Task::clone() const {
         bool noIptc = false;
         if (Params::instance().printTags_ & Exiv2::mdIptc) {
             const Exiv2::IptcData& iptcData = image->iptcData();
-            for (auto md = iptcData.begin(); md != iptcData.end(); ++md) {
-                ret |= printMetadatum(*md, image);
+            for (const auto& md : iptcData) {
+                ret |= printMetadatum(md, image);
             }
             if (iptcData.empty())
                 noIptc = true;
@@ -510,8 +510,8 @@ std::unique_ptr<Task> Task::clone() const {
         bool noXmp = false;
         if (Params::instance().printTags_ & Exiv2::mdXmp) {
             const Exiv2::XmpData& xmpData = image->xmpData();
-            for (auto md = xmpData.begin(); md != xmpData.end(); ++md) {
-                ret |= printMetadatum(*md, image);
+            for (const auto& md : xmpData) {
+                ret |= printMetadatum(md, image);
             }
             if (xmpData.empty())
                 noXmp = true;
@@ -736,15 +736,15 @@ std::unique_ptr<Task> Task::clone() const {
         int cnt = 0;
         Exiv2::PreviewManager pm(*image);
         Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
-        for (auto pos = list.begin(); pos != list.end(); ++pos) {
+        for (auto& pos : list) {
             if (manyFiles) {
                 std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
             }
-            std::cout << _("Preview") << " " << ++cnt << ": " << pos->mimeType_ << ", ";
-            if (pos->width_ != 0 && pos->height_ != 0) {
-                std::cout << pos->width_ << "x" << pos->height_ << " " << _("pixels") << ", ";
+            std::cout << _("Preview") << " " << ++cnt << ": " << pos.mimeType_ << ", ";
+            if (pos.width_ != 0 && pos.height_ != 0) {
+                std::cout << pos.width_ << "x" << pos.height_ << " " << _("pixels") << ", ";
             }
-            std::cout << pos->size_ << " " << _("bytes") << "\n";
+            std::cout << pos.size_ << " " << _("bytes") << "\n";
         }
         return 0;
     }
@@ -1047,19 +1047,19 @@ std::unique_ptr<Task> Task::clone() const {
         Exiv2::PreviewPropertiesList pvList = pvMgr.getPreviewProperties();
 
         const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
-        for (auto n = numbers.cbegin(); n != numbers.cend(); ++n) {
-            if (*n == 0) {
+        for (int number : numbers) {
+            if (number == 0) {
                 // Write all previews
                 for (int num = 0; num < static_cast<int>(pvList.size()); ++num) {
                     writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
                 }
                 break;
             }
-            if (*n > static_cast<int>(pvList.size())) {
-                std::cerr << path_ << ": " << _("Image does not have preview") << " " << *n << "\n";
+            if (number > static_cast<int>(pvList.size())) {
+                std::cerr << path_ << ": " << _("Image does not have preview") << " " << number << "\n";
                 continue;
             }
-            writePreviewFile(pvMgr.getPreviewImage(pvList[*n - 1]), *n);
+            writePreviewFile(pvMgr.getPreviewImage(pvList[number - 1]), number);
         }
         return 0;
     }
@@ -1955,8 +1955,8 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                for (auto i = sourceImage->exifData().begin(); i != sourceImage->exifData().end(); ++i) {
-                    targetImage->exifData()[i->key()] = i->value();
+                for (auto& i : sourceImage->exifData()) {
+                    targetImage->exifData()[i.key()] = i.value();
                 }
             } else {
                 targetImage->setExifData(sourceImage->exifData());
@@ -1968,8 +1968,8 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                for (auto i = sourceImage->iptcData().begin(); i != sourceImage->iptcData().end(); ++i) {
-                    targetImage->iptcData()[i->key()] = i->value();
+                for (auto& i : sourceImage->iptcData()) {
+                    targetImage->iptcData()[i.key()] = i.value();
                 }
             } else {
                 targetImage->setIptcData(sourceImage->iptcData());
@@ -1994,8 +1994,8 @@ namespace
                 os.close();
                 rc = 0;
             } else if (preserve) {
-                for (auto i = sourceImage->xmpData().begin(); i != sourceImage->xmpData().end(); ++i) {
-                    targetImage->xmpData()[i->key()] = i->value();
+                for (auto& i : sourceImage->xmpData()) {
+                    targetImage->xmpData()[i.key()] = i.value();
                 }
             } else {
                 // std::cout << "long cut" << std::endl;
