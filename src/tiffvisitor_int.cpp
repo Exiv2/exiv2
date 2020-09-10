@@ -84,8 +84,8 @@ namespace Exiv2 {
 
     TiffVisitor::TiffVisitor()
     {
-        for (int i = 0; i < events_; ++i) {
-            go_[i] = true;
+        for (bool& i : go_) {
+            i = true;
         }
     }
 
@@ -743,9 +743,8 @@ namespace Exiv2 {
         assert(object != nullptr);
 
         byte* p = object->start() + 2;
-        for (TiffDirectory::Components::iterator i = object->components_.begin();
-             i != object->components_.end(); ++i) {
-            p += updateDirEntry(p, byteOrder(), *i);
+        for (auto& component : object->components_) {
+            p += updateDirEntry(p, byteOrder(), component);
         }
     }
 
@@ -811,8 +810,8 @@ namespace Exiv2 {
             static const char* synthesizedTags[] = {
                 "Exif.MakerNote.Offset",
             };
-            for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
-                pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+            for (auto& synthesizedTag : synthesizedTags) {
+                pos = exifData_.findKey(ExifKey(synthesizedTag));
                 if (pos != exifData_.end())
                     exifData_.erase(pos);
             }
@@ -1314,8 +1313,8 @@ namespace Exiv2 {
     {
         setMnState(); // All components to be post-processed must be from the Makernote
         postProc_ = true;
-        for (PostList::const_iterator pos = postList_.begin(); pos != postList_.end(); ++pos) {
-            (*pos)->accept(*this);
+        for (auto pos : postList_) {
+            pos->accept(*this);
         }
         postProc_ = false;
         setOrigState();

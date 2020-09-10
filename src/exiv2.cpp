@@ -72,12 +72,12 @@ int main(int argc, char* const argv[])
         int n = 1;
         int s = static_cast<int>(params.files_.size());
         int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-        for (Params::Files::const_iterator i = params.files_.begin(); i != params.files_.end(); ++i) {
+        for (const auto& file : params.files_) {
             if (params.verbose_) {
-                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << *i
+                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
                           << std::endl;
             }
-            int ret = task->run(*i);
+            int ret = task->run(file);
             if (rc == EXIT_SUCCESS)
                 rc = ret;
         }

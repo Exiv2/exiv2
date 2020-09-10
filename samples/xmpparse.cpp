@@ -31,18 +31,10 @@ try {
         error += ": No XMP properties found in the XMP packet";
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
-    for (Exiv2::XmpData::const_iterator md = xmpData.begin();
-         md != xmpData.end(); ++md) {
-        std::cout << std::setfill(' ') << std::left
-                  << std::setw(44)
-                  << md->key() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+    for (const auto& md : xmpData) {
+        std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9)
+                  << std::setfill(' ') << std::left << md.typeName() << " " << std::dec << std::setw(3)
+                  << std::setfill(' ') << std::right << md.count() << "  " << std::dec << md.value() << std::endl;
     }
     Exiv2::XmpParser::terminate();
     return 0;

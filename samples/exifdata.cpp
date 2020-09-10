@@ -42,9 +42,10 @@ std::string escapeCSV(Exiv2::ExifData::const_iterator it,bool bValue)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    for ( size_t i = 0 ;i < s.length() ; i ++ ) {
-        if ( s[i] == ',' ) result += '\\';
-        result += s[i];
+    for (char i : s) {
+        if (i == ',')
+            result += '\\';
+        result += i;
     }
 
     return result ;
@@ -92,9 +93,10 @@ std::string escapeJSON(Exiv2::ExifData::const_iterator it,bool bValue=true)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    for ( size_t i = 0 ;i < s.length() ; i ++ ) {
-        if ( s[i] == '"' ) result += "\\\"";
-        result += s[i];
+    for (char i : s) {
+        if (i == '"')
+            result += "\\\"";
+        result += i;
     }
 
     std::string q = "\"";
@@ -124,10 +126,12 @@ std::string escapeXML(Exiv2::ExifData::const_iterator it,bool bValue=true)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    for ( size_t i = 0 ;i < s.length() ; i ++ ) {
-        if ( s[i] == '<' ) result += "&lg;";
-        if ( s[i] == '>' ) result += "&gt;";
-        result += s[i];
+    for (char i : s) {
+        if (i == '<')
+            result += "&lg;";
+        if (i == '>')
+            result += "&gt;";
+        result += i;
     }
 
     return result ;

@@ -426,27 +426,21 @@ namespace Jzon
 	{
 		std::string escaped;
 
-		for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
-		{
-			const char &c = (*it);
+        for (char c : value) {
+            const char *&a = getEscaped(c);
+            if (a[0] != '\0') {
+                escaped += a[0];
+                escaped += a[1];
+            } else {
+                escaped += c;
+            }
+        }
 
-			const char *&a = getEscaped(c);
-			if (a[0] != '\0')
-			{
-				escaped += a[0];
-				escaped += a[1];
-			}
-			else
-			{
-				escaped += c;
-			}
-		}
-
-		return escaped;
-	}
-	std::string Value::UnescapeString(const std::string &value)
-	{
-		std::string unescaped;
+        return escaped;
+    }
+    std::string Value::UnescapeString(const std::string &value)
+    {
+        std::string unescaped;
 
 		for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
 		{
@@ -469,41 +463,33 @@ namespace Jzon
 		}
 
 		return unescaped;
-	}
+    }
 
-
-	Object::Object() : Node()
+    Object::Object() : Node()
 	{
 	}
 	Object::Object(const Object &other) : Node()
 	{
-		for (ChildList::const_iterator it = other.children.begin(); it != other.children.end(); ++it)
-		{
-			const std::string &name = (*it).first;
-			Node &value = *(*it).second;
+        for (const auto &child : other.children) {
+            children.push_back(NamedNodePtr(child.first, child.second->GetCopy()));
+        }
+    }
+    Object::Object(const Node &other)
+        : Node()
+    {
+        const Object &object = other.AsObject();
 
-			children.push_back(NamedNodePtr(name, value.GetCopy()));
-		}
-	}
-	Object::Object(const Node &other) : Node()
-	{
-		const Object &object = other.AsObject();
+        for (const auto &child : object.children) {
+            children.push_back(NamedNodePtr(child.first, child.second->GetCopy()));
+        }
+    }
+    Object::~Object()
+    {
+        Clear();
+    }
 
-		for (ChildList::const_iterator it = object.children.begin(); it != object.children.end(); ++it)
-		{
-			const std::string &name = (*it).first;
-			Node &value = *(*it).second;
-
-			children.push_back(NamedNodePtr(name, value.GetCopy()));
-		}
-	}
-	Object::~Object()
-	{
-		Clear();
-	}
-
-	Node::Type Object::GetType() const
-	{
+    Node::Type Object::GetType() const
+    {
 		return T_OBJECT;
 	}
 
@@ -529,22 +515,21 @@ namespace Jzon
 	}
 	void Object::Clear()
 	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
-		{
-			delete (*it).second;
-			(*it).second = nullptr;
-		}
-		children.clear();
-	}
+        for (auto &child : children) {
+            delete child.second;
+            child.second = nullptr;
+        }
+        children.clear();
+    }
 
-	Object::iterator Object::begin()
-	{
-		if (!children.empty())
+    Object::iterator Object::begin()
+    {
+        if (!children.empty())
 			return Object::iterator(&children.front());
 		else
 			return Object::iterator(nullptr);
-	}
-	Object::const_iterator Object::begin() const
+    }
+    Object::const_iterator Object::begin() const
 	{
 		if (!children.empty())
 			return Object::const_iterator(&children.front());
@@ -568,68 +553,58 @@ namespace Jzon
 
 	bool Object::Has(const std::string &name) const
 	{
-		for (ChildList::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	size_t Object::GetCount() const
+        for (const auto &child : children) {
+            if (child.first == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    size_t Object::GetCount() const
+    {
+        return children.size();
+    }
+    Node &Object::Get(const std::string &name) const
 	{
-		return children.size();
-	}
-	Node &Object::Get(const std::string &name) const
-	{
-		for (ChildList::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				return *(*it).second;
-			}
-		}
+        for (const auto &child : children) {
+            if (child.first == name) {
+                return *child.second;
+            }
+        }
 
-		throw NotFoundException();
-	}
+        throw NotFoundException();
+    }
 
-	Node *Object::GetCopy() const
-	{
-		return new Object(*this);
-	}
+    Node *Object::GetCopy() const
+    {
+        return new Object(*this);
+    }
 
-
-	Array::Array() : Node()
+    Array::Array() : Node()
 	{
 	}
 	Array::Array(const Array &other) : Node()
 	{
-		for (ChildList::const_iterator it = other.children.begin(); it != other.children.end(); ++it)
-		{
-			const Node &value = *(*it);
+        for (auto child : other.children) {
+            children.push_back(child->GetCopy());
+        }
+    }
+    Array::Array(const Node &other)
+        : Node()
+    {
+        const Array &array = other.AsArray();
 
-			children.push_back(value.GetCopy());
-		}
-	}
-	Array::Array(const Node &other) : Node()
-	{
-		const Array &array = other.AsArray();
+        for (auto child : array.children) {
+            children.push_back(child->GetCopy());
+        }
+    }
+    Array::~Array()
+    {
+        Clear();
+    }
 
-		for (ChildList::const_iterator it = array.children.begin(); it != array.children.end(); ++it)
-		{
-			const Node &value = *(*it);
-
-			children.push_back(value.GetCopy());
-		}
-	}
-	Array::~Array()
-	{
-		Clear();
-	}
-
-	Node::Type Array::GetType() const
-	{
+    Node::Type Array::GetType() const
+    {
 		return T_ARRAY;
 	}
 
@@ -652,22 +627,21 @@ namespace Jzon
 	}
 	void Array::Clear()
 	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
-		{
-			delete (*it);
-			(*it) = nullptr;
-		}
-		children.clear();
-	}
+        for (auto &child : children) {
+            delete child;
+            child = nullptr;
+        }
+        children.clear();
+    }
 
-	Array::iterator Array::begin()
-	{
-		if (!children.empty())
+    Array::iterator Array::begin()
+    {
+        if (!children.empty())
 			return Array::iterator(&children.front());
 		else
 			return Array::iterator(nullptr);
-	}
-	Array::const_iterator Array::begin() const
+    }
+    Array::const_iterator Array::begin() const
 	{
 		if (!children.empty())
 			return Array::const_iterator(&children.front());
@@ -1264,25 +1238,20 @@ namespace Jzon
 		else
 		{
 			bool number = true;
-			for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
-			{
-				if (!IsNumber(*it))
-				{
-					number = false;
-					break;
-				}
-			}
+            for (char c : value) {
+                if (!IsNumber(c)) {
+                    number = false;
+                    break;
+                }
+            }
 
-			if (number)
-			{
-				data.push(MakePair(Value::VT_NUMBER, value));
-			}
-			else
-			{
-				return false;
-			}
-		}
+            if (number) {
+                data.push(MakePair(Value::VT_NUMBER, value));
+            } else {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }  // namespace Jzon

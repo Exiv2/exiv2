@@ -200,8 +200,8 @@ namespace Exiv2 {
             "Exif.Image.PrintImageMatching",
             "Exif.Image.YCbCrPositioning"
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
-            ExifData::iterator pos = prevData.findKey(ExifKey(filteredTags[i]));
+        for (auto& filteredTag : filteredTags) {
+            ExifData::iterator pos = prevData.findKey(ExifKey(filteredTag));
             if (pos != prevData.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exif tag " << pos->key() << " removed\n";

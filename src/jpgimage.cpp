@@ -112,9 +112,10 @@ namespace Exiv2 {
                           long        sizePsData)
     {
         if (sizePsData < 4) return false;
-        for (size_t i = 0; i < (sizeof irbId_) / (sizeof *irbId_); i++) {
-            assert(strlen(irbId_[i]) == 4);
-            if (memcmp(pPsData, irbId_[i], 4) == 0) return true;
+        for (auto& i : irbId_) {
+            assert(strlen(i) == 4);
+            if (memcmp(pPsData, i, 4) == 0)
+                return true;
         }
         return false;
     }

@@ -2660,8 +2660,8 @@ namespace Exiv2 {
 
     void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict)
     {
-        for (unsigned int i = 0; i < EXV_COUNTOF(xmpNsInfo); ++i) {
-             Exiv2::XmpParser::registerNs(xmpNsInfo[i].ns_,xmpNsInfo[i].prefix_);
+        for (const auto& i : xmpNsInfo) {
+            Exiv2::XmpParser::registerNs(i.ns_, i.prefix_);
         }
         Exiv2::XmpParser::registeredNamespaces(nsDict);
     }
