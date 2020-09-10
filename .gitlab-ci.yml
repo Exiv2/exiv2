@@ -55,7 +55,7 @@ Archlinux:
   <<: *distro_build
 
 Ubuntu:
-  image: ubuntu:18.10
+  image: ubuntu:18.04
   <<: *default_config
   <<: *distro_build
 

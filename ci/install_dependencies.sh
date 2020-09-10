@@ -40,7 +40,7 @@ case "$distro_id" in
 
     'ubuntu')
         apt-get update
-        apt-get install -y cmake g++ clang make ccache python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock libgmock-dev libxml2-utils locales locales-all
+        apt-get install -y cmake g++ clang make ccache python3 libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock libxml2-utils locales locales-all
         debian_build_gtest
         ;;
 
@@ -58,7 +58,7 @@ case "$distro_id" in
 
     'opensuse'|'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel gtest gmock which dos2unix libxml2-tools
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel gtest gmock which dos2unix libxml2-tools diffutils
         ;;
 
     'alpine')
