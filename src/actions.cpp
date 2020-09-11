@@ -104,7 +104,7 @@ namespace
                     be kept.
       @return 0 if successful, else an error code
     */
-    int metacopy(const std::string& source, const std::string& target, Exiv2::ImageType targetType, bool preserve);
+    int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve);
 
     /*!
       @brief Rename a file according to a timestamp value.

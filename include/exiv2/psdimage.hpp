@@ -106,7 +106,7 @@ namespace Exiv2 {
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         size_t writeExifData(const ExifData& exifData, BasicIo& out);
         //@}
 

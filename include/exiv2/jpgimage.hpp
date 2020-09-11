@@ -202,7 +202,7 @@ namespace Exiv2
         /// BasicIo.
         /// @param oIo BasicIo instance to write to (a temporary location).
         /// @return 4 if opening or writing to the associated BasicIo fails
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //@}
 
         //! @name Accessors
@@ -255,7 +255,7 @@ namespace Exiv2
         ///  2 if the input image is invalid or can not be read;<BR>
         ///  4 if the temporary image can not be written to;<BR>
         ///  -3 other temporary errors
-        int writeHeader(BasicIo& oIo) const override;
+        int writeHeader(BasicIo& outIo) const override;
         //@}
 
     private:
@@ -302,7 +302,7 @@ namespace Exiv2
         //@}
         //! @name Manipulators
         //@{
-        int writeHeader(BasicIo& oIo) const override;
+        int writeHeader(BasicIo& outIo) const override;
         //@}
 
     private:
