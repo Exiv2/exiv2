@@ -389,16 +389,9 @@ namespace Exiv2 {
                  to, the image with the metadata to encode and a function to
                  find special encoders.
          */
-        TiffEncoder(
-            const ExifData&      exifData,
-            const IptcData&      iptcData,
-            const XmpData&       xmpData,
-                  TiffComponent* pRoot,
-            const bool           isNewImage,
-            const PrimaryGroups* pPrimaryGroups,
-            const TiffHeaderBase* pHeader,
-                  FindEncoderFct findEncoderFct
-        );
+        TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+                    const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                    FindEncoderFct findEncoderFct);
         //! Virtual destructor
         ~TiffEncoder() override;
         //@}
@@ -451,10 +444,7 @@ namespace Exiv2 {
 
           @note Encoder functions may use metadata other than \em datum.
          */
-        void encodeTiffComponent(
-                  TiffEntryBase* object,
-            const Exifdatum*     datum =nullptr
-        );
+        void encodeTiffComponent(TiffEntryBase* object, const Exifdatum* datum = nullptr);
 
         //! Callback encoder function for an element of a binary array.
         void encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum);
@@ -495,13 +485,9 @@ namespace Exiv2 {
           tree is then traversed and metadata from the image is used to encode
           each existing component.
         */
-        void add(
-            TiffComponent* pRootDir,
-            TiffComponent* pSourceDir,
-            uint32_t       root
-        );
+        void add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32_t root);
         //! Set the dirty flag and end of traversing signal.
-        void setDirty(bool flag =true);
+        void setDirty(bool flag = true);
         //@}
 
         //! @name Accessors
@@ -510,14 +496,20 @@ namespace Exiv2 {
           @brief Return the applicable byte order. May be different for
                  the Makernote and the rest of the TIFF entries.
          */
-        ByteOrder byteOrder() const { return byteOrder_; }
+        ByteOrder byteOrder() const
+        {
+            return byteOrder_;
+        }
         /*!
           @brief True if any tag was deleted or allocated in the process of
                  visiting a TIFF composite tree.
          */
         bool dirty() const;
         //! Return the write method used.
-        WriteMethod writeMethod() const { return writeMethod_; }
+        WriteMethod writeMethod() const
+        {
+            return writeMethod_;
+        }
         //@}
 
     private:

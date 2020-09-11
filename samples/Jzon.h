@@ -31,11 +31,12 @@ THE SOFTWARE.
 # endif
 #endif
 
-#include <string>
-#include <vector>
-#include <queue>
 #include <iterator>
+#include <queue>
 #include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace Jzon
 {
@@ -46,7 +47,9 @@ namespace Jzon
     template<typename T1, typename T2>
     struct Pair
     {
-        Pair(T1 first, T2 second) : first(first), second(second)
+        Pair(T1 first, T2 second)
+            : first(std::move(first))
+            , second(second)
         {}
 
         Pair &operator=(const Pair &rhs)
@@ -359,7 +362,7 @@ namespace Jzon
     class JzonAPI FileWriter
     {
     public:
-        FileWriter(const std::string &filename);
+        FileWriter(std::string filename);
         ~FileWriter();
 
         static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);

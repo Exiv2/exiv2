@@ -24,19 +24,19 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include "preview.hpp"
 
 #include <climits>
 #include <string>
+#include <utility>
 
-#include "preview.hpp"
-#include "futils.hpp"
-#include "enforce.hpp"
-#include "safe_op.hpp"
-
-#include "image.hpp"
+#include "config.h"
 #include "cr2image.hpp"
+#include "enforce.hpp"
+#include "futils.hpp"
+#include "image.hpp"
 #include "jpgimage.hpp"
+#include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "unused.h"
@@ -1035,9 +1035,8 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    PreviewImage::PreviewImage(const PreviewProperties& properties, DataBuf data)
-        : properties_(properties)
+    PreviewImage::PreviewImage(PreviewProperties properties, DataBuf data)
+        : properties_(std::move(properties))
     {
         pData_ = data.pData_;
         size_ = (uint32_t)data.size_;

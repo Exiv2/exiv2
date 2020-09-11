@@ -26,15 +26,17 @@
 // *****************************************************************************
 // included header files
 #include "datasets.hpp"
+
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
 #include "error.hpp"
+#include "i18n.h"  // NLS support.
+#include "metadatum.hpp"
 #include "types.hpp"
 #include "value.hpp"
-#include "metadatum.hpp"
-#include "i18n.h"                // NLS support.
-
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions
@@ -585,8 +587,8 @@ namespace Exiv2 {
 
     const char* IptcKey::familyName_ = "Iptc";
 
-    IptcKey::IptcKey(const std::string& key)
-        : key_(key)
+    IptcKey::IptcKey(std::string key)
+        : key_(std::move(key))
     {
         decomposeKey();
     }

@@ -40,12 +40,13 @@
 #include "i18n.h"             // NLS support.
 
 // + standard includes
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <iomanip>
+#include <iostream>
 #include <limits>
 #include <ostream>
+#include <string>
+#include <utility>
 
 // *****************************************************************************
 namespace {
@@ -564,28 +565,21 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
-    TiffEncoder::TiffEncoder(
-            const ExifData&      exifData,
-            const IptcData&      iptcData,
-            const XmpData&       xmpData,
-                  TiffComponent* pRoot,
-            const bool           isNewImage,
-            const PrimaryGroups* pPrimaryGroups,
-            const TiffHeaderBase* pHeader,
-                  FindEncoderFct findEncoderFct
-    )
-        : exifData_(exifData),
-          iptcData_(iptcData),
-          xmpData_(xmpData),
-          del_(true),
-          pHeader_(pHeader),
-          pRoot_(pRoot),
-          isNewImage_(isNewImage),
-          pPrimaryGroups_(pPrimaryGroups),
-          pSourceTree_(nullptr),
-          findEncoderFct_(findEncoderFct),
-          dirty_(false),
-          writeMethod_(wmNonIntrusive)
+    TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+                             const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                             FindEncoderFct findEncoderFct)
+        : exifData_(std::move(exifData))
+        , iptcData_(iptcData)
+        , xmpData_(xmpData)
+        , del_(true)
+        , pHeader_(pHeader)
+        , pRoot_(pRoot)
+        , isNewImage_(isNewImage)
+        , pPrimaryGroups_(pPrimaryGroups)
+        , pSourceTree_(nullptr)
+        , findEncoderFct_(findEncoderFct)
+        , dirty_(false)
+        , writeMethod_(wmNonIntrusive)
     {
         assert(pRoot != nullptr);
         assert(pPrimaryGroups != nullptr);
