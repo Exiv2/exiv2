@@ -69,14 +69,15 @@ namespace Exiv2 {
         //! For comparison with prefix
         struct Prefix {
             //! Constructor.
-            explicit Prefix(const std::string& prefix);
+            explicit Prefix(std::string prefix);
             //! The prefix string.
             std::string prefix_;
         };
         //! For comparison with namespace
-        struct Ns {
+        struct Ns
+        {
             //! Constructor.
-            explicit Ns(const std::string& ns);
+            explicit Ns(std::string ns);
             //! The namespace string
             std::string ns_;
         };
@@ -85,10 +86,10 @@ namespace Exiv2 {
         //! Comparison operator for prefix
         bool operator==(const Prefix& prefix) const;
 
-        const char* ns_;                //!< Namespace
-        const char* prefix_;            //!< (Preferred) prefix
-        const XmpPropertyInfo* xmpPropertyInfo_; //!< List of known properties
-        const char* desc_;              //!< Brief description of the namespace
+        const char* ns_;                          //!< Namespace
+        const char* prefix_;                      //!< (Preferred) prefix
+        const XmpPropertyInfo* xmpPropertyInfo_;  //!< List of known properties
+        const char* desc_;                        //!< Brief description of the namespace
     };
 
     //! XMP property reference, implemented as a static class.

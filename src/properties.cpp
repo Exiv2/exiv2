@@ -26,20 +26,22 @@
 // *****************************************************************************
 // included header files
 #include "properties.hpp"
-#include "tags_int.hpp"
+
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
 #include "error.hpp"
+#include "i18n.h"  // NLS support.
+#include "metadatum.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
-#include "metadatum.hpp"
-#include "i18n.h"                // NLS support.
 #include "xmp_exiv2.hpp"
-
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <cstring>
-#include <cstdlib>
-#include <cctype>
 
 // *****************************************************************************
 namespace {
@@ -2453,13 +2455,13 @@ namespace Exiv2 {
         {"Xmp.plus.Reuse",                       EXV_PRINT_VOCABULARY(plusReuse)                      }
     };
 
-    XmpNsInfo::Ns::Ns(const std::string& ns)
-        : ns_(ns)
+    XmpNsInfo::Ns::Ns(std::string ns)
+        : ns_(std::move(ns))
     {
     }
 
-    XmpNsInfo::Prefix::Prefix(const std::string& prefix)
-        : prefix_(prefix)
+    XmpNsInfo::Prefix::Prefix(std::string prefix)
+        : prefix_(std::move(prefix))
     {
     }
 

@@ -26,10 +26,11 @@ THE SOFTWARE.
 
 #include "Jzon.h"
 
-#include <sstream>
-#include <fstream>
-#include <stack>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <stack>
+#include <utility>
 
 namespace Jzon
 {
@@ -684,30 +685,29 @@ namespace Jzon
 		return new Array(*this);
 	}
 
+    FileWriter::FileWriter(std::string filename)
+        : filename(std::move(filename))
+    {
+    }
+    FileWriter::~FileWriter() = default;
 
-	FileWriter::FileWriter(const std::string &filename) : filename(filename)
-	{
-	}
-        FileWriter::~FileWriter() = default;
+    void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
+    {
+        FileWriter writer(filename);
+        writer.Write(root, format);
+    }
 
-        void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
-	{
-		FileWriter writer(filename);
-		writer.Write(root, format);
-	}
-
-	void FileWriter::Write(const Node &root, const Format &format)
-	{
-		Writer writer(root, format);
+    void FileWriter::Write(const Node &root, const Format &format)
+    {
+        Writer writer(root, format);
 		writer.Write();
 
 		std::fstream file(filename.c_str(), std::ios::out | std::ios::trunc);
 		file << writer.GetResult();
 		file.close();
-	}
+    }
 
-
-	FileReader::FileReader(const std::string &filename)
+    FileReader::FileReader(const std::string &filename)
 	{
 		if (!loadFile(filename, json))
 		{

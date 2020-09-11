@@ -283,13 +283,13 @@ namespace Exiv2 {
                  the remaining parts of the key cannot be parsed and
                  converted to a record name and a dataset name.
         */
-        explicit IptcKey(const std::string& key);
+        explicit IptcKey(std::string key);
 
         /*!
-          @brief Constructor to create an IPTC key from dataset and record ids.
-          @param tag Dataset id
-          @param record Record id
-         */
+              @brief Constructor to create an IPTC key from dataset and record ids.
+              @param tag Dataset id
+              @param record Record id
+             */
         IptcKey(uint16_t tag, uint16_t record);
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
@@ -300,8 +300,8 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Assignment operator.
-         */
+              @brief Assignment operator.
+             */
         IptcKey& operator=(const IptcKey& rhs);
         //@}
 
@@ -310,9 +310,9 @@ namespace Exiv2 {
         std::string key() const override;
         const char* familyName() const override;
         /*!
-          @brief Return the name of the group (the second part of the key).
-                 For IPTC keys, the group name is the record name.
-        */
+              @brief Return the name of the group (the second part of the key).
+                     For IPTC keys, the group name is the record name.
+            */
         std::string groupName() const override;
         std::string tagName() const override;
         std::string tagLabel() const override;

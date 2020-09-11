@@ -40,6 +40,7 @@
 #include <limits>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 // MSVC macro to convert a string to a wide string
@@ -184,7 +185,10 @@ namespace Exiv2 {
      */
     struct EXIV2API DataBufRef {
         //! Constructor
-        explicit DataBufRef(std::pair<byte*, size_t> rhs) : p(rhs) {}
+        explicit DataBufRef(std::pair<byte*, size_t> rhs)
+            : p(std::move(rhs))
+        {
+        }
         //! Pointer to a byte array and its size
         std::pair<byte*, size_t> p;
     };

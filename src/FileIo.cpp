@@ -44,12 +44,14 @@ typedef short nlink_t;
 #include <windows.h>
 #endif
 
+#include <fcntl.h>  // _O_BINARY in FileIo::FileIo
+
+#include <cassert>  /// \todo check usages of assert and try to cover the negative case with unit tests.
 #include <cstdio>   // for remove, rename
-#include <cassert>      /// \todo check usages of assert and try to cover the negative case with unit tests.
-#include <fcntl.h>      // _O_BINARY in FileIo::FileIo
-#include <ctime>        // timestamp for the name of temporary file
+#include <ctime>    // timestamp for the name of temporary file
+#include <fstream>  // write the temporary file
 #include <iostream>
-#include <fstream>      // write the temporary file
+#include <utility>
 
 #define mode_t unsigned short
 
@@ -60,7 +62,7 @@ namespace Exiv2
     {
     public:
         //! Constructor
-        explicit Impl(const std::string& path);
+        explicit Impl(std::string path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         explicit Impl(const std::wstring& wpath);
@@ -126,8 +128,8 @@ namespace Exiv2
         Impl(const Impl&& rhs) = delete;
     };
 
-    FileIo::Impl::Impl(const std::string& path)
-        : path_(path)
+    FileIo::Impl::Impl(std::string path)
+        : path_(std::move(path))
 #ifdef EXV_UNICODE_PATH
         , wpMode_(wpStandard)
 #endif
