@@ -253,7 +253,7 @@ bool INIReader::GetBoolean(const string& section, const string& name, bool defau
     if (valstr == "false" || valstr == "no" || valstr == "off" || valstr == "0")
         return false;
 
-        return default_value;
+    return default_value;
 }
 
 string INIReader::MakeKey(const string& section, const string& name)
