@@ -33,11 +33,10 @@ extern "C" {
 #endif
 
 //! @brief typedef for prototype of handler function.
-typedef int (*ini_handler)(void* user, const char* section,
-                           const char* name, const char* value);
+using ini_handler = int (*)(void*, const char*, const char*, const char*);
 
 //! Typedef for prototype of fgets-style reader function.
-typedef char* (*ini_reader)(char* str, int num, void* stream);
+using ini_reader = char* (*)(char*, int, void*);
 
 /*!
     @brief Parse given INI-style file. May have [section]s, name=value pairs

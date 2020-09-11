@@ -156,7 +156,7 @@ namespace Exiv2 {
     }; // class Iptcdatum
 
     //! Container type to hold all metadata
-    typedef std::vector<Iptcdatum> IptcMetadata;
+    using IptcMetadata = std::vector<Iptcdatum>;
 
     /*!
       @brief A container for IPTC data. This is a top-level class of
@@ -172,9 +172,9 @@ namespace Exiv2 {
     class EXIV2API IptcData {
     public:
         //! IptcMetadata iterator type
-        typedef IptcMetadata::iterator iterator;
+        using iterator = IptcMetadata::iterator;
         //! IptcMetadata const iterator type
-        typedef IptcMetadata::const_iterator const_iterator;
+        using const_iterator = IptcMetadata::const_iterator;
 
         // Use the compiler generated constructors and assignment operator
 

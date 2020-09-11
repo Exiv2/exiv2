@@ -49,7 +49,7 @@ namespace re = std;
 /*!
  @brief exv_grep_keys_t is a vector of keys to match to strings
 */
- typedef std::vector<re::regex> exv_grep_keys_t ;
+using exv_grep_keys_t = std::vector<re::regex>;
 
 /*!
   @brief Make an integer version number for comparison from a major, minor and

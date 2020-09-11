@@ -56,7 +56,7 @@ constexpr size_t operator"" _z(unsigned long long n)
     class EXIV2API BasicIo {
     public:
         //! BasicIo auto_ptr type
-        typedef std::unique_ptr<BasicIo> UniquePtr;
+        using UniquePtr = std::unique_ptr<BasicIo>;
 
         //! Seek starting positions
         enum Position

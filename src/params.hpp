@@ -82,7 +82,7 @@ struct ModifyCmd
     std::string value_;  //!< Data
 };
 //! Container for modification commands
-typedef std::vector<ModifyCmd> ModifyCmds;
+using ModifyCmds = std::vector<ModifyCmd>;
 //! Structure to link command identifiers to strings
 struct CmdIdAndString
 {
@@ -134,17 +134,17 @@ public:
     Params(const Params&& rhs) = delete;
 
     //! Container for command files
-    typedef std::vector<std::string> CmdFiles;
+    using CmdFiles = std::vector<std::string>;
     //! Container for commands from the command line
-    typedef std::vector<std::string> CmdLines;
+    using CmdLines = std::vector<std::string>;
     //! Container to store filenames.
-    typedef std::vector<std::string> Files;
+    using Files = std::vector<std::string>;
     //! Container for preview image numbers
-    typedef std::set<int> PreviewNumbers;
+    using PreviewNumbers = std::set<int>;
     //! Container for greps
-    typedef exv_grep_keys_t Greps;
+    using Greps = exv_grep_keys_t;
     //! Container for keys
-    typedef std::vector<std::string> Keys;
+    using Keys = std::vector<std::string>;
 
     /*!
       @brief Controls all access to the global Params instance.

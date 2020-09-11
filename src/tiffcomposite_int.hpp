@@ -50,37 +50,38 @@ namespace Exiv2 {
 // class definitions
 
     //! TIFF value type.
-    typedef uint16_t TiffType;
+using TiffType = uint16_t;
 
-    const TiffType ttUnsignedByte     = 1; //!< Exif BYTE type
-    const TiffType ttAsciiString      = 2; //!< Exif ASCII type
-    const TiffType ttUnsignedShort    = 3; //!< Exif SHORT type
-    const TiffType ttUnsignedLong     = 4; //!< Exif LONG type
-    const TiffType ttUnsignedRational = 5; //!< Exif RATIONAL type
-    const TiffType ttSignedByte       = 6; //!< Exif SBYTE type
-    const TiffType ttUndefined        = 7; //!< Exif UNDEFINED type
-    const TiffType ttSignedShort      = 8; //!< Exif SSHORT type
-    const TiffType ttSignedLong       = 9; //!< Exif SLONG type
-    const TiffType ttSignedRational   =10; //!< Exif SRATIONAL type
-    const TiffType ttTiffFloat        =11; //!< TIFF FLOAT type
-    const TiffType ttTiffDouble       =12; //!< TIFF DOUBLE type
-    const TiffType ttTiffIfd          =13; //!< TIFF IFD type
+const TiffType ttUnsignedByte = 1;      //!< Exif BYTE type
+const TiffType ttAsciiString = 2;       //!< Exif ASCII type
+const TiffType ttUnsignedShort = 3;     //!< Exif SHORT type
+const TiffType ttUnsignedLong = 4;      //!< Exif LONG type
+const TiffType ttUnsignedRational = 5;  //!< Exif RATIONAL type
+const TiffType ttSignedByte = 6;        //!< Exif SBYTE type
+const TiffType ttUndefined = 7;         //!< Exif UNDEFINED type
+const TiffType ttSignedShort = 8;       //!< Exif SSHORT type
+const TiffType ttSignedLong = 9;        //!< Exif SLONG type
+const TiffType ttSignedRational = 10;   //!< Exif SRATIONAL type
+const TiffType ttTiffFloat = 11;        //!< TIFF FLOAT type
+const TiffType ttTiffDouble = 12;       //!< TIFF DOUBLE type
+const TiffType ttTiffIfd = 13;          //!< TIFF IFD type
 
-    //! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
-    TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group);
-    //! Convert the %Exiv2 \em typeId to a TIFF value type.
-    TiffType toTiffType(TypeId typeId);
+//! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
+TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group);
+//! Convert the %Exiv2 \em typeId to a TIFF value type.
+TiffType toTiffType(TypeId typeId);
 
-    /*!
-      Special TIFF tags for the use in TIFF structures only
-    */
-    namespace Tag {
-        const uint32_t none = 0x10000; //!< Dummy tag
-        const uint32_t root = 0x20000; //!< Special tag: root IFD
-        const uint32_t next = 0x30000; //!< Special tag: next IFD
-        const uint32_t all  = 0x40000; //!< Special tag: all tags in a group
-        const uint32_t pana = 0x80000; //!< Special tag: root IFD of Panasonic RAW images
-    }
+/*!
+  Special TIFF tags for the use in TIFF structures only
+*/
+namespace Tag
+{
+    const uint32_t none = 0x10000;  //!< Dummy tag
+    const uint32_t root = 0x20000;  //!< Special tag: root IFD
+    const uint32_t next = 0x30000;  //!< Special tag: next IFD
+    const uint32_t all = 0x40000;   //!< Special tag: all tags in a group
+    const uint32_t pana = 0x80000;  //!< Special tag: root IFD of Panasonic RAW images
+}  // namespace Tag
 
     /*!
       @brief A tupel consisting of extended Tag and group used as an item in
@@ -173,9 +174,9 @@ namespace Exiv2 {
     class TiffComponent {
     public:
         //! TiffComponent auto_ptr type
-        typedef std::unique_ptr<TiffComponent> UniquePtr;
+        using UniquePtr = std::unique_ptr<TiffComponent>;
         //! Container type to hold all metadata
-        typedef std::vector<TiffComponent*> Components;
+        using Components = std::vector<TiffComponent*>;
 
         //! @name Creators
         //@{
@@ -1030,7 +1031,7 @@ namespace Exiv2 {
 
     private:
         //! A collection of TIFF directories (IFDs)
-        typedef std::vector<TiffDirectory*> Ifds;
+        using Ifds = std::vector<TiffDirectory*>;
 
         // DATA
         IfdId    newGroup_; //!< Start of the range of group numbers for the sub-IFDs
@@ -1267,10 +1268,10 @@ namespace Exiv2 {
       @brief Function pointer type for a function to determine which cfg + def
              of a corresponding array set to use.
      */
-    typedef int (*CfgSelFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    using CfgSelFct = int (*)(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
     //! Function pointer type for a crypt function used for binary arrays.
-    typedef DataBuf (*CryptFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    using CryptFct = DataBuf (*)(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
     //! Defines one tag in a binary array
     struct ArrayDef {
