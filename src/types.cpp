@@ -143,7 +143,6 @@ namespace Exiv2 {
     {}
 
     DataBuf::DataBuf(const byte* pData, size_t size)
-        : pData_(nullptr), size_(0)
     {
         if (size > 0) {
             pData_ = new byte[size];

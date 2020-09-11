@@ -95,8 +95,13 @@ namespace Exiv2 {
         CiffComponent() = default;
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
-            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(nullptr),
-              isAllocated_(false) {}
+            : dir_(dir)
+            , tag_(tag)
+            , size_(0)
+            , offset_(0)
+            , pData_(nullptr)
+        {
+        }
         //! Virtual destructor.
         virtual ~CiffComponent();
         //@}

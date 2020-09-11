@@ -148,12 +148,11 @@ strings_t    gFiles;
 class Position
 {
 public:
-    Position(time_t time, double lat, double lon, double ele) :
-        time_(time)
-      , lon_(lon)
-      , lat_(lat)
-      , ele_(ele)
-      , delta_(0)
+    Position(time_t time, double lat, double lon, double ele)
+        : time_(time)
+        , lon_(lon)
+        , lat_(lat)
+        , ele_(ele)
     {}
 
     Position() = default;
