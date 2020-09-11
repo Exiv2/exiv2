@@ -467,7 +467,7 @@ namespace Exiv2 {
     CommentValue::CommentValue() : StringValueBase(Exiv2::undefined) {}
 
     CommentValue::CommentValue(const std::string& comment)
-        : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)
+        : StringValueBase(Exiv2::undefined)
     {
         read(comment);
     }
