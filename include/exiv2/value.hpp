@@ -35,11 +35,12 @@
 #include "types.hpp"
 
 // + standard includes
-#include <map>
-#include <iomanip>
-#include <memory>
-#include <cstring>
 #include <climits>
+#include <cstring>
+#include <iomanip>
+#include <map>
+#include <memory>
+#include <numeric>
 
 // *****************************************************************************
 // namespace extensions
@@ -1592,12 +1593,8 @@ namespace Exiv2 {
     template<typename T>
     long ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
     {
-        long offset = 0;
-        const auto end = value_.end();
-        for (auto i = value_.begin(); i != end; ++i) {
-            offset += toData(buf + offset, *i, byteOrder);
-        }
-        return offset;
+        return std::accumulate(value_.begin(), value_.end(), 0,
+                               [=](long offset, T val) { return offset + toData(buf + offset, val, byteOrder); });
     }
 
     template<typename T>
