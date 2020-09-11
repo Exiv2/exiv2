@@ -30,19 +30,11 @@ try {
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
 
-    auto end = iptcData.end();
-    for (auto md = iptcData.begin(); md != end; ++md) {
-        std::cout << std::setw(44) << std::setfill(' ') << std::left
-                  << md->key() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << md->tag() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+    for (const auto& md : iptcData) {
+        std::cout << std::setw(44) << std::setfill(' ') << std::left << md.key() << " "
+                  << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md.tag() << " "
+                  << std::setw(9) << std::setfill(' ') << std::left << md.typeName() << " " << std::dec << std::setw(3)
+                  << std::setfill(' ') << std::right << md.count() << "  " << std::dec << md.value() << std::endl;
     }
 
     return 0;
