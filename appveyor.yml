@@ -12,7 +12,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
-      WEBREADY: True
+      WEBREADY: False
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: Ninja
@@ -21,7 +21,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
-      WEBREADY: True
+      WEBREADY: False
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: Ninja
@@ -30,7 +30,7 @@ environment:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
-      WEBREADY: True
+      WEBREADY: False
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
       CMAKE_GENERATOR: Ninja
