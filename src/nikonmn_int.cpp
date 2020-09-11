@@ -1690,7 +1690,7 @@ namespace Exiv2 {
 
         bool dModel = false;
         if (metadata) {
-            ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+            auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
             if (pos != metadata->end() && pos->count() != 0) {
                 std::string model = pos->toString();
                 if (model.find("NIKON D") != std::string::npos) {
@@ -1699,7 +1699,7 @@ namespace Exiv2 {
             }
         }
 
-        uint16_t val = static_cast<uint16_t>(value.toLong());
+        auto val = static_cast<uint16_t>(value.toLong());
         if (dModel) val = (val >> 8) | ((val & 0x00ff) << 8);
 
         if (val == 0x07ff) return os << _("All 11 Points");
@@ -1722,7 +1722,7 @@ namespace Exiv2 {
         bool d70 = false;
         if (metadata) {
             ExifKey key("Exif.Image.Model");
-            ExifData::const_iterator pos = metadata->findKey(key);
+            auto pos = metadata->findKey(key);
             if (pos != metadata->end() && pos->count() != 0) {
                 std::string model = pos->toString();
                 if (model.find("D70") != std::string::npos) {
@@ -2601,14 +2601,14 @@ fmountlens[] = {
         const std::string pre = std::string("Exif.") + group + std::string(".");
         for (unsigned int i = 0; i < 7; ++i) {
             ExifKey key(pre + std::string(tags[i]));
-            ExifData::const_iterator md = metadata->findKey(key);
+            auto md = metadata->findKey(key);
             if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
                 return os << value;
             }
             raw[i] = static_cast<byte>(md->toLong());
         }
 
-        ExifData::const_iterator md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
+        auto md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
         if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
             return os << value;
         }

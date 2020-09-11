@@ -63,7 +63,7 @@ namespace Exiv2
         if (!isMalloced_) {
             // Minimum size for 1st block
             size_t size = std::max(blockSize * (1 + need / blockSize), size_);
-            byte* data = (byte*)std::malloc(size);
+            auto data = (byte*)std::malloc(size);
             if (data == nullptr) {
                 throw Error(kerMallocFailed);
             }
@@ -141,7 +141,7 @@ namespace Exiv2
 
     void MemIo::transfer(BasicIo& src)
     {
-        MemIo* memIo = dynamic_cast<MemIo*>(&src);
+        auto memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
             // Optimization if src is another instance of MemIo
             if (p_->isMalloced_) {

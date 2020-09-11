@@ -1013,7 +1013,7 @@ namespace Exiv2 {
 
         // Determine the source Exif metadatum
         ExifKey ek(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-        ExifData::const_iterator ed = image.exifData().findKey(ek);
+        auto ed = image.exifData().findKey(ek);
 
         // Set the new value or remove the entry
         if (ed != image.exifData().end()) {
@@ -1038,7 +1038,7 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (!comment.empty()) {
-            uint32_t size = static_cast<uint32_t>(comment.size());
+            auto size = static_cast<uint32_t>(comment.size());
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);

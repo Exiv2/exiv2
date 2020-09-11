@@ -211,7 +211,7 @@ namespace Exiv2
                 std::string translatedKeyText =
                     string_from_unterminated((const char*)(data.pData_ + keysize + 3 + languageTextSize + 1),
                                              data.size_ - (keysize + 3 + languageTextSize + 1));
-                const unsigned int translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
+                const auto translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                     enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
@@ -456,7 +456,7 @@ namespace Exiv2
 
         std::string PngChunk::zlibCompress(const std::string& text)
         {
-            uLongf compressedLen = static_cast<uLongf>(text.size() * 2);  // just a starting point
+            auto compressedLen = static_cast<uLongf>(text.size() * 2);  // just a starting point
             int zlibResult;
 
             DataBuf arr;
@@ -642,7 +642,7 @@ namespace Exiv2
 
             // Copy profile, skipping white space and column 1 "=" signs
 
-            unsigned char* dp = (unsigned char*)info.pData_;  // decode pointer
+            auto dp = (unsigned char*)info.pData_;  // decode pointer
             unsigned int nibbles = length * 2;
 
             for (long i = 0; i < (long)nibbles; i++) {

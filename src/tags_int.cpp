@@ -2171,7 +2171,7 @@ namespace Exiv2 {
             uint16_t bit   = 0;
             uint16_t comma = 0;
             for (uint16_t i = 0; i < value.count(); i++ ) { // for each element in value array
-                uint16_t bits = static_cast<uint16_t>(value.toLong(i));
+                auto bits = static_cast<uint16_t>(value.toLong(i));
                 for (uint16_t b = 0; b < 16; ++b) { // for every bit
                     if (bits & (1 << b)) {
                         if ( comma++ ) {
@@ -2656,7 +2656,7 @@ namespace Exiv2 {
 
     std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*)
     {
-        const CommentValue* pcv = dynamic_cast<const CommentValue*>(&value);
+        const auto pcv = dynamic_cast<const CommentValue*>(&value);
         if (pcv) {
             os << pcv->comment();
         }

@@ -64,9 +64,7 @@ std::string Exiv2::versionNumberHexString()
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
     bool bPrint = greps.empty();
-    for( exv_grep_keys_t::const_iterator g = greps.begin();
-      !bPrint && g != greps.end() ; ++g
-    ) {
+    for (auto g = greps.begin(); !bPrint && g != greps.end(); ++g) {
         re::smatch m;
         const std::string Key(key);
 
@@ -306,7 +304,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"curl"          , use_curl);
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( std::vector<std::string>::iterator lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
+        for (auto lib = libs.begin() + 1; lib != libs.end(); ++lib)
             output(os,keys,"library",*lib);
     }
 

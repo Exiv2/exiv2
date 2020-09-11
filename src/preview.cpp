@@ -527,7 +527,7 @@ namespace {
     {
         offset_ = 0;
         const ExifData &exifData = image_.exifData();
-        ExifData::const_iterator pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
+        auto pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
         if (pos != exifData.end() && pos->count() > 0) {
             offset_ = pos->toLong();
         }
@@ -619,7 +619,7 @@ namespace {
         : Loader(id, image),
           dataKey_(param_[parIdx].dataKey_)
     {
-        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        auto pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
             size_ = pos->sizeDataArea(); // indirect data
             if (size_ == 0 && pos->typeId() == undefined)
@@ -651,7 +651,7 @@ namespace {
     {
         if (!valid()) return DataBuf();
 
-        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        auto pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
             DataBuf buf = pos->dataArea(); // indirect data
 
@@ -848,13 +848,13 @@ namespace {
             prefix = "xapGImg";
         }
 
-        XmpData::const_iterator imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":image"));
+        auto imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":image"));
         if (imageDatum == xmpData.end()) return;
-        XmpData::const_iterator formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":format"));
+        auto formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":format"));
         if (formatDatum == xmpData.end()) return;
-        XmpData::const_iterator widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":width"));
+        auto widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":width"));
         if (widthDatum == xmpData.end()) return;
-        XmpData::const_iterator heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":height"));
+        auto heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":height"));
         if (heightDatum == xmpData.end()) return;
 
         if (formatDatum->toString() != "JPEG") return;
@@ -1017,7 +1017,7 @@ namespace {
 
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
     {
-        const size_t expectedSize = static_cast<size_t>(width * height * 3);
+        const auto expectedSize = static_cast<size_t>(width * height * 3);
         if (rgb.size_ != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size_ << " bytes.\n";
@@ -1026,7 +1026,7 @@ namespace {
         }
 
         const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
-        const byte *headerBytes = reinterpret_cast<const byte*>(header.data());
+        const auto headerBytes = reinterpret_cast<const byte *>(header.data());
 
         DataBuf dest(static_cast<long>(header.size() + rgb.size_));
         std::copy(headerBytes, headerBytes + header.size(), dest.pData_);

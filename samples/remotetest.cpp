@@ -82,7 +82,7 @@ try {
     exifReadData["Exif.Image.Software"]     = "Exiv2.org";                 // AsciiValue
     exifReadData["Exif.Image.Copyright"]    = "Exiv2.org";                 // AsciiValue
     key = Exiv2::ExifKey("Exif.Image.Make");
-    Exiv2::ExifData::iterator pos = exifReadData.findKey(key);
+    auto pos = exifReadData.findKey(key);
     if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.Make not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Image.DateTime");

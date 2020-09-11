@@ -228,7 +228,7 @@ namespace Exiv2
             if (rcount == 0) {
                 throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
-            const byte* source = reinterpret_cast<const byte*>(data.c_str());
+            const auto source = reinterpret_cast<const byte*>(data.c_str());
             size_t remain = rcount, totalRead = 0;
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
@@ -272,7 +272,7 @@ namespace Exiv2
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_ = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
-                const byte* source = reinterpret_cast<const byte*>(data.c_str());
+                const auto source = reinterpret_cast<const byte*>(data.c_str());
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
                     size_t allow = std::min(remain, p_->blockSize_);
@@ -333,7 +333,7 @@ namespace Exiv2
         size_t i = 0;
         size_t readCount = 0;
         size_t blockSize = 0;
-        byte* buf = (byte*)std::malloc(p_->blockSize_);
+        auto buf = (byte*)std::malloc(p_->blockSize_);
         size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -385,7 +385,7 @@ namespace Exiv2
         // submit to the remote machine.
         long dataSize = (long)(src.size() - left - right);
         if (dataSize > 0) {
-            byte* data = (byte*)std::malloc(dataSize);
+            auto data = (byte*)std::malloc(dataSize);
             src.seek(left, BasicIo::beg);
             src.read(data, dataSize);
             p_->writeRemote(data, (size_t)dataSize, (long)left, (long)(p_->size_ - right));
@@ -421,7 +421,7 @@ namespace Exiv2
 
         // connect to the remote machine & populate the blocks just in time.
         p_->populateBlocks(lowBlock, highBlock);
-        byte* fakeData = (byte*)std::calloc(p_->blockSize_, sizeof(byte));
+        auto fakeData = (byte*)std::calloc(p_->blockSize_, sizeof(byte));
         if (!fakeData) {
             throw Error(kerErrorMessage, "Unable to allocate data");
         }
@@ -719,7 +719,7 @@ namespace Exiv2
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        char* encodeData = new char[encodeLength];
+        auto encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
         const std::string urlencodeData = urlencode(encodeData);

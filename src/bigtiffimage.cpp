@@ -239,8 +239,8 @@ namespace Exiv2
 
                             bFirst = false;
 
-                            const uint16_t tag   = (uint16_t) readData(2);
-                            const uint16_t type  = (uint16_t) readData(2);
+                            const auto tag = (uint16_t)readData(2);
+                            const auto type = (uint16_t)readData(2);
                             const uint64_t count = readData(dataSize_);
                             const DataBuf  data  = io.read(dataSize_);        // Read data as raw value. what should be done about it will be decided depending on type
 
@@ -386,7 +386,7 @@ namespace Exiv2
 
                                     long jump= 10           ;
                                     byte     bytes[20]          ;
-                                    const char* chars = (const char*) &bytes[0] ;
+                                    const auto chars = (const char*)&bytes[0];
                                     io.seek(static_cast<int64>(dir_offset), BasicIo::beg);  // position
                                     io.read(bytes,jump    )     ;  // read
                                     bytes[jump]=0               ;

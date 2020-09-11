@@ -227,8 +227,8 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
     uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
     {
         uint64_t result = 0;
-        byte* source_value = reinterpret_cast<byte *>(&value);
-        byte* destination_value = reinterpret_cast<byte *>(&result);
+        auto source_value = reinterpret_cast<byte*>(&value);
+        auto destination_value = reinterpret_cast<byte*>(&result);
 
         for (int i = 0; i < 8; i++)
             destination_value[i] = source_value[8 - i - 1];
@@ -257,7 +257,7 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
     uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint16_t v;
-        char*    p = (char*) &v;
+        auto p = (char*)&v;
         p[0] = buf.pData_[offset];
         p[1] = buf.pData_[offset+1];
         return Image::byteSwap(v,bSwap);
@@ -266,7 +266,7 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
     uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint32_t v;
-        char*    p = (char*) &v;
+        auto p = (char*)&v;
         p[0] = buf.pData_[offset];
         p[1] = buf.pData_[offset+1];
         p[2] = buf.pData_[offset+2];
@@ -277,7 +277,7 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
     uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
     {
         uint64_t v;
-        byte*    p = reinterpret_cast<byte *>(&v);
+        auto p = reinterpret_cast<byte*>(&v);
 
         for(int i = 0; i < 8; i++)
             p[i] = buf.pData_[offset + i];
@@ -461,13 +461,13 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
 
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
-                        const char* chars = (const char*) &bytes[0] ;
+                        const auto chars = (const char*)&bytes[0];
                         io.seek(offset,BasicIo::beg);  // position
                         io.read(bytes,jump    )     ;  // read
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes2=new byte[count-jump] ;  // allocate memory
+                            auto bytes2 = new byte[count - jump];  // allocate memory
                             io.read(bytes2,count-jump)        ;  // read
                             MemIo memIo(bytes2,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);

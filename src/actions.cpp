@@ -646,7 +646,7 @@ std::unique_ptr<Task> Task::clone() const {
             }
             bool done = false;
             if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
-                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
+                const auto pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
                 if (pcv) {
                     Exiv2::CommentValue::CharsetId csId = pcv->charsetId();
                     if (csId != Exiv2::CommentValue::undefined) {
@@ -679,7 +679,7 @@ std::unique_ptr<Task> Task::clone() const {
             }
             bool done = false;
             if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
-                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
+                const auto pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
                 if (pcv) {
                     std::cout << pcv->comment(Params::instance().charset_.c_str());
                     done = true;
@@ -1710,7 +1710,7 @@ std::unique_ptr<Task> Task::clone() const {
                 return 0;
             }
             Exiv2::Value::UniquePtr v = pos->getValue();
-            const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
+            const auto pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
             if (!pcv) {
                 if (Params::instance().verbose_) {
                     std::cout << _("Found Exif user comment with unexpected value type") << "\n";
@@ -2150,7 +2150,7 @@ namespace
     std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& strAndWidth)
     {
         const std::string& str(strAndWidth.first);
-        size_t minChCount = static_cast<size_t>(strAndWidth.second);
+        auto minChCount = static_cast<size_t>(strAndWidth.second);
         size_t count = mbstowcs(nullptr, str.c_str(), 0);  // returns 0xFFFFFFFF on error
         if (count < minChCount) {
             minChCount += str.size() - count;

@@ -1161,13 +1161,11 @@ namespace Exiv2 {
     {
         if ( ! metadata ) return os << "undefined" ;
 
-        ExifData::const_iterator dateIt = metadata->findKey(
-                ExifKey("Exif.PentaxDng.Date"));
+        auto dateIt = metadata->findKey(ExifKey("Exif.PentaxDng.Date"));
         if (dateIt == metadata->end()) {
             dateIt = metadata->findKey(ExifKey("Exif.Pentax.Date"));
         }
-        ExifData::const_iterator timeIt = metadata->findKey(
-                ExifKey("Exif.PentaxDng.Time"));
+        auto timeIt = metadata->findKey(ExifKey("Exif.PentaxDng.Time"));
         if (timeIt == metadata->end()) {
             timeIt = metadata->findKey(ExifKey("Exif.Pentax.Time"));
         }

@@ -505,7 +505,7 @@ namespace Jzon
     }
     void Object::Remove(const std::string &name)
     {
-        for (ChildList::iterator it = children.begin(); it != children.end(); ++it) {
+        for (auto it = children.begin(); it != children.end(); ++it) {
             if ((*it).first == name) {
                 delete (*it).second;
                 children.erase(it);
@@ -620,7 +620,7 @@ namespace Jzon
     void Array::Remove(size_t index)
     {
         if (index < children.size()) {
-            ChildList::iterator it = children.begin() + index;
+            const auto it = children.begin() + index;
             delete (*it);
             children.erase(it);
         }

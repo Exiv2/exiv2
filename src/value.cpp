@@ -788,8 +788,7 @@ namespace Exiv2 {
 
     std::ostream& XmpArrayValue::write(std::ostream& os) const
     {
-        for (std::vector<std::string>::const_iterator i = value_.begin();
-             i != value_.end(); ++i) {
+        for (auto i = value_.begin(); i != value_.end(); ++i) {
             if (i != value_.begin()) os << ", ";
             os << *i;
         }
@@ -867,7 +866,7 @@ namespace Exiv2 {
         bool        first     = true;
 
         // Write the default entry first
-        ValueType::const_iterator i = value_.find(x_default);
+        auto i = value_.find(x_default);
         if (i != value_.end()) {
             os << "lang=\"" << i->first << "\" " << i->second;
             first = false;
@@ -891,7 +890,7 @@ namespace Exiv2 {
 
     std::string LangAltValue::toString(const std::string& qualifier) const
     {
-        ValueType::const_iterator i = value_.find(qualifier);
+        auto i = value_.find(qualifier);
         if (i != value_.end()) {
             ok_ = true;
             return i->second;

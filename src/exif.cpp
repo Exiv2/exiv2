@@ -540,7 +540,7 @@ namespace Exiv2 {
     Exifdatum& ExifData::operator[](const std::string& key)
     {
         ExifKey exifKey(key);
-        iterator pos = findKey(exifKey);
+        auto pos = findKey(exifKey);
         if (pos == end()) {
             add(Exifdatum(exifKey));
             pos = findKey(exifKey);
@@ -668,7 +668,7 @@ namespace Exiv2 {
             "Exif.Canon.AFPrimaryPoint",
         };
         for (auto& filteredIfd0Tag : filteredIfd0Tags) {
-            ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tag));
+            auto pos = ed.findKey(ExifKey(filteredIfd0Tag));
             if (pos != ed.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
@@ -783,7 +783,7 @@ namespace Exiv2 {
         }
 
         // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-        for (ExifData::iterator tag_iter = ed.begin(); tag_iter != ed.end();) {
+        for (auto tag_iter = ed.begin(); tag_iter != ed.end();) {
             if ( (tag_iter->size() > 4096 && tag_iter->tagName().substr(0, 2) == "0x") ||
                   tag_iter->size() > 20480) {
 #ifndef SUPPRESS_WARNINGS
@@ -836,7 +836,7 @@ namespace {
     {
         Thumbnail::UniquePtr thumbnail;
         const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
-        Exiv2::ExifData::const_iterator pos = exifData.findKey(k1);
+        auto pos = exifData.findKey(k1);
         if (pos != exifData.end()) {
             if (pos->count() == 0) return thumbnail;
             long compression = pos->toLong();
@@ -912,7 +912,7 @@ namespace {
     Exiv2::DataBuf JpegThumbnail::copy(const Exiv2::ExifData& exifData) const
     {
         Exiv2::ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
-        Exiv2::ExifData::const_iterator format = exifData.findKey(key);
+        auto format = exifData.findKey(key);
         if (format == exifData.end()) return Exiv2::DataBuf();
         return format->dataArea();
     }

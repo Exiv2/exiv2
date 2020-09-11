@@ -185,7 +185,7 @@ namespace Exiv2
 
     static std::string toAscii(long n)
     {
-        const char* p = (const char*) &n;
+        const auto p = (const char*)&n;
         std::string result;
         bool bBigEndian = isBigEndian();
         for ( int i = 0 ; i < 4 ; i++) {
@@ -641,14 +641,14 @@ static void boxes_check(size_t b,size_t m)
         DataBuf output(boxBuf.size_ + iccProfile_.size_ + 100); // allocate sufficient space
         int     outlen = sizeof(Jp2BoxHeader) ; // now many bytes have we written to output?
         int      inlen = sizeof(Jp2BoxHeader) ; // how many bytes have we read from boxBuf?
-        Jp2BoxHeader* pBox   = (Jp2BoxHeader*) boxBuf.pData_;
+        auto pBox = (Jp2BoxHeader*)boxBuf.pData_;
         int32_t       length = getLong((byte*)&pBox->length, bigEndian);
         int32_t       count  = sizeof (Jp2BoxHeader);
-        char*         p      = (char*) boxBuf.pData_;
+        auto p = (char*)boxBuf.pData_;
         bool          bWroteColor = false ;
 
         while ( count < length || !bWroteColor ) {
-            Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
+            auto pSubBox = (Jp2BoxHeader*)(p + count);
 
             // copy data.  pointer could be into a memory mapped file which we will decode!
             Jp2BoxHeader   subBox = *pSubBox ;

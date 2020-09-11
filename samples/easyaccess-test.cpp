@@ -57,7 +57,7 @@ try {
     Exiv2::ExifData& ed = image->exifData();
 
     for (auto easyAcces : easyAccess) {
-        Exiv2::ExifData::const_iterator pos = easyAcces.findFct_(ed);
+        auto pos = easyAcces.findFct_(ed);
         std::cout << std::setw(20) << std::left << easyAcces.label_;
         if (pos != ed.end()) {
             std::cout << " (" << std::setw(35) << pos->key() << ") : " << pos->print(&ed) << "\n";

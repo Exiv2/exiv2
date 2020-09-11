@@ -1709,7 +1709,7 @@ namespace Exiv2 {
             return os;
         }
 
-        ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
         if (pos == metadata->end())
             return os << "(" << value << ")";
 
@@ -1750,7 +1750,7 @@ namespace Exiv2 {
         }
 
         ExifKey key("Exif.CanonCs.Lens");
-        ExifData::const_iterator pos = metadata->findKey(key);
+        auto pos = metadata->findKey(key);
         if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
             if (fu != 0.0) {
@@ -1851,7 +1851,7 @@ namespace Exiv2 {
                                 const ExifData* metadata)
     {
         ExifKey key("Exif.CanonCs.Lens");
-        ExifData::const_iterator pos = metadata->findKey(key);
+        auto pos = metadata->findKey(key);
         ltfl.focalLengthMin_ = 0.0f;
         ltfl.focalLengthMax_ = 0.0f;
         if (pos != metadata->end()) {
@@ -1897,7 +1897,7 @@ namespace Exiv2 {
         convertFocalLength(ltfl, 1.0);
 
         ExifKey key("Exif.CanonCs.MaxAperture");
-        ExifData::const_iterator pos = metadata->findKey(key);
+        auto pos = metadata->findKey(key);
         if (   pos != metadata->end()
             && pos->value().count() == 1
             && pos->value().typeId() == unsignedShort) {
@@ -2194,7 +2194,7 @@ namespace Exiv2 {
             val = -val;
         }
         // remove fraction
-        float frac = static_cast<float>(val & 0x1f);
+        auto frac = static_cast<float>(val & 0x1f);
         val -= long(frac);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {

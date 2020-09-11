@@ -440,7 +440,7 @@ namespace Exiv2 {
 
             io_->seek(0,BasicIo::beg); // rewind
             while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
-                uint64_t offset = (uint64_t) io_->tell();
+                auto offset = (uint64_t)io_->tell();
                 byte     size_buff[WEBP_TAG_SIZE];
                 io_->read(chunkId.pData_, WEBP_TAG_SIZE);
                 io_->read(size_buff, WEBP_TAG_SIZE);
@@ -657,7 +657,7 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const uint16_t sizePayload = (uint16_t)(payload.size_ + offset);
+                const auto sizePayload = (uint16_t)(payload.size_ + offset);
                 rawExifData = (byte*)malloc(sizePayload);
 
                 byte  sizeBuff[2];
