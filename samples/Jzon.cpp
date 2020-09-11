@@ -442,7 +442,7 @@ namespace Jzon
     {
         std::string unescaped;
 
-		for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
+        for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
 		{
 			const char &c = (*it);
 			char c2 = '\0';
@@ -465,8 +465,9 @@ namespace Jzon
 		return unescaped;
     }
 
-    Object::Object() : Node()
-	{
+    Object::Object()
+        : Node()
+    {
 	}
 	Object::Object(const Object &other) : Node()
 	{
@@ -490,10 +491,10 @@ namespace Jzon
 
     Node::Type Object::GetType() const
     {
-		return T_OBJECT;
-	}
+        return T_OBJECT;
+    }
 
-	void Object::Add(const std::string &name, Node &node)
+    void Object::Add(const std::string &name, Node &node)
 	{
 		children.push_back(NamedNodePtr(name, node.GetCopy()));
 	}
@@ -525,12 +526,12 @@ namespace Jzon
     Object::iterator Object::begin()
     {
         if (!children.empty())
-			return Object::iterator(&children.front());
+            return Object::iterator(&children.front());
 		else
 			return Object::iterator(nullptr);
     }
     Object::const_iterator Object::begin() const
-	{
+    {
 		if (!children.empty())
 			return Object::const_iterator(&children.front());
 		else
@@ -565,7 +566,7 @@ namespace Jzon
         return children.size();
     }
     Node &Object::Get(const std::string &name) const
-	{
+    {
         for (const auto &child : children) {
             if (child.first == name) {
                 return *child.second;
@@ -580,8 +581,9 @@ namespace Jzon
         return new Object(*this);
     }
 
-    Array::Array() : Node()
-	{
+    Array::Array()
+        : Node()
+    {
 	}
 	Array::Array(const Array &other) : Node()
 	{
@@ -605,10 +607,10 @@ namespace Jzon
 
     Node::Type Array::GetType() const
     {
-		return T_ARRAY;
-	}
+        return T_ARRAY;
+    }
 
-	void Array::Add(Node &node)
+    void Array::Add(Node &node)
 	{
 		children.push_back(node.GetCopy());
 	}
@@ -637,12 +639,12 @@ namespace Jzon
     Array::iterator Array::begin()
     {
         if (!children.empty())
-			return Array::iterator(&children.front());
+            return Array::iterator(&children.front());
 		else
 			return Array::iterator(nullptr);
     }
     Array::const_iterator Array::begin() const
-	{
+    {
 		if (!children.empty())
 			return Array::const_iterator(&children.front());
 		else
