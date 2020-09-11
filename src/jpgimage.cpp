@@ -283,7 +283,8 @@ namespace Exiv2 {
             append(psBlob, pPsData + pos, (uint32_t)(sizePsData - pos));
         }
         // Data is rounded to be even
-        if (psBlob.size() > 0) rc = DataBuf(&psBlob[0], static_cast<long>(psBlob.size()));
+        if (!psBlob.empty())
+            rc = DataBuf(&psBlob[0], static_cast<long>(psBlob.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
         if (rc.size_ == 0) std::cerr << "  None.\n";
@@ -401,7 +402,7 @@ namespace Exiv2 {
                 io_->read(xmpPacket.pData_, xmpPacket.size_);
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
                 xmpPacket_.assign(reinterpret_cast<char*>(xmpPacket.pData_), xmpPacket.size_);
-                if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+                if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
@@ -427,7 +428,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, (uint32_t)psData.size_);
                 // Check whether psBlob is complete
-                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], (long) psBlob.size())) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
                     --search;
                     foundCompletePsData = true;
                 }
@@ -526,7 +527,7 @@ namespace Exiv2 {
             }
         } // while there are segments to process
 
-        if (psBlob.size() > 0) {
+        if (!psBlob.empty()) {
             // Find actual IPTC data within the psBlob
             Blob iptcBlob;
             const byte *record = nullptr;
@@ -545,16 +546,14 @@ namespace Exiv2 {
                 }
                 pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
             }
-            if (   iptcBlob.size() > 0
-                && IptcParser::decode(iptcData_,
-                                      &iptcBlob[0],
-                                      static_cast<uint32_t>(iptcBlob.size()))) {
+            if (!iptcBlob.empty() &&
+                IptcParser::decode(iptcData_, &iptcBlob[0], static_cast<uint32_t>(iptcBlob.size()))) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                 iptcData_.clear();
             }
-        } // psBlob.size() > 0
+        }  // psBlob.size() > 0
 
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
@@ -826,7 +825,7 @@ namespace Exiv2 {
                     out << std::endl;
             }
         }
-        if (option == kpsIptcErase && iptcDataSegs.size()) {
+        if (option == kpsIptcErase && !iptcDataSegs.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
             uint32_t toggle = 0;
@@ -1006,7 +1005,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, (uint32_t)psData.size_);
                 // Check whether psBlob is complete
-                if (psBlob.size() > 0 && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
                     foundCompletePsData = true;
                 }
             } else if (marker == com_ && skipCom == -1) {
@@ -1039,7 +1038,7 @@ namespace Exiv2 {
             ++count;
         }
 
-        if (!foundCompletePsData && psBlob.size() > 0)
+        if (!foundCompletePsData && !psBlob.empty())
             throw Error(kerNoImageInInputData);
         search += (int)skipApp13Ps3.size() + (int)skipApp2Icc.size();
 
@@ -1054,7 +1053,7 @@ namespace Exiv2 {
             ++search;
         if (writeXmpFromPacket() == false && xmpData_.count() > 0)
             ++search;
-        if (writeXmpFromPacket() == true && xmpPacket_.size() > 0)
+        if (writeXmpFromPacket() == true && !xmpPacket_.empty())
             ++search;
         if (foundCompletePsData || iptcData_.count() > 0)
             ++search;
@@ -1095,7 +1094,7 @@ namespace Exiv2 {
                     const byte* pExifData = rawExif.pData_;
                     size_t exifSize = rawExif.size_;
                     if (wm == wmIntrusive) {
-                        pExifData = blob.size() > 0 ? &blob[0] : nullptr;
+                        pExifData = !blob.empty() ? &blob[0] : nullptr;
                         exifSize = blob.size();
                     }
                     if (exifSize > 0) {
@@ -1126,7 +1125,7 @@ namespace Exiv2 {
 #endif
                     }
                 }
-                if (xmpPacket_.size() > 0) {
+                if (!xmpPacket_.empty()) {
                     // Write APP1 marker, size of APP1 field, XMP id and XMP packet
                     tmpBuf[0] = 0xff;
                     tmpBuf[1] = app1_;
@@ -1188,7 +1187,7 @@ namespace Exiv2 {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
                     DataBuf newPsData =
-                        Photoshop::setIptcIrb(psBlob.size() > 0 ? &psBlob[0] : nullptr, (long)psBlob.size(), iptcData_);
+                        Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : nullptr, (long)psBlob.size(), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.pData_;
                     const byte* chunkEnd = chunkStart + newPsData.size_;

@@ -919,7 +919,7 @@ std::unique_ptr<Task> Task::clone() const {
 
     int Erase::eraseComment(Exiv2::Image* image) const
     {
-        if (Params::instance().verbose_ && image->comment().size() > 0) {
+        if (Params::instance().verbose_ && !image->comment().empty()) {
             std::cout << _("Erasing JPEG comment from the file") << std::endl;
         }
         image->clearComment();
@@ -1557,7 +1557,7 @@ std::unique_ptr<Task> Task::clone() const {
             return 0;
         }
         std::string timeStr = md->toString();
-        if (timeStr == "" || timeStr[0] == ' ') {
+        if (timeStr.empty() || timeStr[0] == ' ') {
             std::cerr << path << ": " << _("Timestamp of metadatum with key") << " `" << ek << "' " << _("not set\n");
             return 1;
         }
@@ -1984,8 +1984,7 @@ namespace
             // #1148 use Raw XMP packet if there are no XMP modification commands
             int tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw;  // option -eXX
             // printTarget("in metacopy",Params::instance().target_,true);
-            if (Params::instance().modifyCmds_.size() == 0 &&
-                (Params::instance().target_ & tRawSidecar) == tRawSidecar) {
+            if (Params::instance().modifyCmds_.empty() && (Params::instance().target_ & tRawSidecar) == tRawSidecar) {
                 // std::cout << "short cut" << std::endl;
                 // http://www.cplusplus.com/doc/tutorial/files/
                 std::ofstream os;

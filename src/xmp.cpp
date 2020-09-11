@@ -769,7 +769,7 @@ namespace Exiv2 {
 
                 int idx = 1;
                 for (const auto& k : la->value_) {
-                    if (k.second.size()) {  // remove lang specs with no value
+                    if (!k.second.empty()) {  // remove lang specs with no value
                         printNode(ns, i.tagName(), k.second, 0);
                         meta.AppendArrayItem(ns.c_str(), i.tagName().c_str(), kXMP_PropArrayIsAlternate,
                                              k.second.c_str());

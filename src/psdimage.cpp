@@ -279,7 +279,7 @@ namespace Exiv2 {
                 if (io_->error() || io_->eof())
                     throw Error(kerFailedToReadImageData);
                 xmpPacket_.assign(reinterpret_cast<char*>(xmpPacket.pData_), xmpPacket.size_);
-                if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+                if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
@@ -630,7 +630,7 @@ namespace Exiv2 {
             }
             ExifParser::encode(blob, bo, exifData);
 
-            if (blob.size() > 0) {
+            if (!blob.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_ExifInfo << "\n";
                 std::cerr << std::dec << "Writing ExifInfo: size: " << blob.size() << "\n";
@@ -680,7 +680,7 @@ namespace Exiv2 {
             }
         }
 
-        if (xmpPacket.size() > 0) {
+        if (!xmpPacket.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_XMPPacket << "\n";
             std::cerr << std::dec << "Writing XMPPacket: size: " << xmpPacket.size() << "\n";

@@ -993,7 +993,7 @@ int Params::getopt(int argc, char* const Argv[])
         std::cerr << progname() << ": " << _("Modify action requires at least one -c, -m or -M option\n");
         rc = 1;
     }
-    if (0 == files_.size()) {
+    if (files_.empty()) {
         std::cerr << progname() << ": " << _("At least one file is required\n");
         rc = 1;
     }
@@ -1078,7 +1078,7 @@ namespace
         if (hh == 0 && hstr.find('-') != std::string::npos)
             sign = -1;
         // MM part, if there is one
-        if (mstr != "") {
+        if (!mstr.empty()) {
             if (!Util::strtol(mstr.c_str(), mm))
                 return false;
             if (mm > 59)
@@ -1087,7 +1087,7 @@ namespace
                 return false;
         }
         // SS part, if there is one
-        if (sstr != "") {
+        if (!sstr.empty()) {
             if (!Util::strtol(sstr.c_str(), ss))
                 return false;
             if (ss > 59)

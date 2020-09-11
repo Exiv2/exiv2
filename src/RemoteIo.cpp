@@ -655,7 +655,7 @@ namespace Exiv2
         std::string errors;
         request["server"] = hostInfo_.Host;
         request["page"] = hostInfo_.Path;
-        if (hostInfo_.Port != "")
+        if (!hostInfo_.Port.empty())
             request["port"] = hostInfo_.Port;
         request["verb"] = "HEAD";
         int serverCode = http(request, response, errors);
@@ -673,7 +673,7 @@ namespace Exiv2
         Exiv2::Dictionary request;
         request["server"] = hostInfo_.Host;
         request["page"] = hostInfo_.Path;
-        if (hostInfo_.Port != "")
+        if (!hostInfo_.Port.empty())
             request["port"] = hostInfo_.Port;
         request["verb"] = "GET";
         std::string errors;
@@ -693,7 +693,7 @@ namespace Exiv2
     void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, long from, long to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
-        if (scriptPath == "") {
+        if (scriptPath.empty()) {
             throw Error(kerErrorMessage,
                         "Please set the path of the server script to handle "
                         "http post data to EXIV2_HTTP_POST "
@@ -711,8 +711,8 @@ namespace Exiv2
         std::string errors;
 
         Uri scriptUri = Exiv2::Uri::Parse(scriptPath);
-        request["server"] = scriptUri.Host == "" ? hostInfo_.Host : scriptUri.Host;
-        if (scriptUri.Port != "")
+        request["server"] = scriptUri.Host.empty() ? hostInfo_.Host : scriptUri.Host;
+        if (!scriptUri.Port.empty())
             request["port"] = scriptUri.Port;
         request["page"] = scriptUri.Path;
         request["verb"] = "POST";

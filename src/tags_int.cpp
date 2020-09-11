@@ -2420,7 +2420,7 @@ namespace Exiv2 {
             std::string photographer(val, 0, pos);
             if (photographer != " ") os << photographer;
             std::string editor(val, pos + 1);
-            if (editor != "") {
+            if (!editor.empty()) {
                 if (photographer != " ") os << ", ";
                 os << editor;
             }
