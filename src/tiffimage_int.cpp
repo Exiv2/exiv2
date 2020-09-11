@@ -1943,17 +1943,17 @@ namespace Exiv2 {
         };
 
         // If tag, group is one of the image tags listed above -> bingo!
-        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
 #ifdef EXIV2_DEBUG_MESSAGES
+        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (3)\n";
-#endif
             return true;
         }
-#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Not an image tag: " << tag << " (4)\n";
-#endif
         return false;
+#else
+        return find(tiffImageTags, TiffImgTagStruct::Key(tag, group));
+#endif
     }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags)

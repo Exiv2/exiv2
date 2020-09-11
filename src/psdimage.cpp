@@ -472,21 +472,21 @@ namespace Exiv2 {
 
             // Write IPTC_NAA resource block
             if ((resourceId == kPhotoshopResourceID_IPTC_NAA || resourceId > kPhotoshopResourceID_IPTC_NAA) &&
-                iptcDone == false) {
+                !iptcDone) {
                 newResLength += writeIptcData(iptcData_, outIo);
                 iptcDone = true;
             }
 
             // Write ExifInfo resource block
             else if ((resourceId == kPhotoshopResourceID_ExifInfo || resourceId > kPhotoshopResourceID_ExifInfo) &&
-                     exifDone == false) {
+                     !exifDone) {
                 newResLength += writeExifData(exifData_, outIo);
                 exifDone = true;
             }
 
             // Write XMPpacket resource block
             else if ((resourceId == kPhotoshopResourceID_XMPPacket || resourceId > kPhotoshopResourceID_XMPPacket) &&
-                     xmpDone == false) {
+                     !xmpDone) {
                 newResLength += writeXmpData(xmpData_, outIo);
                 xmpDone = true;
             }
@@ -540,17 +540,17 @@ namespace Exiv2 {
         }
 
         // Append IPTC_NAA resource block, if not yet written
-        if (iptcDone == false) {
+        if (!iptcDone) {
             newResLength += writeIptcData(iptcData_, outIo);
         }
 
         // Append ExifInfo resource block, if not yet written
-        if (exifDone == false) {
+        if (!exifDone) {
             newResLength += writeExifData(exifData_, outIo);
         }
 
         // Append XmpPacket resource block, if not yet written
-        if (xmpDone == false) {
+        if (!xmpDone) {
             newResLength += writeXmpData(xmpData_, outIo);
         }
 
@@ -672,7 +672,7 @@ namespace Exiv2 {
         std::cerr << "writeXmpFromPacket(): " << writeXmpFromPacket() << "\n";
 #endif
         //        writeXmpFromPacket(true);
-        if (writeXmpFromPacket() == false) {
+        if (!writeXmpFromPacket()) {
             if (XmpParser::encode(xmpPacket, xmpData) > 1) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_ERROR << "Failed to encode XMP metadata.\n";

@@ -220,7 +220,7 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
             char c[4];
         } e = { 0x01000000 };
 
-        return e.c[0]?true:false;
+        return e.c[0] != 0;
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
@@ -632,7 +632,10 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
         iccProfile_.free();
     }
 
-    bool Image::iccProfileDefined() const { return iccProfile_.size_?true:false;}
+    bool Image::iccProfileDefined() const
+    {
+        return iccProfile_.size_ != 0;
+    }
 
     void Image::setByteOrder(ByteOrder byteOrder)
     {

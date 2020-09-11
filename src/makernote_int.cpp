@@ -273,11 +273,8 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
         std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 6)) {
-            return false;
-        }
-        return true;
+        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
+                 0 != memcmp(header_.pData_, signature_, 6));
     } // OlympusMnHeader::read
 
     size_t OlympusMnHeader::write(IoWrapper& ioWrapper,
@@ -322,11 +319,8 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
         std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 10)) {
-            return false;
-        }
-        return true;
+        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
+                 0 != memcmp(header_.pData_, signature_, 10));
     } // Olympus2MnHeader::read
 
     size_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
@@ -378,11 +372,8 @@ namespace Exiv2 {
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder argument
         start_ = getULong(header_.pData_ + 8, byteOrder_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 8)) {
-            return false;
-        }
-        return true;
+        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
+                 0 != memcmp(header_.pData_, signature_, 8));
     } // FujiMnHeader::read
 
     size_t FujiMnHeader::write(IoWrapper& ioWrapper,
@@ -577,11 +568,8 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
         std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 7)) {
-            return false;
-        }
-        return true;
+        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
+                 0 != memcmp(header_.pData_, signature_, 7));
     } // PentaxDngMnHeader::read
 
     size_t PentaxDngMnHeader::write(IoWrapper& ioWrapper,
@@ -621,11 +609,8 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
         std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 3)) {
-            return false;
-        }
-        return true;
+        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
+                 0 != memcmp(header_.pData_, signature_, 3));
     } // PentaxMnHeader::read
 
     size_t PentaxMnHeader::write(IoWrapper& ioWrapper,

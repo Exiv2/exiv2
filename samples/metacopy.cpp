@@ -149,7 +149,7 @@ int Params::getopt(int argc, char* const argv[])
 {
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
-    if (help_==false) {
+    if (!help_) {
         if (rc==0 && read_.empty() ) {
             std::cerr << progname() << ": Read and write files must be specified\n";
             rc = 1;

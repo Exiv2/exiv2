@@ -459,7 +459,7 @@ namespace Exiv2
         const Header header = readHeader(io);
         const bool valid = header.isValid();
 
-        if (valid == false || advance == false)
+        if (!valid || !advance)
             io.seek(pos, BasicIo::beg);
 
         return valid;

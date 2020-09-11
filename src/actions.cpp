@@ -960,7 +960,7 @@ std::unique_ptr<Task> Task::clone() const {
             path_ = path;
             int rc = 0;
 
-            bool bStdout = Params::instance().target_ & Params::ctStdInOut ? true : false;
+            bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
             if (bStdout) {
                 _setmode(_fileno(stdout), _O_BINARY);
             }
@@ -1128,7 +1128,7 @@ std::unique_ptr<Task> Task::clone() const {
 
     int Insert::run(const std::string& path) try {
         // -i{tgt}-  reading from stdin?
-        bool bStdin = (Params::instance().target_ & Params::ctStdInOut) ? true : false;
+        bool bStdin = (Params::instance().target_ & Params::ctStdInOut) != 0;
 
         if (!Exiv2::fileExists(path, true)) {
             std::cerr << path << ": " << _("Failed to open the file\n");
