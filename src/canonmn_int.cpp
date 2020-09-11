@@ -1852,14 +1852,14 @@ namespace Exiv2 {
     {
         ExifKey key("Exif.CanonCs.Lens");
         auto pos = metadata->findKey(key);
-        ltfl.focalLengthMin_ = 0.0f;
-        ltfl.focalLengthMax_ = 0.0f;
+        ltfl.focalLengthMin_ = 0.0F;
+        ltfl.focalLengthMax_ = 0.0F;
         if (pos != metadata->end()) {
             const Value &value = pos->value();
             if (   value.count() >= 3
                 && value.typeId() == unsignedShort) {
                 float fu = value.toFloat(2);
-                if (fu != 0.0f) {
+                if (fu != 0.0F) {
                     ltfl.focalLengthMin_ = value.toLong(1) / fu;
                     ltfl.focalLengthMax_ = value.toLong(0) / fu;
                 }
@@ -2198,12 +2198,12 @@ namespace Exiv2 {
         val -= long(frac);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {
-            frac = 32.0f / 3;
+            frac = 32.0F / 3;
         }
         else if (frac == 0x14) {
-            frac = 64.0f / 3;
+            frac = 64.0F / 3;
         }
-        return sign * (val + frac) / 32.0f;
+        return sign * (val + frac) / 32.0F;
     }
 
     }  // namespace Internal

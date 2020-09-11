@@ -252,9 +252,9 @@ namespace Exiv2 {
         // http://dev.exiv2.org/boards/3/topics/1912?r=1915
         if ( std::tolower(is.peek()) == 'f' ) {
             char  F = 0;
-            float f = 0.f;
+            float f = 0.F;
             is >> F >> f ;
-            f  = 2.0f * std::log(f) / std::log(2.0f) ;
+            f = 2.0F * std::log(f) / std::log(2.0F);
             r  = Exiv2::floatToRationalCast(f);
         } else {
             int32_t nominator = 0;
@@ -280,9 +280,9 @@ namespace Exiv2 {
         /// \todo This implementation seems to be duplicated for the Rational type. Try to remove duplication
         if ( std::tolower(is.peek()) == 'f' ) {
             char  F = 0;
-            float f = 0.f;
+            float f = 0.F;
             is >> F >> f ;
-            f  = 2.0f * std::log(f) / std::log(2.0f) ;
+            f = 2.0F * std::log(f) / std::log(2.0F);
             r  = Exiv2::floatToRationalCast(f);
         } else {
             uint32_t nominator = 0;
@@ -743,7 +743,8 @@ namespace Exiv2 {
         }
 
         bool b = stringTo<bool>(s, ok);
-        if (ok) return b ? 1.0f : 0.0f;
+        if (ok)
+            return b ? 1.0F : 0.0F;
 
         // everything failed, return from stringTo<float> is probably the best fit
         return ret;
@@ -789,7 +790,7 @@ namespace Exiv2 {
         if (Safe::abs(f_as_long) > 21474836) {
             den = 1;
         }
-        const float rnd = f >= 0 ? 0.5f : -0.5f;
+        const float rnd = f >= 0 ? 0.5F : -0.5F;
         const auto nom = static_cast<int32_t>(f * den + rnd);
         const int32_t g = gcd(nom, den);
 
