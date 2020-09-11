@@ -1593,8 +1593,8 @@ namespace Exiv2 {
     long ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
     {
         long offset = 0;
-        typename ValueList::const_iterator end = value_.end();
-        for (typename ValueList::const_iterator i = value_.begin(); i != end; ++i) {
+        const auto end = value_.end();
+        for (auto i = value_.begin(); i != end; ++i) {
             offset += toData(buf + offset, *i, byteOrder);
         }
         return offset;
@@ -1621,8 +1621,8 @@ namespace Exiv2 {
     template<typename T>
     std::ostream& ValueType<T>::write(std::ostream& os) const
     {
-        typename ValueList::const_iterator end = value_.end();
-        typename ValueList::const_iterator i = value_.begin();
+        const auto end = value_.end();
+        auto i = value_.begin();
         while (i != end) {
             os << std::setprecision(15) << *i;
             if (++i != end) os << " ";

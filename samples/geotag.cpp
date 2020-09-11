@@ -310,7 +310,7 @@ public:
 // XML Parser Callbacks
 static void startElement(void* userData, const char* name, const char** atts )
 {
-    UserData* me = (UserData*) userData;
+    auto me = (UserData*)userData;
     //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
     //printf("begin %s\n",name);
     me->bTime = strcmp(name,"time")==0;
@@ -332,7 +332,7 @@ static void startElement(void* userData, const char* name, const char** atts )
 
 static void endElement(void* userData, const char* name)
 {
-    UserData* me = (UserData*) userData;
+    auto me = (UserData*)userData;
     me->indent-- ;
     if ( strcmp(name,"trkpt")==0 ) {
 
@@ -354,7 +354,7 @@ static void endElement(void* userData, const char* name)
 
 void charHandler(void* userData,const char* s,int len)
 {
-    UserData* me = (UserData*) userData;
+    auto me = (UserData*)userData;
 
     if ( me->nTrkpt == 1 ) {
         char buffer[100];

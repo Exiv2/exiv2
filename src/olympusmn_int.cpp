@@ -1207,7 +1207,7 @@ namespace Exiv2 {
             return os << value;
         }
         if (value.count() == 1) {
-            short l0 = (short)value.toLong(0);
+            auto l0 = (short)value.toLong(0);
             if (l0 == 1) {
                 os << _("Auto");
             }
@@ -1216,8 +1216,8 @@ namespace Exiv2 {
             }
         }
         else if (value.count() == 2) {
-            short l0 = (short)value.toLong(0);
-            short l1 = (short)value.toLong(1);
+            auto l0 = (short)value.toLong(0);
+            auto l1 = (short)value.toLong(1);
             if (l0 == 1) {
                 switch (l1) {
                 case 0: os << _("Auto"); break;
@@ -1484,7 +1484,7 @@ namespace Exiv2 {
         if (value.count() < 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
         } else {
-            uint16_t v = (uint16_t)value.toLong(0);
+            auto v = (uint16_t)value.toLong(0);
 
             // If value 2 is present, it is used instead of value 1.
             if (value.count() > 1) {
@@ -1566,8 +1566,8 @@ namespace Exiv2 {
             return os << value;
         }
 
-        uint16_t v0 = (uint16_t)value.toLong(0);
-        uint16_t v1 = (uint16_t)value.toLong(1);
+        auto v0 = (uint16_t)value.toLong(0);
+        auto v1 = (uint16_t)value.toLong(1);
 
         for (int i = 0; artFilters[i].val[0] != 0xffff; i++) {
             if (artFilters[i].val[0] == v0 &&
@@ -1674,7 +1674,7 @@ value, const ExifData* metadata)
         bool E3_E30model = false;
 
         if (metadata != nullptr) {
-            ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+            auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
             if (pos != metadata->end() && pos->count() != 0) {
                 std::string model = pos->toString();
                 if (model.find("E-3 ") != std::string::npos ||
@@ -1684,7 +1684,7 @@ value, const ExifData* metadata)
             }
         }
 
-        uint16_t v = (uint16_t) value.toLong(0);
+        auto v = (uint16_t)value.toLong(0);
 
         if (!E3_E30model) {
             for (int i = 0; afPoints[i].val != 0xffff; i++) {

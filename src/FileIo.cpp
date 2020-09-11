@@ -488,7 +488,7 @@ namespace Exiv2
         const bool wasOpen = (p_->fp_ != nullptr);
         const std::string lastMode(p_->openMode_);
 
-        FileIo* fileIo = dynamic_cast<FileIo*>(&src);
+        auto fileIo = dynamic_cast<FileIo*>(&src);
         if (fileIo) {
             // Optimization if src is another instance of FileIo
             fileIo->close();
@@ -1060,7 +1060,7 @@ namespace Exiv2
             }
 
             std::string data = orgPath.substr(base64Pos + 7);
-            char* decodeData = new char[data.length()];
+            auto decodeData = new char[data.length()];
             long size = base64decode(data.c_str(), decodeData, data.length());
             if (size > 0) {
                 fs.write(decodeData, size);

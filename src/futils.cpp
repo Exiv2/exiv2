@@ -101,7 +101,7 @@ namespace Exiv2 {
         const char* pstr = str;
         // \todo try to use std::string for buf and avoid the creation of another string for just
         // returning the final value
-        char* buf  = new char[strlen(str) * 3 + 1];
+        auto buf = new char[strlen(str) * 3 + 1];
         char* pbuf = buf;
         while (*pstr) {
             if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
@@ -120,7 +120,7 @@ namespace Exiv2 {
 
     char* urldecode(const char* str) {
         const char* pstr = str;
-        char* buf  = new char [(strlen(str) + 1)];
+        auto buf = new char[(strlen(str) + 1)];
         char* pbuf = buf;
         while (*pstr) {
             if (*pstr == '%') {
@@ -147,7 +147,7 @@ namespace Exiv2 {
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        const uint8_t* data = (const uint8_t*)data_buf;
+        const auto data = (const uint8_t*)data_buf;
         size_t resultIndex = 0;
         size_t x;
         size_t padCount = dataLength % 3;

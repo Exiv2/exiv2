@@ -106,7 +106,7 @@ try {
     assert(getv8.ok());
 
     // Deleting an XMP property
-    Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
+    auto pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
     if (pos == xmpData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
     xmpData.erase(pos);
 

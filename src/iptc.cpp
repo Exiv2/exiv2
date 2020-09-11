@@ -264,7 +264,7 @@ namespace Exiv2 {
     Iptcdatum& IptcData::operator[](const std::string& key)
     {
         IptcKey iptcKey(key);
-        iterator pos = findKey(iptcKey);
+        auto pos = findKey(iptcKey);
         if (pos == end()) {
             add(Iptcdatum(iptcKey));
             pos = findKey(iptcKey);
@@ -275,8 +275,8 @@ namespace Exiv2 {
     long IptcData::size() const
     {
         size_t newSize = 0;
-        const_iterator iter = iptcMetadata_.begin();
-        const_iterator end = iptcMetadata_.end();
+        auto iter = iptcMetadata_.begin();
+        auto end = iptcMetadata_.end();
         for ( ; iter != end; ++iter) {
             // marker, record Id, dataset num, first 2 bytes of size
             newSize += 5;
@@ -374,7 +374,7 @@ namespace Exiv2 {
 
     const char *IptcData::detectCharset() const
     {
-        const_iterator pos = findKey(IptcKey("Iptc.Envelope.CharacterSet"));
+        auto pos = findKey(IptcKey("Iptc.Envelope.CharacterSet"));
         if (pos != end()) {
             const std::string value = pos->toString();
             if (pos->value().ok()) {

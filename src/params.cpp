@@ -929,7 +929,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 
 int Params::getopt(int argc, char* const Argv[])
 {
-    char** argv = new char*[argc + 1];
+    auto argv = new char*[argc + 1];
     argv[argc] = nullptr;
     std::map<std::string, std::string> longs;
 
@@ -965,7 +965,7 @@ int Params::getopt(int argc, char* const Argv[])
     longs["--years"] = "-Y";
 
     for (int i = 0; i < argc; i++) {
-        std::string* arg = new std::string(Argv[i]);
+        auto arg = new std::string(Argv[i]);
         if (longs.find(*arg) != longs.end()) {
             argv[i] = ::strdup(longs[*arg].c_str());
         } else {
@@ -1052,7 +1052,7 @@ namespace
     bool parseTime(const std::string& ts, long& time)
     {
         std::string hstr, mstr, sstr;
-        char* cts = new char[ts.length() + 1];
+        auto cts = new char[ts.length() + 1];
         strcpy(cts, ts.c_str());
         char* tmp = ::strtok(cts, ":");
         if (tmp)
@@ -1471,7 +1471,7 @@ namespace
     int readFileToBuf(FILE* f, Exiv2::DataBuf& buf)
     {
         const int buff_size = 4 * 1028;
-        Exiv2::byte* bytes = (Exiv2::byte*)::malloc(buff_size);
+        auto bytes = (Exiv2::byte*)::malloc(buff_size);
         int nBytes = 0;
         bool more = bytes != nullptr;
         while (more) {

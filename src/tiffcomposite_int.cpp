@@ -421,7 +421,7 @@ namespace Exiv2 {
         for (int i = 0; i < pSize->count(); ++i) {
             size += static_cast<uint32_t>(pSize->toLong(i));
         }
-        uint32_t offset = static_cast<uint32_t>(pValue()->toLong(0));
+        auto offset = static_cast<uint32_t>(pValue()->toLong(0));
         // Todo: Remove limitation of JPEG writer: strips must be contiguous
         // Until then we check: last offset + last size - first offset == size?
         if (  static_cast<uint32_t>(pValue()->toLong(pValue()->count()-1))
@@ -476,9 +476,9 @@ namespace Exiv2 {
             return;
         }
         for (int i = 0; i < pValue()->count(); ++i) {
-            const uint32_t offset = static_cast<uint32_t>(pValue()->toLong(i));
+            const auto offset = static_cast<uint32_t>(pValue()->toLong(i));
             const byte* pStrip = pData + baseOffset + offset;
-            const uint32_t size = static_cast<uint32_t>(pSize->toLong(i));
+            const auto size = static_cast<uint32_t>(pSize->toLong(i));
 
             if (   offset > sizeData
                 || size > sizeData
@@ -600,10 +600,10 @@ namespace Exiv2 {
 
     uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef& def)
     {
-        uint16_t tag = static_cast<uint16_t>(idx / cfg()->tagStep());
+        auto tag = static_cast<uint16_t>(idx / cfg()->tagStep());
         int32_t sz = std::min(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
         TiffComponent::UniquePtr tc = TiffCreator::create(tag, cfg()->group_);
-        TiffBinaryElement* tp = dynamic_cast<TiffBinaryElement*>(tc.get());
+        auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
         // the TIFF structure table (TiffCreator::tiffTreeStruct_)
         assert(tp);
@@ -808,7 +808,7 @@ namespace Exiv2 {
 
     TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
-        TiffDirectory* d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
+        auto d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
         assert(d);
         ifds_.push_back(d);
         return d;
@@ -910,8 +910,7 @@ namespace Exiv2 {
     void TiffSubIfd::doAccept(TiffVisitor& visitor)
     {
         visitor.visitSubIfd(this);
-        for (Ifds::iterator i = ifds_.begin();
-             visitor.go(TiffVisitor::geTraverse) && i != ifds_.end(); ++i) {
+        for (auto i = ifds_.begin(); visitor.go(TiffVisitor::geTraverse) && i != ifds_.end(); ++i) {
             (*i)->accept(visitor);
         }
     } // TiffSubIfd::doAccept
@@ -1111,7 +1110,7 @@ namespace Exiv2 {
             }
             // Also add the size of data, but only if needed
             if (isRootDir) {
-                uint32_t sd = (uint32_t)component->sizeData();
+                auto sd = (uint32_t)component->sizeData();
                 sd += sd & 1;  // Align data to word boundary
                 sizeData += sd;
             }
@@ -1138,7 +1137,7 @@ namespace Exiv2 {
                 sv += sv & 1;  // Align value to word boundary
                 valueIdx += sv;
             }
-            uint32_t sd = (uint32_t)component->sizeData();
+            auto sd = (uint32_t)component->sizeData();
             sd += sd & 1;  // Align data to word boundary
             dataIdx += sd;
         }
@@ -1168,7 +1167,7 @@ namespace Exiv2 {
                 idx += sv;
                 valueIdx += sv;
             }
-            uint32_t sd = (uint32_t)component->sizeData();
+            auto sd = (uint32_t)component->sizeData();
             sd += sd & 1;  // Align data to word boundary
             dataIdx += sd;
         }
@@ -1200,7 +1199,7 @@ namespace Exiv2 {
                                           uint32_t&      imageIdx) const
     {
         assert(pTiffComponent);
-        TiffEntryBase* pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
+        auto pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
         assert(pDirEntry);
         byte buf[8];
         us2Data(buf,     pDirEntry->tag(),      byteOrder);
@@ -1417,7 +1416,7 @@ namespace Exiv2 {
         }
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
-            uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
+            auto lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
             idx += fillGap(mioWrapper, idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
         DataBuf buf;
@@ -1652,7 +1651,7 @@ namespace Exiv2 {
                 sv += sv & 1;  // Align value to word boundary
                 len += sv;
             }
-            uint32_t sd = (uint32_t)component->sizeData();
+            auto sd = (uint32_t)component->sizeData();
             sd += sd & 1;  // Align data to word boundary
             len += sd;
         }
@@ -1716,7 +1715,7 @@ namespace Exiv2 {
 
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
-            uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
+            auto lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
             idx = std::max(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
         return idx;
@@ -1816,7 +1815,7 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doSizeImage() const
     {
         if (!pValue()) return 0;
-        uint32_t len = (uint32_t)pValue()->sizeDataArea();
+        auto len = (uint32_t)pValue()->sizeDataArea();
         if (len == 0) {
             for (const auto& strip : strips_) {
                 len += strip.second;
@@ -1829,7 +1828,7 @@ namespace Exiv2 {
     // free functions
     TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group)
     {
-        TypeId ti = TypeId(tiffType);
+        auto ti = TypeId(tiffType);
         // On the fly type conversion for Exif.Photo.UserComment
         if (tag == 0x9286 && group == exifId && ti == undefined) {
             ti = comment;

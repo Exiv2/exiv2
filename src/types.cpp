@@ -709,7 +709,7 @@ namespace Exiv2 {
         long ret = stringTo<long>(s, ok);
         if (ok) return ret;
 
-        float f = stringTo<float>(s, ok);
+        auto f = stringTo<float>(s, ok);
         if (ok) return static_cast<long>(f);
 
         Rational r = stringTo<Rational>(s, ok);
@@ -730,7 +730,7 @@ namespace Exiv2 {
 
     float parseFloat(const std::string& s, bool& ok)
     {
-        float ret = stringTo<float>(s, ok);
+        auto ret = stringTo<float>(s, ok);
         if (ok) return ret;
 
         Rational r = stringTo<Rational>(s, ok);
@@ -758,7 +758,7 @@ namespace Exiv2 {
         if (ok)
             return {l, 1};
 
-        float f = stringTo<float>(s, ok);
+        auto f = stringTo<float>(s, ok);
         if (ok) return floatToRationalCast(f);
 
         bool b = stringTo<bool>(s, ok);
@@ -790,7 +790,7 @@ namespace Exiv2 {
             den = 1;
         }
         const float rnd = f >= 0 ? 0.5f : -0.5f;
-        const int32_t nom = static_cast<int32_t>(f * den + rnd);
+        const auto nom = static_cast<int32_t>(f * den + rnd);
         const int32_t g = gcd(nom, den);
 
         return {nom / g, den / g};

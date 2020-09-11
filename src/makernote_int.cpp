@@ -1151,9 +1151,9 @@ namespace Exiv2 {
         // Find Exif.Nikon3.ShutterCount
         TiffFinder finder(0x00a7, nikon3Id);
         pRoot->accept(finder);
-        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        auto te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
-        uint32_t count = static_cast<uint32_t>(te->pValue()->toLong());
+        auto count = static_cast<uint32_t>(te->pValue()->toLong());
 
         // Find Exif.Nikon3.SerialNumber
         finder.init(0x001d, nikon3Id);
@@ -1161,7 +1161,7 @@ namespace Exiv2 {
         te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
         bool ok(false);
-        uint32_t serial = stringTo<uint32_t>(te->pValue()->toString(), ok);
+        auto serial = stringTo<uint32_t>(te->pValue()->toString(), ok);
         if (!ok) {
             std::string model = getExifModel(pRoot);
             if (model.empty()) return buf;
@@ -1199,7 +1199,7 @@ namespace {
     {
         Exiv2::Internal::TiffFinder finder(0x0110, Exiv2::Internal::ifd0Id); // Exif.Image.Model
         pRoot->accept(finder);
-        Exiv2::Internal::TiffEntryBase* te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
+        auto te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return std::string();
         return te->pValue()->toString();
     }
