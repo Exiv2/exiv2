@@ -700,8 +700,7 @@ namespace Exiv2 {
 
     bool TiffEncoder::dirty() const
     {
-        if (dirty_ || exifData_.count() > 0) return true;
-        return false;
+        return dirty_ || exifData_.count() > 0;
     }
 
     void TiffEncoder::visitEntry(TiffEntry* object)
@@ -865,10 +864,7 @@ namespace Exiv2 {
 
     bool TiffEncoder::isImageTag(uint16_t tag, IfdId group) const
     {
-        if (!isNewImage_ && pHeader_->isImageTag(tag, group, pPrimaryGroups_)) {
-            return true;
-        }
-        return false;
+        return !isNewImage_ && pHeader_->isImageTag(tag, group, pPrimaryGroups_);
     }
 
     void TiffEncoder::encodeTiffComponent(

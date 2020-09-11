@@ -204,8 +204,7 @@ namespace Exiv2 {
               || ('M' == tmpBuf[0] && 'M' == tmpBuf[1]))) {
             result = false;
         }
-        if (   true == result
-            && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
+        if (result && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
             result = false;
         }
         if (!advance || !result) iIo.seek(-14, BasicIo::cur);

@@ -138,8 +138,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
 
-
-        if (writeXmpFromPacket() == false) {
+        if (!writeXmpFromPacket()) {
             // #589 copy XMP tags
             Exiv2::XmpData  copy   ;
             for (const auto& it : xmpData_) {
