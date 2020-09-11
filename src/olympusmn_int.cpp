@@ -1488,7 +1488,7 @@ namespace Exiv2 {
 
             // If value 2 is present, it is used instead of value 1.
             if (value.count() > 1) {
-                std::string p = "";    // Used to enable ',' separation
+                std::string p;  // Used to enable ',' separation
 
                 v = (uint16_t)value.toLong(1);
                 for (int i = 0; focusModes1[i].val != 0; i++) {

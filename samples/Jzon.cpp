@@ -982,13 +982,12 @@ namespace Jzon
 	{
 		std::stack<Pair<std::string, Node*> > nodeStack;
 
-		std::string name = "";
+        std::string name;
 
-		Token token;
-		while (!tokens.empty())
-		{
-			token = tokens.front();
-			tokens.pop();
+        Token token;
+        while (!tokens.empty()) {
+            token = tokens.front();
+            tokens.pop();
 
 			switch (token)
 			{
@@ -1153,10 +1152,10 @@ namespace Jzon
 			case T_SEPARATOR_NAME :
 			case T_SEPARATOR_NODE : break;
 			}
-		}
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 	char Parser::peek()
 	{
