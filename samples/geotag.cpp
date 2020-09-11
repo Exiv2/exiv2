@@ -889,7 +889,7 @@ int main(int argc,const char* argv[])
             }
         }
 */
-        for (auto path : gFiles) {
+        for (const auto& path : gFiles) {
             std::string stamp;
             try {
                 time_t t = readImageTime(path, &stamp);
