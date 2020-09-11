@@ -244,9 +244,9 @@ namespace Jzon
 		}
 		else
 		{
-			return 0.f;
-		}
-	}
+            return 0.F;
+        }
+    }
 	double Value::ToDouble() const
 	{
 		if (IsNumber())

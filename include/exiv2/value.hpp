@@ -1671,7 +1671,8 @@ namespace Exiv2 {
     inline float ValueType<Rational>::toFloat(long n) const
     {
         ok_ = (value_[n].second != 0);
-        if (!ok_) return 0.0f;
+        if (!ok_)
+            return 0.0F;
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Specialization for unsigned rational
@@ -1679,7 +1680,8 @@ namespace Exiv2 {
     inline float ValueType<URational>::toFloat(long n) const
     {
         ok_ = (value_[n].second != 0);
-        if (!ok_) return 0.0f;
+        if (!ok_)
+            return 0.0F;
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Default implementation

@@ -215,7 +215,7 @@ namespace Exiv2
 
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                     enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
-                                      Safe::add(translatedKeyTextSize, 1u)) <= static_cast<unsigned int>(data.size_),
+                                      Safe::add(translatedKeyTextSize, 1U)) <= static_cast<unsigned int>(data.size_),
                             Exiv2::kerCorruptedMetadata);
 
                     const byte* text = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
