@@ -74,7 +74,7 @@ bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=nullptr)
     return result;
 }
 
-Jzon::Node& addToTree(Jzon::Node& r1,Token token)
+Jzon::Node& addToTree(Jzon::Node& r1, const Token& token)
 {
     Jzon::Object object ;
     Jzon::Array  array  ;

@@ -499,24 +499,22 @@ namespace Jzon
 	{
 		children.push_back(NamedNodePtr(name, node.GetCopy()));
 	}
-	void Object::Add(const std::string &name, Value node)
-	{
-		children.push_back(NamedNodePtr(name, new Value(node)));
-	}
-	void Object::Remove(const std::string &name)
-	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				delete (*it).second;
-				children.erase(it);
-				break;
-			}
-		}
-	}
-	void Object::Clear()
-	{
+    void Object::Add(const std::string &name, const Value &node)
+    {
+        children.push_back(NamedNodePtr(name, new Value(node)));
+    }
+    void Object::Remove(const std::string &name)
+    {
+        for (ChildList::iterator it = children.begin(); it != children.end(); ++it) {
+            if ((*it).first == name) {
+                delete (*it).second;
+                children.erase(it);
+                break;
+            }
+        }
+    }
+    void Object::Clear()
+    {
         for (auto &child : children) {
             delete child.second;
             child.second = nullptr;
@@ -615,21 +613,20 @@ namespace Jzon
 	{
 		children.push_back(node.GetCopy());
 	}
-	void Array::Add(Value node)
-	{
-		children.push_back(new Value(node));
-	}
-	void Array::Remove(size_t index)
-	{
-		if (index < children.size())
-		{
-			ChildList::iterator it = children.begin()+index;
-			delete (*it);
-			children.erase(it);
-		}
-	}
-	void Array::Clear()
-	{
+    void Array::Add(const Value &node)
+    {
+        children.push_back(new Value(node));
+    }
+    void Array::Remove(size_t index)
+    {
+        if (index < children.size()) {
+            ChildList::iterator it = children.begin() + index;
+            delete (*it);
+            children.erase(it);
+        }
+    }
+    void Array::Clear()
+    {
         for (auto &child : children) {
             delete child;
             child = nullptr;

@@ -645,7 +645,7 @@ bool sina(const char* s,const char** a)
     return bResult;
 }
 
-int readFile(const char* path,Options /* options */)
+int readFile(const char* path, const Options& /* options */)
 {
     FILE* f     = fopen(path,"r");
     int nResult = f ? typeFile : typeUnknown;

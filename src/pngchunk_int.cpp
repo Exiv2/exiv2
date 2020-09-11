@@ -257,7 +257,7 @@ namespace Exiv2
 
         }  // PngChunk::parsePngChunk
 
-        void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf arr)
+        void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf& arr)
         {
             // We look if an ImageMagick EXIF raw profile exist.
 

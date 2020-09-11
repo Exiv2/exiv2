@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
+#include <utility>
 
 using std::string;
 using namespace Exiv2;
@@ -217,13 +218,13 @@ int INIReader::ParseError()
     return _error;
 }
 
-string INIReader::Get(string section, string name, string default_value)
+string INIReader::Get(const string& section, const string& name, const string& default_value)
 {
     string key = MakeKey(section, name);
     return _values.count(key) ? _values[key] : default_value;
 }
 
-long INIReader::GetInteger(string section, string name, long default_value)
+long INIReader::GetInteger(const string& section, const string& name, long default_value)
 {
     string valstr = Get(section, name, "");
     const char* value = valstr.c_str();
@@ -233,7 +234,7 @@ long INIReader::GetInteger(string section, string name, long default_value)
     return end > value ? n : default_value;
 }
 
-double INIReader::GetReal(string section, string name, double default_value)
+double INIReader::GetReal(const string& section, const string& name, double default_value)
 {
     string valstr = Get(section, name, "");
     const char* value = valstr.c_str();
@@ -242,7 +243,7 @@ double INIReader::GetReal(string section, string name, double default_value)
     return end > value ? n : default_value;
 }
 
-bool INIReader::GetBoolean(string section, string name, bool default_value)
+bool INIReader::GetBoolean(const string& section, const string& name, bool default_value)
 {
     string valstr = Get(section, name, "");
     // Convert to lower case to make string comparisons case-insensitive
@@ -255,7 +256,7 @@ bool INIReader::GetBoolean(string section, string name, bool default_value)
         return default_value;
 }
 
-string INIReader::MakeKey(string section, string name)
+string INIReader::MakeKey(const string& section, const string& name)
 {
     string key = section + "=" + name;
     // Convert to lower case to make section/name lookups case-insensitive
