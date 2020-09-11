@@ -111,6 +111,12 @@ namespace Exiv2
         void writeMetadata() override;
         void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
 
+        JpegBase() = delete;
+        JpegBase& operator=(const JpegBase& rhs) = delete;
+        JpegBase& operator=(const JpegBase&& rhs) = delete;
+        JpegBase(const JpegBase& rhs) = delete;
+        JpegBase(const JpegBase&& rhs) = delete;
+
     protected:
         //! @name Creators
         //@{
@@ -182,12 +188,6 @@ namespace Exiv2
         static const char jfifId_[];  //!< JFIF identifier
         static const char xmpId_[];   //!< XMP packet identifier
         static const char iccId_[];   //!< ICC profile identifier
-
-        JpegBase() = delete;
-        JpegBase& operator=(const JpegBase& rhs) = delete;
-        JpegBase& operator=(const JpegBase&& rhs) = delete;
-        JpegBase(const JpegBase& rhs) = delete;
-        JpegBase(const JpegBase&& rhs) = delete;
 
     private:
         //! @name Manipulators

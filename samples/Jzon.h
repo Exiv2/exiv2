@@ -405,6 +405,9 @@ namespace Jzon
         // Return result from last call to Write()
         const std::string &GetResult() const;
 
+        // Disable assignment operator
+        Writer &operator=(const Writer &) = delete;
+
     private:
         void writeNode(const Node &node, unsigned int level);
         void writeObject(const Object &node, unsigned int level);
@@ -416,9 +419,6 @@ namespace Jzon
         class FormatInterpreter *fi;
 
         const Node &root;
-
-        // Disable assignment operator
-        Writer &operator=(const Writer &) = delete;
     };
 
     class JzonAPI Parser
@@ -432,6 +432,9 @@ namespace Jzon
         bool Parse();
 
         const std::string &GetError() const;
+
+        // Disable assignment operator
+        Parser &operator=(const Parser &) = delete;
 
     private:
         enum Token
@@ -467,8 +470,5 @@ namespace Jzon
         Node &root;
 
         std::string error;
-
-        // Disable assignment operator
-        Parser &operator=(const Parser &) = delete;
     };
 }  // namespace Jzon
