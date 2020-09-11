@@ -112,12 +112,8 @@ namespace Exiv2 {
                           long        sizePsData)
     {
         if (sizePsData < 4) return false;
-        for (auto& i : irbId_) {
-            assert(strlen(i) == 4);
-            if (memcmp(pPsData, i, 4) == 0)
-                return true;
-        }
-        return false;
+        return std::any_of(std::begin(irbId_), std::end(irbId_),
+                           [=](const char* irb) { return (strlen(irb) == 4) && memcmp(pPsData, irb, 4) == 0; });
     }
 
     bool Photoshop::valid(const byte* pPsData,

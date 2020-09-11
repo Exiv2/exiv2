@@ -172,10 +172,8 @@ namespace Exiv2 {
 
     CiffDirectory::~CiffDirectory()
     {
-        Components::iterator b = components_.begin();
-        Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            delete *i;
+        for (auto& component : components_) {
+            delete component;
         }
     }
 
@@ -343,10 +341,8 @@ namespace Exiv2 {
 
     void CiffDirectory::doDecode(Image& image, ByteOrder byteOrder) const
     {
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->decode(image, byteOrder);
+        for (const auto& component : components_) {
+            component->decode(image, byteOrder);
         }
     } // CiffDirectory::doDecode
 
@@ -429,10 +425,8 @@ namespace Exiv2 {
         uint32_t dirOffset = 0;
 
         // Value data
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            dirOffset = (*i)->write(blob, byteOrder, dirOffset);
+        for (auto& component : components_) {
+            dirOffset = component->write(blob, byteOrder, dirOffset);
         }
         const uint32_t dirStart = dirOffset;
 
@@ -443,8 +437,8 @@ namespace Exiv2 {
         dirOffset += 2;
 
         // Directory entries
-        for (Components::iterator i = b; i != e; ++i) {
-            (*i)->writeDirEntry(blob, byteOrder);
+        for (auto& component : components_) {
+            component->writeDirEntry(blob, byteOrder);
             dirOffset += 10;
         }
 
@@ -549,10 +543,8 @@ namespace Exiv2 {
                                 const std::string& prefix) const
     {
         CiffComponent::doPrint(os, byteOrder, prefix);
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->print(os, byteOrder, prefix + "   ");
+        for (const auto& component : components_) {
+            component->print(os, byteOrder, prefix + "   ");
         }
     } // CiffDirectory::doPrint
 
@@ -627,11 +619,10 @@ namespace Exiv2 {
                                                   uint16_t crwDir) const
     {
         CiffComponent* cc = nullptr;
-        const Components::const_iterator b = components_.begin();
-        const Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            cc = (*i)->findComponent(crwTagId, crwDir);
-            if (cc) return cc;
+        for (const auto& component : components_) {
+            cc = component->findComponent(crwTagId, crwDir);
+            if (cc)
+                return cc;
         }
         return nullptr;
     } // CiffDirectory::doFindComponent
@@ -675,16 +666,13 @@ namespace Exiv2 {
               if not found, create it
               set value
         */
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-
         if (!crwDirs.empty()) {
             CrwSubDir csd = crwDirs.top();
             crwDirs.pop();
             // Find the directory
-            for (Components::iterator i = b; i != e; ++i) {
-                if ((*i)->tag() == csd.crwDir_) {
-                    cc_ = *i;
+            for (const auto& component : components_) {
+                if (component->tag() == csd.crwDir_) {
+                    cc_ = component;
                     break;
                 }
             }
@@ -696,12 +684,11 @@ namespace Exiv2 {
             }
             // Recursive call to next lower level directory
             cc_ = cc_->add(crwDirs, crwTagId);
-        }
-        else {
+        } else {
             // Find the tag
-            for (Components::iterator i = b; i != e; ++i) {
-                if ((*i)->tagId() == crwTagId) {
-                    cc_ = *i;
+            for (const auto& component : components_) {
+                if (component->tagId() == crwTagId) {
+                    cc_ = component;
                     break;
                 }
             }
