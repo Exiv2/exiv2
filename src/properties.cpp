@@ -2492,9 +2492,9 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix)
     {
-        for (NsRegistry::const_iterator i = nsRegistry_.begin();
-             i != nsRegistry_.end(); ++i) {
-            if (i->second == prefix) return &(i->second);
+        for (const auto& ns : nsRegistry_) {
+            if (ns.second == prefix)
+                return &(ns.second);
         }
         return nullptr;
     }

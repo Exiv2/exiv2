@@ -84,9 +84,7 @@ namespace Exiv2 {
 
     TiffVisitor::TiffVisitor()
     {
-        for (bool& i : go_) {
-            i = true;
-        }
+        std::fill(std::begin(go_), std::end(go_), true);
     }
 
     TiffVisitor::~TiffVisitor() = default;
