@@ -28,18 +28,18 @@
 #endif
 
 // included header files
-#include "config.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+
+#include "config.h"
 #include "datasets.hpp"
 #include "futils.hpp"
 #include "http.hpp"
-
-#include <stdio.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-#include <cstdlib>
 
 #define SLEEP 1000
 #define SNOOZE 0
@@ -70,7 +70,6 @@
 #define closesocket close
 
 #include <arpa/inet.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -79,6 +78,8 @@
 #include <sys/uio.h>
 #include <sys/un.h>
 #include <unistd.h>
+
+#include <cerrno>
 
 #define fopen_S(f, n, o) f = fopen(n, o)
 #define WINAPI

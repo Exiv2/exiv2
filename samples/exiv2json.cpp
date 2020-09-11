@@ -2,21 +2,21 @@
 // exiv2json.cpp
 // Sample program to print metadata in JSON format
 
-#include <exiv2/exiv2.hpp>
-#include "Jzon.h"
-
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <string>
-#include <map>
-#include <vector>
-#include <set>
-
-#include <cstdlib>
-#include <limits.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+
+#include <cassert>
+#include <climits>
+#include <cstdlib>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
+#include "Jzon.h"
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MINGW__

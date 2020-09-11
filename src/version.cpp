@@ -36,11 +36,11 @@
 #endif
 
 // + standard includes
+#include <cstdio>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <string>
-#include <stdio.h>
-#include <iostream>
 
 #if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
 #include <unistd.h>

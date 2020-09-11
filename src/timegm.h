@@ -3,7 +3,7 @@
   @brief   Declaration of timegm(). The implementation is in localtime.c
 */
 #pragma once
-#include <time.h>
+#include <ctime>
 
 #ifdef  __cplusplus	
 extern "C" {	
