@@ -34,16 +34,16 @@
 #include "unused.h"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <cassert>
-#include <cstring>
-#include <ctime>
+#include <cctype>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
-#include <ctype.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 #if defined(_MSC_VER) && _MSC_VER < 1900
 

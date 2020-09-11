@@ -37,12 +37,12 @@
 #include "unused.h"
 
 // + standard includes
-#include <utility>
-#include <iostream>
+#include <cstdio>  // for snprintf (C99)
 #include <iomanip>
 #include <ios>
+#include <iostream>
 #include <sstream>
-#include <stdio.h> // for snprintf (C99)
+#include <utility>
 #ifdef _MSC_VER
 # define snprintf _snprintf
 #endif
@@ -53,8 +53,9 @@
 #endif
 
 #ifdef EXV_HAVE_ICONV
-# include <iconv.h>
-# include <errno.h>
+#include <iconv.h>
+
+#include <cerrno>
 #endif
 
 // Adobe XMP Toolkit

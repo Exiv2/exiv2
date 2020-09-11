@@ -36,20 +36,19 @@
 #if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
 # include <windows.h> // for MultiByteToWideChar etc
 #endif // Windows
-#include <string>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <utility>
+#include <cassert>
 #include <cctype>
-#include <ctime>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
-#include <cassert>
 #include <cstring>
-#include <cmath>
-#include <math.h>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
 #include <mutex>
+#include <sstream>
+#include <string>
+#include <utility>
 
 // *****************************************************************************
 namespace {

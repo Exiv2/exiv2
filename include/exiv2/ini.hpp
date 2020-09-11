@@ -7,11 +7,11 @@
 
 #pragma once
 
-#include "exiv2lib_export.h"
-
+#include <cstdio>
 #include <map>
 #include <string>
-#include <stdio.h>
+
+#include "exiv2lib_export.h"
 
 namespace Exiv2 {
 

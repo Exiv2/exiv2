@@ -4,25 +4,23 @@
 
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
-#include <exiv2/exiv2.hpp>
-#include "unused.h"
-
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <algorithm>
-
-#include <stdio.h>
-#include <cstdlib>
-#include <time.h>
-#include <string.h>
+#include <expat.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <expat.h>
-
-#include <vector>
+#include <algorithm>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
 #include <string>
+#include <vector>
+
+#include "unused.h"
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MINGW__

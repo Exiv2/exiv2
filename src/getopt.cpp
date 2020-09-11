@@ -4,16 +4,17 @@
 #endif
 
 // included header files
-#include <assert.h>
-#include <errno.h>
+#include "getopt.hpp"
+
+#include <cassert>
+#include <cerrno>
+#include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
+#include <cstring>
 #include <iostream>
 
 #include "utils.hpp"
-#include "getopt.hpp"
 
 namespace Util {
 

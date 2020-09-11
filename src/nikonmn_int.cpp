@@ -40,12 +40,12 @@
 #include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <string>
-#include <sstream>
-#include <iomanip>
 #include <cassert>
+#include <cmath>  //for log, pow, abs
 #include <cstring>
-#include <math.h> //for log, pow, abs
+#include <iomanip>
+#include <sstream>
+#include <string>
 
 // *****************************************************************************
 // class member definitions
