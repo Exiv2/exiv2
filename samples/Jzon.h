@@ -270,7 +270,7 @@ namespace Jzon
         Type GetType() const override;
 
         void Add(const std::string &name, Node &node);
-        void Add(const std::string &name, Value node);
+        void Add(const std::string &name, const Value &node);
         void Remove(const std::string &name);
         void Clear();
 
@@ -338,7 +338,7 @@ namespace Jzon
         Type GetType() const override;
 
         void Add(Node &node);
-        void Add(Value node);
+        void Add(const Value &node);
         void Remove(size_t index);
         void Clear();
 
