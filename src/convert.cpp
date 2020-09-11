@@ -114,7 +114,7 @@ namespace Exiv2 {
             ConvertFct  key1ToKey2_; //!< Conversion from first to second key.
             ConvertFct  key2ToKey1_; //!< Conversion from second to first key.
         };
-    public:
+
         //! @name Creators
         //@{
         //! Constructor for Exif tags and XMP properties.
