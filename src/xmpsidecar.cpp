@@ -98,7 +98,7 @@ namespace Exiv2 {
         if (io_->error()) throw Error(kerFailedToReadImageData);
         clearMetadata();
         xmpPacket_ = xmpPacket;
-        if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+        if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
@@ -178,7 +178,7 @@ namespace Exiv2 {
 #endif
             }
         }
-        if (xmpPacket_.size() > 0) {
+        if (!xmpPacket_.empty()) {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
                 xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }

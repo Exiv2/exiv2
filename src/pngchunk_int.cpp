@@ -320,7 +320,7 @@ namespace Exiv2
                         pCur = record + sizeHdr + sizeIptc;
                         pCur += (sizeIptc & 1);
                     }
-                    if (iptcBlob.size() > 0 &&
+                    if (!iptcBlob.empty() &&
                         IptcParser::decode(pImage->iptcData(), &iptcBlob[0], static_cast<uint32_t>(iptcBlob.size()))) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Failed to decode IPTC metadata.\n";

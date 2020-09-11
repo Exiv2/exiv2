@@ -37,7 +37,8 @@ namespace Util {
 
     std::string dirname(const std::string& path)
     {
-        if (path == "") return ".";
+        if (path.empty())
+            return ".";
         // Strip trailing slashes or backslashes
         std::string p = path;
         while (   p.length() > 1
@@ -59,7 +60,8 @@ namespace Util {
 
     std::string basename(const std::string& path, bool delsuffix)
     {
-        if (path == "") return ".";
+        if (path.empty())
+            return ".";
         // Strip trailing slashes or backslashes
         std::string p = path;
         while (   p.length() > 1

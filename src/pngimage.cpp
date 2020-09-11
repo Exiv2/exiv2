@@ -600,7 +600,7 @@ namespace Exiv2
                     // Update Exif data to a new PNG chunk
                     Blob blob;
                     ExifParser::encode(blob, littleEndian, exifData_);
-                    if (blob.size() > 0) {
+                    if (!blob.empty()) {
                         const std::string exifHeader{"Exif\0\0", 6};
                         std::string rawExif = exifHeader + std::string((const char*)blob.data(), blob.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
@@ -662,7 +662,7 @@ namespace Exiv2
 #endif
                     }
                 }
-                if (xmpPacket_.size() > 0) {
+                if (!xmpPacket_.empty()) {
                     // Update XMP data to a new PNG chunk
                     std::string chunk = PngChunk::makeMetadataChunk(xmpPacket_, mdXmp);
                     if (outIo.write((const byte*)chunk.data(), chunk.size()) != chunk.size()) {

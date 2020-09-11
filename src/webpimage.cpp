@@ -163,7 +163,7 @@ namespace Exiv2 {
 
         if (exifData_.count() > 0) {
             ExifParser::encode(blob, littleEndian, exifData_);
-            if (blob.size() > 0) {
+            if (!blob.empty()) {
                 has_exif = true;
             }
         }
@@ -173,7 +173,7 @@ namespace Exiv2 {
                               XmpParser::useCompactFormat |
                               XmpParser::omitAllFormatting);
         }
-        has_xmp = xmpPacket_.size() > 0;
+        has_xmp = !xmpPacket_.empty();
         std::string xmp(xmpPacket_);
 
         /* Verify for a VP8X Chunk First before writing in
@@ -701,7 +701,7 @@ namespace Exiv2 {
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
                 io_->readOrThrow(payload.pData_, payload.size_);
                 xmpPacket_.assign(reinterpret_cast<char*>(payload.pData_), payload.size_);
-                if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+                if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode XMP metadata." << std::endl;
 #endif

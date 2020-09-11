@@ -325,7 +325,8 @@ namespace Exiv2 {
 
     long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        if (value_.size() == 0) return 0;
+        if (value_.empty())
+            return 0;
         // byteOrder not needed
         assert(buf != nullptr);
         return static_cast<long>(
@@ -398,7 +399,8 @@ namespace Exiv2 {
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
-        if (value_.size() > 0 && value_[value_.size()-1] != '\0') value_ += '\0';
+        if (!value_.empty() && value_[value_.size() - 1] != '\0')
+            value_ += '\0';
         return 0;
     }
 
@@ -523,7 +525,7 @@ namespace Exiv2 {
             }
             c = value_.substr(0, 8) + c;
         }
-        if (c.size() == 0)
+        if (c.empty())
             return 0;
         assert(buf != nullptr);
         return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
@@ -641,7 +643,8 @@ namespace Exiv2 {
         std::ostringstream os;
         write(os);
         std::string s = os.str();
-        if (s.size() > 0) std::memcpy(buf, &s[0], s.size());
+        if (!s.empty())
+            std::memcpy(buf, &s[0], s.size());
         return static_cast<long>(s.size());
     }
 

@@ -1493,7 +1493,7 @@ namespace Exiv2 {
                 v = (uint16_t)value.toLong(1);
                 for (int i = 0; focusModes1[i].val != 0; i++) {
                     if ((v & focusModes1[i].val) != 0) {
-                        if (p.size() > 0) {
+                        if (!p.empty()) {
                             os << ", ";
                         }
                         p = focusModes1[i].label;
