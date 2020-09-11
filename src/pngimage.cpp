@@ -273,7 +273,7 @@ namespace Exiv2
                 // format output
                 const int iMax = 30;
                 const uint32_t blen = dataOffset > iMax ? iMax : dataOffset;
-                std::string dataString = "";
+                std::string dataString;
                 // if blen == 0 => slice construction fails
                 if (blen > 0) {
                     std::stringstream ss;

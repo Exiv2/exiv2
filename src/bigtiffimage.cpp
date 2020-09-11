@@ -244,7 +244,7 @@ namespace Exiv2
                             const uint64_t count = readData(dataSize_);
                             const DataBuf  data  = io.read(dataSize_);        // Read data as raw value. what should be done about it will be decided depending on type
 
-                            std::string sp = "" ; // output spacer
+                            std::string sp;  // output spacer
 
                             //prepare to print the value
                             // TODO: figure out what's going on with kount

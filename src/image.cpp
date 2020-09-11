@@ -364,7 +364,7 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
                     throw Error(kerInvalidTypeValue);
                 }
 
-                std::string sp  = "" ; // output spacer
+                std::string sp;  // output spacer
 
                 //prepare to print the value
                 uint32_t kount  = isPrintXMP(tag,option) ? count // haul in all the data

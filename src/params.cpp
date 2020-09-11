@@ -1398,7 +1398,7 @@ namespace
 
     std::string parseEscapes(const std::string& input)
     {
-        std::string result = "";
+        std::string result;
         for (unsigned int i = 0; i < input.length(); ++i) {
             char ch = input[i];
             if (ch != '\\') {
@@ -1448,7 +1448,7 @@ namespace
                             break;
                         }
 
-                        std::string ucs2toUtf8 = "";
+                        std::string ucs2toUtf8;
                         ucs2toUtf8.push_back((char)((acc & 0xff00) >> 8));
                         ucs2toUtf8.push_back((char)(acc & 0x00ff));
 
