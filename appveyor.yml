@@ -79,7 +79,6 @@ build_script:
     - cmd: cd bin
     - cmd: if %UNIT_TESTS% == 1 unit_tests.exe
     - cmd: cd ../../tests/
-    - cmd: set EXIV2_EXT=.exe
     - cmd: if %INTEGRATION_TESTS% == 1 %PYTHON%/python.exe runner.py -v
     - cmd: cd ../build/bin
     - cmd: exiv2 --version --verbose

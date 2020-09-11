@@ -10,7 +10,6 @@ import sys
 import shutil
 import string
 import unittest
-import platform
 
 
 from bash_tests import utils as BT
@@ -162,8 +161,6 @@ def configure_suite(config_file):
         else:
             fallback = ""
         config['ENV'][key] = os.getenv(config['ENV'][key]) or fallback
-    if platform.system() == 'Windows':
-        config['ENV']['binary_extension'] = config['ENV']['binary_extension'] or '.exe'
 
     if 'variables' in config:
         for key in config['variables']:
@@ -177,7 +174,7 @@ def configure_suite(config_file):
             )
             if key == "tmp_path" and not os.path.isdir(abs_path):
                 os.mkdir(abs_path)
-            if not os.path.exists(abs_path):
+            if key == "data_path" and not os.path.exists(abs_path):
                 raise ValueError(
                     "Path replacement for {short}: {abspath} does not exist"
                     " (was expanded from {rel})".format(

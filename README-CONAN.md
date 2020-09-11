@@ -181,7 +181,6 @@ set "P=%P%c:\Windows\System32;"              # windows
 set "P=%P%%USERPROFILE%\com;"                # my home-made magic
 echo %P%
 set "PATH=%P%"
-set "EXIV2_EXT=.exe"
 set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
 color 0d
 cmd /S /K cd "%EXIV2_BINDIR%\..\.."

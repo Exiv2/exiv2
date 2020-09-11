@@ -18,7 +18,7 @@ class EmptyValueInCommandFile(metaclass=CaseMeta):
 
     stderr = [
         """$filename1, line 1: Empty value for key `Exiff.LfkInfo.GPSDa'
-$exiv2exe: Error parsing -m option arguments
+exiv2: Error parsing -m option arguments
 """]
     retval = [1]
 
