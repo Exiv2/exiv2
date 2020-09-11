@@ -345,7 +345,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     Exiv2::Dictionary ns;
     Exiv2::XmpProperties::registeredNamespaces(ns);
-    for (auto dict : ns) {
+    for (const auto& dict : ns) {
         std::string xmlns = dict.first;
         std::string uri = dict.second;
         output(os, keys, name, xmlns.append(":").append(uri));
