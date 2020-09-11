@@ -53,12 +53,12 @@ namespace Exiv2 {
 // type definitions
 
     //! Type for a function pointer for functions interpreting the tag value
-    typedef std::ostream& (*PrintFct)(std::ostream&, const Value&, const ExifData* pExifData);
+    using PrintFct = std::ostream& (*)(std::ostream&, const Value&, const ExifData*);
     //! A function returning a tag list.
-    typedef const TagInfo* (*TagListFct)();
+    using TagListFct = const TagInfo* (*)();
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! The details of an Exif group. Groups include IFDs and binary arrays.
     struct EXIV2API GroupInfo {
@@ -146,7 +146,7 @@ namespace Exiv2 {
     class EXIV2API ExifKey : public Key {
     public:
         //! Shortcut for an %ExifKey auto pointer.
-        typedef std::unique_ptr<ExifKey> UniquePtr;
+        using UniquePtr = std::unique_ptr<ExifKey>;
 
         //! @name Creators
         //@{

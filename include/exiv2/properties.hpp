@@ -247,7 +247,7 @@ namespace Exiv2 {
     {
     public:
         //! Shortcut for an %XmpKey auto pointer.
-        typedef std::unique_ptr<XmpKey> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpKey>;
 
         //! @name Creators
         //@{

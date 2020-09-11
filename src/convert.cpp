@@ -104,7 +104,7 @@ namespace Exiv2 {
           These functions have access to both the source and destination metadata
           containers and store the result directly in the destination container.
          */
-        typedef void (Converter::*ConvertFct)(const char* from, const char* to);
+        using ConvertFct = void (Converter::*)(const char*, const char*);
         //! Structure to define conversions between two keys.
         struct Conversion {
             MetadataId  metadataId_; //!< Type of metadata for the first key.

@@ -305,7 +305,7 @@ namespace Exiv2
     };
 
     //! Container type to hold all metadata
-    typedef std::list<Exifdatum> ExifMetadata;
+    using ExifMetadata = std::list<Exifdatum>;
 
     /// @brief A container for EXIF data. This is a top-level class of the library. The container holds Exifdatum
     /// objects.
@@ -321,9 +321,9 @@ namespace Exiv2
     {
     public:
         //! ExifMetadata iterator type
-        typedef ExifMetadata::iterator iterator;
+        using iterator = ExifMetadata::iterator;
         //! ExifMetadata const iterator type
-        typedef ExifMetadata::const_iterator const_iterator;
+        using const_iterator = ExifMetadata::const_iterator;
 
         //! @name Manipulators
         //@{

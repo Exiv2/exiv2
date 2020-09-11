@@ -159,13 +159,13 @@ namespace Exiv2
 #endif
     {
         /// Type of the standard (mutable) iterator
-        typedef typename container::iterator iterator;
+        using iterator = typename container::iterator;
 
         /// Type of the constant iterator (does not provide mutable access)
-        typedef typename container::const_iterator const_iterator;
+        using const_iterator = typename container::const_iterator;
 
         /// Type of the individual elements inside the slice
-        typedef typename std::remove_cv<typename container::value_type>::type value_type;
+        using value_type = typename std::remove_cv<typename container::value_type>::type;
 
         /// Construct a slice of the container `cont` starting at `begin`
         /// (including) and ending before `end`.
@@ -376,14 +376,14 @@ namespace Exiv2
 #endif
     {
         /// Type of the individual elements inside the slice
-        typedef typename std::remove_cv<T>::type value_type;
+        using value_type = typename std::remove_cv<T>::type;
 
         /// Type of the constant iterator (does not provide mutable access)
         typedef typename std::conditional<std::is_const<T>::value, typename std::add_const<value_type>::type*,
                                           value_type*>::type iterator;
 
         /// Type of the standard (mutable) iterator
-        typedef const typename std::remove_cv<T>::type* const_iterator;
+        using const_iterator = const typename std::remove_cv<T>::type*;
 
         /// Constructor.
         ///

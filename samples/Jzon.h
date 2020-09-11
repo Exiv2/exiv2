@@ -288,7 +288,7 @@ namespace Jzon
         Node *GetCopy() const override;
 
     private:
-        typedef std::vector<NamedNodePtr> ChildList;
+        using ChildList = std::vector<NamedNodePtr>;
         ChildList children;
     };
 
@@ -355,7 +355,7 @@ namespace Jzon
         Node *GetCopy() const override;
 
     private:
-        typedef std::vector<Node*> ChildList;
+        using ChildList = std::vector<Node *>;
         ChildList children;
     };
 

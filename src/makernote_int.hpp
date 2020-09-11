@@ -60,39 +60,33 @@ namespace Exiv2 {
 // class definitions
 
     //! Type for a pointer to a function creating a makernote (image)
-    typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
-                                       IfdId       group,
-                                       IfdId       mnGroup,
-                                       const byte* pData,
-                                       uint32_t    size,
-                                       ByteOrder   byteOrder);
+        using NewMnFct = TiffComponent* (*)(uint16_t, IfdId, IfdId, const byte*, uint32_t, ByteOrder);
 
-    //! Type for a pointer to a function creating a makernote (group)
-    typedef TiffComponent* (*NewMnFct2)(uint16_t   tag,
-                                        IfdId      group,
-                                        IfdId      mnGroup);
+        //! Type for a pointer to a function creating a makernote (group)
+        using NewMnFct2 = TiffComponent* (*)(uint16_t, IfdId, IfdId);
 
-    //! Makernote registry structure
-    struct TiffMnRegistry {
-        struct MakeKey;
-        /*!
-          @brief Compare a TiffMnRegistry structure with a key being the make
-                 string from the image. The two are equal if
-                 TiffMnRegistry::make_ equals a substring of the key of the
-                 same size. E.g., registry = "OLYMPUS",
-                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
-         */
-        bool operator==(const std::string& key) const;
+        //! Makernote registry structure
+        struct TiffMnRegistry
+        {
+            struct MakeKey;
+            /*!
+              @brief Compare a TiffMnRegistry structure with a key being the make
+                     string from the image. The two are equal if
+                     TiffMnRegistry::make_ equals a substring of the key of the
+                     same size. E.g., registry = "OLYMPUS",
+                     key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
+             */
+            bool operator==(const std::string& key) const;
 
-        //! Compare a TiffMnRegistry structure with a makernote group
-        bool operator==(IfdId key) const;
+            //! Compare a TiffMnRegistry structure with a makernote group
+            bool operator==(IfdId key) const;
 
-        // DATA
-        const char* make_;                      //!< Camera make
-        IfdId       mnGroup_;                   //!< Group identifier
-        NewMnFct    newMnFct_;                  //!< Makernote create function (image)
-        NewMnFct2   newMnFct2_;                 //!< Makernote create function (group)
-    };
+            // DATA
+            const char* make_;     //!< Camera make
+            IfdId mnGroup_;        //!< Group identifier
+            NewMnFct newMnFct_;    //!< Makernote create function (image)
+            NewMnFct2 newMnFct2_;  //!< Makernote create function (group)
+        };
 
     /*!
       @brief TIFF makernote factory for concrete TIFF makernotes.

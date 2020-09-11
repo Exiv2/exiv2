@@ -271,7 +271,7 @@ namespace Exiv2 {
     class EXIV2API IptcKey : public Key {
     public:
         //! Shortcut for an %IptcKey auto pointer.
-        typedef std::unique_ptr<IptcKey> UniquePtr;
+        using UniquePtr = std::unique_ptr<IptcKey>;
 
         //! @name Creators
         //@{
@@ -359,34 +359,33 @@ namespace Exiv2 {
     /// @brief typedef for string:string map
     typedef std::map<std::string,std::string>                 Dictionary;
     /// @brief typedef for Dictionary*
-    typedef Dictionary*                                       Dictionary_p;
+    using Dictionary_p = Dictionary*;
     /// @brief typedef for Dictionary iterator
-    typedef Dictionary::const_iterator                        Dictionary_i;
+    using Dictionary_i = Dictionary::const_iterator;
 
     /// @brief typedef for string set (unique strings)
-    typedef std::set<std::string>                             StringSet;
+    using StringSet = std::set<std::string>;
     /// @brief typedef for StringSet*
-    typedef StringSet*                                        StringSet_p;
+    using StringSet_p = StringSet*;
     /// @brief Class to provide a StringSet iterator
-    typedef std::set<std::string>::const_iterator             StringSet_i;
+    using StringSet_i = std::set<std::string>::const_iterator;
 
     /// @brief typedef for string vector
-    typedef std::vector<std::string>                          StringVector;
+    using StringVector = std::vector<std::string>;
     /// @brief typedef for StringVector pointer
-    typedef StringVector*                                     StringVector_p;
+    using StringVector_p = StringVector*;
     /// @brief Class to provide a StringVector iterator
-    typedef StringVector::const_iterator                      StringVector_i;
+    using StringVector_i = StringVector::const_iterator;
 
     /// @brief typedef for uint32_t vector
-    typedef std::vector<uint32_t>                             Uint32Vector  ;
+    using Uint32Vector = std::vector<uint32_t>;
     /// @brief typedef for Uint32Vector pointer
-    typedef Uint32Vector*                                     Uint32Vector_p;
+    using Uint32Vector_p = Uint32Vector*;
     /// @brief typedef for Uint32Vector iterator
-    typedef Uint32Vector::const_iterator                      Uint32Vector_i;
+    using Uint32Vector_i = Uint32Vector::const_iterator;
 
-
-// *****************************************************************************
-// free functions
+    // *****************************************************************************
+    // free functions
 
     //! Output operator for dataSet
     EXIV2API std::ostream& operator<<(std::ostream& os, const DataSet& dataSet);

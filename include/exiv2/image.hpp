@@ -53,7 +53,7 @@ namespace Exiv2
     };
 
     //! List of native previews. This is meant to be used only by the PreviewManager.
-    typedef std::vector<NativePreview> NativePreviewList;
+    using NativePreviewList = std::vector<NativePreview>;
 
     /// @brief Options for printStructure
     typedef enum { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfile, kpsIptcErase } PrintStructureOption;
@@ -70,7 +70,7 @@ namespace Exiv2
     {
     public:
         //! Image auto_ptr type
-        typedef std::unique_ptr<Image> UniquePtr;
+        using UniquePtr = std::unique_ptr<Image>;
 
         //! @name Creators
         //@{
@@ -381,9 +381,9 @@ namespace Exiv2
     };
 
     //! Type for function pointer that creates new Image instances
-    typedef Image::UniquePtr (*NewInstanceFct)(BasicIo::UniquePtr io, bool create);
+    using NewInstanceFct = Image::UniquePtr (*)(BasicIo::UniquePtr, bool);
     //! Type for function pointer that checks image types
-    typedef bool (*IsThisTypeFct)(BasicIo& iIo, bool advance);
+    using IsThisTypeFct = bool (*)(BasicIo&, bool);
 
     /// @brief Returns an Image instance of the specified type. The factory is implemented as a static class.
     class EXIV2API ImageFactory

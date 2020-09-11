@@ -93,7 +93,7 @@ namespace {
       virtual ~Loader() = default;
 
       //! Loader auto pointer
-      typedef std::unique_ptr<Loader> UniquePtr;
+      using UniquePtr = std::unique_ptr<Loader>;
 
       //! Create a Loader subclass for requested id
       static UniquePtr create(PreviewId id, const Image &image);
@@ -118,13 +118,14 @@ namespace {
         Loader(PreviewId id, const Image &image);
 
         //! Functions that creates a loader from given parameters
-        typedef UniquePtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
+        using CreateFunc = UniquePtr (*)(PreviewId, const Image &, int);
 
         //! Structure to list possible loaders
-        struct LoaderList {
-            const char *imageMimeType_; //!< Image type for which the loader is valid, 0 matches all images
-            CreateFunc create_;         //!< Function that creates particular loader instance
-            int parIdx_;                //!< Parameter that is passed into CreateFunc
+        struct LoaderList
+        {
+            const char *imageMimeType_;  //!< Image type for which the loader is valid, 0 matches all images
+            CreateFunc create_;          //!< Function that creates particular loader instance
+            int parIdx_;                 //!< Parameter that is passed into CreateFunc
         };
 
         //! Table that lists possible loaders.  PreviewId is an index to this table.

@@ -400,7 +400,7 @@ namespace Exiv2 {
     {
         Uri result;
 
-        typedef std::string::const_iterator iterator_t;
+        using iterator_t = std::string::const_iterator;
 
         if ( !uri.length() )  return result;
 

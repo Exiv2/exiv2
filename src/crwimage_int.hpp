@@ -58,18 +58,13 @@ namespace Exiv2 {
 // type definitions
 
     //! Function pointer for functions to decode Exif tags from a CRW entry
-    typedef void (*CrwDecodeFct)(const CiffComponent&,
-                                 const CrwMapping*,
-                                 Image&,
-                                 ByteOrder);
+    using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
 
     //! Function pointer for functions to encode CRW entries from Exif tags
-    typedef void (*CrwEncodeFct)(const Image&,
-                                 const CrwMapping*,
-                                 CiffHeader*);
+    using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
 
     //! Stack to hold a path of CRW directories
-    typedef std::stack<CrwSubDir> CrwDirs;
+    using CrwDirs = std::stack<CrwSubDir>;
 
     //! Type to identify where the data is stored in a directory
     enum DataLocId {
@@ -90,9 +85,9 @@ namespace Exiv2 {
     class CiffComponent {
     public:
         //! CiffComponent auto_ptr type
-        typedef std::unique_ptr<CiffComponent> UniquePtr;
+        using UniquePtr = std::unique_ptr<CiffComponent>;
         //! Container type to hold all metadata
-        typedef std::vector<CiffComponent*> Components;
+        using Components = std::vector<CiffComponent*>;
 
         //! @name Creators
         //@{
@@ -419,7 +414,7 @@ namespace Exiv2 {
     class CiffHeader {
     public:
         //! CiffHeader auto_ptr type
-        typedef std::unique_ptr<CiffHeader> UniquePtr;
+        using UniquePtr = std::unique_ptr<CiffHeader>;
 
         //! @name Creators
         //@{
