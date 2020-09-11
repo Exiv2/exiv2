@@ -197,7 +197,7 @@ namespace Exiv2 {
 
     DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
 
-    byte *DataBuf::begin() noexcept
+    byte* DataBuf::begin() noexcept
     {
         return pData_;
     }
@@ -207,7 +207,7 @@ namespace Exiv2 {
         return pData_;
     }
 
-    byte *DataBuf::end() noexcept
+    byte* DataBuf::end() noexcept
     {
         return pData_ + size_;
     }

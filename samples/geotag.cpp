@@ -168,16 +168,34 @@ public:
     {}
 
 //  instance methods
-    bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
+    bool good() const
+    {
+        return time_ || lon_ || lat_ || ele_;
+    }
     std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
-    time_t      getTime()       { return time_ ; }
-    std::string toString();
+    time_t getTime() const
+    {
+        return time_;
+    }
+    std::string toString() const;
 
-//  getters/setters
-    double lat()            {return lat_   ;}
-    double lon()            {return lon_   ;}
-    double ele()            {return ele_   ;}
-    int    delta()          {return delta_ ;}
+    //  getters/setters
+    double lat() const
+    {
+        return lat_;
+    }
+    double lon() const
+    {
+        return lon_;
+    }
+    double ele() const
+    {
+        return ele_;
+    }
+    int delta() const
+    {
+        return delta_;
+    }
     void   delta(int delta) {delta_=delta  ;}
 
 //  data
@@ -253,7 +271,7 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
     return std::string(result);
 }
 
-std::string Position::toString()
+std::string Position::toString() const
 {
     char result[200];
     std::string sLat = Position::toExifString(lat_,false,true );

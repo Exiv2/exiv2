@@ -73,9 +73,9 @@ namespace
       //! Read the timestamp from a broken-down time in buffer \em tm.
       int read(struct tm *tm);
       //! Set the timestamp of a file
-      int touch(const std::string &path);
+      int touch(const std::string& path) const;
 
-    private:
+  private:
       time_t actime_{0};
       time_t modtime_{0};
     };
@@ -1782,7 +1782,7 @@ namespace
         return rc;
     }
 
-    int Timestamp::touch(const std::string& path)
+    int Timestamp::touch(const std::string& path) const
     {
         if (0 == actime_)
             return 1;
