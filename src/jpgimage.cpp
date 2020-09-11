@@ -689,7 +689,7 @@ namespace Exiv2 {
                             bufRead = size;
                             done = !bExtXMP;
                         }
-                    } else if (option == kpsIccProfile && signature.compare(iccId_) == 0) {
+                    } else if (option == kpsIccProfile && signature == iccId_) {
                         // extract ICCProfile
                         if (size > 0) {
                             io_->seek(-(int64_t)bufRead, BasicIo::cur);  // back to buffer (after marker)
@@ -702,7 +702,7 @@ namespace Exiv2 {
 #endif
                             bufRead = size;
                         }
-                    } else if (option == kpsIptcErase && signature.compare("Photoshop 3.0") == 0) {
+                    } else if (option == kpsIptcErase && signature == "Photoshop 3.0") {
                         // delete IPTC data segment from JPEG
                         if (size > 0) {
                             io_->seek(-(int64_t)bufRead, BasicIo::cur);
@@ -713,7 +713,7 @@ namespace Exiv2 {
                         const size_t start = size > 0 ? 2 : 0;
                         const size_t end = start + (size > 32 ? 32 : size);
                         out << "| " << Internal::binaryToString(makeSlice(buf, start, end));
-                        if (signature.compare(iccId_) == 0) {
+                        if (signature == iccId_) {
                             // extract the chunk information from the buffer
                             //
                             // the buffer looks like this in this branch
@@ -732,10 +732,10 @@ namespace Exiv2 {
 
                     // for MPF: http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/MPF.html
                     // for FLIR: http://owl.phy.queensu.ca/~phil/exiftool/TagNames/FLIR.html
-                    bool bFlir = option == kpsRecursive && marker == (app0_ + 1) && signature.compare("FLIR") == 0;
-                    bool bExif = option == kpsRecursive && marker == (app0_ + 1) && signature.compare("Exif") == 0;
-                    bool bMPF = option == kpsRecursive && marker == (app0_ + 2) && signature.compare("MPF") == 0;
-                    bool bPS = option == kpsRecursive && signature.compare("Photoshop 3.0") == 0;
+                    bool bFlir = option == kpsRecursive && marker == (app0_ + 1) && signature == "FLIR";
+                    bool bExif = option == kpsRecursive && marker == (app0_ + 1) && signature == "Exif";
+                    bool bMPF = option == kpsRecursive && marker == (app0_ + 2) && signature == "MPF";
+                    bool bPS = option == kpsRecursive && signature == "Photoshop 3.0";
                     if (bFlir || bExif || bMPF || bPS) {
                         // extract Exif data block which is tiff formatted
                         if (size > 0) {
@@ -748,7 +748,7 @@ namespace Exiv2 {
                             // copy the data to memory
                             io_->seek(-(int64_t)bufRead, BasicIo::cur);
                             io_->read(exif, size);
-                            uint32_t start = signature.compare("Exif") == 0 ? 8 : 6;
+                            uint32_t start = signature == "Exif" ? 8 : 6;
                             uint32_t max = (uint32_t)size - 1;
 
                             // is this an fff block?
