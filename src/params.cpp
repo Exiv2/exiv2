@@ -1260,7 +1260,7 @@ namespace
         for (const auto& filename: cmdFiles) {
             try {
                 std::ifstream file(filename.c_str());
-                bool bStdin = filename.compare("-") == 0;
+                bool bStdin = filename == "-";
                 if (!file && !bStdin) {
                     std::cerr << filename << ": " << _("Failed to open command file for reading\n");
                     return false;

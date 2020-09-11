@@ -130,15 +130,12 @@ Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& 
 
 bool isObject(std::string& value)
 {
-    return !value.compare(std::string("type=\"Struct\""));
+    return value == "type=\"Struct\"";
 }
 
 bool isArray(std::string& value)
 {
-    return !value.compare(std::string("type=\"Seq\""))
-    ||     !value.compare(std::string("type=\"Bag\""))
-    ||     !value.compare(std::string("type=\"Alt\""))
-    ;
+    return (value == "type=\"Seq\"") || (value == "type=\"Bag\"") || (value == "type=\"Alt\"");
 }
 
 #define STORE(node,key,value) \
