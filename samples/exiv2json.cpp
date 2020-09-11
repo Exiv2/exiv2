@@ -329,7 +329,7 @@ int main(int argc, char* const argv[])
 
                 // create and populate a Jzon::Object for the namespaces
                 Jzon::Object    xmlns;
-                for (auto ns : namespaces) {
+                for (const auto& ns : namespaces) {
                     std::string uri = nsDict[ns];
                     xmlns.Add(ns, uri);
                 }
