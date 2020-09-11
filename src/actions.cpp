@@ -1854,27 +1854,27 @@ namespace
 
 // use static CS/MUTEX to make temporaryPath() thread safe
 #if defined(_MSC_VER) || defined(__MINGW__)
-    static CRITICAL_SECTION cs;
+    CRITICAL_SECTION cs;
 #else
 /* Unix/Linux/Cygwin/macOS */
 #include <pthread.h>
 /* This is the critical section object (statically allocated). */
 #if defined(__APPLE__)
 #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER)
-    static pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+    pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #else
-    static pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
 #endif
 #else
 #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP)
-    static pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+    pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
 #else
-    static pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
 #endif
 #endif
 #endif
 
-    static std::string temporaryPath()
+    std::string temporaryPath()
     {
         static int count = 0;
 
