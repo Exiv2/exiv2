@@ -228,7 +228,7 @@ namespace Action
         //! format of the Exif thumbnail image.
         void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
         //! @brief Write embedded iccProfile files.
-        int writeIccProfile(const std::string& path) const;
+        int writeIccProfile(const std::string& target) const;
 
     private:
         Extract* clone_() const override;
