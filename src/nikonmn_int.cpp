@@ -2869,10 +2869,10 @@ fmountlens[] = {
             std::string d = s.empty() ? "" : "; ";
             const TagDetails* td = find(nikonRetouchHistory, l);
             if (td) {
-                s = std::string(exvGettext(td->label_)) + d + s;
+                s = std::string(exvGettext(td->label_)).append(d).append(s);
             }
             else {
-                s = std::string(_("Unknown")) + std::string(" (") + toString(l) + std::string(")") + d + s;
+                s = std::string(_("Unknown")).append(" (").append(toString(l)).append(")").append(d).append(s);
             }
         }
         return os << s;
