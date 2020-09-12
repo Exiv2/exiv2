@@ -152,8 +152,7 @@ namespace Exiv2
         static int value[256];
         static bool bFirst = true;
         if (bFirst) {
-            for (int& i : value)
-                i = 0;
+            std::fill(std::begin(value), std::end(value), 0);
             for (int i = 0; i < 16; i++) {
                 value[tolower(hexdigits[i])] = i + 1;
                 value[toupper(hexdigits[i])] = i + 1;

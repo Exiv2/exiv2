@@ -970,10 +970,8 @@ namespace Exiv2 {
             return;
         }
 
-        for (char& i : value) {
-            if (i == '.')
-                i = ' ';
-        }
+        std::replace_if(
+            value.begin(), value.end(), [](const char& c) { return c == '.'; }, ' ');
         (*exifData_)[to] = value;
         if (erase_)
             xmpData_->erase(pos);

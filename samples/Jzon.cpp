@@ -483,9 +483,9 @@ namespace Jzon
     }
 
     void Object::Add(const std::string &name, Node &node)
-	{
-		children.push_back(NamedNodePtr(name, node.GetCopy()));
-	}
+    {
+        children.push_back(NamedNodePtr(name, node.GetCopy()));
+    }
     void Object::Add(const std::string &name, const Value &node)
     {
         children.push_back(NamedNodePtr(name, new Value(node)));
@@ -518,8 +518,8 @@ namespace Jzon
     }
     Object::const_iterator Object::begin() const
     {
-		if (!children.empty())
-			return Object::const_iterator(&children.front());
+        if (!children.empty())
+            return Object::const_iterator(&children.front());
 
         return Object::const_iterator(nullptr);
     }
@@ -540,12 +540,7 @@ namespace Jzon
 
     bool Object::Has(const std::string &name) const
     {
-        for (const auto &child : children) {
-            if (child.first == name) {
-                return true;
-            }
-        }
-        return false;
+        return std::any_of(children.begin(), children.end(), [&](NamedNodePtr child) { return child.first == name; });
     }
     size_t Object::GetCount() const
     {
@@ -1198,19 +1193,10 @@ namespace Jzon
         } else if (upperValue == "FALSE") {
             data.push(MakePair(Value::VT_BOOL, std::string("false")));
         } else {
-            bool number = true;
-            for (char c : value) {
-                if (!IsNumber(c)) {
-                    number = false;
-                    break;
-                }
-            }
-
-            if (number) {
-                data.push(MakePair(Value::VT_NUMBER, value));
-            } else {
+            if (!std::none_of(value.begin(), value.end(), [](char c) { return !IsNumber(c); }))
                 return false;
-            }
+
+            data.push(MakePair(Value::VT_NUMBER, value));
         }
 
         return true;

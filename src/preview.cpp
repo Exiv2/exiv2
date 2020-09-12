@@ -899,8 +899,7 @@ namespace {
         // create decoding table
         byte invalid = 16;
         byte decodeHexTable[256];
-        for (unsigned char &i : decodeHexTable)
-            i = invalid;
+        std::fill(std::begin(decodeHexTable), std::end(decodeHexTable), invalid);
         for (byte i = 0; i < 10; i++)
             decodeHexTable[static_cast<byte>('0') + i] = i;
         for (byte i = 0; i < 6; i++)
@@ -939,9 +938,8 @@ namespace {
 
         // create decoding table
         unsigned long invalid = 64;
-        unsigned long decodeBase64Table[256] = {};
-        for (unsigned long &i : decodeBase64Table)
-            i = invalid;
+        unsigned long decodeBase64Table[256];
+        std::fill(std::begin(decodeBase64Table), std::end(decodeBase64Table), invalid);
         for (unsigned long i = 0; i < 64; i++)
             decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
 
