@@ -957,13 +957,13 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         def get_xmpData(img):
             e    = BT.Executer('exiv2 -pX   {img}', vars(), decode_output=False)
-            return e.stdout.replace(b'\n', b'\r\n', 16) # Ignore the difference in newline 
+            return e.stdout.replace(b'\n', b'\r\n', 16) # Ignore the difference in newline
 
         BT.copyTestFile(a, b)
         out     += BT.Executer('exiv2 -pS   {b}', vars())
         out     += BT.Executer('exiv2 -dX   {b}', vars())  # remove first
         out     += BT.Executer('exiv2 -pS   {b}', vars())
-        
+
         e = BT.Executer('exiv2 -pX   {a}', vars(), decode_output=False)
         with open('out2', 'wb') as f:
             f.write(e.stdout)
@@ -1008,3 +1008,11 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
                     f.write(e.stdout)
 
         BT.reportTest('stdin-test', out)
+
+
+    def stringto_test(self):
+        # Test driver for tests of stringToLong/Float/Rational
+        out      = BT.Output()
+        out     += BT.Executer('stringto-test')
+        BT.reportTest('stringto-test', out)
+
