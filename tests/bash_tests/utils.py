@@ -249,6 +249,18 @@ def md5sum(filename):
         return hashlib.md5(f.read()).hexdigest()
 
 
+def pretty_xml(text, encoding=None):
+    """
+    Add indent to the XML text
+    Required installation: pip install lxml
+    """
+    from lxml import etree
+    encoding     = encoding or Config.encoding
+    root = etree.fromstring(text)
+    etree.indent(root)
+    return etree.tostring(root).decode(encoding)
+
+
 class Log:
 
     def __init__(self):
@@ -353,7 +365,7 @@ def simply_diff(file1, file2, encoding=None):
 
 class Executer:
     """
-    Execute a command in the shell, return a decorated `Subprocess.Popen` object.
+    Execute a command in the shell, return a `Executer` object.
     - If a binary of Exiv2 is executed, the absolute path is automatically added.
     - `adjust_output`: whether to filter path delimiters, whitespace characters in output
     - `decode_output`: whether to decode output from bytes to str
