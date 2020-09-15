@@ -231,7 +231,7 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 {
     auto& fs = (Jzon::Object&)nfs;
     fs.Add("path",path);
-    char resolved_path[2000]; // PATH_MAX];
+    char resolved_path[PATH_MAX];
     fs.Add("realpath",realpath(path,resolved_path));
 
     struct stat buf;
