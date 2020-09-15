@@ -75,8 +75,8 @@ namespace Jzon
     class Value;
     class Object;
     class Array;
-    typedef Pair<std::string, Node&> NamedNode;
-    typedef Pair<std::string, Node*> NamedNodePtr;
+    using NamedNode = Pair<std::string, Node &>;
+    using NamedNodePtr = Pair<std::string, Node *>;
 
     class TypeException : public std::logic_error
     {

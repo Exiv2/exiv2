@@ -357,7 +357,7 @@ namespace Exiv2 {
     }; // class IptcKey
 
     /// @brief typedef for string:string map
-    typedef std::map<std::string,std::string>                 Dictionary;
+    using Dictionary = std::map<std::string, std::string>;
     /// @brief typedef for Dictionary*
     using Dictionary_p = Dictionary*;
     /// @brief typedef for Dictionary iterator

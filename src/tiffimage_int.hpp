@@ -461,7 +461,7 @@ namespace Exiv2 {
                 littleEndian}; //!< Byte order to use to encode target address
         };
         //! Type of the list containing an identifier and an address pair.
-        typedef std::map<OffsetId, OffsetData> OffsetList;
+        using OffsetList = std::map<OffsetId, OffsetData>;
 
         // DATA
         OffsetList offsetList_; //!< List of the offsets to replace

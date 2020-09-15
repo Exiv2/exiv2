@@ -701,8 +701,8 @@ namespace Exiv2 {
         //@}
 
     private:
-        typedef std::map<const byte*, IfdId> DirList;
-        typedef std::map<uint16_t, int> IdxSeq;
+        using DirList = std::map<const byte*, IfdId>;
+        using IdxSeq = std::map<uint16_t, int>;
         using PostList = std::vector<TiffComponent*>;
 
         // DATA

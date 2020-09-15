@@ -323,7 +323,7 @@ namespace Exiv2 {
     using Error = BasicError<char>;
 #ifdef EXV_UNICODE_PATH
     //! Error class used for exceptions (std::wstring based)
-    typedef BasicError<wchar_t> WError;
+    using WError = BasicError<wchar_t>;
 #endif
 
 // *****************************************************************************
