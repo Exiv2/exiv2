@@ -793,7 +793,7 @@ namespace Tag
 
     private:
         //! Pointers to the image data (strips) and their sizes.
-        typedef std::vector<std::pair<const byte*, uint32_t> > Strips;
+        using Strips = std::vector<std::pair<const byte*, uint32_t>>;
 
         // DATA
         Strips   strips_;       //!< Image strips data (never alloc'd) and sizes

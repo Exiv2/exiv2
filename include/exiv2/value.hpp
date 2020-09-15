@@ -963,7 +963,7 @@ namespace Exiv2 {
 
     public:
         //! Type used to store language alternative arrays.
-        typedef std::map<std::string, std::string,LangAltValueComparator>  ValueType;
+        using ValueType = std::map<std::string, std::string, LangAltValueComparator>;
         // DATA
         /*!
           @brief Map to store the language alternative values. The language

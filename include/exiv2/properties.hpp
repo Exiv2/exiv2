@@ -224,7 +224,7 @@ namespace Exiv2 {
          */
         static void unregisterNs();
         //! Type for the namespace registry
-        typedef std::map<std::string, XmpNsInfo> NsRegistry;
+        using NsRegistry = std::map<std::string, XmpNsInfo>;
         /*!
           @brief Get the registered namespace for a specific \em prefix from the registry.
          */

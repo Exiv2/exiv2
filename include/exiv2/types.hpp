@@ -78,9 +78,9 @@ namespace Exiv2 {
 using byte = uint8_t;
 
 //! 8 byte unsigned rational type.
-typedef std::pair<uint32_t, uint32_t> URational;
+using URational = std::pair<uint32_t, uint32_t>;
 //! 8 byte signed rational type.
-typedef std::pair<int32_t, int32_t> Rational;
+using Rational = std::pair<int32_t, int32_t>;
 
 //! Type to express the byte order (little or big endian)
 enum ByteOrder

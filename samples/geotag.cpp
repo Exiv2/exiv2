@@ -137,7 +137,7 @@ enum
 class Position;
 
 // globals
-typedef std::map<time_t,Position>           TimeDict_t;
+using TimeDict_t = std::map<time_t, Position>;
 using TimeDict_i = std::map<time_t, Position>::iterator;
 using strings_t = std::vector<std::string>;
 const char*  gDeg = nullptr ; // string "°" or "deg"
