@@ -12,10 +12,10 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     elif [ -n "$WITH_VALGRIND" ]; then
         export EXIV2_VALGRIND="valgrind --quiet"
     else
-        export CMAKE_OPTIONS="$CMAKE_OPTIONS -DEXIV2_TEAM_USE_SANITIZERS=ON"
+        export CMAKE_OPTIONS="$CMAKE_OPTIONS -DEXIV2_TEAM_USE_SANITIZERS=OFF"
     fi
 else
-    export CMAKE_OPTIONS="$CMAKE_OPTIONS -DEXIV2_TEAM_USE_SANITIZERS=ON"
+    export CMAKE_OPTIONS="$CMAKE_OPTIONS -DEXIV2_TEAM_USE_SANITIZERS=OFF"
 fi
 CMAKE_OPTIONS="$CMAKE_OPTIONS -DCMAKE_CXX_FLAGS=-Wno-deprecated"
 
