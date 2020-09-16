@@ -245,9 +245,9 @@ TEST(TheImageFactory, getsExpectedModesForOrfImages)
 TEST(TheImageFactory, getsExpectedModesForPsdImages)
 {
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::psd, mdNone));
-    ASSERT_EQ(amRead, ImageFactory::checkMode(ImageType::psd, mdExif));
-    ASSERT_EQ(amRead, ImageFactory::checkMode(ImageType::psd, mdIptc));
-    ASSERT_EQ(amRead, ImageFactory::checkMode(ImageType::psd, mdXmp));
+    ASSERT_EQ(amReadWrite, ImageFactory::checkMode(ImageType::psd, mdExif));
+    ASSERT_EQ(amReadWrite, ImageFactory::checkMode(ImageType::psd, mdIptc));
+    ASSERT_EQ(amReadWrite, ImageFactory::checkMode(ImageType::psd, mdXmp));
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::psd, mdComment));
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::psd, mdIccProfile));
 }
