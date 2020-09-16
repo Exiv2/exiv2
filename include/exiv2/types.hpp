@@ -58,9 +58,7 @@
    typedef          __int64 int64_t;
 # endif
 #else
-  #ifdef EXV_HAVE_STDINT_H
   # include <stdint.h>
-  #endif
 #endif
 
 

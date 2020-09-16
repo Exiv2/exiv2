@@ -391,9 +391,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     have_stdbool=1;
 #endif
 
-#ifdef EXV_HAVE_STDINT_H
     have_stdint=1;
-#endif
 
 #ifdef EXV_HAVE_STDLIB_H
     have_stdlib=1;
