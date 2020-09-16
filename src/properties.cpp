@@ -103,7 +103,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpAcdseeInfo[];
     extern const XmpPropertyInfo xmpGPanoInfo[];
 
-    extern const XmpNsInfo xmpNsInfo[] = {
+    constexpr XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
         { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
@@ -159,7 +159,7 @@ namespace Exiv2 {
         { "http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", nullptr, N_("Qualifier for xmp:Identifier") }
     };
 
-    extern const XmpPropertyInfo xmpDcInfo[] = {
+    const XmpPropertyInfo xmpDcInfo[] = {
         { "contributor",      N_("Contributor"),      "bag ProperName",  xmpBag,       xmpExternal, N_("Contributors to the resource (other than the authors).")                               },
         { "coverage",         N_("Coverage"),         "Text",            xmpText,      xmpExternal, N_("The spatial or temporal topic of the resource, the spatial applicability of the "
                                                                                                        "resource, or the jurisdiction under which the resource is relevant.")                      },
@@ -190,7 +190,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpDigikamInfo[] = {
+    const XmpPropertyInfo xmpDigikamInfo[] = {
         { "TagsList",               N_("Tags List"),                 "seq Text", xmpSeq,  xmpExternal, N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: \"City/Paris/Monument/Eiffel Tower\".") },
         { "CaptionsAuthorNames",    N_("Captions Author Names"),     "Lang Alt", langAlt, xmpExternal, N_("The list of all captions author names for each language alternative captions set in standard XMP tags.") },
         { "CaptionsDateTimeStamps", N_("Captions Date Time Stamps"), "Lang Alt", langAlt, xmpExternal, N_("The list of all captions date time stamps for each language alternative captions set in standard XMP tags.") },
@@ -203,7 +203,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpKipiInfo[] = {
+    const XmpPropertyInfo xmpKipiInfo[] = {
         { "PanoramaInputFiles",     N_("Panorama Input Files"),      "Text",     xmpText, xmpExternal, N_("The list of files processed with Hugin program through Panorama tool.") },
         { "EnfuseInputFiles",       N_("Enfuse Input Files"),        "Text",     xmpText, xmpExternal, N_("The list of files processed with Enfuse program through ExpoBlending tool.") },
         { "EnfuseSettings",         N_("Enfuse Settings"),           "Text",     xmpText, xmpExternal, N_("The list of Enfuse settings used to blend image stack with ExpoBlending tool.") },
@@ -213,7 +213,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpXmpInfo[] = {
+    const XmpPropertyInfo xmpXmpInfo[] = {
         { "Advisory",         N_("Advisory"),         "bag XPath",                xmpBag,    xmpExternal, N_("An unordered array specifying properties that were edited outside the authoring "
                                                                                                              "application. Each item should contain a single namespace and XPath separated by "
                                                                                                              "one ASCII space (U+0020).") },
@@ -248,7 +248,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpXmpRightsInfo[] = {
+    const XmpPropertyInfo xmpXmpRightsInfo[] = {
         { "Certificate",      N_("Certificate"),   "URL",            xmpText,       xmpExternal, N_("Online rights management certificate.") },
         { "Marked",           N_("Marked"),        "Boolean",        xmpText,       xmpExternal, N_("Indicates that this is a rights-managed resource.") },
         { "Owner",            N_("Owner"),         "bag ProperName", xmpBag,        xmpExternal, N_("An unordered array specifying the legal owner(s) of a resource.") },
@@ -258,7 +258,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpXmpMMInfo[] = {
+    const XmpPropertyInfo xmpXmpMMInfo[] = {
         { "DerivedFrom",      N_("Derived From"),      "ResourceRef",       xmpText,    xmpInternal, N_("A reference to the original document from which this one is derived. It is a "
                                                                                                         "minimal reference; missing components can be assumed to be unchanged. For example, "
                                                                                                         "a new version might only need to specify the instance ID and version number of the "
@@ -320,7 +320,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpXmpBJInfo[] = {
+    const XmpPropertyInfo xmpXmpBJInfo[] = {
         { "JobRef",           N_("Job Reference"),     "bag Job",   xmpText,    xmpExternal, N_("References an external job management file for a job process in which the document is being used. Use of job "
                                                                                                 "names is under user control. Typical use would be to identify all documents that are part of a particular job or contract. "
                                                                                                 "There are multiple values because there can be more than one job using a particular document at any time, and it can "
@@ -329,7 +329,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpXmpTPgInfo[] = {
+    const XmpPropertyInfo xmpXmpTPgInfo[] = {
         { "MaxPageSize",      N_("Maximum Page Size"), "Dimensions",   xmpText,    xmpInternal, N_("The size of the largest page in the document (including any in contained documents).") },
         { "NPages",           N_("Number of Pages"),   "Integer",      xmpText,    xmpInternal, N_("The number of pages in the document (including any in contained documents).") },
         { "Fonts",            N_("Fonts"),             "bag Font",     xmpText,    xmpInternal, N_("An unordered array of fonts that are used in the document (including any in contained documents).") },
@@ -339,7 +339,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpXmpDMInfo[] = {
+    const XmpPropertyInfo xmpXmpDMInfo[] = {
         { "absPeakAudioFilePath",         N_("Absolute Peak Audio File Path"),    "URI",                   xmpText, xmpInternal, N_("The absolute path to the file's peak audio file. If empty, no peak file exists.") },
         { "album",                        N_("Album"),                            "Text",                  xmpText, xmpExternal, N_("The name of the album.") },
         { "altTapeName",                  N_("Alternative Tape Name"),            "Text",                  xmpText, xmpExternal, N_("An alternative tape name, set via the project window or timecode dialog in Premiere. "
@@ -429,7 +429,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpMicrosoftInfo[] = {
+    const XmpPropertyInfo xmpMicrosoftInfo[] = {
         { "CameraSerialNumber", N_("Camera Serial Number"), "Text",     xmpText, xmpExternal, N_("Camera Serial Number.") },
         { "DateAcquired",       N_("Date Acquired"),        "Date",     xmpText, xmpExternal, N_("Date Acquired.")        },
         { "FlashManufacturer",  N_("Flash Manufacturer"),   "Text",     xmpText, xmpExternal, N_("Flash Manufacturer.")   },
@@ -443,14 +443,14 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpLrInfo[] = {
+    const XmpPropertyInfo xmpLrInfo[] = {
         { "hierarchicalSubject",    N_("Hierarchical Subject"),    "bag Text",  xmpBag,      xmpExternal, N_("Adobe Lightroom hierarchical keywords.")   },
         { "privateRTKInfo",         N_("Private RTK Info"),        "Text",      xmpText,     xmpExternal, N_("Adobe Lightroom private RTK info.")        },
         // End of list marker
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpPdfInfo[] = {
+    const XmpPropertyInfo xmpPdfInfo[] = {
         { "Keywords",   N_("Keywords"),    "Text",      xmpText, xmpExternal, N_("Keywords.") },
         { "PDFVersion", N_("PDF Version"), "Text",      xmpText, xmpInternal, N_("The PDF file version (for example: 1.0, 1.3, and so on).") },
         { "Producer",   N_("Producer"),    "AgentName", xmpText, xmpInternal, N_("The name of the tool that created the PDF document.") },
@@ -459,7 +459,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpPhotoshopInfo[] = {
+    const XmpPropertyInfo xmpPhotoshopInfo[] = {
         { "DateCreated",            N_("Date Created"),            "Date",       xmpText, xmpExternal, N_("The date the intellectual content of the document was created (rather than the creation "
                                                                                                           "date of the physical representation), following IIM conventions. For example, a photo "
                                                                                                           "taken during the American Civil War would have a creation date during that epoch "
@@ -494,13 +494,13 @@ namespace Exiv2 {
     };
 
     //! XMP crs:CropUnits
-    extern const TagDetails crsCropUnits[] = {
+    constexpr TagDetails crsCropUnits[] = {
         { 0, N_("pixels") },
         { 1, N_("inches") },
         { 2, N_("cm")     }
     };
 
-    extern const XmpPropertyInfo xmpCrssInfo[] = {
+    const XmpPropertyInfo xmpCrssInfo[] = {
         { "SavedSettings", 	N_("Saved Settings"), 	"SavedSettings", 	xmpText, 	xmpInternal, N_("*Main structure* Camera Raw Saved Settings.") },
         { "Name",  			N_("Name"),   			"Text",            	xmpText,    xmpExternal, N_("Camera Raw Saved Settings Name.")              },
         { "Type",  			N_("Type"),   			"Text",            	xmpText,    xmpExternal, N_("Camera Raw Saved Settings Type.")              },
@@ -509,7 +509,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpCrsInfo[] = {
+    const XmpPropertyInfo xmpCrsInfo[] = {
         { "AutoBrightness",       N_("Auto Brightness"),           "Boolean",                          xmpText, xmpInternal, N_("When true, \"Brightness\" is automatically adjusted.") },
         { "AutoContrast",         N_("Auto Contrast"),             "Boolean",                          xmpText, xmpInternal, N_("When true, \"Contrast\" is automatically adjusted.") },
         { "AutoExposure",         N_("Auto Exposure"),             "Boolean",                          xmpText, xmpInternal, N_("When true, \"Exposure\" is automatically adjusted.") },
@@ -749,7 +749,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpTiffInfo[] = {
+    const XmpPropertyInfo xmpTiffInfo[] = {
         { "ImageWidth",                N_("Image Width"),                "Integer",                      xmpText, xmpInternal, N_("TIFF tag 256, 0x100. Image width in pixels.") },
         { "ImageLength",               N_("Image Length"),               "Integer",                      xmpText, xmpInternal, N_("TIFF tag 257, 0x101. Image height in pixels.") },
         { "BitsPerSample",             N_("Bits Per Sample"),            "seq Integer",                  xmpSeq,  xmpInternal, N_("TIFF tag 258, 0x102. Number of bits per component in each channel.") },
@@ -799,7 +799,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpExifInfo[] = {
+    const XmpPropertyInfo xmpExifInfo[] = {
         { "ExifVersion",              N_("Exif Version"),                        "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 36864, 0x9000. EXIF version number.") },
         { "FlashpixVersion",          N_("Flashpix Version"),                    "Closed Choice of Text",        xmpText, xmpInternal, N_("EXIF tag 40960, 0xA000. Version of FlashPix.") },
         { "ColorSpace",               N_("Color Space"),                         "Closed Choice of Integer",     xmpText, xmpInternal, N_("EXIF tag 40961, 0xA001. Color space information") },
@@ -902,7 +902,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpExifEXInfo[] = {
+    const XmpPropertyInfo xmpExifEXInfo[] = {
         { "Gamma",                      N_("Gamma"),                    "Rational",                 xmpText, xmpInternal, N_("EXIF tag 42240, 0xA500. Indicates the value of coefficient gamma.") },
         { "PhotographicSensitivity",    N_("Photographic Sensitivity"), "Integer",                  xmpText, xmpInternal, N_("EXIF tag 34855, 0x8827. Indicates the sensitivity of the camera or input device when the image was shot up to the value of 65535 with one of the following parameters that are defined in ISO 12232: standard output sensitivity (SOS), recommended exposure index (REI), or ISO speed.") },
         { "SensitivityType",            N_("Sensitivity Type"),         "Closed Choice of Integer", xmpText, xmpInternal, N_("EXIF tag 34864, 0x8830. Indicates which one of the parameters of ISO12232 is used for PhotographicSensitivity:0 = Unknown "
@@ -933,14 +933,14 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpAuxInfo[] = {
+    const XmpPropertyInfo xmpAuxInfo[] = {
         { "Lens",             N_("Lens"),             "Text",        xmpText,          xmpInternal, N_("A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\".") },
         { "SerialNumber",     N_("Serial Number"),     "Text",       xmpText,          xmpInternal, N_("The serial number of the camera or camera body used to take the photograph.") },
         // End of list marker
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpIptcInfo[] = {
+    const XmpPropertyInfo xmpIptcInfo[] = {
         { "CreatorContactInfo", N_("Creator's Contact Info"),      "ContactInfo",               xmpText, xmpExternal, N_("The creator's contact information provides all necessary information to get in contact "
                                                                                                                          "with the creator of this news object and comprises a set of sub-properties for proper addressing.") },
         { "CiAdrExtadr",        N_("Contact Info-Address"),        "Text",                      xmpText, xmpExternal, N_("sub-key Creator Contact Info: address. Comprises an optional company name and all required "
@@ -971,7 +971,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpIptcExtInfo[] = {
+    const XmpPropertyInfo xmpIptcExtInfo[] = {
         { "AddlModelInfo",           N_("Additional model info"),           "Text",                       xmpText, xmpExternal, N_("Information about the ethnicity and other facts of the model(s) in a model-released image.") },
         { "OrganisationInImageCode", N_("Code of featured Organisation"),   "bag Text",                   xmpBag,  xmpExternal, N_("Code from controlled vocabulary for identifying the organisation or company which is featured in the image.") },
         { "CVterm",                  N_("Controlled Vocabulary Term"),      "bag URI",                    xmpBag,  xmpExternal, N_("A term to describe the content of the image by a value from a Controlled Vocabulary.") },
@@ -1007,7 +1007,7 @@ namespace Exiv2 {
     };
 
     //! XMP iptcExt:DigitalSourcefileType
-    extern const TagVocabulary iptcExtDigitalSourcefileType[] = {
+    constexpr TagVocabulary iptcExtDigitalSourcefileType[] = {
         { "scanfilm",         N_("Scan from film")                           },
         { "scantransparency", N_("Scan from transparency (including slide)") },
         { "scanprint",        N_("Scan from print")                          },
@@ -1016,7 +1016,7 @@ namespace Exiv2 {
         { "camerajpeg",       N_("Camera JPEG")                              }
     };
 
-    extern const XmpPropertyInfo xmpPlusInfo[] = {
+    const XmpPropertyInfo xmpPlusInfo[] = {
         // PLUS Version 1.2.0
         { "Version", N_("PLUS Version"), "Text", xmpText, xmpExternal, N_("The version number of the PLUS standards in place at the time of the transaction.") },
         { "Licensee", N_("Licensee"), "seq LicenseeDetail", xmpSeq, xmpExternal, N_("Party or parties to whom the license is granted by the Licensor/s under the license transaction.") },
@@ -1107,21 +1107,21 @@ namespace Exiv2 {
     };
 
     //! XMP plus:AdultContentWarning
-    extern const TagVocabulary plusAdultContentWarning[] = {
+    constexpr TagVocabulary plusAdultContentWarning[] = {
         { "CW-AWR", N_("Adult Content Warning Required") },
         { "CW-NRQ", N_("Not Required")                   },
         { "CW-UNK", N_("Unknown")                        }
     };
 
     //! XMP plus:CopyrightStatus
-    extern const TagVocabulary plusCopyrightStatus[] = {
+    constexpr TagVocabulary plusCopyrightStatus[] = {
         { "CS-PRO", N_("Protected")     },
         { "CS-PUB", N_("Public Domain") },
         { "CS-UNK", N_("Unknown")       }
     };
 
     //! XMP plus:CreditLineRequired
-    extern const TagVocabulary plusCreditLineRequired[] = {
+    constexpr TagVocabulary plusCreditLineRequired[] = {
         { "CR-CAI", N_("Credit Adjacent To Image") },
         { "CR-CCA", N_("Credit in Credits Area")   },
         { "CR-COI", N_("Credit on Image")          },
@@ -1129,7 +1129,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageAlterationConstraints
-    extern const TagVocabulary plusImageAlterationConstraints[] = {
+    constexpr TagVocabulary plusImageAlterationConstraints[] = {
         { "AL-CLR", N_("No Colorization")    },
         { "AL-CRP", N_("No Cropping")        },
         { "AL-DCL", N_("No De-Colorization") },
@@ -1139,14 +1139,14 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageDuplicationConstraints
-    extern const TagVocabulary plusImageDuplicationConstraints[] = {
+    constexpr TagVocabulary plusImageDuplicationConstraints[] = {
         { "DP-LIC", N_("Duplication Only as Necessary Under License") },
         { "DP-NDC", N_("No Duplication Constraints")                  },
         { "DP-NOD", N_("No Duplication")                              }
     };
 
     //! XMP plus:ImageFileConstraints
-    extern const TagVocabulary plusImageFileConstraints[] = {
+    constexpr TagVocabulary plusImageFileConstraints[] = {
         { "IF-MFN", N_("Maintain File Name")       },
         { "IF-MFT", N_("Maintain File Type")       },
         { "IF-MID", N_("Maintain ID in File Name") },
@@ -1154,7 +1154,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageFileFormatAsDelivered
-    extern const TagVocabulary plusImageFileFormatAsDelivered[] = {
+    constexpr TagVocabulary plusImageFileFormatAsDelivered[] = {
         { "FF-BMP", N_("Windows Bitmap (BMP)")                      },
         { "FF-DNG", N_("Digital Negative (DNG)")                    },
         { "FF-EPS", N_("Encapsulated PostScript (EPS)")             },
@@ -1170,7 +1170,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageFileSizeAsDelivered
-    extern const TagVocabulary plusImageFileSizeAsDelivered[] = {
+    constexpr TagVocabulary plusImageFileSizeAsDelivered[] = {
         { "SZ-G50", N_("Greater than 50 MB") },
         { "SZ-U01", N_("Up to 1 MB")         },
         { "SZ-U10", N_("Up to 10 MB")        },
@@ -1179,7 +1179,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageType
-    extern const TagVocabulary plusImageType[] = {
+    constexpr TagVocabulary plusImageType[] = {
         { "TY-ILL", N_("Illustrated Image")              },
         { "TY-MCI", N_("Multimedia or Composited Image") },
         { "TY-OTR", N_("Other")                          },
@@ -1188,7 +1188,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:LicensorTelephoneType
-    extern const TagVocabulary plusLicensorTelephoneType[] = {
+    constexpr TagVocabulary plusLicensorTelephoneType[] = {
         { "cell",  N_("Cell")  },
         { "fax",   N_("FAX")   },
         { "home",  N_("Home")  },
@@ -1197,7 +1197,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:MinorModelAgeDisclosure
-    extern const TagVocabulary plusMinorModelAgeDisclosure[] = {
+    constexpr TagVocabulary plusMinorModelAgeDisclosure[] = {
         { "AG-UNK", N_("Age Unknown")     },
         { "AG-A25", N_("Age 25 or Over")  },
         { "AG-A24", N_("Age 24")          },
@@ -1214,7 +1214,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ModelReleaseStatus
-    extern const TagVocabulary plusModelReleaseStatus[] = {
+    constexpr TagVocabulary plusModelReleaseStatus[] = {
         { "MR-NON", N_("None")                                 },
         { "MR-NAP", N_("Not Applicable")                       },
         { "MR-UMR", N_("Unlimited Model Releases")             },
@@ -1222,7 +1222,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:PropertyReleaseStatus
-    extern const TagVocabulary plusPropertyReleaseStatus[] = {
+    constexpr TagVocabulary plusPropertyReleaseStatus[] = {
         { "PR-NON", N_("None")                                    },
         { "PR-NAP", N_("Not Applicable")                          },
         { "PR-UPR", N_("Unlimited Property Releases")             },
@@ -1230,12 +1230,12 @@ namespace Exiv2 {
     };
 
     //! XMP plus:Reuse
-    extern const TagVocabulary plusReuse[] = {
+    constexpr TagVocabulary plusReuse[] = {
         { "RE-NAP", N_("Not Applicable") },
         { "RE-REU", N_("Repeat Use")     }
     };
 
-    extern const XmpPropertyInfo xmpMediaProInfo[] = {
+    const XmpPropertyInfo xmpMediaProInfo[] = {
         { "Event",       N_("Event"),       "Text",     xmpText, xmpExternal, N_("Fixture Identification")                          },
         { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
@@ -1244,7 +1244,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpExpressionMediaInfo[] = {
+    const XmpPropertyInfo xmpExpressionMediaInfo[] = {
         { "Event",       N_("Event"),       "Text",     xmpText, xmpExternal, N_("Fixture Identification")                          },
         { "Status",      N_("Status"),      "Text",     xmpText, xmpExternal, N_("A notation making the image unique")              },
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
@@ -1253,20 +1253,20 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpMicrosoftPhotoInfo[] = {
+    const XmpPropertyInfo xmpMicrosoftPhotoInfo[] = {
         { "RegionInfo", N_("RegionInfo"), "RegionInfo", xmpText, xmpInternal, N_("Microsoft Photo people-tagging metadata root") },
         // End of list marker
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
+    const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
         { "Regions",          N_("Regions"),            "bag Region", xmpBag,  xmpExternal, N_("Contains Regions/person tags") },
         { "DateRegionsValid", N_("Date Regions Valid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
         // End of list marker
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
+    const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
         { "PersonDisplayName", N_("Person Display Name"),   "Text", xmpText, xmpExternal, N_("Name of the person (in the given rectangle)")                               },
         { "Rectangle",         N_("Rectangle"),             "Text", xmpText, xmpExternal, N_("Rectangle that identifies the person within the photo")                     },
         { "PersonEmailDigest", N_("Person Email Digest"),   "Text", xmpText, xmpExternal, N_("SHA-1 encrypted message hash of the person's Windows Live e-mail address"), },
@@ -1275,7 +1275,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpMWGRegionsInfo[] = {
+    const XmpPropertyInfo xmpMWGRegionsInfo[] = {
         { "Regions",             N_("Regions"),               "RegionInfo",       xmpText, xmpInternal,        N_("Main structure containing region based information")   },
         { "AppliedToDimensions", N_("Applied To Dimensions"), "Dimensions",       xmpText, xmpExternal,        N_("Width and height of image when storing region data")   },
         { "RegionList",          N_("Region List"),           "bag RegionStruct", xmpBag,  xmpExternal,        N_("List of Region structures")                            },
@@ -1290,7 +1290,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpMWGKeywordInfo[] = {
+    const XmpPropertyInfo xmpMWGKeywordInfo[] = {
         { "Keywords",       N_("Keywords"),     "KeywordInfo",          xmpText, xmpInternal,   N_("Main structure containing keyword based information")   },
         { "Hierarchy",      N_("Hierarchy"),    "bag KeywordStruct",    xmpBag,  xmpExternal,   N_("List of root keyword structures")   },
         { "Keyword",        N_("Keyword"),      "Text",                 xmpText, xmpExternal,   N_("Name of keyword (-node)")   },
@@ -1301,7 +1301,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpGPanoInfo[] = {
+    const XmpPropertyInfo xmpGPanoInfo[] = {
         { "UsePanoramaViewer",              N_("Use Panorama Viewer"),              "Boolean",              xmpText, xmpExternal,   N_("Whether to show this image in a panorama viewer rather than as a normal flat image. This may be specified based on user preferences or by the stitching software. The application displaying or ingesting the image may choose to ignore this.")   },
         { "CaptureSoftware",                N_("Capture Software"),                 "Text",                 xmpText, xmpExternal,   N_("If capture was done using an application on a mobile device, such as an Android phone, the name of the application that was used (such as \"Photo Sphere\"). This should be left blank if source images were captured manually, such as by using a DSLR on a tripod.")   },
         { "StitchingSoftware",              N_("Stitching Software"),               "Text",                 xmpText, xmpExternal,   N_("The software that was used to create the final panorama. This may sometimes be the same value as that of  GPano:CaptureSoftware.")   },
@@ -1329,7 +1329,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpVideoInfo[] = {
+    const XmpPropertyInfo xmpVideoInfo[] = {
         { "Album",                  N_("Album"),                            "Text",                     xmpText, xmpExternal, N_("The name of the album.")   },
         { "ArchivalLocation",       N_("Archival Location"),                "Text",                     xmpText, xmpExternal, N_("Information about the Archival Location.")   },
         { "Arranger",               N_("Arranger"),                         "Text",                     xmpText, xmpExternal, N_("Information about the Arranger.")   },
@@ -1672,7 +1672,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpAudioInfo[] = {
+    const XmpPropertyInfo xmpAudioInfo[] = {
         { "AvgBytePerSec",      N_("Average Bytes Per Second"),     "Integer",               xmpText, xmpExternal, N_("Average Bytes Per Second found in audio stream")   },
         { "Balance",            N_("Balance"),                      "Integer",               xmpText, xmpExternal, N_("Indicates the left-right balance of the audio")   },
         { "BitsPerSample",      N_("Bits Per Sample/ Bit Rate"),    "Integer",               xmpText, xmpExternal, N_("Bits per test sample")   },
@@ -1723,7 +1723,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpDctermsInfo[] = {
+    const XmpPropertyInfo xmpDctermsInfo[] = {
             // dcterms properties used by DwC under the Record Class.
             { "type",                   N_("Type"),                     "bag open Choice", xmpBag,       xmpExternal, N_("The nature or genre of the resource.")                         },
             { "modified",               N_("Date Modified"),            "seq Date",        xmpSeq,       xmpExternal, N_("Date on which the resource was changed.")                         },
@@ -1741,7 +1741,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-   extern const XmpPropertyInfo xmpDwCInfo[] = {
+   const XmpPropertyInfo xmpDwCInfo[] = {
 
         // Record Level Class
         { "Record",                         N_("Record"),                               "Record",    xmpText,   xmpInternal,
@@ -2376,7 +2376,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPropertyInfo xmpAcdseeInfo[] = {
+    const XmpPropertyInfo xmpAcdseeInfo[] = {
         { "caption",       N_("Caption"),     "Text",                 xmpText, xmpExternal,   N_("A brief description of the file")   },
         { "datetime",      N_("Date Time"),   "Text",                 xmpText, xmpExternal,   N_("Date and Time")   },
         { "author",        N_("Author"),      "Text",                 xmpText, xmpExternal,   N_("The name of the author or photographer")   },
@@ -2389,7 +2389,7 @@ namespace Exiv2 {
         { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
-    extern const XmpPrintInfo xmpPrintInfo[] = {
+    constexpr XmpPrintInfo xmpPrintInfo[] = {
         {"Xmp.crs.CropUnits",                 EXV_PRINT_TAG(crsCropUnits)   },
         {"Xmp.exif.ApertureValue",            print0x9202                   },
         {"Xmp.exif.BrightnessValue",          printFloat                    },

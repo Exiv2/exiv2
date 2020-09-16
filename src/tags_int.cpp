@@ -58,7 +58,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! List of all known Exif groups. Important: Group name (3rd column) must be unique!
-    extern const GroupInfo groupInfo[] = {
+    constexpr GroupInfo groupInfo[] = {
         { ifdIdNotSet,     "Unknown IFD", "Unknown", nullptr },
         { ifd0Id,          "IFD0",      "Image",        ifdTagList                     },
         { ifd1Id,          "IFD1",      "Thumbnail",    ifdTagList                     },
@@ -170,52 +170,52 @@ namespace Exiv2 {
     };
 
     //! Units for measuring X and Y resolution, tags 0x0128, 0xa210
-    extern const TagDetails exifUnit[] = {
+    constexpr TagDetails exifUnit[] = {
         { 1, N_("none") },
         { 2, N_("inch") },
         { 3, N_("cm")   }
     };
 
     //! GPS altitude reference, tag 0x0005
-    extern const TagDetails exifGPSAltitudeRef[] = {
+    constexpr TagDetails exifGPSAltitudeRef[] = {
         { 0, N_("Above sea level") },
         { 1, N_("Below sea level") }
     };
 
     //! GPS status, tag 0x0009
-    extern const TagDetails exifGPSStatus[] = {
+    constexpr TagDetails exifGPSStatus[] = {
         { 'A', N_("Measurement in progress")      },
         { 'V', N_("Measurement Interoperability") }
     };
 
     //! GPS measurement mode, tag 0x000a
-    extern const TagDetails exifGPSMeasureMode[] = {
+    constexpr TagDetails exifGPSMeasureMode[] = {
         { '2', N_("Two-dimensional measurement")   },
         { '3', N_("Three-dimensional measurement") }
     };
 
     //! GPS speed reference, tag 0x000c
-    extern const TagDetails exifGPSSpeedRef[] = {
+    constexpr TagDetails exifGPSSpeedRef[] = {
         { 'K', N_("km/h")  },
         { 'M', N_("mph")   },
         { 'N', N_("knots") }
     };
 
     //! GPS Destination distance ref, tag 0x0019
-    extern const TagDetails exifGPSDestDistanceRef[] = {
+    constexpr TagDetails exifGPSDestDistanceRef[] = {
         { 'K', N_("Kilometers") },
         { 'M', N_("Miles")      },
         { 'N', N_("Knots")      }
     };
 
     //! GPS Differential, tag 0x001e
-    extern const TagDetails exifGPSDifferential[] = {
+    constexpr TagDetails exifGPSDifferential[] = {
         { 0, N_("Without correction") },
         { 1, N_("Correction applied") }
     };
 
     //! Orientation, tag 0x0112
-    extern const TagDetails exifOrientation[] = {
+    constexpr TagDetails exifOrientation[] = {
         { 1, N_("top, left")     },
         { 2, N_("top, right")    },
         { 3, N_("bottom, right") },
@@ -228,19 +228,19 @@ namespace Exiv2 {
     };
 
     //! Predictor, tag 0x013d
-    extern const TagDetails exifPredictor[] = {
+    constexpr TagDetails exifPredictor[] = {
         { 1, N_("No prediction scheme used") },
         { 2, N_("Horizontal differencing")   }
     };
 
     //! InkSet, tag 0x014c
-    extern const TagDetails exifInkSet[] = {
+    constexpr TagDetails exifInkSet[] = {
         { 1, N_("CMYK")     },
         { 2, N_("not CMYK") }
     };
 
     //! NewSubfileType, TIFF tag 0x00fe - this is actually a bitmask
-    extern const TagDetails exifNewSubfileType[] = {
+    constexpr TagDetails exifNewSubfileType[] = {
         {  0, N_("Primary image")                                               },
         {  1, N_("Thumbnail/Preview image")                                     },
         {  2, N_("Primary image, Multi page file")                              },
@@ -253,14 +253,14 @@ namespace Exiv2 {
     };
 
     //! SubfileType, TIFF tag 0x00ff
-    extern const TagDetails exifSubfileType[] = {
+    constexpr TagDetails exifSubfileType[] = {
         {  1, N_("Full-resolution image data")                                  },
         {  2, N_("Reduced-resolution image data")                               },
         {  3, N_("A single page of a multi-page image")                         }
     };
 
     //! Compression, tag 0x0103
-    extern const TagDetails exifCompression[] = {
+    constexpr TagDetails exifCompression[] = {
         {     1, N_("Uncompressed")             },
         {     2, N_("CCITT RLE")                },
         {     3, N_("T4/Group 3 Fax")           },
@@ -295,7 +295,7 @@ namespace Exiv2 {
     };
 
     //! PhotometricInterpretation, tag 0x0106
-    extern const TagDetails exifPhotometricInterpretation[] = {
+    constexpr TagDetails exifPhotometricInterpretation[] = {
         {     0, N_("White Is Zero")      },
         {     1, N_("Black Is Zero")      },
         {     2, N_("RGB")                },
@@ -313,7 +313,7 @@ namespace Exiv2 {
     };
 
     //! Thresholding, tag 0x0107
-    extern const TagDetails exifThresholding[] = {
+    constexpr TagDetails exifThresholding[] = {
         { 1, N_("No dithering or halftoning")           },
         { 2, N_("Ordered dither or halftone technique") },
         { 3, N_("Randomized process")                   }
@@ -321,7 +321,7 @@ namespace Exiv2 {
 
 
     //! SampleFormat, tag 0x0153
-    extern const TagDetails exifSampleFormat[] = {
+    constexpr TagDetails exifSampleFormat[] = {
         { 1, N_("Unsigned integer data")                },
         { 2, N_("Two's complement signed integer data") },
         { 3, N_("IEEE floating point data")             },
@@ -330,13 +330,13 @@ namespace Exiv2 {
     };
 
     //! Indexed, tag 0x015a
-    extern const TagDetails exifIndexed[] = {
+    constexpr TagDetails exifIndexed[] = {
         { 0, N_("Not indexed") },
         { 1, N_("Indexed")     }
     };
 
     //! exifJpegLosslessPredictor, tag 0x0205
-    extern const TagDetails exifJpegLosslessPredictor[] = {
+    constexpr TagDetails exifJpegLosslessPredictor[] = {
         { 1, N_("A")           },
         { 2, N_("B")           },
         { 3, N_("C")           },
@@ -347,7 +347,7 @@ namespace Exiv2 {
     };
 
     //! Flash, Exif tag 0x9209
-    extern const TagDetails exifFlash[] = {
+    constexpr TagDetails exifFlash[] = {
         { 0x00, N_("No flash")                                                      },
         { 0x01, N_("Fired")                                                         },
         { 0x05, N_("Fired, return light not detected")                              },
@@ -378,7 +378,7 @@ namespace Exiv2 {
     };
 
     //! CFALayout, tag 0xc617
-    extern const TagDetails exifCfaLayout[] = {
+    constexpr TagDetails exifCfaLayout[] = {
         { 1, N_("Rectangular (or square) layout") },
         { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")  },
         { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")    },
@@ -1760,13 +1760,13 @@ namespace Exiv2 {
     }
 
     //! GPS latitude reference, tag 0x0001; also GPSDestLatitudeRef, tag 0x0013
-    extern const TagDetails exifGPSLatitudeRef[] = {
+    constexpr TagDetails exifGPSLatitudeRef[] = {
         { 78, N_("North") },
         { 83, N_("South") }
     };
 
     //! GPS longitude reference, tag 0x0003; also GPSDestLongitudeRef, tag 0x0015
-    extern const TagDetails exifGPSLongitudeRef[] = {
+    constexpr TagDetails exifGPSLongitudeRef[] = {
         { 69, N_("East") },
         { 87, N_("West") }
     };
@@ -2402,7 +2402,7 @@ namespace Exiv2 {
     }
 
     //! YCbCrPositioning, tag 0x0213
-    extern const TagDetails exifYCbCrPositioning[] = {
+    constexpr TagDetails exifYCbCrPositioning[] = {
         { 1, N_("Centered") },
         { 2, N_("Co-sited") }
     };
@@ -2473,7 +2473,7 @@ namespace Exiv2 {
     }
 
     //! ExposureProgram, tag 0x8822
-    extern const TagDetails exifExposureProgram[] = {
+    constexpr TagDetails exifExposureProgram[] = {
         { 0, N_("Not defined")       },
         { 1, N_("Manual")            },
         { 2, N_("Auto")              },
@@ -2588,7 +2588,7 @@ namespace Exiv2 {
     }
 
     //! MeteringMode, tag 0x9207
-    extern const TagDetails exifMeteringMode[] = {
+    constexpr TagDetails exifMeteringMode[] = {
         { 0,   N_("Unknown")                 },
         { 1,   N_("Average")                 },
         { 2,   N_("Center weighted average") },
@@ -2606,7 +2606,7 @@ namespace Exiv2 {
     }
 
     //! LightSource, tag 0x9208
-    extern const TagDetails exifLightSource[] = {
+    constexpr TagDetails exifLightSource[] = {
         {   0, N_("Unknown")                                 },
         {   1, N_("Daylight")                                },
         {   2, N_("Fluorescent")                             },
@@ -2667,7 +2667,7 @@ namespace Exiv2 {
     }
 
     //! ColorSpace, tag 0xa001
-    extern const TagDetails exifColorSpace[] = {
+    constexpr TagDetails exifColorSpace[] = {
         {      1, N_("sRGB")         },
         {      2, N_("Adobe RGB")    },    // Not defined to Exif 2.2 spec. But used by a lot of cameras.
         { 0xffff, N_("Uncalibrated") }
@@ -2679,7 +2679,7 @@ namespace Exiv2 {
     }
 
     //! SensingMethod, tag 0xa217
-    extern const TagDetails exifSensingMethod[] = {
+    constexpr TagDetails exifSensingMethod[] = {
         { 1, N_("Not defined")             },
         { 2, N_("One-chip color area")     },
         { 3, N_("Two-chip color area")     },
@@ -2695,7 +2695,7 @@ namespace Exiv2 {
     }
 
     //! FileSource, tag 0xa300
-    extern const TagDetails exifFileSource[] = {
+    constexpr TagDetails exifFileSource[] = {
         { 1, N_("Film scanner")            },   // Not defined to Exif 2.2 spec.
         { 2, N_("Reflexion print scanner") },   // but used by some scanner device softwares.
         { 3, N_("Digital still camera")    }
@@ -2707,7 +2707,7 @@ namespace Exiv2 {
     }
 
     //! SceneType, tag 0xa301
-    extern const TagDetails exifSceneType[] = {
+    constexpr TagDetails exifSceneType[] = {
         { 1, N_("Directly photographed") }
     };
 
@@ -2717,7 +2717,7 @@ namespace Exiv2 {
     }
 
     //! CustomRendered, tag 0xa401
-    extern const TagDetails exifCustomRendered[] = {
+    constexpr TagDetails exifCustomRendered[] = {
         { 0, N_("Normal process") },
         { 1, N_("Custom process") }
     };
@@ -2728,7 +2728,7 @@ namespace Exiv2 {
     }
 
     //! ExposureMode, tag 0xa402
-    extern const TagDetails exifExposureMode[] = {
+    constexpr TagDetails exifExposureMode[] = {
         { 0, N_("Auto")         },
         { 1, N_("Manual")       },
         { 2, N_("Auto bracket") }
@@ -2740,7 +2740,7 @@ namespace Exiv2 {
     }
 
     //! WhiteBalance, tag 0xa403
-    extern const TagDetails exifWhiteBalance[] = {
+    constexpr TagDetails exifWhiteBalance[] = {
         { 0, N_("Auto")   },
         { 1, N_("Manual") }
     };
@@ -2781,7 +2781,7 @@ namespace Exiv2 {
     }
 
     //! SceneCaptureType, tag 0xa406
-    extern const TagDetails exifSceneCaptureType[] = {
+    constexpr TagDetails exifSceneCaptureType[] = {
         { 0, N_("Standard")    },
         { 1, N_("Landscape")   },
         { 2, N_("Portrait")    },
@@ -2795,7 +2795,7 @@ namespace Exiv2 {
     }
 
     //! GainControl, tag 0xa407
-    extern const TagDetails exifGainControl[] = {
+    constexpr TagDetails exifGainControl[] = {
         { 0, N_("None")           },
         { 1, N_("Low gain up")    },
         { 2, N_("High gain up")   },
@@ -2809,7 +2809,7 @@ namespace Exiv2 {
     }
 
     //! Saturation, tag 0xa409
-    extern const TagDetails exifSaturation[] = {
+    constexpr TagDetails exifSaturation[] = {
         { 0, N_("Normal") },
         { 1, N_("Low")    },
         { 2, N_("High")   }
@@ -2821,7 +2821,7 @@ namespace Exiv2 {
     }
 
     //! SubjectDistanceRange, tag 0xa40c
-    extern const TagDetails exifSubjectDistanceRange[] = {
+    constexpr TagDetails exifSubjectDistanceRange[] = {
         { 0, N_("Unknown")      },
         { 1, N_("Macro")        },
         { 2, N_("Close view")   },
@@ -2835,7 +2835,7 @@ namespace Exiv2 {
     }
 
     //! GPS direction ref, tags 0x000e, 0x0010, 0x0017
-    extern const TagDetails exifGPSDirRef[] = {
+    constexpr TagDetails exifGPSDirRef[] = {
         { 'T', N_("True direction")     },
         { 'M', N_("Magnetic direction") }
     };
@@ -2846,7 +2846,7 @@ namespace Exiv2 {
     }
 
     //! Contrast, tag 0xa408 and Sharpness, tag 0xa40a
-    extern const TagDetails exifNormalSoftHard[] = {
+    constexpr TagDetails exifNormalSoftHard[] = {
         { 0, N_("Normal") },
         { 1, N_("Soft")   },
         { 2, N_("Hard")   }

@@ -53,13 +53,13 @@ namespace Exiv2 {
     namespace Internal {
 
     //! OffOn, multiple tags
-    extern const TagDetails nikonOffOn[] = {
+    constexpr TagDetails nikonOffOn[] = {
         {  0, N_("Off") },
         {  1, N_("On")  }
     };
 
     //! Off, Low, Normal, High, multiple tags
-    extern const TagDetails nikonOlnh[] = {
+    constexpr TagDetails nikonOlnh[] = {
         {  0, N_("Off")    },
         {  1, N_("Low")    },
         {  3, N_("Normal") },
@@ -67,7 +67,7 @@ namespace Exiv2 {
     };
 
     //! Off, Low, Normal, High, multiple tags
-    extern const TagDetails nikonActiveDLighning[] = {
+    constexpr TagDetails nikonActiveDLighning[] = {
         {     0, N_("Off")        },
         {     1, N_("Low")        },
         {     3, N_("Normal")     },
@@ -77,7 +77,7 @@ namespace Exiv2 {
     };
 
     //! Focus area for Nikon cameras.
-    extern const char * const nikonFocusarea[] = {
+    constexpr const char *nikonFocusarea[] = {
         N_("Single area"),
         N_("Dynamic area"),
         N_("Dynamic area, closest subject"),
@@ -90,7 +90,7 @@ namespace Exiv2 {
     // module. Note that relative size and position will vary depending on if
     // "wide" or not
     //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
-    extern const char * const nikonFocuspoints[] = {
+    constexpr const char *nikonFocuspoints[] = {
         N_("Center"),
         N_("Top"),
         N_("Bottom"),
@@ -105,7 +105,7 @@ namespace Exiv2 {
     };
 
     //! FlashComp, tag 0x0012
-    extern const TagDetails nikonFlashComp[] = {
+    constexpr TagDetails nikonFlashComp[] = {
         // From the PHP JPEG Metadata Toolkit
         { 0x06, "+1.0 EV" },
         { 0x04, "+0.7 EV" },
@@ -127,13 +127,13 @@ namespace Exiv2 {
     };
 
     //! ColorSpace, tag 0x001e
-    extern const TagDetails nikonColorSpace[] = {
+    constexpr TagDetails nikonColorSpace[] = {
         { 1, N_("sRGB")      },
         { 2, N_("Adobe RGB") }
     };
 
     //! FlashMode, tag 0x0087
-    extern const TagDetails nikonFlashMode[] = {
+    constexpr TagDetails nikonFlashMode[] = {
         { 0, N_("Did not fire")         },
         { 1, N_("Fire, manual")         },
         { 7, N_("Fire, external")       },
@@ -142,7 +142,7 @@ namespace Exiv2 {
     };
 
     //! ShootingMode, tag 0x0089
-    extern const TagDetailsBitmask nikonShootingMode[] = {
+    constexpr TagDetailsBitmask nikonShootingMode[] = {
         { 0x0001, N_("Continuous")               },
         { 0x0002, N_("Delay")                    },
         { 0x0004, N_("PC Control")               },
@@ -155,7 +155,7 @@ namespace Exiv2 {
     };
 
     //! ShootingMode D70, tag 0x0089
-    extern const TagDetailsBitmask nikonShootingModeD70[] = {
+    constexpr TagDetailsBitmask nikonShootingModeD70[] = {
         { 0x0001, N_("Continuous")               },
         { 0x0002, N_("Delay")                    },
         { 0x0004, N_("PC control")               },
@@ -166,14 +166,14 @@ namespace Exiv2 {
     };
 
     //! AutoBracketRelease, tag 0x008a
-    extern const TagDetails nikonAutoBracketRelease[] = {
+    constexpr TagDetails nikonAutoBracketRelease[] = {
         { 0, N_("None")           },
         { 1, N_("Auto release")   },
         { 2, N_("Manual release") }
     };
 
     //! NEFCompression, tag 0x0093
-    extern const TagDetails nikonNefCompression[] = {
+    constexpr TagDetails nikonNefCompression[] = {
         {  1, N_("Lossy (type 1)") },
         {  2, N_("Uncompressed")   },
         {  3, N_("Lossless")       },
@@ -181,7 +181,7 @@ namespace Exiv2 {
     };
 
     //! RetouchHistory, tag 0x009e
-    extern const TagDetails nikonRetouchHistory[] = {
+    constexpr TagDetails nikonRetouchHistory[] = {
         {  0, N_("None")          },
         {  3, N_("B & W")         },
         {  4, N_("Sepia")         },
@@ -197,7 +197,7 @@ namespace Exiv2 {
     };
 
     //! HighISONoiseReduction, tag 0x00b1
-    extern const TagDetails nikonHighISONoiseReduction[] = {
+    constexpr TagDetails nikonHighISONoiseReduction[] = {
         { 0, N_("Off")     },
         { 1, N_("Minimal") },
         { 2, N_("Low")     },
@@ -439,7 +439,7 @@ namespace Exiv2 {
     }
 
     //! Quality, tag 0x0003
-    extern const TagDetails nikon2Quality[] = {
+    constexpr TagDetails nikon2Quality[] = {
         { 1, N_("VGA Basic")   },
         { 2, N_("VGA Normal")  },
         { 3, N_("VGA Fine")    },
@@ -449,13 +449,13 @@ namespace Exiv2 {
     };
 
     //! ColorMode, tag 0x0004
-    extern const TagDetails nikon2ColorMode[] = {
+    constexpr TagDetails nikon2ColorMode[] = {
         { 1, N_("Color")      },
         { 2, N_("Monochrome") }
     };
 
     //! ImageAdjustment, tag 0x0005
-    extern const TagDetails nikon2ImageAdjustment[] = {
+    constexpr TagDetails nikon2ImageAdjustment[] = {
         { 0, N_("Normal")    },
         { 1, N_("Bright+")   },
         { 2, N_("Bright-")   },
@@ -464,7 +464,7 @@ namespace Exiv2 {
     };
 
     //! ISOSpeed, tag 0x0006
-    extern const TagDetails nikon2IsoSpeed[] = {
+    constexpr TagDetails nikon2IsoSpeed[] = {
         { 0, "80"  },
         { 2, "160" },
         { 4, "320" },
@@ -472,7 +472,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x0007
-    extern const TagDetails nikon2WhiteBalance[] = {
+    constexpr TagDetails nikon2WhiteBalance[] = {
         { 0, N_("Auto")         },
         { 1, N_("Preset")       },
         { 2, N_("Daylight")     },
@@ -657,20 +657,20 @@ namespace Exiv2 {
     }
 
     //! YesNo, used for DaylightSavings, tag index 2
-    extern const TagDetails nikonYesNo[] = {
+    constexpr TagDetails nikonYesNo[] = {
         { 0, N_("No")    },
         { 1, N_("Yes")   }
     };
 
     //! DateDisplayFormat, tag index 3
-    extern const TagDetails nikonDateDisplayFormat[] = {
+    constexpr TagDetails nikonDateDisplayFormat[] = {
         { 0, N_("Y/M/D") },
         { 1, N_("M/D/Y") },
         { 2, N_("D/M/Y") }
     };
 
     //! OnOff
-    extern const TagDetails nikonOnOff[] = {
+    constexpr TagDetails nikonOnOff[] = {
         {  1, N_("On")  },
         {  2, N_("Off") }
     };
@@ -689,14 +689,14 @@ namespace Exiv2 {
     }
 
     //! Adjust
-    extern const TagDetails nikonAdjust[] = {
+    constexpr TagDetails nikonAdjust[] = {
         {  0, N_("Default Settings") },
         {  1, N_("Quick Adjust")     },
         {  2, N_("Full Control")     }
     };
 
     //! FilterEffect
-    extern const TagDetails nikonFilterEffect[] = {
+    constexpr TagDetails nikonFilterEffect[] = {
         { 0x80, N_("Off")    },
         { 0x81, N_("Yellow") },
         { 0x82, N_("Orange") },
@@ -706,7 +706,7 @@ namespace Exiv2 {
     };
 
     //! ToningEffect
-    extern const TagDetails nikonToningEffect[] = {
+    constexpr TagDetails nikonToningEffect[] = {
         { 0x80, N_("B&W")         },
         { 0x81, N_("Sepia")       },
         { 0x82, N_("Cyanotype")   },
@@ -745,7 +745,7 @@ namespace Exiv2 {
     }
 
     //! OnOff
-    extern const TagDetails aftOnOff[] = {
+    constexpr TagDetails aftOnOff[] = {
         {  0, N_("Off")  },
         {  1, N_("On") },
         {  2, N_("On") }
@@ -780,7 +780,7 @@ namespace Exiv2 {
     }
 
     //! ISOExpansion, tag index 4 and 10
-    extern const TagDetails nikonIsoExpansion[] = {
+    constexpr TagDetails nikonIsoExpansion[] = {
         { 0x000, N_("Off")    },
         { 0x101, N_("Hi 0.3") },
         { 0x102, N_("Hi 0.5") },
@@ -824,7 +824,7 @@ namespace Exiv2 {
     }
 
     //! AfAreaMode
-    extern const TagDetails nikonAfAreaMode[] = {
+    constexpr TagDetails nikonAfAreaMode[] = {
         { 0, N_("Single Area")                   },
         { 1, N_("Dynamic Area")                  },
         { 2, N_("Dynamic Area, Closest Subject") },
@@ -834,7 +834,7 @@ namespace Exiv2 {
     };
 
     //! AfPoint
-    extern const TagDetails nikonAfPoint[] = {
+    constexpr TagDetails nikonAfPoint[] = {
         { 0, N_("Center")      },
         { 1, N_("Top")         },
         { 2, N_("Bottom")      },
@@ -849,7 +849,7 @@ namespace Exiv2 {
     };
 
     //! AfPointsInFocus
-    extern const TagDetailsBitmask nikonAfPointsInFocus[] = {
+    constexpr TagDetailsBitmask nikonAfPointsInFocus[] = {
         { 0x0001, N_("Center")        },
         { 0x0002, N_("Top")           },
         { 0x0004, N_("Bottom")        },
@@ -878,7 +878,7 @@ namespace Exiv2 {
     }
 
     //! PhaseDetectAF
-    extern const TagDetails nikonPhaseDetectAF[] = {
+    constexpr TagDetails nikonPhaseDetectAF[] = {
         { 0, N_("Off")                },
         { 1, N_("On (51-point)")      },
         { 2, N_("On (11-point)")      },
@@ -952,7 +952,7 @@ namespace Exiv2 {
     }
 
     //! MultiExposureMode
-    extern const TagDetails nikonMultiExposureMode[] = {
+    constexpr TagDetails nikonMultiExposureMode[] = {
         { 0, N_("Off")               },
         { 1, N_("Multiple Exposure") },
         { 2, N_("Image Overlay")     }
@@ -974,14 +974,14 @@ namespace Exiv2 {
     }
 
     //! FlashSource
-    extern const TagDetails nikonFlashSource[] = {
+    constexpr TagDetails nikonFlashSource[] = {
         { 0, N_("None")     },
         { 1, N_("External") },
         { 2, N_("Internal") }
     };
 
     //! FlashFirmware
-    extern const TagDetails nikonFlashFirmware[] = {
+    constexpr TagDetails nikonFlashFirmware[] = {
         { 0x0000, N_("n/a")                            },
         { 0x0101, N_("1.01 (SB-800 or Metz 58 AF-1)")  },
         { 0x0103, "1.03 (SB-800)"                  },
@@ -999,7 +999,7 @@ namespace Exiv2 {
     };
 
     //! FlashGNDistance
-    extern const TagDetails nikonFlashGNDistance[] = {
+    constexpr TagDetails nikonFlashGNDistance[] = {
         {   0, N_("None")  },
         {   1, "0.1 m" },
         {   2, "0.2 m" },
@@ -1041,7 +1041,7 @@ namespace Exiv2 {
     };
 
     //! FlashControlMode
-    extern const TagDetails nikonFlashControlMode[] = {
+    constexpr TagDetails nikonFlashControlMode[] = {
         { 0, N_("Off")                    },
         { 1, N_("iTTL-BL")                },
         { 2, N_("iTTL")                   },
@@ -1054,14 +1054,14 @@ namespace Exiv2 {
     };
 
     //! ExternalFlashFlags
-    extern const TagDetails nikonExternalFlashFlags[] = {
+    constexpr TagDetails nikonExternalFlashFlags[] = {
         { 0, N_("Fired")              },
         { 2, N_("Bounce Flash")       },
         { 4, N_("Wide Flash Adapter") }
     };
 
     //! FlashColorFilter
-    extern const TagDetails nikonFlashColorFilter[] = {
+    constexpr TagDetails nikonFlashColorFilter[] = {
         {  0, N_("None")   },
         {  1, N_("FL-GL1") },
         {  2, N_("FL-GL2") },
@@ -1163,7 +1163,7 @@ namespace Exiv2 {
     }
 
     //! AfFineTuneAdj D300 (a)
-    extern const TagDetails nikonAfFineTuneAdj1[] = {
+    constexpr TagDetails nikonAfFineTuneAdj1[] = {
         { 0x0000, "0"   },
         { 0x003a, "+1"  },
         { 0x003b, "+2"  },
@@ -1223,7 +1223,7 @@ namespace Exiv2 {
     }
 
     //! AfFineTuneAdj D300 (b)
-    extern const TagDetails nikonAfFineTuneAdj2[] = {
+    constexpr TagDetails nikonAfFineTuneAdj2[] = {
         { 0x0000, "0"   },
         { 0x043e, "+13" },
         { 0x04c2, "-13" },
@@ -1283,7 +1283,7 @@ namespace Exiv2 {
     }
 
     //! VibrationReduction
-    extern const TagDetails nikonOffOn2[] = {
+    constexpr TagDetails nikonOffOn2[] = {
         { 0, N_("Off")    },
         { 1, N_("On (1)") },
         { 2, N_("On (2)") },
@@ -1291,7 +1291,7 @@ namespace Exiv2 {
     };
 
     //! VibrationReduction2
-    extern const TagDetails nikonOffOn3[] = {
+    constexpr TagDetails nikonOffOn3[] = {
         { 0x0, N_("n/a") },
         { 0xc, N_("Off") },
         { 0xf, N_("On")  }

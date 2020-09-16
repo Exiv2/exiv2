@@ -40,14 +40,14 @@ namespace Exiv2 {
     namespace Internal {
 
     //! ShootingMode, tag 0x0001
-    extern const TagDetails pentaxShootingMode[] = {
+    constexpr TagDetails pentaxShootingMode[] = {
         {   0, N_("Auto")                      },
         {   1, N_("Night-Scene")               },
         {   2, N_("Manual")                    },
     };
 
     //! CameraModel, tag 0x0005
-    extern const TagDetails pentaxModel[] = {
+    constexpr TagDetails pentaxModel[] = {
         {    0x0000d, "Optio 330/430" },
         {    0x12926, "Optio 230" },
         {    0x12958, "Optio 330GS" },
@@ -188,7 +188,7 @@ namespace Exiv2 {
     };
 
     //! Quality, tag 0x0008
-    extern const TagDetails pentaxQuality[] = {
+    constexpr TagDetails pentaxQuality[] = {
         {   0, N_("Good") },
         {   1, N_("Better") },
         {   2, N_("Best") },
@@ -199,7 +199,7 @@ namespace Exiv2 {
     };
 
     //! Size, tag 0x0009
-    extern const TagDetails pentaxSize[] = {
+    constexpr TagDetails pentaxSize[] = {
         {    0, "640x480" },
         {    1, N_("Full") },
         {    2, "1024x768" },
@@ -236,7 +236,7 @@ namespace Exiv2 {
     };
 
     //! Flash, tag 0x000c
-    extern const TagDetails pentaxFlash[] = {
+    constexpr TagDetails pentaxFlash[] = {
         {    0x000, N_("Auto, Did not fire") },
         {    0x001, N_("Off, Did not fire") },
         {    0x002, N_("Off, Did not fire") },
@@ -256,7 +256,7 @@ namespace Exiv2 {
     };
 
     //! Focus, tag 0x000d
-    extern const TagDetails pentaxFocus[] = {
+    constexpr TagDetails pentaxFocus[] = {
         {    0, N_("Normal") },
         {    1, N_("Macro") },
         {    2, N_("Infinity") },
@@ -272,7 +272,7 @@ namespace Exiv2 {
     };
 
     //! AFPoint, tag 0x000e
-    extern const TagDetails pentaxAFPoint[] = {
+    constexpr TagDetails pentaxAFPoint[] = {
         {    0xffff, N_("Auto") },
         {    0xfffe, N_("Fixed Center") },
         {    0xfffd, N_("Automatic Tracking AF") },
@@ -293,7 +293,7 @@ namespace Exiv2 {
     };
 
     //! AFPointInFocus, tag 0x000f
-    extern const TagDetails pentaxAFPointFocus[] = {
+    constexpr TagDetails pentaxAFPointFocus[] = {
         {    0xffff, N_("None") },
         {    0, N_("Fixed Center or multiple") },
         {    1, N_("Top-left") },
@@ -308,7 +308,7 @@ namespace Exiv2 {
     };
 
     //! ISO, tag 0x0014
-    extern const TagDetails pentaxISO[] = {
+    constexpr TagDetails pentaxISO[] = {
         {    3, "50" },
         {    4, "64" },
         {    5, "80" },
@@ -392,26 +392,26 @@ namespace Exiv2 {
     };
 
     //! Generic for Off/On switches
-    extern const TagDetails pentaxOffOn[] = {
+    constexpr TagDetails pentaxOffOn[] = {
         {    0, N_("Off") },
         {    1, N_("On") },
     };
 
     //! Generic for Yes/No switches
-    extern const TagDetails pentaxYesNo[] = {
+    constexpr TagDetails pentaxYesNo[] = {
         {    0, N_("No") },
         {    1, N_("Yes") },
     };
 
     //! MeteringMode, tag 0x0017
-    extern const TagDetails pentaxMeteringMode[] = {
+    constexpr TagDetails pentaxMeteringMode[] = {
         {    0, N_("Multi Segment") },
         {    1, N_("Center Weighted") },
         {    2, N_("Spot") },
     };
 
     //! WhiteBalance, tag 0x0019
-    extern const TagDetails pentaxWhiteBalance[] = {
+    constexpr TagDetails pentaxWhiteBalance[] = {
         {    0, N_("Auto") },
         {    1, N_("Daylight") },
         {    2, N_("Shade") },
@@ -430,7 +430,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x001a
-    extern const TagDetails pentaxWhiteBalanceMode[] = {
+    constexpr TagDetails pentaxWhiteBalanceMode[] = {
         {    1, N_("Auto (Daylight)") },
         {    2, N_("Auto (Shade)") },
         {    3, N_("Auto (Flash)") },
@@ -444,7 +444,7 @@ namespace Exiv2 {
     };
 
     //! Saturation, tag 0x001f
-    extern const TagDetails pentaxSaturation[] = {
+    constexpr TagDetails pentaxSaturation[] = {
         {     0, N_("Low")       },
         {     1, N_("Normal")    },
         {     2, N_("High")      },
@@ -459,7 +459,7 @@ namespace Exiv2 {
     };
 
     //! Contrast, tag 0x0020
-    extern const TagDetails pentaxContrast[] = {
+    constexpr TagDetails pentaxContrast[] = {
         {    0, N_("Low") },
         {    1, N_("Normal") },
         {    2, N_("High") },
@@ -472,7 +472,7 @@ namespace Exiv2 {
     };
 
     //! Sharpness, tag 0x0021
-    extern const TagDetails pentaxSharpness[] = {
+    constexpr TagDetails pentaxSharpness[] = {
         {    0, N_("Soft") },
         {    1, N_("Normal") },
         {    2, N_("Hard") },
@@ -485,13 +485,13 @@ namespace Exiv2 {
     };
 
     //! Location, tag 0x0022
-    extern const TagDetails pentaxLocation[] = {
+    constexpr TagDetails pentaxLocation[] = {
         {    0, N_("Home town") },
         {    1, N_("Destination") },
     };
 
     //! City names, tags 0x0023 and 0x0024
-    extern const TagDetails pentaxCities[] = {
+    constexpr TagDetails pentaxCities[] = {
         {    0, N_("Pago Pago") },
         {    1, N_("Honolulu") },
         {    2, N_("Anchorage") },
@@ -570,7 +570,7 @@ namespace Exiv2 {
     };
 
     //! ImageProcessing, combi-tag 0x0032 (4 bytes)
-    extern const TagDetails pentaxImageProcessing[] = {
+    constexpr TagDetails pentaxImageProcessing[] = {
         { 0x00000000, N_("Unprocessed") },
         { 0x00000004, N_("Digital Filter") },
         { 0x01000000, N_("Resized") },
@@ -581,7 +581,7 @@ namespace Exiv2 {
     };
 
     //! PictureMode, combi-tag 0x0033 (3 bytes)
-    extern const TagDetails pentaxPictureMode[] = {
+    constexpr TagDetails pentaxPictureMode[] = {
         { 0x000000, N_("Program") },
         { 0x000100, N_("Hi-speed Program") },
         { 0x000200, N_("DOF Program") },
@@ -662,7 +662,7 @@ namespace Exiv2 {
     };
 
     //! DriveMode, combi-tag 0x0034 (4 bytes)
-    extern const TagDetails pentaxDriveMode[] = {
+    constexpr TagDetails pentaxDriveMode[] = {
         { 0x00000000, N_("Single-frame") },
         { 0x01000000, N_("Continuous") },
         { 0x02000000, N_("Continuous (Hi)") },
@@ -686,13 +686,13 @@ namespace Exiv2 {
     };
 
     //! ColorSpace, tag 0x0037
-    extern const TagDetails pentaxColorSpace[] = {
+    constexpr TagDetails pentaxColorSpace[] = {
         {    0, N_("sRGB") },
         {    1, N_("Adobe RGB") },
     };
 
     //! LensType, combi-tag 0x003f (2 unsigned long)
-    extern const TagDetails pentaxLensType[] = {
+    constexpr TagDetails pentaxLensType[] = {
         { 0x0000, N_("M-42 or No Lens") },
         { 0x0100, N_("K or M Lens") },
         { 0x0200, N_("A Series Lens") },
@@ -984,7 +984,7 @@ namespace Exiv2 {
     };
 
     //! ImageTone, tag 0x004f
-    extern const TagDetails pentaxImageTone[] = {
+    constexpr TagDetails pentaxImageTone[] = {
         {    0, N_("Natural") },
         {    1, N_("Bright") },
         {    2, N_("Portrait") },
@@ -998,13 +998,13 @@ namespace Exiv2 {
     };
 
     //! DynamicRangeExpansion, tag 0x0069
-    extern const TagDetails pentaxDynamicRangeExpansion[] = {
+    constexpr TagDetails pentaxDynamicRangeExpansion[] = {
         {   0, N_("Off") },
         {   0x1000000, N_("On") },
     };
 
     //! HighISONoiseReduction, tag 0x0071
-    extern const TagDetails pentaxHighISONoiseReduction[] = {
+    constexpr TagDetails pentaxHighISONoiseReduction[] = {
         {   0, N_("Off") },
         {   1, N_("Weakest") },
         {   2, N_("Weak") },

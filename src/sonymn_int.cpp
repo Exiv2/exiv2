@@ -47,7 +47,7 @@ namespace Exiv2 {
     // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
     //! Lookup table to translate Sony Auto HDR values to readable labels
-    extern const TagDetails sonyHDRMode[] = {
+    constexpr TagDetails sonyHDRMode[] = {
         { 0x00000, N_("Off")   },
         { 0x10001, N_("Auto")  },
         { 0x10010, "1"         },
@@ -58,7 +58,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony model ID values to readable labels
-    extern const TagDetails sonyModelId[] = {
+    constexpr TagDetails sonyModelId[] = {
         { 2, "DSC-R1"                   },
         { 256, "DSLR-A100"              },
         { 257, "DSLR-A900"              },
@@ -130,7 +130,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
-    extern const TagDetails print0xb025[] = {
+    constexpr TagDetails print0xb025[] = {
         { 0,  N_("Off")           },
         { 1,  N_("Standard")      },
         { 2,  N_("Advanced Auto") },
@@ -148,7 +148,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony exposure mode values to readable labels
-    extern const TagDetails sonyExposureMode[] = {
+    constexpr TagDetails sonyExposureMode[] = {
         { 0,     N_("Auto")                     },
         { 1,     N_("Portrait")                 },
         { 2,     N_("Beach")                    },
@@ -183,7 +183,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony JPEG Quality values to readable labels
-    extern const TagDetails sonyJPEGQuality[] = {
+    constexpr TagDetails sonyJPEGQuality[] = {
         { 0,     N_("Normal")       },
         { 1,     N_("Fine")         },
         { 2,     N_("Extra Fine")   },
@@ -191,7 +191,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony anti-blur values to readable labels
-    extern const TagDetails sonyAntiBlur[] = {
+    constexpr TagDetails sonyAntiBlur[] = {
         { 0,     N_("Off")             },
         { 1,     N_("On (Continuous)") },
         { 2,     N_("On (Shooting)")   },
@@ -199,21 +199,21 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony dynamic range optimizer values to readable labels
-    extern const TagDetails print0xb04f[] = {
+    constexpr TagDetails print0xb04f[] = {
         { 0, N_("Off")      },
         { 1, N_("Standard") },
         { 2, N_("Plus")     }
     };
 
     //! Lookup table to translate Sony Intelligent Auto values to readable labels
-    extern const TagDetails sonyIntelligentAuto[] = {
+    constexpr TagDetails sonyIntelligentAuto[] = {
         { 0, N_("Off")      },
         { 1, N_("On")       },
         { 2, N_("Advanced") }
     };
 
     //! Lookup table to translate Sony WB values to readable labels
-    extern const TagDetails sonyWhiteBalance[] = {
+    constexpr TagDetails sonyWhiteBalance[] = {
         { 0,  N_("Auto")                       },
         { 4,  N_("Manual")                     },
         { 5,  N_("Daylight")                   },
@@ -230,7 +230,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony AF mode values to readable labels
-    extern const TagDetails sonyFocusMode[] = {
+    constexpr TagDetails sonyFocusMode[] = {
         { 1,     "AF-S"             },
         { 2,     "AF-C"             },
         { 4,     N_("Permanent-AF") },
@@ -238,7 +238,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony AF mode values to readable labels
-    extern const TagDetails sonyAFMode[] = {
+    constexpr TagDetails sonyAFMode[] = {
         { 0,     N_("Default")          },
         { 1,     N_("Multi AF")         },
         { 2,     N_("Center AF")        },
@@ -251,14 +251,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony AF illuminator values to readable labels
-    extern const TagDetails sonyAFIlluminator[] = {
+    constexpr TagDetails sonyAFIlluminator[] = {
         { 0,     N_("Off") },
         { 1,     N_("Auto")  },
         { 65535, N_("n/a") }
     };
 
     //! Lookup table to translate Sony macro mode values to readable labels
-    extern const TagDetails sonyMacroMode[] = {
+    constexpr TagDetails sonyMacroMode[] = {
         { 0,     N_("Off")         },
         { 1,     N_("On")          },
         { 2,     N_("Close Focus") },
@@ -266,7 +266,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony flash level values to readable labels
-    extern const TagDetails sonyFlashLevel[] = {
+    constexpr TagDetails sonyFlashLevel[] = {
         { -32768, N_("Low")    },
         { -1,     N_("n/a")    },
         { 0,      N_("Normal") },
@@ -274,7 +274,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony release mode values to readable labels
-    extern const TagDetails sonyReleaseMode[] = {
+    constexpr TagDetails sonyReleaseMode[] = {
         { 0,     N_("Normal")                   },
         { 2,     N_("Burst")                    },
         { 5,     N_("Exposure Bracketing")      },
@@ -283,13 +283,13 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony sequence number values to readable labels
-    extern const TagDetails sonySequenceNumber[] = {
+    constexpr TagDetails sonySequenceNumber[] = {
         { 0,     N_("Single")                    },
         { 65535, N_("n/a")                       }
     };
 
     //! Lookup table to translate Sony long exposure noise reduction values to readable labels
-    extern const TagDetails sonyLongExposureNoiseReduction[] = {
+    constexpr TagDetails sonyLongExposureNoiseReduction[] = {
         { 0,     N_("Off") },
         { 1,     N_("On")  },
         { 65535, N_("n/a") }
@@ -502,7 +502,7 @@ namespace Exiv2 {
     // -- Sony camera settings ---------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings drive mode values to readable labels
-    extern const TagDetails sonyDriveModeStd[] = {
+    constexpr TagDetails sonyDriveModeStd[] = {
         { 0x01, N_("Single Frame")                      },
         { 0x02, N_("Continuous High")                   },
         { 0x04, N_("Self-timer 10 sec")                 },
@@ -520,7 +520,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
-    extern const TagDetails sonyCSFocusMode[] = {
+    constexpr TagDetails sonyCSFocusMode[] = {
         { 0, N_("Manual") },
         { 1, "AF-S"       },
         { 2, "AF-C"       },
@@ -528,14 +528,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings metering mode values to readable labels
-    extern const TagDetails sonyMeteringMode[] = {
+    constexpr TagDetails sonyMeteringMode[] = {
         { 1, N_("Multi-segment")           },
         { 2, N_("Center weighted average") },
         { 4, N_("Spot")                    }
     };
 
     //! Lookup table to translate Sony camera settings creative style values to readable labels
-    extern const TagDetails sonyCreativeStyle[] = {
+    constexpr TagDetails sonyCreativeStyle[] = {
         { 1,    N_("Standard")            },
         { 2,    N_("Vivid")               },
         { 3,    N_("Portrait")            },
@@ -553,19 +553,19 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings flash mode values to readable labels
-    extern const TagDetails sonyFlashMode[] = {
+    constexpr TagDetails sonyFlashMode[] = {
         { 0, N_("ADI") },
         { 1, N_("TTL") },
     };
 
     //! Lookup table to translate Sony AF illuminator values to readable labels
-    extern const TagDetails sonyAFIlluminatorCS[] = {
+    constexpr TagDetails sonyAFIlluminatorCS[] = {
         { 0, N_("Auto") },
         { 1, N_("Off")  }
     };
 
     //! Lookup table to translate Sony camera settings image style values to readable labels
-    extern const TagDetails sonyImageStyle[] = {
+    constexpr TagDetails sonyImageStyle[] = {
         { 1,    N_("Standard")            },
         { 2,    N_("Vivid")               },
         { 3,    N_("Portrait")            },
@@ -584,7 +584,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings exposure program values to readable labels
-    extern const TagDetails sonyExposureProgram[] = {
+    constexpr TagDetails sonyExposureProgram[] = {
         { 0,    N_("Auto")                      },
         { 1,    N_("Manual")                    },
         { 2,    N_("Program AE")                },
@@ -602,20 +602,20 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony camera settings image size values to readable labels
-    extern const TagDetails sonyImageSize[] = {
+    constexpr TagDetails sonyImageSize[] = {
         { 1, N_("Large")  },
         { 2, N_("Medium") },
         { 3, N_("Small")  }
     };
 
     //! Lookup table to translate Sony aspect ratio values to readable labels
-    extern const TagDetails sonyAspectRatio[] = {
+    constexpr TagDetails sonyAspectRatio[] = {
         { 1, "3:2"   },
         { 2, "16:9"  }
     };
 
     //! Lookup table to translate Sony exposure level increments values to readable labels
-    extern const TagDetails sonyExposureLevelIncrements[] = {
+    constexpr TagDetails sonyExposureLevelIncrements[] = {
         { 33, "1/3 EV" },
         { 50, "1/2 EV" }
     };

@@ -50,19 +50,19 @@ namespace Exiv2 {
     namespace Internal {
 
     //! OffOn, multiple tags
-    extern const TagDetails olympusOffOn[] = {
+    constexpr TagDetails olympusOffOn[] = {
         {  0, N_("Off") },
         {  1, N_("On")  }
     };
 
     //! NoYes, multiple tags
-    extern const TagDetails olympusNoYes[] = {
+    constexpr TagDetails olympusNoYes[] = {
         {  0, N_("No") },
         {  1, N_("Yes")  }
     };
 
     //! Quality, tag 0x0201
-    extern const TagDetails olympusQuality[] = {
+    constexpr TagDetails olympusQuality[] = {
         { 1, N_("Standard Quality (SQ)")    },
         { 2, N_("High Quality (HQ)")        },
         { 3, N_("Super High Quality (SHQ)") },
@@ -70,21 +70,21 @@ namespace Exiv2 {
     };
 
     //! Macro, tag 0x0202
-    extern const TagDetails olympusMacro[] = {
+    constexpr TagDetails olympusMacro[] = {
         {  0, N_("Off")         },
         {  1, N_("On")          },
         {  2, N_("Super macro") }
     };
 
     //! OneTouchWB, tag 0x0302
-    extern const TagDetails olympusOneTouchWb[] = {
+    constexpr TagDetails olympusOneTouchWb[] = {
         {  0, N_("Off")         },
         {  1, N_("On")          },
         {  2, N_("On (preset)") }
     };
 
     //! SceneMode, tag 0x403 and CameraSettings tag 0x509
-    extern const TagDetails olympusSceneMode[] = {
+    constexpr TagDetails olympusSceneMode[] = {
         {  0, N_("Standard")                    },
         {  6, N_("Auto")                        },
         {  7, N_("Sport")                       },
@@ -133,7 +133,7 @@ namespace Exiv2 {
     };
 
     //! FlashDevice, tag 0x1005
-    extern const TagDetails olympusFlashDevice[] = {
+    constexpr TagDetails olympusFlashDevice[] = {
         {  0, N_("None")                },
         {  1, N_("Internal")            },
         {  4, N_("External")            },
@@ -141,33 +141,33 @@ namespace Exiv2 {
     };
 
     //! FocusRange, tag 0x100a
-    extern const TagDetails olympusFocusRange[] = {
+    constexpr TagDetails olympusFocusRange[] = {
         {  0, N_("Normal")   },
         {  1, N_("Macro") }
     };
 
     //! FocusMode, tag 0x100b
-    extern const TagDetails olympusFocusMode[] = {
+    constexpr TagDetails olympusFocusMode[] = {
         {  0, N_("Auto")   },
         {  1, N_("Manual") }
     };
 
     //! Sharpness, tag 0x100f
-    extern const TagDetails olympusSharpness[] = {
+    constexpr TagDetails olympusSharpness[] = {
         { 0, N_("Normal") },
         { 1, N_("Hard")   },
         { 2, N_("Soft")   }
     };
 
     //! Contrast, tag 0x1029
-    extern const TagDetails olympusContrast[] = {
+    constexpr TagDetails olympusContrast[] = {
         { 0, N_("High")   },
         { 1, N_("Normal") },
         { 2, N_("Low")    }
     };
 
     //! CCDScanMode, tag 0x1039
-    extern const TagDetails olympusCCDScanMode[] = {
+    constexpr TagDetails olympusCCDScanMode[] = {
         {  0, N_("Interlaced")  },
         {  1, N_("Progressive") }
     };
@@ -473,7 +473,7 @@ namespace Exiv2 {
 
 // Olympus CameraSettings Tags
     //! ExposureMode, tag 0x0200
-    extern const TagDetails olympusExposureMode[] = {
+    constexpr TagDetails olympusExposureMode[] = {
         { 1, N_("Manual")                    },
         { 2, N_("Program")                   },
         { 3, N_("Aperture-priority AE")      },
@@ -482,7 +482,7 @@ namespace Exiv2 {
     };
 
     //! MeteringMode, tag 0x0202
-    extern const TagDetails olympusMeteringMode[] = {
+    constexpr TagDetails olympusMeteringMode[] = {
         {    2, N_("Center-weighted average") },
         {    3, N_("Spot")                    },
         {    5, N_("ESP")                     },
@@ -492,14 +492,14 @@ namespace Exiv2 {
     };
 
     //! MacroMode, tag 0x0300
-    extern const TagDetails olympusMacroMode[] = {
+    constexpr TagDetails olympusMacroMode[] = {
         { 0, N_("Off")         },
         { 1, N_("On")          },
         { 2, N_("Super Macro") }
     };
 
     //! FocusMode, tag 0x0301
-    extern const TagDetails olympusCsFocusMode[] = {
+    constexpr TagDetails olympusCsFocusMode[] = {
         { 0, N_("Single AF")              },
         { 1, N_("Sequential shooting AF") },
         { 2, N_("Continuous AF")          },
@@ -508,19 +508,19 @@ namespace Exiv2 {
     };
 
     //! FocusProcess, tag 0x0302
-    extern const TagDetails olympusFocusProcess[] = {
+    constexpr TagDetails olympusFocusProcess[] = {
         { 0, N_("AF Not Used") },
         { 1, N_("AF Used")     }
     };
 
     //! AFSearch, tag 0x0303
-    extern const TagDetails olympusAFSearch[] = {
+    constexpr TagDetails olympusAFSearch[] = {
         { 0, N_("Not Ready") },
         { 1, N_("Ready")     }
     };
 
     //! FlashMode, tag 0x0400
-    extern const TagDetailsBitmask olympusFlashMode[] = {
+    constexpr TagDetailsBitmask olympusFlashMode[] = {
         { 0x0000, N_("Off")         },
         { 0x0001, N_("On")          },
         { 0x0002, N_("Fill-in")     },
@@ -531,7 +531,7 @@ namespace Exiv2 {
     };
 
     //! FlashRemoteControl, tag 0x0403
-    extern const TagDetails olympusFlashRemoteControl[] = {
+    constexpr TagDetails olympusFlashRemoteControl[] = {
         {  0x0, N_("Off")              },
         {  0x1, N_("Channel 1, Low")   },
         {  0x2, N_("Channel 2, Low")   },
@@ -548,7 +548,7 @@ namespace Exiv2 {
     };
 
     //! FlashControlMode, tag 0x0404
-    extern const TagDetails olympusFlashControlMode[] = {
+    constexpr TagDetails olympusFlashControlMode[] = {
         { 0, N_("Off")     },
         { 3, N_("TTL")     },
         { 4, N_("Auto")    },
@@ -556,7 +556,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x0500
-    extern const TagDetails olympusWhiteBalance[] = {
+    constexpr TagDetails olympusWhiteBalance[] = {
         {   0, N_("Auto")                              },
         {   1, N_("Auto (Keep Warm Color Off")         },
         {  16, N_("7500K (Fine Weather with Shade)")   },
@@ -583,7 +583,7 @@ namespace Exiv2 {
     };
 
     //! ModifiedSaturation, tag 0x0504
-    extern const TagDetails olympusModifiedSaturation[] = {
+    constexpr TagDetails olympusModifiedSaturation[] = {
         { 0, N_("Off")                 },
         { 1, N_("CM1 (Red Enhance)")   },
         { 2, N_("CM2 (Green Enhance)") },
@@ -592,14 +592,14 @@ namespace Exiv2 {
     };
 
     //! ColorSpace, tag 0x0507
-    extern const TagDetails olympusColorSpace[] = {
+    constexpr TagDetails olympusColorSpace[] = {
         { 0, N_("sRGB")          },
         { 1, N_("Adobe RGB")     },
         { 2, N_("Pro Photo RGB") }
     };
 
     //! NoiseReduction, tag 0x050a
-    extern const TagDetailsBitmask olympusNoiseReduction[] = {
+    constexpr TagDetailsBitmask olympusNoiseReduction[] = {
         { 0x0001, N_("Noise Reduction")          },
         { 0x0002, N_("Noise Filter")             },
         { 0x0004, N_("Noise Filter (ISO Boost)") },
@@ -607,7 +607,7 @@ namespace Exiv2 {
     };
 
     //! PictureMode, tag 0x0520
-    extern const TagDetails olympusPictureMode[] = {
+    constexpr TagDetails olympusPictureMode[] = {
         {   1, N_("Vivid")                },
         {   2, N_("Natural")              },
         {   3, N_("Muted")                },
@@ -626,7 +626,7 @@ namespace Exiv2 {
     };
 
     //! PictureModeBWFilter, tag 0x0525
-    extern const TagDetails olympusPictureModeBWFilter[] = {
+    constexpr TagDetails olympusPictureModeBWFilter[] = {
         { 0, N_("n/a")     },
         { 1, N_("Neutral") },
         { 2, N_("Yellow")  },
@@ -636,7 +636,7 @@ namespace Exiv2 {
     };
 
     //! PictureModeTone, tag 0x0526
-    extern const TagDetails olympusPictureModeTone[] = {
+    constexpr TagDetails olympusPictureModeTone[] = {
         { 0, N_("n/a")     },
         { 1, N_("Neutral") },
         { 2, N_("Sepia")   },
@@ -646,7 +646,7 @@ namespace Exiv2 {
     };
 
     //! OlympusCs Quality, tag 0x0603
-    extern const TagDetails olympusCsQuality[] = {
+    constexpr TagDetails olympusCsQuality[] = {
         { 1, N_("SQ")  },
         { 2, N_("HQ")  },
         { 3, N_("SHQ") },
@@ -654,7 +654,7 @@ namespace Exiv2 {
     };
 
     //! Olympus ImageStabilization, tag 0x0604
-    extern const TagDetails olympusImageStabilization[] = {
+    constexpr TagDetails olympusImageStabilization[] = {
         { 0, N_("Off")        },
         { 1, N_("On, Mode 1") },
         { 2, N_("On, Mode 2") },
@@ -726,14 +726,14 @@ namespace Exiv2 {
     }
 
     //! OlympusEq FlashType, tag 0x1000
-    extern const TagDetails olympusEqFlashType[] = {
+    constexpr TagDetails olympusEqFlashType[] = {
         { 0, N_("None")            },
         { 2, N_("Simple E-System") },
         { 3, N_("E-System")        }
     };
 
     //! OlympusEq FlashModel, tag 0x1001
-    extern const TagDetails olympusEqFlashModel[] = {
+    constexpr TagDetails olympusEqFlashModel[] = {
         { 0, N_("None") },
         { 1, "FL-20"    },
         { 2, "FL-50"    },
@@ -783,14 +783,14 @@ namespace Exiv2 {
     }
 
     //! OlympusRd ColorSpace, tag 0x0108
-    extern const TagDetails olympusRdColorSpace[] = {
+    constexpr TagDetails olympusRdColorSpace[] = {
         { 0, N_("sRGB")          },
         { 1, N_("Adobe RGB")     },
         { 2, N_("Pro Photo RGB") }
     };
 
     //! OlympusRd Engine, tag 0x0109
-    extern const TagDetails olympusRdEngine[] = {
+    constexpr TagDetails olympusRdEngine[] = {
         { 0, N_("High Speed")             },
         { 1, N_("High Function")          },
         { 2, N_("Advanced High Speed")    },
@@ -798,7 +798,7 @@ namespace Exiv2 {
     };
 
     //! OlympusRd EditStatus, tag 0x010b
-    extern const TagDetails olympusRdEditStatus[] = {
+    constexpr TagDetails olympusRdEditStatus[] = {
         { 0, N_("Original")           },
         { 1, N_("Edited (Landscape)") },
         { 6, N_("Edited (Portrait)")  },
@@ -806,7 +806,7 @@ namespace Exiv2 {
     };
 
     //! OlympusRd Settings, tag 0x010c
-    extern const TagDetailsBitmask olympusRdSettings[] = {
+    constexpr TagDetailsBitmask olympusRdSettings[] = {
         { 0x0001, N_("WB Color Temp")   },
         { 0x0004, N_("WB Gray Point")   },
         { 0x0008, N_("Saturation")      },
@@ -842,26 +842,26 @@ namespace Exiv2 {
     }
 
     //! OlympusRd2 WhiteBalance, tag 0x0101
-    extern const TagDetails olympusRd2WhiteBalance[] = {
+    constexpr TagDetails olympusRd2WhiteBalance[] = {
         { 1, N_("Color Temperature") },
         { 2, N_("Gray Point")        }
     };
 
     //! OlympusRd2 ColorSpace, tag 0x0109
-    extern const TagDetails olympusRd2ColorSpace[] = {
+    constexpr TagDetails olympusRd2ColorSpace[] = {
         { 0, N_("sRGB")          },
         { 1, N_("Adobe RGB")     },
         { 2, N_("Pro Photo RGB") }
     };
 
     //! OlympusRd2 Engine, tag 0x010b
-    extern const TagDetails olympusRd2Engine[] = {
+    constexpr TagDetails olympusRd2Engine[] = {
         { 0, N_("High Speed")    },
         { 1, N_("High Function") }
     };
 
     //! OlympusRd2 PictureMode, tag 0x010c
-    extern const TagDetails olympusRd2PictureMode[] = {
+    constexpr TagDetails olympusRd2PictureMode[] = {
         {   1, N_("Vivid")    },
         {   2, N_("Natural")  },
         {   3, N_("Muted")    },
@@ -870,7 +870,7 @@ namespace Exiv2 {
     };
 
     //! OlympusRd2 PM_BWFilter, tag 0x0110
-    extern const TagDetails olympusRd2PM_BWFilter[] = {
+    constexpr TagDetails olympusRd2PM_BWFilter[] = {
         { 1, N_("Neutral") },
         { 2, N_("Yellow")  },
         { 3, N_("Orange")  },
@@ -879,7 +879,7 @@ namespace Exiv2 {
     };
 
     //! OlympusRd2 PMPictureTone, tag 0x0111
-    extern const TagDetails olympusRd2PMPictureTone[] = {
+    constexpr TagDetails olympusRd2PMPictureTone[] = {
         { 1, N_("Neutral") },
         { 2, N_("Sepia")   },
         { 3, N_("Blue")    },
@@ -921,14 +921,14 @@ namespace Exiv2 {
     }
 
     //! OlympusIp MultipleExposureMode, tag 0x101c
-    extern const TagDetails olympusIpMultipleExposureMode[] = {
+    constexpr TagDetails olympusIpMultipleExposureMode[] = {
         { 0, N_("Off")             },
         { 2, N_("On (2 frames)")   },
         { 3, N_("On (3 frames)")   }
     };
 
     //! OlympusIp olympusIpAspectRatio, tag 0x101c
-    extern const TagDetails olympusIpAspectRatio[] = {
+    constexpr TagDetails olympusIpAspectRatio[] = {
         { 1, "4:3"  },
         { 2, "3:2"  },
         { 3, "16:9" },
@@ -1002,7 +1002,7 @@ namespace Exiv2 {
     }
 
     //! OlympusFi ExternalFlashBounce, tag 0x1204
-    extern const TagDetails olympusFiExternalFlashBounce[] = {
+    constexpr TagDetails olympusFiExternalFlashBounce[] = {
         { 0, N_("Bounce or Off") },
         { 1, N_("Direct") }
     };
@@ -1048,7 +1048,7 @@ namespace Exiv2 {
     }
 
     //! OlympusRi LightSource, tag 0x1000
-    extern const TagDetails olympusRiLightSource[] = {
+    constexpr TagDetails olympusRiLightSource[] = {
         {   0, N_("Unknown")                                 },
         {  16, N_("Shade")                                   },
         {  17, N_("Cloudy")                                  },

@@ -49,7 +49,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! OffOn, multiple tags
-    extern const TagDetails canonOffOn[] = {
+    constexpr TagDetails canonOffOn[] = {
         {  0, N_("Off") },
         {  1, N_("On")  }
     };
@@ -72,7 +72,7 @@ namespace Exiv2 {
                                   const ExifData* metadata);
 
     //! ModelId, tag 0x0010
-    extern const TagDetails canonModelId[] = {
+    constexpr TagDetails canonModelId[] = {
         { (long int)0x1010000, "PowerShot A30" },
         { (long int)0x1040000, "PowerShot S300 / Digital IXUS 300 / IXY Digital 300" },
         { (long int)0x1060000, "PowerShot A20" },
@@ -388,25 +388,25 @@ namespace Exiv2 {
     };
 
     //! SerialNumberFormat, tag 0x0015
-    extern const TagDetails canonSerialNumberFormat[] = {
+    constexpr TagDetails canonSerialNumberFormat[] = {
         {  (long int)0x90000000, N_("Format 1") },
         {  (long int)0xa0000000, N_("Format 2") },
     };
 
     //! SuperMacro, tag 0x001a
-    extern const TagDetails canonSuperMacro[] = {
+    constexpr TagDetails canonSuperMacro[] = {
         {  0, N_("Off")     },
         {  1, N_("On (1)")  },
         {  2, N_("On (2)")  }
     };
 
     //! ColorSpace, tag 0x00b4
-    extern const TagDetails canonColorSpace[] = {
+    constexpr TagDetails canonColorSpace[] = {
         {  1, N_("sRGB")      },
         {  2, N_("Adobe RGB") }
     };
 
-    extern const TagDetails canonAFAreaMode[] = {
+    constexpr TagDetails canonAFAreaMode[] = {
          {   0, N_("Off (Manual Focus)")           },
          {   1, N_("AF Point Expansion (surround)")},
          {   2, N_("Single-point AF")              },
@@ -485,13 +485,13 @@ namespace Exiv2 {
     }
 
     //! Macro, tag 0x0001
-    extern const TagDetails canonCsMacro[] = {
+    constexpr TagDetails canonCsMacro[] = {
         { 1, N_("On")  },
         { 2, N_("Off") }
     };
 
     //! Quality, tag 0x0003
-    extern const TagDetails canonCsQuality[] = {
+    constexpr TagDetails canonCsQuality[] = {
         { 1,   N_("Economy")      },
         { 2,   N_("Normal")       },
         { 3,   N_("Fine")         },
@@ -502,7 +502,7 @@ namespace Exiv2 {
     };
 
     //! FlashMode, tag 0x0004
-    extern const TagDetails canonCsFlashMode[] = {
+    constexpr TagDetails canonCsFlashMode[] = {
         {  0, N_("Off")            },
         {  1, N_("Auto")           },
         {  2, N_("On")             },
@@ -515,7 +515,7 @@ namespace Exiv2 {
     };
 
     //! DriveMode, tag 0x0005
-    extern const TagDetails canonCsDriveMode[] = {
+    constexpr TagDetails canonCsDriveMode[] = {
         {  0, N_("Single / timer")             },
         {  1, N_("Continuous")                 },
         {  2, N_("Movie")                      },
@@ -528,7 +528,7 @@ namespace Exiv2 {
     };
 
     //! FocusMode, tag 0x0007
-    extern const TagDetails canonCsFocusMode[] = {
+    constexpr TagDetails canonCsFocusMode[] = {
         {   0, N_("One shot AF")      },
         {   1, N_("AI servo AF")      },
         {   2, N_("AI focus AF")      },
@@ -544,7 +544,7 @@ namespace Exiv2 {
     };
 
     //! ImageSize, tag 0x000a
-    extern const TagDetails canonCsImageSize[] = {
+    constexpr TagDetails canonCsImageSize[] = {
         {   0, N_("Large")             },
         {   1, N_("Medium")            },
         {   2, N_("Small")             },
@@ -565,7 +565,7 @@ namespace Exiv2 {
     };
 
     //! EasyMode, tag 0x000b
-    extern const TagDetails canonCsEasyMode[] = {
+    constexpr TagDetails canonCsEasyMode[] = {
         {   0, N_("Full auto")              },
         {   1, N_("Manual")                 },
         {   2, N_("Landscape")              },
@@ -640,7 +640,7 @@ namespace Exiv2 {
     };
 
     //! DigitalZoom, tag 0x000c
-    extern const TagDetails canonCsDigitalZoom[] = {
+    constexpr TagDetails canonCsDigitalZoom[] = {
         { 0, N_("None")  },
         { 1, "2x"        },
         { 2, "4x"        },
@@ -649,14 +649,14 @@ namespace Exiv2 {
     };
 
     //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f
-    extern const TagDetails canonCsLnh[] = {
+    constexpr TagDetails canonCsLnh[] = {
         { 0xffff, N_("Low")    },
         { 0x0000, N_("Normal") },
         { 0x0001, N_("High")   }
     };
 
     //! ISOSpeeds, tag 0x0010
-    extern const TagDetails canonCsISOSpeed[] = {
+    constexpr TagDetails canonCsISOSpeed[] = {
         {     0, N_("n/a")       },
         {    14, N_("Auto High") },
         {    15, N_("Auto")      },
@@ -691,7 +691,7 @@ namespace Exiv2 {
     };
 
     //! MeteringMode, tag 0x0011
-    extern const TagDetails canonCsMeteringMode[] = {
+    constexpr TagDetails canonCsMeteringMode[] = {
         { 0, N_("Default")                 },
         { 1, N_("Spot")                    },
         { 2, N_("Average")                 },
@@ -701,7 +701,7 @@ namespace Exiv2 {
     };
 
     //! FocusType, tag 0x0012
-    extern const TagDetails canonCsFocusType[] = {
+    constexpr TagDetails canonCsFocusType[] = {
         {  0, N_("Manual")       },
         {  1, N_("Auto")         },
         {  2, N_("Not known")    },
@@ -716,7 +716,7 @@ namespace Exiv2 {
     };
 
     //! AFPoint, tag 0x0013
-    extern const TagDetails canonCsAfPoint[] = {
+    constexpr TagDetails canonCsAfPoint[] = {
         { 0x2005, N_("Manual AF point selection") },
         { 0x3000, N_("None (MF)")                 },
         { 0x3001, N_("Auto-selected")             },
@@ -728,7 +728,7 @@ namespace Exiv2 {
     };
 
     //! ExposureProgram, tag 0x0014
-    extern const TagDetails canonCsExposureProgram[] = {
+    constexpr TagDetails canonCsExposureProgram[] = {
         { 0, N_("Easy shooting (Auto)")   },
         { 1, N_("Program (P)")            },
         { 2, N_("Shutter priority (Tv)")  },
@@ -740,7 +740,7 @@ namespace Exiv2 {
     };
 
     //! LensType, tag 0x0016
-    extern const TagDetails canonCsLensType[] = {
+    constexpr TagDetails canonCsLensType[] = {
         {   1, "Canon EF 50mm f/1.8"                                        },
         {   2, "Canon EF 28mm f/2.8"                                        },
         {   3, "Canon EF 135mm f/2.8 Soft"                                  },
@@ -1170,13 +1170,13 @@ namespace Exiv2 {
     };
 
     //! FlashActivity, tag 0x001c
-    extern const TagDetails canonCsFlashActivity[] = {
+    constexpr TagDetails canonCsFlashActivity[] = {
         { 0, N_("Did not fire") },
         { 1, N_("Fired")        }
     };
 
     //! FlashDetails, tag 0x001d
-    extern const TagDetailsBitmask canonCsFlashDetails[] = {
+    constexpr TagDetailsBitmask canonCsFlashDetails[] = {
         { 0x4000, N_("External flash")        },
         { 0x2000, N_("Internal flash")        },
         { 0x0001, N_("Manual")                },
@@ -1189,14 +1189,14 @@ namespace Exiv2 {
     };
 
     //! FocusContinuous, tag 0x0020
-    extern const TagDetails canonCsFocusContinuous[] = {
+    constexpr TagDetails canonCsFocusContinuous[] = {
         { 0, N_("Single")     },
         { 1, N_("Continuous") },
         { 8, N_("Manual")     }
     };
 
     //! AESetting, tag 0x0021
-    extern const TagDetails canonCsAESetting[] = {
+    constexpr TagDetails canonCsAESetting[] = {
         { 0, N_("Normal AE")                       },
         { 1, N_("Exposure compensation")           },
         { 2, N_("AE lock")                         },
@@ -1205,7 +1205,7 @@ namespace Exiv2 {
     };
 
     //! ImageStabilization, tag 0x0022
-    extern const TagDetails canonCsImageStabilization[] = {
+    constexpr TagDetails canonCsImageStabilization[] = {
         {   0, N_("Off")            },
         {   1, N_("On")             },
         {   2, N_("Shoot Only")     },
@@ -1219,13 +1219,13 @@ namespace Exiv2 {
     };
 
     //! SpotMeteringMode, tag 0x0027
-    extern const TagDetails canonCsSpotMeteringMode[] = {
+    constexpr TagDetails canonCsSpotMeteringMode[] = {
         { 0,   N_("Center")   },
         { 1,   N_("AF Point") }
     };
 
     //! PhotoEffect, tag 0x0028
-    extern const TagDetails canonCsPhotoEffect[] = {
+    constexpr TagDetails canonCsPhotoEffect[] = {
         { 0,   N_("Off")           },
         { 1,   N_("Vivid")         },
         { 2,   N_("Neutral")       },
@@ -1238,7 +1238,7 @@ namespace Exiv2 {
     };
 
     //! ManualFlashOutput, tag 0x0029
-    extern const TagDetails canonCsManualFlashOutput[] = {
+    constexpr TagDetails canonCsManualFlashOutput[] = {
         { 0x0000, N_("n/a")    },
         { 0x0500, N_("Full")   },
         { 0x0502, N_("Medium") },
@@ -1247,7 +1247,7 @@ namespace Exiv2 {
     };
 
     //! SRAWQuality, tag 0x002e
-    extern const TagDetails canonCsSRAWQuality[] = {
+    constexpr TagDetails canonCsSRAWQuality[] = {
         { 0, N_("n/a")          },
         { 1, N_("sRAW1 (mRAW)") },
         { 2, N_("sRAW2 (sRAW)") }
@@ -1308,7 +1308,7 @@ namespace Exiv2 {
     }
 
     //! WhiteBalance, multiple tags
-    extern const TagDetails canonSiWhiteBalance[] = {
+    constexpr TagDetails canonSiWhiteBalance[] = {
         {  0, N_("Auto")                        },
         {  1, N_("Daylight")                    },
         {  2, N_("Cloudy")                      },
@@ -1334,14 +1334,14 @@ namespace Exiv2 {
     };
 
     //! AFPointUsed, tag 0x000e
-    extern const TagDetailsBitmask canonSiAFPointUsed[] = {
+    constexpr TagDetailsBitmask canonSiAFPointUsed[] = {
         { 0x0004, N_("left")   },
         { 0x0002, N_("center") },
         { 0x0001, N_("right")  }
     };
 
     //! FlashBias, tag 0x000f
-    extern const TagDetails canonSiFlashBias[] = {
+    constexpr TagDetails canonSiFlashBias[] = {
         { 0xffc0, "-2 EV"    },
         { 0xffcc, "-1.67 EV" },
         { 0xffd0, "-1.50 EV" },
@@ -1399,7 +1399,7 @@ namespace Exiv2 {
     }
 
     //! PanoramaDirection, tag 0x0005
-    extern const TagDetails canonPaDirection[] = {
+    constexpr TagDetails canonPaDirection[] = {
         { 0, N_("Left to right")          },
         { 1, N_("Right to left")          },
         { 2, N_("Bottom to top")          },
@@ -1447,7 +1447,7 @@ namespace Exiv2 {
     }
 
     //! AFPointsUsed, tag 0x0016
-    extern const TagDetailsBitmask canonPiAFPointsUsed[] = {
+    constexpr TagDetailsBitmask canonPiAFPointsUsed[] = {
         { 0x01, N_("right")     },
         { 0x02, N_("mid-right") },
         { 0x04, N_("bottom")    },
@@ -1458,7 +1458,7 @@ namespace Exiv2 {
     };
 
     //! AFPointsUsed20D, tag 0x001a
-    extern const TagDetailsBitmask canonPiAFPointsUsed20D[] = {
+    constexpr TagDetailsBitmask canonPiAFPointsUsed20D[] = {
         { 0x001, N_("top")         },
         { 0x002, N_("upper-left")  },
         { 0x004, N_("upper-right") },
@@ -1488,7 +1488,7 @@ namespace Exiv2 {
     }
 
     //! BracketMode, tag 0x0003
-    extern const TagDetails canonBracketMode[] = {
+    constexpr TagDetails canonBracketMode[] = {
         { 0, N_("Off") },
         { 1, N_("AEB") },
         { 2, N_("FEB") },
@@ -1497,7 +1497,7 @@ namespace Exiv2 {
     };
 
     //! RawJpgSize, tag 0x0007
-    extern const TagDetails canonRawJpgSize[] = {
+    constexpr TagDetails canonRawJpgSize[] = {
         {   0, N_("Large")             },
         {   1, N_("Medium")            },
         {   2, N_("Small")             },
@@ -1518,7 +1518,7 @@ namespace Exiv2 {
     };
 
     //! NoiseReduction, tag 0x0008
-    extern const TagDetails canonNoiseReduction[] = {
+    constexpr TagDetails canonNoiseReduction[] = {
         { 0, N_("Off")  },
         { 1, N_("On 1") },
         { 2, N_("On 2") },
@@ -1527,14 +1527,14 @@ namespace Exiv2 {
     };
 
     //! WBBracketMode, tag 0x0009
-    extern const TagDetails canonWBBracketMode[] = {
+    constexpr TagDetails canonWBBracketMode[] = {
         { 0, N_("Off")           },
         { 1, N_("On (shift AB)") },
         { 2, N_("On (shift GM)") }
     };
 
     //! FilterEffect, tag 0x000e
-    extern const TagDetails canonFilterEffect[] = {
+    constexpr TagDetails canonFilterEffect[] = {
         { 0, N_("None")   },
         { 1, N_("Yellow") },
         { 2, N_("Orange") },
@@ -1543,7 +1543,7 @@ namespace Exiv2 {
     };
 
     //! ToningEffect, tag 0x000e
-    extern const TagDetails canonToningEffect[] = {
+    constexpr TagDetails canonToningEffect[] = {
         { 0, N_("None")   },
         { 1, N_("Sepia")  },
         { 2, N_("Blue")   },
@@ -1580,14 +1580,14 @@ namespace Exiv2 {
     }
 
     //! Tone Curve Values
-    extern const TagDetails canonToneCurve[] = {
+    constexpr TagDetails canonToneCurve[] = {
         { 0, N_("Standard") },
         { 1, N_("Manual")   },
         { 2, N_("Custom")   }
     };
 
     //! Sharpness Frequency Values
-    extern const TagDetails canonSharpnessFrequency[] = {
+    constexpr TagDetails canonSharpnessFrequency[] = {
         { 0, N_("n/a")      },
         { 1, N_("Lowest")   },
         { 2, N_("Low")      },
@@ -1597,7 +1597,7 @@ namespace Exiv2 {
     };
 
     //! PictureStyle Values
-    extern const TagDetails canonPictureStyle[] = {
+    constexpr TagDetails canonPictureStyle[] = {
         { 0x00, N_("None")            },
         { 0x01, N_("Standard")        },
         { 0x02, N_("Portrait")        },
@@ -1646,7 +1646,7 @@ namespace Exiv2 {
     }
 
     //! canonTimeZoneCity - array of cityID/cityName used by Canon
-    extern const TagDetails canonTimeZoneCity[] = {
+    constexpr TagDetails canonTimeZoneCity[] = {
         { 0x0000, N_("n/a")                 },
         { 0x0001, N_("Chatham Islands")     },
         { 0x0002, N_("Wellington")          },
