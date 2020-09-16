@@ -1251,10 +1251,10 @@ namespace Exiv2 {
             }
             if (marker == eoi_) {
                 break;
-            } else if (skipApp1Exif == count || skipApp1Xmp == count ||
-                       std::find(skipApp13Ps3.begin(), skipApp13Ps3.end(), count) != skipApp13Ps3.end() ||
-                       std::find(skipApp2Icc.begin(), skipApp2Icc.end(), count) != skipApp2Icc.end() ||
-                       skipCom == count) {
+            }
+            if (skipApp1Exif == count || skipApp1Xmp == count ||
+                std::find(skipApp13Ps3.begin(), skipApp13Ps3.end(), count) != skipApp13Ps3.end() ||
+                std::find(skipApp2Icc.begin(), skipApp2Icc.end(), count) != skipApp2Icc.end() || skipCom == count) {
                 --search;
                 io_->seek(size - bufRead, BasicIo::cur);
             } else {
