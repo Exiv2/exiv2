@@ -153,7 +153,7 @@ endif()
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 target_include_directories(exiv2lib_int PUBLIC
