@@ -1207,7 +1207,7 @@ namespace Exiv2 {
             return os << value;
         }
         if (value.count() == 1) {
-            auto l0 = (short)value.toLong(0);
+            auto l0 = static_cast<short>(value.toLong(0));
             if (l0 == 1) {
                 os << _("Auto");
             }
@@ -1216,8 +1216,8 @@ namespace Exiv2 {
             }
         }
         else if (value.count() == 2) {
-            auto l0 = (short)value.toLong(0);
-            auto l1 = (short)value.toLong(1);
+            auto l0 = static_cast<short>(value.toLong(0));
+            auto l1 = static_cast<short>(value.toLong(1));
             if (l0 == 1) {
                 switch (l1) {
                 case 0: os << _("Auto"); break;
@@ -1388,9 +1388,9 @@ namespace Exiv2 {
             return os << value;
         }
 
-        byte v0 = (byte)value.toLong(0);
-        byte v2 = (byte)value.toLong(2);
-        byte v3 = (byte)value.toLong(3);
+        byte v0 = static_cast<byte>(value.toLong(0));
+        byte v2 = static_cast<byte>(value.toLong(2));
+        byte v3 = static_cast<byte>(value.toLong(3));
 
         for (int i = 0; lensTypes[i].val[0] != 0xff; i++) {
             if (lensTypes[i].val[0] == v0 &&
@@ -1411,7 +1411,7 @@ namespace Exiv2 {
 
         char ch;
         int size = value.size();
-        for (int i = 0; i < size && ((ch = (char)value.toLong(i)) != '\0'); i++) {
+        for (int i = 0; i < size && ((ch = static_cast<char>(value.toLong(i))) != '\0'); i++) {
             os << ch;
         }
         return os;
@@ -1438,8 +1438,8 @@ namespace Exiv2 {
             return os << value;
         }
 
-        byte v0 = (byte)value.toLong(0);
-        byte v2 = (byte)value.toLong(2);
+        byte v0 = static_cast<byte>(value.toLong(0));
+        byte v2 = static_cast<byte>(value.toLong(2));
 
         for (int i = 0; extenderModels[i].val[0] != 0xff; i++) {
             if (extenderModels[i].val[0] == v0 &&
@@ -1484,30 +1484,30 @@ namespace Exiv2 {
         if (value.count() < 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
         }
-            auto v = (uint16_t)value.toLong(0);
+        auto v = static_cast<uint16_t>(value.toLong(0));
 
-            // If value 2 is present, it is used instead of value 1.
-            if (value.count() > 1) {
-                std::string p;  // Used to enable ',' separation
+        // If value 2 is present, it is used instead of value 1.
+        if (value.count() > 1) {
+            std::string p;  // Used to enable ',' separation
 
-                v = (uint16_t)value.toLong(1);
-                for (int i = 0; focusModes1[i].val != 0; i++) {
-                    if ((v & focusModes1[i].val) != 0) {
-                        if (!p.empty()) {
-                            os << ", ";
-                        }
-                        p = focusModes1[i].label;
-                        os << p;
+            v = static_cast<uint16_t>(value.toLong(1));
+            for (int i = 0; focusModes1[i].val != 0; i++) {
+                if ((v & focusModes1[i].val) != 0) {
+                    if (!p.empty()) {
+                        os << ", ";
                     }
-                }
-            } else {
-                for (int i = 0; focusModes0[i].val != 0xff; i++) {
-                   if (focusModes0[i].val == v) {
-                       os << focusModes0[i].label;
-                       break;
-                   }
+                    p = focusModes1[i].label;
+                    os << p;
                 }
             }
+        } else {
+            for (int i = 0; focusModes0[i].val != 0xff; i++) {
+                if (focusModes0[i].val == v) {
+                    os << focusModes0[i].label;
+                    break;
+                }
+            }
+        }
             return os << v;
 
     } // OlympusMakerNote::printCs0x0301
@@ -1566,8 +1566,8 @@ namespace Exiv2 {
             return os << value;
         }
 
-        auto v0 = (uint16_t)value.toLong(0);
-        auto v1 = (uint16_t)value.toLong(1);
+        auto v0 = static_cast<uint16_t>(value.toLong(0));
+        auto v1 = static_cast<uint16_t>(value.toLong(1));
 
         for (int i = 0; artFilters[i].val[0] != 0xffff; i++) {
             if (artFilters[i].val[0] == v0 &&
@@ -1612,7 +1612,7 @@ namespace Exiv2 {
             std::ostringstream oss;
             oss.copyfmt(os);
             os << std::fixed << std::setprecision(2);
-            os << (float)distance.first/1000 << " m";
+            os << static_cast<float>(distance.first) / 1000 << " m";
             os.copyfmt(oss);
         }
         os.flags(f);
@@ -1684,7 +1684,7 @@ value, const ExifData* metadata)
             }
         }
 
-        auto v = (uint16_t)value.toLong(0);
+        auto v = static_cast<uint16_t>(value.toLong(0));
 
         if (!E3_E30model) {
             for (int i = 0; afPoints[i].val != 0xffff; i++) {

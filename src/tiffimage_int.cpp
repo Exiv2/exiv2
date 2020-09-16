@@ -1685,14 +1685,10 @@ namespace Exiv2 {
             DataBuf header = pHeader->write();
             BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != nullptr);
-            IoWrapper ioWrapper(*tempIo, header.pData_, (long)header.size_, pOffsetWriter);
+            IoWrapper ioWrapper(*tempIo, header.pData_, static_cast<long>(header.size_), pOffsetWriter);
             auto imageIdx(uint32_t(-1));
-            createdTree->write(ioWrapper,
-                               pHeader->byteOrder(),
-                               (int32_t)header.size_,
-                               uint32_t(-1),
-                               uint32_t(-1),
-                               imageIdx);
+            createdTree->write(ioWrapper, pHeader->byteOrder(), static_cast<int32_t>(header.size_), uint32_t(-1),
+                               uint32_t(-1), imageIdx);
             if (pOffsetWriter) pOffsetWriter->writeOffsets(*tempIo);
             io.transfer(*tempIo); // may throw
 #ifndef SUPPRESS_WARNINGS

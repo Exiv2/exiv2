@@ -413,7 +413,7 @@ namespace {
 
     PreviewId Loader::getNumLoaders()
     {
-        return (PreviewId)EXV_COUNTOF(loaderList_);
+        return static_cast<PreviewId> EXV_COUNTOF(loaderList_);
     }
 
     LoaderNative::LoaderNative(PreviewId id, const Image &image, int parIdx)
@@ -470,7 +470,7 @@ namespace {
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
-        if ((long)io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
+        if (static_cast<long>(io.size()) < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
@@ -819,7 +819,7 @@ namespace {
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
                         idxBuf += size;
                     }
-                    dataValue.setDataArea(buf.pData_, (uint32_t)buf.size_);
+                    dataValue.setDataArea(buf.pData_, static_cast<uint32_t>(buf.size_));
                 }
             }
         }
@@ -834,7 +834,7 @@ namespace {
         IptcData emptyIptc;
         XmpData  emptyXmp;
         TiffParser::encode(mio, nullptr, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-        return DataBuf(mio.mmap(), (long) mio.size());
+        return DataBuf(mio.mmap(), static_cast<long>(mio.size()));
     }
 
     LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
@@ -941,12 +941,13 @@ namespace {
         unsigned long decodeBase64Table[256];
         std::fill(std::begin(decodeBase64Table), std::end(decodeBase64Table), invalid);
         for (unsigned long i = 0; i < 64; i++)
-            decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
+            decodeBase64Table[static_cast<unsigned char>(encodeBase64Table[i])] = i;
 
         // calculate dest size
         unsigned long validSrcSize = 0;
         for (unsigned long srcPos = 0; srcPos < srcSize; srcPos++) {
-            if (decodeBase64Table[(unsigned char)src[srcPos]] != invalid) validSrcSize++;
+            if (decodeBase64Table[static_cast<unsigned char>(src[srcPos])] != invalid)
+                validSrcSize++;
         }
         if (validSrcSize > ULONG_MAX / 3) return DataBuf(); // avoid integer overflow
         const unsigned long destSize = (validSrcSize * 3) / 4;
@@ -959,7 +960,7 @@ namespace {
         for (unsigned long srcPos = 0, destPos = 0; destPos < destSize;) {
             unsigned long buffer = 0;
             for (int bufferPos = 3; bufferPos >= 0 && srcPos < srcSize; srcPos++) {
-                unsigned long srcValue = decodeBase64Table[(unsigned char)src[srcPos]];
+                unsigned long srcValue = decodeBase64Table[static_cast<unsigned char>(src[srcPos])];
                 if (srcValue == invalid) continue;
                 buffer |= srcValue << (bufferPos * 6);
                 bufferPos--;
@@ -982,7 +983,7 @@ namespace {
             return DataBuf();
         }
         const byte *imageData = src.pData_ + colorTableSize;
-        const long imageDataSize = (uint32_t)src.size_ - colorTableSize;
+        const long imageDataSize = static_cast<uint32_t>(src.size_) - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
         for (long i = rle ? 3 : 0; i < imageDataSize;) {
@@ -1042,7 +1043,7 @@ namespace Exiv2 {
         : properties_(std::move(properties))
     {
         pData_ = data.pData_;
-        size_ = (uint32_t)data.size_;
+        size_ = static_cast<uint32_t>(data.size_);
         auto ret = data.release();
         UNUSED(ret);
     }
@@ -1152,7 +1153,7 @@ namespace Exiv2 {
             if (loader.get() && loader->readDimensions()) {
                 PreviewProperties props = loader->getProperties();
                 DataBuf buf             = loader->getData(); // #16 getPreviewImage()
-                props.size_             = (uint32_t)buf.size_;         //     update the size
+                props.size_ = static_cast<uint32_t>(buf.size_);  //     update the size
                 list.push_back(props) ;
             }
         }

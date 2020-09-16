@@ -93,37 +93,31 @@ int main(int argc, char** const argv)
 	do {
 	    n = ::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-	    	char N = (char) n;
-		    std::cout << n   << " = " << N ;
-	    } else {
-	    	std::cout << n ;
-	    }
-		std::cout << " optind = " << ::optind
-				  << " opterr = " << ::opterr
-				  << " optopt = " << ::optopt
-				  << " optarg = " << Safe(::optarg)
-				  << std::endl;
-	} while ( n >= 0 );
-	std::cout << std::endl;
+            char N = static_cast<char>(n);
+            std::cout << n << " = " << N;
+        } else {
+            std::cout << n;
+        }
+        std::cout << " optind = " << ::optind << " opterr = " << ::opterr << " optopt = " << ::optopt
+                  << " optarg = " << Safe(::optarg) << std::endl;
+    } while (n >= 0);
+    std::cout << std::endl;
 #endif
 
 	std::cout << "homemade getopt()" << std::endl;
 	do {
 	    n = Util::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-	    	char N = (char) n;
-		    std::cout << n   << " = " << N ;
-	    } else {
-	    	std::cout << n ;
-	    }
-		std::cout << " optind = " << Util::optind
-				  << " opterr = " << Util::opterr
-				  << " optopt = " << Util::optopt
-				  << " optarg = " << Safe(Util::optarg)
-				  << std::endl;
+            char N = static_cast<char>(n);
+            std::cout << n << " = " << N;
+        } else {
+            std::cout << n;
+        }
+        std::cout << " optind = " << Util::optind << " opterr = " << Util::opterr << " optopt = " << Util::optopt
+                  << " optarg = " << Safe(Util::optarg) << std::endl;
 
-	} while ( n >= 0 );
-	std::cout << std::endl;
+    } while (n >= 0);
+    std::cout << std::endl;
 
     // Handle command line arguments
     Params params;

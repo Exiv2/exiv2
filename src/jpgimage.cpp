@@ -219,7 +219,7 @@ namespace Exiv2 {
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData)
     {
-        return locateIrb(pPsData, (long)sizePsData, iptc_, record, sizeHdr, sizeData);
+        return locateIrb(pPsData, static_cast<long>(sizePsData), iptc_, record, sizeHdr, sizeData);
     }
 
     int Photoshop::locatePreviewIrb(const byte*     pPsData,
@@ -228,7 +228,7 @@ namespace Exiv2 {
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData)
     {
-        return locateIrb(pPsData, (long)sizePsData, preview_, record, sizeHdr, sizeData);
+        return locateIrb(pPsData, static_cast<long>(sizePsData), preview_, record, sizeHdr, sizeData);
     }
 
     DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData)
@@ -261,9 +261,9 @@ namespace Exiv2 {
             us2Data(tmpBuf + 4, iptc_, bigEndian);
             tmpBuf[6] = 0;
             tmpBuf[7] = 0;
-            ul2Data(tmpBuf + 8, (uint32_t)rawIptc.size_, bigEndian);
+            ul2Data(tmpBuf + 8, static_cast<uint32_t>(rawIptc.size_), bigEndian);
             append(psBlob, tmpBuf, 12);
-            append(psBlob, rawIptc.pData_, (uint32_t)rawIptc.size_);
+            append(psBlob, rawIptc.pData_, static_cast<uint32_t>(rawIptc.size_));
             // Data is padded to be even (but not included in size)
             if (rawIptc.size_ & 1) psBlob.push_back(0x00);
         }
@@ -280,7 +280,7 @@ namespace Exiv2 {
             pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
         if (static_cast<size_t>(pos) < sizePsData) {
-            append(psBlob, pPsData + pos, (uint32_t)(sizePsData - pos));
+            append(psBlob, pPsData + pos, static_cast<uint32_t>(sizePsData - pos));
         }
         // Data is rounded to be even
         if (!psBlob.empty())
@@ -379,7 +379,7 @@ namespace Exiv2 {
                 DataBuf rawExif(size - 8);
                 io_->read(rawExif.pData_, rawExif.size_);
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, (uint32_t)rawExif.size_);
+                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, static_cast<uint32_t>(rawExif.size_));
                 setByteOrder(bo);
                 if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
@@ -426,9 +426,9 @@ namespace Exiv2 {
                 //hexdump(std::cerr, psData.pData_, psData.size_);
 #endif
                 // Append to psBlob
-                append(psBlob, psData.pData_, (uint32_t)psData.size_);
+                append(psBlob, psData.pData_, static_cast<uint32_t>(psData.size_));
                 // Check whether psBlob is complete
-                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
                     --search;
                     foundCompletePsData = true;
                 }
@@ -463,8 +463,8 @@ namespace Exiv2 {
                     foundIccData = true ;
                     --search ;
                 }
-                int chunk  = (int)    buf.pData_[2+12];
-                int chunks = (int)    buf.pData_[2+13];
+                int chunk = static_cast<int>(buf.pData_[2 + 12]);
+                int chunks = static_cast<int>(buf.pData_[2 + 13]);
                 // ICC1v43_2010-12.pdf header is 14 bytes
                 // header = "ICC_PROFILE\0" (12 bytes)
                 // chunk/chunks are a single byte
@@ -476,7 +476,7 @@ namespace Exiv2 {
                           << (chunk==1 ? " size: " : "" ) << (chunk==1 ? s : 0)
                           << std::endl  ;
 #endif
-                io_->seek(-(int64_t)bufRead, BasicIo::cur); // back up to start of buffer (after marker)
+                io_->seek(-static_cast<int64_t>(bufRead), BasicIo::cur);  // back up to start of buffer (after marker)
                 io_->seek(    14+2, BasicIo::cur); // step header
                 // read in profile
                 // #1286 profile can be padded
@@ -658,7 +658,7 @@ namespace Exiv2 {
                     if (option == kpsXMP && signature.find("http://ns.adobe.com/x") == 0) {
                         // extract XMP
                         if (size > 0) {
-                            io_->seek(-(int64_t)bufRead, BasicIo::cur);
+                            io_->seek(-static_cast<int64_t>(bufRead), BasicIo::cur);
                             std::vector<byte> xmp(size + 1);
                             io_->read(&xmp[0], size);
                             int start = 0;
@@ -692,7 +692,7 @@ namespace Exiv2 {
                     } else if (option == kpsIccProfile && signature == iccId_) {
                         // extract ICCProfile
                         if (size > 0) {
-                            io_->seek(-(int64_t)bufRead, BasicIo::cur);  // back to buffer (after marker)
+                            io_->seek(-static_cast<int64_t>(bufRead), BasicIo::cur);  // back to buffer (after marker)
                             io_->seek(14 + 2, BasicIo::cur);    // step over header
                             DataBuf icc(size - (14 + 2));
                             io_->read(icc.pData_, icc.size_);
@@ -705,8 +705,8 @@ namespace Exiv2 {
                     } else if (option == kpsIptcErase && signature == "Photoshop 3.0") {
                         // delete IPTC data segment from JPEG
                         if (size > 0) {
-                            io_->seek(-(int64_t)bufRead, BasicIo::cur);
-                            iptcDataSegs.push_back((uint32_t)io_->tell());
+                            io_->seek(-static_cast<int64_t>(bufRead), BasicIo::cur);
+                            iptcDataSegs.push_back(static_cast<uint32_t>(io_->tell()));
                             iptcDataSegs.push_back(size);
                         }
                     } else if (bPrint) {
@@ -746,17 +746,17 @@ namespace Exiv2 {
                             int64 restore = io_->tell();
 
                             // copy the data to memory
-                            io_->seek(-(int64_t)bufRead, BasicIo::cur);
+                            io_->seek(-static_cast<int64_t>(bufRead), BasicIo::cur);
                             io_->read(exif, size);
                             uint32_t start = signature == "Exif" ? 8 : 6;
-                            uint32_t max = (uint32_t)size - 1;
+                            uint32_t max = static_cast<uint32_t>(size) - 1;
 
                             // is this an fff block?
                             if (bFlir) {
                                 start = 0;
                                 bFlir = false;
                                 while (start < max) {
-                                    if (std::strcmp((const char*)(exif + start), "FFF") == 0) {
+                                    if (std::strcmp(reinterpret_cast<const char*>(exif + start), "FFF") == 0) {
                                         bFlir = true;
                                         break;
                                     }
@@ -837,7 +837,7 @@ namespace Exiv2 {
                     std::cout << ' ';
             }
 #endif
-            auto count = (uint32_t)iptcDataSegs.size();
+            auto count = static_cast<uint32_t>(iptcDataSegs.size());
 
             // figure out which blocks to copy
             auto pos = new uint64_t[count + 2];
@@ -869,7 +869,7 @@ namespace Exiv2 {
                 uint64_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
                 if (start == 2)
                     start = 0;  // read the file 2 byte SOI
-                long length = (long)(pos[2 * i + 1] - start);
+                long length = static_cast<long>(pos[2 * i + 1] - start);
                 if (length) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << start << ":" << length << std::endl;
@@ -1003,9 +1003,9 @@ namespace Exiv2 {
                 if (io_->error() || io_->eof())
                     throw Error(kerInputDataReadFailed);
                 // Append to psBlob
-                append(psBlob, psData.pData_, (uint32_t)psData.size_);
+                append(psBlob, psData.pData_, static_cast<uint32_t>(psData.size_));
                 // Check whether psBlob is complete
-                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
                     foundCompletePsData = true;
                 }
             } else if (marker == com_ && skipCom == -1) {
@@ -1040,7 +1040,7 @@ namespace Exiv2 {
 
         if (!foundCompletePsData && !psBlob.empty())
             throw Error(kerNoImageInInputData);
-        search += (int)skipApp13Ps3.size() + (int)skipApp2Icc.size();
+        search += static_cast<int>(skipApp13Ps3.size()) + static_cast<int>(skipApp2Icc.size());
 
         if (comPos == 0) {
             if (marker == eoi_)
@@ -1090,7 +1090,8 @@ namespace Exiv2 {
                         bo = littleEndian;
                         setByteOrder(bo);
                     }
-                    WriteMethod wm = ExifParser::encode(blob, rawExif.pData_, (uint32_t)rawExif.size_, bo, exifData_);
+                    WriteMethod wm =
+                        ExifParser::encode(blob, rawExif.pData_, static_cast<uint32_t>(rawExif.size_), bo, exifData_);
                     const byte* pExifData = rawExif.pData_;
                     size_t exifSize = rawExif.size_;
                     if (wm == wmIntrusive) {
@@ -1153,7 +1154,7 @@ namespace Exiv2 {
                     tmpBuf[1] = app2_;
 
                     size_t chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    size_t profileSize = (int)iccProfile_.size_;
+                    size_t profileSize = static_cast<int>(iccProfile_.size_);
                     size_t chunks = 1 + (profileSize - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
@@ -1165,7 +1166,7 @@ namespace Exiv2 {
                         if (outIo.write(tmpBuf, 2) != 2)
                             throw Error(kerImageWriteFailed);  // JPEG Marker
                         // write length (2 bytes).  length includes the 2 bytes for the length
-                        us2Data(tmpBuf + 2, (uint16_t)(2 + 14 + bytes), bigEndian);
+                        us2Data(tmpBuf + 2, static_cast<uint16_t>(2 + 14 + bytes), bigEndian);
                         if (outIo.write(tmpBuf + 2, 2) != 2)
                             throw Error(kerImageWriteFailed);  // JPEG Length
 
@@ -1173,8 +1174,8 @@ namespace Exiv2 {
                         char pad[2];
                         pad[0] = static_cast<char>(chunk + 1);
                         pad[1] = static_cast<char>(chunks);
-                        outIo.write((const byte*)iccId_, 12);
-                        outIo.write((const byte*)pad, 2);
+                        outIo.write(reinterpret_cast<const byte*>(iccId_), 12);
+                        outIo.write(reinterpret_cast<const byte*>(pad), 2);
                         if (outIo.write(iccProfile_.pData_ + (chunk * chunk_size), bytes) != bytes)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())
@@ -1186,8 +1187,8 @@ namespace Exiv2 {
                 if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData =
-                        Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : nullptr, (long)psBlob.size(), iptcData_);
+                    DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : nullptr,
+                                                              static_cast<long>(psBlob.size()), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.pData_;
                     const byte* chunkEnd = chunkStart + newPsData.size_;
@@ -1239,7 +1240,7 @@ namespace Exiv2 {
 
                     if (outIo.write(tmpBuf, 4) != 4)
                         throw Error(kerImageWriteFailed);
-                    if (outIo.write((byte*)comment_.data(), (long)comment_.length()) != comment_.length())
+                    if (outIo.write((byte*)comment_.data(), static_cast<long>(comment_.length())) != comment_.length())
                         throw Error(kerImageWriteFailed);
                     if (outIo.putb(0) == EOF)
                         throw Error(kerImageWriteFailed);
@@ -1261,7 +1262,7 @@ namespace Exiv2 {
                 if (size < 2)
                     throw Error(kerNoImageInInputData);
                 buf.alloc(size + 2);
-                io_->seek(-(int64_t)bufRead - 2, BasicIo::cur);
+                io_->seek(-static_cast<int64_t>(bufRead) - 2, BasicIo::cur);
                 io_->read(buf.pData_, size + 2);
                 if (io_->error() || io_->eof())
                     throw Error(kerInputDataReadFailed);

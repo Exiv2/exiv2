@@ -147,7 +147,7 @@ namespace Exiv2 {
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        const auto data = (const uint8_t*)data_buf;
+        const auto data = static_cast<const uint8_t*>(data_buf);
         size_t resultIndex = 0;
         size_t x;
         size_t padCount = dataLength % 3;
@@ -165,10 +165,10 @@ namespace Exiv2 {
                 n += data[x+2];
 
             /* this 24-bit number gets separated into four 6-bit numbers */
-            uint8_t n0 = (uint8_t)(n >> 18) & 63;
-            uint8_t n1 = (uint8_t)(n >> 12) & 63;
-            uint8_t n2 = (uint8_t)(n >> 6) & 63;
-            uint8_t n3 = (uint8_t)n & 63;
+            uint8_t n0 = static_cast<uint8_t>(n >> 18) & 63;
+            uint8_t n1 = static_cast<uint8_t>(n >> 12) & 63;
+            uint8_t n2 = static_cast<uint8_t>(n >> 6) & 63;
+            uint8_t n3 = static_cast<uint8_t>(n) & 63;
 
             /*
             * if we have one byte available, then its encoding is spread
@@ -244,7 +244,7 @@ namespace Exiv2 {
             }
             if (!len)
                 continue;
-            if (out_size < (size_t) (done + len - 1))
+            if (out_size < static_cast<size_t>(done + len - 1))
                 /* out buffer is too small */
                 return -1;
             if (len >= 2)
@@ -255,7 +255,7 @@ namespace Exiv2 {
                 *out++ = ((quad[2] << 6) & 0xc0) | quad[3];
             done += len - 1;
         }
-        if ((size_t)(done + 1) >= out_size)
+        if (static_cast<size_t>(done + 1) >= out_size)
             return -1;
         *out++ = '\0';
         return done;

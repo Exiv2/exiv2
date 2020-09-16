@@ -64,13 +64,13 @@ namespace Util {
         }
         if (opt[1] == ':') {
             if (arg[optpos + 1]) {
-                optarg = (char *)arg + optpos + 1;
+                optarg = const_cast<char *>(arg) + optpos + 1;
                 optind++;
                 optpos = 1;
                 return optopt;
             }
             if (argv[optind + 1]) {
-                optarg = (char *)argv[optind + 1];
+                optarg = argv[optind + 1];
                 optind += 2;
                 optpos = 1;
                 return optopt;

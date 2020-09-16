@@ -298,7 +298,8 @@ namespace Exiv2 {
         if ( value.count() >= 9 ) {
             ByteOrder bo = getKeyString("Exif.MakerNote.ByteOrder",exifData) == "MM" ? bigEndian : littleEndian;
             byte      p[4];
-            for ( int n = 0 ; n < 4 ; n++ ) p[n] = (byte)value.toLong(6+n);
+            for (int n = 0; n < 4; n++)
+                p[n] = static_cast<byte>(value.toLong(6 + n));
             os << getLong(p, bo);
         }
 
@@ -329,9 +330,7 @@ namespace Exiv2 {
         else if (distance.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(2)
-               << (float)distance.first / distance.second
-               << " m";
+            os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
             os.copyfmt(oss);
         }
         else {
@@ -353,9 +352,7 @@ namespace Exiv2 {
         else if (zoom.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second
-               << "x";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
             os.copyfmt(oss);
         }
         else {
@@ -540,9 +537,7 @@ namespace Exiv2 {
         else if (zoom.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second
-               << "x";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
             os.copyfmt(oss);
         }
         else {
@@ -1577,9 +1572,7 @@ namespace Exiv2 {
         else if (distance.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(2)
-               << (float)distance.first / distance.second
-               << " m";
+            os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
             os.copyfmt(oss);
         }
         else {
@@ -1601,9 +1594,7 @@ namespace Exiv2 {
         else if (zoom.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second
-               << "x";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
             os.copyfmt(oss);
         }
         else {
@@ -2559,16 +2550,16 @@ fmountlens[] = {
      */
         if (metadata == nullptr)
         {
-            const unsigned char  vid = (unsigned)value.toLong(0);
+            const unsigned char vid = static_cast<unsigned>(value.toLong(0));
 
-        /* the 'FMntLens' name is added to the annonymous struct for
-         * fmountlens[]
-         *
-         * remember to name the struct when importing/updating the lens info
-         * from:
-         *
-         * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
-         */
+            /* the 'FMntLens' name is added to the annonymous struct for
+             * fmountlens[]
+             *
+             * remember to name the struct when importing/updating the lens info
+             * from:
+             *
+             * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+             */
             const struct FMntLens*  pf = fmountlens;
             while (pf->lid && pf->lensname) {
                 if (pf->lid == vid) {
@@ -2619,7 +2610,7 @@ fmountlens[] = {
                 const std::string  undefined("undefined") ;
                 const std::string  section  ("nikon");
                 std::ostringstream lensIDStream;
-                lensIDStream  << (int) raw[7];
+                lensIDStream << static_cast<int>(raw[7]);
                 if ( Internal::readExiv2Config(section,lensIDStream.str(),undefined) != undefined ) {
                     return os << Internal::readExiv2Config(section,lensIDStream.str(),undefined);
                 }
@@ -2799,8 +2790,8 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         char sign = value.toLong() < 0 ? '-' : '+';
-        long h    = long(std::abs( (int) (value.toFloat()/60.0)  ))%24;
-        long min  = long(std::abs( (int) (value.toFloat()-h*60)  ))%60;
+        long h = long(std::abs(static_cast<int>(value.toFloat() / 60.0))) % 24;
+        long min = long(std::abs(static_cast<int>(value.toFloat() - h * 60))) % 60;
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":"
            << std::setw(2) << std::setfill('0') << min;
         os.copyfmt(oss);

@@ -542,7 +542,7 @@ namespace Exiv2 {
         auto pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        for (long i = 0; i < (long)pos->count(); ++i) {
+        for (long i = 0; i < static_cast<long>(pos->count()); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -689,7 +689,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (long i = 0; i < (long)pos->count(); ++i) {
+        for (long i = 0; i < static_cast<long>(pos->count()); ++i) {
             value << static_cast<char>(pos->toLong(i));
         }
         (*xmpData_)[to] = value.str();
@@ -702,7 +702,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (long i = 0; i < (long)pos->count(); ++i) {
+        for (long i = 0; i < static_cast<long>(pos->count()); ++i) {
             if (i > 0) value << '.';
             value << pos->toLong(i);
         }
@@ -820,7 +820,7 @@ namespace Exiv2 {
         auto pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         std::ostringstream array;
-        for (long i = 0; i < (long)pos->count(); ++i) {
+        for (long i = 0; i < static_cast<long>(pos->count()); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -1191,7 +1191,7 @@ namespace Exiv2 {
                     continue;
                 DataBuf data(pos->size());
                 pos->copy(data.pData_, littleEndian /* FIXME ? */);
-                MD5Update(&context, data.pData_, (uint32_t)data.size_);
+                MD5Update(&context, data.pData_, static_cast<uint32_t>(data.size_));
             }
         }
         MD5Final(digest, &context);

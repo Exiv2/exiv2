@@ -701,7 +701,7 @@ std::unique_ptr<Task> Task::clone() const {
             }
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.pData_, pImage->byteOrder());
-            Exiv2::hexdump(std::cout, buf.pData_, (long)buf.size_);
+            Exiv2::hexdump(std::cout, buf.pData_, static_cast<long>(buf.size_));
         }
         std::cout << std::endl;
         return true;
@@ -1082,7 +1082,8 @@ std::unique_ptr<Task> Task::clone() const {
                 rc = -2;
             } else {
                 if (bStdout) {  // -eC-
-                    std::cout.write((const char*)image->iccProfile()->pData_, image->iccProfile()->size_);
+                    std::cout.write(reinterpret_cast<const char*>(image->iccProfile()->pData_),
+                                    image->iccProfile()->size_);
                 } else {
                     if (Params::instance().verbose_) {
                         std::cout << _("Writing iccProfile: ") << target << std::endl;
@@ -1774,7 +1775,7 @@ namespace
     {
         int rc = 1;
         time_t t = mktime(tm);  // interpret tm according to current timezone settings
-        if (t != (time_t)-1) {
+        if (t != static_cast<time_t>(-1)) {
             rc = 0;
             actime_ = t;
             modtime_ = t;
@@ -1827,7 +1828,7 @@ namespace
         tm->tm_sec = tmp;
 
         // Conversions to set remaining fields of the tm structure
-        if (mktime(tm) == (time_t)-1)
+        if (mktime(tm) == static_cast<time_t>(-1))
             return 11;
 
         return 0;

@@ -287,7 +287,7 @@ namespace Exiv2 {
                 newSize += 4;
             }
         }
-        return (long)newSize;
+        return static_cast<long>(newSize);
     }
 
     int IptcData::add(const IptcKey& key, Value* value)

@@ -63,7 +63,7 @@ namespace Exiv2
         if (!isMalloced_) {
             // Minimum size for 1st block
             size_t size = std::max(blockSize * (1 + need / blockSize), size_);
-            auto data = (byte*)std::malloc(size);
+            auto data = static_cast<byte*>(std::malloc(size));
             if (data == nullptr) {
                 throw Error(kerMallocFailed);
             }
@@ -82,7 +82,7 @@ namespace Exiv2
                     blockSize = maxBlockSize;
                 // Allocate in blocks
                 size_t want = blockSize * (1 + need / blockSize);
-                data_ = (byte*)std::realloc(data_, want);
+                data_ = static_cast<byte*>(std::realloc(data_, want));
                 if (data_ == nullptr) {
                     throw Error(kerMallocFailed);
                 }

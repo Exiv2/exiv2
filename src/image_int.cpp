@@ -63,14 +63,14 @@ namespace Exiv2
         {
             std::stringstream hexOutput;
 
-            auto tl = (unsigned long)((size / 16) * 16);
-            auto tl_offset = (unsigned long)(size - tl);
+            auto tl = static_cast<unsigned long>((size / 16) * 16);
+            auto tl_offset = static_cast<unsigned long>(size - tl);
 
-            for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
+            for (unsigned long loop = 0; loop < static_cast<unsigned long>(size); loop++) {
                 if (data[loop] < 16) {
                     hexOutput << "0";
                 }
-                hexOutput << std::hex << (int)data[loop];
+                hexOutput << std::hex << static_cast<int>(data[loop]);
                 if ((loop % 8) == 7) {
                     hexOutput << "  ";
                 }
@@ -78,7 +78,7 @@ namespace Exiv2
                     int max = 15;
                     if (loop >= tl) {
                         max = tl_offset - 1;
-                        for (int offset = 0; offset < (int)(16 - tl_offset); offset++) {
+                        for (int offset = 0; offset < static_cast<int>(16 - tl_offset); offset++) {
                             if ((offset % 8) == 7) {
                                 hexOutput << "  ";
                             }
@@ -94,7 +94,7 @@ namespace Exiv2
                         if (data[loop - offset] >= 0x20 && data[loop - offset] <= 0x7E) {
                             c = data[loop - offset];
                         }
-                        hexOutput << (char)c;
+                        hexOutput << static_cast<char>(c);
                     }
                     hexOutput << std::endl;
                 }

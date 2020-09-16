@@ -67,7 +67,7 @@ namespace Exiv2
         void populate(const byte* source, size_t num)
         {
             size_ = num;
-            data_ = (byte*)std::malloc(size_);
+            data_ = static_cast<byte*>(std::malloc(size_));
             type_ = bMemory;
             std::memcpy(data_, source, size_);
         }
@@ -332,7 +332,7 @@ namespace Exiv2
         size_t i = 0;
         size_t readCount = 0;
         size_t blockSize = 0;
-        auto buf = (byte*)std::malloc(p_->blockSize_);
+        auto buf = static_cast<byte*>(std::malloc(p_->blockSize_));
         size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -362,7 +362,7 @@ namespace Exiv2
                 findDiff = true;
             } else {
                 bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
-                readCount = src.read(buf, (long)blockSize);
+                readCount = src.read(buf, static_cast<long>(blockSize));
                 byte* blockData = p_->blocksMap_[blockIndex].getData();
                 for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                     if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) ||
@@ -374,7 +374,7 @@ namespace Exiv2
                 }
             }
             blockIndex--;
-            blockSize = (long)p_->blocksMap_[blockIndex].getSize();
+            blockSize = static_cast<long>(p_->blocksMap_[blockIndex].getSize());
         }
 
         // free buf
@@ -382,16 +382,17 @@ namespace Exiv2
             std::free(buf);
 
         // submit to the remote machine.
-        long dataSize = (long)(src.size() - left - right);
+        long dataSize = static_cast<long>(src.size() - left - right);
         if (dataSize > 0) {
-            auto data = (byte*)std::malloc(dataSize);
+            auto data = static_cast<byte*>(std::malloc(dataSize));
             src.seek(left, BasicIo::beg);
             src.read(data, dataSize);
-            p_->writeRemote(data, (size_t)dataSize, (long)left, (long)(p_->size_ - right));
+            p_->writeRemote(data, static_cast<size_t>(dataSize), static_cast<long>(left),
+                            static_cast<long>(p_->size_ - right));
             if (data)
                 std::free(data);
         }
-        return (long)src.size();
+        return static_cast<long>(src.size());
     }
 
     int RemoteIo::putb(byte /*unused data*/)
@@ -412,7 +413,7 @@ namespace Exiv2
         assert(p_->isMalloced_);
         if (p_->eof_)
             return 0;
-        p_->totalRead_ += (uint32_t)rcount;
+        p_->totalRead_ += static_cast<uint32_t>(rcount);
 
         size_t allow = std::min(rcount, p_->size_ - p_->idx_);
         size_t lowBlock = p_->idx_ / p_->blockSize_;
@@ -420,7 +421,7 @@ namespace Exiv2
 
         // connect to the remote machine & populate the blocks just in time.
         p_->populateBlocks(lowBlock, highBlock);
-        auto fakeData = (byte*)std::calloc(p_->blockSize_, sizeof(byte));
+        auto fakeData = static_cast<byte*>(std::calloc(p_->blockSize_, sizeof(byte)));
         if (!fakeData) {
             throw Error(kerErrorMessage, "Unable to allocate data");
         }
@@ -442,7 +443,7 @@ namespace Exiv2
         if (fakeData)
             std::free(fakeData);
 
-        p_->idx_ += (long)totalRead;
+        p_->idx_ += static_cast<long>(totalRead);
         p_->eof_ = (p_->idx_ == p_->size_);
 
         return totalRead;
