@@ -1016,3 +1016,83 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out     += BT.Executer('stringto-test')
         BT.reportTest('stringto-test', out)
 
+
+    def tiff_test(self):
+        # TIFF parser test driver
+
+        def exifprobe(img):
+            out  = BT.Output()
+
+            # Convert each line from that format:
+            #   Exif.Image.NewSubfileType       Long    1  Primary image
+            # to that format:
+            #   NewSubfileType 	 Long 	 1 	 "Primary image"
+            tags = []
+            typs = []
+            lens = []
+            vals = []
+            e    = BT.Executer('exiv2 -pa {img}', vars(), redirect_stderr_to_stdout=False)
+            for line in e.stdout.split('\n'):
+                fields = re.findall(r'^(\S*)\s*(\S*)\s*(\d*)\s*(.*)$', line)[0]
+                tags  += [fields[0].split('.')[2]]      # tag
+                typs  += [fields[1]]                    # type
+                lens  += [fields[2]]                    # length
+                vals  += [fields[3]]                    # value
+
+            out += 'exiv2 -pa output'
+            for i in range(len(tags)):
+                out += ' \t '.join([tags[i], typs[i], lens[i], '"{}"'.format(vals[i])])
+
+            # Parse -pS output:
+            # address |    tag                           |      type |    count |   offset | value
+            #     254 | 0x00fe NewSubfileType            |      LONG |        1 |        0 | 0
+            TAGS = []
+            TYPS = []
+            LENS = []
+            VALS = []
+            e    = BT.Executer('exiv2 -pS {img}', vars(), redirect_stderr_to_stdout=False)
+            for line in e.stdout.split('\n')[2:-1]:
+                fields = [i.strip(' ') for i in line.split('|')]
+                TAGS  += [fields[1].split(' ')[1]]
+                TYPS  += [fields[2]]
+                LENS  += [fields[3]]
+                VALS  += [fields[5]]
+
+            out += '\nexiv2 -pS output'
+            for i in range(len(TAGS)):
+                out += ' \t '.join([TAGS[i], TYPS[i], LENS[i], '"{}"'.format(VALS[i])])
+
+            out += '\nAnalysis'
+            out += 'count =  {} COUNT =  {}'.format(len(tags), len(TAGS))
+            
+            # Make them have the same number of lines
+            max_lines  = max(len(TAGS), len(tags))
+            for _list in [tags, typs, lens, vals, TAGS, TYPS, LENS, VALS]:
+                _list += [''] * (max_lines - len(_list))
+
+            # Compare the main fields of each line
+            for i in range(max_lines):
+                if TAGS[i]  != tags[i]:
+                    out     += 'TAG {} {} mismatch'.format(TAGS[i], tags[i]).replace('  ', ' ')
+
+                TYPS[i]      = TYPS[i].upper()
+                typs[i]      = typs[i].upper()
+                if TYPS[i]  != typs[i]:
+                    out     += 'TYPE {} {} mismatch'.format(TYPS[i], typs[i]).replace('  ', ' ')
+
+                if LENS[i]  != lens[i]:
+                    out     += 'Length {} {} mismatch'.format(LENS[i], lens[i]).replace('  ', ' ')
+
+                if typs[i]  == 'ASCII' and VALS[i] != vals[i]:
+                    out     += 'Value {} {} mismatch'.format(VALS[i], vals[i]).replace('  ', ' ')
+
+            return str(out)
+
+        test_file = 'mini9.tif'
+        BT.copyTestFile(test_file)
+        out      = BT.Output()
+        out     += exifprobe(test_file)
+        out     += BT.Executer('tiff-test {test_file}', vars())
+        out     += exifprobe(test_file)
+        BT.reportTest('tiff-test', out)
+

@@ -343,17 +343,22 @@ def diffCheck(file1, file2, in_bytes=False, encoding=None):
 
 def simply_diff(file1, file2, encoding=None):
     """ Find the first different line of the two text files """
-    encoding         = encoding or Config.encoding
-    list1            = cat(file1, encoding=encoding).split('\n')
-    list2            = cat(file2, encoding=encoding).split('\n')
-    if list1        == list2:
+    encoding    = encoding or Config.encoding
+    list1       = cat(file1, encoding=encoding).split('\n')
+    list2       = cat(file2, encoding=encoding).split('\n')
+    if list1   == list2:
         return
-    report           = []
-    report          += ['{}: {} lines'.format(file1, len(list1))]
-    report          += ['{}: {} lines'.format(file2, len(list2))]
-    max_lines        = max(len(list1), len(list2))
-    for i in [list1, list2]:
-        i           += [''] * (max_lines - len(i))    # Make them have the same number of lines
+
+    report      = []
+    report     += ['{}: {} lines'.format(file1, len(list1))]
+    report     += ['{}: {} lines'.format(file2, len(list2))]
+
+    # Make them have the same number of lines
+    max_lines   = max(len(list1), len(list2))
+    for _list in [list1, list2]:
+        _list  += [''] * (max_lines - len(_list))
+
+    # Compare each line
     for i in range(max_lines):
         if list1[i] != list2[i]:
             report  += ['The first mismatch is in line {}:'.format(i + 1)]
