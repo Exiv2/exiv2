@@ -47,11 +47,6 @@ if (MSVC)
     target_compile_definitions(exiv2-xmp PRIVATE XML_STATIC)
 endif()
 
-check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
-if (EXV_HAVE_STDINT_H)
-    target_compile_definitions(exiv2-xmp PRIVATE EXV_HAVE_STDINT_H)
-endif()
-
 if (BUILD_SHARED_LIBS)
     set_property(TARGET exiv2-xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
