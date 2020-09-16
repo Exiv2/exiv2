@@ -95,42 +95,42 @@ namespace Jzon
         Object &Node::AsObject()
 	{
 		if (IsObject())
-			return static_cast<Object&>(*this);
+			return dynamic_cast<Object&>(*this);
 
         throw TypeException();
     }
     const Object &Node::AsObject() const
     {
         if (IsObject())
-            return static_cast<const Object &>(*this);
+            return dynamic_cast<const Object &>(*this);
 
         throw TypeException();
     }
     Array &Node::AsArray()
     {
         if (IsArray())
-            return static_cast<Array &>(*this);
+            return dynamic_cast<Array &>(*this);
 
         throw TypeException();
     }
     const Array &Node::AsArray() const
     {
         if (IsArray())
-            return static_cast<const Array &>(*this);
+            return dynamic_cast<const Array &>(*this);
 
         throw TypeException();
     }
     Value &Node::AsValue()
     {
         if (IsValue())
-            return static_cast<Value &>(*this);
+            return dynamic_cast<Value &>(*this);
 
         throw TypeException();
     }
     const Value &Node::AsValue() const
     {
         if (IsValue())
-            return static_cast<const Value &>(*this);
+            return dynamic_cast<const Value &>(*this);
 
         throw TypeException();
     }
@@ -1093,9 +1093,9 @@ namespace Jzon
                         }
 
                         if (data.front().first == Value::VT_STRING) {
-                            static_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
+                            dynamic_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
                         } else {
-                            static_cast<Value *>(node)->Set(data.front().first, data.front().second);
+                            dynamic_cast<Value *>(node)->Set(data.front().first, data.front().second);
                         }
                         data.pop();
 
