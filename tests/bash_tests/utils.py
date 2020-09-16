@@ -290,7 +290,7 @@ class HttpServer:
         log.info('Starting HTTP server ...')
         self.proc = multiprocessing.Process(target=self._start, name=str(self))
         self.proc.start()
-        time.sleep(1)
+        time.sleep(2)
         try:
             with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
                 if f.status != 200:
@@ -410,7 +410,9 @@ class Executer:
 
         # Execute the command in subprocess
         try:
-            with subprocess.Popen(self.args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr, cwd=self.cwd) as self.subprocess:
+            my_env = os.environ.copy()
+            my_env['TZ'] = 'GMT-8'
+            with subprocess.Popen(self.args,env=my_env, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr, cwd=self.cwd) as self.subprocess:
                 try:
                     output  = self.subprocess.communicate(self.stdin, timeout=10)  # Assign (stdout, stderr) to output
                 except subprocess.TimeoutExpired:

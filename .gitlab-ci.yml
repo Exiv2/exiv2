@@ -31,10 +31,10 @@ stages:
   - test
   - deploy
 
-Fedora:
-  image: fedora:latest
-  <<: *default_config
-  <<: *distro_build
+# Fedora:
+#  image: fedora:latest
+#  <<: *default_config
+#  <<: *distro_build
 
 Fedora_MinGW:
   image: fedora:latest
@@ -49,20 +49,20 @@ Debian:
   <<: *default_config
   <<: *distro_build
 
-Archlinux:
-  image: archlinux/base
-  <<: *default_config
-  <<: *distro_build
+# Archlinux:
+#  image: archlinux/base
+#  <<: *default_config
+#  <<: *distro_build
 
 Ubuntu:
   image: ubuntu:18.04
   <<: *default_config
   <<: *distro_build
 
-CentOS:
-  image: centos:7
-  <<: *default_config
-  <<: *distro_build
+# CentOS:
+#  image: centos:7
+#  <<: *default_config
+#  <<: *distro_build
 
 OpenSUSE:
   image: opensuse/tumbleweed
