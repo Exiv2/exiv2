@@ -101,7 +101,7 @@ generate_export_header(exiv2lib
 # ---------------------------------------------------------
 
 if(MINGW OR MSYS)
-    target_sources(exiv2lib_int PRIVATE localtime.c private.h tzfile.h)
+    target_sources(exiv2lib_int PRIVATE private.h tzfile.h)
 endif()
 
 if( EXIV2_ENABLE_WEBREADY )
