@@ -116,55 +116,40 @@ namespace Exiv2 {
             io_->read(magicdata, 16);
             magicdata[16] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 16, 0)
-                    << "Magic number : "
-                    << std::string((char*)&magicdata)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 16, 0)
+                    << "Magic number : " << std::string(reinterpret_cast<char *>(&magicdata)) << std::endl;
             }
 
             byte data1 [5];
             io_->read(data1, 4);
             data1[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 16)
-                    << "data 1 : "
-                    << std::string((char*)&data1)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 4, 16)
+                    << "data 1 : " << std::string(reinterpret_cast<char *>(&data1)) << std::endl;
             }
 
             byte data2 [9];
             io_->read(data2, 8);
             data2[8] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 8, 20)
-                    << "data 2 : "
-                    << std::string((char*)&data2)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 8, 20)
+                    << "data 2 : " << std::string(reinterpret_cast<char *>(&data2)) << std::endl;
             }
 
             byte camdata [33];
             io_->read(camdata, 32);
             camdata[32] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 32, 28)
-                    << "camera : "
-                    << std::string((char*)&camdata)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 32, 28)
+                    << "camera : " << std::string(reinterpret_cast<char *>(&camdata)) << std::endl;
             }
 
             byte dir_version [5];
             io_->read(dir_version, 4);
             dir_version[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 60)
-                    << "dir version : "
-                    << std::string((char*)&dir_version)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 4, 60)
+                    << "dir version : " << std::string(reinterpret_cast<char *>(&dir_version)) << std::endl;
             }
 
             byte unknown [20];

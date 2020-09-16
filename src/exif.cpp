@@ -503,7 +503,7 @@ namespace Exiv2 {
 #endif
     void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit)
     {
-        setJpegThumbnail(buf, (long)size);
+        setJpegThumbnail(buf, static_cast<long>(size));
         exifData_["Exif.Thumbnail.XResolution"] = xres;
         exifData_["Exif.Thumbnail.YResolution"] = yres;
         exifData_["Exif.Thumbnail.ResolutionUnit"] = unit;
@@ -512,7 +512,7 @@ namespace Exiv2 {
     void ExifThumb::setJpegThumbnail(const std::string& path)
     {
         DataBuf thumb = readFile(path); // may throw
-        setJpegThumbnail(thumb.pData_, (long)thumb.size_);
+        setJpegThumbnail(thumb.pData_, static_cast<long>(thumb.size_));
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -706,7 +706,7 @@ namespace Exiv2 {
                                                   header.get(),
                                                   nullptr);
         if (mio1.size() <= 65527) {
-            append(blob, mio1.mmap(), (uint32_t) mio1.size());
+            append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
         }
 
@@ -808,7 +808,7 @@ namespace Exiv2 {
                                       TiffMapping::findEncoder,
                                       header.get(),
                                       nullptr);
-        append(blob, mio2.mmap(), (uint32_t) mio2.size());
+        append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
@@ -889,7 +889,7 @@ namespace {
         Exiv2::IptcData emptyIptc;
         Exiv2::XmpData  emptyXmp;
         Exiv2::TiffParser::encode(io, nullptr, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
-        return io.read((long) io.size());
+        return io.read(static_cast<long>(io.size()));
     }
 
     const char* JpegThumbnail::mimeType() const

@@ -262,7 +262,7 @@ namespace Exiv2 {
                 io_->read(rawExif.pData_, rawExif.size_);
                 if (io_->error() || io_->eof())
                     throw Error(kerFailedToReadImageData);
-                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, (uint32_t)rawExif.size_);
+                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, static_cast<uint32_t>(rawExif.size_));
                 setByteOrder(bo);
                 if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
@@ -572,7 +572,7 @@ namespace Exiv2 {
         std::cerr << "newResLength: " << newResLength << "\n";
 #endif
         outIo.seek(resLenOffset, BasicIo::beg);
-        ul2Data(buf, (uint32_t)newResLength, bigEndian);
+        ul2Data(buf, static_cast<uint32_t>(newResLength), bigEndian);
         if (outIo.write(buf, 4) != 4)
             throw Error(kerImageWriteFailed);
 
@@ -598,7 +598,7 @@ namespace Exiv2 {
                 us2Data(buf, 0, bigEndian);                      // nullptr resource name
                 if (out.write(buf, 2) != 2)
                     throw Error(kerImageWriteFailed);
-                ul2Data(buf, (uint32_t)rawIptc.size_, bigEndian);
+                ul2Data(buf, static_cast<uint32_t>(rawIptc.size_), bigEndian);
                 if (out.write(buf, 4) != 4)
                     throw Error(kerImageWriteFailed);
                 // Write encoded Iptc data

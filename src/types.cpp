@@ -303,27 +303,25 @@ namespace Exiv2 {
     uint32_t getULong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (byte)buf[3] << 24 | (byte)buf[2] << 16
-                   | (byte)buf[1] <<  8 | (byte)buf[0];
+            return buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
         }
 
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
-                   | (byte)buf[2] <<  8 | (byte)buf[3];
+        return buf[0] << 24 | buf[1] << 16 | buf[2] << 8 | buf[3];
     }
 
     uint64_t getULongLong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (uint64_t)buf[7] << 56 | (uint64_t)buf[6] << 48
-                   | (uint64_t)buf[5] << 40 | (uint64_t)buf[4] << 32
-                   | (uint64_t)buf[3] << 24 | (uint64_t)buf[2] << 16
-                   | (uint64_t)buf[1] <<  8 | (uint64_t)buf[0];
+            return static_cast<uint64_t>(buf[7]) << 56 | static_cast<uint64_t>(buf[6]) << 48 |
+                   static_cast<uint64_t>(buf[5]) << 40 | static_cast<uint64_t>(buf[4]) << 32 |
+                   static_cast<uint64_t>(buf[3]) << 24 | static_cast<uint64_t>(buf[2]) << 16 |
+                   static_cast<uint64_t>(buf[1]) << 8 | static_cast<uint64_t>(buf[0]);
         }
 
-            return   (uint64_t)buf[0] << 56 | (uint64_t)buf[1] << 48
-                   | (uint64_t)buf[2] << 40 | (uint64_t)buf[3] << 32
-                   | (uint64_t)buf[4] << 24 | (uint64_t)buf[5] << 16
-                   | (uint64_t)buf[6] <<  8 | (uint64_t)buf[7];
+        return static_cast<uint64_t>(buf[0]) << 56 | static_cast<uint64_t>(buf[1]) << 48 |
+               static_cast<uint64_t>(buf[2]) << 40 | static_cast<uint64_t>(buf[3]) << 32 |
+               static_cast<uint64_t>(buf[4]) << 24 | static_cast<uint64_t>(buf[5]) << 16 |
+               static_cast<uint64_t>(buf[6]) << 8 | static_cast<uint64_t>(buf[7]);
     }
 
     URational getURational(const byte* buf, ByteOrder byteOrder)
@@ -336,21 +334,19 @@ namespace Exiv2 {
     int16_t getShort(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return (byte)buf[1] << 8 | (byte)buf[0];
+            return buf[1] << 8 | buf[0];
         }
 
-            return (byte)buf[0] << 8 | (byte)buf[1];
+        return buf[0] << 8 | buf[1];
     }
 
     int32_t getLong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (byte)buf[3] << 24 | (byte)buf[2] << 16
-                   | (byte)buf[1] <<  8 | (byte)buf[0];
+            return buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
         }
 
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
-                   | (byte)buf[2] <<  8 | (byte)buf[3];
+        return buf[0] << 24 | buf[1] << 16 | buf[2] << 8 | buf[3];
     }
 
     Rational getRational(const byte* buf, ByteOrder byteOrder)
@@ -411,12 +407,12 @@ namespace Exiv2 {
     long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] = (byte) (s & 0x00ff);
-            buf[1] = (byte)((s & 0xff00) >> 8);
+            buf[0] = static_cast<byte>(s & 0x00ff);
+            buf[1] = static_cast<byte>((s & 0xff00) >> 8);
         }
         else {
-            buf[0] = (byte)((s & 0xff00) >> 8);
-            buf[1] = (byte) (s & 0x00ff);
+            buf[0] = static_cast<byte>((s & 0xff00) >> 8);
+            buf[1] = static_cast<byte>(s & 0x00ff);
         }
         return 2;
     }
@@ -424,16 +420,16 @@ namespace Exiv2 {
     long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] = (byte) (l & 0x000000ff);
-            buf[1] = (byte)((l & 0x0000ff00) >> 8);
-            buf[2] = (byte)((l & 0x00ff0000) >> 16);
-            buf[3] = (byte)((l & 0xff000000) >> 24);
+            buf[0] = static_cast<byte>(l & 0x000000ff);
+            buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
         }
         else {
-            buf[0] = (byte)((l & 0xff000000) >> 24);
-            buf[1] = (byte)((l & 0x00ff0000) >> 16);
-            buf[2] = (byte)((l & 0x0000ff00) >> 8);
-            buf[3] = (byte) (l & 0x000000ff);
+            buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
+            buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[3] = static_cast<byte>(l & 0x000000ff);
         }
         return 4;
     }
@@ -448,12 +444,12 @@ namespace Exiv2 {
     long s2Data(byte* buf, int16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(s & 0x00ff);
-            buf[1] = (byte)((s & 0xff00) >> 8);
+            buf[0] = static_cast<byte>(s & 0x00ff);
+            buf[1] = static_cast<byte>((s & 0xff00) >> 8);
         }
         else {
-            buf[0] = (byte)((s & 0xff00) >> 8);
-            buf[1] =  (byte)(s & 0x00ff);
+            buf[0] = static_cast<byte>((s & 0xff00) >> 8);
+            buf[1] = static_cast<byte>(s & 0x00ff);
         }
         return 2;
     }
@@ -461,16 +457,16 @@ namespace Exiv2 {
     long l2Data(byte* buf, int32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(l & 0x000000ff);
-            buf[1] = (byte)((l & 0x0000ff00) >> 8);
-            buf[2] = (byte)((l & 0x00ff0000) >> 16);
-            buf[3] = (byte)((l & 0xff000000) >> 24);
+            buf[0] = static_cast<byte>(l & 0x000000ff);
+            buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
         }
         else {
-            buf[0] = (byte)((l & 0xff000000) >> 24);
-            buf[1] = (byte)((l & 0x00ff0000) >> 16);
-            buf[2] = (byte)((l & 0x0000ff00) >> 8);
-            buf[3] =  (byte)(l & 0x000000ff);
+            buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
+            buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[3] = static_cast<byte>(l & 0x000000ff);
         }
         return 4;
     }
@@ -509,24 +505,24 @@ namespace Exiv2 {
         u.d_ = d;
         uint64_t m = 0xff;
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(u.ull_ & m);
-            buf[1] = (byte)((u.ull_ & (m <<  8)) >>  8);
-            buf[2] = (byte)((u.ull_ & (m << 16)) >> 16);
-            buf[3] = (byte)((u.ull_ & (m << 24)) >> 24);
-            buf[4] = (byte)((u.ull_ & (m << 32)) >> 32);
-            buf[5] = (byte)((u.ull_ & (m << 40)) >> 40);
-            buf[6] = (byte)((u.ull_ & (m << 48)) >> 48);
-            buf[7] = (byte)((u.ull_ & (m << 56)) >> 56);
+            buf[0] = static_cast<byte>(u.ull_ & m);
+            buf[1] = static_cast<byte>((u.ull_ & (m << 8)) >> 8);
+            buf[2] = static_cast<byte>((u.ull_ & (m << 16)) >> 16);
+            buf[3] = static_cast<byte>((u.ull_ & (m << 24)) >> 24);
+            buf[4] = static_cast<byte>((u.ull_ & (m << 32)) >> 32);
+            buf[5] = static_cast<byte>((u.ull_ & (m << 40)) >> 40);
+            buf[6] = static_cast<byte>((u.ull_ & (m << 48)) >> 48);
+            buf[7] = static_cast<byte>((u.ull_ & (m << 56)) >> 56);
         }
         else {
-            buf[0] = (byte)((u.ull_ & (m << 56)) >> 56);
-            buf[1] = (byte)((u.ull_ & (m << 48)) >> 48);
-            buf[2] = (byte)((u.ull_ & (m << 40)) >> 40);
-            buf[3] = (byte)((u.ull_ & (m << 32)) >> 32);
-            buf[4] = (byte)((u.ull_ & (m << 24)) >> 24);
-            buf[5] = (byte)((u.ull_ & (m << 16)) >> 16);
-            buf[6] = (byte)((u.ull_ & (m <<  8)) >>  8);
-            buf[7] =  (byte)(u.ull_ & m);
+            buf[0] = static_cast<byte>((u.ull_ & (m << 56)) >> 56);
+            buf[1] = static_cast<byte>((u.ull_ & (m << 48)) >> 48);
+            buf[2] = static_cast<byte>((u.ull_ & (m << 40)) >> 40);
+            buf[3] = static_cast<byte>((u.ull_ & (m << 32)) >> 32);
+            buf[4] = static_cast<byte>((u.ull_ & (m << 24)) >> 24);
+            buf[5] = static_cast<byte>((u.ull_ & (m << 16)) >> 16);
+            buf[6] = static_cast<byte>((u.ull_ & (m << 8)) >> 8);
+            buf[7] = static_cast<byte>(u.ull_ & m);
         }
         return 8;
     }
@@ -545,9 +541,8 @@ namespace Exiv2 {
             std::ostringstream ss;
             do {
                 byte c = buf[i];
-                os << std::setw(2) << std::setfill('0') << std::right
-                   << std::hex << (int)c << " ";
-                ss << ((int)c >= 31 && (int)c < 127 ? char(buf[i]) : '.');
+                os << std::setw(2) << std::setfill('0') << std::right << std::hex << static_cast<int>(c) << " ";
+                ss << (static_cast<int>(c) >= 31 && static_cast<int>(c) < 127 ? char(buf[i]) : '.');
             } while (++i < len && i%16 != 0);
             std::string::size_type width = 9 + ((i-1)%16 + 1) * 3;
             os << (width > pos ? "" : align.substr(width)) << ss.str() << "\n";

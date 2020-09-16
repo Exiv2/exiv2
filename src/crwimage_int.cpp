@@ -558,7 +558,7 @@ namespace Exiv2 {
         isAllocated_ = true;
         auto p = buf.release();
         pData_ = p.first;
-        size_  = (uint32_t)p.second;
+        size_ = static_cast<uint32_t>(p.second);
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }

@@ -174,7 +174,7 @@ namespace Exiv2
                 size_t compressedTextSize = data.size_ - keysize - 2;
                 enforce(compressedTextSize < data.size_, kerCorruptedMetadata);
 
-                zlibUncompress(compressedText, (uint32_t)compressedTextSize, arr);
+                zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
             } else if (type == tEXt_Chunk) {
                 enforce(data.size_ >= Safe::add(keysize, 1_z), Exiv2::kerCorruptedMetadata);
                 // Extract a non-compressed Latin-1 text chunk
@@ -201,16 +201,16 @@ namespace Exiv2
 
                 // language description string after the compression technique spec
                 const size_t languageTextMaxSize = data.size_ - keysize - 3;
-                std::string languageText =
-                    string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3_z)), languageTextMaxSize);
+                std::string languageText = string_from_unterminated(
+                    reinterpret_cast<const char*>(data.pData_ + Safe::add(keysize, 3_z)), languageTextMaxSize);
                 const size_t languageTextSize = languageText.size();
 
                 enforce(static_cast<unsigned long>(data.size_) >= Safe::add(Safe::add(keysize, 4_z), languageTextSize),
                         Exiv2::kerCorruptedMetadata);
                 // translated keyword string after the language description
-                std::string translatedKeyText =
-                    string_from_unterminated((const char*)(data.pData_ + keysize + 3 + languageTextSize + 1),
-                                             data.size_ - (keysize + 3 + languageTextSize + 1));
+                std::string translatedKeyText = string_from_unterminated(
+                    reinterpret_cast<const char*>(data.pData_ + keysize + 3 + languageTextSize + 1),
+                    data.size_ - (keysize + 3 + languageTextSize + 1));
                 const auto translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
@@ -286,7 +286,7 @@ namespace Exiv2
                                   << "\n";
 #endif
                         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
-                                                          exifData.pData_ + pos, (uint32_t)(length - pos));
+                                                          exifData.pData_ + pos, static_cast<uint32_t>(length - pos));
                         pImage->setByteOrder(bo);
                     } else {
 #ifndef SUPPRESS_WARNINGS
@@ -430,7 +430,8 @@ namespace Exiv2
 
             do {
                 arr.alloc(uncompressedLen);
-                zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen, compressedText, compressedTextSize);
+                zlibResult =
+                    uncompress(static_cast<Bytef*>(arr.pData_), &uncompressedLen, compressedText, compressedTextSize);
                 if (zlibResult == Z_OK) {
                     assert((uLongf)arr.size_ >= uncompressedLen);
                     arr.size_ = uncompressedLen;
@@ -462,8 +463,9 @@ namespace Exiv2
             DataBuf arr;
             do {
                 arr.alloc(compressedLen);
-                zlibResult = compress2((Bytef*)arr.pData_, &compressedLen, (const Bytef*)text.data(),
-                                       static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
+                zlibResult = compress2(static_cast<Bytef*>(arr.pData_), &compressedLen,
+                                       reinterpret_cast<const Bytef*>(text.data()), static_cast<uLong>(text.size()),
+                                       Z_BEST_COMPRESSION);
 
                 switch (zlibResult) {
                     case Z_OK:
@@ -486,7 +488,7 @@ namespace Exiv2
                 }
             } while (zlibResult == Z_BUF_ERROR);
 
-            return std::string((const char*)arr.pData_, arr.size_);
+            return std::string(reinterpret_cast<const char*>(arr.pData_), arr.size_);
 
         }  // PngChunk::zlibCompress
 
@@ -518,11 +520,12 @@ namespace Exiv2
             // Calculate CRC on chunk type and chunk data
             std::string crcData = chunkType + chunkData;
             uLong tmp = crc32(0L, Z_NULL, 0);
-            tmp = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
+            tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
             byte crc[4];
             ul2Data(crc, tmp, bigEndian);
             // Assemble the chunk
-            return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
+            return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
+                   std::string(reinterpret_cast<const char*>(crc), 4);
 
         }  // PngChunk::makeAsciiTxtChunk
 
@@ -552,11 +555,12 @@ namespace Exiv2
             std::string chunkType = "iTXt";
             std::string crcData = chunkType + chunkData;
             uLong tmp = crc32(0L, Z_NULL, 0);
-            tmp = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
+            tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
             byte crc[4];
             ul2Data(crc, tmp, bigEndian);
             // Assemble the chunk
-            return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
+            return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
+                   std::string(reinterpret_cast<const char*>(crc), 4);
 
         }  // PngChunk::makeUtf8TxtChunk
 
@@ -578,8 +582,8 @@ namespace Exiv2
                 return info;
             }
 
-            const char* sp = (char*)text.pData_ + 1;            // current byte (space pointer)
-            const char* eot = (char*)text.pData_ + text.size_;  // end of text
+            const char* sp = reinterpret_cast<char*>(text.pData_) + 1;            // current byte (space pointer)
+            const char* eot = reinterpret_cast<char*>(text.pData_) + text.size_;  // end of text
 
             if (sp >= eot) {
                 return DataBuf();
@@ -633,7 +637,7 @@ namespace Exiv2
 #endif
             }
             info.alloc(length);
-            if (info.size_ != (size_t)length) {
+            if (info.size_ != static_cast<size_t>(length)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
 #endif
@@ -642,10 +646,10 @@ namespace Exiv2
 
             // Copy profile, skipping white space and column 1 "=" signs
 
-            auto dp = (unsigned char*)info.pData_;  // decode pointer
+            auto dp = static_cast<unsigned char*>(info.pData_);  // decode pointer
             unsigned int nibbles = length * 2;
 
-            for (long i = 0; i < (long)nibbles; i++) {
+            for (long i = 0; i < static_cast<long>(nibbles); i++) {
                 enforce(sp < eot, Exiv2::kerCorruptedMetadata);
                 while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
                     if (*sp == '\0') {
@@ -660,9 +664,9 @@ namespace Exiv2
                 }
 
                 if (i%2 == 0)
-                    *dp = (unsigned char) (16*unhex[(int) *sp++]);
+                    *dp = static_cast<unsigned char>(16 * unhex[static_cast<int>(*sp++)]);
                 else
-                    (*dp++) += unhex[(int) *sp++];
+                    (*dp++) += unhex[static_cast<int>(*sp++)];
             }
 
             return info;

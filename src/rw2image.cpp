@@ -123,11 +123,8 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "RW2");
         }
         clearMetadata();
-        ByteOrder bo = Rw2Parser::decode(exifData_,
-                                         iptcData_,
-                                         xmpData_,
-                                         io_->mmap(),
-                                         (uint32_t) io_->size());
+        ByteOrder bo =
+            Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
         setByteOrder(bo);
 
         // A lot more metadata is hidden in the embedded preview image

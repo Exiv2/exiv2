@@ -239,8 +239,8 @@ namespace Exiv2
 
                             bFirst = false;
 
-                            const auto tag = (uint16_t)readData(2);
-                            const auto type = (uint16_t)readData(2);
+                            const auto tag = static_cast<uint16_t>(readData(2));
+                            const auto type = static_cast<uint16_t>(readData(2));
                             const uint64_t count = readData(dataSize_);
                             const DataBuf  data  = io.read(dataSize_);        // Read data as raw value. what should be done about it will be decided depending on type
 
@@ -287,17 +287,17 @@ namespace Exiv2
                                     byteSwap8(data, 0, doSwap_);
 
                             // big data? Use 'data' as pointer to real data
-                            const bool usePointer = (size_t) count*size > (size_t) dataSize_;
+                            const bool usePointer = static_cast<size_t>(count) * size > static_cast<size_t>(dataSize_);
 
                             if ( usePointer )                          // read into buffer
                             {
                                 size_t   restore = io.tell();          // save
                                 io.seek(static_cast<int64>(offset), BasicIo::beg);         // position
-                                io.read(buf.pData_, (long) count * size);     // read
+                                io.read(buf.pData_, static_cast<long>(count) * size);      // read
                                 io.seek(restore, BasicIo::beg);        // restore
                             }
                             else  // use 'data' as data :)
-                                std::memcpy(buf.pData_, data.pData_, (size_t) count * size);     // copy data
+                                std::memcpy(buf.pData_, data.pData_, static_cast<size_t>(count) * size);  // copy data
 
                             if ( bPrint )
                             {
@@ -306,10 +306,10 @@ namespace Exiv2
 
                                 out << Internal::indent(depth)
                                     << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |",
-                                        static_cast<size_t>(address), tag, tagName(tag).c_str(), typeName(type), count)
-                                    <<(usePointer ? Internal::stringFormat("%10u | ",(size_t)offset)
-                                                  : Internal::stringFormat("%10s | ",""))
-                                    ;
+                                                              static_cast<size_t>(address), tag, tagName(tag).c_str(),
+                                                              typeName(type), count)
+                                    << (usePointer ? Internal::stringFormat("%10u | ", static_cast<size_t>(offset))
+                                                   : Internal::stringFormat("%10s | ", ""));
                                 if ( isShortType(type) )
                                 {
                                     for ( size_t k = 0 ; k < kount ; k++ )
@@ -386,7 +386,7 @@ namespace Exiv2
 
                                     long jump= 10           ;
                                     byte     bytes[20]          ;
-                                    const auto chars = (const char*)&bytes[0];
+                                    const auto chars = reinterpret_cast<const char*>(&bytes[0]);
                                     io.seek(static_cast<int64>(dir_offset), BasicIo::beg);  // position
                                     io.read(bytes,jump    )     ;  // read
                                     bytes[jump]=0               ;
@@ -395,8 +395,9 @@ namespace Exiv2
                                       // tag is an embedded tiff
                                       std::vector<byte> nikon_bytes(static_cast<size_t>(count - jump));
 
-                                      io.read(&nikon_bytes.at(0), (long)nikon_bytes.size());
-                                      MemIo memIo(&nikon_bytes.at(0), (long)count - jump); // create a file
+                                      io.read(&nikon_bytes.at(0), static_cast<long>(nikon_bytes.size()));
+                                      MemIo memIo(&nikon_bytes.at(0),
+                                                  static_cast<long>(count) - jump);  // create a file
                                       std::cerr << "Nikon makernote" << std::endl;
                                       // printTiffStructure(memIo,out,option,depth);
                                       // TODO: fix it

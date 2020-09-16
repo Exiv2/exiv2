@@ -189,14 +189,15 @@ static Exiv2::Dictionary stringToDict(const std::string& s)
     return result;
 }
 
-static int makeNonBlocking(int sockfd)
-{
 #ifdef WIN32
+static void makeNonBlocking(SOCKET sockfd)
+{
     ULONG ioctl_opt = 1;
-    return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
+    ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
 #else
-    int result = fcntl(sockfd, F_SETFL, O_NONBLOCK);
-    return result >= 0 ? result : SOCKET_ERROR;
+static void makeNonBlocking(int sockfd)
+{
+    fcntl(sockfd, F_SETFL, O_NONBLOCK);
 #endif
 }
 
@@ -269,14 +270,14 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
     ////////////////////////////////////
     // open the socket
-    int sockfd = (int)socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    auto sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sockfd < 0)
         return error(errors, "unable to create socket\n", nullptr, nullptr, 0);
 
     // fill in the address
     struct sockaddr_in serv_addr;
     int serv_len = sizeof(serv_addr);
-    memset((char*)&serv_addr, 0, serv_len);
+    memset(reinterpret_cast<char*>(&serv_addr), 0, serv_len);
 
     serv_addr.sin_addr.s_addr = inet_addr(servername_p);
     serv_addr.sin_family = AF_INET;
@@ -284,7 +285,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
     // convert unknown servername into IP address
     // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
-    if (serv_addr.sin_addr.s_addr == (unsigned long)INADDR_NONE) {
+    if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
         struct hostent* host = gethostbyname(servername_p);
         if (!host) {
             closesocket(sockfd);
@@ -297,7 +298,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
     ////////////////////////////////////
     // connect the socket to the server
-    auto server = connect(sockfd, (const struct sockaddr*)&serv_addr, serv_len);
+    auto server = connect(sockfd, reinterpret_cast<const struct sockaddr*>(&serv_addr), serv_len);
     if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
         auto errorCode = WSAGetLastError();
         closesocket(sockfd);
@@ -336,7 +337,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     ////////////////////////////////////
     // read and process the response
     int err;
-    n = forgive(recv(sockfd, buffer, (int)buff_l, 0), err);
+    n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
     while (n >= 0 && OK(status)) {
         if (n) {
             end += n;
@@ -401,7 +402,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
                 flushBuffer(buffer, body, end, file);
             }
         }
-        n = forgive(recv(sockfd, buffer + end, (int)(buff_l - end), 0), err);
+        n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
         if (!n) {
             Sleep(snooze);
             sleep_ -= snooze;

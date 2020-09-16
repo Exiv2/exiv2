@@ -505,7 +505,7 @@ namespace Exiv2 {
         }
 
         if ( bURI || bNS ) {
-            auto p = (std::map<std::string, std::string>*)refCon;
+            auto p = static_cast<std::map<std::string, std::string>*>(refCon);
             std::map<std::string,std::string>& m = *p;
 
             std::string b;

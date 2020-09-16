@@ -143,11 +143,7 @@ namespace Exiv2 {
         io_->read(buf.pData_, buf.size_);
         enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
-        ByteOrder bo = TiffParser::decode(exifData_,
-                                          iptcData_,
-                                          xmpData_,
-                                          buf.pData_,
-                                          (uint32_t)buf.size_);
+        ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.pData_, static_cast<uint32_t>(buf.size_));
         setByteOrder(bo);
     } // MrwImage::readMetadata
 
