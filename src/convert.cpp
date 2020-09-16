@@ -1235,25 +1235,23 @@ namespace Exiv2 {
                 writeExifDigest();
                 return;
             }
-            else {
-                // We have both digests and the values do not match
-                // Exif was modified after XMP, we should update XMP
-                setOverwrite(true);
-                setErase(false);
 
-                cnvToXmp();
-                writeExifDigest();
-                return;
-            }
-        }
-        else {
-            // We don't have both digests, it is probably the first conversion to XMP
-            setOverwrite(false); // to be safe
+            // We have both digests and the values do not match
+            // Exif was modified after XMP, we should update XMP
+            setOverwrite(true);
             setErase(false);
 
             cnvToXmp();
             writeExifDigest();
+            return;
         }
+
+        // We don't have both digests, it is probably the first conversion to XMP
+        setOverwrite(false);  // to be safe
+        setErase(false);
+
+        cnvToXmp();
+        writeExifDigest();
     }
 
     // *************************************************************************

@@ -458,7 +458,8 @@ namespace Exiv2
 
                 if (chunkType == "IEND") {
                     return;  // Last chunk found: we stop parsing.
-                } else if (chunkType == "IHDR" && chunkData.size_ >= 8) {
+                }
+                if (chunkType == "IHDR" && chunkData.size_ >= 8) {
                     Internal::PngImageHeader header;
                     PngChunk::decodeIHDRChunk(chunkData, header);
                     pixelWidth_ = header.width;
@@ -580,7 +581,8 @@ namespace Exiv2
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_)
                     throw Error(kerImageWriteFailed);
                 return;
-            } else if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4)) {
+            }
+            if (!memcmp(cheaderBuf.pData_ + 4, "IHDR", 4)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif

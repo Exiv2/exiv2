@@ -346,7 +346,7 @@ namespace Exiv2 {
         std::string path = url.substr(7);
         size_t found = path.find('/');
         if (found == std::string::npos) return path;
-        else return path.substr(found);
+        return path.substr(found);
     }
 #ifdef EXV_UNICODE_PATH
     std::wstring pathOfFileUrl(const std::wstring& wurl) {

@@ -60,36 +60,34 @@ namespace Jzon
 			{
 				return "";
 			}
-			else
-			{
-				return std::string(format.indentSize * level, indentationChar);
-			}
-		}
 
-		inline const std::string &GetNewline() const
-		{
-			return newline;
-		}
-		inline const std::string &GetSpacing() const
-		{
-			return spacing;
-		}
+            return std::string(format.indentSize * level, indentationChar);
+        }
 
-	private:
-		Format format;
-		char indentationChar;
-		std::string newline;
-		std::string spacing;
-	};
+        inline const std::string &GetNewline() const
+        {
+            return newline;
+        }
+        inline const std::string &GetSpacing() const
+        {
+            return spacing;
+        }
 
-	inline bool IsWhitespace(char c)
-	{
-		return (c == '\n' || c == ' ' || c == '\t' || c == '\r' || c == '\f');
-	}
-	inline bool IsNumber(char c)
-	{
-		return ((c >= '0' && c <= '9') || c == '.' || c == '-');
-	}
+    private:
+        Format format;
+        char indentationChar;
+        std::string newline;
+        std::string spacing;
+    };
+
+    inline bool IsWhitespace(char c)
+    {
+        return (c == '\n' || c == ' ' || c == '\t' || c == '\r' || c == '\f');
+    }
+    inline bool IsNumber(char c)
+    {
+        return ((c >= '0' && c <= '9') || c == '.' || c == '-');
+    }
 
         Node::Node() = default;
         Node::~Node() = default;
@@ -98,87 +96,91 @@ namespace Jzon
 	{
 		if (IsObject())
 			return static_cast<Object&>(*this);
-		else
-			throw TypeException();
-	}
-	const Object &Node::AsObject() const
-	{
-		if (IsObject())
-			return static_cast<const Object&>(*this);
-		else
-			throw TypeException();
-	}
-	Array &Node::AsArray()
-	{
-		if (IsArray())
-			return static_cast<Array&>(*this);
-		else
-			throw TypeException();
-	}
-	const Array &Node::AsArray() const
-	{
-		if (IsArray())
-			return static_cast<const Array&>(*this);
-		else
-			throw TypeException();
-	}
-	Value &Node::AsValue()
-	{
-		if (IsValue())
-			return static_cast<Value&>(*this);
-		else
-			throw TypeException();
-	}
-	const Value &Node::AsValue() const
-	{
-		if (IsValue())
-			return static_cast<const Value&>(*this);
-		else
-			throw TypeException();
-	}
 
-	Node::Type Node::DetermineType(const std::string &json)
-	{
-		std::string::const_iterator jsonIt = json.begin();
+        throw TypeException();
+    }
+    const Object &Node::AsObject() const
+    {
+        if (IsObject())
+            return static_cast<const Object &>(*this);
 
-		while (jsonIt != json.end() && IsWhitespace(*jsonIt))
-			++jsonIt;
+        throw TypeException();
+    }
+    Array &Node::AsArray()
+    {
+        if (IsArray())
+            return static_cast<Array &>(*this);
 
-		if (jsonIt == json.end())
-			return T_VALUE;
+        throw TypeException();
+    }
+    const Array &Node::AsArray() const
+    {
+        if (IsArray())
+            return static_cast<const Array &>(*this);
 
-		switch (*jsonIt)
-		{
-		case '{' : return T_OBJECT;
-		case '[' : return T_ARRAY;
-		default  : return T_VALUE;
-		}
-	}
+        throw TypeException();
+    }
+    Value &Node::AsValue()
+    {
+        if (IsValue())
+            return static_cast<Value &>(*this);
 
+        throw TypeException();
+    }
+    const Value &Node::AsValue() const
+    {
+        if (IsValue())
+            return static_cast<const Value &>(*this);
 
-	Value::Value() : Node()
-	{
-		SetNull();
-	}
-	Value::Value(const Value &rhs) : Node()
-	{
-		Set(rhs);
-	}
-	Value::Value(const Node &rhs) : Node()
-	{
-		const Value &value = rhs.AsValue();
-		Set(value);
-	}
-	Value::Value(ValueType type, const std::string &value)
-	{
-		Set(type, value);
-	}
-	Value::Value(const std::string &value)
-	{
-		Set(value);
-	}
-	Value::Value(const char *value)
-	{
+        throw TypeException();
+    }
+
+    Node::Type Node::DetermineType(const std::string &json)
+    {
+        std::string::const_iterator jsonIt = json.begin();
+
+        while (jsonIt != json.end() && IsWhitespace(*jsonIt))
+            ++jsonIt;
+
+        if (jsonIt == json.end())
+            return T_VALUE;
+
+        switch (*jsonIt) {
+            case '{':
+                return T_OBJECT;
+            case '[':
+                return T_ARRAY;
+            default:
+                return T_VALUE;
+        }
+    }
+
+    Value::Value()
+        : Node()
+    {
+        SetNull();
+    }
+    Value::Value(const Value &rhs)
+        : Node()
+    {
+        Set(rhs);
+    }
+    Value::Value(const Node &rhs)
+        : Node()
+    {
+        const Value &value = rhs.AsValue();
+        Set(value);
+    }
+    Value::Value(ValueType type, const std::string &value)
+    {
+        Set(type, value);
+    }
+    Value::Value(const std::string &value)
+    {
+        Set(value);
+    }
+    Value::Value(const char *value)
+    {
 		Set(value);
 	}
 	Value::Value(const int value)
@@ -214,108 +216,93 @@ namespace Jzon
 		{
 			return "null";
 		}
-		else
-		{
-			return valueStr;
-		}
-	}
-	int Value::ToInt() const
-	{
-		if (IsNumber())
-		{
-			std::stringstream sstr(valueStr);
-			int val;
-			sstr >> val;
-			return val;
-		}
-		else
-		{
-			return 0;
-		}
-	}
-	float Value::ToFloat() const
-	{
-		if (IsNumber())
-		{
-			std::stringstream sstr(valueStr);
-			float val;
-			sstr >> val;
-			return val;
-		}
-		else
-		{
-            return 0.F;
+
+        return valueStr;
+    }
+    int Value::ToInt() const
+    {
+        if (IsNumber()) {
+            std::stringstream sstr(valueStr);
+            int val;
+            sstr >> val;
+            return val;
+        }
+
+        return 0;
+    }
+    float Value::ToFloat() const
+    {
+        if (IsNumber()) {
+            std::stringstream sstr(valueStr);
+            float val;
+            sstr >> val;
+            return val;
+        }
+
+        return 0.F;
+    }
+    double Value::ToDouble() const
+    {
+        if (IsNumber()) {
+            std::stringstream sstr(valueStr);
+            double val;
+            sstr >> val;
+            return val;
+        }
+
+        return 0.0;
+    }
+    bool Value::ToBool() const
+    {
+        if (IsBool()) {
+            return (valueStr == "true");
+        }
+
+        return false;
+    }
+
+    void Value::SetNull()
+    {
+        valueStr = "";
+        type = VT_NULL;
+    }
+    void Value::Set(const Value &value)
+    {
+        if (this != &value) {
+            valueStr = value.valueStr;
+            type = value.type;
         }
     }
-	double Value::ToDouble() const
-	{
-		if (IsNumber())
-		{
-			std::stringstream sstr(valueStr);
-			double val;
-			sstr >> val;
-			return val;
-		}
-		else
-		{
-			return 0.0;
-		}
-	}
-	bool Value::ToBool() const
-	{
-		if (IsBool())
-		{
-			return (valueStr == "true");
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	void Value::SetNull()
-	{
-		valueStr = "";
-		type     = VT_NULL;
-	}
-	void Value::Set(const Value &value)
-	{
-		if (this != &value)
-		{
-			valueStr = value.valueStr;
-			type     = value.type;
-		}
-	}
-	void Value::Set(ValueType type, const std::string &value)
-	{
-		valueStr   = value;
-		this->type = type;
-	}
-	void Value::Set(const std::string &value)
-	{
-		valueStr = UnescapeString(value);
-		type     = VT_STRING;
-	}
-	void Value::Set(const char *value)
-	{
-		valueStr = UnescapeString(std::string(value));
-		type     = VT_STRING;
-	}
-	void Value::Set(const int value)
-	{
-		std::stringstream sstr;
+    void Value::Set(ValueType type, const std::string &value)
+    {
+        valueStr = value;
+        this->type = type;
+    }
+    void Value::Set(const std::string &value)
+    {
+        valueStr = UnescapeString(value);
+        type = VT_STRING;
+    }
+    void Value::Set(const char *value)
+    {
+        valueStr = UnescapeString(std::string(value));
+        type = VT_STRING;
+    }
+    void Value::Set(const int value)
+    {
+        std::stringstream sstr;
+        sstr << value;
+        valueStr = sstr.str();
+		type     = VT_NUMBER;
+    }
+    void Value::Set(const float value)
+    {
+        std::stringstream sstr;
 		sstr << value;
 		valueStr = sstr.str();
 		type     = VT_NUMBER;
-	}
-	void Value::Set(const float value)
-	{
-		std::stringstream sstr;
-		sstr << value;
-		valueStr = sstr.str();
-		type     = VT_NUMBER;
-	}
-	void Value::Set(const double value)
+    }
+    void Value::Set(const double value)
 	{
 		std::stringstream sstr;
 		sstr << value;
@@ -526,33 +513,33 @@ namespace Jzon
     {
         if (!children.empty())
             return Object::iterator(&children.front());
-		else
-			return Object::iterator(nullptr);
+
+        return Object::iterator(nullptr);
     }
     Object::const_iterator Object::begin() const
     {
 		if (!children.empty())
 			return Object::const_iterator(&children.front());
-		else
-			return Object::const_iterator(nullptr);
-	}
-	Object::iterator Object::end()
-	{
-		if (!children.empty())
-			return Object::iterator(&children.back()+1);
-		else
-			return Object::iterator(nullptr);
-	}
-	Object::const_iterator Object::end() const
-	{
-		if (!children.empty())
-			return Object::const_iterator(&children.back()+1);
-		else
-			return Object::const_iterator(nullptr);
-	}
 
-	bool Object::Has(const std::string &name) const
-	{
+        return Object::const_iterator(nullptr);
+    }
+    Object::iterator Object::end()
+    {
+        if (!children.empty())
+            return Object::iterator(&children.back() + 1);
+
+        return Object::iterator(nullptr);
+    }
+    Object::const_iterator Object::end() const
+    {
+        if (!children.empty())
+            return Object::const_iterator(&children.back() + 1);
+
+        return Object::const_iterator(nullptr);
+    }
+
+    bool Object::Has(const std::string &name) const
+    {
         for (const auto &child : children) {
             if (child.first == name) {
                 return true;
@@ -638,49 +625,48 @@ namespace Jzon
     {
         if (!children.empty())
             return Array::iterator(&children.front());
-		else
-			return Array::iterator(nullptr);
+
+        return Array::iterator(nullptr);
     }
     Array::const_iterator Array::begin() const
     {
 		if (!children.empty())
 			return Array::const_iterator(&children.front());
-		else
-			return Array::const_iterator(nullptr);
-	}
-	Array::iterator Array::end()
-	{
-		if (!children.empty())
-			return Array::iterator(&children.back()+1);
-		else
-			return Array::iterator(nullptr);
-	}
-	Array::const_iterator Array::end() const
-	{
-		if (!children.empty())
-			return Array::const_iterator(&children.back()+1);
-		else
-			return Array::const_iterator(nullptr);
-	}
 
-	size_t Array::GetCount() const
-	{
-		return children.size();
-	}
-	Node &Array::Get(size_t index) const
-	{
-		if (index < children.size())
-		{
-			return *children.at(index);
-		}
+        return Array::const_iterator(nullptr);
+    }
+    Array::iterator Array::end()
+    {
+        if (!children.empty())
+            return Array::iterator(&children.back() + 1);
 
-		throw NotFoundException();
-	}
+        return Array::iterator(nullptr);
+    }
+    Array::const_iterator Array::end() const
+    {
+        if (!children.empty())
+            return Array::const_iterator(&children.back() + 1);
 
-	Node *Array::GetCopy() const
-	{
-		return new Array(*this);
-	}
+        return Array::const_iterator(nullptr);
+    }
+
+    size_t Array::GetCount() const
+    {
+        return children.size();
+    }
+    Node &Array::Get(size_t index) const
+    {
+        if (index < children.size()) {
+            return *children.at(index);
+        }
+
+        throw NotFoundException();
+    }
+
+    Node *Array::GetCopy() const
+    {
+        return new Array(*this);
+    }
 
     FileWriter::FileWriter(std::string filename)
         : filename(std::move(filename))
@@ -730,64 +716,62 @@ namespace Jzon
 			error = parser.GetError();
 			return false;
 		}
-		else
-		{
-			return true;
-		}
-	}
 
-	Node::Type FileReader::DetermineType()
-	{
-		return Node::DetermineType(json);
-	}
+        return true;
+    }
 
-	const std::string &FileReader::GetError() const
-	{
-		return error;
-	}
+    Node::Type FileReader::DetermineType()
+    {
+        return Node::DetermineType(json);
+    }
 
-	bool FileReader::loadFile(const std::string &filename, std::string &json)
-	{
-		std::fstream file(filename.c_str(), std::ios::in | std::ios::binary);
+    const std::string &FileReader::GetError() const
+    {
+        return error;
+    }
 
-		if (!file.is_open())
-		{
-			return false;
-		}
+    bool FileReader::loadFile(const std::string &filename, std::string &json)
+    {
+        std::fstream file(filename.c_str(), std::ios::in | std::ios::binary);
 
-		file.seekg(0, std::ios::end);
-		std::ios::pos_type size = file.tellg();
-		file.seekg(0, std::ios::beg);
+        if (!file.is_open()) {
+            return false;
+        }
 
-		json.resize(static_cast<std::string::size_type>(size), '\0');
-		file.read(&json[0], size);
+        file.seekg(0, std::ios::end);
+        std::ios::pos_type size = file.tellg();
+        file.seekg(0, std::ios::beg);
 
-		return true;
-	}
+        json.resize(static_cast<std::string::size_type>(size), '\0');
+        file.read(&json[0], size);
 
+        return true;
+    }
 
-	Writer::Writer(const Node &root, const Format &format) : fi(new FormatInterpreter), root(root)
-	{
-		SetFormat(format);
-	}
-	Writer::~Writer()
-	{
-		delete fi;
-		fi = nullptr;
-	}
+    Writer::Writer(const Node &root, const Format &format)
+        : fi(new FormatInterpreter)
+        , root(root)
+    {
+        SetFormat(format);
+    }
+    Writer::~Writer()
+    {
+        delete fi;
+        fi = nullptr;
+    }
 
-	void Writer::SetFormat(const Format &format)
-	{
-		fi->SetFormat(format);
-	}
-	const std::string &Writer::Write()
-	{
-		result.clear();
+    void Writer::SetFormat(const Format &format)
+    {
+        fi->SetFormat(format);
+    }
+    const std::string &Writer::Write()
+    {
+        result.clear();
 		writeNode(root, 0);
 		return result;
-	}
+    }
 
-	const std::string &Writer::GetResult() const
+    const std::string &Writer::GetResult() const
 	{
 		return result;
 	}
@@ -1096,62 +1080,50 @@ namespace Jzon
 							error = "A name has to be a string";
 							return false;
 						}
-						else
-						{
-							name = data.front().second;
-							data.pop();
-						}
-					}
-					else
-					{
-						Node *node = nullptr;
-						if (nodeStack.empty())
-						{
-							if (!root.IsValue())
-							{
-								error = "The given root node is not a value";
-								return false;
-							}
 
-							node = &root;
-						}
-						else
-						{
-							node = new Value;
-						}
+                        name = data.front().second;
+                        data.pop();
 
-						if (data.front().first == Value::VT_STRING)
-						{
-							static_cast<Value*>(node)->Set(data.front().second); // This method calls UnescapeString()
-						}
-						else
-						{
-							static_cast<Value*>(node)->Set(data.front().first, data.front().second);
-						}
-						data.pop();
+                    } else {
+                        Node *node = nullptr;
+                        if (nodeStack.empty()) {
+                            if (!root.IsValue()) {
+                                error = "The given root node is not a value";
+                                return false;
+                            }
 
-						if (!nodeStack.empty())
-						{
-							if (nodeStack.top().second->IsObject())
-								nodeStack.top().second->AsObject().Add(name, *node);
-							else if (nodeStack.top().second->IsArray())
-								nodeStack.top().second->AsArray().Add(*node);
+                            node = &root;
+                        } else {
+                            node = new Value;
+                        }
 
-							delete node;
-							node = nullptr;
-							name.clear();
-						}
-						else
-						{
-							nodeStack.push(MakePair(name, node));
-							name.clear();
-						}
-					}
-					break;
-				}
-			case T_SEPARATOR_NAME :
-			case T_SEPARATOR_NODE : break;
-			}
+                        if (data.front().first == Value::VT_STRING) {
+                            static_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
+                        } else {
+                            static_cast<Value *>(node)->Set(data.front().first, data.front().second);
+                        }
+                        data.pop();
+
+                        if (!nodeStack.empty()) {
+                            if (nodeStack.top().second->IsObject())
+                                nodeStack.top().second->AsObject().Add(name, *node);
+                            else if (nodeStack.top().second->IsArray())
+                                nodeStack.top().second->AsArray().Add(*node);
+
+                            delete node;
+                            node = nullptr;
+                            name.clear();
+                        } else {
+                            nodeStack.push(MakePair(name, node));
+                            name.clear();
+                        }
+                    }
+                    break;
+            }
+            case T_SEPARATOR_NAME:
+            case T_SEPARATOR_NODE:
+                break;
+            }
         }
 
         return true;
@@ -1163,20 +1135,18 @@ namespace Jzon
 		{
 			return json.at(cursor+1);
 		}
-		else
-		{
-			return '\0';
-		}
-	}
-	void Parser::jumpToNext(char c)
-	{
-		++cursor;
-		while (cursor < jsonSize && json.at(cursor) != c)
-			++cursor;
-	}
-	void Parser::jumpToCommentEnd()
-	{
-		++cursor;
+
+        return '\0';
+    }
+    void Parser::jumpToNext(char c)
+    {
+        ++cursor;
+        while (cursor < jsonSize && json.at(cursor) != c)
+            ++cursor;
+    }
+    void Parser::jumpToCommentEnd()
+    {
+        ++cursor;
         char c1 = '\0';
 		for (; cursor < jsonSize; ++cursor)
 		{
@@ -1187,16 +1157,16 @@ namespace Jzon
 
 			c1 = c2;
 		}
-	}
+    }
 
-	void Parser::readString()
-	{
-		if (json.at(cursor) != '"')
-			return;
+    void Parser::readString()
+    {
+        if (json.at(cursor) != '"')
+            return;
 
-		std::string str;
+        std::string str;
 
-		++cursor;
+        ++cursor;
 
         char c1 = '\0';
 		for (; cursor < jsonSize; ++cursor)
@@ -1214,28 +1184,21 @@ namespace Jzon
 		}
 
 		data.push(MakePair(Value::VT_STRING, str));
-	}
-	bool Parser::interpretValue(const std::string &value)
-	{
-		std::string upperValue(value.size(), '\0');
+    }
+    bool Parser::interpretValue(const std::string &value)
+    {
+        std::string upperValue(value.size(), '\0');
 
-		std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
+        std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
 
-		if (upperValue == "nullptr")
-		{
-			data.push(MakePair(Value::VT_NULL, std::string("")));
-		}
-		else if (upperValue == "TRUE")
-		{
-			data.push(MakePair(Value::VT_BOOL, std::string("true")));
-		}
-		else if (upperValue == "FALSE")
-		{
-			data.push(MakePair(Value::VT_BOOL, std::string("false")));
-		}
-		else
-		{
-			bool number = true;
+        if (upperValue == "nullptr") {
+            data.push(MakePair(Value::VT_NULL, std::string("")));
+        } else if (upperValue == "TRUE") {
+            data.push(MakePair(Value::VT_BOOL, std::string("true")));
+        } else if (upperValue == "FALSE") {
+            data.push(MakePair(Value::VT_BOOL, std::string("false")));
+        } else {
+            bool number = true;
             for (char c : value) {
                 if (!IsNumber(c)) {
                     number = false;

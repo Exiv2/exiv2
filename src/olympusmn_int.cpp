@@ -1483,7 +1483,7 @@ namespace Exiv2 {
 
         if (value.count() < 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
-        } else {
+        }
             auto v = (uint16_t)value.toLong(0);
 
             // If value 2 is present, it is used instead of value 1.
@@ -1509,7 +1509,7 @@ namespace Exiv2 {
                 }
             }
             return os << v;
-        }
+
     } // OlympusMakerNote::printCs0x0301
 
     //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c

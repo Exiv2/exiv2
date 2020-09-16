@@ -344,10 +344,10 @@ namespace Exiv2 {
         for (uint32_t i = 0; i < count; ++i ) {
             if (io_->read(byte_tag, 2) != 2 || io_->read(byte_size, 2) != 2) {
                 break;
-            } else {
+            }
                 tag = getUShort(byte_tag, bigEndian);
                 tag_size = getUShort(byte_size, bigEndian);
-            }
+
             if (tag == 0x0100) {
                 byte image_height [2];
                 byte image_width [2];
@@ -358,11 +358,11 @@ namespace Exiv2 {
                     pixelWidth_ = getUShort(image_width, bigEndian);
                 }
                 break;
-            } else {
+            }
                 if (io_->seek(tag_size, BasicIo::cur) != 0 || io_->eof()) {
                     break;
                 };
-            }
+
         } // raf metadata header
 
         DataBuf buf(jpg_img_len - 12);
