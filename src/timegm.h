@@ -1,5 +1,5 @@
 #pragma once
-#include <time.h>
+#include <ctime>
 
 #ifdef  __cplusplus	
 extern "C" {	
