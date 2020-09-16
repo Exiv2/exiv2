@@ -950,6 +950,13 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
     def stdin_test(self):
         # Test driver for stdin
+        try:
+            import lxml
+        except ModuleNotFoundError:
+            print('ignored')
+            print('Missing module lxml, please install: `pip install lxml`')
+            return
+
         out     = BT.Output()
         a       = 'exiv2-bug1229.jpg'  # jpg with 2 APP1/xap segments
         b       = 'girl.jpg'

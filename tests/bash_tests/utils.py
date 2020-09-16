@@ -252,7 +252,6 @@ def md5sum(filename):
 def pretty_xml(text, encoding=None):
     """
     Add indent to the XML text
-    Required installation: pip install lxml
     """
     from lxml import etree
     encoding     = encoding or Config.encoding
