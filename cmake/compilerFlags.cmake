@@ -1,5 +1,5 @@
 # These flags applies to exiv2lib, the applications, and to the xmp code
-include(CheckCCompilerFlag)
+include(CheckCXXCompilerFlag)
 
 if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
@@ -25,9 +25,9 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
         # This fails under Fedora - MinGW - Gcc 8.3
         if (NOT (MINGW OR CMAKE_HOST_SOLARIS))
-            check_c_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
-            check_c_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
-            check_c_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
+            check_cxx_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
+            check_cxx_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
+            check_cxx_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
             if(HAS_FSTACK_CLASH_PROTECTION)
                 add_compile_options(-fstack-clash-protection)
             endif()
