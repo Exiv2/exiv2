@@ -4,26 +4,77 @@ git:
   quiet: true
   depth: 1
 
+env:
+  global:
+    - COMMON_CMAKE_OPTIONS="-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install"
+
 matrix:
   include:
-    - os: linux
-      dist: ubuntu
+    - name: "Ubuntu 16.04 - gcc-5.4 (Release)"
+      os: linux
+      dist: xenial
       sudo: required
       compiler: gcc
-      env: COVERAGE=0 CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=98 -DCMAKE_BUILD_TYPE=Debug -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DBUILD_WITH_COVERAGE=OFF -DEXIV2_ENABLE_CURL=ON -DCMAKE_CXX_FLAGS=-Wno-deprecated"
+      env:
+        - BUILD_TYPE="Release"
 
-    - os: linux
-      dist: ubuntu
+    - name: "Ubuntu 16.04 - gcc-5.4 (Debug)"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 16.04 - gcc-5.4 with coverage"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - WITH_COVERAGE=1
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 16.04 - gcc-5.4 with Valgrind"
+      os: linux
+      dist: xenial
       sudo: required
       compiler: gcc
       env:
         - WITH_VALGRIND=1
-        - CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=98 -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_CURL=ON -DCMAKE_CXX_FLAGS=-Wno-deprecated"
+        - BUILD_TYPE="Release"
 
-    - os: osx
-      osx_image: xcode11.7
+    - name: "Ubuntu 16.04 - gcc-5.4 with sanitizers"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: gcc
+      env:
+        - WITH_SANITIZERS=1
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 16.04 - CLANG 7.0 (Release)"
+      os: linux
+      dist: xenial
+      sudo: required
       compiler: clang
-      env: CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_CURL=ON -DCMAKE_CXX_FLAGS=-Wno-deprecated"
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 16.04 - CLANG 7.0 (Debug)"
+      os: linux
+      dist: xenial
+      sudo: required
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "macOS 10.14 - XCode 11.3"
+      os: osx
+      osx_image: xcode11.3
+      compiler: clang
+      env:
+        - BUILD_TYPE="Release"
 
 install: ./ci/install.sh
 script:  ./ci/run.sh
