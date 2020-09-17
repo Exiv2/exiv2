@@ -326,7 +326,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_regex       =0;
     int have_regex_h     =0;
     int have_stdbool     =0;
-    int have_stdint      =0;
     int have_stdlib      =0;
     int have_strlib      =0;
     int have_strerror_r  =0;
@@ -389,10 +388,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_STDBOOL_H
     have_stdbool=1;
-#endif
-
-#ifdef EXV_HAVE_STDINT_H
-    have_stdint=1;
 #endif
 
 #ifdef EXV_HAVE_STDLIB_H
@@ -528,7 +523,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_regex"        ,have_regex       );
     output(os,keys,"have_regex_h"      ,have_regex_h     );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
-    output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );
     output(os,keys,"have_strlib"       ,have_strlib      );
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
