@@ -240,7 +240,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the name of the tag
-        std::string tagName() const;
+        EXV_WARN_UNUSED_RESULT std::string tagName() const;
         //@}
 
         // DATA

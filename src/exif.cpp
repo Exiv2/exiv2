@@ -92,23 +92,23 @@ namespace {
           @brief Return the thumbnail image in a %DataBuf. The caller owns the
                  data buffer and %DataBuf ensures that it will be deleted.
          */
-        virtual Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const =0;
+        EXV_WARN_UNUSED_RESULT virtual Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const = 0;
         /*!
           @brief Return the MIME type of the thumbnail ("image/tiff" or
                  "image/jpeg").
          */
-        virtual const char* mimeType() const =0;
+        EXV_WARN_UNUSED_RESULT virtual const char* mimeType() const = 0;
         /*!
           @brief Return the file extension for the format of the thumbnail
                  (".tif", ".jpg").
          */
-        virtual const char* extension() const =0;
+        EXV_WARN_UNUSED_RESULT virtual const char* extension() const = 0;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like extension() but returns the extension in a wchar_t.
           @note This function is only available on Windows.
          */
-        virtual const wchar_t* wextension() const =0;
+        EXV_WARN_UNUSED_RESULT virtual const wchar_t* wextension() const = 0;
 #endif
         //@}
 

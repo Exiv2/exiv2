@@ -168,31 +168,31 @@ public:
     {}
 
 //  instance methods
-    bool good() const
+    EXV_WARN_UNUSED_RESULT bool good() const
     {
         return time_ || lon_ || lat_ || ele_;
     }
     std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
-    time_t getTime() const
+    EXV_WARN_UNUSED_RESULT time_t getTime() const
     {
         return time_;
     }
-    std::string toString() const;
+    EXV_WARN_UNUSED_RESULT std::string toString() const;
 
     //  getters/setters
-    double lat() const
+    EXV_WARN_UNUSED_RESULT double lat() const
     {
         return lat_;
     }
-    double lon() const
+    EXV_WARN_UNUSED_RESULT double lon() const
     {
         return lon_;
     }
-    double ele() const
+    EXV_WARN_UNUSED_RESULT double ele() const
     {
         return ele_;
     }
-    int delta() const
+    EXV_WARN_UNUSED_RESULT int delta() const
     {
         return delta_;
     }

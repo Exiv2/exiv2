@@ -32,6 +32,8 @@ THE SOFTWARE.
 #include <stack>
 #include <utility>
 
+#include "types.hpp"
+
 namespace Jzon
 {
 	class FormatInterpreter
@@ -54,21 +56,20 @@ namespace Jzon
 			newline = (format.newline ? "\n" : spacing);
 		}
 
-		std::string GetIndentation(unsigned int level) const
-		{
-			if (!format.newline)
-			{
-				return "";
-			}
+        EXV_WARN_UNUSED_RESULT std::string GetIndentation(unsigned int level) const
+        {
+            if (!format.newline) {
+                return "";
+            }
 
             return std::string(format.indentSize * level, indentationChar);
         }
 
-        inline const std::string &GetNewline() const
+        EXV_WARN_UNUSED_RESULT const std::string &GetNewline() const
         {
             return newline;
         }
-        inline const std::string &GetSpacing() const
+        EXV_WARN_UNUSED_RESULT const std::string &GetSpacing() const
         {
             return spacing;
         }

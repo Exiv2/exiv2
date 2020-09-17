@@ -99,13 +99,16 @@ namespace {
       static UniquePtr create(PreviewId id, const Image &image);
 
       //! Check if a preview image with given params exists in the image
-      virtual bool valid() const { return valid_; }
+      EXV_WARN_UNUSED_RESULT virtual bool valid() const
+      {
+          return valid_;
+      }
 
       //! Get properties of a preview image with given params
-      virtual PreviewProperties getProperties() const;
+      EXV_WARN_UNUSED_RESULT virtual PreviewProperties getProperties() const;
 
       //! Get a buffer that contains the preview image
-      virtual DataBuf getData() const = 0;
+      EXV_WARN_UNUSED_RESULT virtual DataBuf getData() const = 0;
 
       //! Read preview image dimensions when they are not available directly
       virtual bool readDimensions() { return true; }
@@ -157,10 +160,10 @@ namespace {
         LoaderNative(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        PreviewProperties getProperties() const override;
+        EXV_WARN_UNUSED_RESULT PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        DataBuf getData() const override;
+        EXV_WARN_UNUSED_RESULT DataBuf getData() const override;
 
         //! Read preview image dimensions
         bool readDimensions() override;
@@ -181,10 +184,10 @@ namespace {
         LoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        PreviewProperties getProperties() const override;
+        EXV_WARN_UNUSED_RESULT PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        DataBuf getData() const override;
+        EXV_WARN_UNUSED_RESULT DataBuf getData() const override;
 
         //! Read preview image dimensions
         bool readDimensions() override;
@@ -214,10 +217,10 @@ namespace {
         LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        PreviewProperties getProperties() const override;
+        EXV_WARN_UNUSED_RESULT PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        DataBuf getData() const override;
+        EXV_WARN_UNUSED_RESULT DataBuf getData() const override;
 
         //! Read preview image dimensions
         bool readDimensions() override;
@@ -247,10 +250,10 @@ namespace {
         LoaderTiff(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        PreviewProperties getProperties() const override;
+        EXV_WARN_UNUSED_RESULT PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        DataBuf getData() const override;
+        EXV_WARN_UNUSED_RESULT DataBuf getData() const override;
 
     protected:
         //! Name of the group that contains the preview image
@@ -284,10 +287,10 @@ namespace {
         LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        PreviewProperties getProperties() const override;
+        EXV_WARN_UNUSED_RESULT PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        DataBuf getData() const override;
+        EXV_WARN_UNUSED_RESULT DataBuf getData() const override;
 
         //! Read preview image dimensions
         bool readDimensions() override;

@@ -85,23 +85,23 @@ namespace Exiv2
             size_ = num;
         }
 
-        bool isNone() const
+        EXV_WARN_UNUSED_RESULT bool isNone() const
         {
             return type_ == bNone;
         }
-        bool isInMem() const
+        EXV_WARN_UNUSED_RESULT bool isInMem() const
         {
             return type_ == bMemory;
         }
-        bool isKnown() const
+        EXV_WARN_UNUSED_RESULT bool isKnown() const
         {
             return type_ == bKnown;
         }
-        byte* getData() const
+        EXV_WARN_UNUSED_RESULT byte* getData() const
         {
             return data_;
         }
-        size_t getSize() const
+        EXV_WARN_UNUSED_RESULT size_t getSize() const
         {
             return size_;
         }
