@@ -541,7 +541,7 @@ namespace Jzon
 
     bool Object::Has(const std::string &name) const
     {
-        return std::any_of(children.begin(), children.end(), [&](NamedNodePtr child) { return child.first == name; });
+        return std::any_of(children.begin(), children.end(), [&](const NamedNodePtr &child) { return child.first == name; });
     }
     size_t Object::GetCount() const
     {
