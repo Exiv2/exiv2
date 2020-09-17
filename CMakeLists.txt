@@ -7,7 +7,7 @@ project(exiv2          # use TWEAK to categorize the build
                        # 0.27.3.2  = RC2
                        # 0.27.3.20 = RC2 Preview
                        # 0.27.3.29 = RC2 Not for release
-    LANGUAGES CXX C
+    LANGUAGES CXX
 )
 include(cmake/mainSetup.cmake  REQUIRED)
 
