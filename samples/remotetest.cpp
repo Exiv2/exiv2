@@ -59,8 +59,8 @@ try {
         error += ": No Exif data found in the file";
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
-    Exiv2::ExifData::const_iterator end = exifReadData.end();
-    for (Exiv2::ExifData::const_iterator i = exifReadData.begin(); i != end; ++i) {
+    auto end = exifReadData.end();
+    for (auto i = exifReadData.begin(); i != end; ++i) {
         const char* tn = i->typeName();
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "
@@ -74,7 +74,6 @@ try {
                   << std::dec << i->value()
                   << "\n";
     }
-
 
     // del, reset the metadata
     std::cout << "Reset ...\n";

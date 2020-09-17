@@ -727,8 +727,8 @@ namespace Exiv2 {
 
     void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId)
     {
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
+        const auto b = components_.begin();
+        const auto e = components_.end();
         Components::iterator i;
 
         if (!crwDirs.empty()) {
@@ -1058,9 +1058,9 @@ namespace Exiv2 {
 
         const ExifKey k1("Exif.Image.Make");
         const ExifKey k2("Exif.Image.Model");
-        const ExifData::const_iterator ed1 = image.exifData().findKey(k1);
-        const ExifData::const_iterator ed2 = image.exifData().findKey(k2);
-        const ExifData::const_iterator edEnd = image.exifData().end();
+        const auto ed1 = image.exifData().findKey(k1);
+        const auto ed2 = image.exifData().findKey(k2);
+        const auto edEnd = image.exifData().end();
 
         size_t size = 0;
         if (ed1 != edEnd) size += ed1->size();
@@ -1115,7 +1115,7 @@ namespace Exiv2 {
 
         time_t t = 0;
         const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-        const ExifData::const_iterator ed = image.exifData().findKey(key);
+        const auto ed = image.exifData().findKey(key);
         if (ed != image.exifData().end()) {
             struct tm tm;
             std::memset(&tm, 0x0, sizeof(tm));
@@ -1145,10 +1145,10 @@ namespace Exiv2 {
         const ExifKey kY("Exif.Photo.PixelYDimension");
         const ExifKey kO("Exif.Image.Orientation");
         const ExifData &exivData = image.exifData();
-        const ExifData::const_iterator edX = exivData.findKey(kX);
-        const ExifData::const_iterator edY = exivData.findKey(kY);
-        const ExifData::const_iterator edO = exivData.findKey(kO);
-        const ExifData::const_iterator edEnd = exivData.end();
+        const auto edX = exivData.findKey(kX);
+        const auto edY = exivData.findKey(kY);
+        const auto edO = exivData.findKey(kO);
+        const auto edEnd = exivData.end();
 
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
@@ -1205,8 +1205,8 @@ namespace Exiv2 {
         std::memset(buf.pData_, 0x0, buf.size_);
 
         uint16_t len = 0;
-        const ExifData::const_iterator b = exifData.begin();
-        const ExifData::const_iterator e = exifData.end();
+        const auto b = exifData.begin();
+        const auto e = exifData.end();
         for (ExifData::const_iterator i = b; i != e; ++i) {
             if (i->ifdId() != ifdId) continue;
             const uint16_t s = i->tag()*2 + static_cast<uint16_t>(i->size());

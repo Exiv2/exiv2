@@ -898,8 +898,7 @@ namespace Exiv2 {
     void TiffDirectory::doAccept(TiffVisitor& visitor)
     {
         visitor.visitDirectory(this);
-        for (Components::const_iterator i = components_.begin();
-             visitor.go(TiffVisitor::geTraverse) && i != components_.end(); ++i) {
+        for (auto i = components_.begin(); visitor.go(TiffVisitor::geTraverse) && i != components_.end(); ++i) {
             (*i)->accept(visitor);
         }
         if (visitor.go(TiffVisitor::geTraverse)) visitor.visitDirectoryNext(this);
@@ -937,8 +936,7 @@ namespace Exiv2 {
     void TiffBinaryArray::doAccept(TiffVisitor& visitor)
     {
         visitor.visitBinaryArray(this);
-        for (Components::const_iterator i = elements_.begin();
-             visitor.go(TiffVisitor::geTraverse) && i != elements_.end(); ++i) {
+        for (auto i = elements_.begin(); visitor.go(TiffVisitor::geTraverse) && i != elements_.end(); ++i) {
             (*i)->accept(visitor);
         }
         if (visitor.go(TiffVisitor::geTraverse)) visitor.visitBinaryArrayEnd(this);

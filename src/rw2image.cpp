@@ -151,7 +151,7 @@ namespace Exiv2 {
         ExifData& prevData = image->exifData();
         if (!prevData.empty()) {
             // Filter duplicate tags
-            for (ExifData::const_iterator pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
+            for (auto pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
                 if (pos->ifdId() == panaRawId) continue;
                 auto dup = prevData.findKey(ExifKey(pos->key()));
                 if (dup != prevData.end()) {
@@ -206,7 +206,7 @@ namespace Exiv2 {
         }
 
         // Add the remaining tags
-        for (ExifData::const_iterator pos = prevData.begin(); pos != prevData.end(); ++pos) {
+        for (auto pos = prevData.begin(); pos != prevData.end(); ++pos) {
             exifData_.add(*pos);
         }
 

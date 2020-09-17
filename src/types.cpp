@@ -701,7 +701,7 @@ namespace Exiv2 {
         auto f = stringTo<float>(s, ok);
         if (ok) return static_cast<long>(f);
 
-        Rational r = stringTo<Rational>(s, ok);
+        auto r = stringTo<Rational>(s, ok);
         if (ok) {
             if (r.second == 0) {
                 ok = false;
@@ -722,7 +722,7 @@ namespace Exiv2 {
         auto ret = stringTo<float>(s, ok);
         if (ok) return ret;
 
-        Rational r = stringTo<Rational>(s, ok);
+        auto r = stringTo<Rational>(s, ok);
         if (ok) {
             if (r.second == 0) {
                 ok = false;
@@ -741,7 +741,7 @@ namespace Exiv2 {
 
     Rational parseRational(const std::string& s, bool& ok)
     {
-        Rational ret = stringTo<Rational>(s, ok);
+        auto ret = stringTo<Rational>(s, ok);
         if (ok) return ret;
 
         long l = stringTo<long>(s, ok);

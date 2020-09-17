@@ -510,8 +510,8 @@ namespace Exiv2 {
         std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
         std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(), cmpIptcdataByRecord);
 
-        IptcData::const_iterator iter = sortedIptcData.begin();
-        IptcData::const_iterator end = sortedIptcData.end();
+        auto iter = sortedIptcData.begin();
+        auto end = sortedIptcData.end();
         for ( ; iter != end; ++iter) {
             // marker, record Id, dataset num
             *pWrite++ = marker_;
