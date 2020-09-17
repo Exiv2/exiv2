@@ -1334,26 +1334,26 @@ std::unique_ptr<Task> Task::clone() const {
         ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
         int rc = 0;
         int ret = 0;
-        for (auto i = modifyCmds.cbegin(); i != modifyCmds.cend(); ++i) {
-            switch (i->cmdId_) {
+        for (const auto& modifyCmd : modifyCmds) {
+            switch (modifyCmd.cmdId_) {
                 case add:
-                    ret = addMetadatum(pImage, *i);
+                    ret = addMetadatum(pImage, modifyCmd);
                     if (rc == 0)
                         rc = ret;
                     break;
                 case set:
-                    ret = setMetadatum(pImage, *i);
+                    ret = setMetadatum(pImage, modifyCmd);
                     if (rc == 0)
                         rc = ret;
                     break;
                 case del:
-                    delMetadatum(pImage, *i);
+                    delMetadatum(pImage, modifyCmd);
                     break;
                 case reg:
-                    regNamespace(*i);
+                    regNamespace(modifyCmd);
                     break;
                 case invalidCmdId:
-                    assert(invalidCmdId == i->cmdId_);
+                    assert(invalidCmdId == modifyCmd.cmdId_);
                     break;
             }
         }
