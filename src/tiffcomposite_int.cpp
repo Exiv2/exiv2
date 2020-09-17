@@ -1461,11 +1461,10 @@ namespace Exiv2 {
                                         uint32_t  dataIdx,
                                         uint32_t& imageIdx) const
     {
-        uint32_t len = 0;
-        for (auto component : components_) {
-            len += component->writeData(ioWrapper, byteOrder, offset, dataIdx + len, imageIdx);
-        }
-        return len;
+        return std::accumulate(components_.begin(), components_.end(), 0,
+                               [=, &imageIdx, &ioWrapper](uint32_t len, TiffComponent* c) {
+                                   return len + c->writeData(ioWrapper, byteOrder, offset, dataIdx + len, imageIdx);
+                               });
     } // TiffDirectory::doWriteData
 
     uint32_t TiffEntryBase::doWriteData(IoWrapper&/*ioWrapper*/,
@@ -1514,10 +1513,11 @@ namespace Exiv2 {
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx) const
     {
-        uint32_t len = 0;
-        for (auto ifd : ifds_) {
-            len += ifd->write(ioWrapper, byteOrder, offset + dataIdx + len, uint32_t(-1), uint32_t(-1), imageIdx);
-        }
+        uint32_t len = std::accumulate(
+            ifds_.begin(), ifds_.end(), 0, [=, &ioWrapper, &imageIdx](uint32_t len, TiffDirectory* ifd) {
+                return len +
+                       ifd->write(ioWrapper, byteOrder, offset + dataIdx + len, uint32_t(-1), uint32_t(-1), imageIdx);
+            });
         // Align data to word boundary
         uint32_t align = (len & 1);
         if (align) ioWrapper.putb(0x0);
@@ -1573,11 +1573,9 @@ namespace Exiv2 {
     uint32_t TiffSubIfd::doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const
     {
-        uint32_t len = 0;
-        for (auto ifd : ifds_) {
-            len += ifd->writeImage(ioWrapper, byteOrder);
-        }
-        return len;
+        return std::accumulate(ifds_.begin(), ifds_.end(), 0, [&, byteOrder](uint32_t len, TiffDirectory* ifd) {
+            return len + ifd->writeImage(ioWrapper, byteOrder);
+        });
     } // TiffSubIfd::doWriteImage
 
     uint32_t TiffIfdMakernote::doWriteImage(IoWrapper& ioWrapper,
@@ -1761,11 +1759,8 @@ namespace Exiv2 {
 
     size_t TiffSubIfd::doSizeData() const
     {
-        uint32_t len = 0;
-        for (auto ifd : ifds_) {
-            len += ifd->size();
-        }
-        return len;
+        return std::accumulate(ifds_.begin(), ifds_.end(), static_cast<size_t>(0),
+                               [](size_t len, TiffDirectory* ifd) { return len + ifd->size(); });
     } // TiffSubIfd::doSizeData
 
     size_t TiffIfdMakernote::doSizeData() const
@@ -1781,10 +1776,10 @@ namespace Exiv2 {
 
     uint32_t TiffDirectory::doSizeImage() const
     {
-        uint32_t len = 0;
-        for (auto component : components_) {
-            len += component->sizeImage();
-        }
+        uint32_t len =
+            std::accumulate(components_.begin(), components_.end(), 0,
+                            [](uint32_t len, TiffComponent* component) { return len + component->sizeImage(); });
+
         if (pNext_) {
             len += pNext_->sizeImage();
         }
@@ -1793,11 +1788,8 @@ namespace Exiv2 {
 
     uint32_t TiffSubIfd::doSizeImage() const
     {
-        uint32_t len = 0;
-        for (auto ifd : ifds_) {
-            len += ifd->sizeImage();
-        }
-        return len;
+        return std::accumulate(ifds_.begin(), ifds_.end(), 0,
+                               [](uint32_t len, TiffDirectory* ifd) { return len + ifd->sizeImage(); });
     } // TiffSubIfd::doSizeImage
 
     uint32_t TiffIfdMakernote::doSizeImage() const
