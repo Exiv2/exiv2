@@ -591,7 +591,7 @@ namespace Exiv2 {
 
         // Find camera make
         ExifKey key("Exif.Image.Make");
-        ExifData::const_iterator pos = exifData_.findKey(key);
+        auto pos = exifData_.findKey(key);
         if (pos != exifData_.end()) {
             make_ = pos->toString();
         }
@@ -992,7 +992,7 @@ namespace Exiv2 {
 #endif
             // Set pseudo strips (without a data pointer) from the size tag
             ExifKey key(object->szTag(), groupName(object->szGroup()));
-            ExifData::const_iterator pos = exifData_.findKey(key);
+            auto pos = exifData_.findKey(key);
             const byte* zero = nullptr;
             if (pos == exifData_.end()) {
 #ifndef SUPPRESS_WARNINGS
@@ -1127,10 +1127,8 @@ namespace Exiv2 {
         // iterate over all remaining entries.
         del_ = false;
 
-        ExifData::const_iterator posBo = exifData_.end();
-        for (ExifData::const_iterator i = exifData_.begin();
-             i != exifData_.end(); ++i) {
-
+        auto posBo = exifData_.end();
+        for (auto i = exifData_.begin(); i != exifData_.end(); ++i) {
             IfdId group = groupId(i->groupName());
             // Skip synthesized info tags
             if (group == mnId) {
@@ -1279,7 +1277,7 @@ namespace Exiv2 {
 
     bool TiffReader::circularReference(const byte* start, IfdId group)
     {
-        DirList::const_iterator pos = dirList_.find(start);
+        auto pos = dirList_.find(start);
         if (pos != dirList_.end()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_ERROR << groupName(group) << " pointer references previously read "

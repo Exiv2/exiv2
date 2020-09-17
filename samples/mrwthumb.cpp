@@ -32,7 +32,7 @@ int main(int argc, char* const argv[])
         }
 
         Exiv2::ExifKey key("Exif.Minolta.ThumbnailOffset");
-        Exiv2::ExifData::const_iterator format = exifData.findKey(key);
+        auto format = exifData.findKey(key);
 
         if (format != exifData.end()) {
             Exiv2::DataBuf buf = format->dataArea();

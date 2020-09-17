@@ -843,7 +843,7 @@ namespace Exiv2 {
             auto pos = new uint64_t[count + 2];
             pos[0] = 0;
             // copy the data that is not iptc
-            Uint32Vector_i it = iptcDataSegs.begin();
+            auto it = iptcDataSegs.begin();
             for (uint64_t i = 0; i < count; i++) {
                 bool bOdd = (i % 2) != 0;
                 bool bEven = !bOdd;

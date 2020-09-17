@@ -1814,9 +1814,9 @@ namespace Exiv2 {
     {
         try {
             // 1140
-            const ExifData::const_iterator itModel = metadata->findKey(ExifKey("Exif.Image.Model"));
-            const ExifData::const_iterator itLens  = metadata->findKey(ExifKey("Exif.CanonCs.Lens"));
-            const ExifData::const_iterator itApert = metadata->findKey(ExifKey("Exif.CanonCs.MaxAperture"));
+            const auto itModel = metadata->findKey(ExifKey("Exif.Image.Model"));
+            const auto itLens = metadata->findKey(ExifKey("Exif.CanonCs.Lens"));
+            const auto itApert = metadata->findKey(ExifKey("Exif.CanonCs.MaxAperture"));
 
             if( itModel != metadata->end() && itModel->value().toString() == "Canon EOS 30D"
             &&  itLens  != metadata->end() && itLens->value().toString() == "24 24 1"

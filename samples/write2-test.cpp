@@ -222,8 +222,8 @@ void print(const std::string& file)
     image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();
-    Exiv2::ExifData::const_iterator end = ed.end();
-    for (Exiv2::ExifData::const_iterator i = ed.begin(); i != end; ++i) {
+    auto end = ed.end();
+    for (auto i = ed.begin(); i != end; ++i) {
         std::cout << std::setw(45) << std::setfill(' ') << std::left
                   << i->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -237,6 +237,5 @@ void print(const std::string& file)
                   << i->count() << " "
                   << std::dec << i->value()
                   << "\n";
-
     }
 }

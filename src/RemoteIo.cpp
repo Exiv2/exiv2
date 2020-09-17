@@ -663,7 +663,7 @@ namespace Exiv2
             throw Error(kerTiffDirectoryTooLarge, "Server", serverCode);
         }
 
-        Exiv2::Dictionary_i lengthIter = response.find("Content-Length");
+        auto lengthIter = response.find("Content-Length");
         return (lengthIter == response.end()) ? -1 : atol((lengthIter->second).c_str());
     }
 
