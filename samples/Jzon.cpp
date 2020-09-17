@@ -43,18 +43,18 @@ namespace Jzon
 		{
 			SetFormat(NoFormat);
 		}
-		FormatInterpreter(const Format &format)
-		{
-			SetFormat(format);
-		}
+        explicit FormatInterpreter(const Format &format)
+        {
+            SetFormat(format);
+        }
 
-		void SetFormat(const Format &format)
-		{
-			this->format = format;
-			indentationChar = (format.useTabs ? '\t' : ' ');
-			spacing = (format.spacing ? " " : "");
-			newline = (format.newline ? "\n" : spacing);
-		}
+        void SetFormat(const Format &format)
+        {
+            this->format = format;
+            indentationChar = (format.useTabs ? '\t' : ' ');
+            spacing = (format.spacing ? " " : "");
+            newline = (format.newline ? "\n" : spacing);
+        }
 
         EXV_WARN_UNUSED_RESULT std::string GetIndentation(unsigned int level) const
         {
