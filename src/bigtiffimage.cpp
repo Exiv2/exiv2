@@ -33,36 +33,36 @@ namespace Exiv2
 
             }
 
-            bool isValid() const
+            EXV_WARN_UNUSED_RESULT bool isValid() const
             {
                 return version_ != -1;
             }
 
-            ByteOrder byteOrder() const
+            EXV_WARN_UNUSED_RESULT ByteOrder byteOrder() const
             {
                 assert(isValid());
                 return byteOrder_;
             }
 
-            int version() const
+            EXV_WARN_UNUSED_RESULT int version() const
             {
                 assert(isValid());
                 return version_;
             }
 
-            Format format() const
+            EXV_WARN_UNUSED_RESULT Format format() const
             {
                 assert(isValid());
                 return version_ == 0x2A? StandardTiff: BigTiff;
             }
 
-            int dataSize() const
+            EXV_WARN_UNUSED_RESULT int dataSize() const
             {
                 assert(isValid());
                 return data_size_;
             }
 
-            uint64_t dirOffset() const
+            EXV_WARN_UNUSED_RESULT uint64_t dirOffset() const
             {
                 assert(isValid());
                 return dir_offset_;
@@ -173,7 +173,7 @@ namespace Exiv2
 
                 }
 
-                std::string mimeType() const override
+                EXV_WARN_UNUSED_RESULT std::string mimeType() const override
                 {
                     return std::string();
                 }
@@ -425,7 +425,7 @@ namespace Exiv2
                         out << Internal::indent(depth) << "END " << io.path() << std::endl;
                 }
 
-                uint64_t readData(int size) const
+                EXV_WARN_UNUSED_RESULT uint64_t readData(int size) const
                 {
                     const DataBuf data = Image::io().read(size);
                     enforce(data.size_ != 0, kerCorruptedMetadata);

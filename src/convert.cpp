@@ -287,9 +287,15 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Get the value of the erase flag, see also setErase(bool on).
-        bool erase() const { return erase_; }
+        EXV_WARN_UNUSED_RESULT bool erase() const
+        {
+            return erase_;
+        }
         //! Get the value of the overwrite flag, see also setOverwrite(bool on).
-        bool overwrite() const { return overwrite_; }
+        EXV_WARN_UNUSED_RESULT bool overwrite() const
+        {
+            return overwrite_;
+        }
         //@}
 
     private:
