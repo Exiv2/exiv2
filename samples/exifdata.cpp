@@ -18,8 +18,8 @@ void syntax(const char* argv[],format_t& formats)
     std::cout << "Usage: " << argv[0] << " file format" << std::endl;
     int count = 0;
     std::cout << "formats: ";
-    for (auto i = formats.begin(); i != formats.end(); ++i) {
-        std::cout << ( count++ ? " | " : "") << i->first ;
+    for (auto& format : formats) {
+        std::cout << (count++ ? " | " : "") << format.first;
     }
     std::cout << std::endl;
 }

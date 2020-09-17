@@ -151,9 +151,10 @@ namespace Exiv2 {
         ExifData& prevData = image->exifData();
         if (!prevData.empty()) {
             // Filter duplicate tags
-            for (auto pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
-                if (pos->ifdId() == panaRawId) continue;
-                auto dup = prevData.findKey(ExifKey(pos->key()));
+            for (auto& pos : exifData_) {
+                if (pos.ifdId() == panaRawId)
+                    continue;
+                auto dup = prevData.findKey(ExifKey(pos.key()));
                 if (dup != prevData.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Filtering duplicate tag " << pos->key()
@@ -206,8 +207,8 @@ namespace Exiv2 {
         }
 
         // Add the remaining tags
-        for (auto pos = prevData.begin(); pos != prevData.end(); ++pos) {
-            exifData_.add(*pos);
+        for (auto& pos : prevData) {
+            exifData_.add(pos);
         }
 
     } // Rw2Image::readMetadata
