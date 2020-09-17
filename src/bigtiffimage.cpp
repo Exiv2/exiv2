@@ -146,11 +146,11 @@ namespace Exiv2
         class BigTiffImage: public Image
         {
             public:
-                BigTiffImage(BasicIo::UniquePtr io):
-                    Image(ImageType::bigtiff, mdExif, std::move(io)),
-                    header_(readHeader(Image::io())),
-                    dataSize_(0),
-                    doSwap_(false)
+                explicit BigTiffImage(BasicIo::UniquePtr io)
+                    : Image(ImageType::bigtiff, mdExif, std::move(io))
+                    , header_(readHeader(Image::io()))
+                    , dataSize_(0)
+                    , doSwap_(false)
                 {
                     assert(header_.isValid());
 
