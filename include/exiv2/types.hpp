@@ -56,7 +56,7 @@
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
 #if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
-#define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
+#define EXV_WARN_UNUSED_RESULT [[gnu::warn_unused_result]]
 #elif defined(_MSC_VER) && (_MSC_VER >= 1700)
 #define EXV_WARN_UNUSED_RESULT _Check_return_
 #else
