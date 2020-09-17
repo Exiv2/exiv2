@@ -40,6 +40,10 @@ add_library( exiv2lib_int OBJECT
     unused.h
 )
 
+if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+  set_source_files_properties(http.cpp PROPERTIES COMPILE_FLAGS -fno-sanitize=address,undefined)
+endif()
+
 add_library( exiv2lib
     ../include/exiv2/config.h
     ../include/exiv2/exiv2.hpp

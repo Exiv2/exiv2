@@ -1960,8 +1960,9 @@ namespace Exiv2 {
             for ( size_t block = 0 ; block < blocks ; block ++ ) {
                 void* p = p_->blocksMap_[block].getData();
                 if  ( p ) {
-                    nRealData += blockSize ;
-                    memcpy(bigBlock_+(block*blockSize),p,blockSize);
+                    size_t nRead = block==(blocks-1)?p_->size_-nRealData:blockSize;
+                    memcpy(bigBlock_+(block*blockSize),p,nRead);
+                    nRealData   += nRead ;
                 }
             }
 #ifdef EXIV2_DEBUG_MESSAGES
