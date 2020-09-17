@@ -39,12 +39,14 @@
 #include <cassert>
 #include <cctype>
 #include <cmath>
+#include <codecvt>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <locale>
 #include <mutex>
 #include <sstream>
 #include <string>
@@ -593,84 +595,14 @@ namespace Exiv2 {
 #endif
     }
 
-    std::string ws2s(const std::wstring& s)
+    std::string ws2s(std::wstring s)
     {
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
-        const int slength = (int)s.length() + 1;
-        const int len = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), slength, 0, 0, 0, 0);
-
-        // conversion failed => return an empty string
-        if (len == -1) {
-            return std::string("");
-        }
-        char* buf = new char[len];
-        WideCharToMultiByte(CP_UTF8, 0, s.c_str(), slength, buf, len, 0, 0);
-        std::string r(buf);
-        delete[] buf;
-        return r;
-#else  // Windows
-        std::mbstate_t state = std::mbstate_t();
-        const wchar_t* wstr = s.c_str();
-        const std::size_t converted_length = std::wcsrtombs(nullptr, &wstr, 0, &state);
-
-        // conversion failed => return an empty string
-        if (converted_length == static_cast<std::size_t>(-1)) {
-            return std::string("");
-        }
-
-        // create a string large enough to store the result + \0
-        std::string result(converted_length + 1, 0);
-
-        const std::size_t actual_conversion_result = std::wcsrtombs(&result[0], &wstr, result.size(), &state);
-
-#ifdef NDEBUG
-        UNUSED(actual_conversion_result);
-#else
-        assert(actual_conversion_result == converted_length);
-#endif
-
-        return result;
-#endif  // Windows
+        return std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(s);
     }
 
-    std::wstring s2ws(const std::string& s)
+    std::wstring s2ws(std::string s)
     {
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
-        const int slength = (int)s.length() + 1;
-        const int len = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), slength, 0, 0);
-
-        // conversion failed => return an empty string
-        if (len == 0) {
-            return std::wstring(L"");
-        }
-        wchar_t* buf = new wchar_t[len];
-        MultiByteToWideChar(CP_UTF8, 0, s.c_str(), slength, buf, len);
-        std::wstring r(buf);
-        delete[] buf;
-        return r;
-#else  // Windows
-        std::mbstate_t state = std::mbstate_t();
-        const char* str = s.c_str();
-        const std::size_t converted_length = std::mbsrtowcs(nullptr, &str, 0, &state);
-
-        // conversion failed => return an empty string
-        if (converted_length == static_cast<std::size_t>(-1)) {
-            return std::wstring(L"");
-        }
-
-        // create a string large enough to store the result + L'\0'
-        std::wstring result(converted_length + 1, 0);
-
-        const std::size_t actual_conversion_result = std::mbsrtowcs(&result[0], &str, result.size(), &state);
-
-#ifdef NDEBUG
-        UNUSED(actual_conversion_result);
-#else
-        assert(actual_conversion_result == converted_length);
-#endif
-
-        return result;
-#endif  // Windows
+        return std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(s);
     }
 
     template<>

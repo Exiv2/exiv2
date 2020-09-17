@@ -411,13 +411,13 @@ using Blob = std::vector<byte>;
     EXIV2API const char* exvGettext(const char* str);
 
     //! Convert a std::string s to a wide string returned as a std::wstring.
-    EXIV2API std::wstring s2ws(const std::string& s);
+    EXIV2API std::wstring s2ws(std::string s);
 
     //! Convert a wide std::wstring s to its multibyte representation as a std::string.
     //!
     //! @return A narrow byte version of `s` or an empty string if `s`
     //!     contains invalid characters.
-    EXIV2API std::string ws2s(const std::wstring& s);
+    EXIV2API std::string ws2s(std::wstring s);
 
     /*!
       @brief Return a \em long set to the value represented by \em s.
