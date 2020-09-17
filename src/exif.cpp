@@ -128,11 +128,11 @@ namespace {
 
         //! @name Accessors
         //@{
-        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
-        const char* mimeType() const override;
-        const char* extension() const override;
+        EXV_WARN_UNUSED_RESULT Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+        EXV_WARN_UNUSED_RESULT const char* mimeType() const override;
+        EXV_WARN_UNUSED_RESULT const char* extension() const override;
 #ifdef EXV_UNICODE_PATH
-        const wchar_t* wextension() const override;
+        EXV_WARN_UNUSED_RESULT const wchar_t* wextension() const override;
 #endif
         //@}
 
@@ -152,11 +152,11 @@ namespace {
 
         //! @name Accessors
         //@{
-        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
-        const char* mimeType() const override;
-        const char* extension() const override;
+        EXV_WARN_UNUSED_RESULT Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+        EXV_WARN_UNUSED_RESULT const char* mimeType() const override;
+        EXV_WARN_UNUSED_RESULT const char* extension() const override;
 #ifdef EXV_UNICODE_PATH
-        const wchar_t* wextension() const override;
+        EXV_WARN_UNUSED_RESULT const wchar_t* wextension() const override;
 #endif
         //@}
 
