@@ -43,22 +43,14 @@ CMake Toolchain file:
 For configuring and building on mingw
 
 conan install --build missing --profile linux_to_win64 ../
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../cmake/linux-mingw64.cmake ../
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../cmake/linux-mingw64.cmake -DBUILD_SHARED_LIBS=OFF ../
 
-Current problem which I am not able to solve:
+It is possible to build the library and all the applications if the exiv2lib is STATIC
+(-DBUILD_SHARED_LIBS=OFF). However, when building the SHARED library we get this linking error:
 
-[ 11%] Building CXX object src/CMakeFiles/exiv2lib_int.dir/cr2header_int.cpp.obj
-cd /media/linuxDev/programming/exiv2/buildMingw/src && /usr/bin/x86_64-w64-mingw32-g++ --sysroot=/usr/lib/gcc/x86_64-w64-mingw32/9.3-posix  -Dexiv2lib_STATIC @CMakeFiles/exiv2lib_int.dir/includes_CXX.rsp -O3 -DNDEBUG -fvisibility=hidden -fno-keep-inline-dllexport   -Wp,-D_GLIBCXX_ASSERTIONS -Wp,-D_FORTIFY_SOURCE=2 -Wall -Wcast-align -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Woverloaded-virtual -W -std=c++11 -o CMakeFiles/exiv2lib_int.dir/cr2header_int.cpp.obj -c /media/linuxDev/programming/exiv2/src/cr2header_int.cpp
-In file included from /media/linuxDev/programming/exiv2/include/exiv2/xmp_exiv2.hpp:34,
-                 from /media/linuxDev/programming/exiv2/include/exiv2/image.hpp:31,
-                 from /media/linuxDev/programming/exiv2/src/tiffimage_int.hpp:33,
-                 from /media/linuxDev/programming/exiv2/src/cr2header_int.hpp:31,
-                 from /media/linuxDev/programming/exiv2/src/cr2header_int.cpp:1:
-/media/linuxDev/programming/exiv2/include/exiv2/properties.hpp:215:21: error: ‘mutex’ in namespace ‘std’ does not name a type
-  215 |         static std::mutex mutex_;
-      |                     ^~~~~
+[ 56%] Linking CXX executable ../bin/exiv2.exe
+/usr/bin/x86_64-w64-mingw32-ld: CMakeFiles/exiv2.dir/objects.a(params.cpp.obj):params.cpp:(.text$_ZN5Exiv210BasicErrorIcEC1INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEENS_9ErrorCodeERKT_[_ZN5Exiv210BasicErrorIcEC1INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEENS_9ErrorCodeERKT_]+0x95): undefined reference to `__imp__ZN5Exiv210BasicErrorIcE6setMsgEv'
+collect2: error: ld returned 1 exit status
 
-
-For some reason is not finding the right headers where to find the new C++11 stuff which are in this
-the folder:
-        set(CMAKE_SYSROOT /usr/lib/gcc/x86_64-w64-mingw32/9.3-posix)
+As discussed in the following link, we have to deal with the BasicError::setMsg monster:
+https://github.com/Exiv2/exiv2/issues/663
