@@ -51,8 +51,6 @@
 #include <cassert>
 #include <cstdio>
 
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

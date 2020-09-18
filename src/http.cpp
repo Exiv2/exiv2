@@ -44,10 +44,6 @@
 #define SLEEP 1000
 #define SNOOZE 0
 
-#ifdef __MINGW__
-#define fopen_S(f, n, a) f = fopen(n, a)
-#endif
-
 ////////////////////////////////////////
 // platform specific code
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
@@ -61,7 +57,6 @@
 #define close _close
 #define strdup _strdup
 #define stat _stat
-#define fopen_S(f, n, a) fopen_s(&f, n, a)
 #endif
 #else
 ////////////////////////////////////////
@@ -81,11 +76,10 @@
 
 #include <cerrno>
 
-#define fopen_S(f, n, o) f = fopen(n, o)
 #define WINAPI
 using DWORD = unsigned long;
 
-#define SOCKET_ERROR -1
+#define SOCKET_ERROR (-1)
 #define WSAEWOULDBLOCK EINPROGRESS
 #define WSAENOTCONN EAGAIN
 
@@ -117,10 +111,11 @@ static const char* httpTemplate =
 #define lengthof(x) (sizeof(x) / sizeof((x)[0]))
 #endif
 
-#define white(c) ((c == ' ') || (c == '\t'))
-
-#define FINISH -999
-#define OK(s) (200 <= s && s < 300)
+#define FINISH (-999)
+static constexpr bool OK(int s)
+{
+    return 200 <= (s) && (s) < 300;
+};
 
 const char* blankLines[] = {
     "\r\n\r\n"  // this is the standard
