@@ -81,7 +81,7 @@ Jzon::Node& addToTree(Jzon::Node& r1, const Token& token)
 
     std::string  key    = token.n  ;
     size_t       index  = token.i-1; // array Eg: "History[1]" indexed from 1.  Jzon expects 0 based index.
-    Jzon::Node&  empty  = token.a ? (Jzon::Node&) array : (Jzon::Node&) object ;
+    Jzon::Node& empty = token.a ? static_cast<Jzon::Node&>(array) : static_cast<Jzon::Node&>(object);
 
     if (  r1.IsObject() ) {
         Jzon::Object& o1 = r1.AsObject();
@@ -229,7 +229,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
 
 void fileSystemPush(const char* path,Jzon::Node& nfs)
 {
-    auto& fs = (Jzon::Object&)nfs;
+    auto& fs = static_cast<Jzon::Object&>(nfs);
     fs.Add("path",path);
     char resolved_path[PATH_MAX];
     fs.Add("realpath",realpath(path,resolved_path));

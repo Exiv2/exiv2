@@ -380,8 +380,7 @@ namespace Exiv2 {
             us2Data(data, static_cast<uint16_t>(blob.size()) + 8, bigEndian);
             ul2Data(data, static_cast<uint32_t>(blob.size()), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write((const byte*)&blob[0], blob.size()) != blob.size())
-            {
+            if (outIo.write(static_cast<const byte*>(&blob[0]), blob.size()) != blob.size()) {
                 throw Error(kerImageWriteFailed);
             }
             if (outIo.tell() % 2) {

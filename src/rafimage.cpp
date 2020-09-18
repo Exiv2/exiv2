@@ -159,8 +159,8 @@ namespace Exiv2 {
             io_->read(jpg_img_offset, 4);
             byte jpg_img_length [4];
             io_->read(jpg_img_length, 4);
-            long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-            long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+            long jpg_img_off = Exiv2::getULong(static_cast<const byte *>(jpg_img_offset), bigEndian);
+            long jpg_img_len = Exiv2::getULong(static_cast<const byte *>(jpg_img_length), bigEndian);
             std::stringstream j_off;
             std::stringstream j_len;
             j_off << jpg_img_off;
@@ -182,8 +182,8 @@ namespace Exiv2 {
             io_->read(cfa_header_offset, 4);
             byte cfa_header_length [4];
             io_->read(cfa_header_length, 4);
-            long cfa_hdr_off = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
-            long cfa_hdr_len = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+            long cfa_hdr_off = Exiv2::getULong(static_cast<const byte *>(cfa_header_offset), bigEndian);
+            long cfa_hdr_len = Exiv2::getULong(static_cast<const byte *>(cfa_header_length), bigEndian);
             std::stringstream ch_off;
             std::stringstream ch_len;
             ch_off << cfa_hdr_off;
@@ -205,8 +205,8 @@ namespace Exiv2 {
             io_->read(cfa_offset, 4);
             byte cfa_length [4];
             io_->read(cfa_length, 4);
-            long cfa_off = Exiv2::getULong((const byte *) cfa_offset, bigEndian);
-            long cfa_len = Exiv2::getULong((const byte *) cfa_length, bigEndian);
+            long cfa_off = Exiv2::getULong(static_cast<const byte *>(cfa_offset), bigEndian);
+            long cfa_len = Exiv2::getULong(static_cast<const byte *>(cfa_length), bigEndian);
             std::stringstream c_off;
             std::stringstream c_len;
             c_off << cfa_off;
@@ -277,8 +277,8 @@ namespace Exiv2 {
         if (io_->read(jpg_img_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte jpg_img_length [4];
         if (io_->read(jpg_img_length, 4) != 4) throw Error(kerFailedToReadImageData);
-        uint32_t jpg_img_off_u32 = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-        uint32_t jpg_img_len_u32 = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+        uint32_t jpg_img_off_u32 = Exiv2::getULong(static_cast<const byte *>(jpg_img_offset), bigEndian);
+        uint32_t jpg_img_len_u32 = Exiv2::getULong(static_cast<const byte *>(jpg_img_length), bigEndian);
 
         enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerCorruptedMetadata);
 
@@ -305,8 +305,8 @@ namespace Exiv2 {
         if (io_->read(cfa_header_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte cfa_header_length [4];
         if (io_->read(cfa_header_length, 4) != 4) throw Error(kerFailedToReadImageData);
-        uint32_t cfa_hdr_off_u32 = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
-        uint32_t cfa_hdr_len_u32 = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+        uint32_t cfa_hdr_off_u32 = Exiv2::getULong(static_cast<const byte *>(cfa_header_offset), bigEndian);
+        uint32_t cfa_hdr_len_u32 = Exiv2::getULong(static_cast<const byte *>(cfa_header_length), bigEndian);
 
         enforce(Safe::add(cfa_hdr_off_u32, cfa_hdr_len_u32) <= io_->size(), kerCorruptedMetadata);
 

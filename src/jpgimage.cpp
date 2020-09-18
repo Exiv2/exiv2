@@ -1240,7 +1240,8 @@ namespace Exiv2 {
 
                     if (outIo.write(tmpBuf, 4) != 4)
                         throw Error(kerImageWriteFailed);
-                    if (outIo.write((byte*)comment_.data(), static_cast<long>(comment_.length())) != comment_.length())
+                    if (outIo.write(reinterpret_cast<byte*>(const_cast<char*>(comment_.data())),
+                                    static_cast<long>(comment_.length())) != comment_.length())
                         throw Error(kerImageWriteFailed);
                     if (outIo.putb(0) == EOF)
                         throw Error(kerImageWriteFailed);

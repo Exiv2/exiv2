@@ -641,7 +641,8 @@ namespace Exiv2
                         tmp = crc32(tmp, static_cast<const Bytef*>(type), 4);
                         tmp = crc32(tmp, reinterpret_cast<const Bytef*>(profileName_.data()), nameLength);
                         tmp = crc32(tmp, static_cast<const Bytef*>(nullComp), 2);
-                        tmp = crc32(tmp, (const Bytef*)compressed.pData_, static_cast<uInt>(compressed.size_));
+                        tmp = crc32(tmp, static_cast<const Bytef*>(compressed.pData_),
+                                    static_cast<uInt>(compressed.size_));
                         byte crc[4];
                         ul2Data(crc, tmp, bigEndian);
 
