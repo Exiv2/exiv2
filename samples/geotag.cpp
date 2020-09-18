@@ -30,10 +30,6 @@
 
 using namespace std;
 
-#ifndef  lengthof
-#define  lengthof(x) (sizeof(*x)/sizeof(x))
-#endif
-
 #if defined(_MSC_VER) || defined(__MINGW__)
 #include <windows.h>
 char*    realpath(const char* file,char* path);

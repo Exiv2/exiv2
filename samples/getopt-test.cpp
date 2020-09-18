@@ -33,7 +33,11 @@
 #include <iomanip>
 #include <cassert>
 
-#define Safe(x) (x?x:"unknown")
+static constexpr const char* Safe(const char* x)
+{
+    return x ? x : "unknown";
+}
+
 const char* optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";
 
 // *****************************************************************************

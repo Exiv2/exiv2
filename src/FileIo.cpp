@@ -39,7 +39,7 @@
 
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN))
 // Windows doesn't provide nlink_t
-typedef short nlink_t;
+using nlink_t = short;
 #include <io.h>
 #include <windows.h>
 #endif

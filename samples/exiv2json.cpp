@@ -139,9 +139,11 @@ bool isArray(std::string& value)
     return (value == "type=\"Seq\"") || (value == "type=\"Bag\"") || (value == "type=\"Alt\"");
 }
 
-#define STORE(node,key,value) \
-    if  (node.IsObject()) node.AsObject().Add(key,value);\
-    else                  node.AsArray() .Add(    value)
+#define STORE(node, key, value)            \
+    if ((node).IsObject())                 \
+        (node).AsObject().Add(key, value); \
+    else                                   \
+        (node).AsArray().Add(value)
 
 template <class T>
 void push(Jzon::Node& node,const std::string& key,T i)
