@@ -44,7 +44,13 @@
 #elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS || defined(__APPLE__)
 # define MAC_ENV 1
 #else
+
+#ifdef __MINGW32__
+# define WIN_ENV 1
+#else
 # define UNIX_ENV 1
+#endif
+
 #endif
 
 // ! Tempting though it might be to have a standard macro for big or little endian, there seems to
