@@ -241,7 +241,7 @@ namespace Exiv2
             const long imgSize = static_cast<long>(io_->size());
             DataBuf cheaderBuf(8);
 
-            while (!io_->eof() && ::strcmp(chType, "IEND")) {
+            while (!io_->eof() && ::strcmp(chType, "IEND") != 0) {
                 size_t address = io_->tell();
 
                 std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
