@@ -21,16 +21,6 @@ THE SOFTWARE.
 */
 #pragma once
 
-#ifndef   JzonAPI
-# ifdef   _WINDLL
-#  define JzonAPI __declspec(dllimport)
-# elif defined(__GNUC__) && (__GNUC__ >= 4)
-#  define JzonAPI __attribute__ ((visibility("default")))
-# else
-#  define JzonAPI
-# endif
-#endif
-
 #include <iterator>
 #include <queue>
 #include <stdexcept>
@@ -101,7 +91,7 @@ namespace Jzon
     static const Format StandardFormat = { true, true, true, 1 };
     static const Format NoFormat = { false, false, false, 0 };
 
-    class JzonAPI Node
+    class Node
     {
         friend class Object;
         friend class Array;
@@ -152,7 +142,7 @@ namespace Jzon
         virtual Node *GetCopy() const = 0;
     };
 
-    class JzonAPI Value : public Node
+    class Value : public Node
     {
     public:
         enum ValueType
@@ -224,7 +214,7 @@ namespace Jzon
 
     static const Value null;
 
-    class JzonAPI Object : public Node
+    class Object : public Node
     {
     public:
         class iterator : public std::iterator<std::input_iterator_tag, NamedNode>
@@ -292,7 +282,7 @@ namespace Jzon
         ChildList children;
     };
 
-    class JzonAPI Array : public Node
+    class Array : public Node
     {
     public:
         class iterator : public std::iterator<std::input_iterator_tag, Node>
@@ -359,7 +349,7 @@ namespace Jzon
         ChildList children;
     };
 
-    class JzonAPI FileWriter
+    class FileWriter
     {
     public:
         FileWriter(std::string filename);
@@ -373,7 +363,7 @@ namespace Jzon
         std::string filename;
     };
 
-    class JzonAPI FileReader
+    class FileReader
     {
     public:
         FileReader(const std::string &filename);
@@ -393,7 +383,7 @@ namespace Jzon
         std::string error;
     };
 
-    class JzonAPI Writer
+    class Writer
     {
     public:
         Writer(const Node &root, const Format &format = NoFormat);
@@ -421,7 +411,7 @@ namespace Jzon
         const Node &root;
     };
 
-    class JzonAPI Parser
+    class Parser
     {
     public:
         Parser(Node &root);
