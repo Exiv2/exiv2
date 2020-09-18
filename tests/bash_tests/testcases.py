@@ -1071,7 +1071,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             out += '\nAnalysis'
             out += 'count =  {} COUNT =  {}'.format(len(tags), len(TAGS))
-            
+
             # Make them have the same number of lines
             max_lines  = max(len(TAGS), len(tags))
             for _list in [tags, typs, lens, vals, TAGS, TYPS, LENS, VALS]:
@@ -1103,3 +1103,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out     += exifprobe(test_file)
         BT.reportTest('tiff-test', out)
 
+
+    def version_test(self):
+        # Test driver for exiv2 --verbose --version
+        out      = BT.Output()
+        out     += BT.Executer('exiv2 --verbose --version')
