@@ -485,23 +485,23 @@ namespace Exiv2 {
             uint16_t tag    ;
             uint16_t size   ;
             bool     bSigned;
-        } records[] = {
-            { 0x2600 , 1       , true  }, // AFInfoSize
-            { 0x2601 , 1       , true  }, // AFAreaMode
-            { 0x2602 , 1       , true  }, // AFNumPoints
-            { 0x2603 , 1       , true  }, // AFValidPoints
-            { 0x2604 , 1       , true  }, // AFCanonImageWidth
-            { 0x2605 , 1       , true  }, // AFCanonImageHeight
-            { 0x2606 , 1       , true  }, // AFImageWidth"
-            { 0x2607 , 1       , true  }, // AFImageHeight
-            { 0x2608 , nPoints , true  }, // AFAreaWidths
-            { 0x2609 , nPoints , true  }, // AFAreaHeights
-            { 0x260a , nPoints , true  }, // AFXPositions
-            { 0x260b , nPoints , true  }, // AFYPositions
-            { 0x260c , nMasks  , false }, // AFPointsInFocus
-            { 0x260d , nMasks  , false }, // AFPointsSelected
-            { 0x260e , nMasks  , false }, // AFPrimaryPoint
-            { 0xffff , 0       , true  }  // end marker
+        } records[16] = {
+            {0x2600, 1, true},        // AFInfoSize
+            {0x2601, 1, true},        // AFAreaMode
+            {0x2602, 1, true},        // AFNumPoints
+            {0x2603, 1, true},        // AFValidPoints
+            {0x2604, 1, true},        // AFCanonImageWidth
+            {0x2605, 1, true},        // AFCanonImageHeight
+            {0x2606, 1, true},        // AFImageWidth"
+            {0x2607, 1, true},        // AFImageHeight
+            {0x2608, nPoints, true},  // AFAreaWidths
+            {0x2609, nPoints, true},  // AFAreaHeights
+            {0x260a, nPoints, true},  // AFXPositions
+            {0x260b, nPoints, true},  // AFYPositions
+            {0x260c, nMasks, false},  // AFPointsInFocus
+            {0x260d, nMasks, false},  // AFPointsSelected
+            {0x260e, nMasks, false},  // AFPrimaryPoint
+            {0xffff, 0, true}         // end marker
         };
         // check we have enough data!
         uint16_t count = 0;
@@ -515,9 +515,11 @@ namespace Exiv2 {
                 auto v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
                 std::ostringstream    s;
                 if ( records[i].bSigned ) {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
+                    for (uint16_t k = 0; k < records[i].size; k++)
+                        s << " " << ints.at(nStart++);
                 } else {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint.at(nStart++);
+                    for (uint16_t k = 0; k < records[i].size; k++)
+                        s << " " << uint.at(nStart++);
                 }
 
                 v->read(s.str());
