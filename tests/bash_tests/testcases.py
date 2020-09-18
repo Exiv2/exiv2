@@ -1108,3 +1108,84 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # Test driver for exiv2 --verbose --version
         out      = BT.Output()
         out     += BT.Executer('exiv2 --verbose --version')
+
+
+    def webp_test(self):
+        # Test driver for webp
+        webp     = 'exiv2-bug1199.webp' # http://dev.exiv2.org/attachments/download/1033/Stonehenge-with-icc.webp
+        icc      = 'exiv2-bug1199.icc'
+        exv      = 'exiv2-bug1199.exv'
+        xmp      = 'exiv2-bug1199.xmp'
+        tiff     = 'Reagan.tiff'
+        out      = BT.Output()
+
+        # Extract the XMP
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS {webp}', vars())
+        e        = BT.Executer('exiv2 -pX {webp}', vars())
+        out     += """
+<?xml version="1.0"?>
+<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
+{}
+<?xpacket end="w"?>
+""".strip('\n').format(BT.pretty_xml(e.stdout))
+
+        # Test deleting metadata
+        for option in ['-dC', '-de', '-dx', '-dCe', '-dCx', '-dCxe']:
+            BT.copyTestFile(webp)
+            out     += BT.Executer('exiv2 -pS      {webp}', vars())
+            out     += BT.Executer('exiv2 {option} {webp}', vars())
+            out     += BT.Executer('exiv2 -pS      {webp}', vars())
+
+        # Extract the icc
+        BT.copyTestFile(webp)
+        BT.copyTestFile(tiff)
+        out     += BT.Executer('exiv2 -pS {webp}', vars())
+        BT.save(BT.Executer(   'exiv2 -pC {tiff}', vars(), decode_output=False).stdout, icc)
+        out     += BT.Executer('exiv2 -iC {webp}', vars())
+        out     += BT.Executer('exiv2 -pS {webp}', vars())
+
+        # Copy the XMP from the test file
+        BT.copyTestFile(webp)
+        BT.save(BT.Executer(   'exiv2 -pX {tiff}', vars(), decode_output=False).stdout, xmp)
+        out     += BT.Executer('exiv2 -ea --force {webp}', vars())
+
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS  {webp}', vars())
+        out     += BT.Executer('exiv2 -iXX {webp}', vars())
+        out     += BT.Executer('exiv2 -pS  {webp}', vars())
+        out     += BT.Executer('exiv2 -ix  {webp}', vars())
+
+        # Copy the XMP from Reagan.tiff to test file
+        BT.copyTestFile(tiff)
+        BT.save(BT.Executer(   'exiv2 -pX  {tiff}', vars(), decode_output=False).stdout, xmp)
+        out     += BT.Executer('exiv2 -ea --force  {tiff}', vars())
+        BT.mv('Reagan.exv', exv)
+
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -iXX  {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -ix   {webp}', vars())
+
+        # Copy the XMP from exiv2-bug922.jpg to test file
+        BT.copyTestFile('exiv2-bug922.jpg')
+        BT.save(BT.Executer(   'exiv2 -pX  exiv2-bug922.jpg', decode_output=False).stdout, xmp)
+        BT.Executer(           'exiv2 -ea --force  exiv2-bug922.jpg')
+        BT.mv('exiv2-bug922.exv', exv)
+
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -ix   {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -iXX  {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+
+        BT.copyTestFile('exiv2-bug922.jpg', webp)
+        out     += BT.Executer('exiv2 --force -ea  {webp}', vars())
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -ie   {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+
+        BT.reportTest('webp-test', out)
