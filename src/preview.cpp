@@ -1020,7 +1020,7 @@ namespace {
 
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
     {
-        const auto expectedSize = static_cast<size_t>(width * height * 3);
+        const auto expectedSize = static_cast<size_t>(width) * height * 3;
         if (rgb.size_ != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size_ << " bytes.\n";

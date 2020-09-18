@@ -1573,9 +1573,10 @@ namespace Exiv2 {
         if (size > 4) {
             // setting pData to pData_ + baseOffset() + offset can result in pData pointing to invalid memory,
             // as offset can be arbitrarily large
-            if ((static_cast<uintptr_t>(baseOffset()) > std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset))
-             || (static_cast<uintptr_t>(baseOffset() + offset) > std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_)))
-            {
+            if ((static_cast<uintptr_t>(baseOffset()) >
+                 std::numeric_limits<uintptr_t>::max() - static_cast<uintptr_t>(offset)) ||
+                (static_cast<uintptr_t>(baseOffset()) + offset >
+                 std::numeric_limits<uintptr_t>::max() - reinterpret_cast<uintptr_t>(pData_))) {
                 throw Error(kerCorruptedMetadata); // #562 don't throw kerArithmeticOverflow
             }
             if (pData_ + static_cast<uintptr_t>(baseOffset()) + static_cast<uintptr_t>(offset) > pLast_) {
