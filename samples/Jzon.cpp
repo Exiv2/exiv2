@@ -20,10 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifdef  _WINDLL
-#define JzonAPI __declspec(dllexport)
-#endif
-
 #include "Jzon.h"
 
 #include <algorithm>
