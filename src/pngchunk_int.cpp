@@ -68,8 +68,8 @@ namespace Exiv2
         {
             enforce(data.size_ == 13, kerCorruptedMetadata);
 
-            h.width = getLong((const byte*)data.pData_, bigEndian);
-            h.height = getLong((const byte*)data.pData_ + 4, bigEndian);
+            h.width = getLong(static_cast<const byte*>(data.pData_), bigEndian);
+            h.height = getLong(static_cast<const byte*>(data.pData_ + 4), bigEndian);
             h.bitDepth = data.pData_[8];
             h.colorType = data.pData_[9];
             h.compressionMethod = data.pData_[10];

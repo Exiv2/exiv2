@@ -1513,7 +1513,7 @@ namespace {
         bool ret = true;
         iconv_t cd;
         cd = iconv_open(to, from);
-        if (cd == (iconv_t)(-1)) {
+        if (!cd) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "iconv_open: " << strError() << "\n";
 #endif
@@ -1542,7 +1542,7 @@ namespace {
             }
             outstr.append(std::string(outbuf, outbytesProduced));
         }
-        if (cd != (iconv_t)(-1)) {
+        if (cd) {
             iconv_close(cd);
         }
 
