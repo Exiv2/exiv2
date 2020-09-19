@@ -151,7 +151,7 @@ namespace Exiv2 {
         }
     }
 
-    DataBuf& DataBuf::operator=(DataBuf& rhs)
+    DataBuf& DataBuf::operator=(DataBuf rhs)
     {
         if (this == &rhs) return *this;
         reset(rhs.release());
