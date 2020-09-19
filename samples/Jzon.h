@@ -155,12 +155,12 @@ namespace Jzon
 
         Value();
         Value(const Value &rhs);
-        Value(const Node &rhs);
+        explicit Value(const Node &rhs);
         Value(ValueType type, const std::string &value);
         Value(const std::string &value);
-        Value(const char *value);
+        explicit Value(const char *value);
         Value(const int value);
-        Value(const float value);
+        explicit Value(const float value);
         Value(const double value);
         Value(const bool value);
         ~Value() override;
@@ -220,7 +220,10 @@ namespace Jzon
         class iterator : public std::iterator<std::input_iterator_tag, NamedNode>
         {
         public:
-            iterator(NamedNodePtr *o) : p(o) {}
+            explicit iterator(NamedNodePtr *o)
+                : p(o)
+            {
+            }
             iterator(const iterator &it) : p(it.p) {}
 
             iterator &operator++() { ++p; return *this; }
@@ -237,7 +240,10 @@ namespace Jzon
         class const_iterator : public std::iterator<std::input_iterator_tag, const NamedNode>
         {
         public:
-            const_iterator(const NamedNodePtr *o) : p(o) {}
+            explicit const_iterator(const NamedNodePtr *o)
+                : p(o)
+            {
+            }
             const_iterator(const const_iterator &it) : p(it.p) {}
 
             const_iterator &operator++() { ++p; return *this; }
@@ -254,7 +260,7 @@ namespace Jzon
 
         Object();
         Object(const Object &other);
-        Object(const Node &other);
+        explicit Object(const Node &other);
         ~Object() override;
 
         Type GetType() const override;
@@ -288,7 +294,10 @@ namespace Jzon
         class iterator : public std::iterator<std::input_iterator_tag, Node>
         {
         public:
-            iterator(Node **o) : p(o) {}
+            explicit iterator(Node **o)
+                : p(o)
+            {
+            }
             iterator(const iterator &it) : p(it.p) {}
 
             iterator &operator++() { ++p; return *this; }
@@ -305,7 +314,10 @@ namespace Jzon
         class const_iterator : public std::iterator<std::input_iterator_tag, const Node>
         {
         public:
-            const_iterator(const Node *const *o) : p(o) {}
+            explicit const_iterator(const Node *const *o)
+                : p(o)
+            {
+            }
             const_iterator(const const_iterator &it) : p(it.p) {}
 
             const_iterator &operator++() { ++p; return *this; }
@@ -322,7 +334,7 @@ namespace Jzon
 
         Array();
         Array(const Array &other);
-        Array(const Node &other);
+        explicit Array(const Node &other);
         ~Array() override;
 
         Type GetType() const override;
@@ -352,7 +364,7 @@ namespace Jzon
     class FileWriter
     {
     public:
-        FileWriter(std::string filename);
+        explicit FileWriter(std::string filename);
         ~FileWriter();
 
         static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
@@ -366,7 +378,7 @@ namespace Jzon
     class FileReader
     {
     public:
-        FileReader(const std::string &filename);
+        explicit FileReader(const std::string &filename);
         ~FileReader();
 
         static bool ReadFile(const std::string &filename, Node &node);
@@ -386,7 +398,7 @@ namespace Jzon
     class Writer
     {
     public:
-        Writer(const Node &root, const Format &format = NoFormat);
+        explicit Writer(const Node &root, const Format &format = NoFormat);
         ~Writer();
 
         void SetFormat(const Format &format);
@@ -414,7 +426,7 @@ namespace Jzon
     class Parser
     {
     public:
-        Parser(Node &root);
+        explicit Parser(Node &root);
         Parser(Node &root, const std::string &json);
         ~Parser();
 

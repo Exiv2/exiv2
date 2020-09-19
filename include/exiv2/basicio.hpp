@@ -666,7 +666,7 @@ constexpr size_t operator"" _z(unsigned long long n)
         /// @param url The full path of url
         /// @param blockSize the size of the memory block. The file content is divided into the memory blocks.
         /// These blocks are populated on demand from the server, so it avoids copying the complete file.
-        HttpIo(const std::string&  url,  size_t blockSize = 1024);
+        explicit HttpIo(const std::string& url, size_t blockSize = 1024);
 #ifdef EXV_UNICODE_PATH
         /// @brief Like previous constructor but accepting a unicode url in an std::wstring.
         /// @note This constructor is only available on Windows.
