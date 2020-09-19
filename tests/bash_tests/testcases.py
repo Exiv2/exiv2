@@ -374,18 +374,18 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += BT.Executer('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
         out += ''
         out += BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False)
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'iii')
-        out += e.stderr
+        out += e.stderr.decode()
 
         out += '\nExtract Exif data --------------------------------------------------------'
         out += BT.Executer('exiv2 -u -vf extract            {images_2_str}', vars())
 
         out += '\nExtract Thumbnail --------------------------------------------------------'
         out += BT.Executer('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False)
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'jjj')
-        out += e.stderr
+        out += e.stderr.decode()
 
         out += '\nCompare image data and extracted data ------------------------------------'
         out += BT.diff('iii', 'jjj')
@@ -400,9 +400,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         out += '\nInsert Exif data ---------------------------------------------------------'
         out += BT.Executer('exiv2 -u -v insert              {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False)
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'kkk')
-        out += e.stderr
+        out += e.stderr.decode()
 
         out += '\nCompare original and inserted image data ---------------------------------'
         out += BT.diff('iii', 'kkk')
@@ -472,7 +472,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
                 BT.copyTestFile(i)
 
             out      += BT.Executer('exiv2 -pS          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), adjust_output=False, decode_output=False)
+            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_1.icc')
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_2.icc')
@@ -480,7 +480,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             BT.copyTestFile('large.icc', iccname)
             out      += BT.Executer('exiv2 -iC          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), adjust_output=False, decode_output=False)
+            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_large_1.icc')
             out      += BT.Executer('exiv2 -pS          {img}', vars())
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
@@ -489,7 +489,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             BT.copyTestFile('small.icc', iccname)
             out      += BT.Executer('exiv2 -iC          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), adjust_output=False, decode_output=False)
+            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_small_1.icc')
             out      += BT.Executer('exiv2 -pS          {img}', vars())
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
@@ -1189,3 +1189,4 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out     += BT.Executer('exiv2 -pS   {webp}', vars())
 
         BT.reportTest('webp-test', out)
+

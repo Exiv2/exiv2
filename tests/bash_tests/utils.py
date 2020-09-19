@@ -158,7 +158,7 @@ def diff(file1, file2, encoding=None):
     output       = []
     new_part     = True
     num          = 0
-    for line in difflib.unified_diff(text1, text2, fromfile=file1, tofile=file2, lineterm=''):
+    for line in difflib.unified_diff(text1, text2, fromfile=file1, tofile=file2, n=0, lineterm=''):
         num     += 1
         if num   < 3:
             # line         = line.replace('--- ', '<<< ')
@@ -207,7 +207,7 @@ def diff_bytes(file1, file2, return_str=False):
     new_part     = True
     num          = 0
     for line in difflib.diff_bytes(difflib.unified_diff, text1, text2,
-                                   fromfile=file1.encode(), tofile=file2.encode(), lineterm=b''):
+                                   fromfile=file1.encode(), tofile=file2.encode(), n=0, lineterm=b''):
         num     += 1
         if num   < 3:
             line         = line.decode()
@@ -371,8 +371,8 @@ class Executer:
     """
     Execute a command in the shell, return a `Executer` object.
     - If a binary of Exiv2 is executed, the absolute path is automatically added.
-    - `adjust_output`: whether to filter path delimiters, whitespace characters in output
-    - `decode_output`: whether to decode output from bytes to str
+    - `compatible_output=True`: filter out path delimiters, whitespace characters in output
+    - `decode_output=True`: decode output from bytes to str
 
     Sample:
     >>> Executer('echo Hello').stdout
@@ -386,7 +386,7 @@ class Executer:
                  stdin: (str, bytes) = None,
                  redirect_stderr_to_stdout=True,
                  assert_returncode=[0],
-                 adjust_output=True,
+                 compatible_output=True,
                  decode_output=True):
         self.cmd            = cmd.format(**vars_dict)
         self.cwd            = cwd or Config.tmp_dir
@@ -397,8 +397,8 @@ class Executer:
         self.redirect_stderr_to_stdout  = redirect_stderr_to_stdout
         self.assert_returncode          = assert_returncode
         # self.returncode   = 0
-        self.adjust_output  = adjust_output
-        self.decode_output  = decode_output
+        self.compatible_output  = compatible_output
+        self.decode_output      = decode_output
 
         # Generate the args for subprocess.Popen
         args = self.cmd.split(' ', maxsplit=1)
@@ -438,7 +438,7 @@ class Executer:
         output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
 
         # Extract stdout and stderr
-        if self.adjust_output:
+        if self.compatible_output:
             output      = [i.replace(b'\r\n', b'\n')    for i in output]   # Fix dos line-endings
             output      = [i.replace(b'\\', rb'/')      for i in output]   # Fix dos path separators
         if self.decode_output:
@@ -608,3 +608,4 @@ def extendedTest(filename):
     e           = Executer('iptcprint {tmp}', vars(), decode_output=False)
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
+
