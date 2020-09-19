@@ -227,7 +227,7 @@ using Blob = std::vector<byte>;
                  buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
-        DataBuf& operator=(DataBuf& rhs);
+        DataBuf& operator=(DataBuf rhs);
         /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
