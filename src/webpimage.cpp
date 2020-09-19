@@ -27,29 +27,29 @@
 
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "webpimage.hpp"
-#include "image_int.hpp"
-#include "enforce.hpp"
-#include "futils.hpp"
-#include "basicio.hpp"
-#include "tags.hpp"
-#include "tags_int.hpp"
-#include "types.hpp"
-#include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
-#include "convert.hpp"
-#include "safe_op.hpp"
 
+#include <cassert>
 #include <cmath>
-#include <iomanip>
-#include <string>
+#include <cstdio>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <cassert>
-#include <cstdio>
+#include <string>
+
+#include "basicio.hpp"
+#include "config.h"
+#include "convert.hpp"
+#include "enforce.hpp"
+#include "futils.hpp"
+#include "image_int.hpp"
+#include "safe_op.hpp"
+#include "tags.hpp"
+#include "tags_int.hpp"
+#include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
+#include "types.hpp"
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 

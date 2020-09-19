@@ -27,11 +27,11 @@
 // *****************************************************************************
 
 // include local header files which are not part of libexiv2
-#include "actions.hpp"
-#include "params.hpp"
-#include "i18n.h"  // NLS support.
-
 #include <exiv2/futils.hpp>
+
+#include "actions.hpp"
+#include "i18n.h"  // NLS support.
+#include "params.hpp"
 
 int main(int argc, char* const argv[])
 {

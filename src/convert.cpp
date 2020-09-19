@@ -26,15 +26,16 @@
  */
 // *****************************************************************************
 // included header files
+#include "convert.hpp"
+
 #include "config.h"
-#include "types.hpp"
 #include "error.hpp"
 #include "exif.hpp"
-#include "iptc.hpp"
-#include "xmp_exiv2.hpp"
 #include "futils.hpp"
-#include "convert.hpp"
+#include "iptc.hpp"
+#include "types.hpp"
 #include "unused.h"
+#include "xmp_exiv2.hpp"
 
 // + standard includes
 #include <cstdio>  // for snprintf (C99)

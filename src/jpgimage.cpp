@@ -22,16 +22,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "jpgimage.hpp"
-#include "tiffimage.hpp"
-#include "image_int.hpp"
+
+#include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
-#include "enforce.hpp"
+#include "image_int.hpp"
 #include "safe_op.hpp"
+#include "tiffimage.hpp"
 
 #ifdef WIN32
 #include <windows.h>
@@ -44,11 +44,11 @@
 #include "fff.h"
 
 // + standard includes
+#include <cassert>
 #include <cstdio>                               // for EOF
 #include <cstring>
-#include <cassert>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 // *****************************************************************************
 // class member definitions

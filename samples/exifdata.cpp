@@ -2,11 +2,10 @@
 // exifdata.cpp
 // Sample program to format exif data in various external formats
 
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
 #include <string>
 
 using format_t = std::map<std::string, int>;

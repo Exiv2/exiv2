@@ -25,23 +25,23 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "rafimage.hpp"
-#include "tiffimage.hpp"
-#include "image_int.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-#include "enforce.hpp"
+#include "image.hpp"
+#include "image_int.hpp"
 #include "safe_op.hpp"
+#include "tiffimage.hpp"
 
 // + standard includes
-#include <string>
+#include <cassert>
 #include <cstring>
 #include <iostream>
-#include <cassert>
+#include <string>
 
 // *****************************************************************************
 // class member definitions

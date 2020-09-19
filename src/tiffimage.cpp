@@ -22,29 +22,29 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffvisitor_int.hpp"
-#include "orfimage.hpp"
-#include "makernote_int.hpp"
-#include "nikonmn_int.hpp"
-#include "image.hpp"
-#include "image_int.hpp"
+
+#include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
-#include "types.hpp"
-#include "basicio.hpp"
 #include "i18n.h"                // NLS support.
+#include "image.hpp"
+#include "image_int.hpp"
+#include "makernote_int.hpp"
+#include "nikonmn_int.hpp"
+#include "orfimage.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage_int.hpp"
+#include "tiffvisitor_int.hpp"
+#include "types.hpp"
 
 // + standard includes
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
 #include <cstdarg>
+#include <iomanip>
+#include <iostream>
+#include <string>
 
 /* --------------------------------------------------------------------------
 

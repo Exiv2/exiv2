@@ -30,14 +30,15 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "nikonmn_int.hpp"
-#include "value.hpp"
-#include "image.hpp"
-#include "tags_int.hpp"
-#include "makernote_int.hpp"
+
 #include "error.hpp"
 #include "i18n.h"                // NLS support.
+#include "image.hpp"
+#include "makernote_int.hpp"
+#include "tags_int.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 // + standard includes
 #include <cassert>

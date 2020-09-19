@@ -8,8 +8,8 @@
     #include <curl/curl.h>
 #endif
 
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 void httpcon(const std::string& url, bool useHttp1_0 = false) {
     Exiv2::Dictionary response;

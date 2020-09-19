@@ -2,10 +2,9 @@
 // mmap-test.cpp
 // Simple mmap tests
 
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
 #include <cstring>
+#include <exiv2/exiv2.hpp>
+#include <iostream>
 
 using namespace Exiv2;
 

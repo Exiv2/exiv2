@@ -25,20 +25,20 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "xmpsidecar.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
-#include "error.hpp"
-#include "xmp_exiv2.hpp"
-#include "futils.hpp"
+#include "config.h"
 #include "convert.hpp"
+#include "error.hpp"
+#include "futils.hpp"
+#include "image.hpp"
+#include "xmp_exiv2.hpp"
 
 // + standard includes
-#include <string>
-#include <iostream>
 #include <cassert>
+#include <iostream>
+#include <string>
 
 // *****************************************************************************
 namespace {

@@ -27,8 +27,8 @@
 #include <curl/curl.h>
 #endif
 
-#include <cstring>  // std::memcpy
 #include <cassert>      /// \todo check usages of assert and try to cover the negative case with unit tests.
+#include <cstring>      // std::memcpy
 #include <iostream>
 
 namespace Exiv2

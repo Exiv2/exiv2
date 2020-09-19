@@ -25,25 +25,24 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "psdimage.hpp"
-#include "jpgimage.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-
+#include "image.hpp"
+#include "jpgimage.hpp"
 #include "safe_op.hpp"
-#include "enforce.hpp"
 
 // + standard includes
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
 #include <memory>
+#include <string>
 
 // Todo: Consolidate with existing code in struct Photoshop (jpgimage.hpp):
 //       Extend this helper to a proper class with all required functionality,

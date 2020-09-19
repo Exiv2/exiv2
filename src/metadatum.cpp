@@ -29,9 +29,8 @@
 #include "metadatum.hpp"
 
 // + standard includes
-#include <iostream>
 #include <iomanip>
-
+#include <iostream>
 
 // *****************************************************************************
 // class member definitions

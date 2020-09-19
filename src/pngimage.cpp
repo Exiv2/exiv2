@@ -22,17 +22,17 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include "pngimage.hpp"
 
 #include "basicio.hpp"
-#include "error.hpp"
+#include "config.h"
 #include "enforce.hpp"
+#include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
 #include "jpgimage.hpp"
 #include "pngchunk_int.hpp"
-#include "pngimage.hpp"
 #include "tiffimage.hpp"
 #include "types.hpp"
 

@@ -22,23 +22,23 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "cr2image.hpp"
-#include "tiffimage.hpp"
+
+#include "config.h"
 #include "cr2header_int.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffimage_int.hpp"
-#include "image.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "i18n.h"                // NLS support.
+#include "image.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
 #include <cassert>
 #include <cstring>
+#include <iomanip>
+#include <iostream>
 
 // *****************************************************************************
 // class member definitions

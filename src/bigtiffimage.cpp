@@ -1,14 +1,14 @@
 #include "bigtiffimage.hpp"
 
-#include "safe_op.hpp"
-#include "exif.hpp"
-#include "error.hpp"
-#include "image_int.hpp"
-#include "enforce.hpp"
-
 #include <cassert>
-#include <limits>
 #include <iostream>
+#include <limits>
+
+#include "enforce.hpp"
+#include "error.hpp"
+#include "exif.hpp"
+#include "image_int.hpp"
+#include "safe_op.hpp"
 
 namespace Exiv2
 {

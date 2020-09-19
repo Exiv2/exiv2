@@ -24,20 +24,21 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
-#include "minoltamn_int.hpp"
 #include "sonymn_int.hpp"
+
+#include "i18n.h"  // NLS support.
+#include "minoltamn_int.hpp"
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
+#include "types.hpp"
 #include "value.hpp"
-#include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <string>
-#include <sstream>
-#include <iomanip>
 #include <cassert>
 #include <cstring>
+#include <iomanip>
+#include <sstream>
+#include <string>
 
 // *****************************************************************************
 // class member definitions

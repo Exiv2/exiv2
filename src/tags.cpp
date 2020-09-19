@@ -26,18 +26,24 @@
  */
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
-#include "tags_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "value.hpp"
-#include "convert.hpp"
-#include "i18n.h"                // NLS support.
+
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <utility>
 
 #include "canonmn_int.hpp"
 #include "casiomn_int.hpp"
+#include "convert.hpp"
+#include "error.hpp"
 #include "fujimn_int.hpp"
+#include "futils.hpp"
+#include "i18n.h"  // NLS support.
 #include "minoltamn_int.hpp"
 #include "nikonmn_int.hpp"
 #include "olympusmn_int.hpp"
@@ -46,16 +52,9 @@
 #include "samsungmn_int.hpp"
 #include "sigmamn_int.hpp"
 #include "sonymn_int.hpp"
-
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <utility>
-#include <cstdlib>
-#include <cassert>
-#include <cmath>
-#include <cstring>
-
+#include "tags_int.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 // *****************************************************************************
 // class member definitions

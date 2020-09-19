@@ -9,11 +9,10 @@
  */
 // *****************************************************************************
 // included header files
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
 
 using namespace Exiv2;
 

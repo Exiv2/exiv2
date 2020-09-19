@@ -24,16 +24,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "xmp_exiv2.hpp"
-#include "types.hpp"
 #include "error.hpp"
-#include "value.hpp"
 #include "properties.hpp"
+#include "types.hpp"
+#include "value.hpp"
+#include "xmp_exiv2.hpp"
 
 // + standard includes
-#include <iostream>
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 #include <string>
 
 // Adobe XMP Toolkit

@@ -21,25 +21,25 @@
 // *****************************************************************************
 
 // included header files
-#include "config.h"
-
 #include "jp2image.hpp"
-#include "tiffimage.hpp"
-#include "image.hpp"
-#include "image_int.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
-#include "types.hpp"
+#include "image.hpp"
+#include "image_int.hpp"
 #include "safe_op.hpp"
+#include "tiffimage.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <array>
-#include <string>
-#include <cstring>
-#include <iostream>
 #include <cassert>
 #include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <string>
 
 // JPEG-2000 box types
 const uint32_t kJp2BoxTypeJp2Header   = 0x6a703268; // 'jp2h'

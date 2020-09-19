@@ -19,22 +19,23 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "futils.hpp"
+
+#include "config.h"
 #include "enforce.hpp"
 
 // + standard includes
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <cstdio>
-#include <cerrno>
-#include <sstream>
-#include <cstring>
+#include <sys/types.h>
+
 #include <algorithm>
-#include <stdexcept>
-#include <set>
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
 #include <fstream>
+#include <set>
+#include <sstream>
+#include <stdexcept>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>                     // for stat()
 #endif

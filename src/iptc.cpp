@@ -25,18 +25,19 @@
 // *****************************************************************************
 // included header files
 #include "iptc.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "value.hpp"
+
 #include "datasets.hpp"
-#include "jpgimage.hpp"
+#include "error.hpp"
 #include "image_int.hpp"
+#include "jpgimage.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 // + standard includes
-#include <iostream>
 #include <algorithm>
-#include <iterator>
 #include <fstream>      // write the temporary file
+#include <iostream>
+#include <iterator>
 
 // *****************************************************************************
 namespace {

@@ -47,8 +47,8 @@ char*    realpath(const char* file,char* path);
 
 #if ! defined(_MSC_VER)
 #include <dirent.h>
-#include <unistd.h>
 #include <sys/param.h>
+#include <unistd.h>
 #define  stricmp strcasecmp
 #endif
 

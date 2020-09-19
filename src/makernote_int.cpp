@@ -24,18 +24,18 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "makernote_int.hpp"
+
+#include "config.h"
 #include "ini.hpp"
 #include "tiffcomposite_int.hpp"
-#include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "tiffvisitor_int.hpp"
 
 // + standard includes
-#include <string>
 #include <cstring>
+#include <string>
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 #ifndef __MINGW__
@@ -44,9 +44,9 @@
 #endif
 
 #if !defined(_MSC_VER) && !defined(__MINGW__)
-#include <unistd.h>
-#include <sys/types.h>
 #include <pwd.h>
+#include <sys/types.h>
+#include <unistd.h>
 #else
 #include <windows.h>
 #include <shlobj.h>

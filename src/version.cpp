@@ -25,10 +25,10 @@
 #include <curl/curl.h>
 #endif
 
-#include "http.hpp"
-#include "version.hpp"
-#include "makernote_int.hpp"
 #include "futils.hpp"
+#include "http.hpp"
+#include "makernote_int.hpp"
+#include "version.hpp"
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -43,8 +43,8 @@
 #include <string>
 
 #if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
-#include <unistd.h>
 #include <sys/types.h>
+#include <unistd.h>
 #endif
 
 std::string Exiv2::versionString()

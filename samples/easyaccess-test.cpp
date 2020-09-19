@@ -3,11 +3,10 @@
 // Sample program using high-level metadata access functions
 
 // included header files
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
 
 using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 

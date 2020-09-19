@@ -24,22 +24,22 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
-#include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
-#include "tiffvisitor_int.hpp"
-#include "makernote_int.hpp"
-#include "value.hpp"
-#include "error.hpp"
+
+#include "config.h"
 #include "enforce.hpp"
+#include "error.hpp"
+#include "makernote_int.hpp"
+#include "tiffimage_int.hpp"
+#include "tiffvisitor_int.hpp"
+#include "value.hpp"
 
 // + standard includes
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <iomanip>
 #include <algorithm>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <string>
 
 // *****************************************************************************
 namespace {

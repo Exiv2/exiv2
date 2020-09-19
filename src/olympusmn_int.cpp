@@ -29,20 +29,21 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "olympusmn_int.hpp"
-#include "value.hpp"
+
+#include "i18n.h"  // NLS support.
 #include "image.hpp"
-#include "tags_int.hpp"
 #include "makernote_int.hpp"
-#include "i18n.h"                // NLS support.
+#include "tags_int.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 // + standard includes
-#include <string>
-#include <sstream>
-#include <iomanip>
 #include <cassert>
 #include <cstring>
+#include <iomanip>
+#include <sstream>
+#include <string>
 
 // *****************************************************************************
 // class member definitions

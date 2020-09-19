@@ -9,12 +9,11 @@
  */
 // *****************************************************************************
 // included header files
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
-#include <iomanip>
-#include <string>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
+#include <string>
 
 void write(const std::string& file, Exiv2::ExifData& ed);
 void print(const std::string& file);

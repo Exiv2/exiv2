@@ -24,18 +24,19 @@
 // included header files
 #include "actions.hpp"
 
-#include "config.h"
-#include "i18n.h"  // NLS support.
-
 #include <exiv2/easyaccess.hpp>
+#include <exiv2/error.hpp>
 #include <exiv2/exif.hpp>
 #include <exiv2/futils.hpp>
 #include <exiv2/types.hpp>
-#include <exiv2/error.hpp>
+
+#include "config.h"
+#include "i18n.h"  // NLS support.
 
 // + standard includes
 #include <sys/stat.h>   // for stat()
 #include <sys/types.h>  // for stat()
+
 #include <fstream>
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>  // for stat()

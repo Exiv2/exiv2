@@ -25,22 +25,22 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "pgfimage.hpp"
-#include "image.hpp"
-#include "pngimage.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "image.hpp"
+#include "pngimage.hpp"
 
 // + standard includes
+#include <cassert>
 #include <cstdio>                               // for EOF
-#include <string>
 #include <cstring>
 #include <iostream>
-#include <cassert>
+#include <string>
 
 // Signature from front of PGF file
 const unsigned char pgfSignature[3] = { 0x50, 0x47, 0x46 };

@@ -27,10 +27,11 @@
 // *****************************************************************************
 // included header files
 #include "value.hpp"
-#include "types.hpp"
+
+#include "convert.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
-#include "convert.hpp"
+#include "types.hpp"
 #include "unused.h"
 
 // + standard includes

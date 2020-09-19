@@ -25,21 +25,21 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "exif.hpp"
+
+#include <iostream>
+
+#include "basicio.hpp"
+#include "config.h"
+#include "error.hpp"
 #include "metadatum.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
-#include "value.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "basicio.hpp"
+#include "tiffcomposite_int.hpp"  // for Tag::root
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
-#include "tiffcomposite_int.hpp" // for Tag::root
-
-#include <iostream>
+#include "types.hpp"
+#include "value.hpp"
 
 // *****************************************************************************
 namespace {

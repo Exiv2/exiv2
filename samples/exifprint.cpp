@@ -2,11 +2,10 @@
 // exifprint.cpp
 // Sample program to print the Exif metadata of an image
 
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
 
 // https://github.com/Exiv2/exiv2/issues/468
 #if defined(EXV_UNICODE_PATH) && defined(__MINGW__)

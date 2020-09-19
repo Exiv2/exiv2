@@ -21,9 +21,9 @@
 
 #include <cstdarg>
 #include <cstddef>
+#include <cstdio>
 #include <cstring>
 #include <vector>
-#include <cstdio>
 
 namespace Exiv2
 {

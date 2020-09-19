@@ -17,12 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <cassert>  /// \todo check usages of assert and try to cover the negative case with unit tests.
+#include <cstring>  // std::memcpy
+
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-
-#include <cstring>  // std::memcpy
-#include <cassert>      /// \todo check usages of assert and try to cover the negative case with unit tests.
 
 namespace Exiv2
 {

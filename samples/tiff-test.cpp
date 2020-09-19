@@ -2,13 +2,12 @@
 // tiff-test.cpp
 // First and very simple TIFF write test.
 
-#include <exiv2/exiv2.hpp>
-#include <enforce.hpp>
-
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <enforce.hpp>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
+#include <string>
 
 using namespace Exiv2;
 

@@ -1,13 +1,14 @@
 #include "crwimage_int.hpp"
-#include "canonmn_int.hpp"
-#include "i18n.h"                // NLS support.
-#include "timegm.h"
-#include "unused.h"
-#include "error.hpp"
-#include "enforce.hpp"
 
 #include <cassert>
 #include <ctime>
+
+#include "canonmn_int.hpp"
+#include "enforce.hpp"
+#include "error.hpp"
+#include "i18n.h"                // NLS support.
+#include "timegm.h"
+#include "unused.h"
 
 // *****************************************************************************
 // local declarations

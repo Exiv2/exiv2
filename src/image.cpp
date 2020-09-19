@@ -22,52 +22,50 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "image.hpp"
-#include "image_int.hpp"
+
+#include "config.h"
+#include "cr2image.hpp"
+#include "crwimage.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "image_int.hpp"
+#include "jpgimage.hpp"
+#include "mrwimage.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
 #include "unused.h"
-
-#include "cr2image.hpp"
-#include "crwimage.hpp"
-#include "jpgimage.hpp"
-#include "mrwimage.hpp"
 #ifdef EXIV2_ENABLE_PNG
 # include "pngimage.hpp"
 #endif
-#include "rafimage.hpp"
-#include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffvisitor_int.hpp"
 #include "bigtiffimage.hpp"
-#include "webpimage.hpp"
-#include "orfimage.hpp"
-#include "gifimage.hpp"
-#include "psdimage.hpp"
-#include "tgaimage.hpp"
 #include "bmpimage.hpp"
+#include "gifimage.hpp"
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
-
-#include "rw2image.hpp"
+#include "orfimage.hpp"
 #include "pgfimage.hpp"
+#include "psdimage.hpp"
+#include "rafimage.hpp"
+#include "rw2image.hpp"
+#include "tgaimage.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
+#include "tiffvisitor_int.hpp"
+#include "webpimage.hpp"
 #include "xmpsidecar.hpp"
 
 // + standard includes
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include <cassert>
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
-#include <cassert>
 #include <iostream>
 #include <limits>
-
-#include <sys/types.h>
-#include <sys/stat.h>
 #ifdef _MSC_VER
 # define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #endif

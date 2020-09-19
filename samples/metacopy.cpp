@@ -25,11 +25,10 @@
  */
 // *****************************************************************************
 // included header files
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
-#include <fstream>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <fstream>
+#include <iostream>
 
 // include local header files which are not part of libexiv2
 #include "getopt.hpp"

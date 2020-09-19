@@ -25,26 +25,25 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "crwimage.hpp"
+
+#include "config.h"
 #include "crwimage_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-#include "value.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
+#include "value.hpp"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
-#include <stack>
+#include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <cmath>
-#include <cassert>
-
+#include <iomanip>
+#include <iostream>
+#include <stack>
 
 // *****************************************************************************
 // class member definitions

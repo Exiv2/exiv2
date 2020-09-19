@@ -10,10 +10,9 @@
  */
 // *****************************************************************************
 // included header files
-#include <exiv2/exiv2.hpp>
-
-#include <iostream>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iostream>
 
 // *****************************************************************************
 // Main

@@ -25,16 +25,16 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "rw2image.hpp"
+
+#include "config.h"
+#include "error.hpp"
+#include "futils.hpp"
+#include "image.hpp"
+#include "preview.hpp"
 #include "rw2image_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
-#include "image.hpp"
-#include "preview.hpp"
-#include "error.hpp"
-#include "futils.hpp"
 
 // + standard includes
 #ifdef EXIV2_DEBUG_MESSAGES

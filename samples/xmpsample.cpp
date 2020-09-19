@@ -2,14 +2,14 @@
 // xmpsample.cpp
 // Sample/test for high level XMP classes. See also addmoddel.cpp
 
-#include <exiv2/exiv2.hpp>
-#include "unused.h"
-
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
 #include <cmath>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
+#include <string>
+
+#include "unused.h"
 
 bool isEqual(float a, float b)
 {

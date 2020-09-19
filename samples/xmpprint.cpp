@@ -7,12 +7,11 @@
 //      g++ -o xmprint xmprint.cpp `pkg-config --cflags --libs exiv2`
 // ========================================================================
 
-#include <exiv2/exiv2.hpp>
-
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iomanip>
+#include <iostream>
+#include <string>
 
 int main(int argc, char** argv)
 {

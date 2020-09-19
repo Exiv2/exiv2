@@ -2,11 +2,10 @@
 // prevtest.cpp
 // Test access to preview images
 
-#include <exiv2/exiv2.hpp>
-
-#include <string>
-#include <iostream>
 #include <cassert>
+#include <exiv2/exiv2.hpp>
+#include <iostream>
+#include <string>
 
 int main(int argc, char* const argv[])
 try {

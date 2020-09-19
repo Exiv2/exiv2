@@ -24,18 +24,18 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "tgaimage.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
+#include "image.hpp"
 
 // + standard includes
-#include <string>
 #include <cstring>
 #include <iostream>
+#include <string>
 
 // *****************************************************************************
 // class member definitions

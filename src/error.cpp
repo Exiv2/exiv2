@@ -26,9 +26,9 @@
 #include "i18n.h"                // NLS support.
 
 // + standard includes
+#include <cassert>
 #include <iostream>
 #include <string>
-#include <cassert>
 
 // *****************************************************************************
 namespace {

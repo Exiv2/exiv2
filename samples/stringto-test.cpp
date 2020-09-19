@@ -3,9 +3,8 @@
 // Test conversions from string to long, float and Rational types.
 
 #include <exiv2/exiv2.hpp>
-
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 const char* testcases[] = {
     // bool
