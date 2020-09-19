@@ -947,11 +947,8 @@ namespace {
             decodeBase64Table[static_cast<unsigned char>(encodeBase64Table[i])] = i;
 
         // calculate dest size
-        unsigned long validSrcSize = 0;
-        for (unsigned long srcPos = 0; srcPos < srcSize; srcPos++) {
-            if (decodeBase64Table[static_cast<unsigned char>(src[srcPos])] != invalid)
-                validSrcSize++;
-        }
+        const auto validSrcSize = static_cast<unsigned long>(
+            std::count_if(src.begin(), src.end(), [=](size_t pos) { return decodeBase64Table[pos] != invalid; }));
         if (validSrcSize > ULONG_MAX / 3) return DataBuf(); // avoid integer overflow
         const unsigned long destSize = (validSrcSize * 3) / 4;
 

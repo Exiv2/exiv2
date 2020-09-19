@@ -26,29 +26,22 @@ void syntax(const char* argv[],format_t& formats)
 
 size_t formatInit(Exiv2::ExifData& exifData)
 {
-    size_t result = 0;
-    for (auto i = exifData.begin(); i != exifData.end(); ++i) {
-        result ++ ;
-    }
-    return result ;
+    return std::distance(exifData.begin(), exifData.end());
 }
 
 ///////////////////////////////////////////////////////////////////////
 std::string escapeCSV(Exiv2::ExifData::const_iterator it,bool bValue)
 {
-    std::string   result ;
-
     std::ostringstream os;
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    for (char i : s) {
-        if (i == ',')
-            result += '\\';
-        result += i;
-    }
-
-    return result ;
+    return std::accumulate(s.begin(), s.end(), std::string(""), [](std::string r, char c) {
+        if (c == ',') {
+            return r + '\\' + c;
+        }
+        return r + c;
+    });
 }
 
 std::string formatCSV(Exiv2::ExifData& exifData)
@@ -87,17 +80,16 @@ std::string formatWolf(Exiv2::ExifData& exifData)
 ///////////////////////////////////////////////////////////////////////
 std::string escapeJSON(Exiv2::ExifData::const_iterator it,bool bValue=true)
 {
-    std::string   result ;
-
     std::ostringstream os;
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    for (char i : s) {
-        if (i == '"')
-            result += "\\\"";
-        result += i;
-    }
+    std::string result = std::accumulate(s.begin(), s.end(), std::string(""), [](std::string r, char c) {
+        if (c == '"') {
+            return r + "\\\"" + c;
+        }
+        return r + c;
+    });
 
     std::string q = "\"";
     return q + result + q ;
@@ -126,15 +118,15 @@ std::string escapeXML(Exiv2::ExifData::const_iterator it,bool bValue=true)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    for (char i : s) {
-        if (i == '<')
-            result += "&lg;";
-        if (i == '>')
-            result += "&gt;";
-        result += i;
-    }
-
-    return result ;
+    return std::accumulate(s.begin(), s.end(), std::string(""), [](std::string r, char c) {
+        if (c == '<') {
+            return r + "&lg;" + c;
+        }
+        if (c == '>') {
+            return r + "&gt;" + c;
+        }
+        return r + c;
+    });
 }
 
 std::string formatXML(Exiv2::ExifData& exifData)
