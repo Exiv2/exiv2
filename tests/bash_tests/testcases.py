@@ -1218,8 +1218,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += BT.runTestCase(10, 'exiv2-nikon-e950.jpg')
         out += BT.runTestCase(11, 'exiv2-nikon-d70.jpg')
 
-        out = str(out)
         # Adjust the output to be compatible with the reference output
+        out = str(out)
         for img in images:
             out = out.replace('Reading file ' + img, 'Reading file ./' + img)
 
@@ -1242,4 +1242,54 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out      = BT.Output()
         out     += BT.Executer('write2-test {img}', vars())
         BT.reportTest('write2-test', out)
+
+
+    def xmpparser_test(self):
+        # XMP parser test driver
+        images = ['BlueSquare.xmp', 'StaffPhotographer-Example.xmp', 'xmpsdk.xmp']
+        out      = BT.Output()
+
+        for img in images:
+            BT.copyTestFile(img)
+            out += BT.Executer('xmpparser-test {img}', vars())
+            out += BT.diff(img, img + '-new')
+
+        xmp = 'xmpsdk.xmp'
+        BT.save(BT.Executer('xmpparse {xmp}'    , vars()).stdout, 't1')
+        BT.save(BT.Executer('xmpparse {xmp}-new', vars()).stdout, 't2')
+        out += BT.diff('t1', 't2')
+
+        out += BT.Executer('xmpsample')
+        for img in ['exiv2-empty.jpg', 'cmdxmp.txt']:
+            BT.copyTestFile(img)
+        out += BT.Executer('exiv2 -v -m cmdxmp.txt exiv2-empty.jpg', assert_returncode=[0, 1])
+        out += BT.Executer('exiv2 -v -px exiv2-empty.jpg')
+
+        # Ignore output differences between BT.diff() and GNU dIff
+        out = str(out)
+        out  = out.replace("""
+34,0c35
+---
+>      <rdf:li xml:lang="x-default">Blue Square Test File - .jpg</rdf:li>
+36c36,0
+<      <rdf:li xml:lang="x-default">Blue Square Test File - .jpg</rdf:li>
+67,21c67,21
+""".strip('\n'),
+"""
+35d34
+<      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+36a36
+>      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+67,87c67,87
+""".strip('\n'))
+        for pair in [
+            ('46,0c47\n---'             , '46a47'),
+            ('160,32c161'               , '160,191c161'),
+            ('1,49c1,65'                , '1,48c1,65'),
+            ('<     </rdf:RDF>\n< '     , '<     </rdf:RDF>'),
+            ('> <?xpacket end="w"?>\n'  , '> <?xpacket end="w"?>\n/ No newline at end of file'),
+        ]:
+            out  = out.replace(pair[0], pair[1])
+
+        BT.reportTest('xmpparser-test', out)
 
