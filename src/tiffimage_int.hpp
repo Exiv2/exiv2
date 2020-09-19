@@ -150,9 +150,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffHeader(ByteOrder byteOrder    =littleEndian,
-                   uint32_t  offset       =0x00000008,
-                   bool      hasImageTags =true);
+        explicit TiffHeader(ByteOrder byteOrder = littleEndian, uint32_t offset = 0x00000008, bool hasImageTags = true);
         //! Destructor
         ~TiffHeader() override;
         //@}
