@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 #include <algorithm>
 #include <fstream>
+#include <numeric>
 #include <sstream>
 #include <stack>
 #include <utility>
@@ -409,19 +410,13 @@ namespace Jzon
 
 	std::string Value::EscapeString(const std::string &value)
 	{
-		std::string escaped;
-
-        for (char c : value) {
+        return std::accumulate(value.begin(), value.end(), std::string(""), [](std::string r, char c) {
             const char *&a = getEscaped(c);
             if (a[0] != '\0') {
-                escaped += a[0];
-                escaped += a[1];
-            } else {
-                escaped += c;
+                return r + a[0] + a[1];
             }
-        }
-
-        return escaped;
+            return r + c;
+        });
     }
     std::string Value::UnescapeString(const std::string &value)
     {
@@ -456,18 +451,16 @@ namespace Jzon
 	}
 	Object::Object(const Object &other) : Node()
 	{
-        for (const auto &child : other.children) {
-            children.push_back(NamedNodePtr(child.first, child.second->GetCopy()));
-        }
+        std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
+                       [](NamedNodePtr child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
     Object::Object(const Node &other)
         : Node()
     {
         const Object &object = other.AsObject();
 
-        for (const auto &child : object.children) {
-            children.push_back(NamedNodePtr(child.first, child.second->GetCopy()));
-        }
+        std::transform(object.children.begin(), object.children.end(), std::back_inserter(children),
+                       [](NamedNodePtr child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
     Object::~Object()
     {
@@ -489,12 +482,11 @@ namespace Jzon
     }
     void Object::Remove(const std::string &name)
     {
-        for (auto it = children.begin(); it != children.end(); ++it) {
-            if ((*it).first == name) {
-                delete (*it).second;
-                children.erase(it);
-                break;
-            }
+        auto it =
+            std::find_if(children.begin(), children.end(), [=](NamedNodePtr child) { return child.first == name; });
+        if (it != children.end()) {
+            delete it->second;
+            children.erase(it);
         }
     }
     void Object::Clear()
@@ -545,10 +537,10 @@ namespace Jzon
     }
     Node &Object::Get(const std::string &name) const
     {
-        for (const auto &child : children) {
-            if (child.first == name) {
-                return *child.second;
-            }
+        auto it =
+            std::find_if(children.begin(), children.end(), [&](NamedNodePtr child) { return child.first == name; });
+        if (it != children.end()) {
+            return *it->second;
         }
 
         throw NotFoundException();
@@ -565,18 +557,16 @@ namespace Jzon
 	}
 	Array::Array(const Array &other) : Node()
 	{
-        for (auto child : other.children) {
-            children.push_back(child->GetCopy());
-        }
+        std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
+                       [](Node *child) { return child->GetCopy(); });
     }
     Array::Array(const Node &other)
         : Node()
     {
         const Array &array = other.AsArray();
 
-        for (auto child : array.children) {
-            children.push_back(child->GetCopy());
-        }
+        std::transform(array.children.begin(), array.children.end(), std::back_inserter(children),
+                       [](Node *child) { return child->GetCopy(); });
     }
     Array::~Array()
     {
