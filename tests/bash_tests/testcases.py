@@ -1234,3 +1234,12 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         BT.reportTest('write-test', out)
 
+
+    def write2_test(self):
+        # Test driver for write unit tests to build Exif metadata from scratch
+        img      = 'exiv2-empty.jpg'
+        BT.copyTestFile(img)
+        out      = BT.Output()
+        out     += BT.Executer('write2-test {img}', vars())
+        BT.reportTest('write2-test', out)
+
