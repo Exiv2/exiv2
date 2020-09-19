@@ -1807,9 +1807,8 @@ namespace Exiv2 {
         if (!pValue()) return 0;
         auto len = static_cast<uint32_t>(pValue()->sizeDataArea());
         if (len == 0) {
-            for (const auto& strip : strips_) {
-                len += strip.second;
-            }
+            return std::accumulate(strips_.begin(), strips_.end(), 0,
+                                   [](uint32_t l, std::pair<const byte*, uint32_t> strip) { return l + strip.second; });
         }
         return len;
     } // TiffImageEntry::doSizeImage
