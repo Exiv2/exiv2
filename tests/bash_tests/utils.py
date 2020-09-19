@@ -609,3 +609,26 @@ def extendedTest(filename):
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
+
+def runTestCase(num, img):
+    """ Run the requested test case number with the given image """
+    out_img     = 'test{}.jpg'.format(num)
+    thumb_jpg   = 'thumb{}.jpg'.format(num)
+    thumb_tif   = 'thumb{}.tif'.format(num)
+    rm(out_img, thumb_jpg, thumb_tif)
+    rm('iii', 'ttt')
+    cp(img, out_img)
+    out  = Output()
+    out += '------------------------------------------------------------'
+
+    e    = Executer('exifprint {img}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+    out += e.stderr.decode() if e.stderr else None
+    save(e.stdout, 'iii')
+
+    e    = Executer('write-test {img} {num}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+    out += e.stderr.decode() if e.stderr else None
+    save(e.stdout, 'ttt')
+
+    out += diff('iii', 'ttt')
+    return str(out)
+

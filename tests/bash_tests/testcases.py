@@ -231,12 +231,12 @@ class TestCases(unittest.TestCase):
         out     += BT.Executer('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
         out     += BT.Executer('exiv2 -px                        DSC_3079.jpg')
 
-        # Ignore the output differences on Windows
+        # Ignore output differences on Windows
         for pair in [
-            ('charset="Jis"', 'charset=Jis'),
+            ('charset="Jis"'    , 'charset=Jis'),
             ('charset="Unicode"', 'charset=Unicode'),
-            (' 9  Rocknroll', "11  Rock'n'roll"),
-            ('Rocknroll', "Rock'n'roll")
+            (' 9  Rocknroll'    , "11  Rock'n'roll"),
+            ('Rocknroll'        , "Rock'n'roll")
         ]:
             out  = str(out).replace(pair[0], pair[1])
 
@@ -1189,4 +1189,48 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out     += BT.Executer('exiv2 -pS   {webp}', vars())
 
         BT.reportTest('webp-test', out)
+
+
+    def write_test(self):
+        # Test driver for the write unit tests
+        images = [
+            'exiv2-canon-powershot-s40.jpg'
+            ,'exiv2-kodak-dc210.jpg'
+            ,'exiv2-fujifilm-finepix-s2pro.jpg'
+            ,'exiv2-sigma-d10.jpg'
+            ,'exiv2-nikon-e990.jpg'
+            ,'exiv2-nikon-d70.jpg'
+            ,'exiv2-nikon-e950.jpg'
+        ]
+        for i in images:
+            BT.copyTestFile(i)
+
+        out  = BT.Output()
+        out += BT.runTestCase( 1, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 2, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 3, 'exiv2-kodak-dc210.jpg')
+        out += BT.runTestCase( 4, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 5, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 6, 'exiv2-kodak-dc210.jpg')
+        out += BT.runTestCase( 7, 'exiv2-fujifilm-finepix-s2pro.jpg')
+        out += BT.runTestCase( 8, 'exiv2-sigma-d10.jpg')
+        out += BT.runTestCase( 9, 'exiv2-nikon-e990.jpg')
+        out += BT.runTestCase(10, 'exiv2-nikon-e950.jpg')
+        out += BT.runTestCase(11, 'exiv2-nikon-d70.jpg')
+
+        out = str(out)
+        # Adjust the output to be compatible with the reference output
+        for img in images:
+            out = out.replace('Reading file ' + img, 'Reading file ./' + img)
+
+        # Ignore output differences between BT.diff() and GNU dIff
+        for pair in [
+            ('24,2c24,2', '24,25c24,25'),
+            ('29,2c29,2', '29,30c29,30'),
+            ('27,2c27,2', '27,28c27,28'),
+            ('28,2c28,2', '28,29c28,29'),
+        ]:
+            out  = out.replace(pair[0], pair[1])
+
+        BT.reportTest('write-test', out)
 
