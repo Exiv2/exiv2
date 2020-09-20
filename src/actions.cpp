@@ -487,34 +487,25 @@ std::unique_ptr<Task> Task::clone() const {
     int Print::printMetadata(const Exiv2::Image* image)
     {
         bool ret = false;
-        bool noExif = false;
+        bool noExif = (Params::instance().printTags_ & Exiv2::mdExif) && image->exifData().empty();
         if (Params::instance().printTags_ & Exiv2::mdExif) {
-            const Exiv2::ExifData& exifData = image->exifData();
-            for (const auto& md : exifData) {
+            for (const auto& md : image->exifData()) {
                 ret |= printMetadatum(md, image);
             }
-            if (exifData.empty())
-                noExif = true;
         }
 
-        bool noIptc = false;
+        bool noIptc = (Params::instance().printTags_ & Exiv2::mdIptc) && image->iptcData().empty();
         if (Params::instance().printTags_ & Exiv2::mdIptc) {
-            const Exiv2::IptcData& iptcData = image->iptcData();
-            for (const auto& md : iptcData) {
+            for (const auto& md : image->iptcData()) {
                 ret |= printMetadatum(md, image);
             }
-            if (iptcData.empty())
-                noIptc = true;
         }
 
-        bool noXmp = false;
+        bool noXmp = (Params::instance().printTags_ & Exiv2::mdXmp) && image->xmpData().empty();
         if (Params::instance().printTags_ & Exiv2::mdXmp) {
-            const Exiv2::XmpData& xmpData = image->xmpData();
-            for (const auto& md : xmpData) {
+            for (const auto& md : image->xmpData()) {
                 ret |= printMetadatum(md, image);
             }
-            if (xmpData.empty())
-                noXmp = true;
         }
 
         // With -v, inform about the absence of any (requested) type of metadata
