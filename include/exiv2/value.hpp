@@ -1689,7 +1689,7 @@ namespace Exiv2 {
     Rational ValueType<T>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_[n], 1};
     }
     // Specialization for rational
     template<>

@@ -752,7 +752,7 @@ namespace Exiv2 {
         if (ok) return floatToRationalCast(f);
 
         bool b = stringTo<bool>(s, ok);
-        if (ok) return b ? Rational(1, 1) : Rational(0, 1);
+        if (ok) return {b ? 1 : 0, 1};
 
         // everything failed, return from stringTo<Rational> is probably the best fit
         return ret;
@@ -760,12 +760,8 @@ namespace Exiv2 {
 
     Rational floatToRationalCast(float f)
     {
-#if defined(_MSC_VER) && _MSC_VER < 1800
-        if (!_finite(f)) {
-#else
         if (!std::isfinite(f)) {
-#endif
-            return Rational(f > 0 ? 1 : -1, 0);
+            return {f > 0 ? 1 : -1, 0};
         }
         // Beware: primitive conversion algorithm
         int32_t den = 1000000;
