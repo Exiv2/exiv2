@@ -439,12 +439,15 @@ namespace Jzon
     Object::Object()
         : Node()
     {
-	}
-	Object::Object(const Object &other) : Node()
-	{
+    }
+
+    Object::Object(const Object &other)
+        : Node()
+    {
         std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
                        [](NamedNodePtr child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
+
     Object::Object(const Node &other)
         : Node()
     {
@@ -453,6 +456,7 @@ namespace Jzon
         std::transform(object.children.begin(), object.children.end(), std::back_inserter(children),
                        [](NamedNodePtr child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
+
     Object::~Object()
     {
         Clear();

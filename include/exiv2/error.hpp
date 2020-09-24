@@ -177,6 +177,10 @@ namespace Exiv2 {
         AnyError(const AnyError& o);
 
         ~AnyError() noexcept override;
+
+        AnyError& operator=(const AnyError& o) = delete;
+        AnyError& operator=(const AnyError&& o) = delete;
+
         ///@brief  Return the error code.
         virtual int code() const noexcept =0;
     };

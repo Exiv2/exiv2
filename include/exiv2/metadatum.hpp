@@ -56,12 +56,13 @@ namespace Exiv2 {
         //! Shortcut for a %Key auto pointer.
         using UniquePtr = std::unique_ptr<Key>;
 
+        Key() = default;
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~Key();
+        virtual ~Key() = default;
         //@}
-
+        Key(const Key& rhs) = default;
         //! @name Accessors
         //@{
         /*!
@@ -103,7 +104,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Key& operator=(const Key& rhs);
+        Key& operator=(const Key& rhs) = default;
         //@}
 
     private:

@@ -52,6 +52,8 @@ namespace Jzon
             return *this;
         }
 
+        Pair(const Pair &rhs) = default;
+
         T1 first;
         T2 second;
     };
@@ -225,6 +227,7 @@ namespace Jzon
             {
             }
             iterator(const iterator &it) : p(it.p) {}
+            iterator &operator=(const iterator &it) = delete;
 
             iterator &operator++() { ++p; return *this; }
             iterator operator++(int) { iterator tmp(*this); operator++(); return tmp; }
@@ -245,6 +248,7 @@ namespace Jzon
             {
             }
             const_iterator(const const_iterator &it) : p(it.p) {}
+            const_iterator &operator=(const const_iterator &it) = delete;
 
             const_iterator &operator++() { ++p; return *this; }
             const_iterator operator++(int) { const_iterator tmp(*this); operator++(); return tmp; }
@@ -262,6 +266,9 @@ namespace Jzon
         Object(const Object &other);
         explicit Object(const Node &other);
         ~Object() override;
+
+        Object &operator=(const Object &rhs) = delete;
+        Object &operator=(const Object &&rhs) = delete;
 
         Type GetType() const override;
 
@@ -299,6 +306,7 @@ namespace Jzon
             {
             }
             iterator(const iterator &it) : p(it.p) {}
+            iterator &operator=(const iterator &it) = delete;
 
             iterator &operator++() { ++p; return *this; }
             iterator operator++(int) { iterator tmp(*this); operator++(); return tmp; }
@@ -319,6 +327,7 @@ namespace Jzon
             {
             }
             const_iterator(const const_iterator &it) : p(it.p) {}
+            const_iterator &operator=(const const_iterator &it) = delete;
 
             const_iterator &operator++() { ++p; return *this; }
             const_iterator operator++(int) { const_iterator tmp(*this); operator++(); return tmp; }
@@ -336,6 +345,9 @@ namespace Jzon
         Array(const Array &other);
         explicit Array(const Node &other);
         ~Array() override;
+
+        Array &operator=(const Array &rhs) = delete;
+        Array &operator=(const Array &&rhs) = delete;
 
         Type GetType() const override;
 
