@@ -103,7 +103,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpAcdseeInfo[];
     extern const XmpPropertyInfo xmpGPanoInfo[];
 
-    extern const XmpNsInfo xmpNsInfo[] = {
+    constexpr XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
         { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
