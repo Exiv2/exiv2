@@ -23,6 +23,7 @@ THE SOFTWARE.
 #include "Jzon.h"
 
 #include <algorithm>
+#include <array>
 #include <fstream>
 #include <numeric>
 #include <sstream>
@@ -373,76 +374,66 @@ namespace Jzon
 		return new Value(*this);
 	}
 
-	// This is not the most beautiful place for these, but it'll do
-	static const char charsUnescaped[] = { '\\'  , '/'  , '\"'  , '\n' , '\t' , '\b' , '\f' , '\r' };
-	static const char *charsEscaped[]  = { "\\\\", "\\/", "\\\"", "\\n", "\\t", "\\b", "\\f", "\\r" };
-	static const unsigned int numEscapeChars = 8;
-	static const char nullUnescaped = '\0';
-	static const char *nullEscaped  = "\0\0";
-	const char *&getEscaped(const char &c)
-	{
-		for (unsigned int i = 0; i < numEscapeChars; ++i)
-		{
-			const char &ue = charsUnescaped[i];
+    // This is not the most beautiful place for these, but it'll do
+    constexpr std::array<char, 8> charsUnescaped = {'\\', '/', '\"', '\n', '\t', '\b', '\f', '\r'};
+    constexpr std::array<const char *, 8> charsEscaped = {"\\\\", "\\/", "\\\"", "\\n", "\\t", "\\b", "\\f", "\\r"};
+    constexpr char nullUnescaped = '\0';
+    constexpr const char *nullEscaped = "\0\0";
 
-			if (c == ue)
-			{
-				const char *&e = charsEscaped[i];
-				return e;
-			}
-		}
-		return nullEscaped;
-	}
-	const char &getUnescaped(const char &c1, const char &c2)
-	{
-		for (unsigned int i = 0; i < numEscapeChars; ++i)
-		{
-			const char *&e = charsEscaped[i];
+    const char *const &getEscaped(const char &c)
+    {
+        for (unsigned int i = 0; i < charsEscaped.size(); ++i) {
+            if (c == charsUnescaped[i]) {
+                return charsEscaped[i];
+            }
+        }
+        return nullEscaped;
+    }
 
-			if (c1 == e[0] && c2 == e[1])
-			{
-				const char &ue = charsUnescaped[i];
-				return ue;
-			}
-		}
-		return nullUnescaped;
-	}
+    const char &getUnescaped(const char &c1, const char &c2)
+    {
+        for (unsigned int i = 0; i < charsEscaped.size(); ++i) {
+            const auto &e = charsEscaped[i];
 
-	std::string Value::EscapeString(const std::string &value)
-	{
+            if (c1 == e[0] && c2 == e[1]) {
+                return charsUnescaped[i];
+            }
+        }
+        return nullUnescaped;
+    }
+
+    std::string Value::EscapeString(const std::string &value)
+    {
         return std::accumulate(value.begin(), value.end(), std::string(""), [](std::string r, char c) {
-            const char *&a = getEscaped(c);
+            const auto &a = getEscaped(c);
             if (a[0] != '\0') {
                 return r + a[0] + a[1];
             }
             return r + c;
         });
     }
+
     std::string Value::UnescapeString(const std::string &value)
     {
         std::string unescaped;
 
-        for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
-		{
-			const char &c = (*it);
-			char c2 = '\0';
-			if (it+1 != value.end())
-				c2 = *(it+1);
+        for (auto it = value.begin(); it != value.end(); ++it) {
+            const auto &c = (*it);
+            char c2 = '\0';
+            if (it + 1 != value.end())
+                c2 = *(it + 1);
 
-			const char &a = getUnescaped(c, c2);
-			if (a != '\0')
-			{
-				unescaped += a;
-				if (it+1 != value.end())
-					++it;
-			}
-			else
-			{
-				unescaped += c;
-			}
-		}
+            const auto &a = getUnescaped(c, c2);
+            if (a != '\0') {
+                unescaped += a;
+                if (it + 1 != value.end())
+                    ++it;
+            } else {
+                unescaped += c;
+            }
+        }
 
-		return unescaped;
+        return unescaped;
     }
 
     Object::Object()
@@ -482,8 +473,8 @@ namespace Jzon
     }
     void Object::Remove(const std::string &name)
     {
-        auto it =
-            std::find_if(children.begin(), children.end(), [=](NamedNodePtr child) { return child.first == name; });
+        auto it = std::find_if(children.begin(), children.end(),
+                               [=](const NamedNodePtr &child) { return child.first == name; });
         if (it != children.end()) {
             delete it->second;
             children.erase(it);
@@ -537,8 +528,8 @@ namespace Jzon
     }
     Node &Object::Get(const std::string &name) const
     {
-        auto it =
-            std::find_if(children.begin(), children.end(), [&](NamedNodePtr child) { return child.first == name; });
+        auto it = std::find_if(children.begin(), children.end(),
+                               [&](const NamedNodePtr &child) { return child.first == name; });
         if (it != children.end()) {
             return *it->second;
         }
@@ -1180,7 +1171,7 @@ namespace Jzon
         } else if (upperValue == "FALSE") {
             data.push(MakePair(Value::VT_BOOL, std::string("false")));
         } else {
-            if (!std::none_of(value.begin(), value.end(), [](char c) { return !IsNumber(c); }))
+            if (std::any_of(value.begin(), value.end(), [](char c) { return IsNumber(c); }))
                 return false;
 
             data.push(MakePair(Value::VT_NUMBER, value));
