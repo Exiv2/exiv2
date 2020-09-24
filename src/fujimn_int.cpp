@@ -46,13 +46,13 @@ namespace Exiv2 {
     namespace Internal {
 
     //! OffOn, multiple tags
-    extern const TagDetails fujiOffOn[] = {
+    constexpr TagDetails fujiOffOn[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
 
     //! Sharpness, tag 0x1001
-    extern const TagDetails fujiSharpness[] = {
+    constexpr TagDetails fujiSharpness[] = {
         { 1, N_("Soft mode 1") },
         { 2, N_("Soft mode 2") },
         { 3, N_("Normal")      },
@@ -61,7 +61,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x1002
-    extern const TagDetails fujiWhiteBalance[] = {
+    constexpr TagDetails fujiWhiteBalance[] = {
         {    0, N_("Auto")                     },
         {  256, N_("Daylight")                 },
         {  512, N_("Cloudy")                   },
@@ -74,7 +74,7 @@ namespace Exiv2 {
     };
 
     //! Color, tag 0x1003
-    extern const TagDetails fujiColor[] = {
+    constexpr TagDetails fujiColor[] = {
         {   0, N_("Normal")                 },
         { 256, N_("High")                   },
         { 512, N_("Low")                    },
@@ -87,14 +87,14 @@ namespace Exiv2 {
     };
 
     //! Tone, tag 0x1004
-    extern const TagDetails fujiTone[] = {
+    constexpr TagDetails fujiTone[] = {
         {   0, N_("Normal") },
         { 256, N_("High")   },
         { 512, N_("Low")    }
     };
 
     //! FlashMode, tag 0x1010
-    extern const TagDetails fujiFlashMode[] = {
+    constexpr TagDetails fujiFlashMode[] = {
         {  0, N_("Auto")              },
         {  1, N_("On")                },
         {  2, N_("Off")               },
@@ -105,13 +105,13 @@ namespace Exiv2 {
     };
 
     //! FocusMode, tag 0x1021
-    extern const TagDetails fujiFocusMode[] = {
+    constexpr TagDetails fujiFocusMode[] = {
         { 0, N_("Auto")   },
         { 1, N_("Manual") }
     };
 
     //! PictureMode, tag 0x1031
-    extern const TagDetails fujiPictureMode[] = {
+    constexpr TagDetails fujiPictureMode[] = {
         {   0, N_("Auto")                      },
         {   1, N_("Portrait")                  },
         {   2, N_("Landscape")                 },
@@ -137,7 +137,7 @@ namespace Exiv2 {
 
     //! ShadowTone, tag 0x1040
     //! HighlightTone, tag 0x041
-    extern const TagDetails fujiSHTone[] = {
+    constexpr TagDetails fujiSHTone[] = {
         { -64, N_("+4") },
         { -48, N_("+3") },
         { -32, N_("+2") },
@@ -148,27 +148,27 @@ namespace Exiv2 {
     };
 
     //! Continuous, tag 0x1100
-    extern const TagDetails fujiContinuous[] = {
+    constexpr TagDetails fujiContinuous[] = {
         { 0, N_("Off")              },
         { 1, N_("On")               },
         { 2, N_("No flash & flash") }
     };
 
     //! FinePixColor, tag 0x1210
-    extern const TagDetails fujiFinePixColor[] = {
+    constexpr TagDetails fujiFinePixColor[] = {
         { 0,  N_("Standard")      },
         { 16, N_("Chrome")        },
         { 48, N_("Black & white") }
     };
 
     //! DynamicRange, tag 0x1400
-    extern const TagDetails fujiDynamicRange[] = {
+    constexpr TagDetails fujiDynamicRange[] = {
         { 1, N_("Standard") },
         { 3, N_("Wide")     }
     };
 
     //! FilmMode, tag 0x1401
-    extern const TagDetails fujiFilmMode[] = {
+    constexpr TagDetails fujiFilmMode[] = {
         {    0, N_("F0/Standard (Provia)")                         },
         {  256, N_("F1/Studio Portrait")                           },
         {  272, N_("F1a/Studio Portrait Enhanced Saturation")      },
@@ -183,7 +183,7 @@ namespace Exiv2 {
     };
 
     //! DynamicRange, tag 0x1402
-    extern const TagDetails fujiDynamicRangeSetting[] = {
+    constexpr TagDetails fujiDynamicRangeSetting[] = {
         {     0, N_("Auto (100-400%)")      },
         {     1, N_("Raw")                  },
         {   256, N_("Standard (100%)")      },
@@ -193,19 +193,19 @@ namespace Exiv2 {
     };
 
     //! DRangePriority, tag 0x1443
-    extern const TagDetails fujiDRangePriority[] = {
+    constexpr TagDetails fujiDRangePriority[] = {
         {     0, N_("Auto")  },
         {     1, N_("Fixed") }
     };
 
     //! DRangePriorityAuto, tag 0x1444
-    extern const TagDetails fujiDRangePriorityAuto[] = {
+    constexpr TagDetails fujiDRangePriorityAuto[] = {
         {     1, N_("Weak")  },
         {     2, N_("Strong") }
     };
 
     //! DRangePriorityFixed, tag 0x1445
-    extern const TagDetails fujiDRangePriorityFixed[] = {
+    constexpr TagDetails fujiDRangePriorityFixed[] = {
         {     1, N_("Weak")  },
         {     2, N_("Strong") }
     };

@@ -51,7 +51,7 @@ namespace Exiv2 {
     // -- Standard Minolta Makernotes tags ---------------------------------------------------------------
 
     //! Lookup table to translate Minolta color mode values to readable labels
-    extern const TagDetails minoltaColorMode[] = {
+    constexpr TagDetails minoltaColorMode[] = {
         { 0,  N_("Natural Color")  },
         { 1,  N_("Black & White")  },
         { 2,  N_("Vivid Color")    },
@@ -69,7 +69,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta image quality values to readable labels
-    extern const TagDetails minoltaImageQuality[] = {
+    constexpr TagDetails minoltaImageQuality[] = {
         { 0, N_("Raw")        },
         { 1, N_("Super Fine") },
         { 2, N_("Fine")       },
@@ -79,7 +79,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta image stabilization values
-    extern const TagDetails minoltaImageStabilization[] = {
+    constexpr TagDetails minoltaImageStabilization[] = {
         { 1, N_("Off") },
         { 5, N_("On")  }
     };
@@ -196,7 +196,7 @@ namespace Exiv2 {
     // -- Standard Minolta camera settings ---------------------------------------------------------------
 
     //! Lookup table to translate Minolta Std camera settings exposure mode values to readable labels
-    extern const TagDetails minoltaExposureModeStd[] = {
+    constexpr TagDetails minoltaExposureModeStd[] = {
         { 0, N_("Program")           },
         { 1, N_("Aperture priority") },
         { 2, N_("Shutter priority")  },
@@ -204,7 +204,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings flash mode values to readable labels
-    extern const TagDetails minoltaFlashModeStd[] = {
+    constexpr TagDetails minoltaFlashModeStd[] = {
         { 0, N_("Fill flash")        },
         { 1, N_("Red-eye reduction") },
         { 2, N_("Rear flash sync")   },
@@ -213,7 +213,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings white balance values to readable labels
-    extern const TagDetails minoltaWhiteBalanceStd[] = {
+    constexpr TagDetails minoltaWhiteBalanceStd[] = {
         { 0,  N_("Auto")          },
         { 1,  N_("Daylight")      },
         { 2,  N_("Cloudy")        },
@@ -226,7 +226,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings image size values to readable labels
-    extern const TagDetails minoltaImageSizeStd[] = {
+    constexpr TagDetails minoltaImageSizeStd[] = {
         { 0, N_("Full size") },
         { 1, "1600x1200"     },
         { 2, "1280x960"      },
@@ -237,7 +237,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings image quality values to readable labels
-    extern const TagDetails minoltaImageQualityStd[] = {
+    constexpr TagDetails minoltaImageQualityStd[] = {
         { 0, N_("Raw")        },
         { 1, N_("Super fine") },
         { 2, N_("Fine")       },
@@ -247,7 +247,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings drive mode values to readable labels
-    extern const TagDetails minoltaDriveModeStd[] = {
+    constexpr TagDetails minoltaDriveModeStd[] = {
         { 0, N_("Single Frame")   },
         { 1, N_("Continuous")     },
         { 2, N_("Self-timer")     },
@@ -258,28 +258,28 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings metering mode values to readable labels
-    extern const TagDetails minoltaMeteringModeStd[] = {
+    constexpr TagDetails minoltaMeteringModeStd[] = {
         { 0, N_("Multi-segment")           },
         { 1, N_("Center weighted average") },
         { 2, N_("Spot")                    }
     };
 
     //! Lookup table to translate Minolta Std camera settings digital zoom values to readable labels
-    extern const TagDetails minoltaDigitalZoomStd[] = {
+    constexpr TagDetails minoltaDigitalZoomStd[] = {
         { 0, N_("Off")                      },
         { 1, N_("Electronic magnification") },
         { 2, "2x"                           }
     };
 
     //! Lookup table to translate Minolta Std camera bracket step mode values to readable labels
-    extern const TagDetails minoltaBracketStepStd[] = {
+    constexpr TagDetails minoltaBracketStepStd[] = {
         { 0, "1/3 EV" },
         { 1, "2/3 EV" },
         { 2, "1 EV"   }
     };
 
     //! Lookup table to translate Minolta Std camera settings AF points values to readable labels
-    extern const TagDetails minoltaAFPointsStd[] = {
+    constexpr TagDetails minoltaAFPointsStd[] = {
         { 0, N_("Center")       },
         { 1, N_("Top")          },
         { 2, N_("Top-right")    },
@@ -292,20 +292,20 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings flash fired values to readable labels
-    extern const TagDetails minoltaFlashFired[] = {
+    constexpr TagDetails minoltaFlashFired[] = {
         { 0, N_("Did not fire") },
         { 1, N_("Fired")        }
     };
 
     //! Lookup table to translate Minolta Std camera settings sharpness values to readable labels
-    extern const TagDetails minoltaSharpnessStd[] = {
+    constexpr TagDetails minoltaSharpnessStd[] = {
         { 0, N_("Hard")   },
         { 1, N_("Normal") },
         { 2, N_("Soft")   }
     };
 
     //! Lookup table to translate Minolta Std camera settings subject program values to readable labels
-    extern const TagDetails minoltaSubjectProgramStd[] = {
+    constexpr TagDetails minoltaSubjectProgramStd[] = {
         { 0, N_("None")           },
         { 1, N_("Portrait")       },
         { 2, N_("Text")           },
@@ -315,7 +315,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings ISO settings values to readable labels
-    extern const TagDetails minoltaISOSettingStd[] = {
+    constexpr TagDetails minoltaISOSettingStd[] = {
         { 0, "100"      },
         { 1, "200"      },
         { 2, "400"      },
@@ -325,7 +325,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings model values to readable labels
-    extern const TagDetails minoltaModelStd[] = {
+    constexpr TagDetails minoltaModelStd[] = {
         { 0, "DiMAGE 7 | X1 | X21 | X31" },
         { 1, "DiMAGE 5"                  },
         { 2, "DiMAGE S304"               },
@@ -338,19 +338,19 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings interval mode values to readable labels
-    extern const TagDetails minoltaIntervalModeStd[] = {
+    constexpr TagDetails minoltaIntervalModeStd[] = {
         { 0, N_("Still image")      },
         { 1, N_("Time-lapse movie") }
     };
 
     //! Lookup table to translate Minolta Std camera settings folder name values to readable labels
-    extern const TagDetails minoltaFolderNameStd[] = {
+    constexpr TagDetails minoltaFolderNameStd[] = {
         { 0, N_("Standard form") },
         { 1, N_("Data form")     }
     };
 
     //! Lookup table to translate Minolta Std camera settings color mode values to readable labels
-    extern const TagDetails minoltaColorModeStd[] = {
+    constexpr TagDetails minoltaColorModeStd[] = {
         { 0, N_("Natural color")   },
         { 1, N_("Black and white") },
         { 2, N_("Vivid color")     },
@@ -359,7 +359,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings wide focus zone values to readable labels
-    extern const TagDetails minoltaWideFocusZoneStd[] = {
+    constexpr TagDetails minoltaWideFocusZoneStd[] = {
         { 0, N_("No zone")                              },
         { 1, N_("Center zone (horizontal orientation)") },
         { 1, N_("Center zone (vertical orientation)")   },
@@ -368,19 +368,19 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings focus mode values to readable labels
-    extern const TagDetails minoltaFocusModeStd[] = {
+    constexpr TagDetails minoltaFocusModeStd[] = {
         { 0, N_("Auto focus")   },
         { 1, N_("Manual focus") }
     };
 
     //! Lookup table to translate Minolta Std camera settings focus area values to readable labels
-    extern const TagDetails minoltaFocusAreaStd[] = {
+    constexpr TagDetails minoltaFocusAreaStd[] = {
         { 0, N_("Wide focus (normal)") },
         { 1, N_("Spot focus")          }
     };
 
     //! Lookup table to translate Minolta Std camera settings DEC switch position values to readable labels
-    extern const TagDetails minoltaDECPositionStd[] = {
+    constexpr TagDetails minoltaDECPositionStd[] = {
         { 0, N_("Exposure")   },
         { 1, N_("Contrast")   },
         { 2, N_("Saturation") },
@@ -388,13 +388,13 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings color profile values to readable labels
-    extern const TagDetails minoltaColorProfileStd[] = {
+    constexpr TagDetails minoltaColorProfileStd[] = {
         { 0, N_("Not embedded") },
         { 1, N_("Embedded")     }
     };
 
     //! Lookup table to translate Minolta Std camera settings data Imprint values to readable labels
-    extern const TagDetails minoltaDataImprintStd[] = {
+    constexpr TagDetails minoltaDataImprintStd[] = {
         { 0, N_("None")       },
         { 1, "YYYY/MM/DD"     },
         { 2, "MM/DD/HH:MM"    },
@@ -403,7 +403,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings flash metering values to readable labels
-    extern const TagDetails minoltaFlashMeteringStd[] = {
+    constexpr TagDetails minoltaFlashMeteringStd[] = {
         { 0, N_("ADI (Advanced Distance Integration)") },
         { 1, N_("Pre-flash TTl")                       },
         { 2, N_("Manual flash control")                }
@@ -650,7 +650,7 @@ namespace Exiv2 {
     // -- Minolta Dynax 7D camera settings ---------------------------------------------------------------
 
     //! Lookup table to translate Minolta Dynax 7D camera settings exposure mode values to readable labels
-    extern const TagDetails minoltaExposureMode7D[] = {
+    constexpr TagDetails minoltaExposureMode7D[] = {
         { 0, N_("Program")           },
         { 1, N_("Aperture priority") },
         { 2, N_("Shutter priority")  },
@@ -661,14 +661,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings image size values to readable labels
-    extern const TagDetails minoltaImageSize7D[] = {
+    constexpr TagDetails minoltaImageSize7D[] = {
         { 0, N_("Large")  },
         { 1, N_("Medium") },
         { 2, N_("Small")  }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings image quality values to readable labels
-    extern const TagDetails minoltaImageQuality7D[] = {
+    constexpr TagDetails minoltaImageQuality7D[] = {
         { 0,  N_("Raw")      },
         { 16, N_("Fine")     },
         { 32, N_("Normal")   },
@@ -677,7 +677,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings white balance values to readable labels
-    extern const TagDetails minoltaWhiteBalance7D[] = {
+    constexpr TagDetails minoltaWhiteBalance7D[] = {
         { 0,   N_("Auto")        },
         { 1,   N_("Daylight")    },
         { 2,   N_("Shade")       },
@@ -690,7 +690,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings focus mode values to readable labels
-    extern const TagDetails minoltaFocusMode7D[] = {
+    constexpr TagDetails minoltaFocusMode7D[] = {
         { 0, N_("Single-shot AF") },
         { 1, N_("Continuous AF")  },
         { 3, N_("Manual")         },
@@ -698,7 +698,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings AF points values to readable labels
-    extern const TagDetails minoltaAFPoints7D[] = {
+    constexpr TagDetails minoltaAFPoints7D[] = {
         { 1,   N_("Center")       },
         { 2,   N_("Top")          },
         { 4,   N_("Top-right")    },
@@ -711,7 +711,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings ISO settings values to readable labels
-    extern const TagDetails minoltaISOSetting7D[] = {
+    constexpr TagDetails minoltaISOSetting7D[] = {
         { 0, N_("Auto") },
         { 1, "100"      },
         { 3, "200"      },
@@ -722,14 +722,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings color space values to readable labels
-    extern const TagDetails minoltaColorSpace7D[] = {
+    constexpr TagDetails minoltaColorSpace7D[] = {
         { 0, N_("sRGB (Natural)")  },
         { 1, N_("sRGB (Natural+)") },
         { 4, N_("Adobe RGB")       }
     };
 
     //! Lookup table to translate Minolta Dynax 7D camera settings rotation values to readable labels
-    extern const TagDetails minoltaRotation7D[] = {
+    constexpr TagDetails minoltaRotation7D[] = {
         { 72, N_("Horizontal (normal)") },
         { 76, N_("Rotate 90 CW")        },
         { 82, N_("Rotate 270 CW")       }
@@ -830,7 +830,7 @@ namespace Exiv2 {
     // -- Minolta Dynax 5D camera settings ---------------------------------------------------------------
 
     //! Lookup table to translate Minolta Dynax 5D camera settings exposure mode values to readable labels
-    extern const TagDetails minoltaExposureMode5D[] = {
+    constexpr TagDetails minoltaExposureMode5D[] = {
         { 0,      N_("Program")             },
         { 1,      N_("Aperture priority")   },
         { 2,      N_("Shutter priority")    },
@@ -847,14 +847,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings image size values to readable labels
-    extern const TagDetails minoltaImageSize5D[] = {
+    constexpr TagDetails minoltaImageSize5D[] = {
         { 0, N_("Large")  },
         { 1, N_("Medium") },
         { 2, N_("Small")  }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings image quality values to readable labels
-    extern const TagDetails minoltaImageQuality5D[] = {
+    constexpr TagDetails minoltaImageQuality5D[] = {
         { 0,  N_("Raw")      },
         { 16, N_("Fine")     },
         { 32, N_("Normal")   },
@@ -863,7 +863,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings white balance values to readable labels
-    extern const TagDetails minoltaWhiteBalance5D[] = {
+    constexpr TagDetails minoltaWhiteBalance5D[] = {
         { 0,   N_("Auto")        },
         { 1,   N_("Daylight")    },
         { 2,   N_("Cloudy")      },
@@ -876,14 +876,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings metering mode values to readable labels
-    extern const TagDetails minoltaMeteringMode5D[] = {
+    constexpr TagDetails minoltaMeteringMode5D[] = {
         { 0, N_("Multi-segment")   },
         { 1, N_("Center weighted") },
         { 2, N_("Spot")            }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings ISO settings values to readable labels
-    extern const TagDetails minoltaISOSetting5D[] = {
+    constexpr TagDetails minoltaISOSetting5D[] = {
         { 0,  N_("Auto")                     },
         { 1,  "100"                          },
         { 3,  "200"                          },
@@ -896,7 +896,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings color space values to readable labels
-    extern const TagDetails minoltaColorSpace5D[] = {
+    constexpr TagDetails minoltaColorSpace5D[] = {
         { 0, N_("sRGB (Natural)")  },
         { 1, N_("sRGB (Natural+)") },
         { 2, N_("Monochrome")      },
@@ -905,14 +905,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings rotation values to readable labels
-    extern const TagDetails minoltaRotation5D[] = {
+    constexpr TagDetails minoltaRotation5D[] = {
         { 72, N_("Horizontal (normal)") },
         { 76, N_("Rotate 90 CW")        },
         { 82, N_("Rotate 270 CW")       }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings focus position values to readable labels
-    extern const TagDetails minoltaFocusPosition5D[] = {
+    constexpr TagDetails minoltaFocusPosition5D[] = {
         { 0, N_("Wide")       },
         { 1, N_("Central")    },
         { 2, N_("Up")         },
@@ -926,14 +926,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings focus area values to readable labels
-    extern const TagDetails minoltaFocusArea5D[] = {
+    constexpr TagDetails minoltaFocusArea5D[] = {
         { 0, N_("Wide")      },
         { 1, N_("Selection") },
         { 2, N_("Spot")      }
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings focus mode values to readable labels
-    extern const TagDetails minoltaAFMode5D[] = {
+    constexpr TagDetails minoltaAFMode5D[] = {
         { 0, "AF-A" },
         { 1, "AF-S" },
         { 2, "AF-D" },
@@ -941,7 +941,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Dynax 5D camera settings picture finish values to readable labels
-    extern const TagDetails minoltaPictureFinish5D[] = {
+    constexpr TagDetails minoltaPictureFinish5D[] = {
         { 0, N_("Natural")         },
         { 1, N_("Natural+")        },
         { 2, N_("Portrait")        },
@@ -1095,7 +1095,7 @@ namespace Exiv2 {
     // -- Sony A100 camera settings ---------------------------------------------------------------
 
     //! Lookup table to translate Sony A100 camera settings drive mode 2 values to readable labels
-    extern const TagDetails sonyDriveMode2A100[] = {
+    constexpr TagDetails sonyDriveMode2A100[] = {
         { 0,    N_("Self-timer 10 sec")             },
         { 1,    N_("Continuous")                    },
         { 4,    N_("Self-timer 2 sec")              },
@@ -1109,7 +1109,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings focus mode values to readable labels
-    extern const TagDetails sonyFocusModeA100[] = {
+    constexpr TagDetails sonyFocusModeA100[] = {
         { 0, "AF-S"   },
         { 1, "AF-C"   },
         { 4, "AF-A"   },
@@ -1118,7 +1118,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings flash mode values to readable labels
-    extern const TagDetails sonyFlashModeA100[] = {
+    constexpr TagDetails sonyFlashModeA100[] = {
         { 0, N_("Auto")            },
         { 2, N_("Rear flash sync") },
         { 3, N_("Wireless")        },
@@ -1126,14 +1126,14 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings metering mode values to readable labels
-    extern const TagDetails sonyMeteringModeA100[] = {
+    constexpr TagDetails sonyMeteringModeA100[] = {
         { 0, N_("Multi-segment")           },
         { 1, N_("Center weighted average") },
         { 2, N_("Spot")                    }
     };
 
     //! Lookup table to translate Sony A100 camera settings zone matching mode values to readable labels
-    extern const TagDetails sonyZoneMatchingModeA100[] = {
+    constexpr TagDetails sonyZoneMatchingModeA100[] = {
         { 0,    N_("Off")      },
         { 1,    N_("Standard") },
         { 2,    N_("Advanced") }
@@ -1141,13 +1141,13 @@ namespace Exiv2 {
 
     //! Lookup table to translate Sony A100 camera settings color space values to readable labels
 
-    extern const TagDetails sonyColorSpaceA100[] = {
+    constexpr TagDetails sonyColorSpaceA100[] = {
         { 0, N_("sRGB")      },
         { 5, N_("Adobe RGB") }
     };
 
     //! Lookup table to translate Sony A100 camera settings drive mode values to readable labels
-    extern const TagDetails sonyDriveModeA100[] = {
+    constexpr TagDetails sonyDriveModeA100[] = {
         { 0, N_("Single Frame")             },
         { 1, N_("Continuous")               },
         { 2, N_("Self-timer")               },
@@ -1157,31 +1157,31 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings self timer time values to readable labels
-    extern const TagDetails sonySelfTimerTimeA100[] = {
+    constexpr TagDetails sonySelfTimerTimeA100[] = {
         { 0, "10s" },
         { 4, "2s"  }
     };
 
     //! Lookup table to translate Sony A100 camera settings continuous bracketing values to readable labels
-    extern const TagDetails sonyContinuousBracketingA100[] = {
+    constexpr TagDetails sonyContinuousBracketingA100[] = {
         { 0x303, N_("Low")  },
         { 0x703, N_("High") }
     };
 
     //! Lookup table to translate Sony A100 camera settings single frame bracketing values to readable labels
-    extern const TagDetails sonySingleFrameBracketingA100[] = {
+    constexpr TagDetails sonySingleFrameBracketingA100[] = {
         { 0x302, N_("Low")  },
         { 0x702, N_("High") }
     };
 
     //! Lookup table to translate Sony A100 camera settings white balance bracketing values to readable labels
-    extern const TagDetails sonyWhiteBalanceBracketingA100[] = {
+    constexpr TagDetails sonyWhiteBalanceBracketingA100[] = {
         { 0x8, N_("Low")  },
         { 0x9, N_("High") }
     };
 
     //! Lookup table to translate Sony A100 camera settings white balance setting values to readable labels
-    extern const TagDetails sonyWhiteBalanceSettingA100[] = {
+    constexpr TagDetails sonyWhiteBalanceSettingA100[] = {
         { 0x0000, N_("Auto")                           },
         { 0x0001, N_("Preset")                         },
         { 0x0002, N_("Custom")                         },
@@ -1192,7 +1192,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings preset white balance values to readable labels
-    extern const TagDetails sonyPresetWhiteBalanceA100[] = {
+    constexpr TagDetails sonyPresetWhiteBalanceA100[] = {
         { 1, N_("Daylight")    },
         { 2, N_("Cloudy")      },
         { 3, N_("Shade")       },
@@ -1202,57 +1202,57 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings color temperature setting values to readable labels
-    extern const TagDetails sonyColorTemperatureSettingA100[] = {
+    constexpr TagDetails sonyColorTemperatureSettingA100[] = {
         { 0, N_("Temperature")  },
         { 2, N_("Color Filter") }
     };
 
     //! Lookup table to translate Sony A100 camera settings custom WB setting values to readable labels
-    extern const TagDetails sonyCustomWBSettingA100[] = {
+    constexpr TagDetails sonyCustomWBSettingA100[] = {
         { 0, N_("Setup")  },
         { 2, N_("Recall") }
     };
 
     //! Lookup table to translate Sony A100 camera settings custom WB error values to readable labels
-    extern const TagDetails sonyCustomWBErrorA100[] = {
+    constexpr TagDetails sonyCustomWBErrorA100[] = {
         { 0, N_("Ok")    },
         { 2, N_("Error") }
     };
 
     //! Lookup table to translate Sony A100 camera settings image size values to readable labels
-    extern const TagDetails sonyImageSizeA100[] = {
+    constexpr TagDetails sonyImageSizeA100[] = {
         { 0, N_("Standard") },
         { 1, N_("Medium")   },
         { 2, N_("Small")    }
     };
 
     //! Lookup table to translate Sony A100 camera settings instant playback setup values to readable labels
-    extern const TagDetails sonyInstantPlaybackSetupA100[] = {
+    constexpr TagDetails sonyInstantPlaybackSetupA100[] = {
         { 0, N_("Image and Information") },
         { 1, N_("Image Only")            },
         { 3, N_("Image and Histogram")   }
     };
 
     //! Lookup table to translate Sony A100 camera settings flash default setup values to readable labels
-    extern const TagDetails sonyFlashDefaultA100[] = {
+    constexpr TagDetails sonyFlashDefaultA100[] = {
         { 0, N_("Auto")       },
         { 1, N_("Fill Flash") }
     };
 
     //! Lookup table to translate Sony A100 camera settings auto bracket order values to readable labels
-    extern const TagDetails sonyAutoBracketOrderA100[] = {
+    constexpr TagDetails sonyAutoBracketOrderA100[] = {
         { 0, "0-+" },
         { 1, "-0+" }
     };
 
     //! Lookup table to translate Sony A100 camera settings focus hold button values to readable labels
-    extern const TagDetails sonyFocusHoldButtonA100[] = {
+    constexpr TagDetails sonyFocusHoldButtonA100[] = {
         { 0, N_("Focus Hold")  },
         { 1, N_("DOF Preview") }
     };
 
     //! Lookup table to translate Sony A100 camera settings AEL button values to readable labels
-    extern const TagDetails sonyAELButtonA100[] = {
+    constexpr TagDetails sonyAELButtonA100[] = {
         { 0, N_("Hold")        },
         { 1, N_("Toggle")      },
         { 2, N_("Spot Hold")   },
@@ -1260,51 +1260,51 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings control dial set values to readable labels
-    extern const TagDetails sonyControlDialSetA100[] = {
+    constexpr TagDetails sonyControlDialSetA100[] = {
         { 0, N_("Shutter Speed") },
         { 1, N_("Aperture")      }
     };
 
     //! Lookup table to translate Sony A100 camera settings exposure compensation mode values to readable labels
-    extern const TagDetails sonyExposureCompensationModeA100[] = {
+    constexpr TagDetails sonyExposureCompensationModeA100[] = {
         { 0, N_("Ambient and Flash") },
         { 1, N_("Ambient Only")      }
     };
 
     //! Lookup table to translate Sony A100 camera settings sony AF area illumination values to readable labels
-    extern const TagDetails sonyAFAreaIlluminationA100[] = {
+    constexpr TagDetails sonyAFAreaIlluminationA100[] = {
         { 0, N_("0.3 seconds") },
         { 1, N_("0.6 seconds") },
         { 2, N_("Off")         }
     };
 
     //! Lookup table to translate Sony A100 camera settings monitor display off values to readable labels
-    extern const TagDetails sonyMonitorDisplayOffA100[] = {
+    constexpr TagDetails sonyMonitorDisplayOffA100[] = {
         { 0, N_("Automatic") },
         { 1, N_("Manual")    }
     };
 
     //! Lookup table to translate Sony A100 camera settings record display values to readable labels
-    extern const TagDetails sonyRecordDisplayA100[] = {
+    constexpr TagDetails sonyRecordDisplayA100[] = {
         { 0, N_("Auto-rotate") },
         { 1, N_("Horizontal")  }
     };
 
     //! Lookup table to translate Sony A100 camera settings play display values to readable labels
-    extern const TagDetails sonyPlayDisplayA100[] = {
+    constexpr TagDetails sonyPlayDisplayA100[] = {
         { 0, N_("Auto-rotate")   },
         { 1, N_("Manual Rotate") }
     };
 
     //! Lookup table to translate Sony A100 camera settings metering off scale indicator values to readable labels
-    extern const TagDetails sonyMeteringOffScaleIndicatorA100[] = {
+    constexpr TagDetails sonyMeteringOffScaleIndicatorA100[] = {
         { 0,   N_("Within Range")     },
         { 1,   N_("Under/Over Range") },
         { 255, N_("Out of Range")     }
     };
 
     //! Lookup table to translate Sony A100 camera settings exposure indicator values to readable labels
-    extern const TagDetails sonyExposureIndicatorA100[] = {
+    constexpr TagDetails sonyExposureIndicatorA100[] = {
         { 0,   N_("Not Indicated")   },
         { 1,   N_("Under Scale")     },
         { 119, N_("Bottom of Scale") },
@@ -1330,20 +1330,20 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Sony A100 camera settings focus mode switch values to readable labels
-    extern const TagDetails sonyFocusModeSwitchA100[] = {
+    constexpr TagDetails sonyFocusModeSwitchA100[] = {
         { 0, N_("AM") },
         { 1, N_("MF") }
     };
 
     //! Lookup table to translate Sony A100 camera settings flash type switch values to readable labels
-    extern const TagDetails sonyFlashTypeA100[] = {
+    constexpr TagDetails sonyFlashTypeA100[] = {
         { 0, N_("Off")      },
         { 1, N_("Built-in") },
         { 2, N_("External") }
     };
 
     //! Lookup table to translate Sony A100 camera settings battery level switch values to readable labels
-    extern const TagDetails sonyBatteryLevelA100[] = {
+    constexpr TagDetails sonyBatteryLevelA100[] = {
         { 3, N_("Very Low")                   },
         { 4, N_("Low")                        },
         { 5, N_("Half Full")                  },
@@ -2246,7 +2246,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Minolta A100 and all other Sony Alpha camera color mode values to readable labels
-    extern const TagDetails minoltaSonyColorMode[] = {
+    constexpr TagDetails minoltaSonyColorMode[] = {
         { 0,   N_("Standard")            },
         { 1,   N_("Vivid Color")         },
         { 2,   N_("Portrait")            },
@@ -2272,7 +2272,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Minolta/Sony bool function values to readable labels
-    extern const TagDetails minoltaSonyBoolFunction[] = {
+    constexpr TagDetails minoltaSonyBoolFunction[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
@@ -2285,7 +2285,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Minolta/Sony bool inverse function values to readable labels
-    extern const TagDetails minoltaSonyBoolInverseFunction[] = {
+    constexpr TagDetails minoltaSonyBoolInverseFunction[] = {
         { 0, N_("On")  },
         { 1, N_("Off") }
     };
@@ -2298,7 +2298,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings focus mode values to readable labels
-    extern const TagDetails minoltaSonyAFAreaMode[] = {
+    constexpr TagDetails minoltaSonyAFAreaMode[] = {
         { 0, N_("Wide")  },
         { 1, N_("Local") },
         { 2, N_("Spot")  }
@@ -2312,7 +2312,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings Local AF Area Point values to readable labels
-    extern const TagDetails minoltaSonyLocalAFAreaPoint[] = {
+    constexpr TagDetails minoltaSonyLocalAFAreaPoint[] = {
         { 1,  N_("Center")       },
         { 2,  N_("Top")          },
         { 3,  N_("Top-Right")    },
@@ -2334,7 +2334,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings dynamic range optimizer mode values to readable labels
-    extern const TagDetails minoltaSonyDynamicRangeOptimizerMode[] = {
+    constexpr TagDetails minoltaSonyDynamicRangeOptimizerMode[] = {
         { 0,    N_("Off")            },
         { 1,    N_("Standard")       },
         { 2,    N_("Advanced Auto")  },
@@ -2350,7 +2350,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings priority setup shutter release values to readable labels
-    extern const TagDetails minoltaSonyPrioritySetupShutterRelease[] = {
+    constexpr TagDetails minoltaSonyPrioritySetupShutterRelease[] = {
         { 0, N_("AF")      },
         { 1, N_("Release") }
     };
@@ -2363,7 +2363,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings quality values to readable labels
-    extern const TagDetails minoltaSonyQualityCs[] = {
+    constexpr TagDetails minoltaSonyQualityCs[] = {
         { 0,   N_("RAW")        },
         { 2,   N_("CRAW")       },
         { 16,  N_("Extra Fine") },
@@ -2381,7 +2381,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony camera settings rotation values to readable labels
-    extern const TagDetails minoltaSonyRotation[] = {
+    constexpr TagDetails minoltaSonyRotation[] = {
         { 0, N_("Horizontal (normal)") },
         { 1, N_("Rotate 90 CW")        },
         { 2, N_("Rotate 270 CW")       }
@@ -2395,7 +2395,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Minolta/Sony scene mode values to readable labels
-    extern const TagDetails minoltaSonySceneMode[] = {
+    constexpr TagDetails minoltaSonySceneMode[] = {
         { 0,  N_("Standard")            },
         { 1,  N_("Portrait")            },
         { 2,  N_("Text")                },
@@ -2418,7 +2418,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony/Minolta image quality values to readable labels
-    extern const TagDetails minoltaSonyImageQuality[] = {
+    constexpr TagDetails minoltaSonyImageQuality[] = {
         { 0, N_("Raw")                   },
         { 1, N_("Super Fine")            },
         { 2, N_("Fine")                  },
@@ -2438,7 +2438,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony/Minolta teleconverter model values to readable labels
-    extern const TagDetails minoltaSonyTeleconverterModel[] = {
+    constexpr TagDetails minoltaSonyTeleconverterModel[] = {
         { 0x00, N_("None")                                },
         { 0x04, N_("Minolta/Sony AF 1.4x APO (D) (0x04)") },
         { 0x05, N_("Minolta/Sony AF 2x APO (D) (0x05)")   },
@@ -2458,7 +2458,7 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------------------------------------
 
     //! Lookup table to translate Sony/Minolta Std camera settings white balance values to readable labels
-    extern const TagDetails minoltaSonyWhiteBalanceStd[] = {
+    constexpr TagDetails minoltaSonyWhiteBalanceStd[] = {
         { 0x00,  N_("Auto")                           },
         { 0x01,  N_("Color Temperature/Color Filter") },
         { 0x10,  N_("Daylight")                       },
@@ -2476,7 +2476,7 @@ namespace Exiv2 {
     }
 
     //! Lookup table to translate Sony/Minolta zone matching values to readable labels
-    extern const TagDetails minoltaSonyZoneMatching[] = {
+    constexpr TagDetails minoltaSonyZoneMatching[] = {
         { 0, N_("ISO Setting Used") },
         { 1, N_("High Key") },
         { 2, N_("Low Key")  }

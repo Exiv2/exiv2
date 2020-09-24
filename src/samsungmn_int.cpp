@@ -43,7 +43,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! LensType, tag 0xa003
-    extern const TagDetails samsung2LensType[] = {
+    constexpr TagDetails samsung2LensType[] = {
         {  0, N_("Built-in")                                      },
         {  1, "Samsung NX 30mm F2 Pancake"                    },
         {  2, "Samsung NX 18-55mm F3.5-5.6 OIS"               },
@@ -65,13 +65,13 @@ namespace Exiv2 {
     };
 
     //! ColorSpace, tag 0xa011
-    extern const TagDetails samsung2ColorSpace[] = {
+    constexpr TagDetails samsung2ColorSpace[] = {
         { 0, N_("sRGB")      },
         { 1, N_("Adobe RGB") }
     };
 
     //! SmartRange, tag 0xa012
-    extern const TagDetails samsung2SmartRange[] = {
+    constexpr TagDetails samsung2SmartRange[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
@@ -148,7 +148,7 @@ namespace Exiv2 {
     }
 
     //! PictureWizard Mode
-    extern const TagDetails samsungPwMode[] = {
+    constexpr TagDetails samsungPwMode[] = {
         {  0, N_("Standard")  },
         {  1, N_("Vivid")     },
         {  2, N_("Portrait")  },

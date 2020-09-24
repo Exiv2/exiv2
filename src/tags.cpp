@@ -65,7 +65,7 @@ namespace Exiv2 {
 
 
     //! List of all defined Exif sections.
-    extern const SectionInfo sectionInfo[] = {
+    constexpr SectionInfo sectionInfo[] = {
         { sectionIdNotSet, "(UnknownSection)",     N_("Unknown section")              },
         { imgStruct,       "ImageStructure",       N_("Image data structure")         },
         { recOffset,       "RecordingOffset",      N_("Recording offset")             },

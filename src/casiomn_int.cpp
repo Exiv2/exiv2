@@ -44,7 +44,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! RecordingMode, tag 0x0001
-    extern const TagDetails casioRecordingMode[] = {
+    constexpr TagDetails casioRecordingMode[] = {
         {  1, N_("Single Shutter") },
         {  2, N_("Panorama")       },
         {  3, N_("Night Scene")    },
@@ -57,14 +57,14 @@ namespace Exiv2 {
     };
 
     //! Quality, tag 0x0002
-    extern const TagDetails casioQuality[] = {
+    constexpr TagDetails casioQuality[] = {
         { 1, N_("Economy") },
         { 2, N_("Normal")  },
         { 3, N_("Fine")    }
     };
 
     //! Focus Mode, tag 0x0003
-    extern const TagDetails casioFocusMode[] = {
+    constexpr TagDetails casioFocusMode[] = {
         { 2, N_("Macro")    },
         { 3, N_("Auto")     },
         { 4, N_("Manual")   },
@@ -73,7 +73,7 @@ namespace Exiv2 {
     };
 
     //! FlashMode, tag 0x0004
-    extern const TagDetails casioFlashMode[] = {
+    constexpr TagDetails casioFlashMode[] = {
         { 1, N_("Auto")              },
         { 2, N_("On")                },
         { 3, N_("Off")               },
@@ -82,7 +82,7 @@ namespace Exiv2 {
     };
 
     //! Flash intensity, tag 0x0005
-    extern const TagDetails casioFlashIntensity[] = {
+    constexpr TagDetails casioFlashIntensity[] = {
         { 11, N_("Weak")   },
         { 12, N_("Low")    },
         { 13, N_("Normal") },
@@ -91,7 +91,7 @@ namespace Exiv2 {
     };
 
     //! white balance, tag 0x0007
-    extern const TagDetails casioWhiteBalance[] = {
+    constexpr TagDetails casioWhiteBalance[] = {
         {   1, N_("Auto")        },
         {   2, N_("Tungsten")    },
         {   3, N_("Daylight")    },
@@ -101,7 +101,7 @@ namespace Exiv2 {
     };
 
     //! Flash intensity, tag 0x0005
-    extern const TagDetails casioDigitalZoom[] = {
+    constexpr TagDetails casioDigitalZoom[] = {
         { 0x10000, N_("Off")   },
         { 0x10001, N_("2x")    },
         { 0x13333, N_("1.2x")  },
@@ -113,7 +113,7 @@ namespace Exiv2 {
     };
 
     //! Sharpness, tag 0x000b
-    extern const TagDetails casioSharpness[] = {
+    constexpr TagDetails casioSharpness[] = {
         {  0, N_("Normal") },
         {  1, N_("Soft")   },
         {  2, N_("Hard")   },
@@ -123,7 +123,7 @@ namespace Exiv2 {
     };
 
     //! Contrast, tag 0x000c
-    extern const TagDetails casioContrast[] = {
+    constexpr TagDetails casioContrast[] = {
         {  0, N_("Normal") },
         {  1, N_("Low")   },
         {  2, N_("High")   },
@@ -133,7 +133,7 @@ namespace Exiv2 {
     };
 
     //! Saturation, tag 0x000d
-    extern const TagDetails casioSaturation[] = {
+    constexpr TagDetails casioSaturation[] = {
         {  0, N_("Normal") },
         {  1, N_("Low")   },
         {  2, N_("High")   },
@@ -143,7 +143,7 @@ namespace Exiv2 {
     };
 
     //! Enhancement, tag 0x0016
-    extern const TagDetails casioEnhancement[] = {
+    constexpr TagDetails casioEnhancement[] = {
         { 1, N_("Off")         },
         { 2, N_("Red")         },
         { 3, N_("Green")       },
@@ -152,7 +152,7 @@ namespace Exiv2 {
     };
 
     //! Color filter, tag 0x0017
-    extern const TagDetails casioColorFilter[] = {
+    constexpr TagDetails casioColorFilter[] = {
         { 1, N_("Off")           },
         { 2, N_("Black & White") },
         { 3, N_("Sepia")         },
@@ -165,14 +165,14 @@ namespace Exiv2 {
     };
 
     //! flash intensity 2, tag 0x0019
-    extern const TagDetails casioFlashIntensity2[] = {
+    constexpr TagDetails casioFlashIntensity2[] = {
         { 1, N_("Normal") },
         { 2, N_("Weak")   },
         { 3, N_("Strong") }
     };
 
     //! CCD Sensitivity intensity, tag 0x0020
-    extern const TagDetails casioCCDSensitivity[] = {
+    constexpr TagDetails casioCCDSensitivity[] = {
         {  64, N_("Normal")                     },
         { 125, N_("+1.0")                       },
         { 250, N_("+2.0")                       },
@@ -262,14 +262,14 @@ namespace Exiv2 {
 
     //Casio Makernotes, Type 2
     //! Quality Mode, tag 0x0004
-    extern const TagDetails casio2QualityMode[] = {
+    constexpr TagDetails casio2QualityMode[] = {
         { 0, N_("Economy") },
         { 1, N_("Normal")  },
         { 2, N_("Fine")    }
     };
 
     //! Image Size, tag 0x0009
-    extern const TagDetails casio2ImageSize[] = {
+    constexpr TagDetails casio2ImageSize[] = {
         {  0, "640x480"   },
         {  4, "1600x1200" },
         {  5, "2048x1536" },
@@ -280,13 +280,13 @@ namespace Exiv2 {
     };
 
     //! Focus Mode, tag 0x000d
-    extern const TagDetails casio2FocusMode[] = {
+    constexpr TagDetails casio2FocusMode[] = {
         { 0, N_("Normal") },
         { 1, N_("Macro") }
     };
 
     //! ISO Speed, tag 0x0014
-    extern const TagDetails casio2IsoSpeed[] = {
+    constexpr TagDetails casio2IsoSpeed[] = {
         { 3, "50"  },
         { 4, "64"  },
         { 6, "100" },
@@ -294,7 +294,7 @@ namespace Exiv2 {
     };
 
     //! White Balance, tag 0x0019
-    extern const TagDetails casio2WhiteBalance[] = {
+    constexpr TagDetails casio2WhiteBalance[] = {
         { 0, N_("Auto")        },
         { 1, N_("Daylight")    },
         { 2, N_("Shade")       },
@@ -304,28 +304,28 @@ namespace Exiv2 {
     };
 
     //! Saturation, tag 0x001f
-    extern const TagDetails casio2Saturation[] = {
+    constexpr TagDetails casio2Saturation[] = {
         { 0, N_("Low")    },
         { 1, N_("Normal") },
         { 2, N_("High")   }
     };
 
     //! Contrast, tag 0x0020
-    extern const TagDetails casio2Contrast[] = {
+    constexpr TagDetails casio2Contrast[] = {
         { 0, N_("Low")    },
         { 1, N_("Normal") },
         { 2, N_("High")   }
     };
 
     //! Sharpness, tag 0x0021
-    extern const TagDetails casio2Sharpness[] = {
+    constexpr TagDetails casio2Sharpness[] = {
         { 0, N_("Soft")    },
         { 1, N_("Normal") },
         { 2, N_("Hard")   }
     };
 
     //! White Balance2, tag 0x2012
-    extern const TagDetails casio2WhiteBalance2[] = {
+    constexpr TagDetails casio2WhiteBalance2[] = {
         {  0, N_("Manual")      },
         {  1, N_("Daylight")    },
         {  2, N_("Cloudy")      },
@@ -338,7 +338,7 @@ namespace Exiv2 {
     };
 
     //! Release Mode, tag 0x3001
-    extern const TagDetails casio2ReleaseMode[] = {
+    constexpr TagDetails casio2ReleaseMode[] = {
         {  1, N_("Normal")              },
         {  3, N_("AE Bracketing")       },
         { 11, N_("WB Bracketing")       },
@@ -347,14 +347,14 @@ namespace Exiv2 {
     };
 
     //! Quality, tag 0x3002
-    extern const TagDetails casio2Quality[] = {
+    constexpr TagDetails casio2Quality[] = {
         { 1, N_("Economy") },
         { 2, N_("Normal")  },
         { 3, N_("Fine")    }
     };
 
     //! Focus Mode 2, tag 0x3003
-    extern const TagDetails casio2FocusMode2[] = {
+    constexpr TagDetails casio2FocusMode2[] = {
         { 0, N_("Manual")                 },
         { 1, N_("Focus Lock")             },
         { 2, N_("Macro")                  },
@@ -365,7 +365,7 @@ namespace Exiv2 {
     };
 
     //! AutoISO, tag 0x3008
-    extern const TagDetails casio2AutoISO[] = {
+    constexpr TagDetails casio2AutoISO[] = {
         {  1, N_("On")                   },
         {  2, N_("Off")                  },
         {  7, N_("On (high sensitiviy)") },
@@ -374,7 +374,7 @@ namespace Exiv2 {
     };
 
     //! AFMode, tag 0x3009
-    extern const TagDetails casio2AFMode[] = {
+    constexpr TagDetails casio2AFMode[] = {
         { 0, N_("Off")            },
         { 1, N_("Spot")           },
         { 2, N_("Multi")          },
@@ -384,14 +384,14 @@ namespace Exiv2 {
     };
 
     //! ColorMode, tag 0x3015
-    extern const TagDetails casio2ColorMode[] = {
+    constexpr TagDetails casio2ColorMode[] = {
         { 0, N_("Off")           },
         { 2, N_("Black & White") },
         { 3, N_("Sepia")         }
     };
 
     //! Enhancement, tag 0x3016
-    extern const TagDetails casio2Enhancement[] = {
+    constexpr TagDetails casio2Enhancement[] = {
         { 0, N_("Off")         },
         { 1, N_("Scenery")     },
         { 3, N_("Green")       },
@@ -401,7 +401,7 @@ namespace Exiv2 {
     };
 
     //! Color Filter, tag 0x3017
-    extern const TagDetails casio2ColorFilter[] = {
+    constexpr TagDetails casio2ColorFilter[] = {
         { 0, N_("Off")    },
         { 1, N_("Blue")   },
         { 3, N_("Green")  },
@@ -412,7 +412,7 @@ namespace Exiv2 {
     };
 
     //! Art Mode, tag 0x301b
-    extern const TagDetails casio2ArtMode[] = {
+    constexpr TagDetails casio2ArtMode[] = {
         {  0, N_("Normal")                },
         {  8, N_("Silent Movie")          },
         { 39, N_("HDR")                   },
@@ -429,7 +429,7 @@ namespace Exiv2 {
     };
 
     //! Lighting Mode, tag 0x302a
-    extern const TagDetails casio2LightingMode[] = {
+    constexpr TagDetails casio2LightingMode[] = {
         { 0, N_("Off")                 },
         { 1, N_("High Dynamic Range")  },
         { 5, N_("Shadow Enhance Low")  },
@@ -437,14 +437,14 @@ namespace Exiv2 {
     };
 
     //! Portrait Refiner, tag 0x302b
-    extern const TagDetails casio2PortraitRefiner[] = {
+    constexpr TagDetails casio2PortraitRefiner[] = {
         { 0, N_("Off") },
         { 1, N_("+1")  },
         { 2, N_("+2")  }
     };
 
     //! Special Effect Setting, tag 0x3031
-    extern const TagDetails casio2SpecialEffectSetting[] = {
+    constexpr TagDetails casio2SpecialEffectSetting[] = {
         {  0, N_("Off")             },
         {  1, N_("Makeup")          },
         {  2, N_("Mist Removal")    },
@@ -453,7 +453,7 @@ namespace Exiv2 {
     };
 
     //! Drive Mode, tag 0x3103
-    extern const TagDetails casio2DriveMode[] = {
+    constexpr TagDetails casio2DriveMode[] = {
         {   0, N_("Single Shot")         },
         {   1, N_("Continuous Shooting") },
         {   2, N_("Continuous (2 fps)")  },
@@ -473,7 +473,7 @@ namespace Exiv2 {
     };
 
     //! Video Quality, tag 0x4003
-    extern const TagDetails casio2VideoQuality[] = {
+    constexpr TagDetails casio2VideoQuality[] = {
         { 1, N_("Standard")        },
         { 3, N_("HD (720p)")       },
         { 4, N_("Full HD (1080p)") },

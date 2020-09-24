@@ -45,7 +45,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! Quality, tag 0x0001
-    extern const TagDetails panasonicQuality[] = {
+    constexpr TagDetails panasonicQuality[] = {
         {  1, N_("TIFF")           },
         {  2, N_("High")           },
         {  3, N_("Normal")         },
@@ -57,7 +57,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x0003
-    extern const TagDetails panasonicWhiteBalance[] = {
+    constexpr TagDetails panasonicWhiteBalance[] = {
         {  1, N_("Auto")            },
         {  2, N_("Daylight")        },
         {  3, N_("Cloudy")          },
@@ -71,7 +71,7 @@ namespace Exiv2 {
     };
 
     //! FocusMode, tag 0x0007
-    extern const TagDetails panasonicFocusMode[] = {
+    constexpr TagDetails panasonicFocusMode[] = {
         {  1, N_("Auto")               },
         {  2, N_("Manual")             },
         {  4, N_("Auto, focus button") },
@@ -82,7 +82,7 @@ namespace Exiv2 {
     };
 
     //! ImageStabilizer, tag 0x001a
-    extern const TagDetails panasonicImageStabilizer[] = {
+    constexpr TagDetails panasonicImageStabilizer[] = {
         {  2, N_("On, Mode 1") },
         {  3, N_("Off")        },
         {  4, N_("On, Mode 2") },
@@ -91,7 +91,7 @@ namespace Exiv2 {
     };
 
     //! Macro, tag 0x001c
-    extern const TagDetails panasonicMacro[] = {
+    constexpr TagDetails panasonicMacro[] = {
         {   1, N_("On")         },
         {   2, N_("Off")        },
         { 257, N_("Tele-macro") },
@@ -99,7 +99,7 @@ namespace Exiv2 {
     };
 
     //! ShootingMode, tag 0x001f and SceneMode, tag 0x8001
-    extern const TagDetails panasonicShootingMode[] = {
+    constexpr TagDetails panasonicShootingMode[] = {
         {  0, N_("Off")                            }, // only SceneMode
         {  1, N_("Normal")                         },
         {  2, N_("Portrait")                       },
@@ -180,14 +180,14 @@ namespace Exiv2 {
     };
 
     //! Audio, tag 0x0020
-    extern const TagDetails panasonicAudio[] = {
+    constexpr TagDetails panasonicAudio[] = {
         { 1, N_("Yes")    },
         { 2, N_("No")     },
         { 3, N_("Stereo") }
     };
 
     //! ColorEffect, tag 0x0028
-    extern const TagDetails panasonicColorEffect[] = {
+    constexpr TagDetails panasonicColorEffect[] = {
         { 1, N_("Off")             },
         { 2, N_("Warm")            },
         { 3, N_("Cool")            },
@@ -197,14 +197,14 @@ namespace Exiv2 {
     };
 
     //! BustMode, tag 0x002a
-    extern const TagDetails panasonicBurstMode[] = {
+    constexpr TagDetails panasonicBurstMode[] = {
         { 0, N_("Off")              },
         { 1, N_("Low/High quality") },
         { 2, N_("Infinite")         }
     };
 
     //! Contrast, tag 0x002c
-    extern const TagDetails panasonicContrast[] = {
+    constexpr TagDetails panasonicContrast[] = {
         {   0, N_("Normal")      },
         {   1, N_("Low")         },
         {   2, N_("High")        },
@@ -217,7 +217,7 @@ namespace Exiv2 {
     };
 
     //! NoiseReduction, tag 0x002d
-    extern const TagDetails panasonicNoiseReduction[] = {
+    constexpr TagDetails panasonicNoiseReduction[] = {
         { 0, N_("Standard") },
         { 1, N_("Low (-1)")     },
         { 2, N_("High (+1)")    },
@@ -226,7 +226,7 @@ namespace Exiv2 {
     };
 
     //! SelfTimer, tag 0x002e
-    extern const TagDetails panasonicSelfTimer[] = {
+    constexpr TagDetails panasonicSelfTimer[] = {
         { 1, N_("Off")                },
         { 2, "10 s"               },
         { 3, "2 s"                },
@@ -234,7 +234,7 @@ namespace Exiv2 {
     };
 
     //! Rotation, tag 0x0030
-    extern const TagDetails panasonicRotation[] = {
+    constexpr TagDetails panasonicRotation[] = {
         { 1, N_("Horizontal (normal)") },
         { 3, N_("Rotate 180")          },
         { 6, N_("Rotate 90 CW")        },
@@ -242,7 +242,7 @@ namespace Exiv2 {
     };
 
     //! AFAssistLamp, tag 0x0031
-    extern const TagDetails panasonicAFAssistLamp[] = {
+    constexpr TagDetails panasonicAFAssistLamp[] = {
         { 1, N_("Fired")                     },
         { 2, N_("Enabled but Not Used")      },
         { 3, N_("Disabled but Required")     },
@@ -250,20 +250,20 @@ namespace Exiv2 {
     };
 
     //! ColorMode, tag 0x0032
-    extern const TagDetails panasonicColorMode[] = {
+    constexpr TagDetails panasonicColorMode[] = {
         { 0, N_("Normal")  },
         { 1, N_("Natural") },
         { 2, N_("Vivid")   }
     };
 
     //! OpticalZoomMode, tag 0x0034
-    extern const TagDetails panasonicOpticalZoomMode[] = {
+    constexpr TagDetails panasonicOpticalZoomMode[] = {
         { 1, N_("Standard")  },
         { 2, N_("EX optics") }
     };
 
     //! ConversionLens, tag 0x0035
-    extern const TagDetails panasonicConversionLens[] = {
+    constexpr TagDetails panasonicConversionLens[] = {
         { 1, N_("Off")       },
         { 2, N_("Wide")      },
         { 3, N_("Telephoto") },
@@ -272,19 +272,19 @@ namespace Exiv2 {
     };
 
     //! WorldTimeLocation, tag 0x003a
-    extern const TagDetails panasonicWorldTimeLocation[] = {
+    constexpr TagDetails panasonicWorldTimeLocation[] = {
         { 1, N_("Home")        },
         { 2, N_("Destination") }
     };
 
     //! TextStamp, tag 0x003b, 0x003e, 000x8008 and 0x8009
-    extern const TagDetails panasonicTextStamp[] = {
+    constexpr TagDetails panasonicTextStamp[] = {
         { 1, N_("Off") },
         { 2, N_("On")  }
     };
 
     //! FilmMode, tag 0x0042
-    extern const TagDetails panasonicFilmMode[] = {
+    constexpr TagDetails panasonicFilmMode[] = {
         {  1, N_("Standard (color)") },
         {  2, N_("Dynamic (color)")  },
         {  3, N_("Nature (color)")   },
@@ -297,7 +297,7 @@ namespace Exiv2 {
     };
 
     //! Bracket Settings, tag 0x0045
-    extern const TagDetails panasonicBracketSettings[] = {
+    constexpr TagDetails panasonicBracketSettings[] = {
         { 0, N_("No Bracket")               },
         { 1, N_("3 images, Sequence 0/-/+") },
         { 2, N_("3 images, Sequence -/0/+") },
@@ -308,20 +308,20 @@ namespace Exiv2 {
     };
 
     //! Flash curtain, tag 0x0048
-    extern const TagDetails panasonicFlashCurtain[] = {
+    constexpr TagDetails panasonicFlashCurtain[] = {
         { 0, N_("n/a") },
         { 1, N_("1st") },
         { 2, N_("2nd") }
     };
 
     //! Long Shutter Noise Reduction, tag 0x0049
-    extern const TagDetails panasonicLongShutterNoiseReduction[] = {
+    constexpr TagDetails panasonicLongShutterNoiseReduction[] = {
         { 1, N_("Off") },
         { 2, N_("On") }
     };
 
     //! Intelligent exposure, tag 0x005d
-    extern const TagDetails panasonicIntelligentExposure[] = {
+    constexpr TagDetails panasonicIntelligentExposure[] = {
         { 0, N_("Off")      },
         { 1, N_("Low")      },
         { 2, N_("Standard") },
@@ -329,13 +329,13 @@ namespace Exiv2 {
     };
 
     //! Flash warning, tag 0x0062
-    extern const TagDetails panasonicFlashWarning[] = {
+    constexpr TagDetails panasonicFlashWarning[] = {
         { 0, N_("No")                               },
         { 1, N_("Yes (flash required but disabled") }
     };
 
     //! Intelligent resolution, tag 0x0070
-    extern const TagDetails panasonicIntelligentResolution[] = {
+    constexpr TagDetails panasonicIntelligentResolution[] = {
         { 0, N_("Off")      },
         { 1, N_("Low")      },
         { 2, N_("Standard") },
@@ -344,7 +344,7 @@ namespace Exiv2 {
     };
 
     //! Intelligent D-Range, tag 0x0079
-    extern const TagDetails panasonicIntelligentDRange[] = {
+    constexpr TagDetails panasonicIntelligentDRange[] = {
         { 0, N_("Off")      },
         { 1, N_("Low")      },
         { 2, N_("Standard") },
@@ -352,13 +352,13 @@ namespace Exiv2 {
     };
 
     //! Clear Retouch, tag 0x007c
-    extern const TagDetails panasonicClearRetouch[] = {
+    constexpr TagDetails panasonicClearRetouch[] = {
         { 0, N_("Off") },
         { 1, N_("On") }
     };
 
     //! Photo Style, tag 0x0089
-    extern const TagDetails panasonicPhotoStyle[] = {
+    constexpr TagDetails panasonicPhotoStyle[] = {
         { 0, N_("NoAuto")             },
         { 1, N_("Standard or Custom") },
         { 2, N_("Vivid")              },
@@ -369,13 +369,13 @@ namespace Exiv2 {
     };
 
     //! Shading compensation, tag 0x008a
-    extern const TagDetails panasonicShadingCompensation[] = {
+    constexpr TagDetails panasonicShadingCompensation[] = {
         { 0, N_("Off") },
         { 1, N_("On") }
     };
 
     //! Camera orientation, tag 0x008f
-    extern const TagDetails panasonicCameraOrientation[] = {
+    constexpr TagDetails panasonicCameraOrientation[] = {
         { 0, N_("Normal")         },
         { 1, N_("Rotate CW")      },
         { 2, N_("Rotate 180")     },
@@ -385,7 +385,7 @@ namespace Exiv2 {
     };
 
     //! Sweep panorama direction, tag 0x0093
-    extern const TagDetails panasonicSweepPanoramaDirection[] = {
+    constexpr TagDetails panasonicSweepPanoramaDirection[] = {
         { 0, N_("Off")           },
         { 1, N_("Left to Right") },
         { 2, N_("Right to Left") },
@@ -394,14 +394,14 @@ namespace Exiv2 {
     };
 
     //! Timer recording, tag 0x0096
-    extern const TagDetails panasonicTimerRecording[] = {
+    constexpr TagDetails panasonicTimerRecording[] = {
         { 0, N_("Off")                   },
         { 1, N_("Time Lapse")            },
         { 2, N_("Stop-Motion Animation") }
     };
 
     //! HDR, tag 0x009e
-    extern const TagDetails panasonicHDR[] = {
+    constexpr TagDetails panasonicHDR[] = {
         {     0, N_("Off")         },
         {   100, N_("1 EV")        },
         {   200, N_("2 EV")        },
@@ -412,20 +412,20 @@ namespace Exiv2 {
     };
 
     //! Shutter Type, tag 0x009f
-    extern const TagDetails panasonicShutterType[] = {
+    constexpr TagDetails panasonicShutterType[] = {
         { 0, N_("Mechanical") },
         { 1, N_("Electronic") },
         { 2, N_("Hybrid")     }
     };
 
     //! Touch AE, tag 0x00ab
-    extern const TagDetails panasonicTouchAE[] = {
+    constexpr TagDetails panasonicTouchAE[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
 
     //! Flash Fired, tag 0x8007
-    extern const TagDetails panasonicFlashFired[] = {
+    constexpr TagDetails panasonicFlashFired[] = {
         { 1, N_("No")  },
         { 2, N_("Yes") }
     };
