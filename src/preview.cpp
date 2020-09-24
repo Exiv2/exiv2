@@ -168,7 +168,7 @@ namespace {
         //! Read preview image dimensions
         bool readDimensions() override;
 
-    protected:
+    private:
         //! Native preview information
         NativePreview nativePreview_;
     };
@@ -192,6 +192,10 @@ namespace {
         //! Read preview image dimensions
         bool readDimensions() override;
 
+    private:
+        //! Offset value
+        size_t offset_;
+
     protected:
         //! Structure that lists offset/size tag pairs
         struct Param {
@@ -202,9 +206,6 @@ namespace {
 
         //! Table that holds all possible offset/size pairs. parIdx is an index to this table
         static const Param param_[];
-
-        //! Offset value
-        size_t offset_;
     };
 
     //! Function to create new LoaderExifJpeg
@@ -225,6 +226,10 @@ namespace {
         //! Read preview image dimensions
         bool readDimensions() override;
 
+    private:
+        //! Key that points to the Value that contains the JPEG preview in data area
+        ExifKey dataKey_;
+
     protected:
 
         //! Structure that lists data/size tag pairs
@@ -235,9 +240,6 @@ namespace {
 
         //! Table that holds all possible data/size pairs. parIdx is an index to this table
         static const Param param_[];
-
-        //! Key that points to the Value that contains the JPEG preview in data area
-        ExifKey dataKey_;
     };
 
     //! Function to create new LoaderExifDataJpeg
@@ -255,7 +257,7 @@ namespace {
         //! Get a buffer that contains the preview image
         EXV_WARN_UNUSED_RESULT DataBuf getData() const override;
 
-    protected:
+    private:
         //! Name of the group that contains the preview image
         const char *group_;
 
@@ -265,6 +267,7 @@ namespace {
         //! Tag that contains data sizes. Possible values are "StripByteCounts" or "TileByteCounts"
         std::string sizeTag_;
 
+    protected:
         //! Structure that lists preview groups
         struct Param {
             const char* group_; //!< Group name
@@ -295,7 +298,7 @@ namespace {
         //! Read preview image dimensions
         bool readDimensions() override;
 
-    protected:
+    private:
         //! Preview image data
         DataBuf preview_;
     };
