@@ -594,7 +594,7 @@ namespace Exiv2
         //! Constructor accepting a unicode path in an std::wstring
         HttpImpl(const std::wstring& wpath, size_t blockSize);
 #endif
-        ~HttpImpl() = default;
+        ~HttpImpl() override = default;
 
         Exiv2::Uri hostInfo_;  //!< the host information extracted from the path
 
