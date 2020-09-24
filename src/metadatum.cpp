@@ -37,11 +37,7 @@
 // class member definitions
 namespace Exiv2 {
 
-Key::~Key() = default;
-
 Key::UniquePtr Key::clone() const { return UniquePtr(clone_()); }
-
-Key &Key::operator=(const Key & /*rhs*/) = default;
 
 Metadatum::Metadatum() = default;
 

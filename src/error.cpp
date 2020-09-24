@@ -209,9 +209,7 @@ namespace Exiv2 {
     }
 
     AnyError::AnyError() = default;
-
     AnyError::AnyError(const AnyError &o) : std::exception(o) {}
-
     AnyError::~AnyError() noexcept = default;
 
     template<>
