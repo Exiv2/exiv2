@@ -36,6 +36,7 @@ namespace Exiv2
             , size_(size)
         {
         }
+        ~Impl() = default;
 
         Impl& operator=(const Impl& rhs) = delete;
         Impl& operator=(const Impl&& rhs) = delete;

@@ -61,6 +61,11 @@ namespace Exiv2
             }
         }
 
+        BlockMap& operator=(const BlockMap& rhs) = delete;
+        BlockMap& operator=(const BlockMap&& rhs) = delete;
+        BlockMap(const BlockMap& rhs) = delete;
+        BlockMap(const BlockMap&& rhs) = delete;
+
         //! @brief Populate the block.
         //! @param source The data populate to the block
         //! @param num The size of data
@@ -124,6 +129,11 @@ namespace Exiv2
 #endif
         //! Destructor. Releases all managed memory.
         virtual ~Impl();
+
+        Impl& operator=(const Impl& rhs) = delete;
+        Impl& operator=(const Impl&& rhs) = delete;
+        Impl(const Impl& rhs) = delete;
+        Impl(const Impl&& rhs) = delete;
 
         // DATA
         std::string path_;  //!< (Standard) path
@@ -584,6 +594,8 @@ namespace Exiv2
         //! Constructor accepting a unicode path in an std::wstring
         HttpImpl(const std::wstring& wpath, size_t blockSize);
 #endif
+        ~HttpImpl() = default;
+
         Exiv2::Uri hostInfo_;  //!< the host information extracted from the path
 
         // METHODS

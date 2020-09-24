@@ -67,6 +67,9 @@ namespace Exiv2
         //! Constructor accepting a unicode path in an std::wstring
         explicit Impl(const std::wstring& wpath);
 #endif
+        //! Destructor
+        ~Impl() = default;
+
         // Enumerations
         //! Mode of operation
         enum OpMode

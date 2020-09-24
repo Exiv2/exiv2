@@ -93,6 +93,11 @@ public:
     }
 
     virtual ~Options() = default;
+
+    Options& operator=(const Options& rhs) = delete;
+    Options& operator=(const Options&& rhs) = delete;
+    Options(const Options& rhs) = delete;
+    Options(const Options&& rhs) = delete;
 };
 
 enum
@@ -163,7 +168,29 @@ public:
       , delta_(o.delta_)
     {}
 
-//  instance methods
+    Position& operator=(const Position& o)
+    {
+        time_ = o.time_;
+        lon_ = o.lon_;
+        lat_ = o.lat_;
+        ele_ = o.ele_;
+        delta_ = o.delta_;
+        return *this;
+    }
+
+    Position& operator=(const Position&& o)
+    {
+        time_ = o.time_;
+        lon_ = o.lon_;
+        lat_ = o.lat_;
+        ele_ = o.ele_;
+        delta_ = o.delta_;
+        return *this;
+    }
+
+    Position(const Position&& rhs) = delete;
+
+    //  instance methods
     EXV_WARN_UNUSED_RESULT bool good() const
     {
         return time_ || lon_ || lat_ || ele_;
@@ -299,6 +326,11 @@ public:
       , options_(options)
     {}
     virtual ~UserData() = default;
+
+    UserData& operator=(const UserData& rhs) = delete;
+    UserData& operator=(const UserData&& rhs) = delete;
+    UserData(const UserData& rhs) = delete;
+    UserData(const UserData&& rhs) = delete;
 
     //  public data members
     int         indent;

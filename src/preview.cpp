@@ -92,6 +92,11 @@ namespace {
         //! Virtual destructor.
       virtual ~Loader() = default;
 
+      Loader &operator=(const Loader &rhs) = delete;
+      Loader &operator=(const Loader &&rhs) = delete;
+      Loader(const Loader &rhs) = delete;
+      Loader(const Loader &&rhs) = delete;
+
       //! Loader auto pointer
       using UniquePtr = std::unique_ptr<Loader>;
 

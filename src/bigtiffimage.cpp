@@ -162,6 +162,11 @@ namespace Exiv2
 
                 ~BigTiffImage() override = default;
 
+                BigTiffImage& operator=(const BigTiffImage& rhs) = delete;
+                BigTiffImage& operator=(const BigTiffImage&& rhs) = delete;
+                BigTiffImage(const BigTiffImage& rhs) = delete;
+                BigTiffImage(const BigTiffImage&& rhs) = delete;
+
                 // overrides
                 void readMetadata() override
                 {

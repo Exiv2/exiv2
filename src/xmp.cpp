@@ -112,6 +112,11 @@ namespace {
         {
             if (xmpLockFct_) xmpLockFct_(pLockData_, false);
         }
+
+        AutoLock(const AutoLock& rhs) = delete;              //!< Copy constructor
+        AutoLock& operator=(const AutoLock& rhs) = delete;   //!< Copy Assignment
+        AutoLock(const AutoLock&& rhs) = delete;             //!< Move constructor
+        AutoLock& operator=(const AutoLock&& rhs) = delete;  //!< Move Assignment
     private:
         Exiv2::XmpParser::XmpLockFct xmpLockFct_;
         void* pLockData_;
@@ -126,7 +131,10 @@ namespace Exiv2 {
     struct Xmpdatum::Impl {
         Impl(const XmpKey& key, const Value* pValue);  //!< Constructor
         Impl(const Impl& rhs);                         //!< Copy constructor
-        Impl& operator=(const Impl& rhs);              //!< Assignment
+        Impl& operator=(const Impl& rhs);              //!< Copy Assignment
+        Impl(const Impl&& rhs) = delete;               //!< Move constructor
+        Impl& operator=(const Impl&& rhs) = delete;    //!< Move Assignment
+        ~Impl() = default;
 
         // DATA
         XmpKey::UniquePtr key_;                          //!< Key
