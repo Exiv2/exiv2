@@ -1,18 +1,16 @@
 #include "bigtiffimage.hpp"
 
-#include "safe_op.hpp"
-#include "exif.hpp"
-#include "error.hpp"
-#include "image_int.hpp"
-#include "enforce.hpp"
-
-#include <cassert>
-#include <limits>
+#include <cinttypes>
 #include <iostream>
+
+#include "enforce.hpp"
+#include "error.hpp"
+#include "exif.hpp"
+#include "image_int.hpp"
+#include "safe_op.hpp"
 
 namespace Exiv2
 {
-
     namespace
     {
         struct Header
@@ -310,10 +308,9 @@ namespace Exiv2
                                 const uint64_t address = dir_offset + 2 + i * entrySize;
 
                                 out << Internal::indent(depth)
-                                    << Internal::stringFormat("%8u | %#06x %-25s |%10s |%9u |",
-                                                              static_cast<size_t>(address), tag, tagName(tag).c_str(),
-                                                              typeName(type), count)
-                                    << (usePointer ? Internal::stringFormat("%10u | ", static_cast<size_t>(offset))
+                                    << Internal::stringFormat("%8" PRIu64 " | %#06x %-25s |%10s |%9" PRIu64 " |",
+                                                              address, tag, tagName(tag).c_str(), typeName(type), count)
+                                    << (usePointer ? Internal::stringFormat("%10" PRIu64 " | ", offset)
                                                    : Internal::stringFormat("%10s | ", ""));
                                 if ( isShortType(type) )
                                 {
