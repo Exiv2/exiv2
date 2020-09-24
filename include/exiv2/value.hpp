@@ -69,6 +69,7 @@ namespace Exiv2 {
         //! Virtual destructor.
         virtual ~Value();
         //@}
+        Value(const Value& val) = default;
         //! @name Manipulators
         //@{
         /*!
@@ -649,6 +650,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         explicit XmpValue(TypeId typeId);
+        explicit XmpValue(const XmpValue&) = default;
         //@}
 
         //! @name Accessors
