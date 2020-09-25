@@ -157,72 +157,61 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
   throw Error(kerUnsupportedImageType, io_->path());
 }
 
-    bool Image::isStringType(uint16_t type)
-    {
-        return type == Exiv2::asciiString
-            || type == Exiv2::unsignedByte
-            || type == Exiv2::signedByte
-            || type == Exiv2::undefined
-            ;
-    }
-    bool Image::isShortType(uint16_t type) {
-         return type == Exiv2::unsignedShort
-             || type == Exiv2::signedShort
-             ;
-    }
-    bool Image::isLongType(uint16_t type) {
-         return type == Exiv2::unsignedLong
-             || type == Exiv2::signedLong
-             ;
-    }
-    bool Image::isLongLongType(uint16_t type) {
-        return type == Exiv2::unsignedLongLong
-            || type == Exiv2::signedLongLong
-            ;
-    }
-    bool Image::isRationalType(uint16_t type) {
-         return type == Exiv2::unsignedRational
-             || type == Exiv2::signedRational
-             ;
-    }
-    bool Image::is2ByteType(uint16_t type)
-    {
-        return isShortType(type);
-    }
-    bool Image::is4ByteType(uint16_t type)
-    {
-        return isLongType(type)
-            || type == Exiv2::tiffFloat
-            || type == Exiv2::tiffIfd
-            ;
-    }
-    bool Image::is8ByteType(uint16_t type)
-    {
-        return isRationalType(type)
-             || isLongLongType(type)
-             || type == Exiv2::tiffIfd8
-             || type == Exiv2::tiffDouble
-            ;
-    }
-    bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
-    {
-        return type == 700 && option == kpsXMP;
-    }
-    bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option)
-    {
-        return type == 0x8773 && option == kpsIccProfile;
-    }
+bool Image::isStringType(uint16_t type) const
+{
+    return type == Exiv2::asciiString || type == Exiv2::unsignedByte || type == Exiv2::signedByte ||
+           type == Exiv2::undefined;
+}
+bool Image::isShortType(uint16_t type) const
+{
+    return type == Exiv2::unsignedShort || type == Exiv2::signedShort;
+}
+bool Image::isLongType(uint16_t type) const
+{
+    return type == Exiv2::unsignedLong || type == Exiv2::signedLong;
+}
+bool Image::isLongLongType(uint16_t type) const
+{
+    return type == Exiv2::unsignedLongLong || type == Exiv2::signedLongLong;
+}
+bool Image::isRationalType(uint16_t type) const
+{
+    return type == Exiv2::unsignedRational || type == Exiv2::signedRational;
+}
+bool Image::is2ByteType(uint16_t type) const
+{
+    return isShortType(type);
+}
+bool Image::is4ByteType(uint16_t type) const
+{
+    return isLongType(type) || type == Exiv2::tiffFloat || type == Exiv2::tiffIfd;
+}
+bool Image::is8ByteType(uint16_t type) const
+{
+    return isRationalType(type) || isLongLongType(type) || type == Exiv2::tiffIfd8 || type == Exiv2::tiffDouble;
+}
+bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option) const
+{
+    return type == 700 && option == kpsXMP;
+}
+bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) const
+{
+    return type == 0x8773 && option == kpsIccProfile;
+}
 
-    bool Image::isBigEndianPlatform()
-    {
-        union {
-            uint32_t i;
-            char c[4];
-        } e = { 0x01000000 };
+bool Image::isBigEndianPlatform() const
+{
+    union {
+        uint32_t i;
+        char c[4];
+    } e = {0x01000000};
 
-        return e.c[0] != 0;
-    }
-    bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
+    return e.c[0] != 0;
+}
+bool Image::isLittleEndianPlatform() const
+{
+    return !isBigEndianPlatform();
+}
 
     uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
     {
