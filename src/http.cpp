@@ -99,7 +99,7 @@ static void Sleep(int millisecs)
 
 ////////////////////////////////////////
 // code
-static const char* httpTemplate =
+static constexpr const char* httpTemplate =
     "%s %s HTTP/%s\r\n"  // $verb $page $version
     "User-Agent: exiv2http/1.0.0\r\n"
     "Accept: */*\r\n"
@@ -107,17 +107,13 @@ static const char* httpTemplate =
     "%s"            // $header
     "\r\n";
 
-#ifndef lengthof
-#define lengthof(x) (sizeof(x) / sizeof((x)[0]))
-#endif
-
 #define FINISH (-999)
 static constexpr bool OK(int s)
 {
     return 200 <= (s) && (s) < 300;
 };
 
-const char* blankLines[] = {
+static const auto blankLines = {
     "\r\n\r\n"  // this is the standard
     ,
     "\n\n"  // this is commonly sent by CGI scripts
@@ -169,17 +165,16 @@ static Exiv2::Dictionary stringToDict(const std::string& s)
     Exiv2::Dictionary result;
     std::string token;
 
-    size_t i = 0;
-    while (i < s.length()) {
-        if (s[i] != ',') {
-            if (s[i] != ' ')
-                token += s[i];
+    for (const auto& c : s) {
+        if (c != ',') {
+            if (c != ' ')
+                token += c;
         } else {
             result[token] = token;
             token.clear();
         }
-        i++;
     }
+
     result[token] = token;
     return result;
 }
@@ -341,11 +336,14 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
             size_t body = 0;  // start of body
             if (bSearching) {
                 // search for the body
-                for (size_t b = 0; bSearching && b < lengthof(blankLines); b++) {
-                    const char* blankLinePos = strstr(buffer, blankLines[b]);
+                for (const auto& b : blankLines) {
+                    if (!bSearching) {
+                        break;
+                    }
+                    const auto blankLinePos = std::strstr(buffer, b);
                     if (blankLinePos) {
                         bSearching = false;
-                        body = blankLinePos - buffer + strlen(blankLines[b]);
+                        body = blankLinePos - buffer + strlen(b);
                         const char* firstSpace = strchr(buffer, ' ');
                         if (firstSpace) {
                             status = atoi(firstSpace);

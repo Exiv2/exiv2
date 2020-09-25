@@ -1389,8 +1389,8 @@ namespace
         }
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "\nThe set now contains: ";
-        for (auto i = previewNumbers.cbegin(); i != previewNumbers.cend(); ++i) {
-            std::cout << *i << ", ";
+        for (const auto& number : reviewNumbers) {
+            std::cout << number << ", ";
         }
         std::cout << std::endl;
 #endif
