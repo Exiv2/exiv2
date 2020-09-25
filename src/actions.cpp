@@ -876,7 +876,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 1;
     }
 
-    int Erase::eraseThumbnail(Exiv2::Image* image) const
+    int Erase::eraseThumbnail(Exiv2::Image* image)
     {
         Exiv2::ExifThumb exifThumb(image->exifData());
         std::string thumbExt = exifThumb.extension();
@@ -890,7 +890,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 0;
     }
 
-    int Erase::eraseExifData(Exiv2::Image* image) const
+    int Erase::eraseExifData(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->exifData().count() > 0) {
             std::cout << _("Erasing Exif data from the file") << std::endl;
@@ -899,7 +899,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 0;
     }
 
-    int Erase::eraseIptcData(Exiv2::Image* image) const
+    int Erase::eraseIptcData(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->iptcData().count() > 0) {
             std::cout << _("Erasing IPTC data from the file") << std::endl;
@@ -908,7 +908,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 0;
     }
 
-    int Erase::eraseComment(Exiv2::Image* image) const
+    int Erase::eraseComment(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && !image->comment().empty()) {
             std::cout << _("Erasing JPEG comment from the file") << std::endl;
@@ -917,7 +917,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 0;
     }
 
-    int Erase::eraseXmpData(Exiv2::Image* image) const
+    int Erase::eraseXmpData(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->xmpData().count() > 0) {
             std::cout << _("Erasing XMP data from the file") << std::endl;
@@ -926,7 +926,7 @@ std::unique_ptr<Task> Task::clone() const {
         image->clearXmpPacket();
         return 0;
     }
-    int Erase::eraseIccProfile(Exiv2::Image* image) const
+    int Erase::eraseIccProfile(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->iccProfileDefined()) {
             std::cout << _("Erasing ICC Profile data from the file") << std::endl;
@@ -1166,7 +1166,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 1;
     }
 
-    int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath) const
+    int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath)
     {
         int rc = 0;
         bool bStdin = xmpPath == "-";
@@ -1192,7 +1192,7 @@ std::unique_ptr<Task> Task::clone() const {
 
     }
 
-    int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket) const
+    int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket)
     {
         std::string xmpPacket;
         for (size_t i = 0; i < xmpBlob.size_; i++) {
@@ -1208,7 +1208,7 @@ std::unique_ptr<Task> Task::clone() const {
         return 0;
     }
 
-    int Insert::insertIccProfile(const std::string& path, const std::string& iccPath) const
+    int Insert::insertIccProfile(const std::string& path, const std::string& iccPath)
     {
         int rc = 0;
         // for path "foo.XXX", do a binary copy of "foo.icc"
@@ -1229,7 +1229,7 @@ std::unique_ptr<Task> Task::clone() const {
         return rc;
     }
 
-    int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob) const
+    int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob)
     {
         int rc = 0;
         // test path exists
@@ -1253,7 +1253,7 @@ std::unique_ptr<Task> Task::clone() const {
         return rc;
     }
 
-    int Insert::insertThumbnail(const std::string& path) const
+    int Insert::insertThumbnail(const std::string& path)
     {
         std::string thumbPath = newFilePath(path, "-thumb.jpg");
         if (!Exiv2::fileExists(thumbPath, true)) {

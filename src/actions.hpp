@@ -133,9 +133,9 @@ namespace Action
         //! Print Exif, IPTC and XMP metadata in user defined format
         int printList();
         //! Return true if key should be printed, else false
-        bool grepTag(const std::string& key);
+        static bool grepTag(const std::string& key);
         //! Return true if key should be printed, else false
-        bool keyTag(const std::string& key);
+        static bool keyTag(const std::string& key);
         //! Print all metadata in a user defined format
         int printMetadata(const Exiv2::Image* image);
         //! Print a metadatum in a user defined format, return true if something was printed
@@ -193,17 +193,17 @@ namespace Action
         std::unique_ptr<Erase> clone() const;
 
         //! @brief Delete the thumbnail image, incl IFD1 metadata from the file.
-        int eraseThumbnail(Exiv2::Image* image) const;
+        static int eraseThumbnail(Exiv2::Image* image);
         //! @brief Erase the complete Exif data block from the file.
-        int eraseExifData(Exiv2::Image* image) const;
+        static int eraseExifData(Exiv2::Image* image);
         //! @brief Erase all Iptc data from the file.
-        int eraseIptcData(Exiv2::Image* image) const;
+        static int eraseIptcData(Exiv2::Image* image);
         //! @brief Erase Jpeg comment from the file.
-        int eraseComment(Exiv2::Image* image) const;
+        static int eraseComment(Exiv2::Image* image);
         //! @brief Erase XMP packet from the file.
-        int eraseXmpData(Exiv2::Image* image) const;
+        static int eraseXmpData(Exiv2::Image* image);
         //! @brief Erase ICCProfile from the file.
-        int eraseIccProfile(Exiv2::Image* image) const;
+        static int eraseIccProfile(Exiv2::Image* image);
 
     private:
         Erase* clone_() const override;
@@ -245,17 +245,17 @@ namespace Action
         //! @brief Insert a Jpeg thumbnail image from a file into file \em path.
         //! The filename of the thumbnail is expected to be the image filename (\em path) minus its suffix plus
         //! "-thumb.jpg".
-        int insertThumbnail(const std::string& path) const;
+        static int insertThumbnail(const std::string& path);
 
         //! @brief Insert an XMP packet from a xmpPath into file \em path.
-        int insertXmpPacket(const std::string& path, const std::string& xmpPath) const;
+        static int insertXmpPacket(const std::string& path, const std::string& xmpPath);
         //! @brief Insert xmp from a DataBuf into file \em path.
-        int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false) const;
+        static int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false);
 
         //! @brief Insert an ICC profile from iccPath into file \em path.
-        int insertIccProfile(const std::string& path, const std::string& iccPath) const;
+        static int insertIccProfile(const std::string& path, const std::string& iccPath);
         //! @brief Insert an ICC profile from binary DataBuf into file \em path.
-        int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob) const;
+        static int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob);
 
     private:
         Insert* clone_() const override;

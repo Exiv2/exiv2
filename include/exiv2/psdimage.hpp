@@ -112,7 +112,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        size_t writeIptcData(const IptcData& iptcData, BasicIo& out) const;
+        static size_t writeIptcData(const IptcData& iptcData, BasicIo& out);
         size_t writeXmpData(const XmpData& xmpData, BasicIo& out) const;
         //@}
 

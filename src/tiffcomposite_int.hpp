@@ -941,13 +941,9 @@ namespace Tag
         //! @name Private Accessors
         //@{
         //! Write a binary directory entry for a TIFF component.
-        uint32_t writeDirEntry(IoWrapper&     ioWrapper,
-                               ByteOrder      byteOrder,
-                               int32_t        offset,
-                               TiffComponent* pTiffComponent,
-                               uint32_t       valueIdx,
-                               uint32_t       dataIdx,
-                               uint32_t&      imageIdx) const;
+        static uint32_t writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset,
+                                      TiffComponent* pTiffComponent, uint32_t valueIdx, uint32_t dataIdx,
+                                      uint32_t& imageIdx);
         //@}
 
     private:

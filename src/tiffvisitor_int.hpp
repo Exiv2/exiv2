@@ -535,9 +535,7 @@ namespace Exiv2 {
                  entries are encoded. It takes care of type and count changes
                  and size shrinkage for non-intrusive writing.
          */
-        uint32_t updateDirEntry(byte* buf,
-                                ByteOrder byteOrder,
-                                TiffComponent* pTiffComponent) const;
+        static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent);
         /*!
           @brief Check if the tag is an image tag of an existing image. Such
                  tags are copied from the original image and can't be modifed.
