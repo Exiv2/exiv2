@@ -124,7 +124,7 @@ Params& Params::instance()
 
 Params::~Params() = default;
 
-void Params::version(bool verbose, std::ostream& os) const
+void Params::version(bool verbose, std::ostream& os)
 {
     os << EXV_PACKAGE_STRING << std::endl;
     if (Params::instance().greps_.empty()) {

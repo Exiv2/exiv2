@@ -578,7 +578,7 @@ namespace Exiv2 {
 
     }  // PsdImage::doWriteMetadata
 
-    size_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) const
+    size_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out)
     {
         size_t resLength = 0;
 

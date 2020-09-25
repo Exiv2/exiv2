@@ -157,49 +157,49 @@ void Image::printStructure(std::ostream &, PrintStructureOption,
   throw Error(kerUnsupportedImageType, io_->path());
 }
 
-bool Image::isStringType(uint16_t type) const
+bool Image::isStringType(uint16_t type)
 {
     return type == Exiv2::asciiString || type == Exiv2::unsignedByte || type == Exiv2::signedByte ||
            type == Exiv2::undefined;
 }
-bool Image::isShortType(uint16_t type) const
+bool Image::isShortType(uint16_t type)
 {
     return type == Exiv2::unsignedShort || type == Exiv2::signedShort;
 }
-bool Image::isLongType(uint16_t type) const
+bool Image::isLongType(uint16_t type)
 {
     return type == Exiv2::unsignedLong || type == Exiv2::signedLong;
 }
-bool Image::isLongLongType(uint16_t type) const
+bool Image::isLongLongType(uint16_t type)
 {
     return type == Exiv2::unsignedLongLong || type == Exiv2::signedLongLong;
 }
-bool Image::isRationalType(uint16_t type) const
+bool Image::isRationalType(uint16_t type)
 {
     return type == Exiv2::unsignedRational || type == Exiv2::signedRational;
 }
-bool Image::is2ByteType(uint16_t type) const
+bool Image::is2ByteType(uint16_t type)
 {
     return isShortType(type);
 }
-bool Image::is4ByteType(uint16_t type) const
+bool Image::is4ByteType(uint16_t type)
 {
     return isLongType(type) || type == Exiv2::tiffFloat || type == Exiv2::tiffIfd;
 }
-bool Image::is8ByteType(uint16_t type) const
+bool Image::is8ByteType(uint16_t type)
 {
     return isRationalType(type) || isLongLongType(type) || type == Exiv2::tiffIfd8 || type == Exiv2::tiffDouble;
 }
-bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option) const
+bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
 {
     return type == 700 && option == kpsXMP;
 }
-bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) const
+bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option)
 {
     return type == 0x8773 && option == kpsIccProfile;
 }
 
-bool Image::isBigEndianPlatform() const
+bool Image::isBigEndianPlatform()
 {
     union {
         uint32_t i;
@@ -208,94 +208,122 @@ bool Image::isBigEndianPlatform() const
 
     return e.c[0] != 0;
 }
-bool Image::isLittleEndianPlatform() const
+bool Image::isLittleEndianPlatform()
 {
     return !isBigEndianPlatform();
 }
 
-    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
-    {
-        uint64_t result = 0;
-        auto source_value = reinterpret_cast<byte*>(&value);
-        auto destination_value = reinterpret_cast<byte*>(&result);
+uint64_t Image::byteSwap(uint64_t value, bool bSwap)
+{
+    uint64_t result = 0;
+    auto source_value = reinterpret_cast<byte*>(&value);
+    auto destination_value = reinterpret_cast<byte*>(&result);
 
-        for (int i = 0; i < 8; i++)
-            destination_value[i] = source_value[8 - i - 1];
+    for (int i = 0; i < 8; i++)
+        destination_value[i] = source_value[8 - i - 1];
 
-        return bSwap ? result : value;
+    return bSwap ? result : value;
+}
+
+uint32_t Image::byteSwap(uint32_t value, bool bSwap)
+{
+    uint32_t result = 0;
+    result |= (value & 0x000000FF) << 24;
+    result |= (value & 0x0000FF00) << 8;
+    result |= (value & 0x00FF0000) >> 8;
+    result |= (value & 0xFF000000) >> 24;
+    return bSwap ? result : value;
+}
+
+uint16_t Image::byteSwap(uint16_t value, bool bSwap)
+{
+    uint16_t result = 0;
+    result |= (value & 0x00FF) << 8;
+    result |= (value & 0xFF00) >> 8;
+    return bSwap ? result : value;
+}
+
+uint16_t Image::byteSwap2(const DataBuf& buf, size_t offset, bool bSwap)
+{
+    uint16_t v;
+    auto p = reinterpret_cast<char*>(&v);
+    p[0] = buf.pData_[offset];
+    p[1] = buf.pData_[offset + 1];
+    return Image::byteSwap(v, bSwap);
+}
+
+uint32_t Image::byteSwap4(const DataBuf& buf, size_t offset, bool bSwap)
+{
+    uint32_t v;
+    auto p = reinterpret_cast<char*>(&v);
+    p[0] = buf.pData_[offset];
+    p[1] = buf.pData_[offset + 1];
+    p[2] = buf.pData_[offset + 2];
+    p[3] = buf.pData_[offset + 3];
+    return Image::byteSwap(v, bSwap);
+}
+
+uint64_t Image::byteSwap8(const DataBuf& buf, size_t offset, bool bSwap)
+{
+    uint64_t v;
+    auto p = reinterpret_cast<byte*>(&v);
+
+    for (int i = 0; i < 8; i++)
+        p[i] = buf.pData_[offset + i];
+
+    return Image::byteSwap(v, bSwap);
+}
+
+const char* Image::typeName(uint16_t tag)
+{
+    //! List of TIFF image tags
+    const char* result = nullptr;
+    switch (tag) {
+        case Exiv2::unsignedByte:
+            result = "BYTE";
+            break;
+        case Exiv2::asciiString:
+            result = "ASCII";
+            break;
+        case Exiv2::unsignedShort:
+            result = "SHORT";
+            break;
+        case Exiv2::unsignedLong:
+            result = "LONG";
+            break;
+        case Exiv2::unsignedRational:
+            result = "RATIONAL";
+            break;
+        case Exiv2::signedByte:
+            result = "SBYTE";
+            break;
+        case Exiv2::undefined:
+            result = "UNDEFINED";
+            break;
+        case Exiv2::signedShort:
+            result = "SSHORT";
+            break;
+        case Exiv2::signedLong:
+            result = "SLONG";
+            break;
+        case Exiv2::signedRational:
+            result = "SRATIONAL";
+            break;
+        case Exiv2::tiffFloat:
+            result = "FLOAT";
+            break;
+        case Exiv2::tiffDouble:
+            result = "DOUBLE";
+            break;
+        case Exiv2::tiffIfd:
+            result = "IFD";
+            break;
+        default:
+            result = "unknown";
+            break;
     }
-
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
-    {
-        uint32_t result = 0;
-        result |= (value & 0x000000FF) << 24;
-        result |= (value & 0x0000FF00) << 8;
-        result |= (value & 0x00FF0000) >> 8;
-        result |= (value & 0xFF000000) >> 24;
-        return bSwap ? result : value;
-    }
-
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
-    {
-        uint16_t result = 0;
-        result |= (value & 0x00FF) << 8;
-        result |= (value & 0xFF00) >> 8;
-        return bSwap ? result : value;
-    }
-
-    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
-    {
-        uint16_t v;
-        auto p = reinterpret_cast<char*>(&v);
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        return Image::byteSwap(v,bSwap);
-    }
-
-    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
-    {
-        uint32_t v;
-        auto p = reinterpret_cast<char*>(&v);
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        p[2] = buf.pData_[offset+2];
-        p[3] = buf.pData_[offset+3];
-        return Image::byteSwap(v,bSwap);
-    }
-
-    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
-    {
-        uint64_t v;
-        auto p = reinterpret_cast<byte*>(&v);
-
-        for(int i = 0; i < 8; i++)
-            p[i] = buf.pData_[offset + i];
-
-        return Image::byteSwap(v,bSwap);
-    }
-
-    const char* Image::typeName(uint16_t tag) const
-    {
-        //! List of TIFF image tags
-        const char* result = nullptr;
-        switch (tag ) {
-            case Exiv2::unsignedByte     : result = "BYTE"      ; break;
-            case Exiv2::asciiString      : result = "ASCII"     ; break;
-            case Exiv2::unsignedShort    : result = "SHORT"     ; break;
-            case Exiv2::unsignedLong     : result = "LONG"      ; break;
-            case Exiv2::unsignedRational : result = "RATIONAL"  ; break;
-            case Exiv2::signedByte       : result = "SBYTE"     ; break;
-            case Exiv2::undefined        : result = "UNDEFINED" ; break;
-            case Exiv2::signedShort      : result = "SSHORT"    ; break;
-            case Exiv2::signedLong       : result = "SLONG"     ; break;
-            case Exiv2::signedRational   : result = "SRATIONAL" ; break;
-            case Exiv2::tiffFloat        : result = "FLOAT"     ; break;
-            case Exiv2::tiffDouble       : result = "DOUBLE"    ; break;
-            case Exiv2::tiffIfd          : result = "IFD"       ; break;
-            default                      : result = "unknown"   ; break;
-        }
-        return result;
-    }
+    return result;
+}
 
     static bool typeValid(uint16_t type)
     {

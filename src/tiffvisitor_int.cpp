@@ -741,9 +741,7 @@ namespace Exiv2 {
         }
     }
 
-    uint32_t TiffEncoder::updateDirEntry(byte* buf,
-                                         ByteOrder byteOrder,
-                                         TiffComponent* pTiffComponent) const
+    uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent)
     {
         assert(buf);
         assert(pTiffComponent);

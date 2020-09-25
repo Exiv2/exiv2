@@ -210,28 +210,28 @@ namespace Exiv2
                                bool bSwap, char c, int depth);
 
         /// @brief Is the host platform big Endian?
-        bool isBigEndianPlatform() const;
+        static bool isBigEndianPlatform();
 
         /// @brief Is the host platform little Endian?
-        bool isLittleEndianPlatform() const;
+        static bool isLittleEndianPlatform();
 
-        bool isStringType(uint16_t type) const;
-        bool isShortType(uint16_t type) const;
-        bool isLongType(uint16_t type) const;
-        bool isLongLongType(uint16_t type) const;
-        bool isRationalType(uint16_t type) const;
-        bool is2ByteType(uint16_t type) const;
-        bool is4ByteType(uint16_t type) const;
-        bool is8ByteType(uint16_t type) const;
-        bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option) const;
-        bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) const;
+        static bool isStringType(uint16_t type);
+        static bool isShortType(uint16_t type);
+        static bool isLongType(uint16_t type);
+        static bool isLongLongType(uint16_t type);
+        static bool isRationalType(uint16_t type);
+        static bool is2ByteType(uint16_t type);
+        static bool is4ByteType(uint16_t type);
+        static bool is8ByteType(uint16_t type);
+        static bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
+        static bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
-        uint64_t byteSwap(uint64_t value, bool bSwap) const;
-        uint32_t byteSwap(uint32_t value, bool bSwap) const;
-        uint16_t byteSwap(uint16_t value, bool bSwap) const;
-        uint16_t byteSwap2(const DataBuf& buf, size_t offset, bool bSwap) const;
-        uint32_t byteSwap4(const DataBuf& buf, size_t offset, bool bSwap) const;
-        uint64_t byteSwap8(const DataBuf& buf, size_t offset, bool bSwap) const;
+        static uint64_t byteSwap(uint64_t value, bool bSwap);
+        static uint32_t byteSwap(uint32_t value, bool bSwap);
+        static uint16_t byteSwap(uint16_t value, bool bSwap);
+        static uint16_t byteSwap2(const DataBuf& buf, size_t offset, bool bSwap);
+        static uint32_t byteSwap4(const DataBuf& buf, size_t offset, bool bSwap);
+        static uint64_t byteSwap8(const DataBuf& buf, size_t offset, bool bSwap);
 
         //@}
 
@@ -360,7 +360,7 @@ namespace Exiv2
         const std::string& tagName(uint16_t tag);
 
         //! Return tag type for given tag id.
-        const char* typeName(uint16_t tag) const;
+        static const char* typeName(uint16_t tag);
 
     public:
         Image& operator=(const Image& rhs) = delete;
