@@ -9,16 +9,7 @@
 #include <sys/types.h>
 
 #include <algorithm>
-#include <cassert>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
 #include <exiv2/exiv2.hpp>
-#include <iomanip>
-#include <iostream>
-#include <string>
-#include <vector>
 
 #include "unused.h"
 
@@ -27,8 +18,6 @@
 #  define __MINGW__
 # endif
 #endif
-
-using namespace std;
 
 #if defined(_MSC_VER) || defined(__MINGW__)
 #include <windows.h>
@@ -57,7 +46,7 @@ class Options;
 int getFileType(const char* path ,Options& options);
 int getFileType(std::string& path,Options& options);
 
-string getExifTime(const time_t t);
+std::string getExifTime(const time_t t);
 time_t parseTime(const char* ,bool bAdjust=false);
 int    timeZoneAdjust();
 
@@ -65,7 +54,7 @@ int    timeZoneAdjust();
 #if defined(_MSC_VER) || defined(__MINGW__)
 char* realpath(const char* file,char* path)
 {
-    char* result = (char*) malloc(_MAX_PATH);
+    const auto result = reinterpret_cast<char*>(malloc(_MAX_PATH));
     if   (result) GetFullPathName(file,_MAX_PATH,result,nullptr);
     return result ;
     UNUSED(path);
@@ -497,7 +486,7 @@ int timeZoneAdjust()
     return offset ;
 }
 
-string getExifTime(const time_t t)
+std::string getExifTime(const time_t t)
 {
     static char result[100];
     strftime(result,sizeof(result),"%Y-%m-%d %H:%M:%S",localtime(&t));
@@ -828,7 +817,7 @@ int main(int argc,const char* argv[])
     keywords[kwTZ      ] = "tz";
     keywords[kwDELTA   ] = "delta";
 
-    map<std::string,string> shorts;
+    std::map<std::string, std::string> shorts;
     shorts["-?"] = "-help";
     shorts["-h"] = "-help";
     shorts["-v"] = "-verbose";

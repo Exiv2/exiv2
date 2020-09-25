@@ -34,7 +34,6 @@
 #include "safe_op.hpp"
 
 // + standard includes
-#include <array>
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -360,15 +359,15 @@ static void boxes_check(size_t b,size_t m)
                                     (rawData.pData_[0] == 'I' || rawData.pData_[0] == 'M')) {
                                     foundPos = true;
                                 } else {
-                                    const std::array<byte, 6> exifHeader{ 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
-                                    const auto& it = std::search(rawData.cbegin(), rawData.cend(), exifHeader.cbegin(), exifHeader.cend());
-                                    if (it != rawData.cend()) {
-                                        pos = it - rawData.cbegin() + exifHeader.size();
+                                    const auto exifHeader = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
+                                    const auto it = std::search(rawData.begin(), rawData.end(), exifHeader.begin(),
+                                                                exifHeader.end());
+                                    if (it != rawData.end()) {
+                                        pos = it - rawData.begin() + exifHeader.size();
                                         foundPos = true;
 #ifndef SUPPRESS_WARNINGS
                                         EXV_WARNING << "Reading non-standard UUID-EXIF_bad box in " << io_->path() << std::endl;
 #endif
-
                                     }
                                 }
 
