@@ -210,21 +210,21 @@ namespace Exiv2
                                bool bSwap, char c, int depth);
 
         /// @brief Is the host platform big Endian?
-        bool isBigEndianPlatform();
+        bool isBigEndianPlatform() const;
 
         /// @brief Is the host platform little Endian?
-        bool isLittleEndianPlatform();
+        bool isLittleEndianPlatform() const;
 
-        bool isStringType(uint16_t type);
-        bool isShortType(uint16_t type);
-        bool isLongType(uint16_t type);
-        bool isLongLongType(uint16_t type);
-        bool isRationalType(uint16_t type);
-        bool is2ByteType(uint16_t type);
-        bool is4ByteType(uint16_t type);
-        bool is8ByteType(uint16_t type);
-        bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
-        bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
+        bool isStringType(uint16_t type) const;
+        bool isShortType(uint16_t type) const;
+        bool isLongType(uint16_t type) const;
+        bool isLongLongType(uint16_t type) const;
+        bool isRationalType(uint16_t type) const;
+        bool is2ByteType(uint16_t type) const;
+        bool is4ByteType(uint16_t type) const;
+        bool is8ByteType(uint16_t type) const;
+        bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option) const;
+        bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) const;
 
         uint64_t byteSwap(uint64_t value, bool bSwap) const;
         uint32_t byteSwap(uint32_t value, bool bSwap) const;
