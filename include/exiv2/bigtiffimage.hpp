@@ -1,3 +1,4 @@
+#pragma once
 
 #include "basicio.hpp"
 #include "image.hpp"
