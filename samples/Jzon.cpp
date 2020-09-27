@@ -377,8 +377,8 @@ namespace Jzon
     // This is not the most beautiful place for these, but it'll do
     constexpr std::array<char, 8> charsUnescaped = {'\\', '/', '\"', '\n', '\t', '\b', '\f', '\r'};
     constexpr std::array<const char *, 8> charsEscaped = {"\\\\", "\\/", "\\\"", "\\n", "\\t", "\\b", "\\f", "\\r"};
-    constexpr char nullUnescaped = '\0';
-    constexpr const char *nullEscaped = "\0\0";
+    constexpr auto nullUnescaped = '\0';
+    constexpr auto nullEscaped = "\0\0";
 
     const char *const &getEscaped(const char &c)
     {
