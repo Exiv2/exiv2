@@ -40,6 +40,7 @@
 #include "i18n.h"                // NLS support.
 
 // + standard includes
+#include <array>
 #include <cassert>
 #include <cmath>  //for log, pow, abs
 #include <cstring>
@@ -77,32 +78,17 @@ namespace Exiv2 {
     };
 
     //! Focus area for Nikon cameras.
-    extern const char * const nikonFocusarea[] = {
-        N_("Single area"),
-        N_("Dynamic area"),
-        N_("Dynamic area, closest subject"),
-        N_("Group dynamic"),
-        N_("Single area (wide)"),
-        N_("Dynamic area (wide)")
-    };
+    constexpr std::array<const char*, 6> nikonFocusarea = {{N_("Single area"), N_("Dynamic area"),
+                                                            N_("Dynamic area, closest subject"), N_("Group dynamic"),
+                                                            N_("Single area (wide)"), N_("Dynamic area (wide)")}};
 
     // Roger Larsson: My guess is that focuspoints will follow autofocus sensor
     // module. Note that relative size and position will vary depending on if
     // "wide" or not
     //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
-    extern const char * const nikonFocuspoints[] = {
-        N_("Center"),
-        N_("Top"),
-        N_("Bottom"),
-        N_("Left"),
-        N_("Right"),
-        N_("Upper-left"),
-        N_("Upper-right"),
-        N_("Lower-left"),
-        N_("Lower-right"),
-        N_("Left-most"),
-        N_("Right-most")
-    };
+    constexpr std::array<const char*, 11> nikonFocuspoints = {
+        N_("Center"),      N_("Top"),        N_("Bottom"),      N_("Left"),      N_("Right"),     N_("Upper-left"),
+        N_("Upper-right"), N_("Lower-left"), N_("Lower-right"), N_("Left-most"), N_("Right-most")};
 
     //! FlashComp, tag 0x0012
     extern const TagDetails nikonFlashComp[] = {
@@ -368,7 +354,7 @@ namespace Exiv2 {
     {
         if (value.count() >= 1) {
             const unsigned long focusArea = value.toLong(0);
-            if (focusArea >= EXV_COUNTOF(nikonFocusarea)) {
+            if (focusArea >= nikonFocusarea.size()) {
                 os << "Invalid value";
             } else {
                 os << nikonFocusarea[focusArea];
@@ -389,7 +375,7 @@ namespace Exiv2 {
                 break;
             default:
                 os << value;
-                if (focusPoint < sizeof(nikonFocuspoints)/sizeof(nikonFocuspoints[0]))
+                if (focusPoint < nikonFocuspoints.size())
                     os << " " << _("guess") << " " << nikonFocuspoints[focusPoint];
                 break;
             }
@@ -1617,8 +1603,6 @@ namespace Exiv2 {
             unsigned focuspoint = value.toLong(1);
             unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
             // TODO: enum {standard, wide} combination = standard;
-            const unsigned focuspoints =   sizeof(nikonFocuspoints)
-                                         / sizeof(nikonFocuspoints[0]);
 
             if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
                 // Special case, in Manual focus and with Nikon compacts
@@ -1645,11 +1629,10 @@ namespace Exiv2 {
                 os << sep << ' ';
 
                 // What focuspoint did the user select?
-                if (focuspoint < focuspoints) {
+                if (focuspoint < nikonFocuspoints.size()) {
                     os << nikonFocuspoints[focuspoint];
                     // TODO: os << position[fokuspoint][combination]
-                }
-                else
+                } else
                     os << "(" << focuspoint << ")";
 
                 sep = ',';
@@ -1662,7 +1645,7 @@ namespace Exiv2 {
                 // selected point was not the actually used one
                 // (Roger Larsson: my interpretation, verify)
                 os << sep;
-                for (unsigned fpid=0; fpid<focuspoints; fpid++)
+                for (size_t fpid = 0; fpid < nikonFocuspoints.size(); fpid++)
                     if (focusused & 1<<fpid)
                         os << ' ' << nikonFocuspoints[fpid];
             }
@@ -2572,24 +2555,18 @@ fmountlens[] = {
                 return os << value;
             }
 
-                return os << pf->manuf << " " << pf->lensname;
+            return os << pf->manuf << " " << pf->lensname;
         }
 
 
         byte raw[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 
-        static const char* tags[] = {
-            "LensIDNumber",
-            "LensFStops",
-            "MinFocalLength",
-            "MaxFocalLength",
-            "MaxApertureAtMinFocal",
-            "MaxApertureAtMaxFocal",
-            "MCUVersion"
-        };
+        static constexpr std::array<const char*, 7> tags = {
+            "LensIDNumber",          "LensFStops", "MinFocalLength", "MaxFocalLength", "MaxApertureAtMinFocal",
+            "MaxApertureAtMaxFocal", "MCUVersion"};
 
         const std::string pre = std::string("Exif.") + group + std::string(".");
-        for (unsigned int i = 0; i < 7; ++i) {
+        for (size_t i = 0; i < tags.size(); ++i) {
             ExifKey key(pre + std::string(tags[i]));
             auto md = metadata->findKey(key);
             if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
