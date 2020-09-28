@@ -50,7 +50,6 @@ add_library( exiv2lib
     ../include/exiv2/rwlock.hpp
     ../include/exiv2/slice.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
-    bigtiffimage.cpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
     convert.cpp             ../include/exiv2/convert.hpp
     cr2image.cpp            ../include/exiv2/cr2image.hpp

@@ -153,6 +153,8 @@ namespace Exiv2 {
 #endif
         byte buf[26];
         long curPos = iIo.tell();
+        if ( curPos < 26 ) return false;
+        
         iIo.seek(-26, BasicIo::end);
         if (iIo.error() || iIo.eof())
         {
