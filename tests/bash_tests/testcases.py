@@ -1005,12 +1005,27 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             out     += BT.Executer('exiv2 -pS   {b}', vars())
 
         BT.copyTestFile('Reagan.tiff')   # 1272 ReaganLargeTiff.tiff
-        for f in ['Reagan.jpg', 'ReaganSmallPng.png', 'exiv2-bug1199.webp']:
-            BT.copyTestFile(f)
+        for img in ['Reagan.jpg', 'ReaganSmallPng.png', 'exiv2-bug1199.webp']:
+            BT.copyTestFile(img)
             e        = BT.Executer('exiv2 -eC-  Reagan.tiff', decode_output=False)
-            out     += BT.Executer('exiv2 -iC-  {f}', vars(), stdin=e.stdout)
-            out     += BT.Executer('exiv2 -pS   {f}', vars())
-            if f == 'Reagan.jpg':
+
+            # Ignore the difference in the path separator
+            stdout = e.stdout
+            for pair in [
+                (b'\x03/\x9e', b'\x03\\\x9e'),
+                (b'\x0c/\x0c', b'\x0c\\\x0c'),
+                (b'V/V'      , b'V\\V'      ),
+                (b'\xe5/5'   , b'\xe5\\5'   ),
+                (b'5/\x86'   , b'5\\\x86'   ),
+                (b'\x86/\xd6', b'\x86\\\xd6'),
+                (b'\xac/\xac', b'\xac\\\xac'),
+                (b'\xd7/\xd7', b'\xd7\\\xd7'),
+            ]:
+                stdout  = stdout.replace(pair[0], pair[1])
+
+            out     += BT.Executer('exiv2 -iC-  {img}', vars(), stdin=stdout)
+            out     += BT.Executer('exiv2 -pS   {img}', vars())
+            if img == 'ReaganSmallPng.png':
                 with open('out2', 'wb') as f:
                     f.write(e.stdout)
 
