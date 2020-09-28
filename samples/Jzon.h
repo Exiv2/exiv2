@@ -256,7 +256,7 @@ namespace Jzon
             bool operator==(const const_iterator &rhs) { return p == rhs.p; }
             bool operator!=(const const_iterator &rhs) { return p != rhs.p; }
 
-            const NamedNode operator*() { return NamedNode(p->first, *p->second); }
+            NamedNode operator*() const { return NamedNode(p->first, *p->second); }
 
         private:
             const NamedNodePtr *p;
