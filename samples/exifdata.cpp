@@ -36,7 +36,7 @@ std::string escapeCSV(Exiv2::ExifData::const_iterator it,bool bValue)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    return std::accumulate(s.begin(), s.end(), std::string(""), [](std::string r, char c) {
+    return std::accumulate(s.begin(), s.end(), std::string(""), [](const std::string& r, char c) {
         if (c == ',') {
             return r + '\\' + c;
         }
@@ -84,7 +84,7 @@ std::string escapeJSON(Exiv2::ExifData::const_iterator it,bool bValue=true)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    std::string result = std::accumulate(s.begin(), s.end(), std::string(""), [](std::string r, char c) {
+    std::string result = std::accumulate(s.begin(), s.end(), std::string(""), [](const std::string& r, char c) {
         if (c == '"') {
             return r + "\\\"" + c;
         }
@@ -118,7 +118,7 @@ std::string escapeXML(Exiv2::ExifData::const_iterator it,bool bValue=true)
     if ( bValue ) os << it->value() ; else os << it->key() ;
 
     std::string s = os.str();
-    return std::accumulate(s.begin(), s.end(), std::string(""), [](std::string r, char c) {
+    return std::accumulate(s.begin(), s.end(), std::string(""), [](const std::string& r, char c) {
         if (c == '<') {
             return r + "&lg;" + c;
         }

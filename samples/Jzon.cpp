@@ -404,7 +404,7 @@ namespace Jzon
 
     std::string Value::EscapeString(const std::string &value)
     {
-        return std::accumulate(value.begin(), value.end(), std::string(""), [](std::string r, char c) {
+        return std::accumulate(value.begin(), value.end(), std::string(""), [](const std::string &r, char c) {
             const auto &a = getEscaped(c);
             if (a[0] != '\0') {
                 return r + a[0] + a[1];
@@ -445,7 +445,7 @@ namespace Jzon
         : Node()
     {
         std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
-                       [](NamedNodePtr child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
+                       [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
 
     Object::Object(const Node &other)
@@ -454,7 +454,7 @@ namespace Jzon
         const Object &object = other.AsObject();
 
         std::transform(object.children.begin(), object.children.end(), std::back_inserter(children),
-                       [](NamedNodePtr child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
+                       [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
 
     Object::~Object()
