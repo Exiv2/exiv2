@@ -178,7 +178,7 @@ public:
         return *this;
     }
 
-    Position& operator=(const Position&& o)
+    Position& operator=(Position&& o) noexcept
     {
         time_ = o.time_;
         lon_ = o.lon_;
@@ -188,7 +188,7 @@ public:
         return *this;
     }
 
-    Position(const Position&& rhs) = delete;
+    Position(Position&& rhs) = delete;
 
     //  instance methods
     EXV_WARN_UNUSED_RESULT bool good() const
