@@ -86,6 +86,7 @@ TESTS =  addmoddel.sh         \
          modify-test.sh       \
          path-test.sh         \
          preview-test.sh      \
+         stdin-test.sh        \
          stringto-test.sh     \
          tiff-test.sh         \
          webp-test.sh         \
