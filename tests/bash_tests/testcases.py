@@ -1156,13 +1156,13 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.copyTestFile(webp)
         BT.copyTestFile(tiff)
         out     += BT.Executer('exiv2 -pS {webp}', vars())
-        BT.save(BT.Executer(   'exiv2 -pC {tiff}', vars(), decode_output=False).stdout, icc)
+        BT.save(   BT.Executer('exiv2 -pC {tiff}', vars(), decode_output=False).stdout, icc)
         out     += BT.Executer('exiv2 -iC {webp}', vars())
         out     += BT.Executer('exiv2 -pS {webp}', vars())
 
         # Copy the XMP from the test file
         BT.copyTestFile(webp)
-        BT.save(BT.Executer(   'exiv2 -pX {tiff}', vars(), decode_output=False).stdout, xmp)
+        BT.save(   BT.Executer('exiv2 -pX {webp}', vars(), decode_output=False).stdout, xmp)
         out     += BT.Executer('exiv2 -ea --force {webp}', vars())
 
         BT.copyTestFile(webp)
@@ -1173,7 +1173,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         # Copy the XMP from Reagan.tiff to test file
         BT.copyTestFile(tiff)
-        BT.save(BT.Executer(   'exiv2 -pX  {tiff}', vars(), decode_output=False).stdout, xmp)
+        BT.save(   BT.Executer('exiv2 -pX  {tiff}', vars(), decode_output=False).stdout, xmp)
         out     += BT.Executer('exiv2 -ea --force  {tiff}', vars())
         BT.mv('Reagan.exv', exv)
 
@@ -1185,7 +1185,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         # Copy the XMP from exiv2-bug922.jpg to test file
         BT.copyTestFile('exiv2-bug922.jpg')
-        BT.save(BT.Executer(   'exiv2 -pX  exiv2-bug922.jpg', decode_output=False).stdout, xmp)
+        BT.save(   BT.Executer('exiv2 -pX  exiv2-bug922.jpg', decode_output=False).stdout, xmp)
         BT.Executer(           'exiv2 -ea --force  exiv2-bug922.jpg')
         BT.mv('exiv2-bug922.exv', exv)
 
