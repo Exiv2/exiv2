@@ -231,12 +231,12 @@ class TestCases(unittest.TestCase):
         out     += BT.Executer('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
         out     += BT.Executer('exiv2 -px                        DSC_3079.jpg')
 
-        # Ignore the output differences on Windows
+        # Ignore output differences on Windows
         for pair in [
-            ('charset="Jis"', 'charset=Jis'),
+            ('charset="Jis"'    , 'charset=Jis'),
             ('charset="Unicode"', 'charset=Unicode'),
-            (' 9  Rocknroll', "11  Rock'n'roll"),
-            ('Rocknroll', "Rock'n'roll")
+            (' 9  Rocknroll'    , "11  Rock'n'roll"),
+            ('Rocknroll'        , "Rock'n'roll")
         ]:
             out  = str(out).replace(pair[0], pair[1])
 
@@ -374,18 +374,18 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += BT.Executer('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
         out += ''
         out += BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False)
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'iii')
-        out += e.stderr
+        out += e.stderr.decode()
 
         out += '\nExtract Exif data --------------------------------------------------------'
         out += BT.Executer('exiv2 -u -vf extract            {images_2_str}', vars())
 
         out += '\nExtract Thumbnail --------------------------------------------------------'
         out += BT.Executer('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False)
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'jjj')
-        out += e.stderr
+        out += e.stderr.decode()
 
         out += '\nCompare image data and extracted data ------------------------------------'
         out += BT.diff('iii', 'jjj')
@@ -400,9 +400,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         out += '\nInsert Exif data ---------------------------------------------------------'
         out += BT.Executer('exiv2 -u -v insert              {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False)
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'kkk')
-        out += e.stderr
+        out += e.stderr.decode()
 
         out += '\nCompare original and inserted image data ---------------------------------'
         out += BT.diff('iii', 'kkk')
@@ -472,7 +472,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
                 BT.copyTestFile(i)
 
             out      += BT.Executer('exiv2 -pS          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), adjust_output=False, decode_output=False)
+            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_1.icc')
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_2.icc')
@@ -480,7 +480,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             BT.copyTestFile('large.icc', iccname)
             out      += BT.Executer('exiv2 -iC          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), adjust_output=False, decode_output=False)
+            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_large_1.icc')
             out      += BT.Executer('exiv2 -pS          {img}', vars())
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
@@ -489,7 +489,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
             BT.copyTestFile('small.icc', iccname)
             out      += BT.Executer('exiv2 -iC          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), adjust_output=False, decode_output=False)
+            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_small_1.icc')
             out      += BT.Executer('exiv2 -pS          {img}', vars())
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
@@ -946,4 +946,365 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             raise RuntimeError('\n' + str(report) + '\n' + BT.log.to_str())
 
         BT.reportTest('preview-test', out)
+
+
+    def stdin_test(self):
+        # Test driver for stdin
+        try:
+            import lxml
+        except ModuleNotFoundError:
+            print('ignored')
+            print('Missing module lxml, please install: `pip install lxml`')
+            return
+
+        out     = BT.Output()
+        a       = 'exiv2-bug1229.jpg'  # jpg with 2 APP1/xap segments
+        b       = 'girl.jpg'
+        BT.copyTestFile(a)
+
+        def get_xmpData(img):
+            e    = BT.Executer('exiv2 -pX   {img}', vars(), decode_output=False)
+            return e.stdout.replace(b'\n', b'\r\n', 16) # Ignore the difference in newline
+
+        BT.copyTestFile(a, b)
+        out     += BT.Executer('exiv2 -pS   {b}', vars())
+        out     += BT.Executer('exiv2 -dX   {b}', vars())  # remove first
+        out     += BT.Executer('exiv2 -pS   {b}', vars())
+
+        e = BT.Executer('exiv2 -pX   {a}', vars(), decode_output=False)
+        with open('out2', 'wb') as f:
+            f.write(e.stdout)
+
+        out     += BT.Executer('exiv2 -iXX- {b}', vars(), stdin=get_xmpData(a))
+        out     += BT.Executer('exiv2 -pS   {b}', vars())
+
+        BT.copyTestFile(a, b)
+        out     += BT.Executer('exiv2 -dX   {b}', vars())
+        out     += BT.Executer('exiv2 -dX   {b}', vars())
+        out     += BT.Executer('exiv2 -pS   {b}', vars())
+        out     += BT.Executer('exiv2 -iXX- {b}', vars(), stdin=get_xmpData(a))
+        out     += BT.Executer('exiv2 -pS   {b}', vars())
+
+        for f in ['Reagan.jpg', 'Reagan.tiff', 'ReaganSmallPng.png']:
+            BT.copyTestFile(f)
+            out     += BT.Executer('exiv2 -iXX- {f}', vars(), stdin=get_xmpData(a))
+            e        = BT.Executer('exiv2 -pX   {f}', vars())
+            out     += """
+<?xml version="1.0"?>
+<?xpacket begin='\ufeff' id='W5M0MpCehiHzreSzNTczkc9d'?>
+{}
+<?xpacket end='w'?>
+""".strip('\n').format(BT.pretty_xml(e.stdout))
+
+        for f in ['Reagan.jpg', 'ReaganSmallPng.png']:
+            BT.copyTestFile(f)
+            BT.copyTestFile(a, b)
+            out     += BT.Executer('exiv2 -pS   {b}', vars())
+            e        = BT.Executer('exiv2 -ea-  {f}', vars(), decode_output=False)
+            out     += BT.Executer('exiv2 -ia-  {b}', vars(), stdin=e.stdout)
+            out     += BT.Executer('exiv2 -pS   {b}', vars())
+
+        BT.copyTestFile('Reagan.tiff')   # 1272 ReaganLargeTiff.tiff
+        for img in ['Reagan.jpg', 'ReaganSmallPng.png', 'exiv2-bug1199.webp']:
+            BT.copyTestFile(img)
+            e        = BT.Executer('exiv2 -eC-  Reagan.tiff', decode_output=False)
+
+            # Ignore the difference in the path separator
+            stdout = e.stdout
+            for pair in [
+                (b'\x03/\x9e', b'\x03\\\x9e'),
+                (b'\x0c/\x0c', b'\x0c\\\x0c'),
+                (b'V/V'      , b'V\\V'      ),
+                (b'\xe5/5'   , b'\xe5\\5'   ),
+                (b'5/\x86'   , b'5\\\x86'   ),
+                (b'\x86/\xd6', b'\x86\\\xd6'),
+                (b'\xac/\xac', b'\xac\\\xac'),
+                (b'\xd7/\xd7', b'\xd7\\\xd7'),
+            ]:
+                stdout  = stdout.replace(pair[0], pair[1])
+
+            out     += BT.Executer('exiv2 -iC-  {img}', vars(), stdin=stdout)
+            out     += BT.Executer('exiv2 -pS   {img}', vars())
+            if img == 'ReaganSmallPng.png':
+                with open('out2', 'wb') as f:
+                    f.write(e.stdout)
+
+        BT.reportTest('stdin-test', out)
+
+
+    def stringto_test(self):
+        # Test driver for tests of stringToLong/Float/Rational
+        out      = BT.Output()
+        out     += BT.Executer('stringto-test')
+        BT.reportTest('stringto-test', out)
+
+
+    def tiff_test(self):
+        # TIFF parser test driver
+
+        def exifprobe(img):
+            out  = BT.Output()
+
+            # Convert each line from that format:
+            #   Exif.Image.NewSubfileType       Long    1  Primary image
+            # to that format:
+            #   NewSubfileType 	 Long 	 1 	 "Primary image"
+            tags = []
+            typs = []
+            lens = []
+            vals = []
+            e    = BT.Executer('exiv2 -pa {img}', vars(), redirect_stderr_to_stdout=False)
+            for line in e.stdout.split('\n'):
+                fields = re.findall(r'^(\S*)\s*(\S*)\s*(\d*)\s*(.*)$', line)[0]
+                tags  += [fields[0].split('.')[2]]      # tag
+                typs  += [fields[1]]                    # type
+                lens  += [fields[2]]                    # length
+                vals  += [fields[3]]                    # value
+
+            out += 'exiv2 -pa output'
+            for i in range(len(tags)):
+                out += ' \t '.join([tags[i], typs[i], lens[i], '"{}"'.format(vals[i])])
+
+            # Parse -pS output:
+            # address |    tag                           |      type |    count |   offset | value
+            #     254 | 0x00fe NewSubfileType            |      LONG |        1 |        0 | 0
+            TAGS = []
+            TYPS = []
+            LENS = []
+            VALS = []
+            e    = BT.Executer('exiv2 -pS {img}', vars(), redirect_stderr_to_stdout=False)
+            for line in e.stdout.split('\n')[2:-1]:
+                fields = [i.strip(' ') for i in line.split('|')]
+                TAGS  += [fields[1].split(' ')[1]]
+                TYPS  += [fields[2]]
+                LENS  += [fields[3]]
+                VALS  += [fields[5]]
+
+            out += '\nexiv2 -pS output'
+            for i in range(len(TAGS)):
+                out += ' \t '.join([TAGS[i], TYPS[i], LENS[i], '"{}"'.format(VALS[i])])
+
+            out += '\nAnalysis'
+            out += 'count =  {} COUNT =  {}'.format(len(tags), len(TAGS))
+
+            # Make them have the same number of lines
+            max_lines  = max(len(TAGS), len(tags))
+            for _list in [tags, typs, lens, vals, TAGS, TYPS, LENS, VALS]:
+                _list += [''] * (max_lines - len(_list))
+
+            # Compare the main fields of each line
+            for i in range(max_lines):
+                if TAGS[i]  != tags[i]:
+                    out     += 'TAG {} {} mismatch'.format(TAGS[i], tags[i]).replace('  ', ' ')
+
+                TYPS[i]      = TYPS[i].upper()
+                typs[i]      = typs[i].upper()
+                if TYPS[i]  != typs[i]:
+                    out     += 'TYPE {} {} mismatch'.format(TYPS[i], typs[i]).replace('  ', ' ')
+
+                if LENS[i]  != lens[i]:
+                    out     += 'Length {} {} mismatch'.format(LENS[i], lens[i]).replace('  ', ' ')
+
+                if typs[i]  == 'ASCII' and VALS[i] != vals[i]:
+                    out     += 'Value {} {} mismatch'.format(VALS[i], vals[i]).replace('  ', ' ')
+
+            return str(out)
+
+        test_file = 'mini9.tif'
+        BT.copyTestFile(test_file)
+        out      = BT.Output()
+        out     += exifprobe(test_file)
+        out     += BT.Executer('tiff-test {test_file}', vars())
+        out     += exifprobe(test_file)
+        BT.reportTest('tiff-test', out)
+
+
+    def version_test(self):
+        # Test driver for exiv2 --verbose --version
+        out      = BT.Output()
+        out     += BT.Executer('exiv2 --verbose --version')
+
+
+    def webp_test(self):
+        # Test driver for webp
+        webp     = 'exiv2-bug1199.webp' # http://dev.exiv2.org/attachments/download/1033/Stonehenge-with-icc.webp
+        icc      = 'exiv2-bug1199.icc'
+        exv      = 'exiv2-bug1199.exv'
+        xmp      = 'exiv2-bug1199.xmp'
+        tiff     = 'Reagan.tiff'
+        out      = BT.Output()
+
+        # Extract the XMP
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS {webp}', vars())
+        e        = BT.Executer('exiv2 -pX {webp}', vars())
+        out     += """
+<?xml version="1.0"?>
+<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
+{}
+<?xpacket end="w"?>
+""".strip('\n').format(BT.pretty_xml(e.stdout))
+
+        # Test deleting metadata
+        for option in ['-dC', '-de', '-dx', '-dCe', '-dCx', '-dCxe']:
+            BT.copyTestFile(webp)
+            out     += BT.Executer('exiv2 -pS      {webp}', vars())
+            out     += BT.Executer('exiv2 {option} {webp}', vars())
+            out     += BT.Executer('exiv2 -pS      {webp}', vars())
+
+        # Extract the icc
+        BT.copyTestFile(webp)
+        BT.copyTestFile(tiff)
+        out     += BT.Executer('exiv2 -pS {webp}', vars())
+        BT.save(   BT.Executer('exiv2 -pC {tiff}', vars(), decode_output=False).stdout, icc)
+        out     += BT.Executer('exiv2 -iC {webp}', vars())
+        out     += BT.Executer('exiv2 -pS {webp}', vars())
+
+        # Copy the XMP from the test file
+        BT.copyTestFile(webp)
+        BT.save(   BT.Executer('exiv2 -pX {webp}', vars(), decode_output=False).stdout, xmp)
+        out     += BT.Executer('exiv2 -ea --force {webp}', vars())
+
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS  {webp}', vars())
+        out     += BT.Executer('exiv2 -iXX {webp}', vars())
+        out     += BT.Executer('exiv2 -pS  {webp}', vars())
+        out     += BT.Executer('exiv2 -ix  {webp}', vars())
+
+        # Copy the XMP from Reagan.tiff to test file
+        BT.copyTestFile(tiff)
+        BT.save(   BT.Executer('exiv2 -pX  {tiff}', vars(), decode_output=False).stdout, xmp)
+        out     += BT.Executer('exiv2 -ea --force  {tiff}', vars())
+        BT.mv('Reagan.exv', exv)
+
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -iXX  {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -ix   {webp}', vars())
+
+        # Copy the XMP from exiv2-bug922.jpg to test file
+        BT.copyTestFile('exiv2-bug922.jpg')
+        BT.save(   BT.Executer('exiv2 -pX  exiv2-bug922.jpg', decode_output=False).stdout, xmp)
+        BT.Executer(           'exiv2 -ea --force  exiv2-bug922.jpg')
+        BT.mv('exiv2-bug922.exv', exv)
+
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -ix   {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -iXX  {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+
+        BT.copyTestFile('exiv2-bug922.jpg', webp)
+        out     += BT.Executer('exiv2 --force -ea  {webp}', vars())
+        BT.copyTestFile(webp)
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Executer('exiv2 -ie   {webp}', vars())
+        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+
+        BT.reportTest('webp-test', out)
+
+
+    def write_test(self):
+        # Test driver for the write unit tests
+        images = [
+            'exiv2-canon-powershot-s40.jpg'
+            ,'exiv2-kodak-dc210.jpg'
+            ,'exiv2-fujifilm-finepix-s2pro.jpg'
+            ,'exiv2-sigma-d10.jpg'
+            ,'exiv2-nikon-e990.jpg'
+            ,'exiv2-nikon-d70.jpg'
+            ,'exiv2-nikon-e950.jpg'
+        ]
+        for i in images:
+            BT.copyTestFile(i)
+
+        out  = BT.Output()
+        out += BT.runTestCase( 1, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 2, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 3, 'exiv2-kodak-dc210.jpg')
+        out += BT.runTestCase( 4, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 5, 'exiv2-canon-powershot-s40.jpg')
+        out += BT.runTestCase( 6, 'exiv2-kodak-dc210.jpg')
+        out += BT.runTestCase( 7, 'exiv2-fujifilm-finepix-s2pro.jpg')
+        out += BT.runTestCase( 8, 'exiv2-sigma-d10.jpg')
+        out += BT.runTestCase( 9, 'exiv2-nikon-e990.jpg')
+        out += BT.runTestCase(10, 'exiv2-nikon-e950.jpg')
+        out += BT.runTestCase(11, 'exiv2-nikon-d70.jpg')
+
+        # Adjust the output to be compatible with the reference output
+        out = str(out)
+        for img in images:
+            out = out.replace('Reading file ' + img, 'Reading file ./' + img)
+
+        # Ignore output differences between BT.diff() and GNU dIff
+        for pair in [
+            ('24,2c24,2', '24,25c24,25'),
+            ('29,2c29,2', '29,30c29,30'),
+            ('27,2c27,2', '27,28c27,28'),
+            ('28,2c28,2', '28,29c28,29'),
+        ]:
+            out  = out.replace(pair[0], pair[1])
+
+        BT.reportTest('write-test', out)
+
+
+    def write2_test(self):
+        # Test driver for write unit tests to build Exif metadata from scratch
+        img      = 'exiv2-empty.jpg'
+        BT.copyTestFile(img)
+        out      = BT.Output()
+        out     += BT.Executer('write2-test {img}', vars())
+        BT.reportTest('write2-test', out)
+
+
+    def xmpparser_test(self):
+        # XMP parser test driver
+        images = ['BlueSquare.xmp', 'StaffPhotographer-Example.xmp', 'xmpsdk.xmp']
+        out      = BT.Output()
+
+        for img in images:
+            BT.copyTestFile(img)
+            out += BT.Executer('xmpparser-test {img}', vars())
+            out += BT.diff(img, img + '-new')
+
+        xmp = 'xmpsdk.xmp'
+        BT.save(BT.Executer('xmpparse {xmp}'    , vars()).stdout, 't1')
+        BT.save(BT.Executer('xmpparse {xmp}-new', vars()).stdout, 't2')
+        out += BT.diff('t1', 't2')
+
+        out += BT.Executer('xmpsample')
+        for img in ['exiv2-empty.jpg', 'cmdxmp.txt']:
+            BT.copyTestFile(img)
+        out += BT.Executer('exiv2 -v -m cmdxmp.txt exiv2-empty.jpg', assert_returncode=[0, 1])
+        out += BT.Executer('exiv2 -v -px exiv2-empty.jpg')
+
+        # Ignore output differences between BT.diff() and GNU dIff
+        out = str(out)
+        out  = out.replace("""
+34,0c35
+---
+>      <rdf:li xml:lang="x-default">Blue Square Test File - .jpg</rdf:li>
+36c36,0
+<      <rdf:li xml:lang="x-default">Blue Square Test File - .jpg</rdf:li>
+67,21c67,21
+""".strip('\n'),
+"""
+35d34
+<      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+36a36
+>      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
+67,87c67,87
+""".strip('\n'))
+        for pair in [
+            ('46,0c47\n---'             , '46a47'),
+            ('160,32c161'               , '160,191c161'),
+            ('1,49c1,65'                , '1,48c1,65'),
+            ('<     </rdf:RDF>\n< '     , '<     </rdf:RDF>'),
+            ('> <?xpacket end="w"?>\n'  , '> <?xpacket end="w"?>\n/ No newline at end of file'),
+        ]:
+            out  = out.replace(pair[0], pair[1])
+
+        BT.reportTest('xmpparser-test', out)
 

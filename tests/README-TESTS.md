@@ -39,6 +39,7 @@ for Python 2).
 
 Then navigate to the `tests/` subdirectory and run:
 ``` shell
+python3 -m pip install -r requirements.txt
 python3 runner.py
 ```
 

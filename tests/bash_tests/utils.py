@@ -158,7 +158,7 @@ def diff(file1, file2, encoding=None):
     output       = []
     new_part     = True
     num          = 0
-    for line in difflib.unified_diff(text1, text2, fromfile=file1, tofile=file2, lineterm=''):
+    for line in difflib.unified_diff(text1, text2, fromfile=file1, tofile=file2, n=0, lineterm=''):
         num     += 1
         if num   < 3:
             # line         = line.replace('--- ', '<<< ')
@@ -207,7 +207,7 @@ def diff_bytes(file1, file2, return_str=False):
     new_part     = True
     num          = 0
     for line in difflib.diff_bytes(difflib.unified_diff, text1, text2,
-                                   fromfile=file1.encode(), tofile=file2.encode(), lineterm=b''):
+                                   fromfile=file1.encode(), tofile=file2.encode(), n=0, lineterm=b''):
         num     += 1
         if num   < 3:
             line         = line.decode()
@@ -247,6 +247,17 @@ def md5sum(filename):
     """ Calculate the MD5 value of the file """
     with open(filename, "rb") as f:
         return hashlib.md5(f.read()).hexdigest()
+
+
+def pretty_xml(text, encoding=None):
+    """
+    Add indent to the XML text
+    """
+    from lxml import etree
+    encoding     = encoding or Config.encoding
+    root = etree.fromstring(text)
+    etree.indent(root)
+    return etree.tostring(root).decode(encoding)
 
 
 class Log:
@@ -331,17 +342,22 @@ def diffCheck(file1, file2, in_bytes=False, encoding=None):
 
 def simply_diff(file1, file2, encoding=None):
     """ Find the first different line of the two text files """
-    encoding         = encoding or Config.encoding
-    list1            = cat(file1, encoding=encoding).split('\n')
-    list2            = cat(file2, encoding=encoding).split('\n')
-    if list1        == list2:
+    encoding    = encoding or Config.encoding
+    list1       = cat(file1, encoding=encoding).split('\n')
+    list2       = cat(file2, encoding=encoding).split('\n')
+    if list1   == list2:
         return
-    report           = []
-    report          += ['{}: {} lines'.format(file1, len(list1))]
-    report          += ['{}: {} lines'.format(file2, len(list2))]
-    max_lines        = max(len(list1), len(list2))
-    for i in [list1, list2]:
-        i           += [''] * (max_lines - len(i))    # Make them have the same number of lines
+
+    report      = []
+    report     += ['{}: {} lines'.format(file1, len(list1))]
+    report     += ['{}: {} lines'.format(file2, len(list2))]
+
+    # Make them have the same number of lines
+    max_lines   = max(len(list1), len(list2))
+    for _list in [list1, list2]:
+        _list  += [''] * (max_lines - len(_list))
+
+    # Compare each line
     for i in range(max_lines):
         if list1[i] != list2[i]:
             report  += ['The first mismatch is in line {}:'.format(i + 1)]
@@ -353,10 +369,10 @@ def simply_diff(file1, file2, encoding=None):
 
 class Executer:
     """
-    Execute a command in the shell, return a decorated `Subprocess.Popen` object.
+    Execute a command in the shell, return a `Executer` object.
     - If a binary of Exiv2 is executed, the absolute path is automatically added.
-    - `adjust_output`: whether to filter path delimiters, whitespace characters in output
-    - `decode_output`: whether to decode output from bytes to str
+    - `compatible_output=True`: filter out path delimiters, whitespace characters in output
+    - `decode_output=True`: decode output from bytes to str
 
     Sample:
     >>> Executer('echo Hello').stdout
@@ -370,7 +386,7 @@ class Executer:
                  stdin: (str, bytes) = None,
                  redirect_stderr_to_stdout=True,
                  assert_returncode=[0],
-                 adjust_output=True,
+                 compatible_output=True,
                  decode_output=True):
         self.cmd            = cmd.format(**vars_dict)
         self.cwd            = cwd or Config.tmp_dir
@@ -381,8 +397,8 @@ class Executer:
         self.redirect_stderr_to_stdout  = redirect_stderr_to_stdout
         self.assert_returncode          = assert_returncode
         # self.returncode   = 0
-        self.adjust_output  = adjust_output
-        self.decode_output  = decode_output
+        self.compatible_output  = compatible_output
+        self.decode_output      = decode_output
 
         # Generate the args for subprocess.Popen
         args = self.cmd.split(' ', maxsplit=1)
@@ -424,7 +440,7 @@ class Executer:
         output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
 
         # Extract stdout and stderr
-        if self.adjust_output:
+        if self.compatible_output:
             output      = [i.replace(b'\r\n', b'\n')    for i in output]   # Fix dos line-endings
             output      = [i.replace(b'\\', rb'/')      for i in output]   # Fix dos path separators
         if self.decode_output:
@@ -594,3 +610,27 @@ def extendedTest(filename):
     e           = Executer('iptcprint {tmp}', vars(), decode_output=False)
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
+
+
+def runTestCase(num, img):
+    """ Run the requested test case number with the given image """
+    out_img     = 'test{}.jpg'.format(num)
+    thumb_jpg   = 'thumb{}.jpg'.format(num)
+    thumb_tif   = 'thumb{}.tif'.format(num)
+    rm(out_img, thumb_jpg, thumb_tif)
+    rm('iii', 'ttt')
+    cp(img, out_img)
+    out  = Output()
+    out += '------------------------------------------------------------'
+
+    e    = Executer('exifprint {img}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+    out += e.stderr.decode() if e.stderr else None
+    save(e.stdout, 'iii')
+
+    e    = Executer('write-test {img} {num}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+    out += e.stderr.decode() if e.stderr else None
+    save(e.stdout, 'ttt')
+
+    out += diff('iii', 'ttt')
+    return str(out)
+
