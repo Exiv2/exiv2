@@ -55,6 +55,7 @@ install:
     - ninja --version
     - python -m pip install --upgrade pip
     - pip3.exe install conan==1.24.1
+    - pip3.exe install lxml
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
