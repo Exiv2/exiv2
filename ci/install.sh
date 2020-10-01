@@ -16,12 +16,14 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     source conan/bin/activate
     pip install conan==1.22.0
     pip install codecov
+    pip install lxml
 else
     sudo pip3 install virtualenv
     virtualenv conan
     source conan/bin/activate
     pip3 install conan==1.22.0
     pip3 install codecov
+    pip3 install  lxml
 fi
 
 conan --version
