@@ -92,6 +92,13 @@ typedef int pid_t;
 # endif
 #endif
 //////////////////////////////////////
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#ifdef EXIV2_BUILDING_EXIV2
+#define __USE_W32_SOCKETS
+#include <winsock2.h>
+#endif
+#endif
+
 
 // https://softwareengineering.stackexchange.com/questions/291141/how-to-handle-design-changes-for-auto-ptr-deprecation-in-c11
 #if __cplusplus >= 201103L

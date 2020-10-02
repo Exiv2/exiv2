@@ -40,11 +40,6 @@
 
 ////////////////////////////////////////
 // platform specific code
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
-#define __USE_W32_SOCKETS
-#include <winsock2.h>
-#endif
-
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
 #include <string.h>
 #include <io.h>

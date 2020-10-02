@@ -10,6 +10,7 @@ project(exiv2          # use TWEAK to categorize the build
     LANGUAGES CXX
 )
 include(cmake/mainSetup.cmake  REQUIRED)
+add_compile_options(-DEXIV2_BUILDING_EXIV2)
 
 # options and their default values
 option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"                    ON  )
