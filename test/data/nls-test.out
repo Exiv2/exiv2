@@ -1,0 +1,10 @@
+exiv2: Une action doit être spécifié
+exiv2: Au moins un fichier est nécessaire
+Utilisation : exiv2  [ options ] [ action ] fichier ...
+
+Manipulation des métadonnées EXIF issues des images.
+exiv2: Se debe especificar una acción
+exiv2: Se requiere un archivo al menos
+Uso: exiv2 [ opciones ] [ acción ] archivo ...
+
+manipular los metadatos Exif de las imágenes.
