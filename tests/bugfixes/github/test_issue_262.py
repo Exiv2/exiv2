@@ -11,15 +11,10 @@ class DivByZeroInPrintIFD(metaclass=system_tests.CaseMeta):
         "$data_path/7-printIFD-divbyzero-1"
     )
     commands = ["$exiv2 -pX $filename"]
-    stdout = [
-        """STRUCTURE OF BIGTIFF FILE $filename
- address |    tag                           |      type |    count |    offset | value
-      10 | 0x0008 FlashSetting              |   unknown |        0 |           | 
-"""
-    ]
+    stdout = [""]
     stderr = [
         """$exiv2_exception_message $filename:
-$kerCorruptedMetadata
+$filename: $kerFileContainsUnknownImageType
 """
     ]
     retval = [1]
