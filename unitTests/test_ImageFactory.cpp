@@ -372,16 +372,6 @@ TEST(TheImageFactory, getsExpectedModesForXmpImages)
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::xmp, mdIccProfile));
 }
 
-TEST(TheImageFactory, getsExpectedModesForBigTiffImages)
-{
-    ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::bigtiff, mdNone));
-    ASSERT_EQ(amRead, ImageFactory::checkMode(ImageType::bigtiff, mdExif));
-    ASSERT_EQ(amRead, ImageFactory::checkMode(ImageType::bigtiff, mdIptc));
-    ASSERT_EQ(amRead, ImageFactory::checkMode(ImageType::bigtiff, mdXmp));
-    ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::bigtiff, mdComment));
-    ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::bigtiff, mdIccProfile));
-}
-
 TEST(TheImageFactory, getsExpectedModesForNoneValue)
 {
     ASSERT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdNone));

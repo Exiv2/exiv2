@@ -49,7 +49,6 @@ add_library( exiv2lib
     MemIo.cpp
     RemoteIo.cpp
 
-    bigtiffimage.cpp        ../include/exiv2/bigtiffimage.hpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
     convert.cpp             ../include/exiv2/convert.hpp
     cr2image.cpp            ../include/exiv2/cr2image.hpp
