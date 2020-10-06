@@ -18,7 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-// included header files
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)	
+#define __USE_W32_SOCKETS
+#include <winsock2.h>
+#endif
+
 #include "config.h"
 #include "datasets.hpp"
 #include "http.hpp"
@@ -40,10 +44,6 @@
 
 ////////////////////////////////////////
 // platform specific code
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)	
-#define __USE_W32_SOCKETS
-#include <winsock2.h>
-#endif
 
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
 #include <string.h>
