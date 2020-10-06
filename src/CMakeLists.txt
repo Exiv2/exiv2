@@ -192,7 +192,9 @@ if (EXIV2_ENABLE_WEBREADY)
 endif()
 
 if (WIN32)
-    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1)    # to be compatible with <= WinVista (#905)
+    # Since windows.h is included in some headers, we need to propagate this definition
+    target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN) 
 endif()
 
 if (NOT MSVC)
