@@ -529,10 +529,12 @@ std::unique_ptr<Task> Task::clone() const {
     bool Print::grepTag(const std::string& key)
     {
         bool result = Params::instance().greps_.empty();
-        for (auto g = Params::instance().greps_.begin(); !result && g != Params::instance().greps_.end(); ++g)
-        {
+        for (const auto& g : Params::instance().greps_) {
+            if (result) {
+                break;
+            }
             re::smatch m;
-            result = re::regex_search(key, m, *g);
+            result = re::regex_search(key, m, g);
         }
         return result;
     }
@@ -540,8 +542,11 @@ std::unique_ptr<Task> Task::clone() const {
     bool Print::keyTag(const std::string& key)
     {
         bool result = Params::instance().keys_.empty();
-        for (auto k = Params::instance().keys_.begin(); !result && k != Params::instance().keys_.end(); ++k) {
-            result = key == *k;
+        for (const auto& k : Params::instance().keys_) {
+            if (result) {
+                break;
+            }
+            result = key == k;
         }
         return result;
     }
@@ -1947,8 +1952,8 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                for (auto& i : sourceImage->exifData()) {
-                    targetImage->exifData()[i.key()] = i.value();
+                for (const auto& exif : sourceImage->exifData()) {
+                    targetImage->exifData()[exif.key()] = exif.value();
                 }
             } else {
                 targetImage->setExifData(sourceImage->exifData());
@@ -1960,8 +1965,8 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                for (auto& i : sourceImage->iptcData()) {
-                    targetImage->iptcData()[i.key()] = i.value();
+                for (const auto& iptc : sourceImage->iptcData()) {
+                    targetImage->iptcData()[iptc.key()] = iptc.value();
                 }
             } else {
                 targetImage->setIptcData(sourceImage->iptcData());
@@ -1985,8 +1990,8 @@ namespace
                 os.close();
                 rc = 0;
             } else if (preserve) {
-                for (auto& i : sourceImage->xmpData()) {
-                    targetImage->xmpData()[i.key()] = i.value();
+                for (const auto& xmp : sourceImage->xmpData()) {
+                    targetImage->xmpData()[xmp.key()] = xmp.value();
                 }
             } else {
                 // std::cout << "long cut" << std::endl;
