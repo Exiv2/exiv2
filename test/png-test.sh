@@ -5,13 +5,15 @@ source ./functions.source
 
 (   cd "$testdir"
 
-    files="1343_empty.png 1343_comment.png 1343_exif.png ReaganSmallPng.png"
+    files="1343_empty.png 1343_comment.png 1343_exif.png"
     copyTestFiles  $files
-    for  i in 1 2 ; do 
-        runTest exiv2 -pS   $files
-        runTest exiv2 -pc   $files
-        runTest exiv2 -pa   $files
-        runTest exiv2 -c  'changed comment' $files
+    for file in $files ; do
+        for  i in 1 2 ; do 
+            runTest exiv2 -pR   $file
+            runTest exiv2 -pc   $file
+            runTest exiv2 -pa   $file
+            runTest exiv2 -c  'changed comment' $file
+        done
     done
 ) > $results 2>&1
 

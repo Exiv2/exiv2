@@ -85,6 +85,7 @@ TESTS =  addmoddel.sh         \
          iso65k-test.sh       \
          modify-test.sh       \
          path-test.sh         \
+         png-test.sh          \
          preview-test.sh      \
          stdin-test.sh        \
          stringto-test.sh     \
@@ -102,6 +103,7 @@ icc-test      \
 iso65k-test   \
 modify-test   \
 path-test     \
+png-test      \
 stringto-test \
 webp-test     \
 write2-test   \
