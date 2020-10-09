@@ -25,22 +25,20 @@
 #include "enforce.hpp"
 
 // + standard includes
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <cstdio>
-#include <cerrno>
-#include <sstream>
-#include <cstring>
+#include <sys/types.h>
+
 #include <algorithm>
-#include <stdexcept>
-#include <set>
+#include <array>
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
 #include <fstream>
+#include <set>
+#include <sstream>
+#include <stdexcept>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>                     // for stat()
-#endif
-
-#ifndef lengthof
-#define lengthof(x) (sizeof(x) / sizeof((x)[0]))
 #endif
 
 #if defined(_MSC_VER)
@@ -526,26 +524,26 @@ namespace Exiv2 {
         std::set<std::string>     paths;
         std::string               path ;
 
-    #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
         // enumerate loaded libraries and determine path to executable
-        HMODULE handles[200];
-        DWORD   cbNeeded;
-        if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
-            char szFilename[_MAX_PATH];
-            for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
-                GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-                std::string path(szFilename);
+        std::array<HMODULE, 200> handles;
+        DWORD cbNeeded;
+        if (EnumProcessModules(GetCurrentProcess(), handles.data(), DWORD(handles.size()), &cbNeeded)) {
+            std::array<char, _MAX_PATH> szFilename;
+            for (const auto& h : handles) {
+                GetModuleFileNameA(h, szFilename.data(), DWORD(szFilename.size()));
+                std::string path(szFilename.data());
                 pushPath(path,libs,paths);
             }
         }
-    #elif defined(__APPLE__)
+#elif defined(__APPLE__)
         // man 3 dyld
         uint32_t count = _dyld_image_count();
         for (uint32_t image = 0 ; image < count ; image++ ) {
             std::string path(_dyld_get_image_name(image));
             pushPath(path,libs,paths);
         }
-    #elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__)
         unsigned int n;
         struct procstat*      procstat = procstat_open_sysctl();
         struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
@@ -562,7 +560,7 @@ namespace Exiv2 {
         if ( procs    ) procstat_freeprocs(procstat, procs);
         if ( procstat ) procstat_close    (procstat);
 
-    #elif defined(__unix__)
+#elif defined(__unix__)
         // read file /proc/self/maps which has a list of files in memory
         std::ifstream maps("/proc/self/maps",std::ifstream::in);
         std::string   string ;
@@ -573,7 +571,7 @@ namespace Exiv2 {
                 pushPath(path,libs,paths);
             }
         }
-    #endif
+#endif
         return libs;
     }
 }                                       // namespace Exiv2
