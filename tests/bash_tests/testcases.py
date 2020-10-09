@@ -875,7 +875,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 #       runTest exiv2 -c 'comment in Reagan to hide non UTF-8 bytes'
 #       for file in $files ; do
 #           for  i in 1 2 ; do 
-#               runTest exiv2 -pR   $file
+#               runTest exiv2 -pS   $file
 #               runTest exiv2 -pc   $file
 #               runTest exiv2 -pa   $file
 #               runTest exiv2 -c  'changed comment' $file
@@ -890,8 +890,10 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         for file in files:
             BT.copyTestFile(file)
             for i in [1,2]:
-                out  += BT.Executer('exiv2 -pR    {file}', vars())
+                out  += BT.Executer('exiv2 -pS    {file}', vars())
                 out  += BT.Executer('exiv2 -pc    {file}', vars())
+                if i ==1:
+                  out+= ''
                 out  += BT.Executer('exiv2 -pa    {file}', vars())
                 out  += BT.Executer('exiv2 -c "changed comment" {file}', vars())
 

@@ -9,7 +9,7 @@ source ./functions.source
     copyTestFiles  $files
     for file in $files ; do
         for  i in 1 2 ; do 
-            runTest exiv2 -pR   $file
+            runTest exiv2 -pS   $file
             runTest exiv2 -pc   $file
             runTest exiv2 -pa   $file
             runTest exiv2 -c  'changed comment' $file

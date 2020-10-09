@@ -552,8 +552,7 @@ namespace Exiv2 {
         // Write PNG Signature.
         if (outIo.write(pngSignature, 8) != 8) throw Error(kerImageWriteFailed);
 
-        DataBuf cheaderBuf(9);   // Chunk header : 4 bytes (data size) + 4 bytes (chunk type) + nul
-        cheaderBuf.pData_[8] = 0;
+        DataBuf cheaderBuf(8);       // Chunk header : 4 bytes (data size) + 4 bytes (chunk type).
 
         while(!io_->eof())
         {

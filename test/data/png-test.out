@@ -11,7 +11,6 @@ STRUCTURE OF PNG FILE: 1343_empty.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
       33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
-changed comment
       84 | sRGB  |       1 |                                | 0xaece1ce9
       97 | gAMA  |       4 | ....                           | 0x0bfc6105
      113 | pHYs  |       9 | .........                      | 0xc76fa864
@@ -32,7 +31,6 @@ STRUCTURE OF PNG FILE: 1343_comment.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
       33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
-changed comment
       84 | sRGB  |       1 |                                | 0xaece1ce9
       97 | gAMA  |       4 | ....                           | 0x0bfc6105
      113 | pHYs  |       9 | .........                      | 0xc76fa864
@@ -48,14 +46,6 @@ STRUCTURE OF PNG FILE: 1343_exif.png
       62 | pHYs  |       9 | .........                      | 0xc76fa864
       83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
      352 | eXIf  |     108 | MM.*.................J........ | 0x764e86e1
-  STRUCTURE OF TIFF FILE (MM): MemIo
-   address |    tag                              |      type |    count |    offset | value
-        10 | 0x010e ImageDescription             |     ASCII |       17 |        74 | Can you read me?
-        22 | 0x011a XResolution                  |  RATIONAL |        1 |        92 | 72/1
-        34 | 0x011b YResolution                  |  RATIONAL |        1 |       100 | 72/1
-        46 | 0x0128 ResolutionUnit               |     SHORT |        1 |           | 2
-        58 | 0x0213 YCbCrPositioning             |     SHORT |        1 |           | 1
-  END MemIo
      472 | IEND  |       0 |                                | 0xae426082
 
 Exif.Image.ImageDescription                  Ascii      17  Can you read me?
@@ -67,16 +57,7 @@ STRUCTURE OF PNG FILE: 1343_exif.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
       33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
-changed comment
       84 | zTXt  |     145 | Raw profile type exif..x.U.... | 0x2f6d89e8
-  STRUCTURE OF TIFF FILE (II): MemIo
-   address |    tag                              |      type |    count |    offset | value
-        10 | 0x010e ImageDescription             |     ASCII |       17 |        74 | Can you read me?
-        22 | 0x011a XResolution                  |  RATIONAL |        1 |        92 | 72/1
-        34 | 0x011b YResolution                  |  RATIONAL |        1 |       100 | 72/1
-        46 | 0x0128 ResolutionUnit               |     SHORT |        1 |           | 2
-        58 | 0x0213 YCbCrPositioning             |     SHORT |        1 |           | 1
-  END MemIo
      241 | sRGB  |       1 |                                | 0xaece1ce9
      254 | gAMA  |       4 | ....                           | 0x0bfc6105
      270 | pHYs  |       9 | .........                      | 0xc76fa864
