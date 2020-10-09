@@ -1,0 +1,452 @@
+STRUCTURE OF PNG FILE: 1343_empty.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | sRGB  |       1 |                                | 0xaece1ce9
+      46 | gAMA  |       4 | ....                           | 0x0bfc6105
+      62 | pHYs  |       9 | .........                      | 0xc76fa864
+      83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     352 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: 1343_comment.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | sRGB  |       1 |                                | 0xaece1ce9
+      46 | gAMA  |       4 | ....                           | 0x0bfc6105
+      62 | pHYs  |       9 | .........                      | 0xc76fa864
+      83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     352 | tEXt  |      24 | Comment.Can you read me?       | 0x83cad5fa
+     388 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: 1343_exif.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | sRGB  |       1 |                                | 0xaece1ce9
+      46 | gAMA  |       4 | ....                           | 0x0bfc6105
+      62 | pHYs  |       9 | .........                      | 0xc76fa864
+      83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     352 | eXIf  |     108 | MM.*.................J........ | 0x764e86e1
+  STRUCTURE OF TIFF FILE (MM): MemIo
+   address |    tag                              |      type |    count |    offset | value
+        10 | 0x010e ImageDescription             |     ASCII |       17 |        74 | Can you read me?
+        22 | 0x011a XResolution                  |  RATIONAL |        1 |        92 | 72/1
+        34 | 0x011b YResolution                  |  RATIONAL |        1 |       100 | 72/1
+        46 | 0x0128 ResolutionUnit               |     SHORT |        1 |           | 2
+        58 | 0x0213 YCbCrPositioning             |     SHORT |        1 |           | 1
+  END MemIo
+     472 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganSmallPng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | zTXt  |    8648 | Raw profile type exif..x...Wv$ | 0xca41f34d
+    8693 | zTXt  |     632 | Raw profile type iptc..x..T[.. | 0xa2860459
+    9337 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
+   16466 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16482 | bKGD  |       6 | ......                         | 0xa0bda793
+   16500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16521 | tIME  |       7 | ......#                        | 0xdf7f5bbd
+   16540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16830 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
+   25034 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
+   33238 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
+   41442 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
+   49646 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
+   56724 | IEND  |       0 |                                | 0xae426082
+
+Can you read me?
+
+040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navy�s newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographer�s Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                               
+1343_exif.png         Exif.Image.ImageDescription                  Ascii      17  Can you read me?
+1343_exif.png         Exif.Image.XResolution                       Rational    1  72
+1343_exif.png         Exif.Image.YResolution                       Rational    1  72
+1343_exif.png         Exif.Image.ResolutionUnit                    Short       1  inch
+1343_exif.png         Exif.Image.YCbCrPositioning                  Short       1  Centered
+ReaganSmallPng.png    Exif.Image.ImageWidth                        Long        1  200
+ReaganSmallPng.png    Exif.Image.ImageLength                       Long        1  130
+ReaganSmallPng.png    Exif.Image.BitsPerSample                     Short       3  8 8 8
+ReaganSmallPng.png    Exif.Image.Compression                       Short       1  Uncompressed
+ReaganSmallPng.png    Exif.Image.ImageDescription                  Ascii     403  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails thr ...
+ReaganSmallPng.png    Exif.Image.Make                              Ascii      18  NIKON CORPORATION
+ReaganSmallPng.png    Exif.Image.Model                             Ascii      10  NIKON D1X
+ReaganSmallPng.png    Exif.Image.Orientation                       Short       1  top, left
+ReaganSmallPng.png    Exif.Image.SamplesPerPixel                   Short       1  4
+ReaganSmallPng.png    Exif.Image.XResolution                       Rational    1  300
+ReaganSmallPng.png    Exif.Image.YResolution                       Rational    1  300
+ReaganSmallPng.png    Exif.Image.PlanarConfiguration               Short       1  1
+ReaganSmallPng.png    Exif.Image.ResolutionUnit                    Short       1  inch
+ReaganSmallPng.png    Exif.Image.Software                          Ascii      11  GIMP 2.9.5
+ReaganSmallPng.png    Exif.Image.DateTime                          Ascii      20  2016:09:15 06:29:23
+ReaganSmallPng.png    Exif.Image.Artist                            Ascii      34  Photographerís Mate 3rd Class (A
+ReaganSmallPng.png    Exif.Image.ExifTag                           Long        1  750
+ReaganSmallPng.png    Exif.Photo.ExposureTime                      Rational    1  1/125 s
+ReaganSmallPng.png    Exif.Photo.FNumber                           Rational    1  F5
+ReaganSmallPng.png    Exif.Photo.ExposureProgram                   Short       1  Manual
+ReaganSmallPng.png    Exif.Photo.ExifVersion                       Undefined   4  2.20
+ReaganSmallPng.png    Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
+ReaganSmallPng.png    Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
+ReaganSmallPng.png    Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+ReaganSmallPng.png    Exif.Photo.CompressedBitsPerPixel            Rational    1  4
+ReaganSmallPng.png    Exif.Photo.ExposureBiasValue                 SRational   1  +1/3 EV
+ReaganSmallPng.png    Exif.Photo.MaxApertureValue                  Rational    1  F2.8
+ReaganSmallPng.png    Exif.Photo.MeteringMode                      Short       1  Center weighted average
+ReaganSmallPng.png    Exif.Photo.LightSource                       Short       1  Cloudy weather
+ReaganSmallPng.png    Exif.Photo.Flash                             Short       1  No flash
+ReaganSmallPng.png    Exif.Photo.FocalLength                       Rational    1  42.0 mm
+ReaganSmallPng.png    Exif.Photo.UserComment                       Undefined 410  binary comment
+ReaganSmallPng.png    Exif.Photo.SubSecTime                        Ascii       3  06
+ReaganSmallPng.png    Exif.Photo.SubSecTimeOriginal                Ascii       3  06
+ReaganSmallPng.png    Exif.Photo.SubSecTimeDigitized               Ascii       3  06
+ReaganSmallPng.png    Exif.Photo.FlashpixVersion                   Undefined   4  1.00
+ReaganSmallPng.png    Exif.Photo.ColorSpace                        Short       1  sRGB
+ReaganSmallPng.png    Exif.Photo.PixelXDimension                   Long        1  200
+ReaganSmallPng.png    Exif.Photo.PixelYDimension                   Long        1  130
+ReaganSmallPng.png    Exif.Photo.SensingMethod                     Short       1  One-chip color area
+ReaganSmallPng.png    Exif.Photo.FileSource                        Undefined   1  Digital still camera
+ReaganSmallPng.png    Exif.Photo.SceneType                         Undefined   1  Directly photographed
+ReaganSmallPng.png    Exif.Photo.CustomRendered                    Short       1  Normal process
+ReaganSmallPng.png    Exif.Photo.ExposureMode                      Short       1  Manual
+ReaganSmallPng.png    Exif.Photo.WhiteBalance                      Short       1  Manual
+ReaganSmallPng.png    Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
+ReaganSmallPng.png    Exif.Photo.FocalLengthIn35mmFilm             Short       1  63.0 mm
+ReaganSmallPng.png    Exif.Photo.SceneCaptureType                  Short       1  Standard
+ReaganSmallPng.png    Exif.Photo.GainControl                       Short       1  None
+ReaganSmallPng.png    Exif.Photo.Contrast                          Short       1  Normal
+ReaganSmallPng.png    Exif.Photo.Saturation                        Short       1  Normal
+ReaganSmallPng.png    Exif.Photo.Sharpness                         Short       1  Normal
+ReaganSmallPng.png    Exif.Photo.SubjectDistanceRange              Short       1  Unknown
+ReaganSmallPng.png    Exif.Photo.ImageUniqueID                     Ascii      33  127c1377b054a3f65bf2754ebb24e7f2
+ReaganSmallPng.png    Exif.Image.GPSTag                            Long        1  1740
+ReaganSmallPng.png    Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0
+ReaganSmallPng.png    Exif.Thumbnail.ImageWidth                    Long        1  256
+ReaganSmallPng.png    Exif.Thumbnail.ImageLength                   Long        1  166
+ReaganSmallPng.png    Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
+ReaganSmallPng.png    Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+ReaganSmallPng.png    Exif.Thumbnail.PhotometricInterpretation     Short       1  YCbCr
+ReaganSmallPng.png    Exif.Thumbnail.SamplesPerPixel               Short       1  3
+ReaganSmallPng.png    Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1866
+ReaganSmallPng.png    Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6653
+ReaganSmallPng.png    Iptc.Envelope.CharacterSet                   String      3  %G
+ReaganSmallPng.png    Iptc.Application2.Byline                     String     32  Photographerís Mate 3rd Class (
+ReaganSmallPng.png    Iptc.Application2.BylineTitle                String     21  U.S Navy Photographer
+ReaganSmallPng.png    Iptc.Application2.Caption                    String    402  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails thr ...
+ReaganSmallPng.png    Iptc.Application2.Category                   String      1  N
+ReaganSmallPng.png    Iptc.Application2.City                       String     19  Straits of Magellan
+ReaganSmallPng.png    Iptc.Application2.CountryName                String     13  South America
+ReaganSmallPng.png    Iptc.Application2.Credit                     String      8  U.S Navy
+ReaganSmallPng.png    Iptc.Application2.DateCreated                Date        8  2016-09-15
+ReaganSmallPng.png    Iptc.Application2.DigitizationDate           Date        8  2004-06-21
+ReaganSmallPng.png    Iptc.Application2.DigitizationTime           Time       11  23:37:53-04:00
+ReaganSmallPng.png    Iptc.Application2.Keywords                   String     13  ronald reagan
+ReaganSmallPng.png    Iptc.Application2.ObjectName                 String     18  040621-N-6536T-062
+ReaganSmallPng.png    Iptc.Application2.RecordVersion              Short       1  2
+ReaganSmallPng.png    Iptc.Application2.Source                     String     24  Navy Visual News Service
+ReaganSmallPng.png    Iptc.Application2.SpecialInstructions        String     49  Credit as U.S. Navy photo by Elizabeth Thompson. 
+ReaganSmallPng.png    Iptc.Application2.SuppCategory               String     12  703-614-9154
+ReaganSmallPng.png    Iptc.Application2.TimeCreated                Time       11  06:29:23-06:29
+ReaganSmallPng.png    Iptc.Application2.Urgency                    String      1  5
+ReaganSmallPng.png    Iptc.Application2.Writer                     String      9  Dir. NVNS
+ReaganSmallPng.png    Xmp.dc.Format                                XmpText     9  image/png
+ReaganSmallPng.png    Xmp.dc.creator                               XmpSeq      1  Photographerís Mate 3rd Class (A
+ReaganSmallPng.png    Xmp.dc.description                           LangAlt     1  lang="x-default" 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan ( ...
+ReaganSmallPng.png    Xmp.dc.subject                               XmpBag      1  ronald reagan, reagan, cvn 76, cvn-76, straights magellan, magellan, carrier, nimitz-class, ship, un ...
+ReaganSmallPng.png    Xmp.dc.title                                 LangAlt     1  lang="x-default" 040621-N-6536T-062
+ReaganSmallPng.png    Xmp.exif.ColorSpace                          XmpText     1  sRGB
+ReaganSmallPng.png    Xmp.exif.CompressedBitsPerPixel              XmpText     3  4/1
+ReaganSmallPng.png    Xmp.exif.Contrast                            XmpText     1  Normal
+ReaganSmallPng.png    Xmp.exif.CustomRendered                      XmpText     1  Normal process
+ReaganSmallPng.png    Xmp.exif.DateTimeDigitized                   XmpText    25  2004-06-21T23:37:53+01:00
+ReaganSmallPng.png    Xmp.exif.DateTimeOriginal                    XmpText    25  2004-06-21T23:37:53+01:00
+ReaganSmallPng.png    Xmp.exif.DigitalZoomRatio                    XmpText     3  1/1
+ReaganSmallPng.png    Xmp.exif.ExifVersion                         XmpText     4  2.20
+ReaganSmallPng.png    Xmp.exif.ExposureBiasValue                   XmpText     3  +1/3 EV
+ReaganSmallPng.png    Xmp.exif.ExposureMode                        XmpText     1  Manual
+ReaganSmallPng.png    Xmp.exif.ExposureProgram                     XmpText     1  Manual
+ReaganSmallPng.png    Xmp.exif.ExposureTime                        XmpText     5  1/125
+ReaganSmallPng.png    Xmp.exif.FNumber                             XmpText     3  F5
+ReaganSmallPng.png    Xmp.exif.FileSource                          XmpText     1  Digital still camera
+ReaganSmallPng.png    Xmp.exif.FlashpixVersion                     XmpText     4  1.00
+ReaganSmallPng.png    Xmp.exif.FocalLength                         XmpText     4  42.0 mm
+ReaganSmallPng.png    Xmp.exif.FocalLengthIn35mmFilm               XmpText     2  63
+ReaganSmallPng.png    Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.0
+ReaganSmallPng.png    Xmp.exif.GainControl                         XmpText     1  None
+ReaganSmallPng.png    Xmp.exif.ImageUniqueID                       XmpText    32  127c1377b054a3f65bf2754ebb24e7f2
+ReaganSmallPng.png    Xmp.exif.LightSource                         XmpText     2  Cloudy weather
+ReaganSmallPng.png    Xmp.exif.MaxApertureValue                    XmpText     3  3/1
+ReaganSmallPng.png    Xmp.exif.MeteringMode                        XmpText     1  Center weighted average
+ReaganSmallPng.png    Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,3485 ...
+ReaganSmallPng.png    Xmp.exif.PixelXDimension                     XmpText     3  200
+ReaganSmallPng.png    Xmp.exif.PixelYDimension                     XmpText     3  130
+ReaganSmallPng.png    Xmp.exif.Saturation                          XmpText     1  Normal
+ReaganSmallPng.png    Xmp.exif.SceneCaptureType                    XmpText     1  Standard
+ReaganSmallPng.png    Xmp.exif.SceneType                           XmpText     1  Directly photographed
+ReaganSmallPng.png    Xmp.exif.SensingMethod                       XmpText     1  One-chip color area
+ReaganSmallPng.png    Xmp.exif.Sharpness                           XmpText     1  Normal
+ReaganSmallPng.png    Xmp.exif.SubjectDistanceRange                XmpText     1  Unknown
+ReaganSmallPng.png    Xmp.exif.WhiteBalance                        XmpText     1  Manual
+ReaganSmallPng.png    Xmp.exif.ComponentsConfiguration             XmpSeq      1  Y
+ReaganSmallPng.png    Xmp.exif.Flash                               XmpText     0  type="Struct"
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Fired                    XmpText     5  False
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Function                 XmpText     5  False
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Mode                     XmpText     1  0
+ReaganSmallPng.png    Xmp.exif.Flash/exif:RedEyeMode               XmpText     5  False
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Return                   XmpText     1  0
+ReaganSmallPng.png    Xmp.photoshop.AuthorsPosition                XmpText    21  U.S Navy Photographer
+ReaganSmallPng.png    Xmp.photoshop.CaptionWriter                  XmpText     9  Dir. NVNS
+ReaganSmallPng.png    Xmp.photoshop.Category                       XmpText     1  N
+ReaganSmallPng.png    Xmp.photoshop.City                           XmpText    19  Straits of Magellan
+ReaganSmallPng.png    Xmp.photoshop.ColorMode                      XmpText     1  3
+ReaganSmallPng.png    Xmp.photoshop.Country                        XmpText    13  South America
+ReaganSmallPng.png    Xmp.photoshop.Credit                         XmpText     8  U.S Navy
+ReaganSmallPng.png    Xmp.photoshop.DateCreated                    XmpText    10  2004-06-21
+ReaganSmallPng.png    Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
+ReaganSmallPng.png    Xmp.photoshop.Instructions                   XmpText    49  Credit as U.S. Navy photo by Elizabeth Thompson. 
+ReaganSmallPng.png    Xmp.photoshop.Source                         XmpText    24  Navy Visual News Service
+ReaganSmallPng.png    Xmp.photoshop.Urgency                        XmpText     1  5
+ReaganSmallPng.png    Xmp.photoshop.SupplementalCategories         XmpBag      1  703-614-9154, navyvisualnews@navy.mil, UNCLASSFIED
+ReaganSmallPng.png    Xmp.tiff.Compression                         XmpText     1  1
+ReaganSmallPng.png    Xmp.tiff.ImageLength                         XmpText     3  130
+ReaganSmallPng.png    Xmp.tiff.ImageWidth                          XmpText     3  200
+ReaganSmallPng.png    Xmp.tiff.Make                                XmpText    17  NIKON CORPORATION
+ReaganSmallPng.png    Xmp.tiff.Model                               XmpText     9  NIKON D1X
+ReaganSmallPng.png    Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,3343 ...
+ReaganSmallPng.png    Xmp.tiff.Orientation                         XmpText     1  top, left
+ReaganSmallPng.png    Xmp.tiff.PhotometricInterpretation           XmpText     1  2
+ReaganSmallPng.png    Xmp.tiff.PlanarConfiguration                 XmpText     1  1
+ReaganSmallPng.png    Xmp.tiff.ResolutionUnit                      XmpText     1  inch
+ReaganSmallPng.png    Xmp.tiff.SamplesPerPixel                     XmpText     1  4
+ReaganSmallPng.png    Xmp.tiff.XResolution                         XmpText    13  300
+ReaganSmallPng.png    Xmp.tiff.YResolution                         XmpText    13  300
+ReaganSmallPng.png    Xmp.tiff.BitsPerSample                       XmpSeq      1  8, 8, 8, 8
+ReaganSmallPng.png    Xmp.xmp.CreateDate                           XmpText    20  2016-03-23T13:26:36Z
+ReaganSmallPng.png    Xmp.xmp.CreatorTool                          XmpText    38  Adobe Photoshop Elements 6.0 Macintosh
+ReaganSmallPng.png    Xmp.xmp.MetadataDate                         XmpText    20  2016-03-23T13:26:36Z
+ReaganSmallPng.png    Xmp.xmp.ModifyDate                           XmpText    20  2016-03-23T13:26:36Z
+ReaganSmallPng.png    Xmp.xmpMM.DocumentID                         XmpText    37  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D
+ReaganSmallPng.png    Xmp.xmpMM.InstanceID                         XmpText    37  uuid:D7CBDC1D8DF2E511BA6BFBE914561F6D
+ReaganSmallPng.png    Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+ReaganSmallPng.png    Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09
+ReaganSmallPng.png    Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6
+STRUCTURE OF PNG FILE: 1343_empty.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | sRGB  |       1 |                                | 0xaece1ce9
+      97 | gAMA  |       4 | ....                           | 0x0bfc6105
+     113 | pHYs  |       9 | .........                      | 0xc76fa864
+     134 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     403 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: 1343_comment.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | sRGB  |       1 |                                | 0xaece1ce9
+      97 | gAMA  |       4 | ....                           | 0x0bfc6105
+     113 | pHYs  |       9 | .........                      | 0xc76fa864
+     134 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     403 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: 1343_exif.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | zTXt  |     145 | Raw profile type exif..x.U.... | 0x2f6d89e8
+     241 | sRGB  |       1 |                                | 0xaece1ce9
+     254 | gAMA  |       4 | ....                           | 0x0bfc6105
+     270 | pHYs  |       9 | .........                      | 0xc76fa864
+     291 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     560 | IEND  |       0 |                                | 0xae426082
+STRUCTURE OF PNG FILE: ReaganSmallPng.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | ............                   | 0x8cf910c3
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | zTXt  |    8648 | Raw profile type exif..x...Wv$ | 0xca41f34d
+    8744 | zTXt  |     632 | Raw profile type iptc..x..T[.. | 0xa2860459
+    9388 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
+   16517 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16533 | bKGD  |       6 | ......                         | 0xa0bda793
+   16551 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16572 | tIME  |       7 | ......#                        | 0xdf7f5bbd
+   16591 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
+   24795 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
+   32999 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
+   41203 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
+   49407 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
+   56485 | IEND  |       0 |                                | 0xae426082
+changed comment
+changed comment
+changed comment
+changed comment
+1343_exif.png         Exif.Image.ImageDescription                  Ascii      17  Can you read me?
+1343_exif.png         Exif.Image.XResolution                       Rational    1  72
+1343_exif.png         Exif.Image.YResolution                       Rational    1  72
+1343_exif.png         Exif.Image.ResolutionUnit                    Short       1  inch
+1343_exif.png         Exif.Image.YCbCrPositioning                  Short       1  Centered
+ReaganSmallPng.png    Exif.Image.ImageWidth                        Long        1  200
+ReaganSmallPng.png    Exif.Image.ImageLength                       Long        1  130
+ReaganSmallPng.png    Exif.Image.BitsPerSample                     Short       3  8 8 8
+ReaganSmallPng.png    Exif.Image.Compression                       Short       1  Uncompressed
+ReaganSmallPng.png    Exif.Image.ImageDescription                  Ascii     403  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails thr ...
+ReaganSmallPng.png    Exif.Image.Make                              Ascii      18  NIKON CORPORATION
+ReaganSmallPng.png    Exif.Image.Model                             Ascii      10  NIKON D1X
+ReaganSmallPng.png    Exif.Image.Orientation                       Short       1  top, left
+ReaganSmallPng.png    Exif.Image.SamplesPerPixel                   Short       1  4
+ReaganSmallPng.png    Exif.Image.XResolution                       Rational    1  300
+ReaganSmallPng.png    Exif.Image.YResolution                       Rational    1  300
+ReaganSmallPng.png    Exif.Image.PlanarConfiguration               Short       1  1
+ReaganSmallPng.png    Exif.Image.ResolutionUnit                    Short       1  inch
+ReaganSmallPng.png    Exif.Image.Software                          Ascii      11  GIMP 2.9.5
+ReaganSmallPng.png    Exif.Image.DateTime                          Ascii      20  2016:09:15 06:29:23
+ReaganSmallPng.png    Exif.Image.Artist                            Ascii      34  Photographerís Mate 3rd Class (A
+ReaganSmallPng.png    Exif.Image.ExifTag                           Long        1  750
+ReaganSmallPng.png    Exif.Photo.ExposureTime                      Rational    1  1/125 s
+ReaganSmallPng.png    Exif.Photo.FNumber                           Rational    1  F5
+ReaganSmallPng.png    Exif.Photo.ExposureProgram                   Short       1  Manual
+ReaganSmallPng.png    Exif.Photo.ExifVersion                       Undefined   4  2.20
+ReaganSmallPng.png    Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53
+ReaganSmallPng.png    Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53
+ReaganSmallPng.png    Exif.Photo.ComponentsConfiguration           Undefined   4  YCbCr
+ReaganSmallPng.png    Exif.Photo.CompressedBitsPerPixel            Rational    1  4
+ReaganSmallPng.png    Exif.Photo.ExposureBiasValue                 SRational   1  +1/3 EV
+ReaganSmallPng.png    Exif.Photo.MaxApertureValue                  Rational    1  F2.8
+ReaganSmallPng.png    Exif.Photo.MeteringMode                      Short       1  Center weighted average
+ReaganSmallPng.png    Exif.Photo.LightSource                       Short       1  Cloudy weather
+ReaganSmallPng.png    Exif.Photo.Flash                             Short       1  No flash
+ReaganSmallPng.png    Exif.Photo.FocalLength                       Rational    1  42.0 mm
+ReaganSmallPng.png    Exif.Photo.UserComment                       Undefined 410  binary comment
+ReaganSmallPng.png    Exif.Photo.SubSecTime                        Ascii       3  06
+ReaganSmallPng.png    Exif.Photo.SubSecTimeOriginal                Ascii       3  06
+ReaganSmallPng.png    Exif.Photo.SubSecTimeDigitized               Ascii       3  06
+ReaganSmallPng.png    Exif.Photo.FlashpixVersion                   Undefined   4  1.00
+ReaganSmallPng.png    Exif.Photo.ColorSpace                        Short       1  sRGB
+ReaganSmallPng.png    Exif.Photo.PixelXDimension                   Long        1  200
+ReaganSmallPng.png    Exif.Photo.PixelYDimension                   Long        1  130
+ReaganSmallPng.png    Exif.Photo.SensingMethod                     Short       1  One-chip color area
+ReaganSmallPng.png    Exif.Photo.FileSource                        Undefined   1  Digital still camera
+ReaganSmallPng.png    Exif.Photo.SceneType                         Undefined   1  Directly photographed
+ReaganSmallPng.png    Exif.Photo.CustomRendered                    Short       1  Normal process
+ReaganSmallPng.png    Exif.Photo.ExposureMode                      Short       1  Manual
+ReaganSmallPng.png    Exif.Photo.WhiteBalance                      Short       1  Manual
+ReaganSmallPng.png    Exif.Photo.DigitalZoomRatio                  Rational    1  1.0
+ReaganSmallPng.png    Exif.Photo.FocalLengthIn35mmFilm             Short       1  63.0 mm
+ReaganSmallPng.png    Exif.Photo.SceneCaptureType                  Short       1  Standard
+ReaganSmallPng.png    Exif.Photo.GainControl                       Short       1  None
+ReaganSmallPng.png    Exif.Photo.Contrast                          Short       1  Normal
+ReaganSmallPng.png    Exif.Photo.Saturation                        Short       1  Normal
+ReaganSmallPng.png    Exif.Photo.Sharpness                         Short       1  Normal
+ReaganSmallPng.png    Exif.Photo.SubjectDistanceRange              Short       1  Unknown
+ReaganSmallPng.png    Exif.Photo.ImageUniqueID                     Ascii      33  127c1377b054a3f65bf2754ebb24e7f2
+ReaganSmallPng.png    Exif.Image.GPSTag                            Long        1  1740
+ReaganSmallPng.png    Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0
+ReaganSmallPng.png    Exif.Thumbnail.ImageWidth                    Long        1  256
+ReaganSmallPng.png    Exif.Thumbnail.ImageLength                   Long        1  166
+ReaganSmallPng.png    Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8
+ReaganSmallPng.png    Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+ReaganSmallPng.png    Exif.Thumbnail.PhotometricInterpretation     Short       1  YCbCr
+ReaganSmallPng.png    Exif.Thumbnail.SamplesPerPixel               Short       1  3
+ReaganSmallPng.png    Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1866
+ReaganSmallPng.png    Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6653
+ReaganSmallPng.png    Iptc.Envelope.CharacterSet                   String      3  %G
+ReaganSmallPng.png    Iptc.Application2.Byline                     String     32  Photographerís Mate 3rd Class (
+ReaganSmallPng.png    Iptc.Application2.BylineTitle                String     21  U.S Navy Photographer
+ReaganSmallPng.png    Iptc.Application2.Caption                    String    402  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails thr ...
+ReaganSmallPng.png    Iptc.Application2.Category                   String      1  N
+ReaganSmallPng.png    Iptc.Application2.City                       String     19  Straits of Magellan
+ReaganSmallPng.png    Iptc.Application2.CountryName                String     13  South America
+ReaganSmallPng.png    Iptc.Application2.Credit                     String      8  U.S Navy
+ReaganSmallPng.png    Iptc.Application2.DateCreated                Date        8  2016-09-15
+ReaganSmallPng.png    Iptc.Application2.DigitizationDate           Date        8  2004-06-21
+ReaganSmallPng.png    Iptc.Application2.DigitizationTime           Time       11  23:37:53-04:00
+ReaganSmallPng.png    Iptc.Application2.Keywords                   String     13  ronald reagan
+ReaganSmallPng.png    Iptc.Application2.ObjectName                 String     18  040621-N-6536T-062
+ReaganSmallPng.png    Iptc.Application2.RecordVersion              Short       1  2
+ReaganSmallPng.png    Iptc.Application2.Source                     String     24  Navy Visual News Service
+ReaganSmallPng.png    Iptc.Application2.SpecialInstructions        String     49  Credit as U.S. Navy photo by Elizabeth Thompson. 
+ReaganSmallPng.png    Iptc.Application2.SuppCategory               String     12  703-614-9154
+ReaganSmallPng.png    Iptc.Application2.TimeCreated                Time       11  06:29:23-06:29
+ReaganSmallPng.png    Iptc.Application2.Urgency                    String      1  5
+ReaganSmallPng.png    Iptc.Application2.Writer                     String      9  Dir. NVNS
+ReaganSmallPng.png    Xmp.dc.Format                                XmpText     9  image/png
+ReaganSmallPng.png    Xmp.dc.creator                               XmpSeq      1  Photographerís Mate 3rd Class (A
+ReaganSmallPng.png    Xmp.dc.description                           LangAlt     1  lang="x-default" 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan ( ...
+ReaganSmallPng.png    Xmp.dc.subject                               XmpBag      1  ronald reagan, reagan, cvn 76, cvn-76, straights magellan, magellan, carrier, nimitz-class, ship, un ...
+ReaganSmallPng.png    Xmp.dc.title                                 LangAlt     1  lang="x-default" 040621-N-6536T-062
+ReaganSmallPng.png    Xmp.exif.ColorSpace                          XmpText     1  sRGB
+ReaganSmallPng.png    Xmp.exif.CompressedBitsPerPixel              XmpText     3  4/1
+ReaganSmallPng.png    Xmp.exif.Contrast                            XmpText     1  Normal
+ReaganSmallPng.png    Xmp.exif.CustomRendered                      XmpText     1  Normal process
+ReaganSmallPng.png    Xmp.exif.DateTimeDigitized                   XmpText    25  2004-06-21T23:37:53+01:00
+ReaganSmallPng.png    Xmp.exif.DateTimeOriginal                    XmpText    25  2004-06-21T23:37:53+01:00
+ReaganSmallPng.png    Xmp.exif.DigitalZoomRatio                    XmpText     3  1/1
+ReaganSmallPng.png    Xmp.exif.ExifVersion                         XmpText     4  2.20
+ReaganSmallPng.png    Xmp.exif.ExposureBiasValue                   XmpText     3  +1/3 EV
+ReaganSmallPng.png    Xmp.exif.ExposureMode                        XmpText     1  Manual
+ReaganSmallPng.png    Xmp.exif.ExposureProgram                     XmpText     1  Manual
+ReaganSmallPng.png    Xmp.exif.ExposureTime                        XmpText     5  1/125
+ReaganSmallPng.png    Xmp.exif.FNumber                             XmpText     3  F5
+ReaganSmallPng.png    Xmp.exif.FileSource                          XmpText     1  Digital still camera
+ReaganSmallPng.png    Xmp.exif.FlashpixVersion                     XmpText     4  1.00
+ReaganSmallPng.png    Xmp.exif.FocalLength                         XmpText     4  42.0 mm
+ReaganSmallPng.png    Xmp.exif.FocalLengthIn35mmFilm               XmpText     2  63
+ReaganSmallPng.png    Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.0
+ReaganSmallPng.png    Xmp.exif.GainControl                         XmpText     1  None
+ReaganSmallPng.png    Xmp.exif.ImageUniqueID                       XmpText    32  127c1377b054a3f65bf2754ebb24e7f2
+ReaganSmallPng.png    Xmp.exif.LightSource                         XmpText     2  Cloudy weather
+ReaganSmallPng.png    Xmp.exif.MaxApertureValue                    XmpText     3  3/1
+ReaganSmallPng.png    Xmp.exif.MeteringMode                        XmpText     1  Center weighted average
+ReaganSmallPng.png    Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,3485 ...
+ReaganSmallPng.png    Xmp.exif.PixelXDimension                     XmpText     3  200
+ReaganSmallPng.png    Xmp.exif.PixelYDimension                     XmpText     3  130
+ReaganSmallPng.png    Xmp.exif.Saturation                          XmpText     1  Normal
+ReaganSmallPng.png    Xmp.exif.SceneCaptureType                    XmpText     1  Standard
+ReaganSmallPng.png    Xmp.exif.SceneType                           XmpText     1  Directly photographed
+ReaganSmallPng.png    Xmp.exif.SensingMethod                       XmpText     1  One-chip color area
+ReaganSmallPng.png    Xmp.exif.Sharpness                           XmpText     1  Normal
+ReaganSmallPng.png    Xmp.exif.SubjectDistanceRange                XmpText     1  Unknown
+ReaganSmallPng.png    Xmp.exif.WhiteBalance                        XmpText     1  Manual
+ReaganSmallPng.png    Xmp.exif.ComponentsConfiguration             XmpSeq      1  Y
+ReaganSmallPng.png    Xmp.exif.Flash                               XmpText     0  type="Struct"
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Fired                    XmpText     5  False
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Function                 XmpText     5  False
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Mode                     XmpText     1  0
+ReaganSmallPng.png    Xmp.exif.Flash/exif:RedEyeMode               XmpText     5  False
+ReaganSmallPng.png    Xmp.exif.Flash/exif:Return                   XmpText     1  0
+ReaganSmallPng.png    Xmp.photoshop.AuthorsPosition                XmpText    21  U.S Navy Photographer
+ReaganSmallPng.png    Xmp.photoshop.CaptionWriter                  XmpText     9  Dir. NVNS
+ReaganSmallPng.png    Xmp.photoshop.Category                       XmpText     1  N
+ReaganSmallPng.png    Xmp.photoshop.City                           XmpText    19  Straits of Magellan
+ReaganSmallPng.png    Xmp.photoshop.ColorMode                      XmpText     1  3
+ReaganSmallPng.png    Xmp.photoshop.Country                        XmpText    13  South America
+ReaganSmallPng.png    Xmp.photoshop.Credit                         XmpText     8  U.S Navy
+ReaganSmallPng.png    Xmp.photoshop.DateCreated                    XmpText    10  2004-06-21
+ReaganSmallPng.png    Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1
+ReaganSmallPng.png    Xmp.photoshop.Instructions                   XmpText    49  Credit as U.S. Navy photo by Elizabeth Thompson. 
+ReaganSmallPng.png    Xmp.photoshop.Source                         XmpText    24  Navy Visual News Service
+ReaganSmallPng.png    Xmp.photoshop.Urgency                        XmpText     1  5
+ReaganSmallPng.png    Xmp.photoshop.SupplementalCategories         XmpBag      1  703-614-9154, navyvisualnews@navy.mil, UNCLASSFIED
+ReaganSmallPng.png    Xmp.tiff.Compression                         XmpText     1  1
+ReaganSmallPng.png    Xmp.tiff.ImageLength                         XmpText     3  130
+ReaganSmallPng.png    Xmp.tiff.ImageWidth                          XmpText     3  200
+ReaganSmallPng.png    Xmp.tiff.Make                                XmpText    17  NIKON CORPORATION
+ReaganSmallPng.png    Xmp.tiff.Model                               XmpText     9  NIKON D1X
+ReaganSmallPng.png    Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,3343 ...
+ReaganSmallPng.png    Xmp.tiff.Orientation                         XmpText     1  top, left
+ReaganSmallPng.png    Xmp.tiff.PhotometricInterpretation           XmpText     1  2
+ReaganSmallPng.png    Xmp.tiff.PlanarConfiguration                 XmpText     1  1
+ReaganSmallPng.png    Xmp.tiff.ResolutionUnit                      XmpText     1  inch
+ReaganSmallPng.png    Xmp.tiff.SamplesPerPixel                     XmpText     1  4
+ReaganSmallPng.png    Xmp.tiff.XResolution                         XmpText    13  300
+ReaganSmallPng.png    Xmp.tiff.YResolution                         XmpText    13  300
+ReaganSmallPng.png    Xmp.tiff.BitsPerSample                       XmpSeq      1  8, 8, 8, 8
+ReaganSmallPng.png    Xmp.xmp.CreateDate                           XmpText    20  2016-03-23T13:26:36Z
+ReaganSmallPng.png    Xmp.xmp.CreatorTool                          XmpText    38  Adobe Photoshop Elements 6.0 Macintosh
+ReaganSmallPng.png    Xmp.xmp.MetadataDate                         XmpText    20  2016-03-23T13:26:36Z
+ReaganSmallPng.png    Xmp.xmp.ModifyDate                           XmpText    20  2016-03-23T13:26:36Z
+ReaganSmallPng.png    Xmp.xmpMM.DocumentID                         XmpText    37  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D
+ReaganSmallPng.png    Xmp.xmpMM.InstanceID                         XmpText    37  uuid:D7CBDC1D8DF2E511BA6BFBE914561F6D
+ReaganSmallPng.png    Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+ReaganSmallPng.png    Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09
+ReaganSmallPng.png    Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6
