@@ -868,6 +868,38 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # print(out)
 
 
+    def png_test(self):
+        # Test PNG support (-pS, -pc, -c, -pa)
+#       files="1343_empty.png 1343_comment.png 1343_exif.png"
+#       copyTestFiles  $files
+#       runTest exiv2 -c 'comment in Reagan to hide non UTF-8 bytes'
+#       for file in $files ; do
+#           for  i in 1 2 ; do 
+#               runTest exiv2 -pS   $file
+#               runTest exiv2 -pc   $file
+#               runTest exiv2 -pa   $file
+#               runTest exiv2 -c  'changed comment' $file
+#           done
+#       done
+
+        out   = BT.Output()
+        files = ['1343_empty.png'
+                ,'1343_comment.png'
+                ,'1343_exif.png'
+                ]
+        for file in files:
+            BT.copyTestFile(file)
+            for i in [1,2]:
+                out  += BT.Executer('exiv2 -pS    {file}', vars())
+                out  += BT.Executer('exiv2 -pc    {file}', vars())
+                if i ==1:
+                  out+= ''
+                out  += BT.Executer('exiv2 -pa    {file}', vars())
+                out  += BT.Executer('exiv2 -c "changed comment" {file}', vars())
+
+        BT.reportTest('png-test', out) # skip!  blank lines from -pc are in the wrong order!
+
+
     def preview_test(self):
         # Test driver for previews
         images = [

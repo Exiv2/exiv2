@@ -1,0 +1,71 @@
+STRUCTURE OF PNG FILE: 1343_empty.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | sRGB  |       1 |                                | 0xaece1ce9
+      46 | gAMA  |       4 | ....                           | 0x0bfc6105
+      62 | pHYs  |       9 | .........                      | 0xc76fa864
+      83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     352 | IEND  |       0 |                                | 0xae426082
+
+STRUCTURE OF PNG FILE: 1343_empty.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | sRGB  |       1 |                                | 0xaece1ce9
+      97 | gAMA  |       4 | ....                           | 0x0bfc6105
+     113 | pHYs  |       9 | .........                      | 0xc76fa864
+     134 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     403 | IEND  |       0 |                                | 0xae426082
+changed comment
+STRUCTURE OF PNG FILE: 1343_comment.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | sRGB  |       1 |                                | 0xaece1ce9
+      46 | gAMA  |       4 | ....                           | 0x0bfc6105
+      62 | pHYs  |       9 | .........                      | 0xc76fa864
+      83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     352 | tEXt  |      24 | Comment.Can you read me?       | 0x83cad5fa
+     388 | IEND  |       0 |                                | 0xae426082
+
+STRUCTURE OF PNG FILE: 1343_comment.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | sRGB  |       1 |                                | 0xaece1ce9
+      97 | gAMA  |       4 | ....                           | 0x0bfc6105
+     113 | pHYs  |       9 | .........                      | 0xc76fa864
+     134 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     403 | tEXt  |      24 | Comment.Can you read me?       | 0x83cad5fa
+     439 | IEND  |       0 |                                | 0xae426082
+changed comment
+STRUCTURE OF PNG FILE: 1343_exif.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | sRGB  |       1 |                                | 0xaece1ce9
+      46 | gAMA  |       4 | ....                           | 0x0bfc6105
+      62 | pHYs  |       9 | .........                      | 0xc76fa864
+      83 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     352 | eXIf  |     108 | MM.*.................J........ | 0x764e86e1
+     472 | IEND  |       0 |                                | 0xae426082
+
+Exif.Image.ImageDescription                  Ascii      17  Can you read me?
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.YCbCrPositioning                  Short       1  Centered
+STRUCTURE OF PNG FILE: 1343_exif.png
+ address | chunk |  length | data                           | checksum
+       8 | IHDR  |      13 | .......d....                   | 0x4ce4e85c
+      33 | iTXt  |      39 | Description.....x.K.H.KOMQH... | 0xe0a1c8ce
+      84 | zTXt  |     145 | Raw profile type exif..x.U.... | 0x2f6d89e8
+     241 | sRGB  |       1 |                                | 0xaece1ce9
+     254 | gAMA  |       4 | ....                           | 0x0bfc6105
+     270 | pHYs  |       9 | .........                      | 0xc76fa864
+     291 | IDAT  |     257 | x^..1..0......t.....h......z.. | 0x64465429
+     560 | IEND  |       0 |                                | 0xae426082
+changed comment
+Exif.Image.ImageDescription                  Ascii      17  Can you read me?
+Exif.Image.XResolution                       Rational    1  72
+Exif.Image.YResolution                       Rational    1  72
+Exif.Image.ResolutionUnit                    Short       1  inch
+Exif.Image.YCbCrPositioning                  Short       1  Centered
