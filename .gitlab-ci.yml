@@ -59,10 +59,10 @@ Ubuntu:
   <<: *default_config
   <<: *distro_build
 
-# CentOS:
-#  image: centos:7
-#  <<: *default_config
-#  <<: *distro_build
+CentOS:
+  image: centos:7
+  <<: *default_config
+  <<: *distro_build
 
 OpenSUSE:
   image: opensuse/tumbleweed
