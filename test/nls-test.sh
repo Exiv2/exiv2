@@ -4,8 +4,9 @@
 source ./functions.source
 
 (   cd "$testdir"
+
     nls=$(runTest exiv2 -vVg nls|tail -1)
-    platform=$(runTest exiv2 -vVg platform|tail -1)
+    platform=$(${bin}exiv2${exe} -vVg platform|tail -1)
     if [ "$nls" != "enable_nls=1" ]; then
     	echo "exiv2 not bulid with nls"
     	exit 0
@@ -34,9 +35,11 @@ source ./functions.source
     fi
     ##
     # test a couple of languages
-	for l in fr_FR es_ES; do
-		LC_ALL=$l LANG=$l ${bin}exiv2
-    done
+	for l in fr_FR es_ES; do (
+		export LC_ALL=$l
+		export $LANG=$l 
+		runTest exiv2
+    ) done
 
 ) 3>&1 > $results 2>&1
 
