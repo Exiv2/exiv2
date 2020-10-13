@@ -1088,20 +1088,22 @@ I recommend that you build and install CMake from source.
 Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64.
 
 #### MinGW/msys2 64 bit
-Install: [http://repo.msys2.org/distrib/x86_64/msys2-x86\_64-20190524.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20190524.exe)
+Install: [https://repo.msys2.org/distrib/x86\_64/msys2-x86\_64-20200903.exe](https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20200903.exe)
 
 I use the following batch file to start the MinGW/msys2 64 bit bash shell from the Dos Command Prompt (cmd.exe)
 
 ```bat
 @echo off
 setlocal
-set "PS1=\! MSYS64:\u@\h:\w \$ "
-set  PATH="/usr/local/bin/:/usr/bin:/mingw64/bin:/bin:/usr/sbin:/sbin"
-set "HOME=c:\msys64\home\%USERNAME%"
+set "PATH=c:\msys64\mingw64\bin;c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
+set "PS1=\! MSYS \u@\h:\w \$ "
+set "HOME=c:\msys64\home\rmills"
 if NOT EXIST %HOME% mkdir %HOME%
 cd  %HOME%
+color 1f
 c:\msys64\usr\bin\bash.exe -norc
 endlocal
+
 ```
 
 #### Install MinGW Dependencies
@@ -1109,7 +1111,12 @@ endlocal
 Install tools and dependencies:
 
 ```bash
-$ for i in base-devel git cmake coreutils python3 man gcc gdb make dos2unix tar diffutils zlib-devel libexpat-devel libiconv-devel gettext-devel; do (echo y|pacman -S $i); done
+for i in base-devel git coreutils dos2unix tar diffutils make                     \
+    mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
+    mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
+    mingw-w64-x86_64-libexpat  mingw-w64-x86_64-libiconv mingw-w64-x86_64-zlib    \
+    mingw-w64-x86_64-gtest
+do (echo y | pacman -S $i) ; done
 ```
 
 #### Download exiv2 from github and build
@@ -1120,7 +1127,7 @@ $ cd       ~/gnu/github/exiv2
 $ git clone https://github.com/exiv2/exiv2
 $ cd exiv2
 $ mkdir build ; cd build ;
-$ cmake .. -G "Unix Makefiles"
+$ cmake .. -G "Unix Makefiles"   # or "MSYS Makefiles"
 $ make
 ```
 
@@ -1145,7 +1152,9 @@ Please note that the platform Cygwin/32 is obsolete and superceded by Cygwin/64.
 Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and run setup-x86_64.exe.  I install into c:\\cygwin64
 
 You need:
-make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, libexpat1-devel, git, python3-interpreter, libiconv, libxml2-utils, libncurses.
+make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, libexpat1-devel, git, python3-interpreter, libiconv, libxml2-utils, libncurses
+
+To build unit tests, you should install googletest-release-1.8.0 as discussed [4.3 Unit tests](#4-3)
 
 I use the following batch file "cygwin64.bat" to start the Cygwin/64 bash shell from the Dos Command Prompt (cmd.exe).
 

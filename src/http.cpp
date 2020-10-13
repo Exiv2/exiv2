@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)	
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__) || defined(__MINGW64__) || defined(__MINGW32__) 
 #define __USE_W32_SOCKETS
 #include <winsock2.h>
 #endif
