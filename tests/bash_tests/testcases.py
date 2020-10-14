@@ -868,15 +868,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         if nls      != 'enable_nls=1':
             print('Skipped. Because exiv2 is not built with nls.')
             return
+
         if platform == 'platform=windows':
             print('Skipped. Because nls_test cannot be run msvc builds.')
             return
-        
-        # variable LANG is unused
-        # if platform == 'platform=linux':
-        #     LANG = 'LANGUAGE'
-        # else:
-        #     LANG = 'LANG'
+
+        if platform == 'platform=linux':
+            LANG = 'LANGUAGE'
+        else:
+            LANG = 'LANG'
 
         share_dir    = os.path.normpath(os.path.join(BT.Config.bin_dir, '..', 'share2'))
         os.makedirs(share_dir, exist_ok=True)
@@ -890,7 +890,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # The above part is checking the environment, and the following part is executing the actual test
         out      = BT.Output()
         for language in ['fr_FR', 'es_ES']:
-            out += BT.Executer('exiv2', extra_env={'LC_ALL': language, 'LANG': language}, assert_returncode=[1])
+            out += BT.Executer('exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1])
         BT.reportTest('nls-test', out)
 
 
