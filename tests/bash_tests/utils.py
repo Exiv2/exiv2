@@ -44,35 +44,16 @@ Part 2:
 Here are some common functions that are poorly coupled with test cases.
 """
 
-def cp(src, dest):
-    """ It is used to copy one file, cannot handle directories """
-    shutil.copy(src, dest)
 
-
-def mv(src, dest):
-    """ It is used to move one file, cannot handle directories """
-    shutil.move(src, dest)
-
-
-def rm(*files):
-    """ It is used to remove files, cannot handle directories """
-    for i in files:
-        try:
-            os.remove(i)
-        except FileNotFoundError:
-            continue
-
-
-def find(pattern=None, re_pattern=None, directory='.', depth=-1, onerror=print) -> list:
+def find(directory='.', pattern=None, re_pattern=None, depth=-1, onerror=print) -> list:
     """
-    Find files that match the pattern in the specified directory and return their paths.
+    Find files and directories that match the pattern in the specified directory and return their paths.
+    Work in recursive mode. If there are thousands of files, the runtime may be several seconds.
+    - `directory`   : Find files in this directory and its subdirectories
     - `pattern`     : Filter filename based on shell-style wildcards.
     - `re_pattern`  : Filter filename based on regular expressions.
-    - `directory`   : Find files in this directory and its subdirectories
     - `depth`       : Depth of subdirectories. If its value is negative, the depth is infinite.
     - `onerror`     : A callable parameter. it will be called if an exception occurs.
-
-    Work in recursive mode. If there are thousands of files, the runtime may be several seconds.
 
     Sample:
     >>> find(pattern='*.py')
@@ -85,23 +66,70 @@ def find(pattern=None, re_pattern=None, directory='.', depth=-1, onerror=print) 
         file_list = os.listdir(directory)
     except PermissionError as e:    # Sometimes it does not have access to the directory
         onerror("PermissionError: {}".format(e))
-        return -1
+        return []
+
+    def match(name, pattern=None, re_pattern=None):
+        if pattern and not fnmatch.fnmatch(name, pattern):
+            return False
+        if re_pattern and not re.findall(re_pattern, name):
+            return False
+        return True
 
     path_list = []
-    for filename in file_list:
-        path = os.path.join(directory, filename)
-        if depth != 0 and os.path.isdir(path):
-            sub_list = find(path, depth-1, pattern, re_pattern, onerror)
-            if sub_list != -1:
-                path_list.extend(sub_list)
-            continue
-        if pattern and not fnmatch.fnmatch(filename, pattern):
-            continue
-        if re_pattern and not re.findall(re_pattern, filename):
-            continue
-        path_list.append(path)
+    if match(os.path.basename(directory), pattern, re_pattern):
+        path_list.append(directory)
+    if depth != 0:
+        for filename in file_list:
+            path = os.path.join(directory, filename)
+            if os.path.isdir(path):
+                path_list.extend(find(path, pattern, re_pattern, depth-1, onerror))
+                continue
+            if match(filename, pattern, re_pattern):
+                path_list.append(path)
 
     return path_list
+
+
+def cp(src, dst):
+    """ Copy one or more files or directories. It simulates `cp -rf src dst`. """
+    if os.path.isfile(src):
+        shutil.copy(src, dst)
+    elif os.path.isdir(src):
+        if os.path.isdir(dst):
+            dst_dir = os.path.join(dst, os.path.basename(src))
+        else:
+            dst_dir = dst
+        for src_path in find(src):
+            relpath = os.path.relpath(src_path, src)
+            dst_path = os.path.join(dst_dir, relpath)
+            if os.path.isdir(src_path):
+                os.makedirs(dst_path, exist_ok=True)
+            else:
+                shutil.copy(src_path, dst_path)
+    else:
+        raise ValueError('src is not a valid path to a file or directory.')
+
+
+def rm(*paths):
+    """ Remove one or more files or directories. It simulates `rm -rf paths`. """
+    for path in paths:
+        if os.path.isfile(path):
+            os.remove(path)
+        elif os.path.isdir(path):
+            for sub_path in find(path, depth=1)[1:]:
+                if os.path.isdir(sub_path):
+                    rm(sub_path)
+                else:
+                    os.remove(sub_path)
+            os.rmdir(path)  # Remove the directory only when it is empty
+        else:
+            continue
+
+
+def mv(src, dst):
+    """ Move one or more files or directories. """
+    cp(src, dst)
+    rm(src)
 
 
 def cat(*files, encoding=None, return_bytes=False):
@@ -319,12 +347,12 @@ Part 3:
 Here are some functions that are highly coupled to test cases.
 """
 
-def copyTestFile(src, dest=''):
+def copyTestFile(src, dst=''):
     """ Copy one test file from data_dir to tmp_dir """
-    if not dest:
-        dest = src
+    if not dst:
+        dst = src
     shutil.copy(os.path.join(Config.data_dir, src),
-                os.path.join(Config.tmp_dir, dest))
+                os.path.join(Config.tmp_dir, dst))
 
 
 def diffCheck(file1, file2, in_bytes=False, encoding=None):
@@ -382,6 +410,7 @@ class Executer:
     def __init__(self, cmd: str,
                  vars_dict=dict(),
                  cwd=None,
+                 extra_env=dict(),
                  encoding=None,
                  stdin: (str, bytes) = None,
                  redirect_stderr_to_stdout=True,
@@ -390,6 +419,12 @@ class Executer:
                  decode_output=True):
         self.cmd            = cmd.format(**vars_dict)
         self.cwd            = cwd or Config.tmp_dir
+
+        # set environment variables
+        self.env            = os.environ.copy()
+        self.env.update({'TZ': 'GMT-8'})
+        self.env.update(extra_env)
+
         self.encoding       = encoding or Config.encoding
         self.stdin          = stdin
         # self.stdout       = None
@@ -410,7 +445,7 @@ class Executer:
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
 
-        # check stdin
+        # Check stdin
         if self.stdin:
             if not isinstance(stdin, bytes):
                 self.stdin = str(stdin).encode(self.encoding)
@@ -426,9 +461,9 @@ class Executer:
 
         # Execute the command in subprocess
         try:
-            my_env = os.environ.copy()
-            my_env['TZ'] = 'GMT-8'
-            with subprocess.Popen(self.args,env=my_env, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=stderr, cwd=self.cwd) as self.subprocess:
+            with subprocess.Popen(self.args, cwd=self.cwd, env=self.env,
+                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                  stderr=stderr) as self.subprocess:
                 try:
                     output  = self.subprocess.communicate(self.stdin, timeout=10)  # Assign (stdout, stderr) to output
                 except subprocess.TimeoutExpired:
@@ -447,7 +482,7 @@ class Executer:
             output      = [i.decode(self.encoding)      for i in output]
         self.stdout, self.stderr = [i or None           for i in output]
 
-        # check return code
+        # Check return code
         self.returncode = self.subprocess.returncode
         if self.assert_returncode and self.returncode not in self.assert_returncode:
             log.error('Failed to execute: {}'.format(self.args))

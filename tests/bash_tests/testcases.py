@@ -861,6 +861,40 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.reportTest('modify-test', out)
 
 
+    def nls_test(self):
+        # Test driver for exiv2.exe nls support
+        nls          = BT.Executer('exiv2 -vVg nls').stdout.split('\n')[1]
+        platform     = BT.Executer('exiv2 -vVg platform').stdout.split('\n')[1]
+
+        if nls      != 'enable_nls=1':
+            print('Skipped. Because exiv2 is not built with nls.')
+            return
+
+        if platform == 'platform=windows':
+            print('Skipped. Because nls_test cannot be run msvc builds.')
+            return
+
+        if platform == 'platform=linux':
+            LANG = 'LANGUAGE'
+        else:
+            LANG = 'LANG'
+
+        share_dir    = os.path.normpath(os.path.join(BT.Config.bin_dir, '..', 'share2'))
+        os.makedirs(share_dir, exist_ok=True)
+
+        locale_dir   = '/usr/local/share/locale'
+        if os.path.isdir(locale_dir) and os.path.isdir(share_dir):
+            BT.cp(locale_dir, share_dir)
+        else:
+            print('Skipped. Because localisation files are not installed in {}.'.format(locale_dir))
+
+        # The above part is checking the environment, and the following part is executing the actual test
+        out      = BT.Output()
+        for language in ['fr_FR', 'es_ES']:
+            out += BT.Executer('exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1])
+        BT.reportTest('nls-test', out)
+
+
     def path_test(self):
         # Mini test-driver for path utility functions
         BT.copyTestFile('path-test.txt')
@@ -956,7 +990,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             e       = BT.Executer('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
             out    += e.stdout
             out    += 'Exit code: {}'.format(e.returncode)
-            BT.rm(*BT.find(image + '-preview*'))
+            BT.rm(*BT.find(pattern=image + '-preview*'))
 
             out    += '\nCommand: exiv2 -f -ep ' + filename
             e       = BT.Executer('exiv2 -f -ep {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
@@ -966,7 +1000,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             # Check the difference
             e       = BT.Executer('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
             preview_num         = e.stdout[:e.stdout.find(':')].lstrip('Preview ')
-            for test_file in BT.find('{image}-preview{preview_num}.*'.format(**vars())):
+            for test_file in BT.find(pattern='{image}-preview{preview_num}.*'.format(**vars())):
                 reference_file  = os.path.join(preview_dir, test_file)
                 if BT.diffCheck(reference_file, test_file, in_bytes=True):
                     pass_count += 1
@@ -987,8 +1021,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         try:
             import lxml
         except ModuleNotFoundError:
-            print('ignored')
-            print('Missing module lxml, please install: `pip install lxml`')
+            print('Skipped. Because it misses module lxml. Please install: `pip install lxml`')
             return
 
         out     = BT.Output()

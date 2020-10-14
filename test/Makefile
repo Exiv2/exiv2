@@ -83,6 +83,7 @@ TESTS =  addmoddel.sh         \
          iotest.sh            \
          iptctest.sh          \
          iso65k-test.sh       \
+         nls-test.sh          \
          modify-test.sh       \
          path-test.sh         \
          png-test.sh          \
@@ -112,6 +113,7 @@ exiv2-test    \
 imagetest     \
 iotest        \
 iptctest      \
+nls-test      \
 preview-test  \
 tiff-test     \
 write-test    \
