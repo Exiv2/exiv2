@@ -25,7 +25,7 @@ class Config:
     bin_dir     = os.path.join(exiv2_dir, 'build/bin')
     data_dir    = os.path.join(exiv2_dir, 'test/data')
     tmp_dir     = os.path.join(exiv2_dir, 'test/tmp')
-    system_name = platform.system() or 'Unknown'
+    system_name = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
     exiv2_http  = 'http://127.0.0.1'
     exiv2_port  = 12760
 

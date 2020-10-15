@@ -863,17 +863,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     def nls_test(self):
         # Test driver for exiv2.exe nls support
         nls          = BT.Executer('exiv2 -vVg nls').stdout.split('\n')[1]
-        platform     = BT.Executer('exiv2 -vVg platform').stdout.split('\n')[1]
-
         if nls      != 'enable_nls=1':
             print('Skipped. Because exiv2 is not built with nls.')
             return
 
-        if platform == 'platform=windows':
-            print('Skipped. Because nls_test cannot be run msvc builds.')
+        if BT.Config.system_name == 'Windows':
+            print('Skipped. Because nls_test is not supported on Windows.')
             return
 
-        if platform == 'platform=linux':
+        if BT.Config.system_name == 'Linux':
             LANG = 'LANGUAGE'
         else:
             LANG = 'LANG'
@@ -890,7 +888,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # The above part is checking the environment, and the following part is executing the actual test
         out      = BT.Output()
         for language in ['fr_FR', 'es_ES']:
-            out += BT.Executer('exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1])
+            e = BT.Executer('exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1], decode_output=False)
+            out += e.stdout[:20].decode()
         BT.reportTest('nls-test', out)
 
 
