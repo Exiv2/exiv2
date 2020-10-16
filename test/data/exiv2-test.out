@@ -128,106 +128,110 @@ Options:
 
 
 Adjust -------------------------------------------------------------------
-File  1/15: exiv2-empty.jpg
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: exiv2-canon-powershot-s40.jpg
+File  2/16: exiv2-canon-powershot-s40.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2003:12:14 00:00:43
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2003:12:14 00:00:43
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2003:12:14 00:00:43
-File  3/15: exiv2-nikon-e990.jpg
+File  3/16: exiv2-nikon-e990.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2000:05:06 02:05:44
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:05:06 02:05:44
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2000:05:06 02:05:44
-File  4/15: exiv2-nikon-d70.jpg
+File  4/16: exiv2-nikon-d70.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2004:03:29 22:42:45
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2004:03:29 22:42:45
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2004:03:29 22:42:45
-File  5/15: exiv2-nikon-e950.jpg
+File  5/16: exiv2-nikon-e950.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2001:04:05 23:50:39
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2001:04:05 23:50:39
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2001:04:05 23:50:39
-File  6/15: exiv2-canon-eos-300d.jpg
+File  6/16: exiv2-canon-eos-300d.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2003:09:25 20:18:50
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2003:09:25 20:18:50
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2003:09:25 20:18:50
-File  7/15: exiv2-kodak-dc210.jpg
+File  7/16: exiv2-kodak-dc210.jpg
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:10:26 04:45:50
-File  8/15: exiv2-fujifilm-finepix-s2pro.jpg
+File  8/16: exiv2-fujifilm-finepix-s2pro.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2003:09:26 11:15:35
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2003:09:26 11:15:35
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2003:09:26 11:15:35
-File  9/15: exiv2-sigma-d10.jpg
+File  9/16: exiv2-sigma-d10.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2004:03:18 11:39:25
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2004:03:16 07:51:37
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2004:03:18 11:39:25
-File 10/15: exiv2-olympus-c8080wz.jpg
+File 10/16: exiv2-olympus-c8080wz.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2004:02:08 09:37:44
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2004:02:08 09:37:44
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2004:02:08 09:37:44
-File 11/15: exiv2-panasonic-dmc-fz5.jpg
+File 11/16: exiv2-panasonic-dmc-fz5.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2005:02:18 21:20:16
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2005:02:18 21:20:16
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2005:02:18 21:20:16
-File 12/15: exiv2-sony-dsc-w7.jpg
+File 12/16: exiv2-sony-dsc-w7.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2005:05:27 05:18:33
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2005:05:27 05:18:33
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2005:05:27 05:18:33
-File 13/15: exiv2-canon-eos-20d.jpg
+File 13/16: exiv2-canon-eos-20d.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 Adjusting `Exif.Image.DateTime' by -43261s to 2006:08:02 09:52:00
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2006:08:02 09:52:00
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2006:08:02 09:52:00
 Warning: Directory Canon has an unexpected next pointer; ignored.
-File 14/15: exiv2-canon-eos-d30.jpg
+File 14/16: exiv2-canon-eos-d30.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2000:10:04 01:54:04
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2000:10:04 01:54:04
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2000:10:04 01:54:04
-File 15/15: exiv2-canon-powershot-a520.jpg
+File 15/16: exiv2-canon-powershot-a520.jpg
 Adjusting `Exif.Image.DateTime' by -43261s to 2006:01:27 22:50:27
 Adjusting `Exif.Photo.DateTimeOriginal' by -43261s to 2006:01:27 22:50:27
 Adjusting `Exif.Photo.DateTimeDigitized' by -43261s to 2006:01:27 22:50:27
+File 16/16: exiv2-photoshop.psd
+Adjusting `Exif.Image.DateTime' by -43261s to 2011:06:27 09:40:01
 
 Rename -------------------------------------------------------------------
-File  1/15: exiv2-empty.jpg
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: exiv2-canon-powershot-s40.jpg
+File  2/16: exiv2-canon-powershot-s40.jpg
 Renaming file to ./20031214_000043.jpg
-File  3/15: exiv2-nikon-e990.jpg
+File  3/16: exiv2-nikon-e990.jpg
 Renaming file to ./20000506_020544.jpg
-File  4/15: exiv2-nikon-d70.jpg
+File  4/16: exiv2-nikon-d70.jpg
 Renaming file to ./20040329_224245.jpg
-File  5/15: exiv2-nikon-e950.jpg
+File  5/16: exiv2-nikon-e950.jpg
 Renaming file to ./20010405_235039.jpg
-File  6/15: exiv2-canon-eos-300d.jpg
+File  6/16: exiv2-canon-eos-300d.jpg
 Renaming file to ./20030925_201850.jpg
-File  7/15: exiv2-kodak-dc210.jpg
+File  7/16: exiv2-kodak-dc210.jpg
 Renaming file to ./20001026_044550.jpg
-File  8/15: exiv2-fujifilm-finepix-s2pro.jpg
+File  8/16: exiv2-fujifilm-finepix-s2pro.jpg
 Renaming file to ./20030926_111535.jpg
-File  9/15: exiv2-sigma-d10.jpg
+File  9/16: exiv2-sigma-d10.jpg
 Renaming file to ./20040316_075137.jpg
-File 10/15: exiv2-olympus-c8080wz.jpg
+File 10/16: exiv2-olympus-c8080wz.jpg
 Renaming file to ./20040208_093744.jpg
-File 11/15: exiv2-panasonic-dmc-fz5.jpg
+File 11/16: exiv2-panasonic-dmc-fz5.jpg
 Renaming file to ./20050218_212016.jpg
-File 12/15: exiv2-sony-dsc-w7.jpg
+File 12/16: exiv2-sony-dsc-w7.jpg
 Renaming file to ./20050527_051833.jpg
-File 13/15: exiv2-canon-eos-20d.jpg
+File 13/16: exiv2-canon-eos-20d.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 Renaming file to ./20060802_095200.jpg
-File 14/15: exiv2-canon-eos-d30.jpg
+File 14/16: exiv2-canon-eos-d30.jpg
 Renaming file to ./20001004_015404.jpg
-File 15/15: exiv2-canon-powershot-a520.jpg
+File 15/16: exiv2-canon-powershot-a520.jpg
 Renaming file to ./20060127_225027.jpg
+File 16/16: exiv2-photoshop.psd
+Renaming file to ./20110627_094001.psd
 
 Print --------------------------------------------------------------------
-File  1/15: exiv2-empty.jpg
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg      File name       : exiv2-empty.jpg
 exiv2-empty.jpg      File size       : 4745 Bytes
 exiv2-empty.jpg      MIME type       : image/jpeg
 exiv2-empty.jpg      Image size      : 150 x 91
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: 20031214_000043.jpg
+File  2/16: 20031214_000043.jpg
 20031214_000043.jpg  File name       : 20031214_000043.jpg
 20031214_000043.jpg  File size       : 12425 Bytes
 20031214_000043.jpg  MIME type       : image/jpeg
@@ -254,7 +258,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg  Copyright       : 
 20031214_000043.jpg  Exif comment    : 
 
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 20000506_020544.jpg  File name       : 20000506_020544.jpg
 20000506_020544.jpg  File size       : 19152 Bytes
 20000506_020544.jpg  MIME type       : image/jpeg
@@ -281,7 +285,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg  Copyright       : 
 20000506_020544.jpg  Exif comment    :                                                                                                                      
 
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 20040329_224245.jpg  File name       : 20040329_224245.jpg
 20040329_224245.jpg  File size       : 44129 Bytes
 20040329_224245.jpg  MIME type       : image/jpeg
@@ -308,7 +312,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg  Copyright       : 
 20040329_224245.jpg  Exif comment    : charset=Ascii                                     
 
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 20010405_235039.jpg  File name       : 20010405_235039.jpg
 20010405_235039.jpg  File size       : 11984 Bytes
 20010405_235039.jpg  MIME type       : image/jpeg
@@ -335,7 +339,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg  Copyright       : 
 20010405_235039.jpg  Exif comment    :                                                                                                                      
 
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 20030925_201850.jpg  File name       : 20030925_201850.jpg
 20030925_201850.jpg  File size       : 17033 Bytes
 20030925_201850.jpg  MIME type       : image/jpeg
@@ -362,7 +366,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg  Copyright       : 
 20030925_201850.jpg  Exif comment    : 
 
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 20001026_044550.jpg  File name       : 20001026_044550.jpg
 20001026_044550.jpg  File size       : 26485 Bytes
 20001026_044550.jpg  MIME type       : image/jpeg
@@ -389,7 +393,7 @@ File  7/15: 20001026_044550.jpg
 20001026_044550.jpg  Copyright       : 
 20001026_044550.jpg  Exif comment    : 
 
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 20030926_111535.jpg  File name       : 20030926_111535.jpg
 20030926_111535.jpg  File size       : 15537 Bytes
 20030926_111535.jpg  MIME type       : image/jpeg
@@ -416,7 +420,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg  Copyright       :     
 20030926_111535.jpg  Exif comment    : 
 
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 20040316_075137.jpg  File name       : 20040316_075137.jpg
 20040316_075137.jpg  File size       : 18307 Bytes
 20040316_075137.jpg  MIME type       : image/jpeg
@@ -443,7 +447,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg  Copyright       : 
 20040316_075137.jpg  Exif comment    : 
 
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 20040208_093744.jpg  File name       : 20040208_093744.jpg
 20040208_093744.jpg  File size       : 19152 Bytes
 20040208_093744.jpg  MIME type       : image/jpeg
@@ -470,7 +474,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg  Copyright       : 
 20040208_093744.jpg  Exif comment    :                                                                                                                      
 
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 20050218_212016.jpg  File name       : 20050218_212016.jpg
 20050218_212016.jpg  File size       : 32041 Bytes
 20050218_212016.jpg  MIME type       : image/jpeg
@@ -497,7 +501,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg  Copyright       : 
 20050218_212016.jpg  Exif comment    : 
 
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 20050527_051833.jpg  File name       : 20050527_051833.jpg
 20050527_051833.jpg  File size       : 22844 Bytes
 20050527_051833.jpg  MIME type       : image/jpeg
@@ -524,7 +528,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg  Copyright       : 
 20050527_051833.jpg  Exif comment    : 
 
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg  File name       : 20060802_095200.jpg
 20060802_095200.jpg  File size       : 20733 Bytes
@@ -552,7 +556,7 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg  Copyright       : 
 20060802_095200.jpg  Exif comment    : 
 
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 20001004_015404.jpg  File name       : 20001004_015404.jpg
 20001004_015404.jpg  File size       : 20617 Bytes
 20001004_015404.jpg  MIME type       : image/jpeg
@@ -579,7 +583,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg  Copyright       : 
 20001004_015404.jpg  Exif comment    : 
 
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 20060127_225027.jpg  File name       : 20060127_225027.jpg
 20060127_225027.jpg  File size       : 13449 Bytes
 20060127_225027.jpg  MIME type       : image/jpeg
@@ -606,9 +610,36 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg  Copyright       : 
 20060127_225027.jpg  Exif comment    : 
 
-File  1/15: exiv2-empty.jpg
+File 16/16: 20110626_213900.psd
+20110626_213900.psd  File name       : 20110626_213900.psd
+20110626_213900.psd  File size       : 52770 Bytes
+20110626_213900.psd  MIME type       : image/x-photoshop
+20110626_213900.psd  Image size      : 150 x 91
+20110626_213900.psd  Camera make     : 
+20110626_213900.psd  Camera model    : 
+20110626_213900.psd  Image timestamp : 
+20110626_213900.psd  Image number    : 
+20110626_213900.psd  Exposure time   : 
+20110626_213900.psd  Aperture        : 
+20110626_213900.psd  Exposure bias   : 
+20110626_213900.psd  Flash           : 
+20110626_213900.psd  Flash bias      : 
+20110626_213900.psd  Focal length    : 
+20110626_213900.psd  Subject distance: 
+20110626_213900.psd  ISO speed       : 
+20110626_213900.psd  Exposure mode   : 
+20110626_213900.psd  Metering mode   : 
+20110626_213900.psd  Macro mode      : 
+20110626_213900.psd  Image quality   : 
+20110626_213900.psd  Exif Resolution : 150 x 91
+20110626_213900.psd  White balance   : 
+20110626_213900.psd  Thumbnail       : None
+20110626_213900.psd  Copyright       : 
+20110626_213900.psd  Exif comment    : 
+
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: 20031214_000043.jpg
+File  2/16: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
 20031214_000043.jpg   Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 20031214_000043.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -736,7 +767,7 @@ File  2/15: 20031214_000043.jpg
 20031214_000043.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20031214_000043.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 20031214_000043.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Image.ImageDescription                  Ascii      11            
 20000506_020544.jpg   Exif.Image.Make                              Ascii       6  NIKON
 20000506_020544.jpg   Exif.Image.Model                             Ascii       5  E990
@@ -798,7 +829,7 @@ File  3/15: 20000506_020544.jpg
 20000506_020544.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20000506_020544.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4084
 20000506_020544.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 20040329_224245.jpg   Exif.Image.Model                             Ascii      10  NIKON D70
 20040329_224245.jpg   Exif.Image.Orientation                       Short       1  right, top
@@ -968,7 +999,7 @@ File  4/15: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  30444
 20040329_224245.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
 20040329_224245.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Image.ImageDescription                  Ascii      11            
 20010405_235039.jpg   Exif.Image.Make                              Ascii       6  NIKON
 20010405_235039.jpg   Exif.Image.Model                             Ascii       5  E950
@@ -1025,7 +1056,7 @@ File  5/15: 20010405_235039.jpg
 20010405_235039.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20010405_235039.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 20010405_235039.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Image.Make                              Ascii       6  Canon
 20030925_201850.jpg   Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL
 20030925_201850.jpg   Exif.Image.Orientation                       Short       1  right, top
@@ -1209,7 +1240,7 @@ File  6/15: 20030925_201850.jpg
 20030925_201850.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20030925_201850.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 20030925_201850.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 20001026_044550.jpg   Exif.Image.ImageDescription                  Ascii       0  
 20001026_044550.jpg   Exif.Image.Make                              Ascii      22  Eastman Kodak Company
 20001026_044550.jpg   Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
@@ -1249,7 +1280,7 @@ File  7/15: 20001026_044550.jpg
 20001026_044550.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 20001026_044550.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
 20001026_044550.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Image.Make                              Ascii       9  FUJIFILM
 20030926_111535.jpg   Exif.Image.Model                             Ascii      13  FinePixS2Pro
 20030926_111535.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -1327,7 +1358,7 @@ File  8/15: 20030926_111535.jpg
 20030926_111535.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1204
 20030926_111535.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
 20030926_111535.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Image.Make                              Ascii       6  SIGMA
 20040316_075137.jpg   Exif.Image.Model                             Ascii      11  SIGMA SD10
 20040316_075137.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -1396,7 +1427,7 @@ File  9/15: 20040316_075137.jpg
 20040316_075137.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  303
 20040316_075137.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
 20040316_075137.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Image.ImageDescription                  Ascii      32  OLYMPUS DIGITAL CAMERA         
 20040208_093744.jpg   Exif.Image.Make                              Ascii      20  OLYMPUS CORPORATION
 20040208_093744.jpg   Exif.Image.Model                             Ascii       8  C8080WZ
@@ -1468,7 +1499,7 @@ File 10/15: 20040208_093744.jpg
 20040208_093744.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20040208_093744.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4084
 20040208_093744.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7306
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Image.Make                              Ascii      10  Panasonic
 20050218_212016.jpg   Exif.Image.Model                             Ascii       8  DMC-FZ5
 20050218_212016.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -1553,7 +1584,7 @@ File 11/15: 20050218_212016.jpg
 20050218_212016.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  6804
 20050218_212016.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10308
 20050218_212016.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Image.ImageDescription                  Ascii      32                                 
 20050527_051833.jpg   Exif.Image.Make                              Ascii       5  SONY
 20050527_051833.jpg   Exif.Image.Model                             Ascii       7  DSC-W7
@@ -1618,7 +1649,7 @@ File 12/15: 20050527_051833.jpg
 20050527_051833.jpg   Exif.Thumbnail.DateTime                      Ascii      20  2005:05:27 17:19:34
 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2484
 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.Image.Make                              Ascii       6  Canon
 20060802_095200.jpg   Exif.Image.Model                             Ascii      14  Canon EOS 20D
@@ -1839,7 +1870,7 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20060802_095200.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  9716
 20060802_095200.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6260
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 20001004_015404.jpg   Exif.Image.Make                              Ascii       6  Canon
 20001004_015404.jpg   Exif.Image.Model                             Ascii      14  Canon EOS D30
 20001004_015404.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -1970,7 +2001,7 @@ File 14/15: 20001004_015404.jpg
 20001004_015404.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20001004_015404.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 20001004_015404.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  13824
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Image.Make                              Ascii       6  Canon
 20060127_225027.jpg   Exif.Image.Model                             Ascii      21  Canon PowerShot A520
 20060127_225027.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -2148,80 +2179,108 @@ File 15/15: 20060127_225027.jpg
 20060127_225027.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
+File 16/16: 20110626_213900.psd
+20110626_213900.psd   Exif.Image.ImageWidth                        Short       1  150
+20110626_213900.psd   Exif.Image.ImageLength                       Short       1  91
+20110626_213900.psd   Exif.Image.BitsPerSample                     Short       3  8 8 8
+20110626_213900.psd   Exif.Image.Orientation                       Short       1  top, left
+20110626_213900.psd   Exif.Image.SamplesPerPixel                   Short       1  3
+20110626_213900.psd   Exif.Image.XResolution                       Rational    1  72
+20110626_213900.psd   Exif.Image.YResolution                       Rational    1  72
+20110626_213900.psd   Exif.Image.ResolutionUnit                    Short       1  inch
+20110626_213900.psd   Exif.Image.Software                          Ascii      30  Adobe Photoshop CS5 Macintosh
+20110626_213900.psd   Exif.Image.DateTime                          Ascii      20  2011:06:26 21:39:00
+20110626_213900.psd   Exif.Image.ExifTag                           Long        1  218
+20110626_213900.psd   Exif.Photo.ExifVersion                       Undefined   4  2.21
+20110626_213900.psd   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+20110626_213900.psd   Exif.Photo.PixelXDimension                   Long        1  150
+20110626_213900.psd   Exif.Photo.PixelYDimension                   Long        1  91
+20110626_213900.psd   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+20110626_213900.psd   Exif.Thumbnail.XResolution                   Rational    1  72
+20110626_213900.psd   Exif.Thumbnail.YResolution                   Rational    1  72
+20110626_213900.psd   Exif.Thumbnail.ResolutionUnit                Short       1  inch
+20110626_213900.psd   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  366
+20110626_213900.psd   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0
 exiv2-empty.jpg: No Exif data found in the file
 Warning: Directory Canon has an unexpected next pointer; ignored.
 
 Extract Exif data --------------------------------------------------------
-File  1/15: exiv2-empty.jpg
-File  2/15: 20031214_000043.jpg
+File  1/16: exiv2-empty.jpg
+File  2/16: 20031214_000043.jpg
 Writing Exif data from 20031214_000043.jpg to ./20031214_000043.exv
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 Writing Exif data from 20000506_020544.jpg to ./20000506_020544.exv
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 Writing Exif data from 20040329_224245.jpg to ./20040329_224245.exv
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 Writing Exif data from 20010405_235039.jpg to ./20010405_235039.exv
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 Writing Exif data from 20030925_201850.jpg to ./20030925_201850.exv
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 Writing Exif data from 20001026_044550.jpg to ./20001026_044550.exv
 Writing JPEG comment from 20001026_044550.jpg to ./20001026_044550.exv
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 Writing Exif data from 20030926_111535.jpg to ./20030926_111535.exv
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 Writing Exif data from 20040316_075137.jpg to ./20040316_075137.exv
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 Writing Exif data from 20040208_093744.jpg to ./20040208_093744.exv
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 Writing Exif data from 20050218_212016.jpg to ./20050218_212016.exv
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 Writing Exif data from 20050527_051833.jpg to ./20050527_051833.exv
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 Writing Exif data from 20060802_095200.jpg to ./20060802_095200.exv
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 Writing Exif data from 20001004_015404.jpg to ./20001004_015404.exv
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 Writing Exif data from 20060127_225027.jpg to ./20060127_225027.exv
+File 16/16: 20110626_213900.psd
+Writing Exif data from 20110626_213900.psd to ./20110626_213900.exv
+Writing IPTC data from 20110626_213900.psd to ./20110626_213900.exv
+Writing XMP data from 20110626_213900.psd to ./20110626_213900.exv
 
 Extract Thumbnail --------------------------------------------------------
-File  1/15: exiv2-empty.jpg
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: 20031214_000043.jpg
+File  2/16: 20031214_000043.jpg
 Writing thumbnail (image/jpeg, 5448 Bytes) to file ./20031214_000043-thumb.jpg
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 Writing thumbnail (image/jpeg, 7829 Bytes) to file ./20000506_020544-thumb.jpg
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 Writing thumbnail (image/jpeg, 8930 Bytes) to file ./20040329_224245-thumb.jpg
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 Writing thumbnail (image/jpeg, 4662 Bytes) to file ./20010405_235039-thumb.jpg
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 Writing thumbnail (image/jpeg, 9728 Bytes) to file ./20030925_201850-thumb.jpg
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 Writing thumbnail (image/tiff, 20916 Bytes) to file ./20001026_044550-thumb.tif
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 Writing thumbnail (image/jpeg, 9573 Bytes) to file ./20030926_111535-thumb.jpg
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 Writing thumbnail (image/jpeg, 11998 Bytes) to file ./20040316_075137-thumb.jpg
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 Writing thumbnail (image/jpeg, 7306 Bytes) to file ./20040208_093744-thumb.jpg
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 Writing thumbnail (image/jpeg, 10308 Bytes) to file ./20050218_212016-thumb.jpg
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 Writing thumbnail (image/jpeg, 15605 Bytes) to file ./20050527_051833-thumb.jpg
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 Writing thumbnail (image/jpeg, 6260 Bytes) to file ./20060802_095200-thumb.jpg
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 Writing thumbnail (image/jpeg, 13824 Bytes) to file ./20001004_015404-thumb.jpg
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
+File 16/16: 20110626_213900.psd
+20110626_213900.psd: Exif data doesn't contain a thumbnail
 exiv2-empty.exv: No Exif data found in the file
 
 Compare image data and extracted data ------------------------------------
-1,1540c1,1540
-< File  1/15: exiv2-empty.jpg
-< File  2/15: 20031214_000043.jpg
+1,1562c1,1562
+< File  1/16: exiv2-empty.jpg
+< File  2/16: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20031214_000043.jpg   Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 < 20031214_000043.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -2349,7 +2408,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20031214_000043.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 < 20031214_000043.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-< File  3/15: 20000506_020544.jpg
+< File  3/16: 20000506_020544.jpg
 < 20000506_020544.jpg   Exif.Image.ImageDescription                  Ascii      11            
 < 20000506_020544.jpg   Exif.Image.Make                              Ascii       6  NIKON
 < 20000506_020544.jpg   Exif.Image.Model                             Ascii       5  E990
@@ -2411,7 +2470,7 @@ Compare image data and extracted data ------------------------------------
 < 20000506_020544.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20000506_020544.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4084
 < 20000506_020544.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
-< File  4/15: 20040329_224245.jpg
+< File  4/16: 20040329_224245.jpg
 < 20040329_224245.jpg   Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 < 20040329_224245.jpg   Exif.Image.Model                             Ascii      10  NIKON D70
 < 20040329_224245.jpg   Exif.Image.Orientation                       Short       1  right, top
@@ -2581,7 +2640,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  30444
 < 20040329_224245.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
 < 20040329_224245.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File  5/15: 20010405_235039.jpg
+< File  5/16: 20010405_235039.jpg
 < 20010405_235039.jpg   Exif.Image.ImageDescription                  Ascii      11            
 < 20010405_235039.jpg   Exif.Image.Make                              Ascii       6  NIKON
 < 20010405_235039.jpg   Exif.Image.Model                             Ascii       5  E950
@@ -2638,7 +2697,7 @@ Compare image data and extracted data ------------------------------------
 < 20010405_235039.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20010405_235039.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 < 20010405_235039.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
-< File  6/15: 20030925_201850.jpg
+< File  6/16: 20030925_201850.jpg
 < 20030925_201850.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20030925_201850.jpg   Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL
 < 20030925_201850.jpg   Exif.Image.Orientation                       Short       1  right, top
@@ -2822,7 +2881,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20030925_201850.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 < 20030925_201850.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
-< File  7/15: 20001026_044550.jpg
+< File  7/16: 20001026_044550.jpg
 < 20001026_044550.jpg   Exif.Image.ImageDescription                  Ascii       0  
 < 20001026_044550.jpg   Exif.Image.Make                              Ascii      22  Eastman Kodak Company
 < 20001026_044550.jpg   Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
@@ -2862,7 +2921,7 @@ Compare image data and extracted data ------------------------------------
 < 20001026_044550.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20001026_044550.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
 < 20001026_044550.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
-< File  8/15: 20030926_111535.jpg
+< File  8/16: 20030926_111535.jpg
 < 20030926_111535.jpg   Exif.Image.Make                              Ascii       9  FUJIFILM
 < 20030926_111535.jpg   Exif.Image.Model                             Ascii      13  FinePixS2Pro
 < 20030926_111535.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -2940,7 +2999,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1204
 < 20030926_111535.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
 < 20030926_111535.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File  9/15: 20040316_075137.jpg
+< File  9/16: 20040316_075137.jpg
 < 20040316_075137.jpg   Exif.Image.Make                              Ascii       6  SIGMA
 < 20040316_075137.jpg   Exif.Image.Model                             Ascii      11  SIGMA SD10
 < 20040316_075137.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -3009,7 +3068,7 @@ Compare image data and extracted data ------------------------------------
 < 20040316_075137.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  303
 < 20040316_075137.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
 < 20040316_075137.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File 10/15: 20040208_093744.jpg
+< File 10/16: 20040208_093744.jpg
 < 20040208_093744.jpg   Exif.Image.ImageDescription                  Ascii      32  OLYMPUS DIGITAL CAMERA         
 < 20040208_093744.jpg   Exif.Image.Make                              Ascii      20  OLYMPUS CORPORATION
 < 20040208_093744.jpg   Exif.Image.Model                             Ascii       8  C8080WZ
@@ -3081,7 +3140,7 @@ Compare image data and extracted data ------------------------------------
 < 20040208_093744.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20040208_093744.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4084
 < 20040208_093744.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7306
-< File 11/15: 20050218_212016.jpg
+< File 11/16: 20050218_212016.jpg
 < 20050218_212016.jpg   Exif.Image.Make                              Ascii      10  Panasonic
 < 20050218_212016.jpg   Exif.Image.Model                             Ascii       8  DMC-FZ5
 < 20050218_212016.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -3166,7 +3225,7 @@ Compare image data and extracted data ------------------------------------
 < 20050218_212016.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  6804
 < 20050218_212016.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10308
 < 20050218_212016.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File 12/15: 20050527_051833.jpg
+< File 12/16: 20050527_051833.jpg
 < 20050527_051833.jpg   Exif.Image.ImageDescription                  Ascii      32                                 
 < 20050527_051833.jpg   Exif.Image.Make                              Ascii       5  SONY
 < 20050527_051833.jpg   Exif.Image.Model                             Ascii       7  DSC-W7
@@ -3231,7 +3290,7 @@ Compare image data and extracted data ------------------------------------
 < 20050527_051833.jpg   Exif.Thumbnail.DateTime                      Ascii      20  2005:05:27 17:19:34
 < 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2484
 < 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
-< File 13/15: 20060802_095200.jpg
+< File 13/16: 20060802_095200.jpg
 < 20060802_095200.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20060802_095200.jpg   Exif.Image.Model                             Ascii      14  Canon EOS 20D
 < 20060802_095200.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -3451,7 +3510,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20060802_095200.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  9716
 < 20060802_095200.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6260
-< File 14/15: 20001004_015404.jpg
+< File 14/16: 20001004_015404.jpg
 < 20001004_015404.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20001004_015404.jpg   Exif.Image.Model                             Ascii      14  Canon EOS D30
 < 20001004_015404.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -3582,7 +3641,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20001004_015404.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 < 20001004_015404.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  13824
-< File 15/15: 20060127_225027.jpg
+< File 15/16: 20060127_225027.jpg
 < 20060127_225027.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20060127_225027.jpg   Exif.Image.Model                             Ascii      21  Canon PowerShot A520
 < 20060127_225027.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -3760,9 +3819,31 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 < 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
+< File 16/16: 20110626_213900.psd
+< 20110626_213900.psd   Exif.Image.ImageWidth                        Short       1  150
+< 20110626_213900.psd   Exif.Image.ImageLength                       Short       1  91
+< 20110626_213900.psd   Exif.Image.BitsPerSample                     Short       3  8 8 8
+< 20110626_213900.psd   Exif.Image.Orientation                       Short       1  top, left
+< 20110626_213900.psd   Exif.Image.SamplesPerPixel                   Short       1  3
+< 20110626_213900.psd   Exif.Image.XResolution                       Rational    1  72
+< 20110626_213900.psd   Exif.Image.YResolution                       Rational    1  72
+< 20110626_213900.psd   Exif.Image.ResolutionUnit                    Short       1  inch
+< 20110626_213900.psd   Exif.Image.Software                          Ascii      30  Adobe Photoshop CS5 Macintosh
+< 20110626_213900.psd   Exif.Image.DateTime                          Ascii      20  2011:06:26 21:39:00
+< 20110626_213900.psd   Exif.Image.ExifTag                           Long        1  218
+< 20110626_213900.psd   Exif.Photo.ExifVersion                       Undefined   4  2.21
+< 20110626_213900.psd   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+< 20110626_213900.psd   Exif.Photo.PixelXDimension                   Long        1  150
+< 20110626_213900.psd   Exif.Photo.PixelYDimension                   Long        1  91
+< 20110626_213900.psd   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+< 20110626_213900.psd   Exif.Thumbnail.XResolution                   Rational    1  72
+< 20110626_213900.psd   Exif.Thumbnail.YResolution                   Rational    1  72
+< 20110626_213900.psd   Exif.Thumbnail.ResolutionUnit                Short       1  inch
+< 20110626_213900.psd   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  366
+< 20110626_213900.psd   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0
 ---
-> File  1/15: exiv2-empty.exv
-> File  2/15: 20031214_000043.exv
+> File  1/16: exiv2-empty.exv
+> File  2/16: 20031214_000043.exv
 > 20031214_000043.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20031214_000043.exv   Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 > 20031214_000043.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -3890,7 +3971,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20031214_000043.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1552
 > 20031214_000043.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-> File  3/15: 20000506_020544.exv
+> File  3/16: 20000506_020544.exv
 > 20000506_020544.exv   Exif.Image.ImageDescription                  Ascii      11            
 > 20000506_020544.exv   Exif.Image.Make                              Ascii       6  NIKON
 > 20000506_020544.exv   Exif.Image.Model                             Ascii       5  E990
@@ -3952,7 +4033,7 @@ Compare image data and extracted data ------------------------------------
 > 20000506_020544.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20000506_020544.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1332
 > 20000506_020544.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
-> File  4/15: 20040329_224245.exv
+> File  4/16: 20040329_224245.exv
 > 20040329_224245.exv   Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 > 20040329_224245.exv   Exif.Image.Model                             Ascii      10  NIKON D70
 > 20040329_224245.exv   Exif.Image.Orientation                       Short       1  right, top
@@ -4122,7 +4203,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  30414
 > 20040329_224245.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
 > 20040329_224245.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File  5/15: 20010405_235039.exv
+> File  5/16: 20010405_235039.exv
 > 20010405_235039.exv   Exif.Image.ImageDescription                  Ascii      11            
 > 20010405_235039.exv   Exif.Image.Make                              Ascii       6  NIKON
 > 20010405_235039.exv   Exif.Image.Model                             Ascii       5  E950
@@ -4179,7 +4260,7 @@ Compare image data and extracted data ------------------------------------
 > 20010405_235039.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20010405_235039.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1154
 > 20010405_235039.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
-> File  6/15: 20030925_201850.exv
+> File  6/16: 20030925_201850.exv
 > 20030925_201850.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20030925_201850.exv   Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL
 > 20030925_201850.exv   Exif.Image.Orientation                       Short       1  right, top
@@ -4363,7 +4444,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20030925_201850.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2530
 > 20030925_201850.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
-> File  7/15: 20001026_044550.exv
+> File  7/16: 20001026_044550.exv
 > 20001026_044550.exv   Exif.Image.ImageDescription                  Ascii       0  
 > 20001026_044550.exv   Exif.Image.Make                              Ascii      22  Eastman Kodak Company
 > 20001026_044550.exv   Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
@@ -4403,7 +4484,7 @@ Compare image data and extracted data ------------------------------------
 > 20001026_044550.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20001026_044550.exv   Exif.Thumbnail.YResolution                   Rational    1  72
 > 20001026_044550.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
-> File  8/15: 20030926_111535.exv
+> File  8/16: 20030926_111535.exv
 > 20030926_111535.exv   Exif.Image.Make                              Ascii       9  FUJIFILM
 > 20030926_111535.exv   Exif.Image.Model                             Ascii      13  FinePixS2Pro
 > 20030926_111535.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -4481,7 +4562,7 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1204
 > 20030926_111535.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
 > 20030926_111535.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File  9/15: 20040316_075137.exv
+> File  9/16: 20040316_075137.exv
 > 20040316_075137.exv   Exif.Image.Make                              Ascii       6  SIGMA
 > 20040316_075137.exv   Exif.Image.Model                             Ascii      11  SIGMA SD10
 > 20040316_075137.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -4550,7 +4631,7 @@ Compare image data and extracted data ------------------------------------
 > 20040316_075137.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1228
 > 20040316_075137.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
 > 20040316_075137.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File 10/15: 20040208_093744.exv
+> File 10/16: 20040208_093744.exv
 > 20040208_093744.exv   Exif.Image.ImageDescription                  Ascii      32  OLYMPUS DIGITAL CAMERA         
 > 20040208_093744.exv   Exif.Image.Make                              Ascii      20  OLYMPUS CORPORATION
 > 20040208_093744.exv   Exif.Image.Model                             Ascii       8  C8080WZ
@@ -4622,7 +4703,7 @@ Compare image data and extracted data ------------------------------------
 > 20040208_093744.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20040208_093744.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2104
 > 20040208_093744.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7306
-> File 11/15: 20050218_212016.exv
+> File 11/16: 20050218_212016.exv
 > 20050218_212016.exv   Exif.Image.Make                              Ascii      10  Panasonic
 > 20050218_212016.exv   Exif.Image.Model                             Ascii       8  DMC-FZ5
 > 20050218_212016.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -4707,7 +4788,7 @@ Compare image data and extracted data ------------------------------------
 > 20050218_212016.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  6800
 > 20050218_212016.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10308
 > 20050218_212016.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File 12/15: 20050527_051833.exv
+> File 12/16: 20050527_051833.exv
 > 20050527_051833.exv   Exif.Image.ImageDescription                  Ascii      32                                 
 > 20050527_051833.exv   Exif.Image.Make                              Ascii       5  SONY
 > 20050527_051833.exv   Exif.Image.Model                             Ascii       7  DSC-W7
@@ -4772,7 +4853,7 @@ Compare image data and extracted data ------------------------------------
 > 20050527_051833.exv   Exif.Thumbnail.DateTime                      Ascii      20  2005:05:27 17:19:34
 > 20050527_051833.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2484
 > 20050527_051833.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
-> File 13/15: 20060802_095200.exv
+> File 13/16: 20060802_095200.exv
 > 20060802_095200.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20060802_095200.exv   Exif.Image.Model                             Ascii      14  Canon EOS 20D
 > 20060802_095200.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -4992,7 +5073,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20060802_095200.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  9368
 > 20060802_095200.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6260
-> File 14/15: 20001004_015404.exv
+> File 14/16: 20001004_015404.exv
 > 20001004_015404.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20001004_015404.exv   Exif.Image.Model                             Ascii      14  Canon EOS D30
 > 20001004_015404.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -5123,7 +5204,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20001004_015404.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1642
 > 20001004_015404.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  13824
-> File 15/15: 20060127_225027.exv
+> File 15/16: 20060127_225027.exv
 > 20060127_225027.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20060127_225027.exv   Exif.Image.Model                             Ascii      21  Canon PowerShot A520
 > 20060127_225027.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -5301,229 +5382,269 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20060127_225027.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1990
 > 20060127_225027.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
+> File 16/16: 20110626_213900.exv
+> 20110626_213900.exv   Exif.Image.ImageWidth                        Short       1  150
+> 20110626_213900.exv   Exif.Image.ImageLength                       Short       1  91
+> 20110626_213900.exv   Exif.Image.BitsPerSample                     Short       3  8 8 8
+> 20110626_213900.exv   Exif.Image.Orientation                       Short       1  top, left
+> 20110626_213900.exv   Exif.Image.SamplesPerPixel                   Short       1  3
+> 20110626_213900.exv   Exif.Image.XResolution                       Rational    1  72
+> 20110626_213900.exv   Exif.Image.YResolution                       Rational    1  72
+> 20110626_213900.exv   Exif.Image.ResolutionUnit                    Short       1  inch
+> 20110626_213900.exv   Exif.Image.Software                          Ascii      30  Adobe Photoshop CS5 Macintosh
+> 20110626_213900.exv   Exif.Image.DateTime                          Ascii      20  2011:06:26 21:39:00
+> 20110626_213900.exv   Exif.Image.ExifTag                           Long        1  218
+> 20110626_213900.exv   Exif.Photo.ExifVersion                       Undefined   4  2.21
+> 20110626_213900.exv   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+> 20110626_213900.exv   Exif.Photo.PixelXDimension                   Long        1  150
+> 20110626_213900.exv   Exif.Photo.PixelYDimension                   Long        1  91
+> 20110626_213900.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+> 20110626_213900.exv   Exif.Thumbnail.XResolution                   Rational    1  72
+> 20110626_213900.exv   Exif.Thumbnail.YResolution                   Rational    1  72
+> 20110626_213900.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
+> 20110626_213900.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  366
+> 20110626_213900.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0
 
 Delete Thumbnail ---------------------------------------------------------
-File  1/15: exiv2-empty.jpg
-File  2/15: 20031214_000043.jpg
+File  1/16: exiv2-empty.jpg
+File  2/16: 20031214_000043.jpg
 Erasing thumbnail data
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 Erasing thumbnail data
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 Erasing thumbnail data
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 Erasing thumbnail data
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 Erasing thumbnail data
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 Erasing thumbnail data
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 Erasing thumbnail data
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 Erasing thumbnail data
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 Erasing thumbnail data
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 Erasing thumbnail data
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 Erasing thumbnail data
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
 Erasing thumbnail data
 Warning: Directory Canon has an unexpected next pointer; ignored.
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 Erasing thumbnail data
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 Erasing thumbnail data
-File  1/15: exiv2-empty.jpg
+File 16/16: 20110626_213900.psd
+Erasing thumbnail data
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: 20031214_000043.jpg
+File  2/16: 20031214_000043.jpg
 20031214_000043.jpg: Image does not contain an Exif thumbnail
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 20000506_020544.jpg: Image does not contain an Exif thumbnail
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 20040329_224245.jpg: Image does not contain an Exif thumbnail
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 20010405_235039.jpg: Image does not contain an Exif thumbnail
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 20030925_201850.jpg: Image does not contain an Exif thumbnail
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 20001026_044550.jpg: Image does not contain an Exif thumbnail
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 20030926_111535.jpg: Image does not contain an Exif thumbnail
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 20040316_075137.jpg: Image does not contain an Exif thumbnail
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 20040208_093744.jpg: Image does not contain an Exif thumbnail
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 20050218_212016.jpg: Image does not contain an Exif thumbnail
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 20050527_051833.jpg: Image does not contain an Exif thumbnail
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 20060802_095200.jpg: Image does not contain an Exif thumbnail
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 20001004_015404.jpg: Image does not contain an Exif thumbnail
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 20060127_225027.jpg: Image does not contain an Exif thumbnail
+File 16/16: 20110626_213900.psd
+20110626_213900.psd: Image does not contain an Exif thumbnail
 
 Delete Exif data ---------------------------------------------------------
-File  1/15: exiv2-empty.jpg
-File  2/15: 20031214_000043.jpg
+File  1/16: exiv2-empty.jpg
+File  2/16: 20031214_000043.jpg
 Erasing Exif data from the file
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 Erasing Exif data from the file
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 Erasing Exif data from the file
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 Erasing Exif data from the file
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 Erasing Exif data from the file
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 Erasing Exif data from the file
 Erasing JPEG comment from the file
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 Erasing Exif data from the file
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 Erasing Exif data from the file
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 Erasing Exif data from the file
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 Erasing Exif data from the file
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 Erasing Exif data from the file
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Erasing Exif data from the file
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 Erasing Exif data from the file
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 Erasing Exif data from the file
-File  1/15: exiv2-empty.jpg
+File 16/16: 20110626_213900.psd
+Erasing Exif data from the file
+Erasing IPTC data from the file
+Erasing XMP data from the file
+File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg      File name       : exiv2-empty.jpg
 exiv2-empty.jpg      File size       : 4745 Bytes
 exiv2-empty.jpg      MIME type       : image/jpeg
 exiv2-empty.jpg      Image size      : 150 x 91
 exiv2-empty.jpg: No Exif data found in the file
-File  2/15: 20031214_000043.jpg
+File  2/16: 20031214_000043.jpg
 20031214_000043.jpg  File name       : 20031214_000043.jpg
 20031214_000043.jpg  File size       : 4745 Bytes
 20031214_000043.jpg  MIME type       : image/jpeg
 20031214_000043.jpg  Image size      : 150 x 91
 20031214_000043.jpg: No Exif data found in the file
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 20000506_020544.jpg  File name       : 20000506_020544.jpg
 20000506_020544.jpg  File size       : 4745 Bytes
 20000506_020544.jpg  MIME type       : image/jpeg
 20000506_020544.jpg  Image size      : 150 x 91
 20000506_020544.jpg: No Exif data found in the file
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 20040329_224245.jpg  File name       : 20040329_224245.jpg
 20040329_224245.jpg  File size       : 4745 Bytes
 20040329_224245.jpg  MIME type       : image/jpeg
 20040329_224245.jpg  Image size      : 150 x 91
 20040329_224245.jpg: No Exif data found in the file
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 20010405_235039.jpg  File name       : 20010405_235039.jpg
 20010405_235039.jpg  File size       : 4745 Bytes
 20010405_235039.jpg  MIME type       : image/jpeg
 20010405_235039.jpg  Image size      : 150 x 91
 20010405_235039.jpg: No Exif data found in the file
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 20030925_201850.jpg  File name       : 20030925_201850.jpg
 20030925_201850.jpg  File size       : 4745 Bytes
 20030925_201850.jpg  MIME type       : image/jpeg
 20030925_201850.jpg  Image size      : 150 x 91
 20030925_201850.jpg: No Exif data found in the file
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 20001026_044550.jpg  File name       : 20001026_044550.jpg
 20001026_044550.jpg  File size       : 4745 Bytes
 20001026_044550.jpg  MIME type       : image/jpeg
 20001026_044550.jpg  Image size      : 150 x 91
 20001026_044550.jpg: No Exif data found in the file
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 20030926_111535.jpg  File name       : 20030926_111535.jpg
 20030926_111535.jpg  File size       : 4745 Bytes
 20030926_111535.jpg  MIME type       : image/jpeg
 20030926_111535.jpg  Image size      : 150 x 91
 20030926_111535.jpg: No Exif data found in the file
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 20040316_075137.jpg  File name       : 20040316_075137.jpg
 20040316_075137.jpg  File size       : 4745 Bytes
 20040316_075137.jpg  MIME type       : image/jpeg
 20040316_075137.jpg  Image size      : 150 x 91
 20040316_075137.jpg: No Exif data found in the file
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 20040208_093744.jpg  File name       : 20040208_093744.jpg
 20040208_093744.jpg  File size       : 4745 Bytes
 20040208_093744.jpg  MIME type       : image/jpeg
 20040208_093744.jpg  Image size      : 150 x 91
 20040208_093744.jpg: No Exif data found in the file
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 20050218_212016.jpg  File name       : 20050218_212016.jpg
 20050218_212016.jpg  File size       : 4745 Bytes
 20050218_212016.jpg  MIME type       : image/jpeg
 20050218_212016.jpg  Image size      : 150 x 91
 20050218_212016.jpg: No Exif data found in the file
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 20050527_051833.jpg  File name       : 20050527_051833.jpg
 20050527_051833.jpg  File size       : 4745 Bytes
 20050527_051833.jpg  MIME type       : image/jpeg
 20050527_051833.jpg  Image size      : 150 x 91
 20050527_051833.jpg: No Exif data found in the file
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 20060802_095200.jpg  File name       : 20060802_095200.jpg
 20060802_095200.jpg  File size       : 4745 Bytes
 20060802_095200.jpg  MIME type       : image/jpeg
 20060802_095200.jpg  Image size      : 150 x 91
 20060802_095200.jpg: No Exif data found in the file
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 20001004_015404.jpg  File name       : 20001004_015404.jpg
 20001004_015404.jpg  File size       : 4745 Bytes
 20001004_015404.jpg  MIME type       : image/jpeg
 20001004_015404.jpg  Image size      : 150 x 91
 20001004_015404.jpg: No Exif data found in the file
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 20060127_225027.jpg  File name       : 20060127_225027.jpg
 20060127_225027.jpg  File size       : 4745 Bytes
 20060127_225027.jpg  MIME type       : image/jpeg
 20060127_225027.jpg  Image size      : 150 x 91
 20060127_225027.jpg: No Exif data found in the file
+File 16/16: 20110626_213900.psd
+20110626_213900.psd  File name       : 20110626_213900.psd
+20110626_213900.psd  File size       : 48170 Bytes
+20110626_213900.psd  MIME type       : image/x-photoshop
+20110626_213900.psd  Image size      : 150 x 91
+20110626_213900.psd: No Exif data found in the file
 
 Insert Exif data ---------------------------------------------------------
-File  1/15: exiv2-empty.jpg
-File  2/15: 20031214_000043.jpg
+File  1/16: exiv2-empty.jpg
+File  2/16: 20031214_000043.jpg
 Writing Exif data from ./20031214_000043.exv to 20031214_000043.jpg
-File  3/15: 20000506_020544.jpg
+File  3/16: 20000506_020544.jpg
 Writing Exif data from ./20000506_020544.exv to 20000506_020544.jpg
-File  4/15: 20040329_224245.jpg
+File  4/16: 20040329_224245.jpg
 Writing Exif data from ./20040329_224245.exv to 20040329_224245.jpg
-File  5/15: 20010405_235039.jpg
+File  5/16: 20010405_235039.jpg
 Writing Exif data from ./20010405_235039.exv to 20010405_235039.jpg
-File  6/15: 20030925_201850.jpg
+File  6/16: 20030925_201850.jpg
 Writing Exif data from ./20030925_201850.exv to 20030925_201850.jpg
-File  7/15: 20001026_044550.jpg
+File  7/16: 20001026_044550.jpg
 Writing Exif data from ./20001026_044550.exv to 20001026_044550.jpg
 Writing JPEG comment from ./20001026_044550.exv to 20001026_044550.jpg
-File  8/15: 20030926_111535.jpg
+File  8/16: 20030926_111535.jpg
 Writing Exif data from ./20030926_111535.exv to 20030926_111535.jpg
-File  9/15: 20040316_075137.jpg
+File  9/16: 20040316_075137.jpg
 Writing Exif data from ./20040316_075137.exv to 20040316_075137.jpg
-File 10/15: 20040208_093744.jpg
+File 10/16: 20040208_093744.jpg
 Writing Exif data from ./20040208_093744.exv to 20040208_093744.jpg
-File 11/15: 20050218_212016.jpg
+File 11/16: 20050218_212016.jpg
 Writing Exif data from ./20050218_212016.exv to 20050218_212016.jpg
-File 12/15: 20050527_051833.jpg
+File 12/16: 20050527_051833.jpg
 Writing Exif data from ./20050527_051833.exv to 20050527_051833.jpg
-File 13/15: 20060802_095200.jpg
+File 13/16: 20060802_095200.jpg
 Writing Exif data from ./20060802_095200.exv to 20060802_095200.jpg
-File 14/15: 20001004_015404.jpg
+File 14/16: 20001004_015404.jpg
 Writing Exif data from ./20001004_015404.exv to 20001004_015404.jpg
-File 15/15: 20060127_225027.jpg
+File 15/16: 20060127_225027.jpg
 Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
+File 16/16: 20110626_213900.psd
+Writing Exif data from ./20110626_213900.exv to 20110626_213900.psd
+Writing IPTC data from ./20110626_213900.exv to 20110626_213900.psd
+Writing XMP data from ./20110626_213900.exv to 20110626_213900.psd
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------
-1,1540c1,1540
-< File  1/15: exiv2-empty.jpg
-< File  2/15: 20031214_000043.jpg
+1,1562c1,1562
+< File  1/16: exiv2-empty.jpg
+< File  2/16: 20031214_000043.jpg
 < 20031214_000043.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20031214_000043.jpg   Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 < 20031214_000043.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -5651,7 +5772,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20031214_000043.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 < 20031214_000043.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-< File  3/15: 20000506_020544.jpg
+< File  3/16: 20000506_020544.jpg
 < 20000506_020544.jpg   Exif.Image.ImageDescription                  Ascii      11            
 < 20000506_020544.jpg   Exif.Image.Make                              Ascii       6  NIKON
 < 20000506_020544.jpg   Exif.Image.Model                             Ascii       5  E990
@@ -5713,7 +5834,7 @@ Compare original and inserted image data ---------------------------------
 < 20000506_020544.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20000506_020544.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4084
 < 20000506_020544.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
-< File  4/15: 20040329_224245.jpg
+< File  4/16: 20040329_224245.jpg
 < 20040329_224245.jpg   Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 < 20040329_224245.jpg   Exif.Image.Model                             Ascii      10  NIKON D70
 < 20040329_224245.jpg   Exif.Image.Orientation                       Short       1  right, top
@@ -5883,7 +6004,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  30444
 < 20040329_224245.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
 < 20040329_224245.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File  5/15: 20010405_235039.jpg
+< File  5/16: 20010405_235039.jpg
 < 20010405_235039.jpg   Exif.Image.ImageDescription                  Ascii      11            
 < 20010405_235039.jpg   Exif.Image.Make                              Ascii       6  NIKON
 < 20010405_235039.jpg   Exif.Image.Model                             Ascii       5  E950
@@ -5940,7 +6061,7 @@ Compare original and inserted image data ---------------------------------
 < 20010405_235039.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20010405_235039.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 < 20010405_235039.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
-< File  6/15: 20030925_201850.jpg
+< File  6/16: 20030925_201850.jpg
 < 20030925_201850.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20030925_201850.jpg   Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL
 < 20030925_201850.jpg   Exif.Image.Orientation                       Short       1  right, top
@@ -6124,7 +6245,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20030925_201850.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 < 20030925_201850.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
-< File  7/15: 20001026_044550.jpg
+< File  7/16: 20001026_044550.jpg
 < 20001026_044550.jpg   Exif.Image.ImageDescription                  Ascii       0  
 < 20001026_044550.jpg   Exif.Image.Make                              Ascii      22  Eastman Kodak Company
 < 20001026_044550.jpg   Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
@@ -6164,7 +6285,7 @@ Compare original and inserted image data ---------------------------------
 < 20001026_044550.jpg   Exif.Thumbnail.XResolution                   Rational    1  72
 < 20001026_044550.jpg   Exif.Thumbnail.YResolution                   Rational    1  72
 < 20001026_044550.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
-< File  8/15: 20030926_111535.jpg
+< File  8/16: 20030926_111535.jpg
 < 20030926_111535.jpg   Exif.Image.Make                              Ascii       9  FUJIFILM
 < 20030926_111535.jpg   Exif.Image.Model                             Ascii      13  FinePixS2Pro
 < 20030926_111535.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -6242,7 +6363,7 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1204
 < 20030926_111535.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
 < 20030926_111535.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File  9/15: 20040316_075137.jpg
+< File  9/16: 20040316_075137.jpg
 < 20040316_075137.jpg   Exif.Image.Make                              Ascii       6  SIGMA
 < 20040316_075137.jpg   Exif.Image.Model                             Ascii      11  SIGMA SD10
 < 20040316_075137.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -6311,7 +6432,7 @@ Compare original and inserted image data ---------------------------------
 < 20040316_075137.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  303
 < 20040316_075137.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
 < 20040316_075137.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File 10/15: 20040208_093744.jpg
+< File 10/16: 20040208_093744.jpg
 < 20040208_093744.jpg   Exif.Image.ImageDescription                  Ascii      32  OLYMPUS DIGITAL CAMERA         
 < 20040208_093744.jpg   Exif.Image.Make                              Ascii      20  OLYMPUS CORPORATION
 < 20040208_093744.jpg   Exif.Image.Model                             Ascii       8  C8080WZ
@@ -6383,7 +6504,7 @@ Compare original and inserted image data ---------------------------------
 < 20040208_093744.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20040208_093744.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4084
 < 20040208_093744.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7306
-< File 11/15: 20050218_212016.jpg
+< File 11/16: 20050218_212016.jpg
 < 20050218_212016.jpg   Exif.Image.Make                              Ascii      10  Panasonic
 < 20050218_212016.jpg   Exif.Image.Model                             Ascii       8  DMC-FZ5
 < 20050218_212016.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -6468,7 +6589,7 @@ Compare original and inserted image data ---------------------------------
 < 20050218_212016.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  6804
 < 20050218_212016.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10308
 < 20050218_212016.jpg   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-< File 12/15: 20050527_051833.jpg
+< File 12/16: 20050527_051833.jpg
 < 20050527_051833.jpg   Exif.Image.ImageDescription                  Ascii      32                                 
 < 20050527_051833.jpg   Exif.Image.Make                              Ascii       5  SONY
 < 20050527_051833.jpg   Exif.Image.Model                             Ascii       7  DSC-W7
@@ -6533,7 +6654,7 @@ Compare original and inserted image data ---------------------------------
 < 20050527_051833.jpg   Exif.Thumbnail.DateTime                      Ascii      20  2005:05:27 17:19:34
 < 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2484
 < 20050527_051833.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
-< File 13/15: 20060802_095200.jpg
+< File 13/16: 20060802_095200.jpg
 < 20060802_095200.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20060802_095200.jpg   Exif.Image.Model                             Ascii      14  Canon EOS 20D
 < 20060802_095200.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -6753,7 +6874,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20060802_095200.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  9716
 < 20060802_095200.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6260
-< File 14/15: 20001004_015404.jpg
+< File 14/16: 20001004_015404.jpg
 < 20001004_015404.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20001004_015404.jpg   Exif.Image.Model                             Ascii      14  Canon EOS D30
 < 20001004_015404.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -6884,7 +7005,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20001004_015404.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 < 20001004_015404.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  13824
-< File 15/15: 20060127_225027.jpg
+< File 15/16: 20060127_225027.jpg
 < 20060127_225027.jpg   Exif.Image.Make                              Ascii       6  Canon
 < 20060127_225027.jpg   Exif.Image.Model                             Ascii      21  Canon PowerShot A520
 < 20060127_225027.jpg   Exif.Image.Orientation                       Short       1  top, left
@@ -7062,9 +7183,31 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 < 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2548
 < 20060127_225027.jpg   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
+< File 16/16: 20110626_213900.psd
+< 20110626_213900.psd   Exif.Image.ImageWidth                        Short       1  150
+< 20110626_213900.psd   Exif.Image.ImageLength                       Short       1  91
+< 20110626_213900.psd   Exif.Image.BitsPerSample                     Short       3  8 8 8
+< 20110626_213900.psd   Exif.Image.Orientation                       Short       1  top, left
+< 20110626_213900.psd   Exif.Image.SamplesPerPixel                   Short       1  3
+< 20110626_213900.psd   Exif.Image.XResolution                       Rational    1  72
+< 20110626_213900.psd   Exif.Image.YResolution                       Rational    1  72
+< 20110626_213900.psd   Exif.Image.ResolutionUnit                    Short       1  inch
+< 20110626_213900.psd   Exif.Image.Software                          Ascii      30  Adobe Photoshop CS5 Macintosh
+< 20110626_213900.psd   Exif.Image.DateTime                          Ascii      20  2011:06:26 21:39:00
+< 20110626_213900.psd   Exif.Image.ExifTag                           Long        1  218
+< 20110626_213900.psd   Exif.Photo.ExifVersion                       Undefined   4  2.21
+< 20110626_213900.psd   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+< 20110626_213900.psd   Exif.Photo.PixelXDimension                   Long        1  150
+< 20110626_213900.psd   Exif.Photo.PixelYDimension                   Long        1  91
+< 20110626_213900.psd   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+< 20110626_213900.psd   Exif.Thumbnail.XResolution                   Rational    1  72
+< 20110626_213900.psd   Exif.Thumbnail.YResolution                   Rational    1  72
+< 20110626_213900.psd   Exif.Thumbnail.ResolutionUnit                Short       1  inch
+< 20110626_213900.psd   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  366
+< 20110626_213900.psd   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0
 ---
-> File  1/15: exiv2-empty.exv
-> File  2/15: 20031214_000043.exv
+> File  1/16: exiv2-empty.exv
+> File  2/16: 20031214_000043.exv
 > 20031214_000043.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20031214_000043.exv   Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 > 20031214_000043.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -7192,7 +7335,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20031214_000043.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1552
 > 20031214_000043.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-> File  3/15: 20000506_020544.exv
+> File  3/16: 20000506_020544.exv
 > 20000506_020544.exv   Exif.Image.ImageDescription                  Ascii      11            
 > 20000506_020544.exv   Exif.Image.Make                              Ascii       6  NIKON
 > 20000506_020544.exv   Exif.Image.Model                             Ascii       5  E990
@@ -7254,7 +7397,7 @@ Compare original and inserted image data ---------------------------------
 > 20000506_020544.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20000506_020544.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1332
 > 20000506_020544.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7829
-> File  4/15: 20040329_224245.exv
+> File  4/16: 20040329_224245.exv
 > 20040329_224245.exv   Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 > 20040329_224245.exv   Exif.Image.Model                             Ascii      10  NIKON D70
 > 20040329_224245.exv   Exif.Image.Orientation                       Short       1  right, top
@@ -7424,7 +7567,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  30414
 > 20040329_224245.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  8930
 > 20040329_224245.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File  5/15: 20010405_235039.exv
+> File  5/16: 20010405_235039.exv
 > 20010405_235039.exv   Exif.Image.ImageDescription                  Ascii      11            
 > 20010405_235039.exv   Exif.Image.Make                              Ascii       6  NIKON
 > 20010405_235039.exv   Exif.Image.Model                             Ascii       5  E950
@@ -7481,7 +7624,7 @@ Compare original and inserted image data ---------------------------------
 > 20010405_235039.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20010405_235039.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1154
 > 20010405_235039.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662
-> File  6/15: 20030925_201850.exv
+> File  6/16: 20030925_201850.exv
 > 20030925_201850.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20030925_201850.exv   Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL
 > 20030925_201850.exv   Exif.Image.Orientation                       Short       1  right, top
@@ -7665,7 +7808,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20030925_201850.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2530
 > 20030925_201850.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728
-> File  7/15: 20001026_044550.exv
+> File  7/16: 20001026_044550.exv
 > 20001026_044550.exv   Exif.Image.ImageDescription                  Ascii       0  
 > 20001026_044550.exv   Exif.Image.Make                              Ascii      22  Eastman Kodak Company
 > 20001026_044550.exv   Exif.Image.Model                             Ascii      20  DC210 Zoom (V05.00)
@@ -7705,7 +7848,7 @@ Compare original and inserted image data ---------------------------------
 > 20001026_044550.exv   Exif.Thumbnail.XResolution                   Rational    1  72
 > 20001026_044550.exv   Exif.Thumbnail.YResolution                   Rational    1  72
 > 20001026_044550.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
-> File  8/15: 20030926_111535.exv
+> File  8/16: 20030926_111535.exv
 > 20030926_111535.exv   Exif.Image.Make                              Ascii       9  FUJIFILM
 > 20030926_111535.exv   Exif.Image.Model                             Ascii      13  FinePixS2Pro
 > 20030926_111535.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -7783,7 +7926,7 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1204
 > 20030926_111535.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573
 > 20030926_111535.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File  9/15: 20040316_075137.exv
+> File  9/16: 20040316_075137.exv
 > 20040316_075137.exv   Exif.Image.Make                              Ascii       6  SIGMA
 > 20040316_075137.exv   Exif.Image.Model                             Ascii      11  SIGMA SD10
 > 20040316_075137.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -7852,7 +7995,7 @@ Compare original and inserted image data ---------------------------------
 > 20040316_075137.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1228
 > 20040316_075137.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  11998
 > 20040316_075137.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File 10/15: 20040208_093744.exv
+> File 10/16: 20040208_093744.exv
 > 20040208_093744.exv   Exif.Image.ImageDescription                  Ascii      32  OLYMPUS DIGITAL CAMERA         
 > 20040208_093744.exv   Exif.Image.Make                              Ascii      20  OLYMPUS CORPORATION
 > 20040208_093744.exv   Exif.Image.Model                             Ascii       8  C8080WZ
@@ -7924,7 +8067,7 @@ Compare original and inserted image data ---------------------------------
 > 20040208_093744.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20040208_093744.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2104
 > 20040208_093744.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7306
-> File 11/15: 20050218_212016.exv
+> File 11/16: 20050218_212016.exv
 > 20050218_212016.exv   Exif.Image.Make                              Ascii      10  Panasonic
 > 20050218_212016.exv   Exif.Image.Model                             Ascii       8  DMC-FZ5
 > 20050218_212016.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -8009,7 +8152,7 @@ Compare original and inserted image data ---------------------------------
 > 20050218_212016.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  6800
 > 20050218_212016.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10308
 > 20050218_212016.exv   Exif.Thumbnail.YCbCrPositioning              Short       1  Co-sited
-> File 12/15: 20050527_051833.exv
+> File 12/16: 20050527_051833.exv
 > 20050527_051833.exv   Exif.Image.ImageDescription                  Ascii      32                                 
 > 20050527_051833.exv   Exif.Image.Make                              Ascii       5  SONY
 > 20050527_051833.exv   Exif.Image.Model                             Ascii       7  DSC-W7
@@ -8074,7 +8217,7 @@ Compare original and inserted image data ---------------------------------
 > 20050527_051833.exv   Exif.Thumbnail.DateTime                      Ascii      20  2005:05:27 17:19:34
 > 20050527_051833.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2484
 > 20050527_051833.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  15605
-> File 13/15: 20060802_095200.exv
+> File 13/16: 20060802_095200.exv
 > 20060802_095200.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20060802_095200.exv   Exif.Image.Model                             Ascii      14  Canon EOS 20D
 > 20060802_095200.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -8294,7 +8437,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20060802_095200.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  9368
 > 20060802_095200.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6260
-> File 14/15: 20001004_015404.exv
+> File 14/16: 20001004_015404.exv
 > 20001004_015404.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20001004_015404.exv   Exif.Image.Model                             Ascii      14  Canon EOS D30
 > 20001004_015404.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -8425,7 +8568,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20001004_015404.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1642
 > 20001004_015404.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  13824
-> File 15/15: 20060127_225027.exv
+> File 15/16: 20060127_225027.exv
 > 20060127_225027.exv   Exif.Image.Make                              Ascii       6  Canon
 > 20060127_225027.exv   Exif.Image.Model                             Ascii      21  Canon PowerShot A520
 > 20060127_225027.exv   Exif.Image.Orientation                       Short       1  top, left
@@ -8603,3 +8746,25 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
 > 20060127_225027.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1990
 > 20060127_225027.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6137
+> File 16/16: 20110626_213900.exv
+> 20110626_213900.exv   Exif.Image.ImageWidth                        Short       1  150
+> 20110626_213900.exv   Exif.Image.ImageLength                       Short       1  91
+> 20110626_213900.exv   Exif.Image.BitsPerSample                     Short       3  8 8 8
+> 20110626_213900.exv   Exif.Image.Orientation                       Short       1  top, left
+> 20110626_213900.exv   Exif.Image.SamplesPerPixel                   Short       1  3
+> 20110626_213900.exv   Exif.Image.XResolution                       Rational    1  72
+> 20110626_213900.exv   Exif.Image.YResolution                       Rational    1  72
+> 20110626_213900.exv   Exif.Image.ResolutionUnit                    Short       1  inch
+> 20110626_213900.exv   Exif.Image.Software                          Ascii      30  Adobe Photoshop CS5 Macintosh
+> 20110626_213900.exv   Exif.Image.DateTime                          Ascii      20  2011:06:26 21:39:00
+> 20110626_213900.exv   Exif.Image.ExifTag                           Long        1  218
+> 20110626_213900.exv   Exif.Photo.ExifVersion                       Undefined   4  2.21
+> 20110626_213900.exv   Exif.Photo.ColorSpace                        Short       1  Uncalibrated
+> 20110626_213900.exv   Exif.Photo.PixelXDimension                   Long        1  150
+> 20110626_213900.exv   Exif.Photo.PixelYDimension                   Long        1  91
+> 20110626_213900.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+> 20110626_213900.exv   Exif.Thumbnail.XResolution                   Rational    1  72
+> 20110626_213900.exv   Exif.Thumbnail.YResolution                   Rational    1  72
+> 20110626_213900.exv   Exif.Thumbnail.ResolutionUnit                Short       1  inch
+> 20110626_213900.exv   Exif.Thumbnail.JPEGInterchangeFormat         Long        1  366
+> 20110626_213900.exv   Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0
