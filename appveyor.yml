@@ -28,13 +28,9 @@ install:
     - if not exist ninja 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
     - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
     - ninja --version
-<<<<<<< HEAD
-    - pip.exe install conan==1.19.1
-=======
     - python -m pip install --upgrade pip
     - pip3.exe install conan==1.30.2
     - pip3.exe install lxml
->>>>>>> 3013f57e4... Use latest available version of Conan in CI
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
