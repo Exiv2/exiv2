@@ -28,13 +28,12 @@ add_library(exiv2-xmp STATIC
 
 target_link_libraries(exiv2-xmp
     PRIVATE 
-        ${EXPAT_LIBRARY}
+        $<BUILD_INTERFACE:${EXPAT_LIBRARY}>
 )
 
 target_include_directories(exiv2-xmp
-    PUBLIC 
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
     PRIVATE 
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
         ${EXPAT_INCLUDE_DIR}
 )
 
@@ -50,8 +49,9 @@ if (BUILD_SHARED_LIBS)
     set_property(TARGET exiv2-xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
-# 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
-install(TARGETS exiv2-xmp EXPORT exiv2Config
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+# The private dependencies of a static library still need to be exported because they are needed to properly link the consumers of the static library.
+install(TARGETS exiv2-xmp EXPORT exiv2Config	
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}	
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}	
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
