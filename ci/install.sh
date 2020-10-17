@@ -2,12 +2,21 @@
 set -e # Enables cheking of return values from each command
 set -x # Prints every command
 
+# This file is only used from Travis CI, where the only Linux distro used is Ubuntu
+
 python --version
 python3 --version
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
-    sudo apt-get install cmake zlib1g-dev libssh-dev python-pip libxml2-utils
+
+    if [[ "$(lsb_release -cs)" == 'focal' ]]; then
+        # In Ubuntu 20.04 python-pip does not exist. Furthermore we need to have the alias python for python3
+        sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip python-is-python3 libxml2-utils
+    else
+        sudo apt-get install cmake zlib1g-dev libssh-dev python-pip libxml2-utils
+    fi
+
     if [ -n "$WITH_VALGRIND" ]; then
         sudo apt-get install valgrind
     fi
