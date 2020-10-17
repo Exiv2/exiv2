@@ -211,7 +211,7 @@ else()
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
 endif()
 
 if( EXIV2_ENABLE_NLS )
