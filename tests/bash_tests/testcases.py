@@ -289,7 +289,6 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
 
     def exiv2_test(self):
-        return # TODO: synced with test/exiv2-test.sh to deal with PSD files (#1342)
         # Add each image to the following three lists.
         # The image basename in the second and third lists
         # is the Exif timestamp adjusted by -12:01:01.
@@ -309,6 +308,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'exiv2-canon-eos-20d.jpg'
             ,'exiv2-canon-eos-d30.jpg'
             ,'exiv2-canon-powershot-a520.jpg'
+            ,'exiv2-photoshop.psd'
         ]
 
         images_2 = [
@@ -327,6 +327,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'20060802_095200.jpg'
             ,'20001004_015404.jpg'
             ,'20060127_225027.jpg'
+            ,'20110626_213900.psd'
         ]
 
         images_3 = [
@@ -345,13 +346,14 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ,'20060802_095200.exv'
             ,'20001004_015404.exv'
             ,'20060127_225027.exv'
+            ,'20110626_213900.exv'
         ]
 
         images_1_str = ' '.join(images_1)
         images_2_str = ' '.join(images_2)
         images_3_str = ' '.join(images_3)
 
-        for i in images_1:
+        for i in images_1 + ['20110626_213900.psd']:
             BT.copyTestFile(i)
 
         out  = BT.Output()
