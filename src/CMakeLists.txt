@@ -140,6 +140,15 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_STATIC
 )
 
+<<<<<<< HEAD
+=======
+target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
+target_include_directories(exiv2lib PRIVATE 
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
+    ${ZLIB_INCLUDE_DIR}
+)
+
+>>>>>>> 8dc42199e... Hide exiv2-xmp dependency in CMake config file:
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
