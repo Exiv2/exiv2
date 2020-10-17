@@ -26,6 +26,38 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
+    - name: "Ubuntu 18.04 - gcc (Release)"
+      os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 18.04 - gcc (Debug)"
+      os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 20.04 - gcc (Release)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 20.04 - gcc (Debug)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+
     - name: "Ubuntu 16.04 - gcc-5.4 with coverage"
       os: linux
       dist: xenial
