@@ -14,13 +14,13 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo pip install virtualenv
     virtualenv conan
     source conan/bin/activate
-    pip install conan==1.22.0
+    pip install conan==1.30.2
     pip install codecov
 else
     sudo pip3 install virtualenv
     virtualenv conan
     source conan/bin/activate
-    pip3 install conan==1.22.0
+    pip3 install conan==1.30.2
     pip3 install codecov
 fi
 
