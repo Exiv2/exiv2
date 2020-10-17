@@ -203,11 +203,15 @@ else()
 endif()
 
 if( EXIV2_ENABLE_PNG )
+<<<<<<< HEAD
     # TODO: target_link_libraries does not work with OBJECT libraries (exiv2lib_int) with old cmake
     # versions. Use it once we require a more recent version in the root CMakeLists.txt
     # target_link_libraries( exiv2lib_int PRIVATE ZLIB::ZLIB)
     target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
     target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
+=======
+    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
+>>>>>>> 44debddf4... Hide zlib absolute path in cmake config file
 endif()
 
 if( EXIV2_ENABLE_NLS )
