@@ -11,7 +11,7 @@
 
 using format_t = std::map<std::string, int>;
 using format_i = format_t::const_iterator;
-typedef enum  { wolf ,  csv , json , xml } format_e;
+using format_e = enum { wolf, csv, json, xml };
 
 void syntax(const char* argv[],format_t& formats)
 {
