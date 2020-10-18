@@ -36,6 +36,7 @@
 // + standard includes
 #include <sys/stat.h>   // for stat()
 #include <sys/types.h>  // for stat()
+
 #include <fstream>
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>  // for stat()
@@ -528,27 +529,22 @@ std::unique_ptr<Task> Task::clone() const {
 
     bool Print::grepTag(const std::string& key)
     {
-        bool result = Params::instance().greps_.empty();
-        for (const auto& g : Params::instance().greps_) {
-            if (result) {
-                break;
-            }
+        if (Params::instance().greps_.empty())
+            return true;
+
+        return std::any_of(Params::instance().greps_.begin(), Params::instance().greps_.end(), [&](const re::regex& g) {
             re::smatch m;
-            result = re::regex_search(key, m, g);
-        }
-        return result;
+            return re::regex_search(key, m, g);
+        });
     }
 
     bool Print::keyTag(const std::string& key)
     {
-        bool result = Params::instance().keys_.empty();
-        for (const auto& k : Params::instance().keys_) {
-            if (result) {
-                break;
-            }
-            result = key == k;
-        }
-        return result;
+        if (Params::instance().keys_.empty())
+            return true;
+
+        return std::any_of(Params::instance().keys_.begin(), Params::instance().keys_.end(),
+                           [&](const std::string& k) { return key == k; });
     }
 
     bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
