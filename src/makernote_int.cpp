@@ -84,11 +84,11 @@ namespace {
     std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot);
     //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, size_t size, uint32_t count, uint32_t serial);
-}
+    } // namespace
 
-// *****************************************************************************
-// class member definitions
-namespace Exiv2 {
+    // *****************************************************************************
+    // class member definitions
+    namespace Exiv2 {
     namespace Internal {
 
         std::string getExiv2ConfigPath()

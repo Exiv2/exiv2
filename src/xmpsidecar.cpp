@@ -45,11 +45,10 @@ namespace {
     const char* xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
     const long xmlHdrCnt = static_cast<long>(std::strlen(xmlHeader));  // without the trailing 0-character
     const char* xmlFooter = "<?xpacket end=\"w\"?>";
-}
+    } // namespace
 
-// class member definitions
-namespace Exiv2 {
-
+    // class member definitions
+    namespace Exiv2 {
 
     XmpSidecar::XmpSidecar(BasicIo::UniquePtr io, bool create)
         : Image(ImageType::xmp, mdXmp, std::move(io))

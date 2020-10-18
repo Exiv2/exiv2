@@ -51,16 +51,7 @@
 #include <cassert>
 #include <cstdio>
 
-// *****************************************************************************
-// class member definitions
 namespace Exiv2 {
-    namespace Internal {
-
-    }}                                      // namespace Internal, Exiv2
-
-namespace Exiv2 {
-    using namespace Exiv2::Internal;
-
     WebPImage::WebPImage(BasicIo::UniquePtr io)
     : Image(ImageType::webp, mdNone, std::move(io))
     {
