@@ -866,24 +866,21 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     def nls_test(self):
         # Test driver for exiv2.exe nls support
         nls          = BT.Executer('exiv2 -vVg nls').stdout.split('\n')[1]
-        platform     = BT.Executer('exiv2 -vVg platform').stdout.split('\n')[1]
-
         if nls      != 'enable_nls=1':
             print('Skipped. Because exiv2 is not built with nls.')
             return
 
-        if platform == 'platform=windows':
-            print('Skipped. Because nls_test cannot be run msvc builds.')
+        if BT.Config.system_name == 'Windows':
+            print('Skipped. Because nls_test is not supported on Windows.')
             return
 
-        if platform == 'platform=linux':
+        if BT.Config.system_name == 'Linux':
             LANG = 'LANGUAGE'
         else:
             LANG = 'LANG'
 
         share_dir    = os.path.normpath(os.path.join(BT.Config.bin_dir, '..', 'share2'))
         os.makedirs(share_dir, exist_ok=True)
-
         locale_dir   = '/usr/local/share/locale'
         if os.path.isdir(locale_dir) and os.path.isdir(share_dir):
             BT.cp(locale_dir, share_dir)
@@ -893,7 +890,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # The above part is checking the environment, and the following part is executing the actual test
         out      = BT.Output()
         for language in ['fr_FR', 'es_ES']:
-            out += BT.Executer('exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1])
+            e    = BT.Executer(cmd='exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1], decode_output=False)
+            out += e.stdout.split(b'\n')[0].decode()
         BT.reportTest('nls-test', out)
 
 
@@ -907,18 +905,6 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
     def png_test(self):
         # Test PNG support (-pS, -pc, -c, -pa)
-#       files="1343_empty.png 1343_comment.png 1343_exif.png"
-#       copyTestFiles  $files
-#       runTest exiv2 -c 'comment in Reagan to hide non UTF-8 bytes'
-#       for file in $files ; do
-#           for  i in 1 2 ; do 
-#               runTest exiv2 -pS   $file
-#               runTest exiv2 -pc   $file
-#               runTest exiv2 -pa   $file
-#               runTest exiv2 -c  'changed comment' $file
-#           done
-#       done
-
         out   = BT.Output()
         files = ['1343_empty.png'
                 ,'1343_comment.png'

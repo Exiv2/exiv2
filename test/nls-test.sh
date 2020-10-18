@@ -35,11 +35,11 @@ source ./functions.source
     fi
     ##
     # test a couple of languages
-	for l in fr_FR es_ES; do (
+	for l in fr_FR es_ES; do
 		export LC_ALL=$l
 		export $LANG=$l 
-		runTest exiv2
-    ) done
+		runTest exiv2 2>&1 | head -n 1
+    done
 
 ) 3>&1 > $results 2>&1
 
