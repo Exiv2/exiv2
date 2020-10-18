@@ -564,22 +564,28 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
     def io_test(self):
         # Test driver for file i/o
-        test_files = ['table.jpg', 'smiley2.jpg', 'ext.dat']
+        test_files  = ['table.jpg', 'smiley2.jpg', 'ext.dat']
         for f in test_files:
             BT.copyTestFile(f)
             BT.ioTest(f)
 
         # Test http I/O
         def sniff(*files):
-            result       = [str(os.path.getsize(i)) for i in files]
-            result      += [BT.md5sum(i) for i in files]
+            result  = [str(os.path.getsize(i)) for i in files]
+            result += [BT.md5sum(i) for i in files]
             return ' '.join(result)
 
-        server_url = '{}:{}'.format(BT.Config.exiv2_http,
-                                    BT.Config.exiv2_port)
-        server     = BT.HttpServer(bind=BT.Config.exiv2_http.lstrip('http://'),
-                                   port=BT.Config.exiv2_port,
-                                   work_dir=BT.Config.data_dir)
+        exiv2_http  = BT.Config.exiv2_http
+        exiv2_port  = BT.Config.exiv2_port
+        if not exiv2_http or not exiv2_port:
+            print('Skipped http test. Because of invalid environment variables: EXIV2_HTTP={} EXIV2_PORT={}'.format(
+                  exiv2_http, exiv2_port))
+            return
+        server_url  = '{}:{}'.format(exiv2_http,
+                                     exiv2_port)
+        server      = BT.HttpServer(bind=exiv2_http.lstrip('http://'),
+                                    port=exiv2_port,    # It can be of type int or str
+                                    work_dir=BT.Config.data_dir)
         try:
             server.start()
             out          = BT.Output()

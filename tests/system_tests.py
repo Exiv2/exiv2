@@ -154,13 +154,12 @@ def configure_suite(config_file):
                 )
             )
 
-    # extract variables from the environment
+    # Extract the environment variables according to config['ENV'].
+    # When an environment variable does not exist, set its default value according to config['ENV fallback'].
     for key in config['ENV']:
-        if key in config['ENV fallback']:
-            fallback = config['ENV fallback'][key]
-        else:
-            fallback = ""
-        config['ENV'][key] = os.getenv(config['ENV'][key]) or fallback
+        env_name            = config['ENV'][key]
+        env_fallback        = config['ENV fallback'].get(key, '')
+        config['ENV'][key]  = os.environ.get(env_name, env_fallback)
 
     if 'variables' in config:
         for key in config['variables']:
@@ -206,8 +205,7 @@ def configure_suite(config_file):
     BT.Config.data_dir      = os.path.abspath(config['paths']['data_path'])
     BT.Config.tmp_dir       = os.path.abspath(config['paths']['tmp_path'])
     BT.Config.exiv2_http    = config['ENV']['exiv2_http']
-    BT.Config.exiv2_port    = int(config['ENV']['exiv2_port'])
-    # print(dict(config['ENV'])); exit(1)     # for debug
+    BT.Config.exiv2_port    = config['ENV']['exiv2_port']
 
 
 class FileDecoratorBase(object):
