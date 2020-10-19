@@ -918,7 +918,7 @@ namespace Exiv2 {
         {  137, "Tamron SP 60mm f/2 Macro Di II"                            }, // 12
         {  137, "Sigma 10-20mm f/3.5 EX DC HSM"                             }, // 13
         {  137, "Tamron SP 24-70mm f/2.8 Di VC USD"                         }, // 14
-        {  137, "Sigma 18-35mm f/1.8 DC HSM"                                }, // 15
+        {  137, "Sigma 18-35mm f/1.8 DC HSM | A"                            }, // 15
         {  137, "Sigma 12-24mm f/4.5-5.6 DG HSM II"                         }, // 16
         {  137, "Sigma 70-300mm f/4-5.6 DG OS"                              }, // 17
         {  138, "Canon EF 28-80mm f/2.8-4L"                                 },
@@ -1147,6 +1147,7 @@ namespace Exiv2 {
         {  368, "Sigma 105mm f/1.4 DG HSM"                                  }, // 8
         {  368, "Sigma 14-24mm f/2.8 DG HSM"                                }, // 9
         {  368, "Sigma 70mm f/2.8 DG Macro"                                 }, // 10
+        {  368, "Sigma 18-35mm f/1.8 DC HSM | A"                            }, // 11
         {  488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                       },
         {  489, "Canon EF 70-300mm f/4-5.6L IS USM"                         },
         {  490, "Canon EF 8-15mm f/4L Fisheye USM"                          },
@@ -1281,6 +1282,7 @@ namespace Exiv2 {
         { 250, printCsLensByFocalLength }, // not tested
         { 254, printCsLensByFocalLength },
         { 255, printCsLensByFocalLength }, // not tested
+        { 368, printCsLensByFocalLength },
         { 491, printCsLensByFocalLength },
         { 493, printCsLensByFocalLength }, // not tested
         { 624, printCsLensByFocalLengthTC },
