@@ -1304,7 +1304,10 @@ namespace
         int target = 0;
         int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
         int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
-        for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
+        for (size_t i = 0; i < optarg.size(); ++i) {
+            if (rc != 0) {
+                break;
+            }
             switch (optarg[i]) {
                 case 'e':
                     target |= Params::ctExif;

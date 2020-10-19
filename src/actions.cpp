@@ -36,6 +36,7 @@
 // + standard includes
 #include <sys/stat.h>   // for stat()
 #include <sys/types.h>  // for stat()
+
 #include <fstream>
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>  // for stat()
@@ -528,22 +529,22 @@ std::unique_ptr<Task> Task::clone() const {
 
     bool Print::grepTag(const std::string& key)
     {
-        bool result = Params::instance().greps_.empty();
-        for (auto g = Params::instance().greps_.begin(); !result && g != Params::instance().greps_.end(); ++g)
-        {
+        if (Params::instance().greps_.empty())
+            return true;
+
+        return std::any_of(Params::instance().greps_.begin(), Params::instance().greps_.end(), [&](const re::regex& g) {
             re::smatch m;
-            result = re::regex_search(key, m, *g);
-        }
-        return result;
+            return re::regex_search(key, m, g);
+        });
     }
 
     bool Print::keyTag(const std::string& key)
     {
-        bool result = Params::instance().keys_.empty();
-        for (auto k = Params::instance().keys_.begin(); !result && k != Params::instance().keys_.end(); ++k) {
-            result = key == *k;
-        }
-        return result;
+        if (Params::instance().keys_.empty())
+            return true;
+
+        return std::any_of(Params::instance().keys_.begin(), Params::instance().keys_.end(),
+                           [&](const std::string& k) { return key == k; });
     }
 
     bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
@@ -1947,8 +1948,8 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                for (auto& i : sourceImage->exifData()) {
-                    targetImage->exifData()[i.key()] = i.value();
+                for (const auto& exif : sourceImage->exifData()) {
+                    targetImage->exifData()[exif.key()] = exif.value();
                 }
             } else {
                 targetImage->setExifData(sourceImage->exifData());
@@ -1960,8 +1961,8 @@ namespace
                           << std::endl;
             }
             if (preserve) {
-                for (auto& i : sourceImage->iptcData()) {
-                    targetImage->iptcData()[i.key()] = i.value();
+                for (const auto& iptc : sourceImage->iptcData()) {
+                    targetImage->iptcData()[iptc.key()] = iptc.value();
                 }
             } else {
                 targetImage->setIptcData(sourceImage->iptcData());
@@ -1985,8 +1986,8 @@ namespace
                 os.close();
                 rc = 0;
             } else if (preserve) {
-                for (auto& i : sourceImage->xmpData()) {
-                    targetImage->xmpData()[i.key()] = i.value();
+                for (const auto& xmp : sourceImage->xmpData()) {
+                    targetImage->xmpData()[xmp.key()] = xmp.value();
                 }
             } else {
                 // std::cout << "long cut" << std::endl;

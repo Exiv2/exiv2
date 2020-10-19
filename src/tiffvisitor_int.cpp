@@ -736,7 +736,7 @@ namespace Exiv2 {
         assert(object != nullptr);
 
         byte* p = object->start() + 2;
-        for (auto& component : object->components_) {
+        for (const auto& component : object->components_) {
             p += updateDirEntry(p, byteOrder(), component);
         }
     }
@@ -801,7 +801,7 @@ namespace Exiv2 {
             static const char* synthesizedTags[] = {
                 "Exif.MakerNote.Offset",
             };
-            for (auto& synthesizedTag : synthesizedTags) {
+            for (const auto& synthesizedTag : synthesizedTags) {
                 pos = exifData_.findKey(ExifKey(synthesizedTag));
                 if (pos != exifData_.end())
                     exifData_.erase(pos);

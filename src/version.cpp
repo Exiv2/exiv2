@@ -63,16 +63,15 @@ std::string Exiv2::versionNumberHexString()
 
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
-    bool bPrint = greps.empty();
-    for (auto g = greps.begin(); !bPrint && g != greps.end(); ++g) {
+    if (greps.empty())
+        return true;
+
+    return std::any_of(greps.begin(), greps.end(), [key, &value](const re::regex& g) {
         re::smatch m;
         const std::string Key(key);
 
-        bPrint = (  re::regex_search( Key, m, *g)
-                 || re::regex_search( value, m, *g)
-                 );
-    }
-    return bPrint;
+        return re::regex_search(Key, m, g) || re::regex_search(value, m, g);
+    });
 }
 
 static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)

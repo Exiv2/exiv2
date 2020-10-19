@@ -1205,14 +1205,13 @@ namespace Exiv2 {
         std::memset(buf.pData_, 0x0, buf.size_);
 
         uint16_t len = 0;
-        const auto b = exifData.begin();
-        const auto e = exifData.end();
-        for (ExifData::const_iterator i = b; i != e; ++i) {
-            if (i->ifdId() != ifdId) continue;
-            const uint16_t s = i->tag()*2 + static_cast<uint16_t>(i->size());
+        for (const auto& exif : exifData) {
+            if (exif.ifdId() != ifdId)
+                continue;
+            const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
             assert(s <= size);
             if (len < s) len = s;
-            i->copy(buf.pData_ + i->tag()*2, byteOrder);
+            exif.copy(buf.pData_ + exif.tag() * 2, byteOrder);
         }
         // Round the size to make it even.
         buf.size_ = len + len%2;

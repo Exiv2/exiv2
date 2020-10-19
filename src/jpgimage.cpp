@@ -829,7 +829,7 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
             uint32_t toggle = 0;
-            for (Uint32Vector_i i = iptcDataSegs.begin(); i != iptcDataSegs.end(); i++) {
+            for (const auto& seg : iptcDataSegs) {
                 std::cout << *i;
                 if (toggle++ % 2)
                     std::cout << std::endl;
