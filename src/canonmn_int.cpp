@@ -918,7 +918,7 @@ namespace Exiv2 {
         {  137, "Tamron SP 60mm f/2 Macro Di II"                            }, // 12
         {  137, "Sigma 10-20mm f/3.5 EX DC HSM"                             }, // 13
         {  137, "Tamron SP 24-70mm f/2.8 Di VC USD"                         }, // 14
-        {  137, "Sigma 18-35mm f/1.8 DC HSM"                                }, // 15
+        {  137, "Sigma 18-35mm f/1.8 DC HSM | A"                            }, // 15
         {  137, "Sigma 12-24mm f/4.5-5.6 DG HSM II"                         }, // 16
         {  137, "Sigma 70-300mm f/4-5.6 DG OS"                              }, // 17
         {  138, "Canon EF 28-80mm f/2.8-4L"                                 },
