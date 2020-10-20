@@ -920,28 +920,27 @@ namespace Jzon
 				else
 				{
 					// Store the unknown token, so we can show it to the user
-					data.push(MakePair(Value::VT_STRING, valueBuffer));
-					tokens.push(T_UNKNOWN);
-				}
+                    data.push(std::make_pair(Value::VT_STRING, valueBuffer));
+                    tokens.push(T_UNKNOWN);
+                }
 
-				valueBuffer.clear();
-			}
+                valueBuffer.clear();
+            }
 
-			// Push the token last so that any
-			// value token will get pushed first
-			// from above.
-			// If saveBuffer is false, it means that
-			// we are in the middle of a value, so we
-			// don't want to push any tokens now.
-			if (saveBuffer)
-			{
-				tokens.push(token);
-			}
-		}
-	}
-	bool Parser::assemble()
-	{
-		std::stack<Pair<std::string, Node*> > nodeStack;
+            // Push the token last so that any
+            // value token will get pushed first
+            // from above.
+            // If saveBuffer is false, it means that
+            // we are in the middle of a value, so we
+            // don't want to push any tokens now.
+            if (saveBuffer) {
+                tokens.push(token);
+            }
+        }
+    }
+    bool Parser::assemble()
+    {
+        std::stack<std::pair<std::string, Node *>> nodeStack;
 
         std::string name;
 
@@ -977,125 +976,107 @@ namespace Jzon
 						node = new Object;
 					}
 
-					nodeStack.push(MakePair(name, node));
-					name.clear();
-					break;
-				}
-			case T_ARRAY_BEGIN :
-				{
-					Node *node = nullptr;
-					if (nodeStack.empty())
-					{
-						if (!root.IsArray())
-						{
-							error = "The given root node is not an array";
-							return false;
-						}
-
-						node = &root;
-					}
-					else
-					{
-						node = new Array;
-					}
-
-					nodeStack.push(MakePair(name, node));
-					name.clear();
-					break;
-				}
-			case T_OBJ_END :
-			case T_ARRAY_END :
-				{
-					if (nodeStack.empty())
-					{
-						error = "Found end of object or array without beginning";
-						return false;
-					}
-					if (token == T_OBJ_END && !nodeStack.top().second->IsObject())
-					{
-						error = "Mismatched end and beginning of object";
-						return false;
-					}
-					if (token == T_ARRAY_END && !nodeStack.top().second->IsArray())
-					{
-						error = "Mismatched end and beginning of array";
-						return false;
-					}
-
-					std::string name = nodeStack.top().first;
-					Node *node = nodeStack.top().second;
-					nodeStack.pop();
-
-					if (!nodeStack.empty())
-					{
-						if (nodeStack.top().second->IsObject())
-						{
-							nodeStack.top().second->AsObject().Add(name, *node);
-						}
-						else if (nodeStack.top().second->IsArray())
-						{
-							nodeStack.top().second->AsArray().Add(*node);
-						}
-						else
-						{
-							error = "Can only add elements to objects and arrays";
-							return false;
-						}
-
-						delete node;
-						node = nullptr;
-					}
-					break;
-				}
-			case T_VALUE :
-				{
-					if (!tokens.empty() && tokens.front() == T_SEPARATOR_NAME)
-					{
-						tokens.pop();
-						if (data.front().first != Value::VT_STRING)
-						{
-							error = "A name has to be a string";
-							return false;
-						}
-
-                        name = data.front().second;
-                        data.pop();
-
-                    } else {
-                        Node *node = nullptr;
-                        if (nodeStack.empty()) {
-                            if (!root.IsValue()) {
-                                error = "The given root node is not a value";
-                                return false;
-                            }
-
-                            node = &root;
-                        } else {
-                            node = new Value;
-                        }
-
-                        if (data.front().first == Value::VT_STRING) {
-                            dynamic_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
-                        } else {
-                            dynamic_cast<Value *>(node)->Set(data.front().first, data.front().second);
-                        }
-                        data.pop();
-
-                        if (!nodeStack.empty()) {
-                            if (nodeStack.top().second->IsObject())
-                                nodeStack.top().second->AsObject().Add(name, *node);
-                            else if (nodeStack.top().second->IsArray())
-                                nodeStack.top().second->AsArray().Add(*node);
-
-                            delete node;
-                            node = nullptr;
-                            name.clear();
-                        } else {
-                            nodeStack.push(MakePair(name, node));
-                            name.clear();
-                        }
-                    }
+                    nodeStack.push(std::make_pair(name, node));
+                    name.clear();
                     break;
+            }
+            case T_ARRAY_BEGIN: {
+                Node *node = nullptr;
+                if (nodeStack.empty()) {
+                    if (!root.IsArray()) {
+                        error = "The given root node is not an array";
+                        return false;
+                    }
+
+                    node = &root;
+                } else {
+                    node = new Array;
+                }
+
+                nodeStack.push(std::make_pair(name, node));
+                name.clear();
+                break;
+            }
+            case T_OBJ_END:
+            case T_ARRAY_END: {
+                if (nodeStack.empty()) {
+                    error = "Found end of object or array without beginning";
+                    return false;
+                }
+                if (token == T_OBJ_END && !nodeStack.top().second->IsObject()) {
+                    error = "Mismatched end and beginning of object";
+                    return false;
+                }
+                if (token == T_ARRAY_END && !nodeStack.top().second->IsArray()) {
+                    error = "Mismatched end and beginning of array";
+                    return false;
+                }
+
+                std::string name = nodeStack.top().first;
+                Node *node = nodeStack.top().second;
+                nodeStack.pop();
+
+                if (!nodeStack.empty()) {
+                    if (nodeStack.top().second->IsObject()) {
+                        nodeStack.top().second->AsObject().Add(name, *node);
+                    } else if (nodeStack.top().second->IsArray()) {
+                        nodeStack.top().second->AsArray().Add(*node);
+                    } else {
+                        error = "Can only add elements to objects and arrays";
+                        return false;
+                    }
+
+                    delete node;
+                    node = nullptr;
+                }
+                break;
+            }
+            case T_VALUE: {
+                if (!tokens.empty() && tokens.front() == T_SEPARATOR_NAME) {
+                    tokens.pop();
+                    if (data.front().first != Value::VT_STRING) {
+                        error = "A name has to be a string";
+                        return false;
+                    }
+
+                    name = data.front().second;
+                    data.pop();
+
+                } else {
+                    Node *node = nullptr;
+                    if (nodeStack.empty()) {
+                        if (!root.IsValue()) {
+                            error = "The given root node is not a value";
+                            return false;
+                        }
+
+                        node = &root;
+                    } else {
+                        node = new Value;
+                    }
+
+                    if (data.front().first == Value::VT_STRING) {
+                        dynamic_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
+                    } else {
+                        dynamic_cast<Value *>(node)->Set(data.front().first, data.front().second);
+                    }
+                    data.pop();
+
+                    if (!nodeStack.empty()) {
+                        if (nodeStack.top().second->IsObject())
+                            nodeStack.top().second->AsObject().Add(name, *node);
+                        else if (nodeStack.top().second->IsArray())
+                            nodeStack.top().second->AsArray().Add(*node);
+
+                        delete node;
+                        node = nullptr;
+                        name.clear();
+                    } else {
+                        nodeStack.push(std::make_pair(name, node));
+                        name.clear();
+                    }
+                }
+                break;
             }
             case T_SEPARATOR_NAME:
             case T_SEPARATOR_NODE:
@@ -1106,12 +1087,11 @@ namespace Jzon
         return true;
     }
 
-	char Parser::peek()
-	{
-		if (cursor < jsonSize-1)
-		{
-			return json.at(cursor+1);
-		}
+    char Parser::peek()
+    {
+        if (cursor < jsonSize - 1) {
+            return json.at(cursor + 1);
+        }
 
         return '\0';
     }
@@ -1160,7 +1140,7 @@ namespace Jzon
 			c1 = c2;
 		}
 
-		data.push(MakePair(Value::VT_STRING, str));
+        data.push(std::make_pair(Value::VT_STRING, str));
     }
     bool Parser::interpretValue(const std::string &value)
     {
@@ -1169,16 +1149,16 @@ namespace Jzon
         std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
 
         if (upperValue == "nullptr") {
-            data.push(MakePair(Value::VT_NULL, std::string("")));
+            data.push(std::make_pair(Value::VT_NULL, std::string("")));
         } else if (upperValue == "TRUE") {
-            data.push(MakePair(Value::VT_BOOL, std::string("true")));
+            data.push(std::make_pair(Value::VT_BOOL, std::string("true")));
         } else if (upperValue == "FALSE") {
-            data.push(MakePair(Value::VT_BOOL, std::string("false")));
+            data.push(std::make_pair(Value::VT_BOOL, std::string("false")));
         } else {
             if (std::any_of(value.begin(), value.end(), [](char c) { return IsNumber(c); }))
                 return false;
 
-            data.push(MakePair(Value::VT_NUMBER, value));
+            data.push(std::make_pair(Value::VT_NUMBER, value));
         }
 
         return true;
