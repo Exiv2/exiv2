@@ -78,18 +78,20 @@ int main(int argc,const char** argv)
     std::cout << "errors = " << errors << std::endl;
     std::cout << std::endl;
 
-    for ( Exiv2::Dictionary_i it = response.begin() ; it != response.end() ; it++ ) {
+    for (const auto& r : response) {
         // don't show request header
-        if (it->first ==  "requestheaders") continue;
+        if (r.first == "requestheaders")
+            continue;
 
-        std::cout << it->first << " -> ";
+        std::cout << r.first << " -> ";
 
-        if ( it->first ==  "body") {
-        	std::string value(it->second);
-        	std::cout << "# " << value.length();
-        	if ( value.length() < 1000 ) std::cout << " = " << value ;
+        if (r.first == "body") {
+            std::string value(r.second);
+            std::cout << "# " << value.length();
+            if (value.length() < 1000)
+                std::cout << " = " << value;
         } else {
-        	std::cout << it->second;
+            std::cout << r.second;
         }
 
         std::cout << std::endl;

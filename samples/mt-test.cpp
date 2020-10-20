@@ -41,23 +41,19 @@ void reportExifMetadataCount(int n,const char* argv[])
 
 		Exiv2::ExifData &exifData = image->exifData();
 		if (!exifData.empty()) {
-			Exiv2::ExifData::const_iterator end = exifData.end();
-			for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i)
-				count++;
-		}
-	} catch (Exiv2::Error& e) {
-		what = e.what() ;
-		count = -1;
-	}
+            count = std::distance(exifData.begin(), exifData.end());
+        }
+    } catch (Exiv2::Error& e) {
+        what = e.what();
+        count = -1;
+    }
 
-	// report to the user
-	m.lock();
-	std::cout << "file: "  << argv[n] << " "
-	          << "n: "     << n       << " "
-	          << "count: " << count   << " "
-	          << (count < 0 ? "exception: " : what)
-	          << what                 << std::endl;
-	m.unlock();
+    // report to the user
+    m.lock();
+    std::cout << "file: " << argv[n] << " "
+              << "n: " << n << " "
+              << "count: " << count << " " << (count < 0 ? "exception: " : what) << what << std::endl;
+    m.unlock();
 }
 
 int main(int argc,const char* argv[])

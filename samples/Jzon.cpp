@@ -843,83 +843,65 @@ namespace Jzon
 		std::string valueBuffer;
 		bool saveBuffer;
 
-		for (; cursor < jsonSize; ++cursor)
-		{
-            char c = json.at(cursor);
+        for (const auto &c : json) {
+            if (IsWhitespace(c))
+                continue;
 
-			if (IsWhitespace(c))
-				continue;
+            saveBuffer = true;
 
-			saveBuffer = true;
+            switch (c) {
+                case '{': {
+                    token = T_OBJ_BEGIN;
+                    break;
+                }
+                case '}': {
+                    token = T_OBJ_END;
+                    break;
+                }
+                case '[': {
+                    token = T_ARRAY_BEGIN;
+                    break;
+                }
+                case ']': {
+                    token = T_ARRAY_END;
+                    break;
+                }
+                case ',': {
+                    token = T_SEPARATOR_NODE;
+                    break;
+                }
+                case ':': {
+                    token = T_SEPARATOR_NAME;
+                    break;
+                }
+                case '"': {
+                    token = T_VALUE;
+                    readString();
+                    break;
+                }
+                case '/': {
+                    char p = peek();
+                    if (p == '*') {
+                        jumpToCommentEnd();
+                    } else if (p == '/') {
+                        jumpToNext('\n');
+                    }
+                    break;
+                }
+                default: {
+                    valueBuffer += c;
+                    saveBuffer = false;
+                    break;
+                }
+            }
 
-			switch (c)
-			{
-			case '{' :
-				{
-					token = T_OBJ_BEGIN;
-					break;
-				}
-			case '}' :
-				{
-					token = T_OBJ_END;
-					break;
-				}
-			case '[' :
-				{
-					token = T_ARRAY_BEGIN;
-					break;
-				}
-			case ']' :
-				{
-					token = T_ARRAY_END;
-					break;
-				}
-			case ',' :
-				{
-					token = T_SEPARATOR_NODE;
-					break;
-				}
-			case ':' :
-				{
-					token = T_SEPARATOR_NAME;
-					break;
-				}
-			case '"' :
-				{
-					token = T_VALUE;
-					readString();
-					break;
-				}
-			case '/' :
-				{
-					char p = peek();
-					if (p == '*')
-					{
-						jumpToCommentEnd();
-					}
-					else if (p == '/')
-					{
-						jumpToNext('\n');
-					}
-					break;
-				}
-			default :
-				{
-					valueBuffer += c;
-					saveBuffer = false;
-					break;
-				}
-			}
-
-			if ((saveBuffer || cursor == jsonSize-1) && (!valueBuffer.empty())) // Always save buffer on the last character
-			{
-				if (interpretValue(valueBuffer))
-				{
-					tokens.push(T_VALUE);
-				}
-				else
-				{
-					// Store the unknown token, so we can show it to the user
+            if ((saveBuffer || cursor == jsonSize - 1) &&
+                (!valueBuffer.empty()))  // Always save buffer on the last character
+            {
+                if (interpretValue(valueBuffer)) {
+                    tokens.push(T_VALUE);
+                } else {
+                    // Store the unknown token, so we can show it to the user
                     data.push(std::make_pair(Value::VT_STRING, valueBuffer));
                     tokens.push(T_UNKNOWN);
                 }
@@ -1105,15 +1087,13 @@ namespace Jzon
     {
         ++cursor;
         char c1 = '\0';
-		for (; cursor < jsonSize; ++cursor)
-		{
-            char c2 = json.at(cursor);
+        for (const auto &c2 : json) {
+            if (c1 == '*' && c2 == '/') {
+                break;
+            }
 
-			if (c1 == '*' && c2 == '/')
-				break;
-
-			c1 = c2;
-		}
+            c1 = c2;
+        }
     }
 
     void Parser::readString()
@@ -1126,19 +1106,14 @@ namespace Jzon
         ++cursor;
 
         char c1 = '\0';
-		for (; cursor < jsonSize; ++cursor)
-		{
-            char c2 = json.at(cursor);
+        for (const auto &c2 : json) {
+            if (c1 != '\\' && c2 == '"') {
+                break;
+            }
 
-			if (c1 != '\\' && c2 == '"')
-			{
-				break;
-			}
-
-			str += c2;
-
-			c1 = c2;
-		}
+            str += c2;
+            c1 = c2;
+        }
 
         data.push(std::make_pair(Value::VT_STRING, str));
     }
