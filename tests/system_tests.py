@@ -206,6 +206,8 @@ def configure_suite(config_file):
     BT.Config.tmp_dir       = os.path.abspath(config['paths']['tmp_path'])
     BT.Config.exiv2_http    = config['ENV']['exiv2_http']
     BT.Config.exiv2_port    = config['ENV']['exiv2_port']
+    BT.Config.exiv2_echo    = config['ENV']['exiv2_echo']
+    BT.Config.valgrind      = config['ENV']['valgrind']
 
 
 class FileDecoratorBase(object):

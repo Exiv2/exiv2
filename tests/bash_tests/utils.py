@@ -28,6 +28,8 @@ class Config:
     system_name = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
     exiv2_http  = 'http://127.0.0.1'
     exiv2_port  = '12760'
+    exiv2_echo  = ''
+    valgrind    = '++'
 
     @classmethod
     def init(cls):
@@ -453,6 +455,10 @@ class Executer:
         self.run()
 
     def run(self):
+        # Whether to display the command to execute
+        if Config.exiv2_echo:
+            print(Config.valgrind, ' '.join(self.args))
+
         # Check stdout
         if self.redirect_stderr_to_stdout:
             stderr   = subprocess.STDOUT
