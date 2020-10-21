@@ -32,7 +32,6 @@ class Config:
     exiv2_port          = '12760'
     exiv2_echo          = ''
     valgrind            = '++'
-    # verbose: 
 
     @classmethod
     def init(cls):

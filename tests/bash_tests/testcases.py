@@ -11,6 +11,10 @@ class TestCases(unittest.TestCase):
     def setUp(self):
         BT.Config.init()
 
+        # When the details are displayed, add a newline
+        if BT.Config.exiv2_echo:
+            print()
+
 
     def tearDown(self):
         pass
