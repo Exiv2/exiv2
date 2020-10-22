@@ -31,6 +31,7 @@ class Config:
     exiv2_http          = 'http://127.0.0.1'
     exiv2_port          = '12760'
     exiv2_echo          = ''
+    verbose             = ''
     valgrind            = '++'
 
     @classmethod
@@ -460,7 +461,7 @@ class Executer:
 
     def run(self):
         # Whether to display the command to execute
-        if Config.exiv2_echo:
+        if Config.exiv2_echo or Config.verbose:
             print(Config.valgrind, ' '.join(self.args))
 
         # Check stdout

@@ -12,7 +12,7 @@ class TestCases(unittest.TestCase):
         BT.Config.init()
 
         # When the details are displayed, add a newline
-        if BT.Config.exiv2_echo:
+        if BT.Config.exiv2_echo or BT.Config.verbose:
             print()
 
 
