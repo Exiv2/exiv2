@@ -461,7 +461,7 @@ class Executer:
 
     def run(self):
         # Whether to display the command to execute
-        if Config.exiv2_echo or Config.verbose:
+        if Config.exiv2_echo:
             print('++', ' '.join(self.args))
 
         # Check stdout
