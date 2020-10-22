@@ -63,7 +63,8 @@ if __name__ == '__main__':
     )
 
     args          = parser.parse_args()
-    args.verbose |=  "VERBOSE" in os.environ
+    if 'VERBOSE' in os.environ:
+        args.verbose = 2 
     conf_file     = args.config_file[0]
     DEFAULT_ROOT  = os.path.abspath(os.path.dirname(conf_file))
     system_tests.set_debug_mode(args.debug)
