@@ -153,8 +153,8 @@ python_tests:
 	@echo
 	@echo ---- Running python_tests ----
 	@echo
-	@echo bash -c 'cd ../tests; export VERBOSE=1; python3 runner.py --verbose'
-	@bash -c 'cd ../tests; export VERBOSE=1; python3 runner.py --verbose'
+	@echo bash -c 'cd ../tests; python3 runner.py --verbose'
+	@bash      -c 'cd ../tests; python3 runner.py --verbose'
 
 mostlyclean clean:
 	rm -rf $(top_srcdir)/test/tmp/*
