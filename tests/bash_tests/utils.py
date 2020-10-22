@@ -32,7 +32,7 @@ class Config:
     exiv2_port          = '12760'
     exiv2_echo          = ''
     verbose             = ''
-    valgrind            = '++'
+    valgrind            = ''
 
     @classmethod
     def init(cls):
@@ -462,7 +462,7 @@ class Executer:
     def run(self):
         # Whether to display the command to execute
         if Config.exiv2_echo or Config.verbose:
-            print(Config.valgrind, ' '.join(self.args))
+            print('++', ' '.join(self.args))
 
         # Check stdout
         if self.redirect_stderr_to_stdout:
