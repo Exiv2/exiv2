@@ -375,17 +375,16 @@ checkSum()
 }
 
 ##
-# startHttpServer - power up the python web server
+# startServer - power up the python web server
 startHttpServer() {
     cd "${testdir}/.."                   # testdir is the tmp output directory
-    
-    if    [ "$platform" == "cygwin" ]; then dport=12762
-    elif  [ "$platform" == "mingw"  ]; then dport=12761
-    else                                    dport=12760
+    if    [ "$platform" == "platform=cygwin"   ]; then dport=12762
+    elif  [ "$platform" == "platform=mingw64"  ]; then dport=12761
+    else                                               dport=12760
     fi
 
-    if [ ! -z $EXIV2_PORT ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
-    if [ ! -z $EXIV2_HTTP ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
+    if [ ! -z "$EXIV2_PORT" ]; then port=$EXIV2_PORT ; else port=$dport          ; fi
+    if [ ! -z "$EXIV2_HTTP" ]; then http=$EXIV2_HTTP ; else http=http://localhost; fi
     exiv2_url=$http:$port
     python3 -m http.server $port &       # start a background local HTTP server in the "real" test directory
     sleep 2                              # wait for it to init or die!
@@ -418,7 +417,7 @@ prepareTest()
         os=$(uname -o)
         if [ $os == Cygwin ]; then
             PLATFORM=cygwin
-        elif [ os == Msys ]; then
+        elif [ $os == Msys ]; then
             PLATFORM=mingw
         fi
     fi
