@@ -64,10 +64,10 @@ Ubuntu:
 #  <<: *default_config
 #  <<: *distro_build
 
-OpenSUSE:
-  image: opensuse/tumbleweed
-  <<: *default_config
-  <<: *distro_build
+# OpenSUSE:
+#  image: opensuse/tumbleweed
+#  <<: *default_config
+#  <<: *distro_build
 
 Install:
   image: fedora:latest
