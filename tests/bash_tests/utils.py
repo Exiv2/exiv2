@@ -23,6 +23,8 @@ class Config:
     # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
     exiv2_dir           = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
     bin_dir             = os.path.join(exiv2_dir, 'build/bin')
+    if 'EXIV2_BINDIR' in os.environ:
+        bin_dir         = os.environ['EXIV2_BINDIR']
     dyld_library_path   = os.path.join(bin_dir, '../lib')
     ld_library_path     = os.path.join(bin_dir, '../lib')
     data_dir            = os.path.join(exiv2_dir, 'test/data')
@@ -30,13 +32,13 @@ class Config:
     system_name         = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
     exiv2_http          = 'http://127.0.0.1'
     exiv2_port          = '12760'
-    exiv2_echo          = ''
-    verbose             = ''
     valgrind            = ''
     if 'EXIV2_PORT' in os.environ:
         exiv2_port      = os.environ['EXIV2_PORT']
     if 'EXIV2_HTTP' in os.environ:
         exiv2_http      = os.environ['EXIV2_HTTP']
+    if 'VALGRIND' in os.environ:
+        valgrind        = os.environ['VALGRIND']
 
     @classmethod
     def init(cls):
@@ -455,6 +457,9 @@ class Executer:
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
+            
+        if len(Config.valgrind)>0:
+            self.args = [ Config.valgrind ] + self.args 
 
         # Check stdin
         if self.stdin:
@@ -464,10 +469,6 @@ class Executer:
         self.run()
 
     def run(self):
-        # Whether to display the command to execute
-        if Config.exiv2_echo:
-            print('++', ' '.join(self.args))
-
         # Check stdout
         if self.redirect_stderr_to_stdout:
             stderr   = subprocess.STDOUT
