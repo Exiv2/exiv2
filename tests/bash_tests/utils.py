@@ -33,6 +33,10 @@ class Config:
     exiv2_echo          = ''
     verbose             = ''
     valgrind            = ''
+    if 'EXIV2_PORT' in os.environ:
+        exiv2_port      = os.environ['EXIV2_PORT']
+    if 'EXIV2_HTTP' in os.environ:
+        exiv2_http      = os.environ['EXIV2_HTTP']
 
     @classmethod
     def init(cls):
