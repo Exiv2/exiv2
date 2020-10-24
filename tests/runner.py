@@ -62,9 +62,11 @@ if __name__ == '__main__':
         nargs='?'
     )
 
-    args = parser.parse_args()
-    conf_file = args.config_file[0]
-    DEFAULT_ROOT = os.path.abspath(os.path.dirname(conf_file))
+    args          = parser.parse_args()
+    if 'VERBOSE' in os.environ:
+        args.verbose = 2 
+    conf_file     = args.config_file[0]
+    DEFAULT_ROOT  = os.path.abspath(os.path.dirname(conf_file))
     system_tests.set_debug_mode(args.debug)
     system_tests.configure_suite(conf_file)
 

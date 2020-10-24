@@ -21,13 +21,24 @@ Here is the configuration part of test cases.
 class Config:
     # The configuration parameters for bash test
     # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
-    exiv2_dir   = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
-    bin_dir     = os.path.join(exiv2_dir, 'build/bin')
-    data_dir    = os.path.join(exiv2_dir, 'test/data')
-    tmp_dir     = os.path.join(exiv2_dir, 'test/tmp')
-    system_name = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
-    exiv2_http  = 'http://127.0.0.1'
-    exiv2_port  = 12760
+    exiv2_dir           = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
+    bin_dir             = os.path.join(exiv2_dir, 'build/bin')
+    if 'EXIV2_BINDIR' in os.environ:
+        bin_dir         = os.environ['EXIV2_BINDIR']
+    dyld_library_path   = os.path.join(bin_dir, '../lib')
+    ld_library_path     = os.path.join(bin_dir, '../lib')
+    data_dir            = os.path.join(exiv2_dir, 'test/data')
+    tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
+    system_name         = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
+    exiv2_http          = 'http://127.0.0.1'
+    exiv2_port          = '12760'
+    valgrind            = ''
+    if 'EXIV2_PORT' in os.environ:
+        exiv2_port      = os.environ['EXIV2_PORT']
+    if 'EXIV2_HTTP' in os.environ:
+        exiv2_http      = os.environ['EXIV2_HTTP']
+    if 'VALGRIND' in os.environ:
+        valgrind        = os.environ['VALGRIND']
 
     @classmethod
     def init(cls):
@@ -422,6 +433,8 @@ class Executer:
 
         # set environment variables
         self.env            = os.environ.copy()
+        self.env.update({'DYLD_LIBRARY_PATH': Config.dyld_library_path})
+        self.env.update({'LD_LIBRARY_PATH': Config.ld_library_path})
         self.env.update({'TZ': 'GMT-8'})
         self.env.update(extra_env)
 
@@ -444,6 +457,9 @@ class Executer:
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
+            
+        if len(Config.valgrind)>0:
+            self.args = [ Config.valgrind ] + self.args 
 
         # Check stdin
         if self.stdin:
