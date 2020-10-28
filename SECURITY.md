@@ -2,11 +2,11 @@
 
 ## Supported Versions
 
-| Exiv2 Version       | Security Support        | Security Releases |
-|:--                  |:--                      |:-- |
-| 0.27 and "dots"     | Process Defined         | v0.27.1, v0.27.2, v0.27.3 |
-| 0.26                | Branch 0.26             | None |
-| 0.25                | Branch 0.25             | None |
+| Exiv2 Version  | Security Support | Security Releases |
+|:--             |:--               |:-- |
+| v0.27          | Process Defined  | v0.27.1, v0.27.2, v0.27.3 |
+| v0.26          | Branch 0.26      | None |
+| v0.25          | Branch 0.25      | None |
 
 ## Security Process
 
@@ -33,7 +33,7 @@ Exiv2 is not sufficiently resourced to provide notifications of security issues 
 
 ## Reported CVEs
 
-| CVE               | Description                     | Solution  | PR | URL |
-|:--                |:--                              |:--        |:--    |:--  |
-| CVE-2019-9144     | Crash in BigTiffImage::printIFD | Remove src/bigtiffimage.cpp | https://github.com/Exiv2/exiv2/pull/1331 | https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9144 |
-| to be continued   | | | | |
+| CVE               | Description                     | Solution  | PR |
+|:--                |:--                              |:--        |:--    |
+| [CVE-2019-9144](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9144)     | Crash in BigTiffImage::printIFD | Remove src/bigtiffimage.cpp | [#1331](https://github.com/Exiv2/exiv2/pull/1331) |
+| to be continued   | | | |
