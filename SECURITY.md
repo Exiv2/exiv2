@@ -2,9 +2,11 @@
 
 ## Supported Versions
 
-| Version             | Supported          |
-| -------             | ------------------ |
-| 0.27.3 and earlier  | :x:                |
+| Exiv2 Version       | Security Support        | Security Releases |
+|:--                  |:--                      |:-- |
+| 0.27 and "dots"     | Process Defined         | v0.27.1, v0.27.2, v0.27.3 |
+| 0.26                | Branch 0.26             | None |
+| 0.25                | Branch 0.25             | None |
 
 ## The security release process
 
@@ -15,3 +17,10 @@ Team Exiv2 does not back-port security (or any other fix) to earlier releases of
 The version numbering scheme is explained here: [https://clanmills.com/exiv2/book/#13-9](https://clanmills.com/exiv2/book/#13-9).  The design includes provision for a security release.
 
 Exiv2 is not sufficiently resourced to provide notifications of security issues to users.  If the community decide that Exiv2 must strengthen its security process, the community will have to provide the necessary resources.
+
+## Reported CVEs
+
+| CVE               | Description                     | Solution  | PR | URL |
+|:--                |:--                              |:--        |:--    |:--  |
+| CVE-2019-9144     | Crash in BigTiffImage::printIFD | Remove src/bigtiffimage.cpp | #1331 | https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9144 |
+| to be continued   | | | | |
