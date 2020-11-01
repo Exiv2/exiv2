@@ -606,14 +606,9 @@ namespace Action {
         return result ;
     }
 
-    static void binaryOutput(bool suppressLong,const std::ostringstream& os)
+    static void binaryOutput(const std::ostringstream& os)
     {
-        const int dots = 100;
-        if ( suppressLong && os.str().length() > dots ) {
-           std::cout << os.str().substr(0,dots) << " ..." ;
-        } else {
-            std::cout << os.str();
-        }
+        std::cout << os.str();
     }
 
     bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
@@ -709,7 +704,7 @@ namespace Action {
             } else {
                 os << std::dec << md.value();
             }
-            binaryOutput(Params::instance().binary_,os);
+            binaryOutput(os);
         }
         if (Params::instance().printItems_ & Params::prTrans) {
             if (!first)
@@ -717,7 +712,7 @@ namespace Action {
             first = false;
             std::ostringstream os;
             os << std::dec << md.print(&pImage->exifData());
-            binaryOutput(Params::instance().binary_,os) ;
+            binaryOutput(os) ;
         }
         if (Params::instance().printItems_ & Params::prHex) {
             if (!first)
