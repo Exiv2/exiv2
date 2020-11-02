@@ -42,6 +42,8 @@ namespace Exiv2 {
     EXIV2API ExifData::const_iterator orientation(const ExifData& ed);
     //! Return the ISO speed used to shoot the image
     EXIV2API ExifData::const_iterator isoSpeed(const ExifData& ed);
+    //! Return the date and time when the original image data was generated
+    EXIV2API ExifData::const_iterator dateTimeOriginal(const ExifData& ed);
     //! Return the flash bias value
     EXIV2API ExifData::const_iterator flashBias(const ExifData& ed);
     //! Return the exposure mode setting

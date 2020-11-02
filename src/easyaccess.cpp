@@ -183,6 +183,15 @@ namespace Exiv2 {
         return md;
     }
 
+    ExifData::const_iterator dateTimeOriginal(const ExifData& ed)
+    {
+        static const char* keys[] = {
+            "Exif.Photo.DateTimeOriginal"
+            "Exif.Image.DateTimeOriginal"
+        };
+        return findMetadatum(ed, keys, EXV_COUNTOF(keys));
+    }
+
     ExifData::const_iterator flashBias(const ExifData& ed)
     {
         static const char* keys[] = {
