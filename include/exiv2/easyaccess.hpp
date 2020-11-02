@@ -74,12 +74,34 @@ namespace Exiv2 {
     EXIV2API ExifData::const_iterator exposureTime(const ExifData& ed);
     //! Return the F number
     EXIV2API ExifData::const_iterator fNumber(const ExifData& ed);
+    //! Return the shutter speed value
+    EXIV2API ExifData::const_iterator shutterSpeedValue(const ExifData& ed);
+    //! Return the aperture value
+    EXIV2API ExifData::const_iterator apertureValue(const ExifData& ed);
+    //! Return the brightness value
+    EXIV2API ExifData::const_iterator brightnessValue(const ExifData& ed);
+    //! Return the exposure bias value
+    EXIV2API ExifData::const_iterator exposureBiasValue(const ExifData& ed);
+    //! Return the max aperture value
+    EXIV2API ExifData::const_iterator maxApertureValue(const ExifData& ed);
     //! Return the subject distance
     EXIV2API ExifData::const_iterator subjectDistance(const ExifData& ed);
+    //! Return the kind of light source
+    EXIV2API ExifData::const_iterator lightSource(const ExifData& ed);
+    //! Return the status of flash
+    EXIV2API ExifData::const_iterator flash(const ExifData& ed);
     //! Return the camera serial number
     EXIV2API ExifData::const_iterator serialNumber(const ExifData& ed);
     //! Return the focal length setting
     EXIV2API ExifData::const_iterator focalLength(const ExifData& ed);
+    //! Return the subject location and area
+    EXIV2API ExifData::const_iterator subjectArea(const ExifData& ed);
+    //! Return the flash energy
+    EXIV2API ExifData::const_iterator flashEnergy(const ExifData& ed);
+    //! Return the exposure index
+    EXIV2API ExifData::const_iterator exposureIndex(const ExifData& ed);
+    //! Return the image sensor type
+    EXIV2API ExifData::const_iterator sensingMethod(const ExifData& ed);
     //! Return the AF point
     EXIV2API ExifData::const_iterator afPoint(const ExifData& ed);
 
