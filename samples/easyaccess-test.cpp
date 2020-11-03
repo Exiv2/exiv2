@@ -19,7 +19,7 @@ struct EasyAccess {
 static const EasyAccess easyAccess[] = {
     { "Orientation",          Exiv2::orientation      },
     { "ISO speed",            Exiv2::isoSpeed         },
-    { "Date & time (original)", Exiv2::dateTimeOriginal },
+    { "Date & time original", Exiv2::dateTimeOriginal },
     { "Flash bias",           Exiv2::flashBias        },
     { "Exposure mode",        Exiv2::exposureMode     },
     { "Scene mode",           Exiv2::sceneMode        },
@@ -70,7 +70,7 @@ try {
 
     for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
         Exiv2::ExifData::const_iterator pos = easyAccess[i].findFct_(ed);
-        std::cout << std::setw(20) << std::left << easyAccess[i].label_;
+        std::cout << std::setw(21) << std::left << easyAccess[i].label_;
         if (pos != ed.end()) {
             std::cout << " (" << std::setw(35) << pos->key() << ") : "
                       << pos->print(&ed) << "\n";

@@ -186,7 +186,7 @@ namespace Exiv2 {
     ExifData::const_iterator dateTimeOriginal(const ExifData& ed)
     {
         static const char* keys[] = {
-            "Exif.Photo.DateTimeOriginal"
+            "Exif.Photo.DateTimeOriginal",
             "Exif.Image.DateTimeOriginal"
         };
         return findMetadatum(ed, keys, EXV_COUNTOF(keys));
