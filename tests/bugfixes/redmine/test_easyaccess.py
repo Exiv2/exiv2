@@ -16,40 +16,40 @@ class EasyaccessTest(metaclass=system_tests.CaseMeta):
         """File 1/1: $filename
 Set Exif.Image.Make "Samsung" (Ascii)
 """,
-         """Orientation           (                                   ) :
-ISO speed             (                                   ) :
-Date & time original  (                                   ) :
-Flash bias            (                                   ) :
-Exposure mode         (                                   ) :
-Scene mode            (                                   ) :
-Macro mode            (                                   ) :
-Image quality         (                                   ) :
-White balance         (                                   ) :
-Lens name             (                                   ) :
-Saturation            (                                   ) :
-Sharpness             (                                   ) :
-Contrast              (                                   ) :
-Scene capture type    (                                   ) :
-Metering mode         (                                   ) :
+         """Orientation           (                                   ) : 
+ISO speed             (                                   ) : 
+Date & time original  (                                   ) : 
+Flash bias            (                                   ) : 
+Exposure mode         (                                   ) : 
+Scene mode            (                                   ) : 
+Macro mode            (                                   ) : 
+Image quality         (                                   ) : 
+White balance         (                                   ) : 
+Lens name             (                                   ) : 
+Saturation            (                                   ) : 
+Sharpness             (                                   ) : 
+Contrast              (                                   ) : 
+Scene capture type    (                                   ) : 
+Metering mode         (                                   ) : 
 Camera make           (Exif.Image.Make                    ) : Samsung
-Camera model          (                                   ) :
-Exposure time         (                                   ) :
-FNumber               (                                   ) :
-Shutter speed value   (                                   ) :
-Aperture value        (                                   ) :
-Brightness value      (                                   ) :
-Exposure bias         (                                   ) :
-Max aperture value    (                                   ) :
-Subject distance      (                                   ) :
-Light source          (                                   ) :
-Flash                 (                                   ) :
-Camera serial number  (                                   ) :
-Focal length          (                                   ) :
-Subject location/area (                                   ) :
-Flash energy          (                                   ) :
-Exposure index        (                                   ) :
-Sensing method        (                                   ) :
-AF point              (                                   ) :
+Camera model          (                                   ) : 
+Exposure time         (                                   ) : 
+FNumber               (                                   ) : 
+Shutter speed value   (                                   ) : 
+Aperture value        (                                   ) : 
+Brightness value      (                                   ) : 
+Exposure bias         (                                   ) : 
+Max aperture value    (                                   ) : 
+Subject distance      (                                   ) : 
+Light source          (                                   ) : 
+Flash                 (                                   ) : 
+Camera serial number  (                                   ) : 
+Focal length          (                                   ) : 
+Subject location/area (                                   ) : 
+Flash energy          (                                   ) : 
+Exposure index        (                                   ) : 
+Sensing method        (                                   ) : 
+AF point              (                                   ) : 
 """
     ]
     stderr = [""] * 2
