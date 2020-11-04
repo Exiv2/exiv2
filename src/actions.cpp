@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2020 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -312,126 +312,6 @@ namespace Action {
             return -3;
         }
 
-        // Camera make
-        printTag(exifData, "Exif.Image.Make", _("Camera make"));
-
-        // Camera model
-        printTag(exifData, "Exif.Image.Model", _("Camera model"));
-
-        // Image Timestamp
-        printTag(exifData, "Exif.Photo.DateTimeOriginal", _("Image timestamp"));
-
-        // Image number
-        // Todo: Image number for cameras other than Canon
-        printTag(exifData, "Exif.Canon.FileNumber", _("Image number"));
-
-        // Exposure time
-        // From ExposureTime, failing that, try ShutterSpeedValue
-        printLabel(_("Exposure time"));
-        bool done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
-        if (!done) {
-            done = 0 != printTag(exifData, "Exif.Photo.ShutterSpeedValue");
-        }
-        std::cout << std::endl;
-
-        // Aperture
-        // Get if from FNumber and, failing that, try ApertureValue
-        {
-            printLabel(_("Aperture"));
-            bool done = 0 != printTag(exifData, "Exif.Photo.FNumber");
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
-            }
-            std::cout << std::endl;
-
-            // Exposure bias
-            printTag(exifData, "Exif.Photo.ExposureBiasValue", _("Exposure bias"));
-
-            // Flash
-            printTag(exifData, "Exif.Photo.Flash", _("Flash"));
-
-            // Flash bias
-            printTag(exifData, Exiv2::flashBias, _("Flash bias"));
-
-            // Actual focal length and 35 mm equivalent
-            // Todo: Calculate 35 mm equivalent a la jhead
-            Exiv2::ExifData::const_iterator md;
-            printLabel(_("Focal length"));
-            if (1 == printTag(exifData, "Exif.Photo.FocalLength")) {
-                md = exifData.findKey(
-                    Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
-                if (md != exifData.end()) {
-                    std::cout << " ("<< _("35 mm equivalent") << ": "
-                              << md->print(&exifData) << ")";
-                }
-            }
-            else {
-                printTag(exifData, "Exif.Canon.FocalLength");
-            }
-            std::cout << std::endl;
-        }
-
-        // Subject distance
-        {
-            printLabel(_("Subject distance"));
-            bool done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
-            if (!done) {
-                printTag(exifData, "Exif.CanonSi.SubjectDistance");
-                printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
-                printTag(exifData, "Exif.CanonFi.FocusDistanceUpper");
-            }
-            std::cout << std::endl;
-        }
-
-        // ISO speed
-        printTag(exifData, Exiv2::isoSpeed, _("ISO speed"));
-
-        // Exposure mode
-        printTag(exifData, Exiv2::exposureMode, _("Exposure mode"));
-
-        // Metering mode
-        printTag(exifData, "Exif.Photo.MeteringMode", _("Metering mode"));
-
-        // Macro mode
-        printTag(exifData, Exiv2::macroMode, _("Macro mode"));
-
-        // Image quality setting (compression)
-        printTag(exifData, Exiv2::imageQuality, _("Image quality"));
-
-        // Exif Resolution
-        {
-            printLabel(_("Exif Resolution"));
-            long xdim = 0;
-            long ydim = 0;
-            if (image->mimeType() == "image/tiff") {
-                xdim = image->pixelWidth();
-                ydim = image->pixelHeight();
-            }
-            else {
-                Exiv2::ExifData::const_iterator md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
-                if (md == exifData.end()) {
-                    md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-                }
-                if (md != exifData.end() && md->count() > 0) {
-                    xdim = md->toLong();
-                }
-                md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
-                if (md == exifData.end()) {
-                    md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-                }
-                if (md != exifData.end() && md->count() > 0) {
-                    ydim = md->toLong();
-                }
-            }
-            if (xdim != 0 && ydim != 0) {
-                std::cout << xdim << " x " << ydim;
-            }
-            std::cout << std::endl;
-        }
-
-        // White balance
-        printTag(exifData, Exiv2::whiteBalance, _("White balance"));
-
         // Thumbnail
         printLabel(_("Thumbnail"));
         Exiv2::ExifThumbC exifThumb(exifData);
@@ -451,11 +331,37 @@ namespace Action {
         }
         std::cout << std::endl;
 
-        // Copyright
-        printTag(exifData, "Exif.Image.Copyright", _("Copyright"));
-
-        // Exif Comment
-        printTag(exifData, "Exif.Photo.UserComment", _("Exif comment"));
+        printTag(exifData, Exiv2::make                  , _("Camera make"));
+        printTag(exifData, Exiv2::model                 , _("Camera model"));
+        printTag(exifData, Exiv2::dateTimeOriginal      , _("Image timestamp"));
+        printTag(exifData, "Exif.Canon.FileNumber"      , _("File number"));
+        // From ExposureTime, failing that, try ShutterSpeedValue
+        printLabel(_("Exposure time"));
+        bool done = 0 != printTag(exifData, Exiv2::exposureTime);
+        if (!done) {
+            done = 0 != printTag(exifData, Exiv2::shutterSpeedValue);
+        }
+        std::cout << std::endl;
+        // Get if from FNumber and, failing that, try ApertureValue
+        printLabel(_("Aperture"));
+        done = 0 != printTag(exifData, Exiv2::fNumber);
+        if (!done) {
+            done = 0 != printTag(exifData, Exiv2::apertureValue);
+        }
+        std::cout << std::endl;
+        printTag(exifData, Exiv2::exposureBiasValue     , _("Exposure bias"));
+        printTag(exifData, Exiv2::flash                 , _("Flash"));
+        printTag(exifData, Exiv2::flashBias             , _("Flash bias"));
+        printTag(exifData, Exiv2::focalLength           , _("Focal length"));
+        printTag(exifData, Exiv2::subjectDistance       , _("Subject distance"));
+        printTag(exifData, Exiv2::isoSpeed              , _("ISO speed"));
+        printTag(exifData, Exiv2::exposureMode          , _("Exposure mode"));
+        printTag(exifData, Exiv2::meteringMode          , _("Metering mode"));
+        printTag(exifData, Exiv2::macroMode             , _("Macro mode"));
+        printTag(exifData, Exiv2::imageQuality          , _("Image quality"));
+        printTag(exifData, Exiv2::whiteBalance          , _("White balance"));
+        printTag(exifData, "Exif.Image.Copyright"       , _("Copyright"));
+        printTag(exifData, "Exif.Photo.UserComment"     , _("Exif comment"));
         std::cout << std::endl;
 
         return 0;

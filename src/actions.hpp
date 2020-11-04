@@ -187,7 +187,7 @@ namespace Action {
          */
         int printTag(const Exiv2::ExifData& exifData,
                      EasyAccessFct easyAccessFct,
-                     const std::string& label) const;
+                     const std::string& label ="") const;
 
     private:
         virtual Print* clone_() const;
