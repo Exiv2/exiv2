@@ -19,6 +19,7 @@ struct EasyAccess {
 static const EasyAccess easyAccess[] = {
     { "Orientation",          Exiv2::orientation      },
     { "ISO speed",            Exiv2::isoSpeed         },
+    { "Date & time original", Exiv2::dateTimeOriginal },
     { "Flash bias",           Exiv2::flashBias        },
     { "Exposure mode",        Exiv2::exposureMode     },
     { "Scene mode",           Exiv2::sceneMode        },
@@ -35,9 +36,20 @@ static const EasyAccess easyAccess[] = {
     { "Camera model",         Exiv2::model            },
     { "Exposure time",        Exiv2::exposureTime     },
     { "FNumber",              Exiv2::fNumber          },
+    { "Shutter speed value",  Exiv2::shutterSpeedValue },
+    { "Aperture value",       Exiv2::apertureValue    },
+    { "Brightness value",     Exiv2::brightnessValue  },
+    { "Exposure bias",        Exiv2::exposureBiasValue },
+    { "Max aperture value",   Exiv2::maxApertureValue },
     { "Subject distance",     Exiv2::subjectDistance  },
+    { "Light source",         Exiv2::lightSource      },
+    { "Flash",                Exiv2::flash            },
     { "Camera serial number", Exiv2::serialNumber     },
     { "Focal length",         Exiv2::focalLength      },
+    { "Subject location/area", Exiv2::subjectArea     },
+    { "Flash energy",         Exiv2::flashEnergy      },
+    { "Exposure index",       Exiv2::exposureIndex    },
+    { "Sensing method",       Exiv2::sensingMethod    },
     { "AF point",             Exiv2::afPoint          }
 };
 
@@ -58,7 +70,7 @@ try {
 
     for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
         Exiv2::ExifData::const_iterator pos = easyAccess[i].findFct_(ed);
-        std::cout << std::setw(20) << std::left << easyAccess[i].label_;
+        std::cout << std::setw(21) << std::left << easyAccess[i].label_;
         if (pos != ed.end()) {
             std::cout << " (" << std::setw(35) << pos->key() << ") : "
                       << pos->print(&ed) << "\n";

@@ -14,10 +14,11 @@ class TestPoC(metaclass=system_tests.CaseMeta):
 File size       : 310 Bytes
 MIME type       : image/tiff
 Image size      : 200 x 130
+Thumbnail       : None
 Camera make     : 
 Camera model    : 
 Image timestamp : 
-Image number    : 
+File number     : 
 Exposure time   : 
 Aperture        : 
 Exposure bias   : 
@@ -30,9 +31,7 @@ Exposure mode   :
 Metering mode   : 
 Macro mode      : 
 Image quality   : 
-Exif Resolution : 200 x 130
 White balance   : 
-Thumbnail       : None
 Copyright       : 
 Exif comment    : 
 
