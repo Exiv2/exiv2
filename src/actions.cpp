@@ -331,37 +331,26 @@ namespace Action {
         }
         std::cout << std::endl;
 
-        printTag(exifData, Exiv2::make                  , _("Camera make"));
-        printTag(exifData, Exiv2::model                 , _("Camera model"));
-        printTag(exifData, Exiv2::dateTimeOriginal      , _("Image timestamp"));
-        printTag(exifData, "Exif.Canon.FileNumber"      , _("File number"));
-        // From ExposureTime, failing that, try ShutterSpeedValue
-        printLabel(_("Exposure time"));
-        bool done = 0 != printTag(exifData, Exiv2::exposureTime);
-        if (!done) {
-            done = 0 != printTag(exifData, Exiv2::shutterSpeedValue);
-        }
-        std::cout << std::endl;
-        // Get if from FNumber and, failing that, try ApertureValue
-        printLabel(_("Aperture"));
-        done = 0 != printTag(exifData, Exiv2::fNumber);
-        if (!done) {
-            done = 0 != printTag(exifData, Exiv2::apertureValue);
-        }
-        std::cout << std::endl;
-        printTag(exifData, Exiv2::exposureBiasValue     , _("Exposure bias"));
-        printTag(exifData, Exiv2::flash                 , _("Flash"));
-        printTag(exifData, Exiv2::flashBias             , _("Flash bias"));
-        printTag(exifData, Exiv2::focalLength           , _("Focal length"));
-        printTag(exifData, Exiv2::subjectDistance       , _("Subject distance"));
-        printTag(exifData, Exiv2::isoSpeed              , _("ISO speed"));
-        printTag(exifData, Exiv2::exposureMode          , _("Exposure mode"));
-        printTag(exifData, Exiv2::meteringMode          , _("Metering mode"));
-        printTag(exifData, Exiv2::macroMode             , _("Macro mode"));
-        printTag(exifData, Exiv2::imageQuality          , _("Image quality"));
-        printTag(exifData, Exiv2::whiteBalance          , _("White balance"));
-        printTag(exifData, "Exif.Image.Copyright"       , _("Copyright"));
-        printTag(exifData, "Exif.Photo.UserComment"     , _("Exif comment"));
+        printTag(exifData, Exiv2::make              , _("Camera make")                                  );
+        printTag(exifData, Exiv2::model             , _("Camera model")                                 );
+        printTag(exifData, Exiv2::dateTimeOriginal  , _("Image timestamp")                              );
+        printTag(exifData, "Exif.Canon.FileNumber"  , _("File number")                                  );
+        printTag(exifData, Exiv2::exposureTime      , _("Exposure time")    , Exiv2::shutterSpeedValue  );
+        printTag(exifData, Exiv2::fNumber           , _("Aperture")         , Exiv2::apertureValue      );
+        printTag(exifData, Exiv2::exposureBiasValue , _("Exposure bias")                                );
+        printTag(exifData, Exiv2::flash             , _("Flash")                                        );
+        printTag(exifData, Exiv2::flashBias         , _("Flash bias")                                   );
+        printTag(exifData, Exiv2::focalLength       , _("Focal length")                                 );
+        printTag(exifData, Exiv2::subjectDistance   , _("Subject distance")                             );
+        printTag(exifData, Exiv2::isoSpeed          , _("ISO speed")                                    );
+        printTag(exifData, Exiv2::exposureMode      , _("Exposure mode")                                );
+        printTag(exifData, Exiv2::meteringMode      , _("Metering mode")                                );
+        printTag(exifData, Exiv2::macroMode         , _("Macro mode")                                   );
+        printTag(exifData, Exiv2::imageQuality      , _("Image quality")                                );
+        printTag(exifData, Exiv2::whiteBalance      , _("White balance")                                );
+        printTag(exifData, "Exif.Image.Copyright"   , _("Copyright")                                    );
+        printTag(exifData, "Exif.Photo.UserComment" , _("Exif comment")                                 );
+
         std::cout << std::endl;
 
         return 0;
@@ -397,7 +386,8 @@ namespace Action {
 
     int Print::printTag(const Exiv2::ExifData& exifData,
                         EasyAccessFct easyAccessFct,
-                        const std::string& label) const
+                        const std::string& label,
+                        EasyAccessFct easyAccessFctFallback) const
     {
         int rc = 0;
         if (!label.empty()) {
@@ -407,6 +397,14 @@ namespace Action {
         if (md != exifData.end()) {
             md->write(std::cout, &exifData);
             rc = 1;
+        }
+        else if (NULL != easyAccessFctFallback)
+        {
+            md = easyAccessFctFallback(exifData);
+            if (md != exifData.end()) {
+                md->write(std::cout, &exifData);
+                rc = 1;
+            }
         }
         if (!label.empty()) std::cout << std::endl;
         return rc;
