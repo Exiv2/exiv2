@@ -834,6 +834,12 @@ namespace Exiv2 {
                 "version of a TIFF/EP file, eg '1', '0', '0', '0'"),
                 ifd0Id, tiffEp, unsignedByte, 4, printValue), // TIFF/EP Tag
         TagInfo(0x9217, "SensingMethod", N_("Sensing Method"), N_("Type of image sensor."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
+        TagInfo(0x9400, "Temperature", N_("Temperature"), N_("Shooting situation."), ifd0Id, otherTags, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9401, "Humidity", N_("Humidity"), N_("Shooting situation."), ifd0Id, otherTags, unsignedRational, 1, printValue), // TExif 2.31
+        TagInfo(0x9402, "Pressure", N_("Pressure"), N_("Shooting situation."), ifd0Id, otherTags, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9403, "WaterDepth", N_("WaterDepth"), N_("Shooting situation."), ifd0Id, otherTags, signedRational, 1, printValue), // TExif 2.31
+        TagInfo(0x9404, "Acceleration", N_("Acceleration"), N_("Shooting situation."), ifd0Id, otherTags, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9405, "CameraElevationAngle", N_("Camera elevation angle"), N_("Shooting situation."), ifd0Id, otherTags, signedRational, 1, printValue), // TIFF/EP tag
         TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
                 N_("Title tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, -1, printUcs2), // Windows Tag
@@ -1500,6 +1506,15 @@ namespace Exiv2 {
         TagInfo(0x9004, "DateTimeDigitized", N_("Date and Time (digitized)"),
                 N_("The date and time when the image was stored as digital data."),
                 exifId, dateTime, asciiString, 20, printValue),
+        TagInfo(0x9010, "OffsetTime", N_("Offset Time"),
+                N_("Time difference from Universal Time Coordinated including daylight saving time of DateTime tag."),
+                exifId, dateTime, asciiString, 7, printValue), // Exif 2.31
+        TagInfo(0x9011, "OffsetTimeOriginal", N_("Offset Time Original"),
+                N_("Time difference from Universal Time Coordinated including daylight saving time of DateTimeOriginal tag."),
+                exifId, dateTime, asciiString, 7, printValue), // Exif 2.31
+        TagInfo(0x9012, "OffsetTimeDigitized", N_("Offset Time Digitized"),
+                N_("Time difference from Universal Time Coordinated including daylight saving time of DateTimeDigitized tag."),
+                exifId, dateTime, asciiString, 7, printValue), // Exif 2.31
         TagInfo(0x9101, "ComponentsConfiguration", N_("Components Configuration"),
                 N_("Information specific to compressed data. The channels of "
                 "each component are arranged in order from the 1st "
@@ -1752,6 +1767,15 @@ namespace Exiv2 {
                 N_("This tag records the serial number of the interchangeable lens "
                 "that was used in photography as an ASCII string."),
                 exifId, otherTags, asciiString, 0, printValue),
+        TagInfo(0xa460, "CompositeImage", N_("Composite Image"), // Exif 2.32
+                N_("This tag indicates whether the recorded image is a composite image* or not."),
+                exifId, captureCond, unsignedShort, 1, printCompositeImage),
+        TagInfo(0xa461, "SourceImageNumberOfCompositeImage", N_("Source Image Number Of Composite Image"), // Exif 2.32
+                N_("This tag indicates the distance to the subject."), 
+                exifId, captureCond, unsignedShort, 2, printValue),
+        TagInfo(0xa462, "SourceExposureTimesOfCompositeImage", N_("Source Exposure Times Of Composite Image"), // Exif 2.32
+                N_("This tag indicates the distance to the subject."),
+                exifId, captureCond, undefined, 1, print0xa40c),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
@@ -1925,6 +1949,9 @@ namespace Exiv2 {
         TagInfo(0x001e, "GPSDifferential", N_("GPS Differential"),
                 N_("Indicates whether differential correction is applied to the GPS receiver."),
                 gpsId, gpsTags, unsignedShort, 1, print0x001e),
+        TagInfo(0x001f, "GPSHPositioningError", N_("GPS Horizontal positioning error"),
+                N_("This tag indicates horizontal positioning errors in meters."),
+                gpsId, gpsTags, unsignedRational, 1, print0x001e),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
@@ -2831,6 +2858,18 @@ namespace Exiv2 {
     std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(exifNormalSoftHard)(os, value, metadata);
+    }
+
+    extern const TagDetails exifCompositeImage[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("NonComposite")   },
+        { 2, N_("GeneralComposite")   },
+        { 3, N_("CompositeCapturedWhenShooting")   }
+    };
+
+    std::ostream& printCompositeImage(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        return EXV_PRINT_TAG(exifCompositeImage)(os, value, metadata);
     }
 
     std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*)

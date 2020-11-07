@@ -434,6 +434,8 @@ namespace Exiv2 {
     std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData*);
     //! Print contrast, sharpness (normal, soft, hard)
     std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData*);
+    //! Print compositeImage (unknown, , nonComposite, generalComposite,compositeCapturedWhenShooting)
+    std::ostream& printCompositeImage(std::ostream& os, const Value& value, const ExifData*);
     //! Print any version packed in 4 Bytes format : major major minor minor
     std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*);
     //! Print any version encoded in the ASCII string majormajorminorminor
