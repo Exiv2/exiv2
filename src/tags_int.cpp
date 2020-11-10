@@ -257,8 +257,8 @@ namespace Exiv2 {
         {     7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") },
         {     8, N_("Primary image, Depth map")                                    },   // DNG 1.5
         {     9, N_("Thumbnail/Preview image, Depth map")                          },   // DNG 1.5
-        {    16, N_("Enhanced image"                                               },   // DNG 1.5 (clashes w/ TIFF-FX)
-        { 65537, N_("Alternative Thumbnail/Preview image")                         }    // DNG 1.2
+        {    16, N_("Enhanced image")                                              },   // DNG 1.5 (clashes w/ TIFF-FX)
+        { 65537, N_("Thumbnail/Preview image, Alternative")                        }    // DNG 1.2
     };
 
     //! SubfileType, TIFF tag 0x00ff
