@@ -230,8 +230,13 @@ namespace Exiv2 {
 
     //! Predictor, tag 0x013d
     extern const TagDetails exifPredictor[] = {
-        { 1, N_("No prediction scheme used") },
-        { 2, N_("Horizontal differencing")   }
+        {     1, N_("No prediction scheme used")              },
+        {     2, N_("Horizontal differencing")                },
+        {     3, N_("Floating point horizontal differencing") },    // TIFF Technical Note 3
+        { 34892, N_("Horizontal difference X2")               },    // DNG 1.4
+        { 34893, N_("Horizontal difference X4")               },    // DNG 1.4
+        { 34894, N_("Floating point X2")                      },    // DNG 1.4
+        { 34895, N_("Floating point X4")                      }     // DNG 1.4
     };
 
     //! InkSet, tag 0x014c
@@ -242,15 +247,18 @@ namespace Exiv2 {
 
     //! NewSubfileType, TIFF tag 0x00fe - this is actually a bitmask
     extern const TagDetails exifNewSubfileType[] = {
-        {  0, N_("Primary image")                                               },
-        {  1, N_("Thumbnail/Preview image")                                     },
-        {  2, N_("Primary image, Multi page file")                              },
-        {  3, N_("Thumbnail/Preview image, Multi page file")                    },
-        {  4, N_("Primary image, Transparency mask")                            },
-        {  5, N_("Thumbnail/Preview image, Transparency mask")                  },
-        {  6, N_("Primary image, Multi page file, Transparency mask")           },
-        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") },
-        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") }  // To silence compiler warning
+        {     0, N_("Primary image")                                               },
+        {     1, N_("Thumbnail/Preview image")                                     },
+        {     2, N_("Primary image, Multi page file")                              },
+        {     3, N_("Thumbnail/Preview image, Multi page file")                    },
+        {     4, N_("Primary image, Transparency mask")                            },
+        {     5, N_("Thumbnail/Preview image, Transparency mask")                  },
+        {     6, N_("Primary image, Multi page file, Transparency mask")           },
+        {     7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") },
+        {     8, N_("Primary image, Depth map")                                    },   // DNG 1.5
+        {     9, N_("Thumbnail/Preview image, Depth map")                          },   // DNG 1.5
+        {    16, N_("Enhanced image"                                               },   // DNG 1.5 (clashes w/ TIFF-FX)
+        { 65537, N_("Alternative Thumbnail/Preview image")                         }    // DNG 1.2
     };
 
     //! SubfileType, TIFF tag 0x00ff
@@ -291,6 +299,7 @@ namespace Exiv2 {
         { 34677, N_("SGI Log 24-bits packed")   },
         { 34712, N_("Leadtools JPEG 2000")      },
         { 34713, N_("Nikon NEF Compressed")     },
+        { 34892, N_("JPEG (lossy)")             },  // DNG 1.4
         { 65000, N_("Kodak DCR Compressed")     },
         { 65535, N_("Pentax PEF Compressed")    }
     };
@@ -310,7 +319,8 @@ namespace Exiv2 {
         { 32803, N_("Color Filter Array") },
         { 32844, N_("Pixar LogL")         },
         { 32845, N_("Pixar LogLuv")       },
-        { 34892, N_("Linear Raw")         }
+        { 34892, N_("Linear Raw")         },
+        { 51177, N_("Depth")              }     // DNG 1.5
     };
 
     //! Thresholding, tag 0x0107
