@@ -390,11 +390,15 @@ namespace Exiv2 {
 
     //! CFALayout, tag 0xc617
     extern const TagDetails exifCfaLayout[] = {
-        { 1, N_("Rectangular (or square) layout") },
-        { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")  },
-        { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")    },
-        { 4, N_("Staggered layout C: even rows are offset right by 1/2 column") },
-        { 5, N_("Staggered layout D: even rows are offset left by 1/2 column")  }
+        { 1, N_("Rectangular (or square) layout")                                                   },
+        { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")                      },
+        { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")                        },
+        { 4, N_("Staggered layout C: even rows are offset right by 1/2 column")                     },
+        { 5, N_("Staggered layout D: even rows are offset left by 1/2 column")                      },
+        { 6, N_("Staggered layout E: even rows are offset up by 1/2, even columns left by 1/2")     },  // DNG 1.3
+        { 7, N_("Staggered layout F: even rows are offset up by 1/2, even columns right by 1/2")    },  // DNG 1.3
+        { 8, N_("Staggered layout G: even rows are offset down by 1/2, even columns left by 1/2")   },  // DNG 1.3
+        { 9, N_("Staggered layout H: even rows are offset down by 1/2, even columns right by 1/2")  }   // DNG 1.3
     };
 
 
