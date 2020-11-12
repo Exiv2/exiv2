@@ -1120,14 +1120,14 @@ namespace Exiv2 {
                    "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
                    "values for this tag are the same as the legal values for the "
                    "LightSource EXIF tag."),
-                ifd0Id, dngTags, unsignedShort, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, print0x9208), // DNG tag
         TagInfo(0xc65b, "CalibrationIlluminant2", N_("Calibration Illuminant 2"),
                 N_("The illuminant used for an optional second set of color calibration "
                    "tags (ColorMatrix2, CameraCalibration2, ReductionMatrix2). The legal "
                    "values for this tag are the same as the legal values for the "
                    "CalibrationIlluminant1 tag; however, if both are included, neither "
                    "is allowed to have a value of 0 (unknown)."),
-                ifd0Id, dngTags, unsignedShort, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, print0x9208), // DNG tag
         TagInfo(0xc65c, "BestQualityScale", N_("Best Quality Scale"),
                 N_("For some cameras, the best possible image quality is not achieved "
                    "by preserving the total pixel count during conversion. For example, "
