@@ -54,8 +54,8 @@ Exif.Image.BaselineExposure                  SRational   1  -31775/65536
 Exif.Image.BaselineNoise                     Rational    1  1/1
 Exif.Image.BaselineSharpness                 Rational    1  1/1
 Exif.Image.LinearResponseLimit               Rational    1  1/1
-Exif.Image.CalibrationIlluminant1            Short       1  17
-Exif.Image.CalibrationIlluminant2            Short       1  21
+Exif.Image.CalibrationIlluminant1            Short       1  Standard light A
+Exif.Image.CalibrationIlluminant2            Short       1  D65
 """
     ]
     stderr = [
