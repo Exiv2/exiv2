@@ -401,6 +401,35 @@ namespace Exiv2 {
         { 9, N_("Staggered layout H: even rows are offset down by 1/2, even columns right by 1/2")  }   // DNG 1.3
     };
 
+    //! MakerNoteSafety, tag 0xc635
+    extern const TagDetails exifMakerNoteSafety[] = {
+        { 0, N_("Unsafe") },
+        { 1, N_("Safe")   }
+    };
+
+    //! ColorimetricReference, tag 0xc6bf
+    extern const TagDetails exifColorimetricReference[] = {
+        { 0, N_("XYZ values are scene-referred")  },
+        { 1, N_("XYZ values are output-referred") }
+    };
+
+    //! ProfileEmbedPolicy, tag 0xc6fd
+    extern const TagDetails exifProfileEmbedPolicy[] = {
+        { 0, N_("Allow copying")   },
+        { 1, N_("Embed if used")   },
+        { 2, N_("Embed never")     },
+        { 3, N_("No restrictions") }
+    };
+
+    //! PreviewColorSpace, tag 0xc71a
+    extern const TagDetails exifPreviewColorSpace[] = {
+        { 0, N_("Unknown")        },
+        { 1, N_("Gray Gamma 2.2") },
+        { 2, N_("sRGB")           },
+        { 2, N_("Adobe RGB")      },
+        { 4, N_("ProPhoto RGB")   }
+    };
+
 
     //! Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
@@ -1114,7 +1143,7 @@ namespace Exiv2 {
                    "with a preserved MakerNote should be aware that any thumbnail "
                    "image embedded in the MakerNote may be stale, and may not reflect "
                    "the current state of the full size image."),
-                ifd0Id, dngTags, unsignedShort, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifMakerNoteSafety)), // DNG tag
         TagInfo(0xc65a, "CalibrationIlluminant1", N_("Calibration Illuminant 1"),
                 N_("The illuminant used for the first set of color calibration tags "
                    "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
@@ -1215,7 +1244,7 @@ namespace Exiv2 {
                 "are output-referred, using the ICC profile perceptual dynamic range. This "
                 "tag allows output-referred data to be stored in DNG files and still processed "
                 "correctly by DNG readers."),
-                ifd0Id, dngTags, unsignedShort, 0, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 0, EXV_PRINT_TAG(exifColorimetricReference)), // DNG tag
         TagInfo(0xc6f3, "CameraCalibrationSignature", N_("Camera Calibration Signature"),
                 N_("A UTF-8 encoded string associated with the CameraCalibration1 and "
                 "CameraCalibration2 tags. The CameraCalibration1 and CameraCalibration2 tags "
@@ -1230,6 +1259,12 @@ namespace Exiv2 {
                 "tag exactly matches the string stored in the ProfileCalibrationSignature tag "
                 "for the selected camera profile."),
                 ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc6f5, "ExtraCameraProfiles", N_("Extra Camera Profiles"),
+                N_("A list of file offsets to extra Camera Profile IFDs. Note that the primary "
+                "camera profile tags should be stored in IFD 0, and the ExtraCameraProfiles "
+                "tag should only be used if there is more than one camera profile stored in "
+                "the DNG file."),
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG tag
         TagInfo(0xc6f6, "AsShotProfileName", N_("As Shot Profile Name"),
                 N_("A UTF-8 encoded string containing the name of the \"as shot\" camera "
                 "profile, if any."),
@@ -1287,7 +1322,7 @@ namespace Exiv2 {
         TagInfo(0xc6fd, "ProfileEmbedPolicy", N_("Profile Embed Policy"),
                 N_("This tag contains information about the usage rules for the associated "
                 "camera profile."),
-                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(exifProfileEmbedPolicy)), // DNG tag
         TagInfo(0xc6fe, "ProfileCopyright", N_("Profile Copyright"),
                 N_("A UTF-8 encoded string containing the copyright information for the "
                 "camera profile. This string always should be preserved along with the other "
@@ -1321,7 +1356,7 @@ namespace Exiv2 {
                 N_("This tag specifies the color space in which the rendered preview in this "
                 "IFD is stored. The default value for this tag is sRGB for color previews "
                 "and Gray Gamma 2.2 for monochrome previews."),
-                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(exifPreviewColorSpace)), // DNG tag
         TagInfo(0xc71b, "PreviewDateTime", N_("Preview Date Time"),
                 N_("This tag is an ASCII string containing the name of the date/time at which "
                 "the preview stored in the IFD was rendered. The date/time is encoded using "
