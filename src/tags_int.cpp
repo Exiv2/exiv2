@@ -357,6 +357,31 @@ namespace Exiv2 {
         { 7, N_("(A+B)/2")     }
     };
 
+    //! LightSource, tag 0x9208
+    extern const TagDetails exifLightSource[] = {
+        {   0, N_("Unknown")                                 },
+        {   1, N_("Daylight")                                },
+        {   2, N_("Fluorescent")                             },
+        {   3, N_("Tungsten (incandescent light)")           },
+        {   4, N_("Flash")                                   },
+        {   9, N_("Fine weather")                            },
+        {  10, N_("Cloudy weather")                          },
+        {  11, N_("Shade")                                   },
+        {  12, N_("Daylight fluorescent (D 5700 - 7100K)")   },
+        {  13, N_("Day white fluorescent (N 4600 - 5400K)")  },
+        {  14, N_("Cool white fluorescent (W 3900 - 4500K)") },
+        {  15, N_("White fluorescent (WW 3200 - 3700K)")     },
+        {  17, N_("Standard light A")                        },
+        {  18, N_("Standard light B")                        },
+        {  19, N_("Standard light C")                        },
+        {  20, N_("D55")                                     },
+        {  21, N_("D65")                                     },
+        {  22, N_("D75")                                     },
+        {  23, N_("D50")                                     },
+        {  24, N_("ISO studio tungsten")                     },
+        { 255, N_("Other light source")                      }
+    };
+
     //! Flash, Exif tag 0x9209
     extern const TagDetails exifFlash[] = {
         { 0x00, N_("No flash")                                                      },
@@ -401,19 +426,19 @@ namespace Exiv2 {
         { 9, N_("Staggered layout H: even rows are offset down by 1/2, even columns right by 1/2")  }   // DNG 1.3
     };
 
-    //! MakerNoteSafety, tag 0xc635
+    //! MakerNoteSafety, DNG tag 0xc635
     extern const TagDetails exifMakerNoteSafety[] = {
         { 0, N_("Unsafe") },
         { 1, N_("Safe")   }
     };
 
-    //! ColorimetricReference, tag 0xc6bf
+    //! ColorimetricReference, DNG 1.2 tag 0xc6bf
     extern const TagDetails exifColorimetricReference[] = {
         { 0, N_("XYZ values are scene-referred")  },
         { 1, N_("XYZ values are output-referred") }
     };
 
-    //! ProfileEmbedPolicy, tag 0xc6fd
+    //! ProfileEmbedPolicy, DNG 1.2 tag 0xc6fd
     extern const TagDetails exifProfileEmbedPolicy[] = {
         { 0, N_("Allow copying")   },
         { 1, N_("Embed if used")   },
@@ -421,7 +446,7 @@ namespace Exiv2 {
         { 3, N_("No restrictions") }
     };
 
-    //! PreviewColorSpace, tag 0xc71a
+    //! PreviewColorSpace, DNG 1.2 tag 0xc71a
     extern const TagDetails exifPreviewColorSpace[] = {
         { 0, N_("Unknown")        },
         { 1, N_("Gray Gamma 2.2") },
@@ -1149,14 +1174,14 @@ namespace Exiv2 {
                    "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
                    "values for this tag are the same as the legal values for the "
                    "LightSource EXIF tag."),
-                ifd0Id, dngTags, unsignedShort, 1, print0x9208), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG tag
         TagInfo(0xc65b, "CalibrationIlluminant2", N_("Calibration Illuminant 2"),
                 N_("The illuminant used for an optional second set of color calibration "
                    "tags (ColorMatrix2, CameraCalibration2, ReductionMatrix2). The legal "
                    "values for this tag are the same as the legal values for the "
                    "CalibrationIlluminant1 tag; however, if both are included, neither "
                    "is allowed to have a value of 0 (unknown)."),
-                ifd0Id, dngTags, unsignedShort, 1, print0x9208), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG tag
         TagInfo(0xc65c, "BestQualityScale", N_("Best Quality Scale"),
                 N_("For some cameras, the best possible image quality is not achieved "
                    "by preserving the total pixel count during conversion. For example, "
@@ -1264,7 +1289,7 @@ namespace Exiv2 {
                 "camera profile tags should be stored in IFD 0, and the ExtraCameraProfiles "
                 "tag should only be used if there is more than one camera profile stored in "
                 "the DNG file."),
-                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG 1.2 tag
         TagInfo(0xc6f6, "AsShotProfileName", N_("As Shot Profile Name"),
                 N_("A UTF-8 encoded string containing the name of the \"as shot\" camera "
                 "profile, if any."),
@@ -2641,31 +2666,6 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(exifMeteringMode)(os, value, metadata);
     }
-
-    //! LightSource, tag 0x9208
-    extern const TagDetails exifLightSource[] = {
-        {   0, N_("Unknown")                                 },
-        {   1, N_("Daylight")                                },
-        {   2, N_("Fluorescent")                             },
-        {   3, N_("Tungsten (incandescent light)")           },
-        {   4, N_("Flash")                                   },
-        {   9, N_("Fine weather")                            },
-        {  10, N_("Cloudy weather")                          },
-        {  11, N_("Shade")                                   },
-        {  12, N_("Daylight fluorescent (D 5700 - 7100K)")   },
-        {  13, N_("Day white fluorescent (N 4600 - 5400K)")  },
-        {  14, N_("Cool white fluorescent (W 3900 - 4500K)") },
-        {  15, N_("White fluorescent (WW 3200 - 3700K)")     },
-        {  17, N_("Standard light A")                        },
-        {  18, N_("Standard light B")                        },
-        {  19, N_("Standard light C")                        },
-        {  20, N_("D55")                                     },
-        {  21, N_("D65")                                     },
-        {  22, N_("D75")                                     },
-        {  23, N_("D50")                                     },
-        {  24, N_("ISO studio tungsten")                     },
-        { 255, N_("Other light source")                      }
-    };
 
     std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData* metadata)
     {
