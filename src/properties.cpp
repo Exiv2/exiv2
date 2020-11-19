@@ -2839,14 +2839,25 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
+    // *************************************************************************
+    // free functions
     std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property)
     {
-        return os << property.name_                       << ",\t"
-                  << property.title_                      << ",\t"
-                  << property.xmpValueType_               << ",\t"
-                  << TypeInfo::typeName(property.typeId_) << ",\t"
-                  << ( property.xmpCategory_ == xmpExternal ? "External" : "Internal" ) << ",\t"
-                  << property.desc_                       << "\n";
+        os << property.name_                       << ","
+           << property.title_                      << ","
+           << property.xmpValueType_               << ","
+           << TypeInfo::typeName(property.typeId_) << ","
+           << ( property.xmpCategory_ == xmpExternal ? "External" : "Internal" ) << ",";
+        // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
+        char Q = '"';
+        os << Q;
+        for ( size_t i = 0 ; i < ::strlen(property.desc_) ; i++ ) {
+            char c = property.desc_[i];
+            if ( c == Q ) os << Q;
+            os << c;
+        }
+        os << Q << std::endl;
+        return os;
     }
     //! @endcond
 

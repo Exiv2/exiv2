@@ -36,7 +36,7 @@
 #
 # Description:
 #  Simple Makefile to create html documentation from templates. Requires
-#  some special tools (awk, python, xsltproc) but really only needs to
+#  some special tools (python3, xsltproc) but really only needs to
 #  be used to update the documentation after changing Exiv2 tags in the
 #  source code.
 #
@@ -168,7 +168,7 @@ tags: $(TABLES) Iptc $(SCHEMA)
 
 $(TABLES):
 	@echo Generating $@ table...
-	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f tags.awk > $@.xml
+	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | python3 tags.py > $@.xml
 	@xsltproc tags.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/" $@.tmp > __$@__
 	@touch $@
@@ -177,7 +177,7 @@ $(TABLES):
 Iptc:
 	@echo Generating $@ table...
 	@$(TAGLIST) $@ | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" -e"s/�/\&#177;/g" \
-	               | awk -f iptc.awk > $@.xml
+	               | python3 iptc.py > $@.xml
 	@xsltproc iptc.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/g" $@.tmp > __$@__
 	@touch $@
@@ -185,7 +185,7 @@ Iptc:
 
 $(SCHEMA):
 	@echo Generating $@ table...
-	@echo $@ | sed "s/xmp_//" | xargs $(TAGLIST) | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | awk -f xmp.awk > $@.xml
+	@echo $@ | sed "s/xmp_//" | xargs $(TAGLIST) | sed -e"s/</\&lt;/g" -e"s/>/\&gt;/g" | python3 xmp.py > $@.xml
 	@xsltproc xmp.xsl $@.xml > $@.tmp
 	@sed "s/report1/$@/" $@.tmp > __$@__
 	@touch $@
