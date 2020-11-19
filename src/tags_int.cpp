@@ -1951,7 +1951,7 @@ namespace Exiv2 {
                 gpsId, gpsTags, unsignedShort, 1, print0x001e),
         TagInfo(0x001f, "GPSHPositioningError", N_("GPS Horizontal positioning error"),
                 N_("This tag indicates horizontal positioning errors in meters."),
-                gpsId, gpsTags, unsignedRational, 1, print0x001e),
+                gpsId, gpsTags, unsignedRational, 1, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
