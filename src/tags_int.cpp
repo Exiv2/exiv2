@@ -833,13 +833,13 @@ namespace Exiv2 {
                 N_("Contains four ASCII characters representing the TIFF/EP standard "
                 "version of a TIFF/EP file, eg '1', '0', '0', '0'"),
                 ifd0Id, tiffEp, unsignedByte, 4, printValue), // TIFF/EP Tag
-        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"), N_("Type of image sensor."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
-        TagInfo(0x9400, "Temperature", N_("Temperature"), N_("Shooting situation."), ifd0Id, otherTags, signedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9401, "Humidity", N_("Humidity"), N_("Shooting situation."), ifd0Id, otherTags, unsignedRational, 1, printValue), // TExif 2.31
-        TagInfo(0x9402, "Pressure", N_("Pressure"), N_("Shooting situation."), ifd0Id, otherTags, unsignedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9403, "WaterDepth", N_("WaterDepth"), N_("Shooting situation."), ifd0Id, otherTags, signedRational, 1, printValue), // TExif 2.31
-        TagInfo(0x9404, "Acceleration", N_("Acceleration"), N_("Shooting situation."), ifd0Id, otherTags, unsignedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9405, "CameraElevationAngle", N_("Camera elevation angle"), N_("Shooting situation."), ifd0Id, otherTags, signedRational, 1, printValue), // TIFF/EP tag
+        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"), N_("Type of image sensor."), exifId, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
+        TagInfo(0x9400, "Temperature", N_("Temperature"), N_("Temperature as the ambient situation at the shot, for example the room temperature where the photographer was holding the camera. The unit is degrees C"), exifId, otherTags, signedRational, 1, printValue), // Exif 2.31 
+        TagInfo(0x9401, "Humidity", N_("Humidity"), N_("Humidity as the ambient situation at the shot, for example the room humidity where the photographer was holding the camera. The unit is %."), exifId, otherTags, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9402, "Pressure", N_("Pressure"), N_("Pressure as the ambient situation at the shot, for example the room atmospfere where the photographer was holding the camera or the water pressure under the sea. The unit is hPa."), exifId, otherTags, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9403, "WaterDepth", N_("WaterDepth"), N_("Water depth as the ambient situation at the shot, for example the water depth of the camera at underwater photography. The unit is m."), exifId, otherTags, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9404, "Acceleration", N_("Acceleration"), N_("Acceleration (a scalar regardless of direction) as the ambient situation at the shot, for example the driving acceleration of the vehicle which the photographer rode on at the shot. The unit is mGal (10-5 m/s2). "), exifId, otherTags, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9405, "CameraElevationAngle", N_("Camera elevation angle"), N_("Elevation/depression. angle of the orientation of the camera(imaging optical axis) as the ambient situation at the shot. The unit is degrees."), exifId, otherTags, signedRational, 1, printValue), // Exif 2.31
         TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
                 N_("Title tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, -1, printUcs2), // Windows Tag
@@ -1768,14 +1768,14 @@ namespace Exiv2 {
                 "that was used in photography as an ASCII string."),
                 exifId, otherTags, asciiString, 0, printValue),
         TagInfo(0xa460, "CompositeImage", N_("Composite Image"), // Exif 2.32
-                N_("This tag indicates whether the recorded image is a composite image* or not."),
+                N_("Indicates whether the recorded image is a composite image or not."),
                 exifId, captureCond, unsignedShort, 1, printCompositeImage),
         TagInfo(0xa461, "SourceImageNumberOfCompositeImage", N_("Source Image Number Of Composite Image"), // Exif 2.32
-                N_("This tag indicates the distance to the subject."), 
+                N_("Indicates the number of the source images (tentatively recorded images) captured for a composite Image."), 
                 exifId, captureCond, unsignedShort, 2, printValue),
         TagInfo(0xa462, "SourceExposureTimesOfCompositeImage", N_("Source Exposure Times Of Composite Image"), // Exif 2.32
-                N_("This tag indicates the distance to the subject."),
-                exifId, captureCond, undefined, 1, print0xa40c),
+                N_("For a composite image, records the parameters relating exposure time of the exposures for generating the said composite image, such as respective exposure times of captured source images (tentatively recorded images)."),
+                exifId, captureCond, undefined, 0, printValue),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
