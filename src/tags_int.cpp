@@ -733,6 +733,18 @@ namespace Exiv2 {
         TagInfo(0x4749, "RatingPercent", N_("Windows Rating Percent"),
                 N_("Rating tag used by Windows, value in percent"),
                 ifd0Id, otherTags, unsignedShort, -1, printValue), // Windows Tag
+        TagInfo(0x7032, "VignettingCorrParams",
+                N_("Vignetting Correction Params"),
+                N_("Sony vignetting correction parameters"),
+                ifd0Id, otherTags, signedShort, 17, printValue),  // Sony Tag
+        TagInfo(0x7035, "ChromaticAberrationCorrParams",
+                N_("Chromatic Aberration Correction Params"),
+                N_("Sony chromatic aberration correction parameters"),
+                ifd0Id, otherTags, signedShort, 33, printValue),  // Sony Tag
+        TagInfo(0x7037, "DistortionCorrParams",
+                N_("Distortion Correction Params"),
+                N_("Sony distortion correction parameters"),
+                ifd0Id, otherTags, signedShort, 17, printValue),  // Sony Tag
         TagInfo(0x800d, "ImageID", N_("Image ID"),
                 N_("ImageID is the full pathname of the original, high-resolution image, "
                    "or any other identifying string that uniquely identifies the original "
