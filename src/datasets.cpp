@@ -722,8 +722,16 @@ namespace Exiv2 {
            << iptcKey.key() << ", "
            << TypeInfo::typeName(
               IptcDataSets::dataSetType(dataSet.number_,
-                                          dataSet.recordId_)) << ", "
-           << dataSet.desc_;
+                                        dataSet.recordId_)) << ", ";
+        // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
+        char Q = '"';
+        os << Q;
+        for ( size_t i = 0 ; i < ::strlen(dataSet.desc_) ; i++ ) {
+            char c = dataSet.desc_[i];
+            if ( c == Q ) os << Q;
+            os << c;
+        }
+        os << Q;
         os.flags(f);
         return os;
     }

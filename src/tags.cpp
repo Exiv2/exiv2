@@ -441,15 +441,22 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         ExifKey exifKey(ti);
-        os << exifKey.tagName() << ",\t"
-           << std::dec << exifKey.tag() << ",\t"
+        os << exifKey.tagName() << ","
+           << std::dec << exifKey.tag() << ","
            << "0x" << std::setw(4) << std::setfill('0')
-           << std::right << std::hex << exifKey.tag() << ",\t"
-           << exifKey.groupName() << ",\t"
-           << exifKey.key() << ",\t"
-           << TypeInfo::typeName(exifKey.defaultTypeId()) << ",\t"
-           << exifKey.tagDesc();
-
+           << std::right << std::hex << exifKey.tag() << ","
+           << exifKey.groupName() << ","
+           << exifKey.key() << ","
+           << TypeInfo::typeName(exifKey.defaultTypeId()) << ",";
+        // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
+        char Q = '"';
+        os << Q;
+        for ( size_t i = 0 ; i < exifKey.tagDesc().size() ; i++ ) {
+            char c = exifKey.tagDesc()[i];
+            if ( c == Q ) os << Q;
+            os << c;
+        }
+        os << Q;
         os.flags(f);
         return os;
     }
