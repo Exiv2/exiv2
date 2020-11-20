@@ -177,44 +177,6 @@ namespace Exiv2 {
         { 3, N_("cm")   }
     };
 
-    //! GPS altitude reference, tag 0x0005
-    extern const TagDetails exifGPSAltitudeRef[] = {
-        { 0, N_("Above sea level") },
-        { 1, N_("Below sea level") }
-    };
-
-    //! GPS status, tag 0x0009
-    extern const TagDetails exifGPSStatus[] = {
-        { 'A', N_("Measurement in progress")      },
-        { 'V', N_("Measurement Interoperability") }
-    };
-
-    //! GPS measurement mode, tag 0x000a
-    extern const TagDetails exifGPSMeasureMode[] = {
-        { '2', N_("Two-dimensional measurement")   },
-        { '3', N_("Three-dimensional measurement") }
-    };
-
-    //! GPS speed reference, tag 0x000c
-    extern const TagDetails exifGPSSpeedRef[] = {
-        { 'K', N_("km/h")  },
-        { 'M', N_("mph")   },
-        { 'N', N_("knots") }
-    };
-
-    //! GPS Destination distance ref, tag 0x0019
-    extern const TagDetails exifGPSDestDistanceRef[] = {
-        { 'K', N_("Kilometers") },
-        { 'M', N_("Miles")      },
-        { 'N', N_("Knots")      }
-    };
-
-    //! GPS Differential, tag 0x001e
-    extern const TagDetails exifGPSDifferential[] = {
-        { 0, N_("Without correction") },
-        { 1, N_("Correction applied") }
-    };
-
     //! Orientation, tag 0x0112
     extern const TagDetails exifOrientation[] = {
         { 1, N_("top, left")     },
@@ -376,6 +338,28 @@ namespace Exiv2 {
         { 0x59, N_("Yes, auto, red-eye reduction")                                  },
         { 0x5d, N_("Yes, auto, red-eye reduction, return light not detected")       },
         { 0x5f, N_("Yes, auto, red-eye reduction, return light detected")           }
+    };
+
+    //! FocalPlaneResolutionUnit, TIFF/EP tag 0x9210
+    extern const TagDetails tiffFocalPlaneResolutionUnit[] = {
+        { 1, N_("inch")       },
+        { 2, N_("meter")      },
+        { 3, N_("centimeter") },
+        { 4, N_("millimeter") },
+        { 5, N_("micrometer") }
+    };
+
+    //! SensingMethod, TIFF/EP tag 0x9217
+    extern const TagDetails tiffSensingMethod[] = {
+        { 0, N_("Undefined")               },
+        { 1, N_("Monochrome area")         },
+        { 2, N_("One-chip color area")     },
+        { 3, N_("Two-chip color area")     },
+        { 4, N_("Three-chip color area")   },
+        { 5, N_("Color sequential area")   },
+        { 6, N_("Monochrome linear")       },
+        { 7, N_("Trilinear sensor")        },
+        { 8, N_("Color sequential linear") }
     };
 
     //! CFALayout, tag 0xc617
@@ -818,28 +802,24 @@ namespace Exiv2 {
         TagInfo(0x9208, "LightSource", N_("Light Source"), N_("The kind of light source."), ifd0Id, tiffEp, unsignedShort, 1, print0x9208), // TIFF/EP tag
         TagInfo(0x9209, "Flash", N_("Flash"), N_("Indicates the status of flash when the image was shot."), ifd0Id, tiffEp, unsignedShort, 1, EXV_PRINT_TAG(exifFlash)), // TIFF/EP tag
         TagInfo(0x920a, "FocalLength", N_("Focal Length"), N_("The actual focal length of the lens, in mm."), ifd0Id, tiffEp, unsignedRational, 1, print0x920a), // TIFF/EP tag
-        TagInfo(0x920b, "FlashEnergy", N_("Flash Energy"), N_("Amount of flash energy (BCPS)."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
+        TagInfo(0x920b, "FlashEnergy", N_("Flash Energy"), N_("Amount of flash energy (BCPS)."), ifd0Id, tiffEp, unsignedRational, 0, printValue), // TIFF/EP tag
         TagInfo(0x920c, "SpatialFrequencyResponse", N_("Spatial Frequency Response"), N_("SFR of the camera."), ifd0Id, tiffEp, undefined, 0, printValue), // TIFF/EP tag
         TagInfo(0x920d, "Noise", N_("Noise"), N_("Noise measurement values."), ifd0Id, tiffEp, undefined, 0, printValue), // TIFF/EP tag
-        TagInfo(0x920e, "FocalPlaneXResolution", N_("Focal Plane X Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageWidth direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
-        TagInfo(0x920f, "FocalPlaneYResolution", N_("Focal Plane Y Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageLength direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
-        TagInfo(0x9210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), N_("Unit of measurement for FocalPlaneXResolution(37390) and FocalPlaneYResolution(37391)."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
+        TagInfo(0x920e, "FocalPlaneXResolution", N_("Focal Plane X Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageWidth direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printFloat), // TIFF/EP tag
+        TagInfo(0x920f, "FocalPlaneYResolution", N_("Focal Plane Y Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageLength direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printFloat), // TIFF/EP tag
+        TagInfo(0x9210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), N_("Unit of measurement for FocalPlaneXResolution(37390) and FocalPlaneYResolution(37391)."), ifd0Id, tiffEp, unsignedShort, 1, EXV_PRINT_TAG(tiffFocalPlaneResolutionUnit)), // TIFF/EP tag
         TagInfo(0x9211, "ImageNumber", N_("Image Number"), N_("Number assigned to an image, e.g., in a chained image burst."), ifd0Id, tiffEp, unsignedLong, 1, printValue), // TIFF/EP tag
         TagInfo(0x9212, "SecurityClassification", N_("Security Classification"), N_("Security classification assigned to the image."), ifd0Id, tiffEp, asciiString, 0, printValue), // TIFF/EP tag
         TagInfo(0x9213, "ImageHistory", N_("Image History"), N_("Record of what has been done to the image."), ifd0Id, tiffEp, asciiString, 0, printValue), // TIFF/EP tag
         TagInfo(0x9214, "SubjectLocation", N_("Subject Location"), N_("Indicates the location and area of the main subject in the overall scene."), ifd0Id, tiffEp, unsignedShort, 2, printValue), // TIFF/EP tag
-        TagInfo(0x9215, "ExposureIndex", N_("Exposure Index"), N_("Encodes the camera exposure index setting when image was captured."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
+        TagInfo(0x9215, "ExposureIndex", N_("Exposure Index"), N_("Encodes the camera exposure index setting when image was captured."), ifd0Id, tiffEp, unsignedRational, 0, printValue), // TIFF/EP tag
         TagInfo(0x9216, "TIFFEPStandardID", N_("TIFF/EP Standard ID"),
                 N_("Contains four ASCII characters representing the TIFF/EP standard "
                 "version of a TIFF/EP file, eg '1', '0', '0', '0'"),
                 ifd0Id, tiffEp, unsignedByte, 4, printValue), // TIFF/EP Tag
-        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"), N_("Type of image sensor."), exifId, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
-        TagInfo(0x9400, "Temperature", N_("Temperature"), N_("Temperature as the ambient situation at the shot, for example the room temperature where the photographer was holding the camera. The unit is degrees C"), exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9401, "Humidity", N_("Humidity"), N_("Humidity as the ambient situation at the shot, for example the room humidity where the photographer was holding the camera. The unit is %."), exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9402, "Pressure", N_("Pressure"), N_("Pressure as the ambient situation at the shot, for example the room atmospfere where the photographer was holding the camera or the water pressure under the sea. The unit is hPa."), exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9403, "WaterDepth", N_("WaterDepth"), N_("Water depth as the ambient situation at the shot, for example the water depth of the camera at underwater photography. The unit is m."), exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9404, "Acceleration", N_("Acceleration"), N_("Acceleration (a scalar regardless of direction) as the ambient situation at the shot, for example the driving acceleration of the vehicle which the photographer rode on at the shot. The unit is mGal (10-5 m/s2). "), exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
-        TagInfo(0x9405, "CameraElevationAngle", N_("Camera elevation angle"), N_("Elevation/depression. angle of the orientation of the camera(imaging optical axis) as the ambient situation at the shot. The unit is degrees."), exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"),
+                N_("Type of image sensor."),
+                ifd0Id, tiffEp, unsignedShort, 1, EXV_PRINT_TAG(tiffSensingMethod)), // TIFF/EP tag
         TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
                 N_("Title tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, -1, printUcs2), // Windows Tag
@@ -1437,6 +1417,14 @@ namespace Exiv2 {
         return ifdTagInfo;
     }
 
+    //! CompositeImage, tag 0xa460
+    extern const TagDetails exifCompositeImage[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("NonComposite")   },
+        { 2, N_("GeneralComposite")   },
+        { 3, N_("CompositeCapturedWhenShooting")   }
+    };
+
     // Exif IFD Tags
     static const TagInfo exifTagInfo[] = {
         TagInfo(0x829a, "ExposureTime", N_("Exposure Time"),
@@ -1587,9 +1575,33 @@ namespace Exiv2 {
         TagInfo(0x9292, "SubSecTimeDigitized", N_("Sub-seconds Time Digitized"),
                 N_("A tag used to record fractions of seconds for the <DateTimeDigitized> tag."),
                 exifId, dateTime, asciiString, 0, printValue),
-        TagInfo(0x9400, "AmbientTemperature", N_("AmbientTemperature"),
-                N_("AmbientTemperature"),
-                exifId, captureCond, signedRational, 0, printValue),
+        TagInfo(0x9400, "Temperature", N_("Temperature"),
+                N_("Temperature as the ambient situation at the shot, for example the room "
+                "temperature where the photographer was holding the camera. The unit is "
+                "degrees C."),
+                exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9401, "Humidity", N_("Humidity"),
+                N_("Humidity as the ambient situation at the shot, for example the room humidity "
+                "where the photographer was holding the camera. The unit is %."),
+                exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9402, "Pressure", N_("Pressure"),
+                N_("Pressure as the ambient situation at the shot, for example the room atmosphere "
+                "where the photographer was holding the camera or the water pressure under the sea. "
+                "The unit is hPa."),
+                exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9403, "WaterDepth", N_("WaterDepth"),
+                N_("Water depth as the ambient situation at the shot, for example the water depth "
+                "of the camera at underwater photography. The unit is m."),
+                exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9404, "Acceleration", N_("Acceleration"),
+                N_("Acceleration (a scalar regardless of direction) as the ambient situation at the "
+                "shot, for example the driving acceleration of the vehicle which the photographer "
+                "rode on at the shot. The unit is mGal (10e-5 m/s^2)."),
+                exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9405, "CameraElevationAngle", N_("Camera elevation angle"),
+                N_("Elevation/depression. angle of the orientation of the camera(imaging optical "
+                "axis) as the ambient situation at the shot. The unit is degrees."),
+                exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
         TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
                 N_("The FlashPix format version supported by a FPXR file."),
                 exifId, exifVersion, undefined, 4, printExifVersion),
@@ -1767,15 +1779,15 @@ namespace Exiv2 {
                 N_("This tag records the serial number of the interchangeable lens "
                 "that was used in photography as an ASCII string."),
                 exifId, otherTags, asciiString, 0, printValue),
-        TagInfo(0xa460, "CompositeImage", N_("Composite Image"), // Exif 2.32
+        TagInfo(0xa460, "CompositeImage", N_("Composite Image"),
                 N_("Indicates whether the recorded image is a composite image or not."),
-                exifId, captureCond, unsignedShort, 1, printCompositeImage),
-        TagInfo(0xa461, "SourceImageNumberOfCompositeImage", N_("Source Image Number Of Composite Image"), // Exif 2.32
-                N_("Indicates the number of the source images (tentatively recorded images) captured for a composite Image."), 
-                exifId, captureCond, unsignedShort, 2, printValue),
-        TagInfo(0xa462, "SourceExposureTimesOfCompositeImage", N_("Source Exposure Times Of Composite Image"), // Exif 2.32
+                exifId, captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifCompositeImage)), // Exif 2.32
+        TagInfo(0xa461, "SourceImageNumberOfCompositeImage", N_("Source Image Number Of Composite Image"),
+                N_("Indicates the number of the source images (tentatively recorded images) captured for a composite Image."),
+                exifId, captureCond, unsignedShort, 2, printValue), // Exif 2.32
+        TagInfo(0xa462, "SourceExposureTimesOfCompositeImage", N_("Source Exposure Times Of Composite Image"),
                 N_("For a composite image, records the parameters relating exposure time of the exposures for generating the said composite image, such as respective exposure times of captured source images (tentatively recorded images)."),
-                exifId, captureCond, undefined, 0, printValue),
+                exifId, captureCond, undefined, 0, printValue), // Exif 2.32
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
@@ -1797,6 +1809,44 @@ namespace Exiv2 {
     extern const TagDetails exifGPSLongitudeRef[] = {
         { 69, N_("East") },
         { 87, N_("West") }
+    };
+
+    //! GPS altitude reference, tag 0x0005
+    extern const TagDetails exifGPSAltitudeRef[] = {
+        { 0, N_("Above sea level") },
+        { 1, N_("Below sea level") }
+    };
+
+    //! GPS status, tag 0x0009
+    extern const TagDetails exifGPSStatus[] = {
+        { 'A', N_("Measurement in progress")      },
+        { 'V', N_("Measurement Interoperability") }
+    };
+
+    //! GPS measurement mode, tag 0x000a
+    extern const TagDetails exifGPSMeasureMode[] = {
+        { '2', N_("Two-dimensional measurement")   },
+        { '3', N_("Three-dimensional measurement") }
+    };
+
+    //! GPS speed reference, tag 0x000c
+    extern const TagDetails exifGPSSpeedRef[] = {
+        { 'K', N_("km/h")  },
+        { 'M', N_("mph")   },
+        { 'N', N_("knots") }
+    };
+
+    //! GPS Destination distance ref, tag 0x0019
+    extern const TagDetails exifGPSDestDistanceRef[] = {
+        { 'K', N_("Kilometers") },
+        { 'M', N_("Miles")      },
+        { 'N', N_("Knots")      }
+    };
+
+    //! GPS Differential, tag 0x001e
+    extern const TagDetails exifGPSDifferential[] = {
+        { 0, N_("Without correction") },
+        { 1, N_("Correction applied") }
     };
 
     // GPS Info Tags
@@ -2858,18 +2908,6 @@ namespace Exiv2 {
     std::ostream& printNormalSoftHard(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(exifNormalSoftHard)(os, value, metadata);
-    }
-
-    extern const TagDetails exifCompositeImage[] = {
-        { 0, N_("Unknown") },
-        { 1, N_("NonComposite")   },
-        { 2, N_("GeneralComposite")   },
-        { 3, N_("CompositeCapturedWhenShooting")   }
-    };
-
-    std::ostream& printCompositeImage(std::ostream& os, const Value& value, const ExifData* metadata)
-    {
-        return EXV_PRINT_TAG(exifCompositeImage)(os, value, metadata);
     }
 
     std::ostream& printExifVersion(std::ostream& os, const Value& value, const ExifData*)
