@@ -169,10 +169,26 @@ namespace Exiv2 {
              of nothing more than a name, based on the Exif standard.
      */
     enum SectionId { sectionIdNotSet,
-                     imgStruct, recOffset, imgCharacter, otherTags, exifFormat,
-                     exifVersion, imgConfig, userInfo, relatedFile, dateTime,
-                     captureCond, gpsTags, iopTags, mpfTags, makerTags, dngTags, panaRaw,
-                     tiffEp, tiffPm6, adobeOpi,
+                     imgStruct,     // 4.6.4 A
+                     recOffset,     // 4.6.4 B
+                     imgCharacter,  // 4.6.4 C
+                     otherTags,     // 4.6.4 D
+                     exifFormat,    // 4.6.3
+                     exifVersion,   // 4.6.5 A
+                     imgConfig,     // 4.6.5 C
+                     userInfo,      // 4.6.5 D
+                     relatedFile,   // 4.6.5 E
+                     dateTime,      // 4.6.5 F
+                     captureCond,   // 4.6.5 G
+                     gpsTags,       // 4.6.6
+                     iopTags,       // 4.6.7
+                     mpfTags,
+                     makerTags,     // MakerNote
+                     dngTags,       // DNG Spec
+                     panaRaw,
+                     tiffEp,        // TIFF-EP Spec
+                     tiffPm6,
+                     adobeOpi,
                      lastSectionId };
 
     //! The details of a section.
