@@ -1836,6 +1836,12 @@ namespace Exiv2 {
         { 'N', N_("knots") }
     };
 
+    //! GPS direction ref, tags 0x000e, 0x0010, 0x0017
+    extern const TagDetails exifGPSDirRef[] = {
+        { 'T', N_("True direction")     },
+        { 'M', N_("Magnetic direction") }
+    };
+
     //! GPS Destination distance ref, tag 0x0019
     extern const TagDetails exifGPSDestDistanceRef[] = {
         { 'K', N_("Kilometers") },
@@ -2886,12 +2892,6 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(exifSubjectDistanceRange)(os, value, metadata);
     }
-
-    //! GPS direction ref, tags 0x000e, 0x0010, 0x0017
-    extern const TagDetails exifGPSDirRef[] = {
-        { 'T', N_("True direction")     },
-        { 'M', N_("Magnetic direction") }
-    };
 
     std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData* metadata)
     {
