@@ -206,7 +206,7 @@ Profile :=    msvc{Edition}{Type}{Bits}
 Edition :=  { 2019    | 2017  |  2015  }
 Type    :=  { Release | Debug }
 Bits    :=  { 64      | 32    }  
-Examples:     msvc2019Release64 msvc2017Release64  msvc2015Debug32
+Examples:     msvc2019Release64 msvc2017Release32  msvc2015Debug32
 ```
 
 The profile msvc2019Release64 is as follows:
@@ -242,7 +242,7 @@ In the step-by-step guide, the command `$ cmake ..` uses
 the default CMake generator.  Always use the generator for your version of Visual Studio.  For example:
 
 ```bat
-c:\..\build> conan install .. --build missing --profile msvc2019Release
+c:\..\build> conan install .. --build missing --profile msvc2019Release64
 c:\..\build> cmake         .. -G "Visual Studio 16 2019"
 c:\..\build> cmake --build .  --config Release
 ```
@@ -260,7 +260,7 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 
 | | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015|
 |:---------|--------------------|--------------------|--------------|
-| _**conan install .. --profile**_ | msvc2019Release | msvc2017Release64 | msvc2015Release64 |
+| _**conan install .. --profile**_ | msvc2019Release64 | msvc2017Release64 | msvc2015Release64 |
 | _**cmake -G**_                   |  "Visual Studio 16 2019"    |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
 | _**profile**_<br><br><br><br><br><br><br>_ | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=16<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=15<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=14 <br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows |
 
@@ -276,7 +276,7 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 || Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
 |:-----------|--------------------|--------------------|--------------------|
 | _**conan install .. --profile**_ | msvc2019Release32 | msvc2017Release32 | msvc2015Release32 |
-| _**cmake -G**_ | "Visual Studio 15 2019" -A Win32 | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
+| _**cmake -G**_ | "Visual Studio 16 2019" -A Win32 | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
 | _**profile**_<br>_ | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
 
 ##### Static Builds
@@ -303,7 +303,7 @@ You should link everything with the dynamic or static run-time. You can link a s
 It is recommended that you use profiles provided in `<exiv2dir>\cmake\msvc_conan_profiles`.
 
 You can modify profile settings on the command line.
-The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration to some conan flexibility which be useful when your build environment is automated.
+The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration of some conan flexibility which may be useful when your build environment is automated.
 
 ```bash
 $ conan install .. --profile msvc2017Release64 -s arch_build=x86 -s arch=x86 -s compiler.version=14

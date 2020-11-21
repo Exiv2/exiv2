@@ -55,7 +55,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     2. [macOS](#5-2)
     3. [MinGW/msys2](#5-3)
     4. [Cygwin](#5-4)
-    5. [Microsoft Visual C++](#5-5)
+    5. [Visual Studio](#5-5)
     6. [Unix](#5-6)
 
 [TOC](#TOC)
@@ -1175,11 +1175,11 @@ endlocal
 [TOC](#TOC)
 <div id="5-5">
 
-### 5.5 Microsoft Visual C++
+### 5.5 Visual Studio
 
-We recommend that you use Conan to build Exiv2 using Microsoft Visual C++. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later.  We actively support and build with Visual Studio 2015, 2017 and 2019.
+We recommend that you use Conan to build Exiv2 using Visual Studio. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later.  We actively support and build with Visual Studio 2015, 2017 and 2019.
 
-As well as Microsoft Visual Studio, you will need to install CMake, Python3, and Conan.
+As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 
 1) Binary installers for CMake on Windows are availably from [https://cmake.org/download/](https://cmake.org/download/).<br/>
 2) Binary installers for Python3 are available from [python.org](https://python.org)<br/>
