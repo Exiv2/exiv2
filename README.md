@@ -80,7 +80,7 @@ $ sudo make install
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
 
-When you run cmake, it will generate the file exv_conf.h in the build directory.  This file contains setting information about both the options you have chosen and the availability of libraries on your machine.
+cmake generates files in the build directory.  cmake generates the project/solution/makefiles required to build the exiv2 library and sample applications.  cmake also creates the files exv\_conf.h and exiv2lib\_export which contain compiler directives about the build options you have chosen and the availability of libraries on your machine.
 
 #### Using the exiv2 command-line program
 
