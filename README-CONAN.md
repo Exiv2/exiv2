@@ -171,6 +171,8 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 <name id="2-2"></a>
 ### 2.2) Visual Studio Notes
 
+We recommend that you install python as discussed here:  [https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146](https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146)
+
 I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
 
 ```bat
@@ -244,7 +246,7 @@ the default CMake generator.  Always use the generator for your version of Visua
 
 ```bat
 c:\..\build> conan install .. --build missing --profile msvc2019Release64
-c:\..\build> cmake         .. -G "Visual Studio 16 2019"
+c:\..\build> cmake         .. -G "Visual Studio 16 2019" -A x64
 c:\..\build> cmake --build .  --config Release
 ```
 
@@ -252,8 +254,8 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 
 | Architecture | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
 |:---------    |--------------------|--------------------|--------------------|--------------------|
-| 64 bit       | "Visual Studio 16 2019"           | "Visual Studio 15 2017 Win64" |  "Visual Studio 14 2015 Win64"     |
-| 32 bit       | "Visual Studio 16 2019" -A Win32  | "Visual Studio 15 2017"       | "Visual Studio 14 2015"            |
+| 64 bit       | -G "Visual Studio 16 2019" -A x64          | -G "Visual Studio 15 2017 Win64" | -G "Visual Studio 14 2015 Win64"     |
+| 32 bit       | -G "Visual Studio 16 2019" -A Win32        | -G "Visual Studio 15 2017"       | -G "Visual Studio 14 2015"           |
 
 ### Recommended settings for Visual Studio
 
@@ -262,7 +264,7 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 | | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015|
 |:---------|--------------------|--------------------|--------------|
 | _**conan install .. --profile**_ | msvc2019Release64 | msvc2017Release64 | msvc2015Release64 |
-| _**cmake -G**_                   |  "Visual Studio 16 2019"    |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
+| _**cmake**_                   |  -G "Visual Studio 16 2019" -A x64   |  -G "Visual Studio 15 2017 Win64"    | -G "Visual Studio 14 2015 Win64" |
 | _**profile**_<br><br><br><br><br><br><br>_ | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=16<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=15<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=14 <br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows |
 
 ##### Debug Builds
@@ -277,7 +279,7 @@ CMake provides Generators for different editions of Visual Studio.  The 64 and 3
 || Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
 |:-----------|--------------------|--------------------|--------------------|
 | _**conan install .. --profile**_ | msvc2019Release32 | msvc2017Release32 | msvc2015Release32 |
-| _**cmake -G**_ | "Visual Studio 16 2019" -A Win32 | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
+| _**cmake**_ | -G "Visual Studio 16 2019" -A Win32 | -G "Visual Studio 15 2017" | -G "Visual Studio 14 2015" |
 | _**profile**_<br>_ | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
 
 ##### Static Builds
@@ -594,4 +596,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-11-08
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-11-22
