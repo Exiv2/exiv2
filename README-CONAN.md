@@ -175,19 +175,20 @@ I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduc
 
 ```bat
 @echo off
+@echo off
 setlocal
+if NOT EXIST c:\Python39\python3.exe copy c:\Python39\python.exe c:\Python39\python3.exe
 set "P="
-set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
+set "P=%P%C:\Python39\;C:\Python39\Scripts;%USERPROFILE%\AppData\Roaming\Python\Python39" # DOS Python3
 set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
-set "P=%P%c:\msys64\usr\bin;"                # msys2 make, bash etc
-set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
-set "P=%P%c:\Windows\System32;"              # windows
-set "P=%P%%USERPROFILE%\com;"                # my home-made magic
-echo %P%
+set "P=%P%c:\msys64\usr\bin;"                # OPTIONAL to run test suite msys2 make, bash etc
+set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;"
+set "P=%P%c:\Windows\System32;"              # Windows
+set "P=%P%%USERPROFILE%\com;"                # OPTIONAL my home-made magic
 set "PATH=%P%"
-set "EXIV2_BINDIR=%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\build\bin"
-color 0d
-cmd /S /K cd "%EXIV2_BINDIR%\..\.."
+set "EXIV2_EXT=.exe"
+color 1e
+cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
 color
 endlocal
 ```
