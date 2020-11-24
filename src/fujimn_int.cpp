@@ -192,6 +192,14 @@ namespace Exiv2 {
         { 32768, N_("Film simulation mode") }
     };
 
+    //! CropMode, tag 0x104d
+    extern const TagDetails fujiCropMode[] = {
+        { 0, N_("None")                          },
+        { 1, N_("Full frame")                    },
+        { 2, N_("Sports Finder Mode")            },
+        { 4, N_("Electronic Shutter 1.25x Crop") },
+    };
+
     //! DRangePriority, tag 0x1443
     extern const TagDetails fujiDRangePriority[] = {
         {     0, N_("Auto")  },
@@ -264,6 +272,8 @@ namespace Exiv2 {
         TagInfo(0x1041, "HighlightTone", N_("Highlight Tone"),
                 N_("Highlight tone"),
                 fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)),
+        TagInfo(0x104d, "CropMode", N_("Crop Mode"), N_("Crop mode"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiCropMode)),
         TagInfo(0x1100, "Continuous", N_("Continuous"),
                 N_("Continuous shooting or auto bracketing setting"),
                 fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContinuous)),
