@@ -1,6 +1,6 @@
-| Travis        | AppVeyor      | GitLab| Codecov| Repology|
-|:-------------:|:-------------:|:-----:|:------:|:-------:|
-| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) |
+| Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
+|:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
 <div id="1">
 
@@ -55,7 +55,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     2. [macOS](#5-2)
     3. [MinGW/msys2](#5-3)
     4. [Cygwin](#5-4)
-    5. [Microsoft Visual C++](#5-5)
+    5. [Visual Studio](#5-5)
     6. [Unix](#5-6)
 
 [TOC](#TOC)
@@ -79,6 +79,8 @@ $ sudo make install
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
+
+cmake generates files in the build directory.  cmake generates the project/solution/makefiles required to build the exiv2 library and sample applications.  cmake also creates the files exv\_conf.h and exiv2lib\_export which contain compiler directives about the build options you have chosen and the availability of libraries on your machine.
 
 #### Using the exiv2 command-line program
 
@@ -804,7 +806,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 <div id="3-2">
 
 ### 3.2 Support
-For new bug reports and feature requests, please open an issue in Github.
+For new bug reports, feature requests and support:  Please open an issue in Github.  [https://github.com/exiv2/exiv2](https://github.com/exiv2/exiv2)
 
 [TOC](#TOC)
 <div id="4">
@@ -1173,11 +1175,11 @@ endlocal
 [TOC](#TOC)
 <div id="5-5">
 
-### 5.5 Microsoft Visual C++
+### 5.5 Visual Studio
 
-We recommend that you use Conan to build Exiv2 using Microsoft Visual C++. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later.  We actively support and build with Visual Studio 2015, 2017 and 2019.
+We recommend that you use Conan to build Exiv2 using Visual Studio. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later.  We actively support and build with Visual Studio 2015, 2017 and 2019.
 
-As well as Microsoft Visual Studio, you will need to install CMake, Python3, and Conan.
+As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 
 1) Binary installers for CMake on Windows are availably from [https://cmake.org/download/](https://cmake.org/download/).<br/>
 2) Binary installers for Python3 are available from [python.org](https://python.org)<br/>
@@ -1188,15 +1190,19 @@ I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduc
 ```bat
 @echo off
 setlocal
+if NOT EXIST c:\Python39\python3.exe copy c:\Python39\python.exe c:\Python39\python3.exe
 set "P="
-set "P=%P%C:\Python37\;C:\Python37\Scripts;" # DOS Python3
+set "P=%P%C:\Python39\;C:\Python39\Scripts;%USERPROFILE%\AppData\Roaming\Python\Python39" # DOS Python3
 set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
-set "P=%P%c:\msys64\usr\bin;"                # MinGW/msys2 make, bash etc
-set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin;"
-set "P=%P%c:\Windows\System32;"              # windows
-set "P=%P%%USERPROFILE%\com;"                # my home-made magic
+set "P=%P%c:\msys64\usr\bin;"                # OPTIONAL to run test suite msys2 make, bash etc
+set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;"
+set "P=%P%c:\Windows\System32;"              # Windows
+set "P=%P%%USERPROFILE%\com;"                # OPTIONAL my home-made magic
 set "PATH=%P%"
+set "EXIV2_EXT=.exe"
+color 1e
 cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
+color
 endlocal
 ```
 
@@ -1298,5 +1304,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-05-25
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-11-20
 
