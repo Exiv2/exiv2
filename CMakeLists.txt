@@ -1,12 +1,12 @@
 cmake_minimum_required( VERSION 3.3.2 )
 
 project(exiv2          # use TWEAK to categorize the build
-    VERSION 0.27.3     # 0.27.3    = GM
-                       # 0.27.3.00 = GM Preview
-                       # 0.27.3.09 = Not For Release
-                       # 0.27.3.2  = RC2
-                       # 0.27.3.20 = RC2 Preview
-                       # 0.27.3.29 = RC2 Not for release
+    VERSION 0.27.4.9   # 0.27.4    = GM               (tagged and released)
+                       # 0.27.4.9  = 27.4.9 Development
+                       # 0.27.4.00 = GM Preview
+                       # 0.27.4.2  = RC2              (tagged and released)
+                       # 0.27.4.20 = RC2 Preview
+                       # 0.27.4.29 = RC2 Development
     LANGUAGES CXX
 )
 include(cmake/mainSetup.cmake  REQUIRED)
