@@ -451,6 +451,26 @@ namespace Exiv2 {
         { 1, N_("None") }
     };
 
+    //! DepthFormat, DNG 1.5 tag 0xc7e9
+    extern const TagDetails dngDepthFormat[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("Linear")  },
+        { 2, N_("Inverse") }
+    };
+
+    //! DepthUnits, DNG 1.5 tag 0xc7ec
+    extern const TagDetails dngDepthUnits[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("meters")  }
+    };
+
+    //! DepthMeasureType, DNG 1.5 tag 0xc7ed
+    extern const TagDetails dngDepthMeasureType[] = {
+        { 0, N_("Unknown")      },
+        { 1, N_("Optical axis") },
+        { 2, N_("Optical ray")  }
+    };
+
 
     //! Base IFD Tags (IFD0 and IFD1)
     static const TagInfo ifdTagInfo[] = {
@@ -1561,6 +1581,34 @@ namespace Exiv2 {
                    "The default values of (top = 0, left = 0, bottom = 1, right = 1) correspond exactly to the default "
                    "crop rectangle (as specified by the DefaultCropOrigin and DefaultCropSize tags)."),
                 ifd0Id, dngTags, unsignedRational, 4, printFloat), // DNG 1.4 tag
+        TagInfo(0xc7e9, "DepthFormat", N_("Depth Format"),
+                N_("Specifies the encoding of any depth data in the file. Can be unknown (apart "
+                "from nearer distances being closer to zero, and farther distances being closer to "
+                "the maximum value), linear (values vary linearly from zero representing DepthNear "
+                "to the maximum value representing DepthFar), or inverse (values are stored inverse "
+                "linearly, with zero representing DepthNear and the maximum value representing "
+                "DepthFar)."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngDepthFormat)), // DNG 1.5 tag
+        TagInfo(0xc7ea, "DepthNear", N_("Depth Near"),
+                N_("Specifies distance from the camera represented by the zero value in the depth map. "
+                "0/0 means unknown."),
+                ifd0Id, dngTags, unsignedRational, 1, printValue), // DNG 1.5 tag
+        TagInfo(0xc7eb, "DepthFar", N_("Depth Far"),
+                N_("Specifies distance from the camera represented by the maximum value in the depth "
+                "map. 0/0 means unknown. 1/0 means infinity, which is valid for unknown and inverse "
+                "depth formats."),
+                ifd0Id, dngTags, unsignedRational, 1, printValue), // DNG 1.5 tag
+        TagInfo(0xc7ec, "DepthUnits", N_("Depth Units"),
+                N_("Specifies the measurement units for the DepthNear and DepthFar tags."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngDepthUnits)), // DNG 1.5 tag
+        TagInfo(0xc7ed, "DepthMeasureType", N_("Depth Measure Type"),
+                N_("Specifies the measurement geometry for the depth map. Can be unknown, measured "
+                "along the optical axis, or measured along the optical ray passing through each "
+                "pixel."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngDepthMeasureType)), // DNG 1.5 tag
+        TagInfo(0xc7ee, "EnhanceParams", N_("Enhance Params"),
+                N_("A string that documents how the enhanced image data was processed."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.5 tag
 
         ////////////////////////////////////////
         // End of list marker
