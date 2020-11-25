@@ -397,8 +397,8 @@ namespace Exiv2 {
         { 8, N_("Color sequential linear") }
     };
 
-    //! CFALayout, tag 0xc617
-    extern const TagDetails exifCfaLayout[] = {
+    //! CFALayout, DNG tag 0xc617
+    extern const TagDetails dngCfaLayout[] = {
         { 1, N_("Rectangular (or square) layout")                                                   },
         { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")                      },
         { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")                        },
@@ -411,19 +411,19 @@ namespace Exiv2 {
     };
 
     //! MakerNoteSafety, DNG tag 0xc635
-    extern const TagDetails exifMakerNoteSafety[] = {
+    extern const TagDetails dngMakerNoteSafety[] = {
         { 0, N_("Unsafe") },
         { 1, N_("Safe")   }
     };
 
     //! ColorimetricReference, DNG 1.2 tag 0xc6bf
-    extern const TagDetails exifColorimetricReference[] = {
+    extern const TagDetails dngColorimetricReference[] = {
         { 0, N_("XYZ values are scene-referred")  },
         { 1, N_("XYZ values are output-referred") }
     };
 
     //! ProfileEmbedPolicy, DNG 1.2 tag 0xc6fd
-    extern const TagDetails exifProfileEmbedPolicy[] = {
+    extern const TagDetails dngProfileEmbedPolicy[] = {
         { 0, N_("Allow copying")   },
         { 1, N_("Embed if used")   },
         { 2, N_("Embed never")     },
@@ -431,12 +431,24 @@ namespace Exiv2 {
     };
 
     //! PreviewColorSpace, DNG 1.2 tag 0xc71a
-    extern const TagDetails exifPreviewColorSpace[] = {
+    extern const TagDetails dngPreviewColorSpace[] = {
         { 0, N_("Unknown")        },
         { 1, N_("Gray Gamma 2.2") },
         { 2, N_("sRGB")           },
         { 2, N_("Adobe RGB")      },
         { 4, N_("ProPhoto RGB")   }
+    };
+
+    //! ProfileEncoding, DNG 1.4 tags 0xc7a3, 0xc7a4
+    extern const TagDetails dngProfileEncoding[] = {
+        { 0, N_("Linear") },
+        { 1, N_("sRGB")   }
+    };
+
+    //! DefaultBlackRender, DNG 1.4 tag 0xc7a6
+    extern const TagDetails dngDefaultBlackRender[] = {
+        { 0, N_("Auto") },
+        { 1, N_("None") }
     };
 
 
@@ -952,7 +964,7 @@ namespace Exiv2 {
                 ifd0Id, dngTags, unsignedByte, -1, printValue), // DNG tag
         TagInfo(0xc617, "CFALayout", N_("CFA Layout"),
                 N_("Describes the spatial layout of the CFA."),
-                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifCfaLayout)), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngCfaLayout)), // DNG tag
         TagInfo(0xc618, "LinearizationTable", N_("Linearization Table"),
                 N_("Describes a lookup table that maps stored values into linear values. "
                    "This tag is typically used to increase compression ratios by storing "
@@ -1166,7 +1178,7 @@ namespace Exiv2 {
                    "with a preserved MakerNote should be aware that any thumbnail "
                    "image embedded in the MakerNote may be stale, and may not reflect "
                    "the current state of the full size image."),
-                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifMakerNoteSafety)), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngMakerNoteSafety)), // DNG tag
         TagInfo(0xc65a, "CalibrationIlluminant1", N_("Calibration Illuminant 1"),
                 N_("The illuminant used for the first set of color calibration tags "
                    "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
@@ -1267,7 +1279,7 @@ namespace Exiv2 {
                 "are output-referred, using the ICC profile perceptual dynamic range. This "
                 "tag allows output-referred data to be stored in DNG files and still processed "
                 "correctly by DNG readers."),
-                ifd0Id, dngTags, unsignedShort, 0, EXV_PRINT_TAG(exifColorimetricReference)), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngColorimetricReference)), // DNG tag
         TagInfo(0xc6f3, "CameraCalibrationSignature", N_("Camera Calibration Signature"),
                 N_("A UTF-8 encoded string associated with the CameraCalibration1 and "
                 "CameraCalibration2 tags. The CameraCalibration1 and CameraCalibration2 tags "
@@ -1345,7 +1357,7 @@ namespace Exiv2 {
         TagInfo(0xc6fd, "ProfileEmbedPolicy", N_("Profile Embed Policy"),
                 N_("This tag contains information about the usage rules for the associated "
                 "camera profile."),
-                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(exifProfileEmbedPolicy)), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngProfileEmbedPolicy)), // DNG tag
         TagInfo(0xc6fe, "ProfileCopyright", N_("Profile Copyright"),
                 N_("A UTF-8 encoded string containing the copyright information for the "
                 "camera profile. This string always should be preserved along with the other "
@@ -1379,7 +1391,7 @@ namespace Exiv2 {
                 N_("This tag specifies the color space in which the rendered preview in this "
                 "IFD is stored. The default value for this tag is sRGB for color previews "
                 "and Gray Gamma 2.2 for monochrome previews."),
-                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(exifPreviewColorSpace)), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngPreviewColorSpace)), // DNG tag
         TagInfo(0xc71b, "PreviewDateTime", N_("Preview Date Time"),
                 N_("This tag is an ASCII string containing the name of the date/time at which "
                 "the preview stored in the IFD was rendered. The date/time is encoded using "
@@ -1490,6 +1502,65 @@ namespace Exiv2 {
                 "for how the camera is used or assigned in this clip. "
                 "This tag is similar to CameraLabel in XMP."),
                 ifd0Id, dngTags, asciiString, -1, printValue), // DNG tag
+        TagInfo(0xc791, "OriginalDefaultFinalSize", N_("Original Default Final Size"),
+                N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
+                "default final size of the larger original file from which this proxy was generated. "
+                "The default value for this tag is default final size of the current DNG file, which "
+                "is DefaultCropSize * DefaultScale."),
+                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG 1.4 tag
+        TagInfo(0xc792, "OriginalBestQualityFinalSize", N_("Original Best Quality Final Size"),
+                N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
+                "best quality final size of the larger original file from which this proxy was "
+                "generated. The default value for this tag is the OriginalDefaultFinalSize, if "
+                "specified. Otherwise the default value for this tag is the best quality size of "
+                "the current DNG file, which is DefaultCropSize * DefaultScale * BestQualityScale."),
+                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG 1.4 tag
+        TagInfo(0xc793, "OriginalDefaultCropSize", N_("Original Default Crop Size"),
+                N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
+                "DefaultCropSize of the larger original file from which this proxy was generated. "
+                "The default value for this tag is OriginalDefaultFinalSize, if specified. Otherwise, "
+                "the default value for this tag is the DefaultCropSize of the current DNG file."),
+                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG 1.4 tag
+        TagInfo(0xc7a3, "ProfileHueSatMapEncoding", N_("Profile Hue Sat Map Encoding"),
+                N_("Provides a way for color profiles to specify how indexing into a 3D HueSatMap is "
+                "performed during raw conversion. This tag is not applicable to 2.5D HueSatMap tables "
+                "(i.e., where the Value dimension is 1)."),
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngProfileEncoding)), // DNG 1.4 tag
+        TagInfo(0xc7a4, "ProfileLookTableEncoding", N_("Profile Look Table Encoding"),
+                N_("Provides a way for color profiles to specify how indexing into a 3D LookTable is "
+                "performed during raw conversion. This tag is not applicable to a 2.5D LookTable "
+                "(i.e., where the Value dimension is 1)."),
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngProfileEncoding)), // DNG 1.4 tag
+        TagInfo(0xc7a5, "BaselineExposureOffset", N_("Baseline Exposure Offset"),
+                N_("Provides a way for color profiles to increase or decrease exposure during raw conversion. "
+                   "BaselineExposureOffset specifies the amount (in EV units) to add to the BaselineExposure tag "
+                   "during image rendering. For example, if the BaselineExposure value for a given camera model "
+                   "is +0.3, and the BaselineExposureOffset value for a given camera profile used to render an "
+                   "image for that camera model is -0.7, then the actual default exposure value used during "
+                   "rendering will be +0.3 - 0.7 = -0.4."),
+                ifd0Id, dngTags, signedRational, 1, printFloat), // DNG 1.4 tag
+        TagInfo(0xc7a6, "DefaultBlackRender", N_("Default Black Render"),
+                N_("This optional tag in a color profile provides a hint to the raw converter "
+                "regarding how to handle the black point (e.g., flare subtraction) during rendering. "
+                "If set to Auto, the raw converter should perform black subtraction during "
+                "rendering. If set to None, the raw converter should not perform any black "
+                "subtraction during rendering."),
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngDefaultBlackRender)), // DNG 1.4 tag
+        TagInfo(0xc7a7, "NewRawImageDigest", N_("New Raw Image Digest"),
+                N_("This tag is a modified MD5 digest of the raw image data. It has been updated "
+                "from the algorithm used to compute the RawImageDigest tag be more multi-processor "
+                "friendly, and to support lossy compression algorithms."),
+                ifd0Id, dngTags, unsignedByte, 16, printValue), // DNG 1.4 tag
+        TagInfo(0xc7a8, "RawToPreviewGain", N_("Raw To Preview Gain"),
+                N_("The gain (what number the sample values are multiplied by) between the main "
+                "raw IFD and the preview IFD containing this tag."),
+                ifd0Id, dngTags, tiffDouble, 1, printValue), // DNG 1.4 tag
+        TagInfo(0xc7b5, "DefaultUserCrop", N_("Default User Crop"),
+                N_("Specifies a default user crop rectangle in relative coordinates. "
+                   "The values must satisfy: 0.0 <= top < bottom <= 1.0, 0.0 <= left < right <= 1.0."
+                   "The default values of (top = 0, left = 0, bottom = 1, right = 1) correspond exactly to the default "
+                   "crop rectangle (as specified by the DefaultCropOrigin and DefaultCropSize tags)."),
+                ifd0Id, dngTags, unsignedRational, 4, printFloat), // DNG 1.4 tag
 
         ////////////////////////////////////////
         // End of list marker
