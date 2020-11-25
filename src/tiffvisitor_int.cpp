@@ -29,6 +29,7 @@
 #include "tiffcomposite_int.hpp" // Do not change the order of these 2 includes,
 #include "tiffvisitor_int.hpp"   // see bug #487
 #include "tiffimage_int.hpp"
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "exif.hpp"
 #include "enforce.hpp"
@@ -292,16 +293,21 @@ namespace Exiv2 {
     {
         assert(pRoot != 0);
 
-        exifData_.clear();
-        iptcData_.clear();
-        xmpData_.clear();
-
+        // For FujiFilm, don't clear the metadata.  Search for the make
+        //exifData_.clear();
+        //iptcData_.clear();
+        //xmpData_.clear();
         // Find camera make
-        TiffFinder finder(0x010f, ifd0Id);
-        pRoot_->accept(finder);
-        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
-        if (te && te->pValue()) {
-            make_ = te->pValue()->toString();
+        ExifKey key("Exif.Image.Make");
+        if ( exifData_.findKey(key) != exifData_.end( ) ){
+            make_ = exifData_.findKey(key)->toString();
+        } else {
+            TiffFinder finder(0x010f, ifd0Id);
+            pRoot_->accept(finder);
+            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+            if (te && te->pValue()) {
+                make_ = te->pValue()->toString();
+            }
         }
     }
 
@@ -311,6 +317,26 @@ namespace Exiv2 {
 
     void TiffDecoder::visitEntry(TiffEntry* object)
     {
+#if 0
+        std::cout << Exiv2::Internal::stringFormat (" %#6x.%-2d | %2d | %10d | %5d ",object->tag(),object->group(),object->tiffType(),object->offset(),object->count()) << std::endl;
+        if ( object->tiffType() == Exiv2::tiffIfd ) {
+            std::cout << "Eureka! Found an tiffIfd " << std::endl;
+            if ( object->tiffType() == Exiv2::tiffIfd ) {
+                // add a tiffIfd
+                // we have to visit this to create the chain of TiffDirectory ifd_;
+                for ( size_t ifd = 0 ; ifd < object->count() ; ifd++ ) {
+#if 0
+                  TiffComponent::AutoPtr tc = TiffCreator::create(object->tag(), object->group());
+                  if (tc.get()) {
+                      size_t nEntries = getShort(object->pData + 2 + ifd*12,endian_);
+                      tc->setStart(object->pStart_) ; // p);
+                      object->addChild(tc);
+                  }
+#endif
+                } // for ifd
+            }
+        }
+#endif
         decodeTiffEntry(object);
     }
 
@@ -329,9 +355,20 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
-    void TiffDecoder::visitDirectory(TiffDirectory* /*object*/)
+    void TiffDecoder::visitDirectory(TiffDirectory* object)
     {
         // Nothing to do
+        if ( object ) {
+            std::cout << "";
+#if 0
+            for (size_t i = 0 ; i < object->components_.size() ; ++i) {
+                object->components_[i]->accept(*this);
+                // object->components_[i]->doAccept(this);
+                // this->decodeTiffEntry(object->components_[i]);
+                // this->visitDirectory(object->components_[i]);
+            }
+#endif
+        }
     }
 
     void TiffDecoder::visitSubIfd(TiffSubIfd* object)

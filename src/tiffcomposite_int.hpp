@@ -860,6 +860,7 @@ namespace Exiv2 {
      */
     class TiffDirectory : public TiffComponent {
         friend class TiffEncoder;
+        friend class TiffDecoder;
     public:
         //! @name Creators
         //@{
