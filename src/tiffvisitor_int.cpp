@@ -293,15 +293,13 @@ namespace Exiv2 {
     {
         assert(pRoot != 0);
 
-        // For FujiFilm, don't clear the metadata.  Search for the make
-        //exifData_.clear();
-        //iptcData_.clear();
-        //xmpData_.clear();
-        // Find camera make
+        // #1402 Fujifilm RAF. Search for the make
+        // Find camera make in existing metadata (read from the JPEG)
         ExifKey key("Exif.Image.Make");
         if ( exifData_.findKey(key) != exifData_.end( ) ){
             make_ = exifData_.findKey(key)->toString();
         } else {
+            // Find camera make by looking for tag 0x010f in IFD0
             TiffFinder finder(0x010f, ifd0Id);
             pRoot_->accept(finder);
             TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
