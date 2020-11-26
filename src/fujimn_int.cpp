@@ -240,7 +240,7 @@ namespace Exiv2 {
                 N_("Chroma saturation setting"),
                 fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiColor)),
         TagInfo(0x1004, "Tone", N_("Tone"),
-                N_("Contrast setting"),
+                N_("Tone (contrast) setting"),
                 fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiTone)),
         TagInfo(0x1010, "FlashMode", N_("Flash Mode"),
                 N_("Flash firing mode setting"),
