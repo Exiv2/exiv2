@@ -1100,6 +1100,9 @@ namespace Exiv2 {
         // Root directory
         { Tag::root, ifdIdNotSet,      newTiffDirectory<ifd0Id>                  },
 
+        // FujiIFD
+        {    0xf000, ifd0Id,           newTiffSubIfd<exifId>                     },
+
         // IFD0
         {    0x8769, ifd0Id,           newTiffSubIfd<exifId>                     },
         {    0x8825, ifd0Id,           newTiffSubIfd<gpsId>                      },
