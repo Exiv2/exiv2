@@ -1100,8 +1100,9 @@ namespace Exiv2 {
         // Root directory
         { Tag::root, ifdIdNotSet,      newTiffDirectory<ifd0Id>                  },
 
-        // FujiIFD
-        {    0xf000, ifd0Id,           newTiffSubIfd<exifId>                     },
+        // Fujifilm RAF #1402.  Use different root when parsing embedded tiff.
+        { Tag::fuji, ifdIdNotSet,      newTiffDirectory<fujiId>                  },
+        {    0xf000, fujiId,           newTiffSubIfd<fujiId>                     },
 
         // IFD0
         {    0x8769, ifd0Id,           newTiffSubIfd<exifId>                     },
