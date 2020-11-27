@@ -37,7 +37,7 @@
 #include "enforce.hpp"
 #include "safe_op.hpp"
 
-// + standard includes
+// +standard includes
 #include <string>
 #include <cstring>
 #include <iostream>
