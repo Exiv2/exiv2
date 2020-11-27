@@ -181,7 +181,7 @@ I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduc
 setlocal
 if NOT EXIST c:\Python39\python3.exe copy c:\Python39\python.exe c:\Python39\python3.exe
 set "P="
-set "P=%P%C:\Python39\;C:\Python39\Scripts;%USERPROFILE%\AppData\Roaming\Python\Python39" # DOS Python3
+set "P=%P%C:\Python39\;C:\Python39\Scripts;%USERPROFILE%\AppData\Roaming\Python\Python39;" # DOS Python3
 set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
 set "P=%P%c:\msys64\usr\bin;"                # OPTIONAL to run test suite msys2 make, bash etc
 set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;"
