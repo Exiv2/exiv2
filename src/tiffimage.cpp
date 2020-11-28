@@ -256,12 +256,22 @@ namespace Exiv2 {
               uint32_t  size
     )
     {
+        uint32_t root = Tag::root;
+
+        // #1402  Fujifilm RAF. Change root when parsing embedded tiff
+        Exiv2::ExifKey key("Exif.Image.Make");
+        if (exifData.findKey(key) != exifData.end()) {
+            if ( exifData.findKey(key)->toString() == "FUJIFILM" ) {
+                root = Tag::fuji;
+            }
+        }
+
         return TiffParserWorker::decode(exifData,
                                         iptcData,
                                         xmpData,
                                         pData,
                                         size,
-                                        Tag::root,
+                                        root,
                                         TiffMapping::findDecoder);
     } // TiffParser::decode
 

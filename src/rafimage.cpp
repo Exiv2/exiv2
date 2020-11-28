@@ -37,7 +37,7 @@
 #include "enforce.hpp"
 #include "safe_op.hpp"
 
-// + standard includes
+// +standard includes
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -92,7 +92,7 @@ namespace Exiv2 {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "RAF"));
     }
-
+    
     void RafImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
         if (io_->open() != 0) {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
@@ -102,9 +102,13 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "RAF");
         }
+        size_t address  = 0 ;
+        size_t address2 = 0 ;
         const bool bPrint = option==kpsBasic || option==kpsRecursive;
         if ( bPrint ) {
             io_->seek(0,BasicIo::beg); // rewind
+            address = io_->tell();
+            const char* format = " %8d | %8d | ";
 
             {
                 out << Internal::indent(depth)
@@ -112,7 +116,7 @@ namespace Exiv2 {
                     << io().path()
                     << std::endl;
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("    Length |   Offset | Payload")
+                    << Internal::stringFormat("  Address |   Length | Payload")
                     << std::endl;
             }
 
@@ -121,63 +125,79 @@ namespace Exiv2 {
             magicdata[16] = 0;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 16, 0)
-                    << "Magic number : "
-                    << std::string((char*)&magicdata)
+                    << Internal::stringFormat(format,address, 16, 0)
+                    << "      magic : "
+                    << (char*) magicdata
                     << std::endl;
             }
 
+            address = io_->tell();
             byte data1 [5];
             io_->read(data1, 4);
             data1[4] = 0;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 16)
-                    << "data 1 : "
+                    << Internal::stringFormat(format,address, 4, 16)
+                    << "      data1 : "
                     << std::string((char*)&data1)
                     << std::endl;
             }
 
+            address = io_->tell();
             byte data2 [9];
             io_->read(data2, 8);
             data2[8] = 0;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 8, 20)
-                    << "data 2 : "
+                    << Internal::stringFormat(format,address, 8, 20)
+                    << "      data2 : "
                     << std::string((char*)&data2)
                     << std::endl;
             }
 
+            address = io_->tell();
             byte camdata [33];
             io_->read(camdata, 32);
             camdata[32] = 0;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 32, 28)
-                    << "camera : "
+                    << Internal::stringFormat(format,address, 32, 28)
+                    << "     camera : "
                     << std::string((char*)&camdata)
                     << std::endl;
             }
 
+            address = io_->tell();
             byte dir_version [5];
             io_->read(dir_version, 4);
             dir_version[4] = 0;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 60)
-                    << "dir version : "
+                    << Internal::stringFormat(format,address, 4, 60)
+                    << "    version : "
                     << std::string((char*)&dir_version)
                     << std::endl;
             }
 
-            byte unknown [20];
-            io_->read(unknown, 20);
+            address = io_->tell();
+            DataBuf   unknown(20);
+            io_->read(unknown.pData_,unknown.size_);
+            {
+                out << Internal::indent(depth)
+                    << Internal::stringFormat(format,address, 20)
+                    << "    unknown : "
+                    << Internal::binaryToString(makeSlice(unknown, 0,unknown.size_))
+                    << std::endl;
+            }
 
+
+            address = io_->tell();
             byte jpg_img_offset [4];
             io_->read(jpg_img_offset, 4);
             byte jpg_img_length [4];
+            address2 = io_->tell();
             io_->read(jpg_img_length, 4);
+
             long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
             long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
             std::stringstream j_off;
@@ -186,20 +206,22 @@ namespace Exiv2 {
             j_len << jpg_img_len;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 84)
-                    << "JPEG Image Offset : "
+                    << Internal::stringFormat(format,address, 4)
+                    << "JPEG Offset : "
                     << j_off.str()
                     << std::endl;
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 88)
-                    << "JPEG Image Length : "
+                    << Internal::stringFormat(format,address2, 4)
+                    << "JPEG Length : "
                     << j_len.str()
                     << std::endl;
             }
 
+            address = io_->tell();
             byte cfa_header_offset [4];
             io_->read(cfa_header_offset, 4);
             byte cfa_header_length [4];
+            address2 = io_->tell();
             io_->read(cfa_header_length, 4);
             long cfa_hdr_off = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
             long cfa_hdr_len = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
@@ -209,20 +231,22 @@ namespace Exiv2 {
             ch_len << cfa_hdr_len;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 92)
-                    << "CFA Header Offset : "
+                    << Internal::stringFormat(format,address, 4)
+                    << " CFA Offset : "
                     << ch_off.str()
                     << std::endl;
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 96)
-                    << "CFA Header Length : "
+                    << Internal::stringFormat(format,address2, 4)
+                    << " CFA Length : "
                     << ch_len.str()
                     << std::endl;
             }
 
             byte cfa_offset [4];
+            address = io_->tell();
             io_->read(cfa_offset, 4);
             byte cfa_length [4];
+            address2 = io_->tell();
             io_->read(cfa_length, 4);
             long cfa_off = Exiv2::getULong((const byte *) cfa_offset, bigEndian);
             long cfa_len = Exiv2::getULong((const byte *) cfa_length, bigEndian);
@@ -232,44 +256,47 @@ namespace Exiv2 {
             c_len << cfa_len;
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 100)
-                    << "CFA Offset : "
+                    << Internal::stringFormat(format,address,4)
+                    << "TIFF Offset : "
                     << c_off.str()
                     << std::endl;
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 104)
-                    << "CFA Length : "
+                    << Internal::stringFormat(format,address2,4)
+                    << "TIFF Length : "
                     << c_len.str()
                     << std::endl;
             }
 
             io_->seek(jpg_img_off, BasicIo::beg); // rewind
+            address = io_->tell();
             DataBuf payload(16); // header is different from chunks
             io_->read(payload.pData_, payload.size_);
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", jpg_img_len, jpg_img_off)
-                    << "jpg image / exif : "
+                    << Internal::stringFormat(format,address, jpg_img_len) // , jpg_img_off)
+                    << "       JPEG : "
                     << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
 
             io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
+            address = io_->tell();
             io_->read(payload.pData_, payload.size_);
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", cfa_hdr_len, cfa_hdr_off)
-                    << "CFA Header: "
+                    << Internal::stringFormat(format,address, cfa_hdr_len, cfa_hdr_off)
+                    << "        CFA : "
                     << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
 
             io_->seek(cfa_off, BasicIo::beg); // rewind
+            address = io_->tell();
             io_->read(payload.pData_, payload.size_);
             {
                 out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", cfa_len, cfa_off)
-                    << "CFA : "
+                    << Internal::stringFormat(format,address, cfa_len, cfa_off)
+                    << "       TIFF : "
                     << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
@@ -330,6 +357,31 @@ namespace Exiv2 {
         exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
 
         setByteOrder(bo);
+
+        // parse the tiff
+        byte     readBuff[4];
+        if (io_->seek(100, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        if (io_->read(readBuff, 4) != 4      ) throw Error(kerFailedToReadImageData);
+        uint32_t tiffOffset = Exiv2::getULong(readBuff, bigEndian);
+
+        if (io_->read(readBuff, 4) != 4) throw Error(kerFailedToReadImageData);
+        uint32_t tiffLength = Exiv2::getULong(readBuff, bigEndian);
+
+        // sanity check.  Does tiff lie inside the file?
+        enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), kerCorruptedMetadata);
+
+        DataBuf  tiff(tiffLength);
+        if (io_->seek(tiffOffset, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        io_->read(tiff.pData_, tiff.size_);
+
+        if (!io_->error() && !io_->eof())
+        {
+            TiffParser::decode(exifData_,
+                               iptcData_,
+                               xmpData_,
+                               tiff.pData_,
+                               tiff.size_);
+        }
     } // RafImage::readMetadata
 
     void RafImage::writeMetadata()
