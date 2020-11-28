@@ -22,6 +22,7 @@ Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
 Exif.Fujifilm.CropMode                       Short       1  None
+Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
