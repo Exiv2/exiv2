@@ -1002,6 +1002,7 @@ namespace Exiv2 {
         {  172, "Canon EF 400mm f/5.6L USM"                                 },
         {  172, "Sigma 150-600mm f/5-6.3 DG OS HSM | S"                     }, // 1
         {  172, "Sigma 500mm f/4.5 APO EX DG HSM"                           }, // 2
+        {  172, "Sigma 150-500mm f/5-6.3 APO DG OS HSM + 1.4x"              }, // 3
         {  173, "Canon EF 180mm Macro f/3.5L USM"                           },
         {  173, "Sigma 180mm EX HSM Macro f/3.5"                            }, // 1
         {  173, "Sigma APO Macro 150mm f/2.8 EX DG HSM"                     }, // 2
@@ -1083,6 +1084,7 @@ namespace Exiv2 {
         {  213, "Tamron 16-300mm f/3.5-6.3 Di II VC PZD Macro"              }, // 2
         {  213, "Tamron SP 35mm f/1.8 Di VC USD"                            }, // 3
         {  213, "Tamron SP 45mm f/1.8 Di VC USD"                            }, // 4
+        {  213, "Tamron SP 70-300mm f/4-5.6 Di VC USD"                      }, // 5
         {  214, "Canon EF-S 18-55mm f/3.5-5.6 USM"                          },
         {  215, "Canon EF 55-200mm f/4.5-5.6 II USM"                        },
         {  217, "Tamron AF 18-270mm f/3.5-6.3 Di II VC PZD"                 },
@@ -1176,6 +1178,9 @@ namespace Exiv2 {
         {  508, "Canon EF 11-24mm f/4L USM"                                 },
         {  508, "Tamron 10-24mm f/3.5-4.5 Di II VC HLD"                     }, // 1
         {  624, "Sigma 70-200mm f/2.8 DG OS HSM | S"                        },
+        {  624, "Sigma 14mm f/1.8 DG HSM | A"                               }, // 1
+        {  624, "Sigma 150-600mm f/5-6.3 DG OS HSM | C"                     }, // 2
+        {  624, "Sigma 150-600mm f/5-6.3 DG OS HSM | C + 1.4x"              }, // 3
         {  747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"                   },
         {  747, "Tamron SP 150-600mm f/5-6.3 Di VC USD G2"                  }, // 1
         {  748, "Canon EF 100-400mm f/4.5-5.6L IS II USM + 1.4x"            },
