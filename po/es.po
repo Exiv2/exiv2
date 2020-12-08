@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: Exiv2\n"
 "Report-Msgid-Bugs-To: ahuggel@gmx.net\n"
 "POT-Creation-Date: 2017-03-21 21:42+0100\n"
-"PO-Revision-Date: 2015-05-10 14:00-0500\n"
-"Last-Translator: Alan Pater <alan.pater@gmail.com>\n"
+"PO-Revision-Date: 2020-12-09 00:45+0100\n"
+"Last-Translator: Alejando Criado-Pérez <alejandro@criadoperez.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 
 #: src/exiv2.cpp:262
@@ -71,7 +71,7 @@ msgstr "             s : tamaño en bytes\n"
 
 #: src/exiv2.cpp:315
 msgid "             S : print structure of image\n"
-msgstr ""
+msgstr "             S : imprimir estructura de la imagen\n"
 
 #: src/exiv2.cpp:320
 msgid "             X : XMP properties\n"
@@ -79,7 +79,7 @@ msgstr "             X : propirdades XMP\n"
 
 #: src/exiv2.cpp:316
 msgid "             X : extract XMP from image\n"
-msgstr ""
+msgstr "             X : extraer XMP de la imagen\n"
 
 #: src/exiv2.cpp:333
 msgid "             a : all supported metadata (the default)\n"
@@ -470,7 +470,7 @@ msgstr " Control de imagen"
 
 #: src/panasonicmn.cpp:697
 msgid " hPa"
-msgstr ""
+msgstr "hPa"
 
 #: src/properties.cpp:521
 msgid "\"Blue Hue\" setting. Range -100 to 100."
@@ -630,7 +630,7 @@ msgstr ""
 
 #: src/properties.cpp:1457
 msgid "(East/West). Indicates longitude."
-msgstr ""
+msgstr "(Este/Oeste). Indica longitud."
 
 #: src/datasets.cpp:436 src/datasets.cpp:437
 msgid "(Invalid)"
@@ -638,7 +638,7 @@ msgstr "(Inválido)"
 
 #: src/properties.cpp:1456
 msgid "(North/South). Indicates latitude."
-msgstr ""
+msgstr "(Norte/Sur). Indica latitud."
 
 #: src/properties.cpp:353
 #, fuzzy
@@ -690,7 +690,7 @@ msgstr ""
 
 #: src/properties.cpp:508
 msgid "*Main structure* Camera Raw Saved Settings."
-msgstr ""
+msgstr "*Estructura principal* Configuración Cámara Raw guardada."
 
 #: src/properties.cpp:1742
 msgid "*Main structure* containing Darwin Core location based information."
@@ -698,7 +698,7 @@ msgstr ""
 
 #: src/properties.cpp:1917
 msgid "*Main structure* containing event based information."
-msgstr ""
+msgstr "*Main structure* contiene información de eventos."
 
 #: src/properties.cpp:1908
 msgid ""
@@ -716,7 +716,7 @@ msgstr ""
 
 #: src/properties.cpp:2187
 msgid "*Main structure* containing identification based information."
-msgstr ""
+msgstr "*Estructura principal* contiene información de identficación."
 
 #: src/properties.cpp:1902
 msgid ""
@@ -821,11 +821,11 @@ msgstr ""
 
 #: src/panasonicmn.cpp:412
 msgid "1 EV"
-msgstr ""
+msgstr "1 EV"
 
 #: src/panasonicmn.cpp:415
 msgid "1 EV (Auto)"
-msgstr ""
+msgstr "1 EV (Auto)"
 
 #: src/panasonicmn.cpp:567
 msgid "1-area"
@@ -841,23 +841,23 @@ msgstr "1.01 (SB-800 o Metz 58 AF-1)"
 
 #: src/canonmn.cpp:536 src/canonmn.cpp:1466
 msgid "1280x720 Movie"
-msgstr ""
+msgstr "1280x720 Película"
 
 #: src/canonmn.cpp:537 src/canonmn.cpp:1467
 msgid "1920x1080 Movie"
-msgstr ""
+msgstr "1920x1080 Película"
 
 #: src/panasonicmn.cpp:319
 msgid "1st"
-msgstr ""
+msgstr "1a"
 
 #: src/panasonicmn.cpp:413
 msgid "2 EV"
-msgstr ""
+msgstr "2 EV"
 
 #: src/panasonicmn.cpp:416
 msgid "2 EV (Auto)"
-msgstr ""
+msgstr "2 EV (Auto)"
 
 #: src/olympusmn.cpp:103
 msgid "2 in 1"
@@ -869,7 +869,7 @@ msgstr "200 (Coincidencia de zonas alta)"
 
 #: src/panasonicmn.cpp:564
 msgid "23-area"
-msgstr ""
+msgstr "23-area"
 
 #: src/pentaxmn.cpp:221
 msgid "2304x1728 or 2592x1944"
@@ -885,7 +885,7 @@ msgstr "2816x2212 o 2816x2112"
 
 #: src/panasonicmn.cpp:320
 msgid "2nd"
-msgstr ""
+msgstr "2a"
 
 #: src/olympusmn.cpp:536
 msgid "2nd Curtain"
@@ -901,19 +901,19 @@ msgstr "matriz 2x2 (en sentido de las agujas del reloj)"
 
 #: src/panasonicmn.cpp:414
 msgid "3 EV"
-msgstr ""
+msgstr "3 EV"
 
 #: src/panasonicmn.cpp:417
 msgid "3 EV (Auto)"
-msgstr ""
+msgstr "3 EV (Auto)"
 
 #: src/panasonicmn.cpp:309
 msgid "3 images, Sequence -/0/+"
-msgstr ""
+msgstr "3 imágenes, Secuencia -/0/+"
 
 #: src/panasonicmn.cpp:308
 msgid "3 images, Sequence 0/-/+"
-msgstr ""
+msgstr "3 imágenes, Secuencia 0/-/+"
 
 #: src/panasonicmn.cpp:569
 msgid "3-area (auto)"
@@ -953,7 +953,7 @@ msgstr "3700 Kelvin"
 
 #: src/panasonicmn.cpp:156
 msgid "3D"
-msgstr ""
+msgstr "3D"
 
 #: src/sonymn.cpp:185
 msgid "3D Image"
@@ -981,11 +981,11 @@ msgstr "Película 4k"
 
 #: src/panasonicmn.cpp:311
 msgid "5 images, Sequence -/0/+"
-msgstr ""
+msgstr "5 imágenes, Secuencia -/0/+"
 
 #: src/panasonicmn.cpp:310
 msgid "5 images, Sequence 0/-/+"
-msgstr ""
+msgstr "5 imágenes, Secuencia 0/-/+"
 
 #: src/panasonicmn.cpp:566
 msgid "5-area"
@@ -1022,11 +1022,11 @@ msgstr "6600K (Fluorescente día)"
 
 #: src/panasonicmn.cpp:313
 msgid "7 images, Sequence -/0/+"
-msgstr ""
+msgstr "7 imágenes, Secuencia -/0/+"
 
 #: src/panasonicmn.cpp:312
 msgid "7 images, Sequence 0/-/+"
-msgstr ""
+msgstr "7 imágenes, Secuencia 0/-/+"
 
 #: src/olympusmn.cpp:1241
 msgid "7500 Kelvin"
@@ -1151,11 +1151,11 @@ msgstr ""
 
 #: src/properties.cpp:1486
 msgid "A C string that specifies Logo Icon URL."
-msgstr ""
+msgstr "Un texto C que indica la URL del icono del logo"
 
 #: src/properties.cpp:1349
 msgid "A C string that specifies a Base URL."
-msgstr ""
+msgstr "Un text C que indica la base URL"
 
 #: src/properties.cpp:1487
 msgid "A C string that specifies a Logo URL."
@@ -1622,13 +1622,14 @@ msgstr ""
 
 #: src/properties.cpp:1734
 msgid "A language of the resource."
-msgstr ""
+msgstr "Un lenguaje del recurso."
 
 #: src/properties.cpp:1735
 msgid ""
 "A legal document giving official permission to do something with the "
 "resource."
 msgstr ""
+"Un documento legal dando periso oficial para hacer algo con el recurso."
 
 #: src/properties.cpp:1888
 msgid ""
@@ -2208,7 +2209,7 @@ msgstr "AF"
 
 #: src/canonmn.cpp:513
 msgid "AF + MF"
-msgstr ""
+msgstr "AF + MF"
 
 #: src/pentaxmn.cpp:1609 src/pentaxmn.cpp:1610
 msgid "AF Adjustment"
@@ -2480,7 +2481,7 @@ msgstr "Búsqueda AF"
 
 #: src/olympusmn.cpp:1485
 msgid "AF sensor"
-msgstr ""
+msgstr "sensor AF"
 
 #: src/nikonmn.cpp:639
 msgid "AF tune"
@@ -2496,7 +2497,7 @@ msgstr "AF-C"
 
 #: src/panasonicmn.cpp:87
 msgid "AF-F"
-msgstr ""
+msgstr "AF-F"
 
 #: src/panasonicmn.cpp:85 src/pentaxmn.cpp:272
 msgid "AF-S"
@@ -2544,15 +2545,15 @@ msgstr "Ruta absoluta del archivo de audio de picos"
 
 #: src/panasonicmn.cpp:518
 msgid "Accelerometer X"
-msgstr ""
+msgstr "Acelerómetro X"
 
 #: src/panasonicmn.cpp:519
 msgid "Accelerometer Y"
-msgstr ""
+msgstr "Acelerómetro Y"
 
 #: src/panasonicmn.cpp:517
 msgid "Accelerometer Z"
-msgstr ""
+msgstr "Acelerómetro Z"
 
 #: src/properties.cpp:2247
 msgid "Accepted Name Usage"
@@ -2763,7 +2764,7 @@ msgstr "RGB de Adobe"
 
 #: src/minoltamn.cpp:910 src/minoltamn.cpp:961
 msgid "Adobe RGB (ICC)"
-msgstr ""
+msgstr "Adobe RGB (ICC)"
 
 #: src/properties.cpp:125
 msgid "Adobe photoshop schema"
@@ -2938,11 +2939,11 @@ msgstr ""
 
 #: src/properties.cpp:738
 msgid "Alpha"
-msgstr ""
+msgstr "Alpha"
 
 #: src/properties.cpp:561
 msgid "Already Applied"
-msgstr ""
+msgstr "Ya aplicado"
 
 #: src/properties.cpp:349
 msgid "Alternative Tape Name"
@@ -3457,7 +3458,7 @@ msgstr ""
 
 #: src/properties.cpp:1301
 msgid "Applied"
-msgstr ""
+msgstr "Aplicado"
 
 #: src/properties.cpp:1284
 msgid "Applied To Dimensions"
@@ -3465,7 +3466,7 @@ msgstr ""
 
 #: src/canonmn.cpp:574
 msgid "Aquarium"
-msgstr ""
+msgstr "Acuario"
 
 #: src/properties.cpp:1338
 msgid "Archival Location"
@@ -3661,7 +3662,7 @@ msgstr "Tipo de canal de audio"
 
 #: src/properties.cpp:1684
 msgid "Audio Codec"
-msgstr ""
+msgstr "Códec de Audio"
 
 #: src/properties.cpp:1685
 msgid "Audio Codec Decode Info"
@@ -3705,7 +3706,7 @@ msgstr "Duración del audio"
 
 #: src/properties.cpp:1695
 msgid "Audio Format"
-msgstr ""
+msgstr "Formato de Audio"
 
 #: src/properties.cpp:353
 msgid "Audio Modified Date"
@@ -3789,11 +3790,11 @@ msgstr "Tipo de audio"
 
 #: src/properties.cpp:1724
 msgid "Audio URL"
-msgstr ""
+msgstr "URL del Audio"
 
 #: src/properties.cpp:1725
 msgid "Audio URN"
-msgstr ""
+msgstr "URN del Audio"
 
 #: src/datasets.cpp:323 src/properties.cpp:2386
 msgid "Author"
@@ -3920,7 +3921,7 @@ msgstr "Autograduación"
 
 #: src/sonymn.cpp:404
 msgid "Auto HDR"
-msgstr ""
+msgstr "Auto HDR"
 
 #: src/canonmn.cpp:634
 msgid "Auto High"
@@ -4117,7 +4118,7 @@ msgstr ""
 
 #: src/canonmn.cpp:1621
 msgid "Azores"
-msgstr ""
+msgstr "Azores"
 
 #: src/tags.cpp:355
 msgid "B"
@@ -4418,7 +4419,7 @@ msgstr "Saturación azul"
 
 #: src/pentaxmn.cpp:601
 msgid "Blue Sky"
-msgstr ""
+msgstr "Cielo Azul"
 
 #: src/olympusmn.cpp:341 src/panasonicmn.cpp:748 src/pentaxmn.cpp:1493
 msgid "Blue balance"
@@ -4443,7 +4444,7 @@ msgstr "Aviso de falta de definición"
 
 #: src/pentaxmn.cpp:650
 msgid "Blur control"
-msgstr ""
+msgstr "Control de desenfoque"
 
 #: src/fujimn.cpp:246
 msgid "Blur warning status"
@@ -4875,7 +4876,7 @@ msgstr "Datos de ID de cámara"
 
 #: src/canonmn.cpp:427
 msgid "Camera Info"
-msgstr ""
+msgstr "Información de Cámara"
 
 #: src/properties.cpp:1020
 msgid "Camera JPEG"
@@ -5021,7 +5022,7 @@ msgstr "Equipo sub-IFD de la cámara"
 
 #: src/canonmn.cpp:427
 msgid "Camera info"
-msgstr ""
+msgstr "Información de Cámara"
 
 #: src/actions.cpp:319
 msgid "Camera make"
@@ -5463,11 +5464,11 @@ msgstr "Ciudad2"
 
 #: src/properties.cpp:566
 msgid "Clarity"
-msgstr ""
+msgstr "Claridad"
 
 #: src/properties.cpp:657
 msgid "Clarity 2012"
-msgstr ""
+msgstr "Claridad 2012"
 
 #: src/properties.cpp:2274
 msgid "Class"
@@ -5528,7 +5529,7 @@ msgstr ""
 
 #: src/properties.cpp:363
 msgid "Client"
-msgstr ""
+msgstr "Cliente"
 
 #: src/tags.cpp:646
 msgid "Clip Path"
@@ -5536,7 +5537,7 @@ msgstr "Ruta de recorte"
 
 #: src/panasonicmn.cpp:144
 msgid "Clipboard"
-msgstr ""
+msgstr "Portapapeles"
 
 #: src/canonmn.cpp:683
 msgid "Close"
@@ -5646,7 +5647,7 @@ msgstr "Matriz de color"
 
 #: src/canonmn.cpp:450
 msgid "Color Data"
-msgstr ""
+msgstr "Información de Color"
 
 #: src/panasonicmn.cpp:458
 msgid "Color Effect"
@@ -5822,7 +5823,7 @@ msgstr "Color personalizado"
 
 #: src/canonmn.cpp:450
 msgid "Color data"
-msgstr ""
+msgstr "Información de color"
 
 #: src/panasonicmn.cpp:458
 msgid "Color effect"
@@ -5929,7 +5930,7 @@ msgstr "Espacio de color"
 
 #: src/canonmn.cpp:1585
 msgid "ColorTemperature"
-msgstr ""
+msgstr "TemperaturaDeColor"
 
 #: src/properties.cpp:153
 msgid "Colorant structure"
@@ -6070,11 +6071,11 @@ msgstr "Tasa de compresión"
 
 #: src/properties.cpp:1371
 msgid "Compressor"
-msgstr ""
+msgstr "Compresor"
 
 #: src/properties.cpp:1373
 msgid "Compressor Version"
-msgstr ""
+msgstr "Versión de Compresor"
 
 #: src/properties.cpp:1051
 msgid ""
@@ -6160,7 +6161,7 @@ msgstr "Sitio(s) Web"
 
 #: src/properties.cpp:1374
 msgid "Container Type"
-msgstr ""
+msgstr "Tipo de contenedor"
 
 #: src/properties.cpp:1267
 msgid "Contains Regions/person tags"
@@ -6530,7 +6531,7 @@ msgstr "Escala de grises"
 
 #: src/properties.cpp:562
 msgid "Converter"
-msgstr ""
+msgstr "Convertidor"
 
 #: src/panasonicmn.cpp:199
 msgid "Cool"
@@ -6572,7 +6573,7 @@ msgstr "Copyright"
 
 #: src/exiv2.cpp:212
 msgid "Copyright (C) 2004-2017 Andreas Huggel.\n"
-msgstr ""
+msgstr "Copyright (C) 2004-2017 Andreas Huggel.\n"
 
 #: src/datasets.cpp:379
 msgid "Copyright Notice"
@@ -7695,7 +7696,7 @@ msgstr "Descripción de ajuste del dispositivo"
 
 #: src/canonmn.cpp:1610
 msgid "Dhaka"
-msgstr ""
+msgstr "Dhaka"
 
 #: src/canonmn.cpp:1124 src/minoltamn.cpp:303 src/nikonmn.cpp:143
 msgid "Did not fire"
@@ -7707,7 +7708,7 @@ msgstr "Filtro digital"
 
 #: src/pentaxmn.cpp:572
 msgid "Digital Filter 6"
-msgstr ""
+msgstr "Filtro Digital 6"
 
 #: src/properties.cpp:985
 msgid "Digital Image Identifier"
@@ -7741,7 +7742,7 @@ msgstr "Filtro digital"
 
 #: src/canonmn.cpp:1587
 msgid "Digital gain"
-msgstr ""
+msgstr "Ganancia digital"
 
 #: src/tags.cpp:1525
 msgid "Digital still camera"
@@ -7758,7 +7759,7 @@ msgstr "Zoom digital no usado"
 
 #: src/olympusmn.cpp:209
 msgid "Digital zoom ratio"
-msgstr ""
+msgstr "Ratio de zoom digital"
 
 #: src/nikonmn.cpp:259 src/nikonmn.cpp:512 src/nikonmn.cpp:598
 msgid "Digital zoom setting"
@@ -7778,7 +7779,7 @@ msgstr "Hora de digitalización"
 
 #: src/properties.cpp:1399
 msgid "Dimensions"
-msgstr ""
+msgstr "Dimensiones"
 
 #: src/properties.cpp:155
 msgid "Dimensions structure"
@@ -7808,7 +7809,7 @@ msgstr "Directamente fotografiado"
 
 #: src/properties.cpp:368 src/properties.cpp:1400
 msgid "Director"
-msgstr ""
+msgstr "Director"
 
 #: src/properties.cpp:369
 #, fuzzy
@@ -7871,11 +7872,11 @@ msgstr "Corrección de distorsión"
 
 #: src/properties.cpp:1402
 msgid "Distributed By"
-msgstr ""
+msgstr "Distribuido Por"
 
 #: src/properties.cpp:1402
 msgid "Distributed By, i.e. name of person or organization."
-msgstr ""
+msgstr "Distribuido Por, por ejemplo el nombre de la persona u organización."
 
 #: src/properties.cpp:1403
 msgid "Doc Type"
@@ -7940,7 +7941,7 @@ msgstr ""
 
 #: src/olympusmn.cpp:1539
 msgid "Drawing"
-msgstr ""
+msgstr "Dibujo"
 
 #: src/canonmn.cpp:1212 src/minoltamn.cpp:511 src/minoltamn.cpp:1437
 #: src/olympusmn.cpp:716 src/sigmamn.cpp:59 src/sonymn.cpp:635
@@ -7987,7 +7988,7 @@ msgstr "Datos de eliminación de polvo"
 
 #: src/canonmn.cpp:440
 msgid "Dust removal data"
-msgstr ""
+msgstr "Información de eliminación de polvo"
 
 #: src/canonmn.cpp:1163
 #, fuzzy
@@ -8029,11 +8030,11 @@ msgstr "Rango dinámico"
 
 #: src/sonymn.cpp:432 src/sonymn.cpp:433 src/sonymn.cpp:486 src/sonymn.cpp:487
 msgid "Dynamic Range Optimizer"
-msgstr ""
+msgstr "Optimizador de Rango Dinámico"
 
 #: src/sonymn.cpp:660 src/sonymn.cpp:661 src/sonymn.cpp:766 src/sonymn.cpp:767
 msgid "Dynamic Range Optimizer Level"
-msgstr ""
+msgstr "Nivel del Optimizador de Rango Dinámico"
 
 #: src/minoltamn.cpp:1413 src/sonymn.cpp:657 src/sonymn.cpp:658
 #: src/sonymn.cpp:763 src/sonymn.cpp:764
@@ -8095,7 +8096,7 @@ msgstr ""
 # ## can be improved probably
 #: src/properties.cpp:1409
 msgid "EBML Version"
-msgstr ""
+msgstr "Versión EBML"
 
 #: src/olympusmn.cpp:494
 msgid "ESP"
@@ -8662,7 +8663,7 @@ msgstr "Editado (Retrato)"
 
 #: src/properties.cpp:1419
 msgid "Edited By"
-msgstr ""
+msgstr "Editado Por"
 
 #: src/properties.cpp:1419
 msgid "Edited By, i.e. name of person or organization."
@@ -8682,7 +8683,7 @@ msgstr "Apertura máxima efectiva"
 
 #: src/panasonicmn.cpp:423
 msgid "Electronic"
-msgstr ""
+msgstr "Electrónico"
 
 #: src/minoltamn.cpp:277
 msgid "Electronic magnification"
@@ -8710,7 +8711,7 @@ msgstr "PostScript encapsulado (EPS)"
 
 #: src/properties.cpp:1421
 msgid "Encoded By"
-msgstr ""
+msgstr "Codificado por"
 
 #: src/properties.cpp:1421
 msgid "Encoded By, i.e. name of person or organization."
@@ -8734,7 +8735,7 @@ msgstr ""
 
 #: src/properties.cpp:1424
 msgid "Encoder"
-msgstr ""
+msgstr "Codificador"
 
 #: src/tags.cpp:849
 msgid "Encodes the camera exposure index setting when image was captured."
@@ -8829,11 +8830,11 @@ msgstr "Información de equipamiento"
 
 #: src/properties.cpp:1490
 msgid "Equipment Make"
-msgstr ""
+msgstr "Marca del equipamiento"
 
 #: src/properties.cpp:1510
 msgid "Equipment Model"
-msgstr ""
+msgstr "Modelo del equipamiento"
 
 #: src/olympusmn.cpp:757
 msgid "Equipment Version"
@@ -9191,7 +9192,7 @@ msgstr "Tiempo de exposición"
 
 #: src/properties.cpp:1430
 msgid "Exposure time in seconds."
-msgstr ""
+msgstr "Tiempo de exposición en segundos."
 
 #: src/tags.cpp:1596
 msgid "Exposure time, given in seconds (sec)."
@@ -9203,7 +9204,7 @@ msgstr "Tiempo de exposición, en segundos."
 
 #: src/nikonmn.cpp:582
 msgid "Exposure tuning"
-msgstr ""
+msgstr "Ajuste de exposición"
 
 #: src/properties.cpp:138
 msgid "Expression Media schema"
@@ -9211,7 +9212,7 @@ msgstr "Esquema Expression Media"
 
 #: src/panasonicmn.cpp:349
 msgid "Extended"
-msgstr ""
+msgstr "Extendido"
 
 #: src/properties.cpp:1431
 msgid "Extended Content Description"
@@ -9539,7 +9540,7 @@ msgstr "Fallo al escribir la imagen"
 
 #: src/canonmn.cpp:1569
 msgid "Faithful"
-msgstr ""
+msgstr "Fiel"
 
 #: src/properties.cpp:2280
 msgid "Family"
@@ -9580,7 +9581,7 @@ msgstr "Buen tiempo"
 
 #: src/canonmn.cpp:1622
 msgid "Fernando de Noronha"
-msgstr ""
+msgstr "Fernando de Noronha"
 
 #: src/properties.cpp:1980
 msgid "Field Notes"
@@ -9644,7 +9645,7 @@ msgstr "Tamaño del archivo"
 
 #: src/properties.cpp:1436
 msgid "File Size, in MB"
-msgstr ""
+msgstr "Tamaño del fichero, en MB"
 
 #: src/fujimn.cpp:278 src/properties.cpp:854 src/tags.cpp:1812
 msgid "File Source"
@@ -9652,7 +9653,7 @@ msgstr "Fuente de archivo"
 
 #: src/properties.cpp:1437
 msgid "File Type"
-msgstr ""
+msgstr "Tipo de fichero"
 
 #: src/datasets.cpp:101
 msgid "File Version"
@@ -9736,7 +9737,7 @@ msgstr "Rellenar"
 
 #: src/panasonicmn.cpp:151
 msgid "Film Grain"
-msgstr ""
+msgstr "Gránulo de carrete"
 
 #: src/fujimn.cpp:257 src/panasonicmn.cpp:482
 msgid "Film Mode"
@@ -9857,7 +9858,7 @@ msgstr "Fecha de la primera publicación"
 
 #: src/olympusmn.cpp:1538
 msgid "Fish Eye"
-msgstr ""
+msgstr "Ojo de Pez"
 
 #: src/canonmn.cpp:589
 #, fuzzy
@@ -9921,7 +9922,7 @@ msgstr ""
 
 #: src/panasonicmn.cpp:487
 msgid "Flash Curtain"
-msgstr ""
+msgstr "Cortina del Flash"
 
 #: src/minoltamn.cpp:1512
 msgid "Flash Default"
@@ -9995,7 +9996,7 @@ msgstr ""
 
 #: src/olympusmn.cpp:690
 msgid "Flash Intensity"
-msgstr ""
+msgstr "Intesidad del Flash"
 
 #: src/nikonmn.cpp:1130 src/sonymn.cpp:471 src/sonymn.cpp:472
 msgid "Flash Level"
@@ -10034,7 +10035,7 @@ msgstr "Sin flash"
 
 #: src/olympusmn.cpp:688
 msgid "Flash Remote Control"
-msgstr ""
+msgstr "Control remoto del Flash"
 
 #: src/nikonmn.cpp:237 src/nikonmn.cpp:564
 msgid "Flash Setting"
@@ -10179,7 +10180,7 @@ msgstr "Información de flash"
 
 #: src/olympusmn.cpp:690
 msgid "Flash intensity"
-msgstr ""
+msgstr "Intensidad del Flash"
 
 #: src/nikonmn.cpp:1130
 msgid "Flash level"
@@ -10208,7 +10209,7 @@ msgstr "Modelo de flash"
 
 #: src/olympusmn.cpp:688
 msgid "Flash remote control"
-msgstr ""
+msgstr "Control remoto del flash"
 
 #: src/nikonmn.cpp:238 src/nikonmn.cpp:564
 msgid "Flash setting"
@@ -10224,7 +10225,7 @@ msgstr "Tipo de flash"
 
 #: src/panasonicmn.cpp:501
 msgid "Flash warning"
-msgstr ""
+msgstr "Advertencia del flash"
 
 #: src/pentaxmn.cpp:1635 src/pentaxmn.cpp:1636
 msgid "FlashADump"
@@ -10265,7 +10266,7 @@ msgstr "Autoenfoque de punto flexible"
 
 #: src/properties.cpp:732
 msgid "Flipped"
-msgstr ""
+msgstr "Invertidos"
 
 #: src/properties.cpp:717
 #, fuzzy
@@ -10334,7 +10335,7 @@ msgstr "Resolución Y del plano focal"
 
 #: src/canonmn.cpp:1232
 msgid "Focal Units"
-msgstr ""
+msgstr "Unidades Focales"
 
 #: src/actions.cpp:368 src/canonmn.cpp:418 src/minoltamn.cpp:545
 #: src/nikonmn.cpp:1399 src/nikonmn.cpp:1424
@@ -10343,7 +10344,7 @@ msgstr "Distancia focal"
 
 #: src/properties.cpp:1441
 msgid "Focal length of the lens, in millimeters."
-msgstr ""
+msgstr "Longitud focal de la lente, en milímetros."
 
 #: src/olympusmn.cpp:212 src/olympusmn.cpp:761
 msgid "Focal plane diagonal"
@@ -10351,7 +10352,7 @@ msgstr "Diagonal del plano focal"
 
 #: src/canonmn.cpp:1232
 msgid "Focal units"
-msgstr ""
+msgstr "Unidades focales"
 
 #: src/pentaxmn.cpp:1499 src/pentaxmn.cpp:1500
 msgid "FocalLength"
@@ -10426,7 +10427,7 @@ msgstr "Proceso de foco"
 
 #: src/olympusmn.cpp:298
 msgid "Focus Range"
-msgstr ""
+msgstr "Rango de Focus"
 
 #: src/sigmamn.cpp:68
 msgid "Focus Setting"
@@ -10450,7 +10451,7 @@ msgstr "Tipo de foco"
 
 #: src/properties.cpp:1290
 msgid "Focus Usage"
-msgstr ""
+msgstr "Uso del Focus"
 
 #: src/fujimn.cpp:248
 msgid "Focus Warning"
@@ -10639,7 +10640,7 @@ msgstr "Forzado"
 
 #: src/pentaxmn.cpp:606
 msgid "Forest"
-msgstr ""
+msgstr "Bosque"
 
 #: src/properties.cpp:175 src/properties.cpp:1443
 msgid "Format"
@@ -10647,11 +10648,11 @@ msgstr "Formato"
 
 #: src/canonmn.cpp:397
 msgid "Format 1"
-msgstr ""
+msgstr "Formato 1"
 
 #: src/canonmn.cpp:398
 msgid "Format 2"
-msgstr ""
+msgstr "Formato 2"
 
 #: src/properties.cpp:2175
 msgid "Formation"
@@ -10675,7 +10676,7 @@ msgstr "Comentario Exif del usuario con un tipo de valor inesperado"
 
 #: src/olympusmn.cpp:1555
 msgid "Fragmented"
-msgstr ""
+msgstr "Fragmentado"
 
 #: src/properties.cpp:1444
 msgid "Frame Count"
@@ -10738,7 +10739,7 @@ msgstr "Control total"
 
 #: src/panasonicmn.cpp:61
 msgid "Full HD Movie"
-msgstr ""
+msgstr "Película Full HD"
 
 #: src/sonymn.cpp:447 src/sonymn.cpp:448
 msgid "Full Image Size"
@@ -10792,7 +10793,7 @@ msgstr "Información de área GPS"
 
 #: src/properties.cpp:1452
 msgid "GPS Coordinates"
-msgstr ""
+msgstr "Coordenadas GPS"
 
 #: src/properties.cpp:888
 msgid "GPS DOP"
@@ -11066,7 +11067,7 @@ msgstr "Base de ganancia"
 
 #: src/properties.cpp:910
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: src/properties.cpp:1599
 msgid "General Stream Quality"
@@ -11082,7 +11083,7 @@ msgstr "Género"
 
 #: src/olympusmn.cpp:1540
 msgid "Gentle Sepia"
-msgstr ""
+msgstr "Sepia sutíl"
 
 #: src/properties.cpp:2283
 msgid "Genus"
@@ -11295,7 +11296,7 @@ msgstr "Guam"
 #: src/panasonicmn.cpp:154 src/panasonicmn.cpp:160 src/panasonicmn.cpp:527
 #: src/pentaxmn.cpp:604 src/pentaxmn.cpp:673
 msgid "HDR"
-msgstr ""
+msgstr "HDR"
 
 #: src/pentaxmn.cpp:677
 msgid "HDR Auto"
@@ -11303,15 +11304,15 @@ msgstr "Auto HDR"
 
 #: src/pentaxmn.cpp:674
 msgid "HDR Strong 1"
-msgstr ""
+msgstr "HDR Fuerte 1"
 
 #: src/pentaxmn.cpp:675
 msgid "HDR Strong 2"
-msgstr ""
+msgstr "HDR Fuerte 2"
 
 #: src/pentaxmn.cpp:676
 msgid "HDR Strong 3"
-msgstr ""
+msgstr "HDR Fuerte 3"
 
 #: src/olympusmn.cpp:657
 msgid "HQ"
@@ -11327,7 +11328,7 @@ msgstr "Hábitat"
 
 #: src/minoltamn.cpp:1356
 msgid "Half Full"
-msgstr ""
+msgstr "Medio lleno"
 
 #: src/tags.cpp:591
 msgid "Halftone Hints"
@@ -11368,7 +11369,7 @@ msgstr ""
 
 #: src/panasonicmn.cpp:202
 msgid "Happy"
-msgstr ""
+msgstr "Feliz"
 
 #: src/minoltamn.cpp:309 src/olympusmn.cpp:164 src/pentaxmn.cpp:471
 #: src/tags.cpp:1574
@@ -11509,7 +11510,7 @@ msgstr ""
 
 #: src/properties.cpp:1299
 msgid "Hierarchy"
-msgstr ""
+msgstr "Jerarquía"
 
 #: src/canonmn.cpp:628 src/canonmn.cpp:1545 src/fujimn.cpp:85 src/fujimn.cpp:94
 #: src/minoltamn.cpp:1175 src/minoltamn.cpp:1181 src/minoltamn.cpp:1187
@@ -11619,7 +11620,7 @@ msgstr "ID de la geografía superior"
 
 #: src/canonmn.cpp:1546
 msgid "Highest"
-msgstr ""
+msgstr "El más alto"
 
 #: src/panasonicmn.cpp:231
 msgid "Highest (+2)"
@@ -11770,7 +11771,7 @@ msgstr ""
 
 #: src/panasonicmn.cpp:424
 msgid "Hybrid"
-msgstr ""
+msgstr "Híbrido"
 
 #: src/properties.cpp:484
 #, fuzzy
@@ -11823,7 +11824,7 @@ msgstr "IPTC/NAA"
 
 #: src/nikonmn.cpp:159
 msgid "IR Control"
-msgstr ""
+msgstr "Control Infrarojo"
 
 #: src/nikonmn.cpp:171
 msgid "IR control"
@@ -11967,7 +11968,7 @@ msgstr "ISOSpeedRatings"
 
 #: src/properties.cpp:1478
 msgid "ISRC Code"
-msgstr ""
+msgstr "Código ISRC"
 
 #: src/tags.cpp:273
 msgid "IT8 Binary Lineart"
@@ -13475,7 +13476,7 @@ msgstr "Epíteto infraespecífico"
 
 #: src/properties.cpp:277
 msgid "Ingredients"
-msgstr ""
+msgstr "Ingredientes"
 
 #: src/properties.cpp:1330
 msgid "Initial Camera Dolly"
@@ -13858,7 +13859,7 @@ msgstr "miniatura Jpeg 640x480 pixeles"
 
 #: src/properties.cpp:1479
 msgid "Junk Data"
-msgstr ""
+msgstr "Datos Basura"
 
 #: src/pentaxmn.cpp:690
 msgid "K or M Lens"
@@ -13986,7 +13987,7 @@ msgstr ""
 
 #: src/properties.cpp:1480
 msgid "Language."
-msgstr ""
+msgstr "Idioma."
 
 #: src/canonmn.cpp:521 src/canonmn.cpp:1451 src/minoltamn.cpp:672
 #: src/minoltamn.cpp:858 src/sonymn.cpp:610
@@ -14070,15 +14071,15 @@ msgstr "Izquierda"
 
 #: src/olympusmn.cpp:1653
 msgid "Left (horizontal)"
-msgstr ""
+msgstr "Izquierda (horizontal)"
 
 #: src/olympusmn.cpp:1636
 msgid "Left (or n/a)"
-msgstr ""
+msgstr "Izquierda (o N/D)"
 
 #: src/olympusmn.cpp:1664
 msgid "Left (vertical)"
-msgstr ""
+msgstr "Izquierda (vertical)"
 
 # ### ?
 #: src/panasonicmn.cpp:396
@@ -14107,7 +14108,7 @@ msgstr ""
 
 #: src/properties.cpp:1481
 msgid "Length"
-msgstr ""
+msgstr "Longitud"
 
 #: src/pentaxmn.cpp:1432
 msgid "Length of a preview image"
@@ -14322,7 +14323,7 @@ msgstr "Identificador de lentes"
 
 #: src/canonmn.cpp:438 src/olympusmn.cpp:765
 msgid "Lens model"
-msgstr ""
+msgstr "Modelo de lente"
 
 #: src/olympusmn.cpp:772
 msgid "Lens properties"
@@ -14367,7 +14368,7 @@ msgstr "Indicador de nivel de inclinación lateral"
 
 #: src/properties.cpp:1735
 msgid "License"
-msgstr ""
+msgstr "Licencia"
 
 #: src/properties.cpp:1050
 msgid "License End Date"
@@ -14539,7 +14540,7 @@ msgstr "Claro"
 
 #: src/olympusmn.cpp:295
 msgid "Light Condition"
-msgstr ""
+msgstr "Condiciones de Luz"
 
 #: src/nikonmn.cpp:607 src/olympusmn.cpp:1095 src/properties.cpp:839
 #: src/tags.cpp:836 src/tags.cpp:1702
@@ -14548,11 +14549,11 @@ msgstr "Fuente de luz"
 
 #: src/olympusmn.cpp:1533
 msgid "Light Tone"
-msgstr ""
+msgstr "Tono de LUz"
 
 #: src/olympusmn.cpp:296
 msgid "Light condition"
-msgstr ""
+msgstr "Condiciones de luz"
 
 #: src/nikonmn.cpp:607 src/olympusmn.cpp:1095
 msgid "Light source"
@@ -14848,7 +14849,7 @@ msgstr "Inferior-derecha"
 
 #: src/canonmn.cpp:1542
 msgid "Lowest"
-msgstr ""
+msgstr "El más bajo"
 
 #: src/panasonicmn.cpp:230
 msgid "Lowest (-2)"
@@ -14914,11 +14915,11 @@ msgstr "Suavizado de luminancia"
 
 #: src/properties.cpp:429 src/properties.cpp:1488
 msgid "Lyrics"
-msgstr ""
+msgstr "Letras"
 
 #: src/properties.cpp:1488
 msgid "Lyrics of a Song/Video."
-msgstr ""
+msgstr "Letras de una Canción/Video."
 
 #: src/properties.cpp:429
 msgid "Lyrics text. No association with timecode."
@@ -15181,11 +15182,11 @@ msgstr "Madrid"
 
 #: src/olympusmn.cpp:715
 msgid "Magic Filter"
-msgstr ""
+msgstr "Filtro Mágico"
 
 #: src/olympusmn.cpp:715
 msgid "Magic filter"
-msgstr ""
+msgstr "Filtro mágico"
 
 #: src/tags.cpp:1962
 msgid "Magnetic direction"
@@ -15634,7 +15635,7 @@ msgstr "Medición en progreso"
 
 #: src/panasonicmn.cpp:422
 msgid "Mechanical"
-msgstr ""
+msgstr "Mecánico"
 
 #: src/pentaxmn.cpp:473
 msgid "Med Hard"
@@ -15718,7 +15719,7 @@ msgstr "Medio bajo"
 # ## large = grande. mean = promedio... context?
 #: src/properties.cpp:1503
 msgid "Medium."
-msgstr ""
+msgstr "Medio."
 
 #: src/properties.cpp:2178
 msgid "Member"
@@ -15792,7 +15793,7 @@ msgstr "Ajuste del modo de medición"
 
 #: src/properties.cpp:1506
 msgid "Metering mode."
-msgstr ""
+msgstr "Modo de medición."
 
 #: src/minoltamn.cpp:1561
 msgid ""
@@ -15909,7 +15910,7 @@ msgstr "Mín. distancia focal"
 
 #: src/olympusmn.cpp:1553
 msgid "Miniature"
-msgstr ""
+msgstr "Miniatura."
 
 #: src/canonmn.cpp:590
 #, fuzzy
@@ -16264,7 +16265,7 @@ msgstr "Museo"
 
 #: src/properties.cpp:1513
 msgid "Music By"
-msgstr ""
+msgstr "Música Por"
 
 #: src/properties.cpp:1513
 msgid "Music By, i.e. name of person or organization."
@@ -16445,7 +16446,7 @@ msgstr "sRGB natural"
 
 #: src/minoltamn.cpp:953
 msgid "Natural+"
-msgstr ""
+msgstr "Natural+"
 
 #: src/minoltamn.cpp:71
 msgid "Natural+ sRGB"
@@ -16760,7 +16761,7 @@ msgstr "Filtro de ruido (ISO Boost)"
 
 #: src/tags.cpp:1390
 msgid "Noise Profile"
-msgstr ""
+msgstr "Perfil de Rudio"
 
 #: src/canonmn.cpp:1375 src/canonmn.cpp:1512 src/minoltamn.cpp:813
 #: src/minoltamn.cpp:1078 src/minoltamn.cpp:1503 src/nikonmn.cpp:612
@@ -16893,7 +16894,7 @@ msgstr "Norte"
 
 #: src/canonmn.cpp:583 src/panasonicmn.cpp:301
 msgid "Nostalgic"
-msgstr ""
+msgstr "Nostálgico"
 
 #: src/properties.cpp:1223 src/properties.cpp:1231 src/properties.cpp:1238
 msgid "Not Applicable"
@@ -17033,15 +17034,16 @@ msgstr "Número de golpes"
 
 #: src/properties.cpp:1517
 msgid "Number Of Colours"
-msgstr ""
+msgstr "Número de Colores"
 
 #: src/properties.cpp:1518
 msgid "Number Of Important Colours"
-msgstr ""
+msgstr "Número de Colores Importantes"
 
 #: src/properties.cpp:1518
 msgid "Number Of Important Colours, a property inherited from BitMap format"
 msgstr ""
+"Número de Colores Importantes, una propiedad heredada del formato BitMap"
 
 #: src/tags.cpp:621
 msgid "Number Of Inks"
@@ -17049,7 +17051,7 @@ msgstr "Número de tintas"
 
 #: src/properties.cpp:1519
 msgid "Number Of Parts"
-msgstr ""
+msgstr "Número de Partes"
 
 #: src/properties.cpp:1635
 msgid "Number Of Streams"
@@ -17262,11 +17264,11 @@ msgstr "Encendido (1)"
 
 #: src/nikonmn.cpp:888
 msgid "On (105-point)"
-msgstr ""
+msgstr "Encendido (105-puntos)"
 
 #: src/nikonmn.cpp:884
 msgid "On (11-point)"
-msgstr ""
+msgstr "Encendido (11-puntos)"
 
 #: src/olympusmn.cpp:932
 msgid "On (2 frames)"
@@ -17286,19 +17288,19 @@ msgstr "Encendido (3)"
 
 #: src/nikonmn.cpp:885
 msgid "On (39-point)"
-msgstr ""
+msgstr "Encendido (39-puntos)"
 
 #: src/nikonmn.cpp:883
 msgid "On (51-point)"
-msgstr ""
+msgstr "Encendido (51-puntos)"
 
 #: src/nikonmn.cpp:886
 msgid "On (73-point)"
-msgstr ""
+msgstr "Encendido (73-puntos)"
 
 #: src/nikonmn.cpp:887
 msgid "On (73-point, new)"
-msgstr ""
+msgstr "Encendido (73-puntos, nuevo)"
 
 #: src/sonymn.cpp:200
 msgid "On (Continuous)"
@@ -17453,7 +17455,7 @@ msgstr ""
 
 #: src/properties.cpp:749
 msgid "Opacity"
-msgstr ""
+msgstr "Opacidad"
 
 #: src/tags.cpp:1378
 msgid "Opcode List 1"
@@ -17469,7 +17471,7 @@ msgstr "Lista 3 de opcodes"
 
 #: src/properties.cpp:1520
 msgid "Operation Colours"
-msgstr ""
+msgstr "Operación Colores"
 
 #: src/panasonicmn.cpp:470
 msgid "Optical Zoom Mode"
@@ -17606,7 +17608,7 @@ msgstr "Ordenado dither o técnica de semitono"
 
 #: src/properties.cpp:1871
 msgid "Organism"
-msgstr ""
+msgstr "Organismo"
 
 #: src/properties.cpp:1884
 msgid "Organism Associated Occurrences"
@@ -17638,7 +17640,7 @@ msgstr ""
 
 #: src/properties.cpp:1521
 msgid "Organization"
-msgstr ""
+msgstr "Organización"
 
 #: src/panasonicmn.cpp:757 src/properties.cpp:762 src/properties.cpp:1522
 #: src/tags.cpp:491
@@ -17897,7 +17899,7 @@ msgstr "PackBits (Macintosh RLE)"
 
 #: src/tags.cpp:540
 msgid "Page Number"
-msgstr ""
+msgstr "Número de Página"
 
 #: src/properties.cpp:1199
 msgid "Pager"
@@ -18040,7 +18042,7 @@ msgstr "París"
 
 #: src/properties.cpp:1531
 msgid "Part"
-msgstr ""
+msgstr "Parte"
 
 #: src/properties.cpp:428
 #, fuzzy
@@ -18054,7 +18056,7 @@ msgstr "Información PrintIM"
 
 #: src/properties.cpp:1531
 msgid "Part."
-msgstr ""
+msgstr "Parte."
 
 #: src/canonmn.cpp:672 src/tags.cpp:1473
 msgid "Partial"
@@ -18223,7 +18225,7 @@ msgstr "Efecto foto"
 
 #: src/panasonicmn.cpp:153
 msgid "Photo Frame"
-msgstr ""
+msgstr "Marco Fotográfico"
 
 #: src/canonmn.cpp:1247
 msgid "Photo effect"
@@ -18231,7 +18233,7 @@ msgstr "Efecto foto"
 
 #: src/panasonicmn.cpp:515
 msgid "Photo style"
-msgstr ""
+msgstr "Estilo fotográfico"
 
 #: src/properties.cpp:1190
 msgid "Photographic Image"
@@ -18320,7 +18322,7 @@ msgstr ""
 
 #: src/minoltamn.cpp:1066 src/minoltamn.cpp:1067
 msgid "Picture Finish"
-msgstr ""
+msgstr "Acabado de Imágen"
 
 #: src/canonmn.cpp:430 src/olympusmn.cpp:220
 msgid "Picture Info"
@@ -18880,15 +18882,15 @@ msgstr "Procesando software"
 
 #: src/canonmn.cpp:442
 msgid "Processing info"
-msgstr ""
+msgstr "Información de procesamiento"
 
 #: src/properties.cpp:1560
 msgid "Produced By"
-msgstr ""
+msgstr "Producido Por"
 
 #: src/properties.cpp:1560
 msgid "Produced By, i.e. name of person or organization."
-msgstr ""
+msgstr "Producido Por, por ejemplo nombre u organización."
 
 #: src/properties.cpp:460 src/properties.cpp:1561
 msgid "Producer"
@@ -18896,7 +18898,7 @@ msgstr "Productor"
 
 #: src/properties.cpp:1562
 msgid "Producer Keywords"
-msgstr ""
+msgstr "Palabras clave del Productor"
 
 #: src/properties.cpp:1561
 msgid "Producer involved with the video."
@@ -18932,7 +18934,7 @@ msgstr ""
 
 #: src/properties.cpp:1566
 msgid "Production Studio"
-msgstr ""
+msgstr "Estudio de Producción"
 
 #: src/properties.cpp:1564
 msgid "Production aperture height in pixels"
@@ -19170,7 +19172,7 @@ msgstr "Bajar"
 
 #: src/olympusmn.cpp:1547
 msgid "Punk"
-msgstr ""
+msgstr "Punk"
 
 #: src/canonmn.cpp:1500 src/olympusmn.cpp:650 src/olympusmn.cpp:892
 msgid "Purple"
@@ -19264,7 +19266,7 @@ msgstr ""
 
 #: src/properties.cpp:716
 msgid "Radius"
-msgstr ""
+msgstr "Radio"
 
 #: src/tags.cpp:309
 msgid "Randomized process"
@@ -19276,7 +19278,7 @@ msgstr "Título rasterizado"
 
 #: src/properties.cpp:1569
 msgid "Rate"
-msgstr ""
+msgstr "Ratio"
 
 #: src/properties.cpp:1446
 msgid ""
@@ -19410,7 +19412,7 @@ msgstr "Centro de imagen en crudo"
 
 #: src/pentaxmn.cpp:1559 src/pentaxmn.cpp:1560
 msgid "Raw image size"
-msgstr ""
+msgstr "Tamaño imagen RAW"
 
 #: src/tags.cpp:953
 msgid ""
@@ -19463,7 +19465,7 @@ msgstr "Sincronización de flash trasero"
 
 #: src/minoltamn.cpp:1220
 msgid "Recall"
-msgstr ""
+msgstr "Rellamar"
 
 #: src/properties.cpp:921 src/tags.cpp:1631
 msgid "Recommended Exposure Index"
@@ -19515,11 +19517,11 @@ msgstr "Registrado por"
 
 #: src/properties.cpp:1574
 msgid "Recording Copyright"
-msgstr ""
+msgstr "Copyright de la Grabación"
 
 #: src/properties.cpp:1574
 msgid "Recording Copyright."
-msgstr ""
+msgstr "Copyright de la Grabación."
 
 #: src/tags.cpp:192
 msgid "Recording offset"
@@ -19705,7 +19707,7 @@ msgstr ""
 
 #: src/olympusmn.cpp:1554
 msgid "Reflection"
-msgstr ""
+msgstr "Reflejo"
 
 #: src/tags.cpp:1524
 msgid "Reflexion print scanner"
@@ -19927,7 +19929,7 @@ msgstr "Condición reproductiva"
 
 #: src/properties.cpp:1575
 msgid "Requirements"
-msgstr ""
+msgstr "Requerimientos"
 
 #: src/properties.cpp:391
 msgid "Resample Parameters"
@@ -19935,7 +19937,7 @@ msgstr "Parámetros de remuestreo"
 
 #: src/pentaxmn.cpp:569
 msgid "Resized"
-msgstr ""
+msgstr "Cambiado de tamaño"
 
 #: src/sigmamn.cpp:62
 msgid "Resolution Mode"
@@ -20007,11 +20009,11 @@ msgstr "Derecha"
 
 #: src/olympusmn.cpp:1657
 msgid "Right (horizontal)"
-msgstr ""
+msgstr "Derecha (horizontal)"
 
 #: src/olympusmn.cpp:1668
 msgid "Right (vertical)"
-msgstr ""
+msgstr "Derecha (vertical)"
 
 #: src/panasonicmn.cpp:397
 msgid "Right to Left"
@@ -20043,11 +20045,11 @@ msgstr "Río de Janeiro"
 
 #: src/properties.cpp:1577
 msgid "Ripped By"
-msgstr ""
+msgstr "Ripeado Por"
 
 #: src/properties.cpp:1577
 msgid "Ripped By, i.e. name of person or organization."
-msgstr ""
+msgstr "Ripeado Por, por ejemplo nombre de persona u organización."
 
 #: src/panasonicmn.cpp:521
 msgid "Roll Angle"
@@ -20069,7 +20071,7 @@ msgstr "Roma"
 
 #: src/panasonicmn.cpp:245 src/panasonicmn.cpp:387
 msgid "Rotate 180"
-msgstr ""
+msgstr "Girar 180"
 
 #: src/minoltamn.cpp:742 src/minoltamn.cpp:918 src/minoltamn.cpp:2369
 #: src/panasonicmn.cpp:247
@@ -20098,7 +20100,7 @@ msgstr "Rotación"
 
 #: src/minoltamn.cpp:1060 src/minoltamn.cpp:1061
 msgid "Rotation2"
-msgstr ""
+msgstr "Girar2"
 
 #: src/properties.cpp:730
 msgid "Roundness"
@@ -20542,7 +20544,7 @@ msgstr "Altura de sensor"
 
 #: src/canonmn.cpp:449
 msgid "Sensor Info"
-msgstr ""
+msgstr "Información del Sensor"
 
 #: src/panasonicmn.cpp:744
 msgid "Sensor Left Border"
@@ -20578,7 +20580,7 @@ msgstr "Altura de sensor"
 
 #: src/canonmn.cpp:449
 msgid "Sensor info"
-msgstr ""
+msgstr "Información del sensor"
 
 #: src/panasonicmn.cpp:744
 msgid "Sensor left border"
@@ -21160,11 +21162,11 @@ msgstr "AF un disparo"
 
 #: src/properties.cpp:734
 msgid "Size X"
-msgstr ""
+msgstr "Tamaño X"
 
 #: src/properties.cpp:735
 msgid "Size Y"
-msgstr ""
+msgstr "Tamaño Y"
 
 #: src/error.cpp:91
 msgid "Size of %1 JPEG segment is larger than 65535 bytes"
@@ -21910,11 +21912,11 @@ msgstr "Estado/Provincia"
 
 #: src/properties.cpp:1596
 msgid "Statistics"
-msgstr ""
+msgstr "Estadísticas"
 
 #: src/properties.cpp:1596
 msgid "Statistics."
-msgstr ""
+msgstr "Estadísticas."
 
 #: src/properties.cpp:1244 src/properties.cpp:1253
 msgid "Status"
@@ -21940,7 +21942,7 @@ msgstr ""
 
 #: src/panasonicmn.cpp:192
 msgid "Stereo"
-msgstr ""
+msgstr "Estéreo"
 
 #: src/minoltamn.cpp:349
 msgid "Still image"
@@ -22123,7 +22125,7 @@ msgstr "Sujeto"
 
 #: src/properties.cpp:1611
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtítulos"
 
 #: src/properties.cpp:1605
 msgid "Subtitle Codec Decode Info"
@@ -22167,15 +22169,15 @@ msgstr ""
 
 #: src/properties.cpp:1604
 msgid "Subtitles Codec"
-msgstr ""
+msgstr "Códec de los Subtítulos"
 
 #: src/properties.cpp:1606
 msgid "Subtitles Codec Information"
-msgstr ""
+msgstr "Información del Códec de los Subtítulos"
 
 #: src/properties.cpp:1613
 msgid "Subtitles Language"
-msgstr ""
+msgstr "Idioma de los Subtítulos"
 
 #: src/properties.cpp:1609
 msgid "Subtitles Track Default On , i.e. Enabled/Disabled"
@@ -22317,7 +22319,7 @@ msgstr "Surf y Nieve"
 
 #: src/canonmn.cpp:611
 msgid "Surface"
-msgstr ""
+msgstr "Superficie"
 
 #: src/sonymn.cpp:177
 msgid "Sweep Panorama"
@@ -22586,7 +22588,7 @@ msgstr ""
 
 #: src/properties.cpp:2389
 msgid "Tagged"
-msgstr ""
+msgstr "Etiquetado"
 
 #: src/properties.cpp:1172
 msgid "Tagged Image File Format (TIFF)"
@@ -22722,23 +22724,23 @@ msgstr "Texto + ID#"
 
 #: src/properties.cpp:489
 msgid "Text Layers"
-msgstr ""
+msgstr "Capas de Texto"
 
 #: src/panasonicmn.cpp:475
 msgid "Text Stamp 1"
-msgstr ""
+msgstr "Sello de Texto 1"
 
 #: src/panasonicmn.cpp:478
 msgid "Text Stamp 2"
-msgstr ""
+msgstr "Sello de Texto 2"
 
 #: src/panasonicmn.cpp:539
 msgid "Text Stamp 3"
-msgstr ""
+msgstr "Sello de Texto 3"
 
 #: src/panasonicmn.cpp:540
 msgid "Text Stamp 4"
-msgstr ""
+msgstr "Sello de Texto 4"
 
 #: src/properties.cpp:259
 msgid "Text instructions on how a resource can be legally used."
@@ -26280,7 +26282,7 @@ msgstr "Efecto de color"
 
 #: src/properties.cpp:1636
 msgid "Track"
-msgstr ""
+msgstr "Pista"
 
 #: src/properties.cpp:1641 src/properties.cpp:1716
 msgid "Track Header Version"
@@ -26288,15 +26290,15 @@ msgstr ""
 
 #: src/properties.cpp:1640 src/properties.cpp:1715
 msgid "Track ID"
-msgstr ""
+msgstr "ID de Pista"
 
 #: src/properties.cpp:1643 src/properties.cpp:1718
 msgid "Track Language"
-msgstr ""
+msgstr "Idioma de Pista"
 
 #: src/properties.cpp:1648
 msgid "Track Name"
-msgstr ""
+msgstr "Nombre de Pista"
 
 #: src/properties.cpp:1648
 msgid "Track Name could be used to define titles for a segment."
@@ -26312,7 +26314,7 @@ msgstr ""
 
 #: src/properties.cpp:1650 src/properties.cpp:1723
 msgid "Track Volume"
-msgstr ""
+msgstr "Volumen de Pista"
 
 #: src/pentaxmn.cpp:276
 msgid "Tracking Contrast-detect"
@@ -26333,15 +26335,15 @@ msgstr "Rango de transferencia"
 
 #: src/panasonicmn.cpp:148
 msgid "Transform"
-msgstr ""
+msgstr "Transformar"
 
 #: src/panasonicmn.cpp:497
 msgid "Transform 1"
-msgstr ""
+msgstr "Transformar 1"
 
 #: src/panasonicmn.cpp:542
 msgid "Transform 2"
-msgstr ""
+msgstr "Transformar 2"
 
 #: src/datasets.cpp:358 src/datasets.cpp:362 src/properties.cpp:482
 msgid "Transmission Reference"
@@ -26384,7 +26386,7 @@ msgstr ""
 
 #: src/properties.cpp:2389
 msgid "True or False"
-msgstr ""
+msgstr "Verdadero o Falso"
 
 #: src/properties.cpp:461
 msgid "True when the document has been trapped."
@@ -27033,7 +27035,7 @@ msgstr "Uso:"
 
 #: src/properties.cpp:1309
 msgid "Use Panorama Viewer"
-msgstr ""
+msgstr "Usar Visor Panorámico"
 
 #: src/datasets.cpp:194
 msgid ""
@@ -27395,7 +27397,7 @@ msgstr ""
 
 #: src/properties.cpp:1356
 msgid "Video Codec"
-msgstr ""
+msgstr "Codec de Vídeo"
 
 #: src/properties.cpp:1357
 msgid "Video Codec Decode Info"
@@ -27460,7 +27462,7 @@ msgstr "Tamaño de cuadro del vídeo"
 
 #: src/properties.cpp:1469
 msgid "Video Height"
-msgstr ""
+msgstr "Altura del vídeo"
 
 #: src/properties.cpp:1479
 msgid "Video Junk data"
@@ -27607,15 +27609,15 @@ msgstr "Control de viñetas"
 
 #: src/olympusmn.cpp:1561
 msgid "Vintage"
-msgstr ""
+msgstr "Vintage"
 
 #: src/olympusmn.cpp:1562
 msgid "Vintage II"
-msgstr ""
+msgstr "Vintage II"
 
 #: src/olympusmn.cpp:1563
 msgid "Vintage III"
-msgstr ""
+msgstr "Vintage III"
 
 #: src/canonmn.cpp:555 src/canonmn.cpp:1180 src/olympusmn.cpp:135
 #: src/olympusmn.cpp:617 src/olympusmn.cpp:871 src/panasonicmn.cpp:262
@@ -28199,7 +28201,7 @@ msgstr "Oeste"
 
 #: src/properties.cpp:714
 msgid "What"
-msgstr ""
+msgstr "Qué"
 
 #: src/properties.cpp:533
 msgid "When \"Has Crop\" is true, angle of crop rectangle."
@@ -28349,7 +28351,7 @@ msgstr "Valor de balance de blancos"
 
 #: src/olympusmn.cpp:241
 msgid "White Board"
-msgstr ""
+msgstr "Pizarra Blanca"
 
 #: src/olympusmn.cpp:578 src/sonymn.cpp:225
 msgid "White Fluorescent"
@@ -28478,7 +28480,7 @@ msgstr "FluorescenteBlanco"
 
 #: src/properties.cpp:655
 msgid "Whites 2012"
-msgstr ""
+msgstr "Blancos 2012"
 
 #: src/fujimn.cpp:157 src/minoltamn.cpp:923 src/minoltamn.cpp:937
 #: src/minoltamn.cpp:2284 src/panasonicmn.cpp:274
@@ -28661,7 +28663,7 @@ msgstr ""
 
 #: src/properties.cpp:736
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/tags.cpp:650
 msgid "X Clip Path Units"
@@ -28729,7 +28731,7 @@ msgstr "Error %1 de las herramientas XMP: %2"
 
 #: src/properties.cpp:737
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/tags.cpp:654
 msgid "Y Clip Path Units"
@@ -29204,11 +29206,11 @@ msgstr "s"
 
 #: src/canonmn.cpp:1202
 msgid "sRAW1 (mRAW)"
-msgstr ""
+msgstr "sRAW1 (mRAW)"
 
 #: src/canonmn.cpp:1203
 msgid "sRAW2 (sRAW)"
-msgstr ""
+msgstr "sRAW2 (sRAW)"
 
 #: src/canonmn.cpp:410 src/minoltamn.cpp:1152 src/nikonmn.cpp:137
 #: src/olympusmn.cpp:602 src/olympusmn.cpp:793 src/olympusmn.cpp:858
