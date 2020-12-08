@@ -661,10 +661,10 @@ namespace Exiv2 {
                 ifd0Id, imgStruct, unsignedShort, 2, printValue), // TIFF tag
         TagInfo(0x0142, "TileWidth", N_("Tile Width"),
                 N_("The tile width in pixels. This is the number of columns in each tile."),
-                ifd0Id, recOffset, unsignedShort, 1, printValue), // TIFF tag
+                ifd0Id, recOffset, unsignedLong, 1, printValue), // TIFF tag
         TagInfo(0x0143, "TileLength", N_("Tile Length"),
                 N_("The tile length (height) in pixels. This is the number of rows in each tile."),
-                ifd0Id, recOffset, unsignedShort, 1, printValue), // TIFF tag
+                ifd0Id, recOffset, unsignedLong, 1, printValue), // TIFF tag
         TagInfo(0x0144, "TileOffsets", N_("Tile Offsets"),
                 N_("For each tile, the byte offset of that tile, as compressed and "
                    "stored on disk. The offset is specified with respect to the "
@@ -674,7 +674,7 @@ namespace Exiv2 {
         TagInfo(0x0145, "TileByteCounts", N_("Tile Byte Counts"),
                 N_("For each tile, the number of (compressed) bytes in that tile. See "
                    "TileOffsets for a description of how the byte counts are ordered."),
-                ifd0Id, recOffset, unsignedShort, -1, printValue), // TIFF tag
+                ifd0Id, recOffset, unsignedLong, -1, printValue), // TIFF tag
         TagInfo(0x014a, "SubIFDs", N_("SubIFD Offsets"),
                 N_("Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."),
                 ifd0Id, tiffEp, unsignedLong, -1, printValue),
@@ -1020,7 +1020,7 @@ namespace Exiv2 {
                    "sample values. Saturation is caused either by the sensor itself "
                    "becoming highly non-linear in response, or by the camera's analog "
                    "to digital converter clipping."),
-                ifd0Id, dngTags, unsignedShort, -1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG tag
         TagInfo(0xc61e, "DefaultScale", N_("Default Scale"),
                 N_("DefaultScale is required for cameras with non-square pixels. It "
                    "specifies the default scale factors for each direction to convert "
@@ -1036,14 +1036,14 @@ namespace Exiv2 {
                    "of the final image area, in raw image coordinates (i.e., before the "
                    "DefaultScale has been applied), relative to the top-left corner of "
                    "the ActiveArea rectangle."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG tag
         TagInfo(0xc620, "DefaultCropSize", N_("Default Crop Size"),
                 N_("Raw images often store extra pixels around the edges of the final "
                    "image. These extra pixels help prevent interpolation artifacts near "
                    "the edges of the final image. DefaultCropSize specifies the size of "
                    "the final image area, in raw image coordinates (i.e., before the "
                    "DefaultScale has been applied)."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG tag
         TagInfo(0xc621, "ColorMatrix1", N_("Color Matrix 1"),
                 N_("ColorMatrix1 defines a transformation matrix that converts XYZ "
                    "values to reference camera native color space values, under the "
@@ -1247,7 +1247,7 @@ namespace Exiv2 {
         TagInfo(0xc68d, "ActiveArea", N_("Active Area"),
                 N_("This rectangle defines the active (non-masked) pixels of the sensor. "
                    "The order of the rectangle coordinates is: top, left, bottom, right."),
-                ifd0Id, dngTags, unsignedShort, 4, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 4, printValue), // DNG tag
         TagInfo(0xc68e, "MaskedAreas", N_("Masked Areas"),
                 N_("This tag contains a list of non-overlapping rectangle coordinates of "
                    "fully masked pixels, which can be optionally used by DNG readers "
@@ -1255,7 +1255,7 @@ namespace Exiv2 {
                    "coordinates is: top, left, bottom, right. If the raw image data has "
                    "already had its black encoding level subtracted, then this tag should "
                    "not be used, since the masked pixels are no longer useful."),
-                ifd0Id, dngTags, unsignedShort, -1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG tag
         TagInfo(0xc68f, "AsShotICCProfile", N_("As-Shot ICC Profile"),
                 N_("This tag contains an ICC profile that, in conjunction with the "
                    "AsShotPreProfileMatrix tag, provides the camera manufacturer with a "
@@ -1527,20 +1527,20 @@ namespace Exiv2 {
                 "default final size of the larger original file from which this proxy was generated. "
                 "The default value for this tag is default final size of the current DNG file, which "
                 "is DefaultCropSize * DefaultScale."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG 1.4 tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG 1.4 tag
         TagInfo(0xc792, "OriginalBestQualityFinalSize", N_("Original Best Quality Final Size"),
                 N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
                 "best quality final size of the larger original file from which this proxy was "
                 "generated. The default value for this tag is the OriginalDefaultFinalSize, if "
                 "specified. Otherwise the default value for this tag is the best quality size of "
                 "the current DNG file, which is DefaultCropSize * DefaultScale * BestQualityScale."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG 1.4 tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG 1.4 tag
         TagInfo(0xc793, "OriginalDefaultCropSize", N_("Original Default Crop Size"),
                 N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
                 "DefaultCropSize of the larger original file from which this proxy was generated. "
                 "The default value for this tag is OriginalDefaultFinalSize, if specified. Otherwise, "
                 "the default value for this tag is the DefaultCropSize of the current DNG file."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG 1.4 tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG 1.4 tag
         TagInfo(0xc7a3, "ProfileHueSatMapEncoding", N_("Profile Hue Sat Map Encoding"),
                 N_("Provides a way for color profiles to specify how indexing into a 3D HueSatMap is "
                 "performed during raw conversion. This tag is not applicable to 2.5D HueSatMap tables "
