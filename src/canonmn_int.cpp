@@ -2057,7 +2057,7 @@ namespace Exiv2 {
             {
                 std::ostringstream oss;
                 oss << std::setprecision(2);
-                oss << fnumber(canonEv(val));
+                oss << "f/" << fnumber(canonEv(val));
                 ltfl.maxAperture_ = oss.str();
             }
         }
