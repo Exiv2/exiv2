@@ -1093,7 +1093,7 @@ File  6/16: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs.0x0015                          Short       1  32767
 20030925_201850.jpg   Exif.CanonCs.LensType                        Short       1  n/a
 20030925_201850.jpg   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
-20030925_201850.jpg   Exif.CanonCs.MaxAperture                     Short       1  F3.6
+20030925_201850.jpg   Exif.CanonCs.MaxAperture                     Short       1  F3.5
 20030925_201850.jpg   Exif.CanonCs.MinAperture                     Short       1  F22
 20030925_201850.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 20030925_201850.jpg   Exif.CanonCs.FlashDetails                    Short       1  
@@ -2734,7 +2734,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.0x0015                          Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs.LensType                        Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
-< 20030925_201850.jpg   Exif.CanonCs.MaxAperture                     Short       1  F3.6
+< 20030925_201850.jpg   Exif.CanonCs.MaxAperture                     Short       1  F3.5
 < 20030925_201850.jpg   Exif.CanonCs.MinAperture                     Short       1  F22
 < 20030925_201850.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 < 20030925_201850.jpg   Exif.CanonCs.FlashDetails                    Short       1  
@@ -4297,7 +4297,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs.0x0015                          Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs.LensType                        Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
-> 20030925_201850.exv   Exif.CanonCs.MaxAperture                     Short       1  F3.6
+> 20030925_201850.exv   Exif.CanonCs.MaxAperture                     Short       1  F3.5
 > 20030925_201850.exv   Exif.CanonCs.MinAperture                     Short       1  F22
 > 20030925_201850.exv   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 > 20030925_201850.exv   Exif.CanonCs.FlashDetails                    Short       1  
@@ -6098,7 +6098,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.0x0015                          Short       1  32767
 < 20030925_201850.jpg   Exif.CanonCs.LensType                        Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
-< 20030925_201850.jpg   Exif.CanonCs.MaxAperture                     Short       1  F3.6
+< 20030925_201850.jpg   Exif.CanonCs.MaxAperture                     Short       1  F3.5
 < 20030925_201850.jpg   Exif.CanonCs.MinAperture                     Short       1  F22
 < 20030925_201850.jpg   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 < 20030925_201850.jpg   Exif.CanonCs.FlashDetails                    Short       1  
@@ -7661,7 +7661,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs.0x0015                          Short       1  32767
 > 20030925_201850.exv   Exif.CanonCs.LensType                        Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.Lens                            Short       3  18.0 - 55.0 mm
-> 20030925_201850.exv   Exif.CanonCs.MaxAperture                     Short       1  F3.6
+> 20030925_201850.exv   Exif.CanonCs.MaxAperture                     Short       1  F3.5
 > 20030925_201850.exv   Exif.CanonCs.MinAperture                     Short       1  F22
 > 20030925_201850.exv   Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 > 20030925_201850.exv   Exif.CanonCs.FlashDetails                    Short       1  
