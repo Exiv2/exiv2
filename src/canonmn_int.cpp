@@ -1873,9 +1873,9 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(0);
         if (ltfl.focalLengthMin_ == ltfl.focalLengthMax_) {
-            oss << (ltfl.focalLengthMin_ / divisor) << "mm";
+            oss << " " << (ltfl.focalLengthMin_ / divisor) << "mm";
         } else {
-            oss << (ltfl.focalLengthMin_ / divisor) << "-" << (ltfl.focalLengthMax_ / divisor) << "mm";
+            oss << " " << (ltfl.focalLengthMin_ / divisor) << "-" << (ltfl.focalLengthMax_ / divisor) << "mm";
         }
         ltfl.focalLength_ = oss.str();
     }
