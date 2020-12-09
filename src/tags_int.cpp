@@ -190,6 +190,12 @@ namespace Exiv2 {
         { 8, N_("left, bottom")  }              // To silence compiler warning
     };
 
+    //! PlanarConfiguration, tag 0x011c
+    extern const TagDetails exifPlanarConfiguration[] = {
+        { 1, N_("Chunky") },
+        { 2, N_("Planar") }
+    };
+
     //! Predictor, tag 0x013d
     extern const TagDetails exifPredictor[] = {
         {     1, N_("No prediction scheme used")              },
@@ -585,7 +591,7 @@ namespace Exiv2 {
                 "or planar format. In JPEG compressed files a JPEG marker "
                 "is used instead of this tag. If this field does not exist, "
                 "the TIFF default of 1 (chunky) is assumed."),
-                ifd0Id, imgStruct, unsignedShort, 1, printValue),
+                ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifPlanarConfiguration)),
         TagInfo(0x0122, "GrayResponseUnit", N_("Gray Response Unit"),
                 N_("The precision of the information contained in the GrayResponseCurve."),
                 ifd0Id, imgStruct, unsignedShort, 1, printValue), // TIFF tag
