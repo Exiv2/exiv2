@@ -1215,6 +1215,7 @@ namespace Exiv2 {
 
     //! List of lens ids which require special treatment with the medicine
     const LensIdFct lensIdFct[] = {
+        {   2, printCsLensByFocalLength },
         {   4, printCsLensByFocalLength }, // not tested
         {   6, printCsLensByFocalLength },
         {   8, printCsLensByFocalLength },
@@ -1229,6 +1230,9 @@ namespace Exiv2 {
         {  37, printCsLensByFocalLength },
         {  42, printCsLensByFocalLength },
         {  47, printCsLensByFocalLength }, // not tested
+        { 112, printCsLensByFocalLength },
+        { 117, printCsLensByFocalLength },
+        { 127, printCsLensByFocalLength },
         { 131, printCsLensByFocalLength },
         { 136, printCsLensByFocalLength },
         { 137, printCsLensByFocalLength }, // not tested
@@ -1242,26 +1246,35 @@ namespace Exiv2 {
         { 160, printCsLensByFocalLength },
         { 161, printCsLensByFocalLength },
         { 168, printCsLensByFocalLength },
-        { 169, printCsLensByFocalLengthAndMaxAperture },
+        { 169, printCsLensByFocalLength },
+        { 170, printCsLensByFocalLength },
         { 172, printCsLensByFocalLengthTC }, // not tested
         { 173, printCsLensByFocalLengthTC }, // works partly
         { 174, printCsLensByFocalLength }, // not tested
         { 180, printCsLensByFocalLength },
         { 181, printCsLensByFocalLengthTC }, // not tested
         { 182, printCsLensByFocalLengthTC }, // not tested
-        { 183, printCsLensByFocalLength }, // not tested
-        { 198, printCsLensByFocalLength }, // not tested
+        { 183, printCsLensByFocalLengthAndMaxAperture },
+        { 191, printCsLensByFocalLength },
+        { 197, printCsLensByFocalLength },
+        { 198, printCsLensByFocalLengthAndMaxAperture },
         { 213, printCsLensByFocalLength }, // not tested
+        { 231, printCsLensByFocalLength },
         { 234, printCsLensByFocalLength }, // not tested
-        { 248, printCsLensByFocalLength }, // not tested
+        { 240, printCsLensByFocalLength },
+        { 248, printCsLensByFocalLengthAndMaxAperture },
         { 250, printCsLensByFocalLength }, // not tested
         { 254, printCsLensByFocalLength },
         { 255, printCsLensByFocalLength }, // not tested
         { 368, printCsLensByFocalLength },
-        { 491, printCsLensByFocalLength },
+        { 491, printCsLensByFocalLengthTC },
         { 493, printCsLensByFocalLength }, // not tested
+        { 502, printCsLensByFocalLength },
+        { 508, printCsLensByFocalLength },
         { 624, printCsLensByFocalLengthTC },
         { 747, printCsLensByFocalLength }, // not tested
+        { 748, printCsLensByFocalLengthTC },
+        { 750, printCsLensByFocalLength },
         { 4143,printCsLensByFocalLength }, // not tested
         { 4154,printCsLensByFocalLength }, // not tested
         {61182,printCsLensByFocalLength },
