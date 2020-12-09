@@ -5,7 +5,6 @@ import os
 import inspect
 import subprocess
 import threading
-import shlex
 import sys
 import shutil
 import string
@@ -16,22 +15,10 @@ from bash_tests import utils as BT
 
 
 if sys.platform in [ 'win32', 'msys', 'cygwin' ]:
-    #: invoke subprocess.Popen with shell=True on Windows
-    _SUBPROCESS_SHELL = True
-
-    def _cmd_splitter(cmd):
-        return cmd
-
     def _process_output_post(output):
         return output.replace('\r\n', '\n')
 
 else:
-    #: invoke subprocess.Popen with shell=False on Unix
-    _SUBPROCESS_SHELL = False
-
-    def _cmd_splitter(cmd):
-        return shlex.split(cmd)
-
     def _process_output_post(output):
         return output
 
@@ -586,13 +573,13 @@ def test_run(self):
             )
 
         proc = subprocess.Popen(
-            _cmd_splitter(command),
+            command,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             stdin=subprocess.PIPE if stdin is not None else None,
             env=self._get_env(),
             cwd=self.work_dir,
-            shell=_SUBPROCESS_SHELL
+            shell=True,
         )
 
         # Setup a threading.Timer which will terminate the command if it takes
