@@ -555,18 +555,6 @@ namespace Exiv2 {
         return os << comment();
     }
 
-    // test string for printable ascii-7 (' ' .. '~')
-    static bool isBinary(const std::string& s)
-    {
-        bool result = false ;
-        size_t i = 0;
-        while ( !result && i < s.length() ) {
-            unsigned char c = (unsigned char) s[i++];
-            result = c < 32 || c > 127 ;
-        }
-        return result;
-    }
-
     std::string CommentValue::comment(const char* encoding) const
     {
         std::string c;
@@ -582,11 +570,6 @@ namespace Exiv2 {
         // # 1266 Remove trailing nulls
         if ( bAscii && c.find('\0') != c.std::string::npos) {
             c = c.substr(0,c.find('\0'));
-        }
-        // return "binary comment" if results contains non-printable bytes
-        // this ensures no binary bytes in the output stream.
-        if ( bAscii && isBinary(c) ) {
-            c = "binary comment" ;
         }
         return c;
     }
