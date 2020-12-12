@@ -26,5 +26,4 @@ install:
 
 
 build_script:
-    - cmd: C:\msys64\usr\bin\bash -c "pwd; mkdir -p build; cd build ; cmake .. -G 'Unix Makefiles' ; make ; make tests;"
-    - cmd: echo cmake .. -G "Unix Makefiles" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=%WEBREADY% -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS%
+    - cmd: C:\msys64\usr\bin\bash -c "pwd; mkdir -p build; cd build ; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated ; make ; make python_tests;"
