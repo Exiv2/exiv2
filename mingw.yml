@@ -16,6 +16,7 @@ shallow_clone: true
 
 install:
     - echo %APPVEYOR_BUILD_FOLDER%
+    - set "PATH=c:\msys64\mingw64\bin;c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
     - C:\msys64\usr\bin\bash -c "python -m pip install --upgrade pip;pip3.exe install lxml ; for i in base-devel git coreutils dos2unix tar diffutils make  \
          mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
          mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
