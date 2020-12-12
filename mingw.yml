@@ -5,7 +5,7 @@ environment:
   PYTHON: "C:/Python37-x64"
 
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: MinGW-w64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       INTEGRATION_TESTS: 1
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
@@ -18,6 +18,7 @@ install:
     - echo %APPVEYOR_BUILD_FOLDER%
     - python3 -m pip install --upgrade pip
     - pip3.exe install lxml
+    - bash -c \
     - for i in base-devel git coreutils dos2unix tar diffutils make                    \
          mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
          mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
