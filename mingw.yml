@@ -1,0 +1,37 @@
+init:
+  - echo %PYTHON%
+
+environment:
+  PYTHON: "C:/Python37-x64"
+
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1
+      CMAKE_GENERATOR: Unix Makefiles
+      INTEGRATION_TESTS: 1
+      ARCHITECTURE: x86_64
+      UNIT_TESTS: 1
+      WEBREADY: False
+      WARNINGS_AS_ERRORS: ON
+
+shallow_clone: true
+
+install:
+    - set PATH=%PATH%;%PYTHON%/Scripts/
+    - echo %APPVEYOR_BUILD_FOLDER%
+    - python -m pip install --upgrade pip
+    - pip3.exe install lxml
+    - copy/y %PYTHON%\python.exe %PYTHON%\python3.exe
+    - for i in base-devel git coreutils dos2unix tar diffutils make                    \
+         mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
+         mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
+         mingw-w64-x86_64-libexpat  mingw-w64-x86_64-libiconv mingw-w64-x86_64-zlib    \
+         mingw-w64-x86_64-gtest ; do (echo y | pacman -S $i) ; done
+    - cd %APPVEYOR_BUILD_FOLDER%
+
+
+build_script:
+    - cmd: mkdir -p build
+    - cmd: cd       build
+    - cmd: cmake .. -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=%WEBREADY% -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS%
+    - cmd: cmake --build . --config Release
+    - cmd: cmake --build . --config Release --target tests
