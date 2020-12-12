@@ -30,4 +30,5 @@ build_script:
     - cmd: set CMD="cd build           ;%CMD%"
     - cmd: set CMD="cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated  ;%CMD%"
     - cmd: set CMD="make python_tests  ;%CMD%"
+    - cmd: echo %CMD%
     - cmd: C:\msys64\usr\bin\bash -c   "%CMD%"
