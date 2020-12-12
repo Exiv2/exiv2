@@ -36,7 +36,7 @@ build_script:
     - cmd: set   CMD=which python3 python
     - cmd: set   CMD=%CMD%; python --version
     - cmd: set   CMD=%CMD%; build/bin/exiv2 --verbose --version; pwd ; ls -l
+    - cmd: set   CMD=%CMD%; cd build ; cmake --build . --config Release --target tests
     - cmd: echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
-    - cmd: bin
