@@ -5,8 +5,7 @@ environment:
   PYTHON: "C:/Python37-x64"
 
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: MSYS2
-      CMAKE_GENERATOR: Unix Makefiles
+    - APPVEYOR_BUILD_WORKER_IMAGE: MinGW-w64
       INTEGRATION_TESTS: 1
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
@@ -16,7 +15,6 @@ environment:
 shallow_clone: true
 
 install:
-    - set PATH=%PATH%;%PYTHON%/Scripts/
     - echo %APPVEYOR_BUILD_FOLDER%
     - python3 -m pip install --upgrade pip
     - pip3.exe install lxml
@@ -31,6 +29,6 @@ install:
 build_script:
     - cmd: mkdir -p build
     - cmd: cd       build
-    - cmd: cmake .. -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=%WEBREADY% -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS%
+    - cmd: cmake .. -G "Unix Makefiles" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=%WEBREADY% -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS%
     - cmd: cmake --build . --config Release
     - cmd: cmake --build . --config Release --target tests
