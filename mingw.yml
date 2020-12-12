@@ -26,9 +26,8 @@ install:
 
 
 build_script:
-    - cmd: C:\msys64\usr\bin\bash -c " \
-           mkdir -p build;             \
-           cd build ;                  \
-           cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated ;\
-           make ;                      \
-           make python_tests;"
+    - cmd: set CMD="mkdir -p build     ;%CMD%"
+    - cmd: set CMD="cd build           ;%CMD%"
+    - cmd: set CMD="cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated  ;%CMD%"
+    - cmd: set CMD="make python_tests  ;%CMD%"
+    - cmd: C:\msys64\usr\bin\bash -c   "%CMD%"
