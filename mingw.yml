@@ -26,10 +26,13 @@ install:
 
 
 build_script:
-    - cmd: set   CMD=which python3 python
     - cmd: set   CMD=mkdir -p build
     - cmd: set   CMD=%CMD%; cd build    
     - cmd: set   CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-    - cmd: set   CMD=%CMD%; make python_tests
     - cmd: echo %CMD%
     - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
+    - cmd: set   CMD=which python3 python
+    - cmd: set   CMD=%CMD%; python --version
+    - cmd: set   CMD=%CMD%; bin/exiv2 --verbose --version
+    - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
+    - cmd: bin
