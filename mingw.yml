@@ -26,6 +26,7 @@ install:
     - set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
     - C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
     - C:\cygwin64\bin\bash -c "apt-cyg install cmake zlib-devel libexpat-devel python38 python38-pip"
+    - C:\cygwin64\bin\bash -c "python -m pip install --upgrade pip;pip3.exe install lxml"
 
 build_script:
     - cmd: rem set   CMD=mkdir -p build
@@ -45,8 +46,9 @@ build_script:
     - cmd: set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
     - cmd: set  CMD=mkdir -p build
     - cmd: set  CMD=%CMD%; cd build
-    - cmd: set  CMD=%CMD%;cmake .. 
+    - cmd: set  CMD=%CMD%;cmake .. -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
     - cmd: set  CMD=%CMD%; make
+    - cmd: set  CMD=%CMD%; make python_tests
     - cmd: echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmd: C:\cygwin64\bin\bash -c "%CMD%"
