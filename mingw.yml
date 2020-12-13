@@ -1,10 +1,7 @@
 init:
   - echo %PYTHON%
 
-environment:
-  PYTHON: "C:/Python37-x64"
-
-  matrix:
+matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       INTEGRATION_TESTS: 1
       ARCHITECTURE: x86_64
@@ -17,7 +14,7 @@ shallow_clone: true
 install:
     - echo %APPVEYOR_BUILD_FOLDER%
     - set "PATH=c:\msys64\mingw64\bin;c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
-    - echo C:\msys64\usr\bin\bash -c "python -m pip install --upgrade pip;pip3.exe install lxml ; for i in base-devel git coreutils dos2unix tar diffutils make  \
+    - C:\msys64\usr\bin\bash -c "python -m pip install --upgrade pip;pip3.exe install lxml ; for i in base-devel git coreutils dos2unix tar diffutils make  \
          mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
          mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
          mingw-w64-x86_64-libexpat  mingw-w64-x86_64-libiconv mingw-w64-x86_64-zlib    \
@@ -29,22 +26,23 @@ install:
     - C:\cygwin64\bin\bash -c "/usr/bin/python3.8.exe -m pip install --upgrade pip"
 
 build_script:
-    - cmd: rem set   CMD=mkdir -p build
-    - cmd: rem set   CMD=%CMD%; cd build    
-    - cmd: rem set   CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-    - cmd: rem set   CMD=%CMD%; cmake --build . --config Release
-    - cmd: rem echo %CMD%
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: rem C:\msys64\usr\bin\bash -c "%CMD%"
-    - cmd: rem set   CMD=which python3 python
-    - cmd: rem set   CMD=%CMD%; python --version
-    - cmd: rem set   CMD=%CMD%; build/bin/exiv2 --verbose --version; pwd ; ls -l
-    - cmd: rem set   CMD=%CMD%; cd build ; cmake --build . --config Release --target python_tests
+    - cmd: set   CMD=mkdir -p build
+    - cmd: set   CMD=%CMD%; cd build    
+    - cmd: set   CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+    - cmd: set   CMD=%CMD%; cmake --build . --config Release
     - cmd: rem echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
+    - cmd: set   CMD=which python3 python
+    - cmd: set   CMD=%CMD%; python --version
+    - cmd: set   CMD=%CMD%; build/bin/exiv2 --verbose --version; pwd ; ls -l
+    - cmd: set   CMD=%CMD%; cd build ; cmake --build . --config Release --target python_tests
+    - cmd: echo %CMD%
+    - cd %APPVEYOR_BUILD_FOLDER%
+    - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
     - cmd: set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-    - cmd: set  CMD=mkdir -p build
+    - cmd: set  CMD=rm -rf build
+    - cmd: set  CMD=%CMD%; mkdir -p build
     - cmd: set  CMD=%CMD%; cd build
     - cmd: set  CMD=%CMD%;cmake .. -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
     - cmd: set  CMD=%CMD%; make
