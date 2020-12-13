@@ -12,7 +12,6 @@ environment:
       UNIT_TESTS: 1
       WEBREADY: False
       WARNINGS_AS_ERRORS: ON
-  matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       BUILD: CYGWIN64
       INTEGRATION_TESTS: 1
