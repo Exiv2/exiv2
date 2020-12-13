@@ -6,6 +6,15 @@ environment:
 
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      BUILD: MINGW64
+      INTEGRATION_TESTS: 1
+      ARCHITECTURE: x86_64
+      UNIT_TESTS: 1
+      WEBREADY: False
+      WARNINGS_AS_ERRORS: ON
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      BUILD: CYGWIN64
       INTEGRATION_TESTS: 1
       ARCHITECTURE: x86_64
       UNIT_TESTS: 1
@@ -35,14 +44,14 @@ build_script:
     - cmd: set   CMD=%CMD%; cmake --build . --config Release
     - cmd: rem echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
+    - cmd: if "%BUILD%"=="MINGW64" then C:\msys64\usr\bin\bash -c "%CMD%"
     - cmd: set   CMD=which python3 python
     - cmd: set   CMD=%CMD%; python --version
     - cmd: set   CMD=%CMD%; build/bin/exiv2 --verbose --version; pwd ; ls -l
     - cmd: set   CMD=%CMD%; cd build ; cmake --build . --config Release --target python_tests
     - cmd: echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: C:\msys64\usr\bin\bash -c "%CMD%"
+    - cmd: if "%BUILD%"=="MINGW64" C:\msys64\usr\bin\bash -c "%CMD%"
     - cmd: set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
     - cmd: set  CMD=rm -rf build
     - cmd: set  CMD=%CMD%; mkdir -p build
@@ -52,5 +61,5 @@ build_script:
     - cmd: set  CMD=%CMD%; make python_tests
     - cmd: echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: C:\cygwin64\bin\bash -c "%CMD%"
+    - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "%CMD%"
     
