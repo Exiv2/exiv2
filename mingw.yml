@@ -24,7 +24,7 @@ install:
          mingw-w64-x86_64-gtest ; do (echo y | pacman -S $i) ; done
     - cd %APPVEYOR_BUILD_FOLDER%
     - set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-    - C:\cygwin64\bin\bash -c "ls -l /usr/bin"
+    - C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin;apt-cyg install cmake"
 
 build_script:
     - cmd: rem set   CMD=mkdir -p build
