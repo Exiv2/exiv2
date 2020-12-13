@@ -1,7 +1,7 @@
 init:
   - echo %PYTHON%
 
-matrix:
+  matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       INTEGRATION_TESTS: 1
       ARCHITECTURE: x86_64
