@@ -1,6 +1,9 @@
 init:
   - echo %PYTHON%
 
+environment:
+  PYTHON: "C:/Python37-x64"
+
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       INTEGRATION_TESTS: 1
