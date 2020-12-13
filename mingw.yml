@@ -26,7 +26,6 @@ install:
     - set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
     - C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
     - C:\cygwin64\bin\bash -c "apt-cyg install cmake zlib-devel libexpat-devel python38 python38-pip"
-    - C:\cygwin64\bin\bash -c "python3 -m pip install --upgrade pip"
     - C:\cygwin64\bin\bash -c "pip install lxml"
 
 build_script:
