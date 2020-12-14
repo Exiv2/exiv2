@@ -599,16 +599,8 @@ namespace Action {
                 std::cout << "  ";
             first = false;
             std::ostringstream os;
-            // 1431 always translate "comment" tags to show charset=
-            // sadly md.key() cannot access tagInfo.typeId_ (== comment)
-            Exiv2::StringSet commentTags;
-            commentTags.insert("Exif.Photo.UserComment");
-            commentTags.insert("Exif.GPSInfo.GPSProcessingMethod");
-            commentTags.insert("Exif.GPSInfo.GPSAreaInformation");
-            if ( commentTags.find(md.key()) != commentTags.end() ) {
-                os << md.print(&pImage->exifData());
-            } else if (md.typeId() == Exiv2::signedByte) {
-                // #1114 - show negative values for SByte
+            // #1114 - show negative values for SByte
+            if (md.typeId() == Exiv2::signedByte) {
                 for ( int c = 0 ; c < md.value().count() ; c++ ) {
                     int value = md.value().toLong(c);
                     os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);

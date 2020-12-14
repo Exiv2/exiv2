@@ -225,6 +225,18 @@ namespace Exiv2 {
         // be careful with comments (User.Photo.UserComment, GPSAreaInfo etc).
         if ( ti ) {
             fct = ti->printFct_;
+            if ( ti->typeId_ == comment ) {
+                fct=NULL;
+                const Exiv2::CommentValue* cv = dynamic_cast<const Exiv2::CommentValue*>(&value());
+                Exiv2::CommentValue::CharsetId csId = cv->charsetId();
+                if ( csId != CommentValue::undefined ) {
+                    os << "charset=" << CommentValue::CharsetInfo::name(csId) << " ";
+                }
+                os << cv->comment();
+#if 0
+                os << "|| value().toString() = " << value().toString();
+#endif
+            }
         }
         if ( fct ) fct(os, value(), pMetadata);
         return os;
