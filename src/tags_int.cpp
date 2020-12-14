@@ -1776,7 +1776,7 @@ namespace Exiv2 {
                 N_("A tag for Exif users to write keywords or comments on the image "
                 "besides those in <ImageDescription>, and without the "
                 "character code limitations of the <ImageDescription> tag."),
-                exifId, userInfo, comment, 0, printValue),
+                exifId, userInfo, comment, 0, printComment),
         TagInfo(0x9290, "SubSecTime", N_("Sub-seconds Time"),
                 N_("A tag used to record fractions of seconds for the <DateTime> tag."),
                 exifId, dateTime, asciiString, 0, printValue),
@@ -2204,11 +2204,11 @@ namespace Exiv2 {
         TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
                 "The string encoding is defined using the same scheme as UserComment."),
-                gpsId, gpsTags, comment, 0, printValue),
+                gpsId, gpsTags, comment, 0, printComment),
         TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"),
                 N_("A character string recording the name of the GPS area."
                 "The string encoding is defined using the same scheme as UserComment."),
-                gpsId, gpsTags, comment, 0, printValue),
+                gpsId, gpsTags, comment, 0, printComment),
         TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"),
                 N_("A character string recording date and time information relative to UTC "
                 "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."),
@@ -2459,6 +2459,17 @@ namespace Exiv2 {
     std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*)
     {
         return os << value;
+    }
+
+    std::ostream& printComment(std::ostream& os, const Value& value, const ExifData*)
+    {
+        const Exiv2::CommentValue* cv = dynamic_cast<const Exiv2::CommentValue*>(&value);
+        Exiv2::CommentValue::CharsetId csId = cv->charsetId();
+        if ( csId != CommentValue::undefined ) {
+            os << "charset=" << CommentValue::CharsetInfo::name(csId) << " ";
+        }
+        os << cv->comment();
+        return os ;
     }
 
     std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData* metadata)

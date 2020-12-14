@@ -819,7 +819,7 @@ Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
@@ -990,7 +990,7 @@ Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
@@ -1162,7 +1162,7 @@ Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00
@@ -1334,7 +1334,7 @@ Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
-Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
+Exif.Photo.UserComment                        0x9286 Exif         Undefined  44                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeOriginal                 0x9291 Exif         Ascii       3 00
 Exif.Photo.SubSecTimeDigitized                0x9292 Exif         Ascii       3 00

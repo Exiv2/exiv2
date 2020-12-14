@@ -362,6 +362,8 @@ namespace Exiv2 {
     //@{
     //! Default print function, using the Value output operator
     std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*);
+    //! Print the value of a comment
+    std::ostream& printComment(std::ostream& os, const Value& value, const ExifData*);
     //! Print the value converted to a long
     std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*);
     //! Print a Rational or URational value in floating point format
