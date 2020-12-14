@@ -35,7 +35,7 @@ Exif.Image.RowsPerStrip                      Short       1  64
 Exif.Image.StripByteCounts                   Long        1  243
 Exif.Image.XResolution                       Rational    1  72
 Exif.Image.YResolution                       Rational    1  72
-Exif.Image.PlanarConfiguration               Short       1  1
+Exif.Image.PlanarConfiguration               Short       1  Chunky
 Exif.Image.ResolutionUnit                    Short       1  inch
 """
     ]
