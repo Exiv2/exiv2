@@ -563,15 +563,35 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
+    //! Nikon Lens Data binary array - configuration 3
+    extern const ArrayCfg nikonLd4Cfg = {
+        nikonLd4Id,       // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
     //! Nikon Lens Data binary array - definition
     extern const ArrayDef nikonLdDef[] = {
         { 0, ttUndefined, 4 } // Version
+    };
+    //! Nikon Lens Data binary array - definition
+    extern const ArrayDef nikonLd4Def[] = {
+        { 0, ttUndefined, 4 }, // Version
+        { 48, ttUnsignedShort, 1 }, // LensID
+        { 54, ttUnsignedShort, 1 }, // MacAperture
+        { 56, ttUnsignedShort, 1 }, // FNumber
+        { 60, ttUnsignedShort, 1 }  // FocalLength
     };
     //! Nikon Lens Data configurations and definitions
     extern const ArraySet nikonLdSet[] = {
         { nikonLd1Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
         { nikonLd2Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
-        { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) }
+        { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
+        { nikonLd4Cfg, nikonLd4Def, EXV_COUNTOF(nikonLd4Def) }
     };
 
     //! Nikon Color Balance binary array - configuration 1
@@ -1037,6 +1057,7 @@ namespace Exiv2 {
         { Tag::root, nikonLd1Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonLd2Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonLd3Id,       nikon3Id,         0x0098    },
+        { Tag::root, nikonLd4Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonMeId,        nikon3Id,         0x00b0    },
         { Tag::root, nikonAf21Id,      nikon3Id,         0x00b7    },
         { Tag::root, nikonAf22Id,      nikon3Id,         0x00b7    },
@@ -1453,6 +1474,7 @@ namespace Exiv2 {
         {  Tag::all, nikonLd1Id,       newTiffBinaryElement                      },
         {  Tag::all, nikonLd2Id,       newTiffBinaryElement                      },
         {  Tag::all, nikonLd3Id,       newTiffBinaryElement                      },
+        {  Tag::all, nikonLd4Id,       newTiffBinaryElement                      },
 
         // Panasonic makernote
         { Tag::next, panasonicId,      ignoreTiffComponent                       },

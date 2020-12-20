@@ -129,6 +129,7 @@ namespace Exiv2 {
         { nikonLd1Id,      "Makernote", "NikonLd1",     Nikon3MakerNote::tagListLd1    },
         { nikonLd2Id,      "Makernote", "NikonLd2",     Nikon3MakerNote::tagListLd2    },
         { nikonLd3Id,      "Makernote", "NikonLd3",     Nikon3MakerNote::tagListLd3    },
+        { nikonLd4Id,      "Makernote", "NikonLd4",     Nikon3MakerNote::tagListLd4    },
         { olympusId,       "Makernote", "Olympus",      OlympusMakerNote::tagList      },
         { olympus2Id,      "Makernote", "Olympus2",     OlympusMakerNote::tagList      },
         { olympusCsId,     "Makernote", "OlympusCs",    OlympusMakerNote::tagListCs    },
