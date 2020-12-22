@@ -45,6 +45,7 @@
 #include <iomanip>
 #include <cassert>
 #include <cstring>
+#include <bits/stdint-uintn.h>
 #include <math.h> //for log, pow, abs
 
 // *****************************************************************************
@@ -2944,7 +2945,7 @@ zmountlens[] = {
             {0 , "", ""} //end of array
 };
 
-        uint16_t lid = value.toLong();
+        uint16_t lid = static_cast<uint16_t>(value.toLong());
         for(int i = 0; zmountlens[i].lid != 0; ++i){
           if ( zmountlens[i].lid == lid ) return os << zmountlens[i].manuf << " " << zmountlens[i].lensname;
         }
