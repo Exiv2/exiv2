@@ -45,7 +45,6 @@
 #include <iomanip>
 #include <cassert>
 #include <cstring>
-#include <bits/stdint-uintn.h>
 #include <math.h> //for log, pow, abs
 
 // *****************************************************************************
