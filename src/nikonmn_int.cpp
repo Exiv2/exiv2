@@ -2945,7 +2945,7 @@ zmountlens[] = {
 };
 
         uint16_t lid = value.toLong();
-        for(int i{0}; zmountlens[i].lid != 0; ++i){
+        for(int i = 0; zmountlens[i].lid != 0; ++i){
           if ( zmountlens[i].lid == lid ) return os << zmountlens[i].manuf << " " << zmountlens[i].lensname;
         }
         return os << lid;
