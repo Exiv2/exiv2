@@ -48,8 +48,8 @@ option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"     
 option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
 
 set( PACKAGE_BUGREPORT                "http://github.com/exiv2/exiv2" )
-set( PACKAGE_URL                      "http://exiv2.dyndns.org")
-set( PROJECT_DESCRIPTION              "Exif, Xmp and IPTC metadata library and tools")
+set( PACKAGE_URL                      "https://exiv2.org")
+set( PROJECT_DESCRIPTION              "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more.")
 
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
     set(EXIV2_ENABLE_XMP OFF)
