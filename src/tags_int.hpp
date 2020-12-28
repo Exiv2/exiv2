@@ -116,6 +116,7 @@ namespace Exiv2 {
         nikonLd1Id,
         nikonLd2Id,
         nikonLd3Id,
+        nikonLd4Id,
         nikonCb1Id,
         nikonCb2Id,
         nikonCb2aId,
