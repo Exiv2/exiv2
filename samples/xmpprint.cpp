@@ -4,7 +4,7 @@
 // all (known) properties.
 // ========================================================================
 // Linux standalone compilation : 
-//      g++ -o xmprint xmprint.cpp `pkg-config --cflags --libs exiv2`
+//      g++ -o xmpprint xmpprint.cpp `pkg-config --cflags --libs exiv2`
 // ========================================================================
 
 #include <exiv2/exiv2.hpp>
