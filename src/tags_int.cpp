@@ -227,7 +227,8 @@ namespace Exiv2 {
         {     8, N_("Primary image, Depth map")                                    },   // DNG 1.5
         {     9, N_("Thumbnail/Preview image, Depth map")                          },   // DNG 1.5
         {    16, N_("Enhanced image")                                              },   // DNG 1.5 (clashes w/ TIFF-FX)
-        { 65537, N_("Thumbnail/Preview image, Alternative")                        }    // DNG 1.2
+        { 65537, N_("Thumbnail/Preview image, Alternative")                        },   // DNG 1.2
+        { 65540, N_("Primary image, Semantic mask")                                }    // DNG 1.6
     };
 
     //! SubfileType, TIFF tag 0x00ff
@@ -289,7 +290,8 @@ namespace Exiv2 {
         { 32844, N_("Pixar LogL")         },
         { 32845, N_("Pixar LogLuv")       },
         { 34892, N_("Linear Raw")         },
-        { 51177, N_("Depth")              }     // DNG 1.5
+        { 51177, N_("Depth Map")          },    // DNG 1.5
+        { 52527, N_("Semantic Mask")      }     // DNG 1.6
     };
 
     //! Thresholding, tag 0x0107
@@ -1616,6 +1618,16 @@ namespace Exiv2 {
         TagInfo(0xc7ee, "EnhanceParams", N_("Enhance Params"),
                 N_("A string that documents how the enhanced image data was processed."),
                 ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.5 tag
+        TagInfo(0xcd2d, "ProfileGainTableMap", N_("Profile Gain Table Map"),
+                N_("Contains spatially varying gain tables that can be applied while processing the "
+                "image as a starting point for user adjustments."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd2e, "SemanticName", N_("Semantic Name"),
+                N_("A string that identifies the semantic mask."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.6 tag
+        TagInfo(0xcd30, "SemanticInstanceID", N_("Semantic Instance ID"),
+                N_("A string that identifies a specific instance in a semantic mask."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.6 tag
 
         ////////////////////////////////////////
         // End of list marker
