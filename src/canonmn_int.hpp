@@ -73,6 +73,43 @@ namespace Exiv2 {
         static const TagInfo* tagListFi();
         //! Return read-only list of built-in Canon Processing Info tags
         static const TagInfo* tagListPr();
+        //! Return read-only list of built-in Canon Movie Info tags
+        static const TagInfo* tagListMv();
+        //! Return read-only list of built-in Canon Color Info tags
+        static const TagInfo* tagListMc();
+
+
+
+        static const TagInfo* tagListAf3();
+        static const TagInfo* tagListFcd3();
+        static const TagInfo* tagListWbi();
+        static const TagInfo* tagListCo();
+        static const TagInfo* tagListCo();
+        static const TagInfo* tagListFcd2();
+        static const TagInfo* tagListFcd1();
+        static const TagInfo* tagListAs();
+        static const TagInfo* tagListCbi();
+        static const TagInfo* tagListFl();
+        static const TagInfo* tagListMo();
+        static const TagInfo* tagListPreI();
+        static const TagInfo* tagListCi();
+        static const TagInfo* tagListAfMiAdj();
+        static const TagInfo* tagListVigCor2();
+        static const TagInfo* tagListLiOp();
+        static const TagInfo* tagListLe();
+        static const TagInfo* tagListAm();
+        static const TagInfo* tagListMe();
+        static const TagInfo* tagListFil();
+        static const TagInfo* tagListHdr();
+        static const TagInfo* tagListAfC();
+        static const TagInfo* tagListRawB();
+        
+
+        
+        
+
+        
+        
 
         //! @name Print functions for Canon %MakerNote tags
         //@{
@@ -123,14 +160,40 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
+        static const TagInfo tagInfoAf2_[];
+        static const TagInfo tagInfoAf3_[];
+        static const TagInfo tagInfoAfC_[];
+        static const TagInfo tagInfoAfMiAdj_[];        
+        static const TagInfo tagInfoAm_[];
+        static const TagInfo tagInfoAs_[];
         static const TagInfo tagInfoCs_[];
+        static const TagInfo tagInfoCbi_[];
         static const TagInfo tagInfoSi_[];
         static const TagInfo tagInfoCf_[];
+        static const TagInfo tagInfoCi_[];
+        static const TagInfo tagInfoCo_[];
+        static const TagInfo tagInfoFl_[];
+        static const TagInfo tagInfoFil_[];
+        static const TagInfo tagInfoLiOp_[];
+        static const TagInfo tagInfoLe_[];
+        static const TagInfo tagInfoHdr_[];
+        static const TagInfo tagInfoMe_[];
+        static const TagInfo tagInfoMo_[];
+        static const TagInfo tagInfoMv_[];
+        static const TagInfo tagInfoMc_[];
+        static const TagInfo tagInfoFcd1_[];
+        static const TagInfo tagInfoFcd2_[];
+        static const TagInfo tagInfoFcd3_[];        
         static const TagInfo tagInfoPi_[];
         static const TagInfo tagInfoTi_[];
         static const TagInfo tagInfoFi_[];
         static const TagInfo tagInfoPa_[];
         static const TagInfo tagInfoPr_[];
+        static const TagInfo tagInfoPreI_[];
+        static const TagInfo tagInfoVigCor_[];
+        static const TagInfo tagInfoVigCor2_[];
+        static const TagInfo tagInfoWbi_[];
+        
 
     }; // class CanonMakerNote
 
@@ -157,3 +220,5 @@ namespace Exiv2 {
 }}                                      // namespace Internal, Exiv2
 
 #endif                                  // #ifndef CANONMN_INT_HPP_
+
+
