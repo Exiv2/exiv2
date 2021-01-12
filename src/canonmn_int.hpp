@@ -75,34 +75,56 @@ namespace Exiv2 {
         static const TagInfo* tagListPr();
         //! Return read-only list of built-in Canon Movie Info tags
         static const TagInfo* tagListMv();
-        //! Return read-only list of built-in Canon Color Info tags
+        //! Return read-only list of built-in Canon My Colors Info tags
         static const TagInfo* tagListMc();
-
-
-
+        //! Return read-only list of built-in Canon AFInfo3 Info tags
         static const TagInfo* tagListAf3();
+        //! Return read-only list of built-in Canon Face detection Info tags
         static const TagInfo* tagListFcd3();
+        //! Return read-only list of built-in Canon White balance Info tags
         static const TagInfo* tagListWbi();
+        //! Return read-only list of built-in Canon Contrast Info tags
         static const TagInfo* tagListCo();
-        static const TagInfo* tagListCo();
+        //! Return read-only list of built-in Canon Face detection 1 Info tags
         static const TagInfo* tagListFcd2();
+        //! Return read-only list of built-in Canon Face detection 2 Info tags
         static const TagInfo* tagListFcd1();
+        //! Return read-only list of built-in Canon Aspect Info tags
         static const TagInfo* tagListAs();
+        //! Return read-only list of built-in Canon Balance Info tags
         static const TagInfo* tagListCbi();
+        //! Return read-only list of built-in Canon Flags Info tags
         static const TagInfo* tagListFl();
+        //! Return read-only list of built-in Canon Modified On Info tags
         static const TagInfo* tagListMo();
+        //! Return read-only list of built-in Canon Preview Image Info tags
         static const TagInfo* tagListPreI();
+        //! Return read-only list of built-in Canon Color Info tags
         static const TagInfo* tagListCi();
+        //! Return read-only list of built-in Canon AFMicroAdjMode Quality Info tags
         static const TagInfo* tagListAfMiAdj();
+        //! Return read-only list of built-in Canon VignettingCorr Info tags
+        static const TagInfo* tagListVigCor();
+        //! Return read-only list of built-in Canon VignettingCorr2 Info tags
         static const TagInfo* tagListVigCor2();
+        //! Return read-only list of built-in Canon LightingOpt Info tags
         static const TagInfo* tagListLiOp();
+        //! Return read-only list of built-in Canon LensInfo Info tags
         static const TagInfo* tagListLe();
+        //! Return read-only list of built-in Canon Ambience Info tags
         static const TagInfo* tagListAm();
+        //! Return read-only list of built-in Canon MultiExposureControl Info tags
         static const TagInfo* tagListMe();
+        //! Return read-only list of built-in Canon Filter Info tags
         static const TagInfo* tagListFil();
+        //! Return read-only list of built-in Canon HDR Info tags
         static const TagInfo* tagListHdr();
+        //! Return read-only list of built-in Canon AFConfig Info tags
         static const TagInfo* tagListAfC();
+        //! Return read-only list of built-in Canon RawBurstInfo Info tags
         static const TagInfo* tagListRawB();
+        //! Return read-only list of built-in Canon AFInfo2 Info tags
+        static const TagInfo* tagListAf2();
         
 
         
@@ -193,6 +215,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoVigCor_[];
         static const TagInfo tagInfoVigCor2_[];
         static const TagInfo tagInfoWbi_[];
+        static const TagInfo tagInfoRawB_ [];
         
 
     }; // class CanonMakerNote
