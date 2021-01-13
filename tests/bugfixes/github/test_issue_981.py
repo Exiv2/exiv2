@@ -48,6 +48,8 @@ Exif.Canon.AFYPositions                      SShort     63  547 625 625 625 625 
 Exif.Canon.AFPointsInFocus                   Short       4  25
 Exif.Canon.AFPointsSelected                  Short       4  25
 Exif.Canon.AFPointsUnusable                  Short       4  (none)
+Exif.Canon.AFMicroAdj                        Long       11  44 2 0 10 4294967295 0 10 0 10 0 10
+Exif.Canon.AFConfig                          Long       20  80 4 0 0 1 0 0 0 0 1 0 1 32639 1 0 1 0 0 0 2
 ""","""0x2602 Canon        AFNumPoints                 SShort      1  63
 0x2603 Canon        AFValidPoints               SShort      1  61
 0x260c Canon        AFPointsInFocus             Short       4  0 560 57344 0

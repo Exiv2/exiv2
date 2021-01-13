@@ -41,6 +41,7 @@ Exif.CanonCs.Quality                         Short       1  RAW
 Exif.CanonCs.FlashMode                       Short       1  Off
 Exif.CanonCs.DriveMode                       Short       1  Single / timer
 Exif.CanonCs.FocusMode                       Short       1  AI servo AF
+Exif.CanonCs.RecordMode                      Short       1  CRW+THM
 Exif.CanonCs.ImageSize                       Short       1  Large
 Exif.CanonCs.EasyMode                        Short       1  Manual
 Exif.CanonCs.DigitalZoom                     Short       1  None
@@ -155,6 +156,7 @@ Exif.CanonCs.Quality                         Short       1  RAW
 Exif.CanonCs.FlashMode                       Short       1  Off
 Exif.CanonCs.DriveMode                       Short       1  Single / timer
 Exif.CanonCs.FocusMode                       Short       1  AI servo AF
+Exif.CanonCs.RecordMode                      Short       1  CRW+THM
 Exif.CanonCs.ImageSize                       Short       1  Large
 Exif.CanonCs.EasyMode                        Short       1  Manual
 Exif.CanonCs.DigitalZoom                     Short       1  None
@@ -223,6 +225,7 @@ Exif.CanonCs.Quality                         Short       1  RAW
 Exif.CanonCs.FlashMode                       Short       1  Off
 Exif.CanonCs.DriveMode                       Short       1  Single / timer
 Exif.CanonCs.FocusMode                       Short       1  AI servo AF
+Exif.CanonCs.RecordMode                      Short       1  CRW+THM
 Exif.CanonCs.ImageSize                       Short       1  Large
 Exif.CanonCs.EasyMode                        Short       1  Manual
 Exif.CanonCs.DigitalZoom                     Short       1  None

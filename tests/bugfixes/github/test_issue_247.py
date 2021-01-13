@@ -43,6 +43,7 @@ Exif.CanonCs.Quality                         Short       1  Superfine
 Exif.CanonCs.FlashMode                       Short       1  Auto
 Exif.CanonCs.DriveMode                       Short       1  Single / timer
 Exif.CanonCs.FocusMode                       Short       1  Single
+Exif.CanonCs.RecordMode                      Short       1  JPEG
 Exif.CanonCs.ImageSize                       Short       1  Large
 Exif.CanonCs.EasyMode                        Short       1  Manual
 Exif.CanonCs.DigitalZoom                     Short       1  None
