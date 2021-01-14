@@ -58,7 +58,7 @@ Exif.CanonCs.DriveMode                       Short       1  Single / timer
 Exif.CanonCs.0x0006                          Short       1  0
 Exif.CanonCs.FocusMode                       Short       1  Single
 Exif.CanonCs.0x0008                          Short       1  0
-Exif.CanonCs.0x0009                          Short       1  1
+Exif.CanonCs.RecordMode                      Short       1  JPEG
 Exif.CanonCs.ImageSize                       Short       1  Large
 Exif.CanonCs.EasyMode                        Short       1  Manual
 Exif.CanonCs.DigitalZoom                     Short       1  None

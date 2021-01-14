@@ -201,7 +201,7 @@ Exif.CanonCs.DriveMode                        0x0005 Makernote    Short       1 
 Exif.CanonCs.0x0006                           0x0006 Makernote    Short       1 0
 Exif.CanonCs.FocusMode                        0x0007 Makernote    Short       1 4
 Exif.CanonCs.0x0008                           0x0008 Makernote    Short       1 0
-Exif.CanonCs.0x0009                           0x0009 Makernote    Short       1 1
+Exif.CanonCs.RecordMode                       0x0009 Makernote    Short       1 1
 Exif.CanonCs.ImageSize                        0x000a Makernote    Short       1 0
 Exif.CanonCs.EasyMode                         0x000b Makernote    Short       1 1
 Exif.CanonCs.DigitalZoom                      0x000c Makernote    Short       1 0
@@ -330,7 +330,7 @@ Exif.CanonCs.DriveMode                        0x0005 Makernote    Short       1 
 Exif.CanonCs.0x0006                           0x0006 Makernote    Short       1 0
 Exif.CanonCs.FocusMode                        0x0007 Makernote    Short       1 4
 Exif.CanonCs.0x0008                           0x0008 Makernote    Short       1 0
-Exif.CanonCs.0x0009                           0x0009 Makernote    Short       1 1
+Exif.CanonCs.RecordMode                       0x0009 Makernote    Short       1 1
 Exif.CanonCs.ImageSize                        0x000a Makernote    Short       1 0
 Exif.CanonCs.EasyMode                         0x000b Makernote    Short       1 1
 Exif.CanonCs.DigitalZoom                      0x000c Makernote    Short       1 0
@@ -460,7 +460,7 @@ Exif.CanonCs.DriveMode                        0x0005 Makernote    Short       1 
 Exif.CanonCs.0x0006                           0x0006 Makernote    Short       1 0
 Exif.CanonCs.FocusMode                        0x0007 Makernote    Short       1 4
 Exif.CanonCs.0x0008                           0x0008 Makernote    Short       1 0
-Exif.CanonCs.0x0009                           0x0009 Makernote    Short       1 1
+Exif.CanonCs.RecordMode                       0x0009 Makernote    Short       1 1
 Exif.CanonCs.ImageSize                        0x000a Makernote    Short       1 0
 Exif.CanonCs.EasyMode                         0x000b Makernote    Short       1 1
 Exif.CanonCs.DigitalZoom                      0x000c Makernote    Short       1 0
@@ -590,7 +590,7 @@ Exif.CanonCs.DriveMode                        0x0005 Makernote    Short       1 
 Exif.CanonCs.0x0006                           0x0006 Makernote    Short       1 0
 Exif.CanonCs.FocusMode                        0x0007 Makernote    Short       1 4
 Exif.CanonCs.0x0008                           0x0008 Makernote    Short       1 0
-Exif.CanonCs.0x0009                           0x0009 Makernote    Short       1 1
+Exif.CanonCs.RecordMode                       0x0009 Makernote    Short       1 1
 Exif.CanonCs.ImageSize                        0x000a Makernote    Short       1 0
 Exif.CanonCs.EasyMode                         0x000b Makernote    Short       1 1
 Exif.CanonCs.DigitalZoom                      0x000c Makernote    Short       1 0
