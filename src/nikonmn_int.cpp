@@ -104,6 +104,16 @@ namespace Exiv2 {
         N_("Right-most")
     };
 
+    //! Shutter Modes (credits to exiftool)
+    extern const TagDetails nikonShutterModes[] = {
+        { 0, "Mechanical" },
+        { 16, "Electronic" },
+        { 48, "Electronic Front Curtain" },
+        { 64, "Electronic (Movie)" },
+        { 80, "Auto (Mechanical)" },
+        { 81, "Auto (Electronic Front Curtain)" }
+    };
+
     //! FlashComp, tag 0x0012
     extern const TagDetails nikonFlashComp[] = {
         // From the PHP JPEG Metadata Toolkit
@@ -589,6 +599,8 @@ namespace Exiv2 {
         TagInfo(0x0024, "WorldTime", N_("World Time"), N_("World time"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x0025, "ISOInfo", N_("ISO Info"), N_("ISO info"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x002a, "VignetteControl", N_("Vignette Control"), N_("Vignette control"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonOlnh)),
+        TagInfo(0x0034, "ShutterMode", N_("Shutter Mode"), N_("Shutter mode"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonShutterModes)),
+        TagInfo(0x0037, "MechanicalShutterCount", N_("Mechanical Shutter Count"), N_("Mechanical shutter count"), nikon3Id, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x0080, "ImageAdjustment", N_("Image Adjustment"), N_("Image adjustment setting"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0081, "ToneComp", N_("Tone Compensation"), N_("Tone compensation"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0082, "AuxiliaryLens", N_("Auxiliary Lens"), N_("Auxiliary lens (adapter)"), nikon3Id, makerTags, asciiString, -1, printValue),
