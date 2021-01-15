@@ -110,7 +110,7 @@ namespace Exiv2 {
         { 16, "Electronic" },
         { 48, "Electronic Front Curtain" },
         { 64, "Electronic (Movie)" },
-        { 80,  "Auto (Mechanical)" },
+        { 80, "Auto (Mechanical)" },
         { 81, "Auto (Electronic Front Curtain)" }
     };
 
