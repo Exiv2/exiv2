@@ -176,6 +176,8 @@ namespace Exiv2 {
         static std::ostream& print0x0002(std::ostream& os, const Value& value, const ExifData*);
         //! Print autofocus mode
         static std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*);
+        //! Print shutter mode
+        static std::ostream& print0x0034(std::ostream& os, const Value& value, const ExifData*);
         //! Print lens type
         static std::ostream& print0x0083(std::ostream& os, const Value& value, const ExifData*);
         //! Print lens information

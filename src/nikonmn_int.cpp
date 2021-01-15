@@ -589,6 +589,8 @@ namespace Exiv2 {
         TagInfo(0x0024, "WorldTime", N_("World Time"), N_("World time"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x0025, "ISOInfo", N_("ISO Info"), N_("ISO info"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x002a, "VignetteControl", N_("Vignette Control"), N_("Vignette control"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonOlnh)),
+        TagInfo(0x0034, "ShutterMode", N_("Shutter Mode"), N_("Shutter mode"), nikon3Id, makerTags, unsignedShort, -1, print0x0034),
+        TagInfo(0x0037, "MechanicalShutterCount", N_("Mechanical Shutter Count"), N_("Mechanical shutter count"), nikon3Id, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x0080, "ImageAdjustment", N_("Image Adjustment"), N_("Image adjustment setting"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0081, "ToneComp", N_("Tone Compensation"), N_("Tone compensation"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0082, "AuxiliaryLens", N_("Auxiliary Lens"), N_("Auxiliary lens (adapter)"), nikon3Id, makerTags, asciiString, -1, printValue),
@@ -1526,6 +1528,30 @@ namespace Exiv2 {
         else if (focus == "AF-S  ") os << _("Single autofocus");
         else if (focus == "AF-A  ") os << _("Automatic");
         else                      os << "(" << value << ")";
+        return os;
+    }
+
+    // shutter mode value conversions, taken from exiftool
+    std::ostream& Nikon3MakerNote::print0x0034(std::ostream& os,
+                                               const Value& value,
+                                               const ExifData*)
+    {
+        long focus = value.toLong();
+        switch (focus) {
+          case 0: os << "Mechanical";
+            break;
+          case 16: os << "Electronic";
+            break;
+          case 48: os << "Electronic Front Curtain";
+            break;
+          case 64: os << "Electronic (Movie)";
+            break;
+          case 80: os << "Auto (Mechanical)";
+            break;
+          case 81: os << "Auto (Electronic Front Curtain)";
+            break;
+          default: os << "Unknown Shutter Mode";
+        }
         return os;
     }
 
