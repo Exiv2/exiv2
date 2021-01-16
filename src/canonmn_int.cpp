@@ -1054,7 +1054,13 @@ namespace Exiv2 {
       //{ 254, "Tamron SP 90mm f/2.8 Di VC USD Macro 1:1 F017"              }, // 2 model released in 2016
         { 255, "Sigma 24-105mm f/4 DG OS HSM | A"                           }, // 0
         { 255, "Sigma 180mm f/2.8 EX DG OS HSM APO Macro"                   }, // 1
-        { 368, "Sigma 18-35mm f/1.8 DC HSM | A"                             },
+        { 368, "Sigma 18-35mm f/1.8 DC HSM | A"                             }, // 0
+        { 368, "Sigma 50mm f/1.4 DG HSM | A"                                }, // 1 
+        { 368, "Sigma 40mm f/1.4 DG HSM | A"                                }, // 2 
+        { 368, "Sigma 35mm f/1.4 DG HSM | A"                                }, // 3 
+        { 368, "Sigma 28mm f/1.4 DG HSM | A"                                }, // 4 
+        { 368, "Sigma 14-24mm f/2.8 DG HSM | A"                             }, // 5 
+        { 368, "Sigma 60-600mm f/4.5-6.3 DG OS HSM | S"                     }, // 6 
         { 488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"                        },
         { 489, "Canon EF 70-300mm f/4-5.6L IS USM"                          },
         { 490, "Canon EF 8-15mm f/4L Fisheye USM"                           },
@@ -1159,6 +1165,7 @@ namespace Exiv2 {
         { 250, printCsLensByFocalLength }, // not tested
         { 254, printCsLensByFocalLength },
         { 255, printCsLensByFocalLength }, // not tested
+        { 368, printCsLensByFocalLengthAndMaxAperture }, // all but 18-35mm tested with .cr2 images
         { 491, printCsLensByFocalLength },
         { 493, printCsLensByFocalLength }, // not tested
         { 624, printCsLensByFocalLengthTC },
@@ -2201,6 +2208,9 @@ namespace Exiv2 {
         }
         else if (frac == 0x14) {
             frac = 64.0F / 3;
+        }
+        else if ((val == 160) && (frac == 0x08)) { // for Sigma f/6.3 lenses that report f/6.2 to camera
+            frac = 30.0F / 3;
         }
         return sign * (val + frac) / 32.0F;
     }
