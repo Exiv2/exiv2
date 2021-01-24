@@ -42,7 +42,7 @@ namespace Exiv2
     // Add JPEG-2000 to the supported image formats
     namespace ImageType
     {
-        const int jp2 = 16;                     //!< JPEG-2000 image type
+        const int jp2 = 19;                     //!< JPEG-2000 image type
     }
 
     /*!
