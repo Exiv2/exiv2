@@ -18,6 +18,9 @@
 // Define if you want translation of program messages to the user's native language
 #cmakedefine EXV_ENABLE_NLS
 
+// Define if you want ISO BMFF support.
+#cmakedefine EXV_ENABLE_ISOBMFF
+
 // Define if you want video support.
 #cmakedefine EXV_ENABLE_VIDEO
 

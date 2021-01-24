@@ -46,6 +46,9 @@
 #include "exiv2/image.hpp"
 #include "exiv2/ini.hpp"
 #include "exiv2/iptc.hpp"
+#ifdef EXV_ENABLE_ISOBMFF
+#include "isobmff.hpp"
+#endif // EXV_ENABLE_ISOBMFF
 #include "exiv2/jp2image.hpp"
 #include "exiv2/jpgimage.hpp"
 #include "exiv2/metadatum.hpp"

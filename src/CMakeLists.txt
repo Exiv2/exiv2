@@ -61,6 +61,7 @@ add_library( exiv2lib
     image.cpp               ../include/exiv2/image.hpp
     ini.cpp                 ../include/exiv2/ini.hpp
     iptc.cpp                ../include/exiv2/iptc.hpp
+    isobmff.cpp             ../include/exiv2/isobmff.hpp
     jp2image.cpp            ../include/exiv2/jp2image.hpp
     jpgimage.cpp            ../include/exiv2/jpgimage.hpp
     metadatum.cpp           ../include/exiv2/metadatum.hpp

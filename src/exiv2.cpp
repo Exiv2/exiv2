@@ -137,6 +137,10 @@ int main(int argc, char* const argv[])
     textdomain(EXV_PACKAGE_NAME);
 #endif
 
+#ifdef EXV_ENABLE_ISOBMFF
+    Exiv2::enableISOBMFF();
+#endif
+
     // Handle command line arguments
     Params& params = Params::instance();
     if (params.getopt(argc, argv)) {

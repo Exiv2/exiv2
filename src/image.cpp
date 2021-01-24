@@ -34,6 +34,9 @@
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "epsimage.hpp"
+#ifdef EXV_ENABLE_ISOBMFF
+#include "isobmff.hpp"
+#endif // EXV_ENABLE_ISOBMFF
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
 #ifdef EXV_HAVE_LIBZ
@@ -130,6 +133,9 @@ namespace {
         { ImageType::psd,  newPsdInstance,  isPsdType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
+#ifdef EXV_ENABLE_ISOBMFF
+        { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
+#endif // EXV_ENABLE_ISOBMFF
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
 #ifdef EXV_ENABLE_VIDEO
         { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },

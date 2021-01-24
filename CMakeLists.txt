@@ -25,6 +25,7 @@ option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"  
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
 option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo (WEBREADY)"                       OFF )
+option( EXIV2_ENABLE_ISOBMFF          "Build with ISO BMFF support"                           OFF )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
