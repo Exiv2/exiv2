@@ -31,17 +31,17 @@
 #include "safe_op.hpp"
 #include "slice.hpp"
 
+#ifdef   EXV_ENABLE_ISOBMFF
+#include "bmffimage.hpp"
+#endif// EXV_ENABLE_ISOBMFF
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "epsimage.hpp"
-#ifdef EXV_ENABLE_ISOBMFF
-#include "isobmff.hpp"
-#endif // EXV_ENABLE_ISOBMFF
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
-#ifdef EXV_HAVE_LIBZ
+#ifdef   EXV_HAVE_LIBZ
 # include "pngimage.hpp"
-#endif // EXV_HAVE_LIBZ
+#endif// EXV_HAVE_LIBZ
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
@@ -56,12 +56,12 @@
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
 
-#ifdef EXV_ENABLE_VIDEO
+#ifdef   EXV_ENABLE_VIDEO
 #include "matroskavideo.hpp"
 #include "quicktimevideo.hpp"
 #include "riffvideo.hpp"
 #include "asfvideo.hpp"
-#endif // EXV_ENABLE_VIDEO
+#endif// EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"
 #include "xmpsidecar.hpp"

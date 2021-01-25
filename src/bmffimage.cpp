@@ -23,7 +23,7 @@
 // included header files
 #include "config.h"
 
-#include "isobmff.hpp"
+#include "bmffimage.hpp"
 #include "tiffimage.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
@@ -32,6 +32,7 @@
 #include "futils.hpp"
 #include "types.hpp"
 #include "safe_op.hpp"
+#include "unused.h"
 
 // + standard includes
 #include <string>
@@ -48,18 +49,20 @@ namespace Exiv2
 
     EXIV2API bool enableISOBMFF(bool enable)
     {
-#ifdef EXV_ENABLE_ISOBMFF
+#ifdef  EXV_ENABLE_ISOBMFF
         enabled = enable;
-#endif // EXV_ENABLE_ISOBMFF
-        return enabled;
+        return true;
+#endif//EXV_ENABLE_ISOBMFF
+        enable = false ;
+        return enable  ;
     }
 
-    ISOBMFF::ISOBMFF(BasicIo::AutoPtr io, bool /* create */)
+    BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
             : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io))
     {
-    } // ISOBMFF::ISOBMFF
+    } // BmffImage::BmffImage
 
-    std::string ISOBMFF::mimeType() const
+    std::string BmffImage::mimeType() const
     {
         /*
         switch (fileType)
@@ -74,49 +77,21 @@ namespace Exiv2
                 return "image/unknown";
         }
         */
+        return "image/bmff";
+
     }
 
-    void ISOBMFF::setComment(const std::string& /*comment*/)
+    void BmffImage::setComment(const std::string& /*comment*/)
     {
         // Todo: implement me!
         throw(Error(kerInvalidSettingForImage, "Image comment", "ISO BMFF"));
     } // ISOBMFF::setComment
 
-    static void lf(std::ostream& out, bool& bLF)
-    {
-        if ( bLF ) {
-            out << std::endl;
-            out.flush();
-            bLF = false ;
-        }
-    }
-
-    static bool isBigEndian()
-    {
-        union {
-            uint32_t i;
-            char c[4];
-        } e = { 0x01000000 };
-
-        return e.c[0] != 0;
-    }
-
-    static std::string toAscii(long n)
-    {
-        const auto p = reinterpret_cast<const char*>(&n);
-        std::string result;
-        bool bBigEndian = isBigEndian();
-        for ( int i = 0 ; i < 4 ; i++) {
-            result += p[ bBigEndian ? i : (3-i) ];
-        }
-        return result;
-    }
-
-    void ISOBMFF::readMetadata()
+    void BmffImage::readMetadata()
     {
     } // ISOBMFF::readMetadata
 
-    void ISOBMFF::printStructure(std::ostream& out, PrintStructureOption option, int depth)
+    void BmffImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
     {
         if (io_->open() != 0)
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
@@ -127,17 +102,20 @@ namespace Exiv2
                 throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage);
         }
+        UNUSED(out);
+        UNUSED(option);
+        UNUSED(depth);
     } // ISOBMFF::printStructure
 
-    void ISOBMFF::writeMetadata()
+    void BmffImage::writeMetadata()
     {
-    } // ISOBMFF::writeMetadata
+    } // BmffImage::writeMetadata
 
     // *************************************************************************
     // free functions
     Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new ISOBMFF(std::move(io), create));
+        Image::AutoPtr image(new BmffImage(std::move(io), create));
         if (!image->good())
         {
             image.reset();
@@ -158,11 +136,12 @@ namespace Exiv2
         {
             return false;
         }
-        bool isobmffMatched = buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p';
+        
+        bool result = buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p';
         if (!advance)
         {
             iIo.seek(-len, BasicIo::cur);
         }
-        return isobmffMatched;
+        return result;
     }
 }                                       // namespace Exiv2

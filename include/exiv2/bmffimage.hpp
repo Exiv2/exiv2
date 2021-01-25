@@ -43,7 +43,7 @@ namespace Exiv2
     /*!
       @brief Class to access ISO BMFF images.
      */
-    class EXIV2API ISOBMFF : public Image {
+    class EXIV2API BmffImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -61,13 +61,13 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        ISOBMFF(BasicIo::AutoPtr io, bool create);
+        BmffImage(BasicIo::AutoPtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata() override;
-        void writeMetadata() override;
+        void readMetadata() /* override */ ;
+        void writeMetadata() /* override */ ;
 
         /*!
           @brief Print out the structure of image file.
@@ -75,27 +75,28 @@ namespace Exiv2
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth) override;
+        void printStructure(std::ostream& out, PrintStructureOption option,int depth) /* override */ ;
 
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
               an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment) override;
+        void setComment(const std::string& comment) /* override */ ;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const override;
+        std::string mimeType() const /* override */ ;
         //@}
-
-        ISOBMFF& operator=(const ISOBMFF& rhs) = delete;
-        ISOBMFF& operator=(const ISOBMFF&& rhs) = delete;
-        ISOBMFF(const ISOBMFF& rhs) = delete;
-        ISOBMFF(const ISOBMFF&& rhs) = delete;
+#if 0
+        BmffImage& operator=(const BmffImage& rhs) /* = delete*/ ;
+        BmffImage& operator=(const BmffImage&& rhs) /* = delete */ ;
+        BmffImage(const BmffImage& rhs) /* = delete */;
+        BmffImage(const BmffImage&& rhs) /* = delete */;
+#endif
 
     private:
-        int fileType = ImageType::bmff;
+        int fileType /* = ImageType::bmff*/ ;
 
         /*!
           @brief Provides the main implementation of writeMetadata() by
@@ -107,7 +108,7 @@ namespace Exiv2
         void doWriteMetadata(BasicIo& outIo);
         //@}
 
-    }; // class ISOBMFF
+    }; // class BmffImage
 
 // *****************************************************************************
 // template, inline and free functions
