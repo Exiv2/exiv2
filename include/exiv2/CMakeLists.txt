@@ -1,6 +1,7 @@
 install(FILES
             asfvideo.hpp
             basicio.hpp
+            bmffimage.hpp
             bmpimage.hpp
             config.h
             convert.hpp
@@ -18,7 +19,6 @@ install(FILES
             image.hpp
             ini.hpp
             iptc.hpp
-            isobmff.hpp
             jp2image.hpp
             jpgimage.hpp
             matroskavideo.hpp

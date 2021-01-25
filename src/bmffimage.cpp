@@ -53,12 +53,12 @@ namespace Exiv2
         enabled = enable;
         return true;
 #endif//EXV_ENABLE_ISOBMFF
-        enable = false ;
-        return enable  ;
+        return false;
+        enable=false;// unused
     }
 
     BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
-            : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io))
+            : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
     {
     } // BmffImage::BmffImage
 
@@ -115,7 +115,7 @@ namespace Exiv2
     // free functions
     Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new BmffImage(std::move(io), create));
+        Image::AutoPtr image(new BmffImage(io, create));
         if (!image->good())
         {
             image.reset();
