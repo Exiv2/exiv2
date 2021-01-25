@@ -53,8 +53,8 @@ namespace Exiv2
         enabled = enable;
         return true;
 #endif//EXV_ENABLE_ISOBMFF
-        return false;
         enable=false;// unused
+        return enable;
     }
 
     BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
