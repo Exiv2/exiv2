@@ -10,11 +10,12 @@ python3 --version
 if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get update
 
+    sudo apt-get install cmake
     if [[ "$(lsb_release -cs)" == 'focal' ]]; then
         # In Ubuntu 20.04 python-pip does not exist. Furthermore we need to have the alias python for python3
-        sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip python-is-python3 libxml2-utils
+        sudo apt-get install zlib1g-dev libssh-dev python3-pip python-is-python3 libxml2-utils
     else
-        sudo apt-get install cmake zlib1g-dev libssh-dev python-pip libxml2-utils
+        sudo apt-get install zlib1g-dev libssh-dev python-pip libxml2-utils
     fi
 
     if [ -n "$WITH_VALGRIND" ]; then
