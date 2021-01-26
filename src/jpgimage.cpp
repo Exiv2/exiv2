@@ -665,7 +665,7 @@ namespace Exiv2 {
                     //       2 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
                     //     915 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
                     //    1787 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
-                    if (option == kpsXMP && signature.find("http://ns.adobe.com/x") == 0) {
+                    if (option == kpsXMP && signature.rfind("http://ns.adobe.com/x", 0) == 0) {
                         // extract XMP
                         if (size > 0) {
                             io_->seek(-bufRead, BasicIo::cur);

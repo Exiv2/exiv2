@@ -275,7 +275,7 @@ namespace Exiv2 {
         , { "-"         ,pStdin    , false }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.find(prots[i].name) == 0 )
+            if ( path.rfind(prots[i].name, 0) == 0 )
                 // URL's require data.  Stdin == "-" and no further data
                 if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
                     result = prots[i].prot;
@@ -300,7 +300,7 @@ namespace Exiv2 {
         , { L"-"         ,pStdin    , false }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.find(prots[i].name) == 0 )
+            if ( path.rfind(prots[i].name, 0) == 0 )
                 // URL's require data.  Stdin == "-" and no further data
                 if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
                     result = prots[i].prot;
