@@ -48,7 +48,7 @@ namespace Exiv2
         //! @name Creators
         //@{
         /*!
-          @brief Constructor to open a ISOBMFF image. Since the
+          @brief Constructor to open a ISO/IEC BMFF image. Since the
               constructor can not return a result, callers should check the
               good() method after object construction to determine success
               or failure.

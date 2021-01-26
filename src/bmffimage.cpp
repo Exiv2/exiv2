@@ -49,11 +49,11 @@ namespace Exiv2
 
     EXIV2API bool enableISOBMFF(bool enable)
     {
-#ifdef  EXV_ENABLE_ISOBMFF
+#ifdef EXV_ENABLE_ISOBMFF
         enabled = enable;
         return true;
-#endif//EXV_ENABLE_ISOBMFF
-        enable=false;// unused
+#endif // EXV_ENABLE_ISOBMFF
+        enable = false; // unused
         return enable;
     }
 
@@ -85,11 +85,11 @@ namespace Exiv2
     {
         // Todo: implement me!
         throw(Error(kerInvalidSettingForImage, "Image comment", "ISO BMFF"));
-    } // ISOBMFF::setComment
+    } // BmffImage::setComment
 
     void BmffImage::readMetadata()
     {
-    } // ISOBMFF::readMetadata
+    } // BmffImage::readMetadata
 
     void BmffImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
     {
@@ -105,7 +105,7 @@ namespace Exiv2
         UNUSED(out);
         UNUSED(option);
         UNUSED(depth);
-    } // ISOBMFF::printStructure
+    } // BmffImage::printStructure
 
     void BmffImage::writeMetadata()
     {
