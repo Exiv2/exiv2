@@ -1316,7 +1316,7 @@ namespace Exiv2 {
                                                     ;
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
             }
 
             if ( index > 0 )  {
@@ -1344,14 +1344,14 @@ namespace Exiv2 {
                                                     ;
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
                     index = 6;
             }
             if ( value.count() == 2 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K100D")==0 && lensInfo->count() == 44 )
+                if ( model.rfind("PENTAX K100D", 0)==0 && lensInfo->count() == 44 )
                     index = 6;
-                if ( model.find("PENTAX *ist DL")==0 && lensInfo->count() == 36 )
+                if ( model.rfind("PENTAX *ist DL", 0)==0 && lensInfo->count() == 36 )
                     index = 6;
             }
 
