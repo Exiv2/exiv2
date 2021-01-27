@@ -96,7 +96,7 @@ namespace Exiv2
 #endif
 
     private:
-        int fileType /* = ImageType::bmff*/ ;
+        uint32_t fileType;
 
         /*!
           @brief Provides the main implementation of writeMetadata() by
