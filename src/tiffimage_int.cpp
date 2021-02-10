@@ -807,8 +807,8 @@ namespace Exiv2 {
     };
 
     extern const ArrayCfg sony2010eCfg = {
-        sony2010eId,       // Group for the elements
-        bigEndian,        // Big endian
+        sony2010eId,      // Group for the elements
+        invalidByteOrder, // inherit from file.  Usually littleEndian
         ttUnsignedByte,   // Type for array entry and size element
         sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
         false,            // No size element
