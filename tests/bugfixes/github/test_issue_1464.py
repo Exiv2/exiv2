@@ -6,9 +6,9 @@ from system_tests import CaseMeta, CopyTmpFiles, path
 class test_issue_1464Test(metaclass=CaseMeta):
 
     filename  = path("$tmp_path/test_issue_1464.exv")
-    commands  = [  "$exiv2 -K Exif.Sony2010e.WB_RGBLevels            $filename"
-                ,  "$exiv2 -M'set Exif.Sony2010e.WB_RGBLevels 9 1 1' $filename"
-                ,  "$exiv2 -K Exif.Sony2010e.WB_RGBLevels            $filename"
+    commands  = [  "$exiv2 -K Exif.Sony2010e.WB_RGBLevels              $filename"
+                ,  "$exiv2 -M\"set Exif.Sony2010e.WB_RGBLevels 9 1 1\" $filename"
+                ,  "$exiv2 -K Exif.Sony2010e.WB_RGBLevels              $filename"
                 ]
     stdout   =  ["Exif.Sony2010e.WB_RGBLevels                  Short       3  598 256 442\n"
                 ,""
