@@ -235,7 +235,7 @@ namespace Exiv2
                         io().read(data.pData_, data.size_);
 
                         uint32_t flags = getLong(data.pData_, bigEndian);
-                        uint8_t version = (uint8_t) flags >> 24;
+                        uint8_t version = (uint8_t)(flags >> 24);
                         flags &= 0x00ffffff;
                         pixelWidth_  = getLong(data.pData_ + 4, bigEndian);
                         pixelHeight_ = getLong(data.pData_ + 8, bigEndian);
