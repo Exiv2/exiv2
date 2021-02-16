@@ -49,23 +49,21 @@ struct BmffBoxHeader
     uint32_t type;
 };
 
-#define ID(string) ((string[0] << 24) | (string[1] << 16) | (string[2] << 8) | string[3])
-
-#define TAG_ftyp ID("ftyp") /**< File type box */
-#define TAG_avif ID("avif") /**< AVIF */
-#define TAG_heic ID("heic") /**< HEIF */
-#define TAG_heif ID("heif") /**< HEIF */
-#define TAG_crx  ID("crx ") /**< Canon CR3 */
-#define TAG_moov ID("moov") /**< Movie */
-#define TAG_meta ID("meta") /**< Metadata */
-#define TAG_mdat ID("mdat") /**< Media data */
-#define TAG_uuid ID("uuid") /**< UUID */
-#define TAG_dinf ID("dinf") /**< Data information */
-#define TAG_iprp ID("iprp") /**< Item properties */
-#define TAG_ipco ID("ipco") /**< Item property container */
-#define TAG_iinf ID("iinf") /**< Item info */
-#define TAG_iloc ID("iloc") /**< Item location */
-#define TAG_ispe ID("ispe") /**< Image spatial extents */
+#define TAG_ftyp 0x66747970 /**< "ftyp" File type box */
+#define TAG_avif 0x61766966 /**< "avif" AVIF */
+#define TAG_heic 0x68656963 /**< "heic" HEIF */
+#define TAG_heif 0x68656966 /**< "heif" HEIF */
+#define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
+#define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
+#define TAG_meta 0x6d657461 /**< "meta" Metadata */
+#define TAG_mdat 0x6d646174 /**< "mdat" Media data */
+#define TAG_uuid 0x75756964 /**< "uuid" UUID */
+#define TAG_dinf 0x64696e66 /**< "dinf" Data information */
+#define TAG_iprp 0x69707270 /**< "iprp" Item properties */
+#define TAG_ipco 0x6970636f /**< "ipco" Item property container */
+#define TAG_iinf 0x69696e66 /**< "iinf" Item info */
+#define TAG_iloc 0x696c6f63 /**< "iloc" Item location */
+#define TAG_ispe 0x69737065 /**< "ispe" Image spatial extents */
 
 // *****************************************************************************
 // class member definitions
@@ -201,7 +199,7 @@ namespace Exiv2
             {
             }
 
-            if (box.length > 8 && (position + box.length) <= io().size() )
+            if ((box.length > 8) && (static_cast<size_t>(position) + box.length) <= io().size())
             {
                 switch (box.type)
                 {
