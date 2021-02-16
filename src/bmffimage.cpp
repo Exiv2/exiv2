@@ -175,7 +175,7 @@ namespace Exiv2
 
         long              position  = 0;
         BmffBoxHeader     box       = {0,0};
-        BmffBoxHeader     subBox    = {0,0};
+        // BmffBoxHeader     subBox    = {0,0};
         size_t            boxes     = 0 ;
         size_t            boxem     = 1000 ; // boxes max
 
@@ -223,14 +223,8 @@ namespace Exiv2
                         io().read(data.pData_, data.size_);
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::BmffImage::readMetadata: metadata "
-                                << data.size_ << " bytes "  << std::endl;
-                        std::cout << std::hex;
-                        for (unsigned i = 0; i < data.size_; i++)
-                        {
-                            std::cout << " " << data.pData_[i];
-                        }
-                        std::cout << std::dec;
-                        std::cout << std::endl;
+                                << data.size_ << " bytes"
+                                << std::endl;
 #endif
                         break;
                     }
@@ -257,7 +251,7 @@ namespace Exiv2
                     default:
                     {
 #ifdef EXIV2_DEBUG_MESSAGES
-                        std::cout << " box type: " << toAscii(box.type)
+                        std::cout << "Exiv2::BmffImage::readMetadata: box type: " << toAscii(box.type)
                                 << " box length: " << box.length
                                 << std::endl;
 #endif
