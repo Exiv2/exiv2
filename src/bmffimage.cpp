@@ -49,29 +49,23 @@ struct BmffBoxHeader
     uint32_t type;
 };
 
-#if defined(__BIG_ENDIAN__)
 #define ID(string) ((string[0] << 24) | (string[1] << 16) | (string[2] << 8) | string[3])
-#elif defined(__LITTLE_ENDIAN__)
-#define ID(string) (string[0] | (string[1] << 8) | (string[2] << 16) | (string[3] << 24))
-#else
-#error "Unknown endian"
-#endif
 
-static const uint32_t ftyp = ID("ftyp");    /**< File type box */
-static const uint32_t avif = ID("avif");    /**< AVIF */
-static const uint32_t heic = ID("heic");    /**< HEIF */
-static const uint32_t heif = ID("heif");    /**< HEIF */
-static const uint32_t crx  = ID("crx ");    /**< Canon CR3 */
-static const uint32_t moov = ID("moov");    /**< Movie */
-static const uint32_t meta = ID("meta");    /**< Metadata */
-static const uint32_t mdat = ID("mdat");    /**< Media data */
-static const uint32_t uuid = ID("uuid");    /**< UUID */
-static const uint32_t dinf = ID("dinf");    /**< Data information */
-static const uint32_t iprp = ID("iprp");    /**< Item properties */
-static const uint32_t ipco = ID("ipco");    /**< Item property container */
-static const uint32_t iinf = ID("iinf");    /**< Item info */
-static const uint32_t iloc = ID("iloc");    /**< Item location */
-static const uint32_t ispe = ID("ispe");    /**< Image spatial extents */
+#define TAG_ftyp ID("ftyp") /**< File type box */
+#define TAG_avif ID("avif") /**< AVIF */
+#define TAG_heic ID("heic") /**< HEIF */
+#define TAG_heif ID("heif") /**< HEIF */
+#define TAG_crx  ID("crx ") /**< Canon CR3 */
+#define TAG_moov ID("moov") /**< Movie */
+#define TAG_meta ID("meta") /**< Metadata */
+#define TAG_mdat ID("mdat") /**< Media data */
+#define TAG_uuid ID("uuid") /**< UUID */
+#define TAG_dinf ID("dinf") /**< Data information */
+#define TAG_iprp ID("iprp") /**< Item properties */
+#define TAG_ipco ID("ipco") /**< Item property container */
+#define TAG_iinf ID("iinf") /**< Item info */
+#define TAG_iloc ID("iloc") /**< Item location */
+#define TAG_ispe ID("ispe") /**< Image spatial extents */
 
 // *****************************************************************************
 // class member definitions
@@ -79,12 +73,12 @@ namespace Exiv2
 {
     static bool enabled = false;
 
-    EXIV2API bool enableISOBMFF(bool enable)
+    EXIV2API bool enableBMFF(bool enable)
     {
-#ifdef EXV_ENABLE_ISOBMFF
+#ifdef EXV_ENABLE_BMFF
         enabled = enable;
         return true;
-#endif // EXV_ENABLE_ISOBMFF
+#endif // EXV_ENABLE_BMFF
         enable = false; // unused
         return enable;
     }
@@ -94,21 +88,11 @@ namespace Exiv2
     {
     } // BmffImage::BmffImage
 
-    static bool isBigEndian()
-    {
-        union {
-            uint32_t i;
-            char c[4];
-        } e = { 0x01000000 };
-
-        return e.c[0]?true:false;
-    }
-
-    static std::string toAscii(long n)
+    std::string BmffImage::toAscii(long n)
     {
         const char* p = (const char*) &n;
         std::string result;
-        bool bBigEndian = isBigEndian();
+        bool bBigEndian = isBigEndianPlatform();
         for ( int i = 0 ; i < 4 ; i++) {
             result += p[ bBigEndian ? i : (3-i) ];
         }
@@ -135,20 +119,21 @@ namespace Exiv2
 
     bool superBox(uint32_t box)
     {
-        return      box == moov
-                ||  box == dinf
-                ||  box == iprp
-                ||  box == ipco
-                ||  box == meta
-                ||  box == iinf
-                ||  box == iloc
+        return      box == TAG_moov
+                ||  box == TAG_dinf
+                ||  box == TAG_iprp
+                ||  box == TAG_ipco
+                ||  box == TAG_meta
+                ||  box == TAG_iinf
+                ||  box == TAG_iloc
         ;
     }
+
     bool fullBox(uint32_t box)
     {
-        return      box == meta
-                ||  box == iinf
-                ||  box == iloc
+        return      box == TAG_meta
+                ||  box == TAG_iinf
+                ||  box == TAG_iloc
         ;
     }
 
@@ -156,14 +141,14 @@ namespace Exiv2
     {
         switch (fileType)
         {
-            case avif:
+            case TAG_avif:
                 return "image/avif";
 
-            case heic:
-            case heif:
+            case TAG_heic:
+            case TAG_heif:
                 return "image/heif";
 
-            case crx:
+            case TAG_crx:
                 return "image/x-canon-cr3";
 
             default:
@@ -174,7 +159,7 @@ namespace Exiv2
     void BmffImage::setComment(const std::string& /*comment*/)
     {
         // Todo: implement me!
-        throw(Error(kerInvalidSettingForImage, "Image comment", "ISO BMFF"));
+        throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
     } // BmffImage::setComment
 
     void BmffImage::readMetadata()
@@ -187,7 +172,7 @@ namespace Exiv2
         // Ensure that this is the correct image type
         if (!isBmffType(*io_, false)) {
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "ISO BMFF");
+            throw Error(kerNotAnImage, "BMFF");
         }
 
         long              position  = 0;
@@ -200,58 +185,91 @@ namespace Exiv2
         {
             boxes_check(boxes++, boxem);
             position   = io_->tell();
-            uint32_t length = getLong((byte*)&box.length, bigEndian);
-            uint32_t type   = getLong((byte*)&box.type, bigEndian);
+            box.length = getLong((byte*)&box.length, bigEndian);
+            box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::BmffImage::readMetadata: "
                       << "Position: " << position
-                      << " box type: " << toAscii(type)
-                      << " length: " << length
+                      << " box type: " << toAscii(box.type)
+                      << " box length: " << box.length
                       << std::endl;
 #endif
 
-            if (length == 0) return ;
+            if (box.length == 0) return ;
 
-            if (length == 1)
+            if (box.length == 1)
             {
             }
 
-            switch (box.type)
+            if (box.length > 8 && (position + box.length) <= io().size() )
             {
-                case ftyp:
+                switch (box.type)
                 {
-                    io().read((byte*)&fileType,4);
-                    std::string brand_ = boxName(fileType);
+                    case TAG_ftyp:
+                    {
+                        DataBuf data(box.length);
+                        io().read(data.pData_, data.size_);
+                        fileType = getLong(data.pData_, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cout << "Exiv2::BmffImage::readMetadata: "
-                            << "Brand: " << brand_
-                            << std::endl;
+                        std::string brand_ = toAscii(fileType);
+                        std::cout << "Exiv2::BmffImage::readMetadata: "
+                                << "Brand: " << brand_
+                                << std::endl;
 #endif
-                    break;
-                }
+                        break;
+                    }
 
-                case meta:
-                {
+                    case TAG_meta:
+                    {
+                        DataBuf data(box.length);
+                        io().read(data.pData_, data.size_);
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cout << "Exiv2::BmffImage::readMetadata: metadata"
-                            << std::endl;
+                        std::cout << "Exiv2::BmffImage::readMetadata: metadata "
+                                << data.size_ << " bytes "  << std::endl;
+                        std::cout << std::hex;
+                        for (unsigned i = 0; i < data.size_; i++)
+                        {
+                            std::cout << " " << data.pData_[i];
+                        }
+                        std::cout << std::dec;
+                        std::cout << std::endl;
 #endif
-                    break;
-                }
+                        break;
+                    }
 
-                default:
-                {
+                    case TAG_ispe:
+                    {
+                        DataBuf data(box.length);
+                        io().read(data.pData_, data.size_);
+
+                        uint32_t flags = getLong(data.pData_, bigEndian);
+                        uint8_t version = (uint8_t) flags >> 24;
+                        flags &= 0x00ffffff;
+                        pixelWidth_  = getLong(data.pData_ + 4, bigEndian);
+                        pixelHeight_ = getLong(data.pData_ + 8, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cout << " box type: " << toAscii(type)
-                            << " length: " << length
-                            << std::endl;
+                        std::cout << "Exiv2::BmffImage::readMetadata: Image spatial extents "
+                                << "version: " << version
+                                << "flags: " << flags
+                                << std::endl;
 #endif
-                    break;
+                        break;
+                    }
+
+                    default:
+                    {
+#ifdef EXIV2_DEBUG_MESSAGES
+                        std::cout << " box type: " << toAscii(box.type)
+                                << " box length: " << box.length
+                                << std::endl;
+#endif
+                        break;
+                    }
                 }
             }
 
             // Move to the next box.
-            io_->seek(static_cast<long>(position - sizeof(box) + length), BasicIo::beg);
+            io_->seek(static_cast<long>(position - sizeof(box) + box.length), BasicIo::beg);
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
         }

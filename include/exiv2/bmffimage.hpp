@@ -30,25 +30,25 @@
 // namespace extensions
 namespace Exiv2
 {
-    EXIV2API bool enableISOBMFF(bool enable = true);
+    EXIV2API bool enableBMFF(bool enable = true);
 
 // *****************************************************************************
 // class definitions
 
-    // Add ISO Base Media File Format to the supported image formats
+    // Add Base Media File Format to the supported image formats
     namespace ImageType {
-        const int bmff = 15; //!< ISO BMFF (bmff) image type (see class ISOBMFF)
+        const int bmff = 15; //!< BMFF (bmff) image type (see class BMFF)
     }
 
     /*!
-      @brief Class to access ISO BMFF images.
+      @brief Class to access BMFF images.
      */
     class EXIV2API BmffImage : public Image {
     public:
         //! @name Creators
         //@{
         /*!
-          @brief Constructor to open a ISO/IEC BMFF image. Since the
+          @brief Constructor to open a BMFF image. Since the
               constructor can not return a result, callers should check the
               good() method after object construction to determine success
               or failure.
@@ -108,6 +108,8 @@ namespace Exiv2
         void doWriteMetadata(BasicIo& outIo);
         //@}
 
+        std::string toAscii(long n);
+
     }; // class BmffImage
 
 // *****************************************************************************
@@ -116,12 +118,12 @@ namespace Exiv2
     // These could be static private functions on Image subclasses but then
     // ImageFactory needs to be made a friend.
     /*!
-      @brief Create a new ISO BMFF instance and return an auto-pointer to it.
+      @brief Create a new BMFF instance and return an auto-pointer to it.
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
     EXIV2API Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create);
 
-    //! Check if the file iIo is a ISO BMFF image.
+    //! Check if the file iIo is a BMFF image.
     EXIV2API bool isBmffType(BasicIo& iIo, bool advance);
 }                                       // namespace Exiv2

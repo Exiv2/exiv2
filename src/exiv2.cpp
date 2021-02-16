@@ -137,8 +137,8 @@ int main(int argc, char* const argv[])
     textdomain(EXV_PACKAGE_NAME);
 #endif
 
-#ifdef EXV_ENABLE_ISOBMFF
-    Exiv2::enableISOBMFF();
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
 #endif
 
     // Handle command line arguments

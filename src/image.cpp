@@ -31,9 +31,9 @@
 #include "safe_op.hpp"
 #include "slice.hpp"
 
-#ifdef   EXV_ENABLE_ISOBMFF
+#ifdef   EXV_ENABLE_BMFF
 #include "bmffimage.hpp"
-#endif// EXV_ENABLE_ISOBMFF
+#endif// EXV_ENABLE_BMFF
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "epsimage.hpp"
@@ -134,9 +134,9 @@ namespace {
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-#ifdef EXV_ENABLE_ISOBMFF
+#ifdef EXV_ENABLE_BMFF
         { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
-#endif // EXV_ENABLE_ISOBMFF
+#endif // EXV_ENABLE_BMFF
 #ifdef EXV_ENABLE_VIDEO
         { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },
         { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
