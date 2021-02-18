@@ -30,6 +30,7 @@
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "makernote_int.hpp"
+#include "sonymn_int.hpp"
 #include "value.hpp"
 #include "error.hpp"
 #include "enforce.hpp"
@@ -1433,16 +1434,21 @@ namespace Exiv2 {
             uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
             idx += fillGap(mioWrapper, idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
-        DataBuf buf;
+
+        bool bCopyMio = true ; // MemIo mio stream contain the the "raw" data
         if (cfg()->cryptFct_) {
-            buf = cfg()->cryptFct_(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
+            // Select sonyTagEncipher
+            CryptFct cryptFct = cfg()->cryptFct_;
+            if ( cryptFct == sonyTagDecipher ) {
+                 cryptFct  = sonyTagEncipher;
+            }
+            DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
+            if (    buf.size_) {
+                ioWrapper.write(buf.pData_, buf.size_);
+                bCopyMio=false ;
+            }
         }
-        if (buf.size_ > 0) {
-            ioWrapper.write(buf.pData_, buf.size_);
-        }
-        else {
-            ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
-        }
+        if ( bCopyMio ) ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
 
         return idx;
     } // TiffBinaryArray::doWrite
