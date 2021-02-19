@@ -1403,7 +1403,7 @@ namespace Exiv2 {
         // Tags must be sorted in ascending order
         std::sort(elements_.begin(), elements_.end(), cmpTagLt);
         uint32_t idx = 0;
-        MemIo mio;
+        MemIo mio; // memory stream in which to store data
         IoWrapper mioWrapper(mio, 0, 0, 0);
         // Some array entries need to have the size in the first element
         if (cfg()->hasSize_) {
@@ -1435,7 +1435,6 @@ namespace Exiv2 {
             idx += fillGap(mioWrapper, idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
 
-        bool bCopyMio = true ; // MemIo mio stream contain the the "raw" data
         if (cfg()->cryptFct_) {
             // Select sonyTagEncipher
             CryptFct cryptFct = cfg()->cryptFct_;
@@ -1444,11 +1443,11 @@ namespace Exiv2 {
             }
             DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
             if (    buf.size_) {
-                ioWrapper.write(buf.pData_, buf.size_);
-                bCopyMio=false ;
+                mio.seek(0,Exiv2::FileIo::beg);
+                mio.write(buf.pData_, buf.size_);
             }
         }
-        if ( bCopyMio ) ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
+        ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
 
         return idx;
     } // TiffBinaryArray::doWrite
