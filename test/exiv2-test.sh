@@ -65,7 +65,7 @@ fi
         20060127_225027.exv \
         20110626_213900.exv"
 
-    for i in $images; do copyTestFile $i; done
+    for i in $images; do copyTestFile $i; done ; copyTestFile 20110626_213900.psd
     echo "Exiv2 test directory -----------------------------------------------------"
     cd "$testdir"
 
