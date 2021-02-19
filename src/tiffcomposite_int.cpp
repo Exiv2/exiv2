@@ -30,6 +30,7 @@
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "makernote_int.hpp"
+#include "sonymn_int.hpp"
 #include "value.hpp"
 #include "error.hpp"
 #include "enforce.hpp"
@@ -1402,7 +1403,7 @@ namespace Exiv2 {
         // Tags must be sorted in ascending order
         std::sort(elements_.begin(), elements_.end(), cmpTagLt);
         uint32_t idx = 0;
-        MemIo mio;
+        MemIo mio; // memory stream in which to store data
         IoWrapper mioWrapper(mio, 0, 0, 0);
         // Some array entries need to have the size in the first element
         if (cfg()->hasSize_) {
@@ -1433,16 +1434,20 @@ namespace Exiv2 {
             uint16_t lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
             idx += fillGap(mioWrapper, idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
-        DataBuf buf;
+
         if (cfg()->cryptFct_) {
-            buf = cfg()->cryptFct_(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
+            // Select sonyTagEncipher
+            CryptFct cryptFct = cfg()->cryptFct_;
+            if ( cryptFct == sonyTagDecipher ) {
+                 cryptFct  = sonyTagEncipher;
+            }
+            DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
+            if (    buf.size_) {
+                mio.seek(0,Exiv2::FileIo::beg);
+                mio.write(buf.pData_, buf.size_);
+            }
         }
-        if (buf.size_ > 0) {
-            ioWrapper.write(buf.pData_, buf.size_);
-        }
-        else {
-            ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
-        }
+        ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
 
         return idx;
     } // TiffBinaryArray::doWrite
