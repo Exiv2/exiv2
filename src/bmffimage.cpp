@@ -86,6 +86,11 @@ namespace Exiv2
     {
     } // BmffImage::BmffImage
 
+    BmffImage::BmffImage(BasicIo::AutoPtr io, size_t start, size_t count)
+            : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
+    {
+    } // BmffImage::BmffImage
+
     std::string BmffImage::toAscii(long n)
     {
         const char* p = (const char*) &n;
@@ -173,39 +178,51 @@ namespace Exiv2
             throw Error(kerNotAnImage, "BMFF");
         }
 
-        long              position  = 0;
-        BmffBoxHeader     box       = {0,0};
-        // BmffBoxHeader     subBox    = {0,0};
-        size_t            boxes     = 0 ;
-        size_t            boxem     = 1000 ; // boxes max
+        long            position = 0;
+        BmffBoxHeader   box      = { 0, 0 };
+        size_t          boxes    = 0 ;
+        size_t          boxem    = 1000 ; // boxes max
+        uint64_t        address  = position;
+        uint64_t        length   = 8;
+        uint32_t        type;
 
         while (io_->read((byte*)&box, sizeof(box)) == sizeof(box))
         {
             boxes_check(boxes++, boxem);
-            position   = io_->tell();
-            box.length = getLong((byte*)&box.length, bigEndian);
-            box.type   = getLong((byte*)&box.type, bigEndian);
+            position = io_->tell();
+            length   = getLong((byte*)&box.length, bigEndian);
+            type     = getLong((byte*)&box.type, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::BmffImage::readMetadata: "
                       << "Position: " << position
-                      << " box type: " << toAscii(box.type)
-                      << " box length: " << box.length
+                      << " box type: " << toAscii(type)
+                      << " box length: " << length
                       << std::endl;
 #endif
-
-            if (box.length == 0) return ;
-
-            if (box.length == 1)
+            if (length == 0)
             {
+                return;
             }
 
-            if ((box.length > 8) && (static_cast<size_t>(position) + box.length) <= io().size())
+            if (length == 1)
             {
-                switch (box.type)
+                DataBuf data(sizeof(length));
+                io().read(data.pData_, data.size_);
+                length = getULongLong(data.pData_, bigEndian);
+#ifdef EXIV2_DEBUG_MESSAGES
+                std::cout << "Exiv2::BmffImage::readMetadata: "
+                        << "length " << length
+                        << std::endl;
+#endif
+            }
+
+            if ((length > 8) && (static_cast<size_t>(position) + length) <= io().size())
+            {
+                switch (type)
                 {
                     case TAG_ftyp:
                     {
-                        DataBuf data(box.length);
+                        DataBuf data(length);
                         io().read(data.pData_, data.size_);
                         fileType = getLong(data.pData_, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -219,7 +236,7 @@ namespace Exiv2
 
                     case TAG_meta:
                     {
-                        DataBuf data(box.length);
+                        DataBuf data(length);
                         io().read(data.pData_, data.size_);
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::BmffImage::readMetadata: metadata "
@@ -231,7 +248,7 @@ namespace Exiv2
 
                     case TAG_ispe:
                     {
-                        DataBuf data(box.length);
+                        DataBuf data(length);
                         io().read(data.pData_, data.size_);
 
                         uint32_t flags = getLong(data.pData_, bigEndian);
@@ -251,8 +268,8 @@ namespace Exiv2
                     default:
                     {
 #ifdef EXIV2_DEBUG_MESSAGES
-                        std::cout << "Exiv2::BmffImage::readMetadata: box type: " << toAscii(box.type)
-                                << " box length: " << box.length
+                        std::cout << "Exiv2::BmffImage::readMetadata: box type: " << toAscii(type)
+                                << " box length: " << length
                                 << std::endl;
 #endif
                         break;
@@ -261,11 +278,12 @@ namespace Exiv2
             }
 
             // Move to the next box.
-            io_->seek(static_cast<long>(position - sizeof(box) + box.length), BasicIo::beg);
+            io_->seek(static_cast<long>(position - sizeof(box) + length), BasicIo::beg);
             if (io_->error())
+            {
                 throw Error(kerFailedToReadImageData);
+            }
         }
-
     } // BmffImage::readMetadata
 
     void BmffImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
@@ -274,9 +292,12 @@ namespace Exiv2
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
 
         // Ensure that this is the correct image type
-        if (!isBmffType(*io_, false)) {
+        if (!isBmffType(*io_, false))
+        {
             if (io_->error() || io_->eof())
+            {
                 throw Error(kerFailedToReadImageData);
+            }
             throw Error(kerNotAnImage);
         }
         UNUSED(out);

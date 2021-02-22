@@ -64,6 +64,10 @@ namespace Exiv2
         BmffImage(BasicIo::AutoPtr io, bool create);
         //@}
 
+        //@{
+        BmffImage(BasicIo::AutoPtr io, size_t start, size_t count);
+        //@}
+
         //! @name Manipulators
         //@{
         void readMetadata() /* override */ ;
