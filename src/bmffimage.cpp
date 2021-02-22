@@ -224,7 +224,7 @@ namespace Exiv2
                 {
                     case TAG_ftyp:
                     {
-                        DataBuf data(length);
+                        DataBuf data(static_cast<size_t>(length));
                         io().read(data.pData_, data.size_);
                         fileType = getLong(data.pData_, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -238,7 +238,7 @@ namespace Exiv2
 
                     case TAG_meta:
                     {
-                        DataBuf data(length);
+                        DataBuf data(static_cast<size_t>(length));
                         io().read(data.pData_, data.size_);
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::BmffImage::readMetadata: metadata "
@@ -250,7 +250,7 @@ namespace Exiv2
 
                     case TAG_ispe:
                     {
-                        DataBuf data(length);
+                        DataBuf data(static_cast<size_t>(length));
                         io().read(data.pData_, data.size_);
 
                         uint32_t flags = getLong(data.pData_, bigEndian);
