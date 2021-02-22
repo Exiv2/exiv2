@@ -89,6 +89,8 @@ namespace Exiv2
     BmffImage::BmffImage(BasicIo::AutoPtr io, size_t start, size_t count)
             : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
     {
+        UNUSED(start);
+        UNUSED(count);
     } // BmffImage::BmffImage
 
     std::string BmffImage::toAscii(long n)
@@ -284,6 +286,7 @@ namespace Exiv2
                 throw Error(kerFailedToReadImageData);
             }
         }
+        UNUSED(address);
     } // BmffImage::readMetadata
 
     void BmffImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
