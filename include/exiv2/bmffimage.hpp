@@ -100,7 +100,22 @@ namespace Exiv2
 #endif
 
     private:
-        uint32_t fileType;
+        /*!
+          @brief recursiveBoxHandler
+          @throw Error if we visit a box more than once
+          @warning This function should only be called by readMetadata()
+         */
+        long boxHandler(int indent=0);
+
+        uint32_t           fileType   ;
+        std::set<uint64_t> visits_    ;
+        uint64_t           visits_max_;
+        std::string        indenter(int i) { std::string r; while ( i-- > 0 ) r+=std::string("  "); return r; }
+
+        uint16_t           unknownID_ ; // 0xffff
+        uint16_t           exifID_    ;
+        uint32_t           exifStart_ ;
+        uint32_t           exifLength_;
 
         /*!
           @brief Provides the main implementation of writeMetadata() by
@@ -112,7 +127,14 @@ namespace Exiv2
         void doWriteMetadata(BasicIo& outIo);
         //@}
 
+        /*!
+          @brief box utilities
+         */
         std::string toAscii(long n);
+        std::string boxName(uint32_t box);
+        bool        superBox(uint32_t box);
+        bool        fullBox(uint32_t box);
+
 
     }; // class BmffImage
 
