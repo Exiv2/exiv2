@@ -254,13 +254,13 @@ namespace Exiv2
                 uint8_t  u          = data.pData_[skip++];
                 uint16_t offsetSize = u >> 4  ;
                 uint16_t lengthSize = u & 0xF ;
-
+#if 0
                 uint16_t indexSize  = 0       ;
                 u             = data.pData_[skip++];
                 if ( version == 1 || version == 2 ) {
                     indexSize = u & 0xF ;
                 }
-
+#endif
                 uint32_t itemCount  = version < 2 ? getShort(data.pData_+skip,bigEndian) : getLong(data.pData_+skip,bigEndian);
                 skip               += version < 2 ?               2                      :         4                          ;
                 if ( offsetSize == 4 && lengthSize == 4 && ((box.length-16) % itemCount) == 0 ) {
