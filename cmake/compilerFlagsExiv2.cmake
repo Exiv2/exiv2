@@ -2,7 +2,7 @@
 
 if (COMPILER_IS_GCC OR COMPILER_IS_CLANG) # MINGW, Linux, APPLE, CYGWIN
     if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
-        add_compile_options(-Werror -Wno-error=deprecated-declarations)
+        add_compile_options(-Werror -Wno-error=deprecated-declarations -Wno-error=deprecated-copy)
     endif ()
 
     if ( EXIV2_TEAM_EXTRA_WARNINGS )
