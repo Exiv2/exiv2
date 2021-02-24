@@ -310,11 +310,12 @@ namespace Exiv2
             } break;
 
             case TAG_ispe: {
-#ifdef EXIV2_DEBUG_MESSAGES
+                skip+=4;
                 pixelWidth_  = getLong(data.pData_ + skip, bigEndian); skip+=4;
-                pixelHeight_ = getLong(data.pData_ + skip, bigEndian); skip+=8;
-                std::cout << "pixelWidth, pixelHeight_ = "
-                          << Internal::stringFormat("%d,%d",pixelWidth_, pixelHeight_)
+                pixelHeight_ = getLong(data.pData_ + skip, bigEndian); skip+=4;
+#ifdef EXIV2_DEBUG_MESSAGES
+                std::cout << "pixelWidth_, pixelHeight_ = "
+                          << Internal::stringFormat("%d, %d", pixelWidth_, pixelHeight_)
                 ;
 #endif
             } break;
