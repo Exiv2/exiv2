@@ -158,7 +158,7 @@ namespace Exiv2
 #ifdef EXIV2_DEBUG_MESSAGES
         bool bLF = true;
         std::cout << indenter(indent) << "Exiv2::BmffImage::boxHandler: " << toAscii(box.type)
-                  << Internal::stringFormat(" %8ld->%ld ",address,box.length)
+                  << Internal::stringFormat(" %8ld->%u ",address,box.length)
         ;
 #endif
         // TODO: This isn't right.  We should check the visits earlier.
@@ -277,7 +277,7 @@ namespace Exiv2
                         uint32_t ldata  = getLong(data.pData_+skip+step-4,bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << indenter(indent)
-                                  << Internal::stringFormat("%8ld | %8lu |  ext | %4ld | %6ld,%6ld",address+skip,step,ID,offset,ldata)
+                                  << Internal::stringFormat("%8ld | %8u |  ext | %4u | %6u,%6u",address+skip,step,ID,offset,ldata)
                                   << std::endl
                         ;
 #endif
