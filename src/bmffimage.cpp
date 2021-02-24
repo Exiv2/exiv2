@@ -170,8 +170,12 @@ namespace Exiv2
     {
         long          result  = (long) io_->size();
         long          address = (long) io_->tell();
-        BmffBoxHeader box     = {0,0};
+        if ( visits_.find(address) != visits_.end() || visits_.size() > visits_max_ ) {
+            throw Error(kerCorruptedMetadata);
+        }
+        visits_.insert(address);
 
+        BmffBoxHeader box     = {0,0};
         if ( io_->read((byte*)&box, sizeof(box)) != sizeof(box)) return result;
 
         box.length = getLong((byte*)&box.length, bigEndian);
@@ -182,21 +186,16 @@ namespace Exiv2
                   << Internal::stringFormat(" %8ld->%u ",address,box.length)
         ;
 #endif
-        // TODO: This isn't right.  We should check the visits earlier.
-        // TAG_mdat should not be processed twice
-        if ( box.type == TAG_mdat ) {
-            std::cout << std::endl;
-            return result ;
-        }
-        if ( visits_.find(address) != visits_.end() || visits_.size() > visits_max_ ) {
-            throw Error(kerCorruptedMetadata);
-        }
-        visits_.insert(address);
-
         if ( box.length == 1 ) {
             DataBuf data(8);
             io_->read(data.pData_,data.size_  );
             result = address + (long) getULongLong(data.pData_,littleEndian);
+            // sanity check
+            if ( result < 0 || result > (long) io_->size() ) {
+                 result = (long) io_->size();
+                 box.length = result - address;
+            }
+            std::cout << Internal::stringFormat(" (%lu)",result);
         }
 
         // read data in box and restore file position
@@ -205,7 +204,7 @@ namespace Exiv2
         io_->read(data.pData_,data.size_  );
         io_->seek(restore    ,BasicIo::beg);
 
-        uint32_t skip    = 0 ;
+        uint32_t skip    = 0 ; // read position in data.pData_
         uint8_t  version = 0 ;
         uint32_t flags   = 0 ;
 
@@ -257,6 +256,7 @@ namespace Exiv2
 #endif
             } break;
 
+
             case TAG_iprp:
             case TAG_ipco:
             case TAG_meta: {
@@ -265,7 +265,7 @@ namespace Exiv2
                 bLF=false;
 #endif
                 io_->seek(skip,BasicIo::cur);
-                while ( (long) io_->tell() < (long)(address + skip + box.length) ) {
+                while ( (long) io_->tell() < (long)(address + box.length) ) {
                     io_->seek(boxHandler(indent+1),BasicIo::beg);
                 }
             } break;
@@ -317,16 +317,6 @@ namespace Exiv2
                 std::cout << "pixelWidth_, pixelHeight_ = "
                           << Internal::stringFormat("%d, %d", pixelWidth_, pixelHeight_)
                 ;
-#endif
-            } break;
-
-            case TAG_ipma: {
-                std::cout << "IPMA" ;
-            } break;
-
-            case TAG_mdat: {
-#ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << "MDAT" ;
 #endif
             } break;
 
