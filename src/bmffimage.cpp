@@ -158,7 +158,7 @@ namespace Exiv2
 #ifdef EXIV2_DEBUG_MESSAGES
         bool bLF = true;
         std::cout << indenter(indent) << "Exiv2::BmffImage::boxHandler: " << toAscii(box.type)
-                  << Internal::stringFormat(" %8d->%d ",address,box.length)
+                  << Internal::stringFormat(" %8ld->%ld ",address,box.length)
         ;
 #endif
         // TODO: This isn't right.  We should check the visits earlier.
@@ -224,9 +224,9 @@ namespace Exiv2
 
             // 8.11.6.2
             case TAG_infe : { // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
-                                 getLong (data.pData_+skip,bigEndian) ; skip+=4;
-                uint16_t   ID =  getShort(data.pData_+skip,bigEndian) ; skip+=2;
-                                 getShort(data.pData_+skip,bigEndian) ; skip+=2; // protection
+                              /* getLong (data.pData_+skip,bigEndian) ; */ skip+=4;
+                uint16_t   ID =  getShort(data.pData_+skip,bigEndian) ;    skip+=2;
+                              /* getShort(data.pData_+skip,bigEndian) ; */ skip+=2; // protection
                 std::string name((const char*)data.pData_+skip);
                 if ( name.find("Exif")== 0 || name.find("Exif")== 0 ) { // "Exif" or "ExifExif"
                     exifID_ = ID ;
@@ -277,7 +277,7 @@ namespace Exiv2
                         uint32_t ldata  = getLong(data.pData_+skip+step-4,bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << indenter(indent)
-                                  << Internal::stringFormat("%8d | %8d |  ext | %4d | %6d,%6d",address+skip,step,ID,offset,ldata)
+                                  << Internal::stringFormat("%8ld | %8lu |  ext | %4ld | %6ld,%6ld",address+skip,step,ID,offset,ldata)
                                   << std::endl
                         ;
 #endif
