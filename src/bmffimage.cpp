@@ -51,7 +51,7 @@ struct BmffBoxHeader
 
 #define TAG_ftyp 0x66747970 /**< "ftyp" File type box */
 #define TAG_avif 0x61766966 /**< "avif" AVIF */
-#define TAG_heic 0x68656963 /**< "heic" HEIF */
+#define TAG_heic 0x68656963 /**< "heic" HEIC */
 #define TAG_heif 0x68656966 /**< "heif" HEIF */
 #define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
@@ -64,7 +64,8 @@ struct BmffBoxHeader
 #define TAG_iinf 0x69696e66 /**< "iinf" Item info */
 #define TAG_iloc 0x696c6f63 /**< "iloc" Item location */
 #define TAG_ispe 0x69737065 /**< "ispe" Image spatial extents */
-#define TAG_infe 0x696e6665 /**< "infe" */
+#define TAG_infe 0x696e6665 /**< "infe" Item Info Extention */
+#define TAG_ipma 0x69706d61 /**< "ipma" Item Property Association */
 
 // *****************************************************************************
 // class member definitions
@@ -81,6 +82,26 @@ namespace Exiv2
         enable = false; // unused
         return enable;
     }
+
+    class Iloc 
+    {
+    public:
+        Iloc(uint32_t ID,uint32_t start,uint32_t length)
+        : ID_     (ID)
+        , start_  (start )
+        , length_ (length)
+        {};
+        Iloc() : ID_(0),start_(0),length_(0) {}; // code won't compile without this on macOS
+        virtual ~Iloc() {}  ;
+
+        uint32_t    ID_     ;
+        uint32_t    start_  ;
+        uint32_t    length_ ;
+
+        std::string toString() {
+            return Internal::stringFormat("ID = %d from,length = %d,%d", ID_,start_,length_);
+        }
+    }; // class Iloc
 
     BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
             : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
@@ -260,10 +281,12 @@ namespace Exiv2
                 if ( version == 1 || version == 2 ) {
                     indexSize = u & 0xF ;
                 }
+#else
+                skip++;
 #endif
                 uint32_t itemCount  = version < 2 ? getShort(data.pData_+skip,bigEndian) : getLong(data.pData_+skip,bigEndian);
                 skip               += version < 2 ?               2                      :         4                          ;
-                if ( itemCount && offsetSize == 4 && lengthSize == 4 && ((box.length-16) % itemCount) == 0 ) {
+                if ( itemCount && itemCount < box.length/14 && offsetSize == 4 && lengthSize == 4 && ((box.length-16) % itemCount) == 0 ) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << std::endl;
                     bLF=false;
@@ -281,10 +304,7 @@ namespace Exiv2
                                   << std::endl
                         ;
 #endif
-                        if ( ID == exifID_) {
-                            exifStart_  = offset;
-                            exifLength_ = ldata;
-                        }
+                        ilocs_[ID] = Iloc(ID,offset,ldata);
                     }
                 }
             } break;
@@ -299,6 +319,10 @@ namespace Exiv2
 #endif
             } break;
 
+            case TAG_ipma: {
+                std::cout << "IPMA" ;
+            } break;
+
             case TAG_mdat: {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "MDAT" ;
@@ -309,8 +333,8 @@ namespace Exiv2
         }
 #ifdef EXIV2_DEBUG_MESSAGES
         if ( bLF ) std::cout  << std::endl;
-        if ( exifID_ != unknownID_ && exifStart_ && exifLength_ ) {
-            std::cout << indenter(indent) << Internal::stringFormat("Exif: %d->%d",exifStart_,exifLength_) << std::endl;
+        if (  ilocs_.find(exifID_) != ilocs_.end() ) {
+            std::cout << indenter(indent) << "Exiv2::BMFF Exif: " << ilocs_.find(exifID_)->second.toString() << std::endl;
             exifID_ = unknownID_;
         }
 #endif
@@ -339,14 +363,12 @@ namespace Exiv2
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "BMFF");
         }
-
+        ilocs_ .clear() ;
         visits_.clear();
         visits_max_ = io_->size() / 16;
 
         unknownID_  = 0xffff     ;
         exifID_     = unknownID_ ;
-        exifStart_  = 0;
-        exifLength_ = 0;
 
         long      address = 0 ;
         while (   address < (long) io_->size() ) {

@@ -32,6 +32,8 @@ namespace Exiv2
 {
     EXIV2API bool enableBMFF(bool enable = true);
 
+    class Iloc ;// We'll define this in bmffimage.cpp
+
 // *****************************************************************************
 // class definitions
 
@@ -114,8 +116,7 @@ namespace Exiv2
 
         uint16_t           unknownID_ ; // 0xffff
         uint16_t           exifID_    ;
-        uint32_t           exifStart_ ;
-        uint32_t           exifLength_;
+        std::map<uint32_t,Iloc> ilocs_;
 
         /*!
           @brief Provides the main implementation of writeMetadata() by
@@ -130,10 +131,10 @@ namespace Exiv2
         /*!
           @brief box utilities
          */
-        std::string toAscii(long n);
-        std::string boxName(uint32_t box);
+        std::string toAscii (long n);
+        std::string boxName (uint32_t box);
         bool        superBox(uint32_t box);
-        bool        fullBox(uint32_t box);
+        bool        fullBox (uint32_t box);
 
 
     }; // class BmffImage
