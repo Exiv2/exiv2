@@ -147,8 +147,8 @@ namespace Exiv2
 
     long BmffImage::boxHandler(int indent /* =0 */)
     {
-        long          result  = io_->size();
-        long          address = io_->tell();
+        long          result  = (long) io_->size();
+        long          address = (long) io_->tell();
         BmffBoxHeader box     = {0,0};
 
         if ( io_->read((byte*)&box, sizeof(box)) != sizeof(box)) return result;
@@ -165,7 +165,7 @@ namespace Exiv2
         // TAG_mdat should not be processed twice
         if ( box.type == TAG_mdat ) {
             std::cout << std::endl;
-            return io_->size();
+            return result ;
         }
         if ( visits_.find(address) != visits_.end() || visits_.size() > visits_max_ ) {
             throw Error(kerCorruptedMetadata);
@@ -244,7 +244,7 @@ namespace Exiv2
                 bLF=false;
 #endif
                 io_->seek(skip,BasicIo::cur);
-                while ( io_->tell() < address + skip + box.length ) {
+                while ( (long) io_->tell() < (long)(address + skip + box.length) ) {
                     io_->seek(boxHandler(indent+1),BasicIo::beg);
                 }
             } break;
@@ -263,14 +263,14 @@ namespace Exiv2
 #endif
                 uint32_t itemCount  = version < 2 ? getShort(data.pData_+skip,bigEndian) : getLong(data.pData_+skip,bigEndian);
                 skip               += version < 2 ?               2                      :         4                          ;
-                if ( offsetSize == 4 && lengthSize == 4 && ((box.length-16) % itemCount) == 0 ) {
+                if ( itemCount && offsetSize == 4 && lengthSize == 4 && ((box.length-16) % itemCount) == 0 ) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << std::endl;
                     bLF=false;
 #endif
-                    uint64_t step = (box.length-16)/itemCount                  ; // length of data per item.
-                    uint64_t base = skip;
-                    for ( uint64_t i = 0 ; i < itemCount ; i++ ) {
+                    uint32_t step = (box.length-16)/itemCount                  ; // length of data per item.
+                    uint32_t base = skip;
+                    for ( uint32_t i = 0 ; i < itemCount ; i++ ) {
                         skip=base+i*step ; // move in 16 or 14 byte steps
                         uint32_t ID     = version > 2 ? getLong(data.pData_+skip,bigEndian) : getShort(data.pData_+skip,bigEndian);
                         uint32_t offset = getLong(data.pData_+skip+step-8,bigEndian);
