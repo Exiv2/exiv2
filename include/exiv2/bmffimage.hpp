@@ -32,7 +32,7 @@ namespace Exiv2
 {
     EXIV2API bool enableBMFF(bool enable = true);
 
-    class Iloc;  // We'll define this in bmffimage.cpp
+    struct Iloc;  // We'll define this in bmffimage.cpp
 
     // *****************************************************************************
     // class definitions
@@ -131,10 +131,7 @@ namespace Exiv2
         uint64_t visits_max_;
         std::string indent(int i)
         {
-            std::string r;
-            while (i-- > 0)
-                r += std::string("  ");
-            return r;
+            return std::string(2*i,' ');
         }
 
         uint16_t unknownID_;  // 0xffff

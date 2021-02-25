@@ -67,10 +67,10 @@ struct BmffBoxHeader
 #define TAG_ispe 0x69737065 /**< "ispe" Image spatial extents */
 #define TAG_infe 0x696e6665 /**< "infe" Item Info Extention */
 #define TAG_ipma 0x69706d61 /**< "ipma" Item Property Association */
-#define TAG_cmt1 0x434d5431 /**< ifd0Id */
-#define TAG_cmt2 0x434D5432 /**< exifID */
-#define TAG_cmt3 0x434D5433 /**< canonID */
-#define TAG_cmt4 0x434D5434 /**< gpsID */
+#define TAG_cmt1 0x434d5431 /**< "CMT1" ifd0Id */
+#define TAG_cmt2 0x434D5432 /**< "CMD2" exifID */
+#define TAG_cmt3 0x434D5433 /**< "CMT3" canonID */
+#define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
 
 // *****************************************************************************
 // class member definitions
@@ -88,9 +88,8 @@ namespace Exiv2
         return enable;
     }
 
-    class Iloc
+    struct Iloc
     {
-    public:
         Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
         virtual ~Iloc(){};
 
@@ -215,7 +214,9 @@ namespace Exiv2
                 result = (long)io_->size();
                 box.length = result - address;
             }
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << Internal::stringFormat(" (%lu)", result);
+#endif
         }
 
         // read data in box and restore file position
