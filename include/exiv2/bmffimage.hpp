@@ -73,6 +73,7 @@ namespace Exiv2
         //@}
 
         void parseTiff(uint32_t root_tag, uint32_t length);
+        void parseTiff(uint32_t root_tag, uint32_t length,uint32_t start);
         //! @name Manipulators
         //@{
         void readMetadata() /* override */;

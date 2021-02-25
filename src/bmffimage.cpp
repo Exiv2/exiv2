@@ -98,9 +98,9 @@ namespace Exiv2
         uint32_t start_;
         uint32_t length_;
 
-        std::string toString(long address = 0) const
+        std::string toString() const
         {
-            return Internal::stringFormat("ID = %d from,length = %ld,%d", ID_, start_ + address, length_);
+            return Internal::stringFormat("ID = %d from,length = %ld,%d", ID_, start_, length_);
         }
     };  // class Iloc
 
@@ -269,10 +269,10 @@ namespace Exiv2
                 if (box.type == TAG_meta && ilocs_.find(exifID_) != ilocs_.end()) {
                     const Iloc& iloc = ilocs_.find(exifID_)->second;
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString(address + 20) << std::endl;
+                    std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString() << std::endl;
 #endif
-                    // parseTiff(Internal::Tag::root,iloc.length_,iloc.start_+address);
-                    exifID_ = unknownID_;
+                    parseTiff(Internal::Tag::root,iloc.length_,iloc.start_);
+                    exifID_ = unknownID_; // don't do this again!
                 }
             } break;
 
@@ -376,11 +376,34 @@ namespace Exiv2
         return result;
     }
 
+    void BmffImage::parseTiff(uint32_t root_tag, uint32_t length,uint32_t start)
+    {
+        // read and parse exif data
+        long    restore = io_->tell();
+        DataBuf exif(length);
+        io_->seek(start,BasicIo::beg);
+        if ( exif.size_ > 8 && io_->read(exif.pData_,exif.size_) == exif.size_ ) {
+            // hunt for "II" or "MM"
+            long  eof  = 0xffffffff; // impossible value for punt
+            long  punt = eof;
+            for ( long i = 0 ; i < exif.size_ -8 && punt==eof ; i+=2) {
+                if ( exif.pData_[i] == exif.pData_[i+1] )
+                    if ( exif.pData_[i] == 'I' || exif.pData_[i] == 'M' )
+                        punt = i;
+            }
+            if ( punt != eof ) {
+                Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
+                  exif.pData_+punt, exif.size_-punt, root_tag,
+                  Internal::TiffMapping::findDecoder);
+            }
+        }
+        io_->seek(restore,BasicIo::beg);
+    }
+
     void BmffImage::parseTiff(uint32_t root_tag, uint32_t length)
     {
         if (length > 8) {
             DataBuf data(length - 8);
-            // rawData.alloc(length - 8);
             long bufRead = io_->read(data.pData_, data.size_);
 
             if (io_->error())
@@ -388,7 +411,8 @@ namespace Exiv2
             if (bufRead != data.size_)
                 throw Error(kerInputDataReadFailed);
 
-            Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), data.pData_, data.size_, root_tag,
+            Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
+                                               data.pData_, data.size_, root_tag,
                                                Internal::TiffMapping::findDecoder);
         }
     }
