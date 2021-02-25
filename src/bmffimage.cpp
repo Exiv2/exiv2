@@ -354,13 +354,13 @@ namespace Exiv2
                 parseTiff(Internal::Tag::root, box.length);
                 break;
             case TAG_cmt2:
-                parseTiff(Internal::Tag::cr3_exif, box.length);
+                parseTiff(Internal::Tag::cmt2, box.length);
                 break;
             case TAG_cmt3:
-                parseTiff(Internal::Tag::cr3_mn, box.length);
+                parseTiff(Internal::Tag::cmt3, box.length);
                 break;
             case TAG_cmt4:
-                parseTiff(Internal::Tag::cr3_gps, box.length);
+                parseTiff(Internal::Tag::cmt4, box.length);
                 break;
 
             default: break ; /* do nothing */

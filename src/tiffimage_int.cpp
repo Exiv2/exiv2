@@ -1126,11 +1126,11 @@ namespace Exiv2 {
         { Tag::fuji, ifdIdNotSet,      newTiffDirectory<fujiId>                  },
         {    0xf000, fujiId,           newTiffSubIfd<fujiId>                     },
 
+        // CR3 images #1475
+        { Tag::cmt2, ifdIdNotSet,      newTiffDirectory<exifId>                  },
+        { Tag::cmt3, ifdIdNotSet,      newTiffDirectory<canonId>                 },
+        { Tag::cmt4, ifdIdNotSet,      newTiffDirectory<gpsId>                   },
 
-        // CR3 images
-        { Tag::cr3_exif, ifdIdNotSet,  newTiffDirectory<exifId>                  },
-        { Tag::cr3_mn, ifdIdNotSet,    newTiffDirectory<canonId>                  },
-        { Tag::cr3_gps, ifdIdNotSet,   newTiffDirectory<gpsId>                  },
         // IFD0
         {    0x8769, ifd0Id,           newTiffSubIfd<exifId>                     },
         {    0x8825, ifd0Id,           newTiffSubIfd<gpsId>                      },

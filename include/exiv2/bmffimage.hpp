@@ -75,7 +75,7 @@ namespace Exiv2
         //@{
         /*!
           @brief parse embedded tiff file
-          @param root_tag root of parse tree Tag::root, Tag::cr3_exif etc.
+          @param root_tag root of parse tree Tag::root, Tag::cmt2 etc.
           @param length tiff block length
           @param start offset in file (default, io_->tell())
          @
