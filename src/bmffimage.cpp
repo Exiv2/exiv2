@@ -28,6 +28,7 @@
 #include "image.hpp"
 #include "image_int.hpp"
 #include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
 #include "bmffimage.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
@@ -66,6 +67,11 @@ struct BmffBoxHeader
 #define TAG_ispe 0x69737065 /**< "ispe" Image spatial extents */
 #define TAG_infe 0x696e6665 /**< "infe" Item Info Extention */
 #define TAG_ipma 0x69706d61 /**< "ipma" Item Property Association */
+#define TAG_cmt1 0x434d5431 /**< ifd0Id */
+#define TAG_cmt2 0x434D5432 /**< exifID */
+#define TAG_cmt3 0x434D5433 /**< canonID */
+#define TAG_cmt4 0x434D5434 /**< gpsID */
+
 
 // *****************************************************************************
 // class member definitions
@@ -97,8 +103,8 @@ namespace Exiv2
         uint32_t    start_  ;
         uint32_t    length_ ;
 
-        std::string toString() {
-            return Internal::stringFormat("ID = %d from,length = %d,%d", ID_,start_,length_);
+        std::string toString(long address=0) const {
+            return Internal::stringFormat("ID = %d from,length = %d,%d", ID_,start_+address,length_);
         }
     }; // class Iloc
 
@@ -160,6 +166,18 @@ namespace Exiv2
         }
     }
 
+    std::string BmffImage::uuidName(Exiv2::DataBuf& uuid)
+    {
+        const char* uuidCano = "\x85\xC0\xB6\x87\x82\xF\x11\xE0\x81\x11\xF4\xCE\x46\x2B\x6A\x48";
+        const char* uuidXmp  = "\xBE\x7A\xCF\xCB\x97\xA9\x42\xE8\x9C\x71\x99\x94\x91\xE3\xAF\xAC";
+        const char* uuidCanp = "\xEA\xF4\x2B\x5E\x1C\x98\x4B\x88\xB9\xFB\xB7\xDC\x40\x6E\x4D\x16";
+        const char* result   = std::memcmp(uuid.pData_, uuidCano, 16) == 0 ? "cano"
+                             : std::memcmp(uuid.pData_, uuidXmp,  16) == 0 ? "xmp"
+                             : std::memcmp(uuid.pData_, uuidCanp, 16) == 0 ? "canp"
+                             : "" ;
+        return result;
+    }
+
     long BmffImage::boxHandler(int depth /* =0 */)
     {
         long          result  = (long) io_->size();
@@ -219,7 +237,6 @@ namespace Exiv2
 #endif
             } break;
 
-
             // 8.11.6.1
             case TAG_iinf:
             {
@@ -242,7 +259,7 @@ namespace Exiv2
                 uint16_t   ID =  getShort(data.pData_+skip,bigEndian) ;    skip+=2;
                               /* getShort(data.pData_+skip,bigEndian) ; */ skip+=2; // protection
                 std::string name((const char*)data.pData_+skip);
-                if ( name.find("Exif")== 0 || name.find("Exif")== 0 ) { // "Exif" or "ExifExif"
+                if ( name.find("Exif")== 0 ) { // "Exif" or "ExifExif"
                     exifID_ = ID ;
                 }
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -251,6 +268,7 @@ namespace Exiv2
             } break;
 
 
+            case TAG_moov:
             case TAG_iprp:
             case TAG_ipco:
             case TAG_meta: {
@@ -261,6 +279,14 @@ namespace Exiv2
                 io_->seek(skip,BasicIo::cur);
                 while ( (long) io_->tell() < (long)(address + box.length) ) {
                     io_->seek(boxHandler(depth+1),BasicIo::beg);
+                }
+                if ( box.type == TAG_meta && ilocs_.find(exifID_) != ilocs_.end() ) {
+                    const Iloc& iloc = ilocs_.find(exifID_)->second;
+#ifdef EXIV2_DEBUG_MESSAGES
+                    std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString(address+20) << std::endl;
+#endif
+                    // parseTiff(Internal::Tag::root,iloc.length_,iloc.start_+address);
+                    exifID_ = unknownID_;
                 }
             } break;
 
@@ -320,20 +346,52 @@ namespace Exiv2
 #endif
             } break;
 
+            case TAG_uuid:
+            {
+                DataBuf uuid(16);
+                io_->read(uuid.pData_, uuid.size_);
+                std::string name = uuidName(uuid);
+#ifdef EXIV2_DEBUG_MESSAGES
+                std::cout << " uuidName " << name;
+#endif
+                // if we are in uuid cano we want to jump past box(8) + uuid(16)
+                // and enter the uuid
+                if (name == "cano") {
+                    box.length = 24;
+                }
+            } break;
+
+            case TAG_cmt1: parseTiff(Internal::Tag::root    ,box.length); break;
+            case TAG_cmt2: parseTiff(Internal::Tag::cr3_exif,box.length); break;
+            case TAG_cmt3: parseTiff(Internal::Tag::cr3_mn  ,box.length); break;
+            case TAG_cmt4: parseTiff(Internal::Tag::cr3_gps ,box.length); break;
+
             default: {} ; /* do nothing */
         }
 #ifdef EXIV2_DEBUG_MESSAGES
         if ( bLF ) std::cerr  << std::endl;
-        if (  ilocs_.find(exifID_) != ilocs_.end() ) {
-            std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << ilocs_.find(exifID_)->second.toString() << std::endl;
-            exifID_ = unknownID_;
-        }
 #endif
-
         // return address of next box
         if ( box.length != 1 ) result = static_cast<long>(address + box.length);
 
         return result ;
+    }
+
+    void BmffImage::parseTiff(uint32_t root_tag,uint32_t length)
+    {
+        if ( length > 8 ) {
+            DataBuf  data(length - 8);
+            // rawData.alloc(length - 8);
+            long bufRead = io_->read(data.pData_, data.size_);
+
+            if (io_->error())
+                throw Error(kerFailedToReadImageData);
+            if (bufRead != data.size_)
+                throw Error(kerInputDataReadFailed);
+
+            Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), data.pData_, data.size_, root_tag,
+                                                   Internal::TiffMapping::findDecoder);
+        }
     }
 
     void BmffImage::setComment(const std::string& /*comment*/)

@@ -70,6 +70,7 @@ namespace Exiv2
         BmffImage(BasicIo::AutoPtr io, size_t start, size_t count);
         //@}
 
+        void parseTiff(uint32_t root_tag,uint32_t length);
         //! @name Manipulators
         //@{
         void readMetadata() /* override */ ;
@@ -136,7 +137,7 @@ namespace Exiv2
         std::string boxName (uint32_t box);
         bool        superBox(uint32_t box);
         bool        fullBox (uint32_t box);
-
+        std::string uuidName(Exiv2::DataBuf& uuid);
 
     }; // class BmffImage
 

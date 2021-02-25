@@ -76,12 +76,15 @@ namespace Exiv2 {
       Special TIFF tags for the use in TIFF structures only
     */
     namespace Tag {
-        const uint32_t none =  0x10000; //!< Dummy tag
-        const uint32_t root =  0x20000; //!< Special tag: root IFD
-        const uint32_t next =  0x30000; //!< Special tag: next IFD
-        const uint32_t all  =  0x40000; //!< Special tag: all tags in a group
-        const uint32_t pana =  0x80000; //!< Special tag: root IFD of Panasonic RAW images
-        const uint32_t fuji = 0x100000; //!< Special tag: root IFD of Fujifilm RAF images
+        const uint32_t none      =  0x10000; //!< Dummy tag
+        const uint32_t root      =  0x20000; //!< Special tag: root IFD
+        const uint32_t next      =  0x30000; //!< Special tag: next IFD
+        const uint32_t all       =  0x40000; //!< Special tag: all tags in a group
+        const uint32_t pana      =  0x80000; //!< Special tag: root IFD of Panasonic RAW images
+        const uint32_t fuji      = 0x100000; //!< Special tag: root IFD of Fujifilm RAF images
+        const uint32_t cr3_exif  = 0x110000; //!< Special tag: root IFD of CR3 images
+        const uint32_t cr3_mn    = 0x120000; //!< Special tag: root IFD of CR3 images
+        const uint32_t cr3_gps   = 0x130000; //!< Special tag: root IFD of CR3 images
     }
 
     /*!

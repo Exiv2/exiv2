@@ -3,6 +3,7 @@
 #include "error.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
+#include "tags_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -1125,6 +1126,11 @@ namespace Exiv2 {
         { Tag::fuji, ifdIdNotSet,      newTiffDirectory<fujiId>                  },
         {    0xf000, fujiId,           newTiffSubIfd<fujiId>                     },
 
+
+        // CR3 images
+        { Tag::cr3_exif, ifdIdNotSet,  newTiffDirectory<exifId>                  },
+        { Tag::cr3_mn, ifdIdNotSet,    newTiffDirectory<canonId>                  },
+        { Tag::cr3_gps, ifdIdNotSet,   newTiffDirectory<gpsId>                  },
         // IFD0
         {    0x8769, ifd0Id,           newTiffSubIfd<exifId>                     },
         {    0x8825, ifd0Id,           newTiffSubIfd<gpsId>                      },
