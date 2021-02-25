@@ -127,6 +127,7 @@ option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"         ON 
 option( EXIV2_ENABLE_EXTERNAL_XMP  "Use external version of XMP"            OFF )
 option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"  ON )
 ...
+option( EXIV2_ENABLE_BMFF          "Build with BMFF support"                OFF )
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
 
