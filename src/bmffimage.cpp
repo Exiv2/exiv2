@@ -86,12 +86,11 @@ namespace Exiv2
     class Iloc 
     {
     public:
-        Iloc(uint32_t ID,uint32_t start,uint32_t length)
+        Iloc(uint32_t ID=0,uint32_t start=0,uint32_t length=0)
         : ID_     (ID)
         , start_  (start )
         , length_ (length)
         {};
-        Iloc() : ID_(0),start_(0),length_(0) {}; // code won't compile without this on macOS
         virtual ~Iloc() {}  ;
 
         uint32_t    ID_     ;
@@ -106,13 +105,8 @@ namespace Exiv2
     BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
             : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
     {
-    } // BmffImage::BmffImage
-
-    BmffImage::BmffImage(BasicIo::AutoPtr io, size_t start, size_t count)
-        : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
-    {
-        UNUSED(start);
-        UNUSED(count);
+        pixelWidth_  =0;
+        pixelHeight_ =0;
     } // BmffImage::BmffImage
 
     std::string BmffImage::toAscii(long n)
@@ -166,7 +160,7 @@ namespace Exiv2
         }
     }
 
-    long BmffImage::boxHandler(int indent /* =0 */)
+    long BmffImage::boxHandler(int depth /* =0 */)
     {
         long          result  = (long) io_->size();
         long          address = (long) io_->tell();
@@ -182,7 +176,7 @@ namespace Exiv2
         box.type   = getLong((byte*)&box.type, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
         bool bLF = true;
-        std::cout << indenter(indent) << "Exiv2::BmffImage::boxHandler: " << toAscii(box.type)
+        std::cerr << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box.type)
                   << Internal::stringFormat(" %8ld->%u ",address,box.length)
         ;
 #endif
@@ -195,7 +189,7 @@ namespace Exiv2
                  result = (long) io_->size();
                  box.length = result - address;
             }
-            std::cout << Internal::stringFormat(" (%lu)",result);
+            std::cerr << Internal::stringFormat(" (%lu)",result);
         }
 
         // read data in box and restore file position
@@ -221,7 +215,7 @@ namespace Exiv2
             {
                 fileType = getLong(data.pData_, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << "Brand: " << toAscii(fileType);
+                std::cerr << "Brand: " << toAscii(fileType);
 #endif
             } break;
 
@@ -230,7 +224,7 @@ namespace Exiv2
             case TAG_iinf:
             {
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << std::endl;
+                std::cerr << std::endl;
                 bLF=false;
 #endif
 
@@ -239,7 +233,7 @@ namespace Exiv2
 
                 io_->seek(skip,BasicIo::cur);
                 while ( n-- > 0 )
-                    io_->seek(boxHandler(indent+1),BasicIo::beg);
+                    io_->seek(boxHandler(depth+1),BasicIo::beg);
             } break;
 
             // 8.11.6.2
@@ -252,7 +246,7 @@ namespace Exiv2
                     exifID_ = ID ;
                 }
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << Internal::stringFormat("%3d ",ID) << name << " ";
+                std::cerr << Internal::stringFormat("%3d ",ID) << name << " ";
 #endif
             } break;
 
@@ -261,12 +255,12 @@ namespace Exiv2
             case TAG_ipco:
             case TAG_meta: {
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << std::endl;
+                std::cerr << std::endl;
                 bLF=false;
 #endif
                 io_->seek(skip,BasicIo::cur);
                 while ( (long) io_->tell() < (long)(address + box.length) ) {
-                    io_->seek(boxHandler(indent+1),BasicIo::beg);
+                    io_->seek(boxHandler(depth+1),BasicIo::beg);
                 }
             } break;
 
@@ -288,7 +282,7 @@ namespace Exiv2
                 skip               += version < 2 ?               2                      :         4                          ;
                 if ( itemCount && itemCount < box.length/14 && offsetSize == 4 && lengthSize == 4 && ((box.length-16) % itemCount) == 0 ) {
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cout << std::endl;
+                    std::cerr << std::endl;
                     bLF=false;
 #endif
                     uint32_t step = (box.length-16)/itemCount                  ; // length of data per item.
@@ -299,7 +293,7 @@ namespace Exiv2
                         uint32_t offset = getLong(data.pData_+skip+step-8,bigEndian);
                         uint32_t ldata  = getLong(data.pData_+skip+step-4,bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
-                        std::cout << indenter(indent)
+                        std::cerr << indent(depth)
                                   << Internal::stringFormat("%8ld | %8u |  ext | %4u | %6u,%6u",address+skip,step,ID,offset,ldata)
                                   << std::endl
                         ;
@@ -311,21 +305,27 @@ namespace Exiv2
 
             case TAG_ispe: {
                 skip+=4;
-                pixelWidth_  = getLong(data.pData_ + skip, bigEndian); skip+=4;
-                pixelHeight_ = getLong(data.pData_ + skip, bigEndian); skip+=4;
+                int width  = (int) getLong(data.pData_ + skip, bigEndian); skip+=4;
+                int height = (int) getLong(data.pData_ + skip, bigEndian); skip+=4;
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << "pixelWidth_, pixelHeight_ = "
-                          << Internal::stringFormat("%d, %d", pixelWidth_, pixelHeight_)
+                std::cerr << "pixelWidth_, pixelHeight_ = "
+                          << Internal::stringFormat("%d, %d", width, height)
                 ;
+                // HEIC files can have multiple ispe records
+                // Store largest width/height
+                if ( width > pixelWidth_ && height > pixelHeight_ ) {
+                    pixelWidth_  = width ;
+                    pixelHeight_ = height ;
+                }
 #endif
             } break;
 
             default: {} ; /* do nothing */
         }
 #ifdef EXIV2_DEBUG_MESSAGES
-        if ( bLF ) std::cout  << std::endl;
+        if ( bLF ) std::cerr  << std::endl;
         if (  ilocs_.find(exifID_) != ilocs_.end() ) {
-            std::cout << indenter(indent) << "Exiv2::BMFF Exif: " << ilocs_.find(exifID_)->second.toString() << std::endl;
+            std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << ilocs_.find(exifID_)->second.toString() << std::endl;
             exifID_ = unknownID_;
         }
 #endif

@@ -105,14 +105,15 @@ namespace Exiv2
         /*!
           @brief recursiveBoxHandler
           @throw Error if we visit a box more than once
+          @return address of next box
           @warning This function should only be called by readMetadata()
          */
-        long boxHandler(int indent=0);
+        long boxHandler(int depth=0);
 
         uint32_t           fileType   ;
         std::set<uint64_t> visits_    ;
         uint64_t           visits_max_;
-        std::string        indenter(int i) { std::string r; while ( i-- > 0 ) r+=std::string("  "); return r; }
+        std::string        indent(int i) { std::string r; while ( i-- > 0 ) r+=std::string("  "); return r; }
 
         uint16_t           unknownID_ ; // 0xffff
         uint16_t           exifID_    ;
