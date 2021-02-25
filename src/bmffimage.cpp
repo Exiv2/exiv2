@@ -100,7 +100,7 @@ namespace Exiv2
 
         std::string toString(long address = 0) const
         {
-            return Internal::stringFormat("ID = %d from,length = %d,%d", ID_, start_ + address, length_);
+            return Internal::stringFormat("ID = %d from,length = %ld,%d", ID_, start_ + address, length_);
         }
     };  // class Iloc
 
