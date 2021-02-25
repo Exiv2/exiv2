@@ -32,20 +32,22 @@ namespace Exiv2
 {
     EXIV2API bool enableBMFF(bool enable = true);
 
-    class Iloc ;// We'll define this in bmffimage.cpp
+    class Iloc;  // We'll define this in bmffimage.cpp
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     // Add Base Media File Format to the supported image formats
-    namespace ImageType {
-        const int bmff = 15; //!< BMFF (bmff) image type (see class BMFF)
+    namespace ImageType
+    {
+        const int bmff = 15;  //!< BMFF (bmff) image type (see class BMFF)
     }
 
     /*!
       @brief Class to access BMFF images.
      */
-    class EXIV2API BmffImage : public Image {
+    class EXIV2API BmffImage : public Image
+    {
     public:
         //! @name Creators
         //@{
@@ -70,11 +72,11 @@ namespace Exiv2
         BmffImage(BasicIo::AutoPtr io, size_t start, size_t count);
         //@}
 
-        void parseTiff(uint32_t root_tag,uint32_t length);
+        void parseTiff(uint32_t root_tag, uint32_t length);
         //! @name Manipulators
         //@{
-        void readMetadata() /* override */ ;
-        void writeMetadata() /* override */ ;
+        void readMetadata() /* override */;
+        void writeMetadata() /* override */;
 
         /*!
           @brief Print out the structure of image file.
@@ -82,18 +84,18 @@ namespace Exiv2
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth) /* override */ ;
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) /* override */;
 
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
               an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment) /* override */ ;
+        void setComment(const std::string& comment) /* override */;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const /* override */ ;
+        std::string mimeType() const /* override */;
         //@}
 #if 0
         BmffImage& operator=(const BmffImage& rhs) /* = delete*/ ;
@@ -109,16 +111,22 @@ namespace Exiv2
           @return address of next box
           @warning This function should only be called by readMetadata()
          */
-        long boxHandler(int depth=0);
+        long boxHandler(int depth = 0);
 
-        uint32_t           fileType   ;
-        std::set<uint64_t> visits_    ;
-        uint64_t           visits_max_;
-        std::string        indent(int i) { std::string r; while ( i-- > 0 ) r+=std::string("  "); return r; }
+        uint32_t fileType;
+        std::set<uint64_t> visits_;
+        uint64_t visits_max_;
+        std::string indent(int i)
+        {
+            std::string r;
+            while (i-- > 0)
+                r += std::string("  ");
+            return r;
+        }
 
-        uint16_t           unknownID_ ; // 0xffff
-        uint16_t           exifID_    ;
-        std::map<uint32_t,Iloc> ilocs_;
+        uint16_t unknownID_;  // 0xffff
+        uint16_t exifID_;
+        std::map<uint32_t, Iloc> ilocs_;
 
         /*!
           @brief Provides the main implementation of writeMetadata() by
@@ -133,16 +141,16 @@ namespace Exiv2
         /*!
           @brief box utilities
          */
-        std::string toAscii (long n);
-        std::string boxName (uint32_t box);
-        bool        superBox(uint32_t box);
-        bool        fullBox (uint32_t box);
+        std::string toAscii(long n);
+        std::string boxName(uint32_t box);
+        bool superBox(uint32_t box);
+        bool fullBox(uint32_t box);
         std::string uuidName(Exiv2::DataBuf& uuid);
 
-    }; // class BmffImage
+    };  // class BmffImage
 
-// *****************************************************************************
-// template, inline and free functions
+    // *****************************************************************************
+    // template, inline and free functions
 
     // These could be static private functions on Image subclasses but then
     // ImageFactory needs to be made a friend.
@@ -155,4 +163,4 @@ namespace Exiv2
 
     //! Check if the file iIo is a BMFF image.
     EXIV2API bool isBmffType(BasicIo& iIo, bool advance);
-}                                       // namespace Exiv2
+}  // namespace Exiv2
