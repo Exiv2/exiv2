@@ -72,8 +72,18 @@ namespace Exiv2
         BmffImage(BasicIo::AutoPtr io, size_t start, size_t count);
         //@}
 
+        //@{
+        /*!
+          @brief parse embedded tiff file
+          @param root_tag root of parse tree Tag::root, Tag::cr3_exif etc.
+          @param length tiff block length
+          @param start offset in file (default, io_->tell())
+         @
+         */
         void parseTiff(uint32_t root_tag, uint32_t length);
         void parseTiff(uint32_t root_tag, uint32_t length,uint32_t start);
+        //@}
+        
         //! @name Manipulators
         //@{
         void readMetadata() /* override */;

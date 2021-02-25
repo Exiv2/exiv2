@@ -100,7 +100,7 @@ namespace Exiv2
 
         std::string toString() const
         {
-            return Internal::stringFormat("ID = %d from,length = %ld,%d", ID_, start_, length_);
+            return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
         }
     };  // class Iloc
 
@@ -220,7 +220,7 @@ namespace Exiv2
             case TAG_ftyp: {
                 fileType = getLong(data.pData_, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cerr << "Brand: " << toAscii(fileType);
+                std::cerr << "brand: " << toAscii(fileType);
 #endif
             } break;
 
@@ -336,16 +336,17 @@ namespace Exiv2
             } break;
 
             case TAG_uuid: {
-                DataBuf uuid(16);
+                DataBuf   uuid(16);
                 io_->read(uuid.pData_, uuid.size_);
                 std::string name = uuidName(uuid);
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cout << " uuidName " << name;
+                std::cerr << " uuidName " << name << std::endl;
+                bLF = false;
 #endif
-                // if we are in uuid cano we want to jump past box(8) + uuid(16)
-                // and enter the uuid
                 if (name == "cano") {
-                    box.length = 24;
+                    while ((long)io_->tell() < (long)(address + box.length)) {
+                        io_->seek(boxHandler(depth + 1), BasicIo::beg);
+                    }
                 }
             } break;
 
@@ -362,8 +363,7 @@ namespace Exiv2
                 parseTiff(Internal::Tag::cr3_gps, box.length);
                 break;
 
-            default: {
-            }; /* do nothing */
+            default: break ; /* do nothing */
         }
 #ifdef EXIV2_DEBUG_MESSAGES
         if (bLF)
