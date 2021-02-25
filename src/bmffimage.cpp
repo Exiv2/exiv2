@@ -155,6 +155,25 @@ namespace Exiv2
         }
     }
 
+    int BmffImage::pixelWidth() const
+    {
+        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
+            return imageWidth->toLong();
+        }
+        return 0;
+    }
+
+    int BmffImage::pixelHeight() const
+    {
+        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
+            return imageHeight->toLong();
+        }
+        return 0;
+    }
+
+
     std::string BmffImage::uuidName(Exiv2::DataBuf& uuid)
     {
         const char* uuidCano = "\x85\xC0\xB6\x87\x82\xF\x11\xE0\x81\x11\xF4\xCE\x46\x2B\x6A\x48";
@@ -447,7 +466,6 @@ namespace Exiv2
             io_->seek(address, BasicIo::beg);
             address = boxHandler();
         }
-
     }  // BmffImage::readMetadata
 
     void BmffImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)

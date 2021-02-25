@@ -107,6 +107,8 @@ namespace Exiv2
         //! @name Accessors
         //@{
         std::string mimeType() const /* override */;
+        int pixelWidth() const;
+        int pixelHeight() const;
         //@}
 #if 0
         BmffImage& operator=(const BmffImage& rhs) /* = delete*/ ;
