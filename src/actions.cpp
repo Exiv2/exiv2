@@ -350,7 +350,6 @@ namespace Action {
         printTag(exifData, Exiv2::whiteBalance      , _("White balance")                                );
         printTag(exifData, "Exif.Image.Copyright"   , _("Copyright")                                    );
         printTag(exifData, "Exif.Photo.UserComment" , _("Exif comment")                                 );
-        printTag(exifData, "Exif.Image.Artist"      , _("Artist")                                       );
 
         std::cout << std::endl;
 
