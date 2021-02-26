@@ -83,24 +83,11 @@ namespace Exiv2
         void parseTiff(uint32_t root_tag, uint32_t length);
         void parseTiff(uint32_t root_tag, uint32_t length,uint32_t start);
         //@}
-        
+
         //! @name Manipulators
         //@{
         void readMetadata() /* override */;
         void writeMetadata() /* override */;
-
-        /*!
-          @brief Print out the structure of image file.
-          @throw Error if reading of the file fails or the image data is
-                not valid (does not look like data of the specific image type).
-          @warning This function is not thread safe and intended for exiv2 -pS for debugging.
-         */
-        void printStructure(std::ostream& out, PrintStructureOption option, int depth) /* override */;
-
-        /*!
-          @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
-         */
         void setComment(const std::string& comment) /* override */;
         //@}
 
@@ -110,12 +97,6 @@ namespace Exiv2
         int pixelWidth() const;
         int pixelHeight() const;
         //@}
-#if 0
-        BmffImage& operator=(const BmffImage& rhs) /* = delete*/ ;
-        BmffImage& operator=(const BmffImage&& rhs) /* = delete */ ;
-        BmffImage(const BmffImage& rhs) /* = delete */;
-        BmffImage(const BmffImage&& rhs) /* = delete */;
-#endif
 
     private:
         /*!
@@ -125,27 +106,17 @@ namespace Exiv2
           @warning This function should only be called by readMetadata()
          */
         long boxHandler(int depth = 0);
-
-        uint32_t fileType;
-        std::set<uint64_t> visits_;
-        uint64_t visits_max_;
         std::string indent(int i)
         {
             return std::string(2*i,' ');
         }
 
-        uint16_t unknownID_;  // 0xffff
-        uint16_t exifID_;
+        uint32_t                 fileType_;
+        std::set<uint64_t>       visits_;
+        uint64_t                 visits_max_;
+        uint16_t                 unknownID_;  // 0xffff
+        uint16_t                 exifID_;
         std::map<uint32_t, Iloc> ilocs_;
-
-        /*!
-          @brief Provides the main implementation of writeMetadata() by
-                writing all buffered metadata to the provided BasicIo.
-          @param oIo BasicIo instance to write to (a temporary location).
-
-          @return 4 if opening or writing to the associated BasicIo fails
-         */
-        void doWriteMetadata(BasicIo& outIo);
         //@}
 
         /*!
@@ -153,8 +124,8 @@ namespace Exiv2
          */
         std::string toAscii(long n);
         std::string boxName(uint32_t box);
-        bool superBox(uint32_t box);
-        bool fullBox(uint32_t box);
+        bool        superBox(uint32_t box);
+        bool        fullBox(uint32_t box);
         std::string uuidName(Exiv2::DataBuf& uuid);
 
     };  // class BmffImage

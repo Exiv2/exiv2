@@ -141,7 +141,7 @@ namespace Exiv2
 
     std::string BmffImage::mimeType() const
     {
-        switch (fileType) {
+        switch (fileType_) {
             case TAG_avif:
                 return "image/avif";
             case TAG_heic:
@@ -238,9 +238,9 @@ namespace Exiv2
 
         switch (box.type) {
             case TAG_ftyp: {
-                fileType = getLong(data.pData_, bigEndian);
+                fileType_ = getLong(data.pData_, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cerr << "brand: " << toAscii(fileType);
+                std::cerr << "brand: " << toAscii(fileType_);
 #endif
             } break;
 
@@ -439,7 +439,7 @@ namespace Exiv2
 
     void BmffImage::setComment(const std::string& /*comment*/)
     {
-        // Todo: implement me!
+        // bmff files are read-only
         throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
     }  // BmffImage::setComment
 
@@ -469,24 +469,10 @@ namespace Exiv2
         }
     }  // BmffImage::readMetadata
 
-    void BmffImage::printStructure(std::ostream& out, PrintStructureOption option, int depth)
-    {
-        if (io_->open() != 0)
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
-
-        // Ensure that this is the correct image type
-        if (!isBmffType(*io_, false)) {
-            if (io_->error() || io_->eof())
-                throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage);
-        }
-        UNUSED(out);
-        UNUSED(option);
-        UNUSED(depth);
-    }  // BmffImage::printStructure
-
     void BmffImage::writeMetadata()
     {
+        // bmff files are read-only
+        throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
     }  // BmffImage::writeMetadata
 
     // *************************************************************************
