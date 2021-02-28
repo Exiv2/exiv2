@@ -388,6 +388,8 @@ namespace Exiv2
                     while ((long)io_->tell() < (long)(address + box.length)) {
                         io_->seek(boxHandler(depth + 1), BasicIo::beg);
                     }
+                } else if ( name == "xmp" ) {
+                    parseXmp(box.length,io_->tell());
                 }
             } break;
 
