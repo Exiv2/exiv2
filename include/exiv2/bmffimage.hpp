@@ -74,7 +74,7 @@ namespace Exiv2
 
         //@{
         /*!
-          @brief parse embedded tiff file
+          @brief parse embedded tiff file (Exif metadata)
           @param root_tag root of parse tree Tag::root, Tag::cmt2 etc.
           @param length tiff block length
           @param start offset in file (default, io_->tell())
@@ -82,6 +82,16 @@ namespace Exiv2
          */
         void parseTiff(uint32_t root_tag, uint32_t length);
         void parseTiff(uint32_t root_tag, uint32_t length,uint32_t start);
+        //@}
+
+        //@{
+        /*!
+          @brief parse embedded xmp/xml
+          @param length xmp block length
+          @param start offset in file
+         @
+         */
+        void parseXmp(uint32_t length,uint32_t start);
         //@}
 
         //! @name Manipulators
@@ -116,6 +126,7 @@ namespace Exiv2
         uint64_t                 visits_max_;
         uint16_t                 unknownID_;  // 0xffff
         uint16_t                 exifID_;
+        uint16_t                 xmpID_;
         std::map<uint32_t, Iloc> ilocs_;
         //@}
 

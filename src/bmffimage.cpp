@@ -265,12 +265,17 @@ namespace Exiv2
                 uint16_t ID = getShort(data.pData_ + skip, bigEndian);
                 skip += 2;
                 /* getShort(data.pData_+skip,bigEndian) ; */ skip += 2;  // protection
+                std::string id;
                 std::string name((const char*)data.pData_ + skip);
-                if (name.find("Exif") == 0) {  // "Exif" or "ExifExif"
+                if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
+                    id=" *** Exif ***";
+                } else if ( !name.find("mime\0xmp") || !name.find("mime\0application/rdf+xml") ) {
+                    xmpID_ = ID;
+                    id=" *** XMP ***";
                 }
 #ifdef EXIV2_DEBUG_MESSAGES
-                std::cerr << Internal::stringFormat("%3d ", ID) << name << " ";
+                std::cerr << Internal::stringFormat("ID = %3d ", ID) << name << " " << id;
 #endif
             } break;
 
@@ -286,13 +291,23 @@ namespace Exiv2
                 while ((long)io_->tell() < (long)(address + box.length)) {
                     io_->seek(boxHandler(depth + 1), BasicIo::beg);
                 }
-                if (box.type == TAG_meta && ilocs_.find(exifID_) != ilocs_.end()) {
-                    const Iloc& iloc = ilocs_.find(exifID_)->second;
-#ifdef EXIV2_DEBUG_MESSAGES
-                    std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString() << std::endl;
-#endif
-                    parseTiff(Internal::Tag::root,iloc.length_,iloc.start_);
-                    exifID_ = unknownID_; // don't do this again!
+                // post-process meta box to recover Exif and XMP
+                if (box.type == TAG_meta) {
+                    if ( ilocs_.find(exifID_) != ilocs_.end()) {
+                        const Iloc& iloc = ilocs_.find(exifID_)->second;
+    #ifdef EXIV2_DEBUG_MESSAGES
+                        std::cerr << indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString() << std::endl;
+    #endif
+                        parseTiff(Internal::Tag::root,iloc.length_,iloc.start_);
+                    }
+                    if ( ilocs_.find(xmpID_) != ilocs_.end()) {
+                        const Iloc& iloc = ilocs_.find(xmpID_)->second;
+    #ifdef EXIV2_DEBUG_MESSAGES
+                        std::cerr << indent(depth) << "Exiv2::BMFF XMP: " << iloc.toString() << std::endl;
+    #endif
+                        parseXmp(iloc.length_,iloc.start_);
+                    }
+                    ilocs_.clear() ;
                 }
             } break;
 
@@ -322,10 +337,13 @@ namespace Exiv2
                     uint32_t step = (box.length - 16) / itemCount;  // length of data per item.
                     uint32_t base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
-                        skip = base + i * step;  // move in 16 or 14 byte steps
+                        skip = base + i * step;  // move in 14, 16 or 18 byte steps
                         uint32_t ID = version > 2 ? getLong(data.pData_ + skip, bigEndian)
                                                   : getShort(data.pData_ + skip, bigEndian);
-                        uint32_t offset = getLong(data.pData_ + skip + step - 8, bigEndian);
+                        uint32_t offset = step==14 || step==16 ? getLong(data.pData_ + skip + step - 8, bigEndian)
+                                        : step== 18            ? getLong(data.pData_ + skip + 4, bigEndian)
+                                        : 0 ;
+                        
                         uint32_t ldata = getLong(data.pData_ + skip + step - 4, bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cerr << indent(depth)
@@ -333,7 +351,10 @@ namespace Exiv2
                                                             ID, offset, ldata)
                                   << std::endl;
 #endif
-                        ilocs_[ID] = Iloc(ID, offset, ldata);
+                        // save data for post-processing in meta box
+                        if ( offset && ldata && ID != unknownID_ ) {
+                            ilocs_[ID] = Iloc(ID, offset, ldata);
+                        }
                     }
                 }
             } break;
@@ -434,6 +455,28 @@ namespace Exiv2
             Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
                                                data.pData_, data.size_, root_tag,
                                                Internal::TiffMapping::findDecoder);
+        }
+    }
+
+    void BmffImage::parseXmp(uint32_t length,uint32_t start)
+    {
+        if (length > 8) {
+            long restore = io_->tell() ;
+            io_->seek(start,BasicIo::beg);
+
+            DataBuf  xmp(length+1);
+            xmp.pData_[length]=0  ; // ensure xmp is null terminated!
+            if ( io_->read(xmp.pData_, length) != length )
+                throw Error(kerInputDataReadFailed);
+            if ( io_->error() )
+                throw Error(kerFailedToReadImageData);
+            try {
+                Exiv2::XmpParser::decode(xmpData(),std::string((char*)xmp.pData_));
+            } catch (...) {
+                throw Error(kerFailedToReadImageData);
+            }
+
+            io_->seek(restore,BasicIo::beg);
         }
     }
 
