@@ -25,6 +25,7 @@
 
 // included header files
 #include "image.hpp"
+#include "iostream"
 
 // *****************************************************************************
 // namespace extensions
@@ -99,6 +100,7 @@ namespace Exiv2
         void readMetadata() /* override */;
         void writeMetadata() /* override */;
         void setComment(const std::string& comment) /* override */;
+        void printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth);
         //@}
 
         //! @name Accessors
@@ -109,13 +111,14 @@ namespace Exiv2
         //@}
 
     private:
+        void openOrThrow();
         /*!
           @brief recursiveBoxHandler
           @throw Error if we visit a box more than once
           @return address of next box
           @warning This function should only be called by readMetadata()
          */
-        long boxHandler(int depth = 0);
+        long boxHandler(std::ostream& out=std::cout, Exiv2::PrintStructureOption option=kpsNone,int depth = 0);
         std::string indent(int i)
         {
             return std::string(2*i,' ');
@@ -128,6 +131,7 @@ namespace Exiv2
         uint16_t                 exifID_;
         uint16_t                 xmpID_;
         std::map<uint32_t, Iloc> ilocs_;
+        bool                     bReadMetadata_;
         //@}
 
         /*!
