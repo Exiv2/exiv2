@@ -358,7 +358,7 @@ namespace Exiv2
                         uint32_t ldata = getLong(data.pData_ + skip + step - 4, bigEndian);
                         if ( bTrace ) {
                             out << indent(depth)
-                                << Internal::stringFormat("%8ld | %8u |  ext | %4u | %6u,%6u", address + skip, step,
+                                << Internal::stringFormat("%8ld | %8u |   ID | %4u | %6u,%6u", address + skip, step,
                                                             ID, offset, ldata)
                                 << std::endl;
                         }
