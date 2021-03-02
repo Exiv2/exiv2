@@ -1212,14 +1212,18 @@ namespace Exiv2 {
                 N_("The illuminant used for the first set of color calibration tags "
                    "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
                    "values for this tag are the same as the legal values for the "
-                   "LightSource EXIF tag."),
+                   "LightSource EXIF tag. If set to 255 (Other), then the IFD must "
+                   "also include a IlluminantData1 tag to specify the x-y chromaticity "
+                   "or spectral power distribution function for this illuminant."),
                 ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG tag
         TagInfo(0xc65b, "CalibrationIlluminant2", N_("Calibration Illuminant 2"),
                 N_("The illuminant used for an optional second set of color calibration "
                    "tags (ColorMatrix2, CameraCalibration2, ReductionMatrix2). The legal "
                    "values for this tag are the same as the legal values for the "
                    "CalibrationIlluminant1 tag; however, if both are included, neither "
-                   "is allowed to have a value of 0 (unknown)."),
+                   "is allowed to have a value of 0 (unknown). If set to 255 (Other), then "
+                   "the IFD must also include a IlluminantData2 tag to specify the x-y "
+                   "chromaticity or spectral power distribution function for this illuminant."),
                 ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG tag
         TagInfo(0xc65c, "BestQualityScale", N_("Best Quality Scale"),
                 N_("For some cameras, the best possible image quality is not achieved "
@@ -1350,9 +1354,9 @@ namespace Exiv2 {
         TagInfo(0xc6f9, "ProfileHueSatMapDims", N_("Profile Hue Sat Map Dims"),
                 N_("This tag specifies the number of input samples in each dimension of the "
                 "hue/saturation/value mapping tables. The data for these tables are stored "
-                "in ProfileHueSatMapData1 and ProfileHueSatMapData2 tags. The most common "
-                "case has ValueDivisions equal to 1, so only hue and saturation are used as "
-                "inputs to the mapping table."),
+                "in ProfileHueSatMapData1, ProfileHueSatMapData2 and ProfileHueSatMapData3 "
+                "tags. The most common case has ValueDivisions equal to 1, so only hue and "
+                "saturation are used as inputs to the mapping table."),
                 ifd0Id, dngTags, unsignedLong, 3, printValue), // DNG tag
         TagInfo(0xc6fa, "ProfileHueSatMapData1", N_("Profile Hue Sat Map Data 1"),
                 N_("This tag contains the data for the first hue/saturation/value mapping "
@@ -1628,6 +1632,71 @@ namespace Exiv2 {
         TagInfo(0xcd30, "SemanticInstanceID", N_("Semantic Instance ID"),
                 N_("A string that identifies a specific instance in a semantic mask."),
                 ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.6 tag
+        TagInfo(0xcd31, "CalibrationIlluminant3", N_("Calibration Illuminant 3"),
+                N_("The illuminant used for an optional thrid set of color calibration "
+                "tags (ColorMatrix3, CameraCalibration3, ReductionMatrix3). The legal "
+                "values for this tag are the same as the legal values for the "
+                "LightSource EXIF tag; CalibrationIlluminant1 and CalibrationIlluminant2 "
+                "must also be present. If set to 255 (Other), then the IFD must also "
+                "include a IlluminantData3 tag to specify the x-y chromaticity or "
+                "spectral power distribution function for this illuminant."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG 1.6 tag
+        TagInfo(0xcd32, "CameraCalibration3", N_("Camera Calibration 3"),
+                N_("CameraCalibration3 defines a calibration matrix that transforms "
+                "reference camera native space values to individual camera native "
+                "space values under the third calibration illuminant. The matrix is "
+                "stored in row scan order. This matrix is stored separately from the "
+                "matrix specified by the ColorMatrix3 tag to allow raw converters to "
+                "swap in replacement color matrices based on UniqueCameraModel tag, "
+                "while still taking advantage of any per-individual camera calibration "
+                "performed by the camera manufacturer."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd33, "ColorMatrix3", N_("Color Matrix 3"),
+                N_("ColorMatrix3 defines a transformation matrix that converts XYZ "
+                "values to reference camera native color space values, under the "
+                "third calibration illuminant. The matrix values are stored in row "
+                "scan order."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd34, "ForwardMatrix3", N_("Forward Matrix 3"),
+                N_("This tag defines a matrix that maps white balanced camera colors to XYZ "
+                "D50 colors."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd35, "IlluminantData1", N_("Illuminant Data 1"),
+                N_("When the CalibrationIlluminant1 tag is set to 255 (Other), "
+                "then the IlluminantData1 tag is required and specifies the data "
+                "for the first illuminant. Otherwise, this tag is ignored. The "
+                "illuminant data may be specified as either a x-y chromaticity "
+                "coordinate or as a spectral power distribution function."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd36, "IlluminantData2", N_("Illuminant Data 2"),
+                N_("When the CalibrationIlluminant2 tag is set to 255 (Other), "
+                "then the IlluminantData2 tag is required and specifies the data "
+                "for the second illuminant. Otherwise, this tag is ignored. The "
+                "format of the data is the same as IlluminantData1."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd37, "IlluminantData3", N_("Illuminant Data 3"),
+                N_("When the CalibrationIlluminant3 tag is set to 255 (Other), "
+                "then the IlluminantData3 tag is required and specifies the data "
+                "for the third illuminant. Otherwise, this tag is ignored. The "
+                "format of the data is the same as IlluminantData1."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd39, "ProfileHueSatMapData3", N_("Profile Hue Sat Map Data 3"),
+                N_("This tag contains the data for the third hue/saturation/value mapping "
+                "table. Each entry of the table contains three 32-bit IEEE floating-point "
+                "values. The first entry is hue shift in degrees; the second entry is "
+                "saturation scale factor; and the third entry is a value scale factor. The "
+                "table entries are stored in the tag in nested loop order, with the value "
+                "divisions in the outer loop, the hue divisions in the middle loop, and the "
+                "saturation divisions in the inner loop. All zero input saturation entries "
+                "are required to have a value scale factor of 1.0."),
+                ifd0Id, dngTags, tiffFloat, 0, printValue), // DNG 1.6 tag
+        TagInfo(0xcd3a, "ReductionMatrix3", N_("Reduction Matrix 3"),
+                N_("ReductionMatrix3 defines a dimensionality reduction matrix for use as "
+                "the first stage in converting color camera native space values to XYZ "
+                "values, under the third calibration illuminant. This tag may only be "
+                "used if ColorPlanes is greater than 3. The matrix is stored in row "
+                "scan order."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
 
         ////////////////////////////////////////
         // End of list marker
