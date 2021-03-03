@@ -4,9 +4,17 @@ import system_tests
 
 from   system_tests import BT
 import os
+import sys
 import shlex
 import shutil
 import subprocess
+
+# https://github.com/Exiv2/exiv2/issues/1215
+def error(s):
+    print('**',s,'**')
+
+def warn(s):
+    print('--',s)
 
 def chop(blob):
     lines=[]
@@ -22,8 +30,12 @@ def chop(blob):
     return lines
 
 def runTest(cmd):
+    if sys.platform == 'win32':
+        args = cmd
+    else:
+        args = shlex.split(cmd)
     try:
-        p        = subprocess.Popen( shlex.split(cmd), stdout=subprocess.PIPE,shell=False)
+        p        = subprocess.Popen( args, stdout=subprocess.PIPE,shell=False)
         out,err  = p.communicate()
         if p.returncode != 0:
             print('%s returncode = %d' % (cmd,p.returncode) )

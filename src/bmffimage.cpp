@@ -89,20 +89,10 @@ namespace Exiv2
         return enable;
     }
 
-    struct Iloc
+    std::string Iloc::toString() const
     {
-        Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
-        virtual ~Iloc(){};
-
-        uint32_t ID_;
-        uint32_t start_;
-        uint32_t length_;
-
-        std::string toString() const
-        {
-            return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
-        }
-    };  // class Iloc
+        return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
+    }
 
     BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */) : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
     {
@@ -388,7 +378,7 @@ namespace Exiv2
 
             // 12.1.5.2
             case TAG_colr: {
-                if ( data.size_ >= skip+4 +8 /* 8 for safety */  ) { // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
+                if ( data.size_ >= (long) (skip+4+8) /* 8 for safety */  ) { // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
                     // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
                     uint8_t      meth        = data.pData_[skip+0];
                     uint8_t      prec        = data.pData_[skip+1];

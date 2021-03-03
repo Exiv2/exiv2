@@ -33,7 +33,17 @@ namespace Exiv2
 {
     EXIV2API bool enableBMFF(bool enable = true);
 
-    struct Iloc;  // We'll define this in bmffimage.cpp
+    struct Iloc
+    {
+        Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
+        virtual ~Iloc(){};
+
+        uint32_t ID_;
+        uint32_t start_;
+        uint32_t length_;
+
+        std::string toString() const;
+    };  // class Iloc
 
     // *****************************************************************************
     // class definitions
