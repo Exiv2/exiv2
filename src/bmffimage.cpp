@@ -188,15 +188,14 @@ namespace Exiv2
 
     long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
     {
-        long result = (long)io_->size();
+        long result  = (long)io_->size();
         long address = (long)io_->tell();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
             throw Error(kerCorruptedMetadata);
         }
         visits_.insert(address);
 
-        bool bTrace    = (option == kpsBasic && depth == 0) || option == kpsRecursive ;
-        Exiv2::PrintStructureOption recursion = option == kpsBasic ? kpsNone : option ;
+        bool bTrace    = option == kpsBasic || option == kpsRecursive ;
 #ifdef EXIV2_DEBUG_MESSAGES
         bTrace = true ;
 #endif
@@ -266,7 +265,7 @@ namespace Exiv2
 
                 io_->seek(skip, BasicIo::cur);
                 while (n-- > 0) {
-                    io_->seek(boxHandler(out,recursion,depth + 1), BasicIo::beg);
+                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                 }
             } break;
 
@@ -300,7 +299,7 @@ namespace Exiv2
                 }
                 io_->seek(skip, BasicIo::cur);
                 while ((long)io_->tell() < (long)(address + box.length)) {
-                    io_->seek(boxHandler(out,recursion,depth + 1), BasicIo::beg);
+                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
                 if (box.type == TAG_meta) {
@@ -423,7 +422,7 @@ namespace Exiv2
                 }
                 if (name == "cano") {
                     while ((long)io_->tell() < (long)(address + box.length)) {
-                        io_->seek(boxHandler(out,recursion,depth + 1), BasicIo::beg);
+                        io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
                     parseXmp(box.length,io_->tell());

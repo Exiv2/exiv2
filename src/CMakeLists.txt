@@ -46,7 +46,6 @@ add_library( exiv2lib
     ../include/exiv2/rwlock.hpp
     ../include/exiv2/slice.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
-    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
     convert.cpp             ../include/exiv2/convert.hpp
     cr2image.cpp            ../include/exiv2/cr2image.hpp
@@ -116,6 +115,12 @@ if( EXIV2_ENABLE_VIDEO )
         quicktimevideo.cpp      ../include/exiv2/quicktimevideo.hpp
         riffvideo.cpp           ../include/exiv2/riffvideo.hpp
         utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
+    )
+endif()
+
+if( EXIV2_ENABLE_BMFF )
+    target_sources(exiv2lib PRIVATE
+        bmffimage.cpp           ../include/exiv2/bmffimage.hpp
     )
 endif()
 

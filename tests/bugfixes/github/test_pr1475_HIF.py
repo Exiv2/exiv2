@@ -2,16 +2,61 @@
 
 import system_tests
 
+from   system_tests import BT
+import os
+import shlex
+import shutil
+import subprocess
+
+def chop(blob):
+    lines=[]
+    line=''
+    for c in blob.decode('utf-8'):
+        if c == '\n':
+            lines=lines+[line]
+            line=''
+        elif c != '\r':
+            line=line+str(c)
+    if len(line) != 0:
+        lines=lines+line
+    return lines
+
+def runTest(cmd):
+    try:
+        p        = subprocess.Popen( shlex.split(cmd), stdout=subprocess.PIPE,shell=False)
+        out,err  = p.communicate()
+        if p.returncode != 0:
+            print('%s returncode = %d' % (cmd,p.returncode) )
+        out=chop(out)
+    except:
+        error('%s died' % cmd )
+    return out
+
 class pr_1475_hif_Sony(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
+    bSkip=False
     
-    filename = "$data_path/Sony.HIF"
-    commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-               ,"$exiv2 -pR $filename"
-               ,"$exiv2 -pX $filename"
-               ,"$exiv2 -pC $filename"
-               ]
-    stdout = ["""Exif.Image.Make                              Ascii       5  SONY
+    # test needs enable_bmff=1
+    exiv2_exe=os.path.join(BT.Config.bin_dir, "exiv2")
+    bSkip    = bSkip or runTest(exiv2_exe + " -vVg enable_bmff")[-1] != "enable_bmff=1"
+    if bSkip:
+        commands=[]
+        retval=[]
+        stdin=[]
+        stderr=[]
+        stdout=[]
+        print("*** test skipped ***")
+    else:
+        filename = "$data_path/Sony.HIF"
+        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                   ,"$exiv2 -pS $filename"
+                   ,"$exiv2 -pX $filename"
+                   ,"$exiv2 -pC $filename"
+                   ]
+        retval = [ 0  ] * len(commands)
+        stderr = [ "" ] * len(commands)
+        stdin  = [ "" ] * len(commands)
+        stdout = ["""Exif.Image.Make                              Ascii       5  SONY
 Exif.Image.DateTime                          Ascii      20  2021:02:18 19:55:41
 Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 Exif.Photo.ExposureProgram                   Short       1  Manual
@@ -111,21 +156,33 @@ Exiv2::BmffImage::boxHandler: mdat     4088->147464
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>""",""
-]
-    retval = [ 0  ] * len(commands)
-    stderr = [ "" ] * len(commands)
+<?xpacket end="w"?>""",""]
 
 class pr_1475_hif_Canon(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
+    bSkip=False
     
-    filename = "$data_path/Canon.HIF"
-    commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-               ,"$exiv2 -pR $filename"
-               ,"$exiv2 -pX $filename"
-               ,"$exiv2 -pC $filename"
-               ]
-    stdout = ["""Exif.Image.Make                              Ascii       6  Canon
+    # test needs enable_bmff=1
+    exiv2_exe=os.path.join(BT.Config.bin_dir, "exiv2")
+    bSkip    = bSkip or runTest(exiv2_exe + " -vVg enable_bmff")[-1] != "enable_bmff=1"
+    if bSkip:
+        commands=[]
+        retval=[]
+        stdin=[]
+        stderr=[]
+        stdin=[]
+        print("*** skipped.  test requires both enable_bmff and debug***")
+    else:
+        filename = "$data_path/Canon.HIF"
+        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                   ,"$exiv2 -pS $filename"
+                   ,"$exiv2 -pX $filename"
+                   ,"$exiv2 -pC $filename"
+                   ]
+        retval = [ 0  ] * len(commands)
+        stderr = [ "" ] * len(commands)
+        stdin  = [ "" ] * len(commands)
+        stdout = ["""Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.DateTime                          Ascii      20  2021:02:18 19:54:47
 Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 Exif.Photo.ExposureProgram                   Short       1  Manual
@@ -219,8 +276,5 @@ Exiv2::BmffImage::boxHandler: mdat     1195->1252197
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>""",""
-]
-    retval = [ 0  ] * len(commands)
-    stderr = [ "" ] * len(commands)
+<?xpacket end="w"?>""",""]
 
