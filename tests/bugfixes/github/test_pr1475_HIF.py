@@ -1,65 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
+# test needs system_tests.vv.enable_bmff=1
+vv=system_tests.verbose_version()
+enable_bmff = 'enable_bmff'
+bSkip = not (enable_bmff in vv and vv[enable_bmff] == '1')
 
-from   system_tests import BT
-import os
-import sys
-import shlex
-import shutil
-import subprocess
-
-# https://github.com/Exiv2/exiv2/issues/1215
-def error(s):
-    print('**',s,'**')
-
-def warn(s):
-    print('--',s)
-
-def chop(blob):
-    lines=[]
-    line=''
-    for c in blob.decode('utf-8'):
-        if c == '\n':
-            lines=lines+[line]
-            line=''
-        elif c != '\r':
-            line=line+str(c)
-    if len(line) != 0:
-        lines=lines+line
-    return lines
-
-def runTest(cmd):
-    if sys.platform == 'win32':
-        args = cmd
-    else:
-        args = shlex.split(cmd)
-    try:
-        p        = subprocess.Popen( args, stdout=subprocess.PIPE,shell=False)
-        out,err  = p.communicate()
-        if p.returncode != 0:
-            print('%s returncode = %d' % (cmd,p.returncode) )
-        out=chop(out)
-    except:
-        error('%s died' % cmd )
-    return out
-
-class pr_1475_hif_Sony(metaclass=system_tests.CaseMeta):
+class pr_1475_Sony_hif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
-    bSkip=False
-    
-    # test needs enable_bmff=1
-    exiv2_exe=os.path.join(BT.Config.bin_dir, "exiv2")
-    bSkip    = bSkip or runTest(exiv2_exe + " -vVg enable_bmff")[-1] != "enable_bmff=1"
+    filename = "$data_path/Sony.HIF"
     if bSkip:
         commands=[]
         retval=[]
         stdin=[]
         stderr=[]
         stdout=[]
-        print("*** test skipped ***")
+        print("*** test skipped.  requires enable_bmff=1***")
     else:
-        filename = "$data_path/Sony.HIF"
         commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
                    ,"$exiv2 -pS $filename"
                    ,"$exiv2 -pX $filename"
@@ -170,22 +127,18 @@ Exiv2::BmffImage::boxHandler: mdat     4088->147464
                            
 <?xpacket end="w"?>""",""]
 
-class pr_1475_hif_Canon(metaclass=system_tests.CaseMeta):
+class pr_1475_Canon_hif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
-    bSkip=False
-    
-    # test needs enable_bmff=1
-    exiv2_exe=os.path.join(BT.Config.bin_dir, "exiv2")
-    bSkip    = bSkip or runTest(exiv2_exe + " -vVg enable_bmff")[-1] != "enable_bmff=1"
+    filename = "$data_path/Canon.HIF"
+
     if bSkip:
         commands=[]
         retval=[]
         stdin=[]
         stderr=[]
         stdin=[]
-        print("*** skipped.  test requires both enable_bmff and debug***")
+        print("*** test skipped.  requires enable_bmff=1***")
     else:
-        filename = "$data_path/Canon.HIF"
         commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
                    ,"$exiv2 -pS $filename"
                    ,"$exiv2 -pX $filename"

@@ -981,3 +981,80 @@ def check_no_ASAN_UBSAN_errors(self, i, command, got_stderr, expected_stderr):
     self.assertNotIn(UBSAN_MSG, got_stderr)
     self.assertNotIn(ASAN_MSG, got_stderr)
 
+# Apologies Dan.  I can't write python in your beautiful style and I know nothing about python objects
+# https://github.com/Exiv2/exiv2/issues/1215
+def error(s):
+    print('**',s,'**')
+
+def warn(s):
+    print('--',s)
+
+def chop(blob):
+    lines=[]
+    line=''
+    for c in blob.decode('utf-8'):
+        if c == '\n':
+            lines=lines+[line]
+            line=''
+        elif c != '\r':
+            line=line+str(c)
+    if len(line) != 0:
+        lines=lines+line
+    return lines
+
+def runTest(cmd):
+    if sys.platform == 'win32':
+        args = cmd
+    else:
+        args = shlex.split(cmd)
+
+    # Updat PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
+    key="PATH"
+    bin=os.path.dirname(exiv2)
+    if key in os.environ:
+        os.environ[key] = bin + os.pathsep + os.environ[key]
+    else:
+        os.environ[key] = bin
+
+    for key in [ "LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH" ]:
+        lib=os.path.join(os.path.dirname(os.path.dirname(exiv2)),'lib')
+        if key in os.environ:
+            os.environ[key] = lib + os.pathsep + os.environ[key]
+        else:
+            os.environ[key] = lib        
+
+    try:
+        p        = subprocess.Popen( args, stdout=subprocess.PIPE,shell=False)
+        out,err  = p.communicate()
+        if p.returncode != 0:
+            print('%s returncode = %d' % (cmd,p.returncode) )
+        out=chop(out)
+    except:
+        error('%s died' % cmd )
+    return out
+
+def verbose_version(verbose=False):
+    vv = {}
+    lines = runTest(exiv2 + ' --verbose --version')
+    for line in lines:
+        kv=line.rstrip().split('=')
+        if len(kv) == 2:
+            key=kv[0]
+            val=kv[1]
+            if not key in vv:
+                vv[key]=val
+            elif type(vv[key]) == type([]):
+                vv[key].append(val)
+            else:
+                vv[key]=[ vv[key] ]
+
+    if verbose:
+        for key in vv:
+            blanks=' '*(20-len(key))
+            val=vv[key]
+            if type(val) == type([]):
+                val= '[ %s   +%d ]' % (val[0],len(val)-1)
+            print(key,blanks,val)
+
+    return vv
+

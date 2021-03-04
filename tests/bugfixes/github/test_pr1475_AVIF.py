@@ -51,7 +51,7 @@ Exiv2::BmffImage::boxHandler: free      336->64
 Exiv2::BmffImage::boxHandler: mdat      400->218816 
 ""","",""]
 
-class pr_1475_avif_exif_xmp(metaclass=system_tests.CaseMeta):
+class pr_1475_exif_xmp_avif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/avif_exif_xmp.avif"
     if bSkip:
@@ -246,7 +246,7 @@ Exiv2::BmffImage::boxHandler: mdat      411->10452
                            
 <?xpacket end="w"?>""",""]
 
-class pr_1475_avif_metadata2(metaclass=system_tests.CaseMeta):
+class pr_1475_metadata2_avif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/avif_metadata2.avif"
     if bSkip:
