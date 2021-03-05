@@ -107,7 +107,10 @@ namespace Exiv2
         std::string result;
         bool bBigEndian = isBigEndianPlatform();
         for (int i = 0; i < 4; i++) {
-            result += p[bBigEndian ? i : (3 - i)];
+            char c = p[bBigEndian ? i : (3 - i)];
+            result += (32<=c && c<=127) ? c      // only allow 7-bit printable ascii
+                    : c==0 ? '_'                 // show 0 and _
+                    : '.' ;                      // others .
         }
         return result;
     }
@@ -207,11 +210,13 @@ namespace Exiv2
         if (box.length == 1) {
             DataBuf data(8);
             io_->read(data.pData_, data.size_);
-            result = address + (long)getULongLong(data.pData_, littleEndian);
+            result = address + (long)getULongLong(data.pData_, bigEndian);
             // sanity check
-            if (result < 0 || result > (long)io_->size()) {
+            if (result < 8 || result > (long)io_->size()) {
                 result = (long)io_->size();
                 box.length = result - address;
+            } else {
+                box.length = io_->size() - address - 8;
             }
             if ( bTrace ) {
                 out << Internal::stringFormat(" (%lu)", result);
@@ -437,8 +442,7 @@ namespace Exiv2
         if ( bLF&& bTrace) out << std::endl;
 
         // return address of next box
-        if (box.length != 1)
-            result = static_cast<long>(address + box.length);
+        result = static_cast<long>(address + box.length);
 
         return result;
     }
