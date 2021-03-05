@@ -611,6 +611,7 @@ The exiv2 command-line program and sample applications call the following at the
 ```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+    Exiv2::enableBMFF(true);
 ```
 
 [TOC](#TOC)
@@ -784,17 +785,17 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 
 2.19 Support for bmff files (CR3, HIF, AVIF and HEIC)
 
-**Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights_.**
+**Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
-Access to the bmff code is guarded in two ways.  Firstly, you have to build the library with the cmake option `-DEXIV2_ENABLE_BMFF=On`.  Secondly, the application must enable bmff support at run-time by calling the following function.
+Access to the bmff code is guarded in two ways.  Firstly, you have to build the library with the cmake option: `-DEXIV2_ENABLE_BMFF=On`.  Secondly, the application must enable bmff support at run-time by calling the following function.
 
 ```cpp
 EXIV2API bool enableBMFF(bool enable);
 ```
 
-It is recommended that you call this function at process start-up as it is not threadsafe.  Applications may wish the provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
+Applications may wish the provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
 
-It is recommended that you enclose the call to `enableBMFF()` with the compile time macro EXIV2\_TEST\_VERSION to ensure that your code builds cleanly on earlier versions of Exiv2.  A code snippet is provided in [2.14 Thread Safety](#2-14).
+It is recommended that you enclose the call to `enableBMFF()` with the compile time macro EXIV2\_TEST\_VERSION to ensure that your code builds cleanly on earlier versions of Exiv2.  It is recommended that you call enableBMFF() at process start-up as it is not threadsafe.  A code snippet is provided in [2.14 Thread Safety](#2-14).
 
 [TOC](#TOC)
 
