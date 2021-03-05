@@ -271,7 +271,7 @@ private:
                version_(false),
                verbose_(false),
                force_(false),
-               binary_(true),
+               binary_(false),
                unknown_(true),
                preserve_(false),
                timestamp_(false),
