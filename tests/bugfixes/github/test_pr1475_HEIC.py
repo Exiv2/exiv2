@@ -159,6 +159,7 @@ Exiv2::BmffImage::boxHandler: meta       36->3380
       3392 |       16 |   ID |   51 |  20901,  2364
 Exiv2::BMFF Exif: ID = 51 from,length = 20901,2364
 Exiv2::BmffImage::boxHandler: mdat     3416->1  (1474454)
+Exiv2::BmffImage::boxHandler: __%   1474446->2641356760 
 """,""]
 
 class pr_1475_IMG_3578_heic(metaclass=system_tests.CaseMeta):
@@ -313,6 +314,7 @@ Exiv2::BmffImage::boxHandler: meta       32->3380
       3388 |       16 |   ID |   51 |   8907,  2024
 Exiv2::BMFF Exif: ID = 51 from,length = 8907,2024
 Exiv2::BmffImage::boxHandler: mdat     3412->1  (1122310)
+Exiv2::BmffImage::boxHandler: ....  1122302->4115011359 
 """,""]
 
 class pr_1475_Stonehenge_heic(metaclass=system_tests.CaseMeta):
@@ -383,6 +385,7 @@ Exiv2::BmffImage::boxHandler: meta       24->508
 Exiv2::BMFF Exif: ID = 2 from,length = 548,1082
 Exiv2::BMFF XMP: ID = 3 from,length = 1630,3150
 Exiv2::BmffImage::boxHandler: mdat      532->1  (18241)
+Exiv2::BmffImage::boxHandler: Q.&.    18233->2350779715 
 ""","""<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
