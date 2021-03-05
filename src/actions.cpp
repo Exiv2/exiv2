@@ -230,10 +230,34 @@ namespace Action {
     {
     }
 
-    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path)
+    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path,bool binary)
     {
-        _setmode(_fileno(stdout),O_BINARY);
-        return printStructure(std::cout, option, path);
+        int result = 0 ;
+        if ( binary && option == Exiv2::kpsIccProfile ) {
+            std::stringstream output(std::stringstream::out|std::stringstream::binary);
+            result       = printStructure(output, option, path);
+            if ( result == 0 ) {
+                uint32_t size = output.str().size();
+                char* iccProfile[size];
+                ::memcpy(iccProfile,output.str().c_str(),size);
+                char         ascii[size*3+1];
+                ascii             [size*3]=0;
+                if ( Exiv2::base64encode(iccProfile,size,ascii,size*3) ) {
+                    uint32_t      chunk  = 60 ;
+                    std::string   code   = std::string("data:") + std::string(ascii);
+                    uint32_t      length = code.size() ;
+                    for ( uint32_t start = 0 ; start < length ; start += chunk ) {
+                        uint32_t   count = (start+chunk) < length ? chunk : length - start ;
+                        std::cout << code.substr(start,count) << std::endl;
+                    }
+                }
+            }
+        } else {
+            _setmode(_fileno(stdout),O_BINARY);
+            result = printStructure(std::cout, option, path);
+        }
+        
+        return result;
     }
 
     int Print::run(const std::string& path)
@@ -252,12 +276,12 @@ namespace Action {
                 case Params::pmXMP:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsXMP;
-                    rc = setModeAndPrintStructure(option, path_);
+                    rc = setModeAndPrintStructure(option, path_,binary());
                     break;
                 case Params::pmIccProfile:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsIccProfile;
-                    rc = setModeAndPrintStructure(option, path_);
+                    rc = setModeAndPrintStructure(option, path_,binary());
                     break;
             }
             return rc;
