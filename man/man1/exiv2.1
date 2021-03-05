@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Nov 6, 2020"
+.TH EXIV2 1 "Mar 5, 2021"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -39,31 +39,35 @@ lB lB lB lB lB lB
 _	_	_	_	_	_
 l l l l l l.
 Type	Exif	IPTC	XMP	Image Comments	ICC Profile
-JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
-CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
-CRW	Read/Write	-	-	Read/Write	-
-MRW	Read	Read	Read	-	-
-TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
-WEBP	Read/Write	-	Read/Write	-	Read/Write
-DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
-NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
-PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
 ARW	Read	Read	Read	-	-
+AVIF	Read	Read	Read	-	-
+BMP	-	-	-	-	-
+CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
+CR3	Read	Read	Read	-	Read
+CRW	Read/Write	-	-	Read/Write	-
+DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
+EPS	-	-	Read/Write	-	-
+EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
+GIF	-	-	-	-	-
+HEIC	Read	Read	Read	-	-
+HIF	Read	Read	Read	-	-
+JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
+JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+MRW	Read	Read	Read	-	-
+NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+ORF	Read/Write	Read/Write	Read/Write	-	-
+PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+PSD	Read/Write	Read/Write	Read/Write	-	-
+RAF	Read	Read	Read	-	-
 RW2	Read	Read	Read	-	-
 SR2	Read	Read	Read	-	-
 SRW	Read/Write	Read/Write	Read/Write	-	-
-ORF	Read/Write	Read/Write	Read/Write	-	-
-PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-RAF	Read	Read	Read	-	-
-EPS	-	-	Read/Write	-	-
-XMP	-	-	Read/Write	-	-
-GIF	-	-	-	-	-
-PSD	Read/Write	Read/Write	Read/Write	-	-
 TGA	-	-	-	-	-
-BMP	-	-	-	-	-
-JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
+TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
+WEBP	Read/Write	-	Read/Write	-	Read/Write
+XMP	-	-	Read/Write	-	-
 .TE
 .IP \(bu 2
 Support for GIF, TGA and BMP images is minimal: the image format is
@@ -132,7 +136,7 @@ exiv2 [ opt [arg] ]+ [ act ] file ...
 .sp 1
 option [arg]	long option	description
 -a	tim	--adjust	Modify time stamps.  [+|-]HH[:MM[:SS[.mmm]]]
--b		--binary	This option is obsolete and does nothing.
+-b		--binary	This option is obsolete and should not be used.  Reserved for test suite (with option -pC)
 -c	txt	--comment	JPEG comment string to set in the image ('modify' action).  ...
 -d	tgt	--delete	Delete target(s) for the 'delete' action. ...
 -D	+-n	--days	Time  adjustment by a positive or negative number of days ...
