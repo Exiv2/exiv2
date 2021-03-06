@@ -94,7 +94,9 @@ namespace Exiv2
         return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
     }
 
-    BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */) : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
+    BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
+    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
+    , endian_(Exiv2::bigEndian)
     {
         pixelWidth_    = 0;
         pixelHeight_   = 0;
@@ -105,22 +107,13 @@ namespace Exiv2
     {
         const char* p = (const char*)&n;
         std::string result;
-        bool bBigEndian = isBigEndianPlatform();
         for (int i = 0; i < 4; i++) {
-            char c = p[bBigEndian ? i : (3 - i)];
-            result += (32<=c && c<=127) ? c      // only allow 7-bit printable ascii
-                    : c==0 ? '_'                 // show 0 and _
-                    : '.' ;                      // others .
+            char c = p[isBigEndianPlatform() ? i : (3 - i)];
+            result += (32<=c && c<127) ? c    // only allow 7-bit printable ascii
+                    : c==0 ? '_'              // show 0 as _
+                    : '.' ;                   // others .
         }
         return result;
-    }
-
-    std::string BmffImage::boxName(uint32_t box)
-    {
-        char name[5];
-        std::memcpy(name, &box, 4);
-        name[4] = 0;
-        return std::string(name);
     }
 
     bool BmffImage::superBox(uint32_t box)
@@ -183,6 +176,8 @@ namespace Exiv2
     {
         long result  = (long)io_->size();
         long address = (long)io_->tell();
+        // never visit a box twice!
+        if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
             throw Error(kerCorruptedMetadata);
         }
@@ -197,8 +192,8 @@ namespace Exiv2
         if (io_->read((byte*)&box, sizeof(box)) != sizeof(box))
             return result;
 
-        box.length = getLong((byte*)&box.length, bigEndian);
-        box.type = getLong((byte*)&box.type, bigEndian);
+        box.length = getLong((byte*)&box.length, endian_);
+        box.type = getLong((byte*)&box.type, endian_);
         bool bLF = true;
 
         if ( bTrace ) {
@@ -210,16 +205,13 @@ namespace Exiv2
         if (box.length == 1) {
             DataBuf data(8);
             io_->read(data.pData_, data.size_);
-            result = address + (long)getULongLong(data.pData_, bigEndian);
+            result = (long) getULongLong(data.pData_, endian_);
             // sanity check
-            if (result < 8 || result > (long)io_->size()) {
+            if (result < 8 || result+address > (long)io_->size()) {
                 result = (long)io_->size();
-                box.length = result - address;
+                box.length = result;
             } else {
-                box.length = io_->size() - address - 8;
-            }
-            if ( bTrace ) {
-                out << Internal::stringFormat(" (%lu)", result);
+                box.length = (long) (io_->size() - address);
             }
         }
 
@@ -234,7 +226,7 @@ namespace Exiv2
         uint32_t flags = 0;
 
         if (fullBox(box.type)) {
-            flags = getLong(data.pData_ + skip, bigEndian);  // version/flags
+            flags = getLong(data.pData_ + skip, endian_);  // version/flags
             version = (int8_t)flags >> 24;
             version &= 0x00ffffff;
             skip += 4;
@@ -242,7 +234,7 @@ namespace Exiv2
 
         switch (box.type) {
             case TAG_ftyp: {
-                fileType_ = getLong(data.pData_, bigEndian);
+                fileType_ = getLong(data.pData_, endian_);
                 if ( bTrace ) {
                     out << "brand: " << toAscii(fileType_);
                 }
@@ -255,7 +247,7 @@ namespace Exiv2
                     bLF = false;
                 }
 
-                int n = getShort(data.pData_ + skip, bigEndian);
+                int n = getShort(data.pData_ + skip, endian_);
                 skip += 2;
 
                 io_->seek(skip, BasicIo::cur);
@@ -266,10 +258,10 @@ namespace Exiv2
 
             // 8.11.6.2
             case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
-                /* getLong (data.pData_+skip,bigEndian) ; */ skip += 4;
-                uint16_t ID = getShort(data.pData_ + skip, bigEndian);
+                /* getLong (data.pData_+skip,endian_) ; */ skip += 4;
+                uint16_t ID = getShort(data.pData_ + skip, endian_);
                 skip += 2;
-                /* getShort(data.pData_+skip,bigEndian) ; */ skip += 2;  // protection
+                /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
                 std::string name((const char*)data.pData_ + skip);
                 if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
@@ -330,8 +322,8 @@ namespace Exiv2
 #else
                 skip++;
 #endif
-                uint32_t itemCount = version < 2 ? getShort(data.pData_ + skip, bigEndian)
-                                                 : getLong(data.pData_ + skip, bigEndian);
+                uint32_t itemCount = version < 2 ? getShort(data.pData_ + skip, endian_)
+                                                 : getLong(data.pData_ + skip, endian_);
                 skip += version < 2 ? 2 : 4;
                 if (itemCount && itemCount < box.length / 14 && offsetSize == 4 && lengthSize == 4 &&
                     ((box.length - 16) % itemCount) == 0) {
@@ -343,13 +335,13 @@ namespace Exiv2
                     uint32_t base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
-                        uint32_t ID = version > 2 ? getLong(data.pData_ + skip, bigEndian)
-                                                  : getShort(data.pData_ + skip, bigEndian);
-                        uint32_t offset = step==14 || step==16 ? getLong(data.pData_ + skip + step - 8, bigEndian)
-                                        : step== 18            ? getLong(data.pData_ + skip + 4, bigEndian)
+                        uint32_t ID = version > 2 ? getLong(data.pData_ + skip, endian_)
+                                                  : getShort(data.pData_ + skip, endian_);
+                        uint32_t offset = step==14 || step==16 ? getLong(data.pData_ + skip + step - 8, endian_)
+                                        : step== 18            ? getLong(data.pData_ + skip + 4, endian_)
                                         : 0 ;
 
-                        uint32_t ldata = getLong(data.pData_ + skip + step - 4, bigEndian);
+                        uint32_t ldata = getLong(data.pData_ + skip + step - 4, endian_);
                         if ( bTrace ) {
                             out << indent(depth)
                                 << Internal::stringFormat("%8ld | %8u |   ID | %4u | %6u,%6u", address + skip, step,
@@ -366,9 +358,9 @@ namespace Exiv2
 
             case TAG_ispe: {
                 skip += 4;
-                int width = (int)getLong(data.pData_ + skip, bigEndian);
+                int width = (int)getLong(data.pData_ + skip, endian_);
                 skip += 4;
-                int height = (int)getLong(data.pData_ + skip, bigEndian);
+                int height = (int)getLong(data.pData_ + skip, endian_);
                 skip += 4;
                 if ( bTrace ) {
                     out << "pixelWidth_, pixelHeight_ = " << Internal::stringFormat("%d, %d", width, height);
@@ -388,13 +380,13 @@ namespace Exiv2
                     uint8_t      meth        = data.pData_[skip+0];
                     uint8_t      prec        = data.pData_[skip+1];
                     uint8_t      approx      = data.pData_[skip+2];
-                    uint32_t     colour_type = getLong(data.pData_+skip,littleEndian) ;
+                    std::string  colour_type = std::string((char*)data.pData_,4) ;
                     skip+=4;
-                    if ( boxName(colour_type) == "rICC" || boxName(colour_type) == "prof" ) {
+                    if ( colour_type == "rICC" || colour_type == "prof" ) {
                         DataBuf    profile(box.length-skip);
                         ::memcpy(profile.pData_,data.pData_+skip,profile.size_-skip);
                         // fix length header bug in iOS files.
-                        uint32_t                 iccLength = getLong((byte*)&profile.size_,bigEndian);
+                        uint32_t                 iccLength = getLong((byte*)&profile.size_,endian_);
                         ::memcpy(profile.pData_,&iccLength,4);
                         setIccProfile(profile);
                     } else if ( meth == 2 && prec == 0 && approx == 0 ) {
@@ -536,7 +528,6 @@ namespace Exiv2
 
         clearMetadata();
         ilocs_.clear();
-        visits_.clear();
         visits_max_ = io_->size() / 16;
         unknownID_ = 0xffff;
         exifID_    = unknownID_;
@@ -573,7 +564,6 @@ namespace Exiv2
             case kpsRecursive  : {
                 openOrThrow();
                 IoCloser closer(*io_);
-                visits_.clear();
 
                 long   address = 0;
                 while (address < (long)io_->size()) {

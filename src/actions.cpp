@@ -237,18 +237,18 @@ namespace Action {
             std::stringstream output(std::stringstream::out|std::stringstream::binary);
             result       = printStructure(output, option, path);
             if ( result == 0 ) {
-                uint32_t size = output.str().size();
-                char* iccProfile[size];
-                ::memcpy(iccProfile,output.str().c_str(),size);
-                char         ascii[size*3+1];
-                ascii             [size*3]=0;
-                if ( Exiv2::base64encode(iccProfile,size,ascii,size*3) ) {
-                    uint32_t      chunk  = 60 ;
-                    std::string   code   = std::string("data:") + std::string(ascii);
-                    uint32_t      length = code.size() ;
-                    for ( uint32_t start = 0 ; start < length ; start += chunk ) {
-                        uint32_t   count = (start+chunk) < length ? chunk : length - start ;
-                        std::cout << code.substr(start,count) << std::endl;
+                size_t          size = (long) output.str().size();
+                Exiv2::DataBuf  iccProfile((long)size);
+                Exiv2::DataBuf   ascii((long)(size * 3 + 1));
+                ascii.pData_[size * 3] = 0;
+                ::memcpy(iccProfile.pData_,output.str().c_str(),size);
+                if ( Exiv2::base64encode(iccProfile.pData_,size,(char*)ascii.pData_,size*3) ) {
+                    long          chunk  = 60 ;
+                    std::string   code   = std::string("data:") + std::string((char*)ascii.pData_);
+                    long       length    = (long) code.size() ;
+                    for ( long start = 0 ; start < length ; start += chunk ) {
+                          long    count = (start+chunk) < length ? chunk : length - start ;
+                          std::cout << code.substr(start,count) << std::endl;
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace Action {
             _setmode(_fileno(stdout),O_BINARY);
             result = printStructure(std::cout, option, path);
         }
-        
+
         return result;
     }
 

@@ -18,8 +18,9 @@ class pr_1475_2021_heic(metaclass=system_tests.CaseMeta):
         print("*** test skipped.  requires enable_bmff=1***")
     else:
         commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
+                   ,"$exiv2 -pS          $filename"
+                   ,"$exiv2 -pX          $filename"
+                   ,"$exiv2 -pC --binary $filename"
                    ]
         retval = [ 0  ] * len(commands)
         stderr = [ "" ] * len(commands)
@@ -158,9 +159,21 @@ Exiv2::BmffImage::boxHandler: meta       36->3380
       3376 |       16 |   ID |   50 |   3432, 17469
       3392 |       16 |   ID |   51 |  20901,  2364
 Exiv2::BMFF Exif: ID = 51 from,length = 20901,2364
-Exiv2::BmffImage::boxHandler: mdat     3416->1  (1474454)
-Exiv2::BmffImage::boxHandler: __%   1474446->2641356760 
-""",""]
+Exiv2::BmffImage::boxHandler: mdat     3416->1 
+""","","""data:AAACLGFwcGwEAAAAbW50clJHQiBYWVogB+EABwAHAA0AFgAgYWNzcEF
+QUEwAAAAAQVBQTAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1hcHBsyhq
+VgiV/EE04mRPV0eoVggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+KZGVzYwAAAPwAAABlY3BydAAAAWQAAAAjd3RwdAAAAYgAAAAUclhZWgAAAZw
+AAAAUZ1hZWgAAAbAAAAAUYlhZWgAAAcQAAAAUclRSQwAAAdgAAAAgY2hhZAA
+AAfgAAAAsYlRSQwAAAdgAAAAgZ1RSQwAAAdgAAAAgZGVzYwAAAAAAAAALRGl
+zcGxheSBQMwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB
+0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSBJbmMuLCAyMDE3AABYWVogAAAAAAA
+A81EAAQAAAAEWzFhZWiAAAAAAAACD3wAAPb////+7WFlaIAAAAAAAAEq/AAC
+xNwAACrlYWVogAAAAAAAAKDgAABELAADIuXBhcmEAAAAAAAMAAAACZmYAAPK
+nAAANWQAAE9AAAApbc2YzMgAAAAAAAQxCAAAF3v//8yYAAAeTAAD9kP//+6L
+///2jAAAD3AAAwG4AAAAAAAAAAA==
+"""]
 
 class pr_1475_IMG_3578_heic(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
@@ -174,8 +187,9 @@ class pr_1475_IMG_3578_heic(metaclass=system_tests.CaseMeta):
         print("*** test skipped.  requires enable_bmff=1***")
     else:
         commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
+                   ,"$exiv2 -pS          $filename"
+                   ,"$exiv2 -pX          $filename"
+                   ,"$exiv2 -pC --binary $filename"
                    ]
         retval = [ 0  ] * len(commands)
         stderr = [ "" ] * len(commands)
@@ -313,9 +327,21 @@ Exiv2::BmffImage::boxHandler: meta       32->3380
       3372 |       16 |   ID |   50 |   3428,  5479
       3388 |       16 |   ID |   51 |   8907,  2024
 Exiv2::BMFF Exif: ID = 51 from,length = 8907,2024
-Exiv2::BmffImage::boxHandler: mdat     3412->1  (1122310)
-Exiv2::BmffImage::boxHandler: ....  1122302->4115011359 
-""",""]
+Exiv2::BmffImage::boxHandler: mdat     3412->1 
+""","","""data:AAACLGFwcGwEAAAAbW50clJHQiBYWVogB+EABwAHAA0AFgAgYWNzcEF
+QUEwAAAAAQVBQTAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1hcHBsyhq
+VgiV/EE04mRPV0eoVggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+KZGVzYwAAAPwAAABlY3BydAAAAWQAAAAjd3RwdAAAAYgAAAAUclhZWgAAAZw
+AAAAUZ1hZWgAAAbAAAAAUYlhZWgAAAcQAAAAUclRSQwAAAdgAAAAgY2hhZAA
+AAfgAAAAsYlRSQwAAAdgAAAAgZ1RSQwAAAdgAAAAgZGVzYwAAAAAAAAALRGl
+zcGxheSBQMwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB
+0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSBJbmMuLCAyMDE3AABYWVogAAAAAAA
+A81EAAQAAAAEWzFhZWiAAAAAAAACD3wAAPb////+7WFlaIAAAAAAAAEq/AAC
+xNwAACrlYWVogAAAAAAAAKDgAABELAADIuXBhcmEAAAAAAAMAAAACZmYAAPK
+nAAANWQAAE9AAAApbc2YzMgAAAAAAAQxCAAAF3v//8yYAAAeTAAD9kP//+6L
+///2jAAAD3AAAwG4AAAAAAAAAAA==
+"""]
 
 class pr_1475_Stonehenge_heic(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
@@ -329,8 +355,9 @@ class pr_1475_Stonehenge_heic(metaclass=system_tests.CaseMeta):
         print("*** test skipped.  requires enable_bmff=1***")
     else:
         commands = ["$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
+                   ,"$exiv2 -pS          $filename"
+                   ,"$exiv2 -pX          $filename"
+                   ,"$exiv2 -pC --binary $filename"
                    ]
         retval = [ 0  ] * len(commands)
         stderr = [ "" ] * len(commands)
@@ -384,8 +411,7 @@ Exiv2::BmffImage::boxHandler: meta       24->508
        510 |       14 |   ID |    3 |   1630,  3150
 Exiv2::BMFF Exif: ID = 2 from,length = 548,1082
 Exiv2::BMFF XMP: ID = 3 from,length = 1630,3150
-Exiv2::BmffImage::boxHandler: mdat      532->1  (18241)
-Exiv2::BmffImage::boxHandler: Q.&.    18233->2350779715 
+Exiv2::BmffImage::boxHandler: mdat      532->1 
 ""","""<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -444,7 +470,7 @@ Exiv2::BmffImage::boxHandler: Q.&.    18233->2350779715
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>"""]
+<?xpacket end="w"?>""",""]
 
 class pr_1475_heic_heic(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
@@ -458,8 +484,9 @@ class pr_1475_heic_heic(metaclass=system_tests.CaseMeta):
         print("*** test skipped.  requires enable_bmff=1***")
     else:
         commands = ["$exiv2 -pa $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
+                   ,"$exiv2 -pS          $filename"
+                   ,"$exiv2 -pX          $filename"
+                   ,"$exiv2 -pC --binary $filename"
                    ]
         retval = [ 0  ] * len(commands)
         stderr = [ "" ] * len(commands)
@@ -489,5 +516,5 @@ Exiv2::BmffImage::boxHandler: mdat   334661->24531
 Exiv2::BmffImage::boxHandler: mdat   359192->330140 
 Exiv2::BmffImage::boxHandler: mdat   689332->28766 
 Exiv2::BmffImage::boxHandler: mdat   718098->16 
-""",""]
+""","",""]
 

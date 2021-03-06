@@ -80,10 +80,6 @@ namespace Exiv2
         //@}
 
         //@{
-        BmffImage(BasicIo::AutoPtr io, size_t start, size_t count);
-        //@}
-
-        //@{
         /*!
           @brief parse embedded tiff file (Exif metadata)
           @param root_tag root of parse tree Tag::root, Tag::cmt2 etc.
@@ -119,6 +115,8 @@ namespace Exiv2
         int pixelWidth() const;
         int pixelHeight() const;
         //@}
+        
+        Exiv2::ByteOrder endian_ ;
 
     private:
         void openOrThrow();
