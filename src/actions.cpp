@@ -248,7 +248,8 @@ namespace Action {
                     long       length    = (long) code.size() ;
                     for ( long start = 0 ; start < length ; start += chunk ) {
                           long    count = (start+chunk) < length ? chunk : length - start ;
-                          std::cout << code.substr(start,count) << std::endl;
+                          if ( count == chunk ) // don't write the short chunk.  It's crazy when compiled with msvc!
+                              std::cout << code.substr(start,count) << std::endl;
                     }
                 }
             }
