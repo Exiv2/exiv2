@@ -146,10 +146,10 @@ namespace Exiv2 {
 		std::string encoded;
 		encoded.reserve(((dataLength / 3) + (dataLength % 3 > 0)) * 4);
  
-		std::uint32_t  temp ;
+		uint32_t       temp ;
         unsigned char* b    = (unsigned char*) data_buf;
  
-        std::size_t i = 0 ;
+        size_t i = 0 ;
 		while ( i < dataLength / 3 )
 		{
 			temp  = b[i+0] << 16;
