@@ -140,53 +140,42 @@ namespace Exiv2 {
     }
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        // https://vorbrodt.blog/2019/03/23/base64-encoding/
-        const char kEncodeLookup[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-	    const char kPadCharacter = '=';
-		std::string encoded;
-		encoded.reserve(((dataLength / 3) + (dataLength % 3 > 0)) * 4);
- 
-		uint32_t       temp ;
-        unsigned char* b    = (unsigned char*) data_buf;
- 
-        size_t i = 0 ;
-		while ( i < dataLength / 3 )
-		{
-			temp  = b[i+0] << 16;
-			temp += b[i+1] << 8;
-			temp += b[i+2];
-			encoded.append(1, kEncodeLookup[(temp & 0x00FC0000) >> 18]);
-			encoded.append(1, kEncodeLookup[(temp & 0x0003F000) >> 12]);
-			encoded.append(1, kEncodeLookup[(temp & 0x00000FC0) >> 6 ]);
-			encoded.append(1, kEncodeLookup[(temp & 0x0000003F)      ]);
-            i++ ;
-		}
- 
-		switch(dataLength % 3)
-		{
-		case 1:
-			temp = b[i+0] << 16;
-			encoded.append(1, kEncodeLookup[(temp & 0x00FC0000) >> 18]);
-			encoded.append(1, kEncodeLookup[(temp & 0x0003F000) >> 12]);
-			encoded.append(2, kPadCharacter);
-			break;
-		case 2:
-			temp  = b[i+0] << 16;
-			temp += b[i+1] << 8;
-			encoded.append(1, kEncodeLookup[(temp & 0x00FC0000) >> 18]);
-			encoded.append(1, kEncodeLookup[(temp & 0x0003F000) >> 12]);
-			encoded.append(1, kEncodeLookup[(temp & 0x00000FC0) >> 6 ]);
-			encoded.append(1, kPadCharacter);
-			break;
-		}
-        size_t length = encoded.size();
-		int    rc = length < resultSize ? 1 : 0;
-		if    (rc) {
-			::memcpy(result,encoded.c_str(),length);
-			result[length]=0;
-		}
-			
-		return rc;
+        char encoding_table[]        = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                                        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                                        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                                        'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                                        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                                        'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                        'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                                        '4', '5', '6', '7', '8', '9', '+', '/'};
+        size_t mod_table[] = {0, 2, 1};
+        
+        // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
+        size_t output_length = 4 * ((dataLength + 2) / 3);
+        int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
+        if (  rc ) {
+            const unsigned char* data = (const unsigned char*) data_buf ;
+            ::memset(result,0,resultSize);
+
+            for (size_t i = 0, j = 0 ; i < dataLength;) {
+
+                uint32_t octet_a = i < dataLength ? data[i++] : 0;
+                uint32_t octet_b = i < dataLength ? data[i++] : 0;
+                uint32_t octet_c = i < dataLength ? data[i++] : 0;
+
+                uint32_t triple = (octet_a << 0x10) + (octet_b << 0x08) + octet_c;
+
+                result[j++] = encoding_table[(triple >> 3 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 2 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 1 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
+            }
+
+            for (size_t i = 0; i < mod_table[dataLength % 3]; i++)
+                result[output_length - 1 - i] = '=';
+            result[output_length]=0;
+        }
+        return rc;
     } // base64encode
 
     long base64decode(const char *in, char *out, size_t out_size) {
