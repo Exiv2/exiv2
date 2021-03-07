@@ -375,7 +375,7 @@ namespace Exiv2
 
             // 12.1.5.2
             case TAG_colr: {
-                if ( data.size_ >= (long) (skip+4+8) /* 8 for safety */  ) { // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
+                if ( data.size_ >= (long) (skip+4+sizeof(box)) ) { // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
                     // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
                     uint8_t      meth        = data.pData_[skip+0];
                     uint8_t      prec        = data.pData_[skip+1];
@@ -383,18 +383,13 @@ namespace Exiv2
                     std::string  colour_type = std::string((char*)data.pData_,4) ;
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
-                        DataBuf    profile(box.length-skip);
-                        ::memcpy(profile.pData_,data.pData_+skip,profile.size_-skip);
-                        // fix length header bug in iOS files.
-                        uint32_t                 iccLength = getLong((byte*)&profile.size_,endian_);
-                        ::memcpy(profile.pData_,&iccLength,4);
+                        DataBuf       profile(data.pData_+skip,data.size_-skip);
                         setIccProfile(profile);
                     } else if ( meth == 2 && prec == 0 && approx == 0 ) {
                         // JP2000 files have a 3 byte head // 2 0 0 icc......
                         skip -= 1 ;
-                        DataBuf    profile(box.length-skip);
-                        ::memcpy(profile.pData_,data.pData_+skip,profile.size_-skip);
-                        this->setIccProfile(profile);
+                        DataBuf       profile(data.pData_+skip,data.size_-skip);
+                        setIccProfile(profile);
                     }
                 }
             } break;
