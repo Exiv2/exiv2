@@ -243,13 +243,12 @@ namespace Action {
                 ascii.pData_[size * 3] = 0;
                 ::memcpy(iccProfile.pData_,output.str().c_str(),size);
                 if ( Exiv2::base64encode(iccProfile.pData_,size,(char*)ascii.pData_,size*3) ) {
-                    long          chunk  = 60 ;
-                    std::string   code   = std::string("data:") + std::string((char*)ascii.pData_);
-                    long       length    = (long) code.size() ;
+                    long       chunk = 60 ;
+                    std::string code = std::string("data:") + std::string((char*)ascii.pData_);
+                    long      length = (long) code.size() ;
                     for ( long start = 0 ; start < length ; start += chunk ) {
-                          long    count = (start+chunk) < length ? chunk : length - start ;
-                          if ( count == chunk ) // don't write the short chunk.  It's crazy when compiled with msvc!
-                              std::cout << code.substr(start,count) << std::endl;
+                        long   count = (start+chunk) < length ? chunk : length - start ;
+                        std::cout << code.substr(start,count) << std::endl;
                     }
                 }
             }
