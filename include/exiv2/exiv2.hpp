@@ -72,4 +72,4 @@
 #include "exiv2/xmp_exiv2.hpp"
 #include "exiv2/xmpsidecar.hpp"
 
-#endif//ifndef EXIV2_HPP_
+#endif //ifndef EXIV2_HPP_
