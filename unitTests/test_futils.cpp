@@ -147,7 +147,7 @@ TEST(base64decode, decodesValidString)
     const std::string original ("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
     const std::string expected ("This is a unit test");
     char * result = new char [original.size()];
-    ASSERT_EQ(static_cast<long>(expected.size()+1),
+    ASSERT_EQ(static_cast<long>(expected.size()),
               base64decode(original.c_str(), result, original.size()));
     ASSERT_STREQ(expected.c_str(), result);
     delete [] result;

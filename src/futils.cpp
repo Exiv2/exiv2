@@ -215,7 +215,7 @@ namespace Exiv2 {
                 if (j < output_length) out[j++] = (triple >> 1 * 8) & 0xFF;
                 if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
-            out[output_length++]=0;
+            out[output_length]=0;
             result = output_length;
         }
         
