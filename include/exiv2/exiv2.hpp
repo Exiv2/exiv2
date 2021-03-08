@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    exiv2.hpp
-  @brief   Include all Exiv2 header files.
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    21-Jun-10, ahu: created
  */
 #ifndef EXIV2_HPP_
 #define EXIV2_HPP_
@@ -46,17 +39,17 @@
 #include "exiv2/image.hpp"
 #include "exiv2/ini.hpp"
 #include "exiv2/iptc.hpp"
-#ifdef   EXV_ENABLE_BMFF
-#include "bmffimage.hpp"
-#endif// EXV_ENABLE_BMFF
 #include "exiv2/jp2image.hpp"
 #include "exiv2/jpgimage.hpp"
 #include "exiv2/metadatum.hpp"
 #include "exiv2/mrwimage.hpp"
 #include "exiv2/orfimage.hpp"
 #include "exiv2/pgfimage.hpp"
+#ifdef EXV_ENABLE_BMFF
+#include "bmffimage.hpp"
+#endif
 
-#ifdef   EXV_HAVE_LIBZ
+#ifdef EXV_HAVE_LIBZ
 #include "exiv2/pngimage.hpp"
 #endif
 
@@ -79,4 +72,4 @@
 #include "exiv2/xmp_exiv2.hpp"
 #include "exiv2/xmpsidecar.hpp"
 
-#endif                                  // #ifndef EXIV2_HPP_
+#endif//ifndef EXIV2_HPP_
