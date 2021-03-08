@@ -139,6 +139,7 @@ namespace Exiv2 {
         delete [] decodeStr;
     }
 
+    // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         char encoding_table[]        = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                                         'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -150,7 +151,6 @@ namespace Exiv2 {
                                         '4', '5', '6', '7', '8', '9', '+', '/'};
         size_t mod_table[] = {0, 2, 1};
         
-        // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
         if (  rc ) {
@@ -176,49 +176,50 @@ namespace Exiv2 {
         return rc;
     } // base64encode
 
-    long base64decode(const char *in, char *out, size_t out_size) {
-        static const char decode[] = "|$$$}rstuvwxyz{$$$$$$$>?@ABCDEFGHIJKLMNOPQRSTUVW"
-                         "$$$$$$XYZ[\\]^_`abcdefghijklmnopq";
-        long len;
-        long i;
-        long done = 0;
-        unsigned char v;
-        unsigned char quad[4];
+    long base64decode(char const* in,char* out,size_t out_size) {
+        long   result = 0;
+        size_t input_length = ::strlen((const char*)in);
+        if    (input_length % 4 != 0) return result;
 
-        while (*in) {
-            len = 0;
-            for (i = 0; i < 4 && *in; i++) {
-                v = 0;
-                while (*in && !v) {
-                    v = *in++;
-                    v = (v < 43 || v > 122) ? 0 : decode[v - 43];
-                    if (v)
-                        v = (v == '$') ? 0 : v - 61;
-                    if (*in) {
-                        len++;
-                        if (v)
-                            quad[i] = v - 1;
-                    } else
-                        quad[i] = 0;
-                }
+        char   encoding_table[]        = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                                        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                                        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                                        'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                                        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                                        'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                        'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                                        '4', '5', '6', '7', '8', '9', '+', '/'};
+
+        unsigned char decoding_table[256];
+        for (size_t i = 0; i < 64; i++)
+                decoding_table[(unsigned char) encoding_table[i]] = i;
+
+        size_t output_length = input_length / 4 * 3;
+        if (in[input_length - 1] == '=') (output_length)--;
+        if (in[input_length - 2] == '=') (output_length)--;
+
+        if ( output_length < out_size ) {
+            for (size_t i = 0, j = 0; i < input_length;) {
+
+                uint32_t sextet_a = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
+                uint32_t sextet_b = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
+                uint32_t sextet_c = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
+                uint32_t sextet_d = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
+
+                uint32_t triple = (sextet_a << 3 * 6)
+                + (sextet_b << 2 * 6)
+                + (sextet_c << 1 * 6)
+                + (sextet_d << 0 * 6);
+
+                if (j < output_length) out[j++] = (triple >> 2 * 8) & 0xFF;
+                if (j < output_length) out[j++] = (triple >> 1 * 8) & 0xFF;
+                if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
-            if (!len)
-                continue;
-            if (out_size < (size_t) (done + len - 1))
-                /* out buffer is too small */
-                return -1;
-            if (len >= 2)
-                *out++ = quad[0] << 2 | quad[1] >> 4;
-            if (len >= 3)
-                *out++ = quad[1] << 4 | quad[2] >> 2;
-            if (len >= 4)
-                *out++ = ((quad[2] << 6) & 0xc0) | quad[3];
-            done += len - 1;
+            out[output_length++]=0;
+            result = output_length;
         }
-        if ((size_t)(done + 1) >= out_size)
-            return -1;
-        *out++ = '\0';
-        return done;
+        
+        return result;
     } // base64decode
 
     Protocol fileProtocol(const std::string& path) {
