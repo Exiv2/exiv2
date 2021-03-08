@@ -176,12 +176,12 @@ namespace Exiv2 {
         return rc;
     } // base64encode
 
-    long base64decode(char const* in,char* out,size_t out_size) {
-        long   result = 0;
-        size_t input_length = ::strlen((const char*)in);
-        if    (input_length % 4 != 0) return result;
-
-        char   encoding_table[]        = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+    long base64decode(const char* in,char* out,size_t out_size) {
+        long   result       = 0;
+        size_t input_length = in ? ::strlen(in) : 0;
+        if (!in || input_length % 4 != 0) return result;
+        
+        unsigned char encoding_table[]= {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                                         'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
                                         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
                                         'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
@@ -191,32 +191,34 @@ namespace Exiv2 {
                                         '4', '5', '6', '7', '8', '9', '+', '/'};
 
         unsigned char decoding_table[256];
-        for (size_t i = 0; i < 64; i++)
-                decoding_table[(unsigned char) encoding_table[i]] = i;
+        for (unsigned char i = 0; i < 64; i++)
+            decoding_table[encoding_table[i]] = i;
 
         size_t output_length = input_length / 4 * 3;
-        if (in[input_length - 1] == '=') (output_length)--;
-        if (in[input_length - 2] == '=') (output_length)--;
+        const unsigned char* buff = (const unsigned char*) in;
 
-        if ( output_length < out_size ) {
+        if (buff[input_length - 1] == '=') (output_length)--;
+        if (buff[input_length - 2] == '=') (output_length)--;
+
+        if ( output_length+1 < out_size ) {
             for (size_t i = 0, j = 0; i < input_length;) {
 
-                uint32_t sextet_a = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
-                uint32_t sextet_b = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
-                uint32_t sextet_c = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
-                uint32_t sextet_d = in[i] == '=' ? 0 & i++ : decoding_table[(unsigned char)in[i++]];
+                uint32_t sextet_a = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_b = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_c = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_d = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
 
                 uint32_t triple = (sextet_a << 3 * 6)
-                + (sextet_b << 2 * 6)
-                + (sextet_c << 1 * 6)
-                + (sextet_d << 0 * 6);
+                                + (sextet_b << 2 * 6)
+                                + (sextet_c << 1 * 6)
+                                + (sextet_d << 0 * 6);
 
                 if (j < output_length) out[j++] = (triple >> 2 * 8) & 0xFF;
                 if (j < output_length) out[j++] = (triple >> 1 * 8) & 0xFF;
                 if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
             out[output_length]=0;
-            result = output_length;
+            result = (long) output_length;
         }
         
         return result;
