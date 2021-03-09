@@ -172,7 +172,7 @@ namespace Exiv2
         return result;
     }
 
-    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
+    long BmffImage::boxHandler(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
         long result  = (long)io_->size();
         long address = (long)io_->tell();
