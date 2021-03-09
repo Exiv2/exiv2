@@ -249,6 +249,7 @@ namespace Exiv2 {
         kerInvalidXMP,
         kerTiffDirectoryTooLarge,
         kerInvalidTypeValue,
+        kerInvalidLangAltValue,
         kerInvalidMalloc,
         kerCorruptedMetadata,
         kerArithmeticOverflow,

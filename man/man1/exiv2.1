@@ -584,12 +584,16 @@ The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
 .B lang="\fIlanguage-code\fP\fI" text\fP
 .fi
 .sp
-lang="x-default" is used if the value doesn't start with a language qualifier.
+The double quotes around the \fIlanguage-code\fP are optional. If no languge qualifier
+is supplied, then the value of "x-default" is used. More information 
+on the language format can be found at: https://www.ietf.org/rfc/rfc3066.txt
 .sp 1
 .nf
 $ exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
 $ exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
 $ exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang=fr-FR Euros' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang=jp Yen' X.jpg
 $ exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
 .fi
 .sp 1
