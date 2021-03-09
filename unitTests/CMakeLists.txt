@@ -33,6 +33,7 @@ add_executable(unit_tests
     test_slice.cpp
     test_tiffheader.cpp
     test_types.cpp
+    test_LangAltValueRead.cpp
     gtestwrapper.h
     ${unit_tests_exiv2lib_SOURCES}
 )
