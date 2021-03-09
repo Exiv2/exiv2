@@ -860,8 +860,8 @@ namespace Exiv2 {
         std::string b = buf;
         std::string lang = "x-default";
         if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
-            static const char* ALPLHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            static const char* ALPLHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             
             std::string::size_type pos = buf.find_first_of(' ');
             lang = buf.substr(5, pos-5);
@@ -870,24 +870,23 @@ namespace Exiv2 {
                 lang = lang.substr(1);
 
                 if (lang == "" || lang.find('"') != lang.length()-1)
-                    throw Error(kerInvalidLangAltValue, buf); // ***
+                    throw Error(kerInvalidLangAltValue, buf);
             
                 lang = lang.substr(0, lang.length()-1);
             }
             
-            if (lang == "") throw Error(kerInvalidLangAltValue, buf); // ***
+            if (lang == "") throw Error(kerInvalidLangAltValue, buf);
 
             // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
-            std::string::size_type charPos = lang.find_first_not_of(ALPLHA);
+            std::string::size_type charPos = lang.find_first_not_of(ALPHA);
             if (charPos != std::string::npos) {
-                if (lang[charPos] != '-' || lang.find_first_not_of(ALPLHA_NUM, charPos+1) != std::string::npos)
+                if (lang[charPos] != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
                     throw Error(kerInvalidLangAltValue, buf);
             }
             
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
-
 
         value_[lang] = b;
         return 0;
