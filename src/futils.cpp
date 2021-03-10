@@ -140,17 +140,19 @@ namespace Exiv2 {
     }
 
     // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
+    static char base64_encode[]={'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                                'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                                'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                                '4', '5', '6', '7', '8', '9', '+', '/'};
+
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        char encoding_table[]        = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                                        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-                                        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                        'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-                                        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                                        'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-                                        'w', 'x', 'y', 'z', '0', '1', '2', '3',
-                                        '4', '5', '6', '7', '8', '9', '+', '/'};
-        size_t mod_table[] = {0, 2, 1};
-        
+        char* encoding_table = (char*)base64_encode;
+        size_t mod_table[]  = {0, 2, 1};
+
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
         if (  rc ) {
@@ -180,16 +182,8 @@ namespace Exiv2 {
         long   result       = 0;
         size_t input_length = in ? ::strlen(in) : 0;
         if (!in || input_length % 4 != 0) return result;
-        
-        unsigned char encoding_table[]= {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                                        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-                                        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                        'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-                                        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                                        'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-                                        'w', 'x', 'y', 'z', '0', '1', '2', '3',
-                                        '4', '5', '6', '7', '8', '9', '+', '/'};
 
+        unsigned char* encoding_table = (unsigned char*)base64_encode;
         unsigned char decoding_table[256];
         for (unsigned char i = 0; i < 64; i++)
             decoding_table[encoding_table[i]] = i;
