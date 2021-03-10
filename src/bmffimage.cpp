@@ -134,6 +134,7 @@ namespace Exiv2
             case TAG_avif:
                 return "image/avif";
             case TAG_heic:
+                return "image/heic";
             case TAG_heif:
                 return "image/heif";
             case TAG_crx:
