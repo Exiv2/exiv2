@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-# test needs system_tests.vv.enable_bmff=1
-vv=system_tests.verbose_version()
+
+# test needs system_tests.BT.vv.enable_bmff=1
+vv=system_tests.BT.verbose_version()
 enable_bmff = 'enable_bmff'
 bSkip = not (enable_bmff in vv and vv[enable_bmff] == '1')
 
