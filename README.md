@@ -41,6 +41,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
    16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
    17. [Building with C++11 and other compilers](#2-17)
    18. [Static and Shared Libraries](#2-18)
+   19. [Support for bmff files (CR3, HEIF and AVIF)](#2-19)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -127,6 +128,7 @@ option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"         ON 
 option( EXIV2_ENABLE_EXTERNAL_XMP  "Use external version of XMP"            OFF )
 option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"  ON )
 ...
+option( EXIV2_ENABLE_BMFF          "Build with BMFF support"                OFF )
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
 
@@ -581,13 +583,18 @@ The level of thread safety within Exiv2 varies depending on the type of metadata
 Therefore, multi-threaded applications need to ensure that these two XMP functions are serialized, e.g., by calling them from an initialization section which is run before any threads are started.  All exiv2 sample applications begin with:
 
 ```cpp
+#include <exiv2/exiv2.hpp>
 int main(int argc, const char* argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#if EXIV2_TEST_VERSION(0,27,4)
+    Exiv2::enableBMFF(true);
+#endif
     ...
 }
 ```
+The use of the _**thread unsafe function**_ Exiv2::enableBMFF(true) is discussed in [2.19 Support for bmff files](#2-19)
 
 [TOC](#TOC)
 
@@ -604,6 +611,7 @@ The exiv2 command-line program and sample applications call the following at the
 ```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+    Exiv2::enableBMFF(true);
 ```
 
 [TOC](#TOC)
@@ -773,6 +781,26 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 
 [TOC](#TOC)
 
+<div id="2-19">
+
+2.19 Support for bmff files (CR3, HEIF and AVIF)
+
+**Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
+
+Access to the bmff code is guarded in two ways.  Firstly, you have to build the library with the cmake option: `-DEXIV2_ENABLE_BMFF=On`.  Secondly, the application must enable bmff support at run-time by calling the following function.
+
+```cpp
+EXIV2API bool enableBMFF(bool enable);
+```
+
+The return value of `enableBMFF()` reports the build status of bmff support.  A return value of true indicates that the library has been built with bmff support.
+
+Applications may wish the provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
+
+It is recommended that you enclose the call to `enableBMFF()` with the compile time macro EXIV2\_TEST\_VERSION to ensure that your code builds cleanly on earlier versions of Exiv2.  It is recommended that you call enableBMFF() at process start-up as it is not threadsafe.  A code snippet is provided in [2.14 Thread Safety](#2-14).
+
+[TOC](#TOC)
+
 <div id="3">
 
 ## 3 License and Support
@@ -784,7 +812,7 @@ All project resources are accessible from the project website.
 
 ### 3.1 License
 
-Copyright (C) 2004-2019 Exiv2 authors.
+Copyright (C) 2004-2021 Exiv2 authors.
 You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
 
 Exiv2 is free software; you can redistribute it and/or modify
@@ -1092,6 +1120,8 @@ Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW
 #### MinGW/msys2 64 bit
 Install: [https://repo.msys2.org/distrib/x86\_64/msys2-x86\_64-20200903.exe](https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20200903.exe)
 
+The file `appveyor_mingw_cygwin.yml` has instructions to configure the AppVeyor CI to configures itself to build Exiv2 on MinGW/msys2 and Cygwin/64.
+
 I use the following batch file to start the MinGW/msys2 64 bit bash shell from the Dos Command Prompt (cmd.exe)
 
 ```bat
@@ -1154,7 +1184,9 @@ Please note that the platform Cygwin/32 is obsolete and superceded by Cygwin/64.
 Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and run setup-x86_64.exe.  I install into c:\\cygwin64
 
 You need:
-make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, libexpat1-devel, git, python3-interpreter, libiconv, libxml2-utils, libncurses
+make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, libexpat1-devel, git, libxml2-devel python3-interpreter, libiconv, libxml2-utils, libncurses, libxml2-devel libxslt-devel python38 python38-pip python38-libxml2
+
+The file `appveyor_mingw_cygwin.yml` has instructions to configure the AppVeyor CI to configures itself to build Exiv2 on MinGW/msys2 and Cygwin/64.
 
 To build unit tests, you should install googletest-release-1.8.0 as discussed [4.3 Unit tests](#4-3)
 
@@ -1304,5 +1336,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-11-20
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-05
 

@@ -139,123 +139,83 @@ namespace Exiv2 {
         delete [] decodeStr;
     }
 
+    // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
+    static char base64_encode[]={'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                                'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                                'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                                '4', '5', '6', '7', '8', '9', '+', '/'};
+
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        const uint8_t* data = (const uint8_t*)data_buf;
-        size_t resultIndex = 0;
-        size_t x;
-        uint32_t n = 0;
-        size_t padCount = dataLength % 3;
-        uint8_t n0, n1, n2, n3;
+        char* encoding_table = (char*)base64_encode;
+        size_t mod_table[]  = {0, 2, 1};
 
-        /* increment over the length of the string, three characters at a time */
-        for (x = 0; x < dataLength; x += 3)
-        {
-            /* these three 8-bit (ASCII) characters become one 24-bit number */
-            n = data[x] << 16;
+        size_t output_length = 4 * ((dataLength + 2) / 3);
+        int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
+        if (  rc ) {
+            const unsigned char* data = (const unsigned char*) data_buf ;
+            for (size_t i = 0, j = 0 ; i < dataLength;) {
 
-            if((x+1) < dataLength)
-                n += data[x+1] << 8;
+                uint32_t octet_a = i < dataLength ? data[i++] : 0 ;
+                uint32_t octet_b = i < dataLength ? data[i++] : 0 ;
+                uint32_t octet_c = i < dataLength ? data[i++] : 0 ;
 
-            if((x+2) < dataLength)
-                n += data[x+2];
+                uint32_t triple = (octet_a << 0x10) + (octet_b << 0x08) + octet_c;
 
-            /* this 24-bit number gets separated into four 6-bit numbers */
-            n0 = (uint8_t)(n >> 18) & 63;
-            n1 = (uint8_t)(n >> 12) & 63;
-            n2 = (uint8_t)(n >> 6) & 63;
-            n3 = (uint8_t)n & 63;
-
-            /*
-            * if we have one byte available, then its encoding is spread
-            * out over two characters
-            */
-            if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-            result[resultIndex++] = base64chars[n0];
-            if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-            result[resultIndex++] = base64chars[n1];
-
-            /*
-            * if we have only two bytes available, then their encoding is
-            * spread out over three chars
-            */
-            if((x+1) < dataLength)
-            {
-                if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-                result[resultIndex++] = base64chars[n2];
+                result[j++] = encoding_table[(triple >> 3 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 2 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 1 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
             }
 
-            /*
-            * if we have all three bytes available, then their encoding is spread
-            * out over four characters
-            */
-            if((x+2) < dataLength)
-            {
-                if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-                result[resultIndex++] = base64chars[n3];
-            }
+            for (size_t i = 0; i < mod_table[dataLength % 3]; i++)
+                result[output_length - 1 - i] = '=';
+            result[output_length]=0;
         }
-
-        /*
-        * create and add padding that is required if we did not have a multiple of 3
-        * number of characters available
-        */
-        if (padCount > 0)
-        {
-            for (; padCount < 3; padCount++)
-            {
-                if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-                result[resultIndex++] = '=';
-            }
-        }
-        if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-        result[resultIndex] = 0;
-        return 1;   /* indicate success */
+        return rc;
     } // base64encode
 
-    long base64decode(const char *in, char *out, size_t out_size) {
-        static const char decode[] = "|$$$}rstuvwxyz{$$$$$$$>?@ABCDEFGHIJKLMNOPQRSTUVW"
-                         "$$$$$$XYZ[\\]^_`abcdefghijklmnopq";
-        long len;
-        long i;
-        long done = 0;
-        unsigned char v;
-        unsigned char quad[4];
+    long base64decode(const char* in,char* out,size_t out_size) {
+        long   result       = 0;
+        size_t input_length = in ? ::strlen(in) : 0;
+        if (!in || input_length % 4 != 0) return result;
 
-        while (*in) {
-            len = 0;
-            for (i = 0; i < 4 && *in; i++) {
-                v = 0;
-                while (*in && !v) {
-                    v = *in++;
-                    v = (v < 43 || v > 122) ? 0 : decode[v - 43];
-                    if (v)
-                        v = (v == '$') ? 0 : v - 61;
-                    if (*in) {
-                        len++;
-                        if (v)
-                            quad[i] = v - 1;
-                    } else
-                        quad[i] = 0;
-                }
+        unsigned char* encoding_table = (unsigned char*)base64_encode;
+        unsigned char decoding_table[256];
+        for (unsigned char i = 0; i < 64; i++)
+            decoding_table[encoding_table[i]] = i;
+
+        size_t output_length = input_length / 4 * 3;
+        const unsigned char* buff = (const unsigned char*) in;
+
+        if (buff[input_length - 1] == '=') (output_length)--;
+        if (buff[input_length - 2] == '=') (output_length)--;
+
+        if ( output_length+1 < out_size ) {
+            for (size_t i = 0, j = 0; i < input_length;) {
+
+                uint32_t sextet_a = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_b = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_c = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_d = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+
+                uint32_t triple = (sextet_a << 3 * 6)
+                                + (sextet_b << 2 * 6)
+                                + (sextet_c << 1 * 6)
+                                + (sextet_d << 0 * 6);
+
+                if (j < output_length) out[j++] = (triple >> 2 * 8) & 0xFF;
+                if (j < output_length) out[j++] = (triple >> 1 * 8) & 0xFF;
+                if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
-            if (!len)
-                continue;
-            if (out_size < (size_t) (done + len - 1))
-                /* out buffer is too small */
-                return -1;
-            if (len >= 2)
-                *out++ = quad[0] << 2 | quad[1] >> 4;
-            if (len >= 3)
-                *out++ = quad[1] << 4 | quad[2] >> 2;
-            if (len >= 4)
-                *out++ = ((quad[2] << 6) & 0xc0) | quad[3];
-            done += len - 1;
+            out[output_length]=0;
+            result = (long) output_length;
         }
-        if ((size_t)(done + 1) >= out_size)
-            return -1;
-        *out++ = '\0';
-        return done;
+        
+        return result;
     } // base64decode
 
     Protocol fileProtocol(const std::string& path) {

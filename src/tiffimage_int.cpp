@@ -3,6 +3,7 @@
 #include "error.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
+#include "tags_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -1124,6 +1125,11 @@ namespace Exiv2 {
         // Fujifilm RAF #1402.  Use different root when parsing embedded tiff.
         { Tag::fuji, ifdIdNotSet,      newTiffDirectory<fujiId>                  },
         {    0xf000, fujiId,           newTiffSubIfd<fujiId>                     },
+
+        // CR3 images #1475
+        { Tag::cmt2, ifdIdNotSet,      newTiffDirectory<exifId>                  },
+        { Tag::cmt3, ifdIdNotSet,      newTiffDirectory<canonId>                 },
+        { Tag::cmt4, ifdIdNotSet,      newTiffDirectory<gpsId>                   },
 
         // IFD0
         {    0x8769, ifd0Id,           newTiffSubIfd<exifId>                     },

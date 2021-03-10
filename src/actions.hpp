@@ -77,10 +77,22 @@ namespace Action {
           @return 0 if successful.
          */
         virtual int run(const std::string& path) =0;
+        
+        /*!
+          @brief Application interface to perform a task.
+
+          @param path Path of the file to process.
+          @return 0 if successful.
+         */
+        bool setBinary(bool b) { bool bResult = binary_ ; binary_ = b ; return bResult ;}
+        bool binary() { return binary_ ; }
 
     private:
         //! Internal virtual copy constructor.
         virtual Task* clone_() const =0;
+        
+        //! copy binary_ from command-line params to task
+        bool binary_ ;
 
     }; // class Task
 

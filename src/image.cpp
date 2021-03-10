@@ -31,14 +31,17 @@
 #include "safe_op.hpp"
 #include "slice.hpp"
 
+#ifdef   EXV_ENABLE_BMFF
+#include "bmffimage.hpp"
+#endif// EXV_ENABLE_BMFF
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "epsimage.hpp"
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
-#ifdef EXV_HAVE_LIBZ
+#ifdef   EXV_HAVE_LIBZ
 # include "pngimage.hpp"
-#endif // EXV_HAVE_LIBZ
+#endif// EXV_HAVE_LIBZ
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
@@ -53,12 +56,12 @@
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
 
-#ifdef EXV_ENABLE_VIDEO
+#ifdef   EXV_ENABLE_VIDEO
 #include "matroskavideo.hpp"
 #include "quicktimevideo.hpp"
 #include "riffvideo.hpp"
 #include "asfvideo.hpp"
-#endif // EXV_ENABLE_VIDEO
+#endif// EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"
 #include "xmpsidecar.hpp"
@@ -131,6 +134,9 @@ namespace {
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+#ifdef EXV_ENABLE_BMFF
+        { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
+#endif // EXV_ENABLE_BMFF
 #ifdef EXV_ENABLE_VIDEO
         { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },
         { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
