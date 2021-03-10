@@ -84,9 +84,10 @@ namespace Exiv2
 #ifdef EXV_ENABLE_BMFF
         enabled = enable;
         return true;
+#else
+        UNUSED(enable);
+        return false;
 #endif                   // EXV_ENABLE_BMFF
-        enable = false;  // unused
-        return enable;
     }
 
     std::string Iloc::toString() const
@@ -172,7 +173,7 @@ namespace Exiv2
         return result;
     }
 
-    long BmffImage::boxHandler(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
+    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
     {
         long result  = (long)io_->size();
         long address = (long)io_->tell();
