@@ -986,7 +986,7 @@ namespace Exiv2 {
         { "RegItemId",               N_("Registry Entry-Item Identifier"),  "Text",                       xmpText, xmpExternal, N_("A unique identifier created by a registry and applied by the creator of the digital image. This value shall not be changed after being applied. This identifier is linked to a corresponding Registry Organisation Identifier.") },
         { "RegOrgId",                N_("Registry Entry-Organisation Identifier"), "Text",                xmpText, xmpExternal, N_("An identifier for the registry which issued the corresponding Registry Image Id.") },
         { "IptcLastEdited",          N_("IPTC Fields Last Edited"),         "Date",                       xmpText, xmpExternal, N_("The date and optionally time when any of the IPTC photo metadata fields has been last edited.") },
-        { "LocationShown",           N_("Location shown"),                  "bag LocationDetails",        xmpBag,  xmpExternal, N_("A location shown in the image.") },
+        { "LocationShown",           N_("Location Shown"),                  "bag LocationDetails",        xmpBag,  xmpExternal, N_("A location shown in the image.") },
         { "LocationCreated",         N_("Location Created"),                "bag LocationDetails",        xmpBag,  xmpExternal, N_("The location the photo was taken.") },
         { "City",                    N_("Location-City"),                   "Text",                       xmpText, xmpExternal, N_("Name of the city of a location.") },
         { "CountryCode",             N_("Location-Country ISO-Code"),       "Text",                       xmpText, xmpExternal, N_("The ISO code of a country of a location.") },
