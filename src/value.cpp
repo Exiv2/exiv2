@@ -410,7 +410,8 @@ namespace Exiv2 {
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
-        if (value_.size() > 0 && value_[value_.size()-1] != '\0') value_ += '\0';
+        // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
+        if (value_.size() == 0 || (value_.size() > 0 && value_[value_.size()-1] != '\0')) value_ += '\0';
         return 0;
     }
 
