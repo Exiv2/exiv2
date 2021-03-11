@@ -41,7 +41,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
    16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
    17. [Building with C++11 and other compilers](#2-17)
    18. [Static and Shared Libraries](#2-18)
-   19. [Support for bmff files (CR3, HEIF and AVIF)](#2-19)
+   19. [Support for bmff files (CR3, HEIF, HEIC, and AVIF)](#2-19)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -783,7 +783,7 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 
 <div id="2-19">
 
-2.19 Support for bmff files (CR3, HEIF and AVIF)
+2.19 Support for bmff files (CR3, HEIF, HEIC, and AVIF)
 
 **Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
@@ -1336,5 +1336,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-05
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-10
 
