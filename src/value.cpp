@@ -411,7 +411,7 @@ namespace Exiv2 {
     {
         value_ = buf;
         // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
-        if (value_.size() == 0 || value_[value_.size()-1] != '\0') value_ += '\0';
+        if (value_.size() == 0 || (value_.size() > 0 && value_[value_.size()-1] != '\0')) value_ += '\0';
         return 0;
     }
 
