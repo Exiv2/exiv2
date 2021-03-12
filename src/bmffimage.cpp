@@ -52,9 +52,15 @@ struct BmffBoxHeader
 
 #define TAG_ftyp 0x66747970 /**< "ftyp" File type box */
 #define TAG_avif 0x61766966 /**< "avif" AVIF */
+#define TAG_avio 0x6176696f /**< "avio" AVIF */
+#define TAG_avis 0x61766973 /**< "avis" AVIF */
 #define TAG_heic 0x68656963 /**< "heic" HEIC */
 #define TAG_heif 0x68656966 /**< "heif" HEIF */
-#define TAG_crx 0x63727820  /**< "crx " Canon CR3 */
+#define TAG_heim 0x6865696d /**< "heim" HEIC */
+#define TAG_heis 0x68656973 /**< "heis" HEIC */
+#define TAG_heix 0x68656978 /**< "heix" HEIC */
+#define TAG_mif1 0x6d696631 /**< "mif1" HEIF */
+#define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
 #define TAG_meta 0x6d657461 /**< "meta" Metadata */
 #define TAG_mdat 0x6d646174 /**< "mdat" Media data */
@@ -132,10 +138,16 @@ namespace Exiv2
     {
         switch (fileType_) {
             case TAG_avif:
+            case TAG_avio:
+            case TAG_avis:
                 return "image/avif";
             case TAG_heic:
+            case TAG_heim:
+            case TAG_heis:
+            case TAG_heix:
                 return "image/heic";
             case TAG_heif:
+            case TAG_mif1:
                 return "image/heif";
             case TAG_crx:
                 return "image/x-canon-cr3";
