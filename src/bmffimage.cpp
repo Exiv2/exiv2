@@ -59,6 +59,7 @@ struct BmffBoxHeader
 #define TAG_heim 0x6865696d /**< "heim" HEIC */
 #define TAG_heis 0x68656973 /**< "heis" HEIC */
 #define TAG_heix 0x68656978 /**< "heix" HEIC */
+#define TAG_mif1 0x6d696631 /**< "mif1" HEIF */
 #define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
 #define TAG_meta 0x6d657461 /**< "meta" Metadata */
@@ -146,6 +147,7 @@ namespace Exiv2
             case TAG_heix:
                 return "image/heic";
             case TAG_heif:
+            case TAG_mif1:
                 return "image/heif";
             case TAG_crx:
                 return "image/x-canon-cr3";
