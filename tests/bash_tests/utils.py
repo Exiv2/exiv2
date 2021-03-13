@@ -17,47 +17,8 @@ import system_tests
 
 """
 Part 1:
-Here is the configuration part of test cases.
-"""
-
-class Config:
-    # The configuration parameters for bash test
-    # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
-    exiv2_dir           = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
-    bin_dir             = os.path.join(exiv2_dir, 'build/bin')
-    if 'EXIV2_BINDIR' in os.environ:
-        bin_dir         = os.environ['EXIV2_BINDIR']
-    dyld_library_path   = os.path.join(bin_dir, '../lib')
-    ld_library_path     = os.path.join(bin_dir, '../lib')
-    data_dir            = os.path.join(exiv2_dir, 'test/data')
-    tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
-    system_name         = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
-    exiv2_http          = 'http://127.0.0.1'
-    exiv2_port          = '12760'
-    valgrind            = ''
-    if 'EXIV2_PORT' in os.environ:
-        exiv2_port      = os.environ['EXIV2_PORT']
-    if 'EXIV2_HTTP' in os.environ:
-        exiv2_http      = os.environ['EXIV2_HTTP']
-    if 'VALGRIND' in os.environ:
-        valgrind        = os.environ['VALGRIND']
-
-    @classmethod
-    def init(cls):
-        """
-        Init test variables.
-        If these variables are likely to be modified, init() should be called in each test case.
-        """
-        log.buffer      = []
-        cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
-        cls.encoding    = 'utf-8'
-
-
-"""
-Part 2:
 Here are some common functions that are poorly coupled with test cases.
 """
-
 
 def find(directory='.', pattern=None, re_pattern=None, depth=-1, onerror=print) -> list:
     """
@@ -323,10 +284,6 @@ class Log:
         self.add('[ERROR] {}'.format(msg))
 
 
-log = Log()
-Config.init()
-
-
 class HttpServer:
     def __init__(self, bind='127.0.0.1', port=80, work_dir='.'):
         self.bind = bind
@@ -358,7 +315,7 @@ class HttpServer:
 
 
 """
-Part 3:
+Part 2:
 Here are some functions that are highly coupled to test cases.
 """
 
@@ -457,12 +414,12 @@ class Executer:
         if args[0] in Config.bin_files:
             args[0]     = os.path.join(Config.bin_dir, args[0])
         args            = ' '.join(args)
-        if Config.system_name == 'Windows':
+        if Config.system_name == 'windows':
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
             
-        if len(Config.valgrind)>0:
+        if len(Config.valgrind) > 0:
             self.args = [ Config.valgrind ] + self.args 
 
         # Check stdin
@@ -691,7 +648,7 @@ def runTestCase(num, img):
 
 
 def verbose_version(verbose=False):
-    """ Get the key-value pairs of Exiv2 verbose version  """
+    """ Get the key-value pairs of Exiv2 verbose version.  """
     vv    = {}
     lines = Executer('exiv2 --verbose --version').stdout.split('\n')
     for line in lines:
@@ -711,3 +668,49 @@ def verbose_version(verbose=False):
                 val = '[ {}   +{} ]'.format(val[0], len(val) - 1)
             print(key.ljust(20), val)
     return vv
+
+
+"""
+Part 3:
+Here is the configuration part of test cases.
+"""
+
+class Config:
+    # The configuration parameters for bash test
+    # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
+    exiv2_dir           = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
+    bin_dir             = os.path.join(exiv2_dir, 'build/bin')
+    if 'EXIV2_BINDIR' in os.environ:
+        bin_dir         = os.environ['EXIV2_BINDIR']
+    dyld_library_path   = os.path.join(bin_dir, '../lib')
+    ld_library_path     = os.path.join(bin_dir, '../lib')
+    data_dir            = os.path.join(exiv2_dir, 'test/data')
+    tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
+    system_name         = platform.system().lower() or 'unknown'    # It could be windows, linux, macOS etc.
+    valgrind            = os.environ.get('VALGRIND', '')
+
+    @classmethod
+    def set_http_port(cls):
+        platform        = verbose_version().get('platform', 'unknown').lower()  # It could be linux, mingw, cygwin, macOS, etc.
+        if platform    == 'cygwin':
+            exiv2_port  = '12762'
+        elif platform in ['mingw', 'msys2']:
+            exiv2_port  = '12761'
+        else:
+            exiv2_port  = '12760'
+        cls.exiv2_port  = os.environ.get('EXIV2_PORT', exiv2_port)
+        cls.exiv2_http  = os.environ.get('EXIV2_HTTP', 'http://127.0.0.1')
+
+    @classmethod
+    def init(cls):
+        """
+        Init test variables.
+        If these variables are likely to be modified, init() should be called in each test case.
+        """
+        log.buffer      = []
+        cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
+        cls.encoding    = 'utf-8'
+
+
+log = Log()
+Config.init()

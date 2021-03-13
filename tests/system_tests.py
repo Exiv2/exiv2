@@ -206,8 +206,8 @@ def configure_suite(config_file):
     BT.Config.ld_library_path   = os.path.abspath(config['ENV']['ld_library_path'])
     BT.Config.data_dir          = os.path.abspath(config['paths']['data_path'])
     BT.Config.tmp_dir           = os.path.abspath(config['paths']['tmp_path'])
-    BT.Config.exiv2_http        = config['ENV']['exiv2_http']
-    BT.Config.exiv2_port        = config['ENV']['exiv2_port']
+    BT.Config.exiv2_http        = config['ENV']['exiv2_http'].strip()
+    BT.Config.exiv2_port        = config['ENV']['exiv2_port'].strip()
     BT.Config.exiv2_echo        = config['ENV']['exiv2_echo']
     BT.Config.verbose           = config['ENV']['verbose']
     BT.Config.valgrind          = config['ENV']['valgrind']
