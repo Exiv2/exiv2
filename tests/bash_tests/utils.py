@@ -44,9 +44,10 @@ class Config:
 
     @classmethod
     def init(cls):
-        """ Init test environments and variables that may be modified """
-        os.makedirs(cls.tmp_dir, exist_ok=True)
-        os.chdir(cls.tmp_dir)
+        """
+        Init test variables.
+        If these variables are likely to be modified, init() should be called in each test case.
+        """
         log.buffer      = []
         cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
         cls.encoding    = 'utf-8'
@@ -323,6 +324,7 @@ class Log:
 
 
 log = Log()
+Config.init()
 
 
 class HttpServer:

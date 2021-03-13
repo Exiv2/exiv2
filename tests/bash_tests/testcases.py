@@ -9,6 +9,8 @@ class TestCases(unittest.TestCase):
 
 
     def setUp(self):
+        os.makedirs(BT.Config.tmp_dir, exist_ok=True)
+        os.chdir(BT.Config.tmp_dir)
         BT.Config.init()
 
 
