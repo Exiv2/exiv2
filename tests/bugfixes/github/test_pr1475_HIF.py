@@ -3,9 +3,8 @@
 import system_tests
 
 # test needs system_tests.BT.vv.enable_bmff=1
-vv=system_tests.BT.verbose_version()
-enable_bmff = 'enable_bmff'
-bSkip = not (enable_bmff in vv and vv[enable_bmff] == '1')
+vv = system_tests.BT.verbose_version()
+bSkip = vv.get('enable_bmff') != '1'
 
 class pr_1475_Sony_hif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
