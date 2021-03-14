@@ -3,9 +3,9 @@
 - [README-TESTS](#README-TESTS)
   - [Running the test suite](#running-the-test-suite)
   - [Writing new tests](#writing-new-tests)
-    - [Based on unittest](#Based-on-unittest)
-    - [Based on system_tests](#Based-on-system_tests)
-  - [Test suite](#test-suite)
+    - [Tests derived from unittest](#tests-derived-from-unittest)
+    - [Tests derived from system_tests](#tests-derived-from-system-tests)
+  - [Test suite](#test-suite-config)
     - [Configuration](#configuration)
       - [INI style](#ini-style)
       - [Parameters](#parameters)
@@ -23,7 +23,7 @@
     - [Manually expanding variables in strings](#manually-expanding-variables)
     - [Hooks](#hooks)
     - [Possible pitfalls](#possible-pitfalls)
-  - [Bash test cases](#bash-test-cases)
+  - [bash tests](#bash-tests)
 
 
 <div id="README-TESTS"/>
@@ -31,74 +31,67 @@
 
 This test suite is intended for system tests, i.e. for running a binary with
 certain parameters and comparing the output against an expected value. This is
-especially useful for a regression test suite, but can be also used for testing
-of new features where unit testing is not feasible, e.g. to test new command
-line parameters.
+especially useful for a regression test suite and for tests which are too complex for unit_tests.
 
 <div id="running-the-test-suite"/>
 ## Running the test suite
 
-The test suite is written for Python 3 and is not compatible with Python 2, thus
-it must be run with `python3` and not with `python` (which is usually an alias
-for Python 2).
-
-Then navigate to the `tests/` subdirectory and run:
+The test suite is written for Python 3.  All tests scripts are written in python.
 
 ```bash
-python3 -m pip install -r requirements.txt
-python3 runner.py
+$ cd tests
+$ python3 -m pip install -r requirements.txt  # this only need to be done once
+$ python3 runner.py
 ```
 
 One can supply the script with a directory where the suite should look for the
 tests (it will search the directory recursively). If omitted, the runner will
 look in the directory where the configuration file is located. It is also
-possible to instead pass a file as the parameter, the test suite will then only
-run the tests from this file.
+possible to pass a file as the parameter, the test suite will then only
+run the tests using that file.
 
 The runner script also supports the optional arguments `--config_file` which
 allows to provide a different test suite configuration file than the default
 `suite.conf`. It also forwards the verbosity setting via the `-v`/`--verbose`
 flags to Python's unittest module.
 
-Optionally one can provide the `--debug` flag which will instruct test suite to
+The optional runner.py argument `--debug` instruct the test suite to
 print all command invocations and all expected and obtained outputs to the
 standard output.
 
 [TOC](#TOC)
 
 <div id="writing-new-tests"/>
-
 ## Writing new tests
 
-The test suite is intended to run a binary and compare its standard output,
+The test suite is intended to run an executable and compare its standard output,
 standard error and return value against provided values. This is implemented
-using Python's [unittest](https://docs.python.org/3/library/unittest.html) module and thus all test files are Python files.
+using Python's [unittest](https://docs.python.org/3/library/unittest.html) module.
 
-When creating new tests, follow roughly these steps:
+To create new tests, proceed as follows:
 
 1. Choose an appropriate subdirectory where the test belongs. If none fits
    create a new one and put an empty `__init__.py` file there.
-
-2. Create a new file with a name matching `test_*.py`. Write test cases in it.
-
+2. Create a new file with a name to match `test_*.py`. Write test cases in it.
 3. Run the test suite:
-    ```sh
-    python3 runner.py               # automatically find test scripts and execute them
-                        [test.py]   # executes only the test script for the specified path
-                        -v          # verbose output
-    ```
 
-<div id="Based-on-unittest"/>
+```bash
+python3 runner.py               # automatically find test scripts and execute them
+					[test.py]   # executes only the test script for the specified path
+					-v          # verbose output
+```
+[TOC](#TOC)
 
-### Based on unittest
+<div id="tests-derived-from-unittest"/>
+### Tests derived from unittest
 
 You can write standard [unittest](https://docs.python.org/3/library/unittest.html) test cases. For example:
+
 ```py
 import os
 import unittest
 
 from system_tests import BT                 # import system_tests, which has been loaded into sys.path
-
 
 class TestCases(unittest.TestCase):
 
@@ -123,46 +116,41 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 
 ```
-`system_tests.BT` is defined in `tests/utils/*.py`, which provides some functions and classes that are compatible with different platforms, making it easier to write test cases.
+system_tests.BT is defined in tests/utils/*.py and provides functions and classes that are compatible with different platforms, making it easier to write test cases.
 
-<div id="Based-on-system_tests"/>
-
-### Base on system_tests
+[TOC](#TOC)
+<div id="tests-derived-from-system-tests"/>
+### Tests derived from system_tests
 
 In addition to unittest test cases, you can also write a declarative test case by inheriting `system_tests.CaseMeta`. For example:
+
 ```python
 # -*- coding: utf-8 -*-
 
 import system_tests
 
-
-class GoodTestName(metaclass=system_tests.CaseMeta):
+class UniqueTestName(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/test_file"
     commands = ["$exiv2 $filename", "$exiv2 $filename" + '_2']
-    stdout = [""] * 2
-    stderr = ["""$exiv2_exception_msg $filename:
+    stdout   = [""] * 2
+    stderr   = ["""$exiv2_exception_msg $filename:
 $kerFailedToReadImageData
 """] * 2
-    retval = [1] * 2
+    retval   = [1] * 2
 ```
 
-The test suite will run the provided commands in `commands` and compare them to
-the output in `stdout` and `stderr` and it will compare the return values.
+The test suite will run the provided each command and compare the output, stderr and retval
+with the values you provide.
 
-The strings after a `$` are variables either defined in this test's class or are
-taken from the suite's configuration file (see `doc.md` for a complete
-explanation).
-
+The strings after a $ are variables either defined in this test's class or the suite configuration file.
 
 [TOC](#TOC)
-
-<div id="test-suite"/>
-## Test suite
+<div id="test-suite-config"/>
+## Test suite configuration
 
 The test suite itself uses the builtin `unittest` module of Python to discover
-and run the individual test cases. The test cases themselves are implemented in
-Python source files, but the required Python knowledge is minimal.
+and run the individual test cases. The test scripts are written in python.
 
 The test suite is configured via one configuration file whose location
 automatically sets the root directory of the test suite. The `unittest` module
@@ -892,11 +880,11 @@ class AnInformativeName(metaclass=system_tests.CaseMeta):
 
 
 [TOC](#TOC)
+<div id="bash-tests"/>
+## bash tests
 
-<div id="bash-test-cases"/>
-## Bash test cases
-
-- Previously, Exiv2 had some bash test scripts, which were saved as the file `EXIV2_DIR/test/*.sh`. We're going to rewrite them as Python test scripts and save them to the directory `EXIV2_DIR/tests/bash_tests`.
-- These Python test scripts are based on [unittest](https://docs.python.org/3/library/unittest.html) and written in a common format, which is different from the format described in [Writing new tests](#writing-new-tests), but can be executed compatibly by `python3 runner.py`.
+- Prior to Exiv2 v0.27.4, exiv2 had bash test scripts in the /test/ directory.
+- With Exiv2 v0.27.4 the bash scripts have been rewritten in python.
+- The new pythonic bash_tests are invoked by runner.py and stored in tests/bash_tests.
 
 [TOC](#TOC)
