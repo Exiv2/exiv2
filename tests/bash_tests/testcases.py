@@ -561,7 +561,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += '\n--------------------\n'
         out += '{} passed, {} failed\n'.format(pass_count, fail_count)
         if fail_count:
-            raise RuntimeError(str(out) + '\n' + BT.log.to_str())
+            raise RuntimeError(str(out) + '\n' + BT.log.dump())
 
 
     def io_test(self):
@@ -577,7 +577,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             result += [BT.md5sum(i) for i in files]
             return ' '.join(result)
 
-        BT.Config.set_http_port()
+        BT.Config.set_http_port(platform=BT.get_platform_name())
         exiv2_http  = BT.Config.exiv2_http
         exiv2_port  = BT.Config.exiv2_port
         if not exiv2_http or not exiv2_port:
@@ -604,7 +604,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         except Exception as e:
             BT.log.error(e)
-            raise RuntimeError('\n' + BT.log.to_str())
+            raise RuntimeError('\n' + BT.log.dump())
 
         finally:
             server.stop()   # While you're debugging, you can comment this line to keep the server running
@@ -675,7 +675,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += '\n--------------------\n'
         out += '{} passed, {} failed\n'.format(pass_count, fail_count)
         if fail_count:
-            raise RuntimeError(str(out) + '\n' + BT.log.to_str())
+            raise RuntimeError(str(out) + '\n' + BT.log.dump())
 
 
     def iso65k_test(self):
@@ -1006,7 +1006,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         report  += '\n{} passed, {} failed\n'.format(pass_count, fail_count)
         if fail_count:
-            raise RuntimeError('\n' + str(report) + '\n' + BT.log.to_str())
+            raise RuntimeError('\n' + str(report) + '\n' + BT.log.dump())
 
         BT.reportTest('preview-test', out)
 

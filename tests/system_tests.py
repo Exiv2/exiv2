@@ -12,10 +12,10 @@ import string
 import unittest
 
 
-from bash_tests import utils as BT
+import utils as BT
 
 
-if sys.platform in [ 'win32', 'msys', 'cygwin' ]:
+if sys.platform in ['win32', 'msys', 'cygwin']:
     #: invoke subprocess.Popen with shell=True on Windows
     _SUBPROCESS_SHELL = True
 

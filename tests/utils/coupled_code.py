@@ -1,323 +1,17 @@
-import difflib
-import fnmatch
-import hashlib
-import multiprocessing
+
+"""
+Here are some code that are highly coupled to test cases.
+"""
 import os
 import platform
-import re
 import shlex
 import shutil
 import subprocess
-import time
 import sys
-from   http   import server
-from   urllib import request
-import system_tests
+import urllib
 
+from .common_code import *
 
-"""
-Part 1:
-Here are some common functions that are poorly coupled with test cases.
-"""
-
-def find(directory='.', pattern=None, re_pattern=None, depth=-1, onerror=print) -> list:
-    """
-    Find files and directories that match the pattern in the specified directory and return their paths.
-    Work in recursive mode. If there are thousands of files, the runtime may be several seconds.
-    - `directory`   : Find files in this directory and its subdirectories
-    - `pattern`     : Filter filename based on shell-style wildcards.
-    - `re_pattern`  : Filter filename based on regular expressions.
-    - `depth`       : Depth of subdirectories. If its value is negative, the depth is infinite.
-    - `onerror`     : A callable parameter. it will be called if an exception occurs.
-
-    Sample:
-    >>> find(pattern='*.py')
-    >>> find(re_pattern='.*.py')
-    """
-    if not os.path.isdir(directory):
-        raise ValueError("{} is not an existing directory.".format(directory))
-
-    try:
-        file_list = os.listdir(directory)
-    except PermissionError as e:    # Sometimes it does not have access to the directory
-        onerror("PermissionError: {}".format(e))
-        return []
-
-    def match(name, pattern=None, re_pattern=None):
-        if pattern and not fnmatch.fnmatch(name, pattern):
-            return False
-        if re_pattern and not re.findall(re_pattern, name):
-            return False
-        return True
-
-    path_list = []
-    if match(os.path.basename(directory), pattern, re_pattern):
-        path_list.append(directory)
-    if depth != 0:
-        for filename in file_list:
-            path = os.path.join(directory, filename)
-            if os.path.isdir(path):
-                path_list.extend(find(path, pattern, re_pattern, depth-1, onerror))
-                continue
-            if match(filename, pattern, re_pattern):
-                path_list.append(path)
-
-    return path_list
-
-
-def cp(src, dst):
-    """ Copy one or more files or directories. It simulates `cp -rf src dst`. """
-    if os.path.isfile(src):
-        shutil.copy(src, dst)
-    elif os.path.isdir(src):
-        if os.path.isdir(dst):
-            dst_dir = os.path.join(dst, os.path.basename(src))
-        else:
-            dst_dir = dst
-        for src_path in find(src):
-            relpath = os.path.relpath(src_path, src)
-            dst_path = os.path.join(dst_dir, relpath)
-            if os.path.isdir(src_path):
-                os.makedirs(dst_path, exist_ok=True)
-            else:
-                shutil.copy(src_path, dst_path)
-    else:
-        raise ValueError('src is not a valid path to a file or directory.')
-
-
-def rm(*paths):
-    """ Remove one or more files or directories. It simulates `rm -rf paths`. """
-    for path in paths:
-        if os.path.isfile(path):
-            os.remove(path)
-        elif os.path.isdir(path):
-            for sub_path in find(path, depth=1)[1:]:
-                if os.path.isdir(sub_path):
-                    rm(sub_path)
-                else:
-                    os.remove(sub_path)
-            os.rmdir(path)  # Remove the directory only when it is empty
-        else:
-            continue
-
-
-def mv(src, dst):
-    """ Move one or more files or directories. """
-    cp(src, dst)
-    rm(src)
-
-
-def cat(*files, encoding=None, return_bytes=False):
-    if return_bytes:
-        result = b''
-        for i in files:
-            with open(i, 'rb') as f:
-                result += f.read()
-    else:
-        result = ''
-        for i in files:
-            with open(i, 'r', encoding=encoding or Config.encoding) as f:
-                result += f.read()
-    return result
-
-
-def grep(pattern, *files, encoding=None):
-    result  = ''
-    pattern = '.*{}.*'.format(pattern)
-    for i in files:
-        content = cat(i, encoding=encoding or Config.encoding)
-        result += '\n'.join(re.findall(pattern, content))
-    return result
-
-
-def save(content: (bytes, str, tuple, list), filename, encoding=None):
-    if isinstance(content, bytes):
-        with open(filename, 'wb') as f:
-            f.write(content)
-        return
-    if isinstance(content, (tuple, list)):
-        content = '\n'.join(content)
-    if isinstance(content, str):
-        with open(filename, 'w', encoding=encoding or Config.encoding) as f:
-            f.write(content)
-    else:
-        raise ValueError('Expect content of type (bytes, str, tuple, list), but get {}'.format(type(content).__name__))
-
-
-def diff(file1, file2, encoding=None):
-    """
-    Simulates the output of GNU diff.
-    You can use `diff(f1, f2)` to simulate `diff -w f1 f2`
-    """
-    encoding     = encoding or Config.encoding
-    texts        = []
-    for f in [file1, file2]:
-        with open(f, encoding=encoding) as f:
-            text = f.read()
-        text     = text.replace('\r\n', '\n') # Ignore line breaks for Windows
-        texts   += [text.split('\n')]
-    text1, text2 = texts
-
-    output       = []
-    new_part     = True
-    num          = 0
-    for line in difflib.unified_diff(text1, text2, fromfile=file1, tofile=file2, n=0, lineterm=''):
-        num     += 1
-        if num   < 3:
-            # line         = line.replace('--- ', '<<< ')
-            # line         = line.replace('+++ ', '>>> ')
-            # output      += [line]
-            continue
-
-        flag             = line[0]
-        if flag         == '-':   # line unique to sequence 1
-            new_flag     = '< '
-        elif flag       == '+':   # line unique to sequence 2
-            new_flag     = '> '
-            if new_part:
-                new_part = False
-                output  += ['---']
-        elif flag       == ' ':   # line common to both sequences
-            # new_flag   = '  '
-            continue
-        elif flag       == '?':   # line not present in either input sequence
-            new_flag     = '? '
-        elif flag       == '@':
-            output      += [re.sub(r'@@ -([^ ]+) \+([^ ]+) @@', r'\1c\2', line)]
-            new_part     = True
-            continue
-        else:
-            new_flag     = flag
-        output          += [new_flag + line[1:]]
-
-    return '\n'.join(output)
-
-
-def diff_bytes(file1, file2, return_str=False):
-    """
-    Compare the bytes of two files.
-    Simulates the output of GNU diff.
-    """
-    texts        = []
-    for f in [file1, file2]:
-        with open(f, 'rb') as f:
-            text = f.read()
-        text     = text.replace(b'\r\n', b'\n') # Ignore line breaks for Windows
-        texts   += [text.split(b'\n')]
-    text1, text2 = texts
-
-    output       = []
-    new_part     = True
-    num          = 0
-    for line in difflib.diff_bytes(difflib.unified_diff, text1, text2,
-                                   fromfile=file1.encode(), tofile=file2.encode(), n=0, lineterm=b''):
-        num     += 1
-        if num   < 3:
-            line         = line.decode()
-            line         = line.replace('--- ', '<<< ')
-            line         = line.replace('+++ ', '>>> ')
-            output      += [line.encode()]
-            continue
-
-        flag             = line[0:1]
-        if flag         == b'-':   # line unique to sequence 1
-            new_flag     = b'< '
-        elif flag       == b'+':   # line unique to sequence 2
-            new_flag     = b'> '
-            if new_part:
-                new_part = False
-                output  += [b'---']
-        elif flag       == b' ':   # line common to both sequences
-            # new_flag   = b'  '
-            continue
-        elif flag       == b'?':   # line not present in either input sequence
-            new_flag     = b'? '
-        elif flag       == b'@':
-            output      += [re.sub(rb'@@ -([^ ]+) \+([^ ]+) @@', rb'\1c\2', line)]
-            new_part     = True
-            continue
-        else:
-            new_flag     = flag
-        output          += [new_flag + line[1:]]
-
-    if return_str:
-        return '\n'.join([repr(line)[2:-1] for line in output])
-    else:
-        return b'\n'.join(output)
-
-
-def md5sum(filename):
-    """ Calculate the MD5 value of the file """
-    with open(filename, "rb") as f:
-        return hashlib.md5(f.read()).hexdigest()
-
-
-def pretty_xml(text, encoding=None):
-    """
-    Add indent to the XML text
-    """
-    from lxml import etree
-    encoding     = encoding or Config.encoding
-    root = etree.fromstring(text)
-    etree.indent(root)
-    return etree.tostring(root).decode(encoding)
-
-
-class Log:
-
-    def __init__(self):
-        self.buffer = []
-
-    def to_str(self):
-        return '\n'.join(self.buffer)
-
-    def add(self, msg):
-        self.buffer.append(str(msg))
-
-    def info(self, msg, index=None):
-        self.add('[INFO] {}'.format(msg))
-
-    def warn(self, msg):
-        self.add('[WARN] {}'.format(msg))
-
-    def error(self, msg):
-        self.add('[ERROR] {}'.format(msg))
-
-
-class HttpServer:
-    def __init__(self, bind='127.0.0.1', port=80, work_dir='.'):
-        self.bind = bind
-        self.port = int(port)
-        self.work_dir = work_dir
-
-    def _start(self):
-        """ Equivalent to executing `python3 -m http.server` """
-        os.chdir(self.work_dir)
-        server.test(HandlerClass=server.SimpleHTTPRequestHandler, bind=self.bind, port=self.port)
-        log.error('The HTTP server exits without calling stop()')
-        print(log.to_str())
-
-    def start(self):
-        log.info('Starting HTTP server ...')
-        self.proc = multiprocessing.Process(target=self._start, name=str(self))
-        self.proc.start()
-        time.sleep(2)
-        try:
-            with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
-                if f.status != 200:
-                    raise RuntimeError()
-        except:
-            raise RuntimeError('Failed to run the HTTP server')
-        log.info('The HTTP server started')
-
-    def stop(self):
-        self.proc.terminate()
-
-
-"""
-Part 2:
-Here are some functions that are highly coupled to test cases.
-"""
 
 def copyTestFile(src, dst=''):
     """ Copy one test file from data_dir to tmp_dir """
@@ -327,22 +21,22 @@ def copyTestFile(src, dst=''):
                 os.path.join(Config.tmp_dir, dst))
 
 
-def diffCheck(file1, file2, in_bytes=False, encoding=None):
+def diffCheck(file1, file2, in_bytes=False, encoding='utf-8'):
     """ Compare two files to see if they are different """
     if in_bytes:
         d = diff_bytes(file1, file2, return_str=True)
         if d:
             log.info('diff_bytes:\n' + d)
     else:
-        d = diff(file1, file2, encoding=encoding or Config.encoding)
+        d = diff(file1, file2, encoding=encoding)
         if d:
             log.info('diff:\n' + d)
     return d == ''
 
 
-def simply_diff(file1, file2, encoding=None):
+def simply_diff(file1, file2, encoding='utf-8'):
     """ Find the first different line of the two text files """
-    encoding    = encoding or Config.encoding
+    encoding    = encoding
     list1       = cat(file1, encoding=encoding).split('\n')
     list2       = cat(file2, encoding=encoding).split('\n')
     if list1   == list2:
@@ -370,6 +64,7 @@ def simply_diff(file1, file2, encoding=None):
 class Executer:
     """
     Execute a command in the shell, return a `Executer` object.
+    - Compatible with Windows, Linux, MacOS and other platforms.
     - If a binary of Exiv2 is executed, the absolute path is automatically added.
     - `compatible_output=True`: filter out path delimiters, whitespace characters in output
     - `decode_output=True`: decode output from bytes to str
@@ -383,7 +78,7 @@ class Executer:
                  vars_dict=dict(),
                  cwd=None,
                  extra_env=dict(),
-                 encoding=None,
+                 encoding='utf-8',
                  stdin: (str, bytes) = None,
                  redirect_stderr_to_stdout=True,
                  assert_returncode=[0],
@@ -418,9 +113,9 @@ class Executer:
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
-            
+
         if len(Config.valgrind) > 0:
-            self.args = [ Config.valgrind ] + self.args 
+            self.args = [ Config.valgrind ] + self.args
 
         # Check stdin
         if self.stdin:
@@ -465,7 +160,7 @@ class Executer:
             log.error('Failed to execute: {}'.format(self.args))
             log.error('The asserted return code is {}, but got {}'.format(str(self.assert_returncode), self.subprocess.returncode))
             log.info('OUTPUT:\n{}'.format(output[0] + output[1]))
-            raise RuntimeError('\n' + log.to_str())
+            raise RuntimeError('\n' + log.dump())
 
 
 class Output:
@@ -505,7 +200,7 @@ class Output:
         return self.__add__(other)
 
 
-def reportTest(testname, output: str, encoding=None):
+def reportTest(testname, output: str, encoding='utf-8'):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     output               = str(output) + '\n'
     encoding             = encoding or Config.encoding
@@ -518,7 +213,7 @@ def reportTest(testname, output: str, encoding=None):
     save(output, output_file, encoding=encoding)
     log.info('The output has been saved to file {}'.format(output_file))
     log.info('simply_diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
-    raise RuntimeError('\n' + log.to_str())
+    raise RuntimeError('\n' + log.dump())
 
 
 def ioTest(filename):
@@ -670,47 +365,11 @@ def verbose_version(verbose=False):
     return vv
 
 
-"""
-Part 3:
-Here is the configuration part of test cases.
-"""
-
-class Config:
-    # The configuration parameters for bash test
-    # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
-    exiv2_dir           = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
-    bin_dir             = os.path.join(exiv2_dir, 'build/bin')
-    if 'EXIV2_BINDIR' in os.environ:
-        bin_dir         = os.environ['EXIV2_BINDIR']
-    dyld_library_path   = os.path.join(bin_dir, '../lib')
-    ld_library_path     = os.path.join(bin_dir, '../lib')
-    data_dir            = os.path.join(exiv2_dir, 'test/data')
-    tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
-    system_name         = platform.system().lower() or 'unknown'    # It could be windows, linux, macOS etc.
-    valgrind            = os.environ.get('VALGRIND', '')
-
-    @classmethod
-    def set_http_port(cls):
-        platform        = verbose_version().get('platform', 'unknown').lower()  # It could be linux, mingw, cygwin, macOS, etc.
-        if platform    == 'cygwin':
-            exiv2_port  = '12762'
-        elif platform in ['mingw', 'msys2']:
-            exiv2_port  = '12761'
-        else:
-            exiv2_port  = '12760'
-        cls.exiv2_port  = os.environ.get('EXIV2_PORT', exiv2_port)
-        cls.exiv2_http  = os.environ.get('EXIV2_HTTP', 'http://127.0.0.1')
-
-    @classmethod
-    def init(cls):
-        """
-        Init test variables.
-        If these variables are likely to be modified, init() should be called in each test case.
-        """
-        log.buffer      = []
-        cls.bin_files   = [i.split('.')[0] for i in os.listdir(cls.bin_dir)]
-        cls.encoding    = 'utf-8'
+def get_system_name():
+    return platform.system().lower() or 'unknown'   # It could be windows, linux, macos etc.
 
 
-log = Log()
-Config.init()
+def get_platform_name():
+    return sys.platform.lower()     # It could be linux, win32, mingw, msys, cygwin, macos, etc.
+    # return verbose_version().get('platform').lower() or 'unknown'
+
