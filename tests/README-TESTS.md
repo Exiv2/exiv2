@@ -3,6 +3,8 @@
 - [README-TESTS](#README-TESTS)
   - [Running the test suite](#running-the-test-suite)
   - [Writing new tests](#writing-new-tests)
+    - [Based on unittest](#Based-on-unittest)
+    - [Based on system_tests](#Based-on-system_tests)
   - [Test suite](#test-suite)
     - [Configuration](#configuration)
       - [INI style](#ini-style)
@@ -65,14 +67,69 @@ standard output.
 [TOC](#TOC)
 
 <div id="writing-new-tests"/>
+
 ## Writing new tests
 
 The test suite is intended to run a binary and compare its standard output,
 standard error and return value against provided values. This is implemented
 using Python's [unittest](https://docs.python.org/3/library/unittest.html) module and thus all test files are Python files.
 
-The simplest test has the following structure:
+When creating new tests, follow roughly these steps:
 
+1. Choose an appropriate subdirectory where the test belongs. If none fits
+   create a new one and put an empty `__init__.py` file there.
+
+2. Create a new file with a name matching `test_*.py`. Write test cases in it.
+
+3. Run the test suite:
+    ```sh
+    python3 runner.py               # automatically find test scripts and execute them
+                        [test.py]   # executes only the test script for the specified path
+                        -v          # verbose output
+    ```
+
+<div id="Based-on-unittest"/>
+
+### Based on unittest
+
+You can write standard [unittest](https://docs.python.org/3/library/unittest.html) test cases. For example:
+```py
+import os
+import unittest
+
+from system_tests import BT                 # import system_tests, which has been loaded into sys.path
+
+
+class TestCases(unittest.TestCase):
+
+    def setUp(self):
+        """ This function is executed before each test case. """
+        os.makedirs(BT.Config.tmp_dir, exist_ok=True)
+        os.chdir(BT.Config.tmp_dir)         # switch to the temporary directory to test
+        BT.Config.init()
+
+    def simple_test(self):                  # define a test function
+        e = BT.Executer('exiv2 --version')  # execute a command in the shell
+        assert e.returncode == 0:
+        if 'exiv2 0.27.4.9' not in e.stdout:
+            raise RuntimeError('Wrong version')
+
+    def addmoddel_test(self):               # define another test function
+        jpg      = 'exiv2-empty.jpg'
+        BT.copyTestFile(jpg)
+        out      = BT.Output()
+        out     += BT.Executer('addmoddel {jpg}', vars())
+        out     += BT.Executer('exiv2 -pv {jpg}', vars())
+        BT.reportTest('addmoddel', out)
+
+```
+`system_tests.BT` is defined in `tests/utils/*.py`, which provides some functions and classes that are compatible with different platforms, making it easier for you to write test cases.
+
+<div id="Based-on-system_tests"/>
+
+### Base on system_tests
+
+In addition to unittest test cases, you can also write a declarative test case by inheriting `system_tests.CaseMeta`. For example:
 ```python
 # -*- coding: utf-8 -*-
 
@@ -97,17 +154,6 @@ The strings after a `$` are variables either defined in this test's class or are
 taken from the suite's configuration file (see `doc.md` for a complete
 explanation).
 
-When creating new tests, follow roughly these steps:
-
-1. Choose an appropriate subdirectory where the test belongs. If none fits
-   create a new one and put an empty `__init__.py` file there.
-
-2. Create a new file with a name matching `test_*.py`. Copy the class definition
-   from the above example and choose an appropriate class name.
-
-3. Run the test suite via `python3 runner.py` and ensure that your test case is
-   actually run! Either run the suite with the `-v` option which will output all
-   test cases that were run or simply add an error and check if errors occur.
 
 [TOC](#TOC)
 
