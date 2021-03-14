@@ -1,31 +1,26 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
+import unittest
 
-# test needs system_tests.BT.vv.enable_bmff=1
+
 vv = system_tests.BT.verbose_version()
-bSkip = vv.get('enable_bmff') != '1'
+if vv.get('enable_bmff') != '1':
+    raise unittest.SkipTest('*** requires enable_bmff=1 ***')
+
 
 class pr_1475_Sony_hif(metaclass=system_tests.CaseMeta):
-    url = "https://github.com/Exiv2/exiv2/pull/1475"
+    url      = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/Sony.HIF"
-    if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
-        print("*** test skipped.  requires enable_bmff=1***")
-    else:
-        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii       5  SONY
+    commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                ,"$exiv2 -pS $filename"
+                ,"$exiv2 -pX $filename"
+                ,"$exiv2 -pC $filename"
+                ]
+    retval   = [ 0  ] * len(commands)
+    stderr   = [ "" ] * len(commands)
+    stdin    = [ "" ] * len(commands)
+    stdout   = ["""Exif.Image.Make                              Ascii       5  SONY
 Exif.Image.DateTime                          Ascii      20  2021:02:18 19:55:41
 Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 Exif.Photo.ExposureProgram                   Short       1  Manual
@@ -127,27 +122,19 @@ Exiv2::BmffImage::boxHandler: mdat     4088->147464
                            
 <?xpacket end="w"?>""",""]
 
-class pr_1475_Canon_hif(metaclass=system_tests.CaseMeta):
-    url = "https://github.com/Exiv2/exiv2/pull/1475"
-    filename = "$data_path/Canon.HIF"
 
-    if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdin=[]
-        print("*** test skipped.  requires enable_bmff=1***")
-    else:
-        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii       6  Canon
+class pr_1475_Canon_hif(metaclass=system_tests.CaseMeta):
+    url      = "https://github.com/Exiv2/exiv2/pull/1475"
+    filename = "$data_path/Canon.HIF"
+    commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                ,"$exiv2 -pS $filename"
+                ,"$exiv2 -pX $filename"
+                ,"$exiv2 -pC $filename"
+                ]
+    retval   = [ 0  ] * len(commands)
+    stderr   = [ "" ] * len(commands)
+    stdin    = [ "" ] * len(commands)
+    stdout   = ["""Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.DateTime                          Ascii      20  2021:02:18 19:54:47
 Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 Exif.Photo.ExposureProgram                   Short       1  Manual

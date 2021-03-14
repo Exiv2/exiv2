@@ -1,31 +1,26 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
+import unittest
 
-# test needs system_tests.BT.vv.enable_bmff=1
+
 vv = system_tests.BT.verbose_version()
-bSkip = vv.get('enable_bmff') != '1'
+if vv.get('enable_bmff') != '1':
+    raise unittest.SkipTest('*** requires enable_bmff=1 ***')
+
 
 class pr_1475_2021_heic(metaclass=system_tests.CaseMeta):
-    url = "https://github.com/Exiv2/exiv2/pull/1475"
+    url      = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/2021-02-13-1929.heic"
-    if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
-        print("*** test skipped.  requires enable_bmff=1***")
-    else:
-        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS          $filename"
-                   ,"$exiv2 -pX          $filename"
-                   ,"$exiv2 -pC --binary $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii       6  Apple
+    commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                ,"$exiv2 -pS          $filename"
+                ,"$exiv2 -pX          $filename"
+                ,"$exiv2 -pC --binary $filename"
+                ]
+    retval   = [ 0  ] * len(commands)
+    stderr   = [ "" ] * len(commands)
+    stdin    = [ "" ] * len(commands)
+    stdout   = ["""Exif.Image.Make                              Ascii       6  Apple
 Exif.Image.DateTime                          Ascii      20  2021:02:13 11:03:31
 Exif.Photo.ExposureTime                      Rational    1  1/30 s
 Exif.Photo.ExposureProgram                   Short       1  Auto
@@ -175,26 +170,19 @@ nAAANWQAAE9AAAApbc2YzMgAAAAAAAQxCAAAF3v//8yYAAAeTAAD9kP//+6L
 ///2jAAAD3AAAwG4=
 """]
 
+
 class pr_1475_IMG_3578_heic(metaclass=system_tests.CaseMeta):
-    url = "https://github.com/Exiv2/exiv2/pull/1475"
+    url      = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/IMG_3578.heic"
-    if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
-        print("*** test skipped.  requires enable_bmff=1***")
-    else:
-        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS          $filename"
-                   ,"$exiv2 -pX          $filename"
-                   ,"$exiv2 -pC --binary $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii       6  Apple
+    commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                ,"$exiv2 -pS          $filename"
+                ,"$exiv2 -pX          $filename"
+                ,"$exiv2 -pC --binary $filename"
+                ]
+    retval   = [ 0  ] * len(commands)
+    stderr   = [ "" ] * len(commands)
+    stdin    = [ "" ] * len(commands)
+    stdout   = ["""Exif.Image.Make                              Ascii       6  Apple
 Exif.Image.DateTime                          Ascii      20  2020:04:17 10:03:40
 Exif.Photo.ExposureTime                      Rational    1  1/60 s
 Exif.Photo.ExposureProgram                   Short       1  Auto
@@ -343,26 +331,19 @@ nAAANWQAAE9AAAApbc2YzMgAAAAAAAQxCAAAF3v//8yYAAAeTAAD9kP//+6L
 ///2jAAAD3AAAwG4=
 """]
 
+
 class pr_1475_Stonehenge_heic(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/Stonehenge.heic"
-    if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
-        print("*** test skipped.  requires enable_bmff=1***")
-    else:
-        commands = ["$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS          $filename"
-                   ,"$exiv2 -pX          $filename"
-                   ,"$exiv2 -pC --binary $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii      18  NIKON CORPORATION
+    commands = ["$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
+                ,"$exiv2 -pS          $filename"
+                ,"$exiv2 -pX          $filename"
+                ,"$exiv2 -pC --binary $filename"
+                ]
+    retval = [ 0  ] * len(commands)
+    stderr = [ "" ] * len(commands)
+    stdin  = [ "" ] * len(commands)
+    stdout = ["""Exif.Image.Make                              Ascii      18  NIKON CORPORATION
 Exif.Image.DateTime                          Ascii      20  2015:07:16 20:25:28
 Exif.Photo.ExposureTime                      Rational    1  1/400 s
 Exif.Photo.ExposureProgram                   Short       1  Not defined
@@ -472,26 +453,19 @@ Exiv2::BmffImage::boxHandler: mdat      532->1
                            
 <?xpacket end="w"?>""",""]
 
+
 class pr_1475_heic_heic(metaclass=system_tests.CaseMeta):
-    url = "https://github.com/Exiv2/exiv2/pull/1475"
+    url      = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/heic.heic"
-    if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
-        print("*** test skipped.  requires enable_bmff=1***")
-    else:
-        commands = ["$exiv2 -pa $filename"
-                   ,"$exiv2 -pS          $filename"
-                   ,"$exiv2 -pX          $filename"
-                   ,"$exiv2 -pC --binary $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["","""Exiv2::BmffImage::boxHandler: ftyp        0->28 brand: mif1
+    commands = ["$exiv2 -pa $filename"
+                ,"$exiv2 -pS          $filename"
+                ,"$exiv2 -pX          $filename"
+                ,"$exiv2 -pC --binary $filename"
+                ]
+    retval   = [ 0  ] * len(commands)
+    stderr   = [ "" ] * len(commands)
+    stdin    = [ "" ] * len(commands)
+    stdout   = ["","""Exiv2::BmffImage::boxHandler: ftyp        0->28 brand: mif1
 Exiv2::BmffImage::boxHandler: meta       28->921 
   Exiv2::BmffImage::boxHandler: hdlr       40->33 
   Exiv2::BmffImage::boxHandler: pitm       73->14 
