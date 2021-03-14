@@ -3,8 +3,10 @@ import sys
 
 
 class Config:
-    # The configuration parameters for bash test
-    # When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
+    """
+    The configuration parameters for bash test
+    When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
+    """
     exiv2_dir         = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))
     bin_dir           = os.environ.get('EXIV2_BINDIR', os.path.join(exiv2_dir, 'build/bin'))
     dyld_library_path = os.path.join(bin_dir, '../lib')
@@ -38,6 +40,4 @@ class Config:
 
 
 Config.init()
-
-
 

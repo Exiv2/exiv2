@@ -1,6 +1,14 @@
-
 """
 Here are some code that are highly coupled to test cases.
+You can call these functions and classes to easily write test cases:
+    class Executer
+    class Output
+    def copyTestFile
+    def diffCheck
+    def simply_diff
+    def reportTest
+
+Other functions and classes are reserved for a few test cases.
 """
 import os
 import shlex
@@ -9,55 +17,8 @@ import subprocess
 import sys
 import urllib
 
+from .configs import Config
 from .common_code import *
-
-
-def copyTestFile(src, dst=''):
-    """ Copy one test file from data_dir to tmp_dir """
-    if not dst:
-        dst = src
-    shutil.copy(os.path.join(Config.data_dir, src),
-                os.path.join(Config.tmp_dir, dst))
-
-
-def diffCheck(file1, file2, in_bytes=False, encoding='utf-8'):
-    """ Compare two files to see if they are different """
-    if in_bytes:
-        d = diff_bytes(file1, file2, return_str=True)
-        if d:
-            log.info('diff_bytes:\n' + d)
-    else:
-        d = diff(file1, file2, encoding=encoding)
-        if d:
-            log.info('diff:\n' + d)
-    return d == ''
-
-
-def simply_diff(file1, file2, encoding='utf-8'):
-    """ Find the first different line of the two text files """
-    encoding    = encoding
-    list1       = cat(file1, encoding=encoding).split('\n')
-    list2       = cat(file2, encoding=encoding).split('\n')
-    if list1   == list2:
-        return
-
-    report      = []
-    report     += ['{}: {} lines'.format(file1, len(list1))]
-    report     += ['{}: {} lines'.format(file2, len(list2))]
-
-    # Make them have the same number of lines
-    max_lines   = max(len(list1), len(list2))
-    for _list in [list1, list2]:
-        _list  += [''] * (max_lines - len(_list))
-
-    # Compare each line
-    for i in range(max_lines):
-        if list1[i] != list2[i]:
-            report  += ['The first mismatch is in line {}:'.format(i + 1)]
-            report  += ['< {}'.format(list1[i])]
-            report  += ['> {}'.format(list2[i])]
-            break
-    return '\n'.join(report)
 
 
 class Executer:
@@ -197,6 +158,54 @@ class Output:
 
     def __radd__(self, other):
         return self.__add__(other)
+
+
+def copyTestFile(src, dst=''):
+    """ Copy one test file from data_dir to tmp_dir """
+    if not dst:
+        dst = src
+    shutil.copy(os.path.join(Config.data_dir, src),
+                os.path.join(Config.tmp_dir, dst))
+
+
+def diffCheck(file1, file2, in_bytes=False, encoding='utf-8'):
+    """ Compare two files to see if they are different """
+    if in_bytes:
+        d = diff_bytes(file1, file2, return_str=True)
+        if d:
+            log.info('diff_bytes:\n' + d)
+    else:
+        d = diff(file1, file2, encoding=encoding)
+        if d:
+            log.info('diff:\n' + d)
+    return d == ''
+
+
+def simply_diff(file1, file2, encoding='utf-8'):
+    """ Find the first different line of the two text files """
+    encoding    = encoding
+    list1       = cat(file1, encoding=encoding).split('\n')
+    list2       = cat(file2, encoding=encoding).split('\n')
+    if list1   == list2:
+        return
+
+    report      = []
+    report     += ['{}: {} lines'.format(file1, len(list1))]
+    report     += ['{}: {} lines'.format(file2, len(list2))]
+
+    # Make them have the same number of lines
+    max_lines   = max(len(list1), len(list2))
+    for _list in [list1, list2]:
+        _list  += [''] * (max_lines - len(_list))
+
+    # Compare each line
+    for i in range(max_lines):
+        if list1[i] != list2[i]:
+            report  += ['The first mismatch is in line {}:'.format(i + 1)]
+            report  += ['< {}'.format(list1[i])]
+            report  += ['> {}'.format(list2[i])]
+            break
+    return '\n'.join(report)
 
 
 def reportTest(testname, output: str, encoding='utf-8'):

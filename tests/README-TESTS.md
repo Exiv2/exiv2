@@ -123,7 +123,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 
 ```
-`system_tests.BT` is defined in `tests/utils/*.py`, which provides some functions and classes that are compatible with different platforms, making it easier for you to write test cases.
+`system_tests.BT` is defined in `tests/utils/*.py`, which provides some functions and classes that are compatible with different platforms, making it easier to write test cases.
 
 <div id="Based-on-system_tests"/>
 
@@ -229,7 +229,7 @@ some_var:some value with whitespaces before and after
 <div id="parameters"/>
 #### Parameters
 
-The test suite's configuration file should have the following form:
+The test suite's configuration file has the following form:
 
 ```ini
 [General]

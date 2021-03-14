@@ -1,5 +1,6 @@
 """
-Here are some common code that are poorly coupled with test cases.
+Here are some common code that are poorly coupled with test cases, and may exist outside of the Exiv2 project.
+Most of the functions are used to simulate shell commands, such as cp(), rm(), mv(), cat(), grep(), and so on.
 """
 import difflib
 import fnmatch
@@ -8,8 +9,6 @@ import os
 import re
 import shutil
 import time
-
-from .configs import Config
 
 
 class Log:
