@@ -3,7 +3,6 @@
 Here are some code that are highly coupled to test cases.
 """
 import os
-import platform
 import shlex
 import shutil
 import subprocess
@@ -109,7 +108,7 @@ class Executer:
         if args[0] in Config.bin_files:
             args[0]     = os.path.join(Config.bin_dir, args[0])
         args            = ' '.join(args)
-        if Config.system_name == 'windows':
+        if Config.platform == 'win32':
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
@@ -364,12 +363,4 @@ def verbose_version(verbose=False):
             print(key.ljust(20), val)
     return vv
 
-
-def get_system_name():
-    return platform.system().lower() or 'unknown'   # It could be windows, linux, macos etc.
-
-
-def get_platform_name():
-    return sys.platform.lower()     # It could be linux, win32, mingw, msys, cygwin, macos, etc.
-    # return verbose_version().get('platform').lower() or 'unknown'
 

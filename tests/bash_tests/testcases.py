@@ -577,7 +577,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             result += [BT.md5sum(i) for i in files]
             return ' '.join(result)
 
-        BT.Config.set_http_port(platform=BT.get_platform_name())
+        print(BT.Config.exiv2_port)
         exiv2_http  = BT.Config.exiv2_http
         exiv2_port  = BT.Config.exiv2_port
         if not exiv2_http or not exiv2_port:
@@ -879,10 +879,10 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             print('Skipped. Because exiv2 is not built with nls.')
             return
 
-        if BT.Config.system_name == 'windows':
+        if BT.Config.platform == 'win32':
             print('Skipped. Because nls_test is not supported on Windows.')
             return
-        elif BT.Config.system_name == 'linux':
+        elif BT.Config.platform == 'linux':
             LANG = 'LANGUAGE'
         else:
             LANG = 'LANG'

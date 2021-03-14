@@ -199,18 +199,18 @@ def configure_suite(config_file):
             _parameters["timeout"] *= config.getfloat(
                 "General", "memcheck_timeout_penalty", fallback=20.0
             )
-    
+
     # Configure the parameters for bash tests
-    BT.Config.bin_dir           = os.path.abspath(config['ENV']['exiv2_path'])
-    BT.Config.dyld_library_path = os.path.abspath(config['ENV']['dyld_library_path'])
-    BT.Config.ld_library_path   = os.path.abspath(config['ENV']['ld_library_path'])
-    BT.Config.data_dir          = os.path.abspath(config['paths']['data_path'])
-    BT.Config.tmp_dir           = os.path.abspath(config['paths']['tmp_path'])
-    BT.Config.exiv2_http        = config['ENV']['exiv2_http'].strip()
-    BT.Config.exiv2_port        = config['ENV']['exiv2_port'].strip()
-    BT.Config.exiv2_echo        = config['ENV']['exiv2_echo']
-    BT.Config.verbose           = config['ENV']['verbose']
-    BT.Config.valgrind          = config['ENV']['valgrind']
+    BT.Config.bin_dir           = os.path.abspath(config['ENV']['exiv2_path'])          or BT.Config.bin_dir
+    BT.Config.dyld_library_path = os.path.abspath(config['ENV']['dyld_library_path'])   or BT.Config.dyld_library_path
+    BT.Config.ld_library_path   = os.path.abspath(config['ENV']['ld_library_path'])     or BT.Config.ld_library_path
+    BT.Config.data_dir          = os.path.abspath(config['paths']['data_path'])         or BT.Config.data_dir
+    BT.Config.tmp_dir           = os.path.abspath(config['paths']['tmp_path'])          or BT.Config.tmp_dir
+    BT.Config.exiv2_http        = config['ENV']['exiv2_http'].strip()                   or BT.Config.exiv2_http
+    BT.Config.exiv2_port        = config['ENV']['exiv2_port'].strip()                   or BT.Config.exiv2_port
+    BT.Config.exiv2_echo        = config['ENV']['exiv2_echo']                           or BT.Config.exiv2_echo
+    BT.Config.verbose           = config['ENV']['verbose']                              or BT.Config.verbose
+    BT.Config.valgrind          = config['ENV']['valgrind']                             or BT.Config.valgrind
 
 
 class FileDecoratorBase(object):
@@ -476,7 +476,7 @@ class CopyFiles(FileDecoratorBase):
         fname, ext = os.path.splitext(expanded_file_name)
         new_name = fname + '_copy' + ext
         return shutil.copyfile(expanded_file_name, new_name)
-   
+
 class CopyTmpFiles(FileDecoratorBase):
     """
     This class copies files from test/data to test/tmp
