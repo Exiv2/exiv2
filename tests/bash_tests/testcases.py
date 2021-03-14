@@ -1,3 +1,7 @@
+"""
+Convert the bash test scripts EXIV2_DIR/test/*.sh to Python scripts and save them here.
+To the PR: https://github.com/Exiv2/exiv2/pull/1257
+"""
 import os
 import re
 import unittest
