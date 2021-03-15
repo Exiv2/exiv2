@@ -16,7 +16,11 @@ class Executer:
 
     Sample:
     >>> Executer('echo Hello')
+    Hello
     >>> Executer('exiv2 --help')
+    Usage: exiv2 [ options ] [ action ] file ...
+    >>> BT.Executer('echo').returncode
+    0
     """
 
     def __init__(self, cmd: str,

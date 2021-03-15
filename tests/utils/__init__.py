@@ -4,6 +4,8 @@ This package provides code that can be invoked by all test cases, which are stor
 - common.py   : Contains some code that is decoupled from the test cases, even from the Exiv2 project.
 - executer.py : Contains the Executer class for executing shell commands.
 - tests.py    : Contains some code that is coupled to the test cases, and can only be called by a few test cases.
+
+You can find many examples in tests/bash_tests/testcases.py .
 """
 
 from .config    import *
