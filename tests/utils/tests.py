@@ -5,7 +5,7 @@ import urllib
 
 from .common import *
 from .config import Config
-from .executer import Executer
+from .exec import Exec
 
 
 def copyTestFile(src, dst=''):
@@ -36,7 +36,7 @@ def ioTest(filename):
     src     = os.path.join(Config.data_dir, filename)
     out1    = os.path.join(Config.tmp_dir, '{}.1'.format(filename))
     out2    = os.path.join(Config.tmp_dir, '{}.2'.format(filename))
-    Executer('iotest {src} {out1} {out2}', vars())
+    Exec('iotest {src} {out1} {out2}', vars())
     assert md5sum(src) == md5sum(out1), 'The output file is different'
     assert md5sum(src) == md5sum(out2), 'The output file is different'
 
@@ -45,7 +45,7 @@ def eraseTest(filename):
     test_file   = filename + '.etst'
     good_file   = os.path.join(Config.data_dir, filename + '.egd')
     copyTestFile(filename, test_file)
-    Executer('metacopy {test_file} {test_file}', vars())
+    Exec('metacopy {test_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -54,7 +54,7 @@ def copyTest(num, src, good):
     src_file    = os.path.join(Config.data_dir, src)
     good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(good, num))
     copyTestFile(good, test_file)
-    Executer('metacopy -a {src_file} {test_file}', vars())
+    Exec('metacopy -a {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -63,7 +63,7 @@ def iptcTest(num, src, good):
     src_file    = os.path.join(Config.data_dir, src)
     good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(good, num))
     copyTestFile(good, test_file)
-    Executer('metacopy -ip {src_file} {test_file}', vars())
+    Exec('metacopy -ip {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -73,7 +73,7 @@ def printTest(filename):
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
 
-    e           = Executer('iptcprint {src_file}', vars(), assert_returncode=None, decode_output=False)
+    e           = Exec('iptcprint {src_file}', vars(), assert_returncode=None, decode_output=False)
     stdout      = e.stdout.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir on Windows
     save(stdout + b'\n', test_file)
 
@@ -94,8 +94,8 @@ r Iptc.Application2.Keywords
 r Iptc.Application2.Keywords
 r Iptc.Application2.CountryName
 """.lstrip('\n').encode()
-    Executer('iptctest {tmp}', vars(), stdin=stdin)
-    e           = Executer('iptcprint {tmp}', vars(), assert_returncode=None, decode_output=False)
+    Exec('iptctest {tmp}', vars(), stdin=stdin)
+    e           = Exec('iptcprint {tmp}', vars(), assert_returncode=None, decode_output=False)
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -116,8 +116,8 @@ a Iptc.Envelope.ModelVersion		  2
 a Iptc.Envelope.TimeSent			  14:41:0-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
-    Executer('iptctest {tmp}', vars(), stdin=stdin)
-    e           = Executer('iptcprint {tmp}', vars(), assert_returncode=None, decode_output=False)
+    Exec('iptctest {tmp}', vars(), stdin=stdin)
+    e           = Exec('iptcprint {tmp}', vars(), assert_returncode=None, decode_output=False)
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -129,8 +129,8 @@ def extendedTest(filename):
     good_file   = os.path.join(Config.data_dir, filename + '.ixgd')
     copyTestFile(filename, tmp)
     stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'))
-    Executer('iptctest {tmp}', vars(), stdin=stdin)
-    e           = Executer('iptcprint {tmp}', vars(), decode_output=False)
+    Exec('iptctest {tmp}', vars(), stdin=stdin)
+    e           = Exec('iptcprint {tmp}', vars(), decode_output=False)
     save(e.stdout + b'\n', test_file)
     return diffCheck(good_file, test_file, in_bytes=True)
 
@@ -146,11 +146,11 @@ def runTestCase(num, img):
     out  = Output()
     out += '------------------------------------------------------------'
 
-    e    = Executer('exifprint {img}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+    e    = Exec('exifprint {img}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
     out += e.stderr.decode() if e.stderr else None
     save(e.stdout, 'iii')
 
-    e    = Executer('write-test {img} {num}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+    e    = Exec('write-test {img} {num}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
     out += e.stderr.decode() if e.stderr else None
     save(e.stdout, 'ttt')
 
@@ -161,7 +161,7 @@ def runTestCase(num, img):
 def verbose_version(verbose=False):
     """ Get the key-value pairs of Exiv2 verbose version.  """
     vv    = {}
-    lines = Executer('exiv2 --verbose --version').stdout.split('\n')
+    lines = Exec('exiv2 --verbose --version').stdout.split('\n')
     for line in lines:
         kv = line.rstrip().split('=')
         if len(kv)  == 2:

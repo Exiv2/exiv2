@@ -27,8 +27,8 @@ class TestCases(unittest.TestCase):
         jpg      = 'exiv2-empty.jpg'
         BT.copyTestFile(jpg)
         out      = BT.Output()
-        out     += BT.Executer('addmoddel {jpg}', vars())
-        out     += BT.Executer('exiv2 -pv {jpg}', vars())
+        out     += BT.Exec('addmoddel {jpg}', vars())
+        out     += BT.Exec('exiv2 -pv {jpg}', vars())
         BT.reportTest('addmoddel', out)
 
 
@@ -41,12 +41,12 @@ class TestCases(unittest.TestCase):
         out     += 'Testcase 1'
         out     += '=========='  # 9 equal signs
         BT.copyTestFile(jpg, 'h.jpg')
-        out     += BT.Executer("exiv2 -M'set Exif.Image.ImageDescription The Exif image description' h.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.Image.ImageDescription The Exif image description' h.jpg")
         BT.rm('h.xmp')
-        out     += BT.Executer('exiv2 -eX h.jpg')
-        out     += BT.Executer('exiv2 -px h.xmp')
-        out     += BT.Executer('exiv2 -PEkycv h.xmp')
-        out     += BT.Executer('exiv2 -pi h.xmp')
+        out     += BT.Exec('exiv2 -eX h.jpg')
+        out     += BT.Exec('exiv2 -px h.xmp')
+        out     += BT.Exec('exiv2 -PEkycv h.xmp')
+        out     += BT.Exec('exiv2 -pi h.xmp')
 
         BT.log.info('#2 Convert XMP x-default langAlt value back to Exif ImageDescription')
         out     += ''
@@ -54,10 +54,10 @@ class TestCases(unittest.TestCase):
         out     += '=========='
         BT.copyTestFile(jpg, 'i.jpg')
         BT.cp('h.xmp', 'i.xmp')
-        out     += BT.Executer('exiv2 -iX  i.jpg')
-        out     += BT.Executer('exiv2 -px  i.jpg')
-        out     += BT.Executer('exiv2 -PEkycv i.jpg')
-        out     += BT.Executer('exiv2 -pi  i.jpg')
+        out     += BT.Exec('exiv2 -iX  i.jpg')
+        out     += BT.Exec('exiv2 -px  i.jpg')
+        out     += BT.Exec('exiv2 -PEkycv i.jpg')
+        out     += BT.Exec('exiv2 -pi  i.jpg')
 
         BT.log.info('#3 Convert XMP single non-x-default langAlt value to Exif ImageDescription')
         out     += ''
@@ -65,10 +65,10 @@ class TestCases(unittest.TestCase):
         out     += '=========='
         BT.save(BT.cat('i.xmp').replace('x-default', 'de-DE'), 'j.xmp')
         BT.copyTestFile(jpg, 'j.jpg')
-        out     += BT.Executer('exiv2 -iX j.jpg')
-        out     += BT.Executer('exiv2 -px j.jpg')
-        out     += BT.Executer('exiv2 -PEkycv j.jpg')
-        out     += BT.Executer('exiv2 -pi j.jpg')
+        out     += BT.Exec('exiv2 -iX j.jpg')
+        out     += BT.Exec('exiv2 -px j.jpg')
+        out     += BT.Exec('exiv2 -PEkycv j.jpg')
+        out     += BT.Exec('exiv2 -pi j.jpg')
 
         BT.log.info("#4 This shouldn't work: No x-default, more than one language")
         out     += ''
@@ -78,36 +78,36 @@ class TestCases(unittest.TestCase):
                                         '<rdf:li xml:lang="de-DE">The Exif image description</rdf:li><rdf:li xml:lang="it-IT">Ciao bella</rdf:li>')
                 ,'k.xmp')
         BT.copyTestFile(jpg, 'k.jpg')
-        out     += BT.Executer('exiv2 -iX k.jpg')
-        out     += BT.Executer('exiv2 -px k.jpg')
-        out     += BT.Executer('exiv2 -v -PEkycv k.jpg')
-        out     += BT.Executer('exiv2 -v -pi k.jpg')
+        out     += BT.Exec('exiv2 -iX k.jpg')
+        out     += BT.Exec('exiv2 -px k.jpg')
+        out     += BT.Exec('exiv2 -v -PEkycv k.jpg')
+        out     += BT.Exec('exiv2 -v -pi k.jpg')
 
         BT.log.info('#5 Add a default language to the XMP file and convert to Exif and IPTC')
         out     += ''
         out     += 'Testcase 5'
         out     += '=========='
         BT.cp('k.xmp', 'l.xmp')
-        out     += BT.Executer('''exiv2 -M'set Xmp.dc.description lang="x-default" How to fix this mess' l.xmp''')
+        out     += BT.Exec('''exiv2 -M'set Xmp.dc.description lang="x-default" How to fix this mess' l.xmp''')
         out     += BT.grep('x-default', 'l.xmp')
         BT.copyTestFile(jpg, 'l.jpg')
-        out     += BT.Executer('exiv2 -iX l.jpg')
-        out     += BT.Executer('exiv2 -px -b l.jpg')
-        out     += BT.Executer('exiv2 -PEkycv l.jpg')
-        out     += BT.Executer('exiv2 -pi l.jpg')
+        out     += BT.Exec('exiv2 -iX l.jpg')
+        out     += BT.Exec('exiv2 -px -b l.jpg')
+        out     += BT.Exec('exiv2 -PEkycv l.jpg')
+        out     += BT.Exec('exiv2 -pi l.jpg')
 
         BT.log.info('#6 Convert an Exif user comment to XMP')
         out     += ''
         out     += 'Testcase 6'
         out     += '=========='
         BT.copyTestFile(jpg, 'm.jpg')
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.UserComment charset=Jis This is a JIS encoded Exif user comment. Or was it?' m.jpg")
-        out     += BT.Executer('exiv2 -PEkycv m.jpg')
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.UserComment charset=Jis This is a JIS encoded Exif user comment. Or was it?' m.jpg")
+        out     += BT.Exec('exiv2 -PEkycv m.jpg')
         BT.rm('m.xmp')
-        out     += BT.Executer('exiv2 -eX m.jpg')
-        out     += BT.Executer('exiv2 -px m.xmp')
-        out     += BT.Executer('exiv2 -PEkycv m.xmp')
-        out     += BT.Executer('exiv2 -v -pi m.xmp')
+        out     += BT.Exec('exiv2 -eX m.jpg')
+        out     += BT.Exec('exiv2 -px m.xmp')
+        out     += BT.Exec('exiv2 -PEkycv m.xmp')
+        out     += BT.Exec('exiv2 -v -pi m.xmp')
 
         BT.log.info('#7 And back to Exif')
         out     += ''
@@ -115,25 +115,25 @@ class TestCases(unittest.TestCase):
         out     += '=========='
         BT.copyTestFile(jpg, 'n.jpg')
         BT.cp('m.xmp', 'n.xmp')
-        out     += BT.Executer('exiv2 -iX n.jpg')
-        out     += BT.Executer('exiv2 -px n.jpg')
-        out     += BT.Executer('exiv2 -PEkycv n.jpg')
-        out     += BT.Executer('exiv2 -v -pi n.jpg')
+        out     += BT.Exec('exiv2 -iX n.jpg')
+        out     += BT.Exec('exiv2 -px n.jpg')
+        out     += BT.Exec('exiv2 -PEkycv n.jpg')
+        out     += BT.Exec('exiv2 -v -pi n.jpg')
 
         BT.log.info('#8 Convert IPTC keywords to XMP')
         out     += ''
         out     += 'Testcase 8'
         out     += '=========='
         BT.copyTestFile(jpg, 'o.jpg')
-        out     += BT.Executer('''exiv2 -M'add Iptc.Application2.Keywords Sex' o.jpg''')
-        out     += BT.Executer('''exiv2 -M'add Iptc.Application2.Keywords Drugs' o.jpg''')
-        out     += BT.Executer('''exiv2 -M"add Iptc.Application2.Keywords Rock'n'roll" o.jpg''')
-        out     += BT.Executer('''exiv2 -pi o.jpg''')
+        out     += BT.Exec('''exiv2 -M'add Iptc.Application2.Keywords Sex' o.jpg''')
+        out     += BT.Exec('''exiv2 -M'add Iptc.Application2.Keywords Drugs' o.jpg''')
+        out     += BT.Exec('''exiv2 -M"add Iptc.Application2.Keywords Rock'n'roll" o.jpg''')
+        out     += BT.Exec('''exiv2 -pi o.jpg''')
         BT.rm('o.xmp')
-        out     += BT.Executer('exiv2 -eX o.jpg')
-        out     += BT.Executer('exiv2 -px o.xmp')
-        out     += BT.Executer('exiv2 -v -PEkycv o.xmp')
-        out     += BT.Executer('exiv2 -pi o.xmp')
+        out     += BT.Exec('exiv2 -eX o.jpg')
+        out     += BT.Exec('exiv2 -px o.xmp')
+        out     += BT.Exec('exiv2 -v -PEkycv o.xmp')
+        out     += BT.Exec('exiv2 -pi o.xmp')
 
         BT.log.info('#9 And back to IPTC')
         out     += ''
@@ -141,23 +141,23 @@ class TestCases(unittest.TestCase):
         out     += '=========='
         BT.copyTestFile(jpg, 'p.jpg')
         BT.cp('o.xmp', 'p.xmp')
-        out     += BT.Executer('exiv2 -iX p.jpg')
-        out     += BT.Executer('exiv2 -px p.jpg')
-        out     += BT.Executer('exiv2 -v -PEkycv p.jpg')
-        out     += BT.Executer('exiv2 -pi p.jpg')
+        out     += BT.Exec('exiv2 -iX p.jpg')
+        out     += BT.Exec('exiv2 -px p.jpg')
+        out     += BT.Exec('exiv2 -v -PEkycv p.jpg')
+        out     += BT.Exec('exiv2 -pi p.jpg')
 
         BT.log.info('#10 Convert an Exif tag to an XMP text value')
         out     += ''
         out     += 'Testcase 10'
         out     += '==========='  # 10 equal signs
         BT.copyTestFile(jpg, 'q.jpg')
-        out     += BT.Executer("exiv2 -M'set Exif.Image.Software Exiv2' q.jpg")
-        out     += BT.Executer("exiv2 -PEkycv q.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.Image.Software Exiv2' q.jpg")
+        out     += BT.Exec("exiv2 -PEkycv q.jpg")
         BT.rm('q.xmp')
-        out     += BT.Executer('exiv2 -eX q.jpg')
-        out     += BT.Executer('exiv2 -px q.xmp')
-        out     += BT.Executer('exiv2 -PEkycv q.xmp')
-        out     += BT.Executer('exiv2 -v -pi q.xmp')
+        out     += BT.Exec('exiv2 -eX q.jpg')
+        out     += BT.Exec('exiv2 -px q.xmp')
+        out     += BT.Exec('exiv2 -PEkycv q.xmp')
+        out     += BT.Exec('exiv2 -v -pi q.xmp')
 
         BT.log.info('#11 And back to Exif')
         out     += ''
@@ -165,23 +165,23 @@ class TestCases(unittest.TestCase):
         out     += '==========='
         BT.copyTestFile(jpg, 'r.jpg')
         BT.cp('q.xmp', 'r.xmp')
-        out     += BT.Executer('exiv2 -iX r.jpg')
-        out     += BT.Executer('exiv2 -px r.jpg')
-        out     += BT.Executer('exiv2 -PEkycv r.jpg')
-        out     += BT.Executer('exiv2 -v -pi r.jpg')
+        out     += BT.Exec('exiv2 -iX r.jpg')
+        out     += BT.Exec('exiv2 -px r.jpg')
+        out     += BT.Exec('exiv2 -PEkycv r.jpg')
+        out     += BT.Exec('exiv2 -v -pi r.jpg')
 
         BT.log.info('#12 Convert an IPTC dataset to an XMP text value')
         out     += ''
         out     += 'Testcase 12'
         out     += '==========='
         BT.copyTestFile(jpg, 's.jpg')
-        out     += BT.Executer("exiv2 -M'set Iptc.Application2.SubLocation Kuala Lumpur' s.jpg")
-        out     += BT.Executer("exiv2 -pi s.jpg")
+        out     += BT.Exec("exiv2 -M'set Iptc.Application2.SubLocation Kuala Lumpur' s.jpg")
+        out     += BT.Exec("exiv2 -pi s.jpg")
         BT.rm('s.xmp')
-        out     += BT.Executer('exiv2 -eX s.jpg')
-        out     += BT.Executer('exiv2 -px s.xmp')
-        out     += BT.Executer('exiv2 -v -PEkycv s.xmp')
-        out     += BT.Executer('exiv2 -pi s.xmp')
+        out     += BT.Exec('exiv2 -eX s.jpg')
+        out     += BT.Exec('exiv2 -px s.xmp')
+        out     += BT.Exec('exiv2 -v -PEkycv s.xmp')
+        out     += BT.Exec('exiv2 -pi s.xmp')
 
         BT.log.info('#13 And back to IPTC')
         out     += ''
@@ -189,32 +189,32 @@ class TestCases(unittest.TestCase):
         out     += '==========='
         BT.copyTestFile(jpg, 't.jpg')
         BT.cp('s.xmp', 't.xmp')
-        out     += BT.Executer('exiv2 -iX t.jpg')
-        out     += BT.Executer('exiv2 -px t.jpg')
-        out     += BT.Executer('exiv2 -v -PEkycv t.jpg')
-        out     += BT.Executer('exiv2 -pi t.jpg')
+        out     += BT.Exec('exiv2 -iX t.jpg')
+        out     += BT.Exec('exiv2 -px t.jpg')
+        out     += BT.Exec('exiv2 -v -PEkycv t.jpg')
+        out     += BT.Exec('exiv2 -pi t.jpg')
 
         BT.log.info('#14 Convert a few other tags of interest from Exif/IPTC to XMP')
         out     += ''
         out     += 'Testcase 14'
         out     += '==========='
         BT.copyTestFile(jpg, 'u.jpg')
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.DateTimeOriginal 2003:12:14 12:01:44' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SubSecTimeOriginal 999999999' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ExifVersion 48 50 50 49' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ComponentsConfiguration 1 2 3 0' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.Flash 73' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.GPSInfo.GPSLatitude 3/1 8/1 29734512/1000000' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.GPSInfo.GPSLatitudeRef N' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg")
-        out     += BT.Executer("exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg")
-        out     += BT.Executer('exiv2 -PEkycv u.jpg')
-        out     += BT.Executer('exiv2 -pi u.jpg')
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.DateTimeOriginal 2003:12:14 12:01:44' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SubSecTimeOriginal 999999999' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ExifVersion 48 50 50 49' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ComponentsConfiguration 1 2 3 0' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.Flash 73' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.GPSInfo.GPSLatitude 3/1 8/1 29734512/1000000' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.GPSInfo.GPSLatitudeRef N' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.GPSInfo.GPSVersionID 2 2 0 1' u.jpg")
+        out     += BT.Exec("exiv2 -M'set Exif.GPSInfo.GPSTimeStamp 1/1 2/1 999999999/1000000000' u.jpg")
+        out     += BT.Exec('exiv2 -PEkycv u.jpg')
+        out     += BT.Exec('exiv2 -pi u.jpg')
         BT.rm('u.xmp')
-        out     += BT.Executer('exiv2 -eX u.jpg')
-        out     += BT.Executer('exiv2 -px u.xmp')
-        out     += BT.Executer('exiv2 -PEkycv u.xmp')
-        out     += BT.Executer('exiv2 -pi u.xmp')
+        out     += BT.Exec('exiv2 -eX u.jpg')
+        out     += BT.Exec('exiv2 -px u.xmp')
+        out     += BT.Exec('exiv2 -PEkycv u.xmp')
+        out     += BT.Exec('exiv2 -pi u.xmp')
 
         BT.log.info('#15 And back to Exif/IPTC')
         out     += ''
@@ -222,20 +222,20 @@ class TestCases(unittest.TestCase):
         out     += '==========='
         BT.copyTestFile(jpg, 'v.jpg')
         BT.cp('u.xmp', 'v.xmp')
-        out     += BT.Executer("exiv2 -M'set Xmp.xmp.ModifyDate 2015-04-17T18:10:22Z' v.xmp")
-        out     += BT.Executer('exiv2 -iX v.jpg')  # need TZ=GMT-8
-        out     += BT.Executer('exiv2 -px v.jpg')
-        out     += BT.Executer('exiv2 -PEkycv v.jpg').stdout.replace('17 19:10:22', '18 02:10:22') # evade this test on MSVC builds (Issue #485)
-        out     += BT.Executer('exiv2 -pi v.jpg')
+        out     += BT.Exec("exiv2 -M'set Xmp.xmp.ModifyDate 2015-04-17T18:10:22Z' v.xmp")
+        out     += BT.Exec('exiv2 -iX v.jpg')  # need TZ=GMT-8
+        out     += BT.Exec('exiv2 -px v.jpg')
+        out     += BT.Exec('exiv2 -PEkycv v.jpg').stdout.replace('17 19:10:22', '18 02:10:22') # evade this test on MSVC builds (Issue #485)
+        out     += BT.Exec('exiv2 -pi v.jpg')
 
         BT.log.info('#16 https://github.com/Exiv2/exiv2/issues/521')
         out     += ''
         out     += 'Testcase 16'
         out     += '==========='
         BT.copyTestFile('DSC_3079.jpg')
-        out     += BT.Executer('exiv2 -px                        DSC_3079.jpg')
-        out     += BT.Executer('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
-        out     += BT.Executer('exiv2 -px                        DSC_3079.jpg')
+        out     += BT.Exec('exiv2 -px                        DSC_3079.jpg')
+        out     += BT.Exec('exiv2 -M"del Xmp.mwg-rs.Regions" DSC_3079.jpg')
+        out     += BT.Exec('exiv2 -px                        DSC_3079.jpg')
 
         # Ignore output differences on Windows
         for pair in [
@@ -269,15 +269,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.save(cmds, cmdfile)
         BT.copyTestFile(crwfile)
         out      = BT.Output()
-        out     += BT.Executer('exiv2 -v -pt           {crwfile}', vars())
-        out     += BT.Executer('exiv2 -v -m{cmdfile}   {crwfile}', vars())
-        out     += BT.Executer('exiv2 -v -pt           {crwfile}', vars())
+        out     += BT.Exec('exiv2 -v -pt           {crwfile}', vars())
+        out     += BT.Exec('exiv2 -v -m{cmdfile}   {crwfile}', vars())
+        out     += BT.Exec('exiv2 -v -pt           {crwfile}', vars())
 
         BT.log.info('#2 Delete tags')
         BT.copyTestFile(crwfile)
-        out     += BT.Executer("exiv2 -v -pt           {crwfile}", vars())
-        out     += BT.Executer("exiv2 -v -M'del Exif.Canon.OwnerName'    {crwfile}", vars())
-        out     += BT.Executer("exiv2 -v -pt           {crwfile}", vars())
+        out     += BT.Exec("exiv2 -v -pt           {crwfile}", vars())
+        out     += BT.Exec("exiv2 -v -M'del Exif.Canon.OwnerName'    {crwfile}", vars())
+        out     += BT.Exec("exiv2 -v -pt           {crwfile}", vars())
 
         # sed evades TZ issue on MSVC builds #1221
         out      = str(out).replace('23 19:54', '23 18:54').replace('24 01:54', '23 18:54')
@@ -290,7 +290,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out      = BT.Output()
         for jpg in ['exiv2-gc.jpg', 'exiv2-canon-powershot-s40.jpg', 'exiv2-nikon-d70.jpg']:
             BT.copyTestFile(jpg)
-            out += BT.Executer('exifdata-test {jpg}', vars())
+            out += BT.Exec('exifdata-test {jpg}', vars())
         BT.reportTest('exifdata-test', out)
 
 
@@ -368,31 +368,31 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         out += '\nExiv2 version ------------------------------------------------------------'
         # Tweak this to avoid a maintenance headache with test/data/exiv2-test.out
-        out += re.sub(r'exiv2.*', 'exiv2 0.27.0.0 (__ bit build)', BT.Executer('exiv2 -u -V').stdout)
+        out += re.sub(r'exiv2.*', 'exiv2 0.27.0.0 (__ bit build)', BT.Exec('exiv2 -u -V').stdout)
 
         out += '\nExiv2 help ---------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -h')
+        out += BT.Exec('exiv2 -u -h')
 
         out += '\n\nAdjust -------------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v -a-12:01:01 adjust  {images_1_str}', vars(), assert_returncode=[253])
+        out += BT.Exec('exiv2 -u -v -a-12:01:01 adjust  {images_1_str}', vars(), assert_returncode=[253])
 
         out += '\nRename -------------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -vf rename             {images_1_str}', vars(), assert_returncode=[253])
+        out += BT.Exec('exiv2 -u -vf rename             {images_1_str}', vars(), assert_returncode=[253])
 
         out += '\nPrint --------------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
+        out += BT.Exec('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
         out += ''
-        out += BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+        out += BT.Exec('exiv2 -u -v -b -pt print        {images_2_str}', vars())
+        e    = BT.Exec('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'iii')
         out += e.stderr.decode()
 
         out += '\nExtract Exif data --------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -vf extract            {images_2_str}', vars())
+        out += BT.Exec('exiv2 -u -vf extract            {images_2_str}', vars())
 
         out += '\nExtract Thumbnail --------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+        out += BT.Exec('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
+        e    = BT.Exec('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'jjj')
         out += e.stderr.decode()
 
@@ -400,16 +400,16 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += BT.diff('iii', 'jjj')
 
         out += '\nDelete Thumbnail ---------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v -dt delete          {images_2_str}', vars())
-        out += BT.Executer('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
+        out += BT.Exec('exiv2 -u -v -dt delete          {images_2_str}', vars())
+        out += BT.Exec('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
 
         out += '\nDelete Exif data ---------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v delete              {images_2_str}', vars())
-        out += BT.Executer('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
+        out += BT.Exec('exiv2 -u -v delete              {images_2_str}', vars())
+        out += BT.Exec('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
 
         out += '\nInsert Exif data ---------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v insert              {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+        out += BT.Exec('exiv2 -u -v insert              {images_2_str}', vars())
+        e    = BT.Exec('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'kkk')
         out += e.stderr.decode()
 
@@ -428,20 +428,20 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         out      = BT.Output()
         out     += '--- show GPSInfo tags ---'
-        out     += BT.Executer('exiv2 -pa --grep GPSInfo    {jpg}', vars())
+        out     += BT.Exec('exiv2 -pa --grep GPSInfo    {jpg}', vars())
 
         out     += '--- deleting the GPSInfo tags'
-        for tag in BT.Executer('exiv2 -Pk --grep GPSInfo    {jpg}', vars()).stdout.split('\n'):
+        for tag in BT.Exec('exiv2 -Pk --grep GPSInfo    {jpg}', vars()).stdout.split('\n'):
             tag  = tag.rstrip(' ')
-            out += BT.Executer('exiv2 -M"del {tag}"         {jpg}', vars())
-        out     += BT.Executer('exiv2 -pa --grep GPS        {jpg}', vars(), assert_returncode=[0, 1])
+            out += BT.Exec('exiv2 -M"del {tag}"         {jpg}', vars())
+        out     += BT.Exec('exiv2 -pa --grep GPS        {jpg}', vars(), assert_returncode=[0, 1])
 
         out     += '--- run geotag ---'
-        e        = BT.Executer('geotag -ascii -tz -8:00     {jpg} {gpx}', vars())
+        e        = BT.Exec('geotag -ascii -tz -8:00     {jpg} {gpx}', vars())
         out     += ' '.join(e.stdout.split('\n')[0].split(' ')[1:])
 
         out     += '--- show GPSInfo tags ---'
-        out     += BT.Executer('exiv2 -pa --grep GPSInfo    {jpg}', vars())
+        out     += BT.Exec('exiv2 -pa --grep GPSInfo    {jpg}', vars())
 
         BT.reportTest('geotag-test', out)
 
@@ -455,15 +455,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             if img  == 'Reagan2.jp2':
                 return
             if img  == 'exiv2-bug1199.webp':
-                out += BT.Executer('exiv2 --comment abcdefg   {img}', vars(), assert_returncode=[0, 1])
-                out += BT.Executer('exiv2 -pS                 {img}', vars())
+                out += BT.Exec('exiv2 --comment abcdefg   {img}', vars(), assert_returncode=[0, 1])
+                out += BT.Exec('exiv2 -pS                 {img}', vars())
                 out += ''
             else:
-                out += BT.Executer('exiv2 --comment abcdefg   {img}', vars())
-                out += BT.Executer('exiv2 -pS                 {img}', vars())
-            out     += BT.Executer('exiv2 -pc                 {img}', vars())
-            out     += BT.Executer('exiv2 -dc                 {img}', vars())
-            out     += BT.Executer('exiv2 -pS                 {img}', vars())
+                out += BT.Exec('exiv2 --comment abcdefg   {img}', vars())
+                out += BT.Exec('exiv2 -pS                 {img}', vars())
+            out     += BT.Exec('exiv2 -pc                 {img}', vars())
+            out     += BT.Exec('exiv2 -dc                 {img}', vars())
+            out     += BT.Exec('exiv2 -pS                 {img}', vars())
             return str(out) or None
 
         # num = 1074  # ICC Profile Support
@@ -480,28 +480,28 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             for i in ['large.icc', 'small.icc', img]:
                 BT.copyTestFile(i)
 
-            out      += BT.Executer('exiv2 -pS          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
+            out      += BT.Exec('exiv2 -pS          {img}', vars())
+            e         = BT.Exec('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_1.icc')
-            out      += BT.Executer('exiv2 -eC --force  {img}', vars())
+            out      += BT.Exec('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_2.icc')
             out      += test1120(img)
 
             BT.copyTestFile('large.icc', iccname)
-            out      += BT.Executer('exiv2 -iC          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
+            out      += BT.Exec('exiv2 -iC          {img}', vars())
+            e         = BT.Exec('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_large_1.icc')
-            out      += BT.Executer('exiv2 -pS          {img}', vars())
-            out      += BT.Executer('exiv2 -eC --force  {img}', vars())
+            out      += BT.Exec('exiv2 -pS          {img}', vars())
+            out      += BT.Exec('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_large_2.icc')
             out      += test1120(img)
 
             BT.copyTestFile('small.icc', iccname)
-            out      += BT.Executer('exiv2 -iC          {img}', vars())
-            e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
+            out      += BT.Exec('exiv2 -iC          {img}', vars())
+            e         = BT.Exec('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
             BT.save(e.stdout, stub + '_small_1.icc')
-            out      += BT.Executer('exiv2 -pS          {img}', vars())
-            out      += BT.Executer('exiv2 -eC --force  {img}', vars())
+            out      += BT.Exec('exiv2 -pS          {img}', vars())
+            out      += BT.Exec('exiv2 -eC --force  {img}', vars())
             BT.mv(iccname, stub + '_small_2.icc')
             out      += test1120(img)
 
@@ -598,12 +598,12 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             out          = BT.Output()
             for img in ['table.jpg', 'Reagan.tiff', 'exiv2-bug922a.jpg']:
                 files    = ['s0', 's1', 's2', '{}/{}'.format(server_url, img)]
-                out     += BT.Executer('iotest ' + ' '.join(files))
+                out     += BT.Exec('iotest ' + ' '.join(files))
                 for f in files:
-                    out += BT.Executer('exiv2 -g City -g DateTime {f}', vars())
+                    out += BT.Exec('exiv2 -g City -g DateTime {f}', vars())
 
             for num in ['0', '10', '1000']:
-                out     += BT.Executer('iotest s0 s1 s2 {server_url}/table.jpg {num}', vars())
+                out     += BT.Exec('iotest s0 s1 s2 {server_url}/table.jpg {num}', vars())
                 out     += sniff('s0', 's1', 's2', os.path.join(BT.Config.data_dir, 'table.jpg'))
 
         except Exception as e:
@@ -697,8 +697,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 60001' {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                      {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 60001' {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                      {filename}", vars())
         out     += ''
 
         # Old ISO is read out first, so if it doesn't indicate that
@@ -714,10 +714,10 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 60002'           {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 444444' {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                                {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 60002'           {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 444444' {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                                {filename}", vars())
         out     += ''
 
         # Corner case check (highest ISO value not indicating possible
@@ -730,8 +730,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65534' {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                      {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65534' {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                      {filename}", vars())
         out     += ''
 
         # Corner case check (ISO value indicating possible overflow,
@@ -745,8 +745,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                      {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                      {filename}", vars())
         out     += ''
 
         # possible ISO value overflow, but additional information not valid
@@ -759,9 +759,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 0'     {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                      {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 0'     {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                      {filename}", vars())
         out     += ''
 
         # possible ISO value overflow, but additional information not valid
@@ -774,9 +774,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 8'     {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                      {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 8'     {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                      {filename}", vars())
         out     += ''
 
         # possible ISO value overflow, but additional information partially valid
@@ -790,9 +790,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 2'     {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                      {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535' {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 2'     {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                      {filename}", vars())
         out     += ''
 
         # ISO value overflow, REI contains same value as 16bit ISO, though
@@ -806,10 +806,10 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535'           {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 65530'  {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                                {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535'           {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 65530'  {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                                {filename}", vars())
         out     += ''
 
         # ISO value overflow, REI contains 16bit ISO value +1
@@ -823,10 +823,10 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535'           {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 65536'  {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                                {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.ISOSpeedRatings 65535'           {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 65536'  {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                                {filename}", vars())
         out     += ''
 
         # old ISO not set
@@ -840,9 +840,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 60010'  {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                                {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 60010'  {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                                {filename}", vars())
         out     += ''
 
         # old ISO not set
@@ -856,9 +856,9 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         filename = 'exiv2-iso65k-{}.jpg'.format(num)
         BT.copyTestFile('exiv2-empty.jpg', filename)
         out     += '------> iso65k test {} <-------'.format(num)
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
-        out     += BT.Executer("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 100011' {filename}", vars())
-        out     += BT.Executer("exiv2 -ps                                                {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.SensitivityType 2'               {filename}", vars())
+        out     += BT.Exec("exiv2 -M'set Exif.Photo.RecommendedExposureIndex 100011' {filename}", vars())
+        out     += BT.Exec("exiv2 -ps                                                {filename}", vars())
         out     += ''
 
         BT.reportTest('iso65k-test', out)
@@ -869,16 +869,16 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         for i in ['exiv2-empty.jpg', 'exiv2-gc.jpg', 'modifycmd1.txt', 'modifycmd2.txt']:
             BT.copyTestFile(i)
         out  = BT.Output()
-        out += BT.Executer('exiv2 -v -m modifycmd1.txt exiv2-empty.jpg')
-        out += BT.Executer('exiv2 -v -m modifycmd2.txt exiv2-gc.jpg')
-        out += BT.Executer('exiv2 -v -pi exiv2-empty.jpg')
-        out += BT.Executer('exiv2 -v -pt exiv2-empty.jpg exiv2-gc.jpg')
+        out += BT.Exec('exiv2 -v -m modifycmd1.txt exiv2-empty.jpg')
+        out += BT.Exec('exiv2 -v -m modifycmd2.txt exiv2-gc.jpg')
+        out += BT.Exec('exiv2 -v -pi exiv2-empty.jpg')
+        out += BT.Exec('exiv2 -v -pt exiv2-empty.jpg exiv2-gc.jpg')
         BT.reportTest('modify-test', out)
 
 
     def nls_test(self):
         # Test driver for exiv2.exe nls support
-        nls          = BT.Executer('exiv2 -vVg nls').stdout.split('\n')[1]
+        nls          = BT.Exec('exiv2 -vVg nls').stdout.split('\n')[1]
         if nls      != 'enable_nls=1':
             print('Skipped. Because exiv2 is not built with nls.')
             return
@@ -902,7 +902,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # The above part is checking the environment, and the following part is executing the actual test
         out      = BT.Output()
         for language in ['fr_FR', 'es_ES']:
-            e    = BT.Executer(cmd='exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1], decode_output=False)
+            e    = BT.Exec(cmd='exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1], decode_output=False)
             out += e.stdout.split(b'\n')[0].decode()
         BT.reportTest('nls-test', out)
 
@@ -911,7 +911,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # Mini test-driver for path utility functions
         BT.copyTestFile('path-test.txt')
         out      = BT.Output()
-        out     += BT.Executer('path-test path-test.txt')
+        out     += BT.Exec('path-test path-test.txt')
         # print(out)
 
 
@@ -925,12 +925,12 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         for file in files:
             BT.copyTestFile(file)
             for i in [1,2]:
-                out  += BT.Executer('exiv2 -pS    {file}', vars())
-                out  += BT.Executer('exiv2 -pc    {file}', vars())
+                out  += BT.Exec('exiv2 -pS    {file}', vars())
+                out  += BT.Exec('exiv2 -pc    {file}', vars())
                 if i ==1:
                   out+= ''
-                out  += BT.Executer('exiv2 -pa    {file}', vars())
-                out  += BT.Executer('exiv2 -c "changed comment" {file}', vars())
+                out  += BT.Exec('exiv2 -pa    {file}', vars())
+                out  += BT.Exec('exiv2 -c "changed comment" {file}', vars())
 
         BT.reportTest('png-test', out) # skip!  blank lines from -pc are in the wrong order!
 
@@ -987,18 +987,18 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             out    += '\n-----> {} <-----\n'.format(filename)
 
             out    += 'Command: exiv2 -pp ' + filename
-            e       = BT.Executer('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
+            e       = BT.Exec('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
             out    += e.stdout
             out    += 'Exit code: {}'.format(e.returncode)
             BT.rm(*BT.find(pattern=image + '-preview*'))
 
             out    += '\nCommand: exiv2 -f -ep ' + filename
-            e       = BT.Executer('exiv2 -f -ep {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
+            e       = BT.Exec('exiv2 -f -ep {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
             out    += e.stdout
             out    += 'Exit code: {}'.format(e.returncode)
 
             # Check the difference
-            e       = BT.Executer('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
+            e       = BT.Exec('exiv2 -pp {filename}', vars(), assert_returncode=None, redirect_stderr_to_stdout=False)
             preview_num         = e.stdout[:e.stdout.find(':')].lstrip('Preview ')
             for test_file in BT.find(pattern='{image}-preview{preview_num}.*'.format(**vars())):
                 reference_file  = os.path.join(preview_dir, test_file)
@@ -1030,32 +1030,32 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.copyTestFile(a)
 
         def get_xmpData(img):
-            e    = BT.Executer('exiv2 -pX   {img}', vars(), decode_output=False)
+            e    = BT.Exec('exiv2 -pX   {img}', vars(), decode_output=False)
             return e.stdout.replace(b'\n', b'\r\n', 16) # Ignore the difference in newline
 
         BT.copyTestFile(a, b)
-        out     += BT.Executer('exiv2 -pS   {b}', vars())
-        out     += BT.Executer('exiv2 -dX   {b}', vars())  # remove first
-        out     += BT.Executer('exiv2 -pS   {b}', vars())
+        out     += BT.Exec('exiv2 -pS   {b}', vars())
+        out     += BT.Exec('exiv2 -dX   {b}', vars())  # remove first
+        out     += BT.Exec('exiv2 -pS   {b}', vars())
 
-        e = BT.Executer('exiv2 -pX   {a}', vars(), decode_output=False)
+        e = BT.Exec('exiv2 -pX   {a}', vars(), decode_output=False)
         with open('out2', 'wb') as f:
             f.write(e.stdout)
 
-        out     += BT.Executer('exiv2 -iXX- {b}', vars(), stdin=get_xmpData(a))
-        out     += BT.Executer('exiv2 -pS   {b}', vars())
+        out     += BT.Exec('exiv2 -iXX- {b}', vars(), stdin=get_xmpData(a))
+        out     += BT.Exec('exiv2 -pS   {b}', vars())
 
         BT.copyTestFile(a, b)
-        out     += BT.Executer('exiv2 -dX   {b}', vars())
-        out     += BT.Executer('exiv2 -dX   {b}', vars())
-        out     += BT.Executer('exiv2 -pS   {b}', vars())
-        out     += BT.Executer('exiv2 -iXX- {b}', vars(), stdin=get_xmpData(a))
-        out     += BT.Executer('exiv2 -pS   {b}', vars())
+        out     += BT.Exec('exiv2 -dX   {b}', vars())
+        out     += BT.Exec('exiv2 -dX   {b}', vars())
+        out     += BT.Exec('exiv2 -pS   {b}', vars())
+        out     += BT.Exec('exiv2 -iXX- {b}', vars(), stdin=get_xmpData(a))
+        out     += BT.Exec('exiv2 -pS   {b}', vars())
 
         for f in ['Reagan.jpg', 'Reagan.tiff', 'ReaganSmallPng.png']:
             BT.copyTestFile(f)
-            out     += BT.Executer('exiv2 -iXX- {f}', vars(), stdin=get_xmpData(a))
-            e        = BT.Executer('exiv2 -pX   {f}', vars())
+            out     += BT.Exec('exiv2 -iXX- {f}', vars(), stdin=get_xmpData(a))
+            e        = BT.Exec('exiv2 -pX   {f}', vars())
             out     += """
 <?xml version="1.0"?>
 <?xpacket begin='\ufeff' id='W5M0MpCehiHzreSzNTczkc9d'?>
@@ -1066,15 +1066,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         for f in ['Reagan.jpg', 'ReaganSmallPng.png']:
             BT.copyTestFile(f)
             BT.copyTestFile(a, b)
-            out     += BT.Executer('exiv2 -pS   {b}', vars())
-            e        = BT.Executer('exiv2 -ea-  {f}', vars(), decode_output=False)
-            out     += BT.Executer('exiv2 -ia-  {b}', vars(), stdin=e.stdout)
-            out     += BT.Executer('exiv2 -pS   {b}', vars())
+            out     += BT.Exec('exiv2 -pS   {b}', vars())
+            e        = BT.Exec('exiv2 -ea-  {f}', vars(), decode_output=False)
+            out     += BT.Exec('exiv2 -ia-  {b}', vars(), stdin=e.stdout)
+            out     += BT.Exec('exiv2 -pS   {b}', vars())
 
         BT.copyTestFile('Reagan.tiff')   # 1272 ReaganLargeTiff.tiff
         for img in ['Reagan.jpg', 'ReaganSmallPng.png', 'exiv2-bug1199.webp']:
             BT.copyTestFile(img)
-            e        = BT.Executer('exiv2 -eC-  Reagan.tiff', decode_output=False)
+            e        = BT.Exec('exiv2 -eC-  Reagan.tiff', decode_output=False)
 
             # Ignore the difference in the path separator
             stdout = e.stdout
@@ -1090,8 +1090,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             ]:
                 stdout  = stdout.replace(pair[0], pair[1])
 
-            out     += BT.Executer('exiv2 -iC-  {img}', vars(), stdin=stdout)
-            out     += BT.Executer('exiv2 -pS   {img}', vars())
+            out     += BT.Exec('exiv2 -iC-  {img}', vars(), stdin=stdout)
+            out     += BT.Exec('exiv2 -pS   {img}', vars())
             if img == 'ReaganSmallPng.png':
                 with open('out2', 'wb') as f:
                     f.write(e.stdout)
@@ -1102,7 +1102,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     def stringto_test(self):
         # Test driver for tests of stringToLong/Float/Rational
         out      = BT.Output()
-        out     += BT.Executer('stringto-test')
+        out     += BT.Exec('stringto-test')
         BT.reportTest('stringto-test', out)
 
 
@@ -1120,7 +1120,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             typs = []
             lens = []
             vals = []
-            e    = BT.Executer('exiv2 -pa {img}', vars(), redirect_stderr_to_stdout=False)
+            e    = BT.Exec('exiv2 -pa {img}', vars(), redirect_stderr_to_stdout=False)
             for line in e.stdout.split('\n'):
                 fields = re.findall(r'^(\S*)\s*(\S*)\s*(\d*)\s*(.*)$', line)[0]
                 tags  += [fields[0].split('.')[2]]      # tag
@@ -1139,7 +1139,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             TYPS = []
             LENS = []
             VALS = []
-            e    = BT.Executer('exiv2 -pS {img}', vars(), redirect_stderr_to_stdout=False)
+            e    = BT.Exec('exiv2 -pS {img}', vars(), redirect_stderr_to_stdout=False)
             for line in e.stdout.split('\n')[2:-1]:
                 fields = [i.strip(' ') for i in line.split('|')]
                 TAGS  += [fields[1].split(' ')[1]]
@@ -1181,7 +1181,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         BT.copyTestFile(test_file)
         out      = BT.Output()
         out     += exifprobe(test_file)
-        out     += BT.Executer('tiff-test {test_file}', vars())
+        out     += BT.Exec('tiff-test {test_file}', vars())
         out     += exifprobe(test_file)
         BT.reportTest('tiff-test', out)
 
@@ -1189,7 +1189,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     def version_test(self):
         # Test driver for exiv2 --verbose --version
         out      = BT.Output()
-        out     += BT.Executer('exiv2 --verbose --version')
+        out     += BT.Exec('exiv2 --verbose --version')
 
 
     def webp_test(self):
@@ -1205,8 +1205,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         # Extract the XMP
         BT.copyTestFile(webp)
-        out     += BT.Executer('exiv2 -pS {webp}', vars())
-        e        = BT.Executer('exiv2 -pX {webp}', vars())
+        out     += BT.Exec('exiv2 -pS {webp}', vars())
+        e        = BT.Exec('exiv2 -pX {webp}', vars())
         out     += """
 <?xml version="1.0"?>
 <?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
@@ -1217,60 +1217,60 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         # Test deleting metadata
         for option in ['-dC', '-de', '-dx', '-dCe', '-dCx', '-dCxe']:
             BT.copyTestFile(webp)
-            out     += BT.Executer('exiv2 -pS      {webp}', vars())
-            out     += BT.Executer('exiv2 {option} {webp}', vars())
-            out     += BT.Executer('exiv2 -pS      {webp}', vars())
+            out     += BT.Exec('exiv2 -pS      {webp}', vars())
+            out     += BT.Exec('exiv2 {option} {webp}', vars())
+            out     += BT.Exec('exiv2 -pS      {webp}', vars())
 
         # Extract the icc
         BT.copyTestFile(webp)
         BT.copyTestFile(tiff)
-        out     += BT.Executer('exiv2 -pS {webp}', vars())
-        BT.save(   BT.Executer('exiv2 -pC {tiff}', vars(), decode_output=False).stdout, icc)
-        out     += BT.Executer('exiv2 -iC {webp}', vars())
-        out     += BT.Executer('exiv2 -pS {webp}', vars())
+        out     += BT.Exec('exiv2 -pS {webp}', vars())
+        BT.save(   BT.Exec('exiv2 -pC {tiff}', vars(), decode_output=False).stdout, icc)
+        out     += BT.Exec('exiv2 -iC {webp}', vars())
+        out     += BT.Exec('exiv2 -pS {webp}', vars())
 
         # Copy the XMP from the test file
         BT.copyTestFile(webp)
-        BT.save(   BT.Executer('exiv2 -pX {webp}', vars(), decode_output=False).stdout, xmp)
-        out     += BT.Executer('exiv2 -ea --force {webp}', vars())
+        BT.save(   BT.Exec('exiv2 -pX {webp}', vars(), decode_output=False).stdout, xmp)
+        out     += BT.Exec('exiv2 -ea --force {webp}', vars())
 
         BT.copyTestFile(webp)
-        out     += BT.Executer('exiv2 -pS  {webp}', vars())
-        out     += BT.Executer('exiv2 -iXX {webp}', vars())
-        out     += BT.Executer('exiv2 -pS  {webp}', vars())
-        out     += BT.Executer('exiv2 -ix  {webp}', vars())
+        out     += BT.Exec('exiv2 -pS  {webp}', vars())
+        out     += BT.Exec('exiv2 -iXX {webp}', vars())
+        out     += BT.Exec('exiv2 -pS  {webp}', vars())
+        out     += BT.Exec('exiv2 -ix  {webp}', vars())
 
         # Copy the XMP from Reagan.tiff to test file
         BT.copyTestFile(tiff)
-        BT.save(   BT.Executer('exiv2 -pX  {tiff}', vars(), decode_output=False).stdout, xmp)
-        out     += BT.Executer('exiv2 -ea --force  {tiff}', vars())
+        BT.save(   BT.Exec('exiv2 -pX  {tiff}', vars(), decode_output=False).stdout, xmp)
+        out     += BT.Exec('exiv2 -ea --force  {tiff}', vars())
         BT.mv('Reagan.exv', exv)
 
         BT.copyTestFile(webp)
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
-        out     += BT.Executer('exiv2 -iXX  {webp}', vars())
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
-        out     += BT.Executer('exiv2 -ix   {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -iXX  {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -ix   {webp}', vars())
 
         # Copy the XMP from exiv2-bug922.jpg to test file
         BT.copyTestFile('exiv2-bug922.jpg')
-        BT.save(   BT.Executer('exiv2 -pX  exiv2-bug922.jpg', decode_output=False).stdout, xmp)
-        BT.Executer(           'exiv2 -ea --force  exiv2-bug922.jpg')
+        BT.save(   BT.Exec('exiv2 -pX  exiv2-bug922.jpg', decode_output=False).stdout, xmp)
+        BT.Exec(           'exiv2 -ea --force  exiv2-bug922.jpg')
         BT.mv('exiv2-bug922.exv', exv)
 
         BT.copyTestFile(webp)
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
-        out     += BT.Executer('exiv2 -ix   {webp}', vars())
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
-        out     += BT.Executer('exiv2 -iXX  {webp}', vars())
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -ix   {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -iXX  {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
 
         BT.copyTestFile('exiv2-bug922.jpg', webp)
-        out     += BT.Executer('exiv2 --force -ea  {webp}', vars())
+        out     += BT.Exec('exiv2 --force -ea  {webp}', vars())
         BT.copyTestFile(webp)
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
-        out     += BT.Executer('exiv2 -ie   {webp}', vars())
-        out     += BT.Executer('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
+        out     += BT.Exec('exiv2 -ie   {webp}', vars())
+        out     += BT.Exec('exiv2 -pS   {webp}', vars())
 
         BT.reportTest('webp-test', out)
 
@@ -1324,7 +1324,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         img      = 'exiv2-empty.jpg'
         BT.copyTestFile(img)
         out      = BT.Output()
-        out     += BT.Executer('write2-test {img}', vars())
+        out     += BT.Exec('write2-test {img}', vars())
         BT.reportTest('write2-test', out)
 
 
@@ -1335,19 +1335,19 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         for img in images:
             BT.copyTestFile(img)
-            out += BT.Executer('xmpparser-test {img}', vars())
+            out += BT.Exec('xmpparser-test {img}', vars())
             out += BT.diff(img, img + '-new')
 
         xmp = 'xmpsdk.xmp'
-        BT.save(BT.Executer('xmpparse {xmp}'    , vars()).stdout, 't1')
-        BT.save(BT.Executer('xmpparse {xmp}-new', vars()).stdout, 't2')
+        BT.save(BT.Exec('xmpparse {xmp}'    , vars()).stdout, 't1')
+        BT.save(BT.Exec('xmpparse {xmp}-new', vars()).stdout, 't2')
         out += BT.diff('t1', 't2')
 
-        out += BT.Executer('xmpsample')
+        out += BT.Exec('xmpsample')
         for img in ['exiv2-empty.jpg', 'cmdxmp.txt']:
             BT.copyTestFile(img)
-        out += BT.Executer('exiv2 -v -m cmdxmp.txt exiv2-empty.jpg', assert_returncode=[0, 1])
-        out += BT.Executer('exiv2 -v -px exiv2-empty.jpg')
+        out += BT.Exec('exiv2 -v -m cmdxmp.txt exiv2-empty.jpg', assert_returncode=[0, 1])
+        out += BT.Exec('exiv2 -v -px exiv2-empty.jpg')
 
         # Ignore output differences between BT.diff() and GNU dIff
         out = str(out)

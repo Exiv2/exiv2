@@ -6,20 +6,21 @@ from .common import log
 from .config import Config
 
 
-class Executer:
+class Exec:
     """
-    Execute a command in the shell, return a `Executer` object.
+    Execute a command in the shell, return a `Exec` object.
     - Compatible with Windows, Linux, MacOS and other platforms.
-    - If a binary of Exiv2 is executed, the absolute path is automatically added.
+    - If the command you executed exists in the `Config.bin_dir` directory, it will be used and converted to an absolute path.
+      Otherwise, it is treated as a normal command, subject to factors such as PATH.
     - `compatible_output=True`: filter out path delimiters, whitespace characters in output
     - `decode_output=True`: decode output from bytes to str
 
     Sample:
-    >>> Executer('echo Hello')
+    >>> Exec('echo Hello')
     Hello
-    >>> Executer('exiv2 --help')
+    >>> Exec('exiv2 --help')
     Usage: exiv2 [ options ] [ action ] file ...
-    >>> BT.Executer('echo').returncode
+    >>> BT.Exec('echo').returncode
     0
     """
 

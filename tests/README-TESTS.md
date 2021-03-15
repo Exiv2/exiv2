@@ -88,7 +88,7 @@ python3 runner.py               # automatically find test scripts and execute th
 You can write standard [unittest](https://docs.python.org/3/library/unittest.html) test cases.
 The core steps are as follows:
 1. Do something.\
-    For example, execute some shell commands through the `BT.Executer` class.
+    For example, execute some shell commands through the `BT.Exec` class.
 2. Check if things are OK.\
     Any exception you raise will cause the test case to fail.
 
@@ -108,7 +108,7 @@ class TestCases(unittest.TestCase):
         BT.Config.init()
 
     def simple_test(self):                  # define a test function
-        e = BT.Executer('exiv2 --version')  # execute a command in the shell
+        e = BT.Exec('exiv2 --version')  # execute a command in the shell
         assert e.returncode == 0:
         if 'exiv2 0.27.4.9' not in e.stdout:
             raise RuntimeError('Wrong version')
@@ -117,8 +117,8 @@ class TestCases(unittest.TestCase):
         jpg      = 'exiv2-empty.jpg'
         BT.copyTestFile(jpg)
         out      = BT.Output()
-        out     += BT.Executer('addmoddel {jpg}', vars())
-        out     += BT.Executer('exiv2 -pv {jpg}', vars())
+        out     += BT.Exec('addmoddel {jpg}', vars())
+        out     += BT.Exec('exiv2 -pv {jpg}', vars())
         BT.reportTest('addmoddel', out)
 ```
 
@@ -881,20 +881,20 @@ from system_tests import BT
 
         out      = BT.Output()
         out     += '--- show GPSInfo tags ---'
-        out     += BT.Executer('exiv2 -pa --grep GPSInfo    {jpg}', vars())
+        out     += BT.Exec('exiv2 -pa --grep GPSInfo    {jpg}', vars())
 
         out     += '--- deleting the GPSInfo tags'
-        for tag in BT.Executer('exiv2 -Pk --grep GPSInfo    {jpg}', vars()).stdout.split('\n'):
+        for tag in BT.Exec('exiv2 -Pk --grep GPSInfo    {jpg}', vars()).stdout.split('\n'):
             tag  = tag.rstrip(' ')
-            out += BT.Executer('exiv2 -M"del {tag}"         {jpg}', vars())
-        out     += BT.Executer('exiv2 -pa --grep GPS        {jpg}', vars(), assert_returncode=[0, 1])
+            out += BT.Exec('exiv2 -M"del {tag}"         {jpg}', vars())
+        out     += BT.Exec('exiv2 -pa --grep GPS        {jpg}', vars(), assert_returncode=[0, 1])
 
         out     += '--- run geotag ---'
-        e        = BT.Executer('geotag -ascii -tz -8:00     {jpg} {gpx}', vars())
+        e        = BT.Exec('geotag -ascii -tz -8:00     {jpg} {gpx}', vars())
         out     += ' '.join(e.stdout.split('\n')[0].split(' ')[1:])
 
         out     += '--- show GPSInfo tags ---'
-        out     += BT.Executer('exiv2 -pa --grep GPSInfo    {jpg}', vars())
+        out     += BT.Exec('exiv2 -pa --grep GPSInfo    {jpg}', vars())
 
         BT.reportTest('geotag-test', out)
 ```
