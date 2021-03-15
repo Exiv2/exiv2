@@ -97,7 +97,9 @@ For example:
 # -*- coding: utf-8 -*-
 import os
 import unittest
+
 from system_tests import BT                 # import system_tests, which has been loaded into sys.path
+
 class TestCases(unittest.TestCase):
     def setUp(self):
         """ This function is executed before each test case. """
@@ -132,6 +134,7 @@ test script by inheriting `system_tests.CaseMeta`. For example:
 ```python
 # -*- coding: utf-8 -*-
 import system_tests
+
 class UniqueTestName(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/test_file"

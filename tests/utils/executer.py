@@ -15,8 +15,8 @@ class Executer:
     - `decode_output=True`: decode output from bytes to str
 
     Sample:
-    >>> Executer('echo Hello').stdout
-    >>> Executer('exiv2 --help').stdout
+    >>> Executer('echo Hello')
+    >>> Executer('exiv2 --help')
     """
 
     def __init__(self, cmd: str,
@@ -71,6 +71,9 @@ class Executer:
 
     def __str__(self):
         return self.stdout
+
+    def __repr__(self):
+        return self.__str__()
 
     def run(self):
         # Check stdout
