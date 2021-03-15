@@ -10,8 +10,6 @@ class Exec:
     """
     Execute a command in the shell, return a `Exec` object.
     - Compatible with Windows, Linux, MacOS and other platforms.
-    - If the command you executed exists in the `Config.bin_dir` directory, it will be used and converted to an absolute path.
-      Otherwise, it is treated as a normal command, subject to factors such as PATH.
     - `compatible_output=True`: filter out path delimiters, whitespace characters in output
     - `decode_output=True`: decode output from bytes to str
 
@@ -39,6 +37,7 @@ class Exec:
 
         # set environment variables
         self.env            = os.environ.copy()
+        self.env.update({'PATH': Config.bin_dir + os.pathsep + self.env.get('PATH', '')})
         self.env.update({'DYLD_LIBRARY_PATH': Config.dyld_library_path})
         self.env.update({'LD_LIBRARY_PATH': Config.ld_library_path})
         self.env.update({'TZ': 'GMT-8'})
@@ -55,10 +54,7 @@ class Exec:
         self.decode_output      = decode_output
 
         # Generate the args for subprocess.Popen
-        args = self.cmd.split(' ', maxsplit=1)
-        if args[0] in Config.bin_files:
-            args[0]     = os.path.join(Config.bin_dir, args[0])
-        args            = ' '.join(args)
+        args = self.cmd
         if Config.platform == 'win32':
             self.args   = args.replace('\'', '\"')
         else:
