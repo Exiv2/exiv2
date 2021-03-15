@@ -4,7 +4,7 @@ import sys
 
 class Config:
     """
-    The configuration parameters for bash test
+    Contains configuration parameters for the test suite.
     When you run the test cases through `python3 runner.py`, the function configure_suite() in system_tests.py will override these parameters.
     """
     exiv2_dir         = os.path.normpath(os.path.join(os.path.abspath(__file__), '../../../'))

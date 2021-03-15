@@ -1,17 +1,14 @@
-"""
-Here are some common code that are poorly coupled with test cases, and may exist outside of the Exiv2 project.
-Most of the functions are used to simulate shell commands, such as cp(), rm(), mv(), cat(), grep(), and so on.
-"""
+import os
+import re
+import time
+import shutil
 import difflib
 import fnmatch
 import multiprocessing
-import os
-import re
-import shutil
-import time
 
 
 class Log:
+    """ A simple log class for caching log text  """
 
     def __init__(self):
         self.buffer = []
@@ -23,7 +20,7 @@ class Log:
         return '\n'.join(self.buffer)
 
     def dump(self):
-        _dump       = self.to_str()
+        _dump = self.to_str()
         self.clear()  # clear the buffer to avoid duplicate output
         return _dump
 
@@ -41,6 +38,44 @@ class Log:
 
 
 log = Log()
+
+
+class Output:
+    """
+    Simulate the stdout buffer.
+    You can use `out += x` to simulate `print(x)`.
+
+    Sample:
+    >>> out = Output()
+    >>> out
+    <__main__.Output object at 0x00000201D51F78B0>
+    >>> str(out)            # The initial content of Output() is empty
+    ''
+    >>> out += 'Hello'
+    >>> out += 1
+    >>> out += ['Hi' , 2]
+    >>> out += None         # Adding None has no effect
+    >>> str(out)
+    "Hello\n1\n['Hi', 2]"
+    """
+    def __init__(self):
+        self.lines = []
+        self.newline = '\n'
+
+    def __str__(self):
+        return self.newline.join(self.lines)
+
+    # Comment it so that log does not automatically convert to str type
+    # def __repr__(self):
+    #     return str(self)
+
+    def __add__(self, other):
+        if other != None and other.__str__() != None:
+            self.lines.append(str(other))
+        return self
+
+    def __radd__(self, other):
+        return self.__add__(other)
 
 
 class HttpServer:
@@ -298,6 +333,46 @@ def diff_bytes(file1, file2, return_str=False):
         return b'\n'.join(output)
 
 
+def diffCheck(file1, file2, in_bytes=False, encoding='utf-8'):
+    """ Compare two files to see if they are different """
+    if in_bytes:
+        d = diff_bytes(file1, file2, return_str=True)
+        if d:
+            print('diff_bytes:\n' + d)
+    else:
+        d = diff(file1, file2, encoding=encoding)
+        if d:
+            print('diff:\n' + d)
+    return d == ''
+
+
+def simply_diff(file1, file2, encoding='utf-8'):
+    """ Find the first different line of the two text files """
+    encoding    = encoding
+    list1       = cat(file1, encoding=encoding).split('\n')
+    list2       = cat(file2, encoding=encoding).split('\n')
+    if list1   == list2:
+        return
+
+    report      = []
+    report     += ['{}: {} lines'.format(file1, len(list1))]
+    report     += ['{}: {} lines'.format(file2, len(list2))]
+
+    # Make them have the same number of lines
+    max_lines   = max(len(list1), len(list2))
+    for _list in [list1, list2]:
+        _list  += [''] * (max_lines - len(_list))
+
+    # Compare each line
+    for i in range(max_lines):
+        if list1[i] != list2[i]:
+            report  += ['The first mismatch is in line {}:'.format(i + 1)]
+            report  += ['< {}'.format(list1[i])]
+            report  += ['> {}'.format(list2[i])]
+            break
+    return '\n'.join(report)
+
+
 def md5sum(filename):
     """ Calculate the MD5 value of the file """
     import hashlib
@@ -306,11 +381,10 @@ def md5sum(filename):
 
 
 def pretty_xml(text, encoding='utf-8'):
-    """
-    Add indent to the XML text
-    """
+    """ Add indent to the XML text """
     from lxml import etree
     encoding     = encoding
     root = etree.fromstring(text)
     etree.indent(root)
     return etree.tostring(root).decode(encoding)
+

@@ -1,8 +1,13 @@
 """
-This package provides code to be called by all test cases.
-You can find the appropriate function or class in this package, making it easier to write test cases, or add it yourself.
+This package provides code that can be invoked by all test cases, which are stored in these scripts:
+- config.py   : Contains configuration parameters for the test suite.
+- common.py   : Contains some code that is decoupled from the test cases, even from the Exiv2 project.
+- executer.py : Contains the Executer class for executing shell commands.
+- tests.py    : Contains some code that is coupled to the test cases, and can only be called by a few test cases.
 """
 
-from .configs import *
-from .common_code import *
-from .coupled_code import *
+from .config    import *
+from .common    import *
+from .executer  import *
+from .tests     import *
+

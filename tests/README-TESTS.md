@@ -92,7 +92,13 @@ When creating new tests, follow roughly these steps:
 
 ### Based on unittest
 
-You can write standard [unittest](https://docs.python.org/3/library/unittest.html) test cases. For example:
+You can write standard [unittest](https://docs.python.org/3/library/unittest.html) test cases. The core steps are as follows:
+1. Do something.\
+    For example, execute some shell commands through the `BT.Executer` class.
+2. Check if things are OK.\
+    Any exception you raise will cause the test case to fail.
+
+For example:
 ```py
 import os
 import unittest
@@ -123,7 +129,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 
 ```
-`system_tests.BT` is defined in `tests/utils/*.py`, which provides some functions and classes that are compatible with different platforms, making it easier to write test cases.
+- `system_tests.BT` is defined in `tests/utils/*.py` . You can find some appropriate functions or classes in this package to make it easier to write a test case or to add it yourself.
 
 <div id="Based-on-system_tests"/>
 
