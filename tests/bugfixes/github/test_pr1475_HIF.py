@@ -4,8 +4,7 @@ import system_tests
 import unittest
 
 
-vv = system_tests.BT.verbose_version()
-if vv.get('enable_bmff') != '1':
+if system_tests.BT.verbose_version().get('enable_bmff') != '1':
     raise unittest.SkipTest('*** requires enable_bmff=1 ***')
 
 
