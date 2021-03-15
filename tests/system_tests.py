@@ -694,8 +694,8 @@ class Case(unittest.TestCase):
     inherit_env = True
 
     def setUp(self):
-        """ This function is executed before each test function. """
-        BT.Config.init()        # Init the configuration of tests/bash_tests/
+        """ This function is executed before each test case. """
+        pass
 
     @classmethod
     def setUpClass(cls):

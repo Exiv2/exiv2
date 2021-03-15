@@ -105,7 +105,6 @@ class TestCases(unittest.TestCase):
         """ This function is executed before each test case. """
         os.makedirs(BT.Config.tmp_dir, exist_ok=True)
         os.chdir(BT.Config.tmp_dir)         # switch to the temporary directory to test
-        BT.Config.init()
 
     def simple_test(self):                  # define a test function
         e = BT.Exec('exiv2 --version')  # execute a command in the shell
