@@ -9,7 +9,7 @@ the output to an expected value. This is especially useful for a regression test
 suite and for tests which are too complex for Unit Tests.
 
 Exiv2 also has Unit Tests to test low level features of the code.
-The unit tests are stored in unitTests/ and are not discussed in this document.
+The unit tests are stored in unitTests/ and not discussed in this document.
 
 <div id="TOC"/>
 
