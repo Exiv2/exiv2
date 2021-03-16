@@ -1,50 +1,54 @@
+| Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
+|:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+![Exiv2](../exiv2.png)
+
+[README-TESTS](#README-TESTS)
+The Exiv2 Test Suite is designed to run an executable with different inputs and compare
+the output to an expected value. This is especially useful for a regression test
+suite and for tests which are too complex for Unit Tests.
+
+Exiv2 also has Unit Tests to test low level features of the code.
+The unit tests are stored in unitTests/ and are not discussed in this document.
+
 <div id="TOC"/>
 
-- [README-TESTS](#README-TESTS)
-  - [Running the test suite](#running-the-test-suite)
-  - [Writing new tests](#writing-new-tests)
-    - [Tests derived from unittest](#tests-derived-from-unittest)
-    - [Tests derived from system_tests](#tests-derived-from-system-tests)
-  - [Test suite](#test-suite-config)
-    - [Configuration](#configuration)
-      - [INI style](#ini-style)
-      - [Parameters](#parameters)
-    - [Test Scripts](#test-scripts)
-    - [Multiline strings](#multiline-strings)
-    - [Paths](#paths)
-  - [Advanced test scripts](#advanced-test-scripts)
-    - [Providing standard input to commands](#providing-standard-input-to-commands)
-    - [Using a different output encoding](#using-a-different-output-encoding)
-    - [Working with binary output](#working-with-binary-output)
-    - [Setting and modifying environment variables](#setting-and-modifying-environment-variables)
-    - [Creating file copies](#creating-file-copies)
-    - [Customizing the output check](#customizing-the-output-check)
-    - [Running all commands under valgrind](#running-all-commands-under-valgrind)
-    - [Manually expanding variables in strings](#manually-expanding-variables)
-    - [Hooks](#hooks)
-    - [Possible pitfalls](#possible-pitfalls)
-  - [bash tests](#bash-tests)
-    - [Bash Reference Output](#reference-output)
-    - [Bash Utilities in Python](#python-bash-utilities)
+1. [Running the test suite](#1)  
+    1.1 [Writing new tests](#writing-new-tests)  
+    1.2 [Tests derived from unittest](#tests-derived-from-unittest)  
+    1.3 [Tests derived from system_tests](#tests-derived-from-system-tests)  
+    1.4 [Test Suite Configuration](#test-suite-config)  
+    &nbsp;&nbsp;&nbsp; - [Syntax](#ini-style)  
+    &nbsp;&nbsp;&nbsp; - [Parameters](#parameters)  
+    &nbsp;&nbsp;&nbsp; - [Multiline strings](#multiline-strings)  
+    &nbsp;&nbsp;&nbsp; - [Paths and Variables](#paths)  
+    1.5 [Test Scripts](#test-scripts)  
+    1.6 [Advanced test scripts](#advanced-test-scripts)  
+    &nbsp;&nbsp;&nbsp; - [Providing standard input to commands](#providing-standard-input-to-commands)  
+    &nbsp;&nbsp;&nbsp; - [Using a different output encoding](#using-a-different-output-encoding)  
+    &nbsp;&nbsp;&nbsp; - [Working with binary output](#working-with-binary-output)  
+    &nbsp;&nbsp;&nbsp; - [Setting and modifying environment variables](#setting-and-modifying-environment-variables)  
+    &nbsp;&nbsp;&nbsp; - [Creating file copies](#creating-file-copies)  
+    &nbsp;&nbsp;&nbsp; - [Customizing the output check](#customizing-the-output-check)  
+    &nbsp;&nbsp;&nbsp; - [Running all commands under valgrind](#running-all-commands-under-valgrind)  
+    &nbsp;&nbsp;&nbsp; - [Manually expanding variables in strings](#manually-expanding-variables)  
+    &nbsp;&nbsp;&nbsp; - [Hooks](#hooks)  
+    &nbsp;&nbsp;&nbsp; - [Possible pitfalls](#possible-pitfalls)  
+2. [bash tests](#bash-tests)  
+    2.1 [Bash Reference Output](#reference-output)  
+    2.2 [Bash Utilities in Python](#python-bash-utilities)  
 
-<div id="README-TESTS"/>
-# README-TESTS
 
-This test suite is intended for system tests, i.e. for running an executable with
-certain parameters and comparing the output against an expected value. This is
-especially useful for a regression test suite and for tests which are too complex for unit_tests.
+<div id="1"/>
+## 1. Running the test suite
 
-<div id="running-the-test-suite"/>
-## Running the test suite
-
-The test suite is written for python 3.  All tests scripts are written in python.
+The test suite is written for python 3.  All tests scripts are written in python.  To install and run the test suite:
 
 ```bash
 $ cd tests
 $ python3 -m pip install -r requirements.txt  # this only need to be done once
 $ python3 runner.py
 ```
-
 One can supply the script with a directory where the suite should look for the
 tests (it will search the directory recursively). If omitted, the runner will
 look in the directory where the configuration file is located. It is also
@@ -62,7 +66,7 @@ standard output.
 
 [TOC](#TOC)
 <div id="writing-new-tests"/>
-## Writing new tests
+### 1.1 Writing new tests
 
 The test suite is intended to run an executable and compare its standard output,
 standard error and return value against provided values. This is implemented
@@ -76,8 +80,8 @@ To create new tests, proceed as follows:
 3. Run the test suite:
 
 ```bash
-python3 runner.py               # automatically find test scripts and execute them
-					[test.py]   # executes only the test script for the specified path
+python3 runner.py               # automatically find and run test scripts
+					[test.py]   # run one test script
 					-v          # verbose output
 ```
 
@@ -86,20 +90,19 @@ python3 runner.py               # automatically find test scripts and execute th
 ### Tests derived from unittest
 
 You can write standard [unittest](https://docs.python.org/3/library/unittest.html) test cases.
-The core steps are as follows:
+The keys steps are :
 1. Do something.\
     For example, execute some shell commands through the `BT.Exec` class.
 2. Check if things are OK.\
     Any exception you raise will cause the test case to fail.
 
 For example:
+
 ```py
 # -*- coding: utf-8 -*-
 import os
 import unittest
-
 from system_tests import BT                 # import system_tests, which has been loaded into sys.path
-
 class TestCases(unittest.TestCase):
     def setUp(self):
         """ This function is executed before each test case. """
@@ -121,7 +124,7 @@ class TestCases(unittest.TestCase):
         BT.reportTest('addmoddel', out)
 ```
 
-`system_tests.BT` is defined in `tests/utils/` and provides functions and classes that are compatible with different platforms, making it easier to write test scripts. You can find detailed documentation in `tests/utils/__init__.py`.
+system\_tests.BT is defined in tests/utils/ and provides functions and classes that are compatible with different platforms, making it easier to write test scripts. You can find detailed documentation in `tests/utils/__init__.py`.
 
 [TOC](#TOC)
 <div id="tests-derived-from-system-tests"/>
@@ -133,9 +136,7 @@ test script by inheriting `system_tests.CaseMeta`. For example:
 ```python
 # -*- coding: utf-8 -*-
 import system_tests
-
 class UniqueTestName(metaclass=system_tests.CaseMeta):
-
     filename = "$data_path/test_file"
     commands = ["$exiv2 $filename", "$exiv2 $filename" + '_2']
     stdout   = [""] * 2
@@ -148,7 +149,8 @@ $kerFailedToReadImageData
 The test suite will run the provided each command and compare the output, stderr and retval
 with the values you provide.
 
-The strings after a $ are variables either defined in this test's class or the suite configuration file.
+The strings such as **$variable** are variables which may be defined in this test's class
+or the suite configuration file.
 
 [TOC](#TOC)
 <div id="test-suite-config"/>
@@ -158,7 +160,7 @@ The test suite uses the module `unittest` to discover
 and run test scripts which are written in python.
 
 The test suite is configured using a configuration file whose location
-automatically sets the root directory of the test suite. The unittest module
+automatically becomes the root directory of the test suite. The unittest module
 then recursively searches all sub-directories with a `__init__.py` file for
 files of the form `test_*.py`, which it automatically interprets as test cases
 (more about these in the next section). Python will automatically interpret each
@@ -166,10 +168,9 @@ directory as a module and use this to format the output, e.g. the test case
 `regression/crashes/test_bug_15.py` will be interpreted as the module
 `regression.crashes.test_bug_15`. The directory structure is used to group test cases.
 
-### Configuration
 
 <div id="ini-style"/>
-#### INI style
+#### Configuration file syntax
 
 The test suite is configured using ini style files which are parsed 
 [ConfigParser](https://docs.python.org/3/library/configparser.html)
@@ -210,7 +211,7 @@ strings when extracting variable values.
 
 [TOC](#TOC)
 <div id="parameters"/>
-#### Parameters
+#### Configuration file example
 
 The test suite's configuration file has the following form:
 
@@ -219,7 +220,10 @@ The test suite's configuration file has the following form:
 timeout: 0.1
 
 [paths]
-binary: ../build/bin/binary
+program: ../build/bin/program
+exiv2:   ../build/bin/exiv2
+geotag:  ../bin/bin/geotag
+
 important_file: ../conf/main.cfg
 
 [variables]
@@ -227,24 +231,21 @@ abort_error: ERROR
 abort_exit value: 1
 ```
 
-The General section only contains the `timeout` parameter, which is actually
-optional (when left out 1.0 is assumed). The timeout sets the maximum time in
-seconds for each command that is run before it is aborted. This allows for test
-driven development with tests that cause infinite loops or similar hangs in the
-test suite.
+The **[General]** section only contains the optional timeout parameter (default 1.0).
+The timeout is the maximum time in seconds for any command that to run before being aborted.
+Commands which loop or loop or hang will be aborted to enable for test driven development.
 
-The paths and variables sections define global variables for the system test
-suite, which every test case can read. Following the DRY principle, one can put
-common outputs of the tested binary in a variable, so that changing an error
-message does not result in an hour long update of the test suite. Both sections
-are merged together before being accessed by the test script.  An error will be
-reported if a local and global variable have the same name.
+The **[variables]** and **[paths]** sections define global values that are accessible to every
+test script. Section **[variables]** enable you to define common output strings.
+For example an error message or value can be conveniently declared in the configuration
+and referenced by many test scripts. Section **[paths]** provides variables for scripts
+to know absolute paths without knowledge of the environment.  The path variables are
+interpreted relative to the test suite root and expanded to absolute paths for reference
+by test scripts. 
 
-While the values in the variables section are accessed by the test scripts,
-the paths section is special and interpreted as relative to the test suite's root
-The are expanded to absolute paths for before being accessed by test scripts.
-This aim of this design is define paths without scripts having knowledge
-of environment strings.
+The variables in both section **[paths]** and **[variables]** are merged
+before being accessed by the test script.  An error will be
+reported if local or **[path]** or **[variables]** share the same name
 
 However, sometimes environment variables are convenient to implement variable
 paths or platform differences such as different build directories or file
@@ -264,7 +265,8 @@ file_extension: FILE_EXT
 variable_prefix: ../build
 
 [paths]
-binary: ${ENV:variable_prefix}/bin/binary${ENV:file_extension}
+exiv2: ${ENV:variable_prefix}/bin/exiv2${ENV:file_extension}
+geotag: ${ENV:variable_prefix}/bin/geotag${ENV:file_extension}
 important_file: ../conf/main.cfg
 
 [variables]
@@ -272,24 +274,23 @@ abort_error: ERROR
 abort_exit value: 1
 ```
 
-The `ENV` section is _similarly to the paths section_, special insofar as the
+The `ENV` section is similar to the paths section insofar as the
 variables are extracted from the environment with the given name. E.g. the
-variable `file_extension` would be set to the value of the environment variable
-`FILE_EXT`. If the environment variable is not defined, then the test suite will
-look in the `ENV fallback` section for a fallback. E.g. in the above example
-`variable_prefix` has the fallback or default value of `../build` which will be
+variable file\_extension would be set to the value of the environment variable
+FILE\_EXT. If the environment variable is not defined, then the test suite will
+look in the **[ENV fallback]** section. E.g. in the above example
+variable\_prefix has the fallback or default value of `../build` which will be
 used if the environment variable `PREFIX` is not set. If no fallback is provided
-then an empty string is used instead, which would happen to `file_extension` if
-`FILE_EXT` would be unset.
+then an empty string is used instead, which would happen to file\_extension if
+FILE\_EXT is not defined.
 
 This can be combined with the extended interpolation of python's ConfigParser,
 which allows to include variables from arbitrary sections into other variables
 using the ${sect:var\_name} syntax. This would be expanded to the value of
 var\_name from the section sect. The above example only utilizes this in the
-paths section, but it can also be used in the variables section, if that
-makes sense for the use case.
+**[paths]** section, however it can also be used in the **[variables]** section.
 
-Returning to the example config file, the path binary would be inferred in the
+Returning to the example config file, the path executabl would be inferred in the
 following steps:
 
 1. extract PREFIX & FILE_EXT from the environment, if they don't exist use
@@ -297,8 +298,8 @@ following steps:
 2. substitute the strings ${ENV:variable_prefix} and ${ENV:file_extension}
 3. expand the relative path to an absolute path
 
-Please note that while the ini file allows for variables with whitespaces or
-- in their names, such variable name are invalid in python.
+Please note: While ini files supports variable names with whitespaces and/or '-',
+these names are invalid in python and must be avoided.
 
 [TOC](#TOC)
 <div id="test-scripts"/>
@@ -937,7 +938,59 @@ The reference output for bash\_tests is stored in test/data/test\_name.out.  Whe
 
 In the bash tests, many system utilities such as diff, grep, cut and sed are using to transform the "raw" output of the commands into reference output.   The module system\_tests.BT provides function to emulate those utilities.
 
-**Leo:  You'll have to help me understand what you did!**
+Here's a session to introduce using system_tests from the python shell:
+
+```
+613 rmills@rmillsmm-local:~/gnu/github/exiv2/fix_issue_1485/tests $ python3
+Python 3.8.2 (default, Sep 24 2020, 19:37:08) 
+[Clang 12.0.0 (clang-1200.0.32.21)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import system_tests
+>>> x=system_tests.BT.verbose_version(True)
+exiv2                0.27.4
+platform             apple
+compiler             Clang
+bits                 64
+dll                  1
+debug                1
+cplusplus            199711
+version              Apple LLVM 12.0.0 (clang-1200.0.32.21)
+date                 Mar 16 2021
+time                 07:29:25
+processpath          /Users/rmills/gnu/github/exiv2/fix_issue_1485/build/bin
+package_name         exiv2
+curl                 0
+executable           /Users/rmills/gnu/github/exiv2/fix_issue_1485/build/bin/exiv2
+library              [ /Users/rmills/gnu/github/exiv2/fix_issue_1485/build/lib/libexiv2.0.27.4.9.dylib   +41 ]
+have_strerror_r      [ 1   +0 ]
+...
+>>> help(system_tests.BT)
+Help on package utils:
+
+NAME
+    utils
+
+DESCRIPTION
+    This package provides code that can be invoked by all test cases, which are stored in these scripts:
+    - config.py   : Contains configuration parameters for the test suite.
+    - common.py   : Contains some code that is decoupled from the test cases, even from the Exiv2 project.
+    - exec.py     : Contains the Exec class for executing shell commands.
+    - tests.py    : Contains some code that is coupled to the test cases, and can only be called by a few test cases.
+    
+    You can find many examples in tests/bash_tests/testcases.py .
+
+PACKAGE CONTENTS
+    common
+    config
+    exec
+    tests
+
+DATA
+    log = <utils.common.Log object>
+
+FILE
+    /Users/rmills/gnu/github/exiv2/fix_issue_1485/tests/utils/__init__.py
+```
 
 [TOC](#TOC)
 
