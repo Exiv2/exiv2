@@ -19,7 +19,8 @@ class Config:
     valgrind          = os.environ.get('VALGRIND', '')
     platform          = sys.platform.lower() or 'unknown' # It could be linux, win32, mingw, msys, cygwin, darwin, etc.
     encoding          = 'utf-8'
-    
+    bin_files         = [i.split('.')[0] for i in os.listdir(bin_dir)]
+
     # set http and port for io_test
     if platform   in ['cygwin']:
         exiv2_port  = '12762'

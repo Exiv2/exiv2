@@ -54,7 +54,11 @@ class Exec:
         self.decode_output      = decode_output
 
         # Generate the args for subprocess.Popen
-        args = self.cmd
+        args = self.cmd.split(' ', maxsplit=1)
+        if args[0] in Config.bin_files:
+            args[0]     = os.path.join(Config.bin_dir, args[0])
+        args            = ' '.join(args)
+
         if Config.platform == 'win32':
             self.args   = args.replace('\'', '\"')
         else:
