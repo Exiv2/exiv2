@@ -795,7 +795,7 @@ EXIV2API bool enableBMFF(bool enable);
 
 The return value of `enableBMFF()` reports the build status of bmff support.  A return value of true indicates that the library has been built with bmff support.
 
-Applications may wish the provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
+Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
 
 It is recommended that you enclose the call to `enableBMFF()` with the compile time macro EXIV2\_TEST\_VERSION to ensure that your code builds cleanly on earlier versions of Exiv2.  It is recommended that you call enableBMFF() at process start-up as it is not threadsafe.  A code snippet is provided in [2.14 Thread Safety](#2-14).
 
