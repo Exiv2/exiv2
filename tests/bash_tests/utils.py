@@ -687,43 +687,43 @@ def runTestCase(num, img):
     out += diff('iii', 'ttt')
     return str(out)
 
-def runTest(cmd):
-    """
-    Executes a command in the shell.
-    Add this function at PR <https://github.com/Exiv2/exiv2/pull/1475> .
-    """
-    exiv2=system_tests.exiv2
+def runTest(cmd,raw=False):
+    """ Executes a command in the shell. """
 
     if sys.platform == 'win32':
         args = cmd
     else:
         args = shlex.split(cmd)
 
-    # Updat PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
+    # Update PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
     key = "PATH"
-    bin_dir = os.path.dirname(exiv2)
+    bin_dir = os.path.dirname(system_tests.exiv2)
     if key in os.environ:
         os.environ[key] = os.path.join(bin_dir, os.environ[key])
     else:
         os.environ[key] = bin_dir
 
     for key in ["LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH"]:
-        lib_dir = os.path.join(os.path.dirname(os.path.dirname(exiv2)), 'lib')
+        lib_dir = os.path.join(os.path.dirname(os.path.dirname(system_tests.exiv2)), 'lib')
         if key in os.environ:
-            os.environ[key] = os.path.join(lib_dir, os.environ[key])
+            os.environ[key] = lib_dir + os.pathsep + os.environ[key]
         else:
             os.environ[key] = lib_dir
 
     # Execute the command
-    try:
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)
-        stdout, stderr   = p.communicate()
-        if p.returncode != 0:
-            print('{} returncode = {}'.format(cmd, p.returncode))
-        # Split the output by newline
-        out = stdout.decode('utf-8').replace('\r', '').rstrip('\n').split('\n')
-    except:
-        print('** {} died **'.format(cmd))
+    if raw:
+        subprocess.Popen(args)
+        out=None
+    else:
+        try:
+            p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)
+            stdout, stderr   = p.communicate()
+            if p.returncode != 0:
+                print('{} returncode = {}'.format(cmd, p.returncode))
+            # Split the output by newline
+            out = stdout.decode('utf-8').replace('\r', '').rstrip('\n').split('\n')
+        except:
+            print('** {} died **'.format(cmd))
 
     return out
 
