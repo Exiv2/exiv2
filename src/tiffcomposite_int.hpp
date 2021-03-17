@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    tiffcomposite_int.hpp
-  @brief   Internal classes used in a TIFF composite structure
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    11-Apr-06, ahu: created
  */
 #ifndef TIFFCOMPOSITE_INT_HPP_
 #define TIFFCOMPOSITE_INT_HPP_

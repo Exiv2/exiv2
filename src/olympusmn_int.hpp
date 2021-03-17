@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -24,15 +24,6 @@
            [2] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<br>
            [3] <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/olympus_mn.html">Olympus Makernote Format Specification</a> by Evan Hunter<br>
            [4] email communication with <a href="mailto:wstokes@gmail.com">Will Stokes</a>
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Will Stokes (wuz)
-           <a href="mailto:wstokes@gmail.com">wstokes@gmail.com</a>
-  @author  Gilles Caulier (gc)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @author  Greg Mansfield
-           <a href="mailto:G.Mansfield at computer dot org">G.Mansfield at computer dot org</a>
-  @date    10-Mar-05, wuz: created
  */
 #ifndef OLYMPUSMN_INT_HPP_
 #define OLYMPUSMN_INT_HPP_

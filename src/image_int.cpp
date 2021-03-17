@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or

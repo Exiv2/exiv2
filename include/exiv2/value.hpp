@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,15 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    value.hpp
-  @brief   Value interface and concrete subclasses
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-04, ahu: created
-           11-Feb-04, ahu: isolated as a component
-           31-Jul-04, brad: added Time, Data and String values
  */
 #ifndef VALUE_HPP_
 #define VALUE_HPP_

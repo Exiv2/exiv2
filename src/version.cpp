@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -521,7 +521,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
             output(os,keys,"library",*lib);
     }
 
-    output(os,keys,"have_strerror_r"   ,have_strerror_r  );
     output(os,keys,"have_inttypes"     ,have_inttypes    );
     output(os,keys,"have_libintl"      ,have_libintl     );
     output(os,keys,"have_lensdata"     ,have_lensdata    );

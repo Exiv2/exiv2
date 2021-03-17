@@ -1,7 +1,6 @@
-// ********************************************************* -*- C++ -*-
+// ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 maintainers
- *
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    slice.hpp
-  @brief   Simple implementation of slices (=views) for STL containers and C-arrays
-  @author  Dan Čermák (D4N)
-           <a href="mailto:dan.cermak@cgc-instruments.com">dan.cermak@cgc-instruments.com</a>
-  @date    30-March-18, D4N: created
  */
 
 #ifndef EXIV2_INCLUDE_SLICE_HPP

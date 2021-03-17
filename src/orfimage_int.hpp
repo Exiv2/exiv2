@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    orfimage_int.hpp
-  @brief   Internal classes to support Olympus RAW image format
-  @author  Jeff Costlow
-           <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
-  @date    31-Jul-07, costlow: created
-           23-Apr-08, ahu: Moved to _int file
  */
 #ifndef ORFIMAGE_INT_HPP_
 #define ORFIMAGE_INT_HPP_

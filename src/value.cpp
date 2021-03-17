@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      value.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   26-Jan-04, ahu: created
-             11-Feb-04, ahu: isolated as a component
-             31-Jul-04, brad: added Time, Date and String values
  */
 // *****************************************************************************
 // included header files

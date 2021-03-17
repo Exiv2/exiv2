@@ -1,5 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -15,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  Abstract : Tester application for BasicIo functions. Tests MemIo primarily
-        since FileIo just sits atop of FILE* streams.
-
-  File     : iotest.cpp
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History  : 04-Dec-04, brad: created
  */
 // *****************************************************************************
 // included header files
