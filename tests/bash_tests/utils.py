@@ -688,27 +688,23 @@ def runTestCase(num, img):
     return str(out)
 
 def runTest(cmd):
-    """
-    Executes a command in the shell.
-    Add this function at PR <https://github.com/Exiv2/exiv2/pull/1475> .
-    """
-    exiv2=system_tests.exiv2
+    """ Executes a command in the shell. """
 
     if sys.platform == 'win32':
         args = cmd
     else:
         args = shlex.split(cmd)
 
-    # Updat PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
+    # Update PATH, LD_LIBRARY_PATH and DYLD_LIBRARY_PATH
     key = "PATH"
-    bin_dir = os.path.dirname(exiv2)
+    bin_dir = os.path.dirname(system_tests.exiv2)
     if key in os.environ:
         os.environ[key] = os.path.join(bin_dir, os.environ[key])
     else:
         os.environ[key] = bin_dir
 
     for key in ["LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH"]:
-        lib_dir = os.path.join(os.path.dirname(os.path.dirname(exiv2)), 'lib')
+        lib_dir = os.path.join(os.path.dirname(os.path.dirname(system_tests.exiv2)), 'lib')
         if key in os.environ:
             os.environ[key] = os.path.join(lib_dir, os.environ[key])
         else:
