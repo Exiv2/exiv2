@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,15 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    tgaimage.hpp
-  @brief   Truevision TARGA v2 image, implemented using the following references:
-           <a href="http://en.wikipedia.org/wiki/Truevision_TGA">Truevision TGA page on Wikipedia</a><br>
-           <a href="http://www.gamers.org/dEngine/quake3/TGA.ps.gz">TGA(tm) File Format Specification</a>
-  @author  Marco Piovanelli, Ovolab (marco)
-           <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
-  @date    05-Mar-2007, marco: created
  */
 #ifndef TGAIMAGE_HPP_
 #define TGAIMAGE_HPP_

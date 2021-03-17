@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -28,15 +28,6 @@
   [5] Email communication with <a href="http://www.rottmerhusen.com">Robert Rottmerhusen</a><BR>
   [6] Email communication with Roger Larsson<BR>
   [7] <a href="http://www.cybercom.net/~dcoffin/dcraw/">Decoding raw digital photos in Linux</a> by Dave Coffin<br>
-
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (gc)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @author  Jens Mueller (jm)
-           <a href="mailto:tschensinger at web dot de">tschensinger at web dot de</a>
-  @date    17-May-04, ahu: created<BR>
-           25-May-04, ahu: combined all Nikon formats in one component
  */
 #ifndef NIKONMN_INT_HPP_
 #define NIKONMN_INT_HPP_
