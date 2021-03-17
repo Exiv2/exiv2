@@ -687,7 +687,7 @@ def runTestCase(num, img):
     out += diff('iii', 'ttt')
     return str(out)
 
-def runTest(cmd):
+def runTest(cmd,raw=False):
     """ Executes a command in the shell. """
 
     if sys.platform == 'win32':
@@ -706,20 +706,24 @@ def runTest(cmd):
     for key in ["LD_LIBRARY_PATH", "DYLD_LIBRARY_PATH"]:
         lib_dir = os.path.join(os.path.dirname(os.path.dirname(system_tests.exiv2)), 'lib')
         if key in os.environ:
-            os.environ[key] = os.path.join(lib_dir, os.environ[key])
+            os.environ[key] = lib_dir + os.pathsep + os.environ[key]
         else:
             os.environ[key] = lib_dir
 
     # Execute the command
-    try:
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)
-        stdout, stderr   = p.communicate()
-        if p.returncode != 0:
-            print('{} returncode = {}'.format(cmd, p.returncode))
-        # Split the output by newline
-        out = stdout.decode('utf-8').replace('\r', '').rstrip('\n').split('\n')
-    except:
-        print('** {} died **'.format(cmd))
+    if raw:
+        subprocess.Popen(args)
+        out=None
+    else:
+        try:
+            p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)
+            stdout, stderr   = p.communicate()
+            if p.returncode != 0:
+                print('{} returncode = {}'.format(cmd, p.returncode))
+            # Split the output by newline
+            out = stdout.decode('utf-8').replace('\r', '').rstrip('\n').split('\n')
+        except:
+            print('** {} died **'.format(cmd))
 
     return out
 
