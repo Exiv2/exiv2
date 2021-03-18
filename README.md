@@ -98,7 +98,17 @@ $ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"      # Linux, Cygwin,
 $ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # macOS
 ```
 
+#### Uninstall
 
+I don't know why anybody would uninstall Exiv2.
+
+```bash
+$ cd ~/gnu/github/exiv2  # location of the project code
+$ cd build
+$ sudo make uninstall
+```
+
+These commands will remove the exiv2 executables, library, header files and man page from the standard locations.
 
 [TOC](#TOC)
 <div id="2-2">
@@ -107,6 +117,13 @@ $ export DYLD_LIBRARY_PATH="/usr/local/lib:$DYLD_LIBRARY_PATH"  # macOS
 
 We recommend that you use conan to download the Exiv2 external dependencies on Windows.  On other platforms (maxOS, Ubuntu and others), you should use the platform package manger.  These are discussed: [Platform Notes](#5) The options to configure and compile the project using Visual Studio are similar to UNIX like systems.
 See [README-CONAN](README-CONAN.md) for more information about Conan.
+
+When you build, you may install with the following command.
+
+```cmd
+> cmake --build . --target install
+```
+This will create and copy the exiv2 build artefacts to C:\Program Files (x86)\exiv2\.  You should modify your path to include C:\Program Files (x86)\exiv2\bin.
 
 [TOC](#TOC)
 <div id="2-3">
@@ -486,7 +503,11 @@ $ gdb exiv2
 
 I have used all those IDEs to debug the Exiv2 library and applications.  All of them work.  You may find it takes initial effort, however I assure you that they all work well.
 
-I personally use CLion which has excellent integration with CMake.  It will automatically add **`-DCMAKE_BUILD_TYPE=Debug`** to the cmake command.  It keeps build types in separate directories such as **`<exiv2dir>/cmake-build-debug`**.
+I work on macOS and use Xcode to develop Exiv2.  For a couple of years, Team Exiv2 had free
+open-source licences from JetBrains for CLion.  I really liked CLion as it is cross platform
+and runs on Windows, Mac and Linux.  It has excellent integration with CMake and will automatically
+add **`-DCMAKE_BUILD_TYPE=Debug`** to the cmake command.  It keeps build types in separate directories
+such as **`<exiv2dir>/cmake-build-debug`**.
 
 [TOC](#TOC)
 
@@ -793,7 +814,7 @@ Access to the bmff code is guarded in two ways.  Firstly, you have to build the 
 EXIV2API bool enableBMFF(bool enable);
 ```
 
-The return value of `enableBMFF()` reports the build status of bmff support.  A return value of true indicates that the library has been built with bmff support.
+The return value from `enableBMFF()` reports the build status of bmff support.  A return value of true indicates that the library has been built with bmff support.
 
 Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
 
@@ -843,28 +864,31 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 
 #### Different kinds of tests:
 
-| Description        | Language | Location | Command<br>_(in build or test directory)_ | CMake Option to Build |
-|:--                 |:--        |:--      |:--                                        |:--   |
-| Run all tests      |           |                      | $ make tests     | |
-| Bash scripts       | bash   | \<exiv2dir\>/test    | $ make bash_tests   | -DEXIV2\_BUILD\_SAMPLES=On |
-| Python scripts     | python | \<exiv2dir\>/tests   | $ make python_tests  | -DEXIV2\_BUILD\_SAMPLES=On |
-| Unit tests         | C++    | \<exiv2dir\>/unitTests   | $ make unit_test | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
-| Version test       | C++    | \<exiv2dir\>/src/version.cpp | $ make version_test | Always in library |
+| Description        | Language  | Location       | Command<br>_(in build directory)_ | CMake Option to Build |
+|:--                 |:--        |:--             |:--                     |:--   |
+| Run all tests      |           |                                   | $ make tests                             |  |
+|                    |           | **Visual Studio Users**           | > cmake --build . --target tests         |  |
+| Bash tests         | python    | tests/bash\_tests       | $ make bash_tests    | -DEXIV2\_BUILD\_SAMPLES=On     |
+| Python tests       | python    | tests                   | $ make python_tests  | -DEXIV2\_BUILD\_SAMPLES=On     |
+| Unit tests         | C++       | unitTests               | $ make unit_test     | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
+| Version test       | C++       | src/version.cpp         | $ make version_test  | Always in library              |
 
-_**Caution: Visual Studio Users using cmd.exe**_<br>_You may use MinGW/msys2 `make` to to execute tests in the test directory.  To execute tests from the build directory, use `cmake`.  This is discussed in detail below: [Running tests on Visual Studio builds](#4-2)_
+The term _**bash scripts**_ is historical.  The implementation of the tests in this collection originally required bash.  These
+scripts have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the
+installation of mingw/cygwin and special PATH settings.
 
 #### Environment Variables used by the test suite:
 
 If you build the code in the directory \<exiv2dir\>build, tests will run using the default values of Environment Variables.
 
-| Variable        | Default | Platforms | Purpose |
-|:--                 |:--        |:--     |:-- |
+| Variable           | Default                    | Platforms     | Purpose |
+|:--                 |:--                         |:--            |:--      |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Path of built binaries (exiv2.exe) |
 | EXIV2_PORT         | **12762**<br>**12671**<br>**12760**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
-| EXIV2_HTTP         | **http://localhost**  | All Platforms | Test http server   |
-| EXIV2_ECHO         | _**not set**_ | All Platforms | For debugging Bash scripts |
-| VALGRIND           | _**not set**_ | All Platforms | For debugging Bash scripts |
-| VERBOSE            | _**not set**_ | All Platforms | Causes make to report its actions |
+| EXIV2_HTTP         | **http://localhost**       | All Platforms | Test http server   |
+| EXIV2_ECHO         | _**not set**_              | All Platforms | For debugging bash scripts |
+| VALGRIND           | _**not set**_              | All Platforms | For debugging bash scripts |
+| VERBOSE            | _**not set**_              | All Platforms | Causes make to report its actions |
 | PATH<br>DYLD\_LIBRARY\_PATH<br>LD\_LIBRARY\_PATH    | $EXIV2\_BINDIR/../lib | Windows<br>macOS<br>Other platforms | Path of dynamic libraries |
 
 The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
@@ -887,13 +911,13 @@ $
 
 You can run individual tests in the `test` directory.  **Caution:** If you build in a directory other than \<exiv2dir\>/build, you must set EXIV2\_BINDIR to run tests from the `test` directory.
 
-
 ```bash
 $ cd <exiv2dir>/build
-$ cd ../test
-$ ./icc-test.sh
-ICC jpg md5 webp md5 png md5 jpg md5
-all testcases passed.
+$ make bash_tests
+addmoddel_test (testcases.TestCases) ... ok
+....
+Ran 176 tests in 9.526s
+OK (skipped=6)
 
 $ make python_tests
 ... lots of output ...
@@ -907,36 +931,24 @@ $
 [TOC](#TOC)
 <div id="4-2">
 
-### 4.2 Running tests on Visual Studio builds
+### 4.2 Running tests on Visual Studio builds from cmd.exe
 
-To run the bash scripts you will need to install MinGW/msys2 which provides you with the bash interpreter.  You can run the test suite from bash, or from cmd.exe.
+**Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe.  I copied the python.exe program:
 
-##### Running tests from MinGW/msys2 bash
+```cmd
+> copy c:\Python37\python.exe c:\Python37\python3.exe
+> set "PATH=c:\Python37;%PATH%
+```
 
-Use the bash interpreter for MinGW/msys2 to run the test suite.  It's essential to have a DOS Python3 interpreter on your path called `python3.exe`
+You can execute the test suite as described for UNIX-like systems.
+The main difference is that you must use cmake to initiate the test
+as make is not a system utility on Windows.
 
 ```bash
-$ cd <exiv2dir>/build
-$ cd ../test
-$ PATH="/c/Python37:$PATH"
+> cd <exiv2dir>/build
+> cmake --build . --target test
+> make python_tests
 ```
-
-**Caution:** _The python3 interpreter must be for DOS and called python3.exe.  I copied the python.exe program:_
-
-```
-$ cp /cygpath/c/Python37/python.exe /cygpath/c/Python37/python3.exe
-```
-
-You can execute the test suite as described for UNIX-like systems:
-
-```bash
-$ cd <exiv2dir>/test
-$ make tests
-$ make python_tests
-$ ./icc-test.sh
-```
-**Caution:** If you build in a directory other than \<exiv2dir\>/build, you must set EXIV2\_BINDIR to run tests from the `test` directory.
-
 
 ##### Running tests from cmd.exe
 
@@ -954,41 +966,12 @@ c:\...\exiv2\build>cmake --build . --config Release
 c:\...\exiv2\build>
 ```
 
-**Caution:** To run the python tests, _You will need a DOS python3 interpreter which must be called python3.exe.  I copied the python.exe program:_  You may have to modify the PATH to ensure that the DOS python3 is used.  You may have to modify the PATH to access MinGW/msys2 tools such as bash and make.  Be careful to ensure the DOS python3.exe is found before the MinGW/msys2 python3.
+If you wish to use an environment variables, use set:
 
 ```
-c:\...\exiv2\build>copy c:\Python37\python.exe c:\Python37\python3.exe
-c:\...\exiv2\build>set "PATH=c:\Python37;c:\Python37\Scripts;c:\msys64\usr\bin;%PATH%"
-```
-
-You can now run the tests from cmd.exe:  
-
-```
-c:\...\exiv2\build>cmake --build . --config Release --target tests
-```
-
-You may prefer to run tests in the directory using MinGW/msys2 make.
-
-```
-c:\...\exiv2\build\>cd ..\test
-c:\...\exiv2\test>make bash_tests
-...
-c:\...\exiv2\test>make python_tests   # or unit_test or version_test
-...
-c:\...\exiv2\test>make tests          # run all the tests
-...
-```
-
-If you wish to use an environment variables, use env:
-
-```
-c:\...\exiv2\build>env VERBOSE=1 cmake --build . --config Release --target tests
-```
-
-When you are in the test directory, MinGW/msys2 make supports the following _(more convenient)_ syntax:
-
-```
-c:\...\exiv2\test>make tests VERBOSE=1
+set VERBOSE=1
+cmake --build . --config Release --target tests
+set VERBOSE=
 ```
 
 [TOC](#TOC)
@@ -1016,21 +999,21 @@ $ popd
 
 ### 4.4 Python tests
 
-You can run the python tests from the build or test directory:
+You can run the python tests from the build directory:
 
 ```bash
-$ cd <exiv2dir>/build (or cd <exiv2dir>/test)
+$ cd <exiv2dir>/build
 $ make python_tests  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
-$ cd <exiv2dir>/build   (or cd <exiv2dir>/test)
+$ cd <exiv2dir>/build
 $ make python_tests VERBOSE=1
 ```
 
-The python tests are stored in the directory `tests` and you can run them all with the command:
+The python tests are stored in the directory tests and you can run them all with the command:
 
 ```bash
 $ cd <exiv2dir>/tests
@@ -1048,7 +1031,7 @@ $ python3 runner.py --verbose bugfixes/redmine/test_issue_841.py  # or $(find . 
 You may wish to get a brief summary of failures with commands such as:
 
 ```bash
-$ cd <exiv2dir>/build   (or cd <exiv2dir>/test)
+$ cd <exiv2dir>/build
 $ make python_tests 2>&1 | grep FAIL
 ```
 
@@ -1057,15 +1040,16 @@ $ make python_tests 2>&1 | grep FAIL
 
 ### 4.5 Test Summary
 
-| *Tests* | Unix Style Platforms _(bash)_ | Visual Studio _(cmd.exe)_ |
-|:-- |:---                                |:--                                   |
-| | $ cd \<exiv2dir\>/build **or**<br> $ cd \<exiv2dir\>/test          |  \> cd \<exiv2dir\>/build             |
-| tests | $ make tests                       | \> cmake --build . --config Release --target tests |
-| bash_tests | $ make bash_tests                       | \> cmake --build . --config Release --target bash_tests |
-| python_tests | $ make python_tests                       | \> cmake --build . --config Release --target python_tests |
-| unit_test | $ make unit_test                       | \> cmake --build . --config Release --target unit_test |
-| version_test | $ make version_test                       | \> cmake --build . --config Release --target version_test |
+| *Tests*      | Unix Style Platforms _(bash)_      | Visual Studio _(cmd.exe)_             |
+|:--           |:---                                |:--                                    |
+|              | $ cd \<exiv2dir\>/build            |  \> cd \<exiv2dir\>/build             |
+| tests        | $ make tests                       | \> cmake --build . --config Release --target tests |
+| bash_tests   | $ make bash_tests                  | \> cmake --build . --config Release --target bash_tests |
+| python_tests | $ make python_tests                | \> cmake --build . --config Release --target python_tests |
+| unit_test    | $ make unit_test                   | \> cmake --build . --config Release --target unit_test |
+| version_test | $ make version_test                | \> cmake --build . --config Release --target version_test |
 
+The name **bash_tests** is historical.  They are implemented in python.
 
 [TOC](#TOC)
 <div id="5">
@@ -1217,33 +1201,12 @@ As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 2) Binary installers for Python3 are available from [python.org](https://python.org)<br/>
 3) Conan can be installed using python/pip.  Details in [README-CONAN.md](README-CONAN.md)
 
-I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  As well as providing a "stripped down path", it also ensures the DOS python3 and DOS bash are on the path.
-
-```bat
-@echo off
-setlocal
-if NOT EXIST c:\Python39\python3.exe copy c:\Python39\python.exe c:\Python39\python3.exe
-set "P="
-set "P=%P%C:\Python39\;C:\Python39\Scripts;%USERPROFILE%\AppData\Roaming\Python\Python39;" # DOS Python3
-set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
-set "P=%P%c:\msys64\usr\bin;"                # OPTIONAL to run test suite msys2 make, bash etc
-set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;"
-set "P=%P%c:\Windows\System32;"              # Windows
-set "P=%P%%USERPROFILE%\com;"                # OPTIONAL my home-made magic
-set "PATH=%P%"
-set "EXIV2_EXT=.exe"
-color 1e
-cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
-color
-endlocal
-```
-
-**Caution:** _The python3 interpreter must be for DOS and called python3.exe.  I copied the python.exe program:_
 
 ```
 ..>copy c:\Python37\python.exe c:\Python37\python3.exe
 ```
 
+The python3 interpreter must be on your PATH.
 
 [TOC](#TOC)
 <div id="5-6">
@@ -1336,5 +1299,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-10
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-18
 
