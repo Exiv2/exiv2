@@ -546,7 +546,7 @@ class Output:
         return self.__add__(other)
 
 
-def reportTest(testname, output: str, encoding=None):
+def reportTest(testname, output: str, encoding=None,forgive=False):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     output               = str(output) + '\n'
     encoding             = encoding or Config.encoding
@@ -559,7 +559,10 @@ def reportTest(testname, output: str, encoding=None):
     save(output, output_file, encoding=encoding)
     log.info('The output has been saved to file {}'.format(output_file))
     log.info('simply_diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
-    raise RuntimeError('\n' + log.to_str())
+    if forgive:
+        print('Forgive: simply_diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
+    else:
+        raise RuntimeError('\n' + log.to_str())
 
 
 def ioTest(filename):

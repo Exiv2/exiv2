@@ -105,12 +105,12 @@ _Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](
 ##### 1.4) Build dependencies, create build environment, build and test</a>
 
 
-|   | Build Steps | Linux and macOS | Visual Studio |
-|:--|:--------------|--------------------------------|------------------------------|
+|         | Build Steps   | Linux and macOS                | Visual Studio |
+|:--      |:--------------|--------------------------------|------------------------------|
 | _**1**_ | Get conan to fetch dependencies<br><br>The output can be quite<br>long as conan downloads and/or builds<br>zlib, expat, curl and other dependencies.| $ conan install ..<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--build missing       | c:\\..\\build> conan install .. --build missing<br>&nbsp;&nbsp;&nbsp;&nbsp;--profile msvc2019Release64 |
 | _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..  | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
-| _**3**_ | Build                                    | $ cmake --build .       | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
-| _**4**_ | Optionally Run Test Suite              | $ make tests       | You must install MinGW<br>bash and python to run tests<br>See [README.md](README.md) |
+| _**3**_ | Build                                             | $ cmake --build .       | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
+| _**4**_ | Optionally Run Test Suite                         | $ make tests            | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release --target tests<br/>[README.md](README.md) |
 
 
 
@@ -173,34 +173,12 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 
 We recommend that you install python as discussed here:  [https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146](https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146)
 
-I use the following batch file `cmd64.bat` to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
-
-```bat
-@echo off
-@echo off
-setlocal
-if NOT EXIST c:\Python39\python3.exe copy c:\Python39\python.exe c:\Python39\python3.exe
-set "P="
-set "P=%P%C:\Python39\;C:\Python39\Scripts;%USERPROFILE%\AppData\Roaming\Python\Python39;" # DOS Python3
-set "P=%P%c:\Program Files\cmake\bin;"       # DOS cmake
-set "P=%P%c:\msys64\usr\bin;"                # OPTIONAL to run test suite msys2 make, bash etc
-set "P=%P%c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;"
-set "P=%P%c:\Windows\System32;"              # Windows
-set "P=%P%%USERPROFILE%\com;"                # OPTIONAL my home-made magic
-set "PATH=%P%"
-set "EXIV2_EXT=.exe"
-color 1e
-cmd /S /K cd "%USERPROFILE%\gnu\github\exiv2\0.27-maintenance\"
-color
-endlocal
-```
-
-
 ### Profiles for Visual Studio
 
 Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 , 2017 and 2019.
 
-Exiv2 v0.28 is being "modernised" to C++11 and will not support C++98. We don't expect Exiv2 v0.28 to build with VS versions earlier than VS 2015.
+Exiv2 v0.28 is being "modernised" to C++11 and will not support C++98.
+We don't expect Exiv2 v0.28 to build with VS versions earlier than VS 2015.
 
 You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake\msvc_conan_profiles`. 
 
@@ -315,7 +293,6 @@ $ cmake --build .  --config Release
 ```
 
 [TOC](#TOC)
-
 <name id="3">
 ## 3 Conan Architecture
 
@@ -596,4 +573,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2020-11-22
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-18

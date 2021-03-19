@@ -1,5 +1,71 @@
 @RV@ @RC@
 
+Headline Features of Exiv2 v0.27.4
+----------------------------------
+
+Dedicated to the memory of our beautiful cat Lizzie who was put to sleep on 2021-02-13.
+
+Thank You to the following who have contributed to this release.
+
+| Contributor  | Activity                                          |
+|:-------------|:--------------------------------------------------|
+| Alex         | Project Management                                |
+| Arnold       | Keeps me honest!                                  |
+| Christoph    | Nikon and Canon Support                           |
+| David        | Help with legal investigation concerning bmff     |
+| Freddie      | Fuji support                                      |
+| Leo          | New python test scripts                           |
+| Milos        | DNG 1.6, Exif 2.32, easyaccess support and more   |
+| Peter K      | bmff code                                         |
+| Peter S      | langAltValue.read() fix and helpful issue reports |
+
+1) Bug and security fixes:
+   - bmff read-only support (.CR3, .HEIC, .HEIF and .AVIF).
+   - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy.
+   - DNG 1.6 and Exif 2.32 support.
+   - More easyaccess APIs and documentation.
+   - Updated Catalan localisation.
+
+2) Changes to downloadable build bundles:
+   - Revised documentation and man page.
+   - MinGW/msys2 bundle built with C++11 (for Qt users).
+
+3) Build and Test:
+   - Test suite is implemented in python.
+   - Support for building on ARM (raspberry pi).
+   - Localisation is tested.
+   
+4) Book "Image Metadata and Exiv2 Architecture".
+   - https://clanmills.com/exiv2/book/
+   - https://clanmills.com/exiv2/book/IMaEA.pdf
+
+Detailed Change List since 0.27.3
+---------------------------------
+
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-757979745
+
+Future Releases
+---------------
+
+We have about 8 regular contributors.
+About 100 folks have contributed since 2004.
+We will always welcome new contributors to work on any aspect of the code and projects.
+
+I celebrated my 70th birthday in January and want to retire.
+
+The project status is tracked here: https://github.com/Exiv2/exiv2/issues/1462
+
+Exiv2 v0.27.4 is likely to be the final "dot" of the Exiv2 v0.27 product family.
+
+Development will now move to branch 'main'.
+We plan to port the unique_ptr from branch 'old-master' and ship 'main' as 0.28 in September 2021.
+
+We are incubating Exiv2 into KDE:  https://community.kde.org/Incubator/Projects/Exiv2
+
+Robin Mills
+robin@clanmills.com
+2020-03-19
+
 Headline Features of Exiv2 v0.27.3
 ----------------------------------
 
