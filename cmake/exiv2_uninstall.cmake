@@ -6,7 +6,7 @@ FILE(READ "${CMAKE_BINARY_DIR}/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   MESSAGE(STATUS "Uninstalling: ${file}")
-  IF(EXISTS "${file}")
+  IF(IS_SYMLINK "${file}" OR EXISTS "${file}")
     EXEC_PROGRAM(
       "${CMAKE_COMMAND}" ARGS "-E remove \"${file}\""
       OUTPUT_VARIABLE rm_out
