@@ -20,9 +20,8 @@ Thank You to the following who have contributed to this release.
 | Peter S      | langAltValue.read() fix and helpful issue reports |
 
 1) Bug and security fixes:
-   - bmff support (.CR3, .HEIC and .AVIF).
-   - Security process is defined. 
-     https://github.com/Exiv2/exiv2/security/policy.
+   - bmff read-only support (.CR3, .HEIC, .HEIF and .AVIF).
+   - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy.
    - DNG 1.6 and Exif 2.32 support.
    - More easyaccess APIs and documentation.
    - Updated Catalan localisation.
@@ -34,7 +33,7 @@ Thank You to the following who have contributed to this release.
 3) Build and Test:
    - Test suite is implemented in python.
    - Support for building on ARM (raspberry pi).
-   - Localisation is tesed.
+   - Localisation is tested.
    
 4) Book "Image Metadata and Exiv2 Architecture".
    - https://clanmills.com/exiv2/book/
@@ -65,7 +64,7 @@ We are incubating Exiv2 into KDE:  https://community.kde.org/Incubator/Projects/
 
 Robin Mills
 robin@clanmills.com
-2020-03-18
+2020-03-19
 
 Headline Features of Exiv2 v0.27.3
 ----------------------------------
