@@ -15,7 +15,7 @@ Thank You to the following who have contributed to this release.
 | David        | Help with legal investigation concerning bmff     |
 | Freddie      | Fuji support                                      |
 | Leo          | New python test scripts                           |
-| Milos        | DNG, easyaccess support                           |
+| Milos        | DNG 1.6, Exif 2.32, easyaccess support and more   |
 | Peter K      | bmff code                                         |
 | Peter S      | langAltValue.read() fix and helpful issue reports |
 
