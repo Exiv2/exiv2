@@ -39,7 +39,7 @@ public:
     /*!
       @brief Default constructor. Note that optstring_ is initialized here.
      */
-    Params() : optstring_(":iecaph"),
+    Params() : optstring_(":iecxaph"),
                first_(true),
                help_(false),
                iptc_(false),
