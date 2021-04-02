@@ -587,7 +587,7 @@ int main(int argc, const char* argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#if EXIV2_TEST_VERSION(0,27,4)
+#if EXIV2_ENABLE_BMFF
     Exiv2::enableBMFF(true);
 #endif
     ...
@@ -608,7 +608,9 @@ The exiv2 command-line program and sample applications call the following at the
 ```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#if EXIV2_ENABLE_BMFF
     Exiv2::enableBMFF(true);
+#endif
 ```
 
 [TOC](#TOC)
@@ -782,11 +784,9 @@ Access to the bmff code is guarded in two ways.  Firstly, you have to build the 
 EXIV2API bool enableBMFF(bool enable);
 ```
 
-The return value from `enableBMFF()` reports the build status of bmff support.  A return value of true indicates that the library has been built with bmff support.
+The return value from `enableBMFF()` reports the current status of bmff support before calling this function.
 
 Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
-
-It is recommended that you enclose the call to `enableBMFF()` with the compile time macro EXIV2\_TEST\_VERSION to ensure that your code builds cleanly on earlier versions of Exiv2.  It is recommended that you call enableBMFF() at process start-up as it is not threadsafe.  A code snippet is provided in [2.14 Thread Safety](#2-14).
 
 [TOC](#TOC)
 <div id="3">
@@ -1252,5 +1252,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-04-02
 
