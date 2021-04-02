@@ -162,7 +162,7 @@ namespace Exiv2
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
-        return 0;
+        return pixelWidth_;
     }
 
     int BmffImage::pixelHeight() const
@@ -171,7 +171,7 @@ namespace Exiv2
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
-        return 0;
+        return pixelHeight_;
     }
 
     std::string BmffImage::uuidName(Exiv2::DataBuf& uuid)
