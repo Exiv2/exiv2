@@ -18,7 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-
 /*
 670 rmills@rmillsmbp:~/gnu/exiv2/trunk/samples $ gcc ../src/ini.cpp  ini-test.cpp -lstdc++ -o ini-test
 671 rmills@rmillsmbp:~/gnu/exiv2/trunk/samples $ ./ini-test
@@ -27,17 +26,17 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 672 rmills@rmillsmbp:~/gnu/exiv2/trunk/samples $
 */
 
-
 // Example that shows simple usage of the INIReader class
-
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 
 int main()
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     int              result = 0 ;
     const char*      ini    = "ini-test.ini";

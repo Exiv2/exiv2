@@ -17,10 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-// *****************************************************************************
-// included header files
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -36,6 +33,9 @@ int main(int argc, char* const argv[])
 try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     // Handle command line arguments
     Params params;

@@ -23,13 +23,15 @@
 // Simple tests for the wide-string error class WError
 
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 
 int main()
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     try {
         throw Exiv2::Error(Exiv2::kerGeneralError, "ARG1", "ARG2", "ARG3");

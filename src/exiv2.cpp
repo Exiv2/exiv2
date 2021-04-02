@@ -17,15 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  Abstract:  Command line program to display and manipulate image metadata.
 
-  File:      exiv2.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   10-Dec-03, ahu: created
- */
-// *****************************************************************************
-// included header files
 #include <exiv2/exiv2.hpp>
 
 // include local header files which are not part of libexiv2
@@ -128,16 +120,15 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
     const std::string localeDir = EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
     bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
     textdomain(EXV_PACKAGE_NAME);
-#endif
-
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
 #endif
 
     // Handle command line arguments
