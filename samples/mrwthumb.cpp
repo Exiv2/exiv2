@@ -20,10 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "error.hpp"
-#include "exif.hpp"
-#include "image.hpp"
-
+#include <exiv2/exiv2.hpp>
 #include <cassert>
 #include <iostream>
 
@@ -31,6 +28,9 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     try {
         if (argc != 2) {

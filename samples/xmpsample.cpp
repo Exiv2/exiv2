@@ -39,6 +39,9 @@ int main()
 try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     // The XMP property container
     Exiv2::XmpData xmpData;

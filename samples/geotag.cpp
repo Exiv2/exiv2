@@ -1,9 +1,4 @@
 // ***************************************************************** -*- C++ -*-
-// geotag.cpp
-// Sample program to read gpx files and update images with GPS tags
-
-// g++ geotag.cpp -o geotag -lexiv2 -lexpat
-
 /*
  * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
@@ -22,6 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
+// geotag.cpp
+// Sample program to read gpx files and update images with GPS tags
+// g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
 #include <exiv2/exiv2.hpp>
 #include "unused.h"
@@ -785,6 +783,9 @@ int main(int argc,const char* argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     int result=0;
     const char* program = argv[0];

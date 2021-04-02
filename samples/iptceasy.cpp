@@ -21,7 +21,6 @@
  */
 
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -30,6 +29,9 @@ int main(int argc, char* const argv[])
 try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";

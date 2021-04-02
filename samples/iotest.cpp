@@ -20,7 +20,6 @@
 // *****************************************************************************
 // included header files
 #include <exiv2/exiv2.hpp>
-
 #include <cstdio>                               // for EOF
 #include <cstring>
 #include <iostream>
@@ -42,6 +41,9 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     try {
         if (argc < 4 || argc > 6 ) {

@@ -1,6 +1,4 @@
 // ***************************************************************** -*- C++ -*-
-// iptcprint.cpp
-// Sample program to print the IPTC metadata of an image
 /*
  * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
@@ -19,18 +17,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
+// iptcprint.cpp
+// Sample program to print the IPTC metadata of an image
 
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <iomanip>
 #include <cassert>
 
 int main(int argc, char* const argv[])
 try {
-
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";

@@ -27,7 +27,6 @@
 // ========================================================================
 
 #include <exiv2/exiv2.hpp>
-
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -37,6 +36,9 @@ int main(int argc, char** argv)
 {
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
   try
   {

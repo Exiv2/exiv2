@@ -20,9 +20,7 @@
 // tiffaddpath-test.cpp
 // Test driver to test adding new tags to a TIFF composite structure
 
-
 #include <exiv2/exiv2.hpp>
-
 #include "tiffcomposite_int.hpp"
 #include "makernote2_int.hpp"
 #include "tiffimage_int.hpp"
@@ -84,6 +82,9 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     if (argc != 3) {
         std::cout << "Usage: " << argv[0] << " tag group\n"

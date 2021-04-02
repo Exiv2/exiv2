@@ -85,16 +85,14 @@ namespace Exiv2
 {
     static bool enabled = false;
 
+#ifdef EXV_ENABLE_BMFF
     EXIV2API bool enableBMFF(bool enable)
     {
-#ifdef EXV_ENABLE_BMFF
-        enabled = enable;
-        return true;
-#else
-        UNUSED(enable);
-        return false;
-#endif                   // EXV_ENABLE_BMFF
+        bool   result = enabled;
+        enabled       = enable ;
+        return result ;
     }
+#endif                   // EXV_ENABLE_BMFF
 
     std::string Iloc::toString() const
     {
