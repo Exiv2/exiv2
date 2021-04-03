@@ -61,6 +61,7 @@ struct BmffBoxHeader
 #define TAG_heix 0x68656978 /**< "heix" HEIC */
 #define TAG_mif1 0x6d696631 /**< "mif1" HEIF */
 #define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
+#define TAG_jxl  0x4a584c20 /**< "JXL " JPEG XL   */  
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
 #define TAG_meta 0x6d657461 /**< "meta" Metadata */
 #define TAG_mdat 0x6d646174 /**< "mdat" Media data */
@@ -78,6 +79,8 @@ struct BmffBoxHeader
 #define TAG_cmt3 0x434D5433 /**< "CMT3" canonID */
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
 #define TAG_colr 0x636f6c72 /**< "colr" */
+#define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
+#define TAG_xml  0x786d6c20 /**< "xml"  Used by JXL*/
 
 // *****************************************************************************
 // class member definitions
@@ -149,6 +152,8 @@ namespace Exiv2
                 return "image/heif";
             case TAG_crx:
                 return "image/x-canon-cr3";
+            case TAG_jxl:
+                return "image/jxl"; // https://github.com/novomesk/qt-jpegxl-image-plugin/issues/1
             default:
                 return "image/generic";
         }
@@ -435,6 +440,12 @@ namespace Exiv2
             case TAG_cmt4:
                 parseTiff(Internal::Tag::cmt4, box.length);
                 break;
+            case TAG_exif:
+                parseTiff(Internal::Tag::root, box.length,address+8);
+                break;
+            case TAG_xml:
+                parseXmp(box.length,io_->tell());
+                break;
 
             default: break ; /* do nothing */
         }
@@ -610,7 +621,8 @@ namespace Exiv2
             return false;
         }
 
-        bool matched = buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p';
+        bool matched = (buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p')
+                     ||(buf[4] == 'J' && buf[5] == 'X' && buf[6] == 'L' && buf[7] == ' ');
         if (!advance || !matched) {
             iIo.seek(static_cast<long>(0), BasicIo::beg);
         }
