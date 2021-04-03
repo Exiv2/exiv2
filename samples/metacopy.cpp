@@ -94,36 +94,40 @@ int Params::option(int opt, const std::string& /*optarg*/, int optopt)
 {
     int rc = 0;
     switch (opt) {
-    case 'h': help_ = true; break;
-    case 'i': iptc_ = true; break;
-    case 'e': exif_ = true; break;
-    case 'c': comment_ = true; break;
-    case 'x': xmp_ = true; break;
-    case 'p': preserve_ = true; break;
-    case 'a':
+    case 'h': {help_ = true; break;}
+    case 'i': {iptc_ = true; break;}
+    case 'e': {exif_ = true; break;}
+    case 'c': {comment_ = true; break;}
+    case 'x': {xmp_ = true; break;}
+    case 'p': {preserve_ = true; break;}
+    case 'a':{
         iptc_ =true;
         exif_ =true;
         comment_ =true;
         xmp_ =true;
         break;
-    case ':':
+    }
+    case ':':{
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt)
                   << " requires an argument\n";
         rc = 1;
         break;
-    case '?':
+    }
+    case '?':{
         std::cerr << progname() << ": Unrecognized option -"
                   << static_cast<char>(optopt) << "\n";
         rc = 1;
         break;
-    default:
+    }
+    default:{
         std::cerr << progname()
                   << ": getopt returned unexpected character code "
                   << std::hex << opt << "\n";
         rc = 1;
         break;
     }
-
+    }
+    
     return rc;
 }
 
@@ -165,7 +169,7 @@ void Params::usage(std::ostream& os) const
 {
     os << "\nReads and writes raw metadata. Use -h option for help.\n"
        << "Usage: " << progname()
-       << " [-iecaph] readfile writefile\n";
+       << " [-iecxaph] readfile writefile\n";
 }
 
 void Params::help(std::ostream& os) const
