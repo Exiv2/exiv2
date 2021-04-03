@@ -11,7 +11,7 @@ if bSkip:
 class issue_1503_jxl_bmff(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issue/1503"
     filename = "$data_path/Reagan.jxl"
-    commands = ["$exiv2  -pR       $filename"
+    commands = ["$exiv2  -pS       $filename"
                ,"$exiv2  -g Date/i $filename"
                ,"$exiv2            $filename"
                ]
