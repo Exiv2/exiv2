@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXIV2_ENABLE_BMFF
+#ifdef EXV_ENABLE_BMFF
     Exiv2::enableBMFF();
 #endif
 

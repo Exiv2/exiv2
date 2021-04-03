@@ -587,7 +587,7 @@ int main(int argc, const char* argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#if EXIV2_ENABLE_BMFF
+#ifdef EXV_ENABLE_BMFF
     Exiv2::enableBMFF(true);
 #endif
     ...
@@ -608,7 +608,7 @@ The exiv2 command-line program and sample applications call the following at the
 ```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#if EXIV2_ENABLE_BMFF
+#ifdef EXV_ENABLE_BMFF
     Exiv2::enableBMFF(true);
 #endif
 ```
