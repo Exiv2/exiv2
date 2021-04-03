@@ -256,7 +256,7 @@ Demonstrates Exiv2 library APIs to print Iptc data. _Code: [iptcprint.cpp](sampl
 #### metacopy
 
 ```
-Usage: metacopy [-iecaph] readfile writefile
+Usage: metacopy [-iecxaph] readfile writefile
 Reads and writes raw metadata. Use -h option for help.
 ```
 

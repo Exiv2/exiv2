@@ -11,10 +11,10 @@ class issue_1504_metacopy(metaclass=system_tests.CaseMeta):
 """,""]
     stdout = ["""
 Reads and writes raw metadata. Use -h option for help.
-Usage: metacopy [-iecaph] readfile writefile
+Usage: metacopy [-iecxaph] readfile writefile
 ""","""
 Reads and writes raw metadata. Use -h option for help.
-Usage: metacopy [-iecaph] readfile writefile
+Usage: metacopy [-iecxaph] readfile writefile
 
 Options:
    -i      Read Iptc data from readfile and write to writefile.
