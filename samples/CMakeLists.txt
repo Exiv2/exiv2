@@ -79,6 +79,8 @@ if( EXPAT_FOUND )
             exiv2-xmp
             ${EXPAT_LIBRARIES}
     )
+    target_include_directories(geotag PRIVATE ${CMAKE_BINARY_DIR})  # exv_conf.h 
+    target_include_directories(geotag PRIVATE include)              # for  #include <exiv2/exiv2.hpp>
     target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
     target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
 
