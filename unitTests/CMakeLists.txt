@@ -53,11 +53,11 @@ target_include_directories(unit_tests
         ${exiv2lib_INCLUDE_DIRECTORIES}
 )
 
-#TODO Use GTest::GTest once we upgrade the minimum CMake version required
 target_link_libraries(unit_tests
     PRIVATE
         ${exiv2lib_LINK_LIBRARIES}
-        ${GTEST_BOTH_LIBRARIES}
+        GTest::GTest
+        GTest::Main
 )
 
 # ZLIB is used in exiv2lib_int.
@@ -69,11 +69,6 @@ target_include_directories(unit_tests
     PRIVATE
         ${GTEST_INCLUDE_DIRS}
         ${CMAKE_SOURCE_DIR}/src
-)
-
-target_compile_definitions(unit_tests
-    PRIVATE
-        GTEST_LINKED_AS_SHARED_LIBRARY=1
 )
 
 set_target_properties(unit_tests PROPERTIES
