@@ -38,13 +38,6 @@ int main() {
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
 
-check_include_file_cxx( "memory.h"      EXV_HAVE_MEMORY_H )
-check_include_file_cxx( "process.h"     EXV_HAVE_PROCESS_H )
-check_include_file_cxx( "stdbool.h"     EXV_HAVE_STDBOOL_H )
-check_include_file_cxx( "strings.h"     EXV_HAVE_STRINGS_H )
-check_include_file_cxx( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
-check_include_file_cxx( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
-check_include_file_cxx( "inttypes.h"    EXV_HAVE_INTTYPES_H )
 check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
 check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
