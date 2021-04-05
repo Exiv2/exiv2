@@ -10,22 +10,6 @@ env:
 
 matrix:
   include:
-    - name: "Ubuntu 16.04 - gcc-5.4 (Release)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - gcc-5.4 (Debug)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - BUILD_TYPE="Debug"
-
     - name: "Ubuntu 18.04 - gcc (Release)"
       os: linux
       dist: bionic
@@ -55,49 +39,6 @@ matrix:
       dist: focal
       sudo: required
       compiler: gcc
-      env:
-        - BUILD_TYPE="Debug"
-
-    - name: "Ubuntu 16.04 - gcc-5.4 with coverage"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - WITH_COVERAGE=1
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - gcc-5.4 with Valgrind"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - WITH_VALGRIND=1
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - gcc-5.4 with sanitizers"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - WITH_SANITIZERS=1
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - CLANG 7.0 (Release)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: clang
-      env:
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - CLANG 7.0 (Debug)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: clang
       env:
         - BUILD_TYPE="Debug"
 

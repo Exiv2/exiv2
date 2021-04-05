@@ -28,7 +28,7 @@ mkdir build && cd build
 conan install .. -o webready=True --build missing
 
 cmake ${CMAKE_OPTIONS} ..
-make  -j
+make  -j2
 
 make  tests
 make  install
