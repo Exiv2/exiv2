@@ -9,7 +9,6 @@ install(FILES
             crwimage.hpp
             datasets.hpp
             easyaccess.hpp
-            epsimage.hpp
             error.hpp
             exif.hpp
             exiv2.hpp
