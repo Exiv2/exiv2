@@ -192,7 +192,7 @@ namespace Exiv2 {
         long toLong(long n =0) const;
         float toFloat(long n =0) const;
         Rational toRational(long n =0) const;
-        Value::AutoPtr getValue() const;
+        Value::UniquePtr getValue() const;
         const Value& value() const;
         //! Return the size of the data area.
         long sizeDataArea() const;
@@ -213,8 +213,8 @@ namespace Exiv2 {
 
     private:
         // DATA
-        ExifKey::AutoPtr key_;                  //!< Key
-        Value::AutoPtr   value_;                //!< Value
+        ExifKey::UniquePtr key_;                  //!< Key
+        Value::UniquePtr   value_;                //!< Value
 
     }; // class Exifdatum
 

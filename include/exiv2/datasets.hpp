@@ -275,7 +275,7 @@ namespace Exiv2 {
     class EXIV2API IptcKey : public Key {
     public:
         //! Shortcut for an %IptcKey auto pointer.
-        typedef std::auto_ptr<IptcKey> AutoPtr;
+        typedef std::unique_ptr<IptcKey> UniquePtr;
 
         //! @name Creators
         //@{
@@ -320,7 +320,7 @@ namespace Exiv2 {
         virtual std::string tagName() const;
         virtual std::string tagLabel() const;
         virtual uint16_t tag() const;
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         //! Return the name of the record
         std::string recordName() const;
         //! Return the record id

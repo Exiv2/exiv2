@@ -52,8 +52,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    CrwImage::CrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::crw, mdExif | mdComment, io)
+    CrwImage::CrwImage(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::crw, mdExif | mdComment, std::move(io))
     {
     } // CrwImage::CrwImage
 
@@ -132,7 +132,7 @@ namespace Exiv2 {
         CrwParser::encode(blob, buf.pData_, buf.size_, this);
 
         // Write new buffer to file
-        MemIo::AutoPtr tempIo(new MemIo);
+        MemIo::UniquePtr tempIo(new MemIo);
         assert(tempIo.get() != 0);
         tempIo->write((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
         io_->close();
@@ -146,7 +146,7 @@ namespace Exiv2 {
         assert(pData != 0);
 
         // Parse the image, starting with a CIFF header component
-        CiffHeader::AutoPtr head(new CiffHeader);
+        CiffHeader::UniquePtr head(new CiffHeader);
         head->read(pData, size);
 #ifdef EXIV2_DEBUG_MESSAGES
         head->print(std::cerr);
@@ -169,7 +169,7 @@ namespace Exiv2 {
     )
     {
         // Parse image, starting with a CIFF header component
-        CiffHeader::AutoPtr head(new CiffHeader);
+        CiffHeader::UniquePtr head(new CiffHeader);
         if (size != 0) {
             head->read(pData, size);
         }
@@ -183,9 +183,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new CrwImage(io, create));
+        Image::UniquePtr image(new CrwImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

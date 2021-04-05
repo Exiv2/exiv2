@@ -42,7 +42,7 @@ int main(int argc, char* const argv[])
     const char* file = argv[1];
     const char* key  = argv[2];
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
     image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();

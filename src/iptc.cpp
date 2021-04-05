@@ -198,9 +198,9 @@ namespace Exiv2 {
         return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n);
     }
 
-    Value::AutoPtr Iptcdatum::getValue() const
+    Value::UniquePtr Iptcdatum::getValue() const
     {
-        return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone();
+        return value_.get() == 0 ? nullptr : value_->clone();
     }
 
     const Value& Iptcdatum::value() const
@@ -225,9 +225,9 @@ namespace Exiv2 {
 
     Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
     {
-        UShortValue::AutoPtr v(new UShortValue);
+        UShortValue::UniquePtr v(new UShortValue);
         v->value_.push_back(value);
-        value_ = v;
+        value_ = std::move(v);
         return *this;
     }
 
@@ -553,7 +553,7 @@ namespace {
               uint32_t         sizeData
     )
     {
-        Exiv2::Value::AutoPtr value;
+        Exiv2::Value::UniquePtr value;
         Exiv2::TypeId type = Exiv2::IptcDataSets::dataSetType(dataSet, record);
         value = Exiv2::Value::create(type);
         int rc = value->read(data, sizeData, Exiv2::bigEndian);

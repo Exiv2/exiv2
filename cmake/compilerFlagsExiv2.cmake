@@ -4,7 +4,7 @@ include(CheckCXXCompilerFlag)
 
 if (COMPILER_IS_GCC OR COMPILER_IS_CLANG) # MINGW, Linux, APPLE, CYGWIN
     if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
-        add_compile_options(-Werror -Wno-error=deprecated-declarations)
+        add_compile_options(-Werror)
         check_cxx_compiler_flag(-Wno-error=deprecated-copy DEPRECATED_COPY)
         if ( DEPRECATED_COPY) 
             add_compile_options(-Wno-error=deprecated-copy)
