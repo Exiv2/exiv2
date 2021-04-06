@@ -10,7 +10,7 @@ env:
 
 matrix:
   include:
-    - name: "Ubuntu 18.04 - gcc (Release)"
+    - name: "Ubuntu 18.04 - gcc-7.5 (Release)"
       os: linux
       dist: bionic
       sudo: required
@@ -18,7 +18,7 @@ matrix:
       env:
         - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 18.04 - gcc (Debug)"
+    - name: "Ubuntu 18.04 - gcc-7.5 (Debug)"
       os: linux
       dist: bionic
       sudo: required
@@ -26,7 +26,7 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
-    - name: "Ubuntu 20.04 - gcc (Release)"
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release)"
       os: linux
       dist: focal
       sudo: required
@@ -34,7 +34,7 @@ matrix:
       env:
         - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 20.04 - gcc (Debug)"
+    - name: "Ubuntu 20.04 - gcc-9.3 (Debug)"
       os: linux
       dist: focal
       sudo: required
@@ -42,12 +42,76 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
-    - name: "macOS 10.14 - XCode 11.3"
+    - name: "Ubuntu 20.04 - clang-7 (Release)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: clang
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 20.04 - clang-7 (Debug)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Debug+Coverage)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+        - WITH_COVERAGE=1
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release+Valgrind)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+        - WITH_VALGRIND=1
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release+Sanitizers)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+        - WITH_SANITIZERS=1
+
+    - name: "macOS 10.15.7 - XCode 12.2 (Release)"
+      os: osx
+      osx_image: xcode12.2
+      compiler: clang
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "macOS 10.15.7 - XCode 12.2 (Debug)"
+      os: osx
+      osx_image: xcode12.2
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "macOS 10.14 - XCode 11.3 (Release)"
       os: osx
       osx_image: xcode11.3
       compiler: clang
       env:
         - BUILD_TYPE="Release"
+
+    - name: "macOS 10.14 - XCode 11.3 (Debug)"
+      os: osx
+      osx_image: xcode11.3
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
 
 install: ./ci/install.sh
 script:  ./ci/run.sh
