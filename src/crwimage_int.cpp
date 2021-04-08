@@ -1186,11 +1186,13 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
-            uint32_t size = 28;
+            size_t size = 28;
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);
-            if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);
+            if (cc && cc->size() > 8) {
+                std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);
+            }
             if (edX != edEnd && edX->size() == 4) {
                 edX->copy(buf.pData_, pHead->byteOrder());
             }
