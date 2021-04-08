@@ -780,6 +780,11 @@ static void boxes_check(size_t b,size_t m)
             {
                 // FIXME. Special case. the real box size is given in another place.
             }
+            if (box.length < 8)
+            {
+                // FIXME. We should probably raise an error here.
+                box.length = 8;
+            }
 
             // Read whole box : Box header + Box data (not fixed size - can be null).
 
