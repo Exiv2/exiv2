@@ -30,9 +30,13 @@ class CrwEncode0x1810IntegerOverflow(metaclass=CaseMeta):
     stdout = [""]
     stderr = [
 <<<<<<< HEAD
+<<<<<<< HEAD
 """$filename1: Could not write metadata to file: $kerCorruptedMetadata
 =======
 """$filename1: Could not write metadata to file: corrupted image metadata
 >>>>>>> c92ac88cb... Regression test for https://github.com/Exiv2/exiv2/issues/1530
+=======
+"""$filename1: Could not write metadata to file: $kerCorruptedMetadata
+>>>>>>> 06d2db6e5... Use $kerCorruptedMetadata, rather than hard-coded string.
 """]
     retval = [1]
