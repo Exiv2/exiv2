@@ -3,10 +3,10 @@
 from system_tests import CaseMeta, path
 
 
-class MrmImageLargeAllocation(metaclass=CaseMeta):
+class CrwEncode0x1810IntegerOverflow(metaclass=CaseMeta):
     """
     Regression test for the bug described in:
-    https://github.com/Exiv2/exiv2/pull/943
+    https://github.com/Exiv2/exiv2/issues/1530
     """
     url = "https://github.com/Exiv2/exiv2/issues/1530"
 
