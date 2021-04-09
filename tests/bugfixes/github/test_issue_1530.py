@@ -4,6 +4,7 @@ from system_tests import CaseMeta, path
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class CrwEncode0x1810IntegerOverflow(metaclass=CaseMeta):
     """
     Regression test for the bug described in:
@@ -14,6 +15,12 @@ class MrmImageLargeAllocation(metaclass=CaseMeta):
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/pull/943
 >>>>>>> c92ac88cb... Regression test for https://github.com/Exiv2/exiv2/issues/1530
+=======
+class CrwEncode0x1810IntegerOverflow(metaclass=CaseMeta):
+    """
+    Regression test for the bug described in:
+    https://github.com/Exiv2/exiv2/issues/1530
+>>>>>>> fadb68718... Fix test name
     """
     url = "https://github.com/Exiv2/exiv2/issues/1530"
 
