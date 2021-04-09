@@ -17,6 +17,10 @@ Bugs/Fixes
 |:--------------|:-------|:-------------------------------------------|:-------|
 | Bugs &        | #1475  | **bmff** Base Media File Format            | #1229  |
 | Fixes         | #1490  |                                            | #1489  | 
+|               | #1517  | JPX/bmff support                           | #1503  |
+|               | #1518  | Changes Exiv2::enableBMFF() API            | #1508  |
+|               | #1519  | samples/metacopy.cpp optstring             | #1504  |
+|               | #1512  | Avif file -ps image_size fix               | #1512  |
 |               | #1493  | v0.27.4 application tests                  |        | 
 |               | #1486  | Empty Exif Ascii handling                  | #1484  |
 |               | #1482  | Issues with LangAlt command-line parsing   | #1481  |
@@ -50,6 +54,7 @@ Bugs/Fixes
 |               | #1314  | ASAN issues with RemoteIo                  | #1307  |
 |               | #1313  | crwtest fixes                              | #1297  |
 | Security      | #1483  | Define Security Policy                     | #1122  |
+|               | #1523  | jp2image exiv2 asan issue                  | #1522  |
 | Lens          | #1375  | Olympus M.Zuiko Digital ED 17mm F1.2 Pro   |        |
 |               | #1373  | Sigma 18-35mm f/1.8 DC HSM                 |        |
 | Build         | #1496  | Exiv2 v0.27.4 RC1                          |        |
@@ -86,6 +91,8 @@ Bugs/Fixes
 |               | #1387  | Fix man page typos concerning CanonFi      |        |
 | Withdrawn     |        | Discussion FLIR Camera  Support            | #1479  |
 | No action     |        | Sigma 60-600mm f/4.5-6.3 DG OS HMS | Sport | #1478  |
+|               | #1527  | Test Suite to ignore errors                | #1502  |
+|               |        | Include path discussion                    | #1516  |
 |               | #1474  | Withdrawn PRs concerning bmff              | #1229  |
 |               | #1458  |                                            |        |
 |               |        | Nikon d780 + Tamron 85mm 1.8 VC            | #1468  |
@@ -105,7 +112,7 @@ Bugs/Fixes
 
 Robin Mills
 robin@clanmills.com
-2021-03-18
+2021-04-07
 
 Changes from version 0.27.2 to 0.27.3
 -------------------------------------
