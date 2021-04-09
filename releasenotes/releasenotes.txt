@@ -14,16 +14,21 @@ Thank You to the following who have contributed to this release.
 | Christoph    | Nikon and Canon Support                           |
 | David        | Help with legal investigation concerning bmff     |
 | Freddie      | Fuji support                                      |
+| Kevin        | Security Fixes                                    |
 | Leo          | New python test scripts                           |
+| Leonardo     | Localisation support on Crowdin                   |
 | Milos        | DNG 1.6, Exif 2.32, easyaccess support and more   |
 | Peter K      | bmff code                                         |
 | Peter S      | langAltValue.read() fix and helpful issue reports |
+| pydera       | Security fixes                                    |
 
 1) Bug and security fixes:
-   - bmff read-only support (.CR3, .HEIC, .HEIF and .AVIF).
-   - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy.
+   - bmff read-only support (.CR3, .HEIC, .HEIF, .AVIF and JXL/bmff).
+   - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy
+   - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed ixed in 24hrs.
    - DNG 1.6 and Exif 2.32 support.
    - More easyaccess APIs and documentation.
+   - Localation support on Crowdin.
    - Updated Catalan localisation.
 
 2) Changes to downloadable build bundles:
@@ -58,13 +63,12 @@ The project status is tracked here: https://github.com/Exiv2/exiv2/issues/1462
 Exiv2 v0.27.4 is likely to be the final "dot" of the Exiv2 v0.27 product family.
 
 Development will now move to branch 'main'.
-We plan to port the unique_ptr from branch 'old-master' and ship 'main' as 0.28 in September 2021.
 
-We are incubating Exiv2 into KDE:  https://community.kde.org/Incubator/Projects/Exiv2
+We plan to port the unique_ptr from branch 'old-master' and ship 'main' as v1.00 in December 2021.
 
 Robin Mills
 robin@clanmills.com
-2020-03-19
+2020-04-07
 
 Headline Features of Exiv2 v0.27.3
 ----------------------------------
