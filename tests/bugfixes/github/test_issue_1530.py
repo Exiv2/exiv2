@@ -15,6 +15,6 @@ class CrwEncode0x1810IntegerOverflow(metaclass=CaseMeta):
     commands = ["$exiv2 in $filename1 $filename2"]
     stdout = [""]
     stderr = [
-"""$filename1: Could not write metadata to file: corrupted image metadata
+"""$filename1: Could not write metadata to file: $kerCorruptedMetadata
 """]
     retval = [1]
