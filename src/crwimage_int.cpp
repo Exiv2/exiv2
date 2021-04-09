@@ -1187,7 +1187,11 @@ namespace Exiv2 {
                                                  pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
             uint32_t size = 28;
-            if (cc && cc->size() > size) size = cc->size();
+            if (cc) {
+              if (cc->size() < size)
+                throw Error(kerCorruptedMetadata);
+              size = cc->size();
+            }
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);
             if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);
