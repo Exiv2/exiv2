@@ -579,7 +579,7 @@ namespace Exiv2 {
     void CiffComponent::setValue(DataBuf buf)
     {
         if (isAllocated_) {
-            delete pData_;
+            delete[] pData_;
             pData_ = 0;
             size_ = 0;
         }
