@@ -500,7 +500,7 @@ namespace Exiv2 {
             { 0x2603 , 1       , true  }, // AFValidPoints
             { 0x2604 , 1       , true  }, // AFCanonImageWidth
             { 0x2605 , 1       , true  }, // AFCanonImageHeight
-            { 0x2606 , 1       , true  }, // AFImageWidth"
+            { 0x2606 , 1       , true  }, // AFImageWidth
             { 0x2607 , 1       , true  }, // AFImageHeight
             { 0x2608 , nPoints , true  }, // AFAreaWidths
             { 0x2609 , nPoints , true  }, // AFAreaHeights
@@ -509,6 +509,9 @@ namespace Exiv2 {
             { 0x260c , nMasks  , false }, // AFPointsInFocus
             { 0x260d , nMasks  , false }, // AFPointsSelected
             { 0x260e , nMasks  , false }, // AFPointsUnusable
+            { 0x260f , 1       , false }, // unknown, always 0xFF ?
+            { 0x2610 , 1       , false }, // unknown, always 0x00 ?
+            { 0x2611 , 1       , false }, // AFFineRotation
             { 0xffff , 0       , true  }  // end marker
         };
         // check we have enough data!
@@ -520,7 +523,7 @@ namespace Exiv2 {
             const TagInfo* pTags = ExifTags::tagList("Canon") ;
             const TagInfo* pTag  = findTag(pTags,records[i].tag);
             if ( pTag ) {
-                Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
+                Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned ? Exiv2::signedShort : Exiv2::unsignedShort);
                 std::ostringstream    s;
                 if ( records[i].bSigned ) {
                     for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
