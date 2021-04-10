@@ -492,27 +492,26 @@ namespace Exiv2 {
         struct {
             uint16_t tag    ;
             uint16_t size   ;
-            bool     bSigned;
         } records[] = {
-            { 0x2600 , 1       , true  }, // AFInfoSize
-            { 0x2601 , 1       , true  }, // AFAreaMode
-            { 0x2602 , 1       , true  }, // AFNumPoints
-            { 0x2603 , 1       , true  }, // AFValidPoints
-            { 0x2604 , 1       , true  }, // AFCanonImageWidth
-            { 0x2605 , 1       , true  }, // AFCanonImageHeight
-            { 0x2606 , 1       , true  }, // AFImageWidth
-            { 0x2607 , 1       , true  }, // AFImageHeight
-            { 0x2608 , nPoints , true  }, // AFAreaWidths
-            { 0x2609 , nPoints , true  }, // AFAreaHeights
-            { 0x260a , nPoints , true  }, // AFXPositions
-            { 0x260b , nPoints , true  }, // AFYPositions
-            { 0x260c , nMasks  , false }, // AFPointsInFocus
-            { 0x260d , nMasks  , false }, // AFPointsSelected
-            { 0x260e , nMasks  , false }, // AFPointsUnusable
-            { 0x260f , 1       , false }, // unknown, always 0xFF ?
-            { 0x2610 , 1       , false }, // unknown, always 0x00 ?
-            { 0x2611 , 1       , false }, // AFFineRotation
-            { 0xffff , 0       , true  }  // end marker
+            { 0x2600 , 1       }, // AFInfoSize
+            { 0x2601 , 1       }, // AFAreaMode
+            { 0x2602 , 1       }, // AFNumPoints
+            { 0x2603 , 1       }, // AFValidPoints
+            { 0x2604 , 1       }, // AFCanonImageWidth
+            { 0x2605 , 1       }, // AFCanonImageHeight
+            { 0x2606 , 1       }, // AFImageWidth
+            { 0x2607 , 1       }, // AFImageHeight
+            { 0x2608 , nPoints }, // AFAreaWidths
+            { 0x2609 , nPoints }, // AFAreaHeights
+            { 0x260a , nPoints }, // AFXPositions
+            { 0x260b , nPoints }, // AFYPositions
+            { 0x260c , nMasks  }, // AFPointsInFocus
+            { 0x260d , nMasks  }, // AFPointsSelected
+            { 0x260e , nMasks  }, // AFPointsUnusable
+            { 0x260f , 1       }, // unknown, always 0xFF ?
+            { 0x2610 , 1       }, // unknown, always 0x00 ?
+            { 0x2611 , 1       }, // AFFineRotation
+            { 0xffff , 0       }  // end marker
         };
         // check we have enough data!
         uint16_t count = 0;
@@ -523,12 +522,14 @@ namespace Exiv2 {
             const TagInfo* pTags = ExifTags::tagList("Canon") ;
             const TagInfo* pTag  = findTag(pTags,records[i].tag);
             if ( pTag ) {
-                Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned ? Exiv2::signedShort : Exiv2::unsignedShort);
+                Exiv2::Value::AutoPtr v = Exiv2::Value::create(pTag->typeId_);
                 std::ostringstream    s;
-                if ( records[i].bSigned ) {
+                if ( pTag->typeId_ == Exiv2::signedShort ) {
                     for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
-                } else {
+                } else if ( pTag->typeId_ == Exiv2::unsignedShort ) {
                     for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint.at(nStart++);
+                } else {
+                    throw std::logic_error("Unexpected type");
                 }
 
                 v->read(s.str());
