@@ -5,19 +5,12 @@ set -x # Prints every command
 # This file is only used from Travis CI, where the only Linux distro used is Ubuntu
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    sudo apt-get update
-    sudo apt-get install cmake
-    sudo apt-get install zlib1g-dev libssh-dev python3-pip libxml2-utils
-
-    if [ -n "$WITH_VALGRIND" ]; then
-        sudo apt-get install valgrind
-    fi
-    sudo pip install virtualenv
-    virtualenv conan
-    source conan/bin/activate
-    pip install conan==1.30.2
-    pip install codecov
-    pip install lxml
+    sudo apt  update     --yes
+    sudo apt  install    --yes cmake
+    sudo apt  install    --yes zlib1g-dev libssh-dev python3-pip libxml2-utils
+    sudo apt  install    --yes valgrind
+    sudo apt  autoremove --yes
+    sudo pip3 install     --upgrade pip
 fi
 
 python3 --version
