@@ -8,9 +8,10 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt  update     --yes
     sudo apt  install    --yes cmake
     sudo apt  install    --yes zlib1g-dev libssh-dev python3-pip libxml2-utils
-    sudo apt  install    --yes valgrind
+    if [ -n "$WITH_VALGRIND" ]; then
+        sudo apt install --yes valgrind
+    fi
     sudo apt  autoremove --yes
-    sudo pip3 install     --upgrade pip
 fi
 
 python3 --version
