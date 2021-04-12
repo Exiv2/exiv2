@@ -907,17 +907,24 @@ namespace Exiv2 {
     int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // Hard coded to read Iptc style dates
-        if (len != 8) {
+        if (len != 8 && len != 10) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
         // Make the buffer a 0 terminated C-string for sscanf
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
-        int scanned = sscanf(b, "%4d%2d%2d",
+        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        int scanned = 0;
+        if (len == 10) {
+            std::memcpy(b, reinterpret_cast<const char*>(buf), 10);
+            scanned = sscanf(b, "%4d-%2d-%2d",
                              &date_.year, &date_.month, &date_.day);
+        } else { // len == 8
+            std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
+            scanned = sscanf(b, "%4d%2d%2d",
+                             &date_.year, &date_.month, &date_.day);
+        }
         if (   scanned != 3
             || date_.year < 0
             || date_.month < 1 || date_.month > 12
@@ -933,14 +940,21 @@ namespace Exiv2 {
     int DateValue::read(const std::string& buf)
     {
         // Hard coded to read Iptc style dates
-        if (buf.length() < 8) {
+        if (buf.length() != 8 && buf.length() != 10) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
-        int scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
+        int scanned = 0;
+        if (buf.length() == 10) {
+            scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
                              &date_.year, &date_.month, &date_.day);
+        }
+        else { // len == 8
+            scanned = sscanf(buf.c_str(), "%4d%2d%2d",
+                             &date_.year, &date_.month, &date_.day);
+        }
         if (   scanned != 3
             || date_.year < 0
             || date_.month < 1 || date_.month > 12
@@ -1045,16 +1059,22 @@ namespace Exiv2 {
     int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // Make the buffer a 0 terminated C-string for scanTime[36]
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), (len < 12 ? len : 11));
+        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        std::memcpy(b, reinterpret_cast<const char*>(buf), (len < 15 ? len : 14));
         // Hard coded to read HHMMSS or Iptc style times
         int rc = 1;
         if (len == 6) {
             // Try to read (non-standard) HHMMSS format
             rc = scanTime3(b, "%2d%2d%2d");
         }
-        if (len == 11) {
+        else if (len < 9) {
+            rc = scanTime3(b, "%d:%d:%d");
+        }
+        else if (len == 11) {
             rc = scanTime6(b, "%2d%2d%2d%1c%2d%2d");
+        }
+        else if (len < 15) {
+            rc = scanTime6(b, "%d:%d:%d%1c%d:%d");
         }
         if (rc) {
             rc = 1;
@@ -1070,11 +1090,18 @@ namespace Exiv2 {
         // Hard coded to read H:M:S or Iptc style times
         int rc = 1;
         if (buf.length() < 9) {
-            // Try to read (non-standard) H:M:S format
-            rc = scanTime3(buf.c_str(), "%d:%d:%d");
+            rc = scanTime3(buf.c_str(), "%2d%2d%2d");
+            if (rc) {
+                // Try to read (non-standard) H:M:S format
+                rc = scanTime3(buf.c_str(), "%d:%d:%d");
+            }
         }
         else {
-            rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
+            rc = scanTime6(buf.c_str(), "%2d%2d%2d%1c%2d%2d");
+            if (rc) {
+                // Try to read (non-standard) H:M:S-H:M format
+                rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
+            }
         }
         if (rc) {
             rc = 1;
