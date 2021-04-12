@@ -2081,6 +2081,11 @@ namespace Exiv2 {
         TagInfo(0xa462, "SourceExposureTimesOfCompositeImage", N_("Source Exposure Times Of Composite Image"),
                 N_("For a composite image, records the parameters relating exposure time of the exposures for generating the said composite image, such as respective exposure times of captured source images (tentatively recorded images)."),
                 exifId, captureCond, undefined, 0, printValue), // Exif 2.32
+        TagInfo(0xa500, "Gamma", N_("Gamma"),
+                N_("Indicates the value of coefficient gamma. The formula of transfer function used for image reproduction "
+                "is expressed as follows: (reproduced value) = (input value)^gamma. Both reproduced value and input value "
+                "indicate normalized value, whose minimum value is 0 and maximum value is 1."),
+                exifId, imgCharacter, unsignedRational, 1, printFloat),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),

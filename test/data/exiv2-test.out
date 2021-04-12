@@ -976,7 +976,7 @@ File  4/16: 20040329_224245.jpg
 20040329_224245.jpg   Exif.Photo.Saturation                        Short       1  Normal
 20040329_224245.jpg   Exif.Photo.Sharpness                         Short       1  Normal
 20040329_224245.jpg   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
-20040329_224245.jpg   Exif.Photo.0xa500                            Rational    1  22/10
+20040329_224245.jpg   Exif.Photo.Gamma                             Rational    1  2.2
 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -2617,7 +2617,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.Photo.Saturation                        Short       1  Normal
 < 20040329_224245.jpg   Exif.Photo.Sharpness                         Short       1  Normal
 < 20040329_224245.jpg   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
-< 20040329_224245.jpg   Exif.Photo.0xa500                            Rational    1  22/10
+< 20040329_224245.jpg   Exif.Photo.Gamma                             Rational    1  2.2
 < 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -4180,7 +4180,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.Photo.Saturation                        Short       1  Normal
 > 20040329_224245.exv   Exif.Photo.Sharpness                         Short       1  Normal
 > 20040329_224245.exv   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
-> 20040329_224245.exv   Exif.Photo.0xa500                            Rational    1  22/10
+> 20040329_224245.exv   Exif.Photo.Gamma                             Rational    1  2.2
 > 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -5981,7 +5981,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.Photo.Saturation                        Short       1  Normal
 < 20040329_224245.jpg   Exif.Photo.Sharpness                         Short       1  Normal
 < 20040329_224245.jpg   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
-< 20040329_224245.jpg   Exif.Photo.0xa500                            Rational    1  22/10
+< 20040329_224245.jpg   Exif.Photo.Gamma                             Rational    1  2.2
 < 20040329_224245.jpg   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 < 20040329_224245.jpg   Exif.Thumbnail.XResolution                   Rational    1  300
 < 20040329_224245.jpg   Exif.Thumbnail.YResolution                   Rational    1  300
@@ -7544,7 +7544,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.Photo.Saturation                        Short       1  Normal
 > 20040329_224245.exv   Exif.Photo.Sharpness                         Short       1  Normal
 > 20040329_224245.exv   Exif.Photo.SubjectDistanceRange              Short       1  Unknown
-> 20040329_224245.exv   Exif.Photo.0xa500                            Rational    1  22/10
+> 20040329_224245.exv   Exif.Photo.Gamma                             Rational    1  2.2
 > 20040329_224245.exv   Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 > 20040329_224245.exv   Exif.Thumbnail.XResolution                   Rational    1  300
 > 20040329_224245.exv   Exif.Thumbnail.YResolution                   Rational    1  300
