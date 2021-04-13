@@ -69,9 +69,9 @@ Exif.Photo.Saturation                        Short       1  Normal
 Exif.Image.GPSTag                            Long        1  870
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.0.0.0
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
-Exif.GPSInfo.GPSLatitude                     Rational    3  47deg 36' 58"
+Exif.GPSInfo.GPSLatitude                     Rational    3  47 deg 36' 58"
 Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  East
-Exif.GPSInfo.GPSLongitude                    Rational    3  1deg 31' 1"
+Exif.GPSInfo.GPSLongitude                    Rational    3  1 deg 31' 1"
 Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Above sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  86 m
 Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
