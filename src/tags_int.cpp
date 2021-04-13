@@ -2117,14 +2117,14 @@ namespace Exiv2 {
 
     //! GPS status, tag 0x0009
     extern const TagDetails exifGPSStatus[] = {
-        { 'A', N_("Measurement in progress")      },
-        { 'V', N_("Measurement Interoperability") }
+        { 'A', N_("Measurement in progress") },
+        { 'V', N_("Measurement interrupted") }
     };
 
     //! GPS measurement mode, tag 0x000a
     extern const TagDetails exifGPSMeasureMode[] = {
-        { '2', N_("Two-dimensional measurement")   },
-        { '3', N_("Three-dimensional measurement") }
+        { '2', N_("2-dimensional measurement") },
+        { '3', N_("3-dimensional measurement") }
     };
 
     //! GPS speed reference, tag 0x000c
@@ -2134,20 +2134,20 @@ namespace Exiv2 {
         { 'N', N_("knots") }
     };
 
-    //! GPS direction ref, tags 0x000e, 0x0010, 0x0017
+    //! GPS direction reference, tags 0x000e, 0x0010, 0x0017
     extern const TagDetails exifGPSDirRef[] = {
         { 'T', N_("True direction")     },
         { 'M', N_("Magnetic direction") }
     };
 
-    //! GPS Destination distance ref, tag 0x0019
+    //! GPS destination distance reference, tag 0x0019
     extern const TagDetails exifGPSDestDistanceRef[] = {
-        { 'K', N_("Kilometers") },
-        { 'M', N_("Miles")      },
-        { 'N', N_("Knots")      }
+        { 'K', N_("km")             },
+        { 'M', N_("miles")          },
+        { 'N', N_("nautical miles") }
     };
 
-    //! GPS Differential, tag 0x001e
+    //! GPS differential correction, tag 0x001e
     extern const TagDetails exifGPSDifferential[] = {
         { 0, N_("Without correction") },
         { 1, N_("Correction applied") }
@@ -2222,14 +2222,14 @@ namespace Exiv2 {
         TagInfo(0x000b, "GPSDOP", N_("GPS Data Degree of Precision"),
                 N_("Indicates the GPS DOP (data degree of precision). An HDOP value is written "
                 "during two-dimensional measurement, and PDOP during three-dimensional measurement."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x000c, "GPSSpeedRef", N_("GPS Speed Reference"),
                 N_("Indicates the unit used to express the GPS receiver speed of movement. "
                 "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."),
                 gpsId, gpsTags, asciiString, 2, print0x000c),
         TagInfo(0x000d, "GPSSpeed", N_("GPS Speed"),
                 N_("Indicates the speed of GPS receiver movement."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x000e, "GPSTrackRef", N_("GPS Track Ref"),
                 N_("Indicates the reference for giving the direction of GPS receiver movement. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
@@ -2237,7 +2237,7 @@ namespace Exiv2 {
         TagInfo(0x000f, "GPSTrack", N_("GPS Track"),
                 N_("Indicates the direction of GPS receiver movement. The range of values is "
                 "from 0.00 to 359.99."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0010, "GPSImgDirectionRef", N_("GPS Image Direction Reference"),
                 N_("Indicates the reference for giving the direction of the image when it is captured. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
@@ -2245,7 +2245,7 @@ namespace Exiv2 {
         TagInfo(0x0011, "GPSImgDirection", N_("GPS Image Direction"),
                 N_("Indicates the direction of the image when it was captured. The range of values "
                 "is from 0.00 to 359.99."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0012, "GPSMapDatum", N_("GPS Map Datum"),
                 N_("Indicates the geodetic survey data used by the GPS receiver. If the survey data "
                 "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\"."),
@@ -2280,14 +2280,14 @@ namespace Exiv2 {
         TagInfo(0x0018, "GPSDestBearing", N_("GPS Destination Bearing"),
                 N_("Indicates the bearing to the destination point. The range of values is from "
                 "0.00 to 359.99."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"),
                 N_("Indicates the unit used to express the distance to the destination point. "
                 "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."),
                 gpsId, gpsTags, asciiString, 2, print0x0019),
         TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"),
                 N_("Indicates the distance to the destination point."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
                 "The string encoding is defined using the same scheme as UserComment."),
@@ -2305,7 +2305,7 @@ namespace Exiv2 {
                 gpsId, gpsTags, unsignedShort, 1, print0x001e),
         TagInfo(0x001f, "GPSHPositioningError", N_("GPS Horizontal positioning error"),
                 N_("This tag indicates horizontal positioning errors in meters."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
@@ -2625,7 +2625,7 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         if (value.count() == 3) {
-            static const char* unit[] = { "deg", "'", "\"" };
+            static const char* unit[] = { " deg", "'", "\"" };
             for (int i = 0; i < value.count() ; ++i) {
                 const int v = (int) (value.toFloat(i)+0.5f); // nearest integer
                 os << (i != 0? " " : "") << v << unit[i];

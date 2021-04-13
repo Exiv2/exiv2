@@ -26,9 +26,9 @@ class test_issue_1046Test(metaclass=CaseMeta):
     stdout = ["""Exif.Photo.UserComment                       Undefined  12  charset=Unicode AB
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
-Exif.GPSInfo.GPSLatitude                     Rational    3  51deg 23' 13"
+Exif.GPSInfo.GPSLatitude                     Rational    3  51 deg 23' 13"
 Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  West
-Exif.GPSInfo.GPSLongitude                    Rational    3  0deg 44' 27"
+Exif.GPSInfo.GPSLongitude                    Rational    3  0 deg 44' 27"
 Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Above sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  104.2 m
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  10:34:11
