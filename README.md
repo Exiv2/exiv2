@@ -139,7 +139,7 @@ option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"         ON 
 option( EXIV2_ENABLE_EXTERNAL_XMP  "Use external version of XMP"            OFF )
 option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"  ON )
 ...
-option( EXIV2_ENABLE_BMFF          "Build with BMFF support"                OFF )
+option( EXIV2_ENABLE_BMFF          "Build with BMFF support"                 ON )
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
 
@@ -786,7 +786,7 @@ Access to the bmff code is guarded in two ways.  Firstly, you have to build the 
 EXIV2API bool enableBMFF(bool enable);
 ```
 
-The return value from `enableBMFF()` reports the current status of bmff support before calling this function.
+The return value from `enableBMFF()` is true if the library has been build with bmff support (cmake option -DEXIV2_ANABLE_BMFF=On).
 
 Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
 

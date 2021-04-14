@@ -44,9 +44,7 @@
 #include "exiv2/mrwimage.hpp"
 #include "exiv2/orfimage.hpp"
 #include "exiv2/pgfimage.hpp"
-#ifdef EXV_ENABLE_BMFF
 #include "bmffimage.hpp"
-#endif
 
 #ifdef EXV_HAVE_LIBZ
 #include "exiv2/pngimage.hpp"

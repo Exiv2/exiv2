@@ -117,11 +117,9 @@ if( EXIV2_ENABLE_VIDEO )
     )
 endif()
 
-if( EXIV2_ENABLE_BMFF )
-    target_sources(exiv2lib PRIVATE
-        bmffimage.cpp           ../include/exiv2/bmffimage.hpp
-    )
-endif()
+target_sources(exiv2lib PRIVATE
+    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
+)
 
 # Other library target properties
 # ---------------------------------------------------------
