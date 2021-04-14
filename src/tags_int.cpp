@@ -2625,14 +2625,33 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         if (value.count() == 3) {
-            static const char* unit[] = { " deg", "'", "\"" };
-            for (int i = 0; i < value.count() ; ++i) {
-                const int v = (int) (value.toFloat(i)+0.5f); // nearest integer
-                os << (i != 0? " " : "") << v << unit[i];
+            Rational deg = value.toRational(0);
+            Rational min = value.toRational(1);
+            Rational sec = value.toRational(2);
+            if ((deg.second != 1) || (min.second == 0) || (sec.second == 0)) {
+                return os << "(" << value << ")";
             }
+            const int32_t dd = deg.first;
+            const int32_t mm = min.first / min.second;
+            const int32_t rem = min.first % min.second;
+            if ((min.second > 1) && (rem > 0)) {
+                if ((sec.first == 0) && (sec.second == 1)) {
+                    sec.first = 60 * rem;
+                    sec.second = min.second;
+                } else {
+                    return os << "(" << value << ")";
+                }
+            }
+            const float ss = (float)sec.first / sec.second;
+            os << dd << " deg ";
+            os << mm << "' ";
+            std::ostringstream oss;
+            oss.copyfmt(os);
+            os << std::fixed << std::setprecision(sec.second > 1 ? 2 : 0) << ss << "\"";
+            os.copyfmt(oss);
         }
         else {
-            os << value;
+            os << "(" << value << ")";
         }
         os.flags(f);
         return os;
