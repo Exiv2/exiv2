@@ -32,7 +32,11 @@
 namespace Exiv2
 {
     EXIV2API bool enableBMFF(bool enable = true);
+}
 
+#ifdef EXV_ENABLE_BMFF
+namespace Exiv2
+{
     struct Iloc
     {
         Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
@@ -168,3 +172,4 @@ namespace Exiv2
     //! Check if the file iIo is a BMFF image.
     EXIV2API bool isBmffType(BasicIo& iIo, bool advance);
 }  // namespace Exiv2
+#endif // EXV_ENABLE_BMFF
