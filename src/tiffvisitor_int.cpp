@@ -33,6 +33,7 @@
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "sonymn_int.hpp"
+#include "canonmn_int.hpp"
 #include "i18n.h"             // NLS support.
 
 // + standard includes
@@ -486,48 +487,23 @@ namespace Exiv2 {
         std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
         const uint16_t nPoints = uint.at(2);
-        const uint16_t nMasks  = (nPoints+15)/(sizeof(uint16_t) * 8);
         int            nStart  = 0;
 
-        struct {
-            uint16_t tag    ;
-            uint16_t size   ;
-        } records[] = {
-            { 0x2600 , 1       }, // AFInfoSize
-            { 0x2601 , 1       }, // AFAreaMode
-            { 0x2602 , 1       }, // AFNumPoints
-            { 0x2603 , 1       }, // AFValidPoints
-            { 0x2604 , 1       }, // AFCanonImageWidth
-            { 0x2605 , 1       }, // AFCanonImageHeight
-            { 0x2606 , 1       }, // AFImageWidth
-            { 0x2607 , 1       }, // AFImageHeight
-            { 0x2608 , nPoints }, // AFAreaWidths
-            { 0x2609 , nPoints }, // AFAreaHeights
-            { 0x260a , nPoints }, // AFXPositions
-            { 0x260b , nPoints }, // AFYPositions
-            { 0x260c , nMasks  }, // AFPointsInFocus
-            { 0x260d , nMasks  }, // AFPointsSelected
-            { 0x260e , nMasks  }, // AFPointsUnusable
-            { 0x260f , 1       }, // unknown, always 0xFF ?
-            { 0x2610 , 1       }, // unknown, always 0x00 ?
-            { 0x2611 , 1       }, // AFFineRotation
-            { 0xffff , 0       }  // end marker
-        };
+        auto records = CanonMakerNote::tagListAf2(nPoints);
         // check we have enough data!
         uint16_t count = 0;
-        for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) count += records[i].size ;
+        for ( uint16_t i = 0; i < records.size() ; i++) count += records[i].count_ ;
         if  ( count > ints.size() ) return ;
 
-        for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) {
-            const TagInfo* pTags = ExifTags::tagList("Canon") ;
-            const TagInfo* pTag  = findTag(pTags,records[i].tag);
+        for ( uint16_t i = 0; i < records.size() ; i++) {
+            const TagInfo* pTag  = &records.at(i);
             if ( pTag ) {
                 Exiv2::Value::AutoPtr v = Exiv2::Value::create(pTag->typeId_);
                 std::ostringstream    s;
                 if ( pTag->typeId_ == Exiv2::signedShort ) {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
+                    for ( int16_t k = 0 ; k < records[i].count_ ; k++ ) s << " " << ints.at(nStart++);
                 } else if ( pTag->typeId_ == Exiv2::unsignedShort ) {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint.at(nStart++);
+                    for ( int16_t k = 0 ; k < records[i].count_ ; k++ ) s << " " << uint.at(nStart++);
                 } else {
                     throw std::logic_error("Unexpected type");
                 }

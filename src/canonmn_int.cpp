@@ -605,24 +605,6 @@ namespace Exiv2 {
         TagInfo(0x00c1, "0x00c1", "0x00c1", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x00d0, "VRDOffset", N_("VRD Offset"), N_("VRD offset"), canonId, makerTags, unsignedLong, -1, printValue),
         TagInfo(0x00e0, "SensorInfo", N_("Sensor Info"), N_("Sensor info"), canonId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x2600, "AFInfoSize", N_("AF InfoSize"), N_("Size of the AFInfo chunk"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2601, "AFAreaMode", N_("AF Area Mode"), N_("AF focus mode"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)),
-        TagInfo(0x2602, "AFNumPoints", N_("AF NumPoints"), N_("Total number of AF points"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2603, "AFValidPoints", N_("AF ValidPoints"), N_("Number of AF points valid in the following information"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2604, "AFCanonImageWidth", N_("AF CanonImageWidth"), N_("Size of the image (always? equivalent to image resolution)"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2605, "AFCanonImageHeight", N_("AF CanonImageHeight"), N_("Size of the image (always? equivalent to image resolution)"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2606, "AFImageWidth", N_("AF Width"), N_("Size of a rectangle originating from the image center, within the AF area is valid (usually equivalent to AFCanonImageWidth, sometimes smaller)"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2607, "AFImageHeight", N_("AF Height"), N_("Size of a rectangle originating from the image center, within the AF area is valid (usually equivalent to AFCanonImageHeight, sometimes smaller)"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2608, "AFAreaWidths", N_("AF Area Widths"), N_("Width of each AF rectangle point"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x2609, "AFAreaHeights", N_("AF Area Heights"), N_("Height of each AF rectangle point"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x260a, "AFXPositions", N_("AF X Positions"), N_("Defines the top left corner of the AF rectangle, originating from the image center"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x260b, "AFYPositions", N_("AF Y Positions"), N_("Defines the top left corner of the AF rectangle, originating from the image center"), canonId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x260c, "AFPointsInFocus", N_("AF Points in Focus"), N_("Bitmask that reports 1 for every AF point that was in focus when the image was taken"), canonId, makerTags, unsignedShort, -1,printBitmask),
-        TagInfo(0x260d, "AFPointsSelected", N_("AF Points Selected"), N_("Bitmask that reports 1 for every AF point that was active when the image was taken"), canonId, makerTags, unsignedShort, -1, printBitmask),
-        TagInfo(0x260e, "AFPointsUnusable", N_("AF Points Unusable"), N_("Bitmask that reports 1 for every AF point that unusable / disabled when the image was take (either due to lens incompatibility or due to manual user disabling)"), canonId, makerTags, unsignedShort, -1, printBitmask),
-        TagInfo(0x260f, "0x260f", "0x260f", N_("0x260f"), canonId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x2610, "0x2610", "0x2610", N_("0x2610"), canonId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x2611, "AFFineRotation", N_("AF Fine Rotation"), N_("Mathematically positive (i.e. anti-clockwise) rotation of every AF rectangle in centidegrees"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x4001, "ColorData", N_("Color Data"), N_("Color data"), canonId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x4002, "CRWParam", N_("CRWParam"), N_("CRWParam"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4003, "ColorInfo", N_("ColorInfo"), N_("ColorInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
@@ -775,32 +757,49 @@ namespace Exiv2 {
         return tagInfoFcd3_;
     }
 
-    
     // Canon AFInfo2 Info Tag 
-    const TagInfo CanonMakerNote::tagInfoAf2_[] = {
-        TagInfo(0x0000, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0001, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonAf2Id, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)),
-        TagInfo(0x0002, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0003, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0004, "AFCanonImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0005, "AFCanonImageHeight", N_("AF ImageHeight"), N_("AF ImageHeight"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0006, "AFImageWidth", N_("AF Width"), N_("AF Width"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0007, "AFImageHeight", N_("AF Height"), N_("AF Height"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0008, "AFAreaWidths", N_("AF Area Widths"), N_("AF Area Widths"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0009, "AFAreaHeights", N_("AF Area Heights"), N_("AF Area Heights"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x000a, "AFXPositions", N_("AF X Positions"), N_("AF X Positions"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x000b, "AFYPositions", N_("AF Y Positions"), N_("AF Y Positions"), canonAf2Id, makerTags, signedShort, -1, printValue),
-        TagInfo(0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonAf2Id, makerTags, signedShort, -1,printBitmask),
-        TagInfo(0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonAf2Id, makerTags, signedShort, -1, printBitmask),
-        TagInfo(0x000e, "AFPointsUnusable", N_("AF Points Unusable"), N_("AF Points Unusable"), canonAf2Id, makerTags, signedShort, -1, printBitmask),
-        TagInfo(0x000f, "0x000f", "0x000f", N_("0x000f"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0010, "0x0010", "0x0010", N_("0x0010"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0011, "AFFineRotation", N_("AFFineRotation"), N_("AFFineRotation"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
+    const std::array<TagInfo, 0x13> CanonMakerNote::tagInfoAf2_ {
+        TagInfo(0x0000, "AFInfoSize", N_("AF InfoSize"), N_("Size of the AFInfo chunk"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0001, "AFAreaMode", N_("AF Area Mode"), N_("AF focus mode"), canonAf2Id, makerTags, signedShort, 1, EXV_PRINT_TAG(canonAFAreaMode)),
+        TagInfo(0x0002, "AFNumPoints", N_("AF NumPoints"), N_("Total number of AF points"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0003, "AFValidPoints", N_("AF ValidPoints"), N_("Number of AF points valid in the following information"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0004, "AFCanonImageWidth", N_("AF ImageWidth"), N_("Size of the image (always? equivalent to image resolution)"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0005, "AFCanonImageHeight", N_("AF ImageHeight"), N_("Size of the image (always? equivalent to image resolution)"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0006, "AFImageWidth", N_("AF Width"), N_("Size of a rectangle originating from the image center, within the AF area is valid (usually equivalent to AFCanonImageWidth, sometimes smaller)"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0007, "AFImageHeight", N_("AF Height"), N_("Size of a rectangle originating from the image center, within the AF area is valid (usually equivalent to AFCanonImageHeight, sometimes smaller)"), canonAf2Id, makerTags, signedShort, 1, printValue),
+        TagInfo(0x0008, "AFAreaWidths", N_("AF Area Widths"), N_("Width of each AF rectangle point"), canonAf2Id, makerTags, signedShort, -1, printValue),
+        TagInfo(0x0009, "AFAreaHeights", N_("AF Area Heights"), N_("Height of each AF rectangle point"), canonAf2Id, makerTags, signedShort, -1, printValue),
+        TagInfo(0x000a, "AFXPositions", N_("AF X Positions"), N_("Defines the top left corner of the AF rectangle, originating from the image center"), canonAf2Id, makerTags, signedShort, -1, printValue),
+        TagInfo(0x000b, "AFYPositions", N_("AF Y Positions"), N_("Defines the top left corner of the AF rectangle, originating from the image center"), canonAf2Id, makerTags, signedShort, -1, printValue),
+        TagInfo(0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("Bitmask that reports 1 for every AF point that was in focus when the image was taken"), canonAf2Id, makerTags, unsignedShort, -1,printBitmask),
+        TagInfo(0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("Bitmask that reports 1 for every AF point that was active when the image was taken"), canonAf2Id, makerTags, unsignedShort, -1, printBitmask),
+        TagInfo(0x000e, "AFPointsUnusable", N_("AF Points Unusable"), N_("Bitmask that reports 1 for every AF point that unusable / disabled when the image was take (either due to lens incompatibility or due to manual user disabling)"), canonAf2Id, makerTags, unsignedShort, -1, printBitmask),
+        TagInfo(0x000f, "0x000f", "0x000f", N_("0x000f"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0010, "0x0010", "0x0010", N_("0x0010"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        TagInfo(0x0011, "AFFineRotation", N_("AFFineRotation"), N_("Mathematically positive (i.e. anti-clockwise) rotation of every AF rectangle in centidegrees"), canonAf2Id, makerTags, unsignedShort, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", N_("Unknown CanonMakerNote tag"), canonAf2Id, makerTags, asciiString, -1, printValue)
     };
-        
+
     const TagInfo* CanonMakerNote::tagListAf2()
     {
-        return tagInfoAf2_;
+        return tagInfoAf2_.data();
+    }
+    
+    std::vector<TagInfo> CanonMakerNote::tagListAf2(uint16_t nAfPoints)
+    {
+        const uint16_t nMasks  = (nAfPoints+15)/(sizeof(uint16_t) * 8);
+
+        std::vector<TagInfo> tagInfoCopy(tagInfoAf2_.begin(), tagInfoAf2_.begin() + tagInfoAf2_.size() - 1);
+        tagInfoCopy[0x08].count_ = nAfPoints; // AFAreaWidths
+        tagInfoCopy[0x09].count_ = nAfPoints; // AFAreaHeights
+        tagInfoCopy[0x0a].count_ = nAfPoints; // AFXPositions
+        tagInfoCopy[0x0b].count_ = nAfPoints; // AFYPositions
+        tagInfoCopy[0x0c].count_ = nMasks; // AFPointsInFocus
+        tagInfoCopy[0x0d].count_ = nMasks; // AFPointsSelected
+        tagInfoCopy[0x0e].count_ = nMasks; // AFPointsUnusable
+
+        return tagInfoCopy;
     }
 
 

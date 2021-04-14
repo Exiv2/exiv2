@@ -123,8 +123,10 @@ namespace Exiv2 {
         static const TagInfo* tagListAfC();
         //! Return read-only list of built-in Canon RawBurstInfo Info tags
         static const TagInfo* tagListRawB();
-        //! Return read-only list of built-in Canon AFInfo2 Info tags
+        //! Return read-only list of built-in Canon AFInfo2 tags
         static const TagInfo* tagListAf2();
+        //! Return list of built-in Canon AFInfo2 Info tags based on the given number of AF Points
+        static std::vector<TagInfo> tagListAf2(uint16_t afPoints);
         
 
         
@@ -182,7 +184,7 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
-        static const TagInfo tagInfoAf2_[];
+        static const std::array<TagInfo, 0x13> tagInfoAf2_;
         static const TagInfo tagInfoAf3_[];
         static const TagInfo tagInfoAfC_[];
         static const TagInfo tagInfoAfMiAdj_[];        
