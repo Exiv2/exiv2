@@ -2283,7 +2283,7 @@ namespace Exiv2 {
                 gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"),
                 N_("Indicates the unit used to express the distance to the destination point. "
-                "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."),
+                "\"K\", \"M\" and \"N\" represent kilometers, miles and nautical miles."),
                 gpsId, gpsTags, asciiString, 2, print0x0019),
         TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"),
                 N_("Indicates the distance to the destination point."),
