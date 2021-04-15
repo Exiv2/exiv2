@@ -1042,13 +1042,12 @@ int Params::getopt(int argc, char* const Argv[])
     longs["--years"    ] = "-Y";
 
     for ( int i = 0 ; i < argc ; i++ ) {
-        std::string* arg = new std::string(Argv[i]);
-        if (longs.find(*arg) != longs.end() ) {
-            argv[i] = ::strdup(longs[*arg].c_str());
+        std::string arg(Argv[i]);
+        if (longs.find(arg) != longs.end() ) {
+            argv[i] = ::strdup(longs[arg].c_str());
         } else {
             argv[i] = ::strdup(Argv[i]);
         }
-        delete arg;
     }
 
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
