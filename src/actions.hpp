@@ -92,7 +92,7 @@ namespace Action {
         virtual Task* clone_() const =0;
         
         //! copy binary_ from command-line params to task
-        bool binary_ ;
+        bool binary_ {false} ;
 
     }; // class Task
 
@@ -206,7 +206,7 @@ namespace Action {
         virtual Print* clone_() const;
 
         std::string path_;
-        int align_;                // for the alignment of the summary output
+        int align_{0};                // for the alignment of the summary output
     }; // class Print
 
     /*!
@@ -238,10 +238,10 @@ namespace Action {
                            const std::string& key,
                            const std::string& path) const;
 
-        long adjustment_;
-        long yearAdjustment_;
-        long monthAdjustment_;
-        long dayAdjustment_;
+        long adjustment_ {0};
+        long yearAdjustment_ {0};
+        long monthAdjustment_ {0};
+        long dayAdjustment_ {0};
 
     }; // class Adjust
 
