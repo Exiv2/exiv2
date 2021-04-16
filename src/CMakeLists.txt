@@ -103,12 +103,6 @@ if( EXIV2_ENABLE_PNG )
     target_sources(exiv2lib PRIVATE pngimage.cpp ../include/exiv2/pngimage.hpp)
 endif()
 
-if( EXIV2_ENABLE_VIDEO )
-    target_sources(exiv2lib PRIVATE
-        utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
-    )
-endif()
-
 target_sources(exiv2lib PRIVATE
     bmffimage.cpp           ../include/exiv2/bmffimage.hpp
 )

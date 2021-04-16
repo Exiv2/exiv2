@@ -21,9 +21,6 @@
 // Define if you want translation of program messages to the user's native language
 #define EXV_ENABLE_NLS
 
-// Define if you want video support.
-#define EXV_ENABLE_VIDEO
-
 // Define if you have the strerror_r function.
 /* #undef EXV_HAVE_STRERROR_R */
 

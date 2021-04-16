@@ -18,9 +18,6 @@
 // Define if you want BMFF support.
 #cmakedefine EXV_ENABLE_BMFF
 
-// Define if you want video support.
-#cmakedefine EXV_ENABLE_VIDEO
-
 // Define if you have the strerror_r function.
 #cmakedefine EXV_HAVE_STRERROR_R
 

@@ -54,7 +54,6 @@ OptionOutput( "Building BMFF support:              " EXIV2_ENABLE_BMFF          
 OptionOutput( "Native language support:            " EXIV2_ENABLE_NLS                )
 OptionOutput( "Conversion of Windows XP tags:      " EXIV2_ENABLE_PRINTUCS2          )
 OptionOutput( "Nikon lens database:                " EXIV2_ENABLE_LENSDATA           )
-OptionOutput( "Building video support:             " EXIV2_ENABLE_VIDEO              )
 OptionOutput( "Building webready support:          " EXIV2_ENABLE_WEBREADY           )
 if    ( EXIV2_ENABLE_WEBREADY )
     OptionOutput( "USE Libcurl for HttpIo:             " EXIV2_ENABLE_CURL           )
