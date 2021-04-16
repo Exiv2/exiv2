@@ -53,10 +53,8 @@
 #include "nikonmn_int.hpp"
 
 #ifdef   EXV_ENABLE_VIDEO
-#include "matroskavideo.hpp"
 #include "quicktimevideo.hpp"
 #include "riffvideo.hpp"
-#include "asfvideo.hpp"
 #endif// EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"

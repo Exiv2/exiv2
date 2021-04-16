@@ -105,7 +105,6 @@ endif()
 
 if( EXIV2_ENABLE_VIDEO )
     target_sources(exiv2lib PRIVATE
-        matroskavideo.cpp       ../include/exiv2/matroskavideo.hpp
         quicktimevideo.cpp      ../include/exiv2/quicktimevideo.hpp
         riffvideo.cpp           ../include/exiv2/riffvideo.hpp
         utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
