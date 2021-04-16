@@ -69,7 +69,7 @@ int main(int argc, char* const argv[])
             Exiv2::byte* bytes = blocksize>0 ? new Exiv2::byte[blocksize]: NULL;
 
             // copy fileIn from a remote location.
-            BasicIo::AutoPtr io = Exiv2::ImageFactory::createIo(fr);
+            BasicIo::UniquePtr io = Exiv2::ImageFactory::createIo(fr);
             if ( io->open() != 0 ) {
                 Error(Exiv2::kerFileOpenFailed, io->path(), "rb", strError());
             }

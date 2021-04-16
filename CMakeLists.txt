@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.3.2 )
+cmake_minimum_required( VERSION 3.5.0 )
 
 project(exiv2          # use TWEAK to categorize the build
     VERSION 1.00.0.9   # 1.00.0    = GM               (tagged and released)

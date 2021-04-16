@@ -19,7 +19,7 @@ class Exiv2Conan(ConanFile):
     def configure(self):
         self.options['libcurl'].shared = False
         self.options['libcurl'].with_openssl = True
-        self.options['gtest'].shared = True
+        self.options['gtest'].shared = False
 
     def requirements(self):
         self.requires('zlib/1.2.11@conan/stable')
@@ -28,10 +28,7 @@ class Exiv2Conan(ConanFile):
             self.requires('libiconv/1.15@bincrafters/stable')
 
         if self.options.unitTests:
-            if self.settings.compiler == "Visual Studio" and Version(self.settings.compiler.version.value) <= "12":
-                self.requires('gtest/1.8.0@bincrafters/stable')
-            else:
-                self.requires('gtest/1.8.1@bincrafters/stable')
+            self.requires('gtest/1.8.1@bincrafters/stable')
 
         if self.options.webready and not os_info.is_macos:
             # Note: This difference in versions is just due to a combination of corner cases in the

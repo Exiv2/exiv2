@@ -656,9 +656,9 @@ namespace Exiv2 {
         return record_;
     }
 
-    IptcKey::AutoPtr IptcKey::clone() const
+    IptcKey::UniquePtr IptcKey::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     IptcKey* IptcKey::clone_() const

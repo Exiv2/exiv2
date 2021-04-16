@@ -302,7 +302,7 @@ int main(int argc, char* const argv[])
         while      (opt[0] == '-') opt++ ; // skip past leading -'s
         char        option = opt[0];
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
 

@@ -30,7 +30,6 @@
 #include "exiv2/cr2image.hpp"
 #include "exiv2/crwimage.hpp"
 #include "exiv2/easyaccess.hpp"
-#include "exiv2/epsimage.hpp"
 #include "exiv2/error.hpp"
 #include "exiv2/exif.hpp"
 #include "exiv2/futils.hpp"

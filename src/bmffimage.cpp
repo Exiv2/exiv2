@@ -99,8 +99,8 @@ namespace Exiv2
         return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
     }
 
-    BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
-    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
+    BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */)
+    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io))
     , endian_(Exiv2::bigEndian)
     {
         pixelWidth_    = 0;
@@ -597,9 +597,9 @@ namespace Exiv2
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new BmffImage(io, create));
+        Image::UniquePtr image(new BmffImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

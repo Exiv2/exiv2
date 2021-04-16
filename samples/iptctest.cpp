@@ -48,7 +48,7 @@ int main(int argc, char* const argv[])
             return 1;
         }
 
-        Image::AutoPtr image = ImageFactory::open(argv[1]);
+        Image::UniquePtr image = ImageFactory::open(argv[1]);
         assert (image.get() != 0);
         image->readMetadata();
 
@@ -120,7 +120,7 @@ void processAdd(const std::string& line, int num, IptcData &iptcData)
         data = data.substr(1, data.size()-2);
     }
     TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
-    Value::AutoPtr value = Value::create(type);
+    Value::UniquePtr value = Value::create(type);
     value->read(data);
 
     int rc = iptcData.add(iptcKey, value.get());
@@ -171,7 +171,7 @@ void processModify(const std::string& line, int num, IptcData &iptcData)
         data = data.substr(1, data.size()-2);
     }
     TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
-    Value::AutoPtr value = Value::create(type);
+    Value::UniquePtr value = Value::create(type);
     value->read(data);
 
     IptcData::iterator iter = iptcData.findKey(iptcKey);

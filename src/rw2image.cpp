@@ -41,8 +41,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    Rw2Image::Rw2Image(BasicIo::AutoPtr io)
-        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, io)
+    Rw2Image::Rw2Image(BasicIo::UniquePtr io)
+        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Rw2Image::Rw2Image
 
@@ -139,7 +139,7 @@ namespace Exiv2 {
         if (list.size() != 1) return;
         ExifData exifData;
         PreviewImage preview = loader.getPreviewImage(*list.begin());
-        Image::AutoPtr image = ImageFactory::open(preview.pData(), preview.size());
+        Image::UniquePtr image = ImageFactory::open(preview.pData(), preview.size());
         if (image.get() == 0) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to open RW2 preview image.\n";
@@ -238,9 +238,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newRw2Instance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new Rw2Image(io));
+        Image::UniquePtr image(new Rw2Image(std::move(io)));
         if (!image->good()) {
             image.reset();
         }

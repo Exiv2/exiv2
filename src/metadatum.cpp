@@ -34,9 +34,9 @@ namespace Exiv2 {
     {
     }
 
-    Key::AutoPtr Key::clone() const
+    Key::UniquePtr Key::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Key& Key::operator=(const Key& /*rhs*/)

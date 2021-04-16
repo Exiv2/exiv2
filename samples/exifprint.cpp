@@ -88,7 +88,7 @@ try {
         return 0;
     }
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
     image->readMetadata();
 
