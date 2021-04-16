@@ -229,7 +229,6 @@ namespace Exiv2 {
         , { "https://"  ,pHttps    , true  }
         , { "ftp://"    ,pFtp      , true  }
         , { "sftp://"   ,pSftp     , true  }
-        , { "ssh://"    ,pSsh      , true  }
         , { "file://"   ,pFileUri  , true  }
         , { "data://"   ,pDataUri  , true  }
         , { "-"         ,pStdin    , false }
@@ -254,7 +253,6 @@ namespace Exiv2 {
         , { L"https://"  ,pHttps    , true  }
         , { L"ftp://"    ,pFtp      , true  }
         , { L"sftp://"   ,pSftp     , true  }
-        , { L"ssh://"    ,pSsh      , true  }
         , { L"file://"   ,pFileUri  , true  }
         , { L"data://"   ,pDataUri  , true  }
         , { L"-"         ,pStdin    , false }

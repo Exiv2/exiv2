@@ -56,10 +56,6 @@
 #include "exiv2/rafimage.hpp"
 #include "exiv2/rw2image.hpp"
 
-#ifdef EXV_USE_SSH
-#include "exiv2/ssh.hpp"
-#endif
-
 #include "exiv2/tags.hpp"
 #include "exiv2/tgaimage.hpp"
 #include "exiv2/tiffimage.hpp"

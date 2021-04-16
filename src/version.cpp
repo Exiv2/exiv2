@@ -350,7 +350,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int enable_webready  =0;
     int enable_nls       =0;
     int use_curl         =0;
-    int use_ssh          =0;
 
 #ifdef EXV_HAVE_INTTYPES_H
     have_inttypes=1;
@@ -482,10 +481,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     use_curl=1;
 #endif
 
-#ifdef EXV_USE_SSH
-     use_ssh=1;
-#endif
-
     Exiv2::StringVector libs =getLoadedLibraries();
 
     output(os,keys,"exiv2",Exiv2::versionString());
@@ -553,7 +548,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
-    output(os,keys,"use_ssh"           ,use_ssh          );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 

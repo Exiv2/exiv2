@@ -3,9 +3,6 @@
 #ifndef _EXV_CONF_H_
 #define _EXV_CONF_H_
 
-// Defined if you want to use libssh for SshIO.
-#define EXV_USE_SSH
-
 // Define to 1 if you want to use libcurl in httpIO.
 #define EXV_USE_CURL
 

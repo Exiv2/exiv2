@@ -564,11 +564,11 @@ $ cmake --build . --config Release
 
 Exiv2 can perform I/O using internet protocols such as http, https and ftp.
 
-The feature is disabled by default.  You will need to instruct conan to build/download necessary libraries (curl, openssl and libssh) and tell CMake to link to the libraries.
+The feature is disabled by default.  You will need to instruct conan to build/download necessary libraries (curl and openssl) and tell CMake to link to the libraries.
 
 ```bash
 $ conan install .. --options webready=True
-$ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON ..
+$ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON ..
 ```
 
 [TOC](#TOC)

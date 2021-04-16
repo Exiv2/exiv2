@@ -29,7 +29,6 @@ option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs
 option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
-option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo (WEBREADY)"                       OFF )
 option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
