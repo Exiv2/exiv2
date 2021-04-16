@@ -35,7 +35,6 @@ install(FILES
             tgaimage.hpp
             tiffimage.hpp
             types.hpp
-            utilsvideo.hpp
             value.hpp
             version.hpp
             webpimage.hpp

@@ -658,7 +658,6 @@ Note, you may wish to choose to build with optional features and/or build static
 
 ```bash
 $ mingw64-cmake .. -DEXIV2_TEAM_EXTRA_WARNINGS=On \
-                   -DEXIV2_ENABLE_VIDEO=On        \
                    -DEXIV2_ENABLE_WEBREADY=On     \
                    -DEXIV2_ENABLE_WIN_UNICODE=On  \
                    -DBUILD_SHARED_LIBS=Off

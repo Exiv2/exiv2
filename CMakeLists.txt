@@ -24,7 +24,6 @@ option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"  
 option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      OFF )
 option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
-option( EXIV2_ENABLE_VIDEO            "Build video support into library"                      OFF )
 option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON  )
 option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
