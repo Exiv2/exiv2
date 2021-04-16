@@ -9,6 +9,11 @@ project(exiv2          # use TWEAK to categorize the build
                        # 1.00.0.29 = RC2 Development
     LANGUAGES CXX
 )
+
+if(NOT CMAKE_BUILD_TYPE)
+    set (CMAKE_BUILD_TYPE Release)
+endif()
+
 include(cmake/mainSetup.cmake  REQUIRED)
 
 # options and their default values
