@@ -19,7 +19,6 @@ install(FILES
             iptc.hpp
             jp2image.hpp
             jpgimage.hpp
-            matroskavideo.hpp
             metadatum.hpp
             mrwimage.hpp
             orfimage.hpp
