@@ -96,10 +96,6 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)
         target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
     endif()
-
-    if( EXIV2_ENABLE_SSH )
-        target_sources(exiv2lib PRIVATE ssh.cpp ../include/exiv2/ssh.hpp)
-    endif()
 endif()
 
 if( EXIV2_ENABLE_PNG )
@@ -171,10 +167,6 @@ target_include_directories(exiv2lib_int PUBLIC
 )
 
 if (EXIV2_ENABLE_WEBREADY)
-
-    if( EXIV2_ENABLE_SSH )
-        target_link_libraries(exiv2lib PUBLIC ssh)
-    endif()
 
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )

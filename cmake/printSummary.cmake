@@ -58,7 +58,6 @@ OptionOutput( "Building video support:             " EXIV2_ENABLE_VIDEO         
 OptionOutput( "Building webready support:          " EXIV2_ENABLE_WEBREADY           )
 if    ( EXIV2_ENABLE_WEBREADY )
     OptionOutput( "USE Libcurl for HttpIo:             " EXIV2_ENABLE_CURL           )
-    OptionOutput( "USE Libssh for SshIo:               " EXIV2_ENABLE_SSH            )
 endif ( EXIV2_ENABLE_WEBREADY )
 
 if (WIN32)

@@ -34,7 +34,6 @@ install(FILES
             rw2image.hpp
             rwlock.hpp
             slice.hpp
-            ssh.hpp
             tags.hpp
             tgaimage.hpp
             tiffimage.hpp

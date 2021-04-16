@@ -1107,51 +1107,6 @@ namespace Exiv2 {
     };
 #endif
 
-#ifdef EXV_USE_SSH
-    /*!
-        @brief Provides the ssh read/write access and sftp read access for the RemoteIo.
-            This class is based on libssh.
-    */
-    class EXIV2LIB_DEPRECATED_EXPORT SshIo : public RemoteIo {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor that accepts the URL on which IO will be
-              performed.
-          @param url The full path of url
-          @param blockSize the size of the memory block. The file content is
-                divided into the memory blocks. These blocks are populated
-                on demand from the server, so it avoids copying the complete file.
-          @throw Error if it is unable to init ssh session.
-         */
-        SshIo(const std::string&  url,  size_t blockSize = 1024);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like SshIo(const std::string&  url,  size_t blockSize = 1024) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        SshIo(const std::wstring& wurl, size_t blockSize = 1024);
-#endif
-        //@}
-    protected:
-        // NOT IMPLEMENTED
-        //! Copy constructor
-        SshIo(SshIo& rhs);
-        //! Assignment operator
-        SshIo& operator=(const SshIo& rhs);
-        // Pimpl idiom
-        class SshImpl;
-
-        //! @name Creators
-        //@{
-        //! Default Destructor
-        virtual ~SshIo(){}
-        //@}
-    };
-#endif
-
 // *****************************************************************************
 // template, inline and free functions
 
