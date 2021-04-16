@@ -28,7 +28,6 @@ install(FILES
             properties.hpp
             psdimage.hpp
             rafimage.hpp
-            riffvideo.hpp
             rw2image.hpp
             rwlock.hpp
             slice.hpp

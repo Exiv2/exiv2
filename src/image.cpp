@@ -52,9 +52,6 @@
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
 
-#ifdef   EXV_ENABLE_VIDEO
-#include "riffvideo.hpp"
-#endif// EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"
 #include "xmpsidecar.hpp"
@@ -129,9 +126,6 @@ namespace {
 #ifdef EXV_ENABLE_BMFF
         { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
 #endif // EXV_ENABLE_BMFF
-#ifdef EXV_ENABLE_VIDEO
-        { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
-#endif // EXV_ENABLE_VIDEO
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
