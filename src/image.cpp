@@ -53,7 +53,6 @@
 #include "nikonmn_int.hpp"
 
 #ifdef   EXV_ENABLE_VIDEO
-#include "quicktimevideo.hpp"
 #include "riffvideo.hpp"
 #endif// EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
@@ -131,10 +130,7 @@ namespace {
         { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
 #endif // EXV_ENABLE_BMFF
 #ifdef EXV_ENABLE_VIDEO
-        { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },
         { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
-        { ImageType::asf,  newAsfInstance,  isAsfType,  amNone,      amNone,      amRead,      amNone      },
-        { ImageType::mkv,  newMkvInstance,  isMkvType,  amNone,      amNone,      amRead,      amNone      },
 #endif // EXV_ENABLE_VIDEO
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }

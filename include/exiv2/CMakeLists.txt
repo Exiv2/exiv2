@@ -27,7 +27,6 @@ install(FILES
             preview.hpp
             properties.hpp
             psdimage.hpp
-            quicktimevideo.hpp
             rafimage.hpp
             riffvideo.hpp
             rw2image.hpp
