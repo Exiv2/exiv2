@@ -10,7 +10,21 @@
 
 ## Security Process
 
-Security alerts are published here:  https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=Exiv2  We open an issue with the label "Security" on GitHub and fix it.  It doesn't get special treatment and will be included in the next release of the branch.
+If you have found a security vulnerability in Exiv2, please follow these steps:
+
+* Send an email to our security contact person: [Kevin Backhouse](https://github.com/kevinbackhouse) (kevinbackhouse@github.com).
+* We will create a draft [security advisory](https://github.com/Exiv2/exiv2/security/advisories) and invite you as a collaborator.
+* Add a comment to the draft security advisory with a detailed description of the vulnerability. (Please don't use the "Description" field, because we'll use the "Description" field to write a short summary later.)
+* Include all of the following details in your description of the vulnerability:
+  * Exact version of Exiv2 that you tested. _For example: commit [194bb65ac568a5435874c9d9d73b1c8a68e4edec](https://github.com/Exiv2/exiv2/commit/194bb65ac568a5435874c9d9d73b1c8a68e4edec)_
+  * Platform used. _For example: Ubuntu 20.04.2 LTS (x86\_64)_
+  * Exact command used to build Exiv2. _For example: `mkdir build; cd build; cmake ..; make`_
+  * Attach a copy of the image file that triggers the bug. _For example: `poc.jpg`_
+  * Exact command line arguments that trigger the bug. _For example: `./bin/exiv2 poc.jpg`_
+  * Crash output (stdout + stderr).
+  * The source location of the bug and/or any other information that you are able to provide about what the cause of the bug is.
+
+The draft security advisory is private until we publish it, so it is a good place to discuss the details of the vulnerability privately. For the initial email, just a summary of the issue is sufficient.
 
 Team Exiv2 does not back-port security (or any other fix) to earlier releases of the code.  An engineer at SUSE has patched and fixed some security releases for Exiv2 v0.26 and Exiv2 v0.25 in branches 0.26 and 0.25.  Exiv2 has provided several _**Dot Release**_ for v0.27.  Exiv2 has never issued a _**Security Release**_.
 
@@ -29,11 +43,3 @@ Users can register on GitHub.com to receive release notices for RC and GM Releas
 | v0.27.3.29 | Exiv2 v0.27.3.29 | Development  | Should never be installed for production. |
 | v0.27.4.9  | Exiv2 v0.27.4.9  | Development  | Should never be installed for production. |
 | v0.27.99   | Exiv2 v0.28      | Development  | Should never be installed for production. |
-
-
-## Reported CVEs
-
-| CVE               | Description                     | Solution  | PR |
-|:--                |:--                              |:--        |:--    |
-| [CVE-2019-9144](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9144)     | Crash in BigTiffImage::printIFD | Remove src/bigtiffimage.cpp | [#1331](https://github.com/Exiv2/exiv2/pull/1331) |
-| to be continued   | | | |
