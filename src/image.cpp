@@ -936,8 +936,8 @@ namespace Exiv2 {
             throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
-        BasicIo::UniquePtr io(fileIo);
-        Image::UniquePtr image = create(type, io);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
