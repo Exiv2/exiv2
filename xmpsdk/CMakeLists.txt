@@ -41,8 +41,14 @@ target_include_directories(exiv2-xmp
 # ("billion laughs attack").
 # See https://bugzilla.redhat.com/show_bug.cgi?id=888769
 target_compile_definitions(exiv2-xmp PRIVATE BanAllEntityUsage=1)
+
 if (MSVC)
     target_compile_definitions(exiv2-xmp PRIVATE XML_STATIC)
+endif()
+
+if (MINGW)
+    # https://stackoverflow.com/questions/18551409/localtime-r-support-on-mingw
+    target_compile_definitions(exiv2-xmp PRIVATE _POSIX_THREAD_SAFE_FUNCTIONS)
 endif()
 
 if (BUILD_SHARED_LIBS)
