@@ -658,7 +658,7 @@ static void boxes_check(size_t b,size_t m)
             Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
 
             // copy data.  pointer could be into a memory mapped file which we will decode!
-            Jp2BoxHeader   subBox = *pSubBox ;
+            Jp2BoxHeader   subBox ; memcpy(&subBox,pSubBox,sizeof(subBox));
             Jp2BoxHeader   newBox =  subBox;
 
             if ( count < length ) {
