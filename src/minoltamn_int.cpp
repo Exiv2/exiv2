@@ -2163,7 +2163,7 @@ namespace Exiv2 {
             std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
 
             std::string F1_8        = "434/256" ;
-            Exiv2::StringSet maxApertures;
+            std::set<std::string> maxApertures;
                              maxApertures.insert( "926/256") ; // F3.5
                              maxApertures.insert("1024/256") ; // F4
                              maxApertures.insert("1110/256") ; // F4.5

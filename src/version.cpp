@@ -150,7 +150,7 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
     output(os,greps,name,stringStream.str());
 }
 
-static bool pushPath(std::string& path,Exiv2::StringVector& libs,Exiv2::StringSet& paths)
+static bool pushPath(std::string& path,std::vector<std::string>& libs,std::set<std::string>& paths)
 {
     bool result = Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ;
     if ( result ) {
@@ -160,10 +160,10 @@ static bool pushPath(std::string& path,Exiv2::StringVector& libs,Exiv2::StringSe
     return result ;
 }
 
-static Exiv2::StringVector getLoadedLibraries()
+static std::vector<std::string> getLoadedLibraries()
 {
-    Exiv2::StringVector libs ;
-    Exiv2::StringSet    paths;
+    std::vector<std::string> libs ;
+    std::set<std::string> paths;
     std::string         path ;
 
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
@@ -476,7 +476,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     use_curl=1;
 #endif
 
-    Exiv2::StringVector libs =getLoadedLibraries();
+    std::vector<std::string> libs =getLoadedLibraries();
 
     output(os,keys,"exiv2",Exiv2::versionString());
     output(os,keys,"platform"       , platform   );
@@ -507,7 +507,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"curl"          , use_curl);
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
+        for ( auto lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
             output(os,keys,"library",*lib);
     }
 
