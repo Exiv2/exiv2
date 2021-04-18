@@ -366,10 +366,6 @@ namespace Exiv2 {
       @brief typedef for Dictionary*
      */
     typedef Dictionary*                                       Dictionary_p;
-    /*!
-      @brief typedef for Dictionary iterator
-     */
-    typedef Dictionary::const_iterator                        Dictionary_i;
 
     /*!
       @brief typedef for string set (unique strings)
