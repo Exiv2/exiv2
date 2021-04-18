@@ -598,7 +598,9 @@ namespace Exiv2 {
     }
 
     IptcKey::IptcKey(const IptcKey& rhs)
-        : Key(rhs), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
+        : tag_(rhs.tag_)
+        , record_(rhs.record_)
+        , key_(rhs.key_)
     {
     }
 

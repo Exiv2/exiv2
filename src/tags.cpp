@@ -345,7 +345,7 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(const ExifKey& rhs)
-        : Key(rhs), p_(new Impl(*rhs.p_))
+        : p_(new Impl(*rhs.p_))
     {
     }
 

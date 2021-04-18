@@ -184,14 +184,6 @@ public:
     { }
 
     virtual ~Position() {}
-//  copy constructor
-    Position(const Position& o) :
-        time_(o.time_)
-      , lon_(o.lon_)
-      , lat_(o.lat_)
-      , ele_(o.ele_)
-      , delta_(o.delta_)
-    {}
 
 //  instance methods
     bool good()                 { return time_ || lon_ || lat_ || ele_ ; }

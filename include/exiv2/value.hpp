@@ -58,7 +58,7 @@ namespace Exiv2 {
         //! Constructor, taking a type id to initialize the base class with
         explicit Value(TypeId typeId);
         //! Virtual destructor.
-        virtual ~Value();
+        virtual ~Value() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -231,7 +231,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Value& operator=(const Value& rhs);
+        Value& operator=(const Value& rhs) = default;
         // DATA
         mutable bool ok_;                //!< Indicates the status of the previous to<Type> conversion
 
@@ -696,7 +696,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        XmpValue& operator=(const XmpValue& rhs);
+        XmpValue& operator=(const XmpValue& rhs) = default;
 
     private:
         // DATA
@@ -1320,7 +1320,7 @@ namespace Exiv2 {
         virtual ValueType<T>* clone_() const;
 
         // DATA
-        //! Pointer to the buffer, 0 if none has been allocated
+        //! Pointer to the buffer, nullptr if none has been allocated
         byte* pDataArea_;
         //! The current size of the buffer
         long sizeDataArea_;
@@ -1495,33 +1495,33 @@ namespace Exiv2 {
 
     template<typename T>
     ValueType<T>::ValueType()
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
+        : Value(getType<T>()), pDataArea_(nullptr), sizeDataArea_(0)
     {
     }
 
     template<typename T>
     ValueType<T>::ValueType(TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
     }
 
     template<typename T>
     ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
         read(buf, len, byteOrder);
     }
 
     template<typename T>
     ValueType<T>::ValueType(const T& val, TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
         value_.push_back(val);
     }
 
     template<typename T>
     ValueType<T>::ValueType(const ValueType<T>& rhs)
-        : Value(rhs)
+        : Value(rhs.typeId())
         , value_(rhs.value_)
         , pDataArea_(nullptr)
         , sizeDataArea_(0)
