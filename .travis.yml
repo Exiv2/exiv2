@@ -10,23 +10,7 @@ env:
 
 matrix:
   include:
-    - name: "Ubuntu 16.04 - gcc-5.4 (Release)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - gcc-5.4 (Debug)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env:
-        - BUILD_TYPE="Debug"
-
-    - name: "Ubuntu 18.04 - gcc (Release)"
+    - name: "Ubuntu 18.04 - gcc-7.5 (Release)"
       os: linux
       dist: bionic
       sudo: required
@@ -34,7 +18,7 @@ matrix:
       env:
         - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 18.04 - gcc (Debug)"
+    - name: "Ubuntu 18.04 - gcc-7.5 (Debug)"
       os: linux
       dist: bionic
       sudo: required
@@ -42,7 +26,7 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
-    - name: "Ubuntu 20.04 - gcc (Release)"
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release)"
       os: linux
       dist: focal
       sudo: required
@@ -50,7 +34,7 @@ matrix:
       env:
         - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 20.04 - gcc (Debug)"
+    - name: "Ubuntu 20.04 - gcc-9.3 (Debug)"
       os: linux
       dist: focal
       sudo: required
@@ -58,55 +42,62 @@ matrix:
       env:
         - BUILD_TYPE="Debug"
 
-    - name: "Ubuntu 16.04 - gcc-5.4 with coverage"
+    - name: "Ubuntu 20.04 - clang-7 (Release)"
       os: linux
-      dist: xenial
+      dist: focal
+      sudo: required
+      compiler: clang
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 20.04 - clang-7 (Debug)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Debug+Coverage)"
+      os: linux
+      dist: focal
       sudo: required
       compiler: gcc
       env:
+        - BUILD_TYPE="Debug"
         - WITH_COVERAGE=1
-        - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 16.04 - gcc-5.4 with Valgrind"
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release+Valgrind)"
       os: linux
-      dist: xenial
+      dist: focal
       sudo: required
       compiler: gcc
       env:
+        - BUILD_TYPE="Release"
         - WITH_VALGRIND=1
-        - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 16.04 - gcc-5.4 with sanitizers"
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release+Sanitizers)"
       os: linux
-      dist: xenial
+      dist: focal
       sudo: required
       compiler: gcc
       env:
+        - BUILD_TYPE="Release"
         - WITH_SANITIZERS=1
-        - BUILD_TYPE="Release"
 
-    - name: "Ubuntu 16.04 - CLANG 7.0 (Release)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: clang
-      env:
-        - BUILD_TYPE="Release"
-
-    - name: "Ubuntu 16.04 - CLANG 7.0 (Debug)"
-      os: linux
-      dist: xenial
-      sudo: required
-      compiler: clang
-      env:
-        - BUILD_TYPE="Debug"
-
-    - name: "macOS 10.14 - XCode 11.3"
+    - name: "macOS 10.14 - XCode 11.3 (Release)"
       os: osx
       osx_image: xcode11.3
       compiler: clang
       env:
         - BUILD_TYPE="Release"
+
+    - name: "macOS 10.14 - XCode 11.3 (Debug)"
+      os: osx
+      osx_image: xcode11.3
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
 
 install: ./ci/install.sh
 script:  ./ci/run.sh

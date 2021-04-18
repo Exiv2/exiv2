@@ -84,18 +84,15 @@ struct BmffBoxHeader
 
 // *****************************************************************************
 // class member definitions
+#ifdef EXV_ENABLE_BMFF
 namespace Exiv2
 {
-    static bool enabled = false;
-
-#ifdef EXV_ENABLE_BMFF
+    static bool   enabled = false;
     EXIV2API bool enableBMFF(bool enable)
     {
-        bool   result = enabled;
-        enabled       = enable ;
-        return result ;
+        enabled = enable ;
+        return true ;
     }
-#endif                   // EXV_ENABLE_BMFF
 
     std::string Iloc::toString() const
     {
@@ -629,3 +626,13 @@ namespace Exiv2
         return matched;
     }
 }  // namespace Exiv2
+#else  // ifdef EXV_ENABLE_BMFF
+namespace Exiv2
+{
+    EXIV2API bool enableBMFF(bool)
+    {
+        return false ;
+    }
+}
+#endif
+
