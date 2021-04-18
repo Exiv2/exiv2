@@ -63,7 +63,7 @@ struct Token {
 typedef std::vector<Token>    Tokens;
 
 // "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
-bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=NULL)
+bool getToken(std::string& in,Token& token, std::set<std::string>* pNS=NULL)
 {
     bool result = false;
     bool ns     = false;
@@ -118,7 +118,7 @@ Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 }
 
 // build the json tree for this key.  return location and discover the name
-Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& name,Exiv2::StringSet* pNS=NULL)
+Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& name,std::set<std::string>* pNS=NULL)
 {
     // Parse the key
     Tokens      tokens ;
@@ -339,8 +339,8 @@ int main(int argc, char* const argv[])
             Exiv2::XmpData  &xmpData  = image->xmpData();
             if ( !xmpData.empty() ) {
                 // get the xmpData and recursively parse into a Jzon Object
-                Exiv2::StringSet     namespaces;
-                for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
+                std::set<std::string> namespaces;
+                for (auto i = xmpData.begin(); i != xmpData.end(); ++i) {
                     std::string name   ;
                     Jzon::Node& object = objectForKey(i->key(),root,name,&namespaces);
                     push(object,name,i);
@@ -352,7 +352,7 @@ int main(int argc, char* const argv[])
 
                 // create and populate a Jzon::Object for the namespaces
                 Jzon::Object    xmlns;
-                for ( Exiv2::StringSet_i it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
+                for ( auto it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
                     std::string ns  = *it       ;
                     std::string uri = nsDict[ns];
                     xmlns.Add(ns,uri);

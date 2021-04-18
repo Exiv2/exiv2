@@ -392,7 +392,7 @@ namespace Exiv2 {
         // The side effects are avoided by the two-step approach
         // https://github.com/Exiv2/exiv2/issues/560
         std::string         key(pos->key());
-        Exiv2::StringVector keys;
+        std::vector<std::string> keys;
         while ( pos != xmpMetadata_.end() ) {
             if ( pos->key().find(key)==0 ) {
                 keys.push_back(pos->key());
@@ -402,8 +402,8 @@ namespace Exiv2 {
             }
         }
         // now erase the family!
-        for ( Exiv2::StringVector_i it = keys.begin() ; it != keys.end() ; it++ ) {
-            erase(findKey(Exiv2::XmpKey(*it)));
+        for (const auto& key: keys) {
+            erase(findKey(Exiv2::XmpKey(key)));
         }
     }
 
