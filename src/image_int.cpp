@@ -61,10 +61,10 @@ namespace Exiv2
         {
             std::stringstream hexOutput;
 
-            unsigned long tl = ((size / 16) * 16);
-            unsigned long tl_offset = (size - tl);
+            unsigned long tl = (unsigned long)((size / 16) * 16);
+            unsigned long tl_offset = (unsigned long)(size - tl);
 
-            for (unsigned long loop = 0; loop < size; loop++) {
+            for (unsigned long loop = 0; loop < (unsigned long)size; loop++) {
                 if (data[loop] < 16) {
                     hexOutput << "0";
                 }

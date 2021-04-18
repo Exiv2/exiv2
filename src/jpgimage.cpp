@@ -277,7 +277,7 @@ namespace Exiv2 {
         long pos = sizeFront;
         while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
                                              &record, &sizeHdr, &sizeIptc)) {
-            const long newPos = record - pPsData;
+            const long newPos = static_cast<long>(record - pPsData);
             // Copy data up to the IPTC IRB
             if (newPos > pos) {
                 append(psBlob, pPsData + pos, newPos - pos);
