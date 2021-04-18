@@ -126,7 +126,7 @@ namespace Exiv2 {
         const byte* pEnd = pPsData + sizePsData;
         int ret = 0;
         while (pCur < pEnd
-               && 0 == (ret = Photoshop::locateIptcIrb(pCur, pEnd - pCur,
+               && 0 == (ret = Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
                                                        &record, &sizeHdr, &sizeIptc))) {
             pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
@@ -539,7 +539,7 @@ namespace Exiv2 {
             const byte* pCur = &psBlob[0];
             const byte* pEnd = pCur + psBlob.size();
             while (   pCur < pEnd
-                   && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur,
+                   && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
                                                     &record, &sizeHdr, &sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
@@ -1200,11 +1200,11 @@ namespace Exiv2 {
                     const byte* chunkEnd = chunkStart + newPsData.size_;
                     while (chunkStart < chunkEnd) {
                         // Determine size of next chunk
-                        long chunkSize = chunkEnd - chunkStart;
+                        long chunkSize = static_cast<long>(chunkEnd - chunkStart);
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
-                            const long writtenSize = chunkStart - newPsData.pData_;
+                            const long writtenSize = static_cast<long>(chunkStart - newPsData.pData_);
                             if (Photoshop::valid(newPsData.pData_, writtenSize + chunkSize)) {
                                 // Since an IRB has minimum size 12,
                                 // (chunkSize - 8) can't be also a IRB boundary
