@@ -312,7 +312,7 @@ namespace Exiv2 {
                 const byte* pCur = psData.pData_;
                 while (   pCur < pEnd
                        && 0 == Photoshop::locateIptcIrb(pCur,
-                                                        pEnd - pCur,
+                                                        static_cast<long>(pEnd - pCur),
                                                         &record,
                                                         &sizeHdr,
                                                         &sizeIptc)) {
@@ -490,14 +490,14 @@ namespace Exiv2 {
 
     std::string PngChunk::zlibCompress(const std::string& text)
     {
-        uLongf compressedLen = (text.size() * 2); // just a starting point
+        uLongf compressedLen = static_cast<uLongf>(text.size() * 2); // just a starting point
         int zlibResult;
 
         DataBuf arr;
         do {
             arr.alloc(compressedLen);
             zlibResult = compress2(arr.pData_, &compressedLen,
-                                   (const Bytef*)text.data(), text.size(),
+                                   (const Bytef*)text.data(), static_cast<uLong>(text.size()),
                                    Z_BEST_COMPRESSION);
 
             switch (zlibResult) {

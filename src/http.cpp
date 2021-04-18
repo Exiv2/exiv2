@@ -252,7 +252,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // open the socket
-    int     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
+    int sockfd = static_cast<int>(socket(AF_INET , SOCK_STREAM,IPPROTO_TCP));
     if (sockfd < 0)
         return error(errors, "unable to create socket\n", NULL, NULL, 0);
 

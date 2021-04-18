@@ -299,7 +299,7 @@ namespace Exiv2
                     bLF = false;
                 }
                 io_->seek(skip, BasicIo::cur);
-                while (io_->tell() < (address + box.length)) {
+                while (io_->tell() < static_cast<long>((address + box.length))) {
                     io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
@@ -417,7 +417,7 @@ namespace Exiv2
                     bLF = false;
                 }
                 if (name == "cano") {
-                    while (io_->tell() < (address + box.length)) {
+                    while (io_->tell() < static_cast<long>(address + box.length)) {
                         io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
