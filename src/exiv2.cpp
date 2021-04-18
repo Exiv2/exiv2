@@ -63,22 +63,22 @@ namespace {
 
     /*!
       @brief Parse the oparg string into a bitmap of common targets.
-      @param optarg Option arguments
+      @param optArg Option arguments
       @param action Action being processed
       @return A bitmap of common targets or -1 in case of a parse error
      */
-    int parseCommonTargets(const std::string& optarg,
+    int parseCommonTargets(const std::string& optArg,
                            const std::string& action);
 
     /*!
       @brief Parse numbers separated by commas into container
       @param previewNumbers Container for the numbers
-      @param optarg Option arguments
-      @param j Starting index into optarg
+      @param optArg Option arguments
+      @param j Starting index into optArg
       @return Number of characters processed
      */
     int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
-                            const std::string& optarg,
+                            const std::string& optArg,
                             int j);
 
     /*!
@@ -370,7 +370,7 @@ void Params::help(std::ostream& os) const
        << _("   -S .suf Use suffix .suf for source files for insert command.\n\n");
 } // Params::help
 
-int Params::option(int opt, const std::string& optarg, int optopt)
+int Params::option(int opt, const std::string& optArg, int optOpt)
 {
     int rc = 0;
     switch (opt) {
@@ -378,41 +378,41 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'q': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
-    case 'Q': rc = setLogLevel(optarg); break;
+    case 'Q': rc = setLogLevel(optArg); break;
     case 'k': preserve_ = true; break;
     case 'b': binary_ = true; break;
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'g': rc = evalGrep(optarg); break;
-    case 'K': rc = evalKey(optarg); printMode_ = pmList; break;
-    case 'n': charset_ = optarg; break;
-    case 'r': rc = evalRename(opt, optarg); break;
-    case 't': rc = evalRename(opt, optarg); break;
-    case 'T': rc = evalRename(opt, optarg); break;
-    case 'a': rc = evalAdjust(optarg); break;
-    case 'Y': rc = evalYodAdjust(yodYear, optarg); break;
-    case 'O': rc = evalYodAdjust(yodMonth, optarg); break;
-    case 'D': rc = evalYodAdjust(yodDay, optarg); break;
-    case 'p': rc = evalPrint(optarg); break;
-    case 'P': rc = evalPrintFlags(optarg); break;
-    case 'd': rc = evalDelete(optarg); break;
-    case 'e': rc = evalExtract(optarg); break;
-    case 'C': rc = evalExtract(optarg); break;
-    case 'i': rc = evalInsert(optarg); break;
-    case 'c': rc = evalModify(opt, optarg); break;
-    case 'm': rc = evalModify(opt, optarg); break;
-    case 'M': rc = evalModify(opt, optarg); break;
-    case 'l': directory_ = optarg; break;
-    case 'S': suffix_ = optarg; break;
+    case 'g': rc = evalGrep(optArg); break;
+    case 'K': rc = evalKey(optArg); printMode_ = pmList; break;
+    case 'n': charset_ = optArg; break;
+    case 'r': rc = evalRename(opt, optArg); break;
+    case 't': rc = evalRename(opt, optArg); break;
+    case 'T': rc = evalRename(opt, optArg); break;
+    case 'a': rc = evalAdjust(optArg); break;
+    case 'Y': rc = evalYodAdjust(yodYear, optArg); break;
+    case 'O': rc = evalYodAdjust(yodMonth, optArg); break;
+    case 'D': rc = evalYodAdjust(yodDay, optArg); break;
+    case 'p': rc = evalPrint(optArg); break;
+    case 'P': rc = evalPrintFlags(optArg); break;
+    case 'd': rc = evalDelete(optArg); break;
+    case 'e': rc = evalExtract(optArg); break;
+    case 'C': rc = evalExtract(optArg); break;
+    case 'i': rc = evalInsert(optArg); break;
+    case 'c': rc = evalModify(opt, optArg); break;
+    case 'm': rc = evalModify(opt, optArg); break;
+    case 'M': rc = evalModify(opt, optArg); break;
+    case 'l': directory_ = optArg; break;
+    case 'S': suffix_ = optArg; break;
     case ':':
-        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optopt)
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optOpt)
                    << " " << _("requires an argument\n");
         rc = 1;
         break;
     case '?':
         std::cerr << progname() << ": " << _("Unrecognized option") << " -"
-                  << static_cast<char>(optopt) << "\n";
+                  << static_cast<char>(optOpt) << "\n";
         rc = 1;
         break;
     default:
@@ -425,10 +425,10 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     return rc;
 } // Params::option
 
-int Params::setLogLevel(const std::string& optarg)
+int Params::setLogLevel(const std::string& optArg)
 {
     int rc = 0;
-    const char logLevel = tolower(optarg[0]);
+    const char logLevel = tolower(optArg[0]);
     switch (logLevel) {
     case 'd': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug); break;
     case 'i': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::info); break;
@@ -437,7 +437,7 @@ int Params::setLogLevel(const std::string& optarg)
     case 'm': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
     default:
         std::cerr << progname() << ": " << _("Option") << " -Q: "
-                  << _("Invalid argument") << " \"" << optarg << "\"\n";
+                  << _("Invalid argument") << " \"" << optArg << "\"\n";
         rc = 1;
         break;
     }
@@ -453,12 +453,12 @@ static inline bool ends_with(std::string const & value, std::string const & endi
     return bResult ;
 }
 
-int Params::evalGrep( const std::string& optarg)
+int Params::evalGrep( const std::string& optArg)
 {
     int result=0;
     std::string pattern;
     std::string ignoreCase("/i");
-    bool bIgnoreCase = ends_with(optarg,ignoreCase,pattern);
+    bool bIgnoreCase = ends_with(optArg,ignoreCase,pattern);
 #if defined(EXV_HAVE_REGEX_H)
     // try to compile a reg-exp from the input argument and store it in the vector
     const size_t i = greps_.size();
@@ -473,7 +473,7 @@ int Params::evalGrep( const std::string& optarg)
         regerror (errcode, pRegex, buffer, length);
         std::cerr << progname()
               << ": " << _("Option") << " -g: "
-              << _("Invalid regexp") << " \"" << optarg << "\": " << buffer << "\n";
+              << _("Invalid regexp") << " \"" << optArg << "\": " << buffer << "\n";
 
         // free the memory and drop the regexp
         delete[] buffer;
@@ -487,14 +487,14 @@ int Params::evalGrep( const std::string& optarg)
     return result;
 } // Params::evalGrep
 
-int Params::evalKey( const std::string& optarg)
+int Params::evalKey( const std::string& optArg)
 {
     int result=0;
-    keys_.push_back(optarg);
+    keys_.push_back(optArg);
     return result;
 } // Params::evalKey
 
-int Params::evalRename(int opt, const std::string& optarg)
+int Params::evalRename(int opt, const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -502,7 +502,7 @@ int Params::evalRename(int opt, const std::string& optarg)
         action_ = Action::rename;
         switch (opt) {
         case 'r':
-            format_ = optarg;
+            format_ = optArg;
             formatSet_ = true;
             break;
         case 't': timestamp_ = true; break;
@@ -512,10 +512,10 @@ int Params::evalRename(int opt, const std::string& optarg)
     case Action::rename:
         if (opt == 'r' && (formatSet_ || timestampOnly_)) {
             std::cerr << progname()
-                      << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
+                      << ": " << _("Ignoring surplus option") << " -r \"" << optArg << "\"\n";
         }
         else {
-            format_ = optarg;
+            format_ = optArg;
             formatSet_ = true;
         }
         break;
@@ -529,7 +529,7 @@ int Params::evalRename(int opt, const std::string& optarg)
     return rc;
 } // Params::evalRename
 
-int Params::evalAdjust(const std::string& optarg)
+int Params::evalAdjust(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -537,14 +537,14 @@ int Params::evalAdjust(const std::string& optarg)
     case Action::adjust:
         if (adjust_) {
             std::cerr << progname()
-                      << ": " << _("Ignoring surplus option -a")  << " " << optarg << "\n";
+                      << ": " << _("Ignoring surplus option -a")  << " " << optArg << "\n";
             break;
         }
         action_ = Action::adjust;
-        adjust_ = parseTime(optarg, adjustment_);
+        adjust_ = parseTime(optArg, adjustment_);
         if (!adjust_) {
             std::cerr << progname() << ": " << _("Error parsing -a option argument") << " `"
-                      << optarg << "'\n";
+                      << optArg << "'\n";
             rc = 1;
         }
         break;
@@ -557,7 +557,7 @@ int Params::evalAdjust(const std::string& optarg)
     return rc;
 } // Params::evalAdjust
 
-int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
+int Params::evalYodAdjust(const Yod& yod, const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -566,15 +566,15 @@ int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
         if (yodAdjust_[yod].flag_) {
             std::cerr << progname()
                       << ": " << _("Ignoring surplus option") << " "
-                      << yodAdjust_[yod].option_ << " " << optarg << "\n";
+                      << yodAdjust_[yod].option_ << " " << optArg << "\n";
             break;
         }
         action_ = Action::adjust;
         yodAdjust_[yod].flag_ = true;
-        if (!Util::strtol(optarg.c_str(), yodAdjust_[yod].adjustment_)) {
+        if (!Util::strtol(optArg.c_str(), yodAdjust_[yod].adjustment_)) {
             std::cerr << progname() << ": " << _("Error parsing") << " "
                       << yodAdjust_[yod].option_ << " "
-                      << _("option argument") << " `" << optarg << "'\n";
+                      << _("option argument") << " `" << optArg << "'\n";
             rc = 1;
         }
         break;
@@ -589,12 +589,12 @@ int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
     return rc;
 } // Params::evalYodAdjust
 
-int Params::evalPrint(const std::string& optarg)
+int Params::evalPrint(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
         case Action::none:
-            switch (optarg[0]) {
+            switch (optArg[0]) {
                 case 's':
                     action_ = Action::print;
                     printMode_ = pmSummary;
@@ -635,7 +635,7 @@ int Params::evalPrint(const std::string& optarg)
                 case 'R':
                 #ifdef NDEBUG
                     std::cerr << progname() << ": " << _("Action not available in Release mode")
-                              << ": '" << optarg << "'\n";
+                              << ": '" << optArg << "'\n";
                     rc = 1;
                 #else
                     action_ = Action::print;
@@ -651,13 +651,13 @@ int Params::evalPrint(const std::string& optarg)
                     printMode_ = pmXMP;
                     break;
                 default:
-                    std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" << optarg << "'\n";
+                    std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" << optArg << "'\n";
                     rc = 1;
                     break;
             }
             break;
         case Action::print:
-            std::cerr << progname() << ": " << _("Ignoring surplus option -p") << optarg << "\n";
+            std::cerr << progname() << ": " << _("Ignoring surplus option -p") << optArg << "\n";
             break;
         default:
             std::cerr << progname() << ": " << _("Option -p is not compatible with a previous option\n");
@@ -667,15 +667,15 @@ int Params::evalPrint(const std::string& optarg)
     return rc;
 }  // Params::evalPrint
 
-int Params::evalPrintFlags(const std::string& optarg)
+int Params::evalPrintFlags(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
     case Action::none:
         action_ = Action::print;
         printMode_ = pmList;
-        for (std::size_t i = 0; i < optarg.length(); ++i) {
-            switch (optarg[i]) {
+        for (std::size_t i = 0; i < optArg.length(); ++i) {
+            switch (optArg[i]) {
             case 'E': printTags_  |= Exiv2::mdExif; break;
             case 'I': printTags_  |= Exiv2::mdIptc; break;
             case 'X': printTags_  |= Exiv2::mdXmp;  break;
@@ -693,7 +693,7 @@ int Params::evalPrintFlags(const std::string& optarg)
             case 'V': printItems_ |= prSet|prValue;break;
             default:
                 std::cerr << progname() << ": " << _("Unrecognized print item") << " `"
-                          << optarg[i] << "'\n";
+                          << optArg[i] << "'\n";
                 rc = 1;
                 break;
             }
@@ -701,7 +701,7 @@ int Params::evalPrintFlags(const std::string& optarg)
         break;
     case Action::print:
         std::cerr << progname() << ": "
-                  << _("Ignoring surplus option -P") << optarg << "\n";
+                  << _("Ignoring surplus option -P") << optArg << "\n";
         break;
     default:
         std::cerr << progname() << ": "
@@ -712,7 +712,7 @@ int Params::evalPrintFlags(const std::string& optarg)
     return rc;
 } // Params::evalPrintFlags
 
-int Params::evalDelete(const std::string& optarg)
+int Params::evalDelete(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -721,7 +721,7 @@ int Params::evalDelete(const std::string& optarg)
         target_ = 0;
         // fallthrough
     case Action::erase:
-        rc = parseCommonTargets(optarg, "erase");
+        rc = parseCommonTargets(optArg, "erase");
         if (rc > 0) {
             target_ |= rc;
             rc = 0;
@@ -739,7 +739,7 @@ int Params::evalDelete(const std::string& optarg)
     return rc;
 } // Params::evalDelete
 
-int Params::evalExtract(const std::string& optarg)
+int Params::evalExtract(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -749,7 +749,7 @@ int Params::evalExtract(const std::string& optarg)
         target_ = 0;
         // fallthrough
     case Action::extract:
-        rc = parseCommonTargets(optarg, "extract");
+        rc = parseCommonTargets(optArg, "extract");
         if (rc > 0) {
             target_ |= rc;
             rc = 0;
@@ -767,7 +767,7 @@ int Params::evalExtract(const std::string& optarg)
     return rc;
 } // Params::evalExtract
 
-int Params::evalInsert(const std::string& optarg)
+int Params::evalInsert(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -777,7 +777,7 @@ int Params::evalInsert(const std::string& optarg)
         target_ = 0;
         // fallthrough
     case Action::insert:
-        rc = parseCommonTargets(optarg, "insert");
+        rc = parseCommonTargets(optArg, "insert");
         if (rc > 0) {
             target_ |= rc;
             rc = 0;
@@ -795,7 +795,7 @@ int Params::evalInsert(const std::string& optarg)
     return rc;
 } // Params::evalInsert
 
-int Params::evalModify(int opt, const std::string& optarg)
+int Params::evalModify(int opt, const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -805,9 +805,9 @@ int Params::evalModify(int opt, const std::string& optarg)
     case Action::modify:
     case Action::extract:
     case Action::insert:
-        if (opt == 'c') jpegComment_ = parseEscapes(optarg);
-        if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
-        if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
+        if (opt == 'c') jpegComment_ = parseEscapes(optArg);
+        if (opt == 'm') cmdFiles_.push_back(optArg);  // parse the files later
+        if (opt == 'M') cmdLines_.push_back(optArg);  // parse the commands later
         break;
     default:
         std::cerr << progname() << ": "
@@ -1177,14 +1177,14 @@ namespace {
                   << action << " " << _("target") << " `"  << argc << "'\n";
     }
 
-    int parseCommonTargets(const std::string& optarg, const std::string& action)
+    int parseCommonTargets(const std::string& optArg, const std::string& action)
     {
         int rc = 0;
         int target = 0;
         int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
         int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
-        for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
-            switch (optarg[i]) {
+        for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
+            switch (optArg[i]) {
                 case 'e':
                     target |= Params::ctExif;
                     break;
@@ -1222,16 +1222,16 @@ namespace {
 
                 case 'p': {
                     if (strcmp(action.c_str(), "extract") == 0) {
-                        i += (size_t)parsePreviewNumbers(Params::instance().previewNumbers_, optarg, (int)i + 1);
+                        i += (size_t)parsePreviewNumbers(Params::instance().previewNumbers_, optArg, (int)i + 1);
                         target |= Params::ctPreview;
                         break;
                     }
-                    printUnrecognizedArgument(optarg[i], action);
+                    printUnrecognizedArgument(optArg[i], action);
                     rc = -1;
                     break;
                 }
                 default:
-                    printUnrecognizedArgument(optarg[i], action);
+                    printUnrecognizedArgument(optArg[i], action);
                     rc = -1;
                     break;
             }
@@ -1240,14 +1240,14 @@ namespace {
     }
 
     int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
-                            const std::string& optarg,
+                            const std::string& optArg,
                             int j)
     {
         size_t k = j;
-        for (size_t i = j; i < optarg.size(); ++i) {
+        for (size_t i = j; i < optArg.size(); ++i) {
             std::ostringstream os;
-            for (k = i; k < optarg.size() && isdigit(optarg[k]); ++k) {
-                os << optarg[k];
+            for (k = i; k < optArg.size() && isdigit(optArg[k]); ++k) {
+                os << optArg[k];
             }
             if (k > i) {
                 bool ok = false;
@@ -1261,7 +1261,7 @@ namespace {
                 }
                 i = k;
             }
-            if (!(k < optarg.size() && optarg[i] == ',')) break;
+            if (!(k < optArg.size() && optArg[i] == ',')) break;
         }
         int ret = static_cast<int>(k - j);
         if (ret == 0) {

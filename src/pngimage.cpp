@@ -102,13 +102,13 @@ namespace Exiv2 {
 
         do {
             result.alloc(uncompressedLen);
-            zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
+            zlibResult = uncompress(result.pData_,&uncompressedLen,bytes,length);
             // if result buffer is large than necessary, redo to fit perfectly.
             if (zlibResult == Z_OK && (long) uncompressedLen < result.size_ ) {
                 result.free();
 
                 result.alloc(uncompressedLen);
-                zlibResult = uncompress((Bytef*)result.pData_,&uncompressedLen,bytes,length);
+                zlibResult = uncompress(result.pData_,&uncompressedLen,bytes,length);
             }
             if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressed buffer needs to be larger
@@ -130,7 +130,7 @@ namespace Exiv2 {
 
         do {
             result.alloc(compressedLen);
-            zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
+            zlibResult = compress(result.pData_,&compressedLen,bytes,length);
             if (zlibResult == Z_BUF_ERROR) {
                 // the compressedArray needs to be larger
                 result.free();
@@ -138,7 +138,7 @@ namespace Exiv2 {
             } else {
                 result.free();
                 result.alloc(compressedLen);
-                zlibResult = compress((Bytef*)result.pData_,&compressedLen,bytes,length);
+                zlibResult = compress(result.pData_,&compressedLen,bytes,length);
             }
         } while (zlibResult == Z_BUF_ERROR);
 
@@ -655,9 +655,9 @@ namespace Exiv2 {
 
                         // calculate CRC
                         uLong   tmp = crc32(0L, Z_NULL, 0);
-                        tmp         = crc32(tmp, (const Bytef*)type, 4);
+                        tmp         = crc32(tmp, type, 4);
                         tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
-                        tmp         = crc32(tmp, (const Bytef*)nullComp, 2);
+                        tmp         = crc32(tmp, nullComp, 2);
                         tmp         = crc32(tmp, (const Bytef*)compressed.pData_,compressed.size_);
                         byte    crc[4];
                         ul2Data(crc, tmp, bigEndian);

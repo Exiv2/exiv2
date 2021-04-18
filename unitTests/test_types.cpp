@@ -65,7 +65,7 @@ TEST(Rational, floatToRationalCast)
     for (size_t i = 0; i < sizeof(floats) / sizeof(*floats); ++i) {
         const Rational r = floatToRationalCast(floats[i]);
         const float fraction = static_cast<float>(r.first) / static_cast<float>(r.second);
-        ASSERT_TRUE(fabs((floats[i] - fraction) / floats[i]) < 0.01f);
+        ASSERT_TRUE(std::fabs((floats[i] - fraction) / floats[i]) < 0.01f);
     }
 
     const Rational plus_inf = floatToRationalCast(std::numeric_limits<float>::infinity());

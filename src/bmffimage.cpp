@@ -189,7 +189,7 @@ namespace Exiv2
     long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
     {
         long result  = (long)io_->size();
-        long address = (long)io_->tell();
+        long address = io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
@@ -299,7 +299,7 @@ namespace Exiv2
                     bLF = false;
                 }
                 io_->seek(skip, BasicIo::cur);
-                while ((long)io_->tell() < (long)(address + box.length)) {
+                while (io_->tell() < (address + box.length)) {
                     io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
@@ -372,9 +372,9 @@ namespace Exiv2
 
             case TAG_ispe: {
                 skip += 4;
-                int width = (int)getLong(data.pData_ + skip, endian_);
+                int width = getLong(data.pData_ + skip, endian_);
                 skip += 4;
-                int height = (int)getLong(data.pData_ + skip, endian_);
+                int height = getLong(data.pData_ + skip, endian_);
                 skip += 4;
                 if ( bTrace ) {
                     out << "pixelWidth_, pixelHeight_ = " << Internal::stringFormat("%d, %d", width, height);
@@ -417,7 +417,7 @@ namespace Exiv2
                     bLF = false;
                 }
                 if (name == "cano") {
-                    while ((long)io_->tell() < (long)(address + box.length)) {
+                    while (io_->tell() < (address + box.length)) {
                         io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
@@ -449,7 +449,7 @@ namespace Exiv2
         if ( bLF&& bTrace) out << std::endl;
 
         // return address of next box
-        result = static_cast<long>(address + box.length);
+        result = (address + box.length);
 
         return result;
     }

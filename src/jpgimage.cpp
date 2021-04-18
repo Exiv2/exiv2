@@ -126,7 +126,7 @@ namespace Exiv2 {
         const byte* pEnd = pPsData + sizePsData;
         int ret = 0;
         while (pCur < pEnd
-               && 0 == (ret = Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
+               && 0 == (ret = Photoshop::locateIptcIrb(pCur, pEnd - pCur,
                                                        &record, &sizeHdr, &sizeIptc))) {
             pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
@@ -277,7 +277,7 @@ namespace Exiv2 {
         long pos = sizeFront;
         while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
                                              &record, &sizeHdr, &sizeIptc)) {
-            const long newPos = static_cast<long>(record - pPsData);
+            const long newPos = record - pPsData;
             // Copy data up to the IPTC IRB
             if (newPos > pos) {
                 append(psBlob, pPsData + pos, newPos - pos);
@@ -539,7 +539,7 @@ namespace Exiv2 {
             const byte* pCur = &psBlob[0];
             const byte* pEnd = pCur + psBlob.size();
             while (   pCur < pEnd
-                   && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
+                   && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur,
                                                     &record, &sizeHdr, &sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
@@ -1160,13 +1160,13 @@ namespace Exiv2 {
                     tmpBuf[1] = app2_;
 
                     int chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    int size = (int)iccProfile_.size_;
-                    int chunks = 1 + (size - 1) / chunk_size;
+                    int sizeProfile = (int)iccProfile_.size_;
+                    int chunks = 1 + (sizeProfile - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
                     for (int chunk = 0; chunk < chunks; chunk++) {
-                        int bytes = size > chunk_size ? chunk_size : size;  // bytes to write
-                        size -= bytes;
+                        int bytes = sizeProfile > chunk_size ? chunk_size : sizeProfile;  // bytes to write
+                        sizeProfile -= bytes;
 
                         // write JPEG marker (2 bytes)
                         if (outIo.write(tmpBuf, 2) != 2)
@@ -1200,11 +1200,11 @@ namespace Exiv2 {
                     const byte* chunkEnd = chunkStart + newPsData.size_;
                     while (chunkStart < chunkEnd) {
                         // Determine size of next chunk
-                        long chunkSize = static_cast<long>(chunkEnd - chunkStart);
+                        long chunkSize = chunkEnd - chunkStart;
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
-                            const long writtenSize = static_cast<long>(chunkStart - newPsData.pData_);
+                            const long writtenSize = chunkStart - newPsData.pData_;
                             if (Photoshop::valid(newPsData.pData_, writtenSize + chunkSize)) {
                                 // Since an IRB has minimum size 12,
                                 // (chunkSize - 8) can't be also a IRB boundary
