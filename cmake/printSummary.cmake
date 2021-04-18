@@ -69,9 +69,3 @@ OptionOutput( "Building unit tests:                " EXIV2_BUILD_UNIT_TESTS     
 OptionOutput( "Building doc:                       " EXIV2_BUILD_DOC                 )
 OptionOutput( "Building with coverage flags:       " BUILD_WITH_COVERAGE             )
 OptionOutput( "Using ccache:                       " BUILD_WITH_CCACHE               )
-
-message( STATUS "------------------------------------------------------------------" )
-
-message(STATUS " WARNING: Deprecated features: EPS, Video, Ssh")
-
-message( STATUS "------------------------------------------------------------------" )
