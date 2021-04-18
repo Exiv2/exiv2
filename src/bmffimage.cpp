@@ -189,7 +189,7 @@ namespace Exiv2
     long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
     {
         long result  = (long)io_->size();
-        long address = io_->tell();
+        long address = (long)io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
