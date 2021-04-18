@@ -1,6 +1,6 @@
 | Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
 |:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
-| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=main)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/main?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/main) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/main/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/main) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
 ![Exiv2](exiv2.png)
 
@@ -177,8 +177,8 @@ We recommend that you install python as discussed here:  [https://github.com/Exi
 
 Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 , 2017 and 2019.
 
-Exiv2 v0.28 is being "modernised" to C++11 and will not support C++98.
-We don't expect Exiv2 v0.28 to build with VS versions earlier than VS 2015.
+Exiv2 v1.0 is being "modernised" to C++11 and will not support C++98.
+We don't expect Exiv2 v1.0 to build with VS versions earlier than VS 2015.
 
 You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake\msvc_conan_profiles`. 
 

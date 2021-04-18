@@ -1,6 +1,6 @@
 | Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
 |:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
-| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=main)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/main?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/main) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/main/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/main) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
 <div id="1">
 # Welcome to Exiv2
@@ -726,7 +726,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 <div id="2-17">
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses `auto_ptr`.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.0 and later do not use `auto_ptr` and will build with all modern C++ Standard Compilers.
 
 To build with C++11:
 
@@ -739,7 +739,7 @@ $ make
 
 The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11 or 14.
 
-The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v0.28. 
+The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v1.0. 
 
 **Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
 
