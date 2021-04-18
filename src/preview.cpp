@@ -521,7 +521,7 @@ namespace {
     {
         offset_ = 0;
         const ExifData &exifData = image_.exifData();
-        ExifData::const_iterator pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
+        auto pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
         if (pos != exifData.end() && pos->count() > 0) {
             offset_ = pos->toLong();
         }
@@ -613,7 +613,7 @@ namespace {
         : Loader(id, image),
           dataKey_(param_[parIdx].dataKey_)
     {
-        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        auto pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
             size_ = pos->sizeDataArea(); // indirect data
             if (size_ == 0 && pos->typeId() == undefined)
@@ -645,7 +645,7 @@ namespace {
     {
         if (!valid()) return DataBuf();
 
-        ExifData::const_iterator pos = image_.exifData().findKey(dataKey_);
+        auto pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
             DataBuf buf = pos->dataArea(); // indirect data
 
@@ -760,7 +760,7 @@ namespace {
         ExifData preview;
 
         // copy tags
-        for (ExifData::const_iterator pos = exifData.begin(); pos != exifData.end(); ++pos) {
+        for (auto pos = exifData.begin(); pos != exifData.end(); ++pos) {
             if (pos->groupName() == group_) {
                 /*
                    Write only the necessary TIFF image tags

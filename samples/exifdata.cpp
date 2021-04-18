@@ -44,14 +44,14 @@ void syntax(const char* argv[],format_t& formats)
 size_t formatInit(Exiv2::ExifData& exifData)
 {
 	size_t result = 0;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i) {
+	for (auto i = exifData.begin(); i != exifData.end() ; ++i) {
 		result ++ ;
 	}
 	return result ;
 }
 
 ///////////////////////////////////////////////////////////////////////
-std::string escapeCSV(Exiv2::ExifData::const_iterator it,bool bValue)
+std::string escapeCSV(Exiv2::ExifData::const_iterator  it,bool bValue)
 {
 	std::string   result ;
 
@@ -73,13 +73,13 @@ std::string formatCSV(Exiv2::ExifData& exifData)
 	size_t length = formatInit(exifData);
 	std::ostringstream result;
 
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length; ++i) {
+	for (auto i = exifData.begin(); count++ < length; ++i) {
 		result << escapeCSV(i,false) << (count != length ? ", " : "" ) ;
 	}
 	result << std::endl;
 
 	count = 0;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+	for (auto i = exifData.begin(); count++ < length ; ++i) {
 		result << escapeCSV(i,true) << (count != length ? ", " : "" ) ;
 	}
 	return result.str();
@@ -93,7 +93,7 @@ std::string formatWolf(Exiv2::ExifData& exifData)
 	std::ostringstream result;
 
 	result << "{ " << std::endl;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+	for (auto i = exifData.begin(); count++ < length ; ++i) {
 		result << "  " << i->key()  << " -> " << i->value()  << (count != length ? "," : "" ) << std::endl ;
 	}
 	result << "}";
@@ -101,7 +101,7 @@ std::string formatWolf(Exiv2::ExifData& exifData)
 }
 
 ///////////////////////////////////////////////////////////////////////
-std::string escapeJSON(Exiv2::ExifData::const_iterator it,bool bValue=true)
+std::string escapeJSON(Exiv2::ExifData::const_iterator  it,bool bValue=true)
 {
 	std::string   result ;
 
@@ -125,7 +125,7 @@ std::string formatJSON(Exiv2::ExifData& exifData)
 	std::ostringstream result;
 
 	result << "{" << std::endl ;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+	for (auto i = exifData.begin(); count++ < length ; ++i) {
 		result << "  " << escapeJSON(i,false)  << ":" << escapeJSON(i,true) << ( count != length ? "," : "" ) << std::endl ;
 	}
 	result << "}";
@@ -133,7 +133,7 @@ std::string formatJSON(Exiv2::ExifData& exifData)
 }
 
 ///////////////////////////////////////////////////////////////////////
-std::string escapeXML(Exiv2::ExifData::const_iterator it,bool bValue=true)
+std::string escapeXML(Exiv2::ExifData::const_iterator  it,bool bValue=true)
 {
 	std::string   result ;
 
@@ -157,7 +157,7 @@ std::string formatXML(Exiv2::ExifData& exifData)
 	std::ostringstream result;
 
 	result << "<exif>" << std::endl;
-	for (Exiv2::ExifData::const_iterator i = exifData.begin(); count++ < length ; ++i) {
+	for (auto i = exifData.begin(); count++ < length ; ++i) {
 		std::string key   = escapeXML(i,false);
 		std::string value = escapeXML(i,true);
 		result << "  <" << key << ">" << value << "<" << key << "/>" << std::endl ;

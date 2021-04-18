@@ -688,7 +688,7 @@ namespace Exiv2 {
             "Exif.Canon.AFPointsUnusable",
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
-            ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
+            auto pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
             if (pos != ed.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
@@ -815,7 +815,7 @@ namespace Exiv2 {
         }
 
         // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-        for (ExifData::iterator tag_iter = ed.begin(); tag_iter != ed.end(); ) {
+        for (auto tag_iter = ed.begin(); tag_iter != ed.end(); ) {
             if ( (tag_iter->size() > 4096 && tag_iter->tagName().substr(0, 2) == "0x") ||
                   tag_iter->size() > 20480) {
 #ifndef SUPPRESS_WARNINGS
@@ -864,7 +864,7 @@ namespace {
     {
         Thumbnail::UniquePtr thumbnail;
         const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
-        Exiv2::ExifData::const_iterator pos = exifData.findKey(k1);
+        auto pos = exifData.findKey(k1);
         if (pos != exifData.end()) {
             if (pos->count() == 0) return thumbnail;
             long compression = pos->toLong();
@@ -906,7 +906,7 @@ namespace {
     {
         Exiv2::ExifData thumb;
         // Copy all Thumbnail (IFD1) tags from exifData to Image (IFD0) tags in thumb
-        for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end(); ++i) {
+        for (auto i = exifData.begin(); i != exifData.end(); ++i) {
             if (i->groupName() == "Thumbnail") {
                 std::string key = "Exif.Image." + i->tagName();
                 thumb.add(Exiv2::ExifKey(key), &i->value());
@@ -940,7 +940,7 @@ namespace {
     Exiv2::DataBuf JpegThumbnail::copy(const Exiv2::ExifData& exifData) const
     {
         Exiv2::ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
-        Exiv2::ExifData::const_iterator format = exifData.findKey(key);
+        auto format = exifData.findKey(key);
         if (format == exifData.end()) return Exiv2::DataBuf();
         return format->dataArea();
     }

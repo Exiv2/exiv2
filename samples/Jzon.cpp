@@ -143,7 +143,7 @@ namespace Jzon
 
 	Node::Type Node::DetermineType(const std::string &json)
 	{
-		std::string::const_iterator jsonIt = json.begin();
+        auto jsonIt = json.begin();
 
 		while (jsonIt != json.end() && IsWhitespace(*jsonIt))
 			++jsonIt;
@@ -433,10 +433,8 @@ namespace Jzon
 	{
 		std::string escaped;
 
-		for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
+        for (const auto& c: value)
 		{
-			const char &c = (*it);
-
 			const char *&a = getEscaped(c);
 			if (a[0] != '\0')
 			{
@@ -455,7 +453,7 @@ namespace Jzon
 	{
 		std::string unescaped;
 
-		for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
+        for (auto it = value.cbegin(); it != value.cend(); ++it)
 		{
 			const char &c = (*it);
 			char c2 = '\0';
@@ -484,7 +482,7 @@ namespace Jzon
 	}
 	Object::Object(const Object &other) : Node()
 	{
-		for (ChildList::const_iterator it = other.children.begin(); it != other.children.end(); ++it)
+        for (auto it = other.children.cbegin(); it != other.children.cend(); ++it)
 		{
 			const std::string &name = (*it).first;
 			Node &value = *(*it).second;
@@ -496,7 +494,7 @@ namespace Jzon
 	{
 		const Object &object = other.AsObject();
 
-		for (ChildList::const_iterator it = object.children.begin(); it != object.children.end(); ++it)
+        for (auto it = object.children.cbegin(); it != object.children.cend(); ++it)
 		{
 			const std::string &name = (*it).first;
 			Node &value = *(*it).second;
@@ -524,7 +522,7 @@ namespace Jzon
 	}
 	void Object::Remove(const std::string &name)
 	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
+        for (auto it = children.cbegin(); it != children.cend(); ++it)
 		{
 			if ((*it).first == name)
 			{
@@ -534,9 +532,10 @@ namespace Jzon
 			}
 		}
 	}
+
 	void Object::Clear()
 	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
+        for (auto it = children.begin(); it != children.end(); ++it)
 		{
 			delete (*it).second;
 			(*it).second = NULL;
@@ -551,6 +550,7 @@ namespace Jzon
 		else
 			return Object::iterator(NULL);
 	}
+
 	Object::const_iterator Object::begin() const
 	{
 		if (!children.empty())
@@ -558,6 +558,7 @@ namespace Jzon
 		else
 			return Object::const_iterator(NULL);
 	}
+
 	Object::iterator Object::end()
 	{
 		if (!children.empty())
@@ -610,26 +611,27 @@ namespace Jzon
 	Array::Array() : Node()
 	{
 	}
+
 	Array::Array(const Array &other) : Node()
 	{
-		for (ChildList::const_iterator it = other.children.begin(); it != other.children.end(); ++it)
+        for (auto it = other.children.cbegin(); it != other.children.cend(); ++it)
 		{
 			const Node &value = *(*it);
-
 			children.push_back(value.GetCopy());
 		}
-	}
+    }
+
 	Array::Array(const Node &other) : Node()
 	{
 		const Array &array = other.AsArray();
 
-		for (ChildList::const_iterator it = array.children.begin(); it != array.children.end(); ++it)
+        for (auto it = array.children.cbegin(); it != array.children.cend(); ++it)
 		{
 			const Node &value = *(*it);
-
 			children.push_back(value.GetCopy());
 		}
 	}
+
 	Array::~Array()
 	{
 		Clear();

@@ -606,7 +606,7 @@ namespace Exiv2 {
 
         // Find camera make
         ExifKey key("Exif.Image.Make");
-        ExifData::const_iterator pos = exifData_.findKey(key);
+        auto pos = exifData_.findKey(key);
         if (pos != exifData_.end()) {
             make_ = pos->toString();
         }
@@ -632,7 +632,7 @@ namespace Exiv2 {
         // not exist, create a new IPTCNAA Exif tag.
         bool del = false;
         ExifKey iptcNaaKey("Exif.Image.IPTCNAA");
-        ExifData::iterator pos = exifData_.findKey(iptcNaaKey);
+        auto pos = exifData_.findKey(iptcNaaKey);
         if (pos != exifData_.end()) {
             iptcNaaKey.setIdx(pos->idx());
             exifData_.erase(pos);
@@ -682,7 +682,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_XMP_TOOLKIT
         ExifKey xmpKey("Exif.Image.XMLPacket");
         // Remove any existing XMP Exif tag
-        ExifData::iterator pos = exifData_.findKey(xmpKey);
+        auto pos = exifData_.findKey(xmpKey);
         if (pos != exifData_.end()) {
             xmpKey.setIdx(pos->idx());
             exifData_.erase(pos);
@@ -795,7 +795,7 @@ namespace Exiv2 {
         else if (del_) {
             // The makernote is made up of decoded tags, delete binary tag
             ExifKey key(object->tag(), groupName(object->group()));
-            ExifData::iterator pos = exifData_.findKey(key);
+            auto pos = exifData_.findKey(key);
             if (pos != exifData_.end()) exifData_.erase(pos);
         }
     }
@@ -894,7 +894,7 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        ExifData::iterator pos = exifData_.end();
+        auto pos = exifData_.end();
         const Exifdatum* ed = datum;
         if (ed == 0) {
             // Non-intrusive writing: find matching tag
@@ -904,7 +904,7 @@ namespace Exiv2 {
                 ed = &(*pos);
                 if (object->idx() != pos->idx()) {
                     // Try to find exact match (in case of duplicate tags)
-                    ExifData::iterator pos2 =
+                    auto pos2 =
                         std::find_if(exifData_.begin(), exifData_.end(),
                                      FindExifdatum2(object->group(), object->idx()));
                     if (pos2 != exifData_.end() && pos2->key() == key.key()) {
@@ -1015,7 +1015,7 @@ namespace Exiv2 {
 #endif
             // Set pseudo strips (without a data pointer) from the size tag
             ExifKey key(object->szTag(), groupName(object->szGroup()));
-            ExifData::const_iterator pos = exifData_.findKey(key);
+            auto pos = exifData_.findKey(key);
             const byte* zero = 0;
             if (pos == exifData_.end()) {
 #ifndef SUPPRESS_WARNINGS
@@ -1150,8 +1150,8 @@ namespace Exiv2 {
         // iterate over all remaining entries.
         del_ = false;
 
-        ExifData::const_iterator posBo = exifData_.end();
-        for (ExifData::const_iterator i = exifData_.begin();
+        auto posBo = exifData_.end();
+        for (auto i = exifData_.begin();
              i != exifData_.end(); ++i) {
 
             IfdId group = groupId(i->groupName());

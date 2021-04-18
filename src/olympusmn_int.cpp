@@ -1667,7 +1667,7 @@ value, const ExifData* metadata)
         bool E3_E30model = false;
 
         if (metadata != NULL) {
-            ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+            auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
             if (pos != metadata->end() && pos->count() != 0) {
                 std::string model = pos->toString();
                 if (model.find("E-3 ") != std::string::npos ||

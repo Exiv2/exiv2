@@ -79,8 +79,8 @@ try {
         error += ": No Exif data found in the file";
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
-    Exiv2::ExifData::const_iterator end = exifReadData.end();
-    for (Exiv2::ExifData::const_iterator i = exifReadData.begin(); i != end; ++i) {
+    auto end = exifReadData.end();
+    for (auto i = exifReadData.begin(); i != end; ++i) {
         const char* tn = i->typeName();
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "
@@ -102,7 +102,7 @@ try {
     exifReadData["Exif.Image.Software"]     = "Exiv2.org";                 // AsciiValue
     exifReadData["Exif.Image.Copyright"]    = "Exiv2.org";                 // AsciiValue
     key = Exiv2::ExifKey("Exif.Image.Make");
-    Exiv2::ExifData::iterator pos = exifReadData.findKey(key);
+    auto pos = exifReadData.findKey(key);
     if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.Make not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Image.DateTime");

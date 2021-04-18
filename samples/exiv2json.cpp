@@ -317,7 +317,7 @@ int main(int argc, char* const argv[])
 
         if ( option == 'a' || option == 'e' ) {
             Exiv2::ExifData &exifData = image->exifData();
-            for ( Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i ) {
+            for ( auto i = exifData.begin(); i != exifData.end() ; ++i ) {
                 std::string name   ;
                 Jzon::Node& object = objectForKey(i->key(),root,name);
                 push(object,name,i);

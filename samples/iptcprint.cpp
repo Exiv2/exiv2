@@ -49,8 +49,8 @@ try {
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
 
-    Exiv2::IptcData::iterator end = iptcData.end();
-    for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
+    auto end = iptcData.end();
+    for (auto md = iptcData.begin(); md != end; ++md) {
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << md->key() << " "
                   << "0x" << std::setw(4) << std::setfill('0') << std::right

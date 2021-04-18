@@ -2686,7 +2686,7 @@ namespace Exiv2 {
             return os;
         }
 
-        ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
         if (pos == metadata->end())
             return os << "(" << value << ")";
 
@@ -2727,7 +2727,7 @@ namespace Exiv2 {
         }
 
         ExifKey key("Exif.CanonCs.Lens");
-        ExifData::const_iterator pos = metadata->findKey(key);
+        auto pos = metadata->findKey(key);
         if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
             if (fu != 0.0f) {
@@ -2792,9 +2792,9 @@ namespace Exiv2 {
     {
         try {
             // 1140
-            const ExifData::const_iterator itModel = metadata->findKey(ExifKey("Exif.Image.Model"));
-            const ExifData::const_iterator itLens  = metadata->findKey(ExifKey("Exif.CanonCs.Lens"));
-            const ExifData::const_iterator itApert = metadata->findKey(ExifKey("Exif.CanonCs.MaxAperture"));
+            const auto itModel = metadata->findKey(ExifKey("Exif.Image.Model"));
+            const auto itLens  = metadata->findKey(ExifKey("Exif.CanonCs.Lens"));
+            const auto itApert = metadata->findKey(ExifKey("Exif.CanonCs.MaxAperture"));
 
             if( itModel != metadata->end() && itModel->value().toString() == "Canon EOS 30D"
             &&  itLens  != metadata->end() && itLens->value().toString() == "24 24 1"
@@ -2828,7 +2828,7 @@ namespace Exiv2 {
                                 const ExifData* metadata)
     {
         ExifKey key("Exif.CanonCs.Lens");
-        ExifData::const_iterator pos = metadata->findKey(key);
+        auto pos = metadata->findKey(key);
         ltfl.focalLengthMin_ = 0.0f;
         ltfl.focalLengthMax_ = 0.0f;
         if (pos != metadata->end()) {
@@ -2874,7 +2874,7 @@ namespace Exiv2 {
         convertFocalLength(ltfl, 1.0f);
 
         ExifKey key("Exif.CanonCs.MaxAperture");
-        ExifData::const_iterator pos = metadata->findKey(key);
+        auto pos = metadata->findKey(key);
         if (   pos != metadata->end()
             && pos->value().count() == 1
             && pos->value().typeId() == unsignedShort) {

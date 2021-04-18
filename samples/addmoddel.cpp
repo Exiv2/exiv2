@@ -91,7 +91,7 @@ try {
 
     // Alternatively, we can use findKey()
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
-    Exiv2::ExifData::iterator pos = exifData.findKey(key);
+    auto pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
     // Get a pointer to a copy of the value
     v = pos->getValue();
