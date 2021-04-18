@@ -48,7 +48,7 @@ if (exiv2lib_COMPILE_DEFINITIONS)
     target_compile_definitions(unit_tests PRIVATE ${exiv2lib_COMPILE_DEFINITIONS})
 endif ()
 
-target_include_directories(unit_tests
+target_include_directories(unit_tests SYSTEM
     PRIVATE
         ${exiv2lib_INCLUDE_DIRECTORIES}
 )

@@ -31,9 +31,9 @@ target_link_libraries(exiv2-xmp
         $<BUILD_INTERFACE:${EXPAT_LIBRARY}>
 )
 
-target_include_directories(exiv2-xmp
+target_include_directories(exiv2-xmp SYSTEM
     PRIVATE 
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
+        ${PROJECT_SOURCE_DIR}/xmpsdk/include
         ${EXPAT_INCLUDE_DIR}
 )
 

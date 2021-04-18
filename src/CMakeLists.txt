@@ -133,7 +133,7 @@ set_target_properties( exiv2lib_int PROPERTIES
 )
 
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib PRIVATE 
+target_include_directories(exiv2lib SYSTEM PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
     ${ZLIB_INCLUDE_DIR}
 )
