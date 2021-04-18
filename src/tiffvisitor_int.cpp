@@ -397,7 +397,7 @@ namespace Exiv2 {
             std::string::size_type idx = xmpPacket.find_first_of('<');
             if (idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << "Removing " << static_cast<unsigned long>(idx)
+                EXV_WARNING << "Removing " << idx
                             << " characters from the beginning of the XMP packet\n";
 #endif
                 xmpPacket = xmpPacket.substr(idx);
@@ -804,7 +804,7 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        ExifData::iterator pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
+        auto pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
         if (pos != exifData_.end()) {
             // Set Makernote byte order
             ByteOrder bo = stringToByteOrder(pos->toString());
@@ -820,7 +820,7 @@ namespace Exiv2 {
                 "Exif.MakerNote.Offset",
             };
             for (unsigned int i = 0; i < EXV_COUNTOF(synthesizedTags); ++i) {
-                ExifData::iterator pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
+                pos = exifData_.findKey(ExifKey(synthesizedTags[i]));
                 if (pos != exifData_.end()) exifData_.erase(pos);
             }
         }

@@ -501,7 +501,7 @@ static void boxes_check(size_t b,size_t m)
                 enforce(box.length <= io_->size()-io_->tell() , Exiv2::kerCorruptedMetadata);
 
                 if (bPrint) {
-                    out << Internal::stringFormat("%8ld | %8ld | ", (size_t)(position - sizeof(box)),
+                    out << Internal::stringFormat("%8ld | %8ld | ", position - sizeof(box),
                                                   (size_t)box.length)
                         << toAscii(box.type) << "      | ";
                     bLF = true;

@@ -449,7 +449,7 @@ namespace Exiv2 {
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
                             size_t   restore = io.tell();
-                            uint32_t offset = byteSwap4(buf,k*size,bSwap);
+                            offset = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
                             io.seek(restore,BasicIo::beg);
                         }
@@ -479,11 +479,11 @@ namespace Exiv2 {
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            byte* bytes2=new byte[count-jump] ;  // allocate memory
+                            io.read(bytes2,count-jump)        ;  // read
+                            MemIo memIo(bytes2,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
+                            delete[] bytes2                   ;  // free
                         } else {
                             // tag is an IFD
                             io.seek(0,BasicIo::beg);  // position

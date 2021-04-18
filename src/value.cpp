@@ -221,9 +221,7 @@ namespace Exiv2 {
     long DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // byteOrder not needed
-        return static_cast<long>(
-            std::copy(value_.begin(), value_.end(), buf) - buf
-            );
+        return std::copy(value_.begin(), value_.end(), buf) - buf;
     }
 
     long DataValue::size() const
@@ -1057,7 +1055,7 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        long l = static_cast<long>(std::mktime(&tms));
+        auto l = std::mktime(&tms);
         ok_ = (l != -1);
         return l;
     }

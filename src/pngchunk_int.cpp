@@ -312,7 +312,7 @@ namespace Exiv2 {
                 const byte* pCur = psData.pData_;
                 while (   pCur < pEnd
                        && 0 == Photoshop::locateIptcIrb(pCur,
-                                                        static_cast<long>(pEnd - pCur),
+                                                        pEnd - pCur,
                                                         &record,
                                                         &sizeHdr,
                                                         &sizeIptc)) {
@@ -459,7 +459,7 @@ namespace Exiv2 {
 
         do {
             arr.alloc(uncompressedLen);
-            zlibResult = uncompress((Bytef*)arr.pData_,
+            zlibResult = uncompress(arr.pData_,
                                     &uncompressedLen,
                                     compressedText,
                                     compressedTextSize);
@@ -490,14 +490,14 @@ namespace Exiv2 {
 
     std::string PngChunk::zlibCompress(const std::string& text)
     {
-        uLongf compressedLen = static_cast<uLongf>(text.size() * 2); // just a starting point
+        uLongf compressedLen = (text.size() * 2); // just a starting point
         int zlibResult;
 
         DataBuf arr;
         do {
             arr.alloc(compressedLen);
-            zlibResult = compress2((Bytef*)arr.pData_, &compressedLen,
-                                   (const Bytef*)text.data(), static_cast<uLong>(text.size()),
+            zlibResult = compress2(arr.pData_, &compressedLen,
+                                   (const Bytef*)text.data(), text.size(),
                                    Z_BEST_COMPRESSION);
 
             switch (zlibResult) {
@@ -692,7 +692,7 @@ namespace Exiv2 {
 
         // Copy profile, skipping white space and column 1 "=" signs
 
-        unsigned char *dp = (unsigned char*)info.pData_; // decode pointer
+        unsigned char *dp = info.pData_; // decode pointer
         unsigned int nibbles = length * 2;
 
         for (long i = 0; i < (long) nibbles; i++)

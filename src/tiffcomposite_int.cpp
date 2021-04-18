@@ -1267,7 +1267,7 @@ namespace Exiv2 {
             break;
         case ttUnsignedLong:
         case ttSignedLong:
-            rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
+            rc = l2Data(buf, offset, byteOrder);
             break;
         default:
             throw Error(kerUnsupportedDataAreaOffsetType);

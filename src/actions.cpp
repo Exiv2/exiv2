@@ -344,13 +344,13 @@ namespace Action {
             std::cout << _("None");
         }
         else {
-            Exiv2::DataBuf buf = exifThumb.copy();
-            if (buf.size_ == 0) {
+            auto dataBuf = exifThumb.copy();
+            if (dataBuf.size_ == 0) {
                 std::cout << _("None");
             }
             else {
                 std::cout << exifThumb.mimeType() << ", "
-                          << buf.size_ << " " << _("Bytes");
+                          << dataBuf.size_ << " " << _("Bytes");
             }
         }
         std::cout << std::endl;

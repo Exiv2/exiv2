@@ -597,7 +597,7 @@ namespace Exiv2 {
             return 2;
         }
 
-        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(xmpPacket.size()));
+        SXMPMeta meta(xmpPacket.data(), xmpPacket.size());
         SXMPIterator iter(meta);
         std::string schemaNs, propPath, propValue;
         XMP_OptionBits opt;

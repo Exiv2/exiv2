@@ -223,7 +223,7 @@ static Exiv2::StringVector getLoadedLibraries()
     while ( std::getline(maps,string) ) {
         std::size_t pos = string.find_last_of(' ');
         if ( pos != std::string::npos ) {
-            std::string path = string.substr(pos+1);
+            path = string.substr(pos+1);
             pushPath(path,libs,paths);
         }
     }
