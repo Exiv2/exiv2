@@ -1160,12 +1160,12 @@ namespace Exiv2 {
     {
         if ( ! metadata ) return os << "undefined" ;
 
-        ExifData::const_iterator dateIt = metadata->findKey(
+        auto dateIt = metadata->findKey(
                 ExifKey("Exif.PentaxDng.Date"));
         if (dateIt == metadata->end()) {
             dateIt = metadata->findKey(ExifKey("Exif.Pentax.Date"));
         }
-        ExifData::const_iterator timeIt = metadata->findKey(
+        auto timeIt = metadata->findKey(
                 ExifKey("Exif.PentaxDng.Time"));
         if (timeIt == metadata->end()) {
             timeIt = metadata->findKey(ExifKey("Exif.Pentax.Time"));
@@ -1249,7 +1249,7 @@ namespace Exiv2 {
             unsigned long index  = 0;
 
             // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+            const auto lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
                                                     ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
                                                     : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
                                                     ;
@@ -1307,7 +1307,7 @@ namespace Exiv2 {
         try {
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+            const auto lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
                                                     ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
                                                     : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
                                                     ;
@@ -1335,7 +1335,7 @@ namespace Exiv2 {
         try {
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+            const auto lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
                                                     ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
                                                     : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
                                                     ;

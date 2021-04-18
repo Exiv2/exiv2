@@ -179,7 +179,7 @@ void testCase(const std::string& file1,
 
     Exiv2::ExifData &ed1 = image1->exifData();
     std::cerr << "---> Modifying Exif data\n";
-    Exiv2::ExifData::iterator pos = ed1.findKey(ek);
+    auto pos = ed1.findKey(ek);
     if (pos == ed1.end()) {
         throw Error(kerErrorMessage, "Metadatum with key = " + ek.key() + " not found");
     }
@@ -209,7 +209,7 @@ void testCase(const std::string& file1,
 
 void exifPrint(const ExifData& exifData)
 {
-    ExifData::const_iterator i = exifData.begin();
+    auto i = exifData.begin();
     for (; i != exifData.end(); ++i) {
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "

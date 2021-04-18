@@ -53,7 +53,7 @@ namespace Exiv2 {
 
     int Rw2Image::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth =
+        auto imageWidth =
             exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
@@ -63,7 +63,7 @@ namespace Exiv2 {
 
     int Rw2Image::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight =
+        auto imageHeight =
             exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
@@ -150,9 +150,9 @@ namespace Exiv2 {
         ExifData& prevData = image->exifData();
         if (!prevData.empty()) {
             // Filter duplicate tags
-            for (ExifData::const_iterator pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
+            for (auto pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
                 if (pos->ifdId() == panaRawId) continue;
-                ExifData::iterator dup = prevData.findKey(ExifKey(pos->key()));
+                auto dup = prevData.findKey(ExifKey(pos->key()));
                 if (dup != prevData.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Filtering duplicate tag " << pos->key()
@@ -195,7 +195,7 @@ namespace Exiv2 {
             "Exif.Image.YCbCrPositioning"
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
-            ExifData::iterator pos = prevData.findKey(ExifKey(filteredTags[i]));
+            auto pos = prevData.findKey(ExifKey(filteredTags[i]));
             if (pos != prevData.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exif tag " << pos->key() << " removed\n";
@@ -205,7 +205,7 @@ namespace Exiv2 {
         }
 
         // Add the remaining tags
-        for (ExifData::const_iterator pos = prevData.begin(); pos != prevData.end(); ++pos) {
+        for (auto pos = prevData.begin(); pos != prevData.end(); ++pos) {
             exifData_.add(*pos);
         }
 

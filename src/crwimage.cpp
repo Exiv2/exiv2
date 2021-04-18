@@ -64,7 +64,7 @@ namespace Exiv2 {
 
     int CrwImage::pixelWidth() const
     {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (widthIter != exifData_.end() && widthIter->count() > 0) {
             return widthIter->toLong();
         }
@@ -73,7 +73,7 @@ namespace Exiv2 {
 
     int CrwImage::pixelHeight() const
     {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (heightIter != exifData_.end() && heightIter->count() > 0) {
             return heightIter->toLong();
         }
