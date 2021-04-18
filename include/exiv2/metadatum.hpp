@@ -49,7 +49,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~Key();
+        virtual ~Key() = default;
         //@}
 
         //! @name Accessors

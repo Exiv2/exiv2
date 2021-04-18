@@ -78,18 +78,6 @@ namespace Exiv2 {
     {
     }
 
-    Value::~Value()
-    {
-    }
-
-    Value& Value::operator=(const Value& rhs)
-    {
-        if (this == &rhs) return *this;
-        type_ = rhs.type_;
-        ok_ = rhs.ok_;
-        return *this;
-    }
-
     Value::UniquePtr Value::create(TypeId typeId)
     {
         UniquePtr value;
@@ -188,7 +176,8 @@ namespace Exiv2 {
         return DataBuf(0, 0);
     }
 
-    DataValue::DataValue(TypeId typeId) : Value(typeId)
+    DataValue::DataValue(TypeId typeId)
+        : Value(typeId)
     {
     }
 
@@ -609,14 +598,6 @@ namespace Exiv2 {
           xmpArrayType_(xaNone),
           xmpStruct_(xsNone)
     {
-    }
-
-    XmpValue& XmpValue::operator=(const XmpValue& rhs)
-    {
-        if (this == &rhs) return *this;
-        xmpArrayType_ = rhs.xmpArrayType_;
-        xmpStruct_ = rhs.xmpStruct_;
-        return *this;
     }
 
     void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType)

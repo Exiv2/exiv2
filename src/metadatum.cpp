@@ -30,10 +30,6 @@
 // class member definitions
 namespace Exiv2 {
 
-    Key::~Key()
-    {
-    }
-
     Key::UniquePtr Key::clone() const
     {
         return UniquePtr(clone_());
