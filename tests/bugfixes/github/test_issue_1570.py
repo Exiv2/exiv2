@@ -14,6 +14,7 @@ class BmffImageReadMetadataOutOfBoundsRead(metaclass=CaseMeta):
     commands = ["$exiv2 $filename"]
     stdout = [""]
     stderr = [
-"""$filename1: Could not write metadata to file: $kerCorruptedMetadata
+"""Exiv2 exception in print action for file $filename:
+$kerCorruptedMetadata
 """]
     retval = [1]
