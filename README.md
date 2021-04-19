@@ -1,10 +1,9 @@
-| Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
-|:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
-| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=main)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/main?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/main) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/main/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/main) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+|                            Travis                            |                           AppVeyor                           |                            GitLab                            |                           Codecov                            |                           Repology                           |                             Chat                             |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=main)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/main/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/main) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
 <div id="1">
 # Welcome to Exiv2
-
 Exiv2 is a C++ library and a command-line utility to read,
 write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 
