@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,13 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      metadatum.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Brad Schick (brad) <brad@robotbattle.com>
-  History:   26-Jan-04, ahu: created
-             31-Jul-04, brad: isolated as a component
- */
 // *****************************************************************************
 // included header files
 #include "metadatum.hpp"
@@ -37,13 +30,9 @@
 // class member definitions
 namespace Exiv2 {
 
-    Key::~Key()
+    Key::UniquePtr Key::clone() const
     {
-    }
-
-    Key::AutoPtr Key::clone() const
-    {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Key& Key::operator=(const Key& /*rhs*/)

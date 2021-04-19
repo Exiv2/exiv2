@@ -1,6 +1,11 @@
 # set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+# don't use Frameworks on the Mac (#966)
+if (APPLE)
+     set(CMAKE_FIND_FRAMEWORK NEVER)
+endif()
+
 # Check if the conan file exist to find the dependencies
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
     set(USING_CONAN ON)
@@ -18,11 +23,7 @@ if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
         find_package(CURL REQUIRED)
     endif()
-
-    if( EXIV2_ENABLE_SSH )
-        find_package( SSH REQUIRED)
-    endif( )
-endif( )
+endif()
 
 if (EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP)
     message(FATAL_ERROR "EXIV2_ENABLE_XMP AND EXIV2_ENABLE_EXTERNAL_XMP are mutually exclusive.  You can only choose one of them")
@@ -33,7 +34,6 @@ else()
         find_package(XmpSdk REQUIRED)
     endif ()
 endif()
-
 
 if (EXIV2_ENABLE_NLS)
     find_package(Intl REQUIRED)

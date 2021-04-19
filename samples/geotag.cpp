@@ -1,7 +1,24 @@
 // ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 // geotag.cpp
 // Sample program to read gpx files and update images with GPS tags
-
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
 #include <exiv2/exiv2.hpp>
@@ -167,14 +184,6 @@ public:
     { }
 
     virtual ~Position() {}
-//  copy constructor
-    Position(const Position& o) :
-        time_(o.time_)
-      , lon_(o.lon_)
-      , lat_(o.lat_)
-      , ele_(o.ele_)
-      , delta_(o.delta_)
-    {}
 
 //  instance methods
     bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
@@ -223,13 +232,13 @@ std::string Position::toExifTimeStamp(std::string& t)
     const char* arg = t.c_str();
     int HH = 0 ;
     int mm = 0 ;
-    int SS = 0 ;
+    int SS1 = 0 ;
     if ( strstr(arg,":") || strstr(arg,"-") ) {
         int  YY,MM,DD    ;
         char a,b,c,d,e   ;
-        sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS);
+        sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
     }
-    sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS);
+    sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS1);
     return std::string(result);
 }
 
@@ -406,15 +415,15 @@ time_t parseTime(const char* arg,bool bAdjust)
         // <time>2012-07-14T17:33:16Z</time>
 
         if ( strstr(arg,":") || strstr(arg,"-") ) {
-            int  YY,MM,DD,HH,mm,SS ;
+            int  YY,MM,DD,HH,mm,SS1 ;
             char a,b,c,d,e   ;
-            sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS);
+            sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
 
             struct tm T;
             memset(&T,0,sizeof(T));
             T.tm_min  = mm  ;
             T.tm_hour = HH  ;
-            T.tm_sec  = SS  ;
+            T.tm_sec  = SS1 ;
             if ( bAdjust ) T.tm_sec -= Position::Adjust();
             T.tm_year = YY -1900 ;
             T.tm_mon  = MM -1    ;
@@ -441,7 +450,7 @@ int timeZoneAdjust()
     struct tm lcopy = *localtime(&now);
     time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy
     offset          = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
-#elif defined(OS_SOLARIS)
+#elif defined(OS_SOLARIS) || defined(__sun__)
     struct tm local = *localtime(&now) ;
     time_t local_tt = (int) mktime(&local);
     time_t time_gmt = (int) mktime(gmtime(&now));
@@ -450,7 +459,7 @@ int timeZoneAdjust()
     struct tm local = *localtime(&now) ;
     offset          = local.tm_gmtoff ;
 
-#if DEBUG
+#if EXIV2_DEBUG_MESSAGES
     struct tm utc = *gmtime(&now);
     printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
     printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
@@ -597,7 +606,7 @@ bool readImage(const char* path,Options& /* options */)
     bool bResult = false ;
 
     try {
-        Image::AutoPtr image = ImageFactory::open(path);
+        Image::UniquePtr image = ImageFactory::open(path);
         if ( image.get() ) {
             image->readMetadata();
             ExifData &exifData = image->exifData();
@@ -623,7 +632,7 @@ time_t readImageTime(const std::string& path,std::string* pS=NULL)
 
     do {
         try {
-            Image::AutoPtr image = ImageFactory::open(path);
+            Image::UniquePtr image = ImageFactory::open(path);
             if ( image.get() ) {
                 image->readMetadata();
                 ExifData &exifData = image->exifData();
@@ -764,6 +773,12 @@ bool mySort(const std::string& a, const std::string& b)
 
 int main(int argc,const char* argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
     int result=0;
     const char* program = argv[0];
 
@@ -898,12 +913,12 @@ int main(int argc,const char* argv[])
             try {
                 time_t t       = readImageTime(path,&stamp) ;
                 Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
-                Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+                Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
                 if ( image.get() ) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
                     if ( pPos ) {
-                        exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
+                        exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "charset=Ascii HYBRID-FIX";
                         exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
                         exifData["Exif.GPSInfo.GPSMapDatum"         ] = "WGS-84";
 

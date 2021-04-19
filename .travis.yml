@@ -4,32 +4,100 @@ git:
   quiet: true
   depth: 1
 
+env:
+  global:
+    - COMMON_CMAKE_OPTIONS="-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install"
+
 matrix:
   include:
-    - os: linux
-      dist: xenial
-      sudo: required
-      compiler: gcc
-      env: COVERAGE=1 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DBUILD_WITH_COVERAGE=ON -DEXIV2_ENABLE_CURL=ON"
-
-    - os: linux
-      dist: xenial
+    - name: "Ubuntu 18.04 - gcc-7.5 (Release)"
+      os: linux
+      dist: bionic
       sudo: required
       compiler: gcc
       env:
-        - WITH_VALGRIND=1
-        - CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_CURL=ON"
+        - BUILD_TYPE="Release"
 
-    - os: linux
-      dist: xenial
+    - name: "Ubuntu 18.04 - gcc-7.5 (Debug)"
+      os: linux
+      dist: bionic
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Debug)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 20.04 - clang-7 (Release)"
+      os: linux
+      dist: focal
       sudo: required
       compiler: clang
-      env: CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_CURL=ON"
+      env:
+        - BUILD_TYPE="Release"
 
-    - os: osx
-      osx_image: xcode10.2
+    - name: "Ubuntu 20.04 - clang-7 (Debug)"
+      os: linux
+      dist: focal
+      sudo: required
       compiler: clang
-      env: CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_CURL=ON"
+      env:
+        - BUILD_TYPE="Debug"
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Debug+Coverage)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Debug"
+        - WITH_COVERAGE=1
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release+Valgrind)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+        - WITH_VALGRIND=1
+
+    - name: "Ubuntu 20.04 - gcc-9.3 (Release+Sanitizers)"
+      os: linux
+      dist: focal
+      sudo: required
+      compiler: gcc
+      env:
+        - BUILD_TYPE="Release"
+        - WITH_SANITIZERS=1
+
+    - name: "macOS 10.14 - XCode 11.3 (Release)"
+      os: osx
+      osx_image: xcode11.3
+      compiler: clang
+      env:
+        - BUILD_TYPE="Release"
+
+    - name: "macOS 10.14 - XCode 11.3 (Debug)"
+      os: osx
+      osx_image: xcode11.3
+      compiler: clang
+      env:
+        - BUILD_TYPE="Debug"
 
 install: ./ci/install.sh
 script:  ./ci/run.sh

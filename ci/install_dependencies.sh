@@ -24,7 +24,7 @@ distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
-        dnf -y --refresh install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which dos2unix
+        dnf -y --refresh install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which dos2unix glibc-langpack-en diffutils
         ;;
 
     'debian')
@@ -49,21 +49,23 @@ case "$distro_id" in
         # enable copr for gtest
         curl https://copr.fedorainfracloud.org/coprs/defolos/devel/repo/epel-7/defolos-devel-epel-7.repo > /etc/yum.repos.d/_copr_defolos-devel.repo
         yum clean all
-        yum -y install gcc-c++ clang cmake3 make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python36 dos2unix
-        # symlink up to date versions of python & cmake to 'default' names
-        if [ ! -e /usr/bin/python3 ]; then
-            ln -s /usr/bin/python36 /usr/bin/python3
-        elif [ -L /usr/bin/python3 ]; then
-            rm /usr/bin/python3
-            ln -s /usr/bin/python36 /usr/bin/python3
-        fi
+        yum -y install gcc-c++ clang cmake3 make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python3 dos2unix
+        # symlink up to date versions of cmake to 'default' name
         mv /bin/cmake /bin/.cmake.old
         ln -s /bin/cmake3 /bin/cmake
         ;;
 
     'opensuse'|'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel libcurl-devel gtest which dos2unix libxml2-tools
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl tar libcurl-devel git which dos2unix libxml2-tools
+        pushd /tmp
+          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+          tar xzf   release-1.8.0.tar.gz
+          mkdir -p  googletest-release-1.8.0/build
+          pushd     googletest-release-1.8.0/build
+            cmake .. ; make ; make install
+          popd
+        popd
         ;;
     *)
         echo "Sorry, no predefined dependencies for your distribution $distro_id exist yet"

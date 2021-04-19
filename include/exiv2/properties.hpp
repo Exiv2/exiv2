@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,17 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    properties.hpp
-  @brief   XMP property and type information.<BR>References:<BR>
-  <a href="http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf">XMP Specification</a> from Adobe
-  <I>(Property descriptions copied from the XMP specification with the permission of Adobe)</I>
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (cgilles)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @date    13-Jul-07, ahu: created
  */
 #ifndef PROPERTIES_HPP_
 #define PROPERTIES_HPP_
@@ -242,7 +231,7 @@ namespace Exiv2 {
     {
     public:
         //! Shortcut for an %XmpKey auto pointer.
-        typedef std::auto_ptr<XmpKey> AutoPtr;
+        typedef std::unique_ptr<XmpKey> UniquePtr;
 
         //! @name Creators
         //@{
@@ -291,7 +280,7 @@ namespace Exiv2 {
         //! Properties don't have a tag number. Return 0.
         virtual uint16_t tag() const;
 
-        AutoPtr clone() const;
+        UniquePtr clone() const;
 
         // Todo: Should this be removed? What about tagLabel then?
         //! Return the schema namespace for the prefix of the key
@@ -305,7 +294,7 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     };  // class XmpKey
 

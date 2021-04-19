@@ -1,21 +1,24 @@
 // ***************************************************************** -*- C++ -*-
 /*
-  Abstract : ExifData write unit tests
-
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-
-  Test procedure:
-   $ rm -f test.jpg thumb.jpg iii ttt;
-   $ ./exifprint ../test/img_1771.jpg > iii;
-   $ cp ../test/img_1771.jpg ./test.jpg;
-   $ ./makernote-test2 ../test/img_1771.jpg > ttt;
-   $ diff iii ttt
-
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-// *****************************************************************************
-// included header files
-#include <exiv2/exiv2.hpp>
 
+#include <exiv2/exiv2.hpp>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -39,7 +42,13 @@ void exifPrint(const ExifData& exifData);
 // Main
 int main(int argc, char* const argv[])
 {
-try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
+    try {
 
     if (argc != 3) {
         std::cout << "Usage: write-test file case\n\n"
@@ -161,7 +170,7 @@ void testCase(const std::string& file1,
     ExifKey ek(key);
 
     //Open first image
-    Image::AutoPtr image1 = ImageFactory::open(file1);
+    Image::UniquePtr image1 = ImageFactory::open(file1);
     assert(image1.get() != 0);
 
     // Load existing metadata
@@ -177,7 +186,7 @@ void testCase(const std::string& file1,
     pos->setValue(value);
 
     // Open second image
-    Image::AutoPtr image2 = ImageFactory::open(file2);
+    Image::UniquePtr image2 = ImageFactory::open(file2);
     assert(image2.get() != 0);
 
     image2->setExifData(image1->exifData());

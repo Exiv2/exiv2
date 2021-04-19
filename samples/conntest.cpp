@@ -1,13 +1,29 @@
 // ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 // con-test.cpp
 // Tester application for testing the http/https/ftp/ssh/sftp connection
 
 #include <exiv2/exiv2.hpp>
-
 #ifdef EXV_USE_CURL
     #include <curl/curl.h>
 #endif
-
 #include <iostream>
 #include <cstdlib>
 
@@ -72,48 +88,14 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
 }
 #endif
 
-#ifdef EXV_USE_SSH
-void sshcon(const std::string& url) {
-    Exiv2::Uri uri = Exiv2::Uri::Parse(url);
-    Exiv2::Uri::Decode(uri);
-
-    std::string page = uri.Path;
-    // remove / at the beginning of the path
-    if (page[0] == '/') {
-        page = page.substr(1);
-    }
-    Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
-    std::string response = "";
-    std::string cmd = "declare -a x=($(ls -alt " + page + ")); echo ${x[4]}";
-    if (ssh.runCommand(cmd, &response) != 0) {
-        throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to get file length.");
-    } else {
-        long length = atol(response.c_str());
-        if (length == 0) {
-            throw Exiv2::Error(Exiv2::kerErrorMessage, "File is empty or not found.");
-        }
-    }
-}
-
-void sftpcon(const std::string& url) {
-    Exiv2::Uri uri = Exiv2::Uri::Parse(url);
-    Exiv2::Uri::Decode(uri);
-
-    std::string page = uri.Path;
-    // remove / at the beginning of the path
-    if (page[0] == '/') {
-        page = page.substr(1);
-    }
-    Exiv2::SSH ssh(uri.Host, uri.Username, uri.Password, uri.Port);
-    sftp_file handle;
-    ssh.getFileSftp(page, handle);
-    if (handle == NULL) throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to open the file");
-    else sftp_close(handle);
-}
-#endif
-
 int main(int argc,const char** argv)
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
     if (argc < 2) {
         std::cout << "Usage: " << argv[0] << " url {-http1_0}" << std::endl;
         return 1;
@@ -129,15 +111,6 @@ int main(int argc,const char** argv)
 
     bool isOk = false;
     try {
-        #ifdef EXV_USE_SSH
-            if (prot == Exiv2::pSsh) {
-                sshcon(url);
-                isOk = true;
-            } else if (prot == Exiv2::pSftp){
-                sftpcon(url);
-                isOk = true;
-            }
-        #endif
         #ifdef EXV_USE_CURL
             if (prot == Exiv2::pHttp || prot == Exiv2::pHttps || prot == Exiv2::pFtp) {
                 curlcon(url, useHttp1_0);

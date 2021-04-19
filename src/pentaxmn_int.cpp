@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      pentaxmn.cpp
  */
 // *****************************************************************************
 // included header files
@@ -776,7 +773,9 @@ namespace Exiv2 {
         { 0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6" },
         { 0x0403, "smc PENTAX-FA 43mm F1.9 Limited" },
         { 0x0406, "smc PENTAX-FA 35-80mm F4-5.6" },
-        { 0x040a, "Irix 15mm F2.4" },
+        { 0x0408, "Irix 150mm F/2.8 Macro" },
+        { 0x0409, "Irix 11mm F/4" },
+        { 0x040a, "Irix 15mm F/2.4" },
         { 0x040c, "smc PENTAX-FA 50mm F1.4" },
         { 0x040f, "smc PENTAX-FA 28-105mm F4-5.6 [IF]" },
         { 0x0410, "Tamron AF 80-210mm F4-5.6 (178D)" },
@@ -1118,7 +1117,7 @@ namespace Exiv2 {
                << " EV";
         } else {
             os << std::setprecision(2)
-               << static_cast<float>(l0) - 9.5
+               << static_cast<float>(l0) - 9.5f
                << " EV";
         }
 
@@ -1314,7 +1313,7 @@ namespace Exiv2 {
                                                     ;
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
             }
 
             if ( index > 0 )  {
@@ -1342,14 +1341,14 @@ namespace Exiv2 {
                                                     ;
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
                     index = 6;
             }
             if ( value.count() == 2 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K100D")==0 && lensInfo->count() == 44 )
+                if ( model.rfind("PENTAX K100D", 0)==0 && lensInfo->count() == 44 )
                     index = 6;
-                if ( model.find("PENTAX *ist DL")==0 && lensInfo->count() == 36 )
+                if ( model.rfind("PENTAX *ist DL", 0)==0 && lensInfo->count() == 36 )
                     index = 6;
             }
 

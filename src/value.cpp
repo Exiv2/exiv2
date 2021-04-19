@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      value.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   26-Jan-04, ahu: created
-             11-Feb-04, ahu: isolated as a component
-             31-Jul-04, brad: added Time, Date and String values
  */
 // *****************************************************************************
 // included header files
@@ -85,83 +78,71 @@ namespace Exiv2 {
     {
     }
 
-    Value::~Value()
+    Value::UniquePtr Value::create(TypeId typeId)
     {
-    }
-
-    Value& Value::operator=(const Value& rhs)
-    {
-        if (this == &rhs) return *this;
-        type_ = rhs.type_;
-        ok_ = rhs.ok_;
-        return *this;
-    }
-
-    Value::AutoPtr Value::create(TypeId typeId)
-    {
-        AutoPtr value;
+        UniquePtr value;
         switch (typeId) {
         case invalidTypeId:
         case signedByte:
         case unsignedByte:
-            value = AutoPtr(new DataValue(typeId));
+            value = UniquePtr(new DataValue(typeId));
             break;
         case asciiString:
-            value = AutoPtr(new AsciiValue);
+            value = UniquePtr(new AsciiValue);
             break;
         case unsignedShort:
-            value = AutoPtr(new ValueType<uint16_t>);
+            value = UniquePtr(new ValueType<uint16_t>);
             break;
         case unsignedLong:
         case tiffIfd:
-            value = AutoPtr(new ValueType<uint32_t>(typeId));
+            value = UniquePtr(new ValueType<uint32_t>(typeId));
             break;
         case unsignedRational:
-            value = AutoPtr(new ValueType<URational>);
+            value = UniquePtr(new ValueType<URational>);
             break;
         case undefined:
-            value = AutoPtr(new DataValue);
+            value = UniquePtr(new DataValue);
             break;
         case signedShort:
-            value = AutoPtr(new ValueType<int16_t>);
+            value = UniquePtr(new ValueType<int16_t>);
             break;
         case signedLong:
-            value = AutoPtr(new ValueType<int32_t>);
+            value = UniquePtr(new ValueType<int32_t>);
             break;
         case signedRational:
-            value = AutoPtr(new ValueType<Rational>);
+            value = UniquePtr(new ValueType<Rational>);
             break;
         case tiffFloat:
-            value = AutoPtr(new ValueType<float>);
+            value = UniquePtr(new ValueType<float>);
             break;
         case tiffDouble:
-            value = AutoPtr(new ValueType<double>);
+            value = UniquePtr(new ValueType<double>);
             break;
         case string:
-            value = AutoPtr(new StringValue);
+            value = UniquePtr(new StringValue);
             break;
         case date:
-            value = AutoPtr(new DateValue);
+            value = UniquePtr(new DateValue);
             break;
         case time:
-            value = AutoPtr(new TimeValue);
+            value = UniquePtr(new TimeValue);
             break;
         case comment:
-            value = AutoPtr(new CommentValue);
+            value = UniquePtr(new CommentValue);
             break;
         case xmpText:
-            value = AutoPtr(new XmpTextValue);
+            value = UniquePtr(new XmpTextValue);
             break;
         case xmpBag:
         case xmpSeq:
         case xmpAlt:
-            value = AutoPtr(new XmpArrayValue(typeId));
+            value = UniquePtr(new XmpArrayValue(typeId));
             break;
         case langAlt:
-            value = AutoPtr(new LangAltValue);
+            value = UniquePtr(new LangAltValue);
             break;
         default:
-            value = AutoPtr(new DataValue(typeId));
+            value = UniquePtr(new DataValue(typeId));
             break;
         }
         return value;
@@ -195,7 +176,8 @@ namespace Exiv2 {
         return DataBuf(0, 0);
     }
 
-    DataValue::DataValue(TypeId typeId) : Value(typeId)
+    DataValue::DataValue(TypeId typeId)
+        : Value(typeId)
     {
     }
 
@@ -239,9 +221,7 @@ namespace Exiv2 {
     long DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // byteOrder not needed
-        return static_cast<long>(
-            std::copy(value_.begin(), value_.end(), buf) - buf
-            );
+        return std::copy(value_.begin(), value_.end(), buf) - buf;
     }
 
     long DataValue::size() const
@@ -410,7 +390,8 @@ namespace Exiv2 {
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
-        if (value_.size() > 0 && value_[value_.size()-1] != '\0') value_ += '\0';
+        // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
+        if (value_.size() == 0 || value_[value_.size()-1] != '\0') value_ += '\0';
         return 0;
     }
 
@@ -550,7 +531,7 @@ namespace Exiv2 {
     {
         CharsetId csId = charsetId();
         if (csId != undefined) {
-            os << "charset=\"" << CharsetInfo::name(csId) << "\" ";
+            os << "charset=" << CharsetInfo::name(csId) << " ";
         }
         return os << comment();
     }
@@ -565,6 +546,11 @@ namespace Exiv2 {
         if (charsetId() == unicode) {
             const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
+        }
+        bool bAscii = charsetId() == undefined || charsetId() == ascii ;
+        // # 1266 Remove trailing nulls
+        if ( bAscii && c.find('\0') != c.std::string::npos) {
+            c = c.substr(0,c.find('\0'));
         }
         return c;
     }
@@ -610,14 +596,6 @@ namespace Exiv2 {
           xmpArrayType_(xaNone),
           xmpStruct_(xsNone)
     {
-    }
-
-    XmpValue& XmpValue::operator=(const XmpValue& rhs)
-    {
-        if (this == &rhs) return *this;
-        xmpArrayType_ = rhs.xmpArrayType_;
-        xmpStruct_ = rhs.xmpStruct_;
-        return *this;
     }
 
     void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType)
@@ -723,9 +701,9 @@ namespace Exiv2 {
         return 0;
     }
 
-    XmpTextValue::AutoPtr XmpTextValue::clone() const
+    XmpTextValue::UniquePtr XmpTextValue::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     long XmpTextValue::size() const
@@ -793,9 +771,9 @@ namespace Exiv2 {
         return 0;
     }
 
-    XmpArrayValue::AutoPtr XmpArrayValue::clone() const
+    XmpArrayValue::UniquePtr XmpArrayValue::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     long XmpArrayValue::count() const
@@ -851,25 +829,45 @@ namespace Exiv2 {
     }
 
     int LangAltValue::read(const std::string& buf)
-    {
+    {        
         std::string b = buf;
         std::string lang = "x-default";
         if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
+            static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            
             std::string::size_type pos = buf.find_first_of(' ');
             lang = buf.substr(5, pos-5);
             // Strip quotes (so you can also specify the language without quotes)
-            if (lang[0] == '"') lang = lang.substr(1);
-            if (lang[lang.length()-1] == '"') lang = lang.substr(0, lang.length()-1);
+            if (lang[0] == '"') {
+                lang = lang.substr(1);
+
+                if (lang == "" || lang.find('"') != lang.length()-1)
+                    throw Error(kerInvalidLangAltValue, buf);
+            
+                lang = lang.substr(0, lang.length()-1);
+            }
+            
+            if (lang == "") throw Error(kerInvalidLangAltValue, buf);
+
+            // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
+            std::string::size_type charPos = lang.find_first_not_of(ALPHA);
+            if (charPos != std::string::npos) {
+                if (lang[charPos] != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
+                    throw Error(kerInvalidLangAltValue, buf);
+            }
+            
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
+
         value_[lang] = b;
         return 0;
     }
 
-    LangAltValue::AutoPtr LangAltValue::clone() const
+    LangAltValue::UniquePtr LangAltValue::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     long LangAltValue::count() const
@@ -1057,7 +1055,7 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        long l = static_cast<long>(std::mktime(&tms));
+        auto l = std::mktime(&tms);
         ok_ = (l != -1);
         return l;
     }

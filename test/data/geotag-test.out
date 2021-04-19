@@ -1,14 +1,14 @@
 --- show GPSInfo tags ---
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
-Exif.GPSInfo.GPSLatitude                     Rational    3  36deg 26' 54" 
+Exif.GPSInfo.GPSLatitude                     Rational    3  36 deg 26' 54"
 Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  West
-Exif.GPSInfo.GPSLongitude                    Rational    3  116deg 51' 18" 
+Exif.GPSInfo.GPSLongitude                    Rational    3  116 deg 51' 18"
 Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Below sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  14.3 m
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  09:54:28
 Exif.GPSInfo.GPSMapDatum                     Ascii       7  WGS-84
-Exif.GPSInfo.GPSProcessingMethod             Undefined  18  65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88
+Exif.GPSInfo.GPSProcessingMethod             Undefined  18  charset=Ascii HYBRID-FIX
 Exif.GPSInfo.GPSDateStamp                    Ascii      20  2008:05:08 09:54:28
 --- deleting the GPSInfo tags
 --- run geotag ---
@@ -16,12 +16,12 @@ Exif.GPSInfo.GPSDateStamp                    Ascii      20  2008:05:08 09:54:28
 --- show GPSInfo tags ---
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.2.0.0
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
-Exif.GPSInfo.GPSLatitude                     Rational    3  36deg 26' 54" 
+Exif.GPSInfo.GPSLatitude                     Rational    3  36 deg 26' 54"
 Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  West
-Exif.GPSInfo.GPSLongitude                    Rational    3  116deg 51' 18" 
+Exif.GPSInfo.GPSLongitude                    Rational    3  116 deg 51' 18"
 Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Below sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  14.3 m
 Exif.GPSInfo.GPSTimeStamp                    Rational    3  09:54:28
 Exif.GPSInfo.GPSMapDatum                     Ascii       7  WGS-84
-Exif.GPSInfo.GPSProcessingMethod             Undefined  18  65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88
+Exif.GPSInfo.GPSProcessingMethod             Undefined  18  charset=Ascii HYBRID-FIX
 Exif.GPSInfo.GPSDateStamp                    Ascii      20  2008:05:08 09:54:28

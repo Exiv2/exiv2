@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      tiffimage.hpp
  */
 
 #ifndef TIFFIMAGE_HPP_
@@ -71,7 +68,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        TiffImage(BasicIo::AutoPtr io, bool create);
+        TiffImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -207,7 +204,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a TIFF image.
     EXIV2API bool isTiffType(BasicIo& iIo, bool advance);

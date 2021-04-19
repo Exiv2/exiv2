@@ -1,5 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,17 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  Abstract : Tester application for image file handling
-
-  File     : metacopy.cpp
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History  : 13-Jul-04, brad: created
- */
-// *****************************************************************************
-// included header files
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -40,6 +31,12 @@
 int main(int argc, char* const argv[])
 {
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
     // Handle command line arguments
     Params params;
     if (params.getopt(argc, argv)) {
@@ -52,15 +49,15 @@ try {
     }
 
     // Use MemIo to increase test coverage.
-    Exiv2::BasicIo::AutoPtr fileIo(new Exiv2::FileIo(params.read_));
-    Exiv2::BasicIo::AutoPtr memIo(new Exiv2::MemIo);
+    Exiv2::BasicIo::UniquePtr fileIo(new Exiv2::FileIo(params.read_));
+    Exiv2::BasicIo::UniquePtr memIo(new Exiv2::MemIo);
     memIo->transfer(*fileIo);
 
-    Exiv2::Image::AutoPtr readImg = Exiv2::ImageFactory::open(memIo);
+    Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
     assert(readImg.get() != 0);
     readImg->readMetadata();
 
-    Exiv2::Image::AutoPtr writeImg = Exiv2::ImageFactory::open(params.write_);
+    Exiv2::Image::UniquePtr writeImg = Exiv2::ImageFactory::open(params.write_);
     assert(writeImg.get() != 0);
     if (params.preserve_) writeImg->readMetadata();
     if (params.iptc_) {
@@ -97,36 +94,40 @@ int Params::option(int opt, const std::string& /*optarg*/, int optopt)
 {
     int rc = 0;
     switch (opt) {
-    case 'h': help_ = true; break;
-    case 'i': iptc_ = true; break;
-    case 'e': exif_ = true; break;
-    case 'c': comment_ = true; break;
-    case 'x': xmp_ = true; break;
-    case 'p': preserve_ = true; break;
-    case 'a':
+    case 'h': {help_ = true; break;}
+    case 'i': {iptc_ = true; break;}
+    case 'e': {exif_ = true; break;}
+    case 'c': {comment_ = true; break;}
+    case 'x': {xmp_ = true; break;}
+    case 'p': {preserve_ = true; break;}
+    case 'a':{
         iptc_ =true;
         exif_ =true;
         comment_ =true;
         xmp_ =true;
         break;
-    case ':':
+    }
+    case ':':{
         std::cerr << progname() << ": Option -" << static_cast<char>(optopt)
                   << " requires an argument\n";
         rc = 1;
         break;
-    case '?':
+    }
+    case '?':{
         std::cerr << progname() << ": Unrecognized option -"
                   << static_cast<char>(optopt) << "\n";
         rc = 1;
         break;
-    default:
+    }
+    default:{
         std::cerr << progname()
                   << ": getopt returned unexpected character code "
                   << std::hex << opt << "\n";
         rc = 1;
         break;
     }
-
+    }
+    
     return rc;
 }
 
@@ -168,7 +169,7 @@ void Params::usage(std::ostream& os) const
 {
     os << "\nReads and writes raw metadata. Use -h option for help.\n"
        << "Usage: " << progname()
-       << " [-iecaph] readfile writefile\n";
+       << " [-iecxaph] readfile writefile\n";
 }
 
 void Params::help(std::ostream& os) const

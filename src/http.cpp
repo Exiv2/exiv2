@@ -1,6 +1,6 @@
 // ********************************************************* -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -18,18 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-/*
- * http.cpp
- */
-
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__) || defined(__MINGW64__) || defined(__MINGW32__) 
+#define __USE_W32_SOCKETS
 #include <winsock2.h>
-#pragma comment(lib, "ws2_32.lib")
 #endif
 
-// included header files
 #include "config.h"
-
 #include "datasets.hpp"
 #include "http.hpp"
 #include "futils.hpp"
@@ -50,11 +44,11 @@
 
 ////////////////////////////////////////
 // platform specific code
+
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
 #include <string.h>
-#include <windows.h>
 #include <io.h>
-#ifndef  __MINGW__
+#if !defined(__MINGW__) && !defined(__CYGWIN__)
 #define  snprintf sprintf_s
 #define  write    _write
 #define  read     _read
@@ -143,8 +137,7 @@ static int forgive(int n,int& err)
     return n ;
 }
 
-static int error(std::string& errors, const char* msg, const char* x = NULL, const char* y = NULL, int z = 0);
-static int error(std::string& errors, const char* msg, const char* x, const char* y, int z)
+static int error(std::string& errors, const char* msg, const char* x = NULL, const char* y = NULL, int z = 0)
 {
     static const size_t buffer_size = 512;
     char buffer[buffer_size];
@@ -210,7 +203,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // Windows specific code
-#ifdef WIN32
+#if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__) || defined(__CYGWIN__)
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2,2), &wsaData);
 #endif
@@ -259,8 +252,9 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // open the socket
-    int     sockfd = (int) socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
-    if (    sockfd < 0 ) return error(errors, "unable to create socket\n",NULL,NULL,0) ;
+    int     sockfd = socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
+    if (sockfd < 0)
+        return error(errors, "unable to create socket\n", NULL, NULL, 0);
 
     // connect the socket to the server
     int     server  = -1 ;
@@ -279,8 +273,9 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     if (serv_addr.sin_addr.s_addr == (unsigned long)INADDR_NONE)
     {
         struct hostent* host = gethostbyname(servername_p);
-        if ( !host )  return error(errors, "no such host", servername_p);
-        memcpy(&serv_addr.sin_addr,host->h_addr,sizeof(serv_addr.sin_addr));
+        if (!host)
+            return error(errors, "no such host", servername_p);
+        memcpy(&serv_addr.sin_addr, host->h_addr, sizeof(serv_addr.sin_addr));
     }
 
     makeNonBlocking(sockfd) ;
@@ -289,7 +284,8 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     // and connect
     server = connect(sockfd, (const struct sockaddr *) &serv_addr, serv_len) ;
     if ( server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK )
-        return error(errors,"error - unable to connect to server = %s port = %s wsa_error = %d",servername_p,port_p,WSAGetLastError());
+        return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p, port_p,
+                     WSAGetLastError());
 
     char   buffer[32*1024+1];
     size_t buff_l= sizeof buffer - 1 ;
@@ -309,7 +305,8 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     }
 
     if ( sleep_ < 0 )
-        return error(errors,"error - timeout connecting to server = %s port = %s wsa_error = %d",servername,port,WSAGetLastError());
+        return error(errors, "error - timeout connecting to server = %s port = %s wsa_error = %d", servername, port,
+                     WSAGetLastError());
 
     int    end   = 0         ; // write position in buffer
     bool   bSearching = true ; // looking for headers in the response
@@ -329,10 +326,14 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
                 // search for the body
                 for ( size_t b = 0 ; bSearching && b < lengthof(blankLines) ; b++ ) {
-                    if ( strstr(buffer,blankLines[b]) ) {
+                    const char* blankLinePos = strstr(buffer,blankLines[b]);
+                    if ( blankLinePos ) {
                         bSearching = false ;
-                        body   = (int) ( strstr(buffer,blankLines[b]) - buffer ) + strlen(blankLines[b]) ;
-                        status = atoi(strchr(buffer,' ')) ;
+                        body   = blankLinePos - buffer + strlen(blankLines[b]);
+                        const char* firstSpace = strchr(buffer,' ');
+                        if (firstSpace) {
+                            status = atoi(firstSpace);
+                        }
                     }
                 }
 
@@ -342,9 +343,19 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 char  N = '\n';
                 int   i = 0   ; // initial byte in buffer
                 while(buffer[i] == N ) i++;
-                h       = strchr(h+i,N)+1;
+                h = strchr(h+i,N);
+                if (!h) {
+                    status = 0;
+                    break;
+                }
+                h++;
                 response[""]=std::string(buffer+i).substr(0,h-buffer-2);
-                result = atoi(strchr(buffer,' '));
+                const char* firstSpace = strchr(buffer,' ');
+                if ( !firstSpace ) {
+                    status = 0;
+                    break;
+                }
+                result = atoi(firstSpace);
                 char* c = strchr(h,C);
                 char* first_newline = strchr(h,N);
                 while ( c && first_newline && c < first_newline && h < buffer+body ) {
@@ -390,7 +401,8 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
         //  we finished OK without finding headers, flush the buffer
             flushBuffer(buffer,0,end,file) ;
         } else {
-            return error(errors,"error - no response from server = %s port = %s wsa_error = %d",servername,port,WSAGetLastError());
+            return error(errors, "error - no response from server = %s port = %s wsa_error = %d", servername, port,
+                         WSAGetLastError());
         }
     }
 

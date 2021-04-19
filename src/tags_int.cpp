@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -106,7 +106,8 @@ namespace Exiv2 {
         { nikonWtId,       "Makernote", "NikonWt",      Nikon3MakerNote::tagListWt     },
         { nikonIiId,       "Makernote", "NikonIi",      Nikon3MakerNote::tagListIi     },
         { nikonAfId,       "Makernote", "NikonAf",      Nikon3MakerNote::tagListAf     },
-        { nikonAf2Id,      "Makernote", "NikonAf2",     Nikon3MakerNote::tagListAf2    },
+        { nikonAf21Id,     "Makernote", "NikonAf2",     Nikon3MakerNote::tagListAf21   },
+        { nikonAf22Id,     "Makernote", "NikonAf22",    Nikon3MakerNote::tagListAf22   },
         { nikonAFTId,      "Makernote", "NikonAFT",     Nikon3MakerNote::tagListAFT    },
         { nikonFiId,       "Makernote", "NikonFi",      Nikon3MakerNote::tagListFi     },
         { nikonMeId,       "Makernote", "NikonMe",      Nikon3MakerNote::tagListMe     },
@@ -128,6 +129,7 @@ namespace Exiv2 {
         { nikonLd1Id,      "Makernote", "NikonLd1",     Nikon3MakerNote::tagListLd1    },
         { nikonLd2Id,      "Makernote", "NikonLd2",     Nikon3MakerNote::tagListLd2    },
         { nikonLd3Id,      "Makernote", "NikonLd3",     Nikon3MakerNote::tagListLd3    },
+        { nikonLd4Id,      "Makernote", "NikonLd4",     Nikon3MakerNote::tagListLd4    },
         { olympusId,       "Makernote", "Olympus",      OlympusMakerNote::tagList      },
         { olympus2Id,      "Makernote", "Olympus2",     OlympusMakerNote::tagList      },
         { olympusCsId,     "Makernote", "OlympusCs",    OlympusMakerNote::tagListCs    },
@@ -161,9 +163,11 @@ namespace Exiv2 {
         { sony1MltCs7DId,  "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D  },
         { sony1MltCsOldId, "Makernote", "Sony1MltCsOld",MinoltaMakerNote::tagListCsStd },
         { sony1MltCsNewId, "Makernote", "Sony1MltCsNew",MinoltaMakerNote::tagListCsStd },
-        { sony1MltCsA100Id,"Makernote","Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
+        { sony1MltCsA100Id,"Makernote", "Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
         { sony2CsId,       "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { sony2Cs2Id,      "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
+        { sony2FpId,       "Makernote", "Sony2Fp",      SonyMakerNote::tagListFp       },
+        { sony2010eId,     "Makernote", "Sony2010e",    SonyMakerNote::tagList2010e    },
         { lastId,          "(Last IFD info)", "(Last IFD item)", 0 }
     };
 
@@ -172,44 +176,6 @@ namespace Exiv2 {
         { 1, N_("none") },
         { 2, N_("inch") },
         { 3, N_("cm")   }
-    };
-
-    //! GPS altitude reference, tag 0x0005
-    extern const TagDetails exifGPSAltitudeRef[] = {
-        { 0, N_("Above sea level") },
-        { 1, N_("Below sea level") }
-    };
-
-    //! GPS status, tag 0x0009
-    extern const TagDetails exifGPSStatus[] = {
-        { 'A', N_("Measurement in progress")      },
-        { 'V', N_("Measurement Interoperability") }
-    };
-
-    //! GPS measurement mode, tag 0x000a
-    extern const TagDetails exifGPSMeasureMode[] = {
-        { '2', N_("Two-dimensional measurement")   },
-        { '3', N_("Three-dimensional measurement") }
-    };
-
-    //! GPS speed reference, tag 0x000c
-    extern const TagDetails exifGPSSpeedRef[] = {
-        { 'K', N_("km/h")  },
-        { 'M', N_("mph")   },
-        { 'N', N_("knots") }
-    };
-
-    //! GPS Destination distance ref, tag 0x0019
-    extern const TagDetails exifGPSDestDistanceRef[] = {
-        { 'K', N_("Kilometers") },
-        { 'M', N_("Miles")      },
-        { 'N', N_("Knots")      }
-    };
-
-    //! GPS Differential, tag 0x001e
-    extern const TagDetails exifGPSDifferential[] = {
-        { 0, N_("Without correction") },
-        { 1, N_("Correction applied") }
     };
 
     //! Orientation, tag 0x0112
@@ -225,10 +191,21 @@ namespace Exiv2 {
         { 8, N_("left, bottom")  }              // To silence compiler warning
     };
 
+    //! PlanarConfiguration, tag 0x011c
+    extern const TagDetails exifPlanarConfiguration[] = {
+        { 1, N_("Chunky") },
+        { 2, N_("Planar") }
+    };
+
     //! Predictor, tag 0x013d
     extern const TagDetails exifPredictor[] = {
-        { 1, N_("No prediction scheme used") },
-        { 2, N_("Horizontal differencing")   }
+        {     1, N_("No prediction scheme used")              },
+        {     2, N_("Horizontal differencing")                },
+        {     3, N_("Floating point horizontal differencing") },    // TIFF Technical Note 3
+        { 34892, N_("Horizontal difference X2")               },    // DNG 1.4
+        { 34893, N_("Horizontal difference X4")               },    // DNG 1.4
+        { 34894, N_("Floating point X2")                      },    // DNG 1.4
+        { 34895, N_("Floating point X4")                      }     // DNG 1.4
     };
 
     //! InkSet, tag 0x014c
@@ -239,15 +216,19 @@ namespace Exiv2 {
 
     //! NewSubfileType, TIFF tag 0x00fe - this is actually a bitmask
     extern const TagDetails exifNewSubfileType[] = {
-        {  0, N_("Primary image")                                               },
-        {  1, N_("Thumbnail/Preview image")                                     },
-        {  2, N_("Primary image, Multi page file")                              },
-        {  3, N_("Thumbnail/Preview image, Multi page file")                    },
-        {  4, N_("Primary image, Transparency mask")                            },
-        {  5, N_("Thumbnail/Preview image, Transparency mask")                  },
-        {  6, N_("Primary image, Multi page file, Transparency mask")           },
-        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") },
-        {  7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") }  // To silence compiler warning
+        {     0, N_("Primary image")                                               },
+        {     1, N_("Thumbnail/Preview image")                                     },
+        {     2, N_("Primary image, Multi page file")                              },
+        {     3, N_("Thumbnail/Preview image, Multi page file")                    },
+        {     4, N_("Primary image, Transparency mask")                            },
+        {     5, N_("Thumbnail/Preview image, Transparency mask")                  },
+        {     6, N_("Primary image, Multi page file, Transparency mask")           },
+        {     7, N_("Thumbnail/Preview image, Multi page file, Transparency mask") },
+        {     8, N_("Primary image, Depth map")                                    },   // DNG 1.5
+        {     9, N_("Thumbnail/Preview image, Depth map")                          },   // DNG 1.5
+        {    16, N_("Enhanced image")                                              },   // DNG 1.5 (clashes w/ TIFF-FX)
+        { 65537, N_("Thumbnail/Preview image, Alternative")                        },   // DNG 1.2
+        { 65540, N_("Primary image, Semantic mask")                                }    // DNG 1.6
     };
 
     //! SubfileType, TIFF tag 0x00ff
@@ -288,6 +269,7 @@ namespace Exiv2 {
         { 34677, N_("SGI Log 24-bits packed")   },
         { 34712, N_("Leadtools JPEG 2000")      },
         { 34713, N_("Nikon NEF Compressed")     },
+        { 34892, N_("JPEG (lossy)")             },  // DNG 1.4
         { 65000, N_("Kodak DCR Compressed")     },
         { 65535, N_("Pentax PEF Compressed")    }
     };
@@ -307,7 +289,9 @@ namespace Exiv2 {
         { 32803, N_("Color Filter Array") },
         { 32844, N_("Pixar LogL")         },
         { 32845, N_("Pixar LogLuv")       },
-        { 34892, N_("Linear Raw")         }
+        { 34892, N_("Linear Raw")         },
+        { 51177, N_("Depth Map")          },    // DNG 1.5
+        { 52527, N_("Semantic Mask")      }     // DNG 1.6
     };
 
     //! Thresholding, tag 0x0107
@@ -344,6 +328,31 @@ namespace Exiv2 {
         { 7, N_("(A+B)/2")     }
     };
 
+    //! LightSource, tag 0x9208
+    extern const TagDetails exifLightSource[] = {
+        {   0, N_("Unknown")                                 },
+        {   1, N_("Daylight")                                },
+        {   2, N_("Fluorescent")                             },
+        {   3, N_("Tungsten (incandescent light)")           },
+        {   4, N_("Flash")                                   },
+        {   9, N_("Fine weather")                            },
+        {  10, N_("Cloudy weather")                          },
+        {  11, N_("Shade")                                   },
+        {  12, N_("Daylight fluorescent (D 5700 - 7100K)")   },
+        {  13, N_("Day white fluorescent (N 4600 - 5400K)")  },
+        {  14, N_("Cool white fluorescent (W 3900 - 4500K)") },
+        {  15, N_("White fluorescent (WW 3200 - 3700K)")     },
+        {  17, N_("Standard light A")                        },
+        {  18, N_("Standard light B")                        },
+        {  19, N_("Standard light C")                        },
+        {  20, N_("D55")                                     },
+        {  21, N_("D65")                                     },
+        {  22, N_("D75")                                     },
+        {  23, N_("D50")                                     },
+        {  24, N_("ISO studio tungsten")                     },
+        { 255, N_("Other light source")                      }
+    };
+
     //! Flash, Exif tag 0x9209
     extern const TagDetails exifFlash[] = {
         { 0x00, N_("No flash")                                                      },
@@ -375,13 +384,100 @@ namespace Exiv2 {
         { 0x5f, N_("Yes, auto, red-eye reduction, return light detected")           }
     };
 
-    //! CFALayout, tag 0xc617
-    extern const TagDetails exifCfaLayout[] = {
-        { 1, N_("Rectangular (or square) layout") },
-        { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")  },
-        { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")    },
-        { 4, N_("Staggered layout C: even rows are offset right by 1/2 column") },
-        { 5, N_("Staggered layout D: even rows are offset left by 1/2 column")  }
+    //! FocalPlaneResolutionUnit, TIFF/EP tag 0x9210
+    extern const TagDetails tiffFocalPlaneResolutionUnit[] = {
+        { 1, N_("inch")       },
+        { 2, N_("meter")      },
+        { 3, N_("centimeter") },
+        { 4, N_("millimeter") },
+        { 5, N_("micrometer") }
+    };
+
+    //! SensingMethod, TIFF/EP tag 0x9217
+    extern const TagDetails tiffSensingMethod[] = {
+        { 0, N_("Undefined")               },
+        { 1, N_("Monochrome area")         },
+        { 2, N_("One-chip color area")     },
+        { 3, N_("Two-chip color area")     },
+        { 4, N_("Three-chip color area")   },
+        { 5, N_("Color sequential area")   },
+        { 6, N_("Monochrome linear")       },
+        { 7, N_("Trilinear sensor")        },
+        { 8, N_("Color sequential linear") }
+    };
+
+    //! CFALayout, DNG tag 0xc617
+    extern const TagDetails dngCfaLayout[] = {
+        { 1, N_("Rectangular (or square) layout")                                                   },
+        { 2, N_("Staggered layout A: even columns are offset down by 1/2 row")                      },
+        { 3, N_("Staggered layout B: even columns are offset up by 1/2 row")                        },
+        { 4, N_("Staggered layout C: even rows are offset right by 1/2 column")                     },
+        { 5, N_("Staggered layout D: even rows are offset left by 1/2 column")                      },
+        { 6, N_("Staggered layout E: even rows are offset up by 1/2, even columns left by 1/2")     },  // DNG 1.3
+        { 7, N_("Staggered layout F: even rows are offset up by 1/2, even columns right by 1/2")    },  // DNG 1.3
+        { 8, N_("Staggered layout G: even rows are offset down by 1/2, even columns left by 1/2")   },  // DNG 1.3
+        { 9, N_("Staggered layout H: even rows are offset down by 1/2, even columns right by 1/2")  }   // DNG 1.3
+    };
+
+    //! MakerNoteSafety, DNG tag 0xc635
+    extern const TagDetails dngMakerNoteSafety[] = {
+        { 0, N_("Unsafe") },
+        { 1, N_("Safe")   }
+    };
+
+    //! ColorimetricReference, DNG 1.2 tag 0xc6bf
+    extern const TagDetails dngColorimetricReference[] = {
+        { 0, N_("XYZ values are scene-referred")  },
+        { 1, N_("XYZ values are output-referred") }
+    };
+
+    //! ProfileEmbedPolicy, DNG 1.2 tag 0xc6fd
+    extern const TagDetails dngProfileEmbedPolicy[] = {
+        { 0, N_("Allow copying")   },
+        { 1, N_("Embed if used")   },
+        { 2, N_("Embed never")     },
+        { 3, N_("No restrictions") }
+    };
+
+    //! PreviewColorSpace, DNG 1.2 tag 0xc71a
+    extern const TagDetails dngPreviewColorSpace[] = {
+        { 0, N_("Unknown")        },
+        { 1, N_("Gray Gamma 2.2") },
+        { 2, N_("sRGB")           },
+        { 2, N_("Adobe RGB")      },
+        { 4, N_("ProPhoto RGB")   }
+    };
+
+    //! ProfileEncoding, DNG 1.4 tags 0xc7a3, 0xc7a4
+    extern const TagDetails dngProfileEncoding[] = {
+        { 0, N_("Linear") },
+        { 1, N_("sRGB")   }
+    };
+
+    //! DefaultBlackRender, DNG 1.4 tag 0xc7a6
+    extern const TagDetails dngDefaultBlackRender[] = {
+        { 0, N_("Auto") },
+        { 1, N_("None") }
+    };
+
+    //! DepthFormat, DNG 1.5 tag 0xc7e9
+    extern const TagDetails dngDepthFormat[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("Linear")  },
+        { 2, N_("Inverse") }
+    };
+
+    //! DepthUnits, DNG 1.5 tag 0xc7ec
+    extern const TagDetails dngDepthUnits[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("meters")  }
+    };
+
+    //! DepthMeasureType, DNG 1.5 tag 0xc7ed
+    extern const TagDetails dngDepthMeasureType[] = {
+        { 0, N_("Unknown")      },
+        { 1, N_("Optical axis") },
+        { 2, N_("Optical ray")  }
     };
 
 
@@ -498,7 +594,7 @@ namespace Exiv2 {
                 "or planar format. In JPEG compressed files a JPEG marker "
                 "is used instead of this tag. If this field does not exist, "
                 "the TIFF default of 1 (chunky) is assumed."),
-                ifd0Id, imgStruct, unsignedShort, 1, printValue),
+                ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifPlanarConfiguration)),
         TagInfo(0x0122, "GrayResponseUnit", N_("Gray Response Unit"),
                 N_("The precision of the information contained in the GrayResponseCurve."),
                 ifd0Id, imgStruct, unsignedShort, 1, printValue), // TIFF tag
@@ -574,10 +670,10 @@ namespace Exiv2 {
                 ifd0Id, imgStruct, unsignedShort, 2, printValue), // TIFF tag
         TagInfo(0x0142, "TileWidth", N_("Tile Width"),
                 N_("The tile width in pixels. This is the number of columns in each tile."),
-                ifd0Id, recOffset, unsignedShort, 1, printValue), // TIFF tag
+                ifd0Id, recOffset, unsignedLong, 1, printValue), // TIFF tag
         TagInfo(0x0143, "TileLength", N_("Tile Length"),
                 N_("The tile length (height) in pixels. This is the number of rows in each tile."),
-                ifd0Id, recOffset, unsignedShort, 1, printValue), // TIFF tag
+                ifd0Id, recOffset, unsignedLong, 1, printValue), // TIFF tag
         TagInfo(0x0144, "TileOffsets", N_("Tile Offsets"),
                 N_("For each tile, the byte offset of that tile, as compressed and "
                    "stored on disk. The offset is specified with respect to the "
@@ -587,7 +683,7 @@ namespace Exiv2 {
         TagInfo(0x0145, "TileByteCounts", N_("Tile Byte Counts"),
                 N_("For each tile, the number of (compressed) bytes in that tile. See "
                    "TileOffsets for a description of how the byte counts are ordered."),
-                ifd0Id, recOffset, unsignedShort, -1, printValue), // TIFF tag
+                ifd0Id, recOffset, unsignedLong, -1, printValue), // TIFF tag
         TagInfo(0x014a, "SubIFDs", N_("SubIFD Offsets"),
                 N_("Defined by Adobe Corporation to enable TIFF Trees within a TIFF file."),
                 ifd0Id, tiffEp, unsignedLong, -1, printValue),
@@ -731,6 +827,18 @@ namespace Exiv2 {
         TagInfo(0x4749, "RatingPercent", N_("Windows Rating Percent"),
                 N_("Rating tag used by Windows, value in percent"),
                 ifd0Id, otherTags, unsignedShort, -1, printValue), // Windows Tag
+        TagInfo(0x7032, "VignettingCorrParams",
+                N_("Vignetting Correction Params"),
+                N_("Sony vignetting correction parameters"),
+                ifd0Id, otherTags, signedShort, 17, printValue),  // Sony Tag
+        TagInfo(0x7035, "ChromaticAberrationCorrParams",
+                N_("Chromatic Aberration Correction Params"),
+                N_("Sony chromatic aberration correction parameters"),
+                ifd0Id, otherTags, signedShort, 33, printValue),  // Sony Tag
+        TagInfo(0x7037, "DistortionCorrParams",
+                N_("Distortion Correction Params"),
+                N_("Sony distortion correction parameters"),
+                ifd0Id, otherTags, signedShort, 17, printValue),  // Sony Tag
         TagInfo(0x800d, "ImageID", N_("Image ID"),
                 N_("ImageID is the full pathname of the original, high-resolution image, "
                    "or any other identifying string that uniquely identifies the original "
@@ -815,22 +923,24 @@ namespace Exiv2 {
         TagInfo(0x9208, "LightSource", N_("Light Source"), N_("The kind of light source."), ifd0Id, tiffEp, unsignedShort, 1, print0x9208), // TIFF/EP tag
         TagInfo(0x9209, "Flash", N_("Flash"), N_("Indicates the status of flash when the image was shot."), ifd0Id, tiffEp, unsignedShort, 1, EXV_PRINT_TAG(exifFlash)), // TIFF/EP tag
         TagInfo(0x920a, "FocalLength", N_("Focal Length"), N_("The actual focal length of the lens, in mm."), ifd0Id, tiffEp, unsignedRational, 1, print0x920a), // TIFF/EP tag
-        TagInfo(0x920b, "FlashEnergy", N_("Flash Energy"), N_("Amount of flash energy (BCPS)."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
+        TagInfo(0x920b, "FlashEnergy", N_("Flash Energy"), N_("Amount of flash energy (BCPS)."), ifd0Id, tiffEp, unsignedRational, 0, printValue), // TIFF/EP tag
         TagInfo(0x920c, "SpatialFrequencyResponse", N_("Spatial Frequency Response"), N_("SFR of the camera."), ifd0Id, tiffEp, undefined, 0, printValue), // TIFF/EP tag
         TagInfo(0x920d, "Noise", N_("Noise"), N_("Noise measurement values."), ifd0Id, tiffEp, undefined, 0, printValue), // TIFF/EP tag
-        TagInfo(0x920e, "FocalPlaneXResolution", N_("Focal Plane X Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageWidth direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
-        TagInfo(0x920f, "FocalPlaneYResolution", N_("Focal Plane Y Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageLength direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
-        TagInfo(0x9210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), N_("Unit of measurement for FocalPlaneXResolution(37390) and FocalPlaneYResolution(37391)."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
+        TagInfo(0x920e, "FocalPlaneXResolution", N_("Focal Plane X Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageWidth direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printFloat), // TIFF/EP tag
+        TagInfo(0x920f, "FocalPlaneYResolution", N_("Focal Plane Y Resolution"), N_("Number of pixels per FocalPlaneResolutionUnit (37392) in ImageLength direction for main image."), ifd0Id, tiffEp, unsignedRational, 1, printFloat), // TIFF/EP tag
+        TagInfo(0x9210, "FocalPlaneResolutionUnit", N_("Focal Plane Resolution Unit"), N_("Unit of measurement for FocalPlaneXResolution(37390) and FocalPlaneYResolution(37391)."), ifd0Id, tiffEp, unsignedShort, 1, EXV_PRINT_TAG(tiffFocalPlaneResolutionUnit)), // TIFF/EP tag
         TagInfo(0x9211, "ImageNumber", N_("Image Number"), N_("Number assigned to an image, e.g., in a chained image burst."), ifd0Id, tiffEp, unsignedLong, 1, printValue), // TIFF/EP tag
         TagInfo(0x9212, "SecurityClassification", N_("Security Classification"), N_("Security classification assigned to the image."), ifd0Id, tiffEp, asciiString, 0, printValue), // TIFF/EP tag
         TagInfo(0x9213, "ImageHistory", N_("Image History"), N_("Record of what has been done to the image."), ifd0Id, tiffEp, asciiString, 0, printValue), // TIFF/EP tag
         TagInfo(0x9214, "SubjectLocation", N_("Subject Location"), N_("Indicates the location and area of the main subject in the overall scene."), ifd0Id, tiffEp, unsignedShort, 2, printValue), // TIFF/EP tag
-        TagInfo(0x9215, "ExposureIndex", N_("Exposure Index"), N_("Encodes the camera exposure index setting when image was captured."), ifd0Id, tiffEp, unsignedRational, 1, printValue), // TIFF/EP tag
+        TagInfo(0x9215, "ExposureIndex", N_("Exposure Index"), N_("Encodes the camera exposure index setting when image was captured."), ifd0Id, tiffEp, unsignedRational, 0, printValue), // TIFF/EP tag
         TagInfo(0x9216, "TIFFEPStandardID", N_("TIFF/EP Standard ID"),
                 N_("Contains four ASCII characters representing the TIFF/EP standard "
                 "version of a TIFF/EP file, eg '1', '0', '0', '0'"),
                 ifd0Id, tiffEp, unsignedByte, 4, printValue), // TIFF/EP Tag
-        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"), N_("Type of image sensor."), ifd0Id, tiffEp, unsignedShort, 1, printValue), // TIFF/EP tag
+        TagInfo(0x9217, "SensingMethod", N_("Sensing Method"),
+                N_("Type of image sensor."),
+                ifd0Id, tiffEp, unsignedShort, 1, EXV_PRINT_TAG(tiffSensingMethod)), // TIFF/EP tag
         TagInfo(0x9c9b, "XPTitle", N_("Windows Title"),
                 N_("Title tag used by Windows, encoded in UCS2"),
                 ifd0Id, otherTags, unsignedByte, -1, printUcs2), // Windows Tag
@@ -883,7 +993,7 @@ namespace Exiv2 {
                 ifd0Id, dngTags, unsignedByte, -1, printValue), // DNG tag
         TagInfo(0xc617, "CFALayout", N_("CFA Layout"),
                 N_("Describes the spatial layout of the CFA."),
-                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifCfaLayout)), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngCfaLayout)), // DNG tag
         TagInfo(0xc618, "LinearizationTable", N_("Linearization Table"),
                 N_("Describes a lookup table that maps stored values into linear values. "
                    "This tag is typically used to increase compression ratios by storing "
@@ -919,7 +1029,7 @@ namespace Exiv2 {
                    "sample values. Saturation is caused either by the sensor itself "
                    "becoming highly non-linear in response, or by the camera's analog "
                    "to digital converter clipping."),
-                ifd0Id, dngTags, unsignedShort, -1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG tag
         TagInfo(0xc61e, "DefaultScale", N_("Default Scale"),
                 N_("DefaultScale is required for cameras with non-square pixels. It "
                    "specifies the default scale factors for each direction to convert "
@@ -935,14 +1045,14 @@ namespace Exiv2 {
                    "of the final image area, in raw image coordinates (i.e., before the "
                    "DefaultScale has been applied), relative to the top-left corner of "
                    "the ActiveArea rectangle."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG tag
         TagInfo(0xc620, "DefaultCropSize", N_("Default Crop Size"),
                 N_("Raw images often store extra pixels around the edges of the final "
                    "image. These extra pixels help prevent interpolation artifacts near "
                    "the edges of the final image. DefaultCropSize specifies the size of "
                    "the final image area, in raw image coordinates (i.e., before the "
                    "DefaultScale has been applied)."),
-                ifd0Id, dngTags, unsignedShort, 2, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG tag
         TagInfo(0xc621, "ColorMatrix1", N_("Color Matrix 1"),
                 N_("ColorMatrix1 defines a transformation matrix that converts XYZ "
                    "values to reference camera native color space values, under the "
@@ -1097,20 +1207,24 @@ namespace Exiv2 {
                    "with a preserved MakerNote should be aware that any thumbnail "
                    "image embedded in the MakerNote may be stale, and may not reflect "
                    "the current state of the full size image."),
-                ifd0Id, dngTags, unsignedShort, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngMakerNoteSafety)), // DNG tag
         TagInfo(0xc65a, "CalibrationIlluminant1", N_("Calibration Illuminant 1"),
                 N_("The illuminant used for the first set of color calibration tags "
                    "(ColorMatrix1, CameraCalibration1, ReductionMatrix1). The legal "
                    "values for this tag are the same as the legal values for the "
-                   "LightSource EXIF tag."),
-                ifd0Id, dngTags, unsignedShort, 1, printValue), // DNG tag
+                   "LightSource EXIF tag. If set to 255 (Other), then the IFD must "
+                   "also include a IlluminantData1 tag to specify the x-y chromaticity "
+                   "or spectral power distribution function for this illuminant."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG tag
         TagInfo(0xc65b, "CalibrationIlluminant2", N_("Calibration Illuminant 2"),
                 N_("The illuminant used for an optional second set of color calibration "
                    "tags (ColorMatrix2, CameraCalibration2, ReductionMatrix2). The legal "
                    "values for this tag are the same as the legal values for the "
                    "CalibrationIlluminant1 tag; however, if both are included, neither "
-                   "is allowed to have a value of 0 (unknown)."),
-                ifd0Id, dngTags, unsignedShort, 1, printValue), // DNG tag
+                   "is allowed to have a value of 0 (unknown). If set to 255 (Other), then "
+                   "the IFD must also include a IlluminantData2 tag to specify the x-y "
+                   "chromaticity or spectral power distribution function for this illuminant."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG tag
         TagInfo(0xc65c, "BestQualityScale", N_("Best Quality Scale"),
                 N_("For some cameras, the best possible image quality is not achieved "
                    "by preserving the total pixel count during conversion. For example, "
@@ -1146,7 +1260,7 @@ namespace Exiv2 {
         TagInfo(0xc68d, "ActiveArea", N_("Active Area"),
                 N_("This rectangle defines the active (non-masked) pixels of the sensor. "
                    "The order of the rectangle coordinates is: top, left, bottom, right."),
-                ifd0Id, dngTags, unsignedShort, 4, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 4, printValue), // DNG tag
         TagInfo(0xc68e, "MaskedAreas", N_("Masked Areas"),
                 N_("This tag contains a list of non-overlapping rectangle coordinates of "
                    "fully masked pixels, which can be optionally used by DNG readers "
@@ -1154,7 +1268,7 @@ namespace Exiv2 {
                    "coordinates is: top, left, bottom, right. If the raw image data has "
                    "already had its black encoding level subtracted, then this tag should "
                    "not be used, since the masked pixels are no longer useful."),
-                ifd0Id, dngTags, unsignedShort, -1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG tag
         TagInfo(0xc68f, "AsShotICCProfile", N_("As-Shot ICC Profile"),
                 N_("This tag contains an ICC profile that, in conjunction with the "
                    "AsShotPreProfileMatrix tag, provides the camera manufacturer with a "
@@ -1198,7 +1312,7 @@ namespace Exiv2 {
                 "are output-referred, using the ICC profile perceptual dynamic range. This "
                 "tag allows output-referred data to be stored in DNG files and still processed "
                 "correctly by DNG readers."),
-                ifd0Id, dngTags, unsignedShort, 0, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngColorimetricReference)), // DNG tag
         TagInfo(0xc6f3, "CameraCalibrationSignature", N_("Camera Calibration Signature"),
                 N_("A UTF-8 encoded string associated with the CameraCalibration1 and "
                 "CameraCalibration2 tags. The CameraCalibration1 and CameraCalibration2 tags "
@@ -1213,6 +1327,12 @@ namespace Exiv2 {
                 "tag exactly matches the string stored in the ProfileCalibrationSignature tag "
                 "for the selected camera profile."),
                 ifd0Id, dngTags, unsignedByte, 0, printValue), // DNG tag
+        TagInfo(0xc6f5, "ExtraCameraProfiles", N_("Extra Camera Profiles"),
+                N_("A list of file offsets to extra Camera Profile IFDs. Note that the primary "
+                "camera profile tags should be stored in IFD 0, and the ExtraCameraProfiles "
+                "tag should only be used if there is more than one camera profile stored in "
+                "the DNG file."),
+                ifd0Id, dngTags, unsignedLong, -1, printValue), // DNG 1.2 tag
         TagInfo(0xc6f6, "AsShotProfileName", N_("As Shot Profile Name"),
                 N_("A UTF-8 encoded string containing the name of the \"as shot\" camera "
                 "profile, if any."),
@@ -1234,9 +1354,9 @@ namespace Exiv2 {
         TagInfo(0xc6f9, "ProfileHueSatMapDims", N_("Profile Hue Sat Map Dims"),
                 N_("This tag specifies the number of input samples in each dimension of the "
                 "hue/saturation/value mapping tables. The data for these tables are stored "
-                "in ProfileHueSatMapData1 and ProfileHueSatMapData2 tags. The most common "
-                "case has ValueDivisions equal to 1, so only hue and saturation are used as "
-                "inputs to the mapping table."),
+                "in ProfileHueSatMapData1, ProfileHueSatMapData2 and ProfileHueSatMapData3 "
+                "tags. The most common case has ValueDivisions equal to 1, so only hue and "
+                "saturation are used as inputs to the mapping table."),
                 ifd0Id, dngTags, unsignedLong, 3, printValue), // DNG tag
         TagInfo(0xc6fa, "ProfileHueSatMapData1", N_("Profile Hue Sat Map Data 1"),
                 N_("This tag contains the data for the first hue/saturation/value mapping "
@@ -1270,7 +1390,7 @@ namespace Exiv2 {
         TagInfo(0xc6fd, "ProfileEmbedPolicy", N_("Profile Embed Policy"),
                 N_("This tag contains information about the usage rules for the associated "
                 "camera profile."),
-                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngProfileEmbedPolicy)), // DNG tag
         TagInfo(0xc6fe, "ProfileCopyright", N_("Profile Copyright"),
                 N_("A UTF-8 encoded string containing the copyright information for the "
                 "camera profile. This string always should be preserved along with the other "
@@ -1304,7 +1424,7 @@ namespace Exiv2 {
                 N_("This tag specifies the color space in which the rendered preview in this "
                 "IFD is stored. The default value for this tag is sRGB for color previews "
                 "and Gray Gamma 2.2 for monochrome previews."),
-                ifd0Id, dngTags, unsignedLong, 1, printValue), // DNG tag
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngPreviewColorSpace)), // DNG tag
         TagInfo(0xc71b, "PreviewDateTime", N_("Preview Date Time"),
                 N_("This tag is an ASCII string containing the name of the date/time at which "
                 "the preview stored in the IFD was rendered. The date/time is encoded using "
@@ -1415,6 +1535,168 @@ namespace Exiv2 {
                 "for how the camera is used or assigned in this clip. "
                 "This tag is similar to CameraLabel in XMP."),
                 ifd0Id, dngTags, asciiString, -1, printValue), // DNG tag
+        TagInfo(0xc791, "OriginalDefaultFinalSize", N_("Original Default Final Size"),
+                N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
+                "default final size of the larger original file from which this proxy was generated. "
+                "The default value for this tag is default final size of the current DNG file, which "
+                "is DefaultCropSize * DefaultScale."),
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG 1.4 tag
+        TagInfo(0xc792, "OriginalBestQualityFinalSize", N_("Original Best Quality Final Size"),
+                N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
+                "best quality final size of the larger original file from which this proxy was "
+                "generated. The default value for this tag is the OriginalDefaultFinalSize, if "
+                "specified. Otherwise the default value for this tag is the best quality size of "
+                "the current DNG file, which is DefaultCropSize * DefaultScale * BestQualityScale."),
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG 1.4 tag
+        TagInfo(0xc793, "OriginalDefaultCropSize", N_("Original Default Crop Size"),
+                N_("If this file is a proxy for a larger original DNG file, this tag specifics the "
+                "DefaultCropSize of the larger original file from which this proxy was generated. "
+                "The default value for this tag is OriginalDefaultFinalSize, if specified. Otherwise, "
+                "the default value for this tag is the DefaultCropSize of the current DNG file."),
+                ifd0Id, dngTags, unsignedLong, 2, printValue), // DNG 1.4 tag
+        TagInfo(0xc7a3, "ProfileHueSatMapEncoding", N_("Profile Hue Sat Map Encoding"),
+                N_("Provides a way for color profiles to specify how indexing into a 3D HueSatMap is "
+                "performed during raw conversion. This tag is not applicable to 2.5D HueSatMap tables "
+                "(i.e., where the Value dimension is 1)."),
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngProfileEncoding)), // DNG 1.4 tag
+        TagInfo(0xc7a4, "ProfileLookTableEncoding", N_("Profile Look Table Encoding"),
+                N_("Provides a way for color profiles to specify how indexing into a 3D LookTable is "
+                "performed during raw conversion. This tag is not applicable to a 2.5D LookTable "
+                "(i.e., where the Value dimension is 1)."),
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngProfileEncoding)), // DNG 1.4 tag
+        TagInfo(0xc7a5, "BaselineExposureOffset", N_("Baseline Exposure Offset"),
+                N_("Provides a way for color profiles to increase or decrease exposure during raw conversion. "
+                   "BaselineExposureOffset specifies the amount (in EV units) to add to the BaselineExposure tag "
+                   "during image rendering. For example, if the BaselineExposure value for a given camera model "
+                   "is +0.3, and the BaselineExposureOffset value for a given camera profile used to render an "
+                   "image for that camera model is -0.7, then the actual default exposure value used during "
+                   "rendering will be +0.3 - 0.7 = -0.4."),
+                ifd0Id, dngTags, signedRational, 1, printFloat), // DNG 1.4 tag
+        TagInfo(0xc7a6, "DefaultBlackRender", N_("Default Black Render"),
+                N_("This optional tag in a color profile provides a hint to the raw converter "
+                "regarding how to handle the black point (e.g., flare subtraction) during rendering. "
+                "If set to Auto, the raw converter should perform black subtraction during "
+                "rendering. If set to None, the raw converter should not perform any black "
+                "subtraction during rendering."),
+                ifd0Id, dngTags, unsignedLong, 1, EXV_PRINT_TAG(dngDefaultBlackRender)), // DNG 1.4 tag
+        TagInfo(0xc7a7, "NewRawImageDigest", N_("New Raw Image Digest"),
+                N_("This tag is a modified MD5 digest of the raw image data. It has been updated "
+                "from the algorithm used to compute the RawImageDigest tag be more multi-processor "
+                "friendly, and to support lossy compression algorithms."),
+                ifd0Id, dngTags, unsignedByte, 16, printValue), // DNG 1.4 tag
+        TagInfo(0xc7a8, "RawToPreviewGain", N_("Raw To Preview Gain"),
+                N_("The gain (what number the sample values are multiplied by) between the main "
+                "raw IFD and the preview IFD containing this tag."),
+                ifd0Id, dngTags, tiffDouble, 1, printValue), // DNG 1.4 tag
+        TagInfo(0xc7b5, "DefaultUserCrop", N_("Default User Crop"),
+                N_("Specifies a default user crop rectangle in relative coordinates. "
+                   "The values must satisfy: 0.0 <= top < bottom <= 1.0, 0.0 <= left < right <= 1.0."
+                   "The default values of (top = 0, left = 0, bottom = 1, right = 1) correspond exactly to the default "
+                   "crop rectangle (as specified by the DefaultCropOrigin and DefaultCropSize tags)."),
+                ifd0Id, dngTags, unsignedRational, 4, printFloat), // DNG 1.4 tag
+        TagInfo(0xc7e9, "DepthFormat", N_("Depth Format"),
+                N_("Specifies the encoding of any depth data in the file. Can be unknown (apart "
+                "from nearer distances being closer to zero, and farther distances being closer to "
+                "the maximum value), linear (values vary linearly from zero representing DepthNear "
+                "to the maximum value representing DepthFar), or inverse (values are stored inverse "
+                "linearly, with zero representing DepthNear and the maximum value representing "
+                "DepthFar)."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngDepthFormat)), // DNG 1.5 tag
+        TagInfo(0xc7ea, "DepthNear", N_("Depth Near"),
+                N_("Specifies distance from the camera represented by the zero value in the depth map. "
+                "0/0 means unknown."),
+                ifd0Id, dngTags, unsignedRational, 1, printValue), // DNG 1.5 tag
+        TagInfo(0xc7eb, "DepthFar", N_("Depth Far"),
+                N_("Specifies distance from the camera represented by the maximum value in the depth "
+                "map. 0/0 means unknown. 1/0 means infinity, which is valid for unknown and inverse "
+                "depth formats."),
+                ifd0Id, dngTags, unsignedRational, 1, printValue), // DNG 1.5 tag
+        TagInfo(0xc7ec, "DepthUnits", N_("Depth Units"),
+                N_("Specifies the measurement units for the DepthNear and DepthFar tags."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngDepthUnits)), // DNG 1.5 tag
+        TagInfo(0xc7ed, "DepthMeasureType", N_("Depth Measure Type"),
+                N_("Specifies the measurement geometry for the depth map. Can be unknown, measured "
+                "along the optical axis, or measured along the optical ray passing through each "
+                "pixel."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(dngDepthMeasureType)), // DNG 1.5 tag
+        TagInfo(0xc7ee, "EnhanceParams", N_("Enhance Params"),
+                N_("A string that documents how the enhanced image data was processed."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.5 tag
+        TagInfo(0xcd2d, "ProfileGainTableMap", N_("Profile Gain Table Map"),
+                N_("Contains spatially varying gain tables that can be applied while processing the "
+                "image as a starting point for user adjustments."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd2e, "SemanticName", N_("Semantic Name"),
+                N_("A string that identifies the semantic mask."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.6 tag
+        TagInfo(0xcd30, "SemanticInstanceID", N_("Semantic Instance ID"),
+                N_("A string that identifies a specific instance in a semantic mask."),
+                ifd0Id, dngTags, asciiString, 0, printValue), // DNG 1.6 tag
+        TagInfo(0xcd31, "CalibrationIlluminant3", N_("Calibration Illuminant 3"),
+                N_("The illuminant used for an optional thrid set of color calibration "
+                "tags (ColorMatrix3, CameraCalibration3, ReductionMatrix3). The legal "
+                "values for this tag are the same as the legal values for the "
+                "LightSource EXIF tag; CalibrationIlluminant1 and CalibrationIlluminant2 "
+                "must also be present. If set to 255 (Other), then the IFD must also "
+                "include a IlluminantData3 tag to specify the x-y chromaticity or "
+                "spectral power distribution function for this illuminant."),
+                ifd0Id, dngTags, unsignedShort, 1, EXV_PRINT_TAG(exifLightSource)), // DNG 1.6 tag
+        TagInfo(0xcd32, "CameraCalibration3", N_("Camera Calibration 3"),
+                N_("CameraCalibration3 defines a calibration matrix that transforms "
+                "reference camera native space values to individual camera native "
+                "space values under the third calibration illuminant. The matrix is "
+                "stored in row scan order. This matrix is stored separately from the "
+                "matrix specified by the ColorMatrix3 tag to allow raw converters to "
+                "swap in replacement color matrices based on UniqueCameraModel tag, "
+                "while still taking advantage of any per-individual camera calibration "
+                "performed by the camera manufacturer."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd33, "ColorMatrix3", N_("Color Matrix 3"),
+                N_("ColorMatrix3 defines a transformation matrix that converts XYZ "
+                "values to reference camera native color space values, under the "
+                "third calibration illuminant. The matrix values are stored in row "
+                "scan order."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd34, "ForwardMatrix3", N_("Forward Matrix 3"),
+                N_("This tag defines a matrix that maps white balanced camera colors to XYZ "
+                "D50 colors."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd35, "IlluminantData1", N_("Illuminant Data 1"),
+                N_("When the CalibrationIlluminant1 tag is set to 255 (Other), "
+                "then the IlluminantData1 tag is required and specifies the data "
+                "for the first illuminant. Otherwise, this tag is ignored. The "
+                "illuminant data may be specified as either a x-y chromaticity "
+                "coordinate or as a spectral power distribution function."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd36, "IlluminantData2", N_("Illuminant Data 2"),
+                N_("When the CalibrationIlluminant2 tag is set to 255 (Other), "
+                "then the IlluminantData2 tag is required and specifies the data "
+                "for the second illuminant. Otherwise, this tag is ignored. The "
+                "format of the data is the same as IlluminantData1."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd37, "IlluminantData3", N_("Illuminant Data 3"),
+                N_("When the CalibrationIlluminant3 tag is set to 255 (Other), "
+                "then the IlluminantData3 tag is required and specifies the data "
+                "for the third illuminant. Otherwise, this tag is ignored. The "
+                "format of the data is the same as IlluminantData1."),
+                ifd0Id, dngTags, undefined, -1, printValue), // DNG 1.6 tag
+        TagInfo(0xcd39, "ProfileHueSatMapData3", N_("Profile Hue Sat Map Data 3"),
+                N_("This tag contains the data for the third hue/saturation/value mapping "
+                "table. Each entry of the table contains three 32-bit IEEE floating-point "
+                "values. The first entry is hue shift in degrees; the second entry is "
+                "saturation scale factor; and the third entry is a value scale factor. The "
+                "table entries are stored in the tag in nested loop order, with the value "
+                "divisions in the outer loop, the hue divisions in the middle loop, and the "
+                "saturation divisions in the inner loop. All zero input saturation entries "
+                "are required to have a value scale factor of 1.0."),
+                ifd0Id, dngTags, tiffFloat, 0, printValue), // DNG 1.6 tag
+        TagInfo(0xcd3a, "ReductionMatrix3", N_("Reduction Matrix 3"),
+                N_("ReductionMatrix3 defines a dimensionality reduction matrix for use as "
+                "the first stage in converting color camera native space values to XYZ "
+                "values, under the third calibration illuminant. This tag may only be "
+                "used if ColorPlanes is greater than 3. The matrix is stored in row "
+                "scan order."),
+                ifd0Id, dngTags, signedRational, -1, printValue), // DNG 1.6 tag
 
         ////////////////////////////////////////
         // End of list marker
@@ -1427,6 +1709,14 @@ namespace Exiv2 {
     {
         return ifdTagInfo;
     }
+
+    //! CompositeImage, tag 0xa460
+    extern const TagDetails exifCompositeImage[] = {
+        { 0, N_("Unknown") },
+        { 1, N_("NonComposite")   },
+        { 2, N_("GeneralComposite")   },
+        { 3, N_("CompositeCapturedWhenShooting")   }
+    };
 
     // Exif IFD Tags
     static const TagInfo exifTagInfo[] = {
@@ -1497,6 +1787,15 @@ namespace Exiv2 {
         TagInfo(0x9004, "DateTimeDigitized", N_("Date and Time (digitized)"),
                 N_("The date and time when the image was stored as digital data."),
                 exifId, dateTime, asciiString, 20, printValue),
+        TagInfo(0x9010, "OffsetTime", N_("Offset Time"),
+                N_("Time difference from Universal Time Coordinated including daylight saving time of DateTime tag."),
+                exifId, dateTime, asciiString, 7, printValue), // Exif 2.31
+        TagInfo(0x9011, "OffsetTimeOriginal", N_("Offset Time Original"),
+                N_("Time difference from Universal Time Coordinated including daylight saving time of DateTimeOriginal tag."),
+                exifId, dateTime, asciiString, 7, printValue), // Exif 2.31
+        TagInfo(0x9012, "OffsetTimeDigitized", N_("Offset Time Digitized"),
+                N_("Time difference from Universal Time Coordinated including daylight saving time of DateTimeDigitized tag."),
+                exifId, dateTime, asciiString, 7, printValue), // Exif 2.31
         TagInfo(0x9101, "ComponentsConfiguration", N_("Components Configuration"),
                 N_("Information specific to compressed data. The channels of "
                 "each component are arranged in order from the 1st "
@@ -1559,7 +1858,7 @@ namespace Exiv2 {
                 N_("A tag for Exif users to write keywords or comments on the image "
                 "besides those in <ImageDescription>, and without the "
                 "character code limitations of the <ImageDescription> tag."),
-                exifId, userInfo, comment, 0, print0x9286),
+                exifId, userInfo, comment, 0, printValue),
         TagInfo(0x9290, "SubSecTime", N_("Sub-seconds Time"),
                 N_("A tag used to record fractions of seconds for the <DateTime> tag."),
                 exifId, dateTime, asciiString, 0, printValue),
@@ -1569,6 +1868,33 @@ namespace Exiv2 {
         TagInfo(0x9292, "SubSecTimeDigitized", N_("Sub-seconds Time Digitized"),
                 N_("A tag used to record fractions of seconds for the <DateTimeDigitized> tag."),
                 exifId, dateTime, asciiString, 0, printValue),
+        TagInfo(0x9400, "Temperature", N_("Temperature"),
+                N_("Temperature as the ambient situation at the shot, for example the room "
+                "temperature where the photographer was holding the camera. The unit is "
+                "degrees C."),
+                exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9401, "Humidity", N_("Humidity"),
+                N_("Humidity as the ambient situation at the shot, for example the room humidity "
+                "where the photographer was holding the camera. The unit is %."),
+                exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9402, "Pressure", N_("Pressure"),
+                N_("Pressure as the ambient situation at the shot, for example the room atmosphere "
+                "where the photographer was holding the camera or the water pressure under the sea. "
+                "The unit is hPa."),
+                exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9403, "WaterDepth", N_("WaterDepth"),
+                N_("Water depth as the ambient situation at the shot, for example the water depth "
+                "of the camera at underwater photography. The unit is m."),
+                exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9404, "Acceleration", N_("Acceleration"),
+                N_("Acceleration (a scalar regardless of direction) as the ambient situation at the "
+                "shot, for example the driving acceleration of the vehicle which the photographer "
+                "rode on at the shot. The unit is mGal (10e-5 m/s^2)."),
+                exifId, captureCond, unsignedRational, 1, printValue), // Exif 2.31
+        TagInfo(0x9405, "CameraElevationAngle", N_("Camera elevation angle"),
+                N_("Elevation/depression. angle of the orientation of the camera(imaging optical "
+                "axis) as the ambient situation at the shot. The unit is degrees."),
+                exifId, captureCond, signedRational, 1, printValue), // Exif 2.31
         TagInfo(0xa000, "FlashpixVersion", N_("FlashPix Version"),
                 N_("The FlashPix format version supported by a FPXR file."),
                 exifId, exifVersion, undefined, 4, printExifVersion),
@@ -1746,6 +2072,20 @@ namespace Exiv2 {
                 N_("This tag records the serial number of the interchangeable lens "
                 "that was used in photography as an ASCII string."),
                 exifId, otherTags, asciiString, 0, printValue),
+        TagInfo(0xa460, "CompositeImage", N_("Composite Image"),
+                N_("Indicates whether the recorded image is a composite image or not."),
+                exifId, captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifCompositeImage)), // Exif 2.32
+        TagInfo(0xa461, "SourceImageNumberOfCompositeImage", N_("Source Image Number Of Composite Image"),
+                N_("Indicates the number of the source images (tentatively recorded images) captured for a composite Image."),
+                exifId, captureCond, unsignedShort, 2, printValue), // Exif 2.32
+        TagInfo(0xa462, "SourceExposureTimesOfCompositeImage", N_("Source Exposure Times Of Composite Image"),
+                N_("For a composite image, records the parameters relating exposure time of the exposures for generating the said composite image, such as respective exposure times of captured source images (tentatively recorded images)."),
+                exifId, captureCond, undefined, 0, printValue), // Exif 2.32
+        TagInfo(0xa500, "Gamma", N_("Gamma"),
+                N_("Indicates the value of coefficient gamma. The formula of transfer function used for image reproduction "
+                "is expressed as follows: (reproduced value) = (input value)^gamma. Both reproduced value and input value "
+                "indicate normalized value, whose minimum value is 0 and maximum value is 1."),
+                exifId, imgCharacter, unsignedRational, 1, printFloat),
         // End of list marker
         TagInfo(0xffff, "(UnknownExifTag)", N_("Unknown Exif tag"),
                 N_("Unknown Exif tag"),
@@ -1767,6 +2107,50 @@ namespace Exiv2 {
     extern const TagDetails exifGPSLongitudeRef[] = {
         { 69, N_("East") },
         { 87, N_("West") }
+    };
+
+    //! GPS altitude reference, tag 0x0005
+    extern const TagDetails exifGPSAltitudeRef[] = {
+        { 0, N_("Above sea level") },
+        { 1, N_("Below sea level") }
+    };
+
+    //! GPS status, tag 0x0009
+    extern const TagDetails exifGPSStatus[] = {
+        { 'A', N_("Measurement in progress") },
+        { 'V', N_("Measurement interrupted") }
+    };
+
+    //! GPS measurement mode, tag 0x000a
+    extern const TagDetails exifGPSMeasureMode[] = {
+        { '2', N_("2-dimensional measurement") },
+        { '3', N_("3-dimensional measurement") }
+    };
+
+    //! GPS speed reference, tag 0x000c
+    extern const TagDetails exifGPSSpeedRef[] = {
+        { 'K', N_("km/h")  },
+        { 'M', N_("mph")   },
+        { 'N', N_("knots") }
+    };
+
+    //! GPS direction reference, tags 0x000e, 0x0010, 0x0017
+    extern const TagDetails exifGPSDirRef[] = {
+        { 'T', N_("True direction")     },
+        { 'M', N_("Magnetic direction") }
+    };
+
+    //! GPS destination distance reference, tag 0x0019
+    extern const TagDetails exifGPSDestDistanceRef[] = {
+        { 'K', N_("km")             },
+        { 'M', N_("miles")          },
+        { 'N', N_("nautical miles") }
+    };
+
+    //! GPS differential correction, tag 0x001e
+    extern const TagDetails exifGPSDifferential[] = {
+        { 0, N_("Without correction") },
+        { 1, N_("Correction applied") }
     };
 
     // GPS Info Tags
@@ -1838,14 +2222,14 @@ namespace Exiv2 {
         TagInfo(0x000b, "GPSDOP", N_("GPS Data Degree of Precision"),
                 N_("Indicates the GPS DOP (data degree of precision). An HDOP value is written "
                 "during two-dimensional measurement, and PDOP during three-dimensional measurement."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x000c, "GPSSpeedRef", N_("GPS Speed Reference"),
                 N_("Indicates the unit used to express the GPS receiver speed of movement. "
                 "\"K\" \"M\" and \"N\" represents kilometers per hour, miles per hour, and knots."),
                 gpsId, gpsTags, asciiString, 2, print0x000c),
         TagInfo(0x000d, "GPSSpeed", N_("GPS Speed"),
                 N_("Indicates the speed of GPS receiver movement."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x000e, "GPSTrackRef", N_("GPS Track Ref"),
                 N_("Indicates the reference for giving the direction of GPS receiver movement. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
@@ -1853,7 +2237,7 @@ namespace Exiv2 {
         TagInfo(0x000f, "GPSTrack", N_("GPS Track"),
                 N_("Indicates the direction of GPS receiver movement. The range of values is "
                 "from 0.00 to 359.99."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0010, "GPSImgDirectionRef", N_("GPS Image Direction Reference"),
                 N_("Indicates the reference for giving the direction of the image when it is captured. "
                 "\"T\" denotes true direction and \"M\" is magnetic direction."),
@@ -1861,7 +2245,7 @@ namespace Exiv2 {
         TagInfo(0x0011, "GPSImgDirection", N_("GPS Image Direction"),
                 N_("Indicates the direction of the image when it was captured. The range of values "
                 "is from 0.00 to 359.99."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0012, "GPSMapDatum", N_("GPS Map Datum"),
                 N_("Indicates the geodetic survey data used by the GPS receiver. If the survey data "
                 "is restricted to Japan, the value of this tag is \"TOKYO\" or \"WGS-84\"."),
@@ -1896,23 +2280,22 @@ namespace Exiv2 {
         TagInfo(0x0018, "GPSDestBearing", N_("GPS Destination Bearing"),
                 N_("Indicates the bearing to the destination point. The range of values is from "
                 "0.00 to 359.99."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x0019, "GPSDestDistanceRef", N_("GPS Destination Distance Reference"),
                 N_("Indicates the unit used to express the distance to the destination point. "
-                "\"K\", \"M\" and \"N\" represent kilometers, miles and knots."),
+                "\"K\", \"M\" and \"N\" represent kilometers, miles and nautical miles."),
                 gpsId, gpsTags, asciiString, 2, print0x0019),
         TagInfo(0x001a, "GPSDestDistance", N_("GPS Destination Distance"),
                 N_("Indicates the distance to the destination point."),
-                gpsId, gpsTags, unsignedRational, 1, printValue),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         TagInfo(0x001b, "GPSProcessingMethod", N_("GPS Processing Method"),
                 N_("A character string recording the name of the method used for location finding. "
-                "The first byte indicates the character code used, and this is followed by the name "
-                "of the method."),
-                gpsId, gpsTags, undefined, 0, printValue),
+                "The string encoding is defined using the same scheme as UserComment."),
+                gpsId, gpsTags, comment, 0, printValue),
         TagInfo(0x001c, "GPSAreaInformation", N_("GPS Area Information"),
-                N_("A character string recording the name of the GPS area. The first byte indicates "
-                "the character code used, and this is followed by the name of the GPS area."),
-                gpsId, gpsTags, undefined, 0, printValue),
+                N_("A character string recording the name of the GPS area."
+                "The string encoding is defined using the same scheme as UserComment."),
+                gpsId, gpsTags, comment, 0, printValue),
         TagInfo(0x001d, "GPSDateStamp", N_("GPS Date Stamp"),
                 N_("A character string recording date and time information relative to UTC "
                 "(Coordinated Universal Time). The format is \"YYYY:MM:DD.\"."),
@@ -1920,6 +2303,9 @@ namespace Exiv2 {
         TagInfo(0x001e, "GPSDifferential", N_("GPS Differential"),
                 N_("Indicates whether differential correction is applied to the GPS receiver."),
                 gpsId, gpsTags, unsignedShort, 1, print0x001e),
+        TagInfo(0x001f, "GPSHPositioningError", N_("GPS Horizontal positioning error"),
+                N_("This tag indicates horizontal positioning errors in meters."),
+                gpsId, gpsTags, unsignedRational, 1, printFloat),
         // End of list marker
         TagInfo(0xffff, "(UnknownGpsTag)", N_("Unknown GPSInfo tag"),
                 N_("Unknown GPSInfo tag"),
@@ -1942,7 +2328,7 @@ namespace Exiv2 {
         TagInfo(0xb002, "MPFImageList", N_("MPFImageList"),
                 N_("MPF Image List"),
                 mpfId, mpfTags, asciiString, 0, printValue),
-        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList	"),
+        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList  "),
                 N_("MPF Image UID List"),
                 mpfId, mpfTags, unsignedLong, 1, printValue),
         TagInfo(0xb004, "MPFTotalFrames", N_("MPFTotalFrames"),
@@ -2162,6 +2548,32 @@ namespace Exiv2 {
         return os << value;
     }
 
+    std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.typeId() == Exiv2::unsignedShort || value.typeId() == Exiv2::signedShort)
+        {
+            uint16_t bit   = 0;
+            uint16_t comma = 0;
+            for (uint16_t i = 0; i < value.count(); i++ ) { // for each element in value array
+                uint16_t bits = static_cast<uint16_t>(value.toLong(i));
+                for (uint16_t b = 0; b < 16; ++b) { // for every bit
+                    if (bits & (1 << b)) {
+                        if ( comma++ ) {
+                            os << ",";
+                        }
+                        os << bit;
+                    }
+                    bit++ ;
+                }
+            }
+            // if no bits are set, print "(none)"
+            if ( !comma ) os << N_("(none)");
+        } else {
+            printValue(os,value,metadata);
+        }
+        return os;
+    }
+
     float fnumber(float apertureValue)
     {
         return std::exp(std::log(2.0f) * apertureValue / 2.f);
@@ -2201,41 +2613,45 @@ namespace Exiv2 {
     std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
-        if (r.second != 0) return os << static_cast<float>(r.first) / r.second;
-        return os << "(" << value << ")";
+        if (r.second != 0) {
+            os << value.toFloat() ;
+        } else {
+            os << "(" << value << ")";
+        }
+        return os;
     } // printFloat
 
     std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
         if (value.count() == 3) {
+            Rational deg = value.toRational(0);
+            Rational min = value.toRational(1);
+            Rational sec = value.toRational(2);
+            if ((deg.second != 1) || (min.second == 0) || (sec.second == 0)) {
+                return os << "(" << value << ")";
+            }
+            const int32_t dd = deg.first;
+            const int32_t mm = min.first / min.second;
+            const int32_t rem = min.first % min.second;
+            if ((min.second > 1) && (rem > 0)) {
+                if ((sec.first == 0) && (sec.second == 1)) {
+                    sec.first = 60 * rem;
+                    sec.second = min.second;
+                } else {
+                    return os << "(" << value << ")";
+                }
+            }
+            const float ss = (float)sec.first / sec.second;
+            os << dd << " deg ";
+            os << mm << "' ";
             std::ostringstream oss;
             oss.copyfmt(os);
-            static const char* unit[] = { "deg", "'", "\"" };
-            static const int prec[] = { 7, 5, 3 };
-            int n;
-            for (n = 2; n > 0; --n) {
-                if (value.toRational(n).first != 0) break;
-            }
-            for (int i = 0; i < n + 1; ++i) {
-                const uint32_t z = (uint32_t) value.toRational(i).first;
-                const uint32_t d = (uint32_t) value.toRational(i).second;
-                if (d == 0)
-                {
-                    os << "(" << value << ")";
-                    os.flags(f);
-                    return os;
-                }
-                // Hack: Need Value::toDouble
-                double b = static_cast<double>(z)/d;
-                const int p = z % d == 0 ? 0 : prec[i];
-                os << std::fixed << std::setprecision(p) << b
-                   << unit[i] << " ";
-            }
+            os << std::fixed << std::setprecision(sec.second > 1 ? 2 : 0) << ss << "\"";
             os.copyfmt(oss);
         }
         else {
-            os << value;
+            os << "(" << value << ")";
         }
         os.flags(f);
         return os;
@@ -2577,31 +2993,6 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(exifMeteringMode)(os, value, metadata);
     }
 
-    //! LightSource, tag 0x9208
-    extern const TagDetails exifLightSource[] = {
-        {   0, N_("Unknown")                                 },
-        {   1, N_("Daylight")                                },
-        {   2, N_("Fluorescent")                             },
-        {   3, N_("Tungsten (incandescent light)")           },
-        {   4, N_("Flash")                                   },
-        {   9, N_("Fine weather")                            },
-        {  10, N_("Cloudy weather")                          },
-        {  11, N_("Shade")                                   },
-        {  12, N_("Daylight fluorescent (D 5700 - 7100K)")   },
-        {  13, N_("Day white fluorescent (N 4600 - 5400K)")  },
-        {  14, N_("Cool white fluorescent (W 3900 - 4500K)") },
-        {  15, N_("White fluorescent (WW 3200 - 3700K)")     },
-        {  17, N_("Standard light A")                        },
-        {  18, N_("Standard light B")                        },
-        {  19, N_("Standard light C")                        },
-        {  20, N_("D55")                                     },
-        {  21, N_("D65")                                     },
-        {  22, N_("D75")                                     },
-        {  23, N_("D50")                                     },
-        {  24, N_("ISO studio tungsten")                     },
-        { 255, N_("Other light source")                      }
-    };
-
     std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(exifLightSource)(os, value, metadata);
@@ -2623,18 +3014,6 @@ namespace Exiv2 {
             os << "(" << value << ")";
         }
         os.flags(f);
-        return os;
-    }
-
-    std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*)
-    {
-        const CommentValue* pcv = dynamic_cast<const CommentValue*>(&value);
-        if (pcv) {
-            os << pcv->comment();
-        }
-        else {
-            os << value;
-        }
         return os;
     }
 
@@ -2805,12 +3184,6 @@ namespace Exiv2 {
     {
         return EXV_PRINT_TAG(exifSubjectDistanceRange)(os, value, metadata);
     }
-
-    //! GPS direction ref, tags 0x000e, 0x0010, 0x0017
-    extern const TagDetails exifGPSDirRef[] = {
-        { 'T', N_("True direction")     },
-        { 'M', N_("Magnetic direction") }
-    };
 
     std::ostream& printGPSDirRef(std::ostream& os, const Value& value, const ExifData* metadata)
     {

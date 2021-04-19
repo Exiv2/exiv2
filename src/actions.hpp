@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -65,11 +65,11 @@ namespace Action {
     class Task {
     public:
         //! Shortcut for an auto pointer.
-        typedef std::auto_ptr<Task> AutoPtr;
+        typedef std::unique_ptr<Task> UniquePtr;
         //! Virtual destructor.
         virtual ~Task();
         //! Virtual copy construction.
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         /*!
           @brief Application interface to perform a task.
 
@@ -77,10 +77,22 @@ namespace Action {
           @return 0 if successful.
          */
         virtual int run(const std::string& path) =0;
+        
+        /*!
+          @brief Application interface to perform a task.
+
+          @param path Path of the file to process.
+          @return 0 if successful.
+         */
+        bool setBinary(bool b) { bool bResult = binary_ ; binary_ = b ; return bResult ;}
+        bool binary() { return binary_ ; }
 
     private:
         //! Internal virtual copy constructor.
         virtual Task* clone_() const =0;
+        
+        //! copy binary_ from command-line params to task
+        bool binary_ {false} ;
 
     }; // class Task
 
@@ -113,7 +125,7 @@ namespace Action {
                   returned auto pointer and take appropriate action (e.g., throw
                   an exception) if it is 0.
          */
-        Task::AutoPtr create(TaskType type);
+        Task::UniquePtr create(TaskType type);
 
         /*!
           @brief Register a task prototype together with its type.
@@ -127,7 +139,7 @@ namespace Action {
           @param task Pointer to the prototype. Ownership is transferred to the
                  task factory. That's what the auto pointer indicates.
         */
-        void registerTask(TaskType type, Task::AutoPtr task);
+        void registerTask(TaskType type, Task::UniquePtr task);
 
     private:
         //! Prevent construction other than through instance().
@@ -149,8 +161,8 @@ namespace Action {
     public:
         virtual ~Print();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Print> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Print> UniquePtr;
+        UniquePtr clone() const;
 
         //! Print the Jpeg comment
         int printComment();
@@ -187,13 +199,14 @@ namespace Action {
          */
         int printTag(const Exiv2::ExifData& exifData,
                      EasyAccessFct easyAccessFct,
-                     const std::string& label) const;
+                     const std::string& label ="",
+                     EasyAccessFct easyAccessFctFallback =NULL) const;
 
     private:
         virtual Print* clone_() const;
 
         std::string path_;
-        int align_;                // for the alignment of the summary output
+        int align_{0};                // for the alignment of the summary output
     }; // class Print
 
     /*!
@@ -204,8 +217,8 @@ namespace Action {
     public:
         virtual ~Rename();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Rename> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Rename> UniquePtr;
+        UniquePtr clone() const;
 
     private:
         virtual Rename* clone_() const;
@@ -216,8 +229,8 @@ namespace Action {
     public:
         virtual ~Adjust();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Adjust> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Adjust> UniquePtr;
+        UniquePtr clone() const;
 
     private:
         virtual Adjust* clone_() const;
@@ -225,10 +238,10 @@ namespace Action {
                            const std::string& key,
                            const std::string& path) const;
 
-        long adjustment_;
-        long yearAdjustment_;
-        long monthAdjustment_;
-        long dayAdjustment_;
+        long adjustment_ {0};
+        long yearAdjustment_ {0};
+        long monthAdjustment_ {0};
+        long dayAdjustment_ {0};
 
     }; // class Adjust
 
@@ -239,8 +252,8 @@ namespace Action {
     public:
         virtual ~Erase();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Erase> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Erase> UniquePtr;
+        UniquePtr clone() const;
 
         /*!
           @brief Delete the thumbnail image, incl IFD1 metadata from the file.
@@ -281,8 +294,8 @@ namespace Action {
     public:
         virtual ~Extract();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Extract> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Extract> UniquePtr;
+        UniquePtr clone() const;
 
         /*!
           @brief Write the thumbnail image to a file. The filename is composed by
@@ -320,8 +333,8 @@ namespace Action {
     public:
         virtual ~Insert();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Insert> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Insert> UniquePtr;
+        UniquePtr clone() const;
 
         /*!
           @brief Insert a Jpeg thumbnail image from a file into file \em path.
@@ -361,15 +374,15 @@ namespace Action {
     public:
         virtual ~Modify();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<Modify> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<Modify> UniquePtr;
+        UniquePtr clone() const;
         Modify() {}
         //! Apply modification commands to the \em pImage, return 0 if successful.
         static int applyCommands(Exiv2::Image* pImage);
 
     private:
         virtual Modify* clone_() const;
-        //! Copy constructor needed because of AutoPtr member
+        //! Copy constructor needed because of UniquePtr member
         Modify(const Modify& /*src*/) : Task() {}
 
         //! Add a metadatum to \em pImage according to \em modifyCmd
@@ -394,8 +407,8 @@ namespace Action {
     public:
         virtual ~FixIso();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<FixIso> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<FixIso> UniquePtr;
+        UniquePtr clone() const;
 
     private:
         virtual FixIso* clone_() const;
@@ -412,8 +425,8 @@ namespace Action {
     public:
         virtual ~FixCom();
         virtual int run(const std::string& path);
-        typedef std::auto_ptr<FixCom> AutoPtr;
-        AutoPtr clone() const;
+        typedef std::unique_ptr<FixCom> UniquePtr;
+        UniquePtr clone() const;
 
     private:
         virtual FixCom* clone_() const;

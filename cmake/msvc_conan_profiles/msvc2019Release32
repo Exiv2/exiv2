@@ -1,0 +1,12 @@
+[build_requires]
+[settings]
+arch=x86
+build_type=Release
+compiler=Visual Studio
+compiler.runtime=MD
+compiler.version=16
+os=Windows
+arch_build=x86
+os_build=Windows
+[options]
+[env]

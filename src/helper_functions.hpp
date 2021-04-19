@@ -1,6 +1,6 @@
-// ********************************************************* -*- C++ -*-
+// ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    helper_functions.hpp
-  @brief   A collection of helper functions
-  @author  Dan Čermák (D4N)
-           <a href="mailto:dan.cermak@cgc-instruments.com">dan.cermak@cgc-instruments.com</a>
-  @date    25-May-18, D4N: created
  */
 #ifndef HELPER_FUNCTIONS_HPP
 #define HELPER_FUNCTIONS_HPP

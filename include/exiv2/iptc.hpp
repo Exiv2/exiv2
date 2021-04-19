@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -20,9 +20,6 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of IPTC data
-  @author  Brad Schick (brad)
-           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
-  @date    31-Jul-04, brad: created
  */
 #ifndef IPTC_HPP_
 #define IPTC_HPP_
@@ -145,14 +142,14 @@ namespace Exiv2 {
         long toLong(long n =0) const;
         float toFloat(long n =0) const;
         Rational toRational(long n =0) const;
-        Value::AutoPtr getValue() const;
+        Value::UniquePtr getValue() const;
         const Value& value() const;
         //@}
 
     private:
         // DATA
-        IptcKey::AutoPtr key_;                  //!< Key
-        Value::AutoPtr   value_;                //!< Value
+        IptcKey::UniquePtr key_;                  //!< Key
+        Value::UniquePtr   value_;                //!< Value
 
     }; // class Iptcdatum
 

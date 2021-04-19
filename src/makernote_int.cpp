@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -1171,6 +1171,8 @@ namespace Exiv2 {
         { 0x0098, "0202",    0, 1,   4 },
         { 0x0098, "0203",    0, 1,   4 },
         { 0x0098, "0204",    0, 2,   4 },
+        { 0x0098, "0800",    0, 3,   4 }, // for e.g. Z6/7
+        { 0x0098, "0801",    0, 3,   4 }, // for e.g. Z6/7
         // NikonFl
         { 0x00a8, "0100",    0, 0,  NA },
         { 0x00a8, "0101",    0, 0,  NA },
@@ -1183,6 +1185,15 @@ namespace Exiv2 {
         if (size < 4) return -1;
         const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
         return aix == 0 ? -1 : aix->idx_;
+    }
+
+    int nikonAf2Selector(uint16_t tag, const byte* /*pData*/, uint32_t size, TiffComponent* const /*pRoot*/)
+    {
+        int result = tag == 0x00b7 ? 0 : -1 ;
+        if (result > -1 && size == 84 ) {
+            result = 1;
+        }
+        return result;
     }
 
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)
@@ -1231,6 +1242,21 @@ namespace Exiv2 {
         if (   model.find("DSLR-A330") != std::string::npos
             || model.find("DSLR-A380") != std::string::npos) {
             idx = 1;
+        }
+        return idx;
+    }
+    int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        const char* models[] = { "SLT-A58", "SLT-A99", "ILCE-3000", "ILCE-3500", "NEX-3N", "NEX-5R", "NEX-5T", "NEX-6", "VG30E", "VG900",
+            "DSC-RX100", "DSC-RX1", "DSC-RX1R", "DSC-HX300", "DSC-HX50V", "DSC-TX30", "DSC-WX60", "DSC-WX200", "DSC-WX300" };
+        std::set<std::string> s2010eModels;
+        for (size_t i = 0; i < EXV_COUNTOF(models); i++) {
+            s2010eModels.insert(models[i]);
+        }
+        std::string model = getExifModel(pRoot);
+        int idx = -1;
+        if (s2010eModels.find(model) != s2010eModels.end()) {
+            idx = 0;
         }
         return idx;
     }

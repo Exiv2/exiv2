@@ -4,10 +4,9 @@ include(CheckCXXSymbolExists)
 
 # Note that the scope of the EXV_ variables in local
 if (${EXIV2_ENABLE_WEBREADY})
-    set(EXV_USE_SSH   ${EXIV2_ENABLE_SSH})
     set(EXV_USE_CURL  ${EXIV2_ENABLE_CURL})
 endif()
-set(EXV_ENABLE_VIDEO     ${EXIV2_ENABLE_VIDEO})
+set(EXV_ENABLE_BMFF      ${EXIV2_ENABLE_BMFF})
 set(EXV_ENABLE_WEBREADY  ${EXIV2_ENABLE_WEBREADY})
 set(EXV_HAVE_LENSDATA    ${EXIV2_ENABLE_LENSDATA})
 set(EXV_HAVE_PRINTUCS2   ${EXIV2_ENABLE_PRINTUCS2})
@@ -37,14 +36,6 @@ int main() {
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
 
-check_include_file_cxx( "memory.h"      EXV_HAVE_MEMORY_H )
-check_include_file_cxx( "process.h"     EXV_HAVE_PROCESS_H )
-check_include_file_cxx( "stdbool.h"     EXV_HAVE_STDBOOL_H )
-check_include_file_cxx( "stdint.h"      EXV_HAVE_STDINT_H )
-check_include_file_cxx( "strings.h"     EXV_HAVE_STRINGS_H )
-check_include_file_cxx( "sys/stat.h"    EXV_HAVE_SYS_STAT_H )
-check_include_file_cxx( "sys/types.h"   EXV_HAVE_SYS_TYPES_H )
-check_include_file_cxx( "inttypes.h"    EXV_HAVE_INTTYPES_H )
 check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
 check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 if ( NOT MINGW AND NOT MSYS AND NOT MSVC )

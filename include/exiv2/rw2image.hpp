@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    rw2image.hpp
-  @brief   Class Rw2Image
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    06-Jan-09, ahu: created
  */
 #ifndef RW2IMAGE_HPP_
 #define RW2IMAGE_HPP_
@@ -66,7 +59,7 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        explicit Rw2Image(BasicIo::AutoPtr io);
+        explicit Rw2Image(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
@@ -145,7 +138,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newRw2Instance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a RW2 image.
     EXIV2API bool isRw2Type(BasicIo& iIo, bool advance);

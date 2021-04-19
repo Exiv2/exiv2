@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    orfimage.hpp
-  @brief   Olympus RAW image
-  @author  Jeff Costlow
-           <a href="mailto:costlow@gmail.com">costlow@gmail.com</a>
-  @date    31-Jul-07, costlow: created
  */
 #ifndef ORFIMAGE_HPP_
 #define ORFIMAGE_HPP_
@@ -68,7 +61,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        OrfImage(BasicIo::AutoPtr io, bool create);
+        OrfImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -145,7 +138,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is an ORF image.
     EXIV2API bool isOrfType(BasicIo& iIo, bool advance);

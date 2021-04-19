@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -598,7 +598,9 @@ namespace Exiv2 {
     }
 
     IptcKey::IptcKey(const IptcKey& rhs)
-        : Key(rhs), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
+        : tag_(rhs.tag_)
+        , record_(rhs.record_)
+        , key_(rhs.key_)
     {
     }
 
@@ -656,9 +658,9 @@ namespace Exiv2 {
         return record_;
     }
 
-    IptcKey::AutoPtr IptcKey::clone() const
+    IptcKey::UniquePtr IptcKey::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     IptcKey* IptcKey::clone_() const
@@ -722,8 +724,16 @@ namespace Exiv2 {
            << iptcKey.key() << ", "
            << TypeInfo::typeName(
               IptcDataSets::dataSetType(dataSet.number_,
-                                          dataSet.recordId_)) << ", "
-           << dataSet.desc_;
+                                        dataSet.recordId_)) << ", ";
+        // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
+        char Q = '"';
+        os << Q;
+        for ( size_t i = 0 ; i < ::strlen(dataSet.desc_) ; i++ ) {
+            char c = dataSet.desc_[i];
+            if ( c == Q ) os << Q;
+            os << c;
+        }
+        os << Q;
         os.flags(f);
         return os;
     }

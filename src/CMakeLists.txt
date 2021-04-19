@@ -46,14 +46,12 @@ add_library( exiv2lib
     ../include/exiv2/rwlock.hpp
     ../include/exiv2/slice.hpp
     basicio.cpp             ../include/exiv2/basicio.hpp
-    bigtiffimage.cpp
     bmpimage.cpp            ../include/exiv2/bmpimage.hpp
     convert.cpp             ../include/exiv2/convert.hpp
     cr2image.cpp            ../include/exiv2/cr2image.hpp
     crwimage.cpp            ../include/exiv2/crwimage.hpp
     datasets.cpp            ../include/exiv2/datasets.hpp
     easyaccess.cpp          ../include/exiv2/easyaccess.hpp
-    epsimage.cpp            ../include/exiv2/epsimage.hpp
     error.cpp               ../include/exiv2/error.hpp
     exif.cpp                ../include/exiv2/exif.hpp
     futils.cpp              ../include/exiv2/futils.hpp
@@ -94,17 +92,9 @@ generate_export_header(exiv2lib
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
 
-if(MINGW OR MSYS)
-    target_sources(exiv2lib_int PRIVATE localtime.c)
-endif()
-
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL)
         target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
-    endif()
-
-    if( EXIV2_ENABLE_SSH )
-        target_sources(exiv2lib PRIVATE ssh.cpp ../include/exiv2/ssh.hpp)
     endif()
 endif()
 
@@ -113,15 +103,9 @@ if( EXIV2_ENABLE_PNG )
     target_sources(exiv2lib PRIVATE pngimage.cpp ../include/exiv2/pngimage.hpp)
 endif()
 
-if( EXIV2_ENABLE_VIDEO )
-    target_sources(exiv2lib PRIVATE
-        asfvideo.cpp            ../include/exiv2/asfvideo.hpp
-        matroskavideo.cpp       ../include/exiv2/matroskavideo.hpp
-        quicktimevideo.cpp      ../include/exiv2/quicktimevideo.hpp
-        riffvideo.cpp           ../include/exiv2/riffvideo.hpp
-        utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
-    )
-endif()
+target_sources(exiv2lib PRIVATE
+    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
+)
 
 # Other library target properties
 # ---------------------------------------------------------
@@ -145,12 +129,14 @@ endif()
 
 set_target_properties( exiv2lib_int PROPERTIES
     POSITION_INDEPENDENT_CODE ON
-    COMPILE_DEFINITIONS exiv2lib_STATIC
+    COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
 
-
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib PRIVATE ${ZLIB_INCLUDE_DIR})
+target_include_directories(exiv2lib SYSTEM PRIVATE 
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
+    ${ZLIB_INCLUDE_DIR}
+)
 
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
@@ -164,7 +150,7 @@ endif()
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 target_include_directories(exiv2lib_int PUBLIC
@@ -173,19 +159,16 @@ target_include_directories(exiv2lib_int PUBLIC
 
 if (EXIV2_ENABLE_WEBREADY)
 
-    if( EXIV2_ENABLE_SSH )
-        target_include_directories(exiv2lib SYSTEM PUBLIC ${SSH_INCLUDE_DIR} )
-        target_link_libraries( exiv2lib PUBLIC ${SSH_LIBRARIES})
-    endif()
-
     if( EXIV2_ENABLE_CURL )
-        target_include_directories(exiv2lib SYSTEM PUBLIC ${CURL_INCLUDE_DIR} )
-        target_link_libraries(exiv2lib PUBLIC ${CURL_LIBRARIES})
+        target_include_directories(exiv2lib SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
+        target_link_libraries(exiv2lib PRIVATE ${CURL_LIBRARIES})
         if (USING_CONAN)
-            target_compile_definitions(exiv2lib PUBLIC ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
-            target_link_libraries(exiv2lib PUBLIC ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
-            if (NOT APPLE)
-                target_link_libraries(exiv2lib PUBLIC CONAN_PKG::OpenSSL)
+            target_compile_definitions(exiv2lib PRIVATE ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
+            target_link_libraries(exiv2lib PRIVATE ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
+            if ( MSVC ) 
+                target_link_libraries(exiv2lib PRIVATE Crypt32)
+            elseif (NOT APPLE)
+                target_link_libraries(exiv2lib PRIVATE CONAN_PKG::OpenSSL)
             endif()
         endif()
     endif()
@@ -193,25 +176,27 @@ if (EXIV2_ENABLE_WEBREADY)
 endif()
 
 if (WIN32)
-    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1) # to be compatible with <= WinVista (#905)
+    target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1)    # to be compatible with <= WinVista (#905)
+    # Since windows.h is included in some headers, we need to propagate this definition
+    target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN) 
 endif()
 
 if (NOT MSVC)
-    if ( UNIX AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
-        target_link_libraries( exiv2lib PRIVATE ${CMAKE_DL_LIBS}) # -ldl = dynamic loader used by src/version.cpp
+    if ( CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
+        target_link_libraries( exiv2lib PRIVATE -lprocstat)
     endif()
 
     if (CYGWIN OR MINGW OR MSYS)
-        target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
+        target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
     endif()
 
     target_link_libraries( exiv2lib PRIVATE Threads::Threads)
 else()
-    target_link_libraries( exiv2lib PRIVATE psapi ws2_32 )
+    target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE ${ZLIB_LIBRARIES} )
+    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
 endif()
 
 if( EXIV2_ENABLE_NLS )
@@ -219,7 +204,8 @@ if( EXIV2_ENABLE_NLS )
     target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
     target_include_directories(exiv2lib_int PRIVATE ${Intl_INCLUDE_DIRS})
     # Definition needed for translations
-    target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="/../${CMAKE_INSTALL_LOCALEDIR}")
+    join_paths(EXV_LOCALEDIR ".." "${CMAKE_INSTALL_LOCALEDIR}")
+    target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="${EXV_LOCALEDIR}")
 endif()
 
 if( ICONV_FOUND )
@@ -239,9 +225,9 @@ install(FILES
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
-install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/exiv2/cmake")
+install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/exiv2/cmake")
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
 # ******************************************************************************
 # exiv2 application
@@ -281,10 +267,6 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
 
     install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
-
-# ******************************************************************************
-# Man page
-install( FILES exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 
 # That's all Folks!
 ##

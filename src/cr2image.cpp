@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -46,8 +46,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    Cr2Image::Cr2Image(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, io)
+    Cr2Image::Cr2Image(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Cr2Image::Cr2Image
 
@@ -89,7 +89,7 @@ namespace Exiv2 {
 
     void Cr2Image::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading CR2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -112,7 +112,7 @@ namespace Exiv2 {
 
     void Cr2Image::writeMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
@@ -174,7 +174,7 @@ namespace Exiv2 {
             panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(),
@@ -183,7 +183,7 @@ namespace Exiv2 {
                      ed.end());
         }
 
-        std::auto_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
+        std::unique_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
         OffsetWriter offsetWriter;
         offsetWriter.setOrigin(OffsetWriter::cr2RawIfdOffset, Cr2Header::offset2addr(), byteOrder);
         return TiffParserWorker::encode(io,
@@ -200,9 +200,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new Cr2Image(io, create));
+        Image::UniquePtr image(new Cr2Image(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

@@ -8,7 +8,7 @@ class CheckShutterInPentax(metaclass=system_tests.CaseMeta):
     url = "http://dev.exiv2.org/issues/1242"
     filename = "$data_path/Reagan.jp2"
 
-    commands = ["$exiv2 -pa $filename"]
+    commands = ["$exiv2 -pa -b $filename"]
 
     stdout = [r"""Exif.Image.ImageDescription                  Ascii     403  040621-N-6536T-062
 USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The NavyÃ­s newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by PhotographerÃ­s Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)

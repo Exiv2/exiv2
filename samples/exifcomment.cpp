@@ -1,17 +1,28 @@
 // ***************************************************************** -*- C++ -*-
 /*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
+/*
   Abstract : Sample program showing how to set the Exif comment of an image,
              Exif.Photo.UserComment
-
-  File:      exifcomment.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History  : 10-May-04, ahu: created
-             16-Jan-05, ahu: updated using CommentValue and operator trickery
  */
-// *****************************************************************************
-// included header files
-#include <exiv2/exiv2.hpp>
 
+#include <exiv2/exiv2.hpp>
 #include <iostream>
 #include <cassert>
 
@@ -19,13 +30,18 @@
 // Main
 int main(int argc, char* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
     }
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
     assert (image.get() != 0);
     image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();
@@ -34,7 +50,7 @@ try {
       Exiv2 uses a CommentValue for Exif user comments. The format of the
       comment string includes an optional charset specification at the beginning:
 
-      [charset=["]Ascii|Jis|Unicode|Undefined["] ]comment
+      [charset=[Ascii|Jis|Unicode|Undefined]] comment
 
       Undefined is used as a default if the comment doesn't start with a charset
       definition.
@@ -43,9 +59,9 @@ try {
       the file.
      */
     exifData["Exif.Photo.UserComment"]
-        = "charset=\"Unicode\" An Unicode Exif comment added with Exiv2";
+        = "charset=Unicode A Unicode Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"]
-        = "charset=\"Undefined\" An undefined Exif comment added with Exiv2";
+        = "charset=Undefined An undefined Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"]
         = "Another undefined Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"]

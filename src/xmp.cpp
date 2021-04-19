@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this f; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      xmp.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   13-July-07, ahu: created
  */
 // *****************************************************************************
 // included header files
@@ -94,7 +89,7 @@ namespace {
                    const XMP_OptionBits& opt);
 
     //! Make an XMP key from a schema namespace and property path
-    Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,
+    Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs,
                                       const std::string& propPath);
 #endif // EXV_HAVE_XMP_TOOLKIT
 
@@ -128,8 +123,8 @@ namespace Exiv2 {
         Impl& operator=(const Impl& rhs);              //!< Assignment
 
         // DATA
-        XmpKey::AutoPtr key_;                          //!< Key
-        Value::AutoPtr  value_;                        //!< Value
+        XmpKey::UniquePtr key_;                          //!< Key
+        Value::UniquePtr  value_;                        //!< Value
     };
 
     Xmpdatum::Impl::Impl(const XmpKey& key, const Value* pValue)
@@ -256,9 +251,9 @@ namespace Exiv2 {
         return p_->value_.get() == 0 ? Rational(-1, 1) : p_->value_->toRational(n);
     }
 
-    Value::AutoPtr Xmpdatum::getValue() const
+    Value::UniquePtr Xmpdatum::getValue() const
     {
-        return p_->value_.get() == 0 ? Value::AutoPtr(0) : p_->value_->clone();
+        return p_->value_.get() == 0 ? nullptr : p_->value_->clone();
     }
 
     const Value& Xmpdatum::value() const
@@ -602,7 +597,7 @@ namespace Exiv2 {
             return 2;
         }
 
-        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(xmpPacket.size()));
+        SXMPMeta meta(xmpPacket.data(), xmpPacket.size());
         SXMPIterator iter(meta);
         std::string schemaNs, propPath, propValue;
         XMP_OptionBits opt;
@@ -624,10 +619,10 @@ namespace Exiv2 {
                 }
                 continue;
             }
-            XmpKey::AutoPtr key = makeXmpKey(schemaNs, propPath);
+            XmpKey::UniquePtr key = makeXmpKey(schemaNs, propPath);
             if (XMP_ArrayIsAltText(opt)) {
                 // Read Lang Alt property
-                LangAltValue::AutoPtr val(new LangAltValue);
+                LangAltValue::UniquePtr val(new LangAltValue);
                 XMP_Index count = meta.CountArrayItems(schemaNs.c_str(), propPath.c_str());
                 while (count-- > 0) {
                     // Get the text
@@ -674,7 +669,7 @@ namespace Exiv2 {
                 }
                 if (simpleArray) {
                     // Read the array into an XmpArrayValue
-                    XmpArrayValue::AutoPtr val(new XmpArrayValue(arrayValueTypeId(opt)));
+                    XmpArrayValue::UniquePtr val(new XmpArrayValue(arrayValueTypeId(opt)));
                     XMP_Index count = meta.CountArrayItems(schemaNs.c_str(), propPath.c_str());
                     while (count-- > 0) {
                         iter.Next(&schemaNs, &propPath, &propValue, &opt);
@@ -685,7 +680,7 @@ namespace Exiv2 {
                     continue;
                 }
             }
-            XmpTextValue::AutoPtr val(new XmpTextValue);
+            XmpTextValue::UniquePtr val(new XmpTextValue);
             if (   XMP_PropIsStruct(opt)
                 || XMP_PropIsArray(opt)) {
                 // Create a metadatum with only XMP options
@@ -753,7 +748,7 @@ namespace Exiv2 {
         // Register custom namespaces with XMP-SDK
         for (XmpProperties::NsRegistry::iterator i = XmpProperties::nsRegistry_.begin();
              i != XmpProperties::nsRegistry_.end(); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Registering " << i->second.prefix_ << " : " << i->first << "\n";
 #endif
             registerNs(i->first, i->second.prefix_);
@@ -930,7 +925,7 @@ namespace {
         return var;
     }
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
     void printNode(const std::string& schemaNs,
                    const std::string& propPath,
                    const std::string& propValue,
@@ -973,9 +968,9 @@ namespace {
                    const std::string& ,
                    const XMP_OptionBits& )
     {}
-#endif // DEBUG
+#endif // EXIV2_DEBUG_MESSAGES
 
-    Exiv2::XmpKey::AutoPtr makeXmpKey(const std::string& schemaNs,
+    Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs,
                                       const std::string& propPath)
     {
         std::string property;
@@ -989,7 +984,7 @@ namespace {
         if (prefix.empty()) {
             throw Exiv2::Error(Exiv2::kerNoPrefixForNamespace, propPath, schemaNs);
         }
-        return Exiv2::XmpKey::AutoPtr(new Exiv2::XmpKey(prefix, property));
+        return Exiv2::XmpKey::UniquePtr(new Exiv2::XmpKey(prefix, property));
     } // makeXmpKey
 #endif // EXV_HAVE_XMP_TOOLKIT
 

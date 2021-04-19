@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -22,7 +22,9 @@
 #include "config.h"
 
 #include "futils.hpp"
+#include "datasets.hpp"
 #include "enforce.hpp"
+#include "image_int.hpp"
 
 // + standard includes
 #include <sys/types.h>
@@ -46,6 +48,22 @@
 #define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #elif defined(__APPLE__)
 #include <libproc.h>
+#endif
+
+#if defined(__FreeBSD__)
+#include <sys/mount.h>
+#include <sys/param.h>
+#include <sys/queue.h>
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <sys/types.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <libprocstat.h>
+#endif
+
+#ifndef _MAX_PATH
+#define _MAX_PATH 1024
 #endif
 
 namespace Exiv2 {
@@ -121,123 +139,83 @@ namespace Exiv2 {
         delete [] decodeStr;
     }
 
+    // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
+    static char base64_encode[]={'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                                'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                                'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                                '4', '5', '6', '7', '8', '9', '+', '/'};
+
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        const uint8_t* data = (const uint8_t*)data_buf;
-        size_t resultIndex = 0;
-        size_t x;
-        uint32_t n = 0;
-        size_t padCount = dataLength % 3;
-        uint8_t n0, n1, n2, n3;
+        char* encoding_table = (char*)base64_encode;
+        size_t mod_table[]  = {0, 2, 1};
 
-        /* increment over the length of the string, three characters at a time */
-        for (x = 0; x < dataLength; x += 3)
-        {
-            /* these three 8-bit (ASCII) characters become one 24-bit number */
-            n = data[x] << 16;
+        size_t output_length = 4 * ((dataLength + 2) / 3);
+        int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
+        if (  rc ) {
+            const unsigned char* data = (const unsigned char*) data_buf ;
+            for (size_t i = 0, j = 0 ; i < dataLength;) {
 
-            if((x+1) < dataLength)
-                n += data[x+1] << 8;
+                uint32_t octet_a = i < dataLength ? data[i++] : 0 ;
+                uint32_t octet_b = i < dataLength ? data[i++] : 0 ;
+                uint32_t octet_c = i < dataLength ? data[i++] : 0 ;
 
-            if((x+2) < dataLength)
-                n += data[x+2];
+                uint32_t triple = (octet_a << 0x10) + (octet_b << 0x08) + octet_c;
 
-            /* this 24-bit number gets separated into four 6-bit numbers */
-            n0 = (uint8_t)(n >> 18) & 63;
-            n1 = (uint8_t)(n >> 12) & 63;
-            n2 = (uint8_t)(n >> 6) & 63;
-            n3 = (uint8_t)n & 63;
-
-            /*
-            * if we have one byte available, then its encoding is spread
-            * out over two characters
-            */
-            if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-            result[resultIndex++] = base64chars[n0];
-            if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-            result[resultIndex++] = base64chars[n1];
-
-            /*
-            * if we have only two bytes available, then their encoding is
-            * spread out over three chars
-            */
-            if((x+1) < dataLength)
-            {
-                if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-                result[resultIndex++] = base64chars[n2];
+                result[j++] = encoding_table[(triple >> 3 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 2 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 1 * 6) & 0x3F];
+                result[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
             }
 
-            /*
-            * if we have all three bytes available, then their encoding is spread
-            * out over four characters
-            */
-            if((x+2) < dataLength)
-            {
-                if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-                result[resultIndex++] = base64chars[n3];
-            }
+            for (size_t i = 0; i < mod_table[dataLength % 3]; i++)
+                result[output_length - 1 - i] = '=';
+            result[output_length]=0;
         }
-
-        /*
-        * create and add padding that is required if we did not have a multiple of 3
-        * number of characters available
-        */
-        if (padCount > 0)
-        {
-            for (; padCount < 3; padCount++)
-            {
-                if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-                result[resultIndex++] = '=';
-            }
-        }
-        if(resultIndex >= resultSize) return 0;   /* indicate failure: buffer too small */
-        result[resultIndex] = 0;
-        return 1;   /* indicate success */
+        return rc;
     } // base64encode
 
-    long base64decode(const char *in, char *out, size_t out_size) {
-        static const char decode[] = "|$$$}rstuvwxyz{$$$$$$$>?@ABCDEFGHIJKLMNOPQRSTUVW"
-                         "$$$$$$XYZ[\\]^_`abcdefghijklmnopq";
-        long len;
-        long i;
-        long done = 0;
-        unsigned char v;
-        unsigned char quad[4];
+    long base64decode(const char* in,char* out,size_t out_size) {
+        long   result       = 0;
+        size_t input_length = in ? ::strlen(in) : 0;
+        if (!in || input_length % 4 != 0) return result;
 
-        while (*in) {
-            len = 0;
-            for (i = 0; i < 4 && *in; i++) {
-                v = 0;
-                while (*in && !v) {
-                    v = *in++;
-                    v = (v < 43 || v > 122) ? 0 : decode[v - 43];
-                    if (v)
-                        v = (v == '$') ? 0 : v - 61;
-                    if (*in) {
-                        len++;
-                        if (v)
-                            quad[i] = v - 1;
-                    } else
-                        quad[i] = 0;
-                }
+        unsigned char* encoding_table = (unsigned char*)base64_encode;
+        unsigned char decoding_table[256];
+        for (unsigned char i = 0; i < 64; i++)
+            decoding_table[encoding_table[i]] = i;
+
+        size_t output_length = input_length / 4 * 3;
+        const unsigned char* buff = (const unsigned char*) in;
+
+        if (buff[input_length - 1] == '=') (output_length)--;
+        if (buff[input_length - 2] == '=') (output_length)--;
+
+        if ( output_length+1 < out_size ) {
+            for (size_t i = 0, j = 0; i < input_length;) {
+
+                uint32_t sextet_a = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_b = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_c = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+                uint32_t sextet_d = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+
+                uint32_t triple = (sextet_a << 3 * 6)
+                                + (sextet_b << 2 * 6)
+                                + (sextet_c << 1 * 6)
+                                + (sextet_d << 0 * 6);
+
+                if (j < output_length) out[j++] = (triple >> 2 * 8) & 0xFF;
+                if (j < output_length) out[j++] = (triple >> 1 * 8) & 0xFF;
+                if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
-            if (!len)
-                continue;
-            if (out_size < (size_t) (done + len - 1))
-                /* out buffer is too small */
-                return -1;
-            if (len >= 2)
-                *out++ = quad[0] << 2 | quad[1] >> 4;
-            if (len >= 3)
-                *out++ = quad[1] << 4 | quad[2] >> 2;
-            if (len >= 4)
-                *out++ = ((quad[2] << 6) & 0xc0) | quad[3];
-            done += len - 1;
+            out[output_length]=0;
+            result = (long) output_length;
         }
-        if ((size_t)(done + 1) >= out_size)
-            return -1;
-        *out++ = '\0';
-        return done;
+        
+        return result;
     } // base64decode
 
     Protocol fileProtocol(const std::string& path) {
@@ -245,41 +223,45 @@ namespace Exiv2 {
         struct {
             std::string name ;
             Protocol    prot ;
+            bool        isUrl; // path.size() > name.size()
         } prots[] =
-        { { "http://"   ,pHttp     }
-        , { "https://"  ,pHttps    }
-        , { "ftp://"    ,pFtp      }
-        , { "sftp://"   ,pSftp     }
-        , { "ssh://"    ,pSsh      }
-        , { "file://"   ,pFileUri  }
-        , { "data://"   ,pDataUri  }
-        , { "-"         ,pStdin    }
+        { { "http://"   ,pHttp     , true  }
+        , { "https://"  ,pHttps    , true  }
+        , { "ftp://"    ,pFtp      , true  }
+        , { "sftp://"   ,pSftp     , true  }
+        , { "file://"   ,pFileUri  , true  }
+        , { "data://"   ,pDataUri  , true  }
+        , { "-"         ,pStdin    , false }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.find(prots[i].name) == 0 )
-                result = prots[i].prot;
+            if ( path.rfind(prots[i].name, 0) == 0 )
+                // URL's require data.  Stdin == "-" and no further data
+                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                    result = prots[i].prot;
 
         return result;
     } // fileProtocol
 #ifdef EXV_UNICODE_PATH
-    Protocol fileProtocol(const std::wstring& wpath) {
+    Protocol fileProtocol(const std::wstring& path) {
         Protocol result = pFile ;
         struct {
-            std::wstring wname ;
+            std::wstring  name ;
             Protocol      prot ;
+            bool          isUrl; // path.size() > name.size()
         } prots[] =
-        { { L"http://"   ,pHttp     }
-        , { L"https://"  ,pHttps    }
-        , { L"ftp://"    ,pFtp      }
-        , { L"sftp://"   ,pSftp     }
-        , { L"ssh://"    ,pSsh      }
-        , { L"file://"   ,pFileUri  }
-        , { L"data://"   ,pDataUri  }
-        , { L"-"         ,pStdin    }
+        { { L"http://"   ,pHttp     , true  }
+        , { L"https://"  ,pHttps    , true  }
+        , { L"ftp://"    ,pFtp      , true  }
+        , { L"sftp://"   ,pSftp     , true  }
+        , { L"file://"   ,pFileUri  , true  }
+        , { L"data://"   ,pDataUri  , true  }
+        , { L"-"         ,pStdin    , false }
         };
         for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( wpath.find(prots[i].wname) == 0 )
-                result = prots[i].prot;
+            if ( path.rfind(prots[i].name, 0) == 0 )
+                // URL's require data.  Stdin == "-" and no further data
+                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                    result = prots[i].prot;
 
         return result;
     } // fileProtocol
@@ -466,12 +448,31 @@ namespace Exiv2 {
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
-    #elif defined(__linux__) || defined(__CYGWIN__) || defined(__MSYS__)
+    #elif defined(__FreeBSD__)
+        unsigned int       n;
+        char               buffer[PATH_MAX] = {};
+        struct procstat*   procstat = procstat_open_sysctl();
+        struct kinfo_proc* procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+        if ( procs ) {
+            procstat_getpathname(procstat, procs, buffer, PATH_MAX);
+            ret = std::string(buffer);
+        }
+        // release resources
+        if ( procs    ) procstat_freeprocs(procstat, procs);
+        if ( procstat ) procstat_close(procstat);
+    #elif defined(__sun__)
+        // https://stackoverflow.com/questions/47472762/on-solaris-how-to-get-the-full-path-of-executable-of-running-process-programatic        
+        const char* proc = Internal::stringFormat("/proc/%d/path/a.out",getpid()).c_str();
+        char        path[500];
+        ssize_t     l = readlink (proc,path,sizeof(path)-1);
+        if (l>0) {
+            path[l]=0;
+            ret = path;
+        }
+    #elif defined(__unix__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-        char proc[100];
         char path[500];
-        sprintf(proc,"/proc/%d/exe", getpid());
-        ssize_t l = readlink (proc, path,sizeof(path)-1);
+        ssize_t l = readlink ("/proc/self/exe", path,sizeof(path)-1);
         if (l>0) {
             path[l]=0;
             ret = path;

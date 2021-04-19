@@ -1,12 +1,10 @@
-#! /bin/sh
+#!/usr/bin/env bash
 # Test driver for CRW file operations
 
 source ./functions.source
-
-(   cd "$testdir"
-
+(
+    cd "$testdir"
     crwfile=exiv2-canon-powershot-s40.crw
-
     # ----------------------------------------------------------------------
     # Testcases: Add and modify tags
     cmdfile=cmdfile1
@@ -17,35 +15,25 @@ source ./functions.source
         echo  add Exif.Canon.SerialNumber    2
         echo  set Exif.Photo.ISOSpeedRatings 155
         echo  set Exif.Photo.DateTimeOriginal 2007:11:11 09:10:11
+        echo  set Exif.Image.DateTime          2020:05:26 07:31:41
+        echo  set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     )                            > $cmdfile
 
     copyTestFile                   $crwfile
     runTest exiv2 -v -pt           $crwfile
-    runTest exiv2 -v -m $cmdfile   $crwfile
-    # runTest crwparse             $crwfile
+    runTest exiv2 -v -m$cmdfile    $crwfile
     runTest exiv2 -v -pt           $crwfile
 
     # ----------------------------------------------------------------------
     # Testcases: Delete tags
-    cmdfile=cmdfile2
-    (   echo del Exif.Canon.OwnerName
-    )                            > $cmdfile2
-
     copyTestFile                   $crwfile
     runTest exiv2 -v -pt           $crwfile
-    runTest exiv2 -v -m $cmdfile   $crwfile
-    # runTest crwparse             $crwfile
+    runTest exiv2 -v -M'del Exif.Canon.OwnerName'    $crwfile
     runTest exiv2 -v -pt           $crwfile
 
-) 3>&1 > $results 2>&1
+) 2>&1 | sed -e 's#19:54#18:54#g' > $results   # sed evades TZ issue on MSVC builds #1221
 
-printf "\n"
-
-# ----------------------------------------------------------------------
-# Evaluate results
-cat $results | tr -d $'\r' > $results-stripped
-mv                           $results-stripped $results
-reportTest                                     $results $good
+reportTest
 
 # That's all Folks!
 ##

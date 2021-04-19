@@ -40,8 +40,8 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
         )
         os.mkdir(cwd)
 
-        cmake = "{cmake_bin} {!s} -DCMAKE_BUILD_TYPE={build_type} " \
-            "-DBUILD_SHARED_LIBS={lib_type} -DEXIV2_BUILD_UNIT_TESTS={tests} "\
+        cmake = "{cmake_bin} {!s} -DCMAKE_BUILD_TYPE={build_type} -DCMAKE_CXX_FLAGS=-Wno-deprecated " \
+            "-DBUILD_SHARED_LIBS={lib_type} -DEXIV2_BUILD_UNIT_TESTS={tests} -DCMAKE_CXX_STANDARD=98 "\
             "../..".format(
                 cmake_options, cmake_bin=cmake_bin, build_type=build_type,
                 lib_type=lib_type, tests="ON" if tests else "OFF"
@@ -116,8 +116,8 @@ if __name__ == '__main__':
         help="Additional flags for cmake",
         type=str,
         nargs='?',
-        default="-DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_VIDEO=ON "
-        "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON "
+        default="-DEXIV2_TEAM_EXTRA_WARNINGS=ON "
+        "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON "
         "-DBUILD_WITH_CCACHE=ON -DEXIV2_ENABLE_CURL=ON"
     )
 

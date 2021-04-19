@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      tgaimage.cpp
-  Author(s): Marco Piovanelli, Ovolab (marco)
-  History:   05-Mar-2007, marco: created
  */
 // *****************************************************************************
 // included header files
@@ -41,8 +36,8 @@
 // class member definitions
 namespace Exiv2 {
 
-    TgaImage::TgaImage(BasicIo::AutoPtr io)
-        : Image(ImageType::tga, mdNone, io)
+    TgaImage::TgaImage(BasicIo::UniquePtr io)
+        : Image(ImageType::tga, mdNone, std::move(io))
     {
     } // TgaImage::TgaImage
 
@@ -71,7 +66,7 @@ namespace Exiv2 {
 
     void TgaImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Exiv2::TgaImage::readMetadata: Reading TARGA file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)
@@ -125,9 +120,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newTgaInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new TgaImage(io));
+        Image::UniquePtr image(new TgaImage(std::move(io)));
         if (!image->good())
         {
             image.reset();
@@ -153,6 +148,8 @@ namespace Exiv2 {
 #endif
         byte buf[26];
         long curPos = iIo.tell();
+        if ( curPos < 26 ) return false;
+        
         iIo.seek(-26, BasicIo::end);
         if (iIo.error() || iIo.eof())
         {

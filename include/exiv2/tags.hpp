@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    tags.hpp
-  @brief   Exif tag and type information
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    15-Jan-04, ahu: created<BR>
-           11-Feb-04, ahu: isolated as a component
  */
 #ifndef TAGS_HPP_
 #define TAGS_HPP_
@@ -148,7 +140,7 @@ namespace Exiv2 {
     class EXIV2API ExifKey : public Key {
     public:
         //! Shortcut for an %ExifKey auto pointer.
-        typedef std::auto_ptr<ExifKey> AutoPtr;
+        typedef std::unique_ptr<ExifKey> UniquePtr;
 
         //! @name Creators
         //@{
@@ -210,7 +202,7 @@ namespace Exiv2 {
         //! Return the default type id for this tag.
         TypeId defaultTypeId() const;       // Todo: should be in the base class
 
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         //! Return the index (unique id of this key within the original Exif data, 0 if not set)
         int idx() const;
         //@}
@@ -222,7 +214,7 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     }; // class ExifKey
 

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    crwimage_int.hpp
-  @brief   Internal classes to support CRW/CIFF format.
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    28-Aug-05, ahu: created
  */
 #ifndef CRWIMAGE_INT_HPP_
 #define CRWIMAGE_INT_HPP_
@@ -74,7 +67,6 @@ namespace Exiv2 {
 
     //! Type to identify where the data is stored in a directory
     enum DataLocId {
-        invalidDataLocId,
         valueData,
         directoryData,
         lastDataLocId
@@ -92,7 +84,7 @@ namespace Exiv2 {
     class CiffComponent {
     public:
         //! CiffComponent auto_ptr type
-        typedef std::auto_ptr<CiffComponent> AutoPtr;
+        typedef std::unique_ptr<CiffComponent> UniquePtr;
         //! Container type to hold all metadata
         typedef std::vector<CiffComponent*> Components;
 
@@ -115,7 +107,7 @@ namespace Exiv2 {
         // Default assignment operator is fine
 
         //! Add a component to the composition
-        void add(AutoPtr component);
+        void add(UniquePtr component);
         /*!
           @brief Add \em crwTagId to the parse tree, if it doesn't exist
                  yet. \em crwDirs contains the path of subdirectories, starting
@@ -258,7 +250,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Implements add()
-        virtual void doAdd(AutoPtr component) =0;
+        virtual void doAdd(UniquePtr component) =0;
         //! Implements add(). The default implementation does nothing.
         virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements remove(). The default implementation does nothing.
@@ -329,7 +321,7 @@ namespace Exiv2 {
         //@{
         using CiffComponent::doAdd;
         // See base class comment
-        virtual void doAdd(AutoPtr component);
+        virtual void doAdd(UniquePtr component);
         /*!
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
@@ -381,7 +373,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // See base class comment
-        virtual void doAdd(AutoPtr component);
+        virtual void doAdd(UniquePtr component);
         // See base class comment
         virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
         // See base class comment
@@ -422,7 +414,7 @@ namespace Exiv2 {
     private:
         // DATA
         Components components_; //!< List of components in this dir
-        AutoPtr    m_; // used by recursive doAdd
+        UniquePtr    m_; // used by recursive doAdd
         CiffComponent* cc_;
 
     }; // class CiffDirectory
@@ -436,7 +428,7 @@ namespace Exiv2 {
     class CiffHeader {
     public:
         //! CiffHeader auto_ptr type
-        typedef std::auto_ptr<CiffHeader> AutoPtr;
+        typedef std::unique_ptr<CiffHeader> UniquePtr;
 
         //! @name Creators
         //@{

@@ -1,6 +1,10 @@
+| Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
+|:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
+| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=main)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/main?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/main) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/main/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/main) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+
 ![Exiv2](exiv2.png)
 
-# Building Exiv2 dependencies with conan
+# Building Exiv2 and dependencies with conan
 
 Conan is a portable package manager for C/C++ libraries. It can be used to create all  dependencies needed to build Exiv2, without needing to install system packages.
 
@@ -11,21 +15,21 @@ Although we provide step-by-step instructions to enable you to build Exiv2 with 
 
 To build Exiv2 with conan, you will also need to install CMake.  https://cmake.org/download/
 
+_**We do not recommend using conan on MinGW, Cygwin, Unix or to cross compile from Linux to those platforms.**<br>
+The build procedures for those platforms are discussed here: See [README.md](README.md)_
+
 <name id="TOC"></a>
 ----
-### T A B L E _ OF _ C O N T E N T S
+### TABLE OF CONTENTS
 
 1. [Step by Step Guide](#1)
     1. [Install conan](#1-1)
     2. [Test conan installation](#1-2)
     3. [Create a build directory](#1-3)
-    4. [Build dependencies and install conan artefacts in your build directory](#1-4)
-    5. [Execute cmake to generate build files for your environment:](#1-5)
+    4. [Build dependencies, create build environment, build and test](#1-4)
 2. [Platform Notes](#2)
     1. [Linux Notes](#2-1)
     2. [Visual Studio Notes](#2-2)
-    3. [Cygwin Notes](#2-3)
-    4. [MinGW Notes](#2-4)
 3. [Conan Architecture](#3)
     1. [conanfile.py](#3-1)
     2. [Conan Recipes](#3-2)
@@ -40,6 +44,7 @@ To build Exiv2 with conan, you will also need to install CMake.  https://cmake.o
 
 <name id="1"></a>
 ----
+
 # 1 Step by Step Guide
 
 <name id="1-1"></a>
@@ -62,21 +67,22 @@ $ pip install conan --upgrade
 
 ```bash
 $ conan --version
-Conan version 1.4.1
+Conan version 1.23.0
 ```
 
 <name id="1-3"></a>
 ##### 1.3) Create a build directory<name id="1-3"></a>
 
-Create a build directory and will run the conan commands:
+Create a build directory and run the conan commands:
 
 ```bash
 $ mkdir build
 $ cd build
 $ conan profile list
 ```
+_**Visual Studio Users**_
 
-**IMPORTANT** _**Visual Studio Users**_ require the profile msvc2017Release64 in %HOMEPATH%\.conan\profiles\msvc2017Release64
+_The profile msvc2019Release96 in `%USERPROFILE%\.conan\profiles\msvc2019Release64` is:_
 
 ```ini
 [build_requires]
@@ -85,7 +91,7 @@ arch=x86_64
 build_type=Release
 compiler=Visual Studio
 compiler.runtime=MD
-compiler.version=15
+compiler.version=16
 os=Windows
 arch_build=x86_64
 os_build=Windows
@@ -93,32 +99,20 @@ os_build=Windows
 [env]
 ```
 
+_Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](#2-2)__
+
 <name id="1-4"></a>
-##### 1.4) Build dependencies and install conan artefacts in your build directory</a>
+##### 1.4) Build dependencies, create build environment, build and test</a>
 
-Execute `$ conan install` pointing to the directory containing `conanfile.py`.
 
-```bash
-$ conan install .. --build missing  # --profile msvc2017Release64
-```
+|         | Build Steps   | Linux and macOS                | Visual Studio |
+|:--      |:--------------|--------------------------------|------------------------------|
+| _**1**_ | Get conan to fetch dependencies<br><br>The output can be quite<br>long as conan downloads and/or builds<br>zlib, expat, curl and other dependencies.| $ conan install ..<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--build missing       | c:\\..\\build> conan install .. --build missing<br>&nbsp;&nbsp;&nbsp;&nbsp;--profile msvc2019Release64 |
+| _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..  | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
+| _**3**_ | Build                                             | $ cmake --build .       | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
+| _**4**_ | Optionally Run Test Suite                         | $ make tests            | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release --target tests<br/>[README.md](README.md) |
 
-_**Visual Studio Users**_ should use `--profile msvc2017Release64`
 
-The output from this command is quite long as conan downloads or builds zlib, expat, curl and other dependencies.
-
-<name id="1-5"></a>
-##### 1.5) Execute cmake to generate build files for your environment.
-
-```bash
-$ cmake ..  # -G "Visual Studio 15 2017 Win64"
-```
-
-<name id="1-6"></a>
-##### 1.6) Build Exiv2:
-
-```bash
-$ cmake --build . --config Release
-```
 
 [TOC](#TOC)
 <name id="2"></a>
@@ -148,7 +142,7 @@ build_type=Release
 
 ##### Changing profile settings
 
-One of the most important **profile** settings to be adjusted in your conan profile when working on Linux is the field
+One of the most important **profile** settings to be adjusted in your conan profile when working on Linux is the field:
 
 ```bash
 compiler.libcxx=libstdc++11  # Possible values: libstdc++, libstdc++11, libc++
@@ -177,35 +171,26 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 <name id="2-2"></a>
 ### 2.2) Visual Studio Notes
 
-I use the following batch file to start cmd.exe.  I do this to reduce the complexity of the path which grows as various tools are installed on Windows.  The purpose of this script is to ensure a "stripped down path".
-
-```bat
-@echo off
-setlocal
-cd  %HOMEPATH%
-set "PATH=C:\Python34\;C:\Python27\;C:\Python27\Scripts;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;c:\Program Files\cmake\bin;"
-cmd
-```
+We recommend that you install python as discussed here:  [https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146](https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146)
 
 ### Profiles for Visual Studio
 
-Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 and 2017.
+Exiv2 v0.27 can be built with VS 2008, 2010, 2012, 2013, 2015 , 2017 and 2019.
 
-Exiv2 v0.27.1 (and later) can be built with VS 2015, 2017 and 2019.  I believe it will build with 2013 and earlier, however we don't actively support those version of Visual Studio.
+Exiv2 v1.0 is being "modernised" to C++11 and will not support C++98.
+We don't expect Exiv2 v1.0 to build with VS versions earlier than VS 2015.
 
-v0.28 is being "modernised" to C++11 and will not support C++98. We don't expect Exiv2 v0.28 to build with VS 2008, 2010, 2012 or 2013.
-
-You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake/msvc\_conan\_profiles`.  There are 26 in total:
+You create profiles in %HOMEPATH%\.conan\profiles with a text editor.  For your convenience, you'll find profiles in `<exiv2dir>\cmake\msvc_conan_profiles`. 
 
 ```
 Profile :=    msvc{Edition}{Type}{Bits}
 Edition :=  { 2019    | 2017  |  2015  }
 Type    :=  { Release | Debug }
-Bits    :=  { 64      | 32    }   # 32 bit build is not provided for 2019
-Examples:     msvc2019Release msvc2017Release64  msvc2015Debug32
+Bits    :=  { 64      | 32    }  
+Examples:     msvc2019Release64 msvc2017Release32  msvc2015Debug32
 ```
 
-The profile msvc2017Release64 is as follows:
+The profile msvc2019Release64 is as follows:
 
 ```ini
 [build_requires]
@@ -214,7 +199,7 @@ arch=x86_64
 build_type=Release
 compiler=Visual Studio
 compiler.runtime=MD
-compiler.version=15
+compiler.version=16
 os=Windows
 arch_build=x86_64
 os_build=Windows
@@ -224,7 +209,9 @@ os_build=Windows
 
 ### Tools for Visual Studio 2019
 
-You will need cmake version 3.14 (and up) and conan 1.14 (and up).  Additionally, when I upgraded to conan 1.14.3, I had to manually update (For me: `%USERPROFILE% == C:\Users\rmills`):
+You will need cmake version 3.14 (and up) and conan 1.14 (and up).
+
+Additionally, when I upgraded to conan 1.14.3, I had to manually update the file `settings.yml` as follows. For me: `%USERPROFILE% == C:\Users\rmills`:
 
 ```bat
 copy/y %USERPROFILE%\.conan\settings.yml.new %USERPROFILE%\.conan\settings.yml
@@ -236,51 +223,51 @@ In the step-by-step guide, the command `$ cmake ..` uses
 the default CMake generator.  Always use the generator for your version of Visual Studio.  For example:
 
 ```bat
-c:\....\exiv2\build> conan install .. --profile msvc2017Release64 --build missing
-c:\....\exiv2\build> cmake         .. -G "Visual Studio 15 2017 Win64"
-c:\....\exiv2\build> cmake --build .  --config Release
+c:\..\build> conan install .. --build missing --profile msvc2019Release64
+c:\..\build> cmake         .. -G "Visual Studio 16 2019" -A x64
+c:\..\build> cmake --build .  --config Release
 ```
 
 CMake provides Generators for different editions of Visual Studio.  The 64 and 32 bit Generators have different names:
 
 | Architecture | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
 |:---------    |--------------------|--------------------|--------------------|--------------------|
-| 64 bit       | "Visual Studio 16 2019" | "Visual Studio 15 2017 Win64" |  "Visual Studio 14 2015 Win64"     |
-| 32 bit       | Not provided            | "Visual Studio 15 2017"       | "Visual Studio 14 2015"            |
+| 64 bit       | -G "Visual Studio 16 2019" -A x64          | -G "Visual Studio 15 2017 Win64" | -G "Visual Studio 14 2015 Win64"     |
+| 32 bit       | -G "Visual Studio 16 2019" -A Win32        | -G "Visual Studio 15 2017"       | -G "Visual Studio 14 2015"           |
 
 ### Recommended settings for Visual Studio
 
 ##### 64 bit Release Build
 
-| | Visual Studio 2017 | Visual Studio 2017 | Visual Studio 2015|
+| | Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015|
 |:---------|--------------------|--------------------|--------------|
-| _**conan install .. --profile**_ | msvc2019Release | msvc2017Release64 | msvc2015Release64 |
-| _**cmake -G**_                   |  "Visual Studio 16 2019"    |  "Visual Studio 15 2017 Win64"    | "Visual Studio 14 2015 Win64" |
+| _**conan install .. --profile**_ | msvc2019Release64 | msvc2017Release64 | msvc2015Release64 |
+| _**cmake**_                   |  -G "Visual Studio 16 2019" -A x64   |  -G "Visual Studio 15 2017 Win64"    | -G "Visual Studio 14 2015 Win64" |
 | _**profile**_<br><br><br><br><br><br><br>_ | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=16<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=15<br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows  | arch=x86\_64<br>arch\_build=x86\_64<br>build\_type=Release<br>compiler.runtime=MD<br>compiler.version=14 <br>compiler=Visual Studio<br>os=Windows<br>os\_build=Windows |
 
 ##### Debug Builds
 
 || Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
 |:-------|-------|------|--------------|
-| _**conan install .. --profile**_ | msvc2019Debug | msvc2017Debug64 | msvc2015Debug64 |
+| _**conan install .. --profile**_ | msvc2019Debug64 | msvc2017Debug64 | msvc2015Debug64 |
 | _**profile**_<br>_ | build\_type=Debug<br>compiler.runtime=MDd | build\_type=Debug<br>compiler.runtime=MDd | build_type=Debug<br>compiler.runtime=MDd |
 
 ##### 32bit Builds
 
 || Visual Studio 2019 | Visual Studio 2017 | Visual Studio 2015 |
 |:-----------|--------------------|--------------------|--------------------|
-| _**conan install .. --profile**_ | Not provided | msvc2017Release32 | msvc2015Release32 |
-| _**cmake -G**_ | Not provided | "Visual Studio 15 2017" | "Visual Studio 14 2015" |
-| _**profile**_<br>_ | Not provided | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
+| _**conan install .. --profile**_ | msvc2019Release32 | msvc2017Release32 | msvc2015Release32 |
+| _**cmake**_ | -G "Visual Studio 16 2019" -A Win32 | -G "Visual Studio 15 2017" | -G "Visual Studio 14 2015" |
+| _**profile**_<br>_ | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 | arch=x86<br>arch\_build=x86 |
 
 ##### Static Builds
 
-The default builds of Exiv2 and sample applications build use DLLs.
+The default builds of Exiv2 and sample applications build and use DLLs.
 
-To build static libraries, use the cmake option -DBUILD\_SHARED\_LIBS=Off.
+To build static libraries, use the cmake option `-DBUILD_SHARED_LIBS=Off`.  You will probably also want to use the static run-time.  The default is to use the dynamic run-time library.
 
 ```bash
-$ cmake -DBUILD_SHARED_LIBS=Off ..
+$ cmake .. -DBUILD_SHARED_LIBS=Off -DEXIV2_ENABLE_DYNAMIC_RUNTIME=Off
 ```
 
 If you wish to use the static C run-time library, use the following option in the conan profile.
@@ -289,32 +276,21 @@ If you wish to use the static C run-time library, use the following option in th
 |:---                  |:---------           |:-------------------|
 | **profile setting**  | compiler.runtime=MT | compiler.runtime=MTd |
 
+If you receive a linker warning concerning `LIBCMT`, it is because you are attempting to link libraries which have been built with different run-time libraries.
+You should link everything with the dynamic or static run-time. You can link a static library with the dynamic run-time if you wish.
+
 ### Changing profile settings with the conan command
 
-It is recommended that you use profiles provided in `<exiv2dir>/cmake/msvc\_conan\_profiles'.
+It is recommended that you use profiles provided in `<exiv2dir>\cmake\msvc_conan_profiles`.
 
 You can modify profile settings on the command line.
-The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration to some conan flexibility which be useful when your build environment is automated.
+The following example demonstrates making substantial changes to profile settings by performing a 32 bit build using Visual Studio 2015 with a 2017 profile!  This example is not considered good practice, it is an illustration of some conan flexibility which may be useful when your build environment is automated.
 
 ```bash
 $ conan install .. --profile msvc2017Release64 -s arch_build=x86 -s arch=x86 -s compiler.version=14
 $ cmake         .. -G "Visual Studio 2015"
 $ cmake --build .  --config Release
 ```
-
-[TOC](#TOC)
-<name id="2-3"></a>
-### 2.3) Cygwin Notes
-
-Do not use conan on the Cygwin Platform.  To build Exiv2 for Cygwin use CMake without conan.  We recommend installing dependences (expat, zlib) with platform tools or build/install from source.
-
-[TOC](#TOC)
-<name id="2-4"></a>
-### 2.4) MinGW Notes
-
-Team Exiv2 supports MinGW msys/2.  Team Exiv2 does not support MinGW msys/1.0.
-
-As with Cygwin, we do not recommend using conan to build on the MinGW/msys2 platform.  We recommend installing dependences (expat, zlib) with platform tools or build/install from source.
 
 [TOC](#TOC)
 <name id="3">
@@ -542,7 +518,7 @@ Other platforms such as Cygwin are not supported by Adobe.  Adobe/XMPsdk is buil
 Applications which wish use the Adobe XMPsdk directly should build Exiv2 in this configuration and the
 library can be used by the application and Exiv2.  The Adobe XMPsdk can be built as a static or shared library (.DLL)
 
-To build Exiv2 with Adobe XMPsdk 2016, should perform steps 1.1, 1.2 and 1.3 described above, then perform the following:
+To build Exiv2 with Adobe XMPsdk 2016, perform steps 1.1, 1.2 and 1.3 described above, then perform the following:
 
 <name id="4-1">
 ##### 4.1) Add a remote directory to conan's recipe search path
@@ -569,7 +545,7 @@ You must tell CMake to link Adobe's library:
 ```bash
 $ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On # -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
 ```
-**MacOS-X** users should use the cmake _**Xcode**_ Generator
+**macOS** users should use the cmake _**Xcode**_ Generator
 
 ```bash
 $ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On -G Xcode
@@ -586,15 +562,15 @@ $ cmake --build . --config Release
 <name id="5">
 ## 5 Webready Support
 
-Exiv2 can perform I/O using internet protocols such as https, https, ftp and ssh.
+Exiv2 can perform I/O using internet protocols such as http, https and ftp.
 
-The feature is disabled by default.  You will need to instruct conan to build/download necessary libraries (curl, openssl and libssh) and tell CMake to link to the libraries.
+The feature is disabled by default.  You will need to instruct conan to build/download necessary libraries (curl and openssl) and tell CMake to link to the libraries.
 
 ```bash
 $ conan install .. --options webready=True
-$ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON ..
+$ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON ..
 ```
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2019-04-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-18

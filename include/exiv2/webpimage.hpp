@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    webpimage.hpp
-  @brief   An Image subclass to support WEBP image files
-  @author  Ben Touchette
-           <a href="mailto:draekko.software+exiv2@gmail.com">draekko.software+exiv2@gmail.com</a>
-  @date    29-Jul-16
  */
 #ifndef WEBPIMAGE_HPP
 #define WEBPIMAGE_HPP
@@ -64,7 +57,7 @@ namespace Exiv2 {
               instance after it is passed to this method. Use the Image::io()
               method to get a temporary reference.
          */
-        WebPImage(BasicIo::AutoPtr io);
+        WebPImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
@@ -93,7 +86,7 @@ namespace Exiv2 {
                              byte *header, long header_size);
         bool equalsWebPTag(Exiv2::DataBuf& buf ,const char* str);
         void debugPrintHex(byte *data, long size);
-        void decodeChunks(uint64_t filesize);
+        void decodeChunks(long filesize);
         void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
                          bool has_alpha, bool has_icc, int width,
                          int height);
@@ -133,7 +126,7 @@ namespace Exiv2 {
           Caller owns the returned object and the auto-pointer ensures that
           it will be deleted.
      */
-    EXIV2API Image::AutoPtr newWebPInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a WebP Video.
     EXIV2API bool isWebPType(BasicIo& iIo, bool advance);

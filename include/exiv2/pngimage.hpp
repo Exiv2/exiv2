@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,17 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    pngimage.hpp
-  @brief   PNG image, implemented using the following references:
-           <a href="http://www.w3.org/TR/PNG/">PNG specification</a> by W3C<br>
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html">PNG tags list</a> by Phil Harvey<br>
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (cgilles)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @date    12-Jun-06, gc: submitted
  */
 #ifndef PNGIMAGE_HPP_
 #define PNGIMAGE_HPP_
@@ -74,7 +63,7 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        PngImage(BasicIo::AutoPtr io, bool create);
+        PngImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -127,7 +116,7 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a PNG image.
     EXIV2API bool isPngType(BasicIo& iIo, bool advance);

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,17 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    metadatum.hpp
-  @brief   Provides abstract base classes Metadatum and Key
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Brad Schick (brad)
-           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
-  @date    09-Jan-04, ahu: created<BR>
-           31-Jul-04, brad: isolated as a component<BR>
-           23-Aug-04, ahu: added Key
  */
 #ifndef METADATUM_HPP_
 #define METADATUM_HPP_
@@ -55,12 +44,12 @@ namespace Exiv2 {
     class EXIV2API Key {
     public:
         //! Shortcut for a %Key auto pointer.
-        typedef std::auto_ptr<Key> AutoPtr;
+        typedef std::unique_ptr<Key> UniquePtr;
 
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~Key();
+        virtual ~Key() = default;
         //@}
 
         //! @name Accessors
@@ -87,7 +76,7 @@ namespace Exiv2 {
                  The caller owns this copy and the auto-pointer ensures that it
                  will be deleted.
          */
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         /*!
           @brief Write the key to an output stream. You do not usually have
                  to use this function; it is used for the implementation of
@@ -262,7 +251,7 @@ namespace Exiv2 {
           @return An auto-pointer containing a pointer to a copy (clone) of the
                   value, 0 if the value is not set.
          */
-        virtual Value::AutoPtr getValue() const =0;
+        virtual Value::UniquePtr getValue() const =0;
         /*!
           @brief Return a constant reference to the value.
 

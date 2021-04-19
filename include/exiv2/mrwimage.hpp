@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    mrwimage.hpp
-  @brief   Minolta RAW image, implemented using the following references:
-           <a href="http://www.dalibor.cz/minolta/raw_file_format.htm">Minolta Raw file format</a> by Dalibor Jelinek
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    13-May-06, ahu: created
  */
 #ifndef MRWIMAGE_HPP_
 #define MRWIMAGE_HPP_
@@ -69,7 +61,7 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        MrwImage(BasicIo::AutoPtr io, bool create);
+        MrwImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
@@ -125,7 +117,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newMrwInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a MRW image.
     EXIV2API bool isMrwType(BasicIo& iIo, bool advance);

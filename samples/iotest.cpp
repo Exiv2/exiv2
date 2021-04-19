@@ -1,5 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,21 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  Abstract : Tester application for BasicIo functions. Tests MemIo primarily
-        since FileIo just sits atop of FILE* streams.
-
-  File     : iotest.cpp
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History  : 04-Dec-04, brad: created
- */
 // *****************************************************************************
 // included header files
 #include <exiv2/exiv2.hpp>
-
 #include <cstdio>                               // for EOF
 #include <cstring>
 #include <iostream>
+#include <stdio.h>
 
 using Exiv2::byte;
 using Exiv2::BasicIo;
@@ -46,82 +39,129 @@ int WriteReadSeek(BasicIo &io);
 // Main
 int main(int argc, char* const argv[])
 {
-try {
-    if (argc != 4) {
-        std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2\n";
-        std::cout << "fileouts are overwritten and should match filein exactly\n";
-        return 1;
-    }
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
-    FileIo fileIn(argv[1]);
-    if (fileIn.open() != 0) {
-        throw Error(Exiv2::kerDataSourceOpenFailed, fileIn.path(), strError());
-    }
-
-    FileIo fileOut1(argv[2]);
-    if (fileOut1.open("w+b") != 0) {
-        throw Error(Exiv2::kerFileOpenFailed, argv[2], "w+b", strError());
-    }
-
-    MemIo memIo1;
-
-    // Copy to output file through memIo
-    memIo1.write(fileIn);
-    memIo1.seek(0, BasicIo::beg);
-    fileOut1.write(memIo1);
-
-    // Make sure they are all the same size
-    if(fileIn.size() != memIo1.size() || memIo1.size() != fileOut1.size()) {
-        std::cerr << argv[0] <<
-            ": Sizes do not match\n";
-        return 1;
-    }
-
-    // Read writereadseek test on MemIo
-    MemIo memIo2;
-    int rc = WriteReadSeek(memIo2);
-    if (rc != 0) return rc;
-
-    // Read writereadseek test on FileIo
-    // Create or overwrite the file, then close it
-    FileIo fileTest("iotest.txt");
-    if (fileTest.open("w+b") != 0) {
-        throw Error(Exiv2::kerFileOpenFailed, "iotest.txt", "w+b", strError());
-    }
-
-    fileTest.close();
-    rc = WriteReadSeek(fileTest);
-    if (rc != 0) return rc;
-
-    // Another test of reading and writing
-    fileOut1.seek(0, BasicIo::beg);
-    memIo2.seek(0, BasicIo::beg);
-    FileIo fileOut2(argv[3]);
-    if (fileOut2.open("w+b") != 0) {
-        throw Error(Exiv2::kerFileOpenFailed, argv[3], "w+b", strError());
-    }
-
-    long readCount = 0;
-    byte buf[32];
-    while ((readCount=fileOut1.read(buf, sizeof(buf)))) {
-        if (memIo2.write(buf, readCount) != readCount) {
-            std::cerr << argv[0] <<
-                ": MemIo bad write 2\n";
-            return 13;
+    try {
+        if (argc < 4 || argc > 6 ) {
+            std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2 [remote [blocksize]]\n"
+                         "copy filein to fileout1 and copy filein to fileout2\n"
+                         "fileout1 and fileout2 are overwritten and should match filein exactly\n"
+                         "\n"
+                         "You may optionally provide the URL of a remote file to be copied to filein\n"
+                         "If you use `remote`, you may optionally provide a blocksize for the copy buffer (default 10k)\n"
+            ;
+            return 1;
         }
-        if (fileOut2.write(buf, readCount) != readCount) {
-            std::cerr << argv[0] <<
-                ": FileIo bad write 2\n";
-            return 14;
-        }
-    }
+        const char* f0 = argv[1]; // fileIn
+        const char* f1 = argv[2]; // fileOut1
+        const char* f2 = argv[3]; // fileOut2
+        const char* fr = argv[4]; // remote file
+        const char* ba = argv[5]; // block argument
 
-    return 0;
-}
-catch (Exiv2::AnyError& e) {
-    std::cerr << "Caught Exiv2 exception '" << e << "'\n";
-    return 20;
-}
+        if ( argc >= 5 ) {
+            int blocksize = argc==6 ? atoi(ba) : 10000;
+            // ensure blocksize is sane
+            if (blocksize>1024*1024) blocksize=10000;
+            Exiv2::byte* bytes = blocksize>0 ? new Exiv2::byte[blocksize]: NULL;
+
+            // copy fileIn from a remote location.
+            BasicIo::UniquePtr io = Exiv2::ImageFactory::createIo(fr);
+            if ( io->open() != 0 ) {
+                Error(Exiv2::kerFileOpenFailed, io->path(), "rb", strError());
+            }
+            FileIo output(f0);
+            if ( !output.open("wb") ) {
+                Error(Exiv2::kerFileOpenFailed, output.path() , "w+b", strError());
+            }
+            size_t    l = 0;
+            if ( bytes ) {
+                int r ;
+                while ( (r=io->read(bytes,blocksize)) > 0  ) {
+                    l += r;
+                    output.write(bytes,r) ;
+                }
+            } else {
+                // read/write byte-wise (#1029)
+                while ( l++ < io->size() ) {
+                    output.putb(io->getb()) ;
+                }
+            }
+            if ( bytes ) delete [] bytes;
+            output.close();
+        }
+
+        FileIo fileIn(f0);
+        if (fileIn.open() != 0) {
+            throw Error(Exiv2::kerDataSourceOpenFailed, fileIn.path(), strError());
+        }
+
+        FileIo fileOut1(f1);
+        if (fileOut1.open("w+b") != 0) {
+            throw Error(Exiv2::kerFileOpenFailed, f1, "w+b", strError());
+        }
+
+        MemIo memIo1;
+
+        // Copy to output file through memIo
+        memIo1.write(fileIn);
+        memIo1.seek(0, BasicIo::beg);
+        fileOut1.write(memIo1);
+
+        // Make sure they are all the same size
+        if(fileIn.size() != memIo1.size() || memIo1.size() != fileOut1.size()) {
+            std::cerr << argv[0] <<
+                ": Sizes do not match\n";
+            return 1;
+        }
+
+        // Read writereadseek test on MemIo
+        MemIo memIo2;
+        int rc = WriteReadSeek(memIo2);
+        if (rc != 0) return rc;
+
+        // Read writereadseek test on FileIo
+        // Create or overwrite the file, then close it
+        FileIo fileTest("iotest.txt");
+        if (fileTest.open("w+b") != 0) {
+            throw Error(Exiv2::kerFileOpenFailed, "iotest.txt", "w+b", strError());
+        }
+
+        fileTest.close();
+        rc = WriteReadSeek(fileTest);
+        if (rc != 0) return rc;
+
+        // Another test of reading and writing
+        fileOut1.seek(0, BasicIo::beg);
+        memIo2.seek(0, BasicIo::beg);
+        FileIo fileOut2(f2);
+        if (fileOut2.open("w+b") != 0) {
+            throw Error(Exiv2::kerFileOpenFailed, f2, "w+b", strError());
+        }
+
+        long readCount = 0;
+        byte buf[32];
+        while ((readCount=fileOut1.read(buf, sizeof(buf)))) {
+            if (memIo2.write(buf, readCount) != readCount) {
+                std::cerr << argv[0] <<
+                    ": MemIo bad write 2\n";
+                return 13;
+            }
+            if (fileOut2.write(buf, readCount) != readCount) {
+                std::cerr << argv[0] <<
+                    ": FileIo bad write 2\n";
+                return 14;
+            }
+        }
+
+        return 0;
+    } catch (Exiv2::AnyError& e) {
+        std::cerr << "Caught Exiv2 exception '" << e << "'\n";
+        return 20;
+    }
 }
 
 

@@ -1,13 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for geotag
 
 source ./functions.source
 
-(   cd "$testdir"
-
-    printf "geotag" >&3
-
-    jpg=FurnaceCreekInn.jpg
+(   jpg=FurnaceCreekInn.jpg
     gpx=FurnaceCreekInn.gpx
     copyTestFiles $jpg $gpx
 
@@ -21,16 +17,9 @@ source ./functions.source
     runTest                      geotag -ascii -tz -8:00 $jpg $gpx | cut -d' ' -f 2-
     echo --- show GPSInfo tags ---
     runTest                      exiv2 -pa --grep GPSInfo $jpg
+) > $results 2>&1
 
-) 3>&1 > $results 2>&1
-
-printf "\n"
-
-# ----------------------------------------------------------------------
-# Evaluate results
-cat $results | tr -d $'\r' > $results-stripped
-mv                           $results-stripped $results
-reportTest                                     $results $good
+reportTest
 
 # That's all Folks!
 ##

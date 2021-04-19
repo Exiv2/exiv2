@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      iptc.cpp
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History:   31-July-04, brad: created
  */
 // *****************************************************************************
 // included header files
@@ -203,9 +198,9 @@ namespace Exiv2 {
         return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n);
     }
 
-    Value::AutoPtr Iptcdatum::getValue() const
+    Value::UniquePtr Iptcdatum::getValue() const
     {
-        return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone();
+        return value_.get() == 0 ? nullptr : value_->clone();
     }
 
     const Value& Iptcdatum::value() const
@@ -230,9 +225,9 @@ namespace Exiv2 {
 
     Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
     {
-        UShortValue::AutoPtr v(new UShortValue);
+        UShortValue::UniquePtr v(new UShortValue);
         v->value_.push_back(value);
-        value_ = v;
+        value_ = std::move(v);
         return *this;
     }
 
@@ -435,10 +430,11 @@ namespace Exiv2 {
               uint32_t  size
     )
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IptcParser::decode, size = " << size << "\n";
 #endif
         const byte* pRead = pData;
+        const byte* const pEnd = pData + size;
         iptcData.clear();
 
         uint16_t record = 0;
@@ -446,7 +442,7 @@ namespace Exiv2 {
         uint32_t sizeData = 0;
         byte extTest = 0;
 
-        while (pRead + 3 < pData + size) {
+        while (6 <= static_cast<size_t>(pEnd - pRead)) {
             // First byte should be a marker. If it isn't, scan forward and skip
             // the chunk bytes present in some images. This deviates from the
             // standard, which advises to treat such cases as errors.
@@ -460,6 +456,7 @@ namespace Exiv2 {
                 uint16_t sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
                 if (sizeOfSize > 4) return 5;
                 pRead += 2;
+                if (sizeOfSize > static_cast<size_t>(pEnd - pRead)) return 6;
                 sizeData = 0;
                 for (; sizeOfSize > 0; --sizeOfSize) {
                     sizeData |= *pRead++ << (8 *(sizeOfSize-1));
@@ -470,7 +467,7 @@ namespace Exiv2 {
                 sizeData = getUShort(pRead, bigEndian);
                 pRead += 2;
             }
-            if (pRead + sizeData <= pData + size) {
+            if (sizeData <= static_cast<size_t>(pEnd - pRead)) {
                 int rc = 0;
                 if ((rc = readData(iptcData, dataSet, record, pRead, sizeData)) != 0) {
 #ifndef SUPPRESS_WARNINGS
@@ -484,6 +481,7 @@ namespace Exiv2 {
             else {
                 EXV_WARNING << "IPTC dataset " << IptcKey(dataSet, record)
                             << " has invalid size " << sizeData << "; skipped.\n";
+                return 7;
             }
 #endif
             pRead += sizeData;
@@ -555,7 +553,7 @@ namespace {
               uint32_t         sizeData
     )
     {
-        Exiv2::Value::AutoPtr value;
+        Exiv2::Value::UniquePtr value;
         Exiv2::TypeId type = Exiv2::IptcDataSets::dataSetType(dataSet, record);
         value = Exiv2::Value::create(type);
         int rc = value->read(data, sizeData, Exiv2::bigEndian);

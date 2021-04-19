@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,12 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      mrwimage.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   13-May-06, ahu: created
-  Credits:   See header file
- */
 // *****************************************************************************
 // included header files
 #include "config.h"
@@ -32,6 +26,7 @@
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 
 // + standard includes
@@ -44,8 +39,8 @@
 // class member definitions
 namespace Exiv2 {
 
-    MrwImage::MrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, io)
+    MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // MrwImage::MrwImage
 
@@ -92,7 +87,7 @@ namespace Exiv2 {
 
     void MrwImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading MRW file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -114,26 +109,33 @@ namespace Exiv2 {
         uint32_t const end = getULong(tmp + 4, bigEndian);
 
         pos += len;
-        if (pos > end) throw Error(kerFailedToReadImageData);
+        enforce(pos <= end, kerFailedToReadImageData);
         io_->read(tmp, len);
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         while (memcmp(tmp + 1, "TTW", 3) != 0) {
             uint32_t const siz = getULong(tmp + 4, bigEndian);
+            enforce(siz <= end - pos, kerFailedToReadImageData);
             pos += siz;
-            if (pos > end) throw Error(kerFailedToReadImageData);
             io_->seek(siz, BasicIo::cur);
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
+            enforce(len <= end - pos, kerFailedToReadImageData);
             pos += len;
-            if (pos > end) throw Error(kerFailedToReadImageData);
             io_->read(tmp, len);
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
         }
 
-        DataBuf buf(getULong(tmp + 4, bigEndian));
+        const uint32_t siz = getULong(tmp + 4, bigEndian);
+        // First do an approximate bounds check of siz, so that we don't
+        // get DOS-ed by a 4GB allocation on the next line. If siz is
+        // greater than io_->size() then it is definitely invalid. But the
+        // exact bounds checking is done by the call to io_->read, which
+        // will fail if there are fewer than siz bytes left to read.
+        enforce(siz <= io_->size(), kerFailedToReadImageData);
+        DataBuf buf(siz);
         io_->read(buf.pData_, buf.size_);
-        if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+        enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
@@ -151,9 +153,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newMrwInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new MrwImage(io, create));
+        Image::UniquePtr image(new MrwImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

@@ -1,9 +1,18 @@
-cmake_minimum_required( VERSION 3.3.2 )
+cmake_minimum_required( VERSION 3.5.0 )
 
-project(exiv2
-    VERSION 0.27.1
-    LANGUAGES CXX C
+project(exiv2          # use TWEAK to categorize the build
+    VERSION 1.00.0.9   # 1.00.0    = GM               (tagged and released)
+                       # 1.00.0.9  = 1.00.0 Development
+                       # 1.00.0.00 = GM Preview
+                       # 1.00.0.2  = RC2              (tagged and released)
+                       # 1.00.0.20 = RC2 Preview
+                       # 1.00.0.29 = RC2 Development
+    LANGUAGES CXX
 )
+
+if(NOT CMAKE_BUILD_TYPE)
+    set (CMAKE_BUILD_TYPE Release)
+endif()
 
 include(cmake/mainSetup.cmake  REQUIRED)
 
@@ -12,18 +21,16 @@ option( BUILD_SHARED_LIBS             "Build exiv2lib as a shared library"      
 option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"                       ON  )
 option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
-cmake_dependent_option(EXIV2_ENABLE_NLS "Build native language support (requires gettext)" ON "UNIX" OFF)
+option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      OFF )
 option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
-option( EXIV2_ENABLE_VIDEO            "Build video support into library"                      OFF )
-option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON )
+option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON  )
 option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
-option( EXIV2_ENABLE_SSH              "USE Libssh for SshIo (WEBREADY)"                       OFF )
+option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
-option( EXIV2_BUILD_PO                "Build translations files"                              OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
 option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentation"            OFF )
@@ -47,8 +54,8 @@ option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"     
 option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
 
 set( PACKAGE_BUGREPORT                "http://github.com/exiv2/exiv2" )
-set( PACKAGE_URL                      "http://exiv2.dyndns.org")
-set( PROJECT_DESCRIPTION              "Exif and IPTC metadata library and tools")
+set( PACKAGE_URL                      "https://exiv2.org")
+set( PROJECT_DESCRIPTION              "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more.")
 
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
     set(EXIV2_ENABLE_XMP OFF)
@@ -81,21 +88,50 @@ add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
+    add_custom_target(unit_test
+        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/unit_test.py
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
+    )
 endif()
+
+add_custom_target(version_test
+    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
+)
 
 if( EXIV2_BUILD_SAMPLES )
     ##
     # tests
-    add_custom_target(tests
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" make test
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test"
+    if( EXIV2_BUILD_UNIT_TESTS )
+        add_custom_target(tests
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/unit_test.py
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/testcases.py --verbose
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py 
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
+        )
+    else()
+        add_custom_target(tests
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/testcases.py --verbose
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py
+            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
+        )
+    endif()
+    add_custom_target(python_tests
+        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
+    )
+    add_custom_target(bash_tests
+        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/testcases.py --verbose
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
     )
     add_subdirectory( samples )
     get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
     add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
 endif()
 
-if( EXIV2_BUILD_PO )
+if( EXIV2_ENABLE_NLS )
     add_subdirectory( po )
 endif()
 
@@ -103,8 +139,15 @@ if (EXIV2_TEAM_PACKAGING)
     include(cmake/packaging.cmake)
 endif()
 
+join_paths(libdir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_LIBDIR}")
+join_paths(includedir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}")
 configure_file(cmake/exiv2.pc.in exiv2.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
+# ******************************************************************************
+# Man page
+install( FILES ${PROJECT_SOURCE_DIR}/man/man1/exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
+
 
 include(cmake/printSummary.cmake)
 

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -166,9 +166,9 @@ namespace Action {
     {
     }
 
-    Task::AutoPtr Task::clone() const
+    Task::UniquePtr Task::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     TaskFactory* TaskFactory::instance_ = 0;
@@ -193,7 +193,7 @@ namespace Action {
         }
     } //TaskFactory::cleanup
 
-    void TaskFactory::registerTask(TaskType type, Task::AutoPtr task)
+    void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
     {
         Registry::iterator i = registry_.find(type);
         if (i != registry_.end()) {
@@ -205,35 +205,59 @@ namespace Action {
     TaskFactory::TaskFactory()
     {
         // Register a prototype of each known task
-        registerTask(adjust,  Task::AutoPtr(new Adjust));
-        registerTask(print,   Task::AutoPtr(new Print));
-        registerTask(rename,  Task::AutoPtr(new Rename));
-        registerTask(erase,   Task::AutoPtr(new Erase));
-        registerTask(extract, Task::AutoPtr(new Extract));
-        registerTask(insert,  Task::AutoPtr(new Insert));
-        registerTask(modify,  Task::AutoPtr(new Modify));
-        registerTask(fixiso,  Task::AutoPtr(new FixIso));
-        registerTask(fixcom,  Task::AutoPtr(new FixCom));
+        registerTask(adjust,  Task::UniquePtr(new Adjust));
+        registerTask(print,   Task::UniquePtr(new Print));
+        registerTask(rename,  Task::UniquePtr(new Rename));
+        registerTask(erase,   Task::UniquePtr(new Erase));
+        registerTask(extract, Task::UniquePtr(new Extract));
+        registerTask(insert,  Task::UniquePtr(new Insert));
+        registerTask(modify,  Task::UniquePtr(new Modify));
+        registerTask(fixiso,  Task::UniquePtr(new FixIso));
+        registerTask(fixcom,  Task::UniquePtr(new FixCom));
     } // TaskFactory c'tor
 
-    Task::AutoPtr TaskFactory::create(TaskType type)
+    Task::UniquePtr TaskFactory::create(TaskType type)
     {
         Registry::const_iterator i = registry_.find(type);
         if (i != registry_.end() && i->second != 0) {
             Task* t = i->second;
             return t->clone();
         }
-        return Task::AutoPtr(0);
+        return nullptr;
     } // TaskFactory::create
 
     Print::~Print()
     {
     }
 
-    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path)
+    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path,bool binary)
     {
-        _setmode(_fileno(stdout),O_BINARY);
-        return printStructure(std::cout, option, path);
+        int result = 0 ;
+        if ( binary && option == Exiv2::kpsIccProfile ) {
+            std::stringstream output(std::stringstream::out|std::stringstream::binary);
+            result       = printStructure(output, option, path);
+            if ( result == 0 ) {
+                size_t          size = (long) output.str().size();
+                Exiv2::DataBuf  iccProfile((long)size);
+                Exiv2::DataBuf   ascii((long)(size * 3 + 1));
+                ascii.pData_[size * 3] = 0;
+                ::memcpy(iccProfile.pData_,output.str().c_str(),size);
+                if ( Exiv2::base64encode(iccProfile.pData_,size,(char*)ascii.pData_,size*3) ) {
+                    long       chunk = 60 ;
+                    std::string code = std::string("data:") + std::string((char*)ascii.pData_);
+                    long      length = (long) code.size() ;
+                    for ( long start = 0 ; start < length ; start += chunk ) {
+                        long   count = (start+chunk) < length ? chunk : length - start ;
+                        std::cout << code.substr(start,count) << std::endl;
+                    }
+                }
+            }
+        } else {
+            _setmode(_fileno(stdout),O_BINARY);
+            result = printStructure(std::cout, option, path);
+        }
+
+        return result;
     }
 
     int Print::run(const std::string& path)
@@ -243,7 +267,7 @@ namespace Action {
             int rc = 0;
             Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
             switch (Params::instance().printMode_) {
-                case Params::pmSummary:   rc = printSummary();     break;
+                case Params::pmSummary:   rc = Params::instance().greps_.empty() ? printSummary() : printList(); break;
                 case Params::pmList:      rc = printList();        break;
                 case Params::pmComment:   rc = printComment();     break;
                 case Params::pmPreview:   rc = printPreviewList(); break;
@@ -252,12 +276,12 @@ namespace Action {
                 case Params::pmXMP:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsXMP;
-                    rc = setModeAndPrintStructure(option, path_);
+                    rc = setModeAndPrintStructure(option, path_,binary());
                     break;
                 case Params::pmIccProfile:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsIccProfile;
-                    rc = setModeAndPrintStructure(option, path_);
+                    rc = setModeAndPrintStructure(option, path_,binary());
                     break;
             }
             return rc;
@@ -281,7 +305,7 @@ namespace Action {
                       << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -312,126 +336,6 @@ namespace Action {
             return -3;
         }
 
-        // Camera make
-        printTag(exifData, "Exif.Image.Make", _("Camera make"));
-
-        // Camera model
-        printTag(exifData, "Exif.Image.Model", _("Camera model"));
-
-        // Image Timestamp
-        printTag(exifData, "Exif.Photo.DateTimeOriginal", _("Image timestamp"));
-
-        // Image number
-        // Todo: Image number for cameras other than Canon
-        printTag(exifData, "Exif.Canon.FileNumber", _("Image number"));
-
-        // Exposure time
-        // From ExposureTime, failing that, try ShutterSpeedValue
-        printLabel(_("Exposure time"));
-        bool done = 0 != printTag(exifData, "Exif.Photo.ExposureTime");
-        if (!done) {
-            done = 0 != printTag(exifData, "Exif.Photo.ShutterSpeedValue");
-        }
-        std::cout << std::endl;
-
-        // Aperture
-        // Get if from FNumber and, failing that, try ApertureValue
-        {
-            printLabel(_("Aperture"));
-            bool done = 0 != printTag(exifData, "Exif.Photo.FNumber");
-            if (!done) {
-                done = 0 != printTag(exifData, "Exif.Photo.ApertureValue");
-            }
-            std::cout << std::endl;
-
-            // Exposure bias
-            printTag(exifData, "Exif.Photo.ExposureBiasValue", _("Exposure bias"));
-
-            // Flash
-            printTag(exifData, "Exif.Photo.Flash", _("Flash"));
-
-            // Flash bias
-            printTag(exifData, Exiv2::flashBias, _("Flash bias"));
-
-            // Actual focal length and 35 mm equivalent
-            // Todo: Calculate 35 mm equivalent a la jhead
-            Exiv2::ExifData::const_iterator md;
-            printLabel(_("Focal length"));
-            if (1 == printTag(exifData, "Exif.Photo.FocalLength")) {
-                md = exifData.findKey(
-                    Exiv2::ExifKey("Exif.Photo.FocalLengthIn35mmFilm"));
-                if (md != exifData.end()) {
-                    std::cout << " ("<< _("35 mm equivalent") << ": "
-                              << md->print(&exifData) << ")";
-                }
-            }
-            else {
-                printTag(exifData, "Exif.Canon.FocalLength");
-            }
-            std::cout << std::endl;
-        }
-
-        // Subject distance
-        {
-            printLabel(_("Subject distance"));
-            bool done = 0 != printTag(exifData, "Exif.Photo.SubjectDistance");
-            if (!done) {
-                printTag(exifData, "Exif.CanonSi.SubjectDistance");
-                printTag(exifData, "Exif.CanonFi.FocusDistanceLower");
-                printTag(exifData, "Exif.CanonFi.FocusDistanceUpper");
-            }
-            std::cout << std::endl;
-        }
-
-        // ISO speed
-        printTag(exifData, Exiv2::isoSpeed, _("ISO speed"));
-
-        // Exposure mode
-        printTag(exifData, Exiv2::exposureMode, _("Exposure mode"));
-
-        // Metering mode
-        printTag(exifData, "Exif.Photo.MeteringMode", _("Metering mode"));
-
-        // Macro mode
-        printTag(exifData, Exiv2::macroMode, _("Macro mode"));
-
-        // Image quality setting (compression)
-        printTag(exifData, Exiv2::imageQuality, _("Image quality"));
-
-        // Exif Resolution
-        {
-            printLabel(_("Exif Resolution"));
-            long xdim = 0;
-            long ydim = 0;
-            if (image->mimeType() == "image/tiff") {
-                xdim = image->pixelWidth();
-                ydim = image->pixelHeight();
-            }
-            else {
-                Exiv2::ExifData::const_iterator md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
-                if (md == exifData.end()) {
-                    md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-                }
-                if (md != exifData.end() && md->count() > 0) {
-                    xdim = md->toLong();
-                }
-                md = exifData.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
-                if (md == exifData.end()) {
-                    md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-                }
-                if (md != exifData.end() && md->count() > 0) {
-                    ydim = md->toLong();
-                }
-            }
-            if (xdim != 0 && ydim != 0) {
-                std::cout << xdim << " x " << ydim;
-            }
-            std::cout << std::endl;
-        }
-
-        // White balance
-        printTag(exifData, Exiv2::whiteBalance, _("White balance"));
-
         // Thumbnail
         printLabel(_("Thumbnail"));
         Exiv2::ExifThumbC exifThumb(exifData);
@@ -440,22 +344,37 @@ namespace Action {
             std::cout << _("None");
         }
         else {
-            Exiv2::DataBuf buf = exifThumb.copy();
-            if (buf.size_ == 0) {
+            auto dataBuf = exifThumb.copy();
+            if (dataBuf.size_ == 0) {
                 std::cout << _("None");
             }
             else {
                 std::cout << exifThumb.mimeType() << ", "
-                          << buf.size_ << " " << _("Bytes");
+                          << dataBuf.size_ << " " << _("Bytes");
             }
         }
         std::cout << std::endl;
 
-        // Copyright
-        printTag(exifData, "Exif.Image.Copyright", _("Copyright"));
+        printTag(exifData, Exiv2::make              , _("Camera make")                                  );
+        printTag(exifData, Exiv2::model             , _("Camera model")                                 );
+        printTag(exifData, Exiv2::dateTimeOriginal  , _("Image timestamp")                              );
+        printTag(exifData, "Exif.Canon.FileNumber"  , _("File number")                                  );
+        printTag(exifData, Exiv2::exposureTime      , _("Exposure time")    , Exiv2::shutterSpeedValue  );
+        printTag(exifData, Exiv2::fNumber           , _("Aperture")         , Exiv2::apertureValue      );
+        printTag(exifData, Exiv2::exposureBiasValue , _("Exposure bias")                                );
+        printTag(exifData, Exiv2::flash             , _("Flash")                                        );
+        printTag(exifData, Exiv2::flashBias         , _("Flash bias")                                   );
+        printTag(exifData, Exiv2::focalLength       , _("Focal length")                                 );
+        printTag(exifData, Exiv2::subjectDistance   , _("Subject distance")                             );
+        printTag(exifData, Exiv2::isoSpeed          , _("ISO speed")                                    );
+        printTag(exifData, Exiv2::exposureMode      , _("Exposure mode")                                );
+        printTag(exifData, Exiv2::meteringMode      , _("Metering mode")                                );
+        printTag(exifData, Exiv2::macroMode         , _("Macro mode")                                   );
+        printTag(exifData, Exiv2::imageQuality      , _("Image quality")                                );
+        printTag(exifData, Exiv2::whiteBalance      , _("White balance")                                );
+        printTag(exifData, "Exif.Image.Copyright"   , _("Copyright")                                    );
+        printTag(exifData, "Exif.Photo.UserComment" , _("Exif comment")                                 );
 
-        // Exif Comment
-        printTag(exifData, "Exif.Photo.UserComment", _("Exif comment"));
         std::cout << std::endl;
 
         return 0;
@@ -491,7 +410,8 @@ namespace Action {
 
     int Print::printTag(const Exiv2::ExifData& exifData,
                         EasyAccessFct easyAccessFct,
-                        const std::string& label) const
+                        const std::string& label,
+                        EasyAccessFct easyAccessFctFallback) const
     {
         int rc = 0;
         if (!label.empty()) {
@@ -501,6 +421,14 @@ namespace Action {
         if (md != exifData.end()) {
             md->write(std::cout, &exifData);
             rc = 1;
+        }
+        else if (NULL != easyAccessFctFallback)
+        {
+            md = easyAccessFctFallback(exifData);
+            if (md != exifData.end()) {
+                md->write(std::cout, &exifData);
+                rc = 1;
+            }
         }
         if (!label.empty()) std::cout << std::endl;
         return rc;
@@ -513,7 +441,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         // Set defaults for metadata types and data columns
@@ -606,6 +534,11 @@ namespace Action {
         return result ;
     }
 
+    static void binaryOutput(const std::ostringstream& os)
+    {
+        std::cout << os.str();
+    }
+
     bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImage)
     {
         if (!grepTag(md.key()))
@@ -689,67 +622,30 @@ namespace Action {
             if (!first)
                 std::cout << "  ";
             first = false;
-            if (md.size() > 128 && Params::instance().binary_ &&
-                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
-                 md.typeId() == Exiv2::signedByte)) {
-                std::cout << _("(Binary value suppressed)") << std::endl;
-                return true;
-            }
-            bool done = false;
-            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
-                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
-                if (pcv) {
-                    Exiv2::CommentValue::CharsetId csId = pcv->charsetId();
-                    if (csId != Exiv2::CommentValue::undefined) {
-                        std::cout << "charset=\"" << Exiv2::CommentValue::CharsetInfo::name(csId) << "\" ";
-                    }
-                    std::cout << pcv->comment(Params::instance().charset_.c_str());
-                    done = true;
+            std::ostringstream os;
+            // #1114 - show negative values for SByte
+            if (md.typeId() == Exiv2::signedByte) {
+                for ( int c = 0 ; c < md.value().count() ; c++ ) {
+                    int value = md.value().toLong(c);
+                    os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
+            } else {
+                os << std::dec << md.value();
             }
-            if (!done) {
-                // #1114 - show negative values for SByte
-                if (md.typeId() != Exiv2::signedByte) {
-                    std::cout << std::dec << md.value();
-                } else {
-                    int value = md.value().toLong();
-                    std::cout << std::dec << (value < 128 ? value : value - 256);
-                }
-            }
+            binaryOutput(os);
         }
         if (Params::instance().printItems_ & Params::prTrans) {
             if (!first)
                 std::cout << "  ";
             first = false;
-            if (Params::instance().binary_ &&
-                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
-                 md.typeId() == Exiv2::signedByte) &&
-                md.size() > 128) {
-                std::cout << _("(Binary value suppressed)") << std::endl;
-                return true;
-            }
-            bool done = false;
-            if (0 == strcmp(md.key().c_str(), "Exif.Photo.UserComment")) {
-                const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(&md.value());
-                if (pcv) {
-                    std::cout << pcv->comment(Params::instance().charset_.c_str());
-                    done = true;
-                }
-            }
-            if (!done)
-                std::cout << std::dec << md.print(&pImage->exifData());
+            std::ostringstream os;
+            os << std::dec << md.print(&pImage->exifData());
+            binaryOutput(os) ;
         }
         if (Params::instance().printItems_ & Params::prHex) {
             if (!first)
                 std::cout << std::endl;
             first = false;
-            if (Params::instance().binary_ &&
-                (md.typeId() == Exiv2::undefined || md.typeId() == Exiv2::unsignedByte ||
-                 md.typeId() == Exiv2::signedByte) &&
-                md.size() > 128) {
-                std::cout << _("(Binary value suppressed)") << std::endl;
-                return true;
-            }
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.pData_, pImage->byteOrder());
             Exiv2::hexdump(std::cout, buf.pData_, buf.size_);
@@ -765,7 +661,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         if (Params::instance().verbose_) {
@@ -782,7 +678,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         bool const manyFiles = Params::instance().files_.size() > 1;
@@ -805,9 +701,9 @@ namespace Action {
         return 0;
     } // Print::printPreviewList
 
-    Print::AutoPtr Print::clone() const
+    Print::UniquePtr Print::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Print* Print::clone_() const
@@ -830,7 +726,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -893,9 +789,9 @@ namespace Action {
         return 1;
     }} // Rename::run
 
-    Rename::AutoPtr Rename::clone() const
+    Rename::UniquePtr Rename::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Rename* Rename::clone_() const
@@ -919,7 +815,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         // Thumbnail must be before Exif
@@ -1019,9 +915,9 @@ namespace Action {
         return 0;
     }
 
-    Erase::AutoPtr Erase::clone() const
+    Erase::UniquePtr Erase::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Erase* Erase::clone_() const
@@ -1084,7 +980,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1126,7 +1022,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
         assert(image.get() != 0);
         image->readMetadata();
 
@@ -1164,7 +1060,7 @@ namespace Action {
         bool bStdout = target == "-" ;
 
         if ( rc == 0 ) {
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path_);
+            Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
             assert(image.get() != 0);
             image->readMetadata();
             if ( !image->iccProfileDefined() ) {
@@ -1211,9 +1107,9 @@ namespace Action {
         }
     } // Extract::writePreviewFile
 
-    Extract::AutoPtr Extract::clone() const
+    Extract::UniquePtr Extract::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Extract* Extract::clone_() const
@@ -1312,7 +1208,7 @@ namespace Action {
         for ( long i = 0 ; i < xmpBlob.size_ ; i++ ) {
             xmpPacket += (char) xmpBlob.pData_[i];
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         image->clearXmpData();
@@ -1356,7 +1252,7 @@ namespace Action {
 
         // read in the metadata
         if ( rc == 0 ) {
-            Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+            Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
             assert(image.get() != 0);
             image->readMetadata();
             // clear existing profile, assign the blob and rewrite image
@@ -1383,7 +1279,7 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifThumb exifThumb(image->exifData());
@@ -1393,9 +1289,9 @@ namespace Action {
         return 0;
     } // Insert::insertThumbnail
 
-    Insert::AutoPtr Insert::clone() const
+    Insert::UniquePtr Insert::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Insert* Insert::clone_() const
@@ -1418,7 +1314,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
 
@@ -1492,7 +1388,7 @@ namespace Action {
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::XmpData&  xmpData  = pImage->xmpData();
-        Exiv2::Value::AutoPtr value = Exiv2::Value::create(modifyCmd.typeId_);
+        Exiv2::Value::UniquePtr value = Exiv2::Value::create(modifyCmd.typeId_);
         int rc = value->read(modifyCmd.value_);
         if (0 == rc) {
             if (modifyCmd.metadataId_ == exif) {
@@ -1553,7 +1449,7 @@ namespace Action {
         // If a type was explicitly requested, use it; else
         // use the current type of the metadatum, if any;
         // or the default type
-        Exiv2::Value::AutoPtr value;
+        Exiv2::Value::UniquePtr value;
         if (metadatum) {
             value = metadatum->getValue();
         }
@@ -1630,9 +1526,9 @@ namespace Action {
         Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
     }
 
-    Modify::AutoPtr Modify::clone() const
+    Modify::UniquePtr Modify::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Modify* Modify::clone_() const
@@ -1659,7 +1555,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1686,9 +1582,9 @@ namespace Action {
         return 1;
     } // Adjust::run
 
-    Adjust::AutoPtr Adjust::clone() const
+    Adjust::UniquePtr Adjust::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     Adjust* Adjust::clone_() const
@@ -1795,7 +1691,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1833,9 +1729,9 @@ namespace Action {
     }
     } // FixIso::run
 
-    FixIso::AutoPtr FixIso::clone() const
+    FixIso::UniquePtr FixIso::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     FixIso* FixIso::clone_() const
@@ -1858,7 +1754,7 @@ namespace Action {
         Timestamp ts;
         if (Params::instance().preserve_) ts.read(path);
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
@@ -1874,7 +1770,7 @@ namespace Action {
             }
             return 0;
         }
-        Exiv2::Value::AutoPtr v = pos->getValue();
+        Exiv2::Value::UniquePtr v = pos->getValue();
         const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
         if (!pcv) {
             if (Params::instance().verbose_) {
@@ -1909,9 +1805,9 @@ namespace Action {
     }
     } // FixCom::run
 
-    FixCom::AutoPtr FixCom::clone() const
+    FixCom::UniquePtr FixCom::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     FixCom* FixCom::clone_() const
@@ -1963,7 +1859,7 @@ namespace {
     {
         if (timeStr.length() == 0 || timeStr[0] == ' ') return 1;
         if (timeStr.length() < 19) return 2;
-        if (   timeStr[4]  != ':' || timeStr[7]  != ':' || timeStr[10] != ' '
+        if (  (timeStr[4]  != ':' && timeStr[4] != '-') || (timeStr[7]  != ':' && timeStr[7] != '-') || timeStr[10] != ' '
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
         if (0 == tm) return 4;
         std::memset(tm, 0x0, sizeof(struct tm));
@@ -2015,7 +1911,7 @@ namespace {
 #if defined(_MSC_VER) || defined(__MINGW__)
  static CRITICAL_SECTION cs;
 #else
- /* Unix/Linux/Cygwin/MacOSX */
+ /* Unix/Linux/Cygwin/macOS */
  #include <pthread.h>
  /* This is the critical section object (statically allocated). */
  #if defined(__APPLE__)
@@ -2050,8 +1946,8 @@ namespace {
         pthread_mutex_lock( &cs );
         std::string tmp = "/tmp/";
 #endif
-        char        sCount[12];
-        sprintf(sCount,"_%d",++count);
+        char sCount[13];
+        sprintf(sCount,"_%d",++count); /// \todo replace by std::snprintf on master
 
         std::string result = tmp + Exiv2::toString(pid) + sCount ;
         if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
@@ -2070,7 +1966,7 @@ namespace {
                  int targetType,
                  bool preserve)
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "actions.cpp::metacopy" << " source = " << source << " target = " << tgt << std::endl;
 #endif
 
@@ -2087,9 +1983,9 @@ namespace {
 
         Exiv2::DataBuf stdIn;
         if ( bStdin )  Params::instance().getStdin(stdIn);
-        Exiv2::BasicIo::AutoPtr ioStdin = Exiv2::BasicIo::AutoPtr(new Exiv2::MemIo(stdIn.pData_,stdIn.size_));
+        Exiv2::BasicIo::UniquePtr ioStdin = Exiv2::BasicIo::UniquePtr(new Exiv2::MemIo(stdIn.pData_,stdIn.size_));
 
-        Exiv2::Image::AutoPtr sourceImage = bStdin ? Exiv2::ImageFactory::open(ioStdin) : Exiv2::ImageFactory::open(source);
+        Exiv2::Image::UniquePtr sourceImage = bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
 
@@ -2099,7 +1995,7 @@ namespace {
         // Open or create the target file
         std::string target(bStdout ? temporaryPath() : tgt);
 
-        Exiv2::Image::AutoPtr targetImage;
+        Exiv2::Image::UniquePtr targetImage;
         if (Exiv2::fileExists(target)) {
             targetImage = Exiv2::ImageFactory::open(target);
             assert(targetImage.get() != 0);
@@ -2356,7 +2252,7 @@ namespace {
                       << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->printStructure(out,option);
         return 0;

@@ -1,25 +1,26 @@
-MacOS-X (Darwin) Exiv2 v0.27.1 Release Bundle
----------------------------------------------
+@RV@ macOS (Darwin) Bundle @RC@
 
-Structure of the bundle
------------------------
+Document                                        Purpose
+--------                                        -------
+ReadMe.txt                                      This file
+README.md                                       Developer Manual
+README-CONAN.md                                 Developer Manual Appendix
+README-SAMPLES.md                               Developer Sample Code Manual
+releasenotes.txt                                Late breaking news
+exiv2.png                                       Exiv2 Logo
+COPYING                                         GPLv2.0 Software License
 
-bin/exiv2                                     exiv2 and sample applications
-lib/libexiv2.0.27.1.0.dylib & libexiv2-xmp.a  libraries
-lib/pkgconfig/exiv2.pc                        pkg-config file
-lib/exiv2/cmake/                              CMake support/consume files
-include/exiv2/                                include files
-share/man/                                    man pages
-share/locale/                                 localisation files
-samples/exifprint.cpp                         sample code
-logs/                                         build and test logs
-
-ReadMe.txt                                    This file
-exiv2.png                                     Exiv2 Logo
-license.txt                                   GPLv2.0 Software License
-README.md                                     Developer Manual
-README-CONAN.md                               Developer Manual Appendix
-releasenotes.txt                              Late breaking news
+Deliverable                                     Location
+-----------                                     --------
+exiv2 and sample applications                   bin/exiv2
+libraries                                       lib/libexiv2.@VM@.@VN@.@VD@@VR@.dylib & libexiv2-xmp.a
+pkg-config file                                 lib/pkgconfig/exiv2.pc
+CMake support/consume files                     lib/cmake/exiv2
+include files                                   include/exiv2/
+man pages                                       share/man/
+localisation files                              share/locale/
+sample code                                     samples/exifprint.cpp
+build/test log                                  logs/build.txt
 
 To run exiv2 from the bundle
 ----------------------------
@@ -40,10 +41,6 @@ To compile and link your own code using installed library and include files
 Method 1: Explicitly set include and linking options
 $ g++ -std=c++98 samples/exifprint.cpp -I/usr/local/include -L/usr/local/lib -lexiv2 -o exifprint
 $ ./exifprint --version
-exiv2=0.27.1
-...
-xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
-$
 
 Method 2: Use pkg-config to set include and linking options
 $ cd <bundle>
@@ -54,4 +51,14 @@ $ ./exifprint
 Method 3: Use the CMake support/consume files
 See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
 
+More Documentation
+------------------
 
+Project Website: https://exiv2.org
+
+$ export "MANPATH=/usr/local/share/man:$MANPATH"
+$ man exiv2
+
+Robin Mills
+robin@clanmills.com
+Updated: 2020-04-22

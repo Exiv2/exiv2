@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,26 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      version.cpp
- */
-
 // *****************************************************************************
 
 #include "config.h"
 
 #ifdef EXV_USE_CURL
 #include <curl/curl.h>
-#endif
-
-#if defined(__CYGWIN__) || defined(__MINGW__)
-#include <windows.h>
-# if __LP64__
-#  ifdef  _WIN64
-#   undef _WIN64
-#  endif
-#  define _WIN64 1
-# endif
 #endif
 
 #include "http.hpp"
@@ -55,11 +41,43 @@
 #include <string>
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 
 // #1147
 #ifndef WIN32
 #include <unistd.h>
 #include <sys/types.h>
+#endif
+
+#ifndef lengthof
+#define lengthof(x) sizeof(x)/sizeof(x[0])
+#endif
+#ifndef _MAX_PATH
+#define _MAX_PATH 512
+#endif
+
+// platform specific support for getLoadedLibraries
+#if defined(__CYGWIN__) || defined(__MINGW__) || defined(WIN32)
+# include <windows.h>
+# include <psapi.h>
+# if __LP64__
+#  ifdef  _WIN64
+#   undef _WIN64
+#  endif
+#  define _WIN64 1
+# endif
+#elif defined(__APPLE__)
+# include <mach-o/dyld.h>
+#elif defined(__FreeBSD__)
+# include <sys/param.h>
+# include <sys/queue.h>
+# include <sys/socket.h>
+# include <sys/sysctl.h>
+# include <libprocstat.h>
+# include <unistd.h>
+#elif defined(__sun__)
+# include <dlfcn.h>
+# include <link.h>
 #endif
 
 namespace Exiv2 {
@@ -92,46 +110,7 @@ namespace Exiv2 {
     {
         return versionNumber() >= EXIV2_MAKE_VERSION(major,minor,patch);
     }
-
-}                                       // namespace Exiv2
-
-#ifndef lengthof
-#define lengthof(x) sizeof(x)/sizeof(x[0])
-#endif
-#ifndef _MAX_PATH
-#define _MAX_PATH 512
-#endif
-
-// platform specific support for dumpLibraryInfo
-#if defined(WIN32)
-# include <windows.h>
-# include <psapi.h>
-
-// tell MSVC to link psapi.
-#ifdef  _MSC_VER
-#pragma comment( lib, "psapi" )
-#endif
-
-#elif defined(__APPLE__)
-# include <mach-o/dyld.h>
-
-#elif defined(__linux__)
-# include <unistd.h>
-// http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-# include <dlfcn.h>
-  struct something
-  {
-    void*  pointers[3];
-    struct something* ptr;
-  };
-  struct lmap
-  {
-    void*    base_address;   /* Base address of the shared object */
-    char*    path;           /* Absolute file name (path) of the shared object */
-    void*    not_needed1;    /* Pointer to the dynamic section of the shared object */
-    struct lmap *next, *prev;/* chain of loaded objects */
-  };
-#endif
+}   // namespace Exiv2
 
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
@@ -171,10 +150,91 @@ static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* nam
     output(os,greps,name,stringStream.str());
 }
 
+static bool pushPath(std::string& path,Exiv2::StringVector& libs,Exiv2::StringSet& paths)
+{
+    bool result = Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ;
+    if ( result ) {
+        paths.insert(path);
+        libs.push_back(path);
+    }
+    return result ;
+}
+
+static Exiv2::StringVector getLoadedLibraries()
+{
+    Exiv2::StringVector libs ;
+    Exiv2::StringSet    paths;
+    std::string         path ;
+
+#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+    // enumerate loaded libraries and determine path to executable
+    HMODULE handles[200];
+    DWORD   cbNeeded;
+    if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
+        char szFilename[_MAX_PATH];
+        for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
+            GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
+            std::string path(szFilename);
+            pushPath(path,libs,paths);
+        }
+    }
+#elif defined(__APPLE__)
+    // man 3 dyld
+    uint32_t count = _dyld_image_count();
+    for (uint32_t image = 0 ; image < count ; image++ ) {
+        std::string path(_dyld_get_image_name(image));
+        pushPath(path,libs,paths);
+    }
+#elif defined(__FreeBSD__)
+    // this code seg-faults when called from an SSH script! (security?)
+    if ( isatty(STDIN_FILENO) ) {
+        unsigned int n;
+        struct procstat*      procstat = procstat_open_sysctl();
+        struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+        struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
+        if ( files ) {
+            filestat* entry;
+            STAILQ_FOREACH(entry, files, next) {
+                std::string path(entry->fs_path);
+                pushPath(path,libs,paths);
+            }
+        }
+        // free resources
+        if ( files    ) procstat_freefiles(procstat, files);
+        if ( procs    ) procstat_freeprocs(procstat, procs);
+        if ( procstat ) procstat_close    (procstat);
+    }
+#elif defined (__sun__) || defined(__unix__)
+    // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
+    char procsz[100];
+    char pathsz[500];
+    sprintf(procsz,"/proc/%d/path/a.out", getpid());
+    int l = readlink (procsz, pathsz,sizeof(pathsz));
+    if (l>0) {
+        pathsz[l]='\0';
+        path.assign(pathsz);
+        libs.push_back(path);
+    }
+
+    // read file /proc/self/maps which has a list of files in memory
+    // (this doesn't yield anything on __sun__)
+    std::ifstream maps("/proc/self/maps",std::ifstream::in);
+    std::string   string ;
+    while ( std::getline(maps,string) ) {
+        std::size_t pos = string.find_last_of(' ');
+        if ( pos != std::string::npos ) {
+            path = string.substr(pos+1);
+            pushPath(path,libs,paths);
+        }
+    }
+#endif
+    if ( !libs.size() ) libs.push_back("unknown");
+
+    return libs;
+}
+
 void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 {
-    Exiv2::StringVector libs; // libs[0] == executable
-
     int      bits = 8*sizeof(void*);
 #ifdef NDEBUG
     int debug=0;
@@ -182,7 +242,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int debug=1;
 #endif
 
-#if defined(DLL_EXPORT)
+#ifdef exiv2lib_EXPORTS
     int dll=1;
 #else
     int dll=0;
@@ -201,7 +261,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     size_t      edition       = (_MSC_VER-600)/100;
     const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015","2017","2019"};
     if (  edition == 13 && _MSC_VER >= 1910 ) edition++ ; // 2017 _MSC_VAR  == 1910
-    if (  edition == 13 && _MSC_VER >= 1920 ) edition++ ; // 2019 _MSC_VAR  == 1920
+    if (  edition == 14 && _MSC_VER >= 1920 ) edition++ ; // 2019 _MSC_VAR  == 1920
 
     if  ( edition > lengthof(editions) ) edition = 0 ;
     if  ( edition ) sprintf(version+::strlen(version)," (%s/%s)",editions[edition],bits==64?"x64":"x86");
@@ -218,12 +278,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "CC (oracle)";
 #elif defined (__SUNPRO_C)
     "cc (oracle)";
+#elif defined (__sun__)
+    "cc (solaris)";
 #else
     "unknown" ;
-#endif
-
-#if defined(__SUNPRO_CC) || defined (__SUNPRO_C)
-#define __oracle__
 #endif
 
 #ifndef __VERSION__
@@ -247,19 +305,26 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     "mingw64";
 #elif defined(__MINGW32__)
     "mingw32";
+#elif defined(__sun__)
+    "solaris";
+#elif defined(__NetBSD__)
+    "netbsd";
+#elif defined(__FreeBSD__)
+    "freebsd";
 #elif defined(__linux__)
     "linux";
 #else
     "unknown";
 #endif
 
-    int have_gmtime_r    =0;
     int have_inttypes    =0;
     int have_libintl     =0;
     int have_lensdata    =0;
     int have_iconv       =0;
     int have_memory      =0;
     int have_lstat       =0;
+    int have_regex       =0;
+    int have_regex_h     =0;
     int have_stdbool     =0;
     int have_stdint      =0;
     int have_stdlib      =0;
@@ -279,17 +344,11 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_sys_types   =0;
     int have_unistd      =0;
     int have_unicode_path=0;
-    int have_regex       =0;
 
-    int enable_video     =0;
+    int enable_bmff      =0;
     int enable_webready  =0;
     int enable_nls       =0;
     int use_curl         =0;
-    int use_ssh          =0;
-
-#ifdef EXV_HAVE_GMTIME_R
-    have_gmtime_r=1;
-#endif
 
 #ifdef EXV_HAVE_INTTYPES_H
     have_inttypes=1;
@@ -319,13 +378,19 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     have_lstat=1;
 #endif
 
+#ifdef EXV_HAVE_REGEX
+    have_regex=1;
+#endif
+
+#ifdef EXV_HAVE_REGEX_H
+    have_regex_h=1;
+#endif
+
 #ifdef EXV_HAVE_STDBOOL_H
     have_stdbool=1;
 #endif
 
-#ifdef EXV_HAVE_STDINT_H
     have_stdint=1;
-#endif
 
 #ifdef EXV_HAVE_STDLIB_H
     have_stdlib=1;
@@ -395,8 +460,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      have_unicode_path=1;
 #endif
 
-#ifdef EXV_ENABLE_VIDEO
-     enable_video=1;
+#ifdef EXV_ENABLE_BMFF
+     enable_bmff=1;
 #endif
 
 #ifdef EXV_ENABLE_WEBREADY
@@ -411,59 +476,8 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     use_curl=1;
 #endif
 
-#ifdef EXV_USE_SSH
-     use_ssh=1;
-#endif
+    Exiv2::StringVector libs =getLoadedLibraries();
 
-#ifdef EXV_HAVE_REGEX_H
-      have_regex=1;
-#endif
-
-#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
-    // enumerate loaded libraries and determine path to executable
-    HMODULE handles[200];
-    DWORD   cbNeeded;
-    if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
-        char szFilename[_MAX_PATH];
-        for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
-            GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-            libs.push_back(szFilename);
-        }
-    }
-#elif defined(__APPLE__)
-    // man 3 dyld
-    uint32_t count = _dyld_image_count();
-    for (uint32_t image = 0 ; image < count ; image++ ) {
-        const char* image_path = _dyld_get_image_name(image);
-        libs.push_back(image_path);
-    }
-#elif defined(__linux__)
-    // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-    char proc[100];
-    char path[500];
-    sprintf(proc,"/proc/%d/exe", getpid());
-    int l = readlink (proc, path,sizeof(path)-1);
-    if (l>0) {
-        path[l]=0;
-        libs.push_back(path);
-    } else {
-        libs.push_back("unknown");
-    }
-
-    // http://syprog.blogspot.com/2011/12/listing-loaded-shared-objects-in-linux.html
-    struct lmap*      pl;
-    void*             ph = dlopen(NULL, RTLD_NOW);
-    struct something* p  = (struct something*) ph;
-
-    p  = p->ptr;
-    pl = (struct lmap*)p->ptr;
-
-    while ( pl )
-    {
-        libs.push_back(pl->path);
-        pl = pl->next;
-    }
-#endif
     output(os,keys,"exiv2",Exiv2::versionString());
     output(os,keys,"platform"       , platform   );
     output(os,keys,"compiler"       , compiler   );
@@ -497,14 +511,14 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
             output(os,keys,"library",*lib);
     }
 
-    output(os,keys,"have_strerror_r"   ,have_strerror_r  );
-    output(os,keys,"have_gmtime_r"     ,have_gmtime_r    );
     output(os,keys,"have_inttypes"     ,have_inttypes    );
     output(os,keys,"have_libintl"      ,have_libintl     );
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
     output(os,keys,"have_lstat"        ,have_lstat       );
+    output(os,keys,"have_regex"        ,have_regex       );
+    output(os,keys,"have_regex_h"      ,have_regex_h     );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );
@@ -524,12 +538,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_sys_types"    ,have_sys_types   );
     output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
-    output(os,keys,"enable_video"      ,enable_video     );
+    output(os,keys,"enable_bmff"       ,enable_bmff      );
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
-    output(os,keys,"use_ssh"           ,use_ssh          );
-    output(os,keys,"have_regex"        ,have_regex       );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
@@ -551,10 +563,4 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
         output(os,keys,name,xmlns+":"+uri);
     }
 #endif
-
-#if defined(__linux__)
-    dlclose(ph);
-    ph=NULL;
-#endif
-
 }

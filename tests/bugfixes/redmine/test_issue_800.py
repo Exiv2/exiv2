@@ -12,7 +12,7 @@ FORMATS = ["jpg", "psd"]
 def make_commands(filename):
     return [
         """$exiv2 -u -v -M"set Exif.Photo.UserComment Test" """ + filename,
-        "$exiv2 -u -pt " + filename
+        "$exiv2 -u -pt -b " + filename
     ]
 
 
@@ -49,7 +49,7 @@ Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 Exif.Photo.MeteringMode                      Short       1  Multi-segment
 Exif.Photo.Flash                             Short       1  No, auto
 Exif.Photo.FocalLength                       Rational    1  7.4 mm
-Exif.Photo.MakerNote                         Undefined 590  (Binary value suppressed)
+Exif.Photo.MakerNote                         Undefined 590  14 0 1 0 3 0 46 0 0 0 92 4 0 0 2 0 3 0 4 0 0 0 184 4 0 0 3 0 3 0 4 0 0 0 192 4 0 0 4 0 3 0 34 0 0 0 200 4 0 0 0 0 3 0 6 0 0 0 12 5 0 0 0 0 3 0 4 0 0 0 24 5 0 0 18 0 3 0 28 0 0 0 32 5 0 0 19 0 3 0 4 0 0 0 88 5 0 0 6 0 2 0 32 0 0 0 96 5 0 0 7 0 2 0 24 0 0 0 128 5 0 0 8 0 4 0 1 0 0 0 104 167 20 0 9 0 2 0 32 0 0 0 152 5 0 0 16 0 4 0 1 0 0 0 0 0 39 1 13 0 3 0 34 0 0 0 184 5 0 0 0 0 0 0 92 0 2 0 0 0 5 0 1 0 0 0 0 0 4 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 15 0 3 0 1 0 1 64 0 0 255 255 255 255 199 2 237 0 32 0 98 0 180 0 0 0 0 0 0 0 0 0 0 0 0 0 255 255 0 0 224 8 224 8 0 0 1 0 0 0 0 0 255 127 0 0 0 0 0 0 2 0 237 0 30 1 215 0 0 4 0 0 0 0 0 0 68 0 0 0 128 0 50 1 181 0 245 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 121 0 0 0 180 0 247 0 0 0 0 0 0 0 250 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 0 9 0 224 8 168 6 224 8 212 0 153 1 38 0 102 254 0 0 154 1 102 254 0 0 154 1 102 254 0 0 154 1 215 255 215 255 215 255 0 0 0 0 0 0 41 0 41 0 41 0 16 0 4 0 0 0 0 0 0 0 0 0 73 77 71 58 80 111 119 101 114 83 104 111 116 32 83 52 48 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 50 46 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 68 0 9 0 67 1 57 1 62 1 65 1 69 1 68 1 67 1 66 1 70 1 64 0 0 0 0 0 83 0 0 0 0 0 10 0 0 0 10 0 3 0 120 0 123 1 26 0 249 255 249 3 10 4 0 0 0 0 0 0 0 0 153 0 0 0 0 0
 Exif.Photo.UserComment                       Undefined  12  Test
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.PixelXDimension                   Short       1  2272

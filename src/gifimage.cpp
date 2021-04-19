@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      gifimage.cpp
-  Author(s): Marco Piovanelli, Ovolab (marco)
-  History:   26-Feb-2007, marco: created
  */
 // *****************************************************************************
 // included header files
@@ -41,8 +36,8 @@
 // class member definitions
 namespace Exiv2 {
 
-    GifImage::GifImage(BasicIo::AutoPtr io)
-        : Image(ImageType::gif, mdNone, io)
+    GifImage::GifImage(BasicIo::UniquePtr io)
+        : Image(ImageType::gif, mdNone, std::move(io))
     {
     } // GifImage::GifImage
 
@@ -71,7 +66,7 @@ namespace Exiv2 {
 
     void GifImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Exiv2::GifImage::readMetadata: Reading GIF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)
@@ -103,9 +98,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newGifInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new GifImage(io));
+        Image::UniquePtr image(new GifImage(std::move(io)));
         if (!image->good())
         {
             image.reset();

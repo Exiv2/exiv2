@@ -9,7 +9,7 @@ class CrashAfterLightzoneEdit(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/exiv2-bug479.jpg"
 
-    commands = ["$exiv2 -u -pt $filename"]
+    commands = ["$exiv2 -u -b -pt $filename"]
 
     stdout = ["""Exif.Image.ImageWidth                        Short       1  3173
 Exif.Image.ImageLength                       Short       1  2011
@@ -33,7 +33,7 @@ Exif.Image.ExposureBiasValue                 SRational   1  0 EV
 Exif.Image.MeteringMode                      Short       1  Multi-segment
 Exif.Image.Flash                             Short       1  No, compulsory
 Exif.Image.FocalLength                       Rational    1  24.0 mm
-Exif.Image.0x9286                            Undefined 264  (Binary value suppressed)
+Exif.Image.0x9286                            Undefined 264  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 """]
     stderr = ["""Error: Directory Image: Next pointer is out of bounds; ignored.
 """]

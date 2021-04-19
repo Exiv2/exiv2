@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,9 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      image.cpp
- */
 // *****************************************************************************
 // included header files
 #include "config.h"
@@ -31,20 +28,21 @@
 #include "safe_op.hpp"
 #include "slice.hpp"
 
+#ifdef   EXV_ENABLE_BMFF
+#include "bmffimage.hpp"
+#endif// EXV_ENABLE_BMFF
 #include "cr2image.hpp"
 #include "crwimage.hpp"
-#include "epsimage.hpp"
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
-#ifdef EXV_HAVE_LIBZ
+#ifdef   EXV_HAVE_LIBZ
 # include "pngimage.hpp"
-#endif // EXV_HAVE_LIBZ
+#endif// EXV_HAVE_LIBZ
 #include "rafimage.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "bigtiffimage.hpp"
 #include "webpimage.hpp"
 #include "orfimage.hpp"
 #include "gifimage.hpp"
@@ -54,12 +52,6 @@
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
 
-#ifdef EXV_ENABLE_VIDEO
-#include "matroskavideo.hpp"
-#include "quicktimevideo.hpp"
-#include "riffvideo.hpp"
-#include "asfvideo.hpp"
-#endif // EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"
 #include "xmpsidecar.hpp"
@@ -71,6 +63,7 @@
 #include <cassert>
 #include <iostream>
 #include <limits>
+#include <set>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -110,7 +103,6 @@ namespace {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::bigtiff, newBigTiffInstance, isBigTiffType, amRead, amRead,  amRead,      amNone      },
         { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
         { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
@@ -125,19 +117,15 @@ namespace {
 #endif // EXV_HAVE_LIBZ
         { ImageType::pgf,  newPgfInstance,  isPgfType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
         { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
-        { ImageType::eps,  newEpsInstance,  isEpsType,  amNone,      amNone,      amReadWrite, amNone      },
         { ImageType::xmp,  newXmpInstance,  isXmpType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageType::psd,  newPsdInstance,  isPsdType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::psd,  newPsdInstance,  isPsdType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-#ifdef EXV_ENABLE_VIDEO
-        { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },
-        { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
-        { ImageType::asf,  newAsfInstance,  isAsfType,  amNone,      amNone,      amRead,      amNone      },
-        { ImageType::mkv,  newMkvInstance,  isMkvType,  amNone,      amNone,      amRead,      amNone      },
-#endif // EXV_ENABLE_VIDEO
+#ifdef EXV_ENABLE_BMFF
+        { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
+#endif // EXV_ENABLE_BMFF
         // End of list marker
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
@@ -150,8 +138,8 @@ namespace Exiv2 {
 
     Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
-                 BasicIo::AutoPtr io)
-        : io_(io),
+                 BasicIo::UniquePtr io)
+        : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
           imageType_(imageType),
@@ -332,9 +320,11 @@ namespace Exiv2 {
         return type >= 1 && type <= 13 ;
     }
 
+    static std::set<long> visits; // #547
     void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
     {
         depth++;
+        if ( depth == 1 ) visits.clear();
         bool bFirst  = true  ;
 
         // buffer
@@ -361,6 +351,11 @@ namespace Exiv2 {
 
             // Read the dictionary
             for ( int i = 0 ; i < dirLength ; i ++ ) {
+                if ( visits.find(io.tell()) != visits.end()  ) { // #547
+                    throw Error(kerCorruptedMetadata);
+                }
+                visits.insert(io.tell());
+                
                 if ( bFirst && bPrint ) {
                     out << Internal::indent(depth)
                         << " address |    tag                              |     "
@@ -376,7 +371,7 @@ namespace Exiv2 {
 
                 // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
-                    std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
+                    std::cerr << "invalid type in tiff structure" << type << std::endl;
                     start = 0; // break from do loop
                     throw Error(kerInvalidTypeValue);
                 }
@@ -454,7 +449,7 @@ namespace Exiv2 {
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
                             size_t   restore = io.tell();
-                            uint32_t offset = byteSwap4(buf,k*size,bSwap);
+                            offset = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
                             io.seek(restore,BasicIo::beg);
                         }
@@ -484,11 +479,11 @@ namespace Exiv2 {
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            byte* bytes2=new byte[count-jump] ;  // allocate memory
+                            io.read(bytes2,count-jump)        ;  // read
+                            MemIo memIo(bytes2,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
+                            delete[] bytes2                   ;  // free
                         } else {
                             // tag is an IFD
                             io.seek(0,BasicIo::beg);  // position
@@ -839,143 +834,132 @@ namespace Exiv2 {
         return ImageType::none;
     } // ImageFactory::getType
 
-    BasicIo::AutoPtr ImageFactory::createIo(const std::string& path, bool useCurl)
+    BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl)
     {
         Protocol fProt = fileProtocol(path);
 
-#ifdef EXV_USE_SSH
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::AutoPtr(new SshIo(path)); // may throw
-        }
-#endif
-
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return BasicIo::AutoPtr(new CurlIo(path)); // may throw
+            return BasicIo::UniquePtr(new CurlIo(path)); // may throw
         }
 #endif
 
         if (fProt == pHttp)
-            return BasicIo::AutoPtr(new HttpIo(path)); // may throw
+            return BasicIo::UniquePtr(new HttpIo(path)); // may throw
         if (fProt == pFileUri)
-            return BasicIo::AutoPtr(new FileIo(pathOfFileUrl(path)));
+            return BasicIo::UniquePtr(new FileIo(pathOfFileUrl(path)));
         if (fProt == pStdin || fProt == pDataUri)
-            return BasicIo::AutoPtr(new XPathIo(path)); // may throw
+            return BasicIo::UniquePtr(new XPathIo(path)); // may throw
 
-        return BasicIo::AutoPtr(new FileIo(path));
+        return BasicIo::UniquePtr(new FileIo(path));
 
         (void)(useCurl);
     } // ImageFactory::createIo
 
 #ifdef EXV_UNICODE_PATH
-    BasicIo::AutoPtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
+    BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
     {
         Protocol fProt = fileProtocol(wpath);
-#if EXV_USE_SSH == 1
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::AutoPtr(new SshIo(wpath));
-        }
-#endif
-#if EXV_USE_CURL == 1
+#ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return BasicIo::AutoPtr(new CurlIo(wpath));
+            return BasicIo::UniquePtr(new CurlIo(wpath));
         }
 #endif
         if (fProt == pHttp)
-            return BasicIo::AutoPtr(new HttpIo(wpath));
+            return BasicIo::UniquePtr(new HttpIo(wpath));
         if (fProt == pFileUri)
-            return BasicIo::AutoPtr(new FileIo(pathOfFileUrl(wpath)));
+            return BasicIo::UniquePtr(new FileIo(pathOfFileUrl(wpath)));
         if (fProt == pStdin || fProt == pDataUri)
-            return BasicIo::AutoPtr(new XPathIo(wpath)); // may throw
-        return BasicIo::AutoPtr(new FileIo(wpath));
+            return BasicIo::UniquePtr(new XPathIo(wpath)); // may throw
+        return BasicIo::UniquePtr(new FileIo(wpath));
     } // ImageFactory::createIo
 #endif
-    Image::AutoPtr ImageFactory::open(const std::string& path, bool useCurl)
+    Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
-        Image::AutoPtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
+        Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
         if (image.get() == 0) throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
+    Image::UniquePtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
     {
-        Image::AutoPtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
+        Image::UniquePtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
         if (image.get() == 0) throw WError(kerFileContainsUnknownImageType, wpath);
         return image;
     }
 
 #endif
-    Image::AutoPtr ImageFactory::open(const byte* data, long size)
+    Image::UniquePtr ImageFactory::open(const byte* data, long size)
     {
-        BasicIo::AutoPtr io(new MemIo(data, size));
-        Image::AutoPtr image = open(io); // may throw
+        BasicIo::UniquePtr io(new MemIo(data, size));
+        Image::UniquePtr image = open(std::move(io)); // may throw
         if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
-    Image::AutoPtr ImageFactory::open(BasicIo::AutoPtr io)
+    Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io)
     {
         if (io->open() != 0) {
             throw Error(kerDataSourceOpenFailed, io->path(), strError());
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
-                return registry[i].newInstance_(io, false);
+                return registry[i].newInstance_(std::move(io), false);
             }
         }
-        return Image::AutoPtr();
+        return Image::UniquePtr();
     } // ImageFactory::open
 
-    Image::AutoPtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(int type,
                                         const std::string& path)
     {
-        std::auto_ptr<FileIo> fileIo(new FileIo(path));
+        std::unique_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw Error(kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(int type,
                                         const std::wstring& wpath)
     {
-        std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
+        std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
 #endif
-    Image::AutoPtr ImageFactory::create(int type)
+    Image::UniquePtr ImageFactory::create(int type)
     {
-        BasicIo::AutoPtr io(new MemIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(new MemIo);
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
-    Image::AutoPtr ImageFactory::create(int type,
-                                        BasicIo::AutoPtr io)
+    Image::UniquePtr ImageFactory::create(int type,
+                                        BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
         if (0 != r) {
-            return r->newInstance_(io, true);
+            return r->newInstance_(std::move(io), true);
         }
-        return Image::AutoPtr();
+        return Image::UniquePtr();
     } // ImageFactory::create
 
 // *****************************************************************************

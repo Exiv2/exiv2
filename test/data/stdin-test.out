@@ -183,19 +183,19 @@ STRUCTURE OF PNG FILE: ReaganSmallPng.png
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | zTXt  |    8648 | Raw profile type exif..x...Wv$ | 0xca41f34d
     8693 | zTXt  |     632 | Raw profile type iptc..x..T[.. | 0xa2860459
-    9337 | iCCP  |    2609 | ICC PROFILE..x...wTS.....7.P.. | 0x9dbb65a0
-   11958 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
-   19087 | gAMA  |       4 | ....                           | 0x0bfc6105
-   19103 | bKGD  |       6 | ......                         | 0xa0bda793
-   19121 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   19142 | tIME  |       7 | ......#                        | 0xdf7f5bbd
-   19161 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   19451 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
-   27655 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
-   35859 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
-   44063 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
-   52267 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
-   59345 | IEND  |       0 |                                | 0xae426082
+    9337 | iCCP  |    2598 | ..x...wTS.....7.P.....khR.H..H | 0x915a222e
+   11947 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
+   19076 | gAMA  |       4 | ....                           | 0x0bfc6105
+   19092 | bKGD  |       6 | ......                         | 0xa0bda793
+   19110 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   19131 | tIME  |       7 | ......#                        | 0xdf7f5bbd
+   19150 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   19440 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
+   27644 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
+   35848 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
+   44052 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
+   52256 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
+   59334 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   190110 |        0 | WEBP

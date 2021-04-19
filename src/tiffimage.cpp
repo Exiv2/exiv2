@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      tiffimage.cpp
  */
 // *****************************************************************************
 // included header files
@@ -70,8 +67,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    TiffImage::TiffImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, io),
+    TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)),
           pixelWidth_(0), pixelHeight_(0)
     {
     } // TiffImage::TiffImage
@@ -168,7 +165,7 @@ namespace Exiv2 {
 
     void TiffImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -207,7 +204,7 @@ namespace Exiv2 {
 
     void TiffImage::writeMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
@@ -256,12 +253,22 @@ namespace Exiv2 {
               uint32_t  size
     )
     {
+        uint32_t root = Tag::root;
+
+        // #1402  Fujifilm RAF. Change root when parsing embedded tiff
+        Exiv2::ExifKey key("Exif.Image.Make");
+        if (exifData.findKey(key) != exifData.end()) {
+            if ( exifData.findKey(key)->toString() == "FUJIFILM" ) {
+                root = Tag::fuji;
+            }
+        }
+
         return TiffParserWorker::decode(exifData,
                                         iptcData,
                                         xmpData,
                                         pData,
                                         size,
-                                        Tag::root,
+                                        root,
                                         TiffMapping::findDecoder);
     } // TiffParser::decode
 
@@ -283,7 +290,7 @@ namespace Exiv2 {
             panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(),
@@ -292,7 +299,7 @@ namespace Exiv2 {
                      ed.end());
         }
 
-        std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
+        std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
         return TiffParserWorker::encode(io,
                                         pData,
                                         size,
@@ -307,9 +314,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new TiffImage(io, create));
+        Image::UniquePtr image(new TiffImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

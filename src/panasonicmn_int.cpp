@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      panasonicmn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-  History:   11-Jun-04, ahu: created
-  Credits:   See header file
  */
 // *****************************************************************************
 // included header files
@@ -501,7 +494,7 @@ namespace Exiv2 {
         TagInfo(0x006d, "City", N_("City"), N_("City"), panasonicId, makerTags, undefined, -1, printPanasonicText),
         TagInfo(0x006f, "Landmark", N_("Landmark"), N_("Landmark"), panasonicId, makerTags, undefined, -1, printPanasonicText),
         TagInfo(0x0070, "IntelligentResolution", N_("Intelligent resolution"), N_("Intelligent resolution"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicIntelligentResolution)),
-        TagInfo(0x0077, "BurstSheed", N_("Burst Speed"), N_("Burst Speed in pictures per second"), panasonicId, makerTags, unsignedShort, -1, printValue),
+        TagInfo(0x0077, "BurstSpeed", N_("Burst Speed"), N_("Burst Speed in pictures per second"), panasonicId, makerTags, unsignedShort, -1, printValue),
         TagInfo(0x0079, "IntelligentDRange", N_("Intelligent Dynamic Range"), N_("Intelligent Dynamic Range"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentDRange)),
         TagInfo(0x007c, "ClearRetouch", N_("Clear Retouch"), N_("Clear Retouch"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicClearRetouch)),
         TagInfo(0x0080, "City2", N_("City2"), N_("City2"), panasonicId, makerTags, undefined, -1, printPanasonicText),
@@ -556,6 +549,8 @@ namespace Exiv2 {
         if      (l0 ==   0 && l1 ==  1) os << _("Spot mode on or 9 area");
         else if (l0 ==   0 && l1 == 16) os << _("Spot mode off or 3-area (high speed)");
         else if (l0 ==   0 && l1 == 23) os << _("23-area");
+        else if (l0 ==   0 && l1 == 49) os << _("49-area");
+        else if (l0 ==   0 && l1 ==225) os << _("225-area");
         else if (l0 ==   1 && l1 ==  0) os << _("Spot focussing");
         else if (l0 ==   1 && l1 ==  1) os << _("5-area");
         else if (l0 ==  16 && l1 ==  0) os << _("1-area");
@@ -566,6 +561,7 @@ namespace Exiv2 {
         else if (l0 ==  32 && l1 ==  3) os << _("3-area (right)");
         else if (l0 ==  64 && l1 ==  0) os << _("Face Detect");
         else if (l0 == 128 && l1 ==  0) os << _("Spot Focusing 2");
+        else if (l0 == 240 && l1 ==  0) os << _("Tracking");
         else os << value;
         return os;
     } // PanasonicMakerNote::print0x000f

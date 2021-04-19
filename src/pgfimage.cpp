@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,12 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:    pgfimage.cpp
-  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-  History: 16-Jun-09, gc: submitted
-  Credits: See header file
- */
 // *****************************************************************************
 // included header files
 #include "config.h"
@@ -31,6 +25,7 @@
 #include "image.hpp"
 #include "pngimage.hpp"
 #include "basicio.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 
@@ -81,21 +76,21 @@ namespace Exiv2 {
         return result;
     }
 
-    PgfImage::PgfImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, io)
+    PgfImage::PgfImage(BasicIo::UniquePtr io, bool create)
+            : Image(ImageType::pgf, mdExif | mdIptc| mdXmp | mdComment, std::move(io))
             , bSwap_(isBigEndianPlatform())
     {
         if (create)
         {
             if (io_->open() == 0)
             {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
 #endif
                 IoCloser closer(*io_);
                 if (io_->write(pgfBlank, sizeof(pgfBlank)) != sizeof(pgfBlank))
                 {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PgfImage:: Failed to create PGF image on memory\n";
 #endif
                 }
@@ -105,7 +100,7 @@ namespace Exiv2 {
 
     void PgfImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Exiv2::PgfImage::readMetadata: Reading PGF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)
@@ -128,13 +123,18 @@ namespace Exiv2 {
 
         // And now, the most interresting, the user data byte array where metadata are stored as small image.
 
-        long size = 8 + headerSize - io_->tell();
+        enforce(headerSize <= std::numeric_limits<uint32_t>::max() - 8, kerCorruptedMetadata);
+#if LONG_MAX < UINT_MAX
+        enforce(headerSize + 8 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
+                kerCorruptedMetadata);
+#endif
+        long size = static_cast<long>(headerSize) + 8 - io_->tell();
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-        if (size < 0) throw Error(kerInputDataReadFailed);
+        if (size < 0 || static_cast<size_t>(size) > io_->size()) throw Error(kerInputDataReadFailed);
         if (size == 0) return;
 
         DataBuf imgData(size);
@@ -143,7 +143,7 @@ namespace Exiv2 {
         if (io_->error()) throw Error(kerFailedToReadImageData);
         if (bufRead != imgData.size_) throw Error(kerInputDataReadFailed);
 
-        Image::AutoPtr image = Exiv2::ImageFactory::open(imgData.pData_, imgData.size_);
+        Image::UniquePtr image = Exiv2::ImageFactory::open(imgData.pData_, imgData.size_);
         image->readMetadata();
         exifData() = image->exifData();
         iptcData() = image->iptcData();
@@ -158,7 +158,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(new MemIo);
+        BasicIo::UniquePtr tempIo(new MemIo);
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -172,7 +172,7 @@ namespace Exiv2 {
         if (!io_->isopen()) throw Error(kerInputDataReadFailed);
         if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Writing PGF file " << io_->path() << "\n";
         std::cout << "Exiv2::PgfImage::doWriteMetadata: tmp file created " << outIo.path() << "\n";
 #endif
@@ -192,7 +192,7 @@ namespace Exiv2 {
         int w, h;
         DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
-        Image::AutoPtr img  = ImageFactory::create(ImageType::png);
+        Image::UniquePtr img  = ImageFactory::create(ImageType::png);
 
         img->setExifData(exifData_);
         img->setIptcData(iptcData_);
@@ -201,7 +201,7 @@ namespace Exiv2 {
         long    imgSize  = (long) img->io().size();
         DataBuf imgBuf   = img->io().read(imgSize);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Creating image to host metadata (" << imgSize << " bytes)\n";
 #endif
 
@@ -220,7 +220,7 @@ namespace Exiv2 {
         byteSwap_(buffer,0,bSwap_);
         if (outIo.write(buffer.pData_, 4) != 4) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage: new PGF header size : " << newHeaderSize << " bytes\n";
 
         printf("%x\n", buffer.pData_[0]);
@@ -255,7 +255,7 @@ namespace Exiv2 {
         if (b < 0x36)   // 0x36 = '6'.
         {
             // Not right Magick version.
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PgfImage::readMetadata: wrong Magick number\n";
 #endif
         }
@@ -273,7 +273,7 @@ namespace Exiv2 {
         int headerSize = (int) byteSwap_(buffer,0,bSwap_);
         if (headerSize <= 0 ) throw Error(kerNoImageInInputData);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage: PGF header size : " << headerSize << " bytes\n";
 #endif
 
@@ -314,9 +314,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newPgfInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new PgfImage(io, create));
+        Image::UniquePtr image(new PgfImage(std::move(io), create));
         if (!image->good())
         {
             image.reset();

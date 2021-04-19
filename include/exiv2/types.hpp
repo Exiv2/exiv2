@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,15 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    types.hpp
-  @brief   Type definitions for %Exiv2 and related functionality
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-04, ahu: created<BR>
-           11-Feb-04, ahu: isolated as a component<BR>
-           31-Jul-04, brad: added Time, Data and String values
  */
 #ifndef TYPES_HPP_
 #define TYPES_HPP_
@@ -58,9 +49,7 @@
    typedef          __int64 int64_t;
 # endif
 #else
-  #ifdef EXV_HAVE_STDINT_H
   # include <stdint.h>
-  #endif
 #endif
 
 
@@ -185,7 +174,7 @@ namespace Exiv2 {
 
     /*!
       @brief Auxiliary type to enable copies and assignments, similar to
-             std::auto_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
+             std::unique_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
              for a discussion.
      */
     struct EXIV2API DataBufRef {
@@ -213,7 +202,7 @@ namespace Exiv2 {
         DataBuf(const byte* pData, long size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
-                 object similar to std::auto_ptr, i.e., the original object is
+                 object similar to std::unique_ptr, i.e., the original object is
                  modified.
          */
         DataBuf(DataBuf& rhs);
@@ -225,7 +214,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Assignment operator. Transfers the buffer and releases the
-                 buffer at the original object similar to std::auto_ptr, i.e.,
+                 buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
         DataBuf& operator=(DataBuf& rhs);
@@ -255,7 +244,7 @@ namespace Exiv2 {
           @name Conversions
 
           Special conversions with auxiliary type to enable copies
-          and assignments, similar to those used for std::auto_ptr.
+          and assignments, similar to those used for std::unique_ptr.
           See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
          */
         //@{

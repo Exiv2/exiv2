@@ -13,7 +13,7 @@ class DetectionOfSigma55_200mmLens(metaclass=system_tests.CaseMeta):
     ]
 
     commands = [
-        "$exiv2 -pa --grep Lens " + filename for filename in filenames
+        "$exiv2 -pa -b --grep Lens " + filename for filename in filenames
     ]
     stdout = [
         """Exif.Pentax.LensType                         Byte        2  Sigma 55-200mm F4-5.6 DC

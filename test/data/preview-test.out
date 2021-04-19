@@ -1,0 +1,326 @@
+
+-----> exiv2-bug443.jpg <-----
+
+Command: exiv2 -pp exiv2-bug443.jpg
+Preview 1: image/jpeg, 288x192 pixels, 33779 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-bug443.jpg
+Exit code: 0
+
+-----> exiv2-bug444.jpg <-----
+
+Command: exiv2 -pp exiv2-bug444.jpg
+Preview 1: image/jpeg, 160x120 pixels, 4158 bytes
+Preview 2: image/jpeg, 320x240 pixels, 16993 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-bug444.jpg
+Exit code: 0
+
+-----> exiv2-bug445.jpg <-----
+
+Command: exiv2 -pp exiv2-bug445.jpg
+Preview 1: image/jpeg, 160x120 pixels, 5448 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-bug445.jpg
+Exit code: 0
+
+-----> exiv2-bug447.jpg <-----
+
+Command: exiv2 -pp exiv2-bug447.jpg
+Preview 1: image/jpeg, 160x120 pixels, 4093 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-bug447.jpg
+Exit code: 0
+
+-----> exiv2-bug501.jpg <-----
+
+Command: exiv2 -pp exiv2-bug501.jpg
+Preview 1: image/jpeg, 120x160 pixels, 6179 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-bug501.jpg
+Exit code: 0
+
+-----> exiv2-bug528.jpg <-----
+
+Command: exiv2 -pp exiv2-bug528.jpg
+Preview 1: image/jpeg, 160x94 pixels, 4492 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-bug528.jpg
+Exit code: 0
+
+-----> exiv2-canon-eos-20d.jpg <-----
+
+Command: exiv2 -pp exiv2-canon-eos-20d.jpg
+Preview 1: image/jpeg, 160x120 pixels, 6260 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-canon-eos-20d.jpg
+Exit code: 0
+
+-----> exiv2-canon-eos-300d.jpg <-----
+
+Command: exiv2 -pp exiv2-canon-eos-300d.jpg
+Preview 1: image/jpeg, 160x120 pixels, 9728 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-canon-eos-300d.jpg
+Exit code: 0
+
+-----> exiv2-canon-eos-d30.jpg <-----
+
+Command: exiv2 -pp exiv2-canon-eos-d30.jpg
+Preview 1: image/jpeg, 160x120 pixels, 13824 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-canon-eos-d30.jpg
+Exit code: 0
+
+-----> exiv2-canon-powershot-a520.jpg <-----
+
+Command: exiv2 -pp exiv2-canon-powershot-a520.jpg
+Preview 1: image/jpeg, 160x120 pixels, 6137 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-canon-powershot-a520.jpg
+Exit code: 0
+
+-----> exiv2-canon-powershot-s40.crw <-----
+
+Command: exiv2 -pp exiv2-canon-powershot-s40.crw
+Preview 1: image/jpeg, 160x120 pixels, 4418 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-canon-powershot-s40.crw
+Exit code: 0
+
+-----> exiv2-fujifilm-finepix-s2pro.jpg <-----
+
+Command: exiv2 -pp exiv2-fujifilm-finepix-s2pro.jpg
+Preview 1: image/jpeg, 160x120 pixels, 9573 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-fujifilm-finepix-s2pro.jpg
+Exit code: 0
+
+-----> exiv2-gc.jpg <-----
+
+Command: exiv2 -pp exiv2-gc.jpg
+Preview 1: image/jpeg, 133x200 pixels, 6144 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-gc.jpg
+Exit code: 0
+
+-----> exiv2-kodak-dc210.jpg <-----
+
+Command: exiv2 -pp exiv2-kodak-dc210.jpg
+Preview 1: image/tiff, 96x72 pixels, 20916 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-kodak-dc210.jpg
+Exit code: 0
+
+-----> exiv2-nikon-d70.jpg <-----
+
+Command: exiv2 -pp exiv2-nikon-d70.jpg
+Preview 1: image/jpeg, 160x120 pixels, 8930 bytes
+Preview 2: image/jpeg, 564x372 pixels, 27773 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-nikon-d70.jpg
+Exit code: 0
+
+-----> exiv2-nikon-e950.jpg <-----
+
+Command: exiv2 -pp exiv2-nikon-e950.jpg
+Preview 1: image/jpeg, 160x120 pixels, 4662 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-nikon-e950.jpg
+Exit code: 0
+
+-----> exiv2-nikon-e990.jpg <-----
+
+Command: exiv2 -pp exiv2-nikon-e990.jpg
+Preview 1: image/jpeg, 160x120 pixels, 7829 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-nikon-e990.jpg
+Exit code: 0
+
+-----> exiv2-olympus-c8080wz.jpg <-----
+
+Command: exiv2 -pp exiv2-olympus-c8080wz.jpg
+Preview 1: image/jpeg, 160x120 pixels, 7306 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-olympus-c8080wz.jpg
+Exit code: 0
+
+-----> exiv2-panasonic-dmc-fz5.jpg <-----
+
+Command: exiv2 -pp exiv2-panasonic-dmc-fz5.jpg
+Preview 1: image/jpeg, 160x120 pixels, 10308 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-panasonic-dmc-fz5.jpg
+Exit code: 0
+
+-----> exiv2-photoshop.psd <-----
+
+Command: exiv2 -pp exiv2-photoshop.psd
+Preview 1: image/jpeg, 150x91 pixels, 4669 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-photoshop.psd
+Exit code: 0
+
+-----> exiv2-pre-in-xmp.xmp <-----
+
+Command: exiv2 -pp exiv2-pre-in-xmp.xmp
+Preview 1: image/jpeg, 150x91 pixels, 4745 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-pre-in-xmp.xmp
+Exit code: 0
+
+-----> exiv2-sigma-d10.jpg <-----
+
+Command: exiv2 -pp exiv2-sigma-d10.jpg
+Preview 1: image/jpeg, 160x106 pixels, 11998 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-sigma-d10.jpg
+Exit code: 0
+
+-----> exiv2-sony-dsc-w7.jpg <-----
+
+Command: exiv2 -pp exiv2-sony-dsc-w7.jpg
+Preview 1: image/jpeg, 160x120 pixels, 15605 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep exiv2-sony-dsc-w7.jpg
+Exit code: 0
+
+-----> glider.exv <-----
+
+Command: exiv2 -pp glider.exv
+Preview 1: image/jpeg, 160x120 pixels, 5333 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep glider.exv
+Exit code: 0
+
+-----> imagemagick.pgf <-----
+
+Command: exiv2 -pp imagemagick.pgf
+Preview 1: image/jpeg, 160x105 pixels, 4363 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep imagemagick.pgf
+Exit code: 0
+
+-----> iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-noIPTC-psAPP13-wIPTC.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-noIPTC.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-noIPTC.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-noIPTC.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTC-psAPP13-noIPTC.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTC1-psAPP13-wIPTC2.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTCbeg.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTCbeg.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTCbeg.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTCempty.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTCempty.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTCempty.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTCend.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTCend.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTCend.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTCmid.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTCmid.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTCmid.jpg
+Exit code: 0
+
+-----> iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg <-----
+
+Command: exiv2 -pp iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg
+Preview 1: image/jpeg, 160x114 pixels, 938 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep iptc-psAPP13-wIPTCmid1-wIPTCempty-wIPTCmid2.jpg
+Exit code: 0
+
+-----> smiley2.jpg <-----
+
+Command: exiv2 -pp smiley2.jpg
+Preview 1: image/jpeg, 160x120 pixels, 7289 bytes
+Exit code: 0
+
+Command: exiv2 -f -ep smiley2.jpg
+Exit code: 0

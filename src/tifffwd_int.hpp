@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    tifffwd_int.hpp
-  @brief   Internal TIFF parser related typedefs and forward definitions.
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    24-Jun-06, ahu: created
  */
 #ifndef TIFFFWD_INT_HPP_
 #define TIFFFWD_INT_HPP_
@@ -102,10 +95,10 @@ namespace Exiv2 {
     );
     /*!
       @brief Type for a function pointer for a function to create a TIFF component.
-             Use TiffComponent::AutoPtr, it is not used in this declaration only
+             Use TiffComponent::UniquePtr, it is not used in this declaration only
              to reduce dependencies.
      */
-    typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, IfdId group);
+    typedef std::unique_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, IfdId group);
 
     //! Stack to hold a path from the TIFF root element to a TIFF entry
     typedef std::stack<TiffPathItem> TiffPath;

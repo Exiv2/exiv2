@@ -10,7 +10,7 @@ class TestFirstPoC(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/247"
 
     filename = "$data_path/2-invalid-memory-access"
-    commands = ["$exiv2 -pt " + filename]
+    commands = ["$exiv2 -pt -b " + filename]
     stdout = [
         """Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Orientation                       Short       1  top, left
@@ -34,7 +34,7 @@ Exif.Photo.MaxApertureValue                  Rational    1  F2.8
 Exif.Photo.MeteringMode                      Short       1  Center weighted average
 Exif.Photo.Flash                             Short       1  No, auto
 Exif.Photo.FocalLength                       Rational    1  21.3 mm
-Exif.Photo.MakerNote                         Undefined 450  (Binary value suppressed)
+Exif.Photo.MakerNote                         Undefined 450  12 0 1 0 3 0 40 0 0 0 68 4 0 0 2 0 3 0 4 0 0 0 148 4 0 0 3 0 3 0 4 0 0 0 156 4 0 0 4 0 3 0 27 0 0 0 164 4 0 0 0 0 3 0 6 0 0 0 218 4 0 0 0 0 3 0 4 0 0 0 230 4 0 0 6 0 2 0 32 0 0 0 238 4 0 0 7 0 2 0 24 0 0 0 14 5 0 0 8 0 4 0 1 0 0 0 59 225 17 0 9 0 2 0 32 0 0 0 38 5 0 0 16 0 4 0 1 0 0 0 0 0 17 1 13 0 3 0 21 0 0 0 70 5 0 0 0 0 0 0 80 0 2 0 0 0 5 0 1 0 0 0 0 0 4 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 17 0 5 0 1 0 3 48 1 0 255 255 255 255 170 2 227 0 32 0 149 0 192 0 0 0 0 0 0 0 0 0 0 0 0 0 255 255 49 0 224 8 224 8 0 0 1 0 2 0 170 2 30 1 215 0 0 0 0 0 0 0 0 0 54 0 0 0 160 0 20 1 149 0 31 1 0 0 0 0 0 0 0 0 6 0 0 0 0 0 0 0 2 48 0 0 0 0 0 0 1 0 14 3 0 0 149 0 33 1 0 0 0 0 0 0 250 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 73 77 71 58 80 111 119 101 114 83 104 111 116 32 83 52 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 49 46 49 48 0 0 0 65 110 100 114 101 97 115 32 72 117 103 103 101 108 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42 0 3 0 1 128 122 1 1 128 0 0 0 0 0 0 3 1 2 0 0 0 10 0 0 0 0 0 0 0 57 0 198 0 5 0 0 0 0 0 0 0
 Exif.MakerNote.Offset                        Long        1  942
 Exif.MakerNote.ByteOrder                     Ascii       3  II
 Exif.CanonCs.Macro                           Short       1  Off
@@ -43,6 +43,7 @@ Exif.CanonCs.Quality                         Short       1  Superfine
 Exif.CanonCs.FlashMode                       Short       1  Auto
 Exif.CanonCs.DriveMode                       Short       1  Single / timer
 Exif.CanonCs.FocusMode                       Short       1  Single
+Exif.CanonCs.RecordMode                      Short       1  JPEG
 Exif.CanonCs.ImageSize                       Short       1  Large
 Exif.CanonCs.EasyMode                        Short       1  Manual
 Exif.CanonCs.DigitalZoom                     Short       1  None
@@ -68,25 +69,32 @@ Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
 Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 Exif.Canon.FocalLength                       Short       4  21.3 mm
+Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  13.63
 Exif.CanonSi.TargetAperture                  Short       1  F5
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
+Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.CameraTemperature               Short       1  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
+Exif.CanonSi.AutoExposureBracketing          Short       1  Off
 Exif.CanonSi.SubjectDistance                 Short       1  7.82 m
 Exif.CanonSi.ApertureValue                   Short       1  F5
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/523 s
 Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
+Exif.CanonSi.BulbDuration                    Short       1  0
+Exif.CanonSi.CameraType                      Short       1  Compact
 Exif.Canon.ImageType                         Ascii      32  IMG:PowerShot S40 JPEG
 Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version 1.10
 Exif.Canon.FileNumber                        Long        1  117-1771
 Exif.Canon.OwnerName                         Ascii      32  Andreas Huggel
 Exif.Canon.ModelID                           Long        1  PowerShot S40
 Exif.Canon.CameraInfo                        Short      21  42 3 32769 378 32769 0 0 0 259 2 0 10 0 0 0 57 198 5 0 0 0
-Exif.Photo.UserComment                       Undefined 264  (Binary value suppressed)
+Exif.Photo.UserComment                       Undefined 264  
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ColorSpace                        Short       1  sRGB
 Exif.Photo.PixelXDimension                   Short       1  2272

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -192,7 +192,7 @@ namespace Exiv2 {
         long toLong(long n =0) const;
         float toFloat(long n =0) const;
         Rational toRational(long n =0) const;
-        Value::AutoPtr getValue() const;
+        Value::UniquePtr getValue() const;
         const Value& value() const;
         //! Return the size of the data area.
         long sizeDataArea() const;
@@ -213,8 +213,8 @@ namespace Exiv2 {
 
     private:
         // DATA
-        ExifKey::AutoPtr key_;                  //!< Key
-        Value::AutoPtr   value_;                //!< Value
+        ExifKey::UniquePtr key_;                  //!< Key
+        Value::UniquePtr   value_;                //!< Value
 
     }; // class Exifdatum
 

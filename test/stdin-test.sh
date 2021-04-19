@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for stdin
 
 source ./functions.source
@@ -49,11 +49,7 @@ source ./functions.source
 
 printf "\n"
 
-# ----------------------------------------------------------------------
-# Evaluate results
-cat $results | tr -d $'\r' > $results-stripped
-mv                           $results-stripped $results
-reportTest                                     $results $good
+reportTest
 
 # That's all Folks!
 ##

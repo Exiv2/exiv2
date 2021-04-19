@@ -13,10 +13,11 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
 File size       : 60 Bytes
 MIME type       : image/x-olympus-orf
 Image size      : 0 x 0
+Thumbnail       : None
 Camera make     : 
 Camera model    : 
 Image timestamp : 
-Image number    : 
+File number     : 
 Exposure time   : 
 Aperture        : 
 Exposure bias   : 
@@ -29,9 +30,7 @@ Exposure mode   :
 Metering mode   : 
 Macro mode      : 
 Image quality   : 
-Exif Resolution : 
 White balance   : 
-Thumbnail       : None
 Copyright       : 
 Exif comment    : 
 

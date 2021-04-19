@@ -1,24 +1,24 @@
-MinGW/msys2 Exiv2 v0.27.1 Release Bundle
-Visual Studio 2017 Release DLL Exiv2 v0.27.1 Release Bundle
------------------------------------------------------------
+@RV@ Visual Studio @VS@ Bundle @RC@
 
-Structure of the bundle:
-------------------------
+Document                                        Purpose
+--------                                        -------
+ReadMe.txt                                      This file
+README.md                                       Developer Manual
+README-CONAN.md                                 Developer Manual Appendix
+README-SAMPLES.md                               Developer Sample Code Manual
+releasenotes.txt                                Late breaking news
+exiv2.png                                       Exiv2 Logo
+COPYING                                         GPLv2.0 Software License
 
-bin/exiv2.exe                                 exiv2 and sample applications
-bin/exiv2.dll                                 dll
-lib/exiv2.lib & exiv2-xmp.lib                 link libraries
-lib/exiv2/cmake/                              CMake support/consume files
-include/exiv2/                                include files
-samples/exifprint.cpp                         sample code
-logs/                                         build and test logs
-
-ReadMe.txt                                    This file
-license.txt                                   GPLv2.0 Software License
-releasenotes.txt                              Late breaking news
-README.md                                     Developer Manual
-README-CONAN.md                               Developer Manual Appendix
-exiv2.png                                     Exiv2 Logo
+Deliverable                                     Location
+-----------                                     --------
+exiv2 and sample applications                   bin/exiv2.exe
+exiv2 dll                                       bin/exiv2.dll
+link libraries                                  lib/exiv2.lib & exiv2-xmp.lib
+CMake support/consume files                     lib/cmake/exiv2
+include files                                   include/exiv2/
+sample code                                     samples/exifprint.cpp
+build/test log                                  logs/build.txt
 
 +----------------------------------------------------------------------------+
 | Caution: Use a Windows unzip utility such as 7z or winzip                  |
@@ -35,17 +35,29 @@ c:\> cd <bundle>\bin
 
 To compile and link your own code:
 
-+-------------------------------------------------------------------------------+
-| Caution: You must use the same version of Visual Studio as the build          |
-|          You will need to use the "Visual Studio Command Prompt"              |
-|          or initialise the DOS environment by calling vcvarsall.bat           |
-| C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\amd64>vcvars64.bat |
-+-------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------+
+| Caution: You must use the same version of Visual Studio as the build                          |
+|          You will need to use the "Visual Studio Command Prompt"                              |
+|          or initialise the DOS environment by calling vcvars64.bat                            |
+| c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat |
++-----------------------------------------------------------------------------------------------+
 
 c:\> cd <bundle>
 <bundle>> cl /EHsc -Iinclude /MD samples\exifprint.cpp /link lib\exiv2.lib
 <bundle>> exifprint --version
-exiv2=0.27.0
-...
-xmlns=xmpidq:http://ns.adobe.com/xmp/Identifier/qual/1.0/
 <bundle>>
+
+Method 3: Use the CMake support/consume files
+See file: README.md Section: 2.6 "Consuming Exiv2 with CMake"
+
+More Documentation
+------------------
+
+Project Website: https://exiv2.org
+
+$ export "MANPATH=/usr/local/share/man:$MANPATH"
+$ man exiv2
+
+Robin Mills
+robin@clanmills.com
+Updated: 2020-04-22

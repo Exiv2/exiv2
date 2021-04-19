@@ -1,15 +1,38 @@
 // ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 // addmoddel.cpp
 // Sample program showing how to add, modify and delete Exif metadata.
 
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <iomanip>
 #include <cassert>
 
 int main(int argc, char* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
@@ -34,7 +57,7 @@ try {
     std::cout << "Added a few tags the quick way.\n";
 
     // Create a ASCII string value (note the use of create)
-    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
+    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::asciiString);
     // Set the value to a string
     v->read("1999:12:31 23:59:59");
     // Add the value together with its key to the Exif data container
@@ -43,7 +66,7 @@ try {
     std::cout << "Added key \"" << key << "\", value \"" << *v << "\"\n";
 
     // Now create a more interesting value (without using the create method)
-    Exiv2::URationalValue::AutoPtr rv(new Exiv2::URationalValue);
+    Exiv2::URationalValue::UniquePtr rv(new Exiv2::URationalValue);
     // Set two rational components from a string
     rv->read("1/2 1/3");
     // Add more elements through the extended interface of rational value
@@ -75,7 +98,7 @@ try {
     // Downcast the Value pointer to its actual type
     Exiv2::URationalValue* prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
     if (prv == 0) throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
-    rv = Exiv2::URationalValue::AutoPtr(prv);
+    rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
@@ -95,7 +118,7 @@ try {
 
     // *************************************************************************
     // Finally, write the remaining Exif data to the image file
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(file);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
     assert(image.get() != 0);
 
     image->setExifData(exifData);

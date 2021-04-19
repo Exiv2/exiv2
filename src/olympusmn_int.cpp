@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,15 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      olympusmn.cpp
-  Author(s): Will Stokes (wuz) <wstokes@gmail.com>
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-             Greg Mansfield <G.Mansfield at computer dot org>
-  History:   10-Mar-05, wuz: created
-  Credits:   See header file.
  */
 
 // *****************************************************************************
@@ -1192,7 +1183,8 @@ namespace Exiv2 {
             return os << "(" << value << ")";
         }
         float f = value.toFloat();
-        if (f == 0.0 || f == 1.0) return os << _("None");
+        if (f == 0.0f || f == 1.0f)
+            return os << _("None");
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << f << "x";
@@ -1315,6 +1307,7 @@ namespace Exiv2 {
             { { 0, 38, 16 }, "Olympus M.Zuiko Digital ED 12-100mm F4.0 IS Pro"         },
             { { 0, 39, 16 }, "Olympus M.Zuiko Digital ED 30mm F3.5 Macro"              },
             { { 0, 40, 16 }, "Olympus M.Zuiko Digital ED 25mm F1.2 Pro"                },
+            { { 0, 41, 16 }, "Olympus M.Zuiko Digital ED 17mm F1.2 Pro"                },
             { { 0, 48,  0 }, "Olympus Zuiko Digital ED 50-200mm F2.8-3.5 SWD"          },
             { { 0, 49,  0 }, "Olympus Zuiko Digital ED 12-60mm F2.8-4.0 SWD"           },
             { { 0, 50,  0 }, "Olympus Zuiko Digital ED 14-35mm F2.0 SWD"               },

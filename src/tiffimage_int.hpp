@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    tiffimage_int.hpp
-  @brief   Internal class TiffParserWorker to parse TIFF data.
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    23-Apr-08, ahu: created
  */
 #ifndef TIFFIMAGE_INT_HPP_
 #define TIFFIMAGE_INT_HPP_
@@ -256,7 +249,7 @@ namespace Exiv2 {
                  component creation function. If the pointer that is returned
                  is 0, then the TIFF entry should be ignored.
         */
-        static std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
+        static std::unique_ptr<TiffComponent> create(uint32_t extendedTag,
                                                    IfdId    group);
         /*!
           @brief Get the path, i.e., a list of extended tag and group pairs, from
@@ -349,7 +342,7 @@ namespace Exiv2 {
                            composite structure. If \em pData is 0 or \em size
                            is 0, the return value is a 0 pointer.
          */
-        static std::auto_ptr<TiffComponent> parse(
+        static std::unique_ptr<TiffComponent> parse(
             const byte*              pData,
                   uint32_t           size,
                   uint32_t           root,

@@ -1,3 +1,282 @@
+Changes from version 0.27.3 to 0.27.4
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/6?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/6?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-757979745
+
+Bugs/Fixes
+----------
+
+|  Group        | PR     |  Topic                                     | Issue  |
+|:--------------|:-------|:-------------------------------------------|:-------|
+| Bugs &        | #1475  | **bmff** Base Media File Format            | #1229  |
+| Fixes         | #1490  |                                            | #1489  | 
+|               | #1517  | JPX/bmff support                           | #1503  |
+|               | #1518  | Changes Exiv2::enableBMFF() API            | #1508  |
+|               | #1519  | samples/metacopy.cpp optstring             | #1504  |
+|               | #1512  | Avif file -ps image_size fix               | #1512  |
+|               | #1493  | v0.27.4 application tests                  |        | 
+|               | #1486  | Empty Exif Ascii handling                  | #1484  |
+|               | #1482  | Issues with LangAlt command-line parsing   | #1481  |
+|               | #1480  | DNG 1.6 triple-illuminant calibration tags |        |
+|               | #1469  | Sony 2010e tag support                     | #1464  |
+|               | #1472  |                                            | #1471  |
+|               | #1461  | cppcheck detected performance issues       | #1459  |
+|               | #1444  | Fix comment typo is xmpprint.cpp           |        |
+|               | #1442  | Test Nikon LensData v8 handler             | #1437  |
+|               |        |                                            | #1433  |
+|               | #1432  | Binary output handling                     | #1431  |
+|               | #1436  | DNG 1.6 Support                            |        |
+|               | #1427  | prettyPrint Planar Config                  |        |
+|               | #1425  | fix some Nikon MarkerNote short/long tags  |        |
+|               | #1412  | DNG 1.5 Support                            |        |
+|               | #1411  | Fix Fuji tag type                          | #1344  |
+|               | #1410  | bump revision 0.27.4.9                     |        |
+|               | #1409  | Support hidden embedded TIF in RAF         | #1402  |
+|               | #1407  | Support Fuji CropMode                      |        |
+|               | #1399  | Sony Lens aberration correction parameters |        |
+|               | #1392  | DNG 1.3                                    | #1393  |
+|               | #1391  | DNG Changes                                |        |
+|               | #1389  | Exif 2.32 Support                          | #929   |
+|               | #1384  | Disable exiv2 option --binary              |        |
+|               | #1386  | Adding more easy accessors                 | #1385  |
+|               |        |                                            | #1054  |
+|               | #1360  | base64 decode fixes                        | #1358  |
+|               | #1342  | PSD fixes                                  | #1261  | 
+|               | #1331  | Remove BigTiff Support                     | #1329  |
+|               | #1330  | formatString fixes                         | #1328  |
+|               | #1314  | ASAN issues with RemoteIo                  | #1307  |
+|               | #1313  | crwtest fixes                              | #1297  |
+| Security      | #1483  | Define Security Policy                     | #1122  |
+|               | #1523  | jp2image exiv2 asan issue                  | #1522  |
+| Lens          | #1375  | Olympus M.Zuiko Digital ED 17mm F1.2 Pro   |        |
+|               | #1373  | Sigma 18-35mm f/1.8 DC HSM                 |        |
+| Build         | #1496  | Exiv2 v0.27.4 RC1                          |        |
+|               | #1452  | Building on windows/msys2                  | #1449  |
+|               | #1439  | Fix PACKAGE_URL and PROJECT_DESCRIPTION    |        |
+|               | #1434  | CI build MinGW/msys2 and Cygwin            |        |
+|               | #1367  | CI changes for Linux                       |        |
+|               | #1356  | MinGW/msys2 toolchain changes              | #1353  |
+|               | #1339  | Cygwin Stack Protection                    |        |
+|               | #1336<br>#1349<br>#1340  | Winsock2 include changes | #1335  |
+|               | #1309<br>#1311 | Remove EXV_HAVE_STDINT_H check     |        |
+|               | #1290  | Solaris Stack Protection                   |        |
+|               | #1277  | Remove cmake -DEXIV2_BUILD_PO option       | #1276  |
+|               | #1275  | GNUInstallDirs changes                     |        |
+|               | #1271  | Correctly setting -fstack-protector-strong | #1252  |
+|               | #1245  | More compiler flag settings                | #1243  |
+|               | #1268  | Fix GPSProcessingMethod handling           | #1266  |
+|               | #1260  | Writing PSD Files                          |        |
+|               | #1253  | Disable libiconv/Visual Studio/CMake       |        |
+| Test          | #1477  | Fix exiv2-test.sh output if test/tmp empty | #1477  |
+|               | #1372  | Support env EXIV2 strings in python tests  |        |
+|               | #1371  | Test NLS Support                           | #1278  |
+|               | #1333  | Test stdin                                 |        |
+|               | #1257  | Rewrite bash test script in Python         | #1215  |
+|               | #1289  | Remove env EXIV2_EXT                       |        |
+|               | #1372  | Support env EXIV2 strings in python tests  |        |
+|               | #1495  | Remove test dependency on make and bash    | #1274  |
+|               | Various| Rewrite bash scripts in python3            | #1215  |
+| Localisation  | #1435  | ES Translation                             |        |
+| Documentation | #1440  | Fix typo in cmd64.bat in Documentation     |        |
+|               | #1414  | Web-site issues                            |        |
+|               | #1403  | Visual Studio 2019 buildnotes              | #1394  |
+|               | #1400  | IPTC tag corrections on web-site           | #1393  |
+|               | #1387  | Fix man page typos concerning CanonFi      |        |
+| Withdrawn     |        | Discussion FLIR Camera  Support            | #1479  |
+| No action     |        | Sigma 60-600mm f/4.5-6.3 DG OS HMS | Sport | #1478  |
+|               | #1527  | Test Suite to ignore errors                | #1502  |
+|               |        | Include path discussion                    | #1516  |
+|               | #1474  | Withdrawn PRs concerning bmff              | #1229  |
+|               | #1458  |                                            |        |
+|               |        | Nikon d780 + Tamron 85mm 1.8 VC            | #1468  |
+|               |        | Exif.Photo.DateTimeOriginal discussion     | #1467  |
+|               |        | Question about sidecar files               | #1465  |
+|               |        | asfvideo.cpp null pointer dereference      | #1463  |
+|               |        | Multi-Page TIFF Support                    | #1460  |
+|               |        | Lumix G 20mm F1.7 II Asph.                 | #1441  |
+|               |        | Canon Lenses                               | #1429  |
+|               |        | CMake issues with Xcode 12.2 -G Xcode      | #1408  |
+|               | #1286  | Exiv2::XmpProperties::propertyList()       | #1206  |
+|               | #1226  | XMP false report                           | #1223  | 
+|               |        | API Compatibility Test                     | #890   |
+| Team          |        | Future of Exiv2                            | #1466  |
+| Discussion    |        | Project Status                             | #1462  |
+|               |        | Open Invention Network                     | #1447  |
+
+Robin Mills
+robin@clanmills.com
+2021-04-07
+
+Changes from version 0.27.2 to 0.27.3
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/5?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/5?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-604539346
+
+Bugs/Fixes
+
+#1237 | Exiv2 v0.27.3 documentation update
+#1224 | Remove localtime.c from code-base
+#1222 | Fix http.cpp to compile with C++11
+#1221 | Changes to enable crw-test.sh to function on Windows
+#1213 | Cleanup
+#1209 | fix_1208_NikonLens_0.27	#1208
+#1197 | Add c++11 support 0.27
+#1193 | geotag changes	
+#1190 | Bump Revision Number to 0.27.3.1	
+#1189 | Manpage Makeover	
+#1188 | Update ChangeLog for v0.27.3 RC1	
+#1187 | Taglist command parsing correction	
+#1185 | Update release notes v0.27.3 RC1
+#1183 | fix_1180_date_separator
+#1178 | Reduce system calls in FileIo::eof()
+#1157 | fix 1004 Canon Lens Fixes
+#1145 | fix 1033 Digikam xmp namespace
+#1144 | fix 1045 Add new error kerTiffParsingError
+#1143 | fix 1047 New Fujifilm Tags
+#1142 | fix 1049 Nikon Sigma 180 Macro Lens Name
+#1140 | fix_1069_0.27 Add lens Tamron SP 35mm f/1.4 Di USD (Nikon)
+#1138 | fix_1087_0.27 Catalan translation updates
+#1129 | Fix 1105 0.27 Add Nikon F version of Tamron 17-35 mm F/2.8-4 Di OSD
+#1127 | fix_Sony2010e_0.27 Thanks to @sridharb1
+#1124 | Bugfix 984 xmp meta delete namespace
+#1119 | fix_1076_0.272 sigmas lenses on Canon body
+#1118 | fix_1084_0.27 Irix lens names in Pentax
+#1107 | Fix 1046 pt gps processing method
+#1105 | Add Nikon F version of Tamron 17-35 mm F/2.8-4 Di OSD
+#1066 | Add support for ISOBMFF Files (AVIF, HEIF, CR3)
+#1010 | fix1001_rename_AFPrimaryPoint
+#1009 | Fix1008 sony2010e
+#1007 | fix_910_remote_io_block+1
+#1005 | fix_1004_lens_exiftool_compatibility
+ #993 | Fix 992 Sigma APO MACRO 180mm F3.5 EX DG (Nikon Mount)
+ #991 | Fix 990 Remove AF designator from Tamron 70-200 G1
+ #990 | Remove AF designator from Tamron 70-200 G1
+ #989 | Fix 987 (taglist.cpp changes)
+ #988 | New PR to replace fix981_canonAutoFocus2 which will be closed.
+ #985 | fix981_canonAutoFocus2
+ #982 | Fix 981 Canon Auto Focus
+ #978 | Reloaded: HEIF Support
+ #977 | Add XMP Initialisation/Cleanup code to every main()
+ #927 | Translation Exiv2 in Dutch (nl)  Translation
+
+Security
+#1210 | Insufficient verification (cycle) in Image::printIFDStructure()
+#1141 | fix 1091 Fix unbounded recursion in bigtiffimage.cpp
+#1116 | fix_1099_0.27 exiv2 aborts with registerNs
+#1115 | fix_1097_0.27 Segfault of exiv2 with pr flag
+#1110 | Fix #1011 fix_1011_jp2_readmetadata_loop
+#1048 | Fix a memory leak in CiffHeader::read()
+#1013 | Fix #1011 fix_1011_jp2_readmetadata_loop
+#1131 | fix_1092_0.27 Fix uri parsing bug
+#1125 | fix_984_0.27 NULL-pointer read in XMPMeta.cpp
+
+Build Infrastructure
+#1218 | CMake issues concerning install and uninstall 
+#1213 | Setting LD_LIBRARY_PATH during tests
+#1211 | http.cpp fails to compile on mingw/cygwin
+#1201 | Cannon link prebuilt MinGW binaries in Qt project
+#1200 | Numerous improvements to Appveyor and GitLib CI builds
+#1184 | fix_1121_CODEOWNERS_0.27
+#1181 | GCC 9.3.0 broken on MinGW/msys2 and CYGWIN
+#1175 | fix_1102_msysGCC93_0.27
+#1159 | fix 1158 pathtest.exe
+#1137 | fix_1059_0.27 Add missing library link on Windows
+#1135 | Update conan version in appveyor & use python-x64 version
+#1130 | fix_packaging_0.27
+#1123 | Bump Version 0.27.3.9
+#1121 | Add CODEOWNERS
+
+Test Infrastructure
+#1207 | Extensive changes and clarifications in README.md
+#1174 | add http test to iotest.sh
+#1172 | Fix 1164 unit tests 0.27
+#1173 | enhanced_test6_0.27
+#1171 | Enhanced test5 0.27
+#1170 | Enhanced test4 0.27
+#1169 | enhanced_test3_0.27
+#1168 | Enhanced test2 v0.27
+#1167 | Enhanced test v0.27
+#1150 | fix 1146 Python tests to tolerate DOS line endings
+#1006 | fix_958 /usr/bin/env bash in test scripts
+
+UNIX
+#1162 | Fix 902 UNIX Support
+
+Documentation
+#1232 | Fix 1230 Added 2.18 Static and Shared Libraries to README.md
+#1153 | fix_922 Cross compiling documentation
+#1149 | README-CONAN Update for v0.27.3
+#1139 | fix_1077_0.27 Improve documentation in CONTRIBUTING.md
+#1133 | Fix_1121_documentation_0.27
+#1117 | fix_macOS_0.27
+
+contrib/vs2019
+#1136 | Sridharb1 contrib msvc4 0.27
+#1134 | sridharb1_contrib_msvc3_0.27
+#1128 | Sridharb1 contrib msvc2 0.27
+#1120 | sridharb1_contrib_msvc_0.27
+
+Changes from version 0.27.1 to 0.27.2
+-------------------------------------
+
+Closed: https://github.com/Exiv2/exiv2/milestone/4?closed=1 (64)
+
+#966 MacOS-X Build issue if Framework/Mono installed (by Visual Studio for Mac)
+#962 Fix integer overflow in WebPImage::getHeaderOffset()
+#959 Fix linking BasicError typeinfo on FreeBSD
+#949 Add Dutch Localisation
+#944 Add bounds check to MemIo::seek()
+#938 Replace DEBUG with EXIV2_DEBUG_MESSAGES
+#928 Corrections to README.md 2.8.Localisation
+#921 Adding README-SAMPLES.md and removing exiv2samples.1
+#919 Selecting XMP SDK version (question)
+#903 $ exiv2 -vVg debug and $ exiv2 -vVg dll are not working correctly.
+#899 ICCProfile FalseWarning
+#895 'exiv2 mv -r' not accepting format
+#880 Nikon D90 - wrong FileNumber and DirectoryNumber
+#870 Remove call to atol, which might read off the end of the buffer.
+#868 Prevent out-of-bounds read in IptcParser::decode()
+#858 Check bounds of jpg_img_off and jpg_img_len
+#856 Add bounds check of resourceSize.
+#854 Add bounds check on allocation size.
+#852 Check bounds of month and day
+#851 Denial of service in XMPUtils AdjustTimeOverflow()
+#848 Check bounds of allocation size
+#846 Add bounds check on allocation size
+#841 Issue 841: replace assert with enforce.
+#833 NetBSD/FreeBSD Support
+#831 Restore 0.25 behaviour of $ exiv2 -g image ...
+#829 Update Catalan translation
+#828 Segmentation fault in pngimage.cpp:329.
+#823 Support build/test of Exiv2 on NetBSD
+#816 Avoid null pointer exception due to NULL return value from strchr
+#808 Changes to README.md
+#798 Install CMake/consume files in DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/exiv2/
+#797 Avoid negative integer overflow when filesize < io_->tell()
+#795 Avoid negative integer overflow when iccOffset > chunkLength
+#794 Avoid negative integer overflow when chunkLength == 0
+#763 False Negatives in Unit Tests
+#754 Regression in detected lens
+#743 Sigma 24-70mm F2,8 DG OS HSM Art not detected
+#662 How does the rename (mv) work in case of name clash? question
+#646 Exiv2 does not find certain AF tags for the Nikon D850
+#589 Fix in sidecar files #589
+#582 Add support for FocusPosition (Tag9402) in Sony RAW files
+
 Changes from version 0.27 to 0.27.1
 -----------------------------------
 

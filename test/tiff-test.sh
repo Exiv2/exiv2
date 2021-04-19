@@ -21,10 +21,10 @@ exifprobe()
     lens=()
     vals=()
     while read line; do
-        tag=$(echo $line|cut -d.   -f 3  | cut -d' ' -f 1)                                    ; tags+=($tag)
-        typ=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 1 ); typs+=($typ)
-        len=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 2 ); lens+=($len)
-        val=$(echo $line|cut -d' ' -f 2- | sed -E -e 's/ +/ /g' -e 's/^ //' | cut -d' ' -f 3-); vals+=("$val")
+        tag=$(echo $line|cut -f 3  -d.   | cut -f 1 -d' ' )                                 ; tags+=($tag)
+        typ=$(echo $line|cut -f 2- -d' ' | sed -e 's/ +/ /g' -e 's/^ //' | cut -f 1  -d' ' ); typs+=($typ)
+        len=$(echo $line|cut -f 2- -d' ' | sed -e 's/ +/ /g' -e 's/^ //' | cut -f 2  -d' ' ); lens+=($len)
+        val=$(echo $line|cut -f 2- -d' ' | sed -e 's/ +/ /g' -e 's/^ //' | cut -f 3- -d' ' ); vals+=("$val")
     done < <( runTest exiv2 -pa $f  2>/dev/null ) # process pipe
     count=${#tags[@]}
 
@@ -51,13 +51,13 @@ exifprobe()
     while read line; do
         k=$((k+1)) # skip the first couple of lines
         if [ $k -gt 2 ]; then
-            TAG=$(echo $line| cut -d'|' -f 2  | cut -d' ' -f 3    ); TAGS+=($TAG);
-            TYP=$(echo $line| cut -d'|' -f 3  | sed -E -e's/ +//g'); TYPS+=($TYP)
-            LEN=$(echo $line| cut -d'|' -f 4  | sed -E -e's/ +//g'); LENS+=($LEN)
-            OFF=$(echo $line| cut -d'|' -f 5  | sed -E -e's/ +//g'); OFFS+=($OFF)
-            VAL=$(echo $line| cut -d'|' -f 6- | sed -e's/^ //'    ); VALS+=($"$VAL")
+            TAG=$(echo $line| cut -f 2  -d'|' | cut -f 3 -d' '    ); TAGS+=($TAG);
+            TYP=$(echo $line| cut -f 3  -d'|' | sed -e's/ +//g'   ); TYPS+=($TYP)
+            LEN=$(echo $line| cut -f 4  -d'|' | sed -e's/ +//g'   ); LENS+=($LEN)
+            OFF=$(echo $line| cut -f 5  -d'|' | sed -e's/ +//g'   ); OFFS+=($OFF)
+            VAL=$(echo $line| cut -f 6- -d'|' | sed -e's/^ //'    ); VALS+=($"$VAL")
         fi
-    done < <( runTest exiv2 -pS $f | grep -v -e '^END' 2>/dev/null )
+    done < <( runTest exiv2 -pS $f | grep -v '^END' 2>/dev/null )
     COUNT=${#TAGS[@]}
 
     echo ''
@@ -104,22 +104,16 @@ exifprobe()
 # Setup
 source ./functions.source
 
-(   cd "$testdir"
-
-    testfile=mini9.tif
+(   testfile=mini9.tif
     copyTestFile ${testfile}
     exifprobe ${testfile}
 
     runTest tiff-test ${testfile}
     exifprobe ${testfile}
 
-) > $results
+) > $results 2>&1
 
-# ----------------------------------------------------------------------
-# Evaluate results
-cat $results | tr -d $'\r' > $results-stripped
-mv                           $results-stripped $results
-reportTest                                     $results $good
+reportTest
 
 # That's all Folks!
 ##

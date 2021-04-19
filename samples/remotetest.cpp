@@ -3,15 +3,38 @@
 // Tester application for testing remote i/o.
 // It makes some modifications on the metadata of remote file, reads new metadata from that file
 // and reset the metadata back to the original status.
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 
 #include <exiv2/exiv2.hpp>
-
 #include <iostream>
 #include <iomanip>
 #include <cassert>
 
 int main(int argc, char* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
     if (argc < 2) {
         std::cout << "Usage: " << argv[0] << " file {--nocurl | --curl}\n\n";
         return 1;
@@ -35,19 +58,19 @@ try {
     exifData["Exif.Image.Make"]         = "Canon";                 // AsciiValue
     exifData["Exif.Canon.OwnerName"]    = "Tuan";                  // UShortValue
     exifData["Exif.CanonCs.LensType"]   = uint16_t(65535);         // LongValue
-    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::asciiString);
+    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::asciiString);
     v->read("2013:06:09 14:30:30");
     Exiv2::ExifKey key("Exif.Image.DateTime");
     exifData.add(key, v.get());
 
-    Exiv2::Image::AutoPtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    Exiv2::Image::UniquePtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     assert(writeTest.get() != 0);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
-    Exiv2::Image::AutoPtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    Exiv2::Image::UniquePtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     assert(readTest.get() != 0);
     readTest->readMetadata();
     Exiv2::ExifData &exifReadData = readTest->exifData();

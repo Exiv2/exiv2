@@ -1,4 +1,22 @@
 // ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 // exiv2json.cpp
 // Sample program to print metadata in JSON format
 
@@ -12,7 +30,6 @@
 #include <map>
 #include <vector>
 #include <set>
-
 #include <cstdlib>
 #include <limits.h>
 #include <sys/types.h>
@@ -268,6 +285,12 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
     try {
         if (argc < 2 || argc > 3) {
             std::cout << "Usage: " << argv[0] << " [-option] file"       << std::endl;
@@ -279,17 +302,17 @@ int main(int argc, char* const argv[])
         while      (opt[0] == '-') opt++ ; // skip past leading -'s
         char        option = opt[0];
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
 
         Jzon::Object   root;
 
         if ( option == 'f' ) { // only report filesystem when requested
-            const char*    FS="FS";
-            Jzon::Object      fs  ;
-            root.Add(FS,fs) ;
-            fileSystemPush(path,root.Get(FS));
+            const char*    Fs="FS";
+            Jzon::Object   fs     ;
+            root.Add(Fs,fs) ;
+            fileSystemPush(path,root.Get(Fs));
         }
 
         if ( option == 'a' || option == 'e' ) {
@@ -344,11 +367,11 @@ int main(int argc, char* const argv[])
         Jzon::Writer writer(root, Jzon::StandardFormat);
         writer.Write();
         std::cout << writer.GetResult() << std::endl;
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     catch (Exiv2::Error& e) {
         std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
-        return -1;
+        return EXIT_FAILURE;
     }
 }

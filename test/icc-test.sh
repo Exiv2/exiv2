@@ -1,22 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for exiv2.exe ICC support (-pS, -pC, -eC, -iC)
 
 source ./functions.source
 
 test1120() # --comment and -dc clobbered by writing ICC/JPG
 {
-    runTest exiv2 --comment abcdefg     $filename
-    runTest exiv2 -pS                   $filename
-    runTest exiv2 -pc                   $filename
-    runTest exiv2 -dc                   $filename
-    runTest exiv2 -pS                   $filename
+    if [ "$filename" != "Reagan2.jp2" ]; then 
+        runTest exiv2 --comment abcdefg     $filename
+        runTest exiv2 -pS                   $filename
+        runTest exiv2 -pc                   $filename
+        runTest exiv2 -dc                   $filename
+        runTest exiv2 -pS                   $filename
+    fi
 }
 
 (   cd "$testdir"
 
     num=1074                    # ICC Profile Support
     printf "ICC " >&3
-    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeJpg.jpg # 1272 ReaganLargeTiff.tiff
+    for filename in Reagan.jpg exiv2-bug1199.webp ReaganLargePng.png ReaganLargeJpg.jpg Reagan2.jp2 # 1272 ReaganLargeTiff.tiff
     do
         format=$(echo $filename|cut -d. -f 2)
         stub=$(  echo $filename|cut -d. -f 1)
@@ -57,13 +59,7 @@ test1120() # --comment and -dc clobbered by writing ICC/JPG
 
 ) 3>&1 > $results 2>&1
 
-printf "\n"
-
-# ----------------------------------------------------------------------
-# Evaluate results
-cat $results | tr -d $'\r' > $results-stripped
-mv                           $results-stripped $results
-reportTest                                     $results $good
+reportTest
 
 # That's all Folks!
 ##

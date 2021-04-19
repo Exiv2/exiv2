@@ -28,13 +28,12 @@ add_library(exiv2-xmp STATIC
 
 target_link_libraries(exiv2-xmp
     PRIVATE 
-        ${EXPAT_LIBRARY}
+        $<BUILD_INTERFACE:${EXPAT_LIBRARY}>
 )
 
-target_include_directories(exiv2-xmp
-    PUBLIC 
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
+target_include_directories(exiv2-xmp SYSTEM
     PRIVATE 
+        ${PROJECT_SOURCE_DIR}/xmpsdk/include
         ${EXPAT_INCLUDE_DIR}
 )
 
@@ -42,21 +41,23 @@ target_include_directories(exiv2-xmp
 # ("billion laughs attack").
 # See https://bugzilla.redhat.com/show_bug.cgi?id=888769
 target_compile_definitions(exiv2-xmp PRIVATE BanAllEntityUsage=1)
+
 if (MSVC)
     target_compile_definitions(exiv2-xmp PRIVATE XML_STATIC)
 endif()
 
-check_include_file( "stdint.h"  EXV_HAVE_STDINT_H )
-if (EXV_HAVE_STDINT_H)
-    target_compile_definitions(exiv2-xmp PRIVATE EXV_HAVE_STDINT_H)
+if (MINGW)
+    # https://stackoverflow.com/questions/18551409/localtime-r-support-on-mingw
+    target_compile_definitions(exiv2-xmp PRIVATE _POSIX_THREAD_SAFE_FUNCTIONS)
 endif()
 
 if (BUILD_SHARED_LIBS)
     set_property(TARGET exiv2-xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
 
-# 1119  Install libxmp.a for use by third party applications (Thanks, Emmanuel)
-install(TARGETS exiv2-xmp EXPORT exiv2Config
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+# The private dependencies of a static library still need to be exported because they are needed to properly link the consumers of the static library.
+install(TARGETS exiv2-xmp EXPORT exiv2Config	
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}	
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}	
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

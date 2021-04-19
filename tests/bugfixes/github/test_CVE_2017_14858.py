@@ -14,10 +14,11 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
 File size       : 331696 Bytes
 MIME type       : image/tiff
 Image size      : 0 x 12336
+Thumbnail       : None
 Camera make     : 0000
 Camera model    : 0000000000000
 Image timestamp : 
-Image number    : 
+File number     : 
 Exposure time   : 
 Aperture        : 
 Exposure bias   : 
@@ -30,9 +31,7 @@ Exposure mode   :
 Metering mode   : 
 Macro mode      : 
 Image quality   : 
-Exif Resolution : 
 White balance   : 
-Thumbnail       : None
 Copyright       : 
 Exif comment    : 
 

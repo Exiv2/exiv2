@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,17 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      sonymn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   18-Apr-05, ahu: created
- */
 // *****************************************************************************
 // included header files
 #include "types.hpp"
 #include "minoltamn_int.hpp"
 #include "sonymn_int.hpp"
 #include "tags_int.hpp"
+#include "tiffcomposite_int.hpp"
 #include "value.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -793,6 +789,103 @@ namespace Exiv2 {
     const TagInfo* SonyMakerNote::tagListCs2()
     {
         return tagInfoCs2_;
+    }
+
+    //! Sony Tag 9402 Sony2Fp (FocusPosition)
+    const TagInfo SonyMakerNote::tagInfoFp_[] = {
+        TagInfo(  0x04, "AmbientTemperature", N_("Ambient Temperature"), N_("Ambient Temperature"), sony2FpId, makerTags,   signedByte, 1, printValue),
+        TagInfo(  0x16, "FocusMode"         , N_("Focus Mode")         , N_("Focus Mode")         , sony2FpId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  0x17, "AFAreaMode"        , N_("AF Area Mode")       , N_("AF Area Mode")       , sony2FpId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(  0x2d, "FocusPosition2"    , N_("Focus Position 2")   , N_("Focus Position 2")   , sony2FpId, makerTags, unsignedByte, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(Unknownsony2FpTag)", "(Unknownsony2FpTag)"   , "(Unknownsony2FpTag)"    , sony2FpId, makerTags, unsignedByte, 1, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagListFp()
+    {
+        return tagInfoFp_;
+    }
+
+    //! Sony Tag 2010 Sony2010 (Miscellaneous)
+    const TagInfo SonyMakerNote::tagInfo2010e_[] = {
+        TagInfo(0, "SequenceImageNumber", N_("Sequence Image Number"), N_("Sequence Image Number"), sony2010eId, makerTags, unsignedLong, 1, printValue),
+        TagInfo(4, "SequenceFileNumber", N_("SequenceFileNumber"), N_("SequenceFileNumber"), sony2010eId, makerTags, unsignedLong, 1, printValue),
+        TagInfo(8, "ReleaseMode2", N_("ReleaseMode2"), N_("ReleaseMode2"), sony2010eId, makerTags, unsignedLong, 1, printValue),
+        TagInfo(540, "DigitalZoomRatio", N_("DigitalZoomRatio"), N_("DigitalZoomRatio"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(556, "SonyDateTime", N_("SonyDateTime"), N_("SonyDateTime"), sony2010eId, makerTags, undefined, 1, printValue),
+        TagInfo(808, "DynamicRangeOptimizer", N_("DynamicRangeOptimizer"), N_("DynamicRangeOptimizer"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(1208, "MeterInfo", N_("MeterInfo"), N_("MeterInfo"), sony2010eId, makerTags, undefined, 1, printValue),
+        TagInfo(4444, "ReleaseMode3", N_("ReleaseMode3"), N_("ReleaseMode3"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4448, "ReleaseMode2", N_("ReleaseMode2"), N_("ReleaseMode2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4456, "SelfTimer", N_("SelfTimer"), N_("SelfTimer"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4460, "FlashMode", N_("FlashMode"), N_("FlashMode"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4466, "StopsAboveBaseISO", N_("StopsAboveBaseISO"), N_("StopsAboveBaseISO"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4468, "BrightnessValue", N_("BrightnessValue"), N_("BrightnessValue"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4472, "DynamicRangeOptimizer", N_("DynamicRangeOptimizer"), N_("DynamicRangeOptimizer"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4476, "HDRSetting", N_("HDRSetting"), N_("HDRSetting"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4480, "ExposureCompensation", N_("ExposureCompensation"), N_("ExposureCompensation"), sony2010eId, makerTags, signedShort, 1, printValue),
+        TagInfo(4502, "PictureProfile", N_("PictureProfile"), N_("PictureProfile"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4503, "PictureProfile2", N_("PictureProfile2"), N_("PictureProfile2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4507, "PictureEffect2", N_("PictureEffect2"), N_("PictureEffect2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4520, "Quality2", N_("Quality2"), N_("Quality2"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4524, "MeteringMode", N_("MeteringMode"), N_("MeteringMode"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4525, "ExposureProgram", N_("ExposureProgram"), N_("ExposureProgram"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(4532, "WB_RGBLevels", N_("WB_RGBLevels"), N_("WB_RGBLevels"), sony2010eId, makerTags, unsignedShort, 3, printValue),
+        TagInfo(4692, "SonyISO", N_("SonyISO"), N_("SonyISO"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4696, "SonyISO2", N_("SonyISO2"), N_("SonyISO2"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4728, "FocalLength", N_("FocalLength"), N_("FocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4730, "MinFocalLength", N_("MinFocalLength"), N_("MinFocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4732, "MaxFocalLength", N_("MaxFocalLength"), N_("MaxFocalLength"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(4736, "SonyISO3", N_("SonyISO3"), N_("SonyISO3"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(6256, "DistortionCorrParams", N_("DistortionCorrParams"), N_("DistortionCorrParams"), sony2010eId, makerTags, signedShort, 16, printValue),
+        TagInfo(6289, "LensFormat", N_("LensFormat"), N_("LensFormat"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(6290, "LensMount", N_("LensMount"), N_("LensMount"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(6291, "LensType2", N_("LensType2"), N_("LensType2"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(6294, "LensType", N_("LensType"), N_("LensType"), sony2010eId, makerTags, unsignedShort, 1, printValue),
+        TagInfo(6296, "DistortionCorrParamsPresent", N_("DistortionCorrParamsPresent"), N_("DistortionCorrParamsPresent"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        TagInfo(6297, "DistortionCorrParamsNumber", N_("DistortionCorrParamsNumber"), N_("DistortionCorrParamsNumber"), sony2010eId, makerTags, unsignedByte, 1, printValue),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownSony2010eTag)", "(UnknownSony2010eTag)"   , "(UnknownSony2010eTag)"    , sony2010eId, makerTags, unsignedByte, 1, printValue)
+    };
+
+    const TagInfo* SonyMakerNote::tagList2010e()
+    {
+        return tagInfo2010e_;
+    }
+
+    // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
+    static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/, bool bDecipher)
+    {
+        DataBuf b(bytes,size); // copy the data
+
+        // initialize the code table
+        byte  code[256];
+        for ( uint32_t i = 0 ; i < 249 ; i++ ) {
+            if ( bDecipher ) {
+                code[(i * i * i) % 249] = i ;
+            } else {
+                code[i] = (i * i * i) % 249 ;
+            }
+        }
+        for ( uint32_t i = 249 ; i < 256 ; i++ ) {
+            code[i] = i;
+        }
+
+        // code byte-by-byte
+        for ( uint32_t i = 0 ; i < size ; i++ ) {
+            b.pData_[i] = code[bytes[i]];
+        }
+
+        return b;
+    }
+
+    DataBuf sonyTagDecipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    {
+        return sonyTagCipher(tag,bytes,size,object,true);
+    }
+    DataBuf sonyTagEncipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    {
+        return sonyTagCipher(tag,bytes,size,object,false);
     }
 
 }}                                      // namespace Internal, Exiv2

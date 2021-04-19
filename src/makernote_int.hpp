@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,16 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    makernote_int.hpp
-  @brief   Makernote factory and registry, IFD makernote header, and camera
-           vendor specific makernote implementations.<BR>References:<BR>
-  [1] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<BR>
-  [2] <a href="http://www.cybercom.net/~dcoffin/dcraw/">Decoding raw digital photos in Linux</a> by Dave Coffin
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    11-Apr-06, ahu: created
  */
 #ifndef MAKERNOTE_INT_HPP_
 #define MAKERNOTE_INT_HPP_
@@ -731,6 +721,17 @@ namespace Exiv2 {
     int sonyCsSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
     /*!
+        @brief Function to select cfg + def of the Sony 2010 Miscellaneous Information complex binary array.
+
+        @param tag Tag number of the binary array
+        @param pData Pointer to the raw array data.
+        @param size Size of the array data.
+        @param pRoot Pointer to the root component of the TIFF tree.
+        @return An index into the array set, -1 if no match was found.
+    */
+    int sony2010eSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+       
+    /*!
       @brief Function to select cfg + def of a Nikon complex binary array.
 
       @param tag Tag number of the binary array
@@ -740,6 +741,17 @@ namespace Exiv2 {
       @return An index into the array set, -1 if no match was found.
      */
     int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
+      @brief Function to select cfg + def of a Nikon complex binary array.
+
+      @param tag Tag number of the binary array
+      @param pData Pointer to the raw array data.
+      @param size Size of the array data.
+      @param pRoot Pointer to the root component of the TIFF tree.
+      @return An index into the array set, -1 if no match was found.
+     */
+     int nikonAf2Selector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
     /*!
       @brief Encrypt and decrypt Nikon data.

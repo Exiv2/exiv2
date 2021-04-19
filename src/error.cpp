@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -154,12 +154,12 @@ namespace {
           N_("%1 has invalid XMP value type `%2'") }, // %1=key, %2=value type
         { Exiv2::kerInvalidIccProfile,
           N_("Not a valid ICC Profile") },
-        { Exiv2::kerInvalidXMP,
-          N_("Not valid XMP") },
         { Exiv2::kerTiffDirectoryTooLarge,
           N_("tiff directory length is too large") },
         { Exiv2::kerInvalidTypeValue,
-          N_("invalid type value detected in Image::printIFDStructure") },
+          N_("invalid type in tiff structure") },
+        { Exiv2::kerInvalidLangAltValue,
+          N_("Invalid LangAlt value `%1'") }, // %1=value
         { Exiv2::kerInvalidMalloc,
           N_("invalid memory allocation request") },
         { Exiv2::kerCorruptedMetadata,
@@ -225,7 +225,7 @@ namespace Exiv2 {
     }
 
     template<>
-    void BasicError<char>::setMsg()
+    void EXIV2API BasicError<char>::setMsg()
     {
         std::string msg = _(errMsg(code_));
         std::string::size_type pos;
@@ -262,7 +262,7 @@ namespace Exiv2 {
 
 #ifdef EXV_UNICODE_PATH
     template<>
-    void BasicError<wchar_t>::setMsg()
+    void EXIV2API BasicError<wchar_t>::setMsg()
     {
         std::string s = _(errMsg(code_));
         std::wstring wmsg(s.begin(), s.end());

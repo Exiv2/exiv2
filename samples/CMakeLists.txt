@@ -42,7 +42,9 @@ foreach(entry ${SAMPLES})
     list(APPEND APPLICATIONS ${target})
     add_test( ${target}_test ${target} )
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
-    install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    if ( NOT ${target} MATCHES ".*test.*")                                # don't install tests
+        install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    endif()
 endforeach()
 
 ###################################
@@ -59,15 +61,15 @@ add_executable( metacopy metacopy.cpp ../src/utils.cpp ../src/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_include_directories(metacopy PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
-add_executable(          pathtest  path-test.cpp ../src/utils.cpp ../src/getopt.cpp)
-list(APPEND APPLICATIONS pathtest)
-set_target_properties(   pathtest  PROPERTIES OUTPUT_NAME path-test )
-target_include_directories(pathtest PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
+add_executable(          path-test  path-test.cpp ../src/utils.cpp ../src/getopt.cpp)
+list(APPEND APPLICATIONS path-test)
+set_target_properties(   path-test  PROPERTIES OUTPUT_NAME path-test )
+target_include_directories(path-test PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
 
 add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
 list(APPEND APPLICATIONS exiv2json)
 
-install( TARGETS metacopy pathtest exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install( TARGETS metacopy exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
@@ -96,6 +98,22 @@ endif()
 add_executable(conntest conntest.cpp)
 list(APPEND APPLICATIONS conntest)
 
+if (EXIV2_ENABLE_WEBREADY)
+    if( EXIV2_ENABLE_CURL )
+        target_include_directories(conntest SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
+        target_link_libraries(conntest PRIVATE ${CURL_LIBRARIES})
+        if (USING_CONAN)
+            target_compile_definitions(conntest PRIVATE ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
+            target_link_libraries(conntest PRIVATE ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
+            if ( MSVC ) 
+			    target_link_libraries(conntest PRIVATE Crypt32 Ws2_32 ${CURL_LIBRARIES})
+			elseif (NOT APPLE)
+                target_link_libraries(conntest PRIVATE CONAN_PKG::OpenSSL)
+            endif()
+        endif()
+    endif()
+endif()
+
 # ******************************************************************************
 # remotetest application
 add_executable(remotetest remotetest.cpp)
@@ -108,10 +126,6 @@ foreach(application ${APPLICATIONS})
         target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
     endif()
 endforeach()
-
-# ******************************************************************************
-# Man page
-install( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
 
 # That's all Folks!
 ##

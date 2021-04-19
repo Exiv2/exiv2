@@ -1,8 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for exiv2 utility tests
 
 source ./functions.source
-diffargs="-w --text $diffargs"
+if [ "$PLATFORM" == SunOS -o "$PLATFORM" == FreeBSD -o "$PLATFORM" == NetBSD ] ; then
+    diffargs="-w $diffargs"
+else 
+    diffargs="-w --text $diffargs"
+fi
 
 (   cd "$testdir"
 
@@ -24,7 +28,8 @@ diffargs="-w --text $diffargs"
         exiv2-sony-dsc-w7.jpg \
         exiv2-canon-eos-20d.jpg \
         exiv2-canon-eos-d30.jpg \
-        exiv2-canon-powershot-a520.jpg"
+        exiv2-canon-powershot-a520.jpg \
+        exiv2-photoshop.psd"
 
     image2="exiv2-empty.jpg \
         20031214_000043.jpg \
@@ -40,7 +45,8 @@ diffargs="-w --text $diffargs"
         20050527_051833.jpg \
         20060802_095200.jpg \
         20001004_015404.jpg \
-        20060127_225027.jpg"
+        20060127_225027.jpg \
+        20110626_213900.psd"        
 
     image3="exiv2-empty.exv \
         20031214_000043.exv \
@@ -56,9 +62,10 @@ diffargs="-w --text $diffargs"
         20050527_051833.exv \
         20060802_095200.exv \
         20001004_015404.exv \
-        20060127_225027.exv"
+        20060127_225027.exv \
+        20110626_213900.exv"
 
-    for i in $images; do copyTestFile $i; done
+    for i in $images; do copyTestFile $i; done ; copyTestFile 20110626_213900.psd
     echo "Exiv2 test directory -----------------------------------------------------"
     cd "$testdir"
 
@@ -66,7 +73,7 @@ diffargs="-w --text $diffargs"
     echo
     echo "Exiv2 version ------------------------------------------------------------"
     # Tweak this to avoid a maintenance headache with test/data/exiv2-test.out
-    runTest exiv2 -u -V | sed -E -e 's#^exiv2.*$#exiv2 0.27.0.0 (__ bit build)#'
+    runTest exiv2 -u -V | sed -e 's#^exiv2.*$#exiv2 0.27.0.0 (__ bit build)#'
     echo
     echo "Exiv2 help ---------------------------------------------------------------"
     runTest exiv2 -u -h

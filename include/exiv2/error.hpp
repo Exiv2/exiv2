@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -249,6 +249,7 @@ namespace Exiv2 {
         kerInvalidXMP,
         kerTiffDirectoryTooLarge,
         kerInvalidTypeValue,
+        kerInvalidLangAltValue,
         kerInvalidMalloc,
         kerCorruptedMetadata,
         kerArithmeticOverflow,
@@ -260,43 +261,43 @@ namespace Exiv2 {
              provided to print errors to a stream.
      */
     template<typename charT>
-    class BasicError : public AnyError {
+    class EXIV2API BasicError : public AnyError {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit BasicError(ErrorCode code);
+        explicit inline BasicError(ErrorCode code);
 
         //! Constructor taking an error code and one argument
         template<typename A>
-        BasicError(ErrorCode code, const A& arg1);
+        inline BasicError(ErrorCode code, const A& arg1);
 
         //! Constructor taking an error code and two arguments
         template<typename A, typename B>
-        BasicError(ErrorCode code, const A& arg1, const B& arg2);
+        inline BasicError(ErrorCode code, const A& arg1, const B& arg2);
 
         //! Constructor taking an error code and three arguments
         template<typename A, typename B, typename C>
-        BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
+        inline BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of throw())
-        virtual ~BasicError() throw();
+        virtual inline ~BasicError() throw();
         //@}
 
         //! @name Accessors
         //@{
-        virtual int code() const throw();
+        virtual inline int code() const throw();
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        virtual const char* what() const throw();
+        virtual inline const char* what() const throw();
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
                  wwhat() is valid only as long as the BasicError object exists.
          */
-        virtual const wchar_t* wwhat() const throw();
+        virtual inline const wchar_t* wwhat() const throw();
 #endif
         //@}
 
@@ -304,7 +305,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Assemble the error message from the arguments
-        EXIV2API void setMsg();
+        void setMsg();
         //@}
 
         // DATA

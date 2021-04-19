@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      orfimage.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   13-May-06, ahu: created
-  Credits:   See header file
  */
 // *****************************************************************************
 // included header files
@@ -49,8 +43,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    OrfImage::OrfImage(BasicIo::AutoPtr io, bool create)
-        : TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ io,create)
+    OrfImage::OrfImage(BasicIo::UniquePtr io, bool create)
+        : TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ std::move(io),create)
     {
         setTypeSupported(ImageType::orf, mdExif | mdIptc | mdXmp);
     } // OrfImage::OrfImage
@@ -101,7 +95,7 @@ namespace Exiv2 {
 
     void OrfImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading ORF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -124,7 +118,7 @@ namespace Exiv2 {
 
     void OrfImage::writeMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Writing ORF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
@@ -186,7 +180,7 @@ namespace Exiv2 {
             panaRawId
         };
         for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(),
@@ -195,7 +189,7 @@ namespace Exiv2 {
                      ed.end());
         }
 
-        std::auto_ptr<TiffHeaderBase> header(new OrfHeader(byteOrder));
+        std::unique_ptr<TiffHeaderBase> header(new OrfHeader(byteOrder));
         return TiffParserWorker::encode(io,
                                         pData,
                                         size,
@@ -210,9 +204,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newOrfInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new OrfImage(io, create));
+        Image::UniquePtr image(new OrfImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

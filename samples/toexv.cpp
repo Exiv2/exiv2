@@ -18,17 +18,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  Abstract : Test application to extract metadata from image to exv file
- */
-// *****************************************************************************
-// included header files
-#include <exiv2/exiv2.hpp>
 
+#include <exiv2/exiv2.hpp>
 #include <iostream>
 #include <fstream>
 #include <cassert>
-
 #include "utils.hpp"
 #include "toexv.hpp"
 
@@ -45,7 +39,13 @@ static size_t exifMetadataCount(Exiv2::Image::AutoPtr& image)
 // Main
 int main(int argc, char* const argv[])
 {
-	try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
+
+    try {
 		// Handle command line arguments
 		Params params(":iecCahsx");
 		if (params.getopt(argc, argv)) return params.usage();

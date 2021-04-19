@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      properties.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-  History:   13-July-07, ahu: created
  */
 // *****************************************************************************
 // included header files
@@ -197,6 +191,7 @@ namespace Exiv2 {
         { "LensCorrectionSettings", N_("Lens Correction Settings"),  "Text",     xmpText, xmpExternal, N_("The list of Lens Correction tools settings used to fix lens distortion. This include Batch Queue Manager and Image editor tools based on LensFun library.") },
         { "ColorLabel",             N_("Color Label"),               "Text",     xmpText, xmpExternal, N_("The color label assigned to this item. Possible values are \"0\": no label; \"1\": Red; \"2\": Orange; \"3\": Yellow; \"4\": Green; \"5\": Blue; \"6\": Magenta; \"7\": Gray; \"8\": Black; \"9\": White.") },
         { "PickLabel",              N_("Pick Label"),                "Text",     xmpText, xmpExternal, N_("The pick label assigned to this item. Possible values are \"0\": no label; \"1\": item rejected; \"2\": item in pending validation; \"3\": item accepted.") },
+        { "Preview",                N_("JPEG preview"),              "Text",     xmpText, xmpExternal, N_("Reduced size JPEG preview image encoded as base64 for a fast screen rendering.") },
         // End of list marker
         { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
     };
@@ -985,7 +980,7 @@ namespace Exiv2 {
         { "RegItemId",               N_("Registry Entry-Item Identifier"),  "Text",                       xmpText, xmpExternal, N_("A unique identifier created by a registry and applied by the creator of the digital image. This value shall not be changed after being applied. This identifier is linked to a corresponding Registry Organisation Identifier.") },
         { "RegOrgId",                N_("Registry Entry-Organisation Identifier"), "Text",                xmpText, xmpExternal, N_("An identifier for the registry which issued the corresponding Registry Image Id.") },
         { "IptcLastEdited",          N_("IPTC Fields Last Edited"),         "Date",                       xmpText, xmpExternal, N_("The date and optionally time when any of the IPTC photo metadata fields has been last edited.") },
-        { "LocationShown",           N_("Location shown"),                  "bag LocationDetails",        xmpBag,  xmpExternal, N_("A location shown in the image.") },
+        { "LocationShown",           N_("Location Shown"),                  "bag LocationDetails",        xmpBag,  xmpExternal, N_("A location shown in the image.") },
         { "LocationCreated",         N_("Location Created"),                "bag LocationDetails",        xmpBag,  xmpExternal, N_("The location the photo was taken.") },
         { "City",                    N_("Location-City"),                   "Text",                       xmpText, xmpExternal, N_("Name of the city of a location.") },
         { "CountryCode",             N_("Location-Country ISO-Code"),       "Text",                       xmpText, xmpExternal, N_("The ISO code of a country of a location.") },
@@ -2618,7 +2613,7 @@ namespace Exiv2 {
                 prefix = property.substr(0, i);
                 property = property.substr(i+1);
             }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Nested key: " << key.key() << ", prefix: " << prefix
                       << ", property: " << property << "\n";
 #endif
@@ -2741,7 +2736,8 @@ namespace Exiv2 {
     {
     }
 
-    XmpKey::XmpKey(const XmpKey& rhs) : Key(rhs), p_(new Impl(*rhs.p_))
+    XmpKey::XmpKey(const XmpKey& rhs)
+        : p_(new Impl(*rhs.p_))
     {
     }
 
@@ -2754,9 +2750,9 @@ namespace Exiv2 {
         return *this;
     }
 
-    XmpKey::AutoPtr XmpKey::clone() const
+    XmpKey::UniquePtr XmpKey::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     XmpKey* XmpKey::clone_() const
@@ -2838,14 +2834,25 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
+    // *************************************************************************
+    // free functions
     std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property)
     {
-        return os << property.name_                       << ",\t"
-                  << property.title_                      << ",\t"
-                  << property.xmpValueType_               << ",\t"
-                  << TypeInfo::typeName(property.typeId_) << ",\t"
-                  << ( property.xmpCategory_ == xmpExternal ? "External" : "Internal" ) << ",\t"
-                  << property.desc_                       << "\n";
+        os << property.name_                       << ","
+           << property.title_                      << ","
+           << property.xmpValueType_               << ","
+           << TypeInfo::typeName(property.typeId_) << ","
+           << ( property.xmpCategory_ == xmpExternal ? "External" : "Internal" ) << ",";
+        // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
+        char Q = '"';
+        os << Q;
+        for ( size_t i = 0 ; i < ::strlen(property.desc_) ; i++ ) {
+            char c = property.desc_[i];
+            if ( c == Q ) os << Q;
+            os << c;
+        }
+        os << Q << std::endl;
+        return os;
     }
     //! @endcond
 
