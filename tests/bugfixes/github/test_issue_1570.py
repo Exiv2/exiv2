@@ -45,7 +45,8 @@ $kerCorruptedMetadata
     commands = ["$exiv2 $filename"]
     stdout = [""]
     stderr = [
-"""$filename1: Could not write metadata to file: $kerCorruptedMetadata
+"""Exiv2 exception in print action for file $filename:
+$kerCorruptedMetadata
 """]
     retval = [1]
 >>>>>>> 386e464e1... Regression test for https://github.com/Exiv2/exiv2/issues/1570.
