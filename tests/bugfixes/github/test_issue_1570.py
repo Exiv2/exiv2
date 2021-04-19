@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+<<<<<<< HEAD
 import system_tests
 import unittest
 
@@ -9,11 +10,18 @@ if bSkip:
     raise unittest.SkipTest('*** requires enable_bmff=1 ***')
 
 class BmffImageReadMetadataOutOfBoundsRead(metaclass=system_tests.CaseMeta):
+=======
+from system_tests import CaseMeta, path
+
+
+class BmffImageReadMetadataOutOfBoundsRead(metaclass=CaseMeta):
+>>>>>>> 386e464e1... Regression test for https://github.com/Exiv2/exiv2/issues/1570.
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/1570
     """
     url = "https://github.com/Exiv2/exiv2/issues/1570"
+<<<<<<< HEAD
     filename = "$data_path/issue_1570_poc.bmff"
 
     if bSkip:
@@ -31,3 +39,13 @@ class BmffImageReadMetadataOutOfBoundsRead(metaclass=system_tests.CaseMeta):
 $kerCorruptedMetadata
 """]
         retval = [1]
+=======
+
+    filename = path("$data_path/issue_1570_poc.bmff")
+    commands = ["$exiv2 $filename"]
+    stdout = [""]
+    stderr = [
+"""$filename1: Could not write metadata to file: $kerCorruptedMetadata
+"""]
+    retval = [1]
+>>>>>>> 386e464e1... Regression test for https://github.com/Exiv2/exiv2/issues/1570.
