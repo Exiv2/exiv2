@@ -287,7 +287,11 @@ namespace Exiv2
                 skip += 2;
                 /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
-                std::string name((const char*)data.pData_ + skip);
+                // Check that the string has a '\0' terminator.
+                const char* str = (const char*)data.pData_ + skip;
+                const size_t maxlen = static_cast<size_t>(data.size_ - skip);
+                enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
+                std::string name(str);
                 if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
                     id=" *** Exif ***";
