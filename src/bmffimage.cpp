@@ -357,8 +357,8 @@ namespace Exiv2
                         out << std::endl;
                         bLF = false;
                     }
-                    uint32_t step = (box.length - 16) / itemCount;  // length of data per item.
-                    uint32_t base = skip;
+                    long step = (box.length - 16) / itemCount;  // length of data per item.
+                    long base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
                         enforce(data.size_ - skip >= (version > 2 ? 4 : 2), Exiv2::kerCorruptedMetadata);
