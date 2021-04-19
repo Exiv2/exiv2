@@ -241,7 +241,7 @@ namespace Exiv2
         io_->read(data.pData_, data.size_);
         io_->seek(restore, BasicIo::beg);
 
-        uint32_t skip = 0;  // read position in data.pData_
+        long skip = 0;  // read position in data.pData_
         uint8_t version = 0;
         uint32_t flags = 0;
 
