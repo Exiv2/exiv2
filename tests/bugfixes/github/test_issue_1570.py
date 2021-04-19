@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import system_tests
 import unittest
 
@@ -12,15 +13,28 @@ if bSkip:
 class BmffImageReadMetadataOutOfBoundsRead(metaclass=system_tests.CaseMeta):
 =======
 from system_tests import CaseMeta, path
+=======
+import system_tests
+import unittest
+>>>>>>> 9cba1e475... Stop the test from failing when EXIV2_ENABLE_BMFF=Off.
 
+# test needs system_tests.BT.vv['enable_bmff']=1
+bSkip=system_tests.BT.verbose_version().get('enable_bmff')!='1'
+if bSkip:
+    raise unittest.SkipTest('*** requires enable_bmff=1 ***')
 
+<<<<<<< HEAD
 class BmffImageReadMetadataOutOfBoundsRead(metaclass=CaseMeta):
 >>>>>>> 386e464e1... Regression test for https://github.com/Exiv2/exiv2/issues/1570.
+=======
+class BmffImageReadMetadataOutOfBoundsRead(metaclass=system_tests.CaseMeta):
+>>>>>>> 9cba1e475... Stop the test from failing when EXIV2_ENABLE_BMFF=Off.
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/1570
     """
     url = "https://github.com/Exiv2/exiv2/issues/1570"
+<<<<<<< HEAD
 <<<<<<< HEAD
     filename = "$data_path/issue_1570_poc.bmff"
 
@@ -40,13 +54,27 @@ $kerCorruptedMetadata
 """]
         retval = [1]
 =======
+=======
+    filename = "$data_path/issue_1570_poc.bmff"
+>>>>>>> 9cba1e475... Stop the test from failing when EXIV2_ENABLE_BMFF=Off.
 
-    filename = path("$data_path/issue_1570_poc.bmff")
-    commands = ["$exiv2 $filename"]
-    stdout = [""]
-    stderr = [
-"""Exiv2 exception in print action for file $filename:
+    if bSkip:
+        commands=[]
+        retval=[]
+        stdin=[]
+        stderr=[]
+        stdout=[]
+        print("*** test skipped.  requires enable_bmff=1***")
+    else:
+        commands = ["$exiv2 $filename"]
+        stdout = [""]
+        stderr = [
+            """Exiv2 exception in print action for file $filename:
 $kerCorruptedMetadata
 """]
+<<<<<<< HEAD
     retval = [1]
 >>>>>>> 386e464e1... Regression test for https://github.com/Exiv2/exiv2/issues/1570.
+=======
+        retval = [1]
+>>>>>>> 9cba1e475... Stop the test from failing when EXIV2_ENABLE_BMFF=Off.
