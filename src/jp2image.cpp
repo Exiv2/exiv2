@@ -683,7 +683,7 @@ static void boxes_check(size_t b,size_t m)
                     const char* pad   = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
                     uint32_t    psize = 15;
                     newlen            = sizeof(newBox) + psize ;
-                    enforce(newlen <= output.size_ - outlen, Exiv2::kerCorruptedMetadata);
+                    enforce(newlen <= static_cast<size_t>(output.size_ - outlen), Exiv2::kerCorruptedMetadata);
                     ul2Data((byte*)&newBox.length,psize      ,bigEndian);
                     ul2Data((byte*)&newBox.type  ,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox));
@@ -692,7 +692,7 @@ static void boxes_check(size_t b,size_t m)
                     const char* pad   = "\x02\x00\x00";
                     uint32_t    psize = 3;
                     newlen            = sizeof(newBox) + psize + iccProfile_.size_;
-                    enforce(newlen <= output.size_ - outlen, Exiv2::kerCorruptedMetadata);
+                    enforce(newlen <= static_cast<size_t>(output.size_ - outlen), Exiv2::kerCorruptedMetadata);
                     ul2Data((byte*)&newBox.length,newlen,bigEndian);
                     ul2Data((byte*)&newBox.type,newBox.type,bigEndian);
                     ::memcpy(output.pData_+outlen                     ,&newBox            ,sizeof(newBox)  );
@@ -700,7 +700,7 @@ static void boxes_check(size_t b,size_t m)
                     ::memcpy(output.pData_+outlen+sizeof(newBox)+psize,iccProfile_.pData_,iccProfile_.size_);
                 }
             } else {
-                enforce(newlen <= output.size_ - outlen, Exiv2::kerCorruptedMetadata);
+                enforce(newlen <= static_cast<size_t>(output.size_ - outlen), Exiv2::kerCorruptedMetadata);
                 ::memcpy(output.pData_+outlen,boxBuf.pData_+inlen,subBox.length);
             }
 
