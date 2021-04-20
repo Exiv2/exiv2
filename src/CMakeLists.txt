@@ -52,6 +52,7 @@ add_library( exiv2lib
     crwimage.cpp            ../include/exiv2/crwimage.hpp
     datasets.cpp            ../include/exiv2/datasets.hpp
     easyaccess.cpp          ../include/exiv2/easyaccess.hpp
+    epsimage.cpp            ../include/exiv2/epsimage.hpp
     error.cpp               ../include/exiv2/error.hpp
     exif.cpp                ../include/exiv2/exif.hpp
     futils.cpp              ../include/exiv2/futils.hpp
