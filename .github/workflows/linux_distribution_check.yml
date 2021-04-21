@@ -10,14 +10,15 @@ jobs:
       # FIXME
       fail-fast: false
       matrix:
-        container_image: ["fedora:latest", "debian:9", "archlinux/base", "ubuntu:18.10", "centos:7", "opensuse/tumbleweed", "alpine:latest"]
+        # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
+        container_image: ["fedora:latest", "debian:9", "ubuntu:20.04", "centos:7", "opensuse/tumbleweed", "alpine:latest"]
         compiler: [g++, clang++]
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
     container:
       image: ${{ matrix.container_image }}
       env:
-        CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON
+        CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=OF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install
 
     steps:
     - uses: actions/checkout@v1
