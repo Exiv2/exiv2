@@ -19,7 +19,8 @@
  */
 
 #include "cr2header_int.hpp"
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
+
 using namespace Exiv2;
 
 static const byte cr2LittleEndian[] = {0x49, 0x49, 0x2a, 0x00, 0x10, 0x00, 0x00, 0x00,

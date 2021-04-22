@@ -19,7 +19,8 @@
  */
 
 #include <safe_op.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
+
 namespace si = Safe::Internal;
 
 /*!
