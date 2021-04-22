@@ -50,16 +50,6 @@ namespace Jzon
 		Pair(T1 first, T2 second) : first(first), second(second)
 		{}
 
-		Pair &operator=(const Pair &rhs)
-		{
-			if (this != &rhs)
-			{
-				this->first  = rhs.first;
-				this->second = rhs.second;
-			}
-			return *this;
-		}
-
 		T1 first;
 		T2 second;
 	};
