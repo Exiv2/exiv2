@@ -42,6 +42,7 @@ TEST(strError, returnSuccessAfterClosingFile)
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
+    bool useExactString{true};
 #if   defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(__MSYS__)
     const char * expectedString = "No error (errno = 0)";
 #elif defined(__APPLE__)
@@ -53,10 +54,16 @@ TEST(strError, returnSuccessAfterClosingFile)
 #elif defined(__NetBSD__)
     const char * expectedString = "Undefined error: 0 (errno = 0)";
 #else
-    const char * expectedString = "Success (errno = 0)";
+    // On Alpine we get 'No error information (errno = 0)' instead of 'Success (errno = 0)'
+    const char * expectedString = "(errno = 0)";
+    useExactString = false;
 #endif
     std::remove(tmpFile.c_str());
-    ASSERT_STREQ(expectedString, strError().c_str());
+    if (useExactString) {
+      ASSERT_STREQ(expectedString, strError().c_str());
+    } else {
+      ASSERT_TRUE(strError().find(expectedString) != std::string::npos);
+    }
 }
 
 TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile)
@@ -68,6 +75,7 @@ TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile)
 TEST(strError, doNotRecognizeUnknownError)
 {
     errno = 9999;
+    bool useExactString{true};
 #if   defined(__MINGW__) || defined(__MSYS__) || defined(__CYGWIN__)
     const char * expectedString = "Unknown error 9999 (errno = 9999)";
 #elif defined(_WIN32)
@@ -81,9 +89,15 @@ TEST(strError, doNotRecognizeUnknownError)
 #elif defined(__NetBSD__)
     const char * expectedString = "Unknown error: 9999 (errno = 9999)";
 #else
-    const char * expectedString = "Unknown error 9999 (errno = 9999)";
+    // On Alpine we get 'No error information (errno = 9999)' instead of 'Unknown error 9999 (errno = 9999)'
+    const char * expectedString = "(errno = 9999)";
+    useExactString = false;
 #endif
-    ASSERT_STREQ(expectedString, strError().c_str());
+    if (useExactString) {
+      ASSERT_STREQ(expectedString, strError().c_str());
+    } else {
+      ASSERT_TRUE(strError().find(expectedString) != std::string::npos);
+    }
 }
 
 TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist)
