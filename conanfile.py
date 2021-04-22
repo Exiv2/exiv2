@@ -30,16 +30,10 @@ class Exiv2Conan(ConanFile):
         if self.options.unitTests:
             self.requires('gtest/1.10.0')
 
-        if self.options.webready and not os_info.is_macos:
-            if os_info.is_windows:
-                self.options['libcurl'].with_ssl = 'darwinssl'
-            else:
-                self.options['libcurl'].with_ssl = 'openssl'
-
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            self.requires('expat/2.3.0')
+            self.requires('expat/2.2.7')
 
     def imports(self):
         self.copy('*.dll', dst='conanDlls', src='bin')
