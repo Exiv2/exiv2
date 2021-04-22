@@ -402,8 +402,8 @@ namespace Exiv2 {
             }
         }
         // now erase the family!
-        for (const auto& key: keys) {
-            erase(findKey(Exiv2::XmpKey(key)));
+        for (const auto& k: keys) {
+            erase(findKey(Exiv2::XmpKey(k)));
         }
     }
 
