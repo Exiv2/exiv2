@@ -50,6 +50,11 @@ case "$distro_id" in
         debian_build_gtest
         ;;
 
+    'alpine')
+        apk update
+        apk add gcc g++ clang cmake make ccache expat-dev zlib-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev which dos2unix bash libxml2-utils diffutils python3
+        ;;
+
     'centos'|'rhel')
         yum -y install epel-release
         # enable copr for gtest
