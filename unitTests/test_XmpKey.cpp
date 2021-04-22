@@ -20,7 +20,8 @@
 
 #include <exiv2/error.hpp>
 #include <exiv2/properties.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
+
 using namespace Exiv2;
 
 namespace

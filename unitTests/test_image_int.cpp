@@ -19,7 +19,7 @@
  */
 
 #include <exiv2/exiv2.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 #include <image_int.hpp>
 
 using namespace Exiv2::Internal;
