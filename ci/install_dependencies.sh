@@ -10,7 +10,7 @@ debian_build_gtest() {
     cd gtest_build
     cmake -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
     make
-    cp libgtest* /usr/lib/
+    cp lib/libgtest* /usr/lib/
     cd ..
 }
 
