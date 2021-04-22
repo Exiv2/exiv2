@@ -10,7 +10,13 @@ debian_build_gtest() {
     cd gtest_build
     cmake -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
     make
-    cp lib/libgtest* /usr/lib/
+    if [ -f "lib/libgtest.so" ]; then
+        # Ubuntu 20.04 with gtest 1.10
+        cp lib/libgtest* /usr/lib/
+    else
+        # Debian 9 with gtest 1.8
+        cp libgtest* /usr/lib/
+    fi
     cd ..
 }
 
@@ -57,7 +63,7 @@ case "$distro_id" in
 
     'opensuse'|'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl tar libcurl-devel git which dos2unix libxml2-tools
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl tar libcurl-devel git which dos2unix libxml2-tools gzip
         pushd /tmp
           curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
           tar xzf   release-1.8.0.tar.gz
