@@ -85,16 +85,16 @@ matrix:
         - BUILD_TYPE="Release"
         - WITH_SANITIZERS=1
 
-    - name: "macOS 10.14 - XCode 11.3 (Release)"
+    - name: "macOS 10.15.7 - XCode 12.2 (Release)"
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
       compiler: clang
       env:
         - BUILD_TYPE="Release"
 
-    - name: "macOS 10.14 - XCode 11.3 (Debug)"
+    - name: "macOS 10.15.7 - XCode 12.2 (Debug)"
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
       compiler: clang
       env:
         - BUILD_TYPE="Debug"

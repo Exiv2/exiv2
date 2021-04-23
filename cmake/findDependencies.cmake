@@ -6,11 +6,8 @@ if (APPLE)
      set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
 
-# Check if the conan file exist to find the dependencies
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    set(USING_CONAN ON)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS TARGETS)
+if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+    include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 endif()
 
 find_package(Threads REQUIRED)
