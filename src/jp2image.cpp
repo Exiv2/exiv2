@@ -908,6 +908,7 @@ static void boxes_check(size_t b,size_t m)
 
                 case kJp2BoxTypeUuid:
                 {
+                    enforce(boxBuf.size_ >= 24, Exiv2::kerCorruptedMetadata);
                     if(memcmp(boxBuf.pData_ + 8, kJp2UuidExif, 16) == 0)
                     {
 #ifdef EXIV2_DEBUG_MESSAGES
