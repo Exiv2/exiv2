@@ -36,5 +36,5 @@ class Exiv2Conan(ConanFile):
             self.requires('expat/2.2.7')
 
     def imports(self):
-        self.copy('*.dll', dst='conanDlls', src='bin')
+        self.copy('*.dll', dst='bin', src='bin')
         self.copy('*.dylib', dst='bin', src='lib')
