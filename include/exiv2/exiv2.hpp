@@ -25,6 +25,7 @@
 #include "exiv2/config.h"
 #include "exiv2/datasets.hpp"
 #include "exiv2/basicio.hpp"
+#include "exiv2/bmffimage.hpp"
 #include "exiv2/bmpimage.hpp"
 #include "exiv2/convert.hpp"
 #include "exiv2/cr2image.hpp"
@@ -45,7 +46,6 @@
 #include "exiv2/mrwimage.hpp"
 #include "exiv2/orfimage.hpp"
 #include "exiv2/pgfimage.hpp"
-#include "bmffimage.hpp"
 
 #ifdef EXV_HAVE_LIBZ
 #include "exiv2/pngimage.hpp"
