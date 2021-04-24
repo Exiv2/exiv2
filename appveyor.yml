@@ -1,45 +1,34 @@
-init:
-  - echo %PYTHON%
+# Configuration rescued from 'old-master' branch.
+# Only one Visual Studio (latest one), and all possible configurations
+image: Visual Studio 2019
+
+configuration:
+  - Debug
+  - Release
+
+platform:
+  - x86
+  - x64
 
 environment:
-  PYTHON: "C:/Python37-x64"
+  VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+
+  PYTHON: "C:\\Python39-x64"
     
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      CMAKE_GENERATOR: Ninja
-      INTEGRATION_TESTS: 1
-      VS_COMPILER_VERSION: 16
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WARNINGS_AS_ERRORS: ON
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      CMAKE_GENERATOR: Ninja
-      INTEGRATION_TESTS: 1
-      VS_COMPILER_VERSION: 15
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WARNINGS_AS_ERRORS: ON
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      CMAKE_GENERATOR: Ninja
-      INTEGRATION_TESTS: 1
-      VS_COMPILER_VERSION: 14
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WARNINGS_AS_ERRORS: ON
+      - SHARED: ON
+      - SHARED: OFF
 
 shallow_clone: true
 
 install:
     - set PATH=%PATH%;%PYTHON%/Scripts/
     - echo %APPVEYOR_BUILD_FOLDER%
-    - mkdir C:\projects\deps
-    - cd C:\projects\deps
-    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-win.zip -FileName ninja.zip
-    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
-    - set PATH=C:\projects\deps\ninja;%PATH%
+    - if not exist deps mkdir deps
+    - cd deps
+    - if not exist ninja appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip -FileName ninja.zip
+    - if not exist ninja 7z x ninja.zip -o%APPVEYOR_BUILD_FOLDER%\deps\ninja > nul
+    - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
     - ninja --version
     - python -m pip install --upgrade pip
     - pip3.exe install conan==1.35.2
@@ -50,24 +39,36 @@ before_build:
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
-    - cmd: conan profile update settings.compiler.version=%VS_COMPILER_VERSION% default
+    - cmd: conan profile update settings.compiler.version=16 default
+    - cmd: if "%platform%"=="x64" (set ARCHITECTURE=x86_64) else (set ARCHITECTURE=x86)
+    - cmd: if "%CONFIGURATION%"=="Debug" (set RUNTIME=MDd) else (set RUNTIME=MD)
     - cmd: conan profile update settings.arch=%ARCHITECTURE% default
     - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
+    - cmd: conan profile update settings.build_type=%CONFIGURATION% default
+    - cmd: conan profile update settings.compiler.runtime=%RUNTIME% default
     - cmd: cat c:\Users\appveyor\.conan\conan.conf
+    - cmd: cat c:\Users\appveyor\.conan\profiles\default
 
 build_script:
     - cmd: md build
     - cmd: cd build
-    - cmd: call "%VCVARS%" x86_amd64
-    - cmd: conan --version
-    - cmd: conan install .. -o webready=False --build missing
-    - cmd: echo %CMAKE_GENERATOR%
-    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
-    - cmd: cmake --build . --config Release
-    - cmd: cmake --build . --config Release --target install
+    - cmd: if "%platform%"=="x64" (set VC_ARCH=x86_amd64) else (set VC_ARCH=x86)
+    - cmd: call "%VCVARS%" %VC_ARCH%
+    - cmd: conan install .. --build missing -o webready=True
+    - cmd: cmake -GNinja -DBUILD_SHARED_LIBS=%SHARED% -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: ninja
+    - cmd: ninja install
     - cmd: cd bin
-    - cmd: if %UNIT_TESTS% == 1 unit_tests.exe
+    - cmd: unit_tests.exe
     - cmd: cd ../../tests/
-    - cmd: if %INTEGRATION_TESTS% == 1 %PYTHON%/python.exe runner.py -v
-    - cmd: cd ../build/bin
-    - cmd: exiv2 --version --verbose
+    - cmd: set EXIV2_EXT=.exe
+    - cmd: c:\Python39-x64\python.exe runner.py -v
+
+# We have disabled the cache system in master because for VS2017 we can find pre-compiled binaries
+# for all the 3rd party dependencies in the conan-center bintray repository. The average time for
+# each build in Appveyor is around 3 minutes which is not bad. If those times get worse over time
+# we could think about re-enabling it.
+
+#cache:
+#- deps                          # Ninja installation
+#- c:\Users\appveyor\conanCache  # Conan cache
