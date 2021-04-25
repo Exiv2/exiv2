@@ -1297,7 +1297,7 @@ namespace Exiv2 {
         if (newIdx < 0)
             return 1;
 
-        if (static_cast<size_t>(newIdx) > p_->size_) {
+        if (newIdx > p_->size_) {
             p_->eof_ = true;
             return 1;
         }
