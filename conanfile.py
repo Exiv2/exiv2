@@ -19,7 +19,6 @@ class Exiv2Conan(ConanFile):
     def configure(self):
         self.options['libcurl'].shared = True
         self.options['gtest'].shared = True
-        self.options['gtest'].debug_postfix = ''
 
     def requirements(self):
         self.requires('zlib/1.2.11')
@@ -30,6 +29,8 @@ class Exiv2Conan(ConanFile):
 
         if self.options.unitTests:
             self.requires('gtest/1.10.0')
+            if self.settings.build_type == "Debug":
+                self.options['gtest'].debug_postfix = ''
 
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
