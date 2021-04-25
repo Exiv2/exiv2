@@ -133,10 +133,9 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
 
-target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
+target_link_libraries(exiv2lib_int PRIVATE ZLIB::ZLIB)
 target_include_directories(exiv2lib SYSTEM PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
-    ${ZLIB_INCLUDE_DIR}
 )
 
 if (EXIV2_ENABLE_XMP)
@@ -188,7 +187,7 @@ else()
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
+	target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
 endif()
 
 if( EXIV2_ENABLE_NLS )
@@ -237,6 +236,9 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
         XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
     )
+    if (MSVC)
+        set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+    endif()
 
     target_link_libraries( exiv2 PRIVATE exiv2lib )
 

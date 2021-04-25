@@ -114,7 +114,10 @@ list(APPEND APPLICATIONS remotetest)
 foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
     if( EXIV2_ENABLE_PNG )
-        target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
+        target_link_libraries(${application} PRIVATE ${ZLIB_LIBRARIES} )
+	if (MSVC)
+	    set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+	endif()
     endif()
 endforeach()
 
