@@ -19,6 +19,7 @@ class Exiv2Conan(ConanFile):
     def configure(self):
         self.options['libcurl'].shared = True
         self.options['gtest'].shared = True
+        self.options['gtest'].debug_postfix = ''
 
     def requirements(self):
         self.requires('zlib/1.2.11')
@@ -33,7 +34,7 @@ class Exiv2Conan(ConanFile):
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            self.requires('expat/2.2.7')
+            self.requires('Expat/2.2.6@pix4d/stable')
 
     def imports(self):
         self.copy('*.dll', dst='bin', src='bin')
