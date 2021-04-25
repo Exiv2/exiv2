@@ -55,7 +55,7 @@ build_script:
     - cmd: if "%platform%"=="x64" (set VC_ARCH=x86_amd64) else (set VC_ARCH=x86)
     - cmd: call "%VCVARS%" %VC_ARCH%
     - cmd: conan install .. --build missing -o webready=True
-    - cmd: cmake -GNinja -DBUILD_SHARED_LIBS=%SHARED% -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake -GNinja -DBUILD_SHARED_LIBS=%SHARED% -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_ENABLE_BMFF=ON -DCMAKE_INSTALL_PREFIX=install ..
     - cmd: ninja
     - cmd: ninja install
     - cmd: cd bin
@@ -64,11 +64,6 @@ build_script:
     - cmd: set EXIV2_EXT=.exe
     - cmd: c:\Python39-x64\python.exe runner.py -v
 
-# We have disabled the cache system in master because for VS2017 we can find pre-compiled binaries
-# for all the 3rd party dependencies in the conan-center bintray repository. The average time for
-# each build in Appveyor is around 3 minutes which is not bad. If those times get worse over time
-# we could think about re-enabling it.
-
-#cache:
-#- deps                          # Ninja installation
-#- c:\Users\appveyor\conanCache  # Conan cache
+cache:
+- deps                          # Ninja installation
+- c:\Users\appveyor\conanCache  # Conan cache
