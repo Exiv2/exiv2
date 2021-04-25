@@ -236,7 +236,7 @@ namespace Exiv2 {
             ret = ::_wstati64(wpath_.c_str(), &st);
 
             if (0 == ret) {
-                buf.st_size = st.st_size;
+                buf.st_size = static_cast<long>(st.st_size);
                 buf.st_mode = st.st_mode;
                 buf.st_nlink = st.st_nlink;
             }
