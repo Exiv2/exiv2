@@ -157,9 +157,7 @@ namespace Exiv2 {
     {
     }
 
-    Image::~Image()
-    {
-    }
+    Image::~Image() = default;
 
     void Image::printStructure(std::ostream&, PrintStructureOption,int /*depth*/)
     {

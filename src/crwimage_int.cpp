@@ -186,9 +186,7 @@ namespace Exiv2 {
         if (isAllocated_) delete[] pData_;
     }
 
-    CiffEntry::~CiffEntry()
-    {
-    }
+    CiffEntry::~CiffEntry() = default;
 
     CiffDirectory::~CiffDirectory()
     {

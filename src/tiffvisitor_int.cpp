@@ -83,9 +83,7 @@ namespace Exiv2 {
         go_.fill(true);
     }
 
-    TiffVisitor::~TiffVisitor()
-    {
-    }
+    TiffVisitor::~TiffVisitor() = default;
 
     void TiffVisitor::setGo(GoEvent event, bool go)
     {
@@ -123,9 +121,7 @@ namespace Exiv2 {
         setGo(geTraverse, true);
     }
 
-    TiffFinder::~TiffFinder()
-    {
-    }
+    TiffFinder::~TiffFinder() = default;
 
     void TiffFinder::findObject(TiffComponent* object)
     {
@@ -199,9 +195,7 @@ namespace Exiv2 {
         assert(pPrimaryGroups_ != 0);
     }
 
-    TiffCopier::~TiffCopier()
-    {
-    }
+    TiffCopier::~TiffCopier() = default;
 
     void TiffCopier::copyObject(TiffComponent* object)
     {
@@ -302,9 +296,7 @@ namespace Exiv2 {
         }
     }
 
-    TiffDecoder::~TiffDecoder()
-    {
-    }
+    TiffDecoder::~TiffDecoder() = default;
 
     void TiffDecoder::visitEntry(TiffEntry* object)
     {
@@ -618,9 +610,7 @@ namespace Exiv2 {
         }
     }
 
-    TiffEncoder::~TiffEncoder()
-    {
-    }
+    TiffEncoder::~TiffEncoder() = default;
 
     void TiffEncoder::encodeIptc()
     {
@@ -1224,9 +1214,7 @@ namespace Exiv2 {
 
     } // TiffReader::TiffReader
 
-    TiffReader::~TiffReader()
-    {
-    }
+    TiffReader::~TiffReader() = default;
 
     void TiffReader::setOrigState()
     {

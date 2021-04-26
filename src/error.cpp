@@ -215,14 +215,9 @@ namespace Exiv2 {
 
     }
 
-    AnyError::AnyError(const AnyError &o): std::exception(o)
-    {
+    AnyError::AnyError(const AnyError& o) = default;
 
-    }
-
-    AnyError::~AnyError() throw()
-    {
-    }
+    AnyError::~AnyError() throw() = default;
 
     template<>
     void EXIV2API BasicError<char>::setMsg()
