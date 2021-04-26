@@ -133,7 +133,8 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
 
-target_link_libraries(exiv2lib_int PRIVATE ZLIB::ZLIB)
+# NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
+target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib SYSTEM PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
 )
