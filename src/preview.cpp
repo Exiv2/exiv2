@@ -86,7 +86,7 @@ namespace {
     class Loader {
     public:
         //! Virtual destructor.
-        virtual ~Loader() {}
+        virtual ~Loader() = default;
 
         //! Loader auto pointer
         typedef std::unique_ptr<Loader> UniquePtr;
