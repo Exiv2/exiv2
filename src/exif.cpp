@@ -85,7 +85,7 @@ namespace {
         //! @name Creators
         //@{
         //! Virtual destructor
-        virtual ~Thumbnail() {}
+        virtual ~Thumbnail() = default;
         //@}
 
         //! Factory function to create a thumbnail for the Exif metadata provided.
@@ -205,9 +205,7 @@ namespace Exiv2 {
         if (pValue) value_ = pValue->clone();
     }
 
-    Exifdatum::~Exifdatum()
-    {
-    }
+    Exifdatum::~Exifdatum() = default;
 
     Exifdatum::Exifdatum(const Exifdatum& rhs)
         : Metadatum(rhs)

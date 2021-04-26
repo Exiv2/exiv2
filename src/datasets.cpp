@@ -604,9 +604,7 @@ namespace Exiv2 {
     {
     }
 
-    IptcKey::~IptcKey()
-    {
-    }
+    IptcKey::~IptcKey() = default;
 
     IptcKey& IptcKey::operator=(const IptcKey& rhs)
     {

@@ -349,7 +349,7 @@ namespace Exiv2 {
     {
     }
 
-    ExifKey::~ExifKey() {}
+    ExifKey::~ExifKey() = default;
 
     ExifKey& ExifKey::operator=(const ExifKey& rhs)
     {

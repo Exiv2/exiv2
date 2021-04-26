@@ -77,9 +77,7 @@ typedef short nlink_t;
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-    BasicIo::~BasicIo()
-    {
-    }
+    BasicIo::~BasicIo() = default;
 
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {

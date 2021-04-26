@@ -1893,9 +1893,7 @@ namespace Exiv2 {
     {
     }
 
-    TiffHeaderBase::~TiffHeaderBase()
-    {
-    }
+    TiffHeaderBase::~TiffHeaderBase() = default;
 
     bool TiffHeaderBase::read(const byte* pData, uint32_t size)
     {
@@ -2082,9 +2080,7 @@ namespace Exiv2 {
     {
     }
 
-    TiffHeader::~TiffHeader()
-    {
-    }
+    TiffHeader::~TiffHeader() = default;
 
     bool TiffHeader::isImageTag(      uint16_t       tag,
                                       IfdId          group,

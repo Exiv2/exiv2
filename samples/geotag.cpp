@@ -115,7 +115,7 @@ public:
         ascii       = false;
     }
 
-    virtual ~Options() {} ;
+    virtual ~Options() = default;
 } ;
 
 enum
@@ -183,9 +183,9 @@ public:
       , delta_(0)
     { }
 
-    virtual ~Position() {}
+    virtual ~Position() = default;
 
-//  instance methods
+    //  instance methods
     bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
     std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
     time_t      getTime()       { return time_ ; }
@@ -302,9 +302,9 @@ public:
       , lon(0.0)
       , options_(options)
     {}
-    virtual ~UserData() {}
+    virtual ~UserData() = default;
 
-//  public data members
+    //  public data members
     int         indent;
     size_t      count ;
     Position    now ;

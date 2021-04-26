@@ -113,9 +113,7 @@ namespace Util {
     {
     }
 
-    Getopt::~Getopt()
-    {
-    }
+    Getopt::~Getopt() = default;
 
     int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
     {

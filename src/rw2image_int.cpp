@@ -28,9 +28,7 @@ namespace Exiv2 {
     {
     }
 
-    Rw2Header::~Rw2Header()
-    {
-    }
+    Rw2Header::~Rw2Header() = default;
 
     DataBuf Rw2Header::write() const
     {
