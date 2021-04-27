@@ -2072,7 +2072,7 @@ namespace Exiv2 {
             request["port"] = hostInfo_.Port;
         request["verb"]   = "HEAD";
         int serverCode = http(request, response, errors);
-        if (serverCode < 0 || serverCode >= 400 || errors != "") {
+        if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
 
@@ -2097,7 +2097,7 @@ namespace Exiv2 {
         }
 
         int serverCode = http(request, responseDic, errors);
-        if (serverCode < 0 || serverCode >= 400 || errors != "") {
+        if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
         response = responseDic["body"];
@@ -2150,7 +2150,7 @@ namespace Exiv2 {
         request["header"] = ss.str();
 
         int serverCode = http(request, response, errors);
-        if (serverCode < 0 || serverCode >= 400 || errors != "") {
+        if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
     }
