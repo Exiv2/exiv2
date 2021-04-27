@@ -99,7 +99,7 @@ namespace Exiv2
           @param oIo BasicIo instance to write to (a temporary location).
 
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //@}
 
         std::string profileName_;

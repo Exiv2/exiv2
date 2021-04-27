@@ -318,7 +318,7 @@ namespace Action {
         /*!
           @brief Write embedded iccProfile files.
          */
-        int writeIccProfile(const std::string& path) const;
+        int writeIccProfile(const std::string& target) const;
 
     private:
         virtual Extract* clone_() const;
