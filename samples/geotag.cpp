@@ -172,17 +172,9 @@ public:
       , lon_(lon)
       , lat_(lat)
       , ele_(ele)
-      , delta_(0)
     {}
 
-    Position():
-        time_(0)
-      , lon_(0.0)
-      , lat_(0.0)
-      , ele_(0.0)
-      , delta_(0)
-    { }
-
+    Position() = default;
     virtual ~Position() = default;
 
     //  instance methods
@@ -200,14 +192,14 @@ public:
 
 //  data
 private:
-    time_t      time_;
-    double      lon_ ;
-    double      lat_ ;
-    double      ele_ ;
+    time_t time_{0};
+    double lon_{0.0};
+    double lat_{0.0};
+    double ele_{0.0};
     std::string times_;
-    int         delta_;
+    int delta_{0};
 
-// public static data
+    // public static data
 public:
     static int    adjust_  ;
     static int    tz_      ;
