@@ -210,10 +210,7 @@ namespace Exiv2 {
         std::cerr << s;
     }
 
-    AnyError::AnyError(): std::exception()
-    {
-
-    }
+    AnyError::AnyError() = default;
 
     AnyError::AnyError(const AnyError& o) = default;
 
