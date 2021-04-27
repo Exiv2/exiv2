@@ -1554,7 +1554,7 @@ namespace Exiv2 {
     class RemoteIo::Impl {
     public:
         //! Constructor
-        Impl(const std::string& path, size_t blockSize);
+        Impl(const std::string& url, size_t blockSize);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         Impl(const std::wstring& wpath, size_t blockSize);
@@ -1999,7 +1999,7 @@ namespace Exiv2 {
     class HttpIo::HttpImpl : public Impl  {
     public:
         //! Constructor
-        HttpImpl(const std::string&  path,  size_t blockSize);
+        HttpImpl(const std::string& url, size_t blockSize);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         HttpImpl(const std::wstring& wpath, size_t blockSize);

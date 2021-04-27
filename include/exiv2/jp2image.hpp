@@ -108,14 +108,14 @@ namespace Exiv2
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
 
         /*!
          @brief reformats the Jp2Header to store iccProfile
          @param oldData DataBufRef to data in the file.
          @param newData DataBufRef with updated data
          */
-        void encodeJp2Header(const DataBuf& oldData,DataBuf& newData);
+        void encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf);
         //@}
 
     }; // class Jp2Image

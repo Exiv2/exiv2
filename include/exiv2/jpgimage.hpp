@@ -265,7 +265,7 @@ namespace Exiv2 {
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //@}
 
         //! @name Accessors
@@ -328,7 +328,7 @@ namespace Exiv2 {
                  4 if the temporary image can not be written to;<BR>
                 -3 other temporary errors
          */
-        int writeHeader(BasicIo& oIo) const;
+        int writeHeader(BasicIo& outIo) const;
         //@}
 
     private:
@@ -381,7 +381,7 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        int writeHeader(BasicIo& oIo) const;
+        int writeHeader(BasicIo& outIo) const;
         //@}
 
     private:
