@@ -80,7 +80,7 @@ class Options;
 int getFileType(const char* path ,Options& options);
 int getFileType(std::string& path,Options& options);
 
-string getExifTime(const time_t t);
+string getExifTime(time_t t);
 time_t parseTime(const char* ,bool bAdjust=false);
 int    timeZoneAdjust();
 

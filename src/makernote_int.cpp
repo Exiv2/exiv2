@@ -81,7 +81,7 @@
 namespace {
     // Todo: Can be generalized further - get any tag as a string/long/...
     //! Get the model name from tag Exif.Image.Model
-    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot);
+    std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
     //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
 }
