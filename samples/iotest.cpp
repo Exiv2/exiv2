@@ -90,7 +90,7 @@ int main(int argc, char* const argv[])
                     output.putb(io->getb()) ;
                 }
             }
-            if ( bytes ) delete [] bytes;
+            delete[] bytes;
             output.close();
         }
 
