@@ -76,7 +76,7 @@
 
 #define fopen_S(f,n,o) f=fopen(n,o)
 #define WINAPI
-typedef unsigned long DWORD ;
+using DWORD = unsigned long;
 
 #define SOCKET_ERROR        -1
 #define WSAEWOULDBLOCK  EINPROGRESS

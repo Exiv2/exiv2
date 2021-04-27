@@ -25,7 +25,7 @@
 #include <iomanip>
 #include <cassert>
 
-typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
+using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 
 struct EasyAccess {
     const char*   label_;
