@@ -308,7 +308,8 @@ namespace Exiv2 {
 
     long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        if (value_.size() == 0) return 0;
+        if (value_.empty())
+            return 0;
         // byteOrder not needed
         assert(buf != 0);
         return static_cast<long>(
@@ -382,7 +383,8 @@ namespace Exiv2 {
     {
         value_ = buf;
         // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
-        if (value_.size() == 0 || value_[value_.size()-1] != '\0') value_ += '\0';
+        if (value_.empty() || value_[value_.size() - 1] != '\0')
+            value_ += '\0';
         return 0;
     }
 
@@ -510,7 +512,7 @@ namespace Exiv2 {
             }
             c = value_.substr(0, 8) + c;
         }
-        if (c.size() == 0)
+        if (c.empty())
             return 0;
         assert(buf != 0);
         return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
@@ -625,7 +627,8 @@ namespace Exiv2 {
         std::ostringstream os;
         write(os);
         std::string s = os.str();
-        if (s.size() > 0) std::memcpy(buf, &s[0], s.size());
+        if (!s.empty())
+            std::memcpy(buf, &s[0], s.size());
         return static_cast<long>(s.size());
     }
 
@@ -831,13 +834,14 @@ namespace Exiv2 {
             if (lang[0] == '"') {
                 lang = lang.substr(1);
 
-                if (lang == "" || lang.find('"') != lang.length()-1)
+                if (lang.empty() || lang.find('"') != lang.length() - 1)
                     throw Error(kerInvalidLangAltValue, buf);
             
                 lang = lang.substr(0, lang.length()-1);
             }
-            
-            if (lang == "") throw Error(kerInvalidLangAltValue, buf);
+
+            if (lang.empty())
+                throw Error(kerInvalidLangAltValue, buf);
 
             // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
             std::string::size_type charPos = lang.find_first_not_of(ALPHA);

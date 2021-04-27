@@ -438,8 +438,7 @@ static void boxes_check(size_t b,size_t m)
                                 xmpPacket_ = xmpPacket_.substr(idx);
                             }
 
-                            if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_))
-                            {
+                            if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                                 EXV_WARNING << "Failed to decode XMP metadata." << std::endl;
 #endif
@@ -830,8 +829,7 @@ static void boxes_check(size_t b,size_t m)
 
                         Blob blob;
                         ExifParser::encode(blob, littleEndian, exifData_);
-                        if (blob.size())
-                        {
+                        if (!blob.empty()) {
                             DataBuf rawExif(static_cast<long>(blob.size()));
                             memcpy(rawExif.pData_, &blob[0], blob.size());
 
@@ -882,8 +880,7 @@ static void boxes_check(size_t b,size_t m)
 #endif
                         }
                     }
-                    if (xmpPacket_.size() > 0)
-                    {
+                    if (!xmpPacket_.empty()) {
                         // Update Xmp data to a new UUID box
 
                         DataBuf xmp(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()));

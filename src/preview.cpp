@@ -419,7 +419,7 @@ namespace {
         width_ = nativePreview_.width_;
         height_ = nativePreview_.height_;
         valid_ = true;
-        if (nativePreview_.filter_ == "") {
+        if (nativePreview_.filter_.empty()) {
             size_ = nativePreview_.size_;
         } else {
             size_ = getData().size_;
@@ -471,7 +471,7 @@ namespace {
 #endif
             return DataBuf();
         }
-        if (nativePreview_.filter_ == "") {
+        if (nativePreview_.filter_.empty()) {
             return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
         } else if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
             const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));

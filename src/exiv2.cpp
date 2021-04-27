@@ -1108,7 +1108,7 @@ int Params::getopt(int argc, char* const Argv[])
                   << _("Modify action requires at least one -c, -m or -M option\n");
         rc = 1;
     }
-    if (0 == files_.size()) {
+    if (files_.empty()) {
         std::cerr << progname() << ": " << _("At least one file is required\n");
         rc = 1;
     }
@@ -1188,13 +1188,13 @@ namespace {
         // check for the -0 special case
         if (hh == 0 && hstr.find('-') != std::string::npos) sign = -1;
         // MM part, if there is one
-        if (mstr != "") {
+        if (!mstr.empty()) {
             if (!Util::strtol(mstr.c_str(), mm)) return false;
             if (mm > 59) return false;
             if (mm < 0) return false;
         }
         // SS part, if there is one
-        if (sstr != "") {
+        if (!sstr.empty()) {
             if (!Util::strtol(sstr.c_str(), ss)) return false;
             if (ss > 59) return false;
             if (ss < 0) return false;

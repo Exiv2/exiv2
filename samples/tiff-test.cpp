@@ -68,14 +68,14 @@ void mini1(const char* path)
     // Write nothing to a new structure, without a previous binary image
     wm = ExifParser::encode(blob, 0, 0, bigEndian, exifData);
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
-    assert(blob.size() == 0);
+    assert(blob.empty());
     std::cout << "Test 1: Writing empty Exif data without original binary data: ok.\n";
 
     // Write nothing, this time with a previous binary image
     DataBuf buf = readFile(path);
     wm = ExifParser::encode(blob, buf.pData_, buf.size_, bigEndian, exifData);
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
-    assert(blob.size() == 0);
+    assert(blob.empty());
     std::cout << "Test 2: Writing empty Exif data with original binary data: ok.\n";
 
     // Write something to a new structure, without a previous binary image
