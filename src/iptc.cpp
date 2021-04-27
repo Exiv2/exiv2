@@ -387,9 +387,7 @@ namespace Exiv2 {
             std::string value = pos->toString();
             if (pos->value().ok()) {
                 int seqCount = 0;
-                std::string::iterator i;
-                for (i = value.begin(); i != value.end(); ++i) {
-                    char c = *i;
+                for (auto&& c : value) {
                     if (seqCount) {
                         if ((c & 0xc0) != 0x80) {
                             utf8 = false;

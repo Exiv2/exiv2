@@ -80,9 +80,7 @@ namespace Exiv2 {
 
     TiffVisitor::TiffVisitor()
     {
-        for (int i = 0; i < events_; ++i) {
-            go_[i] = true;
-        }
+        go_.fill(true);
     }
 
     TiffVisitor::~TiffVisitor()

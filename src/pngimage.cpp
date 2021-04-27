@@ -35,6 +35,7 @@
 #include "types.hpp"
 
 // + standard includes
+#include <array>
 #include <string>
 #include <iterator>
 #include <cstring>
@@ -148,11 +149,10 @@ namespace Exiv2 {
     static bool tEXtToDataBuf(const byte* bytes,long length,DataBuf& result)
     {
         static const char* hexdigits = "0123456789ABCDEF";
-        static int         value   [256] ;
-        static bool        bFirst = true ;
+        static std::array<int, 256> value;
+        static bool bFirst = true;
         if ( bFirst ) {
-            for ( int i = 0 ; i < 256 ; i++ )
-                value[i] = 0;
+            value = {};
             for ( int i = 0 ; i < 16 ; i++ ) {
                 value[tolower(hexdigits[i])]=i+1;
                 value[toupper(hexdigits[i])]=i+1;
