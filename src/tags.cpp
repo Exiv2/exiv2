@@ -210,7 +210,7 @@ namespace Exiv2 {
     struct ExifKey::Impl {
         //! @name Creators
         //@{
-        Impl();                         //!< Default constructor
+        Impl() = default;  //!< Default constructor
         //@}
 
         //! @name Manipulators
@@ -239,20 +239,15 @@ namespace Exiv2 {
         // DATA
         static const char* familyName_; //!< "Exif"
 
-        const TagInfo* tagInfo_;        //!< Tag info
-        uint16_t tag_;                  //!< Tag value
-        IfdId ifdId_;                   //!< The IFD associated with this tag
-        int idx_;                       //!< Unique id of the Exif key in the image
+        const TagInfo* tagInfo_{0};     //!< Tag info
+        uint16_t tag_{0};               //!< Tag value
+        IfdId ifdId_{ifdIdNotSet};      //!< The IFD associated with this tag
+        int idx_{0};                    //!< Unique id of the Exif key in the image
         std::string groupName_;         //!< The group name
         std::string key_;               //!< %Key
     };
 
     const char* ExifKey::Impl::familyName_ = "Exif";
-
-    ExifKey::Impl::Impl()
-        : tagInfo_(0), tag_(0), ifdId_(ifdIdNotSet), idx_(0)
-    {
-    }
 
     std::string ExifKey::Impl::tagName() const
     {

@@ -76,7 +76,7 @@ namespace {
     class Timestamp {
     public:
         //! C'tor
-        Timestamp() : actime_(0), modtime_(0) {}
+        Timestamp() = default;
         //! Read the timestamp of a file
         int read(const std::string& path);
         //! Read the timestamp from a broken-down time in buffer \em tm.
@@ -85,8 +85,8 @@ namespace {
         int touch(const std::string& path);
 
     private:
-        time_t actime_;
-        time_t modtime_;
+        time_t actime_{0};
+        time_t modtime_{0};
     };
 
     /*!

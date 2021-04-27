@@ -116,10 +116,10 @@ namespace Exiv2 {
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
-            StructStat() : st_mode(0), st_size(0), st_nlink(0) {}
-            mode_t  st_mode;            //!< Permissions
-            off_t   st_size;            //!< Size
-            nlink_t st_nlink;           //!< Number of hard links (broken on Windows, see winNumberOfLinks())
+            StructStat() = default;
+            mode_t st_mode{0};    //!< Permissions
+            off_t st_size{0};     //!< Size
+            nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
 // #endif
         // METHODS
@@ -1044,16 +1044,16 @@ namespace Exiv2 {
     //! Internal Pimpl structure of class MemIo.
     class MemIo::Impl {
     public:
-        Impl();                            //!< Default constructor
+        Impl() = default;                  //!< Default constructor
         Impl(const byte* data, long size); //!< Constructor 2
 
         // DATA
-        byte* data_;                       //!< Pointer to the start of the memory area
-        long idx_;                         //!< Index into the memory area
-        long size_;                        //!< Size of the memory area
-        long sizeAlloced_;                 //!< Size of the allocated buffer
-        bool isMalloced_;                  //!< Was the buffer allocated?
-        bool eof_;                         //!< EOF indicator
+        byte* data_{0};           //!< Pointer to the start of the memory area
+        long idx_{0};             //!< Index into the memory area
+        long size_{0};            //!< Size of the memory area
+        long sizeAlloced_{0};     //!< Size of the allocated buffer
+        bool isMalloced_{false};  //!< Was the buffer allocated?
+        bool eof_{false};         //!< EOF indicator
 
         // METHODS
         void reserve(long wcount);         //!< Reserve memory
@@ -1063,23 +1063,7 @@ namespace Exiv2 {
         Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class MemIo::Impl
 
-    MemIo::Impl::Impl()
-        : data_(0),
-          idx_(0),
-          size_(0),
-          sizeAlloced_(0),
-          isMalloced_(false),
-          eof_(false)
-    {
-    }
-
-    MemIo::Impl::Impl(const byte* data, long size)
-        : data_(const_cast<byte*>(data)),
-          idx_(0),
-          size_(size),
-          sizeAlloced_(0),
-          isMalloced_(false),
-          eof_(false)
+    MemIo::Impl::Impl(const byte* data, long size) : data_(const_cast<byte*>(data)), size_(size)
     {
     }
 
@@ -1094,9 +1078,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor. the init status of the block is bNone.
-        BlockMap() : type_(bNone), data_(NULL), size_(0)
-        {
-        }
+        BlockMap() = default;
 
         //! Destructor. Releases all managed memory.
         ~BlockMap()
@@ -1152,9 +1134,9 @@ namespace Exiv2 {
         }
 
     private:
-        blockType_e type_;
-        byte*       data_;
-        size_t      size_;
+        blockType_e type_{bNone};
+        byte* data_{nullptr};
+        size_t size_{0};
     }; // class BlockMap
 
     void MemIo::Impl::reserve(long wcount)
