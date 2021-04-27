@@ -1011,10 +1011,10 @@ namespace Jzon
 	{
 		std::stack<std::pair<std::string, Node*> > nodeStack;
 
-		std::string name = "";
+        std::string name;
 
-		Token token;
-		while (!tokens.empty())
+        Token token;
+        while (!tokens.empty())
 		{
 			token = tokens.front();
 			tokens.pop();
