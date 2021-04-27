@@ -152,13 +152,13 @@ namespace {
         LoaderNative(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        virtual PreviewProperties getProperties() const;
+        PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        virtual DataBuf getData() const;
+        DataBuf getData() const override;
 
         //! Read preview image dimensions
-        virtual bool readDimensions();
+        bool readDimensions() override;
 
     protected:
         //! Native preview information
@@ -176,13 +176,13 @@ namespace {
         LoaderExifJpeg(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        virtual PreviewProperties getProperties() const;
+        PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        virtual DataBuf getData() const;
+        DataBuf getData() const override;
 
         //! Read preview image dimensions
-        virtual bool readDimensions();
+        bool readDimensions() override;
 
     protected:
         //! Structure that lists offset/size tag pairs
@@ -209,13 +209,13 @@ namespace {
         LoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        virtual PreviewProperties getProperties() const;
+        PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        virtual DataBuf getData() const;
+        DataBuf getData() const override;
 
         //! Read preview image dimensions
-        virtual bool readDimensions();
+        bool readDimensions() override;
 
     protected:
 
@@ -242,10 +242,10 @@ namespace {
         LoaderTiff(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        virtual PreviewProperties getProperties() const;
+        PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        virtual DataBuf getData() const;
+        DataBuf getData() const override;
 
     protected:
         //! Name of the group that contains the preview image
@@ -279,13 +279,13 @@ namespace {
         LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx);
 
         //! Get properties of a preview image with given params
-        virtual PreviewProperties getProperties() const;
+        PreviewProperties getProperties() const override;
 
         //! Get a buffer that contains the preview image
-        virtual DataBuf getData() const;
+        DataBuf getData() const override;
 
         //! Read preview image dimensions
-        virtual bool readDimensions();
+        bool readDimensions() override;
 
     protected:
         //! Preview image data

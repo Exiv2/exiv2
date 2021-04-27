@@ -86,7 +86,7 @@ class slice : public ::testing::Test
 public:
     static const size_t vec_size = 10;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         vec_.reserve(vec_size);
         for (unsigned int i = 0; i < vec_size; ++i) {
@@ -360,7 +360,7 @@ struct stringSlice : public ::testing::Test
 {
     std::string sentence;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         sentence = "this is a sentence";
     }
@@ -403,7 +403,7 @@ struct dataBufSlice : public ::testing::Test
     static byte data[4];  // = {0xde, 0xad, 0xbe, 0xef};
     DataBuf buf;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         buf = DataBuf(data, sizeof(data));
     }
