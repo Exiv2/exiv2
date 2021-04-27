@@ -26,9 +26,15 @@
 #include <cassert>
 #include <string>
 
-typedef std::map<std::string,int> format_t;
-typedef format_t::const_iterator  format_i;
-typedef enum  { wolf ,  csv , json , xml } format_e;
+using format_t = std::map<std::string, int>;
+using format_i = format_t::const_iterator;
+enum format_e
+{
+    wolf,
+    csv,
+    json,
+    xml
+};
 
 void syntax(const char* argv[],format_t& formats)
 {

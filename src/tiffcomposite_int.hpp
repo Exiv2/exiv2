@@ -45,7 +45,7 @@ namespace Exiv2 {
 // class definitions
 
     //! TIFF value type.
-    typedef uint16_t TiffType;
+    using TiffType = uint16_t;
 
     const TiffType ttUnsignedByte     = 1; //!< Exif BYTE type
     const TiffType ttAsciiString      = 2; //!< Exif ASCII type
@@ -172,9 +172,9 @@ namespace Exiv2 {
     class TiffComponent {
     public:
         //! TiffComponent auto_ptr type
-        typedef std::unique_ptr<TiffComponent> UniquePtr;
+        using UniquePtr = std::unique_ptr<TiffComponent>;
         //! Container type to hold all metadata
-        typedef std::vector<TiffComponent*> Components;
+        using Components = std::vector<TiffComponent*>;
 
         //! @name Creators
         //@{
@@ -801,7 +801,7 @@ namespace Exiv2 {
 
     private:
         //! Pointers to the image data (strips) and their sizes.
-        typedef std::vector<std::pair<const byte*, uint32_t> > Strips;
+        using Strips = std::vector<std::pair<const byte*, uint32_t>>;
 
         // DATA
         Strips   strips_;       //!< Image strips data (never alloc'd) and sizes
@@ -1054,7 +1054,7 @@ namespace Exiv2 {
         //@}
 
         //! A collection of TIFF directories (IFDs)
-        typedef std::vector<TiffDirectory*> Ifds;
+        using Ifds = std::vector<TiffDirectory*>;
 
         // DATA
         IfdId    newGroup_; //!< Start of the range of group numbers for the sub-IFDs
@@ -1305,10 +1305,10 @@ namespace Exiv2 {
       @brief Function pointer type for a function to determine which cfg + def
              of a corresponding array set to use.
      */
-    typedef int (*CfgSelFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    using CfgSelFct = int (*)(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
     //! Function pointer type for a crypt function used for binary arrays.
-    typedef DataBuf (*CryptFct)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    using CryptFct = DataBuf (*)(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
     //! Defines one tag in a binary array
     struct ArrayDef {

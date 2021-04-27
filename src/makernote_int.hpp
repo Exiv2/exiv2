@@ -51,17 +51,17 @@ namespace Exiv2 {
 // class definitions
 
     //! Type for a pointer to a function creating a makernote (image)
-    typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
-                                       IfdId       group,
-                                       IfdId       mnGroup,
-                                       const byte* pData,
-                                       uint32_t    size,
-                                       ByteOrder   byteOrder);
+    using NewMnFct = TiffComponent* (*)(uint16_t    tag,
+                                        IfdId       group,
+                                        IfdId       mnGroup,
+                                        const byte* pData,
+                                        uint32_t    size,
+                                        ByteOrder   byteOrder);
 
     //! Type for a pointer to a function creating a makernote (group)
-    typedef TiffComponent* (*NewMnFct2)(uint16_t   tag,
-                                        IfdId      group,
-                                        IfdId      mnGroup);
+    using NewMnFct2 = TiffComponent* (*)(uint16_t   tag,
+                                         IfdId      group,
+                                         IfdId      mnGroup);
 
     //! Makernote registry structure
     struct TiffMnRegistry {

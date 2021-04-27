@@ -1035,7 +1035,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 
 } // Params::getStdin()
 
-typedef std::map<std::string,std::string> long_t;
+using long_t = std::map<std::string, std::string>;
 
 int Params::getopt(int argc, char* const Argv[])
 {

@@ -80,7 +80,7 @@ namespace {
     class Thumbnail {
     public:
         //! Shortcut for a %Thumbnail auto pointer.
-        typedef std::unique_ptr<Thumbnail> UniquePtr;
+        using UniquePtr = std::unique_ptr<Thumbnail>;
 
         //! @name Creators
         //@{
@@ -123,7 +123,7 @@ namespace {
     class TiffThumbnail : public Thumbnail {
     public:
         //! Shortcut for a %TiffThumbnail auto pointer.
-        typedef std::unique_ptr<TiffThumbnail> UniquePtr;
+        using UniquePtr = std::unique_ptr<TiffThumbnail>;
 
         //! @name Manipulators
         //@{
@@ -147,7 +147,7 @@ namespace {
     class JpegThumbnail : public Thumbnail {
     public:
         //! Shortcut for a %JpegThumbnail auto pointer.
-        typedef std::unique_ptr<JpegThumbnail> UniquePtr;
+        using UniquePtr = std::unique_ptr<JpegThumbnail>;
 
         //! @name Manipulators
         //@{

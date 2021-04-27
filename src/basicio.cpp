@@ -69,7 +69,7 @@
 
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
 // Windows doesn't provide nlink_t
-typedef short nlink_t;
+using nlink_t = short;
 # include <windows.h>
 # include <io.h>
 #endif
@@ -321,7 +321,7 @@ namespace Exiv2 {
 
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
         if (hFd != INVALID_HANDLE_VALUE) {
-            typedef BOOL (WINAPI * GetFileInformationByHandle_t)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
+            using GetFileInformationByHandle_t = BOOL(WINAPI*)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
             HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
             if (hKernel) {
                 GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
@@ -699,7 +699,7 @@ namespace Exiv2 {
                 // that file has been opened with FILE_SHARE_DELETE by another process,
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
-                typedef BOOL (WINAPI * ReplaceFileW_t)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
+                using ReplaceFileW_t = BOOL(WINAPI*)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
                 HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
                     ReplaceFileW_t pfcn_ReplaceFileW = (ReplaceFileW_t)GetProcAddress(hKernel, "ReplaceFileW");
@@ -762,7 +762,7 @@ namespace Exiv2 {
                 // that file has been opened with FILE_SHARE_DELETE by another process,
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
-                typedef BOOL (WINAPI * ReplaceFileA_t)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
+                using ReplaceFileA_t = BOOL(WINAPI*)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
                 HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
                     ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");

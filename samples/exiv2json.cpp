@@ -60,7 +60,7 @@ struct Token {
     bool        a; // name is an array eg History[]
     int         i; // index (indexed from 1) eg History[1]/stEvt:action
 };
-typedef std::vector<Token>    Tokens;
+using Tokens = std::vector<Token>;
 
 // "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
 bool getToken(std::string& in,Token& token, std::set<std::string>* pNS=NULL)

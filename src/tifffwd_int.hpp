@@ -73,39 +73,32 @@ namespace Exiv2 {
       @brief Function pointer type for a TiffDecoder member function
              to decode a TIFF component.
      */
-    typedef void (TiffDecoder::*DecoderFct)(const TiffEntryBase*);
+    using DecoderFct = void (TiffDecoder::*)(const TiffEntryBase*);
     /*!
       @brief Function pointer type for a TiffDecoder member function
              to decode a TIFF component.
      */
-    typedef void (TiffEncoder::*EncoderFct)(TiffEntryBase*, const Exifdatum*);
+    using EncoderFct = void (TiffEncoder::*)(TiffEntryBase*, const Exifdatum*);
     /*!
       @brief Type for a function pointer for a function to decode a TIFF component.
      */
-    typedef DecoderFct (*FindDecoderFct)(const std::string& make,
-                                               uint32_t     extendedTag,
-                                               IfdId        group);
+    using FindDecoderFct = DecoderFct (*)(const std::string& make, uint32_t extendedTag, IfdId group);
     /*!
       @brief Type for a function pointer for a function to encode a TIFF component.
      */
-    typedef EncoderFct (*FindEncoderFct)(
-        const std::string& make,
-              uint32_t     extendedTag,
-              IfdId        group
-    );
+    using FindEncoderFct = EncoderFct (*)(const std::string& make, uint32_t extendedTag, IfdId group);
     /*!
       @brief Type for a function pointer for a function to create a TIFF component.
              Use TiffComponent::UniquePtr, it is not used in this declaration only
              to reduce dependencies.
      */
-    typedef std::unique_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, IfdId group);
+    using NewTiffCompFct = std::unique_ptr<TiffComponent> (*)(uint16_t tag, IfdId group);
 
     //! Stack to hold a path from the TIFF root element to a TIFF entry
-    typedef std::stack<TiffPathItem> TiffPath;
+    using TiffPath = std::stack<TiffPathItem>;
 
     //! Type for a list of primary image groups
-    typedef std::vector<IfdId> PrimaryGroups;
-
+    using PrimaryGroups = std::vector<IfdId>;
 }}                                      // namespace Internal, Exiv2
 
 #endif                                  // #ifndef TIFFFWD_INT_HPP_

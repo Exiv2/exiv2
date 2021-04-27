@@ -65,7 +65,7 @@ namespace Action {
     class Task {
     public:
         //! Shortcut for an auto pointer.
-        typedef std::unique_ptr<Task> UniquePtr;
+        using UniquePtr = std::unique_ptr<Task>;
         //! Virtual destructor.
         virtual ~Task();
         //! Virtual copy construction.
@@ -150,7 +150,7 @@ namespace Action {
         //! Pointer to the one and only instance of this class.
         static TaskFactory* instance_;
         //! Type used to store Task prototype classes
-        typedef std::map<TaskType, Task*> Registry;
+        using Registry = std::map<TaskType, Task*>;
         //! List of task types and corresponding prototypes.
         Registry registry_;
 
@@ -161,7 +161,7 @@ namespace Action {
     public:
         virtual ~Print();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Print> UniquePtr;
+        using UniquePtr = std::unique_ptr<Print>;
         UniquePtr clone() const;
 
         //! Print the Jpeg comment
@@ -191,7 +191,7 @@ namespace Action {
                      const std::string& key,
                      const std::string& label ="") const;
         //! Type for an Exiv2 Easy access function
-        typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
+        using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData& ed);
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.
@@ -217,7 +217,7 @@ namespace Action {
     public:
         virtual ~Rename();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Rename> UniquePtr;
+        using UniquePtr = std::unique_ptr<Rename>;
         UniquePtr clone() const;
 
     private:
@@ -229,7 +229,7 @@ namespace Action {
     public:
         virtual ~Adjust();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Adjust> UniquePtr;
+        using UniquePtr = std::unique_ptr<Adjust>;
         UniquePtr clone() const;
 
     private:
@@ -252,7 +252,7 @@ namespace Action {
     public:
         virtual ~Erase();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Erase> UniquePtr;
+        using UniquePtr = std::unique_ptr<Erase>;
         UniquePtr clone() const;
 
         /*!
@@ -294,7 +294,7 @@ namespace Action {
     public:
         virtual ~Extract();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Extract> UniquePtr;
+        using UniquePtr = std::unique_ptr<Extract>;
         UniquePtr clone() const;
 
         /*!
@@ -333,7 +333,7 @@ namespace Action {
     public:
         virtual ~Insert();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Insert> UniquePtr;
+        using UniquePtr = std::unique_ptr<Insert>;
         UniquePtr clone() const;
 
         /*!
@@ -374,7 +374,7 @@ namespace Action {
     public:
         virtual ~Modify();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<Modify> UniquePtr;
+        using UniquePtr = std::unique_ptr<Modify>;
         UniquePtr clone() const;
         Modify() {}
         //! Apply modification commands to the \em pImage, return 0 if successful.
@@ -407,7 +407,7 @@ namespace Action {
     public:
         virtual ~FixIso();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<FixIso> UniquePtr;
+        using UniquePtr = std::unique_ptr<FixIso>;
         UniquePtr clone() const;
 
     private:
@@ -425,7 +425,7 @@ namespace Action {
     public:
         virtual ~FixCom();
         virtual int run(const std::string& path);
-        typedef std::unique_ptr<FixCom> UniquePtr;
+        using UniquePtr = std::unique_ptr<FixCom>;
         UniquePtr clone() const;
 
     private:

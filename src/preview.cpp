@@ -89,7 +89,7 @@ namespace {
         virtual ~Loader() {}
 
         //! Loader auto pointer
-        typedef std::unique_ptr<Loader> UniquePtr;
+        using UniquePtr = std::unique_ptr<Loader>;
 
         //! Create a Loader subclass for requested id
         static UniquePtr create(PreviewId id, const Image &image);
@@ -114,7 +114,7 @@ namespace {
         Loader(PreviewId id, const Image &image);
 
         //! Functions that creates a loader from given parameters
-        typedef UniquePtr (*CreateFunc)(PreviewId id, const Image &image, int parIdx);
+        using CreateFunc = UniquePtr (*)(PreviewId, const Image &, int);
 
         //! Structure to list possible loaders
         struct LoaderList {
