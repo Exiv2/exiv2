@@ -79,7 +79,7 @@ public:
     }
 
     //! Handle options and their arguments.
-    int option(int opt, const std::string& optarg, int optopt)
+    int option(int opt, const std::string& optarg, int optopt) override
     {
     	std::cout << "Params::option()"
     	          << " opt = "    << opt
@@ -90,7 +90,7 @@ public:
     }
 
     //! Handle non-option parameters.
-    int nonoption(const std::string& argv)
+    int nonoption(const std::string& argv) override
     {
     	std::cout << "Params::nonoption()"
     	          << " " << argv
