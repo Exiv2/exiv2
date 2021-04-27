@@ -2809,11 +2809,11 @@ namespace Exiv2 {
             throw Error(kerInvalidKey, key);
         }
         std::string prefix = key.substr(pos0, pos1 - pos0);
-        if (prefix == "") {
+        if (prefix.empty()) {
             throw Error(kerInvalidKey, key);
         }
         std::string property = key.substr(pos1 + 1);
-        if (property == "") {
+        if (property.empty()) {
             throw Error(kerInvalidKey, key);
         }
 

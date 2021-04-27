@@ -677,9 +677,11 @@ namespace Exiv2 {
         pos1 = key_.find('.', pos0);
         if (pos1 == std::string::npos) throw Error(kerInvalidKey, key_);
         std::string recordName = key_.substr(pos0, pos1 - pos0);
-        if (recordName == "") throw Error(kerInvalidKey, key_);
+        if (recordName.empty())
+            throw Error(kerInvalidKey, key_);
         std::string dataSetName = key_.substr(pos1 + 1);
-        if (dataSetName == "") throw Error(kerInvalidKey, key_);
+        if (dataSetName.empty())
+            throw Error(kerInvalidKey, key_);
 
         // Use the parts of the key to find dataSet and recordId
         uint16_t recId = IptcDataSets::recordId(recordName);

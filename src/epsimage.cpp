@@ -501,20 +501,23 @@ namespace {
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
                 #endif
             }
-            if (posBeginPageSetup == posEndEps && (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%'))) {
+            if (posBeginPageSetup == posEndEps &&
+                (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && !line.empty() && line[0] != '%'))) {
                 posBeginPageSetup = startPos;
                 implicitPageSetup = true;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
                 #endif
             }
-            if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
+            if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && !line.empty() &&
+                line[0] != '%') {
                 posEndPageSetup = startPos;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
                 #endif
             }
-            if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
+            if (!line.empty() && line[0] != '%')
+                continue;  // performance optimization
             if (line == "%%EOF" || line == "%%Trailer" || line == "%%PageTrailer") {
                 if (posBeginPageSetup == posEndEps) {
                     posBeginPageSetup = startPos;
@@ -637,16 +640,16 @@ namespace {
         bool containsXmp;
         if (line == "%ADO_ContainsXMP: MainFirst" || line == "%ADO_ContainsXMP:MainFirst") {
             containsXmp = true;
-        } else if (line == "" || line == "%ADO_ContainsXMP: NoMain" || line == "%ADO_ContainsXMP:NoMain") {
+        } else if (line.empty() || line == "%ADO_ContainsXMP: NoMain" || line == "%ADO_ContainsXMP:NoMain") {
             containsXmp = false;
         } else {
-            #ifndef SUPPRESS_WARNINGS
+#ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid line \"" << line << "\" at position: " << posContainsXmp << "\n";
             #endif
             throw Error(write ? kerImageWriteFailed : kerFailedToReadImageData);
         }
 
-        const bool deleteXmp = (write && xmpPacket.size() == 0);
+        const bool deleteXmp = (write && xmpPacket.empty());
         bool fixBeginXmlPacket = false;
         bool useFlexibleEmbedding = false;
         size_t xmpPos = posEndEps;
@@ -661,8 +664,8 @@ namespace {
             }
             // check embedding of XMP metadata
             const size_t posLineAfterXmp = readLine(line, data, xmpPos + xmpSize, posEndEps);
-            if (line != "") {
-                #ifndef SUPPRESS_WARNINGS
+            if (!line.empty()) {
+#ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unexpected " << line.size() << " bytes of data after XMP at position: " << (xmpPos + xmpSize) << "\n";
                 #endif
             } else if (!deleteXmp) {
@@ -1111,14 +1114,14 @@ namespace Exiv2
         readWriteEpsMetadata(*io_, xmpPacket_, nativePreviews_, /* write = */ false);
 
         // decode XMP metadata
-        if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
-            #ifndef SUPPRESS_WARNINGS
+        if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
+#ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to decode XMP metadata.\n";
             #endif
             throw Error(kerFailedToReadImageData);
         }
 
-        #ifdef DEBUG
+#ifdef DEBUG
         EXV_DEBUG << "Exiv2::EpsImage::readMetadata: Finished reading EPS file " << io_->path() << "\n";
         #endif
     }

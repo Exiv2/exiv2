@@ -228,7 +228,8 @@ static std::vector<std::string> getLoadedLibraries()
         }
     }
 #endif
-    if ( !libs.size() ) libs.push_back("unknown");
+    if (libs.empty())
+        libs.push_back("unknown");
 
     return libs;
 }
