@@ -165,7 +165,7 @@ public:
     /*! @brief Return the result of ini_parse(), i.e., 0 on success, line number of
         first error on parse error, or -1 on file open error.
     */
-    int ParseError();
+    int ParseError() const;
 
     /*! @brief Get a string value from INI file, returning default_value if not found.
 

@@ -263,7 +263,7 @@ namespace Exiv2 {
         return b;
     } // PgfImage::readPgfMagicNumber
 
-    uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo)
+    uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo) const
     {
         DataBuf buffer(4);
         long bufRead = iIo.read(buffer.pData_, buffer.size_);
@@ -280,7 +280,7 @@ namespace Exiv2 {
         return headerSize;
     } // PgfImage::readPgfHeaderSize
 
-    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height)
+    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height) const
     {
         DataBuf header(16);
         long bufRead = iIo.read(header.pData_, header.size_);
