@@ -67,7 +67,7 @@ namespace Action {
         //! Shortcut for an auto pointer.
         using UniquePtr = std::unique_ptr<Task>;
         //! Virtual destructor.
-        virtual ~Task();
+        virtual ~Task() = default;
         //! Virtual copy construction.
         UniquePtr clone() const;
         /*!
@@ -159,7 +159,7 @@ namespace Action {
     //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
-        virtual ~Print();
+        virtual ~Print() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Print>;
         UniquePtr clone() const;
@@ -215,7 +215,7 @@ namespace Action {
      */
     class Rename : public Task {
     public:
-        virtual ~Rename();
+        virtual ~Rename() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Rename>;
         UniquePtr clone() const;
@@ -227,7 +227,7 @@ namespace Action {
     //! %Adjust the Exif (or other metadata) timestamps
     class Adjust : public Task {
     public:
-        virtual ~Adjust();
+        virtual ~Adjust() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Adjust>;
         UniquePtr clone() const;
@@ -250,7 +250,7 @@ namespace Action {
      */
     class Erase : public Task {
     public:
-        virtual ~Erase();
+        virtual ~Erase() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Erase>;
         UniquePtr clone() const;
@@ -292,7 +292,7 @@ namespace Action {
      */
     class Extract : public Task {
     public:
-        virtual ~Extract();
+        virtual ~Extract() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Extract>;
         UniquePtr clone() const;
@@ -331,7 +331,7 @@ namespace Action {
      */
     class Insert : public Task {
     public:
-        virtual ~Insert();
+        virtual ~Insert() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Insert>;
         UniquePtr clone() const;
@@ -372,7 +372,7 @@ namespace Action {
      */
     class Modify : public Task {
     public:
-        virtual ~Modify();
+        virtual ~Modify() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<Modify>;
         UniquePtr clone() const;
@@ -405,7 +405,7 @@ namespace Action {
      */
     class FixIso : public Task {
     public:
-        virtual ~FixIso();
+        virtual ~FixIso() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<FixIso>;
         UniquePtr clone() const;
@@ -423,7 +423,7 @@ namespace Action {
      */
     class FixCom : public Task {
     public:
-        virtual ~FixCom();
+        virtual ~FixCom() = default;
         virtual int run(const std::string& path);
         using UniquePtr = std::unique_ptr<FixCom>;
         UniquePtr clone() const;

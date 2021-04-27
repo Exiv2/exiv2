@@ -205,8 +205,6 @@ namespace Exiv2 {
         if (pValue) value_ = pValue->clone();
     }
 
-    Exifdatum::~Exifdatum() = default;
-
     Exifdatum::Exifdatum(const Exifdatum& rhs)
         : Metadatum(rhs)
     {

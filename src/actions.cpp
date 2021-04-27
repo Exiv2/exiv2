@@ -162,8 +162,6 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Action {
-    Task::~Task() = default;
-
     Task::UniquePtr Task::clone() const
     {
         return UniquePtr(clone_());
@@ -222,8 +220,6 @@ namespace Action {
         }
         return nullptr;
     } // TaskFactory::create
-
-    Print::~Print() = default;
 
     int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path,bool binary)
     {
@@ -699,8 +695,6 @@ namespace Action {
         return new Print(*this);
     }
 
-    Rename::~Rename() = default;
-
     int Rename::run(const std::string& path)
     {
     try {
@@ -784,8 +778,6 @@ namespace Action {
     {
         return new Rename(*this);
     }
-
-    Erase::~Erase() = default;
 
     int Erase::run(const std::string& path)
     try {
@@ -908,8 +900,6 @@ namespace Action {
     {
         return new Erase(*this);
     }
-
-    Extract::~Extract() = default;
 
     int Extract::run(const std::string& path)
     {
@@ -1098,8 +1088,6 @@ namespace Action {
         return new Extract(*this);
     }
 
-    Insert::~Insert() = default;
-
     int Insert::run(const std::string& path)
     try {
         // -i{tgt}-  reading from stdin?
@@ -1277,8 +1265,6 @@ namespace Action {
     {
         return new Insert(*this);
     }
-
-    Modify::~Modify() = default;
 
     int Modify::run(const std::string& path)
     {
@@ -1510,8 +1496,6 @@ namespace Action {
         return new Modify(*this);
     }
 
-    Adjust::~Adjust() = default;
-
     int Adjust::run(const std::string& path)
     try {
         adjustment_      = Params::instance().adjustment_;
@@ -1648,8 +1632,6 @@ namespace Action {
         return 0;
     } // Adjust::adjustDateTime
 
-    FixIso::~FixIso() = default;
-
     int FixIso::run(const std::string& path)
     {
     try {
@@ -1708,8 +1690,6 @@ namespace Action {
     {
         return new FixIso(*this);
     }
-
-    FixCom::~FixCom() = default;
 
     int FixCom::run(const std::string& path)
     {

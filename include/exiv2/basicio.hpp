@@ -63,7 +63,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~BasicIo();
+        virtual ~BasicIo() = default;
         //@}
 
         //! @name Manipulators

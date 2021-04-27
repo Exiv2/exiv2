@@ -93,7 +93,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Key& operator=(const Key& rhs);
+        Key& operator=(const Key& rhs) = default;
         //@}
 
     private:
@@ -117,11 +117,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default Constructor
-        Metadatum();
+        Metadatum() = default;
         //! Copy constructor
-        Metadatum(const Metadatum& rhs);
+        Metadatum(const Metadatum& rhs) = default;
         //! Destructor
-        virtual ~Metadatum();
+        virtual ~Metadatum() = default;
         //@}
 
         //! @name Manipulators
@@ -275,7 +275,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Metadatum& operator=(const Metadatum& rhs);
+        Metadatum& operator=(const Metadatum& rhs) = default;
         //@}
 
     }; // class Metadatum

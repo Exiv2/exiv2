@@ -205,8 +205,6 @@ namespace Exiv2 {
         return tc;
     } // TiffMnCreator::create
 
-    MnHeader::~MnHeader() = default;
-
     void MnHeader::setByteOrder(ByteOrder /*byteOrder*/)
     {
     }
@@ -239,8 +237,6 @@ namespace Exiv2 {
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
-
-    OlympusMnHeader::~OlympusMnHeader() = default;
 
     uint32_t OlympusMnHeader::size() const
     {
@@ -283,8 +279,6 @@ namespace Exiv2 {
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
-
-    Olympus2MnHeader::~Olympus2MnHeader() = default;
 
     uint32_t Olympus2MnHeader::size() const
     {
@@ -333,8 +327,6 @@ namespace Exiv2 {
     {
         read(signature_, sizeOfSignature(), byteOrder_);
     }
-
-    FujiMnHeader::~FujiMnHeader() = default;
 
     uint32_t FujiMnHeader::size() const
     {
@@ -391,8 +383,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    Nikon2MnHeader::~Nikon2MnHeader() = default;
-
     uint32_t Nikon2MnHeader::size() const
     {
         return sizeOfSignature();
@@ -439,8 +429,6 @@ namespace Exiv2 {
         byteOrder_ = invalidByteOrder;
         start_ = sizeOfSignature();
     }
-
-    Nikon3MnHeader::~Nikon3MnHeader() = default;
 
     uint32_t Nikon3MnHeader::size() const
     {
@@ -510,8 +498,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PanasonicMnHeader::~PanasonicMnHeader() = default;
-
     uint32_t PanasonicMnHeader::size() const
     {
         return sizeOfSignature();
@@ -554,8 +540,6 @@ namespace Exiv2 {
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
-
-    PentaxDngMnHeader::~PentaxDngMnHeader() = default;
 
     uint32_t PentaxDngMnHeader::size() const
     {
@@ -603,8 +587,6 @@ namespace Exiv2 {
     {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
-
-    PentaxMnHeader::~PentaxMnHeader() = default;
 
     uint32_t PentaxMnHeader::size() const
     {
@@ -680,8 +662,6 @@ namespace Exiv2 {
         read(signature1_, sizeOfSignature(), invalidByteOrder);
     }
 
-    SigmaMnHeader::~SigmaMnHeader() = default;
-
     uint32_t SigmaMnHeader::size() const
     {
         return sizeOfSignature();
@@ -726,8 +706,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    SonyMnHeader::~SonyMnHeader() = default;
-
     uint32_t SonyMnHeader::size() const
     {
         return sizeOfSignature();
@@ -771,8 +749,6 @@ namespace Exiv2 {
     {
         read(signature_, sizeOfSignature(), invalidByteOrder );
     }
-
-    Casio2MnHeader::~Casio2MnHeader() = default;
 
     uint32_t Casio2MnHeader::size() const
     {

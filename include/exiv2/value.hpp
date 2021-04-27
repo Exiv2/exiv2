@@ -261,7 +261,7 @@ namespace Exiv2 {
                   long len, ByteOrder byteOrder =invalidByteOrder,
                   TypeId typeId =undefined);
 
-        virtual ~DataValue();
+        virtual ~DataValue() = default;
 
         //! @name Manipulators
         //@{
@@ -344,9 +344,9 @@ namespace Exiv2 {
         //! Constructor for subclasses
         StringValueBase(TypeId typeId, const std::string& buf);
         //! Copy constructor
-        StringValueBase(const StringValueBase& rhs);
+        StringValueBase(const StringValueBase& rhs) = default;
         //! Virtual destructor.
-        virtual ~StringValueBase();
+        virtual ~StringValueBase() = default;
         //@}
 
         //! @name Manipulators
@@ -426,7 +426,7 @@ namespace Exiv2 {
         //! Constructor
         explicit StringValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~StringValue();
+        virtual ~StringValue() = default;
         //@}
 
         //! @name Accessors
@@ -458,7 +458,7 @@ namespace Exiv2 {
         //! Constructor
         explicit AsciiValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~AsciiValue();
+        virtual ~AsciiValue() = default;
         //@}
 
         //! @name Manipulators
@@ -546,7 +546,7 @@ namespace Exiv2 {
         //! Constructor, uses read(const std::string& comment)
         explicit CommentValue(const std::string& comment);
         //! Virtual destructor.
-        virtual ~CommentValue();
+        virtual ~CommentValue() = default;
         //@}
 
         //! @name Manipulators
@@ -987,7 +987,7 @@ namespace Exiv2 {
         //! Constructor
         DateValue(int year, int month, int day);
         //! Virtual destructor.
-        virtual ~DateValue();
+        virtual ~DateValue() = default;
         //@}
 
         //! Simple Date helper structure
@@ -1090,7 +1090,7 @@ namespace Exiv2 {
                   int tzHour =0, int tzMinute =0);
 
         //! Virtual destructor.
-        virtual ~TimeValue();
+        virtual ~TimeValue() = default;
         //@}
 
         //! Simple Time helper structure

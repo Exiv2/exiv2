@@ -306,7 +306,7 @@ namespace Exiv2 {
         CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
 
         //! Virtual destructor.
-        virtual ~CiffEntry();
+        virtual ~CiffEntry() = default;
         //@}
 
         // Default assignment operator is fine

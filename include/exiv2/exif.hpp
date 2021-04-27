@@ -76,7 +76,7 @@ namespace Exiv2 {
         //! Copy constructor
         Exifdatum(const Exifdatum& rhs);
         //! Destructor
-        virtual ~Exifdatum();
+        virtual ~Exifdatum() = default;
         //@}
 
         //! @name Manipulators

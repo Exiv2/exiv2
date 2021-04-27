@@ -35,16 +35,6 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    Key& Key::operator=(const Key& /*rhs*/) = default;
-
-    Metadatum::Metadatum() = default;
-
-    Metadatum::Metadatum(const Metadatum& /*rhs*/) = default;
-
-    Metadatum::~Metadatum() = default;
-
-    Metadatum& Metadatum::operator=(const Metadatum& /*rhs*/) = default;
-
     std::string Metadatum::print(const ExifData* pMetadata) const
     {
         std::ostringstream os;
