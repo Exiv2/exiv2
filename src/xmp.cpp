@@ -502,7 +502,7 @@ namespace Exiv2 {
             std::map<std::string,std::string>* p = (std::map<std::string,std::string>*) refCon;
             std::map<std::string,std::string>& m = *p;
 
-            std::string b("");
+            std::string b;
             if ( bNS ) {  // store the NS in dict[""]
                 m[b]=out;
             } else if ( m.find(b) != m.end() ) {  // store dict[uri] = dict[""]
