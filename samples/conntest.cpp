@@ -41,7 +41,7 @@ void httpcon(const std::string& url, bool useHttp1_0 = false) {
     if (!useHttp1_0) request["version"] = "1.1";
 
     int serverCode = Exiv2::http(request,response,errors);
-    if (serverCode < 0 || serverCode >= 400 || errors != "") {
+    if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
         throw Exiv2::Error(Exiv2::kerTiffDirectoryTooLarge, "Server", serverCode);
     }
 }
