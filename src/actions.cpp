@@ -1890,16 +1890,16 @@ namespace {
   #endif
  #else
   #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP)
-    static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
-   #else
-    static pthread_mutex_t cs =  PTHREAD_MUTEX_INITIALIZER;
-  #endif
- #endif
+    pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+#else
+    pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
+#endif
+#endif
 #endif
 
-    static std::string temporaryPath()
-    {
-        static int  count = 0 ;
+ std::string temporaryPath()
+ {
+     static int count = 0;
 
 #if defined(_MSC_VER) || defined(__MINGW__)
         EnterCriticalSection(&cs);
@@ -1927,7 +1927,7 @@ namespace {
 #endif
 
         return result;
-    }
+ }
 
     int metacopy(const std::string& source,
                  const std::string& tgt,
