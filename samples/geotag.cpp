@@ -207,7 +207,7 @@ public:
     static time_t deltaMax_;
 
 // public static member functions
-public:
+
     static int    Adjust() {return Position::adjust_ + Position::tz_ + Position::dst_ ;}
     static int    tz()     {return tz_    ;}
     static int    dst()    {return dst_   ;}
