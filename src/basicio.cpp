@@ -140,12 +140,9 @@ namespace Exiv2 {
         // Windows function to determine the number of hardlinks (on NTFS)
         DWORD winNumberOfLinks() const;
 #endif
-
-    private:
         // NOT IMPLEMENTED
-        Impl(const Impl& rhs);                         //!< Copy constructor
-        Impl& operator=(const Impl& rhs);              //!< Assignment
-
+        Impl(const Impl& rhs) = delete;             //!< Copy constructor
+        Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class FileIo::Impl
 
     FileIo::Impl::Impl(const std::string& path)
@@ -1063,11 +1060,9 @@ namespace Exiv2 {
         // METHODS
         void reserve(long wcount);         //!< Reserve memory
 
-    private:
         // NOT IMPLEMENTED
-        Impl(const Impl& rhs);             //!< Copy constructor
-        Impl& operator=(const Impl& rhs);  //!< Assignment
-
+        Impl(const Impl& rhs) = delete;             //!< Copy constructor
+        Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class MemIo::Impl
 
     MemIo::Impl::Impl()
@@ -2063,10 +2058,10 @@ namespace Exiv2 {
           @throw Error if it fails.
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
-    protected:
+
         // NOT IMPLEMENTED
-        HttpImpl(const HttpImpl& rhs); //!< Copy constructor
-        HttpImpl& operator=(const HttpImpl& rhs); //!< Assignment
+        HttpImpl(const HttpImpl& rhs) = delete;             //!< Copy constructor
+        HttpImpl& operator=(const HttpImpl& rhs) = delete;  //!< Assignment
     }; // class HttpIo::HttpImpl
 
     HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
@@ -2233,10 +2228,10 @@ namespace Exiv2 {
                 http://dev.exiv2.org/wiki/exiv2
          */
         void writeRemote(const byte* data, size_t size, long from, long to);
-    protected:
+
         // NOT IMPLEMENTED
-        CurlImpl(const CurlImpl& rhs); //!< Copy constructor
-        CurlImpl& operator=(const CurlImpl& rhs); //!< Assignment
+        CurlImpl(const CurlImpl& rhs) = delete;             //!< Copy constructor
+        CurlImpl& operator=(const CurlImpl& rhs) = delete;  //!< Assignment
     private:
         long timeout_; //!< The number of seconds to wait while trying to connect.
     }; // class RemoteIo::Impl
