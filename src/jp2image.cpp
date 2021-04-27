@@ -180,7 +180,7 @@ namespace Exiv2
             char c[4];
         } e = { 0x01000000 };
 
-        return e.c[0]?true:false;
+        return e.c[0] != 0;
     }
 
     static std::string toAscii(long n)
@@ -874,8 +874,7 @@ static void boxes_check(size_t b,size_t m)
                         }
                     }
 
-                    if (writeXmpFromPacket() == false)
-                    {
+                    if (!writeXmpFromPacket()) {
                         if (XmpParser::encode(xmpPacket_, xmpData_) > 1)
                         {
 #ifndef SUPPRESS_WARNINGS

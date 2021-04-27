@@ -227,7 +227,7 @@ namespace Exiv2 {
             char c[4];
         } e = { 0x01000000 };
 
-        return e.c[0]?true:false;
+        return e.c[0] != 0;
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 

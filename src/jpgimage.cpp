@@ -1059,9 +1059,9 @@ namespace Exiv2 {
         }
         if (exifData_.count() > 0)
             ++search;
-        if (writeXmpFromPacket() == false && xmpData_.count() > 0)
+        if (!writeXmpFromPacket() && xmpData_.count() > 0)
             ++search;
-        if (writeXmpFromPacket() == true && xmpPacket_.size() > 0)
+        if (writeXmpFromPacket() && xmpPacket_.size() > 0)
             ++search;
         if (foundCompletePsData || iptcData_.count() > 0)
             ++search;
@@ -1125,7 +1125,7 @@ namespace Exiv2 {
                         --search;
                     }
                 }
-                if (writeXmpFromPacket() == false) {
+                if (!writeXmpFromPacket()) {
                     if (XmpParser::encode(xmpPacket_, xmpData_,
                                           XmpParser::useCompactFormat | XmpParser::omitAllFormatting) > 1) {
 #ifndef SUPPRESS_WARNINGS
