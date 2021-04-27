@@ -1699,7 +1699,7 @@ namespace Exiv2 {
     {
         close(); // reset the IO position
         bigBlock_ = NULL;
-        if (p_->isMalloced_ == false) {
+        if (!p_->isMalloced_) {
             long length = p_->getFileLength();
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
                 std::string data;

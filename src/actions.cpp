@@ -928,7 +928,7 @@ namespace Action {
             path_ = path;
             int rc = 0;
 
-            bool bStdout = Params::instance().target_ & Params::ctStdInOut ? true : false;
+            bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
             if (bStdout) {
                 _setmode(_fileno(stdout), _O_BINARY);
             }
@@ -1116,7 +1116,7 @@ namespace Action {
     int Insert::run(const std::string& path)
     try {
         // -i{tgt}-  reading from stdin?
-        bool          bStdin = (Params::instance().target_ & Params::ctStdInOut)?true:false;
+        bool bStdin = (Params::instance().target_ & Params::ctStdInOut) != 0;
 
         if (!Exiv2::fileExists(path, true)) {
             std::cerr << path

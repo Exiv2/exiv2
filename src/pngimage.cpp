@@ -678,7 +678,7 @@ namespace Exiv2 {
                     }
                 }
 
-                if (writeXmpFromPacket() == false) {
+                if (!writeXmpFromPacket()) {
                     if (XmpParser::encode(xmpPacket_, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_ERROR << "Failed to encode XMP metadata.\n";
