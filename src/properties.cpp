@@ -2487,9 +2487,9 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix)
     {
-        for (NsRegistry::const_iterator i = nsRegistry_.begin();
-             i != nsRegistry_.end(); ++i) {
-            if (i->second == prefix) return &(i->second);
+        for (auto&& ns : nsRegistry_) {
+            if (ns.second == prefix)
+                return &(ns.second);
         }
         return 0;
     }
@@ -2657,8 +2657,8 @@ namespace Exiv2 {
 
     void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict)
     {
-        for (unsigned int i = 0; i < EXV_COUNTOF(xmpNsInfo); ++i) {
-             Exiv2::XmpParser::registerNs(xmpNsInfo[i].ns_,xmpNsInfo[i].prefix_);
+        for (auto&& i : xmpNsInfo) {
+            Exiv2::XmpParser::registerNs(i.ns_, i.prefix_);
         }
         Exiv2::XmpParser::registeredNamespaces(nsDict);
     }

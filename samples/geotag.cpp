@@ -907,8 +907,7 @@ int main(int argc,const char* argv[])
             }
         }
 */
-        for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
-            std::string path  = gFiles[p] ;
+        for (auto&& path : gFiles) {
             std::string stamp ;
             try {
                 time_t t       = readImageTime(path,&stamp) ;

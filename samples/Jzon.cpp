@@ -426,25 +426,21 @@ namespace Jzon
 	{
 		std::string escaped;
 
-        for (const auto& c: value)
-		{
-			const char *&a = getEscaped(c);
-			if (a[0] != '\0')
-			{
-				escaped += a[0];
-				escaped += a[1];
-			}
-			else
-			{
-				escaped += c;
-			}
-		}
+        for (auto &&c : value) {
+            const char *&a = getEscaped(c);
+            if (a[0] != '\0') {
+                escaped += a[0];
+                escaped += a[1];
+            } else {
+                escaped += c;
+            }
+        }
 
-		return escaped;
-	}
-	std::string Value::UnescapeString(const std::string &value)
-	{
-		std::string unescaped;
+        return escaped;
+    }
+    std::string Value::UnescapeString(const std::string &value)
+    {
+        std::string unescaped;
 
         for (auto it = value.cbegin(); it != value.cend(); ++it)
 		{
@@ -467,54 +463,51 @@ namespace Jzon
 		}
 
 		return unescaped;
-	}
+    }
 
+    Object::Object() : Node()
+    {
+    }
+    Object::Object(const Object &other) : Node()
+    {
+        for (auto &&it : other.children) {
+            const std::string &name = it.first;
+            Node &value = *it.second;
 
-	Object::Object() : Node()
-	{
-	}
-	Object::Object(const Object &other) : Node()
-	{
-        for (auto it = other.children.cbegin(); it != other.children.cend(); ++it)
-		{
-			const std::string &name = (*it).first;
-			Node &value = *(*it).second;
+            children.push_back(NamedNodePtr(name, value.GetCopy()));
+        }
+    }
+    Object::Object(const Node &other) : Node()
+    {
+        const Object &object = other.AsObject();
 
-			children.push_back(NamedNodePtr(name, value.GetCopy()));
-		}
-	}
-	Object::Object(const Node &other) : Node()
-	{
-		const Object &object = other.AsObject();
+        for (auto &&it : object.children) {
+            auto &&name = it.first;
+            auto &&value = it.second;
 
-        for (auto it = object.children.cbegin(); it != object.children.cend(); ++it)
-		{
-			const std::string &name = (*it).first;
-			Node &value = *(*it).second;
+            children.push_back(NamedNodePtr(name, value->GetCopy()));
+        }
+    }
+    Object::~Object()
+    {
+        Clear();
+    }
 
-			children.push_back(NamedNodePtr(name, value.GetCopy()));
-		}
-	}
-	Object::~Object()
-	{
-		Clear();
-	}
+    Node::Type Object::GetType() const
+    {
+        return T_OBJECT;
+    }
 
-	Node::Type Object::GetType() const
-	{
-		return T_OBJECT;
-	}
-
-	void Object::Add(const std::string &name, Node &node)
-	{
-		children.push_back(NamedNodePtr(name, node.GetCopy()));
-	}
-	void Object::Add(const std::string &name, Value node)
-	{
-		children.push_back(NamedNodePtr(name, new Value(node)));
-	}
-	void Object::Remove(const std::string &name)
-	{
+    void Object::Add(const std::string &name, Node &node)
+    {
+        children.push_back(NamedNodePtr(name, node.GetCopy()));
+    }
+    void Object::Add(const std::string &name, Value node)
+    {
+        children.push_back(NamedNodePtr(name, new Value(node)));
+    }
+    void Object::Remove(const std::string &name)
+    {
         for (auto it = children.cbegin(); it != children.cend(); ++it)
 		{
 			if ((*it).first == name)
@@ -524,196 +517,182 @@ namespace Jzon
 				break;
 			}
 		}
-	}
-
-	void Object::Clear()
-	{
-        for (auto it = children.begin(); it != children.end(); ++it)
-		{
-			delete (*it).second;
-			(*it).second = NULL;
-		}
-		children.clear();
-	}
-
-	Object::iterator Object::begin()
-	{
-		if (!children.empty())
-			return Object::iterator(&children.front());
-		else
-			return Object::iterator(NULL);
-	}
-
-	Object::const_iterator Object::begin() const
-	{
-		if (!children.empty())
-			return Object::const_iterator(&children.front());
-		else
-			return Object::const_iterator(NULL);
-	}
-
-	Object::iterator Object::end()
-	{
-		if (!children.empty())
-			return Object::iterator(&children.back()+1);
-		else
-			return Object::iterator(NULL);
-	}
-	Object::const_iterator Object::end() const
-	{
-		if (!children.empty())
-			return Object::const_iterator(&children.back()+1);
-		else
-			return Object::const_iterator(NULL);
-	}
-
-	bool Object::Has(const std::string &name) const
-	{
-		for (ChildList::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	size_t Object::GetCount() const
-	{
-		return children.size();
-	}
-	Node &Object::Get(const std::string &name) const
-	{
-		for (ChildList::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				return *(*it).second;
-			}
-		}
-
-		throw NotFoundException();
-	}
-
-	Node *Object::GetCopy() const
-	{
-		return new Object(*this);
-	}
-
-
-	Array::Array() : Node()
-	{
-	}
-
-	Array::Array(const Array &other) : Node()
-	{
-        for (auto it = other.children.cbegin(); it != other.children.cend(); ++it)
-		{
-			const Node &value = *(*it);
-			children.push_back(value.GetCopy());
-		}
     }
 
-	Array::Array(const Node &other) : Node()
-	{
-		const Array &array = other.AsArray();
+    void Object::Clear()
+    {
+        for (auto &&child : children) {
+            delete child.second;
+            child.second = NULL;
+        }
+        children.clear();
+    }
 
-        for (auto it = array.children.cbegin(); it != array.children.cend(); ++it)
-		{
-			const Node &value = *(*it);
-			children.push_back(value.GetCopy());
-		}
-	}
+    Object::iterator Object::begin()
+    {
+        if (!children.empty())
+            return Object::iterator(&children.front());
+        else
+            return Object::iterator(NULL);
+    }
 
-	Array::~Array()
-	{
-		Clear();
-	}
+    Object::const_iterator Object::begin() const
+    {
+        if (!children.empty())
+            return Object::const_iterator(&children.front());
+        else
+            return Object::const_iterator(NULL);
+    }
 
-	Node::Type Array::GetType() const
-	{
-		return T_ARRAY;
-	}
+    Object::iterator Object::end()
+    {
+        if (!children.empty())
+            return Object::iterator(&children.back() + 1);
+        else
+            return Object::iterator(NULL);
+    }
+    Object::const_iterator Object::end() const
+    {
+        if (!children.empty())
+            return Object::const_iterator(&children.back() + 1);
+        else
+            return Object::const_iterator(NULL);
+    }
 
-	void Array::Add(Node &node)
-	{
-		children.push_back(node.GetCopy());
-	}
-	void Array::Add(Value node)
-	{
-		children.push_back(new Value(node));
-	}
-	void Array::Remove(size_t index)
-	{
-		if (index < children.size())
-		{
-			ChildList::iterator it = children.begin()+index;
-			delete (*it);
-			children.erase(it);
-		}
-	}
-	void Array::Clear()
-	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
-		{
-			delete (*it);
-			(*it) = NULL;
-		}
-		children.clear();
-	}
+    bool Object::Has(const std::string &name) const
+    {
+        for (auto &&child : children) {
+            if (child.first == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    size_t Object::GetCount() const
+    {
+        return children.size();
+    }
+    Node &Object::Get(const std::string &name) const
+    {
+        for (auto &&it : children) {
+            if (it.first == name) {
+                return *it.second;
+            }
+        }
 
-	Array::iterator Array::begin()
-	{
-		if (!children.empty())
-			return Array::iterator(&children.front());
-		else
-			return Array::iterator(NULL);
-	}
-	Array::const_iterator Array::begin() const
-	{
-		if (!children.empty())
-			return Array::const_iterator(&children.front());
-		else
-			return Array::const_iterator(NULL);
-	}
-	Array::iterator Array::end()
-	{
-		if (!children.empty())
-			return Array::iterator(&children.back()+1);
-		else
-			return Array::iterator(NULL);
-	}
-	Array::const_iterator Array::end() const
-	{
-		if (!children.empty())
-			return Array::const_iterator(&children.back()+1);
-		else
-			return Array::const_iterator(NULL);
-	}
+        throw NotFoundException();
+    }
 
-	size_t Array::GetCount() const
-	{
-		return children.size();
-	}
-	Node &Array::Get(size_t index) const
-	{
-		if (index < children.size())
-		{
-			return *children.at(index);
-		}
+    Node *Object::GetCopy() const
+    {
+        return new Object(*this);
+    }
 
-		throw NotFoundException();
-	}
+    Array::Array() : Node()
+    {
+    }
 
-	Node *Array::GetCopy() const
-	{
-		return new Array(*this);
-	}
+    Array::Array(const Array &other) : Node()
+    {
+        for (auto &&value : other.children) {
+            children.push_back(value->GetCopy());
+        }
+    }
 
+    Array::Array(const Node &other) : Node()
+    {
+        const Array &array = other.AsArray();
 
-	FileWriter::FileWriter(const std::string &filename) : filename(filename)
-	{
-	}
+        for (auto &&value : array.children) {
+            children.push_back(value->GetCopy());
+        }
+    }
+
+    Array::~Array()
+    {
+        Clear();
+    }
+
+    Node::Type Array::GetType() const
+    {
+        return T_ARRAY;
+    }
+
+    void Array::Add(Node &node)
+    {
+        children.push_back(node.GetCopy());
+    }
+    void Array::Add(Value node)
+    {
+        children.push_back(new Value(node));
+    }
+    void Array::Remove(size_t index)
+    {
+        if (index < children.size()) {
+            ChildList::iterator it = children.begin() + index;
+            delete (*it);
+            children.erase(it);
+        }
+    }
+    void Array::Clear()
+    {
+        for (auto &&child : children) {
+            delete child;
+            child = NULL;
+        }
+        children.clear();
+    }
+
+    Array::iterator Array::begin()
+    {
+        if (!children.empty())
+            return Array::iterator(&children.front());
+        else
+            return Array::iterator(NULL);
+    }
+    Array::const_iterator Array::begin() const
+    {
+        if (!children.empty())
+            return Array::const_iterator(&children.front());
+        else
+            return Array::const_iterator(NULL);
+    }
+    Array::iterator Array::end()
+    {
+        if (!children.empty())
+            return Array::iterator(&children.back() + 1);
+        else
+            return Array::iterator(NULL);
+    }
+    Array::const_iterator Array::end() const
+    {
+        if (!children.empty())
+            return Array::const_iterator(&children.back() + 1);
+        else
+            return Array::const_iterator(NULL);
+    }
+
+    size_t Array::GetCount() const
+    {
+        return children.size();
+    }
+    Node &Array::Get(size_t index) const
+    {
+        if (index < children.size()) {
+            return *children.at(index);
+        }
+
+        throw NotFoundException();
+    }
+
+    Node *Array::GetCopy() const
+    {
+        return new Array(*this);
+    }
+
+    FileWriter::FileWriter(const std::string &filename) : filename(filename)
+    {
+    }
     FileWriter::~FileWriter() = default;
 
     void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
@@ -1266,25 +1245,20 @@ namespace Jzon
 		else
 		{
 			bool number = true;
-			for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
-			{
-				if (!IsNumber(*it))
-				{
-					number = false;
-					break;
-				}
-			}
+            for (auto &&val : value) {
+                if (!IsNumber(val)) {
+                    number = false;
+                    break;
+                }
+            }
 
-			if (number)
-			{
-				data.push(MakePair(Value::VT_NUMBER, value));
-			}
-			else
-			{
-				return false;
-			}
-		}
+            if (number) {
+                data.push(MakePair(Value::VT_NUMBER, value));
+            } else {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

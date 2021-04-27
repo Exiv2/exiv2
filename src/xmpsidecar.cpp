@@ -99,10 +99,10 @@ namespace Exiv2 {
         }
 
         // #1112 - store dates to deal with loss of TZ information during conversions
-        for (Exiv2::XmpData::const_iterator it = xmpData_.begin(); it != xmpData_.end(); ++it) {
-            std::string  key(it->key());
+        for (auto&& it : xmpData_) {
+            std::string key(it.key());
             if ( key.find("Date") != std::string::npos ) {
-                std::string value(it->value().toString());
+                std::string value(it.value().toString());
                 dates_[key] = value;
             }
         }
@@ -112,13 +112,11 @@ namespace Exiv2 {
     } // XmpSidecar::readMetadata
 
     // lower case string
-    static std::string toLowerCase(std::string a)
+    static std::string toLowerCase(const std::string& a)
     {
-        for(size_t i=0 ; i < a.length() ; i++)
-        {
-            a[i]=tolower(a[i]);
-        }
-        return a;
+        std::string b = a;
+        std::transform(a.begin(), a.end(), b.begin(), ::tolower);
+        return b;
     }
 
     static bool matchi(const std::string key,const char* substr)
@@ -137,9 +135,9 @@ namespace Exiv2 {
         if (writeXmpFromPacket() == false) {
             // #589 copy XMP tags
             Exiv2::XmpData  copy   ;
-            for (Exiv2::XmpData::const_iterator it = xmpData_.begin(); it != xmpData_.end(); ++it) {
-                if ( !matchi(it->key(),"exif") && !matchi(it->key(),"iptc") ) {
-                    copy[it->key()] = it->value();
+            for (auto&& it : xmpData_) {
+                if (!matchi(it.key(), "exif") && !matchi(it.key(), "iptc")) {
+                    copy[it.key()] = it.value();
                 }
             }
 
@@ -148,16 +146,16 @@ namespace Exiv2 {
             copyIptcToXmp(iptcData_, xmpData_);
 
             // #589 - restore tags which were modified by the convertors
-            for (Exiv2::XmpData::const_iterator it = copy.begin(); it != copy.end(); ++it) {
-                xmpData_[it->key()] = it->value() ;
+            for (auto&& it : copy) {
+                xmpData_[it.key()] = it.value();
             }
 
             // #1112 - restore dates if they lost their TZ info
-            for ( auto it = dates_.begin() ; it != dates_.end() ; ++it ) {
-                std::string   sKey = it->first;
+            for (auto&& date : dates_) {
+                std::string sKey = date.first;
                 Exiv2::XmpKey key(sKey);
                 if ( xmpData_.findKey(key) != xmpData_.end() ) {
-                    std::string value_orig(it->second);
+                    std::string value_orig(date.second);
                     std::string value_now(xmpData_[sKey].value().toString());
                     // std::cout << key << " -> " << value_now << " => " << value_orig << std::endl;
                     if ( value_orig.find(value_now.substr(0,10)) != std::string::npos ) {
