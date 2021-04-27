@@ -1870,8 +1870,8 @@ namespace Exiv2 {
             subImage9Id
         };
 
-        for (unsigned int i = 0; i < EXV_COUNTOF(imageGroups); ++i) {
-            TiffFinder finder(0x00fe, imageGroups[i]);
+        for (auto&& imageGroup : imageGroups) {
+            TiffFinder finder(0x00fe, imageGroup);
             pSourceDir->accept(finder);
             TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
             const Value* pV = te != NULL ? te->pValue() : NULL;
@@ -2137,10 +2137,10 @@ namespace Exiv2 {
 
     void OffsetWriter::writeOffsets(BasicIo& io) const
     {
-        for (OffsetList::const_iterator it = offsetList_.begin(); it != offsetList_.end(); ++it) {
-            io.seek(it->second.origin_, BasicIo::beg);
+        for (auto&& it : offsetList_) {
+            io.seek(it.second.origin_, BasicIo::beg);
             byte buf[4] = { 0, 0, 0, 0 };
-            l2Data(buf, it->second.target_, it->second.byteOrder_);
+            l2Data(buf, it.second.target_, it.second.byteOrder_);
             io.write(buf, 4);
         }
     }

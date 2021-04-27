@@ -87,9 +87,9 @@ try {
     image->readMetadata();
     Exiv2::ExifData& ed = image->exifData();
 
-    for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
-        auto pos = easyAccess[i].findFct_(ed);
-        std::cout << std::setw(21) << std::left << easyAccess[i].label_;
+    for (auto&& ea : easyAccess) {
+        auto pos = ea.findFct_(ed);
+        std::cout << std::setw(21) << std::left << ea.label_;
         if (pos != ed.end()) {
             std::cout << " (" << std::setw(35) << pos->key() << ") : "
                       << pos->print(&ed) << "\n";

@@ -109,9 +109,10 @@ namespace Exiv2 {
                           long        sizePsData)
     {
         if (sizePsData < 4) return false;
-        for (size_t i = 0; i < (sizeof irbId_) / (sizeof *irbId_); i++) {
-            assert(strlen(irbId_[i]) == 4);
-            if (memcmp(pPsData, irbId_[i], 4) == 0) return true;
+        for (auto&& i : irbId_) {
+            assert(strlen(i) == 4);
+            if (memcmp(pPsData, i, 4) == 0)
+                return true;
         }
         return false;
     }
@@ -836,8 +837,8 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
             uint32_t toggle = 0;
-            for (Uint32Vector_i i = iptcDataSegs.begin(); i != iptcDataSegs.end(); i++) {
-                std::cout << *i;
+            for (auto&& iptc : iptcDataSegs) {
+                std::cout << iptc;
                 if (toggle++ % 2)
                     std::cout << std::endl;
                 else
