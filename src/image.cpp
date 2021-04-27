@@ -137,10 +137,7 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    Image::Image(int              imageType,
-                 uint16_t         supportedMetadata,
-                 BasicIo::UniquePtr io)
+    Image::Image(int imageType, uint16_t supportedMetadata, BasicIo::UniquePtr io)
         : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
@@ -152,7 +149,6 @@ namespace Exiv2 {
           writeXmpFromPacket_(true),
 #endif
           byteOrder_(invalidByteOrder),
-          tags_(),
           init_(true)
     {
     }
