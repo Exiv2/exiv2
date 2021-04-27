@@ -94,8 +94,6 @@ namespace Exiv2 {
         if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
     }
 
-    Iptcdatum::~Iptcdatum() = default;
-
     long Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const
     {
         return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder);

@@ -29,8 +29,6 @@ namespace Exiv2 {
     {
     }
 
-    OrfHeader::~OrfHeader() = default;
-
     bool OrfHeader::read(const byte* pData, uint32_t size)
     {
         if (size < 8) return false;

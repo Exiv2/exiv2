@@ -59,7 +59,7 @@ namespace Exiv2 {
                        ByteOrder byteOrder,
                        uint32_t  offset);
         //! Virtual destructor.
-        virtual ~TiffHeaderBase() =0;
+        virtual ~TiffHeaderBase() = default;
         //@}
 
         //! @name Manipulators
@@ -148,7 +148,7 @@ namespace Exiv2 {
                    uint32_t  offset       =0x00000008,
                    bool      hasImageTags =true);
         //! Destructor
-        ~TiffHeader();
+        ~TiffHeader() = default;
         //@}
         //@{
         //! @name Accessors

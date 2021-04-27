@@ -181,7 +181,7 @@ namespace Exiv2 {
         //! Constructor
         TiffComponent(uint16_t tag, IfdId group);
         //! Virtual destructor.
-        virtual ~TiffComponent();
+        virtual ~TiffComponent() = default;
         //@}
 
         //! @name Manipulators
@@ -568,7 +568,7 @@ namespace Exiv2 {
         //! Constructor
         TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {}
         //! Virtual destructor.
-        virtual ~TiffEntry();
+        virtual ~TiffEntry() = default;
         //@}
 
     protected:
@@ -602,7 +602,7 @@ namespace Exiv2 {
             : TiffEntryBase(tag, group),
               szTag_(szTag), szGroup_(szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntryBase();
+        virtual ~TiffDataEntryBase() = default;
         //@}
 
         //! @name Manipulators
@@ -658,7 +658,7 @@ namespace Exiv2 {
             : TiffDataEntryBase(tag, group, szTag, szGroup),
               pDataArea_(0), sizeDataArea_(0) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntry();
+        virtual ~TiffDataEntry() = default;
         //@}
 
         //! @name Manipulators
@@ -740,7 +740,7 @@ namespace Exiv2 {
         TiffImageEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffImageEntry();
+        virtual ~TiffImageEntry() = default;
         //@}
 
         //! @name Manipulators
@@ -822,7 +822,7 @@ namespace Exiv2 {
         TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup)
             : TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {}
         //! Virtual destructor.
-        virtual ~TiffSizeEntry();
+        virtual ~TiffSizeEntry() = default;
         //@}
 
         //! @name Accessors
@@ -1498,7 +1498,7 @@ namespace Exiv2 {
         //! Constructor
         TiffBinaryElement(uint16_t tag, IfdId group);
         //! Virtual destructor.
-        virtual ~TiffBinaryElement();
+        virtual ~TiffBinaryElement() = default;
         //@}
 
         //! @name Manipulators

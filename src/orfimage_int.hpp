@@ -43,7 +43,7 @@ namespace Exiv2 {
         //! Default constructor
         explicit OrfHeader(ByteOrder byteOrder =littleEndian);
         //! Destructor.
-        ~OrfHeader();
+        ~OrfHeader() = default;
         //@}
 
         //! @name Manipulators

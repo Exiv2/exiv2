@@ -91,7 +91,7 @@ namespace Exiv2 {
               uint16_t         supportedMetadata,
               BasicIo::UniquePtr io);
         //! Virtual Destructor
-        virtual ~Image();
+        virtual ~Image() = default;
         //@}
 
         //! @name Manipulators

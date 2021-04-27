@@ -53,7 +53,7 @@ namespace Util {
         Getopt();
 
         //! Destructor.
-        virtual ~Getopt();
+        virtual ~Getopt() = default;
 
         /*!
           @brief Parse command line arguments.

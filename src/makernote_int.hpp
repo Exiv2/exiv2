@@ -128,7 +128,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual ~MnHeader();
+        virtual ~MnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -177,7 +177,7 @@ namespace Exiv2 {
         //! Default constructor
         OlympusMnHeader();
         //! Virtual destructor.
-        virtual ~OlympusMnHeader();
+        virtual ~OlympusMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -208,7 +208,7 @@ namespace Exiv2 {
         //! Default constructor
         Olympus2MnHeader();
         //! Virtual destructor.
-        virtual ~Olympus2MnHeader();
+        virtual ~Olympus2MnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -240,7 +240,7 @@ namespace Exiv2 {
         //! Default constructor
         FujiMnHeader();
         //! Virtual destructor.
-        virtual ~FujiMnHeader();
+        virtual ~FujiMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -276,7 +276,7 @@ namespace Exiv2 {
         //! Default constructor
         Nikon2MnHeader();
         //! Virtual destructor.
-        virtual ~Nikon2MnHeader();
+        virtual ~Nikon2MnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -308,7 +308,7 @@ namespace Exiv2 {
         //! Default constructor
         Nikon3MnHeader();
         //! Virtual destructor.
-        virtual ~Nikon3MnHeader();
+        virtual ~Nikon3MnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -344,7 +344,7 @@ namespace Exiv2 {
         //! Default constructor
         PanasonicMnHeader();
         //! Virtual destructor.
-        virtual ~PanasonicMnHeader();
+        virtual ~PanasonicMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -376,7 +376,7 @@ namespace Exiv2 {
         //! Default constructor
         PentaxDngMnHeader();
         //! Virtual destructor.
-        virtual ~PentaxDngMnHeader();
+        virtual ~PentaxDngMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -408,7 +408,7 @@ namespace Exiv2 {
         //! Default constructor
         PentaxMnHeader();
         //! Virtual destructor.
-        virtual ~PentaxMnHeader();
+        virtual ~PentaxMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -462,7 +462,7 @@ namespace Exiv2 {
         //! Default constructor
         SigmaMnHeader();
         //! Virtual destructor.
-        virtual ~SigmaMnHeader();
+        virtual ~SigmaMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -495,7 +495,7 @@ namespace Exiv2 {
         //! Default constructor
         SonyMnHeader();
         //! Virtual destructor.
-        virtual ~SonyMnHeader();
+        virtual ~SonyMnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -527,7 +527,7 @@ namespace Exiv2 {
         //! Default constructor
         Casio2MnHeader();
         //! Virtual destructor.
-        virtual ~Casio2MnHeader();
+        virtual ~Casio2MnHeader() = default;
         //@}
         //! @name Manipulators
         //@{

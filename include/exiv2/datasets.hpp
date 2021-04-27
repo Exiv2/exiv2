@@ -297,7 +297,7 @@ namespace Exiv2 {
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
         //! Destructor
-        virtual ~IptcKey();
+        virtual ~IptcKey() = default;
         //@}
 
         //! @name Manipulators

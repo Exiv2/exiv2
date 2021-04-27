@@ -77,8 +77,6 @@ using nlink_t = short;
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-    BasicIo::~BasicIo() = default;
-
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
     public:

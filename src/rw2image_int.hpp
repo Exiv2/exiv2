@@ -46,7 +46,7 @@ namespace Exiv2 {
         //! Default constructor
         Rw2Header();
         //! Destructor.
-        ~Rw2Header();
+        ~Rw2Header() = default;
         //@}
 
         //! @name Accessors

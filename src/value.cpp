@@ -188,8 +188,6 @@ namespace Exiv2 {
         read(buf, len, byteOrder);
     }
 
-    DataValue::~DataValue() = default;
-
     long DataValue::count() const
     {
         return size();
@@ -279,12 +277,6 @@ namespace Exiv2 {
         read(buf);
     }
 
-    StringValueBase::StringValueBase(const StringValueBase& rhs)
-
-        = default;
-
-    StringValueBase::~StringValueBase() = default;
-
     StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
     {
         if (this == &rhs) return *this;
@@ -360,8 +352,6 @@ namespace Exiv2 {
     {
     }
 
-    StringValue::~StringValue() = default;
-
     StringValue* StringValue::clone_() const
     {
         return new StringValue(*this);
@@ -376,8 +366,6 @@ namespace Exiv2 {
         : StringValueBase(asciiString, buf)
     {
     }
-
-    AsciiValue::~AsciiValue() = default;
 
     int AsciiValue::read(const std::string& buf)
     {
@@ -458,8 +446,6 @@ namespace Exiv2 {
     {
         read(comment);
     }
-
-    CommentValue::~CommentValue() = default;
 
     int CommentValue::read(const std::string& comment)
     {
@@ -944,8 +930,6 @@ namespace Exiv2 {
         date_.day = day;
     }
 
-    DateValue::~DateValue() = default;
-
     int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // Hard coded to read Iptc style dates
@@ -1077,8 +1061,6 @@ namespace Exiv2 {
         time_.tzHour = tzHour;
         time_.tzMinute = tzMinute;
     }
-
-    TimeValue::~TimeValue() = default;
 
     int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {

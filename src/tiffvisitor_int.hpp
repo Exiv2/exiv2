@@ -84,7 +84,7 @@ namespace Exiv2 {
         //! Default constructor. Initialises all stop/go flags to true.
         TiffVisitor();
         //! Virtual destructor
-        virtual ~TiffVisitor();
+        virtual ~TiffVisitor() = default;
         //@}
 
         //! @name Manipulators
@@ -162,7 +162,7 @@ namespace Exiv2 {
         TiffFinder(uint16_t tag, IfdId group)
             : tag_(tag), group_(group), tiffComponent_(0) {}
         //! Virtual destructor
-        virtual ~TiffFinder();
+        virtual ~TiffFinder() = default;
         //@}
 
         //! @name Manipulators
@@ -231,7 +231,7 @@ namespace Exiv2 {
                    const TiffHeaderBase* pHeader,
                    const PrimaryGroups*  pPrimaryGroups);
         //! Virtual destructor
-        virtual ~TiffCopier();
+        virtual ~TiffCopier() = default;
         //@}
 
         //! @name Manipulators
@@ -291,7 +291,7 @@ namespace Exiv2 {
             FindDecoderFct       findDecoderFct
         );
         //! Virtual destructor
-        virtual ~TiffDecoder();
+        virtual ~TiffDecoder() = default;
         //@}
 
         //! @name Manipulators
@@ -394,7 +394,7 @@ namespace Exiv2 {
                   FindEncoderFct findEncoderFct
         );
         //! Virtual destructor
-        virtual ~TiffEncoder();
+        virtual ~TiffEncoder() = default;
         //@}
 
         //! @name Manipulators
@@ -639,7 +639,7 @@ namespace Exiv2 {
                    TiffRwState          state);
 
         //! Virtual destructor
-        virtual ~TiffReader();
+        virtual ~TiffReader() = default;
         //@}
 
         //! @name Manipulators
