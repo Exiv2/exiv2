@@ -789,8 +789,10 @@ static void boxes_check(size_t b,size_t m)
                 throw Error(kerCorruptedMetadata);
             }
 
-            // Read whole box : Box header + Box data (not fixed size - can be null).
+            // Prevent a malicious file from causing a large memory allocation.
+            enforce(box.length - 8 <= static_cast<size_t>(io_->size() - io_->tell()), kerCorruptedMetadata);
 
+            // Read whole box : Box header + Box data (not fixed size - can be null).
             DataBuf boxBuf(box.length);                             // Box header (8 bytes) + box data.
             memcpy(boxBuf.pData_, bheaderBuf.pData_, 8);               // Copy header.
             bufRead = io_->read(boxBuf.pData_ + 8, box.length - 8); // Extract box data.
