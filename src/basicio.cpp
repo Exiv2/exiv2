@@ -1684,7 +1684,7 @@ namespace Exiv2 {
     }
 
     RemoteIo::Impl::~Impl() {
-        if (blocksMap_) delete[] blocksMap_;
+        delete[] blocksMap_;
     }
 
     RemoteIo::~RemoteIo()
