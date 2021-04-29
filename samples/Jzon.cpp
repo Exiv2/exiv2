@@ -1001,7 +1001,7 @@ namespace Jzon
 				else
 				{
 					// Store the unknown token, so we can show it to the user
-					data.push(MakePair(Value::VT_STRING, valueBuffer));
+					data.push(std::make_pair(Value::VT_STRING, valueBuffer));
 					tokens.push(T_UNKNOWN);
 				}
 
@@ -1022,7 +1022,7 @@ namespace Jzon
 	}
 	bool Parser::assemble()
 	{
-		std::stack<Pair<std::string, Node*> > nodeStack;
+		std::stack<std::pair<std::string, Node*> > nodeStack;
 
 		std::string name = "";
 
@@ -1059,7 +1059,7 @@ namespace Jzon
 						node = new Object;
 					}
 
-					nodeStack.push(MakePair(name, node));
+					nodeStack.push(std::make_pair(name, node));
 					name.clear();
 					break;
 				}
@@ -1081,7 +1081,7 @@ namespace Jzon
 						node = new Array;
 					}
 
-					nodeStack.push(MakePair(name, node));
+					nodeStack.push(std::make_pair(name, node));
 					name.clear();
 					break;
 				}
@@ -1186,7 +1186,7 @@ namespace Jzon
 						}
 						else
 						{
-							nodeStack.push(MakePair(name, node));
+							nodeStack.push(std::make_pair(name, node));
 							name.clear();
 						}
 					}
@@ -1256,7 +1256,7 @@ namespace Jzon
 			c1 = c2;
 		}
 
-		data.push(MakePair(Value::VT_STRING, str));
+		data.push(std::make_pair(Value::VT_STRING, str));
 	}
 	bool Parser::interpretValue(const std::string &value)
 	{
@@ -1266,15 +1266,15 @@ namespace Jzon
 
 		if (upperValue == "NULL")
 		{
-			data.push(MakePair(Value::VT_NULL, std::string("")));
+			data.push(std::make_pair(Value::VT_NULL, std::string("")));
 		}
 		else if (upperValue == "TRUE")
 		{
-			data.push(MakePair(Value::VT_BOOL, std::string("true")));
+			data.push(std::make_pair(Value::VT_BOOL, std::string("true")));
 		}
 		else if (upperValue == "FALSE")
 		{
-			data.push(MakePair(Value::VT_BOOL, std::string("false")));
+			data.push(std::make_pair(Value::VT_BOOL, std::string("false")));
 		}
 		else
 		{
@@ -1290,7 +1290,7 @@ namespace Jzon
 
 			if (number)
 			{
-				data.push(MakePair(Value::VT_NUMBER, value));
+				data.push(std::make_pair(Value::VT_NUMBER, value));
 			}
 			else
 			{

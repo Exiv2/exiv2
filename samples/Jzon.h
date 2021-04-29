@@ -40,31 +40,12 @@ THE SOFTWARE.
 
 namespace Jzon
 {
-    #ifdef _MSC_VER
-	# pragma warning(disable : 4251)
-	#endif
-	
-	template<typename T1, typename T2>
-	struct Pair
-	{
-		Pair(T1 first, T2 second) : first(first), second(second)
-		{}
-
-		T1 first;
-		T2 second;
-	};
-	template<typename T1, typename T2>
-	static Pair<T1, T2> MakePair(T1 first, T2 second)
-	{
-		return Pair<T1, T2>(first, second);
-	}
-
 	class Node;
 	class Value;
 	class Object;
 	class Array;
-	typedef Pair<std::string, Node&> NamedNode;
-	typedef Pair<std::string, Node*> NamedNodePtr;
+	using NamedNode = std::pair<std::string, Node&>;
+	using NamedNodePtr = std::pair<std::string, Node*>;
 
 	class TypeException : public std::logic_error
 	{
@@ -449,7 +430,7 @@ namespace Jzon
 		std::size_t jsonSize;
 
 		std::queue<Token> tokens;
-		std::queue<Pair<Value::ValueType, std::string> > data;
+		std::queue<std::pair<Value::ValueType, std::string> > data;
 
 		std::size_t cursor;
 
