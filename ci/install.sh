@@ -7,12 +7,13 @@ set -x # Prints every command
 python3 --version
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    sudo apt-get update
+    sudo apt update
 
-    sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils
+    sudo apt install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils
 
     if [ -n "$WITH_VALGRIND" ]; then
-        sudo apt-get install valgrind
+        sudo apt install -y libc6-dbg
+        sudo apt install valgrind
     fi
     sudo pip3 install virtualenv
     virtualenv conan
