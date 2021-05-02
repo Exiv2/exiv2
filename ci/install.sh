@@ -12,7 +12,9 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils
 
     if [ -n "$WITH_VALGRIND" ]; then
-        sudo apt-get install valgrind
+        # https://travis-ci.community/t/clang-10-was-recently-broken-on-linux-unmet-dependencies-for-clang-10-clang-tidy-10-valgrind/11527
+        sudo apt-get install -yq --allow-downgrades libc6=2.31-0ubuntu9.2 libc6-dev=2.31-0ubuntu9.2
+        sudo -E apt-get -yq --no-install-suggests --no-install-recommends --allow-downgrades --allow-remove-essential --allow-change-held-packages install valgrind
     fi
     sudo pip3 install virtualenv
     virtualenv conan
