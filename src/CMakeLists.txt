@@ -40,46 +40,88 @@ add_library( exiv2lib_int OBJECT
     unused.h
 )
 
-add_library( exiv2lib
+set(PUBLIC_HEADERS
+    ../include/exiv2/basicio.hpp
+    ../include/exiv2/bmffimage.hpp
+    ../include/exiv2/bmpimage.hpp
     ../include/exiv2/config.h
+    ../include/exiv2/convert.hpp
+    ../include/exiv2/cr2image.hpp
+    ../include/exiv2/crwimage.hpp
+    ../include/exiv2/datasets.hpp
+    ../include/exiv2/easyaccess.hpp
+    ../include/exiv2/epsimage.hpp
+    ../include/exiv2/error.hpp
+    ../include/exiv2/exif.hpp
     ../include/exiv2/exiv2.hpp
+    ../include/exiv2/futils.hpp
+    ../include/exiv2/gifimage.hpp
+    ../include/exiv2/http.hpp
+    ../include/exiv2/image.hpp
+    ../include/exiv2/ini.hpp
+    ../include/exiv2/iptc.hpp
+    ../include/exiv2/jp2image.hpp
+    ../include/exiv2/jpgimage.hpp
+    ../include/exiv2/metadatum.hpp
+    ../include/exiv2/mrwimage.hpp
+    ../include/exiv2/orfimage.hpp
+    ../include/exiv2/pgfimage.hpp
+    ../include/exiv2/preview.hpp
+    ../include/exiv2/properties.hpp
+    ../include/exiv2/psdimage.hpp
+    ../include/exiv2/rafimage.hpp
+    ../include/exiv2/rw2image.hpp
     ../include/exiv2/slice.hpp
-    basicio.cpp             ../include/exiv2/basicio.hpp
-    bmpimage.cpp            ../include/exiv2/bmpimage.hpp
-    convert.cpp             ../include/exiv2/convert.hpp
-    cr2image.cpp            ../include/exiv2/cr2image.hpp
-    crwimage.cpp            ../include/exiv2/crwimage.hpp
-    datasets.cpp            ../include/exiv2/datasets.hpp
-    easyaccess.cpp          ../include/exiv2/easyaccess.hpp
-    epsimage.cpp            ../include/exiv2/epsimage.hpp
-    error.cpp               ../include/exiv2/error.hpp
-    exif.cpp                ../include/exiv2/exif.hpp
-    futils.cpp              ../include/exiv2/futils.hpp
-    gifimage.cpp            ../include/exiv2/gifimage.hpp
-    http.cpp                ../include/exiv2/http.hpp
-    image.cpp               ../include/exiv2/image.hpp
-    ini.cpp                 ../include/exiv2/ini.hpp
-    iptc.cpp                ../include/exiv2/iptc.hpp
-    jp2image.cpp            ../include/exiv2/jp2image.hpp
-    jpgimage.cpp            ../include/exiv2/jpgimage.hpp
-    metadatum.cpp           ../include/exiv2/metadatum.hpp
-    mrwimage.cpp            ../include/exiv2/mrwimage.hpp
-    orfimage.cpp            ../include/exiv2/orfimage.hpp
-    pgfimage.cpp            ../include/exiv2/pgfimage.hpp
-    preview.cpp             ../include/exiv2/preview.hpp
-    properties.cpp          ../include/exiv2/properties.hpp
-    psdimage.cpp            ../include/exiv2/psdimage.hpp
-    rafimage.cpp            ../include/exiv2/rafimage.hpp
-    rw2image.cpp            ../include/exiv2/rw2image.hpp
-    tags.cpp                ../include/exiv2/tags.hpp
-    tgaimage.cpp            ../include/exiv2/tgaimage.hpp
-    tiffimage.cpp           ../include/exiv2/tiffimage.hpp
-    types.cpp               ../include/exiv2/types.hpp
-    value.cpp               ../include/exiv2/value.hpp
-    version.cpp             ../include/exiv2/version.hpp
-    webpimage.cpp           ../include/exiv2/webpimage.hpp
-    xmp.cpp                 ../include/exiv2/xmp_exiv2.hpp
-    xmpsidecar.cpp          ../include/exiv2/xmpsidecar.hpp
+    ../include/exiv2/tags.hpp
+    ../include/exiv2/tgaimage.hpp
+    ../include/exiv2/tiffimage.hpp
+    ../include/exiv2/types.hpp
+    ../include/exiv2/value.hpp
+    ../include/exiv2/version.hpp
+    ../include/exiv2/webpimage.hpp
+    ../include/exiv2/xmp_exiv2.hpp
+    ../include/exiv2/xmpsidecar.hpp
+)
+
+add_library( exiv2lib
+    basicio.cpp
+    bmffimage.cpp
+    bmpimage.cpp
+    convert.cpp
+    cr2image.cpp
+    crwimage.cpp
+    datasets.cpp
+    easyaccess.cpp
+    epsimage.cpp
+    error.cpp
+    exif.cpp
+    futils.cpp
+    gifimage.cpp
+    http.cpp
+    image.cpp
+    ini.cpp
+    iptc.cpp
+    jp2image.cpp
+    jpgimage.cpp
+    metadatum.cpp
+    mrwimage.cpp
+    orfimage.cpp
+    pgfimage.cpp
+    preview.cpp
+    properties.cpp
+    psdimage.cpp
+    rafimage.cpp
+    rw2image.cpp
+    tags.cpp
+    tgaimage.cpp
+    tiffimage.cpp
+    types.cpp
+    value.cpp
+    version.cpp
+    webpimage.cpp
+    xmp.cpp
+    xmpsidecar.cpp
+    ${PUBLIC_HEADERS}
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
@@ -103,9 +145,6 @@ if( EXIV2_ENABLE_PNG )
     target_sources(exiv2lib PRIVATE pngimage.cpp ../include/exiv2/pngimage.hpp)
 endif()
 
-target_sources(exiv2lib PRIVATE
-    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
-)
 
 # Other library target properties
 # ---------------------------------------------------------
@@ -212,6 +251,7 @@ install(TARGETS exiv2lib EXPORT exiv2Config
 )
 
 install(FILES
+    ${PUBLIC_HEADERS}
     ${CMAKE_BINARY_DIR}/exv_conf.h
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
