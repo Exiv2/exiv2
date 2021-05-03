@@ -83,7 +83,6 @@ endif()
 
 include(cmake/compilerFlagsExiv2.cmake REQUIRED)
 
-add_subdirectory( include )
 add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
