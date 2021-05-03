@@ -58,6 +58,7 @@
 #endif
 #ifdef _MSC_VER
 # include <sys/utime.h>
+#include <Windows.h>
 #else
 # include <utime.h>
 #endif
