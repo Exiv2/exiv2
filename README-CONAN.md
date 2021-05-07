@@ -44,6 +44,7 @@ The build procedures for those platforms are discussed here: See [README.md](REA
 # 1 Step by Step Guide
 
 <name id="1-1"></a>
+
 ##### 1.1) </a>Install conan:
 
 ```bash
@@ -59,6 +60,7 @@ $ pip install conan --upgrade
 ```
 
 <name id="1-2"></a>
+
 ##### 1.2) Test conan installation
 
 ```bash
@@ -67,6 +69,7 @@ Conan version 1.23.0
 ```
 
 <name id="1-3"></a>
+
 ##### 1.3) Create a build directory<name id="1-3"></a>
 
 Create a build directory and run the conan commands:
@@ -98,6 +101,7 @@ os_build=Windows
 _Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](#2-2)__
 
 <name id="1-4"></a>
+
 ##### 1.4) Build dependencies, create build environment, build and test</a>
 
 
@@ -112,9 +116,11 @@ _Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](
 
 [TOC](#TOC)
 <name id="2"></a>
+
 ## 2) Platform Notes
 
 <name id="2-1"></a>
+
 ### 2.1) Linux Notes
 
 ##### Default Profile
@@ -165,6 +171,7 @@ algorithms when bringing the Exiv2 dependencies with conan, this might indicate 
 
 [TOC](#TOC)
 <name id="2-2"></a>
+
 ### 2.2) Visual Studio Notes
 
 We recommend that you install python as discussed here:  [https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146](https://github.com/Exiv2/exiv2/pull/1403#issuecomment-731836146)
@@ -293,6 +300,7 @@ $ cmake --build .  --config Release
 ## 3 Conan Architecture
 
 <name id="3-1">
+
 ##### 3.1) conanfile.py
 
 In the root level of the **Exiv2** repository, the file `conanfile.py` defines C/C++ dependencies with the syntax: `Library/version@user/channel`
@@ -305,6 +313,7 @@ self.requires('self.requires('zlib/1.2.11@conan/stable')')
 
 [TOC](#TOC)
 <name id="3-2">
+
 ##### 3.2) Conan _**Recipes**_
 
 Conan searches remote servers for a _**recipe**_ to build a dependency.
@@ -354,6 +363,7 @@ Existing packages for recipe zlib/1.2.11@conan/stable:
 
 [TOC](#TOC)
 <name id="3-3">
+
 ##### 3.3) Conan server search path
 
 Conan searches remote servers for a _**recipe**_ to build the dependency.  You can list them with the command:
@@ -370,6 +380,7 @@ $ conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponaz
 
 [TOC](#TOC)
 <name id="3-4">
+
 ##### 3.4) Configuring conan on your machine
 
 Conan stores its configuration and local builds in the directory ~/.conan (%HOMEPATH%\\.conan on Windows).
@@ -383,6 +394,7 @@ $HOME/.conan/data       Dependencies are built/stored in this directory
 
 [TOC](#TOC)
 <name id="3-5">
+
 ##### 3.5) Running `conan install` for the first time
 
 The first time you run `$ conan install`, it will auto-detect your configuration and store a default profile in the file
@@ -507,6 +519,7 @@ Indicating that the packages were found in the local cache.
 
 [TOC](#TOC)
 <name id="4">
+
 ## 4 Building Exiv2 with Adobe XMPsdk 2016
 
 With Exiv2 v0.27, you can build Exiv2 with Adobe XMPsdk 2016 on Linux/GCC, Mac/clang and Visual Studio 2017.
@@ -517,6 +530,7 @@ library can be used by the application and Exiv2.  The Adobe XMPsdk can be built
 To build Exiv2 with Adobe XMPsdk 2016, perform steps 1.1, 1.2 and 1.3 described above, then perform the following:
 
 <name id="4-1">
+
 ##### 4.1) Add a remote directory to conan's recipe search path
 
 By default, conan knows about several public conan repositories. Exiv2 requires
@@ -527,6 +541,7 @@ $ conan remote add conan-piponazo https://api.bintray.com/conan/piponazo/piponaz
 ```
 
 <name id="4-2">
+
 ##### 4.2) Build dependencies and install conan artefacts in your build directory
 
 ```bash
@@ -534,6 +549,7 @@ $ conan install .. --options xmp=True --build missing
 ```
 
 <name id="4-3">
+
 ##### 4.3) Execute cmake to generate build files for your environment:
 
 You must tell CMake to link Adobe's library:
@@ -548,6 +564,7 @@ $ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On -G Xcode
 ```
 
 <name id="4-4">
+
 ##### 4.4) Build Exiv2 and link Adobe XMPsdk library
 
 ```bash
@@ -556,6 +573,7 @@ $ cmake --build . --config Release
 
 [TOC](#TOC)
 <name id="5">
+
 ## 5 Webready Support
 
 Exiv2 can perform I/O using internet protocols such as http, https and ftp.
