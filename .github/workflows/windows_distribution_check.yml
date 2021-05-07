@@ -4,34 +4,54 @@ on: [push, pull_request]
 
 jobs:
   windows:
-    name: Windows build and test
+    name: 'Win10 Arch: ${{matrix.platform}} BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
     runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        platform: [ x64, Win32 ]
+        
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-      - name: Install Conan
-        run: pip.exe install conan
-      - name: Conan
+
+      - name: Install Conan & Common config
+        run: |
+          pip.exe install conan
+          conan profile new --detect default
+          conan profile update settings.build_type=${{matrix.build_type}} default
+
+      - name: Conan Arch conditional config
+        if: ${{matrix.platform == 'Win32'}}
+        run: |
+          conan profile update settings.arch=x86 default
+          conan profile update settings.arch_build=x86 default
+
+      - name: Run Conan
         run: |
           md build
           cd build
           conan profile list
           conan install .. --build missing
+
       - name: Build
         run: |
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Debug -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
-          cmake --build . --config Release
+          cmake -G "Visual Studio 16 2019" -A ${{matrix.platform}} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake --build . --config ${{matrix.build_type}}
+
       - name: Test
         env:
           EXIV2_EXT: .exe
         run: |
-          cd build
-          cd bin
-          dir
+          cd build/bin
           ./unit_tests.exe
           cd ../../tests/
           python.exe runner.py -v
