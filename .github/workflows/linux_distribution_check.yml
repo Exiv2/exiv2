@@ -1,14 +1,17 @@
+# Runs daily at 04:00 AM
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: 0 4 * * *
+
 name: CI for different Linux distributions
 
-on: [push, pull_request]
-
 jobs:
-  test:
+  distros:
     runs-on: ubuntu-latest
 
     strategy:
-      # FIXME
-      fail-fast: false
+      fail-fast: true
       matrix:
         # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
         # centos:8 had linking issues with gtest
@@ -22,7 +25,7 @@ jobs:
         CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DCMAKE_INSTALL_PREFIX=install
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: install dependencies
       run: ./ci/install_dependencies.sh
     - name: build and compile
