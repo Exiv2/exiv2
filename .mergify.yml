@@ -1,0 +1,23 @@
+pull_request_rules:
+  - name: forward patches to main branch
+    conditions:
+      - base=0.27-maintenance
+      - label=forward-to-main
+    actions:
+      backport:
+        branches:
+          - main
+        assignees:
+          - "{{ author }}"
+
+  - name: delete head branch after merge
+    conditions:
+      - merged
+    actions:
+      delete_head_branch: {}
+
+  - name: remove outdated reviews
+    conditions: []
+    actions:
+      dismiss_reviews:
+        changes_requested: False
