@@ -65,7 +65,13 @@ namespace Action {
     class Task {
     public:
         //! Shortcut for an auto pointer.
+<<<<<<< HEAD
         using UniquePtr = std::unique_ptr<Task>;
+=======
+        typedef std::auto_ptr<Task> AutoPtr;
+        //! Contructor.
+        Task() : binary_(false) {}
+>>>>>>> d3847d25 (Initialize field.)
         //! Virtual destructor.
         virtual ~Task() = default;
         //! Virtual copy construction.
@@ -92,7 +98,11 @@ namespace Action {
         virtual Task* clone_() const =0;
         
         //! copy binary_ from command-line params to task
+<<<<<<< HEAD
         bool binary_ {false} ;
+=======
+        bool binary_;
+>>>>>>> d3847d25 (Initialize field.)
 
     }; // class Task
 
