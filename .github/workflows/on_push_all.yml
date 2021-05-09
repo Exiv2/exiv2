@@ -1,0 +1,87 @@
+# Basic CI for all platforms on push
+# Note that we want to run this as fast as possible and just for the more common configurations. On
+# PRs, we will test things more intensively :)
+# - Only running UnitTests and not regression tests
+
+on: [push]
+name: Basic CI for all platforms on push
+
+jobs:
+  windows:
+    name: 'Win10 Arch:x64 BuildType:Release - SHARED'
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.10.0
+
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: x64
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Install Conan & Common config
+        run: |
+          pip.exe install conan
+          conan profile new --detect default
+          conan profile show default
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan profile list
+          conan install .. --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          ninja
+
+      - name: Unit Test
+        run: |
+          cd build/bin
+          ./unit_tests.exe
+
+  Linux:
+    name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils g++
+          pip3 install conan==1.36.0
+
+      - name: Conan
+        run: |
+          mkdir build && cd build
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: build and compile
+        run: |
+          cd build
+          cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
+          make -j
+
+      - name: Unit Test
+        run: |
+          cd build
+          cd bin
+          ./unit_tests
