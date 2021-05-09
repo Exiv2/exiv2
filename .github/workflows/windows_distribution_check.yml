@@ -47,6 +47,12 @@ jobs:
           cmake -G "Visual Studio 16 2019" -A ${{matrix.platform}} -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
           cmake --build . --config ${{matrix.build_type}}
 
+      - name: Install
+        run: |
+          cd build
+          cmake --build . --config ${{matrix.build_type}} --target install
+          tree /f install
+
       - name: Test
         env:
           EXIV2_EXT: .exe
