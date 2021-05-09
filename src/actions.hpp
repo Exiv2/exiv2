@@ -66,6 +66,8 @@ namespace Action {
     public:
         //! Shortcut for an auto pointer.
         typedef std::auto_ptr<Task> AutoPtr;
+        //! Contructor.
+        Task() : binary_(false) {}
         //! Virtual destructor.
         virtual ~Task();
         //! Virtual copy construction.
@@ -92,7 +94,7 @@ namespace Action {
         virtual Task* clone_() const =0;
         
         //! copy binary_ from command-line params to task
-        bool binary_ ;
+        bool binary_;
 
     }; // class Task
 
