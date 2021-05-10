@@ -49,6 +49,7 @@ set(PUBLIC_HEADERS
     ../include/exiv2/cr2image.hpp
     ../include/exiv2/crwimage.hpp
     ../include/exiv2/datasets.hpp
+    ../include/exiv2/easyaccess.hpp
     ../include/exiv2/epsimage.hpp
     ../include/exiv2/error.hpp
     ../include/exiv2/exif.hpp
@@ -90,6 +91,7 @@ add_library( exiv2lib
     cr2image.cpp
     crwimage.cpp
     datasets.cpp
+    easyaccess.cpp
     epsimage.cpp
     error.cpp
     exif.cpp
@@ -131,13 +133,6 @@ generate_export_header(exiv2lib
 
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
-
-if( EXIV2_ENABLE_WEBREADY )
-    if( EXIV2_ENABLE_CURL)
-        set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/easyaccess.hpp)
-        target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
-    endif()
-endif()
 
 if( EXIV2_ENABLE_PNG )
     set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/pngimage.hpp)
