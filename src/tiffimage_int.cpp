@@ -141,6 +141,19 @@ namespace Exiv2 {
         { 0, ttSignedShort, 1 }
     };
 
+    //! Canon Hdr Info binary array - configuration
+    extern const ArrayCfg canonHdrCfg = {
+        canonHdrId,        // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttSignedLong,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // Has a size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttSignedLong, 1 }
+    };
+
+
     //! Nikon Vibration Reduction binary array - configuration
     extern const ArrayCfg nikonVrCfg = {
         nikonVrId,        // Group for the elements
@@ -1400,7 +1413,8 @@ namespace Exiv2 {
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
         {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
-        {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)  },
+        {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)       },
+        {    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)      },
         { Tag::next, canonId,          ignoreTiffComponent                       },
         {  Tag::all, canonId,          newTiffEntry                              },
 
@@ -1413,6 +1427,7 @@ namespace Exiv2 {
         {  Tag::all, canonTiId,        newTiffBinaryElement                      },
         {  Tag::all, canonFiId,        newTiffBinaryElement                      },
         {  Tag::all, canonPrId,        newTiffBinaryElement                      },
+        {  Tag::all, canonHdrId,        newTiffBinaryElement                      },
 
         // Nikon1 makernote
         { Tag::next, nikon1Id,         ignoreTiffComponent                       },

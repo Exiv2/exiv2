@@ -96,7 +96,7 @@ namespace Exiv2 {
         canonTiId,
         canonFiId,
         canonPrId,
-        canonPreID,
+        canonPreID,        
         canonVigCorId,
         canonVigCor2Id,
         canonWbId,

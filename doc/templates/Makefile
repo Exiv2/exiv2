@@ -53,6 +53,9 @@ TABLES = Exif \
          CanonFi \
          CanonPa \
          CanonPr \
+         CanonMe \
+         CanonHdr \          
+         CanonVigCor2 \
          Casio \
          Casio2 \
          Fujifilm \
