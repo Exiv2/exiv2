@@ -684,6 +684,7 @@ namespace Exiv2 {
             "Exif.Canon.AFPointsInFocus",
             "Exif.Canon.AFPointsSelected",
             "Exif.Canon.AFPointsUnusable",
+            "Exif.Canon.AFFineRotation",
         };
         for (auto&& filteredIfd0Tag : filteredIfd0Tags) {
             auto pos = ed.findKey(ExifKey(filteredIfd0Tag));

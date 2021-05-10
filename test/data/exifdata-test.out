@@ -231,26 +231,26 @@ Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.SpotMeteringMode                 0x0027 Makernote    Short       1 1
 Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
-Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CanonFlashInfo                     0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.AutoISO                          0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.MeasuredEV                       0x0003 Makernote    Short       1 276
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 149
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 287
-Exif.CanonSi.0x0006                           0x0006 Makernote    Short       1 0
+Exif.CanonSi.ExposureCompensation             0x0006 Makernote    Short       1 0
 Exif.CanonSi.WhiteBalance                     0x0007 Makernote    Short       1 0
 Exif.CanonSi.SlowShutter                      0x0008 Makernote    Short       1 0
 Exif.CanonSi.Sequence                         0x0009 Makernote    Short       1 0
-Exif.CanonSi.0x000a                           0x000a Makernote    Short       1 6
+Exif.CanonSi.OpticalZoomCode                  0x000a Makernote    Short       1 6
 Exif.CanonSi.0x000b                           0x000b Makernote    Short       1 0
 Exif.CanonSi.CameraTemperature                0x000c Makernote    Short       1 0
 Exif.CanonSi.FlashGuideNumber                 0x000d Makernote    Short       1 0
 Exif.CanonSi.AFPointUsed                      0x000e Makernote    Short       1 12290
 Exif.CanonSi.FlashBias                        0x000f Makernote    Short       1 0
 Exif.CanonSi.AutoExposureBracketing           0x0010 Makernote    Short       1 0
-Exif.CanonSi.0x0011                           0x0011 Makernote    Short       1 0
-Exif.CanonSi.0x0012                           0x0012 Makernote    Short       1 1
+Exif.CanonSi.AEBBracketValue                  0x0011 Makernote    Short       1 0
+Exif.CanonSi.ControlMode                      0x0012 Makernote    Short       1 1
 Exif.CanonSi.SubjectDistance                  0x0013 Makernote    Short       1 782
 Exif.CanonSi.0x0014                           0x0014 Makernote    Short       1 0
 Exif.CanonSi.ApertureValue                    0x0015 Makernote    Short       1 149
@@ -360,26 +360,26 @@ Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.SpotMeteringMode                 0x0027 Makernote    Short       1 1
 Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
-Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CanonFlashInfo                     0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.AutoISO                          0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.MeasuredEV                       0x0003 Makernote    Short       1 276
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 149
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 287
-Exif.CanonSi.0x0006                           0x0006 Makernote    Short       1 0
+Exif.CanonSi.ExposureCompensation             0x0006 Makernote    Short       1 0
 Exif.CanonSi.WhiteBalance                     0x0007 Makernote    Short       1 0
 Exif.CanonSi.SlowShutter                      0x0008 Makernote    Short       1 0
 Exif.CanonSi.Sequence                         0x0009 Makernote    Short       1 0
-Exif.CanonSi.0x000a                           0x000a Makernote    Short       1 6
+Exif.CanonSi.OpticalZoomCode                  0x000a Makernote    Short       1 6
 Exif.CanonSi.0x000b                           0x000b Makernote    Short       1 0
 Exif.CanonSi.CameraTemperature                0x000c Makernote    Short       1 0
 Exif.CanonSi.FlashGuideNumber                 0x000d Makernote    Short       1 0
 Exif.CanonSi.AFPointUsed                      0x000e Makernote    Short       1 12290
 Exif.CanonSi.FlashBias                        0x000f Makernote    Short       1 0
 Exif.CanonSi.AutoExposureBracketing           0x0010 Makernote    Short       1 0
-Exif.CanonSi.0x0011                           0x0011 Makernote    Short       1 0
-Exif.CanonSi.0x0012                           0x0012 Makernote    Short       1 1
+Exif.CanonSi.AEBBracketValue                  0x0011 Makernote    Short       1 0
+Exif.CanonSi.ControlMode                      0x0012 Makernote    Short       1 1
 Exif.CanonSi.SubjectDistance                  0x0013 Makernote    Short       1 782
 Exif.CanonSi.0x0014                           0x0014 Makernote    Short       1 0
 Exif.CanonSi.ApertureValue                    0x0015 Makernote    Short       1 149
@@ -490,26 +490,26 @@ Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.SpotMeteringMode                 0x0027 Makernote    Short       1 1
 Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
-Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CanonFlashInfo                     0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.AutoISO                          0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.MeasuredEV                       0x0003 Makernote    Short       1 276
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 149
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 287
-Exif.CanonSi.0x0006                           0x0006 Makernote    Short       1 0
+Exif.CanonSi.ExposureCompensation             0x0006 Makernote    Short       1 0
 Exif.CanonSi.WhiteBalance                     0x0007 Makernote    Short       1 0
 Exif.CanonSi.SlowShutter                      0x0008 Makernote    Short       1 0
 Exif.CanonSi.Sequence                         0x0009 Makernote    Short       1 0
-Exif.CanonSi.0x000a                           0x000a Makernote    Short       1 6
+Exif.CanonSi.OpticalZoomCode                  0x000a Makernote    Short       1 6
 Exif.CanonSi.0x000b                           0x000b Makernote    Short       1 0
 Exif.CanonSi.CameraTemperature                0x000c Makernote    Short       1 0
 Exif.CanonSi.FlashGuideNumber                 0x000d Makernote    Short       1 0
 Exif.CanonSi.AFPointUsed                      0x000e Makernote    Short       1 12290
 Exif.CanonSi.FlashBias                        0x000f Makernote    Short       1 0
 Exif.CanonSi.AutoExposureBracketing           0x0010 Makernote    Short       1 0
-Exif.CanonSi.0x0011                           0x0011 Makernote    Short       1 0
-Exif.CanonSi.0x0012                           0x0012 Makernote    Short       1 1
+Exif.CanonSi.AEBBracketValue                  0x0011 Makernote    Short       1 0
+Exif.CanonSi.ControlMode                      0x0012 Makernote    Short       1 1
 Exif.CanonSi.SubjectDistance                  0x0013 Makernote    Short       1 782
 Exif.CanonSi.0x0014                           0x0014 Makernote    Short       1 0
 Exif.CanonSi.ApertureValue                    0x0015 Makernote    Short       1 149
@@ -620,26 +620,26 @@ Exif.CanonCs.ZoomTargetWidth                  0x0025 Makernote    Short       1 
 Exif.CanonCs.0x0026                           0x0026 Makernote    Short       1 0
 Exif.CanonCs.SpotMeteringMode                 0x0027 Makernote    Short       1 1
 Exif.Canon.FocalLength                        0x0002 Makernote    Short       4 2 682 286 215
-Exif.Canon.0x0003                             0x0003 Makernote    Short       4 0 0 0 0
+Exif.Canon.CanonFlashInfo                     0x0003 Makernote    Short       4 0 0 0 0
 Exif.CanonSi.0x0000                           0x0000 Makernote    Short       1 54
 Exif.CanonSi.AutoISO                          0x0001 Makernote    Short       1 0
 Exif.CanonSi.ISOSpeed                         0x0002 Makernote    Short       1 160
 Exif.CanonSi.MeasuredEV                       0x0003 Makernote    Short       1 276
 Exif.CanonSi.TargetAperture                   0x0004 Makernote    Short       1 149
 Exif.CanonSi.TargetShutterSpeed               0x0005 Makernote    Short       1 287
-Exif.CanonSi.0x0006                           0x0006 Makernote    Short       1 0
+Exif.CanonSi.ExposureCompensation             0x0006 Makernote    Short       1 0
 Exif.CanonSi.WhiteBalance                     0x0007 Makernote    Short       1 0
 Exif.CanonSi.SlowShutter                      0x0008 Makernote    Short       1 0
 Exif.CanonSi.Sequence                         0x0009 Makernote    Short       1 0
-Exif.CanonSi.0x000a                           0x000a Makernote    Short       1 6
+Exif.CanonSi.OpticalZoomCode                  0x000a Makernote    Short       1 6
 Exif.CanonSi.0x000b                           0x000b Makernote    Short       1 0
 Exif.CanonSi.CameraTemperature                0x000c Makernote    Short       1 0
 Exif.CanonSi.FlashGuideNumber                 0x000d Makernote    Short       1 0
 Exif.CanonSi.AFPointUsed                      0x000e Makernote    Short       1 12290
 Exif.CanonSi.FlashBias                        0x000f Makernote    Short       1 0
 Exif.CanonSi.AutoExposureBracketing           0x0010 Makernote    Short       1 0
-Exif.CanonSi.0x0011                           0x0011 Makernote    Short       1 0
-Exif.CanonSi.0x0012                           0x0012 Makernote    Short       1 1
+Exif.CanonSi.AEBBracketValue                  0x0011 Makernote    Short       1 0
+Exif.CanonSi.ControlMode                      0x0012 Makernote    Short       1 1
 Exif.CanonSi.SubjectDistance                  0x0013 Makernote    Short       1 782
 Exif.CanonSi.0x0014                           0x0014 Makernote    Short       1 0
 Exif.CanonSi.ApertureValue                    0x0015 Makernote    Short       1 149

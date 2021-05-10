@@ -124,14 +124,8 @@ namespace Exiv2 {
         //! Return read-only list of built-in Canon RawBurstInfo Info tags
         static const TagInfo* tagListRawB();
         //! Return read-only list of built-in Canon AFInfo2 Info tags
-        static const TagInfo* tagListAf2();
-        
-
-        
-        
-
-        
-        
+        static const TagInfo* tagListAf2();     
+       
 
         //! @name Print functions for Canon %MakerNote tags
         //@{
