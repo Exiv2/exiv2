@@ -505,7 +505,8 @@ namespace Exiv2 {
     //! ColorSpace, tag 0x00b4
     constexpr TagDetails canonColorSpace[] = {
         {  1, N_("sRGB")      },
-        {  2, N_("Adobe RGB") }
+        {  2, N_("Adobe RGB") },
+        { 65535,  N_("n/a") }
     };
 
     //! Canon AF Area Mode, tag 0x2601
@@ -781,6 +782,9 @@ namespace Exiv2 {
         {0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonAf2Id, makerTags, signedShort, -1,printBitmask},
         {0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonAf2Id, makerTags, signedShort, -1, printBitmask},
         {0x000e, "AFPrimaryPoint", N_("AF Primary Point"), N_("AF Primary Point"), canonAf2Id, makerTags, signedShort, -1, printBitmask},
+        (0x000f, "0x000f", "0x000f", N_("0x000f"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
+        (0x0010, "0x0010", "0x0010", N_("0x0010"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
+        (0x0011, "AFFineRotation", N_("AFFineRotation"), N_("AFFineRotation"), canonAf2Id, makerTags, unsignedShort, -1, printValue),  
     };
 
     const TagInfo* CanonMakerNote::tagListAf2()
@@ -1313,6 +1317,7 @@ namespace Exiv2 {
     //! Quality, tag 0x0003
     constexpr TagDetails canonCsQuality[] = {
         { -1,  N_("n/a")          },
+        { 0,   N_("unkown")          },
         { 1,   N_("Economy")      },
         { 2,   N_("Normal")       },
         { 3,   N_("Fine")         },
@@ -1402,7 +1407,8 @@ namespace Exiv2 {
         { 129, N_("Medium Movie")      },
         { 130, N_("Small Movie")       },
         { 137, N_("1280x720 Movie")    },
-        { 142, N_("1920x1080 Movie")   }
+        { 142, N_("1920x1080 Movie")   },                
+        { 143, N_("4096x2160 Movie")   }  
     };
 
     //! EasyMode, tag 0x000b
@@ -2103,7 +2109,8 @@ namespace Exiv2 {
         { 1, N_("Exposure compensation")           },
         { 2, N_("AE lock")                         },
         { 3, N_("AE lock + exposure compensation") },
-        { 4, N_("No AE")                           }
+        { 4, N_("No AE")                           },
+        { 65535, N_("n/a")                         }
     };
 
     //! ImageStabilization, tag 0x0022
@@ -2123,7 +2130,8 @@ namespace Exiv2 {
     //! SpotMeteringMode, tag 0x0027
     constexpr TagDetails canonCsSpotMeteringMode[] = {
         { 0,   N_("Center")   },
-        { 1,   N_("AF Point") }
+        { 1,   N_("AF Point") },
+        { 65535,   N_("n/a") }
     };
 
     //! PhotoEffect, tag 0x0028
@@ -2136,7 +2144,7 @@ namespace Exiv2 {
         { 5,   N_("B&W")           },
         { 6,   N_("Custom")        },
         { 100, N_("My color data") },
-        { 100, N_("My color data") }    // To silence compiler warning
+        { 65535, N_("n/a") }        
     };
 
     //! ManualFlashOutput, tag 0x0029
@@ -2259,7 +2267,27 @@ namespace Exiv2 {
         { 0,     "Off"         },
         { 1,     "Night Scene" },
         { 2,     "On"          },
-        { 3,     "None"        },
+        { 3,     "None"        }
+    };
+
+    constexpr TagDetails autoRotate[] = {
+        { -1, "n/a"         },
+        { 0,     "None"         },
+        { 1,     "Rotate 90 CW" },
+        { 2,     "Rotate 180"          },
+        { 3,     "Rotate 270 CW"        }
+    };
+
+    constexpr TagDetails ndRotate[] = {
+        { 65535,    "n/a"         },
+        { 0,     "Off"         },
+        { 1,     "On" }        
+    };
+
+    constexpr TagDetails selfTimer2[] = {
+        { 65535,    "n/a"         },
+        { 0,     "Selftimer 2s"         },
+        { 1,     "Selftimer 10s" }        
     };
 
 
@@ -2292,6 +2320,9 @@ namespace Exiv2 {
         {0x0019, "0x0019", "0x0019", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x001a, "CameraType", N_("Camera Type"), N_("Camera type"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(cameraType)},
         {0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, printValue},
+        //(0x001c, "NDFilter", N_("ND Filter"), N_("ND filter"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(ndRotate)),
+        // (0x001d, "SelfTimer2", N_("Self Timer 2"), N_("Self timer2"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(selfTimer2)),
+        (0x0021, "FlashOutput", N_("Flash Output"), N_("Flash output"), canonSiId, makerTags, signedShort, 1, printValue),
         // End of list marker
         {0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, unsignedShort, 1, printValue},
     };
