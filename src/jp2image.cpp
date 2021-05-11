@@ -670,6 +670,7 @@ static void boxes_check(size_t b,size_t m)
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Jp2Image::encodeJp2Header subbox: "<< toAscii(subBox.type) << " length = " << subBox.length << std::endl;
 #endif
+                enforce(subBox.length > 0, Exiv2::kerCorruptedMetadata);
                 enforce(subBox.length <= length - count, Exiv2::kerCorruptedMetadata);
                 count        += subBox.length;
                 newBox.type   = subBox.type;
