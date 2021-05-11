@@ -3,7 +3,7 @@ name: Linux-Ubuntu Matrix on PRs
 on: [pull_request]
 
 jobs:
-  windows:
+  Linux:
     name: 'Ubuntu 20.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
     runs-on: ubuntu-latest
 
@@ -18,8 +18,6 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils g++
           pip3 install conan==1.36.0
 
       - name: Conan common config
