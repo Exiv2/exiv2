@@ -1,0 +1,57 @@
+name: Linux-Ubuntu Matrix on PRs
+
+on: [pull_request]
+
+jobs:
+  windows:
+    name: 'Ubuntu 20.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils g++
+          pip3 install conan==1.36.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.build_type=${{matrix.build_type}} default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install ..
+          ninja
+
+      - name: Install
+        run: |
+          cd build
+          make install
+          tree install
+
+      - name: Test
+        env:
+          EXIV2_EXT: .exe
+        run: |
+          cd build/bin
+          ./unit_tests.exe
+          cd ../../tests/
+          python.exe runner.py -v
