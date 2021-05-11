@@ -32,11 +32,21 @@ jobs:
         with:
           python-version: 3.7
 
+      - name: Restore conan cache
+        uses: actions/cache@v2
+        with:
+            path: ${{github.workspace}}/conanCache
+            key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+
       - name: Install Conan & Common config
         run: |
+          md conanCache
           pip.exe install conan
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+          conan config get storage.path
+          tree /f ./conanCache
 
       - name: Conan Arch conditional config
         if: ${{matrix.platform == 'x86'}}
@@ -50,7 +60,9 @@ jobs:
           cd build
           conan profile list
           conan install .. --build missing
-
+          dir ..
+          tree /f ../conanCache
+ 
       - name: Build
         run: |
           cd build
