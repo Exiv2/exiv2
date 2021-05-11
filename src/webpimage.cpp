@@ -754,9 +754,9 @@ namespace Exiv2 {
         byte webp[len];
         byte data[len];
         byte riff[len];
-        iIo.read(riff, len);
-        iIo.read(data, len);
-        iIo.read(webp, len);
+        readOrThrow(iIo, riff, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, data, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, webp, len, Exiv2::kerCorruptedMetadata);
         bool matched_riff = (memcmp(riff, RiffImageId, len) == 0);
         bool matched_webp = (memcmp(webp, WebPImageId, len) == 0);
         iIo.seek(-12, BasicIo::cur);
