@@ -52,6 +52,6 @@ jobs:
           EXIV2_EXT: .exe
         run: |
           cd build/bin
-          ./unit_tests.exe
+          ./unit_tests
           cd ../../tests/
-          python.exe runner.py -v
+          python runner.py -v
