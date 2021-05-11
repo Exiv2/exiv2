@@ -1,4 +1,4 @@
-name: CI for Windows
+name: Win Matrix on PRs
 
 on: [pull_request]
 
