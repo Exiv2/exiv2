@@ -142,7 +142,7 @@ namespace Exiv2 {
     };
 
     //! Canon Hdr Info binary array - configuration
-    extern const ArrayCfg canonHdrCfg = {
+    /** extern const ArrayCfg canonHdrCfg = {
         canonHdrId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttSignedLong,  // Type for array entry and size element
@@ -151,7 +151,7 @@ namespace Exiv2 {
         false,            // No fillers
         false,            // Don't concatenate gaps
         { 0, ttSignedLong, 1 }
-    };
+    };**/
 
 
     //! Nikon Vibration Reduction binary array - configuration
@@ -1414,7 +1414,16 @@ namespace Exiv2 {
         {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)       },
-        {    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)      },
+        //{    0x4013, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfMiAdjCfg)      },
+        //{    0x4015, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonVigCorCfg)      },
+        //{    0x4016, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonVigCor2Cfg)      },
+        //{    0x4018, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonLiOpCfg)      },
+        //{    0x4019, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonLeCfg)      },
+        //{    0x4020, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAmCfg)      },
+        //{    0x4021, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonMeCfg)      },
+        //{    0x4024, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)      },
+        //{    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)      },
+        //{    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },        
         { Tag::next, canonId,          ignoreTiffComponent                       },
         {  Tag::all, canonId,          newTiffEntry                              },
 
@@ -1427,7 +1436,16 @@ namespace Exiv2 {
         {  Tag::all, canonTiId,        newTiffBinaryElement                      },
         {  Tag::all, canonFiId,        newTiffBinaryElement                      },
         {  Tag::all, canonPrId,        newTiffBinaryElement                      },
-        {  Tag::all, canonHdrId,        newTiffBinaryElement                      },
+       // {  Tag::all, canonAfMiAdjId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonVigCorId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonVigCor2Id,        newTiffBinaryElement                     },
+       // {  Tag::all, canonLiOpId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonLeId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonAmId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonMeId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonFilId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonHdrId,        newTiffBinaryElement                     },
+       // {  Tag::all, canonAfCId,        newTiffBinaryElement                     },
 
         // Nikon1 makernote
         { Tag::next, nikon1Id,         ignoreTiffComponent                       },
