@@ -85,3 +85,33 @@ jobs:
           cd build
           cd bin
           ./unit_tests
+
+  MacOS:
+    name: 'MacOS - clang - Arch:x64 BuildType:Release - SHARED'
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          pip3 install conan==1.36.0
+
+      - name: Conan
+        run: |
+          mkdir build && cd build
+          conan profile new --detect default
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: build and compile
+        run: |
+          cd build
+          cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
+          make -j
+
+      - name: Unit Test
+        run: |
+          cd build
+          cd bin
+          ./unit_tests
