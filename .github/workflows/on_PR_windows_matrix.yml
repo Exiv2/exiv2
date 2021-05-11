@@ -54,7 +54,7 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_BMFF=ON -DCMAKE_INSTALL_PREFIX=install ..
           ninja
 
       - name: Install
