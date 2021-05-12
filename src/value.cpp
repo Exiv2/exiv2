@@ -868,10 +868,10 @@ namespace Exiv2 {
         }
 
         // Write the others
-        for (i = value_.begin(); i != value_.end(); ++i) {
-            if (i->first != x_default ) {
+        for (auto&& v : value_) {
+            if (v.first != x_default) {
                 if (!first) os << ", ";
-                os << "lang=\"" << i->first << "\" " << i->second;
+                os << "lang=\"" << v.first << "\" " << v.second;
                 first = false;
             }
         }

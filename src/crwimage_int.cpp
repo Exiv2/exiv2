@@ -62,16 +62,14 @@ namespace {
         { 6, -270 },
         { 8,  270 },
         { 8,  -90 },
-        // last entry
-        { 0,    0 }
     };
 
     uint16_t RotationMap::orientation(int32_t degrees)
     {
         uint16_t o = 1;
-        for (int i = 0; omList_[i].orientation != 0; ++i) {
-            if (omList_[i].degrees == degrees) {
-                o = omList_[i].orientation;
+        for (auto&& om : omList_) {
+            if (om.degrees == degrees) {
+                o = om.orientation;
                 break;
             }
         }
@@ -81,9 +79,9 @@ namespace {
     int32_t RotationMap::degrees(uint16_t orientation)
     {
         int32_t d = 0;
-        for (int i = 0; omList_[i].orientation != 0; ++i) {
-            if (omList_[i].orientation == orientation) {
-                d = omList_[i].degrees;
+        for (auto&& om : omList_) {
+            if (om.orientation == orientation) {
+                d = om.degrees;
                 break;
             }
         }
@@ -139,8 +137,6 @@ namespace Exiv2 {
         //CrwMapping(0x1818, 0x3002,   0, 0x9204, exifId, decodeBasic,  encodeBasic),
         CrwMapping(0x183b, 0x300b,   0, 0x0015, canonId, decodeBasic,  encodeBasic),
         CrwMapping(0x2008, 0x0000,   0, 0,      ifd1Id,  decode0x2008, encode0x2008),
-        // End of list marker
-        CrwMapping(0x0000, 0x0000,   0, 0x0000, ifdIdNotSet, 0,            0)
     }; // CrwMap::crwMapping_[]
 
     /*
@@ -169,8 +165,6 @@ namespace Exiv2 {
         { 0x2804, 0x300a },
         { 0x300a, 0x0000 },
         { 0x0000, 0xffff },
-        // End of list marker
-        { 0xffff, 0xffff }
     };
 
     const char CiffHeader::signature_[] = "HEAPCCDR";
@@ -188,10 +182,8 @@ namespace Exiv2 {
 
     CiffDirectory::~CiffDirectory()
     {
-        Components::iterator b = components_.begin();
-        Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            delete *i;
+        for (auto&& component : components_) {
+            delete component;
         }
     }
 
@@ -359,10 +351,8 @@ namespace Exiv2 {
 
     void CiffDirectory::doDecode(Image& image, ByteOrder byteOrder) const
     {
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->decode(image, byteOrder);
+        for (auto&& component : components_) {
+            component->decode(image, byteOrder);
         }
     } // CiffDirectory::doDecode
 
@@ -445,10 +435,8 @@ namespace Exiv2 {
         uint32_t dirOffset = 0;
 
         // Value data
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            dirOffset = (*i)->write(blob, byteOrder, dirOffset);
+        for (auto&& component : components_) {
+            dirOffset = component->write(blob, byteOrder, dirOffset);
         }
         const uint32_t dirStart = dirOffset;
 
@@ -459,8 +447,8 @@ namespace Exiv2 {
         dirOffset += 2;
 
         // Directory entries
-        for (Components::iterator i = b; i != e; ++i) {
-            (*i)->writeDirEntry(blob, byteOrder);
+        for (auto&& component : components_) {
+            component->writeDirEntry(blob, byteOrder);
             dirOffset += 10;
         }
 
@@ -565,10 +553,8 @@ namespace Exiv2 {
                                 const std::string& prefix) const
     {
         CiffComponent::doPrint(os, byteOrder, prefix);
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->print(os, byteOrder, prefix + "   ");
+        for (auto&& component : components_) {
+            component->print(os, byteOrder, prefix + "   ");
         }
     } // CiffDirectory::doPrint
 
@@ -642,11 +628,9 @@ namespace Exiv2 {
     CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId,
                                                   uint16_t crwDir) const
     {
-        CiffComponent* cc = NULL;
-        const Components::const_iterator b = components_.begin();
-        const Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            cc = (*i)->findComponent(crwTagId, crwDir);
+        CiffComponent* cc;
+        for (auto&& component : components_) {
+            cc = component->findComponent(crwTagId, crwDir);
             if (cc) return cc;
         }
         return 0;
@@ -691,16 +675,13 @@ namespace Exiv2 {
               if not found, create it
               set value
         */
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-
         if (!crwDirs.empty()) {
             CrwSubDir csd = crwDirs.top();
             crwDirs.pop();
             // Find the directory
-            for (Components::iterator i = b; i != e; ++i) {
-                if ((*i)->tag() == csd.crwDir_) {
-                    cc_ = *i;
+            for (auto&& component : components_) {
+                if (component->tag() == csd.crwDir_) {
+                    cc_ = component;
                     break;
                 }
             }
@@ -715,9 +696,9 @@ namespace Exiv2 {
         }
         else {
             // Find the tag
-            for (Components::iterator i = b; i != e; ++i) {
-                if ((*i)->tagId() == crwTagId) {
-                    cc_ = *i;
+            for (auto&& component : components_) {
+                if (component->tagId() == crwTagId) {
+                    cc_ = component;
                     break;
                 }
             }
@@ -814,10 +795,9 @@ namespace Exiv2 {
 
     const CrwMapping* CrwMap::crwMapping(uint16_t crwDir, uint16_t crwTagId)
     {
-        for (int i = 0; crwMapping_[i].ifdId_ != ifdIdNotSet; ++i) {
-            if (   crwMapping_[i].crwDir_ == crwDir
-                && crwMapping_[i].crwTagId_ == crwTagId) {
-                return &(crwMapping_[i]);
+        for (auto&& crw : crwMapping_) {
+            if (crw.crwDir_ == crwDir && crw.crwTagId_ == crwTagId) {
+                return &crw;
             }
         }
         return 0;
@@ -1010,19 +990,19 @@ namespace Exiv2 {
 
     void CrwMap::loadStack(CrwDirs& crwDirs, uint16_t crwDir)
     {
-        for (int i = 0; crwSubDir_[i].crwDir_ != 0xffff; ++i) {
-            if (crwSubDir_[i].crwDir_ == crwDir) {
-                crwDirs.push(crwSubDir_[i]);
-                crwDir = crwSubDir_[i].parent_;
+        for (auto&& crw : crwSubDir_) {
+            if (crw.crwDir_ == crwDir) {
+                crwDirs.push(crw);
+                crwDir = crw.parent_;
             }
         }
     } // CrwMap::loadStack
 
     void CrwMap::encode(CiffHeader* pHead, const Image& image)
     {
-        for (const CrwMapping* cmi = crwMapping_; cmi->ifdId_ != ifdIdNotSet; ++cmi) {
-            if (cmi->fromExif_ != 0) {
-                cmi->fromExif_(image, cmi, pHead);
+        for (auto&& crw : crwMapping_) {
+            if (crw.fromExif_ != 0) {
+                crw.fromExif_(image, &crw, pHead);
             }
         }
     } // CrwMap::encode
@@ -1237,14 +1217,13 @@ namespace Exiv2 {
         std::memset(buf.pData_, 0x0, buf.size_);
 
         uint16_t len = 0;
-        const auto b = exifData.begin();
-        const auto e = exifData.end();
-        for (auto i = b; i != e; ++i) {
-            if (i->ifdId() != ifdId) continue;
-            const uint16_t s = i->tag()*2 + static_cast<uint16_t>(i->size());
+        for (auto&& exif : exifData) {
+            if (exif.ifdId() != ifdId)
+                continue;
+            const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
             assert(s <= size);
             if (len < s) len = s;
-            i->copy(buf.pData_ + i->tag()*2, byteOrder);
+            exif.copy(buf.pData_ + exif.tag() * 2, byteOrder);
         }
         // Round the size to make it even.
         buf.size_ = len + len%2;

@@ -489,23 +489,27 @@ namespace Exiv2 {
             { 0x260c , nMasks  , false }, // AFPointsInFocus
             { 0x260d , nMasks  , false }, // AFPointsSelected
             { 0x260e , nMasks  , false }, // AFPointsUnusable
-            { 0xffff , 0       , true  }  // end marker
         };
         // check we have enough data!
         uint16_t count = 0;
-        for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) count += records[i].size ;
-        if  ( count > ints.size() ) return ;
+        for (auto&& record : records) {
+            count += record.size;
+            if (count > ints.size())
+                return;
+        }
 
-        for ( uint16_t i = 0; records[i].tag != 0xffff ; i++) {
+        for (auto&& record : records) {
             const TagInfo* pTags = ExifTags::tagList("Canon") ;
-            const TagInfo* pTag  = findTag(pTags,records[i].tag);
+            const TagInfo* pTag = findTag(pTags, record.tag);
             if ( pTag ) {
-                Exiv2::Value::UniquePtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
-                std::ostringstream    s;
-                if ( records[i].bSigned ) {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
+                auto v = Exiv2::Value::create(record.bSigned ? Exiv2::signedShort : Exiv2::unsignedShort);
+                std::ostringstream s;
+                if (record.bSigned) {
+                    for (int16_t k = 0; k < record.size; k++)
+                        s << " " << ints.at(nStart++);
                 } else {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint.at(nStart++);
+                    for (int16_t k = 0; k < record.size; k++)
+                        s << " " << uint.at(nStart++);
                 }
 
                 v->read(s.str());
