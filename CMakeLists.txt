@@ -52,6 +52,7 @@ mark_as_advanced(
 
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
 option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
+include(cmake/gcovr.cmake REQUIRED)
 
 set( PACKAGE_BUGREPORT                "http://github.com/exiv2/exiv2" )
 set( PACKAGE_URL                      "https://exiv2.org")
