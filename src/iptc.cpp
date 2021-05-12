@@ -74,7 +74,7 @@ namespace {
         uint16_t record_;
 
     }; // class FindIptcdatum
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -567,4 +567,4 @@ namespace {
         return rc;
     }
 
-}
+}  // namespace

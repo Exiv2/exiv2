@@ -110,7 +110,7 @@ namespace {
         Exiv2::XmpParser::XmpLockFct xmpLockFct_;
         void* pLockData_;
     };
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -981,4 +981,4 @@ namespace {
     } // makeXmpKey
 #endif // EXV_HAVE_XMP_TOOLKIT
 
-}
+}  // namespace

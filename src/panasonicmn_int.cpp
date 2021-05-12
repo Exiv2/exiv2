@@ -759,4 +759,5 @@ namespace Exiv2 {
         return tagInfoRaw_;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

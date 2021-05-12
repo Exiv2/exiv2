@@ -1890,7 +1890,8 @@ namespace Exiv2 {
         return TiffComponent::UniquePtr(new TiffBinaryElement(tag, group));
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
 
 // *****************************************************************************
 // local definitions
@@ -1906,4 +1907,4 @@ namespace {
         return 0;
 
     } // fillGap
-}
+}  // namespace

@@ -92,7 +92,7 @@ namespace {
         { Exiv2::langAlt,          "LangAlt",     1 }
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions

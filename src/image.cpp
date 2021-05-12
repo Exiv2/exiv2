@@ -132,7 +132,7 @@ namespace {
         { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
