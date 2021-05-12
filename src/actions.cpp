@@ -489,14 +489,15 @@ namespace Action {
     bool Print::grepTag(const std::string& key)
     {
         bool result=Params::instance().greps_.empty();
-        for (auto g = Params::instance().greps_.begin(); !result && g != Params::instance().greps_.end(); ++g)
-        {
+        for (auto&& g : Params::instance().greps_) {
+            if (result)
+                break;
 #if defined(EXV_HAVE_REGEX_H)
-            result = regexec( &(*g), key.c_str(), 0, NULL, 0) == 0 ;
+            result = regexec(&g, key.c_str(), 0, NULL, 0) == 0;
 #else
-            std::string Pattern(g->pattern_);
+            std::string Pattern(g.pattern_);
             std::string Key(key);
-            if ( g->bIgnoreCase_ ) {
+            if (g.bIgnoreCase_) {
                 // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
                 std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
                 std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
@@ -510,9 +511,10 @@ namespace Action {
     bool Print::keyTag(const std::string& key)
     {
         bool result=Params::instance().keys_.empty();
-        for (auto k = Params::instance().keys_.begin(); !result && k != Params::instance().keys_.end(); ++k)
-        {
-            result = key == *k;
+        for (auto&& k : Params::instance().keys_) {
+            if (result)
+                break;
+            result = key == k;
         }
         return result ;
     }
@@ -1309,29 +1311,29 @@ namespace Action {
 
         // loop through command table and apply each command
         ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
-        auto i = modifyCmds.cbegin();
-        auto end = modifyCmds.cend();
         int rc = 0;
         int ret = 0;
-        for (; i != end; ++i) {
-            switch (i->cmdId_) {
-            case add:
-                ret = addMetadatum(pImage, *i);
-                if (rc == 0) rc = ret;
-                break;
-            case set:
-                ret = setMetadatum(pImage, *i);
-                if (rc == 0) rc = ret;
-                break;
-            case del:
-                delMetadatum(pImage, *i);
-                break;
-            case reg:
-                regNamespace(*i);
-                break;
-            case invalidCmdId:
-                assert(invalidCmdId == i->cmdId_);
-                break;
+        for (auto&& cmd : modifyCmds) {
+            switch (cmd.cmdId_) {
+                case add:
+                    ret = addMetadatum(pImage, cmd);
+                    if (rc == 0)
+                        rc = ret;
+                    break;
+                case set:
+                    ret = setMetadatum(pImage, cmd);
+                    if (rc == 0)
+                        rc = ret;
+                    break;
+                case del:
+                    delMetadatum(pImage, cmd);
+                    break;
+                case reg:
+                    regNamespace(cmd);
+                    break;
+                case invalidCmdId:
+                    assert(invalidCmdId == cmd.cmdId_);
+                    break;
             }
         }
         return rc;
@@ -1958,9 +1960,8 @@ namespace {
                           << " " << _("to") << " " << target << std::endl;
             }
             if ( preserve ) {
-                auto end = sourceImage->exifData().end();
-                for (auto i = sourceImage->exifData().begin(); i != end; ++i) {
-                    targetImage->exifData()[i->key()] = i->value();
+                for (auto&& exif : sourceImage->exifData()) {
+                    targetImage->exifData()[exif.key()] = exif.value();
                 }
             } else {
                 targetImage->setExifData(sourceImage->exifData());
@@ -1973,9 +1974,8 @@ namespace {
                           << " " << _("to") << " " << target << std::endl;
             }
             if ( preserve ) {
-                Exiv2::IptcData::const_iterator end = sourceImage->iptcData().end();
-                for (Exiv2::IptcData::const_iterator i = sourceImage->iptcData().begin(); i != end; ++i) {
-                    targetImage->iptcData()[i->key()] = i->value();
+                for (auto&& iptc : sourceImage->iptcData()) {
+                    targetImage->iptcData()[iptc.key()] = iptc.value();
                 }
             } else {
                 targetImage->setIptcData(sourceImage->iptcData());
@@ -2000,9 +2000,8 @@ namespace {
                 os.close();
                 rc = 0;
             } else if (preserve) {
-                Exiv2::XmpData::const_iterator end = sourceImage->xmpData().end();
-                for (Exiv2::XmpData::const_iterator i = sourceImage->xmpData().begin(); i != end; ++i) {
-                    targetImage->xmpData()[i->key()] = i->value();
+                for (auto&& xmp : sourceImage->xmpData()) {
+                    targetImage->xmpData()[xmp.key()] = xmp.value();
                 }
             } else {
                 // std::cout << "long cut" << std::endl;

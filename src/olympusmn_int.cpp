@@ -1373,8 +1373,6 @@ namespace Exiv2 {
             { { 3,  1,  0 }, "Leica D Vario Elmarit 14-50mm F2.8-3.5 Asph."            },
             { { 3,  2,  0 }, "Leica D Summilux 25mm F1.4 Asph."                        },
             { { 5,  1, 16 }, "Tamron 14-150mm F3.5-5.8 Di III"                         },
-            // End of list marker
-            { { 0xff,  0,  0 }, "" }
         };
 
         if (value.count() != 6 || value.typeId() != unsignedByte) {
@@ -1385,11 +1383,9 @@ namespace Exiv2 {
         byte v2 = (byte)value.toLong(2);
         byte v3 = (byte)value.toLong(3);
 
-        for (int i = 0; lensTypes[i].val[0] != 0xff; i++) {
-            if (lensTypes[i].val[0] == v0 &&
-                lensTypes[i].val[1] == v2 &&
-                lensTypes[i].val[2] == v3) {
-                    return os << lensTypes[i].label;
+        for (auto&& type : lensTypes) {
+            if (type.val[0] == v0 && type.val[1] == v2 && type.val[2] == v3) {
+                return os << type.label;
             }
         }
         return os << value;
@@ -1423,8 +1419,6 @@ namespace Exiv2 {
             { { 0, 4 }, "Olympus Zuiko Digital EC-14 1.4x Teleconverter" },
             { { 0, 8 }, "Olympus EX-25 Extension Tube"                   },
             { { 0, 16 },"Olympus Zuiko Digital EC-20 2.0x Teleconverter" },
-            // End of list marker
-            { { 0xff,  0 }, "" }
         };
 
         if (value.count() != 6 || value.typeId() != unsignedByte) {
@@ -1434,10 +1428,9 @@ namespace Exiv2 {
         byte v0 = (byte)value.toLong(0);
         byte v2 = (byte)value.toLong(2);
 
-        for (int i = 0; extenderModels[i].val[0] != 0xff; i++) {
-            if (extenderModels[i].val[0] == v0 &&
-                extenderModels[i].val[1] == v2) {
-                    return os << extenderModels[i].label;
+        for (auto&& model : extenderModels) {
+            if (model.val[0] == v0 && model.val[1] == v2) {
+                return os << model.label;
             }
         }
         return os << value;
@@ -1547,8 +1540,6 @@ namespace Exiv2 {
             { { 39, 1280}, N_("Partial Color")         },
             { { 40, 1280}, N_("Partial Color II")      },
             { { 41, 1280}, N_("Partial Color III")     },
-            // End of list marker
-            { { 0xffff,  0 }, "" }
         };
 
         if (value.count() != 4 || value.typeId() != unsignedShort) {
@@ -1558,10 +1549,9 @@ namespace Exiv2 {
         uint16_t v0 = (uint16_t)value.toLong(0);
         uint16_t v1 = (uint16_t)value.toLong(1);
 
-        for (int i = 0; artFilters[i].val[0] != 0xffff; i++) {
-            if (artFilters[i].val[0] == v0 &&
-                artFilters[i].val[1] == v1) {
-                    return os << artFilters[i].label;
+        for (auto&& filter : artFilters) {
+            if (filter.val[0] == v0 && filter.val[1] == v1) {
+                return os << filter.label;
             }
         }
         return os << "";
@@ -1621,8 +1611,6 @@ value, const ExifData* metadata)
             {   2, N_("Right") },
             {   3, N_("Center (vertical)") },
             { 255, N_("None") },
-            // End of list marker
-            { 0xffff, "" }
         };
 
         static struct {
@@ -1652,8 +1640,6 @@ value, const ExifData* metadata)
             { 0x14, N_("Bottom-left (vertical)")     },
             { 0x15, N_("Bottom-center (vertical)")   },
             { 0x16, N_("Bottom-right (vertical)")    },
-            // End of list marker
-            { 0xff, "" }
         };
 
         if (value.count() != 1 || value.typeId() != unsignedShort) {
@@ -1676,17 +1662,17 @@ value, const ExifData* metadata)
         uint16_t v = (uint16_t) value.toLong(0);
 
         if (!E3_E30model) {
-            for (int i = 0; afPoints[i].val != 0xffff; i++) {
-                if (afPoints[i].val == v) {
-                    return os << afPoints[i].label;
+            for (auto&& point : afPoints) {
+                if (point.val == v) {
+                    return os << point.label;
                 }
             }
         } else {
 
             // E-3 and E-30
-            for (int i = 0; afPointsE3[i].val != 0xff; i++) {
-                if (afPointsE3[i].val == (v & 0x1f)) {
-                    os << afPointsE3[i].label;
+            for (auto&& point : afPointsE3) {
+                if (point.val == (v & 0x1f)) {
+                    os << point.label;
                     os << ", ";
                     if ((v & 0xe0) == 0)  return os << N_("Single Target");
                     if (v & 0x40)  return os << N_("All Target");
