@@ -1175,8 +1175,12 @@ namespace Exiv2
         // check for all possible (DOS) EPS signatures
         bool matched = (memcmp(buf.pData_, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
         if (!matched) {
-            for (auto&& eps : epsFirstLine)
-                matched = (memcmp(buf.pData_, eps.data(), eps.size()) == 0);
+            for (auto&& eps : epsFirstLine) {
+                if (memcmp(buf.pData_, eps.data(), eps.size()) == 0) {
+                    matched = true;
+                    break;
+                }
+            }
         }
         // seek back if possible and requested
         if (!advance || !matched) {
