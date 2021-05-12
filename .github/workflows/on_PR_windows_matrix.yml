@@ -40,7 +40,6 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          md conanCache
           pip.exe install conan
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
