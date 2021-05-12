@@ -56,40 +56,35 @@ namespace Jzon
 
 		std::string GetIndentation(unsigned int level) const
 		{
-			if (!format.newline)
-			{
-				return "";
-			}
-			else
-			{
-				return std::string(format.indentSize * level, indentationChar);
-			}
-		}
+            if (format.newline)
+                return std::string(format.indentSize * level, indentationChar);
+            return "";
+        }
 
-		inline const std::string &GetNewline() const
-		{
-			return newline;
-		}
-		inline const std::string &GetSpacing() const
-		{
-			return spacing;
-		}
+        inline const std::string &GetNewline() const
+        {
+            return newline;
+        }
+        inline const std::string &GetSpacing() const
+        {
+            return spacing;
+        }
 
-	private:
-		Format format;
-		char indentationChar;
-		std::string newline;
-		std::string spacing;
-	};
+    private:
+        Format format;
+        char indentationChar;
+        std::string newline;
+        std::string spacing;
+    };
 
-	inline bool IsWhitespace(char c)
-	{
-		return (c == '\n' || c == ' ' || c == '\t' || c == '\r' || c == '\f');
-	}
-	inline bool IsNumber(char c)
-	{
-		return ((c >= '0' && c <= '9') || c == '.' || c == '-');
-	}
+    inline bool IsWhitespace(char c)
+    {
+        return (c == '\n' || c == ' ' || c == '\t' || c == '\r' || c == '\f');
+    }
+    inline bool IsNumber(char c)
+    {
+        return ((c >= '0' && c <= '9') || c == '.' || c == '-');
+    }
 
     Node::Node() = default;
     Node::~Node() = default;
@@ -104,98 +99,90 @@ namespace Jzon
     {
 		if (IsObject())
 			return static_cast<const Object&>(*this);
-		else
-			throw TypeException();
-	}
-	Array &Node::AsArray()
-	{
-		if (IsArray())
-			return static_cast<Array&>(*this);
-		else
-			throw TypeException();
-	}
-	const Array &Node::AsArray() const
-	{
-		if (IsArray())
-			return static_cast<const Array&>(*this);
-		else
-			throw TypeException();
-	}
-	Value &Node::AsValue()
-	{
-		if (IsValue())
-			return static_cast<Value&>(*this);
-		else
-			throw TypeException();
-	}
-	const Value &Node::AsValue() const
-	{
-		if (IsValue())
-			return static_cast<const Value&>(*this);
-		else
-			throw TypeException();
-	}
+        throw TypeException();
+    }
+    Array &Node::AsArray()
+    {
+        if (IsArray())
+            return static_cast<Array &>(*this);
+        throw TypeException();
+    }
+    const Array &Node::AsArray() const
+    {
+        if (IsArray())
+            return static_cast<const Array &>(*this);
+        throw TypeException();
+    }
+    Value &Node::AsValue()
+    {
+        if (IsValue())
+            return static_cast<Value &>(*this);
+        throw TypeException();
+    }
+    const Value &Node::AsValue() const
+    {
+        if (IsValue())
+            return static_cast<const Value &>(*this);
+        throw TypeException();
+    }
 
-	Node::Type Node::DetermineType(const std::string &json)
-	{
-        auto jsonIt = json.begin();
+    Node::Type Node::DetermineType(const std::string &json)
+    {
+        auto jsonIt = std::find_if(json.begin(), json.end(), IsWhitespace);
+        if (jsonIt == json.end())
+            return T_VALUE;
 
-		while (jsonIt != json.end() && IsWhitespace(*jsonIt))
-			++jsonIt;
+        switch (*jsonIt) {
+            case '{':
+                return T_OBJECT;
+            case '[':
+                return T_ARRAY;
+            default:
+                return T_VALUE;
+        }
+    }
 
-		if (jsonIt == json.end())
-			return T_VALUE;
-
-		switch (*jsonIt)
-		{
-		case '{' : return T_OBJECT;
-		case '[' : return T_ARRAY;
-		default  : return T_VALUE;
-		}
-	}
-
-
-	Value::Value() : Node()
-	{
-		SetNull();
-	}
-	Value::Value(const Value &rhs) : Node()
-	{
-		Set(rhs);
-	}
-	Value::Value(const Node &rhs) : Node()
-	{
-		const Value &value = rhs.AsValue();
-		Set(value);
-	}
-	Value::Value(ValueType type, const std::string &value)
-	{
-		Set(type, value);
-	}
-	Value::Value(const std::string &value)
-	{
-		Set(value);
-	}
-	Value::Value(const char *value)
-	{
-		Set(value);
-	}
-	Value::Value(const int value)
-	{
-		Set(value);
-	}
-	Value::Value(const float value)
-	{
-		Set(value);
-	}
-	Value::Value(const double value)
-	{
-		Set(value);
-	}
-	Value::Value(const bool value)
-	{
-		Set(value);
-	}
+    Value::Value() : Node()
+    {
+        SetNull();
+    }
+    Value::Value(const Value &rhs) : Node()
+    {
+        Set(rhs);
+    }
+    Value::Value(const Node &rhs) : Node()
+    {
+        const Value &value = rhs.AsValue();
+        Set(value);
+    }
+    Value::Value(ValueType type, const std::string &value)
+    {
+        Set(type, value);
+    }
+    Value::Value(const std::string &value)
+    {
+        Set(value);
+    }
+    Value::Value(const char *value)
+    {
+        Set(value);
+    }
+    Value::Value(const int value)
+    {
+        Set(value);
+    }
+    Value::Value(const float value)
+    {
+        Set(value);
+    }
+    Value::Value(const double value)
+    {
+        Set(value);
+    }
+    Value::Value(const bool value)
+    {
+        Set(value);
+    }
     Value::~Value() = default;
 
     Node::Type Value::GetType() const
@@ -213,10 +200,7 @@ namespace Jzon
 		{
 			return "null";
 		}
-		else
-		{
 			return valueStr;
-		}
 	}
 	int Value::ToInt() const
 	{
@@ -227,10 +211,7 @@ namespace Jzon
 			sstr >> val;
 			return val;
 		}
-		else
-		{
 			return 0;
-		}
 	}
 	float Value::ToFloat() const
 	{
@@ -241,10 +222,7 @@ namespace Jzon
 			sstr >> val;
 			return val;
 		}
-		else
-		{
 			return 0.F;
-		}
 	}
 	double Value::ToDouble() const
 	{
@@ -255,10 +233,7 @@ namespace Jzon
 			sstr >> val;
 			return val;
 		}
-		else
-		{
 			return 0.0;
-		}
 	}
 	bool Value::ToBool() const
 	{
@@ -266,10 +241,7 @@ namespace Jzon
 		{
 			return (valueStr == "true");
 		}
-		else
-		{
 			return false;
-		}
 	}
 
 	void Value::SetNull()
@@ -323,128 +295,113 @@ namespace Jzon
 	}
 	void Value::Set(const bool value)
 	{
-		if (value)
-			valueStr = "true";
-		else
-			valueStr = "false";
-		type = VT_BOOL;
-	}
+        valueStr = value ? "true" : "false";
+        type = VT_BOOL;
+    }
 
-	Value &Value::operator=(const Value &rhs)
-	{
-		if (this != &rhs)
-			Set(rhs);
-		return *this;
-	}
-	Value &Value::operator=(const Node &rhs)
-	{
-		if (this != &rhs)
-			Set(rhs.AsValue());
-		return *this;
-	}
-	Value &Value::operator=(const std::string &rhs)
-	{
-		Set(rhs);
-		return *this;
-	}
-	Value &Value::operator=(const char *rhs)
-	{
-		Set(rhs);
-		return *this;
-	}
-	Value &Value::operator=(const int rhs)
-	{
-		Set(rhs);
-		return *this;
-	}
-	Value &Value::operator=(const float rhs)
-	{
-		Set(rhs);
-		return *this;
-	}
-	Value &Value::operator=(const double rhs)
-	{
-		Set(rhs);
-		return *this;
-	}
-	Value &Value::operator=(const bool rhs)
-	{
-		Set(rhs);
-		return *this;
-	}
+    Value &Value::operator=(const Value &rhs)
+    {
+        if (this != &rhs)
+            Set(rhs);
+        return *this;
+    }
+    Value &Value::operator=(const Node &rhs)
+    {
+        if (this != &rhs)
+            Set(rhs.AsValue());
+        return *this;
+    }
+    Value &Value::operator=(const std::string &rhs)
+    {
+        Set(rhs);
+        return *this;
+    }
+    Value &Value::operator=(const char *rhs)
+    {
+        Set(rhs);
+        return *this;
+    }
+    Value &Value::operator=(const int rhs)
+    {
+        Set(rhs);
+        return *this;
+    }
+    Value &Value::operator=(const float rhs)
+    {
+        Set(rhs);
+        return *this;
+    }
+    Value &Value::operator=(const double rhs)
+    {
+        Set(rhs);
+        return *this;
+    }
+    Value &Value::operator=(const bool rhs)
+    {
+        Set(rhs);
+        return *this;
+    }
 
-	bool Value::operator==(const Value &other) const
-	{
-		return ((type == other.type)&&(valueStr == other.valueStr));
-	}
-	bool Value::operator!=(const Value &other) const
-	{
-		return !(*this == other);
-	}
+    bool Value::operator==(const Value &other) const
+    {
+        return ((type == other.type) && (valueStr == other.valueStr));
+    }
+    bool Value::operator!=(const Value &other) const
+    {
+        return !(*this == other);
+    }
 
-	Node *Value::GetCopy() const
-	{
-		return new Value(*this);
-	}
+    Node *Value::GetCopy() const
+    {
+        return new Value(*this);
+    }
 
-	// This is not the most beautiful place for these, but it'll do
-	static const char charsUnescaped[] = { '\\'  , '/'  , '\"'  , '\n' , '\t' , '\b' , '\f' , '\r' };
-	static const char *charsEscaped[]  = { "\\\\", "\\/", "\\\"", "\\n", "\\t", "\\b", "\\f", "\\r" };
-	static const unsigned int numEscapeChars = 8;
-	static const char nullUnescaped = '\0';
-	static const char *nullEscaped  = "\0\0";
-	const char *&getEscaped(const char &c)
-	{
-		for (unsigned int i = 0; i < numEscapeChars; ++i)
-		{
-			const char &ue = charsUnescaped[i];
+    // This is not the most beautiful place for these, but it'll do
+    static const char charsUnescaped[] = {'\\', '/', '\"', '\n', '\t', '\b', '\f', '\r'};
+    static const char *charsEscaped[] = {"\\\\", "\\/", "\\\"", "\\n", "\\t", "\\b", "\\f", "\\r"};
+    static const unsigned int numEscapeChars = 8;
+    static const char nullUnescaped = '\0';
+    static const char *nullEscaped = "\0\0";
+    const char *&getEscaped(const char &c)
+    {
+        for (unsigned int i = 0; i < numEscapeChars; ++i) {
+            if (c == charsUnescaped[i]) {
+                return charsEscaped[i];
+            }
+        }
+        return nullEscaped;
+    }
+    const char &getUnescaped(const char &c1, const char &c2)
+    {
+        for (unsigned int i = 0; i < numEscapeChars; ++i) {
+            const char *&e = charsEscaped[i];
 
-			if (c == ue)
-			{
-				const char *&e = charsEscaped[i];
-				return e;
-			}
-		}
-		return nullEscaped;
-	}
-	const char &getUnescaped(const char &c1, const char &c2)
-	{
-		for (unsigned int i = 0; i < numEscapeChars; ++i)
-		{
-			const char *&e = charsEscaped[i];
+            if (c1 == e[0] && c2 == e[1]) {
+                return charsUnescaped[i];
+            }
+        }
+        return nullUnescaped;
+    }
 
-			if (c1 == e[0] && c2 == e[1])
-			{
-				const char &ue = charsUnescaped[i];
-				return ue;
-			}
-		}
-		return nullUnescaped;
-	}
+    std::string Value::EscapeString(const std::string &value)
+    {
+        std::string escaped;
 
-	std::string Value::EscapeString(const std::string &value)
-	{
-		std::string escaped;
+        for (auto &&c : value) {
+            const char *&a = getEscaped(c);
+            if (a[0] != '\0') {
+                escaped += a[0];
+                escaped += a[1];
+            } else {
+                escaped += c;
+            }
+        }
 
-        for (const auto& c: value)
-		{
-			const char *&a = getEscaped(c);
-			if (a[0] != '\0')
-			{
-				escaped += a[0];
-				escaped += a[1];
-			}
-			else
-			{
-				escaped += c;
-			}
-		}
-
-		return escaped;
-	}
-	std::string Value::UnescapeString(const std::string &value)
-	{
-		std::string unescaped;
+        return escaped;
+    }
+    std::string Value::UnescapeString(const std::string &value)
+    {
+        std::string unescaped;
 
         for (auto it = value.cbegin(); it != value.cend(); ++it)
 		{
@@ -467,54 +424,46 @@ namespace Jzon
 		}
 
 		return unescaped;
-	}
+    }
 
+    Object::Object() : Node()
+    {
+    }
+    Object::Object(const Object &other) : Node()
+    {
+        for (auto &&it : other.children) {
+            const std::string &name = it.first;
+            Node &value = *it.second;
 
-	Object::Object() : Node()
-	{
-	}
-	Object::Object(const Object &other) : Node()
-	{
-        for (auto it = other.children.cbegin(); it != other.children.cend(); ++it)
-		{
-			const std::string &name = (*it).first;
-			Node &value = *(*it).second;
+            children.push_back(NamedNodePtr(name, value.GetCopy()));
+        }
+    }
+    Object::Object(const Node &other) : Node()
+    {
+        for (auto &&child : other.AsObject().children) {
+            children.push_back(NamedNodePtr(child.first, child.second->GetCopy()));
+        }
+    }
+    Object::~Object()
+    {
+        Clear();
+    }
 
-			children.push_back(NamedNodePtr(name, value.GetCopy()));
-		}
-	}
-	Object::Object(const Node &other) : Node()
-	{
-		const Object &object = other.AsObject();
+    Node::Type Object::GetType() const
+    {
+        return T_OBJECT;
+    }
 
-        for (auto it = object.children.cbegin(); it != object.children.cend(); ++it)
-		{
-			const std::string &name = (*it).first;
-			Node &value = *(*it).second;
-
-			children.push_back(NamedNodePtr(name, value.GetCopy()));
-		}
-	}
-	Object::~Object()
-	{
-		Clear();
-	}
-
-	Node::Type Object::GetType() const
-	{
-		return T_OBJECT;
-	}
-
-	void Object::Add(const std::string &name, Node &node)
-	{
-		children.push_back(NamedNodePtr(name, node.GetCopy()));
-	}
-	void Object::Add(const std::string &name, Value node)
-	{
-		children.push_back(NamedNodePtr(name, new Value(node)));
-	}
-	void Object::Remove(const std::string &name)
-	{
+    void Object::Add(const std::string &name, Node &node)
+    {
+        children.push_back(NamedNodePtr(name, node.GetCopy()));
+    }
+    void Object::Add(const std::string &name, Value node)
+    {
+        children.push_back(NamedNodePtr(name, new Value(node)));
+    }
+    void Object::Remove(const std::string &name)
+    {
         for (auto it = children.cbegin(); it != children.cend(); ++it)
 		{
 			if ((*it).first == name)
@@ -524,196 +473,170 @@ namespace Jzon
 				break;
 			}
 		}
-	}
-
-	void Object::Clear()
-	{
-        for (auto it = children.begin(); it != children.end(); ++it)
-		{
-			delete (*it).second;
-			(*it).second = NULL;
-		}
-		children.clear();
-	}
-
-	Object::iterator Object::begin()
-	{
-		if (!children.empty())
-			return Object::iterator(&children.front());
-		else
-			return Object::iterator(NULL);
-	}
-
-	Object::const_iterator Object::begin() const
-	{
-		if (!children.empty())
-			return Object::const_iterator(&children.front());
-		else
-			return Object::const_iterator(NULL);
-	}
-
-	Object::iterator Object::end()
-	{
-		if (!children.empty())
-			return Object::iterator(&children.back()+1);
-		else
-			return Object::iterator(NULL);
-	}
-	Object::const_iterator Object::end() const
-	{
-		if (!children.empty())
-			return Object::const_iterator(&children.back()+1);
-		else
-			return Object::const_iterator(NULL);
-	}
-
-	bool Object::Has(const std::string &name) const
-	{
-		for (ChildList::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	size_t Object::GetCount() const
-	{
-		return children.size();
-	}
-	Node &Object::Get(const std::string &name) const
-	{
-		for (ChildList::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it).first == name)
-			{
-				return *(*it).second;
-			}
-		}
-
-		throw NotFoundException();
-	}
-
-	Node *Object::GetCopy() const
-	{
-		return new Object(*this);
-	}
-
-
-	Array::Array() : Node()
-	{
-	}
-
-	Array::Array(const Array &other) : Node()
-	{
-        for (auto it = other.children.cbegin(); it != other.children.cend(); ++it)
-		{
-			const Node &value = *(*it);
-			children.push_back(value.GetCopy());
-		}
     }
 
-	Array::Array(const Node &other) : Node()
-	{
-		const Array &array = other.AsArray();
+    void Object::Clear()
+    {
+        for (auto &&child : children) {
+            delete child.second;
+            child.second = nullptr;
+        }
+        children.clear();
+    }
 
-        for (auto it = array.children.cbegin(); it != array.children.cend(); ++it)
-		{
-			const Node &value = *(*it);
-			children.push_back(value.GetCopy());
-		}
-	}
+    Object::iterator Object::begin()
+    {
+        if (!children.empty())
+            return Object::iterator(&children.front());
+        return Object::iterator(NULL);
+    }
 
-	Array::~Array()
-	{
-		Clear();
-	}
+    Object::const_iterator Object::begin() const
+    {
+        if (!children.empty())
+            return Object::const_iterator(&children.front());
+        return Object::const_iterator(NULL);
+    }
 
-	Node::Type Array::GetType() const
-	{
-		return T_ARRAY;
-	}
+    Object::iterator Object::end()
+    {
+        if (!children.empty())
+            return Object::iterator(&children.back() + 1);
+        return Object::iterator(NULL);
+    }
+    Object::const_iterator Object::end() const
+    {
+        if (!children.empty())
+            return Object::const_iterator(&children.back() + 1);
+        return Object::const_iterator(NULL);
+    }
 
-	void Array::Add(Node &node)
-	{
-		children.push_back(node.GetCopy());
-	}
-	void Array::Add(Value node)
-	{
-		children.push_back(new Value(node));
-	}
-	void Array::Remove(size_t index)
-	{
-		if (index < children.size())
-		{
-			ChildList::iterator it = children.begin()+index;
-			delete (*it);
-			children.erase(it);
-		}
-	}
-	void Array::Clear()
-	{
-		for (ChildList::iterator it = children.begin(); it != children.end(); ++it)
-		{
-			delete (*it);
-			(*it) = NULL;
-		}
-		children.clear();
-	}
+    bool Object::Has(const std::string &name) const
+    {
+        return std::any_of(children.begin(), children.end(),
+                           [&](const NamedNodePtr &child) { return child.first == name; });
+    }
+    size_t Object::GetCount() const
+    {
+        return children.size();
+    }
+    Node &Object::Get(const std::string &name) const
+    {
+        for (auto &&child : children) {
+            if (child.first == name) {
+                return *child.second;
+            }
+        }
 
-	Array::iterator Array::begin()
-	{
-		if (!children.empty())
-			return Array::iterator(&children.front());
-		else
-			return Array::iterator(NULL);
-	}
-	Array::const_iterator Array::begin() const
-	{
-		if (!children.empty())
-			return Array::const_iterator(&children.front());
-		else
-			return Array::const_iterator(NULL);
-	}
-	Array::iterator Array::end()
-	{
-		if (!children.empty())
-			return Array::iterator(&children.back()+1);
-		else
-			return Array::iterator(NULL);
-	}
-	Array::const_iterator Array::end() const
-	{
-		if (!children.empty())
-			return Array::const_iterator(&children.back()+1);
-		else
-			return Array::const_iterator(NULL);
-	}
+        throw NotFoundException();
+    }
 
-	size_t Array::GetCount() const
-	{
-		return children.size();
-	}
-	Node &Array::Get(size_t index) const
-	{
-		if (index < children.size())
-		{
-			return *children.at(index);
-		}
+    Node *Object::GetCopy() const
+    {
+        return new Object(*this);
+    }
 
-		throw NotFoundException();
-	}
+    Array::Array() : Node()
+    {
+    }
 
-	Node *Array::GetCopy() const
-	{
-		return new Array(*this);
-	}
+    Array::Array(const Array &other) : Node()
+    {
+        for (auto &&value : other.children) {
+            children.push_back(value->GetCopy());
+        }
+    }
 
+    Array::Array(const Node &other) : Node()
+    {
+        const Array &array = other.AsArray();
 
-	FileWriter::FileWriter(const std::string &filename) : filename(filename)
-	{
-	}
+        for (auto &&value : array.children) {
+            children.push_back(value->GetCopy());
+        }
+    }
+
+    Array::~Array()
+    {
+        Clear();
+    }
+
+    Node::Type Array::GetType() const
+    {
+        return T_ARRAY;
+    }
+
+    void Array::Add(Node &node)
+    {
+        children.push_back(node.GetCopy());
+    }
+    void Array::Add(Value node)
+    {
+        children.push_back(new Value(node));
+    }
+    void Array::Remove(size_t index)
+    {
+        if (index < children.size()) {
+            ChildList::iterator it = children.begin() + index;
+            delete (*it);
+            children.erase(it);
+        }
+    }
+    void Array::Clear()
+    {
+        for (auto &&child : children) {
+            delete child;
+            child = nullptr;
+        }
+        children.clear();
+    }
+
+    Array::iterator Array::begin()
+    {
+        if (!children.empty())
+            return Array::iterator(&children.front());
+        return Array::iterator(NULL);
+    }
+    Array::const_iterator Array::begin() const
+    {
+        if (!children.empty())
+            return Array::const_iterator(&children.front());
+        return Array::const_iterator(NULL);
+    }
+    Array::iterator Array::end()
+    {
+        if (!children.empty())
+            return Array::iterator(&children.back() + 1);
+        return Array::iterator(NULL);
+    }
+    Array::const_iterator Array::end() const
+    {
+        if (!children.empty())
+            return Array::const_iterator(&children.back() + 1);
+        return Array::const_iterator(NULL);
+    }
+
+    size_t Array::GetCount() const
+    {
+        return children.size();
+    }
+    Node &Array::Get(size_t index) const
+    {
+        if (index < children.size()) {
+            return *children.at(index);
+        }
+
+        throw NotFoundException();
+    }
+
+    Node *Array::GetCopy() const
+    {
+        return new Array(*this);
+    }
+
+    FileWriter::FileWriter(const std::string &filename) : filename(filename)
+    {
+    }
     FileWriter::~FileWriter() = default;
 
     void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
@@ -759,10 +682,7 @@ namespace Jzon
 			error = parser.GetError();
 			return false;
 		}
-		else
-		{
 			return true;
-		}
 	}
 
 	Node::Type FileReader::DetermineType()
@@ -1193,10 +1113,7 @@ namespace Jzon
 		{
 			return json.at(cursor+1);
 		}
-		else
-		{
 			return '\0';
-		}
 	}
 	void Parser::jumpToNext(char c)
 	{
@@ -1265,26 +1182,12 @@ namespace Jzon
 		}
 		else
 		{
-			bool number = true;
-			for (std::string::const_iterator it = value.begin(); it != value.end(); ++it)
-			{
-				if (!IsNumber(*it))
-				{
-					number = false;
-					break;
-				}
-			}
-
-			if (number)
-			{
-				data.push(std::make_pair(Value::VT_NUMBER, value));
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
+            bool number = std::all_of(value.begin(), value.end(), IsNumber);
+            if (!number) {
+                return false;
+            }
+            data.push(std::make_pair(Value::VT_NUMBER, value));
+        }
+        return true;
+    }
 }  // namespace Jzon
