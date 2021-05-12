@@ -2136,4 +2136,5 @@ namespace Exiv2 {
         }
     }
 
-}}                                       // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

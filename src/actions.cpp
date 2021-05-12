@@ -154,7 +154,7 @@ namespace {
 
     //! Print image Structure information
     int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string &path);
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -2200,4 +2200,4 @@ namespace {
         image->printStructure(out,option);
         return 0;
     }
-}
+}  // namespace

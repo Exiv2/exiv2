@@ -71,7 +71,7 @@ namespace {
 
         return bo;
     }
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -1715,4 +1715,5 @@ namespace Exiv2 {
 
     } // TiffReader::visitBinaryElement
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

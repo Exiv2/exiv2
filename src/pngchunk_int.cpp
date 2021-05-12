@@ -738,6 +738,7 @@ namespace Exiv2 {
 
     } // PngChunk::writeRawProfile
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
 #endif // ifdef EXV_HAVE_LIBZ
 

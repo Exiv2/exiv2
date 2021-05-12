@@ -88,7 +88,7 @@ namespace {
       The return code indicates if the operation was successful.
      */
     bool getTextValue(std::string& value, const Exiv2::XmpData::iterator& pos);
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -1592,4 +1592,4 @@ namespace {
         return pos->value().ok();
     }
 
-}
+}  // namespace

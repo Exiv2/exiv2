@@ -116,7 +116,7 @@ namespace {
       @param input Input string, assumed to be UTF-8
      */
     std::string parseEscapes(const std::string& input);
-}
+}  // namespace
 
 // *****************************************************************************
 // Main
@@ -1592,5 +1592,4 @@ namespace {
         return result;
     }
 
-}
-
+}  // namespace

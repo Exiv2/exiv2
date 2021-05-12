@@ -1287,4 +1287,4 @@ namespace Jzon
 
 		return true;
 	}
-}
+}  // namespace Jzon

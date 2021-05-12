@@ -144,4 +144,4 @@ namespace Exiv2
         }
         return matched;
     }
-}
+}  // namespace Exiv2

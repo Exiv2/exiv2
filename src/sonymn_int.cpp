@@ -888,4 +888,5 @@ namespace Exiv2 {
         return sonyTagCipher(tag,bytes,size,object,false);
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
