@@ -745,20 +745,20 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses `auto_ptr`.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.0 and later do not use `auto_ptr` and will build with all modern C++ Standard Compilers.
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses `auto_ptr`.  The C++11 and C++14 compilers will issue deprecation warnings about `auto_ptr`.  As `auto_ptr` support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.0 and later do not use `auto_ptr` and will require a compiler compliant with the C++11 Standard.
 
-To build with C++11:
+To build Exiv2 v0.27.X with C++11:
 
 ```bash
-$ cd <exiv2dir>
-$ mkdir build ; cd build
-$ cmake .. -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-$ make
+cd <exiv2dir>
+mkdir build ; cd build
+cmake .. -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+make
 ```
 
-The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11 or 14.
+The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11, 14, 17 or 20.
 
-The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v1.0. 
+The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning `auto_ptr`.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v1.0. 
 
 **Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
 
