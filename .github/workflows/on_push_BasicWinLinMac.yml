@@ -63,7 +63,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install cmake zlib1g-dev libssh-dev python3-pip libxml2-utils g++
+          sudo apt-get install cmake python3-pip libxml2-utils ninja-build
           pip3 install conan==1.36.0
 
       - name: Conan
@@ -77,8 +77,8 @@ jobs:
       - name: build and compile
         run: |
           cd build
-          cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
-          make -j
+          cmake -GNinja -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
+          ninja
 
       - name: Unit Test
         run: |
