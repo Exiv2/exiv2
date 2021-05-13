@@ -1,0 +1,48 @@
+name: Linux Special Builds for main branch on push
+
+on:
+  push:
+    branches:
+    - main
+    tags:
+    - '!*'
+
+jobs:
+  special_debugRelease:
+    name: 'Ubuntu 20.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          pip3 install conan==1.36.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          make -j
+
+      - name: Tests + Upload coverage
+        env:
+          EXIV2_EXT: .exe
+        run: |
+          cd build/bin
+          ./unit_tests
+          cd ../../tests/
+          python runner.py -v
+          bash <(curl -s https://codecov.io/bash)
