@@ -233,15 +233,11 @@ namespace Exiv2 {
         , { "data://"   ,pDataUri  , true  }
         , { "-"         ,pStdin    , false }
         };
-        for (auto&& prot : prots) {
-            if (result != pFile)
-                break;
-
-            if (path.rfind(prot.name, 0) == 0)
+        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
+            if ( path.rfind(prots[i].name, 0) == 0 )
                 // URL's require data.  Stdin == "-" and no further data
-                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
-                    result = prot.prot;
-        }
+                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                    result = prots[i].prot;
 
         return result;
     } // fileProtocol
@@ -261,15 +257,11 @@ namespace Exiv2 {
         , { L"data://"   ,pDataUri  , true  }
         , { L"-"         ,pStdin    , false }
         };
-        for (auto&& prot : prots) {
-            if (result != pFile)
-                break;
-
-            if (path.rfind(prot.name, 0) == 0)
+        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
+            if ( path.rfind(prots[i].name, 0) == 0 )
                 // URL's require data.  Stdin == "-" and no further data
-                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
-                    result = prot.prot;
-        }
+                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
+                    result = prots[i].prot;
 
         return result;
     } // fileProtocol

@@ -80,7 +80,9 @@ namespace Exiv2 {
 
     TiffVisitor::TiffVisitor()
     {
-        go_.fill(true);
+        for (int i = 0; i < events_; ++i) {
+            go_[i] = true;
+        }
     }
 
     void TiffVisitor::setGo(GoEvent event, bool go)

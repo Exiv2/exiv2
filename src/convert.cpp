@@ -453,7 +453,8 @@ namespace Exiv2 {
 
     void Converter::cnvToXmp()
     {
-        for (auto&& c : conversion_) {
+        for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
+            const Conversion& c = conversion_[i];
             if (   (c.metadataId_ == mdExif && exifData_)
                 || (c.metadataId_ == mdIptc && iptcData_)) {
                 EXV_CALL_MEMBER_FN(*this, c.key1ToKey2_)(c.key1_, c.key2_);
@@ -463,7 +464,8 @@ namespace Exiv2 {
 
     void Converter::cnvFromXmp()
     {
-        for (auto&& c : conversion_) {
+        for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
+            const Conversion& c = conversion_[i];
             if (   (c.metadataId_ == mdExif && exifData_)
                 || (c.metadataId_ == mdIptc && iptcData_)) {
                 EXV_CALL_MEMBER_FN(*this, c.key2ToKey1_)(c.key2_, c.key1_);
@@ -970,7 +972,9 @@ namespace Exiv2 {
             return;
         }
 
-        std::replace(value.begin(), value.end(), '.', ' ');
+        for (unsigned i = 0; i < value.length(); ++i) {
+            if (value[i] == '.') value[i] = ' ';
+        }
         (*exifData_)[to] = value;
         if (erase_) xmpData_->erase(pos);
 
@@ -1175,7 +1179,8 @@ namespace Exiv2 {
         unsigned char digest[16];
 
         MD5Init ( &context );
-        for (auto&& c : conversion_) {
+        for (unsigned int i = 0; i < EXV_COUNTOF(conversion_); ++i) {
+            const Conversion& c = conversion_[i];
             if (c.metadataId_ == mdExif) {
                 Exiv2::ExifKey key(c.key1_);
                 if (tiff && key.groupName() != "Image") continue;
@@ -1193,8 +1198,8 @@ namespace Exiv2 {
         MD5Final(digest, &context);
         res << ';';
         res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-        for (auto&& i : digest) {
-            res << static_cast<int>(i);
+        for (int i = 0; i < 16; ++i) {
+            res << static_cast<int>(digest[i]);
         }
         return res.str();
     }
@@ -1265,8 +1270,8 @@ namespace Exiv2 {
         MD5Update(&context, data.pData_, data.size_);
         MD5Final(digest, &context);
         res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-        for (auto&& i : digest) {
-            res << static_cast<int>(i);
+        for (int i = 0; i < 16; ++i) {
+            res << static_cast<int>(digest[i]);
         }
         return res.str();
 #else

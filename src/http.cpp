@@ -107,6 +107,10 @@ static const char* httpTemplate =
 "\r\n"
 ;
 
+#ifndef lengthof
+#define lengthof(x) (sizeof(x)/sizeof((x)[0]))
+#endif
+
 #define white(c) ((c == ' ') || (c == '\t'))
 
 #define FINISH          -999
@@ -321,13 +325,11 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
             if ( bSearching ) {
 
                 // search for the body
-                for (auto&& line : blankLines) {
-                    if (!bSearching)
-                        break;
-                    const char* blankLinePos = strstr(buffer, line);
+                for ( size_t b = 0 ; bSearching && b < lengthof(blankLines) ; b++ ) {
+                    const char* blankLinePos = strstr(buffer,blankLines[b]);
                     if ( blankLinePos ) {
                         bSearching = false ;
-                        body = blankLinePos - buffer + strlen(line);
+                        body   = blankLinePos - buffer + strlen(blankLines[b]);
                         const char* firstSpace = strchr(buffer,' ');
                         if (firstSpace) {
                             status = atoi(firstSpace);

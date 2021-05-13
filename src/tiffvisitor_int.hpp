@@ -27,7 +27,6 @@
 #include "types.hpp"
 
 // + standard includes
-#include <array>
 #include <memory>
 #include <iostream>
 #include <iomanip>
@@ -76,7 +75,7 @@ namespace Exiv2 {
 
     private:
         static const int events_ = 2;  //!< The number of stop/go flags.
-        std::array<bool, events_> go_; //!< Array of stop/go flags. See setGo().
+        bool go_[events_];             //!< Array of stop/go flags. See setGo().
 
     public:
         //! @name Creators

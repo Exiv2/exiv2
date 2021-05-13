@@ -162,13 +162,13 @@ int main(int argc, char* const argv[])
         int n = 1;
         int s = static_cast<int>(params.files_.size());
         int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-        for (auto&& file : params.files_) {
+        for (Params::Files::const_iterator i = params.files_.begin(); i != params.files_.end(); ++i) {
             if (params.verbose_) {
-                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
+                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << *i
                           << std::endl;
             }
             task->setBinary(params.binary_);
-            int ret = task->run(file);
+            int ret = task->run(*i);
             if (rc == 0)
                 rc = ret;
         }
@@ -206,8 +206,8 @@ Params& Params::instance()
 
 Params::~Params() {
 #if defined(EXV_HAVE_REGEX_H)
-    for (auto&& grep : instance().greps_) {
-        regfree(&grep);
+    for (size_t i=0; i<instance().greps_.size(); ++i) {
+        regfree(&instance().greps_.at(i));
     }
 #endif
 }
@@ -678,57 +678,28 @@ int Params::evalPrintFlags(const std::string& optArg)
     case Action::none:
         action_ = Action::print;
         printMode_ = pmList;
-        for (auto&& i : optArg) {
-            switch (i) {
-                case 'E':
-                    printTags_ |= Exiv2::mdExif;
-                    break;
-                case 'I':
-                    printTags_ |= Exiv2::mdIptc;
-                    break;
-                case 'X':
-                    printTags_ |= Exiv2::mdXmp;
-                    break;
-                case 'x':
-                    printItems_ |= prTag;
-                    break;
-                case 'g':
-                    printItems_ |= prGroup;
-                    break;
-                case 'k':
-                    printItems_ |= prKey;
-                    break;
-                case 'l':
-                    printItems_ |= prLabel;
-                    break;
-                case 'n':
-                    printItems_ |= prName;
-                    break;
-                case 'y':
-                    printItems_ |= prType;
-                    break;
-                case 'c':
-                    printItems_ |= prCount;
-                    break;
-                case 's':
-                    printItems_ |= prSize;
-                    break;
-                case 'v':
-                    printItems_ |= prValue;
-                    break;
-                case 't':
-                    printItems_ |= prTrans;
-                    break;
-                case 'h':
-                    printItems_ |= prHex;
-                    break;
-                case 'V':
-                    printItems_ |= prSet | prValue;
-                    break;
-                default:
-                    std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";
-                    rc = 1;
-                    break;
+        for (std::size_t i = 0; i < optArg.length(); ++i) {
+            switch (optArg[i]) {
+            case 'E': printTags_  |= Exiv2::mdExif; break;
+            case 'I': printTags_  |= Exiv2::mdIptc; break;
+            case 'X': printTags_  |= Exiv2::mdXmp;  break;
+            case 'x': printItems_ |= prTag;   break;
+            case 'g': printItems_ |= prGroup; break;
+            case 'k': printItems_ |= prKey;   break;
+            case 'l': printItems_ |= prLabel; break;
+            case 'n': printItems_ |= prName;  break;
+            case 'y': printItems_ |= prType;  break;
+            case 'c': printItems_ |= prCount; break;
+            case 's': printItems_ |= prSize;  break;
+            case 'v': printItems_ |= prValue; break;
+            case 't': printItems_ |= prTrans; break;
+            case 'h': printItems_ |= prHex;   break;
+            case 'V': printItems_ |= prSet|prValue;break;
+            default:
+                std::cerr << progname() << ": " << _("Unrecognized print item") << " `"
+                          << optArg[i] << "'\n";
+                rc = 1;
+                break;
             }
         }
         break;
@@ -1302,8 +1273,10 @@ namespace {
         }
 #ifdef DEBUG
         std::cout << "\nThe set now contains: ";
-        for (auto&& number : previewNumbers) {
-            std::cout << number << ", ";
+        for (Params::PreviewNumbers::const_iterator i = previewNumbers.begin();
+             i != previewNumbers.end();
+             ++i) {
+            std::cout << *i << ", ";
         }
         std::cout << std::endl;
 #endif
@@ -1313,12 +1286,15 @@ namespace {
     bool parseCmdFiles(ModifyCmds& modifyCmds,
                        const Params::CmdFiles& cmdFiles)
     {
-        for (auto&& filename : cmdFiles) {
+        Params::CmdFiles::const_iterator end = cmdFiles.end();
+        Params::CmdFiles::const_iterator filename = cmdFiles.begin();
+        for ( ; filename != end; ++filename) {
             try {
-                std::ifstream file(filename.c_str());
-                bool bStdin = filename == "-";
+                std::ifstream file(filename->c_str());
+                bool bStdin = filename->compare("-")== 0;
                 if (!file && !bStdin) {
-                    std::cerr << filename << ": " << _("Failed to open command file for reading\n");
+                    std::cerr << *filename << ": "
+                              << _("Failed to open command file for reading\n");
                     return false;
                 }
                 int num = 0;
@@ -1331,7 +1307,7 @@ namespace {
                 }
             }
             catch (const Exiv2::AnyError& error) {
-                std::cerr << filename << ", " << _("line") << " " << error << "\n";
+                std::cerr << *filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
         }
@@ -1343,9 +1319,11 @@ namespace {
     {
         try {
             int num = 0;
-            for (auto&& line : cmdLines) {
+            Params::CmdLines::const_iterator end = cmdLines.end();
+            Params::CmdLines::const_iterator line = cmdLines.begin();
+            for ( ; line != end; ++line) {
                 ModifyCmd modifyCmd;
-                if (parseLine(modifyCmd, line, ++num)) {
+                if (parseLine(modifyCmd, *line, ++num)) {
                     modifyCmds.push_back(modifyCmd);
                 }
             }

@@ -174,16 +174,16 @@ namespace Exiv2 {
 
     TiffDirectory::~TiffDirectory()
     {
-        for (auto&& component : components_) {
-            delete component;
+        for (Components::iterator i = components_.begin(); i != components_.end(); ++i) {
+            delete *i;
         }
         delete pNext_;
     }
 
     TiffSubIfd::~TiffSubIfd()
     {
-        for (auto&& ifd : ifds_) {
-            delete ifd;
+        for (Ifds::iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            delete *i;
         }
     }
 
@@ -207,8 +207,8 @@ namespace Exiv2 {
 
     TiffBinaryArray::~TiffBinaryArray()
     {
-        for (auto&& element : elements_) {
-            delete element;
+        for (Components::iterator i = elements_.begin(); i != elements_.end(); ++i) {
+            delete *i;
         }
     }
 
@@ -632,9 +632,9 @@ namespace Exiv2 {
                 tc = pNext_;
             }
             else {
-                for (auto&& component : components_) {
-                    if (component->tag() == tpi.tag() && component->group() == tpi.group()) {
-                        tc = component;
+                for (Components::iterator i = components_.begin(); i != components_.end(); ++i) {
+                    if ((*i)->tag() == tpi.tag() && (*i)->group() == tpi.group()) {
+                        tc = *i;
                         break;
                     }
                 }
@@ -680,9 +680,9 @@ namespace Exiv2 {
         const TiffPathItem tpi2 = tiffPath.top();
         tiffPath.push(tpi1);
         TiffComponent* tc = 0;
-        for (auto&& ifd : ifds_) {
-            if (ifd->group() == tpi2.group()) {
-                tc = ifd;
+        for (Ifds::iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            if ((*i)->group() == tpi2.group()) {
+                tc = *i;
                 break;
             }
         }
@@ -748,9 +748,9 @@ namespace Exiv2 {
         // To allow duplicate entries, we only check if the new component already
         // exists if there is still at least one composite tag on the stack
         if (tiffPath.size() > 1) {
-            for (auto&& element : elements_) {
-                if (element->tag() == tpi.tag() && element->group() == tpi.group()) {
-                    tc = element;
+            for (Components::iterator i = elements_.begin(); i != elements_.end(); ++i) {
+                if ((*i)->tag() == tpi.tag() && (*i)->group() == tpi.group()) {
+                    tc = *i;
                     break;
                 }
             }
@@ -1085,15 +1085,15 @@ namespace Exiv2 {
         // Size of IFD values and additional data
         uint32_t sizeValue = 0;
         uint32_t sizeData = 0;
-        for (auto&& component : components_) {
-            uint32_t sv = component->size();
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            uint32_t sv = (*i)->size();
             if (sv > 4) {
                 sv += sv & 1;               // Align value to word boundary
                 sizeValue += sv;
             }
             // Also add the size of data, but only if needed
             if (isRootDir) {
-                uint32_t sd = component->sizeData();
+                uint32_t sd = (*i)->sizeData();
                 sd += sd & 1;               // Align data to word boundary
                 sizeData += sd;
             }
@@ -1113,14 +1113,14 @@ namespace Exiv2 {
         ioWrapper.write(buf, 2);
         idx += 2;
         // b) Directory entries - may contain pointers to the value or data
-        for (auto&& component : components_) {
-            idx += writeDirEntry(ioWrapper, byteOrder, offset, component, valueIdx, dataIdx, imageIdx);
-            uint32_t sv = component->size();
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            idx += writeDirEntry(ioWrapper, byteOrder, offset, *i, valueIdx, dataIdx, imageIdx);
+            uint32_t sv = (*i)->size();
             if (sv > 4) {
                 sv += sv & 1;               // Align value to word boundary
                 valueIdx += sv;
             }
-            uint32_t sd = component->sizeData();
+            uint32_t sd = (*i)->sizeData();
             sd += sd & 1;                   // Align data to word boundary
             dataIdx += sd;
         }
@@ -1138,10 +1138,10 @@ namespace Exiv2 {
         // 2nd: Write IFD values - may contain pointers to additional data
         valueIdx = sizeDir;
         dataIdx = sizeDir + sizeValue;
-        for (auto&& component : components_) {
-            uint32_t sv = component->size();
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            uint32_t sv = (*i)->size();
             if (sv > 4) {
-                uint32_t d = component->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
+                uint32_t d = (*i)->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
                 enforce(sv == d, kerImageWriteFailed);
                 if ((sv & 1) == 1) {
                     ioWrapper.putb(0x0);    // Align value to word boundary
@@ -1150,7 +1150,7 @@ namespace Exiv2 {
                 idx += sv;
                 valueIdx += sv;
             }
-            uint32_t sd = component->sizeData();
+            uint32_t sd = (*i)->sizeData();
             sd += sd & 1;                   // Align data to word boundary
             dataIdx += sd;
         }
@@ -1291,13 +1291,13 @@ namespace Exiv2 {
         DataBuf buf(static_cast<long>(strips_.size()) * 4);
         memset(buf.pData_, 0x0, buf.size_);
         uint32_t idx = 0;
-        for (auto&& strip : strips_) {
+        for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, o2, tiffType(), byteOrder);
-            o2 += strip.second;
-            o2 += strip.second & 1;             // Align strip data to word boundary
+            o2 += i->second;
+            o2 += i->second & 1;                // Align strip data to word boundary
             if (!(group() > mnId)) {            // Todo: FIX THIS!! SHOULDN'T USE >
-                imageIdx += strip.second;
-                imageIdx += strip.second & 1;  // Align strip data to word boundary
+                imageIdx += i->second;
+                imageIdx += i->second & 1;      // Align strip data to word boundary
             }
         }
         ioWrapper.write(buf.pData_, buf.size_);
@@ -1315,9 +1315,9 @@ namespace Exiv2 {
         uint32_t idx = 0;
         // Sort IFDs by group, needed if image data tags were copied first
         std::sort(ifds_.begin(), ifds_.end(), cmpGroupLt);
-        for (auto&& ifd : ifds_) {
+        for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
             idx += writeOffset(buf.pData_ + idx, offset + dataIdx, tiffType(), byteOrder);
-            dataIdx += ifd->size();
+            dataIdx += (*i)->size();
         }
         ioWrapper.write(buf.pData_, buf.size_);
         return buf.size_;
@@ -1389,13 +1389,12 @@ namespace Exiv2 {
             mioWrapper.write(buf, elSize);
         }
         // write all tags of the array (Todo: assumes that there are no duplicates, need check)
-        for (auto&& element : elements_) {
+        for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
             // Skip the manufactured tag, if it exists
-            if (cfg()->hasSize_ && element->tag() == 0)
-                continue;
-            uint32_t newIdx = element->tag() * cfg()->tagStep();
+            if (cfg()->hasSize_ && (*i)->tag() == 0) continue;
+            uint32_t newIdx = (*i)->tag() * cfg()->tagStep();
             idx += fillGap(mioWrapper, idx, newIdx);
-            idx += element->write(mioWrapper, byteOrder, offset + newIdx, valueIdx, dataIdx, imageIdx);
+            idx += (*i)->write(mioWrapper, byteOrder, offset + newIdx, valueIdx, dataIdx, imageIdx);
         }
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
@@ -1451,8 +1450,8 @@ namespace Exiv2 {
                                         uint32_t& imageIdx) const
     {
         uint32_t len = 0;
-        for (auto&& component : components_) {
-            len += component->writeData(ioWrapper, byteOrder, offset, dataIdx + len, imageIdx);
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            len += (*i)->writeData(ioWrapper, byteOrder, offset, dataIdx + len, imageIdx);
         }
         return len;
     } // TiffDirectory::doWriteData
@@ -1504,8 +1503,8 @@ namespace Exiv2 {
                                      uint32_t& imageIdx) const
     {
         uint32_t len = 0;
-        for (auto&& ifd : ifds_) {
-            len += ifd->write(ioWrapper, byteOrder, offset + dataIdx + len, uint32_t(-1), uint32_t(-1), imageIdx);
+        for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            len  += (*i)->write(ioWrapper, byteOrder, offset + dataIdx + len, uint32_t(-1), uint32_t(-1), imageIdx);
         }
         // Align data to word boundary
         uint32_t align = (len & 1);
@@ -1535,14 +1534,14 @@ namespace Exiv2 {
     {
         uint32_t len = 0;
         TiffComponent* pSubIfd = 0;
-        for (auto&& component : components_) {
-            if (component->tag() == 0x014a) {
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            if ((*i)->tag() == 0x014a) {
                 // Hack: delay writing of sub-IFD image data to get the order correct
                 assert(pSubIfd == 0);
-                pSubIfd = component;
+                pSubIfd = *i;
                 continue;
             }
-            len += component->writeImage(ioWrapper, byteOrder);
+            len += (*i)->writeImage(ioWrapper, byteOrder);
         }
         if (pSubIfd) {
             len += pSubIfd->writeImage(ioWrapper, byteOrder);
@@ -1563,8 +1562,8 @@ namespace Exiv2 {
                                       ByteOrder byteOrder) const
     {
         uint32_t len = 0;
-        for (auto&& ifd : ifds_) {
-            len += ifd->writeImage(ioWrapper, byteOrder);
+        for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            len  += (*i)->writeImage(ioWrapper, byteOrder);
         }
         return len;
     } // TiffSubIfd::doWriteImage
@@ -1606,10 +1605,10 @@ namespace Exiv2 {
                       << ": Writing " << strips_.size() << " strips";
 #endif
             len = 0;
-            for (auto&& strip : strips_) {
-                ioWrapper.write(strip.first, strip.second);
-                len += strip.second;
-                uint32_t align = strip.second & 1;  // Align strip data to word boundary
+            for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
+                ioWrapper.write(i->first, i->second);
+                len += i->second;
+                uint32_t align = i->second & 1; // Align strip data to word boundary
                 if (align) ioWrapper.putb(0x0);
                 len += align;
             }
@@ -1631,13 +1630,13 @@ namespace Exiv2 {
         // Size of the directory, without values and additional data
         uint32_t len = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
         // Size of IFD values and data
-        for (auto&& component : components_) {
-            uint32_t sv = component->size();
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            uint32_t sv = (*i)->size();
             if (sv > 4) {
                 sv += sv & 1;               // Align value to word boundary
                 len += sv;
             }
-            uint32_t sd = component->sizeData();
+            uint32_t sd = (*i)->sizeData();
             sd += sd & 1;                   // Align data to word boundary
             len += sd;
         }
@@ -1691,10 +1690,10 @@ namespace Exiv2 {
         // - no duplicate tags in the array
         uint32_t idx = 0;
         uint32_t sz = cfg()->tagStep();
-        for (auto&& element : elements_) {
-            if (element->tag() > idx) {
-                idx = element->tag();
-                sz = element->size();
+        for (Components::const_iterator i = elements_.begin(); i != elements_.end(); ++i) {
+            if ((*i)->tag() > idx) {
+                idx = (*i)->tag();
+                sz = (*i)->size();
             }
         }
         idx = idx * cfg()->tagStep() + sz;
@@ -1749,8 +1748,8 @@ namespace Exiv2 {
     uint32_t TiffSubIfd::doSizeData() const
     {
         uint32_t len = 0;
-        for (auto&& ifd : ifds_) {
-            len += ifd->size();
+        for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            len += (*i)->size();
         }
         return len;
     } // TiffSubIfd::doSizeData
@@ -1769,8 +1768,8 @@ namespace Exiv2 {
     uint32_t TiffDirectory::doSizeImage() const
     {
         uint32_t len = 0;
-        for (auto&& component : components_) {
-            len += component->sizeImage();
+        for (Components::const_iterator i = components_.begin(); i != components_.end(); ++i) {
+            len += (*i)->sizeImage();
         }
         if (pNext_) {
             len += pNext_->sizeImage();
@@ -1781,8 +1780,8 @@ namespace Exiv2 {
     uint32_t TiffSubIfd::doSizeImage() const
     {
         uint32_t len = 0;
-        for (auto&& ifd : ifds_) {
-            len += ifd->sizeImage();
+        for (Ifds::const_iterator i = ifds_.begin(); i != ifds_.end(); ++i) {
+            len += (*i)->sizeImage();
         }
         return len;
     } // TiffSubIfd::doSizeImage
@@ -1802,8 +1801,8 @@ namespace Exiv2 {
         if (!pValue()) return 0;
         uint32_t len = pValue()->sizeDataArea();
         if (len == 0) {
-            for (auto&& strip : strips_) {
-                len += strip.second;
+            for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
+                len += i->second;
             }
         }
         return len;

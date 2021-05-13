@@ -173,11 +173,14 @@ namespace Exiv2 {
         static const IfdId filteredIfds[] = {
             panaRawId
         };
-        for (auto&& filteredIfd : filteredIfds) {
+        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
-            ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
+            ed.erase(std::remove_if(ed.begin(),
+                                    ed.end(),
+                                    FindExifdatum(filteredIfds[i])),
+                     ed.end());
         }
 
         std::unique_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));

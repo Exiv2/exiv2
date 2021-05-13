@@ -21,7 +21,6 @@
 // included header files
 #include "config.h"
 
-#include <array>
 #include <climits>
 #include <string>
 
@@ -761,8 +760,8 @@ namespace {
         ExifData preview;
 
         // copy tags
-        for (auto &&pos : exifData) {
-            if (pos.groupName() == group_) {
+        for (auto pos = exifData.begin(); pos != exifData.end(); ++pos) {
+            if (pos->groupName() == group_) {
                 /*
                    Write only the necessary TIFF image tags
                    tags that especially could cause problems are:
@@ -770,9 +769,9 @@ namespace {
                    "Orientation" - this tag typically appears only in the "Image" group. Deleting it ensures
                                    consistent result for all previews, including JPEG
                 */
-                uint16_t tag = pos.tag();
+                uint16_t tag = pos->tag();
                 if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, Internal::ifd0Id)) {
-                    preview.add(ExifKey(tag, "Image"), &pos.value());
+                    preview.add(ExifKey(tag, "Image"), &pos->value());
                 }
             }
         }
@@ -892,8 +891,8 @@ namespace {
     {
         // create decoding table
         byte invalid = 16;
-        std::array<byte, 256> decodeHexTable;
-        decodeHexTable.fill(invalid);
+        byte decodeHexTable[256];
+        for (long i = 0; i < 256; i++) decodeHexTable[i] = invalid;
         for (byte i = 0; i < 10; i++) decodeHexTable[static_cast<byte>('0') + i] = i;
         for (byte i = 0; i < 6; i++) decodeHexTable[static_cast<byte>('A') + i] = i + 10;
         for (byte i = 0; i < 6; i++) decodeHexTable[static_cast<byte>('a') + i] = i + 10;
@@ -930,8 +929,9 @@ namespace {
 
         // create decoding table
         unsigned long invalid = 64;
-        std::array<unsigned long, 256> decodeBase64Table;
-        decodeBase64Table.fill(invalid);
+        unsigned long decodeBase64Table[256] = {};
+        for (unsigned long i = 0; i < 256; i++)
+            decodeBase64Table[i] = invalid;
         for (unsigned long i = 0; i < 64; i++)
             decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
 
