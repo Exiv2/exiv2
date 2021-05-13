@@ -83,8 +83,7 @@ jobs:
       - name: Unit Test
         run: |
           cd build
-          cd bin
-          ./unit_tests
+          ctest --output-on-failure
 
   MacOS:
     name: 'MacOS - clang - Arch:x64 BuildType:Release - SHARED'
@@ -113,5 +112,4 @@ jobs:
       - name: Unit Test
         run: |
           cd build
-          cd bin
-          ./unit_tests
+          ctest --output-on-failure
