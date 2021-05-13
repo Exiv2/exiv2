@@ -62,7 +62,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install cmake python3-pip libxml2-utils ninja-build
+          sudo apt-get install ninja-build
           pip3 install conan==1.36.0
 
       - name: Conan

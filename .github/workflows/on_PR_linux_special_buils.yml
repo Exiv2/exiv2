@@ -15,6 +15,7 @@ jobs:
 
       - name: install dependencies
         run: |
+          sudo apt-get install ninja-build
           pip3 install conan==1.36.0
 
       - name: Conan common config
@@ -32,8 +33,8 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
-          make -j
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          ninja
 
       - name: Tests + Upload coverage
         env:
@@ -55,7 +56,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install valgrind
+          sudo apt-get install valgrind ninja-build
           pip3 install conan==1.36.0
 
       - name: Conan common config
@@ -73,8 +74,8 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DCMAKE_INSTALL_PREFIX=install ..
-          make -j
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DCMAKE_INSTALL_PREFIX=install ..
+          ninja
 
       - name: Tests with valgrind
         env:
@@ -93,6 +94,7 @@ jobs:
 
       - name: install dependencies
         run: |
+          sudo apt-get install ninja-build
           pip3 install conan==1.36.0
 
       - name: Conan common config
@@ -110,8 +112,8 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DEXIV2_TEAM_USE_SANITIZERS=ON -DCMAKE_INSTALL_PREFIX=install ..
-          make -j
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DEXIV2_TEAM_USE_SANITIZERS=ON -DCMAKE_INSTALL_PREFIX=install ..
+          ninja
 
       - name: Tests
         env:
