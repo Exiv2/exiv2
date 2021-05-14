@@ -122,6 +122,41 @@ jobs:
           cd ../../tests/
           python runner.py -v
 
+  special_allEnabled:
+    name: 'Ubuntu 20.04 - GCC - All Options Enabled'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install valgrind doxygen graphviz gettext
+          pip3 install conan==1.36.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_NLS=ON -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" ..
+          make -j
+
+      - name: Generate documentation
+        run: |
+          make doc
+
   special_FedoraMinGW:
     name: 'Fedora MinGW'
     runs-on: ubuntu-latest
