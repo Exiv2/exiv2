@@ -181,7 +181,7 @@ namespace Exiv2 {
         };
         for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
-            std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
+            std::cerr << "Warning: Exif IFD " << filteredIfds << " not encoded\n";
 #endif
             ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
         }

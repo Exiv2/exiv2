@@ -156,8 +156,8 @@ namespace Exiv2 {
                 auto dup = prevData.findKey(ExifKey(pos.key()));
                 if (dup != prevData.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cerr << "Filtering duplicate tag " << pos->key()
-                              << " (values '" << pos->value()
+                    std::cerr << "Filtering duplicate tag " << pos.key()
+                              << " (values '" << pos.value()
                               << "' and '" << dup->value() << "')\n";
 #endif
                     prevData.erase(dup);
