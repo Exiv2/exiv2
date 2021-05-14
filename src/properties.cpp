@@ -2515,7 +2515,7 @@ namespace Exiv2 {
         // Using malloc/free for better system compatibility in case
         // users don't unregister their namespaces explicitly.
         XmpNsInfo xn;
-        char* c = static_cast<char*>(std::malloc(ns2.size() + 1));
+        auto c = static_cast<char*>(std::malloc(ns2.size() + 1));
         std::strcpy(c, ns2.c_str());
         xn.ns_ = c;
         c = static_cast<char*>(std::malloc(prefix.size() + 1));
@@ -2534,7 +2534,7 @@ namespace Exiv2 {
 
     void XmpProperties::unregisterNsUnsafe(const std::string& ns)
     {
-        NsRegistry::iterator i = nsRegistry_.find(ns);
+        auto i = nsRegistry_.find(ns);
         if (i != nsRegistry_.end()) {
             std::free(const_cast<char*>(i->second.prefix_));
             std::free(const_cast<char*>(i->second.ns_));
@@ -2545,9 +2545,9 @@ namespace Exiv2 {
     void XmpProperties::unregisterNs()
     {
         std::lock_guard<std::mutex> scoped_write_lock(mutex_);
-        NsRegistry::iterator i = nsRegistry_.begin();
+        auto i = nsRegistry_.begin();
         while (i != nsRegistry_.end()) {
-            NsRegistry::iterator kill = i++;
+            auto kill = i++;
             unregisterNsUnsafe(kill->first);
         }
     }

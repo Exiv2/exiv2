@@ -286,7 +286,7 @@ string INIReader::MakeKey(string section, string name)
 int INIReader::ValueHandler(void* user, const char* section, const char* name,
                             const char* value)
 {
-    INIReader* reader = (INIReader*)user;
+    auto reader = (INIReader*)user;
     string key = MakeKey(section, name);
     if (!reader->_values[key].empty())
         reader->_values[key] += "\n";

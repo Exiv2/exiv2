@@ -115,9 +115,7 @@ namespace Exiv2 {
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
     bool bPrint = greps.empty();
-    for( exv_grep_keys_t::const_iterator g = greps.begin();
-      !bPrint && g != greps.end() ; ++g
-    ) {
+    for (auto g = greps.begin(); !bPrint && g != greps.end(); ++g) {
         std::string Key(key);
 #if defined(EXV_HAVE_REGEX_H)
         bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)

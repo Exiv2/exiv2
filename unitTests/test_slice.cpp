@@ -165,8 +165,8 @@ TYPED_TEST_P(slice, iteratorAccess)
 {
     Slice<TypeParam> sl = this->getTestSlice();
 
-    std::vector<int>::const_iterator vec_it = this->vec_.begin() + 1;
-    for (typename Slice<TypeParam>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
+    auto vec_it = this->vec_.begin() + 1;
+    for (auto it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
         ASSERT_EQ(*it, *vec_it);
     }
 
@@ -246,7 +246,7 @@ void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type va
 template <typename T>
 void checkConstSliceIterator(const Slice<T>& sl, typename Slice<T>::value_type first_value)
 {
-    for (typename Slice<T>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it) {
+    for (auto it = sl.cbegin(); it < sl.cend(); ++it) {
         ASSERT_EQ(*it, first_value++);
     }
 }
@@ -287,7 +287,7 @@ TYPED_TEST_P(mutableSlice, iterators)
     ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
     ASSERT_EQ(*sl.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
 
-    for (typename slice_t::iterator it = sl.begin(); it < sl.end(); ++it) {
+    for (auto it = sl.begin(); it < sl.end(); ++it) {
         *it = 2 * (*it);
     }
 

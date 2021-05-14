@@ -1735,7 +1735,7 @@ namespace Exiv2 {
             }
         }
 
-        uint16_t val = static_cast<uint16_t>(value.toLong());
+        auto val = static_cast<uint16_t>(value.toLong());
         if (dModel) val = (val >> 8) | ((val & 0x00ff) << 8);
 
         if (val == 0x07ff) return os << _("All 11 Points");
@@ -2924,32 +2924,35 @@ fmountlens[] = {
             return os << "(" << value << ")";
         }
 
-// from https://github.com/exiftool/exiftool/blob/12.12/lib/Image/ExifTool/Nikon.pm#L4646
-static const struct ZMntLens {uint16_t lid; const char *manuf, *lensname;}
-zmountlens[] = {
-             {1 , "Nikon", "Nikkor Z 24-70mm f/4 S"},
-             {2 , "Nikon", "Nikkor Z 14-30mm f/4 S"},
-             {4 , "Nikon", "Nikkor Z 35mm f/1.8 S"},
-             {8 , "Nikon", "Nikkor Z 58mm f/0.95 S Noct"}, //IB
-             {9 , "Nikon", "Nikkor Z 50mm f/1.8 S"},
-            {11 , "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
-            {12 , "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
-            {13 , "Nikon", "Nikkor Z 24-70mm f/2.8 S"},
-            {14 , "Nikon", "Nikkor Z 85mm f/1.8 S"},
-            {15 , "Nikon", "Nikkor Z 24mm f/1.8 S"}, //IB
-            {16 , "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"}, //IB
-            {17 , "Nikon", "Nikkor Z 20mm f/1.8 S"}, //IB
-            {18 , "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"}, //IB
-            {21 , "Nikon", "Nikkor Z 50mm f/1.2 S"}, //IB
-            {22 , "Nikon", "Nikkor Z 24-50mm f/4-6.3"}, //IB
-            {23 , "Nikon", "Nikkor Z 14-24mm f/2.8 S"}, //IB
-            {0 , "", ""} //end of array
-};
+        // from https://github.com/exiftool/exiftool/blob/12.12/lib/Image/ExifTool/Nikon.pm#L4646
+        static const struct ZMntLens
+        {
+            uint16_t lid;
+            const char *manuf, *lensname;
+        } zmountlens[] = {
+            {1, "Nikon", "Nikkor Z 24-70mm f/4 S"},
+            {2, "Nikon", "Nikkor Z 14-30mm f/4 S"},
+            {4, "Nikon", "Nikkor Z 35mm f/1.8 S"},
+            {8, "Nikon", "Nikkor Z 58mm f/0.95 S Noct"},  // IB
+            {9, "Nikon", "Nikkor Z 50mm f/1.8 S"},
+            {11, "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
+            {12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
+            {13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"},
+            {14, "Nikon", "Nikkor Z 85mm f/1.8 S"},
+            {15, "Nikon", "Nikkor Z 24mm f/1.8 S"},         // IB
+            {16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"},  // IB
+            {17, "Nikon", "Nikkor Z 20mm f/1.8 S"},         // IB
+            {18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"},  // IB
+            {21, "Nikon", "Nikkor Z 50mm f/1.2 S"},         // IB
+            {22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"},      // IB
+            {23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"},      // IB
+        };
 
-        uint16_t lid = static_cast<uint16_t>(value.toLong());
-        for(int i = 0; zmountlens[i].lid != 0; ++i){
-          if ( zmountlens[i].lid == lid ) return os << zmountlens[i].manuf << " " << zmountlens[i].lensname;
-        }
+        auto lid = static_cast<uint16_t>(value.toLong());
+        auto it =
+            std::find_if(std::begin(zmountlens), std::end(zmountlens), [=](const ZMntLens& z) { return z.lid == lid; });
+        if (it != std::end(zmountlens))
+            return os << it->manuf << " " << it->lensname;
         return os << lid;
     }
 

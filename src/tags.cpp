@@ -323,7 +323,7 @@ namespace Exiv2 {
     ExifKey::ExifKey(const TagInfo& ti)
         : p_(new Impl)
     {
-        IfdId ifdId = static_cast<IfdId>(ti.ifdId_);
+        auto ifdId = static_cast<IfdId>(ti.ifdId_);
         if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
             throw Error(kerInvalidIfdId, ifdId);
         }

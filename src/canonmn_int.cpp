@@ -3212,7 +3212,7 @@ namespace Exiv2 {
             val = -val;
         }
         // remove fraction
-        float frac = static_cast<float>(val & 0x1f);
+        auto frac = static_cast<float>(val & 0x1f);
         val -= long(frac);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {

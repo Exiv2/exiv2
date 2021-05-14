@@ -526,7 +526,7 @@ namespace Exiv2 {
         auto pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        const CommentValue* cv = dynamic_cast<const CommentValue*>(&pos->value());
+        const auto cv = dynamic_cast<const CommentValue*>(&pos->value());
         if (cv == 0) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -1530,7 +1530,7 @@ namespace {
             return false;
         }
         std::string outstr;
-        EXV_ICONV_CONST char* inptr = const_cast<char*>(str.c_str());
+        auto inptr = const_cast<char*>(str.c_str());
         size_t inbytesleft = str.length();
         while (inbytesleft) {
             char outbuf[256];

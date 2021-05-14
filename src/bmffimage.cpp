@@ -111,7 +111,7 @@ namespace Exiv2
 
     std::string BmffImage::toAscii(long n)
     {
-        const char* p = (const char*)&n;
+        const auto p = (const char*)&n;
         std::string result;
         for (int i = 0; i < 4; i++) {
             char c = p[isBigEndianPlatform() ? i : (3 - i)];
@@ -289,7 +289,7 @@ namespace Exiv2
                 std::string id;
                 // Check that the string has a '\0' terminator.
                 const char* str = (const char*)data.pData_ + skip;
-                const size_t maxlen = static_cast<size_t>(data.size_ - skip);
+                const auto maxlen = static_cast<size_t>(data.size_ - skip);
                 enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
                 if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"

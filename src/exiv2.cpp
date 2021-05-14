@@ -473,7 +473,7 @@ int Params::evalGrep( const std::string& optArg)
     // there was an error compiling the regexp
     if( errcode ) {
         size_t length = regerror (errcode, pRegex, NULL, 0);
-        char *buffer = new char[ length];
+        auto buffer = new char[length];
         regerror (errcode, pRegex, buffer, length);
         std::cerr << progname()
               << ": " << _("Option") << " -g: "
@@ -958,7 +958,7 @@ int Params::nonoption(const std::string& argv)
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
-    Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
+    auto bytes = (Exiv2::byte*)::malloc(buff_size);
     int       nBytes    = 0 ;
     bool      more      = bytes != NULL;
     while   ( more ) {
@@ -1039,7 +1039,7 @@ using long_t = std::map<std::string, std::string>;
 
 int Params::getopt(int argc, char* const Argv[])
 {
-    char** argv = new char* [argc+1];
+    auto argv = new char*[argc + 1];
     argv[argc] = NULL;
     long_t longs;
 
@@ -1167,7 +1167,7 @@ namespace {
     bool parseTime(const std::string& ts, long& time)
     {
         std::string hstr, mstr, sstr;
-        char *cts = new char[ts.length() + 1];
+        auto cts = new char[ts.length() + 1];
         strcpy(cts, ts.c_str());
         char *tmp = ::strtok(cts, ":");
         if (tmp) hstr = tmp;

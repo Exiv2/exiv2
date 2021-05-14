@@ -464,7 +464,7 @@ namespace Exiv2 {
 
             io_->seek(0,BasicIo::beg); // rewind
             while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
-                uint64_t offset = (uint64_t) io_->tell();
+                auto offset = (uint64_t)io_->tell();
                 byte     size_buff[WEBP_TAG_SIZE];
                 io_->read(chunkId.pData_, WEBP_TAG_SIZE);
                 io_->read(size_buff, WEBP_TAG_SIZE);

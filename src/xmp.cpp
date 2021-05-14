@@ -304,7 +304,7 @@ namespace Exiv2 {
     Xmpdatum& XmpData::operator[](const std::string& key)
     {
         XmpKey xmpKey(key);
-        iterator pos = findKey(xmpKey);
+        auto pos = findKey(xmpKey);
         if (pos == end()) {
             add(Xmpdatum(xmpKey));
             pos = findKey(xmpKey);
@@ -499,7 +499,7 @@ namespace Exiv2 {
         }
 
         if ( bURI || bNS ) {
-            std::map<std::string,std::string>* p = (std::map<std::string,std::string>*) refCon;
+            auto p = (std::map<std::string, std::string>*)refCon;
             std::map<std::string,std::string>& m = *p;
 
             std::string b;
@@ -757,7 +757,7 @@ namespace Exiv2 {
 
             if (i.typeId() == langAlt) {
                 // Encode Lang Alt property
-                const LangAltValue* la = dynamic_cast<const LangAltValue*>(&i.value());
+                const auto la = dynamic_cast<const LangAltValue*>(&i.value());
                 if (la == 0)
                     throw Error(kerEncodeLangAltPropertyFailed, i.key());
 
@@ -775,7 +775,7 @@ namespace Exiv2 {
             }
 
             // Todo: Xmpdatum should have an XmpValue, not a Value
-            const XmpValue* val = dynamic_cast<const XmpValue*>(&i.value());
+            const auto val = dynamic_cast<const XmpValue*>(&i.value());
             if (val == 0)
                 throw Error(kerInvalidKeyXmpValue, i.key(), i.typeName());
             options =   xmpArrayOptionBits(val->xmpArrayType())

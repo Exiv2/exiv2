@@ -142,7 +142,7 @@ void processRemove(const std::string& line, int num, IptcData &iptcData)
     const std::string key( line.substr(keyStart) );
     IptcKey iptcKey(key);
 
-    IptcData::iterator iter = iptcData.findKey(iptcKey);
+    auto iter = iptcData.findKey(iptcKey);
     if (iter != iptcData.end()) {
         iptcData.erase(iter);
     }
@@ -174,7 +174,7 @@ void processModify(const std::string& line, int num, IptcData &iptcData)
     Value::UniquePtr value = Value::create(type);
     value->read(data);
 
-    IptcData::iterator iter = iptcData.findKey(iptcKey);
+    auto iter = iptcData.findKey(iptcKey);
     if (iter != iptcData.end()) {
         iter->setValue(value.get());
     }

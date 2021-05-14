@@ -254,7 +254,7 @@ namespace Exiv2 {
             return rc;
         }
         Blob psBlob;
-        const uint32_t sizeFront = static_cast<uint32_t>(record - pPsData);
+        const auto sizeFront = static_cast<uint32_t>(record - pPsData);
         // Write data before old record.
         if (sizePsData > 0 && sizeFront > 0) {
             append(psBlob, pPsData, sizeFront);
@@ -749,7 +749,7 @@ namespace Exiv2 {
                             out << std::endl;
 
                             // allocate storage and current file position
-                            byte* exif = new byte[size];
+                            auto exif = new byte[size];
                             uint32_t restore = io_->tell();
 
                             // copy the data to memory
@@ -844,10 +844,10 @@ namespace Exiv2 {
                     std::cout << ' ';
             }
 #endif
-            uint32_t count = (uint32_t)iptcDataSegs.size();
+            auto count = (uint32_t)iptcDataSegs.size();
 
             // figure out which blocks to copy
-            uint64_t* pos = new uint64_t[count + 2];
+            auto pos = new uint64_t[count + 2];
             pos[0] = 0;
             // copy the data that is not iptc
             auto it = iptcDataSegs.begin();

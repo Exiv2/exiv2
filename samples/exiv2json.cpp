@@ -210,7 +210,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
         case Exiv2::langAlt: {
              ABORT_IF_I_EMTPY
              Jzon::Object l ;
-             const Exiv2::LangAltValue& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
+             const auto& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
              for (auto&& lang : langs.value_) {
                  l.Add(lang.first, lang.second);
              }
@@ -246,7 +246,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
 
 void fileSystemPush(const char* path,Jzon::Node& nfs)
 {
-    Jzon::Object& fs = (Jzon::Object&) nfs;
+    auto& fs = (Jzon::Object&)nfs;
     fs.Add("path",path);
     char resolved_path[2000]; // PATH_MAX];
     fs.Add("realpath",realpath(path,resolved_path));
