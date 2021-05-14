@@ -746,7 +746,7 @@ namespace Exiv2 {
         // Register custom namespaces with XMP-SDK
         for (auto&& i : XmpProperties::nsRegistry_) {
 #ifdef EXIV2_DEBUG_MESSAGES
-            std::cerr << "Registering " << i->second.prefix_ << " : " << i->first << "\n";
+            std::cerr << "Registering " << i.second.prefix_ << " : " << i.first << "\n";
 #endif
             registerNs(i.first, i.second.prefix_);
         }
