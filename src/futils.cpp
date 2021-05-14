@@ -95,7 +95,7 @@ namespace Exiv2 {
         const char* pstr = str;
         // \todo try to use std::string for buf and avoid the creation of another string for just
         // returning the final value
-        char* buf  = new char[strlen(str) * 3 + 1];
+        auto buf = new char[strlen(str) * 3 + 1];
         char* pbuf = buf;
         while (*pstr) {
             if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
@@ -114,7 +114,7 @@ namespace Exiv2 {
 
     char* urldecode(const char* str) {
         const char* pstr = str;
-        char* buf  = new char [(strlen(str) + 1)];
+        auto buf = new char[(strlen(str) + 1)];
         char* pbuf = buf;
         while (*pstr) {
             if (*pstr == '%') {
@@ -150,13 +150,13 @@ namespace Exiv2 {
                                 '4', '5', '6', '7', '8', '9', '+', '/'};
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        char* encoding_table = (char*)base64_encode;
+        auto encoding_table = (char*)base64_encode;
         size_t mod_table[]  = {0, 2, 1};
 
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
         if (  rc ) {
-            const unsigned char* data = (const unsigned char*) data_buf ;
+            const auto data = (const unsigned char*)data_buf;
             for (size_t i = 0, j = 0 ; i < dataLength;) {
 
                 uint32_t octet_a = i < dataLength ? data[i++] : 0 ;
@@ -183,13 +183,13 @@ namespace Exiv2 {
         size_t input_length = in ? ::strlen(in) : 0;
         if (!in || input_length % 4 != 0) return result;
 
-        unsigned char* encoding_table = (unsigned char*)base64_encode;
+        auto encoding_table = (unsigned char*)base64_encode;
         unsigned char decoding_table[256];
         for (unsigned char i = 0; i < 64; i++)
             decoding_table[encoding_table[i]] = i;
 
         size_t output_length = input_length / 4 * 3;
-        const unsigned char* buff = (const unsigned char*) in;
+        const auto buff = (const unsigned char*)in;
 
         if (buff[input_length - 1] == '=') (output_length)--;
         if (buff[input_length - 2] == '=') (output_length)--;

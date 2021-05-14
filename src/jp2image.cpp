@@ -185,7 +185,7 @@ namespace Exiv2
 
     static std::string toAscii(long n)
     {
-        const char* p = (const char*) &n;
+        const auto p = (const char*)&n;
         std::string result;
         bool bBigEndian = isBigEndian();
         for ( int i = 0 ; i < 4 ; i++) {
@@ -648,16 +648,16 @@ static void boxes_check(size_t b,size_t m)
         long    outlen = sizeof(Jp2BoxHeader) ; // now many bytes have we written to output?
         long    inlen = sizeof(Jp2BoxHeader) ; // how many bytes have we read from boxBuf?
         enforce(sizeof(Jp2BoxHeader) <= static_cast<size_t>(output.size_), Exiv2::kerCorruptedMetadata);
-        Jp2BoxHeader* pBox   = (Jp2BoxHeader*) boxBuf.pData_;
+        auto pBox = (Jp2BoxHeader*)boxBuf.pData_;
         uint32_t      length = getLong((byte*)&pBox->length, bigEndian);
         enforce(length <= static_cast<size_t>(output.size_), Exiv2::kerCorruptedMetadata);
         uint32_t      count  = sizeof (Jp2BoxHeader);
-        char*         p      = (char*) boxBuf.pData_;
+        auto p = (char*)boxBuf.pData_;
         bool          bWroteColor = false ;
 
         while ( count < length || !bWroteColor ) {
             enforce(sizeof(Jp2BoxHeader) <= length - count, Exiv2::kerCorruptedMetadata);
-            Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
+            auto pSubBox = (Jp2BoxHeader*)(p + count);
 
             // copy data.  pointer could be into a memory mapped file which we will decode!
             Jp2BoxHeader   subBox ; memcpy(&subBox,pSubBox,sizeof(subBox));

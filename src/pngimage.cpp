@@ -315,7 +315,7 @@ namespace Exiv2 {
 
                 if( bDump ) {
                     DataBuf   dataBuf;
-                    byte*     data   = new byte[dataOffset+1];
+                    auto data = new byte[dataOffset + 1];
                     data[dataOffset] = 0;
                     bufRead = io_->read(data,dataOffset);
                     enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
@@ -369,7 +369,7 @@ namespace Exiv2 {
                             DataBuf     s(dataBuf.size_+1);               // allocate buffer with an extra byte
                             memcpy(s.pData_,dataBuf.pData_,dataBuf.size_);// copy in the dataBuf
                             s.pData_[dataBuf.size_] = 0 ;                 // nul terminate it
-                            const char* str = (const char*) s.pData_;     // give it name
+                            const auto str = (const char*)s.pData_;       // give it name
                             out << Internal::indent(depth) << (const char*) buff.pData_ << ": " << str ;
                             bLF=true;
                         }
@@ -643,10 +643,9 @@ namespace Exiv2 {
                 if ( iccProfileDefined() ) {
                     DataBuf compressed;
                     if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
-
-                        const byte* nullComp = (const byte*) "\0\0";
-                        const byte*  type    = (const byte*) "iCCP";
-                        const uint32_t nameLength  = static_cast<uint32_t>(profileName_.size());
+                        const auto nullComp = (const byte*)"\0\0";
+                        const auto type = (const byte*)"iCCP";
+                        const auto nameLength = static_cast<uint32_t>(profileName_.size());
                         const uint32_t chunkLength = nameLength + 2 + compressed.size_ ;
                         byte     length[4];
                         ul2Data (length,chunkLength,bigEndian);

@@ -577,7 +577,7 @@ namespace Jzon
     void Array::Remove(size_t index)
     {
         if (index < children.size()) {
-            ChildList::iterator it = children.begin() + index;
+            auto it = children.begin() + index;
             delete (*it);
             children.erase(it);
         }

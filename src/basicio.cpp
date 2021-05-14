@@ -600,7 +600,7 @@ namespace Exiv2 {
         const bool wasOpen = (p_->fp_ != 0);
         const std::string lastMode(p_->openMode_);
 
-        FileIo *fileIo = dynamic_cast<FileIo*>(&src);
+        auto fileIo = dynamic_cast<FileIo*>(&src);
         if (fileIo) {
             // Optimization if src is another instance of FileIo
             fileIo->close();
@@ -1146,7 +1146,7 @@ namespace Exiv2 {
         if (!isMalloced_) {
             // Minimum size for 1st block
             long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
-            byte* data = (byte*)std::malloc(size);
+            auto data = (byte*)std::malloc(size);
             if (  data == NULL ) {
                 throw Error(kerMallocFailed);
             }
@@ -1205,7 +1205,7 @@ namespace Exiv2 {
 
     void MemIo::transfer(BasicIo& src)
     {
-        MemIo *memIo = dynamic_cast<MemIo*>(&src);
+        auto memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
             // Optimization if src is another instance of MemIo
             if (p_->isMalloced_) {
@@ -1525,7 +1525,7 @@ namespace Exiv2 {
             }
 
             std::string data = orgPath.substr(base64Pos+7);
-            char* decodeData = new char[data.length()];
+            auto decodeData = new char[data.length()];
             long size = base64decode(data.c_str(), decodeData, data.length());
             if (size > 0) {
                 fs.write(decodeData, size);
@@ -1645,7 +1645,7 @@ namespace Exiv2 {
             if (rcount == 0) {
                 throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
-            byte* source = (byte*)data.c_str();
+            auto source = (byte*)data.c_str();
             size_t remain = rcount, totalRead = 0;
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
@@ -1686,7 +1686,7 @@ namespace Exiv2 {
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
-                byte* source = (byte*)data.c_str();
+                auto source = (byte*)data.c_str();
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
                     size_t allow = EXV_MIN(remain, p_->blockSize_);
@@ -1746,7 +1746,7 @@ namespace Exiv2 {
         size_t i          = 0;
         size_t readCount  = 0;
         size_t blockSize  = 0;
-        byte*  buf        = (byte*) std::malloc(p_->blockSize_);
+        auto buf = (byte*)std::malloc(p_->blockSize_);
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -1796,7 +1796,7 @@ namespace Exiv2 {
         // submit to the remote machine.
         long dataSize = (long) (src.size() - left - right);
         if (dataSize > 0) {
-            byte* data = (byte*) std::malloc(dataSize);
+            auto data = (byte*)std::malloc(dataSize);
             src.seek(left, BasicIo::beg);
             src.read(data, dataSize);
             p_->writeRemote(data, (size_t)dataSize, (long)left, (long) (p_->size_ - right));
@@ -1830,7 +1830,7 @@ namespace Exiv2 {
 
         // connect to the remote machine & populate the blocks just in time.
         p_->populateBlocks(lowBlock, highBlock);
-        byte* fakeData = (byte*) std::calloc(p_->blockSize_, sizeof(byte));
+        auto fakeData = (byte*)std::calloc(p_->blockSize_, sizeof(byte));
         if (!fakeData) {
             throw Error(kerErrorMessage, "Unable to allocate data");
         }
@@ -2127,7 +2127,7 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        char* encodeData = new char[encodeLength];
+        auto encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
         const std::string urlencodeData = urlencode(encodeData);
@@ -2348,7 +2348,7 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        char* encodeData = new char[encodeLength];
+        auto encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
         const std::string urlencodeData = urlencode(encodeData);

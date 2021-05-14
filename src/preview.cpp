@@ -844,13 +844,13 @@ namespace {
             prefix = "xapGImg";
         }
 
-        XmpData::const_iterator imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":image"));
+        auto imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":image"));
         if (imageDatum == xmpData.end()) return;
-        XmpData::const_iterator formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":format"));
+        auto formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":format"));
         if (formatDatum == xmpData.end()) return;
-        XmpData::const_iterator widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":width"));
+        auto widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":width"));
         if (widthDatum == xmpData.end()) return;
-        XmpData::const_iterator heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":height"));
+        auto heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":height"));
         if (heightDatum == xmpData.end()) return;
 
         if (formatDatum->toString() != "JPEG") return;
@@ -1018,7 +1018,7 @@ namespace {
         }
 
         const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
-        const byte *headerBytes = reinterpret_cast<const byte*>(header.data());
+        const auto headerBytes = reinterpret_cast<const byte *>(header.data());
 
         DataBuf dest(static_cast<long>(header.size() + rgb.size_));
         std::copy(headerBytes, headerBytes + header.size(), dest.pData_);

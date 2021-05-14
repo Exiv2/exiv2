@@ -1718,7 +1718,7 @@ namespace Action {
             return 0;
         }
         Exiv2::Value::UniquePtr v = pos->getValue();
-        const Exiv2::CommentValue* pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
+        const auto pcv = dynamic_cast<const Exiv2::CommentValue*>(v.get());
         if (!pcv) {
             if (Params::instance().verbose_) {
                 std::cout << _("Found Exif user comment with unexpected value type") << "\n";

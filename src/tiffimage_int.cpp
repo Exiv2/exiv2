@@ -1676,7 +1676,7 @@ namespace Exiv2 {
                                                IfdId    group)
     {
         TiffComponent::UniquePtr tc;
-        uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
+        auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
         const TiffGroupStruct* ts = find(tiffGroupStruct_,
                                          TiffGroupStruct::Key(extendedTag, group));
         if (ts && ts->newTiffCompFct_) {
@@ -1805,7 +1805,7 @@ namespace Exiv2 {
             BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
             IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
-            uint32_t imageIdx(uint32_t(-1));
+            auto imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
                                header.size_,
@@ -1873,7 +1873,7 @@ namespace Exiv2 {
         for (auto&& imageGroup : imageGroups) {
             TiffFinder finder(0x00fe, imageGroup);
             pSourceDir->accept(finder);
-            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+            auto te = dynamic_cast<TiffEntryBase*>(finder.result());
             const Value* pV = te != NULL ? te->pValue() : NULL;
             if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toLong() & 1) == 0) {
                 primaryGroups.push_back(te->group());
@@ -2122,7 +2122,7 @@ namespace Exiv2 {
 
     void OffsetWriter::setTarget(OffsetId id, uint32_t target)
     {
-        OffsetList::iterator it = offsetList_.find(id);
+        auto it = offsetList_.find(id);
         if (it != offsetList_.end()) it->second.target_ = target;
     }
 

@@ -96,7 +96,7 @@ try {
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
-    Exiv2::URationalValue* prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
+    auto prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
     if (prv == 0) throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
     rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
