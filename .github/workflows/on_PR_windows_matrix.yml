@@ -78,7 +78,5 @@ jobs:
         env:
           EXIV2_EXT: .exe
         run: |
-          cd build/bin
-          ./unit_tests.exe
-          cd ../../tests/
-          python.exe runner.py -v
+          cd build
+          ctest --output-on-failure
