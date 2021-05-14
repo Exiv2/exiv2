@@ -18,7 +18,7 @@ class Exiv2Conan(ConanFile):
 
     def configure(self):
         self.options['libcurl'].shared = True
-        self.options['gtest'].shared = True
+        self.options['gtest'].shared = False
 
     def requirements(self):
         self.requires('zlib/1.2.11')
