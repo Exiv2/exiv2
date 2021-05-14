@@ -34,9 +34,9 @@ public:
 
 TEST_F(ATiffHeader, hasExpectedValuesAfterCreation)
 {
-    ASSERT_EQ(8u, header.size());
+    ASSERT_EQ(8U, header.size());
     ASSERT_EQ(42, header.tag());
-    ASSERT_EQ(8u, header.offset());
+    ASSERT_EQ(8U, header.offset());
     ASSERT_EQ(littleEndian, header.byteOrder());
 }
 
@@ -44,7 +44,7 @@ TEST_F(ATiffHeader, canBeWrittenAndItsSizeIs8Bytes)
 {
     DataBuf buffer = header.write();
     ASSERT_EQ(header.size(), buffer.size_);
-    ASSERT_EQ(8u, header.size());
+    ASSERT_EQ(8U, header.size());
 }
 
 TEST_F(ATiffHeader, readDataFromBufferWithCorrectSize)

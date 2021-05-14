@@ -531,7 +531,7 @@ static void boxes_check(size_t b,size_t m)
                                 out << Internal::stringFormat("%8ld | %8ld |  sub:", (size_t)address,
                                                               (size_t)subBox.length)
                                     << toAscii(subBox.type) << " | "
-                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30l, data.size_)));
+                                    << Internal::binaryToString(makeSlice(data, 0, std::min(30L, data.size_)));
                                 bLF = true;
                             }
 

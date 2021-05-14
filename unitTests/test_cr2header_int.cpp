@@ -30,7 +30,7 @@ TEST(ACr2Header, hasExpectedValuesAfterCreation)
 {
     Internal::Cr2Header header;
     ASSERT_EQ(42, header.tag());
-    ASSERT_EQ(16u, header.size());
+    ASSERT_EQ(16U, header.size());
     ASSERT_EQ(littleEndian, header.byteOrder());
 }
 
