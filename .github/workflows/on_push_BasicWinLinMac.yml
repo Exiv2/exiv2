@@ -50,8 +50,8 @@ jobs:
 
       - name: Unit Test
         run: |
-          cd build/bin
-          ./unit_tests.exe
+          cd build
+          ctest --output-on-failure
 
   Linux:
     name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
