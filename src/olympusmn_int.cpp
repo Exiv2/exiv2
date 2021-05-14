@@ -1457,8 +1457,6 @@ namespace Exiv2 {
             { 3, N_("Multi AF")               },
             { 4, N_("Face detect")            },
             { 10, N_("MF")                    },
-            // End of list marker
-            { 0xff, "" }
         };
         static struct {
             uint16_t val;
@@ -1470,39 +1468,37 @@ namespace Exiv2 {
             { 0x0020, N_("Face detect") },
             { 0x0040, N_("Imager AF")   },
             { 0x0100, N_("AF sensor")   },
-            // End of list marker
-            { 0, "" }
         };
 
         if (value.count() < 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
-        } else {
-            uint16_t v = (uint16_t)value.toLong(0);
+        }
+        auto v = (uint16_t)value.toLong(0);
 
-            // If value 2 is present, it is used instead of value 1.
-            if (value.count() > 1) {
-                std::string p;  // Used to enable ',' separation
+        // If value 2 is present, it is used instead of value 1.
+        if (value.count() > 1) {
+            std::string p;  // Used to enable ',' separation
 
-                v = (uint16_t)value.toLong(1);
-                for (int i = 0; focusModes1[i].val != 0; i++) {
-                    if ((v & focusModes1[i].val) != 0) {
-                        if (!p.empty()) {
-                            os << ", ";
-                        }
-                        p = focusModes1[i].label;
-                        os << p;
+            v = (uint16_t)value.toLong(1);
+            for (auto&& mode : focusModes1) {
+                if ((v &mode.val) != 0) {
+                    if (!p.empty()) {
+                        os << ", ";
                     }
-                }
-            } else {
-                for (int i = 0; focusModes0[i].val != 0xff; i++) {
-                   if (focusModes0[i].val == v) {
-                       os << focusModes0[i].label;
-                       break;
-                   }
+                    p = mode.label;
+                    os << p;
                 }
             }
-            return os << v;
+        } else {
+            for (auto&& mode : focusModes0) {
+                if (mode.val == v) {
+                    os << mode.label;
+                    break;
+                }
+            }
         }
+        return os << v;
+
     } // OlympusMakerNote::printCs0x0301
 
     //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c

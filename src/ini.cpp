@@ -270,10 +270,9 @@ bool INIReader::GetBoolean(string section, string name, bool default_value)
     std::transform(valstr.begin(), valstr.end(), valstr.begin(), ::tolower);
     if (valstr == "true" || valstr == "yes" || valstr == "on" || valstr == "1")
         return true;
-    else if (valstr == "false" || valstr == "no" || valstr == "off" || valstr == "0")
+    if (valstr == "false" || valstr == "no" || valstr == "off" || valstr == "0")
         return false;
-    else
-        return default_value;
+    return default_value;
 }
 
 string INIReader::MakeKey(string section, string name)

@@ -464,7 +464,8 @@ namespace Exiv2 {
 
                 if (chunkType == "IEND") {
                     return;  // Last chunk found: we stop parsing.
-                } else if (chunkType == "IHDR" && chunkData.size_ >= 8) {
+                }
+                if (chunkType == "IHDR" && chunkData.size_ >= 8) {
                     PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
                 } else if (chunkType == "tEXt") {
                     PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk);
@@ -587,12 +588,10 @@ namespace Exiv2 {
                     throw Error(kerImageWriteFailed);
                 return;
             }
-            else if ( !strcmp(szChunk, "eXIf") ) {
+            if (!strcmp(szChunk, "eXIf")) {
                 ; // do nothing  Exif metdata is written following IHDR
                 ; // as zTXt chunk with signature Raw profile type exif__
-            }
-            else if ( !strcmp(szChunk, "IHDR")  )
-            {
+            } else if (!strcmp(szChunk, "IHDR")) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
@@ -691,12 +690,8 @@ namespace Exiv2 {
                         throw Error(kerImageWriteFailed);
                     }
                 }
-            }
-            else if (!strcmp(szChunk, "tEXt") ||
-                     !strcmp(szChunk, "zTXt") ||
-                     !strcmp(szChunk, "iTXt") ||
-                     !strcmp(szChunk, "iCCP"))
-            {
+            } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt") ||
+                       !strcmp(szChunk, "iCCP")) {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
                 if (compare("Raw profile type exif", key, 21) ||
                     compare("Raw profile type APP1", key, 21) ||
@@ -720,16 +715,13 @@ namespace Exiv2 {
 #endif
                     if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
                 }
-            }
-            else
-            {
+            } else {
                 // Write all others chunk as well.
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk
                           << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
                 if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
-
             }
         }
 

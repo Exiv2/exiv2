@@ -401,7 +401,8 @@ namespace {
                 EXV_WARNING << "Nested document at invalid position: " << startPos << "\n";
                 #endif
                 throw Error(write ? kerImageWriteFailed : kerFailedToReadImageData);
-            } else if (startsWith(line, "%%BeginDocument:")) {
+            }
+            if (startsWith(line, "%%BeginDocument:")) {
                 if (depth == maxDepth) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Document too deeply nested at position: " << startPos << "\n";
@@ -418,11 +419,11 @@ namespace {
                 }
                 depth--;
             } else {
-                #ifdef DEBUG
+#ifdef DEBUG
                 significantLine = false;
                 #endif
             }
-            #ifdef DEBUG
+#ifdef DEBUG
             if (significantLine) {
                 EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
             }

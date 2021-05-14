@@ -412,10 +412,9 @@ namespace Exiv2 {
                 return;
             }
 #ifndef SUPPRESS_WARNINGS
-            else {
-                EXV_WARNING << "Failed to decode IPTC block found in "
-                            << "Directory Image, entry 0x83bb\n";
-            }
+            EXV_WARNING << "Failed to decode IPTC block found in "
+                        << "Directory Image, entry 0x83bb\n";
+
 #endif
         }
 
@@ -436,10 +435,9 @@ namespace Exiv2 {
                 return;
             }
 #ifndef SUPPRESS_WARNINGS
-            else {
-                EXV_WARNING << "Failed to decode IPTC block found in "
-                            << "Directory Image, entry 0x8649\n";
-            }
+            EXV_WARNING << "Failed to decode IPTC block found in "
+                        << "Directory Image, entry 0x8649\n";
+
 #endif
         }
     } // TiffMetadataDecoder::decodeIptc

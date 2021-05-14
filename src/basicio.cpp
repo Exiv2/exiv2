@@ -2315,12 +2315,11 @@ namespace Exiv2 {
 
         if(res != CURLE_OK) {
             throw Error(kerErrorMessage, curl_easy_strerror(res));
-        } else {
-            int serverCode;
-            curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
-            if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
-            }
+        }
+        int serverCode;
+        curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
+        if (serverCode >= 400 || serverCode < 0) {
+            throw Error(kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
         }
     }
 
@@ -2367,12 +2366,11 @@ namespace Exiv2 {
 
         if(res != CURLE_OK) {
             throw Error(kerErrorMessage, curl_easy_strerror(res));
-        } else {
-            int serverCode;
-            curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode);
-            if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
-            }
+        }
+        int serverCode;
+        curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);
+        if (serverCode >= 400 || serverCode < 0) {
+            throw Error(kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
         }
     }
 
@@ -2384,18 +2382,16 @@ namespace Exiv2 {
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(data, wcount);
-        } else {
-            throw Error(kerErrorMessage, "doesnt support write for this protocol.");
         }
+        throw Error(kerErrorMessage, "doesnt support write for this protocol.");
     }
 
     long CurlIo::write(BasicIo& src)
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(src);
-        } else {
-            throw Error(kerErrorMessage, "doesnt support write for this protocol.");
         }
+        throw Error(kerErrorMessage, "doesnt support write for this protocol.");
     }
 
     CurlIo::CurlIo(const std::string& url, size_t blockSize)

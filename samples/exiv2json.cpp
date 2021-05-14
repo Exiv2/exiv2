@@ -104,7 +104,8 @@ Jzon::Node& addToTree(Jzon::Node& r1,Token token)
         Jzon::Object& o1 = r1.AsObject();
         if (   !o1.Has(key) ) o1.Add(key,empty);
         return  o1.Get(key);
-    } else if ( r1.IsArray() ) {
+    }
+    if (r1.IsArray()) {
         Jzon::Array& a1 = r1.AsArray();
         while ( a1.GetCount() <= index ) a1.Add(empty);
         return  a1.Get(index);

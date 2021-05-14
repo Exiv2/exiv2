@@ -473,11 +473,13 @@ namespace {
         }
         if (nativePreview_.filter_.empty()) {
             return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
-        } else if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
+        }
+        if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
             const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
             const DataBuf rgb = decodeAi7Thumbnail(ai7thumbnail);
             return makePnm(width_, height_, rgb);
-        } else if (nativePreview_.filter_ == "hex-irb") {
+        }
+        if (nativePreview_.filter_ == "hex-irb") {
             const DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
             const byte *record;
             uint32_t sizeHdr;
@@ -489,9 +491,8 @@ namespace {
                 return DataBuf();
             }
             return DataBuf(record + sizeHdr + 28, sizeData - 28);
-        } else {
-            throw Error(kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
         }
+        throw Error(kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
     }
 
     bool LoaderNative::readDimensions()
