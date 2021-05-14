@@ -669,10 +669,9 @@ namespace Exiv2 {
             };
             return os;
         }
-        else
-        {
-            return os << value;
-        };
+
+        return os << value;
+        ;
     } // PanasonicMakerNote::printPanasonicText
 
     // Manometer Pressure

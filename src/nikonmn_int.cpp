@@ -2620,9 +2620,7 @@ fmountlens[] = {
             if (pf->lensname == NULL) {
                 return os << value;
             }
-            else {
-                return os << pf->manuf << " " << pf->lensname;
-            }
+            return os << pf->manuf << " " << pf->lensname;
         }
 
 

@@ -280,10 +280,7 @@ namespace Exiv2 {
             return   (byte)buf[3] << 24 | (byte)buf[2] << 16
                    | (byte)buf[1] <<  8 | (byte)buf[0];
         }
-        else {
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
-                   | (byte)buf[2] <<  8 | (byte)buf[3];
-        }
+        return (byte)buf[0] << 24 | (byte)buf[1] << 16 | (byte)buf[2] << 8 | (byte)buf[3];
     }
 
     uint64_t getULongLong(const byte* buf, ByteOrder byteOrder)
@@ -294,12 +291,8 @@ namespace Exiv2 {
                    | (uint64_t)buf[3] << 24 | (uint64_t)buf[2] << 16
                    | (uint64_t)buf[1] <<  8 | (uint64_t)buf[0];
         }
-        else {
-            return   (uint64_t)buf[0] << 56 | (uint64_t)buf[1] << 48
-                   | (uint64_t)buf[2] << 40 | (uint64_t)buf[3] << 32
-                   | (uint64_t)buf[4] << 24 | (uint64_t)buf[5] << 16
-                   | (uint64_t)buf[6] <<  8 | (uint64_t)buf[7];
-        }
+        return (uint64_t)buf[0] << 56 | (uint64_t)buf[1] << 48 | (uint64_t)buf[2] << 40 | (uint64_t)buf[3] << 32 |
+               (uint64_t)buf[4] << 24 | (uint64_t)buf[5] << 16 | (uint64_t)buf[6] << 8 | (uint64_t)buf[7];
     }
 
     URational getURational(const byte* buf, ByteOrder byteOrder)
@@ -314,9 +307,7 @@ namespace Exiv2 {
         if (byteOrder == littleEndian) {
             return (byte)buf[1] << 8 | (byte)buf[0];
         }
-        else {
-            return (byte)buf[0] << 8 | (byte)buf[1];
-        }
+        return (byte)buf[0] << 8 | (byte)buf[1];
     }
 
     int32_t getLong(const byte* buf, ByteOrder byteOrder)
@@ -325,10 +316,7 @@ namespace Exiv2 {
             return   (byte)buf[3] << 24 | (byte)buf[2] << 16
                    | (byte)buf[1] <<  8 | (byte)buf[0];
         }
-        else {
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
-                   | (byte)buf[2] <<  8 | (byte)buf[3];
-        }
+        return (byte)buf[0] << 24 | (byte)buf[1] << 16 | (byte)buf[2] << 8 | (byte)buf[3];
     }
 
     Rational getRational(const byte* buf, ByteOrder byteOrder)
