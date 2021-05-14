@@ -2730,7 +2730,7 @@ namespace Exiv2 {
         auto pos = metadata->findKey(key);
         if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
-            if (fu != 0.0f) {
+            if (fu != 0.0F) {
                 float fl = value.toFloat(1) / fu;
                 std::ostringstream oss;
                 oss.copyfmt(os);
@@ -2829,14 +2829,14 @@ namespace Exiv2 {
     {
         ExifKey key("Exif.CanonCs.Lens");
         auto pos = metadata->findKey(key);
-        ltfl.focalLengthMin_ = 0.0f;
-        ltfl.focalLengthMax_ = 0.0f;
+        ltfl.focalLengthMin_ = 0.0F;
+        ltfl.focalLengthMax_ = 0.0F;
         if (pos != metadata->end()) {
             const Value &value = pos->value();
             if (   value.count() >= 3
                 && value.typeId() == unsignedShort) {
                 float fu = value.toFloat(2);
-                if (fu != 0.0f) {
+                if (fu != 0.0F) {
                     ltfl.focalLengthMin_ = value.toLong(1) / fu;
                     ltfl.focalLengthMax_ = value.toLong(0) / fu;
                 }
@@ -2869,9 +2869,9 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLengthMax_ == 0.0f)
+        if (ltfl.focalLengthMax_ == 0.0F)
             return os << value;
-        convertFocalLength(ltfl, 1.0f);
+        convertFocalLength(ltfl, 1.0F);
 
         ExifKey key("Exif.CanonCs.MaxAperture");
         auto pos = metadata->findKey(key);
@@ -2907,9 +2907,9 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLengthMax_ == 0.0f)
+        if (ltfl.focalLengthMax_ == 0.0F)
             return os << value;
-        convertFocalLength(ltfl, 1.0f);
+        convertFocalLength(ltfl, 1.0F);
 
         if (ltfl.focalLength_.empty()) return os << value;
 
@@ -2930,15 +2930,15 @@ namespace Exiv2 {
         ltfl.lensType_ = value.toLong();
 
         extractLensFocalLength(ltfl, metadata);
-        if (ltfl.focalLengthMax_ == 0.0f)
+        if (ltfl.focalLengthMax_ == 0.0F)
             return os << value;
-        convertFocalLength(ltfl, 1.0f);  // just lens
+        convertFocalLength(ltfl, 1.0F);  // just lens
         const TagDetails* td = find(canonCsLensType, ltfl);
         if (!td) {
-            convertFocalLength(ltfl, 1.4f); // lens + 1.4x TC
+            convertFocalLength(ltfl, 1.4F);  // lens + 1.4x TC
             td = find(canonCsLensType, ltfl);
             if (!td) {
-                convertFocalLength(ltfl, 2.0f); // lens + 2x TC
+                convertFocalLength(ltfl, 2.0F);  // lens + 2x TC
                 td = find(canonCsLensType, ltfl);
                 if (!td) return os << value;
             }
@@ -2985,7 +2985,7 @@ namespace Exiv2 {
         }
 
         float fu = value.toFloat(2);
-        if (fu == 0.0f)
+        if (fu == 0.0F)
             return os << value;
         float len1 = value.toLong(0) / fu;
         float len2 = value.toLong(1) / fu;
@@ -3009,7 +3009,7 @@ namespace Exiv2 {
         std::ios::fmtflags f( os.flags() );
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
-            os << std::exp(canonEv(value.toLong()) / 32 * std::log(2.0f)) * 100.0f;
+            os << std::exp(canonEv(value.toLong()) / 32 * std::log(2.0F)) * 100.0F;
         }
         os.flags(f);
         return os;
@@ -3023,7 +3023,7 @@ namespace Exiv2 {
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
             // Ported from Exiftool by Will Stokes
-            os << std::exp(canonEv(value.toLong()) * std::log(2.0f)) * 100.0f / 32.0f;
+            os << std::exp(canonEv(value.toLong()) * std::log(2.0F)) * 100.0F / 32.0F;
         }
         os.flags(f);
         return os;
@@ -3216,15 +3216,15 @@ namespace Exiv2 {
         val -= long(frac);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {
-            frac = 32.0f / 3;
+            frac = 32.0F / 3;
         }
         else if (frac == 0x14) {
-            frac = 64.0f / 3;
+            frac = 64.0F / 3;
         }
         else if ((val == 160) && (frac == 0x08)) { // for Sigma f/6.3 lenses that report f/6.2 to camera
             frac = 30.0F / 3;
         }
-        return sign * (val + frac) / 32.0f;
+        return sign * (val + frac) / 32.0F;
     }
 
 }}                                      // namespace Internal, Exiv2

@@ -51,13 +51,13 @@ TEST(AFileIO, returnsFileSizeIfItsOpened)
 {
     FileIo file(imagePath);
     file.open();
-    ASSERT_EQ(118685ul, file.size());
+    ASSERT_EQ(118685UL, file.size());
 }
 
 TEST(AFileIO, returnsFileSizeEvenWhenFileItIsNotOpened)
 {
     FileIo file(imagePath);
-    ASSERT_EQ(118685ul, file.size());
+    ASSERT_EQ(118685UL, file.size());
 }
 
 TEST(AFileIO, isOpenedAtPosition0)

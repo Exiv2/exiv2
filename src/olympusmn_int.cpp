@@ -1183,7 +1183,7 @@ namespace Exiv2 {
             return os << "(" << value << ")";
         }
         float f = value.toFloat();
-        if (f == 0.0f || f == 1.0f)
+        if (f == 0.0F || f == 1.0F)
             return os << _("None");
         std::ostringstream oss;
         oss.copyfmt(os);
