@@ -88,16 +88,7 @@ add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
-    add_custom_target(unit_test
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/unit_test.py
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-    )
 endif()
-
-add_custom_target(version_test
-    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-)
 
 if( EXIV2_BUILD_SAMPLES )
     add_test(NAME bashTests
