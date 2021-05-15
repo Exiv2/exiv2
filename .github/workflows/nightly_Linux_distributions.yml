@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
         # centos:8 had linking issues with gtest
