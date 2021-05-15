@@ -152,7 +152,7 @@ namespace Exiv2 {
         static std::array<int, 256> value;
         static bool bFirst = true;
         if ( bFirst ) {
-            value = {};
+            value.fill(0);
             for ( int i = 0 ; i < 16 ; i++ ) {
                 value[tolower(hexdigits[i])]=i+1;
                 value[toupper(hexdigits[i])]=i+1;
