@@ -1,6 +1,8 @@
 # set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+find_package (Python3 COMPONENTS Interpreter REQUIRED)
+
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
      set(CMAKE_FIND_FRAMEWORK NEVER)
