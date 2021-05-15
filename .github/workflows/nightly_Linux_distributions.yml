@@ -25,6 +25,12 @@ jobs:
         CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DCMAKE_INSTALL_PREFIX=install
 
     steps:
+    - name: install tar in opensuse
+      run: |
+        distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
+        echo $distro_id
+        if [[ "$distro_id" == "opensuse-tumbleweed" ]]; then zypper --non-interactive install tar gzip; fi
+
     - uses: actions/checkout@v2
     - name: install dependencies
       run: ./ci/install_dependencies.sh

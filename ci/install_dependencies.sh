@@ -63,9 +63,9 @@ case "$distro_id" in
         yum -y install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python3 dos2unix
         ;;
 
-    'opensuse'|'opensuse-tumbleweed')
+    'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl tar libcurl-devel git which dos2unix libxml2-tools gzip
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl libcurl-devel git which dos2unix libxml2-tools
         pushd /tmp
           curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
           tar xzf   release-1.8.0.tar.gz
