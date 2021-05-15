@@ -1,8 +1,9 @@
 # Runs daily at 04:00 AM
-on:
-  workflow_dispatch:
-  schedule:
-  - cron: 0 4 * * *
+#on:
+#  workflow_dispatch:
+#  schedule:
+#  - cron: 0 4 * * *
+on: [push]
 
 name: CI for different Linux distributions
 
