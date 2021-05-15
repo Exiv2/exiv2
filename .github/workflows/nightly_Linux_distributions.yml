@@ -11,11 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
         # centos:8 had linking issues with gtest
-        container_image: ["fedora:latest", "debian:9", "archlinux:base", "ubuntu:20.04", "centos:8", "opensuse/tumbleweed", "alpine:3.13"]
+        # centos:7 Added so that we have a distro with very old gcc version (4.9) which should be c++11 feature-complete
+        container_image: ["fedora:latest", "debian:9", "archlinux:base", "ubuntu:20.04", "centos:7", "centos:8", "opensuse/tumbleweed", "alpine:3.13"]
         compiler: [g++, clang++]
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
