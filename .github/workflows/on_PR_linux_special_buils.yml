@@ -40,10 +40,8 @@ jobs:
         env:
           EXIV2_EXT: .exe
         run: |
-          cd build/bin
-          ./unit_tests
-          cd ../../tests/
-          python runner.py -v
+          cd build
+          ctest --output-on-failure
           bash <(curl -s https://codecov.io/bash)
 
   special_releaseValgrind:
@@ -119,10 +117,8 @@ jobs:
         env:
           EXIV2_EXT: .exe
         run: |
-          cd build/bin
-          ./unit_tests
-          cd ../../tests/
-          python runner.py -v
+          cd build
+          ctest --output-on-failure
 
   special_allEnabled:
     name: 'Ubuntu 20.04 - GCC - All Options Enabled'
