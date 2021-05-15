@@ -2,6 +2,20 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
+CI Status:
+
+[![Basic CI for all platforms on push](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml)
+
+[![CI for different Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml)
+
+[![Linux Special Builds on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml)
+
+[![Linux-Ubuntu Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml)
+
+[![Mac Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml)
+
+[![Win Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml)
+
 <div id="1">
 
 # Welcome to Exiv2
