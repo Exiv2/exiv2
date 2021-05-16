@@ -103,6 +103,8 @@ jobs:
           conan profile new --detect default
           conan profile show default
           conan install .. -o webready=True --build missing
+          # Hack: Delete cmake_find_package generated files to fix compilation on mac.
+          rm Find*
 
       - name: build and compile
         run: |

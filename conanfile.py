@@ -4,7 +4,7 @@ from conans.model.version import Version
 
 class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
-    generators = 'cmake_find_package'
+    generators = 'cmake_find_package', 'cmake_paths'
     options = {'unitTests': [True, False],
                'xmp': [True, False],
                'iconv': [True, False],

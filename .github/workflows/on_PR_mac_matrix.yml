@@ -27,6 +27,8 @@ jobs:
           conan profile new --detect default
           conan profile show default
           conan install .. -o webready=True --build missing
+          # Hack: Delete cmake_find_package generated files to fix compilation on mac.
+          rm Find*
 
       - name: Build
         run: |
@@ -38,7 +40,6 @@ jobs:
         run: |
           cd build
           cmake --build . --target install
-          # tree install Not available on Mac
 
       - name: Test
         env:
