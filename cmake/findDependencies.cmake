@@ -1,6 +1,15 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+
+if (APPLE)
+    # On Apple, we use the conan cmake_paths generator
+    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+    endif()
+else()
+    # Otherwise, we rely on the conan cmake_find_package generator
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+endif()
 
 find_package (Python3 COMPONENTS Interpreter REQUIRED)
 
