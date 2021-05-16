@@ -107,6 +107,7 @@ if(MSVC)
         PATHS ENV CLCACHE_PATH
         PATH_SUFFIXES Scripts clcache-4.1.0
     )
+
     if (CLCACHE)
         message(STATUS "clcache found in ${CLCACHE}")
         if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -115,6 +116,12 @@ if(MSVC)
             set(CMAKE_CXX_COMPILER ${CLCACHE})
         endif()
     endif()
+
+    # Make Debug builds a little faster without sacrificing debugging experience
+    #set (CMAKE_CXX_FLAGS_DEBUG "/MDd /Zi /Ob0 /Od /RTC1")
+    set (CMAKE_CXX_FLAGS_DEBUG "/MDd /Zi /Ob0 /Ox /Zo")
+    # /Ox (Enable Most Speed Optimizations)
+    # /Zo (Enhance Optimized Debugging)
 
     set(variables
       CMAKE_CXX_FLAGS_DEBUG
