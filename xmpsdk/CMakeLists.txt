@@ -28,13 +28,12 @@ add_library(exiv2-xmp STATIC
 
 target_link_libraries(exiv2-xmp
     PRIVATE 
-        $<BUILD_INTERFACE:${EXPAT_LIBRARY}>
+    EXPAT::EXPAT
 )
 
 target_include_directories(exiv2-xmp SYSTEM
     PRIVATE 
         ${PROJECT_SOURCE_DIR}/xmpsdk/include
-        ${EXPAT_INCLUDE_DIR}
 )
 
 # Prevent a denial-service-attack related to XML entity expansion

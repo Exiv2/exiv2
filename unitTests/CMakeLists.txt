@@ -29,8 +29,8 @@ target_compile_definitions(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
-        GTest::GTest
-        GTest::Main
+        GTest::gtest
+        GTest::gtest_main
 )
 
 # ZLIB is used in exiv2lib_int.
@@ -46,9 +46,5 @@ target_include_directories(unit_tests
 set_target_properties(unit_tests PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
-
-if (MSVC)
-    set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")
-endif()
 
 add_test(NAME unit_tests COMMAND unit_tests)
