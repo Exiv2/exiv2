@@ -1,5 +1,6 @@
-# set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 find_package (Python3 COMPONENTS Interpreter REQUIRED)
 
@@ -8,9 +9,6 @@ if (APPLE)
      set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
 
-if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
-    include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-endif()
 
 find_package(Threads REQUIRED)
 

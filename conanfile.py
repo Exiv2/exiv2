@@ -4,7 +4,7 @@ from conans.model.version import Version
 
 class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
-    generators = 'cmake_paths'
+    generators = 'cmake_find_package'
     options = {'unitTests': [True, False],
                'xmp': [True, False],
                'iconv': [True, False],
@@ -35,10 +35,7 @@ class Exiv2Conan(ConanFile):
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            if os_info.is_windows:
-                self.requires('Expat/2.2.6@pix4d/stable')
-            else:
-                self.requires('expat/2.3.0')
+            self.requires('expat/2.3.0')
 
     def imports(self):
         self.copy('*.dll', dst='bin', src='bin')
