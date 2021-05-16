@@ -75,6 +75,7 @@ jobs:
           tree /f install
 
       - name: Test
+        if: ${{matrix.platform == 'x64'}}
         env:
           EXIV2_EXT: .exe
         run: |
