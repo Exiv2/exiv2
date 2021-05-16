@@ -93,15 +93,15 @@ endif()
 if( EXIV2_BUILD_SAMPLES )
     add_test(NAME bashTests
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-        COMMAND env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py bash_tests/testcases.py --verbose
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py bash_tests/testcases.py --verbose
     )
     add_test(NAME versionTests
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-        COMMAND env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py bash_tests/version_test.py
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py bash_tests/version_test.py
     )
     add_test(NAME pythonTests
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-        COMMAND env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py
     )
 
     add_subdirectory( samples )
