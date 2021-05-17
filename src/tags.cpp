@@ -57,7 +57,7 @@ namespace Exiv2 {
 
 
     //! List of all defined Exif sections.
-    extern const SectionInfo sectionInfo[] = {
+    constexpr SectionInfo sectionInfo[] = {
         { sectionIdNotSet, "(UnknownSection)",     N_("Unknown section")              },
         { imgStruct,       "ImageStructure",       N_("Image data structure")         },
         { recOffset,       "RecordingOffset",      N_("Recording offset")             },
@@ -94,9 +94,9 @@ namespace Exiv2 {
     }
 
     // Unknown Tag
-    static const TagInfo unknownTag(0xffff, "Unknown tag", N_("Unknown tag"),
+    static const TagInfo unknownTag{0xffff, "Unknown tag", N_("Unknown tag"),
                                     N_("Unknown tag"),
-                                    ifdIdNotSet, sectionIdNotSet, asciiString, -1, printValue);
+                                    ifdIdNotSet, sectionIdNotSet, asciiString, -1, printValue};
 
     }  // namespace Internal
 }  // namespace Exiv2
@@ -117,22 +117,6 @@ namespace Exiv2 {
     bool GroupInfo::operator==(const GroupName& groupName) const
     {
         return 0 == strcmp(groupName.g_.c_str(), groupName_);
-    }
-
-    TagInfo::TagInfo(
-        uint16_t tag,
-        const char* name,
-        const char* title,
-        const char* desc,
-        int ifdId,
-        int sectionId,
-        TypeId typeId,
-        int16_t count,
-        PrintFct printFct
-    )
-        : tag_(tag), name_(name), title_(title), desc_(desc), ifdId_(ifdId),
-          sectionId_(sectionId), typeId_(typeId), count_(count), printFct_(printFct)
-    {
     }
 
     const char* ExifTags::sectionName(const ExifKey& key)

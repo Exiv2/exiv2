@@ -1081,7 +1081,7 @@ namespace Exiv2 {
 #define NA ((uint32_t)-1)
 
     //! Nikon binary array version lookup table
-    extern const NikonArrayIdx nikonArrayIdx[] = {
+    constexpr NikonArrayIdx nikonArrayIdx[] = {
         // NikonSi
         { 0x0091, "0208",    0, 0,   4 }, // D80
         { 0x0091, "0209",    0, 1,   4 }, // D40

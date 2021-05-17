@@ -48,7 +48,7 @@ struct TiffTagInfo {
     const char* name_;
 };
 
-extern const TiffTagInfo tiffTagInfo[] = {
+static constexpr TiffTagInfo tiffTagInfo[] = {
     {   0x10000, "none" },
     {   0x20000, "root" },
     {   0x30000, "next" },

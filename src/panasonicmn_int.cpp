@@ -38,7 +38,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! Quality, tag 0x0001
-    extern const TagDetails panasonicQuality[] = {
+    constexpr TagDetails panasonicQuality[] = {
         {  1, N_("TIFF")           },
         {  2, N_("High")           },
         {  3, N_("Normal")         },
@@ -50,7 +50,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x0003
-    extern const TagDetails panasonicWhiteBalance[] = {
+    constexpr TagDetails panasonicWhiteBalance[] = {
         {  1, N_("Auto")            },
         {  2, N_("Daylight")        },
         {  3, N_("Cloudy")          },
@@ -64,7 +64,7 @@ namespace Exiv2 {
     };
 
     //! FocusMode, tag 0x0007
-    extern const TagDetails panasonicFocusMode[] = {
+    constexpr TagDetails panasonicFocusMode[] = {
         {  1, N_("Auto")               },
         {  2, N_("Manual")             },
         {  4, N_("Auto, focus button") },
@@ -75,7 +75,7 @@ namespace Exiv2 {
     };
 
     //! ImageStabilizer, tag 0x001a
-    extern const TagDetails panasonicImageStabilizer[] = {
+    constexpr TagDetails panasonicImageStabilizer[] = {
         {  2, N_("On, Mode 1") },
         {  3, N_("Off")        },
         {  4, N_("On, Mode 2") },
@@ -84,7 +84,7 @@ namespace Exiv2 {
     };
 
     //! Macro, tag 0x001c
-    extern const TagDetails panasonicMacro[] = {
+    constexpr TagDetails panasonicMacro[] = {
         {   1, N_("On")         },
         {   2, N_("Off")        },
         { 257, N_("Tele-macro") },
@@ -92,7 +92,7 @@ namespace Exiv2 {
     };
 
     //! ShootingMode, tag 0x001f and SceneMode, tag 0x8001
-    extern const TagDetails panasonicShootingMode[] = {
+    constexpr TagDetails panasonicShootingMode[] = {
         {  0, N_("Off")                            }, // only SceneMode
         {  1, N_("Normal")                         },
         {  2, N_("Portrait")                       },
@@ -173,14 +173,14 @@ namespace Exiv2 {
     };
 
     //! Audio, tag 0x0020
-    extern const TagDetails panasonicAudio[] = {
+    constexpr TagDetails panasonicAudio[] = {
         { 1, N_("Yes")    },
         { 2, N_("No")     },
         { 3, N_("Stereo") }
     };
 
     //! ColorEffect, tag 0x0028
-    extern const TagDetails panasonicColorEffect[] = {
+    constexpr TagDetails panasonicColorEffect[] = {
         { 1, N_("Off")             },
         { 2, N_("Warm")            },
         { 3, N_("Cool")            },
@@ -190,14 +190,14 @@ namespace Exiv2 {
     };
 
     //! BustMode, tag 0x002a
-    extern const TagDetails panasonicBurstMode[] = {
+    constexpr TagDetails panasonicBurstMode[] = {
         { 0, N_("Off")              },
         { 1, N_("Low/High quality") },
         { 2, N_("Infinite")         }
     };
 
     //! Contrast, tag 0x002c
-    extern const TagDetails panasonicContrast[] = {
+    constexpr TagDetails panasonicContrast[] = {
         {   0, N_("Normal")      },
         {   1, N_("Low")         },
         {   2, N_("High")        },
@@ -210,7 +210,7 @@ namespace Exiv2 {
     };
 
     //! NoiseReduction, tag 0x002d
-    extern const TagDetails panasonicNoiseReduction[] = {
+    constexpr TagDetails panasonicNoiseReduction[] = {
         { 0, N_("Standard") },
         { 1, N_("Low (-1)")     },
         { 2, N_("High (+1)")    },
@@ -219,7 +219,7 @@ namespace Exiv2 {
     };
 
     //! SelfTimer, tag 0x002e
-    extern const TagDetails panasonicSelfTimer[] = {
+    constexpr TagDetails panasonicSelfTimer[] = {
         { 1, N_("Off")                },
         { 2, "10 s"               },
         { 3, "2 s"                },
@@ -227,7 +227,7 @@ namespace Exiv2 {
     };
 
     //! Rotation, tag 0x0030
-    extern const TagDetails panasonicRotation[] = {
+    constexpr TagDetails panasonicRotation[] = {
         { 1, N_("Horizontal (normal)") },
         { 3, N_("Rotate 180")          },
         { 6, N_("Rotate 90 CW")        },
@@ -235,7 +235,7 @@ namespace Exiv2 {
     };
 
     //! AFAssistLamp, tag 0x0031
-    extern const TagDetails panasonicAFAssistLamp[] = {
+    constexpr TagDetails panasonicAFAssistLamp[] = {
         { 1, N_("Fired")                     },
         { 2, N_("Enabled but Not Used")      },
         { 3, N_("Disabled but Required")     },
@@ -243,20 +243,20 @@ namespace Exiv2 {
     };
 
     //! ColorMode, tag 0x0032
-    extern const TagDetails panasonicColorMode[] = {
+    constexpr TagDetails panasonicColorMode[] = {
         { 0, N_("Normal")  },
         { 1, N_("Natural") },
         { 2, N_("Vivid")   }
     };
 
     //! OpticalZoomMode, tag 0x0034
-    extern const TagDetails panasonicOpticalZoomMode[] = {
+    constexpr TagDetails panasonicOpticalZoomMode[] = {
         { 1, N_("Standard")  },
         { 2, N_("EX optics") }
     };
 
     //! ConversionLens, tag 0x0035
-    extern const TagDetails panasonicConversionLens[] = {
+    constexpr TagDetails panasonicConversionLens[] = {
         { 1, N_("Off")       },
         { 2, N_("Wide")      },
         { 3, N_("Telephoto") },
@@ -265,19 +265,19 @@ namespace Exiv2 {
     };
 
     //! WorldTimeLocation, tag 0x003a
-    extern const TagDetails panasonicWorldTimeLocation[] = {
+    constexpr TagDetails panasonicWorldTimeLocation[] = {
         { 1, N_("Home")        },
         { 2, N_("Destination") }
     };
 
     //! TextStamp, tag 0x003b, 0x003e, 000x8008 and 0x8009
-    extern const TagDetails panasonicTextStamp[] = {
+    constexpr TagDetails panasonicTextStamp[] = {
         { 1, N_("Off") },
         { 2, N_("On")  }
     };
 
     //! FilmMode, tag 0x0042
-    extern const TagDetails panasonicFilmMode[] = {
+    constexpr TagDetails panasonicFilmMode[] = {
         {  1, N_("Standard (color)") },
         {  2, N_("Dynamic (color)")  },
         {  3, N_("Nature (color)")   },
@@ -290,7 +290,7 @@ namespace Exiv2 {
     };
 
     //! Bracket Settings, tag 0x0045
-    extern const TagDetails panasonicBracketSettings[] = {
+    constexpr TagDetails panasonicBracketSettings[] = {
         { 0, N_("No Bracket")               },
         { 1, N_("3 images, Sequence 0/-/+") },
         { 2, N_("3 images, Sequence -/0/+") },
@@ -301,20 +301,20 @@ namespace Exiv2 {
     };
 
     //! Flash curtain, tag 0x0048
-    extern const TagDetails panasonicFlashCurtain[] = {
+    constexpr TagDetails panasonicFlashCurtain[] = {
         { 0, N_("n/a") },
         { 1, N_("1st") },
         { 2, N_("2nd") }
     };
 
     //! Long Shutter Noise Reduction, tag 0x0049
-    extern const TagDetails panasonicLongShutterNoiseReduction[] = {
+    constexpr TagDetails panasonicLongShutterNoiseReduction[] = {
         { 1, N_("Off") },
         { 2, N_("On") }
     };
 
     //! Intelligent exposure, tag 0x005d
-    extern const TagDetails panasonicIntelligentExposure[] = {
+    constexpr TagDetails panasonicIntelligentExposure[] = {
         { 0, N_("Off")      },
         { 1, N_("Low")      },
         { 2, N_("Standard") },
@@ -322,13 +322,13 @@ namespace Exiv2 {
     };
 
     //! Flash warning, tag 0x0062
-    extern const TagDetails panasonicFlashWarning[] = {
+    constexpr TagDetails panasonicFlashWarning[] = {
         { 0, N_("No")                               },
         { 1, N_("Yes (flash required but disabled") }
     };
 
     //! Intelligent resolution, tag 0x0070
-    extern const TagDetails panasonicIntelligentResolution[] = {
+    constexpr TagDetails panasonicIntelligentResolution[] = {
         { 0, N_("Off")      },
         { 1, N_("Low")      },
         { 2, N_("Standard") },
@@ -337,7 +337,7 @@ namespace Exiv2 {
     };
 
     //! Intelligent D-Range, tag 0x0079
-    extern const TagDetails panasonicIntelligentDRange[] = {
+    constexpr TagDetails panasonicIntelligentDRange[] = {
         { 0, N_("Off")      },
         { 1, N_("Low")      },
         { 2, N_("Standard") },
@@ -345,13 +345,13 @@ namespace Exiv2 {
     };
 
     //! Clear Retouch, tag 0x007c
-    extern const TagDetails panasonicClearRetouch[] = {
+    constexpr TagDetails panasonicClearRetouch[] = {
         { 0, N_("Off") },
         { 1, N_("On") }
     };
 
     //! Photo Style, tag 0x0089
-    extern const TagDetails panasonicPhotoStyle[] = {
+    constexpr TagDetails panasonicPhotoStyle[] = {
         { 0, N_("NoAuto")             },
         { 1, N_("Standard or Custom") },
         { 2, N_("Vivid")              },
@@ -362,13 +362,13 @@ namespace Exiv2 {
     };
 
     //! Shading compensation, tag 0x008a
-    extern const TagDetails panasonicShadingCompensation[] = {
+    constexpr TagDetails panasonicShadingCompensation[] = {
         { 0, N_("Off") },
         { 1, N_("On") }
     };
 
     //! Camera orientation, tag 0x008f
-    extern const TagDetails panasonicCameraOrientation[] = {
+    constexpr TagDetails panasonicCameraOrientation[] = {
         { 0, N_("Normal")         },
         { 1, N_("Rotate CW")      },
         { 2, N_("Rotate 180")     },
@@ -378,7 +378,7 @@ namespace Exiv2 {
     };
 
     //! Sweep panorama direction, tag 0x0093
-    extern const TagDetails panasonicSweepPanoramaDirection[] = {
+    constexpr TagDetails panasonicSweepPanoramaDirection[] = {
         { 0, N_("Off")           },
         { 1, N_("Left to Right") },
         { 2, N_("Right to Left") },
@@ -387,14 +387,14 @@ namespace Exiv2 {
     };
 
     //! Timer recording, tag 0x0096
-    extern const TagDetails panasonicTimerRecording[] = {
+    constexpr TagDetails panasonicTimerRecording[] = {
         { 0, N_("Off")                   },
         { 1, N_("Time Lapse")            },
         { 2, N_("Stop-Motion Animation") }
     };
 
     //! HDR, tag 0x009e
-    extern const TagDetails panasonicHDR[] = {
+    constexpr TagDetails panasonicHDR[] = {
         {     0, N_("Off")         },
         {   100, N_("1 EV")        },
         {   200, N_("2 EV")        },
@@ -405,130 +405,130 @@ namespace Exiv2 {
     };
 
     //! Shutter Type, tag 0x009f
-    extern const TagDetails panasonicShutterType[] = {
+    constexpr TagDetails panasonicShutterType[] = {
         { 0, N_("Mechanical") },
         { 1, N_("Electronic") },
         { 2, N_("Hybrid")     }
     };
 
     //! Touch AE, tag 0x00ab
-    extern const TagDetails panasonicTouchAE[] = {
+    constexpr TagDetails panasonicTouchAE[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
 
     //! Flash Fired, tag 0x8007
-    extern const TagDetails panasonicFlashFired[] = {
+    constexpr TagDetails panasonicFlashFired[] = {
         { 1, N_("No")  },
         { 2, N_("Yes") }
     };
 
     // Panasonic MakerNote Tag Info
-    const TagInfo PanasonicMakerNote::tagInfo_[] = {
-        TagInfo(0x0001, "Quality", N_("Quality"), N_("Image Quality"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicQuality)),
-        TagInfo(0x0002, "FirmwareVersion", N_("Firmware Version"), N_("Firmware version"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0003, "WhiteBalance", N_("White Balance"), N_("White balance setting"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicWhiteBalance)),
-        TagInfo(0x0004, "0x0004", "0x0004", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0007, "FocusMode", N_("Focus Mode"), N_("Focus mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFocusMode)),
-        TagInfo(0x000f, "AFMode", N_("AF Mode"), N_("AF mode"), panasonicId, makerTags, unsignedByte, -1, print0x000f),
-        TagInfo(0x001a, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicImageStabilizer)),
-        TagInfo(0x001c, "Macro", N_("Macro"), N_("Macro mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicMacro)),
-        TagInfo(0x001f, "ShootingMode", N_("Shooting Mode"), N_("Shooting mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShootingMode)),
-        TagInfo(0x0020, "Audio", N_("Audio"), N_("Audio"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicAudio)),
-        TagInfo(0x0021, "DataDump", N_("Data Dump"), N_("Data dump"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0022, "0x0022", "0x0022", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0023, "WhiteBalanceBias", N_("White Balance Bias"), N_("White balance adjustment"), panasonicId, makerTags, signedShort, -1, print0x0023),
-        TagInfo(0x0024, "FlashBias", N_("FlashBias"), N_("Flash bias"), panasonicId, makerTags, signedShort, -1, printValue),
-        TagInfo(0x0025, "InternalSerialNumber", N_("Internal Serial Number"), N_("This number is unique, and contains the date of manufacture, but is not the same as the number printed on the camera body."), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0026, "ExifVersion", "Exif Version", N_("Exif version"), panasonicId, makerTags, undefined, -1, printExifVersion),
-        TagInfo(0x0027, "0x0027", "0x0027", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0028, "ColorEffect", N_("Color Effect"), N_("Color effect"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicColorEffect)),
-        TagInfo(0x0029, "TimeSincePowerOn", "Time since Power On", N_("Time in 1/100 s from when the camera was powered on to when the image is written to memory card"), panasonicId, makerTags, unsignedLong, -1, print0x0029),
-        TagInfo(0x002a, "BurstMode", N_("Burst Mode"), N_("Burst mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicBurstMode)),
-        TagInfo(0x002b, "SequenceNumber", N_("Sequence Number"), N_("Sequence number"), panasonicId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x002c, "Contrast", N_("Contrast"), N_("Contrast setting"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicContrast)),
-        TagInfo(0x002d, "NoiseReduction", N_("NoiseReduction"), N_("Noise reduction"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicNoiseReduction)),
-        TagInfo(0x002e, "SelfTimer", N_("Self Timer"), N_("Self timer"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicSelfTimer)),
-        TagInfo(0x002f, "0x002f", "0x002f", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0030, "Rotation", N_("Rotation"), N_("Rotation"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicRotation)),
-        TagInfo(0x0031, "AFAssistLamp", N_("AF Assist Lamp"), N_("AF Assist Lamp"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicAFAssistLamp)),
-        TagInfo(0x0032, "ColorMode", N_("Color Mode"), N_("Color mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicColorMode)),
-        TagInfo(0x0033, "BabyAge1", N_("Baby Age 1"), N_("Baby (or pet) age 1"), panasonicId, makerTags, asciiString, -1, print0x0033),
-        TagInfo(0x0034, "OpticalZoomMode", N_("Optical Zoom Mode"), N_("Optical zoom mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicOpticalZoomMode)),
-        TagInfo(0x0035, "ConversionLens", N_("Conversion Lens"), N_("Conversion lens"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicConversionLens)),
-        TagInfo(0x0036, "TravelDay", N_("Travel Day"), N_("Travel day"), panasonicId, makerTags, unsignedShort, -1, print0x0036),
-        TagInfo(0x0039, "Contrast", N_("Contrast"), N_("Contrast"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x003a, "WorldTimeLocation", N_("World Time Location"), N_("World time location"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicWorldTimeLocation)),
-        TagInfo(0x003b, "TextStamp1", N_("Text Stamp 1"), N_("Text Stamp 1"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)),
-        TagInfo(0x003c, "ProgramISO", N_("Program ISO"), N_("Program ISO"), panasonicId, makerTags, unsignedShort, -1, print0x003c),
-        TagInfo(0x003d, "AdvancedSceneType", N_("Advanced Scene Type"), N_("Advanced Scene Type"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x003e, "TextStamp2", N_("Text Stamp 2"), N_("Text Stamp 2"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)),
-        TagInfo(0x003f, "FacesDetected", N_("Faces detected"), N_("Faces detected"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0040, "Saturation", N_("Saturation"), N_("Saturation"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0041, "Sharpness", N_("Sharpness"), N_("Sharpness"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0042, "FilmMode", N_("Film Mode"), N_("Film mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFilmMode)),
-        TagInfo(0x0044, "ColorTempKelvin", N_("Color Temp Kelvin"), N_("Color Temperatur in Kelvin"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0045, "BracketSettings", N_("Bracket Settings"), N_("Bracket Settings"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicBracketSettings)),
-        TagInfo(0x0046, "WBAdjustAB", N_("WB Adjust AB"), N_("WB adjust AB. Positive is a shift toward blue."), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0047, "WBAdjustGM", N_("WB Adjust GM"), N_("WBAdjustGM. Positive is a shift toward green."), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0048, "FlashCurtain", N_("Flash Curtain"), N_("Flash Curtain"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashCurtain)),
-        TagInfo(0x0049, "LongShutterNoiseReduction", N_("Long Shutter Noise Reduction"), N_("Long Shutter Noise Reduction"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicLongShutterNoiseReduction)),
-        TagInfo(0x004b, "ImageWidth", N_("Image width"), N_("Image width"), panasonicId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x004c, "ImageHeight", N_("Image height"), N_("Image height"), panasonicId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x004d, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), panasonicId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x004e, "FaceDetInfo", N_("Face detection info"), N_("Face detection info"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0051, "LensType", N_("Lens Type"), N_("Lens type"), panasonicId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x0052, "LensSerialNumber", N_("Lens Serial Number"), N_("Lens serial number"), panasonicId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x0053, "AccessoryType", N_("Accessory Type"), N_("Accessory type"), panasonicId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x0054, "AccessorySerialNumber", N_("Accessory Serial Number"), N_("Accessory Serial Number"), panasonicId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x0059, "Transform1", N_("Transform 1"), N_("Transform 1"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x005d, "IntelligentExposure", N_("Intelligent Exposure"), N_("Intelligent Exposure"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentExposure)),
-        TagInfo(0x0060, "LensFirmwareVersion", N_("Firmware Version of the Lens"), N_("Firmware Version of the Lens"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0061, "FaceRecInfo", N_("Face recognition info"), N_("Face recognition info"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0062, "FlashWarning", N_("Flash Warning"), N_("Flash warning"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashWarning)),
-        TagInfo(0x0065, "Title", N_("Title"), N_("Title"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0066, "BabyName", N_("Baby Name"), N_("Baby name (or pet name)"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0067, "Location", N_("Location"), N_("Location"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0069, "Country", N_("Country"), N_("Country"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x006b, "State", N_("State"), N_("State"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x006d, "City", N_("City"), N_("City"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x006f, "Landmark", N_("Landmark"), N_("Landmark"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0070, "IntelligentResolution", N_("Intelligent resolution"), N_("Intelligent resolution"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicIntelligentResolution)),
-        TagInfo(0x0077, "BurstSpeed", N_("Burst Speed"), N_("Burst Speed in pictures per second"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0079, "IntelligentDRange", N_("Intelligent Dynamic Range"), N_("Intelligent Dynamic Range"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentDRange)),
-        TagInfo(0x007c, "ClearRetouch", N_("Clear Retouch"), N_("Clear Retouch"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicClearRetouch)),
-        TagInfo(0x0080, "City2", N_("City2"), N_("City2"), panasonicId, makerTags, undefined, -1, printPanasonicText),
-        TagInfo(0x0086, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), panasonicId, makerTags, unsignedShort, -1, printPressure),
-        TagInfo(0x0089, "PhotoStyle", N_("Photo style"), N_("Photo style"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicPhotoStyle)),
-        TagInfo(0x008a, "ShadingCompensation", N_("Shading Compensation"), N_("Shading Compensation"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShadingCompensation)),
-        TagInfo(0x008c, "AccelerometerZ", N_("Accelerometer Z"), N_("positive is acceleration upwards"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer),
-        TagInfo(0x008d, "AccelerometerX", N_("Accelerometer X"), N_("positive is acceleration to the left"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer),
-        TagInfo(0x008e, "AccelerometerY", N_("Accelerometer Y"), N_("positive is acceleration backwards"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer),
-        TagInfo(0x008f, "CameraOrientation", N_("Camera Orientation"), N_("Camera Orientation"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicCameraOrientation)),
-        TagInfo(0x0090, "RollAngle", N_("Roll Angle"), N_("degress of clockwise camera rotation"), panasonicId, makerTags, unsignedShort, -1, printRollAngle),
-        TagInfo(0x0091, "PitchAngle", N_("Pitch Angle"), N_("degress of upwards camera tilt"), panasonicId, makerTags, unsignedShort, -1, printPitchAngle),
-        TagInfo(0x0093, "SweepPanoramaDirection", N_("Sweep Panorama Direction"), N_("Sweep Panorama Direction"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicSweepPanoramaDirection)),
-        TagInfo(0x0094, "PanoramaFieldOfView", N_("Field of View of Panorama"), N_("Field of View of Panorama"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0096, "TimerRecording", N_("Timer Recording"), N_("Timer Recording"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicTimerRecording)),
-        TagInfo(0x009d, "InternalNDFilter", N_("Internal ND Filter"), N_("Internal ND Filter"), panasonicId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x009e, "HDR", N_("HDR"), N_("HDR"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicHDR)),
-        TagInfo(0x009f, "ShutterType", N_("Shutter Type"), N_("Shutter Type"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShutterType)),
-        TagInfo(0x00a3, "ClearRetouchValue", N_("Clear Retouch Value"), N_("Clear Retouch Value"), panasonicId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x00ab, "TouchAE", N_("TouchAE"), N_("TouchAE"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTouchAE)),
-        TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x4449, "0x4449", "0x4449", N_("Unknown"), panasonicId, makerTags, undefined, -1, printValue),
-        TagInfo(0x8000, "MakerNoteVersion", N_("MakerNote Version"), N_("MakerNote version"), panasonicId, makerTags, undefined, -1, printExifVersion),
-        TagInfo(0x8001, "SceneMode", N_("Scene Mode"), N_("Scene mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShootingMode)),
-        TagInfo(0x8004, "WBRedLevel", N_("WB Red Level"), N_("WB red level"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x8005, "WBGreenLevel", N_("WB Green Level"), N_("WB green level"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x8006, "WBBlueLevel", N_("WB Blue Level"), N_("WB blue level"), panasonicId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x8007, "FlashFired", N_("Flash Fired"), N_("Flash Fired"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashFired)),
-        TagInfo(0x8008, "TextStamp3", N_("Text Stamp 3"), N_("Text Stamp 3"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)),
-        TagInfo(0x8009, "TextStamp4", N_("Text Stamp 4"), N_("Text Stamp 4"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)),
-        TagInfo(0x8010, "BabyAge2", N_("Baby Age 2"), N_("Baby (or pet) age 2"), panasonicId, makerTags, asciiString, -1, print0x0033),
-        TagInfo(0x8012, "Transform2", N_("Transform 2"), N_("Transform 2"), panasonicId, makerTags, undefined, -1, printValue),
+    constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
+        {0x0001, "Quality", N_("Quality"), N_("Image Quality"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicQuality)},
+        {0x0002, "FirmwareVersion", N_("Firmware Version"), N_("Firmware version"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x0003, "WhiteBalance", N_("White Balance"), N_("White balance setting"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicWhiteBalance)},
+        {0x0004, "0x0004", "0x0004", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0007, "FocusMode", N_("Focus Mode"), N_("Focus mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFocusMode)},
+        {0x000f, "AFMode", N_("AF Mode"), N_("AF mode"), panasonicId, makerTags, unsignedByte, -1, print0x000f},
+        {0x001a, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicImageStabilizer)},
+        {0x001c, "Macro", N_("Macro"), N_("Macro mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicMacro)},
+        {0x001f, "ShootingMode", N_("Shooting Mode"), N_("Shooting mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShootingMode)},
+        {0x0020, "Audio", N_("Audio"), N_("Audio"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicAudio)},
+        {0x0021, "DataDump", N_("Data Dump"), N_("Data dump"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x0022, "0x0022", "0x0022", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0023, "WhiteBalanceBias", N_("White Balance Bias"), N_("White balance adjustment"), panasonicId, makerTags, signedShort, -1, print0x0023},
+        {0x0024, "FlashBias", N_("FlashBias"), N_("Flash bias"), panasonicId, makerTags, signedShort, -1, printValue},
+        {0x0025, "InternalSerialNumber", N_("Internal Serial Number"), N_("This number is unique, and contains the date of manufacture, but is not the same as the number printed on the camera body."), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x0026, "ExifVersion", "Exif Version", N_("Exif version"), panasonicId, makerTags, undefined, -1, printExifVersion},
+        {0x0027, "0x0027", "0x0027", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0028, "ColorEffect", N_("Color Effect"), N_("Color effect"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicColorEffect)},
+        {0x0029, "TimeSincePowerOn", "Time since Power On", N_("Time in 1/100 s from when the camera was powered on to when the image is written to memory card"), panasonicId, makerTags, unsignedLong, -1, print0x0029},
+        {0x002a, "BurstMode", N_("Burst Mode"), N_("Burst mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicBurstMode)},
+        {0x002b, "SequenceNumber", N_("Sequence Number"), N_("Sequence number"), panasonicId, makerTags, unsignedLong, -1, printValue},
+        {0x002c, "Contrast", N_("Contrast"), N_("Contrast setting"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicContrast)},
+        {0x002d, "NoiseReduction", N_("NoiseReduction"), N_("Noise reduction"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicNoiseReduction)},
+        {0x002e, "SelfTimer", N_("Self Timer"), N_("Self timer"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicSelfTimer)},
+        {0x002f, "0x002f", "0x002f", N_("Unknown"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0030, "Rotation", N_("Rotation"), N_("Rotation"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicRotation)},
+        {0x0031, "AFAssistLamp", N_("AF Assist Lamp"), N_("AF Assist Lamp"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicAFAssistLamp)},
+        {0x0032, "ColorMode", N_("Color Mode"), N_("Color mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicColorMode)},
+        {0x0033, "BabyAge1", N_("Baby Age 1"), N_("Baby (or pet) age 1"), panasonicId, makerTags, asciiString, -1, print0x0033},
+        {0x0034, "OpticalZoomMode", N_("Optical Zoom Mode"), N_("Optical zoom mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicOpticalZoomMode)},
+        {0x0035, "ConversionLens", N_("Conversion Lens"), N_("Conversion lens"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicConversionLens)},
+        {0x0036, "TravelDay", N_("Travel Day"), N_("Travel day"), panasonicId, makerTags, unsignedShort, -1, print0x0036},
+        {0x0039, "Contrast", N_("Contrast"), N_("Contrast"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x003a, "WorldTimeLocation", N_("World Time Location"), N_("World time location"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicWorldTimeLocation)},
+        {0x003b, "TextStamp1", N_("Text Stamp 1"), N_("Text Stamp 1"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)},
+        {0x003c, "ProgramISO", N_("Program ISO"), N_("Program ISO"), panasonicId, makerTags, unsignedShort, -1, print0x003c},
+        {0x003d, "AdvancedSceneType", N_("Advanced Scene Type"), N_("Advanced Scene Type"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x003e, "TextStamp2", N_("Text Stamp 2"), N_("Text Stamp 2"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)},
+        {0x003f, "FacesDetected", N_("Faces detected"), N_("Faces detected"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0040, "Saturation", N_("Saturation"), N_("Saturation"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0041, "Sharpness", N_("Sharpness"), N_("Sharpness"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0042, "FilmMode", N_("Film Mode"), N_("Film mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFilmMode)},
+        {0x0044, "ColorTempKelvin", N_("Color Temp Kelvin"), N_("Color Temperatur in Kelvin"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0045, "BracketSettings", N_("Bracket Settings"), N_("Bracket Settings"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicBracketSettings)},
+        {0x0046, "WBAdjustAB", N_("WB Adjust AB"), N_("WB adjust AB. Positive is a shift toward blue."), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0047, "WBAdjustGM", N_("WB Adjust GM"), N_("WBAdjustGM. Positive is a shift toward green."), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0048, "FlashCurtain", N_("Flash Curtain"), N_("Flash Curtain"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashCurtain)},
+        {0x0049, "LongShutterNoiseReduction", N_("Long Shutter Noise Reduction"), N_("Long Shutter Noise Reduction"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicLongShutterNoiseReduction)},
+        {0x004b, "ImageWidth", N_("Image width"), N_("Image width"), panasonicId, makerTags, unsignedLong, -1, printValue},
+        {0x004c, "ImageHeight", N_("Image height"), N_("Image height"), panasonicId, makerTags, unsignedLong, -1, printValue},
+        {0x004d, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), panasonicId, makerTags, unsignedRational, -1, printValue},
+        {0x004e, "FaceDetInfo", N_("Face detection info"), N_("Face detection info"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x0051, "LensType", N_("Lens Type"), N_("Lens type"), panasonicId, makerTags, asciiString, -1, printValue},
+        {0x0052, "LensSerialNumber", N_("Lens Serial Number"), N_("Lens serial number"), panasonicId, makerTags, asciiString, -1, printValue},
+        {0x0053, "AccessoryType", N_("Accessory Type"), N_("Accessory type"), panasonicId, makerTags, asciiString, -1, printValue},
+        {0x0054, "AccessorySerialNumber", N_("Accessory Serial Number"), N_("Accessory Serial Number"), panasonicId, makerTags, asciiString, -1, printValue},
+        {0x0059, "Transform1", N_("Transform 1"), N_("Transform 1"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x005d, "IntelligentExposure", N_("Intelligent Exposure"), N_("Intelligent Exposure"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentExposure)},
+        {0x0060, "LensFirmwareVersion", N_("Firmware Version of the Lens"), N_("Firmware Version of the Lens"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x0061, "FaceRecInfo", N_("Face recognition info"), N_("Face recognition info"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x0062, "FlashWarning", N_("Flash Warning"), N_("Flash warning"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashWarning)},
+        {0x0065, "Title", N_("Title"), N_("Title"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x0066, "BabyName", N_("Baby Name"), N_("Baby name (or pet name)"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x0067, "Location", N_("Location"), N_("Location"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x0069, "Country", N_("Country"), N_("Country"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x006b, "State", N_("State"), N_("State"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x006d, "City", N_("City"), N_("City"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x006f, "Landmark", N_("Landmark"), N_("Landmark"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x0070, "IntelligentResolution", N_("Intelligent resolution"), N_("Intelligent resolution"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicIntelligentResolution)},
+        {0x0077, "BurstSpeed", N_("Burst Speed"), N_("Burst Speed in pictures per second"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0079, "IntelligentDRange", N_("Intelligent Dynamic Range"), N_("Intelligent Dynamic Range"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicIntelligentDRange)},
+        {0x007c, "ClearRetouch", N_("Clear Retouch"), N_("Clear Retouch"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicClearRetouch)},
+        {0x0080, "City2", N_("City2"), N_("City2"), panasonicId, makerTags, undefined, -1, printPanasonicText},
+        {0x0086, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), panasonicId, makerTags, unsignedShort, -1, printPressure},
+        {0x0089, "PhotoStyle", N_("Photo style"), N_("Photo style"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicPhotoStyle)},
+        {0x008a, "ShadingCompensation", N_("Shading Compensation"), N_("Shading Compensation"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShadingCompensation)},
+        {0x008c, "AccelerometerZ", N_("Accelerometer Z"), N_("positive is acceleration upwards"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer},
+        {0x008d, "AccelerometerX", N_("Accelerometer X"), N_("positive is acceleration to the left"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer},
+        {0x008e, "AccelerometerY", N_("Accelerometer Y"), N_("positive is acceleration backwards"), panasonicId, makerTags, unsignedShort, -1, printAccelerometer},
+        {0x008f, "CameraOrientation", N_("Camera Orientation"), N_("Camera Orientation"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicCameraOrientation)},
+        {0x0090, "RollAngle", N_("Roll Angle"), N_("degress of clockwise camera rotation"), panasonicId, makerTags, unsignedShort, -1, printRollAngle},
+        {0x0091, "PitchAngle", N_("Pitch Angle"), N_("degress of upwards camera tilt"), panasonicId, makerTags, unsignedShort, -1, printPitchAngle},
+        {0x0093, "SweepPanoramaDirection", N_("Sweep Panorama Direction"), N_("Sweep Panorama Direction"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicSweepPanoramaDirection)},
+        {0x0094, "PanoramaFieldOfView", N_("Field of View of Panorama"), N_("Field of View of Panorama"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0096, "TimerRecording", N_("Timer Recording"), N_("Timer Recording"), panasonicId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicTimerRecording)},
+        {0x009d, "InternalNDFilter", N_("Internal ND Filter"), N_("Internal ND Filter"), panasonicId, makerTags, unsignedRational, -1, printValue},
+        {0x009e, "HDR", N_("HDR"), N_("HDR"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicHDR)},
+        {0x009f, "ShutterType", N_("Shutter Type"), N_("Shutter Type"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShutterType)},
+        {0x00a3, "ClearRetouchValue", N_("Clear Retouch Value"), N_("Clear Retouch Value"), panasonicId, makerTags, unsignedRational, -1, printValue},
+        {0x00ab, "TouchAE", N_("TouchAE"), N_("TouchAE"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTouchAE)},
+        {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x4449, "0x4449", "0x4449", N_("Unknown"), panasonicId, makerTags, undefined, -1, printValue},
+        {0x8000, "MakerNoteVersion", N_("MakerNote Version"), N_("MakerNote version"), panasonicId, makerTags, undefined, -1, printExifVersion},
+        {0x8001, "SceneMode", N_("Scene Mode"), N_("Scene mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShootingMode)},
+        {0x8004, "WBRedLevel", N_("WB Red Level"), N_("WB red level"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x8005, "WBGreenLevel", N_("WB Green Level"), N_("WB green level"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x8006, "WBBlueLevel", N_("WB Blue Level"), N_("WB blue level"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x8007, "FlashFired", N_("Flash Fired"), N_("Flash Fired"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashFired)},
+        {0x8008, "TextStamp3", N_("Text Stamp 3"), N_("Text Stamp 3"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)},
+        {0x8009, "TextStamp4", N_("Text Stamp 4"), N_("Text Stamp 4"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicTextStamp)},
+        {0x8010, "BabyAge2", N_("Baby Age 2"), N_("Baby (or pet) age 2"), panasonicId, makerTags, asciiString, -1, print0x0033},
+        {0x8012, "Transform2", N_("Transform 2"), N_("Transform 2"), panasonicId, makerTags, undefined, -1, printValue},
         // End of list marker
-        TagInfo(0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", N_("Unknown PanasonicMakerNote tag"), panasonicId, makerTags, asciiString, -1, printValue)
+        {0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", N_("Unknown PanasonicMakerNote tag"), panasonicId, makerTags, asciiString, -1, printValue},
     };
 
     const TagInfo* PanasonicMakerNote::tagList()
@@ -725,32 +725,32 @@ namespace Exiv2 {
     }  // PanasonicMakerNote::printPitchAngle
 
     // Panasonic MakerNote Tag Info
-    const TagInfo PanasonicMakerNote::tagInfoRaw_[] = {
-        TagInfo(0x0001, "Version", N_("Version"), N_("Panasonic raw version"), panaRawId, panaRaw, undefined, -1, printExifVersion),
-        TagInfo(0x0002, "SensorWidth", N_("Sensor Width"), N_("Sensor width"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0003, "SensorHeight", N_("Sensor Height"), N_("Sensor height"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0004, "SensorTopBorder", N_("Sensor Top Border"), N_("Sensor top border"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0005, "SensorLeftBorder", N_("Sensor Left Border"), N_("Sensor left border"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0006, "ImageHeight", N_("Image Height"), N_("Image height"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0007, "ImageWidth", N_("Image Width"), N_("Image width"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0011, "RedBalance", N_("Red Balance"), N_("Red balance (found in Digilux 2 RAW images)"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0012, "BlueBalance", N_("Blue Balance"), N_("Blue balance"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0017, "ISOSpeed", N_("ISO Speed"), N_("ISO speed setting"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0024, "WBRedLevel", N_("WB Red Level"), N_("WB red level"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0025, "WBGreenLevel", N_("WB Green Level"), N_("WB green level"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0026, "WBBlueLevel", N_("WB Blue Level"), N_("WB blue level"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x002e, "PreviewImage", N_("Preview Image"), N_("Preview image"), panaRawId, panaRaw, undefined, -1, printValue),
-        TagInfo(0x010f, "Make", N_("Manufacturer"), N_("The manufacturer of the recording equipment"), panaRawId, panaRaw, asciiString, -1, printValue),
-        TagInfo(0x0110, "Model", N_("Model"), N_("The model name or model number of the equipment"), panaRawId, panaRaw, asciiString, -1, printValue),
-        TagInfo(0x0111, "StripOffsets", N_("Strip Offsets"), N_("Strip offsets"), panaRawId, panaRaw, unsignedLong, -1, printValue),
-        TagInfo(0x0112, "Orientation", N_("Orientation"), N_("Orientation"), panaRawId, panaRaw, unsignedShort, -1, print0x0112),
-        TagInfo(0x0116, "RowsPerStrip", N_("Rows Per Strip"), N_("The number of rows per strip"), panaRawId, panaRaw, unsignedShort, -1, printValue),
-        TagInfo(0x0117, "StripByteCounts", N_("Strip Byte Counts"), N_("Strip byte counts"), panaRawId, panaRaw, unsignedLong, -1, printValue),
-        TagInfo(0x0118, "RawDataOffset", N_("Raw Data Offset"), N_("Raw data offset"), panaRawId, panaRaw, unsignedLong, -1, printValue),
-        TagInfo(0x8769, "ExifTag", N_("Exif IFD Pointer"), N_("A pointer to the Exif IFD"), panaRawId, panaRaw, unsignedLong, -1, printValue),
-        TagInfo(0x8825, "GPSTag", N_("GPS Info IFD Pointer"), N_("A pointer to the GPS Info IFD"), panaRawId, panaRaw, unsignedLong, -1, printValue),
+    constexpr TagInfo PanasonicMakerNote::tagInfoRaw_[] = {
+        {0x0001, "Version", N_("Version"), N_("Panasonic raw version"), panaRawId, panaRaw, undefined, -1, printExifVersion},
+        {0x0002, "SensorWidth", N_("Sensor Width"), N_("Sensor width"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0003, "SensorHeight", N_("Sensor Height"), N_("Sensor height"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0004, "SensorTopBorder", N_("Sensor Top Border"), N_("Sensor top border"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0005, "SensorLeftBorder", N_("Sensor Left Border"), N_("Sensor left border"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0006, "ImageHeight", N_("Image Height"), N_("Image height"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0007, "ImageWidth", N_("Image Width"), N_("Image width"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0011, "RedBalance", N_("Red Balance"), N_("Red balance (found in Digilux 2 RAW images)"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0012, "BlueBalance", N_("Blue Balance"), N_("Blue balance"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0017, "ISOSpeed", N_("ISO Speed"), N_("ISO speed setting"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0024, "WBRedLevel", N_("WB Red Level"), N_("WB red level"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0025, "WBGreenLevel", N_("WB Green Level"), N_("WB green level"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0026, "WBBlueLevel", N_("WB Blue Level"), N_("WB blue level"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x002e, "PreviewImage", N_("Preview Image"), N_("Preview image"), panaRawId, panaRaw, undefined, -1, printValue},
+        {0x010f, "Make", N_("Manufacturer"), N_("The manufacturer of the recording equipment"), panaRawId, panaRaw, asciiString, -1, printValue},
+        {0x0110, "Model", N_("Model"), N_("The model name or model number of the equipment"), panaRawId, panaRaw, asciiString, -1, printValue},
+        {0x0111, "StripOffsets", N_("Strip Offsets"), N_("Strip offsets"), panaRawId, panaRaw, unsignedLong, -1, printValue},
+        {0x0112, "Orientation", N_("Orientation"), N_("Orientation"), panaRawId, panaRaw, unsignedShort, -1, print0x0112},
+        {0x0116, "RowsPerStrip", N_("Rows Per Strip"), N_("The number of rows per strip"), panaRawId, panaRaw, unsignedShort, -1, printValue},
+        {0x0117, "StripByteCounts", N_("Strip Byte Counts"), N_("Strip byte counts"), panaRawId, panaRaw, unsignedLong, -1, printValue},
+        {0x0118, "RawDataOffset", N_("Raw Data Offset"), N_("Raw data offset"), panaRawId, panaRaw, unsignedLong, -1, printValue},
+        {0x8769, "ExifTag", N_("Exif IFD Pointer"), N_("A pointer to the Exif IFD"), panaRawId, panaRaw, unsignedLong, -1, printValue},
+        {0x8825, "GPSTag", N_("GPS Info IFD Pointer"), N_("A pointer to the GPS Info IFD"), panaRawId, panaRaw, unsignedLong, -1, printValue},
         // End of list marker
-        TagInfo(0xffff, "(UnknownPanasonicRawTag)", "(UnknownPanasonicRawTag)", N_("Unknown PanasonicRaw tag"), panaRawId, panaRaw, asciiString, -1, printValue)
+        {0xffff, "(UnknownPanasonicRawTag)", "(UnknownPanasonicRawTag)", N_("Unknown PanasonicRaw tag"), panaRawId, panaRaw, asciiString, -1, printValue},
     };
 
     const TagInfo* PanasonicMakerNote::tagListRaw()
