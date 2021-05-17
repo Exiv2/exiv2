@@ -555,17 +555,10 @@ namespace Exiv2 {
         decodeTiffEntry(object);
     }
 
-    TiffEncoder::TiffEncoder(
-            const ExifData&      exifData,
-            const IptcData&      iptcData,
-            const XmpData&       xmpData,
-                  TiffComponent* pRoot,
-            const bool           isNewImage,
-            const PrimaryGroups* pPrimaryGroups,
-            const TiffHeaderBase* pHeader,
-                  FindEncoderFct findEncoderFct
-    )
-        : exifData_(exifData),
+    TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+                             const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                             FindEncoderFct findEncoderFct)
+        : exifData_(std::move(exifData)),
           iptcData_(iptcData),
           xmpData_(xmpData),
           del_(true),

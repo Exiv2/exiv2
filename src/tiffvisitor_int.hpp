@@ -383,16 +383,9 @@ namespace Exiv2 {
                  to, the image with the metadata to encode and a function to
                  find special encoders.
          */
-        TiffEncoder(
-            const ExifData&      exifData,
-            const IptcData&      iptcData,
-            const XmpData&       xmpData,
-                  TiffComponent* pRoot,
-            const bool           isNewImage,
-            const PrimaryGroups* pPrimaryGroups,
-            const TiffHeaderBase* pHeader,
-                  FindEncoderFct findEncoderFct
-        );
+        TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+                    const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                    FindEncoderFct findEncoderFct);
         //! Virtual destructor
         virtual ~TiffEncoder() = default;
         //@}

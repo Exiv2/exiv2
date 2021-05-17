@@ -287,7 +287,7 @@ namespace Exiv2 {
                  the remaining parts of the key cannot be parsed and
                  converted to a record name and a dataset name.
         */
-        explicit IptcKey(const std::string& key);
+        explicit IptcKey(std::string key);
         /*!
           @brief Constructor to create an IPTC key from dataset and record ids.
           @param tag Dataset id
