@@ -1031,9 +1031,7 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-
-    PreviewImage::PreviewImage(const PreviewProperties& properties, DataBuf data)
-        : properties_(properties)
+    PreviewImage::PreviewImage(PreviewProperties properties, DataBuf data) : properties_(std::move(properties))
     {
         pData_ = data.pData_;
         size_ = data.size_;

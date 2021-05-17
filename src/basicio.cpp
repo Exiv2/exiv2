@@ -81,7 +81,7 @@ namespace Exiv2 {
     class FileIo::Impl {
     public:
         //! Constructor
-        Impl(const std::string& path);
+        Impl(std::string path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         Impl(const std::wstring& wpath);
@@ -141,16 +141,21 @@ namespace Exiv2 {
         Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class FileIo::Impl
 
-    FileIo::Impl::Impl(const std::string& path)
-        : path_(path),
+    FileIo::Impl::Impl(std::string path)
+        : path_(std::move(path)),
 #ifdef EXV_UNICODE_PATH
-        wpMode_(wpStandard),
+          wpMode_(wpStandard),
 #endif
-        fp_(0), opMode_(opSeek),
+          fp_(0),
+          opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
-        hFile_(0), hMap_(0),
+          hFile_(0),
+          hMap_(0),
 #endif
-        pMappedArea_(0), mappedLength_(0), isMalloced_(false), isWriteable_(false)
+          pMappedArea_(0),
+          mappedLength_(0),
+          isMalloced_(false),
+          isWriteable_(false)
     {
     }
 

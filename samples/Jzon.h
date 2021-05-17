@@ -343,10 +343,10 @@ namespace Jzon
 	class JzonAPI FileWriter
 	{
 	public:
-		FileWriter(const std::string &filename);
-		~FileWriter();
+        FileWriter(std::string filename);
+        ~FileWriter();
 
-		static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
+        static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
 
 		void Write(const Node &root, const Format &format = NoFormat);
 

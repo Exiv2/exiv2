@@ -583,8 +583,7 @@ namespace Exiv2 {
 
     const char* IptcKey::familyName_ = "Iptc";
 
-    IptcKey::IptcKey(const std::string& key)
-        : key_(key)
+    IptcKey::IptcKey(std::string key) : key_(std::move(key))
     {
         decomposeKey();
     }

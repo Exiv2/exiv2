@@ -104,7 +104,7 @@ namespace Exiv2 {
 namespace Exiv2 {
 
     //! @cond IGNORE
-    GroupInfo::GroupName::GroupName(const std::string& groupName): g_(groupName)
+    GroupInfo::GroupName::GroupName(std::string groupName) : g_(std::move(groupName))
     {
     }
     //! @endcond

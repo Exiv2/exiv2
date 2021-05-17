@@ -634,7 +634,7 @@ namespace Jzon
         return new Array(*this);
     }
 
-    FileWriter::FileWriter(const std::string &filename) : filename(filename)
+    FileWriter::FileWriter(std::string filename) : filename(std::move(filename))
     {
     }
     FileWriter::~FileWriter() = default;

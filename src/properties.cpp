@@ -2447,13 +2447,11 @@ namespace Exiv2 {
         {"Xmp.plus.Reuse",                       EXV_PRINT_VOCABULARY(plusReuse)                      }
     };
 
-    XmpNsInfo::Ns::Ns(const std::string& ns)
-        : ns_(ns)
+    XmpNsInfo::Ns::Ns(std::string ns) : ns_(std::move(ns))
     {
     }
 
-    XmpNsInfo::Prefix::Prefix(const std::string& prefix)
-        : prefix_(prefix)
+    XmpNsInfo::Prefix::Prefix(std::string prefix) : prefix_(std::move(prefix))
     {
     }
 

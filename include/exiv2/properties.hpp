@@ -59,14 +59,14 @@ namespace Exiv2 {
         //! For comparison with prefix
         struct Prefix {
             //! Constructor.
-            explicit Prefix(const std::string& prefix);
+            explicit Prefix(std::string prefix);
             //! The prefix string.
             std::string prefix_;
         };
         //! For comparison with namespace
         struct Ns {
             //! Constructor.
-            explicit Ns(const std::string& ns);
+            explicit Ns(std::string ns);
             //! The namespace string
             std::string ns_;
         };
