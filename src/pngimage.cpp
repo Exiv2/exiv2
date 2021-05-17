@@ -57,6 +57,8 @@ const unsigned char pngBlank[] = { 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,
 
 namespace
 {
+    const auto nullComp = (const Exiv2::byte*)"\0\0";
+    const auto typeICCP = (const Exiv2::byte*)"iCCP";
     inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
     {
         assert(strlen(str) <= length);
@@ -645,8 +647,6 @@ namespace Exiv2 {
                 if ( iccProfileDefined() ) {
                     DataBuf compressed;
                     if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
-                        const auto nullComp = reinterpret_cast<const byte*>("\0\0");
-                        const auto type = reinterpret_cast<const byte*>("iCCP");
                         const auto nameLength = static_cast<uint32_t>(profileName_.size());
                         const uint32_t chunkLength = nameLength + 2 + compressed.size_ ;
                         byte     length[4];
@@ -654,15 +654,15 @@ namespace Exiv2 {
 
                         // calculate CRC
                         uLong   tmp = crc32(0L, Z_NULL, 0);
-                        tmp         = crc32(tmp, type, 4);
-                        tmp = crc32(tmp, reinterpret_cast<const Bytef*>(profileName_.data()), nameLength);
+                        tmp         = crc32(tmp, typeICCP, 4);
+                        tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
                         tmp         = crc32(tmp, nullComp, 2);
                         tmp = crc32(tmp, compressed.pData_, compressed.size_);
                         byte    crc[4];
                         ul2Data(crc, tmp, bigEndian);
 
                         if( outIo.write(length, 4) != 4
-                        ||  outIo.write(type, 4) != 4
+                        ||  outIo.write(typeICCP, 4) != 4
                         ||  outIo.write(reinterpret_cast<const byte*>(profileName_.data()), nameLength) != nameLength
                         ||  outIo.write(nullComp,2) != 2
                         ||  outIo.write (compressed.pData_,compressed.size_) != compressed.size_
