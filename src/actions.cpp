@@ -150,7 +150,7 @@ namespace {
              with
              os << make_pair( myString, width)
      */
-    std::ostream& operator<<( std::ostream& os, std::pair<std::string, int> strAndWidth);
+    std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& strAndWidth);
 
     //! Print image Structure information
     int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string &path);
@@ -2175,7 +2175,7 @@ namespace {
         return 0;
     }
 
-    std::ostream& operator<<( std::ostream& os, std::pair<std::string, int> strAndWidth)
+    std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& strAndWidth)
     {
       const std::string& str( strAndWidth.first);
       size_t minChCount( strAndWidth.second);

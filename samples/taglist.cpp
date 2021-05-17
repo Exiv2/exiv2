@@ -68,8 +68,7 @@ int main(int argc, char* argv[])
                             std::istringstream input(tags.str()) ;
                             while (std::getline(input, line)) {
                                 std::cout << groupList->groupName_ << "."
-                                          << (item == "all" ? line.substr(0,line.find(",")) : line)
-                                          << std::endl;
+                                          << (item == "all" ? line.substr(0, line.find(',')) : line) << std::endl;
                             }
                             groupList++;
                         }

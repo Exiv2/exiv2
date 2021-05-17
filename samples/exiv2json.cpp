@@ -91,7 +91,7 @@ bool getToken(std::string& in,Token& token, std::set<std::string>* pNS=NULL)
     return result;
 }
 
-Jzon::Node& addToTree(Jzon::Node& r1,Token token)
+Jzon::Node& addToTree(Jzon::Node& r1, const Token& token)
 {
     Jzon::Object object ;
     Jzon::Array  array  ;
