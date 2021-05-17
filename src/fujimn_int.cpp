@@ -46,13 +46,13 @@ namespace Exiv2 {
     namespace Internal {
 
     //! OffOn, multiple tags
-    extern const TagDetails fujiOffOn[] = {
+    constexpr TagDetails fujiOffOn[] = {
         { 0, N_("Off") },
         { 1, N_("On")  }
     };
 
     //! Sharpness, tag 0x1001
-    extern const TagDetails fujiSharpness[] = {
+    constexpr TagDetails fujiSharpness[] = {
         { 1, N_("Soft mode 1") },
         { 2, N_("Soft mode 2") },
         { 3, N_("Normal")      },
@@ -61,7 +61,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x1002
-    extern const TagDetails fujiWhiteBalance[] = {
+    constexpr TagDetails fujiWhiteBalance[] = {
         {    0, N_("Auto")                     },
         {  256, N_("Daylight")                 },
         {  512, N_("Cloudy")                   },
@@ -74,7 +74,7 @@ namespace Exiv2 {
     };
 
     //! Color, tag 0x1003
-    extern const TagDetails fujiColor[] = {
+    constexpr TagDetails fujiColor[] = {
         {   0, N_("Normal")                 },
         { 256, N_("High")                   },
         { 512, N_("Low")                    },
@@ -87,14 +87,14 @@ namespace Exiv2 {
     };
 
     //! Tone, tag 0x1004
-    extern const TagDetails fujiTone[] = {
+    constexpr TagDetails fujiTone[] = {
         {   0, N_("Normal") },
         { 256, N_("High")   },
         { 512, N_("Low")    }
     };
 
     //! FlashMode, tag 0x1010
-    extern const TagDetails fujiFlashMode[] = {
+    constexpr TagDetails fujiFlashMode[] = {
         {  0, N_("Auto")              },
         {  1, N_("On")                },
         {  2, N_("Off")               },
@@ -105,13 +105,13 @@ namespace Exiv2 {
     };
 
     //! FocusMode, tag 0x1021
-    extern const TagDetails fujiFocusMode[] = {
+    constexpr TagDetails fujiFocusMode[] = {
         { 0, N_("Auto")   },
         { 1, N_("Manual") }
     };
 
     //! PictureMode, tag 0x1031
-    extern const TagDetails fujiPictureMode[] = {
+    constexpr TagDetails fujiPictureMode[] = {
         {   0, N_("Auto")                      },
         {   1, N_("Portrait")                  },
         {   2, N_("Landscape")                 },
@@ -137,7 +137,7 @@ namespace Exiv2 {
 
     //! ShadowTone, tag 0x1040
     //! HighlightTone, tag 0x041
-    extern const TagDetails fujiSHTone[] = {
+    constexpr TagDetails fujiSHTone[] = {
         { -64, N_("+4") },
         { -48, N_("+3") },
         { -32, N_("+2") },
@@ -148,27 +148,27 @@ namespace Exiv2 {
     };
 
     //! Continuous, tag 0x1100
-    extern const TagDetails fujiContinuous[] = {
+    constexpr TagDetails fujiContinuous[] = {
         { 0, N_("Off")              },
         { 1, N_("On")               },
         { 2, N_("No flash & flash") }
     };
 
     //! FinePixColor, tag 0x1210
-    extern const TagDetails fujiFinePixColor[] = {
+    constexpr TagDetails fujiFinePixColor[] = {
         { 0,  N_("Standard")      },
         { 16, N_("Chrome")        },
         { 48, N_("Black & white") }
     };
 
     //! DynamicRange, tag 0x1400
-    extern const TagDetails fujiDynamicRange[] = {
+    constexpr TagDetails fujiDynamicRange[] = {
         { 1, N_("Standard") },
         { 3, N_("Wide")     }
     };
 
     //! FilmMode, tag 0x1401
-    extern const TagDetails fujiFilmMode[] = {
+    constexpr TagDetails fujiFilmMode[] = {
         {    0, N_("F0/Standard (Provia)")                         },
         {  256, N_("F1/Studio Portrait")                           },
         {  272, N_("F1a/Studio Portrait Enhanced Saturation")      },
@@ -183,7 +183,7 @@ namespace Exiv2 {
     };
 
     //! DynamicRange, tag 0x1402
-    extern const TagDetails fujiDynamicRangeSetting[] = {
+    constexpr TagDetails fujiDynamicRangeSetting[] = {
         {     0, N_("Auto (100-400%)")      },
         {     1, N_("Raw")                  },
         {   256, N_("Standard (100%)")      },
@@ -193,7 +193,7 @@ namespace Exiv2 {
     };
 
     //! CropMode, tag 0x104d
-    extern const TagDetails fujiCropMode[] = {
+    constexpr TagDetails fujiCropMode[] = {
         { 0, N_("None")                          },
         { 1, N_("Full frame")                    },
         { 2, N_("Sports Finder Mode")            },
@@ -201,190 +201,190 @@ namespace Exiv2 {
     };
 
     //! DRangePriority, tag 0x1443
-    extern const TagDetails fujiDRangePriority[] = {
+    constexpr TagDetails fujiDRangePriority[] = {
         {     0, N_("Auto")  },
         {     1, N_("Fixed") }
     };
 
     //! DRangePriorityAuto, tag 0x1444
-    extern const TagDetails fujiDRangePriorityAuto[] = {
+    constexpr TagDetails fujiDRangePriorityAuto[] = {
         {     1, N_("Weak")  },
         {     2, N_("Strong") }
     };
 
     //! DRangePriorityFixed, tag 0x1445
-    extern const TagDetails fujiDRangePriorityFixed[] = {
+    constexpr TagDetails fujiDRangePriorityFixed[] = {
         {     1, N_("Weak")  },
         {     2, N_("Strong") }
     };
 
     // Fujifilm MakerNote Tag Info
-    const TagInfo FujiMakerNote::tagInfo_[] = {
-        TagInfo(0x0000, "Version", N_("Version"),
+    constexpr TagInfo FujiMakerNote::tagInfo_[] = {
+        {0x0000, "Version", N_("Version"),
                 N_("Fujifilm Makernote version"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0010, "SerialNumber", N_("Serial Number"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0x0010, "SerialNumber", N_("Serial Number"),
                 N_("This number is unique, and contains the date of manufacture, "
                    "but is not the same as the number printed on the camera body."),
-                fujiId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x1000, "Quality", N_("Quality"),
+                fujiId, makerTags, asciiString, -1, printValue},
+        {0x1000, "Quality", N_("Quality"),
                 N_("Image quality setting"),
-                fujiId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x1001, N_("Sharpness"), N_("Sharpness"),
+                fujiId, makerTags, asciiString, -1, printValue},
+        {0x1001, N_("Sharpness"), N_("Sharpness"),
                 N_("Sharpness setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiSharpness)),
-        TagInfo(0x1002, "WhiteBalance", N_("White Balance"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiSharpness)},
+        {0x1002, "WhiteBalance", N_("White Balance"),
                 N_("White balance setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiWhiteBalance)),
-        TagInfo(0x1003, "Color", N_("Color"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiWhiteBalance)},
+        {0x1003, "Color", N_("Color"),
                 N_("Chroma saturation setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiColor)),
-        TagInfo(0x1004, "Tone", N_("Tone"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiColor)},
+        {0x1004, "Tone", N_("Tone"),
                 N_("Tone (contrast) setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiTone)),
-        TagInfo(0x1010, "FlashMode", N_("Flash Mode"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiTone)},
+        {0x1010, "FlashMode", N_("Flash Mode"),
                 N_("Flash firing mode setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFlashMode)),
-        TagInfo(0x1011, "FlashStrength", N_("Flash Strength"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFlashMode)},
+        {0x1011, "FlashStrength", N_("Flash Strength"),
                 N_("Flash firing strength compensation setting"),
-                fujiId, makerTags, signedRational, -1, printValue),
-        TagInfo(0x1020, "Macro", N_("Macro"),
+                fujiId, makerTags, signedRational, -1, printValue},
+        {0x1020, "Macro", N_("Macro"),
                 N_("Macro mode setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)),
-        TagInfo(0x1021, "FocusMode", N_("Focus Mode"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
+        {0x1021, "FocusMode", N_("Focus Mode"),
                 N_("Focusing mode setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFocusMode)),
-        TagInfo(0x1022, "0x1022", "0x1022",
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFocusMode)},
+        {0x1022, "0x1022", "0x1022",
                 N_("Unknown"),
-                fujiId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x1030, "SlowSync", N_("Slow Sync"),
+                fujiId, makerTags, unsignedShort, -1, printValue},
+        {0x1030, "SlowSync", N_("Slow Sync"),
                 N_("Slow synchro mode setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)),
-        TagInfo(0x1031, "PictureMode", N_("Picture Mode"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
+        {0x1031, "PictureMode", N_("Picture Mode"),
                 N_("Picture mode setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiPictureMode)),
-        TagInfo(0x1032, "0x1032", "0x1032",
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiPictureMode)},
+        {0x1032, "0x1032", "0x1032",
                 N_("Unknown"),
-                fujiId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x1040, "ShadowTone", N_("Shadow Tone"),
+                fujiId, makerTags, unsignedShort, -1, printValue},
+        {0x1040, "ShadowTone", N_("Shadow Tone"),
                 N_("Shadow tone"),
-                fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)),
-        TagInfo(0x1041, "HighlightTone", N_("Highlight Tone"),
+                fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)},
+        {0x1041, "HighlightTone", N_("Highlight Tone"),
                 N_("Highlight tone"),
-                fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)),
-        TagInfo(0x104d, "CropMode", N_("Crop Mode"), N_("Crop mode"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiCropMode)),
-        TagInfo(0x1100, "Continuous", N_("Continuous"),
+                fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)},
+        {0x104d, "CropMode", N_("Crop Mode"), N_("Crop mode"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiCropMode)},
+        {0x1100, "Continuous", N_("Continuous"),
                 N_("Continuous shooting or auto bracketing setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContinuous)),
-        TagInfo(0x1101, "SequenceNumber", N_("Sequence Number"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContinuous)},
+        {0x1101, "SequenceNumber", N_("Sequence Number"),
                 N_("Sequence number"),
-                fujiId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x1200, "0x1200", "0x1200",
+                fujiId, makerTags, unsignedShort, -1, printValue},
+        {0x1200, "0x1200", "0x1200",
                 N_("Unknown"),
-                fujiId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x1210, "FinePixColor", N_("FinePix Color"),
+                fujiId, makerTags, unsignedShort, -1, printValue},
+        {0x1210, "FinePixColor", N_("FinePix Color"),
                 N_("Fuji FinePix color setting"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFinePixColor)),
-        TagInfo(0x1300, "BlurWarning", N_("Blur Warning"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFinePixColor)},
+        {0x1300, "BlurWarning", N_("Blur Warning"),
                 N_("Blur warning status"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)),
-        TagInfo(0x1301, "FocusWarning", N_("Focus Warning"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
+        {0x1301, "FocusWarning", N_("Focus Warning"),
                 N_("Auto Focus warning status"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)),
-        TagInfo(0x1302, "ExposureWarning", N_("Exposure Warning"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
+        {0x1302, "ExposureWarning", N_("Exposure Warning"),
                 N_("Auto exposure warning status"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)),
-        TagInfo(0x1400, "DynamicRange", N_("Dynamic Range"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
+        {0x1400, "DynamicRange", N_("Dynamic Range"),
                 N_("Dynamic range"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDynamicRange)),
-        TagInfo(0x1401, "FilmMode", N_("Film Mode"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDynamicRange)},
+        {0x1401, "FilmMode", N_("Film Mode"),
                 N_("Film mode"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFilmMode)),
-        TagInfo(0x1402, "DynamicRangeSetting", N_("Dynamic Range Setting"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFilmMode)},
+        {0x1402, "DynamicRangeSetting", N_("Dynamic Range Setting"),
                 N_("Dynamic range settings"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDynamicRangeSetting)),
-        TagInfo(0x1403, "DevelopmentDynamicRange", N_("Development Dynamic Range"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDynamicRangeSetting)},
+        {0x1403, "DevelopmentDynamicRange", N_("Development Dynamic Range"),
                 N_("Development dynamic range"),
-                fujiId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x1404, "MinFocalLength", N_("Minimum Focal Length"),
+                fujiId, makerTags, unsignedShort, -1, printValue},
+        {0x1404, "MinFocalLength", N_("Minimum Focal Length"),
                 N_("Minimum focal length"),
-                fujiId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x1405, "MaxFocalLength", N_("Maximum Focal Length"),
+                fujiId, makerTags, unsignedRational, -1, printValue},
+        {0x1405, "MaxFocalLength", N_("Maximum Focal Length"),
                 N_("Maximum focal length"),
-                fujiId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x1406, "MaxApertureAtMinFocal", N_("Maximum Aperture at Minimum Focal"),
+                fujiId, makerTags, unsignedRational, -1, printValue},
+        {0x1406, "MaxApertureAtMinFocal", N_("Maximum Aperture at Minimum Focal"),
                 N_("Maximum aperture at minimum focal"),
-                fujiId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x1407, "MaxApertureAtMaxFocal", N_("Maximum Aperture at Maximum Focal"),
+                fujiId, makerTags, unsignedRational, -1, printValue},
+        {0x1407, "MaxApertureAtMaxFocal", N_("Maximum Aperture at Maximum Focal"),
                 N_("Maximum aperture at maximum focal"),
-                fujiId, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x1431, "Rating", N_("Rating"),
+                fujiId, makerTags, unsignedRational, -1, printValue},
+        {0x1431, "Rating", N_("Rating"),
                 N_("Rating"),
-                fujiId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x1443, "DRangePriority", N_("D Range Priority"),
+                fujiId, makerTags, unsignedLong, -1, printValue},
+        {0x1443, "DRangePriority", N_("D Range Priority"),
                 N_("Dynamic range priority"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriority)),
-        TagInfo(0x1444, "DRangePriorityFixed", N_("D Range Priority Fixed"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriority)},
+        {0x1444, "DRangePriorityFixed", N_("D Range Priority Fixed"),
                 N_("Dynamic range priority fixed"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityFixed)),
-        TagInfo(0x1445, "DRangePriorityAuto", N_("D Range Priority Auto"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityFixed)},
+        {0x1445, "DRangePriorityAuto", N_("D Range Priority Auto"),
                 N_("Dynamic range priority auto"),
-                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityAuto)),
-        TagInfo(0x8000, "FileSource", N_("File Source"),
+                fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityAuto)},
+        {0x8000, "FileSource", N_("File Source"),
                 N_("File source"),
-                fujiId, makerTags, asciiString, -1, printValue),
-        TagInfo(0x8002, "OrderNumber", N_("Order Number"),
+                fujiId, makerTags, asciiString, -1, printValue},
+        {0x8002, "OrderNumber", N_("Order Number"),
                 N_("Order number"),
-                fujiId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x8003, "FrameNumber", N_("Frame Number"),
+                fujiId, makerTags, unsignedLong, -1, printValue},
+        {0x8003, "FrameNumber", N_("Frame Number"),
                 N_("Frame number"),
-                fujiId, makerTags, unsignedShort, -1, printValue),
+                fujiId, makerTags, unsignedShort, -1, printValue},
         // #1402
-        TagInfo(0xf000, "FujiIFD", N_("FujiIFD"),
+        {0xf000, "FujiIFD", N_("FujiIFD"),
                 N_("Fujifilm IFD"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf001, "RawImageFullWidth", N_("Raw Image Full Width"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf001, "RawImageFullWidth", N_("Raw Image Full Width"),
                 N_("Raw Image Full Width"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf002, "RawImageFullHeight", N_("Raw Image Full Height"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf002, "RawImageFullHeight", N_("Raw Image Full Height"),
                 N_("Raw Image Full Height"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf003, "BitsPerSample", N_("Bits Per Sample"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf003, "BitsPerSample", N_("Bits Per Sample"),
                 N_("Bits Per Sample"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf007, "StripOffsets", N_("Strip Offsets"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf007, "StripOffsets", N_("Strip Offsets"),
                 N_("Strip Offsets"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf008, "StripByteCounts", N_("Strip Byte Counts"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf008, "StripByteCounts", N_("Strip Byte Counts"),
                 N_("Strip Byte Counts"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf00a, "BlackLevel", N_("Black Level"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf00a, "BlackLevel", N_("Black Level"),
                 N_("Black Level"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf00b, "GeometricDistortionParams", N_("Geometric Distortion Params"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf00b, "GeometricDistortionParams", N_("Geometric Distortion Params"),
                 N_("Geometric Distortion Params"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf00c, "WB_GRBLevelsStandard", N_("WB GRB Levels Standard"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf00c, "WB_GRBLevelsStandard", N_("WB GRB Levels Standard"),
                 N_("WB GRB Levels Standard"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf00d, "WB_GRBLevelsAuto", N_("WB GRB Levels Auto"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf00d, "WB_GRBLevelsAuto", N_("WB GRB Levels Auto"),
                 N_("WB GRB Levels Auto"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf00e, "WB_GRBLevels", N_("WB GRB Levels"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf00e, "WB_GRBLevels", N_("WB GRB Levels"),
                 N_("WB GRB Levels"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf00f, "ChromaticAberrationParams", N_("Chromatic Aberration Params"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf00f, "ChromaticAberrationParams", N_("Chromatic Aberration Params"),
                 N_("Chromatic Aberration Params"),
-                fujiId, makerTags, undefined, -1, printValue),
-        TagInfo(0xf010, "VignettingParams", N_("Vignetting Params"),
+                fujiId, makerTags, undefined, -1, printValue},
+        {0xf010, "VignettingParams", N_("Vignetting Params"),
                 N_("Vignetting Params"),
-                fujiId, makerTags, undefined, -1, printValue),
+                fujiId, makerTags, undefined, -1, printValue},
 
         // End of list marker
-        TagInfo(0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)",
+        {0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)",
                 N_("Unknown FujiMakerNote tag"),
-                fujiId, makerTags, asciiString, -1, printValue)
+                fujiId, makerTags, asciiString, -1, printValue},
     };
 
     const TagInfo* FujiMakerNote::tagList()

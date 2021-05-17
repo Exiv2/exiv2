@@ -44,7 +44,7 @@ namespace Exiv2 {
     namespace Internal {
 
     //! RecordingMode, tag 0x0001
-    extern const TagDetails casioRecordingMode[] = {
+    constexpr TagDetails casioRecordingMode[] = {
         {  1, N_("Single Shutter") },
         {  2, N_("Panorama")       },
         {  3, N_("Night Scene")    },
@@ -57,14 +57,14 @@ namespace Exiv2 {
     };
 
     //! Quality, tag 0x0002
-    extern const TagDetails casioQuality[] = {
+    constexpr TagDetails casioQuality[] = {
         { 1, N_("Economy") },
         { 2, N_("Normal")  },
         { 3, N_("Fine")    }
     };
 
     //! Focus Mode, tag 0x0003
-    extern const TagDetails casioFocusMode[] = {
+    constexpr TagDetails casioFocusMode[] = {
         { 2, N_("Macro")    },
         { 3, N_("Auto")     },
         { 4, N_("Manual")   },
@@ -73,7 +73,7 @@ namespace Exiv2 {
     };
 
     //! FlashMode, tag 0x0004
-    extern const TagDetails casioFlashMode[] = {
+    constexpr TagDetails casioFlashMode[] = {
         { 1, N_("Auto")              },
         { 2, N_("On")                },
         { 3, N_("Off")               },
@@ -82,7 +82,7 @@ namespace Exiv2 {
     };
 
     //! Flash intensity, tag 0x0005
-    extern const TagDetails casioFlashIntensity[] = {
+    constexpr TagDetails casioFlashIntensity[] = {
         { 11, N_("Weak")   },
         { 12, N_("Low")    },
         { 13, N_("Normal") },
@@ -91,7 +91,7 @@ namespace Exiv2 {
     };
 
     //! white balance, tag 0x0007
-    extern const TagDetails casioWhiteBalance[] = {
+    constexpr TagDetails casioWhiteBalance[] = {
         {   1, N_("Auto")        },
         {   2, N_("Tungsten")    },
         {   3, N_("Daylight")    },
@@ -101,7 +101,7 @@ namespace Exiv2 {
     };
 
     //! Flash intensity, tag 0x0005
-    extern const TagDetails casioDigitalZoom[] = {
+    constexpr TagDetails casioDigitalZoom[] = {
         { 0x10000, N_("Off")   },
         { 0x10001, N_("2x")    },
         { 0x13333, N_("1.2x")  },
@@ -113,7 +113,7 @@ namespace Exiv2 {
     };
 
     //! Sharpness, tag 0x000b
-    extern const TagDetails casioSharpness[] = {
+    constexpr TagDetails casioSharpness[] = {
         {  0, N_("Normal") },
         {  1, N_("Soft")   },
         {  2, N_("Hard")   },
@@ -123,7 +123,7 @@ namespace Exiv2 {
     };
 
     //! Contrast, tag 0x000c
-    extern const TagDetails casioContrast[] = {
+    constexpr TagDetails casioContrast[] = {
         {  0, N_("Normal") },
         {  1, N_("Low")   },
         {  2, N_("High")   },
@@ -133,7 +133,7 @@ namespace Exiv2 {
     };
 
     //! Saturation, tag 0x000d
-    extern const TagDetails casioSaturation[] = {
+    constexpr TagDetails casioSaturation[] = {
         {  0, N_("Normal") },
         {  1, N_("Low")   },
         {  2, N_("High")   },
@@ -143,7 +143,7 @@ namespace Exiv2 {
     };
 
     //! Enhancement, tag 0x0016
-    extern const TagDetails casioEnhancement[] = {
+    constexpr TagDetails casioEnhancement[] = {
         { 1, N_("Off")         },
         { 2, N_("Red")         },
         { 3, N_("Green")       },
@@ -152,7 +152,7 @@ namespace Exiv2 {
     };
 
     //! Color filter, tag 0x0017
-    extern const TagDetails casioColorFilter[] = {
+    constexpr TagDetails casioColorFilter[] = {
         { 1, N_("Off")           },
         { 2, N_("Black & White") },
         { 3, N_("Sepia")         },
@@ -165,14 +165,14 @@ namespace Exiv2 {
     };
 
     //! flash intensity 2, tag 0x0019
-    extern const TagDetails casioFlashIntensity2[] = {
+    constexpr TagDetails casioFlashIntensity2[] = {
         { 1, N_("Normal") },
         { 2, N_("Weak")   },
         { 3, N_("Strong") }
     };
 
     //! CCD Sensitivity intensity, tag 0x0020
-    extern const TagDetails casioCCDSensitivity[] = {
+    constexpr TagDetails casioCCDSensitivity[] = {
         {  64, N_("Normal")                     },
         { 125, N_("+1.0")                       },
         { 250, N_("+2.0")                       },
@@ -182,27 +182,27 @@ namespace Exiv2 {
     };
 
     // Casio MakerNote Tag Info
-    const TagInfo CasioMakerNote::tagInfo_[] = {
-        TagInfo(0x0001, "RecodingMode", N_("RecodingMode"), N_("Recording Mode"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioRecordingMode)),
-        TagInfo(0x0002, "Quality", N_("Quality"), N_("Quality"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioQuality)),
-        TagInfo(0x0003, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFocusMode)),
-        TagInfo(0x0004, "FlashMode", N_("Flash Mode"), N_("Flash Mode"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFlashMode)),
-        TagInfo(0x0005, "FlashIntensity", N_("Flash Intensity"), N_("Flash Intensity"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFlashIntensity)),
-        TagInfo(0x0006, "ObjectDistance", N_("Object Distance"), N_("Distance to object"), casioId, makerTags, unsignedLong, -1, print0x0006),
-        TagInfo(0x0007, "WhiteBalance", N_("White Balance"), N_("White balance settings"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioWhiteBalance)),
-        TagInfo(0x000a, "DigitalZoom", N_("Digital Zoom"), N_("Digital zoom"), casioId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(casioDigitalZoom)),
-        TagInfo(0x000b, "Sharpness", N_("Sharpness"), N_("Sharpness"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioSharpness)),
-        TagInfo(0x000c, "Contrast", N_("Contrast"), N_("Contrast"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioContrast)),
-        TagInfo(0x000d, "Saturation", N_("Saturation"), N_("Saturation"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioSaturation)),
-        TagInfo(0x0014, "ISO", N_("ISO"), N_("ISO"), casioId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0015, "FirmwareDate", N_("Firmware date"), N_("Firmware date"), casioId, makerTags, asciiString, -1, print0x0015),
-        TagInfo(0x0016, "Enhancement", N_("Enhancement"), N_("Enhancement"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioEnhancement)),
-        TagInfo(0x0017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioColorFilter)),
-        TagInfo(0x0018, "AFPoint", N_("AF Point"), N_("AF Point"), casioId, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0019, "FlashIntensity2", N_("Flash Intensity"), N_("Flash Intensity"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFlashIntensity2)),
-        TagInfo(0x0020, "CCDSensitivity", N_("CCDSensitivity"), N_("CCDSensitivity"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioCCDSensitivity)),
-        TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), casioId, makerTags, undefined, -1, printValue),
-        TagInfo(0xffff, "(UnknownCasioMakerNoteTag)", "(UnknownCasioMakerNoteTag)", N_("Unknown CasioMakerNote tag"), casioId, makerTags, asciiString, -1, printValue)
+    constexpr TagInfo CasioMakerNote::tagInfo_[] = {
+        {0x0001, "RecodingMode", N_("RecodingMode"), N_("Recording Mode"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioRecordingMode)},
+        {0x0002, "Quality", N_("Quality"), N_("Quality"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioQuality)},
+        {0x0003, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFocusMode)},
+        {0x0004, "FlashMode", N_("Flash Mode"), N_("Flash Mode"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFlashMode)},
+        {0x0005, "FlashIntensity", N_("Flash Intensity"), N_("Flash Intensity"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFlashIntensity)},
+        {0x0006, "ObjectDistance", N_("Object Distance"), N_("Distance to object"), casioId, makerTags, unsignedLong, -1, print0x0006},
+        {0x0007, "WhiteBalance", N_("White Balance"), N_("White balance settings"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioWhiteBalance)},
+        {0x000a, "DigitalZoom", N_("Digital Zoom"), N_("Digital zoom"), casioId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(casioDigitalZoom)},
+        {0x000b, "Sharpness", N_("Sharpness"), N_("Sharpness"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioSharpness)},
+        {0x000c, "Contrast", N_("Contrast"), N_("Contrast"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioContrast)},
+        {0x000d, "Saturation", N_("Saturation"), N_("Saturation"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioSaturation)},
+        {0x0014, "ISO", N_("ISO"), N_("ISO"), casioId, makerTags, unsignedShort, -1, printValue},
+        {0x0015, "FirmwareDate", N_("Firmware date"), N_("Firmware date"), casioId, makerTags, asciiString, -1, print0x0015},
+        {0x0016, "Enhancement", N_("Enhancement"), N_("Enhancement"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioEnhancement)},
+        {0x0017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioColorFilter)},
+        {0x0018, "AFPoint", N_("AF Point"), N_("AF Point"), casioId, makerTags, unsignedShort, -1, printValue},
+        {0x0019, "FlashIntensity2", N_("Flash Intensity"), N_("Flash Intensity"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioFlashIntensity2)},
+        {0x0020, "CCDSensitivity", N_("CCDSensitivity"), N_("CCDSensitivity"), casioId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casioCCDSensitivity)},
+        {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), casioId, makerTags, undefined, -1, printValue},
+        {0xffff, "(UnknownCasioMakerNoteTag)", "(UnknownCasioMakerNoteTag)", N_("Unknown CasioMakerNote tag"), casioId, makerTags, asciiString, -1, printValue},
     };
 
     const TagInfo* CasioMakerNote::tagList()
@@ -263,14 +263,14 @@ namespace Exiv2 {
 
     //Casio Makernotes, Type 2
     //! Quality Mode, tag 0x0004
-    extern const TagDetails casio2QualityMode[] = {
+    constexpr TagDetails casio2QualityMode[] = {
         { 0, N_("Economy") },
         { 1, N_("Normal")  },
         { 2, N_("Fine")    }
     };
 
     //! Image Size, tag 0x0009
-    extern const TagDetails casio2ImageSize[] = {
+    constexpr TagDetails casio2ImageSize[] = {
         {  0, "640x480"   },
         {  4, "1600x1200" },
         {  5, "2048x1536" },
@@ -281,13 +281,13 @@ namespace Exiv2 {
     };
 
     //! Focus Mode, tag 0x000d
-    extern const TagDetails casio2FocusMode[] = {
+    constexpr TagDetails casio2FocusMode[] = {
         { 0, N_("Normal") },
         { 1, N_("Macro") }
     };
 
     //! ISO Speed, tag 0x0014
-    extern const TagDetails casio2IsoSpeed[] = {
+    constexpr TagDetails casio2IsoSpeed[] = {
         { 3, "50"  },
         { 4, "64"  },
         { 6, "100" },
@@ -295,7 +295,7 @@ namespace Exiv2 {
     };
 
     //! White Balance, tag 0x0019
-    extern const TagDetails casio2WhiteBalance[] = {
+    constexpr TagDetails casio2WhiteBalance[] = {
         { 0, N_("Auto")        },
         { 1, N_("Daylight")    },
         { 2, N_("Shade")       },
@@ -305,28 +305,28 @@ namespace Exiv2 {
     };
 
     //! Saturation, tag 0x001f
-    extern const TagDetails casio2Saturation[] = {
+    constexpr TagDetails casio2Saturation[] = {
         { 0, N_("Low")    },
         { 1, N_("Normal") },
         { 2, N_("High")   }
     };
 
     //! Contrast, tag 0x0020
-    extern const TagDetails casio2Contrast[] = {
+    constexpr TagDetails casio2Contrast[] = {
         { 0, N_("Low")    },
         { 1, N_("Normal") },
         { 2, N_("High")   }
     };
 
     //! Sharpness, tag 0x0021
-    extern const TagDetails casio2Sharpness[] = {
+    constexpr TagDetails casio2Sharpness[] = {
         { 0, N_("Soft")    },
         { 1, N_("Normal") },
         { 2, N_("Hard")   }
     };
 
     //! White Balance2, tag 0x2012
-    extern const TagDetails casio2WhiteBalance2[] = {
+    constexpr TagDetails casio2WhiteBalance2[] = {
         {  0, N_("Manual")      },
         {  1, N_("Daylight")    },
         {  2, N_("Cloudy")      },
@@ -339,7 +339,7 @@ namespace Exiv2 {
     };
 
     //! Release Mode, tag 0x3001
-    extern const TagDetails casio2ReleaseMode[] = {
+    constexpr TagDetails casio2ReleaseMode[] = {
         {  1, N_("Normal")              },
         {  3, N_("AE Bracketing")       },
         { 11, N_("WB Bracketing")       },
@@ -348,14 +348,14 @@ namespace Exiv2 {
     };
 
     //! Quality, tag 0x3002
-    extern const TagDetails casio2Quality[] = {
+    constexpr TagDetails casio2Quality[] = {
         { 1, N_("Economy") },
         { 2, N_("Normal")  },
         { 3, N_("Fine")    }
     };
 
     //! Focus Mode 2, tag 0x3003
-    extern const TagDetails casio2FocusMode2[] = {
+    constexpr TagDetails casio2FocusMode2[] = {
         { 0, N_("Manual")                 },
         { 1, N_("Focus Lock")             },
         { 2, N_("Macro")                  },
@@ -366,7 +366,7 @@ namespace Exiv2 {
     };
 
     //! AutoISO, tag 0x3008
-    extern const TagDetails casio2AutoISO[] = {
+    constexpr TagDetails casio2AutoISO[] = {
         {  1, N_("On")                   },
         {  2, N_("Off")                  },
         {  7, N_("On (high sensitiviy)") },
@@ -375,7 +375,7 @@ namespace Exiv2 {
     };
 
     //! AFMode, tag 0x3009
-    extern const TagDetails casio2AFMode[] = {
+    constexpr TagDetails casio2AFMode[] = {
         { 0, N_("Off")            },
         { 1, N_("Spot")           },
         { 2, N_("Multi")          },
@@ -385,14 +385,14 @@ namespace Exiv2 {
     };
 
     //! ColorMode, tag 0x3015
-    extern const TagDetails casio2ColorMode[] = {
+    constexpr TagDetails casio2ColorMode[] = {
         { 0, N_("Off")           },
         { 2, N_("Black & White") },
         { 3, N_("Sepia")         }
     };
 
     //! Enhancement, tag 0x3016
-    extern const TagDetails casio2Enhancement[] = {
+    constexpr TagDetails casio2Enhancement[] = {
         { 0, N_("Off")         },
         { 1, N_("Scenery")     },
         { 3, N_("Green")       },
@@ -402,7 +402,7 @@ namespace Exiv2 {
     };
 
     //! Color Filter, tag 0x3017
-    extern const TagDetails casio2ColorFilter[] = {
+    constexpr TagDetails casio2ColorFilter[] = {
         { 0, N_("Off")    },
         { 1, N_("Blue")   },
         { 3, N_("Green")  },
@@ -413,7 +413,7 @@ namespace Exiv2 {
     };
 
     //! Art Mode, tag 0x301b
-    extern const TagDetails casio2ArtMode[] = {
+    constexpr TagDetails casio2ArtMode[] = {
         {  0, N_("Normal")                },
         {  8, N_("Silent Movie")          },
         { 39, N_("HDR")                   },
@@ -430,7 +430,7 @@ namespace Exiv2 {
     };
 
     //! Lighting Mode, tag 0x302a
-    extern const TagDetails casio2LightingMode[] = {
+    constexpr TagDetails casio2LightingMode[] = {
         { 0, N_("Off")                 },
         { 1, N_("High Dynamic Range")  },
         { 5, N_("Shadow Enhance Low")  },
@@ -438,14 +438,14 @@ namespace Exiv2 {
     };
 
     //! Portrait Refiner, tag 0x302b
-    extern const TagDetails casio2PortraitRefiner[] = {
+    constexpr TagDetails casio2PortraitRefiner[] = {
         { 0, N_("Off") },
         { 1, N_("+1")  },
         { 2, N_("+2")  }
     };
 
     //! Special Effect Setting, tag 0x3031
-    extern const TagDetails casio2SpecialEffectSetting[] = {
+    constexpr TagDetails casio2SpecialEffectSetting[] = {
         {  0, N_("Off")             },
         {  1, N_("Makeup")          },
         {  2, N_("Mist Removal")    },
@@ -454,7 +454,7 @@ namespace Exiv2 {
     };
 
     //! Drive Mode, tag 0x3103
-    extern const TagDetails casio2DriveMode[] = {
+    constexpr TagDetails casio2DriveMode[] = {
         {   0, N_("Single Shot")         },
         {   1, N_("Continuous Shooting") },
         {   2, N_("Continuous (2 fps)")  },
@@ -474,7 +474,7 @@ namespace Exiv2 {
     };
 
     //! Video Quality, tag 0x4003
-    extern const TagDetails casio2VideoQuality[] = {
+    constexpr TagDetails casio2VideoQuality[] = {
         { 1, N_("Standard")        },
         { 3, N_("HD (720p)")       },
         { 4, N_("Full HD (1080p)") },
@@ -482,57 +482,57 @@ namespace Exiv2 {
     };
 
     // Casio2 MakerNote Tag Info
-    const TagInfo Casio2MakerNote::tagInfo_[] = {
-        TagInfo(0x0002, "PreviewImageSize", N_("Preview Image Size"), N_("Preview Image Size"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x0003, "PreviewImageLength", N_("Preview Image Length"), N_("Preview Image Length"), casio2Id, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x0004, "PreviewImageStart", N_("Preview Image Start"), N_("Preview Image Start"), casio2Id, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x0008, "QualityMode", N_("Quality Mode"), N_("Quality Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2QualityMode)),
-        TagInfo(0x0009, "ImageSize", N_("Image Size"), N_("Image Size"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ImageSize)),
-        TagInfo(0x000d, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2FocusMode)),
-        TagInfo(0x0014, "ISOSpeed", N_("ISO Speed"), N_("ISO Speed"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2IsoSpeed)),
-        TagInfo(0x0019, "WhiteBalance", N_("White Balance"), N_("White Balance Setting"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2WhiteBalance)),
-        TagInfo(0x001d, "FocalLength", N_("Focal Length"), N_("Focal Length"), casio2Id, makerTags, unsignedRational, -1, printValue),
-        TagInfo(0x001f, "Saturation", N_("Saturation"), N_("Saturation"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Saturation)),
-        TagInfo(0x0020, "Contrast", N_("Contrast"), N_("Contrast"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Contrast)),
-        TagInfo(0x0021, "Sharpness", N_("Sharpness"), N_("Sharpness"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Sharpness)),
-        TagInfo(0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x2000, "PreviewImage", N_("Preview Image"), N_("Preview Image"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x2001, "FirmwareDate", N_("Firmware Date"), N_("Firmware Date"), casio2Id, makerTags, asciiString, -1, print0x2001),
-        TagInfo(0x2011, "WhiteBalanceBias", N_("White Balance Bias"), N_("White Balance Bias"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x2012, "WhiteBalance2", N_("White Balance"), N_("White Balance Setting"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2WhiteBalance2)),
-        TagInfo(0x2021, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x2022, "ObjectDistance", N_("Object Distance"), N_("Object Distance"), casio2Id, makerTags, unsignedLong, -1, print0x2022),
-        TagInfo(0x2034, "FlashDistance", N_("Flash Distance"), N_("Flash Distance"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x2076, "SpecialEffectMode", N_("Special Effect Mode"), N_("Special Effect Mode"), casio2Id, makerTags, unsignedByte, -1, printValue),
-        TagInfo(0x2089, "FaceInfo", N_("Face Info"), N_("Face Info"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x211c, "FacesDetected", N_("Faces detected"), N_("Faces detected"), casio2Id, makerTags, unsignedByte, -1, printValue),
-        TagInfo(0x3000, "RecordMode", N_("Record Mode"), N_("Record Mode"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x3001, "ReleaseMode", N_("Release Mode"), N_("Release Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ReleaseMode)),
-        TagInfo(0x3002, "Quality", N_("Quality"), N_("Quality"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Quality)),
-        TagInfo(0x3003, "FocusMode2", N_("Focus Mode2"), N_("Focus Mode2"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2FocusMode2)),
-        TagInfo(0x3006, "HometownCity", N_("Home town city"), N_("Home town city"), casio2Id, makerTags, asciiString, -1, printValue),
-        TagInfo(0x3007, "BestShotMode", N_("Best Shot Mode"), N_("Best Shot Mode"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x3008, "AutoISO", N_("Auto ISO"), N_("Auto ISO"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2AutoISO)),
-        TagInfo(0x3009, "AFMode", N_("AF Mode"), N_("AF Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2AFMode)),
-        TagInfo(0x3011, "Sharpness2", N_("Sharpness"), N_("Sharpness"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x3012, "Contrast2", N_("Contrast"), N_("Contrast"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x3013, "Saturation2", N_("Saturation"), N_("Saturation"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x3014, "ISO", N_("ISO"), N_("ISO"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x3015, "ColorMode", N_("Color Mode"), N_("Color Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ColorMode)),
-        TagInfo(0x3016, "Enhancement", N_("Enhancement"), N_("Enhancement"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Enhancement)),
-        TagInfo(0x3017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ColorFilter)),
-        TagInfo(0x301b, "ArtMode", N_("Art Mode"), N_("Art Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ArtMode)),
-        TagInfo(0x301c, "SequenceNumber", N_("Sequence Number"), N_("Sequence Number"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x3020, "ImageStabilization", N_("Image Stabilization"), N_("Image Stabilization"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x302a, "LightingMode", N_("Lighting Mode"), N_("Lighting Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2LightingMode)),
-        TagInfo(0x302b, "PortraitRefiner", N_("Portrait Refiner"), N_("Portrait Refiner settings"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2PortraitRefiner)),
-        TagInfo(0x3030, "SpecialEffectLevel", N_("Special Effect Level"), N_("Special Effect Level"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x3031, "SpecialEffectSetting", N_("Special Effect Setting"), N_("Special Effect Setting"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2SpecialEffectSetting)),
-        TagInfo(0x3103, "DriveMode", N_("Drive Mode"), N_("Drive Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2DriveMode)),
-        TagInfo(0x310b, "ArtModeParameters", N_("Art Mode Parameters"), N_("Art Mode Parameters"), casio2Id, makerTags, undefined, -1, printValue),
-        TagInfo(0x4001, "CaptureFrameRate", N_("Capture Frame Rate"), N_("Capture Frame Rate"), casio2Id, makerTags, unsignedShort, -1, printValue),
-        TagInfo(0x4003, "VideoQuality", N_("Video Quality"), N_("Video Quality"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2VideoQuality)),
-        TagInfo(0xffff, "(UnknownCasio2MakerNoteTag)", "(UnknownCasio2MakerNoteTag)", N_("Unknown Casio2MakerNote tag"), casio2Id, makerTags, asciiString, -1, printValue)
+    constexpr TagInfo Casio2MakerNote::tagInfo_[] = {
+        {0x0002, "PreviewImageSize", N_("Preview Image Size"), N_("Preview Image Size"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x0003, "PreviewImageLength", N_("Preview Image Length"), N_("Preview Image Length"), casio2Id, makerTags, unsignedLong, -1, printValue},
+        {0x0004, "PreviewImageStart", N_("Preview Image Start"), N_("Preview Image Start"), casio2Id, makerTags, unsignedLong, -1, printValue},
+        {0x0008, "QualityMode", N_("Quality Mode"), N_("Quality Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2QualityMode)},
+        {0x0009, "ImageSize", N_("Image Size"), N_("Image Size"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ImageSize)},
+        {0x000d, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2FocusMode)},
+        {0x0014, "ISOSpeed", N_("ISO Speed"), N_("ISO Speed"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2IsoSpeed)},
+        {0x0019, "WhiteBalance", N_("White Balance"), N_("White Balance Setting"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2WhiteBalance)},
+        {0x001d, "FocalLength", N_("Focal Length"), N_("Focal Length"), casio2Id, makerTags, unsignedRational, -1, printValue},
+        {0x001f, "Saturation", N_("Saturation"), N_("Saturation"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Saturation)},
+        {0x0020, "Contrast", N_("Contrast"), N_("Contrast"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Contrast)},
+        {0x0021, "Sharpness", N_("Sharpness"), N_("Sharpness"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Sharpness)},
+        {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x2000, "PreviewImage", N_("Preview Image"), N_("Preview Image"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x2001, "FirmwareDate", N_("Firmware Date"), N_("Firmware Date"), casio2Id, makerTags, asciiString, -1, print0x2001},
+        {0x2011, "WhiteBalanceBias", N_("White Balance Bias"), N_("White Balance Bias"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x2012, "WhiteBalance2", N_("White Balance"), N_("White Balance Setting"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2WhiteBalance2)},
+        {0x2021, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x2022, "ObjectDistance", N_("Object Distance"), N_("Object Distance"), casio2Id, makerTags, unsignedLong, -1, print0x2022},
+        {0x2034, "FlashDistance", N_("Flash Distance"), N_("Flash Distance"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x2076, "SpecialEffectMode", N_("Special Effect Mode"), N_("Special Effect Mode"), casio2Id, makerTags, unsignedByte, -1, printValue},
+        {0x2089, "FaceInfo", N_("Face Info"), N_("Face Info"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x211c, "FacesDetected", N_("Faces detected"), N_("Faces detected"), casio2Id, makerTags, unsignedByte, -1, printValue},
+        {0x3000, "RecordMode", N_("Record Mode"), N_("Record Mode"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x3001, "ReleaseMode", N_("Release Mode"), N_("Release Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ReleaseMode)},
+        {0x3002, "Quality", N_("Quality"), N_("Quality"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Quality)},
+        {0x3003, "FocusMode2", N_("Focus Mode2"), N_("Focus Mode2"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2FocusMode2)},
+        {0x3006, "HometownCity", N_("Home town city"), N_("Home town city"), casio2Id, makerTags, asciiString, -1, printValue},
+        {0x3007, "BestShotMode", N_("Best Shot Mode"), N_("Best Shot Mode"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x3008, "AutoISO", N_("Auto ISO"), N_("Auto ISO"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2AutoISO)},
+        {0x3009, "AFMode", N_("AF Mode"), N_("AF Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2AFMode)},
+        {0x3011, "Sharpness2", N_("Sharpness"), N_("Sharpness"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x3012, "Contrast2", N_("Contrast"), N_("Contrast"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x3013, "Saturation2", N_("Saturation"), N_("Saturation"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x3014, "ISO", N_("ISO"), N_("ISO"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x3015, "ColorMode", N_("Color Mode"), N_("Color Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ColorMode)},
+        {0x3016, "Enhancement", N_("Enhancement"), N_("Enhancement"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2Enhancement)},
+        {0x3017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ColorFilter)},
+        {0x301b, "ArtMode", N_("Art Mode"), N_("Art Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2ArtMode)},
+        {0x301c, "SequenceNumber", N_("Sequence Number"), N_("Sequence Number"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x3020, "ImageStabilization", N_("Image Stabilization"), N_("Image Stabilization"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x302a, "LightingMode", N_("Lighting Mode"), N_("Lighting Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2LightingMode)},
+        {0x302b, "PortraitRefiner", N_("Portrait Refiner"), N_("Portrait Refiner settings"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2PortraitRefiner)},
+        {0x3030, "SpecialEffectLevel", N_("Special Effect Level"), N_("Special Effect Level"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x3031, "SpecialEffectSetting", N_("Special Effect Setting"), N_("Special Effect Setting"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2SpecialEffectSetting)},
+        {0x3103, "DriveMode", N_("Drive Mode"), N_("Drive Mode"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2DriveMode)},
+        {0x310b, "ArtModeParameters", N_("Art Mode Parameters"), N_("Art Mode Parameters"), casio2Id, makerTags, undefined, -1, printValue},
+        {0x4001, "CaptureFrameRate", N_("Capture Frame Rate"), N_("Capture Frame Rate"), casio2Id, makerTags, unsignedShort, -1, printValue},
+        {0x4003, "VideoQuality", N_("Video Quality"), N_("Video Quality"), casio2Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2VideoQuality)},
+        {0xffff, "(UnknownCasio2MakerNoteTag)", "(UnknownCasio2MakerNoteTag)", N_("Unknown Casio2MakerNote tag"), casio2Id, makerTags, asciiString, -1, printValue},
     };
 
     const TagInfo* Casio2MakerNote::tagList()

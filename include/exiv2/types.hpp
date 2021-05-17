@@ -79,6 +79,12 @@
 #define EXV_WARN_UNUSED_RESULT
 #endif
 
+#ifndef _MSC_VER
+#define EXV_UNUSED [[gnu::unused]]
+#else
+#define EXV_UNUSED
+#endif
+
 // *****************************************************************************
 // forward declarations
 struct tm;

@@ -95,7 +95,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpAcdseeInfo[];
     extern const XmpPropertyInfo xmpGPanoInfo[];
 
-    extern const XmpNsInfo xmpNsInfo[] = {
+    constexpr XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
         { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
@@ -486,7 +486,7 @@ namespace Exiv2 {
     };
 
     //! XMP crs:CropUnits
-    extern const TagDetails crsCropUnits[] = {
+    constexpr TagDetails crsCropUnits[] = {
         { 0, N_("pixels") },
         { 1, N_("inches") },
         { 2, N_("cm")     }
@@ -999,7 +999,7 @@ namespace Exiv2 {
     };
 
     //! XMP iptcExt:DigitalSourcefileType
-    extern const TagVocabulary iptcExtDigitalSourcefileType[] = {
+    constexpr TagVocabulary iptcExtDigitalSourcefileType[] = {
         { "scanfilm",         N_("Scan from film")                           },
         { "scantransparency", N_("Scan from transparency (including slide)") },
         { "scanprint",        N_("Scan from print")                          },
@@ -1099,21 +1099,21 @@ namespace Exiv2 {
     };
 
     //! XMP plus:AdultContentWarning
-    extern const TagVocabulary plusAdultContentWarning[] = {
+    constexpr TagVocabulary plusAdultContentWarning[] = {
         { "CW-AWR", N_("Adult Content Warning Required") },
         { "CW-NRQ", N_("Not Required")                   },
         { "CW-UNK", N_("Unknown")                        }
     };
 
     //! XMP plus:CopyrightStatus
-    extern const TagVocabulary plusCopyrightStatus[] = {
+    constexpr TagVocabulary plusCopyrightStatus[] = {
         { "CS-PRO", N_("Protected")     },
         { "CS-PUB", N_("Public Domain") },
         { "CS-UNK", N_("Unknown")       }
     };
 
     //! XMP plus:CreditLineRequired
-    extern const TagVocabulary plusCreditLineRequired[] = {
+    constexpr TagVocabulary plusCreditLineRequired[] = {
         { "CR-CAI", N_("Credit Adjacent To Image") },
         { "CR-CCA", N_("Credit in Credits Area")   },
         { "CR-COI", N_("Credit on Image")          },
@@ -1121,7 +1121,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageAlterationConstraints
-    extern const TagVocabulary plusImageAlterationConstraints[] = {
+    constexpr TagVocabulary plusImageAlterationConstraints[] = {
         { "AL-CLR", N_("No Colorization")    },
         { "AL-CRP", N_("No Cropping")        },
         { "AL-DCL", N_("No De-Colorization") },
@@ -1131,14 +1131,14 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageDuplicationConstraints
-    extern const TagVocabulary plusImageDuplicationConstraints[] = {
+    constexpr TagVocabulary plusImageDuplicationConstraints[] = {
         { "DP-LIC", N_("Duplication Only as Necessary Under License") },
         { "DP-NDC", N_("No Duplication Constraints")                  },
         { "DP-NOD", N_("No Duplication")                              }
     };
 
     //! XMP plus:ImageFileConstraints
-    extern const TagVocabulary plusImageFileConstraints[] = {
+    constexpr TagVocabulary plusImageFileConstraints[] = {
         { "IF-MFN", N_("Maintain File Name")       },
         { "IF-MFT", N_("Maintain File Type")       },
         { "IF-MID", N_("Maintain ID in File Name") },
@@ -1146,7 +1146,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageFileFormatAsDelivered
-    extern const TagVocabulary plusImageFileFormatAsDelivered[] = {
+    constexpr TagVocabulary plusImageFileFormatAsDelivered[] = {
         { "FF-BMP", N_("Windows Bitmap (BMP)")                      },
         { "FF-DNG", N_("Digital Negative (DNG)")                    },
         { "FF-EPS", N_("Encapsulated PostScript (EPS)")             },
@@ -1162,7 +1162,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageFileSizeAsDelivered
-    extern const TagVocabulary plusImageFileSizeAsDelivered[] = {
+    constexpr TagVocabulary plusImageFileSizeAsDelivered[] = {
         { "SZ-G50", N_("Greater than 50 MB") },
         { "SZ-U01", N_("Up to 1 MB")         },
         { "SZ-U10", N_("Up to 10 MB")        },
@@ -1171,7 +1171,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ImageType
-    extern const TagVocabulary plusImageType[] = {
+    constexpr TagVocabulary plusImageType[] = {
         { "TY-ILL", N_("Illustrated Image")              },
         { "TY-MCI", N_("Multimedia or Composited Image") },
         { "TY-OTR", N_("Other")                          },
@@ -1180,7 +1180,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:LicensorTelephoneType
-    extern const TagVocabulary plusLicensorTelephoneType[] = {
+    constexpr TagVocabulary plusLicensorTelephoneType[] = {
         { "cell",  N_("Cell")  },
         { "fax",   N_("FAX")   },
         { "home",  N_("Home")  },
@@ -1189,7 +1189,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:MinorModelAgeDisclosure
-    extern const TagVocabulary plusMinorModelAgeDisclosure[] = {
+    constexpr TagVocabulary plusMinorModelAgeDisclosure[] = {
         { "AG-UNK", N_("Age Unknown")     },
         { "AG-A25", N_("Age 25 or Over")  },
         { "AG-A24", N_("Age 24")          },
@@ -1206,7 +1206,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:ModelReleaseStatus
-    extern const TagVocabulary plusModelReleaseStatus[] = {
+    constexpr TagVocabulary plusModelReleaseStatus[] = {
         { "MR-NON", N_("None")                                 },
         { "MR-NAP", N_("Not Applicable")                       },
         { "MR-UMR", N_("Unlimited Model Releases")             },
@@ -1214,7 +1214,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:PropertyReleaseStatus
-    extern const TagVocabulary plusPropertyReleaseStatus[] = {
+    constexpr TagVocabulary plusPropertyReleaseStatus[] = {
         { "PR-NON", N_("None")                                    },
         { "PR-NAP", N_("Not Applicable")                          },
         { "PR-UPR", N_("Unlimited Property Releases")             },
@@ -1222,7 +1222,7 @@ namespace Exiv2 {
     };
 
     //! XMP plus:Reuse
-    extern const TagVocabulary plusReuse[] = {
+    constexpr TagVocabulary plusReuse[] = {
         { "RE-NAP", N_("Not Applicable") },
         { "RE-REU", N_("Repeat Use")     }
     };

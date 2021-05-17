@@ -72,18 +72,6 @@ namespace Exiv2 {
 
     //! Tag information
     struct EXIV2API TagInfo {
-        //! Constructor
-        TagInfo(
-            uint16_t tag,
-            const char* name,
-            const char* title,
-            const char* desc,
-            int ifdId,
-            int sectionId,
-            TypeId typeId,
-            int16_t count,
-            PrintFct printFct
-        );
         uint16_t tag_;                          //!< Tag
         const char* name_;                      //!< One word tag label
         const char* title_;                     //!< Tag title

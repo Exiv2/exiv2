@@ -37,14 +37,14 @@ namespace Exiv2 {
     namespace Internal {
 
     //! ShootingMode, tag 0x0001
-    extern const TagDetails pentaxShootingMode[] = {
+    constexpr TagDetails pentaxShootingMode[] = {
         {   0, N_("Auto")                      },
         {   1, N_("Night-Scene")               },
         {   2, N_("Manual")                    },
     };
 
     //! CameraModel, tag 0x0005
-    extern const TagDetails pentaxModel[] = {
+    constexpr TagDetails pentaxModel[] = {
         {    0x0000d, "Optio 330/430" },
         {    0x12926, "Optio 230" },
         {    0x12958, "Optio 330GS" },
@@ -185,7 +185,7 @@ namespace Exiv2 {
     };
 
     //! Quality, tag 0x0008
-    extern const TagDetails pentaxQuality[] = {
+    constexpr TagDetails pentaxQuality[] = {
         {   0, N_("Good") },
         {   1, N_("Better") },
         {   2, N_("Best") },
@@ -196,7 +196,7 @@ namespace Exiv2 {
     };
 
     //! Size, tag 0x0009
-    extern const TagDetails pentaxSize[] = {
+    constexpr TagDetails pentaxSize[] = {
         {    0, "640x480" },
         {    1, N_("Full") },
         {    2, "1024x768" },
@@ -233,7 +233,7 @@ namespace Exiv2 {
     };
 
     //! Flash, tag 0x000c
-    extern const TagDetails pentaxFlash[] = {
+    constexpr TagDetails pentaxFlash[] = {
         {    0x000, N_("Auto, Did not fire") },
         {    0x001, N_("Off, Did not fire") },
         {    0x002, N_("Off, Did not fire") },
@@ -253,7 +253,7 @@ namespace Exiv2 {
     };
 
     //! Focus, tag 0x000d
-    extern const TagDetails pentaxFocus[] = {
+    constexpr TagDetails pentaxFocus[] = {
         {    0, N_("Normal") },
         {    1, N_("Macro") },
         {    2, N_("Infinity") },
@@ -269,7 +269,7 @@ namespace Exiv2 {
     };
 
     //! AFPoint, tag 0x000e
-    extern const TagDetails pentaxAFPoint[] = {
+    constexpr TagDetails pentaxAFPoint[] = {
         {    0xffff, N_("Auto") },
         {    0xfffe, N_("Fixed Center") },
         {    0xfffd, N_("Automatic Tracking AF") },
@@ -290,7 +290,7 @@ namespace Exiv2 {
     };
 
     //! AFPointInFocus, tag 0x000f
-    extern const TagDetails pentaxAFPointFocus[] = {
+    constexpr TagDetails pentaxAFPointFocus[] = {
         {    0xffff, N_("None") },
         {    0, N_("Fixed Center or multiple") },
         {    1, N_("Top-left") },
@@ -305,7 +305,7 @@ namespace Exiv2 {
     };
 
     //! ISO, tag 0x0014
-    extern const TagDetails pentaxISO[] = {
+    constexpr TagDetails pentaxISO[] = {
         {    3, "50" },
         {    4, "64" },
         {    5, "80" },
@@ -389,26 +389,26 @@ namespace Exiv2 {
     };
 
     //! Generic for Off/On switches
-    extern const TagDetails pentaxOffOn[] = {
+    constexpr TagDetails pentaxOffOn[] = {
         {    0, N_("Off") },
         {    1, N_("On") },
     };
 
     //! Generic for Yes/No switches
-    extern const TagDetails pentaxYesNo[] = {
+    constexpr TagDetails pentaxYesNo[] = {
         {    0, N_("No") },
         {    1, N_("Yes") },
     };
 
     //! MeteringMode, tag 0x0017
-    extern const TagDetails pentaxMeteringMode[] = {
+    constexpr TagDetails pentaxMeteringMode[] = {
         {    0, N_("Multi Segment") },
         {    1, N_("Center Weighted") },
         {    2, N_("Spot") },
     };
 
     //! WhiteBalance, tag 0x0019
-    extern const TagDetails pentaxWhiteBalance[] = {
+    constexpr TagDetails pentaxWhiteBalance[] = {
         {    0, N_("Auto") },
         {    1, N_("Daylight") },
         {    2, N_("Shade") },
@@ -427,7 +427,7 @@ namespace Exiv2 {
     };
 
     //! WhiteBalance, tag 0x001a
-    extern const TagDetails pentaxWhiteBalanceMode[] = {
+    constexpr TagDetails pentaxWhiteBalanceMode[] = {
         {    1, N_("Auto (Daylight)") },
         {    2, N_("Auto (Shade)") },
         {    3, N_("Auto (Flash)") },
@@ -441,7 +441,7 @@ namespace Exiv2 {
     };
 
     //! Saturation, tag 0x001f
-    extern const TagDetails pentaxSaturation[] = {
+    constexpr TagDetails pentaxSaturation[] = {
         {     0, N_("Low")       },
         {     1, N_("Normal")    },
         {     2, N_("High")      },
@@ -456,7 +456,7 @@ namespace Exiv2 {
     };
 
     //! Contrast, tag 0x0020
-    extern const TagDetails pentaxContrast[] = {
+    constexpr TagDetails pentaxContrast[] = {
         {    0, N_("Low") },
         {    1, N_("Normal") },
         {    2, N_("High") },
@@ -469,7 +469,7 @@ namespace Exiv2 {
     };
 
     //! Sharpness, tag 0x0021
-    extern const TagDetails pentaxSharpness[] = {
+    constexpr TagDetails pentaxSharpness[] = {
         {    0, N_("Soft") },
         {    1, N_("Normal") },
         {    2, N_("Hard") },
@@ -482,13 +482,13 @@ namespace Exiv2 {
     };
 
     //! Location, tag 0x0022
-    extern const TagDetails pentaxLocation[] = {
+    constexpr TagDetails pentaxLocation[] = {
         {    0, N_("Home town") },
         {    1, N_("Destination") },
     };
 
     //! City names, tags 0x0023 and 0x0024
-    extern const TagDetails pentaxCities[] = {
+    constexpr TagDetails pentaxCities[] = {
         {    0, N_("Pago Pago") },
         {    1, N_("Honolulu") },
         {    2, N_("Anchorage") },
@@ -567,7 +567,7 @@ namespace Exiv2 {
     };
 
     //! ImageProcessing, combi-tag 0x0032 (4 bytes)
-    extern const TagDetails pentaxImageProcessing[] = {
+    constexpr TagDetails pentaxImageProcessing[] = {
         { 0x00000000, N_("Unprocessed") },
         { 0x00000004, N_("Digital Filter") },
         { 0x01000000, N_("Resized") },
@@ -578,7 +578,7 @@ namespace Exiv2 {
     };
 
     //! PictureMode, combi-tag 0x0033 (3 bytes)
-    extern const TagDetails pentaxPictureMode[] = {
+    constexpr TagDetails pentaxPictureMode[] = {
         { 0x000000, N_("Program") },
         { 0x000100, N_("Hi-speed Program") },
         { 0x000200, N_("DOF Program") },
@@ -659,7 +659,7 @@ namespace Exiv2 {
     };
 
     //! DriveMode, combi-tag 0x0034 (4 bytes)
-    extern const TagDetails pentaxDriveMode[] = {
+    constexpr TagDetails pentaxDriveMode[] = {
         { 0x00000000, N_("Single-frame") },
         { 0x01000000, N_("Continuous") },
         { 0x02000000, N_("Continuous (Hi)") },
@@ -683,13 +683,13 @@ namespace Exiv2 {
     };
 
     //! ColorSpace, tag 0x0037
-    extern const TagDetails pentaxColorSpace[] = {
+    constexpr TagDetails pentaxColorSpace[] = {
         {    0, N_("sRGB") },
         {    1, N_("Adobe RGB") },
     };
 
     //! LensType, combi-tag 0x003f (2 unsigned long)
-    extern const TagDetails pentaxLensType[] = {
+    constexpr TagDetails pentaxLensType[] = {
         { 0x0000, N_("M-42 or No Lens") },
         { 0x0100, N_("K or M Lens") },
         { 0x0200, N_("A Series Lens") },
@@ -983,7 +983,7 @@ namespace Exiv2 {
     };
 
     //! ImageTone, tag 0x004f
-    extern const TagDetails pentaxImageTone[] = {
+    constexpr TagDetails pentaxImageTone[] = {
         {    0, N_("Natural") },
         {    1, N_("Bright") },
         {    2, N_("Portrait") },
@@ -997,13 +997,13 @@ namespace Exiv2 {
     };
 
     //! DynamicRangeExpansion, tag 0x0069
-    extern const TagDetails pentaxDynamicRangeExpansion[] = {
+    constexpr TagDetails pentaxDynamicRangeExpansion[] = {
         {   0, N_("Off") },
         {   0x1000000, N_("On") },
     };
 
     //! HighISONoiseReduction, tag 0x0071
-    extern const TagDetails pentaxHighISONoiseReduction[] = {
+    constexpr TagDetails pentaxHighISONoiseReduction[] = {
         {   0, N_("Off") },
         {   1, N_("Weakest") },
         {   2, N_("Weak") },
@@ -1424,269 +1424,269 @@ namespace Exiv2 {
     // ----------------------------------------------------------------------
 
     // Pentax MakerNote Tag Info
-    const TagInfo PentaxMakerNote::tagInfo_[] = {
-        TagInfo(0x0000, "Version", N_("Version"),
+    constexpr TagInfo PentaxMakerNote::tagInfo_[] = {
+        {0x0000, "Version", N_("Version"),
                 N_("Pentax Makernote version"),
-                pentaxId, makerTags, undefined, -1, printVersion),
-        TagInfo(0x0001, "Mode", N_("Shooting mode"),
+                pentaxId, makerTags, undefined, -1, printVersion},
+        {0x0001, "Mode", N_("Shooting mode"),
                 N_("Camera shooting mode"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxShootingMode)),
-        TagInfo(0x0002, "PreviewResolution", N_("Resolution of a preview image"),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxShootingMode)},
+        {0x0002, "PreviewResolution", N_("Resolution of a preview image"),
                 N_("Resolution of a preview image"),
-                pentaxId, makerTags, undefined, -1, printResolution),
-        TagInfo(0x0003, "PreviewLength", N_("Length of a preview image"),
+                pentaxId, makerTags, undefined, -1, printResolution},
+        {0x0003, "PreviewLength", N_("Length of a preview image"),
                 N_("Size of an IFD containing a preview image"),
-                pentaxId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0004, "PreviewOffset", N_("Pointer to a preview image"),
+                pentaxId, makerTags, undefined, -1, printValue},
+        {0x0004, "PreviewOffset", N_("Pointer to a preview image"),
                 N_("Offset to an IFD containing a preview image"),
-                pentaxId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0005, "ModelID", N_("Model identification"),
+                pentaxId, makerTags, undefined, -1, printValue},
+        {0x0005, "ModelID", N_("Model identification"),
                 N_("Pentax model identification"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxModel)),
-        TagInfo(0x0006, "Date", N_("Date"),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxModel)},
+        {0x0006, "Date", N_("Date"),
                 N_("Date"),
-                pentaxId, makerTags, undefined, -1, printDate),
-        TagInfo(0x0007, "Time", N_("Time"),
+                pentaxId, makerTags, undefined, -1, printDate},
+        {0x0007, "Time", N_("Time"),
                 N_("Time"),
-                pentaxId, makerTags, undefined, -1, printTime),
-        TagInfo(0x0008, "Quality", N_("Image quality"),
+                pentaxId, makerTags, undefined, -1, printTime},
+        {0x0008, "Quality", N_("Image quality"),
                 N_("Image quality settings"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxQuality)),
-        TagInfo(0x0009, "Size", N_("Image size"),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxQuality)},
+        {0x0009, "Size", N_("Image size"),
                 N_("Image size settings"),
-                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxSize)),
+                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxSize)},
         /* Some missing ! */
-        TagInfo(0x000c, "Flash", N_("Flash mode"),
+        {0x000c, "Flash", N_("Flash mode"),
                 N_("Flash mode settings"),
-                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxFlash)),
-        TagInfo(0x000d, "Focus", N_("Focus mode"),
+                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxFlash)},
+        {0x000d, "Focus", N_("Focus mode"),
                 N_("Focus mode settings"),
-                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxFocus)),
-        TagInfo(0x000e, "AFPoint", N_("AF point"),
+                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxFocus)},
+        {0x000e, "AFPoint", N_("AF point"),
                 N_("Selected AF point"),
-                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxAFPoint)),
-        TagInfo(0x000F, "AFPointInFocus", N_("AF point in focus"),
+                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxAFPoint)},
+        {0x000F, "AFPointInFocus", N_("AF point in focus"),
                 N_("AF point in focus"),
-                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxAFPointFocus)),
+                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxAFPointFocus)},
         /* Some missing ! */
-        TagInfo(0x0012, "ExposureTime", N_("Exposure time"),
+        {0x0012, "ExposureTime", N_("Exposure time"),
                 N_("Exposure time"),
-                pentaxId, makerTags, unsignedLong, -1, printExposure),
-        TagInfo(0x0013, "FNumber", N_("F-Number"),
+                pentaxId, makerTags, unsignedLong, -1, printExposure},
+        {0x0013, "FNumber", N_("F-Number"),
                 N_("F-Number"),
-                pentaxId, makerTags, unsignedLong, -1, printFValue),
-        TagInfo(0x0014, "ISO", N_("ISO sensitivity"),
+                pentaxId, makerTags, unsignedLong, -1, printFValue},
+        {0x0014, "ISO", N_("ISO sensitivity"),
                 N_("ISO sensitivity settings"),
-                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxISO)),
+                pentaxId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(pentaxISO)},
         /* Some missing ! */
-        TagInfo(0x0016, "ExposureCompensation", N_("Exposure compensation"),
+        {0x0016, "ExposureCompensation", N_("Exposure compensation"),
                 N_("Exposure compensation"),
-                pentaxId, makerTags, unsignedLong, -1, printCompensation),
+                pentaxId, makerTags, unsignedLong, -1, printCompensation},
         /* Some missing ! */
-        TagInfo(0x0017, "MeteringMode", N_("MeteringMode"),
+        {0x0017, "MeteringMode", N_("MeteringMode"),
                 N_("MeteringMode"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxMeteringMode)),
-        TagInfo(0x0018, "AutoBracketing", N_("AutoBracketing"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxMeteringMode)},
+        {0x0018, "AutoBracketing", N_("AutoBracketing"),
                 N_("AutoBracketing"),
-                pentaxId, makerTags, undefined, -1, printBracketing),
-        TagInfo(0x0019, "WhiteBalance", N_("White balance"),
+                pentaxId, makerTags, undefined, -1, printBracketing},
+        {0x0019, "WhiteBalance", N_("White balance"),
                 N_("White balance"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalance)),
-        TagInfo(0x001a, "WhiteBalanceMode", N_("White balance mode"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalance)},
+        {0x001a, "WhiteBalanceMode", N_("White balance mode"),
                 N_("White balance mode"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalanceMode)),
-        TagInfo(0x001b, "BlueBalance", N_("Blue balance"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalanceMode)},
+        {0x001b, "BlueBalance", N_("Blue balance"),
                 N_("Blue color balance"),
-                pentaxId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x001c, "RedBalance", N_("Red balance"),
+                pentaxId, makerTags, unsignedLong, -1, printValue},
+        {0x001c, "RedBalance", N_("Red balance"),
                 N_("Red color balance"),
-                pentaxId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x001d, "FocalLength", N_("FocalLength"),
+                pentaxId, makerTags, unsignedLong, -1, printValue},
+        {0x001d, "FocalLength", N_("FocalLength"),
                 N_("FocalLength"),
-                pentaxId, makerTags, undefined, -1, printFocalLength),
-        TagInfo(0x001e, "DigitalZoom", N_("Digital zoom"),
+                pentaxId, makerTags, undefined, -1, printFocalLength},
+        {0x001e, "DigitalZoom", N_("Digital zoom"),
                 N_("Digital zoom"),
-                pentaxId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x001f, "Saturation", N_("Saturation"),
+                pentaxId, makerTags, unsignedLong, -1, printValue},
+        {0x001f, "Saturation", N_("Saturation"),
                 N_("Saturation"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxSaturation)),
-        TagInfo(0x0020, "Contrast", N_("Contrast"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxSaturation)},
+        {0x0020, "Contrast", N_("Contrast"),
                 N_("Contrast"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxContrast)),
-        TagInfo(0x0021, "Sharpness", N_("Sharpness"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxContrast)},
+        {0x0021, "Sharpness", N_("Sharpness"),
                 N_("Sharpness"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxSharpness)),
-        TagInfo(0x0022, "Location", N_("Location"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxSharpness)},
+        {0x0022, "Location", N_("Location"),
                 N_("Location"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxLocation)),
-        TagInfo(0x0023, "Hometown", N_("Hometown"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxLocation)},
+        {0x0023, "Hometown", N_("Hometown"),
                 N_("Home town"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxCities)),
-        TagInfo(0x0024, "Destination", N_("Destination"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxCities)},
+        {0x0024, "Destination", N_("Destination"),
                 N_("Destination"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxCities)),
-        TagInfo(0x0025, "HometownDST", N_("Hometown DST"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxCities)},
+        {0x0025, "HometownDST", N_("Hometown DST"),
                 N_("Whether day saving time is active in home town"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)),
-        TagInfo(0x0026, "DestinationDST", N_("Destination DST"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)},
+        {0x0026, "DestinationDST", N_("Destination DST"),
                 N_("Whether day saving time is active in destination"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)),
-        TagInfo(0x0027, "DSPFirmwareVersion", N_("DSPFirmwareVersion"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)},
+        {0x0027, "DSPFirmwareVersion", N_("DSPFirmwareVersion"),
                 N_("DSPFirmwareVersion"),
-                pentaxId, makerTags, unsignedByte, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0028, "CPUFirmwareVersion", N_("CPUFirmwareVersion"),
+                pentaxId, makerTags, unsignedByte, -1, printValue}, /* TODO: Decoding missing */
+        {0x0028, "CPUFirmwareVersion", N_("CPUFirmwareVersion"),
                 N_("CPUFirmwareVersion"),
-                pentaxId, makerTags, unsignedByte, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0029, "FrameNumber", N_("Frame number"),
+                pentaxId, makerTags, unsignedByte, -1, printValue}, /* TODO: Decoding missing */
+        {0x0029, "FrameNumber", N_("Frame number"),
                 N_("Frame number"),
-                pentaxId, makerTags, undefined, -1, printValue),
+                pentaxId, makerTags, undefined, -1, printValue},
         /* Some missing ! */
-        TagInfo(0x002d, "EffectiveLV", N_("Light value"),
+        {0x002d, "EffectiveLV", N_("Light value"),
                 N_("Camera calculated light value, includes exposure compensation"),
-                pentaxId, makerTags, unsignedShort, -1, printValue),
+                pentaxId, makerTags, unsignedShort, -1, printValue},
         /* Some missing ! */
-        TagInfo(0x0032, "ImageProcessing", N_("Image processing"),
+        {0x0032, "ImageProcessing", N_("Image processing"),
                 N_("Image processing"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxImageProcessing, 4, 0)),
-        TagInfo(0x0033, "PictureMode", N_("Picture mode"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxImageProcessing, 4, 0)},
+        {0x0033, "PictureMode", N_("Picture mode"),
                 N_("Picture mode"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxPictureMode, 3, 0)),
-        TagInfo(0x0034, "DriveMode", N_("Drive mode"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxPictureMode, 3, 0)},
+        {0x0034, "DriveMode", N_("Drive mode"),
                 N_("Drive mode"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxDriveMode, 4, 0)),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxDriveMode, 4, 0)},
         /* Some missing ! */
-        TagInfo(0x0037, "ColorSpace", N_("Color space"),
+        {0x0037, "ColorSpace", N_("Color space"),
                 N_("Color space"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxColorSpace)),
-        TagInfo(0x0038, "ImageAreaOffset", N_("Image area offset"),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxColorSpace)},
+        {0x0038, "ImageAreaOffset", N_("Image area offset"),
                 N_("Image area offset"),
-                pentaxId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x0039, "RawImageSize", N_("Raw image size"),
+                pentaxId, makerTags, unsignedLong, -1, printValue},
+        {0x0039, "RawImageSize", N_("Raw image size"),
                 N_("Raw image size"),
-                pentaxId, makerTags, unsignedLong, -1, printValue),
+                pentaxId, makerTags, unsignedLong, -1, printValue},
         /* Some missing ! */
-        TagInfo(0x003e, "PreviewImageBorders", N_("Preview image borders"),
+        {0x003e, "PreviewImageBorders", N_("Preview image borders"),
                 N_("Preview image borders"),
-                pentaxId, makerTags, unsignedByte, -1, printValue),
-        TagInfo(0x003f, "LensType", N_("Lens type"),
+                pentaxId, makerTags, unsignedByte, -1, printValue},
+        {0x003f, "LensType", N_("Lens type"),
                 N_("Lens type"),
-                pentaxId, makerTags, unsignedByte, -1, printLensType), // #816
-        TagInfo(0x0040, "SensitivityAdjust", N_("Sensitivity adjust"),
+                pentaxId, makerTags, unsignedByte, -1, printLensType}, // #816
+        {0x0040, "SensitivityAdjust", N_("Sensitivity adjust"),
                 N_("Sensitivity adjust"),
-                pentaxId, makerTags, unsignedLong, -1, printValue),
-        TagInfo(0x0041, "DigitalFilter", N_("Digital filter"),
+                pentaxId, makerTags, unsignedLong, -1, printValue},
+        {0x0041, "DigitalFilter", N_("Digital filter"),
                 N_("Digital filter"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)},
         /* Some missing ! */
-        TagInfo(0x0047, "Temperature", N_("Temperature"),
+        {0x0047, "Temperature", N_("Temperature"),
                 N_("Camera temperature"),
-                pentaxId, makerTags, signedByte, -1, printTemperature),
-        TagInfo(0x0048, "AELock", N_("AE lock"),
+                pentaxId, makerTags, signedByte, -1, printTemperature},
+        {0x0048, "AELock", N_("AE lock"),
                 N_("AE lock"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)),
-        TagInfo(0x0049, "NoiseReduction", N_("Noise reduction"),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)},
+        {0x0049, "NoiseReduction", N_("Noise reduction"),
                 N_("Noise reduction"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)},
         /* Some missing ! */
-        TagInfo(0x004d, "FlashExposureCompensation", N_("Flash exposure compensation"),
+        {0x004d, "FlashExposureCompensation", N_("Flash exposure compensation"),
                 N_("Flash exposure compensation"),
-                pentaxId, makerTags, signedLong, -1, printFlashCompensation),
+                pentaxId, makerTags, signedLong, -1, printFlashCompensation},
         /* Some missing ! */
-        TagInfo(0x004f, "ImageTone", N_("Image tone"),
+        {0x004f, "ImageTone", N_("Image tone"),
                 N_("Image tone"),
-                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxImageTone)),
-        TagInfo(0x0050, "ColorTemperature", N_("Color temperature"),
+                pentaxId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxImageTone)},
+        {0x0050, "ColorTemperature", N_("Color temperature"),
                 N_("Color temperature"),
-                pentaxId, makerTags, unsignedShort, -1, printValue),
+                pentaxId, makerTags, unsignedShort, -1, printValue},
         /* Some missing ! */
-        TagInfo(0x005c, "ShakeReduction", N_("Shake reduction"),
+        {0x005c, "ShakeReduction", N_("Shake reduction"),
                 N_("Shake reduction information"),
-                pentaxId, makerTags, undefined, -1, printValue),
-        TagInfo(0x005d, "ShutterCount", N_("Shutter count"),
+                pentaxId, makerTags, undefined, -1, printValue},
+        {0x005d, "ShutterCount", N_("Shutter count"),
                 N_("Shutter count"),
-                pentaxId, makerTags, undefined, -1, printShutterCount),
-        TagInfo(0x0069, "DynamicRangeExpansion", N_("Dynamic range expansion"),
+                pentaxId, makerTags, undefined, -1, printShutterCount},
+        {0x0069, "DynamicRangeExpansion", N_("Dynamic range expansion"),
                 N_("Dynamic range expansion"),
-                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxDynamicRangeExpansion, 4, 0)),
-        TagInfo(0x0071, "HighISONoiseReduction", N_("High ISO noise reduction"),
+                pentaxId, makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxDynamicRangeExpansion, 4, 0)},
+        {0x0071, "HighISONoiseReduction", N_("High ISO noise reduction"),
                 N_("High ISO noise reduction"),
-                pentaxId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(pentaxHighISONoiseReduction)),
-        TagInfo(0x0072, "AFAdjustment", N_("AF Adjustment"),
+                pentaxId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(pentaxHighISONoiseReduction)},
+        {0x0072, "AFAdjustment", N_("AF Adjustment"),
                 N_("AF Adjustment"),
-                pentaxId, makerTags, undefined, -1, printValue),
+                pentaxId, makerTags, undefined, -1, printValue},
         /* Many missing ! */
-        TagInfo(0x0200, "BlackPoint", N_("Black point"),
+        {0x0200, "BlackPoint", N_("Black point"),
                 N_("Black point"),
-                pentaxId, makerTags, undefined, -1, printValue),
-        TagInfo(0x0201, "WhitePoint", N_("White point"),
+                pentaxId, makerTags, undefined, -1, printValue},
+        {0x0201, "WhitePoint", N_("White point"),
                 N_("White point"),
-                pentaxId, makerTags, undefined, -1, printValue),
+                pentaxId, makerTags, undefined, -1, printValue},
         /* Some missing ! */
-        TagInfo(0x0205, "ShotInfo", N_("ShotInfo"),
+        {0x0205, "ShotInfo", N_("ShotInfo"),
                 N_("ShotInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0206, "AEInfo", N_("AEInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0206, "AEInfo", N_("AEInfo"),
                 N_("AEInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0207, "LensInfo", N_("LensInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0207, "LensInfo", N_("LensInfo"),
                 N_("LensInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0208, "FlashInfo", N_("FlashInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0208, "FlashInfo", N_("FlashInfo"),
                 N_("FlashInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0209, "AEMeteringSegments", N_("AEMeteringSegments"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0209, "AEMeteringSegments", N_("AEMeteringSegments"),
                 N_("AEMeteringSegments"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x020a, "FlashADump", N_("FlashADump"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x020a, "FlashADump", N_("FlashADump"),
                 N_("FlashADump"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x020b, "FlashBDump", N_("FlashBDump"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x020b, "FlashBDump", N_("FlashBDump"),
                 N_("FlashBDump"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
         /* Some missing ! */
-        TagInfo(0x020d, "WB_RGGBLevelsDaylight", N_("WB_RGGBLevelsDaylight"),
+        {0x020d, "WB_RGGBLevelsDaylight", N_("WB_RGGBLevelsDaylight"),
                 N_("WB_RGGBLevelsDaylight"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x020e, "WB_RGGBLevelsShade", N_("WB_RGGBLevelsShade"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x020e, "WB_RGGBLevelsShade", N_("WB_RGGBLevelsShade"),
                 N_("WB_RGGBLevelsShade"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x020f, "WB_RGGBLevelsCloudy", N_("WB_RGGBLevelsCloudy"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x020f, "WB_RGGBLevelsCloudy", N_("WB_RGGBLevelsCloudy"),
                 N_("WB_RGGBLevelsCloudy"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0210, "WB_RGGBLevelsTungsten", N_("WB_RGGBLevelsTungsten"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0210, "WB_RGGBLevelsTungsten", N_("WB_RGGBLevelsTungsten"),
                 N_("WB_RGGBLevelsTungsten"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0211, "WB_RGGBLevelsFluorescentD", N_("WB_RGGBLevelsFluorescentD"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0211, "WB_RGGBLevelsFluorescentD", N_("WB_RGGBLevelsFluorescentD"),
                 N_("WB_RGGBLevelsFluorescentD"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0212, "WB_RGGBLevelsFluorescentN", N_("WB_RGGBLevelsFluorescentN"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0212, "WB_RGGBLevelsFluorescentN", N_("WB_RGGBLevelsFluorescentN"),
                 N_("WB_RGGBLevelsFluorescentN"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0213, "WB_RGGBLevelsFluorescentW", N_("WB_RGGBLevelsFluorescentW"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0213, "WB_RGGBLevelsFluorescentW", N_("WB_RGGBLevelsFluorescentW"),
                 N_("WB_RGGBLevelsFluorescentW"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0214, "WB_RGGBLevelsFlash", N_("WB_RGGBLevelsFlash"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0214, "WB_RGGBLevelsFlash", N_("WB_RGGBLevelsFlash"),
                 N_("WB_RGGBLevelsFlash"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0215, "CameraInfo", N_("CameraInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0215, "CameraInfo", N_("CameraInfo"),
                 N_("CameraInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0216, "BatteryInfo", N_("BatteryInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0216, "BatteryInfo", N_("BatteryInfo"),
                 N_("BatteryInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x021f, "AFInfo", N_("AFInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x021f, "AFInfo", N_("AFInfo"),
                 N_("AFInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0222, "ColorInfo", N_("ColorInfo"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0222, "ColorInfo", N_("ColorInfo"),
                 N_("ColorInfo"),
-                pentaxId, makerTags, undefined, -1, printValue), /* TODO: Decoding missing */
-        TagInfo(0x0229, "SerialNumber", N_("Serial Number"),
+                pentaxId, makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+        {0x0229, "SerialNumber", N_("Serial Number"),
                 N_("Serial Number"),
-                pentaxId, makerTags, asciiString, -1, printValue),
+                pentaxId, makerTags, asciiString, -1, printValue},
         // End of list marker
-        TagInfo(0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)",
+        {0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)",
                 N_("Unknown PentaxMakerNote tag"),
-                pentaxId, makerTags, asciiString, -1, printValue)
+                pentaxId, makerTags, asciiString, -1, printValue},
     };
 
     const TagInfo* PentaxMakerNote::tagList()

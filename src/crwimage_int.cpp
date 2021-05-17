@@ -54,7 +54,7 @@ namespace {
 // local definitions
 namespace {
     //! @cond IGNORE
-    const RotationMap::OmList RotationMap::omList_[] = {
+    constexpr RotationMap::OmList RotationMap::omList_[] = {
         { 1,    0 },
         { 3,  180 },
         { 3, -180 },
