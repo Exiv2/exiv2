@@ -458,7 +458,7 @@ namespace Jzon
     {
         children.push_back(NamedNodePtr(name, node.GetCopy()));
     }
-    void Object::Add(const std::string &name, Value node)
+    void Object::Add(const std::string &name, const Value &node)
     {
         children.push_back(NamedNodePtr(name, new Value(node)));
     }
@@ -570,7 +570,7 @@ namespace Jzon
     {
         children.push_back(node.GetCopy());
     }
-    void Array::Add(Value node)
+    void Array::Add(const Value &node)
     {
         children.push_back(new Value(node));
     }

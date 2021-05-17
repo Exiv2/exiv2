@@ -87,7 +87,7 @@ int main()
     // -----
 
     // Copy constructor
-    ExifKey ek2(ek);
+    const ExifKey& ek2(ek);
 
     // operator<<
     tc += 1;

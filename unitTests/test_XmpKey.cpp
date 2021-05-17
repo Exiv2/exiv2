@@ -75,7 +75,7 @@ TEST_F(AXmpKey, correctlyInstantiatedWithValidPrefixAndProperty)
 TEST_F(AXmpKey, canBeCopiedConstructed)
 {
     XmpKey key(expectedPrefix, expectedProperty);
-    XmpKey copiedKey(key);
+    const XmpKey& copiedKey(key);
     checkValidity(copiedKey);
 }
 

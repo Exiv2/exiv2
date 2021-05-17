@@ -175,8 +175,7 @@ public:
 
       @return value
     */
-    std::string Get(std::string section, std::string name,
-                    std::string default_value);
+    std::string Get(const std::string& section, const std::string& name, const std::string& default_value);
 
     /*! @brief Get an integer (long) value from INI file, returning default_value if
         not found or not a valid integer (decimal "1234", "-1234", or hex "0x4d2").
@@ -187,7 +186,7 @@ public:
 
       @return value
     */
-    long GetInteger(std::string section, std::string name, long default_value);
+    long GetInteger(const std::string& section, const std::string& name, long default_value);
 
     /*! @brief Get a real (floating point double) value from INI file, returning
         default_value if not found or not a valid floating point value
@@ -199,7 +198,7 @@ public:
 
       @return value
     */
-    double GetReal(std::string section, std::string name, double default_value);
+    double GetReal(const std::string& section, const std::string& name, double default_value);
 
     /*! @brief Get a boolean value from INI file, returning default_value if not found or if
         not a valid true/false value. Valid true values are "true", "yes", "on", "1",
@@ -211,12 +210,13 @@ public:
 
       @return value
     */
-    bool GetBoolean(std::string section, std::string name, bool default_value);
+    bool GetBoolean(const std::string& section, const std::string& name, bool default_value);
 
 private:
     int _error;                                                        //!< status
     std::map<std::string, std::string> _values;                        //!< values from file
-    static std::string MakeKey(std::string section, std::string name); //!< return key encoded from section/name
+    static std::string MakeKey(const std::string& section,
+                               const std::string& name);  //!< return key encoded from section/name
     static int ValueHandler(void* user, const char* section, const char* name,
                             const char* value); //!< value handler
 };
