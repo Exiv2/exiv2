@@ -50,6 +50,7 @@
 #include <ctime>
 #include <cmath>
 #include <cassert>
+#include <mutex>
 #include <stdexcept>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
@@ -71,6 +72,7 @@
 // *****************************************************************************
 // local declarations
 namespace {
+    std::mutex cs;
 
     //! Helper class to set the timestamp of a file to that of another file
     class Timestamp {
@@ -1854,34 +1856,12 @@ namespace {
         return os.str();
     } // tm2Str
 
-// use static CS/MUTEX to make temporaryPath() thread safe
-#if defined(_MSC_VER) || defined(__MINGW__)
- static CRITICAL_SECTION cs;
-#else
- /* Unix/Linux/Cygwin/macOS */
- #include <pthread.h>
- /* This is the critical section object (statically allocated). */
- #if defined(__APPLE__)
-  #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER)
-    static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
-   #else
-    static pthread_mutex_t cs =  PTHREAD_MUTEX_INITIALIZER;
-  #endif
- #else
-  #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP)
-    pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
-#else
-    pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
-#endif
-#endif
-#endif
-
  std::string temporaryPath()
  {
      static int count = 0;
+     std::lock_guard<std::mutex> guard(cs);
 
 #if defined(_MSC_VER) || defined(__MINGW__)
-        EnterCriticalSection(&cs);
         char lpTempPathBuffer[MAX_PATH];
         GetTempPath(MAX_PATH,lpTempPathBuffer);
         std::string tmp(lpTempPathBuffer);
@@ -1890,22 +1870,17 @@ namespace {
         DWORD  pid = ::GetProcessId(process);
 #else
         pid_t  pid = ::getpid();
-        pthread_mutex_lock( &cs );
         std::string tmp = "/tmp/";
 #endif
-        char sCount[13];
-        sprintf(sCount,"_%d",++count); /// \todo replace by std::snprintf on master
+    char sCount[13];
+    sprintf(sCount, "_%d", ++count);  /// \todo replace by std::snprintf on master
 
-        std::string result = tmp + Exiv2::toString(pid) + sCount ;
-        if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
+    std::string result = tmp + Exiv2::toString(pid) + sCount;
+    if (Exiv2::fileExists(result)) {
+        std::remove(result.c_str());
+    }
 
-#if defined(_MSC_VER) || defined(__MINGW__)
-        LeaveCriticalSection(&cs);
-#else
-        pthread_mutex_unlock( &cs );
-#endif
-
-        return result;
+    return result;
  }
 
     int metacopy(const std::string& source,
