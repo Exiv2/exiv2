@@ -46,8 +46,6 @@ namespace Exiv2 {
 
     //! Details of an IPTC record.
     struct EXIV2API RecordInfo {
-        //! Constructor
-        RecordInfo(uint16_t recordId, const char* name, const char* desc);
         uint16_t recordId_;                     //!< Record id
         const char* name_;                      //!< Record name (one word)
         const char* desc_;                      //!< Record description
@@ -55,20 +53,6 @@ namespace Exiv2 {
 
     //! Details of an IPTC dataset.
     struct EXIV2API DataSet {
-        //! Constructor
-        DataSet(
-            uint16_t number,
-            const char* name,
-            const char* title,
-            const char* desc,
-            bool mandatory,
-            bool repeatable,
-            uint32_t minbytes,
-            uint32_t maxbytes,
-            TypeId type,
-            uint16_t recordId,
-            const char* photoshop
-        );
         uint16_t number_;                       //!< Dataset number
         const char* name_;                      //!< Dataset name
         const char* title_;                     //!< Dataset title or label
