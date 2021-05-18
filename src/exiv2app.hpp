@@ -159,7 +159,7 @@ public:
     */
     static Params& instance();
     //! Destructor
-    void cleanup();
+    static void cleanup();
 
     //! Enumerates print modes
     enum PrintMode {
@@ -341,7 +341,7 @@ public:
     void help(std::ostream& os =std::cout) const;
 
     //! Print version information to an output stream.
-    void version(bool verbose =false, std::ostream& os =std::cout) const;
+    static void version(bool verbose = false, std::ostream& os = std::cout);
 
     //! Print target_
     static std::string printTarget(const std::string& before, int target, bool bPrint = false,

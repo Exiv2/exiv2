@@ -1176,13 +1176,9 @@ namespace Exiv2 {
         return idx;
     } // TiffDirectory::doWrite
 
-    uint32_t TiffDirectory::writeDirEntry(IoWrapper&     ioWrapper,
-                                          ByteOrder      byteOrder,
-                                          int32_t        offset,
-                                          TiffComponent* pTiffComponent,
-                                          uint32_t       valueIdx,
-                                          uint32_t       dataIdx,
-                                          uint32_t&      imageIdx) const
+    uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset,
+                                          TiffComponent* pTiffComponent, uint32_t valueIdx, uint32_t dataIdx,
+                                          uint32_t& imageIdx)
     {
         assert(pTiffComponent);
         auto pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);

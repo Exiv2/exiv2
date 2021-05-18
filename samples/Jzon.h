@@ -369,10 +369,10 @@ namespace Jzon
 		const std::string &GetError() const;
 
 	private:
-		bool loadFile(const std::string &filename, std::string &json);
-		std::string json;
-		std::string error;
-	};
+        static bool loadFile(const std::string &filename, std::string &json);
+        std::string json;
+        std::string error;
+    };
 
 	class JzonAPI Writer
 	{

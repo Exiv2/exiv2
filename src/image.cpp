@@ -225,7 +225,7 @@ namespace Exiv2 {
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
-    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
+    uint64_t Image::byteSwap(uint64_t value, bool bSwap)
     {
         uint64_t result = 0;
         auto source_value = reinterpret_cast<byte*>(&value);
@@ -237,7 +237,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
+    uint32_t Image::byteSwap(uint32_t value, bool bSwap)
     {
         uint32_t result = 0;
         result |= (value & 0x000000FF) << 24;
@@ -247,7 +247,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
+    uint16_t Image::byteSwap(uint16_t value, bool bSwap)
     {
         uint16_t result = 0;
         result |= (value & 0x00FF) << 8;
@@ -255,7 +255,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
+    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) 
     {
         uint16_t v;
         auto p = (char*)&v;
@@ -264,7 +264,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
+    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) 
     {
         uint32_t v;
         auto p = (char*)&v;
@@ -275,7 +275,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
+    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) 
     {
         uint64_t v;
         auto p = reinterpret_cast<byte*>(&v);
@@ -286,7 +286,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    const char* Image::typeName(uint16_t tag) const
+    const char* Image::typeName(uint16_t tag)
     {
         //! List of TIFF image tags
         const char* result = NULL;

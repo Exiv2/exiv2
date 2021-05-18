@@ -684,7 +684,7 @@ namespace Exiv2 {
                                 start++;
                                 const std::string xmp_from_start = string_from_unterminated(
                                     reinterpret_cast<const char*>(&xmp.at(start)), size - start);
-                                if (xmp_from_start.find("HasExtendedXMP", start) != xmp_from_start.npos) {
+                                if (xmp_from_start.find("HasExtendedXMP", start) != std::string::npos) {
                                     start = size;  // ignore this packet, we'll get on the next time around
                                     bExtXMP = true;
                                 }
