@@ -83,8 +83,8 @@ namespace Jzon
 			T_VALUE
 		};
 
-		Node();
-		virtual ~Node();
+		Node() noexcept = default;
+		virtual ~Node() noexcept = default;
 
 		virtual Type GetType() const = 0;
 
@@ -142,7 +142,7 @@ namespace Jzon
 		Value(const float value);
 		Value(const double value);
 		Value(const bool value);
-        ~Value() override;
+        ~Value() override = default;
 
         Type GetType() const override;
         ValueType GetValueType() const;
@@ -344,7 +344,7 @@ namespace Jzon
 	{
 	public:
         FileWriter(std::string filename);
-        ~FileWriter();
+        ~FileWriter() = default;
 
         static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
 
@@ -358,7 +358,7 @@ namespace Jzon
 	{
 	public:
 		FileReader(const std::string &filename);
-		~FileReader();
+		~FileReader() = default;
 
 		static bool ReadFile(const std::string &filename, Node &node);
 
@@ -406,7 +406,7 @@ namespace Jzon
 	public:
 		Parser(Node &root);
 		Parser(Node &root, const std::string &json);
-		~Parser();
+		~Parser() = default;
 
 		void SetJson(const std::string &json);
 		bool Parse();
@@ -439,12 +439,12 @@ namespace Jzon
 		bool interpretValue(const std::string &value);
 
 		std::string json;
-		std::size_t jsonSize;
+		std::size_t jsonSize{0};
 
 		std::queue<Token> tokens;
 		std::queue<std::pair<Value::ValueType, std::string> > data;
 
-		std::size_t cursor;
+		std::size_t cursor{0};
 
 		Node &root;
 
