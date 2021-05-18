@@ -15,7 +15,7 @@ jobs:
       matrix:
         # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
         # centos:8 had linking issues with gtest
-        container_image: ["fedora:latest", "debian:9", "archlinux:base", "ubuntu:20.04", "centos:8", "opensuse/tumbleweed", "alpine:3.13"]
+        container_image: ["fedora:latest", "debian:10", "archlinux:base", "ubuntu:20.04", "centos:8", "opensuse/tumbleweed", "alpine:3.13"]
         compiler: [g++, clang++]
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
