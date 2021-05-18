@@ -87,9 +87,6 @@ namespace Jzon
         return ((c >= '0' && c <= '9') || c == '.' || c == '-');
     }
 
-    Node::Node() = default;
-    Node::~Node() = default;
-
     Object &Node::AsObject()
     {
         if (IsObject())
@@ -184,8 +181,6 @@ namespace Jzon
     {
         Set(value);
     }
-    Value::~Value() = default;
-
     Node::Type Value::GetType() const
     {
         return T_VALUE;
@@ -436,18 +431,13 @@ namespace Jzon
     }
     Object::Object(const Object &other) : Node()
     {
-        for (auto &&it : other.children) {
-            const std::string &name = it.first;
-            Node &value = *it.second;
-
-            children.push_back(NamedNodePtr(name, value.GetCopy()));
-        }
+        std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
+                       [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
     Object::Object(const Node &other) : Node()
     {
-        for (auto &&child : other.AsObject().children) {
-            children.push_back(NamedNodePtr(child.first, child.second->GetCopy()));
-        }
+        std::transform(other.AsObject().children.begin(), other.AsObject().children.end(), std::back_inserter(children),
+                       [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
     Object::~Object()
     {
@@ -642,7 +632,6 @@ namespace Jzon
     FileWriter::FileWriter(std::string filename) : filename(std::move(filename))
     {
     }
-    FileWriter::~FileWriter() = default;
 
     void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format)
     {
@@ -668,7 +657,6 @@ namespace Jzon
 			error = "Failed to load file";
 		}
 	}
-    FileReader::~FileReader() = default;
 
     bool FileReader::ReadFile(const std::string &filename, Node &node)
     {
@@ -759,56 +747,49 @@ namespace Jzon
 	{
 		result += "{" + fi->GetNewline();
 
-		for (Object::const_iterator it = node.begin(); it != node.end(); ++it)
-		{
-			const std::string &name = (*it).first;
-			// const Node &value = (*it).second;
+        for (auto it = node.begin(); it != node.end(); ++it) {
+            const std::string &name = (*it).first;
+            // const Node &value = (*it).second;
 
-			if (it != node.begin())
-				result += "," + fi->GetNewline();
-			result += fi->GetIndentation(level+1) + "\""+name+"\"" + ":" + fi->GetSpacing();
-			writeNode((*it).second, level+1);
-		}
+            if (it != node.begin())
+                result += "," + fi->GetNewline();
+            result += fi->GetIndentation(level + 1) + "\"" + name + "\"" + ":" + fi->GetSpacing();
+            writeNode((*it).second, level + 1);
+        }
 
-		result += fi->GetNewline() + fi->GetIndentation(level) + "}";
-	}
-	void Writer::writeArray(const Array &node, unsigned int level)
-	{
-		result += "[" + fi->GetNewline();
+        result += fi->GetNewline() + fi->GetIndentation(level) + "}";
+    }
+    void Writer::writeArray(const Array &node, unsigned int level)
+    {
+        result += "[" + fi->GetNewline();
 
-		for (Array::const_iterator it = node.begin(); it != node.end(); ++it)
-		{
-			const Node &value = (*it);
+        for (auto it = node.begin(); it != node.end(); ++it) {
+            const Node &value = (*it);
 
-			if (it != node.begin())
-				result += "," + fi->GetNewline();
-			result += fi->GetIndentation(level+1);
-			writeNode(value, level+1);
-		}
+            if (it != node.begin())
+                result += "," + fi->GetNewline();
+            result += fi->GetIndentation(level + 1);
+            writeNode(value, level + 1);
+        }
 
-		result += fi->GetNewline() + fi->GetIndentation(level) + "]";
-	}
-	void Writer::writeValue(const Value &node)
-	{
-		if (node.IsString())
-		{
-			result += "\""+Value::EscapeString(node.ToString())+"\"";
-		}
-		else
-		{
-			result += node.ToString();
-		}
-	}
+        result += fi->GetNewline() + fi->GetIndentation(level) + "]";
+    }
+    void Writer::writeValue(const Value &node)
+    {
+        if (node.IsString()) {
+            result += "\"" + Value::EscapeString(node.ToString()) + "\"";
+        } else {
+            result += node.ToString();
+        }
+    }
 
-
-	Parser::Parser(Node &root) : jsonSize(0), cursor(0), root(root)
-	{
-	}
-	Parser::Parser(Node &root, const std::string &json) : jsonSize(0), cursor(0), root(root)
-	{
-		SetJson(json);
-	}
-    Parser::~Parser() = default;
+    Parser::Parser(Node &root) : root(root)
+    {
+    }
+    Parser::Parser(Node &root, const std::string &json) : root(root)
+    {
+        SetJson(json);
+    }
 
     void Parser::SetJson(const std::string &json)
     {
@@ -1169,24 +1150,17 @@ namespace Jzon
 	}
 	bool Parser::interpretValue(const std::string &value)
 	{
-		std::string upperValue(value.size(), '\0');
+        std::string upperValue;
+        upperValue.reserve(value.size());
+        std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
 
-		std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
-
-		if (upperValue == "NULL")
-		{
-			data.push(std::make_pair(Value::VT_NULL, std::string("")));
-		}
-		else if (upperValue == "TRUE")
-		{
-			data.push(std::make_pair(Value::VT_BOOL, std::string("true")));
-		}
-		else if (upperValue == "FALSE")
-		{
-			data.push(std::make_pair(Value::VT_BOOL, std::string("false")));
-		}
-		else
-		{
+        if (upperValue == "NULL") {
+            data.push(std::make_pair(Value::VT_NULL, std::string("")));
+        } else if (upperValue == "TRUE") {
+            data.push(std::make_pair(Value::VT_BOOL, std::string("true")));
+        } else if (upperValue == "FALSE") {
+            data.push(std::make_pair(Value::VT_BOOL, std::string("false")));
+        } else {
             bool number = std::all_of(value.begin(), value.end(), IsNumber);
             if (!number) {
                 return false;
