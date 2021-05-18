@@ -255,7 +255,6 @@ namespace Action {
         try {
             path_ = path;
             int rc = 0;
-            Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
             switch (Params::instance().printMode_) {
                 case Params::pmSummary:   rc = Params::instance().greps_.empty() ? printSummary() : printList(); break;
                 case Params::pmList:      rc = printList();        break;
@@ -264,14 +263,10 @@ namespace Action {
                 case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic, path_)     ; break;
                 case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive, path_) ; break;
                 case Params::pmXMP:
-                    if (option == Exiv2::kpsNone)
-                        option = Exiv2::kpsXMP;
-                    rc = setModeAndPrintStructure(option, path_,binary());
+                    rc = setModeAndPrintStructure(Exiv2::kpsXMP, path_,binary());
                     break;
                 case Params::pmIccProfile:
-                    if (option == Exiv2::kpsNone)
-                        option = Exiv2::kpsIccProfile;
-                    rc = setModeAndPrintStructure(option, path_,binary());
+                    rc = setModeAndPrintStructure(Exiv2::kpsIccProfile, path_,binary());
                     break;
             }
             return rc;
