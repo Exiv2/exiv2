@@ -831,7 +831,7 @@ namespace Action {
         return 1;
     } // Erase::run
 
-    int Erase::eraseThumbnail(Exiv2::Image* image) const
+    int Erase::eraseThumbnail(Exiv2::Image* image)
     {
         Exiv2::ExifThumb exifThumb(image->exifData());
         std::string thumbExt = exifThumb.extension();
@@ -845,7 +845,7 @@ namespace Action {
         return 0;
     }
 
-    int Erase::eraseExifData(Exiv2::Image* image) const
+    int Erase::eraseExifData(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->exifData().count() > 0) {
             std::cout << _("Erasing Exif data from the file") << std::endl;
@@ -854,7 +854,7 @@ namespace Action {
         return 0;
     }
 
-    int Erase::eraseIptcData(Exiv2::Image* image) const
+    int Erase::eraseIptcData(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->iptcData().count() > 0) {
             std::cout << _("Erasing IPTC data from the file") << std::endl;
@@ -863,7 +863,7 @@ namespace Action {
         return 0;
     }
 
-    int Erase::eraseComment(Exiv2::Image* image) const
+    int Erase::eraseComment(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && !image->comment().empty()) {
             std::cout << _("Erasing JPEG comment from the file") << std::endl;
@@ -872,7 +872,7 @@ namespace Action {
         return 0;
     }
 
-    int Erase::eraseXmpData(Exiv2::Image* image) const
+    int Erase::eraseXmpData(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->xmpData().count() > 0) {
             std::cout << _("Erasing XMP data from the file") << std::endl;
@@ -881,7 +881,7 @@ namespace Action {
         image->clearXmpPacket();
         return 0;
     }
-    int Erase::eraseIccProfile(Exiv2::Image* image) const
+    int Erase::eraseIccProfile(Exiv2::Image* image)
     {
         if (Params::instance().verbose_ && image->iccProfileDefined() ) {
             std::cout << _("Erasing ICC Profile data from the file") << std::endl;
@@ -1140,7 +1140,7 @@ namespace Action {
         return 1;
     } // Insert::run
 
-    int Insert::insertXmpPacket(const std::string& path,const std::string& xmpPath) const
+    int Insert::insertXmpPacket(const std::string& path,const std::string& xmpPath) 
     {
         int  rc     = 0;
         bool bStdin = xmpPath == "-" ;
@@ -1168,7 +1168,7 @@ namespace Action {
 
     } // Insert::insertXmpPacket
 
-    int Insert::insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob,bool usePacket) const
+    int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket)
     {
         std::string xmpPacket;
         for ( long i = 0 ; i < xmpBlob.size_ ; i++ ) {
@@ -1185,7 +1185,7 @@ namespace Action {
         return 0;
     }
 
-    int Insert::insertIccProfile(const std::string& path,const std::string& iccPath) const
+    int Insert::insertIccProfile(const std::string& path,const std::string& iccPath) 
     {
         int rc = 0;
         // for path "foo.XXX", do a binary copy of "foo.icc"
@@ -1207,7 +1207,7 @@ namespace Action {
         return rc;
     } // Insert::insertIccProfile
 
-    int Insert::insertIccProfile(const std::string& path,Exiv2::DataBuf& iccProfileBlob) const
+    int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob)
     {
         int rc = 0;
         // test path exists
@@ -1232,7 +1232,7 @@ namespace Action {
         return rc;
     } // Insert::insertIccProfile
 
-    int Insert::insertThumbnail(const std::string& path) const
+    int Insert::insertThumbnail(const std::string& path)
     {
         std::string thumbPath = newFilePath(path, "-thumb.jpg");
         if (!Exiv2::fileExists(thumbPath, true)) {

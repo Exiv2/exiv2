@@ -610,7 +610,7 @@ namespace Exiv2 {
                 // (Namespaces are automatically registered with the XMP Toolkit)
                 if (XmpProperties::prefix(schemaNs).empty()) {
                     std::string prefix;
-                    bool ret = meta.GetNamespacePrefix(schemaNs.c_str(), &prefix);
+                    bool ret = SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix);
                     if (!ret) throw Error(kerSchemaNamespaceNotRegistered, schemaNs);
                     prefix = prefix.substr(0, prefix.size() - 1);
                     XmpProperties::registerNs(schemaNs, prefix);

@@ -149,11 +149,11 @@ namespace Exiv2
         /*!
           @brief box utilities
          */
-        std::string toAscii(long n);
+        static std::string toAscii(long n);
         std::string boxName(uint32_t box);
-        bool        superBox(uint32_t box);
-        bool        fullBox(uint32_t box);
-        std::string uuidName(Exiv2::DataBuf& uuid);
+        static bool superBox(uint32_t box);
+        static bool fullBox(uint32_t box);
+        static std::string uuidName(Exiv2::DataBuf& uuid);
 
     };  // class BmffImage
 

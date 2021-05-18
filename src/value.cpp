@@ -526,7 +526,7 @@ namespace Exiv2 {
         }
         bool bAscii = charsetId() == undefined || charsetId() == ascii ;
         // # 1266 Remove trailing nulls
-        if ( bAscii && c.find('\0') != c.std::string::npos) {
+        if ( bAscii && c.find('\0') != std::string::npos) {
             c = c.substr(0,c.find('\0'));
         }
         return c;

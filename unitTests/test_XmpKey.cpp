@@ -48,7 +48,7 @@ public:
         XmpProperties::unregisterNs();
     }
 
-    void checkValidity(const XmpKey& key)
+    static void checkValidity(const XmpKey& key)
     {
         ASSERT_EQ(expectedKey, key.key());
         ASSERT_EQ(expectedFamily, key.familyName());

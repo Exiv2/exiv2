@@ -146,7 +146,7 @@ int main(int argc, char* const argv[])
         return 0;
     }
     if (params.version_) {
-        params.version(params.verbose_);
+        Params::version(params.verbose_);
         return 0;
     }
 
@@ -174,7 +174,7 @@ int main(int argc, char* const argv[])
         }
 
         taskFactory.cleanup();
-        params.cleanup();
+        Params::cleanup();
         Exiv2::XmpParser::terminate();
 
     } catch (const std::exception& exc) {
@@ -218,7 +218,7 @@ void Params::cleanup()
     instance_ = 0;
 }
 
-void Params::version(bool verbose,std::ostream& os) const
+void Params::version(bool verbose, std::ostream& os)
 {
     os << EXV_PACKAGE_STRING << std::endl;
     if ( Params::instance().greps_.empty() && !verbose) {
