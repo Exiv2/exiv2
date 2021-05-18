@@ -27,10 +27,11 @@ THE SOFTWARE.
 
 #include "Jzon.h"
 
-#include <sstream>
-#include <fstream>
-#include <stack>
 #include <algorithm>
+#include <array>
+#include <fstream>
+#include <sstream>
+#include <stack>
 
 namespace Jzon
 {
@@ -357,27 +358,31 @@ namespace Jzon
     }
 
     // This is not the most beautiful place for these, but it'll do
-    static const char charsUnescaped[] = {'\\', '/', '\"', '\n', '\t', '\b', '\f', '\r'};
-    static const char *charsEscaped[] = {"\\\\", "\\/", "\\\"", "\\n", "\\t", "\\b", "\\f", "\\r"};
-    static const unsigned int numEscapeChars = 8;
-    static const char nullUnescaped = '\0';
-    static const char *nullEscaped = "\0\0";
-    const char *&getEscaped(const char &c)
+    using chrPair = struct
     {
-        for (unsigned int i = 0; i < numEscapeChars; ++i) {
-            if (c == charsUnescaped[i]) {
-                return charsEscaped[i];
+        char first;
+        const char *second;
+    };
+    static constexpr std::array<chrPair, 8> chars{
+        chrPair{'\\', "\\\\"}, chrPair{'/', "\\/"},  chrPair{'\"', "\\\""}, chrPair{'\n', "\\n"},
+        chrPair{'\t', "\\t"},  chrPair{'\b', "\\b"}, chrPair{'\f', "\\f"},  chrPair{'\r', "\\r"},
+    };
+    static constexpr char nullUnescaped = '\0';
+    static constexpr const char *nullEscaped = "\0\0";
+    const char *const &getEscaped(const char &c)
+    {
+        for (auto &&chr : chars) {
+            if (chr.first == c) {
+                return chr.second;
             }
         }
         return nullEscaped;
     }
     const char &getUnescaped(const char &c1, const char &c2)
     {
-        for (unsigned int i = 0; i < numEscapeChars; ++i) {
-            const char *&e = charsEscaped[i];
-
-            if (c1 == e[0] && c2 == e[1]) {
-                return charsUnescaped[i];
+        for (auto &&chr : chars) {
+            if (c1 == chars[0].first && c2 == chars[1].first) {
+                return chr.first;
             }
         }
         return nullUnescaped;
@@ -388,7 +393,7 @@ namespace Jzon
         std::string escaped;
 
         for (auto &&c : value) {
-            const char *&a = getEscaped(c);
+            auto &&a = getEscaped(c);
             if (a[0] != '\0') {
                 escaped += a[0];
                 escaped += a[1];
