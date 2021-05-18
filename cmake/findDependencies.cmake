@@ -11,7 +11,7 @@ else()
     list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 endif()
 
-find_package (Python3 COMPONENTS Interpreter REQUIRED)
+find_package (Python3 COMPONENTS Interpreter)
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
