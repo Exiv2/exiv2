@@ -1098,6 +1098,7 @@ namespace Exiv2 {
          {0x0001, "MultiExposure", N_("Multi Exposure"), N_("Multi Exposure"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure)},
          {0x0002, "MultiExposureControl", N_("Multi Exposure Control"), N_("Multi Exposure Control"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposureControl)},
          {0x0003, "MultiExposureShots", N_("Multi Exposure Shots"), N_("Multi Exposure Shots"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure)},
+         (0xffff, "(UnknownMultiExposureTag)", "(UnknownMultiExposureTag)", N_("UnknownMultiExposureTag"), canonMeId, makerTags, signedLong, 1, printValue) // important to add end of tag              
     };
 
     const TagInfo* CanonMakerNote::tagListMe()
