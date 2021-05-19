@@ -67,11 +67,11 @@ namespace Exiv2 {
     static uint32_t byteSwap_(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
     {
         uint32_t v;
-        auto p = (char*)&v;
+        auto p = reinterpret_cast<char*>(&v);
         int      i;
         for ( i = 0 ; i < 4 ; i++ ) p[i] = buf.pData_[offset+i];
         uint32_t result = byteSwap_(v,bSwap);
-        p               = (char*) &result;
+        p = reinterpret_cast<char*>(&result);
         for ( i = 0 ; i < 4 ; i++ ) buf.pData_[offset+i] = p[i];
         return result;
     }
@@ -198,7 +198,7 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        long    imgSize  = (long) img->io().size();
+        long imgSize = static_cast<long>(img->io().size());
         DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -270,7 +270,7 @@ namespace Exiv2 {
         if (iIo.error()) throw Error(kerFailedToReadImageData);
         if (bufRead != buffer.size_) throw Error(kerInputDataReadFailed);
 
-        int headerSize = (int) byteSwap_(buffer,0,bSwap_);
+        int headerSize = static_cast<int>(byteSwap_(buffer, 0, bSwap_));
         if (headerSize <= 0 ) throw Error(kerNoImageInInputData);
 
 #ifdef EXIV2_DEBUG_MESSAGES

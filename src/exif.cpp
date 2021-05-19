@@ -736,7 +736,7 @@ namespace Exiv2 {
                                                   header.get(),
                                                   0);
         if (mio1.size() <= 65527) {
-            append(blob, mio1.mmap(), (uint32_t) mio1.size());
+            append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
         }
 
@@ -838,7 +838,7 @@ namespace Exiv2 {
                                       TiffMapping::findEncoder,
                                       header.get(),
                                       0);
-        append(blob, mio2.mmap(), (uint32_t) mio2.size());
+        append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
@@ -915,7 +915,7 @@ namespace {
         Exiv2::IptcData emptyIptc;
         Exiv2::XmpData  emptyXmp;
         Exiv2::TiffParser::encode(io, 0, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
-        return io.read((long) io.size());
+        return io.read(static_cast<long>(io.size()));
     }
 
     const char* JpegThumbnail::mimeType() const

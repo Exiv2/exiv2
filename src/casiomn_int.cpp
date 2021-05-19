@@ -230,7 +230,7 @@ namespace Exiv2 {
             long l=value.toLong(i);
             if(l!=0)
             {
-                numbers.push_back((char)l);
+                numbers.push_back(static_cast<char>(l));
             };
         };
         if(numbers.size()>=10)
@@ -549,7 +549,7 @@ namespace Exiv2 {
             long l=value.toLong(i);
             if(l!=0)
             {
-                numbers.push_back((char)l);
+                numbers.push_back(static_cast<char>(l));
             };
         };
         if(numbers.size()>=10)

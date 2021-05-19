@@ -433,7 +433,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
-                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
                     --search;
                     foundCompletePsData = true;
                 }
@@ -468,8 +468,8 @@ namespace Exiv2 {
                     foundIccData = true ;
                     --search ;
                 }
-                int chunk  = (int)    buf.pData_[2+12];
-                int chunks = (int)    buf.pData_[2+13];
+                int chunk = static_cast<int>(buf.pData_[2 + 12]);
+                int chunks = static_cast<int>(buf.pData_[2 + 13]);
                 // ICC1v43_2010-12.pdf header is 14 bytes
                 // header = "ICC_PROFILE\0" (12 bytes)
                 // chunk/chunks are a single byte
@@ -756,14 +756,14 @@ namespace Exiv2 {
                             io_->seek(-bufRead, BasicIo::cur);
                             io_->read(exif, size);
                             uint32_t start = signature == "Exif" ? 8 : 6;
-                            uint32_t max = (uint32_t)size - 1;
+                            uint32_t max = static_cast<uint32_t>(size) - 1;
 
                             // is this an fff block?
                             if (bFlir) {
                                 start = 0;
                                 bFlir = false;
                                 while (start < max) {
-                                    if (std::strcmp((const char*)(exif + start), "FFF") == 0) {
+                                    if (std::strcmp(reinterpret_cast<const char*>(exif + start), "FFF") == 0) {
                                         bFlir = true;
                                         break;
                                     }
@@ -844,7 +844,7 @@ namespace Exiv2 {
                     std::cout << ' ';
             }
 #endif
-            auto count = (uint32_t)iptcDataSegs.size();
+            auto count = static_cast<uint32_t>(iptcDataSegs.size());
 
             // figure out which blocks to copy
             auto pos = new uint64_t[count + 2];
@@ -876,7 +876,7 @@ namespace Exiv2 {
                 uint64_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
                 if (start == 2)
                     start = 0;  // read the file 2 byte SOI
-                long length = (long)(pos[2 * i + 1] - start);
+                long length = static_cast<long>(pos[2 * i + 1] - start);
                 if (length) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << start << ":" << length << std::endl;
@@ -1012,7 +1012,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, psData.pData_, psData.size_);
                 // Check whether psBlob is complete
-                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], (long)psBlob.size())) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
                     foundCompletePsData = true;
                 }
             } else if (marker == com_ && skipCom == -1) {
@@ -1047,7 +1047,7 @@ namespace Exiv2 {
 
         if (!foundCompletePsData && !psBlob.empty())
             throw Error(kerNoImageInInputData);
-        search += (int)skipApp13Ps3.size() + (int)skipApp2Icc.size();
+        search += static_cast<int>(skipApp13Ps3.size()) + static_cast<int>(skipApp2Icc.size());
 
         if (comPos == 0) {
             if (marker == eoi_)
@@ -1160,7 +1160,7 @@ namespace Exiv2 {
                     tmpBuf[1] = app2_;
 
                     int chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    int sizeProfile = (int)iccProfile_.size_;
+                    int sizeProfile = static_cast<int>(iccProfile_.size_);
                     int chunks = 1 + (sizeProfile - 1) / chunk_size;
                     if (iccProfile_.size_ > 256 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
@@ -1180,8 +1180,8 @@ namespace Exiv2 {
                         char pad[2];
                         pad[0] = chunk + 1;
                         pad[1] = chunks;
-                        outIo.write((const byte*)iccId_, 12);
-                        outIo.write((const byte*)pad, 2);
+                        outIo.write(reinterpret_cast<const byte*>(iccId_), 12);
+                        outIo.write(reinterpret_cast<const byte*>(pad), 2);
                         if (outIo.write(iccProfile_.pData_ + (chunk * chunk_size), bytes) != bytes)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())
@@ -1193,8 +1193,8 @@ namespace Exiv2 {
                 if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData =
-                        Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : 0, (long)psBlob.size(), iptcData_);
+                    DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : 0,
+                                                              static_cast<long>(psBlob.size()), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.pData_;
                     const byte* chunkEnd = chunkStart + newPsData.size_;
@@ -1246,7 +1246,8 @@ namespace Exiv2 {
 
                     if (outIo.write(tmpBuf, 4) != 4)
                         throw Error(kerImageWriteFailed);
-                    if (outIo.write((byte*)comment_.data(), (long)comment_.length()) != (long)comment_.length())
+                    if (outIo.write(reinterpret_cast<byte*>(const_cast<char*>(comment_.data())),
+                                    static_cast<long>(comment_.length())) != static_cast<long>(comment_.length()))
                         throw Error(kerImageWriteFailed);
                     if (outIo.putb(0) == EOF)
                         throw Error(kerImageWriteFailed);

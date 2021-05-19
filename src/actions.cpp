@@ -225,15 +225,15 @@ namespace Action {
             std::stringstream output(std::stringstream::out|std::stringstream::binary);
             result       = printStructure(output, option, path);
             if ( result == 0 ) {
-                size_t          size = (long) output.str().size();
-                Exiv2::DataBuf  iccProfile((long)size);
-                Exiv2::DataBuf   ascii((long)(size * 3 + 1));
+                size_t size = static_cast<long>(output.str().size());
+                Exiv2::DataBuf iccProfile(static_cast<long>(size));
+                Exiv2::DataBuf ascii(static_cast<long>(size * 3 + 1));
                 ascii.pData_[size * 3] = 0;
                 ::memcpy(iccProfile.pData_,output.str().c_str(),size);
-                if ( Exiv2::base64encode(iccProfile.pData_,size,(char*)ascii.pData_,size*3) ) {
+                if (Exiv2::base64encode(iccProfile.pData_, size, reinterpret_cast<char*>(ascii.pData_), size * 3)) {
                     long       chunk = 60 ;
-                    std::string code = std::string("data:") + std::string((char*)ascii.pData_);
-                    long      length = (long) code.size() ;
+                    std::string code = std::string("data:") + std::string(reinterpret_cast<char*>(ascii.pData_));
+                    long length = static_cast<long>(code.size());
                     for ( long start = 0 ; start < length ; start += chunk ) {
                         long   count = (start+chunk) < length ? chunk : length - start ;
                         std::cout << code.substr(start,count) << std::endl;
@@ -1039,7 +1039,8 @@ namespace Action {
             } else {
 
                 if ( bStdout ) { // -eC-
-                    std::cout.write((const char*)image->iccProfile()->pData_,image->iccProfile()->size_);
+                    std::cout.write(reinterpret_cast<const char*>(image->iccProfile()->pData_),
+                                    image->iccProfile()->size_);
                 } else {
                     if (Params::instance().verbose_) {
                         std::cout << _("Writing iccProfile: ") << target << std::endl;
@@ -1172,7 +1173,7 @@ namespace Action {
     {
         std::string xmpPacket;
         for ( long i = 0 ; i < xmpBlob.size_ ; i++ ) {
-            xmpPacket += (char) xmpBlob.pData_[i];
+            xmpPacket += static_cast<char>(xmpBlob.pData_[i]);
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
@@ -1784,7 +1785,7 @@ namespace {
     {
         int rc = 1;
         time_t t = mktime(tm); // interpret tm according to current timezone settings
-        if (t != (time_t)-1) {
+        if (t != static_cast<time_t>(-1)) {
             rc = 0;
             actime_  = t;
             modtime_ = t;
@@ -1827,7 +1828,8 @@ namespace {
         tm->tm_sec = tmp;
 
         // Conversions to set remaining fields of the tm structure
-        if (mktime(tm) == (time_t)-1) return 11;
+        if (mktime(tm) == static_cast<time_t>(-1))
+            return 11;
 
         return 0;
     } // str2Tm

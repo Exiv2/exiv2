@@ -457,8 +457,8 @@ namespace Exiv2 {
         std::vector<int16_t>  ints;
         std::vector<uint16_t> uint;
         for (int i = 0; i < object->pValue()->count(); i++) {
-            ints.push_back((int16_t) object->pValue()->toLong(i));
-            uint.push_back((uint16_t) object->pValue()->toLong(i));
+            ints.push_back(static_cast<int16_t>(object->pValue()->toLong(i)));
+            uint.push_back(static_cast<uint16_t>(object->pValue()->toLong(i)));
         }
         // Check this is AFInfo2 (ints[0] = bytes in object)
         if ( ints[0] != object->pValue()->count()*2 ) return ;
@@ -1597,7 +1597,7 @@ namespace Exiv2 {
             // #1143 Write a "hollow" buffer for the preview image
             //       Sadly: we don't know the exact location of the image in the source (it's near offset)
             //       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
-            auto buffer = (byte*)::malloc(isize);
+            auto buffer = static_cast<byte*>(::malloc(isize));
             ::memset(buffer,0,isize);
             v->read(buffer,isize, byteOrder());
             ::free(buffer);

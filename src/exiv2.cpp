@@ -524,9 +524,8 @@ int Params::evalRename(int opt, const std::string& optArg)
         }
         break;
     default:
-        std::cerr << progname()
-                  << ": " << _("Option") << " -" << (char)opt
-                  << " " << _("is not compatible with a previous option\n");
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
+                  << _("is not compatible with a previous option\n");
         rc = 1;
         break;
     }
@@ -843,8 +842,7 @@ int Params::evalModify(int opt, const std::string& optArg)
         if (opt == 'M') cmdLines_.push_back(optArg);  // parse the commands later
         break;
     default:
-        std::cerr << progname() << ": "
-                  << _("Option") << " -" << (char)opt << " "
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
                   << _("is not compatible with a previous option\n");
         rc = 1;
         break;
@@ -958,15 +956,15 @@ int Params::nonoption(const std::string& argv)
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
-    auto bytes = (Exiv2::byte*)::malloc(buff_size);
+    auto bytes = static_cast<Exiv2::byte*>(::malloc(buff_size));
     int       nBytes    = 0 ;
     bool      more      = bytes != NULL;
     while   ( more ) {
         char buff[buff_size];
-        int  n     = (int) fread(buff,1,buff_size,f);
+        int n = static_cast<int>(fread(buff, 1, buff_size, f));
         more       = n > 0 ;
         if ( more ) {
-            bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
+            bytes = static_cast<Exiv2::byte*>(realloc(bytes, nBytes + n));
             memcpy(bytes+nBytes,buff,n);
             nBytes    += n ;
         }
@@ -974,7 +972,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 
     if ( nBytes ) {
         buf.alloc(nBytes);
-        memcpy(buf.pData_,(const void*)bytes,nBytes);
+        memcpy(buf.pData_, bytes, nBytes);
     }
     if ( bytes != NULL ) ::free(bytes) ;
     return nBytes;
@@ -1154,7 +1152,8 @@ int Params::getopt(int argc, char* const Argv[])
 
  cleanup:
     // cleanup the argument vector
-    for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
+    for (int i = 0; i < argc; i++)
+        ::free(argv[i]);
     delete [] argv;
 
     return rc;
@@ -1255,7 +1254,8 @@ namespace {
 
                 case 'p': {
                     if (strcmp(action.c_str(), "extract") == 0) {
-                        i += (size_t)parsePreviewNumbers(Params::instance().previewNumbers_, optArg, (int)i + 1);
+                        i += static_cast<size_t>(
+                            parsePreviewNumbers(Params::instance().previewNumbers_, optArg, static_cast<int>(i) + 1));
                         target |= Params::ctPreview;
                         break;
                     }
@@ -1307,7 +1307,7 @@ namespace {
         }
         std::cout << std::endl;
 #endif
-        return (int) (k - j);
+        return static_cast<int>(k - j);
     } // parsePreviewNumbers
 
     bool parseCmdFiles(ModifyCmds& modifyCmds,
@@ -1572,8 +1572,8 @@ namespace {
                     }
 
                     std::string ucs2toUtf8;
-                    ucs2toUtf8.push_back((char) ((acc & 0xff00) >> 8));
-                    ucs2toUtf8.push_back((char) (acc & 0x00ff));
+                    ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00) >> 8));
+                    ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ff));
 
                     if (Exiv2::convertStringCharset (ucs2toUtf8, "UCS-2BE", "UTF-8")) {
                         result.append (ucs2toUtf8);

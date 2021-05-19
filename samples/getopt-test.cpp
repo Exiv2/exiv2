@@ -114,12 +114,12 @@ int main(int argc, char** const argv)
 	do {
 	    n = ::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-	    	char N = (char) n;
-		    std::cout << n   << " = " << N ;
-	    } else {
-	    	std::cout << n ;
-	    }
-		std::cout << " optind = " << ::optind
+            char N = static_cast<char>(n);
+            std::cout << n << " = " << N;
+        } else {
+            std::cout << n ;
+        }
+        std::cout << " optind = " << ::optind
 				  << " opterr = " << ::opterr
 				  << " optopt = " << ::optopt
 				  << " optarg = " << Safe(::optarg)
@@ -132,12 +132,12 @@ int main(int argc, char** const argv)
 	do {
 	    n = Util::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-	    	char N = (char) n;
-		    std::cout << n   << " = " << N ;
-	    } else {
-	    	std::cout << n ;
-	    }
-		std::cout << " optind = " << Util::optind
+            char N = static_cast<char>(n);
+            std::cout << n << " = " << N;
+        } else {
+            std::cout << n ;
+        }
+        std::cout << " optind = " << Util::optind
 				  << " opterr = " << Util::opterr
 				  << " optopt = " << Util::optopt
 				  << " optarg = " << Safe(Util::optarg)

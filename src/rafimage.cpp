@@ -118,11 +118,8 @@ namespace Exiv2 {
             io_->read(magicdata, 16);
             magicdata[16] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 16, 0)
-                    << "      magic : "
-                    << (char*) magicdata
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 16, 0)
+                    << "      magic : " << reinterpret_cast<char*>(magicdata) << std::endl;
             }
 
             address = io_->tell();
@@ -130,11 +127,8 @@ namespace Exiv2 {
             io_->read(data1, 4);
             data1[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 4, 16)
-                    << "      data1 : "
-                    << std::string((char*)&data1)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 4, 16)
+                    << "      data1 : " << std::string(reinterpret_cast<char*>(&data1)) << std::endl;
             }
 
             address = io_->tell();
@@ -142,11 +136,8 @@ namespace Exiv2 {
             io_->read(data2, 8);
             data2[8] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 8, 20)
-                    << "      data2 : "
-                    << std::string((char*)&data2)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 8, 20)
+                    << "      data2 : " << std::string(reinterpret_cast<char*>(&data2)) << std::endl;
             }
 
             address = io_->tell();
@@ -154,11 +145,8 @@ namespace Exiv2 {
             io_->read(camdata, 32);
             camdata[32] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 32, 28)
-                    << "     camera : "
-                    << std::string((char*)&camdata)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 32, 28)
+                    << "     camera : " << std::string(reinterpret_cast<char*>(&camdata)) << std::endl;
             }
 
             address = io_->tell();
@@ -166,11 +154,8 @@ namespace Exiv2 {
             io_->read(dir_version, 4);
             dir_version[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 4, 60)
-                    << "    version : "
-                    << std::string((char*)&dir_version)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 4, 60)
+                    << "    version : " << std::string(reinterpret_cast<char*>(&dir_version)) << std::endl;
             }
 
             address = io_->tell();
@@ -192,8 +177,8 @@ namespace Exiv2 {
             address2 = io_->tell();
             io_->read(jpg_img_length, 4);
 
-            long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-            long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+            long jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
+            long jpg_img_len = Exiv2::getULong(jpg_img_length, bigEndian);
             std::stringstream j_off;
             std::stringstream j_len;
             j_off << jpg_img_off;
@@ -217,8 +202,8 @@ namespace Exiv2 {
             byte cfa_header_length [4];
             address2 = io_->tell();
             io_->read(cfa_header_length, 4);
-            long cfa_hdr_off = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
-            long cfa_hdr_len = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+            long cfa_hdr_off = Exiv2::getULong(cfa_header_offset, bigEndian);
+            long cfa_hdr_len = Exiv2::getULong(cfa_header_length, bigEndian);
             std::stringstream ch_off;
             std::stringstream ch_len;
             ch_off << cfa_hdr_off;
@@ -242,8 +227,8 @@ namespace Exiv2 {
             byte cfa_length [4];
             address2 = io_->tell();
             io_->read(cfa_length, 4);
-            long cfa_off = Exiv2::getULong((const byte *) cfa_offset, bigEndian);
-            long cfa_len = Exiv2::getULong((const byte *) cfa_length, bigEndian);
+            long cfa_off = Exiv2::getULong(cfa_offset, bigEndian);
+            long cfa_len = Exiv2::getULong(cfa_length, bigEndian);
             std::stringstream c_off;
             std::stringstream c_len;
             c_off << cfa_off;
@@ -317,8 +302,8 @@ namespace Exiv2 {
         if (io_->read(jpg_img_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte jpg_img_length [4];
         if (io_->read(jpg_img_length, 4) != 4) throw Error(kerFailedToReadImageData);
-        uint32_t jpg_img_off_u32 = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-        uint32_t jpg_img_len_u32 = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+        uint32_t jpg_img_off_u32 = Exiv2::getULong(jpg_img_offset, bigEndian);
+        uint32_t jpg_img_len_u32 = Exiv2::getULong(jpg_img_length, bigEndian);
 
         enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerCorruptedMetadata);
 

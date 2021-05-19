@@ -258,7 +258,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     // fill in the address
     struct  sockaddr_in serv_addr   ;
     int                 serv_len = sizeof(serv_addr);
-    memset((char *)&serv_addr,0,serv_len);
+    memset(reinterpret_cast<char*>(&serv_addr), 0, serv_len);
 
     serv_addr.sin_addr.s_addr   = inet_addr(servername_p);
     serv_addr.sin_family        = AF_INET    ;
@@ -266,8 +266,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     // convert unknown servername into IP address
     // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
-    if (serv_addr.sin_addr.s_addr == (unsigned long)INADDR_NONE)
-    {
+    if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
         struct hostent* host = gethostbyname(servername_p);
         if (!host)
             return error(errors, "no such host", servername_p);
@@ -278,7 +277,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // and connect
-    server = connect(sockfd, (const struct sockaddr *) &serv_addr, serv_len) ;
+    server = connect(sockfd, reinterpret_cast<const struct sockaddr*>(&serv_addr), serv_len);
     if ( server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK )
         return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p, port_p,
                      WSAGetLastError());
@@ -311,7 +310,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     ////////////////////////////////////
     // read and process the response
     int err ;
-    n=forgive(recv(sockfd,buffer,(int)buff_l,0),err) ;
+    n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
     while ( n >= 0 && OK(status) ) {
         if ( n ) {
             end += n ;
@@ -378,7 +377,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 flushBuffer(buffer,body,end,file);
             }
         }
-        n=forgive(recv(sockfd,buffer+end,(int)(buff_l-end),0),err) ;
+        n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
         if ( !n ) {
             Sleep(snooze) ;
             sleep_ -= snooze ;

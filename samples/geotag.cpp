@@ -247,7 +247,7 @@ std::string Position::toExifString(double d)
 {
     char result[200];
     d *= 100;
-    sprintf(result,"%d/100",abs((int)d));
+    sprintf(result, "%d/100", abs(static_cast<int>(d)));
     return std::string(result);
 }
 
@@ -257,13 +257,13 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
     const char* EW   = d>=0.0?"E":"W";
     const char* NSEW = bLat  ? NS: EW;
     if ( d < 0 ) d = -d;
-    int deg = (int) d;
-        d  -= deg;
-        d  *= 60;
-    int min = (int) d ;
-        d  -= min;
-        d  *= 60;
-    int sec = (int)d;
+    int deg = static_cast<int>(d);
+    d -= deg;
+    d *= 60;
+    int min = static_cast<int>(d);
+    d -= min;
+    d *= 60;
+    int sec = static_cast<int>(d);
     char result[200];
     if ( bRational )
         sprintf(result,"%d/1 %d/1 %d/1" ,deg,min,sec);
@@ -326,7 +326,7 @@ public:
 // XML Parser Callbacks
 static void startElement(void* userData, const char* name, const char** atts )
 {
-    auto me = (UserData*)userData;
+    auto me = static_cast<UserData*>(userData);
     //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
     //printf("begin %s\n",name);
     me->bTime = strcmp(name,"time")==0;
@@ -348,7 +348,7 @@ static void startElement(void* userData, const char* name, const char** atts )
 
 static void endElement(void* userData, const char* name)
 {
-    auto me = (UserData*)userData;
+    auto me = static_cast<UserData*>(userData);
     me->indent-- ;
     if ( strcmp(name,"trkpt")==0 ) {
 
@@ -370,7 +370,7 @@ static void endElement(void* userData, const char* name)
 
 void charHandler(void* userData,const char* s,int len)
 {
-    auto me = (UserData*)userData;
+    auto me = static_cast<UserData*>(userData);
 
     if ( me->nTrkpt == 1 ) {
         char buffer[100];
@@ -584,14 +584,14 @@ bool readXML(const char* path,Options& options)
         // swallow it
         if ( bResult ) {
             len = sip(f,buffer,sizeof buffer,len);
-            bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
+            bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
         }
 
         // drink the rest of the file
         while ( bResult && len != 0 ) {
             len = fread(buffer,1,sizeof(buffer)-100,f);
             len = sip(f,buffer,sizeof buffer,len);
-            bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
+            bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
         };
     }
 
@@ -861,10 +861,12 @@ int main(int argc,const char* argv[])
 #endif
                     char*  path = realpath(arg,buffer);
                     if  ( t && path ) {
-                        if ( options.verbose) printf("%s %ld %s",path,(long int)t,asctime(localtime(&t)));
+                        if (options.verbose)
+                            printf("%s %ld %s", path, static_cast<long int>(t), asctime(localtime(&t)));
                         gFiles.push_back(path);
                     }
-                    if ( path && path != buffer ) ::free((void*) path);
+                    if (path && path != buffer)
+                        ::free(path);
                 }
                 if ( type == typeUnknown ) {
                     fprintf(stderr,"error: illegal syntax %s\n",arg);

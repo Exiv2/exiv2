@@ -181,11 +181,8 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        ByteOrder bo = TiffParser::decode(exifData_,
-                                          iptcData_,
-                                          xmpData_,
-                                          io_->mmap(),
-                                          (uint32_t) io_->size());
+        ByteOrder bo =
+            TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
         setByteOrder(bo);
 
         // read profile from the metadata
@@ -215,7 +212,7 @@ namespace Exiv2 {
             // Ensure that this is the correct image type
             if (isTiffType(*io_, false)) {
                 pData = io_->mmap(true);
-                size = (long) io_->size();
+                size = static_cast<long>(io_->size());
                 TiffHeader tiffHeader;
                 if (0 == tiffHeader.read(pData, 8)) {
                     bo = tiffHeader.byteOrder();

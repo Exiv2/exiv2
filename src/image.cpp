@@ -258,7 +258,7 @@ namespace Exiv2 {
     uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) 
     {
         uint16_t v;
-        auto p = (char*)&v;
+        auto p = reinterpret_cast<char*>(&v);
         p[0] = buf.pData_[offset];
         p[1] = buf.pData_[offset+1];
         return Image::byteSwap(v,bSwap);
@@ -267,7 +267,7 @@ namespace Exiv2 {
     uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) 
     {
         uint32_t v;
-        auto p = (char*)&v;
+        auto p = reinterpret_cast<char*>(&v);
         p[0] = buf.pData_[offset];
         p[1] = buf.pData_[offset+1];
         p[2] = buf.pData_[offset+2];
@@ -390,11 +390,11 @@ namespace Exiv2 {
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
 
                 // #55 and #56 memory allocation crash test/data/POC8
-                long long allocate = (long long) size*count + pad+20;
-                if ( allocate > (long long) io.size() ) {
+                long long allocate = static_cast<long long>(size) * count + pad + 20;
+                if (allocate > static_cast<long long>(io.size())) {
                     throw Error(kerInvalidMalloc);
                 }
-                DataBuf  buf((long)allocate);  // allocate a buffer
+                DataBuf buf(static_cast<long>(allocate));  // allocate a buffer
                 std::memset(buf.pData_, 0, buf.size_);
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
                 const bool bOffsetIsPointer = count*size > 4;
@@ -467,7 +467,7 @@ namespace Exiv2 {
 
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
-                        const auto chars = (const char*)&bytes[0];
+                        const auto chars = reinterpret_cast<const char*>(&bytes[0]);
                         io.seek(offset,BasicIo::beg);  // position
                         io.read(bytes,jump    )     ;  // read
                         bytes[jump]=0               ;
@@ -490,10 +490,10 @@ namespace Exiv2 {
 
                 if ( isPrintXMP(tag,option) ) {
                     buf.pData_[count]=0;
-                    out << (char*) buf.pData_;
+                    out << reinterpret_cast<char*>(buf.pData_);
                 }
                 if ( isPrintICC(tag,option) ) {
-                    out.write((const char*)buf.pData_,count);
+                    out.write(reinterpret_cast<const char*>(buf.pData_), count);
                 }
             }
             if ( start ) {
@@ -518,12 +518,12 @@ namespace Exiv2 {
 
             // read header (we already know for certain that we have a Tiff file)
             io.read(dir.pData_,  8);
-            char c = (char) dir.pData_[0] ;
+            char c = static_cast<char>(dir.pData_[0]);
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
                         ;
             uint32_t start = byteSwap4(dir,4,bSwap);
-            printIFDStructure(io,out,option,start+(uint32_t)offset,bSwap,c,depth);
+            printIFDStructure(io, out, option, start + static_cast<uint32_t>(offset), bSwap, c, depth);
         }
     }
 
@@ -652,7 +652,8 @@ namespace Exiv2 {
     void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
-            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
+            if (iccProfile.pData_ && (iccProfile.size_ < static_cast<long>(sizeof(long))))
+                throw Error(kerInvalidIccProfile);
             long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
             if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
         }
