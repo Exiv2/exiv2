@@ -169,6 +169,18 @@ namespace Exiv2 {
         { 0, ttSignedLong, 1 }
     };
 
+    //! Canon MultiExposure Selction Info binary array - configuration
+    extern const ArrayCfg canonMeCfg = {
+        canonMeId,        // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttSignedLong,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // Has a size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttSignedLong, 1 }
+    };
+
     //! Canon Hdr Info binary array - configuration
     extern const ArrayCfg canonHdrCfg = {
         canonHdrId,        // Group for the elements
@@ -1092,10 +1104,10 @@ namespace Exiv2 {
         { Tag::root, canonPiId,        canonId,          0x0012    },
         { Tag::root, canonTiId,        canonId,          0x0035    },
         { Tag::root, canonFiId,        canonId,          0x0093    },
-        { Tag::root, canonPrId,        canonId,          0x00a0    },
-        
+        { Tag::root, canonPrId,        canonId,          0x00a0    },        
         { Tag::root, canonAfMiAdjId,   canonId,          0x4013    },
         { Tag::root, canonAmId,        canonId,          0x4020    },
+        { Tag::root, canonMeId,        canonId,          0x4021    },
         { Tag::root, canonHdrId,       canonId,          0x4025    },
         { Tag::root, nikon1Id,         exifId,           0x927c    },
         { Tag::root, nikon2Id,         exifId,           0x927c    },
@@ -1455,6 +1467,7 @@ namespace Exiv2 {
         //{    0x4024, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)      },        
         {    0x4013, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfMiAdjCfg)  },
         {    0x4020, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAmCfg)  },
+        {    0x4021, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonMeCfg)  },
         {    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)  },
         //{    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },        
         { Tag::next, canonId,          ignoreTiffComponent                       },
@@ -1474,8 +1487,8 @@ namespace Exiv2 {
        // {  Tag::all, canonVigCor2Id,        newTiffBinaryElement                     },
        // {  Tag::all, canonLiOpId,        newTiffBinaryElement                     },
        // {  Tag::all, canonLeId,        newTiffBinaryElement                     },
-        {  Tag::all, canonAmId,        newTiffBinaryElement                     },
-       // {  Tag::all, canonMeId,        newTiffBinaryElement                     },
+       {  Tag::all, canonAmId,        newTiffBinaryElement                     },
+       {  Tag::all, canonMeId,        newTiffBinaryElement                     },
        // {  Tag::all, canonFilId,        newTiffBinaryElement                     },       
        {  Tag::all, canonHdrId,        newTiffBinaryElement                     },
        // {  Tag::all, canonAfCId,        newTiffBinaryElement                     },

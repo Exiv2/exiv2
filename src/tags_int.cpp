@@ -89,11 +89,11 @@ namespace Exiv2 {
         { canonFiId,       "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
         { canonPaId,       "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
         { canonPrId,       "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
-        { canonVigCor2Id,  "Makernote", "CanonVigCor2", CanonMakerNote::tagListVigCor2 }, // new
-        { canonAfMiAdjId,  "Makernote", "CanonAfMiAdj", CanonMakerNote::tagListAfMiAdj }, // new
-        { canonAmId,      "Makernote", "CanonAm",       CanonMakerNote::tagListAm      }, 
+        { canonVigCor2Id,  "Makernote", "CanonVigCor2", CanonMakerNote::tagListVigCor2 }, // ToDO
+        { canonAfMiAdjId,  "Makernote", "CanonAfMiAdj", CanonMakerNote::tagListAfMiAdj },
+        { canonAmId,       "Makernote", "CanonAm",       CanonMakerNote::tagListAm     }, 
         { canonHdrId,      "Makernote", "CanonHdr",     CanonMakerNote::tagListHdr     }, 
-        { canonMeId,       "Makernote", "CanonMe",      CanonMakerNote::tagListMe      }, // new
+        { canonMeId,       "Makernote", "CanonMe",      CanonMakerNote::tagListMe      }, 
         { casioId,         "Makernote", "Casio",        CasioMakerNote::tagList        },
         { casio2Id,        "Makernote", "Casio2",       Casio2MakerNote::tagList       },
         { fujiId,          "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
