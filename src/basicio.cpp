@@ -1099,6 +1099,7 @@ namespace Exiv2 {
         //! @param num The size of data
         void    populate (byte* source, size_t num)
         {
+            assert(source != nullptr);
             size_ = num;
             data_ = static_cast<byte*>(std::malloc(size_));
             type_ = bMemory;
@@ -1176,7 +1177,6 @@ namespace Exiv2 {
                     throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
-                isMalloced_ = true;
             }
             size_ = need;
         }
