@@ -788,6 +788,7 @@ namespace Exiv2 {
         (0x000f, "0x000f", "0x000f", N_("0x000f"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
         (0x0010, "0x0010", "0x0010", N_("0x0010"), canonAf2Id, makerTags, unsignedShort, -1, printValue),
         (0x0011, "AFFineRotation", N_("AFFineRotation"), N_("AFFineRotation"), canonAf2Id, makerTags, unsignedShort, -1, printValue),  
+        (0xffff, "(UnknowAFInfo2Tag)", "(UnknowAFInfo2Tag)", N_("UnknowAFInfo2Tag  Tag"), canonAf2Id, makerTags, unsignedShort, 1, printValue) // important to add end of tag             
     };
 
     const TagInfo* CanonMakerNote::tagListAf2()
