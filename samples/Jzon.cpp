@@ -41,7 +41,7 @@ namespace Jzon
 		{
 			SetFormat(NoFormat);
 		}
-		FormatInterpreter(const Format &format)
+		explicit FormatInterpreter(const Format &format)
 		{
 			SetFormat(format);
 		}

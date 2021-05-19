@@ -81,7 +81,7 @@ namespace Exiv2 {
     class FileIo::Impl {
     public:
         //! Constructor
-        Impl(std::string path);
+        explicit Impl(std::string path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         Impl(const std::wstring& wpath);
