@@ -640,7 +640,7 @@ namespace Exiv2 {
         TagInfo(0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, signedLong, -1, printValue), 
         TagInfo(0x4021, "MultiExp", N_("MultiExp"), N_("MultiExp"), canonId, makerTags, signedLong, -1, printValue), 
         TagInfo(0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
-        TagInfo(0x4025, "HDRInfo", N_("HDRInfo"), N_("HDRInfo"), canonId, makerTags, signedLong, -1, printValue), 
+        TagInfo(0x4025, "HDRInfo", N_("HDRInfo"), N_("HDRInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4028, "AFConfig", N_("AFConfig"), N_("AFConfig"), canonId, makerTags, signedLong, -1, printValue), 
         TagInfo(0x403f, "RawBurstModeRoll", N_("RawBurstModeRoll"), N_("RawBurstModeRoll"), canonId, makerTags, unsignedLong, -1, printValue), 
         // End of list marker
@@ -1161,11 +1161,12 @@ namespace Exiv2 {
 
     // Canon HDR Info Tag
    const TagInfo CanonMakerNote::tagInfoHdr_[] = {
-         TagInfo(0x0001, "HDR", N_("HDR"), N_("HDR"), canonHdrId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHdr)),
-         TagInfo(0x0002, "HDREffect", N_("HDR Effect"), N_("HDR Effect"), canonHdrId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHdrEffect))    
+         TagInfo(0x0001, "HDR", N_("HDR"), N_("HDR"), canonHdrId, makerTags, signedLong, 1, EXV_PRINT_TAG(canonHdr)),
+         TagInfo(0x0002, "HDREffect", N_("HDR Effect"), N_("HDR Effect"), canonHdrId, makerTags, signedLong, 1, EXV_PRINT_TAG(canonHdrEffect)),
+         TagInfo(0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), canonHdrId, makerTags, signedLong, 1, printValue)
     };
-      
-        
+
+
     const TagInfo* CanonMakerNote::tagListHdr()
     {
         return tagInfoHdr_;

@@ -154,11 +154,6 @@ namespace Exiv2 {
         { 0, ttSignedLong, 1 }
     };
 
-        //! Canon Hdr Info binary array - definition
-    extern const ArrayDef canonHdrDef[] = {
-        { 2, ttSignedLong, 3 } // Exif.CanonHdr
-    };
-
     //! Nikon Vibration Reduction binary array - configuration
     extern const ArrayCfg nikonVrCfg = {
         nikonVrId,        // Group for the elements
@@ -1428,7 +1423,7 @@ namespace Exiv2 {
         //{    0x4020, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAmCfg)      },
         //{    0x4021, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonMeCfg)      },
         //{    0x4024, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)      },
-        // {    0x4025, canonId,          EXV_BINARY_ARRAY(canonHdrCfg, canonHdrDef)  },
+         {    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)  },
         //{    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },        
         { Tag::next, canonId,          ignoreTiffComponent                       },
         {  Tag::all, canonId,          newTiffEntry                              },
