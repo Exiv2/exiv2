@@ -244,6 +244,18 @@ namespace Exiv2 {
         { 0, ttSignedLong, 1 }
     };
 
+        //! Canon AF Config Info binary array - configuration
+    extern const ArrayCfg canonAfCCfg = {
+        canonAfCId,        // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttSignedLong,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // Has a size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttSignedLong, 1 }
+    };
+
     //! Nikon Vibration Reduction binary array - configuration
     extern const ArrayCfg nikonVrCfg = {
         nikonVrId,        // Group for the elements
@@ -1164,6 +1176,7 @@ namespace Exiv2 {
         { Tag::root, canonMeId,        canonId,          0x4021    },
         { Tag::root, canonFilId,       canonId,          0x4024    },
         { Tag::root, canonHdrId,       canonId,          0x4025    },
+        { Tag::root, canonAfCId,       canonId,          0x4028    },
         { Tag::root, nikon1Id,         exifId,           0x927c    },
         { Tag::root, nikon2Id,         exifId,           0x927c    },
         { Tag::root, nikon3Id,         exifId,           0x927c    },
@@ -1521,7 +1534,7 @@ namespace Exiv2 {
         {    0x4021, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonMeCfg)       },
         {    0x4024, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)      },        
         {    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)      },
-        //{    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },        
+        {    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },        
         { Tag::next, canonId,          ignoreTiffComponent                       },
         {  Tag::all, canonId,          newTiffEntry                              },
 
@@ -1543,7 +1556,7 @@ namespace Exiv2 {
        {  Tag::all, canonMeId,         newTiffBinaryElement                      },
        {  Tag::all, canonFilId,        newTiffBinaryElement                      },       
        {  Tag::all, canonHdrId,        newTiffBinaryElement                      },
-       // {  Tag::all, canonAfCId,        newTiffBinaryElement                     },
+       {  Tag::all, canonAfCId,        newTiffBinaryElement                     },
 
         // Nikon1 makernote
         { Tag::next, nikon1Id,         ignoreTiffComponent                       },

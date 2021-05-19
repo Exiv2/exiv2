@@ -641,7 +641,7 @@ namespace Exiv2 {
         TagInfo(0x4021, "MultiExp", N_("MultiExp"), N_("MultiExp"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4025, "HDRInfo", N_("HDRInfo"), N_("HDRInfo"), canonId, makerTags, undefined, -1, printValue), 
-        TagInfo(0x4028, "AFConfig", N_("AFConfig"), N_("AFConfig"), canonId, makerTags, signedLong, -1, printValue), 
+        TagInfo(0x4028, "AFConfig", N_("AFConfig"), N_("AFConfig"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x403f, "RawBurstModeRoll", N_("RawBurstModeRoll"), N_("RawBurstModeRoll"), canonId, makerTags, unsignedLong, -1, printValue), 
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", N_("Unknown CanonMakerNote tag"), canonId, makerTags, asciiString, -1, printValue)
@@ -1306,7 +1306,8 @@ namespace Exiv2 {
          TagInfo(0x0010, "AFPointDisplayDuringFocus", N_("AF Point Display During Focus"), N_("AF Point Display During Focus"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFPointDisplayDuringFocus)),
          TagInfo(0x0011, "VFDisplayIllumination", N_("VF Display Illumination"), N_("VF Display Illumination"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAVFDisplayIllumination)),
          TagInfo(0x0012, "AFStatusViewfinder", N_("AF Status Viewfinder"), N_("AF Status Viewfinder"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFStatusViewfinder)),
-         TagInfo(0x0013, "InitialAFPointInServo", N_("Initial AF Point In Servo"), N_("Initial AF Point In Servo"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonInitialAFPointInServo)),         
+         TagInfo(0x0013, "InitialAFPointInServo", N_("Initial AF Point In Servo"), N_("Initial AF Point In Servo"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonInitialAFPointInServo)),
+         TagInfo(0xffff, "(UnknownCanonAFTag)", "(UnknownCanonAFTag)", N_("UnknownCanonAFTag"), canonAfCId, makerTags, signedLong, 1, printValue) // important to add end of tag              
     };
 
     const TagInfo* CanonMakerNote::tagListAfC()
