@@ -1047,6 +1047,7 @@ namespace Exiv2 {
     // Canon LensInfo Tag
     constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
          {0x0000, "LensSerialNumber", N_("Lens Seria lNumber"), N_("Lens Serial Number"), canonLeId, makerTags, asciiString, -1, printValue},
+         (0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), canonLeId, makerTags, undefined, 1, printValue) // important to add end of tag          
     };
 
     const TagInfo* CanonMakerNote::tagListLe()
@@ -1131,6 +1132,7 @@ namespace Exiv2 {
          {0x0501, "FisheyeFilter", N_("Fisheye Filter"), N_("Fisheye Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)},
          {0x0601, "PaintingFilter", N_("Painting Filter"), N_("Painting Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)},
          {0x0701, "WatercolorFilter", N_("Watercolor Filter"), N_("Watercolor Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)},
+         (0xffff, "(UnknownFilterTag)", "(UnknownFilterTag)", N_("UnknownFilterTag"), canonFilId, makerTags, signedLong, 1, printValue) // important to add end of tag                    
     };
 
 
