@@ -642,7 +642,7 @@ namespace Exiv2 {
         TagInfo(0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4025, "HDRInfo", N_("HDRInfo"), N_("HDRInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4028, "AFConfig", N_("AFConfig"), N_("AFConfig"), canonId, makerTags, undefined, -1, printValue), 
-        TagInfo(0x403f, "RawBurstModeRoll", N_("RawBurstModeRoll"), N_("RawBurstModeRoll"), canonId, makerTags, unsignedLong, -1, printValue), 
+        TagInfo(0x403f, "RawBurstModeRoll", N_("RawBurstModeRoll"), N_("RawBurstModeRoll"), canonId, makerTags, undefined, -1, printValue), 
         // End of list marker
         TagInfo(0xffff, "(UnknownCanonMakerNoteTag)", "(UnknownCanonMakerNoteTag)", N_("Unknown CanonMakerNote tag"), canonId, makerTags, asciiString, -1, printValue)
     };
@@ -1320,7 +1320,9 @@ namespace Exiv2 {
    // Canon RawBurstInfo Info Tag
    const TagInfo CanonMakerNote::tagInfoRawB_[] = {
          TagInfo(0x0001, "RawBurstImageNum", N_("Raw Burst Image Num"), N_("Raw Burst Image Num"), canonRawBId, makerTags, unsignedLong, -1, printValue),
-         TagInfo(0x0002, "RawBurstImageCount", N_("Raw Burst Image Count"), N_("Raw Burst Image Count"), canonRawBId, makerTags, unsignedLong, -1, printValue)    
+         TagInfo(0x0002, "RawBurstImageCount", N_("Raw Burst Image Count"), N_("Raw Burst Image Count"), canonRawBId, makerTags, unsignedLong, -1, printValue),
+         TagInfo(0xffff, "(UnknownRawBurstTag)", "(UnknownRawBurstTag)", N_("UnknownRawBurstTag"), canonRawBId, makerTags, signedLong, 1, printValue) // important to add end of tag                  
+
     };
 
     const TagInfo* CanonMakerNote::tagListRawB()
