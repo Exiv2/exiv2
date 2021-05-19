@@ -140,15 +140,15 @@ namespace Jzon
         }
     }
 
-    Value::Value() : Node()
+    Value::Value()
     {
         SetNull();
     }
-    Value::Value(const Value &rhs) : Node()
+    Value::Value(const Value &rhs)
     {
         Set(rhs);
     }
-    Value::Value(const Node &rhs) : Node()
+    Value::Value(const Node &rhs)
     {
         const Value &value = rhs.AsValue();
         Set(value);
@@ -426,15 +426,12 @@ namespace Jzon
 		return unescaped;
     }
 
-    Object::Object() : Node()
-    {
-    }
-    Object::Object(const Object &other) : Node()
+    Object::Object(const Object &other)
     {
         std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
                        [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
     }
-    Object::Object(const Node &other) : Node()
+    Object::Object(const Node &other)
     {
         std::transform(other.AsObject().children.begin(), other.AsObject().children.end(), std::back_inserter(children),
                        [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
@@ -531,18 +528,14 @@ namespace Jzon
         return new Object(*this);
     }
 
-    Array::Array() : Node()
-    {
-    }
-
-    Array::Array(const Array &other) : Node()
+    Array::Array(const Array &other)
     {
         for (auto &&value : other.children) {
             children.push_back(value->GetCopy());
         }
     }
 
-    Array::Array(const Node &other) : Node()
+    Array::Array(const Node &other)
     {
         const Array &array = other.AsArray();
 

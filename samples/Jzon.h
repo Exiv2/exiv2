@@ -243,9 +243,9 @@ namespace Jzon
 			const NamedNodePtr *p;
 		};
 
-		Object();
-		Object(const Object &other);
-		Object(const Node &other);
+        Object() = default;
+        Object(const Object &other);
+        Object(const Node &other);
         ~Object() override;
 
         Type GetType() const override;
@@ -311,9 +311,9 @@ namespace Jzon
 			const Node *const *p;
 		};
 
-		Array();
-		Array(const Array &other);
-		Array(const Node &other);
+        Array() = default;
+        Array(const Array &other);
+        Array(const Node &other);
         ~Array() override;
 
         Type GetType() const override;
