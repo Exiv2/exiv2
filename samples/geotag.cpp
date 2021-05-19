@@ -809,7 +809,7 @@ int main(int argc,const char* argv[])
     shorts["-D"] = "-delta";
     shorts["-s"] = "-delta";
     shorts["-X"] = "-dryrun";
-    shorts["-a"] = "-ascii";
+    shorts["-A"] = "-ascii";
 
     Options options ;
     options.help    = sina(keywords[kwHELP   ],argv) || argc < 2;
