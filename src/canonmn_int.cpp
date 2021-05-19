@@ -1312,7 +1312,8 @@ namespace Exiv2 {
    // Canon RawBurstInfo Info Tag
    constexpr TagInfo CanonMakerNote::tagInfoRawB_[] = {
          {0x0001, "RawBurstImageNum", N_("Raw Burst Image Num"), N_("Raw Burst Image Num"), canonRawBId, makerTags, unsignedLong, -1, printValue},
-         {0x0002, "RawBurstImageCount", N_("Raw Burst Image Count"), N_("Raw Burst Image Count"), canonRawBId, makerTags, unsignedLong, -1, printValue}
+         {0x0002, "RawBurstImageCount", N_("Raw Burst Image Count"), N_("Raw Burst Image Count"), canonRawBId, makerTags, unsignedLong, -1, printValue},
+         (0xffff, "(UnknownRawBurstTag)", "(UnknownRawBurstTag)", N_("UnknownRawBurstTag"), canonRawBId, makerTags, signedLong, 1, printValue) // important to add end of tag                  
     };
 
     const TagInfo* CanonMakerNote::tagListRawB()
