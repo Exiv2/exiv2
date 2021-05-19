@@ -998,6 +998,7 @@ namespace Exiv2 {
          {0x0005, "PeripheralLightingSetting", N_("Peripheral Lighting Setting"), N_("Peripheral Lighting Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
          {0x0006, "ChromaticAberrationSetting", N_("Chromatic Aberration Setting"), N_("Chromatic Aberration Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
          {0x0007, "DistortionCorrectionSetting", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
+         (0xffff, "(UnknownVignettingCorr2Tag)", "(UnknownVignettingCorr2Tag)", N_("UnknownVignettingCorr2Tag  Tag"), canonVigCor2Id, makerTags, signedLong, 1, printValue) // important to add end of tag     
     };
 
     const TagInfo* CanonMakerNote::tagListVigCor2()
