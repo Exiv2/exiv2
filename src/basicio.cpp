@@ -1864,7 +1864,7 @@ namespace Exiv2 {
             allow -= blockR;
         } while(allow);
 
-        if (fakeData) std::free(fakeData);
+        std::free(fakeData);
 
         p_->idx_ += static_cast<long>(totalRead);
         p_->eof_ = (p_->idx_ == static_cast<long>(p_->size_));
