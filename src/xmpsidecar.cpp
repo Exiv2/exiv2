@@ -39,7 +39,7 @@ namespace {
     const char* xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
     const long  xmlHdrCnt = (long) std::strlen(xmlHeader); // without the trailing 0-character
     const char* xmlFooter = "<?xpacket end=\"w\"?>";
-}
+}  // namespace
 
 // class member definitions
 namespace Exiv2 {
