@@ -114,6 +114,19 @@ namespace Exiv2 {
         { 0, ttSignedLong, 1 }
     };
 
+
+         //! Canon canonAfMiAdj Info binary array - configuration
+    extern const ArrayCfg canonAf2Cfg = {
+        canonAf2Id,        // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttSignedLong,  // Type for array entry and size element
+        notEncrypted,     // Not encrypted
+        true,             // Has a size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttSignedLong, 1 }
+    };
+
     //! Canon File Info binary array - configuration
     extern const ArrayCfg canonFiCfg = {
         canonFiId,        // Group for the elements
@@ -1177,7 +1190,8 @@ namespace Exiv2 {
         { Tag::root, fujiId,           exifId,           0x927c    },
         { Tag::root, canonId,          exifId,           0x927c    },
         { Tag::root, canonCsId,        canonId,          0x0001    },
-        { Tag::root, canonSiId,        canonId,          0x0004    },
+        { Tag::root, canonSiId,        canonId,          0x0004    },        
+        { Tag::root, canonAf2Id,       canonId,          0x0026    },
         { Tag::root, canonPaId,        canonId,          0x0005    },
         { Tag::root, canonCfId,        canonId,          0x000f    },
         { Tag::root, canonPiId,        canonId,          0x0012    },
@@ -1539,6 +1553,7 @@ namespace Exiv2 {
         {    0x0005, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPaCfg)       },
         {    0x000f, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonCfCfg)       },
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
+        {    0x0026, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAf2Cfg)      },
         {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
         {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)       },        
@@ -1559,6 +1574,7 @@ namespace Exiv2 {
         // Canon makernote composite tags
         {  Tag::all, canonCsId,        newTiffBinaryElement                      },
         {  Tag::all, canonSiId,        newTiffBinaryElement                      },
+        {  Tag::all, canonAf2Id,        newTiffBinaryElement                      },
         {  Tag::all, canonPaId,        newTiffBinaryElement                      },
         {  Tag::all, canonCfId,        newTiffBinaryElement                      },
         {  Tag::all, canonPiId,        newTiffBinaryElement                      },
