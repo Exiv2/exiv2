@@ -635,7 +635,7 @@ namespace Exiv2 {
         TagInfo(0x4013, "AFMicroAdj", N_("AFMicroAdj"), N_("AFMicroAdj"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4015, "VignettingCorr", N_("VignettingCorr"), N_("VignettingCorr"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, unsignedShort, -1, printValue), 
-        TagInfo(0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, unsignedShort, -1, printValue), 
+        TagInfo(0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4019, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4021, "MultiExp", N_("MultiExp"), N_("MultiExp"), canonId, makerTags, undefined, -1, printValue), 
@@ -1018,7 +1018,7 @@ namespace Exiv2 {
         { 0, N_("Standard") },
         { 1, N_("Low") },
         { 2, N_("Strong") },
-        { 2, N_("Off") }
+        { 3, N_("Off") }
     };  
 
     // Canon HighISONoiseReduction, tag 0x0004
@@ -1033,7 +1033,7 @@ namespace Exiv2 {
         { 0, N_("Standard") },
         { 1, N_("Low") },
         { 2, N_("Strong") },
-        { 2, N_("off") }
+        { 3, N_("off") }
     };  
 
      // Canon LightingOpt Tag 
@@ -1042,7 +1042,8 @@ namespace Exiv2 {
          TagInfo(0x0002, "AutoLightingOptimizer", N_("Chromatic Aberration Setting"), N_("Chromatic Aberration Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAutoLightingOptimizer)),    
          TagInfo(0x0003, "HighlightTonePriority", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)),         
          TagInfo(0x0004, "LongExposureNoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonLongExposureNoiseReduction)),         
-         TagInfo(0x0005, "HighISONoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHighISONoiseReduction))         
+         TagInfo(0x0005, "HighISONoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHighISONoiseReduction)),         
+         TagInfo(0xffff, "(UnknownLightingOptimizationTag)", "(UnknownLightingOptimizationTag)", N_("UnknownLightingOptimizationTag Selection Tag"), canonLiOpId, makerTags, signedLong, 1, printValue) // important to add end of tag     
     };
         
     const TagInfo* CanonMakerNote::tagListLiOp()

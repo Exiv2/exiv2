@@ -90,6 +90,7 @@ namespace Exiv2 {
         { canonPaId,       "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
         { canonPrId,       "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
         { canonVigCor2Id,  "Makernote", "CanonVigCor2", CanonMakerNote::tagListVigCor2 }, // ToDO
+        { canonLiOpId,       "Makernote", "CanonLiOp",    CanonMakerNote::tagListLiOp }, // ToDO
         { canonAfMiAdjId,  "Makernote", "CanonAfMiAdj", CanonMakerNote::tagListAfMiAdj },
         { canonAmId,       "Makernote", "CanonAm",       CanonMakerNote::tagListAm     }, 
         { canonHdrId,      "Makernote", "CanonHdr",     CanonMakerNote::tagListHdr     }, 
