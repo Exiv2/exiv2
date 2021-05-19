@@ -473,7 +473,6 @@ namespace Exiv2 {
 
     void Converter::cnvNone(const char*, const char*)
     {
-        return;
     }
 
     bool Converter::prepareExifTarget(const char* to, bool force)
@@ -1245,7 +1244,6 @@ namespace Exiv2 {
 
         cnvToXmp();
         writeExifDigest();
-        return;
     }
 
     std::string Converter::computeIptcDigest()
