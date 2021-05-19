@@ -292,33 +292,25 @@ time_t Position::deltaMax_ = 60 ;
 class UserData
 {
 public:
-    explicit UserData(Options& options):
-        indent(0)
-      , count(0)
-      , nTrkpt(0)
-      , bTime(false)
-      , bEle(false)
-      , ele(0.0)
-      , lat(0.0)
-      , lon(0.0)
-      , options_(options)
+    explicit UserData(Options& options)
+        : options_(options)
     {}
     virtual ~UserData() = default;
 
     //  public data members
-    int         indent;
-    size_t      count ;
+    int         indent{0};
+    size_t      count{0};
     Position    now ;
     Position    prev;
-    int         nTrkpt;
-    bool        bTime ;
-    bool        bEle  ;
-    double      ele;
-    double      lat;
-    double      lon;
+    int         nTrkpt{0};
+    bool        bTime{false};
+    bool        bEle{false};
+    double      ele{0.};
+    double      lat{0.};
+    double      lon{0.};
     std::string xmlt;
     std::string exift;
-    time_t      time;
+    time_t      time{0};
     Options&    options_;
 // static public data memembers
 };
