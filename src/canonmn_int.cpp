@@ -637,7 +637,7 @@ namespace Exiv2 {
         TagInfo(0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4019, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
-        TagInfo(0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, signedLong, -1, printValue), 
+        TagInfo(0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4021, "MultiExp", N_("MultiExp"), N_("MultiExp"), canonId, makerTags, signedLong, -1, printValue), 
         TagInfo(0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4025, "HDRInfo", N_("HDRInfo"), N_("HDRInfo"), canonId, makerTags, undefined, -1, printValue), 
@@ -1076,7 +1076,8 @@ namespace Exiv2 {
 
     // Canon Ambience Tag
     const TagInfo CanonMakerNote::tagInfoAm_[] = {
-         TagInfo(0x0001, "AmbienceSelection", N_("Ambience Selection"), N_("Ambience Selection"), canonAmId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAmbienceSelection))         
+         TagInfo(0x0001, "AmbienceSelection", N_("Ambience Selection"), N_("Ambience Selection"), canonAmId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAmbienceSelection)),     
+         TagInfo(0xffff, "(AmbienceSelectionTag)", "(AmbienceSelectionTag)", N_("UAmbience Selection Tag"), canonAmId, makerTags, signedLong, 1, printValue) // important to add end of tag     
     };
         
     const TagInfo* CanonMakerNote::tagListAm()
@@ -1103,7 +1104,7 @@ namespace Exiv2 {
     const TagInfo CanonMakerNote::tagInfoMe_[] = {
          TagInfo(0x0001, "MultiExposure", N_("Multi Exposure"), N_("Multi Exposure"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure)),
          TagInfo(0x0002, "MultiExposureControl", N_("Multi Exposure Control"), N_("Multi Exposure Control"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposureControl)),
-         TagInfo(0x0003, "MultiExposureShots", N_("Multi Exposure Shots"), N_("Multi Exposure Shots"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure))                
+         TagInfo(0x0003, "MultiExposureShots", N_("Multi Exposure Shots"), N_("Multi Exposure Shots"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure))                   
     };
         
     const TagInfo* CanonMakerNote::tagListMe()
@@ -1133,7 +1134,7 @@ namespace Exiv2 {
          TagInfo(0x0404, "MiniatureFilterParameter", N_("Miniature Filter Parameter"), N_("Miniature Filter Parameter"), canonFilId, makerTags, asciiString, -1, printValue),
          TagInfo(0x0501, "FisheyeFilter", N_("Fisheye Filter"), N_("Fisheye Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)),
          TagInfo(0x0601, "PaintingFilter", N_("Painting Filter"), N_("Painting Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)),
-         TagInfo(0x0701, "WatercolorFilter", N_("Watercolor Filter"), N_("Watercolor Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo))
+         TagInfo(0x0701, "WatercolorFilter", N_("Watercolor Filter"), N_("Watercolor Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo))         
     }; 
       
         
@@ -1163,7 +1164,7 @@ namespace Exiv2 {
    const TagInfo CanonMakerNote::tagInfoHdr_[] = {
          TagInfo(0x0001, "HDR", N_("HDR"), N_("HDR"), canonHdrId, makerTags, signedLong, 1, EXV_PRINT_TAG(canonHdr)),
          TagInfo(0x0002, "HDREffect", N_("HDR Effect"), N_("HDR Effect"), canonHdrId, makerTags, signedLong, 1, EXV_PRINT_TAG(canonHdrEffect)),
-         TagInfo(0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), canonHdrId, makerTags, signedLong, 1, printValue)
+         TagInfo(0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), canonHdrId, makerTags, signedLong, 1, printValue) // important to add end of tag 
     };
 
 
