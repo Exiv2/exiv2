@@ -148,7 +148,7 @@ int main(int argc, char* argv[])
         if (rc || bHelp) {
             std::cout << "Usage: taglist [--help]"                     << std::endl
                 << "           [--group name|"                         << std::endl
-                << "            Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|" << std::endl
+                << "            Groups|Exif|Canon|CanonCs|CanonSi|CanonCf|CanonHdr|Fujifilm|Minolta|Nikon1|Nikon2|Nikon3|Olympus|" << std::endl
                 << "            Panasonic|Pentax|Sigma|Sony|Iptc|"                                                        << std::endl
                 << "            dc|xmp|xmpRights|xmpMM|xmpBJ|xmpTPg|xmpDM|pdf|photoshop|crs|tiff|exif|aux|iptc|all|ALL"  << std::endl
                 << "           ]"                                      << std::endl
