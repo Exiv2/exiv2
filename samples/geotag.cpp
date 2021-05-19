@@ -669,8 +669,8 @@ int readFile(const char* path, const Options& /* options */)
             if ( sina(ext,code) )
                 nResult = typeCode;
         }
+        fclose(f);
     }
-    if ( f ) fclose(f) ;
 
     return nResult ;
 }
