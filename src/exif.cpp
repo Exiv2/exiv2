@@ -55,7 +55,9 @@ namespace {
     class FindExifdatumByKey {
     public:
         //! Constructor, initializes the object with the key to look for
-        FindExifdatumByKey(const std::string& key) : key_(key) {}
+        explicit FindExifdatumByKey(const std::string& key) : key_(key)
+        {
+        }
         /*!
           @brief Returns true if the key of \em exifdatum is equal
                  to that of the object.
