@@ -634,7 +634,7 @@ namespace Exiv2 {
         TagInfo(0x4010, "CustomPictureStyleFileName", N_("CustomPictureStyleFileName"), N_("CustomPictureStyleFileName"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4013, "AFMicroAdj", N_("AFMicroAdj"), N_("AFMicroAdj"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4015, "VignettingCorr", N_("VignettingCorr"), N_("VignettingCorr"), canonId, makerTags, unsignedShort, -1, printValue), 
-        TagInfo(0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, unsignedShort, -1, printValue), 
+        TagInfo(0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4019, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, undefined, -1, printValue), 
@@ -1005,7 +1005,8 @@ namespace Exiv2 {
     const TagInfo CanonMakerNote::tagInfoVigCor2_[] = {
          TagInfo(0x0005, "PeripheralLightingSetting", N_("Peripheral Lighting Setting"), N_("Peripheral Lighting Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)),
          TagInfo(0x0006, "ChromaticAberrationSetting", N_("Chromatic Aberration Setting"), N_("Chromatic Aberration Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)),    
-         TagInfo(0x0007, "DistortionCorrectionSetting", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn))         
+         TagInfo(0x0007, "DistortionCorrectionSetting", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)),         
+         TagInfo(0xffff, "(UnknownVignettingCorr2Tag)", "(UnknownVignettingCorr2Tag)", N_("UnknownVignettingCorr2Tag  Tag"), canonVigCor2Id, makerTags, signedLong, 1, printValue) // important to add end of tag     
     };
         
     const TagInfo* CanonMakerNote::tagListVigCor2()
@@ -1043,7 +1044,7 @@ namespace Exiv2 {
          TagInfo(0x0003, "HighlightTonePriority", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)),         
          TagInfo(0x0004, "LongExposureNoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonLongExposureNoiseReduction)),         
          TagInfo(0x0005, "HighISONoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHighISONoiseReduction)),         
-         TagInfo(0xffff, "(UnknownLightingOptimizationTag)", "(UnknownLightingOptimizationTag)", N_("UnknownLightingOptimizationTag Selection Tag"), canonLiOpId, makerTags, signedLong, 1, printValue) // important to add end of tag     
+         TagInfo(0xffff, "(UnknownLightingOptimizationTag)", "(UnknownLightingOptimizationTag)", N_("UnknownLightingOptimizationTag"), canonLiOpId, makerTags, signedLong, 1, printValue) // important to add end of tag     
     };
         
     const TagInfo* CanonMakerNote::tagListLiOp()
