@@ -1069,6 +1069,7 @@ namespace Exiv2 {
     // Canon Ambience Tag
     constexpr TagInfo CanonMakerNote::tagInfoAm_[] = {
          {0x0001, "AmbienceSelection", N_("Ambience Selection"), N_("Ambience Selection"), canonAmId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAmbienceSelection)},
+         (0xffff, "(AmbienceSelectionTag)", "(AmbienceSelectionTag)", N_("UAmbience Selection Tag"), canonAmId, makerTags, signedLong, 1, printValue) // important to add end of tag     
     };
 
     const TagInfo* CanonMakerNote::tagListAm()
