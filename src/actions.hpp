@@ -112,6 +112,10 @@ namespace Action {
           this method.
         */
         static TaskFactory& instance();
+
+        //! Prevent copy construction: not implemented.
+        TaskFactory(const TaskFactory& rhs) = delete;
+
         //! Destructor
         void cleanup();
 
@@ -144,8 +148,6 @@ namespace Action {
     private:
         //! Prevent construction other than through instance().
         TaskFactory();
-        //! Prevent copy construction: not implemented.
-        TaskFactory(const TaskFactory& rhs);
 
         //! Pointer to the one and only instance of this class.
         static TaskFactory* instance_;
