@@ -645,12 +645,14 @@ namespace Exiv2 {
         UNUSED(rootDirectory);
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
-        if (!pRootDir_) pRootDir_ = new CiffDirectory;
-        if ( pRootDir_) {
-            CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
-            if ( child )   child->setValue(buf);
+        if (!pRootDir_) {
+            pRootDir_ = new CiffDirectory;
         }
-    } // CiffHeader::add
+        CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
+        if (child) {
+            child->setValue(buf);
+        }
+    }  // CiffHeader::add
 
     CiffComponent* CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId)
     {
