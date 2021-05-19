@@ -173,10 +173,10 @@ namespace Exiv2 {
      */
     class EXIV2API AnyError : public std::exception {
     public:
-        AnyError();
-        AnyError(const AnyError& o);
+        AnyError() = default;
+        AnyError(const AnyError& o) = default;
 
-        virtual ~AnyError() throw();
+        virtual ~AnyError() throw() = default;
         ///@brief  Return the error code.
         virtual int code() const throw() =0;
     };
