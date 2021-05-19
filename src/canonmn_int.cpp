@@ -966,6 +966,7 @@ namespace Exiv2 {
     constexpr TagInfo CanonMakerNote::tagInfoAfMiAdj_[] = {
          {0x0001, "AFMicroAdjMode", N_("AFMicroAdjMode"), N_("AFMicroAdjMode"), canonAfMiAdjId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFMicroAdjMode)},
          {0x0002, "AFMicroAdjValue", N_("AF Micro Adj Value"), N_("AF Micro Adj Value"), canonAfMiAdjId, makerTags, signedRational, -1, printValue},
+         (0xffff, "(UnknownCanonAFMicroAdjTag)", "(UnknownCanonAFMicroAdjTag)", N_("Unknown Canon AFMicroAdj tag"), canonAfMiAdjId, makerTags, signedShort, 1, printValue)    
     };
 
     const TagInfo* CanonMakerNote::tagListAfMiAdj()
