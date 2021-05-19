@@ -1533,16 +1533,15 @@ namespace Exiv2 {
             }
 
             std::string data = orgPath.substr(base64Pos+7);
-            auto decodeData = new char[data.length()];
-            long size = base64decode(data.c_str(), decodeData, data.length());
+            std::vector<char> decodeData (data.length());
+            long size = base64decode(data.c_str(), decodeData.data(), data.length());
             if (size > 0) {
-                fs.write(decodeData, size);
+                fs.write(decodeData.data(), size);
                 fs.close();
             } else {
                 fs.close();
                 throw Error(kerErrorMessage, "Unable to decode base 64.");
             }
-            delete[] decodeData;
         }
 
         return path;
