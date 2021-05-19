@@ -1456,13 +1456,14 @@ namespace Exiv2 {
     const std::string XPathIo::TEMP_FILE_EXT = ".exiv2_temp";
     const std::string XPathIo::GEN_FILE_EXT  = ".exiv2";
 
-    XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)) {
-        isTemp_ = true;
+    XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), isTemp_(true)
+    {
         tempFilePath_ = path();
     }
 
 #ifdef EXV_UNICODE_PATH
-    XPathIo::XPathIo(const std::wstring& wOrgPathpath) : FileIo(XPathIo::writeDataToFile(wOrgPathpath)) {
+    XPathIo::XPathIo(const std::wstring& wOrgPathpath) : FileIo(XPathIo::writeDataToFile(wOrgPathpath)), isTemp_(true)
+    {
         isTemp_ = true;
         tempFilePath_ = path();
     }
@@ -2222,10 +2223,8 @@ namespace Exiv2 {
         long timeout_; //!< The number of seconds to wait while trying to connect.
     }; // class RemoteIo::Impl
 
-    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
+    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init())
     {
-        // init curl pointer
-        curl_ = curl_easy_init();
         if(!curl_) {
             throw Error(kerErrorMessage, "Uable to init libcurl.");
         }

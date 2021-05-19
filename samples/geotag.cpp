@@ -98,23 +98,14 @@ char* realpath(const char* file,char* path)
 // Command-line parser
 class Options  {
 public:
-    bool        verbose;
-    bool        help;
-    bool        version;
-    bool        dst;
-    bool        dryrun;
-    bool        ascii;
+    bool        verbose{false};
+    bool        help{false};
+    bool        version{false};
+    bool        dst{false};
+    bool        dryrun{false};
+    bool        ascii{false};
 
-    Options()
-    {
-        verbose     = false;
-        help        = false;
-        version     = false;
-        dst         = false;
-        dryrun      = false;
-        ascii       = false;
-    }
-
+    Options() = default;
     virtual ~Options() = default;
 } ;
 

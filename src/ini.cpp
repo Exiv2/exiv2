@@ -228,9 +228,8 @@ int Exiv2::ini_parse(const char* filename, ini_handler handler, void* user)
     return error;
 }
 
-INIReader::INIReader(const std::string &filename)
+INIReader::INIReader(const std::string& filename) : _error(ini_parse(filename.c_str(), ValueHandler, this))
 {
-    _error = ini_parse(filename.c_str(), ValueHandler, this);
 }
 
 int INIReader::ParseError() const
