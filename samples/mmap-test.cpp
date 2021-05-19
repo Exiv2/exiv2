@@ -47,7 +47,7 @@ try {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    long size = (long)file.size();
+    long size = static_cast<long>(file.size());
     DataBuf buf(size);
     // Read from the memory mapped region
     memcpy(buf.pData_, pData, buf.size_);

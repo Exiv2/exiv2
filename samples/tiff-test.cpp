@@ -84,7 +84,7 @@ void mini1(const char* path)
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
     std::cout << "Test 3: Wrote non-empty Exif data without original binary data:\n";
     exifData.clear();
-    ByteOrder bo = ExifParser::decode(exifData, &blob[0], (uint32_t) blob.size());
+    ByteOrder bo = ExifParser::decode(exifData, &blob[0], static_cast<uint32_t>(blob.size()));
     enforce(bo == bigEndian, Exiv2::kerErrorMessage, "decode returned an unexpected value");
     print(exifData);
 }

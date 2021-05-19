@@ -63,7 +63,7 @@ https://github.com/benhoyt/inih
 static char* rstrip(char* s)
 {
     char* p = s + strlen(s);
-    while (p > s && isspace((unsigned char)(*--p)))
+    while (p > s && isspace(static_cast<unsigned char>(*--p)))
         *p = '\0';
     return s;
 }
@@ -71,9 +71,9 @@ static char* rstrip(char* s)
 /* Return pointer to first non-whitespace char in given string. */
 static char* lskip(const char* s)
 {
-    while (*s && isspace((unsigned char)(*s)))
+    while (*s && isspace(static_cast<unsigned char>(*s)))
         s++;
-    return (char*)s;
+    return const_cast<char*>(s);
 }
 
 /* Return pointer to first char (of chars) or inline comment in given string,
@@ -85,7 +85,7 @@ static char* find_chars_or_comment(const char* s, const char* chars)
     int was_space = 0;
     while (*s && (!chars || !strchr(chars, *s)) &&
            !(was_space && strchr(INI_INLINE_COMMENT_PREFIXES, *s))) {
-        was_space = isspace((unsigned char)(*s));
+        was_space = isspace(static_cast<unsigned char>(*s));
         s++;
     }
 #else
@@ -93,7 +93,7 @@ static char* find_chars_or_comment(const char* s, const char* chars)
         s++;
     }
 #endif
-    return (char*)s;
+    return const_cast<char*>(s);
 }
 
 /* Version of strncpy that ensures dest (size bytes) is null-terminated. */
@@ -137,9 +137,8 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
 
         start = line;
 #if INI_ALLOW_BOM
-        if (lineno == 1 && (unsigned char)start[0] == 0xEF &&
-                           (unsigned char)start[1] == 0xBB &&
-                           (unsigned char)start[2] == 0xBF) {
+        if (lineno == 1 && static_cast<unsigned char>(start[0]) == 0xEF &&
+            static_cast<unsigned char>(start[1]) == 0xBB && static_cast<unsigned char>(start[2]) == 0xBF) {
             start += 3;
         }
 #endif
@@ -211,7 +210,7 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
 /* See documentation in header file. */
 int Exiv2::ini_parse_file(FILE* file, ini_handler handler, void* user)
 {
-    return Exiv2::ini_parse_stream((ini_reader)fgets, file, handler, user);
+    return Exiv2::ini_parse_stream(reinterpret_cast<ini_reader>(fgets), file, handler, user);
 }
 
 /* See documentation in header file. */
@@ -285,7 +284,7 @@ string INIReader::MakeKey(const string& section, const string& name)
 int INIReader::ValueHandler(void* user, const char* section, const char* name,
                             const char* value)
 {
-    auto reader = (INIReader*)user;
+    auto reader = static_cast<INIReader*>(user);
     string key = MakeKey(section, name);
     if (!reader->_values[key].empty())
         reader->_values[key] += "\n";

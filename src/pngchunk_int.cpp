@@ -68,8 +68,8 @@ namespace Exiv2 {
 
         // Extract image width and height from IHDR chunk.
 
-        *outWidth  = getLong((const byte*)data.pData_,     bigEndian);
-        *outHeight = getLong((const byte*)data.pData_ + 4, bigEndian);
+        *outWidth = getLong(data.pData_, bigEndian);
+        *outHeight = getLong(data.pData_ + 4, bigEndian);
 
     } // PngChunk::decodeIHDRChunk
 
@@ -82,7 +82,7 @@ namespace Exiv2 {
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
-                  << std::string((const char*)arr.pData_, arr.size_) << std::endl;
+                  << std::string(reinterpret_cast<const char*>(arr.pData_), arr.size_) << std::endl;
 #endif
         parseChunkContent(pImage, key.pData_, key.size_, arr);
 
@@ -95,7 +95,7 @@ namespace Exiv2 {
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
-                  << std::string((const char*)key.pData_, key.size_) << std::endl;
+                  << std::string(reinterpret_cast<const char*>(key.pData_), key.size_) << std::endl;
 #endif
         return parseTXTChunk(data, key.size_, type);
 
@@ -182,17 +182,17 @@ namespace Exiv2 {
 
             // language description string after the compression technique spec
             const size_t languageTextMaxSize = data.size_ - keysize - 3;
-            std::string languageText =
-                string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3)), languageTextMaxSize);
+            std::string languageText = string_from_unterminated(
+                reinterpret_cast<const char*>(data.pData_ + Safe::add(keysize, 3)), languageTextMaxSize);
             const size_t languageTextSize = languageText.size();
 
             enforce(static_cast<unsigned long>(data.size_) >=
                     Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
                     Exiv2::kerCorruptedMetadata);
             // translated keyword string after the language description
-            std::string translatedKeyText =
-                string_from_unterminated((const char*)(data.pData_ + keysize + 3 + languageTextSize + 1),
-                                         data.size_ - (keysize + 3 + languageTextSize + 1));
+            std::string translatedKeyText = string_from_unterminated(
+                reinterpret_cast<const char*>(data.pData_ + keysize + 3 + languageTextSize + 1),
+                data.size_ - (keysize + 3 + languageTextSize + 1));
             const auto translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
             if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
@@ -259,8 +259,7 @@ namespace Exiv2 {
                 const byte exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 long pos = -1;
 
-                for (long i=0 ; i < length-(long)sizeof(exifHeader) ; i++)
-                {
+                for (long i = 0; i < length - static_cast<long>(sizeof(exifHeader)); i++) {
                     if (memcmp(exifHeader, &exifData.pData_[i], sizeof(exifHeader)) == 0)
                     {
                         pos = i;
@@ -491,9 +490,8 @@ namespace Exiv2 {
         DataBuf arr;
         do {
             arr.alloc(compressedLen);
-            zlibResult = compress2(arr.pData_, &compressedLen,
-                                   (const Bytef*)text.data(), static_cast<uLong>(text.size()),
-                                   Z_BEST_COMPRESSION);
+            zlibResult = compress2(arr.pData_, &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
+                                   static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
 
             switch (zlibResult) {
             case Z_OK:
@@ -515,7 +513,7 @@ namespace Exiv2 {
             }
         } while (zlibResult == Z_BUF_ERROR);
 
-        return std::string((const char*)arr.pData_, arr.size_);
+        return std::string(reinterpret_cast<const char*>(arr.pData_), arr.size_);
 
     } // PngChunk::zlibCompress
 
@@ -550,11 +548,12 @@ namespace Exiv2 {
         // Calculate CRC on chunk type and chunk data
         std::string crcData = chunkType + chunkData;
         uLong tmp = crc32(0L, Z_NULL, 0);
-        tmp       = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
+        tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
         byte crc[4];
         ul2Data(crc, tmp, bigEndian);
         // Assemble the chunk
-        return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
+        return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
+               std::string(reinterpret_cast<const char*>(crc), 4);
 
     } // PngChunk::makeAsciiTxtChunk
 
@@ -587,11 +586,12 @@ namespace Exiv2 {
         std::string chunkType = "iTXt";
         std::string crcData = chunkType + chunkData;
         uLong tmp = crc32(0L, Z_NULL, 0);
-        tmp       = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
+        tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
         byte crc[4];
         ul2Data(crc, tmp, bigEndian);
         // Assemble the chunk
-        return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
+        return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
+               std::string(reinterpret_cast<const char*>(crc), 4);
 
     } // PngChunk::makeUtf8TxtChunk
 
@@ -614,8 +614,8 @@ namespace Exiv2 {
             return  info;
         }
 
-        const char *sp  = (char*) text.pData_+1;          // current byte (space pointer)
-        const char *eot = (char*) text.pData_+text.size_; // end of text
+        const char* sp = reinterpret_cast<char*>(text.pData_) + 1;            // current byte (space pointer)
+        const char* eot = reinterpret_cast<char*>(text.pData_) + text.size_;  // end of text
 
         if (sp >= eot) {
             return DataBuf();
@@ -690,8 +690,7 @@ namespace Exiv2 {
         unsigned char *dp = info.pData_; // decode pointer
         unsigned int nibbles = length * 2;
 
-        for (long i = 0; i < (long) nibbles; i++)
-        {
+        for (long i = 0; i < static_cast<long>(nibbles); i++) {
             enforce(sp < eot, Exiv2::kerCorruptedMetadata);
             while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f')
             {
@@ -708,9 +707,9 @@ namespace Exiv2 {
             }
 
             if (i%2 == 0)
-                *dp = (unsigned char) (16*unhex[(int) *sp++]);
+                *dp = static_cast<unsigned char>(16 * unhex[static_cast<int>(*sp++)]);
             else
-                (*dp++) += unhex[(int) *sp++];
+                (*dp++) += unhex[static_cast<int>(*sp++)];
         }
 
         return info;

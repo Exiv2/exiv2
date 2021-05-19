@@ -111,7 +111,7 @@ namespace Exiv2
 
     std::string BmffImage::toAscii(long n)
     {
-        const auto p = (const char*)&n;
+        const auto p = reinterpret_cast<const char*>(&n);
         std::string result;
         for (int i = 0; i < 4; i++) {
             char c = p[isBigEndianPlatform() ? i : (3 - i)];
@@ -189,8 +189,8 @@ namespace Exiv2
 
     long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
     {
-        long result  = (long)io_->size();
-        long address = (long)io_->tell();
+        long result = static_cast<long>(io_->size());
+        long address = io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
@@ -204,11 +204,11 @@ namespace Exiv2
 #endif
 
         BmffBoxHeader box = {0, 0};
-        if (io_->read((byte*)&box, sizeof(box)) != sizeof(box))
+        if (io_->read(reinterpret_cast<byte*>(&box), sizeof(box)) != sizeof(box))
             return result;
 
-        box.length = getLong((byte*)&box.length, endian_);
-        box.type = getLong((byte*)&box.type, endian_);
+        box.length = getLong(reinterpret_cast<byte*>(&box.length), endian_);
+        box.type = getLong(reinterpret_cast<byte*>(&box.type), endian_);
         bool bLF = true;
 
         if ( bTrace ) {
@@ -224,13 +224,13 @@ namespace Exiv2
             // Check that `sz` is safe to cast to `long`.
             enforce(sz <= static_cast<uint64_t>(std::numeric_limits<long>::max()),
                     Exiv2::kerCorruptedMetadata);
-            result = (long) sz;
+            result = static_cast<long>(sz);
             // sanity check
-            if (result < 8 || result > (long)io_->size() - address) {
-                result = (long)io_->size();
+            if (result < 8 || result > static_cast<long>(io_->size()) - address) {
+                result = static_cast<long>(io_->size());
                 box.length = result;
             } else {
-                box.length = (long) (io_->size() - address);
+                box.length = static_cast<long>(io_->size() - address);
             }
         }
 
@@ -248,7 +248,7 @@ namespace Exiv2
         if (fullBox(box.type)) {
             enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = getLong(data.pData_ + skip, endian_);  // version/flags
-            version = (int8_t)flags >> 24;
+            version = static_cast<int8_t>(flags) >> 24;
             version &= 0x00ffffff;
             skip += 4;
         }
@@ -288,7 +288,7 @@ namespace Exiv2
                 /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
                 // Check that the string has a '\0' terminator.
-                const char* str = (const char*)data.pData_ + skip;
+                const char* str = reinterpret_cast<const char*>(data.pData_) + skip;
                 const auto maxlen = static_cast<size_t>(data.size_ - skip);
                 enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
@@ -408,12 +408,14 @@ namespace Exiv2
 
             // 12.1.5.2
             case TAG_colr: {
-                if ( data.size_ >= (long) (skip+4+sizeof(box)) ) { // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
+                if (data.size_ >=
+                    static_cast<long>(skip + 4 +
+                                      sizeof(box))) {  // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
                     // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
                     uint8_t      meth        = data.pData_[skip+0];
                     uint8_t      prec        = data.pData_[skip+1];
                     uint8_t      approx      = data.pData_[skip+2];
-                    std::string  colour_type = std::string((char*)data.pData_,4) ;
+                    std::string colour_type = std::string(reinterpret_cast<char*>(data.pData_), 4);
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
                         DataBuf       profile(data.pData_+skip,data.size_-skip);
@@ -527,7 +529,7 @@ namespace Exiv2
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
             try {
-                Exiv2::XmpParser::decode(xmpData(),std::string((char*)xmp.pData_));
+                Exiv2::XmpParser::decode(xmpData(), std::string(reinterpret_cast<char*>(xmp.pData_)));
             } catch (...) {
                 throw Error(kerFailedToReadImageData);
             }
@@ -567,7 +569,7 @@ namespace Exiv2
         exifID_    = unknownID_;
 
         long address = 0;
-        while (address < (long)io_->size()) {
+        while (address < static_cast<long>(io_->size())) {
             io_->seek(address, BasicIo::beg);
             address = boxHandler(std::cout,kpsNone);
         }
@@ -582,7 +584,7 @@ namespace Exiv2
             default: break; // do nothing
 
             case kpsIccProfile : {
-                out.write((const char*)iccProfile_.pData_,iccProfile_.size_);
+                out.write(reinterpret_cast<const char*>(iccProfile_.pData_), iccProfile_.size_);
             } break;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -600,7 +602,7 @@ namespace Exiv2
                 IoCloser closer(*io_);
 
                 long   address = 0;
-                while (address < (long)io_->size()) {
+                while (address < static_cast<long>(io_->size())) {
                     io_->seek(address, BasicIo::beg);
                     address = boxHandler(out,option,depth);
                 }

@@ -1206,7 +1206,7 @@ namespace Exiv2 {
     {
         long result = -1;
         if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
-            result = (long) metadata->findKey(ExifKey(key))->toFloat(0);
+            result = static_cast<long>(metadata->findKey(ExifKey(key))->toFloat(0));
         }
         return result;
     }

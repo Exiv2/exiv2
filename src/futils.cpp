@@ -150,13 +150,13 @@ namespace Exiv2 {
                                 '4', '5', '6', '7', '8', '9', '+', '/'};
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        auto encoding_table = (char*)base64_encode;
+        auto encoding_table = base64_encode;
         size_t mod_table[]  = {0, 2, 1};
 
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
         if (  rc ) {
-            const auto data = (const unsigned char*)data_buf;
+            const auto data = static_cast<const unsigned char*>(data_buf);
             for (size_t i = 0, j = 0 ; i < dataLength;) {
 
                 uint32_t octet_a = i < dataLength ? data[i++] : 0 ;
@@ -183,13 +183,13 @@ namespace Exiv2 {
         size_t input_length = in ? ::strlen(in) : 0;
         if (!in || input_length % 4 != 0) return result;
 
-        auto encoding_table = (unsigned char*)base64_encode;
+        auto encoding_table = reinterpret_cast<unsigned char*>(base64_encode);
         unsigned char decoding_table[256];
         for (unsigned char i = 0; i < 64; i++)
             decoding_table[encoding_table[i]] = i;
 
         size_t output_length = input_length / 4 * 3;
-        const auto buff = (const unsigned char*)in;
+        const auto buff = reinterpret_cast<const unsigned char*>(in);
 
         if (buff[input_length - 1] == '=') (output_length)--;
         if (buff[input_length - 2] == '=') (output_length)--;
@@ -212,7 +212,7 @@ namespace Exiv2 {
                 if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
             out[output_length]=0;
-            result = (long) output_length;
+            result = static_cast<long>(output_length);
         }
         
         return result;

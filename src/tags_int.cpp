@@ -2643,7 +2643,7 @@ namespace Exiv2 {
                     return os << "(" << value << ")";
                 }
             }
-            const float ss = (float)sec.first / sec.second;
+            const float ss = static_cast<float>(sec.first) / sec.second;
             os << dd << " deg ";
             os << mm << "' ";
             std::ostringstream oss;
@@ -2676,7 +2676,7 @@ namespace Exiv2 {
                 }
             }
 
-            std::string str((const char*)buf.pData_, buf.size_);
+            std::string str(reinterpret_cast<const char*>(buf.pData_), buf.size_);
             cnv = convertStringCharset(str, "UCS-2LE", "UTF-8");
             if (cnv) os << str;
         }
@@ -2934,7 +2934,7 @@ namespace Exiv2 {
     {
         Rational bias = value.toRational();
 
-        if (bias.first == 0 || bias.first == (int32_t)0x80000000 ) {
+        if (bias.first == 0 || bias.first == static_cast<int32_t>(0x80000000)) {
             os << "0 EV";
         } else if (bias.second <= 0) {
             os << "(" << bias.first << "/" << bias.second << ")";
@@ -2964,9 +2964,7 @@ namespace Exiv2 {
         else if (distance.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(2)
-               << (float)distance.first / distance.second
-               << " m";
+            os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
             os.copyfmt(oss);
         }
         else {
@@ -3006,9 +3004,7 @@ namespace Exiv2 {
         if (length.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)length.first / length.second
-               << " mm";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(length.first) / length.second << " mm";
             os.copyfmt(oss);
         }
         else {
@@ -3112,8 +3108,7 @@ namespace Exiv2 {
         else {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second;
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second;
             os.copyfmt(oss);
         }
         os.flags(f);

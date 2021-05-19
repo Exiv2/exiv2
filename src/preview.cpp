@@ -408,7 +408,7 @@ namespace {
 
     PreviewId Loader::getNumLoaders()
     {
-        return (PreviewId)EXV_COUNTOF(loaderList_);
+        return static_cast<PreviewId> EXV_COUNTOF(loaderList_);
     }
 
     LoaderNative::LoaderNative(PreviewId id, const Image &image, int parIdx)
@@ -465,7 +465,7 @@ namespace {
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
-        if ((long)io.size() < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
+        if (static_cast<long>(io.size()) < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
@@ -827,7 +827,7 @@ namespace {
         IptcData emptyIptc;
         XmpData  emptyXmp;
         TiffParser::encode(mio, 0, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-        return DataBuf(mio.mmap(), (long) mio.size());
+        return DataBuf(mio.mmap(), static_cast<long>(mio.size()));
     }
 
     LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
@@ -932,12 +932,13 @@ namespace {
         std::array<unsigned long, 256> decodeBase64Table;
         decodeBase64Table.fill(invalid);
         for (unsigned long i = 0; i < 64; i++)
-            decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
+            decodeBase64Table[static_cast<unsigned char>(encodeBase64Table[i])] = i;
 
         // calculate dest size
         unsigned long validSrcSize = 0;
         for (unsigned long srcPos = 0; srcPos < srcSize; srcPos++) {
-            if (decodeBase64Table[(unsigned char)src[srcPos]] != invalid) validSrcSize++;
+            if (decodeBase64Table[static_cast<unsigned char>(src[srcPos])] != invalid)
+                validSrcSize++;
         }
         if (validSrcSize > ULONG_MAX / 3) return DataBuf(); // avoid integer overflow
         const unsigned long destSize = (validSrcSize * 3) / 4;
@@ -950,7 +951,7 @@ namespace {
         for (unsigned long srcPos = 0, destPos = 0; destPos < destSize;) {
             unsigned long buffer = 0;
             for (int bufferPos = 3; bufferPos >= 0 && srcPos < srcSize; srcPos++) {
-                unsigned long srcValue = decodeBase64Table[(unsigned char)src[srcPos]];
+                unsigned long srcValue = decodeBase64Table[static_cast<unsigned char>(src[srcPos])];
                 if (srcValue == invalid) continue;
                 buffer |= srcValue << (bufferPos * 6);
                 bufferPos--;
