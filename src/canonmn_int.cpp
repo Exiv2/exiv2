@@ -1155,6 +1155,7 @@ namespace Exiv2 {
    constexpr TagInfo CanonMakerNote::tagInfoHdr_[] = {
          {0x0001, "HDR", N_("HDR"), N_("HDR"), canonHdrId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHdr)},
          {0x0002, "HDREffect", N_("HDR Effect"), N_("HDR Effect"), canonHdrId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHdrEffect)},
+         (0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), canonHdrId, makerTags, signedLong, 1, printValue)
     };
 
 
