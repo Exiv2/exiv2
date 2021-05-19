@@ -68,10 +68,11 @@ namespace Exiv2 {
     using namespace Internal;
 
     TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/)
-        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)),
-          pixelWidth_(0), pixelHeight_(0)
+        : Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io))
+        , pixelWidthPrimary_(0)
+        , pixelHeightPrimary_(0)
     {
-    } // TiffImage::TiffImage
+    }  // TiffImage::TiffImage
 
     //! Structure for TIFF compression to MIME type mappings
     struct MimeTypeList {
@@ -135,26 +136,30 @@ namespace Exiv2 {
 
     int TiffImage::pixelWidth() const
     {
-        if (pixelWidth_ != 0) return pixelWidth_;
+        if (pixelWidthPrimary_ != 0) {
+            return pixelWidthPrimary_;
+        }
 
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageWidth"));
         auto imageWidth = exifData_.findKey(key);
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            pixelWidth_ = static_cast<int>(imageWidth->toLong());
+            pixelWidthPrimary_ = static_cast<int>(imageWidth->toLong());
         }
-        return pixelWidth_;
+        return pixelWidthPrimary_;
     }
 
     int TiffImage::pixelHeight() const
     {
-        if (pixelHeight_ != 0) return pixelHeight_;
+        if (pixelHeightPrimary_ != 0) {
+            return pixelHeightPrimary_;
+        }
 
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageLength"));
         auto imageHeight = exifData_.findKey(key);
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            pixelHeight_ = imageHeight->toLong();
+            pixelHeightPrimary_ = imageHeight->toLong();
         }
-        return pixelHeight_;
+        return pixelHeightPrimary_;
     }
 
     void TiffImage::setComment(const std::string& /*comment*/)
