@@ -636,10 +636,10 @@ namespace Exiv2 {
         TagInfo(0x4015, "VignettingCorr", N_("VignettingCorr"), N_("VignettingCorr"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, undefined, -1, printValue), 
-        TagInfo(0x4019, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
+        TagInfo(0x4019, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4021, "MultiExp", N_("MultiExp"), N_("MultiExp"), canonId, makerTags, undefined, -1, printValue), 
-        TagInfo(0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, unsignedShort, -1, printValue), 
+        TagInfo(0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4025, "HDRInfo", N_("HDRInfo"), N_("HDRInfo"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4028, "AFConfig", N_("AFConfig"), N_("AFConfig"), canonId, makerTags, signedLong, -1, printValue), 
         TagInfo(0x403f, "RawBurstModeRoll", N_("RawBurstModeRoll"), N_("RawBurstModeRoll"), canonId, makerTags, unsignedLong, -1, printValue), 
@@ -1054,7 +1054,8 @@ namespace Exiv2 {
 
     // Canon LensInfo Tag
     const TagInfo CanonMakerNote::tagInfoLe_[] = {
-         TagInfo(0x0000, "LensSerialNumber", N_("Lens Seria lNumber"), N_("Lens Serial Number"), canonLeId, makerTags, asciiString, -1, printValue)         
+         TagInfo(0x0000, "LensSerialNumber", N_("Lens Seria lNumber"), N_("Lens Serial Number"), canonLeId, makerTags, asciiString, -1, printValue),    
+         TagInfo(0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), canonLeId, makerTags, undefined, 1, printValue) // important to add end of tag          
     };
         
     const TagInfo* CanonMakerNote::tagListLe()
@@ -1138,7 +1139,8 @@ namespace Exiv2 {
          TagInfo(0x0404, "MiniatureFilterParameter", N_("Miniature Filter Parameter"), N_("Miniature Filter Parameter"), canonFilId, makerTags, asciiString, -1, printValue),
          TagInfo(0x0501, "FisheyeFilter", N_("Fisheye Filter"), N_("Fisheye Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)),
          TagInfo(0x0601, "PaintingFilter", N_("Painting Filter"), N_("Painting Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)),
-         TagInfo(0x0701, "WatercolorFilter", N_("Watercolor Filter"), N_("Watercolor Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo))         
+         TagInfo(0x0701, "WatercolorFilter", N_("Watercolor Filter"), N_("Watercolor Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)),
+         TagInfo(0xffff, "(UnknownFilterTag)", "(UnknownFilterTag)", N_("UnknownFilterTag"), canonFilId, makerTags, signedLong, 1, printValue) // important to add end of tag                    
     }; 
       
         
