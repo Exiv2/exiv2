@@ -518,10 +518,8 @@ namespace {
         return true;
     }
 
-    LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
-        : Loader(id, image)
+    LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx) : Loader(id, image), offset_(0)
     {
-        offset_ = 0;
         const ExifData &exifData = image_.exifData();
         auto pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
         if (pos != exifData.end() && pos->count() > 0) {
@@ -1031,10 +1029,9 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-    PreviewImage::PreviewImage(PreviewProperties properties, DataBuf data) : properties_(std::move(properties))
+    PreviewImage::PreviewImage(PreviewProperties properties, DataBuf data)
+        : properties_(std::move(properties)), pData_(data.pData_), size_(data.size_)
     {
-        pData_ = data.pData_;
-        size_ = data.size_;
         std::pair<byte*, long> ret = data.release();
         UNUSED(ret);
     }
@@ -1044,12 +1041,10 @@ namespace Exiv2 {
         delete[] pData_;
     }
 
-    PreviewImage::PreviewImage(const PreviewImage& rhs)
+    PreviewImage::PreviewImage(const PreviewImage &rhs)
+        : properties_(rhs.properties_), pData_(new byte[rhs.size_]), size_(rhs.size_)
     {
-        properties_ = rhs.properties_;
-        pData_ = new byte[rhs.size_];
         memcpy(pData_, rhs.pData_, rhs.size_);
-        size_ = rhs.size_;
     }
 
     PreviewImage& PreviewImage::operator=(const PreviewImage& rhs)

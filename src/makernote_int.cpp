@@ -422,12 +422,10 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    Nikon3MnHeader::Nikon3MnHeader()
+    Nikon3MnHeader::Nikon3MnHeader() : byteOrder_(invalidByteOrder), start_(sizeOfSignature())
     {
         buf_.alloc(sizeOfSignature());
         std::memcpy(buf_.pData_, signature_, buf_.size_);
-        byteOrder_ = invalidByteOrder;
-        start_ = sizeOfSignature();
     }
 
     uint32_t Nikon3MnHeader::size() const

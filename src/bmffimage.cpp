@@ -101,12 +101,12 @@ namespace Exiv2
     }
 
     BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */)
-    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io))
-    , endian_(Exiv2::bigEndian)
+        : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io)),
+          endian_(Exiv2::bigEndian),
+          bReadMetadata_(false)
     {
         pixelWidth_    = 0;
         pixelHeight_   = 0;
-        bReadMetadata_ = false;
     }  // BmffImage::BmffImage
 
     std::string BmffImage::toAscii(long n)
