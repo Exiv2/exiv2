@@ -1046,11 +1046,8 @@ namespace Jzon
 							error = "A name has to be a string";
 							return false;
 						}
-						else
-						{
-							name = data.front().second;
-							data.pop();
-						}
+						name = data.front().second;
+						data.pop();
 					}
 					else
 					{
