@@ -1299,6 +1299,7 @@ namespace Exiv2 {
          {0x0011, "VFDisplayIllumination", N_("VF Display Illumination"), N_("VF Display Illumination"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAVFDisplayIllumination)},
          {0x0012, "AFStatusViewfinder", N_("AF Status Viewfinder"), N_("AF Status Viewfinder"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFStatusViewfinder)},
          {0x0013, "InitialAFPointInServo", N_("Initial AF Point In Servo"), N_("Initial AF Point In Servo"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonInitialAFPointInServo)},
+         (0xffff, "(UnknownCanonAFTag)", "(UnknownCanonAFTag)", N_("UnknownCanonAFTag"), canonAfCId, makerTags, signedLong, 1, printValue) // important to add end of tag              
     };
 
     const TagInfo* CanonMakerNote::tagListAfC()
