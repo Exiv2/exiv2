@@ -632,7 +632,7 @@ namespace Exiv2 {
         TagInfo(0x4008, "PictureStyleUserDef", N_("PictureStyleUserDef"), N_("PictureStyleUserDef"), canonId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(canonPictureStyle)), 
         // TagInfo(0x4009, "PictureStylePC", N_("PictureStylePC"), N_("PictureStylePC"), canonId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(canonPictureStyle)), 
         TagInfo(0x4010, "CustomPictureStyleFileName", N_("CustomPictureStyleFileName"), N_("CustomPictureStyleFileName"), canonId, makerTags, unsignedShort, -1, printValue), 
-        TagInfo(0x4013, "AFMicroAdj", N_("AFMicroAdj"), N_("AFMicroAdj"), canonId, makerTags, unsignedShort, -1, printValue), 
+        TagInfo(0x4013, "AFMicroAdj", N_("AFMicroAdj"), N_("AFMicroAdj"), canonId, makerTags, undefined, -1, printValue), 
         TagInfo(0x4015, "VignettingCorr", N_("VignettingCorr"), N_("VignettingCorr"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, unsignedShort, -1, printValue), 
         TagInfo(0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, unsignedShort, -1, printValue), 
@@ -973,7 +973,8 @@ namespace Exiv2 {
      // Canon AFMicroAdj Info Tag 
     const TagInfo CanonMakerNote::tagInfoAfMiAdj_[] = {
          TagInfo(0x0001, "AFMicroAdjMode", N_("AF Micro Adj Mode"), N_("AF micro adj mode"), canonAfMiAdjId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFMicroAdjMode)),
-         TagInfo(0x0002, "AFMicroAdjValue", N_("AF Micro Adj Value"), N_("AF micro adj value"), canonAfMiAdjId, makerTags, signedRational, -1, printValue)         
+         TagInfo(0x0002, "AFMicroAdjValue", N_("AF Micro Adj Value"), N_("AF micro adj value"), canonAfMiAdjId, makerTags, signedRational, -1, printValue),
+         TagInfo(0xffff, "(UnknownCanonAFMicroAdjTag)", "(UnknownCanonAFMicroAdjTag)", N_("Unknown Canon AFMicroAdj tag"), canonAfMiAdjId, makerTags, signedShort, 1, printValue)         
     }; 
         
     const TagInfo* CanonMakerNote::tagListAfMiAdj()
