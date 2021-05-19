@@ -41,7 +41,7 @@
 namespace {
     //! Add \em tobe - \em curr 0x00 filler bytes if necessary
     uint32_t fillGap(Exiv2::Internal::IoWrapper& ioWrapper, uint32_t curr, uint32_t tobe);
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions

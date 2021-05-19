@@ -31,7 +31,7 @@ namespace
     const std::string expectedProperty("prop");
     const std::string expectedKey(expectedFamily + "." + expectedPrefix + "." + expectedProperty);
     const std::string notRegisteredValidKey("Xmp.noregistered.prop");
-}
+}  // namespace
 
 // Test Fixture which register a namespace with a prefix. This is needed to test the correct
 // behavior of the XmpKey class

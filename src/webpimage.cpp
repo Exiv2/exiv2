@@ -53,11 +53,6 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-    namespace Internal {
-
-    }}                                      // namespace Internal, Exiv2
-
-namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     // This static function is a temporary fix in v0.27. In the next version,
