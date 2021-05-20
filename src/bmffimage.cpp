@@ -28,6 +28,7 @@
 #include "basicio.hpp"
 #include "config.h"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
@@ -219,9 +220,13 @@ namespace Exiv2
         if (box.length == 1) {
             DataBuf data(8);
             io_->read(data.pData_, data.size_);
-            result = (long) getULongLong(data.pData_, endian_);
+            const uint64_t sz = getULongLong(data.pData_, endian_);
+            // Check that `sz` is safe to cast to `long`.
+            enforce(sz <= static_cast<uint64_t>(std::numeric_limits<long>::max()),
+                    Exiv2::kerCorruptedMetadata);
+            result = (long) sz;
             // sanity check
-            if (result < 8 || result+address > (long)io_->size()) {
+            if (result < 8 || result > (long)io_->size() - address) {
                 result = (long)io_->size();
                 box.length = result;
             } else {
@@ -231,15 +236,17 @@ namespace Exiv2
 
         // read data in box and restore file position
         long restore = io_->tell();
+        enforce(box.length >= 8, Exiv2::kerCorruptedMetadata);
         DataBuf data(box.length - 8);
         io_->read(data.pData_, data.size_);
         io_->seek(restore, BasicIo::beg);
 
-        uint32_t skip = 0;  // read position in data.pData_
+        long skip = 0;  // read position in data.pData_
         uint8_t version = 0;
         uint32_t flags = 0;
 
         if (fullBox(box.type)) {
+            enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = getLong(data.pData_ + skip, endian_);  // version/flags
             version = (int8_t)flags >> 24;
             version &= 0x00ffffff;
@@ -248,6 +255,7 @@ namespace Exiv2
 
         switch (box.type) {
             case TAG_ftyp: {
+                enforce(data.size_ >= 4, Exiv2::kerCorruptedMetadata);
                 fileType_ = getLong(data.pData_, endian_);
                 if ( bTrace ) {
                     out << "brand: " << toAscii(fileType_);
@@ -261,6 +269,7 @@ namespace Exiv2
                     bLF = false;
                 }
 
+                enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
                 int n = getShort(data.pData_ + skip, endian_);
                 skip += 2;
 
@@ -272,12 +281,17 @@ namespace Exiv2
 
             // 8.11.6.2
             case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
+                enforce(data.size_ - skip >= 8, Exiv2::kerCorruptedMetadata);
                 /* getLong (data.pData_+skip,endian_) ; */ skip += 4;
                 uint16_t ID = getShort(data.pData_ + skip, endian_);
                 skip += 2;
                 /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
-                std::string name((const char*)data.pData_ + skip);
+                // Check that the string has a '\0' terminator.
+                const char* str = (const char*)data.pData_ + skip;
+                const size_t maxlen = static_cast<size_t>(data.size_ - skip);
+                enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
+                std::string name(str);
                 if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
                     id=" *** Exif ***";
@@ -324,6 +338,7 @@ namespace Exiv2
 
             // 8.11.3.1
             case TAG_iloc: {
+                enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
                 uint8_t u = data.pData_[skip++];
                 uint16_t offsetSize = u >> 4;
                 uint16_t lengthSize = u & 0xF;
@@ -336,6 +351,7 @@ namespace Exiv2
 #else
                 skip++;
 #endif
+                enforce(data.size_ - skip >= (version < 2 ? 2 : 4), Exiv2::kerCorruptedMetadata);
                 uint32_t itemCount = version < 2 ? getShort(data.pData_ + skip, endian_)
                                                  : getLong(data.pData_ + skip, endian_);
                 skip += version < 2 ? 2 : 4;
@@ -345,10 +361,12 @@ namespace Exiv2
                         out << std::endl;
                         bLF = false;
                     }
-                    uint32_t step = (box.length - 16) / itemCount;  // length of data per item.
-                    uint32_t base = skip;
+                    long step = (box.length - 16) / itemCount;  // length of data per item.
+                    long base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
+                        enforce(data.size_ - skip >= (version > 2 ? 4 : 2), Exiv2::kerCorruptedMetadata);
+                        enforce(data.size_ - skip >= step, Exiv2::kerCorruptedMetadata);
                         uint32_t ID = version > 2 ? getLong(data.pData_ + skip, endian_)
                                                   : getShort(data.pData_ + skip, endian_);
                         uint32_t offset = step==14 || step==16 ? getLong(data.pData_ + skip + step - 8, endian_)
@@ -358,7 +376,7 @@ namespace Exiv2
                         uint32_t ldata = getLong(data.pData_ + skip + step - 4, endian_);
                         if ( bTrace ) {
                             out << indent(depth)
-                                << Internal::stringFormat("%8ld | %8u |   ID | %4u | %6u,%6u", address + skip, step,
+                                << Internal::stringFormat("%8ld | %8ld |   ID | %4u | %6u,%6u", address + skip, step,
                                                             ID, offset, ldata)
                                 << std::endl;
                         }
@@ -371,6 +389,7 @@ namespace Exiv2
             } break;
 
             case TAG_ispe: {
+                enforce(data.size_ - skip >= 12, Exiv2::kerCorruptedMetadata);
                 skip += 4;
                 int width = (int)getLong(data.pData_ + skip, endian_);
                 skip += 4;
