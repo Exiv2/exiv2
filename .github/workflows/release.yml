@@ -6,10 +6,8 @@ on:
 
 jobs:
   Linux:
+    name: 'Build Linux Release'
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.build.outputs.version }}
-      release: ${{ steps.build.outputs.release }}
     steps:
       - uses: actions/checkout@v2
 
@@ -21,7 +19,7 @@ jobs:
       - name: Conan common config
         run: |
           conan profile new --detect default
-          conan profile update settings.build_type=${{matrix.build_type}} default
+          conan profile update settings.build_type=Release default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
       - name: Run Conan
