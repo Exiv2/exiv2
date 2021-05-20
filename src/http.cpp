@@ -133,7 +133,7 @@ static int forgive(int n,int& err)
     return n ;
 }
 
-static int error(std::string& errors, const char* msg, const char* x = NULL, const char* y = NULL, int z = 0)
+static int error(std::string& errors, const char* msg, const char* x = nullptr, const char* y = nullptr, int z = 0)
 {
     static const size_t buffer_size = 512;
     char buffer[buffer_size];
@@ -250,7 +250,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     // open the socket
     int sockfd = static_cast<int>(socket(AF_INET , SOCK_STREAM,IPPROTO_TCP));
     if (sockfd < 0)
-        return error(errors, "unable to create socket\n", NULL, NULL, 0);
+        return error(errors, "unable to create socket\n", nullptr, nullptr, 0);
 
     // connect the socket to the server
     int     server  = -1 ;
@@ -392,7 +392,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 ,   sleep_
                 ,   status
                 ) ;
-        error(errors,buffer,NULL,NULL,0) ;
+        error(errors, buffer, nullptr, nullptr, 0);
     } else if ( bSearching && OK(status) ) {
         if ( end ) {
         //  we finished OK without finding headers, flush the buffer

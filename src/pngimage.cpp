@@ -630,7 +630,7 @@ namespace Exiv2 {
                 if (iptcData_.count() > 0)
                 {
                     // Update IPTC data to a new PNG chunk
-                    DataBuf newPsData = Photoshop::setIptcIrb(0, 0, iptcData_);
+                    DataBuf newPsData = Photoshop::setIptcIrb(nullptr, 0, iptcData_);
                     if (newPsData.size_ > 0)
                     {
                         std::string rawIptc(reinterpret_cast<const char*>(newPsData.pData_), newPsData.size_);

@@ -66,7 +66,7 @@ int main(int argc, char* const argv[])
             int blocksize = argc==6 ? atoi(ba) : 10000;
             // ensure blocksize is sane
             if (blocksize>1024*1024) blocksize=10000;
-            Exiv2::byte* bytes = blocksize>0 ? new Exiv2::byte[blocksize]: NULL;
+            Exiv2::byte* bytes = blocksize > 0 ? new Exiv2::byte[blocksize] : nullptr;
 
             // copy fileIn from a remote location.
             BasicIo::UniquePtr io = Exiv2::ImageFactory::createIo(fr);

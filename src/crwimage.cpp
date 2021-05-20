@@ -134,7 +134,7 @@ namespace Exiv2 {
         // Write new buffer to file
         MemIo::UniquePtr tempIo(new MemIo);
         assert(tempIo.get() != 0);
-        tempIo->write((!blob.empty() ? &blob[0] : 0), static_cast<long>(blob.size()));
+        tempIo->write((!blob.empty() ? &blob[0] : nullptr), static_cast<long>(blob.size()));
         io_->close();
         io_->transfer(*tempIo); // may throw
 

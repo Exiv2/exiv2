@@ -146,13 +146,13 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
           wpMode_(wpStandard),
 #endif
-          fp_(0),
+          fp_(nullptr),
           opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
           hFile_(0),
           hMap_(0),
 #endif
-          pMappedArea_(0),
+          pMappedArea_(nullptr),
           mappedLength_(0),
           isMalloced_(false),
           isWriteable_(false)
@@ -209,9 +209,9 @@ namespace Exiv2 {
         long offset = std::ftell(fp_);
         if (offset == -1) return -1;
         // 'Manual' open("r+b") to avoid munmap()
-        if (fp_ != 0) {
+        if (fp_ != nullptr) {
             std::fclose(fp_);
-            fp_= 0;
+            fp_ = nullptr;
         }
         openMode_ = "r+b";
         opMode_ = opSeek;
@@ -372,7 +372,7 @@ namespace Exiv2 {
     int FileIo::munmap()
     {
         int rc = 0;
-        if (p_->pMappedArea_ != 0) {
+        if (p_->pMappedArea_ != nullptr) {
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
             if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
                 rc = 1;
@@ -395,10 +395,11 @@ namespace Exiv2 {
 #endif
         }
         if (p_->isWriteable_) {
-            if (p_->fp_ != 0) p_->switchMode(Impl::opRead);
+            if (p_->fp_ != nullptr)
+                p_->switchMode(Impl::opRead);
             p_->isWriteable_ = false;
         }
-        p_->pMappedArea_ = 0;
+        p_->pMappedArea_ = nullptr;
         p_->mappedLength_ = 0;
         return rc;
     }
@@ -435,7 +436,7 @@ namespace Exiv2 {
         if (p_->isWriteable_) {
             prot |= PROT_WRITE;
         }
-        void* rc = ::mmap(0, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
+        void* rc = ::mmap(nullptr, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
@@ -602,7 +603,7 @@ namespace Exiv2 {
 
     void FileIo::transfer(BasicIo& src)
     {
-        const bool wasOpen = (p_->fp_ != 0);
+        const bool wasOpen = (p_->fp_ != nullptr);
         const std::string lastMode(p_->openMode_);
 
         auto fileIo = dynamic_cast<FileIo*>(&src);
@@ -636,7 +637,7 @@ namespace Exiv2 {
             bool statOk = true;
             mode_t origStMode = 0;
             std::string spf;
-            char* pf = 0;
+            char* pf = nullptr;
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
             wchar_t* wpf = 0;
@@ -928,7 +929,7 @@ namespace Exiv2 {
     size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
-        if (p_->fp_ != 0 && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
+        if (p_->fp_ != nullptr && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
             std::fflush(p_->fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
@@ -969,16 +970,16 @@ namespace Exiv2 {
 
     bool FileIo::isopen() const
     {
-        return p_->fp_ != 0;
+        return p_->fp_ != nullptr;
     }
 
     int FileIo::close()
     {
         int rc = 0;
         if (munmap() != 0) rc = 2;
-        if (p_->fp_ != 0) {
+        if (p_->fp_ != nullptr) {
             if (std::fclose(p_->fp_) != 0) rc |= 1;
-            p_->fp_= 0;
+            p_->fp_ = nullptr;
         }
         return rc;
     }
@@ -1012,7 +1013,7 @@ namespace Exiv2 {
 
     int FileIo::error() const
     {
-        return p_->fp_ != 0 ? ferror(p_->fp_) : 0;
+        return p_->fp_ != nullptr ? ferror(p_->fp_) : 0;
     }
 
     bool FileIo::eof() const
@@ -1052,7 +1053,7 @@ namespace Exiv2 {
         Impl(const byte* data, long size); //!< Constructor 2
 
         // DATA
-        byte* data_{0};           //!< Pointer to the start of the memory area
+        byte* data_{nullptr};     //!< Pointer to the start of the memory area
         long idx_{0};             //!< Index into the memory area
         long size_{0};            //!< Size of the memory area
         long sizeAlloced_{0};     //!< Size of the allocated buffer
@@ -1089,7 +1090,7 @@ namespace Exiv2 {
         {
             if (data_) {
                 std::free(data_);
-                data_ = NULL;
+                data_ = nullptr;
             }
         }
 
@@ -1153,10 +1154,10 @@ namespace Exiv2 {
             // Minimum size for 1st block
             long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
             auto data = static_cast<byte*>(std::malloc(size));
-            if (  data == NULL ) {
+            if (data == nullptr) {
                 throw Error(kerMallocFailed);
             }
-            if (data_ != NULL) {
+            if (data_ != nullptr) {
                 std::memcpy(data, data_, size_);
             }
             data_ = data;
@@ -1171,7 +1172,7 @@ namespace Exiv2 {
                 // Allocate in blocks
                 long want      = blockSize * (1 + need / blockSize );
                 data_ = static_cast<byte*>(std::realloc(data_, want));
-                if ( data_ == NULL ) {
+                if (data_ == nullptr) {
                     throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
@@ -1202,7 +1203,7 @@ namespace Exiv2 {
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
-        if (data != NULL) {
+        if (data != nullptr) {
             std::memcpy(&p_->data_[p_->idx_], data, wcount);
         }
         p_->idx_ += wcount;
@@ -1222,7 +1223,7 @@ namespace Exiv2 {
             p_->size_ = memIo->p_->size_;
             p_->isMalloced_ = memIo->p_->isMalloced_;
             memIo->p_->idx_ = 0;
-            memIo->p_->data_ = 0;
+            memIo->p_->data_ = nullptr;
             memIo->p_->size_ = 0;
             memIo->p_->isMalloced_ = false;
         }
@@ -1497,7 +1498,7 @@ namespace Exiv2 {
         Protocol prot = fileProtocol(orgPath);
 
         // generating the name for temp file.
-        std::time_t timestamp = std::time(NULL);
+        std::time_t timestamp = std::time(nullptr);
         std::stringstream ss;
         ss << timestamp << XPathIo::TEMP_FILE_EXT;
         std::string path = ss.str();
@@ -1623,8 +1624,15 @@ namespace Exiv2 {
     }; // class RemoteIo::Impl
 
     RemoteIo::Impl::Impl(const std::string& url, size_t blockSize)
-        : path_(url), blockSize_(blockSize), blocksMap_(0), size_(0),
-          idx_(0), isMalloced_(false), eof_(false), protocol_(fileProtocol(url)),totalRead_(0)
+        : path_(url),
+          blockSize_(blockSize),
+          blocksMap_(nullptr),
+          size_(0),
+          idx_(0),
+          isMalloced_(false),
+          eof_(false),
+          protocol_(fileProtocol(url)),
+          totalRead_(0)
     {
     }
 #ifdef EXV_UNICODE_PATH
@@ -1683,7 +1691,7 @@ namespace Exiv2 {
     int RemoteIo::open()
     {
         close(); // reset the IO position
-        bigBlock_ = NULL;
+        bigBlock_ = nullptr;
         if (!p_->isMalloced_) {
             long length = p_->getFileLength();
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
@@ -1725,7 +1733,7 @@ namespace Exiv2 {
 #endif
         if ( bigBlock_ ) {
             delete [] bigBlock_;
-            bigBlock_=NULL;
+            bigBlock_ = nullptr;
         }
         return 0;
     }
@@ -1848,7 +1856,8 @@ namespace Exiv2 {
         size_t totalRead = 0;
         do {
             byte* data = p_->blocksMap_[iBlock++].getData();
-            if (data == NULL) data = fakeData;
+            if (data == nullptr)
+                data = fakeData;
             size_t blockR = EXV_MIN(allow, p_->blockSize_ - startPos);
             std::memcpy(&buf[totalRead], &data[startPos], blockR);
             totalRead += blockR;

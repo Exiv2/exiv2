@@ -480,27 +480,27 @@ namespace Jzon
     {
         if (!children.empty())
             return Object::iterator(&children.front());
-        return Object::iterator(NULL);
+        return Object::iterator(nullptr);
     }
 
     Object::const_iterator Object::begin() const
     {
         if (!children.empty())
             return Object::const_iterator(&children.front());
-        return Object::const_iterator(NULL);
+        return Object::const_iterator(nullptr);
     }
 
     Object::iterator Object::end()
     {
         if (!children.empty())
             return Object::iterator(&children.back() + 1);
-        return Object::iterator(NULL);
+        return Object::iterator(nullptr);
     }
     Object::const_iterator Object::end() const
     {
         if (!children.empty())
             return Object::const_iterator(&children.back() + 1);
-        return Object::const_iterator(NULL);
+        return Object::const_iterator(nullptr);
     }
 
     bool Object::Has(const std::string &name) const
@@ -583,25 +583,25 @@ namespace Jzon
     {
         if (!children.empty())
             return Array::iterator(&children.front());
-        return Array::iterator(NULL);
+        return Array::iterator(nullptr);
     }
     Array::const_iterator Array::begin() const
     {
         if (!children.empty())
             return Array::const_iterator(&children.front());
-        return Array::const_iterator(NULL);
+        return Array::const_iterator(nullptr);
     }
     Array::iterator Array::end()
     {
         if (!children.empty())
             return Array::iterator(&children.back() + 1);
-        return Array::iterator(NULL);
+        return Array::iterator(nullptr);
     }
     Array::const_iterator Array::end() const
     {
         if (!children.empty())
             return Array::const_iterator(&children.back() + 1);
-        return Array::const_iterator(NULL);
+        return Array::const_iterator(nullptr);
     }
 
     size_t Array::GetCount() const
@@ -708,36 +708,41 @@ namespace Jzon
 	Writer::~Writer()
 	{
 		delete fi;
-		fi = NULL;
-	}
+        fi = nullptr;
+    }
 
-	void Writer::SetFormat(const Format &format)
-	{
-		fi->SetFormat(format);
-	}
-	const std::string &Writer::Write()
-	{
-		result.clear();
-		writeNode(root, 0);
-		return result;
-	}
+    void Writer::SetFormat(const Format &format)
+    {
+        fi->SetFormat(format);
+    }
+    const std::string &Writer::Write()
+    {
+        result.clear();
+        writeNode(root, 0);
+        return result;
+    }
 
-	const std::string &Writer::GetResult() const
-	{
-		return result;
-	}
+    const std::string &Writer::GetResult() const
+    {
+        return result;
+    }
 
-	void Writer::writeNode(const Node &node, unsigned int level)
-	{
-		switch (node.GetType())
-		{
-		case Node::T_OBJECT : writeObject(node.AsObject(), level); break;
-		case Node::T_ARRAY  : writeArray(node.AsArray(), level);   break;
-		case Node::T_VALUE  : writeValue(node.AsValue());          break;
-		}
-	}
-	void Writer::writeObject(const Object &node, unsigned int level)
-	{
+    void Writer::writeNode(const Node &node, unsigned int level)
+    {
+        switch (node.GetType()) {
+            case Node::T_OBJECT:
+                writeObject(node.AsObject(), level);
+                break;
+            case Node::T_ARRAY:
+                writeArray(node.AsArray(), level);
+                break;
+            case Node::T_VALUE:
+                writeValue(node.AsValue());
+                break;
+        }
+    }
+    void Writer::writeObject(const Object &node, unsigned int level)
+    {
 		result += "{" + fi->GetNewline();
 
         for (auto it = node.begin(); it != node.end(); ++it) {
@@ -929,160 +934,128 @@ namespace Jzon
 				}
 			case T_OBJ_BEGIN :
 				{
-					Node *node = NULL;
-					if (nodeStack.empty())
-					{
-						if (!root.IsObject())
-						{
-							error = "The given root node is not an object";
-							return false;
-						}
+                Node *node = nullptr;
+                if (nodeStack.empty()) {
+                    if (!root.IsObject()) {
+                        error = "The given root node is not an object";
+                        return false;
+                    }
 
-						node = &root;
-					}
-					else
-					{
-						node = new Object;
-					}
+                    node = &root;
+                } else {
+                    node = new Object;
+                }
 
-					nodeStack.push(std::make_pair(name, node));
-					name.clear();
-					break;
-				}
-			case T_ARRAY_BEGIN :
-				{
-					Node *node = NULL;
-					if (nodeStack.empty())
-					{
-						if (!root.IsArray())
-						{
-							error = "The given root node is not an array";
-							return false;
-						}
+                nodeStack.push(std::make_pair(name, node));
+                name.clear();
+                break;
+            }
+            case T_ARRAY_BEGIN: {
+                Node *node = nullptr;
+                if (nodeStack.empty()) {
+                    if (!root.IsArray()) {
+                        error = "The given root node is not an array";
+                        return false;
+                    }
 
-						node = &root;
-					}
-					else
-					{
-						node = new Array;
-					}
+                    node = &root;
+                } else {
+                    node = new Array;
+                }
 
-					nodeStack.push(std::make_pair(name, node));
-					name.clear();
-					break;
-				}
-			case T_OBJ_END :
-			case T_ARRAY_END :
-				{
-					if (nodeStack.empty())
-					{
-						error = "Found end of object or array without beginning";
-						return false;
-					}
-					if (token == T_OBJ_END && !nodeStack.top().second->IsObject())
-					{
-						error = "Mismatched end and beginning of object";
-						return false;
-					}
-					if (token == T_ARRAY_END && !nodeStack.top().second->IsArray())
-					{
-						error = "Mismatched end and beginning of array";
-						return false;
-					}
+                nodeStack.push(std::make_pair(name, node));
+                name.clear();
+                break;
+            }
+            case T_OBJ_END:
+            case T_ARRAY_END: {
+                if (nodeStack.empty()) {
+                    error = "Found end of object or array without beginning";
+                    return false;
+                }
+                if (token == T_OBJ_END && !nodeStack.top().second->IsObject()) {
+                    error = "Mismatched end and beginning of object";
+                    return false;
+                }
+                if (token == T_ARRAY_END && !nodeStack.top().second->IsArray()) {
+                    error = "Mismatched end and beginning of array";
+                    return false;
+                }
 
-					std::string name = nodeStack.top().first;
-					Node *node = nodeStack.top().second;
-					nodeStack.pop();
+                std::string name = nodeStack.top().first;
+                Node *node = nodeStack.top().second;
+                nodeStack.pop();
 
-					if (!nodeStack.empty())
-					{
-						if (nodeStack.top().second->IsObject())
-						{
-							nodeStack.top().second->AsObject().Add(name, *node);
-						}
-						else if (nodeStack.top().second->IsArray())
-						{
-							nodeStack.top().second->AsArray().Add(*node);
-						}
-						else
-						{
-							error = "Can only add elements to objects and arrays";
-							return false;
-						}
+                if (!nodeStack.empty()) {
+                    if (nodeStack.top().second->IsObject()) {
+                        nodeStack.top().second->AsObject().Add(name, *node);
+                    } else if (nodeStack.top().second->IsArray()) {
+                        nodeStack.top().second->AsArray().Add(*node);
+                    } else {
+                        error = "Can only add elements to objects and arrays";
+                        return false;
+                    }
 
-						delete node;
-						node = NULL;
-					}
-					break;
-				}
-			case T_VALUE :
-				{
-					if (!tokens.empty() && tokens.front() == T_SEPARATOR_NAME)
-					{
-						tokens.pop();
-						if (data.front().first != Value::VT_STRING)
-						{
-							error = "A name has to be a string";
-							return false;
-						}
-						name = data.front().second;
-						data.pop();
-					}
-					else
-					{
-						Node *node = NULL;
-						if (nodeStack.empty())
-						{
-							if (!root.IsValue())
-							{
-								error = "The given root node is not a value";
-								return false;
-							}
-
-							node = &root;
-						}
-						else
-						{
-							node = new Value;
-						}
-
-						if (data.front().first == Value::VT_STRING)
-						{
-                            dynamic_cast<Value *>(node)->Set(
-                                data.front().second);  // This method calls UnescapeString()
-                        } else {
-                            dynamic_cast<Value *>(node)->Set(data.front().first, data.front().second);
+                    delete node;
+                    node = nullptr;
+                }
+                break;
+            }
+            case T_VALUE: {
+                if (!tokens.empty() && tokens.front() == T_SEPARATOR_NAME) {
+                    tokens.pop();
+                    if (data.front().first != Value::VT_STRING) {
+                        error = "A name has to be a string";
+                        return false;
+                    }
+                    name = data.front().second;
+                    data.pop();
+                } else {
+                    Node *node = nullptr;
+                    if (nodeStack.empty()) {
+                        if (!root.IsValue()) {
+                            error = "The given root node is not a value";
+                            return false;
                         }
-                        data.pop();
 
-                        if (!nodeStack.empty())
-						{
-							if (nodeStack.top().second->IsObject())
-								nodeStack.top().second->AsObject().Add(name, *node);
-							else if (nodeStack.top().second->IsArray())
-								nodeStack.top().second->AsArray().Add(*node);
+                        node = &root;
+                    } else {
+                        node = new Value;
+                    }
 
-							delete node;
-							node = NULL;
-							name.clear();
-						}
-						else
-						{
-							nodeStack.push(std::make_pair(name, node));
-							name.clear();
-						}
-					}
-					break;
-				}
-			case T_SEPARATOR_NAME :
-			case T_SEPARATOR_NODE : break;
-			}
-		}
+                    if (data.front().first == Value::VT_STRING) {
+                        dynamic_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
+                    } else {
+                        dynamic_cast<Value *>(node)->Set(data.front().first, data.front().second);
+                    }
+                    data.pop();
 
-		return true;
-	}
+                    if (!nodeStack.empty()) {
+                        if (nodeStack.top().second->IsObject())
+                            nodeStack.top().second->AsObject().Add(name, *node);
+                        else if (nodeStack.top().second->IsArray())
+                            nodeStack.top().second->AsArray().Add(*node);
 
-	char Parser::peek()
+                        delete node;
+                        node = nullptr;
+                        name.clear();
+                    } else {
+                        nodeStack.push(std::make_pair(name, node));
+                        name.clear();
+                    }
+                }
+                break;
+            }
+            case T_SEPARATOR_NAME:
+            case T_SEPARATOR_NODE:
+                break;
+            }
+        }
+
+        return true;
+    }
+
+    char Parser::peek()
 	{
 		if (cursor < jsonSize-1)
 		{

@@ -209,8 +209,10 @@ namespace Exiv2 {
     Exifdatum::Exifdatum(const Exifdatum& rhs)
         : Metadatum(rhs)
     {
-        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
-        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
+        if (rhs.key_.get() != nullptr)
+            key_ = rhs.key_->clone();  // deep copy
+        if (rhs.value_.get() != nullptr)
+            value_ = rhs.value_->clone();  // deep copy
     }
 
     std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const
@@ -224,7 +226,7 @@ namespace Exiv2 {
             fct = ti->printFct_;
             if ( ti->typeId_ == comment ) {
               os << value().toString();
-              fct=NULL;
+              fct = nullptr;
             }
         }
         if ( fct ) fct(os, value(), pMetadata);
@@ -233,7 +235,8 @@ namespace Exiv2 {
 
     const Value& Exifdatum::value() const
     {
-        if (value_.get() == 0) throw Error(kerValueNotSet);
+        if (value_.get() == nullptr)
+            throw Error(kerValueNotSet);
         return *value_;
     }
 
@@ -243,10 +246,12 @@ namespace Exiv2 {
         Metadatum::operator=(rhs);
 
         key_.reset();
-        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
+        if (rhs.key_.get() != nullptr)
+            key_ = rhs.key_->clone();  // deep copy
 
         value_.reset();
-        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
+        if (rhs.value_.get() != nullptr)
+            value_ = rhs.value_->clone();  // deep copy
 
         return *this;
     } // Exifdatum::operator=
@@ -301,7 +306,7 @@ namespace Exiv2 {
 
     int Exifdatum::setValue(const std::string& value)
     {
-        if (value_.get() == 0) {
+        if (value_.get() == nullptr) {
             TypeId type = key_->defaultTypeId();
             value_ = Value::create(type);
         }
@@ -310,62 +315,62 @@ namespace Exiv2 {
 
     int Exifdatum::setDataArea(const byte* buf, long len)
     {
-        return value_.get() == 0 ? -1 : value_->setDataArea(buf, len);
+        return value_.get() == nullptr ? -1 : value_->setDataArea(buf, len);
     }
 
     std::string Exifdatum::key() const
     {
-        return key_.get() == 0 ? "" : key_->key();
+        return key_.get() == nullptr ? "" : key_->key();
     }
 
     const char* Exifdatum::familyName() const
     {
-        return key_.get() == 0 ? "" : key_->familyName();
+        return key_.get() == nullptr ? "" : key_->familyName();
     }
 
     std::string Exifdatum::groupName() const
     {
-        return key_.get() == 0 ? "" : key_->groupName();
+        return key_.get() == nullptr ? "" : key_->groupName();
     }
 
     std::string Exifdatum::tagName() const
     {
-        return key_.get() == 0 ? "" : key_->tagName();
+        return key_.get() == nullptr ? "" : key_->tagName();
     }
 
     std::string Exifdatum::tagLabel() const
     {
-        return key_.get() == 0 ? "" : key_->tagLabel();
+        return key_.get() == nullptr ? "" : key_->tagLabel();
     }
 
     uint16_t Exifdatum::tag() const
     {
-        return key_.get() == 0 ? 0xffff : key_->tag();
+        return key_.get() == nullptr ? 0xffff : key_->tag();
     }
 
     int Exifdatum::ifdId() const
     {
-        return key_.get() == 0 ? ifdIdNotSet : key_->ifdId();
+        return key_.get() == nullptr ? ifdIdNotSet : key_->ifdId();
     }
 
     const char* Exifdatum::ifdName() const
     {
-        return key_.get() == 0 ? "" : Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId()));
+        return key_.get() == nullptr ? "" : Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId()));
     }
 
     int Exifdatum::idx() const
     {
-        return key_.get() == 0 ? 0 : key_->idx();
+        return key_.get() == nullptr ? 0 : key_->idx();
     }
 
     long Exifdatum::copy(byte* buf, ByteOrder byteOrder) const
     {
-        return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder);
+        return value_.get() == nullptr ? 0 : value_->copy(buf, byteOrder);
     }
 
     TypeId Exifdatum::typeId() const
     {
-        return value_.get() == 0 ? invalidTypeId : value_->typeId();
+        return value_.get() == nullptr ? invalidTypeId : value_->typeId();
     }
 
     const char* Exifdatum::typeName() const
@@ -380,52 +385,52 @@ namespace Exiv2 {
 
     long Exifdatum::count() const
     {
-        return value_.get() == 0 ? 0 : value_->count();
+        return value_.get() == nullptr ? 0 : value_->count();
     }
 
     long Exifdatum::size() const
     {
-        return value_.get() == 0 ? 0 : value_->size();
+        return value_.get() == nullptr ? 0 : value_->size();
     }
 
     std::string Exifdatum::toString() const
     {
-        return value_.get() == 0 ? "" : value_->toString();
+        return value_.get() == nullptr ? "" : value_->toString();
     }
 
     std::string Exifdatum::toString(long n) const
     {
-        return value_.get() == 0 ? "" : value_->toString(n);
+        return value_.get() == nullptr ? "" : value_->toString(n);
     }
 
     long Exifdatum::toLong(long n) const
     {
-        return value_.get() == 0 ? -1 : value_->toLong(n);
+        return value_.get() == nullptr ? -1 : value_->toLong(n);
     }
 
     float Exifdatum::toFloat(long n) const
     {
-        return value_.get() == 0 ? -1 : value_->toFloat(n);
+        return value_.get() == nullptr ? -1 : value_->toFloat(n);
     }
 
     Rational Exifdatum::toRational(long n) const
     {
-        return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n);
+        return value_.get() == nullptr ? Rational(-1, 1) : value_->toRational(n);
     }
 
     Value::UniquePtr Exifdatum::getValue() const
     {
-        return value_.get() == 0 ? nullptr : value_->clone();
+        return value_.get() == nullptr ? nullptr : value_->clone();
     }
 
     long Exifdatum::sizeDataArea() const
     {
-        return value_.get() == 0 ? 0 : value_->sizeDataArea();
+        return value_.get() == nullptr ? 0 : value_->sizeDataArea();
     }
 
     DataBuf Exifdatum::dataArea() const
     {
-        return value_.get() == 0 ? DataBuf(0, 0) : value_->dataArea();
+        return value_.get() == nullptr ? DataBuf(nullptr, 0) : value_->dataArea();
     }
 
     ExifThumbC::ExifThumbC(const ExifData& exifData)
@@ -436,14 +441,16 @@ namespace Exiv2 {
     DataBuf ExifThumbC::copy() const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return DataBuf();
+        if (thumbnail.get() == nullptr)
+            return DataBuf();
         return thumbnail->copy(exifData_);
     }
 
     long ExifThumbC::writeFile(const std::string& path) const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return 0;
+        if (thumbnail.get() == nullptr)
+            return 0;
         std::string name = path + thumbnail->extension();
         DataBuf buf(thumbnail->copy(exifData_));
         if (buf.size_ == 0) return 0;
@@ -465,14 +472,16 @@ namespace Exiv2 {
     const char* ExifThumbC::mimeType() const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return "";
+        if (thumbnail.get() == nullptr)
+            return "";
         return thumbnail->mimeType();
     }
 
     const char* ExifThumbC::extension() const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return "";
+        if (thumbnail.get() == nullptr)
+            return "";
         return thumbnail->extension();
     }
 
@@ -724,16 +733,8 @@ namespace Exiv2 {
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
         std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder, 0x00000008, false));
-        WriteMethod wm = TiffParserWorker::encode(mio1,
-                                                  pData,
-                                                  size,
-                                                  ed,
-                                                  emptyIptc,
-                                                  emptyXmp,
-                                                  Tag::root,
-                                                  TiffMapping::findEncoder,
-                                                  header.get(),
-                                                  0);
+        WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, ed, emptyIptc, emptyXmp, Tag::root,
+                                                  TiffMapping::findEncoder, header.get(), nullptr);
         if (mio1.size() <= 65527) {
             append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
@@ -827,16 +828,8 @@ namespace Exiv2 {
 
         // Encode the remaining Exif tags again, don't care if it fits this time
         MemIo mio2;
-        wm = TiffParserWorker::encode(mio2,
-                                      pData,
-                                      size,
-                                      ed,
-                                      emptyIptc,
-                                      emptyXmp,
-                                      Tag::root,
-                                      TiffMapping::findEncoder,
-                                      header.get(),
-                                      0);
+        wm = TiffParserWorker::encode(mio2, pData, size, ed, emptyIptc, emptyXmp, Tag::root, TiffMapping::findEncoder,
+                                      header.get(), nullptr);
         append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
@@ -913,7 +906,7 @@ namespace {
         Exiv2::MemIo io;
         Exiv2::IptcData emptyIptc;
         Exiv2::XmpData  emptyXmp;
-        Exiv2::TiffParser::encode(io, 0, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
+        Exiv2::TiffParser::encode(io, nullptr, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
         return io.read(static_cast<long>(io.size()));
     }
 

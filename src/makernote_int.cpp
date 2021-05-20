@@ -128,27 +128,27 @@ namespace Exiv2 {
         { "FUJI",           fujiId,      newFujiMn,      newFujiMn2      },
         { "KONICA MINOLTA", minoltaId,   newIfdMn,       newIfdMn2       },
         { "Minolta",        minoltaId,   newIfdMn,       newIfdMn2       },
-        { "NIKON",          ifdIdNotSet, newNikonMn,     0               }, // mnGroup_ is not used
-        { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   0               }, // mnGroup_ is not used
+        { "NIKON",          ifdIdNotSet, newNikonMn,     nullptr               }, // mnGroup_ is not used
+        { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   nullptr               }, // mnGroup_ is not used
         { "Panasonic",      panasonicId, newPanasonicMn, newPanasonicMn2 },
-        { "PENTAX",         ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
-        { "RICOH",          ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
+        { "PENTAX",         ifdIdNotSet, newPentaxMn,    nullptr               }, // mnGroup_ is not used
+        { "RICOH",          ifdIdNotSet, newPentaxMn,    nullptr               }, // mnGroup_ is not used
         { "SAMSUNG",        samsung2Id,  newSamsungMn,   newSamsungMn2   },
         { "SIGMA",          sigmaId,     newSigmaMn,     newSigmaMn2     },
-        { "SONY",           ifdIdNotSet, newSonyMn,      0               }, // mnGroup_ is not used
-        { "CASIO",          ifdIdNotSet, newCasioMn,     0               }, // mnGroup_ is not used
+        { "SONY",           ifdIdNotSet, newSonyMn,      nullptr               }, // mnGroup_ is not used
+        { "CASIO",          ifdIdNotSet, newCasioMn,     nullptr               }, // mnGroup_ is not used
         // Entries below are only used for lookup by group
-        { "-",              nikon1Id,    0,              newIfdMn2       },
-        { "-",              nikon2Id,    0,              newNikon2Mn2    },
-        { "-",              nikon3Id,    0,              newNikon3Mn2    },
-        { "-",              sony1Id,     0,              newSony1Mn2     },
-        { "-",              sony2Id,     0,              newSony2Mn2     },
-        { "-",              olympusId,   0,              newOlympusMn2   },
-        { "-",              olympus2Id,  0,              newOlympus2Mn2  },
-        { "-",              pentaxId,    0,              newPentaxMn2    },
-        { "-",              pentaxDngId, 0,              newPentaxDngMn2 },
-        { "-",              casioId,     0,              newIfdMn2       },
-        { "-",              casio2Id,    0,              newCasio2Mn2    }
+        { "-",              nikon1Id,    nullptr,              newIfdMn2       },
+        { "-",              nikon2Id,    nullptr,              newNikon2Mn2    },
+        { "-",              nikon3Id,    nullptr,              newNikon3Mn2    },
+        { "-",              sony1Id,     nullptr,              newSony1Mn2     },
+        { "-",              sony2Id,     nullptr,              newSony2Mn2     },
+        { "-",              olympusId,   nullptr,              newOlympusMn2   },
+        { "-",              olympus2Id,  nullptr,              newOlympus2Mn2  },
+        { "-",              pentaxId,    nullptr,              newPentaxMn2    },
+        { "-",              pentaxDngId, nullptr,              newPentaxDngMn2 },
+        { "-",              casioId,     nullptr,              newIfdMn2       },
+        { "-",              casio2Id,    nullptr,              newCasio2Mn2    }
     };
 
     bool TiffMnRegistry::operator==(const std::string& key) const
@@ -171,7 +171,7 @@ namespace Exiv2 {
                                          uint32_t           size,
                                          ByteOrder          byteOrder)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         const TiffMnRegistry* tmr = find(registry_, make);
         if (tmr) {
             assert(tmr->newMnFct_);
@@ -189,11 +189,11 @@ namespace Exiv2 {
                                          IfdId              group,
                                          IfdId              mnGroup)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         const TiffMnRegistry* tmr = find(registry_, mnGroup);
         if (tmr) {
 
-            if (tmr->newMnFct2_ == 0) {
+            if (tmr->newMnFct2_ == nullptr) {
 
                 std::cout << "mnGroup = " << mnGroup << "\n";
 
@@ -616,7 +616,7 @@ namespace Exiv2 {
 
     SamsungMnHeader::SamsungMnHeader()
     {
-        read(0, 0, invalidByteOrder);
+        read(nullptr, 0, invalidByteOrder);
     }
 
     uint32_t SamsungMnHeader::size() const
@@ -793,7 +793,7 @@ namespace Exiv2 {
                             ByteOrder   /*byteOrder*/)
     {
         // Require at least an IFD with 1 entry, but not necessarily a next pointer
-        if (size < 14) return 0;
+        if (size < 14) return nullptr;
         return newIfdMn2(tag, group, mnGroup);
     }
 
@@ -801,7 +801,7 @@ namespace Exiv2 {
                              IfdId    group,
                              IfdId    mnGroup)
     {
-        return new TiffIfdMakernote(tag, group, mnGroup, 0);
+        return new TiffIfdMakernote(tag, group, mnGroup, nullptr);
     }
 
     TiffComponent* newOlympusMn(uint16_t    tag,
@@ -814,11 +814,11 @@ namespace Exiv2 {
         if (size < 10 ||   std::string(reinterpret_cast<const char*>(pData), 10)
                         != std::string("OLYMPUS\0II", 10)) {
             // Require at least the header and an IFD with 1 entry
-            if (size < OlympusMnHeader::sizeOfSignature() + 18) return 0;
+            if (size < OlympusMnHeader::sizeOfSignature() + 18) return nullptr;
             return newOlympusMn2(tag, group, olympusId);
         }
         // Require at least the header and an IFD with 1 entry
-        if (size < Olympus2MnHeader::sizeOfSignature() + 18) return 0;
+        if (size < Olympus2MnHeader::sizeOfSignature() + 18) return nullptr;
         return newOlympus2Mn2(tag, group, olympus2Id);
     }
 
@@ -844,7 +844,7 @@ namespace Exiv2 {
                              ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry
-        if (size < FujiMnHeader::sizeOfSignature() + 18) return 0;
+        if (size < FujiMnHeader::sizeOfSignature() + 18) return nullptr;
         return newFujiMn2(tag, group, mnGroup);
     }
 
@@ -866,7 +866,7 @@ namespace Exiv2 {
         if (size < 6 ||    std::string(reinterpret_cast<const char*>(pData), 6)
                         != std::string("Nikon\0", 6)) {
             // Require at least an IFD with 1 entry
-            if (size < 18) return 0;
+            if (size < 18) return nullptr;
             return newIfdMn2(tag, group, nikon1Id);
         }
         // If the "Nikon" string is not followed by a TIFF header, we assume
@@ -876,12 +876,12 @@ namespace Exiv2 {
             || !tiffHeader.read(pData + 10, size - 10)
             || tiffHeader.tag() != 0x002a) {
             // Require at least the header and an IFD with 1 entry
-            if (size < Nikon2MnHeader::sizeOfSignature() + 18) return 0;
+            if (size < Nikon2MnHeader::sizeOfSignature() + 18) return nullptr;
             return newNikon2Mn2(tag, group, nikon2Id);
         }
         // Else we have a Nikon3 makernote
         // Require at least the header and an IFD with 1 entry
-        if (size < Nikon3MnHeader::sizeOfSignature() + 18) return 0;
+        if (size < Nikon3MnHeader::sizeOfSignature() + 18) return nullptr;
         return newNikon3Mn2(tag, group, nikon3Id);
     }
 
@@ -907,7 +907,7 @@ namespace Exiv2 {
                                   ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry, but without a next pointer
-        if (size < PanasonicMnHeader::sizeOfSignature() + 14) return 0;
+        if (size < PanasonicMnHeader::sizeOfSignature() + 14) return nullptr;
         return newPanasonicMn2(tag, group, mnGroup);
     }
 
@@ -924,16 +924,16 @@ namespace Exiv2 {
         if (size > 8 && std::string(reinterpret_cast<const char*>(pData), 8) == std::string("PENTAX \0", 8)) {
             // Require at least the header and an IFD with 1 entry
             if (size < PentaxDngMnHeader::sizeOfSignature() + 18)
-                return 0;
+                return nullptr;
             return newPentaxDngMn2(tag, group, (tag == 0xc634 ? pentaxDngId:pentaxId));
         }
         if (size > 4 && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
             // Require at least the header and an IFD with 1 entry
             if (size < PentaxMnHeader::sizeOfSignature() + 18)
-                return 0;
+                return nullptr;
             return newPentaxMn2(tag, group, pentaxId);
         }
-        return 0;
+        return nullptr;
     }
 
     TiffComponent* newPentaxMn2(uint16_t tag,
@@ -961,13 +961,13 @@ namespace Exiv2 {
             && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
             // Samsung branded Pentax camera:
             // Require at least the header and an IFD with 1 entry
-            if (size < PentaxMnHeader::sizeOfSignature() + 18) return 0;
+            if (size < PentaxMnHeader::sizeOfSignature() + 18) return nullptr;
             return newPentaxMn2(tag, group, pentaxId);
         }
         // Genuine Samsung camera:
         // Require at least an IFD with 1 entry
         if (size < 18)
-            return 0;
+            return nullptr;
         return newSamsungMn2(tag, group, mnGroup);
     }
 
@@ -986,7 +986,7 @@ namespace Exiv2 {
                               ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry
-        if (size < SigmaMnHeader::sizeOfSignature() + 18) return 0;
+        if (size < SigmaMnHeader::sizeOfSignature() + 18) return nullptr;
         return newSigmaMn2(tag, group, mnGroup);
     }
 
@@ -1008,11 +1008,11 @@ namespace Exiv2 {
         if (size < 12 ||   std::string(reinterpret_cast<const char*>(pData), 12)
                         != std::string("SONY DSC \0\0\0", 12)) {
             // Require at least an IFD with 1 entry
-            if (size < 18) return 0;
+            if (size < 18) return nullptr;
             return newSony2Mn2(tag, group, sony2Id);
         }
         // Require at least the header and an IFD with 1 entry, but without a next pointer
-        if (size < SonyMnHeader::sizeOfSignature() + 14) return 0;
+        if (size < SonyMnHeader::sizeOfSignature() + 14) return nullptr;
         return newSony1Mn2(tag, group, sony1Id);
     }
 
@@ -1027,7 +1027,7 @@ namespace Exiv2 {
                                IfdId    group,
                                IfdId    mnGroup)
     {
-        return new TiffIfdMakernote(tag, group, mnGroup, 0, true);
+        return new TiffIfdMakernote(tag, group, mnGroup, nullptr, true);
     }
 
     TiffComponent* newCasioMn(uint16_t    tag,
@@ -1042,7 +1042,7 @@ namespace Exiv2 {
             return newCasio2Mn2(tag, group, casio2Id);
         };
         // Require at least an IFD with 1 entry, but not necessarily a next pointer
-        if (size < 14) return 0;
+        if (size < 14) return nullptr;
         return newIfdMn2(tag, group, casioId);
     }
 
@@ -1120,7 +1120,7 @@ namespace Exiv2 {
     {
         if (size < 4) return -1;
         const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-        return aix == 0 ? -1 : aix->idx_;
+        return aix == nullptr ? -1 : aix->idx_;
     }
 
     int nikonAf2Selector(uint16_t tag, const byte* /*pData*/, uint32_t size, TiffComponent* const /*pRoot*/)
@@ -1138,7 +1138,7 @@ namespace Exiv2 {
 
         if (size < 4) return buf;
         const NikonArrayIdx* nci = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-        if (nci == 0 || nci->start_ == NA || size <= nci->start_) return buf;
+        if (nci == nullptr || nci->start_ == NA || size <= nci->start_) return buf;
 
         // Find Exif.Nikon3.ShutterCount
         TiffFinder finder(0x00a7, nikon3Id);

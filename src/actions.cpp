@@ -164,11 +164,11 @@ namespace Action {
         return UniquePtr(clone_());
     }
 
-    TaskFactory* TaskFactory::instance_ = 0;
+    TaskFactory* TaskFactory::instance_ = nullptr;
 
     TaskFactory& TaskFactory::instance()
     {
-        if (0 == instance_) {
+        if (nullptr == instance_) {
             instance_ = new TaskFactory;
         }
         return *instance_;
@@ -176,12 +176,12 @@ namespace Action {
 
     void TaskFactory::cleanup()
     {
-        if (instance_ != 0) {
+        if (instance_ != nullptr) {
             for (auto&& i : registry_) {
                 delete i.second;
             }
             delete instance_;
-            instance_ = 0;
+            instance_ = nullptr;
         }
     } //TaskFactory::cleanup
 
@@ -409,9 +409,7 @@ namespace Action {
         if (md != exifData.end()) {
             md->write(std::cout, &exifData);
             rc = 1;
-        }
-        else if (NULL != easyAccessFctFallback)
-        {
+        } else if (nullptr != easyAccessFctFallback) {
             md = easyAccessFctFallback(exifData);
             if (md != exifData.end()) {
                 md->write(std::cout, &exifData);
@@ -493,7 +491,7 @@ namespace Action {
             if (result)
                 break;
 #if defined(EXV_HAVE_REGEX_H)
-            result = regexec(&g, key.c_str(), 0, NULL, 0) == 0;
+            result = regexec(&g, key.c_str(), 0, nullptr, 0) == 0;
 #else
             std::string Pattern(g.pattern_);
             std::string Key(key);
@@ -1387,7 +1385,7 @@ namespace Action {
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::XmpData&  xmpData  = pImage->xmpData();
-        Exiv2::Metadatum* metadatum = 0;
+        Exiv2::Metadatum* metadatum = nullptr;
         if (modifyCmd.metadataId_ == exif) {
             auto pos = exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
             if (pos != exifData.end()) {
@@ -1413,9 +1411,7 @@ namespace Action {
         if (metadatum) {
             value = metadatum->getValue();
         }
-        if (   value.get() == 0
-            || (   modifyCmd.explicitType_
-                && modifyCmd.typeId_ != value->typeId())) {
+        if (value.get() == nullptr || (modifyCmd.explicitType_ && modifyCmd.typeId_ != value->typeId())) {
             value = Exiv2::Value::create(modifyCmd.typeId_);
         }
         int rc = value->read(modifyCmd.value_);
@@ -1809,7 +1805,8 @@ namespace {
         if (timeStr.length() < 19) return 2;
         if (  (timeStr[4]  != ':' && timeStr[4] != '-') || (timeStr[7]  != ':' && timeStr[7] != '-') || timeStr[10] != ' '
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
-        if (0 == tm) return 4;
+        if (nullptr == tm)
+            return 4;
         std::memset(tm, 0x0, sizeof(struct tm));
         tm->tm_isdst = -1;
 
@@ -1842,7 +1839,8 @@ namespace {
 
     std::string tm2Str(const struct tm* tm)
     {
-        if (0 == tm) return "";
+        if (nullptr == tm)
+            return "";
 
         std::ostringstream os;
         os << std::setfill('0')
@@ -2181,7 +2179,7 @@ namespace {
     {
       const std::string& str( strAndWidth.first);
       size_t minChCount( strAndWidth.second);
-      size_t count = mbstowcs( NULL, str.c_str(), 0); // returns 0xFFFFFFFF on error
+      size_t count = mbstowcs(nullptr, str.c_str(), 0);  // returns 0xFFFFFFFF on error
       if( count < minChCount)
       {
         minChCount += str.size() - count;

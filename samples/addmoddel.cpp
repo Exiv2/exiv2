@@ -97,7 +97,8 @@ try {
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
     auto prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
-    if (prv == 0) throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
+    if (prv == nullptr)
+        throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
     rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);

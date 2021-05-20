@@ -1733,7 +1733,7 @@ namespace Exiv2 {
 
         UShortValue v;
         v.value_.push_back(val);
-        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, 0);
+        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, nullptr);
     }
 
     std::ostream& Nikon3MakerNote::print0x0089(std::ostream& os,
@@ -1758,10 +1758,10 @@ namespace Exiv2 {
             }
         }
         if (d70) {
-            EXV_PRINT_TAG_BITMASK(nikonShootingModeD70)(os, value, 0);
+            EXV_PRINT_TAG_BITMASK(nikonShootingModeD70)(os, value, nullptr);
         }
         else {
-            EXV_PRINT_TAG_BITMASK(nikonShootingMode)(os, value, 0);
+            EXV_PRINT_TAG_BITMASK(nikonShootingMode)(os, value, nullptr);
         }
         return os;
     }
@@ -2579,7 +2579,7 @@ fmountlens[] = {
 // https://github.com/Exiv2/exiv2/issues/1208
 {0xC8,0x54,0x62,0x62,0x0C,0x0C,0x4B,0x46,0x00,0x00,0x00, "Sigma", "321550", "85mm F1.4 DG HSM | A"},
 // Always leave this at the end!
-{0,0,0,0,0,0,0,0,0,0,0, NULL, NULL, NULL}
+{0,0,0,0,0,0,0,0,0,0,0, nullptr, nullptr, nullptr}
 };
 //------------------------------------------------------------------------------
 #endif
@@ -2588,7 +2588,7 @@ fmountlens[] = {
     /* if no meta obj is provided, try to use the value param that *may*
      * be the pre-parsed lensid
      */
-        if (metadata == 0)
+        if (metadata == nullptr)
         {
             const unsigned char vid = static_cast<unsigned>(value.toLong(0));
 
@@ -2608,7 +2608,7 @@ fmountlens[] = {
                 ++pf;
             }
 
-            if (pf->lensname == NULL) {
+            if (pf->lensname == nullptr) {
                 return os << value;
             }
             return os << pf->manuf << " " << pf->lensname;
@@ -2643,7 +2643,7 @@ fmountlens[] = {
         }
         raw[7] = static_cast<byte>(md->toLong());
 
-        for (int i = 0; fmountlens[i].lensname != NULL; ++i) {
+        for (int i = 0; fmountlens[i].lensname != nullptr; ++i) {
             if (   raw[0] == fmountlens[i].lid ) {
                 // #1034
                 const std::string  undefined("undefined") ;

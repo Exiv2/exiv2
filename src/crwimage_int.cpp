@@ -562,7 +562,7 @@ namespace Exiv2 {
     {
         if (isAllocated_) {
             delete[] pData_;
-            pData_ = 0;
+            pData_ = nullptr;
             size_ = 0;
         }
         isAllocated_ = true;
@@ -606,7 +606,8 @@ namespace Exiv2 {
     CiffComponent* CiffHeader::findComponent(uint16_t crwTagId,
                                              uint16_t crwDir) const
     {
-        if (pRootDir_ == 0) return 0;
+        if (pRootDir_ == nullptr)
+            return nullptr;
         return pRootDir_->findComponent(crwTagId, crwDir);
     } // CiffHeader::findComponent
 
@@ -622,7 +623,7 @@ namespace Exiv2 {
         if (tagId() == crwTagId && dir() == crwDir) {
             return const_cast<CiffComponent*>(this);
         }
-        return 0;
+        return nullptr;
     } // CiffComponent::doFindComponent
 
     CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId,
@@ -633,7 +634,7 @@ namespace Exiv2 {
             cc = component->findComponent(crwTagId, crwDir);
             if (cc) return cc;
         }
-        return 0;
+        return nullptr;
     } // CiffDirectory::doFindComponent
 
     void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf buf)
@@ -658,7 +659,7 @@ namespace Exiv2 {
 
     CiffComponent* CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/)
     {
-        return 0;
+        return nullptr;
     } // CiffComponent::doAdd
 
     CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId)
@@ -685,7 +686,7 @@ namespace Exiv2 {
                     break;
                 }
             }
-            if (cc_ == 0) {
+            if (cc_ == nullptr) {
                 // Directory doesn't exist yet, add it
                 m_ = UniquePtr(new CiffDirectory(csd.crwDir_, csd.parent_));
                 cc_ = m_.get();
@@ -702,7 +703,7 @@ namespace Exiv2 {
                     break;
                 }
             }
-            if (cc_ == 0) {
+            if (cc_ == nullptr) {
                 // Tag doesn't exist yet, add it
                 m_ = UniquePtr(new CiffEntry(crwTagId, tag()));
                 cc_ = m_.get();
@@ -800,7 +801,7 @@ namespace Exiv2 {
                 return &crw;
             }
         }
-        return 0;
+        return nullptr;
     } // CrwMap::crwMapping
 
     void CrwMap::decode0x0805(const CiffComponent& ciffComponent,
@@ -1001,7 +1002,7 @@ namespace Exiv2 {
     void CrwMap::encode(CiffHeader* pHead, const Image& image)
     {
         for (auto&& crw : crwMapping_) {
-            if (crw.fromExif_ != 0) {
+            if (crw.fromExif_ != nullptr) {
                 crw.fromExif_(image, &crw, pHead);
             }
         }

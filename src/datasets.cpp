@@ -416,17 +416,18 @@ namespace Exiv2 {
     // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record.
     // The record id is used as the index into the array.
     constexpr const DataSet* IptcDataSets::records_[] = {
-        0,
+        nullptr,
         envelopeRecord,
         application2Record,
-        0,
+        nullptr,
     };
 
     int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) return -1;
         const DataSet* dataSet = records_[recordId];
-        if (dataSet == 0) return -1;
+        if (dataSet == nullptr)
+            return -1;
         int idx;
         for (idx = 0; dataSet[idx].number_ != number; ++idx) {
             if (dataSet[idx].number_ == 0xffff) return -1;
@@ -438,7 +439,8 @@ namespace Exiv2 {
     {
         if( recordId != envelope && recordId != application2 ) return -1;
         const DataSet* dataSet = records_[recordId];
-        if (dataSet == 0) return -1;
+        if (dataSet == nullptr)
+            return -1;
         int idx;
         for (idx = 0; dataSet[idx].name_ != dataSetName; ++idx) {
             if (dataSet[idx].number_ == 0xffff) return -1;
@@ -546,7 +548,7 @@ namespace Exiv2 {
     void IptcDataSets::dataSetList(std::ostream& os)
     {
         for (auto&& record : records_) {
-            for (int j=0; record != 0 && record[j].number_ != 0xffff; ++j) {
+            for (int j = 0; record != nullptr && record[j].number_ != 0xffff; ++j) {
                 os << record[j] << "\n";
             }
         }
