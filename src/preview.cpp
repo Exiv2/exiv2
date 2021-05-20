@@ -1033,8 +1033,6 @@ namespace Exiv2 {
     PreviewImage::PreviewImage(PreviewProperties properties, DataBuf data)
         : properties_(std::move(properties)), pData_(data.pData_), size_(data.size_)
     {
-        pData_ = data.pData_;
-        size_ = data.size_;
         std::pair<byte*, long> ret = data.release();
         UNUSED(ret);
     }
