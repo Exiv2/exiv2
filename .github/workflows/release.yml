@@ -118,7 +118,7 @@ jobs:
         run: |
           md build
           cd build
-          conan install libgettext/0.20.1@
+          conan install gettext/0.20.1@
           conan profile list
           conan install .. --build missing
           dir ..
