@@ -39,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: exiv2-linux64
-          path: ./exiv2-*.tar.gz
+          path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
 
@@ -67,7 +67,7 @@ jobs:
       - name: Build packaged release
         run: |
           cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON ..
+          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
           cmake --build . -t package
 
       - uses: actions/upload-artifact@v2
