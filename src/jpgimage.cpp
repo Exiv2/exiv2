@@ -119,7 +119,7 @@ namespace Exiv2 {
     bool Photoshop::valid(const byte* pPsData,
                           long        sizePsData)
     {
-        const byte *record = 0;
+        const byte* record = nullptr;
         uint32_t sizeIptc = 0;
         uint32_t sizeHdr = 0;
         const byte* pCur = pPsData;
@@ -534,7 +534,7 @@ namespace Exiv2 {
         if (!psBlob.empty()) {
             // Find actual IPTC data within the psBlob
             Blob iptcBlob;
-            const byte *record = 0;
+            const byte* record = nullptr;
             uint32_t sizeIptc = 0;
             uint32_t sizeHdr = 0;
             const byte* pCur = &psBlob[0];
@@ -1100,7 +1100,7 @@ namespace Exiv2 {
                     const byte* pExifData = rawExif.pData_;
                     uint32_t exifSize = rawExif.size_;
                     if (wm == wmIntrusive) {
-                        pExifData = !blob.empty() ? &blob[0] : 0;
+                        pExifData = !blob.empty() ? &blob[0] : nullptr;
                         exifSize = static_cast<uint32_t>(blob.size());
                     }
                     if (exifSize > 0) {
@@ -1192,7 +1192,7 @@ namespace Exiv2 {
                 if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : 0,
+                    DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : nullptr,
                                                               static_cast<long>(psBlob.size()), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.pData_;

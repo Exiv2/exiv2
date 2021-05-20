@@ -115,7 +115,7 @@ namespace Exiv2 {
     {
         tag_ = tag;
         group_ = group;
-        tiffComponent_ = 0;
+        tiffComponent_ = nullptr;
         setGo(geTraverse, true);
     }
 
@@ -370,7 +370,7 @@ namespace Exiv2 {
         // add Exif tag anyway
         decodeStdTiffEntry(object);
 
-        byte const* pData = 0;
+        byte const* pData = nullptr;
         long size = 0;
         getObjData(pData, size, 0x02bc, ifd0Id, object);
         if (pData) {
@@ -404,7 +404,7 @@ namespace Exiv2 {
         }
         decodedIptc_ = true;
         // 1st choice: IPTCNAA
-        byte const* pData = 0;
+        byte const* pData = nullptr;
         long size = 0;
         getObjData(pData, size, 0x83bb, ifd0Id, object);
         if (pData) {
@@ -420,11 +420,11 @@ namespace Exiv2 {
 
         // 2nd choice if no IPTCNAA record found or failed to decode it:
         // ImageResources
-        pData = 0;
+        pData = nullptr;
         size = 0;
         getObjData(pData, size, 0x8649, ifd0Id, object);
         if (pData) {
-            byte const* record = 0;
+            byte const* record = nullptr;
             uint32_t sizeHdr = 0;
             uint32_t sizeData = 0;
             if (0 != Photoshop::locateIptcIrb(pData, size,
@@ -445,7 +445,7 @@ namespace Exiv2 {
     static const TagInfo* findTag(const TagInfo* pList,uint16_t tag)
     {
         while ( pList->tag_ != 0xffff && pList->tag_ != tag ) pList++;
-        return  pList->tag_ != 0xffff  ? pList : NULL;
+        return pList->tag_ != 0xffff ? pList : nullptr;
     }
 
     void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
@@ -545,7 +545,7 @@ namespace Exiv2 {
 
     void TiffDecoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        if (object->cfg() == 0 || !object->decoded()) {
+        if (object->cfg() == nullptr || !object->decoded()) {
             decodeTiffEntry(object);
         }
     }
@@ -566,7 +566,7 @@ namespace Exiv2 {
           pRoot_(pRoot),
           isNewImage_(isNewImage),
           pPrimaryGroups_(pPrimaryGroups),
-          pSourceTree_(0),
+          pSourceTree_(nullptr),
           findEncoderFct_(findEncoderFct),
           dirty_(false),
           writeMethod_(wmNonIntrusive)
@@ -807,7 +807,7 @@ namespace Exiv2 {
 
     void TiffEncoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        if (object->cfg() == 0 || !object->decoded()) {
+        if (object->cfg() == nullptr || !object->decoded()) {
             encodeTiffComponent(object);
         }
     }
@@ -816,7 +816,8 @@ namespace Exiv2 {
     {
         assert(object != 0);
 
-        if (object->cfg() == 0 || !object->decoded()) return;
+        if (object->cfg() == nullptr || !object->decoded())
+            return;
         int32_t size = object->TiffEntryBase::doSize();
         if (size == 0) return;
         if (!object->initialize(pRoot_)) return;
@@ -826,7 +827,7 @@ namespace Exiv2 {
         if ( cryptFct == sonyTagDecipher ) {
              cryptFct  = sonyTagEncipher;
         }
-        if (cryptFct != 0) {
+        if (cryptFct != nullptr) {
             const byte* pData = object->pData();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size_ > 0) {
@@ -862,7 +863,7 @@ namespace Exiv2 {
 
         auto pos = exifData_.end();
         const Exifdatum* ed = datum;
-        if (ed == 0) {
+        if (ed == nullptr) {
             // Non-intrusive writing: find matching tag
             ExifKey key(object->tag(), groupName(object->group()));
             pos = exifData_.findKey(key);
@@ -885,8 +886,7 @@ namespace Exiv2 {
                 std::cerr << "DELETING          " << key << ", idx = " << object->idx() << "\n";
 #endif
             }
-        }
-        else {
+        } else {
             // For intrusive writing, the index is used to preserve the order of
             // duplicate tags
             object->idx_ = ed->idx();
@@ -982,7 +982,7 @@ namespace Exiv2 {
             // Set pseudo strips (without a data pointer) from the size tag
             ExifKey key(object->szTag(), groupName(object->szGroup()));
             auto pos = exifData_.findKey(key);
-            const byte* zero = 0;
+            const byte* zero = nullptr;
             if (pos == exifData_.end()) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_ERROR << "Size tag " << key
@@ -1146,7 +1146,7 @@ namespace Exiv2 {
                           << std::hex << i->tag() << "\n";
             }
 #endif
-            if (object != 0) {
+            if (object != nullptr) {
                 encodeTiffComponent(object, &(*i));
             }
         }
@@ -1199,7 +1199,7 @@ namespace Exiv2 {
 
     void TiffReader::setMnState(const TiffRwState* state)
     {
-        if (state != 0) {
+        if (state != nullptr) {
             // invalidByteOrder indicates 'no change'
             if (state->byteOrder() == invalidByteOrder) {
                 mnState_ = TiffRwState(origState_.byteOrder(), state->baseOffset());
@@ -1353,7 +1353,7 @@ namespace Exiv2 {
             if (next) {
                 tc = TiffCreator::create(Tag::next, object->group());
 #ifndef SUPPRESS_WARNINGS
-                if (tc.get() == 0) {
+                if (tc.get() == nullptr) {
                     EXV_WARNING << "Directory " << groupName(object->group())
                                 << " has an unexpected next pointer; ignored.\n";
                 }
@@ -1590,7 +1590,7 @@ namespace Exiv2 {
             }
         }
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != NULL, kerCorruptedMetadata);
+        enforce(v.get() != nullptr, kerCorruptedMetadata);
         if ( !isize ) {
             v->read(pData, size, byteOrder());
         } else {
@@ -1641,10 +1641,11 @@ namespace Exiv2 {
         if (object->TiffEntryBase::doSize() == 0) return;
         if (!object->initialize(pRoot_)) return;
         const ArrayCfg* cfg = object->cfg();
-        if (cfg == 0) return;
+        if (cfg == nullptr)
+            return;
 
         const CryptFct cryptFct = cfg->cryptFct_;
-        if (cryptFct != 0) {
+        if (cryptFct != nullptr) {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
@@ -1698,7 +1699,7 @@ namespace Exiv2 {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         Value::UniquePtr v = Value::create(typeId);
-        enforce(v.get() != NULL, kerCorruptedMetadata);
+        enforce(v.get() != nullptr, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(std::move(v));

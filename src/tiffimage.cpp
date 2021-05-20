@@ -205,7 +205,7 @@ namespace Exiv2 {
         std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
-        byte* pData = 0;
+        byte* pData = nullptr;
         long size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
@@ -294,16 +294,8 @@ namespace Exiv2 {
         }
 
         std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
-        return TiffParserWorker::encode(io,
-                                        pData,
-                                        size,
-                                        ed,
-                                        iptcData,
-                                        xmpData,
-                                        Tag::root,
-                                        TiffMapping::findEncoder,
-                                        header.get(),
-                                        0);
+        return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
+                                        header.get(), nullptr);
     } // TiffParser::encode
 
     // *************************************************************************

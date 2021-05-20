@@ -59,7 +59,8 @@ namespace Exiv2 {
     IoWrapper::IoWrapper(BasicIo& io, const byte* pHeader, long size, OffsetWriter* pow)
         : io_(io), pHeader_(pHeader), size_(size), wroteHeader_(false), pow_(pow)
     {
-        if (pHeader_ == 0 || size_ == 0) wroteHeader_ = true;
+        if (pHeader_ == nullptr || size_ == 0)
+            wroteHeader_ = true;
     }
 
     long IoWrapper::write(const byte* pData, long wcount)
@@ -85,16 +86,20 @@ namespace Exiv2 {
         if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), target);
     }
 
-    TiffComponent::TiffComponent(uint16_t tag, IfdId group)
-        : tag_(tag), group_(group), pStart_(0)
+    TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group), pStart_(nullptr)
     {
     }
 
     TiffEntryBase::TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType)
         : TiffComponent(tag, group),
-          tiffType_(tiffType), count_(0), offset_(0),
-          size_(0), pData_(0), isMalloced_(false), idx_(0),
-          pValue_(0)
+          tiffType_(tiffType),
+          count_(0),
+          offset_(0),
+          size_(0),
+          pData_(nullptr),
+          isMalloced_(false),
+          idx_(0),
+          pValue_(nullptr)
     {
     }
 
@@ -104,7 +109,7 @@ namespace Exiv2 {
     }
 
     TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup)
-        : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup), mn_(0)
+        : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup), mn_(nullptr)
     {
     }
 
@@ -121,41 +126,35 @@ namespace Exiv2 {
     {
     }
 
-    TiffBinaryArray::TiffBinaryArray(uint16_t tag,
-                                     IfdId group,
-                                     const ArrayCfg* arrayCfg,
-                                     const ArrayDef* arrayDef,
+    TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg* arrayCfg, const ArrayDef* arrayDef,
                                      int defSize)
         : TiffEntryBase(tag, group, arrayCfg->elTiffType_),
-          cfgSelFct_(0),
-          arraySet_(0),
+          cfgSelFct_(nullptr),
+          arraySet_(nullptr),
           arrayCfg_(arrayCfg),
           arrayDef_(arrayDef),
           defSize_(defSize),
           setSize_(0),
-          origData_(0),
+          origData_(nullptr),
           origSize_(0),
-          pRoot_(0),
+          pRoot_(nullptr),
           decoded_(false)
     {
         assert(arrayCfg != 0);
     }
 
-    TiffBinaryArray::TiffBinaryArray(uint16_t tag,
-                                     IfdId group,
-                                     const ArraySet* arraySet,
-                                     int setSize,
+    TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, int setSize,
                                      CfgSelFct cfgSelFct)
-        : TiffEntryBase(tag, group), // Todo: Does it make a difference that there is no type?
+        : TiffEntryBase(tag, group),  // Todo: Does it make a difference that there is no type?
           cfgSelFct_(cfgSelFct),
           arraySet_(arraySet),
-          arrayCfg_(0),
-          arrayDef_(0),
+          arrayCfg_(nullptr),
+          arrayDef_(nullptr),
           defSize_(0),
           setSize_(setSize),
-          origData_(0),
+          origData_(nullptr),
           origSize_(0),
-          pRoot_(0),
+          pRoot_(nullptr),
           decoded_(false)
     {
         // We'll figure out the correct cfg later
@@ -221,7 +220,7 @@ namespace Exiv2 {
           pData_(rhs.pData_),
           isMalloced_(rhs.isMalloced_),
           idx_(rhs.idx_),
-          pValue_(rhs.pValue_ ? rhs.pValue_->clone().release() : 0)
+          pValue_(rhs.pValue_ ? rhs.pValue_->clone().release() : nullptr)
     {
         if (rhs.isMalloced_) {
             pData_ = new byte[rhs.size_];
@@ -229,10 +228,7 @@ namespace Exiv2 {
         }
     }
 
-    TiffDirectory::TiffDirectory(const TiffDirectory& rhs)
-        : TiffComponent(rhs),
-          hasNext_(rhs.hasNext_),
-          pNext_(0)
+    TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), hasNext_(rhs.hasNext_), pNext_(nullptr)
     {
     }
 
@@ -295,13 +291,13 @@ namespace Exiv2 {
     TiffMnEntry* TiffMnEntry::doClone() const
     {
         assert(false); // Not implemented
-        return 0;
+        return nullptr;
     }
 
     TiffIfdMakernote* TiffIfdMakernote::doClone() const
     {
         assert(false); // Not implemented
-        return 0;
+        return nullptr;
     }
 
     TiffBinaryArray* TiffBinaryArray::doClone() const
@@ -338,17 +334,19 @@ namespace Exiv2 {
         }
         pData_ = pData;
         size_  = size;
-        if (pData_ == 0) size_ = 0;
+        if (pData_ == nullptr)
+            size_ = 0;
     }
 
     void TiffEntryBase::updateValue(Value::UniquePtr value, ByteOrder byteOrder)
     {
-        if (value.get() == 0) return;
+        if (value.get() == nullptr)
+            return;
         uint32_t newSize = value->size();
         if (newSize > size_) {
             setData(DataBuf(newSize));
         }
-        if (pData_ != NULL) {
+        if (pData_ != nullptr) {
             memset(pData_, 0x0, size_);
         }
         size_ = value->copy(pData_, byteOrder);
@@ -358,7 +356,8 @@ namespace Exiv2 {
 
     void TiffEntryBase::setValue(Value::UniquePtr value)
     {
-        if (value.get() == 0) return;
+        if (value.get() == nullptr)
+            return;
         tiffType_ = toTiffType(value->typeId());
         count_ = value->count();
         delete pValue_;
@@ -537,7 +536,8 @@ namespace Exiv2 {
 
     bool TiffBinaryArray::initialize(IfdId group)
     {
-        if (arrayCfg_ != 0) return true; // Not a complex array or already initialized
+        if (arrayCfg_ != nullptr)
+            return true;  // Not a complex array or already initialized
 
         for (int idx = 0; idx < setSize_; ++idx) {
             if (arraySet_[idx].cfg_.group_ == group) {
@@ -552,7 +552,8 @@ namespace Exiv2 {
 
     bool TiffBinaryArray::initialize(TiffComponent* const pRoot)
     {
-        if (cfgSelFct_ == 0) return true; // Not a complex array
+        if (cfgSelFct_ == nullptr)
+            return true;  // Not a complex array
 
         int idx = cfgSelFct_(tag(), pData(), TiffEntryBase::doSize(), pRoot);
         if (idx > -1) {
@@ -621,7 +622,7 @@ namespace Exiv2 {
         tiffPath.pop();
         const TiffPathItem tpi = tiffPath.top();
 
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         // Try to use an existing component if there is still at least one
         // composite tag on the stack or the tag to add is the MakerNote tag.
         // This is used to prevent duplicate entries. Sub-IFDs also, but the > 1
@@ -640,19 +641,19 @@ namespace Exiv2 {
                 }
             }
         }
-        if (tc == 0) {
+        if (tc == nullptr) {
             TiffComponent::UniquePtr atc;
-            if (tiffPath.size() == 1 && object.get() != 0) {
+            if (tiffPath.size() == 1 && object.get() != nullptr) {
                 atc = std::move(object);
-            }
-            else {
+            } else {
                 atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
             }
             assert(atc.get() != 0);
 
             // Prevent dangling sub-IFD tags: Do not add a sub-IFD component without children.
             // Todo: How to check before creating the component?
-            if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()) != 0) return 0;
+            if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()) != nullptr)
+                return nullptr;
 
             if (tpi.extendedTag() == Tag::next) {
                 tc = this->addNext(std::move(atc));
@@ -679,18 +680,17 @@ namespace Exiv2 {
         }
         const TiffPathItem tpi2 = tiffPath.top();
         tiffPath.push(tpi1);
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         for (auto&& ifd : ifds_) {
             if (ifd->group() == tpi2.group()) {
                 tc = ifd;
                 break;
             }
         }
-        if (tc == 0) {
-            if (tiffPath.size() == 1 && object.get() != 0) {
+        if (tc == nullptr) {
+            if (tiffPath.size() == 1 && object.get() != nullptr) {
                 tc = addChild(std::move(object));
-            }
-            else {
+            } else {
                 TiffComponent::UniquePtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
                 tc = addChild(std::move(atc));
             }
@@ -713,7 +713,7 @@ namespace Exiv2 {
         }
         const TiffPathItem tpi2 = tiffPath.top();
         tiffPath.push(tpi1);
-        if (mn_ == 0) {
+        if (mn_ == nullptr) {
             mnGroup_ = tpi2.group();
             mn_ = TiffMnCreator::create(tpi1.tag(), tpi1.group(), mnGroup_);
             assert(mn_);
@@ -743,7 +743,7 @@ namespace Exiv2 {
         const TiffPathItem tpi = tiffPath.top();
         // Initialize the binary array (if it is a complex array)
         initialize(tpi.group());
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         // Todo: Duplicates are not allowed!
         // To allow duplicate entries, we only check if the new component already
         // exists if there is still at least one composite tag on the stack
@@ -755,12 +755,11 @@ namespace Exiv2 {
                 }
             }
         }
-        if (tc == 0) {
+        if (tc == nullptr) {
             TiffComponent::UniquePtr atc;
-            if (tiffPath.size() == 1 && object.get() != 0) {
+            if (tiffPath.size() == 1 && object.get() != nullptr) {
                 atc = std::move(object);
-            }
-            else {
+            } else {
                 atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
             }
             assert(atc.get() != 0);
@@ -778,7 +777,7 @@ namespace Exiv2 {
 
     TiffComponent* TiffComponent::doAddChild(UniquePtr /*tiffComponent*/)
     {
-        return 0;
+        return nullptr;
     } // TiffComponent::doAddChild
 
     TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent)
@@ -798,7 +797,7 @@ namespace Exiv2 {
 
     TiffComponent* TiffMnEntry::doAddChild(TiffComponent::UniquePtr tiffComponent)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         if (mn_) {
             tc =  mn_->addChild(std::move(tiffComponent));
         }
@@ -825,12 +824,12 @@ namespace Exiv2 {
 
     TiffComponent* TiffComponent::doAddNext(UniquePtr /*tiffComponent*/)
     {
-        return 0;
+        return nullptr;
     } // TiffComponent::doAddNext
 
     TiffComponent* TiffDirectory::doAddNext(TiffComponent::UniquePtr tiffComponent)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         if (hasNext_) {
             tc = tiffComponent.release();
             pNext_ = tc;
@@ -840,7 +839,7 @@ namespace Exiv2 {
 
     TiffComponent* TiffMnEntry::doAddNext(TiffComponent::UniquePtr tiffComponent)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         if (mn_) {
             tc = mn_->addNext(std::move(tiffComponent));
         }
@@ -906,7 +905,7 @@ namespace Exiv2 {
         if (mn_) mn_->accept(visitor);
         if (!visitor.go(TiffVisitor::geKnownMakernote)) {
             delete mn_;
-            mn_ = 0;
+            mn_ = nullptr;
         }
 
     } // TiffMnEntry::doAccept
@@ -1013,7 +1012,8 @@ namespace Exiv2 {
 
     uint32_t TiffBinaryArray::doCount() const
     {
-        if (cfg() == 0 || !decoded()) return TiffEntryBase::doCount();
+        if (cfg() == nullptr || !decoded())
+            return TiffEntryBase::doCount();
 
         if (elements_.empty()) return 0;
 
@@ -1359,18 +1359,14 @@ namespace Exiv2 {
                                       uint32_t  dataIdx,
                                       uint32_t& imageIdx)
     {
-        if (cfg() == 0 || !decoded()) return TiffEntryBase::doWrite(ioWrapper,
-                                                                    byteOrder,
-                                                                    offset,
-                                                                    valueIdx,
-                                                                    dataIdx,
-                                                                    imageIdx);
+        if (cfg() == nullptr || !decoded())
+            return TiffEntryBase::doWrite(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
         if (cfg()->byteOrder_ != invalidByteOrder) byteOrder = cfg()->byteOrder_;
         // Tags must be sorted in ascending order
         std::sort(elements_.begin(), elements_.end(), cmpTagLt);
         uint32_t idx = 0;
         MemIo mio; // memory stream in which to store data
-        IoWrapper mioWrapper(mio, 0, 0, 0);
+        IoWrapper mioWrapper(mio, nullptr, 0, nullptr);
         // Some array entries need to have the size in the first element
         if (cfg()->hasSize_) {
             byte buf[4];
@@ -1533,7 +1529,7 @@ namespace Exiv2 {
                                          ByteOrder byteOrder) const
     {
         uint32_t len = 0;
-        TiffComponent* pSubIfd = 0;
+        TiffComponent* pSubIfd = nullptr;
         for (auto&& component : components_) {
             if (component->tag() == 0x014a) {
                 // Hack: delay writing of sub-IFD image data to get the order correct
@@ -1681,7 +1677,8 @@ namespace Exiv2 {
 
     uint32_t TiffBinaryArray::doSize() const
     {
-        if (cfg() == 0 || !decoded()) return TiffEntryBase::doSize();
+        if (cfg() == nullptr || !decoded())
+            return TiffEntryBase::doSize();
 
         if (elements_.empty()) return 0;
 
@@ -1810,13 +1807,12 @@ namespace Exiv2 {
 
     static const TagInfo* findTagInfo(uint16_t tag,IfdId group)
     {
-        const TagInfo* result = NULL ;
-        const TagInfo* tags   = group == exifId ? Internal::exifTagList()
-                              : group == gpsId  ? Internal::gpsTagList()
-                              : NULL
-                              ;
+        const TagInfo* result = nullptr;
+        const TagInfo* tags = group == exifId  ? Internal::exifTagList()
+                              : group == gpsId ? Internal::gpsTagList()
+                                               : nullptr;
         if ( tags ) {
-            for ( size_t idx = 0; result==NULL && tags[idx].tag_ != 0xffff; ++idx) {
+            for (size_t idx = 0; result == nullptr && tags[idx].tag_ != 0xffff; ++idx) {
                 if ( tags[idx].tag_ == tag ) {
                       result = tags+idx;
                 }
@@ -1831,7 +1827,7 @@ namespace Exiv2 {
     {
         auto ti = TypeId(tiffType);
         // On the fly type conversion for Exif.Photo.UserComment, Exif.GPSProcessingMethod, GPSAreaInformation
-        if ( const TagInfo* pTag = ti == undefined ? findTagInfo(tag,group) : NULL ) {
+        if (const TagInfo* pTag = ti == undefined ? findTagInfo(tag, group) : nullptr) {
             if ( pTag->typeId_ == comment ) {
                 ti = comment;
             }

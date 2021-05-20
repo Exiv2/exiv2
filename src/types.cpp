@@ -101,7 +101,8 @@ namespace Exiv2 {
     const char* TypeInfo::typeName(TypeId typeId)
     {
         const TypeInfoTable* tit = find(typeInfoTable, typeId);
-        if (!tit) return 0;
+        if (!tit)
+            return nullptr;
         return tit->name_;
     }
 
@@ -129,14 +130,13 @@ namespace Exiv2 {
     DataBuf::~DataBuf()
     { delete[] pData_; }
 
-    DataBuf::DataBuf() : pData_(0), size_(0)
+    DataBuf::DataBuf() : pData_(nullptr), size_(0)
     {}
 
     DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
     {}
 
-    DataBuf::DataBuf(const byte* pData, long size)
-        : pData_(0), size_(0)
+    DataBuf::DataBuf(const byte* pData, long size) : pData_(nullptr), size_(0)
     {
         if (size > 0) {
             pData_ = new byte[size];
@@ -156,7 +156,7 @@ namespace Exiv2 {
     {
         if (size > size_) {
             delete[] pData_;
-            pData_ = 0;
+            pData_ = nullptr;
             size_ = 0;
             pData_ = new byte[size];
             size_ = size;
@@ -166,7 +166,7 @@ namespace Exiv2 {
     EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
     {
         std::pair<byte*, long> p = std::make_pair(pData_, size_);
-        pData_ = 0;
+        pData_ = nullptr;
         size_ = 0;
         return p;
     }
@@ -174,7 +174,7 @@ namespace Exiv2 {
     void DataBuf::free()
     {
         delete[] pData_;
-        pData_ = 0;
+        pData_ = nullptr;
         size_ = 0;
     }
 

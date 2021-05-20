@@ -188,7 +188,7 @@ int main(int argc, char* const argv[])
 
 // *****************************************************************************
 // class Params
-Params* Params::instance_ = 0;
+Params* Params::instance_ = nullptr;
 
 const Params::YodAdjust Params::emptyYodAdjust_[] = {
     { false, "-Y", 0 },
@@ -198,7 +198,7 @@ const Params::YodAdjust Params::emptyYodAdjust_[] = {
 
 Params& Params::instance()
 {
-    if (0 == instance_) {
+    if (nullptr == instance_) {
         instance_ = new Params;
     }
     return *instance_;
@@ -215,7 +215,7 @@ Params::~Params() {
 void Params::cleanup()
 {
     delete instance_;
-    instance_ = 0;
+    instance_ = nullptr;
 }
 
 void Params::version(bool verbose, std::ostream& os)
@@ -472,7 +472,7 @@ int Params::evalGrep( const std::string& optArg)
 
     // there was an error compiling the regexp
     if( errcode ) {
-        size_t length = regerror (errcode, pRegex, NULL, 0);
+        size_t length = regerror(errcode, pRegex, nullptr, 0);
         auto buffer = new char[length];
         regerror (errcode, pRegex, buffer, length);
         std::cerr << progname()
@@ -958,7 +958,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
     const int buff_size = 4*1028;
     auto bytes = static_cast<Exiv2::byte*>(::malloc(buff_size));
     int       nBytes    = 0 ;
-    bool      more      = bytes != NULL;
+    bool more = bytes != nullptr;
     while   ( more ) {
         char buff[buff_size];
         int n = static_cast<int>(fread(buff, 1, buff_size, f));
@@ -974,7 +974,8 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
         buf.alloc(nBytes);
         memcpy(buf.pData_, bytes, nBytes);
     }
-    if ( bytes != NULL ) ::free(bytes) ;
+    if (bytes != nullptr)
+        ::free(bytes);
     return nBytes;
 }
 
@@ -996,7 +997,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         struct timeval timeout =  {1,0}; // yes: set timeout seconds,microseconds
 
         // if we have something in the pipe, read it
-        if (select(1, &readfds, NULL, NULL, &timeout)) {
+        if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
 #ifdef DEBUG
             std::cerr << "stdin has data" << std::endl;
@@ -1038,7 +1039,7 @@ using long_t = std::map<std::string, std::string>;
 int Params::getopt(int argc, char* const Argv[])
 {
     auto argv = new char*[argc + 1];
-    argv[argc] = NULL;
+    argv[argc] = nullptr;
     long_t longs;
 
     longs["--adjust"   ] = "-a";
@@ -1170,9 +1171,9 @@ namespace {
         strcpy(cts, ts.c_str());
         char *tmp = ::strtok(cts, ":");
         if (tmp) hstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp) mstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp) sstr = tmp;
         delete[] cts;
 

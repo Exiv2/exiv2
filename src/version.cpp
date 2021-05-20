@@ -118,9 +118,7 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
     for (auto g = greps.begin(); !bPrint && g != greps.end(); ++g) {
         std::string Key(key);
 #if defined(EXV_HAVE_REGEX_H)
-        bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
-                 || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
-                 );
+        bPrint = (0 == regexec(&(*g), key, 0, nullptr, 0) || 0 == regexec(&(*g), value.c_str(), 0, nullptr, 0));
 #else
             std::string Pattern(g->pattern_);
             std::string Value(value);

@@ -63,7 +63,7 @@ struct Token {
 using Tokens = std::vector<Token>;
 
 // "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
-bool getToken(std::string& in,Token& token, std::set<std::string>* pNS=NULL)
+bool getToken(std::string& in, Token& token, std::set<std::string>* pNS = nullptr)
 {
     bool result = false;
     bool ns     = false;
@@ -119,7 +119,8 @@ Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 }
 
 // build the json tree for this key.  return location and discover the name
-Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& name,std::set<std::string>* pNS=NULL)
+Jzon::Node& objectForKey(const std::string& Key, Jzon::Object& root, std::string& name,
+                         std::set<std::string>* pNS = nullptr)
 {
     // Parse the key
     Tokens      tokens ;

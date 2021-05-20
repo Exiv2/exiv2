@@ -129,7 +129,7 @@ namespace {
         { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
 #endif // EXV_ENABLE_BMFF
         // End of list marker
-        { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
+        { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
     };
 
 }  // namespace
@@ -289,7 +289,7 @@ namespace Exiv2 {
     const char* Image::typeName(uint16_t tag)
     {
         //! List of TIFF image tags
-        const char* result = NULL;
+        const char* result = nullptr;
         switch (tag ) {
             case Exiv2::unsignedByte     : result = "BYTE"      ; break;
             case Exiv2::asciiString      : result = "ASCII"     ; break;
@@ -791,7 +791,7 @@ namespace Exiv2 {
     bool ImageFactory::checkType(int type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
-        if (0 != r) {
+        if (nullptr != r) {
             return r->isThisType_(io, advance);
         }
         return false;
@@ -872,7 +872,7 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
         Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == 0) throw Error(kerFileContainsUnknownImageType, path);
+        if (image.get() == nullptr) throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
 
@@ -889,7 +889,7 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
         Image::UniquePtr image = open(std::move(io)); // may throw
-        if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
+        if (image.get() == nullptr) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
@@ -917,7 +917,7 @@ namespace Exiv2 {
         fileIo->close();
         BasicIo::UniquePtr io(std::move(fileIo));
         Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
+        if (image.get() == nullptr) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
@@ -942,7 +942,7 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo);
         Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
+        if (image.get() == nullptr) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
@@ -951,7 +951,7 @@ namespace Exiv2 {
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
-        if (0 != r) {
+        if (nullptr != r) {
             return r->newInstance_(std::move(io), true);
         }
         return Image::UniquePtr();

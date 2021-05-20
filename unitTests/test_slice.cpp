@@ -322,7 +322,7 @@ TYPED_TEST_P(mutableSlice, at)
 
 TEST(pointerSlice, failedConstructionFromNullpointer)
 {
-    ASSERT_THROW(Slice<long*>(NULL, 1, 2), std::invalid_argument);
+    ASSERT_THROW(Slice<long*>(nullptr, 1, 2), std::invalid_argument);
 }
 
 /*!

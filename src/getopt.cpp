@@ -121,7 +121,7 @@ namespace Util {
             if (c == -1) {
                 break;
             }
-            errcnt_ += option(c, Util::optarg == 0 ? "" : Util::optarg, Util::optopt);
+            errcnt_ += option(c, Util::optarg == nullptr ? "" : Util::optarg, Util::optopt);
             if (c == '?' ) {
                 break;
             }

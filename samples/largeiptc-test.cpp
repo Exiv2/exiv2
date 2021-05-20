@@ -66,7 +66,7 @@ int main(int argc, char* const argv[])
         std::cout << "IPTC fields: " << iptcData.size() << "\n";
 
         // Set IRB, compare with IPTC raw data
-        Exiv2::DataBuf irb = Exiv2::Photoshop::setIptcIrb(0, 0, iptcData);
+        Exiv2::DataBuf irb = Exiv2::Photoshop::setIptcIrb(nullptr, 0, iptcData);
         std::cout << "IRB buffer : " << irb.size_ << "\n";
         const Exiv2::byte* record;
         uint32_t sizeHdr;

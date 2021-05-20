@@ -330,7 +330,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
-        char *buf = 0;
+        char* buf = nullptr;
         char buf2[n];
         std::memset(buf2, 0x0, n);
         buf = strerror_r(error, buf2, n);
