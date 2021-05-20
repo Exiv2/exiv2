@@ -14,6 +14,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install ninja-build
+          sudo apt-get install gettext
           pip3 install conan==1.36.0
 
       - name: Conan common config
