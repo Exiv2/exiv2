@@ -24,6 +24,8 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
+#include <array>
+
 // included header files
 #include "image.hpp"
 
@@ -46,9 +48,9 @@ namespace Exiv2 {
      */
     struct EXIV2API Photoshop {
         // Todo: Public for now
-        static const char     ps3Id_[]; //!< %Photoshop marker
-        static const char*    irbId_[]; //!< %Photoshop IRB markers
-        static const char     bimId_[]; //!< %Photoshop IRB marker (deprecated)
+        static const char* const ps3Id_;                 //!< %Photoshop marker
+        static const std::array<const char*, 4> irbId_;  //!< %Photoshop IRB markers
+        static const char* const bimId_;                 //!< %Photoshop IRB marker (deprecated)
         static const uint16_t iptc_;    //!< %Photoshop IPTC marker
         static const uint16_t preview_; //!< %Photoshop preview marker
 
@@ -232,10 +234,10 @@ namespace Exiv2 {
         static const byte sof13_;               //!< JPEG Start-Of-Frame marker
         static const byte sof14_;               //!< JPEG Start-Of-Frame marker
         static const byte sof15_;               //!< JPEG Start-Of-Frame marker
-        static const char exifId_[];            //!< Exif identifier
-        static const char jfifId_[];            //!< JFIF identifier
-        static const char xmpId_[];             //!< XMP packet identifier
-        static const char iccId_[];             //!< ICC profile identifier
+        static const char* const exifId_;       //!< Exif identifier
+        static const char* const jfifId_;       //!< JFIF identifier
+        static const char* const xmpId_;        //!< XMP packet identifier
+        static const char* const iccId_;        //!< ICC profile identifier
 
     private:
         //! @name NOT implemented

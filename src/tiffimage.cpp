@@ -82,10 +82,10 @@ namespace Exiv2 {
     };
 
     //! List of TIFF compression to MIME type mappings
-    MimeTypeList mimeTypeList[] = {
-        { 32770, "image/x-samsung-srw" },
-        { 34713, "image/x-nikon-nef"   },
-        { 65535, "image/x-pentax-pef"  }
+    constexpr MimeTypeList mimeTypeList[] = {
+        {32770, "image/x-samsung-srw"},
+        {34713, "image/x-nikon-nef"},
+        {65535, "image/x-pentax-pef"},
     };
 
     std::string TiffImage::mimeType() const

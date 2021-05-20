@@ -30,6 +30,7 @@
 
 #include <sys/types.h>
 #include <stdio.h>
+#include <array>
 #include <cstdlib>
 #include <time.h>
 #include <sys/stat.h>
@@ -98,27 +99,26 @@ static void Sleep(int millisecs)
 
 ////////////////////////////////////////
 // code
-static const char* httpTemplate =
-"%s %s HTTP/%s\r\n"            // $verb $page $version
-"User-Agent: exiv2http/1.0.0\r\n"
-"Accept: */*\r\n"
-"Host: %s\r\n"                 // $servername
-"%s"                           // $header
-"\r\n"
-;
+static constexpr auto httpTemplate =
+    "%s %s HTTP/%s\r\n"  // $verb $page $version
+    "User-Agent: exiv2http/1.0.0\r\n"
+    "Accept: */*\r\n"
+    "Host: %s\r\n"  // $servername
+    "%s"            // $header
+    "\r\n";
 
 #define white(c) ((c == ' ') || (c == '\t'))
 
 #define FINISH          -999
 #define OK(s)    (200 <= s  && s < 300)
 
-const char*   blankLines[] =
-{       "\r\n\r\n"             // this is the standard
-,       "\n\n"                 // this is commonly sent by CGI scripts
-}  ;
+static constexpr std::array<const char*, 2> blankLines{
+    "\r\n\r\n",  // this is the standard
+    "\n\n",      // this is commonly sent by CGI scripts
+};
 
-int             snooze    = SNOOZE    ;
-int             sleep_    =  SLEEP    ;
+static constexpr int snooze = SNOOZE;
+static int sleep_ = SLEEP;
 
 static int forgive(int n,int& err)
 {

@@ -51,49 +51,48 @@
 // class member definitions
 
 namespace Exiv2 {
+    constexpr byte JpegBase::dht_ = 0xc4;
+    constexpr byte JpegBase::dqt_ = 0xdb;
+    constexpr byte JpegBase::dri_ = 0xdd;
+    constexpr byte JpegBase::sos_ = 0xda;
+    constexpr byte JpegBase::eoi_ = 0xd9;
+    constexpr byte JpegBase::app0_ = 0xe0;
+    constexpr byte JpegBase::app1_ = 0xe1;
+    constexpr byte JpegBase::app2_ = 0xe2;
+    constexpr byte JpegBase::app13_ = 0xed;
+    constexpr byte JpegBase::com_ = 0xfe;
 
-    const byte     JpegBase::dht_      = 0xc4;
-    const byte     JpegBase::dqt_      = 0xdb;
-    const byte     JpegBase::dri_      = 0xdd;
-    const byte     JpegBase::sos_      = 0xda;
-    const byte     JpegBase::eoi_      = 0xd9;
-    const byte     JpegBase::app0_     = 0xe0;
-    const byte     JpegBase::app1_     = 0xe1;
-    const byte     JpegBase::app2_     = 0xe2;
-    const byte     JpegBase::app13_    = 0xed;
-    const byte     JpegBase::com_      = 0xfe;
+    // Start of Frame markers, nondifferential Huffman-coding frames
+    constexpr byte JpegBase::sof0_ = 0xc0;  // start of frame 0, baseline DCT
+    constexpr byte JpegBase::sof1_ = 0xc1;  // start of frame 1, extended sequential DCT, Huffman coding
+    constexpr byte JpegBase::sof2_ = 0xc2;  // start of frame 2, progressive DCT, Huffman coding
+    constexpr byte JpegBase::sof3_ = 0xc3;  // start of frame 3, lossless sequential, Huffman coding
 
-// Start of Frame markers, nondifferential Huffman-coding frames
-    const byte     JpegBase::sof0_     = 0xc0;        // start of frame 0, baseline DCT
-    const byte     JpegBase::sof1_     = 0xc1;        // start of frame 1, extended sequential DCT, Huffman coding
-    const byte     JpegBase::sof2_     = 0xc2;        // start of frame 2, progressive DCT, Huffman coding
-    const byte     JpegBase::sof3_     = 0xc3;        // start of frame 3, lossless sequential, Huffman coding
+    // Start of Frame markers, differential Huffman-coding frames
+    constexpr byte JpegBase::sof5_ = 0xc5;  // start of frame 5, differential sequential DCT, Huffman coding
+    constexpr byte JpegBase::sof6_ = 0xc6;  // start of frame 6, differential progressive DCT, Huffman coding
+    constexpr byte JpegBase::sof7_ = 0xc7;  // start of frame 7, differential lossless, Huffman coding
 
-// Start of Frame markers, differential Huffman-coding frames
-    const byte     JpegBase::sof5_     = 0xc5;        // start of frame 5, differential sequential DCT, Huffman coding
-    const byte     JpegBase::sof6_     = 0xc6;        // start of frame 6, differential progressive DCT, Huffman coding
-    const byte     JpegBase::sof7_     = 0xc7;        // start of frame 7, differential lossless, Huffman coding
+    // Start of Frame markers, nondifferential arithmetic-coding frames
+    constexpr byte JpegBase::sof9_ = 0xc9;   // start of frame 9, extended sequential DCT, arithmetic coding
+    constexpr byte JpegBase::sof10_ = 0xca;  // start of frame 10, progressive DCT, arithmetic coding
+    constexpr byte JpegBase::sof11_ = 0xcb;  // start of frame 11, lossless sequential, arithmetic coding
 
-// Start of Frame markers, nondifferential arithmetic-coding frames
-    const byte     JpegBase::sof9_     = 0xc9;        // start of frame 9, extended sequential DCT, arithmetic coding
-    const byte     JpegBase::sof10_    = 0xca;        // start of frame 10, progressive DCT, arithmetic coding
-    const byte     JpegBase::sof11_    = 0xcb;        // start of frame 11, lossless sequential, arithmetic coding
+    // Start of Frame markers, differential arithmetic-coding frames
+    constexpr byte JpegBase::sof13_ = 0xcd;  // start of frame 13, differential sequential DCT, arithmetic coding
+    constexpr byte JpegBase::sof14_ = 0xce;  // start of frame 14, progressive DCT, arithmetic coding
+    constexpr byte JpegBase::sof15_ = 0xcf;  // start of frame 15, differential lossless, arithmetic coding
 
-// Start of Frame markers, differential arithmetic-coding frames
-    const byte     JpegBase::sof13_    = 0xcd;        // start of frame 13, differential sequential DCT, arithmetic coding
-    const byte     JpegBase::sof14_    = 0xce;        // start of frame 14, progressive DCT, arithmetic coding
-    const byte     JpegBase::sof15_    = 0xcf;        // start of frame 15, differential lossless, arithmetic coding
+    constexpr const char* JpegBase::exifId_ = "Exif\0\0";
+    constexpr const char* JpegBase::jfifId_ = "JFIF\0";
+    constexpr const char* JpegBase::xmpId_ = "http://ns.adobe.com/xap/1.0/\0";
+    constexpr const char* JpegBase::iccId_ = "ICC_PROFILE\0";
 
-    const char     JpegBase::exifId_[] = "Exif\0\0";
-    const char     JpegBase::jfifId_[] = "JFIF\0";
-    const char     JpegBase::xmpId_[]  = "http://ns.adobe.com/xap/1.0/\0";
-    const char     JpegBase::iccId_[]  = "ICC_PROFILE\0";
-
-    const char     Photoshop::ps3Id_[] = "Photoshop 3.0\0";
-    const char*    Photoshop::irbId_[] = {"8BIM", "AgHg", "DCSR", "PHUT"};
-    const char     Photoshop::bimId_[] = "8BIM"; // deprecated
-    const uint16_t Photoshop::iptc_    = 0x0404;
-    const uint16_t Photoshop::preview_ = 0x040c;
+    constexpr const char* Photoshop::ps3Id_ = "Photoshop 3.0\0";
+    constexpr std::array<const char*, 4> Photoshop::irbId_{"8BIM", "AgHg", "DCSR", "PHUT"};
+    constexpr const char* Photoshop::bimId_ = "8BIM";  // deprecated
+    constexpr uint16_t Photoshop::iptc_ = 0x0404;
+    constexpr uint16_t Photoshop::preview_ = 0x040c;
 
     static inline bool inRange(int lo,int value, int hi)
     {

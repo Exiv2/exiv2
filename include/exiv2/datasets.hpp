@@ -248,7 +248,7 @@ namespace Exiv2 {
         static int dataSetIdx(uint16_t number, uint16_t recordId);
         static int dataSetIdx(const std::string& dataSetName, uint16_t recordId);
 
-        static const DataSet* records_[];
+        static const DataSet* const records_[];
         static const RecordInfo recordInfo_[];
 
     }; // class IptcDataSets
@@ -334,7 +334,7 @@ namespace Exiv2 {
         virtual IptcKey* clone_() const;
 
         // DATA
-        static const char* familyName_;
+        static constexpr auto familyName_ = "Iptc";
 
         uint16_t tag_;                 //!< Tag value
         uint16_t record_;              //!< Record value

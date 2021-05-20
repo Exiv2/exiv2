@@ -2697,7 +2697,7 @@ namespace Exiv2 {
         void decomposeKey(const std::string& key);  //!< Misterious magic
 
         // DATA
-        static const char* familyName_;  //!< "Xmp"
+        static constexpr auto familyName_ = "Xmp";  //!< "Xmp"
 
         std::string prefix_;    //!< Prefix
         std::string property_;  //!< Property name
@@ -2713,8 +2713,6 @@ namespace Exiv2 {
         property_ = property;
         prefix_ = prefix;
     }
-
-    const char* XmpKey::Impl::familyName_ = "Xmp";
 
     XmpKey::XmpKey(const std::string& key) : p_(new Impl)
     {
