@@ -69,7 +69,7 @@ namespace Exiv2 {
     private:
         // DATA
         uint32_t              offset2_;   //!< Bytes 12-15 from the header
-        static const char*    cr2sig_;    //!< Signature for CR2 type TIFF
+        static constexpr auto cr2sig_ = "CR\2\0";  //!< Signature for CR2 type TIFF
     }; // class Cr2Header
 
 }}                                      // namespace Internal, Exiv2

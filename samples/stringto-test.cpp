@@ -24,7 +24,7 @@
 #include <iostream>
 #include <iomanip>
 
-const char* testcases[] = {
+static constexpr const char* testcases[] = {
     // bool
     "True",
     "False",
@@ -52,7 +52,7 @@ const char* testcases[] = {
     "-4/3",
     "0/0",
     // nok
-    "text"
+    "text",
 };
 
 int main()

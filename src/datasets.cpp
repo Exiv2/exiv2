@@ -45,7 +45,7 @@ namespace Exiv2 {
         {IptcDataSets::application2, "Application2", N_("IIM application record 2")},
     };
 
-    static const DataSet envelopeRecord[] = {
+    constexpr DataSet envelopeRecord[] = {
         {IptcDataSets::ModelVersion, "ModelVersion", N_("Model Version"),
                 N_("A binary number identifying the version of the Information "
                 "Interchange Model, Part I, utilised by the provider. Version "
@@ -130,7 +130,7 @@ namespace Exiv2 {
         return envelopeRecord;
     }
 
-    static const DataSet application2Record[] = {
+    constexpr DataSet application2Record[] = {
         {IptcDataSets::RecordVersion, "RecordVersion", N_("Record Version"),
                 N_("A binary number identifying the version of the Information "
                 "Interchange Model, Part II, utilised by the provider. "
@@ -407,18 +407,19 @@ namespace Exiv2 {
         return application2Record;
     }
 
-    static const DataSet unknownDataSet{0xffff, "Unknown dataset", N_("Unknown dataset"),
+    constexpr DataSet unknownDataSet{0xffff, "Unknown dataset", N_("Unknown dataset"),
                                         N_("Unknown dataset"),
                                         false, true, 0, 0xffffffff, Exiv2::string,
                                         IptcDataSets::invalidRecord,
-                                        N_("Unknown dataset")};
+                                        N_("Unknown dataset"),};
 
     // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record.
     // The record id is used as the index into the array.
-    const DataSet* IptcDataSets::records_[] = {
+    constexpr const DataSet* IptcDataSets::records_[] = {
         0,
-        envelopeRecord, application2Record,
-        0
+        envelopeRecord,
+        application2Record,
+        0,
     };
 
     int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
@@ -550,8 +551,6 @@ namespace Exiv2 {
             }
         }
     } // IptcDataSets::dataSetList
-
-    const char* IptcKey::familyName_ = "Iptc";
 
     IptcKey::IptcKey(std::string key) : key_(std::move(key))
     {

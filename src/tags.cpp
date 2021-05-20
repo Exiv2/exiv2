@@ -219,7 +219,7 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        static const char* familyName_; //!< "Exif"
+        static constexpr auto familyName_ = "Exif";  //!< "Exif"
 
         const TagInfo* tagInfo_{0};     //!< Tag info
         uint16_t tag_{0};               //!< Tag value
@@ -228,8 +228,6 @@ namespace Exiv2 {
         std::string groupName_;         //!< The group name
         std::string key_;               //!< %Key
     };
-
-    const char* ExifKey::Impl::familyName_ = "Exif";
 
     std::string ExifKey::Impl::tagName() const
     {

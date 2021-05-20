@@ -29,6 +29,7 @@
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <array>
 #include <cstdio>
 #include <cerrno>
 #include <sstream>
@@ -67,10 +68,17 @@
 #endif
 
 namespace Exiv2 {
-    const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
-    const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
-// *****************************************************************************
-// free functions
+    constexpr std::array<const char*, 2> ENVARDEF{
+        "/exiv2.php",
+        "40",
+    };  //!< @brief default URL for http exiv2 handler and time-out
+    constexpr std::array<const char*, 2> ENVARKEY{
+        "EXIV2_HTTP_POST",
+        "EXIV2_TIMEOUT",
+    };  //!< @brief request keys for http exiv2 handler and time-out
+
+    // *****************************************************************************
+    // free functions
     std::string getEnv(int env_var)
     {
         // this check is relying on undefined behavior and might not be effective
@@ -140,14 +148,10 @@ namespace Exiv2 {
     }
 
     // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
-    static char base64_encode[]={'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-                                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-                                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                                'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-                                'w', 'x', 'y', 'z', '0', '1', '2', '3',
-                                '4', '5', '6', '7', '8', '9', '+', '/'};
+    static constexpr char base64_encode[] = {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+        'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+        's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         auto encoding_table = base64_encode;
@@ -183,7 +187,7 @@ namespace Exiv2 {
         size_t input_length = in ? ::strlen(in) : 0;
         if (!in || input_length % 4 != 0) return result;
 
-        auto encoding_table = reinterpret_cast<unsigned char*>(base64_encode);
+        auto encoding_table = reinterpret_cast<const unsigned char*>(base64_encode);
         unsigned char decoding_table[256];
         for (unsigned char i = 0; i < 64; i++)
             decoding_table[encoding_table[i]] = i;

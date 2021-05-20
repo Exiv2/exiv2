@@ -2,9 +2,6 @@
 
 namespace Exiv2 {
     namespace Internal {
-
-    const char* Cr2Header::cr2sig_ = "CR\2\0";
-
     Cr2Header::Cr2Header(ByteOrder byteOrder)
         : TiffHeaderBase(42, 16, byteOrder, 0x00000010),
           offset2_(0x00000000)
