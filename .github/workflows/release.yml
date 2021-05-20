@@ -53,6 +53,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew install ninja
+          brew install tree
           brew install gettext
           pip3 install conan==1.36.0
 
@@ -117,6 +118,7 @@ jobs:
         run: |
           md build
           cd build
+          conan install gettext/0.20.1
           conan profile list
           conan install .. --build missing
           dir ..
