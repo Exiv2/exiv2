@@ -40,5 +40,40 @@ jobs:
         with:
           name: exiv2-linux64
           path: ./exiv2-*.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+  Mac:
+    name: 'Build Mac Release'
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          brew install ninja
+          brew install gettext
+          pip3 install conan==1.36.0
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile new --detect default
+          conan profile show default
+          conan install .. -o webready=False --build missing
+          # Hack: Delete cmake_find_package generated files to fix compilation on mac.
+          rm Find*
+
+      - name: Build packaged release
+        run: |
+          cd build
+          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON ..
+          cmake --build . -t package
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: exiv2-macos
+          path: ./build/exiv2-*.tar.gz
+          if-no-files-found: error
           retention-days: 1
 
