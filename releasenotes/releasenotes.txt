@@ -18,6 +18,7 @@ Thank You to the following who have contributed to this release.
 | Leo          | New python test scripts                           |
 | Leonardo     | Localisation support on Crowdin                   |
 | Milos        | DNG 1.6, Exif 2.32, easyaccess support and more   |
+| Nehal        | exiv2.org maintenance                             |
 | Peter K      | bmff code                                         |
 | Peter S      | langAltValue.read() fix and helpful issue reports |
 | pydera       | Security fixes                                    |
@@ -25,10 +26,10 @@ Thank You to the following who have contributed to this release.
 1) Bug and security fixes:
    - bmff read-only support (.CR3, .HEIC, .HEIF, .AVIF and JXL/bmff).
    - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy
-   - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed ixed in 24hrs.
+   - Security fixes.
    - DNG 1.6 and Exif 2.32 support.
    - More easyaccess APIs and documentation.
-   - Localation support on Crowdin.
+   - Localization support on Crowdin.
    - Updated Catalan localisation.
 
 2) Changes to downloadable build bundles:
