@@ -145,6 +145,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/download-artifact@v2
+      - name: List downloaded files
         run: tree -L 3
       - uses: softprops/action-gh-release@v1
         env:
