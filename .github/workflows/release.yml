@@ -154,6 +154,6 @@ jobs:
           #fail_on_unmatched_files: true
           body: See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.
           files: |
-            ./exiv2-linux64/exiv2-*.tar.gz
-            ./exiv2-macos/exiv2-*.tar.gz
-            ./exiv2-win/exiv2-*.tar.gz
+            ./exiv2-linux64/exiv2-*
+            ./exiv2-macos/exiv2-*
+            ./exiv2-win/exiv2-*
