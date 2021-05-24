@@ -2163,12 +2163,13 @@ namespace Exiv2 {
             std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
 
             std::string F1_8        = "434/256" ;
-            std::set<std::string> maxApertures;
-                             maxApertures.insert( "926/256") ; // F3.5
-                             maxApertures.insert("1024/256") ; // F4
-                             maxApertures.insert("1110/256") ; // F4.5
-                             maxApertures.insert("1188/256") ; // F5
-                             maxApertures.insert("1272/256") ; // F5.6
+            static constexpr const char* maxApertures[] = {
+                "926/256",   // F3.5
+                "1024/256",  // F4
+                "1110/256",  // F4.5
+                "1188/256",  // F5
+                "1272/256",  // F5.6
+            };
 
             if ( model == "ILCE-6000" && maxAperture == F1_8 ) try {
                 long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
@@ -2177,12 +2178,16 @@ namespace Exiv2 {
                 if ( inRange(focalRatio,145,155) ) index = 2 ;
             } catch (...) {}
 
-            if ( model == "ILCE-6000" && maxApertures.find(maxAperture) != maxApertures.end() ) try {
-                long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
-                long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
-                long    focalRatio  = (focalL35mm*100)/focalLength;
-                if ( inRange(focalRatio,145,155) ) index = 3 ;
-            } catch (...) {}
+            if (model == "ILCE-6000" &&
+                std::find(std::begin(maxApertures), std::end(maxApertures), maxAperture) != std::end(maxApertures))
+                try {
+                    long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
+                    long focalL35mm = getKeyLong("Exif.Photo.FocalLengthIn35mmFilm", metadata);
+                    long focalRatio = (focalL35mm * 100) / focalLength;
+                    if (inRange(focalRatio, 145, 155))
+                        index = 3;
+                } catch (...) {
+                }
 
             if ( index > 0 ) {
                 const long lensID = 0xffff;
