@@ -44,8 +44,8 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  Mac:
-    name: 'Build Mac Release'
+  macOS:
+    name: 'Build macOS Release'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -80,62 +80,79 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  Windows:
-    name: 'Build Windows Release'
-    runs-on: windows-latest
+  #Windows:
+    #name: 'Build Windows Release'
+    #runs-on: windows-latest
+    #steps:
+      #- uses: actions/checkout@v2
+
+      #- name: Set up Visual Studio shell
+        #uses: egor-tensin/vs-shell@v2
+
+      #- name: Setup Ninja
+        #uses: ashutoshvarma/setup-ninja@master
+        #with:
+          #version: 1.10.0
+
+      #- name: Set up Python
+        #uses: actions/setup-python@v1
+        #with:
+          #python-version: 3.7
+
+      #- name: Restore conan cache
+        #uses: actions/cache@v2
+        #with:
+            #path: ${{github.workspace}}/conanCache
+            #key: ${{runner.os}}-packaged-win-release-${{ hashFiles('conanfile.py') }}
+
+      #- name: Install Conan & Common config
+        #run: |
+          #pip.exe install conan
+          #conan profile new --detect default
+          #conan profile update settings.build_type=Release default
+          #conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+          #conan config get storage.path
+          #tree /f ./conanCache
+
+      #- name: Run Conan
+        #run: |
+          #md build
+          #cd build
+          #conan install gettext/0.20.1@
+          #conan profile list
+          #conan install .. --build missing
+          #dir ..
+          #tree /f ../conanCache
+
+      #- name: Build packaged release
+        #run: |
+          #cd build
+          #cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON ..
+          #cmake --build . -t package
+          #tree -L 3
+
+      #- uses: actions/upload-artifact@v2
+        #with:
+          #name: exiv2-win
+          #path: ./build/exiv2-*.zip
+          #if-no-files-found: error
+          #retention-days: 1
+
+publish:
+    needs: [linux, macOS]
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Visual Studio shell
-        uses: egor-tensin/vs-shell@v2
-
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
+      - uses: actions/download-artifact@v2
+        run: tree -L 3
+      - uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          version: 1.10.0
-
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-
-      - name: Restore conan cache
-        uses: actions/cache@v2
-        with:
-            path: ${{github.workspace}}/conanCache
-            key: ${{runner.os}}-packaged-win-release-${{ hashFiles('conanfile.py') }}
-
-      - name: Install Conan & Common config
-        run: |
-          pip.exe install conan
-          conan profile new --detect default
-          conan profile update settings.build_type=Release default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
-          conan config get storage.path
-          tree /f ./conanCache
-
-      - name: Run Conan
-        run: |
-          md build
-          cd build
-          conan install gettext/0.20.1@
-          conan profile list
-          conan install .. --build missing
-          dir ..
-          tree /f ../conanCache
-
-      - name: Build packaged release
-        run: |
-          cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON ..
-          cmake --build . -t package
-          tree -L 3
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: exiv2-win
-          path: ./build/exiv2-*.zip
-          if-no-files-found: error
-          retention-days: 1
-
-
+          fail_on_unmatched_files: true
+          body: |
+          See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.
+          files: |
+            exiv2-linux64.tar.gz:./exiv2-linux64/exiv2-linux64.tar.gz
+            exvi2-macos.tar.gz:./exiv2-macos/exiv2-macos.tar.gz
