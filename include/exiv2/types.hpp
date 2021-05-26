@@ -196,8 +196,7 @@ namespace Exiv2 {
              be as a stack variable in functions that need a temporary data
              buffer.
      */
-    class EXIV2API DataBuf {
-    public:
+    struct EXIV2API DataBuf {
         //! @name Creators
         //@{
         //! Default constructor
@@ -237,13 +236,8 @@ namespace Exiv2 {
          */
         EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
 
-         /*!
-           @brief Free the internal buffer and reset the size to 0.
-          */
-        void free();
-
         //! Reset value
-        void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
+        void reset(std::pair<byte*, long> = std::make_pair(nullptr, long(0)));
         //@}
 
         /*!
