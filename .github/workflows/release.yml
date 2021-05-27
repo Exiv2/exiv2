@@ -3,6 +3,14 @@ on:
   push:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for release'
+        required: false
+        default: nightly
 
 jobs:
   Linux:
@@ -146,13 +154,78 @@ jobs:
       - uses: actions/download-artifact@v2
       - name: List downloaded files
         run: tree -L 3
+
+      - if: github.event_name == 'workflow_dispatch'
+        run: echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+
+      - if: github.event_name == 'schedule'
+        run: echo 'TAG_NAME=nightly' >> $GITHUB_ENV
+
+      - if: github.event_name == 'push'
+        run: |
+          TAG_NAME=${{ github.ref }}
+          echo "TAG_NAME=${TAG_NAME#refs/tags/}" >> $GITHUB_ENV
+
+      - if: env.TAG_NAME == 'nightly'
+        run: |
+          echo 'BODY<<EOF' >> $GITHUB_ENV
+          echo '## Exiv2 nightly prerelease build.' >> $GITHUB_ENV
+          echo 'Please help us improve exiv2 by reporting any issues you encounter :wink:' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+
+      - if: env.TAG_NAME != 'nightly'
+        run: |
+          echo 'BODY<<EOF' >> $GITHUB_ENV
+          echo '## Exiv2 Release ${TAG_NAME}' >> $GITHUB_ENV
+          echo 'See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Cleanup old nightly
+        if: env.TAG_NAME == 'nightly'
+        uses: actions/github-script@v4
+        with:
+          script: |
+            try{
+              const rel_id = await github.repos.getReleaseByTag({
+                ...context.repo,
+                tag: "nightly"
+              }).then(result => result.data.id);
+
+              console.log( "Found existing nightly release with id: ", rel_id);
+
+              await github.repos.deleteRelease({
+                ...context.repo,
+                release_id: rel_id
+              });
+              console.log( "Deletion of release successful")
+
+            }catch(error){
+              console.log( "Deletion of release failed");
+              console.log( "Failed with error\n", error);
+            }
+
+            try{
+              await github.git.deleteRef({
+                ...context.repo,
+                ref: "tags/nightly"
+              });
+              console.log( "Deletion of tag successful")
+            }catch(error){
+              console.log( "Deletion of tag failed");
+              console.log( "Failed with error\n", error);
+            }
+
+
       - uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # needs newer relase, but add it once available
           #fail_on_unmatched_files: true
-          body: See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.
+          body: ${{ env.BODY }}
+          prerelease: ${{ env.TAG_NAME == 'nightly' }}
+          tag_name: ${{ env.TAG_NAME }}
           files: |
             ./exiv2-linux64/exiv2-*
             ./exiv2-macos/exiv2-*
