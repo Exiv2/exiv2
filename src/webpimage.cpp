@@ -639,7 +639,6 @@ namespace Exiv2 {
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
-                byte* rawExifData = nullptr;
                 long  offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
@@ -673,7 +672,7 @@ namespace Exiv2 {
                 }
 
                 const long sizePayload = payload.size_ + offset;
-                rawExifData = static_cast<byte*>(malloc(sizePayload));
+                byte* rawExifData = new byte[sizePayload];
 
                 if (s_header) {
                     us2Data(size_buff2, static_cast<uint16_t>(sizePayload - 6), bigEndian);
@@ -710,7 +709,7 @@ namespace Exiv2 {
                     exifData_.clear();
                 }
 
-                if (rawExifData) free(rawExifData);
+                delete [] rawExifData;
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
                 readOrThrow(*io_, payload.pData_, payload.size_, Exiv2::kerCorruptedMetadata);
                 xmpPacket_.assign(reinterpret_cast<char*>(payload.pData_), payload.size_);
