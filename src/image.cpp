@@ -335,12 +335,11 @@ namespace Exiv2 {
             }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
 
-            bool tooBig = dirLength > 500;
-            if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
+            if ( dirLength > 500 ) // tooBig
+                throw Error(kerTiffDirectoryTooLarge);
 
             if ( bFirst && bPrint ) {
                 out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
-                if ( tooBig ) out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
             }
 
             // Read the dictionary
@@ -498,7 +497,7 @@ namespace Exiv2 {
             }
             if ( start ) {
                 io.read(dir.pData_, 4);
-                start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
+                start = byteSwap4(dir,0,bSwap);
             }
         } while (start) ;
 

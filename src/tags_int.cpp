@@ -2512,8 +2512,8 @@ namespace Exiv2 {
     {
         const TagInfo* ti = tagList(ifdId);
         if (ti == nullptr) return nullptr;
+        if (tagName.empty()) return nullptr;
         const char* tn = tagName.c_str();
-        if (tn == nullptr) return nullptr;
         for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
             if (0 == strcmp(ti[idx].name_, tn)) {
                 return &ti[idx];

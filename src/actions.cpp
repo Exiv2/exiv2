@@ -537,8 +537,6 @@ namespace Action {
 
         bool first = true;
         if (Params::instance().printItems_ & Params::prTag) {
-            if (!first)
-                std::cout << " ";
             first = false;
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md.tag();
         }
