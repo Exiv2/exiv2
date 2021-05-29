@@ -65,12 +65,6 @@
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
-// Simple min and max macros
-//! Simple common min macro
-#define EXV_MIN(a,b) ((a) < (b) ? (a) : (b))
-//! Simple common max macro
-#define EXV_MAX(a,b) ((a) > (b) ? (a) : (b))
-
 #if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
 #define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
 #elif defined(_MSC_VER) && (_MSC_VER >= 1700)

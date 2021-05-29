@@ -583,7 +583,7 @@ namespace Exiv2 {
     uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef& def)
     {
         auto tag = static_cast<uint16_t>(idx / cfg()->tagStep());
-        int32_t sz = EXV_MIN(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
+        int32_t sz = std::min(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
         TiffComponent::UniquePtr tc = TiffCreator::create(tag, cfg()->group_);
         auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
@@ -1698,7 +1698,7 @@ namespace Exiv2 {
         if (cfg()->hasFillers_ && def()) {
             const ArrayDef* lastDef = def() + defSize() - 1;
             auto lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-            idx = EXV_MAX(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
+            idx = std::max(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
         }
         return idx;
 
