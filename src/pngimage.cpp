@@ -347,7 +347,7 @@ namespace Exiv2 {
                     // format is content dependent
                     if ( bGood ) {
                         if ( bXMP ) {
-                            while ( !data[start] && start < dataOffset) start++; // skip leading nul bytes
+                            while (start < dataOffset && !data[start]) start++; // skip leading nul bytes
                             out <<  data+start;             // output the xmp
                         }
 
