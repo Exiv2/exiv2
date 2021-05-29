@@ -956,7 +956,7 @@ int Params::nonoption(const std::string& argv)
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
-    auto bytes = new Exiv2::byte [buff_size];
+    std::vector<Exiv2::byte> bytes(buff_size);
     int       nBytes    = 0 ;
     bool more {true};
     while   ( more ) {
@@ -964,17 +964,16 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
         int n = static_cast<int>(fread(buff, 1, buff_size, f));
         more       = n > 0 ;
         if ( more ) {
-            bytes = static_cast<Exiv2::byte*>(realloc(bytes, nBytes + n));
-            memcpy(bytes+nBytes,buff,n);
+            bytes.resize(nBytes+n);
+            memcpy(bytes.data()+nBytes,buff,n);
             nBytes    += n ;
         }
     }
 
     if ( nBytes ) {
         buf.alloc(nBytes);
-        memcpy(buf.pData_, bytes, nBytes);
+        memcpy(buf.pData_, bytes.data(), nBytes);
     }
-    delete [] bytes;
     return nBytes;
 }
 
