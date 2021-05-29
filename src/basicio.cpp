@@ -1760,7 +1760,7 @@ namespace Exiv2 {
         size_t i          = 0;
         size_t readCount  = 0;
         size_t blockSize  = 0;
-        auto buf = static_cast<byte*>(std::malloc(p_->blockSize_));
+        auto buf = new byte [p_->blockSize_];
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -1804,8 +1804,7 @@ namespace Exiv2 {
             blockSize = static_cast<long>(p_->blocksMap_[blockIndex].getSize());
         }
 
-        // free buf
-        if (buf) std::free(buf);
+        delete []buf;
 
         // submit to the remote machine.
         long dataSize = static_cast<long>(src.size() - left - right);

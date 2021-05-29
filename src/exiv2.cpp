@@ -956,9 +956,9 @@ int Params::nonoption(const std::string& argv)
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
-    auto bytes = static_cast<Exiv2::byte*>(::malloc(buff_size));
+    auto bytes = new Exiv2::byte [buff_size];
     int       nBytes    = 0 ;
-    bool more = bytes != nullptr;
+    bool more {true};
     while   ( more ) {
         char buff[buff_size];
         int n = static_cast<int>(fread(buff, 1, buff_size, f));
@@ -974,8 +974,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
         buf.alloc(nBytes);
         memcpy(buf.pData_, bytes, nBytes);
     }
-    if (bytes != nullptr)
-        ::free(bytes);
+    delete [] bytes;
     return nBytes;
 }
 
