@@ -177,7 +177,7 @@ jobs:
       - if: env.TAG_NAME != 'nightly'
         run: |
           echo 'BODY<<EOF' >> $GITHUB_ENV
-          echo '## Exiv2 Release ${TAG_NAME}' >> $GITHUB_ENV
+          echo '## Exiv2 Release ${{ env.TAG_NAME }}' >> $GITHUB_ENV
           echo 'See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.' >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
