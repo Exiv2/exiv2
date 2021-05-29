@@ -1597,10 +1597,8 @@ namespace Exiv2 {
             // #1143 Write a "hollow" buffer for the preview image
             //       Sadly: we don't know the exact location of the image in the source (it's near offset)
             //       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
-            auto buffer = static_cast<byte*>(::malloc(isize));
-            ::memset(buffer,0,isize);
+            byte buffer[isize];
             v->read(buffer,isize, byteOrder());
-            ::free(buffer);
         }
 
         object->setValue(std::move(v));

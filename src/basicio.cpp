@@ -1088,10 +1088,7 @@ namespace Exiv2 {
         //! Destructor. Releases all managed memory.
         ~BlockMap()
         {
-            if (data_) {
-                std::free(data_);
-                data_ = nullptr;
-            }
+            delete [] data_;
         }
 
         //! @brief Populate the block.
@@ -1101,7 +1098,7 @@ namespace Exiv2 {
         {
             assert(source != nullptr);
             size_ = num;
-            data_ = static_cast<byte*>(std::malloc(size_));
+            data_ = new byte [size_];
             type_ = bMemory;
             std::memcpy(data_, source, size_);
         }
