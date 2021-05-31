@@ -1597,8 +1597,8 @@ namespace Exiv2 {
             // #1143 Write a "hollow" buffer for the preview image
             //       Sadly: we don't know the exact location of the image in the source (it's near offset)
             //       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
-            byte buffer[isize];
-            v->read(buffer,isize, byteOrder());
+            std::vector<byte> buffer(isize);
+            v->read(buffer.data() ,isize, byteOrder());
         }
 
         object->setValue(std::move(v));
