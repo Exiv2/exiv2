@@ -1865,10 +1865,7 @@ namespace {
         pid_t  pid = ::getpid();
         std::string tmp = "/tmp/";
 #endif
-    char sCount[13];
-    sprintf(sCount, "_%d", ++count);  /// \todo replace by std::snprintf on master
-
-    std::string result = tmp + Exiv2::toString(pid) + sCount;
+    std::string result = tmp + Exiv2::toString(pid) + "_" + std::to_string(count);
     if (Exiv2::fileExists(result)) {
         std::remove(result.c_str());
     }
