@@ -1047,7 +1047,7 @@ namespace Exiv2 {
     }
 
     //! Internal Pimpl structure of class MemIo.
-    class MemIo::Impl {
+    class MemIo::Impl final{
     public:
         Impl() = default;                  //!< Default constructor
         Impl(const byte* data, long size); //!< Constructor 2

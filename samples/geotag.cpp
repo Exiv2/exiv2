@@ -289,13 +289,11 @@ time_t Position::deltaMax_ = 60 ;
 
 ///////////////////////////////////////////////////////////
 // UserData - used by XML Parser
-class UserData
+struct UserData final
 {
-public:
     explicit UserData(Options& options)
         : options_(options)
     {}
-    virtual ~UserData() = default;
 
     //  public data members
     int         indent{0};
