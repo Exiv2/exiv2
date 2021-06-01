@@ -163,7 +163,7 @@ namespace Exiv2 {
             const auto data = static_cast<const unsigned char*>(data_buf);
             for (size_t i = 0, j = 0 ; i < dataLength;) {
 
-                uint32_t octet_a = i < dataLength ? data[i++] : 0 ;
+                uint32_t octet_a = data[i++];
                 uint32_t octet_b = i < dataLength ? data[i++] : 0 ;
                 uint32_t octet_c = i < dataLength ? data[i++] : 0 ;
 

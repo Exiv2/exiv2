@@ -158,6 +158,10 @@ public:
       @return Reference to the global Params instance.
     */
     static Params& instance();
+
+    //! Prevent copy-construction: not implemented.
+    Params(const Params& rhs) = delete;
+
     //! Destructor
     static void cleanup();
 
@@ -292,9 +296,6 @@ private:
         yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
     }
-
-    //! Prevent copy-construction: not implemented.
-    Params(const Params& rhs);
 
     //! Destructor, frees any allocated regexes in greps_
     ~Params();

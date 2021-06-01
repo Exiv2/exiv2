@@ -120,7 +120,7 @@ namespace Exiv2
         int pixelHeight() const;
         //@}
         
-        Exiv2::ByteOrder endian_ ;
+        Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
     private:
         void openOrThrow();
@@ -136,14 +136,14 @@ namespace Exiv2
             return std::string(2*i,' ');
         }
 
-        uint32_t                 fileType_;
+        uint32_t                 fileType_{0};
         std::set<uint64_t>       visits_;
-        uint64_t                 visits_max_;
-        uint16_t                 unknownID_;  // 0xffff
-        uint16_t                 exifID_;
-        uint16_t                 xmpID_;
+        uint64_t                 visits_max_{0};
+        uint16_t                 unknownID_{0xffff};
+        uint16_t                 exifID_{0xffff};
+        uint16_t                 xmpID_{0};
         std::map<uint32_t, Iloc> ilocs_;
-        bool                     bReadMetadata_;
+        bool                     bReadMetadata_{false};
         //@}
 
         /*!

@@ -50,6 +50,7 @@
 #include <ctime>
 #include <cmath>
 #include <cassert>
+#include <mutex>
 #include <stdexcept>
 #include <sys/types.h>                  // for stat()
 #include <sys/stat.h>                   // for stat()
@@ -71,6 +72,7 @@
 // *****************************************************************************
 // local declarations
 namespace {
+    std::mutex cs;
 
     //! Helper class to set the timestamp of a file to that of another file
     class Timestamp {
@@ -253,7 +255,6 @@ namespace Action {
         try {
             path_ = path;
             int rc = 0;
-            Exiv2::PrintStructureOption option = Exiv2::kpsNone ;
             switch (Params::instance().printMode_) {
                 case Params::pmSummary:   rc = Params::instance().greps_.empty() ? printSummary() : printList(); break;
                 case Params::pmList:      rc = printList();        break;
@@ -262,14 +263,10 @@ namespace Action {
                 case Params::pmStructure: rc = printStructure(std::cout,Exiv2::kpsBasic, path_)     ; break;
                 case Params::pmRecursive: rc = printStructure(std::cout,Exiv2::kpsRecursive, path_) ; break;
                 case Params::pmXMP:
-                    if (option == Exiv2::kpsNone)
-                        option = Exiv2::kpsXMP;
-                    rc = setModeAndPrintStructure(option, path_,binary());
+                    rc = setModeAndPrintStructure(Exiv2::kpsXMP, path_,binary());
                     break;
                 case Params::pmIccProfile:
-                    if (option == Exiv2::kpsNone)
-                        option = Exiv2::kpsIccProfile;
-                    rc = setModeAndPrintStructure(option, path_,binary());
+                    rc = setModeAndPrintStructure(Exiv2::kpsIccProfile, path_,binary());
                     break;
             }
             return rc;
@@ -540,8 +537,6 @@ namespace Action {
 
         bool first = true;
         if (Params::instance().printItems_ & Params::prTag) {
-            if (!first)
-                std::cout << " ";
             first = false;
             std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md.tag();
         }
@@ -1854,34 +1849,12 @@ namespace {
         return os.str();
     } // tm2Str
 
-// use static CS/MUTEX to make temporaryPath() thread safe
-#if defined(_MSC_VER) || defined(__MINGW__)
- static CRITICAL_SECTION cs;
-#else
- /* Unix/Linux/Cygwin/macOS */
- #include <pthread.h>
- /* This is the critical section object (statically allocated). */
- #if defined(__APPLE__)
-  #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER)
-    static pthread_mutex_t cs =  PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
-   #else
-    static pthread_mutex_t cs =  PTHREAD_MUTEX_INITIALIZER;
-  #endif
- #else
-  #if defined(PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP)
-    pthread_mutex_t cs = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
-#else
-    pthread_mutex_t cs = PTHREAD_MUTEX_INITIALIZER;
-#endif
-#endif
-#endif
-
  std::string temporaryPath()
  {
      static int count = 0;
+     std::lock_guard<std::mutex> guard(cs);
 
 #if defined(_MSC_VER) || defined(__MINGW__)
-        EnterCriticalSection(&cs);
         char lpTempPathBuffer[MAX_PATH];
         GetTempPath(MAX_PATH,lpTempPathBuffer);
         std::string tmp(lpTempPathBuffer);
@@ -1890,22 +1863,14 @@ namespace {
         DWORD  pid = ::GetProcessId(process);
 #else
         pid_t  pid = ::getpid();
-        pthread_mutex_lock( &cs );
         std::string tmp = "/tmp/";
 #endif
-        char sCount[13];
-        sprintf(sCount,"_%d",++count); /// \todo replace by std::snprintf on master
+    std::string result = tmp + Exiv2::toString(pid) + "_" + std::to_string(count);
+    if (Exiv2::fileExists(result)) {
+        std::remove(result.c_str());
+    }
 
-        std::string result = tmp + Exiv2::toString(pid) + sCount ;
-        if ( Exiv2::fileExists(result) ) std::remove(result.c_str());
-
-#if defined(_MSC_VER) || defined(__MINGW__)
-        LeaveCriticalSection(&cs);
-#else
-        pthread_mutex_unlock( &cs );
-#endif
-
-        return result;
+    return result;
  }
 
     int metacopy(const std::string& source,

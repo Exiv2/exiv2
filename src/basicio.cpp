@@ -1047,7 +1047,7 @@ namespace Exiv2 {
     }
 
     //! Internal Pimpl structure of class MemIo.
-    class MemIo::Impl {
+    class MemIo::Impl final{
     public:
         Impl() = default;                  //!< Default constructor
         Impl(const byte* data, long size); //!< Constructor 2
@@ -1088,10 +1088,7 @@ namespace Exiv2 {
         //! Destructor. Releases all managed memory.
         ~BlockMap()
         {
-            if (data_) {
-                std::free(data_);
-                data_ = nullptr;
-            }
+            delete [] data_;
         }
 
         //! @brief Populate the block.
@@ -1099,8 +1096,9 @@ namespace Exiv2 {
         //! @param num The size of data
         void    populate (byte* source, size_t num)
         {
+            assert(source != nullptr);
             size_ = num;
-            data_ = static_cast<byte*>(std::malloc(size_));
+            data_ = new byte [size_];
             type_ = bMemory;
             std::memcpy(data_, source, size_);
         }
@@ -1152,7 +1150,7 @@ namespace Exiv2 {
 
         if (!isMalloced_) {
             // Minimum size for 1st block
-            long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
+            long size  = std::max(blockSize * (1 + need / blockSize), size_);
             auto data = static_cast<byte*>(std::malloc(size));
             if (data == nullptr) {
                 throw Error(kerMallocFailed);
@@ -1176,7 +1174,6 @@ namespace Exiv2 {
                     throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
-                isMalloced_ = true;
             }
             size_ = need;
         }
@@ -1358,8 +1355,8 @@ namespace Exiv2 {
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = EXV_MAX(p_->size_ - p_->idx_, 0);
-        long allow = EXV_MIN(rcount, avail);
+        long avail = std::max(p_->size_ - p_->idx_, 0L);
+        long allow = std::min(rcount, avail);
         std::memcpy(buf, &p_->data_[p_->idx_], allow);
         p_->idx_ += allow;
         if (rcount > avail) p_->eof_ = true;
@@ -1533,16 +1530,15 @@ namespace Exiv2 {
             }
 
             std::string data = orgPath.substr(base64Pos+7);
-            auto decodeData = new char[data.length()];
-            long size = base64decode(data.c_str(), decodeData, data.length());
+            std::vector<char> decodeData (data.length());
+            long size = base64decode(data.c_str(), decodeData.data(), data.length());
             if (size > 0) {
-                fs.write(decodeData, size);
+                fs.write(decodeData.data(), size);
                 fs.close();
             } else {
                 fs.close();
                 throw Error(kerErrorMessage, "Unable to decode base 64.");
             }
-            delete[] decodeData;
         }
 
         return path;
@@ -1665,7 +1661,7 @@ namespace Exiv2 {
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
             while (remain) {
-                size_t allow = EXV_MIN(remain, blockSize_);
+                size_t allow = std::min(remain, blockSize_);
                 blocksMap_[iBlock].populate(&source[totalRead], allow);
                 remain -= allow;
                 totalRead += allow;
@@ -1704,7 +1700,7 @@ namespace Exiv2 {
                 auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
-                    size_t allow = EXV_MIN(remain, p_->blockSize_);
+                    size_t allow = std::min(remain, p_->blockSize_);
                     p_->blocksMap_[iBlock].populate(&source[totalRead], allow);
                     remain -= allow;
                     totalRead += allow;
@@ -1761,7 +1757,7 @@ namespace Exiv2 {
         size_t i          = 0;
         size_t readCount  = 0;
         size_t blockSize  = 0;
-        auto buf = static_cast<byte*>(std::malloc(p_->blockSize_));
+        auto buf = new byte [p_->blockSize_];
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -1805,8 +1801,7 @@ namespace Exiv2 {
             blockSize = static_cast<long>(p_->blocksMap_[blockIndex].getSize());
         }
 
-        // free buf
-        if (buf) std::free(buf);
+        delete []buf;
 
         // submit to the remote machine.
         long dataSize = static_cast<long>(src.size() - left - right);
@@ -1840,7 +1835,7 @@ namespace Exiv2 {
         if (p_->eof_) return 0;
         p_->totalRead_ += rcount;
 
-        size_t allow     = EXV_MIN(rcount, (long)( p_->size_ - p_->idx_));
+        size_t allow     = std::min(rcount, (long)( p_->size_ - p_->idx_));
         size_t lowBlock  =  p_->idx_         /p_->blockSize_;
         size_t highBlock = (p_->idx_ + allow)/p_->blockSize_;
 
@@ -1858,14 +1853,14 @@ namespace Exiv2 {
             byte* data = p_->blocksMap_[iBlock++].getData();
             if (data == nullptr)
                 data = fakeData;
-            size_t blockR = EXV_MIN(allow, p_->blockSize_ - startPos);
+            size_t blockR = std::min(allow, p_->blockSize_ - startPos);
             std::memcpy(&buf[totalRead], &data[startPos], blockR);
             totalRead += blockR;
             startPos = 0;
             allow -= blockR;
         } while(allow);
 
-        if (fakeData) std::free(fakeData);
+        std::free(fakeData);
 
         p_->idx_ += static_cast<long>(totalRead);
         p_->eof_ = (p_->idx_ == static_cast<long>(p_->size_));

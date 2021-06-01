@@ -101,12 +101,8 @@ namespace Exiv2
     }
 
     BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */)
-        : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io)),
-          endian_(Exiv2::bigEndian),
-          bReadMetadata_(false)
+        : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io))
     {
-        pixelWidth_    = 0;
-        pixelHeight_   = 0;
     }  // BmffImage::BmffImage
 
     std::string BmffImage::toAscii(long n)
@@ -292,10 +288,11 @@ namespace Exiv2
                 const auto maxlen = static_cast<size_t>(data.size_ - skip);
                 enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
-                if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
+                if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
                     id=" *** Exif ***";
-                } else if ( !name.find("mime\0xmp") || !name.find("mime\0application/rdf+xml") ) {
+                } else if (name.find("mime\0xmp") != std::string::npos ||
+                           name.find("mime\0application/rdf+xml") != std::string::npos) {
                     xmpID_ = ID;
                     id=" *** XMP ***";
                 }

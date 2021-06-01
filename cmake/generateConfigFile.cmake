@@ -23,7 +23,6 @@ set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 set(EXV_UNICODE_PATH     ${EXIV2_ENABLE_WIN_UNICODE})
 
-check_cxx_symbol_exists(gmtime_r    time.h         EXV_HAVE_GMTIME_R)
 check_cxx_symbol_exists(mmap        sys/mman.h     EXV_HAVE_MMAP )
 check_cxx_symbol_exists(munmap      sys/mman.h     EXV_HAVE_MUNMAP )
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )

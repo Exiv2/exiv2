@@ -1088,7 +1088,7 @@ namespace Exiv2 {
         }
 
         if (   in.bad() || !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W')
-            || sep1 != ',' || sep2 != ',' || !in.eof()) {
+            || sep1 != ',' || !in.eof()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif

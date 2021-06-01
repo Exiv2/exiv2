@@ -956,26 +956,24 @@ int Params::nonoption(const std::string& argv)
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
-    auto bytes = static_cast<Exiv2::byte*>(::malloc(buff_size));
+    std::vector<Exiv2::byte> bytes(buff_size);
     int       nBytes    = 0 ;
-    bool more = bytes != nullptr;
+    bool more {true};
     while   ( more ) {
         char buff[buff_size];
         int n = static_cast<int>(fread(buff, 1, buff_size, f));
         more       = n > 0 ;
         if ( more ) {
-            bytes = static_cast<Exiv2::byte*>(realloc(bytes, nBytes + n));
-            memcpy(bytes+nBytes,buff,n);
+            bytes.resize(nBytes+n);
+            memcpy(bytes.data()+nBytes,buff,n);
             nBytes    += n ;
         }
     }
 
     if ( nBytes ) {
         buf.alloc(nBytes);
-        memcpy(buf.pData_, bytes, nBytes);
+        memcpy(buf.pData_, bytes.data(), nBytes);
     }
-    if (bytes != nullptr)
-        ::free(bytes);
     return nBytes;
 }
 
@@ -1386,15 +1384,14 @@ namespace {
 
         // Skip empty lines and comments
         std::string::size_type cmdStart = line.find_first_not_of(delim);
-        if (cmdStart == std::string::npos || line[cmdStart] == '#') return false;
+        if (cmdStart == std::string::npos || line[cmdStart] == '#')
+            return false;
 
         // Get command and key
         std::string::size_type cmdEnd = line.find_first_of(delim, cmdStart+1);
         std::string::size_type keyStart = line.find_first_not_of(delim, cmdEnd+1);
         std::string::size_type keyEnd = line.find_first_of(delim, keyStart+1);
-        if (   cmdStart == std::string::npos
-            || cmdEnd == std::string::npos
-            || keyStart == std::string::npos) {
+        if (cmdEnd == std::string::npos || keyStart == std::string::npos) {
             std::string cmdLine ;
 #if defined(_MSC_VER) || defined(__MINGW__)
             for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }

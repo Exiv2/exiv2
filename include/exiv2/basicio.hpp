@@ -997,16 +997,11 @@ namespace Exiv2 {
        //@}
 
     protected:
-        //! @name Creators
-        //@{
-        //! Default Constructor
-        RemoteIo() {p_=NULL;}
-        //@}
 
         // Pimpl idiom
         class Impl;
         //! Pointer to implementation
-        Impl* p_;
+        Impl* p_ {nullptr};
     }; // class RemoteIo
 
     /*!
@@ -1043,12 +1038,6 @@ namespace Exiv2 {
         HttpIo& operator=(const HttpIo& rhs);
         // Pimpl idiom
         class HttpImpl;
-
-        //! @name Creators
-        //@{
-        //! Default Destructor
-        virtual ~HttpIo(){}
-        //@}
     };
 
 #ifdef EXV_USE_CURL
@@ -1098,12 +1087,6 @@ namespace Exiv2 {
         CurlIo& operator=(const CurlIo& rhs);
         // Pimpl idiom
         class CurlImpl;
-
-        //! @name Creators
-        //@{
-        //! Default Destructor
-        virtual ~CurlIo(){}
-        //@}
     };
 #endif
 
