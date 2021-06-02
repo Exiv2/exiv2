@@ -4,7 +4,7 @@ import re
 import os
 import system_tests
 import math
-from lens_tests.utils import extract_lenses_from_cpp
+from lens_tests.utils import extract_lenses_from_cpp, make_test_cases
 
 # get directory of the current file
 file_dir = os.path.dirname(os.path.realpath(__file__))
@@ -14,38 +14,37 @@ canon_lens_file = os.path.abspath(os.path.join(file_dir, "./../../src/canonmn_in
 startpattern = "constexpr TagDetails canonCsLensType[] = {"
 # use utils function to extract all lenses
 lenses = extract_lenses_from_cpp(canon_lens_file, startpattern)
+# use utils function to define test case data
+test_cases = make_test_cases(lenses)
 
+# see https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Canon.pm#L9678
 def aperture_to_raw_exif(aperture):
-    #see https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Canon.pm#L9678
-    aperture = float(aperture)
     # for apertures < 1 the below is negative
-    num = math.log(aperture)*2/math.log(2)
+    num = math.log(aperture) * 2 / math.log(2)
 
     # temporarily make the number positive
-    if (num < 0):
+    if num < 0:
         num = -num
         sign = -1
     else:
-        sign = 1;
+        sign = 1
 
     val = int(num)
     frac = num - val
 
-    if (abs(frac - 0.33) < 0.05):
-        frac = 0x0c
-    elif (abs(frac - 0.67) < 0.05):
-        frac = 0x14;
+    if abs(frac - 0.33) < 0.05:
+        frac = 0x0C
+    elif abs(frac - 0.67) < 0.05:
+        frac = 0x14
     else:
         frac = int(frac * 0x20 + 0.5)
 
-    return sign * (val * 0x20 + frac);
+    return sign * (val * 0x20 + frac)
 
 
-for (lens_id, lens_desc, meta) in lenses:
+for lens_tc in test_cases:
 
-    tc = float(meta["tc"] or 1)
-
-    testname = lens_id + "_" + lens_desc
+    testname = lens_tc["id"] + "_" + lens_tc["desc"]
 
     globals()[testname] = system_tests.CaseMeta(
         "canon_lenses." + testname,
@@ -58,10 +57,10 @@ for (lens_id, lens_desc, meta) in lenses:
             "stderr": [""],
             "stdout": ["Exif.CanonCs.LensType                        Short       1  $lens_description\n"],
             "retval": [0],
-            "lens_id": lens_id,
-            "lens_description": lens_desc,
-            "aperture_max": aperture_to_raw_exif(meta["aperture_max_short"]),
-            "focal_length_min": int(int(meta["focal_length_min"]) * tc),
-            "focal_length_max": int(int(meta["focal_length_max"]) * tc),
+            "lens_id": lens_tc["id"],
+            "lens_description": lens_tc["target"],
+            "aperture_max": aperture_to_raw_exif(lens_tc["aperture_max_short"]),
+            "focal_length_min": int(lens_tc["focal_length_min"] * lens_tc["tc"]),
+            "focal_length_max": int(lens_tc["focal_length_max"] * lens_tc["tc"]),
         },
     )

@@ -1,6 +1,7 @@
 import re
 import os
 import logging
+from itertools import groupby
 
 log = logging.getLogger(__name__)
 
@@ -49,15 +50,52 @@ def extract_meta(text, pattern=LENS_META_DEFAULT_RE):
     """
     result = pattern.match(text)
 
-    if(not result):
+    if not result:
         # didn't match
         return None
 
     ret = result.groupdict()
     # set min to max value if we didn't get a range but a single value
-    ret['focal_length_min'] = ret['focal_length_min'] or ret['focal_length_max']
-    ret['aperture_max_short'] = ret['aperture_max_short'] or ret['aperture_max_tele']
+    ret["focal_length_min"] = int(ret["focal_length_min"] or ret["focal_length_max"])
+    ret["focal_length_max"] = int(ret["focal_length_max"])
+    ret["aperture_max_short"] = float(ret["aperture_max_short"] or ret["aperture_max_tele"])
+    ret["aperture_max_tele"] = float(ret["aperture_max_tele"])
+    ret["tc"] = float(ret["tc"] or 1)
     return ret
+
+
+# FIXME explain somwhere that lens_is_match(l1,l2) does not imply lens_is_match(l2,l1)
+# becuse we don't have short and tele aperture values in exif
+def lens_is_match(l1, l2):
+    """
+    Test if lens l2 is compatible with lens l1,
+    assuming we write l1's metadata and apeture_max_short into exif
+    """
+    return (
+        all([l1[k] == l2[k] for k in ["tc", "focal_length_min", "focal_length_max"]])
+        and l2["aperture_max_short"] <= l1["aperture_max_short"] <= l2["aperture_max_tele"]
+    )
+
+
+def make_test_cases(lenses):
+    """
+    Creates a test case for each lens
+    Main job of this function is to collect all ambiguous lenses and define a test target
+    as the " *OR* " joined string of all ambiguous lens descriptions
+    """
+    test_cases = []
+    for lens_id, group in groupby(lenses, lambda x: x["id"]):
+        lens_group = list(group)
+        test_cases += [
+            {
+                **lens["meta"],
+                "id": lens["id"],
+                "desc": lens["desc"],
+                "target": " *OR* ".join([l["desc"] for l in lens_group if lens_is_match(lens["meta"], l["meta"])]),
+            }
+            for lens in lens_group
+        ]
+    return test_cases
 
 
 def extract_lenses_from_cpp(filename, start_pattern):
@@ -99,6 +137,5 @@ def extract_lenses_from_cpp(filename, start_pattern):
                     log.error(f"Failure extracing metadata from lens description:  {lens_entry[0]}: {lens_entry[1]}.")
                     continue
 
-                lenses.append((*lens_entry, meta))
+                lenses.append({"id": lens_entry[0], "desc": lens_entry[1], "meta": meta})
         return lenses
-
