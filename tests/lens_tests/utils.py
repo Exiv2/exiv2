@@ -15,10 +15,11 @@ LENS_META_DEFAULT_RE = re.compile(
         "(?:(?P<focal_length_min>[0-9]+)-)?(?P<focal_length_max>[0-9]+)mm"
         # anything inbetween
         ".*?"
-        # maybe short focal length max aperture and hyhpen, surely maxaperture e.g.: f/4.5-5.6
-        "f\/(?:(?P<aperture_min>[0-9]+(?:\.[0-9]+)?)-)?(?P<aperture_max>[0-9]+(?:\.[0-9])?)"
+        # maybe short focal length max aperture and hyhpen, surely at least single max aperture e.g.: f/4.5-5.6
+        # short and tele indicate apertures at the short (focal_length_min) and tele (focal_length_max) position of the lens
+        "(?:(?:f\/)|T)(?:(?P<aperture_max_short>[0-9]+(?:\.[0-9]+)?)-)?(?P<aperture_max_tele>[0-9]+(?:\.[0-9])?)"
         # check if there is a teleconverter pattern e.g. + 1.4x
-        "(?:.*?\+.*?(?P<tc>[0-9.]+x))?"
+        "(?:.*?\+.*?(?P<tc>[0-9.]+)x)?"
     )
 )
 
@@ -42,13 +43,21 @@ def extract_meta(text, pattern=LENS_META_DEFAULT_RE):
     We return a dict of:
     focal_length_min = 100
     focal_length_max = 400
-    aperture_min = 4.5
-    aperture_max = 5.6
+    aperture_max_short = 4.5
+    aperture_max_tele = 5.6
     tc = 1.4
     """
     result = pattern.match(text)
 
-    return result.groupdict() if result else None
+    if(not result):
+        # didn't match
+        return None
+
+    ret = result.groupdict()
+    # set min to max value if we didn't get a range but a single value
+    ret['focal_length_min'] = ret['focal_length_min'] or ret['focal_length_max']
+    ret['aperture_max_short'] = ret['aperture_max_short'] or ret['aperture_max_tele']
+    return ret
 
 
 def extract_lenses_from_cpp(filename, start_pattern):
@@ -87,7 +96,7 @@ def extract_lenses_from_cpp(filename, start_pattern):
 
                 meta = extract_meta(lens_entry[1])
                 if not meta:
-                    log.error(f"Failure extracing metadata from lens description: {lens_entry[1]}.")
+                    log.error(f"Failure extracing metadata from lens description:  {lens_entry[0]}: {lens_entry[1]}.")
                     continue
 
                 lenses.append((*lens_entry, meta))
