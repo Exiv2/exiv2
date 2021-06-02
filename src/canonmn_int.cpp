@@ -1597,7 +1597,6 @@ namespace Exiv2 {
 
     //! LensType, tag 0x0016
     constexpr TagDetails canonCsLensType[] = {
-        {   -1, "n/a"                                                       },
         {    1, "Canon EF 50mm f/1.8"                                       },
         {    2, "Canon EF 28mm f/2.8"                                       },
         {    2, "Sigma 24mm f/2.8 Super Wide II"                            }, // 1
@@ -1641,7 +1640,7 @@ namespace Exiv2 {
         {   26, "Tamron SP AF 90mm f/2.8 Di Macro"                          }, // 2
         {   26, "Tamron SP AF 180mm f/3.5 Di Macro"                         }, // 3
         {   26, "Carl Zeiss Planar T* 50mm f/1.4"                           }, // 4
-        {   26, "Voigtlander APO Lanthar 125mm F2.5 SL Macro"               }, // 5
+        {   26, "Voigtlander APO Lanthar 125mm f/2.5 SL Macro"               }, // 5
         {   26, "Carl Zeiss Planar T 85mm f/1.4 ZE"                         }, // 6
         {   27, "Canon EF 35-80mm f/4-5.6"                                  },
         {   28, "Canon EF 80-200mm f/4.5-5.6"                               },
@@ -1754,7 +1753,7 @@ namespace Exiv2 {
         {  142, "Canon EF 300mm f/2.8L IS USM"                              },
         {  143, "Canon EF 500mm f/4L IS USM"                                },
         {  143, "Sigma 17-70mm f/2.8-4 DC Macro OS HSM"                     }, // 1
-        {  143, "Sigma 24-105mm F4 DG OS HSM | A"                           }, // 2
+        {  143, "Sigma 24-105mm f/4 DG OS HSM | A"                           }, // 2
         {  144, "Canon EF 35-135mm f/4-5.6 USM"                             },
         {  145, "Canon EF 100-300mm f/4.5-5.6 USM"                          },
         {  146, "Canon EF 70-210mm f/3.5-4.5 USM"                           },
@@ -1793,7 +1792,7 @@ namespace Exiv2 {
         {  160, "Tokina AT-X 124 AF Pro DX 12-24mm f/4"                     }, // 2
         {  160, "Tokina AT-X 107 AF DX 10-17mm f/3.5-4.5 Fisheye"           }, // 3
         {  160, "Tokina AT-X 116 AF Pro DX 11-16mm f/2.8"                   }, // 4
-        {  160, "Tokina AT-X 11-20 F2.8 PRO DX Aspherical 11-20mm f/2.8"    }, // 5
+        {  160, "Tokina AT-X 11-20 f/2.8 PRO DX Aspherical 11-20mm f/2.8"    }, // 5
         {  161, "Canon EF 28-70mm f/2.8L USM"                               },
         {  161, "Sigma 24-70mm f/2.8 EX"                                    }, // 1
         {  161, "Sigma 28-70mm f/2.8 EX"                                    }, // 2
@@ -1831,7 +1830,7 @@ namespace Exiv2 {
         {  173, "Sigma APO Macro 150mm f/2.8 EX DG HSM"                     }, // 1
         {  173, "Sigma 10mm f/2.8 EX DC Fisheye"                            }, // 2
         {  173, "Sigma 15mm f/2.8 EX DG Diagonal Fisheye"                   }, // 3
-        {  173, "Venus Laowa 100mm F2.8 2X Ultra Macro APO"                 }, // 4
+        {  173, "Venus Laowa 100mm f/2.8 2X Ultra Macro APO"                 }, // 4
         {  173, "Sigma 150-500mm f/5-6.3 APO DG OS HSM + 2x"                }, // 5
         {  174, "Canon EF 135mm f/2L USM"                                   },
         {  174, "Sigma 70-200mm f/2.8 EX DG APO OS HSM"                     }, // 1
@@ -2041,34 +2040,34 @@ namespace Exiv2 {
         {61494, "Canon CN-E 85mm T1.3 L F"                                  },
         {61495, "Canon CN-E 135mm T2.2 L F"                                 },
         {61496, "Canon CN-E 35mm T1.5 L F"                                  },
-        {61182, "Canon RF 35mm F1.8 Macro IS STM"                           },
-        {61182, "Canon RF 50mm F1.2 L USM"                                  }, // 1
-        {61182, "Canon RF 24-105mm F4 L IS USM"                             }, // 2
-        {61182, "Canon RF 28-70mm F2 L USM"                                 }, // 3
-        {61182, "Canon RF 85mm F1.2L USM"                                   }, // 4
-        {61182, "Canon RF 24-240mm F4-6.3 IS USM"                           }, // 5
-        {61182, "Canon RF 24-70mm F2.8 L IS USM"                            }, // 6
-        {61182, "Canon RF 15-35mm F2.8 L IS USM"                            }, // 7
-        {61182, "Canon RF 50mm F1.8 STM"                                    }, // 8
-        {61182, "Canon RF 70-200mm F4L IS USM"                              }, // 9        
-        {61182, "Canon RF 28-70mm F2L USM"                                  }, // 10           
-        {61182, "Canon RF 85mm F2 MACRO IS STM"                             }, // 11 
-        {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"                }, // 12 
-        {61182, "Canon RF 35mm F1.8 MACRO IS STM"                           }, // 13                                                        
-        {61182, "Canon RF 85mm F1.2L USM DS"                                }, // 14  
-        {61182, "Canon RF 24-70mm F2.8L IS USM"                             }, // 15     
-        {61182, "Canon RF 15-35mm F2.8L IS USM"                             }, // 16
-        {61182, "Canon RF 24-240mm F4-6.3 IS USM"                           }, // 17
-        {61182, "Canon RF 70-200mm F2.8L IS USM"                            }, // 18      
-        {61182, "Canon RF 600mm F11 IS STM"                                 }, // 19      
-        {61182, "Canon RF 600mm F11 IS STM + RF1.4x"                        }, // 20      
-        {61182, "Canon RF 600mm F11 IS STM + RF2x"                          }, // 21      
-        {61182, "Canon RF 800mm F11 IS STM"                                 }, // 22      
-        {61182, "Canon RF 800mm F11 IS STM + RF1.4x"                        }, // 23     
-        {61182, "Canon RF 800mm F11 IS STM + RF2x"                          }, // 24 
-        {61182, "Canon RF 24-105mm F4-7.1 IS STM"                           }, // 25             
-        {61182, "Canon RF 100-500mm F4.5-7.1 L IS USM"                      }, // 26 
-        {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"                }, // 27    
+        {61182, "Canon RF 35mm f/1.8 Macro IS STM"                           },
+        {61182, "Canon RF 50mm f/1.2 L USM"                                  }, // 1
+        {61182, "Canon RF 24-105mm f/4 L IS USM"                             }, // 2
+        {61182, "Canon RF 28-70mm f/2 L USM"                                 }, // 3
+        {61182, "Canon RF 85mm f/1.2L USM"                                   }, // 4
+        {61182, "Canon RF 24-240mm f/4-6.3 IS USM"                           }, // 5
+        {61182, "Canon RF 24-70mm f/2.8 L IS USM"                            }, // 6
+        {61182, "Canon RF 15-35mm f/2.8 L IS USM"                            }, // 7
+        {61182, "Canon RF 50mm f/1.8 STM"                                    }, // 8
+        {61182, "Canon RF 70-200mm f/4L IS USM"                              }, // 9        
+        {61182, "Canon RF 28-70mm f/2L USM"                                  }, // 10           
+        {61182, "Canon RF 85mm f/2 MACRO IS STM"                             }, // 11 
+        {61182, "Canon RF 100-500mm f/4.5-7.1L IS USM + RF2x"                }, // 12 
+        {61182, "Canon RF 35mm f/1.8 MACRO IS STM"                           }, // 13                                                        
+        {61182, "Canon RF 85mm f/1.2L USM DS"                                }, // 14  
+        {61182, "Canon RF 24-70mm f/2.8L IS USM"                             }, // 15     
+        {61182, "Canon RF 15-35mm f/2.8L IS USM"                             }, // 16
+        {61182, "Canon RF 24-240mm f/4-6.3 IS USM"                           }, // 17
+        {61182, "Canon RF 70-200mm f/2.8L IS USM"                            }, // 18      
+        {61182, "Canon RF 600mm f/11 IS STM"                                 }, // 19      
+        {61182, "Canon RF 600mm f/11 IS STM + RF1.4x"                        }, // 20      
+        {61182, "Canon RF 600mm f/11 IS STM + RF2x"                          }, // 21      
+        {61182, "Canon RF 800mm f/11 IS STM"                                 }, // 22      
+        {61182, "Canon RF 800mm f/11 IS STM + RF1.4x"                        }, // 23     
+        {61182, "Canon RF 800mm f/11 IS STM + RF2x"                          }, // 24 
+        {61182, "Canon RF 24-105mm f/4-7.1 IS STM"                           }, // 25             
+        {61182, "Canon RF 100-500mm f/4.5-7.1 L IS USM"                      }, // 26 
+        {61182, "Canon RF 100-500mm f/4.5-7.1L IS USM + RF2x"                }, // 27    
         {65535, "n/a"                                                       }
     };
 
