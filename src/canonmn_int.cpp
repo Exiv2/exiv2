@@ -2747,7 +2747,7 @@ namespace Exiv2 {
         ExifKey lensKey("Exif.CanonCs.Lens");
         auto pos = metadata->findKey(lensKey);
         // catch possible error cases
-        if (pos == metadata->end() or pos->value().count() < 3 or pos->value().typeId() != unsignedShort or
+        if (pos == metadata->end() || pos->value().count() < 3 || pos->value().typeId() != unsignedShort ||
             pos->value().toFloat(2) == 0.0F) {
             os << "Unknown Lens (" << lensType << ")";
         }
@@ -2757,7 +2757,7 @@ namespace Exiv2 {
 
         ExifKey aperKey("Exif.CanonCs.MaxAperture");
         pos = metadata->findKey(aperKey);
-        if (pos == metadata->end() or pos->value().count() != 1 or pos->value().typeId() != unsignedShort) {
+        if (pos == metadata->end() || pos->value().count() != 1 || pos->value().typeId() != unsignedShort) {
             os << "Unknown Lens (" << lensType << ")";
         }
 
@@ -2789,7 +2789,7 @@ namespace Exiv2 {
             }
 
             std::cmatch base_match;
-            if (not std::regex_search(lens.label_, base_match, lens_regex)) {
+            if (!std::regex_search(lens.label_, base_match, lens_regex)) {
                 // this should never happen, as it would indicate the lens is specified incorrectly
                 // in the CanonCsLensType array
                 throw Error(kerErrorMessage, std::string("Lens regex didn't match for: ") + std::string(lens.label_));
@@ -2803,7 +2803,7 @@ namespace Exiv2 {
             auto aperMaxTele = std::stof(base_match[4].str()) * tc;
             auto aperMaxShort = base_match[3].length() > 0 ? std::stof(base_match[3].str()) * tc : aperMaxTele;
 
-            if (flMin != exifFlMin or flMax != exifFlMax or exifAperMax < (aperMaxShort - .1) or
+            if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - .1) ||
                 exifAperMax > (aperMaxTele + .1)) {
                 continue;
              }
