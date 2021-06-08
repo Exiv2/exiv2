@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
-
 import re
 import os
 import system_tests
-import math
-from lens_tests.utils import extract_lenses_from_cpp, make_test_cases
+from lens_tests.utils import extract_lenses_from_cpp, make_test_cases, aperture_to_raw_exif
+
+# NOTE
+# Normally the canon maker note holds the max aperture of the lens at the focal length
+# the picture was taken at. Thus for a f/4-6.3 lens, this value could be anywhere in that range.
+# For the below tests we only test the scenario where the lens was used at it's shortest focal length.
+# Thus we always pick the 'aperture_max_short' of a lens as the value to write into the
+# Exif.CanonCs.MaxAperture field.
 
 # get directory of the current file
 file_dir = os.path.dirname(os.path.realpath(__file__))
@@ -16,31 +21,6 @@ startpattern = "constexpr TagDetails canonCsLensType[] = {"
 lenses = extract_lenses_from_cpp(canon_lens_file, startpattern)
 # use utils function to define test case data
 test_cases = make_test_cases(lenses)
-
-# see https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Canon.pm#L9678
-def aperture_to_raw_exif(aperture):
-    # for apertures < 1 the below is negative
-    num = math.log(aperture) * 2 / math.log(2)
-
-    # temporarily make the number positive
-    if num < 0:
-        num = -num
-        sign = -1
-    else:
-        sign = 1
-
-    val = int(num)
-    frac = num - val
-
-    if abs(frac - 0.33) < 0.05:
-        frac = 0x0C
-    elif abs(frac - 0.67) < 0.05:
-        frac = 0x14
-    else:
-        frac = int(frac * 0x20 + 0.5)
-
-    return sign * (val * 0x20 + frac)
-
 
 for lens_tc in test_cases:
 
@@ -59,7 +39,7 @@ for lens_tc in test_cases:
             "retval": [0],
             "lens_id": lens_tc["id"],
             "lens_description": lens_tc["target"],
-            "aperture_max": aperture_to_raw_exif(lens_tc["aperture_max_short"]),
+            "aperture_max": aperture_to_raw_exif(lens_tc["aperture_max_short"] * lens_tc["tc"]),
             "focal_length_min": int(lens_tc["focal_length_min"] * lens_tc["tc"]),
             "focal_length_max": int(lens_tc["focal_length_max"] * lens_tc["tc"]),
         },
