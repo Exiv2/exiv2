@@ -2752,8 +2752,8 @@ namespace Exiv2 {
             os << "Unknown Lens (" << lensType << ")";
         }
 
-        int const exifFlMin = pos->value().toLong(1) / pos->value().toFloat(2);
-        int const exifFlMax = pos->value().toLong(0) / pos->value().toFloat(2);
+        int const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toLong(1)) / pos->value().toFloat(2));
+        int const exifFlMax = static_cast<int>(static_cast<float>(pos->value().toLong(0)) / pos->value().toFloat(2));
 
         ExifKey aperKey("Exif.CanonCs.MaxAperture");
         pos = metadata->findKey(aperKey);
@@ -2797,8 +2797,8 @@ namespace Exiv2 {
 
             auto tc = base_match[5].length() > 0 ? std::stof(base_match[5].str()) : 1.f;
 
-            int flMax = std::stoi(base_match[2].str()) * tc;
-            int flMin = base_match[1].length() > 0 ? std::stoi(base_match[1].str()) * tc : flMax;
+            int flMax = static_cast<int>(std::stof(base_match[2].str()) * tc);
+            int flMin = base_match[1].length() > 0 ? static_cast<int>(std::stof(base_match[1].str()) * tc) : flMax;
 
             auto aperMaxTele = std::stof(base_match[4].str()) * tc;
             auto aperMaxShort = base_match[3].length() > 0 ? std::stof(base_match[3].str()) * tc : aperMaxTele;
