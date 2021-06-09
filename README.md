@@ -58,7 +58,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
-4. [Test Suit](#4)
+4. [Test Suite](#4)
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
     3. [Unit tests](#4-3)
