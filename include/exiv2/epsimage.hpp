@@ -93,13 +93,12 @@ namespace Exiv2
         std::string mimeType() const;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        EpsImage(const EpsImage& rhs);
+        EpsImage(const EpsImage& rhs) = delete;
         //! Assignment operator
-        EpsImage& operator=(const EpsImage& rhs);
+        EpsImage& operator=(const EpsImage& rhs) = delete;
         //@}
 
     }; // class EpsImage

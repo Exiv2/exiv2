@@ -78,6 +78,12 @@ namespace Exiv2 {
         std::string mimeType() const;
         //@}
 
+        //! Copy constructor
+        WebPImage(const WebPImage& rhs) = delete;
+        //! Assignment operator
+        WebPImage& operator=(const WebPImage& rhs) = delete;
+        //@}
+
     private:
         void doWriteMetadata(BasicIo& outIo);
         //! @name NOT Implemented
@@ -89,12 +95,6 @@ namespace Exiv2 {
         void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
                          bool has_alpha, bool has_icc, int width,
                          int height);
-
-        //! Copy constructor
-        WebPImage(const WebPImage& rhs);
-        //! Assignment operator
-        WebPImage& operator=(const WebPImage& rhs);
-        //@}
 
     private:
         static const byte WEBP_PAD_ODD;

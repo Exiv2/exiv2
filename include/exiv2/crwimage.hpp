@@ -96,13 +96,12 @@ namespace Exiv2 {
         int pixelHeight() const;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        CrwImage(const CrwImage& rhs);
+        CrwImage(const CrwImage& rhs) = delete;
         //! Assignment operator
-        CrwImage& operator=(const CrwImage& rhs);
+        CrwImage& operator=(const CrwImage& rhs) = delete;
         //@}
 
     }; // class CrwImage

@@ -85,14 +85,14 @@ namespace Exiv2 {
 
     //! Access to Exif group and tag lists and misc. tag reference methods, implemented as a static class.
     class EXIV2API ExifTags {
-        //! Prevent construction: not implemented.
-        ExifTags();
-        //! Prevent copy-construction: not implemented.
-        ExifTags(const ExifTags& rhs);
-        //! Prevent assignment: not implemented.
-        ExifTags& operator=(const ExifTags& rhs);
-
     public:
+        //! Prevent construction: not implemented.
+        ExifTags() = delete;
+        //! Prevent copy-construction: not implemented.
+        ExifTags(const ExifTags& rhs) = delete;
+        //! Prevent assignment: not implemented.
+        ExifTags& operator=(const ExifTags& rhs) = delete;
+
         //! Return read-only list of built-in groups
         static const GroupInfo* groupList();
         //! Return read-only list of built-in \em groupName tags.

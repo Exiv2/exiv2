@@ -94,13 +94,14 @@ namespace Exiv2
         std::string mimeType() const;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        Jp2Image(const Jp2Image& rhs);
+        Jp2Image(const Jp2Image& rhs) = delete;
         //! Assignment operator
-        Jp2Image& operator=(const Jp2Image& rhs);
+        Jp2Image& operator=(const Jp2Image& rhs) = delete;
+
+    private:
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.

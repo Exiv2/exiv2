@@ -50,15 +50,15 @@ namespace Exiv2 {
           read width and height.
      */
     class EXIV2API BmpImage : public Image {
+    public:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        BmpImage(const BmpImage& rhs);
+        BmpImage(const BmpImage& rhs) = delete;
         //! Assignment operator
-        BmpImage& operator=(const BmpImage& rhs);
+        BmpImage& operator=(const BmpImage& rhs) = delete;
         //@}
 
-    public:
         //! @name Creators
         //@{
         /*!

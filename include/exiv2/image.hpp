@@ -479,6 +479,14 @@ namespace Exiv2 {
         //! set type support for this image format
         int imageType() const { return imageType_; }
 
+        //! @name NOT implemented
+        //@{
+        //! Copy constructor
+        Image(const Image& rhs) = delete;
+        //! Assignment operator
+        Image& operator=(const Image& rhs) = delete;
+        //@}
+
     protected:
         // DATA
         BasicIo::UniquePtr  io_;                //!< Image data IO pointer
@@ -499,14 +507,6 @@ namespace Exiv2 {
         static const char* typeName(uint16_t tag);
 
     private:
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor
-        Image(const Image& rhs);
-        //! Assignment operator
-        Image& operator=(const Image& rhs);
-        //@}
-
         // DATA
         int               imageType_;         //!< Image type
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
@@ -706,13 +706,12 @@ namespace Exiv2 {
         */
         static bool checkType(int type, BasicIo& io, bool advance);
 
-    private:
         //! @name Creators
         //@{
         //! Prevent construction: not implemented.
-        ImageFactory();
+        ImageFactory() = delete;
         //! Prevent copy construction: not implemented.
-        ImageFactory(const ImageFactory& rhs);
+        ImageFactory(const ImageFactory& rhs) = delete;
         //@}
 
     }; // class ImageFactory

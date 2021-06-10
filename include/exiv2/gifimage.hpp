@@ -43,15 +43,15 @@ namespace Exiv2 {
              directly.
      */
     class EXIV2API GifImage : public Image {
+    public:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        GifImage(const GifImage& rhs);
+        GifImage(const GifImage& rhs) = delete;
         //! Assignment operator
-        GifImage& operator=(const GifImage& rhs);
+        GifImage& operator=(const GifImage& rhs) = delete;
         //@}
 
-    public:
         //! @name Creators
         //@{
         /*!
