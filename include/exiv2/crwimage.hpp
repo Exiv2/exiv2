@@ -80,20 +80,20 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported. CRW format does not contain IPTC metadata.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setIptcData(const IptcData& iptcData);
+        void setIptcData(const IptcData& iptcData) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
         //! @name NOT Implemented

@@ -62,20 +62,20 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
+        void readMetadata() override;
+        void writeMetadata() override;
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
         //@}
 
         /*!
           @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
-        void setIptcData(const IptcData& /*iptcData*/);
+        void setComment(const std::string& comment) override;
+        void setIptcData(const IptcData& /*iptcData*/) override;
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
         //! Copy constructor

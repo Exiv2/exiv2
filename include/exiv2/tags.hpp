@@ -162,7 +162,7 @@ namespace Exiv2 {
         //! Copy constructor
         ExifKey(const ExifKey& rhs);
         //! Destructor
-        virtual ~ExifKey();
+        ~ExifKey() override;
         //@}
 
         //! @name Manipulators
@@ -177,14 +177,14 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const;
-        virtual const char* familyName() const;
-        virtual std::string groupName() const;
+        std::string key() const override;
+        const char* familyName() const override;
+        std::string groupName() const override;
         //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
         int ifdId() const;
-        virtual std::string tagName() const;
-        virtual uint16_t tag() const;
-        virtual std::string tagLabel() const;
+        std::string tagName() const override;
+        uint16_t tag() const override;
+        std::string tagLabel() const override;
         //! Return the tag description.
         std::string tagDesc() const;        // Todo: should be in the base class
         //! Return the default type id for this tag.
@@ -197,7 +197,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual ExifKey* clone_() const;
+        ExifKey* clone_() const override;
 
     private:
         // Pimpl idiom

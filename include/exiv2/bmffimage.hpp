@@ -107,17 +107,17 @@ namespace Exiv2
 
         //! @name Manipulators
         //@{
-        void readMetadata() /* override */;
-        void writeMetadata() /* override */;
-        void setComment(const std::string& comment) /* override */;
-        void printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth);
+        void readMetadata() override /* override */;
+        void writeMetadata() override /* override */;
+        void setComment(const std::string& comment) override /* override */;
+        void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const /* override */;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override /* override */;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
         
         Exiv2::ByteOrder endian_{Exiv2::bigEndian};

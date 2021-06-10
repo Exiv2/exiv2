@@ -176,7 +176,7 @@ namespace Exiv2 {
         AnyError() = default;
         AnyError(const AnyError& o) = default;
 
-        virtual ~AnyError() throw() = default;
+        ~AnyError() throw() override = default;
         ///@brief  Return the error code.
         virtual int code() const throw() =0;
     };
@@ -281,17 +281,17 @@ namespace Exiv2 {
         inline BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of throw())
-        virtual inline ~BasicError() throw();
+        inline ~BasicError() throw() override;
         //@}
 
         //! @name Accessors
         //@{
-        virtual inline int code() const throw();
+        inline int code() const throw() override;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        virtual inline const char* what() const throw();
+        inline const char* what() const throw() override;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
