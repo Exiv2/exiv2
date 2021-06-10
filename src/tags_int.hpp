@@ -284,7 +284,7 @@ namespace Exiv2 {
     template <int N, const TagDetailsBitmask (&array)[N]>
     std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*)
     {
-        const uint32_t val = static_cast<uint32_t>(value.toLong());
+        const auto val = static_cast<uint32_t>(value.toLong());
         if (val == 0 && N > 0) {
             const TagDetailsBitmask* td = *(&array);
             if (td->mask_ == 0) return os << exvGettext(td->label_);
