@@ -57,7 +57,7 @@ namespace Exiv2 {
               instance after it is passed to this method. Use the Image::io()
               method to get a temporary reference.
          */
-        WebPImage(BasicIo::UniquePtr io);
+        explicit WebPImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
