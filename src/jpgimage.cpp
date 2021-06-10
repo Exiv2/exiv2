@@ -136,12 +136,8 @@ namespace Exiv2 {
     // Todo: Generalised from JpegBase::locateIptcData without really understanding
     //       the format (in particular the header). So it remains to be confirmed
     //       if this also makes sense for psTag != Photoshop::iptc
-    int Photoshop::locateIrb(const byte*     pPsData,
-                             long            sizePsData,
-                             uint16_t        psTag,
-                             const byte**    record,
-                             uint32_t *const sizeHdr,
-                             uint32_t *const sizeData)
+    int Photoshop::locateIrb(const byte* pPsData, long sizePsData, uint16_t psTag, const byte** record,
+                             uint32_t* sizeHdr, uint32_t* sizeData)
     {
         assert(record);
         assert(sizeHdr);
@@ -213,21 +209,15 @@ namespace Exiv2 {
         return 3;
     } // Photoshop::locateIrb
 
-    int Photoshop::locateIptcIrb(const byte*     pPsData,
-                                 long            sizePsData,
-                                 const byte**    record,
-                                 uint32_t *const sizeHdr,
-                                 uint32_t *const sizeData)
+    int Photoshop::locateIptcIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t* sizeHdr,
+                                 uint32_t* sizeData)
     {
         return locateIrb(pPsData, sizePsData, iptc_,
                          record, sizeHdr, sizeData);
     }
 
-    int Photoshop::locatePreviewIrb(const byte*     pPsData,
-                                    long            sizePsData,
-                                    const byte**    record,
-                                    uint32_t *const sizeHdr,
-                                    uint32_t *const sizeData)
+    int Photoshop::locatePreviewIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t* sizeHdr,
+                                    uint32_t* sizeData)
     {
         return locateIrb(pPsData, sizePsData, preview_,
                          record, sizeHdr, sizeData);
