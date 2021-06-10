@@ -199,7 +199,6 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         ExifKey* clone_() const override;
 
-    private:
         // Pimpl idiom
         struct Impl;
         std::unique_ptr<Impl> p_;
