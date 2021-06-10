@@ -37,6 +37,6 @@ namespace Exiv2 {
      @return Server response 200 = OK, 404 = Not Found etc...
     */
     EXIV2API int http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::string& errors);
-}
+}  // namespace Exiv2
 
 #endif

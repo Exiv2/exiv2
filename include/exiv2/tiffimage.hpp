@@ -43,7 +43,7 @@ namespace Exiv2 {
         const int arw = 4;           //!< ARW image type (see class TiffImage)
         const int sr2 = 4;           //!< SR2 image type (see class TiffImage)
         const int srw = 4;           //!< SRW image type (see class TiffImage)
-    }
+    }                                // namespace ImageType
 
     /*!
       @brief Class to access TIFF images. Exif metadata is

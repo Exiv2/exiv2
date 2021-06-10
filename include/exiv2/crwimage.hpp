@@ -50,7 +50,7 @@ namespace Exiv2 {
     // Add CRW to the supported image formats
     namespace ImageType {
         const int crw = 3;          //!< CRW image type (see class CrwImage)
-    }
+    }                               // namespace ImageType
 
     /*!
       @brief Class to access raw Canon CRW images. Only Exif metadata and a

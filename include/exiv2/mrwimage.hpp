@@ -36,7 +36,7 @@ namespace Exiv2 {
     // Add MRW to the supported image formats
     namespace ImageType {
         const int mrw = 5;          //!< MRW image type (see class MrwImage)
-    }
+    }                               // namespace ImageType
 
     /*!
       @brief Class to access raw Minolta MRW images. Exif metadata is supported

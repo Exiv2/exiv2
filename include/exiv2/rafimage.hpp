@@ -41,7 +41,7 @@ namespace Exiv2 {
     // Add RAF to the supported image formats
     namespace ImageType {
         const int raf = 8;          //!< RAF image type (see class RafImage)
-    }
+    }                               // namespace ImageType
 
     /*!
       @brief Class to access raw Fujifilm RAF images. Exif metadata is

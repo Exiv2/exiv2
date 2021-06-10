@@ -43,7 +43,7 @@ namespace Exiv2 {
     // Add Windows Bitmap (BMP) to the supported image formats
     namespace ImageType {
         const int bmp = 14; //!< Windows bitmap (bmp) image type (see class BmpImage)
-    }
+    }                       // namespace ImageType
 
     /*!
       @brief Class to access Windows bitmaps. This is just a stub - we only
