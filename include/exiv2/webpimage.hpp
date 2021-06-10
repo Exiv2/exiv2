@@ -96,7 +96,6 @@ namespace Exiv2 {
                          bool has_alpha, bool has_icc, int width,
                          int height);
 
-    private:
         static const byte WEBP_PAD_ODD;
         static const int WEBP_TAG_SIZE;
         static const int WEBP_VP8X_ICC_BIT;
