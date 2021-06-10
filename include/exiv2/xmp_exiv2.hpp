@@ -63,7 +63,7 @@ namespace Exiv2 {
         //! Copy constructor
         Xmpdatum(const Xmpdatum& rhs);
         //! Destructor
-        virtual ~Xmpdatum();
+        ~Xmpdatum() override;
         //@}
 
         //! @name Manipulators
@@ -96,7 +96,7 @@ namespace Exiv2 {
                  Calls setValue(const Value*).
          */
         Xmpdatum& operator=(const Value& value);
-        void setValue(const Value* pValue);
+        void setValue(const Value* pValue) override;
         /*!
           @brief Set the value to the string \em value. Uses Value::read(const
                  std::string&).  If the %Xmpdatum does not have a Value yet,
@@ -104,43 +104,43 @@ namespace Exiv2 {
                  created. If the key is unknown, a XmpTextValue is used as
                  default. Return 0 if the value was read successfully.
          */
-        int setValue(const std::string& value);
+        int setValue(const std::string& value) override;
         //@}
 
         //! @name Accessors
         //@{
         //! Not implemented. Calling this method will raise an exception.
-        long copy(byte* buf, ByteOrder byteOrder) const;
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const;
+        long copy(byte* buf, ByteOrder byteOrder) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata = 0) const override;
         /*!
           @brief Return the key of the Xmpdatum. The key is of the form
                  '<b>Xmp</b>.prefix.property'. Note however that the
                  key is not necessarily unique, i.e., an XmpData object may
                  contain multiple metadata with the same key.
          */
-        std::string key() const;
-        const char* familyName() const;
+        std::string key() const override;
+        const char* familyName() const override;
         //! Return the (preferred) schema namespace prefix.
-        std::string groupName() const;
+        std::string groupName() const override;
         //! Return the property name.
-        std::string tagName() const;
-        std::string tagLabel() const;
+        std::string tagName() const override;
+        std::string tagLabel() const override;
         //! Properties don't have a tag number. Return 0.
-        uint16_t tag() const;
-        TypeId typeId() const;
-        const char* typeName() const;
+        uint16_t tag() const override;
+        TypeId typeId() const override;
+        const char* typeName() const override;
         // Todo: Remove this method from the baseclass
         //! The Exif typeSize doesn't make sense here. Return 0.
-        long typeSize() const;
-        long count() const;
-        long size() const;
-        std::string toString() const;
-        std::string toString(long n) const;
-        long toLong(long n =0) const;
-        float toFloat(long n =0) const;
-        Rational toRational(long n =0) const;
-        Value::UniquePtr getValue() const;
-        const Value& value() const;
+        long typeSize() const override;
+        long count() const override;
+        long size() const override;
+        std::string toString() const override;
+        std::string toString(long n) const override;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
+        Value::UniquePtr getValue() const override;
+        const Value& value() const override;
         //@}
 
     private:

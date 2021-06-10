@@ -74,21 +74,21 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
-        void readMetadata();
-        void writeMetadata();
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported. ORF format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
     }; // class OrfImage
 

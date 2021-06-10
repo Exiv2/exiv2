@@ -63,18 +63,18 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported. XMP sidecar files do not contain a comment.
               Calling this function will throw an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     private:

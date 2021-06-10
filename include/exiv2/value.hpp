@@ -261,7 +261,7 @@ namespace Exiv2 {
                   long len, ByteOrder byteOrder =invalidByteOrder,
                   TypeId typeId =undefined);
 
-        virtual ~DataValue() = default;
+        ~DataValue() override = default;
 
         //! @name Manipulators
         //@{
@@ -277,11 +277,9 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        virtual int read(const byte* buf,
-                          long len,
-                          ByteOrder byteOrder =invalidByteOrder);
+        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //@}
 
         //! @name Accessors
@@ -300,24 +298,24 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not needed.
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
-        virtual long count() const;
-        virtual long size() const;
-        virtual std::ostream& write(std::ostream& os) const;
+        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        long count() const override;
+        long size() const override;
+        std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
                  The behaviour of this method may be undefined if there is no
                  <EM>n</EM>-th component.
          */
-        virtual std::string toString(long n) const;
-        virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const;
-        virtual Rational toRational(long n =0) const;
+        std::string toString(long n) const override;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
         //@}
 
     private:
         //! Internal virtual copy constructor.
-        virtual DataValue* clone_() const;
+        DataValue* clone_() const override;
 
         //! Type used to store the data.
         typedef std::vector<byte> ValueType;
@@ -346,13 +344,13 @@ namespace Exiv2 {
         //! Copy constructor
         StringValueBase(const StringValueBase& rhs) = default;
         //! Virtual destructor.
-        virtual ~StringValueBase() = default;
+        ~StringValueBase() override = default;
         //@}
 
         //! @name Manipulators
         //@{
         //! Read the value from buf. This default implementation uses buf as it is.
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         /*!
           @brief Read the value from a character buffer.
 
@@ -365,9 +363,7 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        virtual int read(const byte* buf,
-                         long len,
-                         ByteOrder byteOrder =invalidByteOrder);
+        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
         //@}
 
         //! @name Accessors
@@ -386,20 +382,20 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
-        virtual long count() const;
-        virtual long size() const;
-        virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const;
-        virtual Rational toRational(long n =0) const;
-        virtual std::ostream& write(std::ostream& os) const;
+        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        long count() const override;
+        long size() const override;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
+        std::ostream& write(std::ostream& os) const override;
         //@}
 
     protected:
         //! Assignment operator.
         StringValueBase& operator=(const StringValueBase& rhs);
         //! Internal virtual copy constructor.
-        virtual StringValueBase* clone_() const =0;
+        StringValueBase* clone_() const override = 0;
 
     public:
         // DATA
@@ -426,7 +422,7 @@ namespace Exiv2 {
         //! Constructor
         explicit StringValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~StringValue() = default;
+        ~StringValue() override = default;
         //@}
 
         //! @name Accessors
@@ -436,7 +432,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual StringValue* clone_() const;
+        StringValue* clone_() const override;
 
     }; // class StringValue
 
@@ -458,7 +454,7 @@ namespace Exiv2 {
         //! Constructor
         explicit AsciiValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~AsciiValue() = default;
+        ~AsciiValue() override = default;
         //@}
 
         //! @name Manipulators
@@ -469,7 +465,7 @@ namespace Exiv2 {
                  to append a terminating '\\0' character if buf doesn't end
                  with '\\0'.
          */
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //@}
 
         //! @name Accessors
@@ -480,12 +476,12 @@ namespace Exiv2 {
                  output stream.  Any further characters are ignored and not
                  written to the output stream.
         */
-        virtual std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os) const override;
         //@}
 
     private:
         //! Internal virtual copy constructor.
-        virtual AsciiValue* clone_() const;
+        AsciiValue* clone_() const override;
 
     }; // class AsciiValue
 
@@ -546,7 +542,7 @@ namespace Exiv2 {
         //! Constructor, uses read(const std::string& comment)
         explicit CommentValue(const std::string& comment);
         //! Virtual destructor.
-        virtual ~CommentValue() = default;
+        ~CommentValue() override = default;
         //@}
 
         //! @name Manipulators
@@ -563,22 +559,22 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 if an invalid character set is encountered
         */
-        int read(const std::string& comment);
+        int read(const std::string& comment) override;
         /*!
           @brief Read the comment from a byte buffer.
          */
-        int read(const byte* buf, long len, ByteOrder byteOrder);
+        int read(const byte* buf, long len, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
-        long copy(byte* buf, ByteOrder byteOrder) const;
+        long copy(byte* buf, ByteOrder byteOrder) const override;
         /*!
           @brief Write the comment in a format which can be read by
           read(const std::string& comment).
          */
-        std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the comment (without a charset="..." prefix)
 
@@ -610,7 +606,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual CommentValue* clone_() const;
+        CommentValue* clone_() const override;
 
     public:
         // DATA
@@ -642,7 +638,7 @@ namespace Exiv2 {
         XmpArrayType xmpArrayType() const;
         //! Return XMP struct, indicates if an XMP value is a structure.
         XmpStruct xmpStruct() const;
-        virtual long size() const;
+        long size() const override;
         /*!
           @brief Write value to a character data buffer.
 
@@ -656,7 +652,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         //@}
 
         //! @name Manipulators
@@ -679,10 +675,8 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        virtual int read(const byte* buf,
-                         long len,
-                         ByteOrder byteOrder =invalidByteOrder);
-        virtual int read(const std::string& buf) =0;
+        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        int read(const std::string& buf) override = 0;
         //@}
 
         /*!
@@ -743,41 +737,41 @@ namespace Exiv2 {
           @return 0 if successful.
          */
 
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //@}
 
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long size() const;
-        virtual long count() const;
+        long size() const override;
+        long count() const override;
         /*!
           @brief Convert the value to a long.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        virtual long toLong(long n =0) const;
+        long toLong(long n = 0) const override;
         /*!
           @brief Convert the value to a float.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        virtual float toFloat(long n =0) const;
+        float toFloat(long n = 0) const override;
         /*!
           @brief Convert the value to a Rational.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        virtual Rational toRational(long n =0) const;
-        virtual std::ostream& write(std::ostream& os) const;
+        Rational toRational(long n = 0) const override;
+        std::ostream& write(std::ostream& os) const override;
         //@}
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpTextValue* clone_() const;
+        XmpTextValue* clone_() const override;
 
     public:
         // DATA
@@ -818,34 +812,34 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //@}
 
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        virtual long count() const;
+        long count() const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
                  The behaviour of this method may be undefined if there is no
                  <EM>n</EM>-th component.
          */
-        virtual std::string toString(long n) const;
-        virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const;
-        virtual Rational toRational(long n =0) const;
+        std::string toString(long n) const override;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
         /*!
           @brief Write all elements of the value to \em os, separated by commas.
 
           @note The output of this method cannot directly be used as the parameter
                 for read().
          */
-        virtual std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os) const override;
         //@}
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpArrayValue* clone_() const;
+        XmpArrayValue* clone_() const override;
 
         std::vector<std::string> value_;        //!< Stores the string values.
 
@@ -920,13 +914,13 @@ namespace Exiv2 {
 
           @return 0 if successful.
          */
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //@}
 
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        virtual long count() const;
+        long count() const override;
         /*!
           @brief Return the text value associated with the default language
                  qualifier \c x-default. The parameter \em n is not used, but
@@ -934,28 +928,28 @@ namespace Exiv2 {
                  string and sets the ok-flag to \c false if there is no
                  default value.
          */
-        virtual std::string toString(long n) const;
+        std::string toString(long n) const override;
         /*!
           @brief Return the text value associated with the language qualifier
                  \em qualifier. Returns an empty string and sets the ok-flag
                  to \c false if there is no entry for the language qualifier.
          */
         std::string toString(const std::string& qualifier) const;
-        virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const;
-        virtual Rational toRational(long n =0) const;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
         /*!
           @brief Write all elements of the value to \em os, separated by commas.
 
           @note The output of this method cannot directly be used as the parameter
                 for read().
          */
-        virtual std::ostream& write(std::ostream& os) const;
+        std::ostream& write(std::ostream& os) const override;
         //@}
 
     private:
         //! Internal virtual copy constructor.
-        virtual LangAltValue* clone_() const;
+        LangAltValue* clone_() const override;
 
     public:
         //! Type used to store language alternative arrays.
@@ -987,7 +981,7 @@ namespace Exiv2 {
         //! Constructor
         DateValue(int year, int month, int day);
         //! Virtual destructor.
-        virtual ~DateValue() = default;
+        ~DateValue() override = default;
         //@}
 
         //! Simple Date helper structure
@@ -1013,9 +1007,7 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 in case of an unsupported date format
          */
-        virtual int read(const byte* buf,
-                         long len,
-                         ByteOrder byteOrder =invalidByteOrder);
+        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
         /*!
           @brief Set the value to that of the string buf.
 
@@ -1024,7 +1016,7 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 in case of an unsupported date format
          */
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //! Set the date
         void setDate(const Date& src);
         //@}
@@ -1045,23 +1037,23 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         //! Return date struct containing date information
         virtual const Date& getDate() const;
-        virtual long count() const;
-        virtual long size() const;
-        virtual std::ostream& write(std::ostream& os) const;
+        long count() const override;
+        long size() const override;
+        std::ostream& write(std::ostream& os) const override;
         //! Return the value as a UNIX calender time converted to long.
-        virtual long toLong(long n =0) const;
+        long toLong(long n = 0) const override;
         //! Return the value as a UNIX calender time converted to float.
-        virtual float toFloat(long n =0) const;
+        float toFloat(long n = 0) const override;
         //! Return the value as a UNIX calender time  converted to Rational.
-        virtual Rational toRational(long n =0) const;
+        Rational toRational(long n = 0) const override;
         //@}
 
     private:
         //! Internal virtual copy constructor.
-        virtual DateValue* clone_() const;
+        DateValue* clone_() const override;
 
         // DATA
         Date date_;
@@ -1090,7 +1082,7 @@ namespace Exiv2 {
                   int tzHour =0, int tzMinute =0);
 
         //! Virtual destructor.
-        virtual ~TimeValue() = default;
+        ~TimeValue() override = default;
         //@}
 
         //! Simple Time helper structure
@@ -1120,9 +1112,7 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 in case of an unsupported time format
          */
-        virtual int read(const byte* buf,
-                         long len,
-                         ByteOrder byteOrder =invalidByteOrder);
+        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
         /*!
           @brief Set the value to that of the string buf.
 
@@ -1131,7 +1121,7 @@ namespace Exiv2 {
           @return 0 if successful<BR>
                   1 in case of an unsupported time format
          */
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         //! Set the time
         void setTime(const Time& src);
         //@}
@@ -1152,18 +1142,18 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder =invalidByteOrder) const;
+        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         //! Return time struct containing time information
         virtual const Time& getTime() const;
-        virtual long count() const;
-        virtual long size() const;
-        virtual std::ostream& write(std::ostream& os) const;
+        long count() const override;
+        long size() const override;
+        std::ostream& write(std::ostream& os) const override;
         //! Returns number of seconds in the day in UTC.
-        virtual long toLong(long n =0) const;
+        long toLong(long n = 0) const override;
         //! Returns number of seconds in the day in UTC converted to float.
-        virtual float toFloat(long n =0) const;
+        float toFloat(long n = 0) const override;
         //! Returns number of seconds in the day in UTC converted to Rational.
-        virtual Rational toRational(long n =0) const;
+        Rational toRational(long n = 0) const override;
         //@}
 
     private:
@@ -1196,7 +1186,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Internal virtual copy constructor.
-        virtual TimeValue* clone_() const;
+        TimeValue* clone_() const override;
         //@}
 
         // DATA
@@ -1251,52 +1241,52 @@ namespace Exiv2 {
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
-        virtual ~ValueType();
+        ~ValueType() override;
         //@}
 
         //! @name Manipulators
         //@{
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
-        virtual int read(const byte* buf, long len, ByteOrder byteOrder);
+        int read(const byte* buf, long len, ByteOrder byteOrder) override;
         /*!
           @brief Set the data from a string of values of type T (e.g.,
                  "0 1 2 3" or "1/2 1/3 1/4" depending on what T is).
                  Generally, the accepted input format is the same as that
                  produced by the write() method.
          */
-        virtual int read(const std::string& buf);
+        int read(const std::string& buf) override;
         /*!
           @brief Set the data area. This method copies (clones) the buffer
                  pointed to by buf.
          */
-        virtual int setDataArea(const byte* buf, long len);
+        int setDataArea(const byte* buf, long len) override;
         //@}
 
         //! @name Accessors
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
-        virtual long copy(byte* buf, ByteOrder byteOrder) const;
-        virtual long count() const;
-        virtual long size() const;
-        virtual std::ostream& write(std::ostream& os) const;
+        long copy(byte* buf, ByteOrder byteOrder) const override;
+        long count() const override;
+        long size() const override;
+        std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
                  The behaviour of this method may be undefined if there is no
                  <EM>n</EM>-th
                  component.
          */
-        virtual std::string toString(long n) const;
-        virtual long toLong(long n =0) const;
-        virtual float toFloat(long n =0) const;
-        virtual Rational toRational(long n =0) const;
+        std::string toString(long n) const override;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
         //! Return the size of the data area.
-        virtual long sizeDataArea() const;
+        long sizeDataArea() const override;
         /*!
           @brief Return a copy of the data area in a DataBuf. The caller owns
                  this copy and DataBuf ensures that it will be deleted.
          */
-        virtual DataBuf dataArea() const;
+        DataBuf dataArea() const override;
         //@}
 
         //! Container for values
@@ -1317,7 +1307,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual ValueType<T>* clone_() const;
+        ValueType<T>* clone_() const override;
 
         // DATA
         //! Pointer to the buffer, nullptr if none has been allocated

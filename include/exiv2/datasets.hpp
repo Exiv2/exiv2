@@ -279,7 +279,7 @@ namespace Exiv2 {
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
         //! Destructor
-        virtual ~IptcKey() = default;
+        ~IptcKey() override = default;
         //@}
 
         //! @name Manipulators
@@ -292,16 +292,16 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const;
-        virtual const char* familyName() const;
+        std::string key() const override;
+        const char* familyName() const override;
         /*!
           @brief Return the name of the group (the second part of the key).
                  For IPTC keys, the group name is the record name.
         */
-        virtual std::string groupName() const;
-        virtual std::string tagName() const;
-        virtual std::string tagLabel() const;
-        virtual uint16_t tag() const;
+        std::string groupName() const override;
+        std::string tagName() const override;
+        std::string tagLabel() const override;
+        uint16_t tag() const override;
         UniquePtr clone() const;
         //! Return the name of the record
         std::string recordName() const;
@@ -329,7 +329,7 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual IptcKey* clone_() const;
+        IptcKey* clone_() const override;
 
         // DATA
         static constexpr auto familyName_ = "Iptc";

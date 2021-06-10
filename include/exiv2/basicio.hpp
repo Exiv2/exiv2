@@ -305,7 +305,7 @@ namespace Exiv2 {
         FileIo(const std::wstring& wpath);
 #endif
         //! Destructor. Flushes and closes an open file.
-        virtual ~FileIo();
+        ~FileIo() override;
         //@}
 
         //! @name Manipulators
@@ -331,14 +331,14 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure.
          */
-        virtual int open();
+        int open() override;
         /*!
           @brief Flush and unwritten data and close the file . It is
               safe to call close on an already closed instance.
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-        virtual int close();
+        int close() override;
         /*!
           @brief Write data to the file. The file position is advanced
               by the number of bytes written.
@@ -348,7 +348,7 @@ namespace Exiv2 {
           @return Number of bytes written to the file successfully;<BR>
                  0 if failure;
          */
-        virtual long write(const byte* data, long wcount);
+        long write(const byte* data, long wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the file. The file position is advanced by the number
@@ -358,7 +358,7 @@ namespace Exiv2 {
           @return Number of bytes written to the file successfully;<BR>
                  0 if failure;
          */
-        virtual long write(BasicIo& src);
+        long write(BasicIo& src) override;
         /*!
           @brief Write one byte to the file. The file position is
               advanced by one byte.
@@ -366,7 +366,7 @@ namespace Exiv2 {
           @return The value of the byte written if successful;<BR>
                  EOF if failure;
          */
-        virtual int putb(byte data);
+        int putb(byte data) override;
         /*!
           @brief Read data from the file. Reading starts at the current
               file position and the position is advanced by the number of
@@ -377,7 +377,7 @@ namespace Exiv2 {
                 DataBuf::size_ member to find the number of bytes read.
                 DataBuf::size_ will be 0 on failure.
          */
-        virtual DataBuf read(long rcount);
+        DataBuf read(long rcount) override;
         /*!
           @brief Read data from the file. Reading starts at the current
               file position and the position is advanced by the number of
@@ -390,14 +390,14 @@ namespace Exiv2 {
           @return Number of bytes read from the file successfully;<BR>
                  0 if failure;
          */
-        virtual long read(byte* buf, long rcount);
+        long read(byte* buf, long rcount) override;
         /*!
           @brief Read one byte from the file. The file position is
               advanced by one byte.
           @return The byte read from the file if successful;<BR>
                  EOF if failure;
          */
-        virtual int getb();
+        int getb() override;
         /*!
           @brief Remove the contents of the file and then transfer data from
               the \em src BasicIo object into the empty file.
@@ -416,7 +416,7 @@ namespace Exiv2 {
               invalidated by the method.
           @throw Error In case of failure
          */
-        virtual void transfer(BasicIo& src);
+        void transfer(BasicIo& src) override;
         /*!
           @brief Move the current file position.
           @param offset Number of bytes to move the file position
@@ -426,9 +426,9 @@ namespace Exiv2 {
                  Nonzero if failure;
          */
 #if defined(_MSC_VER)
-        virtual int seek(int64_t offset, Position pos);
+        int seek(int64_t offset, Position pos) override;
 #else
-        virtual int seek(long offset, Position pos);
+        int seek(long offset, Position pos) override;
 #endif
         /*!
           @brief Map the file into the process's address space. The file must be
@@ -441,7 +441,7 @@ namespace Exiv2 {
           @return A pointer to the mapped area.
           @throw Error In case of failure.
          */
-        virtual byte* mmap(bool isWriteable =false);
+        byte* mmap(bool isWriteable = false) override;
         /*!
           @brief Remove a mapping established with mmap(). If the mapped area is
                  writeable, this ensures that changes are written back to the
@@ -449,7 +449,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   Nonzero if failure;
          */
-        virtual int munmap();
+        int munmap() override;
         /*!
           @brief close the file source and set a new path.
          */
@@ -470,22 +470,22 @@ namespace Exiv2 {
           @return Offset from the start of the file if successful;<BR>
                  -1 if failure;
          */
-        virtual long tell() const;
+        long tell() const override;
         /*!
           @brief Flush any buffered writes and get the current file size
               in bytes.
           @return Size of the file in bytes;<BR>
                  -1 if failure;
          */
-        virtual size_t size() const;
+        size_t size() const override;
         //! Returns true if the file is open, otherwise false.
-        virtual bool isopen() const;
+        bool isopen() const override;
         //! Returns 0 if the file is in a valid state, otherwise nonzero.
-        virtual int error() const;
+        int error() const override;
         //! Returns true if the file position has reached the end, otherwise false.
-        virtual bool eof() const;
+        bool eof() const override;
         //! Returns the path of the file
-        virtual std::string path() const;
+        std::string path() const override;
 #ifdef EXV_UNICODE_PATH
         /*
           @brief Like path() but returns the unicode path of the file in an std::wstring.
@@ -501,7 +501,7 @@ namespace Exiv2 {
           @note This method should be only called after the concerned data (metadata)
                 are all downloaded from the remote file to memory.
          */
-        virtual void populateFakeData();
+        void populateFakeData() override;
         //@}
 
         // NOT IMPLEMENTED
@@ -545,7 +545,7 @@ namespace Exiv2 {
          */
         MemIo(const byte* data, long size);
         //! Destructor. Releases all managed memory
-        virtual ~MemIo();
+        ~MemIo() override;
         //@}
 
         //! @name Manipulators
@@ -556,12 +556,12 @@ namespace Exiv2 {
 
           @return 0
          */
-        virtual int open();
+        int open() override;
         /*!
           @brief Does nothing on MemIo objects.
           @return 0
          */
-        virtual int close();
+        int close() override;
         /*!
           @brief Write data to the memory block. If needed, the size of the
               internal memory block is expanded. The IO position is advanced
@@ -572,7 +572,7 @@ namespace Exiv2 {
           @return Number of bytes written to the memory block successfully;<BR>
                  0 if failure;
          */
-        virtual long write(const byte* data, long wcount);
+        long write(const byte* data, long wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to
               the memory block. If needed, the size of the internal memory
@@ -583,7 +583,7 @@ namespace Exiv2 {
           @return Number of bytes written to the memory block successfully;<BR>
                  0 if failure;
          */
-        virtual long write(BasicIo& src);
+        long write(BasicIo& src) override;
         /*!
           @brief Write one byte to the memory block. The IO position is
               advanced by one byte.
@@ -591,7 +591,7 @@ namespace Exiv2 {
           @return The value of the byte written if successful;<BR>
                  EOF if failure;
          */
-        virtual int putb(byte data);
+        int putb(byte data) override;
         /*!
           @brief Read data from the memory block. Reading starts at the current
               IO position and the position is advanced by the number of
@@ -602,7 +602,7 @@ namespace Exiv2 {
                 DataBuf::size_ member to find the number of bytes read.
                 DataBuf::size_ will be 0 on failure.
          */
-        virtual DataBuf read(long rcount);
+        DataBuf read(long rcount) override;
         /*!
           @brief Read data from the memory block. Reading starts at the current
               IO position and the position is advanced by the number of
@@ -615,14 +615,14 @@ namespace Exiv2 {
           @return Number of bytes read from the memory block successfully;<BR>
                  0 if failure;
          */
-        virtual long read(byte* buf, long rcount);
+        long read(byte* buf, long rcount) override;
         /*!
           @brief Read one byte from the memory block. The IO position is
               advanced by one byte.
           @return The byte read from the memory block if successful;<BR>
                  EOF if failure;
          */
-        virtual int getb();
+        int getb() override;
         /*!
           @brief Clear the memory block and then transfer data from
               the \em src BasicIo object into a new block of memory.
@@ -638,7 +638,7 @@ namespace Exiv2 {
               invalidated by the method.
           @throw Error In case of failure
          */
-        virtual void transfer(BasicIo& src);
+        void transfer(BasicIo& src) override;
         /*!
           @brief Move the current IO position.
           @param offset Number of bytes to move the IO position
@@ -650,7 +650,7 @@ namespace Exiv2 {
 #if defined(_MSC_VER)
         virtual int seek(int64_t offset, Position pos);
 #else
-        virtual int seek(long offset, Position pos);
+        int seek(long offset, Position pos) override;
 #endif
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
@@ -660,8 +660,8 @@ namespace Exiv2 {
                  returned pointer remains valid and allocated as long as the
                  MemIo object exists.
          */
-        virtual byte* mmap(bool /*isWriteable*/ =false);
-        virtual int munmap();
+        byte* mmap(bool /*isWriteable*/ = false) override;
+        int munmap() override;
         //@}
 
         //! @name Accessors
@@ -670,21 +670,21 @@ namespace Exiv2 {
           @brief Get the current IO position.
           @return Offset from the start of the memory block
          */
-        virtual long tell() const;
+        long tell() const override;
         /*!
           @brief Get the current memory buffer size in bytes.
           @return Size of the in memory data in bytes;<BR>
                  -1 if failure;
          */
-        virtual size_t size() const;
+        size_t size() const override;
         //!Always returns true
-        virtual bool isopen() const;
+        bool isopen() const override;
         //!Always returns 0
-        virtual int error() const;
+        int error() const override;
         //!Returns true if the IO position has reached the end, otherwise false.
-        virtual bool eof() const;
+        bool eof() const override;
         //! Returns a dummy path, indicating that memory access is used
-        virtual std::string path() const;
+        std::string path() const override;
 #ifdef EXV_UNICODE_PATH
         /*
           @brief Like path() but returns a unicode dummy path in an std::wstring.
@@ -700,7 +700,7 @@ namespace Exiv2 {
           @note This method should be only called after the concerned data (metadata)
                 are all downloaded from the remote file to memory.
          */
-        virtual void populateFakeData();
+        void populateFakeData() override;
 
         //@}
 
@@ -776,7 +776,7 @@ namespace Exiv2 {
         XPathIo(const std::wstring& wOrgPathpath);
 #endif
         //! Destructor. Releases all managed memory and removes the temp file.
-        virtual ~XPathIo();
+        ~XPathIo() override;
         //@}
 
         //! @name Manipulators
@@ -785,7 +785,7 @@ namespace Exiv2 {
             @brief Change the name of the temp file and make it untemporary before
                     calling the method of superclass FileIo::transfer.
          */
-        virtual void transfer(BasicIo& src);
+        void transfer(BasicIo& src) override;
 
         //@}
 
@@ -824,7 +824,7 @@ namespace Exiv2 {
     class EXIV2API RemoteIo : public BasicIo {
     public:
         //! Destructor. Releases all managed memory.
-        virtual ~RemoteIo();
+        ~RemoteIo() override;
         //@}
 
         //! @name Manipulators
@@ -838,19 +838,19 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure.
          */
-        virtual int open();
+        int open() override;
 
         /*!
           @brief Reset the IO position to the start. It does not release the data.
           @return 0 if successful;<BR>
               Nonzero if failure.
          */
-        virtual int close();
+        int close() override;
         /*!
           @brief Not support this method.
           @return 0 means failure
          */
-        virtual long write(const byte* data, long wcount);
+        long write(const byte* data, long wcount) override;
         /*!
           @brief Write data that is read from another BasicIo instance to the remote file.
 
@@ -865,50 +865,50 @@ namespace Exiv2 {
 
           @note The write access is only supported by http, https, ssh.
          */
-        virtual long write(BasicIo& src);
+        long write(BasicIo& src) override;
 
         /*!
          @brief Not support
          @return 0 means failure
         */
-       virtual int putb(byte data);
-       /*!
-         @brief Read data from the memory blocks. Reading starts at the current
-             IO position and the position is advanced by the number of
-             bytes read.
-             If the memory blocks are not populated (False), it will connect to server
-             and populate the data to memory blocks.
-         @param rcount Maximum number of bytes to read. Fewer bytes may be
-             read if \em rcount bytes are not available.
-         @return DataBuf instance containing the bytes read. Use the
-               DataBuf::size_ member to find the number of bytes read.
-               DataBuf::size_ will be 0 on failure.
-        */
-       virtual DataBuf read(long rcount);
-       /*!
-         @brief Read data from the the memory blocks. Reading starts at the current
-             IO position and the position is advanced by the number of
-             bytes read.
-             If the memory blocks are not populated (!= bMemory), it will connect to server
-             and populate the data to memory blocks.
-         @param buf Pointer to a block of memory into which the read data
-             is stored. The memory block must be at least \em rcount bytes
-             long.
-         @param rcount Maximum number of bytes to read. Fewer bytes may be
-             read if \em rcount bytes are not available.
-         @return Number of bytes read from the memory block successfully;<BR>
-                0 if failure;
-        */
-       virtual long read(byte* buf, long rcount);
-       /*!
-         @brief Read one byte from the memory blocks. The IO position is
-             advanced by one byte.
-             If the memory block is not populated (!= bMemory), it will connect to server
-             and populate the data to the memory block.
-         @return The byte read from the memory block if successful;<BR>
-                EOF if failure;
-        */
-       virtual int getb();
+        int putb(byte data) override;
+        /*!
+          @brief Read data from the memory blocks. Reading starts at the current
+              IO position and the position is advanced by the number of
+              bytes read.
+              If the memory blocks are not populated (False), it will connect to server
+              and populate the data to memory blocks.
+          @param rcount Maximum number of bytes to read. Fewer bytes may be
+              read if \em rcount bytes are not available.
+          @return DataBuf instance containing the bytes read. Use the
+                DataBuf::size_ member to find the number of bytes read.
+                DataBuf::size_ will be 0 on failure.
+         */
+        DataBuf read(long rcount) override;
+        /*!
+          @brief Read data from the the memory blocks. Reading starts at the current
+              IO position and the position is advanced by the number of
+              bytes read.
+              If the memory blocks are not populated (!= bMemory), it will connect to server
+              and populate the data to memory blocks.
+          @param buf Pointer to a block of memory into which the read data
+              is stored. The memory block must be at least \em rcount bytes
+              long.
+          @param rcount Maximum number of bytes to read. Fewer bytes may be
+              read if \em rcount bytes are not available.
+          @return Number of bytes read from the memory block successfully;<BR>
+                 0 if failure;
+         */
+        long read(byte* buf, long rcount) override;
+        /*!
+          @brief Read one byte from the memory blocks. The IO position is
+              advanced by one byte.
+              If the memory block is not populated (!= bMemory), it will connect to server
+              and populate the data to the memory block.
+          @return The byte read from the memory block if successful;<BR>
+                 EOF if failure;
+         */
+        int getb() override;
         /*!
           @brief Remove the contents of the file and then transfer data from
               the \em src BasicIo object into the empty file.
@@ -923,30 +923,30 @@ namespace Exiv2 {
 
           @note The write access is only supported by http, https, ssh.
          */
-       virtual void transfer(BasicIo& src);
-       /*!
-         @brief Move the current IO position.
-         @param offset Number of bytes to move the IO position
-             relative to the starting position specified by \em pos
-         @param pos Position from which the seek should start
-         @return 0 if successful;<BR>
-                Nonzero if failure;
-        */
+        void transfer(BasicIo& src) override;
+        /*!
+          @brief Move the current IO position.
+          @param offset Number of bytes to move the IO position
+              relative to the starting position specified by \em pos
+          @param pos Position from which the seek should start
+          @return 0 if successful;<BR>
+                 Nonzero if failure;
+         */
 #if defined(_MSC_VER)
        virtual int seek(int64_t offset, Position pos);
 #else
-       virtual int seek(long offset, Position pos);
+        int seek(long offset, Position pos) override;
 #endif
        /*!
          @brief Not support
          @return NULL
         */
-       virtual byte* mmap(bool /*isWriteable*/ =false);
-        /*!
-          @brief Not support
-          @return 0
-         */
-       virtual int munmap();
+       byte* mmap(bool /*isWriteable*/ = false) override;
+       /*!
+         @brief Not support
+         @return 0
+        */
+       int munmap() override;
        //@}
        //! @name Accessors
        //@{
@@ -954,21 +954,21 @@ namespace Exiv2 {
          @brief Get the current IO position.
          @return Offset from the start of the memory block
         */
-       virtual long tell() const;
+       long tell() const override;
        /*!
          @brief Get the current memory buffer size in bytes.
          @return Size of the in memory data in bytes;<BR>
                 -1 if failure;
         */
-       virtual size_t size() const;
+       size_t size() const override;
        //!Returns true if the memory area is allocated.
-       virtual bool isopen() const;
+       bool isopen() const override;
        //!Always returns 0
-       virtual int error() const;
+       int error() const override;
        //!Returns true if the IO position has reached the end, otherwise false.
-       virtual bool eof() const;
+       bool eof() const override;
        //!Returns the URL of the file.
-       virtual std::string path() const;
+       std::string path() const override;
 #ifdef EXV_UNICODE_PATH
        /*
          @brief Like path() but returns a unicode URL path in an std::wstring.
@@ -984,7 +984,7 @@ namespace Exiv2 {
           @note This method should be only called after the concerned data (metadata)
                 are all downloaded from the remote file to memory.
          */
-       virtual void populateFakeData();
+       void populateFakeData() override;
 
        //@}
 
@@ -1064,13 +1064,13 @@ namespace Exiv2 {
                 will call RemoteIo::write(const byte* data, long wcount) if the write
                 access is available for the protocol. Otherwise, it throws the Error.
          */
-        long write(const byte* data, long wcount);
+        long write(const byte* data, long wcount) override;
         /*!
           @brief Write access is only available for some protocols. This method
                 will call RemoteIo::write(BasicIo& src) if the write access is available
                 for the protocol. Otherwise, it throws the Error.
          */
-        long write(BasicIo& src);
+        long write(BasicIo& src) override;
 
         // NOT IMPLEMENTED
         //! Copy constructor

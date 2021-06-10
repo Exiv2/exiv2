@@ -76,7 +76,7 @@ namespace Exiv2 {
         //! Copy constructor
         Exifdatum(const Exifdatum& rhs);
         //! Destructor
-        virtual ~Exifdatum() = default;
+        ~Exifdatum() override = default;
         //@}
 
         //! @name Manipulators
@@ -123,7 +123,7 @@ namespace Exiv2 {
                  Calls setValue(const Value*).
          */
         Exifdatum& operator=(const Value& value);
-        void setValue(const Value* pValue);
+        void setValue(const Value* pValue) override;
         /*!
           @brief Set the value to the string \em value.  Uses Value::read(const
                  std::string&).  If the %Exifdatum does not have a Value yet,
@@ -131,7 +131,7 @@ namespace Exiv2 {
                  created. An AsciiValue is created for unknown tags. Return
                  0 if the value was read successfully.
          */
-        int setValue(const std::string& value);
+        int setValue(const std::string& value) override;
         /*!
           @brief Set the data area by copying (cloning) the buffer pointed to
                  by \em buf.
@@ -151,12 +151,12 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the key of the %Exifdatum.
-        std::string key() const;
-        const char* familyName() const;
-        std::string groupName() const;
-        std::string tagName() const;
-        std::string tagLabel() const;
-        uint16_t tag() const;
+        std::string key() const override;
+        const char* familyName() const override;
+        std::string groupName() const override;
+        std::string tagName() const override;
+        std::string tagLabel() const override;
+        uint16_t tag() const override;
         //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
         int ifdId() const;
         //! Return the name of the IFD
@@ -174,26 +174,26 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder) const;
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const;
+        long copy(byte* buf, ByteOrder byteOrder) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata = 0) const override;
         //! Return the type id of the value
-        TypeId typeId() const;
+        TypeId typeId() const override;
         //! Return the name of the type
-        const char* typeName() const;
+        const char* typeName() const override;
         //! Return the size in bytes of one component of this type
-        long typeSize() const;
+        long typeSize() const override;
         //! Return the number of components in the value
-        long count() const;
+        long count() const override;
         //! Return the size of the value in bytes
-        long size() const;
+        long size() const override;
         //! Return the value as a string.
-        std::string toString() const;
-        std::string toString(long n) const;
-        long toLong(long n =0) const;
-        float toFloat(long n =0) const;
-        Rational toRational(long n =0) const;
-        Value::UniquePtr getValue() const;
-        const Value& value() const;
+        std::string toString() const override;
+        std::string toString(long n) const override;
+        long toLong(long n = 0) const override;
+        float toFloat(long n = 0) const override;
+        Rational toRational(long n = 0) const override;
+        Value::UniquePtr getValue() const override;
+        const Value& value() const override;
         //! Return the size of the data area.
         long sizeDataArea() const;
         /*!
