@@ -166,7 +166,7 @@ namespace Exiv2 {
     class EXIV2API XmpData {
     public:
         //! Default constructor
-        XmpData() : xmpMetadata_(), xmpPacket_(), usePacket_(0) {}
+        XmpData() = default;
 
         //! XmpMetadata iterator type
         typedef XmpMetadata::iterator iterator;
@@ -257,7 +257,7 @@ namespace Exiv2 {
         // DATA
         XmpMetadata xmpMetadata_;
         std::string xmpPacket_  ;
-        bool        usePacket_  ;
+        bool usePacket_{0};
     }; // class XmpData
 
     /*!
