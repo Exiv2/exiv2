@@ -384,7 +384,7 @@ namespace Action {
     private:
         virtual Modify* clone_() const;
         //! Copy constructor needed because of UniquePtr member
-        Modify(const Modify& /*src*/) : Task() {}
+        Modify(const Modify& /*src*/) = default;
 
         //! Add a metadatum to \em pImage according to \em modifyCmd
         static int addMetadatum(Exiv2::Image* pImage,
