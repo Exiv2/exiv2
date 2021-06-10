@@ -36,7 +36,7 @@ namespace Exiv2 {
     // Add TARGA to the supported image formats
     namespace ImageType {
         const int tga = 13; //!< Truevision TARGA (tga) image type (see class TgaImage)
-    }
+    }                       // namespace ImageType
 
     /*!
       @brief Class to access raw TARGA images. This is just a stub - we only

@@ -43,7 +43,7 @@ namespace Exiv2
     namespace ImageType
     {
         const int jp2 = 15;                     //!< JPEG-2000 image type
-    }
+    }                                           // namespace ImageType
 
     /*!
       @brief Class to access JPEG-2000 images.

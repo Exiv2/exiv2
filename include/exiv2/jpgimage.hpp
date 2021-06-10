@@ -40,7 +40,7 @@ namespace Exiv2 {
     namespace ImageType {
         const int jpeg = 1;         //!< JPEG image type (see class JpegImage)
         const int exv  = 2;         //!< EXV image type (see class ExvImage)
-    }
+    }                               // namespace ImageType
 
     /*!
       @brief Helper class, has methods to deal with %Photoshop "Information

@@ -43,7 +43,7 @@ namespace Exiv2 {
     // Add CR2 to the supported image formats
     namespace ImageType {
         const int cr2 = 7;          //!< CR2 image type (see class Cr2Image)
-    }
+    }                               // namespace ImageType
 
     /*!
       @brief Class to access raw Canon CR2 images.  Exif metadata

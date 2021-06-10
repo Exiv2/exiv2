@@ -43,7 +43,7 @@ namespace Exiv2 {
     //! Supported image formats
     namespace ImageType {
         const int none = 0;         //!< Not an image
-    }
+    }                               // namespace ImageType
 
     //! Native preview information. This is meant to be used only by the PreviewManager.
     struct NativePreview {

@@ -32,7 +32,7 @@
 namespace Exiv2
 {
     EXIV2API bool enableBMFF(bool enable = true);
-}
+}  // namespace Exiv2
 
 #ifdef EXV_ENABLE_BMFF
 namespace Exiv2
@@ -56,7 +56,7 @@ namespace Exiv2
     namespace ImageType
     {
         const int bmff = 19;  //!< BMFF (bmff) image type (see class BMFF)
-    }
+    }                         // namespace ImageType
 
     /*!
       @brief Class to access BMFF images.
