@@ -40,7 +40,7 @@ namespace Exiv2
     struct Iloc
     {
         Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
-        virtual ~Iloc(){};
+        virtual ~Iloc() = default;
 
         uint32_t ID_;
         uint32_t start_;

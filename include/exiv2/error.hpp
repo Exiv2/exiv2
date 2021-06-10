@@ -366,10 +366,8 @@ namespace Exiv2 {
         setMsg();
     }
 
-    template<typename charT>
-    BasicError<charT>::~BasicError() throw()
-    {
-    }
+    template <typename charT>
+    BasicError<charT>::~BasicError() throw() = default;
 
     template<typename charT>
     int BasicError<charT>::code() const throw()
