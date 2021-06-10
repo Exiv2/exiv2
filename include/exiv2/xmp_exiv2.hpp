@@ -151,7 +151,7 @@ namespace Exiv2 {
     }; // class Xmpdatum
 
     //! Container type to hold all metadata
-    typedef std::vector<Xmpdatum> XmpMetadata;
+    using XmpMetadata = std::vector<Xmpdatum>;
 
     /*!
       @brief A container for XMP data. This is a top-level class of
@@ -169,9 +169,9 @@ namespace Exiv2 {
         XmpData() : xmpMetadata_(), xmpPacket_(), usePacket_(0) {}
 
         //! XmpMetadata iterator type
-        typedef XmpMetadata::iterator iterator;
+        using iterator = XmpMetadata::iterator;
         //! XmpMetadata const iterator type
-        typedef XmpMetadata::const_iterator const_iterator;
+        using const_iterator = XmpMetadata::const_iterator;
 
         //! @name Manipulators
         //@{
@@ -323,7 +323,7 @@ namespace Exiv2 {
           @param pLockData Pointer to the pLockData passed to initialize()
           @param lockUnlock Indicates whether to lock (true) or unlock (false)
          */
-        typedef void (*XmpLockFct)(void* pLockData, bool lockUnlock);
+        using XmpLockFct = void (*)(void*, bool);
 
         /*!
           @brief Initialize the XMP Toolkit.

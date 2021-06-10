@@ -27,7 +27,7 @@
 
 /* On Microsoft compilers pid_t has to be set to int. */
 #ifndef HAVE_PID_T
-typedef int pid_t;
+using pid_t = int;
 #endif
 
 #endif // _MSC_VER

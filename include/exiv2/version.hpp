@@ -33,7 +33,7 @@
   /*!
    @brief exv_grep_keys_t is a vector of keys to match to strings
   */
-   typedef std::vector<regex_t> exv_grep_keys_t ;
+using exv_grep_keys_t = std::vector<regex_t>;
 # else
   /*!
    @brief exv_grep_key_t is a simple string and the ignore flag
@@ -54,7 +54,7 @@
   /*!
    @brief exv_grep_keys_t is a vector of keys to match to strings
   */
-   typedef std::vector<Exiv2_grep_key_t> exv_grep_keys_t ;
+   using exv_grep_keys_t = std::vector<Exiv2_grep_key_t>;
 #endif
 
 /*!

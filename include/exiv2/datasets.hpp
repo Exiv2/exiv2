@@ -259,7 +259,7 @@ namespace Exiv2 {
     class EXIV2API IptcKey : public Key {
     public:
         //! Shortcut for an %IptcKey auto pointer.
-        typedef std::unique_ptr<IptcKey> UniquePtr;
+        using UniquePtr = std::unique_ptr<IptcKey>;
 
         //! @name Creators
         //@{
@@ -345,10 +345,10 @@ namespace Exiv2 {
     /*!
       @brief typedef for string:string map
      */
-    typedef std::map<std::string,std::string>                 Dictionary;
+    using Dictionary = std::map<std::string, std::string>;
 
-// *****************************************************************************
-// free functions
+    // *****************************************************************************
+    // free functions
 
     //! Output operator for dataSet
     EXIV2API std::ostream& operator<<(std::ostream& os, const DataSet& dataSet);

@@ -33,16 +33,17 @@ namespace Exiv2 {
 // class definitions
 
     //! Type of preview image.
-    typedef int PreviewId;
+using PreviewId = int;
 
-    /*!
-      @brief Preview image properties.
-     */
-    struct EXIV2API PreviewProperties {
-        //! Preview image mime type.
-        std::string mimeType_;
-        //! Preview image extension.
-        std::string extension_;
+/*!
+  @brief Preview image properties.
+ */
+struct EXIV2API PreviewProperties
+{
+    //! Preview image mime type.
+    std::string mimeType_;
+    //! Preview image extension.
+    std::string extension_;
 #ifdef EXV_UNICODE_PATH
         //! Unicode preview image extension in an std::wstring
         std::wstring wextension_;
@@ -55,57 +56,59 @@ namespace Exiv2 {
         uint32_t height_;
         //! Identifies type of preview image.
         PreviewId id_;
-    };
+};
 
     //! Container type to hold all preview images metadata.
-    typedef std::vector<PreviewProperties> PreviewPropertiesList;
+using PreviewPropertiesList = std::vector<PreviewProperties>;
 
+/*!
+  @brief Class that holds preview image properties and data buffer.
+ */
+class EXIV2API PreviewImage
+{
+    friend class PreviewManager;
+
+public:
+    //! @name Constructors
+    //@{
+    //! Copy constructor
+    PreviewImage(const PreviewImage& rhs);
+    //! Destructor.
+    ~PreviewImage();
+    //@}
+
+    //! @name Manipulators
+    //@{
+    //! Assignment operator
+    PreviewImage& operator=(const PreviewImage& rhs);
+    //@}
+
+    //! @name Accessors
+    //@{
     /*!
-      @brief Class that holds preview image properties and data buffer.
+      @brief Return a copy of the preview image data. The caller owns
+             this copy and %DataBuf ensures that it will be deleted.
      */
-    class EXIV2API PreviewImage {
-        friend class PreviewManager;
-    public:
-        //! @name Constructors
-        //@{
-        //! Copy constructor
-        PreviewImage(const PreviewImage& rhs);
-        //! Destructor.
-        ~PreviewImage();
-        //@}
+    DataBuf copy() const;
+    /*!
+      @brief Return a pointer to the image data for read-only access.
+     */
+    const byte* pData() const;
+    /*!
+      @brief Return the size of the preview image in bytes.
+     */
+    uint32_t size() const;
+    /*!
+      @brief Write the thumbnail image to a file.
 
-        //! @name Manipulators
-        //@{
-        //! Assignment operator
-        PreviewImage& operator=(const PreviewImage& rhs);
-        //@}
+      A filename extension is appended to \em path according to the image
+      type of the preview image, so \em path should not include an extension.
+      The function will overwrite an existing file of the same name.
 
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Return a copy of the preview image data. The caller owns
-                 this copy and %DataBuf ensures that it will be deleted.
-         */
-        DataBuf copy() const;
-        /*!
-          @brief Return a pointer to the image data for read-only access.
-         */
-        const byte* pData() const;
-        /*!
-          @brief Return the size of the preview image in bytes.
-         */
-        uint32_t size() const;
-        /*!
-          @brief Write the thumbnail image to a file.
-
-          A filename extension is appended to \em path according to the image
-          type of the preview image, so \em path should not include an extension.
-          The function will overwrite an existing file of the same name.
-
-          @param path File name of the preview image without extension.
-          @return The number of bytes written.
-        */
-        long writeFile(const std::string& path) const;
+      @param path File name of the preview image without extension.
+      @return The number of bytes written.
+    */
+    long writeFile(const std::string& path) const;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like writeFile() but accepts a unicode path in an std::wstring.
@@ -153,7 +156,7 @@ namespace Exiv2 {
         byte* pData_;                           //!< Pointer to the preview image data
         uint32_t size_;                         //!< Size of the preview image data
 
-    }; // class PreviewImage
+};  // class PreviewImage
 
     /*!
       @brief Class for extracting preview images from image metadata.

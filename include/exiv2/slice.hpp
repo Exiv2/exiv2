@@ -34,47 +34,47 @@ namespace Exiv2
         template <class T>
         struct remove_const
         {
-            typedef T type;
+            using type = T;
         };
 
         template <class T>
         struct remove_const<const T>
         {
-            typedef T type;
+            using type = T;
         };
 
         template <class T>
         struct remove_volatile
         {
-            typedef T type;
+            using type = T;
         };
         template <class T>
         struct remove_volatile<volatile T>
         {
-            typedef T type;
+            using type = T;
         };
         template <class T>
         struct remove_cv
         {
-            typedef typename remove_const<typename remove_volatile<T>::type>::type type;
+            using type = typename remove_const<typename remove_volatile<T>::type>::type;
         };
 
         template <class T>
         struct remove_pointer
         {
-            typedef T type;
+            using type = T;
         };
 
         template <class T>
         struct remove_pointer<T*>
         {
-            typedef T type;
+            using type = T;
         };
 
         template <class T>
         struct remove_pointer<T* const>
         {
-            typedef T type;
+            using type = T;
         };
 
         /*!
@@ -151,9 +151,9 @@ namespace Exiv2
         template <template <typename data_type> class storage_type, typename data_type>
         struct ConstSliceBase : SliceBase
         {
-            typedef typename storage_type<data_type>::iterator iterator;
-            typedef typename storage_type<data_type>::const_iterator const_iterator;
-            typedef typename storage_type<data_type>::value_type value_type;
+            using iterator = typename storage_type<data_type>::iterator;
+            using const_iterator = typename storage_type<data_type>::const_iterator;
+            using value_type = typename storage_type<data_type>::value_type;
 
             /*!
              * Default contructor, requires begin to be smaller than end,
@@ -238,9 +238,9 @@ namespace Exiv2
         template <template <typename> class storage_type, typename data_type>
         struct MutableSliceBase : public ConstSliceBase<storage_type, data_type>
         {
-            typedef typename ConstSliceBase<storage_type, data_type>::iterator iterator;
-            typedef typename ConstSliceBase<storage_type, data_type>::const_iterator const_iterator;
-            typedef typename ConstSliceBase<storage_type, data_type>::value_type value_type;
+            using iterator = typename ConstSliceBase<storage_type, data_type>::iterator;
+            using const_iterator = typename ConstSliceBase<storage_type, data_type>::const_iterator;
+            using value_type = typename ConstSliceBase<storage_type, data_type>::value_type;
 
             /*!
              * Forwards everything to the constructor of const_slice_base
@@ -309,7 +309,7 @@ namespace Exiv2
                 return ConstSliceBase<storage_type, const data_type>(this->storage_.data_, this->begin_, this->end_);
             }
 
-            typedef ConstSliceBase<storage_type, data_type> base_type;
+            using base_type = ConstSliceBase<storage_type, data_type>;
 
             /*!
              * Create a mutable sub-slice with the given bounds (with respect to
@@ -347,11 +347,11 @@ namespace Exiv2
         template <typename container>
         struct ContainerStorage
         {
-            typedef typename container::iterator iterator;
+            using iterator = typename container::iterator;
 
-            typedef typename container::const_iterator const_iterator;
+            using const_iterator = typename container::const_iterator;
 
-            typedef typename Internal::remove_cv<typename container::value_type>::type value_type;
+            using value_type = typename Internal::remove_cv<typename container::value_type>::type;
 
             /*!
              * @throw std::out_of_range when end is larger than the container's
@@ -418,9 +418,9 @@ namespace Exiv2
         template <typename storage_type>
         struct PtrSliceStorage
         {
-            typedef typename remove_cv<typename remove_pointer<storage_type>::type>::type value_type;
-            typedef value_type* iterator;
-            typedef const value_type* const_iterator;
+            using value_type = typename remove_cv<typename remove_pointer<storage_type>::type>::type;
+            using iterator = value_type*;
+            using const_iterator = const value_type*;
 
             /*!
              * Stores ptr and checks that it is not `NULL`. The slice's bounds
@@ -520,11 +520,11 @@ namespace Exiv2
     template <typename container>
     struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, container>
     {
-        typedef typename container::iterator iterator;
+        using iterator = typename container::iterator;
 
-        typedef typename container::const_iterator const_iterator;
+        using const_iterator = typename container::const_iterator;
 
-        typedef typename Internal::remove_cv<typename container::value_type>::type value_type;
+        using value_type = typename Internal::remove_cv<typename container::value_type>::type;
 
         /*!
          * @brief Construct a slice of the container `cont` starting at `begin`
@@ -578,11 +578,11 @@ namespace Exiv2
     template <typename container>
     struct Slice<const container> : public Internal::ConstSliceBase<Internal::ContainerStorage, const container>
     {
-        typedef typename container::iterator iterator;
+        using iterator = typename container::iterator;
 
-        typedef typename container::const_iterator const_iterator;
+        using const_iterator = typename container::const_iterator;
 
-        typedef typename Internal::remove_cv<typename container::value_type>::type value_type;
+        using value_type = typename Internal::remove_cv<typename container::value_type>::type;
 
         Slice(const container& cont, size_t begin, size_t end)
             : Internal::ConstSliceBase<Internal::ContainerStorage, const container>(cont, begin, end)

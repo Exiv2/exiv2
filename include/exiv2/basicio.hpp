@@ -55,7 +55,7 @@ namespace Exiv2 {
     class EXIV2API BasicIo {
     public:
         //! BasicIo auto_ptr type
-        typedef std::unique_ptr<BasicIo> UniquePtr;
+        using UniquePtr = std::unique_ptr<BasicIo>;
 
         //! Seek starting positions
         enum Position { beg, cur, end };

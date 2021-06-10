@@ -91,64 +91,88 @@ namespace Exiv2 {
 // type definitions
 
     //! 1 byte unsigned integer type.
-    typedef uint8_t byte;
+using byte = uint8_t;
 
-    //! 8 byte unsigned rational type.
-    typedef std::pair<uint32_t, uint32_t> URational;
-    //! 8 byte signed rational type.
-    typedef std::pair<int32_t, int32_t> Rational;
+//! 8 byte unsigned rational type.
+using URational = std::pair<uint32_t, uint32_t>;
+//! 8 byte signed rational type.
+using Rational = std::pair<int32_t, int32_t>;
 
-    //! Type to express the byte order (little or big endian)
-    enum ByteOrder { invalidByteOrder, littleEndian, bigEndian };
+//! Type to express the byte order (little or big endian)
+enum ByteOrder
+{
+    invalidByteOrder,
+    littleEndian,
+    bigEndian
+};
 
-    //! Type to indicate write method used by TIFF parsers
-    enum WriteMethod { wmIntrusive, wmNonIntrusive };
+//! Type to indicate write method used by TIFF parsers
+enum WriteMethod
+{
+    wmIntrusive,
+    wmNonIntrusive
+};
 
-    //! An identifier for each type of metadata
-    enum MetadataId { mdNone=0, mdExif=1, mdIptc=2, mdComment=4, mdXmp=8, mdIccProfile=16 };
+//! An identifier for each type of metadata
+enum MetadataId
+{
+    mdNone = 0,
+    mdExif = 1,
+    mdIptc = 2,
+    mdComment = 4,
+    mdXmp = 8,
+    mdIccProfile = 16
+};
 
-    //! An identifier for each mode of metadata support
-    enum AccessMode { amNone=0, amRead=1, amWrite=2, amReadWrite=3 };
+//! An identifier for each mode of metadata support
+enum AccessMode
+{
+    amNone = 0,
+    amRead = 1,
+    amWrite = 2,
+    amReadWrite = 3
+};
 
-    /*!
-      @brief %Exiv2 value type identifiers.
+/*!
+  @brief %Exiv2 value type identifiers.
 
-      Used primarily as identifiers when creating %Exiv2 Value instances.
-      See Value::create. 0x0000 to 0xffff are reserved for TIFF (Exif) types.
-     */
-    enum TypeId {
-        unsignedByte       = 1, //!< Exif BYTE type, 8-bit unsigned integer.
-        asciiString        = 2, //!< Exif ASCII type, 8-bit byte.
-        unsignedShort      = 3, //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
-        unsignedLong       = 4, //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
-        unsignedRational   = 5, //!< Exif RATIONAL type, two LONGs: numerator and denumerator of a fraction.
-        signedByte         = 6, //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
-        undefined          = 7, //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
-        signedShort        = 8, //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
-        signedLong         = 9, //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
-        signedRational     =10, //!< Exif SRATIONAL type, two SLONGs: numerator and denumerator of a fraction.
-        tiffFloat          =11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
-        tiffDouble         =12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
-        tiffIfd            =13, //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
-        unsignedLongLong   =16, //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
-        signedLongLong     =17, //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
-        tiffIfd8           =18, //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
-        string        =0x10000, //!< IPTC string type.
-        date          =0x10001, //!< IPTC date type.
-        time          =0x10002, //!< IPTC time type.
-        comment       =0x10003, //!< %Exiv2 type for the Exif user comment.
-        directory     =0x10004, //!< %Exiv2 type for a CIFF directory.
-        xmpText       =0x10005, //!< XMP text type.
-        xmpAlt        =0x10006, //!< XMP alternative type.
-        xmpBag        =0x10007, //!< XMP bag type.
-        xmpSeq        =0x10008, //!< XMP sequence type.
-        langAlt       =0x10009, //!< XMP language alternative type.
-        invalidTypeId =0x1fffe, //!< Invalid type id.
-        lastTypeId    =0x1ffff  //!< Last type id.
-    };
+  Used primarily as identifiers when creating %Exiv2 Value instances.
+  See Value::create. 0x0000 to 0xffff are reserved for TIFF (Exif) types.
+ */
+enum TypeId
+{
+    unsignedByte = 1,         //!< Exif BYTE type, 8-bit unsigned integer.
+    asciiString = 2,          //!< Exif ASCII type, 8-bit byte.
+    unsignedShort = 3,        //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
+    unsignedLong = 4,         //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
+    unsignedRational = 5,     //!< Exif RATIONAL type, two LONGs: numerator and denumerator of a fraction.
+    signedByte = 6,           //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
+    undefined = 7,            //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
+    signedShort = 8,          //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
+    signedLong = 9,           //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
+    signedRational = 10,      //!< Exif SRATIONAL type, two SLONGs: numerator and denumerator of a fraction.
+    tiffFloat = 11,           //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
+    tiffDouble = 12,          //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
+    tiffIfd = 13,             //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
+    unsignedLongLong = 16,    //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
+    signedLongLong = 17,      //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
+    tiffIfd8 = 18,            //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
+    string = 0x10000,         //!< IPTC string type.
+    date = 0x10001,           //!< IPTC date type.
+    time = 0x10002,           //!< IPTC time type.
+    comment = 0x10003,        //!< %Exiv2 type for the Exif user comment.
+    directory = 0x10004,      //!< %Exiv2 type for a CIFF directory.
+    xmpText = 0x10005,        //!< XMP text type.
+    xmpAlt = 0x10006,         //!< XMP alternative type.
+    xmpBag = 0x10007,         //!< XMP bag type.
+    xmpSeq = 0x10008,         //!< XMP sequence type.
+    langAlt = 0x10009,        //!< XMP language alternative type.
+    invalidTypeId = 0x1fffe,  //!< Invalid type id.
+    lastTypeId = 0x1ffff      //!< Last type id.
+};
 
-    //! Container for binary data
-    typedef std::vector<byte> Blob;
+//! Container for binary data
+using Blob = std::vector<byte>;
 
 // *****************************************************************************
 // class definitions

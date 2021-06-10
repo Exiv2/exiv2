@@ -89,7 +89,7 @@ namespace Exiv2 {
                  specific way.  The default handler sends the log message to
                  standard error.
          */
-        typedef void (*Handler)(int, const char*);
+        using Handler = void (*)(int, const char*);
 
         //! @name Creators
         //@{
@@ -321,10 +321,10 @@ namespace Exiv2 {
     }; // class BasicError
 
     //! Error class used for exceptions (std::string based)
-    typedef BasicError<char> Error;
+    using Error = BasicError<char>;
 #ifdef EXV_UNICODE_PATH
     //! Error class used for exceptions (std::wstring based)
-    typedef BasicError<wchar_t> WError;
+    using WError = BasicError<wchar_t>;
 #endif
 
 // *****************************************************************************

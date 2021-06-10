@@ -51,7 +51,7 @@ namespace Exiv2 {
     class EXIV2API Value {
     public:
         //! Shortcut for a %Value auto pointer.
-        typedef std::unique_ptr<Value> UniquePtr;
+        using UniquePtr = std::unique_ptr<Value>;
 
         //! @name Creators
         //@{
@@ -253,7 +253,7 @@ namespace Exiv2 {
     class EXIV2API DataValue : public Value {
     public:
         //! Shortcut for a %DataValue auto pointer.
-        typedef std::unique_ptr<DataValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<DataValue>;
 
         explicit DataValue(TypeId typeId =undefined);
 
@@ -320,7 +320,7 @@ namespace Exiv2 {
         virtual DataValue* clone_() const;
 
         //! Type used to store the data.
-        typedef std::vector<byte> ValueType;
+        using ValueType = std::vector<byte>;
         // DATA
         ValueType value_;                       //!< Stores the data value
 
@@ -335,7 +335,7 @@ namespace Exiv2 {
     class EXIV2API StringValueBase : public Value {
     public:
         //! Shortcut for a %StringValueBase auto pointer.
-        typedef std::unique_ptr<StringValueBase> UniquePtr;
+        using UniquePtr = std::unique_ptr<StringValueBase>;
 
         //! @name Creators
         //@{
@@ -417,7 +417,7 @@ namespace Exiv2 {
     class EXIV2API StringValue : public StringValueBase {
     public:
         //! Shortcut for a %StringValue auto pointer.
-        typedef std::unique_ptr<StringValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<StringValue>;
 
         //! @name Creators
         //@{
@@ -449,7 +449,7 @@ namespace Exiv2 {
     class EXIV2API AsciiValue : public StringValueBase {
     public:
         //! Shortcut for a %AsciiValue auto pointer.
-        typedef std::unique_ptr<AsciiValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<AsciiValue>;
 
         //! @name Creators
         //@{
@@ -537,7 +537,7 @@ namespace Exiv2 {
         }; // class CharsetInfo
 
         //! Shortcut for a %CommentValue auto pointer.
-        typedef std::unique_ptr<CommentValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<CommentValue>;
 
         //! @name Creators
         //@{
@@ -624,7 +624,7 @@ namespace Exiv2 {
     class EXIV2API XmpValue : public Value {
     public:
         //! Shortcut for a %XmpValue auto pointer.
-        typedef std::unique_ptr<XmpValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpValue>;
 
         //! XMP array types.
         enum XmpArrayType { xaNone, xaAlt, xaBag, xaSeq };
@@ -715,7 +715,7 @@ namespace Exiv2 {
     class EXIV2API XmpTextValue : public XmpValue {
     public:
         //! Shortcut for a %XmpTextValue auto pointer.
-        typedef std::unique_ptr<XmpTextValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpTextValue>;
 
         //! @name Creators
         //@{
@@ -797,7 +797,7 @@ namespace Exiv2 {
     class EXIV2API XmpArrayValue : public XmpValue {
     public:
         //! Shortcut for a %XmpArrayValue auto pointer.
-        typedef std::unique_ptr<XmpArrayValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpArrayValue>;
 
         //! @name Creators
         //@{
@@ -890,7 +890,7 @@ namespace Exiv2 {
     class EXIV2API LangAltValue : public XmpValue {
     public:
         //! Shortcut for a %LangAltValue auto pointer.
-        typedef std::unique_ptr<LangAltValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<LangAltValue>;
 
         //! @name Creators
         //@{
@@ -959,7 +959,7 @@ namespace Exiv2 {
 
     public:
         //! Type used to store language alternative arrays.
-        typedef std::map<std::string, std::string,LangAltValueComparator>  ValueType;
+        using ValueType = std::map<std::string, std::string, LangAltValueComparator>;
         // DATA
         /*!
           @brief Map to store the language alternative values. The language
@@ -978,7 +978,7 @@ namespace Exiv2 {
     class EXIV2API DateValue : public Value {
     public:
         //! Shortcut for a %DateValue auto pointer.
-        typedef std::unique_ptr<DateValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<DateValue>;
 
         //! @name Creators
         //@{
@@ -1079,7 +1079,7 @@ namespace Exiv2 {
     class EXIV2API TimeValue : public Value {
     public:
         //! Shortcut for a %TimeValue auto pointer.
-        typedef std::unique_ptr<TimeValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<TimeValue>;
 
         //! @name Creators
         //@{
@@ -1235,7 +1235,7 @@ namespace Exiv2 {
     class ValueType : public Value {
     public:
         //! Shortcut for a %ValueType\<T\> auto pointer.
-        typedef std::unique_ptr<ValueType<T> > UniquePtr;
+        using UniquePtr = std::unique_ptr<ValueType<T> >;
 
         //! @name Creators
         //@{
@@ -1300,11 +1300,11 @@ namespace Exiv2 {
         //@}
 
         //! Container for values
-        typedef std::vector<T> ValueList;
+        using ValueList = std::vector<T>;
         //! Iterator type defined for convenience.
-        typedef typename std::vector<T>::iterator iterator;
+        using iterator = typename std::vector<T>::iterator;
         //! Const iterator type defined for convenience.
-        typedef typename std::vector<T>::const_iterator const_iterator;
+        using const_iterator = typename std::vector<T>::const_iterator;
 
         // DATA
         /*!
@@ -1327,24 +1327,24 @@ namespace Exiv2 {
     }; // class ValueType
 
     //! Unsigned short value type
-    typedef ValueType<uint16_t> UShortValue;
+    using UShortValue = ValueType<uint16_t>;
     //! Unsigned long value type
-    typedef ValueType<uint32_t> ULongValue;
+    using ULongValue = ValueType<uint32_t>;
     //! Unsigned rational value type
-    typedef ValueType<URational> URationalValue;
+    using URationalValue = ValueType<URational>;
     //! Signed short value type
-    typedef ValueType<int16_t> ShortValue;
+    using ShortValue = ValueType<int16_t>;
     //! Signed long value type
-    typedef ValueType<int32_t> LongValue;
+    using LongValue = ValueType<int32_t>;
     //! Signed rational value type
-    typedef ValueType<Rational> RationalValue;
+    using RationalValue = ValueType<Rational>;
     //! Float value type
-    typedef ValueType<float> FloatValue;
+    using FloatValue = ValueType<float>;
     //! Double value type
-    typedef ValueType<double> DoubleValue;
+    using DoubleValue = ValueType<double>;
 
-// *****************************************************************************
-// free functions, template and inline definitions
+    // *****************************************************************************
+    // free functions, template and inline definitions
 
     /*!
       @brief Read a value of type T from the data buffer.
