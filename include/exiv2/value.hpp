@@ -1672,21 +1672,21 @@ namespace Exiv2 {
     Rational ValueType<T>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_.at(n), 1);
+        return {value_.at(n), 1};
     }
     // Specialization for rational
     template<>
     inline Rational ValueType<Rational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_.at(n).first, value_.at(n).second);
+        return {value_.at(n).first, value_.at(n).second};
     }
     // Specialization for unsigned rational
     template<>
     inline Rational ValueType<URational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_.at(n).first, value_.at(n).second);
+        return {value_.at(n).first, value_.at(n).second};
     }
     // Specialization for float.
     template<>
