@@ -992,10 +992,10 @@ namespace Exiv2 {
 
         //! Simple Date helper structure
         struct EXIV2API Date {
-            Date() : year(0), month(0), day(0) {}
-            int year;                           //!< Year
-            int month;                          //!< Month
-            int day;                            //!< Day
+            Date() = default;
+            int year{0};   //!< Year
+            int month{0};  //!< Month
+            int day{0};    //!< Day
         };
 
         //! @name Manipulators
@@ -1096,13 +1096,13 @@ namespace Exiv2 {
         //! Simple Time helper structure
         struct Time
         {
-            Time() : hour(0), minute(0), second(0), tzHour(0), tzMinute(0) {}
+            Time() = default;
 
-            int hour;                           //!< Hour
-            int minute;                         //!< Minute
-            int second;                         //!< Second
-            int tzHour;                         //!< Hours ahead or behind UTC
-            int tzMinute;                       //!< Minutes ahead or behind UTC
+            int hour{0};      //!< Hour
+            int minute{0};    //!< Minute
+            int second{0};    //!< Second
+            int tzHour{0};    //!< Hours ahead or behind UTC
+            int tzMinute{0};  //!< Minutes ahead or behind UTC
         };
 
         //! @name Manipulators
@@ -1321,9 +1321,9 @@ namespace Exiv2 {
 
         // DATA
         //! Pointer to the buffer, nullptr if none has been allocated
-        byte* pDataArea_;
+        byte* pDataArea_{nullptr};
         //! The current size of the buffer
-        long sizeDataArea_;
+        long sizeDataArea_{0};
     }; // class ValueType
 
     //! Unsigned short value type
@@ -1493,28 +1493,24 @@ namespace Exiv2 {
         return d2Data(buf, t, byteOrder);
     }
 
-    template<typename T>
-    ValueType<T>::ValueType()
-        : Value(getType<T>()), pDataArea_(nullptr), sizeDataArea_(0)
+    template <typename T>
+    ValueType<T>::ValueType() : Value(getType<T>())
     {
     }
 
-    template<typename T>
-    ValueType<T>::ValueType(TypeId typeId)
-        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
+    template <typename T>
+    ValueType<T>::ValueType(TypeId typeId) : Value(typeId)
     {
     }
 
-    template<typename T>
-    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId)
-        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
+    template <typename T>
+    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId) : Value(typeId)
     {
         read(buf, len, byteOrder);
     }
 
-    template<typename T>
-    ValueType<T>::ValueType(const T& val, TypeId typeId)
-        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
+    template <typename T>
+    ValueType<T>::ValueType(const T& val, TypeId typeId) : Value(typeId)
     {
         value_.push_back(val);
     }
@@ -1523,8 +1519,7 @@ namespace Exiv2 {
     ValueType<T>::ValueType(const ValueType<T>& rhs)
         : Value(rhs.typeId())
         , value_(rhs.value_)
-        , pDataArea_(nullptr)
-        , sizeDataArea_(0)
+
     {
         if (rhs.sizeDataArea_ > 0) {
             pDataArea_ = new byte[rhs.sizeDataArea_];
