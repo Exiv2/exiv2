@@ -262,9 +262,8 @@ namespace Exiv2 {
     {
         if (byteOrder == littleEndian) {
             return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
-        } else {
-            return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
         }
+        return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
     }
 
     //! Read a 4 byte unsigned long value from the data buffer
