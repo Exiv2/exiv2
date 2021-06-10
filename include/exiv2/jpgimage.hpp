@@ -147,6 +147,16 @@ namespace Exiv2 {
         void printStructure(std::ostream& out, PrintStructureOption option,int depth);
         //@}
 
+        //! @name NOT implemented
+        //@{
+        //! Default constructor.
+        JpegBase() = delete;
+        //! Copy constructor
+        JpegBase(const JpegBase& rhs) = delete;
+        //! Assignment operator
+        JpegBase& operator=(const JpegBase& rhs) = delete;
+        //@}
+
     protected:
         //! @name Creators
         //@{
@@ -240,16 +250,6 @@ namespace Exiv2 {
         static const char* const iccId_;        //!< ICC profile identifier
 
     private:
-        //! @name NOT implemented
-        //@{
-        //! Default constructor.
-        JpegBase();
-        //! Copy constructor
-        JpegBase(const JpegBase& rhs);
-        //! Assignment operator
-        JpegBase& operator=(const JpegBase& rhs);
-        //@}
-
         //! @name Manipulators
         //@{
         /*!
@@ -315,6 +315,14 @@ namespace Exiv2 {
         std::string mimeType() const;
         //@}
 
+        // NOT Implemented
+        //! Default constructor
+        JpegImage() = delete;
+        //! Copy constructor
+        JpegImage(const JpegImage& rhs) = delete;
+        //! Assignment operator
+        JpegImage& operator=(const JpegImage& rhs) = delete;
+
     protected:
         //! @name Accessors
         //@{
@@ -337,15 +345,6 @@ namespace Exiv2 {
         // Constant data
         static const byte soi_;          // SOI marker
         static const byte blank_[];      // Minimal Jpeg image
-
-        // NOT Implemented
-        //! Default constructor
-        JpegImage();
-        //! Copy constructor
-        JpegImage(const JpegImage& rhs);
-        //! Assignment operator
-        JpegImage& operator=(const JpegImage& rhs);
-
     }; // class JpegImage
 
     //! Helper class to access %Exiv2 files
@@ -376,6 +375,14 @@ namespace Exiv2 {
         std::string mimeType() const;
         //@}
 
+        // NOT Implemented
+        //! Default constructor
+        ExvImage() = delete;
+        //! Copy constructor
+        ExvImage(const ExvImage& rhs) = delete;
+        //! Assignment operator
+        ExvImage& operator=(const ExvImage& rhs) = delete;
+
     protected:
         //! @name Accessors
         //@{
@@ -388,16 +395,8 @@ namespace Exiv2 {
 
     private:
         // Constant data
-        static const char exiv2Id_[];    // EXV identifier
-        static const byte blank_[];      // Minimal exiv2 file
-
-        // NOT Implemented
-        //! Default constructor
-        ExvImage();
-        //! Copy constructor
-        ExvImage(const ExvImage& rhs);
-        //! Assignment operator
-        ExvImage& operator=(const ExvImage& rhs);
+        static const char exiv2Id_[];  // EXV identifier
+        static const byte blank_[];    // Minimal exiv2 file
 
     }; // class ExvImage
 

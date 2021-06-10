@@ -44,6 +44,14 @@ namespace Exiv2 {
      */
     class EXIV2API MrwImage : public Image {
     public:
+        //! @name NOT Implemented
+        //@{
+        //! Copy constructor
+        MrwImage(const MrwImage& rhs) = delete;
+        //! Assignment operator
+        MrwImage& operator=(const MrwImage& rhs) = delete;
+        //@}
+
         //! @name Creators
         //@{
         /*!
@@ -95,16 +103,6 @@ namespace Exiv2 {
         int pixelWidth() const;
         int pixelHeight() const;
         //@}
-
-    private:
-        //! @name NOT Implemented
-        //@{
-        //! Copy constructor
-        MrwImage(const MrwImage& rhs);
-        //! Assignment operator
-        MrwImage& operator=(const MrwImage& rhs);
-        //@}
-
     }; // class MrwImage
 
 // *****************************************************************************

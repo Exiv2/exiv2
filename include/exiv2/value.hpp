@@ -515,14 +515,14 @@ namespace Exiv2 {
 
         //! Charset information lookup functions. Implemented as a static class.
         class EXIV2API CharsetInfo {
-            //! Prevent construction: not implemented.
-            CharsetInfo() {}
-            //! Prevent copy-construction: not implemented.
-            CharsetInfo(const CharsetInfo&);
-            //! Prevent assignment: not implemented.
-            CharsetInfo& operator=(const CharsetInfo&);
-
         public:
+            //! Prevent construction: not implemented.
+            CharsetInfo() = delete;
+            //! Prevent copy-construction: not implemented.
+            CharsetInfo(const CharsetInfo&) = delete;
+            //! Prevent assignment: not implemented.
+            CharsetInfo& operator=(const CharsetInfo&) = delete;
+
             //! Return the name for a charset id
             static const char* name(CharsetId charsetId);
             //! Return the code for a charset id

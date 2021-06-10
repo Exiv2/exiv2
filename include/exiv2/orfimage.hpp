@@ -44,6 +44,14 @@ namespace Exiv2 {
      */
     class EXIV2API OrfImage : public TiffImage {
     public:
+        //! @name NOT Implemented
+        //@{
+        //! Copy constructor
+        OrfImage(const OrfImage& rhs) = delete;
+        //! Assignment operator
+        OrfImage& operator=(const OrfImage& rhs) = delete;
+        //@}
+
         //! @name Creators
         //@{
         /*!
@@ -82,16 +90,6 @@ namespace Exiv2 {
         int pixelWidth() const;
         int pixelHeight() const;
         //@}
-
-    private:
-        //! @name NOT Implemented
-        //@{
-        //! Copy constructor
-        OrfImage(const OrfImage& rhs);
-        //! Assignment operator
-        OrfImage& operator=(const OrfImage& rhs);
-        //@}
-
     }; // class OrfImage
 
     /*!

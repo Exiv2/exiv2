@@ -243,15 +243,8 @@ namespace Exiv2 {
         /*!
           @brief this is allocated and populated by mmap()
          */
-        byte* bigBlock_;
+        byte* bigBlock_{};
 
-        //@}
-
-    protected:
-        //! @name Creators
-        //@{
-        //! Default Constructor
-        BasicIo() : bigBlock_(NULL) {};
         //@}
     }; // class BasicIo
 
@@ -281,12 +274,11 @@ namespace Exiv2 {
         //! The BasicIo reference
         BasicIo& bio_;
 
-    private:
         // Not implemented
         //! Copy constructor
-        IoCloser(const IoCloser&);
+        IoCloser(const IoCloser&) = delete;
         //! Assignment operator
-        IoCloser& operator=(const IoCloser&);
+        IoCloser& operator=(const IoCloser&) = delete;
     }; // class IoCloser
 
     /*!
@@ -512,13 +504,13 @@ namespace Exiv2 {
         virtual void populateFakeData();
         //@}
 
-    private:
         // NOT IMPLEMENTED
         //! Copy constructor
-        FileIo(FileIo& rhs);
+        FileIo(FileIo& rhs) = delete;
         //! Assignment operator
-        FileIo& operator=(const FileIo& rhs);
+        FileIo& operator=(const FileIo& rhs) = delete;
 
+    private:
         // Pimpl idiom
         class Impl;
         std::unique_ptr<Impl> p_;
@@ -712,13 +704,13 @@ namespace Exiv2 {
 
         //@}
 
-    private:
         // NOT IMPLEMENTED
         //! Copy constructor
-        MemIo(MemIo& rhs);
+        MemIo(MemIo& rhs) = delete;
         //! Assignment operator
-        MemIo& operator=(const MemIo& rhs);
+        MemIo& operator=(const MemIo& rhs) = delete;
 
+    private:
         // Pimpl idiom
         class Impl;
         std::unique_ptr<Impl> p_;
@@ -1029,13 +1021,13 @@ namespace Exiv2 {
          */
         HttpIo(const std::wstring& wurl, size_t blockSize = 1024);
 #endif
-        //@}
-    protected:
         // NOT IMPLEMENTED
         //! Copy constructor
-        HttpIo(HttpIo& rhs);
+        HttpIo(HttpIo& rhs) = delete;
         //! Assignment operator
-        HttpIo& operator=(const HttpIo& rhs);
+        HttpIo& operator=(const HttpIo& rhs) = delete;
+
+    private:
         // Pimpl idiom
         class HttpImpl;
     };
@@ -1079,12 +1071,14 @@ namespace Exiv2 {
                 for the protocol. Otherwise, it throws the Error.
          */
         long write(BasicIo& src);
-    protected:
+
         // NOT IMPLEMENTED
         //! Copy constructor
-        CurlIo(CurlIo& rhs);
+        CurlIo(CurlIo& rhs) = delete;
         //! Assignment operator
-        CurlIo& operator=(const CurlIo& rhs);
+        CurlIo& operator=(const CurlIo& rhs) = delete;
+
+    protected:
         // Pimpl idiom
         class CurlImpl;
     };

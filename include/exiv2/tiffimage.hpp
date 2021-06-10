@@ -98,22 +98,21 @@ namespace Exiv2 {
         int pixelHeight() const;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        TiffImage(const TiffImage& rhs);
+        TiffImage(const TiffImage& rhs) = delete;
         //! Assignment operator
-        TiffImage& operator=(const TiffImage& rhs);
+        TiffImage& operator=(const TiffImage& rhs) = delete;
         //@}
 
+    private:
         //! @name Accessors
         //@{
         //! Return the group name of the group with the primary image.
         std::string primaryGroup() const;
         //@}
 
-    private:
         // DATA
         mutable std::string primaryGroup_;     //!< The primary group
         mutable std::string mimeType_;         //!< The MIME type

@@ -136,14 +136,14 @@ namespace Exiv2 {
 
     //! Type information lookup functions. Implemented as a static class.
     class EXIV2API TypeInfo {
-        //! Prevent construction: not implemented.
-        TypeInfo();
-        //! Prevent copy-construction: not implemented.
-        TypeInfo(const TypeInfo& rhs);
-        //! Prevent assignment: not implemented.
-        TypeInfo& operator=(const TypeInfo& rhs);
-
     public:
+        //! Prevent construction: not implemented.
+        TypeInfo() = delete;
+        //! Prevent copy-construction: not implemented.
+        TypeInfo(const TypeInfo& rhs) = delete;
+        //! Prevent assignment: not implemented.
+        TypeInfo& operator=(const TypeInfo& rhs) = delete;
+
         //! Return the name of the type, 0 if unknown.
         static const char* typeName(TypeId typeId);
         //! Return the type id for a type name

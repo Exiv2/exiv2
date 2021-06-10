@@ -43,15 +43,15 @@ namespace Exiv2 {
           read width and height.
      */
     class EXIV2API TgaImage : public Image {
+    public:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        TgaImage(const TgaImage& rhs);
+        TgaImage(const TgaImage& rhs) = delete;
         //! Assignment operator
-        TgaImage& operator=(const TgaImage& rhs);
+        TgaImage& operator=(const TgaImage& rhs) = delete;
         //@}
 
-    public:
         //! @name Creators
         //@{
         /*!

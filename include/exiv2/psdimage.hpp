@@ -42,15 +42,15 @@ namespace Exiv2 {
       @brief Class to access raw Photoshop images.
      */
     class EXIV2API PsdImage : public Image {
+    public:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        PsdImage(const PsdImage& rhs);
+        PsdImage(const PsdImage& rhs) = delete;
         //! Assignment operator
-        PsdImage& operator=(const PsdImage& rhs);
+        PsdImage& operator=(const PsdImage& rhs) = delete;
         //@}
 
-    public:
         //! @name Creators
         //@{
         /*!
