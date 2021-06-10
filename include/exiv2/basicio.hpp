@@ -1012,7 +1012,7 @@ namespace Exiv2 {
                 divided into the memory blocks. These blocks are populated
                 on demand from the server, so it avoids copying the complete file.
          */
-        HttpIo(const std::string&  url,  size_t blockSize = 1024);
+        explicit HttpIo(const std::string& url, size_t blockSize = 1024);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like HttpIo(const std::string& url, size_t blockSize = 1024) but accepts a
@@ -1050,7 +1050,7 @@ namespace Exiv2 {
                 on demand from the server, so it avoids copying the complete file.
           @throw Error if it is unable to init curl pointer.
          */
-        CurlIo(const std::string&  url,  size_t blockSize = 0);
+        explicit CurlIo(const std::string& url, size_t blockSize = 0);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like CurlIo(const std::string&  url,  size_t blockSize = 0) but accepts a
