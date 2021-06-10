@@ -176,9 +176,9 @@ namespace Exiv2 {
         AnyError() = default;
         AnyError(const AnyError& o) = default;
 
-        ~AnyError() throw() override = default;
+        ~AnyError() noexcept override = default;
         ///@brief  Return the error code.
-        virtual int code() const throw() =0;
+        virtual int code() const noexcept = 0;
     };
 
     //! %AnyError output operator
@@ -281,17 +281,17 @@ namespace Exiv2 {
         inline BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of throw())
-        inline ~BasicError() throw() override;
+        inline ~BasicError() noexcept override;
         //@}
 
         //! @name Accessors
         //@{
-        inline int code() const throw() override;
+        inline int code() const noexcept override;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        inline const char* what() const throw() override;
+        inline const char* what() const noexcept override;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
@@ -367,16 +367,16 @@ namespace Exiv2 {
     }
 
     template <typename charT>
-    BasicError<charT>::~BasicError() throw() = default;
+    BasicError<charT>::~BasicError() noexcept = default;
 
-    template<typename charT>
-    int BasicError<charT>::code() const throw()
+    template <typename charT>
+    int BasicError<charT>::code() const noexcept
     {
         return code_;
     }
 
-    template<typename charT>
-    const char* BasicError<charT>::what() const throw()
+    template <typename charT>
+    const char* BasicError<charT>::what() const noexcept
     {
         return msg_.c_str();
     }
