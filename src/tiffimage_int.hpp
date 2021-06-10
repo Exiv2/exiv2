@@ -148,13 +148,11 @@ namespace Exiv2 {
                    uint32_t  offset       =0x00000008,
                    bool      hasImageTags =true);
         //! Destructor
-        ~TiffHeader() = default;
+        ~TiffHeader() override = default;
         //@}
         //@{
         //! @name Accessors
-        bool isImageTag(      uint16_t       tag,
-                              IfdId          group,
-                        const PrimaryGroups* pPrimaryGroups) const;
+        bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
         //@}
 
     private:
