@@ -589,7 +589,7 @@ namespace Exiv2 {
 
           @return A string containing the comment converted to UTF-8.
          */
-        std::string comment(const char* encoding =0) const;
+        std::string comment(const char* encoding = nullptr) const;
         /*!
           @brief Determine the character encoding that was used to encode the
               UNICODE comment value as an iconv(3) name.
@@ -1531,7 +1531,7 @@ namespace Exiv2 {
         Value::operator=(rhs);
         value_ = rhs.value_;
 
-        byte* tmp = 0;
+        byte* tmp = nullptr;
         if (rhs.sizeDataArea_ > 0) {
             tmp = new byte[rhs.sizeDataArea_];
             std::memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
@@ -1720,7 +1720,7 @@ namespace Exiv2 {
     template<typename T>
     int ValueType<T>::setDataArea(const byte* buf, long len)
     {
-        byte* tmp = 0;
+        byte* tmp = nullptr;
         if (len > 0) {
             tmp = new byte[len];
             std::memcpy(tmp, buf, len);
