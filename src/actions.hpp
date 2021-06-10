@@ -161,8 +161,8 @@ namespace Action {
     //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
-        virtual ~Print() = default;
-        virtual int run(const std::string& path);
+        ~Print() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Print>;
         UniquePtr clone() const;
 
@@ -205,7 +205,7 @@ namespace Action {
                      EasyAccessFct easyAccessFctFallback =NULL) const;
 
     private:
-        virtual Print* clone_() const;
+        Print* clone_() const override;
 
         std::string path_;
         int align_{0};                // for the alignment of the summary output
@@ -217,25 +217,25 @@ namespace Action {
      */
     class Rename : public Task {
     public:
-        virtual ~Rename() = default;
-        virtual int run(const std::string& path);
+        ~Rename() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Rename>;
         UniquePtr clone() const;
 
     private:
-        virtual Rename* clone_() const;
+        Rename* clone_() const override;
     }; // class Rename
 
     //! %Adjust the Exif (or other metadata) timestamps
     class Adjust : public Task {
     public:
-        virtual ~Adjust() = default;
-        virtual int run(const std::string& path);
+        ~Adjust() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Adjust>;
         UniquePtr clone() const;
 
     private:
-        virtual Adjust* clone_() const;
+        Adjust* clone_() const override;
         int adjustDateTime(Exiv2::ExifData& exifData,
                            const std::string& key,
                            const std::string& path) const;
@@ -252,8 +252,8 @@ namespace Action {
      */
     class Erase : public Task {
     public:
-        virtual ~Erase() = default;
-        virtual int run(const std::string& path);
+        ~Erase() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Erase>;
         UniquePtr clone() const;
 
@@ -283,7 +283,7 @@ namespace Action {
         static int eraseIccProfile(Exiv2::Image* image);
 
     private:
-        virtual Erase* clone_() const;
+        Erase* clone_() const override;
         std::string path_;
 
     }; // class Erase
@@ -293,8 +293,8 @@ namespace Action {
      */
     class Extract : public Task {
     public:
-        virtual ~Extract() = default;
-        virtual int run(const std::string& path);
+        ~Extract() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Extract>;
         UniquePtr clone() const;
 
@@ -322,7 +322,7 @@ namespace Action {
         int writeIccProfile(const std::string& target) const;
 
     private:
-        virtual Extract* clone_() const;
+        Extract* clone_() const override;
         std::string path_;
 
     }; // class Extract
@@ -332,8 +332,8 @@ namespace Action {
      */
     class Insert : public Task {
     public:
-        virtual ~Insert() = default;
-        virtual int run(const std::string& path);
+        ~Insert() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Insert>;
         UniquePtr clone() const;
 
@@ -363,7 +363,7 @@ namespace Action {
         static int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob);
 
     private:
-        virtual Insert* clone_() const;
+        Insert* clone_() const override;
 
     }; // class Insert
 
@@ -373,8 +373,8 @@ namespace Action {
      */
     class Modify : public Task {
     public:
-        virtual ~Modify() = default;
-        virtual int run(const std::string& path);
+        ~Modify() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<Modify>;
         UniquePtr clone() const;
         Modify() {}
@@ -382,7 +382,7 @@ namespace Action {
         static int applyCommands(Exiv2::Image* pImage);
 
     private:
-        virtual Modify* clone_() const;
+        Modify* clone_() const override;
         //! Copy constructor needed because of UniquePtr member
         Modify(const Modify& /*src*/) : Task() {}
 
@@ -406,13 +406,13 @@ namespace Action {
      */
     class FixIso : public Task {
     public:
-        virtual ~FixIso() = default;
-        virtual int run(const std::string& path);
+        ~FixIso() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<FixIso>;
         UniquePtr clone() const;
 
     private:
-        virtual FixIso* clone_() const;
+        FixIso* clone_() const override;
         std::string path_;
 
     }; // class FixIso
@@ -424,13 +424,13 @@ namespace Action {
      */
     class FixCom : public Task {
     public:
-        virtual ~FixCom() = default;
-        virtual int run(const std::string& path);
+        ~FixCom() override = default;
+        int run(const std::string& path) override;
         using UniquePtr = std::unique_ptr<FixCom>;
         UniquePtr clone() const;
 
     private:
-        virtual FixCom* clone_() const;
+        FixCom* clone_() const override;
         std::string path_;
 
     }; // class FixCom

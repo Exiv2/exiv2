@@ -419,7 +419,7 @@ namespace Exiv2 {
         //! Default constructor.
         TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType =ttUndefined);
         //! Virtual destructor.
-        virtual ~TiffEntryBase();
+        ~TiffEntryBase() override;
         //@}
 
         //! @name Manipulators
@@ -464,7 +464,7 @@ namespace Exiv2 {
         /*!
           @brief Return the unique id of the entry in the image
          */
-        virtual int idx()        const;
+        int idx() const override;
         /*!
           @brief Return a pointer to the binary representation of the
                  value of this component.
@@ -494,39 +494,31 @@ namespace Exiv2 {
                  the \em ioWrapper, return the number of bytes written. Only the
                  \em ioWrapper and \em byteOrder arguments are used.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
         //! Implements count().
-        virtual uint32_t doCount() const;
+        uint32_t doCount() const override;
         /*!
           @brief Implements writeData(). Standard TIFF entries have no data:
                  write nothing and return 0.
          */
-        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+                             uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Standard TIFF entries have no image data:
                  write nothing and return 0.
          */
-        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
-                                      ByteOrder byteOrder) const;
+        uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         //! Implements size(). Return the size of a standard TIFF entry
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         //! Implements sizeData(). Return 0.
-        virtual uint32_t doSizeData() const;
+        uint32_t doSizeData() const override;
         //! Implements sizeImage(). Return 0.
-        virtual uint32_t doSizeImage() const;
+        uint32_t doSizeImage() const override;
         //@}
 
         //! Helper function to write an \em offset to a preallocated binary buffer
@@ -568,19 +560,19 @@ namespace Exiv2 {
         //! Constructor
         TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {}
         //! Virtual destructor.
-        virtual ~TiffEntry() = default;
+        ~TiffEntry() override = default;
         //@}
 
     protected:
         //! @name Manipulators
         //@{
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffEntry* doClone() const;
+        TiffEntry* doClone() const override;
         //@}
 
     }; // class TiffEntry
@@ -602,7 +594,7 @@ namespace Exiv2 {
             : TiffEntryBase(tag, group),
               szTag_(szTag), szGroup_(szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntryBase() = default;
+        ~TiffDataEntryBase() override = default;
         //@}
 
         //! @name Manipulators
@@ -658,22 +650,19 @@ namespace Exiv2 {
             : TiffDataEntryBase(tag, group, szTag, szGroup),
               pDataArea_(0), sizeDataArea_(0) {}
         //! Virtual destructor.
-        virtual ~TiffDataEntry() = default;
+        ~TiffDataEntry() override = default;
         //@}
 
         //! @name Manipulators
         //@{
-        virtual void setStrips(const Value* pSize,
-                               const byte*  pData,
-                               uint32_t     sizeData,
-                               uint32_t     baseOffset);
+        void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
         //@}
 
     protected:
         //! @name Protected Manipulators
         //@{
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         /*!
           @brief Implements write(). Write pointers into the data area to the
                  \em ioWrapper, relative to the offsets in the value. Return the
@@ -685,30 +674,23 @@ namespace Exiv2 {
           on write. The type of the value can only be signed or unsigned short or
           long.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffDataEntry* doClone() const;
+        TiffDataEntry* doClone() const override;
         /*!
           @brief Implements writeData(). Write the data area to the \em ioWrapper.
                  Return the number of bytes written.
          */
-        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+                             uint32_t& imageIdx) const override;
         // Using doWriteImage from base class
         // Using doSize() from base class
         //! Implements sizeData(). Return the size of the data area.
-        virtual uint32_t doSizeData() const;
+        uint32_t doSizeData() const override;
         // Using doSizeImage from base class
         //@}
 
@@ -740,38 +722,31 @@ namespace Exiv2 {
         TiffImageEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
             : TiffDataEntryBase(tag, group, szTag, szGroup) {}
         //! Virtual destructor.
-        virtual ~TiffImageEntry() = default;
+        ~TiffImageEntry() override = default;
         //@}
 
         //! @name Manipulators
         //@{
-        virtual void setStrips(const Value* pSize,
-                               const byte*  pData,
-                               uint32_t     sizeData,
-                               uint32_t     baseOffset);
+        void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
         //@}
 
     protected:
         //! @name Protected Manipulators
         //@{
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         /*!
           @brief Implements write(). Write pointers into the image data area to the
                  \em ioWrapper. Return the number of bytes written. The \em valueIdx
                  and \em dataIdx  arguments are not used.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffImageEntry* doClone() const;
+        TiffImageEntry* doClone() const override;
         /*!
           @brief Implements writeData(). Write the image data area to the \em ioWrapper.
                  Return the number of bytes written.
@@ -780,23 +755,19 @@ namespace Exiv2 {
           directory. It is used for TIFF image entries in the makernote (large
           preview images) so that the image data remains in the makernote IFD.
          */
-        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+                             uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data area to the \em ioWrapper.
                  Return the number of bytes written.
          */
-        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
-                                      ByteOrder byteOrder) const;
+        uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         //! Implements size(). Return the size of the strip pointers.
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         //! Implements sizeData(). Return the size of the image data area.
-        virtual uint32_t doSizeData() const;
+        uint32_t doSizeData() const override;
         //! Implements sizeImage(). Return the size of the image data area.
-        virtual uint32_t doSizeImage() const;
+        uint32_t doSizeImage() const override;
         //@}
 
     private:
@@ -822,7 +793,7 @@ namespace Exiv2 {
         TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup)
             : TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {}
         //! Virtual destructor.
-        virtual ~TiffSizeEntry() = default;
+        ~TiffSizeEntry() override = default;
         //@}
 
         //! @name Accessors
@@ -836,13 +807,13 @@ namespace Exiv2 {
     protected:
         //! @name Protected Manipulators
         //@{
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffSizeEntry* doClone() const;
+        TiffSizeEntry* doClone() const override;
         //@}
 
     private:
@@ -866,7 +837,7 @@ namespace Exiv2 {
         TiffDirectory(uint16_t tag, IfdId group, bool hasNext =true)
             : TiffComponent(tag, group), hasNext_(hasNext), pNext_(0) {}
         //! Virtual destructor
-        virtual ~TiffDirectory();
+        ~TiffDirectory() override;
         //@}
 
         //! @name Accessors
@@ -884,66 +855,56 @@ namespace Exiv2 {
 
         //! @name Protected Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag,
-                                         TiffPath& tiffPath,
-                                         TiffComponent* const pRoot,
-                                         TiffComponent::UniquePtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent);
-        virtual void doAccept(TiffVisitor& visitor);
+        TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+                                 TiffComponent::UniquePtr object) override;
+        TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+        TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+        void doAccept(TiffVisitor& visitor) override;
         /*!
           @brief Implements write(). Write the TIFF directory, values and
                  additional data, including the next-IFD, if any, to the
                  \em ioWrapper, return the number of bytes written.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffDirectory* doClone() const;
+        TiffDirectory* doClone() const override;
         /*!
           @brief This class does not really implement writeData(), it only has
                  write(). This method must not be called; it commits suicide.
          */
-        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+                             uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data of the TIFF
                  directory to the \em ioWrapper by forwarding the call to each
                  component as well as the next-IFD, if there is any. Return the
                  number of bytes written.
          */
-        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
-                                      ByteOrder byteOrder) const;
+        uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         /*!
           @brief Implements size(). Return the size of the TIFF directory,
                  values and additional data, including the next-IFD, if any.
          */
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         /*!
           @brief Implements count(). Return the number of entries in the TIFF
                  directory. Does not count entries which are marked as deleted.
          */
-        virtual uint32_t doCount() const;
+        uint32_t doCount() const override;
         /*!
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
          */
-        virtual uint32_t doSizeData() const;
+        uint32_t doSizeData() const override;
         /*!
           @brief Implements sizeImage(). Return the sum of the image sizes of
                  all components plus that of the next-IFD, if there is any.
          */
-        virtual uint32_t doSizeImage() const;
+        uint32_t doSizeImage() const override;
         //@}
 
     private:
@@ -984,7 +945,7 @@ namespace Exiv2 {
         //! Default constructor
         TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup);
         //! Virtual destructor
-        virtual ~TiffSubIfd();
+        ~TiffSubIfd() override;
         //@}
 
     protected:
@@ -996,50 +957,40 @@ namespace Exiv2 {
 
         //! @name Protected Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag,
-                                         TiffPath& tiffPath,
-                                         TiffComponent* const pRoot,
-                                         TiffComponent::UniquePtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+                                 TiffComponent::UniquePtr object) override;
+        TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         /*!
           @brief Implements write(). Write the sub-IFD pointers to the \em ioWrapper,
                  return the number of bytes written. The \em valueIdx and
                  \em imageIdx arguments are not used.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffSubIfd* doClone() const;
+        TiffSubIfd* doClone() const override;
         /*!
           @brief Implements writeData(). Write the sub-IFDs to the \em ioWrapper.
                  Return the number of bytes written.
          */
-        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+                             uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data of each sub-IFD to
                  the \em ioWrapper. Return the number of bytes written.
          */
-        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
-                                      ByteOrder byteOrder) const;
+        uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         //! Implements size(). Return the size of the sub-Ifd pointers.
-        uint32_t doSize() const;
+        uint32_t doSize() const override;
         //! Implements sizeData(). Return the sum of the sizes of all sub-IFDs.
-        virtual uint32_t doSizeData() const;
+        uint32_t doSizeData() const override;
         //! Implements sizeImage(). Return the sum of the image sizes of all sub-IFDs.
-        virtual uint32_t doSizeImage() const;
+        uint32_t doSizeImage() const override;
         //@}
 
     private:
@@ -1075,44 +1026,38 @@ namespace Exiv2 {
         //! Default constructor
         TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
         //! Virtual destructor
-        virtual ~TiffMnEntry();
+        ~TiffMnEntry() override;
         //@}
 
     protected:
         //! @name Protected Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag,
-                                         TiffPath& tiffPath,
-                                         TiffComponent* const pRoot,
-                                         TiffComponent::UniquePtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent);
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+                                 TiffComponent::UniquePtr object) override;
+        TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+        TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         /*!
           @brief Implements write() by forwarding the call to the actual
                  concrete Makernote, if there is one.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffMnEntry* doClone() const;
+        TiffMnEntry* doClone() const override;
         //! Implements count(). Return number of components in the entry.
-        virtual uint32_t doCount() const;
+        uint32_t doCount() const override;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
           @brief Implements size() by forwarding the call to the actual
                  concrete Makernote, if there is one.
          */
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         // Using doSizeData from base class
         // Using doSizeImage from base class
         //@}
@@ -1153,7 +1098,7 @@ namespace Exiv2 {
                          MnHeader* pHeader,
                          bool      hasNext =true);
         //! Virtual destructor
-        virtual ~TiffIfdMakernote();
+        ~TiffIfdMakernote() override;
         //@}
 
         //! @name Manipulators
@@ -1213,65 +1158,55 @@ namespace Exiv2 {
     protected:
         //! @name Protected Manipulators
         //@{
-        virtual TiffComponent* doAddPath(uint16_t tag,
-                                         TiffPath& tiffPath,
-                                         TiffComponent* const pRoot,
-                                         TiffComponent::UniquePtr object);
-        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
-        virtual TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent);
-        virtual void doAccept(TiffVisitor& visitor);
+        TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+                                 TiffComponent::UniquePtr object) override;
+        TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+        TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+        void doAccept(TiffVisitor& visitor) override;
         /*!
           @brief Implements write(). Write the Makernote header, TIFF directory,
                  values and additional data to the \em ioWrapper, return the
                  number of bytes written.
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffIfdMakernote* doClone() const;
+        TiffIfdMakernote* doClone() const override;
         /*!
           @brief This class does not really implement writeData(), it only has
                  write(). This method must not be called; it commits suicide.
          */
-        virtual uint32_t doWriteData(IoWrapper& ioWrapper,
-                                     ByteOrder byteOrder,
-                                     int32_t   offset,
-                                     uint32_t  dataIdx,
-                                     uint32_t& imageIdx) const;
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+                             uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data of the IFD of
                  the Makernote. Return the number of bytes written.
          */
-        virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
-                                      ByteOrder byteOrder) const;
+        uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         /*!
           @brief Implements size(). Return the size of the Makernote header,
                  TIFF directory, values and additional data.
          */
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         /*!
           @brief Implements count(). Return the number of entries in the IFD
                  of the Makernote. Does not count entries which are marked as
                  deleted.
          */
-        virtual uint32_t doCount() const;
+        uint32_t doCount() const override;
         /*!
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
          */
-        virtual uint32_t doSizeData() const;
+        uint32_t doSizeData() const override;
         /*!
           @brief Implements sizeImage(). Return the total image data size of the
                  makernote IFD.
          */
-        virtual uint32_t doSizeImage() const;
+        uint32_t doSizeImage() const override;
         //@}
 
     private:
@@ -1365,7 +1300,7 @@ namespace Exiv2 {
                         int setSize,
                         CfgSelFct cfgSelFct);
         //! Virtual destructor
-        virtual ~TiffBinaryArray();
+        ~TiffBinaryArray() override;
         //@}
 
         //! @name Manipulators
@@ -1427,38 +1362,32 @@ namespace Exiv2 {
         /*!
           @brief Implements addPath(). Todo: Document it!
          */
-        virtual TiffComponent* doAddPath(uint16_t tag,
-                                         TiffPath& tiffPath,
-                                         TiffComponent* const pRoot,
-                                         TiffComponent::UniquePtr object);
+        TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+                                 TiffComponent::UniquePtr object) override;
         /*!
           @brief Implements addChild(). Todo: Document it!
          */
-        virtual TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent);
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         /*!
           @brief Implements write(). Todo: Document it!
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffBinaryArray* doClone() const;
+        TiffBinaryArray* doClone() const override;
         //! Implements count(). Todo: Document it!
-        virtual uint32_t doCount() const;
+        uint32_t doCount() const override;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
           @brief Implements size(). Todo: Document it!
          */
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         // Using doSizeData from base class
         // Using doSizeImage from base class
         //@}
@@ -1494,7 +1423,7 @@ namespace Exiv2 {
         //! Constructor
         TiffBinaryElement(uint16_t tag, IfdId group);
         //! Virtual destructor.
-        virtual ~TiffBinaryElement() = default;
+        ~TiffBinaryElement() override = default;
         //@}
 
         //! @name Manipulators
@@ -1524,33 +1453,29 @@ namespace Exiv2 {
     protected:
         //! @name Protected Manipulators
         //@{
-        virtual void doAccept(TiffVisitor& visitor);
-        virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum);
+        void doAccept(TiffVisitor& visitor) override;
+        void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
         /*!
           @brief Implements write(). Todo: Document it!
          */
-        virtual uint32_t doWrite(IoWrapper& ioWrapper,
-                                 ByteOrder byteOrder,
-                                 int32_t   offset,
-                                 uint32_t  valueIdx,
-                                 uint32_t  dataIdx,
-                                 uint32_t& imageIdx);
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+                         uint32_t& imageIdx) override;
         //@}
 
         //! @name Protected Accessors
         //@{
-        virtual TiffBinaryElement* doClone() const;
+        TiffBinaryElement* doClone() const override;
         /*!
           @brief Implements count(). Returns the count from the element definition.
          */
-        virtual uint32_t doCount() const;
+        uint32_t doCount() const override;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
           @brief Implements size(). Returns count * type-size, both taken from
                  the element definition.
          */
-        virtual uint32_t doSize() const;
+        uint32_t doSize() const override;
         // Using doSizeData from base class
         // Using doSizeImage from base class
         //@}

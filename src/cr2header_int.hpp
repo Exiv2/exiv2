@@ -47,20 +47,18 @@ namespace Exiv2 {
         //! Default constructor
         explicit Cr2Header(ByteOrder byteOrder =littleEndian);
         //! Destructor.
-        ~Cr2Header() = default;
+        ~Cr2Header() override = default;
         //@}
 
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size);
+        bool read(const byte* pData, uint32_t size) override;
         //@}
 
         //! @name Accessors
         //@{
-        DataBuf write() const;
-        bool isImageTag(      uint16_t       tag,
-                              IfdId          group,
-                        const PrimaryGroups* pPrimaryGroups) const;
+        DataBuf write() const override;
+        bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
         //@}
 
         //! Return the address of offset2 from the start of the header
