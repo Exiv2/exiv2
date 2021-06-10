@@ -505,7 +505,7 @@ namespace Exiv2 {
     {
         std::istringstream is(s);
         T tmp;
-        ok = (is >> tmp) ? true : false;
+        ok = bool(is >> tmp);
         std::string rest;
         is >> std::skipws >> rest;
         if (!rest.empty()) ok = false;
