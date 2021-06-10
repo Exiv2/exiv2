@@ -232,7 +232,10 @@ namespace Exiv2 {
           @brief Erase iccProfile. the profile is not removed from
               the actual image until the writeMetadata() method is called.
          */
-        virtual bool iccProfileDefined() { return iccProfile_.size_?true:false;}
+        virtual bool iccProfileDefined()
+        {
+            return iccProfile_.size_ != 0;
+        }
 
         /*!
           @brief return iccProfile
