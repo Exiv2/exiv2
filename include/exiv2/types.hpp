@@ -27,31 +27,12 @@
 #include "slice.hpp"
 
 // + standard includes
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <limits>
 #include <algorithm>
 #include <sstream>
-
-#ifdef _MSC_VER
-// Visual Studio 2010 and later has stdint.h
-# if   _MSC_VER >= _MSC_VER_2010
-#  include <stdint.h>
-# else
-// Earlier compilers have MS C99 equivalents such as __int8
-   typedef unsigned __int8  uint8_t;
-   typedef unsigned __int16 uint16_t;
-   typedef unsigned __int32 uint32_t;
-   typedef unsigned __int64 uint64_t;
-   typedef          __int8  int8_t;
-   typedef          __int16 int16_t;
-   typedef          __int32 int32_t;
-   typedef          __int64 int64_t;
-# endif
-#else
-  # include <stdint.h>
-#endif
-
 
 // MSVC macro to convert a string to a wide string
 #ifdef EXV_UNICODE_PATH
