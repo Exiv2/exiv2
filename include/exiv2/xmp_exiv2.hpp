@@ -257,7 +257,7 @@ namespace Exiv2 {
         // DATA
         XmpMetadata xmpMetadata_;
         std::string xmpPacket_  ;
-        bool usePacket_{0};
+        bool usePacket_{};
     }; // class XmpData
 
     /*!
