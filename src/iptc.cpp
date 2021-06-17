@@ -358,7 +358,7 @@ namespace Exiv2 {
             uint16_t record = bytes.at(i + 1);
             uint16_t dataset = bytes.at(i + 2);
             uint16_t len = getUShort(bytes.subSlice(i + 3, bytes.size()), bigEndian);
-            sprintf(buff, "  %6d | %7d | %-24s | %6d | ", record, dataset,
+            snprintf(buff, sizeof(buff), "  %6d | %7d | %-24s | %6d | ", record, dataset,
                     Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
             out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
