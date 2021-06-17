@@ -597,11 +597,10 @@ namespace Exiv2 {
             nm[0xc4] = "DHT";
             for (int i = 0; i <= 15; i++) {
                 char MN[16];
-                /// \todo to be replaced by std::snprintf on master (only available in c++11)
-                sprintf(MN, "APP%d", i);
+                snprintf(MN, sizeof(MN), "APP%d", i);
                 nm[0xe0 + i] = MN;
                 if (i != 4) {
-                    sprintf(MN, "SOF%d", i);
+                    snprintf(MN, sizeof(MN), "SOF%d", i);
                     nm[0xc0 + i] = MN;
                 }
             }
