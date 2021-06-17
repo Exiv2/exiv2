@@ -204,7 +204,7 @@ static std::vector<std::string> getLoadedLibraries()
     // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
     char procsz[100];
     char pathsz[500];
-    sprintf(procsz,"/proc/%d/path/a.out", getpid());
+    snprintf(procsz, sizeof(procsz), "/proc/%d/path/a.out", getpid());
     int l = readlink (procsz, pathsz,sizeof(pathsz));
     if (l>0) {
         pathsz[l]='\0';
@@ -251,7 +251,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifndef __VERSION__
     char  version[40];
-    sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
+    snprintf(version, sizeof(version), "%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
 
     // add edition in brackets
     // 7.10 = 2003 8.00 = 2005 etc 12.00 = 2013 13.00 = 2015 (yet the installer labels it as 14.0!)
@@ -261,7 +261,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     if (  edition == 14 && _MSC_VER >= 1920 ) edition++ ; // 2019 _MSC_VAR  == 1920
 
     if  ( edition > lengthof(editions) ) edition = 0 ;
-    if  ( edition ) sprintf(version+::strlen(version)," (%s/%s)",editions[edition],bits==64?"x64":"x86");
+    if  ( edition ) {
+      const size_t len = ::strlen(version);
+      snprintf(version+len, sizeof(version) - len, " (%s/%s)",editions[edition],bits==64?"x64":"x86");
+    }
 #define __VERSION__ version
 #endif
 
