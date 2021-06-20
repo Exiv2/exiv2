@@ -2577,7 +2577,11 @@ namespace Exiv2 {
 
     float fnumber(float apertureValue)
     {
-        return std::exp(std::log(2.0F) * apertureValue / 2.F);
+        float result = std::exp(std::log(2.0F) * apertureValue / 2.F);
+        if (std::abs(result - 3.5) < 0.1) {
+            result = 3.5;
+        }
+        return result;
     }
 
     URational exposureTime(float shutterSpeedValue)
