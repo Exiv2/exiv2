@@ -1313,6 +1313,7 @@ namespace Exiv2 {
             { { 0, 50,  0 }, "Olympus Zuiko Digital ED 14-35mm F2.0 SWD"               },
             { { 0, 51,  0 }, "Olympus Zuiko Digital 25mm F2.8"                         },
             { { 0, 52,  0 }, "Olympus Zuiko Digital ED 9-18mm F4.0-5.6"                },
+            { { 0, 52, 16 }, "Olympus M.Zuiko Digital ED 12-45mm F4.0 Pro"             },
             { { 0, 53,  0 }, "Olympus Zuiko Digital 14-54mm F2.8-3.5 II"               },
             { { 1,  1,  0 }, "Sigma 18-50mm F3.5-5.6 DC"                               },
             { { 1,  1, 16 }, "Sigma 30mm F2.8 EX DN"                                   },
