@@ -439,12 +439,12 @@ REGISTER_TYPED_TEST_CASE_P(slice, atAccess, iteratorAccess, constructionFailsFro
                            constMethodsPreserveConst);
 
 typedef ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*> test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, slice, test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, slice, test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(mutableSlice, iterators, at);
 typedef ::testing::Types<std::vector<int>, int*> mut_test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, mutableSlice, mut_test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, mutableSlice, mut_test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(dataBufSlice, successfulConstruction, failedConstruction);
 typedef ::testing::Types<DataBuf&, const DataBuf&> data_buf_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, dataBufSlice, data_buf_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, dataBufSlice, data_buf_types_t);
