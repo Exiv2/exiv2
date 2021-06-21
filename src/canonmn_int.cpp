@@ -2775,7 +2775,7 @@ namespace Exiv2 {
             // maybe short focal length max aperture and hyphen, surely at least single max aperture e.g.: f/4.5-5.6
             // short and tele indicate apertures at the short (focal_length_min) and tele (focal_length_max)
             // position of the lens
-            "(?:(?:f\\/)|T)(?:([0-9]+(?:\\.[0-9]+)?)-)?([0-9]+(?:\\.[0-9])?)"
+            "(?:(?:f\\/)|T|F)(?:([0-9]+(?:\\.[0-9]+)?)-)?([0-9]+(?:\\.[0-9])?)"
             // check if there is a teleconverter pattern e.g. + 1.4x
             "(?:.*?\\+.*?([0-9.]+)x)?"
             );
