@@ -19,7 +19,7 @@ LENS_META_DEFAULT_RE = re.compile(
         ".*?"
         # maybe short focal length max aperture and hyphen, surely at least single max aperture e.g.: f/4.5-5.6
         # short and tele indicate apertures at the short (focal_length_min) and tele (focal_length_max) position of the lens
-        "(?:(?:f\/)|T)(?:(?P<aperture_max_short>[0-9]+(?:\.[0-9]+)?)-)?(?P<aperture_max_tele>[0-9]+(?:\.[0-9])?)"
+        "(?:(?:f\/)|T|F)(?:(?P<aperture_max_short>[0-9]+(?:\.[0-9]+)?)-)?(?P<aperture_max_tele>[0-9]+(?:\.[0-9])?)"
         # check if there is a teleconverter pattern e.g. + 1.4x
         "(?:.*?\+.*?(?P<tc>[0-9.]+)x)?"
     )
