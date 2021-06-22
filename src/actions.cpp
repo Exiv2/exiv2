@@ -1865,7 +1865,7 @@ namespace {
         std::memset(tm, 0x0, sizeof(struct tm));
         tm->tm_isdst = -1;
 
-        long tmp;
+        long tmp = 0;
         if (!Util::strtol(timeStr.substr(0,4).c_str(), tmp)) return 5;
         tm->tm_year = tmp - 1900;
         if (!Util::strtol(timeStr.substr(5,2).c_str(), tmp)) return 6;

@@ -277,7 +277,7 @@ namespace Exiv2 {
 
     uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
     {
-        uint16_t v;
+        uint16_t v = 0;
         char*    p = (char*) &v;
         p[0] = buf.pData_[offset];
         p[1] = buf.pData_[offset+1];
@@ -286,7 +286,7 @@ namespace Exiv2 {
 
     uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
     {
-        uint32_t v;
+        uint32_t v = 0;
         char*    p = (char*) &v;
         p[0] = buf.pData_[offset];
         p[1] = buf.pData_[offset+1];
@@ -297,7 +297,7 @@ namespace Exiv2 {
 
     uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
     {
-        uint64_t v;
+        uint64_t v = 0;
         byte*    p = reinterpret_cast<byte *>(&v);
 
         for(int i = 0; i < 8; i++)
