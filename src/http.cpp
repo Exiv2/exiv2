@@ -50,7 +50,6 @@
 #include <string.h>
 #include <io.h>
 #if !defined(__MINGW__) && !defined(__CYGWIN__)
-#define  snprintf sprintf_s
 #define  write    _write
 #define  read     _read
 #define  close    _close
