@@ -43,9 +43,6 @@
 #include <ios>
 #include <sstream>
 #include <stdio.h> // for snprintf (C99)
-#ifdef _MSC_VER
-# define snprintf _snprintf
-#endif
 #include <cstring>
 
 #if defined WIN32 && !defined __CYGWIN__
