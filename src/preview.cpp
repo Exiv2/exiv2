@@ -484,7 +484,7 @@ namespace {
             const byte *record;
             uint32_t sizeHdr;
             uint32_t sizeData;
-            if (Photoshop::locatePreviewIrb(psData.pData_, psData.size_, &record, &sizeHdr, &sizeData) != 0) {
+            if (Photoshop::locatePreviewIrb(psData.pData_, psData.size_, &record, sizeHdr, sizeData) != 0) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
 #endif

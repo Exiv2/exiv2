@@ -125,9 +125,8 @@ namespace Exiv2 {
         const byte* pCur = pPsData;
         const byte* pEnd = pPsData + sizePsData;
         int ret = 0;
-        while (pCur < pEnd
-               && 0 == (ret = Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
-                                                       &record, &sizeHdr, &sizeIptc))) {
+        while (pCur < pEnd && 0 == (ret = Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record,
+                                                                   sizeHdr, sizeIptc))) {
             pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
         return ret >= 0;
@@ -137,7 +136,7 @@ namespace Exiv2 {
     //       the format (in particular the header). So it remains to be confirmed
     //       if this also makes sense for psTag != Photoshop::iptc
     int Photoshop::locateIrb(const byte* pPsData, long sizePsData, uint16_t psTag, const byte** record,
-                             uint32_t* sizeHdr, uint32_t* sizeData)
+                             uint32_t& sizeHdr, uint32_t& sizeData)
     {
         assert(record);
         assert(sizeHdr);
@@ -188,8 +187,8 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "ok\n";
 #endif
-                *sizeData = dataSize;
-                *sizeHdr = psSize + 10;
+                sizeData = dataSize;
+                sizeHdr = psSize + 10;
                 *record = hrd;
                 return 0;
             }
@@ -209,15 +208,15 @@ namespace Exiv2 {
         return 3;
     } // Photoshop::locateIrb
 
-    int Photoshop::locateIptcIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t* sizeHdr,
-                                 uint32_t* sizeData)
+    int Photoshop::locateIptcIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t& sizeHdr,
+                                 uint32_t& sizeData)
     {
         return locateIrb(pPsData, sizePsData, iptc_,
                          record, sizeHdr, sizeData);
     }
 
-    int Photoshop::locatePreviewIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t* sizeHdr,
-                                    uint32_t* sizeData)
+    int Photoshop::locatePreviewIrb(const byte* pPsData, long sizePsData, const byte** record, uint32_t& sizeHdr,
+                                    uint32_t& sizeData)
     {
         return locateIrb(pPsData, sizePsData, preview_,
                          record, sizeHdr, sizeData);
@@ -238,8 +237,7 @@ namespace Exiv2 {
         uint32_t    sizeHdr   = 0;
         DataBuf rc;
         // Safe to call with zero psData.size_
-        if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData,
-                                         &record, &sizeHdr, &sizeIptc)) {
+        if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, sizeHdr, sizeIptc)) {
             return rc;
         }
         Blob psBlob;
@@ -265,8 +263,7 @@ namespace Exiv2 {
         // Write existing stuff after record,
         // skip the current and all remaining IPTC blocks
         long pos = sizeFront;
-        while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
-                                             &record, &sizeHdr, &sizeIptc)) {
+        while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos, &record, sizeHdr, sizeIptc)) {
             const long newPos = static_cast<long>(record - pPsData);
             // Copy data up to the IPTC IRB
             if (newPos > pos) {
@@ -527,9 +524,8 @@ namespace Exiv2 {
             uint32_t sizeHdr = 0;
             const byte* pCur = &psBlob[0];
             const byte* pEnd = pCur + psBlob.size();
-            while (   pCur < pEnd
-                   && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
-                                                    &record, &sizeHdr, &sizeIptc)) {
+            while (pCur < pEnd &&
+                   0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record, sizeHdr, sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif

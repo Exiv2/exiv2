@@ -306,12 +306,8 @@ namespace Exiv2 {
 
                 const byte* pEnd = psData.pData_ + psData.size_;
                 const byte* pCur = psData.pData_;
-                while (   pCur < pEnd
-                       && 0 == Photoshop::locateIptcIrb(pCur,
-                                                        static_cast<long>(pEnd - pCur),
-                                                        &record,
-                                                        &sizeHdr,
-                                                        &sizeIptc)) {
+                while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record,
+                                                                    sizeHdr, sizeIptc)) {
                     if (sizeIptc) {
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
