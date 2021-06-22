@@ -2050,7 +2050,7 @@ namespace Exiv2 {
         {61182, "Canon RF 70-200mm F4L IS USM"                              }, // 9
         {61182, "Canon RF 28-70mm F2L USM"                                  }, // 10
         {61182, "Canon RF 85mm F2 MACRO IS STM"                             }, // 11
-        {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"                }, // 12
+        {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x"              }, // 12
         {61182, "Canon RF 35mm F1.8 MACRO IS STM"                           }, // 13
         {61182, "Canon RF 85mm F1.2L USM DS"                                }, // 14
         {61182, "Canon RF 24-70mm F2.8L IS USM"                             }, // 15
