@@ -482,8 +482,8 @@ namespace {
         if (nativePreview_.filter_ == "hex-irb") {
             const DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
             const byte *record;
-            uint32_t sizeHdr;
-            uint32_t sizeData;
+            uint32_t sizeHdr = 0;
+            uint32_t sizeData = 0;
             if (Photoshop::locatePreviewIrb(psData.pData_, psData.size_, &record, &sizeHdr, &sizeData) != 0) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";

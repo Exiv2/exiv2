@@ -76,7 +76,7 @@ int main()
         try {
             std::string s(testcase);
             std::cout << std::setw(12) << std::left << s;
-            bool ok;
+            bool ok = false;
 
             long l = Exiv2::parseLong(s, ok);
             std::cout << std::setw(12) << std::left;

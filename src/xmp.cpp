@@ -604,7 +604,7 @@ namespace Exiv2 {
         SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(xmpPacket.size()));
         SXMPIterator iter(meta);
         std::string schemaNs, propPath, propValue;
-        XMP_OptionBits opt;
+        XMP_OptionBits opt = 0;
         while (iter.Next(&schemaNs, &propPath, &propValue, &opt)) {
             printNode(schemaNs, propPath, propValue, opt);
             if (XMP_PropIsAlias(opt)) {
@@ -659,7 +659,7 @@ namespace Exiv2 {
                 bool simpleArray = true;
                 SXMPIterator aIter(meta, schemaNs.c_str(), propPath.c_str());
                 std::string aSchemaNs, aPropPath, aPropValue;
-                XMP_OptionBits aOpt;
+                XMP_OptionBits aOpt = 0;
                 while (aIter.Next(&aSchemaNs, &aPropPath, &aPropValue, &aOpt)) {
                     if (propPath == aPropPath) continue;
                     if (   !XMP_PropIsSimple(aOpt)

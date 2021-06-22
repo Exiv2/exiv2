@@ -191,7 +191,7 @@ namespace Exiv2 {
             DataBuf payload(size);
             readOrThrow(*io_, payload.pData_, payload.size_, Exiv2::kerCorruptedMetadata);
             if ( payload.size_ % 2 ) {
-              byte c;
+              byte c = 0;
               readOrThrow(*io_, &c, 1, Exiv2::kerCorruptedMetadata);
             }
 
