@@ -33,7 +33,9 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
         # This fails under Fedora - MinGW - Gcc 8.3
         if (NOT (MINGW OR CYGWIN OR CMAKE_HOST_SOLARIS))
+            if (NOT APPLE) # Don't know why this isn't working correctly on Apple with M1 processor
             check_cxx_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
+            endif()
             check_cxx_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
             check_cxx_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
             if(HAS_FSTACK_CLASH_PROTECTION)

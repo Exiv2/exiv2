@@ -112,18 +112,21 @@ This is a simple program to demonstrate dumping _**Exif**_ metadata in common fo
 #### exifprint
 
 ```
-Usage: exifprint [ path | --version | --version-test ]
+Usage: exifprint [ [--lint] path | --version | --version-test ]
 ```
 
 | Arguments | Description |
 |:--        |:---  |
 | path    | Path to image |
+| --lint path | Path to image.  Type metadata test |
 | --version     | Print version information from build |
 | --version-test   | Tests Exiv2 VERSION API |
 
 This program demonstrates how to print _**Exif**_ metadata in an image.  This program is also discussed in the platform ReadMe.txt file included in a build bundle.  The option **--version** was added to enable the user to build a test application which dumps the build information.  The option **--version-test** was added to test the macro EXIV2\_TEST\_VERSION() in **include/exiv2/version.hpp**.
 
-There is one other unique feature of this program.  It is the only test/sample program which can use the EXV\_UNICODE\_PATH build feature of Exiv2 on Windows.
+You can process the metadata in two different ways.  The default prints the metadata.  The option --lint instructs exifprint to compare the type of the metadata to the standard.
+
+There is another unique feature of this program.  It is the only test/sample program which can use the EXV\_UNICODE\_PATH build feature of Exiv2 on Windows.
 
 _Code: [exifprint.cpp](samples/exifprint.cpp)_
 
@@ -656,4 +659,4 @@ Read an XMP packet from a file, parse and re-serialize it.
 
 Robin Mills<br>
 robin@clanmills.com<br>
-Revised: 2020-11-20
+Revised: 2021-06-23
