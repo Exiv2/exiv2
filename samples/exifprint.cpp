@@ -115,10 +115,10 @@ try {
     shortLong.insert("Exif.Photo.PixelXDimension");
     shortLong.insert("Exif.Photo.PixelYDimension");
     shortLong.insert("Exif.Photo.ImageLength");
-    shortLong.insert("Exif.Photo.ImageWidth);
-    shortLong.insert("Exif.Photo.RowsPerStrip);
-    shortLong.insert("Exif.Photo.StripOffsets);
-    shortLong.insert("Exif.Photo.StripByteCounts);
+    shortLong.insert("Exif.Photo.ImageWidth");
+    shortLong.insert("Exif.Photo.RowsPerStrip");
+    shortLong.insert("Exif.Photo.StripOffsets");
+    shortLong.insert("Exif.Photo.StripByteCounts");
 
     auto end = exifData.end();
     for (auto i = exifData.begin(); i != end; ++i) {
