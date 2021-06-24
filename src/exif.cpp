@@ -241,6 +241,9 @@ namespace Exiv2 {
             fct(os, value(), pMetadata);
           } catch (std::out_of_range&) {
             os << "Bad value";
+#ifdef EXIV2_DEBUG_MESSAGES
+            std::cerr << "Caught std::out_of_range exception in Exifdatum::write().\n";
+#endif
           }
         }
         return os;
