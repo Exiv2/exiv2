@@ -21,6 +21,7 @@
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 #include <iomanip>
+#include <set>
 #include <cassert>
 
 // https://github.com/Exiv2/exiv2/issues/468
@@ -109,6 +110,15 @@ try {
         std::string error("No Exif data found in file");
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
+    
+    std::set<std::string> shortLong;
+    shortLong.insert("Exif.Photo.PixelXDimension");
+    shortLong.insert("Exif.Photo.PixelYDimension");
+    shortLong.insert("Exif.Photo.ImageLength");
+    shortLong.insert("Exif.Photo.ImageWidth);
+    shortLong.insert("Exif.Photo.RowsPerStrip);
+    shortLong.insert("Exif.Photo.StripOffsets);
+    shortLong.insert("Exif.Photo.StripByteCounts);
 
     auto end = exifData.end();
     for (auto i = exifData.begin(); i != end; ++i) {
@@ -130,7 +140,8 @@ try {
             if ( tagInfo ) {
                 Exiv2::TypeId type = i->typeId();
                 if (          type!= tagInfo-> typeId_ 
-                &&!(tagInfo->typeId_ == Exiv2::comment && type == Exiv2::undefined) // Comment is stored as Undefined
+                &&!(tagInfo->typeId_ == Exiv2::comment && type == Exiv2::undefined) // comment is stored as undefined
+                &&!(shortLong.find(i->key())!=shortLong.end() &&(type == Exiv2::unsignedShort||type==Exiv2::unsignedLong)) // can be short or long!
                 ) {
                   std::cerr << i->key()
                             << " type " << i->typeName() << " (" << type << ")" 
