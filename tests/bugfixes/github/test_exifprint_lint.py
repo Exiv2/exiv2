@@ -7,7 +7,7 @@ class test_exifprint_lint(metaclass=CaseMeta):
     url       = "https://github.com/Exiv2/exiv2/pull/1738"
     filename  = path("$tmp_path/Stonehenge.exv")
     commands  = [ "$exifprint --lint                                  $filename" 
-                , "$exiv2 -M'set Exif.Image.ImageDescription Short 3' $filename"
+                , '$exiv2 -M"set Exif.Image.ImageDescription Short 3" $filename'
                 , "$exifprint --lint                                  $filename"
                 ]
     stderr   =  ["""Exif.Nikon3.ExposureTuning type Undefined (7) expected Short (3)
