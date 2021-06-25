@@ -490,7 +490,7 @@ Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES`. 
 ```bash
 $ cd <exiv2dir>
 $ touch src/webpimage.cpp
-$ make CXXFLAGS=-DEXIV2_DEBUG_MESSAGES
+$ make CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES
 $ bin/exiv2 ...
 -- or --
 $ sudo make install

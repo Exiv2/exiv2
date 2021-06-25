@@ -21,6 +21,7 @@
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 #include <iomanip>
+#include <set>
 #include <cassert>
 
 // https://github.com/Exiv2/exiv2/issues/468
@@ -42,6 +43,14 @@
 #define _tmain      main
 #endif
 
+// copied from src/tiffvisitor_int.cpp
+static const Exiv2::TagInfo* findTag(const Exiv2::TagInfo* pList,uint16_t tag)
+{
+    while ( pList->tag_ != 0xffff && pList->tag_ != tag ) pList++;
+    return  pList->tag_ != 0xffff  ? pList : NULL;
+}
+
+
 int _tmain(int argc, _tchar* const argv[])
 try {
     Exiv2::XmpParser::initialize();
@@ -51,19 +60,22 @@ try {
 #endif
 
     const _tchar* prog = argv[0];
-    const _tchar* file = argv[1];
-
-    if (argc != 2) {
-        std::_tcout << _t("Usage: ") << prog << _t(" [ path | --version | --version-test ]") << std::endl;
+    if (argc == 1) {
+        std::_tcout << _t("Usage: ") << prog << _t(" [ [--lint] path | --version | --version-test ]") << std::endl;
         return 1;
     }
+
+    int    rc          = 0      ;
+    const _tchar* file = argv[1];
+    bool   bLint       = _tstrcmp(file,_t("--lint")) == 0 && argc == 3;
+    if (   bLint ) file= argv[2];
+
 
     if ( _tstrcmp(file,_t("--version")) == 0 ) {
         exv_grep_keys_t keys;
         Exiv2::dumpLibraryInfo(std::cout,keys);
-        return 0;
-    }
-    if (_tstrcmp(file, _t("--version-test")) == 0) {
+        return rc;
+    } else if ( _tstrcmp(file,_t("--version-test")) == 0 ) {
         // verifies/test macro EXIV2_TEST_VERSION
         // described in include/exiv2/version.hpp
         std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION             << std::endl
@@ -86,7 +98,7 @@ try {
         #else
               std::cout << "Compile-time Exiv2 version doesn't have Exiv2::testVersion()\n";
         #endif
-        return 0;
+        return rc;
     }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
@@ -98,24 +110,50 @@ try {
         std::string error("No Exif data found in file");
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
+    
+    std::set<std::string> shortLong;
+    shortLong.insert("Exif.Photo.PixelXDimension");
+    shortLong.insert("Exif.Photo.PixelYDimension");
+    shortLong.insert("Exif.Photo.ImageLength");
+    shortLong.insert("Exif.Photo.ImageWidth");
+    shortLong.insert("Exif.Photo.RowsPerStrip");
+    shortLong.insert("Exif.Photo.StripOffsets");
+    shortLong.insert("Exif.Photo.StripByteCounts");
 
     auto end = exifData.end();
     for (auto i = exifData.begin(); i != end; ++i) {
-        const char* tn = i->typeName();
-        std::cout << std::setw(44) << std::setfill(' ') << std::left
-                  << i->key() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << (tn ? tn : "Unknown") << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << i->count() << "  "
-                  << std::dec << i->toString()
-                  << "\n";
+        if ( ! bLint ) {
+            const char* tn = i->typeName();
+            std::cout << std::setw(44) << std::setfill(' ') << std::left
+                      << i->key() << " "
+                      << "0x" << std::setw(4) << std::setfill('0') << std::right
+                      << std::hex << i->tag() << " "
+                      << std::setw(9) << std::setfill(' ') << std::left
+                      << (tn ? tn : "Unknown") << " "
+                      << std::dec << std::setw(3)
+                      << std::setfill(' ') << std::right
+                      << i->count() << "  "
+                      << std::dec << i->toString()
+                      << "\n";
+        } else {
+            const Exiv2::TagInfo* tagInfo = findTag( Exiv2::ExifTags::tagList(i->groupName()),i->tag() );
+            if ( tagInfo ) {
+                Exiv2::TypeId type = i->typeId();
+                if (          type!= tagInfo-> typeId_ 
+                &&!(tagInfo->typeId_ == Exiv2::comment && type == Exiv2::undefined) // comment is stored as undefined
+                &&!(shortLong.find(i->key())!=shortLong.end() &&(type == Exiv2::unsignedShort||type==Exiv2::unsignedLong)) // can be short or long!
+                ) {
+                  std::cerr << i->key()
+                            << " type " << i->typeName() << " (" << type << ")" 
+                            << " expected " << Exiv2::TypeInfo::typeName(tagInfo-> typeId_) << " (" << tagInfo-> typeId_ << ")"
+                            << std::endl;
+                  rc=2;
+                }
+            }
+        }
     }
 
-    return 0;
+    return rc;
 }
 //catch (std::exception& e) {
 //catch (Exiv2::AnyError& e) {
