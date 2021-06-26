@@ -529,7 +529,7 @@ namespace Exiv2 {
     T stringTo(const std::string& s, bool& ok)
     {
         std::istringstream is(s);
-        T tmp;
+        T tmp = T();
         ok = (is >> tmp) ? true : false;
         std::string rest;
         is >> std::skipws >> rest;

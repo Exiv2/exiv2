@@ -75,7 +75,7 @@ int main()
     for (unsigned int i = 0; i < EXV_COUNTOF(testcases); ++i) try {
         std::string s(testcases[i]);
         std::cout << std::setw(12) << std::left << s;
-        bool ok;
+        bool ok = false;
 
         long l = Exiv2::parseLong(s, ok);
         std::cout << std::setw(12) << std::left;

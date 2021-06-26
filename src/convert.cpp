@@ -563,7 +563,7 @@ namespace Exiv2 {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        int year, month, day, hour, min, sec;
+        int year=0, month=0, day=0, hour=0, min=0, sec=0;
         std::string subsec;
         char buf[30];
 

@@ -2593,7 +2593,7 @@ namespace Exiv2 {
         if (ti != 0 && ti->tag_ != 0xffff) return ti->tag_;
         if (!isHex(tagName, 4, "0x")) throw Error(kerInvalidTag, tagName, ifdId);
         std::istringstream is(tagName);
-        uint16_t tag;
+        uint16_t tag = 0;
         is >> std::hex >> tag;
         return tag;
     } // tagNumber
