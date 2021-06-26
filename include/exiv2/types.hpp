@@ -503,8 +503,13 @@ namespace Exiv2 {
     T stringTo(const std::string& s, bool& ok)
     {
         std::istringstream is(s);
+<<<<<<< HEAD
         T tmp;
         ok = bool(is >> tmp);
+=======
+        T tmp = T();
+        ok = (is >> tmp) ? true : false;
+>>>>>>> a14c6bcd (fix: zero initialize local variables. (#1737))
         std::string rest;
         is >> std::skipws >> rest;
         if (!rest.empty()) ok = false;

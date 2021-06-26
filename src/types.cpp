@@ -532,7 +532,7 @@ namespace Exiv2 {
         assert(buf != 0);
         assert(tm != 0);
         int rc = 1;
-        int year, mon, mday, hour, min, sec;
+        int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
         int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d",
                                   &year, &mon, &mday, &hour, &min, &sec);
         if (scanned == 6) {

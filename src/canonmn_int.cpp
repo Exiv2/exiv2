@@ -2686,7 +2686,7 @@ namespace Exiv2 {
                                               const ExifData*)
     {
         std::istringstream is(value.toString());
-        uint32_t l;
+        uint32_t l = 0;
         is >> l;
         return os << std::setw(4) << std::setfill('0') << std::hex
                   << ((l & 0xffff0000) >> 16)

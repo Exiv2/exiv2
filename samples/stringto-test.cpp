@@ -72,11 +72,18 @@ int main()
 
     std::cout << std::endl;
 
+<<<<<<< HEAD
     for (auto&& testcase : testcases) {
         try {
             std::string s(testcase);
             std::cout << std::setw(12) << std::left << s;
             bool ok;
+=======
+    for (unsigned int i = 0; i < EXV_COUNTOF(testcases); ++i) try {
+        std::string s(testcases[i]);
+        std::cout << std::setw(12) << std::left << s;
+        bool ok = false;
+>>>>>>> a14c6bcd (fix: zero initialize local variables. (#1737))
 
             long l = Exiv2::parseLong(s, ok);
             std::cout << std::setw(12) << std::left;

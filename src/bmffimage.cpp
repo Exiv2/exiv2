@@ -564,6 +564,7 @@ namespace Exiv2
         visits_max_ = io_->size() / 16;
         unknownID_ = 0xffff;
         exifID_    = unknownID_;
+        xmpID_     = unknownID_;
 
         long address = 0;
         while (address < static_cast<long>(io_->size())) {

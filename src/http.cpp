@@ -308,8 +308,13 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // read and process the response
+<<<<<<< HEAD
     int err ;
     n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
+=======
+    int err = 0;
+    n=forgive(recv(sockfd,buffer,(int)buff_l,0),err) ;
+>>>>>>> a14c6bcd (fix: zero initialize local variables. (#1737))
     while ( n >= 0 && OK(status) ) {
         if ( n ) {
             end += n ;
