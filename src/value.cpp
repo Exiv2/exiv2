@@ -203,7 +203,7 @@ namespace Exiv2 {
     {
         std::vector<byte>::size_type end = value_.size();
         for (std::vector<byte>::size_type i = 0; i != end; ++i) {
-            os << static_cast<int>(value_[i]);
+            os << static_cast<int>(value_.at(i));
             if (i < end - 1) os << " ";
         }
         return os;
@@ -212,7 +212,7 @@ namespace Exiv2 {
     std::string DataValue::toString(long n) const
     {
         std::ostringstream os;
-        os << static_cast<int>(value_[n]);
+        os << static_cast<int>(value_.at(n));
         ok_ = !os.fail();
         return os.str();
     }
@@ -220,19 +220,23 @@ namespace Exiv2 {
     long DataValue::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     float DataValue::toFloat(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     Rational DataValue::toRational(long n) const
     {
         ok_ = true;
+<<<<<<< HEAD
         return {value_[n], 1};
+=======
+        return Rational(value_.at(n), 1);
+>>>>>>> f4d3adbf (fix: use vector::at() rather than operator[] (#1735))
     }
 
     StringValueBase::StringValueBase(TypeId typeId)
@@ -296,19 +300,23 @@ namespace Exiv2 {
     long StringValueBase::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     float StringValueBase::toFloat(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     Rational StringValueBase::toRational(long n) const
     {
         ok_ = true;
+<<<<<<< HEAD
         return {value_[n], 1};
+=======
+        return Rational(value_.at(n), 1);
+>>>>>>> f4d3adbf (fix: use vector::at() rather than operator[] (#1735))
     }
 
     StringValue::StringValue()
@@ -340,8 +348,12 @@ namespace Exiv2 {
     {
         value_ = buf;
         // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
+<<<<<<< HEAD
         if (value_.empty() || value_[value_.size() - 1] != '\0')
             value_ += '\0';
+=======
+        if (value_.size() == 0 || value_.at(value_.size()-1) != '\0') value_ += '\0';
+>>>>>>> f4d3adbf (fix: use vector::at() rather than operator[] (#1735))
         return 0;
     }
 
@@ -740,22 +752,22 @@ namespace Exiv2 {
     std::string XmpArrayValue::toString(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     long XmpArrayValue::toLong(long n) const
     {
-        return parseLong(value_[n], ok_);
+        return parseLong(value_.at(n), ok_);
     }
 
     float XmpArrayValue::toFloat(long n) const
     {
-        return parseFloat(value_[n], ok_);
+        return parseFloat(value_.at(n), ok_);
     }
 
     Rational XmpArrayValue::toRational(long n) const
     {
-        return parseRational(value_[n], ok_);
+        return parseRational(value_.at(n), ok_);
     }
 
     XmpArrayValue* XmpArrayValue::clone_() const
