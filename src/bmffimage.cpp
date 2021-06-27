@@ -62,7 +62,7 @@ struct BmffBoxHeader
 #define TAG_heix 0x68656978 /**< "heix" HEIC */
 #define TAG_mif1 0x6d696631 /**< "mif1" HEIF */
 #define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
-#define TAG_jxl  0x4a584c20 /**< "JXL " JPEG XL   */  
+#define TAG_jxl  0x4a584c20 /**< "JXL " JPEG XL   */
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
 #define TAG_meta 0x6d657461 /**< "meta" Metadata */
 #define TAG_mdat 0x6d646174 /**< "mdat" Media data */
@@ -637,8 +637,16 @@ namespace Exiv2
             return false;
         }
 
-        bool matched = (buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p')
-                     ||(buf[4] == 'J' && buf[5] == 'X' && buf[6] == 'L' && buf[7] == ' ');
+        // bmff should start with "ftyp"
+        bool const is_ftyp = (buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p');
+        // jxl files have a special start indicator of "JXL "
+        bool const is_jxl = (buf[4] == 'J' && buf[5] == 'X' && buf[6] == 'L' && buf[7] == ' ');
+
+        // MOV(quicktime) files seem to also start with ftyp, but we don't want to process them
+        // so check that we don't encounter "qt  "
+        // FIXME what others types can we abort early here?
+        bool const is_video = (buf[8] == 'q' && buf[9] == 't' && buf[10] == ' ' && buf[11] == ' ');
+        bool matched = is_jxl || (is_ftyp && !is_video);
         if (!advance || !matched) {
             iIo.seek(static_cast<long>(0), BasicIo::beg);
         }
@@ -654,4 +662,3 @@ namespace Exiv2
     }
 }
 #endif
-
