@@ -66,7 +66,7 @@ namespace Exiv2 {
 
     static uint32_t byteSwap_(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
     {
-        uint32_t v;
+        uint32_t v = 0;
         auto p = reinterpret_cast<char*>(&v);
         int      i;
         for ( i = 0 ; i < 4 ; i++ ) p[i] = buf.pData_[offset+i];
@@ -189,7 +189,7 @@ namespace Exiv2 {
 
         readPgfHeaderSize(*io_);
 
-        int w, h;
+        int w = 0, h = 0;
         DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
         Image::UniquePtr img  = ImageFactory::create(ImageType::png);

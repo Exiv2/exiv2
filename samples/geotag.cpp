@@ -235,8 +235,8 @@ std::string Position::toExifTimeStamp(std::string& t)
     int mm = 0 ;
     int SS1 = 0 ;
     if ( strstr(arg,":") || strstr(arg,"-") ) {
-        int  YY,MM,DD    ;
-        char a,b,c,d,e   ;
+        int YY=0,MM=0,DD=0;
+        char a=0,b=0,c=0,d=0,e=0;
         sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
     }
     sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS1);
@@ -406,8 +406,8 @@ time_t parseTime(const char* arg,bool bAdjust)
         // <time>2012-07-14T17:33:16Z</time>
 
         if ( strstr(arg,":") || strstr(arg,"-") ) {
-            int  YY,MM,DD,HH,mm,SS1 ;
-            char a,b,c,d,e   ;
+            int  YY=0,MM=0,DD=0,HH=0,mm=0,SS1=0;
+            char a=0,b=0,c=0,d=0,e=0;
             sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
 
             struct tm T;
@@ -741,7 +741,7 @@ int parseTZ(const char* adjust)
 {
     int   h=0;
     int   m=0;
-    char  c  ;
+    char  c=0;
     try {
         sscanf(adjust,"%d%c%d",&h,&c,&m);
     } catch ( ... ) {} ;

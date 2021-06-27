@@ -1560,7 +1560,7 @@ namespace Exiv2 {
     int ValueType<T>::read(const std::string& buf)
     {
         std::istringstream is(buf);
-        T tmp;
+        T tmp = T();
         ValueList val;
         while (!(is.eof())) {
             is >> tmp;

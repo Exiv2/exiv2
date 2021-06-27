@@ -58,7 +58,7 @@ int main(int argc, char* const argv[])
 
     std::string testFile = argv[1];
     std::istringstream iss(argv[2]);
-    int testNo;
+    int testNo = 0;
     iss >> testNo;
 
     int rc = 0;

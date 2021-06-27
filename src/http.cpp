@@ -308,7 +308,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // read and process the response
-    int err ;
+    int err = 0;
     n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
     while ( n >= 0 && OK(status) ) {
         if ( n ) {

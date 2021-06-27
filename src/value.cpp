@@ -172,7 +172,7 @@ namespace Exiv2 {
     int DataValue::read(const std::string& buf)
     {
         std::istringstream is(buf);
-        int tmp;
+        int tmp = 0;
         ValueType val;
         while (!(is.eof())) {
             is >> tmp;
@@ -1092,7 +1092,7 @@ namespace Exiv2 {
     {
         int rc = 1;
         Time t;
-        char plusMinus;
+        char plusMinus = 0;
         int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
                              &plusMinus, &t.tzHour, &t.tzMinute);
         if (   scanned    == 6
