@@ -990,7 +990,10 @@ namespace Exiv2 {
         std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
         int scanned = sscanf(b, "%4d%2d%2d",
                              &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+        if (   scanned != 3
+            || date_.year < 0
+            || date_.month < 1 || date_.month > 12
+            || date_.day < 1 || date_.day > 31) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
@@ -1008,9 +1011,12 @@ namespace Exiv2 {
 #endif
             return 1;
         }
-        int scanned = sscanf(buf.c_str(), "%4d-%d-%d",
+        int scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
                              &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+        if (   scanned != 3
+            || date_.year < 0
+            || date_.month < 1 || date_.month > 12
+            || date_.day < 1 || date_.day > 31) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
@@ -1031,7 +1037,7 @@ namespace Exiv2 {
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
 
-        int wrote = sprintf(temp, "%04d%02d%02d", date_.year, date_.month, date_.day);
+        int wrote = snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day);
         assert(wrote == 8);
         std::memcpy(buf, temp, wrote);
         return wrote;
