@@ -908,7 +908,7 @@ namespace Exiv2 {
         assert(pCrwMapping != 0);
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
-        time_t t = v.value_[0];
+        time_t t = v.value_.at(0);
         struct tm* tm = std::localtime(&t);
         if (tm) {
             const size_t m = 20;
