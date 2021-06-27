@@ -232,11 +232,7 @@ namespace Exiv2 {
     Rational DataValue::toRational(long n) const
     {
         ok_ = true;
-<<<<<<< HEAD
-        return {value_[n], 1};
-=======
-        return Rational(value_.at(n), 1);
->>>>>>> f4d3adbf (fix: use vector::at() rather than operator[] (#1735))
+        return {value_.at(n), 1};
     }
 
     StringValueBase::StringValueBase(TypeId typeId)
@@ -312,11 +308,7 @@ namespace Exiv2 {
     Rational StringValueBase::toRational(long n) const
     {
         ok_ = true;
-<<<<<<< HEAD
-        return {value_[n], 1};
-=======
-        return Rational(value_.at(n), 1);
->>>>>>> f4d3adbf (fix: use vector::at() rather than operator[] (#1735))
+        return {value_.at(n), 1};
     }
 
     StringValue::StringValue()
@@ -348,12 +340,9 @@ namespace Exiv2 {
     {
         value_ = buf;
         // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
-<<<<<<< HEAD
-        if (value_.empty() || value_[value_.size() - 1] != '\0')
+        if (value_.empty() || value_.at(value_.size() - 1) != '\0') {
             value_ += '\0';
-=======
-        if (value_.size() == 0 || value_.at(value_.size()-1) != '\0') value_ += '\0';
->>>>>>> f4d3adbf (fix: use vector::at() rather than operator[] (#1735))
+        }
         return 0;
     }
 
@@ -1205,4 +1194,4 @@ namespace Exiv2 {
         return {toLong(n), 1};
     }
 
-}                                       // namespace Exiv2
+}  // namespace Exiv2
