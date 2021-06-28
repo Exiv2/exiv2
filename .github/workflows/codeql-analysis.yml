@@ -11,8 +11,7 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [0.27-maintenance, main]
-  schedule:
-    - cron: '0 8 * * 4'
+  workflow_dispatch:
 
 jobs:
   analyze:
