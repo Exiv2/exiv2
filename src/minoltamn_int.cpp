@@ -2173,19 +2173,23 @@ namespace Exiv2 {
 
             if ( model == "ILCE-6000" && maxAperture == F1_8 ) try {
                 long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
-                long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
-                long    focalRatio  = (focalL35mm*100)/focalLength;
-                if ( inRange(focalRatio,145,155) ) index = 2 ;
+                if (focalLength > 0) {
+                  long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
+                  long    focalRatio  = (focalL35mm*100)/focalLength;
+                  if ( inRange(focalRatio,145,155) ) index = 2 ;
+                }
             } catch (...) {}
 
             if (model == "ILCE-6000" &&
                 std::find(std::begin(maxApertures), std::end(maxApertures), maxAperture) != std::end(maxApertures))
                 try {
                     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
-                    long focalL35mm = getKeyLong("Exif.Photo.FocalLengthIn35mmFilm", metadata);
-                    long focalRatio = (focalL35mm * 100) / focalLength;
-                    if (inRange(focalRatio, 145, 155))
+                    if (focalLength > 0) {
+                      long focalL35mm = getKeyLong("Exif.Photo.FocalLengthIn35mmFilm", metadata);
+                      long focalRatio = (focalL35mm * 100) / focalLength;
+                      if (inRange(focalRatio, 145, 155))
                         index = 3;
+                    }
                 } catch (...) {
                 }
 
