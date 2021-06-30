@@ -2633,7 +2633,7 @@ namespace Exiv2 {
             Rational deg = value.toRational(0);
             Rational min = value.toRational(1);
             Rational sec = value.toRational(2);
-            if ((deg.second != 1) || (min.second == 0) || (sec.second == 0)) {
+            if ((deg.second != 1) || (min.second <= 0) || (sec.second <= 0)) {
                 return os << "(" << value << ")";
             }
             const int32_t dd = deg.first;
