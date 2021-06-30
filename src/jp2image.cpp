@@ -656,12 +656,14 @@ static void boxes_check(size_t b,size_t m)
         char*         p      = (char*) boxBuf.pData_;
         bool          bWroteColor = false ;
 
-        while ( count < length || !bWroteColor ) {
+        while ( count < length && !bWroteColor ) {
             enforce(sizeof(Jp2BoxHeader) <= length - count, Exiv2::kerCorruptedMetadata);
             Jp2BoxHeader* pSubBox = (Jp2BoxHeader*) (p+count) ;
 
             // copy data.  pointer could be into a memory mapped file which we will decode!
-            Jp2BoxHeader   subBox = *pSubBox ;
+            // pSubBox isn't always an aligned pointer, so use memcpy to do the copy.
+            Jp2BoxHeader   subBox;
+            memcpy(&subBox, pSubBox, sizeof(Jp2BoxHeader));
             Jp2BoxHeader   newBox =  subBox;
 
             if ( count < length ) {
