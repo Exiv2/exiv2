@@ -1548,7 +1548,7 @@ namespace Exiv2 {
     {
         value_.clear();
         long ts = TypeInfo::typeSize(typeId());
-        if (ts != 0)
+        if (ts > 0)
             if (len % ts != 0) len = (len / ts) * ts;
         for (long i = 0; i < len; i += ts) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
@@ -1632,7 +1632,7 @@ namespace Exiv2 {
     template<>
     inline long ValueType<Rational>::toLong(long n) const
     {
-        ok_ = (value_.at(n).second != 0 && INT_MIN < value_.at(n).first && value_.at(n).first < INT_MAX );
+        ok_ = (value_.at(n).second > 0 && INT_MIN < value_.at(n).first && value_.at(n).first < INT_MAX );
         if (!ok_) return 0;
         return value_.at(n).first / value_.at(n).second;
     }
@@ -1640,7 +1640,7 @@ namespace Exiv2 {
     template<>
     inline long ValueType<URational>::toLong(long n) const
     {
-        ok_ = (value_.at(n).second != 0 && value_.at(n).first < LARGE_INT);
+        ok_ = (value_.at(n).second > 0 && value_.at(n).first < LARGE_INT);
         if (!ok_) return 0;
         return value_.at(n).first / value_.at(n).second;
     }

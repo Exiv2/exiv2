@@ -2611,7 +2611,7 @@ namespace Exiv2 {
     std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
-        if (r.second != 0) return os << static_cast<long>(r.first) / r.second;
+        if (r.second > 0) return os << static_cast<long>(r.first) / r.second;
         return os << "(" << value << ")";
     } // printLong
 
