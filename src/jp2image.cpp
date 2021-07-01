@@ -655,7 +655,7 @@ static void boxes_check(size_t b,size_t m)
         auto p = reinterpret_cast<char*>(boxBuf.pData_);
         bool          bWroteColor = false ;
 
-        while ( count < length || !bWroteColor ) {
+        while ( count < length && !bWroteColor ) {
             enforce(sizeof(Jp2BoxHeader) <= length - count, Exiv2::kerCorruptedMetadata);
             auto pSubBox = reinterpret_cast<Jp2BoxHeader*>(p + count);
 
