@@ -52,6 +52,7 @@ mark_as_advanced(
     EXIV2_TEAM_USE_SANITIZERS
 )
 
+option( BUILD_WITH_STACK_PROTECTOR    "Build with stack protector"                            ON )
 option( BUILD_WITH_CCACHE             "Use ccache to speed up compilations"                   OFF )
 option( BUILD_WITH_COVERAGE           "Add compiler flags to generate coverage stats"         OFF )
 include(cmake/gcovr.cmake REQUIRED)
