@@ -264,8 +264,8 @@ namespace Exiv2 {
         IptcKey iptcKey(key);
         auto pos = findKey(iptcKey);
         if (pos == end()) {
-            add(Iptcdatum(iptcKey));
-            pos = findKey(iptcKey);
+            iptcMetadata_.push_back(Iptcdatum(iptcKey));
+            return iptcMetadata_.back();
         }
         return *pos;
     }

@@ -669,16 +669,17 @@ namespace Exiv2 {
 
         if (subsecTag) {
             auto subsec_pos = exifData_->findKey(ExifKey(subsecTag));
-            if (   subsec_pos != exifData_->end()
-                && subsec_pos->typeId() == asciiString) {
-                std::string ss = subsec_pos->toString();
-                if (!ss.empty()) {
-                    bool ok = false;
-                    stringTo<long>(ss, ok);
-                    if (ok) subsec = std::string(".") + ss;
+            if (subsec_pos != exifData_->end()) {
+                if (subsec_pos->typeId() == asciiString) {
+                    std::string ss = subsec_pos->toString();
+                    if (!ss.empty()) {
+                        bool ok = false;
+                        stringTo<long>(ss, ok);
+                        if (ok) subsec = std::string(".") + ss;
+                    }
                 }
+                if (erase_) exifData_->erase(subsec_pos);
             }
-            if (erase_) exifData_->erase(subsec_pos);
         }
 
         if (subsec.size() > 10) subsec = subsec.substr(0, 10);
@@ -1029,18 +1030,20 @@ namespace Exiv2 {
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
-        if (pos != xmpData_->end() && pos->count() > 0) {
-            int red = pos->toLong();
-            if (pos->value().ok())
-                value |= (red & 1) << 6;
+        if (pos != xmpData_->end()) {
+            if (pos->count() > 0) {
+                int red = pos->toLong();
+                if (pos->value().ok())
+                    value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
-            else
-                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
+                else
+                    EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
 #endif
+            }
+            if (erase_) xmpData_->erase(pos);
         }
 
         (*exifData_)[to] = value;
-        if (erase_) xmpData_->erase(pos);
     }
 
     void Converter::cnvXmpGPSCoord(const char* from, const char* to)
