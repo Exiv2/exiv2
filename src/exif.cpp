@@ -579,8 +579,8 @@ namespace Exiv2 {
         ExifKey exifKey(key);
         iterator pos = findKey(exifKey);
         if (pos == end()) {
-            add(Exifdatum(exifKey));
-            pos = findKey(exifKey);
+            exifMetadata_.push_back(Exifdatum(exifKey));
+            return exifMetadata_.back();
         }
         return *pos;
     }
