@@ -538,6 +538,7 @@ static void boxes_check(size_t b,size_t m)
 
                             if (subBox.type == kJp2BoxTypeColorHeader) {
                                 long pad = 3;  // don't know why there are 3 padding bytes
+                                enforce(data.size_ >= pad, kerCorruptedMetadata);
                                 if (bPrint) {
                                     out << " | pad:";
                                     for (int i = 0; i < 3; i++)
@@ -547,6 +548,7 @@ static void boxes_check(size_t b,size_t m)
                                 if (bPrint) {
                                     out << " | iccLength:" << iccLength;
                                 }
+                                enforce(iccLength <= data.size_ - pad, kerCorruptedMetadata);
                                 if (bICC) {
                                     out.write((const char*)data.pData_ + pad, iccLength);
                                 }
