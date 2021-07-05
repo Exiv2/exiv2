@@ -1100,8 +1100,16 @@ namespace Exiv2 {
         if (ed2 != edEnd) size += ed2->size();
         if (size != 0) {
             DataBuf buf(size);
-            if (ed1 != edEnd) ed1->copy(buf.pData_, pHead->byteOrder());
-            if (ed2 != edEnd) ed2->copy(buf.pData_ + ed1->size(), pHead->byteOrder());
+            long pos = 0;
+            if (ed1 != edEnd) {
+                ed1->copy(buf.pData_, pHead->byteOrder());
+                pos += ed1->size();
+            }
+            if (ed2 != edEnd) {
+                ed2->copy(buf.pData_ + pos, pHead->byteOrder());
+                pos += ed2->size();
+            }
+            assert(pos == size);
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {

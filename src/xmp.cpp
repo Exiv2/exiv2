@@ -308,8 +308,8 @@ namespace Exiv2 {
         XmpKey xmpKey(key);
         iterator pos = findKey(xmpKey);
         if (pos == end()) {
-            add(Xmpdatum(xmpKey));
-            pos = findKey(xmpKey);
+            xmpMetadata_.push_back(Xmpdatum(xmpKey));
+            return xmpMetadata_.back();
         }
         return *pos;
     }
