@@ -1494,7 +1494,7 @@ namespace {
     std::string parseEscapes(const std::string& input)
     {
         std::string result = "";
-        for (unsigned int i = 0; i < input.length(); ++i) {
+        for (size_t i = 0; i < input.length(); ++i) {
             char ch = input[i];
             if (ch != '\\') {
                 result.push_back(ch);
@@ -1521,7 +1521,7 @@ namespace {
                 result.push_back('\t');
                 break;
             case 'u':                           // Escaping of unicode
-                if (input.length() - 4 > i) {
+                if (input.length() >= 4 && input.length() - 4 > i) {
                     int acc = 0;
                     for (int j = 0; j < 4; ++j) {
                         ++i;
