@@ -536,7 +536,7 @@ namespace Exiv2 {
                 N_("The logical order of bits within a byte"),
                 ifd0Id, imgStruct, unsignedShort, 1, printValue}, // TIFF tag
         {0x010d, "DocumentName", N_("Document Name"),
-                N_("The name of the document from which this image was scanned"),
+                N_("The name of the document from which this image was scanned."),
                 ifd0Id, imgStruct, asciiString, 0, printValue}, // TIFF tag
         {0x010e, "ImageDescription", N_("Image Description"),
                 N_("A character string giving the title of the image. It may be "
@@ -597,7 +597,7 @@ namespace Exiv2 {
                 "the TIFF default of 1 (chunky) is assumed."),
                 ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifPlanarConfiguration)},
         {0x011d, "PageName", N_("Page Name"),
-                N_("The name of the page from which this image was scanned"),
+                N_("The name of the page from which this image was scanned."),
                 ifd0Id, imgStruct, asciiString, 0, printValue}, // TIFF tag
         {0x0122, "GrayResponseUnit", N_("Gray Response Unit"),
                 N_("The precision of the information contained in the GrayResponseCurve."),
