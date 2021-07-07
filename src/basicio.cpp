@@ -1780,9 +1780,10 @@ namespace Exiv2 {
 
         // find $right
         findDiff    = false;
-        blockIndex  = nBlocks - 1;
-        blockSize   = p_->blocksMap_[blockIndex].getSize();
-        while ((blockIndex + 1 > 0) && right < src.size() && !findDiff) {
+        blockIndex  = nBlocks;
+        while (blockIndex > 0 && right < src.size() && !findDiff) {
+            blockIndex--;
+            blockSize = p_->blocksMap_[blockIndex].getSize();
             if(src.seek(-1 * (blockSize + right), BasicIo::end)) {
                 findDiff = true;
             } else {
@@ -1797,8 +1798,6 @@ namespace Exiv2 {
                     }
                 }
             }
-            blockIndex--;
-            blockSize = static_cast<long>(p_->blocksMap_[blockIndex].getSize());
         }
 
         delete []buf;

@@ -789,7 +789,7 @@ namespace Exiv2 {
             if (i.typeId() == xmpBag || i.typeId() == xmpSeq || i.typeId() == xmpAlt) {
                 printNode(ns, i.tagName(), "", options);
                 meta.SetProperty(ns.c_str(), i.tagName().c_str(), nullptr, options);
-                for (int idx = 0; idx < i.count(); ++idx) {
+                for (long idx = 0; idx < i.count(); ++idx) {
                     const std::string item = i.tagName() + "[" + toString(idx + 1) + "]";
                     printNode(ns, item, i.toString(idx), 0);
                     meta.SetProperty(ns.c_str(), item.c_str(), i.toString(idx).c_str());

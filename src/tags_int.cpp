@@ -24,6 +24,7 @@
 
 #include "convert.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "i18n.h"                // NLS support.
 
 #include "canonmn_int.hpp"
@@ -2569,7 +2570,9 @@ namespace Exiv2 {
         {
             uint16_t bit   = 0;
             uint16_t comma = 0;
-            for (uint16_t i = 0; i < value.count(); i++ ) { // for each element in value array
+            long count = value.count();
+            enforce(0 <= count && count <= std::numeric_limits<uint16_t>::max(), kerCorruptedMetadata);
+            for (uint16_t i = 0; i < count; i++ ) { // for each element in value array
                 auto bits = static_cast<uint16_t>(value.toLong(i));
                 for (uint16_t b = 0; b < 16; ++b) { // for every bit
                     if (bits & (1 << b)) {

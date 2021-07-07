@@ -549,7 +549,7 @@ namespace Exiv2 {
         auto pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -697,7 +697,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             value << static_cast<char>(pos->toLong(i));
         }
         (*xmpData_)[to] = value.str();
@@ -710,7 +710,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             if (i > 0) value << '.';
             value << pos->toLong(i);
         }
@@ -828,7 +828,7 @@ namespace Exiv2 {
         auto pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         std::ostringstream array;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
