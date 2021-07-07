@@ -346,12 +346,15 @@ namespace Exiv2 {
 
     void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, uint32_t depth)
     {
+        if (bytes.size() < 3) {
+            return;
+        }
         size_t i = 0;
-        while (i + 3 < bytes.size() && bytes.at(i) != 0x1c)
+        while (i < bytes.size() - 3 && bytes.at(i) != 0x1c)
             i++;
         depth++;
         out << Internal::indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
-        while (i + 3 < bytes.size()) {
+        while (i < bytes.size() - 3) {
             if (bytes.at(i) != 0x1c) {
                 break;
             }
