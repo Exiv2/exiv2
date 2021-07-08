@@ -1,0 +1,5 @@
+name: "Exiv2 CodeQL config"
+
+queries:
+    - uses: ./.github/codeql-queries/exiv2-code-scanning.qls
+    - uses: ./.github/codeql-queries/exiv2-cpp-queries
