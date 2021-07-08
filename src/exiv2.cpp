@@ -1523,7 +1523,7 @@ namespace {
                 result.push_back(ch);
                 continue;
             }
-            int escapeStart = i;
+            size_t escapeStart = i;
             if (!(input.length() - 1 > i)) {
                 result.push_back(ch);
                 continue;
