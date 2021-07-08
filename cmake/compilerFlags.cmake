@@ -44,7 +44,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
             if(HAS_FCF_PROTECTION)
                 add_compile_options(-fcf-protection)
             endif()
-            if(HAS_FSTACK_PROTECTOR_STRONG)
+            if(BUILD_WITH_STACK_PROTECTOR AND HAS_FSTACK_PROTECTOR_STRONG)
                 add_compile_options(-fstack-protector-strong)
             endif()
         endif()
