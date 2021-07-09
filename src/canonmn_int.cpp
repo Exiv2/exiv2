@@ -2750,6 +2750,7 @@ namespace Exiv2 {
         if (pos == metadata->end() || pos->value().count() < 3 || pos->value().typeId() != unsignedShort ||
             pos->value().toFloat(2) == 0.0F) {
             os << "Unknown Lens (" << lensType << ")";
+            return os;
         }
 
         int const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toLong(1)) / pos->value().toFloat(2));
@@ -2759,6 +2760,7 @@ namespace Exiv2 {
         pos = metadata->findKey(aperKey);
         if (pos == metadata->end() || pos->value().count() != 1 || pos->value().typeId() != unsignedShort) {
             os << "Unknown Lens (" << lensType << ")";
+            return os;
         }
 
         auto exifAperMax = fnumber(canonEv(static_cast<int16_t>(pos->value().toLong(0))));
