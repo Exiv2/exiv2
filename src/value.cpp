@@ -695,6 +695,9 @@ namespace Exiv2 {
         if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
             std::string::size_type pos = buf.find_first_of(' ');
             type = buf.substr(5, pos-5);
+            if (type.empty()) {
+                throw Error(kerInvalidXmpText, type);
+            }
             // Strip quotes (so you can also specify the type without quotes)
             if (type[0] == '"') type = type.substr(1);
             if (type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
