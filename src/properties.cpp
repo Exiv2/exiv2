@@ -2606,7 +2606,7 @@ namespace Exiv2 {
         // If property is a path for a nested property, determines the innermost element
         std::string::size_type i = property.find_last_of('/');
         if (i != std::string::npos) {
-            for (; i != std::string::npos && !isalpha(property[i]); ++i) {}
+            for (; i != std::string::npos && !isalpha(property.at(i)); ++i) {}
             property = property.substr(i);
             i = property.find_first_of(':');
             if (i != std::string::npos) {

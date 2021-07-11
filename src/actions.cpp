@@ -1031,19 +1031,21 @@ namespace Action {
 
         const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
         for (Params::PreviewNumbers::const_iterator n = numbers.begin(); n != numbers.end(); ++n) {
-            if (*n == 0) {
+            size_t num = static_cast<size_t>(*n);
+            if (num == 0) {
                 // Write all previews
-                for (int num = 0; num < static_cast<int>(pvList.size()); ++num) {
-                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
+                for (num = 0; num < pvList.size(); ++num) {
+                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
                 }
                 break;
             }
-            if (*n > static_cast<int>(pvList.size())) {
+            num--;
+            if (num >= pvList.size()) {
                 std::cerr << path_ << ": " << _("Image does not have preview")
-                          << " " << *n << "\n";
+                          << " " << num + 1 << "\n";
                 continue;
             }
-            writePreviewFile(pvMgr.getPreviewImage(pvList[*n - 1]), *n);
+            writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
         }
         return 0;
     } // Extract::writePreviews
@@ -1603,7 +1605,7 @@ namespace Action {
             return 0;
         }
         std::string timeStr = md->toString();
-        if (timeStr == "" || timeStr[0] == ' ') {
+        if (timeStr.empty() || timeStr[0] == ' ') {
             std::cerr << path << ": " << _("Timestamp of metadatum with key") << " `"
                       << ek << "' " << _("not set\n");
             return 1;
@@ -2163,7 +2165,7 @@ namespace {
                               << "' " << _("exists. [O]verwrite, [r]ename or [s]kip?")
                               << " ";
                     std::cin >> s;
-                    switch (s[0]) {
+                    switch (s.at(0)) {
                     case 'o':
                     case 'O':
                         go = false;
@@ -2228,7 +2230,7 @@ namespace {
                       << ": " << _("Overwrite") << " `" << path << "'? ";
             std::string s;
             std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 1;
+            if (s.at(0) != 'y' && s.at(0) != 'Y') return 1;
         }
         return 0;
     }

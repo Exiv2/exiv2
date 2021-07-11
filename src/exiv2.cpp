@@ -1455,8 +1455,8 @@ namespace {
             if (valStart != std::string::npos) {
                 value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
                 std::string::size_type last = value.length()-1;
-                if (   (value[0] == '"' && value[last] == '"')
-                       || (value[0] == '\'' && value[last] == '\'')) {
+                if (   (value.at(0) == '"' && value.at(last) == '"')
+                       || (value.at(0) == '\'' && value.at(last) == '\'')) {
                     value = value.substr(1, value.length()-2);
                 }
             }

@@ -495,8 +495,8 @@ namespace Exiv2 {
         bool bNS  = out.find(':') != std::string::npos && !bURI;
 
         // pop trailing ':' on a namespace
-        if ( bNS ) {
-        std::size_t length = out.length();
+        if ( bNS && !out.empty() ) {
+            std::size_t length = out.length();
             if ( out[length-1] == ':' ) out = out.substr(0,length-1);
         }
 

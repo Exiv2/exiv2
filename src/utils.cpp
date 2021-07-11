@@ -60,7 +60,7 @@ namespace Util {
         if (p.length() == 2 && p[1] == ':') return p; // For Windows paths
         std::string::size_type idx = p.find_last_of("\\/");
         if (idx == std::string::npos) return ".";
-        if (idx == 1 && p[0] == '\\' && p[1] == '\\') return p; // For Windows paths
+        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return p; // For Windows paths
         p = p.substr(0, idx == 0 ? 1 : idx);
         while (   p.length() > 1
                && (p[p.length()-1] == '\\' || p[p.length()-1] == '/')) {
@@ -80,7 +80,7 @@ namespace Util {
         }
         if (p.length() == 2 && p[1] == ':') return ""; // For Windows paths
         std::string::size_type idx = p.find_last_of("\\/");
-        if (idx == 1 && p[0] == '\\' && p[1] == '\\') return ""; // For Windows paths
+        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return ""; // For Windows paths
         if (idx != std::string::npos) p = p.substr(idx+1);
         if (delsuffix) p = p.substr(0, p.length() - suffix(p).length());
         return p;

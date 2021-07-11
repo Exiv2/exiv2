@@ -491,8 +491,10 @@ namespace Exiv2 {
             std::string::size_type pos = comment.find_first_of(' ');
             std::string name = comment.substr(8, pos-8);
             // Strip quotes (so you can also specify the charset without quotes)
-            if (name[0] == '"') name = name.substr(1);
-            if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
+            if (!name.empty()) {
+                if (name[0] == '"') name = name.substr(1);
+                if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
+            }
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
@@ -862,6 +864,7 @@ namespace Exiv2 {
             
             std::string::size_type pos = buf.find_first_of(' ');
             lang = buf.substr(5, pos-5);
+            if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
             // Strip quotes (so you can also specify the language without quotes)
             if (lang[0] == '"') {
                 lang = lang.substr(1);
@@ -872,12 +875,12 @@ namespace Exiv2 {
                 lang = lang.substr(0, lang.length()-1);
             }
             
-            if (lang == "") throw Error(kerInvalidLangAltValue, buf);
+            if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
 
             // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
             std::string::size_type charPos = lang.find_first_not_of(ALPHA);
             if (charPos != std::string::npos) {
-                if (lang[charPos] != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
+                if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
                     throw Error(kerInvalidLangAltValue, buf);
             }
             

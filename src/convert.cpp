@@ -973,7 +973,7 @@ namespace Exiv2 {
             return;
         }
 
-        for (unsigned i = 0; i < value.length(); ++i) {
+        for (size_t i = 0; i < value.length(); ++i) {
             if (value[i] == '.') value[i] = ' ';
         }
         (*exifData_)[to] = value;
