@@ -126,7 +126,7 @@ namespace Exiv2 {
         std::string v = value.toString();
         std::string::size_type pos = v.find(':');
         if (pos != std::string::npos) {
-            if (v[pos + 1] == ' ') ++pos;
+            if (v.at(pos + 1) == ' ') ++pos;
             v = v.substr(pos + 1);
         }
         return os << v;
@@ -136,7 +136,7 @@ namespace Exiv2 {
                                               const Value& value,
                                               const ExifData*)
     {
-        switch (value.toString()[0]) {
+        switch (value.toString().at(0)) {
         case 'P': os << _("Program"); break;
         case 'A': os << _("Aperture priority"); break;
         case 'S': os << _("Shutter priority"); break;
@@ -150,7 +150,7 @@ namespace Exiv2 {
                                               const Value& value,
                                               const ExifData*)
     {
-        switch (value.toString()[0]) {
+        switch (value.toString().at(0)) {
         case 'A': os << _("Average"); break;
         case 'C': os << _("Center"); break;
         case '8': os << _("8-Segment"); break;

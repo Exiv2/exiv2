@@ -101,7 +101,7 @@ try {
         throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
     rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
-    rv->value_[2] = std::make_pair(88,77);
+    rv->value_.at(2) = std::make_pair(88,77);
     // Copy the modified value back to the metadatum
     pos->setValue(rv.get());
     std::cout << "Modified key \"" << key

@@ -994,19 +994,22 @@ namespace Action {
         Exiv2::PreviewPropertiesList pvList = pvMgr.getPreviewProperties();
 
         const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
-        for (auto&& number : numbers) {
-            if (number == 0) {
+        for (auto number : numbers) {
+            size_t num = static_cast<size_t>(number);
+            if (num == 0) {
                 // Write all previews
-                for (int num = 0; num < static_cast<int>(pvList.size()); ++num) {
-                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
+                for (num = 0; num < pvList.size(); ++num) {
+                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
                 }
                 break;
             }
-            if (number > static_cast<int>(pvList.size())) {
-                std::cerr << path_ << ": " << _("Image does not have preview") << " " << number << "\n";
+            num--;
+            if (num >= pvList.size()) {
+                std::cerr << path_ << ": " << _("Image does not have preview")
+                          << " " << num + 1 << "\n";
                 continue;
             }
-            writePreviewFile(pvMgr.getPreviewImage(pvList[number - 1]), number);
+            writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
         }
         return 0;
     } // Extract::writePreviews
@@ -2070,7 +2073,7 @@ namespace {
                               << "' " << _("exists. [O]verwrite, [r]ename or [s]kip?")
                               << " ";
                     std::cin >> s;
-                    switch (s[0]) {
+                    switch (s.at(0)) {
                     case 'o':
                     case 'O':
                         go = false;
@@ -2135,7 +2138,7 @@ namespace {
                       << ": " << _("Overwrite") << " `" << path << "'? ";
             std::string s;
             std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 1;
+            if (s.at(0) != 'y' && s.at(0) != 'Y') return 1;
         }
         return 0;
     }
