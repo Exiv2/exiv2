@@ -2,6 +2,7 @@
  * @name NULL iterator deref
  * @description Dereferencing an iterator without checking that it's valid could cause a crash.
  * @kind problem
+ * @problem.severity warning
  * @id cpp/null-iterator-deref
  * @tags security
  *       external/cwe/cwe-476
