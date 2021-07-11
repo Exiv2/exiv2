@@ -826,6 +826,21 @@ namespace Exiv2 {
         { 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
     };
 
+    constexpr ArrayCfg sonyMisc1Cfg = {
+        sonyMisc1Id,      // Group for the elements
+        bigEndian,        // Big endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+
+    constexpr ArrayDef sonyMisc1Def[] = {
+        { 0x05, ttSignedByte  , 1 }, // Exif.SonyMisc1.CameraTemperature
+    };
+
     constexpr ArrayCfg sony2010eCfg = {
         sony2010eId,      // Group for the elements
         invalidByteOrder, // inherit from file.  Usually littleEndian
@@ -1096,6 +1111,7 @@ namespace Exiv2 {
         { Tag::root, sony1Id,          exifId,           0x927c    },
         { Tag::root, sony2010eId,      sony1Id,          0x2010    },
         { Tag::root, sony2FpId,        sony1Id,          0x9402    },
+        { Tag::root, sonyMisc1Id,      sony1Id,          0x9403    },
         { Tag::root, sony1CsId,        sony1Id,          0x0114    },
         { Tag::root, sony1Cs2Id,       sony1Id,          0x0114    },
         { Tag::root, sonyMltId,        sony1Id,          0xb028    },
@@ -1106,6 +1122,7 @@ namespace Exiv2 {
         { Tag::root, sony2Id,          exifId,           0x927c    },
         { Tag::root, sony2010eId,      sony2Id,          0x2010    },
         { Tag::root, sony2FpId,        sony2Id,          0x9402    },
+        { Tag::root, sonyMisc1Id,      sony2Id,          0x9403    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
         { Tag::root, minoltaId,        exifId,           0x927c    },
@@ -1544,6 +1561,10 @@ namespace Exiv2 {
         { Tag::all, sony2FpId,        newTiffBinaryElement },
         { 0x9402, sony1Id,            EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef) },
 
+        // Tag 0x9403 SonyMisc1
+        { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
+        { 0x9403, sony1Id,             EXV_BINARY_ARRAY(sonyMisc1Cfg, sonyMisc1Def) },
+
         // Sony1 makernote
         {    0x0114, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
         {    0xb028, sony1Id,          newTiffSubIfd<sonyMltId>                  },
@@ -1560,6 +1581,10 @@ namespace Exiv2 {
         // Tag 0x9402 Sony2Fp Focus Position
         {  Tag::all, sony2FpId,        newTiffBinaryElement                      },
         {    0x9402, sony2Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef)  },
+
+        // Tag 0x9403 SonyMisc1
+        { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
+        { 0x9403, sony2Id,             EXV_BINARY_ARRAY(sonyMisc1Cfg, sonyMisc1Def) },
 
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },

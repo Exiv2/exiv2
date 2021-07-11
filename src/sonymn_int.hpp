@@ -49,11 +49,15 @@ namespace Exiv2 {
         static const TagInfo* tagListCs2();
         //! Return read-only list of built-in Sony FocusPosition tags
         static const TagInfo* tagListFp();
+        //! Return read-only list of built-in Sony Misc1 tags (Tag 9403)
+        static const TagInfo* tagListSonyMisc1();
 
         static const TagInfo* tagList2010e();
 
         //! @name Print functions for Sony %MakerNote tags
         //@{
+        //! Print Sony temperature values (in Degrees Celsius)
+        static std::ostream& printTemperatureInDegC(std::ostream&, const Value&, const ExifData*);
         //! Print Sony Camera Model
         static std::ostream& print0xb000(std::ostream&, const Value&, const ExifData*);
         //! Print Full and Preview Image size
@@ -65,6 +69,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoCs_[];
         static const TagInfo tagInfoCs2_[];
         static const TagInfo tagInfoFp_[];
+        static const TagInfo tagInfoSonyMisc1_[];
         static const TagInfo tagInfo2010e_[];
     }; // class SonyMakerNote
 
