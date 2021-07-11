@@ -181,7 +181,7 @@ namespace Exiv2 {
 #endif
                 return -2;
             }
-#ifndef EXIV2_DEBUG_MESSAGES
+#ifdef EXIV2_DEBUG_MESSAGES
             if (   (dataSize & 1)
                 && position + dataSize == static_cast<uint32_t>(sizePsData)) {
                 std::cerr << "Warning: "

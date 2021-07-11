@@ -1335,7 +1335,9 @@ namespace Exiv2 {
                 tc->setStart(p);
                 object->addChild(std::move(tc));
             } else {
+#ifndef SUPPRESS_WARNINGS
                EXV_WARNING << "Unable to handle tag " << tag << ".\n";
+#endif
             }
             p += 12;
         }

@@ -474,13 +474,13 @@ namespace Exiv2 {
 #endif
                 }
             }
-#ifndef SUPPRESS_WARNINGS
             else {
+#ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "IPTC dataset " << IptcKey(dataSet, record)
                             << " has invalid size " << sizeData << "; skipped.\n";
+#endif
                 return 7;
             }
-#endif
             pRead += sizeData;
         }
 

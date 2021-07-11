@@ -92,7 +92,7 @@ if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
 endif()
 
-if( EXIV2_BUILD_FUZZ_TESTS)
+if( EXIV2_BUILD_FUZZ_TESTS )
     if ((NOT COMPILER_IS_CLANG) OR (NOT EXIV2_TEAM_USE_SANITIZERS))
         message(FATAL_ERROR "You need to build with Clang and sanitizers for the fuzzers to work. "
                 "Use Clang and -DEXIV2_TEAM_USE_SANITIZERS=ON")
