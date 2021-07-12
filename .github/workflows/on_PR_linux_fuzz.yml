@@ -4,7 +4,9 @@
 
 name: Linux-Ubuntu Quick Fuzz on PRs
 
-on: [pull_request]
+on:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   Linux:
