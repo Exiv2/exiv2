@@ -824,8 +824,10 @@ namespace Exiv2 {
 
     std::ostream& SonyMakerNote::printTemperatureInDegC(std::ostream& os, const Value& value, const ExifData*)
     {
-        if (value.count() != 1)       os << "(" << value << ")";
-        else                          os << value << " °C";
+        if (value.count() != 1)
+            os << "(" << value << ")";
+        else
+            os << value << " °C";
 
         return os;
     }
