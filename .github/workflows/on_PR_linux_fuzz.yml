@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install dependencies
-      run: ./ci/install_dependencies.sh
+      run: sudo ./ci/install_dependencies.sh
     - name: build and compile
       run: |
         mkdir build && cd build
