@@ -23,8 +23,8 @@ jobs:
         cmake -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON ..
         make -j $(nproc)
 
-      - name: Fuzz
-        run: |
-          cd build
-          mkdir corpus
-          ./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -max_total_time=60 -max_len=4096
+    - name: Fuzz
+      run: |
+        cd build
+        mkdir corpus
+        ./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -max_total_time=60 -max_len=4096
