@@ -1250,9 +1250,7 @@ namespace Exiv2 {
                 if (len < s) len = s;
                 i->copy(buf.pData_ + i->tag()*2, byteOrder);
             } else {
-#ifdef EXIV2_DEBUG_MESSAGES
-                std::cerr << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
-#endif
+                EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
             }
         }
         // Round the size to make it even.
