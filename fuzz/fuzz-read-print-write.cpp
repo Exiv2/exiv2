@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <cassert>
 
-extern "C" int LLVMFuzzerTestOneInput(const uint8_t * Data, size_t Size) {
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t * data, size_t size) {
   // Invalid files generate a lot of warnings, so switch off logging.
   Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
@@ -12,15 +12,21 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t * Data, size_t Size) {
   ::atexit(Exiv2::XmpParser::terminate);
 
   try {
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(Data, Size);
+    Exiv2::DataBuf data_copy(data, size);
+    Exiv2::Image::UniquePtr image =
+      Exiv2::ImageFactory::open(data_copy.pData_, size);
     assert(image.get() != 0);
 
     image->readMetadata();
+    image->exifData();
 
-    Exiv2::ExifData &exifData = image->exifData();
-    if (exifData.empty()) {
-      return -1;
-    }
+    // Print to a std::ostringstream so that the fuzzer doesn't
+    // produce lots of garbage on stdout.
+    std::ostringstream buffer;
+    image->printStructure(buffer, Exiv2::kpsNone);
+
+    image->writeMetadata();
+
   } catch(...) {
     // Exiv2 throws an exception if the metadata is invalid.
   }
