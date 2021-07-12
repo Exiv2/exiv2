@@ -11,4 +11,4 @@ macro(fuzzer name)
             )
 endmacro()
 
-fuzzer(read-metadata)
+fuzzer(fuzz-read-print-write)
