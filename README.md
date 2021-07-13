@@ -1056,11 +1056,12 @@ $ cmake .. -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DE
 $ cmake --build .
 ```
 
-To execute the fuzzers:
+To execute a fuzzer:
 
 ```bash
 cd <exiv2dir>/build-fuzz
-bin/<fuzzer_name> # for example ./bin/read-metadata.cpp
+mkdir corpus
+./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -workers=$(nproc) -max_len=4096
 ```
 
 [TOC](#TOC)

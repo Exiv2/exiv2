@@ -27,4 +27,4 @@ jobs:
       run: |
         cd build
         mkdir corpus
-        ./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -max_total_time=60 -max_len=4096
+        ./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -workers=$(nproc) -max_total_time=120 -max_len=4096
