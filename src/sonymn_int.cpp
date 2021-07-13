@@ -806,6 +806,33 @@ namespace Exiv2 {
         return tagInfoFp_;
     }
 
+    //! Sony Tag 9403 SonyMisc1
+    constexpr TagInfo SonyMakerNote::tagInfoSonyMisc1_[] = {
+        {0x05,  "CameraTemperature", N_("Camera temperature"),
+        		N_("Internal camera temperature (in degrees Celsius)"),
+				sonyMisc1Id, makerTags, signedByte, -1, printTemperatureInDegC},
+        // End of list marker
+        {0xffff, "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)",
+        		 "(UnknownSonyMisc1Tag)",
+				 sonyMisc1Id, makerTags, unsignedByte, -1, printValue}
+    };
+
+    const TagInfo* SonyMakerNote::tagListSonyMisc1()
+    {
+        return tagInfoSonyMisc1_;
+    }
+
+    std::ostream& SonyMakerNote::printTemperatureInDegC(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() != 1)
+            os << "(" << value << ")";
+        else
+            os << value << " °C";
+
+        return os;
+    }
+
+
     //! Sony Tag 2010 Sony2010 (Miscellaneous)
     constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
         {0, "SequenceImageNumber", N_("Sequence Image Number"), N_("Sequence Image Number"), sony2010eId, makerTags, unsignedLong, 1, printValue},
