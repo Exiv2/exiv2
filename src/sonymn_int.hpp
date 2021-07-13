@@ -56,7 +56,11 @@ namespace Exiv2 {
 
         //! @name Print functions for Sony %MakerNote tags
         //@{
-        //! Print Sony temperature values (in Degrees Celsius)
+        //! Print Sony2Fp Focus Mode value
+        static std::ostream& printSony2FpFocusMode(std::ostream&, const Value&, const ExifData*);
+        //! Print Sony2Fp Focus Position 2 value
+        static std::ostream& printSony2FpFocusPosition2(std::ostream&, const Value&, const ExifData* metadata);
+        //! Print Sony temperature values (in degrees Celsius)
         static std::ostream& printTemperatureInDegC(std::ostream&, const Value&, const ExifData*);
         //! Print Sony Camera Model
         static std::ostream& print0xb000(std::ostream&, const Value&, const ExifData*);

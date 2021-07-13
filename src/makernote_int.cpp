@@ -1190,6 +1190,18 @@ namespace Exiv2 {
         };
         return std::find(std::begin(models), std::end(models), getExifModel(pRoot)) != std::end(models) ? 0 : -1;
     }
+    int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // Not valid for models beginning
+        const char* models[] = { "SLT-", "HV", "ILCA-" };
+
+        std::string model = getExifModel(pRoot);
+        for (auto&& m : models) {
+            if (model.find(m) == 0)
+                return -1;
+        }
+        return 0;
+    }
     }  // namespace Internal
 }  // namespace Exiv2
 

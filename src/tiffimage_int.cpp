@@ -826,6 +826,11 @@ namespace Exiv2 {
         { 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
     };
 
+    //! Sony2Fp configurations and definitions
+    constexpr ArraySet sony2FpSet[] = {
+        { sony2FpCfg,  sony2FpDef,  EXV_COUNTOF(sony2FpDef)  }
+    };
+
     constexpr ArrayCfg sonyMisc1Cfg = {
         sonyMisc1Id,      // Group for the elements
         bigEndian,        // Big endian
@@ -1559,7 +1564,7 @@ namespace Exiv2 {
 
         // Tag 0x9402 Sony2Fp Focus Position
         { Tag::all, sony2FpId,        newTiffBinaryElement },
-        { 0x9402, sony1Id,            EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef) },
+        { 0x9402, sony1Id,            EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, sony2FpSelector) },
 
         // Tag 0x9403 SonyMisc1
         { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
@@ -1580,7 +1585,7 @@ namespace Exiv2 {
 
         // Tag 0x9402 Sony2Fp Focus Position
         {  Tag::all, sony2FpId,        newTiffBinaryElement                      },
-        {    0x9402, sony2Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef)  },
+        {    0x9402, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, sony2FpSelector)  },
 
         // Tag 0x9403 SonyMisc1
         { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
