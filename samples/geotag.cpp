@@ -438,20 +438,24 @@ int timeZoneAdjust()
     offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
     UNUSED(now);
 #elif defined(__CYGWIN__)
-    struct tm lcopy = *localtime(&now);
+    struct tm lcopy = {};
+    localtime_r(&now, &lcopy);
     time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy
     offset          = (int) ( ((long signed int) gmt) - ((long signed int) now) ) ;
 #elif defined(OS_SOLARIS) || defined(__sun__)
-    struct tm local = *localtime(&now) ;
+    struct tm local = {};
+    localtime_r(&now, &local) ;
     time_t local_tt = (int) mktime(&local);
     time_t time_gmt = (int) mktime(gmtime(&now));
     offset          = time_gmt - local_tt;
 #else
-    struct tm local = *localtime(&now) ;
+    struct tm local = {};
+    localtime_r(&now, &local) ;
     offset          = local.tm_gmtoff ;
 
 #if EXIV2_DEBUG_MESSAGES
-    struct tm utc = *gmtime(&now);
+    struct tm utc = {};
+    gmtime_r(&now, &utc);
     printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
     printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
     printf("timeZoneAdjust = %6d\n",offset);
@@ -463,7 +467,9 @@ int timeZoneAdjust()
 string getExifTime(const time_t t)
 {
     static char result[100];
-    strftime(result,sizeof(result),"%Y-%m-%d %H:%M:%S",localtime(&t));
+    struct tm local = {};
+    localtime_r(&t, &local);
+    strftime(result,sizeof(result),"%Y-%m-%d %H:%M:%S",&local);
     return result ;
 }
 
@@ -845,8 +851,11 @@ int main(int argc,const char* argv[])
 #endif
                     char*  path = realpath(arg,buffer);
                     if  ( t && path ) {
-                        if (options.verbose)
-                            printf("%s %ld %s", path, static_cast<long int>(t), asctime(localtime(&t)));
+                        if (options.verbose) {
+                            struct tm local = {};
+                            localtime_r(&t, &local);
+                            printf("%s %ld %s", path, static_cast<long int>(t), asctime(&local));
+                        }
                         gFiles.push_back(path);
                     }
                     if (path && path != buffer)

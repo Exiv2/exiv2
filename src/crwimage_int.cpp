@@ -909,11 +909,11 @@ namespace Exiv2 {
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
         time_t t = v.value_.at(0);
-        struct tm* tm = std::localtime(&t);
-        if (tm) {
+        struct tm tm = {};
+        if (localtime_r(&t, &tm)) {
             const size_t m = 20;
             char s[m];
-            std::strftime(s, m, "%Y:%m:%d %H:%M:%S", tm);
+            std::strftime(s, m, "%Y:%m:%d %H:%M:%S", &tm);
 
             ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
             AsciiValue value;

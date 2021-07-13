@@ -1828,8 +1828,9 @@ namespace {
 
     std::string time2Str(time_t time)
     {
-        struct tm* tm = localtime(&time);
-        return tm2Str(tm);
+        struct tm tm = {};
+        localtime_r(&time, &tm);
+        return tm2Str(&tm);
     } // time2Str
 
     std::string tm2Str(const struct tm* tm)
