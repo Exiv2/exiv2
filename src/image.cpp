@@ -24,6 +24,7 @@
 #include "image.hpp"
 #include "image_int.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
@@ -149,6 +150,19 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+
+    // BasicIo::read() with error checking
+    static void readOrThrow(BasicIo& iIo, byte* buf, long rcount, ErrorCode err) {
+      const long nread = iIo.read(buf, rcount);
+      enforce(nread == rcount, err);
+      enforce(!iIo.error(), err);
+    }
+
+    // BasicIo::seek() with error checking
+    static void seekOrThrow(BasicIo& iIo, long offset, BasicIo::Position pos, ErrorCode err) {
+      const int r = iIo.seek(offset, pos);
+      enforce(r == 0, err);
+    }
 
     Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
@@ -348,11 +362,8 @@ namespace Exiv2 {
 
         do {
             // Read top of directory
-            const int seekSuccess = !io.seek(start,BasicIo::beg);
-            const long bytesRead = io.read(dir.pData_, 2);
-            if (!seekSuccess || bytesRead == 0) {
-                throw Error(kerCorruptedMetadata);
-            }
+            seekOrThrow(io, start, BasicIo::beg, kerCorruptedMetadata);
+            readOrThrow(io, dir.pData_, 2, kerCorruptedMetadata);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
             // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
             enforce(dirLength > 0, kerCorruptedMetadata);
@@ -379,7 +390,7 @@ namespace Exiv2 {
                 }
                 bFirst = false;
 
-                io.read(dir.pData_, 12);
+                readOrThrow(io, dir.pData_, 12, kerCorruptedMetadata);
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
                 uint32_t count  = byteSwap4(dir,4,bSwap);
@@ -412,20 +423,27 @@ namespace Exiv2 {
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
 
                 // #55 and #56 memory allocation crash test/data/POC8
-                long long allocate = (long long) size*count + pad+20;
-                if ( allocate > (long long) io.size() ) {
+                const uint64_t allocate64 = static_cast<uint64_t>(size) * count + pad + 20;
+                if ( allocate64 > io.size() ) {
                     throw Error(kerInvalidMalloc);
                 }
-                DataBuf  buf((long)allocate);  // allocate a buffer
+                // Overflow check
+                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()), kerCorruptedMetadata);
+                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+                const long allocate = static_cast<long>(allocate64);
+                DataBuf  buf(allocate);  // allocate a buffer
                 std::memset(buf.pData_, 0, buf.size_);
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
-                const bool bOffsetIsPointer = count*size > 4;
+
+                // We have already checked that this multiplication cannot overflow.
+                const uint32_t count_x_size = count*size;
+                const bool bOffsetIsPointer = count_x_size > 4;
 
                 if ( bOffsetIsPointer ) {         // read into buffer
-                    size_t   restore = io.tell();  // save
-                    io.seek(offset,BasicIo::beg);  // position
-                    io.read(buf.pData_,count*size);// read
-                    io.seek(restore,BasicIo::beg); // restore
+                    const long restore = io.tell(); // save
+                    seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata); // position
+                    readOrThrow(io, buf.pData_, static_cast<long>(count_x_size), kerCorruptedMetadata); // read
+                    seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata); // restore
                 }
 
                 if ( bPrint ) {
@@ -464,10 +482,10 @@ namespace Exiv2 {
 
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
-                            size_t   restore = io.tell();
+                            const long restore = io.tell();
                             uint32_t offset = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
-                            io.seek(restore,BasicIo::beg);
+                            seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
 
@@ -475,38 +493,38 @@ namespace Exiv2 {
                             throw Error(kerCorruptedMetadata);
                         }
 
-                        const size_t restore = io.tell();
-                        io.seek(offset, BasicIo::beg);  // position
+                        const long restore = io.tell();
+                        seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata);  // position
                         std::vector<byte> bytes(count) ;  // allocate memory
                         // TODO: once we have C++11 use bytes.data()
-                        const long read_bytes = io.read(&bytes[0], count);
-                        io.seek(restore, BasicIo::beg);
+                        readOrThrow(io, &bytes[0], count, kerCorruptedMetadata);
+                        seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
                         // TODO: once we have C++11 use bytes.data()
-                        IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
+                        IptcData::printStructure(out, makeSliceUntil(&bytes[0], count), depth);
 
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-                        size_t   restore = io.tell();  // save
+                        const long restore = io.tell();  // save
 
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
                         const char* chars = (const char*) &bytes[0] ;
-                        io.seek(offset,BasicIo::beg);  // position
-                        io.read(bytes,jump    )     ;  // read
+                        seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata);  // position
+                        readOrThrow(io, bytes, jump, kerCorruptedMetadata)     ;  // read
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            const long byteslen = count-jump;
+                            DataBuf bytes(byteslen);  // allocate a buffer
+                            readOrThrow(io, bytes.pData_, byteslen, kerCorruptedMetadata);  // read
+                            MemIo memIo(bytes.pData_, byteslen)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
                         } else {
                             // tag is an IFD
-                            io.seek(0,BasicIo::beg);  // position
+                            seekOrThrow(io, 0, BasicIo::beg, kerCorruptedMetadata);  // position
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
                         }
 
-                        io.seek(restore,BasicIo::beg); // restore
+                        seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata); // restore
                     }
                 }
 
@@ -519,7 +537,7 @@ namespace Exiv2 {
                 }
             }
             if ( start ) {
-                io.read(dir.pData_, 4);
+                readOrThrow(io, dir.pData_, 4, kerCorruptedMetadata);
                 start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
             }
         } while (start) ;
@@ -539,7 +557,7 @@ namespace Exiv2 {
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
-            io.read(dir.pData_,  8);
+            readOrThrow(io, dir.pData_,  8, kerCorruptedMetadata);
             char c = (char) dir.pData_[0] ;
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
