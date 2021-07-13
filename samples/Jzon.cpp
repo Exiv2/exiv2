@@ -55,7 +55,7 @@ namespace Jzon
 			newline = (format.newline ? "\n" : spacing);
 		}
 
-		std::string GetIndentation(unsigned int level) const
+		std::string GetIndentation(size_t level) const
 		{
             if (format.newline)
                 return std::string(format.indentSize * level, indentationChar);
@@ -727,7 +727,7 @@ namespace Jzon
         return result;
     }
 
-    void Writer::writeNode(const Node &node, unsigned int level)
+    void Writer::writeNode(const Node &node, size_t level)
     {
         switch (node.GetType()) {
             case Node::T_OBJECT:
@@ -741,7 +741,7 @@ namespace Jzon
                 break;
         }
     }
-    void Writer::writeObject(const Object &node, unsigned int level)
+    void Writer::writeObject(const Object &node, size_t level)
     {
 		result += "{" + fi->GetNewline();
 
@@ -757,7 +757,7 @@ namespace Jzon
 
         result += fi->GetNewline() + fi->GetIndentation(level) + "}";
     }
-    void Writer::writeArray(const Array &node, unsigned int level)
+    void Writer::writeArray(const Array &node, size_t level)
     {
         result += "[" + fi->GetNewline();
 
