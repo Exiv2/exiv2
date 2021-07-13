@@ -354,6 +354,8 @@ namespace Exiv2 {
                 throw Error(kerCorruptedMetadata);
             }
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
+            // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
+            enforce(dirLength > 0, kerCorruptedMetadata);
 
             bool tooBig = dirLength > 500;
             if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
