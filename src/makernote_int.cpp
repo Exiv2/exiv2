@@ -1080,6 +1080,14 @@ namespace Exiv2 {
 
 #define NA ((uint32_t)-1)
 
+    // TODO: When moving to C++20, this can be replace with
+    //       std::basic_string<CharT,Traits,Allocator>::starts_with() .
+    //       Suggested in https://github.com/Exiv2/exiv2/pull/1777 .
+    bool startsWith(const std::string& s, const std::string& start)
+    {
+        return s.size() >= start.size() && std::memcmp(s.data(), start.data(), start.size()) == 0;
+    }
+
     //! Nikon binary array version lookup table
     constexpr NikonArrayIdx nikonArrayIdx[] = {
         // NikonSi
@@ -1197,7 +1205,7 @@ namespace Exiv2 {
 
         std::string model = getExifModel(pRoot);
         for (auto&& m : models) {
-            if (model.find(m) == 0)
+            if (startsWith(model, m))
                 return -1;
         }
         return 0;
