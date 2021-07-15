@@ -1254,9 +1254,12 @@ namespace Exiv2 {
         for (ExifData::const_iterator i = b; i != e; ++i) {
             if (i->ifdId() != ifdId) continue;
             const uint16_t s = i->tag()*2 + static_cast<uint16_t>(i->size());
-            assert(s <= size);
-            if (len < s) len = s;
-            i->copy(buf.pData_ + i->tag()*2, byteOrder);
+            if (s <= size) {
+                if (len < s) len = s;
+                i->copy(buf.pData_ + i->tag()*2, byteOrder);
+            } else {
+                EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
+            }
         }
         // Round the size to make it even.
         buf.size_ = len + len%2;
