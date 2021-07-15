@@ -389,9 +389,9 @@ namespace Jzon
 		// Disable assignment operator
 		Writer &operator=(const Writer&) = delete;
 	private:
-		void writeNode(const Node &node, unsigned int level);
-		void writeObject(const Object &node, unsigned int level);
-		void writeArray(const Array &node, unsigned int level);
+		void writeNode(const Node &node, size_t level);
+		void writeObject(const Object &node, size_t level);
+		void writeArray(const Array &node, size_t level);
 		void writeValue(const Value &node);
 
 		std::string result;
