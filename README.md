@@ -64,6 +64,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     3. [Unit tests](#4-3)
     4. [Python tests](#4-4)
     5. [Test Summary](#4-5)
+    6. [Fuzzing](#4-6)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
     2. [macOS](#5-2)
@@ -1037,6 +1038,30 @@ You may wish to get a brief summary of failures with commands such as:
 ```bash
 $ cd <exiv2dir>/build
 $ make python_tests 2>&1 | grep FAIL
+```
+
+### 4.6 Fuzzing
+
+The code for the fuzzers is in `exiv2dir/fuzz`
+
+To build the fuzzers, use the *cmake* option `-DEXIV2_BUILD_FUZZ_TESTS=ON` and `-DEXIV2_TEAM_USE_SANITIZERS=ON`.
+Note that it only works with clang compiler as libFuzzer is integrate with clang > 6.0
+
+To build the fuzzers:
+
+```bash
+$ cd <exiv2dir>
+$ rm -rf build-fuzz ; mkdir build-fuzz ; cd build-fuzz
+$ cmake .. -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON
+$ cmake --build .
+```
+
+To execute a fuzzer:
+
+```bash
+cd <exiv2dir>/build-fuzz
+mkdir corpus
+./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -workers=$(nproc) -max_len=4096
 ```
 
 [TOC](#TOC)
