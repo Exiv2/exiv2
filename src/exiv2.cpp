@@ -451,7 +451,7 @@ int Params::evalGrep(const std::string& optArg)
         // try and emplace regex into vector
         // might throw if invalid pattern
         greps_.emplace_back(pattern, flags);
-    } catch (std::regex_error const& e) {
+    } catch (std::regex_error const&) {
         // there was an error compiling the regexp
         std::cerr << progname() << ": " << _("Option") << " -g: " << _("Invalid regexp") << " \"" << optArg << "\n";
         return 1;
