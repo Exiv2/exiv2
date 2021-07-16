@@ -1176,17 +1176,6 @@ $ cmake .. -G "Unix Makefiles"   # or "MSYS Makefiles"
 $ make
 ```
 
-#### MinGW and Regex
-
-The exiv2 command-line program provides an option **`--grep`** to filter output.  The implementation requires the header file **`<regex.h>`** and supporting library to be available during the build.  When not available, the option **`--grep`** degrades to a substring match.  Because there are several versions of **`<regex.h>`** available on the MinGW platform, detection of regex is always disabled on this platform and uses substring match.  The following command reveals if regex is included in your build:
-
-```bash
-$ exiv2 -vVg regex
-exiv2 0.27.1
-have_regex=1
-$
-```
-
 [TOC](#TOC)
 <div id="5-4">
 
