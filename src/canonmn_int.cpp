@@ -2031,6 +2031,7 @@ namespace Exiv2 {
         { 4159, "Canon EF-M 32mm f/1.4 STM"                                 },
         { 4160, "Canon EF-S 35mm f/2.8 Macro IS STM"                        },
         { 4208, "Sigma 56mm f/1.4 DC DN | C"                                },
+        { 4208, "Sigma 30mm f/1.4 DC DN | C"                                },
         {36910, "Canon EF 70-300mm f/4-5.6 IS II USM"                       },
         {36912, "Canon EF-S 18-135mm f/3.5-5.6 IS USM"                      },
         {61491, "Canon CN-E 14mm T3.1 L F"                                  },
