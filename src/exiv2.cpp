@@ -445,8 +445,8 @@ int Params::evalGrep(const std::string& optArg)
     auto pattern = bIgnoreCase ? optArg.substr(0, optArg.size() - 2) : optArg;
 
     try {
-        // use grep syntax, optimize for faster matching, treat all sub expressions as unnamed
-        auto flags = std::regex::grep | std::regex::optimize | std::regex::nosubs;
+        // use POSIX syntax, optimize for faster matching, treat all sub expressions as unnamed
+        auto flags = std::regex::basic | std::regex::optimize | std::regex::nosubs;
         flags = bIgnoreCase ? flags | std::regex::icase : flags;
         // try and emplace regex into vector
         // might throw if invalid pattern
