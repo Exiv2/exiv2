@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <regex>
 
 // #1147
 #ifndef WIN32
@@ -115,21 +116,11 @@ namespace Exiv2 {
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
     bool bPrint = greps.empty();
-    for (auto g = greps.begin(); !bPrint && g != greps.end(); ++g) {
-        std::string Key(key);
-#if defined(EXV_HAVE_REGEX_H)
-        bPrint = (0 == regexec(&(*g), key, 0, nullptr, 0) || 0 == regexec(&(*g), value.c_str(), 0, nullptr, 0));
-#else
-            std::string Pattern(g->pattern_);
-            std::string Value(value);
-            if ( g->bIgnoreCase_ ) {
-                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
-                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
-                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
-                std::transform(Value.begin()  , Value.end()  ,Value.begin()    , ::tolower);
-            }
-            bPrint = Key.find(Pattern) != std::string::npos || Value.find(Pattern) != std::string::npos;
-#endif
+    for (auto const& g : greps) {
+        bPrint = std::regex_search(key, g) || std::regex_search(value, g);
+        if (bPrint) {
+            break;
+        }
     }
     return bPrint;
 }
@@ -323,8 +314,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_iconv       =0;
     int have_memory      =0;
     int have_lstat       =0;
-    int have_regex       =0;
-    int have_regex_h     =0;
     int have_stdbool     =0;
     int have_stdint      =0;
     int have_stdlib      =0;
@@ -376,14 +365,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_LSTAT
     have_lstat=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX
-    have_regex=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX_H
-    have_regex_h=1;
 #endif
 
 #ifdef EXV_HAVE_STDBOOL_H
@@ -517,8 +498,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
     output(os,keys,"have_lstat"        ,have_lstat       );
-    output(os,keys,"have_regex"        ,have_regex       );
-    output(os,keys,"have_regex_h"      ,have_regex_h     );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );
