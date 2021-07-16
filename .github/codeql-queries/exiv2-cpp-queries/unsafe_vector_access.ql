@@ -175,5 +175,7 @@ where
   not index_last_with_check(_, call) and
   // Ignore accesses like this: `vsnprintf(&buffer[0], buffer.size(), format, args)`
   // That's pointer arithmetic, not a deref, so it's usually a false positive.
-  not exists(AddressOfExpr addrExpr | addrExpr.getOperand() = call)
+  not exists(AddressOfExpr addrExpr | addrExpr.getOperand() = call) and
+  // Ignore results in the xmpsdk directory.
+  not call.getLocation().getFile().getRelativePath().matches("xmpsdk/%")
 select call, "Unsafe use of operator[]. Use the at() method instead."
