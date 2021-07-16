@@ -814,7 +814,7 @@ namespace Exiv2 {
         {  0x17, "AFAreaMode"        , N_("AF area mode")       , N_("Auto focus area mode"), sony2FpId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sony2FpAFAreaMode)},
         {  0x2d, "FocusPosition2"    , N_("Focus position 2")   , N_("Focus position 2")    , sony2FpId, makerTags, unsignedByte, 1, printSony2FpFocusPosition2},
         // End of list marker
-        {0xffff, "(UnknownSony2FpTag)", "(UnknownSony2FpTag)"   , "(UnknownSony2FpTag)"     , sony2FpId, makerTags, unsignedByte, 1, printValue},
+        {0xffff, "(UnknownSony2FpTag)", "(Unknown Sony2Fp tag)"   , "(Unknown Sony2Fp tag)"     , sony2FpId, makerTags, unsignedByte, 1, printValue},
     };
 
     const TagInfo* SonyMakerNote::tagListFp()
@@ -828,18 +828,25 @@ namespace Exiv2 {
             os << value;
         else {
             long val = (value.toLong() & 0x7F);
-            if (val == 0)
+            switch (val) {
+            case 0:
                 os << N_("Manual");
-            else if (val == 2)
+                break;
+            case 2:
                 os << N_("AF-S");
-            else if (val == 3)
+                break;
+            case 3:
                 os << N_("AF-C");
-            else if (val == 4)
+                break;
+            case 4:
                 os << N_("AF-A");
-            else if (val == 6)
+                break;
+            case 6:
                 os << N_("DMF");
-            else
+                break;
+            default:
                 os << "(" << val << ")";
+            }
         }
 
         return os;
@@ -855,20 +862,21 @@ namespace Exiv2 {
                 return os << "(" << value << ")";
 
             // Ranges of models that do not support this tag
-            const char* models[] = { "DSC-", "Stellar" };
-
             std::string model = pos->toString();
-            for (auto&& m : models) {
-                if (model.find(m) == 0) {
+            for (auto& m : { "DSC-", "Stellar" }) {
+                if (startsWith(model, m)) {
                     os << N_("n/a");
                     return os;
                 }
             }
             long val = value.toLong();
-            if (val == 255)
+            switch (val) {
+            case 255:
                 os << N_("Infinity");
-            else
+                break;
+            default:
                 os << val;
+            }
         }
         return os;
     }
@@ -945,6 +953,11 @@ namespace Exiv2 {
     const TagInfo* SonyMakerNote::tagList2010e()
     {
         return tagInfo2010e_;
+    }
+
+    bool SonyMakerNote::startsWith(const std::string& s, const std::string& start)
+    {
+        return s.size() >= start.size() && std::memcmp(s.data(), start.data(), start.size()) == 0;
     }
 
     // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797

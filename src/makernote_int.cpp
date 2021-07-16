@@ -1201,10 +1201,8 @@ namespace Exiv2 {
     int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
     {
         // Not valid for models beginning
-        const char* models[] = { "SLT-", "HV", "ILCA-" };
-
         std::string model = getExifModel(pRoot);
-        for (auto&& m : models) {
+        for (auto& m : { "SLT-", "HV", "ILCA-" }) {
             if (startsWith(model, m))
                 return -1;
         }
