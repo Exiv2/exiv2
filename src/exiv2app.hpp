@@ -40,6 +40,7 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include <regex>
 
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>
@@ -296,9 +297,6 @@ private:
         yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
     }
-
-    //! Destructor, frees any allocated regexes in greps_
-    ~Params() override;
 
     //! @name Helpers
     //@{

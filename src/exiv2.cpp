@@ -37,9 +37,7 @@
 #include <cassert>
 #include <cctype>
 
-#if defined(EXV_HAVE_REGEX_H)
-#include <regex.h>
-#endif
+#include <regex>
 
 #if defined(_MSC_VER)
 #include <Windows.h>
@@ -202,14 +200,6 @@ Params& Params::instance()
         instance_ = new Params;
     }
     return *instance_;
-}
-
-Params::~Params() {
-#if defined(EXV_HAVE_REGEX_H)
-    for (auto&& grep : instance().greps_) {
-        regfree(&grep);
-    }
-#endif
 }
 
 void Params::cleanup()
@@ -448,48 +438,27 @@ int Params::setLogLevel(const std::string& optArg)
     return rc;
 } // Params::setLogLevel
 
-// http://stackoverflow.com/questions/874134/find-if-string-ends-with-another-string-in-c
-static inline bool ends_with(std::string const & value, std::string const & ending,std::string& stub)
+int Params::evalGrep(const std::string& optArg)
 {
-    if (ending.size() > value.size()) return false;
-    bool bResult = std::equal(ending.rbegin(), ending.rend(), value.rbegin());
-    stub         = bResult ? value.substr(0,value.length() - ending.length()) : value;
-    return bResult ;
-}
+    // check that string ends in "/i"
+    bool bIgnoreCase = optArg.size() > 2 && optArg.back() == 'i' && optArg[optArg.size() - 2] == '/';
+    auto pattern = bIgnoreCase ? optArg.substr(0, optArg.size() - 2) : optArg;
 
-int Params::evalGrep( const std::string& optArg)
-{
-    int result=0;
-    std::string pattern;
-    std::string ignoreCase("/i");
-    bool bIgnoreCase = ends_with(optArg,ignoreCase,pattern);
-#if defined(EXV_HAVE_REGEX_H)
-    // try to compile a reg-exp from the input argument and store it in the vector
-    const size_t i = greps_.size();
-    greps_.resize(i + 1);
-    regex_t *pRegex = &greps_[i];
-    int errcode = regcomp( pRegex, pattern.c_str(), bIgnoreCase ? REG_NOSUB|REG_ICASE : REG_NOSUB);
-
-    // there was an error compiling the regexp
-    if( errcode ) {
-        size_t length = regerror(errcode, pRegex, nullptr, 0);
-        auto buffer = new char[length];
-        regerror (errcode, pRegex, buffer, length);
-        std::cerr << progname()
-              << ": " << _("Option") << " -g: "
-              << _("Invalid regexp") << " \"" << optArg << "\": " << buffer << "\n";
-
-        // free the memory and drop the regexp
-        delete[] buffer;
-        regfree( pRegex);
-        greps_.resize(i);
-        result=1;
+    try {
+        // use grep syntax, optimize for faster matching, treat all sub expressions as unnamed
+        auto flags = std::regex::grep | std::regex::optimize | std::regex::nosubs;
+        flags = bIgnoreCase ? flags | std::regex::icase : flags;
+        // try and emplace regex into vector
+        // might throw if invalid pattern
+        greps_.emplace_back(pattern, flags);
+    } catch (std::regex_error const& e) {
+        // there was an error compiling the regexp
+        std::cerr << progname() << ": " << _("Option") << " -g: " << _("Invalid regexp") << " \"" << optArg << "\n";
+        return 1;
     }
-#else
-    greps_.push_back(Exiv2_grep_key_t(pattern,bIgnoreCase));
-#endif
-    return result;
-} // Params::evalGrep
+
+    return 0;
+}  // Params::evalGrep
 
 int Params::evalKey( const std::string& optArg)
 {

@@ -483,24 +483,14 @@ namespace Action {
 
     bool Print::grepTag(const std::string& key)
     {
-        bool result=Params::instance().greps_.empty();
-        for (auto&& g : Params::instance().greps_) {
-            if (result)
+        bool result = Params::instance().greps_.empty();
+        for (auto const& g : Params::instance().greps_) {
+            result = std::regex_search(key, g);
+            if (result) {
                 break;
-#if defined(EXV_HAVE_REGEX_H)
-            result = regexec(&g, key.c_str(), 0, nullptr, 0) == 0;
-#else
-            std::string Pattern(g.pattern_);
-            std::string Key(key);
-            if (g.bIgnoreCase_) {
-                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
-                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
-                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
             }
-            result = Key.find(Pattern) != std::string::npos;
-#endif
         }
-        return result ;
+        return result;
     }
 
     bool Print::keyTag(const std::string& key)
