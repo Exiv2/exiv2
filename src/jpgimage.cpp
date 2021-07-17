@@ -641,7 +641,7 @@ namespace Exiv2 {
                 // Read size and signature
                 std::memset(buf.pData_, 0x0, buf.size_);
                 bufRead = io_->read(buf.pData_, bufMinSize);
-                if (io_->error())
+                if (io_->error() || bufRead != bufMinSize)
                     throw Error(kerFailedToReadImageData);
                 if (bufRead < 2)
                     throw Error(kerNotAJpeg);
