@@ -232,7 +232,7 @@ namespace Exiv2 {
         std::string head(reinterpret_cast<const char*>(buf + start), len - start);
         if (head.substr(0, 5)  == "<?xml") {
             // Forward to the next tag
-            for (unsigned i = 5; i < head.size(); ++i) {
+            for (size_t i = 5; i < head.size(); ++i) {
                 if (head[i] == '<') {
                     head = head.substr(i);
                     break;

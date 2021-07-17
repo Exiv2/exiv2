@@ -190,11 +190,11 @@ namespace Exiv2 {
         case opRead:
             // Flush if current mode allows reading, else reopen (in mode "r+b"
             // as in this case we know that we can write to the file)
-            if (openMode_[0] == 'r' || openMode_[1] == '+') reopen = false;
+            if (openMode_.at(0) == 'r' || openMode_.at(1) == '+') reopen = false;
             break;
         case opWrite:
             // Flush if current mode allows writing, else reopen
-            if (openMode_[0] != 'r' || openMode_[1] == '+') reopen = false;
+            if (openMode_.at(0) != 'r' || openMode_.at(1) == '+') reopen = false;
             break;
         case opSeek:
             reopen = false;
@@ -934,7 +934,7 @@ namespace Exiv2 {
     size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
-        if (p_->fp_ != 0 && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
+        if (p_->fp_ != 0 && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
             std::fflush(p_->fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
@@ -2133,7 +2133,7 @@ namespace Exiv2 {
     void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, long from, long to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
-        if (scriptPath == "") {
+        if (scriptPath.empty()) {
             throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 

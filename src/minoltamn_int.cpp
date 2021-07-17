@@ -2030,7 +2030,7 @@ namespace Exiv2 {
     {
         const TagDetails* td = find(minoltaSonyLensID, lensID);
         std::vector<std::string> tokens = split(td[0].label_,"|");
-        return os << exvGettext(trim(tokens[index-1]).c_str());
+        return os << exvGettext(trim(tokens.at(index-1)).c_str());
     }
 
     static std::ostream& resolveLens0x1c(std::ostream& os, const Value& value,

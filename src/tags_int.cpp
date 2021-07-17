@@ -3214,10 +3214,10 @@ namespace Exiv2 {
         }
 
         std::string stringValue = value.toString();
-        if (stringValue[19] == 'Z') {
+        if (stringValue.at(19) == 'Z') {
             stringValue = stringValue.substr(0, 19);
         }
-        for (unsigned int i = 0; i < stringValue.length(); ++i) {
+        for (size_t i = 0; i < stringValue.length(); ++i) {
             if (stringValue[i] == 'T') stringValue[i] = ' ';
             if (stringValue[i] == '-') stringValue[i] = ':';
         }

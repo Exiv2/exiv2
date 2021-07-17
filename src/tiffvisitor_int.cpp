@@ -481,7 +481,7 @@ namespace Exiv2 {
             uint.push_back((uint16_t) object->pValue()->toLong(i));
         }
         // Check this is AFInfo2 (ints[0] = bytes in object)
-        if ( ints[0] != object->pValue()->count()*2 ) return ;
+        if ( ints.at(0) != object->pValue()->count()*2 ) return ;
 
         std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
