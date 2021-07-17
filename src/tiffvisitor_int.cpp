@@ -476,7 +476,7 @@ namespace Exiv2 {
         // create vector of signedShorts from unsignedShorts in Exif.Canon.AFInfo
         std::vector<int16_t>  ints;
         std::vector<uint16_t> uint;
-        for (int i = 0; i < object->pValue()->count(); i++) {
+        for (long i = 0; i < object->pValue()->count(); i++) {
             ints.push_back((int16_t) object->pValue()->toLong(i));
             uint.push_back((uint16_t) object->pValue()->toLong(i));
         }
@@ -523,9 +523,9 @@ namespace Exiv2 {
                 Exiv2::Value::AutoPtr v = Exiv2::Value::create(records[i].bSigned?Exiv2::signedShort:Exiv2::unsignedShort);
                 std::ostringstream    s;
                 if ( records[i].bSigned ) {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
+                    for ( uint16_t k = 0 ; k < records[i].size ; k++ ) s << " " << ints.at(nStart++);
                 } else {
-                    for ( int16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint.at(nStart++);
+                    for ( uint16_t k = 0 ; k < records[i].size ; k++ ) s << " " << uint.at(nStart++);
                 }
 
                 v->read(s.str());

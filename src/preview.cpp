@@ -804,7 +804,7 @@ namespace {
                     enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
-                    for (int i = 0; i < sizes.count(); i++) {
+                    for (long i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
                         enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);

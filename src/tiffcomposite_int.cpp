@@ -427,7 +427,7 @@ namespace Exiv2 {
             return;
         }
         uint32_t size = 0;
-        for (int i = 0; i < pSize->count(); ++i) {
+        for (long i = 0; i < pSize->count(); ++i) {
             size += static_cast<uint32_t>(pSize->toLong(i));
         }
         uint32_t offset = static_cast<uint32_t>(pValue()->toLong(0));
@@ -484,7 +484,7 @@ namespace Exiv2 {
 #endif
             return;
         }
-        for (int i = 0; i < pValue()->count(); ++i) {
+        for (long i = 0; i < pValue()->count(); ++i) {
             const uint32_t offset = static_cast<uint32_t>(pValue()->toLong(i));
             const byte* pStrip = pData + baseOffset + offset;
             const uint32_t size = static_cast<uint32_t>(pSize->toLong(i));
