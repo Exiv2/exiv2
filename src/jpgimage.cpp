@@ -709,6 +709,7 @@ namespace Exiv2 {
                             io_->seek(-bufRead, BasicIo::cur);
                             iptcDataSegs.push_back(io_->tell());
                             iptcDataSegs.push_back(size);
+                            bufRead = 0;
                         }
                     } else if (bPrint) {
                         const size_t start = size > 0 ? 2 : 0;
