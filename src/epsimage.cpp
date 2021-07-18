@@ -33,6 +33,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "version.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
@@ -48,6 +49,7 @@
 namespace {
 
     using namespace Exiv2;
+    using namespace Util;
     using Exiv2::byte;
 
     // signature of DOS EPS
@@ -132,12 +134,6 @@ namespace {
             throw Error(kerImageWriteFailed);
         }
         return static_cast<uint32_t>(pos);
-    }
-
-    //! Check whether a string has a certain beginning
-    bool startsWith(const std::string& s, const std::string& start)
-    {
-        return s.size() >= start.size() && memcmp(s.data(), start.data(), start.size()) == 0;
     }
 
     //! Check whether a string contains only white space characters

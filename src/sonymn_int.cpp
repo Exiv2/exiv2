@@ -25,7 +25,9 @@
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "value.hpp"
+#include "exif.hpp"
 #include "i18n.h"                // NLS support.
+#include "utils.hpp"
 
 // + standard includes
 #include <string>
@@ -791,19 +793,93 @@ namespace Exiv2 {
         return tagInfoCs2_;
     }
 
+    //! Lookup table to translate Sony2Fp AF Area Mode values to readable labels
+    constexpr TagDetails sony2FpAFAreaMode[] = {
+        { 0,   N_("Multi")                               },
+        { 1,   N_("Center")                              },
+        { 2,   N_("Spot")                                },
+        { 3,   N_("Flexible Spot")                       },
+        { 10,  N_("Selective (for Miniature effect)")    },
+        { 11,  N_("Zone")                                },
+        { 12,  N_("Expanded Flexible Spot")              },
+        { 14,  N_("Tracking")                            },
+        { 15,  N_("Face Tracking")                       },
+        { 20,  N_("Animal Eye Tracking")                 },
+        { 255, N_("Manual")                              }
+    };
+
     //! Sony Tag 9402 Sony2Fp (FocusPosition)
     constexpr TagInfo SonyMakerNote::tagInfoFp_[] = {
-        {  0x04, "AmbientTemperature", N_("Ambient Temperature"), N_("Ambient Temperature"), sony2FpId, makerTags,   signedByte, 1, printValue},
-        {  0x16, "FocusMode"         , N_("Focus Mode")         , N_("Focus Mode")         , sony2FpId, makerTags, unsignedByte, 1, printValue},
-        {  0x17, "AFAreaMode"        , N_("AF Area Mode")       , N_("AF Area Mode")       , sony2FpId, makerTags, unsignedByte, 1, printValue},
-        {  0x2d, "FocusPosition2"    , N_("Focus Position 2")   , N_("Focus Position 2")   , sony2FpId, makerTags, unsignedByte, 1, printValue},
+        {  0x04, "AmbientTemperature", N_("Ambient temperature"), N_("Temperature of the surroundings (in degrees Celsius)"), sony2FpId, makerTags, signedByte, 1, printTemperatureInDegC},
+        {  0x16, "FocusMode"         , N_("Focus mode")         , N_("Focus mode")          , sony2FpId, makerTags, unsignedByte, 1, printSony2FpFocusMode},
+        {  0x17, "AFAreaMode"        , N_("AF area mode")       , N_("Auto focus area mode"), sony2FpId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sony2FpAFAreaMode)},
+        {  0x2d, "FocusPosition2"    , N_("Focus position 2")   , N_("Focus position 2")    , sony2FpId, makerTags, unsignedByte, 1, printSony2FpFocusPosition2},
         // End of list marker
-        {0xffff, "(Unknownsony2FpTag)", "(Unknownsony2FpTag)"   , "(Unknownsony2FpTag)"    , sony2FpId, makerTags, unsignedByte, 1, printValue},
+        {0xffff, "(UnknownSony2FpTag)", "(Unknown Sony2Fp tag)"   , "(Unknown Sony2Fp tag)"     , sony2FpId, makerTags, unsignedByte, 1, printValue},
     };
 
     const TagInfo* SonyMakerNote::tagListFp()
     {
         return tagInfoFp_;
+    }
+
+    std::ostream& SonyMakerNote::printSony2FpFocusMode(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() != 1)
+            os << value;
+        else {
+            long val = (value.toLong() & 0x7F);
+            switch (val) {
+            case 0:
+                os << N_("Manual");
+                break;
+            case 2:
+                os << N_("AF-S");
+                break;
+            case 3:
+                os << N_("AF-C");
+                break;
+            case 4:
+                os << N_("AF-A");
+                break;
+            case 6:
+                os << N_("DMF");
+                break;
+            default:
+                os << "(" << val << ")";
+            }
+        }
+
+        return os;
+    }
+
+    std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            os << "(" << value << ")";
+        else {
+            auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+            if (pos == metadata->end())
+                return os << "(" << value << ")";
+
+            // Ranges of models that do not support this tag
+            std::string model = pos->toString();
+            for (auto& m : { "DSC-", "Stellar" }) {
+                if (Util::startsWith(model, m)) {
+                    os << N_("n/a");
+                    return os;
+                }
+            }
+            long val = value.toLong();
+            switch (val) {
+            case 255:
+                os << N_("Infinity");
+                break;
+            default:
+                os << val;
+            }
+        }
+        return os;
     }
 
     //! Sony Tag 9403 SonyMisc1

@@ -32,6 +32,7 @@
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <string>
@@ -1189,6 +1190,16 @@ namespace Exiv2 {
             "DSC-HX50V", "DSC-TX30", "DSC-WX60",  "DSC-WX200", "DSC-WX300",
         };
         return std::find(std::begin(models), std::end(models), getExifModel(pRoot)) != std::end(models) ? 0 : -1;
+    }
+    int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // Not valid for models beginning
+        std::string model = getExifModel(pRoot);
+        for (auto& m : { "SLT-", "HV", "ILCA-" }) {
+            if (Util::startsWith(model, m))
+                return -1;
+        }
+        return 0;
     }
     }  // namespace Internal
 }  // namespace Exiv2
