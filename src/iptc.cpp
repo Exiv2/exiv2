@@ -365,7 +365,7 @@ namespace Exiv2 {
             snprintf(buff, sizeof(buff), "  %6d | %7d | %-24s | %6d | ", record, dataset,
                     Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
-            enforce(bytes.size() - i >= 5 + len, kerCorruptedMetadata);
+            enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), kerCorruptedMetadata);
             out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
                 << (len > 40 ? "..." : "")
                 << std::endl;
