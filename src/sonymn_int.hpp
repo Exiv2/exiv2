@@ -76,10 +76,6 @@ namespace Exiv2 {
         static const TagInfo tagInfoSonyMisc1_[];
         static const TagInfo tagInfo2010e_[];
 
-        // TODO: When moving to C++20, this can be replace with
-        //       std::basic_string<CharT,Traits,Allocator>::starts_with() .
-        //       Suggested in https://github.com/Exiv2/exiv2/pull/1777 .
-        static bool startsWith(const std::string& s, const std::string& start);
     }; // class SonyMakerNote
 
     DataBuf sonyTagDecipher(uint16_t, const byte*, uint32_t, TiffComponent* const);

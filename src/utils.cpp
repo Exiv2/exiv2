@@ -119,4 +119,10 @@ namespace Util {
         }
     }
 
+    bool startsWith(const std::string& s, const std::string& start)
+    {
+        return s.size() >= start.size() && std::memcmp(s.data(), start.data(), start.size()) == 0;
+    }
+
+
 }                                       // namespace Util

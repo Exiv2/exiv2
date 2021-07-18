@@ -27,6 +27,7 @@
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
+#include "utils.hpp"
 
 // + standard includes
 #include <string>
@@ -864,7 +865,7 @@ namespace Exiv2 {
             // Ranges of models that do not support this tag
             std::string model = pos->toString();
             for (auto& m : { "DSC-", "Stellar" }) {
-                if (startsWith(model, m)) {
+                if (Util::startsWith(model, m)) {
                     os << N_("n/a");
                     return os;
                 }
@@ -953,11 +954,6 @@ namespace Exiv2 {
     const TagInfo* SonyMakerNote::tagList2010e()
     {
         return tagInfo2010e_;
-    }
-
-    bool SonyMakerNote::startsWith(const std::string& s, const std::string& start)
-    {
-        return s.size() >= start.size() && std::memcmp(s.data(), start.data(), start.size()) == 0;
     }
 
     // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
