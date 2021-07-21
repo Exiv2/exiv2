@@ -35,6 +35,7 @@
 #include <iomanip>
 #include <cassert>
 #include <cstring>
+#include <cmath>
 
 // *****************************************************************************
 // class member definitions
@@ -908,6 +909,107 @@ namespace Exiv2 {
         return os;
     }
 
+    //! Lookup table to translate Sony Exposure Program 3 values to readable labels
+    constexpr TagDetails sonyExposureProgram3[] = {
+        { 0,         N_("Program AE")                 },
+        { 1,         N_("Aperture-priority AE")       },
+        { 2,         N_("Shutter speed priority AE")  },
+        { 3,         N_("Manual")                     },
+        { 4,         N_("Auto")                       },
+        { 5,         N_("iAuto")                      },
+        { 6,         N_("Superior Auto")              },
+        { 7,         N_("iAuto+")                     },
+        { 8,         N_("Portrait")                   },
+        { 9,         N_("Landscape")                  },
+        { 10,        N_("Twilight")                   },
+        { 11,        N_("Twilight Portrait")          },
+        { 12,        N_("Sunset")                     },
+        { 14,        N_("Action (High speed)")        },
+        { 16,        N_("Sports")                     },
+        { 17,        N_("Handheld Night Shot")        },
+        { 18,        N_("Anti Motion Blur")           },
+        { 19,        N_("High Sensitivity")           },
+        { 21,        N_("Beach")                      },
+        { 22,        N_("Snow")                       },
+        { 23,        N_("Fireworks")                  },
+        { 26,        N_("Underwater")                 },
+        { 27,        N_("Gourmet")                    },
+        { 28,        N_("Pet")                        },
+        { 29,        N_("Macro")                      },
+        { 30,        N_("Backlight Correction HDR")   },
+        { 33,        N_("Sweep Panorama")             },
+        { 36,        N_("Background Defocus")         },
+        { 37,        N_("Soft Skin")                  },
+        { 42,        N_("3D Image")                   },
+        { 43,        N_("Cont. Priority AE")          },
+        { 45,        N_("Document")                   },
+        { 46,        N_("Party")                      }
+    };
+
+    //! Sony Tag 9404b SonyMisc2b tags
+    constexpr TagInfo SonyMakerNote::tagInfoSonyMisc2b_[] = {
+        {12,    "ExposureProgram", N_("Exposure program"),
+                N_("Exposure program"),
+                sonyMisc2bId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyExposureProgram3)},
+        {14,    "IntelligentAuto", N_("Intelligent auto"),
+                N_("Whether intelligent auto was used"),
+                sonyMisc2bId, makerTags, unsignedByte, -1, printMinoltaSonyBoolValue},
+        {30,    "LensZoomPosition", N_("Lens zoom position"),
+                N_("Lens zoom position (in %)"),
+                sonyMisc2bId, makerTags, unsignedShort, -1, printSonyMisc2bLensZoomPosition},
+        {32,    "FocusPosition2", N_("Focus position 2"),
+                N_("Focus position 2"),
+                sonyMisc2bId, makerTags, unsignedByte, -1, printSonyMisc2bFocusPosition2},
+        // End of list marker
+        {0xffff, "(UnknownSonyMisc2bTag)", "(Unknown SonyMisc2b tag)",
+                 "(Unknown SonyMisc2b tag)",
+                 sonyMisc2bId, makerTags, unsignedByte, -1, printValue}
+    };
+
+    const TagInfo* SonyMakerNote::tagListSonyMisc2b()
+    {
+        return tagInfoSonyMisc2b_;
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
+
+        // Models that do not support this tag
+        std::string model = pos->toString();
+        for (auto& m : { "SLT-", "HV", "ILCA-"}) {
+            if (model.find(m) != std::string::npos)
+                return os << N_("n/a");
+        }
+
+        os << std::round((value.toLong()/10.24)) << "%";
+
+        return os;
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
+
+        // Models that do not support this tag
+        std::string model = pos->toString();
+        for (auto& m : { "SLT-", "HV", "ILCA-"}) {
+            if (model.find(m) != std::string::npos)
+                return os << N_("n/a");
+        }
+
+        return os << value;
+    }
 
     //! Sony Tag 2010 Sony2010 (Miscellaneous)
     constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
