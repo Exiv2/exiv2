@@ -81,8 +81,11 @@
 // *****************************************************************************
 namespace {
     // Todo: Can be generalized further - get any tag as a string/long/...
+    //! Get the Value for a tag within a particular group
+    const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag, const Exiv2::Internal::IfdId& group);
     //! Get the model name from tag Exif.Image.Model
     std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
+
     //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
 }  // namespace
@@ -1207,13 +1210,21 @@ namespace Exiv2 {
 // *****************************************************************************
 // local definitions
 namespace {
-    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot)
+    const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag, const Exiv2::Internal::IfdId& group)
     {
-        Exiv2::Internal::TiffFinder finder(0x0110, Exiv2::Internal::ifd0Id); // Exif.Image.Model
+        Exiv2::Internal::TiffFinder finder(tag, group);
+        if (!pRoot)
+            return nullptr;
         pRoot->accept(finder);
         auto te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
-        if (!te || !te->pValue() || te->pValue()->count() == 0) return std::string();
-        return te->pValue()->toString();
+        return (!te || !te->pValue()) ? nullptr : te->pValue();
+    }
+
+    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot)
+    {
+        // Lookup the Exif.Image.Model tag
+        const auto value = getExifValue(pRoot, 0x0110, Exiv2::Internal::ifd0Id);
+        return (!value || value->count() == 0) ? std::string("") : std::string(value->toString());
     }
 
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial)
