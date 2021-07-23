@@ -467,11 +467,14 @@ namespace Exiv2
 
     void BmffImage::parseTiff(uint32_t root_tag, uint64_t length,uint64_t start)
     {
+        enforce(start <= io_->size(), kerCorruptedMetadata);
+        enforce(length <= io_->size() - start, kerCorruptedMetadata);
+        enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+        enforce(length <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+
         // read and parse exif data
         long    restore = io_->tell();
-        enforce(length <= std::numeric_limits<long>::max(), kerCorruptedMetadata);
         DataBuf exif(static_cast<long>(length));
-        enforce(start <= std::numeric_limits<long>::max(), kerCorruptedMetadata);
         io_->seek(static_cast<long>(start),BasicIo::beg);
         if ( exif.size_ > 8 && io_->read(exif.pData_,exif.size_) == exif.size_ ) {
             // hunt for "II" or "MM"
@@ -494,7 +497,8 @@ namespace Exiv2
     void BmffImage::parseTiff(uint32_t root_tag, uint64_t length)
     {
         if (length > 8) {
-            enforce(length - 8 <= std::numeric_limits<long>::max(), kerCorruptedMetadata);
+            enforce(length - 8 <= io_->size() - io_->tell(), kerCorruptedMetadata);
+            enforce(length - 8 <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf data(static_cast<long>(length - 8));
             long bufRead = io_->read(data.pData_, data.size_);
 
@@ -512,11 +516,14 @@ namespace Exiv2
     void BmffImage::parseXmp(uint64_t length,uint64_t start)
     {
         if (length > 8) {
+            enforce(start <= io_->size(), kerCorruptedMetadata);
+            enforce(length <= io_->size() - start, kerCorruptedMetadata);
+
             long restore = io_->tell() ;
-            enforce(start <= std::numeric_limits<long>::max(), kerCorruptedMetadata);
+            enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             io_->seek(static_cast<long>(start),BasicIo::beg);
 
-            enforce(length < std::numeric_limits<long>::max(), kerCorruptedMetadata);
+            enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf  xmp(static_cast<long>(length+1));
             xmp.pData_[length]=0  ; // ensure xmp is null terminated!
             if ( io_->read(xmp.pData_, length) != static_cast<long>(length) )
