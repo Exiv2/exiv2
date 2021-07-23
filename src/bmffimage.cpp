@@ -232,7 +232,7 @@ namespace Exiv2
         long restore = io_->tell();
         enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
         enforce(box_length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
-        DataBuf data(box_length - hdrsize);
+        DataBuf data(static_cast<long>(box_length - hdrsize));
         const long box_end = restore + data.size_;
         io_->read(data.pData_, data.size_);
         io_->seek(restore, BasicIo::beg);
@@ -357,7 +357,7 @@ namespace Exiv2
                         out << std::endl;
                         bLF = false;
                     }
-                    long step = (box_length - 16) / itemCount;  // length of data per item.
+                    long step = static_cast<long>((box_length - 16) / itemCount);  // length of data per item.
                     long base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
@@ -529,7 +529,7 @@ namespace Exiv2
             enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf  xmp(static_cast<long>(length+1));
             xmp.pData_[length]=0  ; // ensure xmp is null terminated!
-            if ( io_->read(xmp.pData_, length) != static_cast<long>(length) )
+            if ( io_->read(xmp.pData_, static_cast<long>(length)) != static_cast<long>(length) )
                 throw Error(kerInputDataReadFailed);
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
