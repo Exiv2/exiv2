@@ -182,7 +182,6 @@ namespace Exiv2
                                const long pbox_end,
                                int depth)
     {
-        long result = pbox_end;
         long address = io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
@@ -202,7 +201,7 @@ namespace Exiv2
         size_t hdrsize = sizeof(hdrbuf);
         enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
         if (io_->read(reinterpret_cast<byte*>(&hdrbuf), sizeof(hdrbuf)) != sizeof(hdrbuf))
-            return result;
+            return pbox_end;
 
         // The box length is encoded as a uint32_t by default, but the special value 1 means
         // that it's a uint64_t.
@@ -241,7 +240,7 @@ namespace Exiv2
         if (fullBox(box_type)) {
             enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = getLong(data.pData_ + skip, endian_);  // version/flags
-            version = static_cast<int8_t>(flags) >> 24;
+            version = static_cast<uint8_t>(flags >> 24);
             version &= 0x00ffffff;
             skip += 4;
         }
@@ -263,7 +262,7 @@ namespace Exiv2
                 }
 
                 enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
-                int n = getShort(data.pData_ + skip, endian_);
+                uint16_t n = getShort(data.pData_ + skip, endian_);
                 skip += 2;
 
                 io_->seek(skip, BasicIo::cur);
@@ -307,7 +306,7 @@ namespace Exiv2
                     bLF = false;
                 }
                 io_->seek(skip, BasicIo::cur);
-                while (io_->tell() < static_cast<long>((address + box_length))) {
+                while (io_->tell() < box_end) {
                     io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
@@ -431,7 +430,7 @@ namespace Exiv2
                     bLF = false;
                 }
                 if (name == "cano") {
-                    while (io_->tell() < static_cast<long>(address + box_length)) {
+                    while (io_->tell() < box_end) {
                         io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
@@ -463,9 +462,7 @@ namespace Exiv2
         if ( bLF&& bTrace) out << std::endl;
 
         // return address of next box
-        result = (address + box_length);
-
-        return result;
+        return box_end;
     }
 
     void BmffImage::parseTiff(uint32_t root_tag, uint64_t length,uint64_t start)
