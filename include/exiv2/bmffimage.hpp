@@ -128,10 +128,13 @@ namespace Exiv2
         /*!
           @brief recursiveBoxHandler
           @throw Error if we visit a box more than once
+          @param pbox_end The end location of the parent box. Boxes are
+              nested, so we must not read beyond this.
           @return address of next box
           @warning This function should only be called by readMetadata()
          */
-        long boxHandler(std::ostream& out=std::cout, Exiv2::PrintStructureOption option=kpsNone,int depth = 0);
+        long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option,
+                        const long pbox_end, int depth);
         std::string indent(int i)
         {
             return std::string(2*i,' ');
