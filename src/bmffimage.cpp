@@ -212,7 +212,7 @@ namespace Exiv2
         if ( bTrace ) {
             bLF = true;
             out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
-                << Internal::stringFormat(" %8ld->%u ", address, box_length);
+                << Internal::stringFormat(" %8ld->%lu ", address, box_length);
         }
 
         if (box_length == 1) {
