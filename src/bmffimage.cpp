@@ -187,10 +187,13 @@ namespace Exiv2
         return result;
     }
 
-    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
+    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ ,
+                               Exiv2::PrintStructureOption option /* = kpsNone */,
+                               const long pbox_end,
+                               int depth)
     {
-        long result  = (long)io_->size();
-        long address = (long)io_->tell();
+        long result = pbox_end;
+        long address = io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
@@ -204,7 +207,9 @@ namespace Exiv2
 #endif
 
         BmffBoxHeader box = {0, 0};
-        if (io_->read((byte*)&box, sizeof(box)) != sizeof(box))
+        size_t hdrsize = sizeof(box);
+        enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
+        if (io_->read(reinterpret_cast<byte*>(&box), sizeof(box)) != sizeof(box))
             return result;
 
         box.length = getLong((byte*)&box.length, endian_);
@@ -218,6 +223,9 @@ namespace Exiv2
         }
 
         if (box.length == 1) {
+            // The box size is encoded as a uint64_t, so we need to read another 8 bytes.
+            hdrsize += 8;
+            enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
             DataBuf data(8);
             io_->read(data.pData_, data.size_);
             const uint64_t sz = getULongLong(data.pData_, endian_);
@@ -236,8 +244,10 @@ namespace Exiv2
 
         // read data in box and restore file position
         long restore = io_->tell();
-        enforce(box.length >= 8, Exiv2::kerCorruptedMetadata);
-        DataBuf data(box.length - 8);
+        enforce(box.length >= hdrsize, Exiv2::kerCorruptedMetadata);
+        enforce(box.length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
+        DataBuf data(box.length - hdrsize);
+        const long box_end = restore + data.size_;
         io_->read(data.pData_, data.size_);
         io_->seek(restore, BasicIo::beg);
 
@@ -275,7 +285,7 @@ namespace Exiv2
 
                 io_->seek(skip, BasicIo::cur);
                 while (n-- > 0) {
-                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                    io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
             } break;
 
@@ -313,8 +323,8 @@ namespace Exiv2
                     bLF = false;
                 }
                 io_->seek(skip, BasicIo::cur);
-                while ((long)io_->tell() < (long)(address + box.length)) {
-                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                while (io_->tell() < static_cast<long>((address + box.length))) {
+                    io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
                 if (box.type == TAG_meta) {
@@ -436,8 +446,8 @@ namespace Exiv2
                     bLF = false;
                 }
                 if (name == "cano") {
-                    while ((long)io_->tell() < (long)(address + box.length)) {
-                        io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                    while (io_->tell() < static_cast<long>(address + box.length)) {
+                        io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
                     parseXmp(box.length,io_->tell());
@@ -568,9 +578,10 @@ namespace Exiv2
         xmpID_     = unknownID_;
 
         long address = 0;
-        while (address < (long)io_->size()) {
+        const long file_end = static_cast<long>(io_->size());
+        while (address < file_end) {
             io_->seek(address, BasicIo::beg);
-            address = boxHandler(std::cout,kpsNone);
+            address = boxHandler(std::cout,kpsNone,file_end,0);
         }
         bReadMetadata_ = true;
     }  // BmffImage::readMetadata
@@ -601,9 +612,10 @@ namespace Exiv2
                 IoCloser closer(*io_);
 
                 long   address = 0;
-                while (address < (long)io_->size()) {
+                const long file_end = static_cast<long>(io_->size());
+                while (address < file_end) {
                     io_->seek(address, BasicIo::beg);
-                    address = boxHandler(out,option,depth);
+                    address = boxHandler(out,option,file_end,depth);
                 }
             }; break;
         }
