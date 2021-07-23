@@ -81,8 +81,11 @@
 // *****************************************************************************
 namespace {
     // Todo: Can be generalized further - get any tag as a string/long/...
+    //! Get the Value for a tag within a particular group
+    const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag, const Exiv2::Internal::IfdId& group);
     //! Get the model name from tag Exif.Image.Model
     std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
+
     //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
 }  // namespace
@@ -1201,19 +1204,47 @@ namespace Exiv2 {
         }
         return 0;
     }
+    int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // From Exiftool: https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
+        // >  First byte must be 9 or 12 or 13 or 15 or 16 and 4th byte must be 2 (deciphered)
+        const auto value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony1Id);
+        if (!value || value->count() < 4)
+            return -1;
+
+        switch (value->toLong(0)) {                // Using encrypted values
+        case 231:                                  // 231 == 9
+        case 234:                                  // 234 == 12
+        case 205:                                  // 205 == 13
+        case 138:                                  // 138 == 15
+        case 112:                                  // 112 == 16
+            return value->toLong(3) == 8 ? 0 : -1; // 8   == 2
+        default:
+            break;
+        }
+        return -1;
+    }
     }  // namespace Internal
 }  // namespace Exiv2
 
 // *****************************************************************************
 // local definitions
 namespace {
-    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot)
+    const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag, const Exiv2::Internal::IfdId& group)
     {
-        Exiv2::Internal::TiffFinder finder(0x0110, Exiv2::Internal::ifd0Id); // Exif.Image.Model
+        Exiv2::Internal::TiffFinder finder(tag, group);
+        if (!pRoot)
+            return nullptr;
         pRoot->accept(finder);
         auto te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
-        if (!te || !te->pValue() || te->pValue()->count() == 0) return std::string();
-        return te->pValue()->toString();
+        return (!te || !te->pValue()) ? nullptr : te->pValue();
+    }
+
+    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot)
+    {
+        // Lookup the Exif.Image.Model tag
+        const auto value = getExifValue(pRoot, 0x0110, Exiv2::Internal::ifd0Id);
+        return (!value || value->count() == 0) ? std::string("") : std::string(value->toString());
     }
 
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial)

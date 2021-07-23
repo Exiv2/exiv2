@@ -168,6 +168,7 @@ namespace Exiv2 {
         { sony2Cs2Id,      "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
         { sony2FpId,       "Makernote", "Sony2Fp",      SonyMakerNote::tagListFp       },
         { sonyMisc1Id,     "Makernote", "SonyMisc1",    SonyMakerNote::tagListSonyMisc1},
+        { sonyMisc2bId,    "Makernote", "SonyMisc2b",   SonyMakerNote::tagListSonyMisc2b},
         { sony2010eId,     "Makernote", "Sony2010e",    SonyMakerNote::tagList2010e    },
         { lastId,          "(Last IFD info)", "(Last IFD item)", nullptr }
     };
