@@ -45,12 +45,6 @@
 #include <iostream>
 #include <string>
 
-struct BmffBoxHeader
-{
-    uint32_t length;
-    uint32_t type;
-};
-
 #define TAG_ftyp 0x66747970 /**< "ftyp" File type box */
 #define TAG_avif 0x61766966 /**< "avif" AVIF */
 #define TAG_avio 0x6176696f /**< "avio" AVIF */
@@ -183,9 +177,11 @@ namespace Exiv2
         return result;
     }
 
-    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
+    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ ,
+                               Exiv2::PrintStructureOption option /* = kpsNone */,
+                               const long pbox_end,
+                               int depth)
     {
-        long result = static_cast<long>(io_->size());
         long address = io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
@@ -199,41 +195,41 @@ namespace Exiv2
         bTrace = true ;
 #endif
 
-        BmffBoxHeader box = {0, 0};
-        if (io_->read(reinterpret_cast<byte*>(&box), sizeof(box)) != sizeof(box))
-            return result;
+        // 8-byte buffer for parsing the box length and type.
+        byte hdrbuf[2 * sizeof(uint32_t)];
 
-        box.length = getLong(reinterpret_cast<byte*>(&box.length), endian_);
-        box.type = getLong(reinterpret_cast<byte*>(&box.type), endian_);
+        size_t hdrsize = sizeof(hdrbuf);
+        enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
+        if (io_->read(reinterpret_cast<byte*>(&hdrbuf), sizeof(hdrbuf)) != sizeof(hdrbuf))
+            return pbox_end;
+
+        // The box length is encoded as a uint32_t by default, but the special value 1 means
+        // that it's a uint64_t.
+        uint64_t box_length = getLong(reinterpret_cast<byte*>(&hdrbuf[0]), endian_);
+        uint32_t box_type = getLong(reinterpret_cast<byte*>(&hdrbuf[sizeof(uint32_t)]), endian_);
         bool bLF = true;
 
         if ( bTrace ) {
             bLF = true;
-            out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box.type)
-                << Internal::stringFormat(" %8ld->%u ", address, box.length);
+            out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
+                << Internal::stringFormat(" %8ld->%lu ", address, box_length);
         }
 
-        if (box.length == 1) {
+        if (box_length == 1) {
+            // The box size is encoded as a uint64_t, so we need to read another 8 bytes.
+            hdrsize += 8;
+            enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
             DataBuf data(8);
             io_->read(data.pData_, data.size_);
-            const uint64_t sz = getULongLong(data.pData_, endian_);
-            // Check that `sz` is safe to cast to `long`.
-            enforce(sz <= static_cast<uint64_t>(std::numeric_limits<long>::max()),
-                    Exiv2::kerCorruptedMetadata);
-            result = static_cast<long>(sz);
-            // sanity check
-            if (result < 8 || result > static_cast<long>(io_->size()) - address) {
-                result = static_cast<long>(io_->size());
-                box.length = result;
-            } else {
-                box.length = static_cast<long>(io_->size() - address);
-            }
+            box_length = getULongLong(data.pData_, endian_);
         }
 
         // read data in box and restore file position
         long restore = io_->tell();
-        enforce(box.length >= 8, Exiv2::kerCorruptedMetadata);
-        DataBuf data(box.length - 8);
+        enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
+        enforce(box_length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
+        DataBuf data(static_cast<long>(box_length - hdrsize));
+        const long box_end = restore + data.size_;
         io_->read(data.pData_, data.size_);
         io_->seek(restore, BasicIo::beg);
 
@@ -241,15 +237,15 @@ namespace Exiv2
         uint8_t version = 0;
         uint32_t flags = 0;
 
-        if (fullBox(box.type)) {
+        if (fullBox(box_type)) {
             enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = getLong(data.pData_ + skip, endian_);  // version/flags
-            version = static_cast<int8_t>(flags) >> 24;
+            version = static_cast<uint8_t>(flags >> 24);
             version &= 0x00ffffff;
             skip += 4;
         }
 
-        switch (box.type) {
+        switch (box_type) {
             case TAG_ftyp: {
                 enforce(data.size_ >= 4, Exiv2::kerCorruptedMetadata);
                 fileType_ = getLong(data.pData_, endian_);
@@ -266,12 +262,12 @@ namespace Exiv2
                 }
 
                 enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
-                int n = getShort(data.pData_ + skip, endian_);
+                uint16_t n = getShort(data.pData_ + skip, endian_);
                 skip += 2;
 
                 io_->seek(skip, BasicIo::cur);
                 while (n-- > 0) {
-                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                    io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
             } break;
 
@@ -310,11 +306,11 @@ namespace Exiv2
                     bLF = false;
                 }
                 io_->seek(skip, BasicIo::cur);
-                while (io_->tell() < static_cast<long>((address + box.length))) {
-                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                while (io_->tell() < box_end) {
+                    io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
-                if (box.type == TAG_meta) {
+                if (box_type == TAG_meta) {
                     if ( ilocs_.find(exifID_) != ilocs_.end()) {
                         const Iloc& iloc = ilocs_.find(exifID_)->second;
                         if ( bTrace ) {
@@ -352,13 +348,13 @@ namespace Exiv2
                 uint32_t itemCount = version < 2 ? getShort(data.pData_ + skip, endian_)
                                                  : getLong(data.pData_ + skip, endian_);
                 skip += version < 2 ? 2 : 4;
-                if (itemCount && itemCount < box.length / 14 && offsetSize == 4 && lengthSize == 4 &&
-                    ((box.length - 16) % itemCount) == 0) {
+                if (itemCount && itemCount < box_length / 14 && offsetSize == 4 && lengthSize == 4 &&
+                    ((box_length - 16) % itemCount) == 0) {
                     if ( bTrace ) {
                         out << std::endl;
                         bLF = false;
                     }
-                    long step = (box.length - 16) / itemCount;  // length of data per item.
+                    long step = static_cast<long>((box_length - 16) / itemCount);  // length of data per item.
                     long base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
@@ -406,8 +402,7 @@ namespace Exiv2
             // 12.1.5.2
             case TAG_colr: {
                 if (data.size_ >=
-                    static_cast<long>(skip + 4 +
-                                      sizeof(box))) {  // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
+                    static_cast<long>(skip + 4 + 8)) {  // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
                     // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
                     uint8_t      meth        = data.pData_[skip+0];
                     uint8_t      prec        = data.pData_[skip+1];
@@ -435,31 +430,31 @@ namespace Exiv2
                     bLF = false;
                 }
                 if (name == "cano") {
-                    while (io_->tell() < static_cast<long>(address + box.length)) {
-                        io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                    while (io_->tell() < box_end) {
+                        io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
-                    parseXmp(box.length,io_->tell());
+                    parseXmp(box_length,io_->tell());
                 }
             } break;
 
             case TAG_cmt1:
-                parseTiff(Internal::Tag::root, box.length);
+                parseTiff(Internal::Tag::root, box_length);
                 break;
             case TAG_cmt2:
-                parseTiff(Internal::Tag::cmt2, box.length);
+                parseTiff(Internal::Tag::cmt2, box_length);
                 break;
             case TAG_cmt3:
-                parseTiff(Internal::Tag::cmt3, box.length);
+                parseTiff(Internal::Tag::cmt3, box_length);
                 break;
             case TAG_cmt4:
-                parseTiff(Internal::Tag::cmt4, box.length);
+                parseTiff(Internal::Tag::cmt4, box_length);
                 break;
             case TAG_exif:
-                parseTiff(Internal::Tag::root, box.length,address+8);
+                parseTiff(Internal::Tag::root, box_length,address+8);
                 break;
             case TAG_xml:
-                parseXmp(box.length,io_->tell());
+                parseXmp(box_length,io_->tell());
                 break;
 
             default: break ; /* do nothing */
@@ -467,17 +462,20 @@ namespace Exiv2
         if ( bLF&& bTrace) out << std::endl;
 
         // return address of next box
-        result = (address + box.length);
-
-        return result;
+        return box_end;
     }
 
-    void BmffImage::parseTiff(uint32_t root_tag, uint32_t length,uint32_t start)
+    void BmffImage::parseTiff(uint32_t root_tag, uint64_t length,uint64_t start)
     {
+        enforce(start <= io_->size(), kerCorruptedMetadata);
+        enforce(length <= io_->size() - start, kerCorruptedMetadata);
+        enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+        enforce(length <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+
         // read and parse exif data
         long    restore = io_->tell();
-        DataBuf exif(length);
-        io_->seek(start,BasicIo::beg);
+        DataBuf exif(static_cast<long>(length));
+        io_->seek(static_cast<long>(start),BasicIo::beg);
         if ( exif.size_ > 8 && io_->read(exif.pData_,exif.size_) == exif.size_ ) {
             // hunt for "II" or "MM"
             long  eof  = 0xffffffff; // impossible value for punt
@@ -496,10 +494,12 @@ namespace Exiv2
         io_->seek(restore,BasicIo::beg);
     }
 
-    void BmffImage::parseTiff(uint32_t root_tag, uint32_t length)
+    void BmffImage::parseTiff(uint32_t root_tag, uint64_t length)
     {
         if (length > 8) {
-            DataBuf data(length - 8);
+            enforce(length - 8 <= io_->size() - io_->tell(), kerCorruptedMetadata);
+            enforce(length - 8 <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+            DataBuf data(static_cast<long>(length - 8));
             long bufRead = io_->read(data.pData_, data.size_);
 
             if (io_->error())
@@ -513,15 +513,20 @@ namespace Exiv2
         }
     }
 
-    void BmffImage::parseXmp(uint32_t length,uint32_t start)
+    void BmffImage::parseXmp(uint64_t length,uint64_t start)
     {
         if (length > 8) {
-            long restore = io_->tell() ;
-            io_->seek(start,BasicIo::beg);
+            enforce(start <= io_->size(), kerCorruptedMetadata);
+            enforce(length <= io_->size() - start, kerCorruptedMetadata);
 
-            DataBuf  xmp(length+1);
+            long restore = io_->tell() ;
+            enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+            io_->seek(static_cast<long>(start),BasicIo::beg);
+
+            enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+            DataBuf  xmp(static_cast<long>(length+1));
             xmp.pData_[length]=0  ; // ensure xmp is null terminated!
-            if ( io_->read(xmp.pData_, length) != length )
+            if ( io_->read(xmp.pData_, static_cast<long>(length)) != static_cast<long>(length) )
                 throw Error(kerInputDataReadFailed);
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
@@ -567,9 +572,10 @@ namespace Exiv2
         xmpID_     = unknownID_;
 
         long address = 0;
-        while (address < static_cast<long>(io_->size())) {
+        const long file_end = static_cast<long>(io_->size());
+        while (address < file_end) {
             io_->seek(address, BasicIo::beg);
-            address = boxHandler(std::cout,kpsNone);
+            address = boxHandler(std::cout,kpsNone,file_end,0);
         }
         bReadMetadata_ = true;
     }  // BmffImage::readMetadata
@@ -600,9 +606,10 @@ namespace Exiv2
                 IoCloser closer(*io_);
 
                 long   address = 0;
-                while (address < static_cast<long>(io_->size())) {
+                const long file_end = static_cast<long>(io_->size());
+                while (address < file_end) {
                     io_->seek(address, BasicIo::beg);
-                    address = boxHandler(out,option,depth);
+                    address = boxHandler(out,option,file_end,depth);
                 }
             }; break;
         }

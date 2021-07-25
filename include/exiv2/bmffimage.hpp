@@ -92,8 +92,8 @@ namespace Exiv2
           @param start offset in file (default, io_->tell())
          @
          */
-        void parseTiff(uint32_t root_tag, uint32_t length);
-        void parseTiff(uint32_t root_tag, uint32_t length,uint32_t start);
+        void parseTiff(uint32_t root_tag, uint64_t length);
+        void parseTiff(uint32_t root_tag, uint64_t length,uint64_t start);
         //@}
 
         //@{
@@ -103,7 +103,7 @@ namespace Exiv2
           @param start offset in file
          @
          */
-        void parseXmp(uint32_t length,uint32_t start);
+        void parseXmp(uint64_t length,uint64_t start);
         //@}
 
         //! @name Manipulators
@@ -128,10 +128,13 @@ namespace Exiv2
         /*!
           @brief recursiveBoxHandler
           @throw Error if we visit a box more than once
+          @param pbox_end The end location of the parent box. Boxes are
+              nested, so we must not read beyond this.
           @return address of next box
           @warning This function should only be called by readMetadata()
          */
-        long boxHandler(std::ostream& out=std::cout, Exiv2::PrintStructureOption option=kpsNone,int depth = 0);
+        long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option,
+                        const long pbox_end, int depth);
         std::string indent(int i)
         {
             return std::string(2*i,' ');
