@@ -394,7 +394,6 @@ namespace Exiv2 {
             // Read the rest of the segment.
             DataBuf buf(size);
             if (size > 0) {
-                assert(size >= 2); // enforced above
                 readOrThrow(*io_, buf.pData_ + 2, size - 2, kerFailedToReadImageData);
                 memcpy(buf.pData_, sizebuf, 2);
             }
