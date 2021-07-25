@@ -867,12 +867,16 @@ namespace Exiv2 {
         assert(ifdId != ifdIdNotSet);
 
         std::string groupName(Internal::groupName(ifdId));
+        const uint32_t component_size = ciffComponent.size();
+        enforce(component_size % 2 == 0, kerCorruptedMetadata);
+        enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), kerCorruptedMetadata);
+        const uint16_t num_components = static_cast<uint16_t>(component_size/2);
         uint16_t c = 1;
-        while (uint32_t(c)*2 < ciffComponent.size()) {
+        while (c < num_components) {
             uint16_t n = 1;
             ExifKey key(c, groupName);
             UShortValue value;
-            if (ifdId == canonCsId && c == 23 && ciffComponent.size() > 50) n = 3;
+            if (ifdId == canonCsId && c == 23 && component_size >= 52) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
             image.exifData().add(key, &value);
             if (ifdId == canonSiId && c == 21) aperture = value.toLong();

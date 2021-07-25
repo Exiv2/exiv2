@@ -603,8 +603,8 @@ namespace Action {
             std::ostringstream os;
             // #1114 - show negative values for SByte
             if (md.typeId() == Exiv2::signedByte) {
-                for ( int c = 0 ; c < md.value().count() ; c++ ) {
-                    int value = md.value().toLong(c);
+                for ( long c = 0 ; c < md.value().count() ; c++ ) {
+                    long value = md.value().toLong(c);
                     os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
             } else {
