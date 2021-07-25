@@ -488,20 +488,20 @@ namespace Exiv2 {
                             seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
+                        if (count > 0) {
+                            if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
+                                throw Error(kerCorruptedMetadata);
+                            }
 
-                        if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
-                            throw Error(kerCorruptedMetadata);
+                            const long restore = io.tell();
+                            seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata);  // position
+                            std::vector<byte> bytes(count) ;  // allocate memory
+                            // TODO: once we have C++11 use bytes.data()
+                            readOrThrow(io, &bytes[0], count, kerCorruptedMetadata);
+                            seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
+                            // TODO: once we have C++11 use bytes.data()
+                            IptcData::printStructure(out, makeSliceUntil(&bytes[0], count), depth);
                         }
-
-                        const long restore = io.tell();
-                        seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata);  // position
-                        std::vector<byte> bytes(count) ;  // allocate memory
-                        // TODO: once we have C++11 use bytes.data()
-                        readOrThrow(io, &bytes[0], count, kerCorruptedMetadata);
-                        seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
-                        // TODO: once we have C++11 use bytes.data()
-                        IptcData::printStructure(out, makeSliceUntil(&bytes[0], count), depth);
-
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
                         const long restore = io.tell();  // save
 
