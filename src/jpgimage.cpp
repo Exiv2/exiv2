@@ -639,8 +639,6 @@ namespace Exiv2 {
                 bufRead = io_->read(buf.pData_, bufMinSize);
                 if (io_->error() || bufRead != bufMinSize)
                     throw Error(kerFailedToReadImageData);
-                if (bufRead < 2)
-                    throw Error(kerNotAJpeg);
                 const uint16_t size = mHasLength[marker] ? getUShort(buf.pData_, bigEndian) : 0;
                 if (bPrint && mHasLength[marker])
                     out << Internal::stringFormat(" | %7d ", size);
