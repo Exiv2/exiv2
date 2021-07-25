@@ -399,7 +399,9 @@ namespace Exiv2 {
             }
 
             if (   !foundExifData
-                && marker == app1_ && size >= 8 && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
+                && marker == app1_
+                && size >= 8  // prevent out-of-bounds read in memcmp on next line
+                && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 ByteOrder bo = ExifParser::decode(exifData_, buf.pData_ + 8, size - 8);
                 setByteOrder(bo);
                 if (size > 8 && byteOrder() == invalidByteOrder) {
@@ -412,7 +414,9 @@ namespace Exiv2 {
                 foundExifData = true;
             }
             else if (   !foundXmpData
-                     && marker == app1_ && size >= 31 && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
+                     && marker == app1_
+                     && size >= 31  // prevent out-of-bounds read in memcmp on next line
+                     && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 xmpPacket_.assign(reinterpret_cast<char*>(buf.pData_ + 31), size - 31);
                 if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
@@ -423,7 +427,9 @@ namespace Exiv2 {
                 foundXmpData = true;
             }
             else if (   !foundCompletePsData
-                     && marker == app13_ && size >= 16 && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
+                     && marker == app13_
+                     && size >= 16  // prevent out-of-bounds read in memcmp on next line
+                     && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found app13 segment, size = " << size << "\n";
                 //hexdump(std::cerr, psData.pData_, psData.size_);
@@ -448,7 +454,9 @@ namespace Exiv2 {
                 }
                 --search;
             }
-            else if ( marker == app2_ && size >= 13 && memcmp(buf.pData_ + 2, iccId_,11)==0) {
+            else if (   marker == app2_
+                     && size >= 13  // prevent out-of-bounds read in memcmp on next line
+                     && memcmp(buf.pData_ + 2, iccId_,11)==0) {
                 if (size < 2+14+4) {
                     rc = 8;
                     break;
