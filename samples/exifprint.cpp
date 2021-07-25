@@ -23,6 +23,7 @@
 #include <iomanip>
 #include <set>
 #include <cassert>
+#include <regex>
 
 // https://github.com/Exiv2/exiv2/issues/468
 #if defined(EXV_UNICODE_PATH) && defined(__MINGW__)
@@ -72,7 +73,7 @@ try {
 
 
     if ( _tstrcmp(file,_t("--version")) == 0 ) {
-        exv_grep_keys_t keys;
+        std::vector<std::regex> keys;
         Exiv2::dumpLibraryInfo(std::cout,keys);
         return rc;
     } else if ( _tstrcmp(file,_t("--version-test")) == 0 ) {

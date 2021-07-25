@@ -28,8 +28,6 @@
 // + standard includes
 #include <vector>
 #include <regex>
-using exv_grep_keys_t = std::vector<std::regex>;
-
 
 /*!
   @brief Make an integer version number for comparison from a major, minor and
@@ -123,7 +121,7 @@ namespace Exiv2 {
       @brief dumpLibraryInfo implements the exiv2 option --version --verbose
              used by exiv2 test suite to inspect libraries loaded at run-time
      */
-    EXIV2API void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys);
+    EXIV2API void dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys);
 }                                       // namespace Exiv2
 
 
