@@ -113,7 +113,7 @@ namespace Exiv2 {
     }
 }   // namespace Exiv2
 
-static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
+static bool shouldOutput(const std::vector<std::regex>& greps,const char* key,const std::string& value)
 {
     bool bPrint = greps.empty();
     for (auto const& g : greps) {
@@ -125,12 +125,12 @@ static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std:
     return bPrint;
 }
 
-static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
+static void output(std::ostream& os,const std::vector<std::regex>& greps,const char* name,const std::string& value)
 {
     if ( shouldOutput(greps,name,value) ) os << name << "=" << value << std::endl;
 }
 
-static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,int value)
+static void output(std::ostream& os,const std::vector<std::regex>& greps,const char* name,int value)
 {
     std::ostringstream stringStream;
     stringStream << value;
@@ -221,7 +221,7 @@ static std::vector<std::string> getLoadedLibraries()
     return libs;
 }
 
-void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
+void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys)
 {
     int      bits = 8*sizeof(void*);
 #ifdef NDEBUG

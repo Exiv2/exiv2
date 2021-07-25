@@ -149,8 +149,6 @@ public:
     using Files = std::vector<std::string>;
     //! Container for preview image numbers
     using PreviewNumbers = std::set<int>;
-    //! Container for greps
-    using Greps = exv_grep_keys_t;
     //! Container for keys
     using Keys = std::vector<std::string>;
 
@@ -252,8 +250,8 @@ public:
     std::string suffix_;                //!< File extension of the file to insert
     Files files_;                       //!< List of non-option arguments.
     PreviewNumbers previewNumbers_;     //!< List of preview numbers
-    Greps greps_;                       //!< List of keys to 'grep' from the metadata
-    Keys  keys_;                        //!< List of keys to match from the metadata
+    std::vector<std::regex> greps_;     //!< List of keys to 'grep' from the metadata
+    Keys keys_;                         //!< List of keys to match from the metadata
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
