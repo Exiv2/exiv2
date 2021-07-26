@@ -354,7 +354,7 @@ namespace Exiv2 {
         // Check if this really is a tiff and then call the tiff parser.
         // Check is needed because some older models just embed a raw bitstream.
         // For those files we skip the parsing step. 
-        io_->read(readBuff, 4);
+        if (io_->read(readBuff, 4) != 4) { throw Error(kerFailedToReadImageData); }
         io_->seek(-4, BasicIo::cur);
         if (memcmp(readBuff, "\x49\x49\x2A\x00", 4) == 0 ||
             memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0)
