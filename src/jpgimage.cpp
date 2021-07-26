@@ -313,6 +313,16 @@ namespace Exiv2 {
 
     } // Photoshop::setIptcIrb
 
+    bool JpegBase::markerHasLength(byte marker) {
+        return (marker >= sof0_ && marker <= sof15_) ||
+               (marker >= app0_ && marker <= (app0_ | 0x0F)) ||
+               marker == dht_ ||
+               marker == dqt_ ||
+               marker == dri_ ||
+               marker == com_ ||
+               marker == sos_;
+    }
+
     JpegBase::JpegBase(int type, BasicIo::UniquePtr io, bool create,
                        const byte initData[], long dataSize)
         : Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io))
@@ -334,19 +344,22 @@ namespace Exiv2 {
         return 0;
     }
 
-    int JpegBase::advanceToMarker() const
+    byte JpegBase::advanceToMarker(ErrorCode err) const
     {
         int c = -1;
         // Skips potential padding between markers
         while ((c=io_->getb()) != 0xff) {
             if (c == EOF)
-                return -1;
+                throw Error(err);
         }
 
         // Markers can start with any number of 0xff
         while ((c=io_->getb()) == 0xff) {
         }
-        return c;
+        if (c == EOF)
+            throw Error(err);
+
+        return static_cast<byte>(c);
     }
 
     void JpegBase::readMetadata()
@@ -368,22 +381,14 @@ namespace Exiv2 {
         bool foundXmpData = false;
         bool foundIccData = false;
 
-        // which markers have a length field?
-        // TODO: move this to a utility function
-        bool mHasLength[256];
-        for (int i = 0; i < 256; i++)
-            mHasLength[i] = (i >= sof0_ && i <= sof15_) || (i >= app0_ && i <= (app0_ | 0x0F)) ||
-                            (i == dht_ || i == dqt_ || i == dri_ || i == com_ || i == sos_);
-
         // Read section marker
-        int marker = advanceToMarker();
-        if (marker < 0) throw Error(kerNotAJpeg);
+        byte marker = advanceToMarker(kerNotAJpeg);
 
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // 2-byte buffer for reading the size.
             byte sizebuf[2];
             uint16_t size = 0;
-            if (mHasLength[marker]) {
+            if (markerHasLength(marker)) {
                 readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
                 // `size` is the size of the segment, including the 2-byte size field
@@ -505,8 +510,9 @@ namespace Exiv2 {
             }
 
             // Read the beginning of the next segment
-            marker = advanceToMarker();
-            if (marker < 0) {
+            try {
+                marker = advanceToMarker(kerFailedToReadImageData);
+            } catch (Error&) {
                 rc = 5;
                 break;
             }
@@ -588,20 +594,11 @@ namespace Exiv2 {
                 }
             }
 
-            // which markers have a length field?
-            // TODO: move this to a utility function
-            bool mHasLength[256];
-            for (int i = 0; i < 256; i++)
-                mHasLength[i] = (i >= sof0_ && i <= sof15_) || (i >= app0_ && i <= (app0_ | 0x0F)) ||
-                                (i == dht_ || i == dqt_ || i == dri_ || i == com_ || i == sos_);
-
             // Container for the signature
             bool bExtXMP = false;
 
             // Read section marker
-            int marker = advanceToMarker();
-            if (marker < 0)
-                throw Error(kerNotAJpeg);
+            byte marker = advanceToMarker(kerNotAJpeg);
 
             bool done = false;
             bool first = true;
@@ -618,7 +615,7 @@ namespace Exiv2 {
                 // 2-byte buffer for reading the size.
                 byte sizebuf[2];
                 uint16_t size = 0;
-                if (mHasLength[marker]) {
+                if (markerHasLength(marker)) {
                     readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                     size = getUShort(sizebuf, bigEndian);
                     // `size` is the size of the segment, including the 2-byte size field
@@ -634,12 +631,12 @@ namespace Exiv2 {
                     memcpy(buf.pData_, sizebuf, 2);
                 }
 
-                if (bPrint && mHasLength[marker])
+                if (bPrint && markerHasLength(marker))
                     out << Internal::stringFormat(" | %7d ", size);
 
                 // print signature for APPn
                 if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
-                    assert(mHasLength[marker]);
+                    assert(markerHasLength(marker));
                     assert(size >= 2); // Because this marker has a length field.
                     // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
                     const std::string signature =
@@ -776,7 +773,7 @@ namespace Exiv2 {
 
                 // print COM marker
                 if (bPrint && marker == com_) {
-                    assert(mHasLength[marker]);
+                    assert(markerHasLength(marker));
                     assert(size >= 2); // Because this marker has a length field.
                     // size includes 2 for the two bytes for size!
                     const size_t n = (size - 2) > 32 ? 32 : size - 2;
@@ -791,8 +788,7 @@ namespace Exiv2 {
 
                 if (marker != sos_) {
                     // Read the beginning of the next segment
-                    marker = advanceToMarker();
-                    enforce(marker>=0, kerNoImageInInputData);
+                    marker = advanceToMarker(kerNoImageInInputData);
                     REPORT_MARKER;
                 }
                 done |= marker == eoi_ || marker == sos_;
@@ -914,17 +910,8 @@ namespace Exiv2 {
         if (writeHeader(outIo))
             throw Error(kerImageWriteFailed);
 
-        // which markers have a length field?
-        // TODO: move this to a utility function
-        bool mHasLength[256];
-        for (int i = 0; i < 256; i++)
-            mHasLength[i] = (i >= sof0_ && i <= sof15_) || (i >= app0_ && i <= (app0_ | 0x0F)) ||
-                            (i == dht_ || i == dqt_ || i == dri_ || i == com_ || i == sos_);
-
         // Read section marker
-        int marker = advanceToMarker();
-        if (marker < 0)
-            throw Error(kerNoImageInInputData);
+        byte marker = advanceToMarker(kerNoImageInInputData);
 
         // First find segments of interest. Normally app0 is first and we want
         // to insert after it. But if app0 comes after com, app1 and app13 then
@@ -933,7 +920,7 @@ namespace Exiv2 {
             // 2-byte buffer for reading the size.
             byte sizebuf[2];
             uint16_t size = 0;
-            if (mHasLength[marker]) {
+            if (markerHasLength(marker)) {
                 readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
                 // `size` is the size of the segment, including the 2-byte size field
@@ -950,7 +937,7 @@ namespace Exiv2 {
             }
 
             if (marker == app0_) {
-                assert(mHasLength[marker]);
+                assert(markerHasLength(marker));
                 assert(size >= 2); // Because this marker has a length field.
                 insertPos = count + 1;
             } else if (skipApp1Exif == notfound && marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
@@ -983,7 +970,7 @@ namespace Exiv2 {
                     foundCompletePsData = true;
                 }
             } else if (marker == com_ && skipCom == notfound) {
-                assert(mHasLength[marker]);
+                assert(markerHasLength(marker));
                 assert(size >= 2); // Because this marker has a length field.
                 // Jpegs can have multiple comments, but for now only handle
                 // the first one (most jpegs only have one anyway).
@@ -1000,9 +987,7 @@ namespace Exiv2 {
                 comPos = count;
                 ++search;
             }
-            marker = advanceToMarker();
-            if (marker < 0)
-                throw Error(kerNoImageInInputData);
+            marker = advanceToMarker(kerNoImageInInputData);
             ++count;
         }
 
@@ -1030,9 +1015,7 @@ namespace Exiv2 {
 
         seekOrThrow(*io_, seek, BasicIo::beg, kerNoImageInInputData);
         count = 0;
-        marker = advanceToMarker();
-        if (marker < 0)
-            throw Error(kerNoImageInInputData);
+        marker = advanceToMarker(kerNoImageInInputData);
 
         // To simplify this a bit, new segments are inserts at either the start
         // or right after app0. This is standard in most jpegs, but has the
@@ -1042,7 +1025,7 @@ namespace Exiv2 {
             // 2-byte buffer for reading the size.
             byte sizebuf[2];
             uint16_t size = 0;
-            if (mHasLength[marker]) {
+            if (markerHasLength(marker)) {
                 readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
                 // `size` is the size of the segment, including the 2-byte size field
@@ -1255,9 +1238,7 @@ namespace Exiv2 {
             }
 
             // Next marker
-            marker = advanceToMarker();
-            if (marker < 0)
-                throw Error(kerNoImageInInputData);
+            marker = advanceToMarker(kerNoImageInInputData);
             ++count;
         }
 

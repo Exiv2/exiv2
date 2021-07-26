@@ -28,6 +28,7 @@
 
 // included header files
 #include "image.hpp"
+#include "error.hpp"
 
 // *****************************************************************************
 // namespace extensions
@@ -277,12 +278,19 @@ namespace Exiv2 {
               Jpeg marker and returns the marker. This method should be called
               when the BasicIo instance is positioned one byte past the end of a
               Jpeg segment.
+          @param err the error code to throw if no marker is found
           @return the next Jpeg segment marker if successful;<BR>
-                 -1 if a maker was not found before EOF
+                  throws an Error if not successful
          */
-        int advanceToMarker() const;
+        byte advanceToMarker(ErrorCode err) const;
         //@}
 
+        /*!
+          @brief Is the marker followed by a non-zero payload?
+          @param marker The marker at the start of a segment
+          @return true if the marker is followed by a non-zero payload
+         */
+        static bool markerHasLength(byte marker);
     }; // class JpegBase
 
     /*!
