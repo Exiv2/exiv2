@@ -2001,6 +2001,7 @@ namespace Exiv2 {
         {  748, "Tamron 100-400mm f/4.5-6.3 Di VC USD + 1.4x"               }, // 1
         {  748, "Tamron 70-210mm f/4 Di VC USD + 2x"                        }, // 2
         {  749, "Tamron 100-400mm f/4.5-6.3 Di VC USD + 2x"                 },
+        {  749, "Canon EF 100-400mm f/4.5-5.6L IS II USM + 2x"              }, // 1
         {  750, "Canon EF 35mm f/1.4L II USM"                               },
         {  750, "Tamron SP 85mm f/1.8 Di VC USD"                            }, // 1
         {  750, "Tamron SP 45mm f/1.8 Di VC USD"                            }, // 2
@@ -2806,8 +2807,8 @@ namespace Exiv2 {
             auto aperMaxTele = std::stof(base_match[4].str()) * tc;
             auto aperMaxShort = base_match[3].length() > 0 ? std::stof(base_match[3].str()) * tc : aperMaxTele;
 
-            if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - .1) ||
-                exifAperMax > (aperMaxTele + .1)) {
+            if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - .1 * tc) ||
+                exifAperMax > (aperMaxTele + .1 * tc)) {
                 continue;
              }
 
