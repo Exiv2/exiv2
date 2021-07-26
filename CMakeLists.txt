@@ -107,15 +107,19 @@ if( EXIV2_BUILD_SAMPLES )
     if (Python3_Interpreter_FOUND)
         add_test(NAME bashTests
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py bash_tests/testcases.py --verbose
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests
         )
-        add_test(NAME versionTests
+        add_test(NAME bugfixes
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py bash_tests/version_test.py
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes
         )
-        add_test(NAME pythonTests
+        add_test(NAME tiffTests
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test
+        )
+        add_test(NAME lensTests
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
         )
     endif()
 endif()
