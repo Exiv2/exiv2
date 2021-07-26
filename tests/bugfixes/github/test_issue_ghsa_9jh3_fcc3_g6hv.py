@@ -13,9 +13,5 @@ class JpegBasePrintStructureInfiniteLoop(metaclass=CaseMeta):
     filename = path("$tmp_path/issue_ghsa_9jh3_fcc3_g6hv_poc.jpg")
     commands = ["$exiv2 -d I rm $filename"]
     stdout = [""]
-    stderr = [
-"""Warning: JPEG format error, rc = 2
-Exiv2 exception in erase action for file $filename:
-$kerFailedToReadImageData
-"""]
-    retval = [1]
+    stderr = [""]
+    retval = [0]

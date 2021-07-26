@@ -15,7 +15,7 @@ class NotValidIccProfile(metaclass=system_tests.CaseMeta):
     stdout = [""]
 
     stderr = [ """Exiv2 exception in print action for file $filename:
-Not a valid ICC Profile
+$kerFailedToReadImageData
 """
     ]
 
