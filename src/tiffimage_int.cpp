@@ -869,6 +869,35 @@ namespace Exiv2 {
         { sonyMisc2bCfg,  sonyMisc2bDef,  EXV_COUNTOF(sonyMisc2bDef)  }
     };
 
+    constexpr ArrayCfg sonyMisc3cCfg = {
+        sonyMisc3cId,     // Group for the elements
+        littleEndian,     // Little endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+
+    constexpr ArrayDef sonyMisc3cDef[] = {
+        { 0x09, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.ReleaseMode2
+        { 0x0a, ttUnsignedLong  , 1 }, // Exif.SonyMisc3c.ShotNumberSincePowerUp
+        { 0x12, ttUnsignedLong  , 1 }, // Exif.SonyMisc3c.SequenceImageNumber
+        { 0x16, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.SequenceLength1
+        { 0x1a, ttUnsignedLong  , 1 }, // Exif.SonyMisc3c.SequenceFileNumber
+        { 0x1e, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.SequenceLength2
+        { 0x29, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.CameraOrientation
+        { 0x2a, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.Quality2
+        { 0x47, ttUnsignedShort , 1 }, // Exif.SonyMisc3c.SonyImageHeight
+        { 0x53, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.ModelReleaseYear
+    };
+
+    //! SonyMisc3c Settings configurations and definitions
+    constexpr ArraySet sonyMisc3cSet[] = {
+        { sonyMisc3cCfg,  sonyMisc3cDef,  EXV_COUNTOF(sonyMisc3cDef)  }
+    };
+
     constexpr ArrayCfg sony2010eCfg = {
         sony2010eId,      // Group for the elements
         invalidByteOrder, // inherit from file.  Usually littleEndian
@@ -1141,6 +1170,7 @@ namespace Exiv2 {
         { Tag::root, sony2FpId,        sony1Id,          0x9402    },
         { Tag::root, sonyMisc1Id,      sony1Id,          0x9403    },
         { Tag::root, sonyMisc2bId,     sony1Id,          0x9404    },
+        { Tag::root, sonyMisc3cId,     sony1Id,          0x9400    },
         { Tag::root, sony1CsId,        sony1Id,          0x0114    },
         { Tag::root, sony1Cs2Id,       sony1Id,          0x0114    },
         { Tag::root, sonyMltId,        sony1Id,          0xb028    },
@@ -1153,6 +1183,7 @@ namespace Exiv2 {
         { Tag::root, sony2FpId,        sony2Id,          0x9402    },
         { Tag::root, sonyMisc1Id,      sony2Id,          0x9403    },
         { Tag::root, sonyMisc2bId,     sony2Id,          0x9404    },
+        { Tag::root, sonyMisc3cId,     sony2Id,          0x9400    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
         { Tag::root, minoltaId,        exifId,           0x927c    },
@@ -1595,6 +1626,10 @@ namespace Exiv2 {
         {  Tag::all, sonyMisc2bId,     newTiffBinaryElement                      },
         {    0x9404, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, sonyMisc2bSelector)  },
 
+        // Tag 0x9400 SonyMisc3c
+        {  Tag::all, sonyMisc3cId,     newTiffBinaryElement                      },
+        {    0x9400, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)  },
+
         // Tag 0x9403 SonyMisc1
         { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
         { 0x9403, sony1Id,             EXV_BINARY_ARRAY(sonyMisc1Cfg, sonyMisc1Def) },
@@ -1623,6 +1658,10 @@ namespace Exiv2 {
         // Tag 0x9404 SonyMisc2b
         {  Tag::all, sonyMisc2bId,     newTiffBinaryElement                      },
         {    0x9404, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, sonyMisc2bSelector)  },
+
+        // Tag 0x9400 SonyMisc3c
+        {  Tag::all, sonyMisc3cId,     newTiffBinaryElement                      },
+        {    0x9400, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)  },
 
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },

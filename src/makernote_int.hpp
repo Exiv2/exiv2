@@ -730,6 +730,17 @@ namespace Exiv2 {
     int sonyMisc2bSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
     /*!
+        @brief Function to select cfg + def of the SonyMisc3c (tag 9400) complex binary array.
+
+        @param tag Tag number of the binary array
+        @param pData Pointer to the raw array data.
+        @param size Size of the array data.
+        @param pRoot Pointer to the root component of the TIFF tree.
+        @return An index into the array set, -1 if no match was found.
+    */
+    int sonyMisc3cSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
       @brief Function to select cfg + def of a Nikon complex binary array.
 
       @param tag Tag number of the binary array

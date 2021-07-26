@@ -53,6 +53,8 @@ namespace Exiv2 {
         static const TagInfo* tagListSonyMisc1();
         //! Return read-only list of built-in Sony Misc2b tags (Tag 9404)
         static const TagInfo* tagListSonyMisc2b();
+        //! Return read-only list of built-in Sony Misc3c tags (Tag 9400)
+        static const TagInfo* tagListSonyMisc3c();
 
         static const TagInfo* tagList2010e();
 
@@ -68,6 +70,16 @@ namespace Exiv2 {
         static std::ostream& printSonyMisc2bLensZoomPosition(std::ostream&, const Value&, const ExifData* metadata);
         //! Print SonyMisc2b Focus Position 2 value
         static std::ostream& printSonyMisc2bFocusPosition2(std::ostream&, const Value&, const ExifData* metadata);
+        //! Print SonyMisc3c shot number since power up value
+        static std::ostream& printSonyMisc3cShotNumberSincePowerUp(std::ostream&, const Value&, const ExifData*);
+        //! Print SonyMisc3c sequence number
+        static std::ostream& printSonyMisc3cSequenceNumber(std::ostream&, const Value&, const ExifData*);
+        //! Print SonyMisc3c Sony image height value
+        static std::ostream& printSonyMisc3cSonyImageHeight(std::ostream&, const Value&, const ExifData* metadata);
+        //! Print SonyMisc3c model release year value
+        static std::ostream& printSonyMisc3cModelReleaseYear(std::ostream&, const Value&, const ExifData* metadata);
+        //! Print SonyMisc3c quality 2 value
+        static std::ostream& printSonyMisc3cQuality2(std::ostream&, const Value&, const ExifData* metadata);
         //! Print Sony Camera Model
         static std::ostream& print0xb000(std::ostream&, const Value&, const ExifData*);
         //! Print Full and Preview Image size
@@ -81,6 +93,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoFp_[];
         static const TagInfo tagInfoSonyMisc1_[];
         static const TagInfo tagInfoSonyMisc2b_[];
+        static const TagInfo tagInfoSonyMisc3c_[];
         static const TagInfo tagInfo2010e_[];
 
     }; // class SonyMakerNote
