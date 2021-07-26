@@ -132,9 +132,9 @@ def lens_is_match(l1, l2):
         [
             l1["focal_length_min"] * l1["tc"] == l2["focal_length_min"] * l2["tc"],
             l1["focal_length_max"] * l1["tc"] == l2["focal_length_max"] * l2["tc"],
-            (l2["aperture_max_short"] * l2["tc"]) - 0.1
+            (l2["aperture_max_short"] - 0.1) * l2["tc"]
             <= reconstructed_aperture
-            <= (l2["aperture_max_tele"] * l2["tc"]) + 0.1,
+            <= (l2["aperture_max_tele"] + 0.1) * l2["tc"],
         ]
     )
 
