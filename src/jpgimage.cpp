@@ -686,7 +686,7 @@ namespace Exiv2 {
                         if (size >= 16) {
                             out.write(reinterpret_cast<const char*>(buf.pData_ + 16), size - 16);
 #ifdef EXIV2_DEBUG_MESSAGES
-                            std::cout << "iccProfile size = " << icc.size_ << std::endl;
+                            std::cout << "iccProfile size = " << size - 16 << std::endl;
 #endif
                         }
                     } else if (option == kpsIptcErase && signature == "Photoshop 3.0") {
