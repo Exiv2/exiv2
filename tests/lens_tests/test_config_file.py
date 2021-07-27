@@ -3,23 +3,6 @@ import system_tests
 import os
 import shutil
 
-
-class TmpConfigFile(system_tests.FileDecoratorBase):
-    def setUp_file_action(self, expanded_file_name):
-        # get platform dependent path where exiv2 looks for the config file
-        config_file_path = system_tests.BT.verbose_version()["config_path"]
-        # if file already exist we skip this test.
-        # in the CI this doesn't happen, but if a user executes the test suite
-        # I don't want to override their config file or implement a lot of logic to take care of that scenario
-        if os.path.isfile(config_file_path):
-            raise unittest.SkipTest(
-                "*** can not run test as pre-existing config file was found on system: {} ***".format(config_file_path)
-            )
-
-        return shutil.copyfile(expanded_file_name, config_file_path)
-
-
-@TmpConfigFile("$data_path/example_exiv2_config_file_for_lens_test")
 class TestLensConfigFile(metaclass=system_tests.CaseMeta):
     """
     Simple test for the configuration file based lens name resolution
