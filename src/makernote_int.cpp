@@ -50,6 +50,7 @@
 #include <pwd.h>
 #else
 #include <windows.h>
+#include <direct.h> // _getcwd
 #include <shlobj.h>
   /* older SDKs not have these */
 # ifndef CSIDL_MYMUSIC
@@ -109,12 +110,12 @@ namespace Exiv2 {
 
             // first lets get the current working directory to check if there is a config file
 #if defined(_MSC_VER) || defined(__MINGW__)
-            char path[MAX_PATH];
-            if (SUCCEEDED(GetModuleFileNameA(NULL, path, MAX_PATH))) {
-                dir = std::string(path);
-            }
+            char buffer[MAX_PATH];
+            auto path = _getcwd(buffer, sizeof(buffer));
+            dir = std::string(path ? path : "");
 #else
-            auto path = get_current_dir_name();
+            char buffer[1024];
+            auto path = getcwd(buffer, sizeof(buffer));
             dir = std::string(path ? path : "");
 #endif
             auto const filename = dir + EXV_SEPARATOR_CHR + inifile;

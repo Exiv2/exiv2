@@ -2,7 +2,19 @@ import unittest
 import system_tests
 import os
 import shutil
+import sys
 
+
+# copy the example config file into current working directory
+# and name it ".exiv2" on linux or "exiv2.ini" on Win
+class TmpConfigFile(system_tests.FileDecoratorBase):
+    def setUp_file_action(self, expanded_file_name):
+        config_file_path = os.path.dirname(os.path.abspath(__file__))
+        fname = ".exiv2" if sys.platform == "linux" or sys.platform == "darwin" else "exiv2.ini"
+        return shutil.copyfile(expanded_file_name, os.path.join(config_file_path, fname))
+
+
+@TmpConfigFile("$data_path/example_exiv2_config_file_for_lens_test")
 class TestLensConfigFile(metaclass=system_tests.CaseMeta):
     """
     Simple test for the configuration file based lens name resolution
