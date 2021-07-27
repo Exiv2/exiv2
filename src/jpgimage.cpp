@@ -752,9 +752,11 @@ namespace Exiv2 {
                                     break;
                                 start++;
                             }
+#ifdef EXIV2_DEBUG_MESSAGES
                             if (start < max)
                                 std::cout << "  FFF start = " << start << std::endl;
                             // << " index = " << pFFF->dwIndexOff << std::endl;
+#endif
                         }
 
                         if (bPS) {

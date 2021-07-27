@@ -27,6 +27,11 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t * data, size_t size) {
     // produce lots of garbage on stdout.
     std::ostringstream buffer;
     image->printStructure(buffer, Exiv2::kpsNone);
+    image->printStructure(buffer, Exiv2::kpsBasic);
+    image->printStructure(buffer, Exiv2::kpsXMP);
+    image->printStructure(buffer, Exiv2::kpsRecursive);
+    image->printStructure(buffer, Exiv2::kpsIccProfile);
+    image->printStructure(buffer, Exiv2::kpsIptcErase);
 
     image->writeMetadata();
 
