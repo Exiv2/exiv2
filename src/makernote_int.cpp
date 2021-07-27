@@ -36,6 +36,7 @@
 
 // + standard includes
 #include <string>
+#include <fstream>
 #include <cstring>
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
@@ -95,36 +96,59 @@ namespace {
 namespace Exiv2 {
     namespace Internal {
 
+        // C++17 use std::filesystem
+        // Function first looks for a config file in current working directory
+        // on Win the file should be named "exiv2.ini"
+        // on Lin the file should be named ".exiv2"
+        // If not found in cwd, we return the default path
+        // which is the user profile path on win and the home dir on linux
         std::string getExiv2ConfigPath()
         {
-            std::string homedir;
-            std::string inifile;
+            std::string dir;
+#if defined(_MSC_VER) || defined(__MINGW__)
+            std::string inifile("exiv2.ini");
+#else
+            std::string inifile(".exiv2");
+#endif
+
+            // first lets get the current working directory to check if there is a config file
 #if defined(_MSC_VER) || defined(__MINGW__)
             char path[MAX_PATH];
+            if (SUCCEEDED(GetModuleFileNameA(NULL, path, MAX_PATH))) {
+                dir = std::string(path);
+            }
+#else
+            auto path = get_current_dir_name();
+            dir = std::string(path ? path : "");
+#endif
+            auto const filename = dir + EXV_SEPARATOR_CHR + inifile;
+            // true if the file exists
+            if (std::ifstream(filename).good()) {
+                return filename;
+            }
+
+#if defined(_MSC_VER) || defined(__MINGW__)
             if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
-                homedir = std::string(path);
-                inifile = "exiv2.ini"      ;
+                dir = std::string(path);
             }
 #else
             struct passwd* pw = getpwuid(getuid());
-            homedir = std::string(pw?pw->pw_dir:"");
-            inifile = std::string(".exiv2");
+            dir = std::string(pw ? pw->pw_dir : "");
 #endif
-            return homedir + EXV_SEPARATOR_CHR + inifile;
+            return dir + EXV_SEPARATOR_CHR + inifile;
         }
 
-
-        std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def)
+        std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def)
         {
             std::string result = def;
-            Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
 
+            Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
             if (reader.ParseError() == 0) {
-                result = reader.Get(section,value,def);
+                result = reader.Get(section, value, def);
             }
+
             return result;
         }
-
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
         { "Canon",          canonId,     newIfdMn,       newIfdMn2       },
