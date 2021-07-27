@@ -109,15 +109,13 @@ namespace Exiv2 {
 #endif
 
             // first lets get the current working directory to check if there is a config file
-#if defined(_MSC_VER) || defined(__MINGW__)
-            char buffer[MAX_PATH];
-            auto path = _getcwd(buffer, sizeof(buffer));
-            dir = std::string(path ? path : "");
-#else
             char buffer[1024];
+#if defined(_MSC_VER) || defined(__MINGW__)
+            auto path = _getcwd(buffer, sizeof(buffer));
+#else
             auto path = getcwd(buffer, sizeof(buffer));
-            dir = std::string(path ? path : "");
 #endif
+            dir = std::string(path ? path : "");
             auto const filename = dir + EXV_SEPARATOR_CHR + inifile;
             // true if the file exists
             if (std::ifstream(filename).good()) {
