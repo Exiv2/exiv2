@@ -176,6 +176,7 @@ namespace Exiv2 {
         sony2FpId,
         sonyMisc1Id,
         sonyMisc2bId,
+        sonyMisc3cId,
         sony2010eId,
         sony1MltCs7DId,
         sony1MltCsOldId,

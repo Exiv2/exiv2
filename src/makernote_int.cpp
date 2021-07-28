@@ -1224,6 +1224,26 @@ namespace Exiv2 {
         }
         return -1;
     }
+    int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
+        // >  first byte decoded: 62, 48, 215, 28, 106 respectively
+        const auto value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony1Id);
+        if (!value || value->count() < 1)
+            return -1;
+
+        switch (value->toLong()) {    // Using encrypted values
+        case 35:                      // 35  == 62
+        case 36:                      // 36  == 48
+        case 38:                      // 38  == 215
+        case 40:                      // 40  == 28
+        case 49:                      // 112 == 106
+            return 0;
+        default:
+            break;
+        }
+        return -1;
+    }
     }  // namespace Internal
 }  // namespace Exiv2
 

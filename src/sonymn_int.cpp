@@ -279,6 +279,33 @@ namespace Exiv2 {
         { 65535, N_("n/a")                      }
     };
 
+    //! Lookup table to translate Sony Release Mode 2 values to readable labels
+    constexpr TagDetails sonyReleaseMode2[] = {
+        { 0,     N_("Normal")                                             },
+        { 1,     N_("Continuous")                                         },
+        { 2,     N_("Continuous - Exposure Bracketing")                   },
+        { 3,     N_("DRO or White Balance Bracketing")                    },
+        { 5,     N_("Continuous - Burst")                                 },
+        { 6,     N_("Single Frame - Capture During Movie")                },
+        { 7,     N_("Continuous - Sweep Panorama")                        },
+        { 8,     N_("Continuous - Anti-Motion Blur, Hand-held Twilight")  },
+        { 9,     N_("Continuous - HDR")                                   },
+        { 10,    N_("Continuous - Background defocus")                    },
+        { 13,    N_("Continuous - 3D Sweep Panorama")                     },
+        { 15,    N_("Continuous - High Resolution Sweep Panorama")        },
+        { 16,    N_("Continuous - 3D Image")                              },
+        { 17,    N_("Continuous - Burst 2")                               },
+        { 18,    N_("Normal - iAuto+")                                    },
+        { 19,    N_("Continuous - Speed/Advance Priority")                },
+        { 20,    N_("Continuous - Multi-Frame NR")                        },
+        { 23,    N_("Single-frame - Exposure Bracketing")                 },
+        { 26,    N_("Continuous Low")                                     },
+        { 27,    N_("Continuous - High Sensitivity")                      },
+        { 28,    N_("Smile Shutter")                                      },
+        { 29,    N_("Continuous - Tele-zoom Advance Priority")            },
+        { 146,   N_("Single Frame - Movie Capture")                       }
+    };
+
     //! Lookup table to translate Sony sequence number values to readable labels
     constexpr TagDetails sonySequenceNumber[] = {
         { 0,     N_("Single")                    },
@@ -1009,6 +1036,216 @@ namespace Exiv2 {
         }
 
         return os << value;
+    }
+
+    //! Lookup table to translate Sony camera SonyMisc3c sequence length 1 values to readable labels
+    constexpr TagDetails sonyMisc3cSequenceLength1[] = {
+        { 0,   N_("Continuous")                     },
+        { 1,   N_("1 shot")                         },
+        { 2,   N_("2 shots")                        },
+        { 3,   N_("3 shots")                        },
+        { 4,   N_("4 shots")                        },
+        { 5,   N_("5 shots")                        },
+        { 6,   N_("6 shots")                        },
+        { 7,   N_("7 shots")                        },
+        { 9,   N_("9 shots")                        },
+        { 10,  N_("10 shots")                       },
+        { 12,  N_("12 shots")                       },
+        { 16,  N_("16 shots")                       },
+        { 100, N_("Continuous - iSweep Panorama")   },
+        { 200, N_("Continuous - Sweep Panorama")    }
+    };
+
+    //! Lookup table to translate Sony camera SonyMisc3c sequence length 2 values to readable labels
+    constexpr TagDetails sonyMisc3cSequenceLength2[] = {
+        { 0,   N_("Continuous")                     },
+        { 1,   N_("1 file")                         },
+        { 2,   N_("2 files")                        },
+        { 3,   N_("3 files")                        },
+        { 5,   N_("5 files")                        },
+        { 7,   N_("7 files")                        },
+        { 9,   N_("9 files")                        },
+        { 10,  N_("10 files")                       }
+    };
+
+    //! Lookup table to translate Sony camera SonyMisc3c, camera orientation values to readable labels
+    constexpr TagDetails sonyMisc3cCameraOrientation[] = {
+        { 1,   N_("Horizontal (normal)")        },
+        { 3,   N_("Rotate 180°")               },
+        { 6,   N_("Rotate 90° CW")             },
+        { 8,   N_("Rotate 270° CW")            }
+    };
+
+    //! SonyMisc3c tags (Tag 9400c)
+    constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
+        {9,    "ReleaseMode2", N_("Release mode 2"),
+                N_("Release mode 2"),
+                sonyMisc3cId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyReleaseMode2)},
+        {10,   "ShotNumberSincePowerUp",N_("Shot number since power up"),
+                N_("Number of photos taken since the camera was powered up"),
+                sonyMisc3cId, makerTags, unsignedLong, -1, printSonyMisc3cShotNumberSincePowerUp},
+        {18,   "SequenceImageNumber", N_("Sequence image number"),
+                N_("Number of images captured in burst sequence"),
+                sonyMisc3cId, makerTags, unsignedLong, -1, printSonyMisc3cSequenceNumber},
+        // In Exiftool, "SequenceLength1" is called "SequenceLength. Renamed due to clash of names."
+        {22,   "SequenceLength1", N_("Sequence length 1"),
+                N_("Length of the sequence of photos taken"),
+                sonyMisc3cId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyMisc3cSequenceLength1)},
+        {26,   "SequenceFileNumber", N_("Sequence file number"),
+                N_("File number in burst sequence"),
+                sonyMisc3cId, makerTags, unsignedLong, -1, printSonyMisc3cSequenceNumber},
+        // In Exiftool, "SequenceLength2" is called "SequenceLength". Renamed due to clash of names."
+        {30,   "SequenceLength2", N_("Sequence length 2"),
+                N_("Length of the sequence of photos taken"),
+                sonyMisc3cId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyMisc3cSequenceLength2)},
+        {41,   "CameraOrientation", N_("Camera orientation"),
+                N_("Orientation of the camera when the photo was taken"),
+                sonyMisc3cId, makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyMisc3cCameraOrientation)},
+        {42,   "Quality2", N_("Quality 2"),
+                N_("Quality 2"),
+                sonyMisc3cId, makerTags, unsignedByte, -1, printSonyMisc3cQuality2},
+        {71,   "SonyImageHeight", N_("Sony image height"),
+                N_("Height of the image"),
+                sonyMisc3cId, makerTags, unsignedShort, -1, printSonyMisc3cSonyImageHeight},
+        {83,   "ModelReleaseYear", N_("Model release year"),
+                N_("Year that the model of camera was released"),
+                sonyMisc3cId, makerTags, unsignedByte, -1, printSonyMisc3cModelReleaseYear},
+        // End of list marker
+        {0xffff, "(UnknownSonyMisc3c)", "(Unknown SonyMisc3c Tag)",
+                N_("Unknown SonyMisc23 tag"),
+                sonyMisc3cId, makerTags, asciiString, -1, printValue},
+    };
+
+    const TagInfo* SonyMakerNote::tagListSonyMisc3c()
+    {
+        return tagInfoSonyMisc3c_;
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
+
+        // Models that support this tag
+        static constexpr const char* models[] = { "ILCA-68",     "ILCA-77M2",   "ILCA-99M2",
+                                                  "ILCE-5000",   "ILCE-5100",   "ILCE-6000",   "ILCE-6300",   "ILCE-6500",   "ILCE-7",
+                                                  "ILCE-7M2",    "ILCE-7R",     "ILCE-7RM2",   "ILCE-7S",     "ILCE-7SM2",   "ILCE-QX1",
+                                                  "DSC-HX350",   "DSC-HX400V",  "DSC-HX60V",   "DSC-HX80",    "DSC-HX90",    "DSC-HX90V",
+                                                  "DSC-QX30",    "DSC-RX0",     "DSC-RX1RM2",  "DSC-RX10",    "DSC-RX10M2",  "DSC-RX10M3",
+                                                  "DSC-RX100M3", "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",   "DSC-WX350",   "DSC-WX500"
+        };
+
+        std::string model = pos->toString();
+        for (auto& m : models) {
+            if (m == model)
+                return os << value.toLong();
+        }
+
+        return os << N_("n/a");
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc3cSequenceNumber(std::ostream& os, const Value& value, const ExifData*)
+    {
+        return (value.count() != 1) ? os << "(" << value << ")" : os << (value.toLong()+1);
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
+
+        long val = value.toLong();
+        std::string model = pos->toString();
+
+        // Value is interpreted differently if model is in list or not
+        for (auto& m : { "ILCE-1", "ILCE-7SM3", "ILME-FX3" }) {
+            if (m == model) {
+                switch (val) {
+                case 1:
+                    return os << N_("JPEG");
+                case 2:
+                    return os << N_("Raw");
+                case 3:
+                    return os << N_("Raw + JPEG");
+                case 4:
+                    return os << N_("HEIF");
+                case 6:
+                    return os << N_("Raw + HEIF");
+                default:
+                    return os << "(" << val << ")";
+                }
+            }
+        }
+
+        switch (val) {
+        case 0:
+            return os << N_("JPEG");
+        case 1:
+            return os << N_("Raw");
+        case 2:
+            return os << N_("Raw + JPEG");
+        case 3:
+            return os << N_("Raw + MPO");
+        default:
+            os << "(" << val << ")";
+        }
+        return os;
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
+
+        std::string model = pos->toString();
+
+        // Models that do not support this tag
+        for (auto& m : { "ILCE-1", "ILCE-7SM3", "ILME-FX3" }) {
+            if (m == model)
+                return os << N_("n/a");
+        }
+
+        long val = value.toLong();
+        return val > 0 ? os << (8*val) : os << N_("n/a");
+    }
+
+    std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+        if (pos == metadata->end())
+            return os << "(" << value << ")";
+
+        std::string model = pos->toString();
+
+        // Models that do not support this tag
+        for (auto& m : { "ILCE-1", "ILCE-7SM3", "ILME-FX3" }) {
+            if (m == model)
+                return os << N_("n/a");
+        }
+
+        long val = value.toLong();
+        if (val > 99)
+            return os << "(" << val << ")";
+
+        if (val == 0)
+            return os << "2000";
+
+        return os << "20" << val;
     }
 
     //! Sony Tag 2010 Sony2010 (Miscellaneous)
