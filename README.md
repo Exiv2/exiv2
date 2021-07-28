@@ -1040,12 +1040,31 @@ $ cd <exiv2dir>/build
 $ make python_tests 2>&1 | grep FAIL
 ```
 
+[TOC](#TOC)
+<div id="4-5">
+
+### 4.5 Test Summary
+
+| *Tests*      | Unix Style Platforms _(bash)_      | Visual Studio _(cmd.exe)_             |
+|:--           |:---                                |:--                                    |
+|              | $ cd \<exiv2dir\>/build            |  \> cd \<exiv2dir\>/build             |
+| tests        | $ make tests                       | \> cmake --build . --config Release --target tests |
+| bash_tests   | $ make bash_tests                  | \> cmake --build . --config Release --target bash_tests |
+| python_tests | $ make python_tests                | \> cmake --build . --config Release --target python_tests |
+| unit_test    | $ make unit_test                   | \> cmake --build . --config Release --target unit_test |
+| version_test | $ make version_test                | \> cmake --build . --config Release --target version_test |
+
+The name **bash_tests** is historical.  They are implemented in python.
+
+[TOC](#TOC)
+<div id="4-6">
+
 ### 4.6 Fuzzing
 
 The code for the fuzzers is in `exiv2dir/fuzz`
 
 To build the fuzzers, use the *cmake* option `-DEXIV2_BUILD_FUZZ_TESTS=ON` and `-DEXIV2_TEAM_USE_SANITIZERS=ON`.
-Note that it only works with clang compiler as libFuzzer is integrate with clang > 6.0
+Note that it only works with clang compiler as libFuzzer is integrated with clang > 6.0
 
 To build the fuzzers:
 
@@ -1064,21 +1083,7 @@ mkdir corpus
 ./bin/fuzz-read-print-write corpus ../test/data/ -jobs=$(nproc) -workers=$(nproc) -max_len=4096
 ```
 
-[TOC](#TOC)
-<div id="4-5">
-
-### 4.5 Test Summary
-
-| *Tests*      | Unix Style Platforms _(bash)_      | Visual Studio _(cmd.exe)_             |
-|:--           |:---                                |:--                                    |
-|              | $ cd \<exiv2dir\>/build            |  \> cd \<exiv2dir\>/build             |
-| tests        | $ make tests                       | \> cmake --build . --config Release --target tests |
-| bash_tests   | $ make bash_tests                  | \> cmake --build . --config Release --target bash_tests |
-| python_tests | $ make python_tests                | \> cmake --build . --config Release --target python_tests |
-| unit_test    | $ make unit_test                   | \> cmake --build . --config Release --target unit_test |
-| version_test | $ make version_test                | \> cmake --build . --config Release --target version_test |
-
-The name **bash_tests** is historical.  They are implemented in python.
+For more information about fuzzing see [`fuzz/README.md`](fuzz/README.md).
 
 [TOC](#TOC)
 <div id="5">
