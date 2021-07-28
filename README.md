@@ -1,6 +1,6 @@
 |                           Codecov                            |                           Repology                           |                             Chat                             |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/master/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+| [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
 CI Status:
 
