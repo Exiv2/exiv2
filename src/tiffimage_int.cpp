@@ -898,6 +898,25 @@ namespace Exiv2 {
         { sonyMisc3cCfg,  sonyMisc3cDef,  EXV_COUNTOF(sonyMisc3cDef)  }
     };
 
+    constexpr ArrayCfg sonySInfo1Cfg = {
+        sonySInfo1Id,     // Group for the elements
+        littleEndian,     // Little endian
+        ttUnsignedByte,   // Type for array entry and size element
+        notEncrypted,     // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+    constexpr ArrayDef sonySInfo1Def[] = {
+        {  6,  ttAsciiString    , 20 }, // Exif.SonySInfo1.SonyDateTime
+        {  26, ttUnsignedShort  , 1  }, // Exif.SonySInfo1.SonyImageHeight
+        {  28, ttUnsignedShort  , 1  }, // Exif.SonySInfo1.SonyImageWidth
+        {  48, ttUnsignedShort  , 1  }, // Exif.SonySInfo1.FacesDetected
+        {  52, ttAsciiString    , 16 }, // Exif.SonySInfo1.MetaVersion
+        //
+    };
+
     constexpr ArrayCfg sony2010eCfg = {
         sony2010eId,      // Group for the elements
         invalidByteOrder, // inherit from file.  Usually littleEndian
@@ -1171,6 +1190,7 @@ namespace Exiv2 {
         { Tag::root, sonyMisc1Id,      sony1Id,          0x9403    },
         { Tag::root, sonyMisc2bId,     sony1Id,          0x9404    },
         { Tag::root, sonyMisc3cId,     sony1Id,          0x9400    },
+        { Tag::root, sonySInfo1Id,     sony1Id,          0x3000    },
         { Tag::root, sony1CsId,        sony1Id,          0x0114    },
         { Tag::root, sony1Cs2Id,       sony1Id,          0x0114    },
         { Tag::root, sonyMltId,        sony1Id,          0xb028    },
@@ -1184,6 +1204,7 @@ namespace Exiv2 {
         { Tag::root, sonyMisc1Id,      sony2Id,          0x9403    },
         { Tag::root, sonyMisc2bId,     sony2Id,          0x9404    },
         { Tag::root, sonyMisc3cId,     sony2Id,          0x9400    },
+        { Tag::root, sonySInfo1Id,     sony2Id,          0x3000    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
         { Tag::root, minoltaId,        exifId,           0x927c    },
@@ -1634,6 +1655,10 @@ namespace Exiv2 {
         { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
         { 0x9403, sony1Id,             EXV_BINARY_ARRAY(sonyMisc1Cfg, sonyMisc1Def) },
 
+        // Tag 0x3000 SonySInfo1
+        { Tag::all, sonySInfo1Id,      newTiffBinaryElement },
+        { 0x3000, sony1Id,             EXV_BINARY_ARRAY(sonySInfo1Cfg, sonySInfo1Def) },
+
         // Sony1 makernote
         {    0x0114, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
         {    0xb028, sony1Id,          newTiffSubIfd<sonyMltId>                  },
@@ -1662,6 +1687,10 @@ namespace Exiv2 {
         // Tag 0x9400 SonyMisc3c
         {  Tag::all, sonyMisc3cId,     newTiffBinaryElement                      },
         {    0x9400, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)  },
+
+        // Tag 0x3000 SonySInfo1
+        { Tag::all, sonySInfo1Id,      newTiffBinaryElement },
+        { 0x3000, sony2Id,             EXV_BINARY_ARRAY(sonySInfo1Cfg, sonySInfo1Def) },
 
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },

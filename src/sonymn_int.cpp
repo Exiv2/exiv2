@@ -1248,6 +1248,39 @@ namespace Exiv2 {
         return os << "20" << val;
     }
 
+    //! Sony SInfo1 tags (ShotInfo - Tag 3000)
+    constexpr TagInfo SonyMakerNote::tagInfoSonySInfo1_[] = {
+        // TODO: As "FaceInfo1" (72) and "FaceInfo2" (94) are not added, including
+        //       "FaceInfoOffset" (2) and "FaceInfoLength" (50) does not make sense.
+        //       The values are all connected and changing one without the rest will
+        //       corrupt the data.
+        {6,     "SonyDateTime", N_("Sony date/time"),
+                N_("Date and time when the photo was captured"),
+                sonySInfo1Id, makerTags, asciiString, -1, printValue},
+        {26,    "SonyImageHeight", N_("Sony image height"),
+                N_("Height of the image"),
+                sonySInfo1Id, makerTags, unsignedShort, -1, printValue},
+        {28,    "SonyImageWidth", N_("Sony image width"),
+                N_("Width of the image"),
+                sonySInfo1Id, makerTags, unsignedShort, -1, printValue},
+        {48,    "FacesDetected", N_("Faces detected"),
+                N_("Number of faces detected in the image"),
+                sonySInfo1Id, makerTags, unsignedShort, -1, printValue},
+        {52,    "MetaVersion", N_("Meta version"),
+                N_("Sony meta version"),
+                sonySInfo1Id, makerTags, asciiString, -1, printValue},
+        // TODO: Add FaceInfo1 (72) and FaceInfo2 (94) which are sub-groups of tags.
+        // End of list marker
+        {0xffff, "(UnknownsonySInfo1Tag)", "(Unknown SonySInfo1 Tag)",
+                 "(Unknown SonySInfo1 Tag)",
+                 sonySInfo1Id, makerTags, unsignedByte, -1, printValue}
+    };
+
+    const TagInfo* SonyMakerNote::tagListSonySInfo1()
+    {
+        return tagInfoSonySInfo1_;
+    }
+
     //! Sony Tag 2010 Sony2010 (Miscellaneous)
     constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
         {0, "SequenceImageNumber", N_("Sequence Image Number"), N_("Sequence Image Number"), sony2010eId, makerTags, unsignedLong, 1, printValue},

@@ -55,7 +55,9 @@ namespace Exiv2 {
         static const TagInfo* tagListSonyMisc2b();
         //! Return read-only list of built-in Sony Misc3c tags (Tag 9400)
         static const TagInfo* tagListSonyMisc3c();
-
+        //! Return read-only list of built-in Sony SInfo1 tags (Tag 3000)
+        static const TagInfo* tagListSonySInfo1();
+        //! Return read-only list of built-in Sony 2010e tags (Tag 2010)
         static const TagInfo* tagList2010e();
 
         //! @name Print functions for Sony %MakerNote tags
@@ -94,6 +96,7 @@ namespace Exiv2 {
         static const TagInfo tagInfoSonyMisc1_[];
         static const TagInfo tagInfoSonyMisc2b_[];
         static const TagInfo tagInfoSonyMisc3c_[];
+        static const TagInfo tagInfoSonySInfo1_[];
         static const TagInfo tagInfo2010e_[];
 
     }; // class SonyMakerNote

@@ -114,7 +114,8 @@ TABLES = Exif \
          Sony2Fp \
          SonyMisc1 \
          SonyMisc2b \
-         SonyMisc3c
+         SonyMisc3c \
+         SonySInfo1
 
 SCHEMA = xmp_dc \
          xmp_dwc \
