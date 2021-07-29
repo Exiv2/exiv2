@@ -1,2 +1,4 @@
 ignore:
   - "xmpsdk"  # Not interested about the coverage of XMKSDK
+  - "unitTests"
+  - "samples"
