@@ -18,8 +18,7 @@ class OutOfMemoryInJp2ImageReadMetadata(metaclass=CaseMeta):
     filename = path("$data_path/issue_1812_poc.jp2")
     commands = ["$exiv2 $filename"]
     stdout = [""]
-    stderr = [
-        """$exiv2_exception_message $filename:
-$kerInputDataReadFailed
+    stderr = ["""$exiv2_exception_message $filename:
+$kerCorruptedMetadata
 """]
     retval = [1]
