@@ -333,10 +333,10 @@ namespace Exiv2 {
                     // decode the chunk
                     bool bGood = false;
                     if ( tEXt ) {
-                        bGood = tEXtToDataBuf(data.pData_ + name_l, dataOffset-name_l, dataBuf);
+                        bGood = tEXtToDataBuf(data.pData_ + name_l, static_cast<unsigned long>(dataOffset - name_l), dataBuf);
                     }
                     if ( zTXt || iCCP ) {
-                        bGood = zlibToDataBuf(data.pData_ + name_l + 1, dataOffset - name_l - 1, dataBuf); // +1 = 'compressed' flag
+                        bGood = zlibToDataBuf(data.pData_ + name_l + 1, static_cast<unsigned long>(dataOffset - name_l - 1), dataBuf); // +1 = 'compressed' flag
                     }
                     if ( iTXt ) {
                         bGood = (3 <= dataOffset) && (start < dataOffset-3); // good if not a nul chunk
