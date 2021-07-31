@@ -11,8 +11,11 @@ class Jp2ImageEncodeJp2HeaderOutOfBoundsRead2(metaclass=CaseMeta):
 
     filename = path("$data_path/issue_ghsa_v5g7_46xf_h728_poc.exv")
     commands = ["$exiv2 $filename"]
-    stdout = [""]
-    stderr = ["""Exiv2 exception in print action for file $filename:
-Invalid XmpText type `'
+    stdout = ["""File name       : $filename
+File size       : 276 Bytes
+MIME type       : application/rdf+xml
+Image size      : 0 x 0
 """]
-    retval = [1]
+    stderr = ["""$filename: No Exif data found in the file
+"""]
+    retval = [253]
