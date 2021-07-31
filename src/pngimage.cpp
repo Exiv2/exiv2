@@ -315,27 +315,28 @@ namespace Exiv2 {
 
                 if( bDump ) {
                     DataBuf   dataBuf;
-                    byte*     data   = new byte[dataOffset+1];
-                    data[dataOffset] = 0;
-                    bufRead = io_->read(data,dataOffset);
+                    enforce(static_cast<uint64_t>(dataOffset) < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerFailedToReadImageData);
+                    DataBuf data(static_cast<long>(dataOffset) + 1);
+                    data.pData_[dataOffset] = 0;
+                    bufRead = io_->read(data.pData_, static_cast<long>(dataOffset));
                     enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
                     io_->seek(restore, BasicIo::beg);
-                    uint32_t  name_l = (uint32_t) std::strlen((const char*)data)+1; // leading string length
-                    enforce(name_l <= dataOffset, kerCorruptedMetadata);
+                    size_t name_l = std::strlen((const char*)data.pData_)+1; // leading string length
+                    enforce(name_l < dataOffset, kerCorruptedMetadata);
 
-                    uint32_t  start  = name_l;
+                    uint32_t  start  = static_cast<uint32_t>(name_l);
                     bool      bLF    = false;
 
                     // decode the chunk
                     bool bGood = false;
                     if ( tEXt ) {
-                        bGood = tEXtToDataBuf(data+name_l,dataOffset-name_l,dataBuf);
+                        bGood = tEXtToDataBuf(data.pData_ + name_l, dataOffset-name_l, dataBuf);
                     }
                     if ( zTXt || iCCP ) {
-                        bGood = zlibToDataBuf(data+name_l+1,dataOffset-name_l-1,dataBuf); // +1 = 'compressed' flag
+                        bGood = zlibToDataBuf(data.pData_ + name_l + 1, dataOffset - name_l - 1, dataBuf); // +1 = 'compressed' flag
                     }
                     if ( iTXt ) {
-                        bGood = (start+3) < dataOffset ;    // good if not a nul chunk
+                        bGood = (3 <= dataOffset) && (start < dataOffset-3); // good if not a nul chunk
                     }
                     if ( eXIf ) {
                         bGood = true ;// eXIf requires no pre-processing)
@@ -344,8 +345,8 @@ namespace Exiv2 {
                     // format is content dependent
                     if ( bGood ) {
                         if ( bXMP ) {
-                            while ( !data[start] && start < dataOffset) start++; // skip leading nul bytes
-                            out <<  data+start;             // output the xmp
+                            while (start < dataOffset && !data.pData_[start]) start++; // skip leading nul bytes
+                            out <<  data.pData_ + start;             // output the xmp
                         }
 
                         if ( bExif || bIptc ) {
@@ -386,13 +387,12 @@ namespace Exiv2 {
                         }
                         if ( eXIf && option == kpsRecursive ) {
                             // create memio object with the data, then print the structure
-                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(data,dataOffset));
+                            BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(data.pData_, dataOffset));
                             printTiffStructure(*p,out,option,depth);
                         }
 
                         if ( bLF ) out << std::endl;
                     }
-                    delete[] data;
                 }
                 io_->seek(dataOffset+4, BasicIo::cur);// jump past checksum
                 if (io_->error()) throw Error(kerFailedToReadImageData);
