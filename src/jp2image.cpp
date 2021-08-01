@@ -242,6 +242,7 @@ static void boxes_check(size_t b,size_t m)
                       << " length: " << box.length
                       << std::endl;
 #endif
+            enforce(box.length <= sizeof(box)+io_->size()-io_->tell() , Exiv2::kerCorruptedMetadata);
 
             if (box.length == 0) return ;
 
@@ -349,6 +350,7 @@ static void boxes_check(size_t b,size_t m)
 #ifdef EXIV2_DEBUG_MESSAGES
                            std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found" << std::endl ;
 #endif
+                            enforce(box.length >= sizeof(box) + sizeof(uuid), kerCorruptedMetadata);
                             rawData.alloc(box.length - (sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(kerFailedToReadImageData);
@@ -403,6 +405,7 @@ static void boxes_check(size_t b,size_t m)
 #ifdef EXIV2_DEBUG_MESSAGES
                            std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found" << std::endl;
 #endif
+                            enforce(box.length >= sizeof(box) + sizeof(uuid), kerCorruptedMetadata);
                             rawData.alloc(box.length - (sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(kerFailedToReadImageData);
@@ -422,6 +425,7 @@ static void boxes_check(size_t b,size_t m)
 #ifdef EXIV2_DEBUG_MESSAGES
                            std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found" << std::endl;
 #endif
+                            enforce(box.length >= sizeof(box) + sizeof(uuid), kerCorruptedMetadata);
                             rawData.alloc(box.length - (uint32_t)(sizeof(box) + sizeof(uuid)));
                             bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error()) throw Error(kerFailedToReadImageData);
@@ -498,7 +502,7 @@ static void boxes_check(size_t b,size_t m)
                 position   = io_->tell();
                 box.length = getLong((byte*)&box.length, bigEndian);
                 box.type = getLong((byte*)&box.type, bigEndian);
-                enforce(box.length <= io_->size()-io_->tell() , Exiv2::kerCorruptedMetadata);
+                enforce(box.length <= sizeof(box)+io_->size()-io_->tell() , Exiv2::kerCorruptedMetadata);
 
                 if (bPrint) {
                     out << Internal::stringFormat("%8ld | %8ld | ", (size_t)(position - sizeof(box)),
@@ -518,7 +522,7 @@ static void boxes_check(size_t b,size_t m)
                         while (io_->read((byte*)&subBox, sizeof(subBox)) == sizeof(subBox) &&
                                io_->tell() < position + (long)box.length)  // don't read beyond the box!
                         {
-                            int address = io_->tell() - sizeof(subBox);
+                            const size_t address = io_->tell() - sizeof(subBox);
                             subBox.length = getLong((byte*)&subBox.length, bigEndian);
                             subBox.type = getLong((byte*)&subBox.type, bigEndian);
 
@@ -538,7 +542,10 @@ static void boxes_check(size_t b,size_t m)
 
                             if (subBox.type == kJp2BoxTypeColorHeader) {
                                 long pad = 3;  // don't know why there are 3 padding bytes
-                                enforce(data.size_ >= pad, kerCorruptedMetadata);
+
+                                // Bounds-check for the `getULong()` below, which reads 4 bytes, starting at `pad`.
+                                enforce(data.size_ >= pad + 4, kerCorruptedMetadata);
+
                                 if (bPrint) {
                                     out << " | pad:";
                                     for (int i = 0; i < 3; i++)
@@ -577,6 +584,7 @@ static void boxes_check(size_t b,size_t m)
                             }
 
                             DataBuf rawData;
+                            enforce(box.length >= sizeof(uuid) + sizeof(box), kerCorruptedMetadata);
                             rawData.alloc(box.length - sizeof(uuid) - sizeof(box));
                             long bufRead = io_->read(rawData.pData_, rawData.size_);
                             if (io_->error())
