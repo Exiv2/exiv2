@@ -541,7 +541,10 @@ static void boxes_check(size_t b,size_t m)
 
                             if (subBox.type == kJp2BoxTypeColorHeader) {
                                 long pad = 3;  // don't know why there are 3 padding bytes
+
+                                // Bounds-check for the `getULong()` below, which reads 4 bytes, starting at `pad`.
                                 enforce(data.size_ >= pad + 4, kerCorruptedMetadata);
+
                                 if (bPrint) {
                                     out << " | pad:";
                                     for (int i = 0; i < 3; i++)
