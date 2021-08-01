@@ -957,28 +957,35 @@ namespace Exiv2 {
                 assert(mHasLength[marker]);
                 assert(size >= 2); // Because this marker has a length field.
                 insertPos = count + 1;
-            } else if (skipApp1Exif == notfound && marker == app1_ && memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
-                enforce(size >= 8, kerNoImageInInputData);
+            } else if (skipApp1Exif == notfound &&
+                       marker == app1_ &&
+                       size >= 8 && // prevent out-of-bounds read in memcmp on next line
+                       memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 skipApp1Exif = count;
                 ++search;
                 rawExif.alloc(size - 8);
                 memcpy(rawExif.pData_, buf.pData_ + 8, size - 8);
-            } else if (skipApp1Xmp == notfound && marker == app1_ && memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
-                enforce(size >= 31, kerNoImageInInputData);
+            } else if (skipApp1Xmp == notfound &&
+                       marker == app1_ &&
+                       size >= 31 && // prevent out-of-bounds read in memcmp on next line
+                       memcmp(buf.pData_ + 2, xmpId_, 29) == 0) {
                 skipApp1Xmp = count;
                 ++search;
-            } else if (marker == app2_ && memcmp(buf.pData_ + 2, iccId_, 11) == 0) {
-                enforce(size >= 31, kerNoImageInInputData);
+            } else if (marker == app2_ &&
+                       size >= 13 && // prevent out-of-bounds read in memcmp on next line
+                       memcmp(buf.pData_ + 2, iccId_, 11) == 0) {
                 skipApp2Icc.push_back(count);
                 if (!foundIccData) {
                     ++search;
                     foundIccData = true;
                 }
-            } else if (!foundCompletePsData && marker == app13_ && memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
+            } else if (!foundCompletePsData &&
+                       marker == app13_ &&
+                       size >= 16 && // prevent out-of-bounds read in memcmp on next line
+                       memcmp(buf.pData_ + 2, Photoshop::ps3Id_, 14) == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found APP13 Photoshop PS3 segment\n";
 #endif
-                enforce(size >= 16, kerNoImageInInputData);
                 skipApp13Ps3.push_back(count);
                 // Append to psBlob
                 append(psBlob, buf.pData_ + 16, size - 16);
