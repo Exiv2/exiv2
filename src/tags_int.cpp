@@ -2610,7 +2610,7 @@ namespace Exiv2 {
             // Add 0.5 for rounding.
             const double x = tmp + 0.5;
             // Check that x is within the range of a uint32_t before casting.
-            if (0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
+            if (x <= std::numeric_limits<uint32_t>::max()) {
                 ur.second = static_cast<uint32_t>(x);
             }
         }
