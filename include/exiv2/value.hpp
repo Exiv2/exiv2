@@ -1640,6 +1640,24 @@ namespace Exiv2 {
     }
 // #55 crash when value_.at(n).first == LONG_MIN
 #define LARGE_INT 1000000
+    // Specialization for double
+    template<>
+    inline long ValueType<double>::toLong(long n) const
+    {
+        const double v = value_.at(n);
+        ok_ = (INT_MIN <= v && v <= INT_MAX);
+        if (!ok_) return 0;
+        return static_cast<long>(v);
+    }
+    // Specialization for float
+    template<>
+    inline long ValueType<float>::toLong(long n) const
+    {
+        const double v = value_.at(n);
+        ok_ = (INT_MIN <= v && v <= INT_MAX);
+        if (!ok_) return 0;
+        return static_cast<long>(v);
+    }
     // Specialization for rational
     template<>
     inline long ValueType<Rational>::toLong(long n) const
