@@ -999,9 +999,16 @@ namespace Exiv2 {
         if (!mn_) {
             return TiffEntryBase::doCount();
         }
+#ifndef SUPPRESS_WARNINGS
         // Count of IFD makernote in tag Exif.Photo.MakerNote is the size of the
         // Makernote in bytes
-        assert(tiffType() == ttUndefined || tiffType() == ttUnsignedByte || tiffType() == ttSignedByte);
+        if (tiffType() != ttUndefined && tiffType() != ttUnsignedByte && tiffType() != ttSignedByte) {
+            EXV_ERROR << "Makernote entry 0x" << std::setw(4)
+                      << std::setfill('0') << std::hex << tag()
+                      << " has incorrect Exif (TIFF) type " << std::dec << tiffType()
+                      << ". (Expected signed or unsigned byte.)\n";
+        }
+#endif
         return mn_->size();
     }
 
