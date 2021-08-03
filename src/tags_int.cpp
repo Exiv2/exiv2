@@ -2607,16 +2607,14 @@ namespace Exiv2 {
         URational ur(1, 1);
         const double tmp = std::exp(std::log(2.0) * static_cast<double>(shutterSpeedValue));
         if (tmp > 1) {
-            // Add 0.5 for rounding.
-            const double x = tmp + 0.5;
+            const double x = std::round(tmp);
             // Check that x is within the range of a uint32_t before casting.
             if (x <= std::numeric_limits<uint32_t>::max()) {
                 ur.second = static_cast<uint32_t>(x);
             }
         }
         else {
-            // Add 0.5 for rounding.
-            const double x = 1/tmp + 0.5;
+            const double x = std::round(1/tmp);
             // Check that x is within the range of a uint32_t before casting.
             if (0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
                 ur.first = static_cast<uint32_t>(x);
