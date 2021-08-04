@@ -546,7 +546,7 @@ namespace Exiv2 {
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
             // Check that `size_u32` is safe to cast to `long`.
-            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
+            enforce(static_cast<uint64_t>(size_u32) <= static_cast<unsigned long>(std::numeric_limits<long>::max()),
                     Exiv2::kerCorruptedMetadata);
             const long size = static_cast<long>(size_u32);
 
@@ -639,7 +639,6 @@ namespace Exiv2 {
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
-                byte* rawExifData = NULL;
                 long  offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
@@ -672,27 +671,27 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const long size = payload.size_ + offset;
-                rawExifData = (byte*)malloc(size);
+                const long size = Safe::add(payload.size_, offset);
+                DataBuf rawExifData(size);
 
                 if (s_header) {
                     us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
-                    memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&size_buff, 2);
+                    memcpy(rawExifData.pData_, (char*)&exifLongHeader, 4);
+                    memcpy(rawExifData.pData_ + 4, (char*)&size_buff, 2);
                 }
 
                 if (be_header || le_header) {
                     us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
-                    memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&size_buff, 2);
-                    memcpy(rawExifData + 6, (char*)&exifShortHeader, 6);
+                    memcpy(rawExifData.pData_, (char*)&exifLongHeader, 4);
+                    memcpy(rawExifData.pData_ + 4, (char*)&size_buff, 2);
+                    memcpy(rawExifData.pData_ + 6, (char*)&exifShortHeader, 6);
                 }
 
-                memcpy(rawExifData + offset, payload.pData_, payload.size_);
+                memcpy(rawExifData.pData_ + offset, payload.pData_, payload.size_);
 
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
-                std::cout << Internal::binaryToHex(rawExifData, size);
+                std::cout << Internal::binaryToHex(rawExifData.pData_, size);
 #endif
 
                 if (pos != -1) {
@@ -709,8 +708,6 @@ namespace Exiv2 {
 #endif
                     exifData_.clear();
                 }
-
-                if (rawExifData) free(rawExifData);
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
                 readOrThrow(*io_, payload.pData_, payload.size_, Exiv2::kerCorruptedMetadata);
                 xmpPacket_.assign(reinterpret_cast<char*>(payload.pData_), payload.size_);
