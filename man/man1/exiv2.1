@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "July 29, 2021"
+.TH EXIV2 1 "August 05, 2021"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -650,7 +650,7 @@ PentaxDng                    NikonLd3     OlympusFe6      SonyMisc1
 .sp 1
 Exiv2 supports Exif 2.2 Standard Tags.  Exiv2 also supports reading and writing manufacturer's MakerNote.  The information in Exif.Photo.MakerNote is encoded as manufacturer's sub-records.  For example, CanonCs are Camera Settings, NikonAf are Nikon Auto Focus records, NikonCb are Nikon Color Balance Records.  Every tag is defined by a unique tagId (16 bit integer) which is unique within a Group.
 .sp
-You can query Exiv2 groups and tags with the sample program taglist which is documented in README-SAMPLES.md
+You can query Exiv2 groups and tags with the sample program taglist which is documented in \fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md\fP
 .sp
 .ne 20
 Exif Metadata values are defined in the Exif Standard.  All data is an array of data elements.  The Count defines the number elements in the array.  All elements in an array have the same type.
@@ -802,17 +802,20 @@ The Exiv2 project is released under the GNU GPLv2 license: \fIhttps://github.com
 
 .SH SEE ALSO
 .nf
-.I https://exiv2.org/sample.html#modify
+\fBiconv_open\fP(3), \fBstrftime\fP(3) and
+
+Exiv2 'modify' command examples: \fIhttps://exiv2.org/sample.html#modify\fP
+All Exiv2 tags, listing the \fIkey\fP and default \fItype\fP: \fIhttps://exiv2.org/metadata.html\fP
+Exiv2 sample programs: \fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md\fP
+APEX Exposure values: \fIhttps://en.wikipedia.org/wiki/APEX_system\fP
+International Language Codes: \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
 .fi
-Sample command files.
-.nf
-.I https://exiv2.org/metadata.html
-.fi
-Taglists with \fIkey\fP and default \fItype\fP values.
+
 .SH AUTHORS
 .B exiv2
 was written by Andreas Huggel and others.
+
+.br 
+Exiv2 project website: \fIhttps://exiv2.org\fP
 .br
-The Exiv2 project web site is https://exiv2.org.
-.br
-The code is hosted on GitHub at https://github.com/exiv2/exiv2
+Exiv2 source code: \fIhttps://github.com/exiv2/exiv2\fP
