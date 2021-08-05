@@ -714,56 +714,56 @@ $ exiv2 -pv --grep lens/i http://clanmills.com/Stonehenge.jpg
 .ne 40
 .SH EXAMPLES
 .nf
-$ exiv2 *.jpg
+\fB$ exiv2 *.jpg\fP
 .fi
-Prints a summary of the Exif information for all JPEG files in the directory.  The summary report is rather brief and presentation does not use the Family.Group.Tag convention.
+Prints a summary of the Exif information for all JPEG files in the directory.  The summary is brief and does not use the Family.Group.Tag format.
 .sp 1
-If you use --grep pattern, the default becomes -pa.  See -g/grep above.
-.sp 2
 .nf
-$ exiv2 -g Date http://clanmills.com/Stonehenge.jpg
+\fB$ exiv2 -g Date http://clanmills.com/Stonehenge.jpg\fP
 .fi
+If you use \fB--grep\fP \fIkey\fP, the default output becomes \fB--print\fP \fIa\fP
+.sp 1
 .nf
-$ exiv2 \-pi image.jpg
+\fB$ exiv2 \-pi image.jpg\fP
 .fi
 Prints the IPTC metadata of the image.
 .sp 1
 .nf
-$ exiv2 rename img_1234.jpg
+\fB$ exiv2 rename img_1234.jpg\fP
 .fi
 Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
 .sp 1
 .nf
-$ exiv2 \-r'\:basename\:_%Y%m' rename img_1234.jpg
+\fB$ exiv2 \-r'\:basename\:_%Y%m' rename img_1234.jpg\fP
 .fi
 Renames img_1234.jpg to img_1234_200511.jpg
 .sp 1
 .nf
-$ exiv2 \-et img1.jpg img2.jpg
+\fB$ exiv2 \-et img1.jpg img2.jpg\fP
 .fi
 Extracts the Exif thumbnails from the two files into img1\-thumb.jpg
 and img2\-thumb.jpg.
 .sp 1
 .nf
-$ exiv2 \-it img1.jpg img2.jpg
+\fB$ exiv2 \-it img1.jpg img2.jpg\fP
 .fi
 Inserts (copies) metadata from img1.exv to img1.jpg and from img2.exv
 to img2.jpg.
 .sp 1
 .nf
-$ exiv2 \-ep1,2 image.jpg
+\fB$ exiv2 \-ep1,2 image.jpg\fP
 .fi
-Extracts previews 1 and 2 from the image to the files image\-preview1.jpg
+Extracts previews 1 and 2 from image.jpg to the files image\-preview1.jpg
 and image\-preview2.jpg.
 .sp 1
 .nf
-$ exiv2 \-eiX image.jpg
+\fB$ exiv2 \-eiX image.jpg\fP
 .fi
 Extracts IPTC datasets into an XMP sidecar file image.xmp and in the
 process converts them to "IPTC Core" XMP schema.
 .sp 1
 .nf
-$ exiv2 \-iixX image.jpg
+\fB$ exiv2 \-iixX image.jpg\fP
 .fi
 Inserts IPTC and XMP metadata from an XMP sidecar file image.xmp into
 image.jpg.  The resulting IPTC datasets are converted from the "IPTC
@@ -772,12 +772,12 @@ format. The inserted XMP properties include those in the "IPTC Core"
 XMP schema.
 .sp 1
 .nf
-$ exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg
+\fB$ exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg\fP
 .fi
 Sets the Exif comment to an ASCII string.
 .sp 1
 .nf
-$ exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\ \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
+\fB$ exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\ \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg\fP
 .fi
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north. The
 Exif standard stipulates that the GPSLatitude tag consists of three
@@ -786,7 +786,7 @@ and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
 .sp 1
 .nf
-$ exiv2 \-l/tmp -S.CRW insert /data/*.JPG
+\fB$ exiv2 \-l/tmp -S.CRW insert /data/*.JPG\fP
 .fi
 Copy all metadata from CRW files in the /tmp directory to JPG files
 with corresponding basenames in the /data directory. Note that this
