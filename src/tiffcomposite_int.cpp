@@ -1236,7 +1236,12 @@ namespace Exiv2 {
                                                   valueIdx,
                                                   dataIdx,
                                                   imageIdx);
-            assert(len <= 4);
+#ifndef SUPPRESS_WARNINGS
+            if (len > 4) {
+                EXV_ERROR << "Unexpected length in TiffDirectory::writeDirEntry(): len == "
+                          << len << ".\n";
+            }
+#endif
             if (len < 4) {
                 memset(buf, 0x0, 4);
                 ioWrapper.write(buf, 4 - len);
