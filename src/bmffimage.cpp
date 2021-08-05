@@ -56,7 +56,6 @@
 #define TAG_heix 0x68656978 /**< "heix" HEIC */
 #define TAG_mif1 0x6d696631 /**< "mif1" HEIF */
 #define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
-#define TAG_JXL  0x4a584c20 /**< "JXL " JPEG XL */
 #define TAG_jxl  0x6a786c20 /**< "jxl " JPEG XL file type */
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
 #define TAG_meta 0x6d657461 /**< "meta" Metadata */
