@@ -1545,7 +1545,11 @@ namespace Exiv2 {
         for (auto&& component : components_) {
             if (component->tag() == 0x014a) {
                 // Hack: delay writing of sub-IFD image data to get the order correct
-                assert(pSubIfd == 0);
+#ifndef SUPPRESS_WARNINGS
+                if (pSubIfd != 0) {
+                    EXV_ERROR << "Multiple sub-IFD image data tags found\n";
+                }
+#endif
                 pSubIfd = component;
                 continue;
             }
