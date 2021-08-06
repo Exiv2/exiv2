@@ -81,51 +81,52 @@ The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
 .TP
 .B pr | print
-Print image metadata. This is the default action, i.e., the command
-\fIexiv2 image.jpg\fP will print a summary of the image Exif metadata.
+Print image metadata.  This is the default action, i.e. the command
+\fBexiv2 image.jpg\fP will print a summary of the image Exif metadata.
 .TP
 .B ex | extract
-Extract metadata to *.exv, XMP sidecar (*.xmp) and thumbnail image files.
+Extract metadata to *.exv, XMP sidecar (*.xmp), preview image, thumbnail 
+or ICC profile file.
 Modification commands can be applied on-the-fly.
 .TP
 .B in | insert
-Insert metadata from corresponding *.exv, XMP sidecar (*.xmp) and
-thumbnail files.  Use option \fB\-S\fP \fI.suf\fP to change the suffix
-of the input files. Since files of any supported format can be used as
-input files, this command can be used to copy the metadata between
-files of different formats. Modification commands can be applied
-on-the-fly.
+Insert metadata from corresponding *.exv, XMP sidecar (*.xmp), 
+thumbnail or ICC profile files.  Use option \fB\--suffix\fP \fIsuf\fP to 
+change the suffix of the input files.  Since files of any supported 
+format can be used as input files, this command can be used to copy 
+the metadata between files of different formats.  Modification commands 
+can be applied on-the-fly.
 .TP
 .B rm | delete
 Delete image metadata from the files.
 .TP
 .B ad | adjust
-Adjust Exif timestamps by the given time. Requires at least one of the
-options \fB\-a\fP \fItime\fP, \fB\-Y\fP \fIyrs\fP, \fB\-O\fP
-\fImon\fP or \fB\-D\fP \fIday\fP.
+Adjust Exif timestamps by the given time.  Requires at least one of the
+options \fB\--adjust\fP \fItime\fP, \fB\--years\fP \fI+-n\fP, \fB\--months\fP
+\fI+-n\fP or \fB\--days\fP \fI+-n\fP.
 .TP
 .B mo | modify
 Apply commands to modify (add, set, delete) the Exif, IPTC and XMP
-metadata of image files. Requires option \fB\-c\fP, \fB\-m\fP or
-\fB\-M\fP.
+metadata of image files.  Requires option \fB\--comment\fP \fItxt\fP, 
+\fB\--modify\fP \fIcmdfile\fP or \fB\--Modify\fP \fIcmd\fP.
 .TP
 .B mv | rename
 Rename files and/or set file timestamps according to the Exif create
-timestamp. Uses the value of tag Exif.Photo.DateTimeOriginal or, if
-not present, Exif.Image.DateTime to determine the timestamp. The
-filename format can be set with \fB\-r\fP \fIfmt\fP, timestamp options
-are \fB\-t\fP and \fB\-T\fP.
+timestamp.  Uses the value of tag Exif.Photo.DateTimeOriginal or, if
+not present, Exif.Image.DateTime to determine the timestamp.  The
+filename format can be set with \fB\--rename\fP \fIfmt\fP, timestamp options
+are \fB\--timestamp\fP and \fB\--Timestamp\fP.
 .TP
 .B fi | fixiso
 Copy the ISO setting from one of the proprietary Nikon or Canon
 makernote ISO tags to the regular Exif ISO tag,
-Exif.Photo.ISOSpeedRatings. Does not overwrite an existing standard
+Exif.Photo.ISOSpeedRatings.  Does not overwrite an existing standard
 Exif ISO tag.
 .TP
 .B fc | fixcom
 Fix the character encoding of Exif Unicode user comments.  Decodes the
 comment using the auto-detected or specified character encoding and
-writes it back in UCS-2. Use option \fB\-n\fP to specify the current
+writes it back in UCS-2.  Use option \fB\--encode\fP \fIenc\fP to specify the current
 encoding of the comment if necessary.
 .br
 .ne 40
@@ -149,7 +150,7 @@ option [arg]	long option	description
 -k		--keep	Preserve file timestamps when updating files
 -K	key	--key	Report key.  Similar to -g (grep) however key must match exactly.
 -l	dir	--location	Location (directory) for files to be inserted or extracted.
--m	file	--modify	read commands from cmd-file
+-m	cmdfile	--modify	read commands from cmd-file
 -M	cmd	--Modify	Command line for the 'modify' action. ...
 -n	enc	--encode	Charset to decode Exif Unicode user comments. See: man 3 iconv_open
 -O	+-n	--months	Time adjustment by a positive or negative number of months, ...
@@ -443,7 +444,7 @@ JPEG comment string to set in the image ('modify' action). This option
 can also be used with the 'extract' and 'insert' actions to modify
 metadata on-the-fly.
 .TP
-.B \-m \fIfile\fP
+.B \-m \fIcmdfile\fP
 Command file for the 'modify' action. This option can also be used
 with the 'extract' and 'insert' actions to modify metadata on-the-fly.
 -m- represents standard-input.
