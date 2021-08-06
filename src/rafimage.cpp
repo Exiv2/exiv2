@@ -364,17 +364,27 @@ namespace Exiv2 {
         // sanity check.  Does tiff lie inside the file?
         enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), kerCorruptedMetadata);
 
-        DataBuf  tiff(tiffLength);
         if (io_->seek(tiffOffset, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
-        io_->read(tiff.pData_, tiff.size_);
 
-        if (!io_->error() && !io_->eof())
+        // Check if this really is a tiff and then call the tiff parser.
+        // Check is needed because some older models just embed a raw bitstream.
+        // For those files we skip the parsing step. 
+        if (io_->read(readBuff, 4) != 4) { throw Error(kerFailedToReadImageData); }
+        io_->seek(-4, BasicIo::cur);
+        if (memcmp(readBuff, "\x49\x49\x2A\x00", 4) == 0 ||
+            memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0)
         {
-            TiffParser::decode(exifData_,
-                               iptcData_,
-                               xmpData_,
-                               tiff.pData_,
-                               tiff.size_);
+            DataBuf  tiff(tiffLength);
+            io_->read(tiff.pData_, tiff.size_);
+
+            if (!io_->error() && !io_->eof())
+            {
+                TiffParser::decode(exifData_,
+                                   iptcData_,
+                                   xmpData_,
+                                   tiff.pData_,
+                                   tiff.size_);
+            }
         }
     } // RafImage::readMetadata
 
