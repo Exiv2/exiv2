@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "August 05, 2021"
+.TH EXIV2 1 "August 06, 2021"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -684,33 +684,63 @@ the YYYY:MM:DD HH:MM:SS standard.
 .sp 1
 .ne 40
 .SH CONFIGURATION FILE
-Exiv2 can read an optional configuration file. It first looks in the current working directory for a file named .exiv2 on Unix systems and exiv2.ini on Windows. If no file is found Exiv2 will also check ~/.exiv2 on Unix systems or %USERPROFILE%\\exiv2.ini on Windows systems. You can determine the location of the configuration file with the command:
-.br
+\fBexiv2\fP can read an optional configuration file, which allows 
+additional lens definitions to be added into the output.  On Unix based  
+systems, the file is called \fI.exiv2\fP and on Windows, \fIexiv2.ini\fP. 
+The files are first searched for in the current directory, then the 
+home directory.
+.sp 1
+You can determine the name of the file and where it is searched for, 
+with the command:
 .sp 1
 .nf
+\fB
 $ exiv2 --verbose --version --grep config_path
-exiv2 0.27.0.1
-config_path=/Users/rmills/.exiv2
+exiv2 1.0.0.9
+config_path=/Users/rmills/.exiv2\fP
 .fi
 .sp 1
-The purpose of the configuration file is to define your own lenses for recognition by Exiv2.  The configuration file is in Windows .ini format and has sections for each of the major camera manufactures canon,nikon,pentax,minolta,olympus and sony.  The lens metadata is stored as a integer called the lensID.  You can change the lens name associated with any lensID.
+The file uses the Windows .ini format (see \fIhttps://en.wikipedia.org/wiki/INI_file\fP)
+and has sections for each of the major camera manufactures: Canon, Minolta, 
+Nikon, Olympus, Pentax and Sony.  The lens definitions replace the text associated 
+with a lensID, with the configuration file values overriding any previously 
+defined.
 .br
 .sp 1
-.nf
-$ cat ~/.exiv2
-[nikon]
-146=Robin's Sigma Lens  <--- The name of your lens
-.fi
+e.g. To add a new lens definition, you first obtain the lensID for 
+your camera with the command:
 .sp 1
-You obtain the lensID for your camera with the command:
 .nf
-$ exiv2 -pv --grep lens/i http://clanmills.com/Stonehenge.jpg
+\fB
+$ exiv2 -pv --grep lens/i https://clanmills.com/Stonehenge.jpg
 0x0083 Nikon3       LensType           Byte       1  14
 0x0084 Nikon3       Lens               Rational   4  180/10 2500/10 35/10 63/10
 0x008b Nikon3       LensFStops         Undefined  4  55 1 12 0
-0x000c NikonLd3     LensIDNumber       Byte       1  146 <--- This number
-0x000d NikonLd3     LensFStops         Byte       1  55
+0x000c NikonLd3     LensIDNumber       Byte       1  146
+0x000d NikonLd3     LensFStops         Byte       1  55\fP
 .fi
+.sp 1
+Then using the 'LensIDNumber' tag's value (i.e. 146), add the 
+following text to the appropriate \fI.exiv2\fP or \fIexiv2.ini\fP 
+file:
+.nf
+\fB
+[nikon]
+146=Robin's Sigma Lens\fP
+.fi
+.sp 1
+The text will now appear when the translated print option is used:
+.sp 1
+.nf
+\fB
+$ exiv2 -pt --grep lens/i 20150716_153854.jpg
+Exif.Nikon3.LensType                         Byte        1  D G VR
+Exif.Nikon3.Lens                             Rational    4  18-250mm F3.5-6.3
+Exif.Nikon3.LensFStops                       Undefined   4  4.58333
+Exif.NikonLd3.LensIDNumber                   Byte        1  Robin's Sigma Lens
+Exif.NikonLd3.LensFStops                     Byte        1  F4.6\fP
+.fi
+.sp 1
 .ne 40
 .SH EXAMPLES
 .nf
@@ -809,6 +839,7 @@ All Exiv2 tags, listing the \fIkey\fP and default \fItype\fP: \fIhttps://exiv2.o
 Exiv2 sample programs: \fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md\fP
 APEX Exposure values: \fIhttps://en.wikipedia.org/wiki/APEX_system\fP
 International Language Codes: \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
+Windows INI format: \fIhttps://en.wikipedia.org/wiki/INI_file\fP
 .fi
 
 .SH AUTHORS
