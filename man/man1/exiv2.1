@@ -24,50 +24,51 @@ exiv2 \- Image metadata manipulation tool
 .SH DESCRIPTION
 .PP
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
-.\" \fI<whatever>\fP escape sequences to invode bold face and italics,
+.\" \fI<whatever>\fP escape sequences to invoke bold face and italics,
 .\" respectively.
 .B exiv2
-is a program to read and write Exif, IPTC, XMP metadata and
-image comments and can read many vendor makernote tags. The program
-optionally converts between Exif tags, XMP properties and IPTC
-datasets as recommended by the Exif Standard, the IPTC Standard,
-the XMP specification and Metadata Working Group guidelines.
+is a program to read and write image metadata, including 
+Exif, IPTC, XMP, image comments, ICC Profile, thumbnails, image 
+previews and many vendor makernote tags.  The program optionally 
+converts between Exif tags, IPTC datasets and XMP properties as 
+recommended by the Exif Standard, the IPTC Standard, the XMP 
+specification and the Metadata Working Group guidelines.
 .br
-The following image formats are supported:
+The following image formats and metadata categories are supported:
 .TS
-lB lB lB lB lB lB
-_	_	_	_	_	_
-l l l l l l.
-Type	Exif	IPTC	XMP	Image Comments	ICC Profile
-ARW	Read	Read	Read	-	-
-AVIF	Read	Read	Read	-	-
-BMP	-	-	-	-	-
-CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
-CR3	Read	Read	Read	-	Read
-CRW	Read/Write	-	-	Read/Write	-
-DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
-EPS	-	-	Read/Write	-	-
-EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
-GIF	-	-	-	-	-
-HEIC	Read	Read	Read	-	-
-HEIF	Read	Read	Read	-	-
-JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
-JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-MRW	Read	Read	Read	-	-
-NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
-ORF	Read/Write	Read/Write	Read/Write	-	-
-PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
-PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-PSD	Read/Write	Read/Write	Read/Write	-	-
-RAF	Read	Read	Read	-	-
-RW2	Read	Read	Read	-	-
-SR2	Read	Read	Read	-	-
-SRW	Read/Write	Read/Write	Read/Write	-	-
-TGA	-	-	-	-	-
-TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
-WEBP	Read/Write	-	Read/Write	-	Read/Write
-XMP	-	-	Read/Write	-	-
+lB lB lB lB lB lB lB
+_	_	_	_	_	_	_
+l l l l l l l.
+Type	Exif	IPTC	XMP	Image Comments	ICC Profile	Thumbnail
+ARW	Read	Read	Read	-	-	Read
+AVIF	Read	Read	Read	-	-	Read
+BMP	-	-	-	-	-	-
+CR2	Read/Write	Read/Write	Read/Write	-	Read/Write	Read/Write
+CR3	Read	Read	Read	-	Read	Read
+CRW	Read/Write	-	-	Read/Write	-	Read/Write
+DNG	Read/Write	Read/Write	Read/Write	-	Read/Write	Read/Write
+EPS	-	-	Read/Write	-	-	-
+EXV	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+GIF	-	-	-	-	-	-
+HEIC	Read	Read	Read	-	-	Read
+HEIF	Read	Read	Read	-	-	Read
+JP2	Read/Write	Read/Write	Read/Write	-	Read/Write	Read/Write
+JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+MRW	Read	Read	Read	-	-	Read
+NEF	Read/Write	Read/Write	Read/Write	-	Read/Write	Read/Write
+ORF	Read/Write	Read/Write	Read/Write	-	-	Read/Write
+PEF	Read/Write	Read/Write	Read/Write	-	Read/Write	Read/Write
+PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write	-
+PNG	-	Read/Write	Read/Write	-	Read/Write	Read/Write
+PSD	Read/Write	Read/Write	Read/Write	-	-	Read/Write
+RAF	Read	Read	Read	-	-	Read
+RW2	Read	Read	Read	-	-	Read
+SR2	Read	Read	Read	-	-	Read
+SRW	Read/Write	Read/Write	Read/Write	-	-	Read/Write
+TGA	-	-	-	-	-	-
+TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write	Read/Write
+WEBP	Read/Write	-	Read/Write	-	Read/Write	Read/Write
+XMP	-	-	Read/Write	-	-	-
 .TE
 .IP \(bu 2
 Support for GIF, TGA and BMP images is minimal: the image format is
@@ -76,6 +77,8 @@ image are determined.
 .IP \(bu 2
 Reading other TIFF-like RAW image formats, which are not listed in the
 table, may also work.
+.IP \(bu 2
+The thumbnail, if available, is included in the list of image previews.
 .SH ACTIONS
 The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
