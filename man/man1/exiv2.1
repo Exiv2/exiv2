@@ -135,7 +135,7 @@ encoding of the comment if necessary.
 exiv2 [ opt [arg] ]+ [ act ] file ...
 .sp 1
 option [arg]	long option	description
--a	tim	--adjust	Modify time stamps.  [+|-]HH[:MM[:SS[.mmm]]]
+-a	time	--adjust	Modify time stamps.  [+|-]HH[:MM[:SS[.mmm]]]
 -b		--binary	This option is obsolete and should not be used.  Reserved for test suite (with option -pC)
 -c	txt	--comment	JPEG comment string to set in the image ('modify' action).  ...
 -d	tgt	--delete	Delete target(s) for the 'delete' action. ...
@@ -671,15 +671,15 @@ Type               Explanation
 The printing flag t = translated and is intended for human use.  Scripts should never use translated values as they are localised and the format may change as Exiv2 evolves.  The printing flag v reports the values recorded in the metadata and should be used by scripts.
 .ne 8
 .fi
-.SH Exif DateTime
+.SS Exif DateTime
 .fi
-An Exif DateTime string is stored as 20 ascii bytes (including trailing nul) in the format:
+An Exif DateTime string is stored as 20 ascii bytes (including trailing NULL) in the format:
 .sp 1
 YYYY:MM:DD HH:MM:SS
 .sp 1
-The exiv2 command-line program options -t and -T will accept files
+The \fBexiv2\fP options \fB--timestamp\fP and \fB--Timestamp\fP will accept files
 in which the Date has been incorrectly stored as YYYY-MM-DD.
-The option -a enables the user to adjust the DateTime in the file and applies
+The option \fB--adjust\fP \fItime\fP enables the user to adjust the DateTime in the file and applies
 the YYYY:MM:DD HH:MM:SS standard.
 .sp 1
 .ne 40
