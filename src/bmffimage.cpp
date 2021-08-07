@@ -105,7 +105,7 @@ namespace Exiv2
 
     std::string BmffImage::toAscii(long n)
     {
-        const char* p = (const char*)&n;
+        const auto p = reinterpret_cast<const char*>(&n);
         std::string result;
         for (int i = 0; i < 4; i++) {
             char c = p[isBigEndianPlatform() ? i : (3 - i)];
@@ -284,14 +284,15 @@ namespace Exiv2
                 /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
                 // Check that the string has a '\0' terminator.
-                const char* str = (const char*)data.pData_ + skip;
+                const char* str = reinterpret_cast<const char*>(data.pData_) + skip;
                 const size_t maxlen = static_cast<size_t>(data.size_ - skip);
                 enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
-                if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
+                if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
                     id=" *** Exif ***";
-                } else if ( !name.find("mime\0xmp") || !name.find("mime\0application/rdf+xml") ) {
+                } else if (name.find("mime\0xmp") != std::string::npos ||
+                           name.find("mime\0application/rdf+xml") != std::string::npos) {
                     xmpID_ = ID;
                     id=" *** XMP ***";
                 }
@@ -410,7 +411,7 @@ namespace Exiv2
                     uint8_t      meth        = data.pData_[skip+0];
                     uint8_t      prec        = data.pData_[skip+1];
                     uint8_t      approx      = data.pData_[skip+2];
-                    std::string  colour_type = std::string((char*)data.pData_,4) ;
+                    std::string colour_type = std::string(reinterpret_cast<char*>(data.pData_), 4);
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
                         DataBuf       profile(data.pData_+skip,data.size_-skip);
@@ -534,7 +535,7 @@ namespace Exiv2
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
             try {
-                Exiv2::XmpParser::decode(xmpData(),std::string((char*)xmp.pData_));
+                Exiv2::XmpParser::decode(xmpData(), std::string(reinterpret_cast<char*>(xmp.pData_)));
             } catch (...) {
                 throw Error(kerFailedToReadImageData);
             }
@@ -591,7 +592,7 @@ namespace Exiv2
             default: break; // do nothing
 
             case kpsIccProfile : {
-                out.write((const char*)iccProfile_.pData_,iccProfile_.size_);
+                out.write(reinterpret_cast<const char*>(iccProfile_.pData_), iccProfile_.size_);
             } break;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
