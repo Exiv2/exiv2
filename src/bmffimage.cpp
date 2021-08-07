@@ -388,9 +388,9 @@ namespace Exiv2
             case TAG_ispe: {
                 enforce(data.size_ - skip >= 12, Exiv2::kerCorruptedMetadata);
                 skip += 4;
-                int width = (int)getLong(data.pData_ + skip, endian_);
+                int width = getLong(data.pData_ + skip, endian_);
                 skip += 4;
-                int height = (int)getLong(data.pData_ + skip, endian_);
+                int height = getLong(data.pData_ + skip, endian_);
                 skip += 4;
                 if ( bTrace ) {
                     out << "pixelWidth_, pixelHeight_ = " << Internal::stringFormat("%d, %d", width, height);
