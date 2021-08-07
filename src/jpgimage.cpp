@@ -194,7 +194,7 @@ namespace Exiv2 {
 #endif
                 return -2;
             }
-#ifndef EXIV2_DEBUG_MESSAGES
+#ifdef EXIV2_DEBUG_MESSAGES
             if (   (dataSize & 1)
                 && position + dataSize == static_cast<uint32_t>(sizePsData)) {
                 std::cerr << "Warning: "
@@ -759,9 +759,11 @@ namespace Exiv2 {
                                     break;
                                 start++;
                             }
+#ifdef EXIV2_DEBUG_MESSAGES
                             if (start < max)
                                 std::cout << "  FFF start = " << start << std::endl;
                             // << " index = " << pFFF->dwIndexOff << std::endl;
+#endif
                         }
 
                         if (bPS) {
@@ -963,8 +965,10 @@ namespace Exiv2 {
                        memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 skipApp1Exif = count;
                 ++search;
-                rawExif.alloc(size - 8);
-                memcpy(rawExif.pData_, buf.pData_ + 8, size - 8);
+                if (size > 8) {
+                    rawExif.alloc(size - 8);
+                    memcpy(rawExif.pData_, buf.pData_ + 8, size - 8);
+                }
             } else if (skipApp1Xmp == notfound &&
                        marker == app1_ &&
                        size >= 31 && // prevent out-of-bounds read in memcmp on next line

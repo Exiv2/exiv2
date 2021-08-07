@@ -1,0 +1,89 @@
+name: Win Matrix on PRs
+
+on:
+  pull_request:
+  push:
+    branches:
+    - 0.27-maintenance
+    tags:
+    - '!*'
+
+jobs:
+  windows:
+    name: 'Win10 Arch: ${{matrix.platform}} BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        platform: [ x64, x86 ]
+        
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: ${{matrix.platform}}
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.10.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - name: Restore conan cache
+        uses: actions/cache@v2
+        with:
+            path: ${{github.workspace}}/conanCache
+            key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+
+      - name: Install Conan & Common config
+        run: |
+          pip.exe install conan
+          conan profile new --detect default
+          conan profile update settings.build_type=${{matrix.build_type}} default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+          conan config get storage.path
+          tree /f ./conanCache
+
+      - name: Conan Arch conditional config
+        if: ${{matrix.platform == 'x86'}}
+        run: |
+          conan profile update settings.arch=x86 default
+          conan profile update settings.arch_build=x86 default
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan profile list
+          conan install .. --build missing
+          dir ..
+          tree /f ../conanCache
+ 
+      - name: Build
+        run: |
+          cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_ENABLE_BMFF=OFF -DCMAKE_INSTALL_PREFIX=install ..
+          ninja
+
+      - name: Install
+        run: |
+          cd build
+          ninja install
+          tree /f install
+
+      - name: Test
+        if: ${{matrix.platform == 'x64'}}
+        env:
+          EXIV2_EXT: .exe
+        run: |
+          cd build
+          cmake --build . --target tests

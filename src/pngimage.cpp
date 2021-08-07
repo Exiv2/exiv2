@@ -59,7 +59,11 @@ namespace
     inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
     {
         assert(strlen(str) <= length);
-        return memcmp(str, buf.pData_, std::min(static_cast<long>(length), buf.size_)) == 0;
+        const long minlen = std::min(static_cast<long>(length), buf.size_);
+        if (minlen == 0) {
+          return true;
+        }
+        return memcmp(str, buf.pData_, minlen) == 0;
     }
 }  // namespace
 
