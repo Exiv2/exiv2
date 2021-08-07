@@ -105,7 +105,7 @@ namespace Exiv2
 
     std::string BmffImage::toAscii(long n)
     {
-        const auto p = reinterpret_cast<const char*>(&n);
+        const char* p = reinterpret_cast<const char*>(&n);
         std::string result;
         for (int i = 0; i < 4; i++) {
             char c = p[isBigEndianPlatform() ? i : (3 - i)];
