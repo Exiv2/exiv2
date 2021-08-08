@@ -398,7 +398,7 @@ namespace Exiv2 {
 
                 // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
-                    std::cerr << "invalid type in tiff structure" << type << std::endl;
+                    EXV_ERROR << "invalid type in tiff structure" << type << std::endl;
                     start = 0; // break from do loop
                     throw Error(kerInvalidTypeValue);
                 }

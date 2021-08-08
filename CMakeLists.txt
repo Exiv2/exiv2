@@ -30,6 +30,7 @@ option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
+option( EXIV2_BUILD_FUZZ_TESTS        "Build fuzz tests (libFuzzer)"                          OFF )
 option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentation"            OFF )
 
 # Only intended to be used by Exiv2 developers/contributors
@@ -95,6 +96,14 @@ add_custom_target(version_test
     COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
 )
+
+if( EXIV2_BUILD_FUZZ_TESTS )
+    if ((NOT COMPILER_IS_CLANG) OR (NOT EXIV2_TEAM_USE_SANITIZERS))
+        message(FATAL_ERROR "You need to build with Clang and sanitizers for the fuzzers to work. "
+                "Use Clang and -DEXIV2_TEAM_USE_SANITIZERS=ON")
+    endif()
+    add_subdirectory ( fuzz )
+endif()
 
 if( EXIV2_BUILD_SAMPLES )
     ##
