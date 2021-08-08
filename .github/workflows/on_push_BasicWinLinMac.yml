@@ -95,20 +95,18 @@ jobs:
       - name: install dependencies
         run: |
           brew install ninja
-          pip3 install conan==1.36.0
-
-      - name: Conan
-        run: |
-          mkdir build && cd build
-          conan profile new --detect default
-          conan profile show default
-          conan install .. -o webready=True --build missing
-          # Hack: Delete cmake_find_package generated files to fix compilation on mac.
-          rm Find*
+          pushd /tmp
+          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+          tar xzf   release-1.8.0.tar.gz
+          mkdir -p  googletest-release-1.8.0/build
+          pushd     googletest-release-1.8.0/build
+          cmake .. ; make ; make install
+          popd
+          popd
 
       - name: build and compile
         run: |
-          cd build
+          mkdir build && cd build
           cmake -GNinja -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
           cmake --build .
 
