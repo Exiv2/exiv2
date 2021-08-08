@@ -1,0 +1,4 @@
+# Known memory leak in expat, caused by xmpsdk throwing an exception.
+# See https://github.com/Exiv2/exiv2/issues/1821
+leak:libexpat.so
+
