@@ -27,4 +27,4 @@ jobs:
       run: |
         cd build
         mkdir corpus
-        ./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_total_time=120 -max_len=4096
+        LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=4096 -max_total_time=120

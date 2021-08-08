@@ -85,7 +85,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                 endif()
             elseif( COMPILER_IS_CLANG )
                 if ( EXIV2_BUILD_FUZZ_TESTS )
-                    set(SANITIZER_FLAGS "-fsanitize=fuzzer-no-link")
+                    set(SANITIZER_FLAGS "-fsanitize=fuzzer-no-link,address,undefined")
                 elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
                 elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4 )
