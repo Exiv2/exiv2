@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "July 29, 2021"
+.TH EXIV2 1 "August 10, 2021"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -684,7 +684,7 @@ the YYYY:MM:DD HH:MM:SS standard.
 .sp 1
 .ne 40
 .SH CONFIGURATION FILE
-Exiv2 can read an optional configuration file. It first looks in the current working directory for a file named .exiv2 on Unix systems and exiv2.ini on Windows. If no file is found Exiv2 will also check ~/.exiv2 on Unix systems or %USERPROFILE%\\exiv2.ini on Windows systems. You can determine the location of the configuration file with the command:
+Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can determine the location of the configuration file with the command:
 .br
 .sp 1
 .nf

@@ -149,7 +149,7 @@ Options are defined on the CMake command-line:
 $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=Off
 ```
 
-It is planned to set the default -DEXIV2\_ENABLE\_BMFF=On for Exiv2 v1.00.  BMFF support is disabled by default in v0.27.4.
+It is planned to set the default -DEXIV2\_ENABLE\_BMFF=On for Exiv2 v1.00.  BMFF support is disabled by default in v0.27.
 
 
 [TOC](#TOC)
@@ -158,12 +158,13 @@ It is planned to set the default -DEXIV2\_ENABLE\_BMFF=On for Exiv2 v1.00.  BMFF
 
 The following Exiv2 features require external libraries:
 
-| Feature                     | Package   |  Default | To change default             | Availability |
-|:--------------------------  |:--------  |:--------:| :---------------------------- |:-----------  |
-| PNG image support           | zlib      | ON       | -DEXIV2\_ENABLE\_PNG=Off      | [http://zlib.net/](http://zlib.net/) |
-| XMP support                 | expat     | ON       | -DEXIV2\_ENABLE\_XMP=Off      | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
-| Natural language system     | gettext   | OFF      | -DEXIV2\_ENABLE\_NLS=On       | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
+| Feature                     | Package   |  Default | To change default              | Availability |
+|:--------------------------  |:--------  |:--------:| :----------------------------  |:-----------  |
+| PNG image support           | zlib      | ON       | -DEXIV2\_ENABLE\_PNG=Off       | [http://zlib.net/](http://zlib.net/) |
+| XMP support                 | expat     | ON       | -DEXIV2\_ENABLE\_XMP=Off       | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| Natural language system     | gettext   | OFF      | -DEXIV2\_ENABLE\_NLS=On        | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 | Character set conversion    | libiconv  |          | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms.                              | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
+| Unit test framework         | gtest     | OFF      | -DEXIV2\_BUILD\_UNIT\_TESTS=On | [release-1.8.0.tar.gz](https://github.com/google/googletest/archive/release-1.8.0.tar.gz) |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
 development package of a dependency to install the header files and libraries required to build Exiv2. The script
@@ -730,7 +731,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 <div id="2-17">
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v0.28 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
+Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.00 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
 
 To build with C++11:
 
@@ -743,7 +744,7 @@ $ make
 
 The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11 or 14.
 
-The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v0.28. 
+The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning auto\_ptr.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v1.00. 
 
 **Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
 
@@ -1257,5 +1258,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-04-06
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-08-10
 
