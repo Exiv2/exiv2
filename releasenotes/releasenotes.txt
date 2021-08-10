@@ -17,8 +17,7 @@ Exiv2 v0.27.5 Features
 1. Security fixes
 2. BMFF bug fixes
 3. libFuzzer target _(for improved security testing)_
-4. Exiv2 monitored by oss-fuzz 
-5. Minor bugs and fixes
+4. Minor bugs and fixes
 
 Detailed Change List since 0.27.4
 ---------------------------------
