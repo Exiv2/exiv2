@@ -17,7 +17,7 @@ exiv2 dll                                       bin/cygexiv2-@VN@.dll
 link libraries                                  lib/libexiv2.dll.a & libexiv2-xmp.a
 CMake support/consume files                     lib/cmake/exiv2
 pkg-config file                                 lib/pkgconfig/exiv2.pc
-man pages                                       share/man/
+man page                                        share/man/man1/exiv2.1
 localisation files                              share/locale/
 sample code                                     samples/exifprint.cpp
 build and test log                              logs/build.txt

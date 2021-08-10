@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Mar 10, 2021"
+.TH EXIV2 1 "July 29, 2021"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -624,25 +624,28 @@ Exiv2 displays metadata tags and values.
 The tag is a triplet of Family.Group.Tagname.  The following groups are defined for the family Exif:
 .sp 1
 .nf
-GPSInfo           Canon           Fujifilm      NikonLd1      OlympusFe1     Pentax
-Image             CanonCf                       NikonLd2      OlympusFe2     PentaxDng
-Image2            CanonCs         Nikon1        NikonLd3      OlympusFe3
-Image3            CanonFi         Nikon2        NikonMe       OlympusFe4     Samsung2
-Iop               CanonPa         Nikon3        NikonPc       OlympusFe5     SamsungPictureWizard
-MakerNote         CanonPi         NikonAFT      NikonPreview  OlympusFe6     SamsungPreview
-MpfInfo           CanonPr         NikonAf       NikonSi01xx   OlympusFe7
-Photo             CanonSi         NikonAf2      NikonSi02xx   OlympusFe8     Sony1
-SubImage1         CanonTi         NikonAf22     NikonSiD300a  OlympusFe9     Sony1Cs
-SubImage2                         NikonCb1      NikonSiD300b  OlympusFi      Sony1Cs2
-SubImage3         Casio           NikonCb2      NikonSiD40    OlympusIp      Sony1MltCs7D
-SubImage4         Casio2          NikonCb2a     NikonSiD80    OlympusRd      Sony1MltCsA100
-SubImage5                         NikonCb3      NikonVr       OlympusRd2     Sony1MltCsNew
-SubImage6         Minolta         NikonCb4      NikonWt       OlympusRi      Sony1MltCsOld
-SubImage7         MinoltaCs5D     NikonFi                                    Sony2
-SubImage8         MinoltaCs7D     NikonFl1      Olympus       Panasonic      Sony2Cs
-SubImage9         MinoltaCsNew    NikonFl2      Olympus2      PanasonicRaw   Sony2Cs2
-SubThumb1         MinoltaCsOld    NikonFl3      OlympusCs                    Sony2Fp
-Thumbnail                         NikonIi       OlympusEq     Sigma          SonyMinolta
+GPSInfo      Canon           Fujifilm     NikonMe         OlympusFe7        SonyMisc2b
+Image        CanonCf                      NikonPc         OlympusFe9        SonyMisc3c
+Image2       CanonCs         Nikon1       NikonPreview    OlympusFi         SonyMinolta
+Image3       CanonFi         Nikon2       NikonSi01xx     OlympusIp         SonySInfo1
+Iop          CanonPa         Nikon3       NikonSi02xx     OlympusRd
+MakerNote    CanonPi         NikonAFT     NikonSiD300a    OlympusRd2        Samsung2
+MpfInfo      CanonPr         NikonAf      NikonSiD300b    OlympusRi         SamsungPictureWizard
+Photo        CanonSi         NikonAf2     NikonSiD40                        SamsungPreview
+SubImage1    CanonTi         NikonAf22    NikonSiD80      Sigma
+SubImage2                    NikonCb1     NikonVr
+SubImage3    Casio           NikonCb2     NikonWt         Sony1
+SubImage4    Casio2          NikonCb2a                    Sony1Cs
+SubImage5                    NikonCb3     Olympus         Sony1Cs2
+SubImage6    Minolta         NikonCb4     Olympus2        Sony1MltCs7D
+SubImage7    MinoltaCs5D     NikonFi      OlympusCs       Sony1MltCsA100
+SubImage8    MinoltaCs7D     NikonFl1     OlympusEq       Sony1MltCsNew
+SubImage9    MinoltaCsNew    NikonFl2     OlympusFe1      Sony1MltCsOld
+SubThumb1    MinoltaCsOld    NikonFl3     OlympusFe2      Sony2
+Thumbnail                    NikonIi      OlympusFe3      Sony2Cs
+             Panasonic       NikonLd1     OlympusFe4      Sony2Cs2
+Pentax       PanasonicRaw    NikonLd2     OlympusFe5      Sony2Fp
+PentaxDng                    NikonLd3     OlympusFe6      SonyMisc1
 .fi
 .sp 1
 Exiv2 supports Exif 2.2 Standard Tags.  Exiv2 also supports reading and writing manufacturer's MakerNote.  The information in Exif.Photo.MakerNote is encoded as manufacturer's sub-records.  For example, CanonCs are Camera Settings, NikonAf are Nikon Auto Focus records, NikonCb are Nikon Color Balance Records.  Every tag is defined by a unique tagId (16 bit integer) which is unique within a Group.
@@ -681,7 +684,7 @@ the YYYY:MM:DD HH:MM:SS standard.
 .sp 1
 .ne 40
 .SH CONFIGURATION FILE
-Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can determine the location of the configuration file with the command:
+Exiv2 can read an optional configuration file. It first looks in the current working directory for a file named .exiv2 on Unix systems and exiv2.ini on Windows. If no file is found Exiv2 will also check ~/.exiv2 on Unix systems or %USERPROFILE%\\exiv2.ini on Windows systems. You can determine the location of the configuration file with the command:
 .br
 .sp 1
 .nf

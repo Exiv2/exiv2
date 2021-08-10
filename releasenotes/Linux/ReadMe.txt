@@ -17,7 +17,7 @@ libraries                                       lib/libexiv2.so.@VM@.@VN@.@VD@@V
 pkg-config file                                 lib/pkgconfig/exiv2.pc
 CMake support/consume files                     lib/cmake/exiv2
 pkg-config file                                 lib/pkgconfig/exiv2.pc
-man pages                                       share/man/
+man page                                        share/man/man1/exiv2.1
 localisation files                              share/locale/
 sample code                                     samples/exifprint.cpp
 build and test log                              logs/build.txt
