@@ -744,8 +744,10 @@ namespace Exiv2 {
                       << " to offset area.\n";
 #endif
             memset(buf + 8, 0x0, 4);
-            memcpy(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
-            memset(const_cast<byte*>(pTiffEntry->pData()), 0x0, pTiffEntry->size());
+            if (pTiffEntry->size() > 0) {
+                memcpy(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
+                memset(const_cast<byte*>(pTiffEntry->pData()), 0x0, pTiffEntry->size());
+            }
         }
         return 12;
     }
