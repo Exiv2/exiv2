@@ -948,8 +948,10 @@ namespace Exiv2 {
                        memcmp(buf.pData_ + 2, exifId_, 6) == 0) {
                 skipApp1Exif = count;
                 ++search;
-                rawExif.alloc(size - 8);
-                memcpy(rawExif.pData_, buf.pData_ + 8, size - 8);
+                if (size > 8) {
+                    rawExif.alloc(size - 8);
+                    memcpy(rawExif.pData_, buf.pData_ + 8, size - 8);
+                }
             } else if (skipApp1Xmp == notfound &&
                        marker == app1_ &&
                        size >= 31 && // prevent out-of-bounds read in memcmp on next line

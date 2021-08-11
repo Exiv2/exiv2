@@ -1357,7 +1357,9 @@ namespace Exiv2 {
     {
         long avail = std::max(p_->size_ - p_->idx_, 0L);
         long allow = std::min(rcount, avail);
-        std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        if (allow > 0) {
+            std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        }
         p_->idx_ += allow;
         if (rcount > avail) p_->eof_ = true;
         return allow;
