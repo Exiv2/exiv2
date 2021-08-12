@@ -91,7 +91,6 @@ namespace Exiv2 {
         std::ostringstream os;
         os << EXIV2_MAJOR_VERSION << '.' << EXIV2_MINOR_VERSION << '.' << EXIV2_PATCH_VERSION;
         return os.str();
-
     }
 
     std::string versionNumberHexString()
