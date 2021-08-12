@@ -8,6 +8,7 @@ README-CONAN.md                                 Developer Manual Appendix
 README-SAMPLES.md                               Developer Sample Code Manual
 releasenotes.txt                                Late breaking news
 exiv2.png                                       Exiv2 Logo
+matrix-standard-vector-logo-xs.png              Chat Server Logo
 COPYING                                         GPLv2.0 Software License
 
 Deliverable                                     Location

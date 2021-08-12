@@ -131,6 +131,7 @@ set( DOCS
      README-SAMPLES.md
      COPYING
      exiv2.png
+     matrix-standard-vector-logo-xs.png
 )
 foreach(doc ${DOCS})
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${doc} DESTINATION .)
