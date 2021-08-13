@@ -810,60 +810,57 @@ the YYYY:MM:DD HH:MM:SS standard.
 .ne 40
 .SH CONFIGURATION FILE
 \fBexiv2\fP can read an optional configuration file, which allows 
-additional lens definitions to be added into the output.  On Unix based  
-systems, the file is called \fI.exiv2\fP and on Windows, \fIexiv2.ini\fP. 
-The files are first searched for in the current directory, then the 
-home directory.
+additional lens definitions to be added to translated output. On UNIX based  
+systems, this file is called \fI.exiv2\fP and on Windows, \fIexiv2.ini\fP. 
+The file is searched for first in the current directory, then in the 
+home directory (on UNIX based systems, \fI~/\fP and on Windows, \fI%USERPROFILE%\\\fP).
 .sp 1
 You can determine the name of the file and where it is searched for, 
 with the command:
 .sp 1
 .nf
-\fB
-$ exiv2 --verbose --version --grep config_path
-exiv2 1.0.0.9
-config_path=/Users/rmills/.exiv2\fP
+\&  $ exiv2 --verbose --version --grep config_path
+\&  exiv2 1.0.0.9
+\&  config_path=/Users/rmills/.exiv2
 .fi
 .sp 1
-The file uses the Windows .ini format (see \fIhttps://en.wikipedia.org/wiki/INI_file\fP)
+The configuration file uses the Windows \fI.ini\fP format (see \fIhttps://en.wikipedia.org/wiki/INI_file\fP)
 and has sections for each of the major camera manufactures: Canon, Minolta, 
-Nikon, Olympus, Pentax and Sony.  The lens definitions replace the text associated 
-with a lensID, with the configuration file values overriding any previously 
-defined.
+Nikon, Olympus, Pentax and Sony. The configuration file definitions override any existing 
+values.
 .br
 .sp 1
-e.g. To add a new lens definition, you first obtain the lensID for 
-your camera with the command:
+For example, to add a new lens definition, first obtain the lensID for 
+your camera:
 .sp 1
 .nf
-\fB
-$ exiv2 -pv --grep lens/i https://clanmills.com/Stonehenge.jpg
-0x0083 Nikon3       LensType           Byte       1  14
-0x0084 Nikon3       Lens               Rational   4  180/10 2500/10 35/10 63/10
-0x008b Nikon3       LensFStops         Undefined  4  55 1 12 0
-0x000c NikonLd3     LensIDNumber       Byte       1  146
-0x000d NikonLd3     LensFStops         Byte       1  55\fP
+
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --print v --grep lens/i Stonehenge.jpg
+\&  0x0083 Nikon3       LensType           Byte       1  14
+\&  0x0084 Nikon3       Lens               Rational   4  180/10 2500/10 35/10 63/10
+\&  0x008b Nikon3       LensFStops         Undefined  4  55 1 12 0
+\&  0x000c NikonLd3     LensIDNumber       Byte       1  146
+\&  0x000d NikonLd3     LensFStops         Byte       1  55
 .fi
 .sp 1
-Then using the 'LensIDNumber' tag's value (i.e. 146), add the 
-following text to the appropriate \fI.exiv2\fP or \fIexiv2.ini\fP 
-file:
+Then using the 'LensIDNumber' value (i.e., 146), add the following text to 
+the configuration file:
+.sp 1
 .nf
-\fB
-[nikon]
-146=Robin's Sigma Lens\fP
+\&  [nikon]
+\&  146=Robin's Sigma Lens
 .fi
 .sp 1
 The text will now appear when the translated print option is used:
 .sp 1
 .nf
-\fB
-$ exiv2 -pt --grep lens/i 20150716_153854.jpg
-Exif.Nikon3.LensType                         Byte        1  D G VR
-Exif.Nikon3.Lens                             Rational    4  18-250mm F3.5-6.3
-Exif.Nikon3.LensFStops                       Undefined   4  4.58333
-Exif.NikonLd3.LensIDNumber                   Byte        1  Robin's Sigma Lens
-Exif.NikonLd3.LensFStops                     Byte        1  F4.6\fP
+\&  $ exiv2 --print t --grep lens/i Stonehenge.jpg
+\&  Exif.Nikon3.LensType                         Byte        1  D G VR
+\&  Exif.Nikon3.Lens                             Rational    4  18-250mm F3.5-6.3
+\&  Exif.Nikon3.LensFStops                       Undefined   4  4.58333
+\&  Exif.NikonLd3.LensIDNumber                   Byte        1  Robin's Sigma Lens
+\&  Exif.NikonLd3.LensFStops                     Byte        1  F4.6
 .fi
 .sp 1
 .ne 40
