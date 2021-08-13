@@ -892,7 +892,7 @@ namespace Jzon
 				else
 				{
 					// Store the unknown token, so we can show it to the user
-					data.push(std::make_pair(Value::VT_STRING, valueBuffer));
+					data.emplace(Value::VT_STRING, valueBuffer);
 					tokens.push(T_UNKNOWN);
 				}
 
@@ -946,7 +946,7 @@ namespace Jzon
                     node = new Object;
                 }
 
-                nodeStack.push(std::make_pair(name, node));
+                nodeStack.emplace(name, node);
                 name.clear();
                 break;
             }
@@ -963,7 +963,7 @@ namespace Jzon
                     node = new Array;
                 }
 
-                nodeStack.push(std::make_pair(name, node));
+                nodeStack.emplace(name, node);
                 name.clear();
                 break;
             }
@@ -1040,7 +1040,7 @@ namespace Jzon
                         node = nullptr;
                         name.clear();
                     } else {
-                        nodeStack.push(std::make_pair(name, node));
+                        nodeStack.emplace(name, node);
                         name.clear();
                     }
                 }
@@ -1108,7 +1108,7 @@ namespace Jzon
 			c1 = c2;
 		}
 
-		data.push(std::make_pair(Value::VT_STRING, str));
+		data.emplace(Value::VT_STRING, str);
 	}
 	bool Parser::interpretValue(const std::string &value)
 	{
@@ -1117,17 +1117,17 @@ namespace Jzon
         std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
 
         if (upperValue == "NULL") {
-            data.push(std::make_pair(Value::VT_NULL, std::string("")));
+            data.emplace(Value::VT_NULL, "");
         } else if (upperValue == "TRUE") {
-            data.push(std::make_pair(Value::VT_BOOL, std::string("true")));
+            data.emplace(Value::VT_BOOL, "true");
         } else if (upperValue == "FALSE") {
-            data.push(std::make_pair(Value::VT_BOOL, std::string("false")));
+            data.emplace(Value::VT_BOOL, "false");
         } else {
             bool number = std::all_of(value.begin(), value.end(), IsNumber);
             if (!number) {
                 return false;
             }
-            data.push(std::make_pair(Value::VT_NUMBER, value));
+            data.emplace(Value::VT_NUMBER, value);
         }
         return true;
     }

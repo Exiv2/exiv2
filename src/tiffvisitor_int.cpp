@@ -991,14 +991,14 @@ namespace Exiv2 {
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
-                object->strips_.push_back(std::make_pair(zero, sizeDataArea));
+                object->strips_.emplace_back(zero, sizeDataArea);
             }
             else {
                 uint32_t sizeTotal = 0;
                 object->strips_.clear();
                 for (long i = 0; i < pos->count(); ++i) {
                     uint32_t len = pos->toLong(i);
-                    object->strips_.push_back(std::make_pair(zero, len));
+                    object->strips_.emplace_back(zero, len);
                     sizeTotal += len;
                 }
                 if (sizeTotal != sizeDataArea) {

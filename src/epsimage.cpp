@@ -452,23 +452,23 @@ namespace {
                 posBeginPageSetup = startPos;
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%Exiv2EndXMP";
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: After %%PageTrailer") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%Exiv2EndXMP";
             } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageSetup End \"AI11EPS\"") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageSetup End \"AI11EPS\"";
             } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageTrailer Start \"AI11EPS\"") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageTrailer Start \"AI11EPS\"";
             } else if (!inRemovableEmbedding && line == "%begin_xml_code") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%end_xml_code";
                 removableEmbeddingsWithUnmarkedTrailer++;
             } else {
@@ -622,8 +622,8 @@ namespace {
                 if (write) throw Error(kerImageWriteFailed);
                 break;
             }
-            removableEmbeddings.push_back(std::make_pair(posXmpTrailer, posXmpTrailerEnd));
-            #ifdef DEBUG
+            removableEmbeddings.emplace_back(posXmpTrailer, posXmpTrailerEnd);
+#ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at "
                          "[" << removableEmbeddings.back().first << "," << removableEmbeddings.back().second << ")"
                          "\n";

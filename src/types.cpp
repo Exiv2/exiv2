@@ -166,7 +166,7 @@ namespace Exiv2 {
 
     EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
     {
-        std::pair<byte*, long> p = std::make_pair(pData_, size_);
+        std::pair<byte*, long> p = {pData_, size_};
         pData_ = nullptr;
         size_ = 0;
         return p;
@@ -230,7 +230,7 @@ namespace Exiv2 {
             if (c != '/')
                 is.setstate(std::ios::failbit);
             if (is)
-                r = std::make_pair(nominator, denominator);
+                r = {nominator, denominator};
         }
         return is;
     }
@@ -258,7 +258,7 @@ namespace Exiv2 {
             if (c != '/')
                 is.setstate(std::ios::failbit);
             if (is)
-                r = std::make_pair(nominator, denominator);
+                r = {nominator, denominator};
         }
         return is;
     }
@@ -294,7 +294,7 @@ namespace Exiv2 {
     {
         uint32_t nominator = getULong(buf, byteOrder);
         uint32_t denominator = getULong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
+        return {nominator, denominator};
     }
 
     int16_t getShort(const byte* buf, ByteOrder byteOrder)
@@ -317,7 +317,7 @@ namespace Exiv2 {
     {
         int32_t nominator = getLong(buf, byteOrder);
         int32_t denominator = getLong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
+        return {nominator, denominator};
     }
 
     float getFloat(const byte* buf, ByteOrder byteOrder)

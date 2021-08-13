@@ -472,7 +472,7 @@ namespace Exiv2 {
 #endif
             }
             else if (size != 0) {
-                strips_.push_back(std::make_pair(pStrip, size));
+                strips_.emplace_back(pStrip, size);
             }
         }
     } // TiffImageEntry::setStrips
