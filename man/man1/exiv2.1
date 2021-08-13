@@ -216,276 +216,373 @@ Where \fIfile\fP contains image metadata, optionally using a URL prefix (e.g., h
 .ne 40
 .SH OPTIONS
 .TP
-.B \-h
+.B \-h, --help
 Display help and exit.
 .TP
-.B \-V
+.B \-V, --version
 Show the program version and exit.
-.br
-When \fB\-V\fP is combined with \fB\-v\fP (Verbose version), build information
+
+When \fB\--version\fP is combined with \fB\--verbose\fP, build information
 is printed to standard output along with a list of shared libraries which
 have been loaded into memory. Verbose version is supported on Windows
-(MSVC, Cygwin and MinGW builds), macOS and Linux and is provided
-for test and debugging.
+(MSVC, Cygwin and MinGW builds), macOS and Linux and is provided for test 
+and debugging. The library name and version number are always printed, even 
+if output is filtered with \fB--grep\fP. 
 .TP
-.B \-v
+.B \-v, --verbose
 Be verbose during the program run.
 .TP
-.B \-q
-Silence warnings and error messages from the Exiv2 library during the
-program run (quiet). Note that options \fB\-v\fP and \fB\-q\fP can be
-used at the same time.
+.B \-q, --quiet
+Silence warnings and error messages during the program run. Note that 
+options \fB\--quiet\fP and \fB\--verbose\fP can be used at the same time.
 .TP
-.B \-Q \fIlvl\fP
+.B \-Q \fIlvl\fP, --log \fIlvl\fP
 Set the log-level to 'd'(ebug), 'i'(nfo), 'w'(arning), 'e'(rror)
-or 'm'(ute). The default log-level is 'w'. \fB\-Qm\fP is equivalent
-to \fB\-q\fP. All log messages are written to standard error.
+or 'm'(ute), with the \fIlvl\fP chosen including those below it 
+('d' <- 'i' <- 'w' <- 'e'). The default log-level is 'w'. \fB\--log\fP \fIm\fP 
+is equivalent to \fB\--quiet\fP. All log messages are written to standard error.
 .TP
-.B \-u
-Show unknown tags (default is to suppress tags which don't have a name).
+.B \-u, --unknown
+Show unknown tags. Default is to suppress tags which don't have a name (e.g., Exif.SonyMisc3c.0x022b).
 .TP
-.B \-g \fIkey\fP
-Only keys which match the given key (grep).
-.br
-Multiple \fB\-g\fP options
-can be used to filter info to less keys. Example:
-exiv2 -v -V -g webready -g time.
-The default exiv2 command prints a "summary report" which is quite short.  When you use -g without a -pmod option, you do not get a summary report and in effect you get -g pattern -pa image ...
+.B \-g \fIstr\fP, --grep \fIstr\fP
+When printing tags, display only those where \fIstr\fP is found in 
+the key (i.e., Family.Group.Tagname). When \fB--grep\fP \fIstr\fP is used 
+with \fB--verbose --version\fP, lines are included where \fIstr\fP matches in the 
+variable or value.
+
+Multiple \fB\--grep\fP options can be used to output additional data:
 
 .nf
-$ bin/exiv2 -g Date http://clanmills.com/Stonehenge.jpg
-Exif.Image.DateTime                 Ascii    20  2015:07:16 20:25:28
-Exif.Photo.DateTimeOriginal         Ascii    20  2015:07:16 15:38:54
-Exif.Photo.DateTimeDigitized        Ascii    20  2015:07:16 15:38:54
-Exif.NikonWt.DateDisplayFormat      Byte      1  Y/M/D
-Exif.GPSInfo.GPSDateStamp           Ascii    11  2015:07:16
-Xmp.xmp.ModifyDate                  XmpText  25  2015-07-16T20:25:28+01:00
+\&  $ exiv2 --verbose --version --grep webready --grep time
+\&  exiv2 1.0.0.9
+\&  time=11:01:53
+\&  enable_webready=1
+\&  xmlns=mediapro:http://ns.iview-multimedia.com/mediapro/1.0/
+.fi 
+
+When the \fB--print\fP \fImod\fP and \fB--Print\fP \fIflgs\fP options are not specified, the default is \fB--print\fP \fIa\fP:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --grep Date Stonehenge.jpg
+\&  Exif.Image.DateTime                 Ascii    20  2015:07:16 20:25:28
+\&  Exif.Photo.DateTimeOriginal         Ascii    20  2015:07:16 15:38:54
+\&  Exif.Photo.DateTimeDigitized        Ascii    20  2015:07:16 15:38:54
+\&  Exif.NikonWt.DateDisplayFormat      Byte      1  Y/M/D
+\&  Exif.GPSInfo.GPSDateStamp           Ascii    11  2015:07:16
+\&  Xmp.xmp.ModifyDate                  XmpText  25  2015-07-16T20:25:28+01:00
 .fi
 .sp 1
-You may use -pmod filters to further filter output.  For example:
+You may use \fB--print\fP \fImod\fP or \fB--Print\fP \fIflgs\fP to further filter output (\fB--print\fP \fIs\fP is ignored):
+
 .nf
-$ bin/exiv2 -px -g Date http://clanmills.com/Stonehenge.jpg
-Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
+\&  $ exiv2 --print x --grep Date Stonehenge.jpg
+\&  Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
 .fi
 .sp 1
-The option -g (--grep) applies to keys and not values.
 .br
-The key may finish with the optional modifier /i to indicate case insensitive.
-.TP
-.B \-K \fIkey\fP
-Only report data for given key.
-.br
-Multiple \fB\-K\fP options can be used to report more than a single key.
+\fIstr\fP can contain an optional \fI/i\fP modifier at the end, to indicate case insensitivity:
+
 .nf
-$ exiv2 \-K Exif.Photo.DateTimeDigitized -K Exif.Photo.DateTimeOriginal \-pt R.jpg
-Exif.Photo.DateTimeOriginal   Ascii    20  2011:09:18 16:25:48
-Exif.Photo.DateTimeDigitized  Ascii    20  2011:09:18 16:25:48
+\&  $ exiv2 --print px --grep date/i Stonehenge.jpg
+\&  Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
+.TP
+.B \-K \fIkey\fP, --key \fIkey\fP
+Only reports tags for a given \fIkey\fP, which must match the Family.Group.Tagname exactly.
+.sp 1
+Multiple \fB\--key\fP options can be used to report more than a single key:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 \--key Exif.Photo.DateTimeDigitized --key Exif.Photo.DateTimeOriginal Stonehenge.jpg
+\&  Exif.Photo.DateTimeOriginal                  Ascii      20  2015:07:16 15:38:54
+\&  Exif.Photo.DateTimeDigitized                 Ascii      20  2015:07:16 15:38:54
 .fi
 .TP
-.B \-n \fIenc\fP
-Charset to use to decode Exif Unicode user comments. \fIenc\fP is
-a name understood by \fBiconv_open\fP(3), e.g., 'UTF-8'.
+.B \-n \fIenc\fP, --encode \fIenc\fP
+Charset to use when decoding Exif Unicode user comments, where \fIenc\fP is
+a name understood by \fBiconv_open\fP(3) (e.g., 'UTF-8').
 .TP
-.B \-k
-Preserve file timestamps when updating files (keep). Can be used with
-all options which update files. The flag is ignored by read-only
+.B \-k, --keep
+Preserve file timestamps when updating files. Can be used with
+all options which update files and is ignored by read-only
 options.
 .TP
-.B \-t
+.B \-t, --timestamp
 Set the file timestamp according to the Exif create timestamp in
-addition to renaming the file (overrides \fB\-k\fP). This option is
+addition to renaming the file (overrides \fB\--keep\fP). This option is
 only used with the 'rename' action.
-See Exif DateTime below for additional information.
 .TP
-.B \-T
+.B \-T, --Timestamp
 Only set the file timestamp according to the Exif create timestamp, do
-not rename the file (overrides \fB\-k\fP). This option is only used
+not rename the file (overrides \fB\--keep\fP). This option is only used
 with the 'rename' action. Note: On Windows you may have to set the TZ
 environment variable for this option to work correctly.
-See Exif DateTime below for additional information.
 .TP
-.B \-f,\-F
-These options are used by the commands 'rename' and 'extract' to
-determine the file overwrite policy.  These options are usually
-combined with -v/--verbose to provide additional status output.
-.br
+.B \-f, --force or \-F, --Force
+These options are used by the 'rename' and 'extract' actions to
+determine the file overwrite policy. The options override the default 
+behavior, which is to prompt the user if the filename already exists. 
+These options are usually combined with \fB--verbose\fP, to provide 
+dditional status output.
 .sp 1
-The options --force and --Force apply to the 'rename' command.
-The 'extract' command treats --force and --Force as permission to
-overwrite.
-.br
+The 'rename' action will overwrite files when \fB--force\fP is used. 
+Instead, if \fB--Force\fP is used and the file already exists, the new filename 
+is appended with '_1' ('_2', ...) to prevent data loss.
 .sp 1
-The default behaviour is to prompt the user.
-.br
--f = Do not prompt before overwriting existing files.
-.br
--F = Do not prompt before renaming files. Appends '_1'
-('_2', ...) to the name of the new file.  For example:
+The 'extract' action will overwrite files when either \fB--force\fP or 
+\fB--Force\fP is used.
 .sp 1
+For example, renaming a file using \fB--Force\fP, where the same filename 
+has already been renamed:
+
 .nf
-$ curl --silent -O http://clanmills.com/Stonehenge.jpg
-$ exiv2 --verbose --Force rename Stonehenge.jpg
-File 1/1: Stonehenge.jpg
-Renaming file to ./20150716_153854.jpg
-$ curl --silent -O http://clanmills.com/Stonehenge.jpg
-$ exiv2 --verbose --Force rename Stonehenge.jpg
-File 1/1: Stonehenge.jpg
-Renaming file to ./20150716_153854_1.jpg
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --verbose --Force rename Stonehenge.jpg
+\&  File 1/1: Stonehenge.jpg
+\&  Renaming file to ./20150716_153854.jpg
+
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --verbose --Force rename Stonehenge.jpg
+\&  File 1/1: Stonehenge.jpg
+\&  Renaming file to ./20150716_153854_1.jpg
+.fi
+.br
+.TP
+.B \-r \fIfmt\fP, --rename \fIfmt\fP
+Filename format for the 'rename' action. The \fIfmt\fP string follows
+the definitions in \fBstrftime\fP(3), using Exif.Photo.DateTimeOriginal 
+or Exif.Image.DateTime as the reference date and time.
+In addition, the following special character sequences are also provided:
+.TS
+l l l.
+:basename:	Original filename without extension
+:dirname:	Name of the directory holding the original file
+:parentname:	Name of parent directory
+.TE
+.sp 1
+The default \fIfmt\fP is %Y%m%d_%H%M%S
+.sp 1
+For example, renaming a file when \fIfmt\fP is made up of the basename, day, short month and long year:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --verbose --rename ':basename:_%d_%b_%Y' Stonehenge.jpg
+\&  File 1/1: Stonehenge.jpg
+\&  Renaming file to ./Stonehenge_16_Jul_2015.jpg
 .fi
 .sp 1
-The 'rename' command will only overwrite files when the option --force is used.  The option --Force is provided to avoid unintentional loss of valuable image files.
-.sp 1
-The 'extract' command will overwrite files when either --force or --Force is used.  Overwriting extracted files will not cause the loss of image files.
-.br
-.TP
-.B \-r \fIfmt\fP
-Filename format for the 'rename' action. The format string follows
-\fBstrftime\fP(3) and supports the following keywords:
+If the filename to rename to already exists and \fB--Force\fP and \fB--force\fP 
+are not used, the user is prompted for an action.
 .TS
 l l.
-:basename:	original filename without extension
-:dirname:	name of the directory holding the original file
-:parentname:	name of parent directory
+[O]verwrite	Rename the file, overriding the existing one
+[r]ename	Rename the file, but append '_1' ('_2', ...) to the new filename 
+[s]kip	Cancel renaming this file 
 .TE
-Default filename format is %Y%m%d_%H%M%S.
+.sp 1
+For example, when renaming a second Stonehenge.jpg file:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --verbose --rename ':basename:_%d_%b_%Y' Stonehenge.jpg
+\&  File 1/1: Stonehenge.jpg
+\&  exiv2.exe: File `./Stonehenge_16_Jul_2015.jpg' exists. [O]verwrite, [r]ename or [s]kip? r
+\&  Renaming file to ./Stonehenge_16_Jul_2015_1.jpg
+.fi
+.sp 1
 .TP
-.B \-a \fItime\fP
-Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
-used with the 'adjust' action. Examples: 1 adds one hour, 1:01
-adds one hour and one minute, \-0:00:30 subtracts 30 seconds.
-See Exif DateTime below for additional information.
+.B \-a \fItime\fP, \--adjust \fItime\fP
+Time adjustment, where \fItime\fP is in the format [\-]HH[:MM[:SS]]. This option is only
+used with the 'adjust' action.
+.sp 1
+Examples of \fItime\fP are:
+
+.TS
+l l.
++1	Adds one hour
+1:01	Adds one hour and one minute
+-0:00:30	Subtracts 30 seconds.
+.TE
+.sp 1
 .TP
-.B \-Y \fIyrs\fP
+.B \-Y \fI+-n\fP, --years \fI+-n\fP
 Time adjustment by a positive or negative number of years, for
 the 'adjust' action.
 .TP
-.B \-O \fImon\fP
+.B \-O \fI+-n\fP, --months \fI+-n\fP
 Time adjustment by a positive or negative number of months, for
 the 'adjust' action.
 .TP
-.B \-D \fIday\fP
+.B \-D \fI+-n\fP, \--days \fI+-n\fP
 Time adjustment by a positive or negative number of days, for
 the 'adjust' action.
 .TP
-.B \-p \fImode\fP
-Print mode for the 'print' action. Possible modes are:
+.B \-p \fImode\fP, --print \fImode\fP, 
+Print mode for the 'print' action (see \fBDESCRIPTION\fP, for metadata support in a file type). Possible modes are:
 .TS
 l l.
-s : print a summary of the Exif metadata (the default)
-a : print Exif, IPTC and XMP metadata (shortcut for \-Pkyct)
-e : print Exif metadata (shortcut for \-PEkycv)
-t : interpreted (translated) Exif tags (\-PEkyct)
-v : plain Exif tag values (\-PExgnycv)
-h : hexdump of the Exif data (\-PExgnycsh)
-i : IPTC datasets (\-PIkyct)
-x : XMP properties (\-PXkyct)
-c : JPEG comment
-p : list available image previews, sorted by preview image size in pixels
-C : print image ICC Profile (jpg, png, tiff, webp, cr2, jp2 only)
-R : print image structure recursively (jpg, png, tiff, webp, cr2, jp2 only)
-S : print image structure information (jpg, png, tiff, webp, cr2, jp2 only)
-X : print "raw" XMP (jpg, png, tiff, webp, cr2, jp2 only)
+s	A summary of the Exif metadata (the default for the 'print' action)
+a	Exif, IPTC and XMP metadata (shortcut for \fB\--Print\fP \fIkyct\fP)
+e	Exif metadata (shortcut for \fB\--Print\fP \fIEkycv\fP)
+t	Interpreted (translated) Exif tag values (shortcut for \fB\--Print\fP \fIEkyct\fP)
+v	Plain (untranslated) Exif tag values (shortcut for \fB\--Print\fP \fIExgnycv\fP)
+h	Hexdump of the Exif data (shortcut for \fB\--Print\fP \fIExgnycsh\fP)
+i	IPTC datasets (shortcut for \fB\--Print\fP \fIIkyct\fP)
+x	XMP properties (shortcut for \fB\--Print\fP \fIXkyct\fP)
+c	JPEG comment
+p	List available image previews, sorted by size in pixels (for example, see \fB--extract\fP \fItgt3\fP)
+C	Image ICC Profile
+R	Print image structure recursively (only for the 'debug' build with jpg, png, tiff, webp, cr2 and jp2 types)
+S	Image structure information (jpg, png, tiff, webp, cr2 and jp2 types only)
+X	"raw" XMP
 .TE
+.sp 1
+\fB--print\fP \fImode\fP can be combined with \fB--grep\fP \fIstr\fP or \fB--key\fP \fIkey\fP to further filter the output.
+.sp 1
+For the order of the columns in the output, see \fB--Print\fP \fIflgs\fP.
+
 .TP
-.B \-P \fIflgs\fP
-Print flags for fine control of the tag list ('print' action). Allows
-control of the type of metadata as well as data columns included in
-the print output.  Valid flags are:
+.B \-P \fIflgs\fP, \-Print \fIflgs\fP
+Print flags allows fine control of the tag list for the 'print' action 
+(see \fBDESCRIPTION\fP, for metadata support in a file type). The option 
+allows control of the type of metadata as well as data columns included in
+the print output. Valid flags are:
 .TS
 l l.
-E : include Exif tags in the list
-I : IPTC datasets
-X : XMP properties
-x : print a column with the tag number
-g : group name
-k : key
-l : tag label
-n : tag name
-y : type
-c : number of components (count)
-s : size in bytes
-v : plain data value (vanilla values)
-V : plain data value AND the word 'set ' (for use with exiv2 -m-)
-t : interpreted (translated) human readable data
-h : hexdump of the data
+E	Exif tags
+I	IPTC datasets
+X	XMP properties
+x	Tag number for Exif or IPTC tags (in hexadecimal)
+g	Group name (e.g., for Exif.Photo.UserComment, outputs Photo)
+k	Key (e.g., Exif.Photo.UserComment)
+l	Tag label (human readable tagname, e.g., for Exif.Photo.UserComment, outputs 'User comment')
+n	Tagname (e.g., for Exif.Photo.UserComment, outputs UserComment)
+y	Type (for available types, see \fBExif/IPTC/XMP types\fP)
+c	Number of components (for single entry types, the number of \fBsizeof('type')\fP in 'size'. For multi-entry types, the number of entries. See \fBExif/IPTC/XMP types\fP)
+s	Size in bytes
+v	Plain data value (vanilla values, i.e., untranslated)
+V	Plain data value AND the word 'set ' (for use with \fB--modify\fP \fI-\fP option)
+t	Interpreted (translated) human readable data values
+h	Hexdump of the data
 .TE
+
+The order of the values in \fIflgs\fP is not respected, with output 
+displayed as follows:
+
+.sp 1 
+Tag number (x) | Plain 'set' (V) | Group (g) | Key (k)| Tagname (n)| Tagname label (l) | Type (y) | Components (c) | Size (s) | Value (E, I, X, v, t)
+.sp 1
+For example, displaying the IPTC tags in a file:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Print xgknlycsIt Stonehenge.jpg
+\&  0x0000 Envelope     Iptc.Envelope.ModelVersion                   ModelVersion                Model Version                  Short       1   2  4
+\&  0x005a Envelope     Iptc.Envelope.CharacterSet                   CharacterSet                Character Set                  String      3   3
+\&  0x0000 Application2 Iptc.Application2.RecordVersion              RecordVersion               Record Version                 Short       1   2  4
+\&  0x0078 Application2 Iptc.Application2.Caption                    Caption                     Caption                        String     12  12  Classic View
+.fi
+.sp 1
+\fB--Print\fP \fIflgs\fP can be combined with \fB--grep\fP \fIstr\fP or \fB--key\fP \fIkey\fP to further filter the output.
 .TP
-.B \-d \fItgt\fP
+.B \-d \fItgt1\fP, \--delete \fItgt1\fP
 Delete target(s) for the 'delete' action. Possible targets are:
 .TS
 l l.
-a : all supported metadata (the default)
-e : Exif section
-t : Exif thumbnail only
-i : IPTC data
-x : XMP packet
-c : JPEG comment
-C : ICC Profile
-I : All IPTC data
+a	All supported metadata (the default for the 'delete' action)
+e	Exif section
+t	Exif thumbnail only
+i	IPTC data
+x	XMP packet
+c	JPEG comment
+C	ICC Profile
+I	All IPTC data (removes broken metadata containing multiple IPTC blocks) 
 .TE
 .TP
-.B \-i \fItgt\fP
-Insert target(s) for the 'insert' action. Possible targets are the
-same as those for the \fB\-d\fP option, plus an optional modifier:
+.B \-i \fItgt2\fP, --insert \fItgt2\fP
+Insert target(s) for the 'insert' action (see \fBDESCRIPTION\fP, for metadata support in a file type). Possible targets are:
 .sp 1
-X : Insert metadata from an XMP sidecar file <file>.xmp. The remaining
-insert targets determine what metadata to insert from the sidecar
-file. Possible are Exif, IPTC and XMP and the default is all of
-these. Note that the inserted XMP properties include those converted
-to Exif and IPTC.
+.TS
+l l.
+a	All supported metadata (the default for the 'insert' action)
+e	Exif section
+t	Exif thumbnail. Only JPEG thumbnails can be inserted from a file called \fIfile-thumb.jpg\fP
+i	IPTC data
+x	XMP packet
+c	JPEG comment
+C	ICC Profile, inserted from a file called \fI<file>.icc\fP
+X	Insert metadata from an XMP sidecar file, <file>.xmp. The remaining targets determine which metadata to include, possible are Exif, IPTC and XMP (default is all of these). Inserted XMP properties include those converted to Exif and IPTC
+XX	Insert "raw" XMP metadata from a sidecar file, <file>.exv
+-	Insert from stdin. This option is intended for "filter" operations
+.TE
 .sp 1
-XX: Insert "raw" XMP metadata from a sidecar (see option -pX)
+Filter operations between extract and insert are possibile, using the following template; \fBxmllint\fP can be optionally used when extracting XMP sidecar files:
 .sp 1
-- : Read from stdin.  This option is intended for "filter" operations such as:
-.br
-$ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP
-.sp 1
-Only JPEG thumbnails can be inserted (not TIFF thumbnails), and must be named \fIfile\fP\-thumb.jpg.
-.TP
-.B \-e \fItgt\fP
-Extract target(s) for the 'extract' action. Possible targets are the same
-as those for the \fB\-d\fP option, plus a target to extract preview
-images and a modifier to generate an XMP sidecar file:
-.br
-p[<n>[,<m> ...]] : Extract preview images. The optional comma separated
-list of preview image numbers is used to determine which preview images
-to extract. The available preview images and their numbers are displayed
-with the 'print' option \fB\-pp\fP.
-.sp 1
-C : Extract embedded ICC profile to <file>.icc
-.sp 1
-X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
-extract targets determine what metadata to extract to the sidecar
-file. Possible are Exif, IPTC and XMP and the default is all of these.
-.sp
-XX: Extract "raw" XMP metadata to a sidecar (see -pX)
-.br
-You may not use modify commands with the -eXX option and only XMP is written to the sidecar.
-.sp 1
-.B \- \fIOutput to stdout\fP (see -i tgt for an example of this feature)
+.nf
+\&  $ exiv2 -e{tgt3}- filename | [ xmllint .... |] exiv2 -i{tgt2}- filename
+.fi
 .sp 1
 .TP
-.B \-c \fItxt\fP
+.B \-e \fItgt3\fP, --extract \fItgt3\fP
+Extract target(s) for the 'extract' action. Possible targets are:
+.br
+.TS
+l l.
+a	All supported metadata (the default for the 'extract' action)
+e	Exif section
+t	Extract Exif thumbnail only to a file called \fI<file>-thumb.jpg\fP
+i	IPTC data
+x	XMP packet
+c	JPEG comment
+p[<n>[,<m> ...]]	Extract preview images to files called \fI<file>-preview<n | m | ...>.jpg\fP (\fB--extract\fP \fIp\fP extracts all previews). The thumbnail is included in any preview images
+C	Extract ICC profile, to a file called \fI<file>.icc\fP
+X	Extract metadata to an XMP sidecar file, <file>.xmp, the remaining targets determine what metadata to extract (default is Exif, IPTC and XMP). Supported Exif and IPTC data is stored as XMP tags
+XX	Extract "raw" XMP metadata to a sidecar . Other targets cannot be used with this, as only XMP data is written
+-	Output to stdout (see \fB\--insert\fP \fItgt2\fP for an example of this feature)
+.TE
+.sp 1
+
+When extracting preview images, first list which previews are available:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --print p Stonehenge.jpg
+\&  Preview 1: image/jpeg, 160x120 pixels, 10837 bytes
+.fi
+
+then extract the preview by number (in this case, preview 1 is also the thumbnail):
+
+.nf
+\&  $ exiv2 --verbose --extract p1 Stonehenge.jpg
+\&  File 1/1: Stonehenge.jpg
+\&  Writing preview 1 (image/jpeg, 160x120 pixels, 10837 bytes) to file ./Stonehenge-preview1.jpg
+.fi
+.sp 1
+.TP
+.B \-c \fItxt\fP, --comment \fItxt\fP
 JPEG comment string to set in the image ('modify' action). This option
 can also be used with the 'extract' and 'insert' actions to modify
 metadata on-the-fly.
 .TP
-.B \-m \fIcmdfile\fP
-Command file for the 'modify' action. This option can also be used
-with the 'extract' and 'insert' actions to modify metadata on-the-fly.
--m- represents standard-input.
+.B \-m \fIcmdfile\fP, --modify \fIcmdfile\fP
+Command file for the 'modify' action (see \fBCommand file format\fP). 
+This option can also be used with the 'extract' and 'insert' actions 
+to modify metadata on-the-fly. \fB--modify-\fP reads modify commands
+from standard-input.
 .TP
-.B \-M \fIcmd\fP
-Command line for the 'modify' action. This option can also be used
-with the 'extract' and 'insert' actions to modify metadata on-the-fly.
-The format for the commands is the same as that of the lines of a
-command file.
+.B \-M \fIcmd\fP, --Modify \fIcmd\fP
+Command line for the 'modify' action (see \fBCOMMANDS\fP). This option 
+can also be used with the 'extract' and 'insert' actions to modify 
+metadata on-the-fly. The format for the commands is the same as that 
+of the lines of a command file.
 .TP
-.B \-l \fIdir\fP
-Location (directory) for files to be inserted or extracted.
+.B \-l \fIdir\fP, --location \fIdir\fP
+Location (directory) for files to be inserted from or extracted to.
 .TP
-.B \-S \fI.suf\fP
-Use suffix \fI.suf\fP for source files in 'insert' action.
+.B \-S \fIsuf\fP, --suffix \fIsuf\fP
+Use suffix \fIsuf\fP for source files when using 'insert' action (e.g., '.txt').
 .br
 .ne 40
 .SH COMMANDS
@@ -682,6 +779,7 @@ You can query Exiv2 groups and tags with the sample program taglist which is doc
 .ne 20
 Exif Metadata values are defined in the Exif Standard.  All data is an array of data elements.  The Count defines the number elements in the array.  All elements in an array have the same type.
 .sp 1
+.SS Exif/IPTC/XMP types
 .nf
 Type               Explanation
  1 BYTE            An 8-bit unsigned integer.
@@ -776,7 +874,7 @@ Exif.NikonLd3.LensFStops                     Byte        1  F4.6\fP
 Prints a summary of the Exif information for all JPEG files in the directory.  The summary is brief and does not use the Family.Group.Tag format.
 .sp 1
 .nf
-\fB$ exiv2 -g Date http://clanmills.com/Stonehenge.jpg\fP
+\fB$ exiv2 -g Date https://clanmills.com/Stonehenge.jpg\fP
 .fi
 If you use \fB--grep\fP \fIkey\fP, the default output becomes \fB--print\fP \fIa\fP
 .sp 1
@@ -859,7 +957,7 @@ The Exiv2 project is released under the GNU GPLv2 license: \fIhttps://github.com
 
 .SH SEE ALSO
 .nf
-\fBiconv_open\fP(3), \fBstrftime\fP(3) and
+\fBcurl\fP(1), \fBxmllint\fP(1), \fBiconv_open\fP(3), \fBstrftime\fP(3), 
 
 Exiv2 'modify' command examples: \fIhttps://exiv2.org/sample.html#modify\fP
 All Exiv2 tags, listing the \fIkey\fP and default \fItype\fP: \fIhttps://exiv2.org/metadata.html\fP
