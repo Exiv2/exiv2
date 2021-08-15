@@ -70,7 +70,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         # This seems to be causing issues in the Fedora_MinGW GitLab job
         #add_compile_options(-fasynchronous-unwind-tables)
 
-        if( EXIV2_BUILD_FUZZ_TESTS )
+        if( EXIV2_BUILD_FUZZ_TESTS AND NOT EXIV2_TEAM_OSS_FUZZ )
             if (NOT COMPILER_IS_CLANG)
                 message(FATAL_ERROR "You need to build with Clang for the fuzzers to work. "
                         "Use Clang")
