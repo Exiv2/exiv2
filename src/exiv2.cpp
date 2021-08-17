@@ -1014,6 +1014,7 @@ int Params::getopt(int argc, char* const Argv[])
     longs["--comment"  ] = "-c";
     longs["--delete"   ] = "-d";
     longs["--days"     ] = "-D";
+    longs["--extract"  ] = "-e";
     longs["--force"    ] = "-f";
     longs["--Force"    ] = "-F";
     longs["--grep"     ] = "-g";
