@@ -42,7 +42,11 @@ option( EXIV2_BUILD_DOC               "Add 'doc' target to generate documentatio
 option( EXIV2_TEAM_EXTRA_WARNINGS     "Add more sanity checks using compiler flags"           OFF )
 option( EXIV2_TEAM_WARNINGS_AS_ERRORS "Treat warnings as errors"                              OFF )
 option( EXIV2_TEAM_USE_SANITIZERS     "Enable ASAN and UBSAN when available"                  OFF )
+
+# The EXIV2_TEAM_OSS_FUZZ option is used by the OSS-Fuzz build script:
+# https://github.com/google/oss-fuzz/tree/master/projects/exiv2/build.sh
 option( EXIV2_TEAM_OSS_FUZZ           "Build config for OSS-Fuzz"                             OFF )
+
 option( EXIV2_TEAM_PACKAGING          "Additional stuff for generating packages"              OFF )
 set(EXTRA_COMPILE_FLAGS " ")
 

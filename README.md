@@ -1,6 +1,6 @@
-|                           Codecov                            |                           Repology                           |                             Chat                             |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+|                           Codecov                            |                           OSS-Fuzz                           |                           Repology                           |                             Chat                             |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/exiv2.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
 CI Status:
 
@@ -65,6 +65,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     4. [Python tests](#4-4)
     5. [Test Summary](#4-5)
     6. [Fuzzing](#4-6)
+        1. [OSS-Fuzz](#4-6-1)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
     2. [macOS](#5-2)
@@ -1084,6 +1085,15 @@ mkdir corpus
 ```
 
 For more information about fuzzing see [`fuzz/README.md`](fuzz/README.md).
+
+[TOC](#TOC)
+<div id="4-6-1">
+
+### 4.6.1 OSS-Fuzz
+
+Exiv2 is enrolled in [OSS-Fuzz](https://google.github.io/oss-fuzz/), which is a fuzzing service for open-source projects, run by Google.
+
+The build script used by OSS-Fuzz to build Exiv2 can be found [here](https://github.com/google/oss-fuzz/tree/master/projects/exiv2/build.sh). It uses the same fuzz target ([`fuzz-read-print-write`](fuzz/fuzz-read-print-write.cpp)) as mentioned above, but with a slightly different build configuration to integrate with OSS-Fuzz. In particular, it uses the CMake option `-DEXIV2_TEAM_OSS_FUZZ=ON`, which builds the fuzz target without adding the `-fsanitize=fuzzer` flag, so that OSS-Fuzz can control the sanitizer flags itself.
 
 [TOC](#TOC)
 <div id="5">
