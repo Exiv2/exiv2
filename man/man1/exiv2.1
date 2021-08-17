@@ -865,90 +865,119 @@ The text will now appear when the translated print option is used:
 .sp 1
 .ne 40
 .SH EXAMPLES
-.nf
-\fB$ exiv2 *.jpg\fP
-.fi
-Prints a summary of the Exif information for all JPEG files in the directory.  The summary is brief and does not use the Family.Group.Tag format.
+.TP
+\fBexiv2\fP \fI*.jpg\fP
+Prints a summary of the Exif information for all the JPEG files in the current 
+directory (the same as \fBexiv2\fP \fBprint\fP \fI*.jpg\fP). The summary 
+is brief and does not use the Family.Group.Tagname format.
 .sp 1
-.nf
-\fB$ exiv2 -g Date https://clanmills.com/Stonehenge.jpg\fP
-.fi
-If you use \fB--grep\fP \fIkey\fP, the default output becomes \fB--print\fP \fIa\fP
+.TP
+\fBexiv2\fP \fB--grep\fP \fIdate/i\fP \fIhttps://clanmills.com/Stonehenge.jpg\fP
+Prints tags in \fIhttps://clanmills.com/Stonehenge.jpg\fP, where the key 
+(i.e., Family.Group.Tagname) contains the string \fIdate\fP (\fI/i\fP searches case 
+insensitive). When not including \fB--print\fP \fImode\fP or 
+\fB--Print\fP \fIflgs\fP, the default output becomes \fB--print\fP \fIa\fP 
+(i.e., print all).
 .sp 1
-.nf
-\fB$ exiv2 \-pi image.jpg\fP
-.fi
-Prints the IPTC metadata of the image.
+.TP
+\fBexiv2\fP \fB--print\fP \fIi\fP \fIimage.jpg\fP
+Prints the IPTC datasets in \fIimage.jpg\fP.
 .sp 1
-.nf
-\fB$ exiv2 rename img_1234.jpg\fP
-.fi
-Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
+.TP
+\fBexiv2\fP \fB--Print\fP \fIkytEX\fP \fIimage.jpg\fP
+Prints (with finer grained control) the Exif tags and XMP properties in 
+\fIimage.jpg\fP. The tag's key (i.e., Family.Group.Tagname), type and 
+translated value are displayed.
 .sp 1
-.nf
-\fB$ exiv2 \-r'\:basename\:_%Y%m' rename img_1234.jpg\fP
-.fi
-Renames img_1234.jpg to img_1234_200511.jpg
+.TP
+\fBexiv2\fP \fBrename\fP \fIimage.jpg\fP
+Renames \fIimage.jpg\fP (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg.
 .sp 1
-.nf
-\fB$ exiv2 \-et img1.jpg img2.jpg\fP
-.fi
-Extracts the Exif thumbnails from the two files into img1\-thumb.jpg
-and img2\-thumb.jpg.
+.TP
+\fBexiv2\fP \fB--rename\fP \fI":basename:_%Y-%m"\fP \fIimage.jpg\fP
+Renames \fIimage.jpg\fP using the basename (i.e., '\fIimage\fP') and values 
+defined in \fBiconv_open\fP(3). e.g., image_2005-11.jpg. The values for time 
+and date are taken from the Exif metadata.
 .sp 1
-.nf
-\fB$ exiv2 \-it img1.jpg img2.jpg\fP
-.fi
-Inserts (copies) metadata from img1.exv to img1.jpg and from img2.exv
-to img2.jpg.
+.TP
+\fBexiv2\fP \fB--extract\fP \fIt\fP \fIimage1.jpg\fP \fIimage2.jpg\fP
+Extracts (copies) the Exif thumbnails from \fIimage1.jpg\fP into 
+image1-thumb.jpg and from \fIimage2.jpg\fP into image2-thumb.jpg.
+.TP
 .sp 1
-.nf
-\fB$ exiv2 \-ep1,2 image.jpg\fP
-.fi
-Extracts previews 1 and 2 from image.jpg to the files image\-preview1.jpg
-and image\-preview2.jpg.
+\fBexiv2\fP \fB--insert\fP \fIt\fP \fIimage1.jpg\fP \fIimage2.jpg\fP
+Inserts (copies) thumbnails image1-thumb.jpg into \fIimage1.jpg\fP and 
+image2-thumb.jpg into \fIimage2.jpg\fP.
 .sp 1
-.nf
-\fB$ exiv2 \-eiX image.jpg\fP
-.fi
-Extracts IPTC datasets into an XMP sidecar file image.xmp and in the
-process converts them to "IPTC Core" XMP schema.
+.TP
+\fBexiv2\fP \fB--extract\fP \fIp1,2\fP \fIimage.jpg\fP
+Extracts (copies) previews 1 and 2 from \fIimage.jpg\fP, into image-preview1.jpg 
+and image-preview2.jpg. Use \fBexiv2\fP \fB--print\fP \fIp\fP \fIimage.jpg\fP 
+to display a list of available previews for \fIimage.jpg\fP.
+.TP
+\fBexiv2\fP \fB--extract\fP \fIX\fP \fIimage.jpg\fP
+Extracts (copies) metadata tags from \fIimage.jpg\fP, into an XMP sidecar file, 
+image.xmp. In the process, this converts selected Exif tags and IPTC datasets to 
+XMP properties.
 .sp 1
-.nf
-\fB$ exiv2 \-iixX image.jpg\fP
-.fi
-Inserts IPTC and XMP metadata from an XMP sidecar file image.xmp into
-image.jpg.  The resulting IPTC datasets are converted from the "IPTC
-Core" XMP schema properties in the sidecar file to the older IPTC IIM4
-format. The inserted XMP properties include those in the "IPTC Core"
-XMP schema.
+.TP
+\fBexiv2\fP \fB--insert\fP \fIX\fP \fIimage.jpg\fP
+Inserts (copies) metadata from an XMP sidecar file, image.xmp, into \fIimage.jpg\fP. 
+The resulting Exif tags and IPTC datasets are converted from the equivalent XMP 
+properties in the sidecar file.
 .sp 1
-.nf
-\fB$ exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg\fP
-.fi
-Sets the Exif comment to an ASCII string.
+.TP
+\fBexiv2\fP \fB--extract\fP \fIX\fP \fB--Modify\fP "\fIadd Xmp.dc.subject Sunset\fP" \fIimage.jpg\fP
+Extracts (copies) metadata tags from \fIimage.jpg\fP, applies \fB--Modify\fP 
+\fIcmd\fP to those tags and then saves in an XMP sidecar file, image.xmp. 
+While saving, selected Exif tags and IPTC datasets are converted to XMP properties. 
+Multiple \fB--Modify\fP \fIcmd\fP and \fB--modify\fP \fIcmdfile\fP can be used.
 .sp 1
-.nf
-\fB$ exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\ \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg\fP
-.fi
-Sets the latitude to 4 degrees, 15 minutes and 33 seconds north. The
-Exif standard stipulates that the GPSLatitude tag consists of three
-Rational numbers for the degrees, minutes and seconds of the latitude
-and GPSLatitudeRef contains either 'N' or 'S' for north or south
-latitude respectively.
+.TP
+\fBexiv2\fP \fB--extract\fP \fIX-\fP \fIimage1.jpg\fP | \fBexiv2\fP \fB--insert\fP \fIX-\fP \fIimage2.jpg\fP
+Extracts (copies) the \fIimage1.jpg\fP metadata as XMP sidecar data and 
+inserts it directly into \fIimage2.jpg\fP. \fB--Modify\fP \fIcmd\fP and \fB--modify\fP 
+\fIcmdfile\fP can also be added when extracting from \fIimage1.jpg\fP.
 .sp 1
-.nf
-\fB$ exiv2 \-l/tmp -S.CRW insert /data/*.JPG\fP
-.fi
-Copy all metadata from CRW files in the /tmp directory to JPG files
-with corresponding basenames in the /data directory. Note that this
-copies metadata as is, without any modifications to adapt it to the
-requirements of the target format. Some tags copied like this may not
-make sense in the target image.
-
+.TP
+\fBexiv2\fP \fBdelete\fP \fIimage.jpg\fP
+Deletes all the metadata in \fIimage.jpg\fP
+.sp 1
+.TP
+\fBexiv2\fP \fB--delete\fP \fItC\fP \fIimage.jpg\fP
+Deletes the thumbnail and ICC profile in \fIimage.jpg\fP
+.sp 1
+.TP
+\fBexiv2\fP \fB--adjust\fP \fI1:00:00\fP \fIimage.jpg\fP
+Adjusts Exif timestamps in \fIimage.jpg\fP, adding 1 hour
+.sp 1
+.TP
+\fBexiv2\fP \fB--Modify\fP \fI"set Exif.Photo.UserComment charset=Ascii New Exif comment"\fP \fIimage.jpg\fP
+Sets the Exif comment in \fIimage.jpg\fP, to an ASCII string with the value '\fINew Exif comment\fP'.
+.sp 1
+.TP
+\fBexiv2\fP \fB--Modify\fP \fI"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1"\fP \fB--Modify\fP \fI"set Exif.GPSInfo.GPSLatitudeRef N"\fP \fIimage.jpg\fP
+Sets the latitude to 4 degrees, 15 minutes and 33 seconds north in 
+\fIimage.jpg\fP. The Exif standard stipulates that the GPSLatitude 
+tag consists of three Rational numbers for the degrees, minutes and 
+seconds of the latitude and GPSLatitudeRef contains either 'N' or 'S' 
+for north or south latitude respectively.
+.TP
+\fBexiv2\fP \fB--location\fP \fI/tmp\fP \fB--suffix\fP \fI.CRW\fP \fI/data/*.JPG\fP	
+Copy all metadata from CRW files in the \fI/tmp\fP directory to JPG files 
+with corresponding basenames in the \fI/data\fP directory. Note that this 
+copies metadata as is, without any modifications to adapt it to the 
+requirements of the target format. Some tags copied like this may not make 
+sense in the target image.
+.sp 1
+.TP
+\fBexiv2\fP \fBfixiso\fP \fIimage.jpg\fP
+Adds the Exif ISO metadata (if missing) to \fIimage.jpg\fP. This is for 
+Nikon and Canon cameras only and copies the camera maker's value into the Exif 
+metadata.
+.sp 1
 .SH BUGS
 Report bugs to: \fIhttps://github.com/Exiv2/exiv2/issues\fP
-
 .SH COPYRIGHT
 The Exiv2 project is released under the GNU GPLv2 license: \fIhttps://github.com/Exiv2/exiv2/blob/main/COPYING\fP
 
