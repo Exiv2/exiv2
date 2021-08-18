@@ -70,6 +70,10 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         # This seems to be causing issues in the Fedora_MinGW GitLab job
         #add_compile_options(-fasynchronous-unwind-tables)
 
+        # The EXIV2_TEAM_OSS_FUZZ option is used by the OSS-Fuzz build script:
+        # https://github.com/google/oss-fuzz/tree/master/projects/exiv2/build.sh
+        # OSS-Fuzz wants full control of the sanitizer flags, so we don't add
+        # the `-fsanitize=fuzzer-no-link` flag when building for OSS-Fuzz.
         if( EXIV2_BUILD_FUZZ_TESTS AND NOT EXIV2_TEAM_OSS_FUZZ )
             if (NOT COMPILER_IS_CLANG)
                 message(FATAL_ERROR "You need to build with Clang for the fuzzers to work. "
