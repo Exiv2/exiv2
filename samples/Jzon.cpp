@@ -448,11 +448,11 @@ namespace Jzon
 
     void Object::Add(const std::string &name, Node &node)
     {
-        children.push_back(NamedNodePtr(name, node.GetCopy()));
+        children.emplace_back(name, node.GetCopy());
     }
     void Object::Add(const std::string &name, const Value &node)
     {
-        children.push_back(NamedNodePtr(name, new Value(node)));
+        children.emplace_back(name, new Value(node));
     }
     void Object::Remove(const std::string &name)
     {
