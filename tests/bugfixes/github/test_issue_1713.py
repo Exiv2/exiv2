@@ -14,12 +14,11 @@ class InvalidDateXMP(metaclass=CaseMeta):
     commands = ["$exiv2 -Ph $filename"]
 
     stderr = [
-"""Warning: Failed to convert Xmp.xmp.CreateDate to Exif.Photo.DateTimeDigitized (Day is out of range)
-Exiv2 exception in print action for file $filename:
-Xmpdatum::copy: Not supported
+"""Error: XMP Toolkit error 201: Error in XMLValidator
+Warning: Failed to decode XMP metadata.
 """
 ]
-    retval = [1]
+    retval = [0]
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         """ We don't care about the stdout, just don't crash """
