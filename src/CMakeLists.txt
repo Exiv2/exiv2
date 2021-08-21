@@ -153,6 +153,9 @@ target_include_directories(exiv2lib SYSTEM PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
 )
 
+target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
+target_link_libraries(exiv2lib PRIVATE EXPAT::EXPAT)
+
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
