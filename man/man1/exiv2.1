@@ -208,7 +208,7 @@ Where \fIfile\fP contains image metadata, optionally specified using a URL (http
 \fItgt3\fP	a | e | i | p | t | x | C | X | XX | -
 		all, Exif, IPTC, preview, thumbnail, XMP, ICC Profile, SideCar, Raw XMP, stdin/out
 
-\fItype\fP	An Exif, IPTC or XMP tag type (e.g., xmpText). See \fBEXIV2 TAGNAMES AND VALUES\fP
+\fItype\fP	An Exif, IPTC or XMP tag type (e.g., xmpText). See \fBExif/IPTC/XMP types\fP
 
 \fI+-n\fP		The amount to change in the date (e.g., -3). Default is \fB+\fP when \fB+\fP/\fB-\fP are missing
 
@@ -742,71 +742,233 @@ Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
 .br
 .ne 40
-.SH EXIV2 TAGNAMES AND VALUES
-Exiv2 displays metadata tags and values.
+.SH EXIV2 GROUPS, TYPES AND VALUES
+
+Exiv2 supports Exif 2.32, Adobe XMP 4.4.0 by default, although can be built with newer versions of the SDK, and many manufacturer's MakerNotes.
+
+.SS Exiv2 tags
+Exiv2 metadata keys are made up of a triplet of 'Family.Group.Tagname' (e.g., Exif.Image.Model). The following groups are defined for the Exif family:
 .sp 1
-The tag is a triplet of Family.Group.Tagname.  The following groups are defined for the family Exif:
+
+.TS
+l l l l l l.
+GPSInfo	Canon	Nikon1	NikonMe	OlympusFe8	SonyMisc2b
+Image	CanonCf	Nikon2	NikonPc	OlympusFe9	SonyMisc3c
+Image2	CanonCs	Nikon3	NikonPreview	OlympusFi	SonyMinolta
+Image3	CanonFi	NikonAFT	NikonSi01xx	OlympusIp	SonySInfo1
+Iop	CanonPa	NikonAf	NikonSi02xx	OlympusRd	
+MakerNote	CanonPi	NikonAf	NikonSiD300a	OlympusRd2	Samsung2
+MpfInfo	CanonPr	NikonAf2	NikonSiD300b	OlympusRi	SamsungPictureWizard
+Photo	CanonSi	NikonAf22	NikonSiD40		SamsungPreview
+SubImage1	CanonTi	NikonCb1	NikonSiD80	Sigma	
+SubImage2		NikonCb2	NikonVr		
+SubImage3	Casio	NikonCb2a	NikonWt	Sony1	
+SubImage4	Casio2	NikonCb2b		Sony1Cs	
+SubImage5		NikonCb3	Olympus	Sony1Cs2	
+SubImage6	Minolta	NikonCb4	Olympus2	Sony1MltCs7D	
+SubImage7	MinoltaCs5D	NikonFi	OlympusCs	Sony1MltCsA100	
+SubImage8	MinoltaCs7D	NikonFl1	OlympusEq	Sony1MltCsNew	
+SubImage9	MinoltaCsNew	NikonFl2	OlympusFe1	Sony1MltCsOld	
+SubThumb1	MinoltaCsOld	NikonFl3	OlympusFe2	Sony2	
+Thumbnail		NikonIi	OlympusFe3	Sony2Cs	
+	Panasonic	NikonLd1	OlympusFe4	Sony2Cs2	
+Pentax	PanasonicRaw	NikonLd2	OlympusFe5	Sony2010e	
+PentaxDng		NikonLd3	OlympusFe6	Sony2Fp	
+	Fujifilm	NikonLd4	OlympusFe7	SonyMisc1	
+.TE
+.sp 1
+A full list of built-in Exif, IPTC and XMP tags is available online at 
+\fIhttps://www.exiv2.org/metadata.html\fP. To query Exiv2 Groups and Tagnames, 
+a sample program called \fItaglist\fP is provided (see 
+\fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md\fP), which 
+can be built from source (see \fIhttps://github.com/Exiv2/exiv2/blob/main/README.md\fP) or 
+downloaded from \fIhttps://www.exiv2.org/download.html\fP.
+.sp 1
+For the Exif, IPTC and XMP groups:
+.sp 1
+.IP \(bu
+The same tags that are available in Exif's Image group (e.g., \fIExif.Image.XResolution\fP), 
+are also available in Exif's Thumbnail, Image(2|3), SubImage(1-9) and 
+SubThumb1 groups, (e.g., \fIExif.Thumbnail.XResolution\fP).
+.sp 1
+.IP \(bu
+Many camera manufacturer tags are available and are accessed as different 
+Exif groups, using the manufacturer's name as a prefix (e.g., CanonCs is the 
+Camera Settings for a Canon camera). Groups called the manufacturer name 
+plus number, access the main tags in different file formats (e.g., Sony1 is for 
+JPEGs, Sony2 is for others such as TIFF and ARW). Groups are available for 
+use, depending upon which camera manufacturer and model captured the photo. 
+Supporting the large number of tags for all the different manufacturers 
+is an ongoing task, only partial support is available. The full unprocessed 
+makernotes data is available in Exif.Photo.MakerNote.
+.sp 1
+.IP \(bu
+Every Exif tag and IPTC dataset has a tag number (16 bit, 2 byte integer), 
+which is unique within a Group (to display, see \fB--Print\fP \fIx\fP).
+.sp 1
+.IP \(bu
+Some of the Exif tags and IPTC datasets are mirrored in the XMP specification 
+(see \fIhttps://www.exiv2.org/metadata.html\fP).
+.sp 1
+.IP \(bu
+The XMP specification is flexible and allows new custom Groups and 
+Tagnames to be added (see \fBCommand format\fP).
+.sp 1
+For example, the 'cm2e' Group has been added, which has 'Father' and 'Family' 
+Tagnames. Aditionally, a 'Family' tag has been added to the built-in 'dc' Group:
 .sp 1
 .nf
-GPSInfo      Canon           Fujifilm     NikonMe         OlympusFe7        SonyMisc2b
-Image        CanonCf                      NikonPc         OlympusFe9        SonyMisc3c
-Image2       CanonCs         Nikon1       NikonPreview    OlympusFi         SonyMinolta
-Image3       CanonFi         Nikon2       NikonSi01xx     OlympusIp         SonySInfo1
-Iop          CanonPa         Nikon3       NikonSi02xx     OlympusRd
-MakerNote    CanonPi         NikonAFT     NikonSiD300a    OlympusRd2        Samsung2
-MpfInfo      CanonPr         NikonAf      NikonSiD300b    OlympusRi         SamsungPictureWizard
-Photo        CanonSi         NikonAf2     NikonSiD40                        SamsungPreview
-SubImage1    CanonTi         NikonAf22    NikonSiD80      Sigma
-SubImage2                    NikonCb1     NikonVr
-SubImage3    Casio           NikonCb2     NikonWt         Sony1
-SubImage4    Casio2          NikonCb2a                    Sony1Cs
-SubImage5                    NikonCb3     Olympus         Sony1Cs2
-SubImage6    Minolta         NikonCb4     Olympus2        Sony1MltCs7D
-SubImage7    MinoltaCs5D     NikonFi      OlympusCs       Sony1MltCsA100
-SubImage8    MinoltaCs7D     NikonFl1     OlympusEq       Sony1MltCsNew
-SubImage9    MinoltaCsNew    NikonFl2     OlympusFe1      Sony1MltCsOld
-SubThumb1    MinoltaCsOld    NikonFl3     OlympusFe2      Sony2
-Thumbnail                    NikonIi      OlympusFe3      Sony2Cs
-             Panasonic       NikonLd1     OlympusFe4      Sony2Cs2
-Pentax       PanasonicRaw    NikonLd2     OlympusFe5      Sony2Fp
-PentaxDng                    NikonLd3     OlympusFe6      SonyMisc1
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --print x Stonehenge.jpg
+\&  Xmp.xmp.Rating                               XmpText     1  0
+\&  Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
+\&  Xmp.cm2e.Father                              XmpText    11  Robin Mills
+\&  Xmp.cm2e.Family                              XmpBag      0
+\&  Xmp.dc.description                           LangAlt     1  lang="x-default" Classic View
+\&  Xmp.dc.Family                                XmpBag      1  Robin
 .fi
+.IP \(bu
+Further information on Exiv2 groups can be found on the Exiv2 wiki: \fIhttps://github.com/Exiv2/exiv2/wiki\fP
 .sp 1
-Exiv2 supports Exif 2.2 Standard Tags.  Exiv2 also supports reading and writing manufacturer's MakerNote.  The information in Exif.Photo.MakerNote is encoded as manufacturer's sub-records.  For example, CanonCs are Camera Settings, NikonAf are Nikon Auto Focus records, NikonCb are Nikon Color Balance Records.  Every tag is defined by a unique tagId (16 bit integer) which is unique within a Group.
-.sp
-You can query Exiv2 groups and tags with the sample program taglist which is documented in \fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md\fP
-.sp
 .ne 20
-Exif Metadata values are defined in the Exif Standard.  All data is an array of data elements.  The Count defines the number elements in the array.  All elements in an array have the same type.
 .sp 1
 .SS Exif/IPTC/XMP types
-.nf
-Type               Explanation
- 1 BYTE            An 8-bit unsigned integer.
- 2 ASCII           7-bit ASCII. NUL terminated.
- 3 SHORT           A 16-bit (2-byte) unsigned integer.
- 4 LONG            A 32-bit (4-byte) unsigned integer
- 5 RATIONAL        Two LONGs. Numerator, denominator.
- 7 UNDEFINED       An 8-bit byte.
- 8 SSHORT          A 16-bit (2-byte) signed integer.
- 9 SLONG           A 32-bit (4-byte) signed integer.
-10 SRATIONAL       Two SLONGs. Numerator, denominator.
 .fi
-.sp
-The printing flag t = translated and is intended for human use.  Scripts should never use translated values as they are localised and the format may change as Exiv2 evolves.  The printing flag v reports the values recorded in the metadata and should be used by scripts.
+Each tag uses a specific type to store the value, with all elements in any array having the same type. Available types for the 
+different 'Family' categories are:
+.sp 1
+.TP
+\fBExif\fI
+.TS
+lB lB lB lB
+_	_	_	_
+l l l l.
+Type	Format	Element	Comment
+Short	A 16-bit (2-byte) unsigned integer	Single	
+Long	A 32-bit (4-byte) unsigned integer	Single
+Rational	Two Long types. Numerator and denominator	Single	Use as X/Y (e.g., "31/1" is 31.0)
+Byte	A string of 8-bit unsigned integers	Single	
+SShort	A 16-bit (2-byte) signed integer	Single
+SLong	A 32-bit (4-byte) signed integer	Single
+SRational	Two SLong types. Numerator and denominator	Single	Use as [ + | - ]X/Y (e.g., "-31/1" is -31.0)
+SByte	A string of 8-bit signed integers	Single	
+Float	Signed single precision (4-byte) IEEE format	Single	Use as a signed decimal (e.g., "-0.5" is -0.5)
+Double	Signed double precision (8-byte) IEEE format	Single	Use as a signed decimal (e.g., "-0.5" is -0.5)
+Ascii	A string of 7-bit ASCII. NULL terminated	Single	Use as a string (e.g., "Value")
+Comment	A string of 7-bit ASCII. NULL terminated	Single	Use as a string (e.g., "Value")
+Undefined	A string of 8-bit bytes	Single	Use as a string (e.g., "Value")
+.TE
+.sp 1
+.TP
+\fBIPTC\fP
+.TS
+lB lB lB lB
+_	_	_	_
+l l l l.
+Type	Format	Element	Comment
+String	A string of ASCII	Single	
+Short	A 16-bit (2-byte) unsigned integer	Single
+Date	A string of ASCII (8 bytes)	Single	See \fBDate/Time formats\fP
+Time	A string of ASCII (11 bytes)	Single	See \fBDate/Time formats\fP
+Undefined	A string of 8-bit bytes	Single	Use as a string (e.g., "Value")
+.TE
+.sp 1
+.TP
+\fBXMP\fP
+.TS
+lB lB lB lB
+_	_	_	_
+l l l l.
+Type	Format	Element	Comment
+LangAlt	A string of text	Multi	Similar to XmpAlt. Alternative text for different languages, e.g., 'lang="x-default" Black, lang="fr-FR" Noir' (see \fBMultiple elements\fP and \fBCommand format\fP)
+XmpAlt	A string of text	Multi	An ordered array, any default value is first
+XmpBag	A string of text	Multi	An unordered array (e.g., 3 values, "Red, Yellow, Green"), see \fBMultiple elements\fP and \fBCommand format\fP
+XmpSeq	A string of text	Multi	An ordered array (e.g., 3 values, "Gold, Silver, Bronze"), see \fBMultiple elements\fP and \fBCommand format\fP
+XmpText	A string of text	Single	
+.TE
+.sp 1
+.SS
+\fBMultiple elements\fP
+Some IPTC datasets and XMP properties allow multiple elements to be stored, although they both do this in different ways.
+.TP
+\fBIPTC\fP
+.sp 1
+IPTC datasets marked as repeatable, can have multiple entries with the 
+same key (Family.Group.Tagname) in the image metadata (for supported datasets, 
+see \fIhttps://www.exiv2.org/iptc.html\fP, column R).
+For example, a file containing three Iptc.Application2.Subject values:
+
+.nf
+\&  $ exiv2 --grep Application2 Stonehenge_with_extra_data.jpg
+\&  Iptc.Application2.RecordVersion              Short       1  4
+\&  Iptc.Application2.Caption                    String     12  Monument
+\&  Iptc.Application2.Subject                    String     10  Stonehenge
+\&  Iptc.Application2.Subject                    String      6  Cloudy
+\&  Iptc.Application2.Subject                    String      5  Grass
+.fi
+
+.TP
+\fBXMP\fP
+.sp 1
+XMP multiple values are grouped together within the same tag, using ", " as  
+a separator (see \fBExif/IPTC/XMP types\fP for supported types). If a default 
+value exists for a LangAlt or XmpAlt tag, then this is the first item listed.
+For example, a file containing two Xmp.dc.description values (for format, see 
+\fBCommand format\fP) and three Xmp.dc.subject values:
+
+.nf
+\&  $ exiv2 --grep description --grep subject Stonehenge_with_extra_data.jpg
+\&  Xmp.dc.description                           LangAlt     1  lang="x-default" Monument, lang="de-DE" das Monument
+\&  Xmp.dc.subject                               XmpBag      3  Stonehenge, Cloudy, Grass
+.fi
 .ne 8
 .fi
-.SS Exif DateTime
+.SS Date/Time formats
 .fi
+The times and dates are stored using different formats in image metadata. 
+.TP
+\fBExif\fP
+.sp 1
 An Exif DateTime string is stored as 20 ascii bytes (including trailing NULL) in the format:
+.RS
+.IP
+YYYY:MM:DD HH:mm:SS 
 .sp 1
-YYYY:MM:DD HH:MM:SS
+.RE
+.IP
+where YYYY:MM:DD is the year, month and day and HH:mm:SS is the hour, minute 
+and second (e.g., "2010:09:15 08:45:21" is 08:45:21 on 15-Aug-10).
+.IP
+The options \fB--timestamp\fP and \fB--Timestamp\fP will accept files 
+in which the Date part, has been incorrectly stored as YYYY-MM-DD.
+.TP
+\fBIPTC\fP
 .sp 1
-The \fBexiv2\fP options \fB--timestamp\fP and \fB--Timestamp\fP will accept files
-in which the Date has been incorrectly stored as YYYY-MM-DD.
-The option \fB--adjust\fP \fItime\fP enables the user to adjust the DateTime in the file and applies
-the YYYY:MM:DD HH:MM:SS standard.
+An IPTC 'Date' type is stored in the format:
 .sp 1
+.RS
+.IP
+YYYYMMDD
+.RE
+.IP
+where YYYYMMDD is the year, month and day (e.g., "20100915" is 15-Aug-10).
+.sp 1
+An IPTC 'Time' type is stored in the format:
+.RS
+.IP
+HHMMSScHHMM
+.RE
+.IP
+where HHMMSS refers to local time's hour, minutes and seconds and, HHMM 
+refers to hours and minutes with c being ahead (+) or behind (-) Universal 
+Coordinated Time (UCT) as described in ISO 8601 (e.g., 084515+0100 is 
+08:45:15, which is +1 hour different from UCT).
+.TP
+\fBMakernote tags\fP
+.sp 1
+There is no one single format. Different camera manufacturers use different 
+formats, even within their own sets of tags. Some tags use encoded data 
+that does not conform to any official format.
 .ne 40
 .SH CONFIGURATION FILE
 \fBexiv2\fP can read an optional configuration file, which allows 
@@ -987,7 +1149,10 @@ The Exiv2 project is released under the GNU GPLv2 license: \fIhttps://github.com
 
 Exiv2 'modify' command examples: \fIhttps://exiv2.org/sample.html#modify\fP
 All Exiv2 tags, listing the \fIkey\fP and default \fItype\fP: \fIhttps://exiv2.org/metadata.html\fP
+Exiv2 README.md: \fIhttps://github.com/Exiv2/exiv2/blob/main/README.md\fP
 Exiv2 sample programs: \fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md\fP
+Exiv2 downloads: \fIhttps://www.exiv2.org/download.html\fP
+Exiv2 wiki: \fIhttps://github.com/Exiv2/exiv2/wiki\fP
 APEX Exposure values: \fIhttps://en.wikipedia.org/wiki/APEX_system\fP
 International Language Codes: \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
 Windows INI format: \fIhttps://en.wikipedia.org/wiki/INI_file\fP
