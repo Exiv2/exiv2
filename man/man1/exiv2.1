@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "August 09, 2021"
+.TH EXIV2 1 "August 26, 2021"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -106,7 +106,7 @@ Delete image metadata from the files.
 .B ad | adjust
 Adjust Exif timestamps by the given time.  Requires at least one of the
 options \fB\--adjust\fP \fItime\fP, \fB\--years\fP \fI+-n\fP, \fB\--months\fP
-\fI+-n\fP or \fB\--days\fP \fI+-n\fP.
+\fI+-n\fP or \fB\--days\fP \fI+-n\fP. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B mo | modify
 Apply commands to modify (add, set, delete) the Exif, IPTC and XMP
@@ -118,7 +118,7 @@ Rename files and/or set file timestamps according to the Exif create
 timestamp.  Uses the value of tag Exif.Photo.DateTimeOriginal or, if
 not present, Exif.Image.DateTime to determine the timestamp.  The
 filename format can be set with \fB\--rename\fP \fIfmt\fP, timestamp options
-are \fB\--timestamp\fP and \fB\--Timestamp\fP.
+are \fB\--timestamp\fP and \fB\--Timestamp\fP. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B fi | fixiso
 Copy the ISO setting from one of the proprietary Nikon or Canon
@@ -312,13 +312,12 @@ options.
 .B \-t, --timestamp
 Set the file timestamp according to the Exif create timestamp in
 addition to renaming the file (overrides \fB\--keep\fP). This option is
-only used with the 'rename' action.
+only used with the 'rename' action. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B \-T, --Timestamp
 Only set the file timestamp according to the Exif create timestamp, do
 not rename the file (overrides \fB\--keep\fP). This option is only used
-with the 'rename' action. Note: On Windows you may have to set the TZ
-environment variable for this option to work correctly.
+with the 'rename' action. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B \-f, --force or \-F, --Force
 These options are used by the 'rename' and 'extract' actions to
@@ -351,10 +350,11 @@ has already been renamed:
 .br
 .TP
 .B \-r \fIfmt\fP, --rename \fIfmt\fP
-Filename format for the 'rename' action. The \fIfmt\fP string follows
-the definitions in \fBstrftime\fP(3), using Exif.Photo.DateTimeOriginal 
-or Exif.Image.DateTime as the reference date and time.
-In addition, the following special character sequences are also provided:
+Filename format for the 'rename' action (See \fBTZ\fP in \fBENVIRONMENT\fP). 
+The \fIfmt\fP string follows the definitions in \fBstrftime\fP(3), using 
+Exif.Photo.DateTimeOriginal or Exif.Image.DateTime as the reference date 
+and time. In addition, the following special character sequences are also 
+provided:
 .TS
 l l l.
 :basename:	Original filename without extension
@@ -395,7 +395,7 @@ For example, when renaming a second Stonehenge.jpg file:
 .TP
 .B \-a \fItime\fP, \--adjust \fItime\fP
 Time adjustment, where \fItime\fP is in the format [\-]HH[:MM[:SS]]. This option is only
-used with the 'adjust' action.
+used with the 'adjust' action. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .sp 1
 Examples of \fItime\fP are:
 
@@ -409,15 +409,15 @@ l l.
 .TP
 .B \-Y \fI+-n\fP, --years \fI+-n\fP
 Time adjustment by a positive or negative number of years, for
-the 'adjust' action.
+the 'adjust' action. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B \-O \fI+-n\fP, --months \fI+-n\fP
 Time adjustment by a positive or negative number of months, for
-the 'adjust' action.
+the 'adjust' action. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B \-D \fI+-n\fP, \--days \fI+-n\fP
 Time adjustment by a positive or negative number of days, for
-the 'adjust' action.
+the 'adjust' action. See \fBTZ\fP in \fBENVIRONMENT\fP.
 .TP
 .B \-p \fImode\fP, --print \fImode\fP, 
 Print mode for the 'print' action (see \fBDESCRIPTION\fP, for metadata support in a file type). Possible modes are:
@@ -1137,7 +1137,18 @@ sense in the target image.
 Adds the Exif ISO metadata (if missing) to \fIimage.jpg\fP. This is for 
 Nikon and Canon cameras only and copies the camera maker's value into the Exif 
 metadata.
-.sp 1
+.SH ENVIRONMENT
+.TP
+\fBTZ\fP
+This is the timezone to use when adjusting for daylight savings time (DST) and 
+affects the changing of the the time and date (e.g., when adjusting or 
+renaming). See \fIhttps://en.wikipedia.org/wiki/List_of_tz_database_time_zones\fP 
+for a list of valid values to use. The variable is not set by default for 
+Windows and an attempt is made to obtain the timezone from the OS. If this 
+fails, the DST rules for the United States are used. This can be corrected 
+by defining \fBTZ\fP.
+.SH NOTES
+For further help, see the Exiv2 wiki: \fIhttps://github.com/Exiv2/exiv2/wiki\fP
 .SH BUGS
 Report bugs to: \fIhttps://github.com/Exiv2/exiv2/issues\fP
 .SH COPYRIGHT
@@ -1156,6 +1167,7 @@ Exiv2 wiki: \fIhttps://github.com/Exiv2/exiv2/wiki\fP
 APEX Exposure values: \fIhttps://en.wikipedia.org/wiki/APEX_system\fP
 International Language Codes: \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
 Windows INI format: \fIhttps://en.wikipedia.org/wiki/INI_file\fP
+TZ Environment variable values: \fIhttps://en.wikipedia.org/wiki/List_of_tz_database_time_zones\fP
 .fi
 
 .SH AUTHORS
