@@ -212,7 +212,7 @@ namespace Exiv2 {
         EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
 
         //! Reset value
-        void reset(std::pair<byte*, long> = std::make_pair(nullptr, long(0)));
+        void reset(std::pair<byte*, long> = {nullptr, long(0)});
         //@}
 
         /*!
