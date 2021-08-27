@@ -154,7 +154,11 @@ target_include_directories(exiv2lib SYSTEM PRIVATE
 )
 
 target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
-target_link_libraries(exiv2lib PRIVATE EXPAT::EXPAT)
+target_link_libraries(exiv2lib PRIVATE ${EXPAT_LIBRARIES})
+
+if (WIN32)
+    target_compile_definitions(exiv2lib PRIVATE XML_STATIC)
+endif()
 
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
