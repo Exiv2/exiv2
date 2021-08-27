@@ -16,6 +16,8 @@ File size       : 276 Bytes
 MIME type       : application/rdf+xml
 Image size      : 0 x 0
 """]
-    stderr = ["""$filename: No Exif data found in the file
+    stderr = ["""Error: XMP Toolkit error 201: Error in XMLValidator
+Warning: Failed to decode XMP metadata.
+$filename: No Exif data found in the file
 """]
     retval = [253]
