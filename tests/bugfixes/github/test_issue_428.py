@@ -29,7 +29,7 @@ class PngReadRawProfile(metaclass=system_tests.CaseMeta):
     stderr.append("""$exiv2_exception_message """ + filenames[5] + """:
 $kerInputDataReadFailed
 """)
-    stderr.append("""Error: XMP Toolkit error 201: XML parsing failure
+    stderr.append("""Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 """ + stderr_exception(filenames[6]))
     stderr.append("""Warning: Failed to decode Exif metadata.
