@@ -52,8 +52,8 @@ namespace {
     using namespace Exiv2;
 
     class XMLValidator {
-        size_t element_depth_ = 0;
-        size_t namespace_depth_ = 0;
+        size_t element_depth_;
+        size_t namespace_depth_;
 
         // These fields are used to record whether an error occurred during
         // parsing. Why do we need to store the error for later, rather
@@ -62,10 +62,10 @@ namespace {
         // thrown by the callback functions. Throwing exceptions during
         // parsing is an example of one of the things that xmpsdk does
         // wrong, leading to problems like https://github.com/Exiv2/exiv2/issues/1821.
-        bool haserror_ = false;
+        bool haserror_;
         std::string errmsg_;
-        XML_Size errlinenum_ = 0;
-        XML_Size errcolnum_ = 0;
+        XML_Size errlinenum_;
+        XML_Size errcolnum_;
 
         // Very deeply nested XML trees can cause a stack overflow in
         // xmpsdk.  They are also very unlikely to be valid XMP, so we
@@ -84,7 +84,11 @@ namespace {
     private:
         // Private constructor, because this class is only constructed by
         // the (static) check method.
-        XMLValidator() : parser_(XML_ParserCreateNS(0, '@')) {
+        XMLValidator() :
+            element_depth_(0), namespace_depth_(0), haserror_(false),
+            errlinenum_(0), errcolnum_(0),
+            parser_(XML_ParserCreateNS(0, '@'))
+        {
             if (!parser_) {
                 throw Error(kerXMPToolkitError, "Could not create expat parser");
             }
@@ -131,14 +135,14 @@ namespace {
             }
         }
 
-        void startElement(const XML_Char*, const XML_Char**) noexcept {
+        void startElement(const XML_Char*, const XML_Char**) {
             if (element_depth_ > max_recursion_limit_) {
                 setError("Too deeply nested");
             }
             ++element_depth_;
         }
 
-        void endElement(const XML_Char*) noexcept {
+        void endElement(const XML_Char*) {
             if (element_depth_ > 0) {
                 --element_depth_;
             } else {
@@ -146,14 +150,14 @@ namespace {
             }
         }
 
-        void startNamespace(const XML_Char*, const XML_Char*) noexcept {
+        void startNamespace(const XML_Char*, const XML_Char*) {
             if (namespace_depth_ > max_recursion_limit_) {
                 setError("Too deeply nested");
             }
             ++namespace_depth_;
         }
 
-        void endNamespace(const XML_Char*) noexcept {
+        void endNamespace(const XML_Char*) {
             if (namespace_depth_ > 0) {
                 --namespace_depth_;
             } else {
@@ -161,7 +165,7 @@ namespace {
             }
         }
 
-        void startDTD(const XML_Char*, const XML_Char*, const XML_Char*, int) noexcept {
+        void startDTD(const XML_Char*, const XML_Char*, const XML_Char*, int) {
             // DOCTYPE is used for XXE attacks.
             setError("DOCTYPE not supported");
         }
@@ -170,13 +174,13 @@ namespace {
         // around startElement().
         static void XMLCALL startElement_cb(
             void* userData, const XML_Char* name, const XML_Char* *attrs
-        ) noexcept {
+        ) {
             static_cast<XMLValidator*>(userData)->startElement(name, attrs);
         }
 
         // This callback function is called by libexpat. It's a static wrapper
         // around endElement().
-        static void XMLCALL endElement_cb(void* userData, const XML_Char* name) noexcept {
+        static void XMLCALL endElement_cb(void* userData, const XML_Char* name) {
             static_cast<XMLValidator*>(userData)->endElement(name);
         }
 
@@ -184,20 +188,20 @@ namespace {
         // around startNamespace().
         static void XMLCALL startNamespace_cb(
             void* userData, const XML_Char* prefix, const XML_Char* uri
-        ) noexcept {
+        ) {
             static_cast<XMLValidator*>(userData)->startNamespace(prefix, uri);
         }
 
         // This callback function is called by libexpat. It's a static wrapper
         // around endNamespace().
-        static void XMLCALL endNamespace_cb(void* userData, const XML_Char* prefix) noexcept {
+        static void XMLCALL endNamespace_cb(void* userData, const XML_Char* prefix) {
             static_cast<XMLValidator*>(userData)->endNamespace(prefix);
         }
 
         static void XMLCALL startDTD_cb(
             void *userData, const XML_Char *doctypeName, const XML_Char *sysid,
             const XML_Char *pubid, int has_internal_subset
-        ) noexcept {
+        ) {
             static_cast<XMLValidator*>(userData)->startDTD(
                 doctypeName, sysid, pubid, has_internal_subset);
         }
