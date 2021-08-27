@@ -43,6 +43,7 @@
 # include <XMP.incl_cpp>
 #endif // EXV_HAVE_XMP_TOOLKIT
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
 // This anonymous namespace contains a class named XMLValidator, which uses
 // libexpat to do a basic validation check on an XML document. This is to
 // reduce the chance of hitting a bug in the (third-party) xmpsdk
@@ -207,7 +208,7 @@ namespace {
         }
     };
 }  // namespace
-
+#endif // EXV_HAVE_XMP_TOOLKIT
 
 // *****************************************************************************
 // local declarations
