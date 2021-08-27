@@ -33,7 +33,7 @@ Xmp.xmp.MetadataDate                         XmpText    25  2016-09-13T11:58:16+
 Xmp.photoshop.DateCreated                    XmpText    10  2004-06-21
 ""","""File name       : $filename
 File size       : 32892 Bytes
-MIME type       : image/generic
+MIME type       : image/jxl
 Image size      : 200 x 130
 Thumbnail       : image/jpeg, 4196 Bytes
 Camera make     : NIKON CORPORATION
