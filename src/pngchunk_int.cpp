@@ -489,7 +489,7 @@ namespace Exiv2 {
 
         DataBuf arr;
         do {
-            arr.alloc(compressedLen);
+            arr.resize(compressedLen);
             zlibResult = compress2(arr.data(0), &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
                                    static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
 
