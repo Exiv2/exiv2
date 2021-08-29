@@ -525,7 +525,7 @@ namespace Exiv2
 
             enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf  xmp(static_cast<long>(length+1));
-            xmp.write_uint8(length, 0); // ensure xmp is null terminated!
+            xmp.write_uint8(static_cast<size_t>(length), 0); // ensure xmp is null terminated!
             if ( io_->read(xmp.data(0), static_cast<long>(length)) != static_cast<long>(length) )
                 throw Error(kerInputDataReadFailed);
             if ( io_->error() )
