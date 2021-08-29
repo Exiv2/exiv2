@@ -468,7 +468,7 @@ namespace Exiv2 {
             return 0;
         std::string name = path + thumbnail->extension();
         DataBuf buf(thumbnail->copy(exifData_));
-        if (buf.size_ == 0) return 0;
+        if (buf.size() == 0) return 0;
         return Exiv2::writeFile(buf, name);
     }
 
@@ -479,7 +479,7 @@ namespace Exiv2 {
         if (thumbnail.get() == 0) return 0;
         std::wstring name = wpath + thumbnail->wextension();
         DataBuf buf(thumbnail->copy(exifData_));
-        if (buf.size_ == 0) return 0;
+        if (buf.size() == 0) return 0;
         return Exiv2::writeFile(buf, name);
     }
 
@@ -522,7 +522,7 @@ namespace Exiv2 {
     )
     {
         DataBuf thumb = readFile(path); // may throw
-        setJpegThumbnail(thumb.pData_, thumb.size_, xres, yres, unit);
+        setJpegThumbnail(thumb.c_data(0), thumb.size(), xres, yres, unit);
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -534,7 +534,7 @@ namespace Exiv2 {
     )
     {
         DataBuf thumb = readFile(wpath); // may throw
-        setJpegThumbnail(thumb.pData_, thumb.size_, xres, yres, unit);
+        setJpegThumbnail(thumb.c_data(0), thumb.size(), xres, yres, unit);
     }
 
 #endif
@@ -555,14 +555,14 @@ namespace Exiv2 {
     void ExifThumb::setJpegThumbnail(const std::string& path)
     {
         DataBuf thumb = readFile(path); // may throw
-        setJpegThumbnail(thumb.pData_, thumb.size_);
+        setJpegThumbnail(thumb.c_data(0), thumb.size());
     }
 
 #ifdef EXV_UNICODE_PATH
     void ExifThumb::setJpegThumbnail(const std::wstring& wpath)
     {
         DataBuf thumb = readFile(wpath); // may throw
-        setJpegThumbnail(thumb.pData_, thumb.size_);
+        setJpegThumbnail(thumb.c_data(0), thumb.size());
     }
 
 #endif

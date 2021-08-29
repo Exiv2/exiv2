@@ -170,9 +170,9 @@ namespace Exiv2
         const char* uuidCano = "\x85\xC0\xB6\x87\x82\xF\x11\xE0\x81\x11\xF4\xCE\x46\x2B\x6A\x48";
         const char* uuidXmp = "\xBE\x7A\xCF\xCB\x97\xA9\x42\xE8\x9C\x71\x99\x94\x91\xE3\xAF\xAC";
         const char* uuidCanp = "\xEA\xF4\x2B\x5E\x1C\x98\x4B\x88\xB9\xFB\xB7\xDC\x40\x6E\x4D\x16";
-        const char* result = std::memcmp(uuid.pData_, uuidCano, 16) == 0   ? "cano"
-                             : std::memcmp(uuid.pData_, uuidXmp, 16) == 0  ? "xmp"
-                             : std::memcmp(uuid.pData_, uuidCanp, 16) == 0 ? "canp"
+        const char* result = uuid.cmpBytes(0, uuidCano, 16) == 0   ? "cano"
+                             : uuid.cmpBytes(0, uuidXmp, 16) == 0  ? "xmp"
+                             : uuid.cmpBytes(0, uuidCanp, 16) == 0 ? "canp"
                                                                            : "";
         return result;
     }
@@ -220,8 +220,8 @@ namespace Exiv2
             hdrsize += 8;
             enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
             DataBuf data(8);
-            io_->read(data.pData_, data.size_);
-            box_length = getULongLong(data.pData_, endian_);
+            io_->read(data.data(0), data.size());
+            box_length = data.read_uint64(0, endian_);
         }
 
         // read data in box and restore file position
@@ -229,8 +229,8 @@ namespace Exiv2
         enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
         enforce(box_length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
         DataBuf data(static_cast<long>(box_length - hdrsize));
-        const long box_end = restore + data.size_;
-        io_->read(data.pData_, data.size_);
+        const long box_end = restore + data.size();
+        io_->read(data.data(0), data.size());
         io_->seek(restore, BasicIo::beg);
 
         long skip = 0;  // read position in data.pData_
@@ -238,8 +238,8 @@ namespace Exiv2
         uint32_t flags = 0;
 
         if (fullBox(box_type)) {
-            enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
-            flags = getLong(data.pData_ + skip, endian_);  // version/flags
+            enforce(data.size() - skip >= 4, Exiv2::kerCorruptedMetadata);
+            flags = data.read_uint32(skip, endian_);  // version/flags
             version = static_cast<uint8_t>(flags >> 24);
             version &= 0x00ffffff;
             skip += 4;
@@ -247,8 +247,8 @@ namespace Exiv2
 
         switch (box_type) {
             case TAG_ftyp: {
-                enforce(data.size_ >= 4, Exiv2::kerCorruptedMetadata);
-                fileType_ = getLong(data.pData_, endian_);
+                enforce(data.size() >= 4, Exiv2::kerCorruptedMetadata);
+                fileType_ = data.read_uint32(0, endian_);
                 if ( bTrace ) {
                     out << "brand: " << toAscii(fileType_);
                 }
@@ -261,8 +261,8 @@ namespace Exiv2
                     bLF = false;
                 }
 
-                enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
-                uint16_t n = getShort(data.pData_ + skip, endian_);
+                enforce(data.size() - skip >= 2, Exiv2::kerCorruptedMetadata);
+                uint16_t n = data.read_uint16(skip, endian_);
                 skip += 2;
 
                 io_->seek(skip, BasicIo::cur);
@@ -273,15 +273,15 @@ namespace Exiv2
 
             // 8.11.6.2
             case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
-                enforce(data.size_ - skip >= 8, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 8, Exiv2::kerCorruptedMetadata);
                 /* getLong (data.pData_+skip,endian_) ; */ skip += 4;
-                uint16_t ID = getShort(data.pData_ + skip, endian_);
+                uint16_t ID = data.read_uint16(skip, endian_);
                 skip += 2;
                 /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
                 // Check that the string has a '\0' terminator.
-                const char* str = reinterpret_cast<const char*>(data.pData_) + skip;
-                const auto maxlen = static_cast<size_t>(data.size_ - skip);
+                const char* str = data.c_str(skip);
+                const auto maxlen = static_cast<size_t>(data.size() - skip);
                 enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
                 if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
@@ -331,22 +331,22 @@ namespace Exiv2
 
             // 8.11.3.1
             case TAG_iloc: {
-                enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
-                uint8_t u = data.pData_[skip++];
+                enforce(data.size() - skip >= 2, Exiv2::kerCorruptedMetadata);
+                uint8_t u = data.read_uint8(skip++);
                 uint16_t offsetSize = u >> 4;
                 uint16_t lengthSize = u & 0xF;
 #if 0
                 uint16_t indexSize  = 0       ;
-                u             = data.pData_[skip++];
+                u             = data.read_uint8(skip++);
                 if ( version == 1 || version == 2 ) {
                     indexSize = u & 0xF ;
                 }
 #else
                 skip++;
 #endif
-                enforce(data.size_ - skip >= (version < 2 ? 2 : 4), Exiv2::kerCorruptedMetadata);
-                uint32_t itemCount = version < 2 ? getShort(data.pData_ + skip, endian_)
-                                                 : getLong(data.pData_ + skip, endian_);
+                enforce(data.size() - skip >= (version < 2 ? 2 : 4), Exiv2::kerCorruptedMetadata);
+                uint32_t itemCount = version < 2 ? data.read_uint16(skip, endian_)
+                                                 : data.read_uint32(skip, endian_);
                 skip += version < 2 ? 2 : 4;
                 if (itemCount && itemCount < box_length / 14 && offsetSize == 4 && lengthSize == 4 &&
                     ((box_length - 16) % itemCount) == 0) {
@@ -358,15 +358,15 @@ namespace Exiv2
                     long base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
-                        enforce(data.size_ - skip >= (version > 2 ? 4 : 2), Exiv2::kerCorruptedMetadata);
-                        enforce(data.size_ - skip >= step, Exiv2::kerCorruptedMetadata);
-                        uint32_t ID = version > 2 ? getLong(data.pData_ + skip, endian_)
-                                                  : getShort(data.pData_ + skip, endian_);
-                        uint32_t offset = step==14 || step==16 ? getLong(data.pData_ + skip + step - 8, endian_)
-                                        : step== 18            ? getLong(data.pData_ + skip + 4, endian_)
+                        enforce(data.size() - skip >= (version > 2 ? 4 : 2), Exiv2::kerCorruptedMetadata);
+                        enforce(data.size() - skip >= step, Exiv2::kerCorruptedMetadata);
+                        uint32_t ID = version > 2 ? data.read_uint32(skip, endian_)
+                                                  : data.read_uint16(skip, endian_);
+                        uint32_t offset = step==14 || step==16 ? data.read_uint32(skip + step - 8, endian_)
+                                        : step== 18            ? data.read_uint32(skip + 4, endian_)
                                         : 0 ;
 
-                        uint32_t ldata = getLong(data.pData_ + skip + step - 4, endian_);
+                        uint32_t ldata = data.read_uint32(skip + step - 4, endian_);
                         if ( bTrace ) {
                             out << indent(depth)
                                 << Internal::stringFormat("%8ld | %8ld |   ID | %4u | %6u,%6u", address + skip, step,
@@ -382,11 +382,11 @@ namespace Exiv2
             } break;
 
             case TAG_ispe: {
-                enforce(data.size_ - skip >= 12, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 12, Exiv2::kerCorruptedMetadata);
                 skip += 4;
-                int width = getLong(data.pData_ + skip, endian_);
+                int width = data.read_uint32(skip, endian_);
                 skip += 4;
-                int height = getLong(data.pData_ + skip, endian_);
+                int height = data.read_uint32(skip, endian_);
                 skip += 4;
                 if ( bTrace ) {
                     out << "pixelWidth_, pixelHeight_ = " << Internal::stringFormat("%d, %d", width, height);
@@ -401,21 +401,21 @@ namespace Exiv2
 
             // 12.1.5.2
             case TAG_colr: {
-                if (data.size_ >=
+                if (data.size() >=
                     static_cast<long>(skip + 4 + 8)) {  // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
                     // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
-                    uint8_t      meth        = data.pData_[skip+0];
-                    uint8_t      prec        = data.pData_[skip+1];
-                    uint8_t      approx      = data.pData_[skip+2];
-                    std::string colour_type = std::string(reinterpret_cast<char*>(data.pData_), 4);
+                    uint8_t      meth        = data.read_uint8(skip+0);
+                    uint8_t      prec        = data.read_uint8(skip+1);
+                    uint8_t      approx      = data.read_uint8(skip+2);
+                    std::string colour_type = std::string(data.c_str(0), 4);
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
-                        DataBuf       profile(data.pData_+skip,data.size_-skip);
+                        DataBuf       profile(data.c_data(skip),data.size()-skip);
                         setIccProfile(profile);
                     } else if ( meth == 2 && prec == 0 && approx == 0 ) {
                         // JP2000 files have a 3 byte head // 2 0 0 icc......
                         skip -= 1 ;
-                        DataBuf       profile(data.pData_+skip,data.size_-skip);
+                        DataBuf       profile(data.c_data(skip),data.size()-skip);
                         setIccProfile(profile);
                     }
                 }
@@ -423,7 +423,7 @@ namespace Exiv2
 
             case TAG_uuid: {
                 DataBuf   uuid(16);
-                io_->read(uuid.pData_, uuid.size_);
+                io_->read(uuid.data(0), uuid.size());
                 std::string name = uuidName(uuid);
                 if ( bTrace ) {
                     out << " uuidName " << name << std::endl;
@@ -476,18 +476,18 @@ namespace Exiv2
         long    restore = io_->tell();
         DataBuf exif(static_cast<long>(length));
         io_->seek(static_cast<long>(start),BasicIo::beg);
-        if ( exif.size_ > 8 && io_->read(exif.pData_,exif.size_) == exif.size_ ) {
+        if ( exif.size() > 8 && io_->read(exif.data(0),exif.size()) == exif.size() ) {
             // hunt for "II" or "MM"
             long  eof  = 0xffffffff; // impossible value for punt
             long  punt = eof;
-            for ( long i = 0 ; i < exif.size_ -8 && punt==eof ; i+=2) {
-                if ( exif.pData_[i] == exif.pData_[i+1] )
-                    if ( exif.pData_[i] == 'I' || exif.pData_[i] == 'M' )
+            for ( long i = 0 ; i < exif.size() -8 && punt==eof ; i+=2) {
+                if ( exif.read_uint8(i) == exif.read_uint8(i+1) )
+                    if ( exif.read_uint8(i) == 'I' || exif.read_uint8(i) == 'M' )
                         punt = i;
             }
             if ( punt != eof ) {
                 Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
-                  exif.pData_+punt, exif.size_-punt, root_tag,
+                  exif.c_data(punt), exif.size()-punt, root_tag,
                   Internal::TiffMapping::findDecoder);
             }
         }
@@ -500,15 +500,15 @@ namespace Exiv2
             enforce(length - 8 <= io_->size() - io_->tell(), kerCorruptedMetadata);
             enforce(length - 8 <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf data(static_cast<long>(length - 8));
-            long bufRead = io_->read(data.pData_, data.size_);
+            long bufRead = io_->read(data.data(0), data.size());
 
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
-            if (bufRead != data.size_)
+            if (bufRead != data.size())
                 throw Error(kerInputDataReadFailed);
 
             Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
-                                               data.pData_, data.size_, root_tag,
+                                               data.c_data(0), data.size(), root_tag,
                                                Internal::TiffMapping::findDecoder);
         }
     }
@@ -525,13 +525,13 @@ namespace Exiv2
 
             enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf  xmp(static_cast<long>(length+1));
-            xmp.pData_[length]=0  ; // ensure xmp is null terminated!
-            if ( io_->read(xmp.pData_, static_cast<long>(length)) != static_cast<long>(length) )
+            xmp.write_uint8(length, 0); // ensure xmp is null terminated!
+            if ( io_->read(xmp.data(0), static_cast<long>(length)) != static_cast<long>(length) )
                 throw Error(kerInputDataReadFailed);
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
             try {
-                Exiv2::XmpParser::decode(xmpData(), std::string(reinterpret_cast<char*>(xmp.pData_)));
+                Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str(0)));
             } catch (...) {
                 throw Error(kerFailedToReadImageData);
             }
@@ -588,7 +588,7 @@ namespace Exiv2
             default: break; // do nothing
 
             case kpsIccProfile : {
-                out.write(reinterpret_cast<const char*>(iccProfile_.pData_), iccProfile_.size_);
+                out.write(iccProfile_.c_str(0), iccProfile_.size());
             } break;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT

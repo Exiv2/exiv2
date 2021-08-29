@@ -1348,7 +1348,7 @@ namespace Exiv2 {
 
         // code byte-by-byte
         for ( uint32_t i = 0 ; i < size ; i++ ) {
-            b.pData_[i] = code[bytes[i]];
+            b.write_uint8(i, code[bytes[i]]);
         }
 
         return b;

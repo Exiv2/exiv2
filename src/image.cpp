@@ -273,8 +273,8 @@ namespace Exiv2 {
     {
         uint16_t v = 0;
         auto p = reinterpret_cast<char*>(&v);
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
+        p[0] = buf.read_uint8(offset);
+        p[1] = buf.read_uint8(offset+1);
         return Image::byteSwap(v,bSwap);
     }
 
@@ -282,10 +282,10 @@ namespace Exiv2 {
     {
         uint32_t v = 0;
         auto p = reinterpret_cast<char*>(&v);
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        p[2] = buf.pData_[offset+2];
-        p[3] = buf.pData_[offset+3];
+        p[0] = buf.read_uint8(offset);
+        p[1] = buf.read_uint8(offset+1);
+        p[2] = buf.read_uint8(offset+2);
+        p[3] = buf.read_uint8(offset+3);
         return Image::byteSwap(v,bSwap);
     }
 
@@ -295,7 +295,7 @@ namespace Exiv2 {
         auto p = reinterpret_cast<byte*>(&v);
 
         for(int i = 0; i < 8; i++)
-            p[i] = buf.pData_[offset + i];
+            p[i] = buf.read_uint8(offset + i);
 
         return Image::byteSwap(v,bSwap);
     }
@@ -343,7 +343,7 @@ namespace Exiv2 {
         do {
             // Read top of directory
             seekOrThrow(io, start, BasicIo::beg, kerCorruptedMetadata);
-            readOrThrow(io, dir.pData_, 2, kerCorruptedMetadata);
+            readOrThrow(io, dir.data(0), 2, kerCorruptedMetadata);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
             // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
             enforce(dirLength > 0, kerCorruptedMetadata);
@@ -369,7 +369,7 @@ namespace Exiv2 {
                 }
                 bFirst = false;
 
-                readOrThrow(io, dir.pData_, 12, kerCorruptedMetadata);
+                readOrThrow(io, dir.data(0), 12, kerCorruptedMetadata);
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
                 uint32_t count  = byteSwap4(dir,4,bSwap);
@@ -411,8 +411,8 @@ namespace Exiv2 {
                 enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
                 const long allocate = static_cast<long>(allocate64);
                 DataBuf  buf(allocate);  // allocate a buffer
-                std::memset(buf.pData_, 0, buf.size_);
-                std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
+                buf.clear();
+                buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
 
                 // We have already checked that this multiplication cannot overflow.
                 const uint32_t count_x_size = count*size;
@@ -421,7 +421,7 @@ namespace Exiv2 {
                 if ( bOffsetIsPointer ) {         // read into buffer
                     const long restore = io.tell(); // save
                     seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata); // position
-                    readOrThrow(io, buf.pData_, static_cast<long>(count_x_size), kerCorruptedMetadata); // read
+                    readOrThrow(io, buf.data(0), static_cast<long>(count_x_size), kerCorruptedMetadata); // read
                     seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata); // restore
                 }
 
@@ -494,8 +494,8 @@ namespace Exiv2 {
                             // tag is an embedded tiff
                             const long byteslen = count-jump;
                             DataBuf bytes(byteslen);  // allocate a buffer
-                            readOrThrow(io, bytes.pData_, byteslen, kerCorruptedMetadata);  // read
-                            MemIo memIo(bytes.pData_, byteslen)    ;  // create a file
+                            readOrThrow(io, bytes.data(0), byteslen, kerCorruptedMetadata);  // read
+                            MemIo memIo(bytes.c_data(0), byteslen)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
                         } else {
                             // tag is an IFD
@@ -508,15 +508,15 @@ namespace Exiv2 {
                 }
 
                 if ( isPrintXMP(tag,option) ) {
-                    buf.pData_[count]=0;
-                    out << reinterpret_cast<char*>(buf.pData_);
+                    buf.write_uint8(count, 0);
+                    out << buf.c_str(0);
                 }
                 if ( isPrintICC(tag,option) ) {
-                    out.write(reinterpret_cast<const char*>(buf.pData_), count);
+                    out.write(buf.c_str(0), count);
                 }
             }
             if ( start ) {
-                readOrThrow(io, dir.pData_, 4, kerCorruptedMetadata);
+                readOrThrow(io, dir.data(0), 4, kerCorruptedMetadata);
                 start = byteSwap4(dir,0,bSwap);
             }
         } while (start) ;
@@ -536,8 +536,8 @@ namespace Exiv2 {
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
-            readOrThrow(io, dir.pData_,  8, kerCorruptedMetadata);
-            char c = static_cast<char>(dir.pData_[0]);
+            readOrThrow(io, dir.data(0),  8, kerCorruptedMetadata);
+            char c = static_cast<char>(dir.read_uint8(0));
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
                         ;
@@ -671,10 +671,13 @@ namespace Exiv2 {
     void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
-            if (iccProfile.pData_ && (iccProfile.size_ < static_cast<long>(sizeof(long))))
+            if (iccProfile.size() < static_cast<long>(sizeof(long))) {
                 throw Error(kerInvalidIccProfile);
-            long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
-            if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
+            }
+            const long size = iccProfile.read_uint32(0, bigEndian);
+            if (size != iccProfile.size()) {
+                throw Error(kerInvalidIccProfile);
+            }
         }
         iccProfile_ = iccProfile;
     }

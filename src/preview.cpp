@@ -422,7 +422,7 @@ namespace {
         if (nativePreview_.filter_.empty()) {
             size_ = nativePreview_.size_;
         } else {
-            size_ = getData().size_;
+            size_ = getData().size();
         }
     }
 
@@ -484,7 +484,7 @@ namespace {
             const byte *record;
             uint32_t sizeHdr = 0;
             uint32_t sizeData = 0;
-            if (Photoshop::locatePreviewIrb(psData.pData_, psData.size_, &record, &sizeHdr, &sizeData) != 0) {
+            if (Photoshop::locatePreviewIrb(psData.c_data(0), psData.size(), &record, &sizeHdr, &sizeData) != 0) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
 #endif
@@ -501,9 +501,9 @@ namespace {
         if (width_ != 0 || height_ != 0) return true;
 
         const DataBuf data = getData();
-        if (data.size_ == 0) return false;
+        if (data.size() == 0) return false;
         try {
-            Image::UniquePtr image = ImageFactory::open(data.pData_, data.size_);
+            Image::UniquePtr image = ImageFactory::open(data.c_data(0), data.size());
             if (image.get() == nullptr) return false;
             image->readMetadata();
 
@@ -649,12 +649,12 @@ namespace {
         if (pos != image_.exifData().end()) {
             DataBuf buf = pos->dataArea(); // indirect data
 
-            if (buf.size_ == 0) { // direct data
+            if (buf.size() == 0) { // direct data
                 buf = DataBuf(pos->size());
-                pos->copy(buf.pData_, invalidByteOrder);
+                pos->copy(buf.data(0), invalidByteOrder);
             }
 
-            buf.pData_[0] = 0xff; // fix Minolta thumbnails with invalid jpeg header
+            buf.write_uint8(0, 0xff); // fix Minolta thumbnails with invalid jpeg header
             return buf;
         }
 
@@ -666,10 +666,10 @@ namespace {
         if (!valid()) return false;
 
         DataBuf buf = getData();
-        if (buf.size_ == 0) return false;
+        if (buf.size() == 0) return false;
 
         try {
-            Image::UniquePtr image = ImageFactory::open(buf.pData_, buf.size_);
+            Image::UniquePtr image = ImageFactory::open(buf.c_data(0), buf.size());
             if (image.get() == nullptr) return false;
             image->readMetadata();
 
@@ -814,12 +814,12 @@ namespace {
                         // That's why we check again for each step here to really make sure we don't overstep
                         enforce(Safe::add(idxBuf, size) <= size_, kerCorruptedMetadata);
                         if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())){
-                            memcpy(&buf.pData_[idxBuf], base + offset, size);
+                            buf.copyBytes(idxBuf, base + offset, size);
                         }
 
                         idxBuf += size;
                     }
-                    dataValue.setDataArea(buf.pData_, buf.size_);
+                    dataValue.setDataArea(buf.c_data(0), buf.size());
                 }
             }
         }
@@ -863,7 +863,7 @@ namespace {
         width_ = widthDatum->toLong();
         height_ = heightDatum->toLong();
         preview_ = decodeBase64(imageDatum->toString());
-        size_ = static_cast<uint32_t>(preview_.size_);
+        size_ = static_cast<uint32_t>(preview_.size());
         valid_ = true;
     }
 
@@ -886,7 +886,7 @@ namespace {
     DataBuf LoaderXmpJpeg::getData() const
     {
         if (!valid()) return DataBuf();
-        return DataBuf(preview_.pData_, preview_.size_);
+        return DataBuf(preview_.c_data(0), preview_.size());
     }
 
     bool LoaderXmpJpeg::readDimensions()
@@ -923,7 +923,7 @@ namespace {
                 buffer |= srcValue << (bufferPos * 4);
                 bufferPos--;
             }
-            dest.pData_[destPos] = buffer;
+            dest.write_uint8(destPos, buffer);
         }
         return dest;
     }
@@ -964,7 +964,7 @@ namespace {
                 bufferPos--;
             }
             for (int bufferPos = 2; bufferPos >= 0 && destPos < destSize; bufferPos--, destPos++) {
-                dest.pData_[destPos] = static_cast<byte>((buffer >> (bufferPos * 8)) & 0xFF);
+                dest.write_uint8(destPos, static_cast<byte>((buffer >> (bufferPos * 8)) & 0xFF));
             }
         }
         return dest;
@@ -972,16 +972,16 @@ namespace {
 
     DataBuf decodeAi7Thumbnail(const DataBuf &src)
     {
-        const byte *colorTable = src.pData_;
+        const byte *colorTable = src.c_data(0);
         const long colorTableSize = 256 * 3;
-        if (src.size_ < colorTableSize) {
+        if (src.size() < colorTableSize) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << "Invalid size of AI7 thumbnail: " << src.size_ << "\n";
+            EXV_WARNING << "Invalid size of AI7 thumbnail: " << src.size() << "\n";
 #endif
             return DataBuf();
         }
-        const byte *imageData = src.pData_ + colorTableSize;
-        const long imageDataSize = src.size_ - colorTableSize;
+        const byte *imageData = src.c_data(colorTableSize);
+        const long imageDataSize = src.size() - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
         for (long i = rle ? 3 : 0; i < imageDataSize;) {
@@ -1016,9 +1016,9 @@ namespace {
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
     {
         const long expectedSize = static_cast<long>(width) * static_cast<long>(height) * 3L;
-        if (rgb.size_ != expectedSize) {
+        if (rgb.size() != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size_ << " bytes.\n";
+            EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size() << " bytes.\n";
 #endif
             return DataBuf();
         }
@@ -1026,9 +1026,9 @@ namespace {
         const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
         const auto headerBytes = reinterpret_cast<const byte *>(header.data());
 
-        DataBuf dest(static_cast<long>(header.size() + rgb.size_));
-        std::copy(headerBytes, headerBytes + header.size(), dest.pData_);
-        std::copy(rgb.pData_, rgb.pData_ + rgb.size_, dest.pData_ + header.size());
+        DataBuf dest(static_cast<long>(header.size() + rgb.size()));
+        dest.copyBytes(0, headerBytes, header.size());
+        dest.copyBytes(header.size(), rgb.c_data(0), rgb.size());
         return dest;
     }
 
@@ -1038,33 +1038,18 @@ namespace {
 // class member definitions
 namespace Exiv2 {
     PreviewImage::PreviewImage(PreviewProperties properties, DataBuf data)
-        : properties_(std::move(properties)), pData_(data.pData_), size_(data.size_)
-    {
-        std::pair<byte*, long> ret = data.release();
-        UNUSED(ret);
-    }
-
-    PreviewImage::~PreviewImage()
-    {
-        delete[] pData_;
-    }
+        : properties_(std::move(properties)), preview_(data)
+    {}
 
     PreviewImage::PreviewImage(const PreviewImage &rhs)
-        : properties_(rhs.properties_), pData_(new byte[rhs.size_]), size_(rhs.size_)
-    {
-        memcpy(pData_, rhs.pData_, rhs.size_);
-    }
+        : properties_(rhs.properties_), preview_(rhs.pData(), rhs.size())
+    {}
 
     PreviewImage& PreviewImage::operator=(const PreviewImage& rhs)
     {
         if (this == &rhs) return *this;
-        if (rhs.size_ > size_) {
-            delete[] pData_;
-            pData_ = new byte[rhs.size_];
-        }
         properties_ = rhs.properties_;
-        memcpy(pData_, rhs.pData_, rhs.size_);
-        size_ = rhs.size_;
+        preview_ = DataBuf(rhs.pData(), rhs.size());
         return *this;
     }
 
@@ -1072,7 +1057,7 @@ namespace Exiv2 {
     {
         std::string name = path + extension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory
-        DataBuf buf(pData_, size_);
+        DataBuf buf(pData(), size());
         return Exiv2::writeFile(buf, name);
     }
 
@@ -1081,24 +1066,24 @@ namespace Exiv2 {
     {
         std::wstring name = wpath + wextension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory
-        DataBuf buf(pData_, size_);
+        DataBuf buf(pData(), size());
         return Exiv2::writeFile(buf, name);
     }
 
 #endif
     DataBuf PreviewImage::copy() const
     {
-        return DataBuf(pData_, size_);
+        return DataBuf(pData(), size());
     }
 
     const byte* PreviewImage::pData() const
     {
-        return pData_;
+        return preview_.c_data(0);
     }
 
     uint32_t PreviewImage::size() const
     {
-        return size_;
+        return preview_.size();
     }
 
     std::string PreviewImage::mimeType() const
@@ -1147,7 +1132,7 @@ namespace Exiv2 {
             if (loader.get() && loader->readDimensions()) {
                 PreviewProperties props = loader->getProperties();
                 DataBuf buf             = loader->getData(); // #16 getPreviewImage()
-                props.size_             = buf.size_;         //     update the size
+                props.size_             = buf.size();        //     update the size
                 list.push_back(props) ;
             }
         }

@@ -50,11 +50,11 @@ try {
     long size = static_cast<long>(file.size());
     DataBuf buf(size);
     // Read from the memory mapped region
-    memcpy(buf.pData_, pData, buf.size_);
+    buf.copyBytes(0, pData, buf.size());
     // Reopen file in write mode and write to it
-    file.write(buf.pData_, buf.size_);
+    file.write(buf.c_data(0), buf.size());
     // Read from the mapped region again
-    memcpy(buf.pData_, pData, buf.size_);
+    buf.copyBytes(0, pData, buf.size());
     file.close();
 
     return 0;

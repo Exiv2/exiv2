@@ -160,12 +160,12 @@ namespace Exiv2 {
 
             address = io_->tell();
             DataBuf   unknown(20);
-            io_->read(unknown.pData_,unknown.size_);
+            io_->read(unknown.data(0),unknown.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, 20)
                     << "    unknown : "
-                    << Internal::binaryToString(makeSlice(unknown, 0,unknown.size_))
+                    << Internal::binaryToString(makeSlice(unknown, 0, unknown.size()))
                     << std::endl;
             }
 
@@ -249,34 +249,34 @@ namespace Exiv2 {
             io_->seek(jpg_img_off, BasicIo::beg); // rewind
             address = io_->tell();
             DataBuf payload(16); // header is different from chunks
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.data(0), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, jpg_img_len) // , jpg_img_off)
                     << "       JPEG : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size()))
                     << std::endl;
             }
 
             io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
             address = io_->tell();
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.data(0), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, cfa_hdr_len, cfa_hdr_off)
                     << "        CFA : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size()))
                     << std::endl;
             }
 
             io_->seek(cfa_off, BasicIo::beg); // rewind
             address = io_->tell();
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.data(0), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, cfa_len, cfa_off)
                     << "       TIFF : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size()))
                     << std::endl;
             }
         }
@@ -321,7 +321,7 @@ namespace Exiv2 {
 
         DataBuf buf(jpg_img_len - 12);
         if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
-        io_->read(buf.pData_, buf.size_);
+        io_->read(buf.data(0), buf.size());
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         io_->seek(0,BasicIo::beg); // rewind
@@ -329,8 +329,8 @@ namespace Exiv2 {
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
-                                          buf.pData_,
-                                          buf.size_);
+                                          buf.c_data(0),
+                                          buf.size());
 
         exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
         exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
@@ -360,15 +360,15 @@ namespace Exiv2 {
             memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0)
         {
             DataBuf  tiff(tiffLength);
-            io_->read(tiff.pData_, tiff.size_);
+            io_->read(tiff.data(0), tiff.size());
 
             if (!io_->error() && !io_->eof())
             {
                 TiffParser::decode(exifData_,
                                    iptcData_,
                                    xmpData_,
-                                   tiff.pData_,
-                                   tiff.size_);
+                                   tiff.c_data(0),
+                                   tiff.size());
             }
         }
     } // RafImage::readMetadata

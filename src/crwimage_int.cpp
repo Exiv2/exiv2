@@ -1028,7 +1028,7 @@ namespace Exiv2 {
         // Set the new value or remove the entry
         if (ed != image.exifData().end()) {
             DataBuf buf(ed->size());
-            ed->copy(buf.pData_, pHead->byteOrder());
+            ed->copy(buf.data(0), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1051,15 +1051,15 @@ namespace Exiv2 {
             auto size = static_cast<uint32_t>(comment.size());
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
-            std::memset(buf.pData_, 0x0, buf.size_);
-            std::memcpy(buf.pData_, comment.data(), comment.size());
+            buf.clear();
+            buf.copyBytes(0, comment.data(), comment.size());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
             if (cc) {
                 // Just delete the value, do not remove the tag
                 DataBuf buf(cc->size());
-                std::memset(buf.pData_, 0x0, buf.size_);
+                buf.clear();
                 cc->setValue(buf);
             }
         }
@@ -1085,11 +1085,11 @@ namespace Exiv2 {
             DataBuf buf(size);
             long pos = 0;
             if (ed1 != edEnd) {
-                ed1->copy(buf.pData_, pHead->byteOrder());
+                ed1->copy(buf.data(0), pHead->byteOrder());
                 pos += ed1->size();
             }
             if (ed2 != edEnd) {
-                ed2->copy(buf.pData_ + pos, pHead->byteOrder());
+                ed2->copy(buf.data(pos), pHead->byteOrder());
                 pos += ed2->size();
             }
             assert(pos == size);
@@ -1116,13 +1116,13 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
-        if (buf.size_ == 0) {
+        if (buf.size() == 0) {
             // Try the undecoded tag
             encodeBasic(image, pCrwMapping, pHead);
         }
-        if (buf.size_ > 0) {
+        if (buf.size() > 0) {
             // Write the number of shorts to the beginning of buf
-            us2Data(buf.pData_, static_cast<uint16_t>(buf.size_), pHead->byteOrder());
+            buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1149,8 +1149,8 @@ namespace Exiv2 {
         }
         if (t != 0) {
             DataBuf buf(12);
-            std::memset(buf.pData_, 0x0, 12);
-            ul2Data(buf.pData_, static_cast<uint32_t>(t), pHead->byteOrder());
+            buf.clear();
+            buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1184,19 +1184,19 @@ namespace Exiv2 {
               size = cc->size();
             }
             DataBuf buf(size);
-            std::memset(buf.pData_, 0x0, buf.size_);
-            if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);
+            buf.clear();
+            if (cc) buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
             if (edX != edEnd && edX->size() == 4) {
-                edX->copy(buf.pData_, pHead->byteOrder());
+                edX->copy(buf.data(0), pHead->byteOrder());
             }
             if (edY != edEnd && edY->size() == 4) {
-                edY->copy(buf.pData_ + 4, pHead->byteOrder());
+                edY->copy(buf.data(4), pHead->byteOrder());
             }
             int32_t d = 0;
             if (edO != edEnd && edO->count() > 0 && edO->typeId() == unsignedShort) {
                 d = RotationMap::degrees(static_cast<uint16_t>(edO->toLong()));
             }
-            l2Data(buf.pData_ + 12, d, pHead->byteOrder());
+            buf.write_uint32(12, d, pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1213,7 +1213,7 @@ namespace Exiv2 {
 
         ExifThumbC exifThumb(image.exifData());
         DataBuf buf = exifThumb.copy();
-        if (buf.size_ != 0) {
+        if (buf.size() != 0) {
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1229,7 +1229,7 @@ namespace Exiv2 {
     {
         const uint16_t size = 1024;
         DataBuf buf(size);
-        std::memset(buf.pData_, 0x0, buf.size_);
+        buf.clear();
 
         uint16_t len = 0;
 
@@ -1239,13 +1239,13 @@ namespace Exiv2 {
             const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
             if (s <= size) {
                 if (len < s) len = s;
-                exif.copy(buf.pData_ + exif.tag() * 2, byteOrder);
+                exif.copy(buf.data(exif.tag() * 2), byteOrder);
             } else {
                 EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
             }
         }
         // Round the size to make it even.
-        buf.size_ = len + len%2;
+        buf.resize(len + len%2);
         return buf;
     }
 

@@ -247,9 +247,9 @@ namespace Exiv2 {
             case kPhotoshopResourceID_IPTC_NAA:
             {
                 DataBuf rawIPTC(resourceSize);
-                io_->read(rawIPTC.pData_, rawIPTC.size_);
+                io_->read(rawIPTC.data(0), rawIPTC.size());
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-                if (IptcParser::decode(iptcData_, rawIPTC.pData_, rawIPTC.size_)) {
+                if (IptcParser::decode(iptcData_, rawIPTC.c_data(0), rawIPTC.size())) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
@@ -261,11 +261,11 @@ namespace Exiv2 {
             case kPhotoshopResourceID_ExifInfo:
             {
                 DataBuf rawExif(resourceSize);
-                io_->read(rawExif.pData_, rawExif.size_);
+                io_->read(rawExif.data(0), rawExif.size());
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-                ByteOrder bo = ExifParser::decode(exifData_, rawExif.pData_, rawExif.size_);
+                ByteOrder bo = ExifParser::decode(exifData_, rawExif.c_data(0), rawExif.size());
                 setByteOrder(bo);
-                if (rawExif.size_ > 0 && byteOrder() == invalidByteOrder) {
+                if (rawExif.size() > 0 && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode Exif metadata.\n";
 #endif
@@ -277,9 +277,9 @@ namespace Exiv2 {
             case kPhotoshopResourceID_XMPPacket:
             {
                 DataBuf xmpPacket(resourceSize);
-                io_->read(xmpPacket.pData_, xmpPacket.size_);
+                io_->read(xmpPacket.data(0), xmpPacket.size());
                 if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-                xmpPacket_.assign(reinterpret_cast<char *>(xmpPacket.pData_), xmpPacket.size_);
+                xmpPacket_.assign(xmpPacket.c_str(0), xmpPacket.size());
                 if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode XMP metadata.\n";
@@ -402,11 +402,11 @@ namespace Exiv2 {
         uint32_t readTotal = 0;
         long toRead = 0;
         while (readTotal < colorDataLength) {
-            toRead =   static_cast<long>(colorDataLength - readTotal) < lbuf.size_
-                     ? static_cast<long>(colorDataLength - readTotal) : lbuf.size_;
-            if (io_->read(lbuf.pData_, toRead) != toRead) throw Error(kerNotAnImage, "Photoshop");
+            toRead =   static_cast<long>(colorDataLength - readTotal) < lbuf.size()
+                     ? static_cast<long>(colorDataLength - readTotal) : lbuf.size();
+            if (io_->read(lbuf.data(0), toRead) != toRead) throw Error(kerNotAnImage, "Photoshop");
             readTotal += toRead;
-            if (outIo.write(lbuf.pData_, toRead) != toRead) throw Error(kerImageWriteFailed);
+            if (outIo.write(lbuf.c_data(0), toRead) != toRead) throw Error(kerImageWriteFailed);
         }
         if (outIo.error()) throw Error(kerImageWriteFailed);
 
@@ -450,7 +450,7 @@ namespace Exiv2 {
 
             // read rest of resource name, plus any padding
             DataBuf resName(256);
-            if (   io_->read(resName.pData_, adjResourceNameLen)
+            if (   io_->read(resName.data(0), adjResourceNameLen)
                 != static_cast<long>(adjResourceNameLen)) throw Error(kerNotAnImage, "Photoshop");
 
             // read resource size (actual length w/o padding!)
@@ -500,7 +500,7 @@ namespace Exiv2 {
                 if (outIo.write(buf, 1) != 1) throw Error(kerImageWriteFailed);
                 buf[0] = resourceNameFirstChar;
                 if (outIo.write(buf, 1) != 1) throw Error(kerImageWriteFailed);
-                if (   outIo.write(resName.pData_, adjResourceNameLen)
+                if (   outIo.write(resName.c_data(0), adjResourceNameLen)
                     != static_cast<long>(adjResourceNameLen)) throw Error(kerImageWriteFailed);
                 ul2Data(buf, resourceSize, bigEndian);
                 if (outIo.write(buf, 4) != 4) throw Error(kerImageWriteFailed);
@@ -508,13 +508,13 @@ namespace Exiv2 {
                 readTotal = 0;
                 toRead = 0;
                 while (readTotal < pResourceSize) {
-                    toRead =   static_cast<long>(pResourceSize - readTotal) < lbuf.size_
-                             ? static_cast<long>(pResourceSize - readTotal) : lbuf.size_;
-                    if (io_->read(lbuf.pData_, toRead) != toRead) {
+                    toRead =   static_cast<long>(pResourceSize - readTotal) < lbuf.size()
+                             ? static_cast<long>(pResourceSize - readTotal) : lbuf.size();
+                    if (io_->read(lbuf.data(0), toRead) != toRead) {
                         throw Error(kerNotAnImage, "Photoshop");
                     }
                     readTotal += toRead;
-                    if (outIo.write(lbuf.pData_, toRead) != toRead) throw Error(kerImageWriteFailed);
+                    if (outIo.write(lbuf.c_data(0), toRead) != toRead) throw Error(kerImageWriteFailed);
                 }
                 if (outIo.error()) throw Error(kerImageWriteFailed);
                 newResLength += pResourceSize + adjResourceNameLen + 12;
@@ -548,8 +548,8 @@ namespace Exiv2 {
 
         // Copy remaining data
         long readSize = 0;
-        while ((readSize=io_->read(lbuf.pData_, lbuf.size_))) {
-            if (outIo.write(lbuf.pData_, readSize) != readSize) throw Error(kerImageWriteFailed);
+        while ((readSize=io_->read(lbuf.data(0), lbuf.size()))) {
+            if (outIo.write(lbuf.c_data(0), readSize) != readSize) throw Error(kerImageWriteFailed);
         }
         if (outIo.error()) throw Error(kerImageWriteFailed);
 
@@ -570,22 +570,22 @@ namespace Exiv2 {
 
         if (iptcData.count() > 0) {
             DataBuf rawIptc = IptcParser::encode(iptcData);
-            if (rawIptc.size_ > 0) {
+            if (rawIptc.size() > 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_IPTC_NAA << "\n";
-                std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size_ << "\n";
+                std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size() << "\n";
 #endif
                 if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4) throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_IPTC_NAA, bigEndian);
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
                 us2Data(buf, 0, bigEndian);                      // NULL resource name
                 if (out.write(buf, 2) != 2) throw Error(kerImageWriteFailed);
-                ul2Data(buf, rawIptc.size_, bigEndian);
+                ul2Data(buf, rawIptc.size(), bigEndian);
                 if (out.write(buf, 4) != 4) throw Error(kerImageWriteFailed);
                 // Write encoded Iptc data
-                if (out.write(rawIptc.pData_, rawIptc.size_) != rawIptc.size_) throw Error(kerImageWriteFailed);
-                resLength += rawIptc.size_ + 12;
-                if (rawIptc.size_ & 1)    // even padding
+                if (out.write(rawIptc.c_data(0), rawIptc.size()) != rawIptc.size()) throw Error(kerImageWriteFailed);
+                resLength += rawIptc.size() + 12;
+                if (rawIptc.size() & 1)    // even padding
                 {
                     buf[0] = 0;
                     if (out.write(buf, 1) != 1) throw Error(kerImageWriteFailed);

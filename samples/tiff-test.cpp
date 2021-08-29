@@ -73,7 +73,7 @@ void mini1(const char* path)
 
     // Write nothing, this time with a previous binary image
     DataBuf buf = readFile(path);
-    wm = ExifParser::encode(blob, buf.pData_, buf.size_, bigEndian, exifData);
+    wm = ExifParser::encode(blob, buf.c_data(0), buf.size(), bigEndian, exifData);
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
     assert(blob.empty());
     std::cout << "Test 2: Writing empty Exif data with original binary data: ok.\n";

@@ -64,12 +64,12 @@ namespace Exiv2 {
                                    int*           outWidth,
                                    int*           outHeight)
     {
-        assert(data.size_ >= 8);
+        assert(data.size() >= 8);
 
         // Extract image width and height from IHDR chunk.
 
-        *outWidth = getLong(data.pData_, bigEndian);
-        *outHeight = getLong(data.pData_ + 4, bigEndian);
+        *outWidth = data.read_uint32(0, bigEndian);
+        *outHeight = data.read_uint32(4, bigEndian);
 
     } // PngChunk::decodeIHDRChunk
 
@@ -78,13 +78,13 @@ namespace Exiv2 {
                                   TxtChunkType   type)
     {
         DataBuf key = keyTXTChunk(data);
-        DataBuf arr = parseTXTChunk(data, key.size_, type);
+        DataBuf arr = parseTXTChunk(data, key.size(), type);
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
-                  << std::string(reinterpret_cast<const char*>(arr.pData_), arr.size_) << std::endl;
+                  << std::string(arr.c_str(0), arr.size()) << std::endl;
 #endif
-        parseChunkContent(pImage, key.pData_, key.size_, arr);
+        parseChunkContent(pImage, key.c_data(0), key.size(), arr);
 
     } // PngChunk::decodeTXTChunk
 
@@ -95,9 +95,9 @@ namespace Exiv2 {
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
-                  << std::string(reinterpret_cast<const char*>(key.pData_), key.size_) << std::endl;
+                  << std::string(key.c_str(0), key.size()) << std::endl;
 #endif
-        return parseTXTChunk(data, key.size_, type);
+        return parseTXTChunk(data, key.size(), type);
 
     } // PngChunk::decodeTXTChunk
 
@@ -106,8 +106,8 @@ namespace Exiv2 {
         // From a tEXt, zTXt, or iTXt chunk,
         // we get the key, it's a null terminated string at the chunk start
         const int offset = stripHeader ? 8 : 0;
-        if (data.size_ <= offset) throw Error(kerFailedToReadImageData);
-        const byte *key = data.pData_ + offset;
+        if (data.size() <= offset) throw Error(kerFailedToReadImageData);
+        const byte *key = data.c_data(offset);
 
         // Find null string at end of key.
         int keysize=0;
@@ -115,7 +115,7 @@ namespace Exiv2 {
         {
             keysize++;
             // look if keysize is valid.
-            if (keysize+offset >= data.size_)
+            if (keysize+offset >= data.size())
                 throw Error(kerFailedToReadImageData);
         }
 
@@ -131,12 +131,12 @@ namespace Exiv2 {
 
         if(type == zTXt_Chunk)
         {
-            enforce(data.size_ >= Safe::add(keysize, 2), Exiv2::kerCorruptedMetadata);
+            enforce(data.size() >= Safe::add(keysize, 2), Exiv2::kerCorruptedMetadata);
 
             // Extract a deflate compressed Latin-1 text chunk
 
             // we get the compression method after the key
-            const byte* compressionMethod = data.pData_ + keysize + 1;
+            const byte* compressionMethod = data.c_data(keysize + 1);
             if ( *compressionMethod != 0x00 )
             {
                 // then it isn't zlib compressed and we are sunk
@@ -147,61 +147,61 @@ namespace Exiv2 {
             }
 
             // compressed string after the compression technique spec
-            const byte* compressedText      = data.pData_ + keysize + 2;
-            long compressedTextSize = data.size_  - keysize - 2;
-            enforce(compressedTextSize < data.size_, kerCorruptedMetadata);
+            const byte* compressedText      = data.c_data(keysize + 2);
+            long compressedTextSize = data.size()  - keysize - 2;
+            enforce(compressedTextSize < data.size(), kerCorruptedMetadata);
 
             zlibUncompress(compressedText, compressedTextSize, arr);
         }
         else if(type == tEXt_Chunk)
         {
-            enforce(data.size_ >= Safe::add(keysize, 1), Exiv2::kerCorruptedMetadata);
+            enforce(data.size() >= Safe::add(keysize, 1), Exiv2::kerCorruptedMetadata);
             // Extract a non-compressed Latin-1 text chunk
 
             // the text comes after the key, but isn't null terminated
-            const byte* text = data.pData_ + keysize + 1;
-            long textsize    = data.size_  - keysize - 1;
+            const byte* text = data.c_data(keysize + 1);
+            long textsize    = data.size()  - keysize - 1;
 
             arr = DataBuf(text, textsize);
         }
         else if(type == iTXt_Chunk)
         {
-            enforce(data.size_ >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
-            const size_t nullSeparators = std::count(&data.pData_[keysize+3], &data.pData_[data.size_], '\0');
+            enforce(data.size() >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
+            const size_t nullSeparators = std::count(data.c_data(keysize+3), data.c_data(data.size()), '\0');
             enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
 
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
             // we get the compression flag after the key
-            const byte compressionFlag   = data.pData_[keysize + 1];
+            const byte compressionFlag   = data.read_uint8(keysize + 1);
             // we get the compression method after the compression flag
-            const byte compressionMethod = data.pData_[keysize + 2];
+            const byte compressionMethod = data.read_uint8(keysize + 2);
 
             enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerCorruptedMetadata);
             enforce(compressionMethod == 0x00, Exiv2::kerCorruptedMetadata);
 
             // language description string after the compression technique spec
-            const size_t languageTextMaxSize = data.size_ - keysize - 3;
+            const size_t languageTextMaxSize = data.size() - keysize - 3;
             std::string languageText = string_from_unterminated(
-                reinterpret_cast<const char*>(data.pData_ + Safe::add(keysize, 3)), languageTextMaxSize);
+                data.c_str(Safe::add(keysize, 3)), languageTextMaxSize);
             const size_t languageTextSize = languageText.size();
 
-            enforce(static_cast<unsigned long>(data.size_) >=
+            enforce(static_cast<unsigned long>(data.size()) >=
                     Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
                     Exiv2::kerCorruptedMetadata);
             // translated keyword string after the language description
             std::string translatedKeyText = string_from_unterminated(
-                reinterpret_cast<const char*>(data.pData_ + keysize + 3 + languageTextSize + 1),
-                data.size_ - (keysize + 3 + languageTextSize + 1));
+                data.c_str(keysize + 3 + languageTextSize + 1),
+                data.size() - (keysize + 3 + languageTextSize + 1));
             const auto translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
             if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                 enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
-                                  Safe::add(translatedKeyTextSize, 1U)) <= static_cast<unsigned int>(data.size_),
+                                  Safe::add(translatedKeyTextSize, 1U)) <= static_cast<size_t>(data.size()),
                         Exiv2::kerCorruptedMetadata);
 
-                const byte* text = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
-                const long textsize = static_cast<long>(data.size_ - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
+                const byte* text = data.c_data(keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
+                const long textsize = static_cast<long>(data.size() - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
 
                 if (compressionFlag == 0x00) {
                     // then it's an uncompressed iTXt chunk
@@ -250,7 +250,7 @@ namespace Exiv2 {
             && pImage->exifData().empty())
         {
             DataBuf exifData = readRawProfile(arr,false);
-            long length      = exifData.size_;
+            long length      = exifData.size();
 
             if (length > 0)
             {
@@ -260,7 +260,7 @@ namespace Exiv2 {
                 long pos = -1;
 
                 for (long i = 0; i < length - static_cast<long>(sizeof(exifHeader)); i++) {
-                    if (memcmp(exifHeader, &exifData.pData_[i], sizeof(exifHeader)) == 0)
+                    if (exifData.cmpBytes(i, exifHeader, sizeof(exifHeader)) == 0)
                     {
                         pos = i;
                         break;
@@ -278,7 +278,7 @@ namespace Exiv2 {
                     ByteOrder bo = TiffParser::decode(pImage->exifData(),
                                                       pImage->iptcData(),
                                                       pImage->xmpData(),
-                                                      exifData.pData_ + pos,
+                                                      exifData.c_data(pos),
                                                       length - pos);
                     pImage->setByteOrder(bo);
                 }
@@ -298,14 +298,14 @@ namespace Exiv2 {
             && memcmp("Raw profile type iptc", key, 21) == 0
             && pImage->iptcData().empty()) {
             DataBuf psData = readRawProfile(arr,false);
-            if (psData.size_ > 0) {
+            if (psData.size() > 0) {
                 Blob iptcBlob;
                 const byte* record = nullptr;
                 uint32_t sizeIptc = 0;
                 uint32_t sizeHdr = 0;
 
-                const byte* pEnd = psData.pData_ + psData.size_;
-                const byte* pCur = psData.pData_;
+                const byte* pEnd = psData.c_data(psData.size());
+                const byte* pCur = psData.c_data(0);
                 while (   pCur < pEnd
                        && 0 == Photoshop::locateIptcIrb(pCur,
                                                         static_cast<long>(pEnd - pCur),
@@ -331,14 +331,14 @@ namespace Exiv2 {
                 // If there is no IRB, try to decode the complete chunk data
                 if (   iptcBlob.empty()
                     && IptcParser::decode(pImage->iptcData(),
-                                          psData.pData_,
-                                          psData.size_)) {
+                                          psData.c_data(0),
+                                          psData.size())) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                     pImage->clearIptcData();
                 }
-            } // if (psData.size_ > 0)
+            } // if (psData.size() > 0)
         }
 
         // We look if an ImageMagick XMP raw profile exist.
@@ -348,12 +348,12 @@ namespace Exiv2 {
             && pImage->xmpData().empty())
         {
             DataBuf xmpBuf = readRawProfile(arr,false);
-            long length    = xmpBuf.size_;
+            long length    = xmpBuf.size();
 
             if (length > 0)
             {
                 std::string& xmpPacket = pImage->xmpPacket();
-                xmpPacket.assign(reinterpret_cast<char*>(xmpBuf.pData_), length);
+                xmpPacket.assign(xmpBuf.c_str(0), length);
                 std::string::size_type idx = xmpPacket.find_first_of('<');
                 if (idx != std::string::npos && idx > 0)
                 {
@@ -378,10 +378,10 @@ namespace Exiv2 {
             && memcmp("XML:com.adobe.xmp", key, 17) == 0
             && pImage->xmpData().empty())
         {
-            if (arr.size_ > 0)
+            if (arr.size() > 0)
             {
                 std::string& xmpPacket = pImage->xmpPacket();
-                xmpPacket.assign(reinterpret_cast<char*>(arr.pData_), arr.size_);
+                xmpPacket.assign(arr.c_str(0), arr.size());
                 std::string::size_type idx = xmpPacket.find_first_of('<');
                 if (idx != std::string::npos && idx > 0)
                 {
@@ -407,7 +407,7 @@ namespace Exiv2 {
             && memcmp("Description", key, 11) == 0
             && pImage->comment().empty())
         {
-            pImage->setComment(std::string(reinterpret_cast<char*>(arr.pData_), arr.size_));
+            pImage->setComment(std::string(arr.c_str(0), arr.size()));
         }
 
     } // PngChunk::parseChunkContent
@@ -453,13 +453,13 @@ namespace Exiv2 {
 
         do {
             arr.alloc(uncompressedLen);
-            zlibResult = uncompress(arr.pData_,
+            zlibResult = uncompress(arr.data(0),
                                     &uncompressedLen,
                                     compressedText,
                                     compressedTextSize);
             if (zlibResult == Z_OK) {
-                assert((uLongf)arr.size_ >= uncompressedLen);
-                arr.size_ = uncompressedLen;
+                assert((uLongf)arr.size() >= uncompressedLen);
+                arr.resize(uncompressedLen);
             }
             else if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressedArray needs to be larger
@@ -490,13 +490,13 @@ namespace Exiv2 {
         DataBuf arr;
         do {
             arr.alloc(compressedLen);
-            zlibResult = compress2(arr.pData_, &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
+            zlibResult = compress2(arr.data(0), &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
                                    static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
 
             switch (zlibResult) {
             case Z_OK:
-                assert((uLongf)arr.size_ >= compressedLen);
-                arr.size_ = compressedLen;
+                assert((uLongf)arr.size() >= compressedLen);
+                arr.resize(compressedLen);
                 break;
             case Z_BUF_ERROR:
                 // The compressed array needs to be larger
@@ -513,7 +513,7 @@ namespace Exiv2 {
             }
         } while (zlibResult == Z_BUF_ERROR);
 
-        return std::string(reinterpret_cast<const char*>(arr.pData_), arr.size_);
+        return std::string(arr.c_str(0), arr.size());
 
     } // PngChunk::zlibCompress
 
@@ -604,18 +604,18 @@ namespace Exiv2 {
             0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,
             0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,10,11,12,
             13,14,15};
-        if (text.size_ == 0) {
+        if (text.size() == 0) {
             return DataBuf();
         }
 
         if ( iTXt ) {
-            info.alloc(text.size_);
-            ::memcpy(info.pData_,text.pData_,text.size_);
+            info.alloc(text.size());
+            info.copyBytes(0, text.c_data(0), text.size());
             return  info;
         }
 
-        const char* sp = reinterpret_cast<char*>(text.pData_) + 1;            // current byte (space pointer)
-        const char* eot = reinterpret_cast<char*>(text.pData_) + text.size_;  // end of text
+        const char* sp = text.c_str(1);            // current byte (space pointer)
+        const char* eot = text.c_str(text.size());  // end of text
 
         if (sp >= eot) {
             return DataBuf();
@@ -677,7 +677,7 @@ namespace Exiv2 {
 #endif
         }
         info.alloc(length);
-        if (info.size_ != length)
+        if (info.size() != length)
         {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
@@ -687,7 +687,7 @@ namespace Exiv2 {
 
         // Copy profile, skipping white space and column 1 "=" signs
 
-        unsigned char *dp = info.pData_; // decode pointer
+        unsigned char *dp = info.data(0); // decode pointer
         unsigned int nibbles = length * 2;
 
         for (long i = 0; i < static_cast<long>(nibbles); i++) {

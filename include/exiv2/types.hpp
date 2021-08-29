@@ -205,6 +205,10 @@ namespace Exiv2 {
          */
         void alloc(long size);
         /*!
+          @brief Resize the buffer. Existing data is preserved (like std::realloc()).
+         */
+        void resize(long size);
+        /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal
                  buffer.
@@ -214,6 +218,9 @@ namespace Exiv2 {
         //! Reset value
         void reset(std::pair<byte*, long> = {nullptr, long(0)});
         //@}
+
+        //! Fill the buffer with zeros.
+        void clear();
 
         /*!
           @name Conversions
@@ -228,6 +235,36 @@ namespace Exiv2 {
         operator DataBufRef();
         //@}
 
+        long size() const { return size_; }
+
+        uint8_t read_uint8(size_t offset) const;
+        void write_uint8(size_t offset, uint8_t x);
+
+        uint16_t read_uint16(size_t offset, ByteOrder byteOrder) const;
+        void write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder);
+
+        uint32_t read_uint32(size_t offset, ByteOrder byteOrder) const;
+        void write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder);
+
+        uint64_t read_uint64(size_t offset, ByteOrder byteOrder) const;
+        void write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder);
+
+        //! Copy bytes into the buffer (starting at address &pData_[offset]).
+        void copyBytes(size_t offset, const void* buf, size_t bufsize);
+
+        //! Equivalent to: memcmp(&pData_[offset], buf, bufsize)
+        int cmpBytes(size_t offset, const void* buf, size_t bufsize) const;
+
+        //! Returns a data pointer.
+        byte* data(size_t offset);
+
+        //! Returns a (read-only) data pointer.
+        const byte* c_data(size_t offset) const;
+
+        //! Returns a (read-only) C-style string pointer.
+        const char* c_str(size_t offset) const;
+
+      private:
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pData_;
@@ -302,6 +339,11 @@ namespace Exiv2 {
              return number of bytes written.
      */
     EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+    /*!
+      @brief Convert an uint64_t to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    EXIV2API long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.

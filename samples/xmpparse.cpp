@@ -39,7 +39,7 @@ try {
     }
     Exiv2::DataBuf buf = Exiv2::readFile(argv[1]);
     std::string xmpPacket;
-    xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
+    xmpPacket.assign(buf.c_str(0), buf.size());
     Exiv2::XmpData xmpData;
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
         std::string error(argv[1]);

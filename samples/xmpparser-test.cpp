@@ -40,7 +40,7 @@ try {
     std::string filename(argv[1]);
     Exiv2::DataBuf buf = Exiv2::readFile(filename);
     std::string xmpPacket;
-    xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
+    xmpPacket.assign(buf.c_str(0), buf.size());
     std::cerr << "-----> Decoding XMP data read from " << filename << " <-----\n";
     Exiv2::XmpData xmpData;
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {

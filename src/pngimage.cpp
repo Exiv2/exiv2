@@ -62,11 +62,11 @@ namespace
     inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
     {
         assert(strlen(str) <= length);
-        const long minlen = std::min(static_cast<long>(length), buf.size_);
+        const long minlen = std::min(static_cast<long>(length), buf.size());
         if (minlen == 0) {
             return true;
         }
-        return memcmp(str, buf.pData_, minlen) == 0;
+        return buf.cmpBytes(0, str, minlen) == 0;
     }
 }  // namespace
 
@@ -109,13 +109,13 @@ namespace Exiv2 {
 
         do {
             result.alloc(uncompressedLen);
-            zlibResult = uncompress(result.pData_,&uncompressedLen,bytes,length);
+            zlibResult = uncompress(result.data(0),&uncompressedLen,bytes,length);
             // if result buffer is large than necessary, redo to fit perfectly.
-            if (zlibResult == Z_OK && static_cast<long>(uncompressedLen) < result.size_) {
+            if (zlibResult == Z_OK && static_cast<long>(uncompressedLen) < result.size()) {
                 result.reset();
 
                 result.alloc(uncompressedLen);
-                zlibResult = uncompress(result.pData_,&uncompressedLen,bytes,length);
+                zlibResult = uncompress(result.data(0),&uncompressedLen,bytes,length);
             }
             if (zlibResult == Z_BUF_ERROR) {
                 // the uncompressed buffer needs to be larger
@@ -137,7 +137,7 @@ namespace Exiv2 {
 
         do {
             result.alloc(compressedLen);
-            zlibResult = compress(result.pData_,&compressedLen,bytes,length);
+            zlibResult = compress(result.data(0),&compressedLen,bytes,length);
             if (zlibResult == Z_BUF_ERROR) {
                 // the compressedArray needs to be larger
                 result.reset();
@@ -145,7 +145,7 @@ namespace Exiv2 {
             } else {
                 result.reset();
                 result.alloc(compressedLen);
-                zlibResult = compress(result.pData_,&compressedLen,bytes,length);
+                zlibResult = compress(result.data(0),&compressedLen,bytes,length);
             }
         } while (zlibResult == Z_BUF_ERROR);
 
@@ -189,7 +189,7 @@ namespace Exiv2 {
 
         // hex to binary
         count   = 0 ;
-        byte* r = result.pData_;
+        byte* r = result.data(0);
         int   n = 0 ; // nibble
         for ( long i = 0 ; i < length ; i++ ) {
             if ( value[p[i]] ) {
@@ -249,15 +249,15 @@ namespace Exiv2 {
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
                 size_t address = io_->tell();
 
-                std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
-                long bufRead = io_->read(cheaderBuf.pData_, cheaderBuf.size_);
+                cheaderBuf.clear();
+                long bufRead = io_->read(cheaderBuf.data(0), cheaderBuf.size());
                 if (io_->error()) throw Error(kerFailedToReadImageData);
-                if (bufRead != cheaderBuf.size_) throw Error(kerInputDataReadFailed);
+                if (bufRead != cheaderBuf.size()) throw Error(kerInputDataReadFailed);
 
                 // Decode chunk data length.
-                const uint32_t dataOffset = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
+                const uint32_t dataOffset = cheaderBuf.read_uint32(0, Exiv2::bigEndian);
                 for (int i = 4; i < 8; i++) {
-                    chType[i-4]=cheaderBuf.pData_[i];
+                    chType[i-4]=cheaderBuf.read_uint8(i);
                 }
 
                 // test that we haven't hit EOF, or wanting to read excessive data
@@ -270,7 +270,7 @@ namespace Exiv2 {
                 }
 
                 DataBuf   buff(dataOffset);
-                bufRead = io_->read(buff.pData_,dataOffset);
+                bufRead = io_->read(buff.data(0),dataOffset);
                 enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
                 io_->seek(restore, BasicIo::beg);
 
@@ -323,11 +323,11 @@ namespace Exiv2 {
                     DataBuf   dataBuf;
                     enforce(static_cast<uint64_t>(dataOffset) < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerFailedToReadImageData);
                     DataBuf data(static_cast<long>(dataOffset) + 1);
-                    data.pData_[dataOffset] = 0;
-                    bufRead = io_->read(data.pData_, static_cast<long>(dataOffset));
+                    data.write_uint8(dataOffset, 0);
+                    bufRead = io_->read(data.data(0), static_cast<long>(dataOffset));
                     enforce(bufRead == static_cast<long>(dataOffset), kerFailedToReadImageData);
                     io_->seek(restore, BasicIo::beg);
-                    size_t name_l = std::strlen(reinterpret_cast<const char*>(data.pData_)) +
+                    size_t name_l = std::strlen(data.c_str(0)) +
                                     1; // leading string length
                     enforce(name_l < dataOffset, kerCorruptedMetadata);
 
@@ -337,10 +337,10 @@ namespace Exiv2 {
                     // decode the chunk
                     bool bGood = false;
                     if ( tEXt ) {
-                        bGood = tEXtToDataBuf(data.pData_ + name_l, static_cast<unsigned long>(dataOffset - name_l), dataBuf);
+                        bGood = tEXtToDataBuf(data.c_data(name_l), static_cast<unsigned long>(dataOffset - name_l), dataBuf);
                     }
                     if ( zTXt || iCCP ) {
-                        bGood = zlibToDataBuf(data.pData_ + name_l + 1, static_cast<unsigned long>(dataOffset - name_l - 1), dataBuf); // +1 = 'compressed' flag
+                        bGood = zlibToDataBuf(data.c_data(name_l + 1), static_cast<unsigned long>(dataOffset - name_l - 1), dataBuf); // +1 = 'compressed' flag
                     }
                     if ( iTXt ) {
                         bGood = (3 <= dataOffset) && (start < dataOffset-3); // good if not a nul chunk
@@ -352,49 +352,49 @@ namespace Exiv2 {
                     // format is content dependent
                     if ( bGood ) {
                         if ( bXMP ) {
-                            while (start < dataOffset && !data.pData_[start]) start++; // skip leading nul bytes
-                            out <<  data.pData_ + start;             // output the xmp
+                            while (start < dataOffset && !data.read_uint8(start)) start++; // skip leading nul bytes
+                            out <<  data.c_data(start);             // output the xmp
                         }
 
                         if ( bExif || bIptc ) {
                             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf,tEXt);
 #if EXIV2_DEBUG_MESSAGES
-                            std::cerr << Exiv2::Internal::binaryToString(makeSlice(parsedBuf.pData_, parsedBuf.size_>50?50:parsedBuf.size_,0)) << std::endl;
+                            std::cerr << Exiv2::Internal::binaryToString(makeSlice(parsedBuf.c_data(0), parsedBuf.size()>50?50:parsedBuf.size(),0)) << std::endl;
 #endif
-                            if ( parsedBuf.size_ ) {
+                            if ( parsedBuf.size() ) {
                                 if ( bExif ) {
                                     // create memio object with the data, then print the structure
-                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(parsedBuf.pData_+6,parsedBuf.size_-6));
+                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(parsedBuf.c_data(6),parsedBuf.size()-6));
                                     printTiffStructure(*p,out,option,depth);
                                 }
                                 if ( bIptc ) {
-                                    IptcData::printStructure(out, makeSlice(parsedBuf.pData_, 0, parsedBuf.size_), depth);
+                                    IptcData::printStructure(out, makeSlice(parsedBuf, 0, parsedBuf.size()), depth);
                                 }
                             }
                         }
 
-                        if ( bSoft && dataBuf.size_ > 0) {
-                            DataBuf     s(dataBuf.size_+1);               // allocate buffer with an extra byte
-                            memcpy(s.pData_,dataBuf.pData_,dataBuf.size_);// copy in the dataBuf
-                            s.pData_[dataBuf.size_] = 0 ;                 // nul terminate it
-                            const auto str = reinterpret_cast<const char*>(s.pData_);  // give it name
-                            out << Internal::indent(depth) << reinterpret_cast<const char*>(buff.pData_) << ": " << str;
+                        if ( bSoft && dataBuf.size() > 0) {
+                            DataBuf     s(dataBuf.size()+1);               // allocate buffer with an extra byte
+                            s.copyBytes(0,dataBuf.c_data(0),dataBuf.size());// copy in the dataBuf
+                            s.write_uint8(dataBuf.size(), 0);             // nul terminate it
+                            const auto str = s.c_str(0);  // give it name
+                            out << Internal::indent(depth) << buff.c_str(0) << ": " << str;
                             bLF=true;
                         }
 
                         if ( bICC || bComm ) {
-                            out.write(reinterpret_cast<const char*>(dataBuf.pData_), dataBuf.size_);
+                            out.write(dataBuf.c_str(0), dataBuf.size());
                             bLF = bComm ;
                         }
 
                         if ( bDesc && iTXt ) {
                             DataBuf decoded = PngChunk::decodeTXTChunk(buff,PngChunk::iTXt_Chunk );
-                            out.write(reinterpret_cast<const char*>(decoded.pData_), decoded.size_);
+                            out.write(decoded.c_str(0), decoded.size());
                             bLF = true;
                         }
                         if ( eXIf && option == kpsRecursive ) {
                             // create memio object with the data, then print the structure
-                            BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(data.pData_, dataOffset));
+                            BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(data.c_data(0), dataOffset));
                             printTiffStructure(*p,out,option,depth);
                         }
 
@@ -412,11 +412,11 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
 #endif
-        long bufRead = io.read(buffer.pData_, buffer.size_);
+        long bufRead = io.read(buffer.data(0), buffer.size());
         if (io.error()) {
             throw Error(kerFailedToReadImageData);
         }
-        if (bufRead != buffer.size_) {
+        if (bufRead != buffer.size()) {
             throw Error(kerInputDataReadFailed);
         }
     }
@@ -441,11 +441,11 @@ namespace Exiv2 {
 
         while(!io_->eof())
         {
-            std::memset(cheaderBuf.pData_, 0x0, cheaderBuf.size_);
+            cheaderBuf.clear();
             readChunk(cheaderBuf, *io_); // Read chunk header.
 
             // Decode chunk data length.
-            uint32_t chunkLength = Exiv2::getULong(cheaderBuf.pData_, Exiv2::bigEndian);
+            uint32_t chunkLength = cheaderBuf.read_uint32(0, Exiv2::bigEndian);
             long pos = io_->tell();
             if (pos == -1 ||
                 chunkLength > uint32_t(0x7FFFFFFF) ||
@@ -453,7 +453,7 @@ namespace Exiv2 {
                 throw Exiv2::Error(kerFailedToReadImageData);
             }
 
-            std::string chunkType(reinterpret_cast<char *>(cheaderBuf.pData_) + 4, 4);
+            std::string chunkType(cheaderBuf.c_str(4), 4);
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PngImage::readMetadata: chunk type: " << chunkType
                       << " length: " << chunkLength << std::endl;
@@ -472,7 +472,7 @@ namespace Exiv2 {
                 if (chunkType == "IEND") {
                     return;  // Last chunk found: we stop parsing.
                 }
-                if (chunkType == "IHDR" && chunkData.size_ >= 8) {
+                if (chunkType == "IHDR" && chunkData.size() >= 8) {
                     PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
                 } else if (chunkType == "tEXt") {
                     PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk);
@@ -484,8 +484,8 @@ namespace Exiv2 {
                     ByteOrder bo = TiffParser::decode(exifData(),
                                                       iptcData(),
                                                       xmpData(),
-                                                      chunkData.pData_,
-                                                      chunkData.size_);
+                                                      chunkData.c_data(0),
+                                                      chunkData.size());
                     setByteOrder(bo);
                 } else if (chunkType == "iCCP") {
                     // The ICC profile name can vary from 1-79 characters.
@@ -493,17 +493,17 @@ namespace Exiv2 {
                     do {
                       enforce(iccOffset < 80 && iccOffset < chunkLength,
                               Exiv2::kerCorruptedMetadata);
-                    } while(chunkData.pData_[iccOffset++] != 0x00);
+                    } while(chunkData.read_uint8(iccOffset++) != 0x00);
 
-                    profileName_ = std::string(reinterpret_cast<char *>(chunkData.pData_), iccOffset-1);
+                    profileName_ = std::string(chunkData.c_str(0), iccOffset-1);
                     ++iccOffset; // +1 = 'compressed' flag
                     enforce(iccOffset <= chunkLength, Exiv2::kerCorruptedMetadata);
 
-                    zlibToDataBuf(chunkData.pData_ + iccOffset, chunkLength - iccOffset, iccProfile_);
+                    zlibToDataBuf(chunkData.c_data(iccOffset), chunkLength - iccOffset, iccProfile_);
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName_ << std::endl;
                     std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ (uncompressed) : "
-                              << iccProfile_.size_ << std::endl;
+                              << iccProfile_.size() << std::endl;
 #endif
                 }
 
@@ -563,27 +563,27 @@ namespace Exiv2 {
         {
             // Read chunk header.
 
-            std::memset(cheaderBuf.pData_, 0x00, cheaderBuf.size_);
-            long bufRead = io_->read(cheaderBuf.pData_, 8);
+            cheaderBuf.clear();
+            long bufRead = io_->read(cheaderBuf.data(0), 8);
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead != 8) throw Error(kerInputDataReadFailed);
 
             // Decode chunk data length.
 
-            uint32_t dataOffset = getULong(cheaderBuf.pData_, bigEndian);
+            uint32_t dataOffset = cheaderBuf.read_uint32(0, Exiv2::bigEndian);
             if (dataOffset > 0x7FFFFFFF) throw Exiv2::Error(kerFailedToReadImageData);
 
             // Read whole chunk : Chunk header + Chunk data (not fixed size - can be null) + CRC (4 bytes).
 
             DataBuf chunkBuf(8 + dataOffset + 4);  // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
-            memcpy(chunkBuf.pData_, cheaderBuf.pData_, 8);            // Copy header.
-            bufRead = io_->read(chunkBuf.pData_ + 8, dataOffset + 4); // Extract chunk data + CRC
+            chunkBuf.copyBytes(0, cheaderBuf.c_data(0), 8);           // Copy header.
+            bufRead = io_->read(chunkBuf.data(8), dataOffset + 4); // Extract chunk data + CRC
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead != static_cast<long>(dataOffset) + 4L)
                 throw Error(kerInputDataReadFailed);
 
             char szChunk[5];
-            memcpy(szChunk,cheaderBuf.pData_ + 4,4);
+            memcpy(szChunk,cheaderBuf.c_data(4),4);
             szChunk[4]  = 0;
 
             if ( !strcmp(szChunk,"IEND") )
@@ -592,7 +592,7 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IEND chunk (length: " << dataOffset << ")\n";
 #endif
-                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_)
+                if (outIo.write(chunkBuf.data(0), chunkBuf.size()) != chunkBuf.size())
                     throw Error(kerImageWriteFailed);
                 return;
             }
@@ -603,7 +603,7 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
-                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if (outIo.write(chunkBuf.data(0), chunkBuf.size()) != chunkBuf.size()) throw Error(kerImageWriteFailed);
 
                 // Write all updated metadata here, just after IHDR.
                 if (!comment_.empty())
@@ -637,9 +637,9 @@ namespace Exiv2 {
                 {
                     // Update IPTC data to a new PNG chunk
                     DataBuf newPsData = Photoshop::setIptcIrb(nullptr, 0, iptcData_);
-                    if (newPsData.size_ > 0)
+                    if (newPsData.size() > 0)
                     {
-                        std::string rawIptc(reinterpret_cast<const char*>(newPsData.pData_), newPsData.size_);
+                        std::string rawIptc(newPsData.c_str(0), newPsData.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
                         if (outIo.write(reinterpret_cast<const byte*>(chunk.data()), static_cast<long>(chunk.size())) !=
                             static_cast<long>(chunk.size())) {
@@ -650,9 +650,9 @@ namespace Exiv2 {
 
                 if ( iccProfileDefined() ) {
                     DataBuf compressed;
-                    if ( zlibToCompressed(iccProfile_.pData_,iccProfile_.size_,compressed) ) {
+                    if ( zlibToCompressed(iccProfile_.c_data(0),iccProfile_.size(),compressed) ) {
                         const auto nameLength = static_cast<uint32_t>(profileName_.size());
-                        const uint32_t chunkLength = nameLength + 2 + compressed.size_ ;
+                        const uint32_t chunkLength = nameLength + 2 + compressed.size() ;
                         byte     length[4];
                         ul2Data (length,chunkLength,bigEndian);
 
@@ -661,7 +661,7 @@ namespace Exiv2 {
                         tmp         = crc32(tmp, typeICCP, 4);
                         tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
                         tmp         = crc32(tmp, nullComp, 2);
-                        tmp = crc32(tmp, compressed.pData_, compressed.size_);
+                        tmp = crc32(tmp, compressed.c_data(0), compressed.size());
                         byte    crc[4];
                         ul2Data(crc, tmp, bigEndian);
 
@@ -669,14 +669,14 @@ namespace Exiv2 {
                         ||  outIo.write(typeICCP, 4) != 4
                         ||  outIo.write(reinterpret_cast<const byte*>(profileName_.data()), nameLength) != nameLength
                         ||  outIo.write(nullComp,2) != 2
-                        ||  outIo.write (compressed.pData_,compressed.size_) != compressed.size_
+                        ||  outIo.write (compressed.c_data(0),compressed.size()) != compressed.size()
                         ||  outIo.write(crc,4)            != 4
                         ){
                             throw Error(kerImageWriteFailed);
                         }
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
-                        << " chunk (length: " << compressed.size_ + chunkLength << ")" << std::endl;
+                        << " chunk (length: " << compressed.size() + chunkLength << ")" << std::endl;
 #endif
                     }
                 }
@@ -719,7 +719,7 @@ namespace Exiv2 {
                     std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                    if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                    if (outIo.write(chunkBuf.c_data(0), chunkBuf.size()) != chunkBuf.size()) throw Error(kerImageWriteFailed);
                 }
             } else {
                 // Write all others chunk as well.
@@ -727,7 +727,7 @@ namespace Exiv2 {
                 std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk
                           << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                if (outIo.write(chunkBuf.pData_, chunkBuf.size_) != chunkBuf.size_) throw Error(kerImageWriteFailed);
+                if (outIo.write(chunkBuf.c_data(0), chunkBuf.size()) != chunkBuf.size()) throw Error(kerImageWriteFailed);
             }
         }
 
