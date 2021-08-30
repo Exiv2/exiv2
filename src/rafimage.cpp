@@ -160,7 +160,7 @@ namespace Exiv2 {
 
             address = io_->tell();
             DataBuf   unknown(20);
-            io_->read(unknown.data(0),unknown.size());
+            io_->read(unknown.data(),unknown.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, 20)
@@ -249,7 +249,7 @@ namespace Exiv2 {
             io_->seek(jpg_img_off, BasicIo::beg); // rewind
             address = io_->tell();
             DataBuf payload(16); // header is different from chunks
-            io_->read(payload.data(0), payload.size());
+            io_->read(payload.data(), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, jpg_img_len) // , jpg_img_off)
@@ -260,7 +260,7 @@ namespace Exiv2 {
 
             io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
             address = io_->tell();
-            io_->read(payload.data(0), payload.size());
+            io_->read(payload.data(), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, cfa_hdr_len, cfa_hdr_off)
@@ -271,7 +271,7 @@ namespace Exiv2 {
 
             io_->seek(cfa_off, BasicIo::beg); // rewind
             address = io_->tell();
-            io_->read(payload.data(0), payload.size());
+            io_->read(payload.data(), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, cfa_len, cfa_off)
@@ -321,7 +321,7 @@ namespace Exiv2 {
 
         DataBuf buf(jpg_img_len - 12);
         if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
-        io_->read(buf.data(0), buf.size());
+        io_->read(buf.data(), buf.size());
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         io_->seek(0,BasicIo::beg); // rewind
@@ -329,7 +329,7 @@ namespace Exiv2 {
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
-                                          buf.c_data(0),
+                                          buf.c_data(),
                                           buf.size());
 
         exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
@@ -360,14 +360,14 @@ namespace Exiv2 {
             memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0)
         {
             DataBuf  tiff(tiffLength);
-            io_->read(tiff.data(0), tiff.size());
+            io_->read(tiff.data(), tiff.size());
 
             if (!io_->error() && !io_->eof())
             {
                 TiffParser::decode(exifData_,
                                    iptcData_,
                                    xmpData_,
-                                   tiff.c_data(0),
+                                   tiff.c_data(),
                                    tiff.size());
             }
         }

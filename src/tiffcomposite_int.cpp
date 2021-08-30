@@ -1231,8 +1231,8 @@ namespace Exiv2 {
         if (!pValue_) return 0;
 
         DataBuf buf(pValue_->size());
-        pValue_->copy(buf.data(0), byteOrder);
-        ioWrapper.write(buf.c_data(0), buf.size());
+        pValue_->copy(buf.data(), byteOrder);
+        ioWrapper.write(buf.c_data(), buf.size());
         return buf.size();
     } // TiffEntryBase::doWrite
 
@@ -1279,7 +1279,7 @@ namespace Exiv2 {
                                tiffType(),
                                byteOrder);
         }
-        ioWrapper.write(buf.c_data(0), buf.size());
+        ioWrapper.write(buf.c_data(), buf.size());
         return buf.size();
     } // TiffDataEntry::doWrite
 
@@ -1311,7 +1311,7 @@ namespace Exiv2 {
                 imageIdx += strip.second & 1;  // Align strip data to word boundary
             }
         }
-        ioWrapper.write(buf.c_data(0), buf.size());
+        ioWrapper.write(buf.c_data(), buf.size());
         return buf.size();
     } // TiffImageEntry::doWrite
 
@@ -1330,7 +1330,7 @@ namespace Exiv2 {
             idx += writeOffset(buf.data(idx), offset + dataIdx, tiffType(), byteOrder);
             dataIdx += ifd->size();
         }
-        ioWrapper.write(buf.c_data(0), buf.size());
+        ioWrapper.write(buf.c_data(), buf.size());
         return buf.size();
     } // TiffSubIfd::doWrite
 
@@ -1419,7 +1419,7 @@ namespace Exiv2 {
             DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
             if (    buf.size()) {
                 mio.seek(0,Exiv2::FileIo::beg);
-                mio.write(buf.c_data(0), buf.size());
+                mio.write(buf.c_data(), buf.size());
             }
         }
         ioWrapper.write(mio.mmap(), static_cast<uint32_t>(mio.size()));
@@ -1437,8 +1437,8 @@ namespace Exiv2 {
         Value const* pv = pValue();
         if (!pv || pv->count() == 0) return 0;
         DataBuf buf(pv->size());
-        pv->copy(buf.data(0), byteOrder);
-        ioWrapper.write(buf.c_data(0), buf.size());
+        pv->copy(buf.data(), byteOrder);
+        ioWrapper.write(buf.c_data(), buf.size());
         return buf.size();
     } // TiffBinaryElement::doWrite
 
@@ -1496,7 +1496,7 @@ namespace Exiv2 {
         if (!pValue()) return 0;
 
         DataBuf buf = pValue()->dataArea();
-        ioWrapper.write(buf.c_data(0), buf.size());
+        ioWrapper.write(buf.c_data(), buf.size());
         // Align data to word boundary
         uint32_t align = (buf.size() & 1);
         if (align) ioWrapper.putb(0x0);
@@ -1604,7 +1604,7 @@ namespace Exiv2 {
                       << ": Writing data area, size = " << len;
 #endif
             DataBuf buf = pValue()->dataArea();
-            ioWrapper.write(buf.c_data(0), buf.size());
+            ioWrapper.write(buf.c_data(), buf.size());
             uint32_t align = len & 1;       // Align image data to word boundary
             if (align) ioWrapper.putb(0x0);
             len += align;
@@ -1912,7 +1912,7 @@ namespace {
         if (curr < tobe) {
             Exiv2::DataBuf buf(tobe - curr);
             buf.clear();
-            ioWrapper.write(buf.c_data(0), buf.size());
+            ioWrapper.write(buf.c_data(), buf.size());
             return tobe - curr;
         }
         return 0;

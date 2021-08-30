@@ -82,9 +82,9 @@ namespace Exiv2 {
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
-                  << std::string(arr.c_str(0), arr.size()) << std::endl;
+                  << std::string(arr.c_str(), arr.size()) << std::endl;
 #endif
-        parseChunkContent(pImage, key.c_data(0), key.size(), arr);
+        parseChunkContent(pImage, key.c_data(), key.size(), arr);
 
     } // PngChunk::decodeTXTChunk
 
@@ -95,7 +95,7 @@ namespace Exiv2 {
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
-                  << std::string(key.c_str(0), key.size()) << std::endl;
+                  << std::string(key.c_str(), key.size()) << std::endl;
 #endif
         return parseTXTChunk(data, key.size(), type);
 
@@ -305,7 +305,7 @@ namespace Exiv2 {
                 uint32_t sizeHdr = 0;
 
                 const byte* pEnd = psData.c_data(psData.size());
-                const byte* pCur = psData.c_data(0);
+                const byte* pCur = psData.c_data();
                 while (   pCur < pEnd
                        && 0 == Photoshop::locateIptcIrb(pCur,
                                                         static_cast<long>(pEnd - pCur),
@@ -331,7 +331,7 @@ namespace Exiv2 {
                 // If there is no IRB, try to decode the complete chunk data
                 if (   iptcBlob.empty()
                     && IptcParser::decode(pImage->iptcData(),
-                                          psData.c_data(0),
+                                          psData.c_data(),
                                           psData.size())) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode IPTC metadata.\n";
@@ -353,7 +353,7 @@ namespace Exiv2 {
             if (length > 0)
             {
                 std::string& xmpPacket = pImage->xmpPacket();
-                xmpPacket.assign(xmpBuf.c_str(0), length);
+                xmpPacket.assign(xmpBuf.c_str(), length);
                 std::string::size_type idx = xmpPacket.find_first_of('<');
                 if (idx != std::string::npos && idx > 0)
                 {
@@ -381,7 +381,7 @@ namespace Exiv2 {
             if (arr.size() > 0)
             {
                 std::string& xmpPacket = pImage->xmpPacket();
-                xmpPacket.assign(arr.c_str(0), arr.size());
+                xmpPacket.assign(arr.c_str(), arr.size());
                 std::string::size_type idx = xmpPacket.find_first_of('<');
                 if (idx != std::string::npos && idx > 0)
                 {
@@ -407,7 +407,7 @@ namespace Exiv2 {
             && memcmp("Description", key, 11) == 0
             && pImage->comment().empty())
         {
-            pImage->setComment(std::string(arr.c_str(0), arr.size()));
+            pImage->setComment(std::string(arr.c_str(), arr.size()));
         }
 
     } // PngChunk::parseChunkContent
@@ -453,7 +453,7 @@ namespace Exiv2 {
 
         do {
             arr.alloc(uncompressedLen);
-            zlibResult = uncompress(arr.data(0),
+            zlibResult = uncompress(arr.data(),
                                     &uncompressedLen,
                                     compressedText,
                                     compressedTextSize);
@@ -490,7 +490,7 @@ namespace Exiv2 {
         DataBuf arr;
         do {
             arr.resize(compressedLen);
-            zlibResult = compress2(arr.data(0), &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
+            zlibResult = compress2(arr.data(), &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
                                    static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
 
             switch (zlibResult) {
@@ -513,7 +513,7 @@ namespace Exiv2 {
             }
         } while (zlibResult == Z_BUF_ERROR);
 
-        return std::string(arr.c_str(0), arr.size());
+        return std::string(arr.c_str(), arr.size());
 
     } // PngChunk::zlibCompress
 
@@ -610,7 +610,7 @@ namespace Exiv2 {
 
         if ( iTXt ) {
             info.alloc(text.size());
-            info.copyBytes(0, text.c_data(0), text.size());
+            info.copyBytes(0, text.c_data(), text.size());
             return  info;
         }
 
@@ -687,7 +687,7 @@ namespace Exiv2 {
 
         // Copy profile, skipping white space and column 1 "=" signs
 
-        unsigned char *dp = info.data(0); // decode pointer
+        unsigned char *dp = info.data(); // decode pointer
         unsigned int nibbles = length * 2;
 
         for (long i = 0; i < static_cast<long>(nibbles); i++) {

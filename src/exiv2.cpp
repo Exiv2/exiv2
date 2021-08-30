@@ -993,7 +993,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
     // copy stdinBuf to buf
     if ( stdinBuf.size() ) {
         buf.alloc(stdinBuf.size());
-        buf.copyBytes(0,stdinBuf.c_data(0),buf.size());
+        buf.copyBytes(0,stdinBuf.c_data(),buf.size());
     }
 #ifdef DEBUG
     std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;

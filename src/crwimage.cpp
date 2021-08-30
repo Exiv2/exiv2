@@ -102,7 +102,7 @@ namespace Exiv2 {
         }
         clearMetadata();
         DataBuf file(static_cast<long>(io().size()));
-        io_->read(file.data(0), file.size());
+        io_->read(file.data(), file.size());
 
         CrwParser::decode(this, io_->mmap(), static_cast<uint32_t>(io_->size()));
 
@@ -121,7 +121,7 @@ namespace Exiv2 {
             if (isCrwType(*io_, false)) {
                 // Read the image into a memory buffer
                 buf.alloc(static_cast<long>(io_->size()));
-                io_->read(buf.data(0), buf.size());
+                io_->read(buf.data(), buf.size());
                 if (io_->error() || io_->eof()) {
                     buf.reset();
                 }
@@ -129,7 +129,7 @@ namespace Exiv2 {
         }
 
         Blob blob;
-        CrwParser::encode(blob, buf.c_data(0), buf.size(), this);
+        CrwParser::encode(blob, buf.c_data(), buf.size(), this);
 
         // Write new buffer to file
         MemIo::UniquePtr tempIo(new MemIo);

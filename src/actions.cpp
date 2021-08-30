@@ -232,9 +232,9 @@ namespace Action {
                 Exiv2::DataBuf ascii(static_cast<long>(size * 3 + 1));
                 ascii.write_uint8(size * 3, 0);
                 iccProfile.copyBytes(0,output.str().c_str(),size);
-                if (Exiv2::base64encode(iccProfile.c_data(0), size, reinterpret_cast<char*>(ascii.data(0)), size * 3)) {
+                if (Exiv2::base64encode(iccProfile.c_data(), size, reinterpret_cast<char*>(ascii.data()), size * 3)) {
                     long       chunk = 60 ;
-                    std::string code = std::string("data:") + std::string(ascii.c_str(0));
+                    std::string code = std::string("data:") + std::string(ascii.c_str());
                     long length = static_cast<long>(code.size());
                     for ( long start = 0 ; start < length ; start += chunk ) {
                         long   count = (start+chunk) < length ? chunk : length - start ;
@@ -615,8 +615,8 @@ namespace Action {
                 std::cout << std::endl;
             first = false;
             Exiv2::DataBuf buf(md.size());
-            md.copy(buf.data(0), pImage->byteOrder());
-            Exiv2::hexdump(std::cout, buf.c_data(0), buf.size());
+            md.copy(buf.data(), pImage->byteOrder());
+            Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
         }
         std::cout << std::endl;
         return true;
@@ -1025,7 +1025,7 @@ namespace Action {
             } else {
 
                 if ( bStdout ) { // -eC-
-                    std::cout.write(image->iccProfile()->c_str(0),
+                    std::cout.write(image->iccProfile()->c_str(),
                                     image->iccProfile()->size());
                 } else {
                     if (Params::instance().verbose_) {
@@ -1033,7 +1033,7 @@ namespace Action {
                     }
                     Exiv2::FileIo iccFile(target);
                     iccFile.open("wb") ;
-                    iccFile.write(image->iccProfile()->c_data(0),image->iccProfile()->size());
+                    iccFile.write(image->iccProfile()->c_data(),image->iccProfile()->size());
                     iccFile.close();
                 }
             }
@@ -1888,7 +1888,7 @@ namespace {
 
         Exiv2::DataBuf stdIn;
         if ( bStdin )  Params::instance().getStdin(stdIn);
-        Exiv2::BasicIo::UniquePtr ioStdin = Exiv2::BasicIo::UniquePtr(new Exiv2::MemIo(stdIn.c_data(0),stdIn.size()));
+        Exiv2::BasicIo::UniquePtr ioStdin = Exiv2::BasicIo::UniquePtr(new Exiv2::MemIo(stdIn.c_data(),stdIn.size()));
 
         Exiv2::Image::UniquePtr sourceImage = bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);

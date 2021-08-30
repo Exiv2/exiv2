@@ -1195,8 +1195,8 @@ namespace Exiv2 {
                 auto pos = exifData_->findKey(key);
                 if (pos == exifData_->end()) continue;
                 DataBuf data(pos->size());
-                pos->copy(data.data(0), littleEndian /* FIXME ? */);
-                MD5Update ( &context, data.c_data(0), data.size());
+                pos->copy(data.data(), littleEndian /* FIXME ? */);
+                MD5Update ( &context, data.c_data(), data.size());
             }
         }
         MD5Final(digest, &context);
@@ -1266,7 +1266,7 @@ namespace Exiv2 {
         MD5Init(&context);
 
         DataBuf data = IptcParser::encode(*iptcData_);
-        MD5Update(&context, data.c_data(0), data.size());
+        MD5Update(&context, data.c_data(), data.size());
         MD5Final(digest, &context);
         res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
         for (auto&& i : digest) {

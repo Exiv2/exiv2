@@ -484,7 +484,7 @@ namespace {
             const byte *record;
             uint32_t sizeHdr = 0;
             uint32_t sizeData = 0;
-            if (Photoshop::locatePreviewIrb(psData.c_data(0), psData.size(), &record, &sizeHdr, &sizeData) != 0) {
+            if (Photoshop::locatePreviewIrb(psData.c_data(), psData.size(), &record, &sizeHdr, &sizeData) != 0) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
 #endif
@@ -503,7 +503,7 @@ namespace {
         const DataBuf data = getData();
         if (data.size() == 0) return false;
         try {
-            Image::UniquePtr image = ImageFactory::open(data.c_data(0), data.size());
+            Image::UniquePtr image = ImageFactory::open(data.c_data(), data.size());
             if (image.get() == nullptr) return false;
             image->readMetadata();
 
@@ -651,7 +651,7 @@ namespace {
 
             if (buf.size() == 0) { // direct data
                 buf = DataBuf(pos->size());
-                pos->copy(buf.data(0), invalidByteOrder);
+                pos->copy(buf.data(), invalidByteOrder);
             }
 
             buf.write_uint8(0, 0xff); // fix Minolta thumbnails with invalid jpeg header
@@ -669,7 +669,7 @@ namespace {
         if (buf.size() == 0) return false;
 
         try {
-            Image::UniquePtr image = ImageFactory::open(buf.c_data(0), buf.size());
+            Image::UniquePtr image = ImageFactory::open(buf.c_data(), buf.size());
             if (image.get() == nullptr) return false;
             image->readMetadata();
 
@@ -819,7 +819,7 @@ namespace {
 
                         idxBuf += size;
                     }
-                    dataValue.setDataArea(buf.c_data(0), buf.size());
+                    dataValue.setDataArea(buf.c_data(), buf.size());
                 }
             }
         }
@@ -886,7 +886,7 @@ namespace {
     DataBuf LoaderXmpJpeg::getData() const
     {
         if (!valid()) return DataBuf();
-        return DataBuf(preview_.c_data(0), preview_.size());
+        return DataBuf(preview_.c_data(), preview_.size());
     }
 
     bool LoaderXmpJpeg::readDimensions()
@@ -972,7 +972,7 @@ namespace {
 
     DataBuf decodeAi7Thumbnail(const DataBuf &src)
     {
-        const byte *colorTable = src.c_data(0);
+        const byte *colorTable = src.c_data();
         const long colorTableSize = 256 * 3;
         if (src.size() < colorTableSize) {
 #ifndef SUPPRESS_WARNINGS
@@ -1028,7 +1028,7 @@ namespace {
 
         DataBuf dest(static_cast<long>(header.size() + rgb.size()));
         dest.copyBytes(0, headerBytes, header.size());
-        dest.copyBytes(header.size(), rgb.c_data(0), rgb.size());
+        dest.copyBytes(header.size(), rgb.c_data(), rgb.size());
         return dest;
     }
 
@@ -1078,7 +1078,7 @@ namespace Exiv2 {
 
     const byte* PreviewImage::pData() const
     {
-        return preview_.c_data(0);
+        return preview_.c_data();
     }
 
     uint32_t PreviewImage::size() const

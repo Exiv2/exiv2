@@ -281,7 +281,7 @@ namespace Exiv2 {
             tmpBuf[7] = 0;
             ul2Data(tmpBuf + 8, rawIptc.size(), bigEndian);
             append(psBlob, tmpBuf, 12);
-            append(psBlob, rawIptc.c_data(0), rawIptc.size());
+            append(psBlob, rawIptc.c_data(), rawIptc.size());
             // Data is padded to be even (but not included in size)
             if (rawIptc.size() & 1) psBlob.push_back(0x00);
         }
@@ -307,7 +307,7 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
         if (rc.size() == 0) std::cerr << "  None.\n";
-        else hexdump(std::cerr, rc.c_data(0), rc.size());
+        else hexdump(std::cerr, rc.c_data(), rc.size());
 #endif
         return rc;
 
@@ -493,7 +493,7 @@ namespace Exiv2 {
 
                 DataBuf profile(Safe::add(iccProfile_.size(), icc_size));
                 if ( iccProfile_.size() ) {
-                    profile.copyBytes(0, iccProfile_.c_data(0), iccProfile_.size());
+                    profile.copyBytes(0, iccProfile_.c_data(), iccProfile_.size());
                 }
                 profile.copyBytes(iccProfile_.size(), buf.c_data(2+14), icc_size);
                 setIccProfile(profile,chunk==chunks);
@@ -651,7 +651,7 @@ namespace Exiv2 {
                     //    1787 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
                     if (option == kpsXMP && signature.rfind("http://ns.adobe.com/x", 0) == 0) {
                         // extract XMP
-                        const char* xmp = buf.c_str(0);
+                        const char* xmp = buf.c_str();
                         size_t start = 2;
 
                         // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf
@@ -724,7 +724,7 @@ namespace Exiv2 {
                         // extract Exif data block which is tiff formatted
                         out << std::endl;
 
-//                        const byte* exif = buf.c_data(0);
+//                        const byte* exif = buf.c_data();
                         uint32_t start = signature == "Exif" ? 8 : 6;
                         uint32_t max = static_cast<uint32_t>(size) - 1;
 
@@ -849,8 +849,8 @@ namespace Exiv2 {
 #endif
                     seekOrThrow(*io_, start, BasicIo::beg, kerFailedToReadImageData);
                     DataBuf buf(length);
-                    readOrThrow(*io_, buf.data(0), buf.size(), kerFailedToReadImageData);
-                    tempIo->write(buf.c_data(0), buf.size());
+                    readOrThrow(*io_, buf.data(), buf.size(), kerFailedToReadImageData);
+                    tempIo->write(buf.c_data(), buf.size());
                 }
             }
 
@@ -1062,8 +1062,8 @@ namespace Exiv2 {
                         bo = littleEndian;
                         setByteOrder(bo);
                     }
-                    WriteMethod wm = ExifParser::encode(blob, rawExif.c_data(0), rawExif.size(), bo, exifData_);
-                    const byte* pExifData = rawExif.c_data(0);
+                    WriteMethod wm = ExifParser::encode(blob, rawExif.c_data(), rawExif.size(), bo, exifData_);
+                    const byte* pExifData = rawExif.c_data();
                     size_t exifSize = rawExif.size();
                     if (wm == wmIntrusive) {
                         pExifData = !blob.empty() ? &blob[0] : nullptr;
@@ -1166,7 +1166,7 @@ namespace Exiv2 {
                     DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : nullptr,
                                                               static_cast<long>(psBlob.size()), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
-                    const byte* chunkStart = newPsData.c_data(0);
+                    const byte* chunkStart = newPsData.c_data();
                     const byte* chunkEnd = newPsData.c_data(newPsData.size());
                     while (chunkStart < chunkEnd) {
                         // Determine size of next chunk
@@ -1174,8 +1174,8 @@ namespace Exiv2 {
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
-                            const long writtenSize = static_cast<long>(chunkStart - newPsData.c_data(0));
-                            if (Photoshop::valid(newPsData.c_data(0), writtenSize + chunkSize)) {
+                            const long writtenSize = static_cast<long>(chunkStart - newPsData.c_data());
+                            if (Photoshop::valid(newPsData.c_data(), writtenSize + chunkSize)) {
                                 // Since an IRB has minimum size 12,
                                 // (chunkSize - 8) can't be also a IRB boundary
                                 chunkSize -= 8;
@@ -1242,7 +1242,7 @@ namespace Exiv2 {
                 tmpBuf[1] = marker;
                 if (outIo.write(tmpBuf, 2) != 2)
                     throw Error(kerImageWriteFailed);
-                if (outIo.write(buf.c_data(0), size) != size)
+                if (outIo.write(buf.c_data(), size) != size)
                     throw Error(kerImageWriteFailed);
                 if (outIo.error())
                     throw Error(kerImageWriteFailed);
@@ -1266,8 +1266,8 @@ namespace Exiv2 {
 
         DataBuf buf(4096);
         long readSize = 0;
-        while ((readSize = io_->read(buf.data(0), buf.size()))) {
-            if (outIo.write(buf.c_data(0), readSize) != readSize)
+        while ((readSize = io_->read(buf.data(), buf.size()))) {
+            if (outIo.write(buf.c_data(), readSize) != readSize)
                 throw Error(kerImageWriteFailed);
         }
         if (outIo.error())

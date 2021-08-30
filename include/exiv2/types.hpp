@@ -256,13 +256,13 @@ namespace Exiv2 {
         int cmpBytes(size_t offset, const void* buf, size_t bufsize) const;
 
         //! Returns a data pointer.
-        byte* data(size_t offset);
+        byte* data(size_t offset = 0);
 
         //! Returns a (read-only) data pointer.
-        const byte* c_data(size_t offset) const;
+        const byte* c_data(size_t offset = 0) const;
 
         //! Returns a (read-only) C-style string pointer.
-        const char* c_str(size_t offset) const;
+        const char* c_str(size_t offset = 0) const;
 
       private:
         // DATA

@@ -134,13 +134,13 @@ namespace Exiv2 {
         // will fail if there are fewer than siz bytes left to read.
         enforce(siz <= io_->size(), kerFailedToReadImageData);
         DataBuf buf(siz);
-        io_->read(buf.data(0), buf.size());
+        io_->read(buf.data(), buf.size());
         enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
-                                          buf.c_data(0),
+                                          buf.c_data(),
                                           buf.size());
         setByteOrder(bo);
     } // MrwImage::readMetadata

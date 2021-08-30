@@ -624,12 +624,12 @@ namespace Exiv2 {
                 // Pad the last unsignedLong value with 0s
                 buf.alloc((rawIptc.size() / 4) * 4 + 4);
                 buf.clear();
-                buf.copyBytes(0, rawIptc.c_data(0), rawIptc.size());
+                buf.copyBytes(0, rawIptc.c_data(), rawIptc.size());
             }
             else {
                 buf = rawIptc; // Note: This resets rawIptc
             }
-            value->read(buf.data(0), buf.size(), byteOrder_);
+            value->read(buf.data(), buf.size(), byteOrder_);
             Exifdatum iptcDatum(iptcNaaKey, value.get());
             exifData_.add(iptcDatum);
             pos = exifData_.findKey(irbKey); // needed after add()
@@ -638,12 +638,12 @@ namespace Exiv2 {
         // but don't create it if not.
         if (pos != exifData_.end()) {
             DataBuf irbBuf(pos->value().size());
-            pos->value().copy(irbBuf.data(0), invalidByteOrder);
-            irbBuf = Photoshop::setIptcIrb(irbBuf.c_data(0), irbBuf.size(), iptcData_);
+            pos->value().copy(irbBuf.data(), invalidByteOrder);
+            irbBuf = Photoshop::setIptcIrb(irbBuf.c_data(), irbBuf.size(), iptcData_);
             exifData_.erase(pos);
             if (irbBuf.size() != 0) {
                 Value::UniquePtr value = Value::create(unsignedByte);
-                value->read(irbBuf.data(0), irbBuf.size(), invalidByteOrder);
+                value->read(irbBuf.data(), irbBuf.size(), invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
                 exifData_.add(iptcDatum);
             }
@@ -833,7 +833,7 @@ namespace Exiv2 {
             const byte* pData = object->pData();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size() > 0) {
-                pData = buf.c_data(0);
+                pData = buf.c_data();
                 size = buf.size();
             }
             if (!object->updOrigDataBuf(pData, size)) {
@@ -948,7 +948,7 @@ namespace Exiv2 {
 #endif
                 DataBuf buf = object->pValue()->dataArea();
                 if ( buf.size() > 0 ) {
-                    memcpy(object->pDataArea_, buf.c_data(0), buf.size());
+                    memcpy(object->pDataArea_, buf.c_data(), buf.size());
                     if (object->sizeDataArea_ > static_cast<size_t>(buf.size())) {
                         memset(object->pDataArea_ + buf.size(),
                            0x0, object->sizeDataArea_ - buf.size());

@@ -1929,7 +1929,7 @@ namespace Exiv2 {
             DataBuf header = pHeader->write();
             BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.c_data(0), header.size(), pOffsetWriter);
+            IoWrapper ioWrapper(*tempIo, header.c_data(), header.size(), pOffsetWriter);
             auto imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),

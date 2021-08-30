@@ -220,7 +220,7 @@ namespace Exiv2
             hdrsize += 8;
             enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
             DataBuf data(8);
-            io_->read(data.data(0), data.size());
+            io_->read(data.data(), data.size());
             box_length = data.read_uint64(0, endian_);
         }
 
@@ -230,7 +230,7 @@ namespace Exiv2
         enforce(box_length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
         DataBuf data(static_cast<long>(box_length - hdrsize));
         const long box_end = restore + data.size();
-        io_->read(data.data(0), data.size());
+        io_->read(data.data(), data.size());
         io_->seek(restore, BasicIo::beg);
 
         long skip = 0;  // read position in data.pData_
@@ -407,7 +407,7 @@ namespace Exiv2
                     uint8_t      meth        = data.read_uint8(skip+0);
                     uint8_t      prec        = data.read_uint8(skip+1);
                     uint8_t      approx      = data.read_uint8(skip+2);
-                    std::string colour_type = std::string(data.c_str(0), 4);
+                    std::string colour_type = std::string(data.c_str(), 4);
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
                         DataBuf       profile(data.c_data(skip),data.size()-skip);
@@ -423,7 +423,7 @@ namespace Exiv2
 
             case TAG_uuid: {
                 DataBuf   uuid(16);
-                io_->read(uuid.data(0), uuid.size());
+                io_->read(uuid.data(), uuid.size());
                 std::string name = uuidName(uuid);
                 if ( bTrace ) {
                     out << " uuidName " << name << std::endl;
@@ -476,7 +476,7 @@ namespace Exiv2
         long    restore = io_->tell();
         DataBuf exif(static_cast<long>(length));
         io_->seek(static_cast<long>(start),BasicIo::beg);
-        if ( exif.size() > 8 && io_->read(exif.data(0),exif.size()) == exif.size() ) {
+        if ( exif.size() > 8 && io_->read(exif.data(),exif.size()) == exif.size() ) {
             // hunt for "II" or "MM"
             long  eof  = 0xffffffff; // impossible value for punt
             long  punt = eof;
@@ -500,7 +500,7 @@ namespace Exiv2
             enforce(length - 8 <= io_->size() - io_->tell(), kerCorruptedMetadata);
             enforce(length - 8 <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf data(static_cast<long>(length - 8));
-            long bufRead = io_->read(data.data(0), data.size());
+            long bufRead = io_->read(data.data(), data.size());
 
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
@@ -508,7 +508,7 @@ namespace Exiv2
                 throw Error(kerInputDataReadFailed);
 
             Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
-                                               data.c_data(0), data.size(), root_tag,
+                                               data.c_data(), data.size(), root_tag,
                                                Internal::TiffMapping::findDecoder);
         }
     }
@@ -526,12 +526,12 @@ namespace Exiv2
             enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
             DataBuf  xmp(static_cast<long>(length+1));
             xmp.write_uint8(static_cast<size_t>(length), 0); // ensure xmp is null terminated!
-            if ( io_->read(xmp.data(0), static_cast<long>(length)) != static_cast<long>(length) )
+            if ( io_->read(xmp.data(), static_cast<long>(length)) != static_cast<long>(length) )
                 throw Error(kerInputDataReadFailed);
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
             try {
-                Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str(0)));
+                Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()));
             } catch (...) {
                 throw Error(kerFailedToReadImageData);
             }
@@ -588,7 +588,7 @@ namespace Exiv2
             default: break; // do nothing
 
             case kpsIccProfile : {
-                out.write(iccProfile_.c_str(0), iccProfile_.size());
+                out.write(iccProfile_.c_str(), iccProfile_.size());
             } break;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT

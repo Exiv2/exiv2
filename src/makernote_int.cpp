@@ -495,12 +495,12 @@ namespace Exiv2 {
     {
         assert(buf_.size() >= 10);
 
-        ioWrapper.write(buf_.c_data(0), 10);
+        ioWrapper.write(buf_.c_data(), 10);
         // Todo: This removes any gap between the header and
         // makernote IFD. The gap should be copied too.
         TiffHeader th(byteOrder);
         DataBuf buf = th.write();
-        ioWrapper.write(buf.c_data(0), buf.size());
+        ioWrapper.write(buf.c_data(), buf.size());
         return 10 + buf.size();
     } // Nikon3MnHeader::write
 

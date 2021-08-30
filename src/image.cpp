@@ -343,7 +343,7 @@ namespace Exiv2 {
         do {
             // Read top of directory
             seekOrThrow(io, start, BasicIo::beg, kerCorruptedMetadata);
-            readOrThrow(io, dir.data(0), 2, kerCorruptedMetadata);
+            readOrThrow(io, dir.data(), 2, kerCorruptedMetadata);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
             // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
             enforce(dirLength > 0, kerCorruptedMetadata);
@@ -369,7 +369,7 @@ namespace Exiv2 {
                 }
                 bFirst = false;
 
-                readOrThrow(io, dir.data(0), 12, kerCorruptedMetadata);
+                readOrThrow(io, dir.data(), 12, kerCorruptedMetadata);
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
                 uint32_t count  = byteSwap4(dir,4,bSwap);
@@ -421,7 +421,7 @@ namespace Exiv2 {
                 if ( bOffsetIsPointer ) {         // read into buffer
                     const long restore = io.tell(); // save
                     seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata); // position
-                    readOrThrow(io, buf.data(0), static_cast<long>(count_x_size), kerCorruptedMetadata); // read
+                    readOrThrow(io, buf.data(), static_cast<long>(count_x_size), kerCorruptedMetadata); // read
                     seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata); // restore
                 }
 
@@ -494,8 +494,8 @@ namespace Exiv2 {
                             // tag is an embedded tiff
                             const long byteslen = count-jump;
                             DataBuf bytes(byteslen);  // allocate a buffer
-                            readOrThrow(io, bytes.data(0), byteslen, kerCorruptedMetadata);  // read
-                            MemIo memIo(bytes.c_data(0), byteslen)    ;  // create a file
+                            readOrThrow(io, bytes.data(), byteslen, kerCorruptedMetadata);  // read
+                            MemIo memIo(bytes.c_data(), byteslen)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
                         } else {
                             // tag is an IFD
@@ -509,14 +509,14 @@ namespace Exiv2 {
 
                 if ( isPrintXMP(tag,option) ) {
                     buf.write_uint8(count, 0);
-                    out << buf.c_str(0);
+                    out << buf.c_str();
                 }
                 if ( isPrintICC(tag,option) ) {
-                    out.write(buf.c_str(0), count);
+                    out.write(buf.c_str(), count);
                 }
             }
             if ( start ) {
-                readOrThrow(io, dir.data(0), 4, kerCorruptedMetadata);
+                readOrThrow(io, dir.data(), 4, kerCorruptedMetadata);
                 start = byteSwap4(dir,0,bSwap);
             }
         } while (start) ;
@@ -536,7 +536,7 @@ namespace Exiv2 {
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
-            readOrThrow(io, dir.data(0),  8, kerCorruptedMetadata);
+            readOrThrow(io, dir.data(),  8, kerCorruptedMetadata);
             char c = static_cast<char>(dir.read_uint8(0));
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )

@@ -47,7 +47,7 @@ int main(int argc, char* const argv[])
         }
         Exiv2::DataBuf buf(static_cast<long>(io.size()));
         std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
-        long readBytes = io.read(buf.data(0), buf.size());
+        long readBytes = io.read(buf.data(), buf.size());
         if (readBytes != buf.size() || io.error() || io.eof()) {
             throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
         }
@@ -59,7 +59,7 @@ int main(int argc, char* const argv[])
 
         // Set Preview field to the content of the data file
         Exiv2::DataValue value;
-        value.read(buf.data(0), buf.size());
+        value.read(buf.data(), buf.size());
         Exiv2::IptcData& iptcData = image->iptcData();
         std::cout << "IPTC fields: " << iptcData.size() << "\n";
         iptcData["Iptc.Application2.Preview"] = value;
@@ -71,7 +71,7 @@ int main(int argc, char* const argv[])
         const Exiv2::byte* record;
         uint32_t sizeHdr = 0;
         uint32_t sizeData = 0;
-        Exiv2::Photoshop::locateIptcIrb(irb.data(0), irb.size(), &record, &sizeHdr, &sizeData);
+        Exiv2::Photoshop::locateIptcIrb(irb.data(), irb.size(), &record, &sizeHdr, &sizeData);
         Exiv2::DataBuf rawIptc = Exiv2::IptcParser::encode(iptcData);
         std::cout << "Comparing IPTC and IRB size... ";
         if (static_cast<uint32_t>(rawIptc.size()) != sizeData) {

@@ -52,7 +52,7 @@ try {
     // Read from the memory mapped region
     buf.copyBytes(0, pData, buf.size());
     // Reopen file in write mode and write to it
-    file.write(buf.c_data(0), buf.size());
+    file.write(buf.c_data(), buf.size());
     // Read from the mapped region again
     buf.copyBytes(0, pData, buf.size());
     file.close();

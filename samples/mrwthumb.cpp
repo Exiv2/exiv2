@@ -61,7 +61,7 @@ int main(int argc, char* const argv[])
             Exiv2::FileIo file("img_thumb.jpg");
 
             file.open("wb");
-            file.write(buf.c_data(0), buf.size());
+            file.write(buf.c_data(), buf.size());
             file.close();
         }
 

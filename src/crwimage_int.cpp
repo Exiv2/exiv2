@@ -1028,7 +1028,7 @@ namespace Exiv2 {
         // Set the new value or remove the entry
         if (ed != image.exifData().end()) {
             DataBuf buf(ed->size());
-            ed->copy(buf.data(0), pHead->byteOrder());
+            ed->copy(buf.data(), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1085,7 +1085,7 @@ namespace Exiv2 {
             DataBuf buf(size);
             long pos = 0;
             if (ed1 != edEnd) {
-                ed1->copy(buf.data(0), pHead->byteOrder());
+                ed1->copy(buf.data(), pHead->byteOrder());
                 pos += ed1->size();
             }
             if (ed2 != edEnd) {
@@ -1187,7 +1187,7 @@ namespace Exiv2 {
             buf.clear();
             if (cc) buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
             if (edX != edEnd && edX->size() == 4) {
-                edX->copy(buf.data(0), pHead->byteOrder());
+                edX->copy(buf.data(), pHead->byteOrder());
             }
             if (edY != edEnd && edY->size() == 4) {
                 edY->copy(buf.data(4), pHead->byteOrder());

@@ -2693,7 +2693,7 @@ namespace Exiv2 {
         bool cnv = false;
         if (value.typeId() == unsignedByte && value.size() > 0) {
             DataBuf buf(value.size());
-            value.copy(buf.data(0), invalidByteOrder);
+            value.copy(buf.data(), invalidByteOrder);
             // Strip trailing odd byte due to failing UCS-2 conversion
             if (buf.size() % 2 == 1) {
                 buf.resize(buf.size() - 1);
@@ -2708,7 +2708,7 @@ namespace Exiv2 {
                 }
             }
 
-            std::string str(buf.c_str(0), buf.size());
+            std::string str(buf.c_str(), buf.size());
             cnv = convertStringCharset(str, "UCS-2LE", "UTF-8");
             if (cnv) os << str;
         }

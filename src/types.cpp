@@ -304,13 +304,13 @@ namespace Exiv2 {
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return {buf.data(0), begin, end};
+        return {buf.data(), begin, end};
     }
 
     Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return {buf.c_data(0), begin, end};
+        return {buf.c_data(), begin, end};
     }
 
     std::ostream& operator<<(std::ostream& os, const Rational& r)

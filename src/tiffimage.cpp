@@ -199,7 +199,7 @@ namespace Exiv2 {
                 throw Error(kerFailedToReadImageData);
             }
             iccProfile_.alloc(size);
-            pos->copy(iccProfile_.data(0),bo);
+            pos->copy(iccProfile_.data(),bo);
         }
 
     }
@@ -234,7 +234,7 @@ namespace Exiv2 {
         auto pos   = exifData_.findKey(key);
         bool                      found = pos != exifData_.end();
         if ( iccProfileDefined() ) {
-            Exiv2::DataValue value(iccProfile_.c_data(0), iccProfile_.size());
+            Exiv2::DataValue value(iccProfile_.c_data(), iccProfile_.size());
             if ( found ) pos->setValue(&value);
             else     exifData_.add(key,&value);
         } else {
