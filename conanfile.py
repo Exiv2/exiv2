@@ -26,13 +26,10 @@ class Exiv2Conan(ConanFile):
         self.requires('zlib/1.2.11')
 
         if os_info.is_windows and self.options.iconv:
-            self.requires('libiconv/1.15@bincrafters/stable')
+            self.requires('libiconv/1.15')
 
         if self.options.unitTests:
-            if self.settings.compiler == "Visual Studio" and Version(self.settings.compiler.version.value) <= "12":
-                self.requires('gtest/1.8.0@bincrafters/stable')
-            else:
-                self.requires('gtest/1.8.1@bincrafters/stable')
+            self.requires('gtest/1.8.1')
 
         if self.options.webready and not os_info.is_macos:
             # Note: This difference in versions is just due to a combination of corner cases in the
