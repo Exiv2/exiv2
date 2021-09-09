@@ -42,7 +42,7 @@ jobs:
         uses: actions/cache@v2
         with:
             path: ${{github.workspace}}/conanCache
-            key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+            key: xxx-${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
 
       - name: Install Conan & Common config
         run: |
@@ -62,7 +62,6 @@ jobs:
       - name: Conan Info
         run: |
           conan remote list
-          conan remote add conancenter https://center.conan.io
 
       - name: Run Conan
         run: |
