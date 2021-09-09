@@ -23,7 +23,7 @@ class Exiv2Conan(ConanFile):
         self.options['gtest'].shared = True
 
     def requirements(self):
-        self.requires('zlib/1.2.11@conan/stable')
+        self.requires('zlib/1.2.11')
 
         if os_info.is_windows and self.options.iconv:
             self.requires('libiconv/1.15@bincrafters/stable')
