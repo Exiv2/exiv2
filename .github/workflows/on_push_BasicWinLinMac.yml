@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install conan
+          pip.exe install "conan==1.39.0"
           conan profile new --detect default
           conan profile show default
 
@@ -64,7 +64,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.36.0
+          pip3 install conan==1.39.0
 
       - name: Conan
         run: |

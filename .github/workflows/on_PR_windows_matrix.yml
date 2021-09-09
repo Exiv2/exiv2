@@ -46,7 +46,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install conan
+          pip.exe install "conan==1.39.0"
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
