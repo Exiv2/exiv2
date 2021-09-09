@@ -62,6 +62,7 @@ jobs:
       - name: Conan Info
         run: |
           conan remote list
+          conan remote add conancenter
 
       - name: Run Conan
         run: |
