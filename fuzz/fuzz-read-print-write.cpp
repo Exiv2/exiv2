@@ -21,6 +21,15 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t * data, size_t size) {
     assert(image.get() != 0);
 
     image->readMetadata();
+    for (auto& md : image->exifData()) {
+      md.print(&image->exifData());
+    }
+    for (auto& md : image->iptcData()) {
+      md.print(&image->exifData());
+    }
+    for (auto& md : image->xmpData()) {
+      md.print(&image->exifData());
+    }
 
     // Print to a std::ostringstream so that the fuzzer doesn't
     // produce lots of garbage on stdout.
