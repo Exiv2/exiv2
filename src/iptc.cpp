@@ -507,7 +507,7 @@ namespace Exiv2 {
     DataBuf IptcParser::encode(const IptcData& iptcData)
     {
         DataBuf buf(iptcData.size());
-        byte *pWrite = buf.pData_;
+        byte *pWrite = buf.data();
 
         // Copy the iptc data sets and sort them by record but preserve the order of datasets
         IptcMetadata sortedIptcData;

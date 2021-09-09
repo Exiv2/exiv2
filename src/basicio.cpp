@@ -516,7 +516,7 @@ namespace Exiv2 {
 #else
         // Workaround for platforms without mmap: Read the file into memory
         DataBuf buf(static_cast<long>(p_->mappedLength_));
-        if (read(buf.pData_, buf.size_) != buf.size_) {
+        if (read(buf.data(), buf.size()) != buf.size()) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), strError().c_str(), "FileIo::read");
@@ -670,9 +670,9 @@ namespace Exiv2 {
             // In case path() is a symlink, get the path of the linked-to file
             if (statOk && S_ISLNK(buf1.st_mode)) {
                 lbuf.alloc(buf1.st_size + 1);
-                memset(lbuf.pData_, 0x0, lbuf.size_);
-                pf = reinterpret_cast<char*>(lbuf.pData_);
-                if (::readlink(path().c_str(), pf, lbuf.size_ - 1) == -1) {
+                lbuf.clear();
+                pf = reinterpret_cast<char*>(lbuf.data());
+                if (::readlink(path().c_str(), pf, lbuf.size() - 1) == -1) {
                     throw Error(kerCallFailed, path(), strError(), "readlink");
                 }
                 // We need the permissions of the file, not the symlink
@@ -990,8 +990,11 @@ namespace Exiv2 {
         if (static_cast<size_t>(rcount) > size())
             throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
-        buf.size_ = readCount;
+        long readCount = read(buf.data(), buf.size());
+        if (readCount < 0) {
+            throw Error(kerInputDataReadFailed);
+        }
+        buf.resize(readCount);
         return buf;
     }
 
@@ -1348,8 +1351,11 @@ namespace Exiv2 {
     DataBuf MemIo::read(long rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
-        buf.size_ = readCount;
+        long readCount = read(buf.data(), buf.size());
+        if (readCount < 0) {
+            throw Error(kerInputDataReadFailed);
+        }
+        buf.resize(readCount);
         return buf;
     }
 
@@ -1825,8 +1831,11 @@ namespace Exiv2 {
     DataBuf RemoteIo::read(long rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
-        buf.size_ = readCount;
+        long readCount = read(buf.data(), buf.size());
+        if (readCount < 0) {
+            throw Error(kerInputDataReadFailed);
+        }
+        buf.resize(readCount);
         return buf;
     }
 
@@ -2433,8 +2442,8 @@ namespace Exiv2 {
             throw Error(kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
-        if (len != buf.size_) {
+        long len = file.read(buf.data(), buf.size());
+        if (len != buf.size()) {
             throw Error(kerCallFailed, path, strError(), "FileIo::read");
         }
         return buf;
@@ -2452,8 +2461,8 @@ namespace Exiv2 {
             throw WError(kerCallFailed, wpath, strError().c_str(), "::_wstat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
-        if (len != buf.size_) {
+        long len = file.read(buf.data(), buf.size());
+        if (len != buf.size()) {
             throw WError(kerCallFailed, wpath, strError().c_str(), "FileIo::read");
         }
         return buf;
@@ -2466,7 +2475,7 @@ namespace Exiv2 {
         if (file.open("wb") != 0) {
             throw Error(kerFileOpenFailed, path, "wb", strError());
         }
-        return file.write(buf.pData_, buf.size_);
+        return file.write(buf.c_data(), buf.size());
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -2476,7 +2485,7 @@ namespace Exiv2 {
         if (file.open("wb") != 0) {
             throw WError(kerFileOpenFailed, wpath, "wb", strError().c_str());
         }
-        return file.write(buf.pData_, buf.size_);
+        return file.write(buf.c_data(), buf.size());
     }
 
 #endif

@@ -617,19 +617,19 @@ namespace Exiv2 {
         if (pos != exifData_.end()) {
             irbKey.setIdx(pos->idx());
         }
-        if (rawIptc.size_ != 0 && (del || pos == exifData_.end())) {
+        if (rawIptc.size() != 0 && (del || pos == exifData_.end())) {
             Value::UniquePtr value = Value::create(unsignedLong);
             DataBuf buf;
-            if (rawIptc.size_ % 4 != 0) {
+            if (rawIptc.size() % 4 != 0) {
                 // Pad the last unsignedLong value with 0s
-                buf.alloc((rawIptc.size_ / 4) * 4 + 4);
-                memset(buf.pData_, 0x0, buf.size_);
-                memcpy(buf.pData_, rawIptc.pData_, rawIptc.size_);
+                buf.alloc((rawIptc.size() / 4) * 4 + 4);
+                buf.clear();
+                buf.copyBytes(0, rawIptc.c_data(), rawIptc.size());
             }
             else {
                 buf = rawIptc; // Note: This resets rawIptc
             }
-            value->read(buf.pData_, buf.size_, byteOrder_);
+            value->read(buf.data(), buf.size(), byteOrder_);
             Exifdatum iptcDatum(iptcNaaKey, value.get());
             exifData_.add(iptcDatum);
             pos = exifData_.findKey(irbKey); // needed after add()
@@ -638,12 +638,12 @@ namespace Exiv2 {
         // but don't create it if not.
         if (pos != exifData_.end()) {
             DataBuf irbBuf(pos->value().size());
-            pos->value().copy(irbBuf.pData_, invalidByteOrder);
-            irbBuf = Photoshop::setIptcIrb(irbBuf.pData_, irbBuf.size_, iptcData_);
+            pos->value().copy(irbBuf.data(), invalidByteOrder);
+            irbBuf = Photoshop::setIptcIrb(irbBuf.c_data(), irbBuf.size(), iptcData_);
             exifData_.erase(pos);
-            if (irbBuf.size_ != 0) {
+            if (irbBuf.size() != 0) {
                 Value::UniquePtr value = Value::create(unsignedByte);
-                value->read(irbBuf.pData_, irbBuf.size_, invalidByteOrder);
+                value->read(irbBuf.data(), irbBuf.size(), invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
                 exifData_.add(iptcDatum);
             }
@@ -832,9 +832,9 @@ namespace Exiv2 {
         if (cryptFct != nullptr) {
             const byte* pData = object->pData();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
-            if (buf.size_ > 0) {
-                pData = buf.pData_;
-                size = buf.size_;
+            if (buf.size() > 0) {
+                pData = buf.c_data();
+                size = buf.size();
             }
             if (!object->updOrigDataBuf(pData, size)) {
                 setDirty();
@@ -947,11 +947,11 @@ namespace Exiv2 {
                 std::cerr << "Writing data area for " << key << "\n";
 #endif
                 DataBuf buf = object->pValue()->dataArea();
-                if ( buf.pData_ ) {
-                    memcpy(object->pDataArea_, buf.pData_, buf.size_);
-                    if (object->sizeDataArea_ > static_cast<uint32_t>(buf.size_)) {
-                        memset(object->pDataArea_ + buf.size_,
-                           0x0, object->sizeDataArea_ - buf.size_);
+                if ( buf.size() > 0 ) {
+                    memcpy(object->pDataArea_, buf.c_data(), buf.size());
+                    if (object->sizeDataArea_ > static_cast<size_t>(buf.size())) {
+                        memset(object->pDataArea_ + buf.size(),
+                           0x0, object->sizeDataArea_ - buf.size());
                     }
                 }
             }
@@ -1654,7 +1654,7 @@ namespace Exiv2 {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
-            if (buf.size_ > 0) object->setData(buf);
+            if (buf.size() > 0) object->setData(buf);
         }
 
         const ArrayDef* defs = object->def();

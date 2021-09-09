@@ -1929,11 +1929,11 @@ namespace Exiv2 {
             DataBuf header = pHeader->write();
             BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
+            IoWrapper ioWrapper(*tempIo, header.c_data(), header.size(), pOffsetWriter);
             auto imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
-                               header.size_,
+                               header.size(),
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);
@@ -2043,18 +2043,18 @@ namespace Exiv2 {
         DataBuf buf(8);
         switch (byteOrder_) {
         case littleEndian:
-            buf.pData_[0] = 'I';
+            buf.write_uint8(0, 'I');
             break;
         case bigEndian:
-            buf.pData_[0] = 'M';
+            buf.write_uint8(0, 'M');
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
-        buf.pData_[1]=buf.pData_[0];
-        us2Data(buf.pData_ + 2, tag_, byteOrder_);
-        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder_);
+        buf.write_uint8(1, buf.read_uint8(0));
+        buf.write_uint16(2, tag_, byteOrder_);
+        buf.write_uint32(4, 0x00000008, byteOrder_);
         return buf;
     }
 

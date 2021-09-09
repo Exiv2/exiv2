@@ -234,7 +234,7 @@ namespace Exiv2 {
          */
         virtual bool iccProfileDefined()
         {
-            return iccProfile_.size_ != 0;
+            return iccProfile_.size() != 0;
         }
 
         /*!
