@@ -62,7 +62,7 @@ jobs:
       - name: Conan Info
         run: |
           conan remote list
-          conan remote add conancenter
+          conan remote add conancenter https://center.conan.io
 
       - name: Run Conan
         run: |
