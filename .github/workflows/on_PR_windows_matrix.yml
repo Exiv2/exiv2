@@ -59,6 +59,10 @@ jobs:
           conan profile update settings.arch=x86 default
           conan profile update settings.arch_build=x86 default
 
+      - name: Conan Info
+        run: |
+          conan remote list
+
       - name: Run Conan
         run: |
           md build
