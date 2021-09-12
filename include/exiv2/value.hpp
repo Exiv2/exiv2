@@ -685,13 +685,6 @@ namespace Exiv2 {
          */
         static XmpArrayType xmpArrayType(TypeId typeId);
 
-    protected:
-        /*!
-          @brief Assignment operator. Protected so that it can only be used
-                 by subclasses but not directly.
-         */
-        XmpValue& operator=(const XmpValue& rhs) = default;
-
     private:
         // DATA
         XmpArrayType xmpArrayType_;             //!< Type of XMP array
