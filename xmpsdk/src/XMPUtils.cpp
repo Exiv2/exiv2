@@ -1961,7 +1961,10 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 		ansi_localtime ( &now, &tmLocal );
 	} else {
 		tmLocal.tm_year = xmpTime->year - 1900;
+#if 0
+		// Removed to fix https://github.com/Exiv2/exiv2/issues/1901
 		while ( tmLocal.tm_year < 70 ) tmLocal.tm_year += 4;	// ! Some versions of mktime barf on years before 1970.
+#endif
 		tmLocal.tm_mon	 = xmpTime->month - 1;
 		tmLocal.tm_mday	 = xmpTime->day;
 	}
