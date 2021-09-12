@@ -175,7 +175,7 @@ Where \fIfile\fP contains image metadata, optionally specified using a URL (http
 \fIaction\fP	pr | ex | in | rm | ad | mo | mv | fi | fc
 		print, extract, insert, delete, adjust, modify, rename, fixiso, fixcom
 
-\fIcmd\fP		( \fBset\fP | \fBadd\fP | \fBdel\fP ) \fIkey\fP [[\fItype\fP] \fIvalue\fP]
+\fIcmd\fP		(\fBset\fP | \fBadd\fP) \fIkey\fP [[\fItype\fP] \fIvalue\fP] | \fBdel\fP \fIkey\fP [\fItype\fP] | \fBreg\fP \fIprefix\fP \fInamespace\fP
 		(see \fBCommand format\fP)
 
 \fIenc\fP		Values defined in \fBiconv_open\fP(3) (e.g., UTF-8)
@@ -185,7 +185,7 @@ Where \fIfile\fP contains image metadata, optionally specified using a URL (http
 
 \fIfmt\fP		Default format: %Y%m%d_%H%M%S
 
-\fIkey\fP		Exiv2 key using the format Family.Group.Tagname (e.g., Exif.Image.Model)
+\fIkey\fP		See \fBExiv2 key syntax\fP
 
 \fIlvl\fP		d | i | w | e
 		debug, info, warning, error
@@ -247,7 +247,7 @@ Show unknown tags. Default is to suppress tags which don't have a name (e.g., Ex
 .TP
 .B \-g \fIstr\fP, --grep \fIstr\fP
 When printing tags, display only those where \fIstr\fP is found in 
-the key (i.e., Family.Group.Tagname). When \fB--grep\fP \fIstr\fP is used 
+the key (see \fBExiv2 key syntax\fP). When \fB--grep\fP \fIstr\fP is used 
 with \fB--verbose --version\fP, lines are included where \fIstr\fP matches in the 
 variable or value.
 
@@ -289,7 +289,9 @@ You may use \fB--print\fP \fImod\fP or \fB--Print\fP \fIflgs\fP to further filte
 \&  Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
 .TP
 .B \-K \fIkey\fP, --key \fIkey\fP
-Only reports tags for a given \fIkey\fP, which must match the Family.Group.Tagname exactly.
+Only reports tags for a given \fIkey\fP, which must match exactly 
+(see \fBExiv2 key syntax\fP).
+
 .sp 1
 Multiple \fB\--key\fP options can be used to report more than a single key:
 
@@ -324,7 +326,7 @@ These options are used by the 'rename' and 'extract' actions to
 determine the file overwrite policy. The options override the default 
 behavior, which is to prompt the user if the filename already exists. 
 These options are usually combined with \fB--verbose\fP, to provide 
-dditional status output.
+additional status output.
 .sp 1
 The 'rename' action will overwrite files when \fB--force\fP is used. 
 Instead, if \fB--Force\fP is used and the file already exists, the new filename 
@@ -518,7 +520,7 @@ XX	Insert "raw" XMP metadata from a sidecar file, <file>.exv
 -	Insert from stdin. This option is intended for "filter" operations
 .TE
 .sp 1
-Filter operations between extract and insert are possibile, using the following template; \fBxmllint\fP can be optionally used when extracting XMP sidecar files:
+Filter operations between extract and insert are possible, using the following template; \fBxmllint\fP can be optionally used when extracting XMP sidecar files:
 .sp 1
 .nf
 \&  $ exiv2 -e{tgt3}- filename | [ xmllint .... |] exiv2 -i{tgt2}- filename
@@ -567,13 +569,13 @@ can also be used with the 'extract' and 'insert' actions to modify
 metadata on-the-fly.
 .TP
 .B \-m \fIcmdfile\fP, --modify \fIcmdfile\fP
-Command file for the 'modify' action (see \fBCommand file format\fP). 
-This option can also be used with the 'extract' and 'insert' actions 
-to modify metadata on-the-fly. \fB--modify-\fP reads modify commands
-from standard-input.
+Command file for the 'modify' action (see \fBCommand file format\fP and 
+\fB'MODIFY' COMMANDS\fP). This option can also be used with the 'extract' 
+and 'insert' actions to modify metadata on-the-fly. \fB--modify\fP \fI-\fP reads 
+modify commands from standard-input.
 .TP
 .B \-M \fIcmd\fP, --Modify \fIcmd\fP
-Command line for the 'modify' action (see \fBCOMMANDS\fP). This option 
+Command line for the 'modify' action (see \fB'MODIFY' COMMANDS\fP). This option 
 can also be used with the 'extract' and 'insert' actions to modify 
 metadata on-the-fly. The format for the commands is the same as that 
 of the lines of a command file.
@@ -585,161 +587,344 @@ Location (directory) for files to be inserted from or extracted to.
 Use suffix \fIsuf\fP for source files when using 'insert' action (e.g., '.txt').
 .br
 .ne 40
-.SH COMMANDS
-Commands for the 'modify' action can be read from a command file, e.g.,
-.sp 1
-.nf
-$ exiv2 \-m cmd.txt image.jpg
-.fi
-.sp 1
-or given on the command line, as in
-.sp 1
-.nf
-$ exiv2 \-M"add Iptc.Application2.Credit String Mr. Smith" image.jpg
-.fi
-.sp 1
-Note the quotes. Multiple \fB\-m\fP and \fB\-M\fP options can be combined,
-and a non-standard XMP namespace registered.
-.sp 1
-.nf
-$ exiv2 \-M"reg myprefix http://ns.myprefix.me/" \-M"add Xmp.myprefix.Whom Mr. Smith" \-M"set Exif.Image.Artist Mr. Smith" image.jpg
-.fi
-.sp 1
-When writing Exif, IPTC and XMP metadata,
-.B exiv2
-enforces only a correct
-metadata structure. It is possible to write tags with types and values
-different from those specified in the standards, duplicate Exif tags,
-undefined tags, or incomplete metadata. While
-.B exiv2
-is able to read
-all metadata that it can write, other programs may have difficulties
-with images that contain non standard-conforming metadata.
-.SS Command format
-The format of a command is
-.sp 1
-.nf
-\fBset | add | del\fP \fIkey\fP [[\fItype\fP] \fIvalue\fP]
-.fi
-.TP
-.B set
-Set the \fIvalue\fP of an existing tag with a matching \fIkey\fP or
-add the tag.
-.TP
-.B add
-Add a tag (unless \fIkey\fP is a non\-repeatable IPTC key; nothing
-prevents you from adding duplicate Exif tags).
-.TP
-.B del
-Delete all occurrences of a tag (requires only a \fIkey\fP).
-.TP
-.B key
-Exiv2 Exif, IPTC or XMP key.
-.TP
-.B type
-Exif keys: Byte | Ascii | Short | Long | Rational | Undefined | SShort | SLong | SRational | Comment
-.br
-IPTC keys: String | Date | Time | Short | Undefined
-.br
-XMP keys:  XmpAlt | XmpBag | XmpSeq | LangAlt
-.sp 1
-A default \fItype\fP is used if none is explicitly given. The default
-is determined based on \fIkey\fP.
-.TP
-.B value
-The remaining text on the line is the value. It can optionally be
-enclosed in single quotes ('\fIvalue\fP') or double quotes ("\fIvalue\fP").
-.sp 1
-The value is optional. Not providing any value is equivalent to an
-empty value ("") and is mainly useful to create an XMP array property,
-e.g., a bag.
-.sp 1
-The format of Exif \fBComment\fP values include an optional charset
-specification at the beginning.  Comments are used by the tags Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod
-and Exif.GPSInfo.GPSAreaInformation.  Comments are stored as Undefined tags with an 8 byte encoding
-definition follow by the encoded data. The charset is specified as follows:
-.sp 1
-[charset=Ascii|Jis|Unicode|Undefined] \fIcomment\fP
-.br
-charset=Undefined is the default
-.sp 1
-.nf
-$ exiv2 -M'set Exif.Photo.UserComment charset=Ascii My photo' x.jpg
-$ exiv2 -pa --grep UserComment x.jpg
-Exif.Photo.UserComment         Undefined  16  My photo
-$ exiv2 -pv --grep UserComment x.jpg
-0x9286 Photo       UserComment Undefined  16  charset=Ascii My photo
+.SS 'MODIFY' COMMANDS
+Tags can be altered using the 'modify' action and \fB--Modify\fP \fIcmd\fP 
+or \fB--modify\fP \fIcmdfile\fP.
 
-$ exiv2 -M'set Exif.Photo.UserComment charset=Unicode \\u0052\\u006f\\u0062\\u0069\\u006e' x.jpg
-$ exiv2 -pa --grep UserComment x.jpg
-Exif.Photo.UserComment                       Undefined  18  Robin
-$ exiv2 -pv --grep UserComment x.jpg
-0x9286 Photo        UserComment                 Undefined  18  charset=Unicode Robin
+For example, adding an IPTC tag on the command line:
 
-$ exiv2 -M'set Exif.GPSInfo.GPSProcessingMethod HYBRID-FIX' x.jpg
-$ exiv2 -pa --grep ProcessingMethod        x.jpg
-Exif.GPSInfo.GPSProcessingMethod             Undefined  18  HYBRID-FIX
-$ exiv2 -pv --grep ProcessingMethod        x.jpg
-0x001b GPSInfo     GPSProcessingMethod       Undefined  18  HYBRID-FIX
-.fi
-.sp 1
-The format for an IPTC \fBDate\fP value is: YYYY\-MM\-DD (year, month, day)
-.sp 1
-The format for an IPTC \fBTime\fP value is: HH:MM:SS (hours, minutes, seconds) and may optionally be followed by: -HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
-.sp 1
-The format of \fBRational\fP (and \fBSRational\fP) is one of: \fBinteger | integer/integer | Fnumber | number\fP
-.br
-\fBRational\fP Examples:
-.sp 1
 .nf
-$ exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
-$ exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "add Iptc.Application2.Credit String Mr. Mills" Stonehenge.jpg
 .fi
-.sp 1
-The \fBRational\fP format Fnumber is for the convenience of setting aperture values.  Aperture values
-are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
-.sp 1
+
+or applying a set of 'modify' commands from a file (see ['Modify' command File](#modify_cmd_file)):
+
 .nf
-apex-value  =    log(Fnumber) * 2.0 / log(2.0)
-number      = exp(apex-value * log(2.0) / 2.0)
+\&  $ exiv2 --modify cmd.txt Stonehenge.jpg
 .fi
-.sp 1
-The \fBRational\fP format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
-More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
-.sp 1
-The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
+
+Multiple \fB--Modify\fP \fIcmd\fP and \fB--modify\fP \fIcmdfile\fP 
+options can be combined together, with the changes applied left to right on 
+each file. For example, applying one command line 'modify' then a 'modify' 
+command file, then another command line 'modify':
+
 .nf
-.B lang="\fIlanguage-code\fP\fI" text\fP
+\&  $ exiv2 --Modify "set Iptc.Application2.Caption Stonehenge" --modify cmdfile.txt --Modify "add Iptc.Application2.Keywords Monument" Stonehenge.jpg
 .fi
-.sp
-The double quotes around the \fIlanguage-code\fP are optional. If no languge qualifier
-is supplied, then the value of "x-default" is used. More information 
-on the language format can be found at: https://www.ietf.org/rfc/rfc3066.txt
-.sp 1
+
+A list of modify commands can be generated from an existing file using 
+\fB--Print\fP \fIVkyv\fP. For example, only displaying the 'dc' 'modify' 
+commands:
+
 .nf
-$ exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
-$ exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
-$ exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
-$ exiv2 -M'set Xmp.dc.title lang=fr-FR Euros' X.jpg
-$ exiv2 -M'set Xmp.dc.title lang=jp Yen' X.jpg
-$ exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
+\&  $ exiv2 --Print Vkyv --grep dc Stonehenge.jpg
+\&  set Xmp.dc.description                           LangAlt    lang="x-default" Classic View
+\&  set Xmp.dc.Family                                XmpBag     Robin
 .fi
-.sp 1
-To remove a language specification, set the value to '' (empty string)
+
+
+Using \fB--modify\fP \fIcmdfile\fP, a command file can be read from stdin instead of 
+being a named file. For example: 
+
 .nf
-$ exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
+\&  $ cat cmdfile.txt | exiv2 --modify - Stonehenge.jpg
 .fi
-To remove all language specifications, delete the key:
+
+When modifying, only a correct metadata structure is enforced and it is 
+possible to write tags with types and values different from those specified 
+in the standards. This can include incorrect types (e.g., change 
+Exif.Image.DateTime to a Float), \fBDuplicate Exif tags\fP or incomplete metadata 
+(e.g., deleting Exif.GPSInfo.GPSLatitudeRef, which works together with 
+Exif.GPSInfo.GPSLatitude). While \fBexiv2\fP is able to read all metadata 
+that it can write, other programs may have difficulties with images that 
+contain non standards-defined metadata.
+
+.TP
+\fBQuotations with 'modify' commands\fP
+With \fB--Modify\fP \fIcmd\fP, quotation marks are use to surround the 
+\fIcmd\fP. The Windows command line requires double quotes to be 
+used, however generally, quotes inside that string, can be either single 
+or double. Generally, UNIX based systems can use pairs of single or double 
+quotes in any position. In both systems, inner string quotation marks may 
+need to use the '\' escape sequence.
+
+See note on quotations when using \fBXMP LangAlt values\fP.
+
+
+.TP
+\fB'Modify' command format\fP
+The format of a command is:
+
+( \fBset\fP | \fBadd\fP ) \fIkey\fP [ [ \fItype\fP ] \fIvalue\fP ] | \fBdel\fP \fIkey\fP [ \fItype\fP ] | \fBreg\fP \fIprefix\fP \fInamespace\fP
+
+Where:
+
+.TS
+l l.
+\fBadd\fP	Adds a tag. For Exif and IPTC repeatable tags, this adds a new tag, otherwise this replaces any existing tag (see \fBMultiple elements\fP and \fBDuplicate Exif tags\fP)
+\fBset\fP	Set the *value* of an existing tag with a matching \fIkey\fP or if undefined, \fBadd\fP the tag. If \fBDuplicate Exif tags\fP or IPTC repeatable tags already exist, this replaces them (see \fBMultiple elements\fP)
+\fBdel\fP	Delete all occurrences of a tag that matches *key*, including any duplicate tags
+\fBreg\fP	Registers an XMP \fInamespace\fP with an XMP \fIprefix\fP (see \fBXMP namespaces\fP) If registering an existing \fIprefix\fP with a different \fInamespace\fP, then the namespace is updated
+.TE
+
+using the parameters:
+
+.TS
+l l.
+\fIkey\fP	An Exif, IPTC or XMP key (see \fBExiv2 key syntax\fP)
+\fItype\fP	The type for the tag, a default is used if none is given. For built-in tags, the default is defined in the standard and for registered XMP tags, the default is XmpText (see \fBExif/IPTC/XMP types\fP)
+\fIvalue\fP	The remaining text on the line is the value, and can optionally be enclosed in quotes (see \fBQuotations with 'modify' commands\fP). For Ascii, XmpAlt, XmpBag, XmpSeq and XmpText, the value is optional which is equivalent to an empty value ("")
+\fIprefix\fP	This is the XMP 'Group' that is being registered. This is case sensitive and must be unique within an image's metadata. e.g., For an "Exiv2" *prefix*, the tags for that group are available as Xmp.Exiv2.Tagname
+\fInamespace\fP	An identifier for the prefix. This is case sensitive and must be unique within an image's metadata. Built-in namespaces use a URL format, but they are not required to exist
+.TE
+
+.TP
+\fBSetting a Rational or SRational value\fP
+For the 'Rational' and 'SRational' formats, see \fBExif/IPTC/XMP types\fP. 
+
+For example, modifying a 'Rational' number:
+
 .nf
-$ exiv2 -M'del Xmp.dc.title' X.jpg
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify"set Exif.Photo.MaxApertureValue 2485427/500000" Stonehenge.jpg
 .fi
-To register additional XMP namespaces, combine the command with:
+
+
+.TP
+\fBSetting an aperture value\fP
+Exif aperture values are stored in an apex-value format and when using the 
+translated print option, are output as an Fnumber value. The APEX Fnumber 
+translations use the formulae (in base 2):
+
 .nf
-\fBreg\fP \fIprefix\fP \fInamespace\fP
+apex-value  = log(Fnumber) * 2.0 / log(2.0)
+Fnumber     = exp(apex-value * log(2.0) / 2.0)
+.nf
+
+The apex-value is a Rational and can be modified as shown in \fBSetting a Rational or SRational value\fP, 
+however a convenience method is also provided to set an Fnumber directly. 
+This uses the format:
+
+.nf
+\fBF\fP\fI<value\>\fP
 .fi
-.SS Command file format
-Empty lines and lines starting with \fB#\fP in a command file are
-ignored (comments). Remaining lines are commands as described above.
+
+Where \fI<value\>\fP is either an integer or decimal number.
+
+For example, the following modify will produce the same value as the 
+example in \fBSetting a Rational or SRational value\fP. This is displayed 
+in vanilla and translated output:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "set Exif.Photo.MaxApertureValue F5.6" Stonehenge.jpg
+\&  $ exiv2 --print e --grep MaxApertureValue Stonehenge.jpg
+\&  Exif.Photo.MaxApertureValue                  Rational    1  2485427/500000
+\&  $ exiv2 --print t --grep MaxApertureValue Stonehenge.jpg
+\&  Exif.Photo.MaxApertureValue                  Rational    1  F5.6
+.fi
+
+More information about APEX values is available from: \fIhttp://en.wikipedia.org/wiki/APEX_system\fP
+
+.TP
+\fBSetting a Comment value\fP
+For the 'Comment' format, see \fBExif 'Comment' values\fP.
+
+For example, to set an Ascii comment:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "set Exif.Photo.UserComment charset=Ascii Photo" Stonehenge.jpg
+\&  $ exiv2 --grep UserComment Stonehenge.jpg
+\&  Exif.Photo.UserComment                       Undefined  13  charset=Ascii Photo
+.fi
+
+or a Unicode comment:
+
+.nf
+\&  $ exiv2 --Modify "set Exif.GPSInfo.GPSProcessingMethod charset=Unicode \\u0047\\u0050\\u0053" Stonehenge.jpg
+\&  $ exiv2 --grep GPSProcessingMethod Stonehenge.jpg
+\&  Exif.GPSInfo.GPSProcessingMethod             Undefined  14  charset=Unicode GPS
+.fi
+
+.TP
+\fBRegistering an XMP namespace\fP
+For help with namespaces, see \fBXMP namespaces\fP.
+
+Each XMP \fInamespace\fP has a \fIprefix\fP 
+associated with it. For example, when modifying, this is declared using 
+the string:
+
+.nf
+\&  --Modify "reg myprefix http://ns.myprefix.me/"
+.fi
+
+When a non-standard group or tag belonging to that group is modified, the 
+appropriate 'reg' 'modify' command must be included before that. For example, 
+adding a 'myPhotos' group with a 'weather' tag and values:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "add Xmp.myPhotos.weather XmpBag Cloudy" Stonehenge.jpg
+\&  $ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "set Xmp.myPhotos.weather XmpBag Sunny" Stonehenge.jpg
+\&  $ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "set Xmp.myPhotos.weather XmpBag Hot" Stonehenge.jpg
+\&  $ exiv2 --grep myPhotos Stonehenge.jpg
+\&  Xmp.myPhotos.weather                         XmpBag      3  Cloudy, Sunny, Hot
+.fi
+
+.TP
+\fBAdding new XMP tags\fP
+Provided that an XMP's group is defined (see \fBRegistering an XMP namespace\fP), 
+new tags can be added by assigning values.
+
+For example, to add a \fIRatingInPercent\fP tag to a built-in namespace and 
+a \fISurname\fP tag to a registered namespace:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmp.RatingInPercent XmpText 98" Stonehenge.jpg
+\&  $ exiv2 --Modify "reg cm2e http://clanmills.com/exiv2/" --Modify "add Xmp.cm2e.Surname XmpText Mills" Stonehenge.jpg
+\&  $ exiv2 --grep RatingInPercent --grep Surname Stonehenge.jpg
+\&  Xmp.xmp.RatingInPercent                      XmpText     2  98
+\&  Xmp.cm2e.Surname                             XmpText     5  Mills
+.fi
+
+.TP
+\fBSetting an XMP LangAlt value\fP
+For the LangAlt format, see \fBXMP LangAlt values\fP. When 
+setting a LangAlt tag, only one entry is allowed per modify.
+
+For example, adding one default, one language/country and one language entry:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "set Xmp.dc.description LangAlt Monument" Stonehenge.jpg
+\&  $ exiv2 --Modify "set Xmp.dc.description LangAlt lang=de-DE das Monument" Stonehenge.jpg
+\&  $ exiv2 --Modify "set Xmp.dc.description LangAlt lang="fr" les monuments" Stonehenge.jpg
+\&  $ exiv2 --grep description Stonehenge.jpg
+\&  Xmp.dc.description                           LangAlt     3  lang="x-default" Monument, lang="de-DE" das Monument, lang="fr" les monuments
+.fi
+
+To remove a language specification, set the value to the empty string. 
+For example:
+
+.nf
+\&  $ exiv2 --Modify "set Xmp.dc.description lang=de-DE" Stonehenge.jpg
+.fi
+
+To remove all language specifications, delete the key. For example:
+
+.nf
+\&  $ exiv2 --Modify "del Xmp.dc.description" Stonehenge.jpg
+.fi
+
+.TP
+\fBSetting an XMP struct value\fP
+For the format of XMP structs, see \fBExiv2 key syntax\fP and \fBXMP structs\fP.
+
+To create a struct, first set the base key to an empty version of an array 
+type. This can be achieved by either stating the array type and using the 
+empty string, or by using XmpText and stating the array type.
+
+For example, both of the following set the Xmp.xmpMM.History tag to an 
+empty XmpSeq:
+
+.nf
+\&  --Modify "add Xmp.xmpMM.History XmpSeq \"\""
+\&  --Modify "add Xmp.xmpMM.History XmpText type=Seq"
+.fi
+
+Numbered keys plus name and action can then be added.
+ 
+For example, setting the Xmp.xmpMM.History tag to record the file being 
+converted from tiff to JPEG, then saved:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History XmpSeq \"\"" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:action derived" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:parameters converted from image/tiff to image/jpeg, saved to new location" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:action saved" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:instanceID xmp.iid:89A4EB97412C88632107D65978304F45" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:when 2021-08-13T10:12:09+01:00" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:softwareAgent MySuperPhotoFixer 1.0" Stonehenge.jpg
+\&  $ exiv2 --grep xmpMM Stonehenge.jpg
+\&  Xmp.xmpMM.History                            XmpText     0  type="Seq"
+\&  Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
+\&  Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+\&  Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+\&  Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+\&  Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
+\&  Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
+.fi
+
+Nested arrays are permitted. For example, to add an additional XmpSeq to 
+the first struct in the Xmp.xmpMM.History tag:
+
+.nf
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:myBag XmpText type=Bag" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[1]/stEvt:action open a file" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[2]/stEvt:action convert" Stonehenge.jpg
+\&  $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[3]/stEvt:action save" Stonehenge.jpg
+\&  $ exiv2 --grep xmpMM Stonehenge.jpg
+\&  $ exiv2 --grep xmpMM Stonehenge.jpg
+\&  Xmp.xmpMM.History                            XmpText     0  type="Seq"
+\&  Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
+\&  Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq             XmpText     0  type="Seq"
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq[1]          XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq[1]/stEvt:action XmpText    11  open a file
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq[2]          XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq[2]/stEvt:action XmpText     7  convert
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq[3]          XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[1]/stEvt:mySeq[3]/stEvt:action XmpText     4  save
+\&  Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+\&  Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+\&  Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
+\&  Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
+.fi
+
+.TP
+\fB'Modify' command file\fP
+Commands for the 'modify' action can be read from a file. They are executed 
+line-by-line, as though each command were passed to \fB--Modify\fP \fIcmd\fP 
+on a single \fBexiv2\fP line. In the file, any blank lines or additional white 
+space is ignored and any lines beginning with a '#' are comments. When 
+registering namespaces, place this in the file before the command to use it.
+
+For help creating a command file from an existing file, see \fBExtracting modify commands\fP.
+
+For example, a 'cmd.txt' file:
+
+.nf
+\&  # Comments are ignored
+\&  add Xmp.dc.description LangAlt lang="x-default" Monument
+\&  set Xmp.dc.description LangAlt lang="de-DE" das Monument
+\&  
+\&  # This command was generated from a file. Additional whitespace is ignored
+\&  set Xmp.xmp.Rating                               XmpText    0
+\&  
+\&  # Additional whitespace is ignored
+\&    del Iptc.Application2.Caption
+\&  
+\&  # Use 'reg' before modifying any non-standard 'Group'
+\&  reg myPhotos https://ns.myPhotos.org/
+\&  set Xmp.myPhotos.weather Cloudy
+.fi
+
+would be run using:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --modify cmd.txt Stonehenge.jpg
+.fi
+
+For another example, see: \fIhttps://www.exiv2.org/sample.html\fP
 .br
 .ne 40
 .SH EXIV2 GROUPS, TYPES AND VALUES
@@ -747,7 +932,7 @@ ignored (comments). Remaining lines are commands as described above.
 Exiv2 supports Exif 2.32, Adobe XMP 4.4.0 by default, although can be built with newer versions of the SDK, and many manufacturer's MakerNotes.
 
 .SS Exiv2 tags
-Exiv2 metadata keys are made up of a triplet of 'Family.Group.Tagname' (e.g., Exif.Image.Model). The following groups are defined for the Exif family:
+See \fBExiv2 key syntax\fP for the format of a key. The following groups are defined for the Exif family:
 .sp 1
 
 .TS
@@ -815,7 +1000,7 @@ The XMP specification is flexible and allows new custom Groups and
 Tagnames to be added (see \fBCommand format\fP).
 .sp 1
 For example, the 'cm2e' Group has been added, which has 'Father' and 'Family' 
-Tagnames. Aditionally, a 'Family' tag has been added to the built-in 'dc' Group:
+Tagnames. Additionally, a 'Family' tag has been added to the built-in 'dc' Group:
 .sp 1
 .nf
 \&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
@@ -855,7 +1040,7 @@ SByte	A string of 8-bit signed integers	Single
 Float	Signed single precision (4-byte) IEEE format	Single	Use as a signed decimal (e.g., "-0.5" is -0.5)
 Double	Signed double precision (8-byte) IEEE format	Single	Use as a signed decimal (e.g., "-0.5" is -0.5)
 Ascii	A string of 7-bit ASCII. NULL terminated	Single	Use as a string (e.g., "Value")
-Comment	A string of 7-bit ASCII. NULL terminated	Single	Use as a string (e.g., "Value")
+Comment	A string of 7-bit ASCII. NULL terminated	Single	Use as a string (e.g., "Value"). See \fIValue\fP in \fBCommand format\fP
 Undefined	A string of 8-bit bytes	Single	Use as a string (e.g., "Value")
 .TE
 .sp 1
@@ -887,6 +1072,54 @@ XmpSeq	A string of text	Multi	An ordered array (e.g., 3 values, "Gold, Silver, B
 XmpText	A string of text	Single	
 .TE
 .sp 1
+.SS
+\fBExiv2 key syntax\fP
+
+The standard format for Exif and IPTC tags is:
+
+\fIFamily\fP.\fIGroup\fP.\fITagname\fP
+
+.TS
+l l.
+\fIFamily\fP	Either 'Exif' or 'Iptc'
+\fIGroup\fP	The tag group within the family. e.g., for Exif, 'Image'
+\fITagname\fP	The tagname within a family and group. e.g., For Exif.Image, 'Model'
+.TE
+
+For example, Exif.Image.Model or Iptc.Application2.Subject .
+
+In addition to the standard key syntax, XMP can also use an extended format:
+
+\fIFamily\fP.\fIGroup\fP.\fITagname\fP[ \fI\<index\>\fP[ \fI\<value_types\>\fP ] ]+
+
+.TS
+l l.
+\fIFamily\fP	i.e. 'Xmp'
+\fIGroup\fP	The tag group within the family. e.g., for Xmp, 'dc'
+\fITagname\fP	The tagname within a family and group. e.g., For Xmp.dc, 'subject'
+\fI\<index\>\fP	An integer (1,...,n) surrounded by square brackets (e.g., [n], is the n'th item in the 'array')
+\fI\<value_types\>\fP	This is  \fI/name1\fP : \fIname2\fP (e.g., /dim:length). Within a \fIFamily.Group.Tagname[n]\fP and nested arrays, only one type of \fI/name1\fP identifier is allowed, but many \fIname2\fP values
+.TE
+
+For example, the Xmp.xmpMM.History tag would use the extended key:
+
+.nf
+\&  Xmp.xmpMM.History[1]/stEvt:action
+.fi
+
+Nested structures are permitted and use multiple [ \fI\<index\>\fP [ \fI\<value_types\>\fP ] ]
+in the key. For example, if an Xmp.xmpMM.History tag defined an additional 
+nested array struct, the extended key would be:
+
+.nf
+\&  Xmp.xmpMM.History[1]/stEvt:myArray[1]/myName1:myName2
+.fi
+
+See \fBXMP structs\fP and \fBSetting an XMP struct value\fP.
+
+More information about XMP keys and conventions for \fI\<value_types\>\fP is 
+available from: \fIhttps://www.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMPSDKReleasecc-2020/XMPSpecificationPart2.pdf#G4.1132618\fP
+
 .SS
 \fBMultiple elements\fP
 Some IPTC datasets and XMP properties allow multiple elements to be stored, although they both do this in different ways.
@@ -923,6 +1156,10 @@ For example, a file containing two Xmp.dc.description values (for format, see
 .fi
 .ne 8
 .fi
+.SS
+\fBDuplicate Exif tags\fP
+The Exif specification allows for duplicate tags, but this is currently 
+unused by any current tag definitions.
 .SS Date/Time formats
 .fi
 The times and dates are stored using different formats in image metadata. 
@@ -948,20 +1185,20 @@ An IPTC 'Date' type is stored in the format:
 .sp 1
 .RS
 .IP
-YYYYMMDD
+YYYY-MM-DD
 .RE
 .IP
-where YYYYMMDD is the year, month and day (e.g., "20100915" is 15-Aug-10).
+where YYYY-MM-DD is the year, month and day (e.g., "2010-09-15" is 15-Aug-10).
 .sp 1
 An IPTC 'Time' type is stored in the format:
 .RS
 .IP
-HHMMSScHHMM
+HH:MM:SScHH:MM
 .RE
 .IP
-where HHMMSS refers to local time's hour, minutes and seconds and, HHMM 
+where HH:MM:SS refers to local time's hour, minutes and seconds and, HH:MM 
 refers to hours and minutes with c being ahead (+) or behind (-) Universal 
-Coordinated Time (UCT) as described in ISO 8601 (e.g., 084515+0100 is 
+Coordinated Time (UCT) (e.g., 08:45:15+01:00 is 
 08:45:15, which is +1 hour different from UCT).
 .TP
 \fBMakernote tags\fP
@@ -969,6 +1206,159 @@ Coordinated Time (UCT) as described in ISO 8601 (e.g., 084515+0100 is
 There is no one single format. Different camera manufacturers use different 
 formats, even within their own sets of tags. Some tags use encoded data 
 that does not conform to any official format.
+
+.SS
+\fBExif 'Comment' values\fP
+Exif 'Comment' values can include an optional charset definition to explain 
+how to interpret the rest of the value. This is used by tags such as 
+Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod and 
+Exif.GPSInfo.GPSAreaInformation.
+
+The format of the value is:
+
+[ \fBcharset=\fP ( \fIAscii\fP | \fIJis\fP | \fIUnicode\fP | \fIUndefined\fP ) ] comment
+
+If the charset is not specified then the default is \fIUndefined\fP.
+
+For example, if Ascii and Unicode Comments have been set:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --grep UserComment --grep GPSProcessingMethod Stonehenge.jpg
+\&  Exif.Photo.UserComment                       Undefined  16  charset=Ascii Monument
+\&  Exif.GPSInfo.GPSProcessingMethod             Undefined  14  charset=Unicode GPS
+.fi
+
+The reported size of the 'value' is calculated as:
+
+.nf
+\&  8 Bytes (for the "charset=val ") + (the rest of the value) * (2 Bytes for Unicode, otherwise 1 Byte)
+.fi
+
+.SS
+\fBXMP namespaces\fP
+Every XMP 'Group' (called a \fIprefix\fP) has an identifier (called a 
+\fInamespace\fP) associated with it. Within an image's metadata, both 
+namespaces and prefixes are unique. 
+
+\fBexiv2\fP has standards defined prefixes and namespaces built-in, which 
+can be displayed in the format:
+ 
+.nf
+\&  `xmlns=<prefix>:<namespace>
+.fi
+
+For example, here, only a couple are shown:
+
+.nf
+\&  $ exiv2 --verbose --version --grep xmlns
+\&  ...
+\&  xmlns=xmp:http://ns.adobe.com/xap/1.0/ 
+\&  xmlns=dc:http://purl.org/dc/elements/1.1/
+\&  ...
+.fi
+
+To list the XMP prefixes and namespaces used by an image's metadata, in the 
+format:
+
+.nf
+\&  xmlns:<prefix>=<namespace>
+.fi
+
+extract a sidecar file to stdout. For example, here, other data is not included:
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  $ exiv2 --extract X- Stonehenge.jpg
+\&  <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
+\&  <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+\&   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+\&    <rdf:Description rdf:about=""
+\&      xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+\&      xmlns:cm2e="http://clanmills.com/exiv2/"
+\&      xmlns:dc="http://purl.org/dc/elements/1.1/"
+\&      xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
+\&      xmlns:exif="http://ns.adobe.com/exif/1.0/"
+\&      xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
+\&     xmp:Rating="0"
+\&     xmp:ModifyDate="2015-07-16T20:25:28+01:00"
+\&     xmp:CreateDate="2015-07-16T15:38:54.00"
+\&  ...
+.fi
+
+New XMP namespaces can be registered, allowing new 'Groups' and 'Tagnames' 
+to be created (see \fBRegistering an XMP namespace\fP).
+
+Within an image's metadata, built-in prefixes can be re-registered with 
+different namespaces. In this case, \fBexiv2\fP will use any new definitions.
+
+.SS
+\fBXMP LangAlt values\fP
+A 'LangAlt' string provides alternative text for different languages, with 
+individual entries separated using a  ', '. Each entry is in the format:
+
+[ \fBlang=\fP( \fIx-default\fP | \fI<lang>\fP | \fI<lang>\fP-\fI\<country>\fP ] text
+
+.TS
+l l.
+x-default	The default value. If defined, a LangAlt string always lists this entry first
+lang	A language code as defined in \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
+country	A country code as defined in \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
+text	The text to use for a language definition
+.TE
+
+The \fI\<lang\>\fP-\fI\<country\>\fP combination is useful where a country uses a 
+different version of a common language (e.g. Swiss-French, would be 
+"fr-CH"). The \fI\<lang\>\fP or \fI\<lang\>\fP-\fI\<country\>\fP can be optionally 
+surrounded by double quotes (single quotes are not allowed). If no language 
+is specified, the default value is \fIx-default\fP. Any \fIx-default\fP entry is 
+always listed first.
+
+For example, 3 language definitions including a default value, a 
+British English value and a general French value:
+
+.nf
+\&  lang="x-default" Elevator, lang="en-gb" Lift, lang="fr" ascenseur
+.fi
+
+.SS
+\fBXMP structs\fP
+
+XMP structs group XmpText elements together in an array arrangement. The 
+elements themselves can contain other structs, allowing complex nested 
+array structures to be created. The tags in a struct use the extended XMP 
+version of the \fBExiv2 key syntax\fP.
+
+In a struct, the base key (e.g., Xmp.xmpMM.History) contains:
+
+\fBtype=\fP\fI\<array_type\>\fP
+
+where \fI\<array_type\>\fP is 'Alt' for XmpAlt, 'Bag' for XmpBag or 'Seq' for XmpSeq.
+
+Each numbered base key (e.g., Xmp.xmpMM.History[n]) contains the 
+string: `type="Struct"` and each numbered base key plus value type 
+(e.g. Xmp.xmpMM.History[n]/stEvt:action), contains the data.
+
+For example, the Xmp.xmpMM.History tag recording that a file has been 
+converted from tiff to JPEG, then saved.
+
+.nf
+\&  $ curl --silent -O https://clanmills.com/Stonehenge.jpg
+\&  Xmp.xmpMM.History                            XmpText     0  type="Seq"
+\&  Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
+\&  Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+\&  Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+\&  Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
+\&  Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+\&  Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
+\&  Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
+.fi
+ 
+For an example of modifying a struct, see \fISetting an XMP struct value\fP.
+
+More information about structs is available from: \fIhttps://wwwimages2.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMP%20SDK%20Release%20cc-2016-08/XMPSpecificationPart1.pdf#G5.873540\fP
+
 .ne 40
 .SH CONFIGURATION FILE
 \fBexiv2\fP can read an optional configuration file, which allows 
@@ -1036,7 +1426,7 @@ is brief and does not use the Family.Group.Tagname format.
 .TP
 \fBexiv2\fP \fB--grep\fP \fIdate/i\fP \fIhttps://clanmills.com/Stonehenge.jpg\fP
 Prints tags in \fIhttps://clanmills.com/Stonehenge.jpg\fP, where the key 
-(i.e., Family.Group.Tagname) contains the string \fIdate\fP (\fI/i\fP searches case 
+(see \fBExiv2 key syntax\fP) contains the string \fIdate\fP (\fI/i\fP searches case 
 insensitive). When not including \fB--print\fP \fImode\fP or 
 \fB--Print\fP \fIflgs\fP, the default output becomes \fB--print\fP \fIa\fP 
 (i.e., print all).
@@ -1048,7 +1438,7 @@ Prints the IPTC datasets in \fIimage.jpg\fP.
 .TP
 \fBexiv2\fP \fB--Print\fP \fIkytEX\fP \fIimage.jpg\fP
 Prints (with finer grained control) the Exif tags and XMP properties in 
-\fIimage.jpg\fP. The tag's key (i.e., Family.Group.Tagname), type and 
+\fIimage.jpg\fP. The tag's key (see \fBExiv2 key syntax\fP), type and 
 translated value are displayed.
 .sp 1
 .TP
@@ -1124,6 +1514,12 @@ Sets the latitude to 4 degrees, 15 minutes and 33 seconds north in
 tag consists of three Rational numbers for the degrees, minutes and 
 seconds of the latitude and GPSLatitudeRef contains either 'N' or 'S' 
 for north or south latitude respectively.
+
+
+.TP
+\fBexiv2 \--Modify\fP \fI"reg myprefix http://ns.myprefix.me/"\fP \fB\--Modify\fP \fI"add Xmp.myprefix.Whom Mr. Mills" Stonehenge.jpg\fP
+Registers a new XMP namespace called 'http://ns.myprefix.me/' and a new 
+XMP group called 'myprefix'. This new Group has a new 'Whom' tag added to it.
 .TP
 \fBexiv2\fP \fB--location\fP \fI/tmp\fP \fB--suffix\fP \fI.CRW\fP \fI/data/*.JPG\fP	
 Copy all metadata from CRW files in the \fI/tmp\fP directory to JPG files 
@@ -1165,6 +1561,8 @@ Exiv2 sample programs: \fIhttps://github.com/Exiv2/exiv2/blob/main/README-SAMPLE
 Exiv2 downloads: \fIhttps://www.exiv2.org/download.html\fP
 Exiv2 wiki: \fIhttps://github.com/Exiv2/exiv2/wiki\fP
 APEX Exposure values: \fIhttps://en.wikipedia.org/wiki/APEX_system\fP
+XMP keys: \fIhttps://www.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMPSDKReleasecc-2020/XMPSpecificationPart2.pdf#G4.1128133\fP
+XMP structs: \fIhttps://wwwimages2.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMP%20SDK%20Release%20cc-2016-08/XMPSpecificationPart1.pdf\fP
 International Language Codes: \fIhttps://www.ietf.org/rfc/rfc3066.txt\fP
 Windows INI format: \fIhttps://en.wikipedia.org/wiki/INI_file\fP
 TZ Environment variable values: \fIhttps://en.wikipedia.org/wiki/List_of_tz_database_time_zones\fP
