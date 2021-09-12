@@ -10,7 +10,7 @@ exiv2 - Image metadata manipulation tool
 <div id="synopsis">
 
 # SYNOPSIS
-**exiv2** [ *options* ] [ *action* ] *file* ...
+**exiv2** [ *option* [ *arg* ] ]+ [ *action* ] *file* ...
 
 <div id="description">
 
@@ -18,9 +18,9 @@ exiv2 - Image metadata manipulation tool
 **exiv2** is a program to read and write image metadata, including 
 Exif, IPTC, XMP, image comments, ICC Profile, thumbnails, image 
 previews and many vendor makernote tags. The program optionally 
-converts between Exif tags, IPTC datasets and XMP properties as 
-recommended by the Exif Standard, the IPTC Standard, the XMP 
-specification and the Metadata Working Group guidelines.
+converts between Exif, IPTC and XMP tags, as recommended by their 
+respective standards/specifications and the Metadata Working Group 
+guidelines.
 
 <div id="TOC">
 
@@ -68,16 +68,17 @@ ARW  | Read       | Read       | Read       | -              | -           | Rea
 AVIF | Read       | Read       | Read       | -              | -           | Read
 BMP  | -          | -          | -          | -              | -           | -
 CR2  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
-CR3  | Read       | Read       | Read       | -              | Read        | Read
+CR3  | Read       | Read       | Read       | -              | -           | -
 CRW  | Read/Write | -          | -          | Read/Write     | -           | Read/Write
 DNG  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
 EPS  | -          | -          | Read/Write |                | -           | -
 EXV  | Read/Write | Read/Write | Read/Write | Read/Write     | Read/Write  | Read/Write
 GIF  | -          | -          | -          | -              | -           | -
-HEIC | Read       | Read       | Read       | -              | -           | Read
-HEIF | Read       | Read       | Read       | -              | -           | Read
+HEIC | Read       | Read       | Read       | -              | -           | -
+HEIF | Read       | Read       | Read       | -              | -           | -
 JP2  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
 JPEG | Read/Write | Read/Write | Read/Write | Read/Write     | Read/Write  | Read/Write
+JXL  | Read       | Read       | Read       | -              | -           | -
 MRW  | Read       | Read       | Read       | -              | -           | Read
 NEF  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
 ORF  | Read/Write | Read/Write | Read/Write | -              | -           | Read/Write
@@ -101,6 +102,15 @@ image are determined.
 + Reading other TIFF-like RAW image formats, which are not listed in 
 the table, may also work.
 
++ Some image formats allow an extra interal type of metadata. Only 
+partial support exists for the RAF format.
+
++ Support for BMFF types such as CR3, HEIF and HEIC is a build option. To 
+check if enabled, use `exiv2 --version --verbose --grep bmff` and see if 
+`enable_bmff=1`.
+
++ Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
+
 + The thumbnail, if available, is included in the list of image previews.
 
 [TOC](#TOC)
@@ -114,7 +124,7 @@ The *action* argument is only required if it is not clear from the
 <div id="pr_print">
 
 ### pr | print
-Print image metadata. This is the default action, i.e. the command
+Print image metadata. This is the default action, i.e., the command
 `exiv2 image.jpg` will print a summary of the image Exif metadata.
 
 <div id="ex_extract">
@@ -149,16 +159,16 @@ options [--adjust time](#adjust_time), [--years +-n](#years_n),
 <div id="mo_modify">
 
 ### mo | modify
-Apply commands to modify (add, set, delete) the Exif, IPTC and XMP
-metadata of image files. Requires option [--comment txt](#comment_txt), 
-[--modify cmdfile](#modify_cmdfile) or [--Modify cmd](#Modify_cmd).
+Apply commands to modify the Exif, IPTC and XMP metadata of image files. 
+Requires option [--comment txt](#comment_txt), [--modify cmdfile](#modify_cmdfile) 
+or [--Modify cmd](#Modify_cmd).
 
 <div id="mv_rename">
 
 ### mv | rename
 Rename files and/or set file timestamps according to the Exif create
-timestamp. Uses the value of tag [Exif.Photo.DateTimeOriginal](https://www.exiv2.org/tags.html) 
-or, if not present, [Exif.Image.DateTime](https://www.exiv2.org/tags.html) 
+timestamp. Uses the value of [Exif.Photo.DateTimeOriginal](https://www.exiv2.org/tags.html) 
+tag or, if not present, [Exif.Image.DateTime](https://www.exiv2.org/tags.html) 
 to determine the timestamp. The filename format can be set with [--rename fmt](#rename_fmt), 
 timestamp options are [--timestamp](#timestamp) and [--Timestamp](#Timestamp). 
 See [TZ environment variable](#TZ).
@@ -185,11 +195,12 @@ specify the current encoding of the comment if necessary.
 
 # COMMAND SUMMARY
 
-**exiv2** [ **option** [ *arg* ] ]+ [ *action* ] *file* ...<br>
+**exiv2** [ *option* [ *arg* ] ]+ [ *action* ] *file* ...<br>
 
-Where *file* contains image metadata, optionally specified using a URL 
-(http, https, ftp, sftp, data and file supported) or a wildcard pattern 
-(e.g., \*.jpg)
+Where *file* is one or more files containing image metadata. These can 
+optionally be specified using a URL (http, https, ftp, sftp, data 
+and file supported) or a wildcard pattern (e.g., `image1.tiff image2.jpg`, 
+`https://clanmills.com/Stonehenge.jpg` or `*.jpg`)
 
 | Option           | Long option            | Description                                                               |
 |:------           |:----                   |:----                                                                      |
@@ -214,9 +225,9 @@ Where *file* contains image metadata, optionally specified using a URL
 | **-p** *mod*     | **--print** *mod*      | Print report (common reports) [[...]](#print_mod)                         |
 | **-P** *flg*     | **--Print** *flg*      | Print report (fine grained control) [[...]](#Print_flgs)                  |
 | **-q**           | **--quiet**            | Silence warnings and error messages [[...]](#quiet)                       |
-| **-Q** *lvl*     | **--log** *lvl*        | Set the log-level to 'd'(ebug), 'i'(nfo), 'w'(arning), 'e'(rror) or 'm'(ute) [[...]](#log_lvl) |
+| **-Q** *lvl*     | **--log** *lvl*        | Set the log-level [[...]](#log_lvl)                                       |
 | **-r** *fmt*     | **--rename** *fmt*     | Filename format for the [rename](#mv_rename) action [[...]](#rename_fmt)  |
-| **-S** *suf*     | **--suffix** *suf*     | Use suffix for source files when using the [insert](#in_insert) command [[...]](#suffix_suf) |
+| **-S** *suf*     | **--suffix** *suf*     | Use suffix for source files when using the [insert](#in_insert) action [[...]](#suffix_suf) |
 | **-t**           | **--timestamp**        | Set the file timestamp from Exif metadata. For the [rename](#mv_rename) action [[...]](#timestamp) |
 | **-T**           | **--Timestamp**        | Only set the file timestamp from Exif metadata. For the [rename](#mv_rename) action [[...]](#Timestamp) |
 | **-u**           | **--unknown**          | Show unknown tags [[...]](#unknown)                                       |
@@ -224,11 +235,11 @@ Where *file* contains image metadata, optionally specified using a URL
 | **-V**           | **--version**          | Show the program version and exit [[...]](#version)                       |
 | **-Y** *+-n*     | **--years** *+-n*      | Automated adjustment of the years in metadata dates [[...]](#years_n)     |
 
-The flags for those options are:
-
 <div id="cmd_summary_flgs">
 
-| Parameter | Description                                                                |
+The arguments for those options are:
+
+| Argument  | Description                                                                |
 |:------    |:----                                                                       |
 | *action*  | pr \| ex \| in \| rm \| ad \| mo \| mv \| fi \| fc<br>(print, extract, insert, delete, adjust, modify, rename, fixiso, fixcom) |
 | *cmd*     | (**set** \| **add**) *key* [[*type*] *value*] \| **del** *key* [*type*] \| **reg** *prefix* *namespace*<br>(see ['Modify' command format](#mod_cmd_format)) |
@@ -236,7 +247,7 @@ The flags for those options are:
 | *flg*     | E \| I \| X \| x \| g \| k \| l \| n \| y \| c \| s \| v \| t \| h<br>(Exif, IPTC, XMP, num, grp, key, label, name, type, count, size, vanilla, translated, hex) |
 | *fmt*     | Default format: %Y%m%d_%H%M%S                                              |
 | *key*     | See [Exiv2 key syntax](#exiv2_key_syntax))                                 |
-| *lvl*     | d \| i \| w \| e<br>(debug, info, warning, error)                          |
+| *lvl*     | d \| i \| w \| e \| m<br>(debug, info, warning, error, mute)               |
 | *mod*     | s \| a \| e \| t \| v \| h \| i \| x \| c \| p \| C \| R \| S \| X<br>(summary, all, Exif, translated, vanilla, hex, IPTC, XMP, comment, preview, ICC Profile, Recursive Structure, Simple Structure, raw XMP) |
 | *suf*     | '.' then the file's extension (e.g., '.txt')                               |
 | *time*    | [ +\|-]HH[:MM[:SS[.mmm]]]<br>(Default is **+** when **+**/**-** are missing) |
@@ -367,7 +378,7 @@ Exif.Photo.DateTimeDigitized                 Ascii      20  2015:07:16 15:38:54
 ### **-n** *enc*, **--encode** *enc*
 Charset to use when decoding Exif Unicode user comments, where *enc* is
 a name understood by [iconv_open(3)](https://linux.die.net/man/3/iconv_open) 
-(e.g., 'UTF-8').
+(e.g., 'UTF-8'). See [Exif 'Comment' values](#exif_comment_values).
 
 <div id="keep">
 
@@ -512,13 +523,13 @@ Possible modes are:
 | Option | Description                                                                          |
 |:------ |:----                                                                                 |
 | s      | A summary of the Exif metadata (the default for the [print](#pr_print) action)       |
-| a      | Exif, IPTC and XMP metadata (shortcut for [--Print kyct](#Print_flgs))               |
-| e      | Exif metadata (shortcut for [--Print Ekycv](#Print_flgs))                            |
+| a      | Exif, IPTC and XMP tags (shortcut for [--Print kyct](#Print_flgs))                   |
+| e      | Exif tags (shortcut for [--Print Ekycv](#Print_flgs))                                |
 | t      | Interpreted (translated) Exif tag values (shortcut for [--Print Ekyct](#Print_flgs)) |
 | v      | Plain (untranslated) Exif tag values (shortcut for [--Print Exgnycv](#Print_flgs))   |
 | h      | Hex dump of the Exif data (shortcut for [--Print Exgnycsh](#Print_flgs))             |
-| i      | IPTC datasets (shortcut for [--Print Ikyct](#Print_flgs))                            |
-| x      | XMP properties (shortcut for [--Print Xkyct](#Print_flgs))                           |
+| i      | IPTC tags (shortcut for [--Print Ikyct](#Print_flgs))                                |
+| x      | XMP tags (shortcut for [--Print Xkyct](#Print_flgs))                                 |
 | c      | JPEG comment                                                                         |
 | p      | List available image previews, sorted by size in pixels (e.g., see [--extract tgt3](#extract_tgt3)) |
 | C      | Image ICC Profile                                                                    |
@@ -543,8 +554,8 @@ as well as data columns included in the print output. Valid flags are:
 | Option | Description                                                                 |
 |:------ |:----                                                                        |
 | E      | Exif tags                                                                   |
-| I      | IPTC datasets                                                               |
-| X      | XMP properties                                                              |
+| I      | IPTC tags                                                                   |
+| X      | XMP tags                                                                    |
 | x      | Tag number for Exif or IPTC tags (in hexadecimal)                           |
 | g      | Group name (e.g., for Exif.Photo.UserComment, outputs Photo)                |
 | k      | Key (e.g., Exif.Photo.UserComment)                                          |
@@ -585,13 +596,14 @@ Delete target(s) for the [delete](#rm_delete) action. Possible targets are:
 | Option | Description                                                              |
 |:------ |:----                                                                     |
 | a      | All supported metadata (the default for the [delete](#rm_delete) action) |
-| e      | Exif section                                                             |
+| e      | Exif tags                                                                |
 | t      | Exif thumbnail only                                                      |
-| i      | IPTC data                                                                |
-| x      | XMP packet                                                               |
+| i      | IPTC tags                                                                |
+| x      | XMP tags                                                                 |
 | c      | JPEG comment                                                             |
 | C      | ICC Profile                                                              |
 | I      | All IPTC data (removes broken metadata containing multiple IPTC blocks)  |
+| -      | Insert from stdin. This option is intended for "filter" operations       |
 
 <div id="insert_tgt2">
 
@@ -603,23 +615,29 @@ targets are:
 | Option | Description                                                              |
 |:------ |:----                                                                     |
 | a      | All supported metadata (the default for the [insert](#in_insert) action) |
-| e      | Exif section                                                             |
+| e      | Exif tags                                                                |
 | t      | Exif thumbnail. Only JPEG thumbnails can be inserted from a file called *file-thumb.jpg* |
-| i      | IPTC data                                                                |
-| x      | XMP packet                                                               |
+| i      | IPTC tags                                                                |
+| x      | XMP tags                                                                 |
 | c      | JPEG comment                                                             |
 | C      | ICC Profile, inserted from a file called *<file>.icc*                    |
-| X      | Insert metadata from an XMP sidecar file, <file>.xmp. The remaining targets determine which metadata to include, possible are Exif, IPTC and XMP (default is all of these). Inserted XMP properties include those converted to Exif and IPTC |
+| X      | Insert metadata from an XMP sidecar file, <file>.xmp. The remaining targets determine which metadata to include, possible are Exif, IPTC and XMP (default is all of these). Inserted XMP tags include those converted to Exif and IPTC |
 | XX     | Insert "raw" XMP metadata from a sidecar file, *<file>.exv*              |
 | -      | Insert from stdin. This option is intended for "filter" operations       |
 
-Filter operations between extract and insert are possible, using the 
-following template; [xmllint(1)](https://linux.die.net/man/1/xmllint) can 
-be optionally used when extracting XMP sidecar files:
+To insert from a location other than the current directory, use [--location dir](#location_dir). 
+
+Filter operations between [--extract tgt3](#extract_tgt3) and 
+**--insert** *tgt2* are possible, using the following template; 
+[xmllint(1)](https://linux.die.net/man/1/xmllint) can be optionally used 
+when extracting XMP sidecar files:
 
 ```
 $ exiv2 -e{tgt3}- filename | [ xmllint .... |] exiv2 -i{tgt2}- filename
 ```
+
+When filtering from extract to insert, do not use the [--verbose](#verbose) 
+option with [--extract tgt3](#extract_tgt3) as this outputs unwanted text.
 
 <div id="extract_tgt3">
 
@@ -629,16 +647,18 @@ Extract target(s) for the [extract](#ex_extract) action. Possible targets are:
 | <div style="width:100px">Option</div> | Description |
 |:------           |:----                                                                       |
 | a                | All supported metadata (the default for the [extract](#ex_extract) action) |
-| e                | Exif section                                                               |
+| e                | Exif tags                                                               |
 | t                | Extract Exif thumbnail only to a file called *<file>-thumb.jpg*            |
-| i                | IPTC data                                                                  |
-| x                | XMP packet                                                                 |
+| i                | IPTC tags                                                                  |
+| x                | XMP tags                                                                   |
 | c                | JPEG comment                                                               |
 | p\[\<n\>\[,\<m\> ...\]\] | Extract preview images to files called *\<file\>-preview\<n \| m \| ...\>.jpg* (`--extract p` extracts all previews). The thumbnail is included in any preview images |
 | C                | Extract ICC profile, to a file called *<file>.icc*                         |
-| X                | Insert metadata from an XMP sidecar file, <file>.xmp. The remaining targets determine which metadata to include, possible are Exif, IPTC and XMP (default is all of these). Inserted XMP properties include those converted to Exif and IPTC |
-| XX               | Extract "raw" XMP metadata to a sidecar . Other targets cannot be used with this, as only XMP data is written |
+| X                | Extract metadata to an XMP sidecar file, <file>.xmp. Other targets cannot be used with this, as only XMP data is written. Extracted XMP tags include those converted from Exif and IPTC |
+| XX               | Extract "raw" XMP metadata to a sidecar, <file>.exv. The remaining targets determine which metadata to include, possible are Exif and IPTC (XMP is always included) |
 | -                | Output to stdout (see [--insert tgt2](#insert_tgt2) for an example of this feature) |
+
+To extract to a location other than the current directory, use [--location dir](#location_dir). 
 
 When extracting preview images, first list which previews are available:
 
@@ -790,7 +810,7 @@ using the parameters:
 
 | Parameter   | Description                                                              |
 |:------      |:----                                                                     |
-| *key*       | An Exif, IPTC or XMP key (see [Exiv2 key syntax](#exiv2_key_syntax))     |
+| *key*       | See [Exiv2 key syntax](#exiv2_key_syntax)                                |
 | *type*      | The *type* for the tag, a default is used if none is given. For built-in tags, the default is defined in the standard and for registered XMP tags, the default is XmpText (see [Exif/IPTC/XMP types](#exiv2_types)) |
 | *value*     | The remaining text on the line is the value, and can optionally be enclosed in quotes (see [Quotations with 'modify' commands](#quotes_modify)). For Ascii, XmpAlt, XmpBag, XmpSeq and XmpText, the value is optional which is equivalent to an empty value ("") |
 | *prefix*    | This is the XMP 'Group' that is being registered. This is case sensitive and must be unique within an image's metadata. e.g., For an "Exiv2" *prefix*, the tags for that group are available as Xmp.Exiv2.Tagname |
@@ -908,6 +928,10 @@ Xmp.xmp.RatingInPercent                      XmpText     2  98
 Xmp.cm2e.Surname                             XmpText     5  Mills
 ```
 
+If adding an empty non XmpText tag, include the empty string as the 
+value. This prevents an XmpText tag being created with the value set to 
+the 'type'.
+   
 <div id="set_langalt">
 
 #### Setting an XMP LangAlt value
@@ -1085,9 +1109,8 @@ PentaxDng                NikonLd3   OlympusFe6    Sony2Fp
 
 A full list of built-in Exif, IPTC and XMP tags is available online at 
 https://www.exiv2.org/metadata.html. To query Exiv2 Groups and Tagnames, 
-a sample program called *taglist* is provided (see 
-https://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md), which can be 
-built from source (see https://github.com/Exiv2/exiv2/blob/main/README.md) 
+a sample program called [taglist](https://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md#taglist) 
+is provided, which can be built from source (see https://github.com/Exiv2/exiv2/blob/main/README.md) 
 or downloaded from https://www.exiv2.org/download.html.
 
 For the Exif, IPTC and XMP groups:
@@ -1096,7 +1119,7 @@ For the Exif, IPTC and XMP groups:
 are also available in Exif's Thumbnail, Image(2|3), SubImage(1-9) and 
 SubThumb1 groups, (e.g., Exif.Thumbnail.XResolution).
 
-+ Many camera manufacturer tags are available and are accessed as 
++ Many camera manufacturer's tags are available and are accessed as 
 different Exif groups, using the manufacturer's name as a prefix (e.g., 
 CanonCs is the Camera Settings for a Canon camera). Groups called the 
 manufacturer name plus number, access the main tags in different file 
@@ -1107,11 +1130,11 @@ tags for all the different manufacturers is an ongoing task, only partial
 support is available. The full unprocessed makernotes data is available 
 in [Exif.Photo.MakerNote](https://www.exiv2.org/tags.html).
 
-+ Every Exif tag and IPTC dataset has a tag number (16 bit, 2 byte 
-integer), which is unique within a Group (to display, see [--Print x](#Print_flgs)).
++ Every Exif and IPTC tag has a tag number (16 bit, 2 byte integer), 
+which is unique within a Group (to display, see [--Print x](#Print_flgs)).
 
-+ Some of the Exif tags and IPTC datasets are mirrored in the XMP 
-specification (see https://www.exiv2.org/metadata.html).
++ Some of the Exif and IPTC tags are mirrored in the XMP specification 
+(see https://www.exiv2.org/metadata.html).
 
 + The XMP specification is flexible and allows new custom 'Groups' and 
 'Tagnames' to be added (see [Adding new XMP tags](#add_xmp_tags) and 
@@ -1198,7 +1221,7 @@ The standard format for Exif and IPTC tags is:
  Definition | Description                                                          |
 |:------    |:----                                                                 |
 | Family    | Either 'Exif' or 'Iptc'                                              |
-| Group     | The tag group within the family. e.g., for Exif, 'Image'             |
+| Group     | The group within the family. e.g., for Exif, 'Image'                 |
 | Tagname   | The tagname within a family and group. e.g., For Exif.Image, 'Model' |
 
 For example, Exif.Image.Model or Iptc.Application2.Subject .
@@ -1212,8 +1235,8 @@ In addition to the standard key syntax, XMP can also use an extended format:
 
 | Definition        | Description                                                          |
 |:------            |:----                                                                 |
-| Family            | i.e. 'Xmp'                                                           |
-| Group             | The tag group within the family. e.g., for Xmp, 'dc'                 |
+| Family            | i.e., 'Xmp'                                                          |
+| Group             | The group within the family. e.g., for Xmp, 'dc'                     |
 | Tagname           | The tagname within a family and group. e.g., For Xmp.dc, 'subject'   |
 | *\<index\>*       | An integer (1,...,n) surrounded by square brackets (e.g., [n], is the n'th item in the 'array') |
 | *\<value_types\>* | This is  */name1* : *name2* (e.g., /dim:length). Within a *Family.Group.Tagname[n]* and nested arrays, only one type of */name1* identifier is allowed, but many *name2* values |
@@ -1240,16 +1263,16 @@ available from: https://www.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMPSDK
 <div id="multi_elements">
 
 ### Multiple elements
-Some IPTC datasets and XMP properties allow multiple elements to be 
-stored, although they both do this in different ways.
+Some IPTC and XMP tags allow multiple elements to be stored, although 
+they both do this in different ways.
 
 <div id="multi_elements_iptc">
 
 #### IPTC
 
-IPTC datasets marked as repeatable, can have multiple entries with the 
-same key (i.e. Family.Group.Tagname) in the image metadata (for 
-supported datasets, see https://www.exiv2.org/iptc.html, column R).
+IPTC tags marked as repeatable, can have multiple entries with the same 
+key (i.e., Family.Group.Tagname) in the image metadata (for supported 
+tags, see https://www.exiv2.org/iptc.html, column R).
 
 For example, a file containing three [Iptc.Application2.Subject](https://www.exiv2.org/iptc.html) 
 values:
@@ -1285,7 +1308,7 @@ Xmp.dc.subject                               XmpBag      3  Stonehenge, Cloudy, 
 
 ### Duplicate Exif tags
 The Exif specification allows for duplicate tags, but this is currently 
-unused by any current tag definitions.
+unused by any official tag definition.
 
 [TOC](#TOC)
 
@@ -1432,7 +1455,7 @@ format:
 | text       | The text to use for a language definition   |
 
 The *\<lang\>-\<country\>* combination is useful where a country uses a 
-different version of a common language (e.g. Swiss-French, would be 
+different version of a common language (e.g., Swiss-French, would be 
 "fr-CH"). The *\<lang\>* or *\<lang\>-\<country\>* can be optionally 
 surrounded by double quotes (single quotes are not allowed). If no 
 language is specified, the default value is *x-default*. Any *x-default* 
@@ -1464,7 +1487,7 @@ XmpSeq.
 
 Each numbered base key (e.g., Xmp.xmpMM.History[n]) contains the 
 string: `type="Struct"` and each numbered base key plus value type 
-(e.g. Xmp.xmpMM.History[n]/stEvt:action), contains the data.
+(e.g., Xmp.xmpMM.History[n]/stEvt:action), contains the data.
 
 For example, the [Xmp.xmpMM.History](https://www.exiv2.org/tags-xmp-xmpMM.html) 
 tag recording that a file has been converted from tiff to JPEG, then 
@@ -1493,9 +1516,10 @@ More information about structs is available from: https://wwwimages2.adobe.com/c
 # CONFIGURATION FILE
 **exiv2** can read an optional configuration file, which allows 
 additional lens definitions to be added to translated output. On UNIX 
-based systems, this file is called *.exiv2* and on Windows, *exiv2.ini*. 
-The file is searched for first in the current directory, then in the 
-home directory (on UNIX based systems, *~/* and on Windows, *%USERPROFILE%\\*).
+based systems, this file is called *.exiv2* and on Windows (including MinGW), 
+*exiv2.ini*. The file is searched for first in the current directory, 
+then in the home directory (on UNIX based systems, `~/` and on Windows, 
+`%USERPROFILE%\\`).
 
 You can determine the name of the file and where it is searched for, 
 with the command:
@@ -1553,18 +1577,18 @@ directory (the same as `exiv2 print *.jpg`). The summary
 is brief and does not use the Family.Group.Tagname format
 
 + `exiv2 --grep date/i https://clanmills.com/Stonehenge.jpg`<br>
-Prints tags in https://clanmills.com/Stonehenge.jpg, where the key 
+Prints the tags in https://clanmills.com/Stonehenge.jpg, where the key 
 (see [Exiv2 key syntax](#exiv2_key_syntax)) contains the string *date* 
 (*/i* searches case insensitive). When not including [--print mod](#print_mod) 
 or [--Print flgs](#Print_flgs), the default output becomes `--print a` 
 (i.e., print all)
 
 + `exiv2 --print i image.jpg`<br>
-Prints the IPTC datasets in *image.jpg*
+Prints the IPTC tags in *image.jpg*
 
 + `exiv2 --Print IkytEX image.jpg`<br>
-Prints (with finer grained control) the Exif tags and XMP properties in 
-*image.jpg*. The tag's key (see [Exiv2 key syntax](#exiv2_key_syntax)), 
+Prints (with finer grained control) the Exif and XMP tags in *image.jpg*. 
+The tag's key (see [Exiv2 key syntax](#exiv2_key_syntax)), 
 type and translated value are displayed
 
 + `exiv2 rename image.jpg`<br>
@@ -1574,10 +1598,10 @@ Renames *image.jpg* (taken on 13-Nov-05 at 22:58:31) to *20051113_225831.jpg*
 Renames *image.jpg* using the basename (i.e., *image*) and values 
 defined in [iconv_open(3)](https://linux.die.net/man/3/iconv_open) 
 to *image_2005-11.jpg*. The values for time and date are taken from the 
-Exif metadata
+Exif tags
 
 + `exiv2 --extract t image1.jpg image2.jpg`<br>
-Extracts (copies) the Exif thumbnails from *image1.jpg* into 
+Extracts (copies) the thumbnail from *image1.jpg* into 
 *image1-thumb.jpg* and from *image2.jpg* into *image2-thumb.jpg*.
 
 + `exiv2 --insert t image1.jpg image2.jpg`<br>
@@ -1591,20 +1615,20 @@ list of available previews for *image.jpg*.
 
 + `exiv2 --extract X image.jpg`<br>
 Extracts (copies) metadata tags from *image.jpg*, into an XMP sidecar file, 
-*image.xmp*. In the process, this converts selected Exif tags and IPTC 
-datasets to XMP properties.
+*image.xmp*. In the process, this converts selected Exif and IPTC tags 
+to XMP tags.
 
 + `exiv2 --insert X image.jpg`<br>
 Inserts (copies) metadata from an XMP sidecar file, *image.xmp*, into 
-*image.jpg*. The resulting Exif tags and IPTC datasets are converted from 
-the equivalent XMP properties in the sidecar file.
+*image.jpg*. The resulting Exif and IPTC tags are converted from the 
+equivalent XMP tags in the sidecar file.
 
 + `exiv2 --extract X --Modify "add Xmp.dc.subject Sunset" image.jpg`<br>
 Extracts (copies) metadata tags from *image.jpg*, applies [--Modify cmd](#Modify_cmd) 
 to those tags and then saves in an XMP sidecar file, *image.xmp*. While 
-saving, selected Exif tags and IPTC datasets are converted to 
-XMP properties. Multiple [--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) 
-can be used.
+saving, selected Exif and IPTC tags are converted to XMP tags. Multiple 
+[--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) can 
+be used.
 
 + `exiv2 --extract X- image1.jpg | exiv2 --insert X- image2.jpg`<br>
 Extracts (copies) the *image1.jpg* metadata as XMP sidecar data and 
@@ -1644,7 +1668,7 @@ sense in the target image.
 + `exiv2 fixiso image.jpg`<br>
 Adds the Exif ISO metadata (if missing) to *image.jpg*. This is for 
 Nikon and Canon cameras only and copies the camera maker's value into the Exif 
-metadata.
+tags.
 
 [TOC](#TOC)
 
@@ -1669,6 +1693,7 @@ by defining *TZ*.
 
 # NOTES
 For further help, see the Exiv2 wiki: https://github.com/Exiv2/exiv2/wiki
+The Exiv2 book: https://www.exiv2.org/book/index.html
 
 [TOC](#TOC)
 
@@ -1692,12 +1717,13 @@ The Exiv2 project is released under the GNU GPLv2 license: https://github.com/Ex
 [curl(1)](https://linux.die.net/man/1/curl), [xmllint(1)](https://linux.die.net/man/1/xmllint), [iconv_open(3)](https://linux.die.net/man/3/iconv_open), 
 [strftime(3)](https://linux.die.net/man/3/strftime), 
 
-Exiv2 'modify' command examples: https://exiv2.org/sample.html#modify<br>
-All Exiv2 tags, listing the key and default type: https://exiv2.org/metadata.html<br>
+Exiv2 'modify' action examples: https://exiv2.org/sample.html#modify<br>
+All Exiv2 tags: https://exiv2.org/metadata.html<br>
 Exiv2 README: https://github.com/Exiv2/exiv2/blob/main/README.md<br>
 Exiv2 sample programs: https://github.com/Exiv2/exiv2/blob/main/README-SAMPLES.md<br>
 Exiv2 downloads: https://www.exiv2.org/download.html<br>
 Exiv2 wiki: https://github.com/Exiv2/exiv2/wiki<br>
+Exiv2 book: https://www.exiv2.org/book/index.html
 APEX Exposure values: https://en.wikipedia.org/wiki/APEX_system<br>
 XMP keys: https://www.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMPSDKReleasecc-2020/XMPSpecificationPart2.pdf#G4.1128133<br>
 XMP structs: https://wwwimages2.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMP%20SDK%20Release%20cc-2016-08/XMPSpecificationPart1.pdf<br>
@@ -1711,6 +1737,8 @@ TZ Environment variable values: https://en.wikipedia.org/wiki/List_of_tz_databas
 
 # AUTHORS
 **exiv2** was written by Andreas Huggel and others.
+
+Github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 
 Exiv2 project website: https://exiv2.org<br>
 Exiv2 source code: https://github.com/exiv2/exiv2
