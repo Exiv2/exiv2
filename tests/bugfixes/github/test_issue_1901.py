@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, path
+from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
 
 class XMPUtilsSetTimeZoneIntegerOverflow(metaclass=CaseMeta):
     """
@@ -17,109 +17,13 @@ class XMPUtilsSetTimeZoneIntegerOverflow(metaclass=CaseMeta):
                 "$exiv2 -q $filename2",
                 "$exiv2 -q $filename3",
                 "$exiv2 -q $filename4"]
-    stderr = ["", "", "", ""]
-    stdout = ["""File name       : $filename1
-File size       : 170 Bytes
-MIME type       : application/rdf+xml
-Image size      : 0 x 0
-Thumbnail       : None
-Camera make     : 
-Camera model    : 
-Image timestamp : 
-File number     : 
-Exposure time   : 
-Aperture        : 
-Exposure bias   : 
-Flash           : 
-Flash bias      : 
-Focal length    : 
-Subject distance: 
-ISO speed       : 
-Exposure mode   : 
-Metering mode   : 
-Macro mode      : 
-Image quality   : 
-White balance   : 
-Copyright       : 
-Exif comment    : 
-
+    stderr = ["""$filename1: No Exif data found in the file
 """,
-              """File name       : $filename2
-File size       : 170 Bytes
-MIME type       : application/rdf+xml
-Image size      : 0 x 0
-Thumbnail       : None
-Camera make     : 
-Camera model    : 
-Image timestamp : 
-File number     : 
-Exposure time   : 
-Aperture        : 
-Exposure bias   : 
-Flash           : 
-Flash bias      : 
-Focal length    : 
-Subject distance: 
-ISO speed       : 
-Exposure mode   : 
-Metering mode   : 
-Macro mode      : 
-Image quality   : 
-White balance   : 
-Copyright       : 
-Exif comment    : 
-
+              """$filename2: No Exif data found in the file
 """,
-              """File name       : $filename3
-File size       : 160 Bytes
-MIME type       : application/rdf+xml
-Image size      : 0 x 0
-Thumbnail       : None
-Camera make     : 
-Camera model    : 
-Image timestamp : 
-File number     : 
-Exposure time   : 
-Aperture        : 
-Exposure bias   : 
-Flash           : 
-Flash bias      : 
-Focal length    : 
-Subject distance: 
-ISO speed       : 
-Exposure mode   : 
-Metering mode   : 
-Macro mode      : 
-Image quality   : 
-White balance   : 
-Copyright       : 
-Exif comment    : 
-
+              """$filename3: No Exif data found in the file
 """,
-              """File name       : $filename4
-File size       : 154 Bytes
-MIME type       : application/rdf+xml
-Image size      : 0 x 0
-Thumbnail       : None
-Camera make     : 
-Camera model    : 
-Image timestamp : 
-File number     : 
-Exposure time   : 
-Aperture        : 
-Exposure bias   : 
-Flash           : 
-Flash bias      : 
-Focal length    : 
-Subject distance: 
-ISO speed       : 
-Exposure mode   : 
-Metering mode   : 
-Macro mode      : 
-Image quality   : 
-White balance   : 
-Copyright       : 
-Exif comment    : 
+              ""]
+    retval = [253, 253, 253, 0]
 
-"""]
-    retval = [0, 0, 0, 0]
+    compare_stdout = check_no_ASAN_UBSAN_errors
