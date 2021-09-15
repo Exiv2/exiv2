@@ -266,7 +266,7 @@ void Params::help(std::ostream& os) const
        << _("\nActions:\n")
        << _("  pr | print    Print image metadata (default is a summary). This is the default\n"
             "                action\n")
-       << _("  ad | adjust   Adjust Exif timestamps by the given time. Requires \n"
+       << _("  ad | adjust   Adjust Exif timestamps by the given time. Requires\n"
             "                at least one of -a, -Y, -O or -D\n")
        << _("  rm | delete   Deletes image metadata, use -d to choose type to delete\n"
             "                (default is all)\n")
@@ -276,14 +276,14 @@ void Params::help(std::ostream& os) const
        << _("  ex | extract  Extract metadata to .exv, .xmp, preview image, thumbnail,\n"
             "                or ICC profile. Use option -S to change the suffix of the input\n"
             "                files and -l to change the location\n")
-       << _("  mv | rename   Rename files and/or set file timestamps according to the \n"
-            "                Exif timestamps. The filename format can be set with \n"
+       << _("  mv | rename   Rename files and/or set file timestamps according to the\n"
+            "                Exif timestamps. The filename format can be set with\n"
             "                -r format, timestamp options are controlled with -t and -T\n")
-       << _("  mo | modify   Apply commands to modify the Exif, IPTC and XMP metadata. \n"
+       << _("  mo | modify   Apply commands to modify the Exif, IPTC and XMP metadata.\n"
             "                Requires option -m or -M\n")
-       << _("  fi | fixiso   Copy ISO setting from Canon and Nikon makernotes, to the \n"
+       << _("  fi | fixiso   Copy ISO setting from Canon and Nikon makernotes, to the\n"
             "                standard Exif tag\n")
-       << _("  fc | fixcom   Convert the Unicode Exif user comment to UCS-2. The current \n"
+       << _("  fc | fixcom   Convert the Unicode Exif user comment to UCS-2. The current\n"
             "                character encoding can be specified with the -n option\n")
        << _("\nOptions:\n")
        << _("   -h      Display this help and exit\n")
@@ -293,7 +293,7 @@ void Params::help(std::ostream& os) const
        << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute)\n")
        << _("   -b      Obsolete, reserved for use with the test suit\n")
        << _("   -u      Show unknown tags (e.g., Exif.SonyMisc3c.0x022b)\n")
-       << _("   -g str  Only output where 'str' matches in output text (grep) \n"
+       << _("   -g str  Only output where 'str' matches in output text (grep)\n"
             "           Append /i to 'str' for case insensitive\n")
        << _("   -K key  Only output where 'key' exactly matches tag's key\n")
        << _("   -n enc  Character set to decode Exif Unicode user comments\n")
