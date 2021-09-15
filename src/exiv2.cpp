@@ -235,8 +235,8 @@ void Params::version(bool verbose, std::ostream& os)
 void Params::usage(std::ostream& os) const
 {
     os << _("Usage:") << " " << progname()
-       << " " << _("[ options ] [ action ] file ...\n\n")
-       << _("Manipulate the Exif metadata of images.\n");
+       << " " << _("[ option [ arg ] ]+ [ action ] file ...\n\n")
+       << _("Image metadata manipulation tool.\n");
 }
 
 std::string Params::printTarget(const std::string &before, int target, bool bPrint, std::ostream& out)
@@ -261,107 +261,135 @@ std::string Params::printTarget(const std::string &before, int target, bool bPri
 void Params::help(std::ostream& os) const
 {
     usage(os);
-    os << _("\nActions:\n")
-       << _("  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
-            "                requires at least one of the -a, -Y, -O or -D options.\n")
-       << _("  pr | print    Print image metadata.\n")
-       << _("  rm | delete   Delete image metadata from the files.\n")
-       << _("  in | insert   Insert metadata from corresponding *.exv files.\n"
-            "                Use option -S to change the suffix of the input files.\n")
-       << _("  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n")
-       << _("  mv | rename   Rename files and/or set file timestamps according to the\n"
-            "                Exif create timestamp. The filename format can be set with\n"
-            "                -r format, timestamp options are controlled with -t and -T.\n")
-       << _("  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
-            "                IPTC metadata of image files or set the JPEG comment.\n"
-            "                Requires option -c, -m or -M.\n")
-       << _("  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
-            "                Exif tag.\n")
-       << _("  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
-            "                character encoding can be specified with the -n option.\n")
+    os << _("\nWhere file is one or more files, optionally containing a URL\n"
+            "(http, https, ftp, sftp, data or file) or wildcard\n")
+       << _("\nActions:\n")
+       << _("  pr | print    Print image metadata (default is a summary). This is the default\n"
+            "                action\n")
+       << _("  ad | adjust   Adjust Exif timestamps by the given time. Requires \n"
+            "                at least one of -a, -Y, -O or -D\n")
+       << _("  rm | delete   Deletes image metadata, use -d to choose type to delete\n"
+            "                (default is all)\n")
+       << _("  in | insert   Insert metadata from .exv, .xmp, thumbnail or .icc file.\n"
+            "                Use option -S to change the suffix of the input files and\n"
+            "                -l to change the location\n")
+       << _("  ex | extract  Extract metadata to .exv, .xmp, preview image, thumbnail,\n"
+            "                or ICC profile. Use option -S to change the suffix of the input\n"
+            "                files and -l to change the location\n")
+       << _("  mv | rename   Rename files and/or set file timestamps according to the \n"
+            "                Exif timestamps. The filename format can be set with \n"
+            "                -r format, timestamp options are controlled with -t and -T\n")
+       << _("  mo | modify   Apply commands to modify the Exif, IPTC and XMP metadata. \n"
+            "                Requires option -m or -M\n")
+       << _("  fi | fixiso   Copy ISO setting from Canon and Nikon makernotes, to the \n"
+            "                standard Exif tag\n")
+       << _("  fc | fixcom   Convert the Unicode Exif user comment to UCS-2. The current \n"
+            "                character encoding can be specified with the -n option\n")
        << _("\nOptions:\n")
-       << _("   -h      Display this help and exit.\n")
-       << _("   -V      Show the program version and exit.\n")
-       << _("   -v      Be verbose during the program run.\n")
-       << _("   -q      Silence warnings and error messages during the program run (quiet).\n")
-       << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n")
-       << _("   -b      Show large binary values.\n")
-       << _("   -u      Show unknown tags.\n")
-       << _("   -g key  Only output info for this key (grep).\n")
-       << _("   -K key  Only output info for this key (exact match).\n")
-       << _("   -n enc  Charset to use to decode UNICODE Exif user comments.\n")
-       << _("   -k      Preserve file timestamps (keep).\n")
-       << _("   -t      Also set the file timestamp in 'rename' action (overrides -k).\n")
-       << _("   -T      Only set the file timestamp in 'rename' action, do not rename\n"
-            "           the file (overrides -k).\n")
-       << _("   -f      Do not prompt before overwriting existing files (force).\n")
-       << _("   -F      Do not prompt before renaming files (Force).\n")
-       << _("   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
-            "           is only used with the 'adjust' action.\n")
-       << _("   -Y yrs  Year adjustment with the 'adjust' action.\n")
-       << _("   -O mon  Month adjustment with the 'adjust' action.\n")
-       << _("   -D day  Day adjustment with the 'adjust' action.\n")
+       << _("   -h      Display this help and exit\n")
+       << _("   -V      Show the program version and exit\n")
+       << _("   -v      Be verbose during the program run\n")
+       << _("   -q      Silence warnings and error messages (quiet)\n")
+       << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute)\n")
+       << _("   -b      Obsolete, reserved for use with the test suit\n")
+       << _("   -u      Show unknown tags (e.g., Exif.SonyMisc3c.0x022b)\n")
+       << _("   -g str  Only output where 'str' matches in output text (grep) \n"
+            "           Append /i to 'str' for case insensitive\n")
+       << _("   -K key  Only output where 'key' exactly matches tag's key\n")
+       << _("   -n enc  Character set to decode Exif Unicode user comments\n")
+       << _("   -k      Preserve file timestamps when updating files (keep)\n")
+       << _("   -t      Set the file timestamp from Exif metadata when renaming (overrides -k)\n")
+       << _("   -T      Only set the file timestamp from Exif metadata ('rename' action)\n")
+       << _("   -f      Do not prompt before overwriting existing files (force)\n")
+       << _("   -F      Do not prompt before renaming files (Force)\n")
+       << _("   -a time Time adjustment in the format [+|-]HH[:MM[:SS]]. For 'adjust' action\n")
+       << _("   -Y yrs  Year adjustment with the 'adjust' action\n")
+       << _("   -O mon  Month adjustment with the 'adjust' action\n")
+       << _("   -D day  Day adjustment with the 'adjust' action\n")
        << _("   -p mode Print mode for the 'print' action. Possible modes are:\n")
-       << _("             s : print a summary of the Exif metadata (the default)\n")
-       << _("             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n")
-       << _("             e : print Exif metadata (shortcut for -PEkycv)\n")
-       << _("             t : interpreted (translated) Exif data (-PEkyct)\n")
-       << _("             v : plain Exif data values (-PExgnycv)\n")
-       << _("             h : hexdump of the Exif data (-PExgnycsh)\n")
-       << _("             i : IPTC data values (-PIkyct)\n")
-       << _("             x : XMP properties (-PXkyct)\n")
+       << _("             s : A summary of the Exif metadata (the default)\n")
+       << _("             a : Exif, IPTC and XMP tags (shortcut for -Pkyct)\n")
+       << _("             e : Exif tags (shortcut for -PEkycv)\n")
+       << _("             t : Interpreted (translated) Exif tags (-PEkyct)\n")
+       << _("             v : Plain (untranslated) Exif tags values (-PExgnycv)\n")
+       << _("             h : Hex dump of the Exif tags (-PExgnycsh)\n")
+       << _("             i : IPTC tags (-PIkyct)\n")
+       << _("             x : XMP tags (-PXkyct)\n")
        << _("             c : JPEG comment\n")
-       << _("             p : list available previews\n")
-       << _("             C : print ICC profile embedded in image\n")
-       << _("             R : recursive print structure of image\n")
-       << _("             S : print structure of image\n")
-       << _("             X : extract XMP from image\n")
+       << _("             p : List available image preview, sorted by size\n")
+       << _("             C : Print ICC profile\n")
+       << _("             R : Recursive print structure of image (debug build only)\n")
+       << _("             S : Print structure of image (limited file types)\n")
+       << _("             X : Extract \"raw\" XMP\n")
        << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
-       << _("             E : include Exif tags in the list\n")
-       << _("             I : IPTC datasets\n")
-       << _("             X : XMP properties\n")
-       << _("             x : print a column with the tag number\n")
-       << _("             g : group name\n")
-       << _("             k : key\n")
-       << _("             l : tag label\n")
-       << _("             n : tag name\n")
-       << _("             y : type\n")
-       << _("             c : number of components (count)\n")
-       << _("             s : size in bytes\n")
-       << _("             v : plain data value\n")
-       << _("             t : interpreted (translated) data\n")
-       << _("             h : hexdump of the data\n")
-       << _("   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n")
-       << _("             a : all supported metadata (the default)\n")
-       << _("             e : Exif section\n")
+       << _("             E : Exif tags\n")
+       << _("             I : IPTC tags\n")
+       << _("             X : XMP tags\n")
+       << _("             x : Tag number (Exif and IPTC only)\n")
+       << _("             g : Group name (e.g. Exif.Photo.UserComment, Photo)\n")
+       << _("             k : Key (e.g. Exif.Photo.UserComment)\n")
+       << _("             l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')\n")
+       << _("             n : Tag name (e.g. Exif.Photo.UserComment, UserComment)\n")
+       << _("             y : Type\n")
+       << _("             c : Number of components (count)\n")
+       << _("             s : Size in bytes (Ascii and Comment types include NULL)\n")
+       << _("             v : Plain data value, untranslated (vanilla)\n")
+       << _("             t : Interpreted (translated) human readable values\n")
+       << _("             h : Hex dump of the data\n")
+       << _("   -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:\n")
+       << _("             a : All supported metadata (the default)\n")
+       << _("             e : Exif tags\n")
        << _("             t : Exif thumbnail only\n")
-       << _("             i : IPTC data\n")
-       << _("             x : XMP packet\n")
+       << _("             i : IPTC tags\n")
+       << _("             x : XMP tags\n")
        << _("             c : JPEG comment\n")
-       << _("   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-            "           the same as those for the -d option, plus a modifier:\n"
-            "             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
-            "           Only JPEG thumbnails can be inserted, they need to be named\n"
-            "           <file>-thumb.jpg\n")
-       << _("   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-            "           are the same as those for the -d option, plus a target to extract\n"
-            "           preview images and a modifier to generate an XMP sidecar file:\n"
-            "             p[<n>[,<m> ...]] : Extract preview images.\n"
-            "             X : Extract metadata to an XMP sidecar file <file>.xmp\n")
-       << _("   -r fmt  Filename format for the 'rename' action. The format string\n"
-            "           follows strftime(3). The following keywords are supported:\n")
+       << _("             C : ICC Profile\n")
+       << _("             c : All IPTC data (any broken multiple IPTC blocks)\n")
+       << _("             - : Input from stdin\n")
+       << _("   -i tgt2 Insert target(s) for the 'insert' action. Possible targets are\n")
+       << _("             a : All supported metadata (the default)\n")
+       << _("             e : Exif tags\n")
+       << _("             t : Exif thumbnail only (JPEGs only from <file>-thumb.jpg)\n")
+       << _("             i : IPTC tags\n")
+       << _("             x : XMP tags\n")
+       << _("             c : JPEG comment\n")
+       << _("             C : ICC Profile, from <file>.icc\n")
+       << _("             X : XMP sidecar from file <file>.xmp\n")
+       << _("             XX: \"raw\" metadata from <file>.exv. XMP default, optional Exif and IPTC\n")
+       << _("             - : Input from stdin\n")
+       << _("   -e tgt3 Extract target(s) for the 'extract' action. Possible targets\n")
+       << _("             a : All supported metadata (the default)\n")
+       << _("             e : Exif tags\n")
+       << _("             t : Exif thumbnail only (to <file>-thumb.jpg)\n")
+       << _("             i : IPTC tags\n")
+       << _("             x : XMP tags\n")
+       << _("             c : JPEG comment\n")
+       << _("             pN: Extract N'th preview image to <file>-preview<N>.<ext>\n")
+       << _("             C : ICC Profile, to <file>.icc\n")
+       << _("             X : XMP sidecar to <file>.xmp\n")
+       << _("             XX: \"raw\" metadata to <file>.exv. XMP default, optional Exif and IPTC\n")
+       << _("             - : Output to stdin\n")
+       << _("   -r fmt  Filename format for the 'rename' action. The format string\n")
+       << _("           follows strftime(3). The following keywords are also supported:\n")
        << _("             :basename:   - original filename without extension\n")
        << _("             :dirname:    - name of the directory holding the original file\n")
        << _("             :parentname: - name of parent directory\n")
-       << _("           Default filename format is ")
-       <<               format_ << ".\n"
+       << _("           Default 'fmt' is %Y%m%d_%H%M%S\n")
        << _("   -c txt  JPEG comment string to set in the image.\n")
-       << _("   -m file Command file for the modify action. The format for commands is\n"
-            "           set|add|del <key> [[<type>] <value>].\n")
-       << _("   -M cmd  Command line for the modify action. The format for the\n"
-            "           commands is the same as that of the lines of a command file.\n")
+       << _("   -m cmdf Applies commands in 'cmdf' file, for the modify action (see -M for format).\n")
+       << _("   -M cmd  Command line for the modify action. The format is:\n")
+       << _("           ( (set | add) <key> [[<type>] <value>] |\n")
+       << _("             del <key> [<type>] |\n")
+       << _("             reg prefix namespace )\n")
        << _("   -l dir  Location (directory) for files to be inserted from or extracted to.\n")
-       << _("   -S .suf Use suffix .suf for source files for insert command.\n\n");
+       << _("   -S suf Use suffix 'suf' for source files for insert action.\n")
+       << _("\nExamples:\n")
+       << _("   exiv2 -pe image.dng *.jp2\n"
+            "           Print all Exif tags in image.dng and all .jp2 files\n")
+       << _("   exiv2 -g date/i https://clanmills.com/Stonehenge.jpg\n"
+            "           Print all tags in file, where key contains 'date' (case insensitive)\n")
+       << _("   exiv2 -M\"set Xmp.dc.subject XmpBag Sky\" image.tiff\n"
+            "           Set (or add if missing) value to tag in file\n\n");
 } // Params::help
 
 int Params::option(int opt, const std::string& optArg, int optOpt)
