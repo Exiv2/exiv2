@@ -161,6 +161,15 @@ __NikonLd2__
 __NikonLd3__
 <br>
 
+<h3>Nikon Lens Data 4 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__NikonLd4__
+<br>
+
+<h3>Nikon Preview Tags</h3>
+<p>These are the same as <a href="https://www.exiv2.org/tags.html">Exif.Image.*</a> but are accessed as Exif.NikonPv.*</p>
+<br>
+
 </div>
 <!-- closes content -->
 

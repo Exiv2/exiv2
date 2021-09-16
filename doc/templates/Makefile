@@ -53,6 +53,7 @@ TABLES = Exif \
          CanonFi \
          CanonPa \
          CanonPr \
+         CanonTi \
          Casio \
          Casio2 \
          Fujifilm \
@@ -89,6 +90,7 @@ TABLES = Exif \
          NikonLd1 \
          NikonLd2 \
          NikonLd3 \
+         NikonLd4 \
          Olympus \
          OlympusCs \
          OlympusEq \
@@ -108,6 +110,7 @@ TABLES = Exif \
          SonyMinolta \
          Sony1Cs \
          Sony1Cs2 \
+         Sony2010e \
          Sony1MltCs7D \
          Sony1MltCsOld \
          Sony1MltCsA100 \

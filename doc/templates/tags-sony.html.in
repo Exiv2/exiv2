@@ -8,7 +8,7 @@ __index1__
 __index2__
 <h2>Sony MakerNote Tags defined in Exiv2</h2>
 <div>
-<p>Tags found in the MakerNote of images taken with Sony cameras.</p> 
+<p>Tags found in the MakerNote of images taken with Sony cameras. Sony1 and Sony2 Groups share the same tagnames</p> 
 <p>Click on a column header to sort the table.</p>
 </div>
 __Sony1__
@@ -31,6 +31,11 @@ __Sony1Cs__
 __Sony1Cs2__
 <br>
 
+<h3>Sony 2010e Camera Settings Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__Sony2010e__
+<br>
+
 <h3>Sony Minolta Camera Settings Tags</h3>
 <p>These are the same tags as the Minolta Camera Settings in the Minolta MakerNote. 
 In Sony images the group name is <b><code>Sony1MltCsOld</code></b> or <b><code>Sony1MltCsNew</code></b>.</p>
@@ -48,6 +53,31 @@ __Sony1MltCs7D__
 <h3>Sony Minolta Camera Settings A100 Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __Sony1MltCsA100__
+<br>
+
+<h3>Sony Focus Position 2 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__Sony2Fp__
+<br>
+
+<h3>Sony Miscellaneous 1 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__SonyMisc1__
+<br>
+
+<h3>Sony Miscellaneous 2b Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__SonyMisc2b__
+<br>
+
+<h3>Sony Miscellaneous 3c Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__SonyMisc3c__
+<br>
+
+<h3>Sony Shot Info 1 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__SonySInfo1__
 <br>
 
 </div>
