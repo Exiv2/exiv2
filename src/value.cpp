@@ -422,13 +422,11 @@ namespace Exiv2 {
         std::string c = comment;
         CharsetId charsetId = undefined;
         if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
-            std::string::size_type pos = comment.find_first_of(' ');
+            const std::string::size_type pos = comment.find_first_of(' ');
             std::string name = comment.substr(8, pos-8);
             // Strip quotes (so you can also specify the charset without quotes)
-            if (!name.empty()) {
-                if (name[0] == '"') name = name.substr(1);
-                if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
-            }
+            if (!name.empty() && name[0] == '"') name = name.substr(1);
+            if (!name.empty() && name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
@@ -624,12 +622,9 @@ namespace Exiv2 {
         if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
             std::string::size_type pos = buf.find_first_of(' ');
             type = buf.substr(5, pos-5);
-            if (type.empty()) {
-                throw Error(kerInvalidXmpText, type);
-            }
             // Strip quotes (so you can also specify the type without quotes)
-            if (type[0] == '"') type = type.substr(1);
-            if (type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
+            if (!type.empty() && type[0] == '"') type = type.substr(1);
+            if (!type.empty() && type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
@@ -788,8 +783,12 @@ namespace Exiv2 {
             static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             
-            std::string::size_type pos = buf.find_first_of(' ');
-            lang = buf.substr(5, pos-5);
+            const std::string::size_type pos = buf.find_first_of(' ');
+            if (pos == std::string::npos) {
+                lang = buf.substr(5);
+            } else {
+                lang = buf.substr(5, pos-5);
+            }
             if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
             // Strip quotes (so you can also specify the language without quotes)
             if (lang[0] == '"') {

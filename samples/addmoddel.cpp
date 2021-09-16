@@ -70,8 +70,8 @@ try {
     // Set two rational components from a string
     rv->read("1/2 1/3");
     // Add more elements through the extended interface of rational value
-    rv->value_.push_back(std::make_pair(2,3));
-    rv->value_.push_back(std::make_pair(3,4));
+    rv->value_.emplace_back(2, 3);
+    rv->value_.emplace_back(3, 4);
     // Add the key and value pair to the Exif data
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     exifData.add(key, rv.get());
@@ -101,7 +101,7 @@ try {
         throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
     rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
-    rv->value_.at(2) = std::make_pair(88,77);
+    rv->value_.at(2) = {88, 77};
     // Copy the modified value back to the metadatum
     pos->setValue(rv.get());
     std::cout << "Modified key \"" << key

@@ -15,11 +15,11 @@ do
     mv corpus/ corpus2
     mkdir corpus
     echo minimizing corpus
-    ./bin/fuzz-read-print-write -merge=1 corpus ../test/data/ corpus2/
+    LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write -merge=1 corpus ../test/data/ corpus2/ -max_len=20480
     rm -r corpus2
 
     # Run the fuzzer for 4 hours
     date
     echo start fuzzer
-    ./bin/fuzz-read-print-write corpus -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_total_time=14400
+    LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write corpus -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=20480 -max_total_time=14400
 done

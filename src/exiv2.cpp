@@ -941,7 +941,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 
     if ( nBytes ) {
         buf.alloc(nBytes);
-        memcpy(buf.pData_, bytes.data(), nBytes);
+        buf.copyBytes(0, bytes.data(), nBytes);
     }
     return nBytes;
 }
@@ -950,7 +950,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf
-    if ( stdinBuf.size_ == 0 ) {
+    if ( stdinBuf.size() == 0 ) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
         _setmode(fileno(stdin), O_BINARY);
@@ -975,7 +975,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
-        if ( stdinBuf.size_ == 0 ) {
+        if ( stdinBuf.size() == 0 ) {
             const char* path = "/Users/rmills/temp/stdin";
             FILE* f = fopen(path,"rb");
             if  ( f ) {
@@ -986,17 +986,17 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         }
 #endif
 #ifdef DEBUG
-            std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+            std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
 #endif
     }
 
     // copy stdinBuf to buf
-    if ( stdinBuf.size_ ) {
-        buf.alloc(stdinBuf.size_);
-        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+    if ( stdinBuf.size() ) {
+        buf.alloc(stdinBuf.size());
+        buf.copyBytes(0,stdinBuf.c_data(),buf.size());
     }
 #ifdef DEBUG
-    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
 #endif
 
 } // Params::getStdin()

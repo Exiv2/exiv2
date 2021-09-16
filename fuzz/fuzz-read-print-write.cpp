@@ -17,10 +17,19 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t * data, size_t size) {
   try {
     Exiv2::DataBuf data_copy(data, size);
     Exiv2::Image::UniquePtr image =
-      Exiv2::ImageFactory::open(data_copy.pData_, size);
+      Exiv2::ImageFactory::open(data_copy.c_data(), size);
     assert(image.get() != 0);
 
     image->readMetadata();
+    for (auto& md : image->exifData()) {
+      md.print(&image->exifData());
+    }
+    for (auto& md : image->iptcData()) {
+      md.print(&image->exifData());
+    }
+    for (auto& md : image->xmpData()) {
+      md.print(&image->exifData());
+    }
 
     // Print to a std::ostringstream so that the fuzzer doesn't
     // produce lots of garbage on stdout.

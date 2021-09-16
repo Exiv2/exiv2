@@ -56,12 +56,12 @@ int main(int argc, char* const argv[])
             Exiv2::DataBuf buf = format->dataArea();
 
             // The first byte of the buffer needs to be patched
-            buf.pData_[0] = 0xff;
+            buf.write_uint8(0, 0xff);
 
             Exiv2::FileIo file("img_thumb.jpg");
 
             file.open("wb");
-            file.write(buf.pData_, buf.size_);
+            file.write(buf.c_data(), buf.size());
             file.close();
         }
 

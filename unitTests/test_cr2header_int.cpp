@@ -38,8 +38,8 @@ TEST(ACr2Header, sizeIs16Bytes)
 {
     Internal::Cr2Header header;
     DataBuf buffer = header.write();
-    ASSERT_EQ(header.size(), buffer.size_);
-    ASSERT_EQ(0, memcmp(cr2LittleEndian, buffer.pData_, 16));
+    ASSERT_EQ(header.size(), buffer.size());
+    ASSERT_EQ(0, buffer.cmpBytes(0, cr2LittleEndian, 16));
 }
 
 

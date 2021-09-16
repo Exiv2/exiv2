@@ -265,7 +265,7 @@ namespace Exiv2 {
         IptcKey iptcKey(key);
         auto pos = findKey(iptcKey);
         if (pos == end()) {
-            iptcMetadata_.push_back(Iptcdatum(iptcKey));
+            iptcMetadata_.emplace_back(iptcKey);
             return iptcMetadata_.back();
         }
         return *pos;
@@ -507,7 +507,7 @@ namespace Exiv2 {
     DataBuf IptcParser::encode(const IptcData& iptcData)
     {
         DataBuf buf(iptcData.size());
-        byte *pWrite = buf.pData_;
+        byte *pWrite = buf.data();
 
         // Copy the iptc data sets and sort them by record but preserve the order of datasets
         IptcMetadata sortedIptcData;

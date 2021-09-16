@@ -24,8 +24,8 @@ MIME type       : application/rdf+xml
 Image size      : 0 x 0
 """
 ]
-    stderr = [
-        """Warning: Failed to convert Xmp.xmp.CreateDate to Exif.Photo.DateTimeDigitized (Day is out of range)
+    stderr = ["""Error: XMP Toolkit error 201: Error in XMLValidator
+Warning: Failed to decode XMP metadata.
 $filename: No Exif data found in the file
 """]
     retval = [253]

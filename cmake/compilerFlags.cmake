@@ -31,10 +31,12 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
 
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
-        # This fails under Fedora - MinGW - Gcc 8.3
+        # This fails under Fedora - MinGW - Gcc 8.3 and macOS/M1
         if (NOT (MINGW OR CYGWIN OR CMAKE_HOST_SOLARIS))
-            if (NOT APPLE) # Don't know why this isn't working correctly on Apple with M1 processor
-            check_cxx_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
+            # macOS M1 will set ARCHITECTURE == arm64
+            EXECUTE_PROCESS( COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE )
+            if ( NOT ${ARCHITECTURE} STREQUAL arm64 )
+                check_cxx_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
             endif()
             check_cxx_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
             check_cxx_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
@@ -68,6 +70,21 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
         # This seems to be causing issues in the Fedora_MinGW GitLab job
         #add_compile_options(-fasynchronous-unwind-tables)
 
+        # The EXIV2_TEAM_OSS_FUZZ option is used by the OSS-Fuzz build script:
+        # https://github.com/google/oss-fuzz/tree/master/projects/exiv2/build.sh
+        # OSS-Fuzz wants full control of the sanitizer flags, so we don't add
+        # the `-fsanitize=fuzzer-no-link` flag when building for OSS-Fuzz.
+        if( EXIV2_BUILD_FUZZ_TESTS AND NOT EXIV2_TEAM_OSS_FUZZ )
+            if (NOT COMPILER_IS_CLANG)
+                message(FATAL_ERROR "You need to build with Clang for the fuzzers to work. "
+                        "Use Clang")
+            endif()
+            set(FUZZER_FLAGS "-fsanitize=fuzzer-no-link")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FUZZER_FLAGS}")
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${FUZZER_FLAGS}")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${FUZZER_FLAGS}")
+            set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${FUZZER_FLAGS}")
+        endif()
 
         if ( EXIV2_TEAM_USE_SANITIZERS )
             # ASAN is available in gcc from 4.8 and UBSAN from 4.9
@@ -82,9 +99,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             elseif( COMPILER_IS_CLANG )
-                if ( EXIV2_BUILD_FUZZ_TESTS )
-                    set(SANITIZER_FLAGS "-fsanitize=fuzzer-no-link")
-                elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
                 elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4 )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined")
