@@ -2605,12 +2605,20 @@ namespace Exiv2 {
     URational exposureTime(float shutterSpeedValue)
     {
         URational ur(1, 1);
-        double tmp = std::exp(std::log(2.0) * static_cast<double>(shutterSpeedValue));
+        const double tmp = std::exp(std::log(2.0) * static_cast<double>(shutterSpeedValue));
         if (tmp > 1) {
-            ur.second = static_cast<long>(tmp + 0.5);
+            const double x = std::round(tmp);
+            // Check that x is within the range of a uint32_t before casting.
+            if (x <= std::numeric_limits<uint32_t>::max()) {
+                ur.second = static_cast<uint32_t>(x);
+            }
         }
         else {
-            ur.first = static_cast<long>(1/tmp + 0.5);
+            const double x = std::round(1/tmp);
+            // Check that x is within the range of a uint32_t before casting.
+            if (0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
+                ur.first = static_cast<uint32_t>(x);
+            }
         }
         return ur;
     }
@@ -2685,20 +2693,22 @@ namespace Exiv2 {
         bool cnv = false;
         if (value.typeId() == unsignedByte && value.size() > 0) {
             DataBuf buf(value.size());
-            value.copy(buf.pData_, invalidByteOrder);
+            value.copy(buf.data(), invalidByteOrder);
             // Strip trailing odd byte due to failing UCS-2 conversion
-            if (buf.size_ % 2 == 1)  buf.size_ -=1;
+            if (buf.size() % 2 == 1) {
+                buf.resize(buf.size() - 1);
+            }
 
             // Strip trailing UCS-2 0-characters
-            while (buf.size_ >= 2) {
-                if (buf.pData_[buf.size_ - 1] == 0 && buf.pData_[buf.size_ - 2] == 0) {
-                    buf.size_ -= 2;
+            while (buf.size() >= 2) {
+                if (buf.read_uint8(buf.size() - 1) == 0 && buf.read_uint8(buf.size() - 2) == 0) {
+                    buf.resize(buf.size() - 2);
                 } else {
                     break;
                 }
             }
 
-            std::string str(reinterpret_cast<const char*>(buf.pData_), buf.size_);
+            std::string str(buf.c_str(), buf.size());
             cnv = convertStringCharset(str, "UCS-2LE", "UTF-8");
             if (cnv) os << str;
         }

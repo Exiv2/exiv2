@@ -267,7 +267,7 @@ namespace Exiv2 {
 
     uint32_t OlympusMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t OlympusMnHeader::ifdOffset() const
@@ -281,9 +281,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
-                 0 != memcmp(header_.pData_, signature_, 6));
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 6));
     } // OlympusMnHeader::read
 
     uint32_t OlympusMnHeader::write(IoWrapper& ioWrapper,
@@ -309,7 +309,7 @@ namespace Exiv2 {
 
     uint32_t Olympus2MnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t Olympus2MnHeader::ifdOffset() const
@@ -328,9 +328,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
-                 0 != memcmp(header_.pData_, signature_, 10));
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 10));
     } // Olympus2MnHeader::read
 
     uint32_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
@@ -357,7 +357,7 @@ namespace Exiv2 {
 
     uint32_t FujiMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t FujiMnHeader::ifdOffset() const
@@ -381,12 +381,12 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
+        header_.copyBytes(0, pData, header_.size());
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder argument
-        start_ = getULong(header_.pData_ + 8, byteOrder_);
-        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
-                 0 != memcmp(header_.pData_, signature_, 8));
+        start_ = header_.read_uint32(8, byteOrder_);
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 8));
     } // FujiMnHeader::read
 
     uint32_t FujiMnHeader::write(IoWrapper& ioWrapper,
@@ -427,7 +427,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // Nikon2MnHeader::read
@@ -452,7 +452,7 @@ namespace Exiv2 {
     Nikon3MnHeader::Nikon3MnHeader() : byteOrder_(invalidByteOrder), start_(sizeOfSignature())
     {
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, signature_, buf_.size_);
+        buf_.copyBytes(0, signature_, buf_.size());
     }
 
     uint32_t Nikon3MnHeader::size() const
@@ -482,9 +482,9 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         TiffHeader th;
-        if (!th.read(buf_.pData_ + 10, 8)) return false;
+        if (!th.read(buf_.data(10), 8)) return false;
         byteOrder_ = th.byteOrder();
         start_ = 10 + th.offset();
         return true;
@@ -493,15 +493,15 @@ namespace Exiv2 {
     uint32_t Nikon3MnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder byteOrder) const
     {
-        assert(buf_.size_ >= 10);
+        assert(buf_.size() >= 10);
 
-        ioWrapper.write(buf_.pData_, 10);
+        ioWrapper.write(buf_.c_data(), 10);
         // Todo: This removes any gap between the header and
         // makernote IFD. The gap should be copied too.
         TiffHeader th(byteOrder);
         DataBuf buf = th.write();
-        ioWrapper.write(buf.pData_, buf.size_);
-        return 10 + buf.size_;
+        ioWrapper.write(buf.c_data(), buf.size());
+        return 10 + buf.size();
     } // Nikon3MnHeader::write
 
     void Nikon3MnHeader::setByteOrder(ByteOrder byteOrder)
@@ -540,7 +540,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 9)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // PanasonicMnHeader::read
@@ -568,7 +568,7 @@ namespace Exiv2 {
 
     uint32_t PentaxDngMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const
@@ -587,9 +587,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
-                 0 != memcmp(header_.pData_, signature_, 7));
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 7));
     } // PentaxDngMnHeader::read
 
     uint32_t PentaxDngMnHeader::write(IoWrapper& ioWrapper,
@@ -615,7 +615,7 @@ namespace Exiv2 {
 
     uint32_t PentaxMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t PentaxMnHeader::ifdOffset() const
@@ -629,9 +629,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        return !(static_cast<uint32_t>(header_.size_) < sizeOfSignature() ||
-                 0 != memcmp(header_.pData_, signature_, 3));
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 3));
     } // PentaxMnHeader::read
 
     uint32_t PentaxMnHeader::write(IoWrapper& ioWrapper,
@@ -705,7 +705,7 @@ namespace Exiv2 {
         if (   0 != memcmp(pData, signature1_, 8)
             && 0 != memcmp(pData, signature2_, 8)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // SigmaMnHeader::read
@@ -748,7 +748,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, sizeOfSignature())) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // SonyMnHeader::read
@@ -797,7 +797,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, sizeOfSignature())) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // Casio2MnHeader::read
@@ -1192,8 +1192,8 @@ namespace Exiv2 {
             }
         }
         buf.alloc(size);
-        memcpy(buf.pData_, pData, buf.size_);
-        ncrypt(buf.pData_ + nci->start_, buf.size_ - nci->start_, count, serial);
+        buf.copyBytes(0, pData, buf.size());
+        ncrypt(buf.data(nci->start_), buf.size() - nci->start_, count, serial);
         return buf;
     }
 

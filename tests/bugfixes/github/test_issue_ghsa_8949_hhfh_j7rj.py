@@ -15,7 +15,7 @@ class Jp2ImageEncodeJp2HeaderOutOfBoundsRead(metaclass=CaseMeta):
     commands = ["$exiv2 in $filename1"]
     stdout = [""]
     stderr = [
-"""Error: XMP Toolkit error 201: XML parsing failure
+"""Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 """]
     retval = [0]

@@ -46,9 +46,9 @@ int main(int argc, char* const argv[])
             throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
         }
         Exiv2::DataBuf buf(static_cast<long>(io.size()));
-        std::cout << "Reading " << buf.size_ << " bytes from " << data << "\n";
-        long readBytes = io.read(buf.pData_, buf.size_);
-        if (readBytes != buf.size_ || io.error() || io.eof()) {
+        std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
+        long readBytes = io.read(buf.data(), buf.size());
+        if (readBytes != buf.size() || io.error() || io.eof()) {
             throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
         }
 
@@ -59,7 +59,7 @@ int main(int argc, char* const argv[])
 
         // Set Preview field to the content of the data file
         Exiv2::DataValue value;
-        value.read(buf.pData_, buf.size_);
+        value.read(buf.data(), buf.size());
         Exiv2::IptcData& iptcData = image->iptcData();
         std::cout << "IPTC fields: " << iptcData.size() << "\n";
         iptcData["Iptc.Application2.Preview"] = value;
@@ -67,20 +67,20 @@ int main(int argc, char* const argv[])
 
         // Set IRB, compare with IPTC raw data
         Exiv2::DataBuf irb = Exiv2::Photoshop::setIptcIrb(nullptr, 0, iptcData);
-        std::cout << "IRB buffer : " << irb.size_ << "\n";
+        std::cout << "IRB buffer : " << irb.size() << "\n";
         const Exiv2::byte* record;
         uint32_t sizeHdr = 0;
         uint32_t sizeData = 0;
-        Exiv2::Photoshop::locateIptcIrb(irb.pData_, irb.size_, &record, &sizeHdr, &sizeData);
+        Exiv2::Photoshop::locateIptcIrb(irb.data(), irb.size(), &record, &sizeHdr, &sizeData);
         Exiv2::DataBuf rawIptc = Exiv2::IptcParser::encode(iptcData);
         std::cout << "Comparing IPTC and IRB size... ";
-        if (static_cast<uint32_t>(rawIptc.size_) != sizeData) {
+        if (static_cast<uint32_t>(rawIptc.size()) != sizeData) {
             std::cout << "not ";
         }
         std::cout << "ok\n";
 
         std::cout << "Comparing IPTC and IRB data... ";
-        if (0 != memcmp(rawIptc.pData_, record + sizeHdr, sizeData)) {
+        if (0 != rawIptc.cmpBytes(0, record + sizeHdr, sizeData)) {
             std::cout << "not ";
         }
         std::cout << "ok\n";

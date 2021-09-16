@@ -11,7 +11,7 @@ class coverage_xmpsidecar_isXmpType(metaclass=CaseMeta):
 
     filename = path("$data_path/coverage_xmpsidecar_isXmpType.xmp")
     commands = ["$exiv2 $filename"]
-    stderr = ["""Error: XMP Toolkit error 201: XML parsing failure
+    stderr = ["""Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 $filename: No Exif data found in the file
 """]

@@ -36,6 +36,7 @@
 #include <sstream>
 #include <utility>
 #include <cctype>
+#include <climits>
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
@@ -163,9 +164,22 @@ namespace Exiv2 {
         }
     }
 
+    void DataBuf::resize(long size)
+    {
+        if (size > size_) {
+            byte* newbuf = new byte[size];
+            if (size_ > 0) {
+                memcpy(newbuf, pData_, size_);
+            }
+            delete[] pData_;
+            pData_ = newbuf;
+        }
+        size_ = size;
+    }
+
     EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
     {
-        std::pair<byte*, long> p = std::make_pair(pData_, size_);
+        std::pair<byte*, long> p = {pData_, size_};
         pData_ = nullptr;
         size_ = 0;
         return p;
@@ -180,11 +194,103 @@ namespace Exiv2 {
         size_ = p.second;
     }
 
+    void DataBuf::clear() {
+        memset(pData_, 0, size_);
+    }
+
     DataBuf::DataBuf(const DataBufRef &rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
 
     DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
 
     Exiv2::DataBuf::operator DataBufRef() { return DataBufRef(release()); }
+
+    uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
+        if (offset >= static_cast<size_t>(size_)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint8");
+        }
+        return pData_[offset];
+    }
+
+    void Exiv2::DataBuf::write_uint8(size_t offset, uint8_t x) {
+        if (offset >= static_cast<size_t>(size_)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint8");
+        }
+        pData_[offset] = x;
+    }
+
+    uint16_t Exiv2::DataBuf::read_uint16(size_t offset, ByteOrder byteOrder) const {
+        if (size_ < 2 || offset > static_cast<size_t>(size_ - 2)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint16");
+        }
+        return getUShort(&pData_[offset], byteOrder);
+    }
+
+    void Exiv2::DataBuf::write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder) {
+        if (size_ < 2 || offset > static_cast<size_t>(size_ - 2)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint16");
+        }
+        us2Data(&pData_[offset], x, byteOrder);
+    }
+
+    uint32_t Exiv2::DataBuf::read_uint32(size_t offset, ByteOrder byteOrder) const {
+        if (size_ < 4 || offset > static_cast<size_t>(size_ - 4)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint32");
+        }
+        return getULong(&pData_[offset], byteOrder);
+    }
+
+    void Exiv2::DataBuf::write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder) {
+        if (size_ < 4 || offset > static_cast<size_t>(size_ - 4)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint32");
+        }
+        ul2Data(&pData_[offset], x, byteOrder);
+    }
+
+    uint64_t Exiv2::DataBuf::read_uint64(size_t offset, ByteOrder byteOrder) const {
+        if (size_ < 8 || offset > static_cast<size_t>(size_ - 8)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint64");
+        }
+        return getULongLong(&pData_[offset], byteOrder);
+    }
+
+    void Exiv2::DataBuf::write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder) {
+        if (size_ < 8 || offset > static_cast<size_t>(size_ - 8)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint64");
+        }
+        ull2Data(&pData_[offset], x, byteOrder);
+    }
+
+    void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
+        if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");
+        }
+        memcpy(&pData_[offset], buf, bufsize);
+    }
+
+    int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
+        if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::cmpBytes");
+        }
+        return memcmp(&pData_[offset], buf, bufsize);
+    }
+
+    byte* Exiv2::DataBuf::data(size_t offset) {
+        if (static_cast<size_t>(size_) < offset) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        }
+        return &pData_[offset];
+    }
+
+    const byte* Exiv2::DataBuf::c_data(size_t offset) const {
+        if (static_cast<size_t>(size_) < offset) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        }
+        return &pData_[offset];
+    }
+
+    const char* Exiv2::DataBuf::c_str(size_t offset) const {
+        return reinterpret_cast<const char*>(c_data(offset));
+    }
 
     // *************************************************************************
     // free functions
@@ -192,19 +298,19 @@ namespace Exiv2 {
     static void checkDataBufBounds(const DataBuf& buf, size_t end) {
         enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
                                        "end of slice too large to be compared with DataBuf bounds.");
-        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size_, "Invalid slice bounds specified");
+        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size(), "Invalid slice bounds specified");
     }
 
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return {buf.pData_, begin, end};
+        return {buf.data(), begin, end};
     }
 
     Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return {buf.pData_, begin, end};
+        return {buf.c_data(), begin, end};
     }
 
     std::ostream& operator<<(std::ostream& os, const Rational& r)
@@ -229,7 +335,7 @@ namespace Exiv2 {
             if (c != '/')
                 is.setstate(std::ios::failbit);
             if (is)
-                r = std::make_pair(nominator, denominator);
+                r = {nominator, denominator};
         }
         return is;
     }
@@ -257,7 +363,7 @@ namespace Exiv2 {
             if (c != '/')
                 is.setstate(std::ios::failbit);
             if (is)
-                r = std::make_pair(nominator, denominator);
+                r = {nominator, denominator};
         }
         return is;
     }
@@ -293,7 +399,7 @@ namespace Exiv2 {
     {
         uint32_t nominator = getULong(buf, byteOrder);
         uint32_t denominator = getULong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
+        return {nominator, denominator};
     }
 
     int16_t getShort(const byte* buf, ByteOrder byteOrder)
@@ -316,7 +422,7 @@ namespace Exiv2 {
     {
         int32_t nominator = getLong(buf, byteOrder);
         int32_t denominator = getLong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
+        return {nominator, denominator};
     }
 
     float getFloat(const byte* buf, ByteOrder byteOrder)
@@ -395,6 +501,23 @@ namespace Exiv2 {
             buf[3] = static_cast<byte>(l & 0x000000ff);
         }
         return 4;
+    }
+
+    long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            for (size_t i = 0; i < 8; i++) {
+                buf[i] = static_cast<byte>(l & 0xff);
+                l >>= 8;
+            }
+        }
+        else {
+            for (size_t i = 0; i < 8; i++) {
+                buf[8-i-1] = static_cast<byte>(l & 0xff);
+                l >>= 8;
+            }
+        }
+        return 8;
     }
 
     long ur2Data(byte* buf, URational l, ByteOrder byteOrder)
@@ -670,27 +793,28 @@ namespace Exiv2 {
 
     Rational floatToRationalCast(float f)
     {
-#if defined(_MSC_VER) && _MSC_VER < 1800
-        if (!_finite(f)) {
-#else
-        if (!std::isfinite(f)) {
-#endif
-            return {f > 0 ? 1 : -1, 0};
+
+        // Convert f to double because it simplifies the "in_range" check
+        // below. (INT_MAX can be represented accurately as a double, but
+        // gets rounded when it's converted to float.)
+        const double d = f;
+        const bool in_range = INT_MIN <= d && d <= INT_MAX;
+        if (!in_range) {
+            return {d > 0 ? 1 : -1, 0};
         }
         // Beware: primitive conversion algorithm
         int32_t den = 1000000;
-        const long f_as_long = static_cast<long>(f);
-        if (Safe::abs(f_as_long) > 2147) {
+        const long d_as_long = static_cast<long>(d);
+        if (Safe::abs(d_as_long) > 2147) {
             den = 10000;
         }
-        if (Safe::abs(f_as_long) > 214748) {
+        if (Safe::abs(d_as_long) > 214748) {
             den = 100;
         }
-        if (Safe::abs(f_as_long) > 21474836) {
+        if (Safe::abs(d_as_long) > 21474836) {
             den = 1;
         }
-        const float rnd = f >= 0 ? 0.5F : -0.5F;
-        const auto nom = static_cast<int32_t>(f * den + rnd);
+        const auto nom = static_cast<int32_t>(std::round(d * den));
         const int32_t g = gcd(nom, den);
 
         return {nom / g, den / g};

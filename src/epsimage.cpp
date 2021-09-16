@@ -452,23 +452,23 @@ namespace {
                 posBeginPageSetup = startPos;
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%Exiv2EndXMP";
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: After %%PageTrailer") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%Exiv2EndXMP";
             } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageSetup End \"AI11EPS\"") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageSetup End \"AI11EPS\"";
             } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageTrailer Start \"AI11EPS\"") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageTrailer Start \"AI11EPS\"";
             } else if (!inRemovableEmbedding && line == "%begin_xml_code") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%end_xml_code";
                 removableEmbeddingsWithUnmarkedTrailer++;
             } else {
@@ -622,8 +622,8 @@ namespace {
                 if (write) throw Error(kerImageWriteFailed);
                 break;
             }
-            removableEmbeddings.push_back(std::make_pair(posXmpTrailer, posXmpTrailerEnd));
-            #ifdef DEBUG
+            removableEmbeddings.emplace_back(posXmpTrailer, posXmpTrailerEnd);
+#ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at "
                          "[" << removableEmbeddings.back().first << "," << removableEmbeddings.back().second << ")"
                          "\n";
@@ -1165,15 +1165,17 @@ namespace Exiv2
                 bufSize = static_cast<long>(i.size());
             }
         }
+        const long restore = iIo.tell(); // save
         DataBuf buf = iIo.read(bufSize);
-        if (iIo.error() || buf.size_ != bufSize) {
+        if (iIo.error() || buf.size() != bufSize) {
+            iIo.seek(restore, BasicIo::beg);
             return false;
         }
         // check for all possible (DOS) EPS signatures
-        bool matched = (memcmp(buf.pData_, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
+        bool matched = (buf.cmpBytes(0, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
         if (!matched) {
             for (auto&& eps : epsFirstLine) {
-                if (memcmp(buf.pData_, eps.data(), eps.size()) == 0) {
+                if (buf.cmpBytes(0, eps.data(), eps.size()) == 0) {
                     matched = true;
                     break;
                 }
@@ -1181,7 +1183,7 @@ namespace Exiv2
         }
         // seek back if possible and requested
         if (!advance || !matched) {
-            iIo.seek(-buf.size_, BasicIo::cur);
+            iIo.seek(restore, BasicIo::beg);
         }
         return matched;
     }

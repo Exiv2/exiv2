@@ -43,7 +43,7 @@ TEST_F(ATiffHeader, hasExpectedValuesAfterCreation)
 TEST_F(ATiffHeader, canBeWrittenAndItsSizeIs8Bytes)
 {
     DataBuf buffer = header.write();
-    ASSERT_EQ(header.size(), buffer.size_);
+    ASSERT_EQ(header.size(), buffer.size());
     ASSERT_EQ(8U, header.size());
 }
 

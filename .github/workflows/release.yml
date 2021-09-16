@@ -23,7 +23,9 @@ jobs:
         run: |
           sudo apt-get install ninja-build
           sudo apt-get install gettext
-          pip3 install conan==1.36.0
+          pip3 install conan==1.39.0
+          sudo apt-get install doxygen
+          sudo apt-get install graphviz
 
       - name: Conan common config
         run: |
@@ -41,7 +43,8 @@ jobs:
       - name: Build packaged release
         run: |
           cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON ..
+          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_BUILD_DOC=ON ..
+          cmake --build . -t doc
           cmake --build . -t package
           tree -L 3
 
@@ -64,6 +67,8 @@ jobs:
           brew install tree
           brew install gettext
           pip3 install conan==1.36.0
+          brew install doxygen
+          brew install graphviz
 
       - name: Run Conan
         run: |
@@ -77,7 +82,8 @@ jobs:
       - name: Build packaged release
         run: |
           cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
+          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_BUILD_DOC=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
+          cmake --build . -t doc
           cmake --build . -t package
           tree -L 3
 
@@ -113,9 +119,14 @@ jobs:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-packaged-win-release-${{ hashFiles('conanfile.py') }}
 
+      - name: Install doxygen
+        run: |
+          choco install doxygen.install
+          choco install graphviz
+
       - name: Install Conan & Common config
         run: |
-          pip.exe install conan
+          pip.exe install "conan==1.39.0"
           conan profile new --detect default
           conan profile update settings.build_type=Release default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
@@ -134,7 +145,8 @@ jobs:
       - name: Build packaged release
         run: |
           cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=OFF -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON ..
+          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=OFF -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_BUILD_DOC=ON ..
+          cmake --build . -t doc
           cmake --build . -t package
           tree -L 3
 
@@ -217,7 +229,7 @@ jobs:
       - name: List downloaded files
         run: tree -L 3
 
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v0.1.8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

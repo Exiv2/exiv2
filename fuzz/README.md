@@ -19,7 +19,7 @@ This is the command to run the fuzzer for 2 minutes:
 ```bash
 cd <exiv2dir>/build-fuzz
 mkdir corpus
-./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_total_time=120
+LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=20480 -max_total_time=120
 ```
 
 Alternatively, a simple script is provided for running the fuzzer in a continuous loop:
