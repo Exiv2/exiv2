@@ -99,21 +99,21 @@ TIFF | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Rea
 WEBP | Read/Write | -          | Read/Write | -              | Read/Write  | Read/Write
 XMP  | -          |-           | Read/Write | -              | -           | -
 
-+ Support for GIF, TGA and BMP images is minimal: the image format is
+- Support for GIF, TGA and BMP images is minimal: the image format is
 recognized, a MIME type assigned to it and the height and width of the
 image are determined.
 
-+ Reading other TIFF-like RAW image formats, which are not listed in 
+- Reading other TIFF-like RAW image formats, which are not listed in 
 the table, may also work.
 
-+ Some image formats allow an extra interal type of metadata. Only 
+- Some image formats allow an extra interal type of metadata. Only 
 partial support exists for the RAF format.
 
-+ Support for BMFF types such as AVIF, CR3, HEIF and HEIC is a build 
+- Support for BMFF types such as AVIF, CR3, HEIF and HEIC is a build 
 option. To check if this is enabled, use `exiv2 --version --verbose --grep bmff` 
 and see if `enable_bmff=1`.
 
-+ Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
+- Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
 
 
 [TOC](#TOC)
@@ -819,11 +819,11 @@ or downloaded from https://www.exiv2.org/download.html.
 
 For the Exif, IPTC and XMP groups:
 
-+ The same tags that are available in Exif's Image group (e.g., Exif.Image.XResolution), 
+- The same tags that are available in Exif's Image group (e.g., Exif.Image.XResolution), 
 are also available in Exif's Thumbnail, Image(2|3), SubImage(1-9) and 
 SubThumb1 groups, (e.g., Exif.Thumbnail.XResolution).
 
-+ Many camera manufacturer's tags are available and are accessed as 
+- Many camera manufacturer's tags are available and are accessed as 
 different Exif groups, using the manufacturer's name as a prefix (e.g., 
 CanonCs is the Camera Settings for a Canon camera). Groups called the 
 manufacturer name plus number, access the main tags in different file 
@@ -834,13 +834,13 @@ tags for all the different manufacturers is an ongoing task, only partial
 support is available. The full unprocessed makernotes data is available 
 in [Exif.Photo.MakerNote](https://www.exiv2.org/tags.html).
 
-+ Every Exif and IPTC tag has a tag number (16 bit, 2 byte integer), 
+- Every Exif and IPTC tag has a tag number (16 bit, 2 byte integer), 
 which is unique within a Group (to display, see [--Print x](#Print_flgs)).
 
-+ Some of the Exif and IPTC tags are mirrored in the XMP specification 
+- Some of the Exif and IPTC tags are mirrored in the XMP specification 
 (see https://www.exiv2.org/metadata.html).
 
-+ The XMP specification is flexible and allows new custom 'Groups' and 
+- The XMP specification is flexible and allows new custom 'Groups' and 
 'Tagnames' to be added (see [Adding new XMP tags](#add_xmp_tags) and 
 ['Modify' command format](#mod_cmd_format)). For example, the 'cm2e' 
 'Group' has been added, which has 'Father' and 'Family' Tagnames. 
@@ -856,7 +856,7 @@ Xmp.dc.description                           LangAlt     1  lang="x-default" Cla
 Xmp.dc.Family                                XmpBag      1  Robin
 ```
 
-+ Further information on Exiv2 groups can be found on the Exiv2 wiki: https://github.com/Exiv2/exiv2/wiki
+- Further information on Exiv2 groups can be found on the Exiv2 wiki: https://github.com/Exiv2/exiv2/wiki
 
 [TOC](#TOC)
 
@@ -1687,99 +1687,99 @@ Exif.NikonLd3.LensFStops                     Byte        1  F4.6
 
 # 13 EXAMPLES
 
-+ `exiv2 *.jpg`<br>
+- `exiv2 *.jpg`<br>
 Prints a summary of the Exif information for all the JPEG files in the current 
 directory (the same as `exiv2 print *.jpg`). The summary 
 is brief and does not use the Family.Group.Tagname format. See ([--print mod](#print_mod)).
 
-+ `exiv2 --grep date/i https://clanmills.com/Stonehenge.jpg`<br>
+- `exiv2 --grep date/i https://clanmills.com/Stonehenge.jpg`<br>
 Prints the tags in https://clanmills.com/Stonehenge.jpg, where the key 
 (see [Exiv2 key syntax](#exiv2_key_syntax)) contains the string *date* 
 (*/i* searches case insensitive, see [--grep str](#grep_str)). When not including [--print mod](#print_mod) 
 or [--Print flgs](#Print_flgs), the default output becomes [--print a](#print_mod) 
 (i.e., print all).
 
-+ `exiv2 --print i image.jpg`<br>
+- `exiv2 --print i image.jpg`<br>
 Prints the IPTC tags in *image.jpg* (see [--print mod](#print_mod)).
 
-+ `exiv2 --Print IkytEX image.jpg`<br>
+- `exiv2 --Print IkytEX image.jpg`<br>
 Prints (with finer grained control) the Exif and XMP tags in *image.jpg*. 
 The tag's key (see [Exiv2 key syntax](#exiv2_key_syntax)), 
 type and translated value are displayed (see [--Print flgs](#Print_flgs)).
 
-+ `exiv2 rename image.jpg`<br>
+- `exiv2 rename image.jpg`<br>
 Renames *image.jpg* (taken on 13-Nov-05 at 22:58:31) to *20051113_225831.jpg*. 
 See [rename](#mv_rename).
 
-+ `exiv2 --rename ":basename:_%Y-%m" image.jpg`<br>
+- `exiv2 --rename ":basename:_%Y-%m" image.jpg`<br>
 Renames *image.jpg* using the basename (i.e., *image*) and values 
 defined in [iconv_open(3)](https://linux.die.net/man/3/iconv_open) 
 to *image_2005-11.jpg*. The values for time and date are taken from the 
 Exif tags. See [--rename fmt](#rename_fmt)).
 
-+ `exiv2 --extract t image1.jpg image2.jpg`<br>
+- `exiv2 --extract t image1.jpg image2.jpg`<br>
 Extracts (copies) the thumbnail from *image1.jpg* into 
 *image1-thumb.jpg* and from *image2.jpg* into *image2-thumb.jpg*. See 
 [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --insert t image1.jpg image2.jpg`<br>
+- `exiv2 --insert t image1.jpg image2.jpg`<br>
 Inserts (copies) thumbnails *image1-thumb.jpg* into *image1.jpg* and 
 *image2-thumb.jpg* into *image2.jpg*. See [--insert tgt2](#insert_tgt2).
 
-+ `exiv2 --extract p1,2 image.jpg`<br>
+- `exiv2 --extract p1,2 image.jpg`<br>
 Extracts (copies) previews 1 and 2 from *image.jpg*, into *image-preview1.jpg* 
 and *image-preview2.jpg*. Use `exiv2 --print p image.jpg` to display a 
 list of available previews for *image.jpg*. See [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --extract X image.jpg`<br>
+- `exiv2 --extract X image.jpg`<br>
 Extracts (copies) metadata tags from *image.jpg*, into an XMP sidecar file, 
 *image.xmp*. In the process, this converts selected Exif and IPTC tags 
 to XMP tags. See [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --insert X image.jpg`<br>
+- `exiv2 --insert X image.jpg`<br>
 Inserts (copies) metadata from an XMP sidecar file, *image.xmp*, into 
 *image.jpg*. The resulting Exif and IPTC tags are converted from the 
 equivalent XMP tags in the sidecar file. See [--insert tgt2](#insert_tgt2).
 
-+ `exiv2 --extract X --Modify "add Xmp.dc.subject Sunset" image.jpg`<br>
+- `exiv2 --extract X --Modify "add Xmp.dc.subject Sunset" image.jpg`<br>
 Extracts (copies) metadata tags from *image.jpg*, applies [--Modify cmd](#Modify_cmd) 
 to those tags and then saves in an XMP sidecar file, *image.xmp*. While 
 saving, selected Exif and IPTC tags are converted to XMP tags. Multiple 
 [--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) can 
 be used. See [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --extract X- image1.jpg | exiv2 --insert X- image2.jpg`<br>
+- `exiv2 --extract X- image1.jpg | exiv2 --insert X- image2.jpg`<br>
 Extracts (copies) the *image1.jpg* metadata as XMP sidecar data and 
 inserts it directly into *image2.jpg*. [--Modify cmd](#Modify_cmd) and 
 [--modify cmdfile](#modify_cmdfile) can also be added when extracting 
 from *image1.jpg*. See [--extract tgt3](#extract_tgt3) and [--insert tgt2](#insert_tgt2).
 
-+ `exiv2 delete image.jpg`<br>
+- `exiv2 delete image.jpg`<br>
 Deletes all the metadata in *image.jpg*. See [delete](#rm_delete).
 
-+ `exiv2 --delete tC image.jpg`<br>
+- `exiv2 --delete tC image.jpg`<br>
 Deletes the thumbnail and ICC profile in *image.jpg*. See [--delete a](#delete_tgt1).
 
-+ `exiv2 --adjust 1:00:00 image.jpg`<br>
+- `exiv2 --adjust 1:00:00 image.jpg`<br>
 Adjusts Exif timestamps in *image.jpg*, adding 1 hour. See [--adjust time](#adjust_time).
 
-+ `exiv2 --Modify "set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg`<br>
+- `exiv2 --Modify "set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg`<br>
 Sets the Exif comment in *image.jpg*, to an Ascii string with the value 
 *New Exif comment*. See [--Modify cmd](#Modify_cmd).
 
-+ `exiv2 --Modify "set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" --Modify "set Exif.GPSInfo.GPSLatitudeRef N" image.jpg`<br>
+- `exiv2 --Modify "set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" --Modify "set Exif.GPSInfo.GPSLatitudeRef N" image.jpg`<br>
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north in 
 *image.jpg*. The Exif standard stipulates that the GPSLatitude 
 tag consists of three Rational numbers for the degrees, minutes and 
 seconds of the latitude and GPSLatitudeRef contains either 'N' or 'S' 
 for north or south latitude respectively. See [--Modify cmd](#Modify_cmd).
 
-+ `exiv2 --Modify "reg myPrefix http://ns.myPrefix.me/" --Modify "add Xmp.myPrefix.Whom Mr. Mills" Stonehenge.jpg`<br>
+- `exiv2 --Modify "reg myPrefix http://ns.myPrefix.me/" --Modify "add Xmp.myPrefix.Whom Mr. Mills" Stonehenge.jpg`<br>
 Registers a new XMP namespace called *http<nolink>://ns.myPrefix.me/* and a new 
 XMP group called *myPrefix*. This new Group has a new *Whom* tag added to it. 
 See [--Modify cmd](#Modify_cmd).
 
-+ `exiv2 --location /tmp --suffix .CRW insert /data/*.JPG`<br>	
+- `exiv2 --location /tmp --suffix .CRW insert /data/*.JPG`<br>	
 Copy all metadata from *CRW* files in the */tmp* directory to *JPG* files 
 with corresponding basenames in the */data* directory. Note that this 
 copies metadata as is, without any modifications to adapt it to the 
@@ -1787,7 +1787,7 @@ requirements of the target format. Some tags copied like this may not make
 sense in the target image. See [--location dir](#location_dir) and [--suffix suf](#suffix_suf) 
 and [insert](#in_insert).
 
-+ `exiv2 fixiso image.jpg`<br>
+- `exiv2 fixiso image.jpg`<br>
 Adds the Exif ISO metadata (if missing) to *image.jpg*. This is for 
 Nikon and Canon cameras only and copies the camera maker's value into the Exif 
 tags. See [fixiso](#fi_fixiso).
