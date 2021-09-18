@@ -716,6 +716,7 @@ namespace Exiv2 {
                 N_("The number of inks. Usually equal to SamplesPerPixel, unless there are extra samples."),
                 ifd0Id, imgStruct, unsignedShort, 1, printValue}, // TIFF tag
         {0x0150, "DotRange", N_("Dot Range"),
+                /* xgettext:no-c-format */
                 N_("The component values that correspond to a 0% dot and 100% dot."),
                 ifd0Id, imgStruct, unsignedByte, -1, printValue}, // TIFF tag
         {0x0151, "TargetPrinter", N_("Target Printer"),

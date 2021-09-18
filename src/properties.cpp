@@ -2080,6 +2080,7 @@ namespace Exiv2 {
                                                 N_("A decimal representation of the precision of the coordinates given in the decimalLatitude and decimalLongitude.")
             },
             { "pointRadiusSpatialFit",          N_("Point Radius Spatial Fit"),              "Real",      xmpText,   xmpExternal,
+                                                /* xgettext:no-c-format */
                                                 N_("The ratio of the area of the point-radius (decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters) to the area of the true (original, or most specific) spatial representation of the Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given point-radius does not completely contain the original representation. The pointRadiusSpatialFit is undefined (and should be left blank) if the original representation is a point without uncertainty and the given georeference is not that same point (without uncertainty). If both the original and the given georeference are the same point, the pointRadiusSpatialFit is 1.")
             },
             { "footprintWKT",                   N_("Footprint WKT"),                         "Text",      xmpText,    xmpExternal,
@@ -2089,6 +2090,7 @@ namespace Exiv2 {
                                                 N_("A Well-Known Text (WKT) representation of the Spatial Reference System (SRS) for the footprintWKT of the Location. Do not use this term to describe the SRS of the decimalLatitude and decimalLongitude, even if it is the same as for the footprintWKT - use the geodeticDatum instead.")
             },
             { "footprintSpatialFit",            N_("Footprint Spatial Fit"),                "Real",      xmpText,    xmpExternal,
+                                                /* xgettext:no-c-format */
                                                 N_("The ratio of the area of the footprint (footprintWKT) to the area of the true (original, or most specific) spatial representation of the Location. Legal values are 0, greater than or equal to 1, or undefined. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given footprint does not completely contain the original representation. The footprintSpatialFit is undefined (and should be left blank) if the original representation is a point and the given georeference is not that same point. If both the original and the given georeference are the same point, the footprintSpatialFit is 1.")
             },
             { "georeferencedBy",                N_("Georeferenced By"),                     "bag Text",     xmpBag,   xmpExternal,
