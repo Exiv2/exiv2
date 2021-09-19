@@ -36,6 +36,7 @@ int main() {
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
 
+check_include_file_cxx( "libproc.h"     EXV_HAVE_LIBPROC_H )
 check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
 check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 

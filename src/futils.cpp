@@ -48,8 +48,7 @@
 #if defined(_MSC_VER)
 #define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #elif defined(__APPLE__)
-#include <Targetconditionals.h>
-#ifndef TARGET_OS_IPHONE
+#if defined(EXV_HAVE_LIBPROC_H)
 #include <libproc.h>
 #endif
 #endif
@@ -458,7 +457,7 @@ namespace Exiv2 {
             CloseHandle(processHandle);
         }
     #elif defined(__APPLE__)
-    #ifndef TARGET_OS_IPHONE
+    #ifdef EXV_HAVE_LIBPROC_H
         const int pid = getpid();
         char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
