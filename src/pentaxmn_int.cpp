@@ -1014,8 +1014,8 @@ namespace Exiv2 {
     std::ostream& PentaxMakerNote::printVersion(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
-        size_t i;
-        while ((i = val.find(' ')) != std::string::npos && i != val.length() - 1) {
+        size_t i = 0;
+        while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
             val.replace(i, 1, ".");
         }
         os << val;
@@ -1025,8 +1025,8 @@ namespace Exiv2 {
     std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
-        size_t i;
-        while ((i = val.find(' ')) != std::string::npos && i != val.length() - 1) {
+        size_t i = 0;
+        while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
             val.replace(i, 1, "x");
         }
         os << val;
