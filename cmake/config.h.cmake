@@ -41,6 +41,9 @@
 // Define if you have the munmap function.
 #cmakedefine EXV_HAVE_MUNMAP
 
+/* Define if you have the <libproc.h> header file. */
+#cmakedefine EXV_HAVE_LIBPROC_H
+
 /* Define if you have the <unistd.h> header file. */
 #cmakedefine EXV_HAVE_UNISTD_H
 
