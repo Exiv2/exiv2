@@ -48,6 +48,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
             endif()
             if(BUILD_WITH_STACK_PROTECTOR AND HAS_FSTACK_PROTECTOR_STRONG)
                 add_compile_options(-fstack-protector-strong)
+                add_link_options(-fstack-protector-strong)
             endif()
         endif()
 
