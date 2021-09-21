@@ -2768,15 +2768,18 @@ namespace Exiv2 {
             }
             std::ostringstream oss;
             oss.copyfmt(os);
-            const float sec = 3600 * value.toFloat(0)
-                              + 60 * value.toFloat(1)
-                              + value.toFloat(2);
+            const double t = 3600 * value.toFloat(0)
+                             + 60 * value.toFloat(1)
+                             + value.toFloat(2);
+            enforce<std::overflow_error>(std::isfinite(t), "Non-finite time value");
             int p = 0;
-            if (sec != static_cast<int>(sec)) p = 1;
-
-            const int hh = static_cast<int>(sec / 3600);
-            const int mm = static_cast<int>((sec - 3600 * hh) / 60);
-            const float ss = sec - 3600 * hh - 60 * mm;
+            const double fraction = std::fmod(t,1);
+            if (fraction != 0) p = 1;
+            const double ss = std::fmod(t, 60);
+            const double minutes = (t - ss)/60;
+            const int mm = static_cast<int>(std::fmod(minutes, 60));
+            const double hours = (minutes - mm)/60;
+            const int hh = static_cast<int>(std::fmod(hours, 24));
 
             os << std::setw(2) << std::setfill('0') << std::right << hh << ":"
                << std::setw(2) << std::setfill('0') << std::right << mm << ":"
