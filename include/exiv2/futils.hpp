@@ -42,7 +42,6 @@ namespace Exiv2
         pFtp,
         pHttps,
         pSftp,
-        pSsh,
         pFileUri,
         pDataUri,
         pStdin

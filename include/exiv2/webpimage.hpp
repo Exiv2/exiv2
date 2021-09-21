@@ -57,62 +57,59 @@ namespace Exiv2 {
               instance after it is passed to this method. Use the Image::io()
               method to get a temporary reference.
          */
-        WebPImage(BasicIo::AutoPtr io);
+        explicit WebPImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
+        void readMetadata() override;
+        void writeMetadata() override;
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
         //@}
 
         /*!
           @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
-        void setIptcData(const IptcData& /*iptcData*/);
+        void setComment(const std::string& comment) override;
+        void setIptcData(const IptcData& /*iptcData*/) override;
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
+        //@}
+
+        //! Copy constructor
+        WebPImage(const WebPImage& rhs) = delete;
+        //! Assignment operator
+        WebPImage& operator=(const WebPImage& rhs) = delete;
         //@}
 
     private:
         void doWriteMetadata(BasicIo& outIo);
         //! @name NOT Implemented
         //@{
-        long getHeaderOffset(byte *data, long data_size,
-                             byte *header, long header_size);
-        bool equalsWebPTag(Exiv2::DataBuf& buf ,const char* str);
+        static long getHeaderOffset(const byte* data, long data_size, const byte* header, long header_size);
+        static bool equalsWebPTag(Exiv2::DataBuf& buf, const char* str);
         void debugPrintHex(byte *data, long size);
         void decodeChunks(long filesize);
         void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif,
                          bool has_alpha, bool has_icc, int width,
                          int height);
 
-        //! Copy constructor
-        WebPImage(const WebPImage& rhs);
-        //! Assignment operator
-        WebPImage& operator=(const WebPImage& rhs);
-        //@}
-
-    private:
-        const static byte WEBP_PAD_ODD;
-        const static int WEBP_TAG_SIZE;
-        const static int WEBP_VP8X_ICC_BIT;
-        const static int WEBP_VP8X_ALPHA_BIT;
-        const static int WEBP_VP8X_EXIF_BIT;
-        const static int WEBP_VP8X_XMP_BIT;
-        const static char* WEBP_CHUNK_HEADER_VP8X;
-        const static char* WEBP_CHUNK_HEADER_VP8L;
-        const static char* WEBP_CHUNK_HEADER_VP8;
-        const static char* WEBP_CHUNK_HEADER_ANMF;
-        const static char* WEBP_CHUNK_HEADER_ANIM;
-        const static char* WEBP_CHUNK_HEADER_ICCP;
-        const static char* WEBP_CHUNK_HEADER_EXIF;
-        const static char* WEBP_CHUNK_HEADER_XMP;
-
+        static const byte WEBP_PAD_ODD;
+        static const int WEBP_TAG_SIZE;
+        static const int WEBP_VP8X_ICC_BIT;
+        static const int WEBP_VP8X_ALPHA_BIT;
+        static const int WEBP_VP8X_EXIF_BIT;
+        static const int WEBP_VP8X_XMP_BIT;
+        static const char* const WEBP_CHUNK_HEADER_VP8X;
+        static const char* const WEBP_CHUNK_HEADER_VP8L;
+        static const char* const WEBP_CHUNK_HEADER_VP8;
+        static const char* const WEBP_CHUNK_HEADER_ANMF;
+        static const char* const WEBP_CHUNK_HEADER_ANIM;
+        static const char* const WEBP_CHUNK_HEADER_ICCP;
+        static const char* const WEBP_CHUNK_HEADER_EXIF;
+        static const char* const WEBP_CHUNK_HEADER_XMP;
 
     }; //Class WebPImage
 
@@ -126,7 +123,7 @@ namespace Exiv2 {
           Caller owns the returned object and the auto-pointer ensures that
           it will be deleted.
      */
-    EXIV2API Image::AutoPtr newWebPInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a WebP Video.
     EXIV2API bool isWebPType(BasicIo& iIo, bool advance);

@@ -4,10 +4,10 @@ include(CheckCXXCompilerFlag)
 
 if (COMPILER_IS_GCC OR COMPILER_IS_CLANG) # MINGW, Linux, APPLE, CYGWIN
     if ( EXIV2_TEAM_WARNINGS_AS_ERRORS )
-        add_compile_options(-Werror -Wno-error=deprecated-declarations)
-        check_cxx_compiler_flag(-Wno-error=deprecated-copy DEPRECATED_COPY)
+        add_compile_options(-Werror)
+        check_cxx_compiler_flag(-Wdeprecated-copy DEPRECATED_COPY)
         if ( DEPRECATED_COPY) 
-            add_compile_options(-Wno-error=deprecated-copy)
+            add_compile_options(-Wdeprecated-copy)
         endif ()
     endif ()
 
@@ -21,10 +21,10 @@ if (COMPILER_IS_GCC OR COMPILER_IS_CLANG) # MINGW, Linux, APPLE, CYGWIN
                     " -Wlogical-op"
                     " -Wdouble-promotion"
                     " -Wshadow"
-                    " -Wuseless-cast"
                     " -Wpointer-arith" # This warning is also enabled by -Wpedantic
                     " -Wformat=2"
                     #" -Wold-style-cast"
+                    #" -Wuseless-cast" Disabled mainly because of conversion of socket types (different types on OSs)
                 )
             endif ()
 

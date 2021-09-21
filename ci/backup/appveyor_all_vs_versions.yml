@@ -1,0 +1,73 @@
+init:
+  - echo %PYTHON%
+
+environment:
+  PYTHON: "C:/Python37-x64"
+    
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      CMAKE_GENERATOR: Ninja
+      INTEGRATION_TESTS: 1
+      VS_COMPILER_VERSION: 16
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
+      ARCHITECTURE: x86_64
+      UNIT_TESTS: 1
+      WARNINGS_AS_ERRORS: ON
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CMAKE_GENERATOR: Ninja
+      INTEGRATION_TESTS: 1
+      VS_COMPILER_VERSION: 15
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+      ARCHITECTURE: x86_64
+      UNIT_TESTS: 1
+      WARNINGS_AS_ERRORS: ON
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: Ninja
+      INTEGRATION_TESTS: 1
+      VS_COMPILER_VERSION: 14
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
+      ARCHITECTURE: x86_64
+      UNIT_TESTS: 1
+      WARNINGS_AS_ERRORS: ON
+
+shallow_clone: true
+
+install:
+    - set PATH=%PATH%;%PYTHON%/Scripts/
+    - echo %APPVEYOR_BUILD_FOLDER%
+    - mkdir C:\projects\deps
+    - cd C:\projects\deps
+    - appveyor DownloadFile https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-win.zip -FileName ninja.zip
+    - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+    - set PATH=C:\projects\deps\ninja;%PATH%
+    - ninja --version
+    - python -m pip install --upgrade pip
+    - pip3.exe install conan==1.35.2
+    - pip3.exe install lxml
+    - cd %APPVEYOR_BUILD_FOLDER%
+
+before_build:
+    - cmd: conan remote list
+    - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
+    - cmd: conan profile new --detect default
+    - cmd: conan profile update settings.compiler.version=%VS_COMPILER_VERSION% default
+    - cmd: conan profile update settings.arch=%ARCHITECTURE% default
+    - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
+    - cmd: cat c:\Users\appveyor\.conan\conan.conf
+
+build_script:
+    - cmd: md build
+    - cmd: cd build
+    - cmd: call "%VCVARS%" x86_amd64
+    - cmd: conan --version
+    - cmd: conan install .. -o webready=False --build missing
+    - cmd: echo %CMAKE_GENERATOR%
+    - cmd: cmake -G "%CMAKE_GENERATOR%" -DEXIV2_TEAM_WARNINGS_AS_ERRORS=%WARNINGS_AS_ERRORS% -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_BUILD_UNIT_TESTS=%UNIT_TESTS% -DCMAKE_INSTALL_PREFIX=install ..
+    - cmd: cmake --build . --config Release
+    - cmd: cmake --build . --config Release --target install
+    - cmd: cd bin
+    - cmd: if %UNIT_TESTS% == 1 unit_tests.exe
+    - cmd: cd ../../tests/
+    - cmd: if %INTEGRATION_TESTS% == 1 %PYTHON%/python.exe runner.py -v
+    - cmd: cd ../build/bin
+    - cmd: exiv2 --version --verbose

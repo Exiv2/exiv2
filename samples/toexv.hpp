@@ -68,7 +68,7 @@ public:
     int help(std::ostream& os =std::cout) const;
 
     //! copy metadata from one image to another.
-    void copyMetadata(Exiv2::Image::AutoPtr& readImage,Exiv2::Image::AutoPtr& writeImage);
+    void copyMetadata(Exiv2::Image::UniquePtr& readImage,Exiv2::Image::UniquePtr& writeImage);
 
 }; // class Params
 

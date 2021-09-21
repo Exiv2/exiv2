@@ -27,6 +27,7 @@
 #include "types.hpp"
 
 // + standard includes
+#include <array>
 #include <memory>
 #include <iostream>
 #include <iomanip>
@@ -75,7 +76,7 @@ namespace Exiv2 {
 
     private:
         static const int events_ = 2;  //!< The number of stop/go flags.
-        bool go_[events_];             //!< Array of stop/go flags. See setGo().
+        std::array<bool, events_> go_; //!< Array of stop/go flags. See setGo().
 
     public:
         //! @name Creators
@@ -83,7 +84,7 @@ namespace Exiv2 {
         //! Default constructor. Initialises all stop/go flags to true.
         TiffVisitor();
         //! Virtual destructor
-        virtual ~TiffVisitor();
+        virtual ~TiffVisitor() = default;
         //@}
 
         //! @name Manipulators
@@ -161,31 +162,31 @@ namespace Exiv2 {
         TiffFinder(uint16_t tag, IfdId group)
             : tag_(tag), group_(group), tiffComponent_(0) {}
         //! Virtual destructor
-        virtual ~TiffFinder();
+        ~TiffFinder() override = default;
         //@}
 
         //! @name Manipulators
         //@{
         //! Find tag and group in a TIFF entry
-        virtual void visitEntry(TiffEntry* object);
+        void visitEntry(TiffEntry* object) override;
         //! Find tag and group in a TIFF data entry
-        virtual void visitDataEntry(TiffDataEntry* object);
+        void visitDataEntry(TiffDataEntry* object) override;
         //! Find tag and group in a TIFF image entry
-        virtual void visitImageEntry(TiffImageEntry* object);
+        void visitImageEntry(TiffImageEntry* object) override;
         //! Find tag and group in a TIFF size entry
-        virtual void visitSizeEntry(TiffSizeEntry* object);
+        void visitSizeEntry(TiffSizeEntry* object) override;
         //! Find tag and group in a TIFF directory
-        virtual void visitDirectory(TiffDirectory* object);
+        void visitDirectory(TiffDirectory* object) override;
         //! Find tag and group in a TIFF sub-IFD
-        virtual void visitSubIfd(TiffSubIfd* object);
+        void visitSubIfd(TiffSubIfd* object) override;
         //! Find tag and group in a TIFF makernote
-        virtual void visitMnEntry(TiffMnEntry* object);
+        void visitMnEntry(TiffMnEntry* object) override;
         //! Find tag and group in an IFD makernote
-        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        void visitIfdMakernote(TiffIfdMakernote* object) override;
         //! Find tag and group in a binary array
-        virtual void visitBinaryArray(TiffBinaryArray* object);
+        void visitBinaryArray(TiffBinaryArray* object) override;
         //! Find tag and group in an element of a binary array
-        virtual void visitBinaryElement(TiffBinaryElement* object);
+        void visitBinaryElement(TiffBinaryElement* object) override;
 
         //! Check if \em object matches \em tag and \em group
         void findObject(TiffComponent* object);
@@ -230,31 +231,31 @@ namespace Exiv2 {
                    const TiffHeaderBase* pHeader,
                    const PrimaryGroups*  pPrimaryGroups);
         //! Virtual destructor
-        virtual ~TiffCopier();
+        ~TiffCopier() override = default;
         //@}
 
         //! @name Manipulators
         //@{
         //! Copy a TIFF entry if it is an image tag
-        virtual void visitEntry(TiffEntry* object);
+        void visitEntry(TiffEntry* object) override;
         //! Copy a TIFF data entry if it is an image tag
-        virtual void visitDataEntry(TiffDataEntry* object);
+        void visitDataEntry(TiffDataEntry* object) override;
         //! Copy a TIFF image entry if it is an image tag
-        virtual void visitImageEntry(TiffImageEntry* object);
+        void visitImageEntry(TiffImageEntry* object) override;
         //! Copy a TIFF size entry if it is an image tag
-        virtual void visitSizeEntry(TiffSizeEntry* object);
+        void visitSizeEntry(TiffSizeEntry* object) override;
         //! Copy a TIFF directory if it is an image tag
-        virtual void visitDirectory(TiffDirectory* object);
+        void visitDirectory(TiffDirectory* object) override;
         //! Copy a TIFF sub-IFD if it is an image tag
-        virtual void visitSubIfd(TiffSubIfd* object);
+        void visitSubIfd(TiffSubIfd* object) override;
         //! Copy a TIFF makernote if it is an image tag
-        virtual void visitMnEntry(TiffMnEntry* object);
+        void visitMnEntry(TiffMnEntry* object) override;
         //! Copy an IFD makernote if it is an image tag
-        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        void visitIfdMakernote(TiffIfdMakernote* object) override;
         //! Copy a binary array if it is an image tag
-        virtual void visitBinaryArray(TiffBinaryArray* object);
+        void visitBinaryArray(TiffBinaryArray* object) override;
         //! Copy an element of a binary array if it is an image tag
-        virtual void visitBinaryElement(TiffBinaryElement* object);
+        void visitBinaryElement(TiffBinaryElement* object) override;
 
         //! Check if \em object is an image tag and if so, copy it to the target tree.
         void copyObject(TiffComponent* object);
@@ -290,31 +291,31 @@ namespace Exiv2 {
             FindDecoderFct       findDecoderFct
         );
         //! Virtual destructor
-        virtual ~TiffDecoder();
+        ~TiffDecoder() override = default;
         //@}
 
         //! @name Manipulators
         //@{
         //! Decode a TIFF entry
-        virtual void visitEntry(TiffEntry* object);
+        void visitEntry(TiffEntry* object) override;
         //! Decode a TIFF data entry
-        virtual void visitDataEntry(TiffDataEntry* object);
+        void visitDataEntry(TiffDataEntry* object) override;
         //! Decode a TIFF image entry
-        virtual void visitImageEntry(TiffImageEntry* object);
+        void visitImageEntry(TiffImageEntry* object) override;
         //! Decode a TIFF size entry
-        virtual void visitSizeEntry(TiffSizeEntry* object);
+        void visitSizeEntry(TiffSizeEntry* object) override;
         //! Decode a TIFF directory
-        virtual void visitDirectory(TiffDirectory* object);
+        void visitDirectory(TiffDirectory* object) override;
         //! Decode a TIFF sub-IFD
-        virtual void visitSubIfd(TiffSubIfd* object);
+        void visitSubIfd(TiffSubIfd* object) override;
         //! Decode a TIFF makernote
-        virtual void visitMnEntry(TiffMnEntry* object);
+        void visitMnEntry(TiffMnEntry* object) override;
         //! Decode an IFD makernote
-        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        void visitIfdMakernote(TiffIfdMakernote* object) override;
         //! Decode a binary array
-        virtual void visitBinaryArray(TiffBinaryArray* object);
+        void visitBinaryArray(TiffBinaryArray* object) override;
         //! Decode an element of a binary array
-        virtual void visitBinaryElement(TiffBinaryElement* object);
+        void visitBinaryElement(TiffBinaryElement* object) override;
 
         //! Entry function, determines how to decode each tag
         void decodeTiffEntry(const TiffEntryBase* object);
@@ -382,48 +383,41 @@ namespace Exiv2 {
                  to, the image with the metadata to encode and a function to
                  find special encoders.
          */
-        TiffEncoder(
-            const ExifData&      exifData,
-            const IptcData&      iptcData,
-            const XmpData&       xmpData,
-                  TiffComponent* pRoot,
-            const bool           isNewImage,
-            const PrimaryGroups* pPrimaryGroups,
-            const TiffHeaderBase* pHeader,
-                  FindEncoderFct findEncoderFct
-        );
+        TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+                    const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                    FindEncoderFct findEncoderFct);
         //! Virtual destructor
-        virtual ~TiffEncoder();
+        ~TiffEncoder() override = default;
         //@}
 
         //! @name Manipulators
         //@{
         //! Encode a TIFF entry
-        virtual void visitEntry(TiffEntry* object);
+        void visitEntry(TiffEntry* object) override;
         //! Encode a TIFF data entry
-        virtual void visitDataEntry(TiffDataEntry* object);
+        void visitDataEntry(TiffDataEntry* object) override;
         //! Encode a TIFF image entry
-        virtual void visitImageEntry(TiffImageEntry* object);
+        void visitImageEntry(TiffImageEntry* object) override;
         //! Encode a TIFF size entry
-        virtual void visitSizeEntry(TiffSizeEntry* object);
+        void visitSizeEntry(TiffSizeEntry* object) override;
         //! Encode a TIFF directory
-        virtual void visitDirectory(TiffDirectory* object);
+        void visitDirectory(TiffDirectory* object) override;
         //! Update directory entries
-        virtual void visitDirectoryNext(TiffDirectory* object);
+        void visitDirectoryNext(TiffDirectory* object) override;
         //! Encode a TIFF sub-IFD
-        virtual void visitSubIfd(TiffSubIfd* object);
+        void visitSubIfd(TiffSubIfd* object) override;
         //! Encode a TIFF makernote
-        virtual void visitMnEntry(TiffMnEntry* object);
+        void visitMnEntry(TiffMnEntry* object) override;
         //! Encode an IFD makernote
-        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        void visitIfdMakernote(TiffIfdMakernote* object) override;
         //! Reset encoder to its original state, undo makernote specific settings
-        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
+        void visitIfdMakernoteEnd(TiffIfdMakernote* object) override;
         //! Encode a binary array
-        virtual void visitBinaryArray(TiffBinaryArray* object);
+        void visitBinaryArray(TiffBinaryArray* object) override;
         //! Re-encrypt binary array if necessary
-        virtual void visitBinaryArrayEnd(TiffBinaryArray* object);
+        void visitBinaryArrayEnd(TiffBinaryArray* object) override;
         //! Encode an element of a binary array
-        virtual void visitBinaryElement(TiffBinaryElement* object);
+        void visitBinaryElement(TiffBinaryElement* object) override;
 
         /*!
           @brief Top level encoder function. Determines how to encode each TIFF
@@ -536,9 +530,7 @@ namespace Exiv2 {
                  entries are encoded. It takes care of type and count changes
                  and size shrinkage for non-intrusive writing.
          */
-        uint32_t updateDirEntry(byte* buf,
-                                ByteOrder byteOrder,
-                                TiffComponent* pTiffComponent) const;
+        static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent);
         /*!
           @brief Check if the tag is an image tag of an existing image. Such
                  tags are copied from the original image and can't be modifed.
@@ -638,33 +630,33 @@ namespace Exiv2 {
                    TiffRwState          state);
 
         //! Virtual destructor
-        virtual ~TiffReader();
+        ~TiffReader() override = default;
         //@}
 
         //! @name Manipulators
         //@{
         //! Read a TIFF entry from the data buffer
-        virtual void visitEntry(TiffEntry* object);
+        void visitEntry(TiffEntry* object) override;
         //! Read a TIFF data entry from the data buffer
-        virtual void visitDataEntry(TiffDataEntry* object);
+        void visitDataEntry(TiffDataEntry* object) override;
         //! Read a TIFF image entry from the data buffer
-        virtual void visitImageEntry(TiffImageEntry* object);
+        void visitImageEntry(TiffImageEntry* object) override;
         //! Read a TIFF size entry from the data buffer
-        virtual void visitSizeEntry(TiffSizeEntry* object);
+        void visitSizeEntry(TiffSizeEntry* object) override;
         //! Read a TIFF directory from the data buffer
-        virtual void visitDirectory(TiffDirectory* object);
+        void visitDirectory(TiffDirectory* object) override;
         //! Read a TIFF sub-IFD from the data buffer
-        virtual void visitSubIfd(TiffSubIfd* object);
+        void visitSubIfd(TiffSubIfd* object) override;
         //! Read a TIFF makernote entry from the data buffer
-        virtual void visitMnEntry(TiffMnEntry* object);
+        void visitMnEntry(TiffMnEntry* object) override;
         //! Read an IFD makernote from the data buffer
-        virtual void visitIfdMakernote(TiffIfdMakernote* object);
+        void visitIfdMakernote(TiffIfdMakernote* object) override;
         //! Reset reader to its original state, undo makernote specific settings
-        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
+        void visitIfdMakernoteEnd(TiffIfdMakernote* object) override;
         //! Read a binary array from the data buffer
-        virtual void visitBinaryArray(TiffBinaryArray* object);
+        void visitBinaryArray(TiffBinaryArray* object) override;
         //! Read an element of a binary array from the data buffer
-        virtual void visitBinaryElement(TiffBinaryElement* object);
+        void visitBinaryElement(TiffBinaryElement* object) override;
 
         //! Read a standard TIFF entry from the data buffer
         void readTiffEntry(TiffEntryBase* object);
@@ -705,9 +697,9 @@ namespace Exiv2 {
         //@}
 
     private:
-        typedef std::map<const byte*, IfdId> DirList;
-        typedef std::map<uint16_t, int> IdxSeq;
-        typedef std::vector<TiffComponent*> PostList;
+        using DirList = std::map<const byte*, IfdId>;
+        using IdxSeq = std::map<uint16_t, int>;
+        using PostList = std::vector<TiffComponent*>;
 
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer

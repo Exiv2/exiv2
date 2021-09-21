@@ -52,18 +52,13 @@ namespace Exiv2 {
 // type definitions
 
     //! Function pointer for functions to decode Exif tags from a CRW entry
-    typedef void (*CrwDecodeFct)(const CiffComponent&,
-                                 const CrwMapping*,
-                                 Image&,
-                                 ByteOrder);
+    using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
 
     //! Function pointer for functions to encode CRW entries from Exif tags
-    typedef void (*CrwEncodeFct)(const Image&,
-                                 const CrwMapping*,
-                                 CiffHeader*);
+    using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
 
     //! Stack to hold a path of CRW directories
-    typedef std::stack<CrwSubDir> CrwDirs;
+    using CrwDirs = std::stack<CrwSubDir>;
 
     //! Type to identify where the data is stored in a directory
     enum DataLocId {
@@ -84,9 +79,9 @@ namespace Exiv2 {
     class CiffComponent {
     public:
         //! CiffComponent auto_ptr type
-        typedef std::auto_ptr<CiffComponent> AutoPtr;
+        using UniquePtr = std::unique_ptr<CiffComponent>;
         //! Container type to hold all metadata
-        typedef std::vector<CiffComponent*> Components;
+        using Components = std::vector<CiffComponent*>;
 
         //! @name Creators
         //@{
@@ -107,7 +102,7 @@ namespace Exiv2 {
         // Default assignment operator is fine
 
         //! Add a component to the composition
-        void add(AutoPtr component);
+        void add(UniquePtr component);
         /*!
           @brief Add \em crwTagId to the parse tree, if it doesn't exist
                  yet. \em crwDirs contains the path of subdirectories, starting
@@ -250,7 +245,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         //! Implements add()
-        virtual void doAdd(AutoPtr component) =0;
+        virtual void doAdd(UniquePtr component) =0;
         //! Implements add(). The default implementation does nothing.
         virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
         //! Implements remove(). The default implementation does nothing.
@@ -311,7 +306,7 @@ namespace Exiv2 {
         CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
 
         //! Virtual destructor.
-        virtual ~CiffEntry();
+        ~CiffEntry() override = default;
         //@}
 
         // Default assignment operator is fine
@@ -321,20 +316,18 @@ namespace Exiv2 {
         //@{
         using CiffComponent::doAdd;
         // See base class comment
-        virtual void doAdd(AutoPtr component);
+        void doAdd(UniquePtr component) override;
         /*!
           @brief Implements write(). Writes only the value data of the entry,
                  using writeValueData().
          */
-        virtual uint32_t doWrite(Blob&     blob,
-                                 ByteOrder byteOrder,
-                                 uint32_t  offset);
+        uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
         //@}
 
         //! @name Accessors
         //@{
         // See base class comment
-        virtual void doDecode(Image& image, ByteOrder byteOrder) const;
+        void doDecode(Image& image, ByteOrder byteOrder) const override;
         //@}
 
     }; // class CiffEntry
@@ -350,7 +343,7 @@ namespace Exiv2 {
         CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir), cc_(NULL) {}
 
         //! Virtual destructor
-        virtual ~CiffDirectory();
+        ~CiffDirectory() override;
         //@}
 
         //! @name Manipulators
@@ -373,48 +366,39 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         // See base class comment
-        virtual void doAdd(AutoPtr component);
+        void doAdd(UniquePtr component) override;
         // See base class comment
-        virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
+        CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
         // See base class comment
-        virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
+        void doRemove(CrwDirs& crwDirs, uint16_t crwTagId) override;
         /*!
           @brief Implements write(). Writes the complete Ciff directory to
                  the blob.
          */
-        virtual uint32_t doWrite(Blob&     blob,
-                                 ByteOrder byteOrder,
-                                 uint32_t  offset);
+        uint32_t doWrite(Blob& blob, ByteOrder byteOrder, uint32_t offset) override;
         // See base class comment
-        virtual void doRead(const byte* pData,
-                            uint32_t    size,
-                            uint32_t    start,
-                            ByteOrder   byteOrder);
+        void doRead(const byte* pData, uint32_t size, uint32_t start, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors
         //@{
         // See base class comment
-        virtual void doDecode(Image&    image,
-                              ByteOrder byteOrder) const;
+        void doDecode(Image& image, ByteOrder byteOrder) const override;
 
         // See base class comment
-        virtual void doPrint(std::ostream&      os,
-                             ByteOrder          byteOrder,
-                             const std::string& prefix) const;
+        void doPrint(std::ostream& os, ByteOrder byteOrder, const std::string& prefix) const override;
 
         //! See base class comment. A directory is empty if it has no components.
-        virtual bool doEmpty() const;
+        bool doEmpty() const override;
 
         // See base class comment
-        virtual CiffComponent* doFindComponent(uint16_t crwTagId,
-                                               uint16_t crwDir) const;
+        CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
         //@}
 
     private:
         // DATA
         Components components_; //!< List of components in this dir
-        AutoPtr    m_; // used by recursive doAdd
+        UniquePtr    m_; // used by recursive doAdd
         CiffComponent* cc_;
 
     }; // class CiffDirectory
@@ -428,7 +412,7 @@ namespace Exiv2 {
     class CiffHeader {
     public:
         //! CiffHeader auto_ptr type
-        typedef std::auto_ptr<CiffHeader> AutoPtr;
+        using UniquePtr = std::unique_ptr<CiffHeader>;
 
         //! @name Creators
         //@{

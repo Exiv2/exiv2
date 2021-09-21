@@ -66,49 +66,48 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        RafImage(BasicIo::AutoPtr io, bool create);
+        RafImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
-        void readMetadata();
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+        void readMetadata() override;
         /*!
           @brief Todo: Write metadata back to the image. This method is not
               yet implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
          */
-        void writeMetadata();
+        void writeMetadata() override;
         /*!
           @brief Todo: Not supported yet, requires writeMetadata(). Calling
               this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setExifData(const ExifData& exifData);
+        void setExifData(const ExifData& exifData) override;
         /*!
           @brief Todo: Not supported yet, requires writeMetadata(). Calling
               this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setIptcData(const IptcData& iptcData);
+        void setIptcData(const IptcData& iptcData) override;
         /*!
           @brief Not supported. RAF format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
-    private:
         //! @name NOT implemented
         //@{
         //! Copy constructor
-        RafImage(const RafImage& rhs);
+        RafImage(const RafImage& rhs) = delete;
         //! Assignment operator
-        RafImage& operator=(const RafImage& rhs);
+        RafImage& operator=(const RafImage& rhs) = delete;
         //@}
 
     }; // class RafImage
@@ -123,7 +122,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newRafInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a RAF image.
     EXIV2API bool isRafType(BasicIo& iIo, bool advance);

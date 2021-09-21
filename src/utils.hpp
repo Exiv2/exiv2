@@ -77,6 +77,15 @@ namespace Util {
      */
     void replace(std::string& text, const std::string& searchText, const std::string& replaceText);
 
+    // TODO: When using C++20, replace with std::basic_string<CharT,Traits,Allocator>::starts_with()
+    //       (suggested in https://github.com/Exiv2/exiv2/pull/1777).
+    /*!
+      @brief Tests if \em start occurs at the beginning of \em s.
+             Returns true if found, else false.
+             When Exiv2 uses C++20, this will be replaced with
+             std::basic_string<CharT,Traits,Allocator>::starts_with().
+     */
+    bool startsWith(const std::string& s, const std::string& start);
 }                                       // namespace Util
 
 #endif                                  // #ifndef UTILS_HPP_

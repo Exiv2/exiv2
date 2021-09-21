@@ -51,17 +51,17 @@ namespace Exiv2 {
 // class definitions
 
     //! Type for a pointer to a function creating a makernote (image)
-    typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
-                                       IfdId       group,
-                                       IfdId       mnGroup,
-                                       const byte* pData,
-                                       uint32_t    size,
-                                       ByteOrder   byteOrder);
+    using NewMnFct = TiffComponent* (*)(uint16_t    tag,
+                                        IfdId       group,
+                                        IfdId       mnGroup,
+                                        const byte* pData,
+                                        uint32_t    size,
+                                        ByteOrder   byteOrder);
 
     //! Type for a pointer to a function creating a makernote (group)
-    typedef TiffComponent* (*NewMnFct2)(uint16_t   tag,
-                                        IfdId      group,
-                                        IfdId      mnGroup);
+    using NewMnFct2 = TiffComponent* (*)(uint16_t   tag,
+                                         IfdId      group,
+                                         IfdId      mnGroup);
 
     //! Makernote registry structure
     struct TiffMnRegistry {
@@ -128,7 +128,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Virtual destructor.
-        virtual ~MnHeader();
+        virtual ~MnHeader() = default;
         //@}
         //! @name Manipulators
         //@{
@@ -177,19 +177,17 @@ namespace Exiv2 {
         //! Default constructor
         OlympusMnHeader();
         //! Virtual destructor.
-        virtual ~OlympusMnHeader();
+        ~OlympusMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -208,20 +206,18 @@ namespace Exiv2 {
         //! Default constructor
         Olympus2MnHeader();
         //! Virtual destructor.
-        virtual ~Olympus2MnHeader();
+        ~Olympus2MnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
-        virtual uint32_t baseOffset(uint32_t mnOffset) const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
+        uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -240,22 +236,20 @@ namespace Exiv2 {
         //! Default constructor
         FujiMnHeader();
         //! Virtual destructor.
-        virtual ~FujiMnHeader();
+        ~FujiMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         // setByteOrder not implemented
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t  size() const;
-        virtual uint32_t  write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t  ifdOffset() const;
-        virtual ByteOrder byteOrder() const;
-        virtual uint32_t  baseOffset(uint32_t mnOffset) const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
+        ByteOrder byteOrder() const override;
+        uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -276,19 +270,17 @@ namespace Exiv2 {
         //! Default constructor
         Nikon2MnHeader();
         //! Virtual destructor.
-        virtual ~Nikon2MnHeader();
+        ~Nikon2MnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -308,22 +300,20 @@ namespace Exiv2 {
         //! Default constructor
         Nikon3MnHeader();
         //! Virtual destructor.
-        virtual ~Nikon3MnHeader();
+        ~Nikon3MnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
-        virtual void setByteOrder(ByteOrder byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        void setByteOrder(ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t  size()      const;
-        virtual uint32_t  write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t  ifdOffset() const;
-        virtual ByteOrder byteOrder() const;
-        virtual uint32_t  baseOffset(uint32_t mnOffset) const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
+        ByteOrder byteOrder() const override;
+        uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -344,19 +334,17 @@ namespace Exiv2 {
         //! Default constructor
         PanasonicMnHeader();
         //! Virtual destructor.
-        virtual ~PanasonicMnHeader();
+        ~PanasonicMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -376,20 +364,18 @@ namespace Exiv2 {
         //! Default constructor
         PentaxDngMnHeader();
         //! Virtual destructor.
-        virtual ~PentaxDngMnHeader();
+        ~PentaxDngMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
-        virtual uint32_t baseOffset(uint32_t mnOffset) const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
+        uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -408,19 +394,17 @@ namespace Exiv2 {
         //! Default constructor
         PentaxMnHeader();
         //! Virtual destructor.
-        virtual ~PentaxMnHeader();
+        ~PentaxMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -441,15 +425,13 @@ namespace Exiv2 {
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t baseOffset(uint32_t mnOffset) const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
 
     }; // class SamsungMnHeader
@@ -462,19 +444,17 @@ namespace Exiv2 {
         //! Default constructor
         SigmaMnHeader();
         //! Virtual destructor.
-        virtual ~SigmaMnHeader();
+        ~SigmaMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -495,19 +475,17 @@ namespace Exiv2 {
         //! Default constructor
         SonyMnHeader();
         //! Virtual destructor.
-        virtual ~SonyMnHeader();
+        ~SonyMnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -527,20 +505,18 @@ namespace Exiv2 {
         //! Default constructor
         Casio2MnHeader();
         //! Virtual destructor.
-        virtual ~Casio2MnHeader();
+        ~Casio2MnHeader() override = default;
         //@}
         //! @name Manipulators
         //@{
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder);
+        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        virtual uint32_t size() const;
-        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
-        virtual uint32_t ifdOffset() const;
-        virtual ByteOrder byteOrder() const;
+        uint32_t size() const override;
+        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        uint32_t ifdOffset() const override;
+        ByteOrder byteOrder() const override;
         //@}
         //! Return the size of the makernote header signature
         static uint32_t sizeOfSignature();
@@ -731,6 +707,39 @@ namespace Exiv2 {
     */
     int sony2010eSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
        
+    /*!
+        @brief Function to select cfg + def of the Sony2Fp (tag 9402) complex binary array.
+
+        @param tag Tag number of the binary array
+        @param pData Pointer to the raw array data.
+        @param size Size of the array data.
+        @param pRoot Pointer to the root component of the TIFF tree.
+        @return An index into the array set, -1 if no match was found.
+    */
+    int sony2FpSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
+        @brief Function to select cfg + def of the SonyMisc2b (tag 9404b) complex binary array.
+
+        @param tag Tag number of the binary array
+        @param pData Pointer to the raw array data.
+        @param size Size of the array data.
+        @param pRoot Pointer to the root component of the TIFF tree.
+        @return An index into the array set, -1 if no match was found.
+    */
+    int sonyMisc2bSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
+    /*!
+        @brief Function to select cfg + def of the SonyMisc3c (tag 9400) complex binary array.
+
+        @param tag Tag number of the binary array
+        @param pData Pointer to the raw array data.
+        @param size Size of the array data.
+        @param pRoot Pointer to the root component of the TIFF tree.
+        @return An index into the array set, -1 if no match was found.
+    */
+    int sonyMisc3cSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+
     /*!
       @brief Function to select cfg + def of a Nikon complex binary array.
 

@@ -29,6 +29,7 @@
 // + standard includes
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <array>
 #include <cstdio>
 #include <cerrno>
 #include <sstream>
@@ -47,7 +48,9 @@
 #if defined(_MSC_VER)
 #define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
 #elif defined(__APPLE__)
+#if defined(EXV_HAVE_LIBPROC_H)
 #include <libproc.h>
+#endif
 #endif
 
 #if defined(__FreeBSD__)
@@ -67,10 +70,17 @@
 #endif
 
 namespace Exiv2 {
-    const char* ENVARDEF[] = {"/exiv2.php", "40"}; //!< @brief default URL for http exiv2 handler and time-out
-    const char* ENVARKEY[] = {"EXIV2_HTTP_POST", "EXIV2_TIMEOUT"}; //!< @brief request keys for http exiv2 handler and time-out
-// *****************************************************************************
-// free functions
+    constexpr std::array<const char*, 2> ENVARDEF{
+        "/exiv2.php",
+        "40",
+    };  //!< @brief default URL for http exiv2 handler and time-out
+    constexpr std::array<const char*, 2> ENVARKEY{
+        "EXIV2_HTTP_POST",
+        "EXIV2_TIMEOUT",
+    };  //!< @brief request keys for http exiv2 handler and time-out
+
+    // *****************************************************************************
+    // free functions
     std::string getEnv(int env_var)
     {
         // this check is relying on undefined behavior and might not be effective
@@ -95,7 +105,7 @@ namespace Exiv2 {
         const char* pstr = str;
         // \todo try to use std::string for buf and avoid the creation of another string for just
         // returning the final value
-        char* buf  = new char[strlen(str) * 3 + 1];
+        auto buf = new char[strlen(str) * 3 + 1];
         char* pbuf = buf;
         while (*pstr) {
             if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
@@ -114,7 +124,7 @@ namespace Exiv2 {
 
     char* urldecode(const char* str) {
         const char* pstr = str;
-        char* buf  = new char [(strlen(str) + 1)];
+        auto buf = new char[(strlen(str) + 1)];
         char* pbuf = buf;
         while (*pstr) {
             if (*pstr == '%') {
@@ -140,26 +150,22 @@ namespace Exiv2 {
     }
 
     // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
-    static char base64_encode[]={'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                                'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-                                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-                                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-                                'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-                                'w', 'x', 'y', 'z', '0', '1', '2', '3',
-                                '4', '5', '6', '7', '8', '9', '+', '/'};
+    static constexpr char base64_encode[] = {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+        'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+        's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
-        char* encoding_table = (char*)base64_encode;
+        auto encoding_table = base64_encode;
         size_t mod_table[]  = {0, 2, 1};
 
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
         if (  rc ) {
-            const unsigned char* data = (const unsigned char*) data_buf ;
+            const auto data = static_cast<const unsigned char*>(data_buf);
             for (size_t i = 0, j = 0 ; i < dataLength;) {
 
-                uint32_t octet_a = i < dataLength ? data[i++] : 0 ;
+                uint32_t octet_a = data[i++];
                 uint32_t octet_b = i < dataLength ? data[i++] : 0 ;
                 uint32_t octet_c = i < dataLength ? data[i++] : 0 ;
 
@@ -183,13 +189,13 @@ namespace Exiv2 {
         size_t input_length = in ? ::strlen(in) : 0;
         if (!in || input_length % 4 != 0) return result;
 
-        unsigned char* encoding_table = (unsigned char*)base64_encode;
+        auto encoding_table = reinterpret_cast<const unsigned char*>(base64_encode);
         unsigned char decoding_table[256];
         for (unsigned char i = 0; i < 64; i++)
             decoding_table[encoding_table[i]] = i;
 
         size_t output_length = input_length / 4 * 3;
-        const unsigned char* buff = (const unsigned char*) in;
+        const auto buff = reinterpret_cast<const unsigned char*>(in);
 
         if (buff[input_length - 1] == '=') (output_length)--;
         if (buff[input_length - 2] == '=') (output_length)--;
@@ -212,7 +218,7 @@ namespace Exiv2 {
                 if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
             out[output_length]=0;
-            result = (long) output_length;
+            result = static_cast<long>(output_length);
         }
         
         return result;
@@ -229,16 +235,19 @@ namespace Exiv2 {
         , { "https://"  ,pHttps    , true  }
         , { "ftp://"    ,pFtp      , true  }
         , { "sftp://"   ,pSftp     , true  }
-        , { "ssh://"    ,pSsh      , true  }
         , { "file://"   ,pFileUri  , true  }
         , { "data://"   ,pDataUri  , true  }
         , { "-"         ,pStdin    , false }
         };
-        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.rfind(prots[i].name, 0) == 0 )
+        for (auto&& prot : prots) {
+            if (result != pFile)
+                break;
+
+            if (path.rfind(prot.name, 0) == 0)
                 // URL's require data.  Stdin == "-" and no further data
-                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
-                    result = prots[i].prot;
+                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
+                    result = prot.prot;
+        }
 
         return result;
     } // fileProtocol
@@ -254,16 +263,19 @@ namespace Exiv2 {
         , { L"https://"  ,pHttps    , true  }
         , { L"ftp://"    ,pFtp      , true  }
         , { L"sftp://"   ,pSftp     , true  }
-        , { L"ssh://"    ,pSsh      , true  }
         , { L"file://"   ,pFileUri  , true  }
         , { L"data://"   ,pDataUri  , true  }
         , { L"-"         ,pStdin    , false }
         };
-        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.rfind(prots[i].name, 0) == 0 )
+        for (auto&& prot : prots) {
+            if (result != pFile)
+                break;
+
+            if (path.rfind(prot.name, 0) == 0)
                 // URL's require data.  Stdin == "-" and no further data
-                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
-                    result = prots[i].prot;
+                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
+                    result = prot.prot;
+        }
 
         return result;
     } // fileProtocol
@@ -271,7 +283,7 @@ namespace Exiv2 {
     bool fileExists(const std::string& path, bool ct)
     {
         // special case: accept "-" (means stdin)
-        if (path.compare("-") == 0 || fileProtocol(path) != pFile) {
+        if (path == "-" || fileProtocol(path) != pFile) {
             return true;
         }
 
@@ -302,7 +314,7 @@ namespace Exiv2 {
         std::string path = url.substr(7);
         size_t found = path.find('/');
         if (found == std::string::npos) return path;
-        else return path.substr(found);
+        return path.substr(found);
     }
 #ifdef EXV_UNICODE_PATH
     std::wstring pathOfFileUrl(const std::wstring& wurl) {
@@ -320,7 +332,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
-        char *buf = 0;
+        char* buf = nullptr;
         char buf2[n];
         std::memset(buf2, 0x0, n);
         buf = strerror_r(error, buf2, n);
@@ -356,7 +368,7 @@ namespace Exiv2 {
     {
         Uri result;
 
-        typedef std::string::const_iterator iterator_t;
+        using iterator_t = std::string::const_iterator;
 
         if ( !uri.length() )  return result;
 
@@ -445,11 +457,13 @@ namespace Exiv2 {
             CloseHandle(processHandle);
         }
     #elif defined(__APPLE__)
+    #ifdef EXV_HAVE_LIBPROC_H
         const int pid = getpid();
         char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
+    #endif
     #elif defined(__FreeBSD__)
         unsigned int       n;
         char               buffer[PATH_MAX] = {};

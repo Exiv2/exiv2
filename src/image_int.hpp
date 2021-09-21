@@ -81,7 +81,7 @@ namespace Exiv2 {
     template <typename T>
     struct binaryToStringHelper
     {
-        explicit binaryToStringHelper(const Slice<T> buf) throw() : buf_(buf)
+        explicit binaryToStringHelper(const Slice<T> myBuf) throw() : buf_(myBuf)
         {
         }
 

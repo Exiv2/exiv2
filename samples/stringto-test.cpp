@@ -24,7 +24,7 @@
 #include <iostream>
 #include <iomanip>
 
-const char* testcases[] = {
+static constexpr const char* testcases[] = {
     // bool
     "True",
     "False",
@@ -52,7 +52,7 @@ const char* testcases[] = {
     "-4/3",
     "0/0",
     // nok
-    "text"
+    "text",
 };
 
 int main()
@@ -72,28 +72,37 @@ int main()
 
     std::cout << std::endl;
 
-    for (unsigned int i = 0; i < EXV_COUNTOF(testcases); ++i) try {
-        std::string s(testcases[i]);
-        std::cout << std::setw(12) << std::left << s;
-        bool ok;
+    for (auto&& testcase : testcases) {
+        try {
+            std::string s(testcase);
+            std::cout << std::setw(12) << std::left << s;
+            bool ok = false;
 
-        long l = Exiv2::parseLong(s, ok);
-        std::cout << std::setw(12) << std::left;
-        if (ok) std::cout << l; else std::cout << "nok";
+            long l = Exiv2::parseLong(s, ok);
+            std::cout << std::setw(12) << std::left;
+            if (ok)
+                std::cout << l;
+            else
+                std::cout << "nok";
 
-        float f = Exiv2::parseFloat(s, ok);
-        std::cout << std::setw(12) << std::left;
-        if (ok) std::cout << f; else std::cout << "nok";
+            float f = Exiv2::parseFloat(s, ok);
+            std::cout << std::setw(12) << std::left;
+            if (ok)
+                std::cout << f;
+            else
+                std::cout << "nok";
 
-        Exiv2::Rational r = Exiv2::parseRational(s, ok);
-        if (ok) std::cout << r.first << "/" << r.second;
-        else std::cout << "nok";
+            Exiv2::Rational r = Exiv2::parseRational(s, ok);
+            if (ok)
+                std::cout << r.first << "/" << r.second;
+            else
+                std::cout << "nok";
 
-        std::cout << std::endl;
-    }
-    catch (Exiv2::AnyError& e) {
-        std::cout << "Caught Exiv2 exception '" << e << "'\n";
-        return -1;
+            std::cout << std::endl;
+        } catch (Exiv2::AnyError& e) {
+            std::cout << "Caught Exiv2 exception '" << e << "'\n";
+            return -1;
+        }
     }
 
     return 0;

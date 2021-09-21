@@ -47,14 +47,14 @@ try {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    long size = (long)file.size();
+    long size = static_cast<long>(file.size());
     DataBuf buf(size);
     // Read from the memory mapped region
-    memcpy(buf.pData_, pData, buf.size_);
+    buf.copyBytes(0, pData, buf.size());
     // Reopen file in write mode and write to it
-    file.write(buf.pData_, buf.size_);
+    file.write(buf.c_data(), buf.size());
     // Read from the mapped region again
-    memcpy(buf.pData_, pData, buf.size_);
+    buf.copyBytes(0, pData, buf.size());
     file.close();
 
     return 0;

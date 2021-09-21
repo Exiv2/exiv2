@@ -38,49 +38,91 @@ add_library( exiv2lib_int OBJECT
     tifffwd_int.hpp
     timegm.h
     unused.h
+    utils.cpp               utils.hpp
+)
+
+set(PUBLIC_HEADERS
+    ../include/exiv2/basicio.hpp
+    ../include/exiv2/bmffimage.hpp
+    ../include/exiv2/bmpimage.hpp
+    ../include/exiv2/config.h
+    ../include/exiv2/convert.hpp
+    ../include/exiv2/cr2image.hpp
+    ../include/exiv2/crwimage.hpp
+    ../include/exiv2/datasets.hpp
+    ../include/exiv2/easyaccess.hpp
+    ../include/exiv2/epsimage.hpp
+    ../include/exiv2/error.hpp
+    ../include/exiv2/exif.hpp
+    ../include/exiv2/exiv2.hpp
+    ../include/exiv2/futils.hpp
+    ../include/exiv2/gifimage.hpp
+    ../include/exiv2/http.hpp
+    ../include/exiv2/image.hpp
+    ../include/exiv2/ini.hpp
+    ../include/exiv2/iptc.hpp
+    ../include/exiv2/jp2image.hpp
+    ../include/exiv2/jpgimage.hpp
+    ../include/exiv2/metadatum.hpp
+    ../include/exiv2/mrwimage.hpp
+    ../include/exiv2/orfimage.hpp
+    ../include/exiv2/pgfimage.hpp
+    ../include/exiv2/preview.hpp
+    ../include/exiv2/properties.hpp
+    ../include/exiv2/psdimage.hpp
+    ../include/exiv2/rafimage.hpp
+    ../include/exiv2/rw2image.hpp
+    ../include/exiv2/slice.hpp
+    ../include/exiv2/tags.hpp
+    ../include/exiv2/tgaimage.hpp
+    ../include/exiv2/tiffimage.hpp
+    ../include/exiv2/types.hpp
+    ../include/exiv2/value.hpp
+    ../include/exiv2/version.hpp
+    ../include/exiv2/webpimage.hpp
+    ../include/exiv2/xmp_exiv2.hpp
+    ../include/exiv2/xmpsidecar.hpp
 )
 
 add_library( exiv2lib
-    ../include/exiv2/config.h
-    ../include/exiv2/exiv2.hpp
-    ../include/exiv2/rwlock.hpp
-    ../include/exiv2/slice.hpp
-    basicio.cpp             ../include/exiv2/basicio.hpp
-    bmpimage.cpp            ../include/exiv2/bmpimage.hpp
-    convert.cpp             ../include/exiv2/convert.hpp
-    cr2image.cpp            ../include/exiv2/cr2image.hpp
-    crwimage.cpp            ../include/exiv2/crwimage.hpp
-    datasets.cpp            ../include/exiv2/datasets.hpp
-    easyaccess.cpp          ../include/exiv2/easyaccess.hpp
-    epsimage.cpp            ../include/exiv2/epsimage.hpp
-    error.cpp               ../include/exiv2/error.hpp
-    exif.cpp                ../include/exiv2/exif.hpp
-    futils.cpp              ../include/exiv2/futils.hpp
-    gifimage.cpp            ../include/exiv2/gifimage.hpp
-    http.cpp                ../include/exiv2/http.hpp
-    image.cpp               ../include/exiv2/image.hpp
-    ini.cpp                 ../include/exiv2/ini.hpp
-    iptc.cpp                ../include/exiv2/iptc.hpp
-    jp2image.cpp            ../include/exiv2/jp2image.hpp
-    jpgimage.cpp            ../include/exiv2/jpgimage.hpp
-    metadatum.cpp           ../include/exiv2/metadatum.hpp
-    mrwimage.cpp            ../include/exiv2/mrwimage.hpp
-    orfimage.cpp            ../include/exiv2/orfimage.hpp
-    pgfimage.cpp            ../include/exiv2/pgfimage.hpp
-    preview.cpp             ../include/exiv2/preview.hpp
-    properties.cpp          ../include/exiv2/properties.hpp
-    psdimage.cpp            ../include/exiv2/psdimage.hpp
-    rafimage.cpp            ../include/exiv2/rafimage.hpp
-    rw2image.cpp            ../include/exiv2/rw2image.hpp
-    tags.cpp                ../include/exiv2/tags.hpp
-    tgaimage.cpp            ../include/exiv2/tgaimage.hpp
-    tiffimage.cpp           ../include/exiv2/tiffimage.hpp
-    types.cpp               ../include/exiv2/types.hpp
-    value.cpp               ../include/exiv2/value.hpp
-    version.cpp             ../include/exiv2/version.hpp
-    webpimage.cpp           ../include/exiv2/webpimage.hpp
-    xmp.cpp                 ../include/exiv2/xmp_exiv2.hpp
-    xmpsidecar.cpp          ../include/exiv2/xmpsidecar.hpp
+    basicio.cpp
+    bmffimage.cpp
+    bmpimage.cpp
+    convert.cpp
+    cr2image.cpp
+    crwimage.cpp
+    datasets.cpp
+    easyaccess.cpp
+    epsimage.cpp
+    error.cpp
+    exif.cpp
+    futils.cpp
+    gifimage.cpp
+    http.cpp
+    image.cpp
+    ini.cpp
+    iptc.cpp
+    jp2image.cpp
+    jpgimage.cpp
+    metadatum.cpp
+    mrwimage.cpp
+    orfimage.cpp
+    pgfimage.cpp
+    preview.cpp
+    properties.cpp
+    psdimage.cpp
+    rafimage.cpp
+    rw2image.cpp
+    tags.cpp
+    tgaimage.cpp
+    tiffimage.cpp
+    types.cpp
+    value.cpp
+    version.cpp
+    webpimage.cpp
+    xmp.cpp
+    xmpsidecar.cpp
+    ${PUBLIC_HEADERS}
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
@@ -93,34 +135,12 @@ generate_export_header(exiv2lib
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
 
-if( EXIV2_ENABLE_WEBREADY )
-    if( EXIV2_ENABLE_CURL)
-        target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
-    endif()
-
-    if( EXIV2_ENABLE_SSH )
-        target_sources(exiv2lib PRIVATE ssh.cpp ../include/exiv2/ssh.hpp)
-    endif()
-endif()
-
 if( EXIV2_ENABLE_PNG )
+    set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/pngimage.hpp)
     target_sources(exiv2lib_int PRIVATE pngchunk_int.cpp)
     target_sources(exiv2lib PRIVATE pngimage.cpp ../include/exiv2/pngimage.hpp)
 endif()
 
-if( EXIV2_ENABLE_VIDEO )
-    target_sources(exiv2lib PRIVATE
-        asfvideo.cpp            ../include/exiv2/asfvideo.hpp
-        matroskavideo.cpp       ../include/exiv2/matroskavideo.hpp
-        quicktimevideo.cpp      ../include/exiv2/quicktimevideo.hpp
-        riffvideo.cpp           ../include/exiv2/riffvideo.hpp
-        utilsvideo.cpp          ../include/exiv2/utilsvideo.hpp
-    )
-endif()
-
-target_sources(exiv2lib PRIVATE
-    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
-)
 
 # Other library target properties
 # ---------------------------------------------------------
@@ -147,11 +167,16 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
 
+# NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib PRIVATE 
+target_include_directories(exiv2lib SYSTEM PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
-    ${ZLIB_INCLUDE_DIR}
 )
+
+if (EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
+    target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
+    target_link_libraries(exiv2lib PRIVATE EXPAT::EXPAT)
+endif()
 
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
@@ -174,22 +199,9 @@ target_include_directories(exiv2lib_int PUBLIC
 
 if (EXIV2_ENABLE_WEBREADY)
 
-    if( EXIV2_ENABLE_SSH )
-        target_link_libraries(exiv2lib PUBLIC ssh)
-    endif()
-
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
         target_link_libraries(exiv2lib PRIVATE ${CURL_LIBRARIES})
-        if (USING_CONAN)
-            target_compile_definitions(exiv2lib PRIVATE ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
-            target_link_libraries(exiv2lib PRIVATE ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
-            if ( MSVC ) 
-                target_link_libraries(exiv2lib PRIVATE Crypt32)
-            elseif (NOT APPLE)
-                target_link_libraries(exiv2lib PRIVATE CONAN_PKG::OpenSSL)
-            endif()
-        endif()
     endif()
 
 endif()
@@ -209,13 +221,12 @@ if (NOT MSVC)
         target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
     endif()
 
-    target_link_libraries( exiv2lib PRIVATE Threads::Threads)
 else()
     target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
+	target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
 endif()
 
 if( EXIV2_ENABLE_NLS )
@@ -240,6 +251,7 @@ install(TARGETS exiv2lib EXPORT exiv2Config
 )
 
 install(FILES
+    ${PUBLIC_HEADERS}
     ${CMAKE_BINARY_DIR}/exv_conf.h
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
@@ -264,6 +276,9 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
         XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
     )
+    if (MSVC)
+        set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+    endif()
 
     target_link_libraries( exiv2 PRIVATE exiv2lib )
 

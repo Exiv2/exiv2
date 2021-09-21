@@ -57,7 +57,7 @@ namespace Exiv2 {
 
 
     //! List of all defined Exif sections.
-    extern const SectionInfo sectionInfo[] = {
+    constexpr SectionInfo sectionInfo[] = {
         { sectionIdNotSet, "(UnknownSection)",     N_("Unknown section")              },
         { imgStruct,       "ImageStructure",       N_("Image data structure")         },
         { recOffset,       "RecordingOffset",      N_("Recording offset")             },
@@ -94,19 +94,17 @@ namespace Exiv2 {
     }
 
     // Unknown Tag
-    static const TagInfo unknownTag(0xffff, "Unknown tag", N_("Unknown tag"),
+    static const TagInfo unknownTag{0xffff, "Unknown tag", N_("Unknown tag"),
                                     N_("Unknown tag"),
-                                    ifdIdNotSet, sectionIdNotSet, asciiString, -1, printValue);
+                                    ifdIdNotSet, sectionIdNotSet, asciiString, -1, printValue};
 
-
-
-
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
 
 namespace Exiv2 {
 
     //! @cond IGNORE
-    GroupInfo::GroupName::GroupName(const std::string& groupName): g_(groupName)
+    GroupInfo::GroupName::GroupName(std::string groupName) : g_(std::move(groupName))
     {
     }
     //! @endcond
@@ -121,33 +119,19 @@ namespace Exiv2 {
         return 0 == strcmp(groupName.g_.c_str(), groupName_);
     }
 
-    TagInfo::TagInfo(
-        uint16_t tag,
-        const char* name,
-        const char* title,
-        const char* desc,
-        int ifdId,
-        int sectionId,
-        TypeId typeId,
-        int16_t count,
-        PrintFct printFct
-    )
-        : tag_(tag), name_(name), title_(title), desc_(desc), ifdId_(ifdId),
-          sectionId_(sectionId), typeId_(typeId), count_(count), printFct_(printFct)
-    {
-    }
-
     const char* ExifTags::sectionName(const ExifKey& key)
     {
         const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
-        if (ti == 0) return sectionInfo[unknownTag.sectionId_].name_;
+        if (ti == nullptr)
+            return sectionInfo[unknownTag.sectionId_].name_;
         return sectionInfo[ti->sectionId_].name_;
     }
 
     uint16_t ExifTags::defaultCount(const ExifKey& key)
     {
         const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
-        if (ti == 0) return unknownTag.count_;
+        if (ti == nullptr)
+            return unknownTag.count_;
         return ti->count_;
     }
 
@@ -210,7 +194,7 @@ namespace Exiv2 {
     struct ExifKey::Impl {
         //! @name Creators
         //@{
-        Impl();                         //!< Default constructor
+        Impl() = default;  //!< Default constructor
         //@}
 
         //! @name Manipulators
@@ -237,26 +221,19 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        static const char* familyName_; //!< "Exif"
+        static constexpr auto familyName_ = "Exif";  //!< "Exif"
 
-        const TagInfo* tagInfo_;        //!< Tag info
-        uint16_t tag_;                  //!< Tag value
-        IfdId ifdId_;                   //!< The IFD associated with this tag
-        int idx_;                       //!< Unique id of the Exif key in the image
+        const TagInfo* tagInfo_{nullptr};  //!< Tag info
+        uint16_t tag_{0};               //!< Tag value
+        IfdId ifdId_{ifdIdNotSet};      //!< The IFD associated with this tag
+        int idx_{0};                    //!< Unique id of the Exif key in the image
         std::string groupName_;         //!< The group name
         std::string key_;               //!< %Key
     };
 
-    const char* ExifKey::Impl::familyName_ = "Exif";
-
-    ExifKey::Impl::Impl()
-        : tagInfo_(0), tag_(0), ifdId_(ifdIdNotSet), idx_(0)
-    {
-    }
-
     std::string ExifKey::Impl::tagName() const
     {
-        if (tagInfo_ != 0 && tagInfo_->tag_ != 0xffff) {
+        if (tagInfo_ != nullptr && tagInfo_->tag_ != 0xffff) {
             return tagInfo_->name_;
         }
         std::ostringstream os;
@@ -292,7 +269,8 @@ namespace Exiv2 {
         uint16_t tag = tagNumber(tn, ifdId);
         // Get tag info
         tagInfo_ = tagInfo(tag, ifdId);
-        if (tagInfo_ == 0) throw Error(kerInvalidKey, key);
+        if (tagInfo_ == nullptr)
+            throw Error(kerInvalidKey, key);
 
         tag_ = tag;
         ifdId_ = ifdId;
@@ -320,7 +298,7 @@ namespace Exiv2 {
             throw Error(kerInvalidIfdId, ifdId);
         }
         const TagInfo* ti = tagInfo(tag, ifdId);
-        if (ti == 0) {
+        if (ti == nullptr) {
             throw Error(kerInvalidIfdId, ifdId);
         }
         p_->groupName_ = groupName;
@@ -330,7 +308,7 @@ namespace Exiv2 {
     ExifKey::ExifKey(const TagInfo& ti)
         : p_(new Impl)
     {
-        IfdId ifdId = static_cast<IfdId>(ti.ifdId_);
+        auto ifdId = static_cast<IfdId>(ti.ifdId_);
         if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
             throw Error(kerInvalidIfdId, ifdId);
         }
@@ -345,11 +323,11 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(const ExifKey& rhs)
-        : Key(rhs), p_(new Impl(*rhs.p_))
+        : p_(new Impl(*rhs.p_))
     {
     }
 
-    ExifKey::~ExifKey() {}
+    ExifKey::~ExifKey() = default;
 
     ExifKey& ExifKey::operator=(const ExifKey& rhs)
     {
@@ -386,19 +364,22 @@ namespace Exiv2 {
 
     std::string ExifKey::tagLabel() const
     {
-        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return "";
+        if (p_->tagInfo_ == nullptr || p_->tagInfo_->tag_ == 0xffff)
+            return "";
         return _(p_->tagInfo_->title_);
     }
 
     std::string ExifKey::tagDesc() const
     {
-        if (p_->tagInfo_ == 0 || p_->tagInfo_->tag_ == 0xffff) return "";
+        if (p_->tagInfo_ == nullptr || p_->tagInfo_->tag_ == 0xffff)
+            return "";
         return _(p_->tagInfo_->desc_);
     }
 
     TypeId ExifKey::defaultTypeId() const
     {
-        if (p_->tagInfo_ == 0) return unknownTag.typeId_;
+        if (p_->tagInfo_ == nullptr)
+            return unknownTag.typeId_;
         return p_->tagInfo_->typeId_;
     }
 
@@ -407,9 +388,9 @@ namespace Exiv2 {
         return p_->tag_;
     }
 
-    ExifKey::AutoPtr ExifKey::clone() const
+    ExifKey::UniquePtr ExifKey::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     ExifKey* ExifKey::clone_() const

@@ -37,8 +37,10 @@
 #include <cassert>
 #include <cctype>
 
-#if defined(EXV_HAVE_REGEX_H)
-#include <regex.h>
+#include <regex>
+
+#if defined(_MSC_VER)
+#include <Windows.h>
 #endif
 
 // *****************************************************************************
@@ -46,12 +48,12 @@
 namespace {
 
     //! List of all command identifiers and corresponding strings
-    static const CmdIdAndString cmdIdAndString[] = {
+    const CmdIdAndString cmdIdAndString[] = {
         { add, "add" },
         { set, "set" },
         { del, "del" },
         { reg, "reg" },
-        { invalidCmdId, "invalidCmd" }          // End of list marker
+        { invalidCmdId, "invalidCmd" },          // End of list marker
     };
 
     // Return a command Id for a command string
@@ -63,22 +65,22 @@ namespace {
 
     /*!
       @brief Parse the oparg string into a bitmap of common targets.
-      @param optarg Option arguments
+      @param optArg Option arguments
       @param action Action being processed
       @return A bitmap of common targets or -1 in case of a parse error
      */
-    int parseCommonTargets(const std::string& optarg,
+    int parseCommonTargets(const std::string& optArg,
                            const std::string& action);
 
     /*!
       @brief Parse numbers separated by commas into container
       @param previewNumbers Container for the numbers
-      @param optarg Option arguments
-      @param j Starting index into optarg
+      @param optArg Option arguments
+      @param j Starting index into optArg
       @return Number of characters processed
      */
     int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
-                            const std::string& optarg,
+                            const std::string& optArg,
                             int j);
 
     /*!
@@ -112,7 +114,7 @@ namespace {
       @param input Input string, assumed to be UTF-8
      */
     std::string parseEscapes(const std::string& input);
-}
+}  // namespace
 
 // *****************************************************************************
 // Main
@@ -142,7 +144,7 @@ int main(int argc, char* const argv[])
         return 0;
     }
     if (params.version_) {
-        params.version(params.verbose_);
+        Params::version(params.verbose_);
         return 0;
     }
 
@@ -151,26 +153,26 @@ int main(int argc, char* const argv[])
     try {
         // Create the required action class
         Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-        Action::Task::AutoPtr task = taskFactory.create(Action::TaskType(params.action_));
+        Action::Task::UniquePtr task = taskFactory.create(Action::TaskType(params.action_));
         assert(task.get());
 
         // Process all files
         int n = 1;
         int s = static_cast<int>(params.files_.size());
         int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-        for (Params::Files::const_iterator i = params.files_.begin(); i != params.files_.end(); ++i) {
+        for (auto&& file : params.files_) {
             if (params.verbose_) {
-                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << *i
+                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
                           << std::endl;
             }
             task->setBinary(params.binary_);
-            int ret = task->run(*i);
+            int ret = task->run(file);
             if (rc == 0)
                 rc = ret;
         }
 
         taskFactory.cleanup();
-        params.cleanup();
+        Params::cleanup();
         Exiv2::XmpParser::terminate();
 
     } catch (const std::exception& exc) {
@@ -184,7 +186,7 @@ int main(int argc, char* const argv[])
 
 // *****************************************************************************
 // class Params
-Params* Params::instance_ = 0;
+Params* Params::instance_ = nullptr;
 
 const Params::YodAdjust Params::emptyYodAdjust_[] = {
     { false, "-Y", 0 },
@@ -194,27 +196,19 @@ const Params::YodAdjust Params::emptyYodAdjust_[] = {
 
 Params& Params::instance()
 {
-    if (0 == instance_) {
+    if (nullptr == instance_) {
         instance_ = new Params;
     }
     return *instance_;
 }
 
-Params::~Params() {
-#if defined(EXV_HAVE_REGEX_H)
-    for (size_t i=0; i<instance().greps_.size(); ++i) {
-        regfree(&instance().greps_.at(i));
-    }
-#endif
-}
-
 void Params::cleanup()
 {
     delete instance_;
-    instance_ = 0;
+    instance_ = nullptr;
 }
 
-void Params::version(bool verbose,std::ostream& os) const
+void Params::version(bool verbose, std::ostream& os)
 {
     os << EXV_PACKAGE_STRING << std::endl;
     if ( Params::instance().greps_.empty() && !verbose) {
@@ -241,8 +235,8 @@ void Params::version(bool verbose,std::ostream& os) const
 void Params::usage(std::ostream& os) const
 {
     os << _("Usage:") << " " << progname()
-       << " " << _("[ options ] [ action ] file ...\n\n")
-       << _("Manipulate the Exif metadata of images.\n");
+       << " " << _("[ option [ arg ] ]+ [ action ] file ...\n\n")
+       << _("Image metadata manipulation tool.\n");
 }
 
 std::string Params::printTarget(const std::string &before, int target, bool bPrint, std::ostream& out)
@@ -267,110 +261,138 @@ std::string Params::printTarget(const std::string &before, int target, bool bPri
 void Params::help(std::ostream& os) const
 {
     usage(os);
-    os << _("\nActions:\n")
-       << _("  ad | adjust   Adjust Exif timestamps by the given time. This action\n"
-            "                requires at least one of the -a, -Y, -O or -D options.\n")
-       << _("  pr | print    Print image metadata.\n")
-       << _("  rm | delete   Delete image metadata from the files.\n")
-       << _("  in | insert   Insert metadata from corresponding *.exv files.\n"
-            "                Use option -S to change the suffix of the input files.\n")
-       << _("  ex | extract  Extract metadata to *.exv, *.xmp and thumbnail image files.\n")
+    os << _("\nWhere file is one or more files, optionally containing a URL\n"
+            "(http, https, ftp, sftp, data or file) or wildcard\n")
+       << _("\nActions:\n")
+       << _("  pr | print    Print image metadata (default is a summary). This is the default\n"
+            "                action\n")
+       << _("  ad | adjust   Adjust Exif timestamps by the given time. Requires\n"
+            "                at least one of -a, -Y, -O or -D\n")
+       << _("  rm | delete   Deletes image metadata, use -d to choose type to delete\n"
+            "                (default is all)\n")
+       << _("  in | insert   Insert metadata from .exv, .xmp, thumbnail or .icc file.\n"
+            "                Use option -S to change the suffix of the input files and\n"
+            "                -l to change the location\n")
+       << _("  ex | extract  Extract metadata to .exv, .xmp, preview image, thumbnail,\n"
+            "                or ICC profile. Use option -S to change the suffix of the input\n"
+            "                files and -l to change the location\n")
        << _("  mv | rename   Rename files and/or set file timestamps according to the\n"
-            "                Exif create timestamp. The filename format can be set with\n"
-            "                -r format, timestamp options are controlled with -t and -T.\n")
-       << _("  mo | modify   Apply commands to modify (add, set, delete) the Exif and\n"
-            "                IPTC metadata of image files or set the JPEG comment.\n"
-            "                Requires option -c, -m or -M.\n")
-       << _("  fi | fixiso   Copy ISO setting from the Nikon Makernote to the regular\n"
-            "                Exif tag.\n")
-       << _("  fc | fixcom   Convert the UNICODE Exif user comment to UCS-2. Its current\n"
-            "                character encoding can be specified with the -n option.\n")
+            "                Exif timestamps. The filename format can be set with\n"
+            "                -r format, timestamp options are controlled with -t and -T\n")
+       << _("  mo | modify   Apply commands to modify the Exif, IPTC and XMP metadata.\n"
+            "                Requires option -m or -M\n")
+       << _("  fi | fixiso   Copy ISO setting from Canon and Nikon makernotes, to the\n"
+            "                standard Exif tag\n")
+       << _("  fc | fixcom   Convert the Unicode Exif user comment to UCS-2. The current\n"
+            "                character encoding can be specified with the -n option\n")
        << _("\nOptions:\n")
-       << _("   -h      Display this help and exit.\n")
-       << _("   -V      Show the program version and exit.\n")
-       << _("   -v      Be verbose during the program run.\n")
-       << _("   -q      Silence warnings and error messages during the program run (quiet).\n")
-       << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute).\n")
-       << _("   -b      Show large binary values.\n")
-       << _("   -u      Show unknown tags.\n")
-       << _("   -g key  Only output info for this key (grep).\n")
-       << _("   -K key  Only output info for this key (exact match).\n")
-       << _("   -n enc  Charset to use to decode UNICODE Exif user comments.\n")
-       << _("   -k      Preserve file timestamps (keep).\n")
-       << _("   -t      Also set the file timestamp in 'rename' action (overrides -k).\n")
-       << _("   -T      Only set the file timestamp in 'rename' action, do not rename\n"
-            "           the file (overrides -k).\n")
-       << _("   -f      Do not prompt before overwriting existing files (force).\n")
-       << _("   -F      Do not prompt before renaming files (Force).\n")
-       << _("   -a time Time adjustment in the format [-]HH[:MM[:SS]]. This option\n"
-            "           is only used with the 'adjust' action.\n")
-       << _("   -Y yrs  Year adjustment with the 'adjust' action.\n")
-       << _("   -O mon  Month adjustment with the 'adjust' action.\n")
-       << _("   -D day  Day adjustment with the 'adjust' action.\n")
+       << _("   -h      Display this help and exit\n")
+       << _("   -V      Show the program version and exit\n")
+       << _("   -v      Be verbose during the program run\n")
+       << _("   -q      Silence warnings and error messages (quiet)\n")
+       << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute)\n")
+       << _("   -b      Obsolete, reserved for use with the test suit\n")
+       << _("   -u      Show unknown tags (e.g., Exif.SonyMisc3c.0x022b)\n")
+       << _("   -g str  Only output where 'str' matches in output text (grep)\n"
+            "           Append /i to 'str' for case insensitive\n")
+       << _("   -K key  Only output where 'key' exactly matches tag's key\n")
+       << _("   -n enc  Character set to decode Exif Unicode user comments\n")
+       << _("   -k      Preserve file timestamps when updating files (keep)\n")
+       << _("   -t      Set the file timestamp from Exif metadata when renaming (overrides -k)\n")
+       << _("   -T      Only set the file timestamp from Exif metadata ('rename' action)\n")
+       << _("   -f      Do not prompt before overwriting existing files (force)\n")
+       << _("   -F      Do not prompt before renaming files (Force)\n")
+       << _("   -a time Time adjustment in the format [+|-]HH[:MM[:SS]]. For 'adjust' action\n")
+       << _("   -Y yrs  Year adjustment with the 'adjust' action\n")
+       << _("   -O mon  Month adjustment with the 'adjust' action\n")
+       << _("   -D day  Day adjustment with the 'adjust' action\n")
        << _("   -p mode Print mode for the 'print' action. Possible modes are:\n")
-       << _("             s : print a summary of the Exif metadata (the default)\n")
-       << _("             a : print Exif, IPTC and XMP metadata (shortcut for -Pkyct)\n")
-       << _("             e : print Exif metadata (shortcut for -PEkycv)\n")
-       << _("             t : interpreted (translated) Exif data (-PEkyct)\n")
-       << _("             v : plain Exif data values (-PExgnycv)\n")
-       << _("             h : hexdump of the Exif data (-PExgnycsh)\n")
-       << _("             i : IPTC data values (-PIkyct)\n")
-       << _("             x : XMP properties (-PXkyct)\n")
+       << _("             s : A summary of the Exif metadata (the default)\n")
+       << _("             a : Exif, IPTC and XMP tags (shortcut for -Pkyct)\n")
+       << _("             e : Exif tags (shortcut for -PEkycv)\n")
+       << _("             t : Interpreted (translated) Exif tags (-PEkyct)\n")
+       << _("             v : Plain (untranslated) Exif tags values (-PExgnycv)\n")
+       << _("             h : Hex dump of the Exif tags (-PExgnycsh)\n")
+       << _("             i : IPTC tags (-PIkyct)\n")
+       << _("             x : XMP tags (-PXkyct)\n")
        << _("             c : JPEG comment\n")
-       << _("             p : list available previews\n")
-       << _("             C : print ICC profile embedded in image\n")
-       << _("             R : recursive print structure of image\n")
-       << _("             S : print structure of image\n")
-       << _("             X : extract XMP from image\n")
+       << _("             p : List available image preview, sorted by size\n")
+       << _("             C : Print ICC profile\n")
+       << _("             R : Recursive print structure of image (debug build only)\n")
+       << _("             S : Print structure of image (limited file types)\n")
+       << _("             X : Extract \"raw\" XMP\n")
        << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
-       << _("             E : include Exif tags in the list\n")
-       << _("             I : IPTC datasets\n")
-       << _("             X : XMP properties\n")
-       << _("             x : print a column with the tag number\n")
-       << _("             g : group name\n")
-       << _("             k : key\n")
-       << _("             l : tag label\n")
-       << _("             n : tag name\n")
-       << _("             y : type\n")
-       << _("             c : number of components (count)\n")
-       << _("             s : size in bytes\n")
-       << _("             v : plain data value\n")
-       << _("             t : interpreted (translated) data\n")
-       << _("             h : hexdump of the data\n")
-       << _("   -d tgt  Delete target(s) for the 'delete' action. Possible targets are:\n")
-       << _("             a : all supported metadata (the default)\n")
-       << _("             e : Exif section\n")
+       << _("             E : Exif tags\n")
+       << _("             I : IPTC tags\n")
+       << _("             X : XMP tags\n")
+       << _("             x : Tag number (Exif and IPTC only)\n")
+       << _("             g : Group name (e.g. Exif.Photo.UserComment, Photo)\n")
+       << _("             k : Key (e.g. Exif.Photo.UserComment)\n")
+       << _("             l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')\n")
+       << _("             n : Tag name (e.g. Exif.Photo.UserComment, UserComment)\n")
+       << _("             y : Type\n")
+       << _("             c : Number of components (count)\n")
+       << _("             s : Size in bytes (Ascii and Comment types include NULL)\n")
+       << _("             v : Plain data value, untranslated (vanilla)\n")
+       << _("             t : Interpreted (translated) human readable values\n")
+       << _("             h : Hex dump of the data\n")
+       << _("   -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:\n")
+       << _("             a : All supported metadata (the default)\n")
+       << _("             e : Exif tags\n")
        << _("             t : Exif thumbnail only\n")
-       << _("             i : IPTC data\n")
-       << _("             x : XMP packet\n")
+       << _("             i : IPTC tags\n")
+       << _("             x : XMP tags\n")
        << _("             c : JPEG comment\n")
-       << _("   -i tgt  Insert target(s) for the 'insert' action. Possible targets are\n"
-            "           the same as those for the -d option, plus a modifier:\n"
-            "             X : Insert metadata from an XMP sidecar file <file>.xmp\n"
-            "           Only JPEG thumbnails can be inserted, they need to be named\n"
-            "           <file>-thumb.jpg\n")
-       << _("   -e tgt  Extract target(s) for the 'extract' action. Possible targets\n"
-            "           are the same as those for the -d option, plus a target to extract\n"
-            "           preview images and a modifier to generate an XMP sidecar file:\n"
-            "             p[<n>[,<m> ...]] : Extract preview images.\n"
-            "             X : Extract metadata to an XMP sidecar file <file>.xmp\n")
-       << _("   -r fmt  Filename format for the 'rename' action. The format string\n"
-            "           follows strftime(3). The following keywords are supported:\n")
+       << _("             C : ICC Profile\n")
+       << _("             c : All IPTC data (any broken multiple IPTC blocks)\n")
+       << _("             - : Input from stdin\n")
+       << _("   -i tgt2 Insert target(s) for the 'insert' action. Possible targets are\n")
+       << _("             a : All supported metadata (the default)\n")
+       << _("             e : Exif tags\n")
+       << _("             t : Exif thumbnail only (JPEGs only from <file>-thumb.jpg)\n")
+       << _("             i : IPTC tags\n")
+       << _("             x : XMP tags\n")
+       << _("             c : JPEG comment\n")
+       << _("             C : ICC Profile, from <file>.icc\n")
+       << _("             X : XMP sidecar from file <file>.xmp\n")
+       << _("             XX: \"raw\" metadata from <file>.exv. XMP default, optional Exif and IPTC\n")
+       << _("             - : Input from stdin\n")
+       << _("   -e tgt3 Extract target(s) for the 'extract' action. Possible targets\n")
+       << _("             a : All supported metadata (the default)\n")
+       << _("             e : Exif tags\n")
+       << _("             t : Exif thumbnail only (to <file>-thumb.jpg)\n")
+       << _("             i : IPTC tags\n")
+       << _("             x : XMP tags\n")
+       << _("             c : JPEG comment\n")
+       << _("             pN: Extract N'th preview image to <file>-preview<N>.<ext>\n")
+       << _("             C : ICC Profile, to <file>.icc\n")
+       << _("             X : XMP sidecar to <file>.xmp\n")
+       << _("             XX: \"raw\" metadata to <file>.exv. XMP default, optional Exif and IPTC\n")
+       << _("             - : Output to stdin\n")
+       << _("   -r fmt  Filename format for the 'rename' action. The format string\n")
+       << _("           follows strftime(3). The following keywords are also supported:\n")
        << _("             :basename:   - original filename without extension\n")
        << _("             :dirname:    - name of the directory holding the original file\n")
        << _("             :parentname: - name of parent directory\n")
-       << _("           Default filename format is ")
-       <<               format_ << ".\n"
+       << _("           Default 'fmt' is %Y%m%d_%H%M%S\n")
        << _("   -c txt  JPEG comment string to set in the image.\n")
-       << _("   -m file Command file for the modify action. The format for commands is\n"
-            "           set|add|del <key> [[<type>] <value>].\n")
-       << _("   -M cmd  Command line for the modify action. The format for the\n"
-            "           commands is the same as that of the lines of a command file.\n")
+       << _("   -m cmdf Applies commands in 'cmdf' file, for the modify action (see -M for format).\n")
+       << _("   -M cmd  Command line for the modify action. The format is:\n")
+       << _("           ( (set | add) <key> [[<type>] <value>] |\n")
+       << _("             del <key> [<type>] |\n")
+       << _("             reg prefix namespace )\n")
        << _("   -l dir  Location (directory) for files to be inserted from or extracted to.\n")
-       << _("   -S .suf Use suffix .suf for source files for insert command.\n\n");
+       << _("   -S suf Use suffix 'suf' for source files for insert action.\n")
+       << _("\nExamples:\n")
+       << _("   exiv2 -pe image.dng *.jp2\n"
+            "           Print all Exif tags in image.dng and all .jp2 files\n")
+       << _("   exiv2 -g date/i https://clanmills.com/Stonehenge.jpg\n"
+            "           Print all tags in file, where key contains 'date' (case insensitive)\n")
+       << _("   exiv2 -M\"set Xmp.dc.subject XmpBag Sky\" image.tiff\n"
+            "           Set (or add if missing) value to tag in file\n\n");
 } // Params::help
 
-int Params::option(int opt, const std::string& optarg, int optopt)
+int Params::option(int opt, const std::string& optArg, int optOpt)
 {
     int rc = 0;
     switch (opt) {
@@ -378,41 +400,41 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'V': version_ = true; break;
     case 'v': verbose_ = true; break;
     case 'q': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
-    case 'Q': rc = setLogLevel(optarg); break;
+    case 'Q': rc = setLogLevel(optArg); break;
     case 'k': preserve_ = true; break;
     case 'b': binary_ = true; break;
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
-    case 'g': rc = evalGrep(optarg); break;
-    case 'K': rc = evalKey(optarg); printMode_ = pmList; break;
-    case 'n': charset_ = optarg; break;
-    case 'r': rc = evalRename(opt, optarg); break;
-    case 't': rc = evalRename(opt, optarg); break;
-    case 'T': rc = evalRename(opt, optarg); break;
-    case 'a': rc = evalAdjust(optarg); break;
-    case 'Y': rc = evalYodAdjust(yodYear, optarg); break;
-    case 'O': rc = evalYodAdjust(yodMonth, optarg); break;
-    case 'D': rc = evalYodAdjust(yodDay, optarg); break;
-    case 'p': rc = evalPrint(optarg); break;
-    case 'P': rc = evalPrintFlags(optarg); break;
-    case 'd': rc = evalDelete(optarg); break;
-    case 'e': rc = evalExtract(optarg); break;
-    case 'C': rc = evalExtract(optarg); break;
-    case 'i': rc = evalInsert(optarg); break;
-    case 'c': rc = evalModify(opt, optarg); break;
-    case 'm': rc = evalModify(opt, optarg); break;
-    case 'M': rc = evalModify(opt, optarg); break;
-    case 'l': directory_ = optarg; break;
-    case 'S': suffix_ = optarg; break;
+    case 'g': rc = evalGrep(optArg); break;
+    case 'K': rc = evalKey(optArg); printMode_ = pmList; break;
+    case 'n': charset_ = optArg; break;
+    case 'r': rc = evalRename(opt, optArg); break;
+    case 't': rc = evalRename(opt, optArg); break;
+    case 'T': rc = evalRename(opt, optArg); break;
+    case 'a': rc = evalAdjust(optArg); break;
+    case 'Y': rc = evalYodAdjust(yodYear, optArg); break;
+    case 'O': rc = evalYodAdjust(yodMonth, optArg); break;
+    case 'D': rc = evalYodAdjust(yodDay, optArg); break;
+    case 'p': rc = evalPrint(optArg); break;
+    case 'P': rc = evalPrintFlags(optArg); break;
+    case 'd': rc = evalDelete(optArg); break;
+    case 'e': rc = evalExtract(optArg); break;
+    case 'C': rc = evalExtract(optArg); break;
+    case 'i': rc = evalInsert(optArg); break;
+    case 'c': rc = evalModify(opt, optArg); break;
+    case 'm': rc = evalModify(opt, optArg); break;
+    case 'M': rc = evalModify(opt, optArg); break;
+    case 'l': directory_ = optArg; break;
+    case 'S': suffix_ = optArg; break;
     case ':':
-        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optopt)
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(optOpt)
                    << " " << _("requires an argument\n");
         rc = 1;
         break;
     case '?':
         std::cerr << progname() << ": " << _("Unrecognized option") << " -"
-                  << static_cast<char>(optopt) << "\n";
+                  << static_cast<char>(optOpt) << "\n";
         rc = 1;
         break;
     default:
@@ -425,10 +447,10 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     return rc;
 } // Params::option
 
-int Params::setLogLevel(const std::string& optarg)
+int Params::setLogLevel(const std::string& optArg)
 {
     int rc = 0;
-    const char logLevel = tolower(optarg[0]);
+    const char logLevel = tolower(optArg[0]);
     switch (logLevel) {
     case 'd': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug); break;
     case 'i': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::info); break;
@@ -437,64 +459,43 @@ int Params::setLogLevel(const std::string& optarg)
     case 'm': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
     default:
         std::cerr << progname() << ": " << _("Option") << " -Q: "
-                  << _("Invalid argument") << " \"" << optarg << "\"\n";
+                  << _("Invalid argument") << " \"" << optArg << "\"\n";
         rc = 1;
         break;
     }
     return rc;
 } // Params::setLogLevel
 
-// http://stackoverflow.com/questions/874134/find-if-string-ends-with-another-string-in-c
-static inline bool ends_with(std::string const & value, std::string const & ending,std::string& stub)
+int Params::evalGrep(const std::string& optArg)
 {
-    if (ending.size() > value.size()) return false;
-    bool bResult = std::equal(ending.rbegin(), ending.rend(), value.rbegin());
-    stub         = bResult ? value.substr(0,value.length() - ending.length()) : value;
-    return bResult ;
-}
+    // check that string ends in "/i"
+    bool bIgnoreCase = optArg.size() > 2 && optArg.back() == 'i' && optArg[optArg.size() - 2] == '/';
+    auto pattern = bIgnoreCase ? optArg.substr(0, optArg.size() - 2) : optArg;
 
-int Params::evalGrep( const std::string& optarg)
-{
-    int result=0;
-    std::string pattern;
-    std::string ignoreCase("/i");
-    bool bIgnoreCase = ends_with(optarg,ignoreCase,pattern);
-#if defined(EXV_HAVE_REGEX_H)
-    // try to compile a reg-exp from the input argument and store it in the vector
-    const size_t i = greps_.size();
-    greps_.resize(i + 1);
-    regex_t *pRegex = &greps_[i];
-    int errcode = regcomp( pRegex, pattern.c_str(), bIgnoreCase ? REG_NOSUB|REG_ICASE : REG_NOSUB);
-
-    // there was an error compiling the regexp
-    if( errcode ) {
-        size_t length = regerror (errcode, pRegex, NULL, 0);
-        char *buffer = new char[ length];
-        regerror (errcode, pRegex, buffer, length);
-        std::cerr << progname()
-              << ": " << _("Option") << " -g: "
-              << _("Invalid regexp") << " \"" << optarg << "\": " << buffer << "\n";
-
-        // free the memory and drop the regexp
-        delete[] buffer;
-        regfree( pRegex);
-        greps_.resize(i);
-        result=1;
+    try {
+        // use POSIX syntax, optimize for faster matching, treat all sub expressions as unnamed
+        auto flags = std::regex::basic | std::regex::optimize | std::regex::nosubs;
+        flags = bIgnoreCase ? flags | std::regex::icase : flags;
+        // try and emplace regex into vector
+        // might throw if invalid pattern
+        greps_.emplace_back(pattern, flags);
+    } catch (std::regex_error const&) {
+        // there was an error compiling the regexp
+        std::cerr << progname() << ": " << _("Option") << " -g: " << _("Invalid regexp") << " \"" << optArg << "\n";
+        return 1;
     }
-#else
-    greps_.push_back(Exiv2_grep_key_t(pattern,bIgnoreCase));
-#endif
-    return result;
-} // Params::evalGrep
 
-int Params::evalKey( const std::string& optarg)
+    return 0;
+}  // Params::evalGrep
+
+int Params::evalKey( const std::string& optArg)
 {
     int result=0;
-    keys_.push_back(optarg);
+    keys_.push_back(optArg);
     return result;
 } // Params::evalKey
 
-int Params::evalRename(int opt, const std::string& optarg)
+int Params::evalRename(int opt, const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -502,7 +503,7 @@ int Params::evalRename(int opt, const std::string& optarg)
         action_ = Action::rename;
         switch (opt) {
         case 'r':
-            format_ = optarg;
+            format_ = optArg;
             formatSet_ = true;
             break;
         case 't': timestamp_ = true; break;
@@ -512,24 +513,23 @@ int Params::evalRename(int opt, const std::string& optarg)
     case Action::rename:
         if (opt == 'r' && (formatSet_ || timestampOnly_)) {
             std::cerr << progname()
-                      << ": " << _("Ignoring surplus option") << " -r \"" << optarg << "\"\n";
+                      << ": " << _("Ignoring surplus option") << " -r \"" << optArg << "\"\n";
         }
         else {
-            format_ = optarg;
+            format_ = optArg;
             formatSet_ = true;
         }
         break;
     default:
-        std::cerr << progname()
-                  << ": " << _("Option") << " -" << (char)opt
-                  << " " << _("is not compatible with a previous option\n");
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
+                  << _("is not compatible with a previous option\n");
         rc = 1;
         break;
     }
     return rc;
 } // Params::evalRename
 
-int Params::evalAdjust(const std::string& optarg)
+int Params::evalAdjust(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -537,14 +537,14 @@ int Params::evalAdjust(const std::string& optarg)
     case Action::adjust:
         if (adjust_) {
             std::cerr << progname()
-                      << ": " << _("Ignoring surplus option -a")  << " " << optarg << "\n";
+                      << ": " << _("Ignoring surplus option -a")  << " " << optArg << "\n";
             break;
         }
         action_ = Action::adjust;
-        adjust_ = parseTime(optarg, adjustment_);
+        adjust_ = parseTime(optArg, adjustment_);
         if (!adjust_) {
             std::cerr << progname() << ": " << _("Error parsing -a option argument") << " `"
-                      << optarg << "'\n";
+                      << optArg << "'\n";
             rc = 1;
         }
         break;
@@ -557,7 +557,7 @@ int Params::evalAdjust(const std::string& optarg)
     return rc;
 } // Params::evalAdjust
 
-int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
+int Params::evalYodAdjust(const Yod& yod, const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -566,15 +566,15 @@ int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
         if (yodAdjust_[yod].flag_) {
             std::cerr << progname()
                       << ": " << _("Ignoring surplus option") << " "
-                      << yodAdjust_[yod].option_ << " " << optarg << "\n";
+                      << yodAdjust_[yod].option_ << " " << optArg << "\n";
             break;
         }
         action_ = Action::adjust;
         yodAdjust_[yod].flag_ = true;
-        if (!Util::strtol(optarg.c_str(), yodAdjust_[yod].adjustment_)) {
+        if (!Util::strtol(optArg.c_str(), yodAdjust_[yod].adjustment_)) {
             std::cerr << progname() << ": " << _("Error parsing") << " "
                       << yodAdjust_[yod].option_ << " "
-                      << _("option argument") << " `" << optarg << "'\n";
+                      << _("option argument") << " `" << optArg << "'\n";
             rc = 1;
         }
         break;
@@ -589,12 +589,12 @@ int Params::evalYodAdjust(const Yod& yod, const std::string& optarg)
     return rc;
 } // Params::evalYodAdjust
 
-int Params::evalPrint(const std::string& optarg)
+int Params::evalPrint(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
         case Action::none:
-            switch (optarg[0]) {
+            switch (optArg[0]) {
                 case 's':
                     action_ = Action::print;
                     printMode_ = pmSummary;
@@ -635,7 +635,7 @@ int Params::evalPrint(const std::string& optarg)
                 case 'R':
                 #ifdef NDEBUG
                     std::cerr << progname() << ": " << _("Action not available in Release mode")
-                              << ": '" << optarg << "'\n";
+                              << ": '" << optArg << "'\n";
                     rc = 1;
                 #else
                     action_ = Action::print;
@@ -651,13 +651,13 @@ int Params::evalPrint(const std::string& optarg)
                     printMode_ = pmXMP;
                     break;
                 default:
-                    std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" << optarg << "'\n";
+                    std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" << optArg << "'\n";
                     rc = 1;
                     break;
             }
             break;
         case Action::print:
-            std::cerr << progname() << ": " << _("Ignoring surplus option -p") << optarg << "\n";
+            std::cerr << progname() << ": " << _("Ignoring surplus option -p") << optArg << "\n";
             break;
         default:
             std::cerr << progname() << ": " << _("Option -p is not compatible with a previous option\n");
@@ -667,41 +667,70 @@ int Params::evalPrint(const std::string& optarg)
     return rc;
 }  // Params::evalPrint
 
-int Params::evalPrintFlags(const std::string& optarg)
+int Params::evalPrintFlags(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
     case Action::none:
         action_ = Action::print;
         printMode_ = pmList;
-        for (std::size_t i = 0; i < optarg.length(); ++i) {
-            switch (optarg[i]) {
-            case 'E': printTags_  |= Exiv2::mdExif; break;
-            case 'I': printTags_  |= Exiv2::mdIptc; break;
-            case 'X': printTags_  |= Exiv2::mdXmp;  break;
-            case 'x': printItems_ |= prTag;   break;
-            case 'g': printItems_ |= prGroup; break;
-            case 'k': printItems_ |= prKey;   break;
-            case 'l': printItems_ |= prLabel; break;
-            case 'n': printItems_ |= prName;  break;
-            case 'y': printItems_ |= prType;  break;
-            case 'c': printItems_ |= prCount; break;
-            case 's': printItems_ |= prSize;  break;
-            case 'v': printItems_ |= prValue; break;
-            case 't': printItems_ |= prTrans; break;
-            case 'h': printItems_ |= prHex;   break;
-            case 'V': printItems_ |= prSet|prValue;break;
-            default:
-                std::cerr << progname() << ": " << _("Unrecognized print item") << " `"
-                          << optarg[i] << "'\n";
-                rc = 1;
-                break;
+        for (auto&& i : optArg) {
+            switch (i) {
+                case 'E':
+                    printTags_ |= Exiv2::mdExif;
+                    break;
+                case 'I':
+                    printTags_ |= Exiv2::mdIptc;
+                    break;
+                case 'X':
+                    printTags_ |= Exiv2::mdXmp;
+                    break;
+                case 'x':
+                    printItems_ |= prTag;
+                    break;
+                case 'g':
+                    printItems_ |= prGroup;
+                    break;
+                case 'k':
+                    printItems_ |= prKey;
+                    break;
+                case 'l':
+                    printItems_ |= prLabel;
+                    break;
+                case 'n':
+                    printItems_ |= prName;
+                    break;
+                case 'y':
+                    printItems_ |= prType;
+                    break;
+                case 'c':
+                    printItems_ |= prCount;
+                    break;
+                case 's':
+                    printItems_ |= prSize;
+                    break;
+                case 'v':
+                    printItems_ |= prValue;
+                    break;
+                case 't':
+                    printItems_ |= prTrans;
+                    break;
+                case 'h':
+                    printItems_ |= prHex;
+                    break;
+                case 'V':
+                    printItems_ |= prSet | prValue;
+                    break;
+                default:
+                    std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";
+                    rc = 1;
+                    break;
             }
         }
         break;
     case Action::print:
         std::cerr << progname() << ": "
-                  << _("Ignoring surplus option -P") << optarg << "\n";
+                  << _("Ignoring surplus option -P") << optArg << "\n";
         break;
     default:
         std::cerr << progname() << ": "
@@ -712,7 +741,7 @@ int Params::evalPrintFlags(const std::string& optarg)
     return rc;
 } // Params::evalPrintFlags
 
-int Params::evalDelete(const std::string& optarg)
+int Params::evalDelete(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -721,7 +750,7 @@ int Params::evalDelete(const std::string& optarg)
         target_ = 0;
         // fallthrough
     case Action::erase:
-        rc = parseCommonTargets(optarg, "erase");
+        rc = parseCommonTargets(optArg, "erase");
         if (rc > 0) {
             target_ |= rc;
             rc = 0;
@@ -739,7 +768,7 @@ int Params::evalDelete(const std::string& optarg)
     return rc;
 } // Params::evalDelete
 
-int Params::evalExtract(const std::string& optarg)
+int Params::evalExtract(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -749,7 +778,7 @@ int Params::evalExtract(const std::string& optarg)
         target_ = 0;
         // fallthrough
     case Action::extract:
-        rc = parseCommonTargets(optarg, "extract");
+        rc = parseCommonTargets(optArg, "extract");
         if (rc > 0) {
             target_ |= rc;
             rc = 0;
@@ -767,7 +796,7 @@ int Params::evalExtract(const std::string& optarg)
     return rc;
 } // Params::evalExtract
 
-int Params::evalInsert(const std::string& optarg)
+int Params::evalInsert(const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -777,7 +806,7 @@ int Params::evalInsert(const std::string& optarg)
         target_ = 0;
         // fallthrough
     case Action::insert:
-        rc = parseCommonTargets(optarg, "insert");
+        rc = parseCommonTargets(optArg, "insert");
         if (rc > 0) {
             target_ |= rc;
             rc = 0;
@@ -795,7 +824,7 @@ int Params::evalInsert(const std::string& optarg)
     return rc;
 } // Params::evalInsert
 
-int Params::evalModify(int opt, const std::string& optarg)
+int Params::evalModify(int opt, const std::string& optArg)
 {
     int rc = 0;
     switch (action_) {
@@ -805,13 +834,12 @@ int Params::evalModify(int opt, const std::string& optarg)
     case Action::modify:
     case Action::extract:
     case Action::insert:
-        if (opt == 'c') jpegComment_ = parseEscapes(optarg);
-        if (opt == 'm') cmdFiles_.push_back(optarg);  // parse the files later
-        if (opt == 'M') cmdLines_.push_back(optarg);  // parse the commands later
+        if (opt == 'c') jpegComment_ = parseEscapes(optArg);
+        if (opt == 'm') cmdFiles_.push_back(optArg);  // parse the files later
+        if (opt == 'M') cmdLines_.push_back(optArg);  // parse the commands later
         break;
     default:
-        std::cerr << progname() << ": "
-                  << _("Option") << " -" << (char)opt << " "
+        std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
                   << _("is not compatible with a previous option\n");
         rc = 1;
         break;
@@ -925,25 +953,24 @@ int Params::nonoption(const std::string& argv)
 static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 {
     const int buff_size = 4*1028;
-    Exiv2::byte* bytes  = (Exiv2::byte*)::malloc(buff_size);
+    std::vector<Exiv2::byte> bytes(buff_size);
     int       nBytes    = 0 ;
-    bool      more      = bytes != NULL;
+    bool more {true};
     while   ( more ) {
         char buff[buff_size];
-        int  n     = (int) fread(buff,1,buff_size,f);
+        int n = static_cast<int>(fread(buff, 1, buff_size, f));
         more       = n > 0 ;
         if ( more ) {
-            bytes      = (Exiv2::byte*) realloc(bytes,nBytes+n);
-            memcpy(bytes+nBytes,buff,n);
+            bytes.resize(nBytes+n);
+            memcpy(bytes.data()+nBytes,buff,n);
             nBytes    += n ;
         }
     }
 
     if ( nBytes ) {
         buf.alloc(nBytes);
-        memcpy(buf.pData_,(const void*)bytes,nBytes);
+        buf.copyBytes(0, bytes.data(), nBytes);
     }
-    if ( bytes != NULL ) ::free(bytes) ;
     return nBytes;
 }
 
@@ -951,7 +978,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf
-    if ( stdinBuf.size_ == 0 ) {
+    if ( stdinBuf.size() == 0 ) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
         _setmode(fileno(stdin), O_BINARY);
@@ -965,7 +992,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         struct timeval timeout =  {1,0}; // yes: set timeout seconds,microseconds
 
         // if we have something in the pipe, read it
-        if (select(1, &readfds, NULL, NULL, &timeout)) {
+        if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
 #ifdef DEBUG
             std::cerr << "stdin has data" << std::endl;
@@ -976,7 +1003,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
-        if ( stdinBuf.size_ == 0 ) {
+        if ( stdinBuf.size() == 0 ) {
             const char* path = "/Users/rmills/temp/stdin";
             FILE* f = fopen(path,"rb");
             if  ( f ) {
@@ -987,27 +1014,27 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         }
 #endif
 #ifdef DEBUG
-            std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+            std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
 #endif
     }
 
     // copy stdinBuf to buf
-    if ( stdinBuf.size_ ) {
-        buf.alloc(stdinBuf.size_);
-        memcpy(buf.pData_,stdinBuf.pData_,buf.size_);
+    if ( stdinBuf.size() ) {
+        buf.alloc(stdinBuf.size());
+        buf.copyBytes(0,stdinBuf.c_data(),buf.size());
     }
 #ifdef DEBUG
-    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
+    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
 #endif
 
 } // Params::getStdin()
 
-typedef std::map<std::string,std::string> long_t;
+using long_t = std::map<std::string, std::string>;
 
 int Params::getopt(int argc, char* const Argv[])
 {
-    char** argv = new char* [argc+1];
-    argv[argc] = NULL;
+    auto argv = new char*[argc + 1];
+    argv[argc] = nullptr;
     long_t longs;
 
     longs["--adjust"   ] = "-a";
@@ -1015,6 +1042,7 @@ int Params::getopt(int argc, char* const Argv[])
     longs["--comment"  ] = "-c";
     longs["--delete"   ] = "-d";
     longs["--days"     ] = "-D";
+    longs["--extract"  ] = "-e";
     longs["--force"    ] = "-f";
     longs["--Force"    ] = "-F";
     longs["--grep"     ] = "-g";
@@ -1042,13 +1070,12 @@ int Params::getopt(int argc, char* const Argv[])
     longs["--years"    ] = "-Y";
 
     for ( int i = 0 ; i < argc ; i++ ) {
-        std::string* arg = new std::string(Argv[i]);
-        if (longs.find(*arg) != longs.end() ) {
-            argv[i] = ::strdup(longs[*arg].c_str());
+        std::string arg(Argv[i]);
+        if (longs.find(arg) != longs.end() ) {
+            argv[i] = ::strdup(longs[arg].c_str());
         } else {
             argv[i] = ::strdup(Argv[i]);
         }
-        delete arg;
     }
 
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
@@ -1076,7 +1103,7 @@ int Params::getopt(int argc, char* const Argv[])
                   << _("Modify action requires at least one -c, -m or -M option\n");
         rc = 1;
     }
-    if (0 == files_.size()) {
+    if (files_.empty()) {
         std::cerr << progname() << ": " << _("At least one file is required\n");
         rc = 1;
     }
@@ -1122,7 +1149,8 @@ int Params::getopt(int argc, char* const Argv[])
 
  cleanup:
     // cleanup the argument vector
-    for ( int i = 0 ; i < argc ; i++ ) ::free((void*)argv[i]);
+    for (int i = 0; i < argc; i++)
+        ::free(argv[i]);
     delete [] argv;
 
     return rc;
@@ -1135,13 +1163,13 @@ namespace {
     bool parseTime(const std::string& ts, long& time)
     {
         std::string hstr, mstr, sstr;
-        char *cts = new char[ts.length() + 1];
+        auto cts = new char[ts.length() + 1];
         strcpy(cts, ts.c_str());
         char *tmp = ::strtok(cts, ":");
         if (tmp) hstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp) mstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp) sstr = tmp;
         delete[] cts;
 
@@ -1156,13 +1184,13 @@ namespace {
         // check for the -0 special case
         if (hh == 0 && hstr.find('-') != std::string::npos) sign = -1;
         // MM part, if there is one
-        if (mstr != "") {
+        if (!mstr.empty()) {
             if (!Util::strtol(mstr.c_str(), mm)) return false;
             if (mm > 59) return false;
             if (mm < 0) return false;
         }
         // SS part, if there is one
-        if (sstr != "") {
+        if (!sstr.empty()) {
             if (!Util::strtol(sstr.c_str(), ss)) return false;
             if (ss > 59) return false;
             if (ss < 0) return false;
@@ -1178,14 +1206,14 @@ namespace {
                   << action << " " << _("target") << " `"  << argc << "'\n";
     }
 
-    int parseCommonTargets(const std::string& optarg, const std::string& action)
+    int parseCommonTargets(const std::string& optArg, const std::string& action)
     {
         int rc = 0;
         int target = 0;
         int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
         int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
-        for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
-            switch (optarg[i]) {
+        for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
+            switch (optArg[i]) {
                 case 'e':
                     target |= Params::ctExif;
                     break;
@@ -1223,16 +1251,17 @@ namespace {
 
                 case 'p': {
                     if (strcmp(action.c_str(), "extract") == 0) {
-                        i += (size_t)parsePreviewNumbers(Params::instance().previewNumbers_, optarg, (int)i + 1);
+                        i += static_cast<size_t>(
+                            parsePreviewNumbers(Params::instance().previewNumbers_, optArg, static_cast<int>(i) + 1));
                         target |= Params::ctPreview;
                         break;
                     }
-                    printUnrecognizedArgument(optarg[i], action);
+                    printUnrecognizedArgument(optArg[i], action);
                     rc = -1;
                     break;
                 }
                 default:
-                    printUnrecognizedArgument(optarg[i], action);
+                    printUnrecognizedArgument(optArg[i], action);
                     rc = -1;
                     break;
             }
@@ -1241,14 +1270,14 @@ namespace {
     }
 
     int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers,
-                            const std::string& optarg,
+                            const std::string& optArg,
                             int j)
     {
         size_t k = j;
-        for (size_t i = j; i < optarg.size(); ++i) {
+        for (size_t i = j; i < optArg.size(); ++i) {
             std::ostringstream os;
-            for (k = i; k < optarg.size() && isdigit(optarg[k]); ++k) {
-                os << optarg[k];
+            for (k = i; k < optArg.size() && isdigit(optArg[k]); ++k) {
+                os << optArg[k];
             }
             if (k > i) {
                 bool ok = false;
@@ -1262,7 +1291,7 @@ namespace {
                 }
                 i = k;
             }
-            if (!(k < optarg.size() && optarg[i] == ',')) break;
+            if (!(k < optArg.size() && optArg[i] == ',')) break;
         }
         int ret = static_cast<int>(k - j);
         if (ret == 0) {
@@ -1270,28 +1299,23 @@ namespace {
         }
 #ifdef DEBUG
         std::cout << "\nThe set now contains: ";
-        for (Params::PreviewNumbers::const_iterator i = previewNumbers.begin();
-             i != previewNumbers.end();
-             ++i) {
-            std::cout << *i << ", ";
+        for (auto&& number : previewNumbers) {
+            std::cout << number << ", ";
         }
         std::cout << std::endl;
 #endif
-        return (int) (k - j);
+        return static_cast<int>(k - j);
     } // parsePreviewNumbers
 
     bool parseCmdFiles(ModifyCmds& modifyCmds,
                        const Params::CmdFiles& cmdFiles)
     {
-        Params::CmdFiles::const_iterator end = cmdFiles.end();
-        Params::CmdFiles::const_iterator filename = cmdFiles.begin();
-        for ( ; filename != end; ++filename) {
+        for (auto&& filename : cmdFiles) {
             try {
-                std::ifstream file(filename->c_str());
-                bool bStdin = filename->compare("-")== 0;
+                std::ifstream file(filename.c_str());
+                bool bStdin = filename == "-";
                 if (!file && !bStdin) {
-                    std::cerr << *filename << ": "
-                              << _("Failed to open command file for reading\n");
+                    std::cerr << filename << ": " << _("Failed to open command file for reading\n");
                     return false;
                 }
                 int num = 0;
@@ -1304,7 +1328,7 @@ namespace {
                 }
             }
             catch (const Exiv2::AnyError& error) {
-                std::cerr << *filename << ", " << _("line") << " " << error << "\n";
+                std::cerr << filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
         }
@@ -1316,11 +1340,9 @@ namespace {
     {
         try {
             int num = 0;
-            Params::CmdLines::const_iterator end = cmdLines.end();
-            Params::CmdLines::const_iterator line = cmdLines.begin();
-            for ( ; line != end; ++line) {
+            for (auto&& line : cmdLines) {
                 ModifyCmd modifyCmd;
-                if (parseLine(modifyCmd, *line, ++num)) {
+                if (parseLine(modifyCmd, line, ++num)) {
                     modifyCmds.push_back(modifyCmd);
                 }
             }
@@ -1360,15 +1382,14 @@ namespace {
 
         // Skip empty lines and comments
         std::string::size_type cmdStart = line.find_first_not_of(delim);
-        if (cmdStart == std::string::npos || line[cmdStart] == '#') return false;
+        if (cmdStart == std::string::npos || line[cmdStart] == '#')
+            return false;
 
         // Get command and key
         std::string::size_type cmdEnd = line.find_first_of(delim, cmdStart+1);
         std::string::size_type keyStart = line.find_first_not_of(delim, cmdEnd+1);
         std::string::size_type keyEnd = line.find_first_of(delim, keyStart+1);
-        if (   cmdStart == std::string::npos
-            || cmdEnd == std::string::npos
-            || keyStart == std::string::npos) {
+        if (cmdEnd == std::string::npos || keyStart == std::string::npos) {
             std::string cmdLine ;
 #if defined(_MSC_VER) || defined(__MINGW__)
             for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
@@ -1455,8 +1476,8 @@ namespace {
             if (valStart != std::string::npos) {
                 value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
                 std::string::size_type last = value.length()-1;
-                if (   (value[0] == '"' && value[last] == '"')
-                       || (value[0] == '\'' && value[last] == '\'')) {
+                if (   (value.at(0) == '"' && value.at(last) == '"')
+                       || (value.at(0) == '\'' && value.at(last) == '\'')) {
                     value = value.substr(1, value.length()-2);
                 }
             }
@@ -1493,14 +1514,14 @@ namespace {
 
     std::string parseEscapes(const std::string& input)
     {
-        std::string result = "";
-        for (unsigned int i = 0; i < input.length(); ++i) {
+        std::string result;
+        for (size_t i = 0; i < input.length(); ++i) {
             char ch = input[i];
             if (ch != '\\') {
                 result.push_back(ch);
                 continue;
             }
-            int escapeStart = i;
+            size_t escapeStart = i;
             if (!(input.length() - 1 > i)) {
                 result.push_back(ch);
                 continue;
@@ -1521,7 +1542,7 @@ namespace {
                 result.push_back('\t');
                 break;
             case 'u':                           // Escaping of unicode
-                if (input.length() - 4 > i) {
+                if (input.length() >= 4 && input.length() - 4 > i) {
                     int acc = 0;
                     for (int j = 0; j < 4; ++j) {
                         ++i;
@@ -1546,9 +1567,9 @@ namespace {
                         break;
                     }
 
-                    std::string ucs2toUtf8 = "";
-                    ucs2toUtf8.push_back((char) ((acc & 0xff00) >> 8));
-                    ucs2toUtf8.push_back((char) (acc & 0x00ff));
+                    std::string ucs2toUtf8;
+                    ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00) >> 8));
+                    ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ff));
 
                     if (Exiv2::convertStringCharset (ucs2toUtf8, "UCS-2BE", "UTF-8")) {
                         result.append (ucs2toUtf8);
@@ -1567,5 +1588,4 @@ namespace {
         return result;
     }
 
-}
-
+}  // namespace

@@ -49,7 +49,8 @@ namespace Util {
 
     std::string dirname(const std::string& path)
     {
-        if (path == "") return ".";
+        if (path.empty())
+            return ".";
         // Strip trailing slashes or backslashes
         std::string p = path;
         while (   p.length() > 1
@@ -60,7 +61,7 @@ namespace Util {
         if (p.length() == 2 && p[1] == ':') return p; // For Windows paths
         std::string::size_type idx = p.find_last_of("\\/");
         if (idx == std::string::npos) return ".";
-        if (idx == 1 && p[0] == '\\' && p[1] == '\\') return p; // For Windows paths
+        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return p; // For Windows paths
         p = p.substr(0, idx == 0 ? 1 : idx);
         while (   p.length() > 1
                && (p[p.length()-1] == '\\' || p[p.length()-1] == '/')) {
@@ -71,7 +72,8 @@ namespace Util {
 
     std::string basename(const std::string& path, bool delsuffix)
     {
-        if (path == "") return ".";
+        if (path.empty())
+            return ".";
         // Strip trailing slashes or backslashes
         std::string p = path;
         while (   p.length() > 1
@@ -80,7 +82,7 @@ namespace Util {
         }
         if (p.length() == 2 && p[1] == ':') return ""; // For Windows paths
         std::string::size_type idx = p.find_last_of("\\/");
-        if (idx == 1 && p[0] == '\\' && p[1] == '\\') return ""; // For Windows paths
+        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return ""; // For Windows paths
         if (idx != std::string::npos) p = p.substr(idx+1);
         if (delsuffix) p = p.substr(0, p.length() - suffix(p).length());
         return p;
@@ -99,7 +101,7 @@ namespace Util {
     bool strtol(const char* nptr, long& n)
     {
         if (!nptr || *nptr == '\0') return false;
-        char* endptr = 0;
+        char* endptr = nullptr;
         long tmp = std::strtol(nptr, &endptr, 10);
         if (*endptr != '\0') return false;
         if (tmp == LONG_MAX || tmp == LONG_MIN) return false;
@@ -116,5 +118,11 @@ namespace Util {
             index++;
         }
     }
+
+    bool startsWith(const std::string& s, const std::string& start)
+    {
+        return s.size() >= start.size() && std::memcmp(s.data(), start.data(), start.size()) == 0;
+    }
+
 
 }                                       // namespace Util

@@ -33,9 +33,11 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "version.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <climits>
 #include <cstring>
@@ -47,16 +49,17 @@
 namespace {
 
     using namespace Exiv2;
+    using namespace Util;
     using Exiv2::byte;
 
     // signature of DOS EPS
     const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
 
     // first line of EPS
-    const std::string epsFirstLine[] = {
+    const std::array<std::string, 3> epsFirstLine{
         "%!PS-Adobe-3.0 EPSF-3.0",
-        "%!PS-Adobe-3.0 EPSF-3.0 ", // OpenOffice
-        "%!PS-Adobe-3.1 EPSF-3.0",  // Illustrator
+        "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
+        "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
     };
 
     // blank EPS file
@@ -133,12 +136,6 @@ namespace {
         return static_cast<uint32_t>(pos);
     }
 
-    //! Check whether a string has a certain beginning
-    bool startsWith(const std::string& s, const std::string& start)
-    {
-        return s.size() >= start.size() && memcmp(s.data(), start.data(), start.size()) == 0;
-    }
-
     //! Check whether a string contains only white space characters
     bool onlyWhitespaces(const std::string& s)
     {
@@ -197,8 +194,7 @@ namespace {
         xmpSize = 0;
         for (xmpPos = startPos; xmpPos < size; xmpPos++) {
             if (data[xmpPos] != '\x00' && data[xmpPos] != '<') continue;
-            for (size_t i = 0; i < (sizeof xmpHeaders) / (sizeof *xmpHeaders); i++) {
-                const std::string &header = xmpHeaders[i];
+            for (auto&& header : xmpHeaders) {
                 if (xmpPos + header.size() > size) continue;
                 if (memcmp(data + xmpPos, header.data(), header.size()) != 0) continue;
                 #ifdef DEBUG
@@ -208,9 +204,9 @@ namespace {
                 // search for valid XMP trailer
                 for (size_t trailerPos = xmpPos + header.size(); trailerPos < size; trailerPos++) {
                     if (data[xmpPos] != '\x00' && data[xmpPos] != '<') continue;
-                    for (size_t j = 0; j < (sizeof xmpTrailers) / (sizeof *xmpTrailers); j++) {
-                        const std::string &trailer = xmpTrailers[j].trailer;
-                        const bool readOnly = xmpTrailers[j].readOnly;
+                    for (auto&& xmpTrailer : xmpTrailers) {
+                        const std::string& trailer = xmpTrailer.trailer;
+                        const bool readOnly = xmpTrailer.readOnly;
 
                         if (trailerPos + trailer.size() > size) continue;
                         if (memcmp(data + trailerPos, trailer.data(), trailer.size()) != 0) continue;
@@ -335,10 +331,7 @@ namespace {
         #ifdef DEBUG
         EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
         #endif
-        bool matched = false;
-        for (size_t i = 0; !matched && i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
-            matched = (firstLine == epsFirstLine[i]);
-        }
+        bool matched = std::find(epsFirstLine.begin(), epsFirstLine.end(), firstLine) != epsFirstLine.end();
         if (!matched) {
             throw Error(kerNotAnImage, "EPS");
         }
@@ -404,7 +397,8 @@ namespace {
                 EXV_WARNING << "Nested document at invalid position: " << startPos << "\n";
                 #endif
                 throw Error(write ? kerImageWriteFailed : kerFailedToReadImageData);
-            } else if (startsWith(line, "%%BeginDocument:")) {
+            }
+            if (startsWith(line, "%%BeginDocument:")) {
                 if (depth == maxDepth) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Document too deeply nested at position: " << startPos << "\n";
@@ -421,11 +415,11 @@ namespace {
                 }
                 depth--;
             } else {
-                #ifdef DEBUG
+#ifdef DEBUG
                 significantLine = false;
                 #endif
             }
-            #ifdef DEBUG
+#ifdef DEBUG
             if (significantLine) {
                 EXV_DEBUG << "readWriteEpsMetadata: Found significant line \"" << line << "\" at position: " << startPos << "\n";
             }
@@ -458,23 +452,23 @@ namespace {
                 posBeginPageSetup = startPos;
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: Before %%EndPageSetup") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%Exiv2EndXMP";
             } else if (!inRemovableEmbedding && line == "%Exiv2BeginXMP: After %%PageTrailer") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%Exiv2EndXMP";
             } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageSetup End \"AI11EPS\"") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageSetup End \"AI11EPS\"";
             } else if (!inRemovableEmbedding && line == "%ADOBeginClientInjection: PageTrailer Start \"AI11EPS\"") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%ADOEndClientInjection: PageTrailer Start \"AI11EPS\"";
             } else if (!inRemovableEmbedding && line == "%begin_xml_code") {
                 inRemovableEmbedding = true;
-                removableEmbeddings.push_back(std::make_pair(startPos, startPos));
+                removableEmbeddings.emplace_back(startPos, startPos);
                 removableEmbeddingEndLine = "%end_xml_code";
                 removableEmbeddingsWithUnmarkedTrailer++;
             } else {
@@ -504,20 +498,23 @@ namespace {
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit Page at position: " << startPos << "\n";
                 #endif
             }
-            if (posBeginPageSetup == posEndEps && (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%'))) {
+            if (posBeginPageSetup == posEndEps &&
+                (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && !line.empty() && line[0] != '%'))) {
                 posBeginPageSetup = startPos;
                 implicitPageSetup = true;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
                 #endif
             }
-            if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && line.size() >= 1 && line[0] != '%') {
+            if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && !line.empty() &&
+                line[0] != '%') {
                 posEndPageSetup = startPos;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
                 #endif
             }
-            if (line.size() >= 1 && line[0] != '%') continue; // performance optimization
+            if (!line.empty() && line[0] != '%')
+                continue;  // performance optimization
             if (line == "%%EOF" || line == "%%Trailer" || line == "%%PageTrailer") {
                 if (posBeginPageSetup == posEndEps) {
                     posBeginPageSetup = startPos;
@@ -625,8 +622,8 @@ namespace {
                 if (write) throw Error(kerImageWriteFailed);
                 break;
             }
-            removableEmbeddings.push_back(std::make_pair(posXmpTrailer, posXmpTrailerEnd));
-            #ifdef DEBUG
+            removableEmbeddings.emplace_back(posXmpTrailer, posXmpTrailerEnd);
+#ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at "
                          "[" << removableEmbeddings.back().first << "," << removableEmbeddings.back().second << ")"
                          "\n";
@@ -640,16 +637,16 @@ namespace {
         bool containsXmp;
         if (line == "%ADO_ContainsXMP: MainFirst" || line == "%ADO_ContainsXMP:MainFirst") {
             containsXmp = true;
-        } else if (line == "" || line == "%ADO_ContainsXMP: NoMain" || line == "%ADO_ContainsXMP:NoMain") {
+        } else if (line.empty() || line == "%ADO_ContainsXMP: NoMain" || line == "%ADO_ContainsXMP:NoMain") {
             containsXmp = false;
         } else {
-            #ifndef SUPPRESS_WARNINGS
+#ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid line \"" << line << "\" at position: " << posContainsXmp << "\n";
             #endif
             throw Error(write ? kerImageWriteFailed : kerFailedToReadImageData);
         }
 
-        const bool deleteXmp = (write && xmpPacket.size() == 0);
+        const bool deleteXmp = (write && xmpPacket.empty());
         bool fixBeginXmlPacket = false;
         bool useFlexibleEmbedding = false;
         size_t xmpPos = posEndEps;
@@ -664,8 +661,8 @@ namespace {
             }
             // check embedding of XMP metadata
             const size_t posLineAfterXmp = readLine(line, data, xmpPos + xmpSize, posEndEps);
-            if (line != "") {
-                #ifndef SUPPRESS_WARNINGS
+            if (!line.empty()) {
+#ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unexpected " << line.size() << " bytes of data after XMP at position: " << (xmpPos + xmpSize) << "\n";
                 #endif
             } else if (!deleteXmp) {
@@ -704,8 +701,8 @@ namespace {
                 findXmp(posOtherXmp, sizeOtherXmp, data, posOtherXmp + sizeOtherXmp, posEndPageSetup, write);
                 if (posOtherXmp >= posEndPageSetup) break;
                 bool isRemovableEmbedding = false;
-                for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); ++e) {
-                    if (e->first <= posOtherXmp && posOtherXmp < e->second) {
+                for (auto&& removableEmbedding : removableEmbeddings) {
+                    if (removableEmbedding.first <= posOtherXmp && posOtherXmp < removableEmbedding.second) {
                         isRemovableEmbedding = true;
                         break;
                     }
@@ -735,8 +732,8 @@ namespace {
                 lineStreamAi7Thumbnail >> dummy;
                 lineStreamAi7Thumbnail >> nativePreview.width_;
                 lineStreamAi7Thumbnail >> nativePreview.height_;
-                std::string depth;
-                lineStreamAi7Thumbnail >> depth;
+                std::string depthStr;
+                lineStreamAi7Thumbnail >> depthStr;
                 std::string lineBeginData;
                 const size_t posAfterBeginData = readLine(lineBeginData, data, posBeginData, posEndEps);
                 std::istringstream lineStreamBeginData(lineBeginData);
@@ -749,9 +746,9 @@ namespace {
                 nativePreview.size_ = static_cast<uint32_t>(posAi7ThumbnailEndData - posAfterBeginData);
                 nativePreview.filter_ = "hex-ai7thumbnail-pnm";
                 nativePreview.mimeType_ = "image/x-portable-anymap";
-                if (depth != "8") {
+                if (depthStr != "8") {
                     #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depth << "\n";
+                    EXV_WARNING << "Unable to handle Illustrator thumbnail depth: " << depthStr << "\n";
                     #endif
                 } else if (beginData != "%%BeginData:") {
                     #ifndef SUPPRESS_WARNINGS
@@ -805,7 +802,7 @@ namespace {
             }
 
             // create temporary output file
-            BasicIo::AutoPtr tempIo(new MemIo);
+            BasicIo::UniquePtr tempIo(new MemIo);
             assert (tempIo.get() != 0);
             if (!tempIo->isopen()) {
                 #ifndef SUPPRESS_WARNINGS
@@ -834,8 +831,8 @@ namespace {
             if (useFlexibleEmbedding) {
                 positions.push_back(xmpPos);
             }
-            for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); ++e) {
-                positions.push_back(e->first);
+            for (auto&& removableEmbedding : removableEmbeddings) {
+                positions.push_back(removableEmbedding.first);
             }
             std::sort(positions.begin(), positions.end());
 
@@ -848,8 +845,7 @@ namespace {
             const uint32_t posEpsNew = posTemp(*tempIo);
             size_t prevPos = posEps;
             size_t prevSkipPos = prevPos;
-            for (std::vector<size_t>::const_iterator i = positions.begin(); i != positions.end(); ++i) {
-                const size_t pos = *i;
+            for (auto&& pos : positions) {
                 if (pos == prevPos) continue;
                 #ifdef DEBUG
                 EXV_DEBUG << "readWriteEpsMetadata: Writing at " << pos << "\n";
@@ -951,10 +947,10 @@ namespace {
                 }
                 if (!useFlexibleEmbedding) {
                     // remove preceding embedding(s)
-                    for (std::vector<std::pair<size_t, size_t> >::const_iterator e = removableEmbeddings.begin(); e != removableEmbeddings.end(); ++e) {
-                        if (pos == e->first) {
-                            skipPos = e->second;
-                            #ifdef DEBUG
+                    for (auto&& removableEmbedding : removableEmbeddings) {
+                        if (pos == removableEmbedding.first) {
+                            skipPos = removableEmbedding.second;
+#ifdef DEBUG
                             EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
                             #endif
                             break;
@@ -1075,8 +1071,8 @@ namespace {
 namespace Exiv2
 {
 
-    EpsImage::EpsImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::eps, mdXmp, io)
+    EpsImage::EpsImage(BasicIo::UniquePtr io, bool create)
+            : Image(ImageType::eps, mdXmp, std::move(io))
     {
         //LogMsg::setLevel(LogMsg::debug);
         if (create) {
@@ -1115,14 +1111,14 @@ namespace Exiv2
         readWriteEpsMetadata(*io_, xmpPacket_, nativePreviews_, /* write = */ false);
 
         // decode XMP metadata
-        if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
-            #ifndef SUPPRESS_WARNINGS
+        if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
+#ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to decode XMP metadata.\n";
             #endif
             throw Error(kerFailedToReadImageData);
         }
 
-        #ifdef DEBUG
+#ifdef DEBUG
         EXV_DEBUG << "Exiv2::EpsImage::readMetadata: Finished reading EPS file " << io_->path() << "\n";
         #endif
     }
@@ -1151,9 +1147,9 @@ namespace Exiv2
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new EpsImage(io, create));
+        Image::UniquePtr image(new EpsImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }
@@ -1164,23 +1160,30 @@ namespace Exiv2
     {
         // read as many bytes as needed for the longest (DOS) EPS signature
         long bufSize = static_cast<long>(dosEpsSignature.size());
-        for (size_t i = 0; i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
-            if (bufSize < static_cast<long>(epsFirstLine[i].size())) {
-                bufSize = static_cast<long>(epsFirstLine[i].size());
+        for (auto&& i : epsFirstLine) {
+            if (bufSize < static_cast<long>(i.size())) {
+                bufSize = static_cast<long>(i.size());
             }
         }
+        const long restore = iIo.tell(); // save
         DataBuf buf = iIo.read(bufSize);
-        if (iIo.error() || buf.size_ != bufSize) {
+        if (iIo.error() || buf.size() != bufSize) {
+            iIo.seek(restore, BasicIo::beg);
             return false;
         }
         // check for all possible (DOS) EPS signatures
-        bool matched = (memcmp(buf.pData_, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
-        for (size_t i = 0; !matched && i < (sizeof epsFirstLine) / (sizeof *epsFirstLine); i++) {
-            matched = (memcmp(buf.pData_, epsFirstLine[i].data(), epsFirstLine[i].size()) == 0);
+        bool matched = (buf.cmpBytes(0, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
+        if (!matched) {
+            for (auto&& eps : epsFirstLine) {
+                if (buf.cmpBytes(0, eps.data(), eps.size()) == 0) {
+                    matched = true;
+                    break;
+                }
+            }
         }
         // seek back if possible and requested
         if (!advance || !matched) {
-            iIo.seek(-buf.size_, BasicIo::cur);
+            iIo.seek(restore, BasicIo::beg);
         }
         return matched;
     }

@@ -22,6 +22,7 @@
 #include "iptc.hpp"
 #include "types.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "value.hpp"
 #include "datasets.hpp"
 #include "jpgimage.hpp"
@@ -74,7 +75,7 @@ namespace {
         uint16_t record_;
 
     }; // class FindIptcdatum
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -90,17 +91,15 @@ namespace Exiv2 {
     Iptcdatum::Iptcdatum(const Iptcdatum& rhs)
         : Metadatum(rhs)
     {
-        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
-        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
-    }
-
-    Iptcdatum::~Iptcdatum()
-    {
+        if (rhs.key_.get() != nullptr)
+            key_ = rhs.key_->clone();  // deep copy
+        if (rhs.value_.get() != nullptr)
+            value_ = rhs.value_->clone();  // deep copy
     }
 
     long Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const
     {
-        return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder);
+        return value_.get() == nullptr ? 0 : value_->copy(buf, byteOrder);
     }
 
     std::ostream& Iptcdatum::write(std::ostream& os, const ExifData*) const
@@ -110,47 +109,47 @@ namespace Exiv2 {
 
     std::string Iptcdatum::key() const
     {
-        return key_.get() == 0 ? "" : key_->key();
+        return key_.get() == nullptr ? "" : key_->key();
     }
 
     std::string Iptcdatum::recordName() const
     {
-        return key_.get() == 0 ? "" : key_->recordName();
+        return key_.get() == nullptr ? "" : key_->recordName();
     }
 
     uint16_t Iptcdatum::record() const
     {
-        return key_.get() == 0 ? 0 : key_->record();
+        return key_.get() == nullptr ? 0 : key_->record();
     }
 
     const char* Iptcdatum::familyName() const
     {
-        return key_.get() == 0 ? "" : key_->familyName();
+        return key_.get() == nullptr ? "" : key_->familyName();
     }
 
     std::string Iptcdatum::groupName() const
     {
-        return key_.get() == 0 ? "" : key_->groupName();
+        return key_.get() == nullptr ? "" : key_->groupName();
     }
 
     std::string Iptcdatum::tagName() const
     {
-        return key_.get() == 0 ? "" : key_->tagName();
+        return key_.get() == nullptr ? "" : key_->tagName();
     }
 
     std::string Iptcdatum::tagLabel() const
     {
-        return key_.get() == 0 ? "" : key_->tagLabel();
+        return key_.get() == nullptr ? "" : key_->tagLabel();
     }
 
     uint16_t Iptcdatum::tag() const
     {
-        return key_.get() == 0 ? 0 : key_->tag();
+        return key_.get() == nullptr ? 0 : key_->tag();
     }
 
     TypeId Iptcdatum::typeId() const
     {
-        return value_.get() == 0 ? invalidTypeId : value_->typeId();
+        return value_.get() == nullptr ? invalidTypeId : value_->typeId();
     }
 
     const char* Iptcdatum::typeName() const
@@ -165,47 +164,48 @@ namespace Exiv2 {
 
     long Iptcdatum::count() const
     {
-        return value_.get() == 0 ? 0 : value_->count();
+        return value_.get() == nullptr ? 0 : value_->count();
     }
 
     long Iptcdatum::size() const
     {
-        return value_.get() == 0 ? 0 : value_->size();
+        return value_.get() == nullptr ? 0 : value_->size();
     }
 
     std::string Iptcdatum::toString() const
     {
-        return value_.get() == 0 ? "" : value_->toString();
+        return value_.get() == nullptr ? "" : value_->toString();
     }
 
     std::string Iptcdatum::toString(long n) const
     {
-        return value_.get() == 0 ? "" : value_->toString(n);
+        return value_.get() == nullptr ? "" : value_->toString(n);
     }
 
     long Iptcdatum::toLong(long n) const
     {
-        return value_.get() == 0 ? -1 : value_->toLong(n);
+        return value_.get() == nullptr ? -1 : value_->toLong(n);
     }
 
     float Iptcdatum::toFloat(long n) const
     {
-        return value_.get() == 0 ? -1 : value_->toFloat(n);
+        return value_.get() == nullptr ? -1 : value_->toFloat(n);
     }
 
     Rational Iptcdatum::toRational(long n) const
     {
-        return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n);
+        return value_.get() == nullptr ? Rational(-1, 1) : value_->toRational(n);
     }
 
-    Value::AutoPtr Iptcdatum::getValue() const
+    Value::UniquePtr Iptcdatum::getValue() const
     {
-        return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone();
+        return value_.get() == nullptr ? nullptr : value_->clone();
     }
 
     const Value& Iptcdatum::value() const
     {
-        if (value_.get() == 0) throw Error(kerValueNotSet);
+        if (value_.get() == nullptr)
+            throw Error(kerValueNotSet);
         return *value_;
     }
 
@@ -215,19 +215,21 @@ namespace Exiv2 {
         Metadatum::operator=(rhs);
 
         key_.reset();
-        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
+        if (rhs.key_.get() != nullptr)
+            key_ = rhs.key_->clone();  // deep copy
 
         value_.reset();
-        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
+        if (rhs.value_.get() != nullptr)
+            value_ = rhs.value_->clone();  // deep copy
 
         return *this;
     } // Iptcdatum::operator=
 
     Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
     {
-        UShortValue::AutoPtr v(new UShortValue);
+        UShortValue::UniquePtr v(new UShortValue);
         v->value_.push_back(value);
-        value_ = v;
+        value_ = std::move(v);
         return *this;
     }
 
@@ -251,7 +253,7 @@ namespace Exiv2 {
 
     int Iptcdatum::setValue(const std::string& value)
     {
-        if (value_.get() == 0) {
+        if (value_.get() == nullptr) {
             TypeId type = IptcDataSets::dataSetType(tag(), record());
             value_ = Value::create(type);
         }
@@ -261,10 +263,10 @@ namespace Exiv2 {
     Iptcdatum& IptcData::operator[](const std::string& key)
     {
         IptcKey iptcKey(key);
-        iterator pos = findKey(iptcKey);
+        auto pos = findKey(iptcKey);
         if (pos == end()) {
-            add(Iptcdatum(iptcKey));
-            pos = findKey(iptcKey);
+            iptcMetadata_.emplace_back(iptcKey);
+            return iptcMetadata_.back();
         }
         return *pos;
     }
@@ -272,12 +274,10 @@ namespace Exiv2 {
     long IptcData::size() const
     {
         long newSize = 0;
-        const_iterator iter = iptcMetadata_.begin();
-        const_iterator end = iptcMetadata_.end();
-        for ( ; iter != end; ++iter) {
+        for (auto&& iptc : iptcMetadata_) {
             // marker, record Id, dataset num, first 2 bytes of size
             newSize += 5;
-            long dataSize = iter->size();
+            long dataSize = iptc.size();
             newSize += dataSize;
             if (dataSize > 32767) {
                 // extended dataset (we always use 4 bytes)
@@ -345,7 +345,10 @@ namespace Exiv2 {
 
     void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, uint32_t depth)
     {
-        uint32_t i = 0;
+        if (bytes.size() < 3) {
+            return;
+        }
+        size_t i = 0;
         while (i < bytes.size() - 3 && bytes.at(i) != 0x1c)
             i++;
         depth++;
@@ -357,10 +360,12 @@ namespace Exiv2 {
             char buff[100];
             uint16_t record = bytes.at(i + 1);
             uint16_t dataset = bytes.at(i + 2);
+            enforce(bytes.size() - i >= 5, kerCorruptedMetadata);
             uint16_t len = getUShort(bytes.subSlice(i + 3, bytes.size()), bigEndian);
-            sprintf(buff, "  %6d | %7d | %-24s | %6d | ", record, dataset,
+            snprintf(buff, sizeof(buff), "  %6d | %7d | %-24s | %6d | ", record, dataset,
                     Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
+            enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), kerCorruptedMetadata);
             out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
                 << (len > 40 ? "..." : "")
                 << std::endl;
@@ -371,7 +376,7 @@ namespace Exiv2 {
 
     const char *IptcData::detectCharset() const
     {
-        const_iterator pos = findKey(IptcKey("Iptc.Envelope.CharacterSet"));
+        auto pos = findKey(IptcKey("Iptc.Envelope.CharacterSet"));
         if (pos != end()) {
             const std::string value = pos->toString();
             if (pos->value().ok()) {
@@ -387,9 +392,7 @@ namespace Exiv2 {
             std::string value = pos->toString();
             if (pos->value().ok()) {
                 int seqCount = 0;
-                std::string::iterator i;
-                for (i = value.begin(); i != value.end(); ++i) {
-                    char c = *i;
+                for (auto&& c : value) {
                     if (seqCount) {
                         if ((c & 0xc0) != 0x80) {
                             utf8 = false;
@@ -419,7 +422,7 @@ namespace Exiv2 {
 
         if (ascii) return "ASCII";
         if (utf8) return "UTF-8";
-        return NULL;
+        return nullptr;
     }
 
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker
@@ -477,13 +480,13 @@ namespace Exiv2 {
 #endif
                 }
             }
-#ifndef SUPPRESS_WARNINGS
             else {
+#ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "IPTC dataset " << IptcKey(dataSet, record)
                             << " has invalid size " << sizeData << "; skipped.\n";
+#endif
                 return 7;
             }
-#endif
             pRead += sizeData;
         }
 
@@ -504,7 +507,7 @@ namespace Exiv2 {
     DataBuf IptcParser::encode(const IptcData& iptcData)
     {
         DataBuf buf(iptcData.size());
-        byte *pWrite = buf.pData_;
+        byte *pWrite = buf.data();
 
         // Copy the iptc data sets and sort them by record but preserve the order of datasets
         IptcMetadata sortedIptcData;
@@ -553,7 +556,7 @@ namespace {
               uint32_t         sizeData
     )
     {
-        Exiv2::Value::AutoPtr value;
+        Exiv2::Value::UniquePtr value;
         Exiv2::TypeId type = Exiv2::IptcDataSets::dataSetType(dataSet, record);
         value = Exiv2::Value::create(type);
         int rc = value->read(data, sizeData, Exiv2::bigEndian);
@@ -573,4 +576,4 @@ namespace {
         return rc;
     }
 
-}
+}  // namespace

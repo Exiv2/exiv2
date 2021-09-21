@@ -23,15 +23,15 @@
 class Params : public Util::Getopt {
 private:
     std::string optstring_;
-    bool first_;
+    bool first_{true};
 
 public:
-    bool help_;                    //!< Help option flag.
-    bool iptc_;                    //!< Iptc option flag.
-    bool exif_;                    //!< Exif option flag.
-    bool comment_;                 //!< JPEG comment option flag.
-    bool xmp_;                     //!< XMP option flag.
-    bool preserve_;                //!< Preserve existing metadata option flag.
+    bool help_{false};             //!< Help option flag.
+    bool iptc_{false};             //!< Iptc option flag.
+    bool exif_{false};             //!< Exif option flag.
+    bool comment_{false};          //!< JPEG comment option flag.
+    bool xmp_{false};              //!< XMP option flag.
+    bool preserve_{false};         //!< Preserve existing metadata option flag.
     std::string read_;             //!< Source file
     std::string write_;            //!< Destination file
 
@@ -39,15 +39,9 @@ public:
     /*!
       @brief Default constructor. Note that optstring_ is initialized here.
      */
-    Params() : optstring_(":iecxaph"),
-               first_(true),
-               help_(false),
-               iptc_(false),
-               exif_(false),
-               comment_(false),
-               xmp_(false),
-               preserve_(false)
-        {}
+    Params() : optstring_(":iecxaph")
+    {
+    }
 
     /*!
       @brief Call Getopt::getopt() with optstring, to initiate command line
@@ -62,10 +56,10 @@ public:
     int getopt(int argc, char* const argv[]);
 
     //! Handle options and their arguments.
-    virtual int option(int opt, const std::string& optarg, int optopt);
+    int option(int opt, const std::string& optarg, int optopt) override;
 
     //! Handle non-option parameters.
-    virtual int nonoption(const std::string& argv);
+    int nonoption(const std::string& argv) override;
 
     //! Print a minimal usage note to an output stream.
     void usage(std::ostream& os =std::cout) const;

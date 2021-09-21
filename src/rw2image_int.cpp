@@ -28,14 +28,11 @@ namespace Exiv2 {
     {
     }
 
-    Rw2Header::~Rw2Header()
-    {
-    }
-
     DataBuf Rw2Header::write() const
     {
         // Todo: Implement me!
         return DataBuf();
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

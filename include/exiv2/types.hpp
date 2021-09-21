@@ -27,31 +27,12 @@
 #include "slice.hpp"
 
 // + standard includes
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <limits>
 #include <algorithm>
 #include <sstream>
-
-#ifdef _MSC_VER
-// Visual Studio 2010 and later has stdint.h
-# if   _MSC_VER >= _MSC_VER_2010
-#  include <stdint.h>
-# else
-// Earlier compilers have MS C99 equivalents such as __int8
-   typedef unsigned __int8  uint8_t;
-   typedef unsigned __int16 uint16_t;
-   typedef unsigned __int32 uint32_t;
-   typedef unsigned __int64 uint64_t;
-   typedef          __int8  int8_t;
-   typedef          __int16 int16_t;
-   typedef          __int32 int32_t;
-   typedef          __int64 int64_t;
-# endif
-#else
-  # include <stdint.h>
-#endif
-
 
 // MSVC macro to convert a string to a wide string
 #ifdef EXV_UNICODE_PATH
@@ -65,18 +46,18 @@
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
-// Simple min and max macros
-//! Simple common min macro
-#define EXV_MIN(a,b) ((a) < (b) ? (a) : (b))
-//! Simple common max macro
-#define EXV_MAX(a,b) ((a) > (b) ? (a) : (b))
-
 #if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
 #define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
 #elif defined(_MSC_VER) && (_MSC_VER >= 1700)
 #define EXV_WARN_UNUSED_RESULT _Check_return_
 #else
 #define EXV_WARN_UNUSED_RESULT
+#endif
+
+#ifndef _MSC_VER
+#define EXV_UNUSED [[gnu::unused]]
+#else
+#define EXV_UNUSED
 #endif
 
 // *****************************************************************************
@@ -155,14 +136,14 @@ namespace Exiv2 {
 
     //! Type information lookup functions. Implemented as a static class.
     class EXIV2API TypeInfo {
-        //! Prevent construction: not implemented.
-        TypeInfo();
-        //! Prevent copy-construction: not implemented.
-        TypeInfo(const TypeInfo& rhs);
-        //! Prevent assignment: not implemented.
-        TypeInfo& operator=(const TypeInfo& rhs);
-
     public:
+        //! Prevent construction: not implemented.
+        TypeInfo() = delete;
+        //! Prevent copy-construction: not implemented.
+        TypeInfo(const TypeInfo& rhs) = delete;
+        //! Prevent assignment: not implemented.
+        TypeInfo& operator=(const TypeInfo& rhs) = delete;
+
         //! Return the name of the type, 0 if unknown.
         static const char* typeName(TypeId typeId);
         //! Return the type id for a type name
@@ -174,7 +155,7 @@ namespace Exiv2 {
 
     /*!
       @brief Auxiliary type to enable copies and assignments, similar to
-             std::auto_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
+             std::unique_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
              for a discussion.
      */
     struct EXIV2API DataBufRef {
@@ -190,8 +171,7 @@ namespace Exiv2 {
              be as a stack variable in functions that need a temporary data
              buffer.
      */
-    class EXIV2API DataBuf {
-    public:
+    struct EXIV2API DataBuf {
         //! @name Creators
         //@{
         //! Default constructor
@@ -202,7 +182,7 @@ namespace Exiv2 {
         DataBuf(const byte* pData, long size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
-                 object similar to std::auto_ptr, i.e., the original object is
+                 object similar to std::unique_ptr, i.e., the original object is
                  modified.
          */
         DataBuf(DataBuf& rhs);
@@ -214,7 +194,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Assignment operator. Transfers the buffer and releases the
-                 buffer at the original object similar to std::auto_ptr, i.e.,
+                 buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
         DataBuf& operator=(DataBuf& rhs);
@@ -225,26 +205,28 @@ namespace Exiv2 {
          */
         void alloc(long size);
         /*!
+          @brief Resize the buffer. Existing data is preserved (like std::realloc()).
+         */
+        void resize(long size);
+        /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal
                  buffer.
          */
         EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
 
-         /*!
-           @brief Free the internal buffer and reset the size to 0.
-          */
-        void free();
-
         //! Reset value
-        void reset(std::pair<byte*, long> =std::make_pair((byte*)(0),long(0)));
+        void reset(std::pair<byte*, long> = {nullptr, long(0)});
         //@}
+
+        //! Fill the buffer with zeros.
+        void clear();
 
         /*!
           @name Conversions
 
           Special conversions with auxiliary type to enable copies
-          and assignments, similar to those used for std::auto_ptr.
+          and assignments, similar to those used for std::unique_ptr.
           See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
          */
         //@{
@@ -253,6 +235,36 @@ namespace Exiv2 {
         operator DataBufRef();
         //@}
 
+        long size() const { return size_; }
+
+        uint8_t read_uint8(size_t offset) const;
+        void write_uint8(size_t offset, uint8_t x);
+
+        uint16_t read_uint16(size_t offset, ByteOrder byteOrder) const;
+        void write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder);
+
+        uint32_t read_uint32(size_t offset, ByteOrder byteOrder) const;
+        void write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder);
+
+        uint64_t read_uint64(size_t offset, ByteOrder byteOrder) const;
+        void write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder);
+
+        //! Copy bytes into the buffer (starting at address &pData_[offset]).
+        void copyBytes(size_t offset, const void* buf, size_t bufsize);
+
+        //! Equivalent to: memcmp(&pData_[offset], buf, bufsize)
+        int cmpBytes(size_t offset, const void* buf, size_t bufsize) const;
+
+        //! Returns a data pointer.
+        byte* data(size_t offset = 0);
+
+        //! Returns a (read-only) data pointer.
+        const byte* c_data(size_t offset = 0) const;
+
+        //! Returns a (read-only) C-style string pointer.
+        const char* c_str(size_t offset = 0) const;
+
+      private:
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
         byte* pData_;
@@ -287,9 +299,8 @@ namespace Exiv2 {
     {
         if (byteOrder == littleEndian) {
             return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
-        } else {
-            return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
         }
+        return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
     }
 
     //! Read a 4 byte unsigned long value from the data buffer
@@ -328,6 +339,11 @@ namespace Exiv2 {
              return number of bytes written.
      */
     EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+    /*!
+      @brief Convert an uint64_t to data, write the data to the buffer,
+             return number of bytes written.
+     */
+    EXIV2API long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder);
     /*!
       @brief Convert an unsigned rational to data, write the data to the buffer,
              return number of bytes written.
@@ -529,8 +545,8 @@ namespace Exiv2 {
     T stringTo(const std::string& s, bool& ok)
     {
         std::istringstream is(s);
-        T tmp;
-        ok = (is >> tmp) ? true : false;
+        T tmp = T();
+        ok = bool(is >> tmp);
         std::string rest;
         is >> std::skipws >> rest;
         if (!rest.empty()) ok = false;

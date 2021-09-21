@@ -19,7 +19,7 @@
  */
 
 #include <tiffimage_int.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 #include <sstream>
 
 using namespace Exiv2;
@@ -34,17 +34,17 @@ public:
 
 TEST_F(ATiffHeader, hasExpectedValuesAfterCreation)
 {
-    ASSERT_EQ(8u, header.size());
+    ASSERT_EQ(8U, header.size());
     ASSERT_EQ(42, header.tag());
-    ASSERT_EQ(8u, header.offset());
+    ASSERT_EQ(8U, header.offset());
     ASSERT_EQ(littleEndian, header.byteOrder());
 }
 
 TEST_F(ATiffHeader, canBeWrittenAndItsSizeIs8Bytes)
 {
     DataBuf buffer = header.write();
-    ASSERT_EQ(header.size(), buffer.size_);
-    ASSERT_EQ(8u, header.size());
+    ASSERT_EQ(header.size(), buffer.size());
+    ASSERT_EQ(8U, header.size());
 }
 
 TEST_F(ATiffHeader, readDataFromBufferWithCorrectSize)
@@ -54,13 +54,13 @@ TEST_F(ATiffHeader, readDataFromBufferWithCorrectSize)
 
 TEST_F(ATiffHeader, failToReadDataFromBufferWithCorrectSizeButNull)
 {
-    ASSERT_FALSE(header.read(NULL, 8));
+    ASSERT_FALSE(header.read(nullptr, 8));
 }
 
 TEST_F(ATiffHeader, failToReadDataFromBufferWithSizeDifferentThan8)
 {
-    ASSERT_FALSE(header.read(NULL, 7));
-    ASSERT_FALSE(header.read(NULL, 9));
+    ASSERT_FALSE(header.read(nullptr, 7));
+    ASSERT_FALSE(header.read(nullptr, 9));
 }
 
 TEST_F(ATiffHeader, failToReadDataFromBufferWithInvalidByteOrder)

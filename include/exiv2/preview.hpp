@@ -70,8 +70,6 @@ namespace Exiv2 {
         //@{
         //! Copy constructor
         PreviewImage(const PreviewImage& rhs);
-        //! Destructor.
-        ~PreviewImage();
         //@}
 
         //! @name Manipulators
@@ -147,11 +145,10 @@ namespace Exiv2 {
 
     private:
         //! Private constructor
-        PreviewImage(const PreviewProperties& properties, DataBuf data);
+        PreviewImage(PreviewProperties properties, DataBuf data);
 
         PreviewProperties properties_;          //!< Preview image properties
-        byte* pData_;                           //!< Pointer to the preview image data
-        uint32_t size_;                         //!< Size of the preview image data
+        DataBuf preview_;                       //!< Preview image data
 
     }; // class PreviewImage
 

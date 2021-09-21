@@ -41,8 +41,8 @@
 // class member definitions
 namespace Exiv2 {
 
-    RafImage::RafImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::raf, mdExif | mdIptc | mdXmp, io)
+    RafImage::RafImage(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::raf, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // RafImage::RafImage
 
@@ -53,7 +53,7 @@ namespace Exiv2 {
 
     int RafImage::pixelWidth() const
     {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (widthIter != exifData_.end() && widthIter->count() > 0) {
             return widthIter->toLong();
         }
@@ -62,7 +62,7 @@ namespace Exiv2 {
 
     int RafImage::pixelHeight() const
     {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (heightIter != exifData_.end() && heightIter->count() > 0) {
             return heightIter->toLong();
         }
@@ -118,11 +118,8 @@ namespace Exiv2 {
             io_->read(magicdata, 16);
             magicdata[16] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 16, 0)
-                    << "      magic : "
-                    << (char*) magicdata
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 16, 0)
+                    << "      magic : " << reinterpret_cast<char*>(magicdata) << std::endl;
             }
 
             address = io_->tell();
@@ -130,11 +127,8 @@ namespace Exiv2 {
             io_->read(data1, 4);
             data1[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 4, 16)
-                    << "      data1 : "
-                    << std::string((char*)&data1)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 4, 16)
+                    << "      data1 : " << std::string(reinterpret_cast<char*>(&data1)) << std::endl;
             }
 
             address = io_->tell();
@@ -142,11 +136,8 @@ namespace Exiv2 {
             io_->read(data2, 8);
             data2[8] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 8, 20)
-                    << "      data2 : "
-                    << std::string((char*)&data2)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 8, 20)
+                    << "      data2 : " << std::string(reinterpret_cast<char*>(&data2)) << std::endl;
             }
 
             address = io_->tell();
@@ -154,11 +145,8 @@ namespace Exiv2 {
             io_->read(camdata, 32);
             camdata[32] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 32, 28)
-                    << "     camera : "
-                    << std::string((char*)&camdata)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 32, 28)
+                    << "     camera : " << std::string(reinterpret_cast<char*>(&camdata)) << std::endl;
             }
 
             address = io_->tell();
@@ -166,21 +154,18 @@ namespace Exiv2 {
             io_->read(dir_version, 4);
             dir_version[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat(format,address, 4, 60)
-                    << "    version : "
-                    << std::string((char*)&dir_version)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat(format, address, 4, 60)
+                    << "    version : " << std::string(reinterpret_cast<char*>(&dir_version)) << std::endl;
             }
 
             address = io_->tell();
             DataBuf   unknown(20);
-            io_->read(unknown.pData_,unknown.size_);
+            io_->read(unknown.data(),unknown.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, 20)
                     << "    unknown : "
-                    << Internal::binaryToString(makeSlice(unknown, 0,unknown.size_))
+                    << Internal::binaryToString(makeSlice(unknown, 0, unknown.size()))
                     << std::endl;
             }
 
@@ -192,8 +177,8 @@ namespace Exiv2 {
             address2 = io_->tell();
             io_->read(jpg_img_length, 4);
 
-            long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-            long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+            long jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
+            long jpg_img_len = Exiv2::getULong(jpg_img_length, bigEndian);
             std::stringstream j_off;
             std::stringstream j_len;
             j_off << jpg_img_off;
@@ -217,8 +202,8 @@ namespace Exiv2 {
             byte cfa_header_length [4];
             address2 = io_->tell();
             io_->read(cfa_header_length, 4);
-            long cfa_hdr_off = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
-            long cfa_hdr_len = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+            long cfa_hdr_off = Exiv2::getULong(cfa_header_offset, bigEndian);
+            long cfa_hdr_len = Exiv2::getULong(cfa_header_length, bigEndian);
             std::stringstream ch_off;
             std::stringstream ch_len;
             ch_off << cfa_hdr_off;
@@ -242,8 +227,8 @@ namespace Exiv2 {
             byte cfa_length [4];
             address2 = io_->tell();
             io_->read(cfa_length, 4);
-            long cfa_off = Exiv2::getULong((const byte *) cfa_offset, bigEndian);
-            long cfa_len = Exiv2::getULong((const byte *) cfa_length, bigEndian);
+            long cfa_off = Exiv2::getULong(cfa_offset, bigEndian);
+            long cfa_len = Exiv2::getULong(cfa_length, bigEndian);
             std::stringstream c_off;
             std::stringstream c_len;
             c_off << cfa_off;
@@ -264,34 +249,34 @@ namespace Exiv2 {
             io_->seek(jpg_img_off, BasicIo::beg); // rewind
             address = io_->tell();
             DataBuf payload(16); // header is different from chunks
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.data(), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, jpg_img_len) // , jpg_img_off)
                     << "       JPEG : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size()))
                     << std::endl;
             }
 
             io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
             address = io_->tell();
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.data(), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, cfa_hdr_len, cfa_hdr_off)
                     << "        CFA : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size()))
                     << std::endl;
             }
 
             io_->seek(cfa_off, BasicIo::beg); // rewind
             address = io_->tell();
-            io_->read(payload.pData_, payload.size_);
+            io_->read(payload.data(), payload.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, cfa_len, cfa_off)
                     << "       TIFF : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                    << Internal::binaryToString(makeSlice(payload, 0, payload.size()))
                     << std::endl;
             }
         }
@@ -317,8 +302,8 @@ namespace Exiv2 {
         if (io_->read(jpg_img_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte jpg_img_length [4];
         if (io_->read(jpg_img_length, 4) != 4) throw Error(kerFailedToReadImageData);
-        uint32_t jpg_img_off_u32 = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-        uint32_t jpg_img_len_u32 = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+        uint32_t jpg_img_off_u32 = Exiv2::getULong(jpg_img_offset, bigEndian);
+        uint32_t jpg_img_len_u32 = Exiv2::getULong(jpg_img_length, bigEndian);
 
         enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerCorruptedMetadata);
 
@@ -336,7 +321,7 @@ namespace Exiv2 {
 
         DataBuf buf(jpg_img_len - 12);
         if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
-        io_->read(buf.pData_, buf.size_);
+        io_->read(buf.data(), buf.size());
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         io_->seek(0,BasicIo::beg); // rewind
@@ -344,8 +329,8 @@ namespace Exiv2 {
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
-                                          buf.pData_,
-                                          buf.size_);
+                                          buf.c_data(),
+                                          buf.size());
 
         exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
         exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
@@ -364,17 +349,27 @@ namespace Exiv2 {
         // sanity check.  Does tiff lie inside the file?
         enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), kerCorruptedMetadata);
 
-        DataBuf  tiff(tiffLength);
         if (io_->seek(tiffOffset, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
-        io_->read(tiff.pData_, tiff.size_);
 
-        if (!io_->error() && !io_->eof())
+        // Check if this really is a tiff and then call the tiff parser.
+        // Check is needed because some older models just embed a raw bitstream.
+        // For those files we skip the parsing step. 
+        if (io_->read(readBuff, 4) != 4) { throw Error(kerFailedToReadImageData); }
+        io_->seek(-4, BasicIo::cur);
+        if (memcmp(readBuff, "\x49\x49\x2A\x00", 4) == 0 ||
+            memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0)
         {
-            TiffParser::decode(exifData_,
-                               iptcData_,
-                               xmpData_,
-                               tiff.pData_,
-                               tiff.size_);
+            DataBuf  tiff(tiffLength);
+            io_->read(tiff.data(), tiff.size());
+
+            if (!io_->error() && !io_->eof())
+            {
+                TiffParser::decode(exifData_,
+                                   iptcData_,
+                                   xmpData_,
+                                   tiff.c_data(),
+                                   tiff.size());
+            }
         }
     } // RafImage::readMetadata
 
@@ -386,9 +381,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newRafInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new RafImage(io, create));
+        Image::UniquePtr image(new RafImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

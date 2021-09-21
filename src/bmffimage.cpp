@@ -45,12 +45,6 @@
 #include <iostream>
 #include <string>
 
-struct BmffBoxHeader
-{
-    uint32_t length;
-    uint32_t type;
-};
-
 #define TAG_ftyp 0x66747970 /**< "ftyp" File type box */
 #define TAG_avif 0x61766966 /**< "avif" AVIF */
 #define TAG_avio 0x6176696f /**< "avio" AVIF */
@@ -62,7 +56,7 @@ struct BmffBoxHeader
 #define TAG_heix 0x68656978 /**< "heix" HEIC */
 #define TAG_mif1 0x6d696631 /**< "mif1" HEIF */
 #define TAG_crx  0x63727820 /**< "crx " Canon CR3 */
-#define TAG_jxl  0x4a584c20 /**< "JXL " JPEG XL   */  
+#define TAG_jxl  0x6a786c20 /**< "jxl " JPEG XL file type */
 #define TAG_moov 0x6d6f6f76 /**< "moov" Movie */
 #define TAG_meta 0x6d657461 /**< "meta" Metadata */
 #define TAG_mdat 0x6d646174 /**< "mdat" Media data */
@@ -100,18 +94,14 @@ namespace Exiv2
         return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
     }
 
-    BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
-    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
-    , endian_(Exiv2::bigEndian)
+    BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */)
+        : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io))
     {
-        pixelWidth_    = 0;
-        pixelHeight_   = 0;
-        bReadMetadata_ = false;
     }  // BmffImage::BmffImage
 
     std::string BmffImage::toAscii(long n)
     {
-        const char* p = (const char*)&n;
+        const auto p = reinterpret_cast<const char*>(&n);
         std::string result;
         for (int i = 0; i < 4; i++) {
             char c = p[isBigEndianPlatform() ? i : (3 - i)];
@@ -159,7 +149,7 @@ namespace Exiv2
 
     int BmffImage::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -168,7 +158,7 @@ namespace Exiv2
 
     int BmffImage::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
@@ -180,17 +170,19 @@ namespace Exiv2
         const char* uuidCano = "\x85\xC0\xB6\x87\x82\xF\x11\xE0\x81\x11\xF4\xCE\x46\x2B\x6A\x48";
         const char* uuidXmp = "\xBE\x7A\xCF\xCB\x97\xA9\x42\xE8\x9C\x71\x99\x94\x91\xE3\xAF\xAC";
         const char* uuidCanp = "\xEA\xF4\x2B\x5E\x1C\x98\x4B\x88\xB9\xFB\xB7\xDC\x40\x6E\x4D\x16";
-        const char* result = std::memcmp(uuid.pData_, uuidCano, 16) == 0   ? "cano"
-                             : std::memcmp(uuid.pData_, uuidXmp, 16) == 0  ? "xmp"
-                             : std::memcmp(uuid.pData_, uuidCanp, 16) == 0 ? "canp"
+        const char* result = uuid.cmpBytes(0, uuidCano, 16) == 0   ? "cano"
+                             : uuid.cmpBytes(0, uuidXmp, 16) == 0  ? "xmp"
+                             : uuid.cmpBytes(0, uuidCanp, 16) == 0 ? "canp"
                                                                            : "";
         return result;
     }
 
-    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ , Exiv2::PrintStructureOption option /* = kpsNone */,int depth /* =0 */)
+    long BmffImage::boxHandler(std::ostream& out /* = std::cout*/ ,
+                               Exiv2::PrintStructureOption option /* = kpsNone */,
+                               const long pbox_end,
+                               int depth)
     {
-        long result  = (long)io_->size();
-        long address = (long)io_->tell();
+        long address = io_->tell();
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
@@ -203,60 +195,60 @@ namespace Exiv2
         bTrace = true ;
 #endif
 
-        BmffBoxHeader box = {0, 0};
-        if (io_->read((byte*)&box, sizeof(box)) != sizeof(box))
-            return result;
+        // 8-byte buffer for parsing the box length and type.
+        byte hdrbuf[2 * sizeof(uint32_t)];
 
-        box.length = getLong((byte*)&box.length, endian_);
-        box.type = getLong((byte*)&box.type, endian_);
+        size_t hdrsize = sizeof(hdrbuf);
+        enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
+        if (io_->read(reinterpret_cast<byte*>(&hdrbuf), sizeof(hdrbuf)) != sizeof(hdrbuf))
+            return pbox_end;
+
+        // The box length is encoded as a uint32_t by default, but the special value 1 means
+        // that it's a uint64_t.
+        uint64_t box_length = getLong(reinterpret_cast<byte*>(&hdrbuf[0]), endian_);
+        uint32_t box_type = getLong(reinterpret_cast<byte*>(&hdrbuf[sizeof(uint32_t)]), endian_);
         bool bLF = true;
 
         if ( bTrace ) {
             bLF = true;
-            out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box.type)
-                << Internal::stringFormat(" %8ld->%u ", address, box.length);
+            out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
+                << Internal::stringFormat(" %8ld->%lu ", address, box_length);
         }
 
-        if (box.length == 1) {
+        if (box_length == 1) {
+            // The box size is encoded as a uint64_t, so we need to read another 8 bytes.
+            hdrsize += 8;
+            enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
             DataBuf data(8);
-            io_->read(data.pData_, data.size_);
-            const uint64_t sz = getULongLong(data.pData_, endian_);
-            // Check that `sz` is safe to cast to `long`.
-            enforce(sz <= static_cast<uint64_t>(std::numeric_limits<long>::max()),
-                    Exiv2::kerCorruptedMetadata);
-            result = (long) sz;
-            // sanity check
-            if (result < 8 || result > (long)io_->size() - address) {
-                result = (long)io_->size();
-                box.length = result;
-            } else {
-                box.length = (long) (io_->size() - address);
-            }
+            io_->read(data.data(), data.size());
+            box_length = data.read_uint64(0, endian_);
         }
 
         // read data in box and restore file position
         long restore = io_->tell();
-        enforce(box.length >= 8, Exiv2::kerCorruptedMetadata);
-        DataBuf data(box.length - 8);
-        io_->read(data.pData_, data.size_);
+        enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
+        enforce(box_length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
+        DataBuf data(static_cast<long>(box_length - hdrsize));
+        const long box_end = restore + data.size();
+        io_->read(data.data(), data.size());
         io_->seek(restore, BasicIo::beg);
 
         long skip = 0;  // read position in data.pData_
         uint8_t version = 0;
         uint32_t flags = 0;
 
-        if (fullBox(box.type)) {
-            enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
-            flags = getLong(data.pData_ + skip, endian_);  // version/flags
-            version = (int8_t)flags >> 24;
+        if (fullBox(box_type)) {
+            enforce(data.size() - skip >= 4, Exiv2::kerCorruptedMetadata);
+            flags = data.read_uint32(skip, endian_);  // version/flags
+            version = static_cast<uint8_t>(flags >> 24);
             version &= 0x00ffffff;
             skip += 4;
         }
 
-        switch (box.type) {
+        switch (box_type) {
             case TAG_ftyp: {
-                enforce(data.size_ >= 4, Exiv2::kerCorruptedMetadata);
-                fileType_ = getLong(data.pData_, endian_);
+                enforce(data.size() >= 4, Exiv2::kerCorruptedMetadata);
+                fileType_ = data.read_uint32(0, endian_);
                 if ( bTrace ) {
                     out << "brand: " << toAscii(fileType_);
                 }
@@ -269,33 +261,34 @@ namespace Exiv2
                     bLF = false;
                 }
 
-                enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
-                int n = getShort(data.pData_ + skip, endian_);
+                enforce(data.size() - skip >= 2, Exiv2::kerCorruptedMetadata);
+                uint16_t n = data.read_uint16(skip, endian_);
                 skip += 2;
 
                 io_->seek(skip, BasicIo::cur);
                 while (n-- > 0) {
-                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                    io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
             } break;
 
             // 8.11.6.2
             case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
-                enforce(data.size_ - skip >= 8, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 8, Exiv2::kerCorruptedMetadata);
                 /* getLong (data.pData_+skip,endian_) ; */ skip += 4;
-                uint16_t ID = getShort(data.pData_ + skip, endian_);
+                uint16_t ID = data.read_uint16(skip, endian_);
                 skip += 2;
                 /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
                 std::string id;
                 // Check that the string has a '\0' terminator.
-                const char* str = (const char*)data.pData_ + skip;
-                const size_t maxlen = static_cast<size_t>(data.size_ - skip);
+                const char* str = data.c_str(skip);
+                const auto maxlen = static_cast<size_t>(data.size() - skip);
                 enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
-                if ( !name.find("Exif") ) {  // "Exif" or "ExifExif"
+                if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
                     id=" *** Exif ***";
-                } else if ( !name.find("mime\0xmp") || !name.find("mime\0application/rdf+xml") ) {
+                } else if (name.find("mime\0xmp") != std::string::npos ||
+                           name.find("mime\0application/rdf+xml") != std::string::npos) {
                     xmpID_ = ID;
                     id=" *** XMP ***";
                 }
@@ -313,11 +306,11 @@ namespace Exiv2
                     bLF = false;
                 }
                 io_->seek(skip, BasicIo::cur);
-                while ((long)io_->tell() < (long)(address + box.length)) {
-                    io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                while (io_->tell() < box_end) {
+                    io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                 }
                 // post-process meta box to recover Exif and XMP
-                if (box.type == TAG_meta) {
+                if (box_type == TAG_meta) {
                     if ( ilocs_.find(exifID_) != ilocs_.end()) {
                         const Iloc& iloc = ilocs_.find(exifID_)->second;
                         if ( bTrace ) {
@@ -338,42 +331,42 @@ namespace Exiv2
 
             // 8.11.3.1
             case TAG_iloc: {
-                enforce(data.size_ - skip >= 2, Exiv2::kerCorruptedMetadata);
-                uint8_t u = data.pData_[skip++];
+                enforce(data.size() - skip >= 2, Exiv2::kerCorruptedMetadata);
+                uint8_t u = data.read_uint8(skip++);
                 uint16_t offsetSize = u >> 4;
                 uint16_t lengthSize = u & 0xF;
 #if 0
                 uint16_t indexSize  = 0       ;
-                u             = data.pData_[skip++];
+                u             = data.read_uint8(skip++);
                 if ( version == 1 || version == 2 ) {
                     indexSize = u & 0xF ;
                 }
 #else
                 skip++;
 #endif
-                enforce(data.size_ - skip >= (version < 2 ? 2 : 4), Exiv2::kerCorruptedMetadata);
-                uint32_t itemCount = version < 2 ? getShort(data.pData_ + skip, endian_)
-                                                 : getLong(data.pData_ + skip, endian_);
+                enforce(data.size() - skip >= (version < 2 ? 2 : 4), Exiv2::kerCorruptedMetadata);
+                uint32_t itemCount = version < 2 ? data.read_uint16(skip, endian_)
+                                                 : data.read_uint32(skip, endian_);
                 skip += version < 2 ? 2 : 4;
-                if (itemCount && itemCount < box.length / 14 && offsetSize == 4 && lengthSize == 4 &&
-                    ((box.length - 16) % itemCount) == 0) {
+                if (itemCount && itemCount < box_length / 14 && offsetSize == 4 && lengthSize == 4 &&
+                    ((box_length - 16) % itemCount) == 0) {
                     if ( bTrace ) {
                         out << std::endl;
                         bLF = false;
                     }
-                    long step = (box.length - 16) / itemCount;  // length of data per item.
+                    long step = static_cast<long>((box_length - 16) / itemCount);  // length of data per item.
                     long base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
-                        enforce(data.size_ - skip >= (version > 2 ? 4 : 2), Exiv2::kerCorruptedMetadata);
-                        enforce(data.size_ - skip >= step, Exiv2::kerCorruptedMetadata);
-                        uint32_t ID = version > 2 ? getLong(data.pData_ + skip, endian_)
-                                                  : getShort(data.pData_ + skip, endian_);
-                        uint32_t offset = step==14 || step==16 ? getLong(data.pData_ + skip + step - 8, endian_)
-                                        : step== 18            ? getLong(data.pData_ + skip + 4, endian_)
+                        enforce(data.size() - skip >= (version > 2 ? 4 : 2), Exiv2::kerCorruptedMetadata);
+                        enforce(data.size() - skip >= step, Exiv2::kerCorruptedMetadata);
+                        uint32_t ID = version > 2 ? data.read_uint32(skip, endian_)
+                                                  : data.read_uint16(skip, endian_);
+                        uint32_t offset = step==14 || step==16 ? data.read_uint32(skip + step - 8, endian_)
+                                        : step== 18            ? data.read_uint32(skip + 4, endian_)
                                         : 0 ;
 
-                        uint32_t ldata = getLong(data.pData_ + skip + step - 4, endian_);
+                        uint32_t ldata = data.read_uint32(skip + step - 4, endian_);
                         if ( bTrace ) {
                             out << indent(depth)
                                 << Internal::stringFormat("%8ld | %8ld |   ID | %4u | %6u,%6u", address + skip, step,
@@ -389,11 +382,11 @@ namespace Exiv2
             } break;
 
             case TAG_ispe: {
-                enforce(data.size_ - skip >= 12, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 12, Exiv2::kerCorruptedMetadata);
                 skip += 4;
-                int width = (int)getLong(data.pData_ + skip, endian_);
+                int width = data.read_uint32(skip, endian_);
                 skip += 4;
-                int height = (int)getLong(data.pData_ + skip, endian_);
+                int height = data.read_uint32(skip, endian_);
                 skip += 4;
                 if ( bTrace ) {
                     out << "pixelWidth_, pixelHeight_ = " << Internal::stringFormat("%d, %d", width, height);
@@ -408,20 +401,21 @@ namespace Exiv2
 
             // 12.1.5.2
             case TAG_colr: {
-                if ( data.size_ >= (long) (skip+4+sizeof(box)) ) { // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
+                if (data.size() >=
+                    static_cast<long>(skip + 4 + 8)) {  // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
                     // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
-                    uint8_t      meth        = data.pData_[skip+0];
-                    uint8_t      prec        = data.pData_[skip+1];
-                    uint8_t      approx      = data.pData_[skip+2];
-                    std::string  colour_type = std::string((char*)data.pData_,4) ;
+                    uint8_t      meth        = data.read_uint8(skip+0);
+                    uint8_t      prec        = data.read_uint8(skip+1);
+                    uint8_t      approx      = data.read_uint8(skip+2);
+                    std::string colour_type = std::string(data.c_str(), 4);
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
-                        DataBuf       profile(data.pData_+skip,data.size_-skip);
+                        DataBuf       profile(data.c_data(skip),data.size()-skip);
                         setIccProfile(profile);
                     } else if ( meth == 2 && prec == 0 && approx == 0 ) {
                         // JP2000 files have a 3 byte head // 2 0 0 icc......
                         skip -= 1 ;
-                        DataBuf       profile(data.pData_+skip,data.size_-skip);
+                        DataBuf       profile(data.c_data(skip),data.size()-skip);
                         setIccProfile(profile);
                     }
                 }
@@ -429,38 +423,38 @@ namespace Exiv2
 
             case TAG_uuid: {
                 DataBuf   uuid(16);
-                io_->read(uuid.pData_, uuid.size_);
+                io_->read(uuid.data(), uuid.size());
                 std::string name = uuidName(uuid);
                 if ( bTrace ) {
                     out << " uuidName " << name << std::endl;
                     bLF = false;
                 }
                 if (name == "cano") {
-                    while ((long)io_->tell() < (long)(address + box.length)) {
-                        io_->seek(boxHandler(out,option,depth + 1), BasicIo::beg);
+                    while (io_->tell() < box_end) {
+                        io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                     }
                 } else if ( name == "xmp" ) {
-                    parseXmp(box.length,io_->tell());
+                    parseXmp(box_length,io_->tell());
                 }
             } break;
 
             case TAG_cmt1:
-                parseTiff(Internal::Tag::root, box.length);
+                parseTiff(Internal::Tag::root, box_length);
                 break;
             case TAG_cmt2:
-                parseTiff(Internal::Tag::cmt2, box.length);
+                parseTiff(Internal::Tag::cmt2, box_length);
                 break;
             case TAG_cmt3:
-                parseTiff(Internal::Tag::cmt3, box.length);
+                parseTiff(Internal::Tag::cmt3, box_length);
                 break;
             case TAG_cmt4:
-                parseTiff(Internal::Tag::cmt4, box.length);
+                parseTiff(Internal::Tag::cmt4, box_length);
                 break;
             case TAG_exif:
-                parseTiff(Internal::Tag::root, box.length,address+8);
+                parseTiff(Internal::Tag::root, box_length,address+8);
                 break;
             case TAG_xml:
-                parseXmp(box.length,io_->tell());
+                parseXmp(box_length,io_->tell());
                 break;
 
             default: break ; /* do nothing */
@@ -468,66 +462,76 @@ namespace Exiv2
         if ( bLF&& bTrace) out << std::endl;
 
         // return address of next box
-        result = static_cast<long>(address + box.length);
-
-        return result;
+        return box_end;
     }
 
-    void BmffImage::parseTiff(uint32_t root_tag, uint32_t length,uint32_t start)
+    void BmffImage::parseTiff(uint32_t root_tag, uint64_t length,uint64_t start)
     {
+        enforce(start <= io_->size(), kerCorruptedMetadata);
+        enforce(length <= io_->size() - start, kerCorruptedMetadata);
+        enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+        enforce(length <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+
         // read and parse exif data
         long    restore = io_->tell();
-        DataBuf exif(length);
-        io_->seek(start,BasicIo::beg);
-        if ( exif.size_ > 8 && io_->read(exif.pData_,exif.size_) == exif.size_ ) {
+        DataBuf exif(static_cast<long>(length));
+        io_->seek(static_cast<long>(start),BasicIo::beg);
+        if ( exif.size() > 8 && io_->read(exif.data(),exif.size()) == exif.size() ) {
             // hunt for "II" or "MM"
             long  eof  = 0xffffffff; // impossible value for punt
             long  punt = eof;
-            for ( long i = 0 ; i < exif.size_ -8 && punt==eof ; i+=2) {
-                if ( exif.pData_[i] == exif.pData_[i+1] )
-                    if ( exif.pData_[i] == 'I' || exif.pData_[i] == 'M' )
+            for ( long i = 0 ; i < exif.size() -8 && punt==eof ; i+=2) {
+                if ( exif.read_uint8(i) == exif.read_uint8(i+1) )
+                    if ( exif.read_uint8(i) == 'I' || exif.read_uint8(i) == 'M' )
                         punt = i;
             }
             if ( punt != eof ) {
                 Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
-                  exif.pData_+punt, exif.size_-punt, root_tag,
+                  exif.c_data(punt), exif.size()-punt, root_tag,
                   Internal::TiffMapping::findDecoder);
             }
         }
         io_->seek(restore,BasicIo::beg);
     }
 
-    void BmffImage::parseTiff(uint32_t root_tag, uint32_t length)
+    void BmffImage::parseTiff(uint32_t root_tag, uint64_t length)
     {
         if (length > 8) {
-            DataBuf data(length - 8);
-            long bufRead = io_->read(data.pData_, data.size_);
+            enforce(length - 8 <= io_->size() - io_->tell(), kerCorruptedMetadata);
+            enforce(length - 8 <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+            DataBuf data(static_cast<long>(length - 8));
+            long bufRead = io_->read(data.data(), data.size());
 
             if (io_->error())
                 throw Error(kerFailedToReadImageData);
-            if (bufRead != data.size_)
+            if (bufRead != data.size())
                 throw Error(kerInputDataReadFailed);
 
             Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
-                                               data.pData_, data.size_, root_tag,
+                                               data.c_data(), data.size(), root_tag,
                                                Internal::TiffMapping::findDecoder);
         }
     }
 
-    void BmffImage::parseXmp(uint32_t length,uint32_t start)
+    void BmffImage::parseXmp(uint64_t length,uint64_t start)
     {
         if (length > 8) {
-            long restore = io_->tell() ;
-            io_->seek(start,BasicIo::beg);
+            enforce(start <= io_->size(), kerCorruptedMetadata);
+            enforce(length <= io_->size() - start, kerCorruptedMetadata);
 
-            DataBuf  xmp(length+1);
-            xmp.pData_[length]=0  ; // ensure xmp is null terminated!
-            if ( io_->read(xmp.pData_, length) != length )
+            long restore = io_->tell() ;
+            enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+            io_->seek(static_cast<long>(start),BasicIo::beg);
+
+            enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+            DataBuf  xmp(static_cast<long>(length+1));
+            xmp.write_uint8(static_cast<size_t>(length), 0); // ensure xmp is null terminated!
+            if ( io_->read(xmp.data(), static_cast<long>(length)) != static_cast<long>(length) )
                 throw Error(kerInputDataReadFailed);
             if ( io_->error() )
                 throw Error(kerFailedToReadImageData);
             try {
-                Exiv2::XmpParser::decode(xmpData(),std::string((char*)xmp.pData_));
+                Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()));
             } catch (...) {
                 throw Error(kerFailedToReadImageData);
             }
@@ -565,11 +569,13 @@ namespace Exiv2
         visits_max_ = io_->size() / 16;
         unknownID_ = 0xffff;
         exifID_    = unknownID_;
+        xmpID_     = unknownID_;
 
         long address = 0;
-        while (address < (long)io_->size()) {
+        const long file_end = static_cast<long>(io_->size());
+        while (address < file_end) {
             io_->seek(address, BasicIo::beg);
-            address = boxHandler(std::cout,kpsNone);
+            address = boxHandler(std::cout,kpsNone,file_end,0);
         }
         bReadMetadata_ = true;
     }  // BmffImage::readMetadata
@@ -582,7 +588,7 @@ namespace Exiv2
             default: break; // do nothing
 
             case kpsIccProfile : {
-                out.write((const char*)iccProfile_.pData_,iccProfile_.size_);
+                out.write(iccProfile_.c_str(), iccProfile_.size());
             } break;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -600,9 +606,10 @@ namespace Exiv2
                 IoCloser closer(*io_);
 
                 long   address = 0;
-                while (address < (long)io_->size()) {
+                const long file_end = static_cast<long>(io_->size());
+                while (address < file_end) {
                     io_->seek(address, BasicIo::beg);
-                    address = boxHandler(out,option,depth);
+                    address = boxHandler(out,option,file_end,depth);
                 }
             }; break;
         }
@@ -616,9 +623,9 @@ namespace Exiv2
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new BmffImage(io, create));
+        Image::UniquePtr image(new BmffImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }
@@ -637,8 +644,16 @@ namespace Exiv2
             return false;
         }
 
-        bool matched = (buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p')
-                     ||(buf[4] == 'J' && buf[5] == 'X' && buf[6] == 'L' && buf[7] == ' ');
+        // bmff should start with "ftyp"
+        bool const is_ftyp = (buf[4] == 'f' && buf[5] == 't' && buf[6] == 'y' && buf[7] == 'p');
+        // jxl files have a special start indicator of "JXL "
+        bool const is_jxl = (buf[4] == 'J' && buf[5] == 'X' && buf[6] == 'L' && buf[7] == ' ');
+
+        // MOV(quicktime) files seem to also start with ftyp, but we don't want to process them
+        // so check that we don't encounter "qt  "
+        // FIXME what others types can we abort early here?
+        bool const is_video = (buf[8] == 'q' && buf[9] == 't' && buf[10] == ' ' && buf[11] == ' ');
+        bool matched = is_jxl || (is_ftyp && !is_video);
         if (!advance || !matched) {
             iIo.seek(static_cast<long>(0), BasicIo::beg);
         }
@@ -654,4 +669,3 @@ namespace Exiv2
     }
 }
 #endif
-

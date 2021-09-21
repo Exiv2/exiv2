@@ -78,7 +78,7 @@ namespace Exiv2 {
     class EXIV2API Image {
     public:
         //! Image auto_ptr type
-        typedef std::auto_ptr<Image> AutoPtr;
+        typedef std::unique_ptr<Image> UniquePtr;
 
         //! @name Creators
         //@{
@@ -89,9 +89,9 @@ namespace Exiv2 {
          */
         Image(int              imageType,
               uint16_t         supportedMetadata,
-              BasicIo::AutoPtr io);
+              BasicIo::UniquePtr io);
         //! Virtual Destructor
-        virtual ~Image();
+        virtual ~Image() = default;
         //@}
 
         //! @name Manipulators
@@ -232,7 +232,10 @@ namespace Exiv2 {
           @brief Erase iccProfile. the profile is not removed from
               the actual image until the writeMetadata() method is called.
          */
-        virtual bool iccProfileDefined() { return iccProfile_.size_?true:false;}
+        virtual bool iccProfileDefined()
+        {
+            return iccProfile_.size() != 0;
+        }
 
         /*!
           @brief return iccProfile
@@ -331,30 +334,30 @@ namespace Exiv2 {
         /*!
           @brief is the host platform bigEndian
          */
-        bool isBigEndianPlatform();
+        static bool isBigEndianPlatform();
 
         /*!
           @brief is the host platform littleEndian
          */
-        bool isLittleEndianPlatform();
+        static bool isLittleEndianPlatform();
 
-        bool isStringType(uint16_t type);
-        bool isShortType(uint16_t type);
-        bool isLongType(uint16_t type);
-        bool isLongLongType(uint16_t type);
-        bool isRationalType(uint16_t type);
-        bool is2ByteType(uint16_t type);
-        bool is4ByteType(uint16_t type);
-        bool is8ByteType(uint16_t type);
-        bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
-        bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
+        static bool isStringType(uint16_t type);
+        static bool isShortType(uint16_t type);
+        static bool isLongType(uint16_t type);
+        static bool isLongLongType(uint16_t type);
+        static bool isRationalType(uint16_t type);
+        static bool is2ByteType(uint16_t type);
+        static bool is4ByteType(uint16_t type);
+        static bool is8ByteType(uint16_t type);
+        static bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
+        static bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
-        uint64_t byteSwap(uint64_t value,bool bSwap) const;
-        uint32_t byteSwap(uint32_t value,bool bSwap) const;
-        uint16_t byteSwap(uint16_t value,bool bSwap) const;
-        uint16_t byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const;
-        uint32_t byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const;
-        uint64_t byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const;
+        static uint64_t byteSwap(uint64_t value, bool bSwap);
+        static uint32_t byteSwap(uint32_t value, bool bSwap);
+        static uint16_t byteSwap(uint16_t value, bool bSwap);
+        static uint16_t byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) ;
+        static uint32_t byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) ;
+        static uint64_t byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) ;
 
         //@}
 
@@ -479,9 +482,17 @@ namespace Exiv2 {
         //! set type support for this image format
         int imageType() const { return imageType_; }
 
+        //! @name NOT implemented
+        //@{
+        //! Copy constructor
+        Image(const Image& rhs) = delete;
+        //! Assignment operator
+        Image& operator=(const Image& rhs) = delete;
+        //@}
+
     protected:
         // DATA
-        BasicIo::AutoPtr  io_;                //!< Image data IO pointer
+        BasicIo::UniquePtr  io_;                //!< Image data IO pointer
         ExifData          exifData_;          //!< Exif data container
         IptcData          iptcData_;          //!< IPTC data container
         XmpData           xmpData_;           //!< XMP data container
@@ -496,17 +507,9 @@ namespace Exiv2 {
         const std::string& tagName(uint16_t tag);
 
         //! Return tag type for given tag id.
-        const char* typeName(uint16_t tag) const;
+        static const char* typeName(uint16_t tag);
 
     private:
-        //! @name NOT implemented
-        //@{
-        //! Copy constructor
-        Image(const Image& rhs);
-        //! Assignment operator
-        Image& operator=(const Image& rhs);
-        //@}
-
         // DATA
         int               imageType_;         //!< Image type
         uint16_t          supportedMetadata_; //!< Bitmap with all supported metadata types
@@ -519,7 +522,7 @@ namespace Exiv2 {
     }; // class Image
 
     //! Type for function pointer that creates new Image instances
-    typedef Image::AutoPtr (*NewInstanceFct)(BasicIo::AutoPtr io, bool create);
+    typedef Image::UniquePtr (*NewInstanceFct)(BasicIo::UniquePtr io, bool create);
     //! Type for function pointer that checks image types
     typedef bool (*IsThisTypeFct)(BasicIo& iIo, bool advance);
 
@@ -545,13 +548,13 @@ namespace Exiv2 {
           @throw Error If the file is not found or it is unable to connect to the server to
                 read the remote file.
          */
-        static BasicIo::AutoPtr createIo(const std::string& path, bool useCurl = true);
+        static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like createIo() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
-        static BasicIo::AutoPtr createIo(const std::wstring& wpath, bool useCurl = true);
+        static BasicIo::UniquePtr createIo(const std::wstring& wpath, bool useCurl = true);
 #endif
         /*!
           @brief Create an Image subclass of the appropriate type by reading
@@ -566,13 +569,13 @@ namespace Exiv2 {
           @throw Error If opening the file fails or it contains data of an
               unknown image type.
          */
-        static Image::AutoPtr open(const std::string& path, bool useCurl = true);
+        static Image::UniquePtr open(const std::string& path, bool useCurl = true);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like open() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
-        static Image::AutoPtr open(const std::wstring& wpath, bool useCurl = true);
+        static Image::UniquePtr open(const std::wstring& wpath, bool useCurl = true);
 #endif
         /*!
           @brief Create an Image subclass of the appropriate type by reading
@@ -585,7 +588,7 @@ namespace Exiv2 {
               matches that of the data buffer.
           @throw Error If the memory contains data of an unknown image type.
          */
-        static Image::AutoPtr open(const byte* data, long size);
+        static Image::UniquePtr open(const byte* data, long size);
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided BasicIo instance. %Image type is derived from the
@@ -603,7 +606,7 @@ namespace Exiv2 {
               determined, the pointer is 0.
           @throw Error If opening the BasicIo fails
          */
-        static Image::AutoPtr open(BasicIo::AutoPtr io);
+        static Image::UniquePtr open(BasicIo::UniquePtr io);
         /*!
           @brief Create an Image subclass of the requested type by creating a
               new image file. If the file already exists, it will be overwritten.
@@ -613,13 +616,13 @@ namespace Exiv2 {
               type.
           @throw Error If the image type is not supported.
          */
-        static Image::AutoPtr create(int type, const std::string& path);
+        static Image::UniquePtr create(int type, const std::string& path);
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like create() but accepts a unicode path in an std::wstring.
           @note This function is only available on Windows.
          */
-        static Image::AutoPtr create(int type, const std::wstring& wpath);
+        static Image::UniquePtr create(int type, const std::wstring& wpath);
 #endif
         /*!
           @brief Create an Image subclass of the requested type by creating a
@@ -629,7 +632,7 @@ namespace Exiv2 {
               type.
           @throw Error If the image type is not supported
          */
-        static Image::AutoPtr create(int type);
+        static Image::UniquePtr create(int type);
         /*!
           @brief Create an Image subclass of the requested type by writing a
               new image to a BasicIo instance. If the BasicIo instance already
@@ -644,7 +647,7 @@ namespace Exiv2 {
           @return An auto-pointer that owns an Image instance of the requested
               type. If the image type is not supported, the pointer is 0.
          */
-        static Image::AutoPtr create(int type, BasicIo::AutoPtr io);
+        static Image::UniquePtr create(int type, BasicIo::UniquePtr io);
         /*!
           @brief Returns the image type of the provided file.
           @param path %Image file. The contents of the file are tested to
@@ -706,13 +709,12 @@ namespace Exiv2 {
         */
         static bool checkType(int type, BasicIo& io, bool advance);
 
-    private:
         //! @name Creators
         //@{
         //! Prevent construction: not implemented.
-        ImageFactory();
+        ImageFactory() = delete;
         //! Prevent copy construction: not implemented.
-        ImageFactory(const ImageFactory& rhs);
+        ImageFactory(const ImageFactory& rhs) = delete;
         //@}
 
     }; // class ImageFactory

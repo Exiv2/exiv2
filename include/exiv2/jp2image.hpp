@@ -66,13 +66,13 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        Jp2Image(BasicIo::AutoPtr io, bool create);
+        Jp2Image(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
 
         /*!
           @brief Print out the structure of image file.
@@ -80,27 +80,28 @@ namespace Exiv2
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
 
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
               an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        Jp2Image(const Jp2Image& rhs);
+        Jp2Image(const Jp2Image& rhs) = delete;
         //! Assignment operator
-        Jp2Image& operator=(const Jp2Image& rhs);
+        Jp2Image& operator=(const Jp2Image& rhs) = delete;
+
+    private:
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.
@@ -108,14 +109,14 @@ namespace Exiv2
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
 
         /*!
          @brief reformats the Jp2Header to store iccProfile
          @param oldData DataBufRef to data in the file.
          @param newData DataBufRef with updated data
          */
-        void encodeJp2Header(const DataBuf& oldData,DataBuf& newData);
+        void encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf);
         //@}
 
     }; // class Jp2Image
@@ -130,7 +131,7 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a JPEG-2000 image.
     EXIV2API bool isJp2Type(BasicIo& iIo, bool advance);

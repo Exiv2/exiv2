@@ -2,16 +2,9 @@
 
 namespace Exiv2 {
     namespace Internal {
-
-    const char* Cr2Header::cr2sig_ = "CR\2\0";
-
     Cr2Header::Cr2Header(ByteOrder byteOrder)
         : TiffHeaderBase(42, 16, byteOrder, 0x00000010),
           offset2_(0x00000000)
-    {
-    }
-
-    Cr2Header::~Cr2Header()
     {
     }
 
@@ -43,22 +36,22 @@ namespace Exiv2 {
         DataBuf buf(16);
         switch (byteOrder()) {
         case littleEndian:
-            buf.pData_[0] = 'I';
+            buf.write_uint8(0, 'I');
             break;
         case bigEndian:
-            buf.pData_[0] = 'M';
+            buf.write_uint8(0, 'M');
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
-        buf.pData_[1] = buf.pData_[0];
+        buf.write_uint8(1, buf.read_uint8(0));
 
-        us2Data(buf.pData_ + 2, tag(), byteOrder());
-        ul2Data(buf.pData_ + 4, 0x00000010, byteOrder());
-        memcpy(buf.pData_ + 8, cr2sig_, 4);
+        buf.write_uint16(2, tag(), byteOrder());
+        buf.write_uint32(4, 0x00000010, byteOrder());
+        buf.copyBytes(8, cr2sig_, 4);
         // Write a dummy value for the RAW IFD offset. The offset-writer is used to set this offset in a second pass.
-        ul2Data(buf.pData_ + 12, 0x00000000, byteOrder());
+        buf.write_uint32(12, 0x00000000, byteOrder());
         return buf;
     } // Cr2Header::write
 
@@ -70,4 +63,5 @@ namespace Exiv2 {
         return isTiffImageTag(tag, group);
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

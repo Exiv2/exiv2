@@ -48,13 +48,13 @@ namespace {
         // DATA
         static const OmList omList_[];
     }; // class RotationMap
-}
+}  // namespace
 
 // *****************************************************************************
 // local definitions
 namespace {
     //! @cond IGNORE
-    const RotationMap::OmList RotationMap::omList_[] = {
+    constexpr RotationMap::OmList RotationMap::omList_[] = {
         { 1,    0 },
         { 3,  180 },
         { 3, -180 },
@@ -62,16 +62,14 @@ namespace {
         { 6, -270 },
         { 8,  270 },
         { 8,  -90 },
-        // last entry
-        { 0,    0 }
     };
 
     uint16_t RotationMap::orientation(int32_t degrees)
     {
         uint16_t o = 1;
-        for (int i = 0; omList_[i].orientation != 0; ++i) {
-            if (omList_[i].degrees == degrees) {
-                o = omList_[i].orientation;
+        for (auto&& om : omList_) {
+            if (om.degrees == degrees) {
+                o = om.orientation;
                 break;
             }
         }
@@ -81,16 +79,16 @@ namespace {
     int32_t RotationMap::degrees(uint16_t orientation)
     {
         int32_t d = 0;
-        for (int i = 0; omList_[i].orientation != 0; ++i) {
-            if (omList_[i].orientation == orientation) {
-                d = omList_[i].degrees;
+        for (auto&& om : omList_) {
+            if (om.orientation == orientation) {
+                d = om.degrees;
                 break;
             }
         }
         return d;
     }
     //! @endcond
-}
+}  // namespace
 
 namespace Exiv2 {
     namespace Internal {
@@ -139,8 +137,6 @@ namespace Exiv2 {
         //CrwMapping(0x1818, 0x3002,   0, 0x9204, exifId, decodeBasic,  encodeBasic),
         CrwMapping(0x183b, 0x300b,   0, 0x0015, canonId, decodeBasic,  encodeBasic),
         CrwMapping(0x2008, 0x0000,   0, 0,      ifd1Id,  decode0x2008, encode0x2008),
-        // End of list marker
-        CrwMapping(0x0000, 0x0000,   0, 0x0000, ifdIdNotSet, 0,            0)
     }; // CrwMap::crwMapping_[]
 
     /*
@@ -169,8 +165,6 @@ namespace Exiv2 {
         { 0x2804, 0x300a },
         { 0x300a, 0x0000 },
         { 0x0000, 0xffff },
-        // End of list marker
-        { 0xffff, 0xffff }
     };
 
     const char CiffHeader::signature_[] = "HEAPCCDR";
@@ -186,30 +180,24 @@ namespace Exiv2 {
         if (isAllocated_) delete[] pData_;
     }
 
-    CiffEntry::~CiffEntry()
-    {
-    }
-
     CiffDirectory::~CiffDirectory()
     {
-        Components::iterator b = components_.begin();
-        Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            delete *i;
+        for (auto&& component : components_) {
+            delete component;
         }
     }
 
-    void CiffComponent::add(AutoPtr component)
+    void CiffComponent::add(UniquePtr component)
     {
-        doAdd(component);
+        doAdd(std::move(component));
     }
 
-    void CiffEntry::doAdd(AutoPtr /*component*/)
+    void CiffEntry::doAdd(UniquePtr /*component*/)
     {
         throw Error(kerFunctionNotSupported, "CiffEntry::add");
     } // CiffEntry::doAdd
 
-    void CiffDirectory::doAdd(AutoPtr component)
+    void CiffDirectory::doAdd(UniquePtr component)
     {
         components_.push_back(component.release());
     } // CiffDirectory::doAdd
@@ -333,14 +321,14 @@ namespace Exiv2 {
 
         for (uint16_t i = 0; i < count; ++i) {
             uint16_t tag = getUShort(pData + o, byteOrder);
-            CiffComponent::AutoPtr m;
+            CiffComponent::UniquePtr m;
             switch (CiffComponent::typeId(tag)) {
-            case directory: m = CiffComponent::AutoPtr(new CiffDirectory); break;
-            default: m = CiffComponent::AutoPtr(new CiffEntry); break;
+            case directory: m = CiffComponent::UniquePtr(new CiffDirectory); break;
+            default: m = CiffComponent::UniquePtr(new CiffEntry); break;
             }
             m->setDir(this->tag());
             m->read(pData, size, o, byteOrder);
-            add(m);
+            add(std::move(m));
             o += 10;
         }
     }  // CiffDirectory::readDirectory
@@ -363,10 +351,8 @@ namespace Exiv2 {
 
     void CiffDirectory::doDecode(Image& image, ByteOrder byteOrder) const
     {
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->decode(image, byteOrder);
+        for (auto&& component : components_) {
+            component->decode(image, byteOrder);
         }
     } // CiffDirectory::doDecode
 
@@ -449,10 +435,8 @@ namespace Exiv2 {
         uint32_t dirOffset = 0;
 
         // Value data
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-        for (Components::iterator i = b; i != e; ++i) {
-            dirOffset = (*i)->write(blob, byteOrder, dirOffset);
+        for (auto&& component : components_) {
+            dirOffset = component->write(blob, byteOrder, dirOffset);
         }
         const uint32_t dirStart = dirOffset;
 
@@ -463,8 +447,8 @@ namespace Exiv2 {
         dirOffset += 2;
 
         // Directory entries
-        for (Components::iterator i = b; i != e; ++i) {
-            (*i)->writeDirEntry(blob, byteOrder);
+        for (auto&& component : components_) {
+            component->writeDirEntry(blob, byteOrder);
             dirOffset += 10;
         }
 
@@ -554,7 +538,7 @@ namespace Exiv2 {
            << ", " << _("size") << " = " << std::dec << size_
            << ", " << _("offset") << " = " << offset_ << "\n";
 
-        Value::AutoPtr value;
+        Value::UniquePtr value;
         if (typeId() != directory) {
             value = Value::create(typeId());
             value->read(pData_, size_, byteOrder);
@@ -569,10 +553,8 @@ namespace Exiv2 {
                                 const std::string& prefix) const
     {
         CiffComponent::doPrint(os, byteOrder, prefix);
-        Components::const_iterator b = components_.begin();
-        Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            (*i)->print(os, byteOrder, prefix + "   ");
+        for (auto&& component : components_) {
+            component->print(os, byteOrder, prefix + "   ");
         }
     } // CiffDirectory::doPrint
 
@@ -580,7 +562,7 @@ namespace Exiv2 {
     {
         if (isAllocated_) {
             delete[] pData_;
-            pData_ = 0;
+            pData_ = nullptr;
             size_ = 0;
         }
         isAllocated_ = true;
@@ -624,7 +606,8 @@ namespace Exiv2 {
     CiffComponent* CiffHeader::findComponent(uint16_t crwTagId,
                                              uint16_t crwDir) const
     {
-        if (pRootDir_ == 0) return 0;
+        if (pRootDir_ == nullptr)
+            return nullptr;
         return pRootDir_->findComponent(crwTagId, crwDir);
     } // CiffHeader::findComponent
 
@@ -640,20 +623,18 @@ namespace Exiv2 {
         if (tagId() == crwTagId && dir() == crwDir) {
             return const_cast<CiffComponent*>(this);
         }
-        return 0;
+        return nullptr;
     } // CiffComponent::doFindComponent
 
     CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId,
                                                   uint16_t crwDir) const
     {
-        CiffComponent* cc = NULL;
-        const Components::const_iterator b = components_.begin();
-        const Components::const_iterator e = components_.end();
-        for (Components::const_iterator i = b; i != e; ++i) {
-            cc = (*i)->findComponent(crwTagId, crwDir);
+        CiffComponent* cc;
+        for (auto&& component : components_) {
+            cc = component->findComponent(crwTagId, crwDir);
             if (cc) return cc;
         }
-        return 0;
+        return nullptr;
     } // CiffDirectory::doFindComponent
 
     void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf buf)
@@ -664,12 +645,14 @@ namespace Exiv2 {
         UNUSED(rootDirectory);
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
-        if (!pRootDir_) pRootDir_ = new CiffDirectory;
-        if ( pRootDir_) {
-            CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
-            if ( child )   child->setValue(buf);
+        if (!pRootDir_) {
+            pRootDir_ = new CiffDirectory;
         }
-    } // CiffHeader::add
+        CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
+        if (child) {
+            child->setValue(buf);
+        }
+    }  // CiffHeader::add
 
     CiffComponent* CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId)
     {
@@ -678,7 +661,7 @@ namespace Exiv2 {
 
     CiffComponent* CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/)
     {
-        return 0;
+        return nullptr;
     } // CiffComponent::doAdd
 
     CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId)
@@ -695,41 +678,38 @@ namespace Exiv2 {
               if not found, create it
               set value
         */
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-
         if (!crwDirs.empty()) {
             CrwSubDir csd = crwDirs.top();
             crwDirs.pop();
             // Find the directory
-            for (Components::iterator i = b; i != e; ++i) {
-                if ((*i)->tag() == csd.crwDir_) {
-                    cc_ = *i;
+            for (auto&& component : components_) {
+                if (component->tag() == csd.crwDir_) {
+                    cc_ = component;
                     break;
                 }
             }
-            if (cc_ == 0) {
+            if (cc_ == nullptr) {
                 // Directory doesn't exist yet, add it
-                m_ = AutoPtr(new CiffDirectory(csd.crwDir_, csd.parent_));
+                m_ = UniquePtr(new CiffDirectory(csd.crwDir_, csd.parent_));
                 cc_ = m_.get();
-                add(m_);
+                add(std::move(m_));
             }
             // Recursive call to next lower level directory
             cc_ = cc_->add(crwDirs, crwTagId);
         }
         else {
             // Find the tag
-            for (Components::iterator i = b; i != e; ++i) {
-                if ((*i)->tagId() == crwTagId) {
-                    cc_ = *i;
+            for (auto&& component : components_) {
+                if (component->tagId() == crwTagId) {
+                    cc_ = component;
                     break;
                 }
             }
-            if (cc_ == 0) {
+            if (cc_ == nullptr) {
                 // Tag doesn't exist yet, add it
-                m_ = AutoPtr(new CiffEntry(crwTagId, tag()));
+                m_ = UniquePtr(new CiffEntry(crwTagId, tag()));
                 cc_ = m_.get();
-                add(m_);
+                add(std::move(m_));
             }
         }
         return cc_;
@@ -818,13 +798,12 @@ namespace Exiv2 {
 
     const CrwMapping* CrwMap::crwMapping(uint16_t crwDir, uint16_t crwTagId)
     {
-        for (int i = 0; crwMapping_[i].ifdId_ != ifdIdNotSet; ++i) {
-            if (   crwMapping_[i].crwDir_ == crwDir
-                && crwMapping_[i].crwTagId_ == crwTagId) {
-                return &(crwMapping_[i]);
+        for (auto&& crw : crwMapping_) {
+            if (crw.crwDir_ == crwDir && crw.crwTagId_ == crwTagId) {
+                return &crw;
             }
         }
-        return 0;
+        return nullptr;
     } // CrwMap::crwMapping
 
     void CrwMap::decode0x0805(const CiffComponent& ciffComponent,
@@ -845,24 +824,22 @@ namespace Exiv2 {
 
         // Make
         ExifKey key1("Exif.Image.Make");
-        Value::AutoPtr value1 = Value::create(ciffComponent.typeId());
+        Value::UniquePtr value1 = Value::create(ciffComponent.typeId());
         uint32_t i = 0;
-        for (;    i < ciffComponent.size()
-               && ciffComponent.pData()[i] != '\0'; ++i) {
+        while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
             // empty
         }
-        value1->read(ciffComponent.pData(), ++i, byteOrder);
+        value1->read(ciffComponent.pData(), i, byteOrder);
         image.exifData().add(key1, value1.get());
 
         // Model
         ExifKey key2("Exif.Image.Model");
-        Value::AutoPtr value2 = Value::create(ciffComponent.typeId());
+        Value::UniquePtr value2 = Value::create(ciffComponent.typeId());
         uint32_t j = i;
-        for (;    i < ciffComponent.size()
-               && ciffComponent.pData()[i] != '\0'; ++i) {
+        while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
             // empty
         }
-        value2->read(ciffComponent.pData() + j, i - j + 1, byteOrder);
+        value2->read(ciffComponent.pData() + j, i - j, byteOrder);
         image.exifData().add(key2, value2.get());
     } // CrwMap::decode0x080a
 
@@ -888,12 +865,16 @@ namespace Exiv2 {
         assert(ifdId != ifdIdNotSet);
 
         std::string groupName(Internal::groupName(ifdId));
+        const uint32_t component_size = ciffComponent.size();
+        enforce(component_size % 2 == 0, kerCorruptedMetadata);
+        enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), kerCorruptedMetadata);
+        const uint16_t num_components = static_cast<uint16_t>(component_size/2);
         uint16_t c = 1;
-        while (uint32_t(c)*2 < ciffComponent.size()) {
+        while (c < num_components) {
             uint16_t n = 1;
             ExifKey key(c, groupName);
             UShortValue value;
-            if (ifdId == canonCsId && c == 23 && ciffComponent.size() > 50) n = 3;
+            if (ifdId == canonCsId && c == 23 && component_size >= 52) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
             image.exifData().add(key, &value);
             if (ifdId == canonSiId && c == 21) aperture = value.toLong();
@@ -929,7 +910,7 @@ namespace Exiv2 {
         assert(pCrwMapping != 0);
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
-        time_t t = v.value_[0];
+        time_t t = v.value_.at(0);
         struct tm* tm = std::localtime(&t);
         if (tm) {
             const size_t m = 20;
@@ -985,7 +966,7 @@ namespace Exiv2 {
         assert(pCrwMapping != 0);
         // create a key and value pair
         ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-        Value::AutoPtr value;
+        Value::UniquePtr value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
             uint32_t size = 0;
@@ -996,11 +977,10 @@ namespace Exiv2 {
             else if (ciffComponent.typeId() == asciiString) {
                 // determine size from the data, by looking for the first 0
                 uint32_t i = 0;
-                for (;    i < ciffComponent.size()
-                       && ciffComponent.pData()[i] != '\0'; ++i) {
+                while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
                     // empty
                 }
-                size = ++i;
+                size = i;
             }
             else {
                 // by default, use the size from the directory entry
@@ -1014,19 +994,19 @@ namespace Exiv2 {
 
     void CrwMap::loadStack(CrwDirs& crwDirs, uint16_t crwDir)
     {
-        for (int i = 0; crwSubDir_[i].crwDir_ != 0xffff; ++i) {
-            if (crwSubDir_[i].crwDir_ == crwDir) {
-                crwDirs.push(crwSubDir_[i]);
-                crwDir = crwSubDir_[i].parent_;
+        for (auto&& crw : crwSubDir_) {
+            if (crw.crwDir_ == crwDir) {
+                crwDirs.push(crw);
+                crwDir = crw.parent_;
             }
         }
     } // CrwMap::loadStack
 
     void CrwMap::encode(CiffHeader* pHead, const Image& image)
     {
-        for (const CrwMapping* cmi = crwMapping_; cmi->ifdId_ != ifdIdNotSet; ++cmi) {
-            if (cmi->fromExif_ != 0) {
-                cmi->fromExif_(image, cmi, pHead);
+        for (auto&& crw : crwMapping_) {
+            if (crw.fromExif_ != nullptr) {
+                crw.fromExif_(image, &crw, pHead);
             }
         }
     } // CrwMap::encode
@@ -1040,12 +1020,12 @@ namespace Exiv2 {
 
         // Determine the source Exif metadatum
         ExifKey ek(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-        ExifData::const_iterator ed = image.exifData().findKey(ek);
+        auto ed = image.exifData().findKey(ek);
 
         // Set the new value or remove the entry
         if (ed != image.exifData().end()) {
             DataBuf buf(ed->size());
-            ed->copy(buf.pData_, pHead->byteOrder());
+            ed->copy(buf.data(), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1065,18 +1045,18 @@ namespace Exiv2 {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (!comment.empty()) {
-            uint32_t size = static_cast<uint32_t>(comment.size());
+            auto size = static_cast<uint32_t>(comment.size());
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
-            std::memset(buf.pData_, 0x0, buf.size_);
-            std::memcpy(buf.pData_, comment.data(), comment.size());
+            buf.clear();
+            buf.copyBytes(0, comment.data(), comment.size());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
             if (cc) {
                 // Just delete the value, do not remove the tag
                 DataBuf buf(cc->size());
-                std::memset(buf.pData_, 0x0, buf.size_);
+                buf.clear();
                 cc->setValue(buf);
             }
         }
@@ -1091,17 +1071,25 @@ namespace Exiv2 {
 
         const ExifKey k1("Exif.Image.Make");
         const ExifKey k2("Exif.Image.Model");
-        const ExifData::const_iterator ed1 = image.exifData().findKey(k1);
-        const ExifData::const_iterator ed2 = image.exifData().findKey(k2);
-        const ExifData::const_iterator edEnd = image.exifData().end();
+        const auto ed1 = image.exifData().findKey(k1);
+        const auto ed2 = image.exifData().findKey(k2);
+        const auto edEnd = image.exifData().end();
 
         long size = 0;
         if (ed1 != edEnd) size += ed1->size();
         if (ed2 != edEnd) size += ed2->size();
         if (size != 0) {
             DataBuf buf(size);
-            if (ed1 != edEnd) ed1->copy(buf.pData_, pHead->byteOrder());
-            if (ed2 != edEnd) ed2->copy(buf.pData_ + ed1->size(), pHead->byteOrder());
+            long pos = 0;
+            if (ed1 != edEnd) {
+                ed1->copy(buf.data(), pHead->byteOrder());
+                pos += ed1->size();
+            }
+            if (ed2 != edEnd) {
+                ed2->copy(buf.data(pos), pHead->byteOrder());
+                pos += ed2->size();
+            }
+            assert(pos == size);
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1125,13 +1113,13 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
-        if (buf.size_ == 0) {
+        if (buf.size() == 0) {
             // Try the undecoded tag
             encodeBasic(image, pCrwMapping, pHead);
         }
-        if (buf.size_ > 0) {
+        if (buf.size() > 0) {
             // Write the number of shorts to the beginning of buf
-            us2Data(buf.pData_, static_cast<uint16_t>(buf.size_), pHead->byteOrder());
+            buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1148,7 +1136,7 @@ namespace Exiv2 {
 
         time_t t = 0;
         const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-        const ExifData::const_iterator ed = image.exifData().findKey(key);
+        const auto ed = image.exifData().findKey(key);
         if (ed != image.exifData().end()) {
             struct tm tm;
             std::memset(&tm, 0x0, sizeof(tm));
@@ -1158,8 +1146,8 @@ namespace Exiv2 {
         }
         if (t != 0) {
             DataBuf buf(12);
-            std::memset(buf.pData_, 0x0, 12);
-            ul2Data(buf.pData_, static_cast<uint32_t>(t), pHead->byteOrder());
+            buf.clear();
+            buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1178,10 +1166,10 @@ namespace Exiv2 {
         const ExifKey kY("Exif.Photo.PixelYDimension");
         const ExifKey kO("Exif.Image.Orientation");
         const ExifData &exivData = image.exifData();
-        const ExifData::const_iterator edX = exivData.findKey(kX);
-        const ExifData::const_iterator edY = exivData.findKey(kY);
-        const ExifData::const_iterator edO = exivData.findKey(kO);
-        const ExifData::const_iterator edEnd = exivData.end();
+        const auto edX = exivData.findKey(kX);
+        const auto edY = exivData.findKey(kY);
+        const auto edO = exivData.findKey(kO);
+        const auto edEnd = exivData.end();
 
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
@@ -1193,19 +1181,19 @@ namespace Exiv2 {
               size = cc->size();
             }
             DataBuf buf(size);
-            std::memset(buf.pData_, 0x0, buf.size_);
-            if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);
+            buf.clear();
+            if (cc) buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
             if (edX != edEnd && edX->size() == 4) {
-                edX->copy(buf.pData_, pHead->byteOrder());
+                edX->copy(buf.data(), pHead->byteOrder());
             }
             if (edY != edEnd && edY->size() == 4) {
-                edY->copy(buf.pData_ + 4, pHead->byteOrder());
+                edY->copy(buf.data(4), pHead->byteOrder());
             }
             int32_t d = 0;
             if (edO != edEnd && edO->count() > 0 && edO->typeId() == unsignedShort) {
                 d = RotationMap::degrees(static_cast<uint16_t>(edO->toLong()));
             }
-            l2Data(buf.pData_ + 12, d, pHead->byteOrder());
+            buf.write_uint32(12, d, pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1222,7 +1210,7 @@ namespace Exiv2 {
 
         ExifThumbC exifThumb(image.exifData());
         DataBuf buf = exifThumb.copy();
-        if (buf.size_ != 0) {
+        if (buf.size() != 0) {
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1238,21 +1226,25 @@ namespace Exiv2 {
     {
         const uint16_t size = 1024;
         DataBuf buf(size);
-        std::memset(buf.pData_, 0x0, buf.size_);
+        buf.clear();
 
         uint16_t len = 0;
-        const ExifData::const_iterator b = exifData.begin();
-        const ExifData::const_iterator e = exifData.end();
-        for (ExifData::const_iterator i = b; i != e; ++i) {
-            if (i->ifdId() != ifdId) continue;
-            const uint16_t s = i->tag()*2 + static_cast<uint16_t>(i->size());
-            assert(s <= size);
-            if (len < s) len = s;
-            i->copy(buf.pData_ + i->tag()*2, byteOrder);
+
+        for (auto&& exif : exifData) {
+            if (exif.ifdId() != ifdId)
+                continue;
+            const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
+            if (s <= size) {
+                if (len < s) len = s;
+                exif.copy(buf.data(exif.tag() * 2), byteOrder);
+            } else {
+                EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
+            }
         }
         // Round the size to make it even.
-        buf.size_ = len + len%2;
+        buf.resize(len + len%2);
         return buf;
     }
 
-}}                                       // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

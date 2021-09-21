@@ -42,15 +42,15 @@ namespace Exiv2 {
       @brief Class to access raw Photoshop images.
      */
     class EXIV2API PsdImage : public Image {
+    public:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        PsdImage(const PsdImage& rhs);
+        PsdImage(const PsdImage& rhs) = delete;
         //! Assignment operator
-        PsdImage& operator=(const PsdImage& rhs);
+        PsdImage& operator=(const PsdImage& rhs) = delete;
         //@}
 
-    public:
         //! @name Creators
         //@{
         /*!
@@ -65,17 +65,17 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        explicit PsdImage(BasicIo::AutoPtr io);
+        explicit PsdImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
@@ -91,7 +91,7 @@ namespace Exiv2 {
               but Apple, as of Tiger (10.4.8), maps this official MIME type to a
               dynamic UTI, rather than "com.adobe.photoshop-image" as it should.
          */
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     private:
@@ -105,13 +105,13 @@ namespace Exiv2 {
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         uint32_t writeExifData(const ExifData& exifData, BasicIo& out);
         //@}
 
         //! @name Accessors
         //@{
-        uint32_t writeIptcData(const IptcData& iptcData, BasicIo& out) const;
+        static uint32_t writeIptcData(const IptcData& iptcData, BasicIo& out);
         uint32_t writeXmpData(const XmpData& xmpData, BasicIo& out) const;
         //@}
 
@@ -127,7 +127,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newPsdInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a Photoshop image.
     EXIV2API bool isPsdType(BasicIo& iIo, bool advance);

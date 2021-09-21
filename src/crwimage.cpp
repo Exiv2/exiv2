@@ -52,8 +52,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    CrwImage::CrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::crw, mdExif | mdComment, io)
+    CrwImage::CrwImage(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::crw, mdExif | mdComment, std::move(io))
     {
     } // CrwImage::CrwImage
 
@@ -64,7 +64,7 @@ namespace Exiv2 {
 
     int CrwImage::pixelWidth() const
     {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (widthIter != exifData_.end() && widthIter->count() > 0) {
             return widthIter->toLong();
         }
@@ -73,7 +73,7 @@ namespace Exiv2 {
 
     int CrwImage::pixelHeight() const
     {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (heightIter != exifData_.end() && heightIter->count() > 0) {
             return heightIter->toLong();
         }
@@ -101,10 +101,10 @@ namespace Exiv2 {
             throw Error(kerNotACrwImage);
         }
         clearMetadata();
-        DataBuf file( (long) io().size());
-        io_->read(file.pData_,file.size_);
+        DataBuf file(static_cast<long>(io().size()));
+        io_->read(file.data(), file.size());
 
-        CrwParser::decode(this, io_->mmap(), (uint32_t) io_->size());
+        CrwParser::decode(this, io_->mmap(), static_cast<uint32_t>(io_->size()));
 
     } // CrwImage::readMetadata
 
@@ -120,8 +120,8 @@ namespace Exiv2 {
             // Ensure that this is the correct image type
             if (isCrwType(*io_, false)) {
                 // Read the image into a memory buffer
-                buf.alloc((long) io_->size());
-                io_->read(buf.pData_, buf.size_);
+                buf.alloc(static_cast<long>(io_->size()));
+                io_->read(buf.data(), buf.size());
                 if (io_->error() || io_->eof()) {
                     buf.reset();
                 }
@@ -129,12 +129,12 @@ namespace Exiv2 {
         }
 
         Blob blob;
-        CrwParser::encode(blob, buf.pData_, buf.size_, this);
+        CrwParser::encode(blob, buf.c_data(), buf.size(), this);
 
         // Write new buffer to file
-        MemIo::AutoPtr tempIo(new MemIo);
+        MemIo::UniquePtr tempIo(new MemIo);
         assert(tempIo.get() != 0);
-        tempIo->write((blob.size() > 0 ? &blob[0] : 0), static_cast<long>(blob.size()));
+        tempIo->write((!blob.empty() ? &blob[0] : nullptr), static_cast<long>(blob.size()));
         io_->close();
         io_->transfer(*tempIo); // may throw
 
@@ -146,7 +146,7 @@ namespace Exiv2 {
         assert(pData != 0);
 
         // Parse the image, starting with a CIFF header component
-        CiffHeader::AutoPtr head(new CiffHeader);
+        CiffHeader::UniquePtr head(new CiffHeader);
         head->read(pData, size);
 #ifdef EXIV2_DEBUG_MESSAGES
         head->print(std::cerr);
@@ -169,7 +169,7 @@ namespace Exiv2 {
     )
     {
         // Parse image, starting with a CIFF header component
-        CiffHeader::AutoPtr head(new CiffHeader);
+        CiffHeader::UniquePtr head(new CiffHeader);
         if (size != 0) {
             head->read(pData, size);
         }
@@ -183,9 +183,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new CrwImage(io, create));
+        Image::UniquePtr image(new CrwImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }
@@ -204,8 +204,7 @@ namespace Exiv2 {
               || ('M' == tmpBuf[0] && 'M' == tmpBuf[1]))) {
             result = false;
         }
-        if (   true == result
-            && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
+        if (result && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
             result = false;
         }
         if (!advance || !result) iIo.seek(-14, BasicIo::cur);

@@ -60,11 +60,7 @@
 # include <curl/curl.h>
 #endif
 
-#ifdef EXV_USE_SSH
-# include "ssh.hpp"
-#else
-# define mode_t unsigned short
-#endif
+#define mode_t unsigned short
 
 // Platform specific headers for handling extended attributes (xattr)
 #if defined(__APPLE__)
@@ -73,7 +69,7 @@
 
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
 // Windows doesn't provide nlink_t
-typedef short nlink_t;
+using nlink_t = short;
 # include <windows.h>
 # include <io.h>
 #endif
@@ -81,15 +77,11 @@ typedef short nlink_t;
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-    BasicIo::~BasicIo()
-    {
-    }
-
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
     public:
         //! Constructor
-        Impl(const std::string& path);
+        explicit Impl(std::string path);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         Impl(const std::wstring& wpath);
@@ -122,10 +114,10 @@ namespace Exiv2 {
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
-            StructStat() : st_mode(0), st_size(0), st_nlink(0) {}
-            mode_t  st_mode;            //!< Permissions
-            off_t   st_size;            //!< Size
-            nlink_t st_nlink;           //!< Number of hard links (broken on Windows, see winNumberOfLinks())
+            StructStat() = default;
+            mode_t st_mode{0};    //!< Permissions
+            off_t st_size{0};     //!< Size
+            nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
 // #endif
         // METHODS
@@ -144,24 +136,26 @@ namespace Exiv2 {
         // Windows function to determine the number of hardlinks (on NTFS)
         DWORD winNumberOfLinks() const;
 #endif
-
-    private:
         // NOT IMPLEMENTED
-        Impl(const Impl& rhs);                         //!< Copy constructor
-        Impl& operator=(const Impl& rhs);              //!< Assignment
-
+        Impl(const Impl& rhs) = delete;             //!< Copy constructor
+        Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class FileIo::Impl
 
-    FileIo::Impl::Impl(const std::string& path)
-        : path_(path),
+    FileIo::Impl::Impl(std::string path)
+        : path_(std::move(path)),
 #ifdef EXV_UNICODE_PATH
-        wpMode_(wpStandard),
+          wpMode_(wpStandard),
 #endif
-        fp_(0), opMode_(opSeek),
+          fp_(nullptr),
+          opMode_(opSeek),
 #if defined WIN32 && !defined __CYGWIN__
-        hFile_(0), hMap_(0),
+          hFile_(0),
+          hMap_(0),
 #endif
-        pMappedArea_(0), mappedLength_(0), isMalloced_(false), isWriteable_(false)
+          pMappedArea_(nullptr),
+          mappedLength_(0),
+          isMalloced_(false),
+          isWriteable_(false)
     {
     }
 
@@ -190,11 +184,11 @@ namespace Exiv2 {
         case opRead:
             // Flush if current mode allows reading, else reopen (in mode "r+b"
             // as in this case we know that we can write to the file)
-            if (openMode_[0] == 'r' || openMode_[1] == '+') reopen = false;
+            if (openMode_.at(0) == 'r' || openMode_.at(1) == '+') reopen = false;
             break;
         case opWrite:
             // Flush if current mode allows writing, else reopen
-            if (openMode_[0] != 'r' || openMode_[1] == '+') reopen = false;
+            if (openMode_.at(0) != 'r' || openMode_.at(1) == '+') reopen = false;
             break;
         case opSeek:
             reopen = false;
@@ -215,9 +209,9 @@ namespace Exiv2 {
         long offset = std::ftell(fp_);
         if (offset == -1) return -1;
         // 'Manual' open("r+b") to avoid munmap()
-        if (fp_ != 0) {
+        if (fp_ != nullptr) {
             std::fclose(fp_);
-            fp_= 0;
+            fp_ = nullptr;
         }
         openMode_ = "r+b";
         opMode_ = opSeek;
@@ -243,7 +237,7 @@ namespace Exiv2 {
             ret = ::_wstati64(wpath_.c_str(), &st);
 
             if (0 == ret) {
-                buf.st_size = st.st_size;
+                buf.st_size = static_cast<long>(st.st_size);
                 buf.st_mode = st.st_mode;
                 buf.st_nlink = st.st_nlink;
             }
@@ -328,7 +322,7 @@ namespace Exiv2 {
 
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
         if (hFd != INVALID_HANDLE_VALUE) {
-            typedef BOOL (WINAPI * GetFileInformationByHandle_t)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
+            using GetFileInformationByHandle_t = BOOL(WINAPI*)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
             HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
             if (hKernel) {
                 GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
@@ -378,7 +372,7 @@ namespace Exiv2 {
     int FileIo::munmap()
     {
         int rc = 0;
-        if (p_->pMappedArea_ != 0) {
+        if (p_->pMappedArea_ != nullptr) {
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
             if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
                 rc = 1;
@@ -401,10 +395,11 @@ namespace Exiv2 {
 #endif
         }
         if (p_->isWriteable_) {
-            if (p_->fp_ != 0) p_->switchMode(Impl::opRead);
+            if (p_->fp_ != nullptr)
+                p_->switchMode(Impl::opRead);
             p_->isWriteable_ = false;
         }
-        p_->pMappedArea_ = 0;
+        p_->pMappedArea_ = nullptr;
         p_->mappedLength_ = 0;
         return rc;
     }
@@ -441,7 +436,7 @@ namespace Exiv2 {
         if (p_->isWriteable_) {
             prot |= PROT_WRITE;
         }
-        void* rc = ::mmap(0, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
+        void* rc = ::mmap(nullptr, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
@@ -521,7 +516,7 @@ namespace Exiv2 {
 #else
         // Workaround for platforms without mmap: Read the file into memory
         DataBuf buf(static_cast<long>(p_->mappedLength_));
-        if (read(buf.pData_, buf.size_) != buf.size_) {
+        if (read(buf.data(), buf.size()) != buf.size()) {
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
                 throw WError(kerCallFailed, wpath(), strError().c_str(), "FileIo::read");
@@ -580,7 +575,7 @@ namespace Exiv2 {
     {
         assert(p_->fp_ != 0);
         if (p_->switchMode(Impl::opWrite) != 0) return 0;
-        return (long)std::fwrite(data, 1, wcount, p_->fp_);
+        return static_cast<long>(std::fwrite(data, 1, wcount, p_->fp_));
     }
 
     long FileIo::write(BasicIo& src)
@@ -595,7 +590,7 @@ namespace Exiv2 {
         long writeCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            writeTotal += writeCount = (long)std::fwrite(buf, 1, readCount, p_->fp_);
+            writeTotal += writeCount = static_cast<long>(std::fwrite(buf, 1, readCount, p_->fp_));
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 src.seek(writeCount-readCount, BasicIo::cur);
@@ -608,10 +603,10 @@ namespace Exiv2 {
 
     void FileIo::transfer(BasicIo& src)
     {
-        const bool wasOpen = (p_->fp_ != 0);
+        const bool wasOpen = (p_->fp_ != nullptr);
         const std::string lastMode(p_->openMode_);
 
-        FileIo *fileIo = dynamic_cast<FileIo*>(&src);
+        auto fileIo = dynamic_cast<FileIo*>(&src);
         if (fileIo) {
             // Optimization if src is another instance of FileIo
             fileIo->close();
@@ -642,7 +637,7 @@ namespace Exiv2 {
             bool statOk = true;
             mode_t origStMode = 0;
             std::string spf;
-            char* pf = 0;
+            char* pf = nullptr;
 #ifdef EXV_UNICODE_PATH
             std::wstring wspf;
             wchar_t* wpf = 0;
@@ -675,9 +670,9 @@ namespace Exiv2 {
             // In case path() is a symlink, get the path of the linked-to file
             if (statOk && S_ISLNK(buf1.st_mode)) {
                 lbuf.alloc(buf1.st_size + 1);
-                memset(lbuf.pData_, 0x0, lbuf.size_);
-                pf = reinterpret_cast<char*>(lbuf.pData_);
-                if (::readlink(path().c_str(), pf, lbuf.size_ - 1) == -1) {
+                lbuf.clear();
+                pf = reinterpret_cast<char*>(lbuf.data());
+                if (::readlink(path().c_str(), pf, lbuf.size() - 1) == -1) {
                     throw Error(kerCallFailed, path(), strError(), "readlink");
                 }
                 // We need the permissions of the file, not the symlink
@@ -706,7 +701,7 @@ namespace Exiv2 {
                 // that file has been opened with FILE_SHARE_DELETE by another process,
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
-                typedef BOOL (WINAPI * ReplaceFileW_t)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
+                using ReplaceFileW_t = BOOL(WINAPI*)(LPCWSTR, LPCWSTR, LPCWSTR, DWORD, LPVOID, LPVOID);
                 HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
                     ReplaceFileW_t pfcn_ReplaceFileW = (ReplaceFileW_t)GetProcAddress(hKernel, "ReplaceFileW");
@@ -769,7 +764,7 @@ namespace Exiv2 {
                 // that file has been opened with FILE_SHARE_DELETE by another process,
                 // like a virus scanner or disk indexer
                 // (see also http://stackoverflow.com/a/11023068)
-                typedef BOOL (WINAPI * ReplaceFileA_t)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
+                using ReplaceFileA_t = BOOL(WINAPI*)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
                 HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
                 if (hKernel) {
                     ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");
@@ -934,7 +929,7 @@ namespace Exiv2 {
     size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
-        if (p_->fp_ != 0 && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
+        if (p_->fp_ != nullptr && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
             std::fflush(p_->fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
@@ -975,16 +970,16 @@ namespace Exiv2 {
 
     bool FileIo::isopen() const
     {
-        return p_->fp_ != 0;
+        return p_->fp_ != nullptr;
     }
 
     int FileIo::close()
     {
         int rc = 0;
         if (munmap() != 0) rc = 2;
-        if (p_->fp_ != 0) {
+        if (p_->fp_ != nullptr) {
             if (std::fclose(p_->fp_) != 0) rc |= 1;
-            p_->fp_= 0;
+            p_->fp_ = nullptr;
         }
         return rc;
     }
@@ -992,10 +987,14 @@ namespace Exiv2 {
     DataBuf FileIo::read(long rcount)
     {
         assert(p_->fp_ != 0);
-        if ( (size_t) rcount > size() ) throw Error(kerInvalidMalloc);
+        if (static_cast<size_t>(rcount) > size())
+            throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
-        buf.size_ = readCount;
+        long readCount = read(buf.data(), buf.size());
+        if (readCount < 0) {
+            throw Error(kerInputDataReadFailed);
+        }
+        buf.resize(readCount);
         return buf;
     }
 
@@ -1005,7 +1004,7 @@ namespace Exiv2 {
         if (p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
-        return (long)std::fread(buf, 1, rcount, p_->fp_);
+        return static_cast<long>(std::fread(buf, 1, rcount, p_->fp_));
     }
 
     int FileIo::getb()
@@ -1017,7 +1016,7 @@ namespace Exiv2 {
 
     int FileIo::error() const
     {
-        return p_->fp_ != 0 ? ferror(p_->fp_) : 0;
+        return p_->fp_ != nullptr ? ferror(p_->fp_) : 0;
     }
 
     bool FileIo::eof() const
@@ -1051,46 +1050,28 @@ namespace Exiv2 {
     }
 
     //! Internal Pimpl structure of class MemIo.
-    class MemIo::Impl {
+    class MemIo::Impl final{
     public:
-        Impl();                            //!< Default constructor
+        Impl() = default;                  //!< Default constructor
         Impl(const byte* data, long size); //!< Constructor 2
 
         // DATA
-        byte* data_;                       //!< Pointer to the start of the memory area
-        long idx_;                         //!< Index into the memory area
-        long size_;                        //!< Size of the memory area
-        long sizeAlloced_;                 //!< Size of the allocated buffer
-        bool isMalloced_;                  //!< Was the buffer allocated?
-        bool eof_;                         //!< EOF indicator
+        byte* data_{nullptr};     //!< Pointer to the start of the memory area
+        long idx_{0};             //!< Index into the memory area
+        long size_{0};            //!< Size of the memory area
+        long sizeAlloced_{0};     //!< Size of the allocated buffer
+        bool isMalloced_{false};  //!< Was the buffer allocated?
+        bool eof_{false};         //!< EOF indicator
 
         // METHODS
         void reserve(long wcount);         //!< Reserve memory
 
-    private:
         // NOT IMPLEMENTED
-        Impl(const Impl& rhs);             //!< Copy constructor
-        Impl& operator=(const Impl& rhs);  //!< Assignment
-
+        Impl(const Impl& rhs) = delete;             //!< Copy constructor
+        Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class MemIo::Impl
 
-    MemIo::Impl::Impl()
-        : data_(0),
-          idx_(0),
-          size_(0),
-          sizeAlloced_(0),
-          isMalloced_(false),
-          eof_(false)
-    {
-    }
-
-    MemIo::Impl::Impl(const byte* data, long size)
-        : data_(const_cast<byte*>(data)),
-          idx_(0),
-          size_(size),
-          sizeAlloced_(0),
-          isMalloced_(false),
-          eof_(false)
+    MemIo::Impl::Impl(const byte* data, long size) : data_(const_cast<byte*>(data)), size_(size)
     {
     }
 
@@ -1105,17 +1086,12 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor. the init status of the block is bNone.
-        BlockMap() : type_(bNone), data_(NULL), size_(0)
-        {
-        }
+        BlockMap() = default;
 
         //! Destructor. Releases all managed memory.
         ~BlockMap()
         {
-            if (data_) {
-                std::free(data_);
-                data_ = NULL;
-            }
+            delete [] data_;
         }
 
         //! @brief Populate the block.
@@ -1123,8 +1099,9 @@ namespace Exiv2 {
         //! @param num The size of data
         void    populate (byte* source, size_t num)
         {
+            assert(source != nullptr);
             size_ = num;
-            data_ = (byte*)std::malloc(size_);
+            data_ = new byte [size_];
             type_ = bMemory;
             std::memcpy(data_, source, size_);
         }
@@ -1163,9 +1140,9 @@ namespace Exiv2 {
         }
 
     private:
-        blockType_e type_;
-        byte*       data_;
-        size_t      size_;
+        blockType_e type_{bNone};
+        byte* data_{nullptr};
+        size_t size_{0};
     }; // class BlockMap
 
     void MemIo::Impl::reserve(long wcount)
@@ -1176,12 +1153,12 @@ namespace Exiv2 {
 
         if (!isMalloced_) {
             // Minimum size for 1st block
-            long size  = EXV_MAX(blockSize * (1 + need / blockSize), size_);
-            byte* data = (byte*)std::malloc(size);
-            if (  data == NULL ) {
+            long size  = std::max(blockSize * (1 + need / blockSize), size_);
+            auto data = static_cast<byte*>(std::malloc(size));
+            if (data == nullptr) {
                 throw Error(kerMallocFailed);
             }
-            if (data_ != NULL) {
+            if (data_ != nullptr) {
                 std::memcpy(data, data_, size_);
             }
             data_ = data;
@@ -1195,12 +1172,11 @@ namespace Exiv2 {
                 if ( blockSize > maxBlockSize ) blockSize = maxBlockSize ;
                 // Allocate in blocks
                 long want      = blockSize * (1 + need / blockSize );
-                data_ = (byte*)std::realloc(data_, want);
-                if ( data_ == NULL ) {
+                data_ = static_cast<byte*>(std::realloc(data_, want));
+                if (data_ == nullptr) {
                     throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
-                isMalloced_ = true;
             }
             size_ = need;
         }
@@ -1227,7 +1203,7 @@ namespace Exiv2 {
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
-        if (data != NULL) {
+        if (data != nullptr) {
             std::memcpy(&p_->data_[p_->idx_], data, wcount);
         }
         p_->idx_ += wcount;
@@ -1236,7 +1212,7 @@ namespace Exiv2 {
 
     void MemIo::transfer(BasicIo& src)
     {
-        MemIo *memIo = dynamic_cast<MemIo*>(&src);
+        auto memIo = dynamic_cast<MemIo*>(&src);
         if (memIo) {
             // Optimization if src is another instance of MemIo
             if (p_->isMalloced_) {
@@ -1247,7 +1223,7 @@ namespace Exiv2 {
             p_->size_ = memIo->p_->size_;
             p_->isMalloced_ = memIo->p_->isMalloced_;
             memIo->p_->idx_ = 0;
-            memIo->p_->data_ = 0;
+            memIo->p_->data_ = nullptr;
             memIo->p_->size_ = 0;
             memIo->p_->isMalloced_ = false;
         }
@@ -1301,7 +1277,7 @@ namespace Exiv2 {
         if (newIdx < 0)
             return 1;
 
-        if (static_cast<size_t>(newIdx) > p_->size_) {
+        if (newIdx > p_->size_) {
             p_->eof_ = true;
             return 1;
         }
@@ -1375,16 +1351,21 @@ namespace Exiv2 {
     DataBuf MemIo::read(long rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
-        buf.size_ = readCount;
+        long readCount = read(buf.data(), buf.size());
+        if (readCount < 0) {
+            throw Error(kerInputDataReadFailed);
+        }
+        buf.resize(readCount);
         return buf;
     }
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = EXV_MAX(p_->size_ - p_->idx_, 0);
-        long allow = EXV_MIN(rcount, avail);
-        std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        long avail = std::max(p_->size_ - p_->idx_, 0L);
+        long allow = std::min(rcount, avail);
+        if (allow > 0) {
+            std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        }
         p_->idx_ += allow;
         if (rcount > avail) p_->eof_ = true;
         return allow;
@@ -1482,13 +1463,14 @@ namespace Exiv2 {
     const std::string XPathIo::TEMP_FILE_EXT = ".exiv2_temp";
     const std::string XPathIo::GEN_FILE_EXT  = ".exiv2";
 
-    XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)) {
-        isTemp_ = true;
+    XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), isTemp_(true)
+    {
         tempFilePath_ = path();
     }
 
 #ifdef EXV_UNICODE_PATH
-    XPathIo::XPathIo(const std::wstring& wOrgPathpath) : FileIo(XPathIo::writeDataToFile(wOrgPathpath)) {
+    XPathIo::XPathIo(const std::wstring& wOrgPathpath) : FileIo(XPathIo::writeDataToFile(wOrgPathpath)), isTemp_(true)
+    {
         isTemp_ = true;
         tempFilePath_ = path();
     }
@@ -1521,7 +1503,7 @@ namespace Exiv2 {
         Protocol prot = fileProtocol(orgPath);
 
         // generating the name for temp file.
-        std::time_t timestamp = std::time(NULL);
+        std::time_t timestamp = std::time(nullptr);
         std::stringstream ss;
         ss << timestamp << XPathIo::TEMP_FILE_EXT;
         std::string path = ss.str();
@@ -1556,16 +1538,15 @@ namespace Exiv2 {
             }
 
             std::string data = orgPath.substr(base64Pos+7);
-            char* decodeData = new char[data.length()];
-            long size = base64decode(data.c_str(), decodeData, data.length());
+            std::vector<char> decodeData (data.length());
+            long size = base64decode(data.c_str(), decodeData.data(), data.length());
             if (size > 0) {
-                fs.write(decodeData, size);
+                fs.write(decodeData.data(), size);
                 fs.close();
             } else {
                 fs.close();
                 throw Error(kerErrorMessage, "Unable to decode base 64.");
             }
-            delete[] decodeData;
         }
 
         return path;
@@ -1585,7 +1566,7 @@ namespace Exiv2 {
     class RemoteIo::Impl {
     public:
         //! Constructor
-        Impl(const std::string& path, size_t blockSize);
+        Impl(const std::string& url, size_t blockSize);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         Impl(const std::wstring& wpath, size_t blockSize);
@@ -1647,8 +1628,15 @@ namespace Exiv2 {
     }; // class RemoteIo::Impl
 
     RemoteIo::Impl::Impl(const std::string& url, size_t blockSize)
-        : path_(url), blockSize_(blockSize), blocksMap_(0), size_(0),
-          idx_(0), isMalloced_(false), eof_(false), protocol_(fileProtocol(url)),totalRead_(0)
+        : path_(url),
+          blockSize_(blockSize),
+          blocksMap_(nullptr),
+          size_(0),
+          idx_(0),
+          isMalloced_(false),
+          eof_(false),
+          protocol_(fileProtocol(url)),
+          totalRead_(0)
     {
     }
 #ifdef EXV_UNICODE_PATH
@@ -1671,17 +1659,17 @@ namespace Exiv2 {
         if (blocksMap_[highBlock].isNone())
         {
             std::string data;
-            getDataByRange( (long) lowBlock, (long) highBlock, data);
+            getDataByRange(static_cast<long>(lowBlock), static_cast<long>(highBlock), data);
             rcount = data.length();
             if (rcount == 0) {
                 throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
-            byte* source = (byte*)data.c_str();
+            auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
             size_t remain = rcount, totalRead = 0;
             size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
             while (remain) {
-                size_t allow = EXV_MIN(remain, blockSize_);
+                size_t allow = std::min(remain, blockSize_);
                 blocksMap_[iBlock].populate(&source[totalRead], allow);
                 remain -= allow;
                 totalRead += allow;
@@ -1693,7 +1681,7 @@ namespace Exiv2 {
     }
 
     RemoteIo::Impl::~Impl() {
-        if (blocksMap_) delete[] blocksMap_;
+        delete[] blocksMap_;
     }
 
     RemoteIo::~RemoteIo()
@@ -1707,8 +1695,8 @@ namespace Exiv2 {
     int RemoteIo::open()
     {
         close(); // reset the IO position
-        bigBlock_ = NULL;
-        if (p_->isMalloced_ == false) {
+        bigBlock_ = nullptr;
+        if (!p_->isMalloced_) {
             long length = p_->getFileLength();
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
                 std::string data;
@@ -1717,10 +1705,10 @@ namespace Exiv2 {
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
-                byte* source = (byte*)data.c_str();
+                auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
                 size_t remain = p_->size_, iBlock = 0, totalRead = 0;
                 while (remain) {
-                    size_t allow = EXV_MIN(remain, p_->blockSize_);
+                    size_t allow = std::min(remain, p_->blockSize_);
                     p_->blocksMap_[iBlock].populate(&source[totalRead], allow);
                     remain -= allow;
                     totalRead += allow;
@@ -1729,7 +1717,7 @@ namespace Exiv2 {
             } else if (length == 0) { // file is empty
                 throw Error(kerErrorMessage, "the file length is 0");
             } else {
-                p_->size_ = (size_t) length;
+                p_->size_ = static_cast<size_t>(length);
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
                 p_->isMalloced_ = true;
@@ -1749,7 +1737,7 @@ namespace Exiv2 {
 #endif
         if ( bigBlock_ ) {
             delete [] bigBlock_;
-            bigBlock_=NULL;
+            bigBlock_ = nullptr;
         }
         return 0;
     }
@@ -1777,7 +1765,7 @@ namespace Exiv2 {
         size_t i          = 0;
         size_t readCount  = 0;
         size_t blockSize  = 0;
-        byte*  buf        = (byte*) std::malloc(p_->blockSize_);
+        auto buf = new byte [p_->blockSize_];
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -1786,7 +1774,7 @@ namespace Exiv2 {
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
             blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-            readCount = (size_t) src.read(buf, (long) blockSize);
+            readCount = static_cast<size_t>(src.read(buf, static_cast<long>(blockSize)));
             byte* blockData = p_->blocksMap_[blockIndex].getData();
             for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                 if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
@@ -1800,14 +1788,15 @@ namespace Exiv2 {
 
         // find $right
         findDiff    = false;
-        blockIndex  = nBlocks - 1;
-        blockSize   = p_->blocksMap_[blockIndex].getSize();
-        while ((blockIndex + 1 > 0) && right < src.size() && !findDiff) {
+        blockIndex  = nBlocks;
+        while (blockIndex > 0 && right < src.size() && !findDiff) {
+            blockIndex--;
+            blockSize = p_->blocksMap_[blockIndex].getSize();
             if(src.seek(-1 * (blockSize + right), BasicIo::end)) {
                 findDiff = true;
             } else {
                 bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-                readCount = src.read(buf, (long) blockSize);
+                readCount = src.read(buf, static_cast<long>(blockSize));
                 byte* blockData = p_->blocksMap_[blockIndex].getData();
                 for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                     if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) || (isFakeData && buf[readCount - i - 1] != 0)) {
@@ -1817,23 +1806,21 @@ namespace Exiv2 {
                     }
                 }
             }
-            blockIndex--;
-            blockSize = (long)p_->blocksMap_[blockIndex].getSize();
         }
 
-        // free buf
-        if (buf) std::free(buf);
+        delete []buf;
 
         // submit to the remote machine.
-        long dataSize = (long) (src.size() - left - right);
+        long dataSize = static_cast<long>(src.size() - left - right);
         if (dataSize > 0) {
-            byte* data = (byte*) std::malloc(dataSize);
+            auto data = static_cast<byte*>(std::malloc(dataSize));
             src.seek(left, BasicIo::beg);
             src.read(data, dataSize);
-            p_->writeRemote(data, (size_t)dataSize, (long)left, (long) (p_->size_ - right));
+            p_->writeRemote(data, static_cast<size_t>(dataSize), static_cast<long>(left),
+                            static_cast<long>(p_->size_ - right));
             if (data) std::free(data);
         }
-        return (long) src.size();
+        return static_cast<long>(src.size());
     }
 
     int RemoteIo::putb(byte /*unused data*/)
@@ -1844,8 +1831,11 @@ namespace Exiv2 {
     DataBuf RemoteIo::read(long rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.pData_, buf.size_);
-        buf.size_ = readCount;
+        long readCount = read(buf.data(), buf.size());
+        if (readCount < 0) {
+            throw Error(kerInputDataReadFailed);
+        }
+        buf.resize(readCount);
         return buf;
     }
 
@@ -1855,13 +1845,13 @@ namespace Exiv2 {
         if (p_->eof_) return 0;
         p_->totalRead_ += rcount;
 
-        size_t allow     = EXV_MIN(rcount, (long)( p_->size_ - p_->idx_));
+        size_t allow     = std::min(rcount, (long)( p_->size_ - p_->idx_));
         size_t lowBlock  =  p_->idx_         /p_->blockSize_;
         size_t highBlock = (p_->idx_ + allow)/p_->blockSize_;
 
         // connect to the remote machine & populate the blocks just in time.
         p_->populateBlocks(lowBlock, highBlock);
-        byte* fakeData = (byte*) std::calloc(p_->blockSize_, sizeof(byte));
+        auto fakeData = static_cast<byte*>(std::calloc(p_->blockSize_, sizeof(byte)));
         if (!fakeData) {
             throw Error(kerErrorMessage, "Unable to allocate data");
         }
@@ -1871,26 +1861,27 @@ namespace Exiv2 {
         size_t totalRead = 0;
         do {
             byte* data = p_->blocksMap_[iBlock++].getData();
-            if (data == NULL) data = fakeData;
-            size_t blockR = EXV_MIN(allow, p_->blockSize_ - startPos);
+            if (data == nullptr)
+                data = fakeData;
+            size_t blockR = std::min(allow, p_->blockSize_ - startPos);
             std::memcpy(&buf[totalRead], &data[startPos], blockR);
             totalRead += blockR;
             startPos = 0;
             allow -= blockR;
         } while(allow);
 
-        if (fakeData) std::free(fakeData);
+        std::free(fakeData);
 
-        p_->idx_ += (long) totalRead;
-        p_->eof_ = (p_->idx_ == (long) p_->size_);
+        p_->idx_ += static_cast<long>(totalRead);
+        p_->eof_ = (p_->idx_ == static_cast<long>(p_->size_));
 
-        return (long) totalRead;
+        return static_cast<long>(totalRead);
     }
 
     int RemoteIo::getb()
     {
         assert(p_->isMalloced_);
-        if (p_->idx_ == (long)p_->size_) {
+        if (p_->idx_ == static_cast<long>(p_->size_)) {
             p_->eof_ = true;
             return EOF;
         }
@@ -1944,8 +1935,9 @@ namespace Exiv2 {
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
         p_->idx_ = newIdx;
-        p_->eof_ = newIdx > (long) p_->size_;
-        if ( p_->idx_ > (long) p_->size_ ) p_->idx_= (long) p_->size_;
+        p_->eof_ = newIdx > static_cast<long>(p_->size_);
+        if (p_->idx_ > static_cast<long>(p_->size_))
+            p_->idx_ = static_cast<long>(p_->size_);
         return 0;
     }
 #endif
@@ -1985,7 +1977,7 @@ namespace Exiv2 {
 
     size_t RemoteIo::size() const
     {
-        return (long) p_->size_;
+        return static_cast<long>(p_->size_);
     }
 
     bool RemoteIo::isopen() const
@@ -2030,7 +2022,7 @@ namespace Exiv2 {
     class HttpIo::HttpImpl : public Impl  {
     public:
         //! Constructor
-        HttpImpl(const std::string&  path,  size_t blockSize);
+        HttpImpl(const std::string& url, size_t blockSize);
 #ifdef EXV_UNICODE_PATH
         //! Constructor accepting a unicode path in an std::wstring
         HttpImpl(const std::wstring& wpath, size_t blockSize);
@@ -2043,7 +2035,7 @@ namespace Exiv2 {
           @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
           @throw Error if the server returns the error code.
          */
-        long getFileLength();
+        long getFileLength() override;
         /*!
           @brief Get the data by range.
           @param lowBlock The start block index.
@@ -2052,7 +2044,7 @@ namespace Exiv2 {
           @throw Error if the server returns the error code.
           @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
          */
-        void getDataByRange(long lowBlock, long highBlock, std::string& response);
+        void getDataByRange(long lowBlock, long highBlock, std::string& response) override;
         /*!
           @brief Submit the data to the remote machine. The data replace a part of the remote file.
                 The replaced part of remote file is indicated by from and to parameters.
@@ -2066,11 +2058,11 @@ namespace Exiv2 {
                 "/exiv2.php". More info is available at http://dev.exiv2.org/wiki/exiv2
           @throw Error if it fails.
          */
-        void writeRemote(const byte* data, size_t size, long from, long to);
-    protected:
+        void writeRemote(const byte* data, size_t size, long from, long to) override;
+
         // NOT IMPLEMENTED
-        HttpImpl(const HttpImpl& rhs); //!< Copy constructor
-        HttpImpl& operator=(const HttpImpl& rhs); //!< Assignment
+        HttpImpl(const HttpImpl& rhs) = delete;             //!< Copy constructor
+        HttpImpl& operator=(const HttpImpl& rhs) = delete;  //!< Assignment
     }; // class HttpIo::HttpImpl
 
     HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
@@ -2097,14 +2089,15 @@ namespace Exiv2 {
         std::string errors;
         request["server"] = hostInfo_.Host;
         request["page"  ] = hostInfo_.Path;
-        if (hostInfo_.Port != "") request["port"] = hostInfo_.Port;
+        if (!hostInfo_.Port.empty())
+            request["port"] = hostInfo_.Port;
         request["verb"]   = "HEAD";
         int serverCode = http(request, response, errors);
-        if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
+        if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
 
-        Exiv2::Dictionary_i lengthIter = response.find("Content-Length");
+        auto lengthIter = response.find("Content-Length");
         return (lengthIter == response.end()) ? -1 : atol((lengthIter->second).c_str());
     }
 
@@ -2114,7 +2107,8 @@ namespace Exiv2 {
         Exiv2::Dictionary request;
         request["server"] = hostInfo_.Host;
         request["page"  ] = hostInfo_.Path;
-        if (hostInfo_.Port != "") request["port"] = hostInfo_.Port;
+        if (!hostInfo_.Port.empty())
+            request["port"] = hostInfo_.Port;
         request["verb"]   = "GET";
         std::string errors;
         if (lowBlock > -1 && highBlock > -1) {
@@ -2124,7 +2118,7 @@ namespace Exiv2 {
         }
 
         int serverCode = http(request, responseDic, errors);
-        if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
+        if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
         response = responseDic["body"];
@@ -2133,7 +2127,7 @@ namespace Exiv2 {
     void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, long from, long to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
-        if (scriptPath == "") {
+        if (scriptPath.empty()) {
             throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
@@ -2148,14 +2142,15 @@ namespace Exiv2 {
         std::string errors;
 
         Uri scriptUri = Exiv2::Uri::Parse(scriptPath);
-        request["server"] = scriptUri.Host == "" ? hostInfo_.Host : scriptUri.Host;
-        if (scriptUri.Port != "") request["port"] = scriptUri.Port;
+        request["server"] = scriptUri.Host.empty() ? hostInfo_.Host : scriptUri.Host;
+        if (!scriptUri.Port.empty())
+            request["port"] = scriptUri.Port;
         request["page"] = scriptUri.Path;
         request["verb"] = "POST";
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        char* encodeData = new char[encodeLength];
+        auto encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
         const std::string urlencodeData = urlencode(encodeData);
@@ -2176,7 +2171,7 @@ namespace Exiv2 {
         request["header"] = ss.str();
 
         int serverCode = http(request, response, errors);
-        if (serverCode < 0 || serverCode >= 400 || errors.compare("") != 0) {
+        if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
     }
@@ -2202,7 +2197,7 @@ namespace Exiv2 {
         CurlImpl(const std::wstring& wpath, size_t blockSize);
 #endif
         //! Destructor. Cleans up the curl pointer and releases all managed memory.
-        ~CurlImpl();
+        ~CurlImpl() override;
 
         CURL*        curl_;             //!< libcurl pointer
 
@@ -2212,7 +2207,7 @@ namespace Exiv2 {
           @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
           @throw Error if the server returns the error code.
          */
-        long getFileLength();
+        long getFileLength() override;
         /*!
           @brief Get the data by range.
           @param lowBlock The start block index.
@@ -2221,7 +2216,7 @@ namespace Exiv2 {
           @throw Error if the server returns the error code.
           @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
          */
-        void getDataByRange(long lowBlock, long highBlock, std::string& response);
+        void getDataByRange(long lowBlock, long highBlock, std::string& response) override;
         /*!
           @brief Submit the data to the remote machine. The data replace a part of the remote file.
                 The replaced part of remote file is indicated by from and to parameters.
@@ -2236,19 +2231,17 @@ namespace Exiv2 {
                 string EXIV2_HTTP_POST. The default value is "/exiv2.php". More info is available at
                 http://dev.exiv2.org/wiki/exiv2
          */
-        void writeRemote(const byte* data, size_t size, long from, long to);
-    protected:
+        void writeRemote(const byte* data, size_t size, long from, long to) override;
+
         // NOT IMPLEMENTED
-        CurlImpl(const CurlImpl& rhs); //!< Copy constructor
-        CurlImpl& operator=(const CurlImpl& rhs); //!< Assignment
+        CurlImpl(const CurlImpl& rhs) = delete;             //!< Copy constructor
+        CurlImpl& operator=(const CurlImpl& rhs) = delete;  //!< Assignment
     private:
         long timeout_; //!< The number of seconds to wait while trying to connect.
     }; // class RemoteIo::Impl
 
-    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
+    CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init())
     {
-        // init curl pointer
-        curl_ = curl_easy_init();
         if(!curl_) {
             throw Error(kerErrorMessage, "Uable to init libcurl.");
         }
@@ -2315,7 +2308,7 @@ namespace Exiv2 {
         // get length
         double temp;
         curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &temp); // return -1 if unknown
-        return (long) temp;
+        return static_cast<long>(temp);
     }
 
     void CurlIo::CurlImpl::getDataByRange(long lowBlock, long highBlock, std::string& response)
@@ -2343,19 +2336,18 @@ namespace Exiv2 {
 
         if(res != CURLE_OK) {
             throw Error(kerErrorMessage, curl_easy_strerror(res));
-        } else {
-            int serverCode;
-            curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
-            if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
-            }
+        }
+        int serverCode;
+        curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
+        if (serverCode >= 400 || serverCode < 0) {
+            throw Error(kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
         }
     }
 
     void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, long from, long to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
-        if (scriptPath == "") {
+        if (scriptPath.empty()) {
             throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
@@ -2377,7 +2369,7 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        char* encodeData = new char[encodeLength];
+        auto encodeData = new char[encodeLength];
         base64encode(data, size, encodeData, encodeLength);
         // url encode
         const std::string urlencodeData = urlencode(encodeData);
@@ -2395,12 +2387,11 @@ namespace Exiv2 {
 
         if(res != CURLE_OK) {
             throw Error(kerErrorMessage, curl_easy_strerror(res));
-        } else {
-            int serverCode;
-            curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode);
-            if (serverCode >= 400 || serverCode < 0) {
-                throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
-            }
+        }
+        int serverCode;
+        curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);
+        if (serverCode >= 400 || serverCode < 0) {
+            throw Error(kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
         }
     }
 
@@ -2412,18 +2403,16 @@ namespace Exiv2 {
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(data, wcount);
-        } else {
-            throw Error(kerErrorMessage, "doesnt support write for this protocol.");
         }
+        throw Error(kerErrorMessage, "doesnt support write for this protocol.");
     }
 
     long CurlIo::write(BasicIo& src)
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(src);
-        } else {
-            throw Error(kerErrorMessage, "doesnt support write for this protocol.");
         }
+        throw Error(kerErrorMessage, "doesnt support write for this protocol.");
     }
 
     CurlIo::CurlIo(const std::string& url, size_t blockSize)
@@ -2434,225 +2423,6 @@ namespace Exiv2 {
     CurlIo::CurlIo(const std::wstring& wurl, size_t blockSize)
     {
         p_ = new CurlImpl(wurl, blockSize);
-    }
-#endif
-
-#endif
-
-#ifdef EXV_USE_SSH
-    //! Internal Pimpl structure of class RemoteIo.
-    class SshIo::SshImpl : public Impl  {
-    public:
-        //! Constructor
-        SshImpl(const std::string&  path,  size_t blockSize);
-#ifdef EXV_UNICODE_PATH
-        //! Constructor accepting a unicode path in an std::wstring
-        SshImpl(const std::wstring& wpath, size_t blockSize);
-#endif
-        //! Destructor. Closes ssh session and releases all managed memory.
-        ~SshImpl();
-
-        Exiv2::Uri      hostInfo_;          //!< host information extracted from path
-        SSH*            ssh_;               //!< SSH pointer
-        sftp_file       fileHandler_;       //!< sftp file handler
-
-        // METHODS
-        /*!
-          @brief Get the length (in bytes) of the remote file.
-          @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
-          @throw Error if the server returns the error code.
-         */
-        long getFileLength();
-        /*!
-          @brief Get the data by range.
-          @param lowBlock The start block index.
-          @param highBlock The end block index.
-          @param response The data from the server.
-          @throw Error if the server returns the error code.
-          @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
-         */
-        void getDataByRange(long lowBlock, long highBlock, std::string& response);
-        /*!
-          @brief Submit the data to the remote machine. The data replace a part of the remote file.
-                The replaced part of remote file is indicated by from and to parameters.
-          @param data The data are submitted to the remote machine.
-          @param size The size of data.
-          @param from The start position in the remote file where the data replace.
-          @param to The end position in the remote file where the data replace.
-          @note The write access is only available on the SSH protocol. It requires the write permission
-                to edit the remote file.
-          @throw Error if it fails.
-         */
-        void writeRemote(const byte* data, size_t size, long from, long to);
-
-    protected:
-        // NOT IMPLEMENTED
-        SshImpl(const SshImpl& rhs); //!< Copy constructor
-        SshImpl& operator=(const SshImpl& rhs); //!< Assignment
-    }; // class RemoteIo::Impl
-
-    SshIo::SshImpl::SshImpl(const std::string& url, size_t blockSize):Impl(url, blockSize)
-    {
-        hostInfo_ = Exiv2::Uri::Parse(url);
-        Exiv2::Uri::Decode(hostInfo_);
-
-        // remove / at the beginning of the path
-        if (hostInfo_.Path[0] == '/') {
-            hostInfo_.Path = hostInfo_.Path.substr(1);
-        }
-        ssh_ = new SSH(hostInfo_.Host, hostInfo_.Username, hostInfo_.Password, hostInfo_.Port);
-
-        if (protocol_ == pSftp) {
-            ssh_->getFileSftp(hostInfo_.Path, fileHandler_);
-            if (fileHandler_ == NULL) throw Error(kerErrorMessage, "Unable to open the file");
-        } else {
-            fileHandler_ = NULL;
-        }
-    }
-#ifdef EXV_UNICODE_PATH
-    SshIo::SshImpl::SshImpl(const std::wstring& wurl, size_t blockSize):Impl(wurl, blockSize)
-    {
-        std::string url;
-        url.assign(wurl.begin(), wurl.end());
-        path_ = url;
-
-        hostInfo_ = Exiv2::Uri::Parse(url);
-        Exiv2::Uri::Decode(hostInfo_);
-
-        // remove / at the beginning of the path
-        if (hostInfo_.Path[0] == '/') {
-            hostInfo_.Path = hostInfo_.Path.substr(1);
-        }
-        ssh_ = new SSH(hostInfo_.Host, hostInfo_.Username, hostInfo_.Password, hostInfo_.Port);
-
-        if (protocol_ == pSftp) {
-            ssh_->getFileSftp(hostInfo_.Path, fileHandler_);
-            if (fileHandler_ == NULL) throw Error(kerErrorMessage, "Unable to open the file");
-        } else {
-            fileHandler_ = NULL;
-        }
-    }
-#endif
-
-    long SshIo::SshImpl::getFileLength()
-    {
-        long length = 0;
-        if (protocol_ == pSftp) { // sftp
-            sftp_attributes attributes = sftp_fstat(fileHandler_);
-            length = (long)attributes->size;
-        } else { // ssh
-            std::string response;
-            //std::string cmd = "stat -c %s " + hostInfo_.Path;
-            std::string cmd = "declare -a x=($(ls -alt " + hostInfo_.Path + ")); echo ${x[4]}";
-            if (ssh_->runCommand(cmd, &response) != 0) {
-                throw Error(kerErrorMessage, "Unable to get file length.");
-            } else {
-                length = atol(response.c_str());
-                if (length == 0) {
-                    throw Error(kerErrorMessage, "File is empty or not found.");
-                }
-            }
-        }
-        return length;
-    }
-
-    void SshIo::SshImpl::getDataByRange(long lowBlock, long highBlock, std::string& response)
-    {
-        if (protocol_ == pSftp) {
-            if (sftp_seek(fileHandler_, (uint32_t) (lowBlock * blockSize_)) < 0) throw Error(kerErrorMessage, "SFTP: unable to sftp_seek");
-            size_t buffSize = (highBlock - lowBlock + 1) * blockSize_;
-            std::vector<char> buffer(buffSize);
-            long nBytes = static_cast<long>(sftp_read(fileHandler_, &buffer.at(0), buffSize));
-            if (nBytes < 0) {
-                throw Error(kerErrorMessage, "SFTP: unable to sftp_read");
-            }
-            response.assign(&buffer.at(0), buffSize);
-        } else {
-            std::stringstream ss;
-            if (lowBlock > -1 && highBlock > -1) {
-                ss  << "dd if=" << hostInfo_.Path
-                    << " ibs=" << blockSize_
-                    << " skip=" << lowBlock
-                    << " count=" << (highBlock - lowBlock) + 1<< " 2>/dev/null";
-            } else {
-                ss  << "dd if=" << hostInfo_.Path
-                    << " ibs=" << blockSize_
-                    << " 2>/dev/null";
-            }
-            std::string cmd = ss.str();
-            if (ssh_->runCommand(cmd, &response) != 0) {
-                throw Error(kerErrorMessage, "Unable to get data by range.");
-            }
-        }
-    }
-
-    void SshIo::SshImpl::writeRemote(const byte* data, size_t size, long from, long to)
-    {
-        if (protocol_ == pSftp) throw Error(kerErrorMessage, "not support SFTP write access.");
-
-        //printf("ssh update size=%ld from=%ld to=%ld\n", (long)size, from, to);
-        assert(isMalloced_);
-
-        std::string tempFile = hostInfo_.Path + ".exiv2tmp";
-        std::string response;
-        std::stringstream ss;
-        // copy the head (byte 0 to byte fromByte) of original file to filepath.exiv2tmp
-        ss  << "head -c " << from
-            << " "   << hostInfo_.Path
-            << " > " << tempFile;
-        std::string cmd = ss.str();
-        if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(kerErrorMessage, "SSH: Unable to cope the head of file to temp");
-        }
-
-        // upload the data (the byte ranges which are different between the original
-        // file and the new file) to filepath.exiv2datatemp
-        if (ssh_->scp(hostInfo_.Path + ".exiv2datatemp", data, size) != 0) {
-            throw Error(kerErrorMessage, "SSH: Unable to copy file");
-        }
-
-        // concatenate the filepath.exiv2datatemp to filepath.exiv2tmp
-        cmd = "cat " + hostInfo_.Path + ".exiv2datatemp >> " + tempFile;
-        if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
-        }
-
-        // copy the tail (from byte toByte to the end of file) of original file to filepath.exiv2tmp
-        ss.str("");
-        ss  << "tail -c+" << (to + 1)
-            << " "   << hostInfo_.Path
-            << " >> "   << tempFile;
-        cmd = ss.str();
-        if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
-        }
-
-        // replace the original file with filepath.exiv2tmp
-        cmd = "mv " + tempFile + " " + hostInfo_.Path;
-        if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
-        }
-
-        // remove filepath.exiv2datatemp
-        cmd = "rm " + hostInfo_.Path + ".exiv2datatemp";
-        if (ssh_->runCommand(cmd, &response) != 0) {
-            throw Error(kerErrorMessage, "SSH: Unable to copy the rest");
-        }
-    }
-
-    SshIo::SshImpl::~SshImpl() {
-        if (fileHandler_) sftp_close(fileHandler_);
-        if (ssh_) delete ssh_;
-    }
-
-    SshIo::SshIo(const std::string& url, size_t blockSize)
-    {
-        p_ = new SshImpl(url, blockSize);
-    }
-#ifdef EXV_UNICODE_PATH
-    SshIo::SshIo(const std::wstring& wurl, size_t blockSize)
-    {
-        p_ = new SshImpl(wurl, blockSize);
     }
 #endif
 
@@ -2672,8 +2442,8 @@ namespace Exiv2 {
             throw Error(kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
-        if (len != buf.size_) {
+        long len = file.read(buf.data(), buf.size());
+        if (len != buf.size()) {
             throw Error(kerCallFailed, path, strError(), "FileIo::read");
         }
         return buf;
@@ -2691,8 +2461,8 @@ namespace Exiv2 {
             throw WError(kerCallFailed, wpath, strError().c_str(), "::_wstat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.pData_, buf.size_);
-        if (len != buf.size_) {
+        long len = file.read(buf.data(), buf.size());
+        if (len != buf.size()) {
             throw WError(kerCallFailed, wpath, strError().c_str(), "FileIo::read");
         }
         return buf;
@@ -2705,7 +2475,7 @@ namespace Exiv2 {
         if (file.open("wb") != 0) {
             throw Error(kerFileOpenFailed, path, "wb", strError());
         }
-        return file.write(buf.pData_, buf.size_);
+        return file.write(buf.c_data(), buf.size());
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -2715,7 +2485,7 @@ namespace Exiv2 {
         if (file.open("wb") != 0) {
             throw WError(kerFileOpenFailed, wpath, "wb", strError().c_str());
         }
-        return file.write(buf.pData_, buf.size_);
+        return file.write(buf.c_data(), buf.size());
     }
 
 #endif

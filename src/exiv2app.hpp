@@ -40,6 +40,7 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include <regex>
 
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>
@@ -93,7 +94,7 @@ struct ModifyCmd {
     std::string value_;                         //!< Data
 };
 //! Container for modification commands
-typedef std::vector<ModifyCmd> ModifyCmds;
+using ModifyCmds = std::vector<ModifyCmd>;
 //! Structure to link command identifiers to strings
 struct CmdIdAndString {
     CmdId cmdId_;                               //!< Commands identifier
@@ -141,25 +142,27 @@ private:
 
 public:
     //! Container for command files
-    typedef std::vector<std::string> CmdFiles;
+    using CmdFiles = std::vector<std::string>;
     //! Container for commands from the command line
-    typedef std::vector<std::string> CmdLines;
+    using CmdLines = std::vector<std::string>;
     //! Container to store filenames.
-    typedef std::vector<std::string> Files;
+    using Files = std::vector<std::string>;
     //! Container for preview image numbers
-    typedef std::set<int> PreviewNumbers;
-    //! Container for greps
-    typedef  exv_grep_keys_t Greps;
+    using PreviewNumbers = std::set<int>;
     //! Container for keys
-    typedef std::vector<std::string> Keys;
+    using Keys = std::vector<std::string>;
 
     /*!
       @brief Controls all access to the global Params instance.
       @return Reference to the global Params instance.
     */
     static Params& instance();
+
+    //! Prevent copy-construction: not implemented.
+    Params(const Params& rhs) = delete;
+
     //! Destructor
-    void cleanup();
+    static void cleanup();
 
     //! Enumerates print modes
     enum PrintMode {
@@ -247,8 +250,8 @@ public:
     std::string suffix_;                //!< File extension of the file to insert
     Files files_;                       //!< List of non-option arguments.
     PreviewNumbers previewNumbers_;     //!< List of preview numbers
-    Greps greps_;                       //!< List of keys to 'grep' from the metadata
-    Keys  keys_;                        //!< List of keys to match from the metadata
+    std::vector<std::regex> greps_;     //!< List of keys to 'grep' from the metadata
+    Keys keys_;                         //!< List of keys to match from the metadata
     std::string charset_;               //!< Charset to use for UNICODE Exif user comment
 
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
@@ -293,12 +296,6 @@ private:
         yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
     }
 
-    //! Prevent copy-construction: not implemented.
-    Params(const Params& rhs);
-
-    //! Destructor, frees any allocated regexes in greps_
-    ~Params();
-
     //! @name Helpers
     //@{
     int setLogLevel(const std::string& optarg);
@@ -329,10 +326,10 @@ public:
     int getopt(int argc, char* const argv[]);
 
     //! Handle options and their arguments.
-    virtual int option(int opt, const std::string& optarg, int optopt);
+    int option(int opt, const std::string& optarg, int optopt) override;
 
     //! Handle non-option parameters.
-    virtual int nonoption(const std::string& argv);
+    int nonoption(const std::string& argv) override;
 
     //! Print a minimal usage note to an output stream.
     void usage(std::ostream& os =std::cout) const;
@@ -341,10 +338,11 @@ public:
     void help(std::ostream& os =std::cout) const;
 
     //! Print version information to an output stream.
-    void version(bool verbose =false, std::ostream& os =std::cout) const;
+    static void version(bool verbose = false, std::ostream& os = std::cout);
 
     //! Print target_
-    static std::string printTarget(const std::string& before,int target,bool bPrint=false,std::ostream& os=std::cout);
+    static std::string printTarget(const std::string& before, int target, bool bPrint = false,
+                                   std::ostream& out = std::cout);
 
     //! getStdin binary data read from stdin to DataBuf
     /*

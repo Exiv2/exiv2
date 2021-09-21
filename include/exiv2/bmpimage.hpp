@@ -50,15 +50,15 @@ namespace Exiv2 {
           read width and height.
      */
     class EXIV2API BmpImage : public Image {
+    public:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        BmpImage(const BmpImage& rhs);
+        BmpImage(const BmpImage& rhs) = delete;
         //! Assignment operator
-        BmpImage& operator=(const BmpImage& rhs);
+        BmpImage& operator=(const BmpImage& rhs) = delete;
         //@}
 
-    public:
         //! @name Creators
         //@{
         /*!
@@ -73,37 +73,37 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        explicit BmpImage(BasicIo::AutoPtr io);
+        explicit BmpImage(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
+        void readMetadata() override;
         /*!
           @brief Todo: Write metadata back to the image. This method is not
               yet(?) implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
          */
-        void writeMetadata();
+        void writeMetadata() override;
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
               an instance of Error(kerInvalidSettingForImage).
          */
-        void setExifData(const ExifData& exifData);
+        void setExifData(const ExifData& exifData) override;
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
               an instance of Error(kerInvalidSettingForImage).
          */
-        void setIptcData(const IptcData& iptcData);
+        void setIptcData(const IptcData& iptcData) override;
         /*!
           @brief Not supported. Calling this function will throw an instance
               of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     }; // class BmpImage
@@ -118,7 +118,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newBmpInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a Windows Bitmap image.
     EXIV2API bool isBmpType(BasicIo& iIo, bool advance);

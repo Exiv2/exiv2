@@ -63,13 +63,13 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        PngImage(BasicIo::AutoPtr io, bool create);
+        PngImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
 
         /*!
           @brief Print out the structure of image file.
@@ -77,21 +77,22 @@ namespace Exiv2
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -pS for debugging.
          */
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
-    private:
         //! @name NOT implemented
         //@{
         //! Copy constructor
-        PngImage(const PngImage& rhs);
+        PngImage(const PngImage& rhs) = delete;
         //! Assignment operator
-        PngImage& operator=(const PngImage& rhs);
+        PngImage& operator=(const PngImage& rhs) = delete;
+
+    private:
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.
@@ -99,7 +100,7 @@ namespace Exiv2
           @param oIo BasicIo instance to write to (a temporary location).
 
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //@}
 
         std::string profileName_;
@@ -116,7 +117,7 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a PNG image.
     EXIV2API bool isPngType(BasicIo& iIo, bool advance);

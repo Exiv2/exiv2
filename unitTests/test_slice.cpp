@@ -22,7 +22,8 @@
 #include <stdint.h>
 #include "slice.hpp"
 #include "types.hpp"
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
+
 using namespace Exiv2;
 
 template <typename T>
@@ -85,7 +86,7 @@ class slice : public ::testing::Test
 public:
     static const size_t vec_size = 10;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         vec_.reserve(vec_size);
         for (unsigned int i = 0; i < vec_size; ++i) {
@@ -164,8 +165,8 @@ TYPED_TEST_P(slice, iteratorAccess)
 {
     Slice<TypeParam> sl = this->getTestSlice();
 
-    std::vector<int>::const_iterator vec_it = this->vec_.begin() + 1;
-    for (typename Slice<TypeParam>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
+    auto vec_it = this->vec_.begin() + 1;
+    for (auto it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
         ASSERT_EQ(*it, *vec_it);
     }
 
@@ -245,7 +246,7 @@ void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type va
 template <typename T>
 void checkConstSliceIterator(const Slice<T>& sl, typename Slice<T>::value_type first_value)
 {
-    for (typename Slice<T>::const_iterator it = sl.cbegin(); it < sl.cend(); ++it) {
+    for (auto it = sl.cbegin(); it < sl.cend(); ++it) {
         ASSERT_EQ(*it, first_value++);
     }
 }
@@ -286,7 +287,7 @@ TYPED_TEST_P(mutableSlice, iterators)
     ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
     ASSERT_EQ(*sl.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
 
-    for (typename slice_t::iterator it = sl.begin(); it < sl.end(); ++it) {
+    for (auto it = sl.begin(); it < sl.end(); ++it) {
         *it = 2 * (*it);
     }
 
@@ -321,7 +322,7 @@ TYPED_TEST_P(mutableSlice, at)
 
 TEST(pointerSlice, failedConstructionFromNullpointer)
 {
-    ASSERT_THROW(Slice<long*>(NULL, 1, 2), std::invalid_argument);
+    ASSERT_THROW(Slice<long*>(nullptr, 1, 2), std::invalid_argument);
 }
 
 /*!
@@ -359,7 +360,7 @@ struct stringSlice : public ::testing::Test
 {
     std::string sentence;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         sentence = "this is a sentence";
     }
@@ -402,7 +403,7 @@ struct dataBufSlice : public ::testing::Test
     static byte data[4];  // = {0xde, 0xad, 0xbe, 0xef};
     DataBuf buf;
 
-    virtual void SetUp()
+    void SetUp() override
     {
         buf = DataBuf(data, sizeof(data));
     }
@@ -439,12 +440,12 @@ REGISTER_TYPED_TEST_CASE_P(slice, atAccess, iteratorAccess, constructionFailsFro
                            constMethodsPreserveConst);
 
 typedef ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*> test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, slice, test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, slice, test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(mutableSlice, iterators, at);
 typedef ::testing::Types<std::vector<int>, int*> mut_test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, mutableSlice, mut_test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, mutableSlice, mut_test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(dataBufSlice, successfulConstruction, failedConstruction);
 typedef ::testing::Types<DataBuf&, const DataBuf&> data_buf_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, dataBufSlice, data_buf_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, dataBufSlice, data_buf_types_t);

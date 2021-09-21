@@ -30,6 +30,7 @@
 
 #include <sys/types.h>
 #include <stdio.h>
+#include <array>
 #include <cstdlib>
 #include <time.h>
 #include <sys/stat.h>
@@ -49,7 +50,6 @@
 #include <string.h>
 #include <io.h>
 #if !defined(__MINGW__) && !defined(__CYGWIN__)
-#define  snprintf sprintf_s
 #define  write    _write
 #define  read     _read
 #define  close    _close
@@ -76,7 +76,7 @@
 
 #define fopen_S(f,n,o) f=fopen(n,o)
 #define WINAPI
-typedef unsigned long DWORD ;
+using DWORD = unsigned long;
 
 #define SOCKET_ERROR        -1
 #define WSAEWOULDBLOCK  EINPROGRESS
@@ -98,31 +98,26 @@ static void Sleep(int millisecs)
 
 ////////////////////////////////////////
 // code
-static const char* httpTemplate =
-"%s %s HTTP/%s\r\n"            // $verb $page $version
-"User-Agent: exiv2http/1.0.0\r\n"
-"Accept: */*\r\n"
-"Host: %s\r\n"                 // $servername
-"%s"                           // $header
-"\r\n"
-;
-
-#ifndef lengthof
-#define lengthof(x) (sizeof(x)/sizeof((x)[0]))
-#endif
+static constexpr auto httpTemplate =
+    "%s %s HTTP/%s\r\n"  // $verb $page $version
+    "User-Agent: exiv2http/1.0.0\r\n"
+    "Accept: */*\r\n"
+    "Host: %s\r\n"  // $servername
+    "%s"            // $header
+    "\r\n";
 
 #define white(c) ((c == ' ') || (c == '\t'))
 
 #define FINISH          -999
 #define OK(s)    (200 <= s  && s < 300)
 
-const char*   blankLines[] =
-{       "\r\n\r\n"             // this is the standard
-,       "\n\n"                 // this is commonly sent by CGI scripts
-}  ;
+static constexpr std::array<const char*, 2> blankLines{
+    "\r\n\r\n",  // this is the standard
+    "\n\n",      // this is commonly sent by CGI scripts
+};
 
-int             snooze    = SNOOZE    ;
-int             sleep_    =  SLEEP    ;
+static constexpr int snooze = SNOOZE;
+static int sleep_ = SLEEP;
 
 static int forgive(int n,int& err)
 {
@@ -137,8 +132,7 @@ static int forgive(int n,int& err)
     return n ;
 }
 
-static int error(std::string& errors, const char* msg, const char* x = NULL, const char* y = NULL, int z = 0);
-static int error(std::string& errors, const char* msg, const char* x, const char* y, int z)
+static int error(std::string& errors, const char* msg, const char* x = nullptr, const char* y = nullptr, int z = 0)
 {
     static const size_t buffer_size = 512;
     char buffer[buffer_size];
@@ -253,8 +247,9 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // open the socket
-    int     sockfd = (int) socket(AF_INET , SOCK_STREAM,IPPROTO_TCP) ;
-    if (    sockfd < 0 ) return error(errors, "unable to create socket\n",NULL,NULL,0) ;
+    int sockfd = static_cast<int>(socket(AF_INET , SOCK_STREAM,IPPROTO_TCP));
+    if (sockfd < 0)
+        return error(errors, "unable to create socket\n", nullptr, nullptr, 0);
 
     // connect the socket to the server
     int     server  = -1 ;
@@ -262,7 +257,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     // fill in the address
     struct  sockaddr_in serv_addr   ;
     int                 serv_len = sizeof(serv_addr);
-    memset((char *)&serv_addr,0,serv_len);
+    memset(reinterpret_cast<char*>(&serv_addr), 0, serv_len);
 
     serv_addr.sin_addr.s_addr   = inet_addr(servername_p);
     serv_addr.sin_family        = AF_INET    ;
@@ -270,20 +265,21 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     // convert unknown servername into IP address
     // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
-    if (serv_addr.sin_addr.s_addr == (unsigned long)INADDR_NONE)
-    {
+    if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
         struct hostent* host = gethostbyname(servername_p);
-        if ( !host )  return error(errors, "no such host", servername_p);
-        memcpy(&serv_addr.sin_addr,host->h_addr,sizeof(serv_addr.sin_addr));
+        if (!host)
+            return error(errors, "no such host", servername_p);
+        memcpy(&serv_addr.sin_addr, host->h_addr, sizeof(serv_addr.sin_addr));
     }
 
     makeNonBlocking(sockfd) ;
 
     ////////////////////////////////////
     // and connect
-    server = connect(sockfd, (const struct sockaddr *) &serv_addr, serv_len) ;
+    server = connect(sockfd, reinterpret_cast<const struct sockaddr*>(&serv_addr), serv_len);
     if ( server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK )
-        return error(errors,"error - unable to connect to server = %s port = %s wsa_error = %d",servername_p,port_p,WSAGetLastError());
+        return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p, port_p,
+                     WSAGetLastError());
 
     char   buffer[32*1024+1];
     size_t buff_l= sizeof buffer - 1 ;
@@ -303,7 +299,8 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
     }
 
     if ( sleep_ < 0 )
-        return error(errors,"error - timeout connecting to server = %s port = %s wsa_error = %d",servername,port,WSAGetLastError());
+        return error(errors, "error - timeout connecting to server = %s port = %s wsa_error = %d", servername, port,
+                     WSAGetLastError());
 
     int    end   = 0         ; // write position in buffer
     bool   bSearching = true ; // looking for headers in the response
@@ -311,8 +308,8 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
 
     ////////////////////////////////////
     // read and process the response
-    int err ;
-    n=forgive(recv(sockfd,buffer,(int)buff_l,0),err) ;
+    int err = 0;
+    n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
     while ( n >= 0 && OK(status) ) {
         if ( n ) {
             end += n ;
@@ -322,11 +319,13 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
             if ( bSearching ) {
 
                 // search for the body
-                for ( size_t b = 0 ; bSearching && b < lengthof(blankLines) ; b++ ) {
-                    const char* blankLinePos = strstr(buffer,blankLines[b]);
+                for (auto&& line : blankLines) {
+                    if (!bSearching)
+                        break;
+                    const char* blankLinePos = strstr(buffer, line);
                     if ( blankLinePos ) {
                         bSearching = false ;
-                        body   = blankLinePos - buffer + strlen(blankLines[b]);
+                        body = blankLinePos - buffer + strlen(line);
                         const char* firstSpace = strchr(buffer,' ');
                         if (firstSpace) {
                             status = atoi(firstSpace);
@@ -377,7 +376,7 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 flushBuffer(buffer,body,end,file);
             }
         }
-        n=forgive(recv(sockfd,buffer+end,(int)(buff_l-end),0),err) ;
+        n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
         if ( !n ) {
             Sleep(snooze) ;
             sleep_ -= snooze ;
@@ -392,13 +391,14 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
                 ,   sleep_
                 ,   status
                 ) ;
-        error(errors,buffer,NULL,NULL,0) ;
+        error(errors, buffer, nullptr, nullptr, 0);
     } else if ( bSearching && OK(status) ) {
         if ( end ) {
         //  we finished OK without finding headers, flush the buffer
             flushBuffer(buffer,0,end,file) ;
         } else {
-            return error(errors,"error - no response from server = %s port = %s wsa_error = %d",servername,port,WSAGetLastError());
+            return error(errors, "error - no response from server = %s port = %s wsa_error = %d", servername, port,
+                         WSAGetLastError());
         }
     }
 

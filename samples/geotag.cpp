@@ -80,7 +80,7 @@ class Options;
 int getFileType(const char* path ,Options& options);
 int getFileType(std::string& path,Options& options);
 
-string getExifTime(const time_t t);
+string getExifTime(time_t t);
 time_t parseTime(const char* ,bool bAdjust=false);
 int    timeZoneAdjust();
 
@@ -98,24 +98,15 @@ char* realpath(const char* file,char* path)
 // Command-line parser
 class Options  {
 public:
-    bool        verbose;
-    bool        help;
-    bool        version;
-    bool        dst;
-    bool        dryrun;
-    bool        ascii;
+    bool        verbose{false};
+    bool        help{false};
+    bool        version{false};
+    bool        dst{false};
+    bool        dryrun{false};
+    bool        ascii{false};
 
-    Options()
-    {
-        verbose     = false;
-        help        = false;
-        version     = false;
-        dst         = false;
-        dryrun      = false;
-        ascii       = false;
-    }
-
-    virtual ~Options() {} ;
+    Options() = default;
+    virtual ~Options() = default;
 } ;
 
 enum
@@ -156,10 +147,10 @@ enum
 class Position;
 
 // globals
-typedef std::map<time_t,Position>           TimeDict_t;
-typedef std::map<time_t,Position>::iterator TimeDict_i;
-typedef std::vector<std::string>            strings_t;
-const char*  gDeg = NULL ; // string "°" or "deg"
+using TimeDict_t = std::map<time_t, Position>;
+using TimeDict_i = std::map<time_t, Position>::iterator;
+using strings_t = std::vector<std::string>;
+const char* gDeg = nullptr;  // string "°" or "deg"
 TimeDict_t   gTimeDict   ;
 strings_t    gFiles;
 
@@ -172,50 +163,52 @@ public:
       , lon_(lon)
       , lat_(lat)
       , ele_(ele)
-      , delta_(0)
     {}
 
-    Position():
-        time_(0)
-      , lon_(0.0)
-      , lat_(0.0)
-      , ele_(0.0)
-      , delta_(0)
-    { }
+    Position() = default;
+    virtual ~Position() = default;
 
-    virtual ~Position() {}
-//  copy constructor
-    Position(const Position& o) :
-        time_(o.time_)
-      , lon_(o.lon_)
-      , lat_(o.lat_)
-      , ele_(o.ele_)
-      , delta_(o.delta_)
-    {}
-
-//  instance methods
-    bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
+    //  instance methods
+    bool good() const
+    {
+        return time_ || lon_ || lat_ || ele_;
+    }
     std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
-    time_t      getTime()       { return time_ ; }
-    std::string toString();
+    time_t getTime() const
+    {
+        return time_;
+    }
+    std::string toString() const;
 
-//  getters/setters
-    double lat()            {return lat_   ;}
-    double lon()            {return lon_   ;}
-    double ele()            {return ele_   ;}
-    int    delta()          {return delta_ ;}
+    //  getters/setters
+    double lat() const
+    {
+        return lat_;
+    }
+    double lon() const
+    {
+        return lon_;
+    }
+    double ele() const
+    {
+        return ele_;
+    }
+    int delta() const
+    {
+        return delta_;
+    }
     void   delta(int delta) {delta_=delta  ;}
 
 //  data
 private:
-    time_t      time_;
-    double      lon_ ;
-    double      lat_ ;
-    double      ele_ ;
+    time_t time_{0};
+    double lon_{0.0};
+    double lat_{0.0};
+    double ele_{0.0};
     std::string times_;
-    int         delta_;
+    int delta_{0};
 
-// public static data
+    // public static data
 public:
     static int    adjust_  ;
     static int    tz_      ;
@@ -223,7 +216,7 @@ public:
     static time_t deltaMax_;
 
 // public static member functions
-public:
+
     static int    Adjust() {return Position::adjust_ + Position::tz_ + Position::dst_ ;}
     static int    tz()     {return tz_    ;}
     static int    dst()    {return dst_   ;}
@@ -242,11 +235,11 @@ std::string Position::toExifTimeStamp(std::string& t)
     int mm = 0 ;
     int SS1 = 0 ;
     if ( strstr(arg,":") || strstr(arg,"-") ) {
-        int  YY,MM,DD    ;
-        char a,b,c,d,e   ;
+        int YY=0,MM=0,DD=0;
+        char a=0,b=0,c=0,d=0,e=0;
         sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
     }
-    sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS1);
+    snprintf(result,sizeof(result),"%d/1 %d/1 %d/1",HH,mm,SS1);
     return std::string(result);
 }
 
@@ -254,7 +247,7 @@ std::string Position::toExifString(double d)
 {
     char result[200];
     d *= 100;
-    sprintf(result,"%d/100",abs((int)d));
+    snprintf(result, sizeof(result), "%d/100", abs(static_cast<int>(d)));
     return std::string(result);
 }
 
@@ -264,27 +257,27 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
     const char* EW   = d>=0.0?"E":"W";
     const char* NSEW = bLat  ? NS: EW;
     if ( d < 0 ) d = -d;
-    int deg = (int) d;
-        d  -= deg;
-        d  *= 60;
-    int min = (int) d ;
-        d  -= min;
-        d  *= 60;
-    int sec = (int)d;
+    int deg = static_cast<int>(d);
+    d -= deg;
+    d *= 60;
+    int min = static_cast<int>(d);
+    d -= min;
+    d *= 60;
+    int sec = static_cast<int>(d);
     char result[200];
     if ( bRational )
-        sprintf(result,"%d/1 %d/1 %d/1" ,deg,min,sec);
+        snprintf(result,sizeof(result),"%d/1 %d/1 %d/1" ,deg,min,sec);
     else
-        sprintf(result,"%03d%s%02d'%02d\"%s" ,deg,gDeg,min,sec,NSEW);
+        snprintf(result,sizeof(result),"%03d%s%02d'%02d\"%s" ,deg,gDeg,min,sec,NSEW);
     return std::string(result);
 }
 
-std::string Position::toString()
+std::string Position::toString() const
 {
     char result[200];
     std::string sLat = Position::toExifString(lat_,false,true );
     std::string sLon = Position::toExifString(lon_,false,false);
-    sprintf(result,"%s %s %-8.3f",sLon.c_str(),sLat.c_str(),ele_);
+    snprintf(result,sizeof(result),"%s %s %-8.3f",sLon.c_str(),sLat.c_str(),ele_);
     return std::string(result);
 }
 
@@ -296,36 +289,26 @@ time_t Position::deltaMax_ = 60 ;
 
 ///////////////////////////////////////////////////////////
 // UserData - used by XML Parser
-class UserData
+struct UserData final
 {
-public:
-    explicit UserData(Options& options):
-        indent(0)
-      , count(0)
-      , nTrkpt(0)
-      , bTime(false)
-      , bEle(false)
-      , ele(0.0)
-      , lat(0.0)
-      , lon(0.0)
-      , options_(options)
+    explicit UserData(Options& options)
+        : options_(options)
     {}
-    virtual ~UserData() {}
 
-//  public data members
-    int         indent;
-    size_t      count ;
+    //  public data members
+    int         indent{0};
+    size_t      count{0};
     Position    now ;
     Position    prev;
-    int         nTrkpt;
-    bool        bTime ;
-    bool        bEle  ;
-    double      ele;
-    double      lat;
-    double      lon;
+    int         nTrkpt{0};
+    bool        bTime{false};
+    bool        bEle{false};
+    double      ele{0.};
+    double      lat{0.};
+    double      lon{0.};
     std::string xmlt;
     std::string exift;
-    time_t      time;
+    time_t      time{0};
     Options&    options_;
 // static public data memembers
 };
@@ -333,7 +316,7 @@ public:
 // XML Parser Callbacks
 static void startElement(void* userData, const char* name, const char** atts )
 {
-    UserData* me = (UserData*) userData;
+    auto me = static_cast<UserData*>(userData);
     //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
     //printf("begin %s\n",name);
     me->bTime = strcmp(name,"time")==0;
@@ -355,7 +338,7 @@ static void startElement(void* userData, const char* name, const char** atts )
 
 static void endElement(void* userData, const char* name)
 {
-    UserData* me = (UserData*) userData;
+    auto me = static_cast<UserData*>(userData);
     me->indent-- ;
     if ( strcmp(name,"trkpt")==0 ) {
 
@@ -377,7 +360,7 @@ static void endElement(void* userData, const char* name)
 
 void charHandler(void* userData,const char* s,int len)
 {
-    UserData* me = (UserData*) userData;
+    auto me = static_cast<UserData*>(userData);
 
     if ( me->nTrkpt == 1 ) {
         char buffer[100];
@@ -423,8 +406,8 @@ time_t parseTime(const char* arg,bool bAdjust)
         // <time>2012-07-14T17:33:16Z</time>
 
         if ( strstr(arg,":") || strstr(arg,"-") ) {
-            int  YY,MM,DD,HH,mm,SS1 ;
-            char a,b,c,d,e   ;
+            int  YY=0,MM=0,DD=0,HH=0,mm=0,SS1=0;
+            char a=0,b=0,c=0,d=0,e=0;
             sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
 
             struct tm T;
@@ -446,7 +429,7 @@ time_t parseTime(const char* arg,bool bAdjust)
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust()
 {
-    time_t    now   = time(NULL);
+    time_t now = time(nullptr);
     int       offset;
 
 #if   defined(_MSC_VER) || defined(__MINGW__)
@@ -538,14 +521,12 @@ bool readDir(const char* path,Options& options)
     }
 #else
     DIR*    dir = opendir (path);
-    if (dir != NULL)
-    {
+    if (dir != nullptr) {
         bResult = true;
         struct dirent*  ent;
 
         // print all the files and directories within directory
-        while ((ent = readdir (dir)) != NULL)
-        {
+        while ((ent = readdir(dir)) != nullptr) {
             std::string pathName = makePath(path,ent->d_name);
             struct stat  buf     ;
             lstat(path, &buf );
@@ -573,7 +554,7 @@ inline size_t sip(FILE* f,char* buffer,size_t max_len,size_t len)
 bool readXML(const char* path,Options& options)
 {
     FILE*       f       = fopen(path,"r");
-    XML_Parser  parser  = XML_ParserCreate(NULL);
+    XML_Parser parser = XML_ParserCreate(nullptr);
     bool bResult        = f && parser ;
     if ( bResult ) {
         char   buffer[8*1024];
@@ -591,14 +572,14 @@ bool readXML(const char* path,Options& options)
         // swallow it
         if ( bResult ) {
             len = sip(f,buffer,sizeof buffer,len);
-            bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
+            bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
         }
 
         // drink the rest of the file
         while ( bResult && len != 0 ) {
             len = fread(buffer,1,sizeof(buffer)-100,f);
             len = sip(f,buffer,sizeof buffer,len);
-            bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
+            bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
         };
     }
 
@@ -614,7 +595,7 @@ bool readImage(const char* path,Options& /* options */)
     bool bResult = false ;
 
     try {
-        Image::AutoPtr image = ImageFactory::open(path);
+        Image::UniquePtr image = ImageFactory::open(path);
         if ( image.get() ) {
             image->readMetadata();
             ExifData &exifData = image->exifData();
@@ -624,23 +605,19 @@ bool readImage(const char* path,Options& /* options */)
     return bResult ;
 }
 
-time_t readImageTime(const std::string& path,std::string* pS=NULL)
+time_t readImageTime(const std::string& path, std::string* pS = nullptr)
 {
     using namespace Exiv2;
 
     time_t       result       = 0 ;
 
-    const char* dateStrings[] =
-    { "Exif.Photo.DateTimeOriginal"
-    , "Exif.Photo.DateTimeDigitized"
-    , "Exif.Image.DateTime"
-    , NULL
-    };
+    const char* dateStrings[] = {"Exif.Photo.DateTimeOriginal", "Exif.Photo.DateTimeDigitized", "Exif.Image.DateTime",
+                                 nullptr};
     const char* dateString = dateStrings[0] ;
 
     do {
         try {
-            Image::AutoPtr image = ImageFactory::open(path);
+            Image::UniquePtr image = ImageFactory::open(path);
             if ( image.get() ) {
                 image->readMetadata();
                 ExifData &exifData = image->exifData();
@@ -668,29 +645,29 @@ bool sina(const char* s,const char** a)
     return bResult;
 }
 
-int readFile(const char* path,Options /* options */)
+int readFile(const char* path, const Options& /* options */)
 {
     FILE* f     = fopen(path,"r");
     int nResult = f ? typeFile : typeUnknown;
     if (  f ) {
         const char*  ext   = strstr(path,".");
         if  ( ext ) {
-            const char* docs[] = { ".doc",".txt", NULL };
-            const char* code[] = { ".cpp",".h"  ,".pl" ,".py" ,".pyc", NULL };
+            const char* docs[] = {".doc", ".txt", nullptr};
+            const char* code[] = {".cpp", ".h", ".pl", ".py", ".pyc", nullptr};
             if ( sina(ext,docs) )
                 nResult = typeDoc;
             if ( sina(ext,code) )
                 nResult = typeCode;
         }
+        fclose(f);
     }
-    if ( f ) fclose(f) ;
 
     return nResult ;
 }
 
 Position* searchTimeDict(TimeDict_t& td, const time_t& time,long long delta)
 {
-    Position* result = NULL;
+    Position* result = nullptr;
     for ( int t = 0 ; !result && t < delta ; t++ ) {
         for ( int x = 0 ; !result && x < 2 ; x++ ) {
             int T = t * ((x==0)?-1:1);
@@ -764,7 +741,7 @@ int parseTZ(const char* adjust)
 {
     int   h=0;
     int   m=0;
-    char  c  ;
+    char  c=0;
     try {
         sscanf(adjust,"%d%c%d",&h,&c,&m);
     } catch ( ... ) {} ;
@@ -822,7 +799,7 @@ int main(int argc,const char* argv[])
     shorts["-D"] = "-delta";
     shorts["-s"] = "-delta";
     shorts["-X"] = "-dryrun";
-    shorts["-a"] = "-ascii";
+    shorts["-A"] = "-ascii";
 
     Options options ;
     options.help    = sina(keywords[kwHELP   ],argv) || argc < 2;
@@ -864,14 +841,16 @@ int main(int argc,const char* argv[])
 #ifdef __APPLE__
                     char   buffer[1024];
 #else
-                    char*  buffer = NULL;
+                    char* buffer = nullptr;
 #endif
                     char*  path = realpath(arg,buffer);
                     if  ( t && path ) {
-                        if ( options.verbose) printf("%s %ld %s",path,(long int)t,asctime(localtime(&t)));
+                        if (options.verbose)
+                            printf("%s %ld %s", path, static_cast<long int>(t), asctime(localtime(&t)));
                         gFiles.push_back(path);
                     }
-                    if ( path && path != buffer ) ::free((void*) path);
+                    if (path && path != buffer)
+                        ::free(path);
                 }
                 if ( type == typeUnknown ) {
                     fprintf(stderr,"error: illegal syntax %s\n",arg);
@@ -915,13 +894,12 @@ int main(int argc,const char* argv[])
             }
         }
 */
-        for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
-            std::string path  = gFiles[p] ;
+        for (auto&& path : gFiles) {
             std::string stamp ;
             try {
                 time_t t       = readImageTime(path,&stamp) ;
                 Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
-                Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+                Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
                 if ( image.get() ) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();

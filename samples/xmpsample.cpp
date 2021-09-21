@@ -127,7 +127,7 @@ try {
     assert(getv8.ok());
 
     // Deleting an XMP property
-    Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
+    auto pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
     if (pos == xmpData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
     xmpData.erase(pos);
 
@@ -136,7 +136,7 @@ try {
     // properties and language alternatives.
 
     // Add a simple XMP property in a known namespace
-    Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::xmpText);
+    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpText);
     v->read("image/jpeg");
     xmpData.add(Exiv2::XmpKey("Xmp.dc.format"), v.get());
 
@@ -214,18 +214,10 @@ try {
 
     // -------------------------------------------------------------------------
     // Output XMP properties
-    for (Exiv2::XmpData::const_iterator md = xmpData.begin();
-        md != xmpData.end(); ++md) {
-        std::cout << std::setfill(' ') << std::left
-                  << std::setw(44)
-                  << md->key() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+    for (auto &&md : xmpData) {
+        std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9)
+                  << std::setfill(' ') << std::left << md.typeName() << " " << std::dec << std::setw(3)
+                  << std::setfill(' ') << std::right << md.count() << "  " << std::dec << md.value() << std::endl;
     }
 
     // -------------------------------------------------------------------------

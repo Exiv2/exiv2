@@ -63,28 +63,32 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        PgfImage(BasicIo::AutoPtr io, bool create);
+        PgfImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const { return "image/pgf"; }
+        std::string mimeType() const override
+        {
+            return "image/pgf";
+        }
         //@}
 
-    private:
-        bool bSwap_; // true for bigEndian hardware, else false
         //! @name NOT implemented
         //@{
         //! Copy constructor
-        PgfImage(const PgfImage& rhs);
+        PgfImage(const PgfImage& rhs) = delete;
         //! Assignment operator
-        PgfImage& operator=(const PgfImage& rhs);
+        PgfImage& operator=(const PgfImage& rhs) = delete;
+
+    private:
+        bool bSwap_;  // true for bigEndian hardware, else false
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.
@@ -92,13 +96,13 @@ namespace Exiv2
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //! Read Magick number. Only version >= 6 is supported.
-        byte readPgfMagicNumber(BasicIo& iIo);
+        static byte readPgfMagicNumber(BasicIo& iIo);
         //! Read PGF Header size encoded in 32 bits integer.
-        uint32_t readPgfHeaderSize(BasicIo& iIo);
+        uint32_t readPgfHeaderSize(BasicIo& iIo) const;
         //! Read header structure.
-        DataBuf readPgfHeaderStructure(BasicIo& iIo, int& width,int & height);
+        DataBuf readPgfHeaderStructure(BasicIo& iIo, int& width, int& height) const;
         //@}
 
     }; // class PgfImage
@@ -113,7 +117,7 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newPgfInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a PGF image.
     EXIV2API bool isPgfType(BasicIo& iIo, bool advance);

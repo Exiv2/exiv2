@@ -170,7 +170,7 @@ namespace {
           N_("Memory allocation failed")}
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -208,20 +208,6 @@ namespace Exiv2 {
         case LogMsg::mute:  assert(false);
         }
         std::cerr << s;
-    }
-
-    AnyError::AnyError(): std::exception()
-    {
-
-    }
-
-    AnyError::AnyError(const AnyError &o): std::exception(o)
-    {
-
-    }
-
-    AnyError::~AnyError() throw()
-    {
     }
 
     template<>

@@ -3,9 +3,6 @@
 #ifndef _EXV_CONF_H_
 #define _EXV_CONF_H_
 
-// Defined if you want to use libssh for SshIO.
-#cmakedefine EXV_USE_SSH
-
 // Define to 1 if you want to use libcurl in httpIO.
 #cmakedefine EXV_USE_CURL
 
@@ -20,9 +17,6 @@
 
 // Define if you want BMFF support.
 #cmakedefine EXV_ENABLE_BMFF
-
-// Define if you want video support.
-#cmakedefine EXV_ENABLE_VIDEO
 
 // Define if you have the strerror_r function.
 #cmakedefine EXV_HAVE_STRERROR_R
@@ -41,29 +35,14 @@
 #define EXV_ICONV_CONST
 #endif
 
-// Define if you have the <regex.h> header file.
-#cmakedefine EXV_HAVE_REGEX_H
-
-// Define if have the <memory.h> header file.
-#cmakedefine EXV_HAVE_MEMORY_H
-
-// Define if stdbool.h conforms to C99.
-#cmakedefine EXV_HAVE_STDBOOL_H
-
-// Define if you have the <strings.h> header file.
-#cmakedefine EXV_HAVE_STRINGS_H
-
 // Define if you have the mmap function.
 #cmakedefine EXV_HAVE_MMAP
 
 // Define if you have the munmap function.
 #cmakedefine EXV_HAVE_MUNMAP
 
-// Define if you have <sys/stat.h> header file.
-#cmakedefine EXV_HAVE_SYS_STAT_H
-
-// Define if you have  the <sys/types.h> header file.
-#cmakedefine EXV_HAVE_SYS_TYPES_H
+/* Define if you have the <libproc.h> header file. */
+#cmakedefine EXV_HAVE_LIBPROC_H
 
 /* Define if you have the <unistd.h> header file. */
 #cmakedefine EXV_HAVE_UNISTD_H
@@ -73,9 +52,6 @@
 
 // Define if you have are using the zlib library.
 #cmakedefine EXV_HAVE_LIBZ
-
-// Define if you have the <process.h> header file.
-#cmakedefine EXV_HAVE_PROCESS_H
 
 /* Define if you have (Exiv2/xmpsdk) Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT

@@ -65,13 +65,11 @@ namespace Action {
     class Task {
     public:
         //! Shortcut for an auto pointer.
-        typedef std::auto_ptr<Task> AutoPtr;
-        //! Contructor.
-        Task() : binary_(false) {}
+        using UniquePtr = std::unique_ptr<Task>;
         //! Virtual destructor.
-        virtual ~Task();
+        virtual ~Task() = default;
         //! Virtual copy construction.
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         /*!
           @brief Application interface to perform a task.
 
@@ -94,7 +92,7 @@ namespace Action {
         virtual Task* clone_() const =0;
         
         //! copy binary_ from command-line params to task
-        bool binary_;
+        bool binary_ {false} ;
 
     }; // class Task
 
@@ -114,6 +112,10 @@ namespace Action {
           this method.
         */
         static TaskFactory& instance();
+
+        //! Prevent copy construction: not implemented.
+        TaskFactory(const TaskFactory& rhs) = delete;
+
         //! Destructor
         void cleanup();
 
@@ -127,7 +129,7 @@ namespace Action {
                   returned auto pointer and take appropriate action (e.g., throw
                   an exception) if it is 0.
          */
-        Task::AutoPtr create(TaskType type);
+        Task::UniquePtr create(TaskType type);
 
         /*!
           @brief Register a task prototype together with its type.
@@ -141,18 +143,16 @@ namespace Action {
           @param task Pointer to the prototype. Ownership is transferred to the
                  task factory. That's what the auto pointer indicates.
         */
-        void registerTask(TaskType type, Task::AutoPtr task);
+        void registerTask(TaskType type, Task::UniquePtr task);
 
     private:
         //! Prevent construction other than through instance().
         TaskFactory();
-        //! Prevent copy construction: not implemented.
-        TaskFactory(const TaskFactory& rhs);
 
         //! Pointer to the one and only instance of this class.
         static TaskFactory* instance_;
         //! Type used to store Task prototype classes
-        typedef std::map<TaskType, Task*> Registry;
+        using Registry = std::map<TaskType, Task*>;
         //! List of task types and corresponding prototypes.
         Registry registry_;
 
@@ -161,10 +161,10 @@ namespace Action {
     //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
-        virtual ~Print();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Print> AutoPtr;
-        AutoPtr clone() const;
+        ~Print() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Print>;
+        UniquePtr clone() const;
 
         //! Print the Jpeg comment
         int printComment();
@@ -175,9 +175,9 @@ namespace Action {
         //! Print Exif, IPTC and XMP metadata in user defined format
         int printList();
         //! Return true if key should be printed, else false
-        bool grepTag(const std::string& key);
+        static bool grepTag(const std::string& key);
         //! Return true if key should be printed, else false
-        bool keyTag(const std::string& key);
+        static bool keyTag(const std::string& key);
         //! Print all metadata in a user defined format
         int printMetadata(const Exiv2::Image* image);
         //! Print a metadatum in a user defined format, return true if something was printed
@@ -193,7 +193,7 @@ namespace Action {
                      const std::string& key,
                      const std::string& label ="") const;
         //! Type for an Exiv2 Easy access function
-        typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
+        using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData& ed);
         /*!
           @brief Print one summary line with a label (if provided) and requested
                  data. A line break is printed only if a label is provided.
@@ -205,10 +205,10 @@ namespace Action {
                      EasyAccessFct easyAccessFctFallback =NULL) const;
 
     private:
-        virtual Print* clone_() const;
+        Print* clone_() const override;
 
         std::string path_;
-        int align_;                // for the alignment of the summary output
+        int align_{0};                // for the alignment of the summary output
     }; // class Print
 
     /*!
@@ -217,33 +217,33 @@ namespace Action {
      */
     class Rename : public Task {
     public:
-        virtual ~Rename();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Rename> AutoPtr;
-        AutoPtr clone() const;
+        ~Rename() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Rename>;
+        UniquePtr clone() const;
 
     private:
-        virtual Rename* clone_() const;
+        Rename* clone_() const override;
     }; // class Rename
 
     //! %Adjust the Exif (or other metadata) timestamps
     class Adjust : public Task {
     public:
-        virtual ~Adjust();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Adjust> AutoPtr;
-        AutoPtr clone() const;
+        ~Adjust() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Adjust>;
+        UniquePtr clone() const;
 
     private:
-        virtual Adjust* clone_() const;
+        Adjust* clone_() const override;
         int adjustDateTime(Exiv2::ExifData& exifData,
                            const std::string& key,
                            const std::string& path) const;
 
-        long adjustment_;
-        long yearAdjustment_;
-        long monthAdjustment_;
-        long dayAdjustment_;
+        long adjustment_ {0};
+        long yearAdjustment_ {0};
+        long monthAdjustment_ {0};
+        long dayAdjustment_ {0};
 
     }; // class Adjust
 
@@ -252,39 +252,38 @@ namespace Action {
      */
     class Erase : public Task {
     public:
-        virtual ~Erase();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Erase> AutoPtr;
-        AutoPtr clone() const;
+        ~Erase() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Erase>;
+        UniquePtr clone() const;
 
         /*!
           @brief Delete the thumbnail image, incl IFD1 metadata from the file.
          */
-        int eraseThumbnail(Exiv2::Image* image) const;
+        static int eraseThumbnail(Exiv2::Image* image);
         /*!
           @brief Erase the complete Exif data block from the file.
          */
-        int eraseExifData(Exiv2::Image* image) const;
+        static int eraseExifData(Exiv2::Image* image);
         /*!
           @brief Erase all Iptc data from the file.
          */
-        int eraseIptcData(Exiv2::Image* image) const;
+        static int eraseIptcData(Exiv2::Image* image);
         /*!
           @brief Erase Jpeg comment from the file.
          */
-        int eraseComment(Exiv2::Image* image) const;
+        static int eraseComment(Exiv2::Image* image);
         /*!
           @brief Erase XMP packet from the file.
          */
-        int eraseXmpData(Exiv2::Image* image) const;
+        static int eraseXmpData(Exiv2::Image* image);
         /*!
           @brief Erase ICCProfile from the file.
          */
-        int eraseIccProfile(Exiv2::Image* image) const;
-
+        static int eraseIccProfile(Exiv2::Image* image);
 
     private:
-        virtual Erase* clone_() const;
+        Erase* clone_() const override;
         std::string path_;
 
     }; // class Erase
@@ -294,10 +293,10 @@ namespace Action {
      */
     class Extract : public Task {
     public:
-        virtual ~Extract();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Extract> AutoPtr;
-        AutoPtr clone() const;
+        ~Extract() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Extract>;
+        UniquePtr clone() const;
 
         /*!
           @brief Write the thumbnail image to a file. The filename is composed by
@@ -320,10 +319,10 @@ namespace Action {
         /*!
           @brief Write embedded iccProfile files.
          */
-        int writeIccProfile(const std::string& path) const;
+        int writeIccProfile(const std::string& target) const;
 
     private:
-        virtual Extract* clone_() const;
+        Extract* clone_() const override;
         std::string path_;
 
     }; // class Extract
@@ -333,38 +332,38 @@ namespace Action {
      */
     class Insert : public Task {
     public:
-        virtual ~Insert();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Insert> AutoPtr;
-        AutoPtr clone() const;
+        ~Insert() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Insert>;
+        UniquePtr clone() const;
 
         /*!
           @brief Insert a Jpeg thumbnail image from a file into file \em path.
                  The filename of the thumbnail is expected to be the image
                  filename (\em path) minus its suffix plus "-thumb.jpg".
          */
-        int insertThumbnail(const std::string& path) const;
+        static int insertThumbnail(const std::string& path);
 
         /*!
           @brief Insert an XMP packet from a xmpPath into file \em path.
          */
-        int insertXmpPacket(const std::string& path,const std::string& xmpPath) const;
+        static int insertXmpPacket(const std::string& path,const std::string& xmpPath) ;
         /*!
           @brief Insert xmp from a DataBuf into file \em path.
          */
-        int insertXmpPacket(const std::string& path,const Exiv2::DataBuf& xmpBlob,bool usePacket=false) const;
+        static int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false);
 
         /*!
           @brief Insert an ICC profile from iccPath into file \em path.
          */
-        int insertIccProfile(const std::string& path,const std::string& iccPath) const;
+        static int insertIccProfile(const std::string& path,const std::string& iccPath) ;
         /*!
           @brief Insert an ICC profile from binary DataBuf into file \em path.
          */
-        int insertIccProfile(const std::string& path,Exiv2::DataBuf& iccProfileBlob) const;
+        static int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob);
 
     private:
-        virtual Insert* clone_() const;
+        Insert* clone_() const override;
 
     }; // class Insert
 
@@ -374,18 +373,18 @@ namespace Action {
      */
     class Modify : public Task {
     public:
-        virtual ~Modify();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<Modify> AutoPtr;
-        AutoPtr clone() const;
+        ~Modify() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<Modify>;
+        UniquePtr clone() const;
         Modify() {}
         //! Apply modification commands to the \em pImage, return 0 if successful.
         static int applyCommands(Exiv2::Image* pImage);
 
     private:
-        virtual Modify* clone_() const;
-        //! Copy constructor needed because of AutoPtr member
-        Modify(const Modify& /*src*/) : Task() {}
+        Modify* clone_() const override;
+        //! Copy constructor needed because of UniquePtr member
+        Modify(const Modify& /*src*/) = default;
 
         //! Add a metadatum to \em pImage according to \em modifyCmd
         static int addMetadatum(Exiv2::Image* pImage,
@@ -407,13 +406,13 @@ namespace Action {
      */
     class FixIso : public Task {
     public:
-        virtual ~FixIso();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<FixIso> AutoPtr;
-        AutoPtr clone() const;
+        ~FixIso() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<FixIso>;
+        UniquePtr clone() const;
 
     private:
-        virtual FixIso* clone_() const;
+        FixIso* clone_() const override;
         std::string path_;
 
     }; // class FixIso
@@ -425,13 +424,13 @@ namespace Action {
      */
     class FixCom : public Task {
     public:
-        virtual ~FixCom();
-        virtual int run(const std::string& path);
-        typedef std::auto_ptr<FixCom> AutoPtr;
-        AutoPtr clone() const;
+        ~FixCom() override = default;
+        int run(const std::string& path) override;
+        using UniquePtr = std::unique_ptr<FixCom>;
+        UniquePtr clone() const;
 
     private:
-        virtual FixCom* clone_() const;
+        FixCom* clone_() const override;
         std::string path_;
 
     }; // class FixCom

@@ -42,7 +42,7 @@ Exif comment    :
 Warning: Directory Image, entry 0x0111: Strip 17 is outside of the data area; ignored.
 Error: Directory Photo with 8224 entries considered invalid; not read.
 Warning: Removing 913 characters from the beginning of the XMP packet
-Error: XMP Toolkit error 201: XML parsing failure
+Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 """
     ]

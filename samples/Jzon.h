@@ -40,41 +40,12 @@ THE SOFTWARE.
 
 namespace Jzon
 {
-    #ifdef _MSC_VER
-	# pragma warning(disable : 4251)
-	#endif
-	
-	template<typename T1, typename T2>
-	struct Pair
-	{
-		Pair(T1 first, T2 second) : first(first), second(second)
-		{}
-
-		Pair &operator=(const Pair &rhs)
-		{
-			if (this != &rhs)
-			{
-				this->first  = rhs.first;
-				this->second = rhs.second;
-			}
-			return *this;
-		}
-
-		T1 first;
-		T2 second;
-	};
-	template<typename T1, typename T2>
-	static Pair<T1, T2> MakePair(T1 first, T2 second)
-	{
-		return Pair<T1, T2>(first, second);
-	}
-
 	class Node;
 	class Value;
 	class Object;
 	class Array;
-	typedef Pair<std::string, Node&> NamedNode;
-	typedef Pair<std::string, Node*> NamedNodePtr;
+	using NamedNode = std::pair<std::string, Node&>;
+	using NamedNodePtr = std::pair<std::string, Node*>;
 
 	class TypeException : public std::logic_error
 	{
@@ -112,8 +83,8 @@ namespace Jzon
 			T_VALUE
 		};
 
-		Node();
-		virtual ~Node();
+		Node() noexcept = default;
+		virtual ~Node() noexcept = default;
 
 		virtual Type GetType() const = 0;
 
@@ -171,23 +142,35 @@ namespace Jzon
 		Value(const float value);
 		Value(const double value);
 		Value(const bool value);
-		virtual ~Value();
+        ~Value() override = default;
 
-		virtual Type GetType() const;
-		ValueType GetValueType() const;
+        Type GetType() const override;
+        ValueType GetValueType() const;
 
-		virtual inline bool IsNull() const { return (type == VT_NULL); }
-		virtual inline bool IsString() const { return (type == VT_STRING); }
-		virtual inline bool IsNumber() const { return (type == VT_NUMBER); }
-		virtual inline bool IsBool() const { return (type == VT_BOOL); }
+        inline bool IsNull() const override
+        {
+            return (type == VT_NULL);
+        }
+        inline bool IsString() const override
+        {
+            return (type == VT_STRING);
+        }
+        inline bool IsNumber() const override
+        {
+            return (type == VT_NUMBER);
+        }
+        inline bool IsBool() const override
+        {
+            return (type == VT_BOOL);
+        }
 
-		virtual std::string ToString() const;
-		virtual int ToInt() const;
-		virtual float ToFloat() const;
-		virtual double ToDouble() const;
-		virtual bool ToBool() const;
+        std::string ToString() const override;
+        int ToInt() const override;
+        float ToFloat() const override;
+        double ToDouble() const override;
+        bool ToBool() const override;
 
-		void SetNull();
+        void SetNull();
 		void Set(const Value &value);
 		void Set(ValueType type, const std::string &value);
 		void Set(const std::string &value);
@@ -213,9 +196,9 @@ namespace Jzon
 		static std::string UnescapeString(const std::string &value);
 
 	protected:
-		virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
-	private:
+    private:
 		std::string valueStr;
 		ValueType type;
 	};
@@ -260,32 +243,32 @@ namespace Jzon
 			const NamedNodePtr *p;
 		};
 
-		Object();
-		Object(const Object &other);
-		Object(const Node &other);
-		virtual ~Object();
+        Object() = default;
+        Object(const Object &other);
+        Object(const Node &other);
+        ~Object() override;
 
-		virtual Type GetType() const;
+        Type GetType() const override;
 
-		void Add(const std::string &name, Node &node);
-		void Add(const std::string &name, Value node);
-		void Remove(const std::string &name);
-		void Clear();
+        void Add(const std::string &name, Node &node);
+        void Add(const std::string &name, const Value &node);
+        void Remove(const std::string &name);
+        void Clear();
 
 		iterator begin();
 		const_iterator begin() const;
 		iterator end();
 		const_iterator end() const;
 
-		virtual bool Has(const std::string &name) const;
-		virtual size_t GetCount() const;
-		virtual Node &Get(const std::string &name) const;
-		using Node::Get;
+        bool Has(const std::string &name) const override;
+        size_t GetCount() const override;
+        Node &Get(const std::string &name) const override;
+        using Node::Get;
 
 	protected:
-		virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
-	private:
+    private:
 		typedef std::vector<NamedNodePtr> ChildList;
 		ChildList children;
 	};
@@ -328,31 +311,31 @@ namespace Jzon
 			const Node *const *p;
 		};
 
-		Array();
-		Array(const Array &other);
-		Array(const Node &other);
-		virtual ~Array();
+        Array() = default;
+        Array(const Array &other);
+        Array(const Node &other);
+        ~Array() override;
 
-		virtual Type GetType() const;
+        Type GetType() const override;
 
-		void Add(Node &node);
-		void Add(Value node);
-		void Remove(size_t index);
-		void Clear();
+        void Add(Node &node);
+        void Add(const Value &node);
+        void Remove(size_t index);
+        void Clear();
 
 		iterator begin();
 		const_iterator begin() const;
 		iterator end();
 		const_iterator end() const;
 
-		virtual size_t GetCount() const;
-		virtual Node &Get(size_t index) const;
-		using Node::Get;
+        size_t GetCount() const override;
+        Node &Get(size_t index) const override;
+        using Node::Get;
 
 	protected:
-		virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
-	private:
+    private:
 		typedef std::vector<Node*> ChildList;
 		ChildList children;
 	};
@@ -360,10 +343,10 @@ namespace Jzon
 	class JzonAPI FileWriter
 	{
 	public:
-		FileWriter(const std::string &filename);
-		~FileWriter();
+        FileWriter(std::string filename);
+        ~FileWriter() = default;
 
-		static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
+        static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
 
 		void Write(const Node &root, const Format &format = NoFormat);
 
@@ -375,7 +358,7 @@ namespace Jzon
 	{
 	public:
 		FileReader(const std::string &filename);
-		~FileReader();
+		~FileReader() = default;
 
 		static bool ReadFile(const std::string &filename, Node &node);
 
@@ -386,10 +369,10 @@ namespace Jzon
 		const std::string &GetError() const;
 
 	private:
-		bool loadFile(const std::string &filename, std::string &json);
-		std::string json;
-		std::string error;
-	};
+        static bool loadFile(const std::string &filename, std::string &json);
+        std::string json;
+        std::string error;
+    };
 
 	class JzonAPI Writer
 	{
@@ -403,10 +386,12 @@ namespace Jzon
 		// Return result from last call to Write()
 		const std::string &GetResult() const;
 
+		// Disable assignment operator
+		Writer &operator=(const Writer&) = delete;
 	private:
-		void writeNode(const Node &node, unsigned int level);
-		void writeObject(const Object &node, unsigned int level);
-		void writeArray(const Array &node, unsigned int level);
+		void writeNode(const Node &node, size_t level);
+		void writeObject(const Object &node, size_t level);
+		void writeArray(const Array &node, size_t level);
 		void writeValue(const Value &node);
 
 		std::string result;
@@ -414,9 +399,6 @@ namespace Jzon
 		class FormatInterpreter *fi;
 
 		const Node &root;
-
-		// Disable assignment operator
-		Writer &operator=(const Writer&);
 	};
 
 	class JzonAPI Parser
@@ -424,13 +406,15 @@ namespace Jzon
 	public:
 		Parser(Node &root);
 		Parser(Node &root, const std::string &json);
-		~Parser();
+		~Parser() = default;
 
 		void SetJson(const std::string &json);
 		bool Parse();
 
 		const std::string &GetError() const;
 
+		// Disable assignment operator
+		Parser &operator=(const Parser&) = delete;
 	private:
 		enum Token
 		{
@@ -455,19 +439,16 @@ namespace Jzon
 		bool interpretValue(const std::string &value);
 
 		std::string json;
-		std::size_t jsonSize;
+		std::size_t jsonSize{0};
 
 		std::queue<Token> tokens;
-		std::queue<Pair<Value::ValueType, std::string> > data;
+		std::queue<std::pair<Value::ValueType, std::string> > data;
 
-		std::size_t cursor;
+		std::size_t cursor{0};
 
 		Node &root;
 
 		std::string error;
-
-		// Disable assignment operator
-		Parser &operator=(const Parser&);
 	};
 }
 

@@ -24,6 +24,7 @@
 #include "image.hpp"
 #include "image_int.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
@@ -53,12 +54,6 @@
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
 
-#ifdef   EXV_ENABLE_VIDEO
-#include "matroskavideo.hpp"
-#include "quicktimevideo.hpp"
-#include "riffvideo.hpp"
-#include "asfvideo.hpp"
-#endif// EXV_ENABLE_VIDEO
 #include "rw2image.hpp"
 #include "pgfimage.hpp"
 #include "xmpsidecar.hpp"
@@ -134,26 +129,30 @@ namespace {
 #ifdef EXV_ENABLE_BMFF
         { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
 #endif // EXV_ENABLE_BMFF
-#ifdef EXV_ENABLE_VIDEO
-        { ImageType::qtime,newQTimeInstance,isQTimeType,amRead,      amNone,      amRead,      amNone      },
-        { ImageType::riff, newRiffInstance, isRiffType, amRead,      amNone,      amRead,      amNone      },
-        { ImageType::asf,  newAsfInstance,  isAsfType,  amNone,      amNone,      amRead,      amNone      },
-        { ImageType::mkv,  newMkvInstance,  isMkvType,  amNone,      amNone,      amRead,      amNone      },
-#endif // EXV_ENABLE_VIDEO
         // End of list marker
-        { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
+        { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    // BasicIo::read() with error checking
+    static void readOrThrow(BasicIo& iIo, byte* buf, long rcount, ErrorCode err) {
+      const long nread = iIo.read(buf, rcount);
+      enforce(nread == rcount, err);
+      enforce(!iIo.error(), err);
+    }
 
-    Image::Image(int              imageType,
-                 uint16_t         supportedMetadata,
-                 BasicIo::AutoPtr io)
-        : io_(io),
+    // BasicIo::seek() with error checking
+    static void seekOrThrow(BasicIo& iIo, long offset, BasicIo::Position pos, ErrorCode err) {
+      const int r = iIo.seek(offset, pos);
+      enforce(r == 0, err);
+    }
+
+    Image::Image(int imageType, uint16_t supportedMetadata, BasicIo::UniquePtr io)
+        : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
           imageType_(imageType),
@@ -164,12 +163,7 @@ namespace Exiv2 {
           writeXmpFromPacket_(true),
 #endif
           byteOrder_(invalidByteOrder),
-          tags_(),
           init_(true)
-    {
-    }
-
-    Image::~Image()
     {
     }
 
@@ -241,15 +235,15 @@ namespace Exiv2 {
             char c[4];
         } e = { 0x01000000 };
 
-        return e.c[0]?true:false;
+        return e.c[0] != 0;
     }
     bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
 
-    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
+    uint64_t Image::byteSwap(uint64_t value, bool bSwap)
     {
         uint64_t result = 0;
-        byte* source_value = reinterpret_cast<byte *>(&value);
-        byte* destination_value = reinterpret_cast<byte *>(&result);
+        auto source_value = reinterpret_cast<byte*>(&value);
+        auto destination_value = reinterpret_cast<byte*>(&result);
 
         for (int i = 0; i < 8; i++)
             destination_value[i] = source_value[8 - i - 1];
@@ -257,7 +251,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
+    uint32_t Image::byteSwap(uint32_t value, bool bSwap)
     {
         uint32_t result = 0;
         result |= (value & 0x000000FF) << 24;
@@ -267,7 +261,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
+    uint16_t Image::byteSwap(uint16_t value, bool bSwap)
     {
         uint16_t result = 0;
         result |= (value & 0x00FF) << 8;
@@ -275,41 +269,41 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
+    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) 
     {
-        uint16_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
+        uint16_t v = 0;
+        auto p = reinterpret_cast<char*>(&v);
+        p[0] = buf.read_uint8(offset);
+        p[1] = buf.read_uint8(offset+1);
         return Image::byteSwap(v,bSwap);
     }
 
-    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
+    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) 
     {
-        uint32_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        p[2] = buf.pData_[offset+2];
-        p[3] = buf.pData_[offset+3];
+        uint32_t v = 0;
+        auto p = reinterpret_cast<char*>(&v);
+        p[0] = buf.read_uint8(offset);
+        p[1] = buf.read_uint8(offset+1);
+        p[2] = buf.read_uint8(offset+2);
+        p[3] = buf.read_uint8(offset+3);
         return Image::byteSwap(v,bSwap);
     }
 
-    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
+    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) 
     {
-        uint64_t v;
-        byte*    p = reinterpret_cast<byte *>(&v);
+        uint64_t v = 0;
+        auto p = reinterpret_cast<byte*>(&v);
 
         for(int i = 0; i < 8; i++)
-            p[i] = buf.pData_[offset + i];
+            p[i] = buf.read_uint8(offset + i);
 
         return Image::byteSwap(v,bSwap);
     }
 
-    const char* Image::typeName(uint16_t tag) const
+    const char* Image::typeName(uint16_t tag)
     {
         //! List of TIFF image tags
-        const char* result = NULL;
+        const char* result = nullptr;
         switch (tag ) {
             case Exiv2::unsignedByte     : result = "BYTE"      ; break;
             case Exiv2::asciiString      : result = "ASCII"     ; break;
@@ -348,19 +342,17 @@ namespace Exiv2 {
 
         do {
             // Read top of directory
-            const int seekSuccess = !io.seek(start,BasicIo::beg);
-            const long bytesRead = io.read(dir.pData_, 2);
-            if (!seekSuccess || bytesRead == 0) {
-                throw Error(kerCorruptedMetadata);
-            }
+            seekOrThrow(io, start, BasicIo::beg, kerCorruptedMetadata);
+            readOrThrow(io, dir.data(), 2, kerCorruptedMetadata);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
+            // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
+            enforce(dirLength > 0, kerCorruptedMetadata);
 
-            bool tooBig = dirLength > 500;
-            if ( tooBig ) throw Error(kerTiffDirectoryTooLarge);
+            if ( dirLength > 500 ) // tooBig
+                throw Error(kerTiffDirectoryTooLarge);
 
             if ( bFirst && bPrint ) {
                 out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
-                if ( tooBig ) out << Internal::indent(depth) << "dirLength = " << dirLength << std::endl;
             }
 
             // Read the dictionary
@@ -377,7 +369,7 @@ namespace Exiv2 {
                 }
                 bFirst = false;
 
-                io.read(dir.pData_, 12);
+                readOrThrow(io, dir.data(), 12, kerCorruptedMetadata);
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
                 uint32_t count  = byteSwap4(dir,4,bSwap);
@@ -385,12 +377,12 @@ namespace Exiv2 {
 
                 // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
-                    std::cerr << "invalid type in tiff structure" << type << std::endl;
+                    EXV_ERROR << "invalid type in tiff structure" << type << std::endl;
                     start = 0; // break from do loop
                     throw Error(kerInvalidTypeValue);
                 }
 
-                std::string sp  = "" ; // output spacer
+                std::string sp;  // output spacer
 
                 //prepare to print the value
                 uint32_t kount  = isPrintXMP(tag,option) ? count // haul in all the data
@@ -410,20 +402,27 @@ namespace Exiv2 {
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
 
                 // #55 and #56 memory allocation crash test/data/POC8
-                long long allocate = (long long) size*count + pad+20;
-                if ( allocate > (long long) io.size() ) {
+                const uint64_t allocate64 = static_cast<uint64_t>(size) * count + pad + 20;
+                if ( allocate64 > io.size() ) {
                     throw Error(kerInvalidMalloc);
                 }
-                DataBuf  buf((long)allocate);  // allocate a buffer
-                std::memset(buf.pData_, 0, buf.size_);
-                std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
-                const bool bOffsetIsPointer = count*size > 4;
+                // Overflow check
+                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()), kerCorruptedMetadata);
+                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+                const long allocate = static_cast<long>(allocate64);
+                DataBuf  buf(allocate);  // allocate a buffer
+                buf.clear();
+                buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
+
+                // We have already checked that this multiplication cannot overflow.
+                const uint32_t count_x_size = count*size;
+                const bool bOffsetIsPointer = count_x_size > 4;
 
                 if ( bOffsetIsPointer ) {         // read into buffer
-                    size_t   restore = io.tell();  // save
-                    io.seek(offset,BasicIo::beg);  // position
-                    io.read(buf.pData_,count*size);// read
-                    io.seek(restore,BasicIo::beg); // restore
+                    const long restore = io.tell(); // save
+                    seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata); // position
+                    readOrThrow(io, buf.data(), static_cast<long>(count_x_size), kerCorruptedMetadata); // read
+                    seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata); // restore
                 }
 
                 if ( bPrint ) {
@@ -462,63 +461,63 @@ namespace Exiv2 {
 
                     if ( option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a/*SubIFDs*/  || type == tiffIfd) ) {
                         for ( size_t k = 0 ; k < count ; k++ ) {
-                            size_t   restore = io.tell();
-                            uint32_t offset = byteSwap4(buf,k*size,bSwap);
+                            const long restore = io.tell();
+                            offset = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
-                            io.seek(restore,BasicIo::beg);
+                            seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
+                        if (count > 0) {
+                            if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
+                                throw Error(kerCorruptedMetadata);
+                            }
 
-                        if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
-                            throw Error(kerCorruptedMetadata);
+                            const long restore = io.tell();
+                            seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata);  // position
+                            std::vector<byte> bytes(count) ;  // allocate memory
+                            // TODO: once we have C++11 use bytes.data()
+                            readOrThrow(io, &bytes[0], count, kerCorruptedMetadata);
+                            seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata);
+                            // TODO: once we have C++11 use bytes.data()
+                            IptcData::printStructure(out, makeSliceUntil(&bytes[0], count), depth);
                         }
-
-                        const size_t restore = io.tell();
-                        io.seek(offset, BasicIo::beg);  // position
-                        std::vector<byte> bytes(count) ;  // allocate memory
-                        // TODO: once we have C++11 use bytes.data()
-                        const long read_bytes = io.read(&bytes[0], count);
-                        io.seek(restore, BasicIo::beg);
-                        // TODO: once we have C++11 use bytes.data()
-                        IptcData::printStructure(out, makeSliceUntil(&bytes[0], read_bytes), depth);
-
                     }  else if ( option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-                        size_t   restore = io.tell();  // save
+                        const long restore = io.tell();  // save
 
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
-                        const char* chars = (const char*) &bytes[0] ;
-                        io.seek(offset,BasicIo::beg);  // position
-                        io.read(bytes,jump    )     ;  // read
+                        const auto chars = reinterpret_cast<const char*>(&bytes[0]);
+                        seekOrThrow(io, offset, BasicIo::beg, kerCorruptedMetadata);  // position
+                        readOrThrow(io, bytes, jump, kerCorruptedMetadata)     ;  // read
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes=new byte[count-jump] ;  // allocate memory
-                            io.read(bytes,count-jump)        ;  // read
-                            MemIo memIo(bytes,count-jump)    ;  // create a file
+                            const long byteslen = count-jump;
+                            DataBuf bytes(byteslen);  // allocate a buffer
+                            readOrThrow(io, bytes.data(), byteslen, kerCorruptedMetadata);  // read
+                            MemIo memIo(bytes.c_data(), byteslen)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
-                            delete[] bytes                   ;  // free
                         } else {
                             // tag is an IFD
-                            io.seek(0,BasicIo::beg);  // position
+                            seekOrThrow(io, 0, BasicIo::beg, kerCorruptedMetadata);  // position
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
                         }
 
-                        io.seek(restore,BasicIo::beg); // restore
+                        seekOrThrow(io, restore, BasicIo::beg, kerCorruptedMetadata); // restore
                     }
                 }
 
                 if ( isPrintXMP(tag,option) ) {
-                    buf.pData_[count]=0;
-                    out << (char*) buf.pData_;
+                    buf.write_uint8(count, 0);
+                    out << buf.c_str();
                 }
                 if ( isPrintICC(tag,option) ) {
-                    out.write((const char*)buf.pData_,count);
+                    out.write(buf.c_str(), count);
                 }
             }
             if ( start ) {
-                io.read(dir.pData_, 4);
-                start = tooBig ? 0 : byteSwap4(dir,0,bSwap);
+                readOrThrow(io, dir.data(), 4, kerCorruptedMetadata);
+                start = byteSwap4(dir,0,bSwap);
             }
         } while (start) ;
 
@@ -537,13 +536,13 @@ namespace Exiv2 {
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
-            io.read(dir.pData_,  8);
-            char c = (char) dir.pData_[0] ;
+            readOrThrow(io, dir.data(),  8, kerCorruptedMetadata);
+            char c = static_cast<char>(dir.read_uint8(0));
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
                         ;
             uint32_t start = byteSwap4(dir,4,bSwap);
-            printIFDStructure(io,out,option,start+(uint32_t)offset,bSwap,c,depth);
+            printIFDStructure(io, out, option, start + static_cast<uint32_t>(offset), bSwap, c, depth);
         }
     }
 
@@ -672,16 +671,20 @@ namespace Exiv2 {
     void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
-            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
-            long size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
-            if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
+            if (iccProfile.size() < static_cast<long>(sizeof(long))) {
+                throw Error(kerInvalidIccProfile);
+            }
+            const long size = iccProfile.read_uint32(0, bigEndian);
+            if (size != iccProfile.size()) {
+                throw Error(kerInvalidIccProfile);
+            }
         }
         iccProfile_ = iccProfile;
     }
 
     void Image::clearIccProfile()
     {
-        iccProfile_.free();
+        iccProfile_.reset();
     }
 
     void Image::setByteOrder(ByteOrder byteOrder)
@@ -810,7 +813,7 @@ namespace Exiv2 {
     bool ImageFactory::checkType(int type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
-        if (0 != r) {
+        if (nullptr != r) {
             return r->isThisType_(io, advance);
         }
         return false;
@@ -848,143 +851,132 @@ namespace Exiv2 {
         return ImageType::none;
     } // ImageFactory::getType
 
-    BasicIo::AutoPtr ImageFactory::createIo(const std::string& path, bool useCurl)
+    BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl)
     {
         Protocol fProt = fileProtocol(path);
 
-#ifdef EXV_USE_SSH
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::AutoPtr(new SshIo(path)); // may throw
-        }
-#endif
-
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return BasicIo::AutoPtr(new CurlIo(path)); // may throw
+            return BasicIo::UniquePtr(new CurlIo(path)); // may throw
         }
 #endif
 
         if (fProt == pHttp)
-            return BasicIo::AutoPtr(new HttpIo(path)); // may throw
+            return BasicIo::UniquePtr(new HttpIo(path)); // may throw
         if (fProt == pFileUri)
-            return BasicIo::AutoPtr(new FileIo(pathOfFileUrl(path)));
+            return BasicIo::UniquePtr(new FileIo(pathOfFileUrl(path)));
         if (fProt == pStdin || fProt == pDataUri)
-            return BasicIo::AutoPtr(new XPathIo(path)); // may throw
+            return BasicIo::UniquePtr(new XPathIo(path)); // may throw
 
-        return BasicIo::AutoPtr(new FileIo(path));
+        return BasicIo::UniquePtr(new FileIo(path));
 
         (void)(useCurl);
     } // ImageFactory::createIo
 
 #ifdef EXV_UNICODE_PATH
-    BasicIo::AutoPtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
+    BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
     {
         Protocol fProt = fileProtocol(wpath);
-#ifdef EXV_USE_SSH
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::AutoPtr(new SshIo(wpath));
-        }
-#endif
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return BasicIo::AutoPtr(new CurlIo(wpath));
+            return BasicIo::UniquePtr(new CurlIo(wpath));
         }
 #endif
         if (fProt == pHttp)
-            return BasicIo::AutoPtr(new HttpIo(wpath));
+            return BasicIo::UniquePtr(new HttpIo(wpath));
         if (fProt == pFileUri)
-            return BasicIo::AutoPtr(new FileIo(pathOfFileUrl(wpath)));
+            return BasicIo::UniquePtr(new FileIo(pathOfFileUrl(wpath)));
         if (fProt == pStdin || fProt == pDataUri)
-            return BasicIo::AutoPtr(new XPathIo(wpath)); // may throw
-        return BasicIo::AutoPtr(new FileIo(wpath));
+            return BasicIo::UniquePtr(new XPathIo(wpath)); // may throw
+        return BasicIo::UniquePtr(new FileIo(wpath));
     } // ImageFactory::createIo
 #endif
-    Image::AutoPtr ImageFactory::open(const std::string& path, bool useCurl)
+    Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
-        Image::AutoPtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == 0) throw Error(kerFileContainsUnknownImageType, path);
+        Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
+        if (image.get() == nullptr) throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
+    Image::UniquePtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
     {
-        Image::AutoPtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
+        Image::UniquePtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
         if (image.get() == 0) throw WError(kerFileContainsUnknownImageType, wpath);
         return image;
     }
 
 #endif
-    Image::AutoPtr ImageFactory::open(const byte* data, long size)
+    Image::UniquePtr ImageFactory::open(const byte* data, long size)
     {
-        BasicIo::AutoPtr io(new MemIo(data, size));
-        Image::AutoPtr image = open(io); // may throw
-        if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
+        BasicIo::UniquePtr io(new MemIo(data, size));
+        Image::UniquePtr image = open(std::move(io)); // may throw
+        if (image.get() == nullptr) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
-    Image::AutoPtr ImageFactory::open(BasicIo::AutoPtr io)
+    Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io)
     {
         if (io->open() != 0) {
             throw Error(kerDataSourceOpenFailed, io->path(), strError());
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
-                return registry[i].newInstance_(io, false);
+                return registry[i].newInstance_(std::move(io), false);
             }
         }
-        return Image::AutoPtr();
+        return Image::UniquePtr();
     } // ImageFactory::open
 
-    Image::AutoPtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(int type,
                                         const std::string& path)
     {
-        std::auto_ptr<FileIo> fileIo(new FileIo(path));
+        std::unique_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw Error(kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
+        if (image.get() == nullptr) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(int type,
                                         const std::wstring& wpath)
     {
-        std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
+        std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
 #endif
-    Image::AutoPtr ImageFactory::create(int type)
+    Image::UniquePtr ImageFactory::create(int type)
     {
-        BasicIo::AutoPtr io(new MemIo);
-        Image::AutoPtr image = create(type, io);
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
+        BasicIo::UniquePtr io(new MemIo);
+        Image::UniquePtr image = create(type, std::move(io));
+        if (image.get() == nullptr) throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
-    Image::AutoPtr ImageFactory::create(int type,
-                                        BasicIo::AutoPtr io)
+    Image::UniquePtr ImageFactory::create(int type,
+                                        BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
-        if (0 != r) {
-            return r->newInstance_(io, true);
+        if (nullptr != r) {
+            return r->newInstance_(std::move(io), true);
         }
-        return Image::AutoPtr();
+        return Image::UniquePtr();
     } // ImageFactory::create
 
 // *****************************************************************************

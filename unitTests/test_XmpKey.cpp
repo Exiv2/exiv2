@@ -20,7 +20,8 @@
 
 #include <exiv2/error.hpp>
 #include <exiv2/properties.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
+
 using namespace Exiv2;
 
 namespace
@@ -30,7 +31,7 @@ namespace
     const std::string expectedProperty("prop");
     const std::string expectedKey(expectedFamily + "." + expectedPrefix + "." + expectedProperty);
     const std::string notRegisteredValidKey("Xmp.noregistered.prop");
-}
+}  // namespace
 
 // Test Fixture which register a namespace with a prefix. This is needed to test the correct
 // behavior of the XmpKey class
@@ -47,7 +48,7 @@ public:
         XmpProperties::unregisterNs();
     }
 
-    void checkValidity(const XmpKey& key)
+    static void checkValidity(const XmpKey& key)
     {
         ASSERT_EQ(expectedKey, key.key());
         ASSERT_EQ(expectedFamily, key.familyName());
@@ -74,7 +75,7 @@ TEST_F(AXmpKey, correctlyInstantiatedWithValidPrefixAndProperty)
 TEST_F(AXmpKey, canBeCopiedConstructed)
 {
     XmpKey key(expectedPrefix, expectedProperty);
-    XmpKey copiedKey(key);
+    const XmpKey& copiedKey(key);
     checkValidity(copiedKey);
 }
 
@@ -89,7 +90,7 @@ TEST_F(AXmpKey, canBeCopied)
 TEST_F(AXmpKey, canBeCloned)
 {
     XmpKey key(expectedPrefix, expectedProperty);
-    XmpKey::AutoPtr clonedKey = key.clone();
+    XmpKey::UniquePtr clonedKey = key.clone();
     checkValidity(*clonedKey);
 }
 

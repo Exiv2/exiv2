@@ -44,12 +44,12 @@ namespace Exiv2 {
     class EXIV2API Key {
     public:
         //! Shortcut for a %Key auto pointer.
-        typedef std::auto_ptr<Key> AutoPtr;
+        typedef std::unique_ptr<Key> UniquePtr;
 
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~Key();
+        virtual ~Key() = default;
         //@}
 
         //! @name Accessors
@@ -76,7 +76,7 @@ namespace Exiv2 {
                  The caller owns this copy and the auto-pointer ensures that it
                  will be deleted.
          */
-        AutoPtr clone() const;
+        UniquePtr clone() const;
         /*!
           @brief Write the key to an output stream. You do not usually have
                  to use this function; it is used for the implementation of
@@ -93,7 +93,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Key& operator=(const Key& rhs);
+        Key& operator=(const Key& rhs) = default;
         //@}
 
     private:
@@ -117,11 +117,11 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default Constructor
-        Metadatum();
+        Metadatum() = default;
         //! Copy constructor
-        Metadatum(const Metadatum& rhs);
+        Metadatum(const Metadatum& rhs) = default;
         //! Destructor
-        virtual ~Metadatum();
+        virtual ~Metadatum() = default;
         //@}
 
         //! @name Manipulators
@@ -147,7 +147,7 @@ namespace Exiv2 {
 
           Implemented in terms of write(), see there.
          */
-        std::string print(const ExifData* pMetadata =0) const;
+        std::string print(const ExifData* pMetadata = nullptr) const;
         /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
@@ -181,10 +181,7 @@ namespace Exiv2 {
 
           See also print(), which prints the interpreted value to a string.
          */
-        virtual std::ostream& write(
-                  std::ostream& os,
-            const ExifData*     pMetadata =0
-        ) const =0;
+        virtual std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const = 0;
         /*!
           @brief Return the key of the metadatum. The key is of the form
                  'familyName.groupName.tagName'. Note however that the key
@@ -251,7 +248,7 @@ namespace Exiv2 {
           @return An auto-pointer containing a pointer to a copy (clone) of the
                   value, 0 if the value is not set.
          */
-        virtual Value::AutoPtr getValue() const =0;
+        virtual Value::UniquePtr getValue() const =0;
         /*!
           @brief Return a constant reference to the value.
 
@@ -275,7 +272,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Metadatum& operator=(const Metadatum& rhs);
+        Metadatum& operator=(const Metadatum& rhs) = default;
         //@}
 
     }; // class Metadatum

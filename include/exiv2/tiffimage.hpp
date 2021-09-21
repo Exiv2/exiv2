@@ -68,13 +68,13 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        TiffImage(BasicIo::AutoPtr io, bool create);
+        TiffImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
 
         /*!
           @brief Print out the structure of image file.
@@ -82,43 +82,42 @@ namespace Exiv2 {
                 not valid (does not look like data of the specific image type).
           @warning This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
          */
-        virtual void printStructure(std::ostream& out, PrintStructureOption option,int depth=0);
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth = 0) override;
 
         /*!
           @brief Not supported. TIFF format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        TiffImage(const TiffImage& rhs);
+        TiffImage(const TiffImage& rhs) = delete;
         //! Assignment operator
-        TiffImage& operator=(const TiffImage& rhs);
+        TiffImage& operator=(const TiffImage& rhs) = delete;
         //@}
 
+    private:
         //! @name Accessors
         //@{
         //! Return the group name of the group with the primary image.
         std::string primaryGroup() const;
         //@}
 
-    private:
         // DATA
         mutable std::string primaryGroup_;     //!< The primary group
         mutable std::string mimeType_;         //!< The MIME type
-        mutable int pixelWidth_;               //!< Width of the primary image in pixels
-        mutable int pixelHeight_;              //!< Height of the primary image in pixels
+        mutable int pixelWidthPrimary_;        //!< Width of the primary image in pixels
+        mutable int pixelHeightPrimary_;       //!< Height of the primary image in pixels
 
     }; // class TiffImage
 
@@ -204,7 +203,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newTiffInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a TIFF image.
     EXIV2API bool isTiffType(BasicIo& iIo, bool advance);

@@ -39,8 +39,8 @@
 // class member definitions
 namespace Exiv2 {
 
-    MrwImage::MrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, io)
+    MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // MrwImage::MrwImage
 
@@ -51,7 +51,7 @@ namespace Exiv2 {
 
     int MrwImage::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+        auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -60,7 +60,7 @@ namespace Exiv2 {
 
     int MrwImage::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+        auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
@@ -134,14 +134,14 @@ namespace Exiv2 {
         // will fail if there are fewer than siz bytes left to read.
         enforce(siz <= io_->size(), kerFailedToReadImageData);
         DataBuf buf(siz);
-        io_->read(buf.pData_, buf.size_);
+        io_->read(buf.data(), buf.size());
         enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
         ByteOrder bo = TiffParser::decode(exifData_,
                                           iptcData_,
                                           xmpData_,
-                                          buf.pData_,
-                                          buf.size_);
+                                          buf.c_data(),
+                                          buf.size());
         setByteOrder(bo);
     } // MrwImage::readMetadata
 
@@ -153,9 +153,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newMrwInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new MrwImage(io, create));
+        Image::UniquePtr image(new MrwImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

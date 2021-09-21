@@ -69,51 +69,45 @@ namespace Util {
 		if (arg && strcmp(arg, "--") == 0) {
 			optind++;
 			return -1;
-		} else if (!arg || arg[0] != '-' || !isalnum(arg[1])) {
-			return -1;
-		} else {
-			const char *opt = strchr(optstring, arg[optpos]);
-			optopt = arg[optpos];
-			if (!opt) {
-				if (opterr && *optstring != ':')
-					fprintf(stderr, "%s: illegal option: %c\n", argv[0], optopt);
-				return '?';
-			} else if (opt[1] == ':') {
-				if (arg[optpos + 1]) {
-					optarg = (char *)arg + optpos + 1;
-					optind++;
-					optpos = 1;
-					return optopt;
-				} else if (argv[optind + 1]) {
-					optarg = (char *)argv[optind + 1];
-					optind += 2;
-					optpos = 1;
-					return optopt;
-				} else {
-					if (opterr && *optstring != ':')
-						fprintf(stderr,
-								"%s: option requires an argument: %c\n",
-								argv[0], optopt);
-					return *optstring == ':' ? ':' : '?';
-				}
-			} else {
-				if (!arg[++optpos]) {
-					optind++;
-					optpos = 1;
-				}
-				return optopt;
-			}
-		}
-	}
+        }
+        if (!arg || arg[0] != '-' || !isalnum(arg[1])) {
+            return -1;
+        }
+        const char *opt = strchr(optstring, arg[optpos]);
+        optopt = arg[optpos];
+        if (!opt) {
+            if (opterr && *optstring != ':')
+                fprintf(stderr, "%s: illegal option: %c\n", argv[0], optopt);
+            return '?';
+        }
+        if (opt[1] == ':') {
+            if (arg[optpos + 1]) {
+                optarg = const_cast<char*>(arg) + optpos + 1;
+                optind++;
+                optpos = 1;
+                return optopt;
+            }
+            if (argv[optind + 1]) {
+                optarg = argv[optind + 1];
+                optind += 2;
+                optpos = 1;
+                return optopt;
+            }
+            if (opterr && *optstring != ':')
+                fprintf(stderr, "%s: option requires an argument: %c\n", argv[0], optopt);
+            return *optstring == ':' ? ':' : '?';
+        }
+        if (!arg[++optpos]) {
+            optind++;
+            optpos = 1;
+        }
+        return optopt;
+    }
 
 // *****************************************************************************
 // class Getopt
     Getopt::Getopt()
         : errcnt_(0)
-    {
-    }
-
-    Getopt::~Getopt()
     {
     }
 
@@ -127,7 +121,7 @@ namespace Util {
             if (c == -1) {
                 break;
             }
-            errcnt_ += option(c, Util::optarg == 0 ? "" : Util::optarg, Util::optopt);
+            errcnt_ += option(c, Util::optarg == nullptr ? "" : Util::optarg, Util::optopt);
             if (c == '?' ) {
                 break;
             }

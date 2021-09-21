@@ -25,7 +25,7 @@
 #include <iomanip>
 #include <cassert>
 
-typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
+using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 
 struct EasyAccess {
     const char*   label_;
@@ -82,14 +82,14 @@ try {
         return 1;
     }
 
-    Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(argv[1]);
+    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
     assert (image.get() != 0);
     image->readMetadata();
     Exiv2::ExifData& ed = image->exifData();
 
-    for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
-        Exiv2::ExifData::const_iterator pos = easyAccess[i].findFct_(ed);
-        std::cout << std::setw(21) << std::left << easyAccess[i].label_;
+    for (auto&& ea : easyAccess) {
+        auto pos = ea.findFct_(ed);
+        std::cout << std::setw(21) << std::left << ea.label_;
         if (pos != ed.end()) {
             std::cout << " (" << std::setw(35) << pos->key() << ") : "
                       << pos->print(&ed) << "\n";

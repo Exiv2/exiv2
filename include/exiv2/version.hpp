@@ -27,35 +27,7 @@
 // included header files
 // + standard includes
 #include <vector>
-
-#if defined(EXV_HAVE_REGEX_H)
-# include <regex.h>
-  /*!
-   @brief exv_grep_keys_t is a vector of keys to match to strings
-  */
-   typedef std::vector<regex_t> exv_grep_keys_t ;
-# else
-  /*!
-   @brief exv_grep_key_t is a simple string and the ignore flag
-  */
-   struct Exiv2_grep_key_t {
-    /*!
-    @brief Exiv2_grep_key_t constructor
-    */
-     Exiv2_grep_key_t(std::string pattern,bool bIgnoreCase)
-       :pattern_(pattern),bIgnoreCase_(bIgnoreCase) {}
-
-     //! simple string to match
-     std::string pattern_;
-
-     //! should we ignore cast in the match?
-     bool        bIgnoreCase_;
-   };
-  /*!
-   @brief exv_grep_keys_t is a vector of keys to match to strings
-  */
-   typedef std::vector<Exiv2_grep_key_t> exv_grep_keys_t ;
-#endif
+#include <regex>
 
 /*!
   @brief Make an integer version number for comparison from a major, minor and
@@ -149,7 +121,7 @@ namespace Exiv2 {
       @brief dumpLibraryInfo implements the exiv2 option --version --verbose
              used by exiv2 test suite to inspect libraries loaded at run-time
      */
-    EXIV2API void dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys);
+    EXIV2API void dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys);
 }                                       // namespace Exiv2
 
 

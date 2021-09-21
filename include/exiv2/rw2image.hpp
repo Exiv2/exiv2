@@ -59,49 +59,48 @@ namespace Exiv2 {
               instance after it is passed to this method.  Use the Image::io()
               method to get a temporary reference.
          */
-        explicit Rw2Image(BasicIo::AutoPtr io);
+        explicit Rw2Image(BasicIo::UniquePtr io);
         //@}
 
         //! @name Manipulators
         //@{
-        void printStructure(std::ostream& out, PrintStructureOption option,int depth);
-        void readMetadata();
+        void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+        void readMetadata() override;
         /*!
           @brief Todo: Write metadata back to the image. This method is not
               yet implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
          */
-        void writeMetadata();
+        void writeMetadata() override;
         /*!
           @brief Todo: Not supported yet, requires writeMetadata(). Calling
               this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setExifData(const ExifData& exifData);
+        void setExifData(const ExifData& exifData) override;
         /*!
           @brief Todo: Not supported yet, requires writeMetadata(). Calling
               this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setIptcData(const IptcData& iptcData);
+        void setIptcData(const IptcData& iptcData) override;
         /*!
           @brief Not supported. RW2 format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
 
-    private:
         //! @name NOT implemented
         //@{
         //! Copy constructor
-        Rw2Image(const Rw2Image& rhs);
+        Rw2Image(const Rw2Image& rhs) = delete;
         //! Assignment operator
-        Rw2Image& operator=(const Rw2Image& rhs);
+        Rw2Image& operator=(const Rw2Image& rhs) = delete;
         //@}
 
     }; // class Rw2Image
@@ -138,7 +137,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newRw2Instance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a RW2 image.
     EXIV2API bool isRw2Type(BasicIo& iIo, bool advance);

@@ -32,9 +32,11 @@
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <string>
+#include <fstream>
 #include <cstring>
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
@@ -49,6 +51,7 @@
 #include <pwd.h>
 #else
 #include <windows.h>
+#include <direct.h> // _getcwd
 #include <shlobj.h>
   /* older SDKs not have these */
 # ifndef CSIDL_MYMUSIC
@@ -80,47 +83,71 @@
 // *****************************************************************************
 namespace {
     // Todo: Can be generalized further - get any tag as a string/long/...
+    //! Get the Value for a tag within a particular group
+    const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag, const Exiv2::Internal::IfdId& group);
     //! Get the model name from tag Exif.Image.Model
-    std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot);
+    std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
+
     //! Nikon en/decryption function
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial);
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
     namespace Internal {
 
+        // C++17 use std::filesystem
+        // Function first looks for a config file in current working directory
+        // on Win the file should be named "exiv2.ini"
+        // on Lin the file should be named ".exiv2"
+        // If not found in cwd, we return the default path
+        // which is the user profile path on win and the home dir on linux
         std::string getExiv2ConfigPath()
         {
-            std::string homedir;
-            std::string inifile;
+            std::string dir;
 #if defined(_MSC_VER) || defined(__MINGW__)
-            char path[MAX_PATH];
+            std::string inifile("exiv2.ini");
+#else
+            std::string inifile(".exiv2");
+#endif
+
+            // first lets get the current working directory to check if there is a config file
+            char buffer[1024];
+#if defined(_MSC_VER) || defined(__MINGW__)
+            auto path = _getcwd(buffer, sizeof(buffer));
+#else
+            auto path = getcwd(buffer, sizeof(buffer));
+#endif
+            dir = std::string(path ? path : "");
+            auto const filename = dir + EXV_SEPARATOR_CHR + inifile;
+            // true if the file exists
+            if (std::ifstream(filename).good()) {
+                return filename;
+            }
+
+#if defined(_MSC_VER) || defined(__MINGW__)
             if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
-                homedir = std::string(path);
-                inifile = "exiv2.ini"      ;
+                dir = std::string(path);
             }
 #else
             struct passwd* pw = getpwuid(getuid());
-            homedir = std::string(pw?pw->pw_dir:"");
-            inifile = std::string(".exiv2");
+            dir = std::string(pw ? pw->pw_dir : "");
 #endif
-            return homedir + EXV_SEPARATOR_CHR + inifile;
+            return dir + EXV_SEPARATOR_CHR + inifile;
         }
 
-
-        std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def)
+        std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def)
         {
             std::string result = def;
-            Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
 
+            Exiv2::INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
             if (reader.ParseError() == 0) {
-                result = reader.Get(section,value,def);
+                result = reader.Get(section, value, def);
             }
+
             return result;
         }
-
 
     const TiffMnRegistry TiffMnCreator::registry_[] = {
         { "Canon",          canonId,     newIfdMn,       newIfdMn2       },
@@ -128,33 +155,34 @@ namespace Exiv2 {
         { "FUJI",           fujiId,      newFujiMn,      newFujiMn2      },
         { "KONICA MINOLTA", minoltaId,   newIfdMn,       newIfdMn2       },
         { "Minolta",        minoltaId,   newIfdMn,       newIfdMn2       },
-        { "NIKON",          ifdIdNotSet, newNikonMn,     0               }, // mnGroup_ is not used
-        { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   0               }, // mnGroup_ is not used
+        { "NIKON",          ifdIdNotSet, newNikonMn,     nullptr               }, // mnGroup_ is not used
+        { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   nullptr               }, // mnGroup_ is not used
         { "Panasonic",      panasonicId, newPanasonicMn, newPanasonicMn2 },
-        { "PENTAX",         ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
-        { "RICOH",          ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
+        { "PENTAX",         ifdIdNotSet, newPentaxMn,    nullptr               }, // mnGroup_ is not used
+        { "RICOH",          ifdIdNotSet, newPentaxMn,    nullptr               }, // mnGroup_ is not used
         { "SAMSUNG",        samsung2Id,  newSamsungMn,   newSamsungMn2   },
         { "SIGMA",          sigmaId,     newSigmaMn,     newSigmaMn2     },
-        { "SONY",           ifdIdNotSet, newSonyMn,      0               }, // mnGroup_ is not used
-        { "CASIO",          ifdIdNotSet, newCasioMn,     0               }, // mnGroup_ is not used
+        { "SONY",           ifdIdNotSet, newSonyMn,      nullptr               }, // mnGroup_ is not used
+        { "CASIO",          ifdIdNotSet, newCasioMn,     nullptr               }, // mnGroup_ is not used
         // Entries below are only used for lookup by group
-        { "-",              nikon1Id,    0,              newIfdMn2       },
-        { "-",              nikon2Id,    0,              newNikon2Mn2    },
-        { "-",              nikon3Id,    0,              newNikon3Mn2    },
-        { "-",              sony1Id,     0,              newSony1Mn2     },
-        { "-",              sony2Id,     0,              newSony2Mn2     },
-        { "-",              olympusId,   0,              newOlympusMn2   },
-        { "-",              olympus2Id,  0,              newOlympus2Mn2  },
-        { "-",              pentaxId,    0,              newPentaxMn2    },
-        { "-",              pentaxDngId, 0,              newPentaxDngMn2 },
-        { "-",              casioId,     0,              newIfdMn2       },
-        { "-",              casio2Id,    0,              newCasio2Mn2    }
+        { "-",              nikon1Id,    nullptr,              newIfdMn2       },
+        { "-",              nikon2Id,    nullptr,              newNikon2Mn2    },
+        { "-",              nikon3Id,    nullptr,              newNikon3Mn2    },
+        { "-",              sony1Id,     nullptr,              newSony1Mn2     },
+        { "-",              sony2Id,     nullptr,              newSony2Mn2     },
+        { "-",              olympusId,   nullptr,              newOlympusMn2   },
+        { "-",              olympus2Id,  nullptr,              newOlympus2Mn2  },
+        { "-",              pentaxId,    nullptr,              newPentaxMn2    },
+        { "-",              pentaxDngId, nullptr,              newPentaxDngMn2 },
+        { "-",              casioId,     nullptr,              newIfdMn2       },
+        { "-",              casio2Id,    nullptr,              newCasio2Mn2    }
     };
 
     bool TiffMnRegistry::operator==(const std::string& key) const
     {
         std::string make(make_);
-        if (key.size() > 0 && key[0] == '-') return false;
+        if (!key.empty() && key[0] == '-')
+            return false;
         return make == key.substr(0, make.length());
     }
 
@@ -170,7 +198,7 @@ namespace Exiv2 {
                                          uint32_t           size,
                                          ByteOrder          byteOrder)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         const TiffMnRegistry* tmr = find(registry_, make);
         if (tmr) {
             assert(tmr->newMnFct_);
@@ -188,11 +216,11 @@ namespace Exiv2 {
                                          IfdId              group,
                                          IfdId              mnGroup)
     {
-        TiffComponent* tc = 0;
+        TiffComponent* tc = nullptr;
         const TiffMnRegistry* tmr = find(registry_, mnGroup);
         if (tmr) {
 
-            if (tmr->newMnFct2_ == 0) {
+            if (tmr->newMnFct2_ == nullptr) {
 
                 std::cout << "mnGroup = " << mnGroup << "\n";
 
@@ -203,10 +231,6 @@ namespace Exiv2 {
         }
         return tc;
     } // TiffMnCreator::create
-
-    MnHeader::~MnHeader()
-    {
-    }
 
     void MnHeader::setByteOrder(ByteOrder /*byteOrder*/)
     {
@@ -241,13 +265,9 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    OlympusMnHeader::~OlympusMnHeader()
-    {
-    }
-
     uint32_t OlympusMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t OlympusMnHeader::ifdOffset() const
@@ -261,12 +281,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 6)) {
-            return false;
-        }
-        return true;
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 6));
     } // OlympusMnHeader::read
 
     uint32_t OlympusMnHeader::write(IoWrapper& ioWrapper,
@@ -290,13 +307,9 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    Olympus2MnHeader::~Olympus2MnHeader()
-    {
-    }
-
     uint32_t Olympus2MnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t Olympus2MnHeader::ifdOffset() const
@@ -315,12 +328,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 10)) {
-            return false;
-        }
-        return true;
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 10));
     } // Olympus2MnHeader::read
 
     uint32_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
@@ -345,13 +355,9 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), byteOrder_);
     }
 
-    FujiMnHeader::~FujiMnHeader()
-    {
-    }
-
     uint32_t FujiMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t FujiMnHeader::ifdOffset() const
@@ -375,15 +381,12 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
+        header_.copyBytes(0, pData, header_.size());
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder argument
-        start_ = getULong(header_.pData_ + 8, byteOrder_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 8)) {
-            return false;
-        }
-        return true;
+        start_ = header_.read_uint32(8, byteOrder_);
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 8));
     } // FujiMnHeader::read
 
     uint32_t FujiMnHeader::write(IoWrapper& ioWrapper,
@@ -407,10 +410,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    Nikon2MnHeader::~Nikon2MnHeader()
-    {
-    }
-
     uint32_t Nikon2MnHeader::size() const
     {
         return sizeOfSignature();
@@ -428,7 +427,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // Nikon2MnHeader::read
@@ -450,16 +449,10 @@ namespace Exiv2 {
         return sizeof(signature_);
     }
 
-    Nikon3MnHeader::Nikon3MnHeader()
+    Nikon3MnHeader::Nikon3MnHeader() : byteOrder_(invalidByteOrder), start_(sizeOfSignature())
     {
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, signature_, buf_.size_);
-        byteOrder_ = invalidByteOrder;
-        start_ = sizeOfSignature();
-    }
-
-    Nikon3MnHeader::~Nikon3MnHeader()
-    {
+        buf_.copyBytes(0, signature_, buf_.size());
     }
 
     uint32_t Nikon3MnHeader::size() const
@@ -489,9 +482,9 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 6)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         TiffHeader th;
-        if (!th.read(buf_.pData_ + 10, 8)) return false;
+        if (!th.read(buf_.data(10), 8)) return false;
         byteOrder_ = th.byteOrder();
         start_ = 10 + th.offset();
         return true;
@@ -500,15 +493,15 @@ namespace Exiv2 {
     uint32_t Nikon3MnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder byteOrder) const
     {
-        assert(buf_.size_ >= 10);
+        assert(buf_.size() >= 10);
 
-        ioWrapper.write(buf_.pData_, 10);
+        ioWrapper.write(buf_.c_data(), 10);
         // Todo: This removes any gap between the header and
         // makernote IFD. The gap should be copied too.
         TiffHeader th(byteOrder);
         DataBuf buf = th.write();
-        ioWrapper.write(buf.pData_, buf.size_);
-        return 10 + buf.size_;
+        ioWrapper.write(buf.c_data(), buf.size());
+        return 10 + buf.size();
     } // Nikon3MnHeader::write
 
     void Nikon3MnHeader::setByteOrder(ByteOrder byteOrder)
@@ -530,10 +523,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PanasonicMnHeader::~PanasonicMnHeader()
-    {
-    }
-
     uint32_t PanasonicMnHeader::size() const
     {
         return sizeOfSignature();
@@ -551,7 +540,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 9)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // PanasonicMnHeader::read
@@ -577,13 +566,9 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PentaxDngMnHeader::~PentaxDngMnHeader()
-    {
-    }
-
     uint32_t PentaxDngMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const
@@ -602,12 +587,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 7)) {
-            return false;
-        }
-        return true;
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 7));
     } // PentaxDngMnHeader::read
 
     uint32_t PentaxDngMnHeader::write(IoWrapper& ioWrapper,
@@ -631,13 +613,9 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    PentaxMnHeader::~PentaxMnHeader()
-    {
-    }
-
     uint32_t PentaxMnHeader::size() const
     {
-        return header_.size_;
+        return header_.size();
     }
 
     uint32_t PentaxMnHeader::ifdOffset() const
@@ -651,12 +629,9 @@ namespace Exiv2 {
     {
         if (!pData || size < sizeOfSignature()) return false;
         header_.alloc(sizeOfSignature());
-        std::memcpy(header_.pData_, pData, header_.size_);
-        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
-            || 0 != memcmp(header_.pData_, signature_, 3)) {
-            return false;
-        }
-        return true;
+        header_.copyBytes(0, pData, header_.size());
+        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
+                 0 != header_.cmpBytes(0, signature_, 3));
     } // PentaxMnHeader::read
 
     uint32_t PentaxMnHeader::write(IoWrapper& ioWrapper,
@@ -668,7 +643,7 @@ namespace Exiv2 {
 
     SamsungMnHeader::SamsungMnHeader()
     {
-        read(0, 0, invalidByteOrder);
+        read(nullptr, 0, invalidByteOrder);
     }
 
     uint32_t SamsungMnHeader::size() const
@@ -712,10 +687,6 @@ namespace Exiv2 {
         read(signature1_, sizeOfSignature(), invalidByteOrder);
     }
 
-    SigmaMnHeader::~SigmaMnHeader()
-    {
-    }
-
     uint32_t SigmaMnHeader::size() const
     {
         return sizeOfSignature();
@@ -734,7 +705,7 @@ namespace Exiv2 {
         if (   0 != memcmp(pData, signature1_, 8)
             && 0 != memcmp(pData, signature2_, 8)) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // SigmaMnHeader::read
@@ -760,10 +731,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    SonyMnHeader::~SonyMnHeader()
-    {
-    }
-
     uint32_t SonyMnHeader::size() const
     {
         return sizeOfSignature();
@@ -781,7 +748,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, sizeOfSignature())) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // SonyMnHeader::read
@@ -808,10 +775,6 @@ namespace Exiv2 {
         read(signature_, sizeOfSignature(), invalidByteOrder );
     }
 
-    Casio2MnHeader::~Casio2MnHeader()
-    {
-    }
-
     uint32_t Casio2MnHeader::size() const
     {
         return sizeOfSignature();
@@ -834,7 +797,7 @@ namespace Exiv2 {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, sizeOfSignature())) return false;
         buf_.alloc(sizeOfSignature());
-        std::memcpy(buf_.pData_, pData, buf_.size_);
+        buf_.copyBytes(0, pData, buf_.size());
         start_ = sizeOfSignature();
         return true;
     } // Casio2MnHeader::read
@@ -857,7 +820,7 @@ namespace Exiv2 {
                             ByteOrder   /*byteOrder*/)
     {
         // Require at least an IFD with 1 entry, but not necessarily a next pointer
-        if (size < 14) return 0;
+        if (size < 14) return nullptr;
         return newIfdMn2(tag, group, mnGroup);
     }
 
@@ -865,7 +828,7 @@ namespace Exiv2 {
                              IfdId    group,
                              IfdId    mnGroup)
     {
-        return new TiffIfdMakernote(tag, group, mnGroup, 0);
+        return new TiffIfdMakernote(tag, group, mnGroup, nullptr);
     }
 
     TiffComponent* newOlympusMn(uint16_t    tag,
@@ -878,11 +841,11 @@ namespace Exiv2 {
         if (size < 10 ||   std::string(reinterpret_cast<const char*>(pData), 10)
                         != std::string("OLYMPUS\0II", 10)) {
             // Require at least the header and an IFD with 1 entry
-            if (size < OlympusMnHeader::sizeOfSignature() + 18) return 0;
+            if (size < OlympusMnHeader::sizeOfSignature() + 18) return nullptr;
             return newOlympusMn2(tag, group, olympusId);
         }
         // Require at least the header and an IFD with 1 entry
-        if (size < Olympus2MnHeader::sizeOfSignature() + 18) return 0;
+        if (size < Olympus2MnHeader::sizeOfSignature() + 18) return nullptr;
         return newOlympus2Mn2(tag, group, olympus2Id);
     }
 
@@ -908,7 +871,7 @@ namespace Exiv2 {
                              ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry
-        if (size < FujiMnHeader::sizeOfSignature() + 18) return 0;
+        if (size < FujiMnHeader::sizeOfSignature() + 18) return nullptr;
         return newFujiMn2(tag, group, mnGroup);
     }
 
@@ -930,7 +893,7 @@ namespace Exiv2 {
         if (size < 6 ||    std::string(reinterpret_cast<const char*>(pData), 6)
                         != std::string("Nikon\0", 6)) {
             // Require at least an IFD with 1 entry
-            if (size < 18) return 0;
+            if (size < 18) return nullptr;
             return newIfdMn2(tag, group, nikon1Id);
         }
         // If the "Nikon" string is not followed by a TIFF header, we assume
@@ -940,12 +903,12 @@ namespace Exiv2 {
             || !tiffHeader.read(pData + 10, size - 10)
             || tiffHeader.tag() != 0x002a) {
             // Require at least the header and an IFD with 1 entry
-            if (size < Nikon2MnHeader::sizeOfSignature() + 18) return 0;
+            if (size < Nikon2MnHeader::sizeOfSignature() + 18) return nullptr;
             return newNikon2Mn2(tag, group, nikon2Id);
         }
         // Else we have a Nikon3 makernote
         // Require at least the header and an IFD with 1 entry
-        if (size < Nikon3MnHeader::sizeOfSignature() + 18) return 0;
+        if (size < Nikon3MnHeader::sizeOfSignature() + 18) return nullptr;
         return newNikon3Mn2(tag, group, nikon3Id);
     }
 
@@ -971,7 +934,7 @@ namespace Exiv2 {
                                   ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry, but without a next pointer
-        if (size < PanasonicMnHeader::sizeOfSignature() + 14) return 0;
+        if (size < PanasonicMnHeader::sizeOfSignature() + 14) return nullptr;
         return newPanasonicMn2(tag, group, mnGroup);
     }
 
@@ -988,15 +951,16 @@ namespace Exiv2 {
         if (size > 8 && std::string(reinterpret_cast<const char*>(pData), 8) == std::string("PENTAX \0", 8)) {
             // Require at least the header and an IFD with 1 entry
             if (size < PentaxDngMnHeader::sizeOfSignature() + 18)
-                return 0;
+                return nullptr;
             return newPentaxDngMn2(tag, group, (tag == 0xc634 ? pentaxDngId:pentaxId));
-        } else if (size > 4 && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
+        }
+        if (size > 4 && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
             // Require at least the header and an IFD with 1 entry
             if (size < PentaxMnHeader::sizeOfSignature() + 18)
-                return 0;
+                return nullptr;
             return newPentaxMn2(tag, group, pentaxId);
-        } else
-            return 0;
+        }
+        return nullptr;
     }
 
     TiffComponent* newPentaxMn2(uint16_t tag,
@@ -1024,15 +988,14 @@ namespace Exiv2 {
             && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
             // Samsung branded Pentax camera:
             // Require at least the header and an IFD with 1 entry
-            if (size < PentaxMnHeader::sizeOfSignature() + 18) return 0;
+            if (size < PentaxMnHeader::sizeOfSignature() + 18) return nullptr;
             return newPentaxMn2(tag, group, pentaxId);
         }
-        else {
-            // Genuine Samsung camera:
-            // Require at least an IFD with 1 entry
-            if (size < 18) return 0;
-            return newSamsungMn2(tag, group, mnGroup);
-        }
+        // Genuine Samsung camera:
+        // Require at least an IFD with 1 entry
+        if (size < 18)
+            return nullptr;
+        return newSamsungMn2(tag, group, mnGroup);
     }
 
     TiffComponent* newSamsungMn2(uint16_t tag,
@@ -1050,7 +1013,7 @@ namespace Exiv2 {
                               ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry
-        if (size < SigmaMnHeader::sizeOfSignature() + 18) return 0;
+        if (size < SigmaMnHeader::sizeOfSignature() + 18) return nullptr;
         return newSigmaMn2(tag, group, mnGroup);
     }
 
@@ -1072,11 +1035,11 @@ namespace Exiv2 {
         if (size < 12 ||   std::string(reinterpret_cast<const char*>(pData), 12)
                         != std::string("SONY DSC \0\0\0", 12)) {
             // Require at least an IFD with 1 entry
-            if (size < 18) return 0;
+            if (size < 18) return nullptr;
             return newSony2Mn2(tag, group, sony2Id);
         }
         // Require at least the header and an IFD with 1 entry, but without a next pointer
-        if (size < SonyMnHeader::sizeOfSignature() + 14) return 0;
+        if (size < SonyMnHeader::sizeOfSignature() + 14) return nullptr;
         return newSony1Mn2(tag, group, sony1Id);
     }
 
@@ -1091,7 +1054,7 @@ namespace Exiv2 {
                                IfdId    group,
                                IfdId    mnGroup)
     {
-        return new TiffIfdMakernote(tag, group, mnGroup, 0, true);
+        return new TiffIfdMakernote(tag, group, mnGroup, nullptr, true);
     }
 
     TiffComponent* newCasioMn(uint16_t    tag,
@@ -1106,7 +1069,7 @@ namespace Exiv2 {
             return newCasio2Mn2(tag, group, casio2Id);
         };
         // Require at least an IFD with 1 entry, but not necessarily a next pointer
-        if (size < 14) return 0;
+        if (size < 14) return nullptr;
         return newIfdMn2(tag, group, casioId);
     }
 
@@ -1145,7 +1108,7 @@ namespace Exiv2 {
 #define NA ((uint32_t)-1)
 
     //! Nikon binary array version lookup table
-    extern const NikonArrayIdx nikonArrayIdx[] = {
+    constexpr NikonArrayIdx nikonArrayIdx[] = {
         // NikonSi
         { 0x0091, "0208",    0, 0,   4 }, // D80
         { 0x0091, "0209",    0, 1,   4 }, // D40
@@ -1184,7 +1147,7 @@ namespace Exiv2 {
     {
         if (size < 4) return -1;
         const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-        return aix == 0 ? -1 : aix->idx_;
+        return aix == nullptr ? -1 : aix->idx_;
     }
 
     int nikonAf2Selector(uint16_t tag, const byte* /*pData*/, uint32_t size, TiffComponent* const /*pRoot*/)
@@ -1202,14 +1165,14 @@ namespace Exiv2 {
 
         if (size < 4) return buf;
         const NikonArrayIdx* nci = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-        if (nci == 0 || nci->start_ == NA || size <= nci->start_) return buf;
+        if (nci == nullptr || nci->start_ == NA || size <= nci->start_) return buf;
 
         // Find Exif.Nikon3.ShutterCount
         TiffFinder finder(0x00a7, nikon3Id);
         pRoot->accept(finder);
-        TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+        auto te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
-        uint32_t count = static_cast<uint32_t>(te->pValue()->toLong());
+        auto count = static_cast<uint32_t>(te->pValue()->toLong());
 
         // Find Exif.Nikon3.SerialNumber
         finder.init(0x001d, nikon3Id);
@@ -1217,7 +1180,7 @@ namespace Exiv2 {
         te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
         bool ok(false);
-        uint32_t serial = stringTo<uint32_t>(te->pValue()->toString(), ok);
+        auto serial = stringTo<uint32_t>(te->pValue()->toString(), ok);
         if (!ok) {
             std::string model = getExifModel(pRoot);
             if (model.empty()) return buf;
@@ -1229,8 +1192,8 @@ namespace Exiv2 {
             }
         }
         buf.alloc(size);
-        memcpy(buf.pData_, pData, buf.size_);
-        ncrypt(buf.pData_ + nci->start_, buf.size_ - nci->start_, count, serial);
+        buf.copyBytes(0, pData, buf.size());
+        ncrypt(buf.data(nci->start_), buf.size() - nci->start_, count, serial);
         return buf;
     }
 
@@ -1247,31 +1210,84 @@ namespace Exiv2 {
     }
     int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
     {
-        const char* models[] = { "SLT-A58", "SLT-A99", "ILCE-3000", "ILCE-3500", "NEX-3N", "NEX-5R", "NEX-5T", "NEX-6", "VG30E", "VG900",
-            "DSC-RX100", "DSC-RX1", "DSC-RX1R", "DSC-HX300", "DSC-HX50V", "DSC-TX30", "DSC-WX60", "DSC-WX200", "DSC-WX300" };
-        std::set<std::string> s2010eModels;
-        for (size_t i = 0; i < EXV_COUNTOF(models); i++) {
-            s2010eModels.insert(models[i]);
-        }
-        std::string model = getExifModel(pRoot);
-        int idx = -1;
-        if (s2010eModels.find(model) != s2010eModels.end()) {
-            idx = 0;
-        }
-        return idx;
+        static constexpr const char* models[] = {
+            "SLT-A58",   "SLT-A99",  "ILCE-3000", "ILCE-3500", "NEX-3N",    "NEX-5R",   "NEX-5T",
+            "NEX-6",     "VG30E",    "VG900",     "DSC-RX100", "DSC-RX1",   "DSC-RX1R", "DSC-HX300",
+            "DSC-HX50V", "DSC-TX30", "DSC-WX60",  "DSC-WX200", "DSC-WX300",
+        };
+        return std::find(std::begin(models), std::end(models), getExifModel(pRoot)) != std::end(models) ? 0 : -1;
     }
-}}                                      // namespace Internal, Exiv2
+    int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // Not valid for models beginning
+        std::string model = getExifModel(pRoot);
+        for (auto& m : { "SLT-", "HV", "ILCA-" }) {
+            if (Util::startsWith(model, m))
+                return -1;
+        }
+        return 0;
+    }
+    int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // From Exiftool: https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
+        // >  First byte must be 9 or 12 or 13 or 15 or 16 and 4th byte must be 2 (deciphered)
+        const auto value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony1Id);
+        if (!value || value->count() < 4)
+            return -1;
+
+        switch (value->toLong(0)) {                // Using encrypted values
+        case 231:                                  // 231 == 9
+        case 234:                                  // 234 == 12
+        case 205:                                  // 205 == 13
+        case 138:                                  // 138 == 15
+        case 112:                                  // 112 == 16
+            return value->toLong(3) == 8 ? 0 : -1; // 8   == 2
+        default:
+            break;
+        }
+        return -1;
+    }
+    int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    {
+        // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
+        // >  first byte decoded: 62, 48, 215, 28, 106 respectively
+        const auto value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony1Id);
+        if (!value || value->count() < 1)
+            return -1;
+
+        switch (value->toLong()) {    // Using encrypted values
+        case 35:                      // 35  == 62
+        case 36:                      // 36  == 48
+        case 38:                      // 38  == 215
+        case 40:                      // 40  == 28
+        case 49:                      // 112 == 106
+            return 0;
+        default:
+            break;
+        }
+        return -1;
+    }
+    }  // namespace Internal
+}  // namespace Exiv2
 
 // *****************************************************************************
 // local definitions
 namespace {
+    const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag, const Exiv2::Internal::IfdId& group)
+    {
+        Exiv2::Internal::TiffFinder finder(tag, group);
+        if (!pRoot)
+            return nullptr;
+        pRoot->accept(finder);
+        auto te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
+        return (!te || !te->pValue()) ? nullptr : te->pValue();
+    }
+
     std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot)
     {
-        Exiv2::Internal::TiffFinder finder(0x0110, Exiv2::Internal::ifd0Id); // Exif.Image.Model
-        pRoot->accept(finder);
-        Exiv2::Internal::TiffEntryBase* te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
-        if (!te || !te->pValue() || te->pValue()->count() == 0) return std::string();
-        return te->pValue()->toString();
+        // Lookup the Exif.Image.Model tag
+        const auto value = getExifValue(pRoot, 0x0110, Exiv2::Internal::ifd0Id);
+        return (!value || value->count() == 0) ? std::string("") : std::string(value->toString());
     }
 
     void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial)
@@ -1322,4 +1338,4 @@ namespace {
             pData[i] ^= cj;
         }
     }
-}
+}  // namespace

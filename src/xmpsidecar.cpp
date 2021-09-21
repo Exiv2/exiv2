@@ -36,17 +36,17 @@
 
 // *****************************************************************************
 namespace {
-    const char* xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
-    const long  xmlHdrCnt = (long) std::strlen(xmlHeader); // without the trailing 0-character
-    const char* xmlFooter = "<?xpacket end=\"w\"?>";
-}
+    constexpr auto xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
+    const auto xmlHdrCnt = static_cast<long>(std::strlen(xmlHeader));  // without the trailing 0-character
+    constexpr auto xmlFooter = "<?xpacket end=\"w\"?>";
+}  // namespace
 
 // class member definitions
 namespace Exiv2 {
 
 
-    XmpSidecar::XmpSidecar(BasicIo::AutoPtr io, bool create)
-        : Image(ImageType::xmp, mdXmp, io)
+    XmpSidecar::XmpSidecar(BasicIo::UniquePtr io, bool create)
+        : Image(ImageType::xmp, mdXmp, std::move(io))
     {
         if (create) {
             if (io_->open() == 0) {
@@ -92,17 +92,17 @@ namespace Exiv2 {
         if (io_->error()) throw Error(kerFailedToReadImageData);
         clearMetadata();
         xmpPacket_ = xmpPacket;
-        if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+        if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
         }
 
         // #1112 - store dates to deal with loss of TZ information during conversions
-        for (Exiv2::XmpData::const_iterator it = xmpData_.begin(); it != xmpData_.end(); ++it) {
-            std::string  key(it->key());
+        for (auto&& it : xmpData_) {
+            std::string key(it.key());
             if ( key.find("Date") != std::string::npos ) {
-                std::string value(it->value().toString());
+                std::string value(it.value().toString());
                 dates_[key] = value;
             }
         }
@@ -112,16 +112,14 @@ namespace Exiv2 {
     } // XmpSidecar::readMetadata
 
     // lower case string
-    static std::string toLowerCase(std::string a)
+    static std::string toLowerCase(const std::string& a)
     {
-        for(size_t i=0 ; i < a.length() ; i++)
-        {
-            a[i]=tolower(a[i]);
-        }
-        return a;
+        std::string b = a;
+        std::transform(a.begin(), a.end(), b.begin(), ::tolower);
+        return b;
     }
 
-    static bool matchi(const std::string key,const char* substr)
+    static bool matchi(const std::string& key, const char* substr)
     {
         return toLowerCase(key).find(substr) != std::string::npos;
     }
@@ -133,13 +131,12 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
 
-
-        if (writeXmpFromPacket() == false) {
+        if (!writeXmpFromPacket()) {
             // #589 copy XMP tags
             Exiv2::XmpData  copy   ;
-            for (Exiv2::XmpData::const_iterator it = xmpData_.begin(); it != xmpData_.end(); ++it) {
-                if ( !matchi(it->key(),"exif") && !matchi(it->key(),"iptc") ) {
-                    copy[it->key()] = it->value();
+            for (auto&& it : xmpData_) {
+                if (!matchi(it.key(), "exif") && !matchi(it.key(), "iptc")) {
+                    copy[it.key()] = it.value();
                 }
             }
 
@@ -148,16 +145,16 @@ namespace Exiv2 {
             copyIptcToXmp(iptcData_, xmpData_);
 
             // #589 - restore tags which were modified by the convertors
-            for (Exiv2::XmpData::const_iterator it = copy.begin(); it != copy.end(); ++it) {
-                xmpData_[it->key()] = it->value() ;
+            for (auto&& it : copy) {
+                xmpData_[it.key()] = it.value();
             }
 
             // #1112 - restore dates if they lost their TZ info
-            for ( Exiv2::Dictionary_i it = dates_.begin() ; it != dates_.end() ; ++it ) {
-                std::string   sKey = it->first;
+            for (auto&& date : dates_) {
+                std::string sKey = date.first;
                 Exiv2::XmpKey key(sKey);
                 if ( xmpData_.findKey(key) != xmpData_.end() ) {
-                    std::string value_orig(it->second);
+                    std::string value_orig(date.second);
                     std::string value_now(xmpData_[sKey].value().toString());
                     // std::cout << key << " -> " << value_now << " => " << value_orig << std::endl;
                     if ( value_orig.find(value_now.substr(0,10)) != std::string::npos ) {
@@ -173,11 +170,11 @@ namespace Exiv2 {
 #endif
             }
         }
-        if (xmpPacket_.size() > 0) {
+        if (!xmpPacket_.empty()) {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
                 xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }
-            BasicIo::AutoPtr tempIo(new MemIo);
+            BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
             // Write XMP packet
             if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),
@@ -191,9 +188,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new XmpSidecar(io, create));
+        Image::UniquePtr image(new XmpSidecar(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }
@@ -232,7 +229,7 @@ namespace Exiv2 {
         std::string head(reinterpret_cast<const char*>(buf + start), len - start);
         if (head.substr(0, 5)  == "<?xml") {
             // Forward to the next tag
-            for (unsigned i = 5; i < head.size(); ++i) {
+            for (size_t i = 5; i < head.size(); ++i) {
                 if (head[i] == '<') {
                     head = head.substr(i);
                     break;

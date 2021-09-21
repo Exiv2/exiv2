@@ -58,23 +58,23 @@ namespace Exiv2 {
           @param create Specifies if an existing image should be read (false)
               or if a new image should be created (true).
          */
-        XmpSidecar(BasicIo::AutoPtr io, bool create);
+        XmpSidecar(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported. XMP sidecar files do not contain a comment.
               Calling this function will throw an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     private:
@@ -100,7 +100,7 @@ namespace Exiv2 {
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newXmpInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is an XMP sidecar file.
     EXIV2API bool isXmpType(BasicIo& iIo, bool advance);

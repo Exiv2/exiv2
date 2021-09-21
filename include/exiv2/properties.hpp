@@ -25,7 +25,7 @@
 
 // included header files
 #include "datasets.hpp"
-#include "rwlock.hpp"
+#include <mutex>
 
 // *****************************************************************************
 // namespace extensions
@@ -59,14 +59,14 @@ namespace Exiv2 {
         //! For comparison with prefix
         struct Prefix {
             //! Constructor.
-            explicit Prefix(const std::string& prefix);
+            explicit Prefix(std::string prefix);
             //! The prefix string.
             std::string prefix_;
         };
         //! For comparison with namespace
         struct Ns {
             //! Constructor.
-            explicit Ns(const std::string& ns);
+            explicit Ns(std::string ns);
             //! The namespace string
             std::string ns_;
         };
@@ -195,8 +195,15 @@ namespace Exiv2 {
          */
         static void unregisterNs(const std::string& ns);
 
-        //! lock to be used while modifying properties
-        static Exiv2::RWLock rwLock_;
+        /*!
+          @brief Lock to be used while modifying properties.
+
+          @todo For a proper read-write lock, this shall be improved by a
+          \em std::shared_timed_mutex (once C++14 is allowed) or
+          \em std::shared_mutex (once C++17 is allowed). The
+          read-access locks shall be updated to \em std::shared_lock then.
+         */
+        static std::mutex mutex_;
 
         /*!
           @brief Unregister all custom namespaces.
@@ -231,7 +238,7 @@ namespace Exiv2 {
     {
     public:
         //! Shortcut for an %XmpKey auto pointer.
-        typedef std::auto_ptr<XmpKey> AutoPtr;
+        typedef std::unique_ptr<XmpKey> UniquePtr;
 
         //! @name Creators
         //@{
@@ -257,7 +264,7 @@ namespace Exiv2 {
         //! Copy constructor.
         XmpKey(const XmpKey& rhs);
         //! Virtual destructor.
-        virtual ~XmpKey();
+        ~XmpKey() override;
         //@}
 
         //! @name Manipulators
@@ -268,19 +275,19 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        virtual std::string key() const;
-        virtual const char* familyName() const;
+        std::string key() const override;
+        const char* familyName() const override;
         /*!
           @brief Return the name of the group (the second part of the key).
                  For XMP keys, the group name is the schema prefix name.
         */
-        virtual std::string groupName() const;
-        virtual std::string tagName() const;
-        virtual std::string tagLabel() const;
+        std::string groupName() const override;
+        std::string tagName() const override;
+        std::string tagLabel() const override;
         //! Properties don't have a tag number. Return 0.
-        virtual uint16_t tag() const;
+        uint16_t tag() const override;
 
-        AutoPtr clone() const;
+        UniquePtr clone() const;
 
         // Todo: Should this be removed? What about tagLabel then?
         //! Return the schema namespace for the prefix of the key
@@ -289,12 +296,11 @@ namespace Exiv2 {
 
     private:
         //! Internal virtual copy constructor.
-        virtual XmpKey* clone_() const;
+        XmpKey* clone_() const override;
 
-    private:
         // Pimpl idiom
         struct Impl;
-        std::auto_ptr<Impl> p_;
+        std::unique_ptr<Impl> p_;
 
     };  // class XmpKey
 

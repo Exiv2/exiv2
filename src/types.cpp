@@ -36,6 +36,7 @@
 #include <sstream>
 #include <utility>
 #include <cctype>
+#include <climits>
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
@@ -92,7 +93,7 @@ namespace {
         { Exiv2::langAlt,          "LangAlt",     1 }
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -101,7 +102,8 @@ namespace Exiv2 {
     const char* TypeInfo::typeName(TypeId typeId)
     {
         const TypeInfoTable* tit = find(typeInfoTable, typeId);
-        if (!tit) return 0;
+        if (!tit)
+            return nullptr;
         return tit->name_;
     }
 
@@ -129,14 +131,13 @@ namespace Exiv2 {
     DataBuf::~DataBuf()
     { delete[] pData_; }
 
-    DataBuf::DataBuf() : pData_(0), size_(0)
+    DataBuf::DataBuf() : pData_(nullptr), size_(0)
     {}
 
     DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
     {}
 
-    DataBuf::DataBuf(const byte* pData, long size)
-        : pData_(0), size_(0)
+    DataBuf::DataBuf(const byte* pData, long size) : pData_(nullptr), size_(0)
     {
         if (size > 0) {
             pData_ = new byte[size];
@@ -156,26 +157,32 @@ namespace Exiv2 {
     {
         if (size > size_) {
             delete[] pData_;
-            pData_ = 0;
+            pData_ = nullptr;
             size_ = 0;
             pData_ = new byte[size];
             size_ = size;
         }
     }
 
-    EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
+    void DataBuf::resize(long size)
     {
-        std::pair<byte*, long> p = std::make_pair(pData_, size_);
-        pData_ = 0;
-        size_ = 0;
-        return p;
+        if (size > size_) {
+            byte* newbuf = new byte[size];
+            if (size_ > 0) {
+                memcpy(newbuf, pData_, size_);
+            }
+            delete[] pData_;
+            pData_ = newbuf;
+        }
+        size_ = size;
     }
 
-    void DataBuf::free()
+    EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
     {
-        delete[] pData_;
-        pData_ = 0;
+        std::pair<byte*, long> p = {pData_, size_};
+        pData_ = nullptr;
         size_ = 0;
+        return p;
     }
 
     void DataBuf::reset(std::pair<byte*, long> p)
@@ -187,11 +194,103 @@ namespace Exiv2 {
         size_ = p.second;
     }
 
+    void DataBuf::clear() {
+        memset(pData_, 0, size_);
+    }
+
     DataBuf::DataBuf(const DataBufRef &rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
 
     DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
 
     Exiv2::DataBuf::operator DataBufRef() { return DataBufRef(release()); }
+
+    uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
+        if (offset >= static_cast<size_t>(size_)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint8");
+        }
+        return pData_[offset];
+    }
+
+    void Exiv2::DataBuf::write_uint8(size_t offset, uint8_t x) {
+        if (offset >= static_cast<size_t>(size_)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint8");
+        }
+        pData_[offset] = x;
+    }
+
+    uint16_t Exiv2::DataBuf::read_uint16(size_t offset, ByteOrder byteOrder) const {
+        if (size_ < 2 || offset > static_cast<size_t>(size_ - 2)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint16");
+        }
+        return getUShort(&pData_[offset], byteOrder);
+    }
+
+    void Exiv2::DataBuf::write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder) {
+        if (size_ < 2 || offset > static_cast<size_t>(size_ - 2)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint16");
+        }
+        us2Data(&pData_[offset], x, byteOrder);
+    }
+
+    uint32_t Exiv2::DataBuf::read_uint32(size_t offset, ByteOrder byteOrder) const {
+        if (size_ < 4 || offset > static_cast<size_t>(size_ - 4)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint32");
+        }
+        return getULong(&pData_[offset], byteOrder);
+    }
+
+    void Exiv2::DataBuf::write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder) {
+        if (size_ < 4 || offset > static_cast<size_t>(size_ - 4)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint32");
+        }
+        ul2Data(&pData_[offset], x, byteOrder);
+    }
+
+    uint64_t Exiv2::DataBuf::read_uint64(size_t offset, ByteOrder byteOrder) const {
+        if (size_ < 8 || offset > static_cast<size_t>(size_ - 8)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint64");
+        }
+        return getULongLong(&pData_[offset], byteOrder);
+    }
+
+    void Exiv2::DataBuf::write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder) {
+        if (size_ < 8 || offset > static_cast<size_t>(size_ - 8)) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint64");
+        }
+        ull2Data(&pData_[offset], x, byteOrder);
+    }
+
+    void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
+        if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");
+        }
+        memcpy(&pData_[offset], buf, bufsize);
+    }
+
+    int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
+        if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::cmpBytes");
+        }
+        return memcmp(&pData_[offset], buf, bufsize);
+    }
+
+    byte* Exiv2::DataBuf::data(size_t offset) {
+        if (static_cast<size_t>(size_) < offset) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        }
+        return &pData_[offset];
+    }
+
+    const byte* Exiv2::DataBuf::c_data(size_t offset) const {
+        if (static_cast<size_t>(size_) < offset) {
+            throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        }
+        return &pData_[offset];
+    }
+
+    const char* Exiv2::DataBuf::c_str(size_t offset) const {
+        return reinterpret_cast<const char*>(c_data(offset));
+    }
 
     // *************************************************************************
     // free functions
@@ -199,19 +298,19 @@ namespace Exiv2 {
     static void checkDataBufBounds(const DataBuf& buf, size_t end) {
         enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
                                        "end of slice too large to be compared with DataBuf bounds.");
-        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size_, "Invalid slice bounds specified");
+        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size(), "Invalid slice bounds specified");
     }
 
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return Slice<byte*>(buf.pData_, begin, end);
+        return {buf.data(), begin, end};
     }
 
     Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end)
     {
         checkDataBufBounds(buf, end);
-        return Slice<const byte*>(buf.pData_, begin, end);
+        return {buf.c_data(), begin, end};
     }
 
     std::ostream& operator<<(std::ostream& os, const Rational& r)
@@ -224,9 +323,9 @@ namespace Exiv2 {
         // http://dev.exiv2.org/boards/3/topics/1912?r=1915
         if ( std::tolower(is.peek()) == 'f' ) {
             char  F = 0;
-            float f = 0.f;
+            float f = 0.F;
             is >> F >> f ;
-            f  = 2.0f * std::log(f) / std::log(2.0f) ;
+            f = 2.0F * std::log(f) / std::log(2.0F);
             r  = Exiv2::floatToRationalCast(f);
         } else {
             int32_t nominator = 0;
@@ -236,7 +335,7 @@ namespace Exiv2 {
             if (c != '/')
                 is.setstate(std::ios::failbit);
             if (is)
-                r = std::make_pair(nominator, denominator);
+                r = {nominator, denominator};
         }
         return is;
     }
@@ -252,9 +351,9 @@ namespace Exiv2 {
         /// \todo This implementation seems to be duplicated for the Rational type. Try to remove duplication
         if ( std::tolower(is.peek()) == 'f' ) {
             char  F = 0;
-            float f = 0.f;
+            float f = 0.F;
             is >> F >> f ;
-            f  = 2.0f * std::log(f) / std::log(2.0f) ;
+            f = 2.0F * std::log(f) / std::log(2.0F);
             r  = Exiv2::floatToRationalCast(f);
         } else {
             uint32_t nominator = 0;
@@ -264,7 +363,7 @@ namespace Exiv2 {
             if (c != '/')
                 is.setstate(std::ios::failbit);
             if (is)
-                r = std::make_pair(nominator, denominator);
+                r = {nominator, denominator};
         }
         return is;
     }
@@ -277,65 +376,53 @@ namespace Exiv2 {
     uint32_t getULong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (byte)buf[3] << 24 | (byte)buf[2] << 16
-                   | (byte)buf[1] <<  8 | (byte)buf[0];
+            return buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
         }
-        else {
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
-                   | (byte)buf[2] <<  8 | (byte)buf[3];
-        }
+        return buf[0] << 24 | buf[1] << 16 | buf[2] << 8 | buf[3];
     }
 
     uint64_t getULongLong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (uint64_t)buf[7] << 56 | (uint64_t)buf[6] << 48
-                   | (uint64_t)buf[5] << 40 | (uint64_t)buf[4] << 32
-                   | (uint64_t)buf[3] << 24 | (uint64_t)buf[2] << 16
-                   | (uint64_t)buf[1] <<  8 | (uint64_t)buf[0];
+            return static_cast<uint64_t>(buf[7]) << 56 | static_cast<uint64_t>(buf[6]) << 48 |
+                   static_cast<uint64_t>(buf[5]) << 40 | static_cast<uint64_t>(buf[4]) << 32 |
+                   static_cast<uint64_t>(buf[3]) << 24 | static_cast<uint64_t>(buf[2]) << 16 |
+                   static_cast<uint64_t>(buf[1]) << 8 | static_cast<uint64_t>(buf[0]);
         }
-        else {
-            return   (uint64_t)buf[0] << 56 | (uint64_t)buf[1] << 48
-                   | (uint64_t)buf[2] << 40 | (uint64_t)buf[3] << 32
-                   | (uint64_t)buf[4] << 24 | (uint64_t)buf[5] << 16
-                   | (uint64_t)buf[6] <<  8 | (uint64_t)buf[7];
-        }
+        return static_cast<uint64_t>(buf[0]) << 56 | static_cast<uint64_t>(buf[1]) << 48 |
+               static_cast<uint64_t>(buf[2]) << 40 | static_cast<uint64_t>(buf[3]) << 32 |
+               static_cast<uint64_t>(buf[4]) << 24 | static_cast<uint64_t>(buf[5]) << 16 |
+               static_cast<uint64_t>(buf[6]) << 8 | static_cast<uint64_t>(buf[7]);
     }
 
     URational getURational(const byte* buf, ByteOrder byteOrder)
     {
         uint32_t nominator = getULong(buf, byteOrder);
         uint32_t denominator = getULong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
+        return {nominator, denominator};
     }
 
     int16_t getShort(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return (byte)buf[1] << 8 | (byte)buf[0];
+            return buf[1] << 8 | buf[0];
         }
-        else {
-            return (byte)buf[0] << 8 | (byte)buf[1];
-        }
+        return buf[0] << 8 | buf[1];
     }
 
     int32_t getLong(const byte* buf, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            return   (byte)buf[3] << 24 | (byte)buf[2] << 16
-                   | (byte)buf[1] <<  8 | (byte)buf[0];
+            return buf[3] << 24 | buf[2] << 16 | buf[1] << 8 | buf[0];
         }
-        else {
-            return   (byte)buf[0] << 24 | (byte)buf[1] << 16
-                   | (byte)buf[2] <<  8 | (byte)buf[3];
-        }
+        return buf[0] << 24 | buf[1] << 16 | buf[2] << 8 | buf[3];
     }
 
     Rational getRational(const byte* buf, ByteOrder byteOrder)
     {
         int32_t nominator = getLong(buf, byteOrder);
         int32_t denominator = getLong(buf + 4, byteOrder);
-        return std::make_pair(nominator, denominator);
+        return {nominator, denominator};
     }
 
     float getFloat(const byte* buf, ByteOrder byteOrder)
@@ -389,12 +476,12 @@ namespace Exiv2 {
     long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] = (byte) (s & 0x00ff);
-            buf[1] = (byte)((s & 0xff00) >> 8);
+            buf[0] = static_cast<byte>(s & 0x00ff);
+            buf[1] = static_cast<byte>((s & 0xff00) >> 8);
         }
         else {
-            buf[0] = (byte)((s & 0xff00) >> 8);
-            buf[1] = (byte) (s & 0x00ff);
+            buf[0] = static_cast<byte>((s & 0xff00) >> 8);
+            buf[1] = static_cast<byte>(s & 0x00ff);
         }
         return 2;
     }
@@ -402,18 +489,35 @@ namespace Exiv2 {
     long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] = (byte) (l & 0x000000ff);
-            buf[1] = (byte)((l & 0x0000ff00) >> 8);
-            buf[2] = (byte)((l & 0x00ff0000) >> 16);
-            buf[3] = (byte)((l & 0xff000000) >> 24);
+            buf[0] = static_cast<byte>(l & 0x000000ff);
+            buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
         }
         else {
-            buf[0] = (byte)((l & 0xff000000) >> 24);
-            buf[1] = (byte)((l & 0x00ff0000) >> 16);
-            buf[2] = (byte)((l & 0x0000ff00) >> 8);
-            buf[3] = (byte) (l & 0x000000ff);
+            buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
+            buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[3] = static_cast<byte>(l & 0x000000ff);
         }
         return 4;
+    }
+
+    long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder)
+    {
+        if (byteOrder == littleEndian) {
+            for (size_t i = 0; i < 8; i++) {
+                buf[i] = static_cast<byte>(l & 0xff);
+                l >>= 8;
+            }
+        }
+        else {
+            for (size_t i = 0; i < 8; i++) {
+                buf[8-i-1] = static_cast<byte>(l & 0xff);
+                l >>= 8;
+            }
+        }
+        return 8;
     }
 
     long ur2Data(byte* buf, URational l, ByteOrder byteOrder)
@@ -426,12 +530,12 @@ namespace Exiv2 {
     long s2Data(byte* buf, int16_t s, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(s & 0x00ff);
-            buf[1] = (byte)((s & 0xff00) >> 8);
+            buf[0] = static_cast<byte>(s & 0x00ff);
+            buf[1] = static_cast<byte>((s & 0xff00) >> 8);
         }
         else {
-            buf[0] = (byte)((s & 0xff00) >> 8);
-            buf[1] =  (byte)(s & 0x00ff);
+            buf[0] = static_cast<byte>((s & 0xff00) >> 8);
+            buf[1] = static_cast<byte>(s & 0x00ff);
         }
         return 2;
     }
@@ -439,16 +543,16 @@ namespace Exiv2 {
     long l2Data(byte* buf, int32_t l, ByteOrder byteOrder)
     {
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(l & 0x000000ff);
-            buf[1] = (byte)((l & 0x0000ff00) >> 8);
-            buf[2] = (byte)((l & 0x00ff0000) >> 16);
-            buf[3] = (byte)((l & 0xff000000) >> 24);
+            buf[0] = static_cast<byte>(l & 0x000000ff);
+            buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
         }
         else {
-            buf[0] = (byte)((l & 0xff000000) >> 24);
-            buf[1] = (byte)((l & 0x00ff0000) >> 16);
-            buf[2] = (byte)((l & 0x0000ff00) >> 8);
-            buf[3] =  (byte)(l & 0x000000ff);
+            buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
+            buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
+            buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
+            buf[3] = static_cast<byte>(l & 0x000000ff);
         }
         return 4;
     }
@@ -487,24 +591,24 @@ namespace Exiv2 {
         u.d_ = d;
         uint64_t m = 0xff;
         if (byteOrder == littleEndian) {
-            buf[0] =  (byte)(u.ull_ & m);
-            buf[1] = (byte)((u.ull_ & (m <<  8)) >>  8);
-            buf[2] = (byte)((u.ull_ & (m << 16)) >> 16);
-            buf[3] = (byte)((u.ull_ & (m << 24)) >> 24);
-            buf[4] = (byte)((u.ull_ & (m << 32)) >> 32);
-            buf[5] = (byte)((u.ull_ & (m << 40)) >> 40);
-            buf[6] = (byte)((u.ull_ & (m << 48)) >> 48);
-            buf[7] = (byte)((u.ull_ & (m << 56)) >> 56);
+            buf[0] = static_cast<byte>(u.ull_ & m);
+            buf[1] = static_cast<byte>((u.ull_ & (m << 8)) >> 8);
+            buf[2] = static_cast<byte>((u.ull_ & (m << 16)) >> 16);
+            buf[3] = static_cast<byte>((u.ull_ & (m << 24)) >> 24);
+            buf[4] = static_cast<byte>((u.ull_ & (m << 32)) >> 32);
+            buf[5] = static_cast<byte>((u.ull_ & (m << 40)) >> 40);
+            buf[6] = static_cast<byte>((u.ull_ & (m << 48)) >> 48);
+            buf[7] = static_cast<byte>((u.ull_ & (m << 56)) >> 56);
         }
         else {
-            buf[0] = (byte)((u.ull_ & (m << 56)) >> 56);
-            buf[1] = (byte)((u.ull_ & (m << 48)) >> 48);
-            buf[2] = (byte)((u.ull_ & (m << 40)) >> 40);
-            buf[3] = (byte)((u.ull_ & (m << 32)) >> 32);
-            buf[4] = (byte)((u.ull_ & (m << 24)) >> 24);
-            buf[5] = (byte)((u.ull_ & (m << 16)) >> 16);
-            buf[6] = (byte)((u.ull_ & (m <<  8)) >>  8);
-            buf[7] =  (byte)(u.ull_ & m);
+            buf[0] = static_cast<byte>((u.ull_ & (m << 56)) >> 56);
+            buf[1] = static_cast<byte>((u.ull_ & (m << 48)) >> 48);
+            buf[2] = static_cast<byte>((u.ull_ & (m << 40)) >> 40);
+            buf[3] = static_cast<byte>((u.ull_ & (m << 32)) >> 32);
+            buf[4] = static_cast<byte>((u.ull_ & (m << 24)) >> 24);
+            buf[5] = static_cast<byte>((u.ull_ & (m << 16)) >> 16);
+            buf[6] = static_cast<byte>((u.ull_ & (m << 8)) >> 8);
+            buf[7] = static_cast<byte>(u.ull_ & m);
         }
         return 8;
     }
@@ -523,9 +627,8 @@ namespace Exiv2 {
             std::ostringstream ss;
             do {
                 byte c = buf[i];
-                os << std::setw(2) << std::setfill('0') << std::right
-                   << std::hex << (int)c << " ";
-                ss << ((int)c >= 31 && (int)c < 127 ? char(buf[i]) : '.');
+                os << std::setw(2) << std::setfill('0') << std::right << std::hex << static_cast<int>(c) << " ";
+                ss << (static_cast<int>(c) >= 31 && static_cast<int>(c) < 127 ? char(buf[i]) : '.');
             } while (++i < len && i%16 != 0);
             std::string::size_type width = 9 + ((i-1)%16 + 1) * 3;
             os << (width > pos ? "" : align.substr(width)) << ss.str() << "\n";
@@ -552,7 +655,7 @@ namespace Exiv2 {
         assert(buf != 0);
         assert(tm != 0);
         int rc = 1;
-        int year, mon, mday, hour, min, sec;
+        int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
         int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d",
                                   &year, &mon, &mday, &hour, &min, &sec);
         if (scanned == 6) {
@@ -606,7 +709,7 @@ namespace Exiv2 {
     bool stringTo<bool>(const std::string& s, bool& ok)
     {
         std::string lcs(s); /* lowercase string */
-        for(unsigned i = 0; i < lcs.length(); i++) {
+        for(size_t i = 0; i < lcs.length(); i++) {
             lcs[i] = std::tolower(s[i]);
         }
         /* handle the same values as xmp sdk */
@@ -627,7 +730,7 @@ namespace Exiv2 {
         long ret = stringTo<long>(s, ok);
         if (ok) return ret;
 
-        float f = stringTo<float>(s, ok);
+        auto f = stringTo<float>(s, ok);
         if (ok) return static_cast<long>(f);
 
         Rational r = stringTo<Rational>(s, ok);
@@ -648,7 +751,7 @@ namespace Exiv2 {
 
     float parseFloat(const std::string& s, bool& ok)
     {
-        float ret = stringTo<float>(s, ok);
+        auto ret = stringTo<float>(s, ok);
         if (ok) return ret;
 
         Rational r = stringTo<Rational>(s, ok);
@@ -661,7 +764,8 @@ namespace Exiv2 {
         }
 
         bool b = stringTo<bool>(s, ok);
-        if (ok) return b ? 1.0f : 0.0f;
+        if (ok)
+            return b ? 1.0F : 0.0F;
 
         // everything failed, return from stringTo<float> is probably the best fit
         return ret;
@@ -673,13 +777,15 @@ namespace Exiv2 {
         if (ok) return ret;
 
         long l = stringTo<long>(s, ok);
-        if (ok) return Rational(l, 1);
+        if (ok)
+            return {l, 1};
 
-        float f = stringTo<float>(s, ok);
+        auto f = stringTo<float>(s, ok);
         if (ok) return floatToRationalCast(f);
 
         bool b = stringTo<bool>(s, ok);
-        if (ok) return b ? Rational(1, 1) : Rational(0, 1);
+        if (ok)
+            return {b ? 1 : 0, 1};
 
         // everything failed, return from stringTo<Rational> is probably the best fit
         return ret;
@@ -687,30 +793,31 @@ namespace Exiv2 {
 
     Rational floatToRationalCast(float f)
     {
-#if defined(_MSC_VER) && _MSC_VER < 1800
-        if (!_finite(f)) {
-#else
-        if (!std::isfinite(f)) {
-#endif
-            return Rational(f > 0 ? 1 : -1, 0);
+
+        // Convert f to double because it simplifies the "in_range" check
+        // below. (INT_MAX can be represented accurately as a double, but
+        // gets rounded when it's converted to float.)
+        const double d = f;
+        const bool in_range = INT_MIN <= d && d <= INT_MAX;
+        if (!in_range) {
+            return {d > 0 ? 1 : -1, 0};
         }
         // Beware: primitive conversion algorithm
         int32_t den = 1000000;
-        const long f_as_long = static_cast<long>(f);
-        if (Safe::abs(f_as_long) > 2147) {
+        const long d_as_long = static_cast<long>(d);
+        if (Safe::abs(d_as_long) > 2147) {
             den = 10000;
         }
-        if (Safe::abs(f_as_long) > 214748) {
+        if (Safe::abs(d_as_long) > 214748) {
             den = 100;
         }
-        if (Safe::abs(f_as_long) > 21474836) {
+        if (Safe::abs(d_as_long) > 21474836) {
             den = 1;
         }
-        const float rnd = f >= 0 ? 0.5f : -0.5f;
-        const int32_t nom = static_cast<int32_t>(f * den + rnd);
+        const auto nom = static_cast<int32_t>(std::round(d * den));
         const int32_t g = gcd(nom, den);
 
-        return Rational(nom / g, den / g);
+        return {nom / g, den / g};
     }
 
 }                                       // namespace Exiv2

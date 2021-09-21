@@ -73,11 +73,11 @@ namespace Exiv2 {
              make that call any logic that always needs to be executed.
      */
     class EXIV2API LogMsg {
-        //! Prevent copy-construction: not implemented.
-        LogMsg(const LogMsg&);
-        //! Prevent assignment: not implemented.
-        LogMsg& operator=(const LogMsg&);
     public:
+        //! Prevent copy-construction: not implemented.
+        LogMsg(const LogMsg&) = delete;
+        //! Prevent assignment: not implemented.
+        LogMsg& operator=(const LogMsg&) = delete;
         /*!
           @brief Defined log levels. To suppress all log messages, either set the
                  log level to \c mute or set the log message handler to 0.
@@ -173,12 +173,12 @@ namespace Exiv2 {
      */
     class EXIV2API AnyError : public std::exception {
     public:
-        AnyError();
-        AnyError(const AnyError& o);
+        AnyError() = default;
+        AnyError(const AnyError& o) = default;
 
-        virtual ~AnyError() throw();
+        ~AnyError() noexcept override = default;
         ///@brief  Return the error code.
-        virtual int code() const throw() =0;
+        virtual int code() const noexcept = 0;
     };
 
     //! %AnyError output operator
@@ -281,17 +281,17 @@ namespace Exiv2 {
         inline BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of throw())
-        virtual inline ~BasicError() throw();
+        inline ~BasicError() noexcept override;
         //@}
 
         //! @name Accessors
         //@{
-        virtual inline int code() const throw();
+        inline int code() const noexcept override;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        virtual inline const char* what() const throw();
+        inline const char* what() const noexcept override;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Return the error message as a wchar_t-string. The pointer returned by
@@ -366,19 +366,17 @@ namespace Exiv2 {
         setMsg();
     }
 
-    template<typename charT>
-    BasicError<charT>::~BasicError() throw()
-    {
-    }
+    template <typename charT>
+    BasicError<charT>::~BasicError() noexcept = default;
 
-    template<typename charT>
-    int BasicError<charT>::code() const throw()
+    template <typename charT>
+    int BasicError<charT>::code() const noexcept
     {
         return code_;
     }
 
-    template<typename charT>
-    const char* BasicError<charT>::what() const throw()
+    template <typename charT>
+    const char* BasicError<charT>::what() const noexcept
     {
         return msg_.c_str();
     }

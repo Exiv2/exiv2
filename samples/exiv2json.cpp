@@ -60,10 +60,10 @@ struct Token {
     bool        a; // name is an array eg History[]
     int         i; // index (indexed from 1) eg History[1]/stEvt:action
 };
-typedef std::vector<Token>    Tokens;
+using Tokens = std::vector<Token>;
 
 // "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
-bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=NULL)
+bool getToken(std::string& in, Token& token, std::set<std::string>* pNS = nullptr)
 {
     bool result = false;
     bool ns     = false;
@@ -74,7 +74,7 @@ bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=NULL)
 
     while ( !result && in.length() ) {
         std::string c = in.substr(0,1);
-        char        C = c[0];
+        char        C = c.at(0);
         in            = in.substr(1,std::string::npos);
         if ( in.length() == 0 && C != ']' ) token.n += c;
         if ( C == '/' || C == '[' || C == ':' || C == '.' || C == ']' || in.length() == 0 ) {
@@ -91,20 +91,21 @@ bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=NULL)
     return result;
 }
 
-Jzon::Node& addToTree(Jzon::Node& r1,Token token)
+Jzon::Node& addToTree(Jzon::Node& r1, const Token& token)
 {
     Jzon::Object object ;
     Jzon::Array  array  ;
 
     std::string  key    = token.n  ;
     size_t       index  = token.i-1; // array Eg: "History[1]" indexed from 1.  Jzon expects 0 based index.
-    Jzon::Node&  empty  = token.a ? (Jzon::Node&) array : (Jzon::Node&) object ;
+    auto& empty = token.a ? static_cast<Jzon::Node&>(array) : static_cast<Jzon::Node&>(object);
 
     if (  r1.IsObject() ) {
         Jzon::Object& o1 = r1.AsObject();
         if (   !o1.Has(key) ) o1.Add(key,empty);
         return  o1.Get(key);
-    } else if ( r1.IsArray() ) {
+    }
+    if (r1.IsArray()) {
         Jzon::Array& a1 = r1.AsArray();
         while ( a1.GetCount() <= index ) a1.Add(empty);
         return  a1.Get(index);
@@ -114,11 +115,12 @@ Jzon::Node& addToTree(Jzon::Node& r1,Token token)
 
 Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 {
-    return addToTree( k==0 ? root : recursivelyBuildTree(root,tokens,k-1), tokens[k] );
+    return addToTree( k==0 ? root : recursivelyBuildTree(root,tokens,k-1), tokens.at(k) );
 }
 
 // build the json tree for this key.  return location and discover the name
-Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& name,Exiv2::StringSet* pNS=NULL)
+Jzon::Node& objectForKey(const std::string& Key, Jzon::Object& root, std::string& name,
+                         std::set<std::string>* pNS = nullptr)
 {
     // Parse the key
     Tokens      tokens ;
@@ -126,7 +128,7 @@ Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& 
     std::string input  = Key ; // Example: "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
     while ( getToken(input,token,pNS) ) tokens.push_back(token);
     size_t      l      = tokens.size()-1; // leave leaf name to push()
-    name               = tokens[l].n ;
+    name               = tokens.at(l).n ;
 
     // The second token.  For example: XMP.dc is a namespace
     if ( pNS && tokens.size() > 1 ) pNS->insert(tokens[1].n);
@@ -147,15 +149,12 @@ Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& 
 
 bool isObject(std::string& value)
 {
-    return !value.compare(std::string("type=\"Struct\""));
+    return value == std::string("type=\"Struct\"");
 }
 
 bool isArray(std::string& value)
 {
-    return !value.compare(std::string("type=\"Seq\""))
-    ||     !value.compare(std::string("type=\"Bag\""))
-    ||     !value.compare(std::string("type=\"Alt\""))
-    ;
+    return value == "type=\"Seq\"" || value == "type=\"Bag\"" || value == "type=\"Alt\"";
 }
 
 #define STORE(node,key,value) \
@@ -212,12 +211,9 @@ void push(Jzon::Node& node,const std::string& key,T i)
         case Exiv2::langAlt: {
              ABORT_IF_I_EMTPY
              Jzon::Object l ;
-             const Exiv2::LangAltValue& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
-             for ( Exiv2::LangAltValue::ValueType::const_iterator lang = langs.value_.begin()
-                 ; lang != langs.value_.end()
-                 ; lang++
-             ) {
-                l.Add(lang->first,lang->second);
+             const auto& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
+             for (auto&& lang : langs.value_) {
+                 l.Add(lang.first, lang.second);
              }
              Jzon::Object o ;
              o.Add("lang",l);
@@ -251,7 +247,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
 
 void fileSystemPush(const char* path,Jzon::Node& nfs)
 {
-    Jzon::Object& fs = (Jzon::Object&) nfs;
+    auto& fs = dynamic_cast<Jzon::Object&>(nfs);
     fs.Add("path",path);
     char resolved_path[2000]; // PATH_MAX];
     fs.Add("realpath",realpath(path,resolved_path));
@@ -260,17 +256,17 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
     memset(&buf,0,sizeof(buf));
     stat(path,&buf);
 
-    fs.Add("st_dev"    ,(int) buf.st_dev    ); /* ID of device containing file    */
-    fs.Add("st_ino"    ,(int) buf.st_ino    ); /* inode number                    */
-    fs.Add("st_mode"   ,(int) buf.st_mode   ); /* protection                      */
-    fs.Add("st_nlink"  ,(int) buf.st_nlink  ); /* number of hard links            */
-    fs.Add("st_uid"    ,(int) buf.st_uid    ); /* user ID of owner                */
-    fs.Add("st_gid"    ,(int) buf.st_gid    ); /* group ID of owner               */
-    fs.Add("st_rdev"   ,(int) buf.st_rdev   ); /* device ID (if special file)     */
-    fs.Add("st_size"   ,(int) buf.st_size   ); /* total size, in bytes            */
-    fs.Add("st_atime"  ,(int) buf.st_atime  ); /* time of last access             */
-    fs.Add("st_mtime"  ,(int) buf.st_mtime  ); /* time of last modification       */
-    fs.Add("st_ctime"  ,(int) buf.st_ctime  ); /* time of last status change      */
+    fs.Add("st_dev", static_cast<int>(buf.st_dev));     /* ID of device containing file    */
+    fs.Add("st_ino", static_cast<int>(buf.st_ino));     /* inode number                    */
+    fs.Add("st_mode", static_cast<int>(buf.st_mode));   /* protection                      */
+    fs.Add("st_nlink", static_cast<int>(buf.st_nlink)); /* number of hard links            */
+    fs.Add("st_uid", static_cast<int>(buf.st_uid));     /* user ID of owner                */
+    fs.Add("st_gid", static_cast<int>(buf.st_gid));     /* group ID of owner               */
+    fs.Add("st_rdev", static_cast<int>(buf.st_rdev));   /* device ID (if special file)     */
+    fs.Add("st_size", static_cast<int>(buf.st_size));   /* total size, in bytes            */
+    fs.Add("st_atime", static_cast<int>(buf.st_atime)); /* time of last access             */
+    fs.Add("st_mtime", static_cast<int>(buf.st_mtime)); /* time of last modification       */
+    fs.Add("st_ctime", static_cast<int>(buf.st_ctime)); /* time of last status change      */
 
 #if defined(_MSC_VER) || defined(__MINGW__)
     size_t blksize     = 1024;
@@ -279,8 +275,8 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
     size_t blksize     = buf.st_blksize;
     size_t blocks      = buf.st_blocks ;
 #endif
-    fs.Add("st_blksize",(int) blksize       ); /* blocksize for file system I/O   */
-    fs.Add("st_blocks" ,(int) blocks        ); /* number of 512B blocks allocated */
+    fs.Add("st_blksize", static_cast<int>(blksize)); /* blocksize for file system I/O   */
+    fs.Add("st_blocks", static_cast<int>(blocks));   /* number of 512B blocks allocated */
 }
 
 int main(int argc, char* const argv[])
@@ -302,7 +298,7 @@ int main(int argc, char* const argv[])
         while      (opt[0] == '-') opt++ ; // skip past leading -'s
         char        option = opt[0];
 
-        Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path);
+        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
         assert(image.get() != 0);
         image->readMetadata();
 
@@ -317,7 +313,7 @@ int main(int argc, char* const argv[])
 
         if ( option == 'a' || option == 'e' ) {
             Exiv2::ExifData &exifData = image->exifData();
-            for ( Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end() ; ++i ) {
+            for ( auto i = exifData.begin(); i != exifData.end() ; ++i ) {
                 std::string name   ;
                 Jzon::Node& object = objectForKey(i->key(),root,name);
                 push(object,name,i);
@@ -339,8 +335,8 @@ int main(int argc, char* const argv[])
             Exiv2::XmpData  &xmpData  = image->xmpData();
             if ( !xmpData.empty() ) {
                 // get the xmpData and recursively parse into a Jzon Object
-                Exiv2::StringSet     namespaces;
-                for (Exiv2::XmpData::const_iterator i = xmpData.begin(); i != xmpData.end(); ++i) {
+                std::set<std::string> namespaces;
+                for (auto i = xmpData.begin(); i != xmpData.end(); ++i) {
                     std::string name   ;
                     Jzon::Node& object = objectForKey(i->key(),root,name,&namespaces);
                     push(object,name,i);
@@ -352,10 +348,8 @@ int main(int argc, char* const argv[])
 
                 // create and populate a Jzon::Object for the namespaces
                 Jzon::Object    xmlns;
-                for ( Exiv2::StringSet_i it = namespaces.begin() ; it != namespaces.end() ; it++ ) {
-                    std::string ns  = *it       ;
-                    std::string uri = nsDict[ns];
-                    xmlns.Add(ns,uri);
+                for (auto&& ns : namespaces) {
+                    xmlns.Add(ns, nsDict[ns]);
                 }
 
                 // add xmlns as Xmp.xmlns

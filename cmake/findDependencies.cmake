@@ -1,19 +1,22 @@
-# set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+if (APPLE)
+    # On Apple, we use the conan cmake_paths generator
+    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+    endif()
+else()
+    # Otherwise, we rely on the conan cmake_find_package generator
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+endif()
+
+find_package (Python3 COMPONENTS Interpreter)
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
      set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
-
-# Check if the conan file exist to find the dependencies
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    set(USING_CONAN ON)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS TARGETS)
-endif()
-
-find_package(Threads REQUIRED)
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
@@ -22,19 +25,6 @@ endif( )
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
         find_package(CURL REQUIRED)
-    endif()
-
-    if( EXIV2_ENABLE_SSH )
-        find_package(libssh CONFIG REQUIRED)
-        # Define an imported target to have compatibility with <=libssh-0.9.0
-        # libssh-0.9.1 is broken regardless.
-        if(NOT TARGET ssh)
-            add_library(ssh SHARED IMPORTED)
-            set_target_properties(ssh PROPERTIES
-                IMPORTED_LOCATION "${LIBSSH_LIBRARIES}"
-                INTERFACE_INCLUDE_DIRECTORIES "${LIBSSH_INCLUDE_DIR}"
-            )
-        endif()
     endif()
 endif()
 

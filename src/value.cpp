@@ -38,37 +38,6 @@
 #include <cstdlib>
 #include <ctype.h>
 
-#if defined(_MSC_VER) && _MSC_VER < 1900
-
-#define snprintf c99_snprintf
-#define vsnprintf c99_vsnprintf
-
-__inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
-{
-    int count = -1;
-
-    if (size != 0)
-        count = _vsnprintf_s(outBuf, size, _TRUNCATE, format, ap);
-    if (count == -1)
-        count = _vscprintf(format, ap);
-
-    return count;
-}
-
-__inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
-{
-    int count;
-    va_list ap;
-
-    va_start(ap, format);
-    count = c99_vsnprintf(outBuf, size, format, ap);
-    va_end(ap);
-
-    return count;
-}
-
-#endif
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -78,83 +47,71 @@ namespace Exiv2 {
     {
     }
 
-    Value::~Value()
+    Value::UniquePtr Value::create(TypeId typeId)
     {
-    }
-
-    Value& Value::operator=(const Value& rhs)
-    {
-        if (this == &rhs) return *this;
-        type_ = rhs.type_;
-        ok_ = rhs.ok_;
-        return *this;
-    }
-
-    Value::AutoPtr Value::create(TypeId typeId)
-    {
-        AutoPtr value;
+        UniquePtr value;
         switch (typeId) {
         case invalidTypeId:
         case signedByte:
         case unsignedByte:
-            value = AutoPtr(new DataValue(typeId));
+            value = UniquePtr(new DataValue(typeId));
             break;
         case asciiString:
-            value = AutoPtr(new AsciiValue);
+            value = UniquePtr(new AsciiValue);
             break;
         case unsignedShort:
-            value = AutoPtr(new ValueType<uint16_t>);
+            value = UniquePtr(new ValueType<uint16_t>);
             break;
         case unsignedLong:
         case tiffIfd:
-            value = AutoPtr(new ValueType<uint32_t>(typeId));
+            value = UniquePtr(new ValueType<uint32_t>(typeId));
             break;
         case unsignedRational:
-            value = AutoPtr(new ValueType<URational>);
+            value = UniquePtr(new ValueType<URational>);
             break;
         case undefined:
-            value = AutoPtr(new DataValue);
+            value = UniquePtr(new DataValue);
             break;
         case signedShort:
-            value = AutoPtr(new ValueType<int16_t>);
+            value = UniquePtr(new ValueType<int16_t>);
             break;
         case signedLong:
-            value = AutoPtr(new ValueType<int32_t>);
+            value = UniquePtr(new ValueType<int32_t>);
             break;
         case signedRational:
-            value = AutoPtr(new ValueType<Rational>);
+            value = UniquePtr(new ValueType<Rational>);
             break;
         case tiffFloat:
-            value = AutoPtr(new ValueType<float>);
+            value = UniquePtr(new ValueType<float>);
             break;
         case tiffDouble:
-            value = AutoPtr(new ValueType<double>);
+            value = UniquePtr(new ValueType<double>);
             break;
         case string:
-            value = AutoPtr(new StringValue);
+            value = UniquePtr(new StringValue);
             break;
         case date:
-            value = AutoPtr(new DateValue);
+            value = UniquePtr(new DateValue);
             break;
         case time:
-            value = AutoPtr(new TimeValue);
+            value = UniquePtr(new TimeValue);
             break;
         case comment:
-            value = AutoPtr(new CommentValue);
+            value = UniquePtr(new CommentValue);
             break;
         case xmpText:
-            value = AutoPtr(new XmpTextValue);
+            value = UniquePtr(new XmpTextValue);
             break;
         case xmpBag:
         case xmpSeq:
         case xmpAlt:
-            value = AutoPtr(new XmpArrayValue(typeId));
+            value = UniquePtr(new XmpArrayValue(typeId));
             break;
         case langAlt:
-            value = AutoPtr(new LangAltValue);
+            value = UniquePtr(new LangAltValue);
             break;
         default:
-            value = AutoPtr(new DataValue(typeId));
+            value = UniquePtr(new DataValue(typeId));
             break;
         }
         return value;
@@ -185,10 +142,11 @@ namespace Exiv2 {
 
     DataBuf Value::dataArea() const
     {
-        return DataBuf(0, 0);
+        return DataBuf(nullptr, 0);
     }
 
-    DataValue::DataValue(TypeId typeId) : Value(typeId)
+    DataValue::DataValue(TypeId typeId)
+        : Value(typeId)
     {
     }
 
@@ -197,10 +155,6 @@ namespace Exiv2 {
         : Value(typeId)
     {
         read(buf, len, byteOrder);
-    }
-
-    DataValue::~DataValue()
-    {
     }
 
     long DataValue::count() const
@@ -218,7 +172,7 @@ namespace Exiv2 {
     int DataValue::read(const std::string& buf)
     {
         std::istringstream is(buf);
-        int tmp;
+        int tmp = 0;
         ValueType val;
         while (!(is.eof())) {
             is >> tmp;
@@ -232,9 +186,7 @@ namespace Exiv2 {
     long DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // byteOrder not needed
-        return static_cast<long>(
-            std::copy(value_.begin(), value_.end(), buf) - buf
-            );
+        return static_cast<long>(std::copy(value_.begin(), value_.end(), buf) - buf);
     }
 
     long DataValue::size() const
@@ -251,7 +203,7 @@ namespace Exiv2 {
     {
         std::vector<byte>::size_type end = value_.size();
         for (std::vector<byte>::size_type i = 0; i != end; ++i) {
-            os << static_cast<int>(value_[i]);
+            os << static_cast<int>(value_.at(i));
             if (i < end - 1) os << " ";
         }
         return os;
@@ -260,7 +212,7 @@ namespace Exiv2 {
     std::string DataValue::toString(long n) const
     {
         std::ostringstream os;
-        os << static_cast<int>(value_[n]);
+        os << static_cast<int>(value_.at(n));
         ok_ = !os.fail();
         return os.str();
     }
@@ -268,19 +220,19 @@ namespace Exiv2 {
     long DataValue::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     float DataValue::toFloat(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     Rational DataValue::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_.at(n), 1};
     }
 
     StringValueBase::StringValueBase(TypeId typeId)
@@ -292,15 +244,6 @@ namespace Exiv2 {
         : Value(typeId)
     {
         read(buf);
-    }
-
-    StringValueBase::StringValueBase(const StringValueBase& rhs)
-        : Value(rhs), value_(rhs.value_)
-    {
-    }
-
-    StringValueBase::~StringValueBase()
-    {
     }
 
     StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
@@ -326,7 +269,8 @@ namespace Exiv2 {
 
     long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        if (value_.size() == 0) return 0;
+        if (value_.empty())
+            return 0;
         // byteOrder not needed
         assert(buf != 0);
         return static_cast<long>(
@@ -352,19 +296,19 @@ namespace Exiv2 {
     long StringValueBase::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     float StringValueBase::toFloat(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     Rational StringValueBase::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_.at(n), 1};
     }
 
     StringValue::StringValue()
@@ -374,10 +318,6 @@ namespace Exiv2 {
 
     StringValue::StringValue(const std::string& buf)
         : StringValueBase(string, buf)
-    {
-    }
-
-    StringValue::~StringValue()
     {
     }
 
@@ -396,15 +336,13 @@ namespace Exiv2 {
     {
     }
 
-    AsciiValue::~AsciiValue()
-    {
-    }
-
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
         // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
-        if (value_.size() == 0 || value_[value_.size()-1] != '\0') value_ += '\0';
+        if (value_.empty() || value_.at(value_.size() - 1) != '\0') {
+            value_ += '\0';
+        }
         return 0;
     }
 
@@ -479,20 +417,16 @@ namespace Exiv2 {
         read(comment);
     }
 
-    CommentValue::~CommentValue()
-    {
-    }
-
     int CommentValue::read(const std::string& comment)
     {
         std::string c = comment;
         CharsetId charsetId = undefined;
         if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
-            std::string::size_type pos = comment.find_first_of(' ');
+            const std::string::size_type pos = comment.find_first_of(' ');
             std::string name = comment.substr(8, pos-8);
             // Strip quotes (so you can also specify the charset without quotes)
-            if (name[0] == '"') name = name.substr(1);
-            if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
+            if (!name.empty() && name[0] == '"') name = name.substr(1);
+            if (!name.empty() && name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
@@ -534,7 +468,7 @@ namespace Exiv2 {
             }
             c = value_.substr(0, 8) + c;
         }
-        if (c.size() == 0)
+        if (c.empty())
             return 0;
         assert(buf != 0);
         return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
@@ -557,12 +491,12 @@ namespace Exiv2 {
         }
         c = value_.substr(8);
         if (charsetId() == unicode) {
-            const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
+            const char* from = encoding == nullptr || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
         }
         bool bAscii = charsetId() == undefined || charsetId() == ascii ;
         // # 1266 Remove trailing nulls
-        if ( bAscii && c.find('\0') != c.std::string::npos) {
+        if ( bAscii && c.find('\0') != std::string::npos) {
             c = c.substr(0,c.find('\0'));
         }
         return c;
@@ -611,14 +545,6 @@ namespace Exiv2 {
     {
     }
 
-    XmpValue& XmpValue::operator=(const XmpValue& rhs)
-    {
-        if (this == &rhs) return *this;
-        xmpArrayType_ = rhs.xmpArrayType_;
-        xmpStruct_ = rhs.xmpStruct_;
-        return *this;
-    }
-
     void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType)
     {
         xmpArrayType_ = xmpArrayType;
@@ -657,7 +583,8 @@ namespace Exiv2 {
         std::ostringstream os;
         write(os);
         std::string s = os.str();
-        if (s.size() > 0) std::memcpy(buf, &s[0], s.size());
+        if (!s.empty())
+            std::memcpy(buf, &s[0], s.size());
         return static_cast<long>(s.size());
     }
 
@@ -696,8 +623,8 @@ namespace Exiv2 {
             std::string::size_type pos = buf.find_first_of(' ');
             type = buf.substr(5, pos-5);
             // Strip quotes (so you can also specify the type without quotes)
-            if (type[0] == '"') type = type.substr(1);
-            if (type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
+            if (!type.empty() && type[0] == '"') type = type.substr(1);
+            if (!type.empty() && type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
@@ -722,9 +649,9 @@ namespace Exiv2 {
         return 0;
     }
 
-    XmpTextValue::AutoPtr XmpTextValue::clone() const
+    XmpTextValue::UniquePtr XmpTextValue::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     long XmpTextValue::size() const
@@ -792,9 +719,9 @@ namespace Exiv2 {
         return 0;
     }
 
-    XmpArrayValue::AutoPtr XmpArrayValue::clone() const
+    XmpArrayValue::UniquePtr XmpArrayValue::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     long XmpArrayValue::count() const
@@ -804,8 +731,7 @@ namespace Exiv2 {
 
     std::ostream& XmpArrayValue::write(std::ostream& os) const
     {
-        for (std::vector<std::string>::const_iterator i = value_.begin();
-             i != value_.end(); ++i) {
+        for (auto i = value_.begin(); i != value_.end(); ++i) {
             if (i != value_.begin()) os << ", ";
             os << *i;
         }
@@ -815,22 +741,22 @@ namespace Exiv2 {
     std::string XmpArrayValue::toString(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     long XmpArrayValue::toLong(long n) const
     {
-        return parseLong(value_[n], ok_);
+        return parseLong(value_.at(n), ok_);
     }
 
     float XmpArrayValue::toFloat(long n) const
     {
-        return parseFloat(value_[n], ok_);
+        return parseFloat(value_.at(n), ok_);
     }
 
     Rational XmpArrayValue::toRational(long n) const
     {
-        return parseRational(value_[n], ok_);
+        return parseRational(value_.at(n), ok_);
     }
 
     XmpArrayValue* XmpArrayValue::clone_() const
@@ -857,24 +783,30 @@ namespace Exiv2 {
             static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             
-            std::string::size_type pos = buf.find_first_of(' ');
-            lang = buf.substr(5, pos-5);
+            const std::string::size_type pos = buf.find_first_of(' ');
+            if (pos == std::string::npos) {
+                lang = buf.substr(5);
+            } else {
+                lang = buf.substr(5, pos-5);
+            }
+            if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
             // Strip quotes (so you can also specify the language without quotes)
             if (lang[0] == '"') {
                 lang = lang.substr(1);
 
-                if (lang == "" || lang.find('"') != lang.length()-1)
+                if (lang.empty() || lang.find('"') != lang.length() - 1)
                     throw Error(kerInvalidLangAltValue, buf);
             
                 lang = lang.substr(0, lang.length()-1);
             }
-            
-            if (lang == "") throw Error(kerInvalidLangAltValue, buf);
+
+            if (lang.empty())
+                throw Error(kerInvalidLangAltValue, buf);
 
             // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
             std::string::size_type charPos = lang.find_first_not_of(ALPHA);
             if (charPos != std::string::npos) {
-                if (lang[charPos] != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
+                if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
                     throw Error(kerInvalidLangAltValue, buf);
             }
             
@@ -886,9 +818,9 @@ namespace Exiv2 {
         return 0;
     }
 
-    LangAltValue::AutoPtr LangAltValue::clone() const
+    LangAltValue::UniquePtr LangAltValue::clone() const
     {
-        return AutoPtr(clone_());
+        return UniquePtr(clone_());
     }
 
     long LangAltValue::count() const
@@ -903,17 +835,17 @@ namespace Exiv2 {
         bool        first     = true;
 
         // Write the default entry first
-        ValueType::const_iterator i = value_.find(x_default);
+        auto i = value_.find(x_default);
         if (i != value_.end()) {
             os << "lang=\"" << i->first << "\" " << i->second;
             first = false;
         }
 
         // Write the others
-        for (i = value_.begin(); i != value_.end(); ++i) {
-            if (i->first != x_default ) {
+        for (auto&& v : value_) {
+            if (v.first != x_default) {
                 if (!first) os << ", ";
-                os << "lang=\"" << i->first << "\" " << i->second;
+                os << "lang=\"" << v.first << "\" " << v.second;
                 first = false;
             }
         }
@@ -927,7 +859,7 @@ namespace Exiv2 {
 
     std::string LangAltValue::toString(const std::string& qualifier) const
     {
-        ValueType::const_iterator i = value_.find(qualifier);
+        auto i = value_.find(qualifier);
         if (i != value_.end()) {
             ok_ = true;
             return i->second;
@@ -945,13 +877,13 @@ namespace Exiv2 {
     float LangAltValue::toFloat(long /*n*/) const
     {
         ok_ = false;
-        return 0.0f;
+        return 0.0F;
     }
 
     Rational LangAltValue::toRational(long /*n*/) const
     {
         ok_ = false;
-        return Rational(0, 0);
+        return {0, 0};
     }
 
     LangAltValue* LangAltValue::clone_() const
@@ -972,10 +904,6 @@ namespace Exiv2 {
         date_.day = day;
     }
 
-    DateValue::~DateValue()
-    {
-    }
-
     int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
         // Hard coded to read Iptc style dates
@@ -990,7 +918,10 @@ namespace Exiv2 {
         std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
         int scanned = sscanf(b, "%4d%2d%2d",
                              &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+        if (   scanned != 3
+            || date_.year < 0
+            || date_.month < 1 || date_.month > 12
+            || date_.day < 1 || date_.day > 31) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
@@ -1008,9 +939,12 @@ namespace Exiv2 {
 #endif
             return 1;
         }
-        int scanned = sscanf(buf.c_str(), "%4d-%d-%d",
+        int scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
                              &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+        if (   scanned != 3
+            || date_.year < 0
+            || date_.month < 1 || date_.month > 12
+            || date_.day < 1 || date_.day > 31) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
@@ -1031,7 +965,7 @@ namespace Exiv2 {
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
 
-        int wrote = sprintf(temp, "%04d%02d%02d", date_.year, date_.month, date_.day);
+        int wrote = snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day);
         assert(wrote == 8);
         std::memcpy(buf, temp, wrote);
         return wrote;
@@ -1088,7 +1022,7 @@ namespace Exiv2 {
 
     Rational DateValue::toRational(long n) const
     {
-        return Rational(toLong(n), 1);
+        return {toLong(n), 1};
     }
 
     TimeValue::TimeValue()
@@ -1106,10 +1040,6 @@ namespace Exiv2 {
         time_.second = second;
         time_.tzHour = tzHour;
         time_.tzMinute = tzMinute;
-    }
-
-    TimeValue::~TimeValue()
-    {
     }
 
     int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
@@ -1174,7 +1104,7 @@ namespace Exiv2 {
     {
         int rc = 1;
         Time t;
-        char plusMinus;
+        char plusMinus = 0;
         int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
                              &plusMinus, &t.tzHour, &t.tzMinute);
         if (   scanned    == 6
@@ -1272,7 +1202,7 @@ namespace Exiv2 {
 
     Rational TimeValue::toRational(long n) const
     {
-        return Rational(toLong(n), 1);
+        return {toLong(n), 1};
     }
 
-}                                       // namespace Exiv2
+}  // namespace Exiv2

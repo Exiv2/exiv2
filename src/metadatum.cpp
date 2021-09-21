@@ -30,35 +30,9 @@
 // class member definitions
 namespace Exiv2 {
 
-    Key::~Key()
+    Key::UniquePtr Key::clone() const
     {
-    }
-
-    Key::AutoPtr Key::clone() const
-    {
-        return AutoPtr(clone_());
-    }
-
-    Key& Key::operator=(const Key& /*rhs*/)
-    {
-        return *this;
-    }
-
-    Metadatum::Metadatum()
-    {
-    }
-
-    Metadatum::Metadatum(const Metadatum& /*rhs*/)
-    {
-    }
-
-    Metadatum::~Metadatum()
-    {
-    }
-
-    Metadatum& Metadatum::operator=(const Metadatum& /*rhs*/)
-    {
-        return *this;
+        return UniquePtr(clone_());
     }
 
     std::string Metadatum::print(const ExifData* pMetadata) const

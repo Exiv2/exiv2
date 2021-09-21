@@ -59,7 +59,7 @@ namespace Exiv2 {
                        ByteOrder byteOrder,
                        uint32_t  offset);
         //! Virtual destructor.
-        virtual ~TiffHeaderBase() =0;
+        virtual ~TiffHeaderBase() = default;
         //@}
 
         //! @name Manipulators
@@ -148,13 +148,11 @@ namespace Exiv2 {
                    uint32_t  offset       =0x00000008,
                    bool      hasImageTags =true);
         //! Destructor
-        ~TiffHeader();
+        ~TiffHeader() override = default;
         //@}
         //@{
         //! @name Accessors
-        bool isImageTag(      uint16_t       tag,
-                              IfdId          group,
-                        const PrimaryGroups* pPrimaryGroups) const;
+        bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
         //@}
 
     private:
@@ -249,7 +247,7 @@ namespace Exiv2 {
                  component creation function. If the pointer that is returned
                  is 0, then the TIFF entry should be ignored.
         */
-        static std::auto_ptr<TiffComponent> create(uint32_t extendedTag,
+        static std::unique_ptr<TiffComponent> create(uint32_t extendedTag,
                                                    IfdId    group);
         /*!
           @brief Get the path, i.e., a list of extended tag and group pairs, from
@@ -342,7 +340,7 @@ namespace Exiv2 {
                            composite structure. If \em pData is 0 or \em size
                            is 0, the return value is a 0 pointer.
          */
-        static std::auto_ptr<TiffComponent> parse(
+        static std::unique_ptr<TiffComponent> parse(
             const byte*              pData,
                   uint32_t           size,
                   uint32_t           root,
@@ -457,7 +455,7 @@ namespace Exiv2 {
             ByteOrder byteOrder_; //!< Byte order to use to encode target address
         };
         //! Type of the list containing an identifier and an address pair.
-        typedef std::map<OffsetId, OffsetData> OffsetList;
+        using OffsetList = std::map<OffsetId, OffsetData>;
 
         // DATA
         OffsetList offsetList_; //!< List of the offsets to replace

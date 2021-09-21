@@ -29,10 +29,6 @@ namespace Exiv2 {
     {
     }
 
-    OrfHeader::~OrfHeader()
-    {
-    }
-
     bool OrfHeader::read(const byte* pData, uint32_t size)
     {
         if (size < 8) return false;
@@ -59,20 +55,21 @@ namespace Exiv2 {
         DataBuf buf(8);
         switch (byteOrder()) {
         case littleEndian:
-            buf.pData_[0] = 'I';
+            buf.write_uint8(0, 'I');
             break;
         case bigEndian:
-            buf.pData_[0] = 'M';
+            buf.write_uint8(0, 'M');
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
-        buf.pData_[1] = buf.pData_[0];
+        buf.write_uint8(1, buf.read_uint8(0));
 
-        us2Data(buf.pData_ + 2, sig_, byteOrder());
-        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder());
+        buf.write_uint16(2, sig_, byteOrder());
+        buf.write_uint32(4, 0x00000008, byteOrder());
         return buf;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

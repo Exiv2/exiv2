@@ -39,8 +39,9 @@ namespace Exiv2
 {
     struct Iloc
     {
-        Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
-        virtual ~Iloc(){};
+        explicit Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0)
+            : ID_(ID), start_(start), length_(length){};
+        virtual ~Iloc() = default;
 
         uint32_t ID_;
         uint32_t start_;
@@ -80,7 +81,7 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        BmffImage(BasicIo::AutoPtr io, bool create);
+        BmffImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //@{
@@ -91,8 +92,8 @@ namespace Exiv2
           @param start offset in file (default, io_->tell())
          @
          */
-        void parseTiff(uint32_t root_tag, uint32_t length);
-        void parseTiff(uint32_t root_tag, uint32_t length,uint32_t start);
+        void parseTiff(uint32_t root_tag, uint64_t length);
+        void parseTiff(uint32_t root_tag, uint64_t length,uint64_t start);
         //@}
 
         //@{
@@ -102,58 +103,61 @@ namespace Exiv2
           @param start offset in file
          @
          */
-        void parseXmp(uint32_t length,uint32_t start);
+        void parseXmp(uint64_t length,uint64_t start);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata() /* override */;
-        void writeMetadata() /* override */;
-        void setComment(const std::string& comment) /* override */;
-        void printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth);
+        void readMetadata() override /* override */;
+        void writeMetadata() override /* override */;
+        void setComment(const std::string& comment) override /* override */;
+        void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const /* override */;
-        int pixelWidth() const;
-        int pixelHeight() const;
+        std::string mimeType() const override /* override */;
+        int pixelWidth() const override;
+        int pixelHeight() const override;
         //@}
         
-        Exiv2::ByteOrder endian_ ;
+        Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
     private:
         void openOrThrow();
         /*!
           @brief recursiveBoxHandler
           @throw Error if we visit a box more than once
+          @param pbox_end The end location of the parent box. Boxes are
+              nested, so we must not read beyond this.
           @return address of next box
           @warning This function should only be called by readMetadata()
          */
-        long boxHandler(std::ostream& out=std::cout, Exiv2::PrintStructureOption option=kpsNone,int depth = 0);
+        long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option,
+                        const long pbox_end, int depth);
         std::string indent(int i)
         {
             return std::string(2*i,' ');
         }
 
-        uint32_t                 fileType_;
+        uint32_t                 fileType_{0};
         std::set<uint64_t>       visits_;
-        uint64_t                 visits_max_;
-        uint16_t                 unknownID_;  // 0xffff
-        uint16_t                 exifID_;
-        uint16_t                 xmpID_;
+        uint64_t                 visits_max_{0};
+        uint16_t                 unknownID_{0xffff};
+        uint16_t                 exifID_{0xffff};
+        uint16_t                 xmpID_{0};
         std::map<uint32_t, Iloc> ilocs_;
-        bool                     bReadMetadata_;
+        bool                     bReadMetadata_{false};
         //@}
 
         /*!
           @brief box utilities
          */
-        std::string toAscii(long n);
+        static std::string toAscii(long n);
         std::string boxName(uint32_t box);
-        bool        superBox(uint32_t box);
-        bool        fullBox(uint32_t box);
-        std::string uuidName(Exiv2::DataBuf& uuid);
+        static bool superBox(uint32_t box);
+        static bool fullBox(uint32_t box);
+        static std::string uuidName(Exiv2::DataBuf& uuid);
 
     };  // class BmffImage
 
@@ -167,7 +171,7 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2API Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a BMFF image.
     EXIV2API bool isBmffType(BasicIo& iIo, bool advance);

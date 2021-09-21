@@ -58,7 +58,7 @@ int main(int argc, char* const argv[])
 
     std::string testFile = argv[1];
     std::istringstream iss(argv[2]);
-    int testNo;
+    int testNo = 0;
     iss >> testNo;
 
     int rc = 0;
@@ -170,7 +170,7 @@ void testCase(const std::string& file1,
     ExifKey ek(key);
 
     //Open first image
-    Image::AutoPtr image1 = ImageFactory::open(file1);
+    Image::UniquePtr image1 = ImageFactory::open(file1);
     assert(image1.get() != 0);
 
     // Load existing metadata
@@ -179,14 +179,14 @@ void testCase(const std::string& file1,
 
     Exiv2::ExifData &ed1 = image1->exifData();
     std::cerr << "---> Modifying Exif data\n";
-    Exiv2::ExifData::iterator pos = ed1.findKey(ek);
+    auto pos = ed1.findKey(ek);
     if (pos == ed1.end()) {
         throw Error(kerErrorMessage, "Metadatum with key = " + ek.key() + " not found");
     }
     pos->setValue(value);
 
     // Open second image
-    Image::AutoPtr image2 = ImageFactory::open(file2);
+    Image::UniquePtr image2 = ImageFactory::open(file2);
     assert(image2.get() != 0);
 
     image2->setExifData(image1->exifData());
@@ -209,7 +209,7 @@ void testCase(const std::string& file1,
 
 void exifPrint(const ExifData& exifData)
 {
-    ExifData::const_iterator i = exifData.begin();
+    auto i = exifData.begin();
     for (; i != exifData.end(); ++i) {
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "

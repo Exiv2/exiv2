@@ -56,7 +56,7 @@ namespace Exiv2
     /*!
       @brief Class to access EPS images.
      */
-    class EXIV2LIB_DEPRECATED_EXPORT EpsImage : public Image {
+    class EXIV2API EpsImage : public Image {
     public:
         //! @name Creators
         //@{
@@ -74,32 +74,31 @@ namespace Exiv2
           @param create Specifies if an existing image should be read (false)
               or if a new file should be created (true).
          */
-        EpsImage(BasicIo::AutoPtr io, bool create);
+        EpsImage(BasicIo::UniquePtr io, bool create);
         //@}
 
         //! @name Manipulators
         //@{
-        void readMetadata();
-        void writeMetadata();
+        void readMetadata() override;
+        void writeMetadata() override;
         /*!
           @brief Not supported.
               Calling this function will throw an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment);
+        void setComment(const std::string& comment) override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
-    private:
         //! @name NOT Implemented
         //@{
         //! Copy constructor
-        EpsImage(const EpsImage& rhs);
+        EpsImage(const EpsImage& rhs) = delete;
         //! Assignment operator
-        EpsImage& operator=(const EpsImage& rhs);
+        EpsImage& operator=(const EpsImage& rhs) = delete;
         //@}
 
     }; // class EpsImage
@@ -114,10 +113,10 @@ namespace Exiv2
              Caller owns the returned object and the auto-pointer ensures that
              it will be deleted.
      */
-    EXIV2LIB_DEPRECATED_EXPORT Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create);
+    EXIV2API Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create);
 
     //! Check if the file iIo is a EPS image.
-    EXIV2LIB_DEPRECATED_EXPORT bool isEpsType(BasicIo& iIo, bool advance);
+    EXIV2API bool isEpsType(BasicIo& iIo, bool advance);
 
 }                                       // namespace Exiv2
 

@@ -10,7 +10,13 @@ debian_build_gtest() {
     cd gtest_build
     cmake -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
     make
-    cp libgtest* /usr/lib/
+    if [ -f "lib/libgtest.so" ]; then
+        # Ubuntu 20.04 with gtest 1.10
+        cp lib/libgtest* /usr/lib/
+    else
+        # Debian 9 with gtest 1.8
+        cp libgtest* /usr/lib/
+    fi
     cd ..
 }
 
@@ -44,20 +50,23 @@ case "$distro_id" in
         debian_build_gtest
         ;;
 
+    'alpine')
+        apk update
+        apk add gcc g++ clang cmake make ccache expat-dev zlib-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev which dos2unix bash libxml2-utils diffutils python3
+        ;;
+
     'centos'|'rhel')
+        yum -y update libarchive # workaround for https://bugs.centos.org/view.php?id=18212
         yum -y install epel-release
         # enable copr for gtest
         curl https://copr.fedorainfracloud.org/coprs/defolos/devel/repo/epel-7/defolos-devel-epel-7.repo > /etc/yum.repos.d/_copr_defolos-devel.repo
         yum clean all
-        yum -y install gcc-c++ clang cmake3 make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python3 dos2unix
-        # symlink up to date versions of cmake to 'default' name
-        mv /bin/cmake /bin/.cmake.old
-        ln -s /bin/cmake3 /bin/cmake
+        yum -y install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python3 dos2unix
         ;;
 
-    'opensuse'|'opensuse-tumbleweed')
+    'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl tar libcurl-devel git which dos2unix libxml2-tools
+        zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl libcurl-devel git which dos2unix libxml2-tools
         pushd /tmp
           curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
           tar xzf   release-1.8.0.tar.gz

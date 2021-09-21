@@ -90,7 +90,7 @@ namespace Safe
         template <class T>
         struct enable_if<true, T>
         {
-            typedef T type;
+            using type = T;
         };
 
         /*!

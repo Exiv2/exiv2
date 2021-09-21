@@ -845,7 +845,7 @@ Exif.Photo.Contrast                           0xa408 Exif         Short       1 
 Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
 Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
 Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
-Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Photo.Gamma                              0xa500 Exif         Rational    1 22/10
 Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
 Exif.Thumbnail.YResolution                    0x011b IFD1         Rational    1 300/1
@@ -1016,7 +1016,7 @@ Exif.Photo.Contrast                           0xa408 Exif         Short       1 
 Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
 Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
 Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
-Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Photo.Gamma                              0xa500 Exif         Rational    1 22/10
 Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
 Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       5 2 3 4 5 6
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
@@ -1188,7 +1188,7 @@ Exif.Photo.Contrast                           0xa408 Exif         Short       1 
 Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
 Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
 Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
-Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Photo.Gamma                              0xa500 Exif         Rational    1 22/10
 Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
 Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 2
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1
@@ -1360,7 +1360,7 @@ Exif.Photo.Contrast                           0xa408 Exif         Short       1 
 Exif.Photo.Saturation                         0xa409 Exif         Short       1 0
 Exif.Photo.Sharpness                          0xa40a Exif         Short       1 0
 Exif.Photo.SubjectDistanceRange               0xa40c Exif         Short       1 0
-Exif.Photo.0xa500                             0xa500 Exif         Rational    1 22/10
+Exif.Photo.Gamma                              0xa500 Exif         Rational    1 22/10
 Exif.Thumbnail.Compression                    0x0103 IFD1         Short       1 6
 Exif.Thumbnail.Orientation                    0x0112 IFD1         Short       1 2
 Exif.Thumbnail.XResolution                    0x011a IFD1         Rational    1 300/1

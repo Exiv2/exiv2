@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <regex>
 
 // #1147
 #ifndef WIN32
@@ -112,45 +113,31 @@ namespace Exiv2 {
     }
 }   // namespace Exiv2
 
-static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
+static bool shouldOutput(const std::vector<std::regex>& greps,const char* key,const std::string& value)
 {
     bool bPrint = greps.empty();
-    for( exv_grep_keys_t::const_iterator g = greps.begin();
-      !bPrint && g != greps.end() ; ++g
-    ) {
-        std::string Key(key);
-#if defined(EXV_HAVE_REGEX_H)
-        bPrint = (  0 == regexec( &(*g), key          , 0, NULL, 0)
-                 || 0 == regexec( &(*g), value.c_str(), 0, NULL, 0)
-                 );
-#else
-            std::string Pattern(g->pattern_);
-            std::string Value(value);
-            if ( g->bIgnoreCase_ ) {
-                // https://notfaq.wordpress.com/2007/08/04/cc-convert-string-to-upperlower-case/
-                std::transform(Pattern.begin(), Pattern.end(),Pattern.begin(), ::tolower);
-                std::transform(Key.begin()    , Key.end()    ,Key.begin()    , ::tolower);
-                std::transform(Value.begin()  , Value.end()  ,Value.begin()    , ::tolower);
-            }
-            bPrint = Key.find(Pattern) != std::string::npos || Value.find(Pattern) != std::string::npos;
-#endif
+    for (auto const& g : greps) {
+        bPrint = std::regex_search(key, g) || std::regex_search(value, g);
+        if (bPrint) {
+            break;
+        }
     }
     return bPrint;
 }
 
-static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
+static void output(std::ostream& os,const std::vector<std::regex>& greps,const char* name,const std::string& value)
 {
     if ( shouldOutput(greps,name,value) ) os << name << "=" << value << std::endl;
 }
 
-static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,int value)
+static void output(std::ostream& os,const std::vector<std::regex>& greps,const char* name,int value)
 {
     std::ostringstream stringStream;
     stringStream << value;
     output(os,greps,name,stringStream.str());
 }
 
-static bool pushPath(std::string& path,Exiv2::StringVector& libs,Exiv2::StringSet& paths)
+static bool pushPath(std::string& path,std::vector<std::string>& libs,std::set<std::string>& paths)
 {
     bool result = Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ;
     if ( result ) {
@@ -160,10 +147,10 @@ static bool pushPath(std::string& path,Exiv2::StringVector& libs,Exiv2::StringSe
     return result ;
 }
 
-static Exiv2::StringVector getLoadedLibraries()
+static std::vector<std::string> getLoadedLibraries()
 {
-    Exiv2::StringVector libs ;
-    Exiv2::StringSet    paths;
+    std::vector<std::string> libs ;
+    std::set<std::string> paths;
     std::string         path ;
 
 #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
@@ -208,7 +195,7 @@ static Exiv2::StringVector getLoadedLibraries()
     // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
     char procsz[100];
     char pathsz[500];
-    sprintf(procsz,"/proc/%d/path/a.out", getpid());
+    snprintf(procsz, sizeof(procsz), "/proc/%d/path/a.out", getpid());
     int l = readlink (procsz, pathsz,sizeof(pathsz));
     if (l>0) {
         pathsz[l]='\0';
@@ -223,17 +210,18 @@ static Exiv2::StringVector getLoadedLibraries()
     while ( std::getline(maps,string) ) {
         std::size_t pos = string.find_last_of(' ');
         if ( pos != std::string::npos ) {
-            std::string path = string.substr(pos+1);
+            path = string.substr(pos+1);
             pushPath(path,libs,paths);
         }
     }
 #endif
-    if ( !libs.size() ) libs.push_back("unknown");
+    if (libs.empty())
+        libs.push_back("unknown");
 
     return libs;
 }
 
-void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
+void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys)
 {
     int      bits = 8*sizeof(void*);
 #ifdef NDEBUG
@@ -254,7 +242,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifndef __VERSION__
     char  version[40];
-    sprintf(version,"%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
+    snprintf(version, sizeof(version), "%d.%02d",(_MSC_VER-600)/100,_MSC_VER%100);
 
     // add edition in brackets
     // 7.10 = 2003 8.00 = 2005 etc 12.00 = 2013 13.00 = 2015 (yet the installer labels it as 14.0!)
@@ -264,7 +252,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     if (  edition == 14 && _MSC_VER >= 1920 ) edition++ ; // 2019 _MSC_VAR  == 1920
 
     if  ( edition > lengthof(editions) ) edition = 0 ;
-    if  ( edition ) sprintf(version+::strlen(version)," (%s/%s)",editions[edition],bits==64?"x64":"x86");
+    if  ( edition ) {
+      const size_t len = ::strlen(version);
+      snprintf(version+len, sizeof(version) - len, " (%s/%s)",editions[edition],bits==64?"x64":"x86");
+    }
 #define __VERSION__ version
 #endif
 
@@ -323,8 +314,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_iconv       =0;
     int have_memory      =0;
     int have_lstat       =0;
-    int have_regex       =0;
-    int have_regex_h     =0;
     int have_stdbool     =0;
     int have_stdint      =0;
     int have_stdlib      =0;
@@ -346,11 +335,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     int have_unicode_path=0;
 
     int enable_bmff      =0;
-    int enable_video     =0;
     int enable_webready  =0;
     int enable_nls       =0;
     int use_curl         =0;
-    int use_ssh          =0;
 
 #ifdef EXV_HAVE_INTTYPES_H
     have_inttypes=1;
@@ -378,14 +365,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
 #ifdef EXV_HAVE_LSTAT
     have_lstat=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX
-    have_regex=1;
-#endif
-
-#ifdef EXV_HAVE_REGEX_H
-    have_regex_h=1;
 #endif
 
 #ifdef EXV_HAVE_STDBOOL_H
@@ -466,10 +445,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
      enable_bmff=1;
 #endif
 
-#ifdef EXV_ENABLE_VIDEO
-     enable_video=1;
-#endif
-
 #ifdef EXV_ENABLE_WEBREADY
      enable_webready=1;
 #endif
@@ -482,11 +457,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     use_curl=1;
 #endif
 
-#ifdef EXV_USE_SSH
-     use_ssh=1;
-#endif
-
-    Exiv2::StringVector libs =getLoadedLibraries();
+    std::vector<std::string> libs =getLoadedLibraries();
 
     output(os,keys,"exiv2",Exiv2::versionString());
     output(os,keys,"platform"       , platform   );
@@ -517,7 +488,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"curl"          , use_curl);
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( Exiv2::StringVector_i lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
+        for ( auto lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
             output(os,keys,"library",*lib);
     }
 
@@ -527,8 +498,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
     output(os,keys,"have_lstat"        ,have_lstat       );
-    output(os,keys,"have_regex"        ,have_regex       );
-    output(os,keys,"have_regex_h"      ,have_regex_h     );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );
@@ -549,11 +518,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"have_unistd"       ,have_unistd      );
     output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_bmff"       ,enable_bmff      );
-    output(os,keys,"enable_video"      ,enable_video     );
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );
     output(os,keys,"use_curl"          ,use_curl         );
-    output(os,keys,"use_ssh"           ,use_ssh          );
 
     output(os,keys,"config_path"       ,Exiv2::Internal::getExiv2ConfigPath());
 
@@ -569,9 +536,9 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     Exiv2::Dictionary ns;
     Exiv2::XmpProperties::registeredNamespaces(ns);
-    for ( Exiv2::Dictionary_i it = ns.begin(); it != ns.end() ; ++it ) {
-        std::string xmlns = (*it).first;
-        std::string uri   = (*it).second;
+    for (auto&& n : ns) {
+        std::string xmlns = n.first;
+        std::string uri = n.second;
         output(os,keys,name,xmlns+":"+uri);
     }
 #endif

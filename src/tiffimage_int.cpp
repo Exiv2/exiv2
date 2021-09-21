@@ -35,10 +35,10 @@ namespace Exiv2 {
     namespace Internal {
 
     //! Constant for non-encrypted binary arrays
-    const CryptFct notEncrypted = 0;
+    constexpr CryptFct notEncrypted = nullptr;
 
     //! Canon Camera Settings binary array - configuration
-    extern const ArrayCfg canonCsCfg = {
+    constexpr ArrayCfg canonCsCfg = {
         canonCsId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -49,12 +49,12 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Canon Camera Settings binary array - definition
-    extern const ArrayDef canonCsDef[] = {
+    constexpr ArrayDef canonCsDef[] = {
         { 46, ttUnsignedShort, 3 } // Exif.CanonCs.Lens
     };
 
     //! Canon Shot Info binary array - configuration
-    extern const ArrayCfg canonSiCfg = {
+    constexpr ArrayCfg canonSiCfg = {
         canonSiId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -66,7 +66,7 @@ namespace Exiv2 {
     };
 
     //! Canon Panorama binary array - configuration
-    extern const ArrayCfg canonPaCfg = {
+    constexpr ArrayCfg canonPaCfg = {
         canonPaId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -78,7 +78,7 @@ namespace Exiv2 {
     };
 
     //! Canon Custom Function binary array - configuration
-    extern const ArrayCfg canonCfCfg = {
+    constexpr ArrayCfg canonCfCfg = {
         canonCfId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -90,7 +90,7 @@ namespace Exiv2 {
     };
 
     //! Canon Picture Info binary array - configuration
-    extern const ArrayCfg canonPiCfg = {
+    constexpr ArrayCfg canonPiCfg = {
         canonPiId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -102,7 +102,7 @@ namespace Exiv2 {
     };
 
     //! Canon Time Info binary array - configuration
-    extern const ArrayCfg canonTiCfg = {
+    constexpr ArrayCfg canonTiCfg = {
         canonTiId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttSignedLong,     // Type for array entry and size element
@@ -114,7 +114,7 @@ namespace Exiv2 {
     };
 
     //! Canon File Info binary array - configuration
-    extern const ArrayCfg canonFiCfg = {
+    constexpr ArrayCfg canonFiCfg = {
         canonFiId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -125,12 +125,12 @@ namespace Exiv2 {
         { 0, ttSignedShort, 1 }
     };
     //! Canon File Info binary array - definition
-    extern const ArrayDef canonFiDef[] = {
+    constexpr ArrayDef canonFiDef[] = {
         { 2, ttUnsignedLong, 1 }
     };
 
     //! Canon Processing Info binary array - configuration
-    extern const ArrayCfg canonPrCfg = {
+    constexpr ArrayCfg canonPrCfg = {
         canonPrId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry and size element
@@ -142,7 +142,7 @@ namespace Exiv2 {
     };
 
     //! Nikon Vibration Reduction binary array - configuration
-    extern const ArrayCfg nikonVrCfg = {
+    constexpr ArrayCfg nikonVrCfg = {
         nikonVrId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -153,13 +153,13 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Vibration Reduction binary array - definition
-    extern const ArrayDef nikonVrDef[] = {
+    constexpr ArrayDef nikonVrDef[] = {
         { 0, ttUndefined,     4 }, // Version
         { 7, ttUnsignedByte,  1 }  // The array contains 8 bytes
     };
 
     //! Nikon Picture Control binary array - configuration
-    extern const ArrayCfg nikonPcCfg = {
+    constexpr ArrayCfg nikonPcCfg = {
         nikonPcId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -170,7 +170,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Picture Control binary array - definition
-    extern const ArrayDef nikonPcDef[] = {
+    constexpr ArrayDef nikonPcDef[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttAsciiString,  20 },
         { 24, ttAsciiString,  20 },
@@ -187,7 +187,7 @@ namespace Exiv2 {
     };
 
     //! Nikon World Time binary array - configuration
-    extern const ArrayCfg nikonWtCfg = {
+    constexpr ArrayCfg nikonWtCfg = {
         nikonWtId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -198,14 +198,14 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon World Time binary array - definition
-    extern const ArrayDef nikonWtDef[] = {
+    constexpr ArrayDef nikonWtDef[] = {
         { 0, ttSignedShort,   1 },
         { 2, ttUnsignedByte,  1 },
         { 3, ttUnsignedByte,  1 }
     };
 
     //! Nikon ISO info binary array - configuration
-    extern const ArrayCfg nikonIiCfg = {
+    constexpr ArrayCfg nikonIiCfg = {
         nikonIiId,        // Group for the elements
         bigEndian,        // Byte order
         ttUndefined,      // Type for array entry
@@ -216,7 +216,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon ISO info binary array - definition
-    extern const ArrayDef nikonIiDef[] = {
+    constexpr ArrayDef nikonIiDef[] = {
         {  0, ttUnsignedByte,  1 },
         {  4, ttUnsignedShort, 1 },
         {  6, ttUnsignedByte,  1 },
@@ -225,7 +225,7 @@ namespace Exiv2 {
     };
 
     //! Nikon Auto Focus binary array - configuration
-    extern const ArrayCfg nikonAfCfg = {
+    constexpr ArrayCfg nikonAfCfg = {
         nikonAfId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -236,14 +236,14 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Auto Focus binary array - definition
-    extern const ArrayDef nikonAfDef[] = {
+    constexpr ArrayDef nikonAfDef[] = {
         { 0, ttUnsignedByte,  1 },
         { 1, ttUnsignedByte,  1 },
         { 2, ttUnsignedShort, 1 } // The array contains 4 bytes
     };
 
     //! Nikon Auto Focus 21 binary array - configuration
-    extern const ArrayCfg nikonAf21Cfg = {
+    constexpr ArrayCfg nikonAf21Cfg = {
         nikonAf21Id,      // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -254,7 +254,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Auto Focus 21 binary array - definition
-    extern const ArrayDef nikonAf21Def[] = {
+    constexpr ArrayDef nikonAf21Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // ContrastDetectAF
         {  5, ttUnsignedByte,  1 }, // AFAreaMode
@@ -270,7 +270,7 @@ namespace Exiv2 {
         { 28, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
     };
     //! Nikon Auto Focus 22 binary array - configuration
-    extern const ArrayCfg nikonAf22Cfg = {
+    constexpr ArrayCfg nikonAf22Cfg = {
         nikonAf22Id,      // Group for the elements
         invalidByteOrder, // Byte order
         ttUndefined,      // Type for array entry
@@ -281,7 +281,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Auto Focus 22 binary array - definition
-    extern const ArrayDef nikonAf22Def[] = {
+    constexpr ArrayDef nikonAf22Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // ContrastDetectAF
         {  5, ttUnsignedByte,  1 }, // AFAreaMode
@@ -298,13 +298,13 @@ namespace Exiv2 {
 
     //! Nikon AF2 configuration and definitions
     //  https://github.com/Exiv2/exiv2/issues/646
-    extern const ArraySet nikonAf2Set[] = {
+    constexpr ArraySet nikonAf2Set[] = {
         { nikonAf21Cfg, nikonAf21Def, EXV_COUNTOF(nikonAf21Def) },
         { nikonAf22Cfg, nikonAf22Def, EXV_COUNTOF(nikonAf22Def) },
     };
 
     //! Nikon AF Fine Tune binary array - configuration
-    extern const ArrayCfg nikonAFTCfg = {
+    constexpr ArrayCfg nikonAFTCfg = {
         nikonAFTId,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -315,14 +315,14 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon AF Fine Tune binary array - definition
-    extern const ArrayDef nikonAFTDef[] = {
+    constexpr ArrayDef nikonAFTDef[] = {
         {  0, ttUnsignedByte,  1 }, // AF Fine Tune on/off
         {  1, ttUnsignedByte,  1 }, // AF Fine Tune index
         {  2, ttUnsignedByte,  1 }  // AF Fine Tune value
     };
 
     //! Nikon File Info binary array - configuration
-    extern const ArrayCfg nikonFiCfg = {
+    constexpr ArrayCfg nikonFiCfg = {
         nikonFiId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -333,14 +333,14 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon File Info binary array - definition
-    extern const ArrayDef nikonFiDef[] = {
+    constexpr ArrayDef nikonFiDef[] = {
         { 0, ttUndefined,     4 }, // Version
         { 6, ttUnsignedShort, 1 }, // Directory Number
         { 8, ttUnsignedShort, 1 }  // File Number
     };
 
     //! Nikon Multi Exposure binary array - configuration
-    extern const ArrayCfg nikonMeCfg = {
+    constexpr ArrayCfg nikonMeCfg = {
         nikonMeId,        // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -351,7 +351,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Multi Exposure binary array - definition
-    extern const ArrayDef nikonMeDef[] = {
+    constexpr ArrayDef nikonMeDef[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedLong,  1 }, // MultiExposureMode
         {  8, ttUnsignedLong,  1 }, // MultiExposureShots
@@ -359,7 +359,7 @@ namespace Exiv2 {
     };
 
     //! Nikon Flash Info binary array - configuration 1
-    extern const ArrayCfg nikonFl1Cfg = {
+    constexpr ArrayCfg nikonFl1Cfg = {
         nikonFl1Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -370,7 +370,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Flash Info binary array - definition 1
-    extern const ArrayDef nikonFl1Def[] = {
+    constexpr ArrayDef nikonFl1Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
         {  6, ttUnsignedShort, 1 }, // ExternalFlashFirmware
@@ -383,7 +383,7 @@ namespace Exiv2 {
         { 16, ttUnsignedByte,  1 }  // FlashGroupBControlMode
     };
     //! Nikon Flash Info binary array - configuration 2
-    extern const ArrayCfg nikonFl2Cfg = {
+    constexpr ArrayCfg nikonFl2Cfg = {
         nikonFl2Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -394,7 +394,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Flash Info binary array - definition 2
-    extern const ArrayDef nikonFl2Def[] = {
+    constexpr ArrayDef nikonFl2Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
         {  6, ttUnsignedShort, 1 }, // ExternalFlashFirmware
@@ -405,7 +405,7 @@ namespace Exiv2 {
         { 15, ttUnsignedByte,  1 }, // FlashGNDistance
     };
     //! Nikon Flash Info binary array - configuration 3
-    extern const ArrayCfg nikonFl3Cfg = {
+    constexpr ArrayCfg nikonFl3Cfg = {
         nikonFl3Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -416,7 +416,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Flash Info binary array - definition
-    extern const ArrayDef nikonFl3Def[] = {
+    constexpr ArrayDef nikonFl3Def[] = {
         {  0, ttUndefined,     4 }, // Version
         {  4, ttUnsignedByte,  1 }, // FlashSource
         {  6, ttUnsignedShort, 1 }, // ExternalFlashFirmware
@@ -428,14 +428,14 @@ namespace Exiv2 {
         { 16, ttUnsignedByte,  1 }, // FlashColorFilter
     };
     //! Nikon Lens Data configurations and definitions
-    extern const ArraySet nikonFlSet[] = {
+    constexpr ArraySet nikonFlSet[] = {
         { nikonFl1Cfg, nikonFl1Def, EXV_COUNTOF(nikonFl1Def) },
         { nikonFl2Cfg, nikonFl2Def, EXV_COUNTOF(nikonFl2Def) },
         { nikonFl3Cfg, nikonFl3Def, EXV_COUNTOF(nikonFl3Def) }
     };
 
     //! Nikon Shot Info binary array - configuration 1 (D80)
-    extern const ArrayCfg nikonSi1Cfg = {
+    constexpr ArrayCfg nikonSi1Cfg = {
         nikonSi1Id,       // Group for the elements
         bigEndian,        // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -446,13 +446,13 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 1 (D80)
-    extern const ArrayDef nikonSi1Def[] = {
+    constexpr ArrayDef nikonSi1Def[] = {
         {    0, ttUndefined,    4 }, // Version
         {  586, ttUnsignedLong, 1 }, // ShutterCount
         { 1155, ttUnsignedByte, 1 }  // The array contains 1156 bytes
     };
     //! Nikon Shot Info binary array - configuration 2 (D40)
-    extern const ArrayCfg nikonSi2Cfg = {
+    constexpr ArrayCfg nikonSi2Cfg = {
         nikonSi2Id,       // Group for the elements
         bigEndian,        // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -463,14 +463,14 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 2 (D40)
-    extern const ArrayDef nikonSi2Def[] = {
+    constexpr ArrayDef nikonSi2Def[] = {
         {    0, ttUndefined,    4 }, // Version
         {  582, ttUnsignedLong, 1 }, // ShutterCount
         {  738, ttUnsignedByte, 1 },
         { 1112, ttUnsignedByte, 1 }  // The array contains 1113 bytes
     };
     //! Nikon Shot Info binary array - configuration 3 (D300a)
-    extern const ArrayCfg nikonSi3Cfg = {
+    constexpr ArrayCfg nikonSi3Cfg = {
         nikonSi3Id,       // Group for the elements
         bigEndian,        // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -481,7 +481,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 3 (D300a)
-    extern const ArrayDef nikonSi3Def[] = {
+    constexpr ArrayDef nikonSi3Def[] = {
         {    0, ttUndefined,     4 }, // Version
         {  604, ttUnsignedByte,  1 }, // ISO
         {  633, ttUnsignedLong,  1 }, // ShutterCount
@@ -489,7 +489,7 @@ namespace Exiv2 {
         {  814, ttUndefined,  4478 }  // The array contains 5291 bytes
     };
     //! Nikon Shot Info binary array - configuration 4 (D300b)
-    extern const ArrayCfg nikonSi4Cfg = {
+    constexpr ArrayCfg nikonSi4Cfg = {
         nikonSi4Id,       // Group for the elements
         bigEndian,        // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -500,14 +500,14 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 4 (D300b)
-    extern const ArrayDef nikonSi4Def[] = {
+    constexpr ArrayDef nikonSi4Def[] = {
         {    0, ttUndefined,     4 }, // Version
         {  644, ttUnsignedLong,  1 }, // ShutterCount
         {  732, ttUnsignedShort, 1 }, // AFFineTuneAdj
         {  826, ttUndefined,  4478 }  // The array contains 5303 bytes
     };
     //! Nikon Shot Info binary array - configuration 5 (ver 02.xx)
-    extern const ArrayCfg nikonSi5Cfg = {
+    constexpr ArrayCfg nikonSi5Cfg = {
         nikonSi5Id,       // Group for the elements
         bigEndian,        // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -518,7 +518,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Shot Info binary array - definition 5 (ver 01.xx and ver 02.xx)
-    extern const ArrayDef nikonSi5Def[] = {
+    constexpr ArrayDef nikonSi5Def[] = {
         {    0, ttUndefined,     4 }, // Version
         {  106, ttUnsignedLong,  1 }, // ShutterCount1
         {  110, ttUnsignedLong,  1 }, // DeletedImageCount
@@ -530,7 +530,7 @@ namespace Exiv2 {
         {  630, ttUnsignedLong,  1 }  // ShutterCount
     };
     //! Nikon Shot Info binary array - configuration 6 (ver 01.xx)
-    extern const ArrayCfg nikonSi6Cfg = {
+    constexpr ArrayCfg nikonSi6Cfg = {
         nikonSi6Id,       // Group for the elements
         bigEndian,        // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -541,7 +541,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data configurations and definitions
-    extern const ArraySet nikonSiSet[] = {
+    constexpr ArraySet nikonSiSet[] = {
         { nikonSi1Cfg, nikonSi1Def, EXV_COUNTOF(nikonSi1Def) },
         { nikonSi2Cfg, nikonSi2Def, EXV_COUNTOF(nikonSi2Def) },
         { nikonSi3Cfg, nikonSi3Def, EXV_COUNTOF(nikonSi3Def) },
@@ -551,7 +551,7 @@ namespace Exiv2 {
     };
 
     //! Nikon Lens Data binary array - configuration 1
-    extern const ArrayCfg nikonLd1Cfg = {
+    constexpr ArrayCfg nikonLd1Cfg = {
         nikonLd1Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -562,7 +562,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 2
-    extern const ArrayCfg nikonLd2Cfg = {
+    constexpr ArrayCfg nikonLd2Cfg = {
         nikonLd2Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -573,7 +573,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 3
-    extern const ArrayCfg nikonLd3Cfg = {
+    constexpr ArrayCfg nikonLd3Cfg = {
         nikonLd3Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -584,7 +584,7 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - configuration 3
-    extern const ArrayCfg nikonLd4Cfg = {
+    constexpr ArrayCfg nikonLd4Cfg = {
         nikonLd4Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -595,11 +595,11 @@ namespace Exiv2 {
         { 0, ttUnsignedByte,  1 }
     };
     //! Nikon Lens Data binary array - definition
-    extern const ArrayDef nikonLdDef[] = {
+    constexpr ArrayDef nikonLdDef[] = {
         { 0, ttUndefined, 4 } // Version
     };
     //! Nikon Lens Data binary array - definition
-    extern const ArrayDef nikonLd4Def[] = {
+    constexpr ArrayDef nikonLd4Def[] = {
         { 0, ttUndefined, 4 }, // Version
         { 48, ttUnsignedShort, 1 }, // LensID
         { 54, ttUnsignedShort, 1 }, // MacAperture
@@ -607,7 +607,7 @@ namespace Exiv2 {
         { 60, ttUnsignedShort, 1 }  // FocalLength
     };
     //! Nikon Lens Data configurations and definitions
-    extern const ArraySet nikonLdSet[] = {
+    constexpr ArraySet nikonLdSet[] = {
         { nikonLd1Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
         { nikonLd2Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
         { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
@@ -615,7 +615,7 @@ namespace Exiv2 {
     };
 
     //! Nikon Color Balance binary array - configuration 1
-    extern const ArrayCfg nikonCb1Cfg = {
+    constexpr ArrayCfg nikonCb1Cfg = {
         nikonCb1Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -626,7 +626,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 2
-    extern const ArrayCfg nikonCb2Cfg = {
+    constexpr ArrayCfg nikonCb2Cfg = {
         nikonCb2Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -637,7 +637,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 2a
-    extern const ArrayCfg nikonCb2aCfg = {
+    constexpr ArrayCfg nikonCb2aCfg = {
         nikonCb2aId,      // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -648,7 +648,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 2b
-    extern const ArrayCfg nikonCb2bCfg = {
+    constexpr ArrayCfg nikonCb2bCfg = {
         nikonCb2bId,      // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -659,7 +659,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 3
-    extern const ArrayCfg nikonCb3Cfg = {
+    constexpr ArrayCfg nikonCb3Cfg = {
         nikonCb3Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -670,7 +670,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - configuration 4
-    extern const ArrayCfg nikonCb4Cfg = {
+    constexpr ArrayCfg nikonCb4Cfg = {
         nikonCb4Id,       // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUndefined,      // Type for array entry
@@ -681,41 +681,41 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Nikon Color Balance binary array - definition 1 (D100)
-    extern const ArrayDef nikonCb1Def[] = {
+    constexpr ArrayDef nikonCb1Def[] = {
         {  0, ttUndefined,        4 }, // Version
         { 72, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 2 (D2H)
-    extern const ArrayDef nikonCb2Def[] = {
+    constexpr ArrayDef nikonCb2Def[] = {
         {  0, ttUndefined,        4 }, // Version
         { 10, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 2a (D50)
-    extern const ArrayDef nikonCb2aDef[] = {
+    constexpr ArrayDef nikonCb2aDef[] = {
         {  0, ttUndefined,        4 }, // Version
         { 18, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 2b (D2X=0204,D2Hs=0206,D200=0207,D40=0208)
-    extern const ArrayDef nikonCb2bDef[] = {
+    constexpr ArrayDef nikonCb2bDef[] = {
         {  0, ttUndefined,        4 }, // Version
         {  4, ttUnsignedShort,  140 }, // Unknown
         {284, ttUnsignedShort,    3 }, // Unknown (encrypted)
         {290, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 3 (D70)
-    extern const ArrayDef nikonCb3Def[] = {
+    constexpr ArrayDef nikonCb3Def[] = {
         {  0, ttUndefined,        4 }, // Version
         { 20, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance binary array - definition 4 (D3)
-    extern const ArrayDef nikonCb4Def[] = {
+    constexpr ArrayDef nikonCb4Def[] = {
         {  0, ttUndefined,        4 }, // Version
         {  4, ttUnsignedShort,  140 }, // Unknown
         {284, ttUnsignedShort,    5 }, // Unknown (encrypted)
         {294, ttUnsignedShort,    4 }  // Color balance levels
     };
     //! Nikon Color Balance configurations and definitions
-    extern const ArraySet nikonCbSet[] = {
+    constexpr ArraySet nikonCbSet[] = {
         { nikonCb1Cfg,  nikonCb1Def,  EXV_COUNTOF(nikonCb1Def)  },
         { nikonCb2Cfg,  nikonCb2Def,  EXV_COUNTOF(nikonCb2Def)  },
         { nikonCb2aCfg, nikonCb2aDef, EXV_COUNTOF(nikonCb2aDef) },
@@ -725,7 +725,7 @@ namespace Exiv2 {
     };
 
     //! Minolta Camera Settings (old) binary array - configuration
-    extern const ArrayCfg minoCsoCfg = {
+    constexpr ArrayCfg minoCsoCfg = {
         minoltaCsOldId,   // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -737,7 +737,7 @@ namespace Exiv2 {
     };
 
     //! Minolta Camera Settings (new) binary array - configuration
-    extern const ArrayCfg minoCsnCfg = {
+    constexpr ArrayCfg minoCsnCfg = {
         minoltaCsNewId,   // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -749,7 +749,7 @@ namespace Exiv2 {
     };
 
     //! Minolta 7D Camera Settings binary array - configuration
-    extern const ArrayCfg minoCs7Cfg = {
+    constexpr ArrayCfg minoCs7Cfg = {
         minoltaCs7DId,    // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -760,13 +760,13 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Minolta 7D Camera Settings binary array - definition
-    extern const ArrayDef minoCs7Def[] = {
+    constexpr ArrayDef minoCs7Def[] = {
         {  60, ttSignedShort, 1 }, // Exif.MinoltaCs7D.ExposureCompensation
         { 126, ttSignedShort, 1 }  // Exif.MinoltaCs7D.ColorTemperature
     };
 
     //! Minolta 5D Camera Settings binary array - configuration
-    extern const ArrayCfg minoCs5Cfg = {
+    constexpr ArrayCfg minoCs5Cfg = {
         minoltaCs5DId,    // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -777,7 +777,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Minolta 5D Camera Settings binary array - definition
-    extern const ArrayDef minoCs5Def[] = {
+    constexpr ArrayDef minoCs5Def[] = {
         { 146, ttSignedShort, 1 } // Exif.MinoltaCs5D.ColorTemperature
     };
 
@@ -787,7 +787,7 @@ namespace Exiv2 {
     //       setting in all four configurations.
 
     //! Sony1 Camera Settings binary array - configuration
-    extern const ArrayCfg sony1CsCfg = {
+    constexpr ArrayCfg sony1CsCfg = {
         sony1CsId,        // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -798,7 +798,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Sony1 Camera Settings 2 binary array - configuration
-    extern const ArrayCfg sony1Cs2Cfg = {
+    constexpr ArrayCfg sony1Cs2Cfg = {
         sony1Cs2Id,       // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -809,7 +809,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
 
-    extern const ArrayCfg sony2FpCfg = {
+    constexpr ArrayCfg sony2FpCfg = {
         sony2FpId,        // Group for the elements
         bigEndian,        // Big endian
         ttUnsignedByte,   // Type for array entry and size element
@@ -819,14 +819,105 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedByte, 1 }
     };
-    extern const ArrayDef sony2FpDef[] = {
+    constexpr ArrayDef sony2FpDef[] = {
         {  0x4, ttSignedByte  , 1 }, // Exif.Sony2Fp.AmbientTemperature
         { 0x16, ttUnsignedByte, 1 }, // Exif.Sony2Fp.FocusMode
         { 0x17, ttUnsignedByte, 1 }, // Exif.Sony2Fp.AFAreaMode
         { 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
     };
 
-    extern const ArrayCfg sony2010eCfg = {
+    //! Sony2Fp configurations and definitions
+    constexpr ArraySet sony2FpSet[] = {
+        { sony2FpCfg,  sony2FpDef,  EXV_COUNTOF(sony2FpDef)  }
+    };
+
+    constexpr ArrayCfg sonyMisc1Cfg = {
+        sonyMisc1Id,      // Group for the elements
+        bigEndian,        // Big endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+
+    constexpr ArrayDef sonyMisc1Def[] = {
+        { 0x05, ttSignedByte  , 1 }, // Exif.SonyMisc1.CameraTemperature
+    };
+
+    constexpr ArrayCfg sonyMisc2bCfg = {
+        sonyMisc2bId,     // Group for the elements
+        littleEndian,     // Little endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+
+    constexpr ArrayDef sonyMisc2bDef[] = {
+        { 12, ttUnsignedByte  , 1 }, // Exif.SonyMisc2b.ExposureProgram
+        { 14, ttUnsignedByte  , 1 }, // Exif.SonyMisc2b.IntelligentAuto
+        { 30, ttUnsignedShort , 1 }, // Exif.SonyMisc2b.LensZoomPosition
+        { 32, ttUnsignedByte  , 1 }, // Exif.SonyMisc2b.FocusPosition2
+    };
+
+    //! SonyMisc2b configurations and definitions
+    constexpr ArraySet sonyMisc2bSet[] = {
+        { sonyMisc2bCfg,  sonyMisc2bDef,  EXV_COUNTOF(sonyMisc2bDef)  }
+    };
+
+    constexpr ArrayCfg sonyMisc3cCfg = {
+        sonyMisc3cId,     // Group for the elements
+        littleEndian,     // Little endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+
+    constexpr ArrayDef sonyMisc3cDef[] = {
+        { 0x09, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.ReleaseMode2
+        { 0x0a, ttUnsignedLong  , 1 }, // Exif.SonyMisc3c.ShotNumberSincePowerUp
+        { 0x12, ttUnsignedLong  , 1 }, // Exif.SonyMisc3c.SequenceImageNumber
+        { 0x16, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.SequenceLength1
+        { 0x1a, ttUnsignedLong  , 1 }, // Exif.SonyMisc3c.SequenceFileNumber
+        { 0x1e, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.SequenceLength2
+        { 0x29, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.CameraOrientation
+        { 0x2a, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.Quality2
+        { 0x47, ttUnsignedShort , 1 }, // Exif.SonyMisc3c.SonyImageHeight
+        { 0x53, ttUnsignedByte  , 1 }, // Exif.SonyMisc3c.ModelReleaseYear
+    };
+
+    //! SonyMisc3c Settings configurations and definitions
+    constexpr ArraySet sonyMisc3cSet[] = {
+        { sonyMisc3cCfg,  sonyMisc3cDef,  EXV_COUNTOF(sonyMisc3cDef)  }
+    };
+
+    constexpr ArrayCfg sonySInfo1Cfg = {
+        sonySInfo1Id,     // Group for the elements
+        littleEndian,     // Little endian
+        ttUnsignedByte,   // Type for array entry and size element
+        notEncrypted,     // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+    constexpr ArrayDef sonySInfo1Def[] = {
+        {  6,  ttAsciiString    , 20 }, // Exif.SonySInfo1.SonyDateTime
+        {  26, ttUnsignedShort  , 1  }, // Exif.SonySInfo1.SonyImageHeight
+        {  28, ttUnsignedShort  , 1  }, // Exif.SonySInfo1.SonyImageWidth
+        {  48, ttUnsignedShort  , 1  }, // Exif.SonySInfo1.FacesDetected
+        {  52, ttAsciiString    , 16 }, // Exif.SonySInfo1.MetaVersion
+        //
+    };
+
+    constexpr ArrayCfg sony2010eCfg = {
         sony2010eId,      // Group for the elements
         invalidByteOrder, // inherit from file.  Usually littleEndian
         ttUnsignedByte,   // Type for array entry and size element
@@ -836,7 +927,7 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedByte, 1 }
     };
-    extern const ArrayDef sony2010eDef[] = {
+    constexpr ArrayDef sony2010eDef[] = {
         {0,  ttUnsignedLong, 1}, // Exif.Sony2010. SequenceImageNumber
         {4,  ttUnsignedLong, 1}, // Exif.Sony2010. SequenceFileNumber
         {8,  ttUnsignedLong, 1}, // Exif.Sony2010. ReleaseMode2
@@ -876,16 +967,16 @@ namespace Exiv2 {
     };
 
     //! Sony1 Camera Settings configurations and definitions
-    extern const ArraySet sony2010eSet[] = {
+    constexpr ArraySet sony2010eSet[] = {
         { sony2010eCfg,  sony2010eDef,  EXV_COUNTOF(sony2010eDef)  }
     };
 
     //! Sony[12] Camera Settings binary array - definition
-    extern const ArrayDef sonyCsDef[] = {
+    constexpr ArrayDef sonyCsDef[] = {
         {  12, ttSignedShort,   1 }  // Exif.Sony[12]Cs.WhiteBalanceFineTune
     };
     //! Sony2 Camera Settings binary array - configuration
-    extern const ArrayCfg sony2CsCfg = {
+    constexpr ArrayCfg sony2CsCfg = {
         sony2CsId,        // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -896,7 +987,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Sony2 Camera Settings 2 binary array - configuration
-    extern const ArrayCfg sony2Cs2Cfg = {
+    constexpr ArrayCfg sony2Cs2Cfg = {
         sony2Cs2Id,       // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -907,22 +998,22 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Sony[12] Camera Settings 2 binary array - definition
-    extern const ArrayDef sonyCs2Def[] = {
+    constexpr ArrayDef sonyCs2Def[] = {
         {  44, ttUnsignedShort, 1 } // Exif.Sony[12]Cs2.FocusMode
     };
     //! Sony1 Camera Settings configurations and definitions
-    extern const ArraySet sony1CsSet[] = {
+    constexpr ArraySet sony1CsSet[] = {
         { sony1CsCfg,  sonyCsDef,  EXV_COUNTOF(sonyCsDef)  },
         { sony1Cs2Cfg, sonyCs2Def, EXV_COUNTOF(sonyCs2Def) }
     };
     //! Sony2 Camera Settings configurations and definitions
-    extern const ArraySet sony2CsSet[] = {
+    constexpr ArraySet sony2CsSet[] = {
         { sony2CsCfg,  sonyCsDef,  EXV_COUNTOF(sonyCsDef)  },
         { sony2Cs2Cfg, sonyCs2Def, EXV_COUNTOF(sonyCs2Def) }
     };
 
     //! Sony Minolta Camera Settings (old) binary array - configuration
-    extern const ArrayCfg sony1MCsoCfg = {
+    constexpr ArrayCfg sony1MCsoCfg = {
         sony1MltCsOldId,  // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -934,7 +1025,7 @@ namespace Exiv2 {
     };
 
     //! Sony Minolta Camera Settings (new) binary array - configuration
-    extern const ArrayCfg sony1MCsnCfg = {
+    constexpr ArrayCfg sony1MCsnCfg = {
         sony1MltCsNewId,  // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -946,7 +1037,7 @@ namespace Exiv2 {
     };
 
     //! Sony Minolta 7D Camera Settings binary array - configuration
-    extern const ArrayCfg sony1MCs7Cfg = {
+    constexpr ArrayCfg sony1MCs7Cfg = {
         sony1MltCs7DId,   // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -958,7 +1049,7 @@ namespace Exiv2 {
     };
 
     //! Sony Minolta A100 Camera Settings binary array - configuration
-    extern const ArrayCfg sony1MCsA100Cfg = {
+    constexpr ArrayCfg sony1MCsA100Cfg = {
         sony1MltCsA100Id, // Group for the elements
         bigEndian,        // Big endian
         ttUndefined,      // Type for array entry and size element
@@ -969,14 +1060,14 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Sony Minolta A100 Camera Settings binary array - definition
-    extern const ArrayDef sony1MCsA100Def[] = {
+    constexpr ArrayDef sony1MCsA100Def[] = {
         { 112, ttSignedShort, 1 }, // Exif.Sony1MltCsA100.WhiteBalanceFineTune
         { 116, ttSignedShort, 1 }, // Exif.Sony1MltCsA100.ColorCompensationFilter
         { 190, ttSignedShort, 1 }  // Exif.Sony1MltCsA100.ColorCompensationFilter2
     };
 
     //! Samsung PictureWizard binary array - configuration
-    extern const ArrayCfg samsungPwCfg = {
+    constexpr ArrayCfg samsungPwCfg = {
         samsungPwId,      // Group for the elements
         invalidByteOrder, // Use byte order from parent
         ttUnsignedShort,  // Type for array entry
@@ -987,7 +1078,7 @@ namespace Exiv2 {
         { 0, ttUnsignedShort, 1 }
     };
     //! Samsung PictureWizard binary array - definition
-    extern const ArrayDef samsungPwDef[] = {
+    constexpr ArrayDef samsungPwDef[] = {
         {  0, ttUnsignedShort, 1 }, // Mode
         {  2, ttUnsignedShort, 1 }, // Color
         {  4, ttUnsignedShort, 1 }, // Saturation
@@ -1096,6 +1187,10 @@ namespace Exiv2 {
         { Tag::root, sony1Id,          exifId,           0x927c    },
         { Tag::root, sony2010eId,      sony1Id,          0x2010    },
         { Tag::root, sony2FpId,        sony1Id,          0x9402    },
+        { Tag::root, sonyMisc1Id,      sony1Id,          0x9403    },
+        { Tag::root, sonyMisc2bId,     sony1Id,          0x9404    },
+        { Tag::root, sonyMisc3cId,     sony1Id,          0x9400    },
+        { Tag::root, sonySInfo1Id,     sony1Id,          0x3000    },
         { Tag::root, sony1CsId,        sony1Id,          0x0114    },
         { Tag::root, sony1Cs2Id,       sony1Id,          0x0114    },
         { Tag::root, sonyMltId,        sony1Id,          0xb028    },
@@ -1106,6 +1201,10 @@ namespace Exiv2 {
         { Tag::root, sony2Id,          exifId,           0x927c    },
         { Tag::root, sony2010eId,      sony2Id,          0x2010    },
         { Tag::root, sony2FpId,        sony2Id,          0x9402    },
+        { Tag::root, sonyMisc1Id,      sony2Id,          0x9403    },
+        { Tag::root, sonyMisc2bId,     sony2Id,          0x9404    },
+        { Tag::root, sonyMisc3cId,     sony2Id,          0x9400    },
+        { Tag::root, sonySInfo1Id,     sony2Id,          0x3000    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
         { Tag::root, minoltaId,        exifId,           0x927c    },
@@ -1542,7 +1641,23 @@ namespace Exiv2 {
 
         // Tag 0x9402 Sony2Fp Focus Position
         { Tag::all, sony2FpId,        newTiffBinaryElement },
-        { 0x9402, sony1Id,            EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef) },
+        { 0x9402, sony1Id,            EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, sony2FpSelector) },
+
+        // Tag 0x9404 SonyMisc2b
+        {  Tag::all, sonyMisc2bId,     newTiffBinaryElement                      },
+        {    0x9404, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, sonyMisc2bSelector)  },
+
+        // Tag 0x9400 SonyMisc3c
+        {  Tag::all, sonyMisc3cId,     newTiffBinaryElement                      },
+        {    0x9400, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)  },
+
+        // Tag 0x9403 SonyMisc1
+        { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
+        { 0x9403, sony1Id,             EXV_BINARY_ARRAY(sonyMisc1Cfg, sonyMisc1Def) },
+
+        // Tag 0x3000 SonySInfo1
+        { Tag::all, sonySInfo1Id,      newTiffBinaryElement },
+        { 0x3000, sony1Id,             EXV_BINARY_ARRAY(sonySInfo1Cfg, sonySInfo1Def) },
 
         // Sony1 makernote
         {    0x0114, sony1Id,          EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector) },
@@ -1559,7 +1674,23 @@ namespace Exiv2 {
 
         // Tag 0x9402 Sony2Fp Focus Position
         {  Tag::all, sony2FpId,        newTiffBinaryElement                      },
-        {    0x9402, sony2Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef)  },
+        {    0x9402, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, sony2FpSelector)  },
+
+        // Tag 0x9403 SonyMisc1
+        { Tag::all, sonyMisc1Id,       newTiffBinaryElement                         },
+        { 0x9403, sony2Id,             EXV_BINARY_ARRAY(sonyMisc1Cfg, sonyMisc1Def) },
+
+        // Tag 0x9404 SonyMisc2b
+        {  Tag::all, sonyMisc2bId,     newTiffBinaryElement                      },
+        {    0x9404, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, sonyMisc2bSelector)  },
+
+        // Tag 0x9400 SonyMisc3c
+        {  Tag::all, sonyMisc3cId,     newTiffBinaryElement                      },
+        {    0x9400, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)  },
+
+        // Tag 0x3000 SonySInfo1
+        { Tag::all, sonySInfo1Id,      newTiffBinaryElement },
+        { 0x3000, sony2Id,             EXV_BINARY_ARRAY(sonySInfo1Cfg, sonySInfo1Def) },
 
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
@@ -1630,11 +1761,11 @@ namespace Exiv2 {
 
     // TIFF mapping table for special decoding and encoding requirements
     const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
-        { "*",       Tag::all, ignoreId,  0, 0 }, // Do not decode tags with group == ignoreId
-        { "*",         0x02bc, ifd0Id,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
-        { "*",         0x83bb, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x0026, canonId,   &TiffDecoder::decodeCanonAFInfo,  0 /* Exiv2.Canon.AFInfo is read-only */ },
+        {"*", Tag::all, ignoreId, nullptr, nullptr},  // Do not decode tags with group == ignoreId
+        {"*", 0x02bc, ifd0Id, &TiffDecoder::decodeXmp, nullptr /*done before the tree is traversed*/},
+        {"*", 0x83bb, ifd0Id, &TiffDecoder::decodeIptc, nullptr /*done before the tree is traversed*/},
+        {"*", 0x8649, ifd0Id, &TiffDecoder::decodeIptc, nullptr /*done before the tree is traversed*/},
+        {"*", 0x0026, canonId, &TiffDecoder::decodeCanonAFInfo, nullptr /* Exiv2.Canon.AFInfo is read-only */},
     };
 
     DecoderFct TiffMapping::findDecoder(const std::string& make,
@@ -1657,7 +1788,7 @@ namespace Exiv2 {
               IfdId        group
     )
     {
-        EncoderFct encoderFct = 0;
+        EncoderFct encoderFct = nullptr;
         const TiffMappingInfo* td = find(tiffMappingInfo_,
                                          TiffMappingInfo::Key(make, extendedTag, group));
         if (td) {
@@ -1672,11 +1803,11 @@ namespace Exiv2 {
         return key.r_ == root_ && key.g_ == group_;
     }
 
-    TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
+    TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag,
                                                IfdId    group)
     {
-        TiffComponent::AutoPtr tc(0);
-        uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
+        TiffComponent::UniquePtr tc;
+        auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
         const TiffGroupStruct* ts = find(tiffGroupStruct_,
                                          TiffGroupStruct::Key(extendedTag, group));
         if (ts && ts->newTiffCompFct_) {
@@ -1703,7 +1834,7 @@ namespace Exiv2 {
                               IfdId     group,
                               uint32_t  root)
     {
-        const TiffTreeStruct* ts = 0;
+        const TiffTreeStruct* ts = nullptr;
         do {
             tiffPath.push(TiffPathItem(extendedTag, group));
             ts = find(tiffTreeStruct_, TiffTreeStruct::Key(root, group));
@@ -1726,13 +1857,13 @@ namespace Exiv2 {
     )
     {
         // Create standard TIFF header if necessary
-        std::auto_ptr<TiffHeaderBase> ph;
+        std::unique_ptr<TiffHeaderBase> ph;
         if (!pHeader) {
-            ph = std::auto_ptr<TiffHeaderBase>(new TiffHeader);
+            ph = std::unique_ptr<TiffHeaderBase>(new TiffHeader);
             pHeader = ph.get();
         }
-        TiffComponent::AutoPtr rootDir = parse(pData, size, root, pHeader);
-        if (0 != rootDir.get()) {
+        TiffComponent::UniquePtr rootDir = parse(pData, size, root, pHeader);
+        if (nullptr != rootDir.get()) {
             TiffDecoder decoder(exifData,
                                 iptcData,
                                 xmpData,
@@ -1767,10 +1898,10 @@ namespace Exiv2 {
         assert(pHeader);
         assert(pHeader->byteOrder() != invalidByteOrder);
         WriteMethod writeMethod = wmIntrusive;
-        TiffComponent::AutoPtr parsedTree = parse(pData, size, root, pHeader);
+        TiffComponent::UniquePtr parsedTree = parse(pData, size, root, pHeader);
         PrimaryGroups primaryGroups;
         findPrimaryGroups(primaryGroups, parsedTree.get());
-        if (0 != parsedTree.get()) {
+        if (nullptr != parsedTree.get()) {
             // Attempt to update existing TIFF components based on metadata entries
             TiffEncoder encoder(exifData,
                                 iptcData,
@@ -1784,31 +1915,25 @@ namespace Exiv2 {
             if (!encoder.dirty()) writeMethod = wmNonIntrusive;
         }
         if (writeMethod == wmIntrusive) {
-            TiffComponent::AutoPtr createdTree = TiffCreator::create(root, ifdIdNotSet);
-            if (0 != parsedTree.get()) {
+            TiffComponent::UniquePtr createdTree = TiffCreator::create(root, ifdIdNotSet);
+            if (nullptr != parsedTree.get()) {
                 // Copy image tags from the original image to the composite
                 TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
                 parsedTree->accept(copier);
             }
             // Add entries from metadata to composite
-            TiffEncoder encoder(exifData,
-                                iptcData,
-                                xmpData,
-                                createdTree.get(),
-                                parsedTree.get() == 0,
-                                &primaryGroups,
-                                pHeader,
-                                findEncoderFct);
+            TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), parsedTree.get() == nullptr,
+                                &primaryGroups, pHeader, findEncoderFct);
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();
-            BasicIo::AutoPtr tempIo(new MemIo);
+            BasicIo::UniquePtr tempIo(new MemIo);
             assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.pData_, header.size_, pOffsetWriter);
-            uint32_t imageIdx(uint32_t(-1));
+            IoWrapper ioWrapper(*tempIo, header.c_data(), header.size(), pOffsetWriter);
+            auto imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
                                pHeader->byteOrder(),
-                               header.size_,
+                               header.size(),
                                uint32_t(-1),
                                uint32_t(-1),
                                imageIdx);
@@ -1826,19 +1951,20 @@ namespace Exiv2 {
         return writeMethod;
     } // TiffParserWorker::encode
 
-    TiffComponent::AutoPtr TiffParserWorker::parse(
+    TiffComponent::UniquePtr TiffParserWorker::parse(
         const byte*              pData,
               uint32_t           size,
               uint32_t           root,
               TiffHeaderBase*    pHeader
     )
     {
-        if (pData == 0 || size == 0) return TiffComponent::AutoPtr(0);
+        if (pData == nullptr || size == 0)
+            return nullptr;
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(kerNotAnImage, "TIFF");
         }
-        TiffComponent::AutoPtr rootDir = TiffCreator::create(root, ifdIdNotSet);
-        if (0 != rootDir.get()) {
+        TiffComponent::UniquePtr rootDir = TiffCreator::create(root, ifdIdNotSet);
+        if (nullptr != rootDir.get()) {
             rootDir->setStart(pData + pHeader->offset());
             TiffRwState state(pHeader->byteOrder(), 0);
             TiffReader reader(pData, size, rootDir.get(), state);
@@ -1851,7 +1977,7 @@ namespace Exiv2 {
 
     void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups, TiffComponent* pSourceDir)
     {
-        if (0 == pSourceDir)
+        if (nullptr == pSourceDir)
             return;
 
         const IfdId imageGroups[] = {
@@ -1870,11 +1996,11 @@ namespace Exiv2 {
             subImage9Id
         };
 
-        for (unsigned int i = 0; i < EXV_COUNTOF(imageGroups); ++i) {
-            TiffFinder finder(0x00fe, imageGroups[i]);
+        for (auto&& imageGroup : imageGroups) {
+            TiffFinder finder(0x00fe, imageGroup);
             pSourceDir->accept(finder);
-            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
-            const Value* pV = te != NULL ? te->pValue() : NULL;
+            auto te = dynamic_cast<TiffEntryBase*>(finder.result());
+            const Value* pV = te != nullptr ? te->pValue() : nullptr;
             if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toLong() & 1) == 0) {
                 primaryGroups.push_back(te->group());
             }
@@ -1890,10 +2016,6 @@ namespace Exiv2 {
           size_(size),
           byteOrder_(byteOrder),
           offset_(offset)
-    {
-    }
-
-    TiffHeaderBase::~TiffHeaderBase()
     {
     }
 
@@ -1923,18 +2045,18 @@ namespace Exiv2 {
         DataBuf buf(8);
         switch (byteOrder_) {
         case littleEndian:
-            buf.pData_[0] = 'I';
+            buf.write_uint8(0, 'I');
             break;
         case bigEndian:
-            buf.pData_[0] = 'M';
+            buf.write_uint8(0, 'M');
             break;
         case invalidByteOrder:
             assert(false);
             break;
         }
-        buf.pData_[1]=buf.pData_[0];
-        us2Data(buf.pData_ + 2, tag_, byteOrder_);
-        ul2Data(buf.pData_ + 4, 0x00000008, byteOrder_);
+        buf.write_uint8(1, buf.read_uint8(0));
+        buf.write_uint16(2, tag_, byteOrder_);
+        buf.write_uint32(4, 0x00000008, byteOrder_);
         return buf;
     }
 
@@ -2065,26 +2187,21 @@ namespace Exiv2 {
         };
 
         // If tag, group is one of the image tags listed above -> bingo!
-        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
 #ifdef EXIV2_DEBUG_MESSAGES
+        if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (3)\n";
-#endif
             return true;
         }
-#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Not an image tag: " << tag << " (4)\n";
-#endif
         return false;
+#endif
+        return find(tiffImageTags, TiffImgTagStruct::Key(tag, group));
     }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags)
         : TiffHeaderBase(42, 8, byteOrder, offset),
           hasImageTags_(hasImageTags)
-    {
-    }
-
-    TiffHeader::~TiffHeader()
     {
     }
 
@@ -2102,10 +2219,8 @@ namespace Exiv2 {
         ExifKey key(tag, groupName(group));
 #endif
         // If there are primary groups and none matches group, we're done
-        if (   pPrimaryGroups != 0
-            && !pPrimaryGroups->empty()
-            && std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group)
-               == pPrimaryGroups->end()) {
+        if (pPrimaryGroups != nullptr && !pPrimaryGroups->empty() &&
+            std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group) == pPrimaryGroups->end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Not an image tag: " << key << " (1)\n";
 #endif
@@ -2113,9 +2228,7 @@ namespace Exiv2 {
         }
         // All tags of marked primary groups other than IFD0 are considered
         // image tags. That should take care of NEFs until we know better.
-        if (   pPrimaryGroups != 0
-            && !pPrimaryGroups->empty()
-            && group != ifd0Id) {
+        if (pPrimaryGroups != nullptr && !pPrimaryGroups->empty() && group != ifd0Id) {
 #ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (2)\n";
@@ -2133,18 +2246,19 @@ namespace Exiv2 {
 
     void OffsetWriter::setTarget(OffsetId id, uint32_t target)
     {
-        OffsetList::iterator it = offsetList_.find(id);
+        auto it = offsetList_.find(id);
         if (it != offsetList_.end()) it->second.target_ = target;
     }
 
     void OffsetWriter::writeOffsets(BasicIo& io) const
     {
-        for (OffsetList::const_iterator it = offsetList_.begin(); it != offsetList_.end(); ++it) {
-            io.seek(it->second.origin_, BasicIo::beg);
+        for (auto&& it : offsetList_) {
+            io.seek(it.second.origin_, BasicIo::beg);
             byte buf[4] = { 0, 0, 0, 0 };
-            l2Data(buf, it->second.target_, it->second.byteOrder_);
+            l2Data(buf, it.second.target_, it.second.byteOrder_);
             io.write(buf, 4);
         }
     }
 
-}}                                       // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2
