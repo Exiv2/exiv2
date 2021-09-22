@@ -169,6 +169,7 @@ namespace Exiv2 {
         const TagInfo* exif = exifTagList();
         const TagInfo* gps = gpsTagList();
         const TagInfo* iop = iopTagList();
+        const TagInfo* mpf = mpfTagList();
 
         for (int i=0; ifd[i].tag_ != 0xffff; ++i) {
             os << ifd[i] << "\n";
@@ -181,6 +182,9 @@ namespace Exiv2 {
         }
         for (int i=0; gps[i].tag_ != 0xffff; ++i) {
             os << gps[i] << "\n";
+        }
+        for (int i=0; mpf[i].tag_ != 0xffff; ++i) {
+            os << mpf[i] << "\n";
         }
     } // ExifTags::taglist
 

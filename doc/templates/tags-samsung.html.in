@@ -19,6 +19,9 @@ __Samsung2__
 __SamsungPictureWizard__
 <br>
 
+<h3>Samsung Preview Tags</h3>
+<p>These are the same as <a href="https://www.exiv2.org/tags.html">Exif.Image.*</a> but are accessed as Exif.SamsungPreview.*</p>
+<br>
 </div>
 <!-- closes content -->
 
