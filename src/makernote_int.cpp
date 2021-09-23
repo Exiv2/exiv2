@@ -1231,8 +1231,16 @@ namespace Exiv2 {
     {
         // From Exiftool: https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
         // >  First byte must be 9 or 12 or 13 or 15 or 16 and 4th byte must be 2 (deciphered)
-        const auto value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony1Id);
-        if (!value || value->count() < 4)
+
+        // Get the value from the image format that is being used
+        auto value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony1Id);
+        if (!value) {
+            value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony2Id);
+            if (!value)
+                return -1;
+        }
+
+        if (value->count() < 4)
             return -1;
 
         switch (value->toLong(0)) {                // Using encrypted values
@@ -1251,8 +1259,16 @@ namespace Exiv2 {
     {
         // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
         // >  first byte decoded: 62, 48, 215, 28, 106 respectively
-        const auto value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony1Id);
-        if (!value || value->count() < 1)
+
+        // Get the value from the image format that is being used
+        auto value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony1Id);
+        if (!value) {
+            value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony2Id);
+            if (!value)
+                return -1;
+        }
+
+        if (value->count() < 1)
             return -1;
 
         switch (value->toLong()) {    // Using encrypted values
