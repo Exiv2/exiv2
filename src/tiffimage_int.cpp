@@ -2033,7 +2033,7 @@ namespace Exiv2 {
             return false;
         }
         uint16_t t = getUShort(pData + 2, byteOrder_);
-        if (t != 444 && tag_ != t) return false; // dima: 444 is for the JPEG-XR
+        if (t != 444 && tag_ != t) return false; // 444 is for the JPEG-XR
         offset_ = getULong(pData + 4, byteOrder_);
 
         return true;
