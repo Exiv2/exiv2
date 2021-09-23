@@ -571,25 +571,27 @@ as well as data columns included in the print output. Valid flags are:
 | s      | Size in bytes of vanilla output (see note in [Exif 'Comment' values](#exif_comment_values)). Some types include a *NULL* character in the size (see [Exif/IPTC/XMP types](#exiv2_types)) |
 | v      | Plain data value (vanilla values, i.e., untranslated)                       |
 | V      | Plain data value and the word 'set ' (see ['MODIFY' COMMANDS](#modify_cmds))|
-| t      | Interpreted (translated) human-readable data values                         |
+| t      | Interpreted (translated) human-readable data values (includes plain vanilla values) |
 | h      | Hex dump of the data                                                        |
 
 <div id="Print_flgs_order">
 
-The order of the values in *flgs* is not respected, with output displayed 
-as follows:
-```
-Tag number (x) | Plain 'set' (V) | Group (g) | Key (k) | Tagname (n) | Tagname label (l) | Type (y) | Components (c) | Size (s) | Value (E, I, X, v, t)
-```
-For example, displaying the IPTC tags in a file:
+The order of the values in *flgs* is not respected. For example, the order 
+of the columns, using some tags from *Stonehenge.jpg*, is as follows:
+
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
-$ exiv2 --Print xgknlycsIt Stonehenge.jpg
-0x0000 Envelope     Iptc.Envelope.ModelVersion                   ModelVersion                Model Version                  Short       1   2  4
-0x005a Envelope     Iptc.Envelope.CharacterSet                   CharacterSet                Character Set                  String      3   3
-0x0000 Application2 Iptc.Application2.RecordVersion              RecordVersion               Record Version                 Short       1   2  4
-0x0078 Application2 Iptc.Application2.Caption                    Caption                     Caption                        String     12  12  Classic View
+$ exiv2 --Print xgknlycst Stonehenge.jpg
 ```
+
+| Tag number<br>(x) | Plain 'set'<br>(V) | Group<br>(g) | Key<br>(k)                 | Tagname<br>(n) | Tagname label<br>(l) | Type<br>(y) | Components<br>(c) | Size<br>(s) | Value<br>(E, I, X, v, t) | Tranlated<br>(t) |
+|:------            |:----               |:------       |:------                     |:------         |:------               |:------      |:------            |:------      |:------                   |:------           |
+| 0x0110            | set                | Image        | Exif.Image.Model           | Model          | Model                | Ascii       | 12                | 12          | NIKON D5300              | NIKON D5300      |
+| 0x0006            | set                | NikonIi      | Exif.NikonIi.ISO2          | ISO2           | ISO 2                | Byte        | 1                 | 1           | 72                       | 200              |
+| 0x0000            | set                | Envelope     | Iptc.Envelope.ModelVersion | ModelVersion   | Model Version        | Short       | 1                 | 2           | 4                        | 4                |
+| 0x0000            | set                | xmp          | Xmp.xmp.Rating             | Rating         | Rating               | XmpText     | 1                 | 1           | 0                        | 0                |
+| 0x0000            | set                | dc           | Xmp.dc.Family              | Family         | Family               | XmpBag      | 1                 | 5           | Robin                    | Robin            |
+
 **--Print** *flgs* can be combined with [--grep str](#grep_str) or 
 [--key key](#key_key) to further filter the output.
 
@@ -1162,10 +1164,10 @@ saved.
 Xmp.xmpMM.History                            XmpText     0  type="Seq"
 Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
-Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+Xmp.xmpMM.History[1]/stEvt:converted         XmpText    35  tiff to jpeg, saved to new location
 Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
-Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D659
 Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
 ```
@@ -1287,10 +1289,10 @@ $ exiv2 --modify cmd.txt Stonehenge.jpg
 ```
 Multiple [--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) 
 options can be combined together, with the changes applied left to right 
-on each file. For example, applying one command line 'modify' then a 
-'modify' command file, then another command line 'modify':
+on each file. For example, applying one command line 'modify', then a 
+'modify' command file:
 ```
-$ exiv2 --Modify "set Iptc.Application2.Caption Stonehenge" --modify cmdfile.txt --Modify "add Iptc.Application2.Keywords Monument" Stonehenge.jpg
+$ exiv2 --Modify "set Iptc.Application2.Caption Stonehenge" --modify cmdfile.txt Stonehenge.jpg
 ```
 
 <div id="gen_modify_cmds">
@@ -1461,14 +1463,14 @@ the string:
 
 When a non-standard group or tag belonging to that group is modified, the 
 appropriate 'reg' 'modify' command must be included before that. For 
-example, adding a *myPhotos* group with a *weather* tag and values:
+example, adding a *myPic* group with a *weather* tag and values:
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
-$ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "add Xmp.myPhotos.weather XmpBag Cloudy" Stonehenge.jpg
-$ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "set Xmp.myPhotos.weather XmpBag Sunny" Stonehenge.jpg
-$ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "set Xmp.myPhotos.weather XmpBag Hot" Stonehenge.jpg
-$ exiv2 --grep myPhotos Stonehenge.jpg
-Xmp.myPhotos.weather                         XmpBag      3  Cloudy, Sunny, Hot
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.weather XmpBag Cloudy" Stonehenge.jpg
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "set Xmp.myPic.weather XmpBag Sunny" Stonehenge.jpg
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "set Xmp.myPic.weather XmpBag Hot" Stonehenge.jpg
+$ exiv2 --grep myPic Stonehenge.jpg
+Xmp.myPic.weather                            XmpBag      3  Cloudy, Sunny, Hot
 ```
 
 <div id="add_xmp_tags">
@@ -1482,10 +1484,10 @@ a *Surname* tag to a registered namespace:
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmp.RatingInPercent XmpText 98" Stonehenge.jpg
-$ exiv2 --Modify "reg cm2e http://clanmills.com/exiv2/" --Modify "add Xmp.cm2e.Surname XmpText Mills" Stonehenge.jpg
-$ exiv2 --grep RatingInPercent --grep Surname Stonehenge.jpg
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.Weather XmpBag Hot" Stonehenge.jpg
+$ exiv2 --grep RatingInPercent --grep Weather Stonehenge.jpg
 Xmp.xmp.RatingInPercent                      XmpText     2  98
-Xmp.cm2e.Surname                             XmpText     5  Mills
+Xmp.myPic.Weather                            XmpBag      1  Hot
 ```
 
 If adding an empty non XmpText tag, include the empty string as the 
@@ -1498,15 +1500,22 @@ the 'type'.
 For the LangAlt format, see [XMP LangAlt values](#langalt_values). When 
 setting a LangAlt tag, only one entry is allowed per modify.
 
-For example, adding one default, one language/country and one language 
-entry:
+For example, adding default and language/country entries:
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Modify "set Xmp.dc.description LangAlt Monument" Stonehenge.jpg
 $ exiv2 --Modify "set Xmp.dc.description LangAlt lang=de-DE das Monument" Stonehenge.jpg
-$ exiv2 --Modify "set Xmp.dc.description LangAlt lang="fr" les monuments" Stonehenge.jpg
 $ exiv2 --grep description Stonehenge.jpg
-Xmp.dc.description                           LangAlt     3  lang="x-default" Monument, lang="de-DE" das Monument, lang="fr" les monuments
+Xmp.dc.description                           LangAlt     2  lang="x-default" Monument, lang="de-DE" das Monument
+```
+
+and adding a language and language/country entries:
+
+```
+$ exiv2 --Modify "set Xmp.dc.title LangAlt lang=en-US My holiday" Stonehenge.jpg
+$ exiv2 --Modify "set Xmp.dc.title LangAlt lang=fr Mes vacances" Stonehenge.jpg
+$ exiv2 --grep title Stonehenge.jpg
+Xmp.dc.title                                 LangAlt     2  lang="en-US" My holiday, lang="fr" Mes vacances
 ```
 
 To remove a language specification, set the value to the empty string. 
@@ -1543,19 +1552,19 @@ tag to record the file being converted from tiff to JPEG, then saved.
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History XmpSeq \"\"" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:action derived" Stonehenge.jpg
-$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:parameters converted from image/tiff to image/jpeg, saved to new location" Stonehenge.jpg
+$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:converted tiff to jpeg, saved to new location" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:action saved" Stonehenge.jpg
-$ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:instanceID xmp.iid:89A4EB97412C88632107D65978304F45" Stonehenge.jpg
+$ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:instanceID xmp.iid:89A4EB97412C88632107D659" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:when 2021-08-13T10:12:09+01:00" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:softwareAgent MySuperPhotoFixer 1.0" Stonehenge.jpg
 $ exiv2 --grep xmpMM Stonehenge.jpg
 Xmp.xmpMM.History                            XmpText     0  type="Seq"
 Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
-Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+Xmp.xmpMM.History[1]/stEvt:converted         XmpText    35  tiff to jpeg, saved to new location
 Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
-Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    32  xmp.iid:89A4EB97412C88632107D659
 Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
 ```
@@ -1565,7 +1574,7 @@ the first struct in the [Xmp.xmpMM.History](https://www.exiv2.org/tags-xmp-xmpMM
 tag:
 
 ```
-$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:myBag XmpText type=Bag" Stonehenge.jpg
+$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq XmpText type=Bag" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[1]/stEvt:action open a file" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[2]/stEvt:action convert" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[3]/stEvt:action save" Stonehenge.jpg
@@ -1573,8 +1582,8 @@ $ exiv2 --grep xmpMM Stonehenge.jpg
 Xmp.xmpMM.History                            XmpText     0  type="Seq"
 Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
-Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
-Xmp.xmpMM.History[1]/stEvt:mySeq             XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]/stEvt:converted         XmpText    35  tiff to jpeg, saved to new location
+Xmp.xmpMM.History[1]/stEvt:mySeq             XmpText     0  type="Bag"
 Xmp.xmpMM.History[1]/stEvt:mySeq[1]          XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:mySeq[1]/stEvt:action XmpText    11  open a file
 Xmp.xmpMM.History[1]/stEvt:mySeq[2]          XmpText     0  type="Struct"
@@ -1583,7 +1592,7 @@ Xmp.xmpMM.History[1]/stEvt:mySeq[3]          XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:mySeq[3]/stEvt:action XmpText     4  save
 Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
-Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    32  xmp.iid:89A4EB97412C88632107D659
 Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
 ```
@@ -1615,8 +1624,8 @@ set Xmp.xmp.Rating                               XmpText    0
   del Iptc.Application2.Caption
 
 # Use 'reg' before modifying any non-standard 'Group'
-reg myPhotos https://ns.myPhotos.org/
-set Xmp.myPhotos.weather Cloudy
+reg myPic https://ns.myPic.org/
+set Xmp.myPic.weather Cloudy
 ```
 would be run using:
 ```
@@ -1767,16 +1776,19 @@ Adjusts Exif timestamps in *image.jpg*, adding 1 hour. See [--adjust time](#adju
 Sets the Exif comment in *image.jpg*, to an Ascii string with the value 
 *New Exif comment*. See [--Modify cmd](#Modify_cmd).
 
-- `exiv2 --Modify "set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" --Modify "set Exif.GPSInfo.GPSLatitudeRef N" image.jpg`<br>
+- `exiv2 --Modify "set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" image.jpg`<br>
+`exiv2 --Modify "set Exif.GPSInfo.GPSLatitudeRef N" image.jpg`<br>
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north in 
 *image.jpg*. The Exif standard stipulates that the GPSLatitude 
 tag consists of three Rational numbers for the degrees, minutes and 
 seconds of the latitude and GPSLatitudeRef contains either 'N' or 'S' 
 for north or south latitude respectively. See [--Modify cmd](#Modify_cmd).
+Both [--Modify cmd](#Modify_cmd) options can be added to the same **exiv2** 
+command.
 
-- `exiv2 --Modify "reg myPrefix http://ns.myPrefix.me/" --Modify "add Xmp.myPrefix.Whom Mr. Mills" Stonehenge.jpg`<br>
-Registers a new XMP namespace called *http<nolink>://ns.myPrefix.me/* and a new 
-XMP group called *myPrefix*. This new Group has a new *Whom* tag added to it. 
+- `exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.Author Robin" Stonehenge.jpg`<br>
+Registers a new XMP namespace called *http<nolink>://ns.myPic.org/* and a new 
+XMP group called *myPic*. This new Group has a new *Author* tag added to it. 
 See [--Modify cmd](#Modify_cmd).
 
 - `exiv2 --location /tmp --suffix .CRW insert /data/*.JPG`<br>	
