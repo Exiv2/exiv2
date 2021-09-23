@@ -51,14 +51,15 @@ guidelines.
      3.  [Modifying a value](#mod_value)
      4.  ['Modify' examples](#mod_examples)
      5.  ['Modify' command file](#mod_cmd_file)
-12.  [CONFIGURATION FILE](#config_file)
-13.  [EXAMPLES](#examples)
-14.  [ENVIRONMENT](#environment)
-15. [NOTES](#notes)
-16. [BUGS](#bugs)
-17. [COPYRIGHT](#copyright)
-18. [AUTHORS](#authors)
-19. [SEE ALSO](#see_also)
+12. [CONFIGURATION FILE](#config_file)
+13. [EXAMPLES](#examples)
+14. [RETURN VALUE](#return_value)
+15. [ENVIRONMENT](#environment)
+16. [NOTES](#notes)
+17. [BUGS](#bugs)
+18. [COPYRIGHT](#copyright)
+19. [AUTHORS](#authors)
+20. [SEE ALSO](#see_also)
 
 <div id="file_types">
 
@@ -1806,9 +1807,16 @@ tags. See [fixiso](#fi_fixiso).
 
 [TOC](#TOC)
 
+<div id="return_value">
+
+# 14 RETURN VALUE
+`0` if successfull, otherwise a positive integer as error code.
+
+[TOC](#TOC)
+
 <div id="environment">
 
-# 14 ENVIRONMENT
+# 15 ENVIRONMENT
 
 <div id="TZ">
 
@@ -1825,7 +1833,7 @@ by defining *TZ*.
 
 <div id="notes">
 
-# 15 NOTES
+# 16 NOTES
 | Description          | Location                                                               |
 |:----                 |:----                                                                   |
 | Exiv2 wiki           | https://exiv2.org                                                      |
@@ -1835,21 +1843,21 @@ by defining *TZ*.
 
 <div id="bugs">
 
-# 16 BUGS
+# 17 BUGS
 Report bugs to: https://github.com/Exiv2/exiv2/issues
 
 [TOC](#TOC)
 
 <div id="copyright">
 
-# 17 COPYRIGHT
+# 18 COPYRIGHT
 The Exiv2 project is released under the GNU GPLv2 license: https://github.com/Exiv2/exiv2/blob/main/COPYING
 
 [TOC](#TOC)
 
 <div id="authors">
 
-# 18 AUTHORS
+# 19 AUTHORS
 **exiv2** was written by Andreas Huggel and others.
 
 Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
@@ -1858,7 +1866,7 @@ Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 
 <div id="see_also">
 
-# 19 SEE ALSO
+# 20 SEE ALSO
 [curl(1)](https://linux.die.net/man/1/curl), [xmllint(1)](https://linux.die.net/man/1/xmllint), [iconv_open(3)](https://linux.die.net/man/3/iconv_open), 
 [strftime(3)](https://linux.die.net/man/3/strftime), 
 
