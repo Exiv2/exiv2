@@ -585,11 +585,10 @@ $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Print xgknlycst Stonehenge.jpg
 ```
 
-| Tag number<br>(x) | Plain 'set'<br>(V) | Group<br>(g) | Key<br>(k)                 | Tagname<br>(n) | Tagname label<br>(l) | Type<br>(y) | Components<br>(c) | Size<br>(s) | Value<br>(E, I, X, v, t) | Tranlated<br>(t) |
+| Tag number<br>(x) | Plain 'set'<br>(V) | Group<br>(g) | Key<br>(k)                 | Tagname<br>(n) | Tagname label<br>(l) | Type<br>(y) | Components<br>(c) | Size<br>(s) | Value<br>(E, I, X, v, t) | Translated<br>(t) |
 |:------            |:----               |:------       |:------                     |:------         |:------               |:------      |:------            |:------      |:------                   |:------           |
 | 0x0110            | set                | Image        | Exif.Image.Model           | Model          | Model                | Ascii       | 12                | 12          | NIKON D5300              | NIKON D5300      |
 | 0x0006            | set                | NikonIi      | Exif.NikonIi.ISO2          | ISO2           | ISO 2                | Byte        | 1                 | 1           | 72                       | 200              |
-| 0x0000            | set                | Envelope     | Iptc.Envelope.ModelVersion | ModelVersion   | Model Version        | Short       | 1                 | 2           | 4                        | 4                |
 | 0x0000            | set                | xmp          | Xmp.xmp.Rating             | Rating         | Rating               | XmpText     | 1                 | 1           | 0                        | 0                |
 | 0x0000            | set                | dc           | Xmp.dc.Family              | Family         | Family               | XmpBag      | 1                 | 5           | Robin                    | Robin            |
 
