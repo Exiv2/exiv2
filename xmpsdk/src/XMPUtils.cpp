@@ -1960,9 +1960,9 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 		if ( now == -1 ) XMP_Throw ( "Failure from ANSI C time function", kXMPErr_ExternalFailure );
 		ansi_localtime ( &now, &tmLocal );
 	} else {
-		if (xmpTime->year < std::numeric_limits<decltype(tmLocal.tm_year)>::min() + 1900) {
+		if (xmpTime->year < std::numeric_limits<int>::min() + 1900) {
 			XMP_Throw ( "Invalid year", kXMPErr_BadParam);
-		} else if (xmpTime->year > std::numeric_limits<decltype(tmLocal.tm_year)>::max()) {
+		} else if (xmpTime->year > std::numeric_limits<int>::max()) {
 			XMP_Throw ( "Invalid year", kXMPErr_BadParam);
 		} else {
 			tmLocal.tm_year = xmpTime->year - 1900;
