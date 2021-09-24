@@ -855,17 +855,6 @@ namespace Exiv2 {
         XMP_DateTime datetime;
         try {
             SXMPUtils::ConvertToDate(value, &datetime);
-        }
-#ifndef SUPPRESS_WARNINGS
-        catch (const XMP_Error& e) {
-            EXV_WARNING << "Failed to convert " << from << " to " << to << " (" << e.GetErrMsg() << ")\n";
-            return;
-        }
-#else
-        catch (const XMP_Error&) {
-            return;
-        }
-#endif // SUPPRESS_WARNINGS
         char buf[30];
         if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
 
@@ -928,6 +917,17 @@ namespace Exiv2 {
             buf[sizeof(buf) - 1] = 0;
             (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
         }
+        }
+#ifndef SUPPRESS_WARNINGS
+        catch (const XMP_Error& e) {
+            EXV_WARNING << "Failed to convert " << from << " to " << to << " (" << e.GetErrMsg() << ")\n";
+            return;
+        }
+#else
+        catch (const XMP_Error&) {
+            return;
+        }
+#endif // SUPPRESS_WARNINGS
 
         if (erase_) xmpData_->erase(pos);
 #else

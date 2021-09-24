@@ -1960,11 +1960,10 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 		if ( now == -1 ) XMP_Throw ( "Failure from ANSI C time function", kXMPErr_ExternalFailure );
 		ansi_localtime ( &now, &tmLocal );
 	} else {
-		// Fix for https://github.com/Exiv2/exiv2/issues/1901
 		if (xmpTime->year < std::numeric_limits<decltype(tmLocal.tm_year)>::min() + 1900) {
-			tmLocal.tm_year = std::numeric_limits<decltype(tmLocal.tm_year)>::min();
+			XMP_Throw ( "Invalid year", kXMPErr_BadParam);
 		} else if (xmpTime->year > std::numeric_limits<decltype(tmLocal.tm_year)>::max()) {
-			tmLocal.tm_year = std::numeric_limits<decltype(tmLocal.tm_year)>::max();
+			XMP_Throw ( "Invalid year", kXMPErr_BadParam);
 		} else {
 			tmLocal.tm_year = xmpTime->year - 1900;
 		}
