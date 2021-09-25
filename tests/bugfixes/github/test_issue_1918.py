@@ -9,9 +9,10 @@ class PrintXmpDateOutOfBoundsIndex19(metaclass=CaseMeta):
     """
     url = "https://github.com/Exiv2/exiv2/issues/1918"
 
-    filename = path("$data_path/issue_1918_poc.jpg")
-    commands = ["$exiv2 -px $filename"]
-    stderr = [""]
-    retval = [0]
+    filename1 = path("$data_path/issue_1918_poc1.jpg")
+    filename2 = path("$data_path/issue_1918_poc2.jpg")
+    commands = ["$exiv2 -px $filename1", "$exiv2 -px $filename2"]
+    stderr = ["", ""]
+    retval = [0, 0]
 
     compare_stdout = check_no_ASAN_UBSAN_errors
