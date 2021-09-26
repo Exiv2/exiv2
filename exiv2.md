@@ -248,7 +248,7 @@ The arguments for those options are:
 | *arg*     | Description                                                                |
 |:------    |:----                                                                       |
 | *action*  | pr \| ex \| in \| rm \| ad \| mo \| mv \| fi \| fc<br>(print, extract, insert, delete, adjust, modify, rename, fixiso, fixcom) |
-| *cmd*     | (**set** \| **add**) *key* [[*type*] *value*] \| **del** *key* [*type*] \| **reg** *prefix* *namespace*<br>(see ['Modify' command format](#mod_cmd_format)) |
+| *cmd*     | (**set** \| **add**) *key* [ [*type*] *value* ] \| **del** *key* [*type*] \| **reg** *prefix* *namespace*<br>(see ['Modify' command format](#mod_cmd_format)) |
 | *enc*     | Values defined in [iconv_open(3)](https://linux.die.net/man/3/iconv_open) (e.g., UTF-8) |
 | *flg*     | E \| I \| X \| x \| g \| k \| l \| n \| y \| c \| s \| v \| t \| h<br>(Exif, IPTC, XMP, num, grp, key, label, name, type, count, size, vanilla, translated, hex) |
 | *fmt*     | Default format: %Y%m%d_%H%M%S                                              |
@@ -524,18 +524,18 @@ the [adjust](#ad_adjust) action. See [TZ environment variable](#TZ).
 ### **-p** *mod*, **--print** *mod* 
 Print mode for the [print](#pr_print) action (see 
 [DESCRIPTION](#file_types), for metadata support in a file type). 
-Possible modes are:
+Where *mod* is one of:
 
 | Option | Description                                                                          |
 |:------ |:----                                                                                 |
 | s      | A summary of the Exif metadata (the default for the [print](#pr_print) action)       |
 | a      | Exif, IPTC and XMP tags (shortcut for [--Print kyct](#Print_flgs))                   |
-| e      | Exif tags (shortcut for [--Print Ekycv](#Print_flgs))                                |
+| e      | Plain (untranslated) Exif tags (shortcut for [--Print Ekycv](#Print_flgs))           |
 | t      | Interpreted (translated) Exif tag values (shortcut for [--Print Ekyct](#Print_flgs)) |
 | v      | Plain (untranslated) Exif tag values (shortcut for [--Print Exgnycv](#Print_flgs))   |
 | h      | Hex dump of the Exif data (shortcut for [--Print Exgnycsh](#Print_flgs))             |
-| i      | IPTC tags (shortcut for [--Print Ikyct](#Print_flgs))                                |
-| x      | XMP tags (shortcut for [--Print Xkyct](#Print_flgs))                                 |
+| i      | Translated IPTC tags (shortcut for [--Print Ikyct](#Print_flgs))                     |
+| x      | Translated XMP tags (shortcut for [--Print Xkyct](#Print_flgs))                      |
 | c      | JPEG comment (see [IMAGE COMMENTS](#image_comments))                                 |
 | p      | List available image previews, sorted by size in pixels (see [PREVIEW IMAGES AND THUMBNAILS](#preview_images)) |
 | C      | Image ICC Profile (see [ICC PROFILES](#icc_profiles))                                |
@@ -1655,7 +1655,7 @@ exiv2 1.0.0.9
 config_path=/Users/rmills/.exiv2
 ```
 
-The configuration file uses the Windows *\*.ini* format (see https://en.wikipedia.org/wiki/INI_file)
+The configuration file uses the *Windows INI* format (see https://en.wikipedia.org/wiki/INI_file)
 and has sections for each of the major camera manufactures: Canon, 
 Minolta, Nikon, Olympus, Pentax and Sony. The configuration file 
 definitions override any existing values.
@@ -1836,7 +1836,7 @@ by defining *TZ*.
 | Description          | Location                                                               |
 |:----                 |:----                                                                   |
 | Exiv2 wiki           | https://exiv2.org                                                      |
-| Exiv2 book           | https://github.com/exiv2/exiv2                                         |
+| Exiv2 book           | https://www.exiv2.org/book/index.html                                  |
 
 [TOC](#TOC)
 
@@ -1887,5 +1887,6 @@ Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 | International Language Codes   | https://www.ietf.org/rfc/rfc3066.txt                         |
 | Windows INI format             | https://en.wikipedia.org/wiki/INI_file                       |
 | TZ Environment variable values | https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
+| Exiv2 GitHub contributors      | https://github.com/Exiv2/exiv2/graphs/contributors           |
 
 [TOC](#TOC)
