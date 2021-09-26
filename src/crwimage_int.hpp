@@ -87,12 +87,12 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         CiffComponent()
-            : dir_(0), tag_(0), size_(0), offset_(0), pData_(0),
-              isAllocated_(false) {}
+            : dir_(0), tag_(0), size_(0), offset_(0), pData_(0)
+        {}
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
-            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0),
-              isAllocated_(false) {}
+            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0)
+        {}
         //! Virtual destructor.
         virtual ~CiffComponent();
         //@}
@@ -287,9 +287,17 @@ namespace Exiv2 {
         uint16_t    tag_;         //!< Tag of the entry
         uint32_t    size_;        //!< Size of the data area
         uint32_t    offset_;      //!< Offset to the data area from start of dir
-        const byte* pData_;       //!< Pointer to the data area
-        bool        isAllocated_; //!< True if this entry owns the value data
 
+        // Notes on the ownership model of pData_: pData_ is a always a read-only
+        // pointer to a buffer owned by somebody else. Usually it is a pointer
+        // into a copy of the image that was memory-mapped in CrwImage::readMetadata().
+        // However, if CiffComponent::setValue() is used, then it is a pointer into
+        // the storage_ DataBuf below.
+        const byte* pData_;       //!< Pointer to the data area
+
+        // This DataBuf is only used when CiffComponent::setValue is called.
+        // Otherwise, it remains empty.
+        DataBuf storage_;
     }; // class CiffComponent
 
     /*!

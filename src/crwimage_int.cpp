@@ -176,9 +176,7 @@ namespace Exiv2 {
     }
 
     CiffComponent::~CiffComponent()
-    {
-        if (isAllocated_) delete[] pData_;
-    }
+    {}
 
     CiffDirectory::~CiffDirectory()
     {
@@ -560,15 +558,9 @@ namespace Exiv2 {
 
     void CiffComponent::setValue(DataBuf buf)
     {
-        if (isAllocated_) {
-            delete[] pData_;
-            pData_ = nullptr;
-            size_ = 0;
-        }
-        isAllocated_ = true;
-        std::pair<byte *, long> p = buf.release();
-        pData_ = p.first;
-        size_  = p.second;
+        storage_ = buf;
+        pData_ = storage_.c_data();
+        size_  = storage_.size();
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }
