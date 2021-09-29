@@ -3227,8 +3227,8 @@ namespace Exiv2 {
         }
 
         std::string stringValue = value.toString();
-        if (stringValue.at(19) == 'Z') {
-            stringValue = stringValue.substr(0, 19);
+        if (stringValue.size() == 20 && stringValue.at(19) == 'Z') {
+            stringValue.erase(19,1);
         }
         for (size_t i = 0; i < stringValue.length(); ++i) {
             if (stringValue[i] == 'T') stringValue[i] = ' ';
