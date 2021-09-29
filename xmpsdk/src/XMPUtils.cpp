@@ -1960,8 +1960,13 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 		if ( now == -1 ) XMP_Throw ( "Failure from ANSI C time function", kXMPErr_ExternalFailure );
 		ansi_localtime ( &now, &tmLocal );
 	} else {
-		tmLocal.tm_year = xmpTime->year - 1900;
-		while ( tmLocal.tm_year < 70 ) tmLocal.tm_year += 4;	// ! Some versions of mktime barf on years before 1970.
+		if (xmpTime->year < std::numeric_limits<int>::min() + 1900) {
+			XMP_Throw ( "Invalid year", kXMPErr_BadParam);
+		} else if (xmpTime->year > std::numeric_limits<int>::max()) {
+			XMP_Throw ( "Invalid year", kXMPErr_BadParam);
+		} else {
+			tmLocal.tm_year = xmpTime->year - 1900;
+		}
 		tmLocal.tm_mon	 = xmpTime->month - 1;
 		tmLocal.tm_mday	 = xmpTime->day;
 	}
