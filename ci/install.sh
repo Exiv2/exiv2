@@ -32,6 +32,7 @@ else
 fi
 
 conan --version
+conan config install https://github.com/conan-io/conanclientcert.git
 conan config set storage.path=~/conanData
 conan profile new default --detect
 

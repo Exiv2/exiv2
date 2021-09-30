@@ -27,6 +27,7 @@ jobs:
 
       - name: Conan common config
         run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -115,6 +116,7 @@ jobs:
       - name: Install Conan & Common config
         run: |
           pip.exe install "conan==1.39.0"
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=Release default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
