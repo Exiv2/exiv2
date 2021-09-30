@@ -32,14 +32,18 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
             endif()
             check_cxx_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
             check_cxx_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
+
             if(HAS_FSTACK_CLASH_PROTECTION)
                 add_compile_options(-fstack-clash-protection)
+                add_link_options   (-fstack-clash-protection)
             endif()
             if(HAS_FCF_PROTECTION)
                 add_compile_options(-fcf-protection)
+                add_link_options   (-fcf-protection)
             endif()
             if(HAS_FSTACK_PROTECTOR_STRONG)
                 add_compile_options(-fstack-protector-strong)
+                add_link_options   (-fstack-protector-strong)
             endif()
         endif()
 

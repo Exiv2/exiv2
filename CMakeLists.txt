@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.3.2 )
+cmake_minimum_required( VERSION 3.14 ) # for add_link_options
 
 project(exiv2          # use TWEAK to categorize the build
     VERSION 0.27.5.2   # 0.27.5.2  = RC2
@@ -61,7 +61,7 @@ if ( EXIV2_ENABLE_EXTERNAL_XMP )
 endif()
 
 if( EXIV2_BUILD_UNIT_TESTS )
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
 include(cmake/findDependencies.cmake   REQUIRED)
