@@ -59,6 +59,7 @@ install:
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
+    - cmd: conan config install https://github.com/conan-io/conanclientcert.git
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
