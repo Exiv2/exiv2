@@ -20,6 +20,7 @@ jobs:
 
       - name: Conan common config
         run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -68,6 +69,7 @@ jobs:
 
       - name: Conan common config
         run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -106,6 +108,7 @@ jobs:
 
       - name: Conan common config
         run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -144,6 +147,7 @@ jobs:
 
       - name: Conan common config
         run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
