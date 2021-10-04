@@ -1036,7 +1036,7 @@ namespace Exiv2 {
     std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*)
     {
         /* I choose same format as is used inside EXIF itself */
-        os << ((static_cast<uint64_t>(value.toLong(0)) << 8) + value.toLong(1));
+        os << ((static_cast<uint16_t>(value.toLong(0)) << 8) + value.toLong(1));
         os << ":";
         os << std::setw(2) << std::setfill('0') << value.toLong(2);
         os << ":";
