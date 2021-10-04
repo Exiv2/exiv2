@@ -74,6 +74,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build && cd build
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile show default
           conan install .. -o webready=False --build missing
