@@ -97,7 +97,7 @@ jobs:
       - name: install dependencies
         run: |
           brew install ninja
-          pip3 install conan==1.36.0
+          pip3 install conan==1.39.0
 
       - name: Conan
         run: |
