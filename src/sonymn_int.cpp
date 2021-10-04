@@ -838,7 +838,7 @@ namespace Exiv2 {
 
     //! Sony Tag 9402 Sony2Fp (FocusPosition)
     constexpr TagInfo SonyMakerNote::tagInfoFp_[] = {
-        {  0x04, "AmbientTemperature", N_("Ambient temperature"), N_("Temperature of the surroundings (in degrees Celsius)"), sony2FpId, makerTags, signedByte, 1, printTemperatureInDegC},
+        {  0x04, "AmbientTemperature", N_("Ambient temperature"), N_("Temperature of the surroundings (in degrees Celsius)"), sony2FpId, makerTags, signedByte, 1, printSony2FpAmbientTemperature},
         {  0x16, "FocusMode"         , N_("Focus mode")         , N_("Focus mode")          , sony2FpId, makerTags, unsignedByte, 1, printSony2FpFocusMode},
         {  0x17, "AFAreaMode"        , N_("AF area mode")       , N_("Auto focus area mode"), sony2FpId, makerTags, unsignedByte, 1, EXV_PRINT_TAG(sony2FpAFAreaMode)},
         {  0x2d, "FocusPosition2"    , N_("Focus position 2")   , N_("Focus position 2")    , sony2FpId, makerTags, unsignedByte, 1, printSony2FpFocusPosition2},
@@ -849,6 +849,18 @@ namespace Exiv2 {
     const TagInfo* SonyMakerNote::tagListFp()
     {
         return tagInfoFp_;
+    }
+
+    std::ostream& SonyMakerNote::printSony2FpAmbientTemperature(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.count() != 1)
+            return os << "(" << value << ")";
+
+        auto pos = metadata->findKey(ExifKey("Exif.Sony2Fp.0x0002"));
+        if (pos != metadata->end() && pos-> count() == 1 && pos->toLong() == 255)
+            return os << value << " °C";
+
+        return os << N_("n/a");
     }
 
     std::ostream& SonyMakerNote::printSony2FpFocusMode(std::ostream& os, const Value& value, const ExifData*)
@@ -914,7 +926,7 @@ namespace Exiv2 {
     constexpr TagInfo SonyMakerNote::tagInfoSonyMisc1_[] = {
         {0x05,  "CameraTemperature", N_("Camera temperature"),
         		N_("Internal camera temperature (in degrees Celsius)"),
-				sonyMisc1Id, makerTags, signedByte, -1, printTemperatureInDegC},
+				sonyMisc1Id, makerTags, signedByte, -1, printSonyMisc1CameraTemperature},
         // End of list marker
         {0xffff, "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)",
         		 "(UnknownSonyMisc1Tag)",
@@ -926,14 +938,16 @@ namespace Exiv2 {
         return tagInfoSonyMisc1_;
     }
 
-    std::ostream& SonyMakerNote::printTemperatureInDegC(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& SonyMakerNote::printSonyMisc1CameraTemperature(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         if (value.count() != 1)
-            os << "(" << value << ")";
-        else
-            os << value << " °C";
+            return os << "(" << value << ")";
 
-        return os;
+        auto pos = metadata->findKey(ExifKey("Exif.SonyMisc1.0x0004"));
+        if (pos != metadata->end() && pos->count() == 1 && pos->toLong() != 0 && pos->toLong() < 100)
+            return os << value << " °C";
+
+        return os << N_("n/a");
     }
 
     //! Lookup table to translate Sony Exposure Program 3 values to readable labels

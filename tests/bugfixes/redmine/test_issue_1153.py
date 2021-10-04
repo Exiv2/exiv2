@@ -16,7 +16,7 @@ class CheckSony6000WithoutLensModels(metaclass=system_tests.CaseMeta):
     ]
 
     commands = [
-        "$exiv2 -pa -g Lens {!s}".format(fname) for fname in filenames
+        "$exiv2 -pa -g LensSpecification -g LensModel -g LensID {!s}".format(fname) for fname in filenames
     ]
 
     stdout = [

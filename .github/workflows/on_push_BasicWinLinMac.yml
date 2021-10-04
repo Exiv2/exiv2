@@ -32,6 +32,7 @@ jobs:
       - name: Install Conan & Common config
         run: |
           pip.exe install "conan==1.39.0"
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile show default
 
@@ -69,6 +70,7 @@ jobs:
       - name: Conan
         run: |
           mkdir build && cd build
+          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
           conan profile show default
