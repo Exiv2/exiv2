@@ -3,7 +3,7 @@ name: Mac Matrix on PRs
 on: [pull_request]
 
 jobs:
-  windows:
+  MacOS:
     name: 'MacOS - clang, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
     runs-on: macos-latest
 
@@ -19,7 +19,7 @@ jobs:
       - name: install dependencies
         run: |
           brew install ninja
-          pip3 install conan==1.36.0
+          pip3 install conan==1.39.0
 
       - name: Run Conan
         run: |

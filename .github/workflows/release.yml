@@ -67,7 +67,7 @@ jobs:
           brew install ninja
           brew install tree
           brew install gettext
-          pip3 install conan==1.36.0
+          pip3 install conan==1.39.0
           brew install doxygen
           brew install graphviz
 
