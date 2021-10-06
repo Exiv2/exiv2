@@ -27,15 +27,15 @@ constexpr TagDetails fujiSharpness[] = {
 
 //! Sharpness, tag 0x1001
 constexpr TagDetails fujiSharpness[] = {
-    {   0, N_("-4")             },
-    {   1, N_("Soft mode 1/-3") },
-    {   2, N_("Soft mode 2/-2") },
-    {   3, N_("Normal/0")       },
-    {   4, N_("Hard mode 1/+2") },
-    {   5, N_("Hard mode 2/+3") },
-    {   6, N_("+4")             },
-    { 130, N_("-1")             },
-    { 132, N_("+1")             }
+    {   0, N_("-4")               },
+    {   1, N_("-3 (Soft mode 1)") },
+    {   2, N_("-2 (Soft mode 2)") },
+    {   3, N_("0 (Normal)")       },
+    {   4, N_("+2 (Hard mode 1)") },
+    {   5, N_("+3 (Hard mode 2)") },
+    {   6, N_("+4")               },
+    { 130, N_("-1")               },
+    { 132, N_("+1")               }
 };
 
 //! WhiteBalance, tag 0x1002
@@ -60,11 +60,11 @@ constexpr TagDetails fujiWhiteBalance[] = {
 
 //! Color, tag 0x1003
 constexpr TagDetails fujiColor[] = {
-    {    0, N_("Normal/0")               },
+    {    0, N_("0 (Normal)")             },
     {  128, N_("+1")                     },
     {  192, N_("+3")                     },
     {  224, N_("+4")                     },
-    {  256, N_("High/+2")                },
+    {  256, N_("+2 (High)")              },
     {  384, N_("-1")                     },
     {  512, N_("Low")                    },
     {  768, N_("Monochrome")             },
@@ -257,12 +257,12 @@ constexpr TagDetails fujiDynamicRange[] = {{1, N_("Standard")}, {3, N_("Wide")}}
 
 //! FilmMode, tag 0x1401
 constexpr TagDetails fujiFilmMode[] = {
-    {    0, N_("F0/Standard (PROVIA)")                         },
+    {    0, N_("PROVIA (F0/Standard)")                         },
     {  256, N_("F1/Studio Portrait")                           },
     {  272, N_("F1a/Studio Portrait Enhanced Saturation")      },
-    {  288, N_("F1b/Studio Portrait Smooth Skin Tone (ASTIA)") },
+    {  288, N_("ASTIA (F1b/Studio Portrait Smooth Skin Tone)") },
     {  304, N_("F1c/Studio Portrait Increased Sharpness")      },
-    {  512, N_("F2/Fujichrome (Velvia)")                       },
+    {  512, N_("Velvia (F2/Fujichrome)")                       },
     {  768, N_("F3/Studio Portrait Ex")                        },
     { 1024, N_("F4/Velvia")                                    },
     { 1280, N_("PRO Neg. Std")                                 },
