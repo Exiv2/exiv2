@@ -54,8 +54,7 @@ constexpr TagDetails fujiWhiteBalance[] = {
     { 3840, N_("Custom 1")                 },
     { 3841, N_("Custom 2")                 },
     { 3842, N_("Custom 3")                 },
-    { 4080, N_("Kelvin")                   },
-    { 3480, N_("Custom")                   } // To silence compiler warning
+    { 4080, N_("Kelvin")                   }
 };
 
 //! Color, tag 0x1003
@@ -78,8 +77,7 @@ constexpr TagDetails fujiColor[] = {
     { 1280, N_("ACROS")                  },
     { 1281, N_("ACROS + R Filter")       },
     { 1282, N_("ACROS + Ye Filter")      },
-    { 1283, N_("ACROS + G Filter")       },
-    {  768, N_("Monochrome")             } // To silence compiler warning
+    { 1283, N_("ACROS + G Filter")       }
 };
 
 //! Tone, tag 0x1004
@@ -141,8 +139,7 @@ constexpr TagDetails fujiFlashMode[] = {
     {     3, N_("Red-eye reduction") },
     {     4, N_("External")          },
     {    16, N_("Commander")         },
-    { 32768, N_("No flash")          },
-    {    16, N_("Commander")         }         // To silence compiler warning
+    { 32768, N_("No flash")          }
 };
 
 //! FocusMode, tag 0x1021
@@ -179,31 +176,6 @@ constexpr TagDetails fujiFocusArea[] = {
     { 512, N_("Tracking")     }
 };
 
-//! PictureMode, tag 0x1031
-constexpr TagDetails fujiPictureMode[] = {
-    {   0, N_("Auto")                      },
-    {   1, N_("Portrait")                  },
-    {   2, N_("Landscape")                 },
-    {   4, N_("Sports")                    },
-    {   5, N_("Night scene")               },
-    {   6, N_("Program AE")                },
-    {   7, N_("Natural light")             },
-    {   8, N_("Anti-blur")                 },
-    {  10, N_("Sunset")                    },
-    {  11, N_("Museum")                    },
-    {  12, N_("Party")                     },
-    {  13, N_("Flower")                    },
-    {  14, N_("Text")                      },
-    {  15, N_("Natural light & flash")     },
-    {  16, N_("Beach")                     },
-    {  17, N_("Snow")                      },
-    {  18, N_("Fireworks")                 },
-    {  19, N_("Underwater")                },
-    { 256, N_("Aperture-priority AE")      },
-    { 512, N_("Shutter speed priority AE") },
-    { 768, N_("Manual")                    }
-};
-
 //! ShadowTone, tag 0x1040
 //! HighlightTone, tag 0x041
 constexpr TagDetails fujiSHTone[] = {
@@ -219,7 +191,7 @@ constexpr TagDetails fujiSHTone[] = {
     {   8, N_("-0.5") },
     {  16, N_("-1")   },
     {  24, N_("-1.5") },
-    {  32, N_("-2")   },
+    {  32, N_("-2")   }
 };
 
 //! GrainEffectRoughness, tag 0x104c
