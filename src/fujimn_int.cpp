@@ -276,7 +276,7 @@ constexpr TagDetails fujiFilmMode[] = {
 
 //! DynamicRange, tag 0x1402
 constexpr TagDetails fujiDynamicRangeSetting[] = {
-    {     0, N_("Auto (100-200%)")      },
+    {     0, N_("Auto")      },
     {     1, N_("Raw")                  },
     {   256, N_("Standard (100%)")      },
     {   512, N_("Wide mode 1 (230%)")   },
