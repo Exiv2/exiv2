@@ -45,7 +45,7 @@ constexpr TagDetails fujiWhiteBalance[] = {
     {    2, N_("Auto Ambience Priority")   },
     {  256, N_("Daylight")                 },
     {  512, N_("Cloudy")                   },
-    {  768, N_("Fluorescent (daylight)")   }, // TODO fluorescent values were checked with an x-t4 but differ from the one used by exiftool
+    {  768, N_("Fluorescent (daylight)")   },
     {  769, N_("Fluorescent (warm white)") },
     {  770, N_("Fluorescent (cool white)") },
     { 1024, N_("Incandescent")             },
@@ -67,7 +67,7 @@ constexpr TagDetails fujiColor[] = {
     {   224, N_("+4 (highest)")           },
     {   256, N_("+2 (high)")              },
     {   384, N_("-1 (medium low)")        },
-    {   512, N_("-2 (low)")               }, // TODO this differs from exiftool
+    {   512, N_("-2 (low)")               },
     {   768, N_("Monochrome")             },
     {   769, N_("Monochrome + R Filter")  },
     {   770, N_("Monochrome + Ye Filter") },
