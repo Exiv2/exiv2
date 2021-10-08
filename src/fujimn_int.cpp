@@ -27,15 +27,15 @@ constexpr TagDetails fujiSharpness[] = {
 
 //! Sharpness, tag 0x1001
 constexpr TagDetails fujiSharpness[] = {
-    {   0, N_("-4")               },
-    {   1, N_("-3 (Soft mode 1)") },
-    {   2, N_("-2 (Soft mode 2)") },
-    {   3, N_("0 (Normal)")       },
-    {   4, N_("+2 (Hard mode 1)") },
-    {   5, N_("+3 (Hard mode 2)") },
-    {   6, N_("+4")               },
-    { 130, N_("-1")               },
-    { 132, N_("+1")               }
+    {   0, N_("-4 (softests)")    },
+    {   1, N_("-3 (very soft)")   },
+    {   2, N_("-2 (soft)")        },
+    {   3, N_("0 (normal)")       },
+    {   4, N_("+2 (hard)")        },
+    {   5, N_("+3 (very hard)")   },
+    {   6, N_("+4 (hardest)")     },
+    { 130, N_("-1 (medium soft)") },
+    { 132, N_("+1 (medium hard)") }
 };
 
 //! WhiteBalance, tag 0x1002
@@ -45,7 +45,7 @@ constexpr TagDetails fujiWhiteBalance[] = {
     {    2, N_("Auto Ambience Priority")   },
     {  256, N_("Daylight")                 },
     {  512, N_("Cloudy")                   },
-    {  768, N_("Fluorescent (daylight)")   },
+    {  768, N_("Fluorescent (daylight)")   }, // TODO fluorescent values were checked with an x-t4 but differ from the one used by exiftool
     {  769, N_("Fluorescent (warm white)") },
     {  770, N_("Fluorescent (cool white)") },
     { 1024, N_("Incandescent")             },
@@ -54,41 +54,53 @@ constexpr TagDetails fujiWhiteBalance[] = {
     { 3840, N_("Custom 1")                 },
     { 3841, N_("Custom 2")                 },
     { 3842, N_("Custom 3")                 },
+    { 3843, N_("Custom 4")                 },
+    { 3844, N_("Custom 5")                 },
     { 4080, N_("Kelvin")                   }
 };
 
 //! Color, tag 0x1003
 constexpr TagDetails fujiColor[] = {
-    {    0, N_("0 (Normal)")             },
-    {  128, N_("+1")                     },
-    {  192, N_("+3")                     },
-    {  224, N_("+4")                     },
-    {  256, N_("+2 (High)")              },
-    {  384, N_("-1")                     },
-    {  512, N_("Low")                    },
-    {  768, N_("Monochrome")             },
-    {  769, N_("Monochrome + R Filter")  },
-    {  770, N_("Monochrome + Ye Filter") },
-    {  771, N_("Monochrome + G Filter")  },
-    {  784, N_("Sepia")                  },
-    { 1024, N_("-2")                     },
-    { 1216, N_("-3")                     },
-    { 1248, N_("-4")                     },
-    { 1280, N_("ACROS")                  },
-    { 1281, N_("ACROS + R Filter")       },
-    { 1282, N_("ACROS + Ye Filter")      },
-    { 1283, N_("ACROS + G Filter")       }
+    {     0, N_("0 (normal)")             },
+    {   128, N_("+1 (medium high)")       },
+    {   192, N_("+3 (very high)")         },
+    {   224, N_("+4 (highest)")           },
+    {   256, N_("+2 (high)")              },
+    {   384, N_("-1 (medium low)")        },
+    {   512, N_("-2 (low)")               }, // TODO this differs from exiftool
+    {   768, N_("Monochrome")             },
+    {   769, N_("Monochrome + R Filter")  },
+    {   770, N_("Monochrome + Ye Filter") },
+    {   771, N_("Monochrome + G Filter")  },
+    {   784, N_("Sepia")                  },
+    {  1024, N_("-2 (low)")               },
+    {  1216, N_("-3 (very low)")          },
+    {  1248, N_("-4 (lowest)")            },
+    {  1280, N_("ACROS")                  },
+    {  1281, N_("ACROS + R Filter")       },
+    {  1282, N_("ACROS + Ye Filter")      },
+    {  1283, N_("ACROS + G Filter")       },
+    { 32768, N_("Film Simulation")        }
 };
 
 //! Tone, tag 0x1004
-constexpr TagDetails fujiTone[] = {{0, N_("Normal")}, {256, N_("High")}, {512, N_("Low")}};
-
-//! FlashMode, tag 0x1010
-constexpr TagDetails fujiFlashMode[] = {
-    {0, N_("Auto")},     {1, N_("On")},         {2, N_("Off")},       {3, N_("Red-eye reduction")},
-    {4, N_("External")}, {16, N_("Commander")}, {16, N_("Commander")}  // To silence compiler warning
+constexpr TagDetails fujiTone[] = {
+    {     0, N_("Normal")          },
+    {    80, N_("Medium High")     },
+    {   256, N_("High")            },
+    {   384, N_("Medium Low")      },
+    {   512, N_("Low")             },
+    { 32768, N_("Film Simulation") }
 };
 
+//! Tone, tag 0x1006
+constexpr TagDetails fujiContrast[] = {
+    {   0, N_("Normal") },
+    { 256, N_("High")   },
+    { 768, N_("Low")    }
+};
+
+//! WhiteBalanceFineTune, tag 0x100a
 std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
     if (value.typeId() == signedLong && value.size() == 8) {
         auto longValue = static_cast<const LongValue&>(value);
@@ -103,17 +115,24 @@ std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value
     return os;
 }
 
+//! NoiseReduction, tag 0x100b
+constexpr TagDetails fujiNoiseReduction[] {
+    {  64, N_("Low")    },
+    { 128, N_("Normal") },
+    { 256, N_("n/a")    }
+};
+
 //! High ISO NR, tag 0x100e
 constexpr TagDetails fujiHighIsoNR[] = {
-    {   0, N_("0")  },
-    { 256, N_("+2") },
-    { 384, N_("+1") },
-    { 448, N_("+3") },
-    { 480, N_("+4") },
-    { 512, N_("-2") },
-    { 640, N_("-1") },
-    { 704, N_("-3") },
-    { 736, N_("-4") }
+    {   0, N_("0 (normal)")         },
+    { 256, N_("+2 (strong)")        },
+    { 384, N_("+1 (medium strong)") },
+    { 448, N_("+3 (very strong)")   },
+    { 480, N_("+4 (strongest)")     },
+    { 512, N_("-2 (weak)")          },
+    { 640, N_("-1 (medium weak)")   },
+    { 704, N_("-3 (very weak)")     },
+    { 736, N_("-4 (weakest)")       }
 };
 
 //! Clarity, tag 0x100f
@@ -133,40 +152,39 @@ constexpr TagDetails fujiClarity[] = {
 
 //! FlashMode, tag 0x1010
 constexpr TagDetails fujiFlashMode[] = {
-    {     0, N_("Auto")              },
-    {     1, N_("On")                },
-    {     2, N_("Off")               },
-    {     3, N_("Red-eye reduction") },
-    {     4, N_("External")          },
-    {    16, N_("Commander")         },
-    { 32768, N_("No flash")          }
+    { 0x0000, N_("Auto")                                             },
+    { 0x0001, N_("On")                                               },
+    { 0x0002, N_("Off")                                              },
+    { 0x0003, N_("Red-eye reduction")                                },
+    { 0x0004, N_("External")                                         },
+    { 0x0010, N_("Commander")                                        },
+    { 0x8000, N_("No flash")                                         },
+    { 0x8120, N_("TTL")                                              },
+    { 0x8320, N_("TTL Auto - Did not fire")                          },
+    { 0x9840, N_("Manual")                                           },
+    { 0x9860, N_("Flash Commander")                                  },
+    { 0x9880, N_("Multi-flash")                                      },
+    { 0xa920, N_("1st Curtain (front)")                              },
+    { 0xaa20, N_("TTL Slow - 1st Curtain (front)")                   },
+    { 0xab20, N_("TTL Auto - 1st Curtain (front)")                   },
+    { 0xad20, N_("TTL - Red-eye Flash - 1st Curtain (front)")        },
+    { 0xae20, N_("TTL - Slow - Red-eye Flash - 1st Curtain (front)") },
+    { 0xaf20, N_("TTL - Auto - Red-eye Flash - 1st Curtain (front)") },
+    { 0xc920, N_("2nd Curtain (rear)")                               },
+    { 0xca20, N_("TTL Slow - 2nd Curtain (rear)")                    },
+    { 0xcb20, N_("TTL Auto - 2nd Curtain (rear)")                    },
+    { 0xcd20, N_("TTL - Red-eye Flash - 2nd Curtain (rear)")         },
+    { 0xce20, N_("TTL Slow - Red-eye Flash - 2nd Curtain (rear)")    },
+    { 0xcf20, N_("TTL Auto - Red-eye Flash - 2nd Curtain (rear)")    },
+    { 0xe920, N_("High Speed Sync (HSS)")                            }
 };
 
 //! FocusMode, tag 0x1021
-constexpr TagDetails fujiFocusMode[] = {{0, N_("Auto")}, {1, N_("Manual")}};
-
-//! PictureMode, tag 0x1031
-constexpr TagDetails fujiPictureMode[] = {{0, N_("Auto")},
-                                          {1, N_("Portrait")},
-                                          {2, N_("Landscape")},
-                                          {4, N_("Sports")},
-                                          {5, N_("Night scene")},
-                                          {6, N_("Program AE")},
-                                          {7, N_("Natural light")},
-                                          {8, N_("Anti-blur")},
-                                          {10, N_("Sunset")},
-                                          {11, N_("Museum")},
-                                          {12, N_("Party")},
-                                          {13, N_("Flower")},
-                                          {14, N_("Text")},
-                                          {15, N_("Natural light & flash")},
-                                          {16, N_("Beach")},
-                                          {17, N_("Snow")},
-                                          {18, N_("Fireworks")},
-                                          {19, N_("Underwater")},
-                                          {256, N_("Aperture-priority AE")},
-                                          {512, N_("Shutter speed priority AE")},
-                                          {768, N_("Manual")}};
+constexpr TagDetails fujiFocusMode[] = {
+    {     0, N_("Auto")   },
+    {     1, N_("Manual") },
+    { 65535, N_("Movie")  }
+};
 
 //! FocusArea, tag 0x1022
 constexpr TagDetails fujiFocusArea[] = {
@@ -174,6 +192,50 @@ constexpr TagDetails fujiFocusArea[] = {
     {   1, N_("Single Point") },
     { 256, N_("Zone")         },
     { 512, N_("Tracking")     }
+};
+
+//! PictureMode, tag 0x1031
+constexpr TagDetails fujiPictureMode[] = {
+    {   0, N_("Auto")                          },
+    {   1, N_("Portrait")                      },
+    {   2, N_("Landscape")                     },
+    {   3, N_("Macro")                         },
+    {   4, N_("Sports")                        },
+    {   5, N_("Night scene")                   },
+    {   6, N_("Program AE")                    },
+    {   7, N_("Natural light")                 },
+    {   8, N_("Anti-blur")                     },
+    {   9, N_("Beach & Snow")                  },
+    {  10, N_("Sunset")                        },
+    {  11, N_("Museum")                        },
+    {  12, N_("Party")                         },
+    {  13, N_("Flower")                        },
+    {  14, N_("Text")                          },
+    {  15, N_("Natural Light & Flash")         },
+    {  16, N_("Beach")                         },
+    {  17, N_("Snow")                          },
+    {  18, N_("Fireworks")                     },
+    {  19, N_("Underwater")                    },
+    {  20, N_("Portrait with Skin Correction") },
+    {  22, N_("Panorama")                      },
+    {  23, N_("Night (tripod)")                },
+    {  24, N_("Pro Low-light")                 },
+    {  25, N_("Pro Focus")                     },
+    {  26, N_("Portrait 2")                    },
+    {  27, N_("Dog Face Detection")            },
+    {  28, N_("Cat Face Detection")            },
+    {  48, N_("HDR")                           },
+    {  64, N_("Advanced Filter")               },
+    { 256, N_("Aperture-priority AE")          },
+    { 512, N_("Shutter speed priority AE")     },
+    { 768, N_("Manual")                        }
+};
+
+//! EXRMode, tag 0x1034
+constexpr TagDetails fujiExrMode[] = {
+    { 0x100, N_("HR (High Resolution)")          },
+    { 0x200, N_("SN (Signal to Noise priority)") },
+    { 0x300, N_("DR (Dynamic Range priority)")   }
 };
 
 //! ShadowTone, tag 0x1040
@@ -194,6 +256,15 @@ constexpr TagDetails fujiSHTone[] = {
     {  32, N_("-2")   }
 };
 
+//! DigitalZoom, tag 0x1044
+std::ostream& printFujiDigitalZoom(std::ostream& os, const Value& value, const ExifData*) {
+    if (value.typeId() == unsignedLong && value.size() == 4) {
+        os << (value.toFloat() / 8);
+    }
+    os << "(" << value << ")";
+    return os;
+}
+
 //! GrainEffectRoughness, tag 0x104c
 //! ColorChromeEffect, tag 0x1048
 //! ColorChromeFXBlue, tag 0x104e
@@ -201,13 +272,6 @@ constexpr TagDetails fujiOff0Weak32Strong64[] = {
     {  0, N_("Off")    },
     { 32, N_("Weak")   },
     { 64, N_("Strong") }
-};
-
-//! GrainEffectSize, tag 0x104c
-constexpr TagDetails fujiGrainEffectSize[] = {
-    {  0, N_("Off")   },
-    { 16, N_("Small") },
-    { 32, N_("Large") }
 };
 
 //! CropMode, tag 0x104d
@@ -218,8 +282,88 @@ constexpr TagDetails fujiCropMode[] = {
     {4, N_("Electronic Shutter 1.25x Crop")},
 };
 
+//! MonochromaticColor, tag 0x1049 and 0x104b
+std::ostream& printFujiMonochromaticColor(std::ostream& os, const Value& value, const ExifData*) {
+    if (value.size() == 1) {
+        auto v = static_cast<std::int8_t>(value.toLong());
+        os << (v > 0 ? "+": "") << static_cast<int>(v);
+    } else {
+        os << "(" << value << ")";
+    }
+    return os;
+}
+
+//! ShutterType, tag 0x1050
+constexpr TagDetails fujiShutterType[] = {
+    { 0, N_("Mechanical")                      },
+    { 1, N_("Electronic")                      },
+    { 2, N_("Electronic (long shutter speed)") },
+    { 3, N_("Electronic Front Curtain")        }
+};
+
 //! Continuous, tag 0x1100
-constexpr TagDetails fujiContinuous[] = {{0, N_("Off")}, {1, N_("On")}, {2, N_("No flash & flash")}};
+constexpr TagDetails fujiContinuous[] = {
+    { 0, N_("Off")                       },
+    { 1, N_("On")                        },
+    { 2, N_("Pre-shot/No flash & flash") }, // TODO newer cameras: Pre-shot
+    { 6, N_("Pixel Shift")               }
+};
+
+//! DriveSetting Byte 1, tag 0x1100
+constexpr TagDetails fujiDriveSettingByte1[] = {
+    { 0, N_("Single")          },
+    { 1, N_("Continuous Low")  },
+    { 2, N_("Continuous High") }
+};
+
+//! DriveSetting, tag 0x1103
+std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
+    auto byte1 = value.toLong() & 0xff;
+    auto byte2 = (value.toLong() >> 8) & 0xff;
+    auto byte3 = (value.toLong() >> 16) & 0xff;
+    auto fps = value.toLong() >> 24;
+
+    auto setting = find(fujiDriveSettingByte1, byte1);
+    if (setting) {
+        os << exvGettext(setting->label_);
+    } else {
+        os << "(" << byte1 << ")";
+    }
+
+    if (fps != 0) {
+        os << ", " << fps << " fps";
+    }
+
+    if (byte1 != 0) {
+        os << ", (" << byte2 << ", " << byte3 << ")"; // unknown values
+    }
+    return os;
+}
+
+//! PanoramaDirection, tag 0x1154
+constexpr TagDetails fujiPanoramaDirection[] = {
+    { 1, N_("Right") },
+    { 2, N_("Up")    },
+    { 3, N_("Left")  },
+    { 4, N_("Down")  }
+};
+
+//! AdvancedFilter, tag 0x1201
+constexpr TagDetails fujiAdvancedFilter[] = {
+    { 0x10000, N_("Pop Color")            },
+    { 0x20000, N_("Hi Key")               },
+    { 0x30000, N_("Toy Camera")           },
+    { 0x40000, N_("Miniature")            },
+    { 0x50000, N_("Dynamic Tone")         },
+    { 0x60001, N_("Partial Color Red")    },
+    { 0x60002, N_("Partial Color Yellow") },
+    { 0x60003, N_("Partial Color Green")  },
+    { 0x60004, N_("Partial Color Blue")   },
+    { 0x60005, N_("Partial Color Orange") },
+    { 0x60006, N_("Partial Color Purple") },
+    { 0x70000, N_("Soft Focus")           },
+    { 0x90000, N_("Low Key")              }
+};
 
 //! FinePixColor, tag 0x1210
 constexpr TagDetails fujiFinePixColor[] = {{0, N_("Standard")}, {16, N_("Chrome")}, {48, N_("Black & white")}};
@@ -248,12 +392,35 @@ constexpr TagDetails fujiFilmMode[] = {
 
 //! DynamicRange, tag 0x1402
 constexpr TagDetails fujiDynamicRangeSetting[] = {
-    {     0, N_("Auto")      },
-    {     1, N_("Raw")                  },
+    {     0, N_("Auto")                 },
+    {     1, N_("Manual")               },
     {   256, N_("Standard (100%)")      },
     {   512, N_("Wide mode 1 (230%)")   },
     {   513, N_("Wide mode 2 (400%)")   },
     { 32768, N_("Film simulation mode") }
+};
+
+//! SceneRecognition, tag 0x1425
+constexpr TagDetails fujiSceneRecognition[] = {
+    { 0x000, N_("Unrecognized")     },
+    { 0x100, N_("Portrait Image")   },
+    { 0x103, N_("Night Portrait")   },
+    { 0x105, N_("Backlit Portrait") },
+    { 0x200, N_("Landscape Image")  },
+    { 0x300, N_("Night Scene")      },
+    { 0x400, N_("Macro")            }
+};
+
+//! ImageGeneration, tag 0x1426
+constexpr TagDetails fujiImageGeneration[] = {
+    { 0, N_("Original Image")        },
+    { 1, N_("Re-developed from RAW") }
+};
+
+//! DRangePriority, tag 0x1443
+constexpr TagDetails fujiDRangePriority[] = {
+    {     0, N_("Auto")  },
+    {     1, N_("Fixed") }
 };
 
 //! DRangePriority, tag 0x1443
@@ -264,6 +431,45 @@ constexpr TagDetails fujiDRangePriorityAuto[] = {{1, N_("Weak")}, {2, N_("Strong
 
 //! DRangePriorityFixed, tag 0x1445
 constexpr TagDetails fujiDRangePriorityFixed[] = {{1, N_("Weak")}, {2, N_("Strong")}};
+
+//! FaceElementType, every byte at tag 0x4201
+constexpr TagDetails fujiFaceElementType[] = {
+    { 1, N_("Face")      },
+    { 2, N_("Left Eye")  },
+    { 3, N_("Right Eye") }
+};
+
+//! FaceElementType, tag 0x4203
+std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& value, const ExifData*) {
+    if (value.typeId() == asciiString || value.typeId() == unsignedShort) {
+        int elements = value.count();
+
+        if (value.typeId() == asciiString) {
+            elements -= 1; // null escaped
+        }
+
+        for (int n = 0; n < elements; n++) {
+            auto longValue = value.toLong(n);
+
+            if (value.typeId() == asciiString) {
+                longValue -= '0';
+            }
+
+            auto td = find(fujiFaceElementType, longValue);
+            if (n != 0) {
+                os << " ";
+            }
+            if (td) {
+                os << exvGettext(td->label_);
+            } else {
+                os << "(" << value.toLong(n) << ")";
+            }
+        }
+    } else {
+        os << "(" << value << ")";
+    }
+    return os;
+}
 
 // Fujifilm MakerNote Tag Info
 constexpr TagInfo FujiMakerNote::tagInfo_[] = {
@@ -292,9 +498,15 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0x1005, "ColorTemperature", N_("Color Temperature"),
             N_("Color temperature setting"),
             fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1006, "Contrast", N_("Contrast"),
+            N_("Contrast setting"),
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContrast)},
     {0x100a, "WhiteBalanceFineTune", N_("White Balance Fine Tune"),
             N_("White balance fine tune setting"),
             fujiId, makerTags, signedLong, -1, printFujiWhiteBalanceFineTune},
+    {0x100b, "NoiseReduction", N_("Noise Reduction"),
+            N_("Noise reduction setting"),
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiNoiseReduction)},
     {0x100e, "HighIsoNoiseReduction", N_("High ISO Noise Reduction"),
             N_("High ISO NR setting"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiHighIsoNR)},
@@ -319,21 +531,39 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0x1023, "FocusPoint", N_("Focus Point"),
             N_("X and Y coordinate of focus point"),
             fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x102b, "FocusPrioritySetting", N_("Focus Priority Setting"),
+            N_("Focus priority setting"),
+            fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x102d, "FocusSetting", N_("Focus Setting"),
+            N_("Focus setting"),
+            fujiId, makerTags, unsignedLong, -1, printValue},
+    {0x102e, "ContinuousFocusSetting", N_("AF-C Focus Setting"),
+            N_("AF-C focus setting"),
+            fujiId, makerTags, unsignedLong, -1, printValue},
     {0x1030, "SlowSync", N_("Slow Sync"),
             N_("Slow synchro mode setting"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
     {0x1031, "PictureMode", N_("Picture Mode"),
             N_("Picture mode setting"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiPictureMode)},
-    {0x1032, "0x1032", "0x1032",
-            N_("Unknown"),
+    {0x1032, "ExposureCount", "Exposure Count",
+            N_("Number of exposures used for this image"),
             fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1033, "EXRAuto", "EXR Auto",
+            N_("EXR Auto"), // TODO find description
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOffOn)},
+    {0x1034, "EXRMode", "EXR Mode",
+            N_("EXR Auto"), // TODO find description
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiExrMode)},
     {0x1040, "ShadowTone", N_("Shadow Tone"),
             N_("Shadow tone"),
             fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)},
     {0x1041, "HighlightTone", N_("Highlight Tone"),
             N_("Highlight tone"),
             fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiSHTone)},
+    {0x1044, "DigitalZoom", N_("Digital Zoom"),
+            N_("Digital zoom"),
+            fujiId, makerTags, unsignedLong, -1, printFujiDigitalZoom},
     {0x1045, "LensModulationOptimizer", N_("Lens Modulation Optimizer"),
             N_("Lens modulation optimizer setting"),
             fujiId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(fujiOffOn)},
@@ -343,6 +573,12 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0x1048, "ColorChromeEffect", N_("Color Chrome Effect"),
             N_("Color Chrome Effect"),
             fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiOff0Weak32Strong64)},
+    {0x1049, "MonochromaticColorWC", N_("Monochromatic Color (Warm-Cool)"),
+            N_("Monochromatic color (warm-cool) setting. High value results in warm color shift and low values in cold color shift."),
+            fujiId, makerTags, unsignedByte,-1, printFujiMonochromaticColor},
+    {0x104b, "MonochromaticColorMG", N_("Monochromatic Color (Magenta-Green)"),
+            N_("Monochromatic color (magenta-green) setting. High value results in magenta color shift and low values in green color shift."),
+            fujiId, makerTags, unsignedByte,-1, printFujiMonochromaticColor},
     {0x104c, "GrainEffectSize", N_("Grain Effect Size"),
             N_("Grain effect size setting"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiGrainEffectSize)},
@@ -351,15 +587,36 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0x104e, "ColorChromeFXBlue", N_("Color Chrome FX Blue"),
                 N_("Color Chrome FX Blue"),
                 fujiId, makerTags, signedLong, -1, EXV_PRINT_TAG(fujiOff0Weak32Strong64)},
+    {0x1050, "ShutterType", N_("Shutter Type"),
+            N_("Shutter type"),
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiShutterType)},
     {0x1100, "Continuous", N_("Continuous"),
             N_("Continuous shooting or auto bracketing setting"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiContinuous)},
     {0x1101, "SequenceNumber", N_("Sequence Number"),
             N_("Sequence number"),
             fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1103, "DriveSetting", N_("Drive Setting"),
+            N_("Drive setting"),
+            fujiId, makerTags, unsignedShort, -1, printFujiDriveSetting},
+    {0x1105, "PixelShiftShots", N_("Pixel Shift Shots"),
+            N_("Pixel shift shots"),
+            fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1105, "PixelShiftOfffset", N_("Pixel Shift Offset"),
+            N_("Pixel shift offset"),
+            fujiId, makerTags, signedRational, -1, printValue},
+    {0x1153, "PanoramaAngle", N_("Panorama angle"),
+            N_("Panorama angle"),
+            fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1154, "PanoramaDirection", N_("Panorama direction"),
+            N_("Panorama direction"),
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiPanoramaDirection)},
     {0x1200, "0x1200", "0x1200",
             N_("Unknown"),
             fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1201, "AdvancedFilter", N_("Advanced filter"),
+            N_("Advanced filter setting"),
+            fujiId, makerTags, unsignedLong, -1, EXV_PRINT_TAG(fujiAdvancedFilter)},
     {0x1210, "FinePixColor", N_("FinePix Color"),
             N_("Fuji FinePix color setting"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiFinePixColor)},
@@ -396,9 +653,21 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0x1407, "MaxApertureAtMaxFocal", N_("Maximum Aperture at Maximum Focal"),
             N_("Maximum aperture at maximum focal"),
             fujiId, makerTags, unsignedRational, -1, printValue},
+    {0x140b, "AutoDynamicRange", N_("Auto Dynamic Range"),
+            N_("Auto dynamic range"),
+            fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1422, "ImageStabilization", N_("Image Stabilization"),
+            N_("Image stabilization"),
+            fujiId, makerTags, unsignedShort, -1, printValue},
+    {0x1425, "SzeneRecognition", N_("Scene recognition"),
+            N_("Scene recognition"),
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiSceneRecognition)},
     {0x1431, "Rating", N_("Rating"),
             N_("Rating"),
             fujiId, makerTags, unsignedLong, -1, printValue},
+    {0x1436, "ImageGeneration", N_("Image Generation"),
+            N_("Image generation"),
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiImageGeneration)},
     {0x1438, "ImageNumber", N_("Image Number"),
             N_("Image Number"),
             fujiId, makerTags, unsignedShort, -1, printValue},
@@ -411,6 +680,27 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0x1445, "DRangePriorityAuto", N_("D Range Priority Auto"),
             N_("Dynamic range priority auto"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiDRangePriorityAuto)},
+    {0x4005, "FaceElementSelected", N_("Face Element Selected"),
+            N_("Face element selected"),
+            fujiId, makerTags, asciiString, -1, printValue},
+    {0x4100, "FacesDetected", N_("Faces Detected"),
+            N_("Faces detected"),
+            fujiId, makerTags, asciiString, -1, printValue},
+    {0x4103, "FacePositions", N_("Face Positions"),
+            N_("Left, top, right and bottom coordinates in full-sized image for each face detected"),
+            fujiId, makerTags, asciiString, -1, printValue},
+    {0x4200, "NumberFaceElements", N_("Number of Face Elements"),
+            N_("Number of face elements"),
+            fujiId, makerTags, asciiString, -1, printValue},
+    {0x4201, "FaceElementTypes", N_("Face Element Types"),
+            N_("Type of every face element"),
+            fujiId, makerTags, asciiString, -1, printFujiFaceElementTypes},
+    {0x4203, "FaceElementPositions", N_("Face Element Positions"),
+            N_("Left, top, right and bottom coordinates in full-sized image for each face element)"),
+            fujiId, makerTags, asciiString, -1, printValue},
+    {0x4282, "FaceRecInfo", N_("Face Recognition Information"),
+            N_("Face Recognition Information"),
+            fujiId, makerTags, asciiString, -1, printValue},
     {0x8000, "FileSource", N_("File Source"),
             N_("File source"),
             fujiId, makerTags, asciiString, -1, printValue},
@@ -462,7 +752,7 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
             fujiId, makerTags, undefined, -1, printValue},
     // End of list marker
     {0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)", N_("Unknown FujiMakerNote tag"), fujiId,
-    makerTags, asciiString, -1, printValue},
+    makerTags, asciiString, -1, printValue}
 };
 
 const TagInfo* FujiMakerNote::tagList() {
