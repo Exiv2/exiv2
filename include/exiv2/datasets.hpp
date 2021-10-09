@@ -332,8 +332,9 @@ namespace Exiv2 {
         IptcKey* clone_() const override;
 
         // DATA
+#ifndef SWIG
         static constexpr auto familyName_ = "Iptc";
-
+#endif
         uint16_t tag_;                 //!< Tag value
         uint16_t record_;              //!< Record value
         std::string key_;              //!< Key
