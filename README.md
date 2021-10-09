@@ -197,7 +197,7 @@ See [README-CONAN](README-CONAN.md) for more information.
 
 ### Libiconv
 
-The library libiconv is used to perform character set encoding in the tags Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod and Exif.GPSInfo.GPSAreaInformation.  This is documented in the exiv2 man page.
+The library libiconv is used to perform character set encoding in the tags Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod and Exif.GPSInfo.GPSAreaInformation.  This is documented in the [exiv2 man page](exiv2.md).
 
 CMake will detect libiconv of all UNIX like systems including Linux, macOS, UNIX, Cygwin64 and MinGW/msys2.  If you have installed libiconv on your machine, Exiv2 will link and use it.
 
@@ -311,9 +311,9 @@ You must install the build to test localisation.  This ensures that the localisa
 $ env LANG=fr_FR exiv2    # env LANGUAGE=fr_FR exiv2 on Linux!
 exiv2: Une action doit être spécifié
 exiv2: Au moins un fichier est nécessaire
-Utilisation : exiv2  [ options ] [ action ] fichier ...
+Utilisation : exiv2 [ option [ arg ] ]+ [ action ] fichier ...
 
-Manipulation des métadonnées EXIF issues des images.
+Image metadata manipulation tool.
 $
 ```
 
@@ -334,14 +334,14 @@ I edited the following:
 
 ```bash
 #: src/exiv2.cpp:237
-msgid "Manipulate the Exif metadata of images.\n"
+msgid "Image metadata manipulation tool.\n"
 msgstr ""
 ```
 to:
 
 ```bash
 #: src/exiv2.cpp:237
-msgid "Manipulate the Exif metadata of images.\n"
+msgid "Image metadata manipulation tool.\n"
 msgstr "Manipulate image metadata.\n"
 ```
 
@@ -362,7 +362,7 @@ $ sudo cp -R  po/xy/LC_MESSAGES/exiv2.mo /usr/local/share/locale/xy/LC_MESSAGES
 $ env LANG=xy exiv2                      # env LANGUAGE=xy on Linux!
 exiv2: An action must be specified
 exiv2: At least one file is required
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: exiv2 [ option [ arg ] ]+ [ action ] file ...
 
 Manipulate image metadata.   <--------- Edited message!
 $
@@ -717,14 +717,12 @@ You may wish to use wine to execute exiv2 from the command prompt.  To do this:
 [rmills@rmillsmm-fedora build_mingw_fedora]$ wine cmd
 Microsoft Windows 6.1.7601
 
-Z:\Home\gnu\github\exiv2\0.27-maintenance\build_mingw_fedora>bin\exiv2
+Z:\Home\gnu\github\exiv2\main\build_mingw_fedora>bin\exiv2
 exiv2: An action must be specified
 exiv2: At least one file is required
-Usage: exiv2 [ options ] [ action ] file ...
+Usage: exiv2 [ option [ arg ] ]+ [ action ] file ...
 
-Manipulate the Exif metadata of images.
-
-Z:\Home\gnu\github\exiv2\0.27-maintenance\build_mingw_fedora>
+Image metadata manipulation tool.
 ```
 
 If you have not installed wine, Fedora will offer to install it for you.
@@ -1333,5 +1331,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-04-06
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-09-21
 

@@ -51,14 +51,15 @@ guidelines.
      3.  [Modifying a value](#mod_value)
      4.  ['Modify' examples](#mod_examples)
      5.  ['Modify' command file](#mod_cmd_file)
-12.  [CONFIGURATION FILE](#config_file)
-13.  [EXAMPLES](#examples)
-14.  [ENVIRONMENT](#environment)
-15. [NOTES](#notes)
-16. [BUGS](#bugs)
-17. [COPYRIGHT](#copyright)
-18. [AUTHORS](#authors)
-19. [SEE ALSO](#see_also)
+12. [CONFIGURATION FILE](#config_file)
+13. [EXAMPLES](#examples)
+14. [RETURN VALUE](#return_value)
+15. [ENVIRONMENT](#environment)
+16. [NOTES](#notes)
+17. [BUGS](#bugs)
+18. [COPYRIGHT](#copyright)
+19. [AUTHORS](#authors)
+20. [SEE ALSO](#see_also)
 
 <div id="file_types">
 
@@ -99,21 +100,21 @@ TIFF | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Rea
 WEBP | Read/Write | -          | Read/Write | -              | Read/Write  | Read/Write
 XMP  | -          |-           | Read/Write | -              | -           | -
 
-+ Support for GIF, TGA and BMP images is minimal: the image format is
+- Support for GIF, TGA and BMP images is minimal: the image format is
 recognized, a MIME type assigned to it and the height and width of the
 image are determined.
 
-+ Reading other TIFF-like RAW image formats, which are not listed in 
+- Reading other TIFF-like RAW image formats, which are not listed in 
 the table, may also work.
 
-+ Some image formats allow an extra interal type of metadata. Only 
+- Some image formats allow an extra interal type of metadata. Only 
 partial support exists for the RAF format.
 
-+ Support for BMFF types such as AVIF, CR3, HEIF and HEIC is a build 
+- Support for BMFF types such as AVIF, CR3, HEIF and HEIC is a build 
 option. To check if this is enabled, use `exiv2 --version --verbose --grep bmff` 
 and see if `enable_bmff=1`.
 
-+ Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
+- Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
 
 
 [TOC](#TOC)
@@ -247,7 +248,7 @@ The arguments for those options are:
 | *arg*     | Description                                                                |
 |:------    |:----                                                                       |
 | *action*  | pr \| ex \| in \| rm \| ad \| mo \| mv \| fi \| fc<br>(print, extract, insert, delete, adjust, modify, rename, fixiso, fixcom) |
-| *cmd*     | (**set** \| **add**) *key* [[*type*] *value*] \| **del** *key* [*type*] \| **reg** *prefix* *namespace*<br>(see ['Modify' command format](#mod_cmd_format)) |
+| *cmd*     | (**set** \| **add**) *key* [ [*type*] *value* ] \| **del** *key* [*type*] \| **reg** *prefix* *namespace*<br>(see ['Modify' command format](#mod_cmd_format)) |
 | *enc*     | Values defined in [iconv_open(3)](https://linux.die.net/man/3/iconv_open) (e.g., UTF-8) |
 | *flg*     | E \| I \| X \| x \| g \| k \| l \| n \| y \| c \| s \| v \| t \| h<br>(Exif, IPTC, XMP, num, grp, key, label, name, type, count, size, vanilla, translated, hex) |
 | *fmt*     | Default format: %Y%m%d_%H%M%S                                              |
@@ -523,18 +524,18 @@ the [adjust](#ad_adjust) action. See [TZ environment variable](#TZ).
 ### **-p** *mod*, **--print** *mod* 
 Print mode for the [print](#pr_print) action (see 
 [DESCRIPTION](#file_types), for metadata support in a file type). 
-Possible modes are:
+Where *mod* is one of:
 
 | Option | Description                                                                          |
 |:------ |:----                                                                                 |
 | s      | A summary of the Exif metadata (the default for the [print](#pr_print) action)       |
 | a      | Exif, IPTC and XMP tags (shortcut for [--Print kyct](#Print_flgs))                   |
-| e      | Exif tags (shortcut for [--Print Ekycv](#Print_flgs))                                |
+| e      | Plain (untranslated) Exif tags (shortcut for [--Print Ekycv](#Print_flgs))           |
 | t      | Interpreted (translated) Exif tag values (shortcut for [--Print Ekyct](#Print_flgs)) |
 | v      | Plain (untranslated) Exif tag values (shortcut for [--Print Exgnycv](#Print_flgs))   |
 | h      | Hex dump of the Exif data (shortcut for [--Print Exgnycsh](#Print_flgs))             |
-| i      | IPTC tags (shortcut for [--Print Ikyct](#Print_flgs))                                |
-| x      | XMP tags (shortcut for [--Print Xkyct](#Print_flgs))                                 |
+| i      | Translated IPTC tags (shortcut for [--Print Ikyct](#Print_flgs))                     |
+| x      | Translated XMP tags (shortcut for [--Print Xkyct](#Print_flgs))                      |
 | c      | JPEG comment (see [IMAGE COMMENTS](#image_comments))                                 |
 | p      | List available image previews, sorted by size in pixels (see [PREVIEW IMAGES AND THUMBNAILS](#preview_images)) |
 | C      | Image ICC Profile (see [ICC PROFILES](#icc_profiles))                                |
@@ -571,25 +572,26 @@ as well as data columns included in the print output. Valid flags are:
 | s      | Size in bytes of vanilla output (see note in [Exif 'Comment' values](#exif_comment_values)). Some types include a *NULL* character in the size (see [Exif/IPTC/XMP types](#exiv2_types)) |
 | v      | Plain data value (vanilla values, i.e., untranslated)                       |
 | V      | Plain data value and the word 'set ' (see ['MODIFY' COMMANDS](#modify_cmds))|
-| t      | Interpreted (translated) human-readable data values                         |
+| t      | Interpreted (translated) human-readable data values (includes plain vanilla values) |
 | h      | Hex dump of the data                                                        |
 
 <div id="Print_flgs_order">
 
-The order of the values in *flgs* is not respected, with output displayed 
-as follows:
-```
-Tag number (x) | Plain 'set' (V) | Group (g) | Key (k) | Tagname (n) | Tagname label (l) | Type (y) | Components (c) | Size (s) | Value (E, I, X, v, t)
-```
-For example, displaying the IPTC tags in a file:
+The order of the values in *flgs* is not respected. For example, the order 
+of the columns, using some tags from *Stonehenge.jpg*, is as follows:
+
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
-$ exiv2 --Print xgknlycsIt Stonehenge.jpg
-0x0000 Envelope     Iptc.Envelope.ModelVersion                   ModelVersion                Model Version                  Short       1   2  4
-0x005a Envelope     Iptc.Envelope.CharacterSet                   CharacterSet                Character Set                  String      3   3
-0x0000 Application2 Iptc.Application2.RecordVersion              RecordVersion               Record Version                 Short       1   2  4
-0x0078 Application2 Iptc.Application2.Caption                    Caption                     Caption                        String     12  12  Classic View
+$ exiv2 --Print xgknlycst Stonehenge.jpg
 ```
+
+| Tag number<br>(x) | Plain 'set'<br>(V) | Group<br>(g) | Key<br>(k)                 | Tagname<br>(n) | Tagname label<br>(l) | Type<br>(y) | Comp<br>(c) | Size<br>(s) | Value<br>(E, I, X, v, t) | Translated<br>(t) |
+|:------            |:----               |:------       |:------                     |:------         |:------               |:------      |:------      |:------      |:------                   |:------           |
+| 0x0110            | set                | Image        | Exif.Image.Model           | Model          | Model                | Ascii       | 12          | 12          | NIKON D5300              | NIKON D5300      |
+| 0x0006            | set                | NikonIi      | Exif.NikonIi.ISO2          | ISO2           | ISO 2                | Byte        | 1           | 1           | 72                       | 200              |
+| 0x0000            | set                | xmp          | Xmp.xmp.Rating             | Rating         | Rating               | XmpText     | 1           | 1           | 0                        | 0                |
+| 0x0000            | set                | dc           | Xmp.dc.Family              | Family         | Family               | XmpBag      | 1           | 5           | Robin                    | Robin            |
+
 **--Print** *flgs* can be combined with [--grep str](#grep_str) or 
 [--key key](#key_key) to further filter the output.
 
@@ -819,11 +821,11 @@ or downloaded from https://www.exiv2.org/download.html.
 
 For the Exif, IPTC and XMP groups:
 
-+ The same tags that are available in Exif's Image group (e.g., Exif.Image.XResolution), 
+- The same tags that are available in Exif's Image group (e.g., Exif.Image.XResolution), 
 are also available in Exif's Thumbnail, Image(2|3), SubImage(1-9) and 
 SubThumb1 groups, (e.g., Exif.Thumbnail.XResolution).
 
-+ Many camera manufacturer's tags are available and are accessed as 
+- Many camera manufacturer's tags are available and are accessed as 
 different Exif groups, using the manufacturer's name as a prefix (e.g., 
 CanonCs is the Camera Settings for a Canon camera). Groups called the 
 manufacturer name plus number, access the main tags in different file 
@@ -834,13 +836,13 @@ tags for all the different manufacturers is an ongoing task, only partial
 support is available. The full unprocessed makernotes data is available 
 in [Exif.Photo.MakerNote](https://www.exiv2.org/tags.html).
 
-+ Every Exif and IPTC tag has a tag number (16 bit, 2 byte integer), 
+- Every Exif and IPTC tag has a tag number (16 bit, 2 byte integer), 
 which is unique within a Group (to display, see [--Print x](#Print_flgs)).
 
-+ Some of the Exif and IPTC tags are mirrored in the XMP specification 
+- Some of the Exif and IPTC tags are mirrored in the XMP specification 
 (see https://www.exiv2.org/metadata.html).
 
-+ The XMP specification is flexible and allows new custom 'Groups' and 
+- The XMP specification is flexible and allows new custom 'Groups' and 
 'Tagnames' to be added (see [Adding new XMP tags](#add_xmp_tags) and 
 ['Modify' command format](#mod_cmd_format)). For example, the 'cm2e' 
 'Group' has been added, which has 'Father' and 'Family' Tagnames. 
@@ -856,7 +858,7 @@ Xmp.dc.description                           LangAlt     1  lang="x-default" Cla
 Xmp.dc.Family                                XmpBag      1  Robin
 ```
 
-+ Further information on Exiv2 groups can be found on the Exiv2 wiki: https://github.com/Exiv2/exiv2/wiki
+- Further information on Exiv2 groups can be found on the Exiv2 wiki: https://github.com/Exiv2/exiv2/wiki
 
 [TOC](#TOC)
 
@@ -1162,10 +1164,10 @@ saved.
 Xmp.xmpMM.History                            XmpText     0  type="Seq"
 Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
-Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+Xmp.xmpMM.History[1]/stEvt:converted         XmpText    35  tiff to jpeg, saved to new location
 Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
-Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D659
 Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
 ```
@@ -1287,10 +1289,10 @@ $ exiv2 --modify cmd.txt Stonehenge.jpg
 ```
 Multiple [--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) 
 options can be combined together, with the changes applied left to right 
-on each file. For example, applying one command line 'modify' then a 
-'modify' command file, then another command line 'modify':
+on each file. For example, applying one command line 'modify', then a 
+'modify' command file:
 ```
-$ exiv2 --Modify "set Iptc.Application2.Caption Stonehenge" --modify cmdfile.txt --Modify "add Iptc.Application2.Keywords Monument" Stonehenge.jpg
+$ exiv2 --Modify "set Iptc.Application2.Caption Stonehenge" --modify cmdfile.txt Stonehenge.jpg
 ```
 
 <div id="gen_modify_cmds">
@@ -1461,14 +1463,14 @@ the string:
 
 When a non-standard group or tag belonging to that group is modified, the 
 appropriate 'reg' 'modify' command must be included before that. For 
-example, adding a *myPhotos* group with a *weather* tag and values:
+example, adding a *myPic* group with a *weather* tag and values:
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
-$ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "add Xmp.myPhotos.weather XmpBag Cloudy" Stonehenge.jpg
-$ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "set Xmp.myPhotos.weather XmpBag Sunny" Stonehenge.jpg
-$ exiv2 --Modify "reg myPhotos http://ns.myPhotos.org/" --Modify "set Xmp.myPhotos.weather XmpBag Hot" Stonehenge.jpg
-$ exiv2 --grep myPhotos Stonehenge.jpg
-Xmp.myPhotos.weather                         XmpBag      3  Cloudy, Sunny, Hot
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.weather XmpBag Cloudy" Stonehenge.jpg
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "set Xmp.myPic.weather XmpBag Sunny" Stonehenge.jpg
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "set Xmp.myPic.weather XmpBag Hot" Stonehenge.jpg
+$ exiv2 --grep myPic Stonehenge.jpg
+Xmp.myPic.weather                            XmpBag      3  Cloudy, Sunny, Hot
 ```
 
 <div id="add_xmp_tags">
@@ -1482,10 +1484,10 @@ a *Surname* tag to a registered namespace:
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmp.RatingInPercent XmpText 98" Stonehenge.jpg
-$ exiv2 --Modify "reg cm2e http://clanmills.com/exiv2/" --Modify "add Xmp.cm2e.Surname XmpText Mills" Stonehenge.jpg
-$ exiv2 --grep RatingInPercent --grep Surname Stonehenge.jpg
+$ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.Weather XmpBag Hot" Stonehenge.jpg
+$ exiv2 --grep RatingInPercent --grep Weather Stonehenge.jpg
 Xmp.xmp.RatingInPercent                      XmpText     2  98
-Xmp.cm2e.Surname                             XmpText     5  Mills
+Xmp.myPic.Weather                            XmpBag      1  Hot
 ```
 
 If adding an empty non XmpText tag, include the empty string as the 
@@ -1498,15 +1500,22 @@ the 'type'.
 For the LangAlt format, see [XMP LangAlt values](#langalt_values). When 
 setting a LangAlt tag, only one entry is allowed per modify.
 
-For example, adding one default, one language/country and one language 
-entry:
+For example, adding default and language/country entries:
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Modify "set Xmp.dc.description LangAlt Monument" Stonehenge.jpg
 $ exiv2 --Modify "set Xmp.dc.description LangAlt lang=de-DE das Monument" Stonehenge.jpg
-$ exiv2 --Modify "set Xmp.dc.description LangAlt lang="fr" les monuments" Stonehenge.jpg
 $ exiv2 --grep description Stonehenge.jpg
-Xmp.dc.description                           LangAlt     3  lang="x-default" Monument, lang="de-DE" das Monument, lang="fr" les monuments
+Xmp.dc.description                           LangAlt     2  lang="x-default" Monument, lang="de-DE" das Monument
+```
+
+and adding a language and language/country entries:
+
+```
+$ exiv2 --Modify "set Xmp.dc.title LangAlt lang=en-US My holiday" Stonehenge.jpg
+$ exiv2 --Modify "set Xmp.dc.title LangAlt lang=fr Mes vacances" Stonehenge.jpg
+$ exiv2 --grep title Stonehenge.jpg
+Xmp.dc.title                                 LangAlt     2  lang="en-US" My holiday, lang="fr" Mes vacances
 ```
 
 To remove a language specification, set the value to the empty string. 
@@ -1543,19 +1552,19 @@ tag to record the file being converted from tiff to JPEG, then saved.
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History XmpSeq \"\"" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:action derived" Stonehenge.jpg
-$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:parameters converted from image/tiff to image/jpeg, saved to new location" Stonehenge.jpg
+$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:converted tiff to jpeg, saved to new location" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:action saved" Stonehenge.jpg
-$ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:instanceID xmp.iid:89A4EB97412C88632107D65978304F45" Stonehenge.jpg
+$ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:instanceID xmp.iid:89A4EB97412C88632107D659" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:when 2021-08-13T10:12:09+01:00" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[2]/stEvt:softwareAgent MySuperPhotoFixer 1.0" Stonehenge.jpg
 $ exiv2 --grep xmpMM Stonehenge.jpg
 Xmp.xmpMM.History                            XmpText     0  type="Seq"
 Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
-Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
+Xmp.xmpMM.History[1]/stEvt:converted         XmpText    35  tiff to jpeg, saved to new location
 Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
-Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    32  xmp.iid:89A4EB97412C88632107D659
 Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
 ```
@@ -1565,7 +1574,7 @@ the first struct in the [Xmp.xmpMM.History](https://www.exiv2.org/tags-xmp-xmpMM
 tag:
 
 ```
-$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:myBag XmpText type=Bag" Stonehenge.jpg
+$ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq XmpText type=Bag" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[1]/stEvt:action open a file" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[2]/stEvt:action convert" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:mySeq[3]/stEvt:action save" Stonehenge.jpg
@@ -1573,8 +1582,8 @@ $ exiv2 --grep xmpMM Stonehenge.jpg
 Xmp.xmpMM.History                            XmpText     0  type="Seq"
 Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     7  derived
-Xmp.xmpMM.History[1]/stEvt:parameters        XmpText    62  converted from image/tiff to image/jpeg, saved to new location
-Xmp.xmpMM.History[1]/stEvt:mySeq             XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]/stEvt:converted         XmpText    35  tiff to jpeg, saved to new location
+Xmp.xmpMM.History[1]/stEvt:mySeq             XmpText     0  type="Bag"
 Xmp.xmpMM.History[1]/stEvt:mySeq[1]          XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:mySeq[1]/stEvt:action XmpText    11  open a file
 Xmp.xmpMM.History[1]/stEvt:mySeq[2]          XmpText     0  type="Struct"
@@ -1583,7 +1592,7 @@ Xmp.xmpMM.History[1]/stEvt:mySeq[3]          XmpText     0  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:mySeq[3]/stEvt:action XmpText     4  save
 Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved
-Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    40  xmp.iid:89A4EB97412C88632107D65978304F45
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    32  xmp.iid:89A4EB97412C88632107D659
 Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-08-13T10:12:09+01:00
 Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    21  MySuperPhotoFixer 1.0
 ```
@@ -1615,8 +1624,8 @@ set Xmp.xmp.Rating                               XmpText    0
   del Iptc.Application2.Caption
 
 # Use 'reg' before modifying any non-standard 'Group'
-reg myPhotos https://ns.myPhotos.org/
-set Xmp.myPhotos.weather Cloudy
+reg myPic https://ns.myPic.org/
+set Xmp.myPic.weather Cloudy
 ```
 would be run using:
 ```
@@ -1646,7 +1655,7 @@ exiv2 1.0.0.9
 config_path=/Users/rmills/.exiv2
 ```
 
-The configuration file uses the Windows *\*.ini* format (see https://en.wikipedia.org/wiki/INI_file)
+The configuration file uses the *Windows INI* format (see https://en.wikipedia.org/wiki/INI_file)
 and has sections for each of the major camera manufactures: Canon, 
 Minolta, Nikon, Olympus, Pentax and Sony. The configuration file 
 definitions override any existing values.
@@ -1687,99 +1696,102 @@ Exif.NikonLd3.LensFStops                     Byte        1  F4.6
 
 # 13 EXAMPLES
 
-+ `exiv2 *.jpg`<br>
+- `exiv2 *.jpg`<br>
 Prints a summary of the Exif information for all the JPEG files in the current 
 directory (the same as `exiv2 print *.jpg`). The summary 
 is brief and does not use the Family.Group.Tagname format. See ([--print mod](#print_mod)).
 
-+ `exiv2 --grep date/i https://clanmills.com/Stonehenge.jpg`<br>
+- `exiv2 --grep date/i https://clanmills.com/Stonehenge.jpg`<br>
 Prints the tags in https://clanmills.com/Stonehenge.jpg, where the key 
 (see [Exiv2 key syntax](#exiv2_key_syntax)) contains the string *date* 
 (*/i* searches case insensitive, see [--grep str](#grep_str)). When not including [--print mod](#print_mod) 
 or [--Print flgs](#Print_flgs), the default output becomes [--print a](#print_mod) 
 (i.e., print all).
 
-+ `exiv2 --print i image.jpg`<br>
+- `exiv2 --print i image.jpg`<br>
 Prints the IPTC tags in *image.jpg* (see [--print mod](#print_mod)).
 
-+ `exiv2 --Print IkytEX image.jpg`<br>
+- `exiv2 --Print IkytEX image.jpg`<br>
 Prints (with finer grained control) the Exif and XMP tags in *image.jpg*. 
 The tag's key (see [Exiv2 key syntax](#exiv2_key_syntax)), 
 type and translated value are displayed (see [--Print flgs](#Print_flgs)).
 
-+ `exiv2 rename image.jpg`<br>
+- `exiv2 rename image.jpg`<br>
 Renames *image.jpg* (taken on 13-Nov-05 at 22:58:31) to *20051113_225831.jpg*. 
 See [rename](#mv_rename).
 
-+ `exiv2 --rename ":basename:_%Y-%m" image.jpg`<br>
+- `exiv2 --rename ":basename:_%Y-%m" image.jpg`<br>
 Renames *image.jpg* using the basename (i.e., *image*) and values 
 defined in [iconv_open(3)](https://linux.die.net/man/3/iconv_open) 
 to *image_2005-11.jpg*. The values for time and date are taken from the 
 Exif tags. See [--rename fmt](#rename_fmt)).
 
-+ `exiv2 --extract t image1.jpg image2.jpg`<br>
+- `exiv2 --extract t image1.jpg image2.jpg`<br>
 Extracts (copies) the thumbnail from *image1.jpg* into 
 *image1-thumb.jpg* and from *image2.jpg* into *image2-thumb.jpg*. See 
 [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --insert t image1.jpg image2.jpg`<br>
+- `exiv2 --insert t image1.jpg image2.jpg`<br>
 Inserts (copies) thumbnails *image1-thumb.jpg* into *image1.jpg* and 
 *image2-thumb.jpg* into *image2.jpg*. See [--insert tgt2](#insert_tgt2).
 
-+ `exiv2 --extract p1,2 image.jpg`<br>
+- `exiv2 --extract p1,2 image.jpg`<br>
 Extracts (copies) previews 1 and 2 from *image.jpg*, into *image-preview1.jpg* 
 and *image-preview2.jpg*. Use `exiv2 --print p image.jpg` to display a 
 list of available previews for *image.jpg*. See [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --extract X image.jpg`<br>
+- `exiv2 --extract X image.jpg`<br>
 Extracts (copies) metadata tags from *image.jpg*, into an XMP sidecar file, 
 *image.xmp*. In the process, this converts selected Exif and IPTC tags 
 to XMP tags. See [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --insert X image.jpg`<br>
+- `exiv2 --insert X image.jpg`<br>
 Inserts (copies) metadata from an XMP sidecar file, *image.xmp*, into 
 *image.jpg*. The resulting Exif and IPTC tags are converted from the 
 equivalent XMP tags in the sidecar file. See [--insert tgt2](#insert_tgt2).
 
-+ `exiv2 --extract X --Modify "add Xmp.dc.subject Sunset" image.jpg`<br>
+- `exiv2 --extract X --Modify "add Xmp.dc.subject Sunset" image.jpg`<br>
 Extracts (copies) metadata tags from *image.jpg*, applies [--Modify cmd](#Modify_cmd) 
 to those tags and then saves in an XMP sidecar file, *image.xmp*. While 
 saving, selected Exif and IPTC tags are converted to XMP tags. Multiple 
 [--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) can 
 be used. See [--extract tgt3](#extract_tgt3).
 
-+ `exiv2 --extract X- image1.jpg | exiv2 --insert X- image2.jpg`<br>
+- `exiv2 --extract X- image1.jpg | exiv2 --insert X- image2.jpg`<br>
 Extracts (copies) the *image1.jpg* metadata as XMP sidecar data and 
 inserts it directly into *image2.jpg*. [--Modify cmd](#Modify_cmd) and 
 [--modify cmdfile](#modify_cmdfile) can also be added when extracting 
 from *image1.jpg*. See [--extract tgt3](#extract_tgt3) and [--insert tgt2](#insert_tgt2).
 
-+ `exiv2 delete image.jpg`<br>
+- `exiv2 delete image.jpg`<br>
 Deletes all the metadata in *image.jpg*. See [delete](#rm_delete).
 
-+ `exiv2 --delete tC image.jpg`<br>
+- `exiv2 --delete tC image.jpg`<br>
 Deletes the thumbnail and ICC profile in *image.jpg*. See [--delete a](#delete_tgt1).
 
-+ `exiv2 --adjust 1:00:00 image.jpg`<br>
+- `exiv2 --adjust 1:00:00 image.jpg`<br>
 Adjusts Exif timestamps in *image.jpg*, adding 1 hour. See [--adjust time](#adjust_time).
 
-+ `exiv2 --Modify "set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg`<br>
+- `exiv2 --Modify "set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg`<br>
 Sets the Exif comment in *image.jpg*, to an Ascii string with the value 
 *New Exif comment*. See [--Modify cmd](#Modify_cmd).
 
-+ `exiv2 --Modify "set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" --Modify "set Exif.GPSInfo.GPSLatitudeRef N" image.jpg`<br>
+- `exiv2 --Modify "set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" image.jpg`<br>
+`exiv2 --Modify "set Exif.GPSInfo.GPSLatitudeRef N" image.jpg`<br>
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north in 
 *image.jpg*. The Exif standard stipulates that the GPSLatitude 
 tag consists of three Rational numbers for the degrees, minutes and 
 seconds of the latitude and GPSLatitudeRef contains either 'N' or 'S' 
 for north or south latitude respectively. See [--Modify cmd](#Modify_cmd).
+Both [--Modify cmd](#Modify_cmd) options can be added to the same **exiv2** 
+command.
 
-+ `exiv2 --Modify "reg myPrefix http://ns.myPrefix.me/" --Modify "add Xmp.myPrefix.Whom Mr. Mills" Stonehenge.jpg`<br>
-Registers a new XMP namespace called *http<nolink>://ns.myPrefix.me/* and a new 
-XMP group called *myPrefix*. This new Group has a new *Whom* tag added to it. 
+- `exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.Author Robin" Stonehenge.jpg`<br>
+Registers a new XMP namespace called *http<nolink>://ns.myPic.org/* and a new 
+XMP group called *myPic*. This new Group has a new *Author* tag added to it. 
 See [--Modify cmd](#Modify_cmd).
 
-+ `exiv2 --location /tmp --suffix .CRW insert /data/*.JPG`<br>	
+- `exiv2 --location /tmp --suffix .CRW insert /data/*.JPG`<br>	
 Copy all metadata from *CRW* files in the */tmp* directory to *JPG* files 
 with corresponding basenames in the */data* directory. Note that this 
 copies metadata as is, without any modifications to adapt it to the 
@@ -1787,16 +1799,23 @@ requirements of the target format. Some tags copied like this may not make
 sense in the target image. See [--location dir](#location_dir) and [--suffix suf](#suffix_suf) 
 and [insert](#in_insert).
 
-+ `exiv2 fixiso image.jpg`<br>
+- `exiv2 fixiso image.jpg`<br>
 Adds the Exif ISO metadata (if missing) to *image.jpg*. This is for 
 Nikon and Canon cameras only and copies the camera maker's value into the Exif 
 tags. See [fixiso](#fi_fixiso).
 
 [TOC](#TOC)
 
+<div id="return_value">
+
+# 14 RETURN VALUE
+`0` if successfull, otherwise a positive integer as error code.
+
+[TOC](#TOC)
+
 <div id="environment">
 
-# 14 ENVIRONMENT
+# 15 ENVIRONMENT
 
 <div id="TZ">
 
@@ -1813,31 +1832,31 @@ by defining *TZ*.
 
 <div id="notes">
 
-# 15 NOTES
+# 16 NOTES
 | Description          | Location                                                               |
 |:----                 |:----                                                                   |
 | Exiv2 wiki           | https://exiv2.org                                                      |
-| Exiv2 book           | https://github.com/exiv2/exiv2                                         |
+| Exiv2 book           | https://www.exiv2.org/book/index.html                                  |
 
 [TOC](#TOC)
 
 <div id="bugs">
 
-# 16 BUGS
+# 17 BUGS
 Report bugs to: https://github.com/Exiv2/exiv2/issues
 
 [TOC](#TOC)
 
 <div id="copyright">
 
-# 17 COPYRIGHT
+# 18 COPYRIGHT
 The Exiv2 project is released under the GNU GPLv2 license: https://github.com/Exiv2/exiv2/blob/main/COPYING
 
 [TOC](#TOC)
 
 <div id="authors">
 
-# 18 AUTHORS
+# 19 AUTHORS
 **exiv2** was written by Andreas Huggel and others.
 
 Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
@@ -1846,7 +1865,7 @@ Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 
 <div id="see_also">
 
-# 19 SEE ALSO
+# 20 SEE ALSO
 [curl(1)](https://linux.die.net/man/1/curl), [xmllint(1)](https://linux.die.net/man/1/xmllint), [iconv_open(3)](https://linux.die.net/man/3/iconv_open), 
 [strftime(3)](https://linux.die.net/man/3/strftime), 
 
@@ -1868,5 +1887,6 @@ Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 | International Language Codes   | https://www.ietf.org/rfc/rfc3066.txt                         |
 | Windows INI format             | https://en.wikipedia.org/wiki/INI_file                       |
 | TZ Environment variable values | https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
+| Exiv2 GitHub contributors      | https://github.com/Exiv2/exiv2/graphs/contributors           |
 
 [TOC](#TOC)
