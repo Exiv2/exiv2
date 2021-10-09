@@ -94,7 +94,7 @@ namespace Exiv2 {
             : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0)
         {}
         //! Virtual destructor.
-        virtual ~CiffComponent();
+        virtual ~CiffComponent() = default;
         //@}
 
         //! @name Manipulators

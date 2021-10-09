@@ -175,9 +175,6 @@ namespace Exiv2 {
         delete[] pPadding_;
     }
 
-    CiffComponent::~CiffComponent()
-    {}
-
     CiffDirectory::~CiffDirectory()
     {
         for (auto&& component : components_) {
