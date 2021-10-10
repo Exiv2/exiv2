@@ -121,11 +121,11 @@ namespace Exiv2 {
         return tit->size_;
     }
 
-    DataBuf::DataBuf(DataBuf& rhs)
+    DataBuf::DataBuf(DataBuf&& rhs)
         : pData_(rhs.pData_), size_(rhs.size_)
     {
-        std::pair<byte*, long> ret = rhs.release();
-        UNUSED(ret);
+        rhs.pData_ = nullptr;
+        rhs.size_ = 0;
     }
 
     DataBuf::~DataBuf()
@@ -146,10 +146,16 @@ namespace Exiv2 {
         }
     }
 
-    DataBuf& DataBuf::operator=(DataBuf& rhs)
+    DataBuf::DataBuf(const DataBuf& rhs)
+        : DataBuf(rhs.pData_, rhs.size_)
+    {}
+
+    DataBuf& DataBuf::operator=(DataBuf&& rhs)
     {
         if (this == &rhs) return *this;
-        reset(rhs.release());
+        reset();
+        std::swap(pData_, rhs.pData_);
+        std::swap(size_, rhs.size_);
         return *this;
     }
 
@@ -185,24 +191,16 @@ namespace Exiv2 {
         return p;
     }
 
-    void DataBuf::reset(std::pair<byte*, long> p)
+    void DataBuf::reset()
     {
-        if (pData_ != p.first) {
-            delete[] pData_;
-            pData_ = p.first;
-        }
-        size_ = p.second;
+        delete[] pData_;
+        pData_ = nullptr;
+        size_ = 0;
     }
 
     void DataBuf::clear() {
         memset(pData_, 0, size_);
     }
-
-    DataBuf::DataBuf(const DataBufRef &rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}
-
-    DataBuf &DataBuf::operator=(DataBufRef rhs) { reset(rhs.p); return *this; }
-
-    Exiv2::DataBuf::operator DataBufRef() { return DataBufRef(release()); }
 
     uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
         if (offset >= static_cast<size_t>(size_)) {

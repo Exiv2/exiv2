@@ -303,7 +303,7 @@ static void boxes_check(size_t b,size_t m)
                             }
                             std::cout << "Exiv2::Jp2Image::readMetadata: wrote iccProfile " << icc.size() << " bytes to " << iccPath << std::endl ;
 #endif
-                            setIccProfile(icc);
+                            setIccProfile(std::move(icc));
                         }
 
                         if( subBox.type == kJp2BoxTypeImageHeader)

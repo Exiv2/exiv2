@@ -553,9 +553,9 @@ namespace Exiv2 {
         }
     } // CiffDirectory::doPrint
 
-    void CiffComponent::setValue(DataBuf buf)
+    void CiffComponent::setValue(DataBuf&& buf)
     {
-        storage_ = buf;
+        storage_ = std::move(buf);
         pData_ = storage_.c_data();
         size_  = storage_.size();
         if (size_ > 8 && dataLocation() == directoryData) {
@@ -626,7 +626,7 @@ namespace Exiv2 {
         return nullptr;
     } // CiffDirectory::doFindComponent
 
-    void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf buf)
+    void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf)
     {
         CrwDirs crwDirs;
         CrwMap::loadStack(crwDirs, crwDir);
@@ -639,7 +639,7 @@ namespace Exiv2 {
         }
         CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
         if (child) {
-            child->setValue(buf);
+            child->setValue(std::move(buf));
         }
     }  // CiffHeader::add
 
@@ -1015,7 +1015,7 @@ namespace Exiv2 {
         if (ed != image.exifData().end()) {
             DataBuf buf(ed->size());
             ed->copy(buf.data(), pHead->byteOrder());
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -1039,14 +1039,14 @@ namespace Exiv2 {
             DataBuf buf(size);
             buf.clear();
             buf.copyBytes(0, comment.data(), comment.size());
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             if (cc) {
                 // Just delete the value, do not remove the tag
                 DataBuf buf(cc->size());
                 buf.clear();
-                cc->setValue(buf);
+                cc->setValue(std::move(buf));
             }
         }
     } // CrwMap::encode0x0805
@@ -1079,7 +1079,7 @@ namespace Exiv2 {
                 pos += ed2->size();
             }
             assert(pos == size);
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -1109,7 +1109,7 @@ namespace Exiv2 {
         if (buf.size() > 0) {
             // Write the number of shorts to the beginning of buf
             buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -1137,7 +1137,7 @@ namespace Exiv2 {
             DataBuf buf(12);
             buf.clear();
             buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -1183,7 +1183,7 @@ namespace Exiv2 {
                 d = RotationMap::degrees(static_cast<uint16_t>(edO->toLong()));
             }
             buf.write_uint32(12, d, pHead->byteOrder());
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -1200,7 +1200,7 @@ namespace Exiv2 {
         ExifThumbC exifThumb(image.exifData());
         DataBuf buf = exifThumb.copy();
         if (buf.size() != 0) {
-            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
+            pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);

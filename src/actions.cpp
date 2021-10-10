@@ -1025,15 +1025,15 @@ namespace Action {
             } else {
 
                 if ( bStdout ) { // -eC-
-                    std::cout.write(image->iccProfile()->c_str(),
-                                    image->iccProfile()->size());
+                    std::cout.write(image->iccProfile().c_str(),
+                                    image->iccProfile().size());
                 } else {
                     if (Params::instance().verbose_) {
                         std::cout << _("Writing iccProfile: ") << target << std::endl;
                     }
                     Exiv2::FileIo iccFile(target);
                     iccFile.open("wb") ;
-                    iccFile.write(image->iccProfile()->c_data(),image->iccProfile()->size());
+                    iccFile.write(image->iccProfile().c_data(),image->iccProfile().size());
                     iccFile.close();
                 }
             }
@@ -1180,7 +1180,7 @@ namespace Action {
         if ( iccPath == "-" ) {
             Exiv2::DataBuf              iccProfile ;
             Params::instance().getStdin(iccProfile);
-            rc =  insertIccProfile(path,iccProfile);
+            rc =  insertIccProfile(path,std::move(iccProfile));
         } else {
             if (!Exiv2::fileExists(iccProfilePath, true)) {
                 std::cerr << iccProfilePath
@@ -1188,13 +1188,13 @@ namespace Action {
                 rc = -1;
             } else {
                 Exiv2::DataBuf iccProfile = Exiv2::readFile(iccPath);
-                rc = insertIccProfile(path,iccProfile);
+                rc = insertIccProfile(path,std::move(iccProfile));
             }
         }
         return rc;
     } // Insert::insertIccProfile
 
-    int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob)
+    int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob)
     {
         int rc = 0;
         // test path exists
@@ -1211,7 +1211,7 @@ namespace Action {
             // clear existing profile, assign the blob and rewrite image
             image->clearIccProfile();
             if ( iccProfileBlob.size() ) {
-                image->setIccProfile(iccProfileBlob);
+                image->setIccProfile(std::move(iccProfileBlob));
             }
             image->writeMetadata();
         }

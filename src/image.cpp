@@ -590,8 +590,8 @@ namespace Exiv2 {
         if (checkMode(mdIptc) & amWrite) {
             setIptcData(image.iptcData());
         }
-        if (checkMode(mdIccProfile) & amWrite && iccProfile()) {
-            setIccProfile(*iccProfile());
+        if (checkMode(mdIccProfile) & amWrite) {
+            setIccProfile(DataBuf(image.iccProfile()));
         }
         if (checkMode(mdXmp) & amWrite) {
             setXmpPacket(image.xmpPacket());
@@ -668,7 +668,7 @@ namespace Exiv2 {
         comment_ = comment;
     }
 
-    void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
+    void Image::setIccProfile(Exiv2::DataBuf&& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
             if (iccProfile.size() < static_cast<long>(sizeof(long))) {
@@ -679,7 +679,7 @@ namespace Exiv2 {
                 throw Error(kerInvalidIccProfile);
             }
         }
-        iccProfile_ = iccProfile;
+        iccProfile_ = std::move(iccProfile);
     }
 
     void Image::clearIccProfile()
