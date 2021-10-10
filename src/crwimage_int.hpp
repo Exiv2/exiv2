@@ -86,15 +86,13 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffComponent()
-            : dir_(0), tag_(0), size_(0), offset_(0), pData_(0),
-              isAllocated_(false) {}
+        CiffComponent() = default;
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
-            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0),
-              isAllocated_(false) {}
+            : dir_(dir), tag_(tag)
+        {}
         //! Virtual destructor.
-        virtual ~CiffComponent();
+        virtual ~CiffComponent() = default;
         //@}
 
         //! @name Manipulators
@@ -283,13 +281,21 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16_t    dir_;         //!< Tag of the directory containing this component
-        uint16_t    tag_;         //!< Tag of the entry
-        uint32_t    size_;        //!< Size of the data area
-        uint32_t    offset_;      //!< Offset to the data area from start of dir
-        const byte* pData_;       //!< Pointer to the data area
-        bool        isAllocated_; //!< True if this entry owns the value data
+        uint16_t    dir_ = 0;     //!< Tag of the directory containing this component
+        uint16_t    tag_ = 0;     //!< Tag of the entry
+        uint32_t    size_ = 0;    //!< Size of the data area
+        uint32_t    offset_ = 0;  //!< Offset to the data area from start of dir
 
+        // Notes on the ownership model of pData_: pData_ is a always a read-only
+        // pointer to a buffer owned by somebody else. Usually it is a pointer
+        // into a copy of the image that was memory-mapped in CrwImage::readMetadata().
+        // However, if CiffComponent::setValue() is used, then it is a pointer into
+        // the storage_ DataBuf below.
+        const byte* pData_ = nullptr;  //!< Pointer to the data area
+
+        // This DataBuf is only used when CiffComponent::setValue is called.
+        // Otherwise, it remains empty.
+        DataBuf storage_;
     }; // class CiffComponent
 
     /*!
@@ -301,12 +307,9 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffEntry() {}
+        CiffEntry() = default;
         //! Constructor taking a tag and directory
         CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
-
-        //! Virtual destructor.
-        ~CiffEntry() override = default;
         //@}
 
         // Default assignment operator is fine
@@ -338,9 +341,9 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffDirectory() : cc_(NULL) {}
+        CiffDirectory() = default;
         //! Constructor taking a tag and directory
-        CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir), cc_(NULL) {}
+        CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
 
         //! Virtual destructor
         ~CiffDirectory() override;
@@ -399,7 +402,7 @@ namespace Exiv2 {
         // DATA
         Components components_; //!< List of components in this dir
         UniquePtr    m_; // used by recursive doAdd
-        CiffComponent* cc_;
+        CiffComponent* cc_ = nullptr;
 
     }; // class CiffDirectory
 
@@ -417,13 +420,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffHeader()
-            : pRootDir_  (0),
-              byteOrder_ (littleEndian),
-              offset_    (0x0000001a),
-              pPadding_  (0),
-              padded_    (0)
-            {}
+        CiffHeader() = default;
         //! Virtual destructor
         virtual ~CiffHeader();
         //@}
@@ -504,11 +501,11 @@ namespace Exiv2 {
         // DATA
         static const char signature_[];   //!< Canon CRW signature "HEAPCCDR"
 
-        CiffDirectory*    pRootDir_;      //!< Pointer to the root directory
-        ByteOrder         byteOrder_;     //!< Applicable byte order
-        uint32_t          offset_;        //!< Offset to the start of the root dir
-        byte*             pPadding_;      //!< Pointer to the (unknown) remainder
-        uint32_t          padded_;        //!< Number of padding-bytes
+        CiffDirectory*    pRootDir_ = nullptr;        //!< Pointer to the root directory
+        ByteOrder         byteOrder_ = littleEndian;  //!< Applicable byte order
+        uint32_t          offset_ = 0;                //!< Offset to the start of the root dir
+        byte*             pPadding_ = nullptr;        //!< Pointer to the (unknown) remainder
+        uint32_t          padded_ = 0;                //!< Number of padding-bytes
 
     }; // class CiffHeader
 
