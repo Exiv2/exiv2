@@ -190,6 +190,10 @@ namespace Exiv2 {
                  the original object is modified.
          */
         DataBuf& operator=(DataBuf&& rhs);
+
+        // No copy assignment.
+        DataBuf& operator=(const DataBuf&) = delete;
+
         /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
