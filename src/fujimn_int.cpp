@@ -67,7 +67,7 @@ constexpr TagDetails fujiColor[] = {
     {   224, N_("+4 (highest)")           },
     {   256, N_("+2 (high)")              },
     {   384, N_("-1 (medium low)")        },
-    {   512, N_("-2 (low)")               },
+    {   512, N_("-2 (low)")               }, // this is "Low" with exiftool
     {   768, N_("Monochrome")             },
     {   769, N_("Monochrome + R Filter")  },
     {   770, N_("Monochrome + Ye Filter") },
