@@ -472,7 +472,7 @@ namespace Exiv2
 
             default: break ; /* do nothing */
         }
-        if ( bLF && bTrace) out << std::endl;
+        if (bLF && bTrace) out << std::endl;
 
         // return address of next box
         return box_end;
