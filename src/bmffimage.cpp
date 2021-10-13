@@ -576,7 +576,7 @@ namespace Exiv2
         nativePreviews_.push_back(nativePreview);
 
         if (bTrace) {
-            out << Internal::stringFormat("width,height,size = %u,%u,%ld",
+            out << Internal::stringFormat("width,height,size = %u,%u,%u",
                                           nativePreview.width_,
                                           nativePreview.height_,
                                           nativePreview.size_);
