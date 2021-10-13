@@ -27,7 +27,7 @@ constexpr TagDetails fujiSharpness[] = {
 
 //! Sharpness, tag 0x1001
 constexpr TagDetails fujiSharpness[] = {
-    {   0, N_("-4 (softests)")    },
+    {   0, N_("-4 (softest)")     },
     {   1, N_("-3 (very soft)")   },
     {   2, N_("-2 (soft)")        },
     {   3, N_("0 (normal)")       },
@@ -365,8 +365,18 @@ constexpr TagDetails fujiAdvancedFilter[] = {
     { 0x90000, N_("Low Key")              }
 };
 
+<<<<<<< HEAD
 //! FinePixColor, tag 0x1210
 constexpr TagDetails fujiFinePixColor[] = {{0, N_("Standard")}, {16, N_("Chrome")}, {48, N_("Black & white")}};
+=======
+    //! DriveSetting, tag 0x1103
+    std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
+        unsigned long v = static_cast<unsigned long>(value.toLong());
+        auto byte1 = v & 0xff;
+        auto byte2 = (v >> 8) & 0xff;
+        auto byte3 = (v >> 16) & 0xff;
+        auto fps = v >> 24;
+>>>>>>> 9891e2a3 (fix typo in fujiSharpness and prevent undefined behaviour when shifting signed values)
 
 //! DynamicRange, tag 0x1400
 constexpr TagDetails fujiDynamicRange[] = {{1, N_("Standard")}, {3, N_("Wide")}};
