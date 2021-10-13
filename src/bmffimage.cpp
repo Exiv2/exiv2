@@ -75,7 +75,7 @@
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
 #define TAG_colr 0x636f6c72 /**< "colr" */
 #define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
-#define TAG_xml  0x786d6c20 /**< "xml"  Used by JXL*/
+#define TAG_xml  0x786d6c20 /**< "xml "  Used by JXL*/
 #define TAG_thmb 0x54484d42 /**< "THMB" Canon thumbnail */
 #define TAG_prvw 0x50525657 /**< "PRVW" Canon preview image */
 
