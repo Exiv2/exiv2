@@ -427,11 +427,42 @@ namespace Exiv2 {
         { 15, ttUnsignedByte,  1 }, // FlashGNDistance
         { 16, ttUnsignedByte,  1 }, // FlashColorFilter
     };
-    //! Nikon Lens Data configurations and definitions
+    //! Nikon Flash Info 7 (0107 and 0108) binary array - configuration
+    constexpr ArrayCfg nikonFl7Cfg = {
+        nikonFl7Id,       // Group for the elements
+        bigEndian,        // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        notEncrypted,     // Not encrypted
+        false,            // No size element
+        true,             // Write all tags
+        true,             // Concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
+    //! Nikon Flash Info 7 (0107 and 0108) binary array - definition
+    constexpr ArrayDef nikonFl7Def[] = {
+        {  0, ttUndefined,     4 },  // Version
+        {  4, ttUnsignedByte,  1 },  // FlashSource
+        {  6, ttUnsignedShort, 1 },  // ExternalFlashFirmware
+        {  8, ttUnsignedByte,  1 },  // ExternalFlashData1
+        {  9, ttUnsignedByte,  1 },  // ExternalFlashData2
+        { 10, ttSignedByte,    1 },  // FlashCompensation
+        { 12, ttUnsignedByte,  1 },  // FlashFocalLength
+        { 13, ttUnsignedByte,  1 },  // RepeatingFlashRate
+        { 14, ttUnsignedByte,  1 },  // RepeatingFlashCount
+        { 15, ttUnsignedByte,  1 },  // FlashGNDistance
+        { 17, ttUnsignedByte,  1 },  // FlashGroupAControlData
+        { 18, ttUnsignedByte,  1 },  // FlashGroupBCControlData
+        { 40, ttUnsignedByte,  1 },  // FlashGroupAData
+        { 41, ttUnsignedByte,  1 },  // FlashGroupBData
+        { 42, ttUnsignedByte,  1 }   // FlashGroupCData
+    };
+
+    //! Nikon Flash Info Data configurations and definitions
     constexpr ArraySet nikonFlSet[] = {
         { nikonFl1Cfg, nikonFl1Def, EXV_COUNTOF(nikonFl1Def) },
         { nikonFl2Cfg, nikonFl2Def, EXV_COUNTOF(nikonFl2Def) },
-        { nikonFl3Cfg, nikonFl3Def, EXV_COUNTOF(nikonFl3Def) }
+        { nikonFl3Cfg, nikonFl3Def, EXV_COUNTOF(nikonFl3Def) },
+        { nikonFl7Cfg, nikonFl7Def, EXV_COUNTOF(nikonFl7Def) }
     };
 
     //! Nikon Shot Info binary array - configuration 1 (D80)
@@ -1177,6 +1208,7 @@ namespace Exiv2 {
         { Tag::root, nikonFl1Id,       nikon3Id,         0x00a8    },
         { Tag::root, nikonFl2Id,       nikon3Id,         0x00a8    },
         { Tag::root, nikonFl3Id,       nikon3Id,         0x00a8    },
+        { Tag::root, nikonFl7Id,       nikon3Id,         0x00a8    },
         { Tag::root, panasonicId,      exifId,           0x927c    },
         { Tag::root, pentaxId,         exifId,           0x927c    },
         { Tag::root, pentaxDngId,      ifd0Id,           0xc634    },
@@ -1577,6 +1609,7 @@ namespace Exiv2 {
         {  Tag::all, nikonFl1Id,       newTiffBinaryElement                      },
         {  Tag::all, nikonFl2Id,       newTiffBinaryElement                      },
         {  Tag::all, nikonFl3Id,       newTiffBinaryElement                      },
+        {  Tag::all, nikonFl7Id,       newTiffBinaryElement                      },
 
         // Nikon3 shot info
         {  Tag::all, nikonSi1Id,       newTiffBinaryElement                      },
