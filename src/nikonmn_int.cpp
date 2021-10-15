@@ -38,6 +38,7 @@
 #include <cassert>
 #include <cstring>
 #include <math.h> //for log, pow, abs
+#include <cmath>
 
 // *****************************************************************************
 // class member definitions
@@ -2923,7 +2924,7 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         float temp = ( value.toFloat()/float(-6.0) );
-        temp *= 1.00001;                 // Avoid round-off errors
+        temp *= float(1.00001);                 // Avoid round-off errors
 
         if (temp == 0)
             os << 0;
