@@ -222,7 +222,7 @@ namespace Exiv2 {
           @param iccProfile DataBuf containing profile (binary)
           @param bTestValid - tests that iccProfile contains credible data
          */
-        virtual void setIccProfile(DataBuf& iccProfile,bool bTestValid=true);
+        virtual void setIccProfile(DataBuf&& iccProfile,bool bTestValid=true);
         /*!
           @brief Erase iccProfile. the profile is not removed from
               the actual image until the writeMetadata() method is called.
@@ -240,7 +240,8 @@ namespace Exiv2 {
         /*!
           @brief return iccProfile
          */
-        virtual DataBuf* iccProfile() { return &iccProfile_; }
+        virtual const DataBuf& iccProfile() const { return iccProfile_; }
+
         /*!
           @brief Copy all existing metadata from source Image. The data is
               copied into internal buffers and is not written to the image

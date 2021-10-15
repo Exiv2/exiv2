@@ -145,7 +145,7 @@ namespace Exiv2 {
 
     private:
         //! Private constructor
-        PreviewImage(PreviewProperties properties, DataBuf data);
+        PreviewImage(PreviewProperties properties, DataBuf&& data);
 
         PreviewProperties properties_;          //!< Preview image properties
         DataBuf preview_;                       //!< Preview image data

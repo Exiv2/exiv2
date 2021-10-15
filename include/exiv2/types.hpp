@@ -154,18 +154,6 @@ namespace Exiv2 {
     };
 
     /*!
-      @brief Auxiliary type to enable copies and assignments, similar to
-             std::unique_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
-             for a discussion.
-     */
-    struct EXIV2API DataBufRef {
-        //! Constructor
-        explicit DataBufRef(std::pair<byte*, long> rhs) : p(rhs) {}
-        //! Pointer to a byte array and its size
-        std::pair<byte*, long> p;
-    };
-
-    /*!
       @brief Utility class containing a character array. All it does is to take
              care of memory allocation and deletion. Its primary use is meant to
              be as a stack variable in functions that need a temporary data
@@ -181,11 +169,15 @@ namespace Exiv2 {
         //! Constructor, copies an existing buffer
         DataBuf(const byte* pData, long size);
         /*!
-          @brief Copy constructor. Transfers the buffer to the newly created
+          @brief Copy constructor. Copies an existing DataBuf.
+         */
+        DataBuf(const DataBuf& rhs);
+        /*!
+          @brief Move constructor. Transfers the buffer to the newly created
                  object similar to std::unique_ptr, i.e., the original object is
                  modified.
          */
-        DataBuf(DataBuf& rhs);
+        DataBuf(DataBuf&& rhs);
         //! Destructor, deletes the allocated buffer
         ~DataBuf();
         //@}
@@ -197,7 +189,11 @@ namespace Exiv2 {
                  buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
-        DataBuf& operator=(DataBuf& rhs);
+        DataBuf& operator=(DataBuf&& rhs);
+
+        // No copy assignment.
+        DataBuf& operator=(const DataBuf&) = delete;
+
         /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
@@ -208,6 +204,7 @@ namespace Exiv2 {
           @brief Resize the buffer. Existing data is preserved (like std::realloc()).
          */
         void resize(long size);
+
         /*!
           @brief Release ownership of the buffer to the caller. Returns the
                  buffer as a data pointer and size pair, resets the internal
@@ -216,24 +213,11 @@ namespace Exiv2 {
         EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
 
         //! Reset value
-        void reset(std::pair<byte*, long> = {nullptr, long(0)});
+        void reset();
         //@}
 
         //! Fill the buffer with zeros.
         void clear();
-
-        /*!
-          @name Conversions
-
-          Special conversions with auxiliary type to enable copies
-          and assignments, similar to those used for std::unique_ptr.
-          See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
-         */
-        //@{
-        DataBuf(const DataBufRef& rhs);
-        DataBuf& operator=(DataBufRef rhs);
-        operator DataBufRef();
-        //@}
 
         long size() const { return size_; }
 

@@ -635,7 +635,7 @@ namespace Exiv2 {
                 pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ICCP)) {
                 readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
-                this->setIccProfile(payload);
+                this->setIccProfile(std::move(payload));
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF)) {
                 readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
 

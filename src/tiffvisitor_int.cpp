@@ -627,7 +627,7 @@ namespace Exiv2 {
                 buf.copyBytes(0, rawIptc.c_data(), rawIptc.size());
             }
             else {
-                buf = rawIptc; // Note: This resets rawIptc
+                buf = std::move(rawIptc); // Note: This resets rawIptc
             }
             value->read(buf.data(), buf.size(), byteOrder_);
             Exifdatum iptcDatum(iptcNaaKey, value.get());
@@ -1654,7 +1654,7 @@ namespace Exiv2 {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
-            if (buf.size() > 0) object->setData(buf);
+            if (buf.size() > 0) object->setData(std::move(buf));
         }
 
         const ArrayDef* defs = object->def();

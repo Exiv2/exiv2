@@ -411,12 +411,12 @@ namespace Exiv2
                     skip+=4;
                     if ( colour_type == "rICC" || colour_type == "prof" ) {
                         DataBuf       profile(data.c_data(skip),data.size()-skip);
-                        setIccProfile(profile);
+                        setIccProfile(std::move(profile));
                     } else if ( meth == 2 && prec == 0 && approx == 0 ) {
                         // JP2000 files have a 3 byte head // 2 0 0 icc......
                         skip -= 1 ;
                         DataBuf       profile(data.c_data(skip),data.size()-skip);
-                        setIccProfile(profile);
+                        setIccProfile(std::move(profile));
                     }
                 }
             } break;

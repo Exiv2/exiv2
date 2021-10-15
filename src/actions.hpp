@@ -360,7 +360,7 @@ namespace Action {
         /*!
           @brief Insert an ICC profile from binary DataBuf into file \em path.
          */
-        static int insertIccProfile(const std::string& path, Exiv2::DataBuf& iccProfileBlob);
+        static int insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob);
 
     private:
         Insert* clone_() const override;

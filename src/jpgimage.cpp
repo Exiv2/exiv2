@@ -496,7 +496,7 @@ namespace Exiv2 {
                     profile.copyBytes(0, iccProfile_.c_data(), iccProfile_.size());
                 }
                 profile.copyBytes(iccProfile_.size(), buf.c_data(2+14), icc_size);
-                setIccProfile(profile,chunk==chunks);
+                setIccProfile(std::move(profile),chunk==chunks);
             }
             else if (  pixelHeight_ == 0 && inRange2(marker,sof0_,sof3_,sof5_,sof15_) ) {
                 // We hit a SOFn (start-of-frame) marker

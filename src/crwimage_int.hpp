@@ -164,7 +164,7 @@ namespace Exiv2 {
         //! Set the directory tag for this component.
         void setDir(uint16_t dir)       { dir_ = dir; }
         //! Set the data value of the entry.
-        void setValue(DataBuf buf);
+        void setValue(DataBuf&& buf);
         //@}
 
         //! Return the type id for a tag
@@ -446,7 +446,7 @@ namespace Exiv2 {
           @param crwDir   Parent directory of the tag.
           @param buf      Value to be set.
          */
-        void add(uint16_t crwTagId, uint16_t crwDir, DataBuf buf);
+        void add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf);
         /*!
           @brief Remove entry \em crwTagId in directory \em crwDir from the parse
                  tree. If it's the last entry in the directory, the directory is
