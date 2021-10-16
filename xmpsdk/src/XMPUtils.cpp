@@ -174,8 +174,8 @@ XMP_VarString * sExtendedDigest = 0;
 static bool
 IsLeapYear ( long year )
 {
-
-	if ( year < 0 ) year = -year + 1;		// Fold the negative years, assuming there is a year 0.
+	// This code uses the Gregorian calendar algorithm:
+	// https://en.wikipedia.org/wiki/Leap_year#Algorithm
 
 	if ( (year % 4) != 0 ) return false;	// Not a multiple of 4.
 	if ( (year % 100) != 0 ) return true;	// A multiple of 4 but not a multiple of 100.
