@@ -39,6 +39,7 @@
 #include <cstring>
 #include <math.h> //for log, pow, abs
 #include <cmath>
+#include <limits>
 
 // *****************************************************************************
 // class member definitions
@@ -2928,11 +2929,13 @@ fmountlens[] = {
 
         if (temp == 0)
             os << 0;
+        else if ( std::numeric_limits<float>::min() > temp && temp > std::numeric_limits<float>::max() )
+            os << "(" << value << ")";
         else if ( (int(temp)/temp) > 0.999 )
             os << int(temp);
-        else if ( (int(temp*2)/(temp*2)) > 0.999 )
+        else if ( std::numeric_limits<float>::min() <= (temp*2) && (temp*2) <= std::numeric_limits<float>::max() && ((int(temp*2)/(temp*2)) > 0.999) )
             os << int(temp)*2 << "/2";
-        else if ( (int(temp*3)/(temp*3)) > 0.999 )
+        else if ( std::numeric_limits<float>::min() <= (temp*3) && (temp*3) <= std::numeric_limits<float>::max() && ((int(temp*3)/(temp*3)) > 0.999) )
             os << int(temp)*3 << "/3";
         else
             os << std::setprecision(3) << temp;
