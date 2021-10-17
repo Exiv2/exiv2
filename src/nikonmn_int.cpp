@@ -2929,7 +2929,7 @@ fmountlens[] = {
 
         if (temp == 0)
             os << 0;
-        else if ( std::numeric_limits<float>::min() > temp && temp > std::numeric_limits<float>::max() )
+        else if ( std::numeric_limits<float>::min() > temp || temp > std::numeric_limits<float>::max() )
             os << "(" << value << ")";
         else if ( (int(temp)/temp) > 0.999 )
             os << int(temp);
