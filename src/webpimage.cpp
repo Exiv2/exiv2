@@ -58,9 +58,7 @@ namespace Exiv2 {
     // This static function is a temporary fix in v0.27. In the next version,
     // it will be added as a method of BasicIo.
     static void readOrThrow(BasicIo& iIo, byte* buf, long rcount, ErrorCode err) {
-      const long nread = iIo.read(buf, rcount);
-      enforce(nread == rcount, err);
-      enforce(!iIo.error(), err);
+        iIo.readOrThrow(buf, rcount, err);
     }
 
     WebPImage::WebPImage(BasicIo::UniquePtr io)

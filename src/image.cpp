@@ -140,15 +140,12 @@ namespace {
 namespace Exiv2 {
     // BasicIo::read() with error checking
     static void readOrThrow(BasicIo& iIo, byte* buf, long rcount, ErrorCode err) {
-      const long nread = iIo.read(buf, rcount);
-      enforce(nread == rcount, err);
-      enforce(!iIo.error(), err);
+        iIo.readOrThrow(buf, rcount, err);
     }
 
     // BasicIo::seek() with error checking
     static void seekOrThrow(BasicIo& iIo, long offset, BasicIo::Position pos, ErrorCode err) {
-      const int r = iIo.seek(offset, pos);
-      enforce(r == 0, err);
+        iIo.seekOrThrow(offset, pos, err);
     }
 
     Image::Image(int imageType, uint16_t supportedMetadata, BasicIo::UniquePtr io)
