@@ -105,6 +105,28 @@ namespace Exiv2
         void parseXmp(uint64_t length,uint64_t start);
         //@}
 
+        //@{
+        /*!
+        @brief Parse a Canon PRVW or THMB box and add an entry to the set
+            of native previews.
+        @param data Buffer containing the box
+        @param out Logging stream
+        @param bTrace Controls logging
+        @param width_offset Index of image width field in data
+        @param height_offset Index of image height field in data
+        @param size_offset Index of image size field in data
+        @param relative_position Location of the start of image data in the file,
+            relative to the current file position indicator.
+        */
+        void parseCr3Preview(DataBuf &data,
+                             std::ostream &out,
+                             bool bTrace,
+                             uint16_t width_offset,
+                             uint16_t height_offset,
+                             uint32_t size_offset,
+                             uint16_t relative_position);
+        //@}
+
         //! @name Manipulators
         //@{
         void readMetadata() /* override */;

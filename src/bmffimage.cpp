@@ -75,7 +75,9 @@
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
 #define TAG_colr 0x636f6c72 /**< "colr" */
 #define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
-#define TAG_xml  0x786d6c20 /**< "xml"  Used by JXL*/
+#define TAG_xml  0x786d6c20 /**< "xml "  Used by JXL*/
+#define TAG_thmb 0x54484d42 /**< "THMB" Canon thumbnail */
+#define TAG_prvw 0x50525657 /**< "PRVW" Canon preview image */
 
 // *****************************************************************************
 // class member definitions
@@ -433,7 +435,12 @@ namespace Exiv2
                     out << " uuidName " << name << std::endl;
                     bLF = false;
                 }
-                if (name == "cano") {
+                if (name == "cano" || name == "canp" ) {
+                    if (name == "canp") {
+                        // based on
+                        // https://github.com/lclevy/canon_cr3/blob/7be75d6/parse_cr3.py#L271
+                        io_->seek(8, BasicIo::cur);
+                    }
                     while (io_->tell() < box_end) {
                         io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                     }
@@ -460,10 +467,16 @@ namespace Exiv2
             case TAG_xml:
                 parseXmp(box_length,io_->tell());
                 break;
+            case TAG_thmb:
+                parseCr3Preview(data, out, bTrace, 4, 6, 8, 16);
+                break;
+            case TAG_prvw:
+                parseCr3Preview(data, out, bTrace, 6, 8, 12, 16);
+                break;
 
             default: break ; /* do nothing */
         }
-        if ( bLF&& bTrace) out << std::endl;
+        if (bLF && bTrace) out << std::endl;
 
         // return address of next box
         return box_end;
@@ -541,6 +554,36 @@ namespace Exiv2
             }
 
             io_->seek(restore,BasicIo::beg);
+        }
+    }
+
+    void BmffImage::parseCr3Preview(DataBuf &data,
+                                    std::ostream& out,
+                                    bool bTrace,
+                                    uint16_t width_offset,
+                                    uint16_t height_offset,
+                                    uint32_t size_offset,
+                                    uint16_t relative_position)
+    {
+        // Derived from https://github.com/lclevy/canon_cr3
+        NativePreview nativePreview;
+        long here = io_->tell();
+        enforce(here >= 0 &&
+                here <= std::numeric_limits<long>::max() - relative_position,
+                kerCorruptedMetadata);
+        nativePreview.position_ = here + relative_position;
+        nativePreview.width_ =  data.read_uint16(width_offset, endian_);
+        nativePreview.height_ = data.read_uint16(height_offset, endian_);
+        nativePreview.size_ = data.read_uint32(size_offset, endian_);
+        nativePreview.filter_ = "";
+        nativePreview.mimeType_ = "image/jpeg";
+        nativePreviews_.push_back(nativePreview);
+
+        if (bTrace) {
+            out << Internal::stringFormat("width,height,size = %u,%u,%u",
+                                          nativePreview.width_,
+                                          nativePreview.height_,
+                                          nativePreview.size_);
         }
     }
 
