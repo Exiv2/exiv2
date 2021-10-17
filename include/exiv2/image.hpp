@@ -229,8 +229,7 @@ namespace Exiv2 {
          */
         virtual void clearIccProfile();
         /*!
-          @brief Erase iccProfile. the profile is not removed from
-              the actual image until the writeMetadata() method is called.
+          @brief Returns the status of the ICC profile in the image instance
          */
         virtual bool iccProfileDefined()
         {
