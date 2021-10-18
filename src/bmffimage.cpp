@@ -572,8 +572,12 @@ namespace Exiv2
                 here <= std::numeric_limits<long>::max() - relative_position,
                 kerCorruptedMetadata);
         nativePreview.position_ = here + relative_position;
+        enforce(4 <= data.size_, kerCorruptedMetadata);
+        enforce(width_offset <= static_cast<size_t>(data.size_ - 2), kerCorruptedMetadata);
         nativePreview.width_ =  getShort(data.pData_ + width_offset, endian_);
+        enforce(height_offset <= static_cast<size_t>(data.size_ - 2), kerCorruptedMetadata);
         nativePreview.height_ = getShort(data.pData_ + height_offset, endian_);
+        enforce(size_offset <= static_cast<size_t>(data.size_ - 4), kerCorruptedMetadata);
         nativePreview.size_ = getLong(data.pData_ + size_offset, endian_);
         nativePreview.filter_ = "";
         nativePreview.mimeType_ = "image/jpeg";
