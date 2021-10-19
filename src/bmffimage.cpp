@@ -125,6 +125,14 @@ namespace Exiv2
         return box == TAG_meta || box == TAG_iinf || box == TAG_iloc;
     }
 
+    static bool skipBox(uint32_t box)
+    {
+        // Allows boxHandler() to optimise the reading of files by identifying
+        // box types that we're not interested in. Box types listed here must
+        // not appear in the cases in switch (box_type) in boxHandler().
+        return box == TAG_mdat; // mdat is where the main image lives and can be huge
+    }
+
     std::string BmffImage::mimeType() const
     {
         switch (fileType_) {
@@ -230,7 +238,18 @@ namespace Exiv2
         long restore = io_->tell();
         enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
         enforce(box_length - hdrsize <= static_cast<size_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
-        DataBuf data(static_cast<long>(box_length - hdrsize));
+
+        const long buffer_size = static_cast<long>(box_length - hdrsize);
+        if (skipBox(box_type)) {
+            if (bTrace) {
+                out << std::endl;
+            }
+            // The enforce() above checks that restore + buffer_size won't
+            // exceed pbox_end, and by implication, won't excced LONG_MAX
+            return restore + buffer_size;
+        }
+
+        DataBuf data(buffer_size);
         const long box_end = restore + data.size();
         io_->read(data.data(), data.size());
         io_->seek(restore, BasicIo::beg);
@@ -248,6 +267,7 @@ namespace Exiv2
         }
 
         switch (box_type) {
+            //  See notes in skipBox()
             case TAG_ftyp: {
                 enforce(data.size() >= 4, Exiv2::kerCorruptedMetadata);
                 fileType_ = data.read_uint32(0, endian_);
