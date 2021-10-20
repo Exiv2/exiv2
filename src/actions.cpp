@@ -950,6 +950,13 @@ namespace Action {
             std::cerr << path_ << ": " << _("Image does not contain an Exif thumbnail\n");
         }
         else {
+            if ( (Params::instance().target_ & Params::ctStdInOut) != 0 ) {
+                Exiv2::DataBuf buf = exifThumb.copy();
+                std::cout.write(reinterpret_cast<char*>(buf.data()),
+                                buf.size());
+                return 0;
+            }
+
             std::string thumb = newFilePath(path_, "-thumb");
             std::string thumbPath = thumb + thumbExt;
             if (dontOverwrite(thumbPath)) return 0;
