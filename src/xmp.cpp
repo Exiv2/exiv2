@@ -30,10 +30,10 @@
 #include <algorithm>
 #include <cassert>
 #include <string>
-#include <expat.h>
 
 // Adobe XMP Toolkit
 #ifdef   EXV_HAVE_XMP_TOOLKIT
+# include <expat.h>
 # define TXMP_STRING_TYPE std::string
 # ifdef  EXV_ADOBE_XMPSDK
 # include <XMP.hpp>
