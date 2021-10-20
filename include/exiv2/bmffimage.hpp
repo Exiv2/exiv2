@@ -121,10 +121,10 @@ namespace Exiv2
         void parseCr3Preview(DataBuf &data,
                              std::ostream &out,
                              bool bTrace,
-                             uint16_t width_offset,
-                             uint16_t height_offset,
+                             uint32_t width_offset,
+                             uint32_t height_offset,
                              uint32_t size_offset,
-                             uint16_t relative_position);
+                             uint32_t relative_position);
         //@}
 
         //! @name Manipulators

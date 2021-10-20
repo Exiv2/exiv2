@@ -73,9 +73,9 @@
 #define TAG_cmt2 0x434D5432 /**< "CMD2" exifID */
 #define TAG_cmt3 0x434D5433 /**< "CMT3" canonID */
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
-#define TAG_colr 0x636f6c72 /**< "colr" */
+#define TAG_colr 0x636f6c72 /**< "colr" Colour information */
 #define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
-#define TAG_xml  0x786d6c20 /**< "xml "  Used by JXL*/
+#define TAG_xml  0x786d6c20 /**< "xml " Used by JXL*/
 #define TAG_thmb 0x54484d42 /**< "THMB" Canon thumbnail */
 #define TAG_prvw 0x50525657 /**< "PRVW" Canon preview image */
 
@@ -126,7 +126,7 @@ namespace Exiv2
 
     bool BmffImage::fullBox(uint32_t box)
     {
-        return box == TAG_meta || box == TAG_iinf || box == TAG_iloc;
+        return box == TAG_meta || box == TAG_iinf || box == TAG_iloc || box == TAG_thmb || box == TAG_prvw;
     }
 
     std::string BmffImage::mimeType() const
@@ -247,7 +247,7 @@ namespace Exiv2
             enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = getLong(data.pData_ + skip, endian_);  // version/flags
             version = static_cast<uint8_t>(flags >> 24);
-            version &= 0x00ffffff;
+            flags &= 0x00ffffff;
             skip += 4;
         }
 
@@ -468,10 +468,14 @@ namespace Exiv2
                 parseXmp(box_length,io_->tell());
                 break;
             case TAG_thmb:
-                parseCr3Preview(data, out, bTrace, 4, 6, 8, 16);
+                if (version == 0) {
+                    parseCr3Preview(data, out, bTrace, skip, skip+2, skip+4, skip+12);
+                }
                 break;
             case TAG_prvw:
-                parseCr3Preview(data, out, bTrace, 6, 8, 12, 16);
+                if (version == 0) {
+                    parseCr3Preview(data, out, bTrace, skip+2, skip+4, skip+8, skip+12);
+                }
                 break;
 
             default: break ; /* do nothing */
@@ -560,17 +564,19 @@ namespace Exiv2
     void BmffImage::parseCr3Preview(DataBuf &data,
                                     std::ostream& out,
                                     bool bTrace,
-                                    uint16_t width_offset,
-                                    uint16_t height_offset,
+                                    uint32_t width_offset,
+                                    uint32_t height_offset,
                                     uint32_t size_offset,
-                                    uint16_t relative_position)
+                                    uint32_t relative_position)
     {
         // Derived from https://github.com/lclevy/canon_cr3
-        NativePreview nativePreview;
+        // Only JPEG (version 0) is currently supported
+        // (relative_position is identical between versions)
         long here = io_->tell();
         enforce(here >= 0 &&
-                here <= std::numeric_limits<long>::max() - relative_position,
+                here <= std::numeric_limits<long>::max() - static_cast<long>(relative_position),
                 kerCorruptedMetadata);
+        NativePreview nativePreview;
         nativePreview.position_ = here + relative_position;
         enforce(4 <= data.size_, kerCorruptedMetadata);
         enforce(width_offset <= static_cast<size_t>(data.size_ - 2), kerCorruptedMetadata);
