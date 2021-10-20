@@ -484,13 +484,25 @@ namespace Exiv2
                 parseXmp(box_length,io_->tell());
                 break;
             case TAG_thmb:
-                if (version == 0) {
-                    parseCr3Preview(data, out, bTrace, skip, skip+2, skip+4, skip+12);
+                switch (version) {
+                    case 0: // JPEG
+                        parseCr3Preview(data, out, bTrace, version, skip, skip+2, skip+4, skip+12);
+                        break;
+                    case 1: // HDR
+                        parseCr3Preview(data, out, bTrace, version, skip+2, skip+4, skip+8, skip+12);
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case TAG_prvw:
-                if (version == 0) {
-                    parseCr3Preview(data, out, bTrace, skip+2, skip+4, skip+8, skip+12);
+                switch (version) {
+                    case 0: // JPEG
+                    case 1: // HDR
+                        parseCr3Preview(data, out, bTrace, version, skip+2, skip+4, skip+8, skip+12);
+                        break;
+                    default:
+                        break;
                 }
                 break;
 
@@ -580,14 +592,13 @@ namespace Exiv2
     void BmffImage::parseCr3Preview(DataBuf &data,
                                     std::ostream& out,
                                     bool bTrace,
+                                    uint8_t version,
                                     uint32_t width_offset,
                                     uint32_t height_offset,
                                     uint32_t size_offset,
                                     uint32_t relative_position)
     {
         // Derived from https://github.com/lclevy/canon_cr3
-        // Only JPEG (version 0) is currently supported
-        // (relative_position is identical between versions)
         long here = io_->tell();
         enforce(here >= 0 &&
                 here <= std::numeric_limits<long>::max() - static_cast<long>(relative_position),
@@ -598,7 +609,14 @@ namespace Exiv2
         nativePreview.height_ = data.read_uint16(height_offset, endian_);
         nativePreview.size_ = data.read_uint32(size_offset, endian_);
         nativePreview.filter_ = "";
-        nativePreview.mimeType_ = "image/jpeg";
+        switch (version) {
+            case 0:
+                nativePreview.mimeType_ = "image/jpeg";
+                break;
+            default:
+                nativePreview.mimeType_ = "application/octet-stream";
+                break;
+        }
         nativePreviews_.push_back(nativePreview);
 
         if (bTrace) {
