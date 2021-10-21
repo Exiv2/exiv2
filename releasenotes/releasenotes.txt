@@ -5,6 +5,7 @@ Thank You to the following who have contributed to this release.
 Contributor   Activity
 Alex          Project Management
 Christoph     C++ code
+David         CR3 Preview code
 Kev           Outstanding work on security and other issues
 Luis          C++ modernisation
 Milo&scaron;  C++ code
@@ -14,17 +15,17 @@ Robin         Release engineering
 
 Exiv2 v0.27.5 Features
 
-1. Security fixes
-2. BMFF bug fixes
+1. BMFF bug fixes and CR3 Previews
+2. Security fixes
 3. libFuzzer target _(for improved security testing)_
 4. Minor bugs and fixes
 
 Detailed Change List since 0.27.4
 ---------------------------------
 
-https://github.com/Exiv2/exiv2/issues/1018#issuecomment-895425552
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-948573657
 Remaining ( 0) https://github.com/Exiv2/exiv2/milestone/9 
-Completed (74) https://github.com/Exiv2/exiv2/milestone/9?closed=1 
+Completed (87) https://github.com/Exiv2/exiv2/milestone/9?closed=1 
 
 Help Wanted
 -----------
