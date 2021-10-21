@@ -10,7 +10,7 @@ class TestPrintPlainWithSet(metaclass=system_tests.CaseMeta):
     filename = "$data_path/smiley1.jpg"
     commands = ["$exiv2 -K Exif.Image.ImageDescription -PV $filename"]
     stdout = [
-        """set Exif.Image.ImageDescription                   Well it is a smiley that happens to be green
+        """set Exif.Image.ImageDescription                  Ascii      Well it is a smiley that happens to be green
 """
     ]
     retval = [0]
