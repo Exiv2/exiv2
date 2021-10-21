@@ -73,9 +73,9 @@
 #define TAG_cmt2 0x434D5432 /**< "CMD2" exifID */
 #define TAG_cmt3 0x434D5433 /**< "CMT3" canonID */
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
-#define TAG_colr 0x636f6c72 /**< "colr" */
+#define TAG_colr 0x636f6c72 /**< "colr" Colour information */
 #define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
-#define TAG_xml  0x786d6c20 /**< "xml "  Used by JXL*/
+#define TAG_xml  0x786d6c20 /**< "xml " Used by JXL*/
 #define TAG_thmb 0x54484d42 /**< "THMB" Canon thumbnail */
 #define TAG_prvw 0x50525657 /**< "PRVW" Canon preview image */
 
@@ -122,7 +122,7 @@ namespace Exiv2
 
     bool BmffImage::fullBox(uint32_t box)
     {
-        return box == TAG_meta || box == TAG_iinf || box == TAG_iloc;
+        return box == TAG_meta || box == TAG_iinf || box == TAG_iloc || box == TAG_thmb || box == TAG_prvw;
     }
 
     static bool skipBox(uint32_t box)
@@ -262,7 +262,7 @@ namespace Exiv2
             enforce(data.size() - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = data.read_uint32(skip, endian_);  // version/flags
             version = static_cast<uint8_t>(flags >> 24);
-            version &= 0x00ffffff;
+            flags &= 0x00ffffff;
             skip += 4;
         }
 
@@ -484,10 +484,26 @@ namespace Exiv2
                 parseXmp(box_length,io_->tell());
                 break;
             case TAG_thmb:
-                parseCr3Preview(data, out, bTrace, 4, 6, 8, 16);
+                switch (version) {
+                    case 0: // JPEG
+                        parseCr3Preview(data, out, bTrace, version, skip, skip+2, skip+4, skip+12);
+                        break;
+                    case 1: // HDR
+                        parseCr3Preview(data, out, bTrace, version, skip+2, skip+4, skip+8, skip+12);
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case TAG_prvw:
-                parseCr3Preview(data, out, bTrace, 6, 8, 12, 16);
+                switch (version) {
+                    case 0: // JPEG
+                    case 1: // HDR
+                        parseCr3Preview(data, out, bTrace, version, skip+2, skip+4, skip+8, skip+12);
+                        break;
+                    default:
+                        break;
+                }
                 break;
 
             default: break ; /* do nothing */
@@ -576,23 +592,31 @@ namespace Exiv2
     void BmffImage::parseCr3Preview(DataBuf &data,
                                     std::ostream& out,
                                     bool bTrace,
-                                    uint16_t width_offset,
-                                    uint16_t height_offset,
+                                    uint8_t version,
+                                    uint32_t width_offset,
+                                    uint32_t height_offset,
                                     uint32_t size_offset,
-                                    uint16_t relative_position)
+                                    uint32_t relative_position)
     {
         // Derived from https://github.com/lclevy/canon_cr3
-        NativePreview nativePreview;
         long here = io_->tell();
         enforce(here >= 0 &&
-                here <= std::numeric_limits<long>::max() - relative_position,
+                here <= std::numeric_limits<long>::max() - static_cast<long>(relative_position),
                 kerCorruptedMetadata);
+        NativePreview nativePreview;
         nativePreview.position_ = here + relative_position;
         nativePreview.width_ =  data.read_uint16(width_offset, endian_);
         nativePreview.height_ = data.read_uint16(height_offset, endian_);
         nativePreview.size_ = data.read_uint32(size_offset, endian_);
         nativePreview.filter_ = "";
-        nativePreview.mimeType_ = "image/jpeg";
+        switch (version) {
+            case 0:
+                nativePreview.mimeType_ = "image/jpeg";
+                break;
+            default:
+                nativePreview.mimeType_ = "application/octet-stream";
+                break;
+        }
         nativePreviews_.push_back(nativePreview);
 
         if (bTrace) {
