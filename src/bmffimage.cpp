@@ -73,9 +73,11 @@
 #define TAG_cmt2 0x434D5432 /**< "CMD2" exifID */
 #define TAG_cmt3 0x434D5433 /**< "CMT3" canonID */
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
-#define TAG_colr 0x636f6c72 /**< "colr" */
+#define TAG_colr 0x636f6c72 /**< "colr" Colour information */
 #define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
-#define TAG_xml  0x786d6c20 /**< "xml"  Used by JXL*/
+#define TAG_xml  0x786d6c20 /**< "xml " Used by JXL*/
+#define TAG_thmb 0x54484d42 /**< "THMB" Canon thumbnail */
+#define TAG_prvw 0x50525657 /**< "PRVW" Canon preview image */
 
 // *****************************************************************************
 // class member definitions
@@ -124,7 +126,7 @@ namespace Exiv2
 
     bool BmffImage::fullBox(uint32_t box)
     {
-        return box == TAG_meta || box == TAG_iinf || box == TAG_iloc;
+        return box == TAG_meta || box == TAG_iinf || box == TAG_iloc || box == TAG_thmb || box == TAG_prvw;
     }
 
     static bool skipBox(uint32_t box)
@@ -264,7 +266,7 @@ namespace Exiv2
             enforce(data.size_ - skip >= 4, Exiv2::kerCorruptedMetadata);
             flags = getLong(data.pData_ + skip, endian_);  // version/flags
             version = static_cast<uint8_t>(flags >> 24);
-            version &= 0x00ffffff;
+            flags &= 0x00ffffff;
             skip += 4;
         }
 
@@ -453,7 +455,12 @@ namespace Exiv2
                     out << " uuidName " << name << std::endl;
                     bLF = false;
                 }
-                if (name == "cano") {
+                if (name == "cano" || name == "canp" ) {
+                    if (name == "canp") {
+                        // based on
+                        // https://github.com/lclevy/canon_cr3/blob/7be75d6/parse_cr3.py#L271
+                        io_->seek(8, BasicIo::cur);
+                    }
                     while (io_->tell() < box_end) {
                         io_->seek(boxHandler(out,option,box_end,depth + 1), BasicIo::beg);
                     }
@@ -480,10 +487,20 @@ namespace Exiv2
             case TAG_xml:
                 parseXmp(box_length,io_->tell());
                 break;
+            case TAG_thmb:
+                if (version == 0) {
+                    parseCr3Preview(data, out, bTrace, skip, skip+2, skip+4, skip+12);
+                }
+                break;
+            case TAG_prvw:
+                if (version == 0) {
+                    parseCr3Preview(data, out, bTrace, skip+2, skip+4, skip+8, skip+12);
+                }
+                break;
 
             default: break ; /* do nothing */
         }
-        if ( bLF&& bTrace) out << std::endl;
+        if (bLF && bTrace) out << std::endl;
 
         // return address of next box
         return box_end;
@@ -561,6 +578,42 @@ namespace Exiv2
             }
 
             io_->seek(restore,BasicIo::beg);
+        }
+    }
+
+    void BmffImage::parseCr3Preview(DataBuf &data,
+                                    std::ostream& out,
+                                    bool bTrace,
+                                    uint32_t width_offset,
+                                    uint32_t height_offset,
+                                    uint32_t size_offset,
+                                    uint32_t relative_position)
+    {
+        // Derived from https://github.com/lclevy/canon_cr3
+        // Only JPEG (version 0) is currently supported
+        // (relative_position is identical between versions)
+        long here = io_->tell();
+        enforce(here >= 0 &&
+                here <= std::numeric_limits<long>::max() - static_cast<long>(relative_position),
+                kerCorruptedMetadata);
+        NativePreview nativePreview;
+        nativePreview.position_ = here + relative_position;
+        enforce(4 <= data.size_, kerCorruptedMetadata);
+        enforce(width_offset <= static_cast<size_t>(data.size_ - 2), kerCorruptedMetadata);
+        nativePreview.width_ =  getShort(data.pData_ + width_offset, endian_);
+        enforce(height_offset <= static_cast<size_t>(data.size_ - 2), kerCorruptedMetadata);
+        nativePreview.height_ = getShort(data.pData_ + height_offset, endian_);
+        enforce(size_offset <= static_cast<size_t>(data.size_ - 4), kerCorruptedMetadata);
+        nativePreview.size_ = getLong(data.pData_ + size_offset, endian_);
+        nativePreview.filter_ = "";
+        nativePreview.mimeType_ = "image/jpeg";
+        nativePreviews_.push_back(nativePreview);
+
+        if (bTrace) {
+            out << Internal::stringFormat("width,height,size = %u,%u,%u",
+                                          nativePreview.width_,
+                                          nativePreview.height_,
+                                          nativePreview.size_);
         }
     }
 
