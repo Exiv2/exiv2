@@ -7,23 +7,22 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+##### **Describe the bug**
+A clear and concise description of the bug.
 
-**To Reproduce**
-Steps to reproduce the behaviour:
+##### **To Reproduce**
+Steps to reproduce the behavior:
+1. Provide the file with which you observed the issue (commonly named PoC)
+2. List the exact commands/functions to reproduce the issue and include any related output
+3. Mention the branch/commit in which you observed the issue (e.g., `main`, `0.27-maintenance`, `commit 9f721b40`)
 
-1. Provide the image with which you observed the issue (commonly named PoC)
-2. Provide exact command to reproduce the issue
-3. Mention the branch/commit in which you observed the issue (i.e: `master` or `0.27-maintenance`)
+##### **Expected behavior**
+A short description of what you expected to happen.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+##### **Desktop (please complete the following information):**
+- OS and version: (e.g., Linux (Fedora 34), macOS 12, Windows 11)
+- Compiler and version: (e.g., Gcc 11.2, Clang 13.0.0, MSVC 2019)
+- Compilation mode and/or compiler flags:
 
-**Desktop (please complete the following information):**
- - OS: [e.g. Linux, iOS, Windows]
- - Compiler & Version [Gcc 7.3, Clang-6, MSVC 2017]
- - Compilation mode and/or compiler flags
-
-**Additional context**
+##### **Additional context**
 Add any other context about the problem here.

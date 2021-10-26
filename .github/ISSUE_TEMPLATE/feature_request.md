@@ -7,14 +7,14 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Examples: I'm always frustrated when [...]; Exiv2 does not support XXX format [...]
+##### **Is your feature request related to a problem?**
+A clear and concise description of the problem (e.g., I'm always frustrated when [...]; Exiv2 does not support XXX format [...])
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+##### **Describe the solution you would like**
+A short description of what you want to happen.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+##### **Describe alternatives you have considered**
+A simple explanation of any alternative solutions or features you have considered.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+##### **Additional context**
+Add any other information about the feature request here (e.g. screenshots, URLs).
