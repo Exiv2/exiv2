@@ -9,11 +9,13 @@ class Exiv2Conan(ConanFile):
                'xmp': [True, False],
                'iconv': [True, False],
                'webready': [True, False],
+               'libcurl': [True, False],
               }
     default_options = ('unitTests=True',
                        'xmp=False',
                        'iconv=False',
                        'webready=False',
+                       'libcurl=True',
                       )
 
     def configure(self):
@@ -22,7 +24,9 @@ class Exiv2Conan(ConanFile):
 
     def requirements(self):
         self.requires('zlib/1.2.11')
-        self.requires('libcurl/7.75.0')
+
+        if self.options.libcurl:
+            self.requires('libcurl/7.79.0')
 
         if os_info.is_windows and self.options.iconv:
             self.requires('libiconv/1.16')
@@ -35,7 +39,7 @@ class Exiv2Conan(ConanFile):
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            self.requires('expat/2.3.0')
+            self.requires('expat/2.4.1')
 
     def imports(self):
         self.copy('*.dll', dst='bin', src='bin')
