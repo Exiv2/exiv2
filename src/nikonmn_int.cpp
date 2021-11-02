@@ -2929,14 +2929,14 @@ fmountlens[] = {
 
         if (temp == 0)
             os << 0;
-        else if ( std::numeric_limits<float>::min() > temp || temp > std::numeric_limits<float>::max() )
+        else if (!std::isfinite(temp))
             os << "(" << value << ")";
-        else if ( (int(temp)/temp) > 0.999 )
-            os << int(temp);
-        else if ( std::numeric_limits<float>::min() <= (temp*2) && (temp*2) <= std::numeric_limits<float>::max() && ((int(temp*2)/(temp*2)) > 0.999) )
-            os << int(temp)*2 << "/2";
-        else if ( std::numeric_limits<float>::min() <= (temp*3) && (temp*3) <= std::numeric_limits<float>::max() && ((int(temp*3)/(temp*3)) > 0.999) )
-            os << int(temp)*3 << "/3";
+        else if (std::abs(std::fmod(temp, 1)) < 0.001)
+            os << std::round(temp);
+        else if (std::abs(std::fmod(temp*2, 1)) < 0.001)
+            os << std::round(temp*2) << "/2";
+        else if (std::abs(std::fmod(temp*3, 1)) < 0.001)
+            os << std::round(temp*3) << "/3";
         else
             os << std::setprecision(3) << temp;
 
