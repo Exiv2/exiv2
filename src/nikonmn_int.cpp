@@ -2959,7 +2959,7 @@ fmountlens[] = {
         oss.copyfmt(os);
         long temp = value.toLong();
 
-        printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp & 0xf0), data);
+        printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
         os << ", ";
         printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp & 0x0f), data);
 
