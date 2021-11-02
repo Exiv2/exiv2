@@ -9,13 +9,11 @@ class Exiv2Conan(ConanFile):
                'xmp': [True, False],
                'iconv': [True, False],
                'webready': [True, False],
-               'libcurl': [True, False],
               }
     default_options = ('unitTests=True',
                        'xmp=False',
                        'iconv=False',
                        'webready=False',
-                       'libcurl=True',
                       )
 
     def configure(self):
@@ -25,7 +23,7 @@ class Exiv2Conan(ConanFile):
     def requirements(self):
         self.requires('zlib/1.2.11')
 
-        if self.options.libcurl:
+        if self.options.webready:
             self.requires('libcurl/7.79.0')
 
         if os_info.is_windows and self.options.iconv:
