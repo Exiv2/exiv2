@@ -2925,17 +2925,16 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         float temp = ( value.toFloat()/float(-6.0) );
-        temp *= float(1.00001);                 // Avoid round-off errors
 
         if (temp == 0)
             os << 0;
         else if (!std::isfinite(temp))
             os << "(" << value << ")";
-        else if (std::abs(std::fmod(temp, 1)) < 0.001)
+        else if (std::abs(std::remainderf(temp, 1)) < 0.001)
             os << std::round(temp);
-        else if (std::abs(std::fmod(temp*2, 1)) < 0.001)
+        else if (std::abs(std::remainderf(temp*2, 1)) < 0.001)
             os << std::round(temp*2) << "/2";
-        else if (std::abs(std::fmod(temp*3, 1)) < 0.001)
+        else if (std::abs(std::remainderf(temp*3, 1)) < 0.001)
             os << std::round(temp*3) << "/3";
         else
             os << std::setprecision(3) << temp;
