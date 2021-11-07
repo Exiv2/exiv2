@@ -38,6 +38,8 @@
 #include <cassert>
 #include <cstring>
 #include <math.h> //for log, pow, abs
+#include <cmath>
+#include <limits>
 
 // *****************************************************************************
 // class member definitions
@@ -1050,7 +1052,6 @@ namespace Exiv2 {
         { 5, N_("GN (distance priority)") },
         { 6, N_("Manual")                 },
         { 7, N_("Repeating Flash")        },
-        { 7, N_("Repeating Flash")        }     // To silence compiler warning
     };
 
     //! ExternalFlashFlags
@@ -1133,6 +1134,32 @@ namespace Exiv2 {
     const TagInfo* Nikon3MakerNote::tagListFl3()
     {
         return tagInfoFl3_;
+    }
+
+    // Nikon3 Flash Info 7 (0107 and 0108) Tag Info
+    constexpr TagInfo Nikon3MakerNote::tagInfoFl7_[] = {
+       {  0, "Version", N_("Version"), N_("Flash info version"), nikonFl7Id, makerTags, undefined, 4, printExifVersion},
+       {  4, "FlashSource", N_("Flash source"), N_("The type of flash used (if any)"), nikonFl7Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashSource)},
+       {  6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware version"), nikonFl7Id, makerTags, unsignedShort, 1, EXV_PRINT_TAG(nikonFlashFirmware)},
+       {  8, "ExternalFlashData1", N_("External flash data"), N_("External flash data"), nikonFl7Id, makerTags, unsignedByte, 1, printExternalFlashData1},
+       {  9, "ExternalFlashData2", N_("External flash ready state"), N_("External flash ready state"), nikonFl7Id, makerTags, unsignedByte, 1, printExternalFlashData2},
+       { 10, "FlashCompensation", N_("Flash compensation"), N_("Flash compensation"), nikonFl7Id, makerTags, signedByte, 1, printFlashCompensation},
+       { 12, "FlashFocalLength", N_("Flash focal length"), N_("Flash focal length"), nikonFl7Id, makerTags, unsignedByte, 1, printFlashFocalLength},
+       { 13, "RepeatingFlashRate", N_("Repeating flash rate"), N_("Repeating flash rate"), nikonFl7Id, makerTags, unsignedByte, 1, printRepeatingFlashRate},
+       { 14, "RepeatingFlashCount", N_("Repeating flash count"), N_("Repeating flash count"), nikonFl7Id, makerTags, unsignedByte, 1, printRepeatingFlashCount},
+       { 15, "FlashGNDistance", N_("Flash GN Distance"), N_("Flash GN distance"), nikonFl7Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashGNDistance)},
+       { 17, "FlashGroupAControlData", N_("Flash group A control data"), N_("Flash group A control data"), nikonFl7Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashControlMode)},
+       { 18, "FlashGroupBCControlData", N_("Flash group B/C control data"), N_("Flash group B/C control data"), nikonFl7Id, makerTags, unsignedByte, 1, printFlashGroupBCControlData},
+       { 40, "FlashGroupAData", N_("Flash group A data"), N_("Depending upon FlashGroupAControlData, either the FlashGroupACompensation value or the FlashGroupAOutput value"), nikonFl7Id, makerTags, unsignedByte, 1, printFlashGroupAData},
+       { 41, "FlashGroupBData", N_("Flash group B data"), N_("Depending upon FlashGroupBCControlData, either the FlashGroupBCompensation value or the FlashGroupBOutput value"), nikonFl7Id, makerTags, unsignedByte, 1, printFlashGroupBData},
+       { 42, "FlashGroupCData", N_("Flash group C data"), N_("Depending upon FlashGroupBCControlData, either the FlashGroupCCompensation value or the FlashGroupCOutput value"), nikonFl7Id, makerTags, unsignedByte, 1, printFlashGroupCData},
+        // End of list marker
+       {0xffff, "(UnknownNikonFl7Tag)", "(UnknownNikonFl7Tag)", N_("Unknown Nikon Flash Info 7 Tag"), nikonFl7Id, makerTags, unsignedByte, 1, printValue},
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListFl7()
+    {
+        return tagInfoFl7_;
     }
 
     // Nikon3 Shot Info D80 Tag Info
@@ -2772,14 +2799,18 @@ fmountlens[] = {
                                                          const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
             os << "(" << value << ")";
             os.flags(f);
             return os;
         }
+        auto temp = value.toLong();
+        if (temp == 0 || temp == 255)
+            return os << _("n/a");
+
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(1) << value.toLong() << " mm";
+        os << std::fixed << std::setprecision(1) << temp << " mm";
         os.copyfmt(oss);
         os.flags(f);
         return os;
@@ -2790,12 +2821,16 @@ fmountlens[] = {
                                                            const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
             return os << "(" << value << ")";
         }
+        auto temp = value.toLong();
+        if (temp == 0 || temp == 255)
+            return os << _("n/a");
+
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << value.toLong() << " Hz";
+        os << std::fixed << std::setprecision(2) << temp << " Hz";
         os.copyfmt(oss);
         os.flags(f);
         return os;
@@ -2806,12 +2841,250 @@ fmountlens[] = {
                                                             const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0 || value.toLong() == 255) {
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
             return os << "(" << value << ")";
+        }
+        auto temp = value.toLong();
+        if (temp == 0 || temp == 255)
+            return os << _("n/a");
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(2) << temp;
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printExternalFlashData1(std::ostream& os,
+                                                           const Value& value,
+                                                           const ExifData*)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
         }
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << value.toLong();
+        os << (value.toLong() & 0x80 ? _("External flash zoom override") : _("No external flash zoom override"));
+        os << ", ";
+        os << (value.toLong() & 0x01 ? _("external flash attached") : _("external flash not attached"));
+
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printExternalFlashData2(std::ostream& os,
+                                                           const Value& value,
+                                                           const ExifData*)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        long temp = value.toLong();
+
+        switch (temp & 0x07) {
+        case 0:
+            os << _("n/a");
+            break;
+        case 1:
+            os << _("Ready");
+            break;
+        case 6:
+            os << _("Not ready");
+            break;
+        default:
+            os << "(" << temp << ")";
+            break;
+        }
+
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFlashCompensation(std::ostream& os,
+                                                          const Value& value,
+                                                          const ExifData*)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != signedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        float temp = ( value.toFloat()/float(-6.0) );
+
+        if (temp == 0)
+            os << 0;
+        else if (!std::isfinite(temp))
+            os << "(" << value << ")";
+        else if (std::abs(std::remainderf(temp, 1)) < 0.001)
+            os << std::round(temp);
+        else if (std::abs(std::remainderf(temp*2, 1)) < 0.001)
+            os << std::round(temp*2) << "/2";
+        else if (std::abs(std::remainderf(temp*3, 1)) < 0.001)
+            os << std::round(temp*3) << "/3";
+        else
+            os << std::setprecision(3) << temp;
+
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFlashGroupBCControlData(std::ostream& os,
+                                                                const Value& value,
+                                                                const ExifData* data)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        long temp = value.toLong();
+
+        printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
+        os << ", ";
+        printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp & 0x0f), data);
+
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFlashGroupAData(std::ostream& os,
+                                                        const Value& value,
+                                                        const ExifData* metadata)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        double temp = value.toFloat()/double(-6.0);
+
+        auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupAControlData"));
+        if (pos == metadata->end() || pos-> count() != 1 || pos->typeId() != unsignedByte) {
+            os << "(" << value << ")";
+        }
+        else {
+            if (pos->toLong() < 0x06) {
+                // FlashGroupACompensation value
+                if (temp == 0)
+                    os << 0;
+                else
+                    os << std::fixed << std::setprecision(1) << temp;
+            }
+            else {
+                // FlashGroupAOutput value
+                double flashGroupAOutput = std::exp2(temp);
+                if (flashGroupAOutput > 0.99)
+                    os << _("Full");
+                else
+                    os << std::setprecision(2) << std::round(flashGroupAOutput*100) << "%";
+            }
+        }
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFlashGroupBData(std::ostream& os,
+                                                        const Value& value,
+                                                        const ExifData* metadata)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        double temp = value.toFloat()/double(-6.0);
+
+        auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
+        if (pos == metadata->end() || pos-> count() != 1 || pos->typeId() != unsignedByte) {
+            os << "(" << value << ")";
+        }
+        else {
+            if (pos->toLong() < 0x06) {
+                // FlashGroupBCompensation value
+                if (temp == 0)
+                    os << 0;
+                else
+                    os << std::fixed << std::setprecision(1) << temp;
+            }
+            else {
+                // FlashGroupBOutput value
+                double flashGroupAOutput = std::exp2(temp);
+                if (flashGroupAOutput > 0.99)
+                    os << _("Full");
+                else
+                    os << std::setprecision(2) << std::round(flashGroupAOutput*100) << "%";
+            }
+        }
+        os.copyfmt(oss);
+        os.flags(f);
+        return os;
+    }
+
+    std::ostream& Nikon3MakerNote::printFlashGroupCData(std::ostream& os,
+                                                        const Value& value,
+                                                        const ExifData* metadata)
+    {
+        std::ios::fmtflags f( os.flags() );
+        if (value.count() != 1 || value.typeId() != unsignedByte) {
+            os << "(" << value << ")";
+            os.flags(f);
+            return os;
+        }
+
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        double temp = value.toFloat()/double(-6.0);
+
+        auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
+        if (pos == metadata->end() || pos-> count() != 1 || pos->typeId() != unsignedByte) {
+            os << "(" << value << ")";
+        }
+        else {
+            if (pos->toLong() < 0x06) {
+                // FlashGroupCCompensation value
+                if (temp == 0)
+                    os << 0;
+                else
+                    os << std::fixed << std::setprecision(1) << temp;
+            }
+            else {
+                // FlashGroupCOutput value
+                double flashGroupAOutput = std::exp2(temp);
+                if (flashGroupAOutput > 0.99)
+                    os << _("Full");
+                else
+                    os << std::setprecision(2) << std::round(flashGroupAOutput*100) << "%";
+            }
+        }
         os.copyfmt(oss);
         os.flags(f);
         return os;

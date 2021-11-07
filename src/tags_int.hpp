@@ -125,6 +125,7 @@ namespace Exiv2 {
         nikonFl1Id,
         nikonFl2Id,
         nikonFl3Id,
+        nikonFl7Id,
         nikonSi1Id,
         nikonSi2Id,
         nikonSi3Id,
@@ -266,9 +267,9 @@ namespace Exiv2 {
              by looking up a reference table.
      */
     template <int N, const TagDetails (&array)[N]>
-    std::ostream& printTag(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& printTag(std::ostream& os, const long& value, const ExifData*)
     {
-        const TagDetails* td = find(array, value.toLong());
+        const TagDetails* td = find(array, value);
         if (td) {
             os << exvGettext(td->label_);
         }
@@ -278,7 +279,17 @@ namespace Exiv2 {
         return os;
     }
 
-//! Shortcut for the printTag template which requires typing the array name only once.
+    /*!
+      @brief Generic pretty-print function to translate the first long value in Value, to a description
+             by looking up a reference table.
+     */
+    template <int N, const TagDetails (&array)[N]>
+    std::ostream& printTag(std::ostream& os, const Value& value, const ExifData* data)
+    {
+        return printTag<N, array>(os, value.toLong(), data);
+    }
+
+    //! Shortcut for the printTag template which requires typing the array name only once.
 #define EXV_PRINT_TAG(array) printTag<EXV_COUNTOF(array), array>
 
     /*!
