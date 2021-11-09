@@ -1330,20 +1330,19 @@ File  8/16: 20030926_111535.jpg
 20030926_111535.jpg   Exif.MakerNote.ByteOrder                     Ascii       3  II
 20030926_111535.jpg   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
+20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  0 (normal)
 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
-20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
+20030926_111535.jpg   Exif.Fujifilm.FocusArea                      Short       1  Single Point
 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
-20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
+20030926_111535.jpg   Exif.Fujifilm.ExposureCount                  Short       1  1
 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
-20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
 20030926_111535.jpg   Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 20030926_111535.jpg   Exif.Photo.ColorSpace                        Short       1  sRGB
 20030926_111535.jpg   Exif.Photo.PixelXDimension                   Long        1  3024
@@ -2970,7 +2969,7 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.MakerNote.Offset                        Long        1  830
 < 20030926_111535.jpg   Exif.MakerNote.ByteOrder                     Ascii       3  II
 < 20030926_111535.jpg   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
-< 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
+< 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL
 < 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
 < 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
