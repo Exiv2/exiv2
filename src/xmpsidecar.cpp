@@ -144,11 +144,6 @@ namespace Exiv2 {
             copyExifToXmp(exifData_, xmpData_);
             copyIptcToXmp(iptcData_, xmpData_);
 
-            // #589 - restore tags which were modified by the convertors
-            for (auto&& it : copy) {
-                xmpData_[it.key()] = it.value();
-            }
-
             // #1112 - restore dates if they lost their TZ info
             for (auto&& date : dates_) {
                 std::string sKey = date.first;
@@ -161,6 +156,11 @@ namespace Exiv2 {
                         xmpData_[sKey] = value_orig ;
                     }
                 }
+            }
+
+            // #589 - restore tags which were modified by the convertors
+            for (auto&& it : copy) {
+                xmpData_[it.key()] = it.value();
             }
 
             if (XmpParser::encode(xmpPacket_, xmpData_,
