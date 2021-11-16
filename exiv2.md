@@ -643,9 +643,6 @@ when extracting XMP sidecar files:
 $ exiv2 -e{tgt3}- filename | [ xmllint .... |] exiv2 -i{tgt2}- filename
 ```
 
-When filtering from extract to insert, do not use the [--verbose](#verbose) 
-option with [--extract tgt3](#extract_tgt3) as this outputs unwanted text.
-
 <div id="extract_tgt3">
 
 ###  **-e** *tgt3*, **--extract** *tgt3*
@@ -663,12 +660,9 @@ Extract target(s) for the [extract](#ex_extract) action. Possible targets are:
 | C                | Extract ICC profile, to a file called *\<file\>.icc* (see [ICC PROFILES](#icc_profiles)) |
 | X                | Extract metadata to an XMP sidecar file, \<file\>.xmp. Other targets cannot be used with this, as only XMP data is written. Extracted XMP tags include those converted from Exif and IPTC |
 | XX               | Extract "raw" metadata to a sidecar file, \<file\>.exv. The remaining targets determine which metadata to include, possible are Exif and IPTC (XMP is always included) |
-| -                | Output to stdout (see [--insert tgt2](#insert_tgt2) for an example of this feature) |
+| -                | Output to stdout (see [--insert tgt2](#insert_tgt2) for an example of this feature). This argument ignores [--verbose](#verbose) |
 
 To extract to a location other than the current directory, use [--location dir](#location_dir). 
-
-When filtering from extract to insert, do not use the [--verbose](#verbose) 
-option with **--extract** *tgt3* as this outputs unwanted text.
 
 When extracting, the [--Modify cmd](#Modify_cmd) and [--modify cmdfile](#modify_cmdfile) 
 options can be used to filter the output (see ['MODIFY' COMMANDS](#modify_cmds)). 
