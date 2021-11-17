@@ -161,7 +161,7 @@ int main(int argc, char* const argv[])
         int s = static_cast<int>(params.files_.size());
         int w = s > 9 ? s > 99 ? 3 : 2 : 1;
         for (auto&& file : params.files_) {
-        	// If extracting to stdout then ignore verbose
+            // If extracting to stdout then ignore verbose
             if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
                 std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
                           << std::endl;
