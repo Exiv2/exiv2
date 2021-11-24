@@ -1139,6 +1139,10 @@ namespace Exiv2 {
         { 0x00a8, "0101",    0, 0,  NA },
         { 0x00a8, "0102",    0, 1,  NA },
         { 0x00a8, "0103",    0, 2,  NA },
+        { 0x00a8, "0104",    0, 2,  NA },
+        { 0x00a8, "0105",    0, 2,  NA },
+        { 0x00a8, "0107",    0, 3,  NA },
+        { 0x00a8, "0108",    0, 3,  NA },
     };
 
     int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)

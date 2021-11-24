@@ -130,6 +130,8 @@ namespace Exiv2 {
         static const TagInfo* tagListFl2();
         //! Return read-only list of built-in Flash Info 3 tags
         static const TagInfo* tagListFl3();
+        //! Return read-only list of built-in Flash Info 7 (0107 and 0108) tags
+        static const TagInfo* tagListFl7();
         //! Return read-only list of built-in Shot Info D80 tags
         static const TagInfo* tagListSi1();
         //! Return read-only list of built-in Shot Info D40 tags
@@ -217,6 +219,20 @@ namespace Exiv2 {
         static std::ostream& printRepeatingFlashRate(std::ostream& os, const Value& value, const ExifData*);
         //! Print repeating flash count
         static std::ostream& printRepeatingFlashCount(std::ostream& os, const Value& value, const ExifData*);
+        //! Print external flash data 1 value
+        static std::ostream& printExternalFlashData1(std::ostream& os, const Value& value, const ExifData*);
+        //! Print external flash data 2 value
+        static std::ostream& printExternalFlashData2(std::ostream& os, const Value& value, const ExifData*);
+        //! Print flash compensation value
+        static std::ostream& printFlashCompensation(std::ostream& os, const Value& value, const ExifData*);
+        //! Print flash group B/C control data value
+        static std::ostream& printFlashGroupBCControlData(std::ostream& os, const Value& value, const ExifData* data);
+        //! Print flash group A data value
+        static std::ostream& printFlashGroupAData(std::ostream& os, const Value& value, const ExifData*);
+        //! Print flash group B data value
+        static std::ostream& printFlashGroupBData(std::ostream& os, const Value& value, const ExifData*);
+        //! Print flash group C data value
+        static std::ostream& printFlashGroupCData(std::ostream& os, const Value& value, const ExifData*);
         //! Print time zone
         static std::ostream& printTimeZone(std::ostream& os, const Value& value, const ExifData*);
         //! Print picture control value
@@ -252,6 +268,8 @@ namespace Exiv2 {
         static const TagInfo tagInfoFl2_[];
         //! Flash Info 3 tag information
         static const TagInfo tagInfoFl3_[];
+        //! Flash Info 7 (0107 and 0108) tag information
+        static const TagInfo tagInfoFl7_[];
         //! Shot Info D80 tag information
         static const TagInfo tagInfoSi1_[];
         //! Shot Info D40 tag information

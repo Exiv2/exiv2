@@ -28,6 +28,7 @@
 #include "futils.hpp"
 #include "types.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "http.hpp"
 #include "properties.hpp"
 #include "image_int.hpp"
@@ -77,6 +78,21 @@ using nlink_t = short;
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+    void BasicIo::readOrThrow(byte* buf, long rcount, ErrorCode err) {
+        const long nread = read(buf, rcount);
+        enforce(nread == rcount, err);
+        enforce(!error(), err);
+    }
+
+#if defined(_MSC_VER)
+    void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
+#else
+    void BasicIo::seekOrThrow(long offset, Position pos, ErrorCode err) {
+#endif
+        const int r = seek(offset, pos);
+        enforce(r == 0, err);
+    }
+
     //! Internal Pimpl structure of class FileIo.
     class FileIo::Impl {
     public:

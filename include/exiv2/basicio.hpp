@@ -27,6 +27,7 @@
 #include "exiv2lib_export.h"
 
 // included header files
+#include "error.hpp"
 #include "types.hpp"
 
 // + standard includes
@@ -143,6 +144,17 @@ namespace Exiv2 {
          */
         virtual long read(byte* buf, long rcount) = 0;
         /*!
+          @brief Safe version of `read()` that checks for errors and throws
+              an exception if the read was unsuccessful.
+          @param buf Pointer to a block of memory into which the read data
+              is stored. The memory block must be at least \em rcount bytes
+              long.
+          @param rcount Maximum number of bytes to read. Fewer bytes may be
+              read if \em rcount bytes are not available.
+          @param err Error code to use if an exception is thrown.
+         */
+        void readOrThrow(byte* buf, long rcount, ErrorCode err);
+        /*!
           @brief Read one byte from the IO source. Current IO position is
               advanced by one byte.
           @return The byte read from the IO source if successful;<BR>
@@ -175,6 +187,19 @@ namespace Exiv2 {
         virtual int seek(int64_t offset, Position pos) = 0;
 #else
         virtual int seek(long offset, Position pos) = 0;
+#endif
+        /*!
+          @brief Safe version of `seek()` that checks for errors and throws
+              an exception if the seek was unsuccessful.
+          @param offset Number of bytes to move the position relative
+              to the starting position specified by \em pos
+          @param pos Position from which the seek should start
+          @param err Error code to use if an exception is thrown.
+         */
+#if defined(_MSC_VER)
+        void seekOrThrow(int64_t offset, Position pos, ErrorCode err);
+#else
+        void seekOrThrow(long offset, Position pos, ErrorCode err);
 #endif
 
         /*!
