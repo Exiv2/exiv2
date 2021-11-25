@@ -52,12 +52,12 @@ build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmd: if "%BUILD%"=="MINGW64" C:\msys64\usr\bin\bash -c "%CMD%"
     - cmd: set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-    - cmd: set  CMD=pwd;ls -l;uname -a;rm -rf build
+    - cmd: set  CMD=uname -a; pwd; ls -l; cmake --version
     - cmd: set  CMD=%CMD%; mkdir -p build
     - cmd: set  CMD=%CMD%; cd build
-    - cmd: set  CMD=%CMD%;cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+    - cmd: set  CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
     - cmd: set  CMD=%CMD%; cmake --build . --config Release
     - cmd: set  CMD=%CMD%; cmake --build . --target python_tests --config Release
     - cmd: echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "%CMD%"
+    - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash.exe -c "%CMD%"
