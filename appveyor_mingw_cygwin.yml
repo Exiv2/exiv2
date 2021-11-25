@@ -59,6 +59,7 @@ build_script:
     - cmd: set  CMD=%CMD%; cmake --build . --config Release
     - cmd: set  CMD=%CMD%; cmake --build . --target python_tests --config Release
     - cmd: echo %CMD%
+    - cmd: set
+    - cmd: cd c:\ && dir/s bash.exe
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "%CMD%"
-    
