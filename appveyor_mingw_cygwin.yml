@@ -33,7 +33,7 @@ install:
     - cd %APPVEYOR_BUILD_FOLDER%
     - if "%BUILD%"=="CYGWIN64" set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
-    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2"
+    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake=3.17.3 zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2"
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "/usr/bin/python3.8.exe -m pip install --upgrade pip"
 
 build_script:
