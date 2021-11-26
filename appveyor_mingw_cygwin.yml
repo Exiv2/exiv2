@@ -35,9 +35,9 @@ install:
     
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
     # In November 2021, the default cmake installed by `apt-cyg install cmake` is broken
-    # use apt-cyg -m mirror OR change the mirror.  
-    # if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
-    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg -m http://mirrors.kernel.org/sources.redhat.com/cygwin/ install cmake curl zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2 tar"
+    # use apt-cyg change the mirror.  
+    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
+    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake curl zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2 tar"
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "/usr/bin/python3.8.exe -m pip install --upgrade pip"
     # As a last resort, build CMake from source.  Caution:  This takes about 60 minutes.
     # if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "cd /tmp; curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0.tar.gz; tar xfz cmake-3.22.0.tar.gz; cd cmake-3.22.0 ; ./bootstrap ; make ; make install" 
