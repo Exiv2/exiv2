@@ -34,7 +34,7 @@ install:
     - if "%BUILD%"=="CYGWIN64" set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
     
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
-    # Use change mirror used by apt-cyg.  #2003 cmake installed by default mirror is broken 
+    # Issue:#2003 Change mirror used by apt-cyg. cmake installed by default mirror is broken 
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake curl zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2 tar"
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "/usr/bin/python3.8.exe -m pip install --upgrade pip"
