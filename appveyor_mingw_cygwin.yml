@@ -32,9 +32,14 @@ install:
          mingw-w64-x86_64-gtest ; do (echo y | pacman -S $i) ; done
     - cd %APPVEYOR_BUILD_FOLDER%
     - if "%BUILD%"=="CYGWIN64" set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
+    
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
-    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2"
+    # Issue:#2003 Change mirror used by apt-cyg. cmake installed by default mirror is broken 
+    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
+    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake curl zlib-devel libexpat-devel libxml2-devel libxslt-devel python38 python38-pip python38-libxml2 tar"
     - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "/usr/bin/python3.8.exe -m pip install --upgrade pip"
+    # As a last resort, build CMake from source.  Caution:  This takes about 60 minutes.
+    # if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "cd /tmp; curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0.tar.gz; tar xfz cmake-3.22.0.tar.gz; cd cmake-3.22.0 ; ./bootstrap ; make ; make install" 
 
 build_script:
     - cmd: set   CMD=mkdir -p build
@@ -52,13 +57,12 @@ build_script:
     - cd %APPVEYOR_BUILD_FOLDER%
     - cmd: if "%BUILD%"=="MINGW64" C:\msys64\usr\bin\bash -c "%CMD%"
     - cmd: set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-    - cmd: set  CMD=rm -rf build
+    - cmd: set  CMD=cmake.exe --version
     - cmd: set  CMD=%CMD%; mkdir -p build
     - cmd: set  CMD=%CMD%; cd build
-    - cmd: set  CMD=%CMD%;cmake .. -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-    - cmd: set  CMD=%CMD%; make
-    - cmd: set  CMD=%CMD%; make python_tests
+    - cmd: set  CMD=%CMD%; cmake.exe .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+    - cmd: set  CMD=%CMD%; cmake.exe --build . --config Release
+    - cmd: set  CMD=%CMD%; cmake.exe --build . --target python_tests --config Release
     - cmd: echo %CMD%
     - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "%CMD%"
-    
+    - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash.exe -c "%CMD%"
