@@ -1088,12 +1088,7 @@ endlocal
 Install tools and dependencies:
 
 ```bash
-for i in base-devel git coreutils dos2unix tar diffutils make                     \
-    mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
-    mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
-    mingw-w64-x86_64-libexpat  mingw-w64-x86_64-libiconv mingw-w64-x86_64-zlib    \
-    mingw-w64-x86_64-gtest
-do (echo y | pacman -S $i) ; done
+pacman --noconfirm -S --needed base-devel mingw-w64-x86_64-{toolchain,cmake,expat,gettext,gtest,libiconv,python-lxml,zlib}
 ```
 
 #### Download exiv2 from github and build
@@ -1258,5 +1253,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-08-10
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-11-28
 
