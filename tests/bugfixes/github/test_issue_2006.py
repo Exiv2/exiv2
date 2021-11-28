@@ -16,6 +16,6 @@ class PanasonicMakerPrintAccelerometerIntOverflow(metaclass=CaseMeta):
 Exif.Image.DNGPrivateData                    0x2020     32  80 97 110 97 115 111 110 105 99 32 32 32 0 32 32 255 32 32 32 32 32 255 255 255 32 255 255 198 52 32 32 0
 Exif.MakerNote.Offset                        Long        1  48
 Exif.MakerNote.ByteOrder                     Ascii       3  MM
-Exif.Panasonic.AccelerometerY                SLong       4  2147483425
+Exif.Panasonic.AccelerometerY                SLong       4  -224
 """]
     retval = [0]
