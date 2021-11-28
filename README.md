@@ -1143,6 +1143,8 @@ bash.exe -norc
 endlocal
 ```
 
+The utility apt-cyg can be downloaded and used to install dependencies.  The code to do this is in appveyor\_mingw\_cygwin.yml.
+
 [TOC](#TOC)
 <div id="5-5">
 ### 5.5 Visual Studio
