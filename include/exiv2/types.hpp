@@ -114,6 +114,7 @@ namespace Exiv2 {
         unsignedLongLong   =16, //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
         signedLongLong     =17, //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
         tiffIfd8           =18, //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
+        previewBuffer  =0xffff, //!< Used when the metadata contains a reference to a preview image that is not stored with the metadata, but somewhere else in the file. (Sony does this. See https://github.com/Exiv2/exiv2/issues/2001)
         string        =0x10000, //!< IPTC string type.
         date          =0x10001, //!< IPTC date type.
         time          =0x10002, //!< IPTC time type.

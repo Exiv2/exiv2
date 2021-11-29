@@ -81,6 +81,7 @@ namespace {
         { Exiv2::tiffFloat,        "Float",       4 },
         { Exiv2::tiffDouble,       "Double",      8 },
         { Exiv2::tiffIfd,          "Ifd",         4 },
+        { Exiv2::previewBuffer,    "PreviewBuffer", 1 },
         { Exiv2::string,           "String",      1 },
         { Exiv2::date,             "Date",        8 },
         { Exiv2::time,             "Time",       11 },

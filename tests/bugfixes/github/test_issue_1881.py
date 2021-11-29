@@ -14,9 +14,5 @@ class SonyPreviewImageLargeAllocation(metaclass=CaseMeta):
     filename2 = path("$tmp_path/issue_1881_coverage.jpg")
     commands = ["$exiv2 -q -d I rm $filename1", "$exiv2 -q -d I rm $filename2"]
     stdout = ["",""]
-    stderr = [
-"""Exiv2 exception in erase action for file $filename1:
-$kerCorruptedMetadata
-""",
-""]
-    retval = [1,0]
+    stderr = ["",""]
+    retval = [0,0]

@@ -110,6 +110,9 @@ namespace Exiv2 {
         case langAlt:
             value = UniquePtr(new LangAltValue);
             break;
+        case previewBuffer:
+            value = UniquePtr(new PreviewBufferValue);
+            break;
         default:
             value = UniquePtr(new DataValue(typeId));
             break;
@@ -1205,4 +1208,63 @@ namespace Exiv2 {
         return {toLong(n), 1};
     }
 
+    PreviewBufferValue::PreviewBufferValue()
+        : Value(previewBuffer)
+    {
+    }
+
+    int PreviewBufferValue::read(const byte*, long len, ByteOrder /*byteOrder*/)
+    {
+        if (len < 0) {
+          return 1;
+        }
+        size_ = static_cast<size_t>(len);
+        return 0;
+    }
+
+    int PreviewBufferValue::read(const std::string& buf)
+    {
+        size_ = buf.size();
+        return 0;
+    }
+
+    long PreviewBufferValue::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const
+    {
+        return size();
+    }
+
+    long PreviewBufferValue::count() const
+    {
+        return size();
+    }
+
+    long PreviewBufferValue::size() const
+    {
+        return static_cast<long>(size_);
+    }
+
+    PreviewBufferValue* PreviewBufferValue::clone_() const
+    {
+        return new PreviewBufferValue(*this);
+    }
+
+    std::ostream& PreviewBufferValue::write(std::ostream& os) const
+    {
+        return os;
+    }
+
+    long PreviewBufferValue::toLong(long /*n*/) const
+    {
+        return 0;
+    }
+
+    float PreviewBufferValue::toFloat(long n) const
+    {
+        return static_cast<float>(toLong(n));
+    }
+
+    Rational PreviewBufferValue::toRational(long n) const
+    {
+        return {toLong(n), 1};
+    }
 }  // namespace Exiv2

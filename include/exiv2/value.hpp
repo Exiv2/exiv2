@@ -1187,6 +1187,93 @@ namespace Exiv2 {
 
     }; // class TimeValue
 
+    /*!
+     @brief %Value for preview images
+
+     This class is used to handle Sony's preview images, which are not
+     stored in the metadata but instead refer to a location in the main
+     file. Since the actual preview is not available while we're parsing
+     the metadata, we create this placeholder value instead.
+
+     See: https://github.com/Exiv2/exiv2/issues/2001
+     */
+    class EXIV2API PreviewBufferValue : public Value {
+    public:
+        //! Shortcut for a %PreviewBufferValue auto pointer.
+        typedef std::unique_ptr<PreviewBufferValue> UniquePtr;
+
+        //! @name Creators
+        //@{
+        //! Default constructor.
+        PreviewBufferValue();
+        //! Virtual destructor.
+        ~PreviewBufferValue() override = default;
+        //@}
+
+        //! @name Manipulators
+        //@{
+        /*!
+          @brief Read the value from a character buffer.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Pointer to the data buffer to read from
+          @param len Number of bytes in the data buffer
+          @param byteOrder Byte order. Not needed.
+
+          @return 0 if successful<BR>
+                  1 in case of an unsupported time format
+         */
+        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        /*!
+          @brief Set the value to that of the string buf.
+
+          @param buf String containing the preview.
+
+          @return 0 if successful<BR>
+                  1 in case of an unsupported time format
+         */
+        int read(const std::string& buf) override;
+        //@}
+
+        //! @name Accessors
+        //@{
+        /*!
+          @brief Write value to a character data buffer.
+
+          The user must ensure that the buffer has enough memory. Otherwise
+          the call results in undefined behaviour.
+
+          @note The byte order is required by the interface but not used by this
+                method, so just use the default.
+
+          @param buf Data buffer to write to.
+          @param byteOrder Byte order. Not used.
+          @return Number of characters written.
+        */
+        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        long count() const override;
+        long size() const override;
+        std::ostream& write(std::ostream& os) const override;
+        //! Returns number of seconds in the day in UTC.
+        long toLong(long n = 0) const override;
+        //! Returns number of seconds in the day in UTC converted to float.
+        float toFloat(long n = 0) const override;
+        //! Returns number of seconds in the day in UTC converted to Rational.
+        Rational toRational(long n = 0) const override;
+        //@}
+
+    private:
+        //! @name Accessors
+        //@{
+        //! Internal virtual copy constructor.
+        PreviewBufferValue* clone_() const override;
+        //@}
+
+        size_t size_;
+    }; // class PreviewBufferValue
+
     //! Template to determine the TypeId for a type T
     template<typename T> TypeId getType();
 
