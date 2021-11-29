@@ -94,6 +94,19 @@ namespace Exiv2 {
     constexpr uint16_t Photoshop::iptc_ = 0x0404;
     constexpr uint16_t Photoshop::preview_ = 0x040c;
 
+    // BasicIo::read() with error checking
+    static void readOrThrow(BasicIo& iIo, byte* buf, long rcount, ErrorCode err) {
+      const long nread = iIo.read(buf, rcount);
+      enforce(nread == rcount, err);
+      enforce(!iIo.error(), err);
+    }
+
+    // BasicIo::seek() with error checking
+    static void seekOrThrow(BasicIo& iIo, long offset, BasicIo::Position pos, ErrorCode err) {
+      const int r = iIo.seek(offset, pos);
+      enforce(r == 0, err);
+    }
+
     static inline bool inRange(int lo,int value, int hi)
     {
         return lo<=value && value <= hi;
@@ -376,7 +389,7 @@ namespace Exiv2 {
             byte sizebuf[2];
             uint16_t size = 0;
             if (markerHasLength(marker)) {
-                io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
+                readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
                 // `size` is the size of the segment, including the 2-byte size field
                 // that we just read.
@@ -386,7 +399,7 @@ namespace Exiv2 {
             // Read the rest of the segment.
             DataBuf buf(size);
             if (size > 0) {
-                io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
+                readOrThrow(*io_, buf.data(2), size - 2, kerFailedToReadImageData);
                 buf.copyBytes(0, sizebuf, 2);
             }
 
@@ -603,7 +616,7 @@ namespace Exiv2 {
                 byte sizebuf[2];
                 uint16_t size = 0;
                 if (markerHasLength(marker)) {
-                    io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
+                    readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                     size = getUShort(sizebuf, bigEndian);
                     // `size` is the size of the segment, including the 2-byte size field
                     // that we just read.
@@ -614,7 +627,7 @@ namespace Exiv2 {
                 DataBuf buf(size);
                 if (size > 0) {
                     assert(size >= 2); // enforced above
-                    io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
+                    readOrThrow(*io_, buf.data(2), size - 2, kerFailedToReadImageData);
                     buf.copyBytes(0, sizebuf, 2);
                 }
 
@@ -834,16 +847,16 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << start << ":" << length << std::endl;
 #endif
-                    io_->seekOrThrow(start, BasicIo::beg, kerFailedToReadImageData);
+                    seekOrThrow(*io_, start, BasicIo::beg, kerFailedToReadImageData);
                     DataBuf buf(length);
-                    io_->readOrThrow(buf.data(), buf.size(), kerFailedToReadImageData);
+                    readOrThrow(*io_, buf.data(), buf.size(), kerFailedToReadImageData);
                     tempIo->write(buf.c_data(), buf.size());
                 }
             }
 
-            io_->seekOrThrow(0, BasicIo::beg, kerFailedToReadImageData);
+            seekOrThrow(*io_, 0, BasicIo::beg, kerFailedToReadImageData);
             io_->transfer(*tempIo);  // may throw
-            io_->seekOrThrow(0, BasicIo::beg, kerFailedToReadImageData);
+            seekOrThrow(*io_, 0, BasicIo::beg, kerFailedToReadImageData);
             readMetadata();
         }
     }  // JpegBase::printStructure
@@ -910,7 +923,7 @@ namespace Exiv2 {
             byte sizebuf[2];
             uint16_t size = 0;
             if (markerHasLength(marker)) {
-                io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
+                readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
                 // `size` is the size of the segment, including the 2-byte size field
                 // that we just read.
@@ -921,7 +934,7 @@ namespace Exiv2 {
             DataBuf buf(size);
             if (size > 0) {
                 assert(size >= 2); // enforced above
-                io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
+                readOrThrow(*io_, buf.data(2), size - 2, kerFailedToReadImageData);
                 buf.copyBytes(0, sizebuf, 2);
             }
 
@@ -1011,7 +1024,7 @@ namespace Exiv2 {
         if (!comment_.empty())
             ++search;
 
-        io_->seekOrThrow(seek, BasicIo::beg, kerNoImageInInputData);
+        seekOrThrow(*io_, seek, BasicIo::beg, kerNoImageInInputData);
         count = 0;
         marker = advanceToMarker(kerNoImageInInputData);
 
@@ -1024,7 +1037,7 @@ namespace Exiv2 {
             byte sizebuf[2];
             uint16_t size = 0;
             if (markerHasLength(marker)) {
-                io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
+                readOrThrow(*io_, sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
                 // `size` is the size of the segment, including the 2-byte size field
                 // that we just read.
@@ -1035,7 +1048,7 @@ namespace Exiv2 {
             DataBuf buf(size);
             if (size > 0) {
                 assert(size >= 2); // enforced above
-                io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
+                readOrThrow(*io_, buf.data(2), size - 2, kerFailedToReadImageData);
                 buf.copyBytes(0, sizebuf, 2);
             }
 

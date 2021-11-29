@@ -55,6 +55,14 @@
 namespace Exiv2 {
     using namespace Exiv2::Internal;
 
+    // This static function is a temporary fix in v0.27. In the next version,
+    // it will be added as a method of BasicIo.
+    static void readOrThrow(BasicIo& iIo, byte* buf, long rcount, ErrorCode err) {
+      const long nread = iIo.read(buf, rcount);
+      enforce(nread == rcount, err);
+      enforce(!iIo.error(), err);
+    }
+
     WebPImage::WebPImage(BasicIo::UniquePtr io)
     : Image(ImageType::webp, mdNone, std::move(io))
     {
@@ -132,7 +140,7 @@ namespace Exiv2 {
         DataBuf chunkId(WEBP_TAG_SIZE+1);
         chunkId.write_uint8(WEBP_TAG_SIZE, '\0');
 
-        io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
+        readOrThrow(*io_, data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
         uint64_t filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian);
 
         /* Set up header */
@@ -172,8 +180,8 @@ namespace Exiv2 {
          case we have any exif or xmp data, also check
          for any chunks with alpha frame/layer set */
         while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
-            io_->readOrThrow(chunkId.data(), WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
-            io_->readOrThrow(size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, chunkId.data(), WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
             // Check that `size_u32` is safe to cast to `long`.
@@ -181,10 +189,10 @@ namespace Exiv2 {
                     Exiv2::kerCorruptedMetadata);
             const long size = static_cast<long>(size_u32);
             DataBuf payload(size);
-            io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
             if ( payload.size() % 2 ) {
               byte c = 0;
-              io_->readOrThrow(&c, 1, Exiv2::kerCorruptedMetadata);
+              readOrThrow(*io_, &c, 1, Exiv2::kerCorruptedMetadata);
             }
 
             /* Chunk with information about features
@@ -309,8 +317,8 @@ namespace Exiv2 {
 
         io_->seek(12, BasicIo::beg);
         while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
-            io_->readOrThrow(chunkId.data(), 4, Exiv2::kerCorruptedMetadata);
-            io_->readOrThrow(size_buff, 4, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, chunkId.data(), 4, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, size_buff, 4, Exiv2::kerCorruptedMetadata);
 
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
@@ -320,7 +328,7 @@ namespace Exiv2 {
             const long size = static_cast<long>(size_u32);
 
             DataBuf payload(size);
-            io_->readOrThrow(payload.data(), size, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, payload.data(), size, Exiv2::kerCorruptedMetadata);
             if ( io_->tell() % 2 ) io_->seek(+1,BasicIo::cur); // skip pad
 
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X)) {
@@ -512,7 +520,7 @@ namespace Exiv2 {
         DataBuf chunkId(5);
         chunkId.write_uint8(4, '\0');
 
-        io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
+        readOrThrow(*io_, data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
 
         const uint32_t filesize_u32 =
             Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
@@ -538,8 +546,8 @@ namespace Exiv2 {
 
         chunkId.write_uint8(4, '\0');
         while (!io_->eof() && io_->tell() < filesize) {
-            io_->readOrThrow(chunkId.data(), WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
-            io_->readOrThrow(size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, chunkId.data(), WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
 
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
@@ -560,7 +568,7 @@ namespace Exiv2 {
                 has_canvas_data = true;
                 byte size_buf[WEBP_TAG_SIZE];
 
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
 
                 // Fetch width
                 memcpy(&size_buf, payload.c_data(4), 3);
@@ -575,7 +583,7 @@ namespace Exiv2 {
                 enforce(size >= 10, Exiv2::kerCorruptedMetadata);
 
                 has_canvas_data = true;
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
                 byte size_buf[WEBP_TAG_SIZE];
 
                 // Fetch width""
@@ -596,7 +604,7 @@ namespace Exiv2 {
                 byte size_buf_w[2];
                 byte size_buf_h[3];
 
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
 
                 // Fetch width
                 memcpy(&size_buf_w, payload.c_data(1), 2);
@@ -614,7 +622,7 @@ namespace Exiv2 {
                 has_canvas_data = true;
                 byte size_buf[WEBP_TAG_SIZE];
 
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
 
                 // Fetch width
                 memcpy(&size_buf, payload.c_data(6), 3);
@@ -626,10 +634,10 @@ namespace Exiv2 {
                 size_buf[3] = 0;
                 pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ICCP)) {
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
                 this->setIccProfile(std::move(payload));
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF)) {
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
 
                 byte  size_buff2[2];
                 // 4 meaningful bytes + 2 padding bytes
@@ -707,7 +715,7 @@ namespace Exiv2 {
                     exifData_.clear();
                 }
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
-                io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
+                readOrThrow(*io_, payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
                 xmpPacket_.assign(payload.c_str(), payload.size());
                 if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
@@ -750,9 +758,9 @@ namespace Exiv2 {
         byte webp[len];
         byte data[len];
         byte riff[len];
-        iIo.readOrThrow(riff, len, Exiv2::kerCorruptedMetadata);
-        iIo.readOrThrow(data, len, Exiv2::kerCorruptedMetadata);
-        iIo.readOrThrow(webp, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, riff, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, data, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, webp, len, Exiv2::kerCorruptedMetadata);
         bool matched_riff = (memcmp(riff, RiffImageId, len) == 0);
         bool matched_webp = (memcmp(webp, WebPImageId, len) == 0);
         iIo.seek(-12, BasicIo::cur);
