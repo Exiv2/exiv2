@@ -1601,7 +1601,8 @@ namespace Exiv2 {
         } else {
             char msg[128];
             snprintf(msg, sizeof(msg), "Sony preview image of size %u", isize);
-            v->read(reinterpret_cast<byte*>(msg), strlen(msg), byteOrder());
+            const long len = static_cast<long>(strlen(msg));
+            v->read(reinterpret_cast<byte*>(msg), len, byteOrder());
         }
 
         object->setValue(std::move(v));
