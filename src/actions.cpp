@@ -1294,7 +1294,8 @@ namespace Action {
     int Modify::applyCommands(Exiv2::Image* pImage)
     {
         if (!Params::instance().jpegComment_.empty()) {
-            if (Params::instance().verbose_) {
+            // If modify is used when extracting to stdout then ignore verbose
+            if (Params::instance().verbose_ && !(Params::instance().action_ & Action::extract && Params::instance().target_ & Params::ctStdInOut)) {
                 std::cout << _("Setting JPEG comment") << " '"
                           << Params::instance().jpegComment_
                           << "'"
@@ -1335,7 +1336,8 @@ namespace Action {
 
     int Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
-        if (Params::instance().verbose_) {
+        // If modify is used when extracting to stdout then ignore verbose
+        if (Params::instance().verbose_ && !(Params::instance().action_ & Action::extract && Params::instance().target_ & Params::ctStdInOut)) {
             std::cout << _("Add") << " " << modifyCmd.key_ << " \""
                       << modifyCmd.value_ << "\" ("
                       << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
@@ -1371,7 +1373,8 @@ namespace Action {
     // empty metadatum if reading the value fails
     int Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
-        if (Params::instance().verbose_) {
+        // If modify is used when extracting to stdout then ignore verbose
+        if (Params::instance().verbose_ && !(Params::instance().action_ & Action::extract && Params::instance().target_ & Params::ctStdInOut)) {
             std::cout << _("Set") << " " << modifyCmd.key_ << " \""
                       << modifyCmd.value_ << "\" ("
                       << Exiv2::TypeInfo::typeName(modifyCmd.typeId_)
@@ -1438,7 +1441,8 @@ namespace Action {
 
     void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd)
     {
-        if (Params::instance().verbose_) {
+        // If modify is used when extracting to stdout then ignore verbose
+        if (Params::instance().verbose_ && !(Params::instance().action_ & Action::extract && Params::instance().target_ & Params::ctStdInOut)) {
             std::cout << _("Del") << " " << modifyCmd.key_ << std::endl;
         }
 
@@ -1470,7 +1474,8 @@ namespace Action {
 
     void Modify::regNamespace(const ModifyCmd& modifyCmd)
     {
-        if (Params::instance().verbose_) {
+        // If modify is used when extracting to stdout then ignore verbose
+        if (Params::instance().verbose_ && !(Params::instance().action_ & Action::extract && Params::instance().target_ & Params::ctStdInOut)) {
             std::cout << _("Reg ") << modifyCmd.key_ << "=\""
                       << modifyCmd.value_ << "\"" << std::endl;
         }
@@ -1920,7 +1925,7 @@ namespace {
         // Copy each type of metadata
         if (   Params::instance().target_ & Params::ctExif
             && !sourceImage->exifData().empty()) {
-            if (Params::instance().verbose_) {
+            if (Params::instance().verbose_ && !bStdout) {
                 std::cout << _("Writing Exif data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
@@ -1934,7 +1939,7 @@ namespace {
         }
         if (   Params::instance().target_ & Params::ctIptc
             && !sourceImage->iptcData().empty()) {
-            if (Params::instance().verbose_) {
+            if (Params::instance().verbose_ && !bStdout) {
                 std::cout << _("Writing IPTC data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
@@ -1948,7 +1953,7 @@ namespace {
         }
         if (    Params::instance().target_ & (Params::ctXmp|Params::ctXmpRaw)
             && !sourceImage->xmpData().empty()) {
-            if (Params::instance().verbose_) {
+            if (Params::instance().verbose_ && !bStdout) {
                 std::cout << _("Writing XMP data from") << " " << source
                           << " " << _("to") << " " << target << std::endl;
             }
@@ -1975,7 +1980,7 @@ namespace {
         }
         if (   Params::instance().target_ & Params::ctComment
             && !sourceImage->comment().empty()) {
-            if (Params::instance().verbose_) {
+            if (Params::instance().verbose_ && !bStdout) {
                 std::cout << _("Writing JPEG comment from") << " " << source
                           << " " << _("to") << " " << tgt << std::endl;
             }
