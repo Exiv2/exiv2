@@ -19,27 +19,18 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     sudo pip3 install virtualenv
     virtualenv conan
     source conan/bin/activate
-    pip install conan==1.30.2
+    pip install conan==1.43.0
     pip install codecov
     pip install lxml
 else
     sudo pip3 install virtualenv
     virtualenv conan
     source conan/bin/activate
-    pip3 install conan==1.30.2
+    pip3 install conan==1.43.0
     pip3 install codecov
     pip3 install lxml
 fi
 
-conan --version
-# upgrade the conan installation (#2016)
-pip install conan --upgrade
-pushd ~/.conan/data
-for f in settings.yml cacert.pem do
-    if [ -e $f.new ]; then 
-    	cp $f.new $f
-    fi
-done
 conan --version
 conan remote remove conan-center
 conan remote    add conan-center https://center.conan.io
