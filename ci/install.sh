@@ -32,6 +32,19 @@ else
 fi
 
 conan --version
+# upgrade the conan installation (#2016)
+pip install conan --upgrade
+pushd ~/.conan/data
+for f in settings.yml cacert.pem do
+    if [ -e $f.new ]; then 
+    	cp $f.new $f
+    fi
+done
+conan --version
+conan remote remove conan-center
+conan remote    add conan-center https://center.conan.io
+conan remote list
+
 conan config install https://github.com/conan-io/conanclientcert.git
 conan config set storage.path=~/conanData
 conan profile new default --detect
