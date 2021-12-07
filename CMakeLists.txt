@@ -14,6 +14,9 @@ project(exiv2          # use TWEAK to categorize the build
 if(NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE Release)
 endif()
+if ( NOT CMAKE_CXX_STANDARD )
+    set(CMAKE_CXX_STANDARD 98)
+endif()
 
 include(cmake/mainSetup.cmake  REQUIRED)
 
