@@ -1,5 +1,6 @@
-# set include path for FindXXX.cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+# set include path for FindXXX.cmake files (search for conan generated FindXXX.cmake, then exiv2/cmake/FindXXX.cmake)
+set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_SOURCE_DIR}/cmake/;${CMAKE_MODULE_PATH}")
+message ("-- CMAKE_MODULE_PATH = ${CMAKE_MODULE_PATH}")
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
