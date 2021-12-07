@@ -11,7 +11,7 @@ environment:
       VS_COMPILER_VERSION: 16
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
+      UNIT_TESTS: 0
       WEBREADY: False
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -20,7 +20,7 @@ environment:
       VS_COMPILER_VERSION: 15
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
+      UNIT_TESTS: 0
       WEBREADY: False
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
