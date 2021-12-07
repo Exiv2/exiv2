@@ -30,7 +30,7 @@ class Exiv2Conan(ConanFile):
             self.requires('libiconv/1.16')
 
         if self.options.unitTests:
-            self.requires('gtest/1.10.0')
+            self.requires('gtest/1.8.1')
             if self.settings.build_type == "Debug":
                 self.options['gtest'].debug_postfix = ''
 

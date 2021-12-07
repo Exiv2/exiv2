@@ -51,6 +51,7 @@ endif ()
 target_include_directories(unit_tests
     PRIVATE
         ${exiv2lib_INCLUDE_DIRECTORIES}
+        ${GTest_INCLUDE_DIRS}
 )
 
 #TODO Use GTest::GTest once we upgrade the minimum CMake version required
