@@ -117,7 +117,7 @@ if __name__ == '__main__':
         type=str,
         nargs='?',
         default="-DEXIV2_TEAM_EXTRA_WARNINGS=ON -DEXIV2_ENABLE_VIDEO=ON "
-        "-DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_BMFF=ON "
+        "-DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_BMFF=ON "
         "-DBUILD_WITH_CCACHE=ON"
     )
 
@@ -129,5 +129,5 @@ if __name__ == '__main__':
     matrix_build(
         args.shared_libs, args.compilers, args.build_types,
         args.cmake_executable[0], args.cmake_options,
-        not args.without_tests
+        False /* not args.without_tests */
     )
