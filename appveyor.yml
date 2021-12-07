@@ -29,7 +29,7 @@ environment:
       VS_COMPILER_VERSION: 14
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
       ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
+      UNIT_TESTS: 0
       WEBREADY: False
       WARNINGS_AS_ERRORS: ON
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
@@ -60,6 +60,8 @@ install:
 
 before_build:
     - cmd: conan config install https://github.com/conan-io/conanclientcert.git
+    - cmd: conan remote clean
+    - cmd: conan remote add conan-center https://center.conan.io
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
