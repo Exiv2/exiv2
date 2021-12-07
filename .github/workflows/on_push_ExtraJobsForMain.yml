@@ -24,6 +24,8 @@ jobs:
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan remote clear
+          conan remote add conan-center https://center.conan.io
 
       - name: Run Conan
         run: |

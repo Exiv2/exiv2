@@ -121,6 +121,8 @@ jobs:
           conan profile update settings.build_type=Release default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
           conan config get storage.path
+          conan remote clear
+          conan remote add conan-center https://center.conan.io
           tree /f ./conanCache
 
       - name: Run Conan
