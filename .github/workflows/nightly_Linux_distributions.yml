@@ -41,7 +41,7 @@ jobs:
     - name: build and compile
       run: |
         mkdir build && cd build
-        conan remote clear
+        conan remote clean
         conan remote add conan-center https://center.conan.io
         cmake $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=${{ matrix.shared_libraries }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} ..
         make -j $(nproc)

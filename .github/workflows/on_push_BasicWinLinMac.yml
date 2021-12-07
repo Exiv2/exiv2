@@ -35,7 +35,7 @@ jobs:
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile show default
-          conan remote clear
+          conan remote clean
           conan remote add conan-center https://center.conan.io
 
       - name: Run Conan
@@ -76,7 +76,7 @@ jobs:
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
           conan profile show default
-          conan remote clear
+          conan remote clean
           conan remote add conan-center https://center.conan.io
           conan install .. -o webready=False --build missing
 

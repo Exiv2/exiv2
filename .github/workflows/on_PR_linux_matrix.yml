@@ -27,7 +27,7 @@ jobs:
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
           conan profile update settings.compiler.libcxx=libstdc++11 default
-          conan remote clear
+          conan remote clean
           conan remote add conan-center https://center.conan.io
 
 
