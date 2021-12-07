@@ -21,7 +21,7 @@ CMAKE_OPTIONS="$COMMON_CMAKE_OPTIONS -DCMAKE_CXX_FLAGS=-Wno-deprecated -DCMAKE_C
 
 mkdir build
 cd    build
-conan install .. -o webready=False --build missing
+conan install .. -o webready=True --build missing
 cmake ${CMAKE_OPTIONS} ..
 make  -j
 make  tests

@@ -32,12 +32,12 @@ jobs:
           mkdir build && cd build
           conan profile list
           conan profile show default
-          conan install .. -o webready=False --build missing
+          conan install .. -o webready=True --build missing
 
       - name: Build
         run: |
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
           make -j
 
       - name: Tests + Upload coverage

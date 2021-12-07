@@ -32,13 +32,12 @@ else
 fi
 
 conan --version
-conan remote remove conan-center
-conan remote    add conan-center https://center.conan.io
-conan remote list
-
-conan config install https://github.com/conan-io/conanclientcert.git
-conan config set storage.path=~/conanData
+conan config  install https://github.com/conan-io/conanclientcert.git
+conan config  set storage.path=~/conanData
 conan profile new default --detect
+conan remote  remove clean
+conan remote  add    conan-center https://center.conan.io
+conan remote  list
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
     conan profile update settings.compiler.libcxx=libstdc++11 default
