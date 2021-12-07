@@ -67,7 +67,7 @@ jobs:
           md build
           cd build
           conan profile list
-          conan install .. --build missing
+          conan install .. -o webready=True -o unitTests=True --build missing
           dir ..
           tree /f ../conanCache
  

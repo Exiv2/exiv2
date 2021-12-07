@@ -37,7 +37,7 @@ jobs:
           mkdir build && cd build
           conan profile list
           conan profile show default
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True -o unitTests=True --build missing
 
       - name: Build packaged release
         run: |
@@ -130,7 +130,7 @@ jobs:
           md build
           cd build
           conan profile list
-          conan install .. --build missing
+          conan install .. -o webready=True -o unitTests=True --build missing
           dir ..
           tree /f ../conanCache
 

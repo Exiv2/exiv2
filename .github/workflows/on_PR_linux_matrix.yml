@@ -36,7 +36,7 @@ jobs:
           mkdir build && cd build
           conan profile list
           conan profile show default
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True -o unitTests=True --build missing
 
       - name: Build
         run: |

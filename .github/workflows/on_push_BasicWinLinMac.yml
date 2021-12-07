@@ -43,7 +43,7 @@ jobs:
           md build
           cd build
           conan profile list
-          conan install .. --build missing
+          conan install .. -o webready=True --build missing
 
       - name: Build
         run: |
