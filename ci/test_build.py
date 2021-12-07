@@ -129,5 +129,5 @@ if __name__ == '__main__':
     matrix_build(
         args.shared_libs, args.compilers, args.build_types,
         args.cmake_executable[0], args.cmake_options,
-        False /* not args.without_tests */
+        False # not args.without_tests
     )
