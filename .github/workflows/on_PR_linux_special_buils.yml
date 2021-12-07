@@ -192,4 +192,4 @@ jobs:
 
       - name: Build
         run:
-            python3 ci/test_build.py --without-tests --cmake-executable "mingw64-cmake" --cmake-options "-DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_WIN_UNICODE=ON " --compilers --shared-libs OFF
+            python3 ci/test_build.py --without-tests --cmake-executable "mingw64-cmake" --cmake-options "-DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_WIN_UNICODE=ON " --compilers --shared-libs OFF
