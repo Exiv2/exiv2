@@ -1,62 +1,36 @@
-init:
-  - echo %PYTHON%
-
-environment:
-  PYTHON: "C:/Python37-x64"
-
-  matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      BUILD: MINGW64
-      INTEGRATION_TESTS: 1
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WEBREADY: False
-      WARNINGS_AS_ERRORS: ON
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      BUILD: CYGWIN64
-      INTEGRATION_TESTS: 1
-      ARCHITECTURE: x86_64
-      UNIT_TESTS: 1
-      WEBREADY: False
-      WARNINGS_AS_ERRORS: ON
+image: Visual Studio 2019
 
 shallow_clone: true
 
+matrix:
+  - BUILD: CYGWIN64
+    INTEGRATION_TESTS: 1
+    ARCHITECTURE: x86_64
+    UNIT_TESTS: 1
+    WEBREADY: False
+    WARNINGS_AS_ERRORS: ON
+
 install:
-    - echo %APPVEYOR_BUILD_FOLDER%
-    - if "%BUILD%"=="MINGW64" C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S --needed base-devel mingw-w64-x86_64-{toolchain,cmake,expat,gettext,gtest,libiconv,python-lxml,zlib}"
-    - if "%BUILD%"=="MINGW64" set "PATH=C:\msys64\mingw64\bin;C:\msys64\usr\local\bin;C:\msys64\usr\bin;C:\msys64\bin;"
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - if "%BUILD%"=="CYGWIN64" set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x apt-cyg; mv apt-cyg /usr/local/bin"
-    # Issue:#2003 Change mirror used by apt-cyg. cmake installed by default mirror is broken 
-    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
-    - if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "apt-cyg install cmake libexpat-devel libxml2-devel libxslt-devel python38-lxml zlib-devel"
-    # As a last resort, build CMake from source.  Caution:  This takes about 60 minutes.
-    # if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash -c "cd /tmp; curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0.tar.gz; tar xfz cmake-3.22.0.tar.gz; cd cmake-3.22.0 ; ./bootstrap ; make ; make install" 
+  - set "PATH=C:\cygwin64\usr\local\bin;C:\cygwin64\bin;C:\cygwin64\usr\bin;C:\cygwin64\usr\sbin;"
+  - C:\cygwin64\bin\bash -c "wget -O /usr/local/bin/apt-cyg https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg ; chmod +x /usr/local/bin/apt-cyg"
+  # Issue:#2003 Change mirror used by apt-cyg. cmake installed by default mirror is broken
+  - C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
+  - C:\cygwin64\bin\bash -c "apt-cyg install cmake libexpat-devel libxml2-devel libxslt-devel python38-lxml zlib-devel"
+  # As a last resort, build CMake from source.  Caution:  This takes about 60 minutes.
+  # - C:\cygwin64\bin\bash -c "cd /tmp; curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.1.tar.gz; tar xfz cmake-3.22.1.tar.gz; cd cmake-3.22.1 ; ./bootstrap ; make ; make install"
 
 build_script:
-    - cmd: set   CMD=mkdir -p build
-    - cmd: set   CMD=%CMD%; cd build    
-    - cmd: set   CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-    - cmd: set   CMD=%CMD%; cmake --build . --config Release
-    - cmd: rem echo %CMD%
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if "%BUILD%"=="MINGW64" C:\msys64\usr\bin\bash -c "%CMD%"
-    - cmd: set   CMD=which python3 python
-    - cmd: set   CMD=%CMD%; python --version
-    - cmd: set   CMD=%CMD%; build/bin/exiv2 --verbose --version; pwd ; ls -l
-    - cmd: set   CMD=%CMD%; cd build ; cmake --build . --config Release --target python_tests
-    - cmd: echo %CMD%
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if "%BUILD%"=="MINGW64" C:\msys64\usr\bin\bash -c "%CMD%"
-    - cmd: set "PATH=c:\cygwin64\usr\local\bin;c:\cygwin64\bin;c:\cygwin64\usr\bin;c:\cygwin64\usr\sbin;"
-    - cmd: set  CMD=cmake.exe --version
-    - cmd: set  CMD=%CMD%; mkdir -p build
-    - cmd: set  CMD=%CMD%; cd build
-    - cmd: set  CMD=%CMD%; cmake.exe .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-    - cmd: set  CMD=%CMD%; cmake.exe --build . --config Release
-    - cmd: set  CMD=%CMD%; cmake.exe --build . --target python_tests --config Release
-    - cmd: echo %CMD%
-    - cd %APPVEYOR_BUILD_FOLDER%
-    - cmd: if "%BUILD%"=="CYGWIN64" C:\cygwin64\bin\bash.exe -c "%CMD%"
+  - set  CMD=mkdir -p build
+  - set  CMD=%CMD%; cd build
+  - set  CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+  - set  CMD=%CMD%; cmake --build . --config Release
+  - echo %CMD%
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - C:\cygwin64\bin\bash -c "%CMD%"
+
+test_script:
+  - set  CMD=cd build
+  - set  CMD=%CMD%; cmake --build . --config Release --target python_tests
+  - echo %CMD%
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - C:\cygwin64\bin\bash -c "%CMD%"
