@@ -23,7 +23,7 @@ jobs:
           sudo apt-get install gettext
           sudo apt-get install doxygen
           sudo apt-get install graphviz
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan common config
         run: |
