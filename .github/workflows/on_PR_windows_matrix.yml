@@ -19,7 +19,7 @@ jobs:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
         platform: [ x64, x86 ]
-        
+
     steps:
       - uses: actions/checkout@v2
 
@@ -68,17 +68,17 @@ jobs:
           conan install .. --build missing
           dir ..
           tree /f ../conanCache
- 
+
       - name: Build
         run: |
           cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_ENABLE_BMFF=ON -DCMAKE_INSTALL_PREFIX=install ..
-          ninja
+          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_ENABLE_BMFF=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake --build .
 
       - name: Install
         run: |
           cd build
-          ninja install
+          cmake --install .
           tree /f install
 
       - name: Test
@@ -86,3 +86,59 @@ jobs:
         run: |
           cd build
           cmake --build . --target tests
+
+  msys2:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        sys: [MINGW64]
+    name: MSYS2 ${{matrix.sys}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.sys}}
+          update: true
+          install: >-
+            base-devel
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
+            expat:p
+            gettext:p
+            gtest:p
+            libiconv:p
+            python-lxml:p
+            zlib:p
+
+      - name: Build
+        run: |
+          cmake -GNinja \
+            -DCMAKE_CXX_STANDARD=98 \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DEXIV2_ENABLE_NLS=ON \
+            -DEXIV2_ENABLE_WIN_UNICODE=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -S . -B build
+          cmake --build build
+
+      - name: Test
+        run: |
+          cmake --build build --target tests

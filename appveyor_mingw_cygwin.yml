@@ -2,13 +2,13 @@ image: Visual Studio 2019
 
 shallow_clone: true
 
-matrix:
-  - BUILD: CYGWIN64
-    INTEGRATION_TESTS: 1
-    ARCHITECTURE: x86_64
-    UNIT_TESTS: 1
-    WEBREADY: False
-    WARNINGS_AS_ERRORS: ON
+environment:
+  BUILD: CYGWIN64
+  INTEGRATION_TESTS: 1
+  ARCHITECTURE: x86_64
+  UNIT_TESTS: 1
+  WEBREADY: False
+  WARNINGS_AS_ERRORS: ON
 
 install:
   - set "PATH=C:\cygwin64\usr\local\bin;C:\cygwin64\bin;C:\cygwin64\usr\bin;C:\cygwin64\usr\sbin;"
@@ -17,7 +17,7 @@ install:
   - C:\cygwin64\bin\bash -c "apt-cyg mirror http://mirrors.kernel.org/sources.redhat.com/cygwin/"
   - C:\cygwin64\bin\bash -c "apt-cyg install cmake libexpat-devel libxml2-devel libxslt-devel python38-lxml zlib-devel"
   # As a last resort, build CMake from source.  Caution:  This takes about 60 minutes.
-  # - C:\cygwin64\bin\bash -c "cd /tmp; curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.1.tar.gz; tar xfz cmake-3.22.1.tar.gz; cd cmake-3.22.1 ; ./bootstrap ; make ; make install"
+  # - C:\cygwin64\bin\bash -c "cd /tmp; curl -LO https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1.tar.gz; tar xfz cmake-3.22.1.tar.gz; cd cmake-3.22.1 ; ./bootstrap ; make ; make install"
 
 build_script:
   - set  CMD=mkdir -p build
