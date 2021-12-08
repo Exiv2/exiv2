@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 #include <iostream>
 
 int main(int argc, char** argv)

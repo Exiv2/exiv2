@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.39.0"
+          pip.exe install "conan==1.43.0"
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile show default
@@ -65,7 +65,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan
         run: |
@@ -79,7 +79,7 @@ jobs:
       - name: build and compile
         run: |
           cd build
-          cmake -GNinja -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
+          cmake -GNinja -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated ..
           cmake --build .
 
       - name: Test

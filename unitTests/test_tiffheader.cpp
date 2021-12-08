@@ -19,7 +19,7 @@
  */
 
 #include <tiffimage_int.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 #include <sstream>
 
 using namespace Exiv2;

@@ -19,7 +19,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan common config
         run: |
