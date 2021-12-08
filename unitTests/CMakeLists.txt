@@ -34,7 +34,6 @@ add_executable(unit_tests
     test_tiffheader.cpp
     test_types.cpp
     test_LangAltValueRead.cpp
-    gtestwrapper.h
     ${unit_tests_exiv2lib_SOURCES}
 )
 
@@ -57,7 +56,8 @@ target_include_directories(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         ${exiv2lib_LINK_LIBRARIES}
-        ${GTEST_BOTH_LIBRARIES}
+        GTest::gtest
+        GTest::gtest_main
 )
 
 # ZLIB is used in exiv2lib_int.
@@ -71,19 +71,6 @@ target_include_directories(unit_tests
         ${CMAKE_SOURCE_DIR}/src
 )
 
-target_compile_definitions(unit_tests
-    PRIVATE
-        GTEST_LINKED_AS_SHARED_LIBRARY=1
-)
-
 set_target_properties(unit_tests PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
-
-if (USING_CONAN)
-    target_compile_definitions(unit_tests PRIVATE ${CONAN_COMPILE_DEFINITIONS_GTEST})
-endif()
-
-if (MSVC)
-    set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")
-endif()

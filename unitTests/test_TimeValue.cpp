@@ -19,7 +19,7 @@
  */
 
 #include "value.hpp"
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 using namespace Exiv2;
 
 TEST(ATimeValue, isDefaultConstructed)

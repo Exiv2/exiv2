@@ -21,7 +21,7 @@
 #include <exiv2/types.hpp>
 #include <cmath>
 #include <limits>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 using namespace Exiv2;
 
 // More info about tm : http://www.cplusplus.com/reference/ctime/tm/

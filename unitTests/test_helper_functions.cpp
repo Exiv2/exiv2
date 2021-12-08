@@ -19,7 +19,7 @@
  */
 
 #include "helper_functions.hpp"
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 TEST(string_from_unterminated, terminatedArray)
 {

@@ -19,7 +19,7 @@
  */
 
 #include <exiv2/basicio.hpp>
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 using namespace Exiv2;
 
 TEST(MemIo, seek_out_of_bounds_00)
