@@ -52,7 +52,6 @@ target_include_directories(unit_tests
         ${exiv2lib_INCLUDE_DIRECTORIES}
 )
 
-#TODO Use GTest::GTest once we upgrade the minimum CMake version required
 target_link_libraries(unit_tests
     PRIVATE
         ${exiv2lib_LINK_LIBRARIES}
@@ -74,3 +73,8 @@ target_include_directories(unit_tests
 set_target_properties(unit_tests PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
 )
+
+# Ignore warnings about missing PDB files from 3rd party libs
+if (MSVC)
+    set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")
+endif()
