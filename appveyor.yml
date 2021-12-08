@@ -54,12 +54,14 @@ install:
     - set PATH=C:\projects\deps\ninja;%PATH%
     - ninja --version
     - python -m pip install --upgrade pip
-    - pip3.exe install conan==1.30.2
+    - pip3.exe install conan==1.43.0
     - pip3.exe install lxml
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
     - cmd: conan config install https://github.com/conan-io/conanclientcert.git
+    - cmd: conan remote clean
+    - cmd: conan remote add conan-center https://center.conan.io
     - cmd: conan remote list
     - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
     - cmd: conan profile new --detect default
