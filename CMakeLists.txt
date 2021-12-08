@@ -1,5 +1,5 @@
-# Minimum version imposed by Centos:8
-cmake_minimum_required( VERSION 3.11.0 )
+# Minimum version imposed by Debian:9
+cmake_minimum_required( VERSION 3.7.2 )
 
 project(exiv2          # use TWEAK to categorize the build
     VERSION 0.27.5     # 0.27.5    = GM               (tagged and released)
