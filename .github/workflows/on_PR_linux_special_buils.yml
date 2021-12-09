@@ -16,11 +16,10 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan common config
         run: |
-          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -65,11 +64,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install valgrind ninja-build
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan common config
         run: |
-          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -104,11 +102,10 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan common config
         run: |
-          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -143,11 +140,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install valgrind doxygen graphviz gettext
-          pip3 install conan==1.39.0
+          pip3 install conan==1.43.0
 
       - name: Conan common config
         run: |
-          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
