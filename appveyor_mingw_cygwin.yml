@@ -30,7 +30,7 @@ build_script:
 
 test_script:
   - set  CMD=cd build
-  - set  CMD=%CMD%; cmake --build . --config Release --target python_tests
+  - set  CMD=%CMD%; ctest --output-on-failure
   - echo %CMD%
   - cd %APPVEYOR_BUILD_FOLDER%
   - C:\cygwin64\bin\bash -c "%CMD%"
