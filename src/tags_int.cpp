@@ -1701,6 +1701,10 @@ namespace Exiv2 {
                 "for the third illuminant. Otherwise, this tag is ignored. The "
                 "format of the data is the same as IlluminantData1."),
                 ifd0Id, dngTags, undefined, -1, printValue}, // DNG 1.6 tag
+        {0xcd38, "MaskSubArea", N_("Mask Subarea"),
+                N_("This tag identifies the crop rectangle of this IFD's mask, "
+                "relative to the main image."),
+                ifd0Id, dngTags, unsignedLong, 4, printValue}, // DNG 1.6 tag
         {0xcd39, "ProfileHueSatMapData3", N_("Profile Hue Sat Map Data 3"),
                 N_("This tag contains the data for the third hue/saturation/value mapping "
                 "table. Each entry of the table contains three 32-bit IEEE floating-point "
@@ -1718,6 +1722,14 @@ namespace Exiv2 {
                 "used if ColorPlanes is greater than 3. The matrix is stored in row "
                 "scan order."),
                 ifd0Id, dngTags, signedRational, -1, printValue}, // DNG 1.6 tag
+        {0xcd3b, "RGBTables", N_("RGB Tables"),
+                N_("This tag specifies color transforms that can be applied to masked image "
+                "regions. Color transforms are specified using RGB-to-RGB color lookup tables. "
+                "These tables are associated with Semantic Masks to limit the color transform "
+                "to a sub-region of the image. The overall color transform is a linear "
+                "combination of the color tables, weighted by their corresponding Semantic "
+                "Masks."),
+                ifd0Id, dngTags, undefined, -1, printValue}, // DNG 1.6 tag
 
         ////////////////////////////////////////
         // End of list marker

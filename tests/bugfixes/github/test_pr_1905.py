@@ -254,8 +254,10 @@ Exif.Image.ForwardMatrix3
 Exif.Image.IlluminantData1
 Exif.Image.IlluminantData2
 Exif.Image.IlluminantData3
+Exif.Image.MaskSubArea
 Exif.Image.ProfileHueSatMapData3
 Exif.Image.ReductionMatrix3
+Exif.Image.RGBTables
 Exif.Photo.ExposureTime
 Exif.Photo.FNumber
 Exif.Photo.ExposureProgram
