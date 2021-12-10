@@ -882,6 +882,8 @@ namespace Exiv2 {
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::AutoPtr(new CurlIo(path)); // may throw
         }
+#else
+        (void)(useCurl);
 #endif
 
         if (fProt == pHttp)
@@ -892,8 +894,6 @@ namespace Exiv2 {
             return BasicIo::AutoPtr(new XPathIo(path)); // may throw
 
         return BasicIo::AutoPtr(new FileIo(path));
-
-        (void)(useCurl);
     } // ImageFactory::createIo
 
 #ifdef EXV_UNICODE_PATH
@@ -909,6 +909,8 @@ namespace Exiv2 {
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::AutoPtr(new CurlIo(wpath));
         }
+#else
+        (void)(useCurl);
 #endif
         if (fProt == pHttp)
             return BasicIo::AutoPtr(new HttpIo(wpath));

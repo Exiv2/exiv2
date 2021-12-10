@@ -39,8 +39,6 @@ jobs:
           make -j
 
       - name: Tests + Upload coverage
-        env:
-          EXIV2_EXT: .exe
         run: |
           cd build
           cmake --build . --target tests

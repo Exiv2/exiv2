@@ -38,8 +38,6 @@ jobs:
           cmake --build .
 
       - name: Tests + Upload coverage
-        env:
-          EXIV2_EXT: .exe
         run: |
           cd build
           cmake --build . --target tests
@@ -87,8 +85,6 @@ jobs:
           cmake --build .
 
       - name: Tests with valgrind
-        env:
-          EXIV2_EXT: .exe
         run: |
           cd build/bin
           valgrind ./unit_tests
@@ -126,8 +122,6 @@ jobs:
           cmake --build .
 
       - name: Tests
-        env:
-          EXIV2_EXT: .exe
         run: |
           cd build
           cmake --build . --target tests
@@ -167,21 +161,3 @@ jobs:
       - name: Generate documentation
         run: |
           make doc
-
-  special_FedoraMinGW:
-    name: 'Fedora MinGW'
-    runs-on: ubuntu-latest
-    container:
-        image: "fedora:latest"
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: install dependencies
-        run: |
-            dnf -y upgrade
-            dnf -y install mingw64-gcc-c++ mingw64-filesystem mingw64-expat mingw64-zlib cmake make
-
-      - name: Build
-        run:
-            python3 ci/test_build.py --without-tests --cmake-executable "mingw64-cmake" --cmake-options "-DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_WIN_UNICODE=ON " --compilers --shared-libs OFF

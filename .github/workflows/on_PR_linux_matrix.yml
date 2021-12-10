@@ -48,8 +48,6 @@ jobs:
           tree install
 
       - name: Test
-        env:
-          EXIV2_EXT: .exe
         run: |
           cd build
           cmake --build . --target tests
