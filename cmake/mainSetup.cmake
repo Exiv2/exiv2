@@ -6,6 +6,7 @@ include(CheckFunctionExists)
 include(GenerateExportHeader)
 include(CMakeDependentOption)
 include(cmake/JoinPaths.cmake)
+include(CTest)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)

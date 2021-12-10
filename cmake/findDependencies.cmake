@@ -17,6 +17,8 @@ if (APPLE)
      set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
 
+find_package (Python3 COMPONENTS Interpreter)
+
 find_package(Threads REQUIRED)
 
 if( EXIV2_ENABLE_PNG )
