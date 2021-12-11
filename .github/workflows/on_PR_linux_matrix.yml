@@ -49,5 +49,4 @@ jobs:
 
       - name: Test
         run: |
-          cd build
-          cmake --build . --target tests
+          ctest --test-dir build --output-on-failure

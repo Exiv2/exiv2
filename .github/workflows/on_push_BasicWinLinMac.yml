@@ -52,8 +52,7 @@ jobs:
 
       - name: Test
         run: |
-          cd build
-          cmake --build . --target tests
+          ctest --test-dir build --output-on-failure
 
   Linux:
     name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
@@ -84,8 +83,7 @@ jobs:
 
       - name: Test
         run: |
-          cd build
-          cmake --build . --target tests
+          ctest --test-dir build --output-on-failure
 
   MacOS:
     name: 'MacOS - clang - Arch:x64 BuildType:Release - SHARED'
@@ -114,5 +112,4 @@ jobs:
 
       - name: Test
         run: |
-          cd build
-          cmake --build . --target tests
+          ctest --test-dir build --output-on-failure

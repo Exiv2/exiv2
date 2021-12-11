@@ -40,7 +40,6 @@ foreach(entry ${SAMPLES})
     set_target_properties(${target} PROPERTIES
       COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
-    add_test( ${target}_test ${target} )
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     if ( NOT ${target} MATCHES ".*test.*")                                # don't install tests
         install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

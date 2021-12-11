@@ -40,7 +40,7 @@ jobs:
       - name: Tests + Upload coverage
         run: |
           cd build
-          cmake --build . --target tests
+          ctest --output-on-failure
           pip install gcovr
           gcovr -r ./../ -x --exclude-unreachable-branches --exclude-throw-branches -o coverage.xml .
           curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
@@ -123,8 +123,7 @@ jobs:
 
       - name: Tests
         run: |
-          cd build
-          cmake --build . --target tests
+          ctest --test-dir build --output-on-failure
 
   special_allEnabled:
     name: 'Ubuntu 20.04 - GCC - All Options Enabled'

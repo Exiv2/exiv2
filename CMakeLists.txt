@@ -93,16 +93,7 @@ add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
     add_subdirectory ( unitTests )
-    add_custom_target(unit_test
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/unit_test.py
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-    )
 endif()
-
-add_custom_target(version_test
-    COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-)
 
 if( EXIV2_BUILD_FUZZ_TESTS )
     if ((NOT COMPILER_IS_CLANG) OR (NOT EXIV2_TEAM_USE_SANITIZERS))
@@ -113,35 +104,26 @@ if( EXIV2_BUILD_FUZZ_TESTS )
 endif()
 
 if( EXIV2_BUILD_SAMPLES )
-    ##
-    # tests
-    if( EXIV2_BUILD_UNIT_TESTS )
-        add_custom_target(tests
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/unit_test.py
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/testcases.py --verbose
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py 
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-        )
-    else()
-        add_custom_target(tests
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/testcases.py --verbose
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py
-            COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/version_test.py
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-        )
-    endif()
-    add_custom_target(python_tests
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-    )
-    add_custom_target(bash_tests
-        COMMAND env EXIV2_BINDIR="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" python3 runner.py bash_tests/testcases.py --verbose
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/tests"
-    )
     add_subdirectory( samples )
     get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
-    add_dependencies(tests exiv2lib exiv2 ${SAMPLES})
+    if (Python3_Interpreter_FOUND)
+        add_test(NAME bashTests
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests
+        )
+        add_test(NAME bugfixes
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes
+        )
+        add_test(NAME tiffTests
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test
+        )
+        add_test(NAME lensTests
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
+        )
+    endif()
 endif()
 
 if( EXIV2_ENABLE_NLS )
