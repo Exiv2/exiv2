@@ -979,7 +979,6 @@ namespace Exiv2 {
 
         //! Simple Date helper structure
         struct EXIV2API Date {
-            Date() = default;
             int year{0};   //!< Year
             int month{0};  //!< Month
             int day{0};    //!< Day
@@ -1031,6 +1030,7 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+
         //! Return date struct containing date information
         virtual const Date& getDate() const;
         long count() const override;

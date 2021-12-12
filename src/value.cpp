@@ -36,7 +36,6 @@
 #include <cstring>
 #include <ctime>
 #include <iomanip>
-#include <iostream>
 #include <regex>
 #include <sstream>
 
@@ -943,9 +942,11 @@ namespace Exiv2 {
 
     long DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
+        // \note Here the date is copied in the Basic format YYYYMMDD, as the IPTC key	Iptc.Application2.DateCreated
+        // wants it. Check https://exiv2.org/iptc.html
+
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
-
         int wrote = snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day);
         assert(wrote == 8);
         std::memcpy(buf, temp, wrote);
@@ -974,6 +975,7 @@ namespace Exiv2 {
 
     std::ostream& DateValue::write(std::ostream& os) const
     {
+        // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
         std::ios::fmtflags f( os.flags() );
         os << date_.year << '-' << std::right
            << std::setw(2) << std::setfill('0') << date_.month << '-'
@@ -1078,6 +1080,8 @@ namespace Exiv2 {
 
     long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
+        // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key	Iptc.Application2.TimeCreated
+        // wants it. Check https://exiv2.org/iptc.html
         char temp[12];
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0)
@@ -1115,8 +1119,10 @@ namespace Exiv2 {
 
     std::ostream& TimeValue::write(std::ostream& os) const
     {
+        // Write TimeValue in ISO 8601 Extended format: hh:mm:ss±hh:mm
         char plusMinus = '+';
-        if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
+        if (time_.tzHour < 0 || time_.tzMinute < 0)
+          plusMinus = '-';
 
         std::ios::fmtflags f( os.flags() );
         os << std::right
