@@ -85,17 +85,27 @@ TEST(ADateValue, readFromStringWithExpectedSizeWithoutDashes)
     ASSERT_EQ(2, dateValue.getDate().day);
 }
 
+TEST(ADateValue, readFromStringWithTime)
+{
+    DateValue dateValue;
+    const std::string date ("2018-04-02T12:01:44.999999999");
+    ASSERT_EQ(0, dateValue.read(date));
+    ASSERT_EQ(2018, dateValue.getDate().year);
+    ASSERT_EQ(4, dateValue.getDate().month);
+    ASSERT_EQ(2, dateValue.getDate().day);
+}
+
 TEST(ADateValue, doNotReadFromStringWithoutExpectedSize)
 {
     DateValue dateValue;
-    ASSERT_EQ(1, dateValue.read("2018-04-02-"));
     ASSERT_EQ(1, dateValue.read("2018-04-0"));
-    ASSERT_EQ(1, dateValue.read("201804021"));
+    ASSERT_EQ(1, dateValue.read("2018040"));
 }
 
 TEST(ADateValue, doNotReadFromStringWithExpectedSizeButNotCorrectContent)
 {
     DateValue dateValue;
+    ASSERT_EQ(1, dateValue.read("2018-24-02"));
     ASSERT_EQ(1, dateValue.read("2018-aa-bb"));
     ASSERT_EQ(1, dateValue.read("2018aabb"));
 }

@@ -940,14 +940,14 @@ namespace Exiv2 {
     int DateValue::read(const std::string& buf)
     {
         // Hard coded to read Iptc style dates
-        if (buf.length() != 8 && buf.length() != 10) {
+        if (buf.length() < 8) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
             return 1;
         }
         int scanned = 0;
-        if (buf.length() == 10) {
+        if (buf.length() >= 10) {
             scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
                              &date_.year, &date_.month, &date_.day);
         }
