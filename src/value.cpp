@@ -919,6 +919,9 @@ namespace Exiv2 {
         static const std::regex reExtended(R"(^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))");
         static const std::regex reBasic(R"(^(\d{4})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))");
         std::smatch sm;
+
+        // Note: We use here regex_search instead of regex_match, because the string can be longer than expected and
+        // also contain the time
         if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
           date_.year = std::stoi(sm[1].str());
           date_.month = std::stoi(sm[2].str());
@@ -1022,96 +1025,50 @@ namespace Exiv2 {
 
     int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
-        // Make the buffer a 0 terminated C-string for scanTime[36]
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), (len < 15 ? len : 14));
-        // Hard coded to read HHMMSS or Iptc style times
-        int rc = 1;
-        if (len == 6) {
-            // Try to read (non-standard) HHMMSS format
-            rc = scanTime3(b, "%2d%2d%2d");
-        }
-        else if (len < 9) {
-            rc = scanTime3(b, "%d:%d:%d");
-        }
-        else if (len == 11) {
-            rc = scanTime6(b, "%2d%2d%2d%1c%2d%2d");
-        }
-        else if (len < 15) {
-            rc = scanTime6(b, "%d:%d:%d%1c%d:%d");
-        }
-        if (rc) {
-            rc = 1;
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
-#endif
-        }
-        return rc;
+        const std::string str(reinterpret_cast<const char*>(buf), len);
+        return read(str);
     }
 
     int TimeValue::read(const std::string& buf)
     {
-        // Hard coded to read H:M:S or Iptc style times
-        int rc = 1;
-        if (buf.length() < 9) {
-            rc = scanTime3(buf.c_str(), "%2d%2d%2d");
-            if (rc) {
-                // Try to read (non-standard) H:M:S format
-                rc = scanTime3(buf.c_str(), "%d:%d:%d");
+        // ISO 8601 time formats:
+        // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
+        // Not supported formats:
+        // 4.2.2.4 Representations with decimal fraction: 232050,5
+        static const std::regex re(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9])?:?([0-5][0-9])?$)");
+        static const std::regex reExt(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$)");
+
+        std::smatch sm;
+        if (std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
+          time_.hour = sm.length(1) ? std::stoi(sm[1].str()) : 0;
+          time_.minute = sm.length(2) ? std::stoi(sm[2].str()) : 0;
+          time_.second = sm.length(3) ? std::stoi(sm[3].str()) : 0;
+          if (sm.size() > 4)
+          {
+            std::string str = sm[4].str();
+            const auto strSize = str.size();
+            auto posColon = str.find(':');
+
+            if (posColon == std::string::npos) {
+                // Extended format
+                time_.tzHour =   std::stoi(str.substr(0,3));
+                if (strSize > 3) {
+                  int minute = std::stoi(str.substr(3));
+                  time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
+                }
+            } else {
+                // Basic format
+                time_.tzHour = std::stoi(str.substr(0, posColon));
+                int minute = std::stoi(str.substr(posColon+1));
+                time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
             }
+          }
+          return 0;
         }
-        else {
-            rc = scanTime6(buf.c_str(), "%2d%2d%2d%1c%2d%2d");
-            if (rc) {
-                // Try to read (non-standard) H:M:S-H:M format
-                rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
-            }
-        }
-        if (rc) {
-            rc = 1;
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
+        EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
 #endif
-        }
-        return rc;
-    }
-
-    int TimeValue::scanTime3(const char* buf, const char* format)
-    {
-        int rc = 1;
-        Time t;
-        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second);
-        if (   scanned  == 3
-            && t.hour   >= 0 && t.hour   < 24
-            && t.minute >= 0 && t.minute < 60
-            && t.second >= 0 && t.second < 60) {
-            time_ = t;
-            rc = 0;
-        }
-        return rc;
-    }
-
-    int TimeValue::scanTime6(const char* buf, const char* format)
-    {
-        int rc = 1;
-        Time t;
-        char plusMinus = 0;
-        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
-                             &plusMinus, &t.tzHour, &t.tzMinute);
-        if (   scanned    == 6
-            && t.hour     >= 0 && t.hour     < 24
-            && t.minute   >= 0 && t.minute   < 60
-            && t.second   >= 0 && t.second   < 60
-            && t.tzHour   >= 0 && t.tzHour   < 24
-            && t.tzMinute >= 0 && t.tzMinute < 60) {
-            time_ = t;
-            if (plusMinus == '-') {
-                time_.tzHour *= -1;
-                time_.tzMinute *= -1;
-            }
-            rc = 0;
-        }
-        return rc;
+        return 1;
     }
 
     void TimeValue::setTime( const Time& src )
