@@ -65,7 +65,7 @@ TEST(ADateValue, doNotReadFromByteBufferWithExpectedSizeButNotCorrectContent)
 }
 
 
-TEST(ADateValue, readFromStringWithExpectedSize)
+TEST(ADateValue, readFromStringWithExpectedSizeAndDashes)
 {
     DateValue dateValue;
     const std::string date ("2018-04-02");
@@ -75,18 +75,29 @@ TEST(ADateValue, readFromStringWithExpectedSize)
     ASSERT_EQ(2, dateValue.getDate().day);
 }
 
-TEST(ADateValue, doNotReadFromStringWithoutExpectedSize)
+TEST(ADateValue, readFromStringWithExpectedSizeWithoutDashes)
 {
     DateValue dateValue;
     const std::string date ("20180402");
-    ASSERT_EQ(1, dateValue.read(date));
+    ASSERT_EQ(0, dateValue.read(date));
+    ASSERT_EQ(2018, dateValue.getDate().year);
+    ASSERT_EQ(4, dateValue.getDate().month);
+    ASSERT_EQ(2, dateValue.getDate().day);
+}
+
+TEST(ADateValue, doNotReadFromStringWithoutExpectedSize)
+{
+    DateValue dateValue;
+    ASSERT_EQ(1, dateValue.read("2018-04-02-"));
+    ASSERT_EQ(1, dateValue.read("2018-04-0"));
+    ASSERT_EQ(1, dateValue.read("201804021"));
 }
 
 TEST(ADateValue, doNotReadFromStringWithExpectedSizeButNotCorrectContent)
 {
     DateValue dateValue;
-    const std::string date ("2018-aa-bb");
-    ASSERT_EQ(1, dateValue.read(date));
+    ASSERT_EQ(1, dateValue.read("2018-aa-bb"));
+    ASSERT_EQ(1, dateValue.read("2018aabb"));
 }
 
 
