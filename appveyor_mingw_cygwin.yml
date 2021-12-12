@@ -22,7 +22,7 @@ install:
 build_script:
   - set  CMD=mkdir -p build
   - set  CMD=%CMD%; cd build
-  - set  CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_STANDARD=98 -DCMAKE_CXX_FLAGS=-Wno-deprecated
+  - set  CMD=%CMD%; cmake .. -G 'Unix Makefiles' -DCMAKE_CXX_FLAGS=-Wno-deprecated
   - set  CMD=%CMD%; cmake --build . --config Release
   - echo %CMD%
   - cd %APPVEYOR_BUILD_FOLDER%
