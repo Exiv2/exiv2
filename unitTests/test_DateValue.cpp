@@ -54,7 +54,7 @@ TEST(ADateValue, doNotReadFromByteBufferWithoutExpectedSize)
 {
     DateValue dateValue;
     const byte date[8] = {0x32, 0x30, 0x31, 0x38, 0x30, 0x34, 0x30, 0x32 }; // 20180402
-    ASSERT_EQ(1, dateValue.read(date, 9));
+    ASSERT_EQ(1, dateValue.read(date, 6));
 }
 
 TEST(ADateValue, doNotReadFromByteBufferWithExpectedSizeButNotCorrectContent)

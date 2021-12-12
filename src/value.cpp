@@ -27,16 +27,18 @@
 #include "unused.h"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
-#include <sstream>
+#include <ctype.h>
+
 #include <cassert>
-#include <cstring>
-#include <ctime>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
-#include <ctype.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <regex>
+#include <sstream>
 
 // *****************************************************************************
 // class member definitions
@@ -776,13 +778,13 @@ namespace Exiv2 {
     }
 
     int LangAltValue::read(const std::string& buf)
-    {        
+    {
         std::string b = buf;
         std::string lang = "x-default";
         if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
             static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            
+
             const std::string::size_type pos = buf.find_first_of(' ');
             if (pos == std::string::npos) {
                 lang = buf.substr(5);
@@ -796,7 +798,7 @@ namespace Exiv2 {
 
                 if (lang.empty() || lang.find('"') != lang.length() - 1)
                     throw Error(kerInvalidLangAltValue, buf);
-            
+
                 lang = lang.substr(0, lang.length()-1);
             }
 
@@ -809,7 +811,7 @@ namespace Exiv2 {
                 if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
                     throw Error(kerInvalidLangAltValue, buf);
             }
-            
+
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
@@ -906,65 +908,27 @@ namespace Exiv2 {
 
     int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
-        // Hard coded to read Iptc style dates
-        if (len != 8 && len != 10) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        // Make the buffer a 0 terminated C-string for sscanf
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        int scanned = 0;
-        if (len == 10) {
-            std::memcpy(b, reinterpret_cast<const char*>(buf), 10);
-            scanned = sscanf(b, "%4d-%2d-%2d",
-                             &date_.year, &date_.month, &date_.day);
-        } else { // len == 8
-            std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
-            scanned = sscanf(b, "%4d%2d%2d",
-                             &date_.year, &date_.month, &date_.day);
-        }
-        if (   scanned != 3
-            || date_.year < 0
-            || date_.month < 1 || date_.month > 12
-            || date_.day < 1 || date_.day > 31) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        return 0;
+        const std::string str(reinterpret_cast<const char*>(buf), len);
+        return read(str);
     }
 
     int DateValue::read(const std::string& buf)
     {
-        // Hard coded to read Iptc style dates
-        if (buf.length() < 8) {
+        // ISO 8601 date formats:
+        // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
+        static const std::regex reExtended(R"(^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))");
+        static const std::regex reBasic(R"(^(\d{4})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))");
+        std::smatch sm;
+        if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
+          date_.year = std::stoi(sm[1].str());
+          date_.month = std::stoi(sm[2].str());
+          date_.day = std::stoi(sm[3].str());
+          return 0;
+        }
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
-            return 1;
-        }
-        int scanned = 0;
-        if (buf.length() >= 10) {
-            scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
-                             &date_.year, &date_.month, &date_.day);
-        }
-        else { // len == 8
-            scanned = sscanf(buf.c_str(), "%4d%2d%2d",
-                             &date_.year, &date_.month, &date_.day);
-        }
-        if (   scanned != 3
-            || date_.year < 0
-            || date_.month < 1 || date_.month > 12
-            || date_.day < 1 || date_.day > 31) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        return 0;
+        return 1;
     }
 
     void DateValue::setDate(const Date& src)
