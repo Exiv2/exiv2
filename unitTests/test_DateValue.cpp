@@ -154,12 +154,20 @@ TEST(ADateValue, doNotReadFromStringWithExpectedSizeButNotCorrectContent)
     ASSERT_EQ(1, dateValue.read("2018aabb"));
 }
 
-TEST(ADateValue, writesToExtendedFormat)
+TEST(ADateValue, writesRecentDateToExtendedFormat)
 {
     const DateValue dateValue (2021, 12, 1);
     std::ostringstream stream;
     dateValue.write(stream);
     ASSERT_EQ("2021-12-01", stream.str());
+}
+
+TEST(ADateValue, writesVeryOldDateToExtendedFormat)
+{
+    const DateValue dateValue (1, 1, 1);
+    std::ostringstream stream;
+    dateValue.write(stream);
+    ASSERT_EQ("0001-01-01", stream.str());
 }
 
 TEST(ADateValue, copiesToByteBufferWithBasicFormat)

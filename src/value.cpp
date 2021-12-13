@@ -977,7 +977,7 @@ namespace Exiv2 {
     {
         // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
         std::ios::fmtflags f( os.flags() );
-        os << date_.year << '-' << std::right
+        os << std::setw(4) << std::setfill('0') << date_.year << '-' << std::right
            << std::setw(2) << std::setfill('0') << date_.month << '-'
            << std::setw(2) << std::setfill('0') << date_.day;
         os.flags(f);
