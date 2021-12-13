@@ -775,8 +775,15 @@ namespace Exiv2 {
                       << " to offset area.\n";
 #endif
             memset(buf + 8, 0x0, 4);
+<<<<<<< HEAD
             memcpy(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
             memset(const_cast<byte*>(pTiffEntry->pData()), 0x0, pTiffEntry->size());
+=======
+            if (pTiffEntry->size() > 0) {
+                memmove(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
+                memset(const_cast<byte*>(pTiffEntry->pData()), 0x0, pTiffEntry->size());
+            }
+>>>>>>> e34eacc4 (Use memmove, rather than memcpy, because memory regions might overlap.)
         }
         return 12;
     }
