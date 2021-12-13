@@ -20,6 +20,10 @@ if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 endif()
 
+if (NOT CMAKE_CXX_STANDARD) 
+    set (CMAKE_CXX_STANDARD 98)
+endif()
+
 if (UNIX)
     if (APPLE)
         set(CMAKE_MACOSX_RPATH ON)

@@ -126,7 +126,6 @@ jobs:
       - name: Build
         run: |
           cmake -GNinja \
-            -DCMAKE_CXX_STANDARD=98 \
             -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
