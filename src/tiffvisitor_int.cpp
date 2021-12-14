@@ -745,7 +745,7 @@ namespace Exiv2 {
 #endif
             memset(buf + 8, 0x0, 4);
             if (pTiffEntry->size() > 0) {
-                memcpy(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
+                memmove(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
                 memset(const_cast<byte*>(pTiffEntry->pData()), 0x0, pTiffEntry->size());
             }
         }
