@@ -27,16 +27,17 @@
 #include "unused.h"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
-#include <sstream>
+#include <ctype.h>
+
 #include <cassert>
-#include <cstring>
-#include <ctime>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
-#include <ctype.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <regex>
+#include <sstream>
 
 // *****************************************************************************
 // class member definitions
@@ -776,13 +777,13 @@ namespace Exiv2 {
     }
 
     int LangAltValue::read(const std::string& buf)
-    {        
+    {
         std::string b = buf;
         std::string lang = "x-default";
         if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
             static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            
+
             const std::string::size_type pos = buf.find_first_of(' ');
             if (pos == std::string::npos) {
                 lang = buf.substr(5);
@@ -796,7 +797,7 @@ namespace Exiv2 {
 
                 if (lang.empty() || lang.find('"') != lang.length() - 1)
                     throw Error(kerInvalidLangAltValue, buf);
-            
+
                 lang = lang.substr(0, lang.length()-1);
             }
 
@@ -809,7 +810,7 @@ namespace Exiv2 {
                 if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
                     throw Error(kerInvalidLangAltValue, buf);
             }
-            
+
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
@@ -906,51 +907,30 @@ namespace Exiv2 {
 
     int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
-        // Hard coded to read Iptc style dates
-        if (len != 8) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        // Make the buffer a 0 terminated C-string for sscanf
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
-        int scanned = sscanf(b, "%4d%2d%2d",
-                             &date_.year, &date_.month, &date_.day);
-        if (   scanned != 3
-            || date_.year < 0
-            || date_.month < 1 || date_.month > 12
-            || date_.day < 1 || date_.day > 31) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        return 0;
+        const std::string str(reinterpret_cast<const char*>(buf), len);
+        return read(str);
     }
 
     int DateValue::read(const std::string& buf)
     {
-        // Hard coded to read Iptc style dates
-        if (buf.length() < 8) {
+        // ISO 8601 date formats:
+        // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
+        static const std::regex reExtended(R"(^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))");
+        static const std::regex reBasic(R"(^(\d{4})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))");
+        std::smatch sm;
+
+        // Note: We use here regex_search instead of regex_match, because the string can be longer than expected and
+        // also contain the time
+        if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
+          date_.year = std::stoi(sm[1].str());
+          date_.month = std::stoi(sm[2].str());
+          date_.day = std::stoi(sm[3].str());
+          return 0;
+        }
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
-            return 1;
-        }
-        int scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
-                             &date_.year, &date_.month, &date_.day);
-        if (   scanned != 3
-            || date_.year < 0
-            || date_.month < 1 || date_.month > 12
-            || date_.day < 1 || date_.day > 31) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        return 0;
+        return 1;
     }
 
     void DateValue::setDate(const Date& src)
@@ -962,9 +942,11 @@ namespace Exiv2 {
 
     long DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
+        // \note Here the date is copied in the Basic format YYYYMMDD, as the IPTC key	Iptc.Application2.DateCreated
+        // wants it. Check https://exiv2.org/iptc.html
+
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
-
         int wrote = snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day);
         assert(wrote == 8);
         std::memcpy(buf, temp, wrote);
@@ -993,8 +975,9 @@ namespace Exiv2 {
 
     std::ostream& DateValue::write(std::ostream& os) const
     {
+        // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
         std::ios::fmtflags f( os.flags() );
-        os << date_.year << '-' << std::right
+        os << std::setw(4) << std::setfill('0') << date_.year << '-' << std::right
            << std::setw(2) << std::setfill('0') << date_.month << '-'
            << std::setw(2) << std::setfill('0') << date_.day;
         os.flags(f);
@@ -1044,83 +1027,50 @@ namespace Exiv2 {
 
     int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
     {
-        // Make the buffer a 0 terminated C-string for scanTime[36]
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), (len < 12 ? len : 11));
-        // Hard coded to read HHMMSS or Iptc style times
-        int rc = 1;
-        if (len == 6) {
-            // Try to read (non-standard) HHMMSS format
-            rc = scanTime3(b, "%2d%2d%2d");
-        }
-        if (len == 11) {
-            rc = scanTime6(b, "%2d%2d%2d%1c%2d%2d");
-        }
-        if (rc) {
-            rc = 1;
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
-#endif
-        }
-        return rc;
+        const std::string str(reinterpret_cast<const char*>(buf), len);
+        return read(str);
     }
 
     int TimeValue::read(const std::string& buf)
     {
-        // Hard coded to read H:M:S or Iptc style times
-        int rc = 1;
-        if (buf.length() < 9) {
-            // Try to read (non-standard) H:M:S format
-            rc = scanTime3(buf.c_str(), "%d:%d:%d");
-        }
-        else {
-            rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
-        }
-        if (rc) {
-            rc = 1;
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
-#endif
-        }
-        return rc;
-    }
+        // ISO 8601 time formats:
+        // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
+        // Not supported formats:
+        // 4.2.2.4 Representations with decimal fraction: 232050,5
+        static const std::regex re(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9])?:?([0-5][0-9])?$)");
+        static const std::regex reExt(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$)");
 
-    int TimeValue::scanTime3(const char* buf, const char* format)
-    {
-        int rc = 1;
-        Time t;
-        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second);
-        if (   scanned  == 3
-            && t.hour   >= 0 && t.hour   < 24
-            && t.minute >= 0 && t.minute < 60
-            && t.second >= 0 && t.second < 60) {
-            time_ = t;
-            rc = 0;
-        }
-        return rc;
-    }
+        std::smatch sm;
+        if (std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
+          time_.hour = sm.length(1) ? std::stoi(sm[1].str()) : 0;
+          time_.minute = sm.length(2) ? std::stoi(sm[2].str()) : 0;
+          time_.second = sm.length(3) ? std::stoi(sm[3].str()) : 0;
+          if (sm.size() > 4)
+          {
+            std::string str = sm[4].str();
+            const auto strSize = str.size();
+            auto posColon = str.find(':');
 
-    int TimeValue::scanTime6(const char* buf, const char* format)
-    {
-        int rc = 1;
-        Time t;
-        char plusMinus = 0;
-        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
-                             &plusMinus, &t.tzHour, &t.tzMinute);
-        if (   scanned    == 6
-            && t.hour     >= 0 && t.hour     < 24
-            && t.minute   >= 0 && t.minute   < 60
-            && t.second   >= 0 && t.second   < 60
-            && t.tzHour   >= 0 && t.tzHour   < 24
-            && t.tzMinute >= 0 && t.tzMinute < 60) {
-            time_ = t;
-            if (plusMinus == '-') {
-                time_.tzHour *= -1;
-                time_.tzMinute *= -1;
+            if (posColon == std::string::npos) {
+                // Extended format
+                time_.tzHour =   std::stoi(str.substr(0,3));
+                if (strSize > 3) {
+                  int minute = std::stoi(str.substr(3));
+                  time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
+                }
+            } else {
+                // Basic format
+                time_.tzHour = std::stoi(str.substr(0, posColon));
+                int minute = std::stoi(str.substr(posColon+1));
+                time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
             }
-            rc = 0;
+          }
+          return 0;
         }
-        return rc;
+#ifndef SUPPRESS_WARNINGS
+        EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
+#endif
+        return 1;
     }
 
     void TimeValue::setTime( const Time& src )
@@ -1130,6 +1080,8 @@ namespace Exiv2 {
 
     long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
+        // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key	Iptc.Application2.TimeCreated
+        // wants it. Check https://exiv2.org/iptc.html
         char temp[12];
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0)
@@ -1167,8 +1119,10 @@ namespace Exiv2 {
 
     std::ostream& TimeValue::write(std::ostream& os) const
     {
+        // Write TimeValue in ISO 8601 Extended format: hh:mm:ss±hh:mm
         char plusMinus = '+';
-        if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
+        if (time_.tzHour < 0 || time_.tzMinute < 0)
+          plusMinus = '-';
 
         std::ios::fmtflags f( os.flags() );
         os << std::right

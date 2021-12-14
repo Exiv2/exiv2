@@ -44,7 +44,37 @@ TEST(ATimeValue, isConstructedWithArgs)
 
 /// \todo add tests to check what happen with values out of valid ranges
 
-TEST(ATimeValue, canBeReadFromStringHMS)
+TEST(ATimeValue, canBeReadFromCompleteBasicFormatString)
+{
+    TimeValue value;
+    const std::string hms("235502");
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(23, value.getTime().hour);
+    ASSERT_EQ(55, value.getTime().minute);
+    ASSERT_EQ(2,  value.getTime().second);
+}
+
+TEST(ATimeValue, canBeReadFromReducedBasicFormatString_HHMM)
+{
+    TimeValue value;
+    const std::string hms("2355");
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(23, value.getTime().hour);
+    ASSERT_EQ(55, value.getTime().minute);
+    ASSERT_EQ(0,  value.getTime().second);
+}
+
+TEST(ATimeValue, canBeReadFromReducedBasicFormatString_HH)
+{
+    TimeValue value;
+    const std::string hms("23");
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(23, value.getTime().hour);
+    ASSERT_EQ(0, value.getTime().minute);
+    ASSERT_EQ(0,  value.getTime().second);
+}
+
+TEST(ATimeValue, canBeReadFromCompleteExtendedFormatString)
 {
     TimeValue value;
     const std::string hms("23:55:02");
@@ -52,45 +82,86 @@ TEST(ATimeValue, canBeReadFromStringHMS)
     ASSERT_EQ(23, value.getTime().hour);
     ASSERT_EQ(55, value.getTime().minute);
     ASSERT_EQ(2,  value.getTime().second);
-    ASSERT_EQ(0, value.getTime().tzHour);
+}
+
+TEST(ATimeValue, canBeReadFromReducedExtendedFormatString_HHMM)
+{
+    TimeValue value;
+    const std::string hms("23:55");
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(23, value.getTime().hour);
+    ASSERT_EQ(55, value.getTime().minute);
+    ASSERT_EQ(0,  value.getTime().second);
+}
+
+TEST(ATimeValue, canBeReadFromBasicStringWithTimeZoneDesignatorPositive)
+{
+    TimeValue value;
+    std::string hms("152746+0100");
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(15, value.getTime().hour);
+    ASSERT_EQ(27, value.getTime().minute);
+    ASSERT_EQ(46,  value.getTime().second);
+    ASSERT_EQ(1, value.getTime().tzHour);
+    ASSERT_EQ(0, value.getTime().tzMinute);
+
+    value = TimeValue();
+    hms = "152746+02";
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(15, value.getTime().hour);
+    ASSERT_EQ(27, value.getTime().minute);
+    ASSERT_EQ(46,  value.getTime().second);
+    ASSERT_EQ(2, value.getTime().tzHour);
     ASSERT_EQ(0, value.getTime().tzMinute);
 }
 
-TEST(ATimeValue, canBeReadFromWideString)
+TEST(ATimeValue, canBeReadFromExtendedStringWithTimeZoneDesignatorPositive)
 {
     TimeValue value;
-    const std::string hms("23:55:02+04:04");
+    std::string hms("23:55:02+04:04");
     ASSERT_EQ(0, value.read(hms));
     ASSERT_EQ(23, value.getTime().hour);
     ASSERT_EQ(55, value.getTime().minute);
     ASSERT_EQ(2,  value.getTime().second);
     ASSERT_EQ(4, value.getTime().tzHour);
     ASSERT_EQ(4, value.getTime().tzMinute);
+
+    value = TimeValue();
+    hms = "23:44:03+04";
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(23, value.getTime().hour);
+    ASSERT_EQ(44, value.getTime().minute);
+    ASSERT_EQ(3,  value.getTime().second);
+    ASSERT_EQ(4, value.getTime().tzHour);
+    ASSERT_EQ(0, value.getTime().tzMinute);
 }
 
-TEST(ATimeValue, canBeReadFromWideStringNegative)
+TEST(ATimeValue, canBeReadFromExtendedStringWithTimeZoneDesignatorNegative)
 {
     TimeValue value;
-    const std::string hms("23:55:02-04:04");
+    std::string hms("23:55:02-04:04");
     ASSERT_EQ(0, value.read(hms));
     ASSERT_EQ(23, value.getTime().hour);
     ASSERT_EQ(55, value.getTime().minute);
     ASSERT_EQ(2,  value.getTime().second);
     ASSERT_EQ(-4, value.getTime().tzHour);
     ASSERT_EQ(-4, value.getTime().tzMinute);
+
+    value = TimeValue();
+    hms = "23:44:03-04";
+    ASSERT_EQ(0, value.read(hms));
+    ASSERT_EQ(23, value.getTime().hour);
+    ASSERT_EQ(44, value.getTime().minute);
+    ASSERT_EQ(3,  value.getTime().second);
+    ASSERT_EQ(-4, value.getTime().tzHour);
+    ASSERT_EQ(0, value.getTime().tzMinute);
 }
 
-/// \todo check what we should do here.
-TEST(ATimeValue, canBeReadFromWideStringOther)
+TEST(ATimeValue, cannotBeReadFromStringWithTimeZoneDesignatorWithoutSymbol)
 {
     TimeValue value;
     const std::string hms("23:55:02?04:04");
-    ASSERT_EQ(0, value.read(hms));
-    ASSERT_EQ(23, value.getTime().hour);
-    ASSERT_EQ(55, value.getTime().minute);
-    ASSERT_EQ(2,  value.getTime().second);
-    ASSERT_EQ(4, value.getTime().tzHour);
-    ASSERT_EQ(4, value.getTime().tzMinute);
+    ASSERT_EQ(1, value.read(hms));
 }
 
 TEST(ATimeValue, cannotReadFromStringWithBadFormat)

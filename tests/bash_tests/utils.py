@@ -642,11 +642,11 @@ def addModTest(filename):
     stdin       = """
 a Iptc.Application2.Headline		  The headline I am
 a Iptc.Application2.Keywords		  Yet another keyword
-m Iptc.Application2.DateCreated		  2004-8-3
+m Iptc.Application2.DateCreated		  2004-08-03
 a Iptc.Application2.Urgency			  3
 m Iptc.Application2.SuppCategory	  "bla bla ba"
 a Iptc.Envelope.ModelVersion		  2
-a Iptc.Envelope.TimeSent			  14:41:0-05:00
+a Iptc.Envelope.TimeSent                  14:41:00-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
     Executer('iptctest {tmp}', vars(), stdin=stdin)

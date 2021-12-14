@@ -979,7 +979,6 @@ namespace Exiv2 {
 
         //! Simple Date helper structure
         struct EXIV2API Date {
-            Date() = default;
             int year{0};   //!< Year
             int month{0};  //!< Month
             int day{0};    //!< Day
@@ -1031,6 +1030,7 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+
         //! Return date struct containing date information
         virtual const Date& getDate() const;
         long count() const override;
@@ -1150,31 +1150,6 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Set time from \em buf if it conforms to \em format
-                 (3 input items).
-
-          This function only sets the hour, minute and second parts of time_.
-
-          @param buf    A 0 terminated C-string containing the time to parse.
-          @param format Format string for sscanf().
-          @return 0 if successful, else 1.
-         */
-        int scanTime3(const char* buf, const char* format);
-        /*!
-          @brief Set time from \em buf if it conforms to \em format
-                 (6 input items).
-
-          This function sets all parts of time_.
-
-          @param buf    A 0 terminated C-string containing the time to parse.
-          @param format Format string for sscanf().
-          @return 0 if successful, else 1.
-         */
-        int scanTime6(const char* buf, const char* format);
-        //@}
 
         //! @name Accessors
         //@{
