@@ -1568,7 +1568,6 @@ namespace Exiv2 {
             return;
         }
         p += 4;
-        uint32_t isize= 0; // size of Exif.Sony1.PreviewImage
 
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
             throw Error(kerArithmeticOverflow);
@@ -1581,7 +1580,19 @@ namespace Exiv2 {
                 || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
                 // #1143
                 if ( object->tag() == 0x2001 && std::string(groupName(object->group())) == "Sony1" ) {
-                    isize=size;
+                    // This tag is Exif.Sony1.PreviewImage, which refers to a preview image which is
+                    // not stored in the metadata. Instead it is stored at the end of the file, after
+                    // the main image. The value of `size` refers to the size of the preview image, not
+                    // the size of the tag's payload, so we set it to zero here so that we don't attempt
+                    // to read those bytes from the metadata. We currently leave this tag as "undefined",
+                    // although we may attempt to handle it better in the future. More discussion of
+                    // this issue can be found here:
+                    //
+                    //   https://github.com/Exiv2/exiv2/issues/2001
+                    //   https://github.com/Exiv2/exiv2/pull/2008
+                    //   https://github.com/Exiv2/exiv2/pull/2013
+                    typeId = undefined;
+                    size = 0;
                 } else {
 #ifndef SUPPRESS_WARNINGS
             EXV_ERROR << "Offset of directory " << groupName(object->group())
@@ -1629,20 +1640,7 @@ namespace Exiv2 {
         }
         Value::AutoPtr v = Value::create(typeId);
         enforce(v.get() != NULL, kerCorruptedMetadata);
-        if ( !isize ) {
-            v->read(pData, size, byteOrder());
-        } else {
-            // Prevent large memory allocations: https://github.com/Exiv2/exiv2/issues/1881
-            enforce(isize <= 1024 * 1024, kerCorruptedMetadata);
-
-            // #1143 Write a "hollow" buffer for the preview image
-            //       Sadly: we don't know the exact location of the image in the source (it's near offset)
-            //       And neither TiffReader nor TiffEntryBase have access to the BasicIo object being processed
-            byte* buffer = (byte*) ::malloc(isize);
-            ::memset(buffer,0,isize);
-            v->read(buffer,isize, byteOrder());
-            ::free(buffer);
-        }
+        v->read(pData, size, byteOrder());
 
         object->setValue(v);
         object->setData(pData, size);
