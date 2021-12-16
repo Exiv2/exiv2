@@ -90,7 +90,7 @@ $ cd ~/gnu/github/exiv2  # location of the project code
 $ mkdir build && cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ cmake --build .
-$ make tests
+$ make test
 $ sudo make install
 ```
 
