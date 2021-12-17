@@ -108,10 +108,9 @@ _Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](
 |         | Build Steps   | Linux and macOS                | Visual Studio |
 |:--      |:--------------|--------------------------------|------------------------------|
 | _**1**_ | Get conan to fetch dependencies<br><br>The output can be quite<br>long as conan downloads and/or builds<br>zlib, expat, curl and other dependencies.| $ conan install ..<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--build missing       | c:\\..\\build> conan install .. --build missing<br>&nbsp;&nbsp;&nbsp;&nbsp;--profile msvc2019Release64 |
-| _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..  | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
-| _**3**_ | Build                                             | $ cmake --build .       | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
-| _**4**_ | Optionally Run Test Suite                         | $ make tests            | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release --target tests<br/>[README.md](README.md) |
-
+| _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..                       | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
+| _**3**_ | Build                                             | $ cmake --build .                | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
+| _**4**_ | Optionally Run Test Suite                         | $ cmake --build . --target test  | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release --target test<br/>[README.md](README.md) |
 
 
 [TOC](#TOC)

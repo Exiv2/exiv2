@@ -43,11 +43,11 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
-4. [Test Suit](#4)
+4. [Test Suite](#4)
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
     3. [Unit tests](#4-3)
-    4. [Python tests](#4-4)
+    4. [Bugfix tests](#4-4)
     5. [Test Summary](#4-5)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
@@ -71,7 +71,7 @@ $ cd ~/gnu/github/exiv2  # location of the project code
 $ mkdir build && cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ cmake --build .
-$ make tests
+$ make test
 $ sudo make install
 ```
 
@@ -722,7 +722,7 @@ On MinGW/msys2, I can directly access the share:
 $ cd //Mac/Home/gnu/github/exiv2/0.27/maintenance/build_mingw_fedora
 $ export EXIV2_BINDIR=$pwd/bin
 $ cd ../test
-$ make tests
+$ make test
 ```
 
 You will find that 3 tests fail at the end of the test suite.  It is safe to ignore those minor exceptions.
@@ -830,18 +830,27 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 
 [TOC](#TOC)
 <div id="4">
-## 4 Running the test suite
+## 4 Test Suite
 
-#### Different kinds of tests:
+The test suite is implemented using CTest.  CMake adds the target 'test' to the build.  You can run ctest with the command `$ cmake --build . --target test`, or simply with `$ ctest`.  The build creates 5 tests: bashTests, bugfixes, tiffTests, unit_tests and versionTest.  You can run all tests or a subset.
 
-| Description        | Language  | Location       | Command<br>_(in build directory)_ | CMake Option to Build |
-|:--                 |:--        |:--             |:--                     |:--   |
-| Run all tests      |           |                                   | $ make tests                             |  |
-| Run all tests      |           | **Visual Studio Users**           | > cmake --build . --target tests         |  |
-| Bash tests         | python    | tests/bash\_tests       | $ make bash_tests    | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Python tests       | python    | tests                   | $ make python_tests  | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Unit tests         | C++       | unitTests               | $ make unit_test     | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
-| Version test       | C++       | src/version.cpp         | $ make version_test  | Always in library              |
+```bash
+$ cmake --build . --target test
+$ ctest                              # run all tests and display summary
+$ ctest --output-on-failure          # run all tests and output failures
+$ ctest -R bugfixes                  # run only bugfixes and display summary
+$ ctest -R bugfixes --verbose        # run only bugfixes and display all output
+```
+
+#### Test Architecture
+
+| Description        | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
+|:--                 |:--        |:--                      |:--                    |:--                             |
+| Bash tests         | python    | tests/bash\_tests       | $ ctest -R bashTests  | -DEXIV2\_BUILD\_SAMPLES=On     |
+| Bugfix tests       | python    | tests/bugfixes          | $ ctest -R bugfixes   | -DEXIV2\_BUILD\_SAMPLES=On     |
+| Tiff tests         | python    | tests/tiff_test         | $ ctest -R unit_tests | -DEXIV2\_BUILD\_SAMPLES=On     |
+| Unit tests         | C++       | unitTests               | $ ctest -R unit_tests | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
+| Version test       | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
 The term _**bash scripts**_ is historical.  The implementation of the tests in this collection originally required bash.  These
 scripts have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the
@@ -865,16 +874,17 @@ The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  
 
 [TOC](#TOC)
 <div id="4-1">
-### 4.1 Running tests on a UNIX-like system
+### 4.1 Running tests on Unix-like systems
 
 You can run tests directly from the build:
 
 ```bash
 $ cmake .. -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=On 
-$ make
+... lots of output and build summary ...
+$ cmake --build .
 ... lots of output ...
-$ make tests
-... lots of output ...
+$ cmake --build . --target test
+... test summary ...
 $
 ```
 
@@ -882,13 +892,13 @@ You can run individual tests in the `test` directory.  **Caution:** If you build
 
 ```bash
 $ cd <exiv2dir>/build
-$ make bash_tests
+$ ctest -R bash --verbose
 addmoddel_test (testcases.TestCases) ... ok
 ....
 Ran 176 tests in 9.526s
 OK (skipped=6)
 
-$ make python_tests
+$ ctest -R bugfixes --verbose
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -901,7 +911,7 @@ $
 <div id="4-2">
 ### 4.2 Running tests on Visual Studio builds from cmd.exe
 
-**Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe.  I copied the python.exe program:
+**Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe._  I copied the python.exe program:
 
 ```cmd
 > copy c:\Python37\python.exe c:\Python37\python3.exe
@@ -909,13 +919,11 @@ $
 ```
 
 You can execute the test suite as described for UNIX-like systems.
-The main difference is that you must use cmake to initiate the test
-as make is not a system utility on Windows.
 
 ```bash
 > cd <exiv2dir>/build
-> cmake --build . --target tests
-> cmake --build . --target python_tests
+> cmake --build . --target test
+> ctest -R bugfixes --verbose
 ```
 
 ##### Running tests from cmd.exe
@@ -938,7 +946,7 @@ If you wish to use an environment variables, use set:
 
 ```
 set VERBOSE=1
-cmake --build . --config Release --target tests
+cmake --build . --config Release --target test
 set VERBOSE=
 ```
 
@@ -963,23 +971,23 @@ $ popd
 
 [TOC](#TOC)
 <div id="4-4">
-### 4.4 Python tests
+### 4.4 Bugfix tests
 
-You can run the python tests from the build directory:
+You can run the bugfix tests from the build directory:
 
 ```bash
 $ cd <exiv2dir>/build
-$ make python_tests  
+$ ctest -R bugfix  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
 $ cd <exiv2dir>/build
-$ make python_tests VERBOSE=1
+$ $ ctest -R bugfix --verbose
 ```
 
-The python tests are stored in the directory tests and you can run them all with the command:
+The bugfix tests are stored in the directory tests and you can run them all with the command:
 
 ```bash
 $ cd <exiv2dir>/tests
@@ -998,23 +1006,23 @@ You may wish to get a brief summary of failures with commands such as:
 
 ```bash
 $ cd <exiv2dir>/build
-$ make python_tests 2>&1 | grep FAIL
+$ ctest -R bugfix --verbose 2>&1 | grep FAIL
 ```
 
 [TOC](#TOC)
 <div id="4-5">
 ### 4.5 Test Summary
 
-| *Tests*      | Unix Style Platforms _(bash)_      | Visual Studio _(cmd.exe)_             |
+| *Tests*      | Execute using ctest      | Execute using cmake      |
 |:--           |:---                                |:--                                    |
-|              | $ cd \<exiv2dir\>/build            |  \> cd \<exiv2dir\>/build             |
-| tests        | $ make tests                       | \> cmake --build . --config Release --target tests |
-| bash_tests   | $ make bash_tests                  | \> cmake --build . --config Release --target bash_tests |
-| python_tests | $ make python_tests                | \> cmake --build . --config Release --target python_tests |
-| unit_test    | $ make unit_test                   | \> cmake --build . --config Release --target unit_test |
-| version_test | $ make version_test                | \> cmake --build . --config Release --target version_test |
+|              | $ cd \<exiv2dir\>/build            | \> cd \<exiv2dir\>/build              |
+| test         | $ ctest                            | \> cmake --build . --config Release --target test         |
+| bash_tests   | $ ctest -R bash                    | \> cmake --build . --config Release --target bash_tests   |
+| bugfixes     | $ ctest -R bugfixes                | \> cmake --build . --config Release --target bugfix_tests |
+| unit_test    | $ ctest -R unit                    | \> cmake --build . --config Release --target unit_test    |
+| version_test | $ ctest -R version                 | \> cmake --build . --config Release --target version_test |
 
-The name **bash_tests** is historical.  They are implemented in python.
+The name **bashTests** is historical.  The tests are implemented in python.
 
 [TOC](#TOC)
 <div id="5">
@@ -1255,5 +1263,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-11-28
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-17
 

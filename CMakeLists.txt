@@ -119,9 +119,9 @@ if( EXIV2_BUILD_SAMPLES )
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
             COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test
         )
-        add_test(NAME lensTests
+        add_test(NAME versionTest
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
+            COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests/version_test.py 
         )
     endif()
 endif()
