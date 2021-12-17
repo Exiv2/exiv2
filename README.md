@@ -71,8 +71,8 @@ $ cd ~/gnu/github/exiv2  # location of the project code
 $ mkdir build && cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ cmake --build .
-$ make test
-$ sudo make install
+$ ctest
+$ sudo cmake --build . --target install
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
@@ -372,7 +372,7 @@ Additionally, you will require an additional build step to actually build the do
 
 ```bash
 $ cmake ..options.. -DEXIV2_BUILD_DOC=On
-$ make doc
+$ cmake -- build . --target doc
 ```
 
 To build the documentation, you must install the following products:
@@ -405,7 +405,7 @@ $ cmake .. -G "Unix Makefiles" -DEXIV2_TEAM_PACKAGING=On
 $ cmake --build . --config Release
 ...
 [100%] Built target addmoddel
-$ make package
+$ cmake --build . --target package
 ...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 ```
@@ -413,14 +413,11 @@ CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 2) Source Package
 
 ```bash
-$ make package_source
+$ cmake --build . --target package_source
 Run CPack packaging tool for source...
 ...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Source.tar.gz generated.
 ```
-
-You may prefer to run `$ cmake --build . --config Release --target package_source`
-
 
 [TOC](#TOC)
 <div id="2-11">
@@ -507,7 +504,7 @@ Visual Studio and Xcode can build debug or release builds without using the opti
 With the Unix Makefile generator, the targets can be listed:
 
 ```bash
-$ make help
+$ cmake --build . --target help
 The following are some of the valid targets for this Makefile:
 ... all (the default if no target is provided)
 ... clean
@@ -566,10 +563,10 @@ To build with ccache, use the cmake option **-DBUILD\_WITH\_CCACHE=On**
 $ cd <exiv2dir>
 $ mkdir build ; cd build ; cd build
 $ cmake .. -G "Unix Makefiles" -DBUILD_WITH_CCACHE=On
-$ make
+$ cmake --build . 
 # Build again to appreciate the performance gain
-$ make clean
-$ make
+$ cmake --build . --target clean
+$ cmake --build . 
 ```
 
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
@@ -842,15 +839,13 @@ $ ctest -R bugfixes                  # run only bugfixes and display summary
 $ ctest -R bugfixes --verbose        # run only bugfixes and display all output
 ```
 
-#### Test Architecture
-
-| Description        | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
+| Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
-| Bash tests         | python    | tests/bash\_tests       | $ ctest -R bashTests  | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Bugfix tests       | python    | tests/bugfixes          | $ ctest -R bugfixes   | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Tiff tests         | python    | tests/tiff_test         | $ ctest -R unit_tests | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Unit tests         | C++       | unitTests               | $ ctest -R unit_tests | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
-| Version test       | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
+| bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=On     |
+| bugfixes           | python    | tests/bugfixes          | $ ctest -R bugfixes   | -DEXIV2\_BUILD\_SAMPLES=On     |
+| tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       | -DEXIV2\_BUILD\_SAMPLES=On     |
+| unit_tests         | C++       | unitTests               | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
+| versionTest        | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
 The term _**bash scripts**_ is historical.  The implementation of the tests in this collection originally required bash.  These
 scripts have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the
@@ -977,14 +972,14 @@ You can run the bugfix tests from the build directory:
 
 ```bash
 $ cd <exiv2dir>/build
-$ ctest -R bugfix  
+$ ctest -R bugfixes  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
 $ cd <exiv2dir>/build
-$ $ ctest -R bugfix --verbose
+$ $ ctest -R bugfixes --verbose
 ```
 
 The bugfix tests are stored in the directory tests and you can run them all with the command:
@@ -1006,7 +1001,7 @@ You may wish to get a brief summary of failures with commands such as:
 
 ```bash
 $ cd <exiv2dir>/build
-$ ctest -R bugfix --verbose 2>&1 | grep FAIL
+$ ctest -R bugfixes --verbose 2>&1 | grep FAIL
 ```
 
 [TOC](#TOC)
