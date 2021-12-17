@@ -28,7 +28,7 @@ jobs:
         with:
           arch: ${{matrix.platform}}
 
-      - name: Setup Ninja
+      - name: Set up Ninja
         uses: ashutoshvarma/setup-ninja@master
         with:
           version: 1.10.0
@@ -38,7 +38,7 @@ jobs:
         with:
           python-version: 3.7
 
-      - name: Restore conan cache
+      - name: Restore Conan cache
         uses: actions/cache@v2
         with:
             path: ${{github.workspace}}/conanCache
@@ -71,9 +71,18 @@ jobs:
 
       - name: Build
         run: |
-          cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_ENABLE_BMFF=ON -DCMAKE_INSTALL_PREFIX=install ..
-          cmake --build .
+          cmake -GNinja `
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} `
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} `
+            -DEXIV2_ENABLE_NLS=OFF `
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
+            -DEXIV2_ENABLE_WEBREADY=ON `
+            -DEXIV2_ENABLE_BMFF=ON `
+            -DEXIV2_BUILD_UNIT_TESTS=ON `
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
+            -DCMAKE_INSTALL_PREFIX=install `
+            -S . -B build && `
+          cmake --build build
 
       - name: Install
         run: |
@@ -99,13 +108,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
+      - uses: actions/checkout@v2
 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Setup MSYS2
+      - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.sys}}
@@ -134,7 +139,58 @@ jobs:
             -DEXIV2_ENABLE_WEBREADY=ON \
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -S . -B build
+            -S . -B build && \
+          cmake --build build
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  cygwin:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release]
+        shared_libraries: [ON]
+        platform: [x64]
+    name: Cygwin ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
+    env:
+      SHELLOPTS: igncr
+    defaults:
+      run:
+        shell: C:\tools\cygwin\bin\bash.exe -eo pipefail '{0}'
+    steps:
+      # Make sure we don't check out scripts using Windows CRLF line endings
+      - run: git config --global core.autocrlf input
+        shell: pwsh
+      - uses: actions/checkout@v2
+
+      - name: Set up Cygwin
+        uses: egor-tensin/setup-cygwin@v3
+        with:
+          platform: ${{matrix.platform}}
+          packages: >-
+            gcc-g++
+            cmake
+            ninja
+            libexpat-devel
+            libxml2-devel
+            libxslt-devel
+            python38-lxml
+            zlib-devel
+      - name: Build
+        run: |
+          cmake -GNinja \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DEXIV2_ENABLE_NLS=OFF \
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=OFF \
+            -S . -B build && \
           cmake --build build
 
       - name: Test
