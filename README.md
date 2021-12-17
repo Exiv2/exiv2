@@ -62,7 +62,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
     3. [Unit tests](#4-3)
-    4. [Python tests](#4-4)
+    4. [Bugfix tests](#4-4)
     5. [Test Summary](#4-5)
     6. [Fuzzing](#4-6)
         1. [OSS-Fuzz](#4-6-1)
@@ -90,8 +90,8 @@ $ cd ~/gnu/github/exiv2  # location of the project code
 $ mkdir build && cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ cmake --build .
-$ make tests
-$ sudo make install
+$ ctest
+$ sudo cmake --build . --target install
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
@@ -120,7 +120,7 @@ I don't know why anybody would uninstall Exiv2.
 ```bash
 $ cd ~/gnu/github/exiv2  # location of the project code
 $ cd build
-$ sudo make uninstall
+$ sudo cmake --build . --target uninstall
 ```
 
 These commands will remove the exiv2 executables, library, header files and man page from the standard locations.
@@ -395,7 +395,7 @@ Additionally, you will require an additional build step to actually build the do
 
 ```bash
 $ cmake ..options.. -DEXIV2_BUILD_DOC=On
-$ make doc
+$ cmake --build . --target doc
 ```
 
 To build the documentation, you must install the following products:
@@ -429,7 +429,7 @@ $ cmake .. -G "Unix Makefiles" -DEXIV2_TEAM_PACKAGING=On
 $ cmake --build . --config Release
 ...
 [100%] Built target addmoddel
-$ make package
+$ cmake --build . --target package
 ...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 ```
@@ -437,13 +437,11 @@ CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 2) Source Package
 
 ```bash
-$ make package_source
+$ cmake --build . --target package_source
 Run CPack packaging tool for source...
 ...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Source.tar.gz generated.
 ```
-
-You may prefer to run `$ cmake --build . --config Release --target package_source`
 
 
 [TOC](#TOC)
@@ -460,8 +458,7 @@ $ cd <exiv2dir>
 $ mkdir build
 $ cd build
 $ cmake .. -G "Unix Makefiles" "-DCMAKE_BUILD_TYPE=Debug"
-$ make
-
+$ cmake --build . 
 ```
 
 You must install the library to ensure that your code is linked to the debug library.
@@ -532,7 +529,7 @@ Visual Studio and Xcode can build debug or release builds without using the opti
 With the Unix Makefile generator, the targets can be listed:
 
 ```bash
-$ make help
+$ cmake --build . --target help
 The following are some of the valid targets for this Makefile:
 ... all (the default if no target is provided)
 ... clean
@@ -593,10 +590,10 @@ To build with ccache, use the cmake option **-DBUILD\_WITH\_CCACHE=On**
 $ cd <exiv2dir>
 $ mkdir build ; cd build ; cd build
 $ cmake .. -G "Unix Makefiles" -DBUILD_WITH_CCACHE=On
-$ make
+$ cmake --build .
 # Build again to appreciate the performance gain
-$ make clean
-$ make
+$ cmake --build . --target clean
+$ cmake --build .
 ```
 
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
@@ -767,7 +764,7 @@ To build Exiv2 v0.27.X with C++11:
 cd <exiv2dir>
 mkdir build ; cd build
 cmake .. -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-make
+cmake --build .
 ```
 
 The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11, 14, 17 or 20.
@@ -864,18 +861,27 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 [TOC](#TOC)
 <div id="4">
 
-## 4 Running the test suite
+## 4 Test Suite
 
-#### Different kinds of tests:
+The test suite is implemented using CTest.  CMake adds the target 'test' to the build.  You can run ctest with the command `$ cmake --build . --target test`, or simply with `$ ctest`.  The build creates 5 tests: bashTests, bugfixes, tiffTests, unit_tests and versionTest.  You can run all tests or a subset.
 
-| Description        | Language  | Location       | Command<br>_(in build directory)_ | CMake Option to Build |
-|:--                 |:--        |:--             |:--                     |:--   |
-| Run all tests      |           |                                   | $ make tests                             |  |
-| Run all tests      |           | **Visual Studio Users**           | > cmake --build . --target tests         |  |
-| Bash tests         | python    | tests/bash\_tests       | $ make bash_tests    | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Python tests       | python    | tests                   | $ make python_tests  | -DEXIV2\_BUILD\_SAMPLES=On     |
-| Unit tests         | C++       | unitTests               | $ make unit_test     | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
-| Version test       | C++       | src/version.cpp         | $ make version_test  | Always in library              |
+```bash
+$ cmake --build . --target test
+$ ctest                              # run all tests and display summary
+$ ctest --output-on-failure          # run all tests and output failures
+$ ctest -R bugfixes                  # run only bugfixes and display summary
+$ ctest -R bugfixes --verbose        # run only bugfixes and display all output
+```
+
+#### Test Architecture
+
+| Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
+|:--                 |:--        |:--                      |:--                    |:--                             |
+| bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=On     |
+| bugfixes           | python    | tests/bugfixes          | $ ctest -R bugfixes   | -DEXIV2\_BUILD\_SAMPLES=On     |
+| tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       | -DEXIV2\_BUILD\_SAMPLES=On     |
+| unit_tests         | C++       | unitTests               | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
+| versionTest        | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
 The term _**bash scripts**_ is historical.  The implementation of the tests in this collection originally required bash.  These
 scripts have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the
@@ -899,17 +905,17 @@ The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  
 
 [TOC](#TOC)
 <div id="4-1">
-
-### 4.1 Running tests on a UNIX-like system
+### 4.1 Running tests on Unix-like systems
 
 You can run tests directly from the build:
 
 ```bash
 $ cmake .. -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=On 
-$ make
+... lots of output and build summary ...
+$ cmake --build .
 ... lots of output ...
-$ make tests
-... lots of output ...
+$ cmake --build . --target test
+... test summary ...
 $
 ```
 
@@ -917,13 +923,13 @@ You can run individual tests in the `test` directory.  **Caution:** If you build
 
 ```bash
 $ cd <exiv2dir>/build
-$ make bash_tests
+$ ctest -R bash --verbose
 addmoddel_test (testcases.TestCases) ... ok
 ....
 Ran 176 tests in 9.526s
 OK (skipped=6)
 
-$ make python_tests
+$ ctest -R bugfixes --verbose
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -934,10 +940,9 @@ $
 
 [TOC](#TOC)
 <div id="4-2">
-
 ### 4.2 Running tests on Visual Studio builds from cmd.exe
 
-**Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe.  I copied the python.exe program:
+**Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe._  I copied the python.exe program:
 
 ```cmd
 > copy c:\Python37\python.exe c:\Python37\python3.exe
@@ -945,13 +950,11 @@ $
 ```
 
 You can execute the test suite as described for UNIX-like systems.
-The main difference is that you must use cmake to initiate the test
-as make is not a system utility on Windows.
 
 ```bash
 > cd <exiv2dir>/build
-> cmake --build . --target tests
-> cmake --build . --target python_tests
+> cmake --build . --target test
+> ctest -R bugfixes --verbose
 ```
 
 ##### Running tests from cmd.exe
@@ -974,13 +977,12 @@ If you wish to use an environment variables, use set:
 
 ```
 set VERBOSE=1
-cmake --build . --config Release --target tests
+cmake --build . --config Release --target test
 set VERBOSE=
 ```
 
 [TOC](#TOC)
 <div id="4-3">
-
 ### 4.3 Unit tests
 
 The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=On`.
@@ -1000,24 +1002,23 @@ $ popd
 
 [TOC](#TOC)
 <div id="4-4">
+### 4.4 Bugfix tests
 
-### 4.4 Python tests
-
-You can run the python tests from the build directory:
+You can run the bugfix tests from the build directory:
 
 ```bash
 $ cd <exiv2dir>/build
-$ make python_tests  
+$ ctest -R bugfixes  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
 $ cd <exiv2dir>/build
-$ make python_tests VERBOSE=1
+$ $ ctest -R bugfixes --verbose
 ```
 
-The python tests are stored in the directory tests and you can run them all with the command:
+The bugfix tests are stored in the directory tests and you can run them all with the command:
 
 ```bash
 $ cd <exiv2dir>/tests
@@ -1036,24 +1037,23 @@ You may wish to get a brief summary of failures with commands such as:
 
 ```bash
 $ cd <exiv2dir>/build
-$ make python_tests 2>&1 | grep FAIL
+$ ctest -R bugfixes --verbose 2>&1 | grep FAIL
 ```
 
 [TOC](#TOC)
 <div id="4-5">
-
 ### 4.5 Test Summary
 
-| *Tests*      | Unix Style Platforms _(bash)_      | Visual Studio _(cmd.exe)_             |
+| *Tests*      | Execute using ctest      | Execute using cmake      |
 |:--           |:---                                |:--                                    |
-|              | $ cd \<exiv2dir\>/build            |  \> cd \<exiv2dir\>/build             |
-| tests        | $ make tests                       | \> cmake --build . --config Release --target tests |
-| bash_tests   | $ make bash_tests                  | \> cmake --build . --config Release --target bash_tests |
-| python_tests | $ make python_tests                | \> cmake --build . --config Release --target python_tests |
-| unit_test    | $ make unit_test                   | \> cmake --build . --config Release --target unit_test |
-| version_test | $ make version_test                | \> cmake --build . --config Release --target version_test |
+|              | $ cd \<exiv2dir\>/build            | \> cd \<exiv2dir\>/build              |
+| test         | $ ctest                            | \> cmake --build . --config Release --target test         |
+| bash_tests   | $ ctest -R bash                    | \> cmake --build . --config Release --target bash_tests   |
+| bugfixes     | $ ctest -R bugfixes                | \> cmake --build . --config Release --target bugfix_tests |
+| unit_test    | $ ctest -R unit                    | \> cmake --build . --config Release --target unit_test    |
+| version_test | $ ctest -R version                 | \> cmake --build . --config Release --target version_test |
 
-The name **bash_tests** is historical.  They are implemented in python.
+The name **bashTests** is historical.  The tests are implemented in python.
 
 [TOC](#TOC)
 <div id="4-6">
