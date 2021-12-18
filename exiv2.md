@@ -1326,7 +1326,7 @@ standards-defined metadata.
 With [--Modify cmd](#Modify_cmd), quotation marks are use to surround the 
 *cmd*. The Windows command line requires double quotes to be 
 used, however generally, quotes inside that string, can be either single 
-or double. Generally, UNIX based systems can use pairs of single or 
+or double. Generally, Unix-based systems can use pairs of single or 
 double quotes in any position. In both systems, inner string quotation 
 marks may need to use the `\` escape sequence.
 
@@ -1634,11 +1634,11 @@ For another example, see: https://www.exiv2.org/sample.html
 
 # 12 CONFIGURATION FILE
 **exiv2** can read an optional configuration file, which allows 
-additional lens definitions to be added to translated output. On UNIX 
-based systems, this file is called *.exiv2* and on Windows (including MinGW), 
-*exiv2.ini*. The file is searched for first in the current directory, 
-then in the home directory (on UNIX based systems, `~/` and on Windows, 
-`%USERPROFILE%\\`).
+additional lens definitions to be added to translated output. On Unix-based 
+systems (including Cygwin), this file is called *.exiv2* and on Windows 
+(including MinGW), *exiv2.ini*. The file is searched for first in the 
+current directory, then in the home directory (`$HOME` on Unix-based 
+systems, and `%USERPROFILE%` on Windows).
 
 You can determine the name of the file and where it is searched for, 
 with the command:

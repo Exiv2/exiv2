@@ -6,11 +6,11 @@ import sys
 
 
 # copy the example config file into current working directory
-# and name it ".exiv2" on linux or "exiv2.ini" on Win
+# and name it "exiv2.ini" on Win or ".exiv2" on other platforms
 class TmpConfigFile(system_tests.FileDecoratorBase):
     def setUp_file_action(self, expanded_file_name):
         config_file_path = os.path.dirname(os.path.abspath(__file__))
-        fname = ".exiv2" if sys.platform == "linux" or sys.platform == "darwin" else "exiv2.ini"
+        fname = os.path.basename(system_tests.BT.verbose_version().get('config_path'))
         return shutil.copyfile(expanded_file_name, os.path.join(config_file_path, fname))
 
 
