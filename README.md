@@ -2,23 +2,19 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/exiv2.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
-CI Status:
 
-[![Basic CI for all platforms on push](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml)
 
-[![CI for different Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml)
-
-[![Linux Special Builds on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml)
-
-[![Linux-Ubuntu Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml)
-
-[![Mac Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml)
-
-[![Win Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml)
+| **CI Status:**    |      |      |
+|:--                |:--   |:--   |
+| [![Basic CI for all platforms on push](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![CI for different Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) |  [![Linux Special Builds on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml) |
+| [![Linux-Ubuntu Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml) | [![Mac Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml) | [![Win Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml) |
 
 <div id="1">
 
 # Welcome to Exiv2
+
+![Exiv2](exiv2.png)
+
 Exiv2 is a C++ library and a command-line utility to read,
 write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 
@@ -32,7 +28,6 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 <div id="TOC">
 
 ### TABLE  OF  CONTENTS
-![Exiv2](exiv2.png)
 
 1. [Welcome to Exiv2](#1)
 2. [Building, Installing, Using and Uninstalling Exiv2](#2)
@@ -63,9 +58,8 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     2. [Running tests on Visual Studio builds](#4-2)
     3. [Unit tests](#4-3)
     4. [Bugfix tests](#4-4)
-    5. [Test Summary](#4-5)
-    6. [Fuzzing](#4-6)
-        1. [OSS-Fuzz](#4-6-1)
+    5. [Fuzzing](#4-5)
+        1. [OSS-Fuzz](#4-5-1)
 5. [Platform Notes](#5)
     1. [Linux](#5-1)
     2. [macOS](#5-2)
@@ -90,7 +84,7 @@ $ cd ~/gnu/github/exiv2  # location of the project code
 $ mkdir build && cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ cmake --build .
-$ ctest
+$ ctest --verbose
 $ sudo cmake --build . --target install
 ```
 
@@ -120,7 +114,7 @@ I don't know why anybody would uninstall Exiv2.
 ```bash
 $ cd ~/gnu/github/exiv2  # location of the project code
 $ cd build
-$ sudo cmake --build . --target uninstall
+$ sudo make uninstall
 ```
 
 These commands will remove the exiv2 executables, library, header files and man page from the standard locations.
@@ -443,7 +437,6 @@ Run CPack packaging tool for source...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Source.tar.gz generated.
 ```
 
-
 [TOC](#TOC)
 <div id="2-11">
 
@@ -458,7 +451,8 @@ $ cd <exiv2dir>
 $ mkdir build
 $ cd build
 $ cmake .. -G "Unix Makefiles" "-DCMAKE_BUILD_TYPE=Debug"
-$ cmake --build . 
+$ make
+
 ```
 
 You must install the library to ensure that your code is linked to the debug library.
@@ -756,22 +750,18 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses `auto_ptr`.  The C++11 and C++14 compilers will issue deprecation warnings about `auto_ptr`.  As `auto_ptr` support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.0 and later do not use `auto_ptr` and will require a compiler compliant with the C++11 Standard.
+Exiv2 uses the default compiler for your system.
 
 To build Exiv2 v0.27.X with C++11:
 
 ```bash
 cd <exiv2dir>
 mkdir build ; cd build
-cmake .. -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_FLAGS=-Wno-deprecated
-cmake --build .
+cmake .. -DCMAKE_CXX_STANDARD=11
+make
 ```
 
-The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 98, 11, 14, 17 or 20.
-
-The option -DCMAKE\_CXX\_FLAGS=-Wno-deprecated suppresses warnings from C++11 concerning `auto_ptr`.  The compiler will issue deprecation warnings about video, eps and ssh code in Exiv2 v0.27.  This is intentional.  These features of Exiv2 will not be available in Exiv2 v1.0. 
-
-**Caution:** Visual Studio users should not use -DCMAKE\_CXX\_FLAGS=-Wno-deprecated.
+The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 11, 14, 17 or 20.
 
 [TOC](#TOC)
 <div id="2-18">
@@ -863,7 +853,7 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 
 ## 4 Test Suite
 
-The test suite is implemented using CTest.  CMake adds the target 'test' to the build.  You can run ctest with the command `$ cmake --build . --target test`, or simply with `$ ctest`.  The build creates 5 tests: bashTests, bugfixes, tiffTests, unit_tests and versionTest.  You can run all tests or a subset.
+The test suite is implemented using CTest.  CMake adds the target 'test' to the build.  You can run ctest with the command `$ cmake --build . --target test`, or simply with `$ ctest`.  The build creates 6 tests: bashTests, bugfixes, lensTest, tiffTests, unit_tests and versionTest.  You can run all tests or a subset.
 
 ```bash
 $ cmake --build . --target test
@@ -873,19 +863,16 @@ $ ctest -R bugfixes                  # run only bugfixes and display summary
 $ ctest -R bugfixes --verbose        # run only bugfixes and display all output
 ```
 
-#### Test Architecture
-
 | Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
 | bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=On     |
 | bugfixes           | python    | tests/bugfixes          | $ ctest -R bugfixes   | -DEXIV2\_BUILD\_SAMPLES=On     |
+| LensTest           | C++       | tests/lens_tests        | $ ctest -R lens       | -DEXIV2\_BUILD\_SAMPLES=On     |
 | tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       | -DEXIV2\_BUILD\_SAMPLES=On     |
 | unit_tests         | C++       | unitTests               | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
 | versionTest        | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
-The term _**bash scripts**_ is historical.  The implementation of the tests in this collection originally required bash.  These
-scripts have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the
-installation of mingw/cygwin and special PATH settings.
+The term _**bash**_ is historical.  These tests were originally bash scripts and they have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the installation of mingw/cygwin and special PATH settings.
 
 #### Environment Variables used by the test suite:
 
@@ -894,11 +881,11 @@ If you build the code in the directory \<exiv2dir\>build, tests will run using t
 | Variable           | Default                    | Platforms     | Purpose |
 |:--                 |:--                         |:--            |:--      |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Path of built binaries (exiv2.exe) |
-| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**  | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
-| EXIV2_HTTP         | **http://localhost**       | All Platforms | Test http server   |
-| EXIV2_ECHO         | _**not set**_              | All Platforms | For debugging bash scripts |
-| VALGRIND           | _**not set**_              | All Platforms | For debugging bash scripts |
-| VERBOSE            | _**not set**_              | All Platforms | Causes make to report its actions |
+| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**        | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
+| EXIV2_HTTP         | **http://localhost**       | All Platforms      | Test http server   |
+| EXIV2_ECHO         | _**not set**_              | All Platforms      | For debugging bash scripts |
+| VALGRIND           | _**not set**_              | All Platforms      | For debugging bash scripts |
+| VERBOSE            | _**not set**_              | Makefile platforms | Causes make to report its actions |
 | PATH<br>DYLD\_LIBRARY\_PATH<br>LD\_LIBRARY\_PATH    | $EXIV2\_BINDIR/../lib | Windows<br>macOS<br>Other platforms | Path of dynamic libraries |
 
 The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
@@ -914,7 +901,7 @@ $ cmake .. -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=On
 ... lots of output and build summary ...
 $ cmake --build .
 ... lots of output ...
-$ cmake --build . --target test
+$ ctest
 ... test summary ...
 $
 ```
@@ -946,16 +933,23 @@ $
 
 ```cmd
 > copy c:\Python37\python.exe c:\Python37\python3.exe
-> set "PATH=c:\Python37;%PATH%
+> set PATH=c:\Python37;%PATH%
 ```
 
-You can execute the test suite as described for UNIX-like systems.
+You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the -C config option to ctest for Visual Studio builds.  
 
-```bash
+```cmd
 > cd <exiv2dir>/build
-> cmake --build . --target test
-> ctest -R bugfixes --verbose
+> ctest -C Release
+> ctest -C Release -R bugfixes --verbose
 ```
+Visual Studio can build different configs as follows:
+
+```cmd
+> cmake --build . --config Release        # or Debug or MinSizeRel or RelWithDebInfo
+> ctest -C Release
+```
+The default for **cmake** config option `--config` is `Release`.  **ctest** does not have a default for config option `-C`.
 
 ##### Running tests from cmd.exe
 
@@ -970,15 +964,15 @@ c:\...\exiv2\build>conan install .. --build missing --profile msvc2019Release
 c:\...\exiv2\build>cmake .. -DEXIV2_BUILD_UNIT_TESTS=On -G "Visual Studio 16 2019"
 c:\...\exiv2\build>cmake --build . --config Release
 ... lots of output from compiler and linker ...
-c:\...\exiv2\build>
+c:\...\exiv2\build>ctest -C Release
 ```
 
 If you wish to use an environment variables, use set:
 
 ```
-set VERBOSE=1
-cmake --build . --config Release --target test
-set VERBOSE=
+set EXIV2_PORT=54321
+ctest -C Release --verbose -R bash
+set EXIV2_PORT=
 ```
 
 [TOC](#TOC)
@@ -1042,23 +1036,8 @@ $ ctest -R bugfixes --verbose 2>&1 | grep FAIL
 
 [TOC](#TOC)
 <div id="4-5">
-### 4.5 Test Summary
 
-| *Tests*      | Execute using ctest      | Execute using cmake      |
-|:--           |:---                                |:--                                    |
-|              | $ cd \<exiv2dir\>/build            | \> cd \<exiv2dir\>/build              |
-| test         | $ ctest                            | \> cmake --build . --config Release --target test         |
-| bash_tests   | $ ctest -R bash                    | \> cmake --build . --config Release --target bash_tests   |
-| bugfixes     | $ ctest -R bugfixes                | \> cmake --build . --config Release --target bugfix_tests |
-| unit_test    | $ ctest -R unit                    | \> cmake --build . --config Release --target unit_test    |
-| version_test | $ ctest -R version                 | \> cmake --build . --config Release --target version_test |
-
-The name **bashTests** is historical.  The tests are implemented in python.
-
-[TOC](#TOC)
-<div id="4-6">
-
-### 4.6 Fuzzing
+### 4.5 Fuzzing
 
 The code for the fuzzers is in `exiv2dir/fuzz`
 
@@ -1085,9 +1064,9 @@ mkdir corpus
 For more information about fuzzing see [`fuzz/README.md`](fuzz/README.md).
 
 [TOC](#TOC)
-<div id="4-6-1">
+<div id="4-5-1">
 
-### 4.6.1 OSS-Fuzz
+### 4.5.1 OSS-Fuzz
 
 Exiv2 is enrolled in [OSS-Fuzz](https://google.github.io/oss-fuzz/), which is a fuzzing service for open-source projects, run by Google.
 
@@ -1331,5 +1310,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-09-21
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-19
 
