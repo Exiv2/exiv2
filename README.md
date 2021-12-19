@@ -391,7 +391,7 @@ Additionally, you will require an additional build step to actually build the do
 
 ```bash
 $ cmake ..options.. -DEXIV2_BUILD_DOC=On
-$ cmake -- build . --target doc
+$ cmake --build . --target doc
 ```
 
 To build the documentation, you must install the following products:
@@ -589,7 +589,7 @@ $ cmake .. -G "Unix Makefiles" -DBUILD_WITH_CCACHE=On
 $ cmake --build .
 # Build again to appreciate the performance gain
 $ cmake --build . --target clean
-$ cmake --build . 
+$ cmake --build .
 ```
 
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
@@ -755,7 +755,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ### 2.17 Building with C++11 and other compilers
 
-Exiv2 uses the default compiler for your system.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.00 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
+Exiv2 with use the `-DCMAKE_CXX_STANDARD=98` compiler.  Exiv2 v0.27 was written to the C++ 1998 standard and uses auto\_ptr.  The C++11 and C++14 compilers will issue deprecation warnings about auto\_ptr.  As _auto\_ptr support has been removed from C++17, you cannot build Exiv2 v0.27 with C++17 or later compilers._  Exiv2 v1.00 and later do not use auto\_ptr and will build with all modern C++ Standard Compilers.
 
 To build with C++11:
 
@@ -1174,8 +1174,6 @@ bash.exe -norc
 endlocal
 ```
 
-The utility apt-cyg can be downloaded and used to install dependencies.  The code to do this is in appveyor\_mingw\_cygwin.yml.
-
 [TOC](#TOC)
 <div id="5-5">
 
@@ -1288,5 +1286,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-19
 
