@@ -2,23 +2,19 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/exiv2.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
 
-CI Status:
 
-[![Basic CI for all platforms on push](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml)
 
-[![CI for different Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml)
-
-[![Linux Special Builds on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml)
-
-[![Linux-Ubuntu Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml)
-
-[![Mac Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml)
-
-[![Win Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml)
+| **CI Status:**    |      |      |
+|:--                |:--   |:--   |
+| [![Basic CI for all platforms on push](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![CI for different Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) |  [![Linux Special Builds on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_buils.yml) |
+| [![Linux-Ubuntu Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml) | [![Mac Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml) | [![Win Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml) |
 
 <div id="1">
 
 # Welcome to Exiv2
+
+![Exiv2](exiv2.png)
+
 Exiv2 is a C++ library and a command-line utility to read,
 write, delete and modify Exif, IPTC, XMP and ICC image metadata.
 
@@ -32,7 +28,6 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 <div id="TOC">
 
 ### TABLE  OF  CONTENTS
-![Exiv2](exiv2.png)
 
 1. [Welcome to Exiv2](#1)
 2. [Building, Installing, Using and Uninstalling Exiv2](#2)
@@ -948,16 +943,23 @@ $
 
 ```cmd
 > copy c:\Python37\python.exe c:\Python37\python3.exe
-> set "PATH=c:\Python37;%PATH%
+> set PATH=c:\Python37;%PATH%
 ```
 
-You can execute the test suite as described for UNIX-like systems.
+You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the -C config option to ctest for Visual Studio builds.  
 
-```bash
+```cmd
 > cd <exiv2dir>/build
-> cmake --build . --target test
-> ctest -R bugfixes --verbose
+> ctest -C Release
+> ctest -C Release -R bugfixes --verbose
 ```
+Visual Studio can build different configs as follows:
+
+```cmd
+> cmake --build . --config Release        # or Debug or MinSizeRel or RelWithDebInfo
+> ctest -C Release
+```
+The default for **cmake** config option `--config` is `Release`.  **ctest** does not have a default for config option `-C`.
 
 ##### Running tests from cmd.exe
 
@@ -972,15 +974,15 @@ c:\...\exiv2\build>conan install .. --build missing --profile msvc2019Release
 c:\...\exiv2\build>cmake .. -DEXIV2_BUILD_UNIT_TESTS=On -G "Visual Studio 16 2019"
 c:\...\exiv2\build>cmake --build . --config Release
 ... lots of output from compiler and linker ...
-c:\...\exiv2\build>
+c:\...\exiv2\build>ctest -C Release
 ```
 
 If you wish to use an environment variables, use set:
 
 ```
-set VERBOSE=1
-cmake --build . --config Release --target test
-set VERBOSE=
+set EXIV2_PORT=54321
+ctest -C Release --verbose -R bash
+set EXIV2_PORT=
 ```
 
 [TOC](#TOC)
