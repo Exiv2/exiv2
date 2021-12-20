@@ -636,9 +636,9 @@ time_t readImageTime(const std::string& path,std::string* pS=NULL)
     , "Exif.Image.DateTime"
     , NULL
     };
-    const char* dateString = dateStrings[0] ;
 
-    do {
+    for (size_t i = 0; !result && dateStrings[i]; i++) {
+        const char* dateString = dateStrings[i] ;
         try {
             Image::AutoPtr image = ImageFactory::open(path);
             if ( image.get() ) {
@@ -649,7 +649,7 @@ time_t readImageTime(const std::string& path,std::string* pS=NULL)
                 if ( result && pS ) *pS = exifData[dateString].toString();
             }
         } catch ( ... ) {};
-    } while ( !result && ++dateString );
+    }
 
     return result ;
 }
