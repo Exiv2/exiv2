@@ -111,7 +111,7 @@ if( EXIV2_BUILD_SAMPLES )
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
             COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests
         )
-        add_test(NAME bugfixes
+        add_test(NAME bugfixTests
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
             COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes
         )
@@ -119,7 +119,7 @@ if( EXIV2_BUILD_SAMPLES )
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
             COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test
         )
-        add_test(NAME versionTest
+        add_test(NAME versionTests
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
             COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests/version_test.py 
         )

@@ -59,4 +59,4 @@ if (MSVC)
     set_target_properties(unit_tests PROPERTIES LINK_FLAGS "/ignore:4099")
 endif()
 
-add_test(NAME unit_tests COMMAND unit_tests)
+add_test(NAME unitTests COMMAND unit_tests)
