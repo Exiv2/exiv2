@@ -1027,7 +1027,7 @@ If you wish to run in verbose mode:
 
 ```bash
 $ cd <exiv2dir>/build
-$ $ ctest -R bugfix --verbose
+$ ctest -R bugfix --verbose
 ```
 
 The bugfix tests are stored in directory tests/ and you can run them all with the command:
