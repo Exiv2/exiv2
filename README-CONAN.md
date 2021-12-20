@@ -99,20 +99,19 @@ os_build=Windows
 [env]
 ```
 
-_Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](#2-2)__
+_Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](#2-2)_
 
 <name id="1-4"></a>
+
 ##### 1.4) Build dependencies, create build environment, build and test</a>
 
 
-|         | Build Steps   | Linux and macOS                | Visual Studio |
-|:--      |:--------------|--------------------------------|------------------------------|
+|         | Build Steps                                                              | Linux and macOS       | Visual Studio |
+|:--      |:-------------------------------------------------------------------------|-----------------------|------------------------------|
 | _**1**_ | Get conan to fetch dependencies<br><br>The output can be quite<br>long as conan downloads and/or builds<br>zlib, expat, curl and other dependencies.| $ conan install ..<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--build missing       | c:\\..\\build> conan install .. --build missing<br>&nbsp;&nbsp;&nbsp;&nbsp;--profile msvc2019Release64 |
-| _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj | $ cmake ..  | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
-| _**3**_ | Build                                             | $ cmake --build .       | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
-| _**4**_ | Optionally Run Test Suite                         | $ make tests            | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release --target tests<br/>[README.md](README.md) |
-
-
+| _**2**_ | Get cmake to generate<br>makefiles or sln/vcxproj                        | $ cmake ..            | c:\\..\\build> cmake&nbsp;..&nbsp;-G&nbsp;"Visual Studio 16 2019"
+| _**3**_ | Build                                                                    | $ cmake --build .     | c:\\..\\build>&nbsp;cmake&nbsp;--build&nbsp;.&nbsp;--config&nbsp;Release<br>You may prefer to open exiv2.sln and build using the IDE. |
+| _**4**_ | Optionally Run Test Suite<br/>Test documentation: [README.md](README.md) | $ ctest               | c:\\..\\build>&nbsp;ctest -C Release |
 
 [TOC](#TOC)
 <name id="2"></a>
@@ -573,4 +572,4 @@ $ cmake -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_SSH=ON 
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-03-18
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-19
