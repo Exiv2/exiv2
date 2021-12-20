@@ -56,8 +56,8 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 4. [Test Suite](#4)
     1. [Running tests on a UNIX-like system](#4-1)
     2. [Running tests on Visual Studio builds](#4-2)
-    3. [Unit tests](#4-3)
-    4. [Bugfix tests](#4-4)
+    3. [Unit Tests](#4-3)
+    4. [Bugfix Tests](#4-4)
     5. [Fuzzing](#4-5)
         1. [OSS-Fuzz](#4-5-1)
 5. [Platform Notes](#5)
@@ -853,39 +853,57 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 
 ## 4 Test Suite
 
-The test suite is implemented using CTest.  CMake adds the target 'test' to the build.  You can run ctest with the command `$ cmake --build . --target test`, or simply with `$ ctest`.  The build creates 6 tests: bashTests, bugfixes, lensTest, tiffTests, unit_tests and versionTest.  You can run all tests or a subset.
+You execute the Test Suite using CTest with the command `$ ctest`.
+
+The build creates 6 tests: bashTests, bugfixTests, lensTests, tiffTests, unitTests and versionTests.  You can run all tests or a subset.  To list all available tests, execute ctest with the `-N` or `--show-only` option, which disables execution:
 
 ```bash
-$ cmake --build . --target test
+.../main/build $ ctest -N
+Test project ...main/build
+  Test #1: bashTests
+  Test #2: bugfixTests
+  Test #3: lensTests
+  Test #4: tiffTests
+  Test #5: versionTests
+  Test #6: unitTests
+
+Total Tests: 6
+.../main/build $
+```
+
+ctest provides many option and the following show common use-case scenarios:
+
+```bash
 $ ctest                              # run all tests and display summary
 $ ctest --output-on-failure          # run all tests and output failures
-$ ctest -R bugfixes                  # run only bugfixes and display summary
-$ ctest -R bugfixes --verbose        # run only bugfixes and display all output
+$ ctest -R bugfix                    # run only bugfixTests and display summary
+$ ctest -R bugfix --verbose          # run only bugfixTests and display all output
 ```
 
 | Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
 | bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=On     |
-| bugfixes           | python    | tests/bugfixes          | $ ctest -R bugfixes   | -DEXIV2\_BUILD\_SAMPLES=On     |
-| LensTest           | C++       | tests/lens_tests        | $ ctest -R lens       | -DEXIV2\_BUILD\_SAMPLES=On     |
+| bugfixTests        | python    | tests/bugfixes          | $ ctest -R bugfix     | -DEXIV2\_BUILD\_SAMPLES=On     |
+| lensTest           | C++       | tests/lens_tests        | $ ctest -R lens       | -DEXIV2\_BUILD\_SAMPLES=On     |
 | tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       | -DEXIV2\_BUILD\_SAMPLES=On     |
-| unit_tests         | C++       | unitTests               | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
-| versionTest        | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
+| unitTests          | C++       | unitTests/              | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
+| versionTests       | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
-The term _**bash**_ is historical.  These tests were originally bash scripts and they have been rewritten in python.  Visual Studio Users will appreciate the python implementation as it avoids the installation of mingw/cygwin and special PATH settings.
+The term _**bashTests**_ is historical.  These tests were originally bash scripts and have been rewritten in python.
+Visual Studio Users will appreciate the python implementation as it avoids the installation of mingw/cygwin and special PATH settings.
 
 #### Environment Variables used by the test suite:
 
 If you build the code in the directory \<exiv2dir\>build, tests will run using the default values of Environment Variables.
 
-| Variable           | Default                    | Platforms     | Purpose |
-|:--                 |:--                         |:--            |:--      |
-| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms | Path of built binaries (exiv2.exe) |
-| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**        | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
+| Variable           | Default                    | Platforms          | Purpose |
+|:--                 |:--                         |:--                 |:--      |
+| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms      | Path of built binaries (exiv2.exe) |
+| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**             | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://localhost**       | All Platforms      | Test http server   |
-| EXIV2_ECHO         | _**not set**_              | All Platforms      | For debugging bash scripts |
-| VALGRIND           | _**not set**_              | All Platforms      | For debugging bash scripts |
-| VERBOSE            | _**not set**_              | Makefile platforms | Causes make to report its actions |
+| EXIV2_ECHO         | _**not set**_              | All Platforms      | For debugging bashTests |
+| VALGRIND           | _**not set**_              | All Platforms      | For debugging bashTests |
+| VERBOSE            | _**not set**_              | Makefile platforms | Instructs make to report its actions |
 | PATH<br>DYLD\_LIBRARY\_PATH<br>LD\_LIBRARY\_PATH    | $EXIV2\_BINDIR/../lib | Windows<br>macOS<br>Other platforms | Path of dynamic libraries |
 
 The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
@@ -916,7 +934,7 @@ addmoddel_test (testcases.TestCases) ... ok
 Ran 176 tests in 9.526s
 OK (skipped=6)
 
-$ ctest -R bugfixes --verbose
+$ ctest -R bugfix --verbose
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -936,12 +954,12 @@ $
 > set PATH=c:\Python37;%PATH%
 ```
 
-You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the -C config option to ctest for Visual Studio builds.  
+You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the `-C` config option to ctest for Visual Studio builds.  
 
 ```cmd
 > cd <exiv2dir>/build
 > ctest -C Release
-> ctest -C Release -R bugfixes --verbose
+> ctest -C Release -R bugfix --verbose
 ```
 Visual Studio can build different configs as follows:
 
@@ -977,7 +995,7 @@ set EXIV2_PORT=
 
 [TOC](#TOC)
 <div id="4-3">
-### 4.3 Unit tests
+### 4.3 Unit Tests
 
 The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=On`.
 
@@ -996,23 +1014,23 @@ $ popd
 
 [TOC](#TOC)
 <div id="4-4">
-### 4.4 Bugfix tests
+### 4.4 Bugfix Tests
 
 You can run the bugfix tests from the build directory:
 
 ```bash
 $ cd <exiv2dir>/build
-$ ctest -R bugfixes  
+$ ctest -R bugfix  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
 $ cd <exiv2dir>/build
-$ $ ctest -R bugfixes --verbose
+$ $ ctest -R bugfix --verbose
 ```
 
-The bugfix tests are stored in the directory tests and you can run them all with the command:
+The bugfix tests are stored in directory tests/ and you can run them all with the command:
 
 ```bash
 $ cd <exiv2dir>/tests
@@ -1031,7 +1049,7 @@ You may wish to get a brief summary of failures with commands such as:
 
 ```bash
 $ cd <exiv2dir>/build
-$ ctest -R bugfixes --verbose 2>&1 | grep FAIL
+$ ctest -R bugfix --verbose 2>&1 | grep FAIL
 ```
 
 [TOC](#TOC)
@@ -1310,5 +1328,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-19
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-20
 
