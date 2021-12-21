@@ -30,7 +30,9 @@ If you have found a security vulnerability in Exiv2, please follow these steps:
 
 The draft security advisory is private until we publish it, so it is a good place to discuss the details of the vulnerability privately. For the initial email, just a summary of the issue is sufficient.
 
-To qualify as a security issue, the bug **must** be reproducible on an official release of Exiv2. Official releases are listed [here](https://github.com/Exiv2/exiv2/releases) (not including those labeled "pre-release"). Bugs that are only reproducible on the [main branch](https://github.com/Exiv2/exiv2/tree/main) or on a pre-release are not security issues and can be reported as regular [issues](https://github.com/Exiv2/exiv2/issues).
+To qualify as a security issue, the bug **must** be reproducible on an official release of Exiv2, via a realistic attack vector. As a general rule, that means it should be possible to trigger the bug by running the `exiv2` command-line application on a malicious input file. Please note that the applications in the `samples` sub-directory are demo applications that are not intended for production use, so we usually do not consider bugs in those applications to be security vulnerabilities. However, if one of the sample applications reveals a legitimate bug in the exiv2 library then we will still consider it as a potential security issue.
+
+Official releases are listed [here](https://github.com/Exiv2/exiv2/releases) (not including those labeled "pre-release"). Bugs that are only reproducible on the [main branch](https://github.com/Exiv2/exiv2/tree/main) or on a pre-release are not security issues and can be reported as regular [issues](https://github.com/Exiv2/exiv2/issues).
 
 Team Exiv2 does not back-port security (or any other fix) to earlier releases of the code.  An engineer at SUSE has patched and fixed some security releases for Exiv2 v0.26 and Exiv2 v0.25 in branches 0.26 and 0.25.  Exiv2 has provided several _**Dot Release**_ for v0.27.  Exiv2 has never issued a _**Security Release**_.
 
