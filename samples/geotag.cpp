@@ -613,9 +613,9 @@ time_t readImageTime(const std::string& path, std::string* pS = nullptr)
 
     const char* dateStrings[] = {"Exif.Photo.DateTimeOriginal", "Exif.Photo.DateTimeDigitized", "Exif.Image.DateTime",
                                  nullptr};
-    const char* dateString = dateStrings[0] ;
 
-    do {
+    for (size_t i = 0; !result && dateStrings[i]; i++) {
+        const char* dateString = dateStrings[i] ;
         try {
             Image::UniquePtr image = ImageFactory::open(path);
             if ( image.get() ) {
@@ -626,7 +626,7 @@ time_t readImageTime(const std::string& path, std::string* pS = nullptr)
                 if ( result && pS ) *pS = exifData[dateString].toString();
             }
         } catch ( ... ) {};
-    } while ( !result && ++dateString );
+    }
 
     return result ;
 }
