@@ -1609,7 +1609,7 @@ namespace Exiv2 {
         v->read(pData, size, byteOrder());
 
         object->setValue(std::move(v));
-        object->setData(pData, size);
+        object->setData(pData, size, std::shared_ptr<DataBuf>());
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
 

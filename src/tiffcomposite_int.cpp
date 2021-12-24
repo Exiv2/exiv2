@@ -319,10 +319,12 @@ namespace Exiv2 {
         size_ = buf->size();
     }
 
-    void TiffEntryBase::setData(byte* pData, int32_t size)
+    void TiffEntryBase::setData(byte* pData, int32_t size,
+                                const std::shared_ptr<DataBuf>& storage)
     {
         pData_ = pData;
         size_  = size;
+        storage_ = storage;
         if (pData_ == nullptr)
             size_ = 0;
     }
@@ -579,7 +581,7 @@ namespace Exiv2 {
         // the TIFF structure table (TiffCreator::tiffTreeStruct_)
         assert(tp);
         tp->setStart(pData() + idx);
-        tp->setData(const_cast<byte*>(pData() + idx), sz);
+        tp->setData(const_cast<byte*>(pData() + idx), sz, storage());
         tp->setElDef(def);
         tp->setElByteOrder(cfg()->byteOrder_);
         addChild(std::move(tc));

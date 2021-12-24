@@ -437,7 +437,7 @@ namespace Exiv2 {
         //! Set the offset
         void setOffset(int32_t offset) { offset_ = offset; }
         //! Set pointer and size of the entry's data (not taking ownership of the data).
-        void setData(byte* pData, int32_t size);
+        void setData(byte* pData, int32_t size, const std::shared_ptr<DataBuf>& storage);
         /*!
           @brief Set the entry's data buffer. A shared_ptr is used to manage the DataBuf
                  because TiffEntryBase has a clone method so it is possible (in theory) for
@@ -532,6 +532,8 @@ namespace Exiv2 {
                                     int32_t   offset,
                                     TiffType  tiffType,
                                     ByteOrder byteOrder);
+
+        const std::shared_ptr<DataBuf>& storage() { return storage_; }
 
     private:
         //! @name NOT implemented
