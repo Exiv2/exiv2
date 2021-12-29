@@ -720,7 +720,7 @@ int Params::evalPrintFlags(const std::string& optArg)
                     printItems_ |= prHex;
                     break;
                 case 'V':
-                    printItems_ |= prSet | prValue;
+                    printItems_ |= prSet | prKey | prType | prValue;
                     break;
                 default:
                     std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";

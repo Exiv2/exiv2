@@ -571,7 +571,7 @@ as well as data columns included in the print output. Valid flags are:
 | c      | Number of components (for single entry types, the number of **sizeof('type')** in 'size'. For multi-entry types, the number of entries. See [Exif/IPTC/XMP types](#exiv2_types)) |
 | s      | Size in bytes of vanilla output (see note in [Exif 'Comment' values](#exif_comment_values)). Some types include a *NULL* character in the size (see [Exif/IPTC/XMP types](#exiv2_types)) |
 | v      | Plain data value (vanilla values, i.e., untranslated)                       |
-| V      | Plain data value and the word 'set ' (see ['MODIFY' COMMANDS](#modify_cmds))|
+| V      | Plain data value, data type and the word 'set ' (see ['MODIFY' COMMANDS](#modify_cmds))|
 | t      | Interpreted (translated) human-readable data values (includes plain vanilla values) |
 | h      | Hex dump of the data                                                        |
 
@@ -1292,10 +1292,10 @@ $ exiv2 --Modify "set Iptc.Application2.Caption Stonehenge" --modify cmdfile.txt
 <div id="gen_modify_cmds">
 
 A list of modify commands can be generated from an existing file using 
-[--Print Vkyv](#Print_flgs). For example, only displaying the 'dc' 
+[--Print V](#Print_flgs). For example, only displaying the 'dc'
 'modify' commands:
 ```
-$ exiv2 --Print Vkyv --grep dc Stonehenge.jpg
+$ exiv2 --Print V --grep dc Stonehenge.jpg
 set Xmp.dc.description                           LangAlt    lang="x-default" Classic View
 set Xmp.dc.Family                                XmpBag     Robin
 ```
