@@ -436,10 +436,28 @@ namespace Exiv2 {
         void encode(TiffEncoder& encoder, const Exifdatum* datum);
         //! Set the offset
         void setOffset(int32_t offset) { offset_ = offset; }
-        //! Set pointer and size of the entry's data (not taking ownership of the data).
-        void setData(byte* pData, int32_t size);
-        //! Set the entry's data buffer, taking ownership of the data buffer passed in.
-        void setData(DataBuf buf);
+        /*!
+          @brief Set pointer and size of the entry's data (not taking ownership of the data).
+
+          @param storage Usually, pData is a pointer into a copy of the image file, which
+                         means that it points to memory which is guaranteed to live longer
+                         than this class. However, sometimes pData is pointer into a
+                         DataBuf that was allocated by another node in the component tree.
+                         If so, we need to make sure that the DataBuf doesn't get freed too
+                         early. We use a std::shared_ptr to hold a reference to the DataBuf
+                         to ensure that it will be kept alive. The storage parameter is
+                         assigned to the storage_ field. In the more common scenario where
+                         pData points to a copy of the image, rather than a DataBuf, then
+                         you should pass std::shared_ptr<DataBuf>(), which is essentially
+                         a nullptr.
+         */
+        void setData(byte* pData, int32_t size, const std::shared_ptr<DataBuf>& storage);
+        /*!
+          @brief Set the entry's data buffer. A shared_ptr is used to manage the DataBuf
+                 because TiffEntryBase has a clone method so it is possible (in theory) for
+                 the DataBuf to have multiple owners.
+         */
+        void setData(const std::shared_ptr<DataBuf>& buf);
          /*!
           @brief Update the value. Takes ownership of the pointer passed in.
 
@@ -529,6 +547,9 @@ namespace Exiv2 {
                                     TiffType  tiffType,
                                     ByteOrder byteOrder);
 
+        //! Used (internally) to create another reference to the DataBuf reference by storage_.
+        const std::shared_ptr<DataBuf>& storage() { return storage_; }
+
     private:
         //! @name NOT implemented
         //@{
@@ -545,11 +566,22 @@ namespace Exiv2 {
           minimum size.
          */
         uint32_t size_;
+
+        // Notes on the ownership model of pData_: pData_ is a always a
+        // pointer to a buffer owned by somebody else. Usually it is a
+        // pointer into a copy of the image file, but if
+        // TiffEntryBase::setData is used then it is a pointer into the
+        // storage_ DataBuf below.
         byte*    pData_;      //!< Pointer to the data area
-        bool     isMalloced_; //!< True if this entry owns the value data
+
         int      idx_;        //!< Unique id of the entry in the image
         Value*   pValue_;     //!< Converted data value
 
+        // This DataBuf is only used when TiffEntryBase::setData is called.
+        // Otherwise, it remains empty. It is wrapped in a shared_ptr because
+        // TiffEntryBase has a clone method, which could lead to the DataBuf
+        // having multiple owners.
+        std::shared_ptr<DataBuf> storage_;
     }; // class TiffEntryBase
 
     /*!

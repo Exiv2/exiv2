@@ -97,7 +97,6 @@ namespace Exiv2 {
           offset_(0),
           size_(0),
           pData_(nullptr),
-          isMalloced_(false),
           idx_(0),
           pValue_(nullptr)
     {
@@ -188,9 +187,6 @@ namespace Exiv2 {
 
     TiffEntryBase::~TiffEntryBase()
     {
-        if (isMalloced_) {
-            delete[] pData_;
-        }
         delete pValue_;
     }
 
@@ -218,14 +214,10 @@ namespace Exiv2 {
           offset_(rhs.offset_),
           size_(rhs.size_),
           pData_(rhs.pData_),
-          isMalloced_(rhs.isMalloced_),
           idx_(rhs.idx_),
-          pValue_(rhs.pValue_ ? rhs.pValue_->clone().release() : nullptr)
+          pValue_(rhs.pValue_ ? rhs.pValue_->clone().release() : nullptr),
+          storage_(rhs.storage_)
     {
-        if (rhs.isMalloced_) {
-            pData_ = new byte[rhs.size_];
-            memcpy(pData_, rhs.pData_, rhs.size_);
-        }
     }
 
     TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), hasNext_(rhs.hasNext_), pNext_(nullptr)
@@ -320,20 +312,19 @@ namespace Exiv2 {
         return idx_;
     }
 
-    void TiffEntryBase::setData(DataBuf buf)
+    void TiffEntryBase::setData(const std::shared_ptr<DataBuf>& buf)
     {
-        std::pair<byte*, long> p = buf.release();
-        setData(p.first, p.second);
-        isMalloced_ = true;
+        storage_ = buf;
+        pData_ = buf->data();
+        size_ = buf->size();
     }
 
-    void TiffEntryBase::setData(byte* pData, int32_t size)
+    void TiffEntryBase::setData(byte* pData, int32_t size,
+                                const std::shared_ptr<DataBuf>& storage)
     {
-        if (isMalloced_) {
-            delete[] pData_;
-        }
         pData_ = pData;
         size_  = size;
+        storage_ = storage;
         if (pData_ == nullptr)
             size_ = 0;
     }
@@ -344,7 +335,7 @@ namespace Exiv2 {
             return;
         uint32_t newSize = value->size();
         if (newSize > size_) {
-            setData(DataBuf(newSize));
+            setData(std::make_shared<DataBuf>(newSize));
         }
         if (pData_ != nullptr) {
             memset(pData_, 0x0, size_);
@@ -590,7 +581,7 @@ namespace Exiv2 {
         // the TIFF structure table (TiffCreator::tiffTreeStruct_)
         assert(tp);
         tp->setStart(pData() + idx);
-        tp->setData(const_cast<byte*>(pData() + idx), sz);
+        tp->setData(const_cast<byte*>(pData() + idx), sz, storage());
         tp->setElDef(def);
         tp->setElByteOrder(cfg()->byteOrder_);
         addChild(std::move(tc));

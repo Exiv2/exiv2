@@ -1609,7 +1609,7 @@ namespace Exiv2 {
         v->read(pData, size, byteOrder());
 
         object->setValue(std::move(v));
-        object->setData(pData, size);
+        object->setData(pData, size, std::shared_ptr<DataBuf>());
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
 
@@ -1653,8 +1653,10 @@ namespace Exiv2 {
         if (cryptFct != nullptr) {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
-            DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
-            if (buf.size() > 0) object->setData(std::move(buf));
+            std::shared_ptr<DataBuf> buf = std::make_shared<DataBuf>(
+              cryptFct(object->tag(), pData, size, pRoot_)
+            );
+            if (buf->size() > 0) object->setData(buf);
         }
 
         const ArrayDef* defs = object->def();

@@ -205,13 +205,6 @@ namespace Exiv2 {
          */
         void resize(long size);
 
-        /*!
-          @brief Release ownership of the buffer to the caller. Returns the
-                 buffer as a data pointer and size pair, resets the internal
-                 buffer.
-         */
-        EXV_WARN_UNUSED_RESULT std::pair<byte*, long> release();
-
         //! Reset value
         void reset();
         //@}

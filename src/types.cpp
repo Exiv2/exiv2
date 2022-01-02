@@ -183,14 +183,6 @@ namespace Exiv2 {
         size_ = size;
     }
 
-    EXV_WARN_UNUSED_RESULT std::pair<byte*, long> DataBuf::release()
-    {
-        std::pair<byte*, long> p = {pData_, size_};
-        pData_ = nullptr;
-        size_ = 0;
-        return p;
-    }
-
     void DataBuf::reset()
     {
         delete[] pData_;
