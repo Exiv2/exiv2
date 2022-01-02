@@ -536,7 +536,7 @@ namespace Exiv2 {
                 N_("The logical order of bits within a byte"),
                 ifd0Id, imgStruct, unsignedShort, 1, printValue), // TIFF tag
         TagInfo(0x010d, "DocumentName", N_("Document Name"),
-                N_("The name of the document from which this image was scanned"),
+                N_("The name of the document from which this image was scanned."),
                 ifd0Id, imgStruct, asciiString, 0, printValue), // TIFF tag
         TagInfo(0x010e, "ImageDescription", N_("Image Description"),
                 N_("A character string giving the title of the image. It may be "
@@ -596,6 +596,19 @@ namespace Exiv2 {
                 "is used instead of this tag. If this field does not exist, "
                 "the TIFF default of 1 (chunky) is assumed."),
                 ifd0Id, imgStruct, unsignedShort, 1, EXV_PRINT_TAG(exifPlanarConfiguration)),
+        TagInfo(0x011d, "PageName", N_("Page Name"),
+                 N_("The name of the page from which this image was scanned."),
+                 ifd0Id, imgStruct, asciiString, 0, printValue), // TIFF tag
+        TagInfo(0x011e, "XPosition", N_("X Position"),
+                 N_("X position of the image. The X offset in ResolutionUnits of the "
+                 "left side of the image, with respect to the left side of the page."),
+                 ifd0Id, imgStruct, unsignedRational, 1, printValue), // TIFF tag
+        TagInfo(0x011f, "YPosition", N_("Y Position"),
+                 N_("Y position of the image. The Y offset in ResolutionUnits of the "
+                 "top of the image, with respect to the top of the page. In the TIFF "
+                 "coordinate scheme, the positive Y direction is down, so that "
+                 "YPosition is always positive."),
+                 ifd0Id, imgStruct, unsignedRational, 1, printValue), // TIFF tag
         TagInfo(0x0122, "GrayResponseUnit", N_("Gray Response Unit"),
                 N_("The precision of the information contained in the GrayResponseCurve."),
                 ifd0Id, imgStruct, unsignedShort, 1, printValue), // TIFF tag
