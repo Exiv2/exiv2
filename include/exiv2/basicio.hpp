@@ -263,7 +263,7 @@ namespace Exiv2 {
           @note This method should be only called after the concerned data (metadata)
                 are all downloaded from the remote file to memory.
          */
-        virtual void populateFakeData() {}
+        virtual void populateFakeData() = 0;
 
         /*!
           @brief this is allocated and populated by mmap()

@@ -628,6 +628,7 @@ namespace Exiv2 {
             fileIo->close();
             // Check if the file can be written to, if it already exists
             if (open("a+b") != 0) {
+                /// \todo Use std::filesystem once C++17 can be used
                 // Remove the (temporary) file
 #ifdef EXV_UNICODE_PATH
                 if (fileIo->p_->wpMode_ == Impl::wpUnicode) {

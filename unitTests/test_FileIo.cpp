@@ -26,6 +26,7 @@ namespace
 {
     const std::string testData(TESTDATA_PATH);
     const std::string imagePath(testData + "/DSC_3079.jpg");
+    const std::string nonExistingImagePath(testData + "/nonExisting.jpg");
 }  // namespace
 
 TEST(AFileIO, canBeInstantiatedWithFilePath)
@@ -43,9 +44,26 @@ TEST(AFileIO, isOpenDoItsJob)
 {
     FileIo file(imagePath);
     ASSERT_FALSE(file.isopen());
-    file.open();
+    ASSERT_EQ(0, file.open());
     ASSERT_TRUE(file.isopen());
 }
+
+TEST(AFileIO, failsToOpenANonExistingFile)
+{
+    FileIo file(nonExistingImagePath);
+    ASSERT_FALSE(file.isopen());
+    ASSERT_EQ(1, file.open());
+    ASSERT_FALSE(file.isopen());
+}
+
+TEST(AFileIO, canChangeItsPathWithSetPath)
+{
+    FileIo file(nonExistingImagePath);
+    ASSERT_EQ(nonExistingImagePath, file.path());
+    file.setPath(imagePath);
+    ASSERT_EQ(imagePath, file.path());
+}
+
 
 TEST(AFileIO, returnsFileSizeIfItsOpened)
 {
