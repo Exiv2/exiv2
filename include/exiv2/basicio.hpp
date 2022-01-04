@@ -183,11 +183,8 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
               Nonzero if failure;
          */
-#if defined(_MSC_VER)
         virtual int seek(int64_t offset, Position pos) = 0;
-#else
-        virtual int seek(long offset, Position pos) = 0;
-#endif
+
         /*!
           @brief Safe version of `seek()` that checks for errors and throws
               an exception if the seek was unsuccessful.
@@ -196,11 +193,7 @@ namespace Exiv2 {
           @param pos Position from which the seek should start
           @param err Error code to use if an exception is thrown.
          */
-#if defined(_MSC_VER)
         void seekOrThrow(int64_t offset, Position pos, ErrorCode err);
-#else
-        void seekOrThrow(long offset, Position pos, ErrorCode err);
-#endif
 
         /*!
           @brief Direct access to the IO data. For files, this is done by
@@ -450,11 +443,8 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
         int seek(int64_t offset, Position pos) override;
-#else
-        int seek(long offset, Position pos) override;
-#endif
+
         /*!
           @brief Map the file into the process's address space. The file must be
                  open before mmap() is called. If the mapped area is writeable,
@@ -672,11 +662,8 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
         virtual int seek(int64_t offset, Position pos);
-#else
-        int seek(long offset, Position pos) override;
-#endif
+
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
                  is not protected against write access in any way, the argument
@@ -957,11 +944,8 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-#if defined(_MSC_VER)
        virtual int seek(int64_t offset, Position pos);
-#else
-        int seek(long offset, Position pos) override;
-#endif
+
        /*!
          @brief Not support
          @return NULL
