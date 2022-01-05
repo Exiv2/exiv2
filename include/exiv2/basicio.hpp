@@ -662,7 +662,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-        virtual int seek(int64_t offset, Position pos);
+        virtual int seek(int64_t offset, Position pos) override;
 
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
@@ -944,7 +944,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                  Nonzero if failure;
          */
-       virtual int seek(int64_t offset, Position pos);
+       virtual int seek(int64_t offset, Position pos) override;
 
        /*!
          @brief Not support
