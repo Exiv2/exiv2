@@ -435,14 +435,7 @@ namespace Exiv2 {
           @throw Error In case of failure
          */
         void transfer(BasicIo& src) override;
-        /*!
-          @brief Move the current file position.
-          @param offset Number of bytes to move the file position
-              relative to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */
+
         int seek(int64_t offset, Position pos) override;
 
         /*!
@@ -654,15 +647,8 @@ namespace Exiv2 {
           @throw Error In case of failure
          */
         void transfer(BasicIo& src) override;
-        /*!
-          @brief Move the current IO position.
-          @param offset Number of bytes to move the IO position
-              relative to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */
-        virtual int seek(int64_t offset, Position pos) override;
+
+        int seek(int64_t offset, Position pos) override;
 
         /*!
           @brief Allow direct access to the underlying data buffer. The buffer
@@ -936,15 +922,8 @@ namespace Exiv2 {
           @note The write access is only supported by http, https, ssh.
          */
         void transfer(BasicIo& src) override;
-        /*!
-          @brief Move the current IO position.
-          @param offset Number of bytes to move the IO position
-              relative to the starting position specified by \em pos
-          @param pos Position from which the seek should start
-          @return 0 if successful;<BR>
-                 Nonzero if failure;
-         */
-       virtual int seek(int64_t offset, Position pos) override;
+
+       int seek(int64_t offset, Position pos) override;
 
        /*!
          @brief Not support
