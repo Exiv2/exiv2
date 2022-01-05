@@ -1321,22 +1321,21 @@ namespace Exiv2 {
     {
         DataBuf buf(rcount);
         long readCount = read(buf.data(), buf.size());
-        if (readCount < 0) {
-            throw Error(kerInputDataReadFailed);
-        }
         buf.resize(readCount);
         return buf;
     }
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = std::max(p_->size_ - p_->idx_, 0L);
-        long allow = std::min(rcount, avail);
+        const long avail = std::max(p_->size_ - p_->idx_, 0L);
+        const long allow = std::min(rcount, avail);
         if (allow > 0) {
             std::memcpy(buf, &p_->data_[p_->idx_], allow);
         }
         p_->idx_ += allow;
-        if (rcount > avail) p_->eof_ = true;
+        if (rcount > avail) {
+          p_->eof_ = true;
+        }
         return allow;
     }
 
@@ -1872,10 +1871,10 @@ namespace Exiv2 {
         src.close();
     }
 
-    int RemoteIo::seek( int64_t offset, Position pos )
+    int RemoteIo::seek( int64_t offset, Position pos)
     {
         assert(p_->isMalloced_);
-        uint64_t newIdx = 0;
+        int64_t newIdx = 0;
 
         switch (pos) {
             case BasicIo::cur: newIdx = p_->idx_ + offset; break;
@@ -1883,12 +1882,12 @@ namespace Exiv2 {
             case BasicIo::end: newIdx = p_->size_ + offset; break;
         }
 
-        /// \todo in previous ::seek() overload there was the following comment:
-        ///  #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
-        /// And the following line was commented. Check out this part of the code
-        if ( /*newIdx < 0 || */ newIdx > static_cast<uint64_t>(p_->size_) ) return 1;
-        p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
-        p_->eof_ = false;
+        // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
+        // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
+        p_->idx_ = static_cast<long>(newIdx);
+        p_->eof_ = newIdx > static_cast<long>(p_->size_);
+        if (p_->idx_ > static_cast<long>(p_->size_))
+            p_->idx_ = static_cast<long>(p_->size_);
         return 0;
     }
 
