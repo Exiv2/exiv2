@@ -1,7 +1,7 @@
 # These flags applies to exiv2lib, the applications, and to the xmp code
 include(CheckCXXCompilerFlag)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (CYGWIN)
     set(CMAKE_CXX_EXTENSIONS ON)
