@@ -2,7 +2,7 @@
 # mainly to protect the fuzz target from bitrot, but hopefully will
 # also help to quickly catch some bugs before the PR is merged.
 
-name: Linux-Ubuntu Quick Fuzz on PRs
+name: On PRs - Linux-Ubuntu Quick Fuzz
 
 on:
   pull_request:

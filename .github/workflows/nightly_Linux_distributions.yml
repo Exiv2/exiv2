@@ -4,7 +4,7 @@ on:
   schedule:
   - cron: 0 4 * * *
 
-name: CI for different Linux distributions
+name: Nightly - Linux distributions
 
 jobs:
   distros:

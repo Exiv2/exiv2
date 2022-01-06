@@ -1,4 +1,4 @@
-name: Mac Matrix on PRs
+name: On PRs - Mac Matrix
 
 on: [pull_request]
 
