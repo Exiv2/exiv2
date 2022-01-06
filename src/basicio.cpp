@@ -84,11 +84,7 @@ namespace Exiv2 {
         enforce(!error(), err);
     }
 
-#if defined(_MSC_VER)
     void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
-#else
-    void BasicIo::seekOrThrow(long offset, Position pos, ErrorCode err) {
-#endif
         const int r = seek(offset, pos);
         enforce(r == 0, err);
     }
@@ -628,6 +624,7 @@ namespace Exiv2 {
             fileIo->close();
             // Check if the file can be written to, if it already exists
             if (open("a+b") != 0) {
+                /// \todo Use std::filesystem once C++17 can be used
                 // Remove the (temporary) file
 #ifdef EXV_UNICODE_PATH
                 if (fileIo->p_->wpMode_ == Impl::wpUnicode) {
@@ -898,7 +895,6 @@ namespace Exiv2 {
         return putc(data, p_->fp_);
     }
 
-#if defined(_MSC_VER)
     int FileIo::seek( int64_t offset, Position pos )
     {
         assert(p_->fp_ != 0);
@@ -917,24 +913,6 @@ namespace Exiv2 {
         return std::fseek(p_->fp_,static_cast<long>(offset), fileSeek);
 #endif
     }
-#else
-    int FileIo::seek(long offset, Position pos)
-    {
-        assert(p_->fp_ != 0);
-
-        int fileSeek = 0;
-        switch (pos) {
-        case BasicIo::cur: fileSeek = SEEK_CUR; break;
-        case BasicIo::beg: fileSeek = SEEK_SET; break;
-        case BasicIo::end: fileSeek = SEEK_END; break;
-        }
-
-        if (p_->switchMode(Impl::opSeek) != 0) {
-            return 1;
-        }
-        return std::fseek(p_->fp_, offset, fileSeek);
-    }
-#endif
 
     long FileIo::tell() const
     {
@@ -1279,7 +1257,6 @@ namespace Exiv2 {
         return data;
     }
 
-#if defined(_MSC_VER)
     int MemIo::seek( int64_t offset, Position pos )
     {
         int64_t newIdx = 0;
@@ -1302,30 +1279,6 @@ namespace Exiv2 {
         p_->eof_ = false;
         return 0;
     }
-#else
-    int MemIo::seek(long offset, Position pos)
-    {
-        long newIdx = 0;
-
-        switch (pos) {
-        case BasicIo::cur: newIdx = p_->idx_ + offset; break;
-        case BasicIo::beg: newIdx = offset; break;
-        case BasicIo::end: newIdx = p_->size_ + offset; break;
-        }
-
-        if (newIdx < 0)
-            return 1;
-
-        if (newIdx > p_->size_) {
-            p_->eof_ = true;
-            return 1;
-        }
-
-        p_->idx_ = newIdx;
-        p_->eof_ = false;
-        return 0;
-    }
-#endif
 
     byte* MemIo::mmap(bool /*isWriteable*/)
     {
@@ -1368,22 +1321,21 @@ namespace Exiv2 {
     {
         DataBuf buf(rcount);
         long readCount = read(buf.data(), buf.size());
-        if (readCount < 0) {
-            throw Error(kerInputDataReadFailed);
-        }
         buf.resize(readCount);
         return buf;
     }
 
     long MemIo::read(byte* buf, long rcount)
     {
-        long avail = std::max(p_->size_ - p_->idx_, 0L);
-        long allow = std::min(rcount, avail);
+        const long avail = std::max(p_->size_ - p_->idx_, 0L);
+        const long allow = std::min(rcount, avail);
         if (allow > 0) {
             std::memcpy(buf, &p_->data_[p_->idx_], allow);
         }
         p_->idx_ += allow;
-        if (rcount > avail) p_->eof_ = true;
+        if (rcount > avail) {
+          p_->eof_ = true;
+        }
         return allow;
     }
 
@@ -1919,28 +1871,10 @@ namespace Exiv2 {
         src.close();
     }
 
-#if defined(_MSC_VER)
-    int RemoteIo::seek( int64_t offset, Position pos )
+    int RemoteIo::seek( int64_t offset, Position pos)
     {
         assert(p_->isMalloced_);
-        uint64_t newIdx = 0;
-
-        switch (pos) {
-            case BasicIo::cur: newIdx = p_->idx_ + offset; break;
-            case BasicIo::beg: newIdx = offset; break;
-            case BasicIo::end: newIdx = p_->size_ + offset; break;
-        }
-
-        if ( /*newIdx < 0 || */ newIdx > static_cast<uint64_t>(p_->size_) ) return 1;
-        p_->idx_ = static_cast<long>(newIdx);   //not very sure about this. need more test!!    - note by Shawn  fly2xj@gmail.com //TODO
-        p_->eof_ = false;
-        return 0;
-    }
-#else
-    int RemoteIo::seek(long offset, Position pos)
-    {
-        assert(p_->isMalloced_);
-        long newIdx = 0;
+        int64_t newIdx = 0;
 
         switch (pos) {
             case BasicIo::cur: newIdx = p_->idx_ + offset; break;
@@ -1950,13 +1884,12 @@ namespace Exiv2 {
 
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
-        p_->idx_ = newIdx;
+        p_->idx_ = static_cast<long>(newIdx);
         p_->eof_ = newIdx > static_cast<long>(p_->size_);
         if (p_->idx_ > static_cast<long>(p_->size_))
             p_->idx_ = static_cast<long>(p_->size_);
         return 0;
     }
-#endif
 
     byte* RemoteIo::mmap(bool /*isWriteable*/)
     {
