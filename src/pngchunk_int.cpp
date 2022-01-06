@@ -54,6 +54,9 @@ iTXt chunk           : http://www.vias.org/pngguide/chapter11_05.html
 PNG tags             : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData
 
 */
+namespace {
+constexpr int nullSeparators = 2;
+}
 
 // *****************************************************************************
 // class member definitions
@@ -71,7 +74,7 @@ namespace Exiv2 {
         *outWidth = data.read_uint32(0, bigEndian);
         *outHeight = data.read_uint32(4, bigEndian);
 
-    } // PngChunk::decodeIHDRChunk
+    }
 
     void PngChunk::decodeTXTChunk(Image*         pImage,
                                   const DataBuf& data,
@@ -86,7 +89,7 @@ namespace Exiv2 {
 #endif
         parseChunkContent(pImage, key.c_data(), key.size(), arr);
 
-    } // PngChunk::decodeTXTChunk
+    }
 
     DataBuf PngChunk::decodeTXTChunk(const DataBuf& data,
                                      TxtChunkType   type)
@@ -99,7 +102,7 @@ namespace Exiv2 {
 #endif
         return parseTXTChunk(data, key.size(), type);
 
-    } // PngChunk::decodeTXTChunk
+    }
 
     DataBuf PngChunk::keyTXTChunk(const DataBuf& data, bool stripHeader)
     {
@@ -129,7 +132,7 @@ namespace Exiv2 {
 
         if(type == zTXt_Chunk)
         {
-            enforce(data.size() >= Safe::add(keysize, 2), Exiv2::kerCorruptedMetadata);
+            enforce(data.size() >= Safe::add(keysize, nullSeparators), Exiv2::kerCorruptedMetadata);
 
             // Extract a deflate compressed Latin-1 text chunk
 
@@ -145,8 +148,8 @@ namespace Exiv2 {
             }
 
             // compressed string after the compression technique spec
-            const byte* compressedText      = data.c_data(keysize + 2);
-            long compressedTextSize = data.size()  - keysize - 2;
+            const byte* compressedText      = data.c_data(keysize + nullSeparators);
+            long compressedTextSize = data.size()  - keysize - nullSeparators;
             enforce(compressedTextSize < data.size(), kerCorruptedMetadata);
 
             zlibUncompress(compressedText, compressedTextSize, arr);
@@ -165,8 +168,8 @@ namespace Exiv2 {
         else if(type == iTXt_Chunk)
         {
             enforce(data.size() >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
-            const size_t nullSeparators = std::count(data.c_data(keysize+3), data.c_data(data.size()), '\0');
-            enforce(nullSeparators >= 2, Exiv2::kerCorruptedMetadata);
+            const size_t nullCount = std::count(data.c_data(keysize+3), data.c_data(data.size()), '\0');
+            enforce(nullCount >= nullSeparators, Exiv2::kerCorruptedMetadata);
 
             // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
@@ -235,8 +238,7 @@ namespace Exiv2 {
         }
 
         return arr;
-
-    } // PngChunk::parsePngChunk
+    }
 
     void PngChunk::parseChunkContent(Image* pImage, const byte* key, long keySize, const DataBuf& arr)
     {
