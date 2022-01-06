@@ -63,9 +63,6 @@ namespace
     {
         assert(strlen(str) <= length);
         const long minlen = std::min(static_cast<long>(length), buf.size());
-        if (minlen == 0) {
-            return true;
-        }
         return buf.cmpBytes(0, str, minlen) == 0;
     }
 }  // namespace
