@@ -92,7 +92,7 @@ namespace Exiv2 {
                 }
             }
         }
-    } // PngImage::PngImage
+    }
 
     std::string PngImage::mimeType() const
     {
@@ -102,7 +102,7 @@ namespace Exiv2 {
     static bool zlibToDataBuf(const byte* bytes,long length, DataBuf& result)
     {
         uLongf uncompressedLen = length * 2; // just a starting point
-        int    zlibResult;
+        int    zlibResult = Z_BUF_ERROR;
 
         do {
             result.alloc(uncompressedLen);
@@ -130,7 +130,7 @@ namespace Exiv2 {
     static bool zlibToCompressed(const byte* bytes,long length, DataBuf& result)
     {
         uLongf compressedLen = length; // just a starting point
-        int    zlibResult;
+        int    zlibResult = Z_BUF_ERROR;
 
         do {
             result.alloc(compressedLen);
