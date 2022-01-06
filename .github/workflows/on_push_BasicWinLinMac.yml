@@ -4,7 +4,7 @@
 # - Only running UnitTests and not regression tests
 
 on: [push]
-name: Basic CI for all platforms on push
+name: On PUSH - Basic CI for main platforms
 
 jobs:
   windows:

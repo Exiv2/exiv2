@@ -1,4 +1,4 @@
-name: Linux Special Builds for main branch on push
+name: On PUSH - Linux Special Builds for main branch
 
 on:
   push:

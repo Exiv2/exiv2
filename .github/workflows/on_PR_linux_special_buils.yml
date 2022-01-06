@@ -1,4 +1,4 @@
-name: Linux Special Builds on PRs
+name: On PRs - Linux Special Builds
 
 on: [pull_request]
 

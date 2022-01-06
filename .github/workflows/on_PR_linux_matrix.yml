@@ -1,4 +1,4 @@
-name: Linux-Ubuntu Matrix on PRs
+name: On PRs - Linux-Ubuntu Matrix
 
 on: [pull_request]
 
