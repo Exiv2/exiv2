@@ -103,13 +103,13 @@ namespace Exiv2 {
 
     DataBuf PngChunk::keyTXTChunk(const DataBuf& data, bool stripHeader)
     {
-        // From a tEXt, zTXt, or iTXt chunk,
-        // we get the key, it's a null terminated string at the chunk start
+        // From a tEXt, zTXt, or iTXt chunk, we get the keyword which is null terminated.
         const int offset = stripHeader ? 8 : 0;
-        if (data.size() <= offset) throw Error(kerFailedToReadImageData);
+        if (data.size() <= offset)
+          throw Error(kerFailedToReadImageData);
         const byte *key = data.c_data(offset);
 
-        // Find null string at end of key.
+        // Find null chatecter at end of keyword.
         int keysize=0;
         while (key[keysize] != 0)
         {
@@ -117,11 +117,11 @@ namespace Exiv2 {
             // look if keysize is valid.
             if (keysize+offset >= data.size())
                 throw Error(kerFailedToReadImageData);
+            /// \todo move conditional out of the loop
         }
 
         return DataBuf(key, keysize);
-
-    } // PngChunk::keyTXTChunk
+    }
 
     DataBuf PngChunk::parseTXTChunk(const DataBuf& data,
                                     int            keysize,
