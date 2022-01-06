@@ -39,7 +39,7 @@ TEST(PngChunk, keyTxtChunkExtractsKeywordCorrectlyInPresenceOfNullChar)
   DataBuf key = Internal::PngChunk::keyTXTChunk(chunkBuf, true);
   ASSERT_EQ(21, key.size());
 
-  ASSERT_TRUE(std::equal(key.data(), key.data()+key.size(), data.data()+8, data.data()+8+key.size()));
+  ASSERT_TRUE(std::equal(key.data(), key.data()+key.size(), data.data()+8));
 }
 
 
