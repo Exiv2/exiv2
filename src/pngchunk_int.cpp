@@ -107,20 +107,18 @@ namespace Exiv2 {
         const int offset = stripHeader ? 8 : 0;
         if (data.size() <= offset)
           throw Error(kerFailedToReadImageData);
-        const byte *key = data.c_data(offset);
 
-        // Find null chatecter at end of keyword.
-        int keysize=0;
-        while (key[keysize] != 0)
-        {
-            keysize++;
-            // look if keysize is valid.
-            if (keysize+offset >= data.size())
-                throw Error(kerFailedToReadImageData);
-            /// \todo move conditional out of the loop
+        // Search for null char until the end of the DataBuf
+        const byte* dataPtr = data.c_data();
+        int keysize=offset;
+        while (dataPtr[keysize] != 0 && keysize < data.size()) {
+          keysize++;
         }
 
-        return DataBuf(key, keysize);
+        if (keysize == data.size())
+            throw Error(kerFailedToReadImageData);
+
+        return DataBuf(dataPtr+offset, keysize-offset);
     }
 
     DataBuf PngChunk::parseTXTChunk(const DataBuf& data,
