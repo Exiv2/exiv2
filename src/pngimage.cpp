@@ -712,14 +712,14 @@ namespace Exiv2 {
                     std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                }
-                else
+                } else
                 {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                    if (outIo.write(chunkBuf.c_data(), chunkBuf.size()) != chunkBuf.size()) throw Error(kerImageWriteFailed);
+                    if (outIo.write(chunkBuf.c_data(), chunkBuf.size()) != chunkBuf.size())
+                        throw Error(kerImageWriteFailed);
                 }
             } else {
                 // Write all others chunk as well.
