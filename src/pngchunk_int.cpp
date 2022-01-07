@@ -22,6 +22,8 @@
 #include "config.h"
 
 #ifdef EXV_HAVE_LIBZ
+#include <zlib.h>  // To uncompress or compress text chunk
+
 #include "enforce.hpp"
 #include "error.hpp"
 #include "exif.hpp"
@@ -32,8 +34,6 @@
 #include "pngchunk_int.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
-
-#include <zlib.h>  // To uncompress or compress text chunk
 
 // standard includes
 #include <algorithm>
@@ -108,7 +108,7 @@ namespace Exiv2
             // Search for null char until the end of the DataBuf
             const byte* dataPtr = data.c_data();
             int keysize = offset;
-            while (dataPtr[keysize] != 0 && keysize < data.size()) {
+            while (keysize < data.size() && dataPtr[keysize] != 0) {
                 keysize++;
             }
 
