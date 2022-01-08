@@ -25,7 +25,7 @@ THE SOFTWARE.
 #define JzonAPI __declspec(dllexport)
 #endif
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 #endif
 
