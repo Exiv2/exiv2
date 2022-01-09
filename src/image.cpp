@@ -477,7 +477,11 @@ namespace Exiv2 {
                         io.seekOrThrow(offset, BasicIo::beg, kerCorruptedMetadata);  // position
                         io.readOrThrow(bytes, jump, kerCorruptedMetadata)     ;  // read
                         bytes[jump]=0               ;
-                        if ( ::strcmp("Nikon",chars) == 0 ) {
+
+                        bool bNikon = ::strcmp("Nikon"    ,chars) == 0;
+                        bool bSony  = ::strcmp("SONY DSC ",chars) == 0;
+
+                        if ( bNikon ) {
                             // tag is an embedded tiff
                             const long byteslen = count-jump;
                             DataBuf bytes(byteslen);  // allocate a buffer
@@ -486,8 +490,9 @@ namespace Exiv2 {
                             printTiffStructure(memIo,out,option,depth);
                         } else {
                             // tag is an IFD
+                            uint32_t punt = bSony ? 12 : 0 ;
                             io.seekOrThrow(0, BasicIo::beg, kerCorruptedMetadata);  // position
-                            printIFDStructure(io,out,option,offset,bSwap,c,depth);
+                            printIFDStructure(io,out,option,offset+punt,bSwap,c,depth);
                         }
 
                         io.seekOrThrow(restore, BasicIo::beg, kerCorruptedMetadata); // restore
