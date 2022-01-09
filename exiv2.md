@@ -206,7 +206,7 @@ specify the current encoding of the comment if necessary.
 Where *file* is one or more files containing image metadata. These can 
 optionally be specified using a URL (http, https, ftp, sftp, data 
 and file supported) or a wildcard pattern (e.g., *image1.tiff image2.jpg*, 
-*https://clanmills.com/Stonehenge.jpg* or *\*.jpg*)
+*https://www.exiv2.org/Stonehenge.jpg* or *\*.jpg*)
 
 | **Option** *arg* | **Long option** *arg*  | Description                                                               |
 |:------           |:----                   |:----                                                                      |
@@ -337,7 +337,7 @@ When the [--print mod](#print_mod) and [--Print flgs](#Print_flgs)
 options are not specified, the default is [--print a](#print_mod):
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --grep Date Stonehenge.jpg
 Exif.Image.DateTime                          Ascii      20  2015:07:16 20:25:28
 Exif.Photo.DateTimeOriginal                  Ascii      20  2015:07:16 15:38:54
@@ -373,7 +373,7 @@ Multiple **--key** *key* options can be used to report more than a
 single key:
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --key Exif.Photo.DateTimeDigitized --key Exif.Photo.DateTimeOriginal Stonehenge.jpg
 Exif.Photo.DateTimeOriginal                  Ascii      20  2015:07:16 15:38:54
 Exif.Photo.DateTimeDigitized                 Ascii      20  2015:07:16 15:38:54
@@ -428,12 +428,12 @@ For example, renaming a file using **--Force**, where the same filename
 has already been renamed:
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --verbose --Force rename Stonehenge.jpg
 File 1/1: Stonehenge.jpg
 Renaming file to ./20150716_153854.jpg
 
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --verbose --Force rename Stonehenge.jpg
 File 1/1: Stonehenge.jpg
 Renaming file to ./20150716_153854_1.jpg
@@ -461,7 +461,7 @@ The default *fmt* is %Y%m%d_%H%M%S
 For example, renaming a file when *fmt* is made up of the basename, day, 
 short month and long year:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --verbose --rename ':basename:_%d_%b_%Y' Stonehenge.jpg
 File 1/1: Stonehenge.jpg
 Renaming file to ./Stonehenge_16_Jul_2015.jpg
@@ -479,7 +479,7 @@ action.
 
 For example, when renaming a second Stonehenge.jpg file:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --verbose --rename ':basename:_%d_%b_%Y' Stonehenge.jpg
 File 1/1: Stonehenge.jpg
 exiv2.exe: File `./Stonehenge_16_Jul_2015.jpg' exists. [O]verwrite, [r]ename or [s]kip? r
@@ -581,7 +581,7 @@ The order of the values in *flgs* is not respected. For example, the order
 of the columns, using some tags from *Stonehenge.jpg*, is as follows:
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Print xgknlycst Stonehenge.jpg
 ```
 
@@ -669,7 +669,7 @@ options can be used to filter the output (see ['MODIFY' COMMANDS](#modify_cmds))
 For example, extracting Exif and IPTC "raw" metadata and adding an 
 [Xmp.dc.subject](https://www.exiv2.org/tags-xmp-dc.html) value.
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --extract XXei --Modify "add Xmp.dc.subject Monument" Stonehenge.jpg
 $ exiv2 --key Xmp.dc.subject Stonehenge.exv
 Xmp.dc.subject                               XmpBag      1  Monument
@@ -842,7 +842,7 @@ which is unique within a Group (to display, see [--Print x](#Print_flgs)).
 'Group' has been added, which has 'Father' and 'Family' Tagnames. 
 Additionally, a 'Family' tag has been added to the built-in 'dc' Group:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --print x Stonehenge.jpg
 Xmp.xmp.Rating                               XmpText     1  0
 Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
@@ -1072,7 +1072,7 @@ To list the XMP prefixes and namespaces used by an image's metadata (in
 the format `xmlns:<prefix>=<namespace>`), [extract a sidecar file to stdout](#extract_tgt3). 
 For example, here, other data is not included:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --extract X- Stonehenge.jpg
 <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
@@ -1185,7 +1185,7 @@ certain [FILE TYPES](#file_types)).
 For example, to extract a preview image, first list which previews are 
 available:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --print p Stonehenge.jpg
 Preview 1: image/jpeg, 160x120 pixels, 10837 bytes
 ```
@@ -1242,7 +1242,7 @@ support, the profiles can accessed as follows.
 
 For example, to display the profile to stdout:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 exiv2 --print C Stonehenge.jpg
 ```
 
@@ -1274,7 +1274,7 @@ Tags can be altered using the 'modify' action and
 
 For example, adding an IPTC tag on the command line:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "add Iptc.Application2.Credit String Mr. Mills" Stonehenge.jpg
 ```
 or applying a set of 'modify' commands from a file (see ['Modify' command File](#mod_cmd_file)):
@@ -1384,7 +1384,7 @@ For the 'Rational' and 'SRational' formats, see [Exif/IPTC/XMP types](#exiv2_typ
 For example, modifying a 'Rational' number:
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify"set Exif.Photo.MaxApertureValue 2485427/500000" Stonehenge.jpg
 ```
 
@@ -1412,7 +1412,7 @@ For example, the following 'modify' will produce the same value as
 displayed in vanilla and translated output:
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "set Exif.Photo.MaxApertureValue F5.6" Stonehenge.jpg
 $ exiv2 --print e --grep MaxApertureValue Stonehenge.jpg
 Exif.Photo.MaxApertureValue                  Rational    1  2485427/500000
@@ -1431,7 +1431,7 @@ For the 'Comment' format, see [Exif 'Comment' values](#exif_comment_values).
 
 For example, to set an Ascii comment:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "set Exif.Photo.UserComment charset=Ascii Photo" Stonehenge.jpg
 $ exiv2 --grep UserComment Stonehenge.jpg
 Exif.Photo.UserComment                       Undefined  13  charset=Ascii Photo
@@ -1459,7 +1459,7 @@ When a non-standard group or tag belonging to that group is modified, the
 appropriate 'reg' 'modify' command must be included before that. For 
 example, adding a *myPic* group with a *weather* tag and values:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.weather XmpBag Cloudy" Stonehenge.jpg
 $ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "set Xmp.myPic.weather XmpBag Sunny" Stonehenge.jpg
 $ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "set Xmp.myPic.weather XmpBag Hot" Stonehenge.jpg
@@ -1476,7 +1476,7 @@ new tags can be added by assigning values.
 For example, to add a *RatingInPercent* tag to a built-in namespace and 
 a *Surname* tag to a registered namespace:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmp.RatingInPercent XmpText 98" Stonehenge.jpg
 $ exiv2 --Modify "reg myPic http://ns.myPic.org/" --Modify "add Xmp.myPic.Weather XmpBag Hot" Stonehenge.jpg
 $ exiv2 --grep RatingInPercent --grep Weather Stonehenge.jpg
@@ -1496,7 +1496,7 @@ setting a LangAlt tag, only one entry is allowed per modify.
 
 For example, adding default and language/country entries:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "set Xmp.dc.description LangAlt Monument" Stonehenge.jpg
 $ exiv2 --Modify "set Xmp.dc.description LangAlt lang=de-DE das Monument" Stonehenge.jpg
 $ exiv2 --grep description Stonehenge.jpg
@@ -1543,7 +1543,7 @@ Numbered keys plus name and action can then be added.
 For example, setting the [Xmp.xmpMM.History](https://www.exiv2.org/tags-xmp-xmpMM.html) 
 tag to record the file being converted from tiff to JPEG, then saved.
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History XmpSeq \"\"" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:action derived" Stonehenge.jpg
 $ exiv2 --Modify "add Xmp.xmpMM.History[1]/stEvt:converted tiff to jpeg, saved to new location" Stonehenge.jpg
@@ -1623,7 +1623,7 @@ set Xmp.myPic.weather Cloudy
 ```
 would be run using:
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --modify cmd.txt Stonehenge.jpg
 ```
 For another example, see: https://www.exiv2.org/sample.html
@@ -1658,7 +1658,7 @@ For example, to add a new lens definition, first obtain the lensID for
 your camera:
 
 ```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
 $ exiv2 --print v --grep lens/i Stonehenge.jpg
 0x0083 Nikon3       LensType           Byte       1  14
 0x0084 Nikon3       Lens               Rational   4  180/10 2500/10 35/10 63/10
@@ -1695,8 +1695,8 @@ Prints a summary of the Exif information for all the JPEG files in the current
 directory (the same as `exiv2 print *.jpg`). The summary 
 is brief and does not use the Family.Group.Tagname format. See ([--print mod](#print_mod)).
 
-- `exiv2 --grep date/i https://clanmills.com/Stonehenge.jpg`<br>
-Prints the tags in https://clanmills.com/Stonehenge.jpg, where the key 
+- `exiv2 --grep date/i https://www.exiv2.org/Stonehenge.jpg`<br>
+Prints the tags in https://www.exiv2.org/Stonehenge.jpg, where the key 
 (see [Exiv2 key syntax](#exiv2_key_syntax)) contains the string *date* 
 (*/i* searches case insensitive, see [--grep str](#grep_str)). When not including [--print mod](#print_mod) 
 or [--Print flgs](#Print_flgs), the default output becomes [--print a](#print_mod) 
