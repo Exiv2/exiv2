@@ -88,11 +88,6 @@ namespace Exiv2 {
     constexpr const char* JpegBase::xmpId_ = "http://ns.adobe.com/xap/1.0/\0";
     constexpr const char* JpegBase::iccId_ = "ICC_PROFILE\0";
 
-    constexpr const char* Photoshop::ps3Id_ = "Photoshop 3.0\0";
-    constexpr std::array<const char*, 4> Photoshop::irbId_{"8BIM", "AgHg", "DCSR", "PHUT"};
-    constexpr const char* Photoshop::bimId_ = "8BIM";  // deprecated
-    constexpr uint16_t Photoshop::iptc_ = 0x0404;
-    constexpr uint16_t Photoshop::preview_ = 0x040c;
 
     static inline bool inRange(int lo,int value, int hi)
     {

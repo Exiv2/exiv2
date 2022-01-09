@@ -25,6 +25,10 @@ THE SOFTWARE.
 #define JzonAPI __declspec(dllexport)
 #endif
 
+#ifdef _MSC_VER
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+#endif
+
 #include "Jzon.h"
 
 #include <algorithm>

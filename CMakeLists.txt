@@ -32,7 +32,7 @@ option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"     
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
 option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )
 
-option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             ON  )
+option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
 option( EXIV2_BUILD_UNIT_TESTS        "Build unit tests"                                      OFF )
 option( EXIV2_BUILD_FUZZ_TESTS        "Build fuzz tests (libFuzzer)"                          OFF )
