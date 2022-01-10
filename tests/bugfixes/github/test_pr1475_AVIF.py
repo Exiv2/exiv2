@@ -73,7 +73,7 @@ class pr_1475_exif_xmp_avif(metaclass=system_tests.CaseMeta):
         stderr = [ "" ] * len(commands)
         stdin  = [ "" ] * len(commands)
         stdout = ["""Exif.Image.DateTime                          Ascii      20  2021:02:13 21:19:50
-Xmp.iptcExt.DigitalSourceType                XmpText    61  http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture
+Xmp.iptcExt.DigitalSourceType                XmpText    61  Digital capture
 Xmp.iptcExt.LocationCreated                  XmpBag      0  
 Xmp.iptcExt.LocationShown                    XmpBag      0  
 Xmp.iptcExt.ArtworkOrObject                  XmpBag      0  
@@ -268,7 +268,7 @@ class pr_1475_metadata2_avif(metaclass=system_tests.CaseMeta):
         stderr = [ "" ] * len(commands)
         stdin  = [ "" ] * len(commands)
         stdout = ["""Exif.Image.DateTime                          Ascii      20  2021:02:13 21:25:32
-Xmp.iptcExt.DigitalSourceType                XmpText    61  http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture
+Xmp.iptcExt.DigitalSourceType                XmpText    61  Digital capture
 Xmp.iptcExt.LocationCreated                  XmpBag      0  
 Xmp.iptcExt.LocationShown                    XmpBag      0  
 Xmp.iptcExt.ArtworkOrObject                  XmpBag      0  

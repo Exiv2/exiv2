@@ -345,6 +345,32 @@ namespace Exiv2 {
 //! Shortcut for the printTagVocabulary template which requires typing the array name only once.
 #define EXV_PRINT_VOCABULARY(array) printTagVocabulary<EXV_COUNTOF(array), array>
 
+    template <int N, const TagVocabulary (&array)[N]>
+    std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, const ExifData*)
+    {
+        if (value.count() == 0) {
+            os << "(" << value << ")";
+            return os;
+        }
+
+        for (int i=0; i< value.count(); i++) {
+            if (i != 0)
+                os << ", ";
+            const TagVocabulary* td = find(array, value.toString(i));
+            if (td) {
+                os << exvGettext(td->label_);
+            }
+            else {
+                os << "(" << value.toString(i) << ")";
+            }
+        }
+
+        return os;
+    }
+
+//! Shortcut for the printTagVocabularyMulti template which requires typing the array name only once.
+#define EXV_PRINT_VOCABULARY_MULTI(array) printTagVocabularyMulti<EXV_COUNTOF(array), array>
+
 // *****************************************************************************
 // free functions
 
