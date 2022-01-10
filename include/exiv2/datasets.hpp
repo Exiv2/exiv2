@@ -97,6 +97,7 @@ namespace Exiv2 {
         static constexpr uint16_t UNO                    = 100;
         static constexpr uint16_t ARMId                  = 120;
         static constexpr uint16_t ARMVersion             = 122;
+
         static constexpr uint16_t RecordVersion          = 0;
         static constexpr uint16_t ObjectType             = 3;
         static constexpr uint16_t ObjectAttribute        = 4;
@@ -212,6 +213,7 @@ namespace Exiv2 {
           @throw Error if the \em dataSetName or \em recordId are invalid
          */
         static uint16_t dataSet(const std::string& dataSetName, uint16_t recordId);
+
         //! Return the type for dataSet number and Record id
         static TypeId dataSetType(uint16_t number, uint16_t recordId);
         /*!

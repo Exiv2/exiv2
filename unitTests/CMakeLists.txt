@@ -3,6 +3,7 @@ find_package(GTest REQUIRED)
 add_executable(unit_tests
     mainTestRunner.cpp
     test_bmpimage.cpp
+    test_datasets.cpp
     test_DateValue.cpp
     test_TimeValue.cpp
     test_XmpKey.cpp

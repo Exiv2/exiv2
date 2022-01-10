@@ -424,26 +424,30 @@ namespace Exiv2 {
 
     int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
     {
-        if( recordId != envelope && recordId != application2 ) return -1;
+        if( recordId != envelope && recordId != application2 )
+            return -1;
         const DataSet* dataSet = records_[recordId];
         if (dataSet == nullptr)
             return -1;
         int idx;
         for (idx = 0; dataSet[idx].number_ != number; ++idx) {
-            if (dataSet[idx].number_ == 0xffff) return -1;
+            if (dataSet[idx].number_ == 0xffff)
+                return -1;
         }
         return idx;
     }
 
     int IptcDataSets::dataSetIdx(const std::string& dataSetName, uint16_t recordId)
     {
-        if( recordId != envelope && recordId != application2 ) return -1;
+        if( recordId != envelope && recordId != application2 )
+            return -1;
         const DataSet* dataSet = records_[recordId];
         if (dataSet == nullptr)
             return -1;
         int idx;
         for (idx = 0; dataSet[idx].name_ != dataSetName; ++idx) {
-            if (dataSet[idx].number_ == 0xffff) return -1;
+            if (dataSet[idx].number_ == 0xffff)
+                return -1;
         }
         return idx;
     }
@@ -451,14 +455,16 @@ namespace Exiv2 {
     TypeId IptcDataSets::dataSetType(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) return unknownDataSet.type_;
+        if (idx == -1)
+            return unknownDataSet.type_;
         return records_[recordId][idx].type_;
     }
 
     std::string IptcDataSets::dataSetName(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx != -1) return records_[recordId][idx].name_;
+        if (idx != -1)
+            return records_[recordId][idx].name_;
 
         std::ostringstream os;
         os << "0x" << std::setw(4) << std::setfill('0') << std::right
@@ -469,28 +475,32 @@ namespace Exiv2 {
     const char* IptcDataSets::dataSetTitle(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) return unknownDataSet.title_;
+        if (idx == -1)
+            return unknownDataSet.title_;
         return records_[recordId][idx].title_;
     }
 
     const char* IptcDataSets::dataSetDesc(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) return unknownDataSet.desc_;
+        if (idx == -1)
+            return unknownDataSet.desc_;
         return records_[recordId][idx].desc_;
     }
 
     const char* IptcDataSets::dataSetPsName(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) return unknownDataSet.photoshop_;
+        if (idx == -1)
+            return unknownDataSet.photoshop_;
         return records_[recordId][idx].photoshop_;
     }
 
     bool IptcDataSets::dataSetRepeatable(uint16_t number, uint16_t recordId)
     {
         int idx = dataSetIdx(number, recordId);
-        if (idx == -1) return unknownDataSet.repeatable_;
+        if (idx == -1)
+            return unknownDataSet.repeatable_;
         return records_[recordId][idx].repeatable_;
     }
 
@@ -504,7 +514,8 @@ namespace Exiv2 {
             dataSet = records_[recordId][idx].number_;
         }
         else {
-            if (!isHex(dataSetName, 4, "0x")) throw Error(kerInvalidDataset, dataSetName);
+            if (!isHex(dataSetName, 4, "0x"))
+                throw Error(kerInvalidDataset, dataSetName);
             std::istringstream is(dataSetName);
             is >> std::hex >> dataSet;
         }
@@ -552,7 +563,7 @@ namespace Exiv2 {
                 os << record[j] << "\n";
             }
         }
-    } // IptcDataSets::dataSetList
+    }
 
     IptcKey::IptcKey(std::string key) : key_(std::move(key))
     {

@@ -45,6 +45,8 @@ namespace Exiv2 {
     /*!
       @brief An IPTC metadatum ("dataset"), consisting of an IptcKey and a
              Value and methods to manipulate these.
+
+             This is referred in the standard as a property.
      */
     class EXIV2API Iptcdatum : public Metadatum {
     public:
@@ -156,8 +158,7 @@ namespace Exiv2 {
     typedef std::vector<Iptcdatum> IptcMetadata;
 
     /*!
-      @brief A container for IPTC data. This is a top-level class of
-             the %Exiv2 library.
+      @brief A container for IPTC data. This is a top-level class of the %Exiv2 library.
 
       Provide high-level access to the IPTC data of an image:
       - read IPTC information from JPEG files
