@@ -1,0 +1,229 @@
+Exif.Image.YCbCrPositioning                   1  Centered
+Exif.Image.XResolution                        72/1  72
+Exif.Image.YResolution                        72/1  72
+Exif.Image.ResolutionUnit                     2  inch
+Exif.Image.ImageDescription                   Test file for the IPTC XMP tags  Test file for the IPTC XMP tags
+Exif.Image.Artist                             postscript-dev  postscript-dev
+Exif.Image.Copyright                          Copyright Exiv2  Copyright Exiv2
+Exif.Photo.ExifVersion                        48 50 51 50  2.32
+Exif.Photo.FlashpixVersion                    48 49 48 48  1.00
+Exif.Photo.ColorSpace                         65535  Uncalibrated
+Exif.Photo.ComponentsConfiguration            1  Y
+Exif.Photo.DateTimeOriginal                   2022:01:04 09:41:01  2022:01:04 09:41:01
+Iptc.Application2.ObjectName                  Test IPTC XMP file  Test IPTC XMP file
+Iptc.Envelope.CharacterSet                    %G  %G
+Iptc.Application2.Keywords                    Test  Test
+Iptc.Application2.SubLocation                 Test Sublocation  Test Sublocation
+Iptc.Application2.SpecialInstructions         Test Instructions  Test Instructions
+Iptc.Application2.DateCreated                 2022-01-04  2022-01-04
+Iptc.Application2.Byline                      postscript-dev  postscript-dev
+Iptc.Application2.BylineTitle                 Test Creator's Job Title  Test Creator's Job Title
+Iptc.Application2.City                        Test City  Test City
+Iptc.Application2.ProvinceState               Test Province/State)  Test Province/State)
+Iptc.Application2.CountryCode                 GBR  GBR
+Iptc.Application2.CountryName                 Test Country  Test Country
+Iptc.Application2.TransmissionReference       Test Job ID  Test Job ID
+Iptc.Application2.Headline                    Test Headline  Test Headline
+Iptc.Application2.Credit                      Test Credit Line  Test Credit Line
+Iptc.Application2.Source                      Test Source  Test Source
+Iptc.Application2.Copyright                   Copyright Exiv2  Copyright Exiv2
+Iptc.Application2.Caption                     Test file for the IPTC XMP tags  Test file for the IPTC XMP tags
+Iptc.Application2.Writer                      Test Name  Test Name
+Xmp.iptc.IntellectualGenre                    Test Genre  Test Genre
+Xmp.iptc.Location                             Test Sublocation  Test Sublocation
+Xmp.iptc.CountryCode                          GBR  GBR
+Xmp.iptc.AltTextAccessibility                 lang="x-default" Alternative text description for accessibility  lang="x-default" Alternative text description for accessibility
+Xmp.iptc.CreatorContactInfo                   type="Struct"
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity  Test Creator's City  Test Creator's City
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry  Test Creator's Country  Test Creator's Country
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrExtadr  Test Creator's Address  Test Creator's Address
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrPcode  TE5 5ST  TE5 5ST
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrRegion  Test Creator's Address Region  Test Creator's Address Region
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiEmailWork  ciworkemail_aweoi4mg02349m@example.com  ciworkemail_aweoi4mg02349m@example.com
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiTelWork  +1 (123) 456789  +1 (123) 456789
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork  http://www.example.com/workurl/3w94kjngi9mn50gj0mg34jire  http://www.example.com/workurl/3w94kjngi9mn50gj0mg34jire
+Xmp.iptc.ExtDescrAccessibility                lang="x-default" Test Extended Accessibility Description  lang="x-default" Test Extended Accessibility Description
+Xmp.iptc.Scene                                011000, 011900, 012300, 900000  General view, Action, Off-beat, (900000)
+Xmp.iptc.SubjectCode                          01004000, 01015000, 15000000  festive event (including carnival), sculpture, sport
+Xmp.iptcExt.AddlModelInfo                     Test Model Info  Test Model Info
+Xmp.iptcExt.DigImageGUID                      nq394uihqtj085jh0qj5h034jhq905mtrjh  nq394uihqtj085jh0qj5h034jhq905mtrjh
+Xmp.iptcExt.DigitalSourceType                 http://cv.iptc.org/newscodes/digitalsourcetype/softwareImage  The digital image was created by computer software
+Xmp.iptcExt.MaxAvailHeight                    250  250
+Xmp.iptcExt.MaxAvailWidth                     250  250
+Xmp.iptcExt.AboutCvTerm                       type="Bag"
+Xmp.iptcExt.AboutCvTerm[1]                    type="Struct"
+Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvId   http://example.com/cv/test  http://example.com/cv/test
+Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvTermId  http://example.com/2489rtuj35i5gon3509hg  http://example.com/2489rtuj35i5gon3509hg
+Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvTermRefinedAbout  http://example.com/eopihjg30mhn0q4emn09  http://example.com/eopihjg30mhn0q4emn09
+Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvTermName  lang="x-default" Test CV-Term Name  lang="x-default" Test CV-Term Name
+Xmp.iptcExt.ArtworkOrObject                   type="Bag"
+Xmp.iptcExt.ArtworkOrObject[1]                type="Struct"
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCircaDateCreated  2022-01-04  2022-01-04
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCopyrightNotice  Copyright Exiv2  Copyright Exiv2
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCurrentCopyrightOwnerId  http://www.example.com/userID/q30w4jyg34nh0h4j0934jh  http://www.example.com/userID/q30w4jyg34nh0h4j0934jh
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCurrentCopyrightOwnerName  Exiv2  Exiv2
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCurrentLicensorId  http://www.example.com/licensorID/j70948tjg308jgn093q4  http://www.example.com/licensorID/j70948tjg308jgn093q4
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCurrentLicensorName  Licensor  Licensor
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AODateCreated  2022-01-04T09:41:01+00:00  2022-01-04T09:41:01+00:00
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOSource  Exiv2  Exiv2
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOSourceInvNo  3984u1tIAEUshjg03j409  3984u1tIAEUshjg03j409
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOSourceInvURL  http://www.example.com/sourceID/309g30qm00ginm55-hj0  http://www.example.com/sourceID/309g30qm00ginm55-hj0
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOContentDescription  lang="x-default" Test data  lang="x-default" Test data
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOContributionDescription  lang="x-default" None  lang="x-default" None
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCreator  postscript-dev  postscript-dev
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCreatorId  http://www.example.com/userID/q3049jq09mn0hq39m5h  http://www.example.com/userID/q3049jq09mn0hq39m5h
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOPhysicalDescription  lang="x-default" Test data  lang="x-default" Test data
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOStylePeriod  Art Deco  Art Deco
+Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOTitle  lang="x-default" Xmp.iptc.* and Xmp.iptcExt.* test data  lang="x-default" Xmp.iptc.* and Xmp.iptcExt.* test data
+Xmp.iptcExt.EmbdEncRightsExpr                 type="Bag"
+Xmp.iptcExt.EmbdEncRightsExpr[1]              type="Struct"
+Xmp.iptcExt.EmbdEncRightsExpr[1]/Iptc4xmpExt:EncRightsExpr  Exiv2 project license: https://raw.githubusercontent.com/Exiv2/exiv2/main/COPYING  Exiv2 project license: https://raw.githubusercontent.com/Exiv2/exiv2/main/COPYING
+Xmp.iptcExt.EmbdEncRightsExpr[1]/Iptc4xmpExt:RightsExprEncType  text/plain  text/plain
+Xmp.iptcExt.EmbdEncRightsExpr[1]/Iptc4xmpExt:RightsExprLangId  http://www.example.com/rightsID/lkjusahgnoie439j9340  http://www.example.com/rightsID/lkjusahgnoie439j9340
+Xmp.iptcExt.Event                             lang="x-default" None  lang="x-default" None
+Xmp.iptcExt.EventId                           https://example.com/eventID/39085yjinmhq09043h  https://example.com/eventID/39085yjinmhq09043h
+Xmp.iptcExt.Genre                             type="Bag"
+Xmp.iptcExt.Genre[1]                          type="Struct"
+Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvId         http://example.com/cvID/380940jeokjhinthrstn  http://example.com/cvID/380940jeokjhinthrstn
+Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvTermId     http://example.com/cvtermID/dfjkhng93jqg03jrs0hm  http://example.com/cvtermID/dfjkhng93jqg03jrs0hm
+Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvTermRefinedAbout  http://example.com/cvtermrefinedabout/fjh3n809jn0q3jh5q09hjrojh3509  http://example.com/cvtermrefinedabout/fjh3n809jn0q3jh5q09hjrojh3509
+Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvTermName   lang="x-default" Test CvTermName  lang="x-default" Test CvTermName
+Xmp.iptcExt.ImageRegion                       type="Bag"
+Xmp.iptcExt.ImageRegion[1]                    type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rId    testregion  testregion
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:Name   lang="x-default" Test Region  lang="x-default" Test Region
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:OrganisationInImageName  Exiv2  Exiv2
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:PersonInImage  None  None
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary  type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbH  0.35  0.35
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbShape  rectangle  rectangle
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbUnit  relative  relative
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbW  0.15  0.15
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbX  0.25  0.25
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbY  0.25  0.25
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype  type="Bag"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1]  type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1]/Iptc4xmpExt:Name  lang="x-default" Somewhere  lang="x-default" Somewhere
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1]/xmp:Identifier  https://example.org/GUID/q3094jg304ng3049jhtio4j3  https://example.org/GUID/q3094jg304ng3049jhtio4j3
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole  type="Bag"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1]  type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1]/Iptc4xmpExt:Name  lang="x-default" Test name  lang="x-default" Test name
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1]/xmp:Identifier  https://example.org/GUID/ioehg03q94jh0935nhq3hj9  https://example.org/GUID/ioehg03q94jh0935nhq3hj9
+Xmp.iptcExt.LinkedEncRightsExpr               type="Bag"
+Xmp.iptcExt.LinkedEncRightsExpr[1]            type="Struct"
+Xmp.iptcExt.LinkedEncRightsExpr[1]/Iptc4xmpExt:LinkedRightsExpr  http://example.org/linkedrightsexpression/034j093jhn0erihjmkjnh034  http://example.org/linkedrightsexpression/034j093jhn0erihjmkjnh034
+Xmp.iptcExt.LinkedEncRightsExpr[1]/Iptc4xmpExt:RightsExprEncType  text/xml  text/xml
+Xmp.iptcExt.LinkedEncRightsExpr[1]/Iptc4xmpExt:RightsExprLangId  http://example.org/rightsexprlangid/3098jnyqgh03jnh0jw45uj65yh  http://example.org/rightsexprlangid/3098jnyqgh03jnh0jw45uj65yh
+Xmp.iptcExt.LocationCreated                   type="Bag"
+Xmp.iptcExt.LocationCreated[1]                type="Struct"
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:City  Test City  Test City
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:CountryCode  GBR  GBR
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:CountryName  Test Country  Test Country
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:ProvinceState  Test Province/State  Test Province/State
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:Sublocation  Test Sublocation  Test Sublocation
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:WorldRegion  Test Region  Test Region
+Xmp.iptcExt.LocationCreated[1]/exif:GPSAltitude  25/1  25/1
+Xmp.iptcExt.LocationCreated[1]/exif:GPSLatitude  51,30.30N  51,30.30N
+Xmp.iptcExt.LocationCreated[1]/exif:GPSLongitude  0,07.32W  0,07.32W
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:LocationId  http://example.org/locationId/3409j0ijm3fgldsgjk2  http://example.org/locationId/3409j0ijm3fgldsgjk2
+Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:LocationName  lang="x-default" Test Location  lang="x-default" Test Location
+Xmp.iptcExt.LocationShown                     type="Bag"
+Xmp.iptcExt.LocationShown[1]                  type="Struct"
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:City  Test City  Test City
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:CountryCode  GBR  GBR
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:CountryName  Test Country  Test Country
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:ProvinceState  Test Province/State  Test Province/State
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:Sublocation  Test Sublocation  Test Sublocation
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:WorldRegion  Test Region  Test Region
+Xmp.iptcExt.LocationShown[1]/exif:GPSAltitude  25/1  25/1
+Xmp.iptcExt.LocationShown[1]/exif:GPSLatitude  51,30.30N  51,30.30N
+Xmp.iptcExt.LocationShown[1]/exif:GPSLongitude  0,07.32W  0,07.32W
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:LocationId  http://example.org/locationId/3409j0ijm3fgldsgjk2  http://example.org/locationId/3409j0ijm3fgldsgjk2
+Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:LocationName  lang="x-default" Test Location  lang="x-default" Test Location
+Xmp.iptcExt.ModelAge                          25  25
+Xmp.iptcExt.OrganisationInImageCode           Test code:code  Test code:code
+Xmp.iptcExt.OrganisationInImageName           None  None
+Xmp.iptcExt.PersonInImage                     Nobody  Nobody
+Xmp.iptcExt.PersonInImageWDetails             type="Bag"
+Xmp.iptcExt.PersonInImageWDetails[1]          type="Struct"
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic  type="Bag"
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]  type="Struct"
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvId  http://example.com/cvid/0q349ji3mg30gme45h4  http://example.com/cvid/0q349ji3mg30gme45h4
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvTermId  http://example.com/cvtermid/0249jtgmn3wopmhpmklfmnh5  http://example.com/cvtermid/0249jtgmn3wopmhpmklfmnh5
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvTermRefinedAbout  http://example.com/cvtermrefinedabout/0294jgmionmheohknmm5ohtyk  http://example.com/cvtermrefinedabout/0294jgmionmheohknmm5ohtyk
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvTermName  lang="x-default" Nobody  lang="x-default" Nobody
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonDescription  lang="x-default" None  lang="x-default" None
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonId  http://www.example.com/personid/039nmkojnsrgaioj4g04ew4gm  http://www.example.com/personid/039nmkojnsrgaioj4g04ew4gm
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonName  lang="x-default" Nobody  lang="x-default" Nobody
+Xmp.iptcExt.ProductInImage                    type="Bag"
+Xmp.iptcExt.ProductInImage[1]                 type="Struct"
+Xmp.iptcExt.ProductInImage[1]/Iptc4xmpExt:ProductGTIN  12345678901234  12345678901234
+Xmp.iptcExt.ProductInImage[1]/Iptc4xmpExt:ProductDescription  lang="x-default" None  lang="x-default" None
+Xmp.iptcExt.ProductInImage[1]/Iptc4xmpExt:ProductName  lang="x-default" None  lang="x-default" None
+Xmp.iptcExt.RegistryId                        type="Bag"
+Xmp.iptcExt.RegistryId[1]                     type="Struct"
+Xmp.iptcExt.RegistryId[1]/Iptc4xmpExt:RegEntryRole  http://www.example.com/regentryrole/09mnwergomng409mg049  http://www.example.com/regentryrole/09mnwergomng409mg049
+Xmp.iptcExt.RegistryId[1]/Iptc4xmpExt:RegItemId  aeijt0293jtg0in340g0gh  aeijt0293jtg0in340g0gh
+Xmp.iptcExt.RegistryId[1]/Iptc4xmpExt:RegOrgId  awring049j0gm4i03jh340  awring049j0gm4i03jh340
+Xmp.plus.ImageCreatorImageID                  Test Image Creator Image ID  Test Image Creator Image ID
+Xmp.plus.ImageSupplierImageID                 Test Image Supplier Image ID  Test Image Supplier Image ID
+Xmp.plus.MinorModelAgeDisclosure              http://ns.useplus.org/ldf/vocab/AG-A25  Age 25 or Over
+Xmp.plus.ModelReleaseStatus                   http://ns.useplus.org/ldf/vocab/MR-NAP  Not Applicable
+Xmp.plus.PropertyReleaseStatus                http://ns.useplus.org/ldf/vocab/PR-NAP  Not Applicable
+Xmp.plus.CopyrightOwner                       type="Seq"
+Xmp.plus.CopyrightOwner[1]                    type="Struct"
+Xmp.plus.CopyrightOwner[1]/plus:CopyrightOwnerID  http://www.example.com/copyrightownerid/0n4w3g0m409mg04dalnowun9  http://www.example.com/copyrightownerid/0n4w3g0m409mg04dalnowun9
+Xmp.plus.CopyrightOwner[1]/plus:CopyrightOwnerName  Exiv2  Exiv2
+Xmp.plus.ImageCreator                         type="Seq"
+Xmp.plus.ImageCreator[1]                      type="Struct"
+Xmp.plus.ImageCreator[1]/plus:ImageCreatorID  http://www.example.com/imagecreatorid/09n4mg09jreokrmhglwkmgdv  http://www.example.com/imagecreatorid/09n4mg09jreokrmhglwkmgdv
+Xmp.plus.ImageCreator[1]/plus:ImageCreatorName  postscript-dev  postscript-dev
+Xmp.plus.ImageSupplier                        type="Seq"
+Xmp.plus.ImageSupplier[1]                     type="Struct"
+Xmp.plus.ImageSupplier[1]/plus:ImageSupplierID  http://www.example.com/imagesupplierid/09gmn0pamwpomgnhtuhn50  http://www.example.com/imagesupplierid/09gmn0pamwpomgnhtuhn50
+Xmp.plus.ImageSupplier[1]/plus:ImageSupplierName  Exiv2  Exiv2
+Xmp.plus.Licensor                             type="Seq"
+Xmp.plus.Licensor[1]                          type="Struct"
+Xmp.plus.Licensor[1]/plus:LicensorCity        Test City  Test City
+Xmp.plus.Licensor[1]/plus:LicensorCountry     Test Country  Test Country
+Xmp.plus.Licensor[1]/plus:LicensorEmail       testlicensoremail_q23048jtn042@example.com  testlicensoremail_q23048jtn042@example.com
+Xmp.plus.Licensor[1]/plus:LicensorExtendedAddress  Test Licensor Extended Address  Test Licensor Extended Address
+Xmp.plus.Licensor[1]/plus:LicensorID          http://www.example.com/licensorid/0iaskrgmnowim4g0934m90gm43  http://www.example.com/licensorid/0iaskrgmnowim4g0934m90gm43
+Xmp.plus.Licensor[1]/plus:LicensorName        Someone  Someone
+Xmp.plus.Licensor[1]/plus:LicensorPostalCode  Test Licensor Postcode  Test Licensor Postcode
+Xmp.plus.Licensor[1]/plus:LicensorRegion      Test Licensor Region  Test Licensor Region
+Xmp.plus.Licensor[1]/plus:LicensorStreetAddress  Test Licensor Street Address  Test Licensor Street Address
+Xmp.plus.Licensor[1]/plus:LicensorTelephone1  +1 (234) 567890  +1 (234) 567890
+Xmp.plus.Licensor[1]/plus:LicensorTelephone2  +1 (345) 678901  +1 (345) 678901
+Xmp.plus.Licensor[1]/plus:LicensorTelephoneType1  http://ns.useplus.org/ldf/vocab/work  http://ns.useplus.org/ldf/vocab/work
+Xmp.plus.Licensor[1]/plus:LicensorTelephoneType2  http://ns.useplus.org/ldf/vocab/cell  http://ns.useplus.org/ldf/vocab/cell
+Xmp.plus.Licensor[1]/plus:LicensorURL         http://www.example.com/licensorurl/okng0934j9jkrg0430gjn0mn03  http://www.example.com/licensorurl/okng0934j9jkrg0430gjn0mn03
+Xmp.plus.ModelReleaseID                       http://www.example.com/modelreleaseid/jhgmw3m0932mg0943mh32  http://www.example.com/modelreleaseid/jhgmw3m0932mg0943mh32
+Xmp.plus.PropertyReleaseID                    http://www.example.com/propertyreleaseid/wii09mng290mg0b3mgb0ebebt  http://www.example.com/propertyreleaseid/wii09mng290mg0b3mgb0ebebt
+Xmp.xmp.Rating                                5.0  5.0
+Xmp.xmpRights.WebStatement                    http://www.example.com/WebStatement/testing123  http://www.example.com/WebStatement/testing123
+Xmp.xmpRights.UsageTerms                      lang="x-default" See https://github.com/Exiv2/exiv2/blob/main/COPYING  lang="x-default" See https://github.com/Exiv2/exiv2/blob/main/COPYING
+Xmp.tiff.YCbCrPositioning                     1  Centered
+Xmp.tiff.XResolution                          72/1  72
+Xmp.tiff.YResolution                          72/1  72
+Xmp.tiff.ResolutionUnit                       2  inch
+Xmp.exif.ExifVersion                          0232  2.32
+Xmp.exif.FlashpixVersion                      0100  1.00
+Xmp.exif.ColorSpace                           65535  Uncalibrated
+Xmp.exif.ComponentsConfiguration              1  Y
+Xmp.photoshop.DateCreated                     2022-01-04T09:41:01+00:00  2022-01-04T09:41:01+00:00
+Xmp.photoshop.Instructions                    Test Instructions  Test Instructions
+Xmp.photoshop.AuthorsPosition                 Test Creator's Job Title  Test Creator's Job Title
+Xmp.photoshop.City                            Test City  Test City
+Xmp.photoshop.State                           Test Province/State)  Test Province/State)
+Xmp.photoshop.Country                         Test Country  Test Country
+Xmp.photoshop.TransmissionReference           Test Job ID  Test Job ID
+Xmp.photoshop.Headline                        Test Headline  Test Headline
+Xmp.photoshop.Credit                          Test Credit Line  Test Credit Line
+Xmp.photoshop.Source                          Test Source  Test Source
+Xmp.photoshop.CaptionWriter                   Test Name  Test Name
+Xmp.dc.title                                  lang="x-default" Test IPTC XMP file  lang="x-default" Test IPTC XMP file
+Xmp.dc.subject                                Test  Test
+Xmp.dc.creator                                postscript-dev  postscript-dev
+Xmp.dc.rights                                 lang="x-default" Copyright Exiv2  lang="x-default" Copyright Exiv2
+Xmp.dc.description                            lang="x-default" Test file for the IPTC XMP tags  lang="x-default" Test file for the IPTC XMP tags
