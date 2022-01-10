@@ -84,20 +84,11 @@ namespace Exiv2 {
               yet(?) implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
          */
         void writeMetadata() override;
-        /*!
-          @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
-         */
+
         void setExifData(const ExifData& exifData) override;
-        /*!
-          @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
-         */
+
         void setIptcData(const IptcData& iptcData) override;
-        /*!
-          @brief Not supported. Calling this function will throw an instance
-              of Error(kerInvalidSettingForImage).
-         */
+
         void setComment(const std::string& comment) override;
         //@}
 

@@ -47,24 +47,22 @@ namespace Exiv2
 
     std::string BmpImage::mimeType() const
     {
-        return "image/x-ms-bmp";
+        // "image/bmp" is a Generic Bitmap
+        return "image/x-ms-bmp"; // Microsoft Bitmap
     }
 
     void BmpImage::setExifData(const ExifData& /*exifData*/)
     {
-        // Todo: implement me!
         throw(Error(kerInvalidSettingForImage, "Exif metadata", "BMP"));
     }
 
     void BmpImage::setIptcData(const IptcData& /*iptcData*/)
     {
-        // Todo: implement me!
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "BMP"));
     }
 
     void BmpImage::setComment(const std::string& /*comment*/)
     {
-        // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "BMP"));
     }
 
@@ -77,9 +75,11 @@ namespace Exiv2
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
+
         // Ensure that this is the correct image type
         if (!isBmpType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            if (io_->error() || io_->eof())
+                throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "BMP");
         }
         clearMetadata();
