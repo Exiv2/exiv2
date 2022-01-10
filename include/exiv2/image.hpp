@@ -368,9 +368,8 @@ namespace Exiv2 {
                  encoded. Initially, it is not set (\em invalidByteOrder).
          */
         ByteOrder byteOrder() const;
-        /*!
-          @brief Check if the Image instance is valid. Use after object
-              construction.
+
+        /*! @brief Check if the Image instance is valid. Use after object construction.
           @return true if the Image is in a valid state.
          */
         bool good() const;

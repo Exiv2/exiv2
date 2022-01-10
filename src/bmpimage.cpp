@@ -105,7 +105,7 @@ namespace Exiv2
           46      4 bytes  color count
           50      4 bytes  important colors       number of "important" colors
         */
-        byte buf[54];
+        byte buf[26];
         if (io_->read(buf, sizeof(buf)) == sizeof(buf)) {
             pixelWidth_ = getLong(buf + 18, littleEndian);
             pixelHeight_ = getLong(buf + 22, littleEndian);
