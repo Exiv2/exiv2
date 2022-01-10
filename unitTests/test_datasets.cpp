@@ -147,7 +147,7 @@ TEST(IptcDataSets, dataSet_throwWithNonExistingDatasetName)
         FAIL();
     } catch (const Exiv2::Error& e) {
         ASSERT_EQ(kerInvalidDataset, e.code());
-        ASSERT_STREQ("Invalid dataset name `NonExistingName'", e.what());
+        ASSERT_STREQ("Invalid dataset name 'NonExistingName'", e.what());
     }
 }
 
@@ -159,7 +159,7 @@ TEST(IptcDataSets, dataSet_throwWithNonExistingRecordId)
         FAIL();
     } catch (const Exiv2::Error& e) {
         ASSERT_EQ(kerInvalidDataset, e.code());
-        ASSERT_STREQ("Invalid dataset name `ModelVersion'", e.what());
+        ASSERT_STREQ("Invalid dataset name 'ModelVersion'", e.what());
     }
 }
 

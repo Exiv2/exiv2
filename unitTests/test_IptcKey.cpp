@@ -38,7 +38,79 @@ TEST(IptcKey, creationWithNonValidDatasetNameThrows)
     }
 }
 
+TEST(IptcKey, creationWithNonValidFamiltyNameThrows)
+{
+    try {
+      IptcKey key("JOJO.Envelope.WrongDataset");
+      FAIL();
+    }  catch (const Exiv2::Error& e) {
+      ASSERT_EQ(kerInvalidKey, e.code());
+      ASSERT_STREQ("Invalid key 'JOJO.Envelope.WrongDataset'", e.what());
+    }
+}
+
 TEST(IptcKey, creationWithValidStringDoesNotThrow)
 {
     ASSERT_NO_THROW(IptcKey ("Iptc.Envelope.ModelVersion"));
+}
+
+TEST(IptcKey, copyConstructor)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    IptcKey keyCopy (key);
+}
+
+TEST(IptcKey, clone)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    auto keyClone = key.clone();
+    ASSERT_EQ("Iptc.Envelope.ModelVersion", keyClone->key());
+}
+
+TEST(IptcKey, keyReturnsTheFullString)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ("Iptc.Envelope.ModelVersion", key.key());
+}
+
+TEST(IptcKey, familyNameReturnsTheFullString)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_STREQ("Iptc", key.familyName());
+}
+
+TEST(IptcKey, groupNameReturnsTheRecordName)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ("Envelope", key.groupName());
+}
+
+TEST(IptcKey, recordNameReturnsTheRecordName)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ("Envelope", key.recordName());
+}
+
+TEST(IptcKey, tagNameReturnsTheDatasetName)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ("ModelVersion", key.tagName());
+}
+
+TEST(IptcKey, tagLabelReturnsTheDatasetTitle)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ("Model Version", key.tagLabel());
+}
+
+TEST(IptcKey, tag)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ(IptcDataSets::ModelVersion, key.tag());
+}
+
+TEST(IptcKey, record)
+{
+    IptcKey key ("Iptc.Envelope.ModelVersion");
+    ASSERT_EQ(IptcDataSets::envelope, key.record());
 }

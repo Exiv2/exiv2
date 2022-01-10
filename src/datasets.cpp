@@ -620,6 +620,7 @@ namespace Exiv2 {
 
     void IptcKey::decomposeKey()
     {
+        /// \todo Use regex to check the expected format. Then process the 3 expected chunks
         // Get the family name, record name and dataSet name parts of the key
         std::string::size_type pos1 = key_.find('.');
         if (pos1 == std::string::npos)
@@ -654,7 +655,7 @@ namespace Exiv2 {
         tag_ = dataSet;
         record_ = recId;
         key_ = familyName + "." + recordName + "." + dataSetName;
-    }  // IptcKey::decomposeKey
+    }
 
     void IptcKey::makeKey()
     {
