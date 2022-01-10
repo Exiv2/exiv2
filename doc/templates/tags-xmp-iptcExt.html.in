@@ -13,12 +13,11 @@ __index2__
    of more granular properties and further specialized rights related
    properties from the PLUS metadata schema.
  <ul>
-  <li>Exiv2 keys are <b><code>Xmp.iptcExt.&lt;Property&gt;</code></b></li>
+  <li>The Exiv2 keys are either <b><code>Xmp.iptcExt.&lt;Property&gt;</code></b> or <b><code>Xmp.Iptc4xmpExt.&lt;Property&gt;</code></b></li>
   <li>The schema namespace URI is <b><code>http://iptc.org/std/Iptc4xmpExt/2008-02-29/</code></b></li>
   <li>The preferred schema namespace prefix is <b><code>Iptc4xmpExt</code></b></li>
  </ul>
-Reference: <a href="http://www.iptc.org/std/photometadata/specification/IPTC-PhotoMetadata" title="IPTC Extension Specification Version 1.2">IPTC Extension Specification Version 1.2</a> standard</p>
-<p>Note: Exiv2 uses <b><code>iptcExt</code></b> (rather than <code>Iptc4xmpExt</code>) as the group name for keys of IPTC Extension schema properties.</p>
+Reference: <a href="http://www.iptc.org/std/photometadata/specification/IPTC-PhotoMetadata" title="IPTC Extension Metadata Schema 1.6 specification">IPTC Extension Metadata Schema 1.6 specification</a></p>
 
 <p>Click on a column header to sort the table.</p>
 
