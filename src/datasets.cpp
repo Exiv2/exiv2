@@ -397,11 +397,10 @@ namespace Exiv2 {
                 false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, ""},
     };
 
-    constexpr DataSet unknownDataSet{0xffff, "Unknown dataset", N_("Unknown dataset"),
-                                        N_("Unknown dataset"),
-                                        false, true, 0, 0xffffffff, Exiv2::string,
-                                        IptcDataSets::invalidRecord,
-                                        N_("Unknown dataset"),};
+    constexpr DataSet unknownDataSet{
+        0xffff,     "Unknown dataset", N_("Unknown dataset"),       N_("Unknown dataset"), false, true, 0,
+        0xffffffff, Exiv2::string,     IptcDataSets::invalidRecord, N_("Unknown dataset"),
+    };
 
     // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record.
     // The record id is used as the index into the array.
@@ -414,7 +413,7 @@ namespace Exiv2 {
 
     int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
     {
-        if( recordId != envelope && recordId != application2 )
+        if (recordId != envelope && recordId != application2)
             return -1;
         const DataSet* dataSet = records_[recordId];
         if (dataSet == nullptr)
@@ -429,7 +428,7 @@ namespace Exiv2 {
 
     int IptcDataSets::dataSetIdx(const std::string& dataSetName, uint16_t recordId)
     {
-        if( recordId != envelope && recordId != application2 )
+        if (recordId != envelope && recordId != application2)
             return -1;
         const DataSet* dataSet = records_[recordId];
         if (dataSet == nullptr)
@@ -457,8 +456,7 @@ namespace Exiv2 {
             return records_[recordId][idx].name_;
 
         std::ostringstream os;
-        os << "0x" << std::setw(4) << std::setfill('0') << std::right
-           << std::hex << number;
+        os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << number;
         return os.str();
     }
 
@@ -494,16 +492,14 @@ namespace Exiv2 {
         return records_[recordId][idx].repeatable_;
     }
 
-    uint16_t IptcDataSets::dataSet(const std::string& dataSetName,
-                                   uint16_t recordId)
+    uint16_t IptcDataSets::dataSet(const std::string& dataSetName, uint16_t recordId)
     {
         uint16_t dataSet = 0;
         int idx = dataSetIdx(dataSetName, recordId);
         if (idx != -1) {
             // dataSetIdx checks the range of recordId
             dataSet = records_[recordId][idx].number_;
-        }
-        else {
+        } else {
             if (!isHex(dataSetName, 4, "0x"))
                 throw Error(kerInvalidDataset, dataSetName);
             std::istringstream is(dataSetName);
@@ -519,8 +515,7 @@ namespace Exiv2 {
         }
 
         std::ostringstream os;
-        os << "0x" << std::setw(4) << std::setfill('0') << std::right
-           << std::hex << recordId;
+        os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << recordId;
         return os.str();
     }
 
@@ -536,10 +531,12 @@ namespace Exiv2 {
     {
         uint16_t i;
         for (i = application2; i > 0; --i) {
-            if (recordInfo_[i].name_ == recordName) break;
+            if (recordInfo_[i].name_ == recordName)
+                break;
         }
         if (i == 0) {
-            if (!isHex(recordName, 4, "0x")) throw Error(kerInvalidRecord, recordName);
+            if (!isHex(recordName, 4, "0x"))
+                throw Error(kerInvalidRecord, recordName);
             std::istringstream is(recordName);
             is >> std::hex >> i;
         }
@@ -560,22 +557,19 @@ namespace Exiv2 {
         decomposeKey();
     }
 
-    IptcKey::IptcKey(uint16_t tag, uint16_t record)
-        : tag_(tag), record_(record)
+    IptcKey::IptcKey(uint16_t tag, uint16_t record) : tag_(tag), record_(record)
     {
         makeKey();
     }
 
-    IptcKey::IptcKey(const IptcKey& rhs)
-        : tag_(rhs.tag_)
-        , record_(rhs.record_)
-        , key_(rhs.key_)
+    IptcKey::IptcKey(const IptcKey& rhs) : tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
     {
     }
 
     IptcKey& IptcKey::operator=(const IptcKey& rhs)
     {
-        if (this == &rhs) return *this;
+        if (this == &rhs)
+            return *this;
         Key::operator=(rhs);
         tag_ = rhs.tag_;
         record_ = rhs.record_;
@@ -637,14 +631,16 @@ namespace Exiv2 {
     {
         // Get the family name, record name and dataSet name parts of the key
         std::string::size_type pos1 = key_.find('.');
-        if (pos1 == std::string::npos) throw Error(kerInvalidKey, key_);
+        if (pos1 == std::string::npos)
+            throw Error(kerInvalidKey, key_);
         std::string familyName = key_.substr(0, pos1);
         if (0 != strcmp(familyName.c_str(), familyName_)) {
             throw Error(kerInvalidKey, key_);
         }
         std::string::size_type pos0 = pos1 + 1;
         pos1 = key_.find('.', pos0);
-        if (pos1 == std::string::npos) throw Error(kerInvalidKey, key_);
+        if (pos1 == std::string::npos)
+            throw Error(kerInvalidKey, key_);
         std::string recordName = key_.substr(pos0, pos1 - pos0);
         if (recordName.empty())
             throw Error(kerInvalidKey, key_);
@@ -663,13 +659,12 @@ namespace Exiv2 {
         tag_ = dataSet;
         record_ = recId;
         key_ = familyName + "." + recordName + "." + dataSetName;
-    } // IptcKey::decomposeKey
+    }  // IptcKey::decomposeKey
 
     void IptcKey::makeKey()
     {
-        key_ = std::string(familyName_)
-            + "." + IptcDataSets::recordName(record_)
-            + "." + IptcDataSets::dataSetName(tag_, record_);
+        key_ = std::string(familyName_) + "." + IptcDataSets::recordName(record_) + "." +
+               IptcDataSets::dataSetName(tag_, record_);
     }
 
     // *************************************************************************
@@ -677,27 +672,21 @@ namespace Exiv2 {
 
     std::ostream& operator<<(std::ostream& os, const DataSet& dataSet)
     {
-        std::ios::fmtflags f( os.flags() );
+        std::ios::fmtflags f(os.flags());
         IptcKey iptcKey(dataSet.number_, dataSet.recordId_);
-        os << dataSet.name_ << ", "
-           << std::dec << dataSet.number_ << ", "
-           << "0x" << std::setw(4) << std::setfill('0')
-           << std::right << std::hex << dataSet.number_ << ", "
-           << IptcDataSets::recordName(dataSet.recordId_) << ", "
-           << std::boolalpha << dataSet.mandatory_ << ", "
-           << dataSet.repeatable_ << ", "
-           << std::dec << dataSet.minbytes_ << ", "
-           << dataSet.maxbytes_ << ", "
-           << iptcKey.key() << ", "
-           << TypeInfo::typeName(
-              IptcDataSets::dataSetType(dataSet.number_,
-                                        dataSet.recordId_)) << ", ";
+        os << dataSet.name_ << ", " << std::dec << dataSet.number_ << ", "
+           << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << dataSet.number_ << ", "
+           << IptcDataSets::recordName(dataSet.recordId_) << ", " << std::boolalpha << dataSet.mandatory_ << ", "
+           << dataSet.repeatable_ << ", " << std::dec << dataSet.minbytes_ << ", " << dataSet.maxbytes_ << ", "
+           << iptcKey.key() << ", " << TypeInfo::typeName(IptcDataSets::dataSetType(dataSet.number_, dataSet.recordId_))
+           << ", ";
         // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
         char Q = '"';
         os << Q;
-        for ( size_t i = 0 ; i < ::strlen(dataSet.desc_) ; i++ ) {
+        for (size_t i = 0; i < ::strlen(dataSet.desc_); i++) {
             char c = dataSet.desc_[i];
-            if ( c == Q ) os << Q;
+            if (c == Q)
+                os << Q;
             os << c;
         }
         os << Q;
