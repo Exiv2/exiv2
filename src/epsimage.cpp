@@ -36,7 +36,7 @@ namespace {
     const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
 
     // first line of EPS
-    const std::array<std::string, 3> epsFirstLine{
+    constexpr auto epsFirstLine = std::array<std::string_view, 3>{
         "%!PS-Adobe-3.0 EPSF-3.0",
         "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
         "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
