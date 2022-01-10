@@ -268,17 +268,11 @@ namespace Exiv2 {
         IptcKey(uint16_t tag, uint16_t record);
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
+        IptcKey& operator=(const IptcKey& rhs) = delete;
         //! Destructor
         ~IptcKey() override = default;
         //@}
 
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Assignment operator.
-         */
-        IptcKey& operator=(const IptcKey& rhs);
-        //@}
 
         //! @name Accessors
         //@{

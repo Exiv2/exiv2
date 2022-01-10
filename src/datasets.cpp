@@ -568,17 +568,6 @@ namespace Exiv2 {
     {
     }
 
-    IptcKey& IptcKey::operator=(const IptcKey& rhs)
-    {
-        if (this == &rhs)
-            return *this;
-        Key::operator=(rhs);
-        tag_ = rhs.tag_;
-        record_ = rhs.record_;
-        key_ = rhs.key_;
-        return *this;
-    }
-
     std::string IptcKey::key() const
     {
         return key_;
