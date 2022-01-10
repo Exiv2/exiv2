@@ -230,13 +230,6 @@ namespace Exiv2 {
            @return the description of the Record
          */
         static const char* recordDesc(uint16_t recordId);
-        /*!
-           @brief Return the Id number of a record
-           @param recordName Name of a record type
-           @return the Id number of a Record
-           @throw Error if the record is not known;
-         */
-        static uint16_t recordId(const std::string& recordName);
 
         static void dataSetList(std::ostream& os);
 
@@ -245,7 +238,6 @@ namespace Exiv2 {
         static int dataSetIdx(const std::string& dataSetName, uint16_t recordId);
 
         static const DataSet* const records_[];
-        static const RecordInfo recordInfo_[];
 
     }; // class IptcDataSets
 
