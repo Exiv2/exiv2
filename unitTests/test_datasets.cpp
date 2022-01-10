@@ -5,6 +5,7 @@
 #include <exiv2/error.hpp>
 
 #include <array>
+#include <sstream>
 
 using namespace Exiv2;
 using ::testing::StartsWith;
@@ -160,4 +161,13 @@ TEST(IptcDataSets, dataSet_throwWithNonExistingRecordId)
         ASSERT_EQ(kerInvalidDataset, e.code());
         ASSERT_STREQ("Invalid dataset name `ModelVersion'", e.what());
     }
+}
+
+// ----------------------
+
+TEST(IptcDataSets, dataSetLists_printDatasetsIntoOstream)
+{
+    std::ostringstream stream;
+    ASSERT_NO_THROW(IptcDataSets::dataSetList(stream));
+    ASSERT_FALSE(stream.str().empty());
 }

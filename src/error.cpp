@@ -55,11 +55,11 @@ namespace {
         { Exiv2::kerNotAnImage,
           N_("This does not look like a %1 image") }, // %1=Image type
         { Exiv2::kerInvalidDataset,
-          N_("Invalid dataset name `%1'") }, // %1=dataset name
+          N_("Invalid dataset name '%1'") }, // %1=dataset name
         { Exiv2::kerInvalidRecord,
-          N_("Invalid record name `%1'") }, // %1=record name
+          N_("Invalid record name '%1'") }, // %1=record name
         { Exiv2::kerInvalidKey,
-          N_("Invalid key `%1'") }, // %1=key
+          N_("Invalid key '%1'") }, // %1=key
         { Exiv2::kerInvalidTag,
           N_("Invalid tag name or ifdId `%1', ifdId %2") }, // %1=tag name, %2=ifdId
         { Exiv2::kerValueNotSet,
