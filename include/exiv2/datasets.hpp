@@ -173,6 +173,7 @@ namespace Exiv2 {
                   dataset.
          */
         static std::string dataSetName(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the title (label) of the dataset.
           @param number The dataset number
@@ -180,6 +181,7 @@ namespace Exiv2 {
           @return The title (label) of the dataset
          */
         static const char* dataSetTitle(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the description of the dataset.
           @param number The dataset number
@@ -187,6 +189,7 @@ namespace Exiv2 {
           @return The description of the dataset
          */
         static const char* dataSetDesc(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the Photoshop name of a given dataset.
           @param number The dataset number
@@ -195,6 +198,7 @@ namespace Exiv2 {
                  string if Photoshop does not use the dataset.
          */
         static const char* dataSetPsName(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Check if a given dataset is repeatable
           @param number The dataset number
@@ -202,6 +206,7 @@ namespace Exiv2 {
           @return true if the given dataset is repeatable otherwise false
          */
         static bool dataSetRepeatable(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the dataSet number for dataset name and record id
 
@@ -216,6 +221,7 @@ namespace Exiv2 {
 
         //! Return the type for dataSet number and Record id
         static TypeId dataSetType(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the name of the Record
           @param recordId The record id
@@ -224,6 +230,7 @@ namespace Exiv2 {
                   unknown record.
          */
         static std::string recordName(uint16_t recordId);
+
         /*!
            @brief Return the description of a record
            @param recordId Record Id number

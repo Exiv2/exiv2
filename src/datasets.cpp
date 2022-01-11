@@ -433,8 +433,6 @@ namespace Exiv2 {
         if (recordId != envelope && recordId != application2)
             return -1;
         const DataSet* dataSet = records_[recordId];
-        if (dataSet == nullptr)
-            return -1;
         int idx;
         for (idx = 0; dataSet[idx].number_ != number; ++idx) {
             if (dataSet[idx].number_ == 0xffff)
@@ -448,8 +446,6 @@ namespace Exiv2 {
         if (recordId != envelope && recordId != application2)
             return -1;
         const DataSet* dataSet = records_[recordId];
-        if (dataSet == nullptr)
-            return -1;
         int idx;
         for (idx = 0; dataSet[idx].name_ != dataSetName; ++idx) {
             if (dataSet[idx].number_ == 0xffff)
