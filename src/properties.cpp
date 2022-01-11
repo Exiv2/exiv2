@@ -1013,6 +1013,7 @@ namespace Exiv2 {
     };
 
     //! XMP Iptc4xmpCore:Scene
+    //  Source: http://cv.iptc.org/newscodes/scene/
     constexpr TagVocabulary iptcScene[] = {
         { "010100",  N_("Headshot")       },
         { "010200",  N_("Half-length")    },
@@ -1041,6 +1042,7 @@ namespace Exiv2 {
     };
 
     //! XMP Iptc4xmpCore:SubjectCode
+    //  Source: https://cv.iptc.org/newscodes/subjectcode/
     constexpr TagVocabulary iptcSubjectCode[] = {
         { "01000000", "arts, culture and entertainment"             },
         { "01001000", "archaeology"                                 },
@@ -2459,6 +2461,7 @@ namespace Exiv2 {
     };
 
     //! XMP iptcExt:DigitalSourceType
+    //  Source: http://cv.iptc.org/newscodes/digitalsourcetype/
     constexpr TagVocabulary iptcExtDigitalSourceType[] = {
         { "digitalCapture", N_("Digital capture")                                    },
         { "negativeFilm",   N_("Digitised from a negative on film")                  },
