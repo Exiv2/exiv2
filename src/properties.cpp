@@ -3893,7 +3893,6 @@ namespace Exiv2 {
         {"Xmp.tiff.XResolution",              printLong                     },
         {"Xmp.tiff.YCbCrPositioning",         print0x0213                   },
         {"Xmp.tiff.YResolution",              printLong                     },
-        {"Xmp.iptc.Scene/Iptc4xmpCore:CiAdrCity",                       EXV_PRINT_VOCABULARY_MULTI(iptcScene)                },
         {"Xmp.iptc.Scene",                       EXV_PRINT_VOCABULARY_MULTI(iptcScene)                },
         {"Xmp.iptc.SubjectCode",                 EXV_PRINT_VOCABULARY_MULTI(iptcSubjectCode)          },
         {"Xmp.iptcExt.DigitalSourcefileType",    EXV_PRINT_VOCABULARY(iptcExtDigitalSourcefileType)   },
