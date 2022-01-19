@@ -13,7 +13,7 @@ class XmpIptcStandardsTest(metaclass=CaseMeta):
     filename_save = path("$tmp_path/issue_1959_poc.xmp_save.out")
     filename_out  = path("$data_path/issue_1959_poc.xmp.out")
     
-    commands = ["$exiv2 -Pkvt $filename > $filename_save", "cmp $filename_save $filename_out"]
+    commands = ["$exiv2 -Pkvt $filename > $filename_save", "diff --strip-trailing-cr $filename_save $filename_out"]
 
     stderr = [""]*2
     retval = [0]*2
