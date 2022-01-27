@@ -165,6 +165,51 @@ TEST(IptcDataSets, dataSet_throwWithNonExistingRecordId)
 
 // ----------------------
 
+TEST(IptcDataSets, dataSetType_returnsExpectedTypeWhenRequestingValidDataset)
+{
+    ASSERT_EQ(unsignedShort, IptcDataSets::dataSetType(IptcDataSets::ModelVersion, IptcDataSets::envelope));
+    ASSERT_EQ(Exiv2::string, IptcDataSets::dataSetType(IptcDataSets::Destination, IptcDataSets::envelope));
+
+    ASSERT_EQ(unsignedShort, IptcDataSets::dataSetType(IptcDataSets::RecordVersion, IptcDataSets::application2));
+    ASSERT_EQ(Exiv2::string, IptcDataSets::dataSetType(IptcDataSets::ObjectType, IptcDataSets::application2));
+}
+
+/// \todo probably better to throw exception here?
+TEST(IptcDataSets, dataSetType_returnsStringTypeWhenRecordIdDoesNotExist)
+{
+    ASSERT_EQ(Exiv2::string, IptcDataSets::dataSetType(1, 5));
+}
+
+// ----------------------
+
+TEST(IptcDataSets, recordName_returnsExpectedNameWhenRequestingValidRecordId)
+{
+    ASSERT_EQ("Envelope", IptcDataSets::recordName(IptcDataSets::envelope));
+    ASSERT_EQ("Application2", IptcDataSets::recordName(IptcDataSets::application2));
+}
+
+TEST(IptcDataSets, recordName_returnsHexStringWhenRecordIdDoesNotExist)
+{
+    ASSERT_EQ("0x0000", IptcDataSets::recordName(0));
+    ASSERT_EQ("0x0003", IptcDataSets::recordName(3));
+}
+
+// ----------------------
+
+TEST(IptcDataSets, recordDesc_returnsExpectedDescriptionWhenRequestingValidRecordId)
+{
+    ASSERT_STREQ("IIM envelope record", IptcDataSets::recordDesc(IptcDataSets::envelope));
+    ASSERT_STREQ("IIM application record 2", IptcDataSets::recordDesc(IptcDataSets::application2));
+}
+
+TEST(IptcDataSets, recordDesc_)
+{
+    ASSERT_STREQ("Unknown dataset", IptcDataSets::recordDesc(0));
+    ASSERT_STREQ("Unknown dataset", IptcDataSets::recordDesc(3));
+}
+
+// ----------------------
+
 TEST(IptcDataSets, dataSetLists_printDatasetsIntoOstream)
 {
     std::ostringstream stream;

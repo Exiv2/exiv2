@@ -34,12 +34,14 @@
 
 #include <iostream>
 #include <iomanip>
+#include <regex>
 #include <sstream>
 
 // *****************************************************************************
 // class member definitions
 
 namespace Exiv2 {
+    constexpr const char *familyName_{"Iptc"};
     constexpr RecordInfo recordInfo_[] = {
         {IptcDataSets::invalidRecord, "(invalid)", N_("(invalid)")},
         {IptcDataSets::envelope, "Envelope", N_("IIM envelope record")},
@@ -616,29 +618,24 @@ namespace Exiv2 {
 
     void IptcKey::decomposeKey()
     {
-        /// \todo Use regex to check the expected format. Then process the 3 expected chunks
-        // Get the family name, record name and dataSet name parts of the key
-        std::string::size_type pos1 = key_.find('.');
-        if (pos1 == std::string::npos)
-            throw Error(kerInvalidKey, key_);
+        // Check that the key has the expected format with RE
+        static const std::regex re(R"((\w+)(\.\w+){2})");
+        std::smatch sm;
+        if (!std::regex_match(key_, sm, re)) {
+          throw Error(kerInvalidKey, key_);
+        }
 
-        std::string familyName = key_.substr(0, pos1);
+        // Get the family name, record name and dataSet name parts of the key
+        auto posDot1 = key_.find('.');
+        auto posDot2 = key_.find('.', posDot1+1);
+
+        const std::string familyName = key_.substr(0, posDot1);
         if (0 != strcmp(familyName.c_str(), familyName_)) {
             throw Error(kerInvalidKey, key_);
         }
 
-        std::string::size_type pos0 = pos1 + 1;
-        pos1 = key_.find('.', pos0);
-        if (pos1 == std::string::npos)
-            throw Error(kerInvalidKey, key_);
-
-        std::string recordName = key_.substr(pos0, pos1 - pos0);
-        if (recordName.empty())
-            throw Error(kerInvalidKey, key_);
-
-        std::string dataSetName = key_.substr(pos1 + 1);
-        if (dataSetName.empty())
-            throw Error(kerInvalidKey, key_);
+        std::string recordName = key_.substr(posDot1+1, posDot2 - posDot1 - 1);
+        std::string dataSetName = key_.substr(posDot2+1);
 
         // Use the parts of the key to find dataSet and recordId
         uint16_t recId = recordId(recordName);
