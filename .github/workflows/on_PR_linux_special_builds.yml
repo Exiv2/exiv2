@@ -247,6 +247,9 @@ jobs:
             .. \
 
       - name: Static Analysis
+        env:
+          PVS_USERNAME: ${{ secrets.PVS_USERNAME }}
+          PVS_KEY: ${{ secrets.PVS_KEY }}
         run: |
           pvs-studio-analyzer credentials $PVS_USERNAME $PVS_KEY -o PVS_license.lic
           pvs-studio-analyzer analyze -l PVS_license.lic -o pvsStudio.log -j4
