@@ -11,7 +11,7 @@ To check a project configured with CMake, such as Exiv2, we need to generate the
 cd buildXXX
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ...
 
-# Output file: compile_commands.json
+# Once the CMake configuration is done, we should obtain a output file 'compile_commands.json'
 ```
 
 The analysis starts with the following commands:
@@ -21,5 +21,5 @@ export PVS_LICENSE=~/.config/PVS-Studio/PVS-Studio.lic
 pvs-studio-analyzer analyze -l $PVS_LICENSE -o pvsStudio.log -j8
 plog-converter -a GA:1,2 -t tasklist pvsStudio.log -o pvsStudio.tasks
 plog-converter -a GA:1,2 -t fullhtml pvsStudio.log -o pvsReportHtml
-log-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
+plog-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
 ```
