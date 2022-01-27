@@ -260,6 +260,6 @@ jobs:
         with:
           name: static_analysis
           path: build/pvsReportHtml
-          retention-days: 30
+          retention-days: 7
           
           
