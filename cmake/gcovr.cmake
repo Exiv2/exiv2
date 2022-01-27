@@ -14,6 +14,7 @@ if(BUILD_WITH_COVERAGE)
             COMMAND ${GCOVR} --root ${CMAKE_SOURCE_DIR} --object-dir=${CMAKE_BINARY_DIR} --html --html-details -o coverage_output/coverage.html
               --exclude-directories xmpsdk --exclude-directories unitTests --exclude-directories samples
               --exclude '.*xmpsdk.*' --exclude '.*unitTests.*' --exclude '.*samples.*'
+              --exclude-unreachable-branches --exclude-throw-branches
 
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         )
