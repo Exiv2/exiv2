@@ -251,6 +251,7 @@ jobs:
           PVS_USERNAME: ${{ secrets.PVS_USERNAME }}
           PVS_KEY: ${{ secrets.PVS_KEY }}
         run: |
+          cd build
           pvs-studio-analyzer credentials $PVS_USERNAME $PVS_KEY -o PVS_license.lic
           pvs-studio-analyzer analyze -l PVS_license.lic -o pvsStudio.log -j4
           plog-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
@@ -258,7 +259,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: static_analysis
-          path: pvsReportHtml
+          path: build/pvsReportHtml
           retention-days: 30
           
           
