@@ -1,4 +1,8 @@
-ignore:
-  - "xmpsdk"  # Not interested about the coverage of XMKSDK
-  - "unitTests"
-  - "samples"
+codecov:
+  branch: main
+  precision: 2
+  range: "60..100"
+  ignore:
+    - "xmpsdk"  # Not interested about the coverage of XMKSDK
+    - "unitTests"
+    - "samples"
