@@ -798,8 +798,8 @@ namespace {
             if (sizes.count() == dataValue.count()) {
                 if (sizes.count() == 1) {
                     // this saves one copying of the buffer
-                    uint32_t offset = dataValue.toLong(0);
-                    uint32_t size = sizes.toLong(0);
+                    uint32_t offset = dataValue.toUint32(0);
+                    uint32_t size = sizes.toUint32(0);
                     if (Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
                         dataValue.setDataArea(base + offset, size);
                 }
@@ -809,8 +809,8 @@ namespace {
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
                     for (long i = 0; i < sizes.count(); i++) {
-                        uint32_t offset = dataValue.toLong(i);
-                        uint32_t size = sizes.toLong(i);
+                        uint32_t offset = dataValue.toUint32(i);
+                        uint32_t size = sizes.toUint32(i);
 
                         // the size_ parameter is originally computed by summing all values inside sizes
                         // see the constructor of LoaderTiff

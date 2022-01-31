@@ -544,8 +544,8 @@ namespace Exiv2 {
         if (value.count() < 2 || value.typeId() != unsignedByte) {
             return os << value;
         }
-        long l0 = value.toLong(0);
-        long l1 = value.toLong(1);
+        const auto l0 = value.toInt64(0);
+        const auto l1 = value.toInt64(1);
         if      (l0 ==   0 && l1 ==  1) os << _("Spot mode on or 9 area");
         else if (l0 ==   0 && l1 == 16) os << _("Spot mode off or 3-area (high speed)");
         else if (l0 ==   0 && l1 == 23) os << _("23-area");
@@ -575,7 +575,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1)
-           << value.toLong() / 3 << _(" EV");
+           << value.toInt64() / 3 << _(" EV");
         os.copyfmt(oss);
 
         os.flags(f);
@@ -590,7 +590,7 @@ namespace Exiv2 {
     {
         std::ostringstream oss;
         oss.copyfmt(os);
-        long time=value.toLong();
+        const auto time=value.toInt64();
         os << std::setw(2) << std::setfill('0') << time / 360000 << ":"
            << std::setw(2) << std::setfill('0') << (time % 360000) / 6000 << ":"
            << std::setw(2) << std::setfill('0') << (time % 6000) / 100 << "."
@@ -622,7 +622,7 @@ namespace Exiv2 {
                                                   const Value& value,
                                                   const ExifData*)
     {
-        if(value.toLong()==65535)
+        if(value.toInt64()==65535)
         {
             os << N_("not set");
         }
@@ -638,7 +638,7 @@ namespace Exiv2 {
                                                   const Value& value,
                                                   const ExifData*)
     {
-        switch(value.toLong())
+        switch(value.toInt64())
         {
             case 65534:
                 os << N_("Intelligent ISO");
@@ -661,11 +661,11 @@ namespace Exiv2 {
         {
             for(long i=0; i< value.size(); i++)
             {
-                if(value.toLong(i)==0)
+                if(value.toInt64(i)==0)
                 {
                     break;
                 };
-                os << static_cast<char>(value.toLong(i));
+                os << static_cast<char>(value.toInt64(i));
             };
             return os;
         }
@@ -677,7 +677,7 @@ namespace Exiv2 {
     // Manometer Pressure
     std::ostream& PanasonicMakerNote::printPressure(std::ostream& os, const Value& value, const ExifData*)
     {
-        switch(value.toLong())
+        switch(value.toInt64())
         {
             case 65535:
                 os << N_("infinite");
@@ -692,14 +692,14 @@ namespace Exiv2 {
     std::ostream& PanasonicMakerNote::printAccelerometer(std::ostream& os, const Value& value, const ExifData*)
     {
         // value is stored as unsigned int, but should be read as int16_t.
-        const int16_t i = static_cast<int16_t>(value.toLong());
+        const int16_t i = static_cast<int16_t>(value.toInt64());
         return os << i;
     }  // PanasonicMakerNote::printAccelerometer
 
     std::ostream& PanasonicMakerNote::printRollAngle(std::ostream& os, const Value& value, const ExifData*)
     {
         // value is stored as unsigned int, but should be read as int16_t.
-        const int16_t i = static_cast<int16_t>(value.toLong());
+        const int16_t i = static_cast<int16_t>(value.toInt64());
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << i / 10.0;
@@ -711,7 +711,7 @@ namespace Exiv2 {
     std::ostream& PanasonicMakerNote::printPitchAngle(std::ostream& os, const Value& value, const ExifData*)
     {
         // value is stored as unsigned int, but should be read as int16_t.
-        const int16_t i = static_cast<int16_t>(value.toLong());
+        const int16_t i = static_cast<int16_t>(value.toInt64());
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << -i / 10.0;

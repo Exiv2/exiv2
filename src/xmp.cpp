@@ -405,7 +405,7 @@ namespace Exiv2 {
 
     long Xmpdatum::toLong(long n) const
     {
-        return p_->value_.get() == nullptr ? -1 : p_->value_->toLong(n);
+        return p_->value_.get() == nullptr ? -1 : p_->value_->toInt64(n);
     }
 
     float Xmpdatum::toFloat(long n) const

@@ -390,13 +390,13 @@ namespace Exiv2 {
         }
         uint32_t size = 0;
         for (long i = 0; i < pSize->count(); ++i) {
-            size += static_cast<uint32_t>(pSize->toLong(i));
+            size += pSize->toUint32(i);
         }
-        auto offset = static_cast<uint32_t>(pValue()->toLong(0));
+        auto offset = pValue()->toUint32(0);
         // Todo: Remove limitation of JPEG writer: strips must be contiguous
         // Until then we check: last offset + last size - first offset == size?
-        if (  static_cast<uint32_t>(pValue()->toLong(pValue()->count()-1))
-            + static_cast<uint32_t>(pSize->toLong(pSize->count()-1))
+        if (  pValue()->toUint32(pValue()->count()-1)
+            + pSize->toUint32(pSize->count()-1)
             - offset != size) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(group())
@@ -447,9 +447,9 @@ namespace Exiv2 {
             return;
         }
         for (long i = 0; i < pValue()->count(); ++i) {
-            const auto offset = static_cast<uint32_t>(pValue()->toLong(i));
+            const auto offset = pValue()->toUint32(i);
             const byte* pStrip = pData + baseOffset + offset;
-            const auto size = static_cast<uint32_t>(pSize->toLong(i));
+            const auto size = pSize->toUint32(i);
 
             if (   offset > sizeData
                 || size > sizeData
@@ -1261,10 +1261,10 @@ namespace Exiv2 {
 
         DataBuf buf(pValue()->size());
         uint32_t idx = 0;
-        const long prevOffset = pValue()->toLong(0);
+        const auto prevOffset = pValue()->toInt64(0);
         for (uint32_t i = 0; i < count(); ++i) {
-            const long newDataIdx =   pValue()->toLong(i) - prevOffset
-                                    + static_cast<long>(dataIdx);
+            const int64_t newDataIdx = pValue()->toInt64(i) - prevOffset
+                                     + static_cast<int64_t>(dataIdx);
             idx += writeOffset(buf.data(idx),
                                offset + newDataIdx,
                                tiffType(),

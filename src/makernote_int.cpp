@@ -1174,7 +1174,7 @@ namespace Exiv2 {
         pRoot->accept(finder);
         auto te = dynamic_cast<TiffEntryBase*>(finder.result());
         if (!te || !te->pValue() || te->pValue()->count() == 0) return buf;
-        auto count = static_cast<uint32_t>(te->pValue()->toLong());
+        auto count = te->pValue()->toUint32();
 
         // Find Exif.Nikon3.SerialNumber
         finder.init(0x001d, nikon3Id);
@@ -1245,13 +1245,13 @@ namespace Exiv2 {
         if (value->count() < 4)
             return -1;
 
-        switch (value->toLong(0)) {                // Using encrypted values
+        switch (value->toInt64(0)) {                // Using encrypted values
         case 231:                                  // 231 == 9
         case 234:                                  // 234 == 12
         case 205:                                  // 205 == 13
         case 138:                                  // 138 == 15
         case 112:                                  // 112 == 16
-            return value->toLong(3) == 8 ? 0 : -1; // 8   == 2
+            return value->toInt64(3) == 8 ? 0 : -1; // 8   == 2
         default:
             break;
         }
@@ -1273,7 +1273,7 @@ namespace Exiv2 {
         if (value->count() < 1)
             return -1;
 
-        switch (value->toLong()) {    // Using encrypted values
+        switch (value->toInt64()) {    // Using encrypted values
         case 35:                      // 35  == 62
         case 36:                      // 36  == 48
         case 38:                      // 38  == 215

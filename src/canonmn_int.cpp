@@ -2621,7 +2621,7 @@ namespace Exiv2 {
         std::string model = pos->toString();
         if (model.find("20D") != std::string::npos || model.find("350D") != std::string::npos ||
             model.substr(model.size() - 8, 8) == "REBEL XT" || model.find("Kiss Digital N") != std::string::npos) {
-            uint32_t val = value.toLong();
+            uint32_t val = value.toUint32();
             uint32_t dn = (val & 0xffc0) >> 6;
             uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
             os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
@@ -2631,7 +2631,7 @@ namespace Exiv2 {
         if (model.find("30D") != std::string::npos || model.find("400D") != std::string::npos ||
             model.find("REBEL XTi") != std::string::npos || model.find("Kiss Digital X") != std::string::npos ||
             model.find("K236") != std::string::npos) {
-            uint32_t val = value.toLong();
+            uint32_t val = value.toUint32();
             uint32_t dn = (val & 0xffc00) >> 10;
             while (dn < 100)
                 dn += 0x40;
@@ -2703,7 +2703,7 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
-        long l = value.toLong();
+        const auto l = value.toInt64();
         if (l == 0) {
             os << "Off";
         }
@@ -2739,7 +2739,7 @@ namespace Exiv2 {
         if (!metadata || value.typeId() != unsignedShort || value.count() == 0)
             return os << value;
 
-        auto const lensType = value.toLong();
+        auto const lensType = value.toInt64();
 
         if (lensType == 0xffff){
           return printCsLensFFFF(os, value, metadata);
@@ -2755,8 +2755,8 @@ namespace Exiv2 {
             return os;
         }
 
-        int const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toLong(1)) / pos->value().toFloat(2));
-        int const exifFlMax = static_cast<int>(static_cast<float>(pos->value().toLong(0)) / pos->value().toFloat(2));
+        int const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toInt64(1)) / pos->value().toFloat(2));
+        int const exifFlMax = static_cast<int>(static_cast<float>(pos->value().toInt64(0)) / pos->value().toFloat(2));
 
         ExifKey aperKey("Exif.CanonCs.MaxAperture");
         pos = metadata->findKey(aperKey);
@@ -2765,7 +2765,7 @@ namespace Exiv2 {
             return os;
         }
 
-        auto exifAperMax = fnumber(canonEv(static_cast<int16_t>(pos->value().toLong(0))));
+        auto exifAperMax = fnumber(canonEv(static_cast<int16_t>(pos->value().toInt64(0))));
 
         // regex to extract short and tele focal length, max aperture at short and tele position
         // and the teleconverter factor from the lens label
@@ -2865,8 +2865,8 @@ namespace Exiv2 {
         float fu = value.toFloat(2);
         if (fu == 0.0F)
             return os << value;
-        float len1 = value.toLong(0) / fu;
-        float len2 = value.toLong(1) / fu;
+        float len1 = value.toInt64(0) / fu;
+        float len2 = value.toInt64(1) / fu;
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1);
@@ -2887,7 +2887,7 @@ namespace Exiv2 {
         std::ios::fmtflags f( os.flags() );
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
-            os << std::exp(canonEv(value.toLong()) / 32 * std::log(2.0F)) * 100.0F;
+            os << std::exp(canonEv(value.toInt64()) / 32 * std::log(2.0F)) * 100.0F;
         }
         os.flags(f);
         return os;
@@ -2901,7 +2901,7 @@ namespace Exiv2 {
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
             // Ported from Exiftool by Will Stokes
-            os << std::exp(canonEv(value.toLong()) * std::log(2.0F)) * 100.0F / 32.0F;
+            os << std::exp(canonEv(value.toInt64()) * std::log(2.0F)) * 100.0F / 32.0F;
         }
         os.flags(f);
         return os;
@@ -2919,7 +2919,7 @@ namespace Exiv2 {
             // see also printSi0x0017
             std::ostringstream oss;
             oss.copyfmt(os);
-            int res = static_cast<int>(100.0 * (static_cast<short>(value.toLong()) / 32.0 + 5.0) + 0.5);
+            int res = static_cast<int>(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0) + 0.5);
             os << std::fixed << std::setprecision(2) << res / 100.0;
             os.copyfmt(oss);
         }
@@ -2933,7 +2933,7 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
-        long l = value.toLong();
+        const auto l = value.toInt64();
         os << l << "";
         // Todo: determine unit
         return os;
@@ -2943,18 +2943,18 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.toLong() == 0) return os << "--";
+        if (value.toInt64() == 0) return os << "--";
 
-        return os << value.toLong() - 128 << " °C";
+        return os << value.toInt64() - 128 << " °C";
     }
 
     std::ostream& CanonMakerNote::printSi0x000d(std::ostream& os,
                                                 const Value& value,
                                                 const ExifData*)
     {
-        if (value.toLong() == 65535) return os << "--";
+        if (value.toInt64() == 65535) return os << "--";
 
-        return os << value.toLong() / 32;
+        return os << value.toInt64() / 32;
     }
 
     std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os,
@@ -2964,10 +2964,10 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
-        long l = value.toLong();
-        long num = (l & 0xf000) >> 12;
+        const auto l = value.toInt64();
+        const auto num = (l & 0xf000) >> 12;
         os << num << " focus points; ";
-        long used = l & 0x0fff;
+        const auto used = l & 0x0fff;
         if (used == 0) {
             os << "none";
         }
@@ -2986,12 +2986,12 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
-        long l = value.toLong();
+        const auto l = value.toInt64();
         if (l == 0xffff) {
             os << "Infinite";
         }
         else {
-            os << value.toLong()/100.0 << " m";
+            os << value.toInt64()/100.0 << " m";
         }
         os.flags(f);
         return os;
@@ -3006,7 +3006,7 @@ namespace Exiv2 {
 
         std::ostringstream oss;
         oss.copyfmt(os);
-        long val = static_cast<int16_t>(value.toLong());
+        const auto val = static_cast<int16_t>(value.toInt64());
         if (val < 0) return os << value;
         os << std::setprecision(2)
            << "F" << fnumber(canonEv(val));
@@ -3022,7 +3022,7 @@ namespace Exiv2 {
         if (   value.typeId() != unsignedShort
             || value.count() == 0) return os << value;
 
-        URational ur = exposureTime(canonEv(value.toLong()));
+        URational ur = exposureTime(canonEv(value.toInt64()));
         os << ur.first;
         if (ur.second > 1) {
             os << "/" << ur.second;
@@ -3041,7 +3041,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2)
-           << value.toLong() / 8.0 - 6.0;
+           << value.toInt64() / 8.0 - 6.0;
         os.copyfmt(oss);
         return os;
     }
@@ -3050,7 +3050,7 @@ namespace Exiv2 {
                                                 const Value& value,
                                                 const ExifData*)
     {
-        return os << value.toLong() / 10;
+        return os << value.toInt64() / 10;
     }
 
     std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os,
@@ -3065,12 +3065,12 @@ namespace Exiv2 {
       oss.copyfmt(os);
       os << std::fixed << std::setprecision(2);
 
-      long l = value.toLong();
+      const auto l = value.toInt64();
       if (l == -1) {
         os << "Infinite";
       }
       else {
-        os << value.toLong()/100.0 << " m";
+        os << value.toInt64()/100.0 << " m";
       }
 
       os.copyfmt(oss);
@@ -3081,7 +3081,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // free functions
 
-    float canonEv(long val)
+    float canonEv(int64_t val)
     {
         // temporarily remove sign
         int sign = 1;
@@ -3090,8 +3090,9 @@ namespace Exiv2 {
             val = -val;
         }
         // remove fraction
-        auto frac = static_cast<float>(val & 0x1f);
-        val -= long(frac);
+        const auto remainder = val & 0x1f;
+        val -= remainder;
+        float frac = remainder;
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {
             frac = 32.0F / 3;

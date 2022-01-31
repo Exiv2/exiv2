@@ -74,7 +74,7 @@ try {
     xmpData["Xmp.dc.eight"]   = true;
 
     // Extracting values
-    assert(xmpData["Xmp.dc.one"].toLong() == -1);
+    assert(xmpData["Xmp.dc.one"].toInt64() == -1);
     assert(xmpData["Xmp.dc.one"].value().ok());
 
     const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
@@ -88,7 +88,7 @@ try {
     UNUSED(getv2);
     assert(isEqual(getv2.toFloat(), 3.1415f));
     assert(getv2.ok());
-    assert(getv2.toLong() == 3);
+    assert(getv2.toInt64() == 3);
     assert(getv2.ok());
     Exiv2::Rational R = getv2.toRational();
     UNUSED(R);
@@ -99,14 +99,14 @@ try {
     UNUSED(getv3);
     assert(isEqual(getv3.toFloat(), 5.0f/7.0f));
     assert(getv3.ok());
-    assert(getv3.toLong() == 0);  // long(5.0 / 7.0)
+    assert(getv3.toInt64() == 0);  // long(5.0 / 7.0)
     assert(getv3.ok());
     assert(getv3.toRational() == Exiv2::Rational(5, 7));
     assert(getv3.ok());
 
     const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
     UNUSED(getv6);
-    assert(getv6.toLong() == 0);
+    assert(getv6.toInt64() == 0);
     assert(getv6.ok());
     assert(getv6.toFloat() == 0.0f);
     assert(getv6.ok());
@@ -114,12 +114,12 @@ try {
     assert(getv6.ok());
 
     const Exiv2::Value &getv7 = xmpData["Xmp.dc.seven"].value();
-    getv7.toLong(); // this should fail
+    getv7.toInt64(); // this should fail
     assert(!getv7.ok());
 
     const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
     UNUSED(getv8);
-    assert(getv8.toLong() == 1);
+    assert(getv8.toInt64() == 1);
     assert(getv8.ok());
     assert(getv8.toFloat() == 1.0f);
     assert(getv8.ok());

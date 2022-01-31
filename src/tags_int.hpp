@@ -232,7 +232,7 @@ namespace Exiv2 {
         const char* label_;                     //!< Translation of the tag value
 
         //! Comparison operator for use with the find template
-       bool operator==(long key) const { return val_ == key; }
+       bool operator==(int64_t key) const { return val_ == key; }
     }; // struct TagDetails
 
     /*!
@@ -267,7 +267,7 @@ namespace Exiv2 {
              by looking up a reference table.
      */
     template <int N, const TagDetails (&array)[N]>
-    std::ostream& printTag(std::ostream& os, const long& value, const ExifData*)
+    std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*)
     {
         const TagDetails* td = find(array, value);
         if (td) {
@@ -286,7 +286,7 @@ namespace Exiv2 {
     template <int N, const TagDetails (&array)[N]>
     std::ostream& printTag(std::ostream& os, const Value& value, const ExifData* data)
     {
-        return printTag<N, array>(os, value.toLong(), data);
+        return printTag<N, array>(os, value.toInt64(), data);
     }
 
     //! Shortcut for the printTag template which requires typing the array name only once.
@@ -299,7 +299,7 @@ namespace Exiv2 {
     template <int N, const TagDetailsBitmask (&array)[N]>
     std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*)
     {
-        const auto val = static_cast<uint32_t>(value.toLong());
+        const auto val = value.toUint32();
         if (val == 0 && N > 0) {
             const TagDetailsBitmask* td = *(&array);
             if (td->mask_ == 0) return os << exvGettext(td->label_);
@@ -423,8 +423,8 @@ namespace Exiv2 {
     //@{
     //! Default print function, using the Value output operator
     std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*);
-    //! Print the value converted to a long
-    std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*);
+    //! Print the value converted to a int64_t
+    std::ostream& printInt64(std::ostream& os, const Value& value, const ExifData*);
     //! Print a Rational or URational value in floating point format
     std::ostream& printFloat(std::ostream& os, const Value& value, const ExifData*);
     //! Print a longitude or latitude value

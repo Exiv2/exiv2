@@ -457,8 +457,8 @@ namespace Exiv2 {
         std::vector<int16_t>  ints;
         std::vector<uint16_t> uint;
         for (long i = 0; i < object->pValue()->count(); i++) {
-            ints.push_back(static_cast<int16_t>(object->pValue()->toLong(i)));
-            uint.push_back(static_cast<uint16_t>(object->pValue()->toLong(i)));
+            ints.push_back(static_cast<int16_t>(object->pValue()->toInt64(i)));
+            uint.push_back(static_cast<uint16_t>(object->pValue()->toInt64(i)));
         }
         // Check this is AFInfo2 (ints[0] = bytes in object)
         if ( ints.at(0) != object->pValue()->count()*2 ) return ;
