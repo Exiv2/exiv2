@@ -654,7 +654,7 @@ You can cross compile Exiv2 on Linux for MinGW.  We have used the following meth
 $ sudo dnf install mingw64-gcc-c++ mingw64-filesystem mingw64-expat mingw64-zlib cmake make
 ```
 
-#### 2 Install Dependancies
+#### 2 Install Dependencies
 
 You will need to install x86_64 libraries to support the options you wish to use.  By default, you will need libz and expat.  Your `dnf` command above has installed them for you.  If you wish to use features such as `webready` you should install openssl and libcurl as follows:
 
