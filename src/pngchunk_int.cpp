@@ -354,7 +354,7 @@ namespace Exiv2
             }
 
             // We look if a comments string exist. Note than we use only 'Description' keyword which
-            // is dedicaced to store long comments. 'Comment' keyword is ignored.
+            // is dedicated to store long comments. 'Comment' keyword is ignored.
 
             if (keySize >= 11 && memcmp("Description", key, 11) == 0 && pImage->comment().empty()) {
                 pImage->setComment(std::string(arr.c_str(), arr.size()));
