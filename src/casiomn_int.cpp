@@ -396,7 +396,7 @@ namespace Exiv2 {
         { 0, N_("Off")         },
         { 1, N_("Scenery")     },
         { 3, N_("Green")       },
-        { 5, N_("Unterwater")  },
+        { 5, N_("Underwater")  },
         { 9, N_("Flesh Tones") }
 
     };
