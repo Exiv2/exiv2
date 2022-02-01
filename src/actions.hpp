@@ -140,12 +140,8 @@ namespace Action {
         //! Prevent construction other than through instance().
         TaskFactory();
 
-        //! Pointer to the one and only instance of this class.
-        static TaskFactory* instance_;
-        //! Type used to store Task prototype classes
-        using Registry = std::map<TaskType, Task*>;
         //! List of task types and corresponding prototypes.
-        Registry registry_;
+        std::map<TaskType, Task*> registry_;
     };
 
     //! %Print the Exif (or other metadata) of a file to stdout

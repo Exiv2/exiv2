@@ -161,27 +161,18 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Action {
-    TaskFactory* TaskFactory::instance_ = nullptr;
-
     TaskFactory& TaskFactory::instance()
     {
-        /// \todo move the static instance here. It is the "modern" way to implement a singleton
-        if (nullptr == instance_) {
-            instance_ = new TaskFactory;
-        }
-        return *instance_;
-    } // TaskFactory::instance
+        static TaskFactory instance_;
+        return instance_;
+    }
 
     void TaskFactory::cleanup()
     {
-        if (instance_ != nullptr) {
-            for (auto&& i : registry_) {
-                delete i.second;
-            }
-            delete instance_;
-            instance_ = nullptr;
-        }
-    } //TaskFactory::cleanup
+         for (auto&& i : registry_) {
+            delete i.second;
+         }
+    }
 
     void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
     {
@@ -190,7 +181,7 @@ namespace Action {
             delete i->second;
         }
         registry_[type] = task.release();
-    } // TaskFactory::registerTask
+    }
 
     TaskFactory::TaskFactory()
     {
