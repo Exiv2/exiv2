@@ -112,6 +112,7 @@ namespace Exiv2 {
     } // XmpSidecar::readMetadata
 
     // lower case string
+    /// \todo very similar function in pngimage (upper). We should move those things to a string utilities file
     static std::string toLowerCase(const std::string& a)
     {
         std::string b = a;

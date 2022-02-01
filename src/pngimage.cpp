@@ -306,6 +306,8 @@ namespace Exiv2 {
                 bool eXIf  = std::strcmp(chType,"eXIf")== 0;
 
                 // for XMP, ICC etc: read and format data
+                /// \todo inside findi we are transforming the dataString to uppercase. Therefore we are transforming it several times
+                /// when we could do it just once and reuse it.
                 bool bXMP  = option == kpsXMP        && findi(dataString,xmpKey)==0;
                 bool bICC  = option == kpsIccProfile && findi(dataString,iccKey)==0;
                 bool bExif = option == kpsRecursive  &&(findi(dataString,exifKey)==0 || findi(dataString,app1Key)==0);

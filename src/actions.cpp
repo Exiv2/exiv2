@@ -170,6 +170,7 @@ namespace Action {
 
     TaskFactory& TaskFactory::instance()
     {
+        /// \todo move the static instance here. It is the "modern" way to implement a singleton
         if (nullptr == instance_) {
             instance_ = new TaskFactory;
         }

@@ -1283,6 +1283,7 @@ namespace Exiv2 {
     // free functions
     void copyExifToXmp(const ExifData& exifData, XmpData& xmpData)
     {
+        /// \todo the const_cast is "lying". We are modifying the input data. Check if this might have any bad side effect
         Converter converter(const_cast<ExifData&>(exifData), xmpData);
         converter.cnvToXmp();
     }
