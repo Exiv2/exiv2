@@ -155,7 +155,7 @@ namespace Exiv2 {
             md_st->write(os, &ed);
             bool ok = false;
             const long st_val = parseLong(os.str(), ok);
-            // SensivityType out of range or cannot be parsed properly
+            // SensitivityType out of range or cannot be parsed properly
             if (!ok || st_val < 1 || st_val > 7)
                 break;
             // pick up list of ISO tags, and check for at least one of
