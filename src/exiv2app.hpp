@@ -314,7 +314,7 @@ private:
 
 public:
     /*!
-      @brief Call Getopt::getopt() with optstring, to inititate command line
+      @brief Call Getopt::getopt() with optstring, to initiate command line
              argument parsing, perform consistency checks after all command line
              arguments are parsed.
 
