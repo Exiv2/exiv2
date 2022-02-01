@@ -1192,7 +1192,7 @@ Changes from version 0.23 to 0.24
 	           (Reported by S. Verdoold, patch by Pascal de Bruijn)
 	- 0000861: Sigma 18-250mm not properly recognised on Pentax
 	           (Reported by S. Verdoold, patch by Pascal de Bruijn)
-	- 0000862: Video code is failing the test suite (on all plaforms)
+	- 0000862: Video code is failing the test suite (on all platforms)
 	           (Robin Mills, Abhinav Badola)
 	- 0000865: Patches for locale and boost issue (Patches by Mario anyc)
 	- 0000868: Support for two lens for sony mount
