@@ -28,7 +28,7 @@ using namespace Exiv2;
 
 
 // 1. No language value
-TEST(LangAltValueReadTest, noLangugeValBeforeSpace)
+TEST(LangAltValueReadTest, noLanguageValBeforeSpace)
 {
     XmpParser::initialize();
     ::atexit(XmpParser::terminate);
@@ -45,7 +45,7 @@ TEST(LangAltValueReadTest, noLangugeValBeforeSpace)
     }
 }
 
-TEST(LangAltValueReadTest, quoteThenNoLangugeValBeforeSpace)
+TEST(LangAltValueReadTest, quoteThenNoLanguageValBeforeSpace)
 {
     XmpParser::initialize();
     ::atexit(XmpParser::terminate);
