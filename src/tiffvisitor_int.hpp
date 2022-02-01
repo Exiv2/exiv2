@@ -533,7 +533,7 @@ namespace Exiv2 {
         static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent);
         /*!
           @brief Check if the tag is an image tag of an existing image. Such
-                 tags are copied from the original image and can't be modifed.
+                 tags are copied from the original image and can't be modified.
 
                  The condition is true if there is an existing image (as
                  opposed to a newly created TIFF image) and \em tag, \em group
