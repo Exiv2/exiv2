@@ -187,11 +187,11 @@ namespace Exiv2 {
          */
         static const char* dataSetDesc(uint16_t number, uint16_t recordId);
         /*!
-          @brief Return the photohsop name of a given dataset.
+          @brief Return the Photoshop name of a given dataset.
           @param number The dataset number
           @param recordId The IPTC record Id
-          @return The name used by photoshop for a dataset or an empty
-                 string if photoshop does not use the dataset.
+          @return The name used by Photoshop for a dataset or an empty
+                 string if Photoshop does not use the dataset.
          */
         static const char* dataSetPsName(uint16_t number, uint16_t recordId);
         /*!
