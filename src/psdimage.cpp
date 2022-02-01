@@ -303,7 +303,7 @@ namespace Exiv2 {
                    8      4 bytes   height          Height of thumbnail in pixels.
                   12      4 bytes   widthbytes      Padded row bytes as (width * bitspixel + 31) / 32 * 4.
                   16      4 bytes   size            Total size as widthbytes * height * planes
-                  20      4 bytes   compressedsize  Size after compression. Used for consistentcy check.
+                  20      4 bytes   compressedsize  Size after compression. Used for consistency check.
                   24      2 bytes   bitspixel       = 24. Bits per pixel.
                   26      2 bytes   planes          = 1. Number of planes.
                   28      variable  data            JFIF data in RGB format.
