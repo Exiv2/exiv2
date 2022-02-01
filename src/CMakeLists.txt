@@ -186,7 +186,7 @@ elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_compile_definitions(exiv2lib PUBLIC EXV_ADOBE_XMPSDK=2016)
 endif()
 
-# Use include/exiv2 to build libary code
+# Use include/exiv2 to build library code
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
