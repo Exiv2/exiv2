@@ -1189,7 +1189,7 @@ namespace Exiv2 {
     // Canon OneShotAFRelease, tag 0x0001
     constexpr TagDetails canonOneShotAFRelease[] = {
         { 0, N_("Focus Priority") },
-        { 1, N_("Release Priortiy") }
+        { 1, N_("Release Priority") }
     };
 
         // Canon AutoAFPointSelEOSiTRAF, tag 0x0001
