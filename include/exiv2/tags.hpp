@@ -137,7 +137,7 @@ namespace Exiv2 {
 
           @param key The key string.
           @throw Error if the first part of the key is not '<b>Exif</b>' or
-                 the remainin parts of the key cannot be parsed and
+                 the remaining parts of the key cannot be parsed and
                  converted to a group name and tag name.
         */
         explicit ExifKey(const std::string& key);
