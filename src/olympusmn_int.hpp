@@ -78,7 +78,7 @@ namespace Exiv2 {
         static std::ostream& print0x1015(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus equipment Lens type
         static std::ostream& print0x0201(std::ostream& os, const Value& value, const ExifData*);
-        //! Print Olympus CamerID
+        //! Print Olympus CameraID
         static std::ostream& print0x0209(std::ostream& os, const Value& value, const ExifData*);
         //! Print Olympus equipment Extender
         static std::ostream& printEq0x0301(std::ostream& os, const Value& value, const ExifData*);
