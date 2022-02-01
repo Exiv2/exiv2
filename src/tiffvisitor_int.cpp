@@ -844,7 +844,7 @@ namespace Exiv2 {
 
     void TiffEncoder::visitBinaryElement(TiffBinaryElement* object)
     {
-        // Temporarily overwrite byteorder according to that of the binary element
+        // Temporarily overwrite byte order according to that of the binary element
         ByteOrder boOrig = byteOrder_;
         if (object->elByteOrder() != invalidByteOrder) byteOrder_ = object->elByteOrder();
         encodeTiffComponent(object);
