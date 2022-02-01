@@ -100,7 +100,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new GifImage(std::move(io)));
+        auto image = std::make_unique<GifImage>(std::move(io));
         if (!image->good())
         {
             image.reset();

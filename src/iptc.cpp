@@ -226,7 +226,7 @@ namespace Exiv2 {
 
     Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
     {
-        UShortValue::UniquePtr v(new UShortValue);
+        auto v = std::make_unique<UShortValue>();
         v->value_.push_back(value);
         value_ = std::move(v);
         return *this;
@@ -553,9 +553,8 @@ namespace {
               uint32_t         sizeData
     )
     {
-        Exiv2::Value::UniquePtr value;
         Exiv2::TypeId type = Exiv2::IptcDataSets::dataSetType(dataSet, record);
-        value = Exiv2::Value::create(type);
+        auto value = Exiv2::Value::create(type);
         int rc = value->read(data, sizeData, Exiv2::bigEndian);
         if (0 == rc) {
             Exiv2::IptcKey key(dataSet, record);

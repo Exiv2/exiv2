@@ -362,8 +362,8 @@ namespace Exiv2 {
                             if ( parsedBuf.size() ) {
                                 if ( bExif ) {
                                     // create memio object with the data, then print the structure
-                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(parsedBuf.c_data(6),parsedBuf.size()-6));
-                                    printTiffStructure(*p,out,option,depth);
+                                    MemIo p(parsedBuf.c_data(6),parsedBuf.size()-6);
+                                    printTiffStructure(p,out,option,depth);
                                 }
                                 if ( bIptc ) {
                                     IptcData::printStructure(out, makeSlice(parsedBuf, 0, parsedBuf.size()), depth);
@@ -392,8 +392,8 @@ namespace Exiv2 {
                         }
                         if ( eXIf && option == kpsRecursive ) {
                             // create memio object with the data, then print the structure
-                            BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(data.c_data(), dataOffset));
-                            printTiffStructure(*p,out,option,depth);
+                            MemIo p(data.c_data(), dataOffset);
+                            printTiffStructure(p,out,option,depth);
                         }
 
                         if ( bLF ) out << std::endl;
@@ -529,8 +529,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -735,7 +734,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new PngImage(std::move(io), create));
+        auto image = std::make_unique<PngImage>(std::move(io), create);
         if (!image->good())
         {
             image.reset();

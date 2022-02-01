@@ -602,8 +602,8 @@ static void boxes_check(size_t b,size_t m)
                                 const char a = rawData.read_uint8(0);
                                 const char b = rawData.read_uint8(1);
                                 if (a == b && (a == 'I' || a == 'M')) {
-                                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(rawData.c_data(), rawData.size()));
-                                    printTiffStructure(*p, out, option, depth);
+                                    MemIo p (rawData.c_data(), rawData.size());
+                                    printTiffStructure(p, out, option, depth);
                                 }
                             }
 
@@ -638,8 +638,7 @@ static void boxes_check(size_t b,size_t m)
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -967,7 +966,7 @@ static void boxes_check(size_t b,size_t m)
     // free functions
     Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new Jp2Image(std::move(io), create));
+        auto image = std::make_unique<Jp2Image>(std::move(io), create);
         if (!image->good())
         {
             image.reset();

@@ -850,18 +850,18 @@ namespace Exiv2 {
 
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return BasicIo::UniquePtr(new CurlIo(path)); // may throw
+            return std::make_unique<CurlIo>(path); // may throw
         }
 #endif
 
         if (fProt == pHttp)
-            return BasicIo::UniquePtr(new HttpIo(path)); // may throw
+            return std::make_unique<HttpIo>(path); // may throw
         if (fProt == pFileUri)
-            return BasicIo::UniquePtr(new FileIo(pathOfFileUrl(path)));
+            return std::make_unique<FileIo>(pathOfFileUrl(path));
         if (fProt == pStdin || fProt == pDataUri)
-            return BasicIo::UniquePtr(new XPathIo(path)); // may throw
+            return std::make_unique<XPathIo>(path); // may throw
 
-        return BasicIo::UniquePtr(new FileIo(path));
+        return std::make_unique<FileIo>(path);
 
         (void)(useCurl);
     } // ImageFactory::createIo
@@ -872,39 +872,42 @@ namespace Exiv2 {
         Protocol fProt = fileProtocol(wpath);
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return BasicIo::UniquePtr(new CurlIo(wpath));
+            return std::make_unique<CurlIo>(wpath);
         }
 #endif
         if (fProt == pHttp)
-            return BasicIo::UniquePtr(new HttpIo(wpath));
+            return std::make_unique<HttpIo>(wpath);
         if (fProt == pFileUri)
-            return BasicIo::UniquePtr(new FileIo(pathOfFileUrl(wpath)));
+            return std::make_unique<FileIo>(pathOfFileUrl(wpath));
         if (fProt == pStdin || fProt == pDataUri)
-            return BasicIo::UniquePtr(new XPathIo(wpath)); // may throw
-        return BasicIo::UniquePtr(new FileIo(wpath));
-    } // ImageFactory::createIo
+            return std::make_unique<XPathIo>(wpath); // may throw
+        return std::make_unique<FileIo>(wpath);
+    }
 #endif
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
-        Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == nullptr) throw Error(kerFileContainsUnknownImageType, path);
+        auto image = open(ImageFactory::createIo(path, useCurl)); // may throw
+        if (!image)
+            throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
     Image::UniquePtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
     {
-        Image::UniquePtr image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
-        if (image.get() == 0) throw WError(kerFileContainsUnknownImageType, wpath);
+        auto image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
+        if (!image)
+            throw WError(kerFileContainsUnknownImageType, wpath);
         return image;
     }
 
 #endif
     Image::UniquePtr ImageFactory::open(const byte* data, long size)
     {
-        BasicIo::UniquePtr io(new MemIo(data, size));
-        Image::UniquePtr image = open(std::move(io)); // may throw
-        if (image.get() == nullptr) throw Error(kerMemoryContainsUnknownImageType);
+        auto io = std::make_unique<MemIo>(data, size);
+        auto image = open(std::move(io)); // may throw
+        if (!image)
+            throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
@@ -918,21 +921,22 @@ namespace Exiv2 {
                 return registry[i].newInstance_(std::move(io), false);
             }
         }
-        return Image::UniquePtr();
-    } // ImageFactory::open
+        return nullptr;
+    }
 
-    Image::UniquePtr ImageFactory::create(int type,
-                                        const std::string& path)
+    Image::UniquePtr ImageFactory::create(int type, const std::string& path)
     {
-        std::unique_ptr<FileIo> fileIo(new FileIo(path));
+        auto fileIo = std::make_unique<FileIo>(path);
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw Error(kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
+
         BasicIo::UniquePtr io(std::move(fileIo));
-        Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == nullptr) throw Error(kerUnsupportedImageType, type);
+        auto image = create(type, std::move(io));
+        if (!image)
+            throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
@@ -940,37 +944,39 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::create(int type,
                                         const std::wstring& wpath)
     {
-        std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
+        auto fileIo = std::make_unique<FileIo>(wpath);
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
+
         BasicIo::UniquePtr io(std::move(fileIo));
-        Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
+        auto image = create(type, std::move(io));
+        if (!image)
+            throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
 #endif
     Image::UniquePtr ImageFactory::create(int type)
     {
-        BasicIo::UniquePtr io(new MemIo);
-        Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == nullptr) throw Error(kerUnsupportedImageType, type);
+        auto io = std::make_unique<MemIo>();
+        auto image = create(type, std::move(io));
+        if (!image)
+            throw Error(kerUnsupportedImageType, type);
         return image;
     }
 
-    Image::UniquePtr ImageFactory::create(int type,
-                                        BasicIo::UniquePtr io)
+    Image::UniquePtr ImageFactory::create(int type, BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
         if (nullptr != r) {
             return r->newInstance_(std::move(io), true);
         }
-        return Image::UniquePtr();
-    } // ImageFactory::create
+        return nullptr;
+    }
 
 // *****************************************************************************
 // template, inline and free functions

@@ -786,10 +786,10 @@ namespace Exiv2 {
                 }
                 continue;
             }
-            XmpKey::UniquePtr key = makeXmpKey(schemaNs, propPath);
+            auto key = makeXmpKey(schemaNs, propPath);
             if (XMP_ArrayIsAltText(opt)) {
                 // Read Lang Alt property
-                LangAltValue::UniquePtr val(new LangAltValue);
+                auto val = std::make_unique<LangAltValue>();
                 XMP_Index count = meta.CountArrayItems(schemaNs.c_str(), propPath.c_str());
                 while (count-- > 0) {
                     // Get the text
@@ -836,7 +836,7 @@ namespace Exiv2 {
                 }
                 if (simpleArray) {
                     // Read the array into an XmpArrayValue
-                    XmpArrayValue::UniquePtr val(new XmpArrayValue(arrayValueTypeId(opt)));
+                    auto val = std::make_unique<XmpArrayValue>(arrayValueTypeId(opt));
                     XMP_Index count = meta.CountArrayItems(schemaNs.c_str(), propPath.c_str());
                     while (count-- > 0) {
                         iter.Next(&schemaNs, &propPath, &propValue, &opt);
@@ -847,17 +847,16 @@ namespace Exiv2 {
                     continue;
                 }
             }
-            XmpTextValue::UniquePtr val(new XmpTextValue);
-            if (   XMP_PropIsStruct(opt)
-                || XMP_PropIsArray(opt)) {
+
+            auto val = std::make_unique<XmpTextValue>();
+            if (XMP_PropIsStruct(opt) || XMP_PropIsArray(opt)) {
                 // Create a metadatum with only XMP options
                 val->setXmpArrayType(xmpArrayType(opt));
                 val->setXmpStruct(xmpStruct(opt));
                 xmpData.add(*key.get(), val.get());
                 continue;
             }
-            if (   XMP_PropIsSimple(opt)
-                || XMP_PropIsQualifier(opt)) {
+            if (XMP_PropIsSimple(opt) || XMP_PropIsQualifier(opt)) {
                 val->read(propValue);
                 xmpData.add(*key.get(), val.get());
                 continue;
@@ -1146,7 +1145,7 @@ namespace {
         if (prefix.empty()) {
             throw Exiv2::Error(Exiv2::kerNoPrefixForNamespace, propPath, schemaNs);
         }
-        return Exiv2::XmpKey::UniquePtr(new Exiv2::XmpKey(prefix, property));
+        return std::make_unique<Exiv2::XmpKey>(prefix, property);
     } // makeXmpKey
 #endif // EXV_HAVE_XMP_TOOLKIT
 

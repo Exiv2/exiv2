@@ -200,15 +200,15 @@ namespace Action {
     TaskFactory::TaskFactory()
     {
         // Register a prototype of each known task
-        registerTask(adjust,  Task::UniquePtr(new Adjust));
-        registerTask(print,   Task::UniquePtr(new Print));
-        registerTask(rename,  Task::UniquePtr(new Rename));
-        registerTask(erase,   Task::UniquePtr(new Erase));
-        registerTask(extract, Task::UniquePtr(new Extract));
-        registerTask(insert,  Task::UniquePtr(new Insert));
-        registerTask(modify,  Task::UniquePtr(new Modify));
-        registerTask(fixiso,  Task::UniquePtr(new FixIso));
-        registerTask(fixcom,  Task::UniquePtr(new FixCom));
+        registerTask(adjust,  std::make_unique<Adjust>());
+        registerTask(print,   std::make_unique<Print>());
+        registerTask(rename,  std::make_unique<Rename>());
+        registerTask(erase,   std::make_unique<Erase>());
+        registerTask(extract, std::make_unique<Extract>());
+        registerTask(insert,  std::make_unique<Insert>());
+        registerTask(modify,  std::make_unique<Modify>());
+        registerTask(fixiso,  std::make_unique<FixIso>());
+        registerTask(fixcom,  std::make_unique<FixCom>());
     } // TaskFactory c'tor
 
     Task::UniquePtr TaskFactory::create(TaskType type)
@@ -287,12 +287,12 @@ namespace Action {
     int Print::printSummary()
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_ << ": "
-                      << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         align_ = 16;
@@ -421,12 +421,12 @@ namespace Action {
     int Print::printList()
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
         // Set defaults for metadata types and data columns
         if (Params::instance().printTags_ == Exiv2::mdNone) {
@@ -626,12 +626,12 @@ namespace Action {
     int Print::printComment()
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
         if (Params::instance().verbose_) {
             std::cout << _("JPEG comment") << ": ";
@@ -643,12 +643,12 @@ namespace Action {
     int Print::printPreviewList()
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
         bool const manyFiles = Params::instance().files_.size() > 1;
         int cnt = 0;
@@ -682,15 +682,15 @@ namespace Action {
     {
     try {
         if (!Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path << ": " << _("Failed to open the file\n");
             return -1;
         }
         Timestamp ts;
-        if (Params::instance().preserve_) ts.read(path);
+        if (Params::instance().preserve_)
+            ts.read(path);
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
@@ -750,7 +750,8 @@ namespace Action {
         std::cerr << "Exiv2 exception in rename action for file " << path
                   << ":\n" << e << "\n";
         return 1;
-    }} // Rename::run
+    }
+    }
 
     Rename::UniquePtr Rename::clone() const
     {
@@ -763,19 +764,20 @@ namespace Action {
     }
 
     int Erase::run(const std::string& path)
+    {
     try {
         path_ = path;
 
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
         Timestamp ts;
-        if (Params::instance().preserve_) ts.read(path);
+        if (Params::instance().preserve_)
+            ts.read(path);
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
         // Thumbnail must be before Exif
         int rc = 0;
@@ -813,7 +815,8 @@ namespace Action {
         std::cerr << "Exiv2 exception in erase action for file " << path
                   << ":\n" << e << "\n";
         return 1;
-    } // Erase::run
+    }
+    }
 
     int Erase::eraseThumbnail(Exiv2::Image* image)
     {
@@ -931,17 +934,15 @@ namespace Action {
     int Extract::writeThumbnail() const
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
-            std::cerr << path_
-                      << ": " << _("No Exif data found in the file\n");
+            std::cerr << path_ << ": " << _("No Exif data found in the file\n");
             return -3;
         }
         int rc = 0;
@@ -980,12 +981,12 @@ namespace Action {
     int Extract::writePreviews() const
     {
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-        assert(image.get() != 0);
+
+        auto image = Exiv2::ImageFactory::open(path_);
+        assert(image);
         image->readMetadata();
 
         Exiv2::PreviewManager pvMgr(*image);
@@ -1016,16 +1017,15 @@ namespace Action {
     {
         int rc = 0;
         if (!Exiv2::fileExists(path_, true)) {
-            std::cerr << path_
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path_ << ": " << _("Failed to open the file\n");
             rc = -1;
         }
 
         bool bStdout = target == "-" ;
 
         if ( rc == 0 ) {
-            Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path_);
-            assert(image.get() != 0);
+            auto image = Exiv2::ImageFactory::open(path_);
+            assert(image);
             image->readMetadata();
             if ( !image->iccProfileDefined() ) {
                 std::cerr << _("No embedded iccProfile: ") << path_ << std::endl;
@@ -1169,8 +1169,8 @@ namespace Action {
         for ( long i = 0 ; i < xmpBlob.size() ; i++ ) {
             xmpPacket += static_cast<char>(xmpBlob.read_uint8(i));
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
         image->clearXmpData();
         image->setXmpPacket(xmpPacket);
@@ -1213,8 +1213,8 @@ namespace Action {
 
         // read in the metadata
         if ( rc == 0 ) {
-            Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-            assert(image.get() != 0);
+            auto image = Exiv2::ImageFactory::open(path);
+            assert(image);
             image->readMetadata();
             // clear existing profile, assign the blob and rewrite image
             image->clearIccProfile();
@@ -1240,8 +1240,8 @@ namespace Action {
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifThumb exifThumb(image->exifData());
         exifThumb.setJpegThumbnail(thumbPath);
@@ -1264,15 +1264,15 @@ namespace Action {
     {
     try {
         if (!Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path << ": " << _("Failed to open the file\n");
             return -1;
         }
         Timestamp ts;
-        if (Params::instance().preserve_) ts.read(path);
+        if (Params::instance().preserve_)
+            ts.read(path);
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
 
         int rc = applyCommands(image.get());
@@ -1347,7 +1347,7 @@ namespace Action {
         Exiv2::ExifData& exifData = pImage->exifData();
         Exiv2::IptcData& iptcData = pImage->iptcData();
         Exiv2::XmpData&  xmpData  = pImage->xmpData();
-        Exiv2::Value::UniquePtr value = Exiv2::Value::create(modifyCmd.typeId_);
+        auto value = Exiv2::Value::create(modifyCmd.typeId_);
         int rc = value->read(modifyCmd.value_);
         if (0 == rc) {
             if (modifyCmd.metadataId_ == exif) {
@@ -1501,15 +1501,15 @@ namespace Action {
         dayAdjustment_   = Params::instance().yodAdjust_[Params::yodDay].adjustment_;
 
         if (!Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << path << ": " << _("Failed to open the file\n");
             return -1;
         }
         Timestamp ts;
-        if (Params::instance().preserve_) ts.read(path);
+        if (Params::instance().preserve_)
+            ts.read(path);
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
@@ -1633,20 +1633,19 @@ namespace Action {
     {
     try {
         if (!Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " <<_("Failed to open the file\n");
+            std::cerr << path << ": " <<_("Failed to open the file\n");
             return -1;
         }
         Timestamp ts;
-        if (Params::instance().preserve_) ts.read(path);
+        if (Params::instance().preserve_)
+            ts.read(path);
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
-            std::cerr << path
-                      << ": " << _("No Exif data found in the file\n");
+            std::cerr << path << ": " << _("No Exif data found in the file\n");
             return -3;
         }
         auto md = Exiv2::isoSpeed(exifData);
@@ -1692,20 +1691,19 @@ namespace Action {
     {
     try {
         if (!Exiv2::fileExists(path, true)) {
-            std::cerr << path
-                      << ": " <<_("Failed to open the file\n");
+            std::cerr << path << ": " <<_("Failed to open the file\n");
             return -1;
         }
         Timestamp ts;
-        if (Params::instance().preserve_) ts.read(path);
+        if (Params::instance().preserve_)
+            ts.read(path);
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(path);
+        assert(image);
         image->readMetadata();
         Exiv2::ExifData& exifData = image->exifData();
         if (exifData.empty()) {
-            std::cerr << path
-                      << ": " << _("No Exif data found in the file\n");
+            std::cerr << path << ": " << _("No Exif data found in the file\n");
             return -3;
         }
         auto pos = exifData.findKey(Exiv2::ExifKey("Exif.Photo.UserComment"));
@@ -1891,8 +1889,7 @@ namespace {
         // read the source metadata
         int  rc    = -1   ;
         if (!Exiv2::fileExists(source, true)) {
-            std::cerr << source
-                      << ": " << _("Failed to open the file\n");
+            std::cerr << source << ": " << _("Failed to open the file\n");
             return rc;
         }
 
@@ -1900,11 +1897,13 @@ namespace {
         bool          bStdout = tgt    == "-";
 
         Exiv2::DataBuf stdIn;
-        if ( bStdin )  Params::instance().getStdin(stdIn);
-        Exiv2::BasicIo::UniquePtr ioStdin = Exiv2::BasicIo::UniquePtr(new Exiv2::MemIo(stdIn.c_data(),stdIn.size()));
+        if ( bStdin )
+            Params::instance().getStdin(stdIn);
 
-        Exiv2::Image::UniquePtr sourceImage = bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
-        assert(sourceImage.get() != 0);
+        auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(),stdIn.size());
+        auto sourceImage = bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
+
+        assert(sourceImage);
         sourceImage->readMetadata();
 
         // Apply any modification commands to the source image on-the-fly
@@ -1913,14 +1912,14 @@ namespace {
         // Open or create the target file
         std::string target(bStdout ? temporaryPath() : tgt);
 
-        Exiv2::Image::UniquePtr targetImage;
+        std::unique_ptr<Exiv2::Image> targetImage;
         if (Exiv2::fileExists(target)) {
             targetImage = Exiv2::ImageFactory::open(target);
-            assert(targetImage.get() != 0);
+            assert(targetImage);
             targetImage->readMetadata();
         } else {
             targetImage = Exiv2::ImageFactory::create(targetType, target);
-            assert(targetImage.get() != 0);
+            assert(targetImage);
         }
 
         // Copy each type of metadata

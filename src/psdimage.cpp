@@ -350,8 +350,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -685,7 +684,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new PsdImage(std::move(io)));
+        auto image = std::make_unique<PsdImage>(std::move(io));
         if (!image->good())
         {
             image.reset();

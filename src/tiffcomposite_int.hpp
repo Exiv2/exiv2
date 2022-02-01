@@ -201,7 +201,7 @@ namespace Exiv2 {
         TiffComponent* addPath(uint16_t tag,
                                TiffPath& tiffPath,
                                TiffComponent* const pRoot,
-                               UniquePtr object =UniquePtr(nullptr));
+                               UniquePtr object =nullptr);
         /*!
           @brief Add a child to the component. Default is to do nothing.
           @param tiffComponent Auto pointer to the component to add.

@@ -376,15 +376,16 @@ namespace {
     Loader::UniquePtr Loader::create(PreviewId id, const Image &image)
     {
         if (id < 0 || id >= Loader::getNumLoaders())
-            return UniquePtr();
+            return nullptr;
 
-        if (loaderList_[id].imageMimeType_ &&
-            std::string(loaderList_[id].imageMimeType_) != image.mimeType())
-            return UniquePtr();
+        if (loaderList_[id].imageMimeType_ && std::string(loaderList_[id].imageMimeType_) != image.mimeType())
+            return nullptr;
 
-        UniquePtr loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
+        auto loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
 
-        if (loader.get() && !loader->valid()) loader.reset();
+        if (loader.get() && !loader->valid())
+            loader.reset();
+
         return loader;
     }
 
@@ -428,7 +429,7 @@ namespace {
 
     Loader::UniquePtr createLoaderNative(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::UniquePtr(new LoaderNative(id, image, parIdx));
+        return std::make_unique<LoaderNative>(id, image, parIdx);
     }
 
     PreviewProperties LoaderNative::getProperties() const
@@ -503,8 +504,9 @@ namespace {
         const DataBuf data = getData();
         if (data.size() == 0) return false;
         try {
-            Image::UniquePtr image = ImageFactory::open(data.c_data(), data.size());
-            if (image.get() == nullptr) return false;
+            auto image = ImageFactory::open(data.c_data(), data.size());
+            if (!image)
+                return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
@@ -549,7 +551,7 @@ namespace {
 
     Loader::UniquePtr createLoaderExifJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::UniquePtr(new LoaderExifJpeg(id, image, parIdx));
+        return std::make_unique<LoaderExifJpeg>(id, image, parIdx);
     }
 
     PreviewProperties LoaderExifJpeg::getProperties() const
@@ -592,8 +594,9 @@ namespace {
         const Exiv2::byte* base = io.mmap();
 
         try {
-            Image::UniquePtr image = ImageFactory::open(base + offset_, size_);
-            if (image.get() == nullptr) return false;
+            auto image = ImageFactory::open(base + offset_, size_);
+            if (!image)
+                return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
@@ -627,7 +630,7 @@ namespace {
 
     Loader::UniquePtr createLoaderExifDataJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::UniquePtr(new LoaderExifDataJpeg(id, image, parIdx));
+        return std::make_unique<LoaderExifDataJpeg>(id, image, parIdx);
     }
 
     PreviewProperties LoaderExifDataJpeg::getProperties() const
@@ -669,8 +672,9 @@ namespace {
         if (buf.size() == 0) return false;
 
         try {
-            Image::UniquePtr image = ImageFactory::open(buf.c_data(), buf.size());
-            if (image.get() == nullptr) return false;
+            auto image = ImageFactory::open(buf.c_data(), buf.size());
+            if (!image)
+                return false;
             image->readMetadata();
 
             width_ = image->pixelWidth();
@@ -739,7 +743,7 @@ namespace {
 
     Loader::UniquePtr createLoaderTiff(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::UniquePtr(new LoaderTiff(id, image, parIdx));
+        return std::make_unique<LoaderTiff>(id, image, parIdx);
     }
 
     PreviewProperties LoaderTiff::getProperties() const
@@ -869,7 +873,7 @@ namespace {
 
     Loader::UniquePtr createLoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
     {
-        return Loader::UniquePtr(new LoaderXmpJpeg(id, image, parIdx));
+        return std::make_unique<LoaderXmpJpeg>(id, image, parIdx);
     }
 
     PreviewProperties LoaderXmpJpeg::getProperties() const
@@ -1128,8 +1132,8 @@ namespace Exiv2 {
         PreviewPropertiesList list;
         // go through the loader table and store all successfully created loaders in the list
         for (PreviewId id = 0; id < Loader::getNumLoaders(); ++id) {
-            Loader::UniquePtr loader = Loader::create(id, image_);
-            if (loader.get() && loader->readDimensions()) {
+            auto loader = Loader::create(id, image_);
+            if (loader && loader->readDimensions()) {
                 PreviewProperties props = loader->getProperties();
                 DataBuf buf             = loader->getData(); // #16 getPreviewImage()
                 props.size_             = buf.size();        //     update the size
@@ -1142,9 +1146,9 @@ namespace Exiv2 {
 
     PreviewImage PreviewManager::getPreviewImage(const PreviewProperties &properties) const
     {
-        Loader::UniquePtr loader = Loader::create(properties.id_, image_);
+        auto loader = Loader::create(properties.id_, image_);
         DataBuf buf;
-        if (loader.get()) {
+        if (loader) {
             buf = loader->getData();
         }
 

@@ -575,7 +575,7 @@ namespace Exiv2 {
     {
         auto tag = static_cast<uint16_t>(idx / cfg()->tagStep());
         int32_t sz = std::min(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
-        TiffComponent::UniquePtr tc = TiffCreator::create(tag, cfg()->group_);
+        auto tc = TiffCreator::create(tag, cfg()->group_);
         auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
         // The assertion typically fails if a component is not configured in
         // the TIFF structure table (TiffCreator::tiffTreeStruct_)
@@ -633,7 +633,7 @@ namespace Exiv2 {
             }
         }
         if (tc == nullptr) {
-            TiffComponent::UniquePtr atc;
+            std::unique_ptr<TiffComponent> atc;
             if (tiffPath.size() == 1 && object.get() != nullptr) {
                 atc = std::move(object);
             } else {
@@ -682,7 +682,7 @@ namespace Exiv2 {
             if (tiffPath.size() == 1 && object.get() != nullptr) {
                 tc = addChild(std::move(object));
             } else {
-                TiffComponent::UniquePtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
+                auto atc = std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group());
                 tc = addChild(std::move(atc));
             }
             setCount(static_cast<uint32_t>(ifds_.size()));
@@ -747,7 +747,7 @@ namespace Exiv2 {
             }
         }
         if (tc == nullptr) {
-            TiffComponent::UniquePtr atc;
+            std::unique_ptr<TiffComponent> atc;
             if (tiffPath.size() == 1 && object.get() != nullptr) {
                 atc = std::move(object);
             } else {
@@ -1879,17 +1879,17 @@ namespace Exiv2 {
 
     TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(new TiffEntry(tag, group));
+        return std::make_unique<TiffEntry>(tag, group);
     }
 
     TiffComponent::UniquePtr newTiffMnEntry(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(new TiffMnEntry(tag, group, mnId));
+        return std::make_unique<TiffMnEntry>(tag, group, mnId);
     }
 
     TiffComponent::UniquePtr newTiffBinaryElement(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(new TiffBinaryElement(tag, group));
+        return std::make_unique<TiffBinaryElement>(tag, group);
     }
 
     }  // namespace Internal

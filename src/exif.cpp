@@ -455,28 +455,32 @@ namespace Exiv2 {
 
     DataBuf ExifThumbC::copy() const
     {
-        Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == nullptr)
+        auto thumbnail = Thumbnail::create(exifData_);
+        if (!thumbnail)
             return DataBuf();
         return thumbnail->copy(exifData_);
     }
 
     long ExifThumbC::writeFile(const std::string& path) const
     {
-        Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == nullptr)
+        auto thumbnail = Thumbnail::create(exifData_);
+        if (!thumbnail.get())
             return 0;
+
         std::string name = path + thumbnail->extension();
         DataBuf buf(thumbnail->copy(exifData_));
-        if (buf.size() == 0) return 0;
+        if (buf.size() == 0)
+            return 0;
+
         return Exiv2::writeFile(buf, name);
     }
 
 #ifdef EXV_UNICODE_PATH
     long ExifThumbC::writeFile(const std::wstring& wpath) const
     {
-        Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return 0;
+        auto thumbnail = Thumbnail::create(exifData_);
+        if (!thumbnail)
+            return 0;
         std::wstring name = wpath + thumbnail->wextension();
         DataBuf buf(thumbnail->copy(exifData_));
         if (buf.size() == 0) return 0;
@@ -486,16 +490,16 @@ namespace Exiv2 {
 #endif
     const char* ExifThumbC::mimeType() const
     {
-        Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == nullptr)
+        auto thumbnail = Thumbnail::create(exifData_);
+        if (!thumbnail.get())
             return "";
         return thumbnail->mimeType();
     }
 
     const char* ExifThumbC::extension() const
     {
-        Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == nullptr)
+        auto thumbnail = Thumbnail::create(exifData_);
+        if (!thumbnail)
             return "";
         return thumbnail->extension();
     }
@@ -503,8 +507,9 @@ namespace Exiv2 {
 #ifdef EXV_UNICODE_PATH
     const wchar_t* ExifThumbC::wextension() const
     {
-        Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return EXV_WIDEN("");
+        auto thumbnail = Thumbnail::create(exifData_);
+        if (!thumbnail)
+            return EXV_WIDEN("");
         return thumbnail->wextension();
     }
 
@@ -870,24 +875,25 @@ namespace {
     //! @cond IGNORE
     Thumbnail::UniquePtr Thumbnail::create(const Exiv2::ExifData& exifData)
     {
-        Thumbnail::UniquePtr thumbnail;
+        std::unique_ptr<Thumbnail> thumbnail;
         const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
         auto pos = exifData.findKey(k1);
         if (pos != exifData.end()) {
-            if (pos->count() == 0) return thumbnail;
+            if (pos->count() == 0)
+                return thumbnail;
             long compression = pos->toLong();
             if (compression == 6) {
-                thumbnail = Thumbnail::UniquePtr(new JpegThumbnail);
+                thumbnail = std::make_unique<JpegThumbnail>();
             }
             else {
-                thumbnail = Thumbnail::UniquePtr(new TiffThumbnail);
+                thumbnail = std::make_unique<TiffThumbnail>();
             }
         }
         else {
             const Exiv2::ExifKey k2("Exif.Thumbnail.JPEGInterchangeFormat");
             pos = exifData.findKey(k2);
             if (pos != exifData.end()) {
-                thumbnail = Thumbnail::UniquePtr(new JpegThumbnail);
+                thumbnail = std::make_unique<JpegThumbnail>();
             }
         }
         return thumbnail;
