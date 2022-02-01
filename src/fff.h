@@ -205,7 +205,7 @@ struct DISTR_DATA_T
                                       //!       FALSE
     long curGlobalOffset;
     float curGlobalGain;              //!< globalOffset/Gain to generate LUT from
-                                      //!  updated continously when live only
+                                      //!  updated continuously when live only
 #define regulationOn 1
     unsigned short regulMethodMask;   //!< Method used for o/g calculation
     unsigned short visualImage;       //!< TRUE (1) for TV (visual)
