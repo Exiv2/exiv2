@@ -245,7 +245,7 @@ namespace Exiv2
                 out << std::endl;
             }
             // The enforce() above checks that restore + buffer_size won't
-            // exceed pbox_end, and by implication, won't excced LONG_MAX
+            // exceed pbox_end, and by implication, won't exceed LONG_MAX
             return restore + buffer_size;
         }
 
