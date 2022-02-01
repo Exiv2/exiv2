@@ -807,7 +807,7 @@ Access to the bmff code is guarded in two ways.  Firstly, you have to build the 
 EXIV2API bool enableBMFF(bool enable);
 ```
 
-The return value from `enableBMFF()` is true if the library has been build with bmff support (cmake option -DEXIV2_ANABLE_BMFF=On).
+The return value from `enableBMFF()` is true if the library has been build with bmff support (cmake option -DEXIV2_ENABLE_BMFF=On).
 
 Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
 
