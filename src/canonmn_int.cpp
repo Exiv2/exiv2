@@ -1230,7 +1230,7 @@ namespace Exiv2 {
     // Canon ManualAFPointSelPattern, tag 0x0001
     constexpr TagDetails canonManualAFPointSelPattern[] = {
         { 0, N_("Stops at AF Area Edges") },
-        { 1, N_("Continous") }
+        { 1, N_("Continuous") }
     };
 
     // Canon AFPointDisplayDuringFocus, tag 0x0001
