@@ -1710,7 +1710,7 @@ namespace Exiv2 {
                 // What focuspoint did the user select?
                 if (focuspoint < focuspoints) {
                     os << nikonFocuspoints[focuspoint];
-                    // TODO: os << position[fokuspoint][combination]
+                    // TODO: os << position[focuspoint][combination]
                 }
                 else
                     os << "(" << focuspoint << ")";
@@ -1718,7 +1718,7 @@ namespace Exiv2 {
                 sep = ',';
             }
 
-            // What fokuspoints(!) did the camera use? add if differs
+            // What focuspoints(!) did the camera use? add if differs
             if (focusused == 0)
                 os << sep << " " << _("none");
             else if (focusused != 1U<<focuspoint) {
