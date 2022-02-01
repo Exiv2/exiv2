@@ -212,7 +212,7 @@ namespace Action {
     }; // class Print
 
     /*!
-      @brief %Rename a file to its metadate creation timestamp,
+      @brief %Rename a file to its metadata creation timestamp,
              in the specified format.
      */
     class Rename : public Task {
