@@ -655,7 +655,7 @@ namespace Exiv2 {
         std::string out(buffer,bufferSize);
 
         // remove blanks: http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
-        out.erase(std::remove_if(out.begin(), out.end(), std::isspace), out.end());
+        out.erase(std::remove_if(out.begin(), out.end(), isspace), out.end());
 
         bool bURI = out.find("http://") != std::string::npos   ;
         bool bNS  = out.find(':') != std::string::npos && !bURI;
