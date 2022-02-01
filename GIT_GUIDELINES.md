@@ -16,7 +16,7 @@ A commit message can look like this:
 - Specify concrete ubuntu and mac versions
 - Use latest conan version
 - Fix the profiles for linux and mac
-- Use new version of expat (avilable in conan-center)
+- Use new version of expat (available in conan-center)
 - Install urllib3 as suggested in python guidelines
 - Use virtualenv with python3
 ```
