@@ -169,43 +169,35 @@ namespace Action {
 
     void TaskFactory::cleanup()
     {
-         for (auto&& i : registry_) {
-            delete i.second;
-         }
+        registry_.clear();
     }
 
     void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
     {
-        auto i = registry_.find(type);
-        if (i != registry_.end()) {
-            delete i->second;
-        }
-        registry_[type] = task.release();
+        registry_[type] = std::move(task);
     }
 
     TaskFactory::TaskFactory()
     {
-        // Register a prototype of each known task
-        registerTask(adjust,  std::make_unique<Adjust>());
-        registerTask(print,   std::make_unique<Print>());
-        registerTask(rename,  std::make_unique<Rename>());
-        registerTask(erase,   std::make_unique<Erase>());
-        registerTask(extract, std::make_unique<Extract>());
-        registerTask(insert,  std::make_unique<Insert>());
-        registerTask(modify,  std::make_unique<Modify>());
-        registerTask(fixiso,  std::make_unique<FixIso>());
-        registerTask(fixcom,  std::make_unique<FixCom>());
-    } // TaskFactory c'tor
+        registry_.emplace(adjust, std::make_unique<Adjust>());
+        registry_.emplace(print, std::make_unique<Print>());
+        registry_.emplace(rename, std::make_unique<Rename>());
+        registry_.emplace(erase, std::make_unique<Erase>());
+        registry_.emplace(extract, std::make_unique<Extract>());
+        registry_.emplace(insert, std::make_unique<Insert>());
+        registry_.emplace(modify, std::make_unique<Modify>());
+        registry_.emplace(fixiso, std::make_unique<FixIso>());
+        registry_.emplace(fixcom, std::make_unique<FixCom>());
+    }
 
     Task::UniquePtr TaskFactory::create(TaskType type)
     {
         auto i = registry_.find(type);
-        if (i != registry_.end() && i->second != 0) {
-            Task* t = i->second;
-            return t->clone();
+        if (i != registry_.end() && i->second) {
+            return i->second->clone();
         }
         return nullptr;
-    } // TaskFactory::create
+    }
 
     int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path,bool binary)
     {

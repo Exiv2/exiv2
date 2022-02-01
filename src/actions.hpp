@@ -31,6 +31,7 @@
 // *****************************************************************************
 // included header files
 #include "exiv2app.hpp"
+#include <unordered_map>
 
 // *****************************************************************************
 // class declarations
@@ -141,7 +142,7 @@ namespace Action {
         TaskFactory();
 
         //! List of task types and corresponding prototypes.
-        std::map<TaskType, Task*> registry_;
+        std::unordered_map<TaskType, Task::UniquePtr> registry_;
     };
 
     //! %Print the Exif (or other metadata) of a file to stdout
