@@ -1657,7 +1657,7 @@ namespace Exiv2 {
                 N_("A string that identifies a specific instance in a semantic mask."),
                 ifd0Id, dngTags, asciiString, 0, printValue}, // DNG 1.6 tag
         {0xcd31, "CalibrationIlluminant3", N_("Calibration Illuminant 3"),
-                N_("The illuminant used for an optional thrid set of color calibration "
+                N_("The illuminant used for an optional third set of color calibration "
                 "tags (ColorMatrix3, CameraCalibration3, ReductionMatrix3). The legal "
                 "values for this tag are the same as the legal values for the "
                 "LightSource EXIF tag; CalibrationIlluminant1 and CalibrationIlluminant2 "
