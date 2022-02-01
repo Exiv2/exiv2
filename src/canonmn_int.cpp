@@ -2914,7 +2914,7 @@ namespace Exiv2 {
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
             // The offset of '5' seems to be ok for most Canons (see Exiftool)
-            // It might be explained by the fakt, that most Canons have a longest
+            // It might be explained by the fact, that most Canons have a longest
             // exposure of 30s which is 5 EV below 1s
             // see also printSi0x0017
             std::ostringstream oss;
