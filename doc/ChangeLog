@@ -643,9 +643,9 @@ Changes from version 0.25 to 0.26
 	- 0001145:	Respect Sony/Minolta lenses with shared LensID such as Tamron SP AF 17-50mm F2.8 XR Di II LD
 	- 0001144:	Sigma 10-20mm f/4-5.6 EX DC is detected as Tamaron
 			(Simon Harhues)
-	- 0001142:	Manual lens does not get recogniced: Beroflex zoom 500mm
+	- 0001142:	Manual lens does not get recognized: Beroflex zoom 500mm
 			(Simon Harhues / Niels Kristian Bech Jensen)
-	- 0001141:	Manual lens does not get recogniced: Pentax macro 100mm
+	- 0001141:	Manual lens does not get recognized: Pentax macro 100mm
 			(Simon Harhues / Niels Kristian Bech Jensen)
 	- 0001118:	Add support for ZEISS Loxia 2/50 lens
 			(Eugen Neu)
