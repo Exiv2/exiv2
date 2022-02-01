@@ -161,11 +161,6 @@ namespace {
 // *****************************************************************************
 // class member definitions
 namespace Action {
-    Task::UniquePtr Task::clone() const
-    {
-        return UniquePtr(clone_());
-    }
-
     TaskFactory* TaskFactory::instance_ = nullptr;
 
     TaskFactory& TaskFactory::instance()
@@ -668,14 +663,9 @@ namespace Action {
         return 0;
     } // Print::printPreviewList
 
-    Print::UniquePtr Print::clone() const
+    Task::UniquePtr Print::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Print* Print::clone_() const
-    {
-        return new Print(*this);
+        return std::make_unique<Print>(*this);
     }
 
     int Rename::run(const std::string& path)
@@ -753,14 +743,9 @@ namespace Action {
     }
     }
 
-    Rename::UniquePtr Rename::clone() const
+    Task::UniquePtr Rename::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Rename* Rename::clone_() const
-    {
-        return new Rename(*this);
+        return std::make_unique<Rename>(*this);
     }
 
     int Erase::run(const std::string& path)
@@ -877,14 +862,9 @@ namespace Action {
         return 0;
     }
 
-    Erase::UniquePtr Erase::clone() const
+    Task::UniquePtr Erase::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Erase* Erase::clone_() const
-    {
-        return new Erase(*this);
+        return std::make_unique<Erase>(*this);
     }
 
     int Extract::run(const std::string& path)
@@ -1072,14 +1052,9 @@ namespace Action {
         }
     } // Extract::writePreviewFile
 
-    Extract::UniquePtr Extract::clone() const
+    Task::UniquePtr Extract::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Extract* Extract::clone_() const
-    {
-        return new Extract(*this);
+        return std::make_unique<Extract>(*this);
     }
 
     int Insert::run(const std::string& path)
@@ -1250,14 +1225,9 @@ namespace Action {
         return 0;
     } // Insert::insertThumbnail
 
-    Insert::UniquePtr Insert::clone() const
+    Task::UniquePtr Insert::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Insert* Insert::clone_() const
-    {
-        return new Insert(*this);
+        return std::make_unique<Insert>(*this);
     }
 
     int Modify::run(const std::string& path)
@@ -1483,14 +1453,9 @@ namespace Action {
         Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
     }
 
-    Modify::UniquePtr Modify::clone() const
+    Task::UniquePtr Modify::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Modify* Modify::clone_() const
-    {
-        return new Modify(*this);
+        return std::make_unique<Modify>(*this);
     }
 
     int Adjust::run(const std::string& path)
@@ -1535,14 +1500,9 @@ namespace Action {
         return 1;
     } // Adjust::run
 
-    Adjust::UniquePtr Adjust::clone() const
+    Task::UniquePtr Adjust::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    Adjust* Adjust::clone_() const
-    {
-        return new Adjust(*this);
+        return std::make_unique<Adjust>(*this);
     }
 
     int Adjust::adjustDateTime(Exiv2::ExifData& exifData,
@@ -1677,14 +1637,9 @@ namespace Action {
     }
     } // FixIso::run
 
-    FixIso::UniquePtr FixIso::clone() const
+    Task::UniquePtr FixIso::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    FixIso* FixIso::clone_() const
-    {
-        return new FixIso(*this);
+        return std::make_unique<FixIso>(*this);
     }
 
     int FixCom::run(const std::string& path)
@@ -1748,14 +1703,9 @@ namespace Action {
     }
     } // FixCom::run
 
-    FixCom::UniquePtr FixCom::clone() const
+    Task::UniquePtr FixCom::clone() const
     {
-        return UniquePtr(clone_());
-    }
-
-    FixCom* FixCom::clone_() const
-    {
-        return new FixCom(*this);
+        return std::make_unique<FixCom>(*this);
     }
 
 }                                       // namespace Action
