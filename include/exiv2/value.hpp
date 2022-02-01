@@ -853,16 +853,12 @@ namespace Exiv2 {
                        : str1.size() > str2.size() ? -1
                        : 0
                        ;
-            std::string::const_iterator c1 = str1.begin();
-            std::string::const_iterator c2 = str2.begin();
-            if (  result==0 ) for (
-                ; result==0 && c1 != str1.end()
-                ; ++c1, ++c2
-                ) {
-                result = tolower(*c1) < tolower(*c2) ?  1
-                       : tolower(*c1) > tolower(*c2) ? -1
-                       : 0
-                       ;
+            if (  result==0 ) {
+                for (auto c1 = str1.begin(), c2 = str2.begin() ; result==0 && c1 != str1.end() ; ++c1, ++c2 ) {
+                   result = tolower(*c1) < tolower(*c2) ?  1
+                          : tolower(*c1) > tolower(*c2) ? -1
+                          : 0 ;
+                }
             }
             return result < 0 ;
         }
@@ -1543,8 +1539,7 @@ namespace Exiv2 {
     long ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
     {
         long offset = 0;
-        typename ValueList::const_iterator end = value_.end();
-        for (typename ValueList::const_iterator i = value_.begin(); i != end; ++i) {
+        for (auto i = value_.begin(); i != value_.end(); ++i) {
             offset += toData(buf + offset, *i, byteOrder);
         }
         return offset;
@@ -1571,11 +1566,12 @@ namespace Exiv2 {
     template<typename T>
     std::ostream& ValueType<T>::write(std::ostream& os) const
     {
-        typename ValueList::const_iterator end = value_.end();
-        typename ValueList::const_iterator i = value_.begin();
+        auto end = value_.end();
+        auto i = value_.begin();
         while (i != end) {
             os << std::setprecision(15) << *i;
-            if (++i != end) os << " ";
+            if (++i != end)
+                os << " ";
         }
         return os;
     }

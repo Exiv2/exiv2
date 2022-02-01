@@ -31,7 +31,6 @@
 // + standard includes
 #include <iostream>
 #include <algorithm>
-#include <iterator>
 #include <fstream>      // write the temporary file
 
 // *****************************************************************************
@@ -514,9 +513,7 @@ namespace Exiv2 {
         std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
         std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(), cmpIptcdataByRecord);
 
-        IptcData::const_iterator iter = sortedIptcData.begin();
-        IptcData::const_iterator end = sortedIptcData.end();
-        for ( ; iter != end; ++iter) {
+        for (auto iter = sortedIptcData.cbegin() ; iter != sortedIptcData.cend(); ++iter) {
             // marker, record Id, dataset num
             *pWrite++ = marker_;
             *pWrite++ = static_cast<byte>(iter->record());

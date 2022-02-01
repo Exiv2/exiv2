@@ -37,7 +37,6 @@
 // + standard includes
 #include <array>
 #include <string>
-#include <iterator>
 #include <cstring>
 #include <iostream>
 #include <cassert>

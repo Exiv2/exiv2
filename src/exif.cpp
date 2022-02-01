@@ -791,12 +791,12 @@ namespace Exiv2 {
             { pttIfd, "Thumbnail"                                     }
         };
         bool delTags = false;
-        ExifData::iterator pos;
         for (auto&& filteredPvTag : filteredPvTags) {
             switch (filteredPvTag.ptt_) {
                 case pttLen:
+                {
                     delTags = false;
-                    pos = ed.findKey(ExifKey(filteredPvTag.key_));
+                    auto pos = ed.findKey(ExifKey(filteredPvTag.key_));
                     if (pos != ed.end() && sumToLong(*pos) > 32768) {
                         delTags = true;
 #ifndef SUPPRESS_WARNINGS
@@ -805,9 +805,11 @@ namespace Exiv2 {
                     ed.erase(pos);
                     }
                 break;
+                }
             case pttTag:
+                {
                 if (delTags) {
-                    pos = ed.findKey(ExifKey(filteredPvTag.key_));
+                    auto pos = ed.findKey(ExifKey(filteredPvTag.key_));
                     if (pos != ed.end()) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
@@ -816,6 +818,7 @@ namespace Exiv2 {
                     }
                 }
                 break;
+                }
             case pttIfd:
                 if (delTags) {
 #ifndef SUPPRESS_WARNINGS
