@@ -1803,7 +1803,7 @@ tags. See [fixiso](#fi_fixiso).
 <div id="return_value">
 
 # 14 RETURN VALUE
-`0` if successfull, otherwise a positive integer as error code.
+`0` if successful, otherwise a positive integer as error code.
 
 [TOC](#TOC)
 
