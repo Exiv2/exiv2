@@ -1713,7 +1713,7 @@ Changes from version 0.18 to 0.18.1
 	           support for multiple TIFF tree structures.
 
 * MSVC related
-	- 0000621: windows librarys are forcing a link to
+	- 0000621: windows libraries are forcing a link to
 	           ..\..\..\zlib-1.2.3\projects\visual6\blah\blah.
                    (Reported by Peter J. Ersts, fix by Robin Mills)
 
