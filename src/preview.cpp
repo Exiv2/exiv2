@@ -110,7 +110,7 @@ namespace {
         static PreviewId getNumLoaders();
 
     protected:
-        //! Constructor. Sets all image properies to unknown.
+        //! Constructor. Sets all image properties to unknown.
         Loader(PreviewId id, const Image &image);
 
         //! Functions that creates a loader from given parameters
