@@ -689,7 +689,7 @@ Changes from version 0.25 to 0.26
 	- 0000922:	Add options -pS and -dI to application exiv2
 	- 0000855:	Segfault when accessing focalLength with 0.23
 			(Tobias E.)
-	- 0000756:	Access to ICC Profile (TAG: 0x8773) data in Exif as uninterpretted binary
+	- 0000756:	Access to ICC Profile (TAG: 0x8773) data in Exif as uninterpreted binary
 			(Ray NA)
 	- 0000676:	Patch for reading ICC color profiles
 			(Andreas Huggel)
