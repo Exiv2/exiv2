@@ -249,7 +249,7 @@ namespace Exiv2 {
         {    0x109, N_("On, Slow-sync") },
         {    0x10a, N_("On, Slow-sync, Red-eye reduction") },
         {    0x10b, N_("On, Trailing-curtain Sync") },
-// exiftool recognises 2 values, the values here correpond with Value 0
+// exiftool recognises 2 values, the values here correspond with Value 0
     };
 
     //! Focus, tag 0x000d

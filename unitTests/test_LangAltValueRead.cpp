@@ -24,7 +24,7 @@
 
 using namespace Exiv2;
 
-// The tests corrispond to those in issue https://github.com/Exiv2/exiv2/issues/1481
+// The tests correspond to those in issue https://github.com/Exiv2/exiv2/issues/1481
 
 
 // 1. No language value
