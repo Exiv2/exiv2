@@ -2620,7 +2620,7 @@ fmountlens[] = {
         {
             const unsigned char vid = static_cast<unsigned>(value.toLong(0));
 
-            /* the 'FMntLens' name is added to the annonymous struct for
+            /* the 'FMntLens' name is added to the anonymous struct for
              * fmountlens[]
              *
              * remember to name the struct when importing/updating the lens info
