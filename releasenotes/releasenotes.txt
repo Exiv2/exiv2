@@ -248,7 +248,7 @@ Build: (11)
 	0001329	Error during cmake with gcc version parsing
 	0001310	Provide support for msys/2.0
 	0001299	exiv2-0.26-trunk.tar.gz changed on download server
-	0001270	Using libexiv2.a/.lib  in multhreaded app segfaults.
+	0001270	Using libexiv2.a/.lib  in multithreaded app segfaults.
 	0001237	Report CMake/MinGW issues to Kitware
 	0001188	Provide build support for C++11
 	0001174	Visual Studio Support Enhancements
