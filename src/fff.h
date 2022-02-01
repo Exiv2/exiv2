@@ -181,7 +181,7 @@ struct IMAGEINFO_T
     unsigned long  trigCount;     //!< trig counter
     short manipulType;            //!< defines how to interpret manipFactors
     short manipFactors[5];        //!< Used average factors
-    /** Detecor settings - camera type dependent */
+    /** Detector settings - camera type dependent */
     long detectorPars[20];        //!< Currently used detector parameters like
                                   //!    used bias, offsets. Usage is camera
                                   //!    dependent
