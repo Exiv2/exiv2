@@ -67,7 +67,7 @@
 #define TAG_iinf 0x69696e66 /**< "iinf" Item info */
 #define TAG_iloc 0x696c6f63 /**< "iloc" Item location */
 #define TAG_ispe 0x69737065 /**< "ispe" Image spatial extents */
-#define TAG_infe 0x696e6665 /**< "infe" Item Info Extention */
+#define TAG_infe 0x696e6665 /**< "infe" Item Info Extension */
 #define TAG_ipma 0x69706d61 /**< "ipma" Item Property Association */
 #define TAG_cmt1 0x434d5431 /**< "CMT1" ifd0Id */
 #define TAG_cmt2 0x434D5432 /**< "CMD2" exifID */
