@@ -783,7 +783,7 @@ Changes from version 0.25 to 0.26
 
 * Testing: (6)
 	- 0001230:	Bug Hunt for v0.26
-	- 0001207:	digiKam maintenance tool to synchronize files metadata and database crash in Exiv2 (re-entrancy issue ?)
+	- 0001207:	digiKam maintenance tool to synchronize files metadata and database crash in Exiv2 (reentrancy issue ?)
 			(Uwe Haider)
 	- 0001057:	Implement target/modifier - (stdin/stdout) for exiv2 options -i (insert) and -e (extract)
 	- 0001045:	Add COPYRIGHT file to test/data/
