@@ -2080,7 +2080,7 @@ namespace Exiv2 {
             throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
-        // standadize the path without "/" at the beginning.
+        // standardize the path without "/" at the beginning.
         std::size_t protocolIndex = scriptPath.find("://");
         if (protocolIndex == std::string::npos && scriptPath[0] != '/') {
             scriptPath = "/" + scriptPath;
