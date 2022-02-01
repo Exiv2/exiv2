@@ -64,7 +64,7 @@ Once you have a GitHub login:
         $ git fetch exiv2_upstream master
         $ git checkout -b my-new-feature exiv2_upstream/master --no-track
 
-    NB: This is an important step to avoid draging in old commits!
+    NB: This is an important step to avoid dragging in old commits!
 
 5. Configure the project and check that it builds (if not, please report a bug):
 
