@@ -38,7 +38,7 @@ Team Exiv2 does not back-port security (or any other fix) to earlier releases of
 
 The version numbering scheme is explained below.  The design includes provision for a security release.  A _**Dot Release**_ is an updated version of the library with security PRs and other changes.  A _**Dot Release**_ offers the same API as its parent.  A _**Security Release**_ is an existing release PLUS one or more security PRs.  Nothing else is changed from it parent.  
 
-Users can register on GitHub.com to receive release notices for RC and GM Releases.  Additionally, we inform users when we begin a project to create a new release on FaceBook (https://facebook.com/exiv2) and Discuss Pixls (https://discuss.pixls.us).  The announcement of a new release project has a preliminay specification and schedule.
+Users can register on GitHub.com to receive release notices for RC and GM Releases.  Additionally, we inform users when we begin a project to create a new release on FaceBook (https://facebook.com/exiv2) and Discuss Pixls (https://discuss.pixls.us).  The announcement of a new release project has a preliminary specification and schedule.
 
 ## Version Numbering Scheme
 
