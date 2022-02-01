@@ -4161,7 +4161,7 @@ namespace Exiv2 {
 
           @throw Error if the key cannot be decomposed.
         */
-        void decomposeKey(const std::string& key);  //!< Misterious magic
+        void decomposeKey(const std::string& key);  //!< Mysterious magic
 
         // DATA
         static constexpr auto familyName_ = "Xmp";  //!< "Xmp"
