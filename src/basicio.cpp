@@ -2245,7 +2245,7 @@ namespace Exiv2 {
 
         /* Perform the request, res will get the return code */
         CURLcode res = curl_easy_perform(curl_);
-        if(res != CURLE_OK) { // error happends
+        if(res != CURLE_OK) { // error happened
             throw Error(kerErrorMessage, curl_easy_strerror(res));
         }
         // get status
