@@ -310,7 +310,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor that accepts the file path on which IO will be
               performed. The constructor does not open the file, and
-              therefore never failes.
+              therefore never fails.
           @param path The full path of a file
          */
         explicit FileIo(const std::string& path);
@@ -994,7 +994,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor that accepts the http URL on which IO will be
               performed. The constructor does not open the file, and
-              therefore never failes.
+              therefore never fails.
           @param url The full path of url
           @param blockSize the size of the memory block. The file content is
                 divided into the memory blocks. These blocks are populated
