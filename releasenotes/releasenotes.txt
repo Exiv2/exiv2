@@ -25,7 +25,7 @@ Thank You to the following who have contributed to this release.
 1) Bug and security fixes:
    - bmff read-only support (.CR3, .HEIC, .HEIF, .AVIF and JXL/bmff).
    - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy
-   - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed ixed in 24hrs.
+   - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed in 24hrs.
    - DNG 1.6 and Exif 2.32 support.
    - More easyaccess APIs and documentation.
    - Localation support on Crowdin.
