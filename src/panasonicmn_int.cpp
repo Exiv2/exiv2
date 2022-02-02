@@ -467,7 +467,7 @@ namespace Exiv2 {
         {0x0040, "Saturation", N_("Saturation"), N_("Saturation"), panasonicId, makerTags, unsignedShort, -1, printValue},
         {0x0041, "Sharpness", N_("Sharpness"), N_("Sharpness"), panasonicId, makerTags, unsignedShort, -1, printValue},
         {0x0042, "FilmMode", N_("Film Mode"), N_("Film mode"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicFilmMode)},
-        {0x0044, "ColorTempKelvin", N_("Color Temp Kelvin"), N_("Color Temperatur in Kelvin"), panasonicId, makerTags, unsignedShort, -1, printValue},
+        {0x0044, "ColorTempKelvin", N_("Color Temp Kelvin"), N_("Color Temperature in Kelvin"), panasonicId, makerTags, unsignedShort, -1, printValue},
         {0x0045, "BracketSettings", N_("Bracket Settings"), N_("Bracket Settings"), panasonicId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicBracketSettings)},
         {0x0046, "WBAdjustAB", N_("WB Adjust AB"), N_("WB adjust AB. Positive is a shift toward blue."), panasonicId, makerTags, unsignedShort, -1, printValue},
         {0x0047, "WBAdjustGM", N_("WB Adjust GM"), N_("WBAdjustGM. Positive is a shift toward green."), panasonicId, makerTags, unsignedShort, -1, printValue},
