@@ -2192,7 +2192,7 @@ namespace Exiv2 {
     CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init())
     {
         if(!curl_) {
-            throw Error(kerErrorMessage, "Uable to init libcurl.");
+            throw Error(kerErrorMessage, "Unable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
@@ -2218,7 +2218,7 @@ namespace Exiv2 {
         // init curl pointer
         curl_ = curl_easy_init();
         if(!curl_) {
-            throw Error(kerErrorMessage, "Uable to init libcurl.");
+            throw Error(kerErrorMessage, "Unable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
