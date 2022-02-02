@@ -478,7 +478,7 @@ Test access to preview images
 #### remotetest
 
 ```
-Usage: remotetest remotetest file {--nocurl | --curl}
+Usage: remotetest file {--nocurl | --curl}
 ```
 
 Tester application for testing remote i/o.
