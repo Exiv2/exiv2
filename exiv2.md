@@ -1815,7 +1815,7 @@ tags. See [fixiso](#fi_fixiso).
 
 ### TZ
 This is the timezone to use when adjusting for daylight savings time (DST) and 
-affects the changing of the the time and date (e.g., when adjusting or 
+affects the changing of the time and date (e.g., when adjusting or 
 renaming). See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones 
 for a list of valid values to use. The variable is not set by default for 
 Windows and an attempt is made to obtain the timezone from the OS. If this 

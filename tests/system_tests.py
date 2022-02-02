@@ -622,7 +622,7 @@ def test_run(self):
         t.cancel()
 
         def get_decode_error():
-            """ Return an error indicating the the decoding of stdout/stderr
+            """ Return an error indicating the decoding of stdout/stderr
             failed.
             """
             return "Could not decode the output of the command '{!s}' with "\

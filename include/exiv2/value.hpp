@@ -472,7 +472,7 @@ namespace Exiv2 {
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
-          @brief Write the ASCII value up to the the first '\\0' character to an
+          @brief Write the ASCII value up to the first '\\0' character to an
                  output stream.  Any further characters are ignored and not
                  written to the output stream.
         */

@@ -884,7 +884,7 @@ namespace Exiv2 {
          */
         DataBuf read(long rcount) override;
         /*!
-          @brief Read data from the the memory blocks. Reading starts at the current
+          @brief Read data from the memory blocks. Reading starts at the current
               IO position and the position is advanced by the number of
               bytes read.
               If the memory blocks are not populated (!= bMemory), it will connect to server
