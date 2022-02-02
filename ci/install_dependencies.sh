@@ -55,15 +55,6 @@ case "$distro_id" in
         apk add gcc g++ clang cmake make ccache expat-dev zlib-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev which dos2unix bash libxml2-utils diffutils python3
         ;;
 
-    'centos'|'rhel')
-        yum -y update libarchive # workaround for https://bugs.centos.org/view.php?id=18212
-        yum -y install epel-release
-        # enable copr for gtest
-        curl https://copr.fedorainfracloud.org/coprs/defolos/devel/repo/epel-7/defolos-devel-epel-7.repo > /etc/yum.repos.d/_copr_defolos-devel.repo
-        yum clean all
-        yum -y install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python3 dos2unix
-        ;;
-
     'opensuse-tumbleweed')
         zypper --non-interactive refresh
         zypper --non-interactive install gcc-c++ clang cmake make ccache libexpat-devel zlib-devel libssh-devel curl libcurl-devel git which dos2unix libxml2-tools

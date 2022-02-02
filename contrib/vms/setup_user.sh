@@ -21,10 +21,6 @@ case "$distro_id" in
         PIP=pip
         ;;
 
-    'centos' | 'rhel')
-        PIP=/opt/rh/rh-python36/root/usr/bin/pip3
-        ;;
-
     *)
         echo "Sorry, no predefined dependencies for your distribution exist yet"
         exit 1
