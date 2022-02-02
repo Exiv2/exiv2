@@ -211,7 +211,7 @@ $
 Usage: geotag {-help|-version|-dst|-dryrun|-ascii|-verbose|-adjust value|-tz value|-delta value}+ path+
 ```
 
-Geotag reads one or more GPX files and adds GPS Tages to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
+Geotag reads one or more GPX files and adds GPS Tags to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
 
 If the path is a directory, geotag will read all the files in the directory.  It constructs a time dictionary of position data, then updates every image with GPS Tags.
 
