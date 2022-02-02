@@ -1008,8 +1008,8 @@ HH:MM:SScHH:MM
 ```
 where HH:MM:SS refers to local time's hour, minutes and seconds and, HH:MM 
 refers to hours and minutes with c being ahead (+) or behind (-) 
-Universal Coordinated Time (UCT) as described in ISO 8601 (e.g., 
-08:45:15+01:00 is 08:45:15, which is +1 hour different from UCT).
+Coordinated Universal Time (UTC) as described in ISO 8601 (e.g., 
+08:45:15+01:00 is 08:45:15, which is +1 hour different from UTC).
 
 <div id="date_time_makernotes">
 
