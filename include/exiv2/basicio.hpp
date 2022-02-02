@@ -329,7 +329,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Open the file using using the specified mode.
+          @brief Open the file using the specified mode.
 
           This method can also be used to "reopen" a file which will flush any
           unwritten data and reset the IO position to the start. Although
@@ -343,7 +343,7 @@ namespace Exiv2 {
          */
         int open(const std::string& mode);
         /*!
-          @brief Open the file using using the default access mode of "rb".
+          @brief Open the file using the default access mode of "rb".
               This method can also be used to "reopen" a file which will flush
               any unwritten data and reset the IO position to the start.
           @return 0 if successful;<BR>
