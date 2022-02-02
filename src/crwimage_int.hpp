@@ -226,7 +226,7 @@ namespace Exiv2 {
         //! Return the tag id of this component
         uint16_t tagId()         const { return tag_ & 0x3fff; }
 
-        //! Return the type id of thi component
+        //! Return the type id of this component
         TypeId typeId()          const { return typeId(tag_); }
 
         //! Return the data location for this component
