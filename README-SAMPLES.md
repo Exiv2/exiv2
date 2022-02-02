@@ -162,7 +162,7 @@ Option: all | exif | iptc | xmp | filesystem
 
 This program dumps metadata from an image in JSON format. _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
 
-exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  [Family.Group.Tagname](exiv2.md#exiv2_key_syntax).  For XMP, results in "flat" output such such as:
+exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  [Family.Group.Tagname](exiv2.md#exiv2_key_syntax).  For XMP, results in "flat" output such as:
 
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
