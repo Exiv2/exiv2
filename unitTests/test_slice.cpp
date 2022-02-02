@@ -33,7 +33,7 @@ class slice;
  * This namespace contains the helper-function get_test_data. It is intented
  * to be used for test with the slice fixture: it returns the appropriate
  * data to the constructor of slice. For (const) T==std::vector it returns the
- * fixtures meber vec_, for (const) T==int* it returns vec_.data()
+ * fixtures member vec_, for (const) T==int* it returns vec_.data()
  *
  * Due to C++98's limitations, this requires a separate traits class, that
  * specifies the return type *and* a specialization of get_test_data for each
