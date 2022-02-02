@@ -107,7 +107,7 @@ image are determined.
 - Reading other TIFF-like RAW image formats, which are not listed in 
 the table, may also work.
 
-- Some image formats allow an extra interal type of metadata. Only 
+- Some image formats allow an extra internal type of metadata. Only 
 partial support exists for the RAF format.
 
 - Support for BMFF types such as AVIF, CR3, HEIF and HEIC is a build 
