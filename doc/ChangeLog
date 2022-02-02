@@ -1463,7 +1463,7 @@ Changes from version 0.20 to 0.21
 	           (Patch by Matthias Baas)
 	         - Added ExifKey::defaultCount() to access the new count reference
 	           information.
-	         - Fixed zlib uncompression of large PNG metadata buffers.
+	         - Fixed zlib decompression of large PNG metadata buffers.
 	         - Improved determination of MIME type.
 	         - Updated Canon makernote. (Greg Mansfield, Axel Waggershauser)
 	         - Updated Olympus makernote. (Greg Mansfield)
