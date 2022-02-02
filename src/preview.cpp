@@ -810,7 +810,7 @@ namespace {
 
                         // the size_ parameter is originally computed by summing all values inside sizes
                         // see the constructor of LoaderTiff
-                        // But e.g in malicious files some of thes values could be negative
+                        // But e.g in malicious files some of these values could be negative
                         // That's why we check again for each step here to really make sure we don't overstep
                         enforce(Safe::add(idxBuf, size) <= size_, kerCorruptedMetadata);
                         if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())){
