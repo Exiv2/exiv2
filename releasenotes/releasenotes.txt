@@ -28,7 +28,7 @@ Thank You to the following who have contributed to this release.
    - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed in 24hrs.
    - DNG 1.6 and Exif 2.32 support.
    - More easyaccess APIs and documentation.
-   - Localation support on Crowdin.
+   - Localization support on Crowdin.
    - Updated Catalan localisation.
 
 2) Changes to downloadable build bundles:
