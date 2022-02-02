@@ -53,7 +53,7 @@ SHELL = /bin/bash
 
 # ******************************************************************************
 # Targets
-.PHONY: all test testv teste mostlyclean clean distclean maintainer-clean
+.PHONY: all test mostlyclean clean distclean maintainer-clean
 
 ##
 # to save download time for simple build/test, we download video and eps data on demand
