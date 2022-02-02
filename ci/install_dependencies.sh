@@ -56,12 +56,8 @@ case "$distro_id" in
         ;;
 
     'centos'|'rhel')
-        yum -y update libarchive # workaround for https://bugs.centos.org/view.php?id=18212
-        yum -y install epel-release
-        # enable copr for gtest
-        curl https://copr.fedorainfracloud.org/coprs/defolos/devel/repo/epel-7/defolos-devel-epel-7.repo > /etc/yum.repos.d/_copr_defolos-devel.repo
-        yum clean all
-        yum -y install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which python3 dos2unix
+        dnf clean all
+        dnf -y install gcc-c++ clang cmake make ccache expat-devel zlib-devel libssh-devel libcurl-devel which python3 dos2unix
         ;;
 
     'opensuse-tumbleweed')
