@@ -601,7 +601,7 @@ namespace Exiv2 {
 
     } // PanasonicMakerNote::print0x0029
 
-    // bage age
+    // baby age
     std::ostream& PanasonicMakerNote::print0x0033(std::ostream& os,
                                                   const Value& value,
                                                   const ExifData*)
