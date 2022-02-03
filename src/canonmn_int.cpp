@@ -612,9 +612,9 @@ namespace Exiv2 {
         {0x260c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonId, makerTags, signedShort, -1,printBitmask},
         {0x260d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonId, makerTags, signedShort, -1, printBitmask},
         {0x260e, "AFPointsUnusable", N_("AF Points Unusable"), N_("AF Points Unusable"), canonId, makerTags, signedShort, -1, printBitmask},
-        (0x260f, "0x260f", "0x260f", N_("0x260f"), canonId, makerTags, unsignedShort, -1, printValue),
-        (0x2610, "0x2610", "0x2610", N_("0x2610"), canonId, makerTags, unsignedShort, -1, printValue),
-        (0x2611, "AFFineRotation", N_("AF Fine Rotation"), N_("Mathematically positive (i.e. anti-clockwise) rotation of every AF rectangle in centidegrees"), canonId, makerTags, unsignedShort, -1, printValue),
+        {0x260f, "0x260f", "0x260f", N_("0x260f"), canonId, makerTags, unsignedShort, -1, printValue},
+        {0x2610, "0x2610", "0x2610", N_("0x2610"), canonId, makerTags, unsignedShort, -1, printValue},
+        {0x2611, "AFFineRotation", N_("AF Fine Rotation"), N_("Mathematically positive (i.e. anti-clockwise) rotation of every AF rectangle in centidegrees"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4001, "ColorData", N_("Color Data"), N_("Color data"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4002, "CRWParam", N_("CRWParam"), N_("CRWParam"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4003, "ColorInfo", N_("ColorInfo"), N_("ColorInfo"), canonId, makerTags, unsignedShort, -1, printValue},
@@ -1048,7 +1048,7 @@ namespace Exiv2 {
     // Canon LensInfo Tag
     constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
          {0x0000, "LensSerialNumber", N_("Lens Seria lNumber"), N_("Lens Serial Number"), canonLeId, makerTags, asciiString, -1, printValue},
-         (0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), canonLeId, makerTags, undefined, 1, printValue) // important to add end of tag          
+         {0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), canonLeId, makerTags, undefined, 1, printValue} // important to add end of tag          
     };
 
     const TagInfo* CanonMakerNote::tagListLe()
@@ -2334,7 +2334,7 @@ namespace Exiv2 {
         {0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, printValue},
         {0x001c, "NDFilter", N_("ND Filter"), N_("ND filter"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(ndRotate)},
         {0x001d, "SelfTimer2", N_("Self Timer 2"), N_("Self timer2"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(selfTimer2)},
-        (0x0021, "FlashOutput", N_("Flash Output"), N_("Flash output"), canonSiId, makerTags, signedShort, 1, printValue),
+        {0x0021, "FlashOutput", N_("Flash Output"), N_("Flash output"), canonSiId, makerTags, signedShort, 1, printValue},
         // End of list marker
         {0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, unsignedShort, 1, printValue},
     };
