@@ -114,7 +114,7 @@ namespace Exiv2
 
     void BmpImage::writeMetadata()
     {
-        // Todo: implement me!
+        /// \todo implement me!
         throw(Error(kerWritingImageFormatUnsupported, "BMP"));
     }
 
