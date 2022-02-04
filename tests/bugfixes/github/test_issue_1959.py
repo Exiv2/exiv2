@@ -9,12 +9,13 @@ class XmpIptcStandardsTest(metaclass=CaseMeta):
     """
     url = "https://github.com/Exiv2/exiv2/issues/1959"
 
-    filename      = path("$data_path/issue_1959_poc.xmp")
-    filename_save = path("$tmp_path/issue_1959_poc.xmp_save.out")
-    filename_out  = path("$data_path/issue_1959_poc.xmp.out")
+    def setUp(self):
+        self.stdout = [open(self.expand_variables("$filename_ref"),'r').read()]
     
-    commands = ["$exiv2 -Pkvt $filename > $filename_save", "diff --strip-trailing-cr $filename_save $filename_out"]
+    filename      = path("$data_path/issue_1959_poc.xmp")
+    filename_ref  = path("$data_path/issue_1959_poc.xmp.out")
+    
+    commands = ["$exiv2 -Pkvt $filename"]
 
-    stderr = [""]*2
-    retval = [0]*2
-    compare_stdout = check_no_ASAN_UBSAN_errors
+    stderr = [""]
+    retval = [0]
