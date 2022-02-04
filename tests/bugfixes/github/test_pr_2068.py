@@ -5,7 +5,7 @@ from system_tests import CaseMeta, path
 
 class TestVerboseExtractStdoutMultiFile(metaclass=CaseMeta):
 
-    filename = path("$data_path/pr_2068_poc1.jpg")
+    filename = path("$data_path/exiv2-empty.jpg")
     commands = ["$exiv2 --verbose --extract X- $filename $filename"]
 
     stdout = [""""""]
