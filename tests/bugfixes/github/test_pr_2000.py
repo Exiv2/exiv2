@@ -144,17 +144,18 @@ class TestVerboseExtractRawMetadataToStdout(metaclass=CaseMeta):
     """
     url = "https://github.com/Exiv2/exiv2/issues/1934"
 
-    filenameJPG     = path("$data_path/issue_1934_poc4.jpg")
-    filenameEXV     = path("$tmp_path/issue_1934_poc4.exv")
-    filenameRefEXV  = path("$data_path/issue_1934_poc4_ref.exv")
+    encodings = [bytes]
+
+    def setUp(self):
+        self.stdout = [bytes(open(self.expand_variables("$filename_ref"),'rb').read())]
+
+    filename     = path("$data_path/issue_1934_poc4.jpg")
+    filename_ref = path("$data_path/issue_1934_poc4_ref.exv")
     
-    commands = ["$exiv2 --verbose --extract XXeix- $filenameJPG > $filenameEXV",	
-                "cmp $filenameEXV $filenameRefEXV"]
+    commands = ["$exiv2 --verbose --extract XXeix- $filename"]
 
-    stderr = [""]*2
-    retval = [0]*2
-
-    compare_stdout = check_no_ASAN_UBSAN_errors
+    stderr = [bytes([])]
+    retval = [0]
 
 class TestVerboseExtractThumbnailToStdout(metaclass=CaseMeta):
     """
@@ -163,17 +164,18 @@ class TestVerboseExtractThumbnailToStdout(metaclass=CaseMeta):
     """
     url = "https://github.com/Exiv2/exiv2/issues/1934"
 
-    filenameJPG           = path("$data_path/issue_1934_poc4.jpg")
-    filenameThumbnail     = path("$tmp_path/issue_1934_poc4-thumb.jpg")
-    filenameRefThumbnail  = path("$data_path/issue_1934_poc4-thumb_ref.jpg")
+    encodings = [bytes]
+
+    def setUp(self):
+        self.stdout = [bytes(open(self.expand_variables("$filename_ref"),'rb').read())]
+
+    filename     = path("$data_path/issue_1934_poc4.jpg")
+    filename_ref = path("$data_path/issue_1934_poc4-thumb_ref.jpg")
     
-    commands = ["$exiv2 --verbose --extract t- $filenameJPG > $filenameThumbnail",
-                "cmp $filenameThumbnail $filenameRefThumbnail"]
+    commands = ["$exiv2 --verbose --extract t- $filename"]
 
-    stderr = [""]*2
-    retval = [0]*2
-
-    compare_stdout = check_no_ASAN_UBSAN_errors
+    stderr = [bytes([])]
+    retval = [0]
 
 class TestVerboseExtractICCProfileToStdout(metaclass=CaseMeta):
     """
@@ -182,15 +184,18 @@ class TestVerboseExtractICCProfileToStdout(metaclass=CaseMeta):
     """
     url = "https://github.com/Exiv2/exiv2/issues/1934"
 
-    filenameJPG     = path("$data_path/issue_1934_poc4.jpg")
-    filenameICC     = path("$tmp_path/issue_1934_poc4.icc")
-    filenameRefICC  = path("$data_path/issue_1934_poc4_ref.icc")
-    
-    commands = ["$exiv2 --verbose --extract C- $filenameJPG > $filenameICC",
-                "cmp $filenameICC $filenameRefICC"]
+    encodings = [bytes]
 
-    stderr = [""]*2
-    retval = [0]*2
+    def setUp(self):
+        self.stdout = [bytes(open(self.expand_variables("$filename_ref"),'rb').read())]
+
+    filename     = path("$data_path/issue_1934_poc4.jpg")
+    filename_ref = path("$data_path/issue_1934_poc4_ref.icc")
+    
+    commands = ["$exiv2 --verbose --extract C- $filename"]
+
+    stderr = [bytes([])]
+    retval = [0]
 
     compare_stdout = check_no_ASAN_UBSAN_errors
 
@@ -201,14 +206,15 @@ class TestVerboseExtractCommentToStdout(metaclass=CaseMeta):
     """
     url = "https://github.com/Exiv2/exiv2/issues/1934"
 
-    filenameJPG         = path("$data_path/issue_1934_poc4.jpg")
-    filenameComment     = path("$tmp_path/issue_1934_poc4_comment.txt")
-    filenameRefComment  = path("$data_path/issue_1934_poc4_comment_ref.txt")
+    encodings = [bytes]
 
-    commands = ["$exiv2 --verbose --extract c- $filenameJPG > $filenameComment",
-                "cmp $filenameComment $filenameRefComment"]
+    def setUp(self):
+        self.stdout = [bytes(open(self.expand_variables("$filename_ref"),'rb').read())]
 
-    stderr = [""]*2
-    retval = [0]*2
+    filename     = path("$data_path/issue_1934_poc4.jpg")
+    filename_ref = path("$data_path/issue_1934_poc4_comment_ref.txt")
 
-    compare_stdout = check_no_ASAN_UBSAN_errors
+    commands = ["$exiv2 --verbose --extract c- $filename"]
+
+    stderr = [bytes([])]
+    retval = [0]
