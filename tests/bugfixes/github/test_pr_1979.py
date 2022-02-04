@@ -3,7 +3,6 @@
 import system_tests
 from system_tests import CaseMeta, path, CopyTmpFiles, check_no_ASAN_UBSAN_errors
 
-@CopyTmpFiles("$data_path/issue_1934_poc1.exv")
 class TestExiv2ExtractThumbnailToStdout(metaclass=CaseMeta):
     """
     Regression test for 'extracting a thumbnail to stdout' bug described in:
