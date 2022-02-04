@@ -147,7 +147,7 @@ TEST(MemIo, readLessBytesThanAvailableReturnsRequestedBytes)
     ASSERT_EQ(5, io.read(buf2.data(), 5));
 }
 
-TEST(MemIo, readSameBytesThanAvailableReturnsRequetedBytes)
+TEST(MemIo, readSameBytesThanAvailableReturnsRequestedBytes)
 {
     std::array<byte, 10> buf1, buf2;
     buf1.fill(1);

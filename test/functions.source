@@ -440,7 +440,7 @@ prepareTest()
         bin="$EXIV2_BINDIR/"
     fi
     
-    # update PATHs to ensure we load the the correct dynamlic library
+    # update PATHs to ensure we load the correct dynamic library
     if [ $PLATFORM == 'mingw' -a $PLATFORM == 'cygwin' ]; then
         export PATH="$bin:$PATH"
     elif [ 'PLATFORM' == 'Darwin' ]; then

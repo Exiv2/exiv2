@@ -406,7 +406,7 @@ namespace Exiv2 {
     /*!
       @brief %Value for string type.
 
-      This can be a plain Ascii string or a multipe byte encoded string. It is
+      This can be a plain Ascii string or a multiple byte encoded string. It is
       left to caller to decode and encode the string to and from readable
       text if that is required.
     */
@@ -472,7 +472,7 @@ namespace Exiv2 {
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
         /*!
-          @brief Write the ASCII value up to the the first '\\0' character to an
+          @brief Write the ASCII value up to the first '\\0' character to an
                  output stream.  Any further characters are ignored and not
                  written to the output stream.
         */
@@ -488,7 +488,7 @@ namespace Exiv2 {
     /*!
       @brief %Value for an Exif comment.
 
-      This can be a plain Ascii string or a multipe byte encoded string. The
+      This can be a plain Ascii string or a multiple byte encoded string. The
       comment is expected to be encoded in the character set indicated (default
       undefined), but this is not checked. It is left to caller to decode and
       encode the string to and from readable text if that is required.

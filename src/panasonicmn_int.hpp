@@ -63,7 +63,7 @@ namespace Exiv2 {
         static std::ostream& printPressure(std::ostream& os, const Value& value, const ExifData*);
         //! Print special text values: title, landmark, county and so on
         static std::ostream& printPanasonicText(std::ostream& os, const Value& value, const ExifData*);
-        //! Print accerometer readings
+        //! Print accelerometer readings
         static std::ostream& printAccelerometer(std::ostream& os, const Value& value, const ExifData*);
         //! Print roll angle
         static std::ostream& printRollAngle(std::ostream& os, const Value& value, const ExifData*);

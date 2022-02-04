@@ -70,7 +70,7 @@ set Xmp.xmpDM.videoFrameSize/stDim:unit inch
 set Xmp.dc.publisher James Bond
 set Xmp.dc.publisher[1]/?ns:role secret agent
 
-# Add a qualifer to an array element of Xmp.dc.creator (added above)
+# Add a qualifier to an array element of Xmp.dc.creator (added above)
 set Xmp.dc.creator[2]/?ns:role programmer
 
 # Add an array of structures. First set a text property with just the 

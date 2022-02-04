@@ -8,7 +8,7 @@ source ./functions.source
     nls=$(runTest exiv2 -vVg nls|tail -1)
     platform=$(${bin}exiv2${exe} -vVg platform|tail -1)
     if [ "$nls" != "enable_nls=1" ]; then
-    	echo "exiv2 not bulid with nls"
+    	echo "exiv2 not build with nls"
     	exit 0
     fi
     if [ "$platform" == "platform=windows" ]; then

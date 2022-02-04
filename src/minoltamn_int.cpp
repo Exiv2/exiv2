@@ -790,7 +790,7 @@ namespace Exiv2 {
        {0x0048, "ExposureTime", N_("Exposure Time"),
                 N_("Exposure time"),
                 minoltaCs7DId, makerTags, unsignedShort, 1, printValue},
-        // 0x004A is a dupplicate than 0x002D.
+        // 0x004A is a duplicate than 0x002D.
        {0x004A, "FreeMemoryCardImages", N_("Free Memory Card Images"),
                 N_("Free memory card images"),
                 minoltaCs7DId, makerTags, unsignedShort, 1, printValue},
@@ -800,7 +800,7 @@ namespace Exiv2 {
        {0x0060, "NoiseReduction", N_("Noise Reduction"),
                 N_("Noise reduction"),
                 minoltaCs7DId, makerTags, unsignedShort, 1, printMinoltaSonyBoolValue},
-        // 0x0062 is a dupplicate than 0x005E.
+        // 0x0062 is a duplicate than 0x005E.
        {0x0062, "ImageNumber", N_("Image Number"),
                 N_("Image number"),
                 minoltaCs7DId, makerTags, unsignedShort, 1, printValue},

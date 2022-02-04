@@ -554,7 +554,7 @@ namespace Exiv2 {
         std::vector<long> iptcDataSegs;
 
         if (bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase) {
-            // nmonic for markers
+            // mnemonic for markers
             std::string nm[256];
             nm[0xd8] = "SOI";
             nm[0xd9] = "EOI";

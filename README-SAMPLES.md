@@ -21,7 +21,7 @@ The following programs are build and installed in /usr/local/bin.
 | _**addmoddel**_   | Demonstrates Exiv2 library APIs to add, modify or delete metadata | [addmoddel](#addmoddel) | [addmoddel.cpp](samples/addmoddel.cpp) |
 | _**exifcomment**_ | Set Exif.Photo.UserComment in an image  | [exifcomment](#exifcomment) | [exifcomment.cpp](samples/exifcomment.cpp) |
 | _**exifdata**_    | Prints _**Exif**_ metadata in different formats in an image | [exifdata](#exifdata) | [exifdata.cpp](samples/exifdata.cpp) |
-| _**exifprint**_   | Print _**Exif**_ metadata in images<br>Miscelleous other features | [exifprint](#exifprint)| [exifprint.cpp](samples/exifprint.cpp) |
+| _**exifprint**_   | Print _**Exif**_ metadata in images<br>Miscellaneous other features | [exifprint](#exifprint)| [exifprint.cpp](samples/exifprint.cpp) |
 | _**exifvalue**_   | Prints the value of a single _**Exif**_ tag in a file | [exifvalue](#exifvalue) | [exifvalue.cpp](samples/exifvalue.cpp) |
 | _**exiv2**_       | Utility to read and write image metadata, including Exif, IPTC, XMP, image comments, ICC Profile, thumbnails, image previews and many vendor makernote tags.<br>This is the primary test tool used by Team Exiv2 and can exercise almost all code in the library.  Due to the extensive capability of this utility, the APIs used are usually less obvious for casual code inspection. | [exiv2 manpage](exiv2.md)<br>[https://exiv2.org/sample.html](https://exiv2.org/sample.html) | |
 | _**exiv2json**_   | Extracts data from image in JSON format.<br>This program also contains a parser to recursively parse Xmp metadata into vectors and objects. | [exiv2json](#exiv2json) | [exiv2json.cpp](samples/exiv2json.cpp) |
@@ -162,7 +162,7 @@ Option: all | exif | iptc | xmp | filesystem
 
 This program dumps metadata from an image in JSON format. _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
 
-exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  [Family.Group.Tagname](exiv2.md#exiv2_key_syntax).  For XMP, results in "flat" output such such as:
+exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  [Family.Group.Tagname](exiv2.md#exiv2_key_syntax).  For XMP, results in "flat" output such as:
 
 ```
 $ curl --silent -O https://clanmills.com/Stonehenge.jpg
@@ -211,7 +211,7 @@ $
 Usage: geotag {-help|-version|-dst|-dryrun|-ascii|-verbose|-adjust value|-tz value|-delta value}+ path+
 ```
 
-Geotag reads one or more GPX files and adds GPS Tages to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
+Geotag reads one or more GPX files and adds GPS Tags to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
 
 If the path is a directory, geotag will read all the files in the directory.  It constructs a time dictionary of position data, then updates every image with GPS Tags.
 
@@ -478,7 +478,7 @@ Test access to preview images
 #### remotetest
 
 ```
-Usage: remotetest remotetest file {--nocurl | --curl}
+Usage: remotetest file {--nocurl | --curl}
 ```
 
 Tester application for testing remote i/o.

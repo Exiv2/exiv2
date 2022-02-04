@@ -310,7 +310,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor that accepts the file path on which IO will be
               performed. The constructor does not open the file, and
-              therefore never failes.
+              therefore never fails.
           @param path The full path of a file
          */
         explicit FileIo(const std::string& path);
@@ -329,7 +329,7 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         /*!
-          @brief Open the file using using the specified mode.
+          @brief Open the file using the specified mode.
 
           This method can also be used to "reopen" a file which will flush any
           unwritten data and reset the IO position to the start. Although
@@ -343,7 +343,7 @@ namespace Exiv2 {
          */
         int open(const std::string& mode);
         /*!
-          @brief Open the file using using the default access mode of "rb".
+          @brief Open the file using the default access mode of "rb".
               This method can also be used to "reopen" a file which will flush
               any unwritten data and reset the IO position to the start.
           @return 0 if successful;<BR>
@@ -884,7 +884,7 @@ namespace Exiv2 {
          */
         DataBuf read(long rcount) override;
         /*!
-          @brief Read data from the the memory blocks. Reading starts at the current
+          @brief Read data from the memory blocks. Reading starts at the current
               IO position and the position is advanced by the number of
               bytes read.
               If the memory blocks are not populated (!= bMemory), it will connect to server
@@ -994,7 +994,7 @@ namespace Exiv2 {
         /*!
           @brief Constructor that accepts the http URL on which IO will be
               performed. The constructor does not open the file, and
-              therefore never failes.
+              therefore never fails.
           @param url The full path of url
           @param blockSize the size of the memory block. The file content is
                 divided into the memory blocks. These blocks are populated

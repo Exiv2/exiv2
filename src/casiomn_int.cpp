@@ -367,11 +367,11 @@ namespace Exiv2 {
 
     //! AutoISO, tag 0x3008
     constexpr TagDetails casio2AutoISO[] = {
-        {  1, N_("On")                   },
-        {  2, N_("Off")                  },
-        {  7, N_("On (high sensitiviy)") },
-        {  8, N_("On (anti-shake)")      },
-        { 10, N_("High Speed")           }
+        {  1, N_("On")                    },
+        {  2, N_("Off")                   },
+        {  7, N_("On (high sensitivity)") },
+        {  8, N_("On (anti-shake)")       },
+        { 10, N_("High Speed")            }
     };
 
     //! AFMode, tag 0x3009
@@ -396,7 +396,7 @@ namespace Exiv2 {
         { 0, N_("Off")         },
         { 1, N_("Scenery")     },
         { 3, N_("Green")       },
-        { 5, N_("Unterwater")  },
+        { 5, N_("Underwater")  },
         { 9, N_("Flesh Tones") }
 
     };

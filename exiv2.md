@@ -107,7 +107,7 @@ image are determined.
 - Reading other TIFF-like RAW image formats, which are not listed in 
 the table, may also work.
 
-- Some image formats allow an extra interal type of metadata. Only 
+- Some image formats allow an extra internal type of metadata. Only 
 partial support exists for the RAF format.
 
 - Support for BMFF types such as AVIF, CR3, HEIF and HEIC is a build 
@@ -1008,8 +1008,8 @@ HH:MM:SScHH:MM
 ```
 where HH:MM:SS refers to local time's hour, minutes and seconds and, HH:MM 
 refers to hours and minutes with c being ahead (+) or behind (-) 
-Universal Coordinated Time (UCT) as described in ISO 8601 (e.g., 
-08:45:15+01:00 is 08:45:15, which is +1 hour different from UCT).
+Coordinated Universal Time (UTC) as described in ISO 8601 (e.g., 
+08:45:15+01:00 is 08:45:15, which is +1 hour different from UTC).
 
 <div id="date_time_makernotes">
 
@@ -1803,7 +1803,7 @@ tags. See [fixiso](#fi_fixiso).
 <div id="return_value">
 
 # 14 RETURN VALUE
-`0` if successfull, otherwise a positive integer as error code.
+`0` if successful, otherwise a positive integer as error code.
 
 [TOC](#TOC)
 
@@ -1815,7 +1815,7 @@ tags. See [fixiso](#fi_fixiso).
 
 ### TZ
 This is the timezone to use when adjusting for daylight savings time (DST) and 
-affects the changing of the the time and date (e.g., when adjusting or 
+affects the changing of the time and date (e.g., when adjusting or 
 renaming). See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones 
 for a list of valid values to use. The variable is not set by default for 
 Windows and an attempt is made to obtain the timezone from the OS. If this 

@@ -164,7 +164,7 @@ bool isArray(std::string& value)
 template <class T>
 void push(Jzon::Node& node,const std::string& key,T i)
 {
-#define ABORT_IF_I_EMTPY          \
+#define ABORT_IF_I_EMPTY          \
     if (i->value().size() == 0) { \
         return;                   \
     }
@@ -200,7 +200,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
 
         case Exiv2::unsignedRational:
         case Exiv2::signedRational: {
-             ABORT_IF_I_EMTPY
+             ABORT_IF_I_EMPTY
              Jzon::Array     arr;
              Exiv2::Rational rat = i->value().toRational();
              arr.Add(rat.first );
@@ -209,7 +209,7 @@ void push(Jzon::Node& node,const std::string& key,T i)
         } break;
 
         case Exiv2::langAlt: {
-             ABORT_IF_I_EMTPY
+             ABORT_IF_I_EMPTY
              Jzon::Object l ;
              const auto& langs = dynamic_cast<const Exiv2::LangAltValue&>(i->value());
              for (auto&& lang : langs.value_) {

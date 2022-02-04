@@ -18,7 +18,7 @@ Coding Guidelines
 - All new code that is added must be resistant to integer overflows, thus if you multiply, add, subtract, divide or bitshift integers you must ensure that no overflow can occur. Please keep in mind that signed integer overflow is undefined behavior, thus you must check for overflows before performing the arithmetic operation, otherwise the compiler is free to optimize your check after the overflow away (this has happened already).
 - All new code must be resistant to buffer overflows. Thus before you access arrays a range check must be performed.
 - Distrust any data that you extract from images or from external sources. E.g. if the metadata of an image gives you an offset of another information inside that file, do not assume that this offset will not result in an out off bounds read.
-- New code must not assume the endianes and the word size of the system it is being run on. I.e. don't assume that  `sizeof(int) = 8` or that the following will work:
+- New code must not assume the endianness and the word size of the system it is being run on. I.e. don't assume that  `sizeof(int) = 8` or that the following will work:
 ```cpp
 const uint32_t some_var = get_var();
 const uint16_t lower_2_bytes = (const uint16_t*) &some_var;

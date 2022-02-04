@@ -3,7 +3,7 @@
 import system_tests
 
 
-class Sigma24_105mmRecognization(metaclass=system_tests.CaseMeta):
+class Sigma24_105mmRecognition(metaclass=system_tests.CaseMeta):
 
     url = "https://github.com/Exiv2/exiv2/issues/45"
 

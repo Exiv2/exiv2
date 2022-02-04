@@ -121,7 +121,7 @@ namespace Exiv2 {
         uint32_t headerSize = readPgfHeaderSize(*io_);
         readPgfHeaderStructure(*io_, pixelWidth_, pixelHeight_);
 
-        // And now, the most interresting, the user data byte array where metadata are stored as small image.
+        // And now, the most interesting, the user data byte array where metadata are stored as small image.
 
         enforce(headerSize <= std::numeric_limits<uint32_t>::max() - 8, kerCorruptedMetadata);
 #if LONG_MAX < UINT_MAX

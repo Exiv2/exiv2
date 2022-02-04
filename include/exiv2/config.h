@@ -36,7 +36,7 @@ typedef int pid_t;
 #include "exv_conf.h"
 ////////////////////////////////////////
 
-///// Start of platform marcos /////////
+///// Start of platform macros /////////
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MING__
 #  define __MING__  1
@@ -79,9 +79,9 @@ typedef int pid_t;
 #  include <fstream>
 # endif
 #endif
-///// End of platform marcos /////////
+///// End of platform macros /////////
 
-///// Path separator marcos      /////
+///// Path separator macros      /////
 #ifndef EXV_SEPARATOR_STR
 # if defined(WIN32) && !defined(__CYGWIN__)
 #  define EXV_SEPARATOR_STR "\\"

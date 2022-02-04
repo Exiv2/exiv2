@@ -740,8 +740,8 @@ namespace Exiv2 {
          {0x000a, "WB_GRGBLevelsDaylight", N_("WB_G RGB Levels Daylight"), N_("WB_G RGB Levels Daylight"), canonWbId, makerTags, unsignedLong, -1, printValue},
          {0x0012, "WB_GRGBLevelsCloudy", N_("WB_G RGB Levels Cloudy"), N_("WB_G RGB Levels Cloudy"), canonWbId, makerTags, unsignedLong, -1, printValue},
          {0x001a, "WB_GRGBLevelsTungsten", N_("WB_G RGB Levels Tungsten"), N_("WB_G RGB Levels Tungsten"), canonWbId, makerTags, unsignedLong, -1, printValue},
-         {0x0022, "WB_GRGBLevelsFluorescent", N_("WB_G RGB Levels Flourescent"), N_("WB_G RGB Levels Flourescent"), canonWbId, makerTags, unsignedLong, -1, printValue},
-         {0x002a, "WB_GRGBLevelsFluorHigh", N_("WB_G RGB Levels Flourecent High"), N_("WB_G RGB Levels Flourecent High"), canonWbId, makerTags, unsignedLong, -1, printValue},
+         {0x0022, "WB_GRGBLevelsFluorescent", N_("WB_G RGB Levels Fluorescent"), N_("WB_G RGB Levels Fluorescent"), canonWbId, makerTags, unsignedLong, -1, printValue},
+         {0x002a, "WB_GRGBLevelsFluorHigh", N_("WB_G RGB Levels Fluorescent High"), N_("WB_G RGB Levels Fluorescent High"), canonWbId, makerTags, unsignedLong, -1, printValue},
          {0x0032, "WB_GRGBLevelsFlash", N_("WB_G RGB Levels Flash"), N_("WB_G RGB Levels Flash"), canonWbId, makerTags, unsignedLong, -1, printValue},
          {0x003a, "WB_GRGBLevelsUnderwater", N_("WB_G RGB Levels Underwater"), N_("WB_G RGB Levels Underwater"), canonWbId, makerTags, unsignedLong, -1, printValue},
          {0x0042, "WB_GRGBLevelsCustom1", N_("WB_G RGB Levels Custom 1"), N_("WB_G RGB Levels Custom 1"), canonWbId, makerTags, unsignedLong, -1, printValue},
@@ -849,7 +849,7 @@ namespace Exiv2 {
          {0x000d, "WB_RGGBLevelsShade", N_("WB_RGGB Levels Shade"), N_("WB_RGGB Levels Shade"), canonCbId, makerTags, signedShort, -1, printValue},
          {0x001a, "WB_RGGBLevelsCloudy", N_("WB_RGGB Levels Cloudy"), N_("WB_RGGB Levels Cloudy"), canonCbId, makerTags, signedShort, -1, printValue},
          {0x0011, "WB_RGGBLevelsTungsten", N_("WB_RGGB Levels Tungsten"), N_("WB_RGGB Levels Tungsten"), canonCbId, makerTags, signedShort, -1, printValue},
-         {0x0015, "WB_RGGBLevelsFlourescent", N_("WB_RGGB Levels Flourecent"), N_("WB_RGGB Levels Flourecent"), canonCbId, makerTags, signedShort, -1, printValue},
+         {0x0015, "WB_RGGBLevelsFluorescent", N_("WB_RGGB Levels Fluorescent"), N_("WB_RGGB Levels Fluorescent"), canonCbId, makerTags, signedShort, -1, printValue},
          {0x0032, "WB_RGGBLevelsFlash", N_("WB_RGGB Levels Flash"), N_("WB_RGGB Levels Flash"), canonCbId, makerTags, signedShort, -1, printValue},
          {0x001d, "WB_RGGBLevelsCustomBlackLevels", N_("WB_RGGB Levels Custom Black Levels"), N_("WB_RGGB Levels Custom Black Levels"), canonCbId, makerTags, signedShort, -1, printValue},
          {0x0021, "WB_RGGBLevelsKelvin", N_("WB_RGGB Levels Kelvin"), N_("WB_RGGB Levels Kelvin"), canonCbId, makerTags, signedShort, -1, printValue},
@@ -1189,7 +1189,7 @@ namespace Exiv2 {
     // Canon OneShotAFRelease, tag 0x0001
     constexpr TagDetails canonOneShotAFRelease[] = {
         { 0, N_("Focus Priority") },
-        { 1, N_("Release Priortiy") }
+        { 1, N_("Release Priority") }
     };
 
         // Canon AutoAFPointSelEOSiTRAF, tag 0x0001
@@ -1230,7 +1230,7 @@ namespace Exiv2 {
     // Canon ManualAFPointSelPattern, tag 0x0001
     constexpr TagDetails canonManualAFPointSelPattern[] = {
         { 0, N_("Stops at AF Area Edges") },
-        { 1, N_("Continous") }
+        { 1, N_("Continuous") }
     };
 
     // Canon AFPointDisplayDuringFocus, tag 0x0001
@@ -2914,7 +2914,7 @@ namespace Exiv2 {
         if (   value.typeId() == unsignedShort
             && value.count() > 0) {
             // The offset of '5' seems to be ok for most Canons (see Exiftool)
-            // It might be explained by the fakt, that most Canons have a longest
+            // It might be explained by the fact, that most Canons have a longest
             // exposure of 30s which is 5 EV below 1s
             // see also printSi0x0017
             std::ostringstream oss;

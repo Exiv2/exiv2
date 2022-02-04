@@ -262,7 +262,7 @@ namespace Exiv2 {
                                                                                                         "intended to give human readers a general indication of the steps taken to make the "
                                                                                                         "changes from the previous version to this one. The list should be at an abstract "
                                                                                                         "level; it is not intended to be an exhaustive keystroke or other detailed history.") },
-        { "Ingredients",      N_("Ingredients"),       "bag ResourceRef",   xmpBag,     xmpInternal, N_("References to resources that were incorporated, byinclusion or reference, into this resource.") },
+        { "Ingredients",      N_("Ingredients"),       "bag ResourceRef",   xmpBag,     xmpInternal, N_("References to resources that were incorporated, by inclusion or reference, into this resource.") },
         { "InstanceID",       N_("Instance ID"),       "URI",               xmpText,    xmpInternal, N_("An identifier for a specific incarnation of a document, updated each time a file "
                                                                                                         "is saved. It should be based on a UUID; see Document and Instance IDs below.") },
         { "ManagedFrom",      N_("Managed From"),      "ResourceRef",       xmpText,    xmpInternal, N_("A reference to the document as it was prior to becoming managed. It is set when a "
@@ -4161,7 +4161,7 @@ namespace Exiv2 {
 
           @throw Error if the key cannot be decomposed.
         */
-        void decomposeKey(const std::string& key);  //!< Misterious magic
+        void decomposeKey(const std::string& key);  //!< Mysterious magic
 
         // DATA
         static constexpr auto familyName_ = "Xmp";  //!< "Xmp"

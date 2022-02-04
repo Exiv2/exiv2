@@ -187,7 +187,7 @@ try {
     xmpData["Xmp.dc.publisher"] = "James Bond";  // creates an unordered array
     xmpData["Xmp.dc.publisher[1]/?ns:role"] = "secret agent";
 
-    // Add a qualifer to an array element of Xmp.dc.creator (added above)
+    // Add a qualifier to an array element of Xmp.dc.creator (added above)
     tv.read("programmer");
     xmpData.add(Exiv2::XmpKey("Xmp.dc.creator[2]/?ns:role"), &tv);
 

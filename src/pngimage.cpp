@@ -594,7 +594,7 @@ namespace Exiv2 {
                 return;
             }
             if (!strcmp(szChunk, "eXIf")) {
-                ; // do nothing  Exif metdata is written following IHDR
+                ; // do nothing  Exif metadata is written following IHDR
                 ; // as zTXt chunk with signature Raw profile type exif__
             } else if (!strcmp(szChunk, "IHDR")) {
 #ifdef EXIV2_DEBUG_MESSAGES

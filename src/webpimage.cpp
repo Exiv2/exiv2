@@ -208,14 +208,14 @@ namespace Exiv2 {
                 height = Exiv2::getULong(size_buf, littleEndian) + 1;
             }
 
-            /* Chunk with with animation control data. */
+            /* Chunk with animation control data. */
 #ifdef __CHECK_FOR_ALPHA__  // Maybe in the future
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANIM) && !has_alpha) {
                 has_alpha = true;
             }
 #endif
 
-            /* Chunk with with lossy image data. */
+            /* Chunk with lossy image data. */
 #ifdef __CHECK_FOR_ALPHA__ // Maybe in the future
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_alpha) {
                 has_alpha = true;
@@ -238,7 +238,7 @@ namespace Exiv2 {
                 height = Exiv2::getUShort(size_buf, littleEndian) & 0x3fff;
             }
 
-            /* Chunk with with lossless image data. */
+            /* Chunk with lossless image data. */
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_alpha) {
                 enforce(size >= 5, Exiv2::kerCorruptedMetadata);
                 if ((payload.read_uint8(4) & WEBP_VP8X_ALPHA_BIT) == WEBP_VP8X_ALPHA_BIT) {

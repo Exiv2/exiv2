@@ -7,7 +7,7 @@
 #
 # Before to run this script you must set these shell variable :
 # $EXIVCoverityToken with token of Exiv2 project given by Coverity SCAN
-# $EXIVCoverityEmail with email adress to send SCAN result.
+# $EXIVCoverityEmail with email address to send SCAN result.
 #
 # Coverity Scan bin dir must be appended to PATH variable.
 #

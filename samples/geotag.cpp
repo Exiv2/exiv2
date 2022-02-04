@@ -310,7 +310,7 @@ struct UserData final
     std::string exift;
     time_t      time{0};
     Options&    options_;
-// static public data memembers
+// static public data members
 };
 
 // XML Parser Callbacks

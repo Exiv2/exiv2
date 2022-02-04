@@ -2080,7 +2080,7 @@ namespace Exiv2 {
             throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
-        // standadize the path without "/" at the beginning.
+        // standardize the path without "/" at the beginning.
         std::size_t protocolIndex = scriptPath.find("://");
         if (protocolIndex == std::string::npos && scriptPath[0] != '/') {
             scriptPath = "/" + scriptPath;
@@ -2192,7 +2192,7 @@ namespace Exiv2 {
     CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init())
     {
         if(!curl_) {
-            throw Error(kerErrorMessage, "Uable to init libcurl.");
+            throw Error(kerErrorMessage, "Unable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
@@ -2218,7 +2218,7 @@ namespace Exiv2 {
         // init curl pointer
         curl_ = curl_easy_init();
         if(!curl_) {
-            throw Error(kerErrorMessage, "Uable to init libcurl.");
+            throw Error(kerErrorMessage, "Unable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
@@ -2245,7 +2245,7 @@ namespace Exiv2 {
 
         /* Perform the request, res will get the return code */
         CURLcode res = curl_easy_perform(curl_);
-        if(res != CURLE_OK) { // error happends
+        if(res != CURLE_OK) { // error happened
             throw Error(kerErrorMessage, curl_easy_strerror(res));
         }
         // get status

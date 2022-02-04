@@ -24,11 +24,11 @@
 
 using namespace Exiv2;
 
-// The tests corrispond to those in issue https://github.com/Exiv2/exiv2/issues/1481
+// The tests correspond to those in issue https://github.com/Exiv2/exiv2/issues/1481
 
 
 // 1. No language value
-TEST(LangAltValueReadTest, noLangugeValBeforeSpace)
+TEST(LangAltValueReadTest, noLanguageValBeforeSpace)
 {
     XmpParser::initialize();
     ::atexit(XmpParser::terminate);
@@ -45,7 +45,7 @@ TEST(LangAltValueReadTest, noLangugeValBeforeSpace)
     }
 }
 
-TEST(LangAltValueReadTest, quoteThenNoLangugeValBeforeSpace)
+TEST(LangAltValueReadTest, quoteThenNoLanguageValBeforeSpace)
 {
     XmpParser::initialize();
     ::atexit(XmpParser::terminate);

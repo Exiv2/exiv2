@@ -102,12 +102,12 @@ namespace Exiv2 {
         asciiString        = 2, //!< Exif ASCII type, 8-bit byte.
         unsignedShort      = 3, //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
         unsignedLong       = 4, //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
-        unsignedRational   = 5, //!< Exif RATIONAL type, two LONGs: numerator and denumerator of a fraction.
+        unsignedRational   = 5, //!< Exif RATIONAL type, two LONGs: numerator and denominator of a fraction.
         signedByte         = 6, //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
         undefined          = 7, //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
         signedShort        = 8, //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
         signedLong         = 9, //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
-        signedRational     =10, //!< Exif SRATIONAL type, two SLONGs: numerator and denumerator of a fraction.
+        signedRational     =10, //!< Exif SRATIONAL type, two SLONGs: numerator and denominator of a fraction.
         tiffFloat          =11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
         tiffDouble         =12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
         tiffIfd            =13, //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
