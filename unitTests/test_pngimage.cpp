@@ -158,6 +158,14 @@ TEST(PngImage, cannotWriteMetadataToEmptyIo)
     }
 }
 
+TEST(PngImage, canWriteMetadataFromCreatedPngImage)
+{
+    auto memIo = std::make_unique<MemIo>();
+    const bool create {true};
+    PngImage png(std::move(memIo), create);
+    ASSERT_NO_THROW(png.writeMetadata());
+}
+
 TEST(PngImage, cannotWriteMetadataToIoWhichCannotBeOpened)
 {
     auto memIo = std::make_unique<FileIo>("NonExistingPath.png");

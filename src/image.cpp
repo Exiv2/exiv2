@@ -741,7 +741,8 @@ namespace Exiv2 {
 
     bool Image::good() const
     {
-        if (io_->open() != 0) return false;
+        if (io_->open() != 0)
+            return false;
         IoCloser closer(*io_);
         return ImageFactory::checkType(imageType_, *io_, false);
     }
@@ -809,7 +810,7 @@ namespace Exiv2 {
             return r->isThisType_(io, advance);
         }
         return false;
-    } // ImageFactory::checkType
+    }
 
     int ImageFactory::getType(const std::string& path)
     {

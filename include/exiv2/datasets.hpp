@@ -97,6 +97,7 @@ namespace Exiv2 {
         static constexpr uint16_t UNO                    = 100;
         static constexpr uint16_t ARMId                  = 120;
         static constexpr uint16_t ARMVersion             = 122;
+
         static constexpr uint16_t RecordVersion          = 0;
         static constexpr uint16_t ObjectType             = 3;
         static constexpr uint16_t ObjectAttribute        = 4;
@@ -172,6 +173,7 @@ namespace Exiv2 {
                   dataset.
          */
         static std::string dataSetName(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the title (label) of the dataset.
           @param number The dataset number
@@ -179,6 +181,7 @@ namespace Exiv2 {
           @return The title (label) of the dataset
          */
         static const char* dataSetTitle(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the description of the dataset.
           @param number The dataset number
@@ -186,6 +189,7 @@ namespace Exiv2 {
           @return The description of the dataset
          */
         static const char* dataSetDesc(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the Photoshop name of a given dataset.
           @param number The dataset number
@@ -194,6 +198,7 @@ namespace Exiv2 {
                  string if Photoshop does not use the dataset.
          */
         static const char* dataSetPsName(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Check if a given dataset is repeatable
           @param number The dataset number
@@ -201,6 +206,7 @@ namespace Exiv2 {
           @return true if the given dataset is repeatable otherwise false
          */
         static bool dataSetRepeatable(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the dataSet number for dataset name and record id
 
@@ -212,8 +218,10 @@ namespace Exiv2 {
           @throw Error if the \em dataSetName or \em recordId are invalid
          */
         static uint16_t dataSet(const std::string& dataSetName, uint16_t recordId);
+
         //! Return the type for dataSet number and Record id
         static TypeId dataSetType(uint16_t number, uint16_t recordId);
+
         /*!
           @brief Return the name of the Record
           @param recordId The record id
@@ -222,24 +230,14 @@ namespace Exiv2 {
                   unknown record.
          */
         static std::string recordName(uint16_t recordId);
+
         /*!
            @brief Return the description of a record
            @param recordId Record Id number
            @return the description of the Record
          */
         static const char* recordDesc(uint16_t recordId);
-        /*!
-           @brief Return the Id number of a record
-           @param recordName Name of a record type
-           @return the Id number of a Record
-           @throw Error if the record is not known;
-         */
-        static uint16_t recordId(const std::string& recordName);
-        //! Return read-only list of built-in Envelope Record datasets
-        static const DataSet* envelopeRecordList();
-        //! Return read-only list of built-in Application2 Record datasets
-        static const DataSet* application2RecordList();
-        //! Print a list of all dataSets to output stream
+
         static void dataSetList(std::ostream& os);
 
     private:
@@ -247,7 +245,6 @@ namespace Exiv2 {
         static int dataSetIdx(const std::string& dataSetName, uint16_t recordId);
 
         static const DataSet* const records_[];
-        static const RecordInfo recordInfo_[];
 
     }; // class IptcDataSets
 
@@ -278,17 +275,11 @@ namespace Exiv2 {
         IptcKey(uint16_t tag, uint16_t record);
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
+        IptcKey& operator=(const IptcKey& rhs) = delete;
         //! Destructor
         ~IptcKey() override = default;
         //@}
 
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Assignment operator.
-         */
-        IptcKey& operator=(const IptcKey& rhs);
-        //@}
 
         //! @name Accessors
         //@{
@@ -331,10 +322,6 @@ namespace Exiv2 {
         //! Internal virtual copy constructor.
         IptcKey* clone_() const override;
 
-        // DATA
-#ifndef SWIG
-        static constexpr auto familyName_ = "Iptc";
-#endif
         uint16_t tag_;                 //!< Tag value
         uint16_t record_;              //!< Record value
         std::string key_;              //!< Key

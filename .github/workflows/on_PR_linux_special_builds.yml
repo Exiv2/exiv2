@@ -17,6 +17,7 @@ jobs:
         run: |
           sudo apt-get install ninja-build
           pip3 install conan==1.43.0
+          pip3 install gcovr
 
       - name: Conan common config
         run: |
@@ -32,16 +33,27 @@ jobs:
 
       - name: Build
         run: |
-          cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cd build && \
+          cmake -GNinja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_ENABLE_PNG=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DEXIV2_BUILD_SAMPLES=ON \
+            -DBUILD_WITH_COVERAGE=ON \
+            -DCMAKE_INSTALL_PREFIX=install \
+            .. && \
           cmake --build .
 
       - name: Tests + Upload coverage
         run: |
           cd build
           ctest --output-on-failure
-          pip install gcovr
-          gcovr -r ./../ -x --exclude-unreachable-branches --exclude-throw-branches -o coverage.xml .
+          gcovr --root .. --object-dir . --exclude-directories xmpsdk --exclude-directories unitTests --exclude-directories samples --exclude '.*xmpsdk.*' --exclude '.*unitTests.*' --exclude '.*samples.*' --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml
           curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
@@ -49,7 +61,8 @@ jobs:
           gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
           shasum -a 256 -c codecov.SHA256SUM
           chmod +x codecov
-          ./codecov -f build/coverage.xml
+          ls -lh
+          ./codecov -f coverage.xml
 
   special_releaseValgrind:
     name: 'Ubuntu 20.04 - GCC - Release+Valgrind'

@@ -79,25 +79,17 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void readMetadata() override;
-        /*!
-          @brief Todo: Write metadata back to the image. This method is not
-              yet(?) implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
-         */
+
+        /// @throws Error(kerWritingImageFormatUnsupported).
         void writeMetadata() override;
-        /*!
-          @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
-         */
+
+        /// @throws Error(kerInvalidSettingForImage)
         void setExifData(const ExifData& exifData) override;
-        /*!
-          @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
-         */
+
+        /// @throws Error(kerInvalidSettingForImage)
         void setIptcData(const IptcData& iptcData) override;
-        /*!
-          @brief Not supported. Calling this function will throw an instance
-              of Error(kerInvalidSettingForImage).
-         */
+
+        /// @throws Error(kerInvalidSettingForImage)
         void setComment(const std::string& comment) override;
         //@}
 
@@ -105,7 +97,6 @@ namespace Exiv2 {
         //@{
         std::string mimeType() const override;
         //@}
-
     }; // class BmpImage
 
 // *****************************************************************************
