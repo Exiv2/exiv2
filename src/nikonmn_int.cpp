@@ -383,7 +383,7 @@ namespace Exiv2 {
             unsigned long focusPoint = value.toLong(1);
 
             switch (focusPoint) {
-            // Could use array nikonFokuspoints
+            // Could use array nikonFocuspoints
             case 0:
             case 1:
             case 2:
