@@ -660,7 +660,7 @@ Extract target(s) for the [extract](#ex_extract) action. Possible targets are:
 | C                | Extract ICC profile, to a file called *\<file\>.icc* (see [ICC PROFILES](#icc_profiles)) |
 | X                | Extract metadata to an XMP sidecar file, \<file\>.xmp. Other targets cannot be used with this, as only XMP data is written. Extracted XMP tags include those converted from Exif and IPTC |
 | XX               | Extract "raw" metadata to a sidecar file, \<file\>.exv. The remaining targets determine which metadata to include, possible are Exif and IPTC (XMP is always included) |
-| -                | Output to stdout (see [--insert tgt2](#insert_tgt2) for an example of this feature). This argument ignores [--verbose](#verbose) |
+| -                | Output to stdout (see example in [--insert tgt2](#insert_tgt2)). This ignores [--verbose](#verbose) and only allows extracting from 1 file |
 
 To extract to a location other than the current directory, use [--location dir](#location_dir). 
 
