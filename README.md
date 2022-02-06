@@ -910,6 +910,7 @@ The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  
 
 [TOC](#TOC)
 <div id="4-1">
+
 ### 4.1 Running tests on Unix-like systems
 
 You can run tests directly from the build:
@@ -945,6 +946,7 @@ $
 
 [TOC](#TOC)
 <div id="4-2">
+
 ### 4.2 Running tests on Visual Studio builds from cmd.exe
 
 **Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe._  I copied the python.exe program:
@@ -995,6 +997,7 @@ set EXIV2_PORT=
 
 [TOC](#TOC)
 <div id="4-3">
+
 ### 4.3 Unit Tests
 
 The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *cmake* option `-DEXIV2_BUILD_UNIT_TESTS=On`.
@@ -1014,6 +1017,7 @@ $ popd
 
 [TOC](#TOC)
 <div id="4-4">
+
 ### 4.4 Bugfix Tests
 
 You can run the bugfix tests from the build directory:
