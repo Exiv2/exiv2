@@ -758,6 +758,8 @@ constexpr TagInfo PanasonicMakerNote::tagInfoRaw_[] = {
      unsignedLong, -1, printValue},
     {0x0118, "RawDataOffset", N_("Raw Data Offset"), N_("Raw data offset"), IfdId::panaRawId, SectionId::panaRaw,
      unsignedLong, -1, printValue},
+    {0x0119, "DistortionInfo", N_("Distortion Info"), N_("Distortion info"), IfdId::panaRawId, SectionId::panaRaw,
+     signedShort, -1, printValue},
     {0x8769, "ExifTag", N_("Exif IFD Pointer"), N_("A pointer to the Exif IFD"), IfdId::panaRawId, SectionId::panaRaw,
      unsignedLong, -1, printValue},
     {0x8825, "GPSTag", N_("GPS Info IFD Pointer"), N_("A pointer to the GPS Info IFD"), IfdId::panaRawId,
