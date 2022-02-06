@@ -74,7 +74,7 @@ try {
     xmpData["Xmp.dc.eight"]   = true;
 
     // Extracting values
-    assert(xmpData["Xmp.dc.one"].toInt64() == -1);
+    assert(xmpData["Xmp.dc.one"].toLong() == -1);
     assert(xmpData["Xmp.dc.one"].value().ok());
 
     const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
