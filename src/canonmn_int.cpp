@@ -3092,7 +3092,7 @@ namespace Exiv2 {
         // remove fraction
         const auto remainder = val & 0x1f;
         val -= remainder;
-        float frac = remainder;
+        float frac = static_cast<float>(remainder);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {
             frac = 32.0F / 3;
