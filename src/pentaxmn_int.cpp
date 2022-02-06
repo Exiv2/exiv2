@@ -1125,8 +1125,8 @@ namespace Exiv2 {
             if (l1 == 0) {
                 os << _("No extended bracketing");
             } else {
-                long type = l1 >> 8;
-                long range = l1 & 0xff;
+                auto type = l1 >> 8;
+                auto range = l1 & 0xff;
                 switch (type) {
                     case 1:
                         os << _("WB-BA");
