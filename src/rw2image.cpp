@@ -136,8 +136,8 @@ namespace Exiv2 {
         if (list.size() != 1) return;
         ExifData exifData;
         PreviewImage preview = loader.getPreviewImage(*list.begin());
-        Image::UniquePtr image = ImageFactory::open(preview.pData(), preview.size());
-        if (image.get() == nullptr) {
+        auto image = ImageFactory::open(preview.pData(), preview.size());
+        if (!image) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to open RW2 preview image.\n";
 #endif
@@ -238,7 +238,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new Rw2Image(std::move(io)));
+        auto image = std::make_unique<Rw2Image>(std::move(io));
         if (!image->good()) {
             image.reset();
         }

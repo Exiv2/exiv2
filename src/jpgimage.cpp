@@ -744,10 +744,11 @@ namespace Exiv2 {
                         if (bPS) {
                             IptcData::printStructure(out, makeSlice(buf, 0, size), depth);
                         } else {
-                            // create a copy on write memio object with the data, then print the structure
-                            BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(buf.c_data(start), size - start));
-                            if (start < max)
-                                printTiffStructure(*p, out, option, depth);
+                            if (start < max) {
+                                // create a copy on write memio object with the data, then print the structure
+                                MemIo p (buf.c_data(start), size - start);
+                                printTiffStructure(p, out, option, depth);
+                            }
                         }
 
                         // restore and clean up
@@ -817,9 +818,7 @@ namespace Exiv2 {
             // exiv2 -pS E.jpg
 
             // binary copy io_ to a temporary file
-            BasicIo::UniquePtr tempIo(new MemIo);
-
-            assert(tempIo.get() != 0);
+            auto tempIo = std::make_unique<MemIo>();
             for (size_t i = 0; i < (count / 2) + 1; i++) {
                 long start = pos[2 * i] + 2;  // step JPG 2 byte marker
                 if (start == 2)
@@ -1304,7 +1303,7 @@ namespace Exiv2 {
 
     Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new JpegImage(std::move(io), create));
+        auto image = std::make_unique<JpegImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }
@@ -1357,9 +1356,9 @@ namespace Exiv2 {
 
     Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image;
-        image = Image::UniquePtr(new ExvImage(std::move(io), create));
-        if (!image->good()) image.reset();
+        auto image = std::make_unique<ExvImage>(std::move(io), create);
+        if (!image->good())
+            image.reset();
         return image;
     }
 

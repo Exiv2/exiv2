@@ -112,6 +112,7 @@ namespace Exiv2 {
     } // XmpSidecar::readMetadata
 
     // lower case string
+    /// \todo very similar function in pngimage (upper). We should move those things to a string utilities file
     static std::string toLowerCase(const std::string& a)
     {
         std::string b = a;
@@ -174,8 +175,8 @@ namespace Exiv2 {
             if (xmpPacket_.substr(0, 5)  != "<?xml") {
                 xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
             }
-            BasicIo::UniquePtr tempIo(new MemIo);
-            assert(tempIo.get() != 0);
+            auto tempIo = std::make_unique<MemIo>();
+
             // Write XMP packet
             if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),
                                  static_cast<long>(xmpPacket_.size()))
@@ -190,7 +191,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new XmpSidecar(std::move(io), create));
+        auto image = std::make_unique<XmpSidecar>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

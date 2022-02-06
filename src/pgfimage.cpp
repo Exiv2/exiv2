@@ -143,13 +143,12 @@ namespace Exiv2 {
         if (io_->error()) throw Error(kerFailedToReadImageData);
         if (bufRead != imgData.size()) throw Error(kerInputDataReadFailed);
 
-        Image::UniquePtr image = Exiv2::ImageFactory::open(imgData.c_data(), imgData.size());
+        auto image = Exiv2::ImageFactory::open(imgData.c_data(), imgData.size());
         image->readMetadata();
         exifData() = image->exifData();
         iptcData() = image->iptcData();
         xmpData()  = image->xmpData();
-
-    } // PgfImage::readMetadata
+    }
 
     void PgfImage::writeMetadata()
     {
@@ -158,8 +157,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -192,7 +190,7 @@ namespace Exiv2 {
         int w = 0, h = 0;
         DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
-        Image::UniquePtr img  = ImageFactory::create(ImageType::png);
+        auto img = ImageFactory::create(ImageType::png);
 
         img->setExifData(exifData_);
         img->setIptcData(iptcData_);
@@ -316,7 +314,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new PgfImage(std::move(io), create));
+        auto image = std::make_unique<PgfImage>(std::move(io), create);
         if (!image->good())
         {
             image.reset();

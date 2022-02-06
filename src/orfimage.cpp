@@ -192,7 +192,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new OrfImage(std::move(io), create));
+        auto image = std::make_unique<OrfImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

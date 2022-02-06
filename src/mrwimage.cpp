@@ -155,7 +155,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new MrwImage(std::move(io), create));
+        auto image = std::make_unique<MrwImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

@@ -1836,13 +1836,11 @@ namespace Exiv2 {
         return key.r_ == root_ && key.g_ == group_;
     }
 
-    TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag,
-                                               IfdId    group)
+    TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group)
     {
-        TiffComponent::UniquePtr tc;
+        std::unique_ptr<TiffComponent> tc;
         auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
-        const TiffGroupStruct* ts = find(tiffGroupStruct_,
-                                         TiffGroupStruct::Key(extendedTag, group));
+        const TiffGroupStruct* ts = find(tiffGroupStruct_, TiffGroupStruct::Key(extendedTag, group));
         if (ts && ts->newTiffCompFct_) {
             tc = ts->newTiffCompFct_(tag, group);
         }
@@ -1895,7 +1893,8 @@ namespace Exiv2 {
             ph = std::unique_ptr<TiffHeaderBase>(new TiffHeader);
             pHeader = ph.get();
         }
-        TiffComponent::UniquePtr rootDir = parse(pData, size, root, pHeader);
+
+        auto rootDir = parse(pData, size, root, pHeader);
         if (nullptr != rootDir.get()) {
             TiffDecoder decoder(exifData,
                                 iptcData,
@@ -1931,7 +1930,7 @@ namespace Exiv2 {
         assert(pHeader);
         assert(pHeader->byteOrder() != invalidByteOrder);
         WriteMethod writeMethod = wmIntrusive;
-        TiffComponent::UniquePtr parsedTree = parse(pData, size, root, pHeader);
+        auto parsedTree = parse(pData, size, root, pHeader);
         PrimaryGroups primaryGroups;
         findPrimaryGroups(primaryGroups, parsedTree.get());
         if (nullptr != parsedTree.get()) {
@@ -1948,7 +1947,7 @@ namespace Exiv2 {
             if (!encoder.dirty()) writeMethod = wmNonIntrusive;
         }
         if (writeMethod == wmIntrusive) {
-            TiffComponent::UniquePtr createdTree = TiffCreator::create(root, ifdIdNotSet);
+            auto createdTree = TiffCreator::create(root, ifdIdNotSet);
             if (nullptr != parsedTree.get()) {
                 // Copy image tags from the original image to the composite
                 TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
@@ -1960,7 +1959,7 @@ namespace Exiv2 {
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();
-            BasicIo::UniquePtr tempIo(new MemIo);
+            auto tempIo = std::make_unique<MemIo>();
             assert(tempIo.get() != 0);
             IoWrapper ioWrapper(*tempIo, header.c_data(), header.size(), pOffsetWriter);
             auto imageIdx(uint32_t(-1));
@@ -1996,8 +1995,8 @@ namespace Exiv2 {
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(kerNotAnImage, "TIFF");
         }
-        TiffComponent::UniquePtr rootDir = TiffCreator::create(root, ifdIdNotSet);
-        if (nullptr != rootDir.get()) {
+        auto rootDir = TiffCreator::create(root, ifdIdNotSet);
+        if (rootDir) {
             rootDir->setStart(pData + pHeader->offset());
             TiffRwState state(pHeader->byteOrder(), 0);
             TiffReader reader(pData, size, rootDir.get(), state);

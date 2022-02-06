@@ -4010,6 +4010,7 @@ namespace Exiv2 {
     void XmpProperties::unregisterNs()
     {
         std::lock_guard<std::mutex> scoped_write_lock(mutex_);
+        /// \todo check if we are not unregistering the first NS
         auto i = nsRegistry_.begin();
         while (i != nsRegistry_.end()) {
             auto kill = i++;
@@ -4021,16 +4022,18 @@ namespace Exiv2 {
     {
         std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         std::string ns2 = ns;
-        if (   ns2.substr(ns2.size() - 1, 1) != "/"
-            && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
-        NsRegistry::const_iterator i = nsRegistry_.find(ns2);
+        if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
+            ns2 += "/";
+
+        auto i = nsRegistry_.find(ns2);
         std::string p;
         if (i != nsRegistry_.end()) {
             p = i->second.prefix_;
         }
         else {
             const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Ns(ns2));
-            if (xn) p = std::string(xn->prefix_);
+            if (xn)
+                p = std::string(xn->prefix_);
         }
         return p;
     }
