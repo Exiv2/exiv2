@@ -238,7 +238,7 @@ namespace Exiv2 {
        128 -> 4
        143 -> 4.46875
      */
-    float canonEv(long val);
+    float canonEv(int64_t val);
 
 }}                                      // namespace Internal, Exiv2
 
