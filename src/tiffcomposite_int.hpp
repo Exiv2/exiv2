@@ -149,7 +149,7 @@ namespace Exiv2 {
          */
         int putb(byte data);
         //! Wrapper for OffsetWriter::setTarget(), using an int instead of the enum to reduce include deps
-        void setTarget(int id, uint32_t target);
+        void setTarget(int id, int64_t target);
         //@}
 
     private:

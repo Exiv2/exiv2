@@ -81,9 +81,12 @@ namespace Exiv2 {
         return io_.putb(data);
     }
 
-    void IoWrapper::setTarget(int id, uint32_t target)
+    void IoWrapper::setTarget(int id, int64_t target)
     {
-        if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), target);
+        if (target < 0 || target > std::numeric_limits<uint32_t>::max()) {
+            throw Error(kerOffsetOutOfRange);
+        }
+        if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), static_cast<uint32_t>(target));
     }
 
     TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group), pStart_(nullptr)
