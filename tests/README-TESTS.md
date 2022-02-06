@@ -3,6 +3,7 @@
 - [README-TESTS](#README-TESTS)
   - [Running the test suite](#running-the-test-suite)
   - [Writing new tests](#writing-new-tests)
+  - [Test data](#test-data)
   - [Test suite](#test-suite)
     - [Configuration](#configuration)
       - [INI style](#ini-style)
@@ -111,6 +112,20 @@ When creating new tests, follow roughly these steps:
 3. Run the test suite via `python3 runner.py` and ensure that your test case is
    actually run! Either run the suite with the `-v` option which will output all
    test cases that were run or simply add an error and check if errors occur.
+
+[TOC](#TOC)
+
+<div id="test-data"/>
+
+## Test data
+All test files (e.g. images, `.exv`, etc) are stored in the `$data_path` 
+directory, with any temporary copies in the `$tmp_path` directory (see 
+[Creating file copies](#creating-file-copies)).
+
+When writing tests, try to reuse existing data files rather than add new ones. 
+If new files are required, prefer adding only the metadata (`.exv`) instead of 
+the whole image. These steps help to reduce the size of the test data 
+directory.
 
 [TOC](#TOC)
 
@@ -612,25 +627,26 @@ and your test case will get only the specified environment variables.
 ### Creating file copies
 
 For tests that modify their input file it is useful to run these with a
-disposable copy of the input file and not with the original. For this purpose
+disposable copy of the input file and not with the original. For this purpose,
 the test suite features a decorator which creates a copy of the supplied files
-and deletes the copies after the test ran.
+and preserves the copies after the test finishes. All temporary copies are 
+stored in the `$tmp_path` directory.
 
 Example:
 
 ```python
 # -*- coding: utf-8 -*-
 
-import system_tests
+import system_tests, CopyTmpFiles
 
 
-@system_tests.CopyFiles("$filename", "$some_path/another_file.txt")
+@CopyTmpFiles("$data_path/invalid_input_file.txt")
 class AnInformativeName(metaclass=system_tests.CaseMeta):
 
-    filename = "invalid_input_file"
+    filename = path("$tmp_path/invalid_input_file.txt")
     commands = [
-	    "$binary -c $import_file -i $filename"
-	]
+        "$binary --option $filename"
+    ]
     retval = ["$abort_exit_value"]
     stdout = ["Reading $filename"]
     stderr = [
@@ -640,11 +656,10 @@ error in $filename
     ]
 ```
 
-In this example, the test suite would automatically create a copy of the files
-`invalid_input_file` and `$some_path/another_file.txt` (`some_path` would be of
-course expanded too) named `invalid_input_file_copy` and
-`$some_path/another_file_copy.txt`. After the test ran, the copies are
-deleted. Please note that variable expansion in the filenames is possible.
+In this example, the test suite would automatically create a copy of the file 
+`$data_path/invalid_input_file.txt` called `$tmp_path/invalid_input_file.txt`. 
+After the test runs, the temporary copy is preserved. Please note that variable 
+expansion in the filenames is possible.
 
 
 [TOC](#TOC)
