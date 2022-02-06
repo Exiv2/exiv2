@@ -163,8 +163,6 @@ namespace Exiv2 {
     {
         if (size > size_) {
             delete[] pData_;
-            pData_ = nullptr;
-            size_ = 0;
             pData_ = new byte[size];
             size_ = size;
         }
