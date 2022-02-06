@@ -25,6 +25,7 @@
 
 
 <div id="README-TESTS"/>
+
 # README-TESTS
 
 This test suite is intended for system tests, i.e. for running a binary with
@@ -34,6 +35,7 @@ of new features where unit testing is not feasible, e.g. to test new command
 line parameters.
 
 <div id="running-the-test-suite"/>
+
 ## Running the test suite
 
 The test suite is written for Python 3 and is not compatible with Python 2, thus
@@ -65,6 +67,7 @@ standard output.
 [TOC](#TOC)
 
 <div id="writing-new-tests"/>
+
 ## Writing new tests
 
 The test suite is intended to run a binary and compare its standard output,
@@ -112,6 +115,7 @@ When creating new tests, follow roughly these steps:
 [TOC](#TOC)
 
 <div id="test-suite"/>
+
 ## Test suite
 
 The test suite itself uses the builtin `unittest` module of Python to discover
@@ -131,6 +135,7 @@ group test cases.
 ### Configuration
 
 <div id="ini-style"/>
+
 #### INI style
 
 The test suite is configured via `INI` style files using Python's builtin
@@ -181,6 +186,7 @@ some_var:some value with whitespaces before and after
 [TOC](#TOC)
 
 <div id="parameters"/>
+
 #### Parameters
 
 The test suite's configuration file should have the following form:
@@ -276,6 +282,7 @@ variable names in Python.
 [TOC](#TOC)
 
 <div id="test-cases"/>
+
 ### Test cases
 
 The test cases are defined in Python source files utilizing the unittest module,
@@ -363,6 +370,7 @@ writing 0 ten times. The same is of course possible for strings.
 [TOC](#TOC)
 
 <div id="multiline-strings"/>
+
 ### Multiline strings
 
 It is generally recommended to use Python's multiline strings (strings starting
@@ -401,6 +409,7 @@ character. To achieve that put the `"""` on the following line.
 [TOC](#TOC)
 
 <div id="paths"/>
+
 ### Paths
 
 Some test cases require the specification of paths (e.g. to the location of test
@@ -430,6 +439,7 @@ class AnInformativeName(metaclass=CaseMeta):
 [TOC](#TOC)
 
 <div id="advanced-test-cases"/>
+
 ## Advanced test cases
 
 This section describes more advanced features that are probably not necessary
@@ -437,6 +447,7 @@ the "standard" usage of the test suite.
 
 
 <div id="providing-standard-input-to-commands"/>
+
 ### Providing standard input to commands
 
 The test suite supports providing a standard input to commands in a similar
@@ -483,6 +494,7 @@ test suite will implicitly assume `None` for every command.
 [TOC](#TOC)
 
 <div id="using-a-different-output-encoding"/>
+
 ### Using a different output encoding
 
 The test suite will try to interpret the program's output as utf-8 encoded
@@ -526,6 +538,7 @@ encodings can be found
 [TOC](#TOC)
 
 <div id="working-with-binary-output"/>
+
 ### Working with binary output
 
 Some programs output binary data directly to stdout or stderr. Such programs can
@@ -595,6 +608,7 @@ and your test case will get only the specified environment variables.
 [TOC](#TOC)
 
 <div id="creating-file-copies"/>
+
 ### Creating file copies
 
 For tests that modify their input file it is useful to run these with a
@@ -636,6 +650,7 @@ deleted. Please note that variable expansion in the filenames is possible.
 [TOC](#TOC)
 
 <div id="customizing-the-output-check"/>
+
 ### Customizing the output check
 
 Some tests do not require a "brute-force" comparison of the whole output of a
@@ -694,6 +709,7 @@ class AnInformativeName(metaclass=system_tests.CaseMeta):
 [TOC](#TOC)
 
 <div id="running-all-commands-under-valgrind"/>
+
 ### Running all commands under valgrind
 
 The test suite can run all commands under a memory checker like
@@ -736,6 +752,7 @@ into account:
 [TOC](#TOC)
 
 <div id="manually-expanding-variables"/>
+
 ### Manually expanding variables in strings
 
 In case completely custom checks have to be run but one still wants to access
@@ -791,6 +808,7 @@ will result in `another_string` being "foo" and not "bar".
 [TOC](#TOC)
 
 <div id="hooks"/>
+
 ### Hooks
 
 The `Case` class provides two hooks that are run after each command and after
@@ -848,6 +866,7 @@ class AnInformativeName(metaclass=system_tests.CaseMeta):
 [TOC](#TOC)
 
 <div id="bash-test-cases"/>
+
 ## Bash test cases
 
 - Previously, Exiv2 had some bash test scripts, which were saved as the file `EXIV2_DIR/test/*.sh`. We're going to rewrite them as Python test scripts and save them to the directory `EXIV2_DIR/tests/bash_tests`.
