@@ -1202,7 +1202,7 @@ namespace Exiv2 {
 
     Rational TimeValue::toRational(long n) const
     {
-        return {toInt64(n), 1};
+        return {static_cast<int32_t>(toInt64(n)), 1};
     }
 
 }  // namespace Exiv2
