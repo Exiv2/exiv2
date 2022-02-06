@@ -420,7 +420,7 @@ namespace Exiv2 {
 
     long Exifdatum::toLong(long n) const
     {
-        return value_.get() == nullptr ? -1 : value_->toInt64(n);
+        return value_.get() == nullptr ? -1 : static_cast<long>(value_->toInt64(n));
     }
 
     float Exifdatum::toFloat(long n) const
