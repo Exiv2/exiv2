@@ -1107,7 +1107,7 @@ namespace Exiv2 {
         valueIdx = sizeDir;                 // Offset to the current IFD value
         dataIdx  = sizeDir + sizeValue;     // Offset to the entry's data area
         if (isRootDir) {                    // Absolute offset to the image data
-            imageIdx = offset + dataIdx + sizeData + sizeNext;
+            imageIdx = static_cast<uint32_t>(offset + dataIdx + sizeData + sizeNext);
             imageIdx += imageIdx & 1;       // Align image data to word boundary
         }
 
@@ -1132,7 +1132,7 @@ namespace Exiv2 {
         if (hasNext_) {
             memset(buf, 0x0, 4);
             if (pNext_ && sizeNext) {
-                l2Data(buf, offset + dataIdx, byteOrder);
+                l2Data(buf, static_cast<uint32_t>(offset + dataIdx), byteOrder);
             }
             ioWrapper.write(buf, 4);
             idx += 4;
@@ -1191,7 +1191,7 @@ namespace Exiv2 {
         ioWrapper.write(buf, 8);
         if (pDirEntry->size() > 4) {
             pDirEntry->setOffset(offset + static_cast<int32_t>(valueIdx));
-            l2Data(buf, pDirEntry->offset(), byteOrder);
+            l2Data(buf, static_cast<uint32_t>(pDirEntry->offset()), byteOrder);
             ioWrapper.write(buf, 4);
         }
         else {
@@ -1244,7 +1244,7 @@ namespace Exiv2 {
             break;
         case ttUnsignedLong:
         case ttSignedLong:
-            rc = l2Data(buf, offset, byteOrder);
+            rc = l2Data(buf, static_cast<uint32_t>(offset), byteOrder);
             break;
         default:
             throw Error(kerUnsupportedDataAreaOffsetType);
@@ -1286,7 +1286,7 @@ namespace Exiv2 {
     {
         uint32_t o2 = imageIdx;
         // For makernotes, write TIFF image data to the data area
-        if (group() > mnId) o2 = offset + dataIdx;
+        if (group() > mnId) o2 = static_cast<uint32_t>(offset + dataIdx);
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "TiffImageEntry, Directory " << groupName(group())
                   << ", entry 0x" << std::setw(4)
@@ -1348,7 +1348,7 @@ namespace Exiv2 {
                                        uint32_t  /*dataIdx*/,
                                        uint32_t& imageIdx)
     {
-        mnOffset_ = offset;
+        mnOffset_ = static_cast<uint32_t>(offset);
         setImageByteOrder(byteOrder);
         uint32_t len = writeHeader(ioWrapper, this->byteOrder());
         len += ifd_.write(ioWrapper, this->byteOrder(),
