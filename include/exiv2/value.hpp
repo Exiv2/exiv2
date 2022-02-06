@@ -1298,7 +1298,8 @@ namespace Exiv2 {
         template<typename I>
         inline I float_to_integer_helper(long n) const {
             const auto v = value_.at(n);
-            if (std::numeric_limits<I>::min() <= v && v <= std::numeric_limits<I>::max()) {
+            if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
+                v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
                 return static_cast<I>(v);
             } else {
                 return 0;
