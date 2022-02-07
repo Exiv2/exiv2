@@ -95,7 +95,7 @@ Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  13.63
 Exif.CanonSi.TargetAperture                  Short       1  F5
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
-Exif.CanonSi.0x0006                          Short       1  0
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
