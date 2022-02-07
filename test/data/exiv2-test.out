@@ -1138,7 +1138,7 @@ File  6/16: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
 20030925_201850.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  n/a
-20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  n/a
 20030925_201850.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 20030925_201850.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
@@ -2779,7 +2779,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 < 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  n/a
-< 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
@@ -4342,7 +4342,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 > 20030925_201850.exv   Exif.CanonCs.0x0026                          Short       1  0
 > 20030925_201850.exv   Exif.CanonCs.SpotMeteringMode                Short       1  n/a
-> 20030925_201850.exv   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs.PhotoEffect                     Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.ColorTone                       Short       1  0
 > 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
@@ -6143,7 +6143,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 < 20030925_201850.jpg   Exif.CanonCs.0x0026                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs.SpotMeteringMode                Short       1  n/a
-< 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+< 20030925_201850.jpg   Exif.CanonCs.PhotoEffect                     Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 < 20030925_201850.jpg   Exif.CanonCs.ColorTone                       Short       1  0
 < 20030925_201850.jpg   Exif.CanonCs.0x002b                          Short       1  32767
@@ -7706,7 +7706,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs.ZoomTargetWidth                 Short       1  3072
 > 20030925_201850.exv   Exif.CanonCs.0x0026                          Short       1  0
 > 20030925_201850.exv   Exif.CanonCs.SpotMeteringMode                Short       1  n/a
-> 20030925_201850.exv   Exif.CanonCs.PhotoEffect                     Short       1  (65535)
+> 20030925_201850.exv   Exif.CanonCs.PhotoEffect                     Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 > 20030925_201850.exv   Exif.CanonCs.ColorTone                       Short       1  0
 > 20030925_201850.exv   Exif.CanonCs.0x002b                          Short       1  32767
