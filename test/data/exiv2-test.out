@@ -1738,7 +1738,7 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 20060802_095200.jpg   Exif.CanonCs.0x002d                          Short       1  65535
 20060802_095200.jpg   Exif.Canon.FocalLength                       Short       4  95.0 mm
-20060802_095200.jpg   Exif.Canon.0x0003                            Short       4  0 100 0 0
+20060802_095200.jpg   Exif.Canon.CanonFlashInfo                    Short       4  0 100 0 0
 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 20060802_095200.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 20060802_095200.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -3378,7 +3378,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20060802_095200.jpg   Exif.CanonCs.0x002d                          Short       1  65535
 < 20060802_095200.jpg   Exif.Canon.FocalLength                       Short       4  95.0 mm
-< 20060802_095200.jpg   Exif.Canon.0x0003                            Short       4  0 100 0 0
+< 20060802_095200.jpg   Exif.Canon.CanonFlashInfo                    Short       4  0 100 0 0
 < 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060802_095200.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 < 20060802_095200.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -4941,7 +4941,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20060802_095200.exv   Exif.CanonCs.0x002d                          Short       1  65535
 > 20060802_095200.exv   Exif.Canon.FocalLength                       Short       4  95.0 mm
-> 20060802_095200.exv   Exif.Canon.0x0003                            Short       4  0 100 0 0
+> 20060802_095200.exv   Exif.Canon.CanonFlashInfo                    Short       4  0 100 0 0
 > 20060802_095200.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060802_095200.exv   Exif.CanonSi.AutoISO                         Short       1  100
 > 20060802_095200.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -6742,7 +6742,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20060802_095200.jpg   Exif.CanonCs.0x002d                          Short       1  65535
 < 20060802_095200.jpg   Exif.Canon.FocalLength                       Short       4  95.0 mm
-< 20060802_095200.jpg   Exif.Canon.0x0003                            Short       4  0 100 0 0
+< 20060802_095200.jpg   Exif.Canon.CanonFlashInfo                    Short       4  0 100 0 0
 < 20060802_095200.jpg   Exif.CanonSi.0x0000                          Short       1  68
 < 20060802_095200.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 < 20060802_095200.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -8305,7 +8305,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20060802_095200.exv   Exif.CanonCs.0x002d                          Short       1  65535
 > 20060802_095200.exv   Exif.Canon.FocalLength                       Short       4  95.0 mm
-> 20060802_095200.exv   Exif.Canon.0x0003                            Short       4  0 100 0 0
+> 20060802_095200.exv   Exif.Canon.CanonFlashInfo                    Short       4  0 100 0 0
 > 20060802_095200.exv   Exif.CanonSi.0x0000                          Short       1  68
 > 20060802_095200.exv   Exif.CanonSi.AutoISO                         Short       1  100
 > 20060802_095200.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
