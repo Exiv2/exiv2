@@ -1772,7 +1772,7 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.CanonSi.0x001e                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x001f                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x0020                          Short       1  0
-20060802_095200.jpg   Exif.CanonSi.0x0021                          Short       1  0
+20060802_095200.jpg   Exif.CanonSi.FlashOutput                     Short       1  0
 20060802_095200.jpg   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 20060802_095200.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 20060802_095200.jpg   Exif.Canon.OwnerName                         Ascii      32  unknown
@@ -2123,7 +2123,7 @@ File 15/16: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonSi.0x001e                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x001f                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x0020                          Short       1  0
-20060127_225027.jpg   Exif.CanonSi.0x0021                          Short       1  0
+20060127_225027.jpg   Exif.CanonSi.FlashOutput                     Short       1  0
 20060127_225027.jpg   Exif.CanonPa.0x0000                          Short       1  1
 20060127_225027.jpg   Exif.CanonPa.0x0001                          Short       1  0
 20060127_225027.jpg   Exif.CanonPa.PanoramaFrame                   Short       1  0
@@ -3412,7 +3412,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0020                          Short       1  0
-< 20060802_095200.jpg   Exif.CanonSi.0x0021                          Short       1  0
+< 20060802_095200.jpg   Exif.CanonSi.FlashOutput                     Short       1  0
 < 20060802_095200.jpg   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 < 20060802_095200.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 < 20060802_095200.jpg   Exif.Canon.OwnerName                         Ascii      32  unknown
@@ -3763,7 +3763,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0020                          Short       1  0
-< 20060127_225027.jpg   Exif.CanonSi.0x0021                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.FlashOutput                     Short       1  0
 < 20060127_225027.jpg   Exif.CanonPa.0x0000                          Short       1  1
 < 20060127_225027.jpg   Exif.CanonPa.0x0001                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonPa.PanoramaFrame                   Short       1  0
@@ -4975,7 +4975,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0020                          Short       1  0
-> 20060802_095200.exv   Exif.CanonSi.0x0021                          Short       1  0
+> 20060802_095200.exv   Exif.CanonSi.FlashOutput                     Short       1  0
 > 20060802_095200.exv   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 > 20060802_095200.exv   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 > 20060802_095200.exv   Exif.Canon.OwnerName                         Ascii      32  unknown
@@ -5326,7 +5326,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0020                          Short       1  0
-> 20060127_225027.exv   Exif.CanonSi.0x0021                          Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.FlashOutput                     Short       1  0
 > 20060127_225027.exv   Exif.CanonPa.0x0000                          Short       1  1
 > 20060127_225027.exv   Exif.CanonPa.0x0001                          Short       1  0
 > 20060127_225027.exv   Exif.CanonPa.PanoramaFrame                   Short       1  0
@@ -6776,7 +6776,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0020                          Short       1  0
-< 20060802_095200.jpg   Exif.CanonSi.0x0021                          Short       1  0
+< 20060802_095200.jpg   Exif.CanonSi.FlashOutput                     Short       1  0
 < 20060802_095200.jpg   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 < 20060802_095200.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 < 20060802_095200.jpg   Exif.Canon.OwnerName                         Ascii      32  unknown
@@ -7127,7 +7127,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0020                          Short       1  0
-< 20060127_225027.jpg   Exif.CanonSi.0x0021                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.FlashOutput                     Short       1  0
 < 20060127_225027.jpg   Exif.CanonPa.0x0000                          Short       1  1
 < 20060127_225027.jpg   Exif.CanonPa.0x0001                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonPa.PanoramaFrame                   Short       1  0
@@ -8339,7 +8339,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0020                          Short       1  0
-> 20060802_095200.exv   Exif.CanonSi.0x0021                          Short       1  0
+> 20060802_095200.exv   Exif.CanonSi.FlashOutput                     Short       1  0
 > 20060802_095200.exv   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 > 20060802_095200.exv   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 > 20060802_095200.exv   Exif.Canon.OwnerName                         Ascii      32  unknown
@@ -8690,7 +8690,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0020                          Short       1  0
-> 20060127_225027.exv   Exif.CanonSi.0x0021                          Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.FlashOutput                     Short       1  0
 > 20060127_225027.exv   Exif.CanonPa.0x0000                          Short       1  1
 > 20060127_225027.exv   Exif.CanonPa.0x0001                          Short       1  0
 > 20060127_225027.exv   Exif.CanonPa.PanoramaFrame                   Short       1  0
