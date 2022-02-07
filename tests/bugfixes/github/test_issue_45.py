@@ -13,6 +13,7 @@ class Sigma24_105mmRecognization(metaclass=system_tests.CaseMeta):
 Exif.CanonCs.Lens                            Short       3  24.0 - 105.0 mm
 Exif.CanonCf.LensAFStopButton                Short       1  0
 Exif.Canon.LensModel                         Ascii      74  24-105mm F4 DG OS HSM | Art 013
+Exif.CanonLe.LensSerialNumber                SLong       1  0
 """]
     stderr = [""]
     retval = [0]

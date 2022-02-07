@@ -88,7 +88,7 @@ Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 Exif.CanonCs.0x0026                          Short       1  0
 Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 Exif.Canon.FocalLength                       Short       4  21.3 mm
-Exif.Canon.0x0003                            Short       4  0 0 0 0
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0
 Exif.CanonSi.0x0000                          Short       1  54
 Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
