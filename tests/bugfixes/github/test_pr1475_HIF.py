@@ -163,10 +163,16 @@ Exif.CanonCs.ExposureProgram                 Short       1  Manual (M)
 Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 Exif.CanonCs.FlashDetails                    Short       1  E-TTL
 Exif.CanonCs.ManualFlashOutput               Short       1  n/a
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.FlashOutput                     Short       1  0
 Exif.CanonFi.FlashExposureLock               SShort      1  Off
+Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  Off
+Exif.CanonMe.MultiExposure                   SLong       1  Off
+Exif.CanonMe.MultiExposureControl            SLong       1  Additive
+Exif.CanonMe.MultiExposureShots              SLong       1  Off
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ExposureMode                      Short       1  Manual
 Xmp.xmp.Rating                               XmpText     1  0
