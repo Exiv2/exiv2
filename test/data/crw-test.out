@@ -19,6 +19,7 @@ Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
 Exif.CanonSi.TargetAperture                  Short       1  F2.8
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
@@ -97,6 +98,7 @@ Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
 Exif.CanonSi.TargetAperture                  Short       1  F2.8
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
@@ -134,6 +136,7 @@ Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
 Exif.CanonSi.TargetAperture                  Short       1  F2.8
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
@@ -203,6 +206,7 @@ Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
 Exif.CanonSi.TargetAperture                  Short       1  F2.8
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
