@@ -29,6 +29,8 @@ Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0
+Exif.CanonSi.ControlMode                     Short       1  1
 Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
 Exif.CanonSi.ApertureValue                   Short       1  F2.9
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
@@ -109,6 +111,8 @@ Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0
+Exif.CanonSi.ControlMode                     Short       1  1
 Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
 Exif.CanonSi.ApertureValue                   Short       1  F2.9
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
@@ -148,6 +152,8 @@ Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0
+Exif.CanonSi.ControlMode                     Short       1  1
 Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
 Exif.CanonSi.ApertureValue                   Short       1  F2.9
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
@@ -219,6 +225,8 @@ Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0
+Exif.CanonSi.ControlMode                     Short       1  1
 Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
 Exif.CanonSi.ApertureValue                   Short       1  F2.9
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
