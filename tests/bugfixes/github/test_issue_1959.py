@@ -15,7 +15,7 @@ class XmpIptcStandardsTest(metaclass=CaseMeta):
     filename      = path("$data_path/issue_1959_poc.xmp")
     filename_ref  = path("$data_path/issue_1959_poc.xmp.out")
     
-    commands = ["$exiv2 -Pkvt $filename"]
+    commands = ["TZ=UTC $exiv2 -Pkvt $filename"]
 
     stderr = [""]
     retval = [0]
