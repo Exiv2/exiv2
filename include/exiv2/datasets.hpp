@@ -238,6 +238,21 @@ namespace Exiv2 {
          */
         static const char* recordDesc(uint16_t recordId);
 
+        /*!
+           @brief Return the Id number of a record
+           @param recordName Name of a record type
+           @return the Id number of a Record
+           @throw Error if the record is not known;
+         */
+        static uint16_t recordId(const std::string& recordName);
+
+        //! Return read-only list of built-in Envelope Record datasets
+        static const DataSet* envelopeRecordList();
+
+        //! Return read-only list of built-in Application2 Record datasets
+        static const DataSet* application2RecordList();
+
+        //! Print a list of all dataSets to output stream
         static void dataSetList(std::ostream& os);
 
     private:
