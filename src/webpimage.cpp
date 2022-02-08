@@ -110,8 +110,7 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -479,8 +478,8 @@ namespace Exiv2 {
 
                 if ( equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF) && option==kpsRecursive ) {
                     // create memio object with the payload, then print the structure
-                    BasicIo::UniquePtr p = BasicIo::UniquePtr(new MemIo(payload.c_data(),payload.size()));
-                    printTiffStructure(*p,out,option,depth);
+                    MemIo p (payload.c_data(),payload.size());
+                    printTiffStructure(p,out,option,depth);
                 }
 
                 bool bPrintPayload = (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP) && option==kpsXMP)
@@ -732,7 +731,7 @@ namespace Exiv2 {
 
     Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::UniquePtr image(new WebPImage(std::move(io)));
+        auto image = std::make_unique<WebPImage>(std::move(io));
         if (!image->good()) {
             image.reset();
         }

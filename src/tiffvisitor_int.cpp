@@ -196,7 +196,7 @@ namespace Exiv2 {
         assert(object != 0);
 
         if (pHeader_->isImageTag(object->tag(), object->group(), pPrimaryGroups_)) {
-            TiffComponent::UniquePtr clone = object->clone();
+            auto clone = object->clone();
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;
             TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
@@ -618,7 +618,7 @@ namespace Exiv2 {
             irbKey.setIdx(pos->idx());
         }
         if (rawIptc.size() != 0 && (del || pos == exifData_.end())) {
-            Value::UniquePtr value = Value::create(unsignedLong);
+            auto value = Value::create(unsignedLong);
             DataBuf buf;
             if (rawIptc.size() % 4 != 0) {
                 // Pad the last unsignedLong value with 0s
@@ -642,7 +642,7 @@ namespace Exiv2 {
             irbBuf = Photoshop::setIptcIrb(irbBuf.c_data(), irbBuf.size(), iptcData_);
             exifData_.erase(pos);
             if (irbBuf.size() != 0) {
-                Value::UniquePtr value = Value::create(unsignedByte);
+                auto value = Value::create(unsignedByte);
                 value->read(irbBuf.data(), irbBuf.size(), invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
                 exifData_.add(iptcDatum);
@@ -672,7 +672,7 @@ namespace Exiv2 {
         }
         if (!xmpPacket.empty()) {
             // Set the XMP Exif tag to the new value
-            Value::UniquePtr value = Value::create(unsignedByte);
+            auto value = Value::create(unsignedByte);
             value->read(reinterpret_cast<const byte*>(&xmpPacket[0]),
                         static_cast<long>(xmpPacket.size()),
                         invalidByteOrder);
@@ -1268,7 +1268,7 @@ namespace Exiv2 {
 
     bool TiffReader::circularReference(const byte* start, IfdId group)
     {
-        DirList::const_iterator pos = dirList_.find(start);
+        auto pos = dirList_.find(start);
         if (pos != dirList_.end()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_ERROR << groupName(group) << " pointer references previously read "
@@ -1332,8 +1332,8 @@ namespace Exiv2 {
                 return;
             }
             uint16_t tag = getUShort(p, byteOrder());
-            TiffComponent::UniquePtr tc = TiffCreator::create(tag, object->group());
-            if (tc.get()) {
+            auto tc = TiffCreator::create(tag, object->group());
+            if (tc) {
                 tc->setStart(p);
                 object->addChild(std::move(tc));
             } else {
@@ -1411,8 +1411,8 @@ namespace Exiv2 {
                     break;
                 }
                 // If there are multiple dirs, group is incremented for each
-                TiffComponent::UniquePtr td(new TiffDirectory(object->tag(),
-                                                            static_cast<IfdId>(object->newGroup_ + i)));
+                auto td = std::make_unique<TiffDirectory>(object->tag(),
+                                                            static_cast<IfdId>(object->newGroup_ + i));
                 td->setStart(pData_ + baseOffset() + offset);
                 object->addChild(std::move(td));
             }
@@ -1604,7 +1604,7 @@ namespace Exiv2 {
                 size = 0;
             }
         }
-        Value::UniquePtr v = Value::create(typeId);
+        auto v = Value::create(typeId);
         enforce(v.get() != nullptr, kerCorruptedMetadata);
         v->read(pData, size, byteOrder());
 
@@ -1705,7 +1705,7 @@ namespace Exiv2 {
         ByteOrder bo = object->elByteOrder();
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
-        Value::UniquePtr v = Value::create(typeId);
+        auto v = Value::create(typeId);
         enforce(v.get() != nullptr, kerCorruptedMetadata);
         v->read(pData, size, bo);
 

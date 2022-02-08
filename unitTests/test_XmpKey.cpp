@@ -90,7 +90,7 @@ TEST_F(AXmpKey, canBeCopied)
 TEST_F(AXmpKey, canBeCloned)
 {
     XmpKey key(expectedPrefix, expectedProperty);
-    XmpKey::UniquePtr clonedKey = key.clone();
+    auto clonedKey = key.clone();
     checkValidity(*clonedKey);
 }
 

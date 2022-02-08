@@ -1158,16 +1158,16 @@ namespace Exiv2 {
     {
         if ( ! metadata ) return os << "undefined" ;
 
-        auto dateIt = metadata->findKey(
-                ExifKey("Exif.PentaxDng.Date"));
+        auto dateIt = metadata->findKey(ExifKey("Exif.PentaxDng.Date"));
         if (dateIt == metadata->end()) {
             dateIt = metadata->findKey(ExifKey("Exif.Pentax.Date"));
         }
-        auto timeIt = metadata->findKey(
-                ExifKey("Exif.PentaxDng.Time"));
+
+        auto timeIt = metadata->findKey(ExifKey("Exif.PentaxDng.Time"));
         if (timeIt == metadata->end()) {
             timeIt = metadata->findKey(ExifKey("Exif.Pentax.Time"));
         }
+
         if (    dateIt == metadata->end() || dateIt->size() != 4 ||
                 timeIt == metadata->end() || timeIt->size() != 3 ||
                 value.size() != 4) {
@@ -1219,11 +1219,11 @@ namespace Exiv2 {
 
     // Throws std::exception if the LensInfo can't be found.
     static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
-      const ExifData::const_iterator dngLensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"));
+      const auto dngLensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"));
       if (dngLensInfo != metadata->end()) {
         return dngLensInfo;
       }
-      const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
+      const auto lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
       if (lensInfo != metadata->end()) {
         return lensInfo;
       }

@@ -712,7 +712,7 @@ namespace Exiv2
     // free functions
     Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new BmffImage(std::move(io), create));
+        auto image = std::make_unique<BmffImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

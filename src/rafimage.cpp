@@ -383,7 +383,7 @@ namespace Exiv2 {
     // free functions
     Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new RafImage(std::move(io), create));
+        auto image = std::make_unique<RafImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

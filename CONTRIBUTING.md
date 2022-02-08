@@ -31,7 +31,7 @@ As a rule-of-thumb:
 See the [GIT_GUIDELINES.md](git_guidelines.md) file for a more detailed description of the git workflow.
 
 Below we outline the recommended steps in the code contribution workflow. We use `your-username` to refer to your username on GitHub, `exiv2_upstream` is used when we
-set the upstream remote repository for Exiv2 (we could have picked any name by try to avoid already used names like, in particular, `origin` and `master`), and
+set the upstream remote repository for Exiv2 (we could have picked any name but try to avoid already used names like, in particular, `origin` and `main`), and
 we use the name `my-new-feature` for the branch that we create (e.g., the branch name should reflect the code change being made).
 
 **Important**: If your PR lives for a long time, then don't press the button _Update branch_ in the Pull Request view, instead follow the steps below, as
@@ -59,10 +59,10 @@ Once you have a GitHub login:
         origin  https://github.com/your-username/exiv2.git (fetch)
         origin  https://github.com/your-username/exiv2.git (push)
 
-4. Next, create a branch for your PR from `exiv2_upstream/master` (which we also need to fetch first):
+4. Next, create a branch for your PR from `exiv2_upstream/main` (which we also need to fetch first):
 
-        $ git fetch exiv2_upstream master
-        $ git checkout -b my-new-feature exiv2_upstream/master --no-track
+        $ git fetch exiv2_upstream main
+        $ git checkout -b my-new-feature exiv2_upstream/main --no-track
 
     NB: This is an important step to avoid dragging in old commits!
 
@@ -107,9 +107,9 @@ Once you have a GitHub login:
 
         $ git checkout my-new-feature
 
-    And rebase it on top of master:
+    And rebase it on top of main:
 
-        $ git pull --rebase exiv2_upstream master
+        $ git pull --rebase exiv2_upstream main
 
     When you perform a rebase the commit history is rewritten and, therefore, the next time you try to push your branch to your fork repository you will need to use
     the `--force-with-lease` option:

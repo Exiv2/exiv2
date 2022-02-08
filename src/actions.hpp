@@ -31,6 +31,7 @@
 // *****************************************************************************
 // included header files
 #include "exiv2app.hpp"
+#include <unordered_map>
 
 // *****************************************************************************
 // class declarations
@@ -44,9 +45,7 @@ namespace Exiv2 {
 
 // *****************************************************************************
 // namespace extensions
-/*!
-  @brief Contains all action classes (task subclasses).
- */
+/// @brief Contains all action classes (task subclasses).
 namespace Action {
 
     //! Enumerates all tasks
@@ -68,32 +67,27 @@ namespace Action {
         using UniquePtr = std::unique_ptr<Task>;
         //! Virtual destructor.
         virtual ~Task() = default;
-        //! Virtual copy construction.
-        UniquePtr clone() const;
-        /*!
-          @brief Application interface to perform a task.
 
-          @param path Path of the file to process.
-          @return 0 if successful.
-         */
+        //! Virtual copy construction.
+        virtual UniquePtr clone() const = 0;
+
+        /// @brief Application interface to perform a task.
+        /// @param path Path of the file to process.
+        /// @return 0 if successful.
         virtual int run(const std::string& path) =0;
         
-        /*!
-          @brief Application interface to perform a task.
+        bool setBinary(bool b)
+        {
+            bool bResult = binary_;
+            binary_ = b;
+            return bResult ;
+        }
 
-          @param path Path of the file to process.
-          @return 0 if successful.
-         */
-        bool setBinary(bool b) { bool bResult = binary_ ; binary_ = b ; return bResult ;}
         bool binary() { return binary_ ; }
 
     private:
-        //! Internal virtual copy constructor.
-        virtual Task* clone_() const =0;
-        
         //! copy binary_ from command-line params to task
         bool binary_ {false} ;
-
     }; // class Task
 
     /*!
@@ -107,9 +101,7 @@ namespace Action {
     public:
         /*!
           @brief Get access to the task factory.
-
-          Clients access the task factory exclusively through
-          this method.
+          Clients access the task factory exclusively through this method. (SINGLETON)
         */
         static TaskFactory& instance();
 
@@ -149,22 +141,16 @@ namespace Action {
         //! Prevent construction other than through instance().
         TaskFactory();
 
-        //! Pointer to the one and only instance of this class.
-        static TaskFactory* instance_;
-        //! Type used to store Task prototype classes
-        using Registry = std::map<TaskType, Task*>;
         //! List of task types and corresponding prototypes.
-        Registry registry_;
-
-    }; // class TaskFactory
+        std::unordered_map<TaskType, Task::UniquePtr> registry_;
+    };
 
     //! %Print the Exif (or other metadata) of a file to stdout
     class Print : public Task {
     public:
         ~Print() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Print>;
-        UniquePtr clone() const;
+        Task::UniquePtr clone() const override;
 
         //! Print the Jpeg comment
         int printComment();
@@ -205,25 +191,16 @@ namespace Action {
                      EasyAccessFct easyAccessFctFallback =NULL) const;
 
     private:
-        Print* clone_() const override;
-
         std::string path_;
         int align_{0};                // for the alignment of the summary output
-    }; // class Print
+    };
 
-    /*!
-      @brief %Rename a file to its metadata creation timestamp,
-             in the specified format.
-     */
+    /// @brief %Rename a file to its metadata creation timestamp, in the specified format.
     class Rename : public Task {
     public:
         ~Rename() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Rename>;
-        UniquePtr clone() const;
-
-    private:
-        Rename* clone_() const override;
+        Task::UniquePtr clone() const override;
     }; // class Rename
 
     //! %Adjust the Exif (or other metadata) timestamps
@@ -231,11 +208,9 @@ namespace Action {
     public:
         ~Adjust() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Adjust>;
-        UniquePtr clone() const;
+        Task::UniquePtr clone() const override;
 
     private:
-        Adjust* clone_() const override;
         int adjustDateTime(Exiv2::ExifData& exifData,
                            const std::string& key,
                            const std::string& path) const;
@@ -247,56 +222,41 @@ namespace Action {
 
     }; // class Adjust
 
-    /*!
-      @brief %Erase the entire exif data or only the thumbnail section.
-     */
+    /// @brief %Erase the entire exif data or only the thumbnail section.
     class Erase : public Task {
     public:
         ~Erase() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Erase>;
-        UniquePtr clone() const;
+        Task::UniquePtr clone() const override;
 
-        /*!
-          @brief Delete the thumbnail image, incl IFD1 metadata from the file.
-         */
+        /// @brief Delete the thumbnail image, incl IFD1 metadata from the file.
         static int eraseThumbnail(Exiv2::Image* image);
-        /*!
-          @brief Erase the complete Exif data block from the file.
-         */
+
+        /// @brief Erase the complete Exif data block from the file.
         static int eraseExifData(Exiv2::Image* image);
-        /*!
-          @brief Erase all Iptc data from the file.
-         */
+
+        /// @brief Erase all Iptc data from the file.
         static int eraseIptcData(Exiv2::Image* image);
-        /*!
-          @brief Erase Jpeg comment from the file.
-         */
+
+        /// @brief Erase Jpeg comment from the file.
         static int eraseComment(Exiv2::Image* image);
-        /*!
-          @brief Erase XMP packet from the file.
-         */
+
+        /// @brief Erase XMP packet from the file.
         static int eraseXmpData(Exiv2::Image* image);
-        /*!
-          @brief Erase ICCProfile from the file.
-         */
+
+        /// @brief Erase ICCProfile from the file.
         static int eraseIccProfile(Exiv2::Image* image);
 
     private:
-        Erase* clone_() const override;
         std::string path_;
+    };
 
-    }; // class Erase
-
-    /*!
-      @brief %Extract the entire exif data or only the thumbnail section.
-     */
+    /// @brief %Extract the entire exif data or only the thumbnail section.
     class Extract : public Task {
     public:
         ~Extract() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Extract>;
-        UniquePtr clone() const;
+        Task::UniquePtr clone() const override;
 
         /*!
           @brief Write the thumbnail image to a file. The filename is composed by
@@ -305,37 +265,28 @@ namespace Action {
                  on the format of the Exif thumbnail image.
          */
         int writeThumbnail() const;
-        /*!
-          @brief Write preview images to files.
-         */
+
+        /// @brief Write preview images to files.
         int writePreviews() const;
-        /*!
-          @brief Write one preview image to a file. The filename is composed by
-                 removing the suffix from the image filename and appending
-                 "-preview<num>" and the appropriate suffix (".jpg" or ".tif"),
-                 depending on the format of the Exif thumbnail image.
-         */
+
+        /// @brief Write one preview image to a file. The filename is composed by removing the suffix from the image
+        /// filename and appending "-preview<num>" and the appropriate suffix (".jpg" or ".tif"), depending on the
+        /// format of the Exif thumbnail image.
         void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
-        /*!
-          @brief Write embedded iccProfile files.
-         */
+
+        /// @brief Write embedded iccProfile files.
         int writeIccProfile(const std::string& target) const;
 
     private:
-        Extract* clone_() const override;
         std::string path_;
+    };
 
-    }; // class Extract
-
-    /*!
-      @brief %Insert the Exif data from corresponding *.exv files.
-     */
+    /// @brief %Insert the Exif data from corresponding *.exv files.
     class Insert : public Task {
     public:
         ~Insert() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Insert>;
-        UniquePtr clone() const;
+        Task::UniquePtr clone() const override;
 
         /*!
           @brief Insert a Jpeg thumbnail image from a file into file \em path.
@@ -344,96 +295,62 @@ namespace Action {
          */
         static int insertThumbnail(const std::string& path);
 
-        /*!
-          @brief Insert an XMP packet from a xmpPath into file \em path.
-         */
+        /// @brief Insert an XMP packet from a xmpPath into file \em path.
         static int insertXmpPacket(const std::string& path,const std::string& xmpPath) ;
-        /*!
-          @brief Insert xmp from a DataBuf into file \em path.
-         */
+
+        /// @brief Insert xmp from a DataBuf into file \em path.
         static int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false);
 
-        /*!
-          @brief Insert an ICC profile from iccPath into file \em path.
-         */
+        /// @brief Insert an ICC profile from iccPath into file \em path.
         static int insertIccProfile(const std::string& path,const std::string& iccPath) ;
-        /*!
-          @brief Insert an ICC profile from binary DataBuf into file \em path.
-         */
+
+        /// @brief Insert an ICC profile from binary DataBuf into file \em path.
         static int insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob);
+    };
 
-    private:
-        Insert* clone_() const override;
-
-    }; // class Insert
-
-    /*!
-      @brief %Modify the Exif data according to the commands in the
-             modification table.
-     */
+    /// @brief %Modify the Exif data according to the commands in the modification table.
     class Modify : public Task {
     public:
+        Modify() {}
         ~Modify() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<Modify>;
-        UniquePtr clone() const;
-        Modify() {}
+        Task::UniquePtr clone() const override;
         //! Apply modification commands to the \em pImage, return 0 if successful.
         static int applyCommands(Exiv2::Image* pImage);
 
     private:
-        Modify* clone_() const override;
-        //! Copy constructor needed because of UniquePtr member
-        Modify(const Modify& /*src*/) = default;
-
         //! Add a metadatum to \em pImage according to \em modifyCmd
-        static int addMetadatum(Exiv2::Image* pImage,
-                                const ModifyCmd& modifyCmd);
+        static int addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Set a metadatum in \em pImage according to \em modifyCmd
-        static int setMetadatum(Exiv2::Image* pImage,
-                                const ModifyCmd& modifyCmd);
+        static int setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Delete a metadatum from \em pImage according to \em modifyCmd
-        static void delMetadatum(Exiv2::Image* pImage,
-                                 const ModifyCmd& modifyCmd);
+        static void delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd);
         //! Register an XMP namespace according to \em modifyCmd
         static void regNamespace(const ModifyCmd& modifyCmd);
+    };
 
-    }; // class Modify
-
-    /*!
-      @brief %Copy ISO settings from any of the Nikon makernotes to the
-             regular Exif tag, Exif.Photo.ISOSpeedRatings.
-     */
+    /// @brief %Copy ISO settings from any of the Nikon makernotes to the regular Exif tag, Exif.Photo.ISOSpeedRatings.
     class FixIso : public Task {
     public:
         ~FixIso() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<FixIso>;
-        UniquePtr clone() const;
+        Task::UniquePtr clone() const override;
 
     private:
-        FixIso* clone_() const override;
         std::string path_;
+    };
 
-    }; // class FixIso
-
-    /*!
-      @brief Fix the character encoding of Exif UNICODE user comments.
-             Decodes the comment using the auto-detected or specified
-             character encoding and writes it back in UCS-2.
-     */
+    /// @brief Fix the character encoding of Exif UNICODE user comments.
+    ///
+    /// Decodes the comment using the auto-detected or specified character encoding and writes it back in UCS-2.
     class FixCom : public Task {
     public:
         ~FixCom() override = default;
         int run(const std::string& path) override;
-        using UniquePtr = std::unique_ptr<FixCom>;
-        UniquePtr clone() const;
-
+        Task::UniquePtr clone() const override;
     private:
-        FixCom* clone_() const override;
         std::string path_;
-
-    }; // class FixCom
+    };
 
 }                                       // namespace Action
 

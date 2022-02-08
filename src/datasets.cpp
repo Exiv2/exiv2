@@ -421,6 +421,16 @@ namespace Exiv2 {
         0xffffffff, Exiv2::string,     IptcDataSets::invalidRecord, N_("Unknown dataset"),
     };
 
+    const DataSet* IptcDataSets::envelopeRecordList()
+    {
+        return envelopeRecord;
+    }
+
+    const DataSet* IptcDataSets::application2RecordList()
+    {
+        return application2Record;
+    }
+
     // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record.
     // The record id is used as the index into the array.
     constexpr const DataSet* IptcDataSets::records_[] = {

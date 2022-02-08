@@ -153,29 +153,34 @@ int main(int argc, char* const argv[])
     try {
         // Create the required action class
         Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-        Action::Task::UniquePtr task = taskFactory.create(Action::TaskType(params.action_));
-        assert(task.get());
+        auto task = taskFactory.create(Action::TaskType(params.action_));
+        assert(task);
 
         // Process all files
         int n = 1;
         int s = static_cast<int>(params.files_.size());
-        int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-        for (auto&& file : params.files_) {
-            // If extracting to stdout then ignore verbose
-            if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
-                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
-                          << std::endl;
-            }
-            task->setBinary(params.binary_);
-            int ret = task->run(file);
-            if (rc == 0)
-                rc = ret;
+        if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && s > 1) {
+            std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
+            rc = 1;
         }
+        else {
+            int w = s > 9 ? s > 99 ? 3 : 2 : 1;
+            for (auto&& file : params.files_) {
+                // If extracting to stdout then ignore verbose
+                if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
+                    std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
+                              << std::endl;
+                }
+                task->setBinary(params.binary_);
+                int ret = task->run(file);
+                if (rc == 0)
+                    rc = ret;
+            }
 
-        taskFactory.cleanup();
-        Params::cleanup();
-        Exiv2::XmpParser::terminate();
-
+            taskFactory.cleanup();
+            Params::cleanup();
+            Exiv2::XmpParser::terminate();
+        }
     } catch (const std::exception& exc) {
         std::cerr << "Uncaught exception: " << exc.what() << std::endl;
         rc = 1;

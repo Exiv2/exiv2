@@ -390,7 +390,7 @@ TEST_F(stringSlice, mutateString)
 {
     Slice<std::string> is_a_mutable = makeSlice(this->sentence, 5, 10);
 
-    for (Slice<std::string>::iterator it = is_a_mutable.begin(); it < is_a_mutable.end(); ++it) {
+    for (auto it = is_a_mutable.begin(); it < is_a_mutable.end(); ++it) {
         *it = ' ';
     }
 

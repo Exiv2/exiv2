@@ -31,7 +31,6 @@
 // + standard includes
 #include <iostream>
 #include <algorithm>
-#include <iterator>
 #include <fstream>      // write the temporary file
 
 // *****************************************************************************
@@ -227,7 +226,7 @@ namespace Exiv2 {
 
     Iptcdatum& Iptcdatum::operator=(const uint16_t& value)
     {
-        UShortValue::UniquePtr v(new UShortValue);
+        auto v = std::make_unique<UShortValue>();
         v->value_.push_back(value);
         value_ = std::move(v);
         return *this;
@@ -514,9 +513,7 @@ namespace Exiv2 {
         std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
         std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(), cmpIptcdataByRecord);
 
-        IptcData::const_iterator iter = sortedIptcData.begin();
-        IptcData::const_iterator end = sortedIptcData.end();
-        for ( ; iter != end; ++iter) {
+        for (auto iter = sortedIptcData.cbegin() ; iter != sortedIptcData.cend(); ++iter) {
             // marker, record Id, dataset num
             *pWrite++ = marker_;
             *pWrite++ = static_cast<byte>(iter->record());
@@ -556,9 +553,8 @@ namespace {
               uint32_t         sizeData
     )
     {
-        Exiv2::Value::UniquePtr value;
         Exiv2::TypeId type = Exiv2::IptcDataSets::dataSetType(dataSet, record);
-        value = Exiv2::Value::create(type);
+        auto value = Exiv2::Value::create(type);
         int rc = value->read(data, sizeData, Exiv2::bigEndian);
         if (0 == rc) {
             Exiv2::IptcKey key(dataSet, record);

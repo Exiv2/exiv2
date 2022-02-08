@@ -124,7 +124,7 @@ namespace {
     }
 
     //! Get the current write position of temp file, taking care of errors
-    uint32_t posTemp(BasicIo& tempIo)
+    uint32_t posTemp(const BasicIo& tempIo)
     {
         const long pos = tempIo.tell();
         if (pos == -1) {
@@ -802,9 +802,8 @@ namespace {
             }
 
             // create temporary output file
-            BasicIo::UniquePtr tempIo(new MemIo);
-            assert (tempIo.get() != 0);
-            if (!tempIo->isopen()) {
+            MemIo tempIo;
+            if (!tempIo.isopen()) {
                 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Unable to create temporary file for writing.\n";
                 #endif
@@ -839,10 +838,10 @@ namespace {
             // assemble result EPS document
             if (dosEps) {
                 // DOS EPS header will be written afterwards
-                writeTemp(*tempIo, std::string(30, '\x00'));
+                writeTemp(tempIo, std::string(30, '\x00'));
             }
             const std::string containsXmpLine = deleteXmp ? "%ADO_ContainsXMP: NoMain" : "%ADO_ContainsXMP: MainFirst";
-            const uint32_t posEpsNew = posTemp(*tempIo);
+            const uint32_t posEpsNew = posTemp(tempIo);
             size_t prevPos = posEps;
             size_t prevSkipPos = prevPos;
             for (auto&& pos : positions) {
@@ -857,12 +856,12 @@ namespace {
                     #endif
                     throw Error(kerImageWriteFailed);
                 }
-                writeTemp(*tempIo, data + prevSkipPos, pos - prevSkipPos);
+                writeTemp(tempIo, data + prevSkipPos, pos - prevSkipPos);
                 const size_t posLineEnd = readLine(line, data, pos, posEndEps);
                 size_t skipPos = pos;
                 // add last line ending if necessary
                 if (pos == posEndEps && pos >= 1 && data[pos - 1] != '\r' && data[pos - 1] != '\n') {
-                    writeTemp(*tempIo, lineEnding);
+                    writeTemp(tempIo, lineEnding);
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Added missing line ending of last line\n";
                     #endif
@@ -870,7 +869,7 @@ namespace {
                 // update and complement DSC comments
                 if (pos == posLanguageLevel && posLanguageLevel != posEndEps && !deleteXmp && !useFlexibleEmbedding) {
                     if (line == "%%LanguageLevel:1" || line == "%%LanguageLevel: 1") {
-                        writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
+                        writeTemp(tempIo, "%%LanguageLevel: 2" + lineEnding);
                         skipPos = posLineEnd;
                         #ifdef DEBUG
                         EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
@@ -879,7 +878,7 @@ namespace {
                 }
                 if (pos == posContainsXmp && posContainsXmp != posEndEps) {
                     if (line != containsXmpLine) {
-                        writeTemp(*tempIo, containsXmpLine + lineEnding);
+                        writeTemp(tempIo, containsXmpLine + lineEnding);
                         skipPos = posLineEnd;
                         #ifdef DEBUG
                         EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
@@ -887,14 +886,14 @@ namespace {
                     }
                 }
                 if (pos == posExiv2Version && posExiv2Version != posEndEps) {
-                    writeTemp(*tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
+                    writeTemp(tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
                     skipPos = posLineEnd;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
                     #endif
                 }
                 if (pos == posExiv2Website && posExiv2Website != posEndEps) {
-                    writeTemp(*tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
+                    writeTemp(tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
                     skipPos = posLineEnd;
                     #ifdef DEBUG
                     EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
@@ -902,43 +901,43 @@ namespace {
                 }
                 if (pos == posEndComments) {
                     if (posLanguageLevel == posEndEps && !deleteXmp && !useFlexibleEmbedding) {
-                        writeTemp(*tempIo, "%%LanguageLevel: 2" + lineEnding);
+                        writeTemp(tempIo, "%%LanguageLevel: 2" + lineEnding);
                     }
                     if (posContainsXmp == posEndEps) {
-                        writeTemp(*tempIo, containsXmpLine + lineEnding);
+                        writeTemp(tempIo, containsXmpLine + lineEnding);
                     }
                     if (posPages == posEndEps) {
-                        writeTemp(*tempIo, "%%Pages: 1" + lineEnding);
+                        writeTemp(tempIo, "%%Pages: 1" + lineEnding);
                     }
                     if (posExiv2Version == posEndEps) {
-                        writeTemp(*tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
+                        writeTemp(tempIo, "%Exiv2Version: " + versionNumberHexString() + lineEnding);
                     }
                     if (posExiv2Website == posEndEps) {
-                        writeTemp(*tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
+                        writeTemp(tempIo, "%Exiv2Website: http://www.exiv2.org/" + lineEnding);
                     }
                     readLine(line, data, posEndComments, posEndEps);
                     if (line != "%%EndComments") {
-                        writeTemp(*tempIo, "%%EndComments" + lineEnding);
+                        writeTemp(tempIo, "%%EndComments" + lineEnding);
                     }
                 }
                 if (pos == posPage) {
                     if (!startsWith(line, "%%Page:")) {
-                        writeTemp(*tempIo, "%%Page: 1 1" + lineEnding);
-                        writeTemp(*tempIo, "%%EndPageComments" + lineEnding);
+                        writeTemp(tempIo, "%%Page: 1 1" + lineEnding);
+                        writeTemp(tempIo, "%%EndPageComments" + lineEnding);
                     }
                 }
                 if (pos == posBeginPageSetup) {
                     if (line != "%%BeginPageSetup") {
-                        writeTemp(*tempIo, "%%BeginPageSetup" + lineEnding);
+                        writeTemp(tempIo, "%%BeginPageSetup" + lineEnding);
                     }
                 }
                 if (useFlexibleEmbedding) {
                     // insert XMP metadata into existing flexible embedding
                     if (pos == xmpPos) {
                         if (fixBeginXmlPacket) {
-                            writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
+                            writeTemp(tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
                         }
-                        writeTemp(*tempIo, xmpPacket);
+                        writeTemp(tempIo, xmpPacket);
                         skipPos += xmpSize;
                         #ifdef DEBUG
                         EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
@@ -958,52 +957,52 @@ namespace {
                     }
                     // insert XMP metadata with new flexible embedding, if necessary
                     if (pos == posEndPageSetup && !deleteXmp) {
-                        writeTemp(*tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding);
+                        writeTemp(tempIo, "%Exiv2BeginXMP: Before %%EndPageSetup" + lineEnding);
                         if (corelDraw) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by CorelDRAW." + lineEnding);
-                            writeTemp(*tempIo, "@rs" + lineEnding);
+                            writeTemp(tempIo, "%Exiv2Notice: The following line is needed by CorelDRAW." + lineEnding);
+                            writeTemp(tempIo, "@rs" + lineEnding);
                         }
                         if (posBeginPhotoshop != posEndEps) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
-                            writeTemp(*tempIo, "%begin_xml_code" + lineEnding);
+                            writeTemp(tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
+                            writeTemp(tempIo, "%begin_xml_code" + lineEnding);
                         }
-                        writeTemp(*tempIo, "/currentdistillerparams where" + lineEnding);
-                        writeTemp(*tempIo, "{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse" + lineEnding);
-                        writeTemp(*tempIo, "{userdict /Exiv2_pdfmark /cleartomark load put" + lineEnding);
-                        writeTemp(*tempIo, "    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}" + lineEnding);
-                        writeTemp(*tempIo, "{userdict /Exiv2_pdfmark /pdfmark load put" + lineEnding);
-                        writeTemp(*tempIo, "    userdict /Exiv2_metafile_pdfmark {/PUT pdfmark} bind put} ifelse" + lineEnding);
-                        writeTemp(*tempIo, "[/NamespacePush Exiv2_pdfmark" + lineEnding);
-                        writeTemp(*tempIo, "[/_objdef {Exiv2_metadata_stream} /type /stream /OBJ Exiv2_pdfmark" + lineEnding);
-                        writeTemp(*tempIo, "[{Exiv2_metadata_stream} 2 dict begin" + lineEnding);
-                        writeTemp(*tempIo, "    /Type /Metadata def /Subtype /XML def currentdict end /PUT Exiv2_pdfmark" + lineEnding);
-                        writeTemp(*tempIo, "[{Exiv2_metadata_stream}" + lineEnding);
-                        writeTemp(*tempIo, "    currentfile 0 (% &&end XMP packet marker&&)" + lineEnding);
-                        writeTemp(*tempIo, "    /SubFileDecode filter Exiv2_metafile_pdfmark" + lineEnding);
+                        writeTemp(tempIo, "/currentdistillerparams where" + lineEnding);
+                        writeTemp(tempIo, "{pop currentdistillerparams /CoreDistVersion get 5000 lt} {true} ifelse" + lineEnding);
+                        writeTemp(tempIo, "{userdict /Exiv2_pdfmark /cleartomark load put" + lineEnding);
+                        writeTemp(tempIo, "    userdict /Exiv2_metafile_pdfmark {flushfile cleartomark} bind put}" + lineEnding);
+                        writeTemp(tempIo, "{userdict /Exiv2_pdfmark /pdfmark load put" + lineEnding);
+                        writeTemp(tempIo, "    userdict /Exiv2_metafile_pdfmark {/PUT pdfmark} bind put} ifelse" + lineEnding);
+                        writeTemp(tempIo, "[/NamespacePush Exiv2_pdfmark" + lineEnding);
+                        writeTemp(tempIo, "[/_objdef {Exiv2_metadata_stream} /type /stream /OBJ Exiv2_pdfmark" + lineEnding);
+                        writeTemp(tempIo, "[{Exiv2_metadata_stream} 2 dict begin" + lineEnding);
+                        writeTemp(tempIo, "    /Type /Metadata def /Subtype /XML def currentdict end /PUT Exiv2_pdfmark" + lineEnding);
+                        writeTemp(tempIo, "[{Exiv2_metadata_stream}" + lineEnding);
+                        writeTemp(tempIo, "    currentfile 0 (% &&end XMP packet marker&&)" + lineEnding);
+                        writeTemp(tempIo, "    /SubFileDecode filter Exiv2_metafile_pdfmark" + lineEnding);
                         if (posBeginPhotoshop != posEndEps) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop. "
+                            writeTemp(tempIo, "%Exiv2Notice: The following line is needed by Photoshop. "
                                                "Parameter must be exact size of XMP metadata." + lineEnding);
-                            writeTemp(*tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
+                            writeTemp(tempIo, "%begin_xml_packet: " + toString(xmpPacket.size()) + lineEnding);
                         }
-                        writeTemp(*tempIo, xmpPacket);
-                        writeTemp(*tempIo, lineEnding);
-                        writeTemp(*tempIo, "% &&end XMP packet marker&&" + lineEnding);
-                        writeTemp(*tempIo, "[/Document 1 dict begin" + lineEnding);
-                        writeTemp(*tempIo, "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding);
+                        writeTemp(tempIo, xmpPacket);
+                        writeTemp(tempIo, lineEnding);
+                        writeTemp(tempIo, "% &&end XMP packet marker&&" + lineEnding);
+                        writeTemp(tempIo, "[/Document 1 dict begin" + lineEnding);
+                        writeTemp(tempIo, "    /Metadata {Exiv2_metadata_stream} def currentdict end /BDC Exiv2_pdfmark" + lineEnding);
                         if (posBeginPhotoshop != posEndEps) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
-                            writeTemp(*tempIo, "%end_xml_code" + lineEnding);
+                            writeTemp(tempIo, "%Exiv2Notice: The following line is needed by Photoshop." + lineEnding);
+                            writeTemp(tempIo, "%end_xml_code" + lineEnding);
                         }
                         if (corelDraw) {
-                            writeTemp(*tempIo, "%Exiv2Notice: The following line is needed by CorelDRAW." + lineEnding);
-                            writeTemp(*tempIo, "@sv" + lineEnding);
+                            writeTemp(tempIo, "%Exiv2Notice: The following line is needed by CorelDRAW." + lineEnding);
+                            writeTemp(tempIo, "@sv" + lineEnding);
                         }
-                        writeTemp(*tempIo, "%Exiv2EndXMP" + lineEnding);
+                        writeTemp(tempIo, "%Exiv2EndXMP" + lineEnding);
                     }
                 }
                 if (pos == posEndPageSetup) {
                     if (line != "%%EndPageSetup") {
-                        writeTemp(*tempIo, "%%EndPageSetup" + lineEnding);
+                        writeTemp(tempIo, "%%EndPageSetup" + lineEnding);
                     }
                 }
                 if (!useFlexibleEmbedding) {
@@ -1014,33 +1013,33 @@ namespace {
                             EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__ << "\n";
                             #endif
                         }
-                        writeTemp(*tempIo, "%%PageTrailer" + lineEnding);
-                        writeTemp(*tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding);
-                        writeTemp(*tempIo, "[/EMC Exiv2_pdfmark" + lineEnding);
-                        writeTemp(*tempIo, "[/NamespacePop Exiv2_pdfmark" + lineEnding);
-                        writeTemp(*tempIo, "%Exiv2EndXMP" + lineEnding);
+                        writeTemp(tempIo, "%%PageTrailer" + lineEnding);
+                        writeTemp(tempIo, "%Exiv2BeginXMP: After %%PageTrailer" + lineEnding);
+                        writeTemp(tempIo, "[/EMC Exiv2_pdfmark" + lineEnding);
+                        writeTemp(tempIo, "[/NamespacePop Exiv2_pdfmark" + lineEnding);
+                        writeTemp(tempIo, "%Exiv2EndXMP" + lineEnding);
                     }
                 }
                 // add EOF comment if necessary
                 if (pos == posEndEps && posEof == posEndEps) {
-                    writeTemp(*tempIo, "%%EOF" + lineEnding);
+                    writeTemp(tempIo, "%%EOF" + lineEnding);
                 }
                 prevPos = pos;
                 prevSkipPos = skipPos;
             }
-            const uint32_t posEndEpsNew = posTemp(*tempIo);
+            const uint32_t posEndEpsNew = posTemp(tempIo);
             #ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: New EPS size: " << (posEndEpsNew - posEpsNew) << "\n";
             #endif
             if (dosEps) {
                 // write WMF and/or TIFF section if present
-                writeTemp(*tempIo, data + posWmf, sizeWmf);
-                writeTemp(*tempIo, data + posTiff, sizeTiff);
+                writeTemp(tempIo, data + posWmf, sizeWmf);
+                writeTemp(tempIo, data + posTiff, sizeTiff);
                 #ifdef DEBUG
-                EXV_DEBUG << "readWriteEpsMetadata: New DOS EPS total size: " << posTemp(*tempIo) << "\n";
+                EXV_DEBUG << "readWriteEpsMetadata: New DOS EPS total size: " << posTemp(tempIo) << "\n";
                 #endif
                 // write DOS EPS header
-                if (tempIo->seek(0, BasicIo::beg) != 0) {
+                if (tempIo.seek(0, BasicIo::beg) != 0) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Internal error while seeking in temporary file.\n";
                     #endif
@@ -1055,12 +1054,12 @@ namespace {
                 ul2Data(dosEpsHeader + 20, sizeTiff == 0 ? 0 : posEndEpsNew + sizeWmf, littleEndian);
                 ul2Data(dosEpsHeader + 24, sizeTiff,                                   littleEndian);
                 us2Data(dosEpsHeader + 28, 0xFFFF,                                     littleEndian);
-                writeTemp(*tempIo, dosEpsHeader, sizeof(dosEpsHeader));
+                writeTemp(tempIo, dosEpsHeader, sizeof(dosEpsHeader));
             }
 
             // copy temporary file to real output file
             io.close();
-            io.transfer(*tempIo);
+            io.transfer(tempIo);
         }
     }
 
@@ -1149,7 +1148,7 @@ namespace Exiv2
     // free functions
     Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new EpsImage(std::move(io), create));
+        auto image = std::make_unique<EpsImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

@@ -132,8 +132,7 @@ namespace Exiv2 {
         CrwParser::encode(blob, buf.c_data(), buf.size(), this);
 
         // Write new buffer to file
-        MemIo::UniquePtr tempIo(new MemIo);
-        assert(tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
         tempIo->write((!blob.empty() ? &blob[0] : nullptr), static_cast<long>(blob.size()));
         io_->close();
         io_->transfer(*tempIo); // may throw
@@ -146,15 +145,15 @@ namespace Exiv2 {
         assert(pData != 0);
 
         // Parse the image, starting with a CIFF header component
-        CiffHeader::UniquePtr head(new CiffHeader);
-        head->read(pData, size);
+        CiffHeader header;
+        header.read(pData, size);
 #ifdef EXIV2_DEBUG_MESSAGES
-        head->print(std::cerr);
+        header.print(std::cerr);
 #endif
-        head->decode(*pCrwImage);
+        header.decode(*pCrwImage);
 
         // a hack to get absolute offset of preview image inside CRW structure
-        CiffComponent* preview = head->findComponent(0x2007, 0x0000);
+        CiffComponent* preview = header.findComponent(0x2007, 0x0000);
         if (preview) {
             (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormat"] = uint32_t(preview->pData() - pData);
             (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] = preview->size();
@@ -169,23 +168,22 @@ namespace Exiv2 {
     )
     {
         // Parse image, starting with a CIFF header component
-        CiffHeader::UniquePtr head(new CiffHeader);
+        CiffHeader header;
         if (size != 0) {
-            head->read(pData, size);
+            header.read(pData, size);
         }
 
         // Encode Exif tags from image into the CRW parse tree and write the
         // structure to the binary image blob
-        CrwMap::encode(head.get(), *pCrwImage);
-        head->write(blob);
-
-    } // CrwParser::encode
+        CrwMap::encode(&header, *pCrwImage);
+        header.write(blob);
+    }
 
     // *************************************************************************
     // free functions
     Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::UniquePtr image(new CrwImage(std::move(io), create));
+        auto image = std::make_unique<CrwImage>(std::move(io), create);
         if (!image->good()) {
             image.reset();
         }

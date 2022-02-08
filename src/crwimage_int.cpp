@@ -316,10 +316,10 @@ namespace Exiv2 {
 
         for (uint16_t i = 0; i < count; ++i) {
             uint16_t tag = getUShort(pData + o, byteOrder);
-            CiffComponent::UniquePtr m;
+            std::unique_ptr<CiffComponent> m;
             switch (CiffComponent::typeId(tag)) {
-            case directory: m = CiffComponent::UniquePtr(new CiffDirectory); break;
-            default: m = CiffComponent::UniquePtr(new CiffEntry); break;
+            case directory: m = std::make_unique<CiffDirectory>(); break;
+            default: m = std::make_unique<CiffEntry>(); break;
             }
             m->setDir(this->tag());
             m->read(pData, size, o, byteOrder);
@@ -533,9 +533,8 @@ namespace Exiv2 {
            << ", " << _("size") << " = " << std::dec << size_
            << ", " << _("offset") << " = " << offset_ << "\n";
 
-        Value::UniquePtr value;
         if (typeId() != directory) {
-            value = Value::create(typeId());
+            auto value = Value::create(typeId());
             value->read(pData_, size_, byteOrder);
             if (value->size() < 100) {
                 os << prefix << *value << "\n";
@@ -679,7 +678,7 @@ namespace Exiv2 {
             }
             if (cc_ == nullptr) {
                 // Directory doesn't exist yet, add it
-                m_ = UniquePtr(new CiffDirectory(csd.crwDir_, csd.parent_));
+                m_ = std::make_unique<CiffDirectory>(csd.crwDir_, csd.parent_);
                 cc_ = m_.get();
                 add(std::move(m_));
             }
@@ -729,15 +728,11 @@ namespace Exiv2 {
 
     void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId)
     {
-        const Components::iterator b = components_.begin();
-        const Components::iterator e = components_.end();
-        Components::iterator i;
-
         if (!crwDirs.empty()) {
             CrwSubDir csd = crwDirs.top();
             crwDirs.pop();
             // Find the directory
-            for (i = b; i != e; ++i) {
+            for (auto i = components_.begin(); i != components_.end(); ++i) {
                 if ((*i)->tag() == csd.crwDir_) {
                     // Recursive call to next lower level directory
                     (*i)->remove(crwDirs, crwTagId);
@@ -748,7 +743,7 @@ namespace Exiv2 {
         }
         else {
             // Find the tag
-            for (i = b; i != e; ++i) {
+            for (auto i = components_.begin(); i != components_.end(); ++i) {
                 if ((*i)->tagId() == crwTagId) {
                     // Remove the entry and abort the loop
                     delete *i;
@@ -813,7 +808,7 @@ namespace Exiv2 {
 
         // Make
         ExifKey key1("Exif.Image.Make");
-        Value::UniquePtr value1 = Value::create(ciffComponent.typeId());
+        auto value1 = Value::create(ciffComponent.typeId());
         uint32_t i = 0;
         while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
             // empty
@@ -823,7 +818,7 @@ namespace Exiv2 {
 
         // Model
         ExifKey key2("Exif.Image.Model");
-        Value::UniquePtr value2 = Value::create(ciffComponent.typeId());
+        auto value2 = Value::create(ciffComponent.typeId());
         uint32_t j = i;
         while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
             // empty
@@ -955,7 +950,7 @@ namespace Exiv2 {
         assert(pCrwMapping != 0);
         // create a key and value pair
         ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-        Value::UniquePtr value;
+        std::unique_ptr<Value> value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
             uint32_t size = 0;

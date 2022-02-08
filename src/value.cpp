@@ -50,69 +50,69 @@ namespace Exiv2 {
 
     Value::UniquePtr Value::create(TypeId typeId)
     {
-        UniquePtr value;
+        std::unique_ptr<Value> value;
         switch (typeId) {
         case invalidTypeId:
         case signedByte:
         case unsignedByte:
-            value = UniquePtr(new DataValue(typeId));
+            value = std::make_unique<DataValue>(typeId);
             break;
         case asciiString:
-            value = UniquePtr(new AsciiValue);
+            value = std::make_unique<AsciiValue>();
             break;
         case unsignedShort:
-            value = UniquePtr(new ValueType<uint16_t>);
+            value = std::make_unique<ValueType<uint16_t>>();
             break;
         case unsignedLong:
         case tiffIfd:
-            value = UniquePtr(new ValueType<uint32_t>(typeId));
+            value = std::make_unique<ValueType<uint32_t>>(typeId);
             break;
         case unsignedRational:
-            value = UniquePtr(new ValueType<URational>);
+            value = std::make_unique<ValueType<URational>>();
             break;
         case undefined:
-            value = UniquePtr(new DataValue);
+            value = std::make_unique<DataValue>();
             break;
         case signedShort:
-            value = UniquePtr(new ValueType<int16_t>);
+            value = std::make_unique<ValueType<int16_t>>();
             break;
         case signedLong:
-            value = UniquePtr(new ValueType<int32_t>);
+            value = std::make_unique<ValueType<int32_t>>();
             break;
         case signedRational:
-            value = UniquePtr(new ValueType<Rational>);
+            value = std::make_unique<ValueType<Rational>>();
             break;
         case tiffFloat:
-            value = UniquePtr(new ValueType<float>);
+            value = std::make_unique<ValueType<float>>();
             break;
         case tiffDouble:
-            value = UniquePtr(new ValueType<double>);
+            value = std::make_unique<ValueType<double>>();
             break;
         case string:
-            value = UniquePtr(new StringValue);
+            value = std::make_unique<StringValue>();
             break;
         case date:
-            value = UniquePtr(new DateValue);
+            value = std::make_unique<DateValue>();
             break;
         case time:
-            value = UniquePtr(new TimeValue);
+            value = std::make_unique<TimeValue>();
             break;
         case comment:
-            value = UniquePtr(new CommentValue);
+            value = std::make_unique<CommentValue>();
             break;
         case xmpText:
-            value = UniquePtr(new XmpTextValue);
+            value = std::make_unique<XmpTextValue>();
             break;
         case xmpBag:
         case xmpSeq:
         case xmpAlt:
-            value = UniquePtr(new XmpArrayValue(typeId));
+            value = std::make_unique<XmpArrayValue>(typeId);
             break;
         case langAlt:
-            value = UniquePtr(new LangAltValue);
+            value = std::make_unique<LangAltValue>();
             break;
         default:
-            value = UniquePtr(new DataValue(typeId));
+            value = std::make_unique<DataValue>(typeId);
             break;
         }
         return value;
