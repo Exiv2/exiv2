@@ -23,6 +23,7 @@ Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  0
 Exif.CanonSi.CameraTemperature               Short       1  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
@@ -102,6 +103,7 @@ Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  0
 Exif.CanonSi.CameraTemperature               Short       1  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
@@ -140,6 +142,7 @@ Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  0
 Exif.CanonSi.CameraTemperature               Short       1  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
@@ -210,6 +213,7 @@ Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  0
 Exif.CanonSi.CameraTemperature               Short       1  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
