@@ -6,6 +6,7 @@ class TestExifTagsInTaglist(metaclass=CaseMeta):
 
 # The taglist program outputs lots of data on all Exif tags.
 # Extract only the keys and compare
+    url = "https://github.com/Exiv2/exiv2/pull/1905/files"
     filename = "$tmp_path/TestExifTagsInTaglist.txt"
     commands = ["$taglist Exif > $filename",
                 "cut -d, -f5 $filename"]
