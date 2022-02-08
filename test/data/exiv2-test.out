@@ -732,7 +732,7 @@ File  2/16: 20031214_000043.jpg
 20031214_000043.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 20031214_000043.jpg   Exif.CanonSi.SlowShutter                     Short       1  Off
 20031214_000043.jpg   Exif.CanonSi.Sequence                        Short       1  0
-20031214_000043.jpg   Exif.CanonSi.0x000a                          Short       1  6
+20031214_000043.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  6
 20031214_000043.jpg   Exif.CanonSi.0x000b                          Short       1  0
 20031214_000043.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 20031214_000043.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -1156,7 +1156,7 @@ File  6/16: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 20030925_201850.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 20030925_201850.jpg   Exif.CanonSi.Sequence                        Short       1  0
-20030925_201850.jpg   Exif.CanonSi.0x000a                          Short       1  8
+20030925_201850.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 20030925_201850.jpg   Exif.CanonSi.0x000b                          Short       1  8
 20030925_201850.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 20030925_201850.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -1749,7 +1749,7 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Custom
 20060802_095200.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 20060802_095200.jpg   Exif.CanonSi.Sequence                        Short       1  0
-20060802_095200.jpg   Exif.CanonSi.0x000a                          Short       1  8
+20060802_095200.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 20060802_095200.jpg   Exif.CanonSi.0x000b                          Short       1  8
 20060802_095200.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 20060802_095200.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  --
@@ -1957,7 +1957,7 @@ File 14/16: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 20001004_015404.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 20001004_015404.jpg   Exif.CanonSi.Sequence                        Short       1  1
-20001004_015404.jpg   Exif.CanonSi.0x000a                          Short       1  8
+20001004_015404.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 20001004_015404.jpg   Exif.CanonSi.0x000b                          Short       1  8
 20001004_015404.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 20001004_015404.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -2100,7 +2100,7 @@ File 15/16: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 20060127_225027.jpg   Exif.CanonSi.SlowShutter                     Short       1  Off
 20060127_225027.jpg   Exif.CanonSi.Sequence                        Short       1  0
-20060127_225027.jpg   Exif.CanonSi.0x000a                          Short       1  0
+20060127_225027.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x000b                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 20060127_225027.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -2373,7 +2373,7 @@ Compare image data and extracted data ------------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 < 20031214_000043.jpg   Exif.CanonSi.SlowShutter                     Short       1  Off
 < 20031214_000043.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20031214_000043.jpg   Exif.CanonSi.0x000a                          Short       1  6
+< 20031214_000043.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  6
 < 20031214_000043.jpg   Exif.CanonSi.0x000b                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20031214_000043.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -2797,7 +2797,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 < 20030925_201850.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 < 20030925_201850.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20030925_201850.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20030925_201850.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 < 20030925_201850.jpg   Exif.CanonSi.0x000b                          Short       1  8
 < 20030925_201850.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20030925_201850.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -3389,7 +3389,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Custom
 < 20060802_095200.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 < 20060802_095200.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20060802_095200.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20060802_095200.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 < 20060802_095200.jpg   Exif.CanonSi.0x000b                          Short       1  8
 < 20060802_095200.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20060802_095200.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  --
@@ -3597,7 +3597,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 < 20001004_015404.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 < 20001004_015404.jpg   Exif.CanonSi.Sequence                        Short       1  1
-< 20001004_015404.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20001004_015404.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 < 20001004_015404.jpg   Exif.CanonSi.0x000b                          Short       1  8
 < 20001004_015404.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20001004_015404.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -3740,7 +3740,7 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 < 20060127_225027.jpg   Exif.CanonSi.SlowShutter                     Short       1  Off
 < 20060127_225027.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20060127_225027.jpg   Exif.CanonSi.0x000a                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x000b                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20060127_225027.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -3936,7 +3936,7 @@ Compare image data and extracted data ------------------------------------
 > 20031214_000043.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 > 20031214_000043.exv   Exif.CanonSi.SlowShutter                     Short       1  Off
 > 20031214_000043.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20031214_000043.exv   Exif.CanonSi.0x000a                          Short       1  6
+> 20031214_000043.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  6
 > 20031214_000043.exv   Exif.CanonSi.0x000b                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20031214_000043.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -4360,7 +4360,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 > 20030925_201850.exv   Exif.CanonSi.SlowShutter                     Short       1  None
 > 20030925_201850.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20030925_201850.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20030925_201850.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 > 20030925_201850.exv   Exif.CanonSi.0x000b                          Short       1  8
 > 20030925_201850.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20030925_201850.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -4952,7 +4952,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonSi.WhiteBalance                    Short       1  Custom
 > 20060802_095200.exv   Exif.CanonSi.SlowShutter                     Short       1  None
 > 20060802_095200.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20060802_095200.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20060802_095200.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 > 20060802_095200.exv   Exif.CanonSi.0x000b                          Short       1  8
 > 20060802_095200.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20060802_095200.exv   Exif.CanonSi.FlashGuideNumber                Short       1  --
@@ -5160,7 +5160,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 > 20001004_015404.exv   Exif.CanonSi.SlowShutter                     Short       1  None
 > 20001004_015404.exv   Exif.CanonSi.Sequence                        Short       1  1
-> 20001004_015404.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20001004_015404.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 > 20001004_015404.exv   Exif.CanonSi.0x000b                          Short       1  8
 > 20001004_015404.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20001004_015404.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -5303,7 +5303,7 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 > 20060127_225027.exv   Exif.CanonSi.SlowShutter                     Short       1  Off
 > 20060127_225027.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20060127_225027.exv   Exif.CanonSi.0x000a                          Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x000b                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20060127_225027.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -5737,7 +5737,7 @@ Compare original and inserted image data ---------------------------------
 < 20031214_000043.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 < 20031214_000043.jpg   Exif.CanonSi.SlowShutter                     Short       1  Off
 < 20031214_000043.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20031214_000043.jpg   Exif.CanonSi.0x000a                          Short       1  6
+< 20031214_000043.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  6
 < 20031214_000043.jpg   Exif.CanonSi.0x000b                          Short       1  0
 < 20031214_000043.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20031214_000043.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -6161,7 +6161,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 < 20030925_201850.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 < 20030925_201850.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20030925_201850.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20030925_201850.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 < 20030925_201850.jpg   Exif.CanonSi.0x000b                          Short       1  8
 < 20030925_201850.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20030925_201850.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -6753,7 +6753,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Custom
 < 20060802_095200.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 < 20060802_095200.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20060802_095200.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20060802_095200.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 < 20060802_095200.jpg   Exif.CanonSi.0x000b                          Short       1  8
 < 20060802_095200.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20060802_095200.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  --
@@ -6961,7 +6961,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 < 20001004_015404.jpg   Exif.CanonSi.SlowShutter                     Short       1  None
 < 20001004_015404.jpg   Exif.CanonSi.Sequence                        Short       1  1
-< 20001004_015404.jpg   Exif.CanonSi.0x000a                          Short       1  8
+< 20001004_015404.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 < 20001004_015404.jpg   Exif.CanonSi.0x000b                          Short       1  8
 < 20001004_015404.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20001004_015404.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -7104,7 +7104,7 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 < 20060127_225027.jpg   Exif.CanonSi.SlowShutter                     Short       1  Off
 < 20060127_225027.jpg   Exif.CanonSi.Sequence                        Short       1  0
-< 20060127_225027.jpg   Exif.CanonSi.0x000a                          Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.OpticalZoomCode                 Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x000b                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.CameraTemperature               Short       1  --
 < 20060127_225027.jpg   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -7300,7 +7300,7 @@ Compare original and inserted image data ---------------------------------
 > 20031214_000043.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 > 20031214_000043.exv   Exif.CanonSi.SlowShutter                     Short       1  Off
 > 20031214_000043.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20031214_000043.exv   Exif.CanonSi.0x000a                          Short       1  6
+> 20031214_000043.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  6
 > 20031214_000043.exv   Exif.CanonSi.0x000b                          Short       1  0
 > 20031214_000043.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20031214_000043.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -7724,7 +7724,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 > 20030925_201850.exv   Exif.CanonSi.SlowShutter                     Short       1  None
 > 20030925_201850.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20030925_201850.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20030925_201850.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 > 20030925_201850.exv   Exif.CanonSi.0x000b                          Short       1  8
 > 20030925_201850.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20030925_201850.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -8316,7 +8316,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonSi.WhiteBalance                    Short       1  Custom
 > 20060802_095200.exv   Exif.CanonSi.SlowShutter                     Short       1  None
 > 20060802_095200.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20060802_095200.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20060802_095200.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 > 20060802_095200.exv   Exif.CanonSi.0x000b                          Short       1  8
 > 20060802_095200.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20060802_095200.exv   Exif.CanonSi.FlashGuideNumber                Short       1  --
@@ -8524,7 +8524,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonSi.WhiteBalance                    Short       1  Daylight
 > 20001004_015404.exv   Exif.CanonSi.SlowShutter                     Short       1  None
 > 20001004_015404.exv   Exif.CanonSi.Sequence                        Short       1  1
-> 20001004_015404.exv   Exif.CanonSi.0x000a                          Short       1  8
+> 20001004_015404.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  8
 > 20001004_015404.exv   Exif.CanonSi.0x000b                          Short       1  8
 > 20001004_015404.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20001004_015404.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
@@ -8667,7 +8667,7 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonSi.WhiteBalance                    Short       1  Auto
 > 20060127_225027.exv   Exif.CanonSi.SlowShutter                     Short       1  Off
 > 20060127_225027.exv   Exif.CanonSi.Sequence                        Short       1  0
-> 20060127_225027.exv   Exif.CanonSi.0x000a                          Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.OpticalZoomCode                 Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x000b                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.CameraTemperature               Short       1  --
 > 20060127_225027.exv   Exif.CanonSi.FlashGuideNumber                Short       1  0
