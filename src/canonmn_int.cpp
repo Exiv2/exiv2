@@ -2333,7 +2333,7 @@ namespace Exiv2 {
         {0x0018, "BulbDuration", N_("Bulb Duration"), N_("Bulb duration"), canonSiId, makerTags, unsignedShort, 1, printSi0x0018},
         {0x0019, "0x0019", "0x0019", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x001a, "CameraType", N_("Camera Type"), N_("Camera type"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(cameraType)},
-        {0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, printValue},
+        {0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(autoRotate)},
         {0x001c, "NDFilter", N_("ND Filter"), N_("ND filter"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(ndRotate)},
         {0x001d, "SelfTimer2", N_("Self Timer 2"), N_("Self timer2"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(selfTimer2)},
         {0x0021, "FlashOutput", N_("Flash Output"), N_("Flash output"), canonSiId, makerTags, signedShort, 1, printValue},
