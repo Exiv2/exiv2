@@ -15,7 +15,11 @@ class XmpIptcStandardsTest(metaclass=CaseMeta):
     filename      = path("$data_path/issue_1959_poc.xmp")
     filename_ref  = path("$data_path/issue_1959_poc.xmp.out")
     
-    commands = ["TZ=UTC $exiv2 -Pkvt $filename"]
+    # fix the timezone to avoid failing tests if a user's timezone is different than the reference
+    env = {
+        'TZ': 'UTC'
+    }
+    commands = ["$exiv2 -Pkvt $filename"]
 
     stderr = [""]
     retval = [0]
