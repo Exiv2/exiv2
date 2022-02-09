@@ -9,7 +9,7 @@ name: On PUSH - Basic CI for main platforms
 jobs:
   windows:
     name: 'Win10 Arch:x64 BuildType:Release - SHARED'
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
       - uses: actions/checkout@v2
@@ -34,6 +34,8 @@ jobs:
           pip.exe install "conan==1.43.0"
           conan profile new --detect default
           conan profile show default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
 
       - name: Run Conan
         run: |
