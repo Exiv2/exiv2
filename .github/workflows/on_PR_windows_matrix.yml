@@ -53,8 +53,6 @@ jobs:
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
-          conan config get storage.path
-          tree /f ./conanCache
 
       - name: Conan Arch conditional config
         if: ${{matrix.platform == 'x86'}}
@@ -68,8 +66,6 @@ jobs:
           cd build
           conan profile list
           conan install .. --build missing
-          dir ..
-          tree /f ../conanCache
 
       - name: Build
         run: |
