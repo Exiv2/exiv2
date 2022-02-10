@@ -12,6 +12,9 @@ else()
 endif()
 
 find_package (Python3 COMPONENTS Interpreter)
+if (NOT Python3_Interpreter_FOUND)
+    message(WARNING "Python3 was not found. Python tests under the 'tests' folder will not be executed")
+endif()
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)

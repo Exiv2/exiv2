@@ -6,6 +6,8 @@ import system_tests
 @system_tests.CopyFiles("$data_path/exiv2-empty.jpg")
 class EasyaccessTest(metaclass=system_tests.CaseMeta):
 
+    url = "https://github.com/Exiv2/exiv2/pull/287"
+
     filename = "$data_path/exiv2-empty_copy.jpg"
 
     commands = [
