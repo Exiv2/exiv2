@@ -47,9 +47,8 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
    14. [Thread Safety](#2-14)
    15. [Library Initialisation and Cleanup](#2-15)
    16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
-   17. [Building with C++11 and other compilers](#2-17)
-   18. [Static and Shared Libraries](#2-18)
-   19. [Support for bmff files (CR3, HEIF, HEIC, and AVIF)](#2-19)
+   17. [Static and Shared Libraries](#2-18)
+   18. [Support for bmff files (CR3, HEIF, HEIC, and AVIF)](#2-19)
 3. [License and Support](#3)
     1. [License](#3-1)
     2. [Support](#3-2)
@@ -744,24 +743,6 @@ $ make tests
 ```
 
 You will find that 3 tests fail at the end of the test suite.  It is safe to ignore those minor exceptions.
-
-[TOC](#TOC)
-<div id="2-17">
-
-### 2.17 Building with C++11 and other compilers
-
-Exiv2 uses the default compiler for your system.
-
-To build Exiv2 v0.27.X with C++11:
-
-```bash
-cd <exiv2dir>
-mkdir build ; cd build
-cmake .. -DCMAKE_CXX_STANDARD=11
-make
-```
-
-The option -DCMAKE\_CXX\_STANDARD=11 specifies the C++ Language Standard.  Possible values are 11, 14, 17 or 20.
 
 [TOC](#TOC)
 <div id="2-18">
