@@ -164,6 +164,7 @@ Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 Exif.CanonCs.FlashDetails                    Short       1  E-TTL
 Exif.CanonCs.ManualFlashOutput               Short       1  n/a
 Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off

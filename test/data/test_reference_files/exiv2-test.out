@@ -1173,7 +1173,7 @@ File  6/16: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20030925_201850.jpg   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-20030925_201850.jpg   Exif.CanonSi.AutoRotate                      Short       1  1
+20030925_201850.jpg   Exif.CanonSi.AutoRotate                      Short       1  Rotate 90 CW
 20030925_201850.jpg   Exif.CanonSi.NDFilter                        Short       1  n/a
 20030925_201850.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
@@ -1766,9 +1766,9 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-20060802_095200.jpg   Exif.CanonSi.AutoRotate                      Short       1  0
+20060802_095200.jpg   Exif.CanonSi.AutoRotate                      Short       1  None
 20060802_095200.jpg   Exif.CanonSi.NDFilter                        Short       1  n/a
-20060802_095200.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+20060802_095200.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 20060802_095200.jpg   Exif.CanonSi.0x001e                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x001f                          Short       1  0
 20060802_095200.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -1946,7 +1946,7 @@ File 14/16: 20001004_015404.jpg
 20001004_015404.jpg   Exif.CanonCs.0x001e                          Short       1  0
 20001004_015404.jpg   Exif.CanonCs.0x001f                          Short       1  0
 20001004_015404.jpg   Exif.Canon.FocalLength                       Short       4  70.0 mm
-20001004_015404.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
+20001004_015404.jpg   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 20001004_015404.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 20001004_015404.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -2117,9 +2117,9 @@ File 15/16: 20060127_225027.jpg
 20060127_225027.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x0019                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.CameraType                      Short       1  Compact
-20060127_225027.jpg   Exif.CanonSi.AutoRotate                      Short       1  0
+20060127_225027.jpg   Exif.CanonSi.AutoRotate                      Short       1  None
 20060127_225027.jpg   Exif.CanonSi.NDFilter                        Short       1  Off
-20060127_225027.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+20060127_225027.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 20060127_225027.jpg   Exif.CanonSi.0x001e                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x001f                          Short       1  0
 20060127_225027.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -2786,7 +2786,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
 < 20030925_201850.jpg   Exif.Canon.FocalLength                       Short       4  18.0 mm
-< 20030925_201850.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
+< 20030925_201850.jpg   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 < 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 < 20030925_201850.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 < 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -2814,9 +2814,9 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-< 20030925_201850.jpg   Exif.CanonSi.AutoRotate                      Short       1  1
+< 20030925_201850.jpg   Exif.CanonSi.AutoRotate                      Short       1  Rotate 90 CW
 < 20030925_201850.jpg   Exif.CanonSi.NDFilter                        Short       1  n/a
-< 20030925_201850.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+< 20030925_201850.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 < 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -3406,9 +3406,9 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-< 20060802_095200.jpg   Exif.CanonSi.AutoRotate                      Short       1  0
+< 20060802_095200.jpg   Exif.CanonSi.AutoRotate                      Short       1  None
 < 20060802_095200.jpg   Exif.CanonSi.NDFilter                        Short       1  n/a
-< 20060802_095200.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+< 20060802_095200.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 < 20060802_095200.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -3586,7 +3586,7 @@ Compare image data and extracted data ------------------------------------
 < 20001004_015404.jpg   Exif.CanonCs.0x001e                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonCs.0x001f                          Short       1  0
 < 20001004_015404.jpg   Exif.Canon.FocalLength                       Short       4  70.0 mm
-< 20001004_015404.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
+< 20001004_015404.jpg   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 < 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 < 20001004_015404.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 < 20001004_015404.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -3757,9 +3757,9 @@ Compare image data and extracted data ------------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.CameraType                      Short       1  Compact
-< 20060127_225027.jpg   Exif.CanonSi.AutoRotate                      Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.AutoRotate                      Short       1  None
 < 20060127_225027.jpg   Exif.CanonSi.NDFilter                        Short       1  Off
-< 20060127_225027.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+< 20060127_225027.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 < 20060127_225027.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -4349,7 +4349,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs.0x002d                          Short       1  65535
 > 20030925_201850.exv   Exif.Canon.FocalLength                       Short       4  18.0 mm
-> 20030925_201850.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
+> 20030925_201850.exv   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 > 20030925_201850.exv   Exif.CanonSi.0x0000                          Short       1  66
 > 20030925_201850.exv   Exif.CanonSi.AutoISO                         Short       1  100
 > 20030925_201850.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -4377,9 +4377,9 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonSi.BulbDuration                    Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-> 20030925_201850.exv   Exif.CanonSi.AutoRotate                      Short       1  1
+> 20030925_201850.exv   Exif.CanonSi.AutoRotate                      Short       1  Rotate 90 CW
 > 20030925_201850.exv   Exif.CanonSi.NDFilter                        Short       1  n/a
-> 20030925_201850.exv   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+> 20030925_201850.exv   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 > 20030925_201850.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0020                          Short       1  0
@@ -4969,9 +4969,9 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.CanonSi.BulbDuration                    Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-> 20060802_095200.exv   Exif.CanonSi.AutoRotate                      Short       1  0
+> 20060802_095200.exv   Exif.CanonSi.AutoRotate                      Short       1  None
 > 20060802_095200.exv   Exif.CanonSi.NDFilter                        Short       1  n/a
-> 20060802_095200.exv   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+> 20060802_095200.exv   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 > 20060802_095200.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0020                          Short       1  0
@@ -5149,7 +5149,7 @@ Compare image data and extracted data ------------------------------------
 > 20001004_015404.exv   Exif.CanonCs.0x001e                          Short       1  0
 > 20001004_015404.exv   Exif.CanonCs.0x001f                          Short       1  0
 > 20001004_015404.exv   Exif.Canon.FocalLength                       Short       4  70.0 mm
-> 20001004_015404.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
+> 20001004_015404.exv   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 > 20001004_015404.exv   Exif.CanonSi.0x0000                          Short       1  50
 > 20001004_015404.exv   Exif.CanonSi.AutoISO                         Short       1  100
 > 20001004_015404.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -5320,9 +5320,9 @@ Compare image data and extracted data ------------------------------------
 > 20060127_225027.exv   Exif.CanonSi.BulbDuration                    Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.CameraType                      Short       1  Compact
-> 20060127_225027.exv   Exif.CanonSi.AutoRotate                      Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.AutoRotate                      Short       1  None
 > 20060127_225027.exv   Exif.CanonSi.NDFilter                        Short       1  Off
-> 20060127_225027.exv   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+> 20060127_225027.exv   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 > 20060127_225027.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0020                          Short       1  0
@@ -6150,7 +6150,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonCs.0x002c                          Short       1  65535
 < 20030925_201850.jpg   Exif.CanonCs.0x002d                          Short       1  65535
 < 20030925_201850.jpg   Exif.Canon.FocalLength                       Short       4  18.0 mm
-< 20030925_201850.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
+< 20030925_201850.jpg   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 < 20030925_201850.jpg   Exif.CanonSi.0x0000                          Short       1  66
 < 20030925_201850.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 < 20030925_201850.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -6178,9 +6178,9 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-< 20030925_201850.jpg   Exif.CanonSi.AutoRotate                      Short       1  1
+< 20030925_201850.jpg   Exif.CanonSi.AutoRotate                      Short       1  Rotate 90 CW
 < 20030925_201850.jpg   Exif.CanonSi.NDFilter                        Short       1  n/a
-< 20030925_201850.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+< 20030925_201850.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 < 20030925_201850.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20030925_201850.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -6770,9 +6770,9 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-< 20060802_095200.jpg   Exif.CanonSi.AutoRotate                      Short       1  0
+< 20060802_095200.jpg   Exif.CanonSi.AutoRotate                      Short       1  None
 < 20060802_095200.jpg   Exif.CanonSi.NDFilter                        Short       1  n/a
-< 20060802_095200.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+< 20060802_095200.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 < 20060802_095200.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060802_095200.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -6950,7 +6950,7 @@ Compare original and inserted image data ---------------------------------
 < 20001004_015404.jpg   Exif.CanonCs.0x001e                          Short       1  0
 < 20001004_015404.jpg   Exif.CanonCs.0x001f                          Short       1  0
 < 20001004_015404.jpg   Exif.Canon.FocalLength                       Short       4  70.0 mm
-< 20001004_015404.jpg   Exif.Canon.0x0003                            Short       4  100 0 0 0
+< 20001004_015404.jpg   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 < 20001004_015404.jpg   Exif.CanonSi.0x0000                          Short       1  50
 < 20001004_015404.jpg   Exif.CanonSi.AutoISO                         Short       1  100
 < 20001004_015404.jpg   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -7121,9 +7121,9 @@ Compare original and inserted image data ---------------------------------
 < 20060127_225027.jpg   Exif.CanonSi.BulbDuration                    Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0019                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.CameraType                      Short       1  Compact
-< 20060127_225027.jpg   Exif.CanonSi.AutoRotate                      Short       1  0
+< 20060127_225027.jpg   Exif.CanonSi.AutoRotate                      Short       1  None
 < 20060127_225027.jpg   Exif.CanonSi.NDFilter                        Short       1  Off
-< 20060127_225027.jpg   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+< 20060127_225027.jpg   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 < 20060127_225027.jpg   Exif.CanonSi.0x001e                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x001f                          Short       1  0
 < 20060127_225027.jpg   Exif.CanonSi.0x0020                          Short       1  0
@@ -7713,7 +7713,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonCs.0x002c                          Short       1  65535
 > 20030925_201850.exv   Exif.CanonCs.0x002d                          Short       1  65535
 > 20030925_201850.exv   Exif.Canon.FocalLength                       Short       4  18.0 mm
-> 20030925_201850.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
+> 20030925_201850.exv   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 > 20030925_201850.exv   Exif.CanonSi.0x0000                          Short       1  66
 > 20030925_201850.exv   Exif.CanonSi.AutoISO                         Short       1  100
 > 20030925_201850.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -7741,9 +7741,9 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonSi.BulbDuration                    Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-> 20030925_201850.exv   Exif.CanonSi.AutoRotate                      Short       1  1
+> 20030925_201850.exv   Exif.CanonSi.AutoRotate                      Short       1  Rotate 90 CW
 > 20030925_201850.exv   Exif.CanonSi.NDFilter                        Short       1  n/a
-> 20030925_201850.exv   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+> 20030925_201850.exv   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 > 20030925_201850.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20030925_201850.exv   Exif.CanonSi.0x0020                          Short       1  0
@@ -8333,9 +8333,9 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.CanonSi.BulbDuration                    Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.CameraType                      Short       1  EOS Mid-range
-> 20060802_095200.exv   Exif.CanonSi.AutoRotate                      Short       1  0
+> 20060802_095200.exv   Exif.CanonSi.AutoRotate                      Short       1  None
 > 20060802_095200.exv   Exif.CanonSi.NDFilter                        Short       1  n/a
-> 20060802_095200.exv   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+> 20060802_095200.exv   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 > 20060802_095200.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060802_095200.exv   Exif.CanonSi.0x0020                          Short       1  0
@@ -8513,7 +8513,7 @@ Compare original and inserted image data ---------------------------------
 > 20001004_015404.exv   Exif.CanonCs.0x001e                          Short       1  0
 > 20001004_015404.exv   Exif.CanonCs.0x001f                          Short       1  0
 > 20001004_015404.exv   Exif.Canon.FocalLength                       Short       4  70.0 mm
-> 20001004_015404.exv   Exif.Canon.0x0003                            Short       4  100 0 0 0
+> 20001004_015404.exv   Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0
 > 20001004_015404.exv   Exif.CanonSi.0x0000                          Short       1  50
 > 20001004_015404.exv   Exif.CanonSi.AutoISO                         Short       1  100
 > 20001004_015404.exv   Exif.CanonSi.ISOSpeed                        Short       1  100
@@ -8684,9 +8684,9 @@ Compare original and inserted image data ---------------------------------
 > 20060127_225027.exv   Exif.CanonSi.BulbDuration                    Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0019                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.CameraType                      Short       1  Compact
-> 20060127_225027.exv   Exif.CanonSi.AutoRotate                      Short       1  0
+> 20060127_225027.exv   Exif.CanonSi.AutoRotate                      Short       1  None
 > 20060127_225027.exv   Exif.CanonSi.NDFilter                        Short       1  Off
-> 20060127_225027.exv   Exif.CanonSi.SelfTimer2                      Short       1  (0)
+> 20060127_225027.exv   Exif.CanonSi.SelfTimer2                      Short       1  Selftimer 2s
 > 20060127_225027.exv   Exif.CanonSi.0x001e                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x001f                          Short       1  0
 > 20060127_225027.exv   Exif.CanonSi.0x0020                          Short       1  0
