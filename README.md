@@ -72,24 +72,24 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 
 ## 2 Building, Installing, Using and Uninstalling Exiv2
 
-You need [CMake](https://cmake.org/download/) to configure the Exiv2 project and the GCC or Clang compiler and associated tool chain.
+You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 17 standard and the associated tool chain.
 
 <div id="2-1">
 
 ### 2.1 Build, Install, Use Exiv2 on a UNIX-like system
 
 ```bash
-$ cd ~/gnu/github/exiv2  # location of the project code
-$ mkdir build && cd build
-$ cmake .. -DCMAKE_BUILD_TYPE=Release
-$ cmake --build .
-$ ctest --verbose
-$ sudo cmake --build . --target install
+$ cd ~/gnu/github/exiv2                     # Location of the project code
+$ mkdir build && cd build                   # Create a build directory
+$ cmake -DCMAKE_BUILD_TYPE=Release ..       # Configure the project with CMake
+$ cmake --build .                           # Compile the project
+$ ctest --verbose                           # Run tests
+$ cmake --build . --target install          # Run the install target (install library, public headers, application and CMake files)
 ```
 
-This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`
+This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`. The target directory for the installation can be modified by using the CMake option `-DCMAKE_INSTALL_PREFIX`. 
 
-cmake generates files in the build directory.  cmake generates the project/solution/makefiles required to build the exiv2 library and sample applications.  cmake also creates the files exv\_conf.h and exiv2lib\_export which contain compiler directives about the build options you have chosen and the availability of libraries on your machine.
+CMake analyzes the project configuration from the source code directory and generates files into the build directory. It generates the project/solution/makefiles required to build the exiv2 library and command line application (and optionally sample applications and test runners).  cmake also creates the files `exv_conf.h` and `exiv2lib_export.h` which contain compiler directives about the build options you have chosen and the availability of libraries on your machine.
 
 #### Using the exiv2 command-line program
 
@@ -113,17 +113,17 @@ I don't know why anybody would uninstall Exiv2.
 ```bash
 $ cd ~/gnu/github/exiv2  # location of the project code
 $ cd build
-$ sudo make uninstall
+$ cmake --build . --target uninstall
 ```
 
-These commands will remove the exiv2 executables, library, header files and man page from the standard locations.
+These commands will run the `uninstall` target and remove all the files which were installed by the `install` target.
 
 [TOC](#TOC)
 <div id="2-2">
 
 ### 2.2 Build and Install Exiv2 with Visual Studio
 
-We recommend that you use conan to download the Exiv2 external dependencies on Windows.  On other platforms (maxOS, Ubuntu and others), you should use the platform package manger.  These are discussed: [Platform Notes](#5) The options to configure and compile the project using Visual Studio are similar to UNIX like systems.
+We recommend that you use conan to download the Exiv2 external dependencies on Windows. On other platforms (macOS, Linux and others), traditionally the platform package managers have been used. These are discussed at [Platform Notes](#5). The options to configure and compile the project using Visual Studio are similar to UNIX like systems.
 See [README-CONAN](README-CONAN.md) for more information about Conan.
 
 When you build, you may install with the following command.
@@ -131,20 +131,20 @@ When you build, you may install with the following command.
 ```cmd
 > cmake --build . --target install
 ```
-This will create and copy the exiv2 build artefacts to C:\Program Files (x86)\exiv2\.  You should modify your path to include C:\Program Files (x86)\exiv2\bin.
+This will create and copy the exiv2 build artefacts to C:\Program Files (x86)\exiv2\. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `C:\Program Files (x86)\exiv2\bin`.
 
 [TOC](#TOC)
 <div id="2-3">
 
 ### 2.3 Build options
 
-There are two groups of CMake options.  There are many options defined by CMake.  Here are some particularly useful options:
+There are two groups of CMake options which are relevant to the project: Global CMake options Project specific ones. Here are some of the global options which are particularly useful:
 
 | Options       | Purpose (_default_)       |
 |:------------- |:------------- |
 | CMAKE\_INSTALL\_PREFIX<br/>CMAKE\_BUILD\_TYPE<br/>BUILD\_SHARED\_LIBS | Where to install on your computer _**(/usr/local)**_<br/>Type of build _**(Release)**_ See: [Debugging Exiv2](#2-11) <br/>Build exiv2lib as shared or static _**(On)**_ |
 
-Options defined by <exiv2>/CMakeLists.txt include:
+Options defined at `exiv2/CMakeLists.txt` include:
 
 ```bash
 576 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $ grep ^option CMakeLists.txt
@@ -179,7 +179,7 @@ The following Exiv2 features require external libraries:
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
 development package of a dependency to install the header files and libraries required to build Exiv2. The script
-`ci/install_dependencies.sh` is used to setup CI images on which we build and test Exiv2 on many platforms when we modify code.  You may find that helpful in setting up your platform dependencies.
+`ci/install_dependencies.sh` is used to setup the CI images on which we build and test Exiv2.  You may find that helpful in setting up your platform dependencies.
 
 Natural language system is discussed in more detail here: [Localisation](#2-8)
 
@@ -226,7 +226,7 @@ In general you need to do the following:
 The following is a typical command to build and link with libexiv2:
 
 ```bash
-$ g++ -std=c++98 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
+$ g++ -std=c++17 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
 ```
 
 [TOC](#TOC)
@@ -234,7 +234,7 @@ $ g++ -std=c++98 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lex
 
 ### 2.6 Consuming Exiv2 with CMake
 
-When exiv2 is installed, the files required to consume Exiv2 are installed in `${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2`
+When exiv2 is installed, the files required to consume Exiv2 with CMake are installed in `${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2`
 
 You can build samples/exifprint.cpp as follows:
 
@@ -243,18 +243,18 @@ $ cd <exiv2dir>
 $ mkdir exifprint
 $ cd    exifprint
 $ cat - > CMakeLists.txt <<EOF
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.11)
 project(exifprint VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2/
-add_executable(exifprint ../samples/exifprint.cpp) # compile this
-target_link_libraries(exifprint exiv2lib)          # link exiv2lib
+add_executable(exifprint ../samples/exifprint.cpp) # Create exifprint target
+target_link_libraries(exifprint PRIVATE exiv2lib)  # link exiv2lib
 EOF
 $ cmake .                                          # generate the makefile
-$ make                                             # build the code
+$ cmake --build .                                  # build the code
 $ ./exifprint                                      # test your executable
 Usage: bin/exifprint [ path | --version | --version-test ]
 $
@@ -282,7 +282,7 @@ LDFLAGS := `pkg-config exiv2 --libs`
 If you are not using make, you can use pkg-config as follows:
 
 ```bash
-g++ -std=c++98 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
+g++ -std=c++17 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 ```
 
 [TOC](#TOC)
@@ -450,7 +450,7 @@ $ cd <exiv2dir>
 $ mkdir build
 $ cd build
 $ cmake .. -G "Unix Makefiles" "-DCMAKE_BUILD_TYPE=Debug"
-$ make
+$ cmake --build .
 
 ```
 
@@ -480,9 +480,9 @@ Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There a
 Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES`. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
 
 ```bash
-$ cd <exiv2dir>
-$ touch src/webpimage.cpp
-$ make CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES
+$ cd <exiv2dir> && cd build
+$ cmake -DCMAKE_CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES ..
+$ cmake --build .
 $ bin/exiv2 ...
 -- or --
 $ sudo make install
@@ -737,9 +737,7 @@ On MinGW/msys2, I can directly access the share:
 
 ```bash
 $ cd //Mac/Home/gnu/github/exiv2/0.27/maintenance/build_mingw_fedora
-$ export EXIV2_BINDIR=$pwd/bin
-$ cd ../test
-$ make tests
+$ mingw64-ctest
 ```
 
 You will find that 3 tests fail at the end of the test suite.  It is safe to ignore those minor exceptions.
@@ -751,7 +749,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 You can build either static or shared libraries.  Both can be linked with either static or shared run-time libraries.  You specify the shared/static with the option `-BUILD_SHARED_LIBS=On|Off` You specify the run-time with the option `-DEXIV2_ENABLE_DYNAMIC_RUNTIME=On|Off`.  The default for both options default is On.  So you build shared and use the shared libraries which are `.dll` on Windows (msvc, Cygwin and MinGW/msys), `.dylib` on macOS and `.so` on Linux and UNIX.  
 
-CMake creates your build artefacts in the directories `bin` and `lib`.  The `bin` directory contains your executables and .dlls.  The `lib` directory contains your static libraries.  When you install exiv2, the build artefacts are copied to your system's prefix directory which by default is `/usr/local/`.  If you wish to test and use your build without installing, you will have to set you PATH appropriately.  Linux/Unix users should also set `LD_LIBRARY_PATH` and macOS users should set `DYLD_LIBRARY_PATH`.
+CMake creates your build artefacts in the directories `bin` and `lib`.  The `bin` directory contains your executables and .DLLs.  The `lib` directory contains your static libraries.  When you install exiv2, the build artefacts are copied to your system's prefix directory which by default is `/usr/local/`.  If you wish to test and use your build without installing, you will have to set you PATH appropriately.  Linux/Unix users should also set `LD_LIBRARY_PATH` and macOS users should set `DYLD_LIBRARY_PATH`.
 
 The default build is SHARED/DYNAMIC and this arrangement treats all executables and shared libraries in a uniform manner.
 
@@ -836,7 +834,7 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 
 You execute the Test Suite using CTest with the command `$ ctest`.
 
-The build creates 6 tests: bashTests, bugfixTests, lensTests, tiffTests, unitTests and versionTests.  You can run all tests or a subset.  To list all available tests, execute ctest with the `-N` or `--show-only` option, which disables execution:
+The build creates 6 tests: bashTests, bugfixTests, lensTests, tiffTests, unitTests and versionTests.  You can run all tests or a subset. To list all available tests, execute ctest with the `-N` or `--show-only` option, which disables execution:
 
 ```bash
 .../main/build $ ctest -N
@@ -861,13 +859,15 @@ $ ctest -R bugfix                    # run only bugfixTests and display summary
 $ ctest -R bugfix --verbose          # run only bugfixTests and display all output
 ```
 
+Except for the `unitTests`,  CMake needs to find a python3 interpreter in the system to be able to run the rest of the test targets with CTest:
+
 | Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
-| bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=On     |
-| bugfixTests        | python    | tests/bugfixes          | $ ctest -R bugfix     | -DEXIV2\_BUILD\_SAMPLES=On     |
-| lensTest           | C++       | tests/lens_tests        | $ ctest -R lens       | -DEXIV2\_BUILD\_SAMPLES=On     |
-| tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       | -DEXIV2\_BUILD\_SAMPLES=On     |
-| unitTests          | C++       | unitTests/              | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=On |
+| bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=ON     |
+| bugfixTests        | python    | tests/bugfixes          | $ ctest -R bugfix     |                                |
+| lensTest           | C++       | tests/lens_tests        | $ ctest -R lens       |                                |
+| tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       |                                |
+| unitTests          | C++       | unitTests/              | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=ON |
 | versionTests       | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
 The term _**bashTests**_ is historical.  These tests were originally bash scripts and have been rewritten in python.
@@ -875,7 +875,7 @@ Visual Studio Users will appreciate the python implementation as it avoids the i
 
 #### Environment Variables used by the test suite:
 
-If you build the code in the directory \<exiv2dir\>build, tests will run using the default values of Environment Variables.
+If you build the code in the directory `<exiv2dir>/build`, tests will run using the default values of Environment Variables.
 
 | Variable           | Default                    | Platforms          | Purpose |
 |:--                 |:--                         |:--                 |:--      |
