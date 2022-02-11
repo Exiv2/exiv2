@@ -255,13 +255,6 @@ namespace Exiv2 {
           @return The number of bytes written.
         */
         long writeFile(const std::string& path) const;
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like writeFile() but accepts a unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        long writeFile(const std::wstring& wpath) const;
-#endif
         /*!
           @brief Return the MIME type of the thumbnail, either \c "image/tiff"
                  or \c "image/jpeg".
@@ -272,13 +265,6 @@ namespace Exiv2 {
                  (".tif" or ".jpg").
          */
         const char* extension() const;
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like extension() but returns the extension in a wchar_t.
-          @note This function is only available on Windows.
-         */
-        const wchar_t* wextension() const;
-#endif
         //@}
 
     private:
@@ -331,19 +317,6 @@ namespace Exiv2 {
                   URational    yres,
                   uint16_t     unit
         );
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like setJpegThumbnail() but accepts a unicode path in an
-                 std::wstring.
-          @note This function is only available on Windows.
-         */
-        void setJpegThumbnail(
-            const std::wstring& wpath,
-                  URational     xres,
-                  URational     yres,
-                  uint16_t      unit
-        );
-#endif
         /*!
           @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
                  and size \em size. Set XResolution, YResolution and
@@ -382,14 +355,6 @@ namespace Exiv2 {
           @note  Additional existing Exif thumbnail tags are not modified.
          */
         void setJpegThumbnail(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like setJpegThumbnail(const std::string& path) but accepts a
-                 unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        void setJpegThumbnail(const std::wstring& wpath);
-#endif
         /*!
           @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
                  and size \em size.

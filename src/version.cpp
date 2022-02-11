@@ -437,10 +437,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
      have_unistd=1;
 #endif
 
-#ifdef EXV_UNICODE_PATH
-     have_unicode_path=1;
-#endif
-
 #ifdef EXV_ENABLE_BMFF
      enable_bmff=1;
 #endif

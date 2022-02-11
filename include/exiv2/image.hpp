@@ -548,13 +548,7 @@ namespace Exiv2 {
                 read the remote file.
          */
         static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like createIo() but accepts a unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        static BasicIo::UniquePtr createIo(const std::wstring& wpath, bool useCurl = true);
-#endif
+
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the specified file. %Image type is derived from the file
@@ -569,13 +563,7 @@ namespace Exiv2 {
               unknown image type.
          */
         static Image::UniquePtr open(const std::string& path, bool useCurl = true);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like open() but accepts a unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        static Image::UniquePtr open(const std::wstring& wpath, bool useCurl = true);
-#endif
+
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided memory. %Image type is derived from the memory
@@ -616,13 +604,7 @@ namespace Exiv2 {
           @throw Error If the image type is not supported.
          */
         static Image::UniquePtr create(int type, const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like create() but accepts a unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        static Image::UniquePtr create(int type, const std::wstring& wpath);
-#endif
+
         /*!
           @brief Create an Image subclass of the requested type by creating a
               new image in memory.
@@ -654,13 +636,7 @@ namespace Exiv2 {
           @return %Image type or Image::none if the type is not recognized.
          */
         static int getType(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like getType() but accepts a unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        static int getType(const std::wstring& wpath);
-#endif
+
         /*!
           @brief Returns the image type of the provided data buffer.
           @param data Pointer to a data buffer containing an image. The contents

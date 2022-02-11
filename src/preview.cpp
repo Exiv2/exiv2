@@ -450,9 +450,6 @@ namespace {
 #endif
             prop.extension_ = ".dat";
         }
-#ifdef EXV_UNICODE_PATH
-        prop.wextension_ = s2ws(prop.extension_);
-#endif
         return prop;
     }
 
@@ -559,9 +556,6 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/jpeg";
         prop.extension_ = ".jpg";
-#ifdef EXV_UNICODE_PATH
-        prop.wextension_ = EXV_WIDEN(".jpg");
-#endif
         return prop;
     }
 
@@ -638,9 +632,6 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/jpeg";
         prop.extension_ = ".jpg";
-#ifdef EXV_UNICODE_PATH
-        prop.wextension_ = EXV_WIDEN(".jpg");
-#endif
         return prop;
     }
 
@@ -751,9 +742,6 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/tiff";
         prop.extension_ = ".tif";
-#ifdef EXV_UNICODE_PATH
-        prop.wextension_ = EXV_WIDEN(".tif");
-#endif
         return prop;
     }
 
@@ -881,9 +869,6 @@ namespace {
         PreviewProperties prop = Loader::getProperties();
         prop.mimeType_ = "image/jpeg";
         prop.extension_ = ".jpg";
-#ifdef EXV_UNICODE_PATH
-        prop.wextension_ = EXV_WIDEN(".jpg");
-#endif
         return prop;
     }
 
@@ -1065,16 +1050,6 @@ namespace Exiv2 {
         return Exiv2::writeFile(buf, name);
     }
 
-#ifdef EXV_UNICODE_PATH
-    long PreviewImage::writeFile(const std::wstring& wpath) const
-    {
-        std::wstring name = wpath + wextension();
-        // Todo: Creating a DataBuf here unnecessarily copies the memory
-        DataBuf buf(pData(), size());
-        return Exiv2::writeFile(buf, name);
-    }
-
-#endif
     DataBuf PreviewImage::copy() const
     {
         return DataBuf(pData(), size());
@@ -1100,13 +1075,6 @@ namespace Exiv2 {
         return properties_.extension_;
     }
 
-#ifdef EXV_UNICODE_PATH
-    std::wstring PreviewImage::wextension() const
-    {
-        return properties_.wextension_;
-    }
-
-#endif
     uint32_t PreviewImage::width() const
     {
         return properties_.width_;

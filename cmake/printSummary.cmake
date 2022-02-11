@@ -61,7 +61,6 @@ endif ( EXIV2_ENABLE_WEBREADY )
 
 if (WIN32)
     OptionOutput( "Dynamic runtime override:           " EXIV2_ENABLE_DYNAMIC_RUNTIME)
-    OptionOutput( "Unicode paths (wstring):            " EXIV2_ENABLE_WIN_UNICODE    )
 endif()
 OptionOutput( "Building exiv2 command:             " EXIV2_BUILD_EXIV2_COMMAND       )
 OptionOutput( "Building samples:                   " EXIV2_BUILD_SAMPLES             )

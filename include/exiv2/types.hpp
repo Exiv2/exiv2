@@ -34,10 +34,6 @@
 #include <algorithm>
 #include <sstream>
 
-// MSVC macro to convert a string to a wide string
-#ifdef EXV_UNICODE_PATH
-# define EXV_WIDEN(t) L ## t
-#endif
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
@@ -373,12 +369,6 @@ namespace Exiv2 {
      */
     EXIV2API const char* exvGettext(const char* str);
 
-#ifdef EXV_UNICODE_PATH
-    //! Convert an std::string s to a unicode string returned as a std::wstring.
-    EXIV2API std::wstring s2ws(const std::string& s);
-    //! Convert a unicode std::wstring s to an std::string.
-    EXIV2API std::string ws2s(const std::wstring& s);
-#endif
     /*!
       @brief Return a \em int64_t set to the value represented by \em s.
 

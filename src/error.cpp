@@ -238,47 +238,9 @@ namespace Exiv2 {
             }
         }
         msg_ = msg;
-#ifdef EXV_UNICODE_PATH
-        wmsg_ = s2ws(msg);
-#endif
     }
 #ifdef __APPLE__
     template class EXIV2API BasicError<char>;
-#endif
-
-#ifdef EXV_UNICODE_PATH
-    template<>
-    void EXIV2API BasicError<wchar_t>::setMsg()
-    {
-        std::string s = _(errMsg(code_));
-        std::wstring wmsg(s.begin(), s.end());
-        std::wstring::size_type pos;
-        pos = wmsg.find(L"%0");
-        if (pos != std::wstring::npos) {
-            wmsg.replace(pos, 2, toBasicString<wchar_t>(code_));
-        }
-        if (count_ > 0) {
-            pos = wmsg.find(L"%1");
-            if (pos != std::wstring::npos) {
-                wmsg.replace(pos, 2, arg1_);
-            }
-        }
-        if (count_ > 1) {
-            pos = wmsg.find(L"%2");
-            if (pos != std::wstring::npos) {
-                wmsg.replace(pos, 2, arg2_);
-            }
-        }
-        if (count_ > 2) {
-            pos = wmsg.find(L"%3");
-            if (pos != std::wstring::npos) {
-                wmsg.replace(pos, 2, arg3_);
-            }
-        }
-        wmsg_ = wmsg;
-        msg_ = ws2s(wmsg);
-    }
-    template class EXIV2API BasicError<wchar_t>;
 #endif
 
     const char* errMsg(int code)

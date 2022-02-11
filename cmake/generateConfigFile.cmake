@@ -21,7 +21,6 @@ else()
 endif()
 set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
-set(EXV_UNICODE_PATH     ${EXIV2_ENABLE_WIN_UNICODE})
 
 check_cxx_symbol_exists(mmap        sys/mman.h     EXV_HAVE_MMAP )
 check_cxx_symbol_exists(munmap      sys/mman.h     EXV_HAVE_MUNMAP )
