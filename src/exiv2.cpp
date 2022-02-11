@@ -120,6 +120,8 @@ namespace {
 // Main
 int main(int argc, char* const argv[])
 {
+    setlocale(LC_CTYPE, ".utf8");
+
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF

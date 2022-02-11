@@ -332,7 +332,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     int have_strings     =0;
     int have_sys_types   =0;
     int have_unistd      =0;
-    int have_unicode_path=0;
 
     int enable_bmff      =0;
     int enable_webready  =0;
@@ -512,7 +511,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     output(os,keys,"have_strings"      ,have_strings     );
     output(os,keys,"have_sys_types"    ,have_sys_types   );
     output(os,keys,"have_unistd"       ,have_unistd      );
-    output(os,keys,"have_unicode_path" ,have_unicode_path);
     output(os,keys,"enable_bmff"       ,enable_bmff      );
     output(os,keys,"enable_webready"   ,enable_webready  );
     output(os,keys,"enable_nls"        ,enable_nls       );

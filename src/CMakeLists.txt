@@ -287,6 +287,23 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})
     endif()
 
+    if(MSVC OR MINGW)
+        # Trick to get properly UTF-8 encoded argv 
+        # More info at: https://github.com/huangqinjin/wmain
+        add_library(wmain STATIC wmain.c)
+        target_link_libraries(exiv2 PRIVATE wmain)
+    endif()
+
+    if (MSVC)
+        target_link_options(wmain INTERFACE /WHOLEARCHIVE:$<TARGET_FILE:wmain>)
+        target_link_options(exiv2 PRIVATE "/ENTRY:wWinMainCRTStartup")
+    endif()
+
+    if (MINGW)
+        target_compile_options(exiv2 PRIVATE -municode)
+        target_link_options(exiv2 PRIVATE -municode)
+    endif()
+
     if (USING_CONAN AND WIN32 AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls)
         # In case of using conan recipes with their 'shared' option turned on, we will have dlls of
         # the 3rd party dependencies in the conanDlls folder.

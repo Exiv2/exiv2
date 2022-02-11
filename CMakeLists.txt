@@ -9,7 +9,7 @@ project(exiv2          # use TWEAK to categorize the build
                        # 1.00.0.20 = RC2 Preview
                        # 1.00.0.29 = RC2 Development
     DESCRIPTION    "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
-    LANGUAGES CXX
+    LANGUAGES C CXX
 )
 
 if(NOT CMAKE_BUILD_TYPE)
