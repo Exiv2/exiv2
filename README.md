@@ -117,6 +117,8 @@ $ cmake --build . --target uninstall
 ```
 
 These commands will run the `uninstall` target and remove all the files which were installed by the `install` target.
+Note that this mechanism is not perfect and it is not able to remove the sub-directories created in the installation
+path.
 
 [TOC](#TOC)
 <div id="2-2">
@@ -131,14 +133,14 @@ When you build, you may install with the following command.
 ```cmd
 > cmake --build . --target install
 ```
-This will create and copy the exiv2 build artefacts to C:\Program Files (x86)\exiv2\. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `C:\Program Files (x86)\exiv2\bin`.
+This will create and copy the exiv2 build artefacts to `%ProgramFiles%/exiv2`. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `%ProgramFiles%/exiv2/bin`.
 
 [TOC](#TOC)
 <div id="2-3">
 
 ### 2.3 Build options
 
-There are two groups of CMake options which are relevant to the project: Global CMake options Project specific ones. Here are some of the global options which are particularly useful:
+There are two groups of CMake options which are relevant to the project: global CMake options and project specific ones. Here are some of the global options which are particularly useful:
 
 | Options       | Purpose (_default_)       |
 |:------------- |:------------- |
@@ -863,11 +865,11 @@ Except for the `unitTests`,  CMake needs to find a python3 interpreter in the sy
 
 | Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
-| bashTests          | python    | tests/bash\_tests       | $ ctest -R bash       | -DEXIV2\_BUILD\_SAMPLES=ON     |
+| bashTests          | python    | tests/bash_tests       | $ ctest -R bash        | -DEXIV2_BUILD_SAMPLES=ON       |
 | bugfixTests        | python    | tests/bugfixes          | $ ctest -R bugfix     |                                |
 | lensTest           | C++       | tests/lens_tests        | $ ctest -R lens       |                                |
 | tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       |                                |
-| unitTests          | C++       | unitTests/              | $ ctest -R unit       | -DEXIV2\_BUILD\_UNIT\_TESTS=ON |
+| unitTests          | C++       | unitTests/              | $ ctest -R unit       | -DEXIV2_BUILD_UNIT_TESTS=ON    |
 | versionTests       | C++       | src/version.cpp         | $ ctest -R version    | Always in library              |
 
 The term _**bashTests**_ is historical.  These tests were originally bash scripts and have been rewritten in python.
