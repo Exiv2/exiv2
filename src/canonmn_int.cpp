@@ -597,6 +597,9 @@ namespace Exiv2 {
         {0x00c1, "0x00c1", "0x00c1", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x00d0, "VRDOffset", N_("VRD Offset"), N_("VRD offset"), canonId, makerTags, unsignedLong, -1, printValue},
         {0x00e0, "SensorInfo", N_("Sensor Info"), N_("Sensor info"), canonId, makerTags, unsignedShort, -1, printValue},
+        // AFInfo2 structure has a special decoder, see decodeCanonAFInfo in
+        // tiffvisitor_int.cpp that decoder useses the below tags from
+        // 0x2600 to 0x2611
         {0x2600, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonId, makerTags, signedShort, -1, printValue},
         {0x2601, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)},
         {0x2602, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonId, makerTags, signedShort, -1, printValue},
@@ -766,61 +769,6 @@ namespace Exiv2 {
     {
         return tagInfoFcd3_;
     }
-
-
-    // Canon AFInfo2 Info Tag
-    constexpr TagInfo CanonMakerNote::tagInfoAf2_[] = {
-        {0x0000, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0001, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonAf2Id, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)},
-        {0x0002, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0003, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0004, "AFCanonImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0005, "AFCanonImageHeight", N_("AF ImageHeight"), N_("AF ImageHeight"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0006, "AFImageWidth", N_("AF Width"), N_("AF Width"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0007, "AFImageHeight", N_("AF Height"), N_("AF Height"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0008, "AFAreaWidths", N_("AF Area Widths"), N_("AF Area Widths"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0009, "AFAreaHeights", N_("AF Area Heights"), N_("AF Area Heights"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x000a, "AFXPositions", N_("AF X Positions"), N_("AF X Positions"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x000b, "AFYPositions", N_("AF Y Positions"), N_("AF Y Positions"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonAf2Id, makerTags, signedShort, -1,printBitmask},
-        {0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonAf2Id, makerTags, signedShort, -1, printBitmask},
-        {0x000e, "AFPrimaryPoint", N_("AF Primary Point"), N_("AF Primary Point"), canonAf2Id, makerTags, signedShort, -1, printBitmask},
-        {0x000f, "0x000f", "0x000f", N_("0x000f"), canonAf2Id, makerTags, unsignedShort, -1, printValue},
-        {0x0010, "0x0010", "0x0010", N_("0x0010"), canonAf2Id, makerTags, unsignedShort, -1, printValue},
-        {0x0011, "AFFineRotation", N_("AFFineRotation"), N_("AFFineRotation"), canonAf2Id, makerTags, unsignedShort, -1, printValue},
-        {0xffff, "(UnknowAFInfo2Tag)", "(UnknowAFInfo2Tag)", N_("UnknowAFInfo2Tag  Tag"), canonAf2Id, makerTags, unsignedShort, 1, printValue} // important to add end of tag
-    };
-
-    const TagInfo* CanonMakerNote::tagListAf2()
-    {
-        return tagInfoAf2_;
-    }
-
-
-    // Canon AFInfo3 Info Tag
-    constexpr TagInfo CanonMakerNote::tagInfoAf3_[] = {
-        {0x0000, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0001, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonAf3Id, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)},
-        {0x0002, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0003, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0004, "AFCanonImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0005, "AFCanonImageHeight", N_("AF ImageHeight"), N_("AF ImageHeight"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0006, "AFImageWidth", N_("AF Width"), N_("AF Width"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0007, "AFImageHeight", N_("AF Height"), N_("AF Height"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0008, "AFAreaWidths", N_("AF Area Widths"), N_("AF Area Widths"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0009, "AFAreaHeights", N_("AF Area Heights"), N_("AF Area Heights"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x000a, "AFXPositions", N_("AF X Positions"), N_("AF X Positions"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x000b, "AFYPositions", N_("AF Y Positions"), N_("AF Y Positions"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonAf3Id, makerTags, signedShort, -1,printBitmask},
-        {0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonAf3Id, makerTags, signedShort, -1, printBitmask},
-        {0x000e, "AFPrimaryPoint", N_("AF Primary Point"), N_("AF Primary Point"), canonAf3Id, makerTags, signedShort, -1, printBitmask},
-    };
-
-    const TagInfo* CanonMakerNote::tagListAf3()
-    {
-        return tagInfoAf3_;
-    }
-
 
     /*
     // Canon Aspect Info, tag 0x001d
