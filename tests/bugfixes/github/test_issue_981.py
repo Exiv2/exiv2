@@ -11,8 +11,8 @@ class CanonAfInfoTest(metaclass=CaseMeta):
     commands  = ["$exiv2 -pa -b --grep Canon.AF $filenameA"
                 ,"$exiv2 -pa -b --grep Canon.AF $filenameB"
                 ,"$exiv2 -pv -b --grep Points   $filenameC"
-                ,"$exiv2 -pt -b --grep Points   $filenameD"
-                ,"$exiv2 -pv -b --grep Unusable $filenameC"
+                ,"$exiv2 -pt -b --grep Points   $filenameC"
+                ,"$exiv2 -pv -b --grep Unusable $filenameD"
                 ,"$exiv2 -pt -b --grep Unusable $filenameD"
                 ]
 
@@ -55,10 +55,10 @@ Exif.Canon.AFPointsUnusable                  Short       4  (none)
 0x260e Canon        AFPointsUnusable            Short       4  0 0 0 0
 ""","""Exif.Canon.AFNumPoints                       SShort      1  63
 Exif.Canon.AFValidPoints                     SShort      1  61
-Exif.Canon.AFPointsInFocus                   Short       4  (none)
-Exif.Canon.AFPointsSelected                  Short       4  25
-Exif.Canon.AFPointsUnusable                  Short       4  3,4,9,10,11,30,31,35,36,40,41,55,59,60
-""","""0x260e Canon        AFPointsUnusable            Short       4  0 0 0 0
+Exif.Canon.AFPointsInFocus                   Short       4  20,21,25,45,46,47
+Exif.Canon.AFPointsSelected                  Short       4  19,20,21,24,25,26,45,46,47
+Exif.Canon.AFPointsUnusable                  Short       4  (none)
+""","""0x260e Canon        AFPointsUnusable            Short       4  3608 49152 792 6272
 ""","""Exif.Canon.AFPointsUnusable                  Short       4  3,4,9,10,11,30,31,35,36,40,41,55,59,60
 """
 ]
