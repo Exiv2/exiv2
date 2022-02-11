@@ -9,7 +9,7 @@
 | [![Basic CI for all platforms on push](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![CI for different Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) |  [![Linux Special Builds on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_builds.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_special_builds.yml) |
 | [![Linux-Ubuntu Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_linux_matrix.yml) | [![Mac Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_mac_matrix.yml) | [![Win Matrix on PRs](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_PR_windows_matrix.yml) |
 
-<div id="1">
+<div id="Welcome">
 
 # Welcome to Exiv2
 
@@ -29,54 +29,54 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 
 ### TABLE  OF  CONTENTS
 
-1. [Welcome to Exiv2](#1)
-2. [Building, Installing, Using and Uninstalling Exiv2](#2)
-    1. [Build, Install, Use and Uninstall Exiv2 on a UNIX-like system](#2-1)
-    2. [Build and Install Exiv2 with Visual Studio](#2-2)
-    3. [Build Options](#2-3)
-    4. [Dependencies](#2-4)
-    5. [Building and linking your code with Exiv2](#2-5)
-    6. [Consuming Exiv2 with CMake](#2-6)
-    7. [Using pkg-config to compile and link your code with Exiv2](#2-7)
-    8. [Localisation](#2-8)
-    9. [Building Exiv2 Documentation](#2-9)
-   10. [Building Exiv2 Packages](#2-10)
-   11. [Debugging Exiv2](#2-11)
-   12. [Building  Exiv2 with Clang and other build chains](#2-12)
-   13. [Building  Exiv2 with ccache](#2-13)
-   14. [Thread Safety](#2-14)
-   15. [Library Initialisation and Cleanup](#2-15)
-   16. [Cross Platform Build and Test on Linux for MinGW](#2-16)
-   17. [Static and Shared Libraries](#2-18)
-   18. [Support for bmff files (CR3, HEIF, HEIC, and AVIF)](#2-19)
-3. [License and Support](#3)
-    1. [License](#3-1)
-    2. [Support](#3-2)
-4. [Test Suite](#4)
-    1. [Running tests on a UNIX-like system](#4-1)
-    2. [Running tests on Visual Studio builds](#4-2)
-    3. [Unit Tests](#4-3)
-    4. [Bugfix Tests](#4-4)
-    5. [Fuzzing](#4-5)
-        1. [OSS-Fuzz](#4-5-1)
-5. [Platform Notes](#5)
-    1. [Linux](#5-1)
-    2. [macOS](#5-2)
-    3. [MinGW/msys2](#5-3)
-    4. [Cygwin](#5-4)
-    5. [Visual Studio](#5-5)
-    6. [Unix](#5-6)
+- [Welcome to Exiv2](#Welcome)
+- [Building, Installing, Using and Uninstalling Exiv2](#B_I_U)
+    - [Build, Install, Use and Uninstall Exiv2 on a UNIX-like system](#B_I_U_Unix)
+    - [Build and Install Exiv2 with Visual Studio](#B_I_U_VisualStudio)
+    - [Build Options](#BuildOptions)
+    - [Dependencies](#Dependencies)
+    - [Building and linking your code with Exiv2](#BuildAndLinkYourCode)
+    - [Consuming Exiv2 with CMake](#ConsumeExiv2WithCmake)
+    - [Using pkg-config to compile and link your code with Exiv2](#ConsumeWithPkgConfig)
+    - [Localisation](#Localisation)
+    - [Building Exiv2 Documentation](#BuildDoc)
+    - [Building Exiv2 Packages](#GeneratePackages)
+    - [Debugging Exiv2](#Debugging)
+    - [Building  Exiv2 with Clang and other build chains](#BuildWithClangAndOthers)
+    - [Building  Exiv2 with ccache](#CCache)
+    - [Thread Safety](#ThreadSafety)
+    - [Library Initialisation and Cleanup](#InitAndCleanup)
+    - [Cross Platform Build and Test on Linux for MinGW](#CrossPlatformSupport)
+    - [Static and Shared Libraries](#StaticShared)
+    - [Support for bmff files (CR3, HEIF, HEIC, and AVIF)](#BMFF)
+- [License and Support](#LicenseSupport)
+    - [License](#License)
+    - [Support](#Support)
+- [Test Suite](#TestSuite)
+    - [Running tests on a UNIX-like system](#TestsOnUnix)
+    - [Running tests on Visual Studio builds](#TestsOnVisualStudio)
+    - [Unit Tests](#UnitTests)
+    - [Bugfix Tests](#BugfixTests)
+    - [Fuzzing](#FuzzingTests)
+        - [OSS-Fuzz](#OssFuzz)
+- [Platform Notes](#PlatformNotes)
+    - [Linux](#PlatformLinux)
+    - [macOS](#PlatformMacOs)
+    - [MinGW/msys2](#PlatformMinGWMSYS)
+    - [Cygwin](#PlatformCygwin)
+    - [Visual Studio](#PlatformVisualStudio)
+    - [Unix](#PlatformUnix)
 
 [TOC](#TOC)
-<div id="2">
+<div id="B_I_U">
 
-## 2 Building, Installing, Using and Uninstalling Exiv2
+## Building, Installing, Using and Uninstalling Exiv2
 
 You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 17 standard and the associated tool chain.
 
-<div id="2-1">
+<div id="B_I_U_Unix">
 
-### 2.1 Build, Install, Use Exiv2 on a UNIX-like system
+### Build, Install, Use Exiv2 on a UNIX-like system
 
 ```bash
 $ cd ~/gnu/github/exiv2                     # Location of the project code
@@ -121,11 +121,11 @@ Note that this mechanism is not perfect and it is not able to remove the sub-dir
 path.
 
 [TOC](#TOC)
-<div id="2-2">
+<div id="B_I_U_VisualStudio">
 
-### 2.2 Build and Install Exiv2 with Visual Studio
+### Build and Install Exiv2 with Visual Studio
 
-We recommend that you use conan to download the Exiv2 external dependencies on Windows. On other platforms (macOS, Linux and others), traditionally the platform package managers have been used. These are discussed at [Platform Notes](#5). The options to configure and compile the project using Visual Studio are similar to UNIX like systems.
+We recommend that you use conan to download the Exiv2 external dependencies on Windows. On other platforms (macOS, Linux and others), traditionally the platform package managers have been used. These are discussed at [Platform Notes](#PlatformNotes). The options to configure and compile the project using Visual Studio are similar to UNIX like systems.
 See [README-CONAN](README-CONAN.md) for more information about Conan.
 
 When you build, you may install with the following command.
@@ -136,15 +136,15 @@ When you build, you may install with the following command.
 This will create and copy the exiv2 build artefacts to `%ProgramFiles%/exiv2`. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `%ProgramFiles%/exiv2/bin`.
 
 [TOC](#TOC)
-<div id="2-3">
+<div id="BuildOptions">
 
-### 2.3 Build options
+### Build options
 
 There are two groups of CMake options which are relevant to the project: global CMake options and project specific ones. Here are some of the global options which are particularly useful:
 
 | Options       | Purpose (_default_)       |
 |:------------- |:------------- |
-| CMAKE\_INSTALL\_PREFIX<br/>CMAKE\_BUILD\_TYPE<br/>BUILD\_SHARED\_LIBS | Where to install on your computer _**(/usr/local)**_<br/>Type of build _**(Release)**_ See: [Debugging Exiv2](#2-11) <br/>Build exiv2lib as shared or static _**(On)**_ |
+| CMAKE\_INSTALL\_PREFIX<br/>CMAKE\_BUILD\_TYPE<br/>BUILD\_SHARED\_LIBS | Where to install on your computer _**(/usr/local)**_<br/>Type of build _**(Release)**_ See: [Debugging Exiv2](#Debugging) <br/>Build exiv2lib as shared or static _**(On)**_ |
 
 Options defined at `exiv2/CMakeLists.txt` include:
 
@@ -166,9 +166,9 @@ $ cmake -DBUILD_SHARED_LIBS=On -DEXIV2_ENABLE_NLS=Off
 ```
 
 [TOC](#TOC)
-<div id="2-4">
+<div id="Dependencies">
 
-### 2.4 Dependencies
+### Dependencies
 
 The following Exiv2 features require external libraries:
 
@@ -183,14 +183,14 @@ On UNIX systems, you may install the dependencies using the distribution's packa
 development package of a dependency to install the header files and libraries required to build Exiv2. The script
 `ci/install_dependencies.sh` is used to setup the CI images on which we build and test Exiv2.  You may find that helpful in setting up your platform dependencies.
 
-Natural language system is discussed in more detail here: [Localisation](#2-8)
+Natural language system is discussed in more detail here: [Localisation](#Localisation)
 
-Notes about different platforms are included here: [Platform Notes](#5)
+Notes about different platforms are included here: [Platform Notes](#PlatformNotes)
 
 You may choose to install dependences with conan.  This is supported on all platforms and is especially useful for users of Visual Studio.
 See [README-CONAN](README-CONAN.md) for more information.
 
-### Libiconv
+#### Libiconv
 
 The library libiconv is used to perform character set encoding in the tags Exif.Photo.UserComment, Exif.GPSInfo.GPSProcessingMethod and Exif.GPSInfo.GPSAreaInformation.  This is documented in the [exiv2 man page](exiv2.md).
 
@@ -205,9 +205,9 @@ There are build instructions about Visual Studio in libiconv-1.16/INSTALL.window
 If you wish to use libiconv with Visual Studio you will have to build libiconv and remove the "guard" in cmake/FindIconv.cmake.  Team Exiv2 will not provide support concerning libiconv and Visual Studio.
 
 [TOC](#TOC)
-<div id="2-5">
+<div id="BuildAndLinkYourCode">
 
-### 2.5 Building and linking your code with Exiv2
+### Building and linking your code with Exiv2
 
 There are detailed platform notes about compiling and linking in `releasenotes/{platform}/ReadMe.txt`
 
@@ -232,9 +232,9 @@ $ g++ -std=c++17 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lex
 ```
 
 [TOC](#TOC)
-<div id="2-6">
+<div id="ConsumeExiv2WithCmake">
 
-### 2.6 Consuming Exiv2 with CMake
+### Consuming Exiv2 with CMake
 
 When exiv2 is installed, the files required to consume Exiv2 with CMake are installed in `${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2`
 
@@ -263,9 +263,9 @@ $
 ```
 
 [TOC](#TOC)
-<div id="2-7">
+<div id="ConsumeWithPkgConfig">
 
-### 2.7 Using pkg-config to compile and link your code with Exiv2
+### Using pkg-config to compile and link your code with Exiv2
 
 When exiv2 is installed, the file exiv2.pc used by pkg-config is installed in `${CMAKE_INSTALL_PREFIX}/lib/pkgconfig`  You will need to set the following in your environment:
 
@@ -288,9 +288,9 @@ g++ -std=c++17 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 ```
 
 [TOC](#TOC)
-<div id="2-8">
+<div id="Localisation">
 
-### 2.8 Localisation
+### Localisation
 
 Localisation is supported on a UNIX-like platform:  Linux, macOS, Cygwin and MinGW/msys2.  Localisation is not supported for Visual Studio builds.
 
@@ -378,9 +378,9 @@ $
 ```
 
 [TOC](#TOC)
-<div id="2-9">
+<div id="BuildDoc">
 
-### 2.9 Building Exiv2 Documentation
+### Building Exiv2 Documentation
 
 Building documentation requires installing special tools.  You will probably prefer to
 read the documentation on-line from the project website: https://exiv2.org
@@ -400,9 +400,9 @@ To build the documentation, you must install the following products:
 | doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [http://www.doxygen.org/](http://www.doxygen.org/)<br/>[http://www.graphviz.org/](http://www.graphviz.org/)<br/>[http://www.python.org/](http://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
 
 [TOC](#TOC)
-<div id="2-10">
+<div id="GeneratePackages">
 
-### 2.10 Building Exiv2 Packages
+### Building Exiv2 Packages
 
 To enable the building of Exiv2 packages, use the CMake option `-DEXIV2_TEAM_PACKAGING=On`.
 
@@ -439,9 +439,9 @@ CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Source.tar.gz generated.
 ```
 
 [TOC](#TOC)
-<div id="2-11">
+<div id="Debugging">
 
-### 2.11 Debugging Exiv2
+### Debugging Exiv2
 
 1) Generating and installing a debug library
 
@@ -534,9 +534,9 @@ The following are some of the valid targets for this Makefile:
 ```
 
 [TOC](#TOC)
-<div id="2-12">
+<div id="BuildWithClangAndOthers">
 
-### 2.12 Building Exiv2 with **clang** and other build chains
+### Building Exiv2 with **clang** and other build chains
 
 1) On Linux
 
@@ -567,9 +567,9 @@ Apple provide clang with Xcode.  GCC has not been supported by Apple since 2013.
 I have been unable to get clang to work on any of those platforms.
 
 [TOC](#TOC)
-<div id="2-13">
+<div id="CCache">
 
-### 2.13 Building Exiv2 with ccache
+### Building Exiv2 with ccache
 
 To speed up compilation, the utility ccache can be installed to cache the output of the compiler.  This greatly speeds up the build when you frequently built code that has not been modified.
 
@@ -594,9 +594,9 @@ $ cmake --build .
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=Off** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
 
 [TOC](#TOC)
-<div id="2-14">
+<div id="ThreadSafety">
 
-### 2.14 Thread Safety
+### Thread Safety
 
 Exiv2 heavily relies on standard C++ containers. Static or global variables are used read-only, with the exception of the XMP namespace registration function (see below). Thus Exiv2 is thread safe in the same sense as C++ containers:
 Different instances of the same class can safely be used concurrently in multiple threads.
@@ -619,12 +619,12 @@ int main(int argc, const char* argv[])
     ...
 }
 ```
-The use of the _**thread unsafe function**_ Exiv2::enableBMFF(true) is discussed in [2.19 Support for bmff files](#2-19)
+The use of the _**thread unsafe function**_ Exiv2::enableBMFF(true) is discussed in [2.19 Support for bmff files](#BMFF)
 
 [TOC](#TOC)
-<div id="2-15">
+<div id="InitAndCleanup">
 
-### 2.15 Library Initialisation and Cleanup
+### Library Initialisation and Cleanup
 
 As discussed in the section on Thread Safety, Exiv2 classes for Exif and IPTC metadata are fully reentrant and require no initialisation or cleanup.
 
@@ -641,9 +641,9 @@ The exiv2 command-line program and sample applications call the following at the
 ```
 
 [TOC](#TOC)
-<div id="2-16">
+<div id="CrossPlatformSupport">
 
-### 2.16 Cross Platform Build and Test on Linux for MinGW
+### Cross Platform Build and Test on Linux for MinGW
 
 You can cross compile Exiv2 on Linux for MinGW.  We have used the following method on **Fedora** and believe this is also possible on Ubuntu and other distros.  Detailed instructions are provided here for **Fedora**.
 
@@ -688,7 +688,7 @@ $ mingw64-cmake .. -DEXIV2_TEAM_EXTRA_WARNINGS=On \
                    -DEXIV2_ENABLE_WIN_UNICODE=On  \
                    -DBUILD_SHARED_LIBS=Off
 ```
-The options available for cross-compiling are the same as provided for all builds.  See: [Build Options](#2-3)
+The options available for cross-compiling are the same as provided for all builds.  See: [Build Options](#BuildOptions)
 
 
 #### 4 Copy "system dlls" in the bin directory
@@ -745,9 +745,9 @@ $ mingw64-ctest
 You will find that 3 tests fail at the end of the test suite.  It is safe to ignore those minor exceptions.
 
 [TOC](#TOC)
-<div id="2-18">
+<div id="StaticShared">
 
-### 2.18 Static and Shared Libraries
+### Static and Shared Libraries
 
 You can build either static or shared libraries.  Both can be linked with either static or shared run-time libraries.  You specify the shared/static with the option `-BUILD_SHARED_LIBS=On|Off` You specify the run-time with the option `-DEXIV2_ENABLE_DYNAMIC_RUNTIME=On|Off`.  The default for both options default is On.  So you build shared and use the shared libraries which are `.dll` on Windows (msvc, Cygwin and MinGW/msys), `.dylib` on macOS and `.so` on Linux and UNIX.  
 
@@ -776,9 +776,9 @@ endif()
 This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.com/Exiv2/exiv2/issues/1230)
 
 [TOC](#TOC)
-<div id="2-19">
+<div id="BMFF">
 
-### 2.19 Support for bmff files (CR3, HEIF, HEIC, and AVIF)
+### Support for bmff files (CR3, HEIF, HEIC, and AVIF)
 
 **Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
@@ -793,16 +793,16 @@ The return value from `enableBMFF()` is true if the library has been build with 
 Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
 
 [TOC](#TOC)
-<div id="3">
+<div id="LicenseSupport">
 
-## 3 License and Support
+## License and Support
 
 All project resources are accessible from the project website.
     https://github.com/Exiv2/exiv2
 
-<div id="3-1">
+<div id="License">
 
-### 3.1 License
+### License
 
 Copyright (C) 2004-2021 Exiv2 authors.
 You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
@@ -823,16 +823,16 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 [TOC](#TOC)
-<div id="3-2">
+<div id="Support">
 
-### 3.2 Support
+### Support
 
 For new bug reports, feature requests and support:  Please open an issue in Github.  [https://github.com/exiv2/exiv2](https://github.com/exiv2/exiv2)
 
 [TOC](#TOC)
-<div id="4">
+<div id="TestSuite">
 
-## 4 Test Suite
+## Test Suite
 
 You execute the Test Suite using CTest with the command `$ ctest`.
 
@@ -892,9 +892,9 @@ If you build the code in the directory `<exiv2dir>/build`, tests will run using 
 The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
 
 [TOC](#TOC)
-<div id="4-1">
+<div id="TestsOnUnix">
 
-### 4.1 Running tests on Unix-like systems
+### Running tests on Unix-like systems
 
 You can run tests directly from the build:
 
@@ -928,9 +928,9 @@ $
 ```
 
 [TOC](#TOC)
-<div id="4-2">
+<div id="TestsOnVisualStudio">
 
-### 4.2 Running tests on Visual Studio builds from cmd.exe
+### Running tests on Visual Studio builds from cmd.exe
 
 **Caution:** _The python3 interpreter must be on the PATH, build for DOS, and called python3.exe._  I copied the python.exe program:
 
@@ -979,9 +979,9 @@ set EXIV2_PORT=
 ```
 
 [TOC](#TOC)
-<div id="4-3">
+<div id="UnitTests">
 
-### 4.3 Unit Tests
+### Unit Tests
 
 The code for the unit tests is in `<exiv2dir>/unitTests`.  To include unit tests in the build, use the *CMake* option `-DEXIV2_BUILD_UNIT_TESTS=On`.
 
@@ -999,9 +999,9 @@ $ popd
 ```
 
 [TOC](#TOC)
-<div id="4-4">
+<div id="BugfixTests">
 
-### 4.4 Bugfix Tests
+### Bugfix Tests
 
 You can run the bugfix tests from the build directory:
 
@@ -1040,9 +1040,9 @@ $ ctest -R bugfix --verbose 2>&1 | grep FAIL
 ```
 
 [TOC](#TOC)
-<div id="4-5">
+<div id="FuzzingTests">
 
-### 4.5 Fuzzing
+### Fuzzing
 
 The code for the fuzzers is in `exiv2dir/fuzz`
 
@@ -1069,24 +1069,24 @@ mkdir corpus
 For more information about fuzzing see [`fuzz/README.md`](fuzz/README.md).
 
 [TOC](#TOC)
-<div id="4-5-1">
+<div id="OssFuzz">
 
-### 4.5.1 OSS-Fuzz
+#### OSS-Fuzz
 
 Exiv2 is enrolled in [OSS-Fuzz](https://google.github.io/oss-fuzz/), which is a fuzzing service for open-source projects, run by Google.
 
 The build script used by OSS-Fuzz to build Exiv2 can be found [here](https://github.com/google/oss-fuzz/tree/master/projects/exiv2/build.sh). It uses the same fuzz target ([`fuzz-read-print-write`](fuzz/fuzz-read-print-write.cpp)) as mentioned above, but with a slightly different build configuration to integrate with OSS-Fuzz. In particular, it uses the CMake option `-DEXIV2_TEAM_OSS_FUZZ=ON`, which builds the fuzz target without adding the `-fsanitize=fuzzer` flag, so that OSS-Fuzz can control the sanitizer flags itself.
 
 [TOC](#TOC)
-<div id="5">
+<div id="PlatformNotes">
 
-## 5 Platform Notes
+## Platform Notes
 
 There are many ways to set up and configure your platform.  The following notes are provided as a guide.
 
-<div id="5-1">
+<div id="PlatformLinux">
 
-### 5.1 Linux
+### Linux
 
 Update your system and install the build tools and dependencies (zlib, expat, gtest and others)
 
@@ -1110,9 +1110,9 @@ $ make
 ```
 
 [TOC](#TOC)
-<div id="5-2">
+<div id="PlatformMacOs">
 
-### 5.2 macOS
+### macOS
 
 You will need to install Xcode and the Xcode command-line tools to build on macOS.
 
@@ -1121,9 +1121,9 @@ You should build and install libexpat and zlib.  You may use brew, macports, bui
 I recommend that you build and install CMake from source.
 
 [TOC](#TOC)
-<div id="5-3">
+<div id="PlatformMinGWMSYS">
 
-### 5.3 MinGW/msys2
+### MinGW/msys2
 
 Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64.
 
@@ -1174,9 +1174,9 @@ $ make
 ```
 
 [TOC](#TOC)
-<div id="5-4">
+<div id="PlatformCygwin">
 
-### 5.4 Cygwin/64
+### Cygwin/64
 
 Please note that the platform Cygwin/32 is obsolete and superceded by Cygwin/64.
 
@@ -1187,7 +1187,7 @@ make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, lib
 
 The file `appveyor_mingw_cygwin.yml` has instructions to configure the AppVeyor CI to configures itself to build Exiv2 on MinGW/msys2 and Cygwin/64.
 
-To build unit tests, you should install googletest-release-1.8.0 as discussed [4.3 Unit tests](#4-3)
+To build unit tests, you should install googletest-release-1.8.0 as discussed at [Unit tests](#UnitTests)
 
 I use the following batch file "cygwin64.bat" to start the Cygwin/64 bash shell from the Dos Command Prompt (cmd.exe).
 
@@ -1204,9 +1204,9 @@ endlocal
 ```
 
 [TOC](#TOC)
-<div id="5-5">
+<div id="PlatformVisualStudio">
 
-### 5.5 Visual Studio
+### Visual Studio
 
 We recommend that you use Conan to build Exiv2 using Visual Studio. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later.  We actively support and build with Visual Studio 2015, 2017 and 2019.
 
@@ -1224,9 +1224,9 @@ As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 The python3 interpreter must be on your PATH.
 
 [TOC](#TOC)
-<div id="5-6">
+<div id="PlatformUnix">
 
-### 5.6 Unix
+### Unix
 
 Exiv2 can be built on many Unix and Linux distros.  With v0.27.2, we are starting to actively support the Unix Distributions NetBSD and FreeBSD.  For v0.27.3, I have added support for Solaris 11.4
 
