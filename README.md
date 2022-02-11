@@ -1117,9 +1117,9 @@ I recommend that you build and install CMake from source.
 Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64.
 
 ### MinGW/msys2 64 bit
-Install: [https://repo.msys2.org/distrib/x86\_64/msys2-x86\_64-20200903.exe](https://repo.msys2.org/distrib/x86_64/msys2-x86_64-20200903.exe)
+Install the latest version of [MSYS2](https://repo.msys2.org/distrib/msys2-x86_64-latest.exe)
 
-The file `appveyor_mingw_cygwin.yml` has instructions to configure the AppVeyor CI to configures itself to build Exiv2 on MinGW/msys2 and Cygwin/64.
+The CI workflow file `.github/workflows/on_PR_windows_matrix.yml` has a build job named `msys2` with instructions showing how to configure Exiv2 on MinGW/msys2.
 
 I use the following batch file to start the MinGW/msys2 64 bit bash shell from the Dos Command Prompt (cmd.exe)
 
@@ -1174,7 +1174,7 @@ Download: [https://cygwin.com/install.html](https://cygwin.com/install.html) and
 You need:
 make, cmake, curl, gcc, gettext-devel pkg-config, dos2unix, tar, zlib-devel, libexpat1-devel, git, libxml2-devel python3-interpreter, libiconv, libxml2-utils, libncurses, libxml2-devel libxslt-devel python38 python38-pip python38-libxml2
 
-The file `appveyor_mingw_cygwin.yml` has instructions to configure the AppVeyor CI to configures itself to build Exiv2 on MinGW/msys2 and Cygwin/64.
+The CI workflow file `.github/workflows/on_PR_windows_matrix.yml` has a build job named `cygwin` with instructions showing how to configure Exiv2 on  Cygwin/64.
 
 To build unit tests, you should install googletest-release-1.8.0 as discussed at [Unit tests](#UnitTests)
 
