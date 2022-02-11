@@ -84,7 +84,7 @@ $ mkdir build && cd build                   # Create a build directory
 $ cmake -DCMAKE_BUILD_TYPE=Release ..       # Configure the project with CMake
 $ cmake --build .                           # Compile the project
 $ ctest --verbose                           # Run tests
-$ cmake --build . --target install          # Run the install target (install library, public headers, application and CMake files)
+$ cmake --install                           # Run the install target (install library, public headers, application and CMake files)
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`. The target directory for the installation can be modified by using the CMake option `-DCMAKE_INSTALL_PREFIX`. 
@@ -131,7 +131,7 @@ See [README-CONAN](README-CONAN.md) for more information about Conan.
 When you build, you may install with the following command.
 
 ```cmd
-> cmake --build . --target install
+> cmake --install .
 ```
 This will create and copy the exiv2 build artefacts to `%ProgramFiles%/exiv2`. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `%ProgramFiles%/exiv2/bin`.
 
@@ -487,7 +487,7 @@ $ cmake -DCMAKE_CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES ..
 $ cmake --build .
 $ bin/exiv2 ...
 -- or --
-$ sudo make install
+$ cmake --install .
 $ exiv2     ...
 ```
 
