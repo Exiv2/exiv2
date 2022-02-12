@@ -1,0 +1,53 @@
+Exif.Image.ImageDescription                  Ascii      11                        
+Exif.Image.Make                              Ascii       6  NIKON  NIKON
+Exif.Image.Model                             Ascii       5  E950  E950
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii       8  v981-79  v981-79
+Exif.Image.DateTime                          Ascii      20  2001:04:06 11:51:40  2001:04:06 11:51:40
+Exif.Image.YCbCrPositioning                  Short       1  2  Co-sited
+Exif.Image.ExifTag                           Long        1  284  284
+Exif.Photo.ExposureTime                      Rational    1  10/770  1/77 s
+Exif.Photo.FNumber                           Rational    1  55/10  F5.5
+Exif.Photo.ExposureProgram                   Short       1  2  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  80  80
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48  2.10
+Exif.Photo.DateTimeOriginal                  Ascii      20  2001:04:06 11:51:40  2001:04:06 11:51:40
+Exif.Photo.DateTimeDigitized                 Ascii      20  2001:04:06 11:51:40  2001:04:06 11:51:40
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4/1  4
+Exif.Photo.ExposureBiasValue                 SRational   1  0/10  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  26/10  F2.5
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  0  No flash
+Exif.Photo.FocalLength                       Rational    1  128/10  12.8 mm
+Exif.Photo.MakerNote                         Undefined 308  78 105 107 111 110 0 1 0 11 0 2 0 2 0 6 0 0 0 38 4 0 0 3 0 3 0 1 0 0 0 12 0 0 0 4 0 3 0 1 0 0 0 1 0 0 0 5 0 3 0 1 0 0 0 3 0 0 0 6 0 3 0 1 0 0 0 0 0 0 0 7 0 3 0 1 0 0 0 0 0 0 0 8 0 5 0 1 0 0 0 44 4 0 0 9 0 2 0 20 0 0 0 52 4 0 0 10 0 5 0 1 0 0 0 72 4 0 0 11 0 3 0 1 0 0 0 0 0 0 0 0 15 4 0 30 0 0 0 80 4 0 0 0 0 0 0 48 56 46 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 16 169 21 160 0 0 0 0 17 136 0 0 19 27 0 0 50 63 0 0 20 17 0 0 20 17 0 0 31 6 12 198 0 47 13 201 8 59 0 0 0 0 0 0 0 0 0 0 7 146 17 0 0 0 19 15 17 0 0 0 0 0 0 0 0 0 0 0 64 0 79 50 0 11 74 3 20 100 0 13 86 59 0 88 22 0 22 22 22 22 16 241 69 0 255 0 87 100 50 12 193 6 0 0  78 105 107 111 110 0 1 0 11 0 2 0 2 0 6 0 0 0 38 4 0 0 3 0 3 0 1 0 0 0 12 0 0 0 4 0 3 0 1 0 0 0 1 0 0 0 5 0 3 0 1 0 0 0 3 0 0 0 6 0 3 0 1 0 0 0 0 0 0 0 7 0 3 0 1 0 0 0 0 0 0 0 8 0 5 0 1 0 0 0 44 4 0 0 9 0 2 0 20 0 0 0 52 4 0 0 10 0 5 0 1 0 0 0 72 4 0 0 11 0 3 0 1 0 0 0 0 0 0 0 0 15 4 0 30 0 0 0 80 4 0 0 0 0 0 0 48 56 46 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 16 169 21 160 0 0 0 0 17 136 0 0 19 27 0 0 50 63 0 0 20 17 0 0 20 17 0 0 31 6 12 198 0 47 13 201 8 59 0 0 0 0 0 0 0 0 0 0 7 146 17 0 0 0 19 15 17 0 0 0 0 0 0 0 0 0 0 0 64 0 79 50 0 11 74 3 20 100 0 13 86 59 0 88 22 0 22 22 22 22 16 241 69 0 255 0 87 100 50 12 193 6 0 0
+Exif.MakerNote.Offset                        Long        1  916  916
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.Nikon2.Quality                          Short       1  12  (12)
+Exif.Nikon2.ColorMode                        Short       1  1  Color
+Exif.Nikon2.ImageAdjustment                  Short       1  3  Contrast+
+Exif.Nikon2.ISOSpeed                         Short       1  0  80
+Exif.Nikon2.WhiteBalance                     Short       1  0  Auto
+Exif.Nikon2.Focus                            Rational    1  0/0  0/0
+Exif.Nikon2.DigitalZoom                      Rational    1  0/100  Not used
+Exif.Nikon2.AuxiliaryLens                    Short       1  0  0
+Exif.Photo.UserComment                       Undefined 125                                                                                                                                                                                                                                              
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  1600  1600
+Exif.Photo.PixelYDimension                   Long        1  1200  1200
+Exif.Photo.InteroperabilityTag               Long        1  886  886
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  300/1  300
+Exif.Thumbnail.YResolution                   Rational    1  300/1  300
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036  2036
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4662  4662

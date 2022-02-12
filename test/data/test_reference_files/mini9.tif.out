@@ -1,0 +1,17 @@
+Exif.Image.NewSubfileType                    Long        1  0  Primary image
+Exif.Image.ImageWidth                        Short       1  9  9
+Exif.Image.ImageLength                       Short       1  9  9
+Exif.Image.BitsPerSample                     Short       3  8 8 8  8 8 8
+Exif.Image.Compression                       Short       1  1  Uncompressed
+Exif.Image.PhotometricInterpretation         Short       1  2  RGB
+Exif.Image.DocumentName                      Ascii      24  /home/ahuggel/mini9.tif  /home/ahuggel/mini9.tif
+Exif.Image.ImageDescription                  Ascii      18  Created with GIMP  Created with GIMP
+Exif.Image.StripOffsets                      Long        1  8  8
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.SamplesPerPixel                   Short       1  3  3
+Exif.Image.RowsPerStrip                      Short       1  64  64
+Exif.Image.StripByteCounts                   Long        1  243  243
+Exif.Image.XResolution                       Rational    1  1207959552/16777216  72
+Exif.Image.YResolution                       Rational    1  1207959552/16777216  72
+Exif.Image.PlanarConfiguration               Short       1  1  Chunky
+Exif.Image.ResolutionUnit                    Short       1  2  inch

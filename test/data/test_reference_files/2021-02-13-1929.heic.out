@@ -1,0 +1,62 @@
+Exif.Image.Make                              Ascii       6  Apple  Apple
+Exif.Image.Model                             Ascii      10  iPhone XR  iPhone XR
+Exif.Image.Orientation                       Short       1  6  right, top
+Exif.Image.XResolution                       Rational    1  72/1  72
+Exif.Image.YResolution                       Rational    1  72/1  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii       5  14.4  14.4
+Exif.Image.DateTime                          Ascii      20  2021:02:13 11:03:31  2021:02:13 11:03:31
+Exif.Image.HostComputer                      Ascii      10  iPhone XR  iPhone XR
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  226  226
+Exif.Photo.ExposureTime                      Rational    1  1/30  1/30 s
+Exif.Photo.FNumber                           Rational    1  9/5  F1.8
+Exif.Photo.ExposureProgram                   Short       1  2  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  500  500
+Exif.Photo.ExifVersion                       Undefined   4  48 50 51 50  2.32
+Exif.Photo.DateTimeOriginal                  Ascii      20  2021:02:13 11:03:31  2021:02:13 11:03:31
+Exif.Photo.DateTimeDigitized                 Ascii      20  2021:02:13 11:03:31  2021:02:13 11:03:31
+Exif.Photo.OffsetTime                        Ascii       7  -06:00  -06:00
+Exif.Photo.OffsetTimeOriginal                Ascii       7  -06:00  -06:00
+Exif.Photo.OffsetTimeDigitized               Ascii       7  -06:00  -06:00
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.ShutterSpeedValue                 SRational   1  14628/2981  1/30 s
+Exif.Photo.ApertureValue                     Rational    1  54823/32325  F1.8
+Exif.Photo.BrightnessValue                   SRational   1  -61585/686999  -0.0896435
+Exif.Photo.ExposureBiasValue                 SRational   1  0/1  0 EV
+Exif.Photo.MeteringMode                      Short       1  3  Spot
+Exif.Photo.Flash                             Short       1  16  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  17/4  4.2 mm
+Exif.Photo.SubjectArea                       Short       4  841 1124 751 753  841 1124 751 753
+Exif.Photo.MakerNote                         Undefined 1212  65 112 112 108 101 32 105 79 83 0 0 1 77 77 0 32 0 1 0 9 0 0 0 1 0 0 0 12 0 2 0 7 0 0 2 46 0 0 1 148 0 3 0 7 0 0 0 104 0 0 3 194 0 4 0 9 0 0 0 1 0 0 0 1 0 5 0 9 0 0 0 1 0 0 0 180 0 6 0 9 0 0 0 1 0 0 0 181 0 7 0 9 0 0 0 1 0 0 0 1 0 8 0 10 0 0 0 3 0 0 4 42 0 12 0 10 0 0 0 2 0 0 4 66 0 13 0 9 0 0 0 1 0 0 0 29 0 14 0 9 0 0 0 1 0 0 0 0 0 16 0 9 0 0 0 1 0 0 0 1 0 20 0 9 0 0 0 1 0 0 0 10 0 23 0 9 0 0 0 1 1 192 32 0 0 25 0 9 0 0 0 1 0 0 0 0 0 26 0 2 0 0 0 6 0 0 4 82 0 31 0 9 0 0 0 1 0 0 0 0 0 32 0 2 0 0 0 37 0 0 4 88 0 33 0 10 0 0 0 1 0 0 4 126 0 35 0 9 0 0 0 2 0 0 4 134 0 37 0 9 0 0 0 1 0 0 1 14 0 38 0 9 0 0 0 1 0 0 0 3 0 39 0 10 0 0 0 1 0 0 4 142 0 40 0 9 0 0 0 1 0 0 0 1 0 43 0 2 0 0 0 37 0 0 4 150 0 45 0 9 0 0 0 1 0 0 13 191 0 46 0 9 0 0 0 1 0 0 0 1 0 47 0 9 0 0 0 1 0 0 0 177 0 54 0 9 0 0 0 1 0 0 0 132 0 55 0 9 0 0 0 1 0 0 0 4 0 59 0 9 0 0 0 1 0 0 0 0 0 60 0 9 0 0 0 1 0 0 0 4 0 0 0 0 98 112 108 105 115 116 48 48 79 17 2 0 254 0 245 0 225 0 204 0 100 1 12 3 62 3 56 3 17 3 180 1 236 0 17 1 83 1 43 1 218 0 245 0 2 1 247 0 209 0 202 0 150 2 248 2 34 3 153 2 136 1 101 1 198 0 168 0 52 1 212 1 79 1 46 1 13 1 228 0 185 0 220 0 181 1 119 2 144 2 215 0 50 1 84 1 29 1 247 0 234 1 65 1 158 1 87 1 20 1 65 1 173 0 66 0 53 0 116 0 238 0 100 0 140 0 186 0 124 1 75 1 228 0 188 0 139 0 236 0 18 1 16 1 120 0 76 0 68 0 75 0 66 0 127 0 226 0 207 0 147 1 198 1 77 2 27 1 171 0 181 0 15 1 14 1 115 0 72 0 74 0 82 0 90 0 90 0 19 1 93 1 135 1 135 1 159 1 85 1 204 0 74 1 244 0 220 0 112 0 89 0 101 0 104 0 93 0 38 0 144 0 69 1 137 1 77 2 25 3 29 2 229 0 186 1 119 0 93 0 22 1 95 0 138 0 172 0 190 0 55 0 86 0 5 1 27 1 108 1 141 2 74 3 45 1 2 1 91 0 200 0 168 0 110 0 119 0 152 0 148 0 208 0 47 0 86 0 223 0 32 1 97 1 120 2 14 3 209 0 96 0 22 1 185 0 200 0 209 0 190 0 155 0 47 1 194 0 38 0 135 0 252 0 18 1 103 1 108 2 143 2 81 0 104 1 237 0 9 1 31 1 239 0 180 0 64 1 108 1 103 0 36 0 96 1 85 1 42 1 140 1 38 3 223 0 53 2 10 1 40 1 100 1 109 1 250 0 161 1 75 2 43 2 36 0 39 0 143 1 65 1 81 1 66 2 219 0 39 2 58 1 97 1 1 2 123 2 200 2 87 3 105 3 96 3 37 2 42 0 34 0 136 0 198 0 255 1 240 0 75 1 13 1 228 0 4 3 152 3 163 3 146 3 123 3 105 3 100 3 95 2 107 0 58 0 62 0 4 1 165 1 4 1 197 1 22 2 80 3 195 3 192 3 182 3 97 3 121 3 103 3 98 3 36 3 76 1 103 0 6 1 214 1 92 0 119 1 43 2 159 2 199 3 192 3 196 3 172 3 153 3 127 3 129 3 130 3 40 3 46 2 167 2 0 8 0 0 0 0 0 0 2 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 12 98 112 108 105 115 116 48 48 212 1 2 3 4 5 6 7 8 85 102 108 97 103 115 85 118 97 108 117 101 89 116 105 109 101 115 99 97 108 101 85 101 112 111 99 104 16 1 19 0 0 217 233 204 74 172 46 18 59 154 202 0 16 0 8 17 23 29 39 45 47 56 61 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 63 0 0 4 101 0 0 140 237 255 254 190 86 0 1 239 109 255 254 71 107 0 2 67 170 0 0 0 131 0 0 1 0 0 0 0 143 0 0 1 0 113 57 48 48 110 0 51 66 65 69 55 68 51 68 45 69 49 68 69 45 52 51 57 54 45 66 69 53 52 45 65 54 51 68 50 65 68 69 67 67 65 57 0 0 0 0 0 0 0 0 0 1 0 0 0 13 16 0 0 79 0 1 218 80 0 0 16 225 55 49 50 70 57 52 69 54 45 70 52 51 52 45 52 68 57 65 45 66 48 50 69 45 56 51 54 52 53 65 51 55 67 67 57 70 0 0  65 112 112 108 101 32 105 79 83 0 0 1 77 77 0 32 0 1 0 9 0 0 0 1 0 0 0 12 0 2 0 7 0 0 2 46 0 0 1 148 0 3 0 7 0 0 0 104 0 0 3 194 0 4 0 9 0 0 0 1 0 0 0 1 0 5 0 9 0 0 0 1 0 0 0 180 0 6 0 9 0 0 0 1 0 0 0 181 0 7 0 9 0 0 0 1 0 0 0 1 0 8 0 10 0 0 0 3 0 0 4 42 0 12 0 10 0 0 0 2 0 0 4 66 0 13 0 9 0 0 0 1 0 0 0 29 0 14 0 9 0 0 0 1 0 0 0 0 0 16 0 9 0 0 0 1 0 0 0 1 0 20 0 9 0 0 0 1 0 0 0 10 0 23 0 9 0 0 0 1 1 192 32 0 0 25 0 9 0 0 0 1 0 0 0 0 0 26 0 2 0 0 0 6 0 0 4 82 0 31 0 9 0 0 0 1 0 0 0 0 0 32 0 2 0 0 0 37 0 0 4 88 0 33 0 10 0 0 0 1 0 0 4 126 0 35 0 9 0 0 0 2 0 0 4 134 0 37 0 9 0 0 0 1 0 0 1 14 0 38 0 9 0 0 0 1 0 0 0 3 0 39 0 10 0 0 0 1 0 0 4 142 0 40 0 9 0 0 0 1 0 0 0 1 0 43 0 2 0 0 0 37 0 0 4 150 0 45 0 9 0 0 0 1 0 0 13 191 0 46 0 9 0 0 0 1 0 0 0 1 0 47 0 9 0 0 0 1 0 0 0 177 0 54 0 9 0 0 0 1 0 0 0 132 0 55 0 9 0 0 0 1 0 0 0 4 0 59 0 9 0 0 0 1 0 0 0 0 0 60 0 9 0 0 0 1 0 0 0 4 0 0 0 0 98 112 108 105 115 116 48 48 79 17 2 0 254 0 245 0 225 0 204 0 100 1 12 3 62 3 56 3 17 3 180 1 236 0 17 1 83 1 43 1 218 0 245 0 2 1 247 0 209 0 202 0 150 2 248 2 34 3 153 2 136 1 101 1 198 0 168 0 52 1 212 1 79 1 46 1 13 1 228 0 185 0 220 0 181 1 119 2 144 2 215 0 50 1 84 1 29 1 247 0 234 1 65 1 158 1 87 1 20 1 65 1 173 0 66 0 53 0 116 0 238 0 100 0 140 0 186 0 124 1 75 1 228 0 188 0 139 0 236 0 18 1 16 1 120 0 76 0 68 0 75 0 66 0 127 0 226 0 207 0 147 1 198 1 77 2 27 1 171 0 181 0 15 1 14 1 115 0 72 0 74 0 82 0 90 0 90 0 19 1 93 1 135 1 135 1 159 1 85 1 204 0 74 1 244 0 220 0 112 0 89 0 101 0 104 0 93 0 38 0 144 0 69 1 137 1 77 2 25 3 29 2 229 0 186 1 119 0 93 0 22 1 95 0 138 0 172 0 190 0 55 0 86 0 5 1 27 1 108 1 141 2 74 3 45 1 2 1 91 0 200 0 168 0 110 0 119 0 152 0 148 0 208 0 47 0 86 0 223 0 32 1 97 1 120 2 14 3 209 0 96 0 22 1 185 0 200 0 209 0 190 0 155 0 47 1 194 0 38 0 135 0 252 0 18 1 103 1 108 2 143 2 81 0 104 1 237 0 9 1 31 1 239 0 180 0 64 1 108 1 103 0 36 0 96 1 85 1 42 1 140 1 38 3 223 0 53 2 10 1 40 1 100 1 109 1 250 0 161 1 75 2 43 2 36 0 39 0 143 1 65 1 81 1 66 2 219 0 39 2 58 1 97 1 1 2 123 2 200 2 87 3 105 3 96 3 37 2 42 0 34 0 136 0 198 0 255 1 240 0 75 1 13 1 228 0 4 3 152 3 163 3 146 3 123 3 105 3 100 3 95 2 107 0 58 0 62 0 4 1 165 1 4 1 197 1 22 2 80 3 195 3 192 3 182 3 97 3 121 3 103 3 98 3 36 3 76 1 103 0 6 1 214 1 92 0 119 1 43 2 159 2 199 3 192 3 196 3 172 3 153 3 127 3 129 3 130 3 40 3 46 2 167 2 0 8 0 0 0 0 0 0 2 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 12 98 112 108 105 115 116 48 48 212 1 2 3 4 5 6 7 8 85 102 108 97 103 115 85 118 97 108 117 101 89 116 105 109 101 115 99 97 108 101 85 101 112 111 99 104 16 1 19 0 0 217 233 204 74 172 46 18 59 154 202 0 16 0 8 17 23 29 39 45 47 56 61 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 63 0 0 4 101 0 0 140 237 255 254 190 86 0 1 239 109 255 254 71 107 0 2 67 170 0 0 0 131 0 0 1 0 0 0 0 143 0 0 1 0 113 57 48 48 110 0 51 66 65 69 55 68 51 68 45 69 49 68 69 45 52 51 57 54 45 66 69 53 52 45 65 54 51 68 50 65 68 69 67 67 65 57 0 0 0 0 0 0 0 0 0 1 0 0 0 13 16 0 0 79 0 1 218 80 0 0 16 225 55 49 50 70 57 52 69 54 45 70 52 51 52 45 52 68 57 65 45 66 48 50 69 45 56 51 54 52 53 65 51 55 67 67 57 70 0 0
+Exif.Photo.SubSecTimeOriginal                Ascii       4  864  864
+Exif.Photo.SubSecTimeDigitized               Ascii       4  864  864
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  65535  Uncalibrated
+Exif.Photo.PixelXDimension                   Long        1  4032  4032
+Exif.Photo.PixelYDimension                   Long        1  3024  3024
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  26  26.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.LensSpecification                 Rational    4  17/4 17/4 9/5 9/5  17/4 17/4 9/5 9/5
+Exif.Photo.LensMake                          Ascii       6  Apple  Apple
+Exif.Photo.LensModel                         Ascii      35  iPhone XR back camera 4.25mm f/1.8  iPhone XR back camera 4.25mm f/1.8
+Exif.Photo.CompositeImage                    Short       1  2  GeneralComposite
+Exif.Image.GPSTag                            Long        1  2078  2078
+Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N  North
+Exif.GPSInfo.GPSLatitude                     Rational    3  30/1 34/1 4932/100  30 deg 34' 49.32"
+Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  W  West
+Exif.GPSInfo.GPSLongitude                    Rational    3  88/1 4/1 2606/100  88 deg 4' 26.06"
+Exif.GPSInfo.GPSAltitudeRef                  Byte        1  0  Above sea level
+Exif.GPSInfo.GPSAltitude                     Rational    1  115727/39871  2.9 m
+Exif.GPSInfo.GPSSpeedRef                     Ascii       2  K  km/h
+Exif.GPSInfo.GPSSpeed                        Rational    1  0/1  0
+Exif.GPSInfo.GPSImgDirectionRef              Ascii       2  T  True direction
+Exif.GPSInfo.GPSImgDirection                 Rational    1  825189/3865  213.503
+Exif.GPSInfo.GPSDestBearingRef               Ascii       2  T  True direction
+Exif.GPSInfo.GPSDestBearing                  Rational    1  825189/3865  213.503
+Exif.GPSInfo.GPSDateStamp                    Ascii      11  2021:02:13  2021:02:13
+Exif.GPSInfo.GPSHPositioningError            Rational    1  65/1  65

@@ -1,0 +1,115 @@
+Exif.Image.ImageWidth                        Long        1  432  432
+Exif.Image.ImageLength                       Long        1  293  293
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  72/1  72
+Exif.Image.YResolution                       Rational    1  72/1  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.DateTime                          Ascii      20  2005:03:13 16:01:44  2005:03:13 16:01:44
+Exif.Image.ImageDescription                  Ascii     116  After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.  After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
+Exif.Image.Artist                            Ascii       9  John Doe  John Doe
+Exif.Image.Copyright                         Ascii      42  ©2003 Big Newspaper, all rights reserved  ©2003 Big Newspaper, all rights reserved
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  432  432
+Exif.Photo.PixelYDimension                   Long        1  293  293
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:04:03 08:00:00  2003:04:03 08:00:00
+Exif.Photo.DateTimeDigitized                 Ascii      20  2005:03:13 16:01:44  2005:03:13 16:01:44
+Iptc.Application2.ObjectName                 String      8  01661gdx  01661gdx
+Iptc.Envelope.CharacterSet                   String      3  %G  %G
+Iptc.Application2.Keywords                   String     11  agriculture  agriculture
+Iptc.Application2.Keywords                   String     12  farm laborer  farm laborer
+Iptc.Application2.Keywords                   String      6  farmer  farmer
+Iptc.Application2.Keywords                   String     10  field hand  field hand
+Iptc.Application2.Keywords                   String     12  field worker  field worker
+Iptc.Application2.Keywords                   String      6  humans  humans
+Iptc.Application2.Keywords                   String     10  occupation  occupation
+Iptc.Application2.Keywords                   String      6  people  people
+Iptc.Application2.Keywords                   String     12  agricultural  agricultural
+Iptc.Application2.Keywords                   String      8  agronomy  agronomy
+Iptc.Application2.Keywords                   String      5  crops  crops
+Iptc.Application2.Keywords                   String      6  onions  onions
+Iptc.Application2.Keywords                   String     15  vegetable crops  vegetable crops
+Iptc.Application2.Keywords                   String      6  plants  plants
+Iptc.Application2.Keywords                   String     10  vegetables  vegetables
+Iptc.Application2.Keywords                   String      8  outdoors  outdoors
+Iptc.Application2.Keywords                   String      7  outside  outside
+Iptc.Application2.Keywords                   String     22  agricultural equipment  agricultural equipment
+Iptc.Application2.Keywords                   String      7  tractor  tractor
+Iptc.Application2.Keywords                   String      6  gender  gender
+Iptc.Application2.Keywords                   String      4  male  male
+Iptc.Application2.Keywords                   String      3  men  men
+Iptc.Application2.SubLocation                String     17  Moore family farm  Moore family farm
+Iptc.Application2.SpecialInstructions        String    127  Newspapers Out, Original Artixscan 4000 of color negative file, 160 ISO (frame 35a) is 7.6 x 11.2 at 500ppi, in Colormatch RGB.  Newspapers Out, Original Artixscan 4000 of color negative file, 160 ISO (frame 35a) is 7.6 x 11.2 at 500ppi, in Colormatch RGB.
+Iptc.Application2.DateCreated                Date        8  2003-04-03  2003-04-03
+Iptc.Application2.DigitizationDate           Date        8  2005-03-13  2005-03-13
+Iptc.Application2.Byline                     String      8  John Doe  John Doe
+Iptc.Application2.BylineTitle                String     18  Staff Photographer  Staff Photographer
+Iptc.Application2.City                       String      7  Watseka  Watseka
+Iptc.Application2.ProvinceState              String      8  Illinois  Illinois
+Iptc.Application2.CountryCode                String      2  US  US
+Iptc.Application2.CountryName                String      3  USA  USA
+Iptc.Application2.TransmissionReference      String      9  CSA farms  CSA farms
+Iptc.Application2.Headline                   String     22  Farmer planting onions  Farmer planting onions
+Iptc.Application2.Credit                     String     13  Big Newspaper  Big Newspaper
+Iptc.Application2.Source                     String     24  John Doe / Big Newspaper  John Doe / Big Newspaper
+Iptc.Application2.Copyright                  String     41  ©2003 Big Newspaper, all rights reserved  ©2003 Big Newspaper, all rights reserved
+Iptc.Application2.Caption                    String    115  After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.  After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
+Iptc.Application2.Writer                     String     11  Susan Brown  Susan Brown
+Xmp.iptc.IntellectualGenre                   XmpText     7  Profile  Profile
+Xmp.iptc.Location                            XmpText    17  Moore family farm  Moore family farm
+Xmp.iptc.CountryCode                         XmpText     2  US  US
+Xmp.iptc.CreatorContactInfo                  XmpText     0  type="Struct"
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrExtadr XmpText    30  Big Newspaper, 123 Main Street  Big Newspaper, 123 Main Street
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText     6  Boston  Boston
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrRegion XmpText    13  Massachusetts  Massachusetts
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrPcode XmpText     5  O2134  O2134
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry XmpText     3  USA  USA
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiTelWork XmpText    16  +1 (800) 1234567  +1 (800) 1234567
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiEmailWork XmpText    24  johndoe@bignewspaper.com  johndoe@bignewspaper.com
+Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  www.bignewspaper.com  www.bignewspaper.com
+Xmp.iptc.SubjectCode                         XmpBag      2  04001000, 04001001  agriculture, arable farming
+Xmp.iptc.Scene                               XmpBag      1  011900  Action
+Xmp.exif.PixelXDimension                     XmpText     3  432  432
+Xmp.exif.PixelYDimension                     XmpText     3  293  293
+Xmp.exif.ColorSpace                          XmpText     1  1  sRGB
+Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;D9980F58F1A438A8507C7664C7084D77  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;D9980F58F1A438A8507C7664C7084D77
+Xmp.photoshop.Credit                         XmpText    13  Big Newspaper  Big Newspaper
+Xmp.photoshop.City                           XmpText     7  Watseka  Watseka
+Xmp.photoshop.State                          XmpText     8  Illinois  Illinois
+Xmp.photoshop.Country                        XmpText     3  USA  USA
+Xmp.photoshop.DateCreated                    XmpText    10  2003-04-03  2003-04-03
+Xmp.photoshop.AuthorsPosition                XmpText    18  Staff Photographer  Staff Photographer
+Xmp.photoshop.Headline                       XmpText    22  Farmer planting onions  Farmer planting onions
+Xmp.photoshop.CaptionWriter                  XmpText    11  Susan Brown  Susan Brown
+Xmp.photoshop.TransmissionReference          XmpText     9  CSA farms  CSA farms
+Xmp.photoshop.Source                         XmpText    24  John Doe / Big Newspaper  John Doe / Big Newspaper
+Xmp.photoshop.Instructions                   XmpText   127  Newspapers Out, Original Artixscan 4000 of color negative file, 160 ISO (frame 35a) is 7.6 x 11.2 at 500ppi, in Colormatch RGB.  Newspapers Out, Original Artixscan 4000 of color negative file, 160 ISO (frame 35a) is 7.6 x 11.2 at 500ppi, in Colormatch RGB.
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1  sRGB IEC61966-2.1
+Xmp.photoshop.ColorMode                      XmpText     1  3  3
+Xmp.tiff.XResolution                         XmpText     4  72/1  72
+Xmp.tiff.YResolution                         XmpText     4  72/1  72
+Xmp.tiff.ResolutionUnit                      XmpText     1  2  inch
+Xmp.tiff.Orientation                         XmpText     1  1  top, left
+Xmp.tiff.ImageWidth                          XmpText     3  432  432
+Xmp.tiff.ImageLength                         XmpText     3  293  293
+Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;24B61B075FA9960B09291337508795BF  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;24B61B075FA9960B09291337508795BF
+Xmp.tiff.BitsPerSample                       XmpSeq      3  8, 8, 8  8, 8, 8
+Xmp.xmp.CreateDate                           XmpText    25  2005-03-13T02:01:44-06:00  2005-03-13T02:01:44-06:00
+Xmp.xmp.ModifyDate                           XmpText    25  2005-03-13T02:01:44-06:00  2005-03-13T02:01:44-06:00
+Xmp.xmp.MetadataDate                         XmpText    25  2007-01-08T13:25:45+01:00  2007-01-08T13:25:45+01:00
+Xmp.xmp.CreatorTool                          XmpText    26  Adobe Photoshop CS Windows  Adobe Photoshop CS Windows
+Xmp.xmpMM.DocumentID                         XmpText    58  adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9  adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:0f410640-9396-11d9-bb8e-a67e6693b6e9  uuid:0f410640-9396-11d9-bb8e-a67e6693b6e9
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:e4d002a0-9392-11d9-bb8e-a67e6693b6e9  adobe:docid:photoshop:e4d002a0-9392-11d9-bb8e-a67e6693b6e9
+Xmp.xmpMM.InstanceID                         XmpText    41  uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9  uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9
+Xmp.xmpRights.WebStatement                   XmpText    28  http://www.bignewspaper.com/  http://www.bignewspaper.com/
+Xmp.xmpRights.Marked                         XmpText     4  True  True
+Xmp.xmpRights.RightsUsageTerms               LangAlt     1  lang="x-default" For consideration only, no reproduction without prior permission  lang="x-default" For consideration only, no reproduction without prior permission
+Xmp.xmpRights.UsageTerms                     LangAlt     1  lang="x-default" For consideration only, no reproduction without prior permission  lang="x-default" For consideration only, no reproduction without prior permission
+Xmp.dc.format                                XmpText    10  image/jpeg  image/jpeg
+Xmp.dc.description                           LangAlt     1  lang="x-default" After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.  lang="x-default" After digging the furrows another ten yards with the tractor, Jim Moore hops off to hand-set more leeks and onions.
+Xmp.dc.title                                 LangAlt     1  lang="x-default" 01661gdx  lang="x-default" 01661gdx
+Xmp.dc.rights                                LangAlt     1  lang="x-default" ©2003 Big Newspaper, all rights reserved  lang="x-default" ©2003 Big Newspaper, all rights reserved
+Xmp.dc.creator                               XmpSeq      1  John Doe  John Doe
+Xmp.dc.subject                               XmpBag     22  agriculture, farm laborer, farmer, field hand, field worker, humans, occupation, people, agricultural, agronomy, crops, onions, vegetable crops, plants, vegetables, outdoors, outside, agricultural equipment, tractor, gender, male, men  agriculture, farm laborer, farmer, field hand, field worker, humans, occupation, people, agricultural, agronomy, crops, onions, vegetable crops, plants, vegetables, outdoors, outside, agricultural equipment, tractor, gender, male, men
+Xmp.wine.Recommend                           XmpText     5  False  False

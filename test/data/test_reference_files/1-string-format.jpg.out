@@ -1,0 +1,11 @@
+Error: Directory Image: IFD entry 3 lies outside of the data buffer.
+Error: Directory Photo: IFD entry 2 lies outside of the data buffer.
+Warning: Directory Photo, entry 0x3030 has unknown Exif (TIFF) type 12336; setting type size 1.
+Error: Directory Photo, entry 0x3030 has invalid size 2147483648*1; skipping entry.
+Warning: Directory Image, entry 0x3030 has unknown Exif (TIFF) type 12336; setting type size 1.
+Error: Directory Image, entry 0x3030 has invalid size 2450063408*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 44; setting type size 1.
+Error: Directory Image, entry 0x0000 has invalid size 808452096*1; skipping entry.
+Warning: JPEG format error, rc = 5
+Exif.Image.ExifTag                           Long        1  26  26
+Exif.Photo.Flash                             SRational   1  -2147483648/-1  No flash
