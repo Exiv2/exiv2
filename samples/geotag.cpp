@@ -24,6 +24,7 @@
 #include <exiv2/exiv2.hpp>
 #include "unused.h"
 
+#include <filesystem>
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -83,17 +84,6 @@ int getFileType(std::string& path,Options& options);
 string getExifTime(time_t t);
 time_t parseTime(const char* ,bool bAdjust=false);
 int    timeZoneAdjust();
-
-// platform specific code
-#if defined(_MSC_VER) || defined(__MINGW__)
-char* realpath(const char* file,char* path)
-{
-    char* result = (char*) malloc(_MAX_PATH);
-    if   (result) GetFullPathName(file,_MAX_PATH,result,NULL);
-    return result ;
-    UNUSED(path);
-}
-#endif
 
 // Command-line parser
 class Options  {
@@ -838,19 +828,13 @@ int main(int argc,const char* argv[])
                 if ( options.verbose ) printf("%s %s ",arg,types[type]) ;
                 if ( type == typeImage ) {
                     time_t t    = readImageTime(std::string(arg)) ;
-#ifdef __APPLE__
-                    char   buffer[1024];
-#else
-                    char* buffer = nullptr;
-#endif
-                    char*  path = realpath(arg,buffer);
-                    if  ( t && path ) {
+                    auto p = std::filesystem::absolute(std::filesystem::path(arg));
+                    std::string path = p.string();
+                    if  ( t && !path.empty() ) {
                         if (options.verbose)
-                            printf("%s %ld %s", path, static_cast<long int>(t), asctime(localtime(&t)));
+                            printf("%s %ld %s", path.c_str(), static_cast<long int>(t), asctime(localtime(&t)));
                         gFiles.push_back(path);
                     }
-                    if (path && path != buffer)
-                        ::free(path);
                 }
                 if ( type == typeUnknown ) {
                     fprintf(stderr,"error: illegal syntax %s\n",arg);

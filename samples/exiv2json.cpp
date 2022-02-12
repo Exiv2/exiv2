@@ -23,6 +23,7 @@
 #include <exiv2/exiv2.hpp>
 #include "Jzon.h"
 
+#include <filesystem>
 #include <iostream>
 #include <iomanip>
 #include <cassert>
@@ -39,20 +40,6 @@
 # ifndef  __MINGW__
 #  define __MINGW__
 # endif
-#endif
-
-#if defined(_MSC_VER) || defined(__MINGW__)
-#include <windows.h>
-#ifndef  PATH_MAX
-# define PATH_MAX 512
-#endif
-const char* realpath(const char* file,char* path)
-{
-    GetFullPathName(file,PATH_MAX,path,NULL);
-    return path;
-}
-#else
-#include <unistd.h>
 #endif
 
 struct Token {
@@ -249,8 +236,7 @@ void fileSystemPush(const char* path,Jzon::Node& nfs)
 {
     auto& fs = dynamic_cast<Jzon::Object&>(nfs);
     fs.Add("path",path);
-    char resolved_path[2000]; // PATH_MAX];
-    fs.Add("realpath",realpath(path,resolved_path));
+    fs.Add("realpath", std::filesystem::absolute(std::filesystem::path(path)).string());
 
     struct stat buf;
     memset(&buf,0,sizeof(buf));
