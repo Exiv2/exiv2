@@ -30,6 +30,7 @@ class Config:
     dyld_library_path   = os.path.join(bin_dir, '../lib')
     ld_library_path     = os.path.join(bin_dir, '../lib')
     data_dir            = os.path.join(exiv2_dir, 'test/data')
+    ref_dir             = os.path.join(data_dir, 'test_reference_files')
     tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
     system_name         = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
     exiv2_http          = 'http://127.0.0.1'
@@ -550,7 +551,7 @@ def reportTest(testname, output: str, encoding=None,forgive=False):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     output               = str(output) + '\n'
     encoding             = encoding or Config.encoding
-    reference_file       = os.path.join(Config.data_dir, '{}.out'.format(testname))
+    reference_file       = os.path.join(Config.ref_dir, '{}.out'.format(testname))
     reference_output     = cat(reference_file, encoding=encoding)
     if reference_output == output:
         return
