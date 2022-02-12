@@ -1,0 +1,12 @@
+Xmp.mwg-kw.Keywords                          XmpText     0  type="Struct"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy         XmpText     0  type="Bag"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[1]      XmpText     0  type="Struct"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[1]/mwg-kw:Keyword XmpText     3  cat  cat
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[1]/mwg-kw:Children XmpText     0  type="Bag"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[1]/mwg-kw:Children[1] XmpText     0  type="Struct"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[1]/mwg-kw:Children[1]/mwg-kw:Keyword XmpText     7  Siamese  Siamese
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[2]      XmpText     0  type="Struct"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[2]/mwg-kw:Keyword XmpText     7  Felidae  Felidae
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[2]/mwg-kw:Children XmpText     0  type="Bag"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[2]/mwg-kw:Children[1] XmpText     0  type="Struct"
+Xmp.mwg-kw.Keywords/mwg-kw:Hierarchy[2]/mwg-kw:Children[1]/mwg-kw:Keyword XmpText     6  Jaguar  Jaguar

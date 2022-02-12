@@ -1,0 +1,64 @@
+Exif.Image.GPSTag                            Long        1  803  803
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.ImageWidth                        Long        1  1536  1536
+Exif.Image.DateTime                          Ascii      20  2014:06:21 08:04:10  2014:06:21 08:04:10
+Exif.Image.Model                             Ascii       6  XT912  XT912
+Exif.Image.ImageLength                       Long        1  2048  2048
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  209  209
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48  2.20
+Exif.Photo.FlashEnergy                       Rational    1  1800/1  1800/1
+Exif.Photo.ExposureTime                      Rational    1  9974/1000000  0.009974 s
+Exif.Photo.ISOSpeedRatings                   Short       1  114  114
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.ExposureIndex                     Rational    1  0/0  0/0
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  0/1  0
+Exif.Photo.FNumber                           Rational    1  24/10  F2.4
+Exif.Photo.ExposureProgram                   Short       1  0  Not defined
+Exif.Photo.MakerNote                         Undefined  52  99 111 109 46 103 111 111 103 108 101 46 97 110 100 114 111 105 100 46 71 111 111 103 108 101 67 97 109 101 114 97 32 50 46 50 46 48 50 52 32 40 49 49 57 53 50 52 50 45 51 48 41  99 111 109 46 103 111 111 103 108 101 46 97 110 100 114 111 105 100 46 71 111 111 103 108 101 67 97 109 101 114 97 32 50 46 50 46 48 50 52 32 40 49 49 57 53 50 52 50 45 51 48 41
+Exif.Photo.ApertureValue                     Rational    1  3/1  F2.8
+Exif.Photo.BrightnessValue                   SRational   1  0/1  0
+Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
+Exif.Photo.ShutterSpeedValue                 SRational   1  7/1  1/128 s
+Exif.Photo.SubjectDistance                   Rational    1  0/1  Unknown
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.FlashpixVersion                   Undefined   4  48 48 48 48  0.00
+Exif.Photo.MeteringMode                      Short       1  1  Average
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.ExposureBiasValue                 SRational   1  0/10  0 EV
+Exif.Photo.PixelYDimension                   Long        1  2048  2048
+Exif.Photo.MaxApertureValue                  Rational    1  3/1  F2.8
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Photo.PixelXDimension                   Long        1  1536  1536
+Exif.Photo.FocalLength                       Rational    1  460/100  4.6 mm
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  34  34.0 mm
+Exif.Photo.DigitalZoomRatio                  Rational    1  65536/65535  1.0
+Exif.Photo.LightSource                       Short       1  2  Fluorescent
+Exif.Photo.GainControl                       Short       1  256  (256)
+Exif.Photo.Flash                             Short       1  16  No, compulsory
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.CustomRendered                    Short       1  1  Custom process
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Image.YResolution                       Rational    1  72/1  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.XResolution                       Rational    1  72/1  72
+Exif.Image.Make                              Ascii       9  Motorola  Motorola
+Exif.Thumbnail.YResolution                   Rational    1  72/1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.XResolution                   Rational    1  72/1  72
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.ImageWidth                    Long        1  160  160
+Exif.Thumbnail.ImageLength                   Long        1  120  120
+Xmp.GFocus.BlurAtInfinity                    XmpText    11  0.018819768  0.018819768
+Xmp.GFocus.FocalDistance                     XmpText     9  16.068678  16.068678
+Xmp.GFocus.FocalPointX                       XmpText     9  0.4351852  0.4351852
+Xmp.GFocus.FocalPointY                       XmpText    10  0.39444447  0.39444447
+Xmp.GImage.Mime                              XmpText    10  image/jpeg  image/jpeg
+Xmp.GDepth.Format                            XmpText    12  RangeInverse  RangeInverse
+Xmp.GDepth.Near                              XmpText    18  10.917767524719238  10.917767524719238
+Xmp.GDepth.Far                               XmpText    17  38.58317565917969  38.58317565917969
+Xmp.GDepth.Mime                              XmpText     9  image/png  image/png
+Xmp.xmpNote.HasExtendedXMP                   XmpText    32  B9AC266F143C5DB7510D1CBEC51C924A  B9AC266F143C5DB7510D1CBEC51C924A

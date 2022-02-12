@@ -1,0 +1,7 @@
+Exif.Image.ExifTag                           Long        1  26  26
+Exif.Photo.UserComment                       Undefined  15  Value 1  Value 1
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  102  102
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10837  10837
+Iptc.Application2.Subject                    String      7  Value 1  Value 1
+Xmp.dc.subject                               XmpBag      1  Value 1  Value 1

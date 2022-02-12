@@ -1,0 +1,56 @@
+Exif.Image.ImageWidth                        Short       1  150  150
+Exif.Image.ImageLength                       Short       1  91  91
+Exif.Image.BitsPerSample                     Short       3  8 8 8  8 8 8
+Exif.Image.PhotometricInterpretation         Short       1  2  RGB
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.SamplesPerPixel                   Short       1  3  3
+Exif.Image.XResolution                       Rational    1  720000/10000  72
+Exif.Image.YResolution                       Rational    1  720000/10000  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      30  Adobe Photoshop CS5 Macintosh  Adobe Photoshop CS5 Macintosh
+Exif.Image.DateTime                          Ascii      20  2011:06:27 21:41:02  2011:06:27 21:41:02
+Exif.Image.ExifTag                           Long        1  232  232
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49  2.21
+Exif.Photo.ColorSpace                        Short       1  65535  Uncalibrated
+Exif.Photo.PixelXDimension                   Long        1  150  150
+Exif.Photo.PixelYDimension                   Long        1  91  91
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  72/1  72
+Exif.Thumbnail.YResolution                   Rational    1  72/1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  382  382
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0  0
+Iptc.Envelope.CharacterSet                   String      3  %G  %G
+Iptc.Application2.RecordVersion              Short       1  0  0
+Xmp.crs.AlreadyApplied                       XmpText     4  True  True
+Xmp.photoshop.ColorMode                      XmpText     1  3  3
+Xmp.xmp.CreateDate                           XmpText    25  2011-06-27T21:35:33+02:00  2011-06-27T21:35:33+02:00
+Xmp.xmp.ModifyDate                           XmpText    25  2011-06-27T21:41:02+02:00  2011-06-27T21:41:02+02:00
+Xmp.xmp.MetadataDate                         XmpText    25  2011-06-27T21:41:02+02:00  2011-06-27T21:41:02+02:00
+Xmp.dc.format                                XmpText    31  application/vnd.adobe.photoshop  application/vnd.adobe.photoshop
+Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:02801174072068119A95CE0AAC0F98BE  xmp.iid:02801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved  saved
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068119A95CE0AAC0F98BE  xmp.iid:01801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-06-27T21:41:02+02:00  2011-06-27T21:41:02+02:00
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /  /
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     9  converted  converted
+Xmp.xmpMM.History[2]/stEvt:parameters        XmpText    50  from image/jpeg to application/vnd.adobe.photoshop  from image/jpeg to application/vnd.adobe.photoshop
+Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]/stEvt:action            XmpText     7  derived  derived
+Xmp.xmpMM.History[3]/stEvt:parameters        XmpText    60  converted from image/jpeg to application/vnd.adobe.photoshop  converted from image/jpeg to application/vnd.adobe.photoshop
+Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved  saved
+Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119A95CE0AAC0F98BE  xmp.iid:02801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-06-27T21:41:02+02:00  2011-06-27T21:41:02+02:00
+Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh  Adobe Photoshop CS5 Macintosh
+Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /  /
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:01801174072068119A95CE0AAC0F98BE  xmp.iid:01801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE
+Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE

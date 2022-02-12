@@ -1,0 +1,50 @@
+Exif.Image.ImageWidth                        Long        1  360  360
+Exif.Image.ImageLength                       Long        1  216  216
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  720000/10000  72
+Exif.Image.YResolution                       Rational    1  720000/10000  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.DateTime                          Ascii      20  2005:09:08 06:09:51  2005:09:08 06:09:51
+Exif.Image.ImageDescription                  Ascii      88  XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.  XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
+Exif.Image.Make                              Ascii       6  Nikon  Nikon
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  360  360
+Exif.Photo.PixelYDimension                   Long        1  216  216
+Exif.Photo.DateTimeDigitized                 Ascii      20  2005:09:08 06:07:40  2005:09:08 06:07:40
+Iptc.Application2.ObjectName                 String     28  Blue Square Test File - .jpg  Blue Square Test File - .jpg
+Iptc.Envelope.CharacterSet                   String      3  %G  %G
+Iptc.Application2.Keywords                   String      3  XMP  XMP
+Iptc.Application2.Keywords                   String     11  Blue Square  Blue Square
+Iptc.Application2.Keywords                   String      9  test file  test file
+Iptc.Application2.Keywords                   String      9  Photoshop  Photoshop
+Iptc.Application2.Keywords                   String      4  .jpg  .jpg
+Iptc.Application2.DigitizationDate           Date        8  2005-09-07  2005-09-07
+Iptc.Application2.Caption                    String     87  XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.  XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
+Xmp.dc.format                                XmpText    10  image/jpeg  image/jpeg
+Xmp.dc.title                                 LangAlt     3  lang="x-default" Blue Square Test File - .jpg, lang="en-US" Blue Square Test File - .jpg, lang="de-CH" Blaues Quadrat Test Datei - .jpg  lang="x-default" Blue Square Test File - .jpg, lang="en-US" Blue Square Test File - .jpg, lang="de-CH" Blaues Quadrat Test Datei - .jpg
+Xmp.dc.description                           LangAlt     1  lang="x-default" XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.  lang="x-default" XMPFiles BlueSquare test file, created in Photoshop CS2, saved as .psd, .jpg, and .tif.
+Xmp.dc.subject                               XmpBag      5  XMP, Blue Square, test file, Photoshop, .jpg  XMP, Blue Square, test file, Photoshop, .jpg
+Xmp.xmp.CreatorTool                          XmpText    29  Adobe Photoshop CS2 Macintosh  Adobe Photoshop CS2 Macintosh
+Xmp.xmp.CreateDate                           XmpText    25  2005-09-07T15:07:40-07:00  2005-09-07T15:07:40-07:00
+Xmp.xmp.ModifyDate                           XmpText    25  2005-09-07T15:09:51-07:00  2005-09-07T15:09:51-07:00
+Xmp.xmp.MetadataDate                         XmpText    25  2006-04-10T13:37:10-07:00  2006-04-10T13:37:10-07:00
+Xmp.xmpMM.DocumentID                         XmpText    37  uuid:9A3B7F52214211DAB6308A7391270C13  uuid:9A3B7F52214211DAB6308A7391270C13
+Xmp.xmpMM.InstanceID                         XmpText    37  uuid:B59AC1B3214311DAB6308A7391270C13  uuid:B59AC1B3214311DAB6308A7391270C13
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    37  uuid:9A3B7F4F214211DAB6308A7391270C13  uuid:9A3B7F4F214211DAB6308A7391270C13
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    37  uuid:9A3B7F4E214211DAB6308A7391270C13  uuid:9A3B7F4E214211DAB6308A7391270C13
+Xmp.photoshop.ColorMode                      XmpText     1  3  3
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1  sRGB IEC61966-2.1
+Xmp.tiff.Orientation                         XmpText     1  1  top, left
+Xmp.tiff.XResolution                         XmpText    12  720000/10000  72
+Xmp.tiff.YResolution                         XmpText    12  720000/10000  72
+Xmp.tiff.ResolutionUnit                      XmpText     1  2  inch
+Xmp.tiff.ImageWidth                          XmpText     3  360  360
+Xmp.tiff.ImageLength                         XmpText     3  216  216
+Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;D0485928256FC8D17D036C26919E106D  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;D0485928256FC8D17D036C26919E106D
+Xmp.tiff.Make                                XmpText     5  Nikon  Nikon
+Xmp.tiff.BitsPerSample                       XmpSeq      3  8, 8, 8  8, 8, 8
+Xmp.exif.PixelXDimension                     XmpText     3  360  360
+Xmp.exif.PixelYDimension                     XmpText     3  216  216
+Xmp.exif.ColorSpace                          XmpText     1  1  sRGB
+Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;76DBD9F0A5E7ED8F62B4CE8EFA6478B4  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;76DBD9F0A5E7ED8F62B4CE8EFA6478B4

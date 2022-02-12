@@ -1,0 +1,53 @@
+Exif.Image.ImageWidth                        Long        1  120  120
+Exif.Image.ImageLength                       Long        1  120  120
+Exif.Image.BitsPerSample                     Short       3  8 8 8  8 8 8
+Exif.Image.ImageDescription                  Ascii      18  Created with GIMP  Created with GIMP
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      12  GIMP 2.99.5  GIMP 2.99.5
+Exif.Image.DateTime                          Ascii      20  2021:02:13 21:25:32  2021:02:13 21:25:32
+Exif.Image.ExifTag                           Long        1  218  218
+Exif.Photo.UserComment                       Undefined  25  Created with GIMP  Created with GIMP
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Image.GPSTag                            Long        1  274  274
+Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N  North
+Exif.GPSInfo.GPSLatitude                     Rational    3  7/1 0/1 0/1000  7 deg 0' 0.00"
+Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  E  East
+Exif.GPSInfo.GPSLongitude                    Rational    3  0/1 0/1 0/1000  0 deg 0' 0.00"
+Exif.GPSInfo.GPSAltitudeRef                  Byte        1  1  Below sea level
+Exif.GPSInfo.GPSAltitude                     Rational    1  1000000/100  10000.0 m
+Xmp.iptcExt.DigitalSourceType                XmpText    61  http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture  Digital capture
+Xmp.iptcExt.LocationCreated                  XmpBag      0  
+Xmp.iptcExt.LocationShown                    XmpBag      0  
+Xmp.iptcExt.ArtworkOrObject                  XmpBag      0  
+Xmp.iptcExt.RegistryId                       XmpBag      0  
+Xmp.xmpMM.DocumentID                         XmpText    52  gimp:docid:gimp:e38231ee-2d28-42e6-b17e-6fa80c9fd85b  gimp:docid:gimp:e38231ee-2d28-42e6-b17e-6fa80c9fd85b
+Xmp.xmpMM.InstanceID                         XmpText    44  xmp.iid:34774f89-42e3-4411-a691-f8cdb5b11def  xmp.iid:34774f89-42e3-4411-a691-f8cdb5b11def
+Xmp.xmpMM.OriginalDocumentID                 XmpText    44  xmp.did:e2129b55-045f-4085-bbd2-e11d11edfa0c  xmp.did:e2129b55-045f-4085-bbd2-e11d11edfa0c
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved  saved
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     9  /metadata  /metadata
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    44  xmp.iid:928b36e2-0239-4616-847a-eff7a31816e3  xmp.iid:928b36e2-0239-4616-847a-eff7a31816e3
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    19  GIMP 2.99.5 (Linux)  GIMP 2.99.5 (Linux)
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2021-02-13T21:24:26+01:00  2021-02-13T21:24:26+01:00
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved  saved
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /  /
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    44  xmp.iid:23f267c5-c40a-45c8-947d-11313b4881c1  xmp.iid:23f267c5-c40a-45c8-947d-11313b4881c1
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    19  GIMP 2.99.5 (Linux)  GIMP 2.99.5 (Linux)
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2021-02-13T21:25:41+01:00  2021-02-13T21:25:41+01:00
+Xmp.plus.ModelReleaseStatus                  XmpText    38  http://ns.useplus.org/ldf/vocab/MR-NON  None
+Xmp.plus.ImageSupplier                       XmpSeq      0  
+Xmp.plus.ImageCreator                        XmpSeq      0  
+Xmp.plus.CopyrightOwner                      XmpSeq      0  
+Xmp.plus.Licensor                            XmpSeq      0  
+Xmp.GIMP.API                                 XmpText     3  3.0  3.0
+Xmp.GIMP.Platform                            XmpText     5  Linux  Linux
+Xmp.GIMP.TimeStamp                           XmpText    16  1613247941462908  1613247941462908
+Xmp.GIMP.Version                             XmpText     6  2.99.5  2.99.5
+Xmp.dc.Format                                XmpText    10  image/avif  image/avif
+Xmp.dc.creator                               XmpSeq      1  type="Seq" me  type="Seq" me
+Xmp.dc.description                           LangAlt     1  lang="x-default" bla bla bla  lang="x-default" bla bla bla
+Xmp.xmp.CreatorTool                          XmpText     4  GIMP  GIMP

@@ -1,0 +1,39 @@
+Error: Directory Image: IFD entry 25 lies outside of the data buffer.
+Error: Offset of directory Image, entry 0x0102 is out of bounds: Offset = 0x00000152; truncating the entry
+Error: Offset of directory Image, entry 0x010e is out of bounds: Offset = 0x0000015a; truncating the entry
+Error: Offset of directory Image, entry 0x010f is out of bounds: Offset = 0x000002ee; truncating the entry
+Error: Offset of directory Image, entry 0x0110 is out of bounds: Offset = 0x00000300; truncating the entry
+Warning: Directory Image, entry 0x0111: Strip 0 is outside of the data area; ignored.
+Error: Offset of directory Image, entry 0x011a is out of bounds: Offset = 0x0000030a; truncating the entry
+Error: Offset of directory Image, entry 0x011b is out of bounds: Offset = 0x00000312; truncating the entry
+Error: Offset of directory Image, entry 0x0131 is out of bounds: Offset = 0x0000031a; truncating the entry
+Error: Offset of directory Image, entry 0x0132 is out of bounds: Offset = 0x00000338; truncating the entry
+Error: Offset of directory Image, entry 0x013b is out of bounds: Offset = 0x0000034c; truncating the entry
+Error: Offset of directory Image, entry 0x0153 is out of bounds: Offset = 0x0000036e; truncating the entry
+Error: Offset of directory Image, entry 0x02bc is out of bounds: Offset = 0x00000376; truncating the entry
+Error: Offset of directory Image, entry 0x83bb is out of bounds: Offset = 0x000016ac; truncating the entry
+Exif.Image.ImageWidth                        Short       1  200  200
+Exif.Image.ImageLength                       Short       1  130  130
+Exif.Image.BitsPerSample                     Short       0  
+Exif.Image.Compression                       Short       1  1  Uncompressed
+Exif.Image.PhotometricInterpretation         Short       1  2  RGB
+Exif.Image.ImageDescription                  Ascii       0  
+Exif.Image.Make                              Ascii       0  
+Exif.Image.Model                             Ascii       0  
+Exif.Image.StripOffsets                      Long        1  10466  10466
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.SamplesPerPixel                   Short       1  4  4
+Exif.Image.RowsPerStrip                      Short       1  130  130
+Exif.Image.StripByteCounts                   Long        1  104000  104000
+Exif.Image.XResolution                       Rational    0  
+Exif.Image.YResolution                       Rational    0  
+Exif.Image.PlanarConfiguration               Short       1  1  Chunky
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii       0  
+Exif.Image.DateTime                          Ascii       0  
+Exif.Image.Artist                            Ascii       0  
+Exif.Image.ExtraSamples                      Short       1  1  1
+Exif.Image.SampleFormat                      Short       0  
+Exif.Image.XMLPacket                         Byte        0  
+Exif.Image.IPTCNAA                           Long        0  
+Exif.Image.InterColorProfile                 Long        1  9880  9880

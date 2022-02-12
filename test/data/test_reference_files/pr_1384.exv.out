@@ -1,0 +1,99 @@
+Exif.Image.NewSubfileType                    Long        1  1  Thumbnail/Preview image
+Exif.Image.ImageWidth                        Long        1  256  256
+Exif.Image.ImageLength                       Long        1  171  171
+Exif.Image.BitsPerSample                     Short       3  8 8 8  8 8 8
+Exif.Image.Compression                       Short       1  7  JPEG
+Exif.Image.Make                              Ascii      18  NIKON CORPORATION  NIKON CORPORATION
+Exif.Image.Model                             Ascii      10  NIKON Z 5  NIKON Z 5
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.SamplesPerPixel                   Short       1  3  3
+Exif.Image.PlanarConfiguration               Short       1  1  Chunky
+Exif.Image.Software                          Ascii      35  Adobe DNG Converter 13.0 (Windows)  Adobe DNG Converter 13.0 (Windows)
+Exif.Image.DateTime                          Ascii      20  2020:10:27 18:21:44  2020:10:27 18:21:44
+Exif.Image.Artist                            Ascii      14  Jonathan Lieb  Jonathan Lieb
+Exif.Image.YCbCrCoefficients                 Rational    3  299/1000 587/1000 114/1000  299/1000 587/1000 114/1000
+Exif.Image.YCbCrSubSampling                  Short       2  1 1  1 1
+Exif.Image.YCbCrPositioning                  Short       1  2  Co-sited
+Exif.Image.ReferenceBlackWhite               Rational    6  0/1 255/1 128/1 255/1 128/1 255/1  0/1 255/1 128/1 255/1 128/1 255/1
+Exif.Image.ExifTag                           Long        1  1694  1694
+Exif.Photo.ExposureTime                      Rational    1  1/640  1/640 s
+Exif.Photo.FNumber                           Rational    1  18/10  F1.8
+Exif.Photo.ExposureProgram                   Short       1  1  Manual
+Exif.Photo.ISOSpeedRatings                   Short       1  400  400
+Exif.Photo.SensitivityType                   Short       1  2  2
+Exif.Photo.RecommendedExposureIndex          Long        1  400  400
+Exif.Photo.ExifVersion                       Undefined   4  48 50 51 49  2.31
+Exif.Photo.DateTimeOriginal                  Ascii      20  2020:10:25 11:11:43  2020:10:25 11:11:43
+Exif.Photo.DateTimeDigitized                 Ascii      20  2020:10:25 11:11:43  2020:10:25 11:11:43
+Exif.Photo.OffsetTime                        Ascii       7  +00:00  +00:00
+Exif.Photo.OffsetTimeOriginal                Ascii       7  +02:00  +02:00
+Exif.Photo.OffsetTimeDigitized               Ascii       7  +02:00  +02:00
+Exif.Photo.ShutterSpeedValue                 SRational   1  9321928/1000000  1/640 s
+Exif.Photo.ApertureValue                     Rational    1  1695994/1000000  F1.8
+Exif.Photo.ExposureBiasValue                 SRational   1  0/6  0 EV
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  0  No flash
+Exif.Photo.FocalLength                       Rational    1  500/10  50.0 mm
+Exif.Photo.SubSecTimeOriginal                Ascii       3  86  86
+Exif.Photo.SubSecTimeDigitized               Ascii       3  86  86
+Exif.Photo.FocalPlaneXResolution             Rational    1  55205518/32768  1684.74
+Exif.Photo.FocalPlaneYResolution             Rational    1  55205518/32768  1684.74
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  3  cm
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.CFAPattern                        Undefined   8  2 0 2 0 0 1 1 2  2 0 2 0 0 1 1 2
+Exif.Photo.CustomRendered                    Short       1  1  Custom process
+Exif.Photo.ExposureMode                      Short       1  1  Manual
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  50  50.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.GainControl                       Short       1  0  None
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
+Exif.Photo.BodySerialNumber                  Ascii       8  6009148  6009148
+Exif.Photo.LensSpecification                 Rational    4  500/10 500/10 180/100 180/100  500/10 500/10 180/100 180/100
+Exif.Photo.LensMake                          Ascii       6  NIKON  NIKON
+Exif.Photo.LensModel                         Ascii      22  NIKKOR Z 50mm f/1.8 S  NIKKOR Z 50mm f/1.8 S
+Exif.Photo.LensSerialNumber                  Ascii       9  20043925  20043925
+Exif.Image.ImageNumber                       Long        1  511  511
+Exif.Image.DNGVersion                        Byte        4  1 4 0 0  1 4 0 0
+Exif.Image.DNGBackwardVersion                Byte        4  1 4 0 0  1 4 0 0
+Exif.Image.UniqueCameraModel                 Ascii      10  Nikon Z 5  Nikon Z 5
+Exif.Image.ColorMatrix1                      SRational   9  10236/10000 -4532/10000 397/10000 -3403/10000 10623/10000 3223/10000 -242/10000 968/10000 8530/10000  10236/10000 -4532/10000 397/10000 -3403/10000 10623/10000 3223/10000 -242/10000 968/10000 8530/10000
+Exif.Image.ColorMatrix2                      SRational   9  8695/10000 -2558/10000 -648/10000 -5015/10000 12711/10000 2575/10000 -1279/10000 2215/10000 7514/10000  8695/10000 -2558/10000 -648/10000 -5015/10000 12711/10000 2575/10000 -1279/10000 2215/10000 7514/10000
+Exif.Image.CameraCalibration1                SRational   9  10000/10000 0/10000 0/10000 0/10000 10000/10000 0/10000 0/10000 0/10000 10000/10000  10000/10000 0/10000 0/10000 0/10000 10000/10000 0/10000 0/10000 0/10000 10000/10000
+Exif.Image.CameraCalibration2                SRational   9  10000/10000 0/10000 0/10000 0/10000 10000/10000 0/10000 0/10000 0/10000 10000/10000  10000/10000 0/10000 0/10000 0/10000 10000/10000 0/10000 0/10000 0/10000 10000/10000
+Exif.Image.AnalogBalance                     Rational    3  1000000/1000000 1000000/1000000 1000000/1000000  1000000/1000000 1000000/1000000 1000000/1000000
+Exif.Image.AsShotNeutral                     Rational    3  605917/1000000 1000000/1000000 619855/1000000  605917/1000000 1000000/1000000 619855/1000000
+Exif.Image.BaselineExposure                  SRational   1  20/100  20/100
+Exif.Image.BaselineNoise                     Rational    1  60/100  60/100
+Exif.Image.BaselineSharpness                 Rational    1  100/100  100/100
+Exif.Image.LinearResponseLimit               Rational    1  100/100  100/100
+Exif.Image.CameraSerialNumber                Ascii       8  6009148  6009148
+Exif.Image.LensInfo                          Rational    4  500/10 500/10 180/100 180/100  500/10 500/10 180/100 180/100
+Exif.Image.ShadowScale                       Rational    1  1/1  1/1
+Exif.Image.CalibrationIlluminant1            Short       1  17  Standard light A
+Exif.Image.CalibrationIlluminant2            Short       1  21  D65
+Exif.Image.RawDataUniqueID                   Byte       16  246 28 50 83 226 117 248 140 87 169 68 176 77 205 225 237  246 28 50 83 226 117 248 140 87 169 68 176 77 205 225 237
+Exif.Image.OriginalRawFileName               Ascii      13  DSC_0517.NEF  DSC_0517.NEF
+Exif.Image.CameraCalibrationSignature        Ascii      10  com.adobe  com.adobe
+Exif.Image.ProfileCalibrationSignature       Ascii      10  com.adobe  com.adobe
+Exif.Image.ProfileName                       Ascii      15  Adobe Standard  Adobe Standard
+Exif.Image.ProfileHueSatMapDims              Long        3  90 30 1  90 30 1
+Exif.Image.ProfileEmbedPolicy                Long        1  0  Allow copying
+Exif.Image.ProfileCopyright                  Ascii      35  Copyright 2020 Adobe Systems, Inc.  Copyright 2020 Adobe Systems, Inc.
+Exif.Image.ForwardMatrix1                    SRational   9  4883/10000 3312/10000 1449/10000 2274/10000 7273/10000 453/10000 1021/10000 8/10000 7222/10000  4883/10000 3312/10000 1449/10000 2274/10000 7273/10000 453/10000 1021/10000 8/10000 7222/10000
+Exif.Image.ForwardMatrix2                    SRational   9  5255/10000 2802/10000 1586/10000 3136/10000 6380/10000 484/10000 1583/10000 26/10000 6642/10000  5255/10000 2802/10000 1586/10000 3136/10000 6380/10000 484/10000 1583/10000 26/10000 6642/10000
+Exif.Image.PreviewApplicationName            Ascii      20  Adobe DNG Converter  Adobe DNG Converter
+Exif.Image.PreviewApplicationVersion         Ascii       5  13.0  13.0
+Exif.Image.PreviewSettingsDigest             Byte       16  4 179 48 246 187 104 176 174 31 227 119 200 227 53 191 247  4 179 48 246 187 104 176 174 31 227 119 200 227 53 191 247
+Exif.Image.PreviewColorSpace                 Long        1  2  sRGB
+Exif.Image.PreviewDateTime                   Ascii      21  2020-10-27T18:21:44Z  2020-10-27T18:21:44Z
+Exif.Image.ProfileLookTableDims              Long        3  36 8 16  36 8 16
+Exif.Image.NoiseProfile                      Double      6  5.97817959868772e-05 4.47164897422835e-08 4.96894789044022e-05 3.12794232334203e-08 5.45708400091554e-05 4.13915666830811e-08  5.97817959868772e-05 4.47164897422835e-08 4.96894789044022e-05 3.12794232334203e-08 5.45708400091554e-05 4.13915666830811e-08
+Exif.Image.OriginalDefaultFinalSize          Long        2  6016 4016  6016 4016
+Exif.Image.NewRawImageDigest                 Byte       16  8 25 131 126 230 250 109 163 147 174 8 0 167 215 39 21  8 25 131 126 230 250 109 163 147 174 8 0 167 215 39 21

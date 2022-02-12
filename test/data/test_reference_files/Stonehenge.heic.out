@@ -1,0 +1,76 @@
+Exif.Image.ImageDescription                  Ascii      13  Classic View  Classic View
+Exif.Image.Make                              Ascii      18  NIKON CORPORATION  NIKON CORPORATION
+Exif.Image.Model                             Ascii      12  NIKON D5300  NIKON D5300
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      10  Ver.1.00   Ver.1.00 
+Exif.Image.DateTime                          Ascii      20  2015:07:16 20:25:28  2015:07:16 20:25:28
+Exif.Image.TileWidth                         Long        1  512  512
+Exif.Image.TileLength                        Long        1  512  512
+Exif.Image.ExifTag                           Long        1  260  260
+Exif.Photo.ExposureTime                      Rational    1  1/400  1/400 s
+Exif.Photo.FNumber                           Rational    1  10/1  F10
+Exif.Photo.ExposureProgram                   Short       1  0  Not defined
+Exif.Photo.ISOSpeedRatings                   Short       1  200  200
+Exif.Photo.SensitivityType                   Short       1  2  2
+Exif.Photo.ExifVersion                       Undefined   4  48 50 51 48  2.30
+Exif.Photo.DateTimeOriginal                  Ascii      20  2015:07:16 15:38:54  2015:07:16 15:38:54
+Exif.Photo.DateTimeDigitized                 Ascii      20  2015:07:16 15:38:54  2015:07:16 15:38:54
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  2/1  2
+Exif.Photo.ExposureBiasValue                 SRational   1  0/1  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  43/10  F4.4
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  16  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  44/1  44.0 mm
+Exif.Photo.UserComment                       Undefined  20  charset=Ascii Classic View  charset=Ascii Classic View
+Exif.Photo.SubSecTime                        Ascii       3  00  00
+Exif.Photo.SubSecTimeOriginal                Ascii       3  00  00
+Exif.Photo.SubSecTimeDigitized               Ascii       3  00  00
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  6000  6000
+Exif.Photo.PixelYDimension                   Long        1  4000  4000
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0  Normal process
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.DigitalZoomRatio                  Rational    1  1/1  1.0
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  66  66.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.GainControl                       Short       1  0  None
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
+Exif.Photo.ImageUniqueID                     Ascii      33  090caaf2c085f3e102513b24750041aa  090caaf2c085f3e102513b24750041aa
+Exif.Image.GPSTag                            Long        1  884  884
+Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0
+Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N  North
+Exif.GPSInfo.GPSLatitude                     Rational    3  51/1 10/1 4181/100  51 deg 10' 41.81"
+Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  W  West
+Exif.GPSInfo.GPSLongitude                    Rational    3  1/1 49/1 3590/100  1 deg 49' 35.90"
+Exif.GPSInfo.GPSAltitudeRef                  Byte        1  0  Above sea level
+Exif.GPSInfo.GPSAltitude                     Rational    1  97/1  97 m
+Exif.GPSInfo.GPSSatellites                   Ascii       3  09  09
+Exif.GPSInfo.GPSMapDatum                     Ascii      17  WGS-84            WGS-84          
+Xmp.aux.SerialNumber                         XmpText     7  2567806  2567806
+Xmp.aux.FlashCompensation                    XmpText     3  0/1  0/1
+Xmp.aux.LensInfo                             XmpText    20  18/1 250/1 7/2 63/10  18/1 250/1 7/2 63/10
+Xmp.aux.Lens                                 XmpText    23  18.0-250.0 mm f/3.5-6.3  18.0-250.0 mm f/3.5-6.3
+Xmp.aux.ImageNumber                          XmpText     4  9608  9608
+Xmp.aux.LensID                               XmpText    20  -7910804157571773682  -7910804157571773682
+Xmp.xmp.Rating                               XmpText     1  0  0
+Xmp.xmp.CreatorTool                          XmpText     9  Ver.1.00   Ver.1.00 
+Xmp.xmp.CreateDate                           XmpText    22  2015-07-16T15:38:54.00  2015-07-16T15:38:54.00
+Xmp.xmp.ModifyDate                           XmpText    28  2015-07-16T20:25:28.00+01:00  2015-07-16T20:25:28.00+01:00
+Xmp.cm2e.Father                              XmpText    11  Robin Mills  Robin Mills
+Xmp.cm2e.Family                              XmpBag      0  
+Xmp.photoshop.DateCreated                    XmpText    22  2015-07-16T15:38:54.00  2015-07-16T15:38:54.00
+Xmp.dc.description                           LangAlt     1  lang="x-default" Classic View  lang="x-default" Classic View
+Xmp.dc.Family                                XmpBag      1  Robin  Robin

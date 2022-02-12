@@ -1,0 +1,62 @@
+Warning: Directory Canon, entry 0x0200 has unknown Exif (TIFF) type 768; setting type size 1.
+Exif.Image.ProcessingSoftware                Ascii      20  digiKam-0.9.4-beta4  digiKam-0.9.4-beta4
+Exif.Image.ImageWidth                        Long        1  2888  2888
+Exif.Image.ImageLength                       Long        1  1700  1700
+Exif.Image.DocumentName                      Ascii      13  Chambord.jpg  Chambord.jpg
+Exif.Image.Make                              Ascii       6  Canon  Canon
+Exif.Image.Model                             Ascii      14  Canon EOS 40D  Canon EOS 40D
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  72/1  72
+Exif.Image.YResolution                       Rational    1  72/1  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      11  GIMP 2.4.5  GIMP 2.4.5
+Exif.Image.DateTime                          Ascii      20  2008:04:14 08:24:04  2008:04:14 08:24:04
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.Rating                            SLong       1  3  3
+Exif.Image.RatingPercent                     SLong       1  50  50
+Exif.Image.ExifTag                           Long        1  320  320
+Exif.Photo.ExposureTime                      Rational    1  1/250  1/250 s
+Exif.Photo.FNumber                           Rational    1  11/1  F11
+Exif.Photo.ExposureProgram                   Short       1  2  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  400  400
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 49  2.21
+Exif.Photo.DateTimeOriginal                  Ascii      20  2008:04:01 13:40:03  2008:04:01 13:40:03
+Exif.Photo.DateTimeDigitized                 Ascii      20  2008:04:01 13:40:03  2008:04:01 13:40:03
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.ShutterSpeedValue                 SRational   1  8/1  1/256 s
+Exif.Photo.ApertureValue                     Rational    1  14000/2001  F11
+Exif.Photo.ExposureBiasValue                 SRational   1  1/3  +1/3 EV
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.Flash                             Short       1  16  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  10/1  10.0 mm
+Exif.Photo.MakerNote                         Undefined  18  0 1 2 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0  0 1 2 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.MakerNote.Offset                        Long        1  798  798
+Exif.MakerNote.ByteOrder                     Ascii       3  MM  MM
+Exif.Photo.UserComment                       Undefined  38  Chateaux de la Loire, Chambord  Chateaux de la Loire, Chambord
+Exif.Photo.SubSecTime                        Ascii       3  81  81
+Exif.Photo.SubSecTimeOriginal                Ascii       3  81  81
+Exif.Photo.SubSecTimeDigitized               Ascii       3  81  81
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  2888  2888
+Exif.Photo.PixelYDimension                   Long        1  1700  1700
+Exif.Photo.FocalPlaneXResolution             Rational    1  324000/73  4438.36
+Exif.Photo.FocalPlaneYResolution             Rational    1  720247/162  4445.97
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  2  inch
+Exif.Photo.CustomRendered                    Short       1  0  Normal process
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Image.GPSTag                            Long        1  870  870
+Exif.GPSInfo.GPSVersionID                    Byte        4  2 0 0 0  2.0.0.0
+Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  N  North
+Exif.GPSInfo.GPSLatitude                     Rational    3  47/1 36/1 2901/50  47 deg 36' 58.02"
+Exif.GPSInfo.GPSLongitudeRef                 Ascii       2  E  East
+Exif.GPSInfo.GPSLongitude                    Rational    3  1/1 31/1 47/50  1 deg 31' 0.94"
+Exif.GPSInfo.GPSAltitudeRef                  Byte        1  0  Above sea level
+Exif.GPSInfo.GPSAltitude                     Rational    1  86/1  86 m
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1058  1058
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4492  4492

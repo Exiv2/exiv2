@@ -496,6 +496,7 @@ class Executer:
         # Extract stdout and stderr
         if self.compatible_output:
             output      = [i.replace(b'\r\n', b'\n')    for i in output]   # Fix dos line-endings
+            output      = [i.replace(b'\r', b'\n')      for i in output]   # we only want \n new lines
             output      = [i.replace(b'\\', rb'/')      for i in output]   # Fix dos path separators
         if self.decode_output:
             output      = [i.decode(self.encoding)      for i in output]
