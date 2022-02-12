@@ -1108,16 +1108,16 @@ namespace Exiv2 {
             return os << value;
         }
 
-        if      (value.toLong(0) == -1 && value.toLong(1) == -1 && value.toLong(2) == 1) os << _("Low Key");
-        else if (value.toLong(0) ==  0 && value.toLong(1) == -1 && value.toLong(2) == 1) os << _("Normal");
-        else if (value.toLong(0) ==  1 && value.toLong(1) == -1 && value.toLong(2) == 1) os << _("High Key");
-        else os << value.toLong(0) << " " << value.toLong(1) << " " << value.toLong(2);
+        if      (value.toInt64(0) == -1 && value.toInt64(1) == -1 && value.toInt64(2) == 1) os << _("Low Key");
+        else if (value.toInt64(0) ==  0 && value.toInt64(1) == -1 && value.toInt64(2) == 1) os << _("Normal");
+        else if (value.toInt64(0) ==  1 && value.toInt64(1) == -1 && value.toInt64(2) == 1) os << _("High Key");
+        else os << value.toInt64(0) << " " << value.toInt64(1) << " " << value.toInt64(2);
 
         if (value.count() == 4) {
-            switch (value.toLong(3)) {
+            switch (value.toInt64(3)) {
                 case 0: os << ", " << _("User-Selected"); break;
                 case 1: os << ", " << _("Auto-Override"); break;
-                default: os << value.toLong(3); break;
+                default: os << value.toInt64(3); break;
             }
         }
         return os;
@@ -1128,17 +1128,17 @@ namespace Exiv2 {
     {
         if (   value.count() != 3
                || value.typeId() != signedShort
-               || value.toLong(1) != -2
-               || value.toLong(2) != 1) {
+               || value.toInt64(1) != -2
+               || value.toInt64(2) != 1) {
             return os << value;
         }
 
-        switch (value.toLong(0)) {
+        switch (value.toInt64(0)) {
             case -2: os << _("Off"); break;
             case -1: os << _("Low"); break;
             case  0: os << _("Standard"); break;
             case  1: os << _("High"); break;
-            default: os << value.toLong(0); break;
+            default: os << value.toInt64(0); break;
         }
 
         return os;
@@ -1149,7 +1149,7 @@ namespace Exiv2 {
         if (value.count() != 3 || value.typeId() != unsignedLong) {
             return os << value;
         }
-        long l0 = value.toLong(0);
+        const auto l0 = value.toInt64(0);
         switch (l0) {
         case 0: os << _("Normal"); break;
         case 2: os << _("Fast"); break;
@@ -1158,12 +1158,12 @@ namespace Exiv2 {
         }
         if (l0 != 0) {
             os << ", ";
-            long l1 = value.toLong(1);
+            const auto l1 = value.toInt64(1);
             os << _("Sequence number") << " " << l1;
         }
         if (l0 != 0 && l0 != 2) {
             os << ", ";
-            long l2 = value.toLong(2);
+            const auto l2 = value.toInt64(2);
             switch (l2) {
             case 1: os << _("Left to right"); break;
             case 2: os << _("Right to left"); break;
@@ -1199,7 +1199,7 @@ namespace Exiv2 {
             return os << value;
         }
         if (value.count() == 1) {
-            auto l0 = static_cast<short>(value.toLong(0));
+            auto l0 = static_cast<short>(value.toInt64(0));
             if (l0 == 1) {
                 os << _("Auto");
             }
@@ -1208,8 +1208,8 @@ namespace Exiv2 {
             }
         }
         else if (value.count() == 2) {
-            auto l0 = static_cast<short>(value.toLong(0));
-            auto l1 = static_cast<short>(value.toLong(1));
+            auto l0 = static_cast<short>(value.toInt64(0));
+            auto l1 = static_cast<short>(value.toInt64(1));
             if (l0 == 1) {
                 switch (l1) {
                 case 0: os << _("Auto"); break;
@@ -1380,9 +1380,9 @@ namespace Exiv2 {
             return os << value;
         }
 
-        byte v0 = static_cast<byte>(value.toLong(0));
-        byte v2 = static_cast<byte>(value.toLong(2));
-        byte v3 = static_cast<byte>(value.toLong(3));
+        byte v0 = static_cast<byte>(value.toInt64(0));
+        byte v2 = static_cast<byte>(value.toInt64(2));
+        byte v3 = static_cast<byte>(value.toInt64(3));
 
         for (auto&& type : lensTypes) {
             if (type.val[0] == v0 && type.val[1] == v2 && type.val[2] == v3) {
@@ -1401,7 +1401,7 @@ namespace Exiv2 {
 
         char ch;
         int size = value.size();
-        for (int i = 0; i < size && ((ch = static_cast<char>(value.toLong(i))) != '\0'); i++) {
+        for (int i = 0; i < size && ((ch = static_cast<char>(value.toInt64(i))) != '\0'); i++) {
             os << ch;
         }
         return os;
@@ -1426,8 +1426,8 @@ namespace Exiv2 {
             return os << value;
         }
 
-        byte v0 = static_cast<byte>(value.toLong(0));
-        byte v2 = static_cast<byte>(value.toLong(2));
+        byte v0 = static_cast<byte>(value.toInt64(0));
+        byte v2 = static_cast<byte>(value.toInt64(2));
 
         for (auto&& model : extenderModels) {
             if (model.val[0] == v0 && model.val[1] == v2) {
@@ -1467,13 +1467,13 @@ namespace Exiv2 {
         if (value.count() < 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
         }
-        auto v = static_cast<uint16_t>(value.toLong(0));
+        auto v = static_cast<uint16_t>(value.toInt64(0));
 
         // If value 2 is present, it is used instead of value 1.
         if (value.count() > 1) {
             std::string p;  // Used to enable ',' separation
 
-            v = static_cast<uint16_t>(value.toLong(1));
+            v = static_cast<uint16_t>(value.toInt64(1));
             for (auto&& mode : focusModes1) {
                 if ((v &mode.val) != 0) {
                     if (!p.empty()) {
@@ -1547,8 +1547,8 @@ namespace Exiv2 {
             return os << value;
         }
 
-        auto v0 = static_cast<uint16_t>(value.toLong(0));
-        auto v1 = static_cast<uint16_t>(value.toLong(1));
+        auto v0 = static_cast<uint16_t>(value.toInt64(0));
+        auto v1 = static_cast<uint16_t>(value.toInt64(1));
 
         for (auto&& filter : artFilters) {
             if (filter.val[0] == v0 && filter.val[1] == v1) {
@@ -1565,13 +1565,13 @@ namespace Exiv2 {
             return os << value;
         }
 
-        switch (value.toLong(0)) {
+        switch (value.toInt64(0)) {
             case 0: os << _("Off"); break;
             case 1: os << _("On"); break;
-            default: os << value.toLong(0); break;
+            default: os << value.toInt64(0); break;
         }
         os << " ";
-        os << value.toLong(1);
+        os << value.toInt64(1);
 
         return os;
     } // OlympusMakerNote::print0x1209
@@ -1660,7 +1660,7 @@ value, const ExifData* metadata)
             }
         }
 
-        auto v = static_cast<uint16_t>(value.toLong(0));
+        auto v = static_cast<uint16_t>(value.toInt64(0));
 
         if (!E3_E30model) {
             for (auto&& point : afPoints) {

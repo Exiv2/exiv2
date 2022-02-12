@@ -78,7 +78,7 @@ int main()
             std::cout << std::setw(12) << std::left << s;
             bool ok = false;
 
-            long l = Exiv2::parseLong(s, ok);
+            const auto l = Exiv2::parseInt64(s, ok);
             std::cout << std::setw(12) << std::left;
             if (ok)
                 std::cout << l;

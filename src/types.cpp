@@ -713,28 +713,37 @@ namespace Exiv2 {
         return false;
     }
 
-    long parseLong(const std::string& s, bool& ok)
+    int64_t parseInt64(const std::string& s, bool& ok)
     {
-        long ret = stringTo<long>(s, ok);
+        int64_t ret = stringTo<int64_t>(s, ok);
         if (ok) return ret;
 
         auto f = stringTo<float>(s, ok);
-        if (ok) return static_cast<long>(f);
+        if (ok) return static_cast<int64_t>(f);
 
         Rational r = stringTo<Rational>(s, ok);
         if (ok) {
-            if (r.second == 0) {
+            if (r.second <= 0) {
                 ok = false;
                 return 0;
             }
-            return static_cast<long>(static_cast<float>(r.first) / r.second);
+            return static_cast<int64_t>(static_cast<float>(r.first) / r.second);
         }
 
         bool b = stringTo<bool>(s, ok);
         if (ok) return b ? 1 : 0;
 
-        // everything failed, return from stringTo<long> is probably the best fit
+        // everything failed, return from stringTo<int64_t> is probably the best fit
         return ret;
+    }
+
+    uint32_t parseUint32(const std::string& s, bool& ok)
+    {
+        const int64_t x = parseInt64(s, ok);
+        if (ok && 0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
+            return static_cast<uint32_t>(x);
+        }
+        return 0;
     }
 
     float parseFloat(const std::string& s, bool& ok)

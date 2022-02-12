@@ -573,7 +573,7 @@ namespace Action {
             // #1114 - show negative values for SByte
             if (md.typeId() == Exiv2::signedByte) {
                 for ( long c = 0 ; c < md.value().count() ; c++ ) {
-                    long value = md.value().toLong(c);
+                    const auto value = md.value().toInt64(c);
                     os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
             } else {

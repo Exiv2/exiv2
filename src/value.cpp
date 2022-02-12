@@ -218,7 +218,13 @@ namespace Exiv2 {
         return os.str();
     }
 
-    long DataValue::toLong(long n) const
+    int64_t DataValue::toInt64(long n) const
+    {
+        ok_ = true;
+        return value_.at(n);
+    }
+
+    uint32_t DataValue::toUint32(long n) const
     {
         ok_ = true;
         return value_.at(n);
@@ -294,7 +300,13 @@ namespace Exiv2 {
         return os << value_;
     }
 
-    long StringValueBase::toLong(long n) const
+    int64_t StringValueBase::toInt64(long n) const
+    {
+        ok_ = true;
+        return value_.at(n);
+    }
+
+    uint32_t StringValueBase::toUint32(long n) const
     {
         ok_ = true;
         return value_.at(n);
@@ -688,9 +700,14 @@ namespace Exiv2 {
         return os << value_;
     }
 
-    long XmpTextValue::toLong(long /*n*/) const
+    int64_t XmpTextValue::toInt64(long /*n*/) const
     {
-        return parseLong(value_, ok_);
+        return parseInt64(value_, ok_);
+    }
+
+    uint32_t XmpTextValue::toUint32(long /*n*/) const
+    {
+        return parseUint32(value_, ok_);
     }
 
     float XmpTextValue::toFloat(long /*n*/) const
@@ -745,9 +762,14 @@ namespace Exiv2 {
         return value_.at(n);
     }
 
-    long XmpArrayValue::toLong(long n) const
+    int64_t XmpArrayValue::toInt64(long n) const
     {
-        return parseLong(value_.at(n), ok_);
+        return parseInt64(value_.at(n), ok_);
+    }
+
+    uint32_t XmpArrayValue::toUint32(long n) const
+    {
+        return parseUint32(value_.at(n), ok_);
     }
 
     float XmpArrayValue::toFloat(long n) const
@@ -869,7 +891,13 @@ namespace Exiv2 {
         return "";
     }
 
-    long LangAltValue::toLong(long /*n*/) const
+    int64_t LangAltValue::toInt64(long /*n*/) const
+    {
+        ok_ = false;
+        return 0;
+    }
+
+    uint32_t LangAltValue::toUint32(long /*n*/) const
     {
         ok_ = false;
         return 0;
@@ -984,7 +1012,7 @@ namespace Exiv2 {
         return os;
     }
 
-    long DateValue::toLong(long /*n*/) const
+    int64_t DateValue::toInt64(long /*n*/) const
     {
         // Range of tm struct is limited to about 1970 to 2038
         // This will return -1 if outside that range
@@ -993,19 +1021,28 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        long l = static_cast<long>(std::mktime(&tms));
+        int64_t l = static_cast<int64_t>(std::mktime(&tms));
         ok_ = (l != -1);
         return l;
     }
 
+    uint32_t DateValue::toUint32(long /*n*/) const
+    {
+        const int64_t t = toInt64();
+        if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
+            return 0;
+        }
+        return static_cast<uint32_t>(t);
+    }
+
     float DateValue::toFloat(long n) const
     {
-        return static_cast<float>(toLong(n));
+        return static_cast<float>(toInt64(n));
     }
 
     Rational DateValue::toRational(long n) const
     {
-        return {toLong(n), 1};
+        return {static_cast<int32_t>(toInt64(n)), 1};
     }
 
     TimeValue::TimeValue()
@@ -1136,10 +1173,10 @@ namespace Exiv2 {
         return os;
     }
 
-    long TimeValue::toLong(long /*n*/) const
+    int64_t TimeValue::toInt64(long /*n*/) const
     {
         // Returns number of seconds in the day in UTC.
-        long result = (time_.hour - time_.tzHour) * 60 * 60;
+        int64_t result = (time_.hour - time_.tzHour) * 60 * 60;
         result += (time_.minute - time_.tzMinute) * 60;
         result += time_.second;
         if (result < 0) {
@@ -1149,14 +1186,23 @@ namespace Exiv2 {
         return result;
     }
 
+    uint32_t TimeValue::toUint32(long /*n*/) const
+    {
+        const int64_t t = toInt64();
+        if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
+            return 0;
+        }
+        return static_cast<uint32_t>(t);
+    }
+
     float TimeValue::toFloat(long n) const
     {
-        return static_cast<float>(toLong(n));
+        return static_cast<float>(toInt64(n));
     }
 
     Rational TimeValue::toRational(long n) const
     {
-        return {toLong(n), 1};
+        return {static_cast<int32_t>(toInt64(n)), 1};
     }
 
 }  // namespace Exiv2

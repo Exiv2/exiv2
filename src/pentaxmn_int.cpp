@@ -1036,29 +1036,29 @@ namespace Exiv2 {
     std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*)
     {
         /* I choose same format as is used inside EXIF itself */
-        os << ((static_cast<uint16_t>(value.toLong(0)) << 8) + value.toLong(1));
+        os << ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1));
         os << ":";
-        os << std::setw(2) << std::setfill('0') << value.toLong(2);
+        os << std::setw(2) << std::setfill('0') << value.toInt64(2);
         os << ":";
-        os << std::setw(2) << std::setfill('0') << value.toLong(3);
+        os << std::setw(2) << std::setfill('0') << value.toInt64(3);
         return os;
     }
 
     std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        os << std::setw(2) << std::setfill('0') << value.toLong(0);
+        os << std::setw(2) << std::setfill('0') << value.toInt64(0);
         os << ":";
-        os << std::setw(2) << std::setfill('0') << value.toLong(1);
+        os << std::setw(2) << std::setfill('0') << value.toInt64(1);
         os << ":";
-        os << std::setw(2) << std::setfill('0') << value.toLong(2);
+        os << std::setw(2) << std::setfill('0') << value.toInt64(2);
         os.flags(f);
         return os;
     }
 
     std::ostream& PentaxMakerNote::printExposure(std::ostream& os, const Value& value, const ExifData*)
     {
-        os << static_cast<float>(value.toLong()) / 100 << " ms";
+        os << static_cast<float>(value.toInt64()) / 100 << " ms";
         return os;
     }
 
@@ -1066,7 +1066,7 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         os << "F" << std::setprecision(2)
-           << static_cast<float>(value.toLong()) / 10;
+           << static_cast<float>(value.toInt64()) / 10;
         os.flags(f);
         return os;
     }
@@ -1075,7 +1075,7 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         os << std::fixed << std::setprecision(1)
-           << static_cast<float>(value.toLong()) / 100
+           << static_cast<float>(value.toInt64()) / 100
            << " mm";
         os.flags(f);
         return os;
@@ -1085,7 +1085,7 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         os << std::setprecision(2)
-           << (static_cast<float>(value.toLong()) - 50) / 10
+           << (static_cast<float>(value.toInt64()) - 50) / 10
            << " EV";
         os.flags(f);
         return os;
@@ -1093,7 +1093,7 @@ namespace Exiv2 {
 
     std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& value, const ExifData*)
     {
-        os << value.toLong() << " C";
+        os << value.toInt64() << " C";
         return os;
     }
 
@@ -1101,7 +1101,7 @@ namespace Exiv2 {
     {
         std::ios::fmtflags f( os.flags() );
         os << std::setprecision(2)
-           << static_cast<float>(value.toLong()) / 256
+           << static_cast<float>(value.toInt64()) / 256
            << " EV";
         os.flags(f);
         return os;
@@ -1109,7 +1109,7 @@ namespace Exiv2 {
 
     std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*)
     {
-        long l0 = value.toLong(0);
+        const auto l0 = value.toInt64(0);
 
         if (l0 < 10) {
             os << std::setprecision(2)
@@ -1120,13 +1120,13 @@ namespace Exiv2 {
         }
 
         if (value.count() == 2) {
-            long l1 = value.toLong(1);
+            const auto l1 = value.toInt64(1);
             os << " (";
             if (l1 == 0) {
                 os << _("No extended bracketing");
             } else {
-                long type = l1 >> 8;
-                long range = l1 & 0xff;
+                auto type = l1 >> 8;
+                auto range = l1 & 0xff;
                 switch (type) {
                     case 1:
                         os << _("WB-BA");
@@ -1181,8 +1181,8 @@ namespace Exiv2 {
             (timeIt->toLong(0) << 24) + (timeIt->toLong(1) << 16) +
             (timeIt->toLong(2) <<  8);
         const uint32_t countEnc =
-            (value.toLong(0) << 24) + (value.toLong(1) << 16) +
-            (value.toLong(2) <<  8) + (value.toLong(3) <<  0);
+            (value.toUint32(0) << 24) + (value.toUint32(1) << 16) +
+            (value.toUint32(2) <<  8) + (value.toUint32(3) <<  0);
         // The shutter count is encoded using date and time values stored
         // in Pentax-specific tags.  The prototype for the encoding/decoding
         // function is taken from Phil Harvey's ExifTool: Pentax.pm file,
@@ -1412,7 +1412,7 @@ namespace Exiv2 {
             return os << Internal::readExiv2Config(section,value.toString(),undefined);
         }
 
-        unsigned long index = value.toLong(0)*256+value.toLong(1);
+        const auto index = value.toUint32(0)*256+value.toUint32(1);
 
         // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
         const LensIdFct* lif = find(lensIdFct, index);

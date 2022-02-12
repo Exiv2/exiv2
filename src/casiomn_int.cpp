@@ -215,7 +215,7 @@ namespace Exiv2 {
         std::ios::fmtflags f( os.flags() );
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << value.toLong() / 1000.0 << _(" m");
+        os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
         os.copyfmt(oss);
         os.flags(f);
         return os;
@@ -227,7 +227,7 @@ namespace Exiv2 {
         std::vector<char> numbers;
         for(long i=0; i<value.size(); i++)
         {
-            long l=value.toLong(i);
+            const auto l = value.toInt64(i);
             if(l!=0)
             {
                 numbers.push_back(static_cast<char>(l));
@@ -546,7 +546,7 @@ namespace Exiv2 {
         std::vector<char> numbers;
         for(long i=0; i<value.size(); i++)
         {
-            long l=value.toLong(i);
+            const auto l = value.toInt64(i);
             if(l!=0)
             {
                 numbers.push_back(static_cast<char>(l));
@@ -578,7 +578,7 @@ namespace Exiv2 {
     std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value, const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        if(value.toLong()>=0x20000000)
+        if(value.toInt64()>=0x20000000)
         {
             os << N_("Inf");
             os.flags(f);
@@ -586,7 +586,7 @@ namespace Exiv2 {
         };
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(2) << value.toLong() / 1000.0 << _(" m");
+        os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
         os.copyfmt(oss);
         os.flags(f);
         return os;

@@ -406,75 +406,75 @@ namespace Exiv2 {
     std::ostream& MinoltaMakerNote::printMinoltaExposureSpeedStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-1;
+        os << (value.toInt64()/8)-1;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaExposureTimeStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-6;
+        os << (value.toInt64()/8)-6;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaFNumberStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-1;
+        os << (value.toInt64()/8)-1;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaExposureCompensationStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << value.toLong()/256;
+        os << value.toInt64()/256;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/3)-2;
+        os << (value.toInt64()/3)-2;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << value.toLong() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
-           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":"
-           << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;
+        os << value.toInt64() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
+           << (value.toInt64() - value.toInt64() / 65536 * 65536) / 256 << ":"
+           << std::right << std::setw(2) << std::setfill('0') << value.toInt64() % 256;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << std::right << std::setw(2) << std::setfill('0') << value.toLong() / 65536
+        os << std::right << std::setw(2) << std::setfill('0') << value.toInt64() / 65536
            << ":" << std::right << std::setw(2) << std::setfill('0')
-           << (value.toLong() - value.toLong() / 65536 * 65536) / 256 << ":"
-           << std::right << std::setw(2) << std::setfill('0') << value.toLong() % 256;
+           << (value.toInt64() - value.toInt64() / 65536 * 65536) / 256 << ":"
+           << std::right << std::setw(2) << std::setfill('0') << value.toInt64() % 256;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaFlashExposureCompStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()-6)/3;
+        os << (value.toInt64()-6)/3;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaWhiteBalanceStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << value.toLong()/256;
+        os << value.toInt64()/256;
         return os;
     }
 
     std::ostream& MinoltaMakerNote::printMinoltaBrightnessStd(std::ostream& os, const Value& value, const ExifData*)
     {
         // From the PHP JPEG Metadata Toolkit
-        os << (value.toLong()/8)-6;
+        os << (value.toInt64()/8)-6;
         return os;
     }
 
@@ -957,7 +957,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2)
-           << (float (value.toLong()-128)/24);
+           << (float (value.toInt64()-128)/24);
         os.copyfmt(oss);
         os.flags(f);
         return os;
@@ -970,7 +970,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2)
-           << (float (value.toLong()-300)/100);
+           << (float (value.toInt64()-300)/100);
         os.copyfmt(oss);
         os.flags(f);
         return os;
@@ -2203,7 +2203,7 @@ namespace Exiv2 {
     }
 
     struct LensIdFct {
-       long     id_;                           //!< Lens id
+       uint32_t id_;                           //!< Lens id
        PrintFct fct_;                          //!< Pretty-print function
        //! Comparison operator for find template
        bool operator==(long id) const { return id_ == id; }
@@ -2236,7 +2236,7 @@ namespace Exiv2 {
         }
 
         // #1145 - respect lenses with shared LensID
-        unsigned long    index = value.toLong();
+        uint32_t    index = value.toUint32();
         const LensIdFct* lif   = find(lensIdFct,index);
         if ( lif && metadata ) {
             if ( lif->fct_ )

@@ -836,8 +836,8 @@ namespace Exiv2 {
             return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
         }
 
-        long aperture = 0;
-        long shutterSpeed = 0;
+        int64_t aperture = 0;
+        int64_t shutterSpeed = 0;
 
         IfdId ifdId = ifdIdNotSet;
         switch (pCrwMapping->tag_) {
@@ -861,8 +861,8 @@ namespace Exiv2 {
             if (ifdId == canonCsId && c == 23 && component_size >= 52) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
             image.exifData().add(key, &value);
-            if (ifdId == canonSiId && c == 21) aperture = value.toLong();
-            if (ifdId == canonSiId && c == 22) shutterSpeed = value.toLong();
+            if (ifdId == canonSiId && c == 21) aperture = value.toInt64();
+            if (ifdId == canonSiId && c == 22) shutterSpeed = value.toInt64();
             c += n;
         }
 

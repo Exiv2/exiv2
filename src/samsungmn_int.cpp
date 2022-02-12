@@ -87,7 +87,7 @@ namespace Exiv2 {
         if (value.count() != 1 || value.typeId() != unsignedLong) {
             return os << value;
         }
-        long length = value.toLong();
+        const auto length = value.toInt64();
         if (length == 0) {
             os << _("Unknown");
         }
@@ -165,11 +165,11 @@ namespace Exiv2 {
             return os << value;
         }
         // Special case where no color modification is done
-        if (value.toLong() == 65535) {
+        if (value.toInt64() == 65535) {
             return os << _("Neutral");
         }
         // Output seems to represent Hue in degrees
-        return os << value.toLong();
+        return os << value.toInt64();
     }
 
     //! Print the tag value minus 4
@@ -178,7 +178,7 @@ namespace Exiv2 {
         if (value.count() != 1 || value.typeId() != unsignedShort) {
             return os << value;
         }
-        return os << value.toLong(0) - 4;
+        return os << value.toInt64(0) - 4;
     }
 
     // Samsung PictureWizard Tag Info

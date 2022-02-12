@@ -85,12 +85,12 @@ namespace Exiv2 {
         if ((value.count() != count && (value.count() < (count + ignoredcount) || value.count() > (count + ignoredcountmax))) || count > 4) {
             return printValue(os, value, metadata);
         }
-        unsigned long l = 0;
+        uint32_t l = 0;
         for (int c = 0; c < count; ++c) {
-            if (value.toLong(c) < 0 || value.toLong(c) > 255) {
+            if (value.toInt64(c) < 0 || value.toInt64(c) > 255) {
                 return printValue(os, value, metadata);
             }
-            l += (value.toLong(c) << ((count - c - 1) * 8));
+            l += (value.toUint32(c) << ((count - c - 1) * 8));
         }
         const TagDetails* td = find(array, l);
         if (td) {

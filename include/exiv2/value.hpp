@@ -143,13 +143,21 @@ namespace Exiv2 {
          */
         virtual std::string toString(long n) const;
         /*!
-          @brief Convert the <EM>n</EM>-th component of the value to a long.
+          @brief Convert the <EM>n</EM>-th component of the value to an int64_t.
                  The behaviour of this method may be undefined if there is no
                  <EM>n</EM>-th component.
 
           @return The converted value.
          */
-        virtual long toLong(long n =0) const =0;
+        virtual int64_t toInt64(long n =0) const =0;
+        /*!
+          @brief Convert the <EM>n</EM>-th component of the value to a float.
+                 The behaviour of this method may be undefined if there is no
+                 <EM>n</EM>-th component.
+
+          @return The converted value.
+         */
+        virtual uint32_t toUint32(long n =0) const =0;
         /*!
           @brief Convert the <EM>n</EM>-th component of the value to a float.
                  The behaviour of this method may be undefined if there is no
@@ -308,7 +316,8 @@ namespace Exiv2 {
                  <EM>n</EM>-th component.
          */
         std::string toString(long n) const override;
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        uint32_t toUint32(long n = 0) const override;
         float toFloat(long n = 0) const override;
         Rational toRational(long n = 0) const override;
         //@}
@@ -385,7 +394,8 @@ namespace Exiv2 {
         long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         long count() const override;
         long size() const override;
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        uint32_t toUint32(long n = 0) const override;
         float toFloat(long n = 0) const override;
         Rational toRational(long n = 0) const override;
         std::ostream& write(std::ostream& os) const override;
@@ -739,12 +749,19 @@ namespace Exiv2 {
         long size() const override;
         long count() const override;
         /*!
-          @brief Convert the value to a long.
+          @brief Convert the value to an int64_t.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        /*!
+          @brief Convert the value to an uint32_t.
+                 The optional parameter \em n is not used and is ignored.
+
+          @return The converted value.
+         */
+        uint32_t toUint32(long n = 0) const override;
         /*!
           @brief Convert the value to a float.
                  The optional parameter \em n is not used and is ignored.
@@ -818,7 +835,8 @@ namespace Exiv2 {
                  <EM>n</EM>-th component.
          */
         std::string toString(long n) const override;
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        uint32_t toUint32(long n = 0) const override;
         float toFloat(long n = 0) const override;
         Rational toRational(long n = 0) const override;
         /*!
@@ -924,7 +942,8 @@ namespace Exiv2 {
                  to \c false if there is no entry for the language qualifier.
          */
         std::string toString(const std::string& qualifier) const;
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        uint32_t toUint32(long n = 0) const override;
         float toFloat(long n = 0) const override;
         Rational toRational(long n = 0) const override;
         /*!
@@ -1032,8 +1051,10 @@ namespace Exiv2 {
         long count() const override;
         long size() const override;
         std::ostream& write(std::ostream& os) const override;
-        //! Return the value as a UNIX calender time converted to long.
-        long toLong(long n = 0) const override;
+        //! Return the value as a UNIX calender time converted to int64_t.
+        int64_t toInt64(long n = 0) const override;
+        //! Return the value as a UNIX calender time converted to uint32_t.
+        uint32_t toUint32(long n = 0) const override;
         //! Return the value as a UNIX calender time converted to float.
         float toFloat(long n = 0) const override;
         //! Return the value as a UNIX calender time  converted to Rational.
@@ -1138,7 +1159,9 @@ namespace Exiv2 {
         long size() const override;
         std::ostream& write(std::ostream& os) const override;
         //! Returns number of seconds in the day in UTC.
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        //! Returns number of seconds in the day in UTC.
+        uint32_t toUint32(long n = 0) const override;
         //! Returns number of seconds in the day in UTC converted to float.
         float toFloat(long n = 0) const override;
         //! Returns number of seconds in the day in UTC converted to Rational.
@@ -1241,7 +1264,8 @@ namespace Exiv2 {
                  component.
          */
         std::string toString(long n) const override;
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
+        uint32_t toUint32(long n = 0) const override;
         float toFloat(long n = 0) const override;
         Rational toRational(long n = 0) const override;
         //! Return the size of the data area.
@@ -1270,6 +1294,62 @@ namespace Exiv2 {
         ValueList value_;
 
     private:
+        //! Utility for toInt64, toUint32, etc.
+        template<typename I>
+        inline I float_to_integer_helper(long n) const {
+            const auto v = value_.at(n);
+            if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
+                v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
+                return static_cast<I>(v);
+            } else {
+                return 0;
+            }
+        }
+
+        //! Utility for toInt64, toUint32, etc.
+        template<typename I>
+        inline I rational_to_integer_helper(long n) const {
+            const auto& t = value_.at(n);
+            const auto a = t.first;
+            const auto b = t.second;
+
+            // Protect against divide-by-zero.
+            if (b <= 0) {
+              return 0;
+            }
+
+            // Check for integer overflow.
+            if (std::is_signed<I>::value == std::is_signed<decltype(a)>::value) {
+              // conversion does not change sign
+              const auto imin = std::numeric_limits<I>::min();
+              const auto imax = std::numeric_limits<I>::max();
+              if (imax < b || a < imin || imax < a) {
+                return 0;
+              }
+            } else if (std::is_signed<I>::value) {
+              // conversion is from unsigned to signed
+              const auto imax =
+                static_cast<typename std::make_unsigned<I>::type>(std::numeric_limits<I>::max());
+              if (imax < b || imax < a) {
+                return 0;
+              }
+            } else {
+              // conversion is from signed to unsigned
+              const auto imax = std::numeric_limits<I>::max();
+              if (a < 0) {
+                return 0;
+              }
+              // Inputs are not negative so convert them to unsigned.
+              const auto a_u = static_cast<typename std::make_unsigned<decltype(a)>::type>(a);
+              const auto b_u = static_cast<typename std::make_unsigned<decltype(b)>::type>(b);
+              if (imax < b_u || imax < a_u) {
+                return 0;
+              }
+            }
+
+            return static_cast<I>(a)/static_cast<I>(b);
+        }
+
         //! Internal virtual copy constructor.
         ValueType<T>* clone_() const override;
 
@@ -1585,46 +1665,62 @@ namespace Exiv2 {
 
     // Default implementation
     template<typename T>
-    long ValueType<T>::toLong(long n) const
+    int64_t ValueType<T>::toInt64(long n) const
     {
         ok_ = true;
-        return static_cast<long>(value_.at(n));
+        return static_cast<int64_t>(value_.at(n));
+    }
+    template<typename T>
+    uint32_t ValueType<T>::toUint32(long n) const
+    {
+        ok_ = true;
+        return static_cast<uint32_t>(value_.at(n));
     }
 // #55 crash when value_.at(n).first == LONG_MIN
 #define LARGE_INT 1000000
     // Specialization for double
     template<>
-    inline long ValueType<double>::toLong(long n) const
+    inline int64_t ValueType<double>::toInt64(long n) const
     {
-        const double v = value_.at(n);
-        ok_ = (INT_MIN <= v && v <= INT_MAX);
-        if (!ok_) return 0;
-        return static_cast<long>(v);
+        return float_to_integer_helper<int64_t>(n);
+    }
+    template<>
+    inline uint32_t ValueType<double>::toUint32(long n) const
+    {
+        return float_to_integer_helper<uint32_t>(n);
     }
     // Specialization for float
     template<>
-    inline long ValueType<float>::toLong(long n) const
+    inline int64_t ValueType<float>::toInt64(long n) const
     {
-        const double v = value_.at(n);
-        ok_ = (INT_MIN <= v && v <= INT_MAX);
-        if (!ok_) return 0;
-        return static_cast<long>(v);
+        return float_to_integer_helper<int64_t>(n);
+    }
+    template<>
+    inline uint32_t ValueType<float>::toUint32(long n) const
+    {
+        return float_to_integer_helper<uint32_t>(n);
     }
     // Specialization for rational
     template<>
-    inline long ValueType<Rational>::toLong(long n) const
+    inline int64_t ValueType<Rational>::toInt64(long n) const
     {
-        ok_ = (value_.at(n).second > 0 && INT_MIN < value_.at(n).first && value_.at(n).first < INT_MAX );
-        if (!ok_) return 0;
-        return value_.at(n).first / value_.at(n).second;
+        return rational_to_integer_helper<int64_t>(n);
+    }
+    template<>
+    inline uint32_t ValueType<Rational>::toUint32(long n) const
+    {
+        return rational_to_integer_helper<uint32_t>(n);
     }
     // Specialization for unsigned rational
     template<>
-    inline long ValueType<URational>::toLong(long n) const
+    inline int64_t ValueType<URational>::toInt64(long n) const
     {
-        ok_ = (value_.at(n).second > 0 && value_.at(n).first < LARGE_INT);
-        if (!ok_) return 0;
-        return value_.at(n).first / value_.at(n).second;
+        return rational_to_integer_helper<int64_t>(n);
+    }
+    template<>
+    inline uint32_t ValueType<URational>::toUint32(long n) const
+    {
+        return rational_to_integer_helper<uint32_t>(n);
     }
     // Default implementation
     template<typename T>

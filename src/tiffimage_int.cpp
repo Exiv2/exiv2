@@ -2033,7 +2033,7 @@ namespace Exiv2 {
             pSourceDir->accept(finder);
             auto te = dynamic_cast<TiffEntryBase*>(finder.result());
             const Value* pV = te != nullptr ? te->pValue() : nullptr;
-            if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toLong() & 1) == 0) {
+            if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toInt64() & 1) == 0) {
                 primaryGroups.push_back(te->group());
             }
         }

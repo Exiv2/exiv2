@@ -149,7 +149,7 @@ namespace Exiv2 {
          */
         int putb(byte data);
         //! Wrapper for OffsetWriter::setTarget(), using an int instead of the enum to reduce include deps
-        void setTarget(int id, uint32_t target);
+        void setTarget(int id, int64_t target);
         //@}
 
     private:
@@ -244,7 +244,7 @@ namespace Exiv2 {
          */
         uint32_t write(IoWrapper& ioWrapper,
                        ByteOrder byteOrder,
-                       int32_t   offset,
+                       int64_t   offset,
                        uint32_t  valueIdx,
                        uint32_t  dataIdx,
                        uint32_t& imageIdx);
@@ -271,7 +271,7 @@ namespace Exiv2 {
          */
         uint32_t writeData(IoWrapper& ioWrapper,
                            ByteOrder byteOrder,
-                           int32_t   offset,
+                           int64_t   offset,
                            uint32_t  dataIdx,
                            uint32_t& imageIdx) const;
         /*!
@@ -329,7 +329,7 @@ namespace Exiv2 {
         //! Implements write().
         virtual uint32_t doWrite(IoWrapper& ioWrapper,
                                  ByteOrder byteOrder,
-                                 int32_t   offset,
+                                 int64_t   offset,
                                  uint32_t  valueIdx,
                                  uint32_t  dataIdx,
                                  uint32_t& imageIdx) =0;
@@ -342,7 +342,7 @@ namespace Exiv2 {
         //! Implements writeData().
         virtual uint32_t doWriteData(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,
-                                     int32_t   offset,
+                                     int64_t   offset,
                                      uint32_t  dataIdx,
                                      uint32_t& imageIdx) const =0;
         //! Implements writeImage().
@@ -435,7 +435,7 @@ namespace Exiv2 {
          */
         void encode(TiffEncoder& encoder, const Exifdatum* datum);
         //! Set the offset
-        void setOffset(int32_t offset) { offset_ = offset; }
+        void setOffset(int64_t offset) { offset_ = offset; }
         /*!
           @brief Set pointer and size of the entry's data (not taking ownership of the data).
 
@@ -451,7 +451,7 @@ namespace Exiv2 {
                          you should pass std::shared_ptr<DataBuf>(), which is essentially
                          a nullptr.
          */
-        void setData(byte* pData, int32_t size, const std::shared_ptr<DataBuf>& storage);
+        void setData(byte* pData, uint32_t size, const std::shared_ptr<DataBuf>& storage);
         /*!
           @brief Set the entry's data buffer. A shared_ptr is used to manage the DataBuf
                  because TiffEntryBase has a clone method so it is possible (in theory) for
@@ -480,7 +480,7 @@ namespace Exiv2 {
           @brief Return the offset to the data area relative to the base
                  for the component (usually the start of the TIFF header)
          */
-        int32_t offset()         const { return offset_; }
+        int64_t offset()         const { return offset_; }
         /*!
           @brief Return the unique id of the entry in the image
          */
@@ -514,7 +514,7 @@ namespace Exiv2 {
                  the \em ioWrapper, return the number of bytes written. Only the
                  \em ioWrapper and \em byteOrder arguments are used.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -526,7 +526,7 @@ namespace Exiv2 {
           @brief Implements writeData(). Standard TIFF entries have no data:
                  write nothing and return 0.
          */
-        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
                              uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Standard TIFF entries have no image data:
@@ -543,7 +543,7 @@ namespace Exiv2 {
 
         //! Helper function to write an \em offset to a preallocated binary buffer
         static uint32_t writeOffset(byte*     buf,
-                                    int32_t   offset,
+                                    int64_t   offset,
                                     TiffType  tiffType,
                                     ByteOrder byteOrder);
 
@@ -560,7 +560,7 @@ namespace Exiv2 {
         // DATA
         TiffType tiffType_;   //!< Field TIFF type
         uint32_t count_;      //!< The number of values of the indicated type
-        int32_t  offset_;     //!< Offset to the data area
+        int64_t  offset_;     //!< Offset to the data area
         /*!
           Size of the data buffer holding the value in bytes, there is no
           minimum size.
@@ -708,7 +708,7 @@ namespace Exiv2 {
           on write. The type of the value can only be signed or unsigned short or
           long.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -719,7 +719,7 @@ namespace Exiv2 {
           @brief Implements writeData(). Write the data area to the \em ioWrapper.
                  Return the number of bytes written.
          */
-        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
                              uint32_t& imageIdx) const override;
         // Using doWriteImage from base class
         // Using doSize() from base class
@@ -774,7 +774,7 @@ namespace Exiv2 {
                  \em ioWrapper. Return the number of bytes written. The \em valueIdx
                  and \em dataIdx  arguments are not used.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -789,7 +789,7 @@ namespace Exiv2 {
           directory. It is used for TIFF image entries in the makernote (large
           preview images) so that the image data remains in the makernote IFD.
          */
-        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
                              uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data area to the \em ioWrapper.
@@ -899,7 +899,7 @@ namespace Exiv2 {
                  additional data, including the next-IFD, if any, to the
                  \em ioWrapper, return the number of bytes written.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -910,7 +910,7 @@ namespace Exiv2 {
           @brief This class does not really implement writeData(), it only has
                  write(). This method must not be called; it commits suicide.
          */
-        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
                              uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data of the TIFF
@@ -951,7 +951,7 @@ namespace Exiv2 {
         //! @name Private Accessors
         //@{
         //! Write a binary directory entry for a TIFF component.
-        static uint32_t writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset,
+        static uint32_t writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset,
                                       TiffComponent* pTiffComponent, uint32_t valueIdx, uint32_t dataIdx,
                                       uint32_t& imageIdx);
         //@}
@@ -1001,7 +1001,7 @@ namespace Exiv2 {
                  return the number of bytes written. The \em valueIdx and
                  \em imageIdx arguments are not used.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -1012,7 +1012,7 @@ namespace Exiv2 {
           @brief Implements writeData(). Write the sub-IFDs to the \em ioWrapper.
                  Return the number of bytes written.
          */
-        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
                              uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data of each sub-IFD to
@@ -1076,7 +1076,7 @@ namespace Exiv2 {
           @brief Implements write() by forwarding the call to the actual
                  concrete Makernote, if there is one.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -1202,7 +1202,7 @@ namespace Exiv2 {
                  values and additional data to the \em ioWrapper, return the
                  number of bytes written.
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -1213,7 +1213,7 @@ namespace Exiv2 {
           @brief This class does not really implement writeData(), it only has
                  write(). This method must not be called; it commits suicide.
          */
-        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t dataIdx,
+        uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
                              uint32_t& imageIdx) const override;
         /*!
           @brief Implements writeImage(). Write the image data of the IFD of
@@ -1407,7 +1407,7 @@ namespace Exiv2 {
         /*!
           @brief Implements write(). Todo: Document it!
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 
@@ -1492,7 +1492,7 @@ namespace Exiv2 {
         /*!
           @brief Implements write(). Todo: Document it!
          */
-        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int32_t offset, uint32_t valueIdx, uint32_t dataIdx,
+        uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
                          uint32_t& imageIdx) override;
         //@}
 

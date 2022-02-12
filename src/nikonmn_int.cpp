@@ -275,7 +275,7 @@ namespace Exiv2 {
                                                const ExifData*)
     {
         if (value.count() > 1) {
-            os << value.toLong(1);
+            os << value.toInt64(1);
         }
         else {
             os << "(" << value << ")";
@@ -303,7 +303,7 @@ namespace Exiv2 {
             ByteOrder bo = getKeyString("Exif.MakerNote.ByteOrder",exifData) == "MM" ? bigEndian : littleEndian;
             byte      p[4];
             for (int n = 0; n < 4; n++)
-                p[n] = static_cast<byte>(value.toLong(6 + n));
+                p[n] = static_cast<byte>(value.toInt64(6 + n));
             os << getLong(p, bo);
         }
 
@@ -371,7 +371,7 @@ namespace Exiv2 {
                                                const ExifData*)
     {
         if (value.count() >= 1) {
-            const unsigned long focusArea = value.toLong(0);
+            const uint32_t focusArea = value.toUint32(0);
             if (focusArea >= EXV_COUNTOF(nikonFocusarea)) {
                 os << "Invalid value";
             } else {
@@ -380,7 +380,7 @@ namespace Exiv2 {
         }
         if (value.count() >= 2) {
             os << "; ";
-            unsigned long focusPoint = value.toLong(1);
+            const uint32_t focusPoint = value.toUint32(1);
 
             switch (focusPoint) {
             // Could use array nikonFocuspoints
@@ -399,8 +399,8 @@ namespace Exiv2 {
             }
         }
         if (value.count() >= 3) {
-            unsigned long focusPointsUsed1 = value.toLong(2);
-            unsigned long focusPointsUsed2 = value.toLong(3);
+            const uint32_t focusPointsUsed1 = value.toUint32(2);
+            const uint32_t focusPointsUsed2 = value.toUint32(3);
 
             if (focusPointsUsed1 != 0 && focusPointsUsed2 != 0)
             {
@@ -1526,7 +1526,7 @@ namespace Exiv2 {
                                               const Value& value,
                                               const ExifData*)
     {
-        double v = 100 * exp((value.toLong() / 12.0 - 5) * log(2.0));
+        double v = 100 * exp((value.toInt64() / 12.0 - 5) * log(2.0));
         return os << static_cast<int>(v + 0.5);
     }
 
@@ -1535,7 +1535,7 @@ namespace Exiv2 {
                                                const ExifData*)
     {
         if (value.count() > 1) {
-            os << value.toLong(1);
+            os << value.toInt64(1);
         }
         else {
             os << "(" << value << ")";
@@ -1559,7 +1559,7 @@ namespace Exiv2 {
                                                const Value& value,
                                                const ExifData*)
     {
-        long lensType = value.toLong();
+        const uint32_t lensType = value.toUint32();
 
         bool valid=false;
         if (lensType & 1)
@@ -1600,8 +1600,8 @@ namespace Exiv2 {
             os << "(" << value << ")";
             return os;
         }
-        long len1 = value.toLong(0);
-        long len2 = value.toLong(1);
+        const int64_t len1 = value.toInt64(0);
+        const int64_t len2 = value.toInt64(1);
 
         Rational fno1 = value.toRational(2);
         Rational fno2 = value.toRational(3);
@@ -1676,12 +1676,12 @@ namespace Exiv2 {
         }
         else {
             // Mapping by Roger Larsson
-            unsigned focusmetering = value.toLong(0);
-            unsigned focuspoint = value.toLong(1);
-            unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
+            const uint32_t focusmetering = value.toUint32(0);
+            const uint32_t focuspoint = value.toUint32(1);
+            const uint32_t focusused = (value.toUint32(2) << 8) + value.toUint32(3);
             // TODO: enum {standard, wide} combination = standard;
-            const unsigned focuspoints =   sizeof(nikonFocuspoints)
-                                         / sizeof(nikonFocuspoints[0]);
+            const size_t focuspoints =   sizeof(nikonFocuspoints)
+                                       / sizeof(nikonFocuspoints[0]);
 
             if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
                 // Special case, in Manual focus and with Nikon compacts
@@ -1725,7 +1725,7 @@ namespace Exiv2 {
                 // selected point was not the actually used one
                 // (Roger Larsson: my interpretation, verify)
                 os << sep;
-                for (unsigned fpid=0; fpid<focuspoints; fpid++)
+                for (size_t fpid=0; fpid<focuspoints; fpid++)
                     if (focusused & 1<<fpid)
                         os << ' ' << nikonFocuspoints[fpid];
             }
@@ -1753,7 +1753,7 @@ namespace Exiv2 {
             }
         }
 
-        auto val = static_cast<uint16_t>(value.toLong());
+        auto val = static_cast<uint16_t>(value.toInt64());
         if (dModel) val = (val >> 8) | ((val & 0x00ff) << 8);
 
         if (val == 0x07ff) return os << _("All 11 Points");
@@ -1770,7 +1770,7 @@ namespace Exiv2 {
         if (value.count() != 1 || value.typeId() != unsignedShort) {
             return os << "(" << value << ")";
         }
-        long l = value.toLong(0);
+        const auto l = value.toInt64(0);
         if (l == 0) return os << _("Single-frame");
         if (!(l & 0x87)) os << _("Single-frame") << ", ";
         bool d70 = false;
@@ -1803,8 +1803,8 @@ namespace Exiv2 {
             return os << "(" << value << ")";
         }
         float a = value.toFloat(0);
-        long  b = value.toLong(1);
-        long  c = value.toLong(2);
+        const auto b = value.toInt64(1);
+        const auto c = value.toInt64(2);
         if (c == 0) return os << "(" << value << ")";
         return os << a * b / c;
     }
@@ -2621,7 +2621,7 @@ fmountlens[] = {
      */
         if (metadata == nullptr)
         {
-            const unsigned char vid = static_cast<unsigned>(value.toLong(0));
+            const unsigned char vid = static_cast<unsigned char>(value.toInt64(0));
 
             /* the 'FMntLens' name is added to the anonymous struct for
              * fmountlens[]
@@ -2716,7 +2716,7 @@ fmountlens[] = {
             os.flags(f);
             return os;
         }
-        double dist = 0.01 * pow(10.0, value.toLong()/40.0);
+        double dist = 0.01 * pow(10.0, value.toInt64()/40.0);
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2) << dist << " m";
@@ -2735,7 +2735,7 @@ fmountlens[] = {
             os.flags(f);
             return os;
         }
-        double aperture = pow(2.0, value.toLong()/24.0);
+        double aperture = pow(2.0, value.toInt64()/24.0);
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << "F" << aperture;
@@ -2751,7 +2751,7 @@ fmountlens[] = {
         if (value.count() != 1 || value.typeId() != unsignedByte) {
             return os << "(" << value << ")";
         }
-        double focal = 5.0 * pow(2.0, value.toLong()/24.0);
+        double focal = 5.0 * pow(2.0, value.toInt64()/24.0);
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << focal << " mm";
@@ -2769,7 +2769,7 @@ fmountlens[] = {
             os.flags(f);
             return os;
         }
-        double fstops = value.toLong()/12.0;
+        double fstops = value.toInt64()/12.0;
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << "F" << fstops;
@@ -2783,12 +2783,12 @@ fmountlens[] = {
                                                           const ExifData*)
     {
         std::ios::fmtflags f( os.flags() );
-        if (value.count() != 1 || value.typeId() != unsignedByte || value.toLong() == 0) {
+        if (value.count() != 1 || value.typeId() != unsignedByte || value.toInt64() == 0) {
             os << "(" << value << ")";
             os.flags(f);
             return os;
         }
-        double epp = 2048.0/value.toLong();
+        double epp = 2048.0/value.toInt64();
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << epp << " mm";
@@ -2807,7 +2807,7 @@ fmountlens[] = {
             os.flags(f);
             return os;
         }
-        auto temp = value.toLong();
+        auto temp = value.toInt64();
         if (temp == 0 || temp == 255)
             return os << _("n/a");
 
@@ -2827,7 +2827,7 @@ fmountlens[] = {
         if (value.count() != 1 || value.typeId() != unsignedByte) {
             return os << "(" << value << ")";
         }
-        auto temp = value.toLong();
+        auto temp = value.toInt64();
         if (temp == 0 || temp == 255)
             return os << _("n/a");
 
@@ -2847,7 +2847,7 @@ fmountlens[] = {
         if (value.count() != 1 || value.typeId() != unsignedByte) {
             return os << "(" << value << ")";
         }
-        auto temp = value.toLong();
+        auto temp = value.toInt64();
         if (temp == 0 || temp == 255)
             return os << _("n/a");
 
@@ -2871,9 +2871,9 @@ fmountlens[] = {
         }
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << (value.toLong() & 0x80 ? _("External flash zoom override") : _("No external flash zoom override"));
+        os << (value.toInt64() & 0x80 ? _("External flash zoom override") : _("No external flash zoom override"));
         os << ", ";
-        os << (value.toLong() & 0x01 ? _("external flash attached") : _("external flash not attached"));
+        os << (value.toInt64() & 0x01 ? _("external flash attached") : _("external flash not attached"));
 
         os.copyfmt(oss);
         os.flags(f);
@@ -2893,7 +2893,7 @@ fmountlens[] = {
 
         std::ostringstream oss;
         oss.copyfmt(os);
-        long temp = value.toLong();
+        const auto temp = value.toInt64();
 
         switch (temp & 0x07) {
         case 0:
@@ -2959,7 +2959,7 @@ fmountlens[] = {
         }
         std::ostringstream oss;
         oss.copyfmt(os);
-        long temp = value.toLong();
+        const auto temp = value.toInt64();
 
         printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
         os << ", ";
@@ -3105,7 +3105,7 @@ fmountlens[] = {
         }
         std::ostringstream oss;
         oss.copyfmt(os);
-        char sign = value.toLong() < 0 ? '-' : '+';
+        char sign = value.toInt64() < 0 ? '-' : '+';
         long h = long(std::abs(static_cast<int>(value.toFloat() / 60.0F))) % 24;
         long min = long(std::abs(static_cast<int>(value.toFloat() - h * 60))) % 60;
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":"
@@ -3122,7 +3122,7 @@ fmountlens[] = {
         if (value.count() != 1 || value.typeId() != unsignedByte) {
             return os << "(" << value << ")";
         }
-        long pcval = value.toLong() - 0x80;
+        const auto pcval = value.toInt64() - 0x80;
         std::ostringstream oss;
         oss.copyfmt(os);
         switch(pcval)
@@ -3169,7 +3169,7 @@ fmountlens[] = {
         std::string s;
         bool trim = true;
         for (int i = 9; i >= 0; --i) {
-            long l = value.toLong(i);
+            const auto l = value.toInt64(i);
             if (i > 0 && l == 0 && trim) continue;
             if (l != 0) trim = false;
             std::string d = s.empty() ? "" : "; ";
@@ -3216,7 +3216,7 @@ fmountlens[] = {
             {23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"},      // IB
         };
 
-        auto lid = static_cast<uint16_t>(value.toLong());
+        auto lid = static_cast<uint16_t>(value.toInt64());
         auto it =
             std::find_if(std::begin(zmountlens), std::end(zmountlens), [=](const ZMntLens& z) { return z.lid == lid; });
         if (it != std::end(zmountlens))
@@ -3232,7 +3232,7 @@ fmountlens[] = {
             return os << "(" << value << ")";
         }
 
-        double aperture = pow(2.0, value.toLong()/384.0 - 1.0);
+        double aperture = pow(2.0, value.toInt64()/384.0 - 1.0);
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << "F" << aperture;
@@ -3248,7 +3248,7 @@ fmountlens[] = {
         }
         std::ostringstream oss;
         oss.copyfmt(os);
-        os << std::fixed << std::setprecision(1) << value.toLong() << " mm";
+        os << std::fixed << std::setprecision(1) << value.toInt64() << " mm";
         os.copyfmt(oss);
         return os;
     }

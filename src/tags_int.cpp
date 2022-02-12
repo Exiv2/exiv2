@@ -591,11 +591,11 @@ namespace Exiv2 {
         {0x011a, "XResolution", N_("X-Resolution"),
                 N_("The number of pixels per <ResolutionUnit> in the <ImageWidth> "
                 "direction. When the image resolution is unknown, 72 [dpi] is designated."),
-                ifd0Id, imgStruct, unsignedRational, 1, printLong},
+                ifd0Id, imgStruct, unsignedRational, 1, printInt64},
         {0x011b, "YResolution", N_("Y-Resolution"),
                 N_("The number of pixels per <ResolutionUnit> in the <ImageLength> "
                 "direction. The same value as <XResolution> is designated."),
-                ifd0Id, imgStruct, unsignedRational, 1, printLong},
+                ifd0Id, imgStruct, unsignedRational, 1, printInt64},
         {0x011c, "PlanarConfiguration", N_("Planar Configuration"),
                 N_("Indicates whether pixel components are recorded in a chunky "
                 "or planar format. In JPEG compressed files a JPEG marker "
@@ -2591,7 +2591,7 @@ namespace Exiv2 {
             uint16_t bit   = 0;
             uint16_t comma = 0;
             for (long i = 0; i < value.count(); i++ ) { // for each element in value array
-                auto bits = static_cast<uint16_t>(value.toLong(i));
+                auto bits = static_cast<uint16_t>(value.toInt64(i));
                 for (uint16_t b = 0; b < 16; ++b) { // for every bit
                     if (bits & (1 << b)) {
                         if ( comma++ ) {
@@ -2651,10 +2651,10 @@ namespace Exiv2 {
         return tag;
     } // tagNumber
 
-    std::ostream& printLong(std::ostream& os, const Value& value, const ExifData*)
+    std::ostream& printInt64(std::ostream& os, const Value& value, const ExifData*)
     {
         Rational r = value.toRational();
-        if (r.second > 0) return os << static_cast<long>(r.first) / r.second;
+        if (r.second > 0) return os << static_cast<int64_t>(r.first) / r.second;
         return os << "(" << value << ")";
     } // printLong
 
@@ -2745,10 +2745,10 @@ namespace Exiv2 {
         }
 
         for (int i = 0; i < 3; i++) {
-            os << value.toLong(i);
+            os << value.toInt64(i);
             os << ".";
         }
-        os << value.toLong(3);
+        os << value.toInt64(3);
 
         return os;
     }
@@ -2933,13 +2933,13 @@ namespace Exiv2 {
 
     std::ostream& print0x8827(std::ostream& os, const Value& value, const ExifData*)
     {
-        return os << value.toLong();
+        return os << value.toInt64();
     }
 
     std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*)
     {
         for (long i = 0; i < value.count(); ++i) {
-            long l = value.toLong(i);
+            const auto l = value.toInt64(i);
             switch (l) {
             case 0:  break;
             case 1:  os << "Y"; break;
@@ -3169,7 +3169,7 @@ namespace Exiv2 {
 
     std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*)
     {
-        long length = value.toLong();
+        const auto length = value.toInt64();
         if (length == 0) {
             os << _("Unknown");
         }
@@ -3258,7 +3258,7 @@ namespace Exiv2 {
 
         char s[5];
         for (int i = 0; i < 4; ++i) {
-            s[i] = static_cast<char>(value.toLong(i));
+            s[i] = static_cast<char>(value.toInt64(i));
         }
         s[4] = '\0';
 

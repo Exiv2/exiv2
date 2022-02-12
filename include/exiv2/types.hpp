@@ -380,18 +380,32 @@ namespace Exiv2 {
     EXIV2API std::string ws2s(const std::wstring& s);
 #endif
     /*!
-      @brief Return a \em long set to the value represented by \em s.
+      @brief Return a \em int64_t set to the value represented by \em s.
 
-      Besides strings that represent \em long values, the function also
+      Besides strings that represent \em int64_t values, the function also
       handles \em float, \em Rational and boolean
       (see also: stringTo(const std::string& s, bool& ok)).
 
       @param  s  String to parse
       @param  ok Output variable indicating the success of the operation.
-      @return Returns the \em long value represented by \em s and sets \em ok
+      @return Returns the \em int64_t value represented by \em s and sets \em ok
               to \c true if the conversion was successful or \c false if not.
     */
-    EXIV2API long parseLong(const std::string& s, bool& ok);
+    EXIV2API int64_t parseInt64(const std::string& s, bool& ok);
+
+    /*!
+      @brief Return a \em uint32_t set to the value represented by \em s.
+
+      Besides strings that represent \em uint32_t values, the function also
+      handles \em float, \em Rational and boolean
+      (see also: stringTo(const std::string& s, bool& ok)).
+
+      @param  s  String to parse
+      @param  ok Output variable indicating the success of the operation.
+      @return Returns the \em uint32_t value represented by \em s and sets \em ok
+              to \c true if the conversion was successful or \c false if not.
+    */
+    EXIV2API uint32_t parseUint32(const std::string& s, bool& ok);
 
     /*!
       @brief Return a \em float set to the value represented by \em s.

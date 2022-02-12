@@ -868,7 +868,7 @@ namespace Exiv2 {
         if (value.count() != 1)
             os << value;
         else {
-            long val = (value.toLong() & 0x7F);
+            const auto val = (value.toInt64() & 0x7F);
             switch (val) {
             case 0:
                 os << N_("Manual");
@@ -910,7 +910,7 @@ namespace Exiv2 {
                     return os;
                 }
             }
-            long val = value.toLong();
+            const auto val = value.toInt64();
             switch (val) {
             case 255:
                 os << N_("Infinity");
@@ -1028,7 +1028,7 @@ namespace Exiv2 {
                 return os << N_("n/a");
         }
 
-        os << std::round((value.toLong()/10.24)) << "%";
+        os << std::round((value.toInt64()/10.24)) << "%";
 
         return os;
     }
@@ -1156,7 +1156,7 @@ namespace Exiv2 {
         std::string model = pos->toString();
         for (auto& m : models) {
             if (m == model)
-                return os << value.toLong();
+                return os << value.toInt64();
         }
 
         return os << N_("n/a");
@@ -1164,7 +1164,7 @@ namespace Exiv2 {
 
     std::ostream& SonyMakerNote::printSonyMisc3cSequenceNumber(std::ostream& os, const Value& value, const ExifData*)
     {
-        return (value.count() != 1) ? os << "(" << value << ")" : os << (value.toLong()+1);
+        return (value.count() != 1) ? os << "(" << value << ")" : os << (value.toInt64()+1);
     }
 
     std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Value& value, const ExifData* metadata)
@@ -1176,7 +1176,7 @@ namespace Exiv2 {
         if (pos == metadata->end())
             return os << "(" << value << ")";
 
-        long val = value.toLong();
+        const auto val = value.toInt64();
         std::string model = pos->toString();
 
         // Value is interpreted differently if model is in list or not
@@ -1231,7 +1231,7 @@ namespace Exiv2 {
                 return os << N_("n/a");
         }
 
-        long val = value.toLong();
+        const auto val = value.toInt64();
         return val > 0 ? os << (8*val) : os << N_("n/a");
     }
 
@@ -1252,7 +1252,7 @@ namespace Exiv2 {
                 return os << N_("n/a");
         }
 
-        long val = value.toLong();
+        const auto val = value.toInt64();
         if (val > 99)
             return os << "(" << val << ")";
 
