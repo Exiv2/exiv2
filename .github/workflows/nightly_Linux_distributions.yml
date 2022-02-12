@@ -31,5 +31,5 @@ jobs:
       run: |
         mkdir build && cd build
         cmake $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=${{ matrix.shared_libraries }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} ..
-        make -j $(nproc)
-        make install
+        cmake --build . --parallel
+        cmake --install .

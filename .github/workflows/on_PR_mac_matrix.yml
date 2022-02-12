@@ -44,14 +44,14 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=install \
             -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
             .. && \
-          cmake --build .
+          cmake --build . --parallel
 
       - name: Install
         run: |
           cd build
-          cmake --build . --target install
+          cmake --install .
 
       - name: Test
         run: |
           cd build
-          ctest --output-on-failure
+          ctest --output-on-failure --stop-on-failure

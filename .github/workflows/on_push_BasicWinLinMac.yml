@@ -66,13 +66,13 @@ jobs:
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
             -DCMAKE_INSTALL_PREFIX=install .. `
             -S . -B build && `
-          cmake --build build
+          cmake --build build --parallel
 
 
       - name: Test
         run: |
           cd build
-          ctest --output-on-failure
+          ctest --output-on-failure --stop-on-failure
 
   Linux:
     name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
@@ -109,12 +109,12 @@ jobs:
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DCMAKE_INSTALL_PREFIX=install \
             .. && \
-          cmake --build .
+          cmake --build . --parallel
 
       - name: Test
         run: |
           cd build
-          ctest --output-on-failure
+          ctest --output-on-failure --stop-on-failure
 
   MacOS:
     name: 'MacOS - clang - Arch:x64 BuildType:Release - SHARED'
@@ -151,9 +151,9 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=install \
             -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
             .. && \
-          cmake --build .
+          cmake --build . --parallel
 
       - name: Test
         run: |
           cd build
-          ctest --output-on-failure
+          ctest --output-on-failure --stop-on-failure
