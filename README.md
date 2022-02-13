@@ -1114,7 +1114,7 @@ I recommend that you build and install CMake from source.
 
 ## MinGW/msys2
 
-Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64. It is important to highlight that we rely in the usage of the Universal C Runtime (UCRT) and its relative new support for UTF-8. Check this [PR](https://github.com/Exiv2/exiv2/pull/2090) for more information. Therefore you will need to use the [URCT MSYS environment](https://www.msys2.org/docs/environments/).
+Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64. It is important to highlight that we rely on using the Universal C Runtime (UCRT) and its relatively new support for UTF-8. Check this [PR](https://github.com/Exiv2/exiv2/pull/2090) for more information. Therefore you will need to use the [URCT MSYS environment](https://www.msys2.org/docs/environments/).
 
 Install the latest version of [MSYS2](https://repo.msys2.org/distrib/msys2-x86_64-latest.exe), and follow the installation instructions available [here](https://www.msys2.org/).
 
@@ -1204,7 +1204,7 @@ As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 
 The python3 interpreter must be on your PATH.
 
-It is important to highlight that we rely in the usage of the Universal C Runtime (UCRT) and its relative new support for UTF-8. Check this [PR](https://github.com/Exiv2/exiv2/pull/2090) for more information.
+It is important to highlight that we rely on using of the Universal C Runtime (UCRT) and its relatively new support for UTF-8. Check this [PR](https://github.com/Exiv2/exiv2/pull/2090) for more information.
 
 [TOC](#TOC)
 <div id="PlatformUnix">

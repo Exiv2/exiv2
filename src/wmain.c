@@ -5,7 +5,7 @@ extern int __cdecl main();
 int wmain(int argc, wchar_t* argv[])
 {
     char** args;
-    int nbytes = sizeof(char*) * (argc + 1);
+    int nbytes = (int)(sizeof(char*) * (argc + 1));
     HANDLE heap = GetProcessHeap();
 
     for (int i = 0; i < argc; ++i)
