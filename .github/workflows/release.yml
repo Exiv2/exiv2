@@ -96,15 +96,9 @@ jobs:
           version: 1.10.0
 
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.7
-
-      - name: Restore conan cache
-        uses: actions/cache@v2
-        with:
-            path: ${{github.workspace}}/conanCache
-            key: ${{runner.os}}-packaged-win-release-${{ hashFiles('conanfile.py') }}
+          python-version: 3.9
 
       - name: Install doxygen
         run: |
@@ -114,18 +108,15 @@ jobs:
       - name: Install Conan & Common config
         run: |
           pip.exe install "conan==1.45.0"
-          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
 
       - name: Run Conan
         run: |
           md build
           cd build
-          conan profile list
           conan install .. --build missing
 
       - name: Build packaged release
