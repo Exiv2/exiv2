@@ -3,13 +3,16 @@ coverage:
   round: down
   range: "60..100"
 
+  # we don't care about the coverage of files in these folders
+  ignore:
+    - "xmpsdk"
+    - "unitTests"
+    - "samples"
+
   status:
     project:
       default:
         threshold: 1 # decrease by up to 1% doesn't result in failure
-        paths:
-          - "src"
-          - "include"
         branches:
           - main
 
@@ -17,9 +20,6 @@ coverage:
     patch:
       default:
         threshold: 1
-        paths:
-          - "src"
-          - "include"
         branches:
           - main
         only_pulls: true
