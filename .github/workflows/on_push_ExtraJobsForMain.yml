@@ -18,6 +18,7 @@ jobs:
       - name: install dependencies
         run: |
           pip3 install conan==1.45.0
+          pip install gcovr
 
       - name: Conan common config
         run: |
@@ -52,8 +53,8 @@ jobs:
         run: |
           cd build
           ctest --output-on-failure
-          pip install gcovr
-          gcovr -r ./../ -x --exclude-unreachable-branches --exclude-throw-branches -o coverage.xml .
+          # this needs to match th ecommand in on_PR_linux_secial_builds.yml!
+          gcovr --root .. --object-dir . --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml .
           curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM

@@ -55,7 +55,8 @@ jobs:
         run: |
           cd build
           ctest --output-on-failure
-          gcovr --root .. --object-dir . --exclude-directories xmpsdk --exclude-directories unitTests --exclude-directories samples --exclude '.*xmpsdk.*' --exclude '.*unitTests.*' --exclude '.*samples.*' --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml
+          # this needs to match th ecommand in on_push_ExtraJobsForMain.yml!
+          gcovr --root .. --object-dir . --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml
           curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
