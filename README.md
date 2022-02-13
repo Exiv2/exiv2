@@ -1114,53 +1114,45 @@ I recommend that you build and install CMake from source.
 
 ## MinGW/msys2
 
-Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64.
+Please note that the platform MinGW/msys2 32 is obsolete and superceded by MinGW/msys2 64. It is important to highlight that we rely in the usage of the Universal C Runtime (UCRT) and its relative new support for UTF-8. Check this [PR](https://github.com/Exiv2/exiv2/pull/2090) for more information. Therefore you will need to use the [URCT MSYS environment](https://www.msys2.org/docs/environments/).
 
-### MinGW/msys2 64 bit
-Install the latest version of [MSYS2](https://repo.msys2.org/distrib/msys2-x86_64-latest.exe)
+Install the latest version of [MSYS2](https://repo.msys2.org/distrib/msys2-x86_64-latest.exe), and follow the installation instructions available [here](https://www.msys2.org/).
 
 The CI workflow file `.github/workflows/on_PR_windows_matrix.yml` has a build job named `msys2` with instructions showing how to configure Exiv2 on MinGW/msys2.
 
-I use the following batch file to start the MinGW/msys2 64 bit bash shell from the Dos Command Prompt (cmd.exe)
+### Install exiv2 Dependencies
 
-```bat
-@echo off
-setlocal
-set "PATH=c:\msys64\mingw64\bin;c:\msys64\usr\bin;c:\msys64\usr\local\bin;"
-set "PS1=\! MSYS \u@\h:\w \$ "
-set "HOME=c:\msys64\home\rmills"
-if NOT EXIST %HOME% mkdir %HOME%
-cd  %HOME%
-color 1f
-c:\msys64\usr\bin\bash.exe -norc
-endlocal
-
-```
-
-### Install MinGW Dependencies
-
-Install tools and dependencies:
+Please note that you will need to install the `ucrt` package version of the exiv2 dependencies:
 
 ```bash
-for i in base-devel git coreutils dos2unix tar diffutils make                     \
-    mingw-w64-x86_64-toolchain mingw-w64-x86_64-gcc      mingw-w64-x86_64-gdb     \
-    mingw-w64-x86_64-cmake     mingw-w64-x86_64-gettext  mingw-w64-x86_64-python3 \
-    mingw-w64-x86_64-libexpat  mingw-w64-x86_64-libiconv mingw-w64-x86_64-zlib    \
-    mingw-w64-x86_64-gtest
-do (echo y | pacman -S $i) ; done
+pacman -S mingw-w64-ucrt-x86_64-binutils mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-curl mingw-w64-ucrt-x86_64-expat mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-gettext mingw-w64-ucrt-x86_64-gtest mingw-w64-ucrt-x86_64-libiconv mingw-w64-ucrt-x86_64-make mingw-w64-ucrt-x86_64-zlib
 ```
 
 ### Download exiv2 from github and build
 
+Use the Windows start menu to open the terminal customized for the UCRT environment: `MSYS2 MinGW UCRT x64`. Then run the following commands to download exiv2, configure the project and build it:
+
 ```bash
-$ mkdir -p ~/gnu/github/exiv2
-$ cd       ~/gnu/github/exiv2
-$ git clone https://github.com/exiv2/exiv2
-$ cd exiv2
-$ mkdir build ; cd build ;
-$ cmake .. -G "Unix Makefiles"   # or "MSYS Makefiles"
-$ make
+mkdir -p ~/gnu/github/exiv2
+cd       ~/gnu/github/exiv2
+git clone https://github.com/exiv2/exiv2
+cd exiv2
+mkdir build && cd build
+cmake -G "MSYS Makefiles" 
+      -DCMAKE_CXX_FLAGS=-Wno-deprecated
+      -DCMAKE_BUILD_TYPE=Release
+      -DBUILD_SHARED_LIBS=ON
+      -DEXIV2_BUILD_SAMPLES=ON
+      -DEXIV2_ENABLE_NLS=OFF
+      -DEXIV2_ENABLE_WEBREADY=ON
+      -DEXIV2_ENABLE_BMFF=ON
+      -DEXIV2_BUILD_UNIT_TESTS=ON
+      ..
+
+cmake --build . --parallel
 ```
+
+The binaries generated at this point can be executed from the MSYS2 UCRT terminal, but they will not run from a Windows Command Prompt or PowerShell. The reason is that the MSYS2 UCRT terminal is properly configured to find some needed DLLs. In case you want to be able to run the generated **exiv2** binary from any Windows terminal, you'll need to deploy the needed DLLs with the application.
 
 [TOC](#TOC)
 <div id="PlatformCygwin">
@@ -1197,7 +1189,7 @@ endlocal
 
 ## Visual Studio
 
-We recommend that you use Conan to build Exiv2 using Visual Studio. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later.  We actively support and build with Visual Studio 2015, 2017 and 2019.
+We recommend that you use Conan to get the Exiv2 dependencies when using Visual Studio. Exiv2 v0.27 can be built with Visual Studio versions 2008 and later. For the `main` branch we actively support and build with Visual Studio 2019 and 2022.
 
 As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 
@@ -1211,6 +1203,8 @@ As well as Visual Studio, you will need to install CMake, Python3, and Conan.
 ```
 
 The python3 interpreter must be on your PATH.
+
+It is important to highlight that we rely in the usage of the Universal C Runtime (UCRT) and its relative new support for UTF-8. Check this [PR](https://github.com/Exiv2/exiv2/pull/2090) for more information.
 
 [TOC](#TOC)
 <div id="PlatformUnix">
