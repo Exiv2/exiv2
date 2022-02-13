@@ -73,7 +73,4 @@
 // Define if you have the iconv function.
 #cmakedefine EXV_HAVE_ICONV
 
-// Definition to enable conversion of UCS2 encoded Windows tags to UTF-8.
-#cmakedefine EXV_HAVE_PRINTUCS2
-
 #endif /* !_EXV_CONF_H_ */

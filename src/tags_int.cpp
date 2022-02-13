@@ -2731,7 +2731,7 @@ namespace Exiv2 {
         }
         if (!cnv) os << value;
         return os;
-    } // printUcs2
+    }
 
     std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata)
     {
