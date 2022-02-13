@@ -130,6 +130,10 @@ if (Python3_Interpreter_FOUND)
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
         COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests/version_test.py 
     )
+    add_test(NAME regressionTests
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose regression_tests
+    )
 endif()
 
 if( EXIV2_ENABLE_NLS )
