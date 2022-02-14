@@ -114,11 +114,20 @@ list(APPEND APPLICATIONS remotetest)
 # ******************************************************************************
 foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
+    if(MSVC)
+        target_link_libraries(${application} PRIVATE wmain)
+        target_link_options(${application} PRIVATE "/ENTRY:wWinMainCRTStartup")
+    endif()
+    if (MINGW)
+        target_link_libraries(${application} PRIVATE wmain)
+        target_compile_options(${application} PRIVATE -municode)
+        target_link_options(${application} PRIVATE -municode)
+    endif()
     if( EXIV2_ENABLE_PNG )
         target_link_libraries(${application} PRIVATE ${ZLIB_LIBRARIES} )
-	if (MSVC)
-	    set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
-	endif()
+        if (MSVC)
+            set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+        endif()
     endif()
 endforeach()
 

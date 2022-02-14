@@ -49,12 +49,12 @@ jobs:
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DCMAKE_INSTALL_PREFIX=install \
             .. && \
-          cmake --build .
+          cmake --build . --parallel
 
       - name: Install
         run: |
           cd build
-          cmake --build . --target install
+          cmake --install . 
           tree install
 
       - name: Test

@@ -113,14 +113,6 @@ namespace Exiv2
      */
     EXIV2API Protocol fileProtocol(const std::string& path);
 
-#ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like fileProtocol() but accept a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
-    EXIV2API Protocol fileProtocol(const std::wstring& wpath);
-#endif
-
     /*!
       @brief Test if a file exists.
 
@@ -135,15 +127,6 @@ namespace Exiv2
      */
     EXIV2API bool fileExists(const std::string& path, bool ct = false);
 
-#ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like fileExists(const std::string& path, bool ct =false) but
-            accepts a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
-    EXIV2API bool fileExists(const std::wstring& wpath, bool ct = false);
-#endif
-
     /*!
       @brief Get the path of file URL.
 
@@ -151,14 +134,6 @@ namespace Exiv2
       @return the path of file URL.
      */
     EXIV2API std::string pathOfFileUrl(const std::string& url);
-
-#ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like pathOfFileUrl(const std::string& url) but accepts a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
-    EXIV2API std::wstring pathOfFileUrl(const std::wstring& wurl);
-#endif
 
     /*!
       @brief Return a system error message and the error code (errno).

@@ -167,13 +167,7 @@ if(MSVC)
         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     endif ()
 
-    # Object Level Parallelism
-    add_compile_options(/MP)
-    add_definitions(-DNOMINMAX)	# This definition is not only needed for Exiv2 but also for xmpsdk
-    
-    # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
-    if (MSVC_VERSION GREATER_EQUAL "1910") # VS2017 and up
-        add_compile_options("/Zc:__cplusplus")
-    endif()
-
+    add_compile_options(/MP)    # Object Level Parallelism
+    add_compile_options(/utf-8) # Set source and execution character sets to UTF-8
+    add_definitions(-DNOMINMAX) # This definition is not only needed for Exiv2 but also for xmpsdk
 endif()

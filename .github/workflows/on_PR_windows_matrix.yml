@@ -73,14 +73,13 @@ jobs:
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} `
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} `
             -DEXIV2_ENABLE_NLS=OFF `
-            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
             -DEXIV2_ENABLE_WEBREADY=ON `
             -DEXIV2_ENABLE_BMFF=ON `
             -DEXIV2_BUILD_UNIT_TESTS=ON `
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
             -DCMAKE_INSTALL_PREFIX=install `
             -S . -B build && `
-          cmake --build build
+          cmake --build build --parallel
 
       - name: Install
         run: |
@@ -95,22 +94,25 @@ jobs:
 
   msys2:
     runs-on: windows-latest
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        sys: [MINGW64]
+        sys: [UCRT64]
     name: MSYS2 ${{matrix.sys}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
     defaults:
       run:
         shell: msys2 {0}
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
         with:
+          path-type: strict
           msystem: ${{matrix.sys}}
           update: true
           install: >-
@@ -118,28 +120,25 @@ jobs:
           pacboy: >-
             toolchain:p
             cmake:p
-            ninja:p
             expat:p
             gettext:p
             gtest:p
             libiconv:p
-            python-lxml:p
             zlib:p
 
       - name: Build
         run: |
-          cmake -GNinja \
+          cmake -G"MSYS Makefiles" \
             -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_NLS=ON \
-            -DEXIV2_ENABLE_WIN_UNICODE=ON \
+            -DEXIV2_ENABLE_NLS=OFF \
             -DEXIV2_ENABLE_WEBREADY=ON \
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=ON \
             -S . -B build && \
-          cmake --build build
+          cmake --build build --parallel
 
       - name: Test
         run: |
@@ -190,7 +189,7 @@ jobs:
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -S . -B build && \
-          cmake --build build
+          cmake --build build --parallel
 
       - name: Test
         run: |

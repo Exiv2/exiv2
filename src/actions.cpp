@@ -40,6 +40,7 @@
 #include "i18n.h"                // NLS support.
 
 // + standard includes
+#include <filesystem>
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -68,6 +69,8 @@
 #define _fileno(a) a
 #define _setmode(a,b)
 #endif
+
+namespace fs = std::filesystem;
 
 // *****************************************************************************
 // local declarations
@@ -1786,29 +1789,25 @@ namespace {
         return os.str();
     } // tm2Str
 
- std::string temporaryPath()
- {
-     static int count = 0;
-     std::lock_guard<std::mutex> guard(cs);
+    std::string temporaryPath()
+    {
+        static int count = 0;
+        std::lock_guard<std::mutex> guard(cs);
 
 #if defined(_MSC_VER) || defined(__MINGW__)
-        char lpTempPathBuffer[MAX_PATH];
-        GetTempPath(MAX_PATH,lpTempPathBuffer);
-        std::string tmp(lpTempPathBuffer);
-        tmp += "\\";
         HANDLE process=0;
         DWORD  pid = ::GetProcessId(process);
 #else
         pid_t  pid = ::getpid();
-        std::string tmp = "/tmp/";
 #endif
-    std::string result = tmp + Exiv2::toString(pid) + "_" + std::to_string(count);
-    if (Exiv2::fileExists(result)) {
-        std::remove(result.c_str());
-    }
+        /// \todo check if we can use std::tmpnam
+        auto p = fs::temp_directory_path() / (Exiv2::toString(pid) + "_" + std::to_string(count));
+        if (fs::exists(p)) {
+            fs::remove(p);
+        }
 
-    return result;
- }
+        return p.string();
+    }
 
     int metacopy(const std::string& source,
                  const std::string& tgt,

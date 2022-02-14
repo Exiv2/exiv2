@@ -24,9 +24,6 @@
 // Define if the strerror_r function returns char*.
 #cmakedefine EXV_STRERROR_R_CHAR_P
 
-// Define to enable the Windows unicode path support.
-#cmakedefine EXV_UNICODE_PATH
-
 /* Define to `const' or to empty, depending on the second argument of `iconv'. */
 #cmakedefine ICONV_ACCEPTS_CONST_INPUT
 #if defined(ICONV_ACCEPTS_CONST_INPUT) || defined(__NetBSD__)
@@ -75,8 +72,5 @@
 
 // Define if you have the iconv function.
 #cmakedefine EXV_HAVE_ICONV
-
-// Definition to enable conversion of UCS2 encoded Windows tags to UTF-8.
-#cmakedefine EXV_HAVE_PRINTUCS2
 
 #endif /* !_EXV_CONF_H_ */

@@ -241,13 +241,6 @@ namespace Exiv2 {
               available.
          */
         virtual std::string path() const =0;
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like path() but returns a unicode path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        virtual std::wstring wpath() const =0;
-#endif
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -314,14 +307,7 @@ namespace Exiv2 {
           @param path The full path of a file
          */
         explicit FileIo(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like FileIo(const std::string& path) but accepts a
-              unicode path in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        FileIo(const std::wstring& wpath);
-#endif
+
         //! Destructor. Flushes and closes an open file.
         ~FileIo() override;
         //@}
@@ -462,14 +448,7 @@ namespace Exiv2 {
           @brief close the file source and set a new path.
          */
         virtual void setPath(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like setPath(const std::string& path) but accepts a
-              unicode path in an std::wstring.
-          @note This method is only available on Windows.
-         */
-        virtual void setPath(const std::wstring& wpath);
-#endif
+
         //@}
         //! @name Accessors
         //@{
@@ -494,13 +473,6 @@ namespace Exiv2 {
         bool eof() const override;
         //! Returns the path of the file
         std::string path() const override;
-#ifdef EXV_UNICODE_PATH
-        /*
-          @brief Like path() but returns the unicode path of the file in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        virtual std::wstring wpath() const;
-#endif
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -683,13 +655,6 @@ namespace Exiv2 {
         bool eof() const override;
         //! Returns a dummy path, indicating that memory access is used
         std::string path() const override;
-#ifdef EXV_UNICODE_PATH
-        /*
-          @brief Like path() but returns a unicode dummy path in an std::wstring.
-          @note This function is only available on Windows.
-         */
-        virtual std::wstring wpath() const;
-#endif
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -725,14 +690,6 @@ namespace Exiv2 {
         //@{
         //! Default constructor
         XPathIo(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like XPathIo(const std::string& path) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        XPathIo(const std::wstring& wpath);
-#endif
         //@}
     private:
         /*!
@@ -765,14 +722,7 @@ namespace Exiv2 {
         //@{
         //! Default constructor that reads data from stdin/data uri path and writes them to the temp file.
         explicit XPathIo(const std::string& orgPath);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like XPathIo(const std::string& orgPath) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        XPathIo(const std::wstring& wOrgPathpath);
-#endif
+
         //! Destructor. Releases all managed memory and removes the temp file.
         ~XPathIo() override;
         //@}
@@ -796,14 +746,6 @@ namespace Exiv2 {
             @throw Error if it fails.
          */
         static std::string writeDataToFile(const std::string& orgPath);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like writeDataToFile(const std::string& orgPath) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        static std::string writeDataToFile(const std::wstring& wOrgPath);
-#endif
         //@}
 
     private:
@@ -957,13 +899,6 @@ namespace Exiv2 {
        bool eof() const override;
        //!Returns the URL of the file.
        std::string path() const override;
-#ifdef EXV_UNICODE_PATH
-       /*
-         @brief Like path() but returns a unicode URL path in an std::wstring.
-         @note This function is only available on Windows.
-        */
-       virtual std::wstring wpath() const;
-#endif
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -1001,14 +936,7 @@ namespace Exiv2 {
                 on demand from the server, so it avoids copying the complete file.
          */
         explicit HttpIo(const std::string& url, size_t blockSize = 1024);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like HttpIo(const std::string& url, size_t blockSize = 1024) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        HttpIo(const std::wstring& wurl, size_t blockSize = 1024);
-#endif
+
         // NOT IMPLEMENTED
         //! Copy constructor
         HttpIo(HttpIo& rhs) = delete;
@@ -1039,14 +967,7 @@ namespace Exiv2 {
           @throw Error if it is unable to init curl pointer.
          */
         explicit CurlIo(const std::string& url, size_t blockSize = 0);
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Like CurlIo(const std::string&  url,  size_t blockSize = 0) but accepts a
-              unicode url in an std::wstring.
-          @note This constructor is only available on Windows.
-         */
-        CurlIo(const std::wstring& wurl, size_t blockSize = 0);
-#endif
+
         /*!
           @brief Write access is only available for some protocols. This method
                 will call RemoteIo::write(const byte* data, long wcount) if the write
@@ -1081,41 +1002,18 @@ namespace Exiv2 {
       @throw Error In case of failure.
      */
     EXIV2API DataBuf readFile(const std::string& path);
-#ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like readFile() but accepts a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
-    EXIV2API DataBuf readFile(const std::wstring& wpath);
-#endif
     /*!
       @brief Write DataBuf \em buf to file \em path.
       @return Return the number of bytes written.
       @throw Error In case of failure.
      */
     EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
-#ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like writeFile() but accepts a unicode path in an std::wstring.
-      @note This function is only available on Windows.
-     */
-    EXIV2API long writeFile(const DataBuf& buf, const std::wstring& wpath);
-#endif
     /*!
       @brief replace each substring of the subject that matches the given search string with the given replacement.
       @return the subject after replacing.
      */
     EXIV2API std::string ReplaceStringInPlace(std::string subject, const std::string& search,
                           const std::string& replace);
-#ifdef EXV_UNICODE_PATH
-    /*!
-      @brief Like ReplaceStringInPlace() but accepts a unicode path in an std::wstring.
-      @return the subject after replacing.
-      @note This function is only available on Windows.
-     */
-    EXIV2API std::wstring ReplaceStringInPlace(std::wstring subject, const std::wstring& search,
-                          const std::wstring& replace);
-#endif
 #ifdef EXV_USE_CURL
     /*!
       @brief The callback function is called by libcurl to write the data

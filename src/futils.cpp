@@ -251,35 +251,7 @@ namespace Exiv2 {
 
         return result;
     } // fileProtocol
-#ifdef EXV_UNICODE_PATH
-    Protocol fileProtocol(const std::wstring& path) {
-        Protocol result = pFile ;
-        struct {
-            std::wstring  name ;
-            Protocol      prot ;
-            bool          isUrl; // path.size() > name.size()
-        } prots[] =
-        { { L"http://"   ,pHttp     , true  }
-        , { L"https://"  ,pHttps    , true  }
-        , { L"ftp://"    ,pFtp      , true  }
-        , { L"sftp://"   ,pSftp     , true  }
-        , { L"file://"   ,pFileUri  , true  }
-        , { L"data://"   ,pDataUri  , true  }
-        , { L"-"         ,pStdin    , false }
-        };
-        for (auto&& prot : prots) {
-            if (result != pFile)
-                break;
 
-            if (path.rfind(prot.name, 0) == 0)
-                // URL's require data.  Stdin == "-" and no further data
-                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
-                    result = prot.prot;
-        }
-
-        return result;
-    } // fileProtocol
-#endif
     bool fileExists(const std::string& path, bool ct)
     {
         // special case: accept "-" (means stdin)
@@ -294,36 +266,12 @@ namespace Exiv2 {
         return true;
     } // fileExists
 
-#ifdef EXV_UNICODE_PATH
-    bool fileExists(const std::wstring& wpath, bool ct)
-    {
-        // special case: accept "-" (means stdin)
-        if (wpath.compare(L"-") == 0 || fileProtocol(wpath) != pFile) {
-            return true;
-        }
-
-        struct _stat buf;
-        int ret = _wstat(wpath.c_str(), &buf);
-        if (0 != ret)                    return false;
-        if (ct && !S_ISREG(buf.st_mode)) return false;
-        return true;
-    } // fileExists
-
-#endif
     std::string pathOfFileUrl(const std::string& url) {
         std::string path = url.substr(7);
         size_t found = path.find('/');
         if (found == std::string::npos) return path;
         return path.substr(found);
     }
-#ifdef EXV_UNICODE_PATH
-    std::wstring pathOfFileUrl(const std::wstring& wurl) {
-        std::wstring path = wurl.substr(7);
-        size_t found = path.find('/');
-        if (found == std::wstring::npos) return path;
-        else return path.substr(found);
-    }
-#endif
 
     std::string strError()
     {

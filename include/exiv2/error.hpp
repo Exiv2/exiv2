@@ -292,13 +292,6 @@ namespace Exiv2 {
                  is valid only as long as the BasicError object exists.
          */
         inline const char* what() const noexcept override;
-#ifdef EXV_UNICODE_PATH
-        /*!
-          @brief Return the error message as a wchar_t-string. The pointer returned by
-                 wwhat() is valid only as long as the BasicError object exists.
-         */
-        virtual inline const wchar_t* wwhat() const throw();
-#endif
         //@}
 
     private:
@@ -315,17 +308,10 @@ namespace Exiv2 {
         std::basic_string<charT> arg2_;         //!< Second argument
         std::basic_string<charT> arg3_;         //!< Third argument
         std::string              msg_;          //!< Complete error message
-#ifdef EXV_UNICODE_PATH
-        std::wstring             wmsg_;         //!< Complete error message as a wide string
-#endif
     }; // class BasicError
 
     //! Error class used for exceptions (std::string based)
     typedef BasicError<char> Error;
-#ifdef EXV_UNICODE_PATH
-    //! Error class used for exceptions (std::wstring based)
-    typedef BasicError<wchar_t> WError;
-#endif
 
 // *****************************************************************************
 // free functions, template and inline definitions
@@ -380,14 +366,6 @@ namespace Exiv2 {
     {
         return msg_.c_str();
     }
-
-#ifdef EXV_UNICODE_PATH
-    template<typename charT>
-    const wchar_t* BasicError<charT>::wwhat() const throw()
-    {
-        return wmsg_.c_str();
-    }
-#endif
 
 #ifdef _MSC_VER
 # pragma warning( default : 4275 )

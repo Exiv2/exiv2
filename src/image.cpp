@@ -818,14 +818,6 @@ namespace Exiv2 {
         return getType(fileIo);
     }
 
-#ifdef EXV_UNICODE_PATH
-    int ImageFactory::getType(const std::wstring& wpath)
-    {
-        FileIo fileIo(wpath);
-        return getType(fileIo);
-    }
-
-#endif
     int ImageFactory::getType(const byte* data, long size)
     {
         MemIo memIo(data, size);
@@ -866,24 +858,6 @@ namespace Exiv2 {
         (void)(useCurl);
     } // ImageFactory::createIo
 
-#ifdef EXV_UNICODE_PATH
-    BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
-    {
-        Protocol fProt = fileProtocol(wpath);
-#ifdef EXV_USE_CURL
-        if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
-            return std::make_unique<CurlIo>(wpath);
-        }
-#endif
-        if (fProt == pHttp)
-            return std::make_unique<HttpIo>(wpath);
-        if (fProt == pFileUri)
-            return std::make_unique<FileIo>(pathOfFileUrl(wpath));
-        if (fProt == pStdin || fProt == pDataUri)
-            return std::make_unique<XPathIo>(wpath); // may throw
-        return std::make_unique<FileIo>(wpath);
-    }
-#endif
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
         auto image = open(ImageFactory::createIo(path, useCurl)); // may throw
@@ -892,16 +866,6 @@ namespace Exiv2 {
         return image;
     }
 
-#ifdef EXV_UNICODE_PATH
-    Image::UniquePtr ImageFactory::open(const std::wstring& wpath, bool useCurl)
-    {
-        auto image = open(ImageFactory::createIo(wpath, useCurl)); // may throw
-        if (!image)
-            throw WError(kerFileContainsUnknownImageType, wpath);
-        return image;
-    }
-
-#endif
     Image::UniquePtr ImageFactory::open(const byte* data, long size)
     {
         auto io = std::make_unique<MemIo>(data, size);
@@ -940,25 +904,6 @@ namespace Exiv2 {
         return image;
     }
 
-#ifdef EXV_UNICODE_PATH
-    Image::UniquePtr ImageFactory::create(int type,
-                                        const std::wstring& wpath)
-    {
-        auto fileIo = std::make_unique<FileIo>(wpath);
-        // Create or overwrite the file, then close it
-        if (fileIo->open("w+b") != 0) {
-            throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
-        }
-        fileIo->close();
-
-        BasicIo::UniquePtr io(std::move(fileIo));
-        auto image = create(type, std::move(io));
-        if (!image)
-            throw Error(kerUnsupportedImageType, type);
-        return image;
-    }
-
-#endif
     Image::UniquePtr ImageFactory::create(int type)
     {
         auto io = std::make_unique<MemIo>();

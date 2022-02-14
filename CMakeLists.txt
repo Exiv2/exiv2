@@ -9,7 +9,7 @@ project(exiv2          # use TWEAK to categorize the build
                        # 1.00.0.20 = RC2 Preview
                        # 1.00.0.29 = RC2 Development
     DESCRIPTION    "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
-    LANGUAGES CXX
+    LANGUAGES C CXX
 )
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -24,10 +24,8 @@ option( EXIV2_ENABLE_XMP              "Build with XMP metadata support"         
 option( EXIV2_ENABLE_EXTERNAL_XMP     "Use external version of XMP"                           OFF )
 option( EXIV2_ENABLE_PNG              "Build with png support (requires libz)"                ON  )
 option( EXIV2_ENABLE_NLS              "Build native language support (requires gettext)"      OFF )
-option( EXIV2_ENABLE_PRINTUCS2        "Build with Printucs2"                                  ON  )
 option( EXIV2_ENABLE_LENSDATA         "Build including lens data"                             ON  )
 option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON  )
-option( EXIV2_ENABLE_WIN_UNICODE      "Use Unicode paths (wstring) on Windows"                OFF )
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
 option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )

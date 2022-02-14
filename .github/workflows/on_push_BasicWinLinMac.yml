@@ -66,7 +66,7 @@ jobs:
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
             -DCMAKE_INSTALL_PREFIX=install .. `
             -S . -B build && `
-          cmake --build build
+          cmake --build build --parallel
 
 
       - name: Test
@@ -109,7 +109,7 @@ jobs:
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DCMAKE_INSTALL_PREFIX=install \
             .. && \
-          cmake --build .
+          cmake --build . --parallel
 
       - name: Test
         run: |
@@ -151,7 +151,7 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=install \
             -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
             .. && \
-          cmake --build .
+          cmake --build . --parallel
 
       - name: Test
         run: |

@@ -47,7 +47,7 @@ jobs:
             -DBUILD_WITH_COVERAGE=ON \
             -DCMAKE_INSTALL_PREFIX=install \
             .. && \
-          make -j
+          cmake --build . --parallel
 
       - name: Tests + Upload coverage
         run: |

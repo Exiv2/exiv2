@@ -25,25 +25,6 @@
 #include <cassert>
 #include <regex>
 
-// https://github.com/Exiv2/exiv2/issues/468
-#if defined(EXV_UNICODE_PATH) && defined(__MINGW__)
-#undef  EXV_UNICODE_PATH
-#endif
-
-#ifdef  EXV_UNICODE_PATH
-#define _tchar      wchar_t
-#define _tstrcmp    wcscmp
-#define _t(s)       L##s
-#define _tcout      wcout
-#define _tmain      wmain
-#else
-#define _tchar      char
-#define _tstrcmp    strcmp
-#define _t(s)       s
-#define _tcout      cout
-#define _tmain      main
-#endif
-
 // copied from src/tiffvisitor_int.cpp
 static const Exiv2::TagInfo* findTag(const Exiv2::TagInfo* pList,uint16_t tag)
 {
@@ -52,31 +33,32 @@ static const Exiv2::TagInfo* findTag(const Exiv2::TagInfo* pList,uint16_t tag)
 }
 
 
-int _tmain(int argc, _tchar* const argv[])
+int main(int argc, char* const argv[])
 try {
+    setlocale(LC_CTYPE, ".utf8");
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
     Exiv2::enableBMFF();
 #endif
 
-    const _tchar* prog = argv[0];
+    const char* prog = argv[0];
     if (argc == 1) {
-        std::_tcout << _t("Usage: ") << prog << _t(" [ [--lint] path | --version | --version-test ]") << std::endl;
+        std::cout << "Usage: " << prog << " [ [--lint] path | --version | --version-test ]" << std::endl;
         return 1;
     }
 
     int    rc          = 0      ;
-    const _tchar* file = argv[1];
-    bool   bLint       = _tstrcmp(file,_t("--lint")) == 0 && argc == 3;
+    const char* file = argv[1];
+    bool   bLint       = strcmp(file, "--lint") == 0 && argc == 3;
     if (   bLint ) file= argv[2];
 
 
-    if ( _tstrcmp(file,_t("--version")) == 0 ) {
+    if ( strcmp(file,"--version") == 0 ) {
         std::vector<std::regex> keys;
         Exiv2::dumpLibraryInfo(std::cout,keys);
         return rc;
-    } else if ( _tstrcmp(file,_t("--version-test")) == 0 ) {
+    } else if ( strcmp(file,"--version-test") == 0 ) {
         // verifies/test macro EXIV2_TEST_VERSION
         // described in include/exiv2/version.hpp
         std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION             << std::endl
