@@ -21,6 +21,9 @@
 
 #include "utils.hpp"
 
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace Util {
 
@@ -29,25 +32,10 @@ namespace Util {
 
     std::string dirname(const std::string& path)
     {
-        if (path.empty())
+        auto p = fs::path(path).parent_path();
+        if (p.empty())
             return ".";
-        // Strip trailing slashes or backslashes
-        std::string p = path;
-        while (   p.length() > 1
-               && (p[p.length()-1] == '\\' || p[p.length()-1] == '/')) {
-            p = p.substr(0, p.length()-1);
-        }
-        if (p == "\\" || p == "/") return p;
-        if (p.length() == 2 && p[1] == ':') return p; // For Windows paths
-        std::string::size_type idx = p.find_last_of("\\/");
-        if (idx == std::string::npos) return ".";
-        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return p; // For Windows paths
-        p = p.substr(0, idx == 0 ? 1 : idx);
-        while (   p.length() > 1
-               && (p[p.length()-1] == '\\' || p[p.length()-1] == '/')) {
-            p = p.substr(0, p.length()-1);
-        }
-        return p;
+        return p.string();
     }
 
     std::string basename(const std::string& path, bool delsuffix)

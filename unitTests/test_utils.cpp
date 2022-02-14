@@ -6,18 +6,39 @@
 
 namespace  {
     const std::string pathLinux("/home/luis/file.txt");
-    const std::string pathWindows("c:\\luis\\file.txt");
+    const std::string pathWindows("c:/luis/file.txt");
 }
 
-TEST(dirname, returnsDirNameWithValidPathOnLinux)
-{
-    ASSERT_EQ("/home/luis", Util::dirname(pathLinux));
-}
+#ifdef _WIN32
 
 TEST(dirname, returnsDirNameWithValidPathOnWindows)
 {
     ASSERT_EQ("c:\\luis", Util::dirname(pathWindows));
 }
+TEST(basename, returnsStemWithExtensionWithValidPathOnWindows)
+{
+    const bool delSuffix = false;
+    ASSERT_EQ("file.txt", Util::basename(pathWindows, delSuffix));
+}
+
+TEST(basename, returnsStemWithoutExtensionWithValidPathOnWindows)
+{
+    const bool delSuffix = true;
+    ASSERT_EQ("file", Util::basename(pathWindows, delSuffix));
+}
+TEST(suffix, returnsExtensionWithValidWindowsPath)
+{
+    ASSERT_EQ(".txt", Util::suffix(pathWindows));
+}
+
+#else
+
+TEST(dirname, returnsDirNameWithValidPathOnLinux)
+{
+    ASSERT_EQ("/home/luis", Util::dirname(pathLinux));
+    ASSERT_EQ("/tmp", Util::dirname("/tmp/file.jpg"));
+}
+
 
 TEST(dirname, returnsDotWithRelativePath)
 {
@@ -42,28 +63,14 @@ TEST(basename, returnsStemWithoutExtensionWithValidPathOnLinux)
     ASSERT_EQ("file", Util::basename(pathLinux, delSuffix));
 }
 
-TEST(basename, returnsStemWithExtensionWithValidPathOnWindows)
-{
-    const bool delSuffix = false;
-    ASSERT_EQ("file.txt", Util::basename(pathWindows, delSuffix));
-}
-
-TEST(basename, returnsStemWithoutExtensionWithValidPathOnWindows)
-{
-    const bool delSuffix = true;
-    ASSERT_EQ("file", Util::basename(pathWindows, delSuffix));
-}
 
 TEST(suffix, returnsExtensionWithValidLinuxPath)
 {
     ASSERT_EQ(".txt", Util::suffix(pathLinux));
 }
 
+#endif
 
-TEST(suffix, returnsExtensionWithValidWindowsPath)
-{
-    ASSERT_EQ(".txt", Util::suffix(pathWindows));
-}
 
 TEST(suffix, returnsEmptyStringWithFilesWithoutExtension)
 {
