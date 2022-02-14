@@ -8,9 +8,13 @@ name: "CodeQL"
 on:
   push:
     branches: [0.27-maintenance, main]
+    paths-ignore:
+      - "*.md"
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [0.27-maintenance, main]
+    paths-ignore:
+      - "*.md"
   workflow_dispatch:
 
 jobs:

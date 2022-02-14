@@ -2,7 +2,10 @@
 # https://google.github.io/oss-fuzz/getting-started/continuous-integration/
 
 name: CIFuzz
-on: [pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
 jobs:
   Fuzzing:
     runs-on: ubuntu-latest

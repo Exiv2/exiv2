@@ -3,7 +3,11 @@
 # PRs, we will test things more intensively :)
 # - Only running UnitTests and not regression tests
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - "*.md"
+
 name: On PUSH - Basic CI for main platforms
 
 jobs:

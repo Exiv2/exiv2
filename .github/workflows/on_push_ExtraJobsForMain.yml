@@ -6,6 +6,8 @@ on:
     - main
     tags:
     - '!*'
+    paths-ignore:
+      - "*.md"
 
 jobs:
   special_debugRelease:

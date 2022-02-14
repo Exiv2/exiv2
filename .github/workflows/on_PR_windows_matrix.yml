@@ -2,11 +2,15 @@ name: On PRs - Windows Matrix
 
 on:
   pull_request:
+    paths-ignore:
+      - "*.md"
   push:
     branches:
     - main
     tags:
     - '!*'
+    paths-ignore:
+      - "*.md"
 
 jobs:
   windows:
