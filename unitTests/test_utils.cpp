@@ -26,10 +26,6 @@ TEST(basename, returnsStemWithoutExtensionWithValidPathOnWindows)
     const bool delSuffix = true;
     ASSERT_EQ("file", Util::basename(pathWindows, delSuffix));
 }
-TEST(suffix, returnsExtensionWithValidWindowsPath)
-{
-    ASSERT_EQ(".txt", Util::suffix(pathWindows));
-}
 
 #else
 
@@ -63,17 +59,4 @@ TEST(basename, returnsStemWithoutExtensionWithValidPathOnLinux)
     ASSERT_EQ("file", Util::basename(pathLinux, delSuffix));
 }
 
-
-TEST(suffix, returnsExtensionWithValidLinuxPath)
-{
-    ASSERT_EQ(".txt", Util::suffix(pathLinux));
-}
-
 #endif
-
-
-TEST(suffix, returnsEmptyStringWithFilesWithoutExtension)
-{
-    ASSERT_EQ("", Util::suffix("/home/luis/file"));
-    ASSERT_EQ("", Util::suffix("c:\\luis\\file"));
-}

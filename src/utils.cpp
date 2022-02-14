@@ -45,10 +45,4 @@ namespace Util {
             return p.stem().string();
         return p.filename().string();
     }
-
-    std::string suffix(const std::string& path)
-    {
-        return fs::path(path).extension().string();
-    }
-
 }                                       // namespace Util

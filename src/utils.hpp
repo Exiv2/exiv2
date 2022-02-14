@@ -57,12 +57,6 @@ namespace Util {
      */
     std::string basename(const std::string& path, bool delsuffix =false);
 
-    /*!
-      @brief Get the suffix from the path string. Normally, the suffix
-             is the substring of the basename of path from the last '.'
-             to the end of the string.
-     */
-    std::string suffix(const std::string& path);
 }                                       // namespace Util
 
 #endif                                  // #ifndef UTILS_HPP_

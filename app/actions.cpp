@@ -1972,6 +1972,7 @@ namespace {
 
     int renameFile(std::string& newPath, const struct tm* tm)
     {
+        auto p = fs::path(newPath);
         std::string path = newPath;
         std::string format = Params::instance().format_;
         replace(format, ":basename:",   Util::basename(path, true));
@@ -1986,8 +1987,9 @@ namespace {
                       << path << "\n";
             return 1;
         }
-        newPath =   Util::dirname(path) + EXV_SEPARATOR_STR
-                  + basename + Util::suffix(path);
+
+        newPath =  p.parent_path() / (basename + p.extension().string());
+
         if (   Util::dirname(newPath)  == Util::dirname(path)
             && Util::basename(newPath) == Util::basename(path)) {
             if (Params::instance().verbose_) {
@@ -2008,10 +2010,9 @@ namespace {
                     go = false;
                     break;
                 case Params::renamePolicy:
-                    newPath = Util::dirname(path)
-                        + EXV_SEPARATOR_STR + basename
-                        + "_" + Exiv2::toString(seq++)
-                        + Util::suffix(path);
+                    newPath = p.parent_path() / (std::string(basename) + "_"
+                                                                       + Exiv2::toString(seq++)
+                                                                       + p.extension().string());
                     break;
                 case Params::askPolicy:
                     std::cout << Params::instance().progname()
@@ -2027,10 +2028,9 @@ namespace {
                     case 'r':
                     case 'R':
                         fileExistsPolicy = Params::renamePolicy;
-                        newPath = Util::dirname(path)
-                            + EXV_SEPARATOR_STR + basename
-                            + "_" + Exiv2::toString(seq++)
-                            + Util::suffix(path);
+                        newPath = p.parent_path() / (std::string(basename) + "_"
+                                                                           + Exiv2::toString(seq++)
+                                                                           + p.extension().string());
                         break;
                     default: // skip
                         return -1;
