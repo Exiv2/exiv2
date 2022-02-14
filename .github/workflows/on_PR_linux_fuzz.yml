@@ -6,6 +6,8 @@ name: On PRs - Linux-Ubuntu Quick Fuzz
 
 on:
   pull_request:
+    paths-ignore:
+      - "*.md"
   workflow_dispatch:
 
 jobs:

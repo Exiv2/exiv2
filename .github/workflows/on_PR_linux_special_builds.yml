@@ -3,6 +3,8 @@ name: On PRs - Linux Special Builds
 on:
   workflow_dispatch:
   pull_request:
+    paths-ignore:
+      - "*.md"
 
 jobs:
   special_debugRelease:

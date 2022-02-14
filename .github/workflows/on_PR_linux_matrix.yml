@@ -1,6 +1,9 @@
 name: On PRs - Linux-Ubuntu Matrix
 
-on: [pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
 
 jobs:
   Linux:
