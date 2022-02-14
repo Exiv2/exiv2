@@ -33,7 +33,6 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "version.hpp"
-#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
@@ -49,7 +48,6 @@
 namespace {
 
     using namespace Exiv2;
-    using namespace Util;
     using Exiv2::byte;
 
     // signature of DOS EPS

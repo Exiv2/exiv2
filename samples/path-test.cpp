@@ -20,12 +20,13 @@
  */
 
 #include <exiv2/exiv2.hpp>
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 
-#include "utils.hpp"
+namespace fs = std::filesystem;
 
 int main(int argc, char* const argv[])
 {
@@ -49,8 +50,9 @@ int main(int argc, char* const argv[])
         std::string path, dir, base;
         std::istringstream is(line);
         is >> path >> dir >> base;
-        std::string d = Util::dirname(path);
-        std::string b = Util::basename(path);
+        auto p = fs::path(path);
+        std::string d = p.parent_path().string();
+        std::string b = p.filename().string();
 
         if (d != dir || b != base) {
             std::cout << path << "\t'" << d << "'\t '" << b

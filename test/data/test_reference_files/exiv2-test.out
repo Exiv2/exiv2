@@ -2223,72 +2223,72 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 Extract Exif data --------------------------------------------------------
 File  1/16: exiv2-empty.jpg
 File  2/16: 20031214_000043.jpg
-Writing Exif data from 20031214_000043.jpg to ./20031214_000043.exv
+Writing Exif data from 20031214_000043.jpg to 20031214_000043.exv
 File  3/16: 20000506_020544.jpg
-Writing Exif data from 20000506_020544.jpg to ./20000506_020544.exv
+Writing Exif data from 20000506_020544.jpg to 20000506_020544.exv
 File  4/16: 20040329_224245.jpg
-Writing Exif data from 20040329_224245.jpg to ./20040329_224245.exv
+Writing Exif data from 20040329_224245.jpg to 20040329_224245.exv
 File  5/16: 20010405_235039.jpg
-Writing Exif data from 20010405_235039.jpg to ./20010405_235039.exv
+Writing Exif data from 20010405_235039.jpg to 20010405_235039.exv
 File  6/16: 20030925_201850.jpg
-Writing Exif data from 20030925_201850.jpg to ./20030925_201850.exv
+Writing Exif data from 20030925_201850.jpg to 20030925_201850.exv
 File  7/16: 20001026_044550.jpg
-Writing Exif data from 20001026_044550.jpg to ./20001026_044550.exv
-Writing JPEG comment from 20001026_044550.jpg to ./20001026_044550.exv
+Writing Exif data from 20001026_044550.jpg to 20001026_044550.exv
+Writing JPEG comment from 20001026_044550.jpg to 20001026_044550.exv
 File  8/16: 20030926_111535.jpg
-Writing Exif data from 20030926_111535.jpg to ./20030926_111535.exv
+Writing Exif data from 20030926_111535.jpg to 20030926_111535.exv
 File  9/16: 20040316_075137.jpg
-Writing Exif data from 20040316_075137.jpg to ./20040316_075137.exv
+Writing Exif data from 20040316_075137.jpg to 20040316_075137.exv
 File 10/16: 20040208_093744.jpg
-Writing Exif data from 20040208_093744.jpg to ./20040208_093744.exv
+Writing Exif data from 20040208_093744.jpg to 20040208_093744.exv
 File 11/16: 20050218_212016.jpg
-Writing Exif data from 20050218_212016.jpg to ./20050218_212016.exv
+Writing Exif data from 20050218_212016.jpg to 20050218_212016.exv
 File 12/16: 20050527_051833.jpg
-Writing Exif data from 20050527_051833.jpg to ./20050527_051833.exv
+Writing Exif data from 20050527_051833.jpg to 20050527_051833.exv
 File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
-Writing Exif data from 20060802_095200.jpg to ./20060802_095200.exv
+Writing Exif data from 20060802_095200.jpg to 20060802_095200.exv
 File 14/16: 20001004_015404.jpg
-Writing Exif data from 20001004_015404.jpg to ./20001004_015404.exv
+Writing Exif data from 20001004_015404.jpg to 20001004_015404.exv
 File 15/16: 20060127_225027.jpg
-Writing Exif data from 20060127_225027.jpg to ./20060127_225027.exv
+Writing Exif data from 20060127_225027.jpg to 20060127_225027.exv
 File 16/16: 20110626_213900.psd
-Writing Exif data from 20110626_213900.psd to ./20110626_213900.exv
-Writing IPTC data from 20110626_213900.psd to ./20110626_213900.exv
-Writing XMP data from 20110626_213900.psd to ./20110626_213900.exv
+Writing Exif data from 20110626_213900.psd to 20110626_213900.exv
+Writing IPTC data from 20110626_213900.psd to 20110626_213900.exv
+Writing XMP data from 20110626_213900.psd to 20110626_213900.exv
 
 Extract Thumbnail --------------------------------------------------------
 File  1/16: exiv2-empty.jpg
 exiv2-empty.jpg: No Exif data found in the file
 File  2/16: 20031214_000043.jpg
-Writing thumbnail (image/jpeg, 5448 Bytes) to file ./20031214_000043-thumb.jpg
+Writing thumbnail (image/jpeg, 5448 Bytes) to file 20031214_000043-thumb.jpg
 File  3/16: 20000506_020544.jpg
-Writing thumbnail (image/jpeg, 7829 Bytes) to file ./20000506_020544-thumb.jpg
+Writing thumbnail (image/jpeg, 7829 Bytes) to file 20000506_020544-thumb.jpg
 File  4/16: 20040329_224245.jpg
-Writing thumbnail (image/jpeg, 8930 Bytes) to file ./20040329_224245-thumb.jpg
+Writing thumbnail (image/jpeg, 8930 Bytes) to file 20040329_224245-thumb.jpg
 File  5/16: 20010405_235039.jpg
-Writing thumbnail (image/jpeg, 4662 Bytes) to file ./20010405_235039-thumb.jpg
+Writing thumbnail (image/jpeg, 4662 Bytes) to file 20010405_235039-thumb.jpg
 File  6/16: 20030925_201850.jpg
-Writing thumbnail (image/jpeg, 9728 Bytes) to file ./20030925_201850-thumb.jpg
+Writing thumbnail (image/jpeg, 9728 Bytes) to file 20030925_201850-thumb.jpg
 File  7/16: 20001026_044550.jpg
-Writing thumbnail (image/tiff, 20916 Bytes) to file ./20001026_044550-thumb.tif
+Writing thumbnail (image/tiff, 20916 Bytes) to file 20001026_044550-thumb.tif
 File  8/16: 20030926_111535.jpg
-Writing thumbnail (image/jpeg, 9573 Bytes) to file ./20030926_111535-thumb.jpg
+Writing thumbnail (image/jpeg, 9573 Bytes) to file 20030926_111535-thumb.jpg
 File  9/16: 20040316_075137.jpg
-Writing thumbnail (image/jpeg, 11998 Bytes) to file ./20040316_075137-thumb.jpg
+Writing thumbnail (image/jpeg, 11998 Bytes) to file 20040316_075137-thumb.jpg
 File 10/16: 20040208_093744.jpg
-Writing thumbnail (image/jpeg, 7306 Bytes) to file ./20040208_093744-thumb.jpg
+Writing thumbnail (image/jpeg, 7306 Bytes) to file 20040208_093744-thumb.jpg
 File 11/16: 20050218_212016.jpg
-Writing thumbnail (image/jpeg, 10308 Bytes) to file ./20050218_212016-thumb.jpg
+Writing thumbnail (image/jpeg, 10308 Bytes) to file 20050218_212016-thumb.jpg
 File 12/16: 20050527_051833.jpg
-Writing thumbnail (image/jpeg, 15605 Bytes) to file ./20050527_051833-thumb.jpg
+Writing thumbnail (image/jpeg, 15605 Bytes) to file 20050527_051833-thumb.jpg
 File 13/16: 20060802_095200.jpg
 Warning: Directory Canon has an unexpected next pointer; ignored.
-Writing thumbnail (image/jpeg, 6260 Bytes) to file ./20060802_095200-thumb.jpg
+Writing thumbnail (image/jpeg, 6260 Bytes) to file 20060802_095200-thumb.jpg
 File 14/16: 20001004_015404.jpg
-Writing thumbnail (image/jpeg, 13824 Bytes) to file ./20001004_015404-thumb.jpg
+Writing thumbnail (image/jpeg, 13824 Bytes) to file 20001004_015404-thumb.jpg
 File 15/16: 20060127_225027.jpg
-Writing thumbnail (image/jpeg, 6137 Bytes) to file ./20060127_225027-thumb.jpg
+Writing thumbnail (image/jpeg, 6137 Bytes) to file 20060127_225027-thumb.jpg
 File 16/16: 20110626_213900.psd
 20110626_213900.psd: Exif data doesn't contain a thumbnail
 exiv2-empty.exv: No Exif data found in the file
@@ -5623,38 +5623,38 @@ File 16/16: 20110626_213900.psd
 Insert Exif data ---------------------------------------------------------
 File  1/16: exiv2-empty.jpg
 File  2/16: 20031214_000043.jpg
-Writing Exif data from ./20031214_000043.exv to 20031214_000043.jpg
+Writing Exif data from 20031214_000043.exv to 20031214_000043.jpg
 File  3/16: 20000506_020544.jpg
-Writing Exif data from ./20000506_020544.exv to 20000506_020544.jpg
+Writing Exif data from 20000506_020544.exv to 20000506_020544.jpg
 File  4/16: 20040329_224245.jpg
-Writing Exif data from ./20040329_224245.exv to 20040329_224245.jpg
+Writing Exif data from 20040329_224245.exv to 20040329_224245.jpg
 File  5/16: 20010405_235039.jpg
-Writing Exif data from ./20010405_235039.exv to 20010405_235039.jpg
+Writing Exif data from 20010405_235039.exv to 20010405_235039.jpg
 File  6/16: 20030925_201850.jpg
-Writing Exif data from ./20030925_201850.exv to 20030925_201850.jpg
+Writing Exif data from 20030925_201850.exv to 20030925_201850.jpg
 File  7/16: 20001026_044550.jpg
-Writing Exif data from ./20001026_044550.exv to 20001026_044550.jpg
-Writing JPEG comment from ./20001026_044550.exv to 20001026_044550.jpg
+Writing Exif data from 20001026_044550.exv to 20001026_044550.jpg
+Writing JPEG comment from 20001026_044550.exv to 20001026_044550.jpg
 File  8/16: 20030926_111535.jpg
-Writing Exif data from ./20030926_111535.exv to 20030926_111535.jpg
+Writing Exif data from 20030926_111535.exv to 20030926_111535.jpg
 File  9/16: 20040316_075137.jpg
-Writing Exif data from ./20040316_075137.exv to 20040316_075137.jpg
+Writing Exif data from 20040316_075137.exv to 20040316_075137.jpg
 File 10/16: 20040208_093744.jpg
-Writing Exif data from ./20040208_093744.exv to 20040208_093744.jpg
+Writing Exif data from 20040208_093744.exv to 20040208_093744.jpg
 File 11/16: 20050218_212016.jpg
-Writing Exif data from ./20050218_212016.exv to 20050218_212016.jpg
+Writing Exif data from 20050218_212016.exv to 20050218_212016.jpg
 File 12/16: 20050527_051833.jpg
-Writing Exif data from ./20050527_051833.exv to 20050527_051833.jpg
+Writing Exif data from 20050527_051833.exv to 20050527_051833.jpg
 File 13/16: 20060802_095200.jpg
-Writing Exif data from ./20060802_095200.exv to 20060802_095200.jpg
+Writing Exif data from 20060802_095200.exv to 20060802_095200.jpg
 File 14/16: 20001004_015404.jpg
-Writing Exif data from ./20001004_015404.exv to 20001004_015404.jpg
+Writing Exif data from 20001004_015404.exv to 20001004_015404.jpg
 File 15/16: 20060127_225027.jpg
-Writing Exif data from ./20060127_225027.exv to 20060127_225027.jpg
+Writing Exif data from 20060127_225027.exv to 20060127_225027.jpg
 File 16/16: 20110626_213900.psd
-Writing Exif data from ./20110626_213900.exv to 20110626_213900.psd
-Writing IPTC data from ./20110626_213900.exv to 20110626_213900.psd
-Writing XMP data from ./20110626_213900.exv to 20110626_213900.psd
+Writing Exif data from 20110626_213900.exv to 20110626_213900.psd
+Writing IPTC data from 20110626_213900.exv to 20110626_213900.psd
+Writing XMP data from 20110626_213900.exv to 20110626_213900.psd
 exiv2-empty.exv: No Exif data found in the file
 
 Compare original and inserted image data ---------------------------------

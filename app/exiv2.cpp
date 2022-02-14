@@ -29,7 +29,6 @@
 #include "futils.hpp"
 #include "getopt.hpp"
 #include "i18n.h"  // NLS support.
-#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <iostream>

@@ -32,7 +32,6 @@
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
-#include "utils.hpp"
 
 // + standard includes
 #include <string>

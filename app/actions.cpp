@@ -31,7 +31,6 @@
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "xmpsidecar.hpp"
-#include "utils.hpp"
 #include "types.hpp"
 #include "exif.hpp"
 #include "easyaccess.hpp"
@@ -1974,10 +1973,11 @@ namespace {
     {
         auto p = fs::path(newPath);
         std::string path = newPath;
+        auto oldFsPath = fs::path(path);
         std::string format = Params::instance().format_;
-        replace(format, ":basename:",   Util::basename(path, true));
-        replace(format, ":dirname:",    Util::basename(Util::dirname(path)));
-        replace(format, ":parentname:", Util::basename(Util::dirname(Util::dirname(path))));
+        replace(format, ":basename:",   p.stem().string());
+        replace(format, ":dirname:",    p.parent_path().filename().string());
+        replace(format, ":parentname:", p.parent_path().parent_path().filename().string());
 
         const size_t max = 1024;
         char basename[max];
@@ -1989,9 +1989,9 @@ namespace {
         }
 
         newPath =  p.parent_path() / (basename + p.extension().string());
+        p = fs::path(newPath);
 
-        if (   Util::dirname(newPath)  == Util::dirname(path)
-            && Util::basename(newPath) == Util::basename(path)) {
+        if (p.parent_path() == oldFsPath.parent_path() && p.filename() == oldFsPath.filename()) {
             if (Params::instance().verbose_) {
                 std::cout << _("This file already has the correct name") << std::endl;
             }
@@ -2066,13 +2066,13 @@ namespace {
 
     std::string newFilePath(const std::string& path, const std::string& ext)
     {
-        std::string directory = Params::instance().directory_;
+        auto p = fs::path(path);
+        auto directory = fs::path(Params::instance().directory_);
         if (directory.empty())
-            directory = Util::dirname(path);
-        directory = Exiv2::fileProtocol(path) == Exiv2::pFile ? directory + EXV_SEPARATOR_STR
-                                                              : ""  // use current directory for remote files
-            ;
-        return directory + Util::basename(path, true) + ext;
+            directory = p.parent_path();
+        if (Exiv2::fileProtocol(path) != Exiv2::pFile)
+            directory.clear(); // use current directory for remote files
+        return directory / (p.stem().string() + ext);
     }
 
     int dontOverwrite(const std::string& path)

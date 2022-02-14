@@ -52,27 +52,24 @@ if (MSVC)
     link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 endif()
 
-add_executable( getopt-test getopt-test.cpp ../app/getopt.cpp ../src/utils.cpp)
+add_executable( getopt-test getopt-test.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS getopt-test)
 target_include_directories(getopt-test PRIVATE 
   ${CMAKE_SOURCE_DIR}/app
-  ${CMAKE_SOURCE_DIR}/src
-) # To find utils.hpp & getopt.hpp
+) # To find getopt.hpp
 
-add_executable( metacopy metacopy.cpp ../app/getopt.cpp ../src/utils.cpp)
+add_executable( metacopy metacopy.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_include_directories(metacopy PRIVATE 
   ${CMAKE_SOURCE_DIR}/app
-  ${CMAKE_SOURCE_DIR}/src
-) # To find utils.hpp & getopt.hpp
+) # To find getopt.hpp
 
-add_executable(          path-test  path-test.cpp ../app/getopt.cpp ../src/utils.cpp)
+add_executable(          path-test  path-test.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS path-test)
 set_target_properties(   path-test  PROPERTIES OUTPUT_NAME path-test )
 target_include_directories(path-test PRIVATE 
   ${CMAKE_SOURCE_DIR}/app
-  ${CMAKE_SOURCE_DIR}/src
-) # To find utils.hpp & getopt.hpp
+) # To find getopt.hpp
 
 add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
 list(APPEND APPLICATIONS exiv2json)

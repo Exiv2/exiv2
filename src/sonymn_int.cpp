@@ -27,7 +27,6 @@
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
-#include "utils.hpp"
 
 // + standard includes
 #include <string>

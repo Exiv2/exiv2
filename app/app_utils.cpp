@@ -1,5 +1,3 @@
-#include "utils.hpp"
-
 #include <cstdlib>
 #include <climits>
 
