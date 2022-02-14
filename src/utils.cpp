@@ -48,12 +48,7 @@ namespace Util {
 
     std::string suffix(const std::string& path)
     {
-        std::string b = basename(path);
-        std::string::size_type idx = b.rfind('.');
-        if (idx == std::string::npos || idx == 0 || idx == b.length()-1) {
-            return "";
-        }
-        return b.substr(idx);
+        return fs::path(path).extension().string();
     }
 
 }                                       // namespace Util
