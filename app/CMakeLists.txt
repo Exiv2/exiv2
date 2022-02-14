@@ -3,6 +3,7 @@ add_executable( exiv2
      exiv2app.hpp
      actions.cpp actions.hpp
      getopt.cpp getopt.hpp
+     app_utils.cpp app_utils.hpp
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 

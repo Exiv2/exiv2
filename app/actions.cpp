@@ -24,8 +24,10 @@
 // included header files
 #include "config.h"
 
+#include "app_utils.hpp"
 #include "actions.hpp"
 #include "exiv2app.hpp"
+
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "xmpsidecar.hpp"
