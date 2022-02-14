@@ -4,7 +4,6 @@ add_executable( exiv2
      actions.cpp actions.hpp
      getopt.cpp getopt.hpp
      app_utils.cpp app_utils.hpp
-    $<TARGET_OBJECTS:exiv2lib_int>
 )
 
 target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find i18n.hpp
