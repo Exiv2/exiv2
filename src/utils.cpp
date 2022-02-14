@@ -118,11 +118,4 @@ namespace Util {
             index++;
         }
     }
-
-    bool startsWith(const std::string& s, const std::string& start)
-    {
-        return s.find(start) == 0;
-    }
-
-
 }                                       // namespace Util

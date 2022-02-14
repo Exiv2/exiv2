@@ -70,22 +70,3 @@ TEST(suffix, returnsEmptyStringWithFilesWithoutExtension)
     ASSERT_EQ("", Util::suffix("/home/luis/file"));
     ASSERT_EQ("", Util::suffix("c:\\luis\\file"));
 }
-
-TEST(startsWith, returnsTrueWhenReferenceStringStartsWithSpecifiedString)
-{
-    ASSERT_TRUE(Util::startsWith("aabbccdd", "aab"));
-    ASSERT_TRUE(Util::startsWith("aabbccdd", "aa"));
-    ASSERT_TRUE(Util::startsWith("aabbccdd", "a"));
-}
-
-TEST(startsWith, returnsFalseWhenReferenceStringDoesNotStartWithSpecifiedString)
-{
-    ASSERT_FALSE(Util::startsWith("aabbccdd", "b"));
-    ASSERT_FALSE(Util::startsWith("aabbccdd", "ab"));
-    ASSERT_FALSE(Util::startsWith("aabbccdd", "aac"));
-}
-
-TEST(startsWith, returnsFalseWhenTargetStringIsLongerThanReference)
-{
-    ASSERT_FALSE(Util::startsWith("aabb", "aabbC"));
-}

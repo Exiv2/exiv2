@@ -905,7 +905,7 @@ namespace Exiv2 {
             // Ranges of models that do not support this tag
             std::string model = pos->toString();
             for (auto& m : { "DSC-", "Stellar" }) {
-                if (Util::startsWith(model, m)) {
+                if (model.find(m) == 0) {
                     os << N_("n/a");
                     return os;
                 }

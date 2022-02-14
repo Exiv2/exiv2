@@ -105,6 +105,11 @@ namespace {
     // closing part of all valid XMP trailers
     const std::string xmpTrailerEnd = "?>";
 
+    bool startsWith(const std::string& s, const std::string& start)
+    {
+        return s.find(start) == 0;
+    }
+
     //! Write data into temp file, taking care of errors
     void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
     {
