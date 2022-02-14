@@ -1958,13 +1958,23 @@ namespace {
         }
     };
 
+    void replace(std::string& text, const std::string& searchText, const std::string& replaceText)
+    {
+        std::string::size_type index = 0;
+        while ((index = text.find(searchText, index)) != std::string::npos)
+        {
+            text.replace(index, searchText.length(), replaceText.c_str(), replaceText.length());
+            index++;
+        }
+    }
+
     int renameFile(std::string& newPath, const struct tm* tm)
     {
         std::string path = newPath;
         std::string format = Params::instance().format_;
-        Util::replace(format, ":basename:",   Util::basename(path, true));
-        Util::replace(format, ":dirname:",    Util::basename(Util::dirname(path)));
-        Util::replace(format, ":parentname:", Util::basename(Util::dirname(Util::dirname(path))));
+        replace(format, ":basename:",   Util::basename(path, true));
+        replace(format, ":dirname:",    Util::basename(Util::dirname(path)));
+        replace(format, ":parentname:", Util::basename(Util::dirname(Util::dirname(path))));
 
         const size_t max = 1024;
         char basename[max];
