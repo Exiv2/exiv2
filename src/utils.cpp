@@ -40,20 +40,10 @@ namespace Util {
 
     std::string basename(const std::string& path, bool delsuffix)
     {
-        if (path.empty())
-            return ".";
-        // Strip trailing slashes or backslashes
-        std::string p = path;
-        while (   p.length() > 1
-               && (p[p.length()-1] == '\\' || p[p.length()-1] == '/')) {
-            p = p.substr(0, p.length()-1);
-        }
-        if (p.length() == 2 && p[1] == ':') return ""; // For Windows paths
-        std::string::size_type idx = p.find_last_of("\\/");
-        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return ""; // For Windows paths
-        if (idx != std::string::npos) p = p.substr(idx+1);
-        if (delsuffix) p = p.substr(0, p.length() - suffix(p).length());
-        return p;
+        auto p = fs::path(path);
+        if (delsuffix)
+            return p.stem().string();
+        return p.filename().string();
     }
 
     std::string suffix(const std::string& path)
