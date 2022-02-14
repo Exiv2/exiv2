@@ -90,7 +90,7 @@ jobs:
       - name: Test
         if: ${{matrix.platform == 'x64'}}
         run: |
-          ctest --test-dir build --output-on-failure --stop-on-failure
+          ctest --test-dir build --output-on-failure
 
   msys2:
     runs-on: windows-latest
@@ -142,7 +142,7 @@ jobs:
 
       - name: Test
         run: |
-          ctest --test-dir build --output-on-failure --stop-on-failure
+          ctest --test-dir build --output-on-failure
 
   cygwin:
     runs-on: windows-latest
@@ -193,4 +193,4 @@ jobs:
 
       - name: Test
         run: |
-          ctest --test-dir build --output-on-failure --stop-on-failure
+          ctest --test-dir build --output-on-failure

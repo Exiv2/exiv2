@@ -52,7 +52,7 @@ jobs:
       - name: Tests + Upload coverage
         run: |
           cd build
-          ctest --output-on-failure --stop-on-failure
+          ctest --output-on-failure
           # this needs to match th ecommand in on_PR_linux_secial_builds.yml!
           gcovr --root .. --object-dir . --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml .
           curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import

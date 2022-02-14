@@ -60,4 +60,4 @@ jobs:
       - name: Test
         run: |
           cd build
-          ctest --output-on-failure --stop-on-failure
+          ctest --output-on-failure
