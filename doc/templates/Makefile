@@ -50,12 +50,20 @@ TABLES = Exif \
          CanonSi \
          CanonCf \
          CanonPi \
+         CanonTi \
          CanonFi \
          CanonPa \
          CanonPr \
          CanonMe \
-         CanonHdr \          
+         CanonHdr \
          CanonVigCor2 \
+         CanonLiOp \
+         CanonAfMiAdj \
+         CanonLe \
+         CanonAm \
+         CanonFil \
+         CanonAfC \
+         CanonRawB \
          Casio \
          Casio2 \
          Fujifilm \
